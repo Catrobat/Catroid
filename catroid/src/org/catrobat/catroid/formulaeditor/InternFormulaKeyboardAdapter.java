@@ -22,17 +22,17 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import org.catrobat.catroid.R;
+
 import java.util.LinkedList;
 import java.util.List;
-
-import org.catrobat.catroid.R;
 
 public class InternFormulaKeyboardAdapter {
 
 	public List<InternToken> createInternTokenListByResourceId(int resource, String userVariableName) {
 
 		//USER VARIABLES
-		if ((resource == 0) && (!(userVariableName.length() == 0))) {
+		if ((resource == 0) && !userVariableName.isEmpty()) {
 			return buildUserVariable(userVariableName);
 		}
 
@@ -115,6 +115,8 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.X_INCLINATION);
 			case R.string.formula_editor_sensor_y_inclination:
 				return buildSensor(Sensors.Y_INCLINATION);
+			case R.string.formula_editor_sensor_loudness:
+				return buildSensor(Sensors.LOUDNESS);
 
 				//PERIOD
 			case R.id.formula_editor_keyboard_decimal_mark:

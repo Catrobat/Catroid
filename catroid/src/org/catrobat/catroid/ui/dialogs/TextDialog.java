@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import org.catrobat.catroid.R;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -42,6 +40,9 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import org.catrobat.catroid.R;
 
 /**
  * Simple dialog for entering text with ok and cancel button will not permit to
@@ -50,11 +51,13 @@ import android.widget.EditText;
 public abstract class TextDialog extends DialogFragment {
 
 	protected EditText input;
+	protected TextView inputTitle;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_text_dialog, null);
-		input = (EditText) dialogView.findViewById(R.id.dialog_text_EditText);
+		input = (EditText) dialogView.findViewById(R.id.dialog_text_edit_text);
+		inputTitle = (TextView) dialogView.findViewById(R.id.dialog_text_text_view);
 
 		if (getHint() != null) {
 			input.setHint(getHint());
@@ -62,7 +65,7 @@ public abstract class TextDialog extends DialogFragment {
 
 		input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
+			public void onFocusChange(View view, boolean hasFocus) {
 				if (hasFocus) {
 					getDialog().getWindow()
 							.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
@@ -153,7 +156,7 @@ public abstract class TextDialog extends DialogFragment {
 	}
 
 	protected boolean getPositiveButtonEnabled() {
-		if (input.getText().toString().length() == 0) {
+		if (input.length() == 0) {
 			return false;
 		}
 
@@ -172,7 +175,7 @@ public abstract class TextDialog extends DialogFragment {
 		Button buttonPositive = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
 		buttonPositive.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(View view) {
 				boolean okButtonResult = handleOkButton();
 				onOkButtonHandled();
 

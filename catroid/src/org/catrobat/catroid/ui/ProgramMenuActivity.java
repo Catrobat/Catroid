@@ -22,7 +22,15 @@
  */
 package org.catrobat.catroid.ui;
 
-import java.util.concurrent.locks.Lock;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -30,17 +38,12 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import java.util.concurrent.locks.Lock;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
+public class ProgramMenuActivity extends BaseActivity {
 
-public class ProgramMenuActivity extends SherlockFragmentActivity {
+	private static final String TAG = ProgramMenuActivity.class.getSimpleName();
+
 	private ActionBar actionBar;
 	private Lock viewSwitchLock = new ViewSwitchLock();
 
@@ -50,14 +53,19 @@ public class ProgramMenuActivity extends SherlockFragmentActivity {
 
 		setContentView(R.layout.activity_program_menu);
 
-		findViewById(R.id.button_add).setVisibility(View.GONE);
-		findViewById(R.id.bottom_bar_separator).setVisibility(View.GONE);
+		BottomBar.hideAddButton(this);
 
 		actionBar = getSupportActionBar();
 
-		String title = ProjectManager.getInstance().getCurrentSprite().getName();
-		actionBar.setTitle(title);
-		actionBar.setHomeButtonEnabled(true);
+		//The try-catch block is a fix for this bug: https://github.com/Catrobat/Catroid/issues/618
+		try {
+			String title = ProjectManager.getInstance().getCurrentSprite().getName();
+			actionBar.setTitle(title);
+			actionBar.setHomeButtonEnabled(true);
+		} catch (NullPointerException nullPointerException) {
+			Log.e(TAG, "onCreate: NPE -> finishing", nullPointerException);
+			finish();
+		}
 	}
 
 	@Override
@@ -91,12 +99,6 @@ public class ProgramMenuActivity extends SherlockFragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case android.R.id.home: {
-				Intent intent = new Intent(this, MainMenuActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				break;
-			}
 			case R.id.settings: {
 				Intent intent = new Intent(this, SettingsActivity.class);
 				startActivity(intent);
@@ -105,21 +107,21 @@ public class ProgramMenuActivity extends SherlockFragmentActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void handleScriptsButton(View v) {
+	public void handleScriptsButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
 		startScriptActivity(ScriptActivity.FRAGMENT_SCRIPTS);
 	}
 
-	public void handleLooksButton(View v) {
+	public void handleLooksButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
 		startScriptActivity(ScriptActivity.FRAGMENT_LOOKS);
 	}
 
-	public void handleSoundsButton(View v) {
+	public void handleSoundsButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}

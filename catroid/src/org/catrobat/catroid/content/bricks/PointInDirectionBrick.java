@@ -22,7 +22,15 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -31,25 +39,14 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
-public class PointInDirectionBrick extends BrickBaseType implements View.OnClickListener {
+public class PointInDirectionBrick extends BrickBaseType implements View.OnClickListener, FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	private Formula degrees;
 
-	private transient EditText setAngleEditText;
 	private transient View prototypeView;
 
 	public static enum Direction {
@@ -86,6 +83,11 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 	}
 
 	@Override
+	public Formula getFormula() {
+		return degrees;
+	}
+
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
@@ -116,15 +118,15 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 		});
 
 		TextView setAngleTextView = (TextView) view.findViewById(R.id.brick_point_in_direction_prototype_text_view);
-		setAngleEditText = (EditText) view.findViewById(R.id.brick_point_in_direction_edit_text);
+		TextView setAngleTextField = (TextView) view.findViewById(R.id.brick_point_in_direction_edit_text);
 
 		degrees.setTextFieldId(R.id.brick_point_in_direction_edit_text);
 		degrees.refreshTextField(view);
 
 		setAngleTextView.setVisibility(View.GONE);
-		setAngleEditText.setVisibility(View.VISIBLE);
+		setAngleTextField.setVisibility(View.VISIBLE);
 
-		setAngleEditText.setOnClickListener(this);
+		setAngleTextField.setOnClickListener(this);
 		return view;
 	}
 
@@ -147,17 +149,17 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_point_in_direction_layout);
+			View layout = view.findViewById(R.id.brick_point_in_direction_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView pointInDirectionLabel = (TextView) view.findViewById(R.id.brick_point_in_direction_label);
 			TextView pointInDirectionDegree = (TextView) view.findViewById(R.id.brick_point_in_direction_degree);
-			EditText setAngleEditText = (EditText) view.findViewById(R.id.brick_point_in_direction_edit_text);
+			TextView setAngleTextView = (TextView) view.findViewById(R.id.brick_point_in_direction_edit_text);
 			pointInDirectionLabel.setTextColor(pointInDirectionLabel.getTextColors().withAlpha(alphaValue));
 			pointInDirectionDegree.setTextColor(pointInDirectionDegree.getTextColors().withAlpha(alphaValue));
-			setAngleEditText.setTextColor(setAngleEditText.getTextColors().withAlpha(alphaValue));
-			setAngleEditText.getBackground().setAlpha(alphaValue);
+			setAngleTextView.setTextColor(setAngleTextView.getTextColors().withAlpha(alphaValue));
+			setAngleTextView.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
 

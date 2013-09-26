@@ -22,8 +22,8 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.io.File;
-import java.util.ArrayList;
+import android.content.Intent;
+import android.os.Bundle;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -40,15 +40,16 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.content.Intent;
-import android.os.Bundle;
+import java.io.File;
+import java.util.ArrayList;
 
 public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
-	private final int RESOURCE_LOOK = org.catrobat.catroid.uitest.R.raw.icon;
-	private final int RESOURCE_LOOK2 = org.catrobat.catroid.uitest.R.raw.icon2;
+	private static final int RESOURCE_LOOK = org.catrobat.catroid.uitest.R.raw.icon;
+	private static final int RESOURCE_LOOK2 = org.catrobat.catroid.uitest.R.raw.icon2;
 
 	private String lookName = "testLook1";
 	private String lookName2 = "testLook2";
@@ -126,7 +127,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		clickOnContextMenuItem(lookName, solo.getString(R.string.delete));
 		solo.clickOnButton(solo.getString(R.string.yes));
 
-		clickOnSpinnerItem(solo.getString(R.string.category_looks), solo.getString(R.string.scripts));
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
 
 		solo.clickOnText(lookName2);
 
@@ -152,10 +153,9 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		clickOnSpinnerItem(solo.getString(R.string.category_looks), solo.getString(R.string.scripts));
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
 
 		solo.clickOnText(newName);
 
@@ -182,10 +182,9 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		}
 	}
 
+	@Device
 	public void testAddNewLook() {
 		String newText = solo.getString(R.string.new_broadcast_message);
-		String scriptsSpinnerText = solo.getString(R.string.scripts);
-		String looksSpinnerText = solo.getString(R.string.looks);
 
 		Bundle bundleForGallery = new Bundle();
 		bundleForGallery.putString("filePath", paintroidImageFile.getAbsolutePath());
@@ -193,8 +192,8 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
-		clickOnSpinnerItem(scriptsSpinnerText, looksSpinnerText);
-		clickOnSpinnerItem(looksSpinnerText, scriptsSpinnerText);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.LOOKS_INDEX);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
 
 		solo.clickOnText(lookName);
 		solo.clickOnText(newText);
@@ -229,11 +228,6 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", lookImagePath, lookPath);
 		solo.goBack();
 		solo.goBack();
-	}
-
-	private void clickOnSpinnerItem(String selectedSpinnerItem, String itemName) {
-		solo.clickOnText(selectedSpinnerItem);
-		solo.clickOnText(itemName);
 	}
 
 	private void createProject() {

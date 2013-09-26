@@ -33,12 +33,12 @@ import java.util.List;
 @Ignore
 public class Utils {
 
-	static public List<File> getFilesFromDirectoryByExtension(File directory, String extension) {
+	public static List<File> getFilesFromDirectoryByExtension(File directory, String extension) {
 		String[] extensions = { extension };
 		return getFilesFromDirectoryByExtension(directory, extensions);
 	}
 
-	static public List<File> getFilesFromDirectoryByExtension(File directory, final String[] extensions) {
+	public static List<File> getFilesFromDirectoryByExtension(File directory, final String[] extensions) {
 		List<File> filesFound = new ArrayList<File>();
 		File[] contents = directory.listFiles(new FileFilter() {
 			@Override

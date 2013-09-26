@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
-import java.util.List;
-
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.List;
 
 public class BrickCategoryAdapter extends BaseAdapter {
 	private List<View> categories;
@@ -37,20 +37,24 @@ public class BrickCategoryAdapter extends BaseAdapter {
 		this.categories = categories;
 	}
 
+	@Override
 	public int getCount() {
 		return categories.size();
 	}
 
+	@Override
 	public String getItem(int position) {
 		LinearLayout layout = (LinearLayout) (categories.get(position));
 		TextView textView = (TextView) layout.getChildAt(0);
 		return textView.getText().toString();
 	}
 
+	@Override
 	public long getItemId(int position) {
 		return position;
 	}
 
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		return categories.get(position);
 	}

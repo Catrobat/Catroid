@@ -22,32 +22,6 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.concurrent.locks.Lock;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.ViewSwitchLock;
-import org.catrobat.catroid.ui.adapter.LookAdapter;
-import org.catrobat.catroid.ui.adapter.LookAdapter.OnLookEditListener;
-import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
-import org.catrobat.catroid.ui.dialogs.NewLookDialog;
-import org.catrobat.catroid.ui.dialogs.RenameLookDialog;
-import org.catrobat.catroid.utils.ImageEditing;
-import org.catrobat.catroid.utils.UtilCamera;
-import org.catrobat.catroid.utils.Utils;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -73,6 +47,7 @@ import android.support.v4.content.Loader;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -84,11 +59,38 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.badlogic.gdx.graphics.Pixmap;
+
+import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.ViewSwitchLock;
+import org.catrobat.catroid.ui.adapter.LookAdapter;
+import org.catrobat.catroid.ui.adapter.LookAdapter.OnLookEditListener;
+import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
+import org.catrobat.catroid.ui.dialogs.NewLookDialog;
+import org.catrobat.catroid.ui.dialogs.RenameLookDialog;
+import org.catrobat.catroid.utils.ImageEditing;
+import org.catrobat.catroid.utils.UtilCamera;
+import org.catrobat.catroid.utils.Utils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.concurrent.locks.Lock;
 
 public class LookFragment extends ScriptActivityFragment implements OnLookEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
@@ -121,6 +123,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	private LookDeletedReceiver lookDeletedReceiver;
 	private LookRenamedReceiver lookRenamedReceiver;
+
+	private LooksListInitReceiver looksListInitReceiver;
 
 	private ActionMode actionMode;
 
@@ -159,6 +163,14 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		}
 		lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
 
+		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
+			TextView emptyViewHeading = (TextView) getActivity().findViewById(R.id.fragment_look_text_heading);
+			emptyViewHeading.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60.0f);
+			emptyViewHeading.setText(R.string.backgrounds);
+			TextView emptyViewDescription = (TextView) getActivity().findViewById(R.id.fragment_look_text_description);
+			emptyViewDescription.setText(R.string.fragment_background_text_description);
+		}
+
 		adapter = new LookAdapter(getActivity(), R.layout.fragment_look_looklist_item, lookDataList, false);
 		adapter.setOnLookEditListener(this);
 		setListAdapter(adapter);
@@ -196,11 +208,18 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			lookDeletedReceiver = new LookDeletedReceiver();
 		}
 
+		if (looksListInitReceiver == null) {
+			looksListInitReceiver = new LooksListInitReceiver();
+		}
+
 		IntentFilter intentFilterRenameLook = new IntentFilter(ScriptActivity.ACTION_LOOK_RENAMED);
 		getActivity().registerReceiver(lookRenamedReceiver, intentFilterRenameLook);
 
 		IntentFilter intentFilterDeleteLook = new IntentFilter(ScriptActivity.ACTION_LOOK_DELETED);
 		getActivity().registerReceiver(lookDeletedReceiver, intentFilterDeleteLook);
+
+		IntentFilter intentFilterLooksListInit = new IntentFilter(ScriptActivity.ACTION_LOOKS_LIST_INIT);
+		getActivity().registerReceiver(looksListInitReceiver, intentFilterLooksListInit);
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
 				.getApplicationContext());
@@ -243,6 +262,10 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 		if (lookRenamedReceiver != null) {
 			getActivity().unregisterReceiver(lookRenamedReceiver);
+		}
+
+		if (looksListInitReceiver != null) {
+			getActivity().unregisterReceiver(looksListInitReceiver);
 		}
 
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity()
@@ -293,7 +316,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
-		menu.findItem(R.id.context_edit_in_pocket_paint).setVisible(true);
 	}
 
 	@Override
@@ -321,10 +343,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 			case R.id.context_menu_delete: {
 				showConfirmDeleteDialog();
-				break;
-			}
-			case R.id.context_edit_in_pocket_paint: {
-				sendPocketPaintIntent(selectedLookPosition);
 				break;
 			}
 		}
@@ -440,7 +458,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
 			unregisterForContextMenu(listView);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
 	}
@@ -450,17 +468,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
 			unregisterForContextMenu(listView);
-			BottomBar.disableButtons(getActivity());
-			isRenameActionMode = true;
-		}
-	}
-
-	@Override
-	public void startEditInPocketPaintActionMode() {
-		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(editInPocketCodeCallBack);
-			unregisterForContextMenu(listView);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = true;
 		}
 	}
@@ -470,7 +478,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 			unregisterForContextMenu(listView);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
 	}
@@ -718,9 +726,16 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 					.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int id) {
-							Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, Uri
-									.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK));
-							startActivity(downloadPocketPaintIntent);
+
+							if (BuildConfig.DEBUG) {
+								Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, Uri
+										.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK_NIGHTLY));
+								startActivity(downloadPocketPaintIntent);
+							} else {
+								Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, Uri
+										.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK));
+								startActivity(downloadPocketPaintIntent);
+							}
 						}
 					}).setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
 						@Override
@@ -735,7 +750,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		return true;
 	}
 
-	private void sendPocketPaintIntent(int selected_position) {
+	private void sendPocketPaintIntent(int selectedPosition) {
 		Intent intent = new Intent("android.intent.action.MAIN");
 		intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
 				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
@@ -744,7 +759,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			return;
 		}
 
-		int position = selected_position;
+		int position = selectedPosition;
 		selectedLookData = lookDataList.get(position);
 
 		Bundle bundleForPocketPaint = new Bundle();
@@ -893,41 +908,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		}
 	};
 
-	private ActionMode.Callback editInPocketCodeCallBack = new ActionMode.Callback() {
-
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
-
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			setSelectMode(ListView.CHOICE_MODE_SINGLE);
-			mode.setTitle(getString(R.string.edit_in_pocket_paint));
-
-			setActionModeActive(true);
-
-			return true;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
-			return false;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			Set<Integer> checkedLooks = adapter.getCheckedItems();
-			Iterator<Integer> iterator = checkedLooks.iterator();
-
-			while (iterator.hasNext()) {
-				int position = iterator.next();
-				sendPocketPaintIntent(position);
-			}
-			clearCheckedLooksAndEnableButtons();
-		}
-	};
-
 	private void deleteLook(int position) {
 		StorageHandler.getInstance().deleteFile(lookDataList.get(position).getAbsolutePath());
 
@@ -990,7 +970,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		setActionModeActive(false);
 
 		registerForContextMenu(listView);
-		BottomBar.enableButtons(getActivity());
+		BottomBar.showBottomBar(getActivity());
 	}
 
 	private void copyLook(int position) {
@@ -1001,7 +981,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 			StorageHandler.getInstance().copyImage(projectName, lookData.getAbsolutePath(), null);
 
-			String imageName = lookData.getLookName() + "_" + getString(R.string.copy_look_addition);
+			String imageName = lookData.getLookName() + "_" + getString(R.string.copy_addition);
 			String imageFileName = lookData.getLookFileName();
 
 			updateLookAdapter(imageName, imageFileName);
@@ -1051,8 +1031,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	private void switchToScriptFragment() {
 		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
-		ActionBar actionBar = scriptActivity.getSupportActionBar();
-		actionBar.setSelectedNavigationItem(ScriptActivity.FRAGMENT_SCRIPTS);
 		scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 
 		FragmentTransaction fragmentTransaction = scriptActivity.getSupportFragmentManager().beginTransaction();
@@ -1069,4 +1047,18 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		public void onLookDataListChangedAfterNew(LookData soundInfo);
 
 	}
+
+	private class LooksListInitReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_LOOKS_LIST_INIT)) {
+				adapter.notifyDataSetChanged();
+			}
+		}
+	}
+
+	@Override
+	public void startBackPackActionMode() {
+	}
+
 }

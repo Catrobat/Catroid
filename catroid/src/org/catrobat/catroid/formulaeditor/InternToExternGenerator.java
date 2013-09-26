@@ -22,14 +22,14 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import android.content.Context;
+import android.util.Log;
 
 import org.catrobat.catroid.R;
 
-import android.content.Context;
-import android.util.Log;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 public class InternToExternGenerator {
 
@@ -37,64 +37,70 @@ public class InternToExternGenerator {
 	private ExternInternRepresentationMapping generatedExternInternRepresentationMapping;
 	private Context context;
 
-	private static final HashMap<String, Integer> internExternLanguageConverterMap = new HashMap<String, Integer>();
+	private static final HashMap<String, Integer> INTERN_EXTERN_LANGUAGE_CONVERTER_MAP = new HashMap<String, Integer>();
 	static {
-		internExternLanguageConverterMap.put(Operators.DIVIDE.name(), R.string.formula_editor_operator_divide);
-		internExternLanguageConverterMap.put(Operators.MULT.name(), R.string.formula_editor_operator_mult);
-		internExternLanguageConverterMap.put(Operators.MINUS.name(), R.string.formula_editor_operator_minus);
-		internExternLanguageConverterMap.put(Operators.PLUS.name(), R.string.formula_editor_operator_plus);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.DIVIDE.name(), R.string.formula_editor_operator_divide);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.MULT.name(), R.string.formula_editor_operator_mult);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.MINUS.name(), R.string.formula_editor_operator_minus);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.PLUS.name(), R.string.formula_editor_operator_plus);
 
-		internExternLanguageConverterMap.put(".", R.string.formula_editor_decimal_mark);
-		internExternLanguageConverterMap.put(Functions.SIN.name(), R.string.formula_editor_function_sin);
-		internExternLanguageConverterMap.put(Functions.COS.name(), R.string.formula_editor_function_cos);
-		internExternLanguageConverterMap.put(Functions.TAN.name(), R.string.formula_editor_function_tan);
-		internExternLanguageConverterMap.put(Functions.LN.name(), R.string.formula_editor_function_ln);
-		internExternLanguageConverterMap.put(Functions.LOG.name(), R.string.formula_editor_function_log);
-		internExternLanguageConverterMap.put(Functions.PI.name(), R.string.formula_editor_function_pi);
-		internExternLanguageConverterMap.put(Functions.SQRT.name(), R.string.formula_editor_function_sqrt);
-		internExternLanguageConverterMap.put(Functions.RAND.name(), R.string.formula_editor_function_rand);
-		internExternLanguageConverterMap.put(Functions.ABS.name(), R.string.formula_editor_function_abs);
-		internExternLanguageConverterMap.put(Functions.ROUND.name(), R.string.formula_editor_function_round);
-		internExternLanguageConverterMap.put(Functions.MOD.name(), R.string.formula_editor_function_mod);
-		internExternLanguageConverterMap.put(Functions.ARCSIN.name(), R.string.formula_editor_function_arcsin);
-		internExternLanguageConverterMap.put(Functions.ARCCOS.name(), R.string.formula_editor_function_arccos);
-		internExternLanguageConverterMap.put(Functions.ARCTAN.name(), R.string.formula_editor_function_arctan);
-		internExternLanguageConverterMap.put(Functions.EXP.name(), R.string.formula_editor_function_exp);
-		internExternLanguageConverterMap.put(Functions.MAX.name(), R.string.formula_editor_function_max);
-		internExternLanguageConverterMap.put(Functions.MIN.name(), R.string.formula_editor_function_min);
-		internExternLanguageConverterMap.put(Functions.TRUE.name(), R.string.formula_editor_function_true);
-		internExternLanguageConverterMap.put(Functions.FALSE.name(), R.string.formula_editor_function_false);
-		internExternLanguageConverterMap.put(Sensors.X_ACCELERATION.name(),
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(".", R.string.formula_editor_decimal_mark);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.SIN.name(), R.string.formula_editor_function_sin);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.COS.name(), R.string.formula_editor_function_cos);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.TAN.name(), R.string.formula_editor_function_tan);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.LN.name(), R.string.formula_editor_function_ln);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.LOG.name(), R.string.formula_editor_function_log);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.PI.name(), R.string.formula_editor_function_pi);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.SQRT.name(), R.string.formula_editor_function_sqrt);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.RAND.name(), R.string.formula_editor_function_rand);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.ABS.name(), R.string.formula_editor_function_abs);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.ROUND.name(), R.string.formula_editor_function_round);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.MOD.name(), R.string.formula_editor_function_mod);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.ARCSIN.name(), R.string.formula_editor_function_arcsin);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.ARCCOS.name(), R.string.formula_editor_function_arccos);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.ARCTAN.name(), R.string.formula_editor_function_arctan);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.EXP.name(), R.string.formula_editor_function_exp);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.MAX.name(), R.string.formula_editor_function_max);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.MIN.name(), R.string.formula_editor_function_min);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.TRUE.name(), R.string.formula_editor_function_true);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.FALSE.name(), R.string.formula_editor_function_false);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.X_ACCELERATION.name(),
 				R.string.formula_editor_sensor_x_acceleration);
-		internExternLanguageConverterMap.put(Sensors.Y_ACCELERATION.name(),
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.Y_ACCELERATION.name(),
 				R.string.formula_editor_sensor_y_acceleration);
-		internExternLanguageConverterMap.put(Sensors.Z_ACCELERATION.name(),
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.Z_ACCELERATION.name(),
 				R.string.formula_editor_sensor_z_acceleration);
-		internExternLanguageConverterMap.put(Sensors.COMPASS_DIRECTION.name(),
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.COMPASS_DIRECTION.name(),
 				R.string.formula_editor_sensor_compass_direction);
-		internExternLanguageConverterMap
-				.put(Sensors.X_INCLINATION.name(), R.string.formula_editor_sensor_x_inclination);
-		internExternLanguageConverterMap
-				.put(Sensors.Y_INCLINATION.name(), R.string.formula_editor_sensor_y_inclination);
-		internExternLanguageConverterMap.put(Sensors.OBJECT_X.name(), R.string.formula_editor_object_x);
-		internExternLanguageConverterMap.put(Sensors.OBJECT_Y.name(), R.string.formula_editor_object_y);
-		internExternLanguageConverterMap.put(Sensors.OBJECT_GHOSTEFFECT.name(), R.string.formula_editor_object_ghosteffect);
-		internExternLanguageConverterMap.put(Sensors.OBJECT_BRIGHTNESS.name(), R.string.formula_editor_object_brightness);
-		internExternLanguageConverterMap.put(Sensors.OBJECT_SIZE.name(), R.string.formula_editor_object_size);
-		internExternLanguageConverterMap.put(Sensors.OBJECT_ROTATION.name(), R.string.formula_editor_object_rotation);
-		internExternLanguageConverterMap.put(Sensors.OBJECT_LAYER.name(), R.string.formula_editor_object_layer);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.X_INCLINATION.name(),
+				R.string.formula_editor_sensor_x_inclination);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.Y_INCLINATION.name(),
+				R.string.formula_editor_sensor_y_inclination);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.LOUDNESS.name(), R.string.formula_editor_sensor_loudness);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_X.name(), R.string.formula_editor_object_x);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_Y.name(), R.string.formula_editor_object_y);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_GHOSTEFFECT.name(),
+				R.string.formula_editor_object_ghosteffect);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_BRIGHTNESS.name(),
+				R.string.formula_editor_object_brightness);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_SIZE.name(), R.string.formula_editor_object_size);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_ROTATION.name(),
+				R.string.formula_editor_object_rotation);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_LAYER.name(), R.string.formula_editor_object_layer);
 
-		internExternLanguageConverterMap.put(Operators.LOGICAL_NOT.name(), R.string.formula_editor_logic_not);
-		internExternLanguageConverterMap.put(Operators.NOT_EQUAL.name(), R.string.formula_editor_logic_notequal);
-		internExternLanguageConverterMap.put(Operators.EQUAL.name(), R.string.formula_editor_logic_equal);
-		internExternLanguageConverterMap.put(Operators.GREATER_OR_EQUAL.name(),
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.LOGICAL_NOT.name(), R.string.formula_editor_logic_not);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.NOT_EQUAL.name(), R.string.formula_editor_logic_notequal);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.EQUAL.name(), R.string.formula_editor_logic_equal);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.GREATER_OR_EQUAL.name(),
 				R.string.formula_editor_logic_greaterequal);
-		internExternLanguageConverterMap.put(Operators.GREATER_THAN.name(), R.string.formula_editor_logic_greaterthan);
-		internExternLanguageConverterMap.put(Operators.LOGICAL_AND.name(), R.string.formula_editor_logic_and);
-		internExternLanguageConverterMap.put(Operators.LOGICAL_OR.name(), R.string.formula_editor_logic_or);
-		internExternLanguageConverterMap.put(Operators.SMALLER_OR_EQUAL.name(),
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.GREATER_THAN.name(),
+				R.string.formula_editor_logic_greaterthan);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.LOGICAL_AND.name(), R.string.formula_editor_logic_and);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.LOGICAL_OR.name(), R.string.formula_editor_logic_or);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.SMALLER_OR_EQUAL.name(),
 				R.string.formula_editor_logic_leserequal);
-		internExternLanguageConverterMap.put(Operators.SMALLER_THAN.name(), R.string.formula_editor_logic_lesserthan);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.SMALLER_THAN.name(),
+				R.string.formula_editor_logic_lesserthan);
 
 	}
 
@@ -216,7 +222,7 @@ public class InternToExternGenerator {
 	}
 
 	private String getExternStringForInternTokenValue(String internTokenValue, Context context) {
-		Integer stringResourceID = internExternLanguageConverterMap.get(internTokenValue);
+		Integer stringResourceID = INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.get(internTokenValue);
 		if (stringResourceID == null) {
 			return null;
 		}

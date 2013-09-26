@@ -22,13 +22,6 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -40,6 +33,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,6 +42,13 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NewVariableDialog extends SherlockDialogFragment {
 
@@ -95,6 +96,7 @@ public class NewVariableDialog extends SherlockDialogFragment {
 				}).create();
 
 		dialogNewVariable.setCanceledOnTouchOutside(true);
+		dialogNewVariable.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
 		dialogNewVariable.setOnShowListener(new OnShowListener() {
 			@Override

@@ -22,15 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
@@ -42,14 +33,21 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickListener {
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+
+import java.util.List;
+
+public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -61,7 +59,7 @@ public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickLis
 
 	private String motor;
 	private transient Motor motorEnum;
-	private transient EditText editSpeed;
+	private transient TextView editSpeed;
 	private Formula speed;
 
 	protected Object readResolve() {
@@ -69,6 +67,11 @@ public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickLis
 			motorEnum = Motor.valueOf(motor);
 		}
 		return this;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return speed;
 	}
 
 	public LegoNxtMotorActionBrick(Sprite sprite, Motor motor, int speedValue) {
@@ -146,7 +149,7 @@ public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickLis
 		});
 
 		TextView textSpeed = (TextView) view.findViewById(R.id.motor_action_speed_text_view);
-		editSpeed = (EditText) view.findViewById(R.id.motor_action_speed_edit_text);
+		editSpeed = (TextView) view.findViewById(R.id.motor_action_speed_edit_text);
 		speed.setTextFieldId(R.id.motor_action_speed_edit_text);
 		speed.refreshTextField(view);
 
@@ -204,7 +207,7 @@ public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickLis
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_nxt_motor_action_layout);
+			View layout = view.findViewById(R.id.brick_nxt_motor_action_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
@@ -213,7 +216,7 @@ public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickLis
 			TextView textLegoMotorActionPercent = (TextView) view.findViewById(R.id.lego_motor_action_percent);
 			TextView textLegoMotorActionLabelSpeedView = (TextView) view
 					.findViewById(R.id.motor_action_speed_text_view);
-			EditText editSpeed = (EditText) view.findViewById(R.id.motor_action_speed_edit_text);
+			TextView editSpeed = (TextView) view.findViewById(R.id.motor_action_speed_edit_text);
 
 			textLegoMotorActionLabel.setTextColor(textLegoMotorActionLabel.getTextColors().withAlpha(alphaValue));
 			textLegoMotorActionSpeed.setTextColor(textLegoMotorActionSpeed.getTextColors().withAlpha(alphaValue));

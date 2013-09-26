@@ -28,7 +28,7 @@ egit (Eclipse extension for git) will ignore some git settings and will make tro
 
 Resources and links
 =========
-* [Community website with sample programs](http://www.catroid.org/)
+* [Community website with sample programs](https://pocketcode.org/)
 * [Installation Instructions](https://github.com/Catrobat/Catroid/wiki/Installation-Instructions)
 * [Frequently Asked Questions](https://github.com/Catrobat/Catroid/wiki/Frequently-Asked-Questions)
 * [Release history](https://github.com/Catrobat/Catroid/wiki/Release-History) (including links to videos of older versions of the programs)

@@ -22,7 +22,10 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.util.Log;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -42,11 +45,7 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.suitebuilder.annotation.Smoke;
-import android.util.Log;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Spinner;
+import java.util.ArrayList;
 
 public class SetVariableTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
@@ -65,7 +64,6 @@ public class SetVariableTest extends BaseActivityInstrumentationTestCase<MainMen
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
-	@Smoke
 	public void testCreateNewUserVariableAndDeletion() {
 		String userVariableName = "testVariable1";
 		String secondUserVariableName = "testVariable2";
@@ -91,7 +89,6 @@ public class SetVariableTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 		solo.enterText(editText, userVariableName);
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		assertTrue("ScriptFragment not visible", solo.waitForText(solo.getString(R.string.brick_set_variable)));
 		assertTrue("Created ProjectVariable not set on first position in spinner", solo.searchText(userVariableName));
@@ -109,7 +106,6 @@ public class SetVariableTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 		solo.enterText(editText, secondUserVariableName);
-		solo.goBack();
 		solo.clickOnView(solo.getView(R.id.dialog_formula_editor_variable_name_local_variable_radio_button));
 		solo.clickOnButton(solo.getString(R.string.ok));
 		assertTrue("ScriptFragment not visible", solo.waitForText(solo.getString(R.string.brick_set_variable)));
@@ -120,7 +116,7 @@ public class SetVariableTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertNotNull("UserVariable is null", userVariable);
 		assertTrue("UserVariable Name not as expected", userVariable.getName().equals(secondUserVariableName));
 
-		solo.clickOnEditText(0);
+		solo.clickOnView(solo.getView(R.id.brick_set_variable_edit_text));
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
 		assertTrue("Variable Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_variables)));
@@ -150,7 +146,7 @@ public class SetVariableTest extends BaseActivityInstrumentationTestCase<MainMen
 	public void testCreateUserVariableInFormulaEditor() {
 		String userVariableName = "testVariable1";
 
-		solo.clickOnEditText(0);
+		solo.clickOnView(solo.getView(R.id.brick_set_variable_edit_text));
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_variables));
 		assertTrue("Variable Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_variables)));
@@ -161,7 +157,6 @@ public class SetVariableTest extends BaseActivityInstrumentationTestCase<MainMen
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 
 		solo.enterText(editText, userVariableName);
-		solo.goBack();
 		finishUserVariableCreationSafeButSlow(userVariableName, true);
 
 		solo.goBack();

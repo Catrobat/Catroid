@@ -38,6 +38,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+
 import org.catrobat.catroid.R;
 
 /**
@@ -59,7 +60,7 @@ public abstract class MultiLineTextDialog extends DialogFragment {
 
 		input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
+			public void onFocusChange(View view, boolean hasFocus) {
 				if (hasFocus) {
 					getDialog().getWindow()
 							.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
@@ -134,7 +135,7 @@ public abstract class MultiLineTextDialog extends DialogFragment {
 	}
 
 	protected boolean getPositiveButtonEnabled() {
-		if (input.getText().toString().length() == 0) {
+		if (input.length() == 0) {
 			return false;
 		}
 
@@ -147,13 +148,13 @@ public abstract class MultiLineTextDialog extends DialogFragment {
 	}
 
 	/**
-	 * This method overrides standart AlertDialog's positive button click listener to prevent dialog dismissing.
+	 * This method overrides standard AlertDialog's positive button click listener to prevent dialog dismissing.
 	 */
 	private void setPositiveButtonClickCustomListener(final DialogInterface dialog) {
 		Button buttonPositive = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
 		buttonPositive.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(View view) {
 				boolean okButtonResult = handleOkButton();
 				onOkButtonHandled();
 				if (okButtonResult) {

@@ -21,41 +21,39 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/soundrecorder"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/actionbar_background"
     android:orientation="vertical" >
+
 
     <Chronometer
         android:id="@+id/soundrecorder_chronometer_time_recorded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/soundrecorder_chronometer_bar"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="13dp"
-        android:layout_marginTop="80dp"
         android:gravity="center"
         android:textColor="@color/button_background_top_border_color"
         android:textSize="36sp" />
 
     <View
+        android:id="@+id/soundrecorder_chronometer_bar"
         android:layout_width="225dp"
         android:layout_height="13dp"
-        android:layout_below="@+id/soundrecorder_chronometer_time_recorded"
+        android:layout_above="@+id/soundrecorder_record_button_layout"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="35dp"
         android:background="@color/button_background_top_border_color" />
 
     <FrameLayout
+        android:id="@+id/soundrecorder_record_button_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentRight="false"
-        android:layout_alignParentTop="false"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="63dp" >
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" >
 
         <ImageButton
             android:id="@+id/soundrecorder_record_button"
@@ -66,5 +64,19 @@
             android:scaleType="center"
             android:src="@drawable/microphone_icon" />
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/soundrecorder_record_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/soundrecorder_record_button_layout"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="35dp"
+        android:gravity="center"
+        android:text="@string/soundrecorder_text_view"
+        android:textSize="20sp" />
 
 </RelativeLayout>

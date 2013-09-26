@@ -22,21 +22,7 @@
  */
 package org.catrobat.catroid.stage;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.LegoNXT.LegoNXT;
-import org.catrobat.catroid.LegoNXT.LegoNXTBtCommunicator;
-import org.catrobat.catroid.bluetooth.BluetoothManager;
-import org.catrobat.catroid.bluetooth.DeviceListActivity;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.robot.albert.RobotAlbert;
-import org.catrobat.catroid.robot.albert.RobotAlbertBtCommunicator;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -51,7 +37,26 @@ import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.bluetooth.BluetoothManager;
+import org.catrobat.catroid.bluetooth.DeviceListActivity;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.legonxt.LegoNXT;
+import org.catrobat.catroid.legonxt.LegoNXTBtCommunicator;
+import org.catrobat.catroid.robot.albert.RobotAlbert;
+import org.catrobat.catroid.robot.albert.RobotAlbertBtCommunicator;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
+
+@SuppressWarnings("deprecation")
 public class PreStageActivity extends Activity {
+	private static final String TAG = PreStageActivity.class.getSimpleName();
 
 	private static final int REQUEST_ENABLE_BLUETOOTH = 2000;
 	private static final int REQUEST_ENABLE_BLUETOOTH_WITH_TEXT = 2001;
@@ -59,8 +64,8 @@ public class PreStageActivity extends Activity {
 	private String bluetoothDeviceWaitingText;
 
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
-	public static final int REQUEST_RESOURCES_INIT = 0101;
-	public static final int REQUEST_TEXT_TO_SPEECH = 0;
+	public static final int REQUEST_RESOURCES_INIT = 101;
+	public static final int REQUEST_TEXT_TO_SPEECH = 10;
 
 	private int requiredResourceCounter;
 	private static LegoNXT legoNXT;
@@ -79,16 +84,16 @@ public class PreStageActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		int required_resources = getRequiredRessources();
-		requiredResourceCounter = Integer.bitCount(required_resources);
+		int requiredResources = getRequiredRessources();
+		requiredResourceCounter = Integer.bitCount(requiredResources);
 		BluetoothManager bluetoothManager = null;
 
-		if ((required_resources & Brick.TEXT_TO_SPEECH) > 0) {
+		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
 			Intent checkIntent = new Intent();
 			checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
 			startActivityForResult(checkIntent, REQUEST_TEXT_TO_SPEECH);
 		}
-		if ((required_resources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
+		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
 			Log.d("LegoNXT", "LegoNXT-Brick recognized");
 			bluetoothManager = new BluetoothManager(this);
 
@@ -108,7 +113,7 @@ public class PreStageActivity extends Activity {
 
 			}
 		}
-		if ((required_resources & Brick.BLUETOOTH_ROBOT_ALBERT) > 0) {
+		if ((requiredResources & Brick.BLUETOOTH_ROBOT_ALBERT) > 0) {
 			Log.d("RobotAlbert", "Albert-Brick recognized");
 			if (bluetoothManager == null) {
 				bluetoothManager = new BluetoothManager(this);
@@ -145,12 +150,6 @@ public class PreStageActivity extends Activity {
 		}
 	}
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-
-	}
-
 	//all resources that should be reinitialized with every stage start
 	public static void shutdownResources() {
 		if (textToSpeech != null) {
@@ -174,6 +173,16 @@ public class PreStageActivity extends Activity {
 		if (robotAlbert != null) {
 			robotAlbert.destroyCommunicator();
 			robotAlbert = null;
+		}
+		deleteSpeechFiles();
+	}
+
+	private static void deleteSpeechFiles() {
+		File pathToSpeechFiles = new File(Constants.TEXT_TO_SPEECH_TMP_PATH);
+		if (pathToSpeechFiles.isDirectory()) {
+			for (File file : pathToSpeechFiles.listFiles()) {
+				file.delete();
+			}
 		}
 	}
 
@@ -225,7 +234,6 @@ public class PreStageActivity extends Activity {
 		return ressources;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.i("bt", "requestcode " + requestCode + " result code" + resultCode);
@@ -337,18 +345,24 @@ public class PreStageActivity extends Activity {
 		}
 	}
 
-	public static void textToSpeech(String text, OnUtteranceCompletedListener listener,
+	public static void textToSpeech(String text, File speechFile, OnUtteranceCompletedListener listener,
 			HashMap<String, String> speakParameter) {
 		if (text == null) {
 			text = "";
 		}
 
-		onUtteranceCompletedListenerContainer.addOnUtteranceCompletedListener(listener,
-				speakParameter.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID));
-		textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, speakParameter);
+		if (onUtteranceCompletedListenerContainer.addOnUtteranceCompletedListener(speechFile, listener,
+				speakParameter.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID))) {
+			int status = textToSpeech.synthesizeToFile(text, speakParameter, speechFile.getAbsolutePath());
+			if (status == TextToSpeech.ERROR) {
+				Log.e(TAG, "File synthesizing failed");
+			}
+		}
 	}
 
 	//messages from Lego NXT device can be handled here
+	// TODO should be fixed - could lead to problems
+	@SuppressLint("HandlerLeak")
 	final Handler recieveHandler = new Handler() {
 		@Override
 		public void handleMessage(Message myMessage) {

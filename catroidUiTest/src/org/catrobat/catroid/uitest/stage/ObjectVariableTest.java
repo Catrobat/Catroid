@@ -22,9 +22,7 @@
  */
 package org.catrobat.catroid.uitest.stage;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import android.widget.ListView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
@@ -48,7 +46,9 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.widget.ListView;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
@@ -103,7 +103,7 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 
-		solo.sleep(1000);
+		solo.sleep(2000);
 
 		Formula lookXPositionFormula = getFormulaBySensor(Sensors.OBJECT_X);
 		assertEquals("Variable shows false x position", SPRITE_X_POSITION,

@@ -22,7 +22,16 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -31,20 +40,10 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 
-public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private Formula changeGhostEffect;
 
@@ -98,7 +97,7 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 			}
 		});
 		TextView textX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
-		EditText editX = (EditText) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
+		TextView editX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
 		changeGhostEffect.setTextFieldId(R.id.brick_change_ghost_effect_edit_text);
 		changeGhostEffect.refreshTextField(view);
 
@@ -127,13 +126,13 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_ghost_effect_layout);
+			View layout = (View) view.findViewById(R.id.brick_change_ghost_effect_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView textGhost = (TextView) view.findViewById(R.id.brick_change_ghost_effect_label);
 			TextView textGhostBy = (TextView) view.findViewById(R.id.brick_change_ghost_effect_by);
-			EditText editGhostEffect = (EditText) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
+			TextView editGhostEffect = (TextView) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
 			textGhost.setTextColor(textGhost.getTextColors().withAlpha(alphaValue));
 			textGhostBy.setTextColor(textGhostBy.getTextColors().withAlpha(alphaValue));
 			editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));
@@ -159,5 +158,10 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 
 		sequence.addAction(ExtendedActions.changeGhostEffectByN(sprite, changeGhostEffect));
 		return null;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return changeGhostEffect;
 	}
 }

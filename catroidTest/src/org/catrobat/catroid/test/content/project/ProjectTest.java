@@ -22,16 +22,22 @@
  */
 package org.catrobat.catroid.test.content.project;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.test.AndroidTestCase;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.test.utils.Reflection;
 
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.test.AndroidTestCase;
-
 public class ProjectTest extends AndroidTestCase {
+
+	private static final float OLD_LANGUAGE_VERSION = 0.8f;
+	private static final String OLD_APPLICATION_NAME = "catty";
+	private static final String OLD_PLATFORM = "iOS";
 
 	public void testVersionName() throws NameNotFoundException {
 		Project project = new Project(getContext(), "testProject");
@@ -58,5 +64,36 @@ public class ProjectTest extends AndroidTestCase {
 
 		assertTrue("topSprite was not removed from data structure", project.removeSprite(topSprite));
 		assertFalse("topSprite was not removed from data structure", project.getSpriteList().contains(topSprite));
+	}
+
+	public void testSetDeviceData() {
+		Project project = new Project();
+		XmlHeader header = project.getXmlHeader();
+		Reflection.setPrivateField(header, "catrobatLanguageVersion", OLD_LANGUAGE_VERSION);
+		Reflection.setPrivateField(header, "applicationName", OLD_APPLICATION_NAME);
+		Reflection.setPrivateField(header, "platform", OLD_PLATFORM);
+
+		float languageVersion = (Float) Reflection.getPrivateField(header, "catrobatLanguageVersion");
+		assertEquals("Version should be old", OLD_LANGUAGE_VERSION, languageVersion);
+
+		String applicationName = (String) Reflection.getPrivateField(header, "applicationName");
+		assertEquals("Application name should be the old one", OLD_APPLICATION_NAME, applicationName);
+
+		String platform = (String) Reflection.getPrivateField(header, "platform");
+		assertEquals("Platform should be the old one", OLD_PLATFORM, platform);
+
+		// update the device data
+		project.setDeviceData(getContext());
+
+		languageVersion = (Float) Reflection.getPrivateField(header, "catrobatLanguageVersion");
+		assertEquals("Version should be the current one", Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION,
+				languageVersion);
+
+		applicationName = (String) Reflection.getPrivateField(header, "applicationName");
+		assertEquals("Application name should be the current one", getContext().getString(R.string.app_name),
+				applicationName);
+
+		platform = (String) Reflection.getPrivateField(header, "platform");
+		assertEquals("Platform should be the current one", Constants.PLATFORM_NAME, platform);
 	}
 }

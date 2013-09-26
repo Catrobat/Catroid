@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -37,8 +37,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ListView;
+import java.util.ArrayList;
 
 public class ChangeBrightnessByNBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final double BRIGHTNESS_TO_CHANGE = 56.6;
@@ -59,7 +58,6 @@ public class ChangeBrightnessByNBrickTest extends BaseActivityInstrumentationTes
 		super.setUp();
 	}
 
-	@Smoke
 	public void testChangeBrightnessByNBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
@@ -76,8 +74,8 @@ public class ChangeBrightnessByNBrickTest extends BaseActivityInstrumentationTes
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_change_brightness)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, BRIGHTNESS_TO_CHANGE, "changeBrightness",
-				changeBrightnessByNBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_change_brightness_edit_text, BRIGHTNESS_TO_CHANGE,
+				"changeBrightness", changeBrightnessByNBrick);
 	}
 
 	private void createProject() {

@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -39,8 +40,7 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ListView;
+import java.util.ArrayList;
 
 public class ChangeSizeByNBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final double SIZE_TO_CHANGE = 25;
@@ -61,7 +61,6 @@ public class ChangeSizeByNBrickTest extends BaseActivityInstrumentationTestCase<
 		super.setUp();
 	}
 
-	@Smoke
 	public void testChangeSizeByNBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
@@ -77,11 +76,13 @@ public class ChangeSizeByNBrickTest extends BaseActivityInstrumentationTestCase<
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_change_size_by)));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, SIZE_TO_CHANGE);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_change_size_by_edit_text, SIZE_TO_CHANGE);
 
 		Formula currentSize = (Formula) Reflection.getPrivateField(changeSizeByNBrick, "size");
 		assertEquals("Wrong text in field", SIZE_TO_CHANGE, currentSize.interpretDouble(null));
-		assertEquals("Text not updated", SIZE_TO_CHANGE, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		TextView textView = ((TextView) solo.getView(R.id.brick_change_size_by_edit_text));
+		assertEquals("Text not updated", SIZE_TO_CHANGE,
+				Double.parseDouble(textView.getText().toString().replace(',', '.')));
 
 	}
 

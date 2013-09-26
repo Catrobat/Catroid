@@ -22,8 +22,11 @@
  */
 package org.catrobat.catroid.uitest.formulaeditor;
 
-import java.util.LinkedList;
-import java.util.List;
+import android.graphics.Rect;
+import android.text.style.BackgroundColorSpan;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -41,19 +44,17 @@ import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.formulaeditor.SensorLoudness;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.SimulatedSensorManager;
+import org.catrobat.catroid.uitest.util.SimulatedSoundRecorder;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.graphics.Rect;
-import android.test.suitebuilder.annotation.Smoke;
-import android.text.style.BackgroundColorSpan;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
+import java.util.LinkedList;
+import java.util.List;
 
 public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
@@ -62,8 +63,9 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 	private Brick changeBrick;
 	Script startScript1;
 
-	private static final int X_POS_EDIT_TEXT_ID = 0;
-	private static final int FORMULA_EDITOR_EDIT_TEXT_ID = 1;
+	private static final int CHANGE_SIZE_BY_EDIT_TEXT_RID = R.id.brick_change_size_by_edit_text;
+	private static final int WAIT_EDIT_TEXT_RID = R.id.brick_wait_edit_text;
+	private static final int FORMULA_EDITOR_EDIT_TEXT_INDEX = 0;
 	private static final int FORMULA_EDITOR_EDIT_TEXT_RID = R.id.formula_editor_edit_field;
 
 	private String veryLongFormulaString = "9999999999999999999.888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888877777777777777777777777777777777777777777777777777777777777777777777777777777666666666666666666666666666666666666666666666666666666666666666666665555555555555555555555555555555555555555555555555555555555555433";
@@ -97,31 +99,30 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	public void setAbsoluteCursorPosition(int position) {
-		((FormulaEditorEditText) solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID)).setDoNotMoveCursorOnTab(true);
-		Reflection.setPrivateField(solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID), "absoluteCursorPosition", position);
+	private void setAbsoluteCursorPosition(int position) {
+		((FormulaEditorEditText) solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX)).setDoNotMoveCursorOnTab(true);
+		Reflection
+				.setPrivateField(solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX), "absoluteCursorPosition", position);
 		clickOnFormulaEditorEditText();
 	}
 
-	public void doubleClickOnFormulaEditorEditText() {
+	private void doubleClickOnFormulaEditorEditText() {
 		Rect globalVisibleRect = new Rect();
-		solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getGlobalVisibleRect(globalVisibleRect);
-		solo.clickOnScreen(30, globalVisibleRect.top + 10);
-		solo.drag(30, 31, globalVisibleRect.top + 10, globalVisibleRect.top, 50);
+		solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getGlobalVisibleRect(globalVisibleRect);
+		solo.clickOnScreen(30, globalVisibleRect.top + 10, 2);
 	}
 
-	//click on edit text
-	public void clickOnFormulaEditorEditText() {
+	private void clickOnFormulaEditorEditText() {
 		Rect globalVisibleRect = new Rect();
-		solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getGlobalVisibleRect(globalVisibleRect);
+		solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getGlobalVisibleRect(globalVisibleRect);
 		solo.clickOnScreen(30, globalVisibleRect.top + 10);
 	}
 
 	public void testSingleTapOnFunctionName() {
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 
-		BackgroundColorSpan COLOR_HIGHLIGHT = (BackgroundColorSpan) Reflection.getPrivateField(
+		BackgroundColorSpan colorHighlight = (BackgroundColorSpan) Reflection.getPrivateField(
 				new FormulaEditorEditText(getActivity()), "COLOR_HIGHLIGHT");
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
@@ -130,47 +131,46 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		setAbsoluteCursorPosition(2);
 
 		assertEquals("Selection cursor not found in text, but should be", 0,
-				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().getSpanStart(COLOR_HIGHLIGHT));
+				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText().getSpanStart(colorHighlight));
 		assertEquals("Selection cursor not found in text, but should be",
 				solo.getString(R.string.formula_editor_function_rand).length() + "( 0 , 1 )".length(), solo
-						.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().getSpanEnd(COLOR_HIGHLIGHT));
+						.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText().getSpanEnd(colorHighlight));
 
-		assertEquals("Cursor not found in text, but should be", 2, solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID)
+		assertEquals("Cursor not found in text, but should be", 2, solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX)
 				.getSelectionEnd());
 
 	}
 
-	@Smoke
 	public void testDoubleTapSelection() {
-		BackgroundColorSpan COLOR_HIGHLIGHT = (BackgroundColorSpan) Reflection.getPrivateField(
+		BackgroundColorSpan colorHighlight = (BackgroundColorSpan) Reflection.getPrivateField(
 				new FormulaEditorEditText(getActivity()), "COLOR_HIGHLIGHT");
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 
-		for (int i = 0; i < 6; i++) {
+		for (int i = 1; i <= 6; i++) {
 			solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
 		}
-		assertTrue("Text not found", solo.searchText("11111", true));
+		assertTrue("Text not found", solo.searchText("111111", true));
 
-		assertTrue("Selection cursor found in text, but should not be", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID)
-				.getText().getSpanStart(COLOR_HIGHLIGHT) == -1);
+		assertTrue("Selection cursor found in text, but should not be", solo
+				.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText().getSpanStart(colorHighlight) == -1);
 		setAbsoluteCursorPosition(3);
 		doubleClickOnFormulaEditorEditText();
 		assertEquals("Selection cursor not found in text, but should be", 0,
-				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().getSpanStart(COLOR_HIGHLIGHT));
+				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText().getSpanStart(colorHighlight));
 		assertEquals("Selection cursor not found in text, but should be", 6,
-				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().getSpanEnd(COLOR_HIGHLIGHT));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText().getSpanEnd(colorHighlight));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		assertFalse("Text found but shouldnt", solo.searchText("11111", true));
-		assertTrue("Error cursor found in text, but should not be", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID)
-				.getText().getSpanStart(COLOR_HIGHLIGHT) == -1);
+		assertTrue("Error cursor found in text, but should not be", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX)
+				.getText().getSpanStart(colorHighlight) == -1);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_random));
 		assertTrue("Text not found", solo.searchText(solo.getString(R.string.formula_editor_function_rand) + "(", true));
 		setAbsoluteCursorPosition(3);
 		doubleClickOnFormulaEditorEditText();
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		assertFalse("Text found but shouldnt",
 				solo.searchText(solo.getString(R.string.formula_editor_function_rand) + "(", true));
@@ -182,7 +182,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		setAbsoluteCursorPosition(3);
 		doubleClickOnFormulaEditorEditText();
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		assertFalse("Text found but shouldnt",
 				solo.searchText(solo.getString(R.string.formula_editor_sensor_y_acceleration), true));
@@ -199,10 +199,9 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	@Smoke
 	public void testFunctionFirstParameterSelectionAndModification() {
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_sin));
@@ -215,13 +214,13 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 		assertEquals("Function parameter modification failed", solo.getString(R.string.formula_editor_function_sin)
 				+ "( 12" + getActivity().getString(R.string.formula_editor_decimal_mark) + "34 ) ",
-				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().toString());
+				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText().toString());
 
 		setAbsoluteCursorPosition(2);
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
-		assertEquals("Text deletion was wrong!", " ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText()
+		assertEquals("Text deletion was wrong!", " ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText()
 				.toString());
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
@@ -235,21 +234,20 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 		assertEquals("Function parameter modification failed", solo.getString(R.string.formula_editor_function_rand)
 				+ "( 12" + getActivity().getString(R.string.formula_editor_decimal_mark) + "34 , 1 ) ", solo
-				.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().toString());
+				.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText().toString());
 
 		setAbsoluteCursorPosition(2);
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
-		assertEquals("Text deletion was wrong!", " ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText()
+		assertEquals("Text deletion was wrong!", " ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText()
 				.toString());
 
 	}
 
-	@Smoke
 	public void testBracketValueSelectionAndModification() {
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_bracket_open));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
@@ -259,12 +257,12 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 		assertEquals("Bracket value modification failed",
 				"( 1" + getActivity().getString(R.string.formula_editor_decimal_mark) + "3 ) ",
-				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().toString());
+				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText().toString());
 		setAbsoluteCursorPosition(1);
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		String editTextString = "1" + getActivity().getString(R.string.formula_editor_decimal_mark) + "3 "
 				+ getActivity().getString(R.string.formula_editor_bracket_close) + " ";
-		assertEquals("Text deletion was wrong!", editTextString, solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID)
+		assertEquals("Text deletion was wrong!", editTextString, solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX)
 				.getText().toString());
 
 		setAbsoluteCursorPosition(0);
@@ -274,24 +272,23 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		editTextString = getActivity().getString(R.string.formula_editor_bracket_open) + " 1"
 				+ getActivity().getString(R.string.formula_editor_decimal_mark) + "3 ";
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		assertEquals("Text deletion was wrong!", editTextString, solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID)
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		assertEquals("Text deletion was wrong!", editTextString, solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX)
 				.getText().toString());
 
 	}
 
-	@Smoke
 	public void testFunctionDeletion() {
 
 		int functionRandomLength = solo.getCurrentActivity().getText(R.string.formula_editor_function_rand).length();
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_rand));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		assertEquals("Function deletion failed!", " ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText()
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		assertEquals("Function deletion failed!", " ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText()
 				.toString());
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
@@ -299,46 +296,46 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 		setAbsoluteCursorPosition(functionRandomLength + 5);
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		assertEquals("Function deletion failed!", " ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText()
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		assertEquals("Function deletion failed!", " ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText()
 				.toString());
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_rand));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
-		assertEquals("Function deletion failed!", " ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText()
+		assertEquals("Function deletion failed!", " ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText()
 				.toString());
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_rand));
 		setAbsoluteCursorPosition(1);
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		assertEquals("Function deletion failed!", " ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText()
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		assertEquals("Function deletion failed!", " ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText()
 				.toString());
 
 	}
 
-	@Smoke
 	public void testNumberInsertion() {
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_decimal_mark));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
 
 		assertEquals("Number insertion failed!", "0" + getActivity().getString(R.string.formula_editor_decimal_mark)
-				+ "1 ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().toString());
+				+ "1 ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText().toString());
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_decimal_mark));
 		assertEquals("Delimiter insertion failed!", "0" + getActivity().getString(R.string.formula_editor_decimal_mark)
-				+ "1 ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().toString());
+				+ "1 ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText().toString());
 
 		setAbsoluteCursorPosition(1);
 		doubleClickOnFormulaEditorEditText();
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
-		assertEquals("Number deletion failed!", " ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().toString());
+		assertEquals("Number deletion failed!", " ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText()
+				.toString());
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_2));
@@ -347,11 +344,11 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_decimal_mark));
 
 		assertEquals("Delimiter insertion failed!", "0" + getActivity().getString(R.string.formula_editor_decimal_mark)
-				+ "12 ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().toString());
+				+ "12 ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText().toString());
 
 		setAbsoluteCursorPosition(1);
 		doubleClickOnFormulaEditorEditText();
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_3));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_4));
@@ -364,18 +361,17 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 		assertEquals("Delimiter insertion failed!", "12"
 				+ getActivity().getString(R.string.formula_editor_decimal_mark) + "34 ",
-				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().toString());
+				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText().toString());
 
 		setAbsoluteCursorPosition(1);
 		doubleClickOnFormulaEditorEditText();
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 	}
 
-	@Smoke
 	public void testGoBackToDiscardChanges() {
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_9));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_9));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_decimal_mark));
@@ -383,44 +379,85 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));
 		solo.sleep(50);
 		solo.goBack();
-		solo.goBack();
+		solo.waitForText(solo.getString(R.string.formula_editor_discard_changes_dialog_title));
+		solo.clickOnButton(solo.getString(R.string.no));
 
 		assertTrue("Toast not found", solo.searchText(solo.getString(R.string.formula_editor_changes_discarded)));
 		assertEquals("Wrong text in FormulaEditor", "0" + getActivity().getString(R.string.formula_editor_decimal_mark)
-				+ "0 ", solo.getEditText(X_POS_EDIT_TEXT_ID).getText().toString());
+				+ "0 ", ((TextView) solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID)).getText().toString());
 
 	}
 
-	@Smoke
+	public void testDiscardDialog() {
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_9));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_9));
+		solo.sleep(50);
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.formula_editor_discard_changes_dialog_title));
+		solo.goBack();
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_decimal_mark));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_9));
+		solo.sleep(50);
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.formula_editor_discard_changes_dialog_title));
+		solo.clickOnButton(solo.getString(R.string.yes));
+
+		assertTrue("Toast not found", solo.searchText(solo.getString(R.string.formula_editor_changes_saved)));
+		assertEquals("Wrong text in FormulaEditor", "99"
+				+ getActivity().getString(R.string.formula_editor_decimal_mark) + "9 ",
+				((TextView) solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID)).getText().toString());
+
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
+		solo.goBack();
+		assertEquals("Wrong text in FormulaEditor", "99"
+				+ getActivity().getString(R.string.formula_editor_decimal_mark) + "9 ",
+				((TextView) solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID)).getText().toString());
+
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.sleep(50);
+		solo.goBack();
+		solo.waitForText(solo.getString(R.string.formula_editor_discard_changes_dialog_title));
+		solo.clickOnButton(solo.getString(R.string.no));
+
+		assertTrue("Toast not found", solo.searchText(solo.getString(R.string.formula_editor_changes_discarded)));
+		assertEquals("Wrong text in FormulaEditor", "99"
+				+ getActivity().getString(R.string.formula_editor_decimal_mark) + "9 ",
+				((TextView) solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID)).getText().toString());
+	}
+
 	public void testErrorInFirstAndLastCharactersAndEmptyFormula() {
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
-		BackgroundColorSpan COLOR_ERROR = (BackgroundColorSpan) Reflection.getPrivateField(new FormulaEditorEditText(
-				getActivity()), "COLOR_ERROR");
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		assertTrue("Error cursor found in text, but should not be",
-				solo.getEditText(1).getText().getSpanStart(COLOR_ERROR) == -1);
-		solo.goBack();
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
+
 		assertTrue("Toast not found", solo.searchText(solo.getString(R.string.formula_editor_parse_fail)));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
+
 		solo.sleep(50);
 		assertTrue("Toast not found", solo.searchText(solo.getString(R.string.formula_editor_parse_fail)));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));
 		solo.goBack();
+		solo.waitForText(solo.getString(R.string.formula_editor_discard_changes_dialog_title));
+		solo.clickOnButton(solo.getString(R.string.yes));
 		solo.sleep(50);
 		assertTrue("Toast not found", solo.searchText(solo.getString(R.string.formula_editor_parse_fail)));
 
 	}
 
-	@Smoke
 	public void testTextCursorAndScrolling() {
 
-		solo.clickOnEditText(1);
+		solo.clickOnView(solo.getView(WAIT_EDIT_TEXT_RID));
+
 		solo.sleep(3000);
 		solo.waitForText(solo.getCurrentActivity().getString(R.string.formula_editor_title));
 
@@ -438,8 +475,8 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 		setAbsoluteCursorPosition("9999999999999999999".length());
 		assertTrue("Text could not be found!", solo.searchText("9999999999999999999")); //note always ALL the text can be found by solo, not just the part currently visible due to scroll position 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		assertTrue("Wrong number of characters deleted!", solo.searchText("99999999999999999"));
 
@@ -448,17 +485,16 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		setAbsoluteCursorPosition(veryLongFormulaString.length());
 
 		assertTrue("Text could not be found!", solo.searchText("33 "));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		assertTrue("Wrong number of characters deleted!", solo.searchText("4 "));
 
 	}
 
-	@Smoke
 	public void testTextPreviewWithCursorPositions() {
-		solo.clickOnEditText(1);
+		solo.clickOnView(solo.getView(WAIT_EDIT_TEXT_RID));
 
-		EditText preview = (EditText) UiTestUtils.getViewContainerByIds(solo, R.id.brick_wait_edit_text,
+		TextView preview = (TextView) UiTestUtils.getViewContainerByIds(solo, R.id.brick_wait_edit_text,
 				R.id.formula_editor_brick_space);
 		FormulaEditorEditText formulaEditorEditText = (FormulaEditorEditText) solo
 				.getView(FORMULA_EDITOR_EDIT_TEXT_RID);
@@ -474,35 +510,35 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 	}
 
-	@Smoke
 	public void testParseErrorsAndDeletion() {
 
 		String editTextString = "";
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_8));
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
+
 		solo.sleep(500);
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		assertEquals("Text not deleted correctly", "8 ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText()
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		assertEquals("Text not deleted correctly", "8 ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText()
 				.toString());
 		setAbsoluteCursorPosition(1);
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_8));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_8));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_random));
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(500);
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		assertEquals("Text not deleted correctly", "8 + 8 ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText()
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		assertEquals("Text not deleted correctly", "8 + 8 ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText()
 				.toString());
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_8));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));
@@ -512,42 +548,42 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_9));
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(500);
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		editTextString += "+ 9 ";
-		assertEquals("Text not deleted correctly", editTextString, solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID)
+		assertEquals("Text not deleted correctly", editTextString, solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX)
 				.getText().toString());
 		setAbsoluteCursorPosition(editTextString.length());
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_8));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_random));
 		editTextString = "8 + " + getActivity().getString(R.string.formula_editor_function_rand) + "( 0 ,";
 		setAbsoluteCursorPosition(editTextString.length() + 2);
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_2));
 		editTextString += " + 2 ) ";
 		setAbsoluteCursorPosition(editTextString.length());
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_3));
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(500);
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		assertEquals("Text not deleted correctly", "8 + 3 ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText()
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		assertEquals("Text not deleted correctly", "8 + 3 ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText()
 				.toString());
 
 	}
 
 	public void testStrings() {
 
-		solo.clickOnEditText(0);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 
 		FormulaEditorEditText formulaEditorEditText = (FormulaEditorEditText) solo
 				.getView(FORMULA_EDITOR_EDIT_TEXT_RID);
@@ -616,6 +652,10 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_x_inclination));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_x_inclination));
 
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_loudness));
+		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_loudness));
+
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
 		solo.waitForText(getActivity().getString(R.string.formula_editor_object_x));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_object_x));
@@ -653,9 +693,15 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 	}
 
+	@Device
 	public void testComputeDialog() {
 
 		//For initialization
+		SensorLoudness.getSensorLoudness();
+		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
+		SimulatedSoundRecorder simSoundRec = new SimulatedSoundRecorder("/dev/null");
+		Reflection.setPrivateField(loudnessSensor, "recorder", simSoundRec);
+
 		SensorHandler.startSensorListener(solo.getCurrentActivity());
 		SensorHandler.stopSensorListeners();
 
@@ -663,7 +709,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		SimulatedSensorManager sensorManager = new SimulatedSensorManager();
 		Reflection.setPrivateField(sensorHandler, "sensorManager", sensorManager);
 
-		solo.clickOnEditText(X_POS_EDIT_TEXT_ID);
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));
@@ -685,7 +731,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
 		solo.waitForView(solo.getView(R.id.formula_editor_compute_dialog_textview));
 		computeTextView = (TextView) solo.getView(R.id.formula_editor_compute_dialog_textview);

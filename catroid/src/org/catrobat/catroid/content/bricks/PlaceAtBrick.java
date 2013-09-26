@@ -22,7 +22,16 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -31,20 +40,9 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
-public class PlaceAtBrick extends BrickBaseType implements OnClickListener {
+public class PlaceAtBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private Formula xPosition;
 	private Formula yPosition;
@@ -67,6 +65,11 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener {
 
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return xPosition;
 	}
 
 	public void setXPosition(Formula xPosition) {
@@ -110,7 +113,7 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener {
 		});
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_x);
-		EditText editX = (EditText) view.findViewById(R.id.brick_place_at_edit_text_x);
+		TextView editX = (TextView) view.findViewById(R.id.brick_place_at_edit_text_x);
 		xPosition.setTextFieldId(R.id.brick_place_at_edit_text_x);
 		xPosition.refreshTextField(view);
 
@@ -119,7 +122,7 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener {
 		editX.setOnClickListener(this);
 
 		TextView textY = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_y);
-		EditText editY = (EditText) view.findViewById(R.id.brick_place_at_edit_text_y);
+		TextView editY = (TextView) view.findViewById(R.id.brick_place_at_edit_text_y);
 		yPosition.setTextFieldId(R.id.brick_place_at_edit_text_y);
 		yPosition.refreshTextField(view);
 		textY.setVisibility(View.GONE);
@@ -148,15 +151,15 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener {
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_place_at_layout);
+			View layout = (View) view.findViewById(R.id.brick_place_at_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView placeAtLabel = (TextView) view.findViewById(R.id.brick_place_at_label);
 			TextView placeAtX = (TextView) view.findViewById(R.id.brick_place_at_x_textview);
 			TextView placeAtY = (TextView) view.findViewById(R.id.brick_place_at_y_textview);
-			EditText editX = (EditText) view.findViewById(R.id.brick_place_at_edit_text_x);
-			EditText editY = (EditText) view.findViewById(R.id.brick_place_at_edit_text_y);
+			TextView editX = (TextView) view.findViewById(R.id.brick_place_at_edit_text_x);
+			TextView editY = (TextView) view.findViewById(R.id.brick_place_at_edit_text_y);
 			placeAtLabel.setTextColor(placeAtLabel.getTextColors().withAlpha(alphaValue));
 			placeAtX.setTextColor(placeAtX.getTextColors().withAlpha(alphaValue));
 			placeAtY.setTextColor(placeAtY.getTextColors().withAlpha(alphaValue));

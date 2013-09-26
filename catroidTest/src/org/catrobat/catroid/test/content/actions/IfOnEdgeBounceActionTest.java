@@ -22,9 +22,9 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import android.test.InstrumentationTestCase;
+
+import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Look;
@@ -32,42 +32,42 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
-import android.test.InstrumentationTestCase;
-
-import com.badlogic.gdx.scenes.scene2d.Action;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 
 	private Action ifOnEdgeBounceAction;
 	private Sprite sprite;
-	private final float width = 100;
-	private final float height = 100;
+	private static final float WIDTH = 100;
+	private static final float HEIGHT = 100;
 
-	private final int screenWidth = 480;
-	private final int screenHeight = 800;
+	private static final int SCREEN_WIDTH = 480;
+	private static final int SCREEN_HEIGHT = 800;
 
-	private final float TOP_BORDER_POSITION = screenHeight / 2f;
-	private final float BOTTOM_BORDER_POSITION = -TOP_BORDER_POSITION;
-	private final float RIGHT_BORDER_POSITION = screenWidth / 2f;
-	private final float LEFT_BORDER_POSITION = -RIGHT_BORDER_POSITION;
+	private static final float TOP_BORDER_POSITION = SCREEN_HEIGHT / 2f;
+	private static final float BOTTOM_BORDER_POSITION = -TOP_BORDER_POSITION;
+	private static final float RIGHT_BORDER_POSITION = SCREEN_WIDTH / 2f;
+	private static final float LEFT_BORDER_POSITION = -RIGHT_BORDER_POSITION;
 
-	private final float BOUNCE_TOP_POSITION = TOP_BORDER_POSITION - (height / 2f);
-	private final float BOUNCE_BOTTOM_POSITION = -BOUNCE_TOP_POSITION;
-	private final float BOUNCE_RIGHT_POSITION = RIGHT_BORDER_POSITION - (width / 2f);
-	private final float BOUNCE_LEFT_POSITION = -BOUNCE_RIGHT_POSITION;
+	private static final float BOUNCE_TOP_POSITION = TOP_BORDER_POSITION - (HEIGHT / 2f);
+	private static final float BOUNCE_BOTTOM_POSITION = -BOUNCE_TOP_POSITION;
+	private static final float BOUNCE_RIGHT_POSITION = RIGHT_BORDER_POSITION - (WIDTH / 2f);
+	private static final float BOUNCE_LEFT_POSITION = -BOUNCE_RIGHT_POSITION;
 
 	@Override
 	public void setUp() throws Exception {
 		sprite = new Sprite("Test");
-		sprite.look.setWidth(width);
-		sprite.look.setHeight(height);
+		sprite.look.setWidth(WIDTH);
+		sprite.look.setHeight(HEIGHT);
 		sprite.look.setPositionInUserInterfaceDimensionUnit(0, 0);
 
 		ifOnEdgeBounceAction = ExtendedActions.ifOnEdgeBounce(sprite);
 
 		Project project = new Project();
-		project.getXmlHeader().virtualScreenWidth = screenWidth;
-		project.getXmlHeader().virtualScreenHeight = screenHeight;
+		project.getXmlHeader().virtualScreenWidth = SCREEN_WIDTH;
+		project.getXmlHeader().virtualScreenHeight = SCREEN_HEIGHT;
 
 		ProjectManager.getInstance().setProject(project);
 	}

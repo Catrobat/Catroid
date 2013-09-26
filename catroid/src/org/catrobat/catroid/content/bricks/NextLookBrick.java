@@ -22,13 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -36,10 +29,16 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+
+import java.util.List;
 
 public class NextLookBrick extends BrickBaseType {
 
@@ -66,8 +65,8 @@ public class NextLookBrick extends BrickBaseType {
 		View view = inflater.inflate(R.layout.brick_next_look, null);
 
 		if (sprite.getName().equals(context.getString(R.string.background))) {
-			TextView textView = (TextView) view.findViewById(R.id.brick_next_look_text_view);
-			textView.setText(R.string.brick_next_background);
+			TextView textField = (TextView) view.findViewById(R.id.brick_next_look_text_view);
+			textField.setText(R.string.brick_next_background);
 		}
 		return view;
 	}
@@ -97,8 +96,8 @@ public class NextLookBrick extends BrickBaseType {
 		});
 
 		if (sprite.getName().equals(context.getString(R.string.background))) {
-			TextView textView = (TextView) view.findViewById(R.id.brick_next_look_text_view);
-			textView.setText(R.string.brick_next_background);
+			TextView textField = (TextView) view.findViewById(R.id.brick_next_look_text_view);
+			textField.setText(R.string.brick_next_background);
 		}
 
 		return view;
@@ -109,7 +108,7 @@ public class NextLookBrick extends BrickBaseType {
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_next_look_layout);
+			View layout = view.findViewById(R.id.brick_next_look_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 

@@ -22,16 +22,16 @@
  */
 package org.catrobat.catroid.test.io;
 
-import java.io.File;
-import java.io.IOException;
+import android.media.MediaPlayer;
+import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
 
-import android.media.MediaPlayer;
-import android.test.InstrumentationTestCase;
+import java.io.File;
+import java.io.IOException;
 
 public class SoundManagerTest extends InstrumentationTestCase {
 	private static final int LONG_TEST_SOUND = R.raw.longtestsound;

@@ -25,16 +25,41 @@ package org.catrobat.catroid.uitest.util;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.Instrumentation;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Rect;
+import android.os.Build;
+import android.os.Handler;
+import android.os.SystemClock;
+import android.test.ActivityInstrumentationTestCase2;
+import android.text.InputType;
+import android.util.Log;
+import android.util.SparseArray;
+import android.util.SparseIntArray;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.ViewParent;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.internal.ActionBarSherlockCompat;
+import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
+import com.jayway.android.robotium.solo.Solo;
 
 import junit.framework.AssertionFailedError;
 
@@ -55,6 +80,7 @@ import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeGhostEffectByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
@@ -83,6 +109,7 @@ import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
@@ -102,42 +129,24 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.fragment.AddBrickFragment;
+import org.catrobat.catroid.utils.NotificationData;
+import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
-import android.app.Activity;
-import android.app.Instrumentation;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Rect;
-import android.os.Build;
-import android.os.Handler;
-import android.os.SystemClock;
-import android.test.ActivityInstrumentationTestCase2;
-import android.text.InputType;
-import android.util.Log;
-import android.util.SparseIntArray;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewConfiguration;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.internal.ActionBarSherlockCompat;
-import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
-import com.actionbarsherlock.internal.widget.IcsSpinner;
-import com.jayway.android.robotium.solo.Solo;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UiTestUtils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();
@@ -155,17 +164,31 @@ public class UiTestUtils {
 	public static final String COPIED_PROJECT_NAME = "copiedProject";
 	public static final String JAPANESE_PROJECT_NAME = "これは例の説明です。";
 
-	private static final int ACTION_BAR_SPINNER_INDEX = 0;
 	private static final int ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX = 0;
+	private static final int DRAG_FRAMES = 35;
+
+	public static final int SCRIPTS_INDEX = 0;
+	public static final int LOOKS_INDEX = 1;
+	public static final int SOUNDS_INDEX = 2;
+
+	private static final List<Integer> FRAGMENT_INDEX_LIST = new ArrayList<Integer>();
+
+	static {
+		FRAGMENT_INDEX_LIST.add(R.id.fragment_script);
+		FRAGMENT_INDEX_LIST.add(R.id.fragment_look);
+		FRAGMENT_INDEX_LIST.add(R.id.fragment_sound);
+	}
 
 	public static enum FileTypes {
 		IMAGE, SOUND, ROOT
 	};
 
 	private UiTestUtils() {
+
 	};
 
 	public static void enterText(Solo solo, int editTextIndex, String text) {
+
 		solo.sleep(50);
 		final EditText editText = solo.getEditText(editTextIndex);
 		solo.getCurrentActivity().runOnUiThread(new Runnable() {
@@ -250,10 +273,11 @@ public class UiTestUtils {
 	 * For bricks using the FormulaEditor. Tests starting the FE, entering a new number/formula and
 	 * ensures its set correctly to the brick´s edit text field
 	 */
-	public static void testBrickWithFormulaEditor(Solo solo, int editTextNumber, int numberOfEditTextsInBrick,
-			double newValue, String fieldName, Brick theBrick) {
+	public static void testBrickWithFormulaEditor(Solo solo, int editTextId, double newValue, String fieldName,
+			Brick theBrick) {
 
-		solo.clickOnEditText(editTextNumber);
+		solo.clickOnView(solo.getView(editTextId));
+
 		insertDoubleIntoEditText(solo, newValue);
 
 		assertEquals(
@@ -261,30 +285,33 @@ public class UiTestUtils {
 				newValue,
 				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()
 						.replace(',', '.')));
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(200);
 
 		Formula formula = (Formula) Reflection.getPrivateField(theBrick, fieldName);
 
 		assertEquals("Wrong text in field", newValue, formula.interpretDouble(theBrick.getSprite()), 0.01f);
 		assertEquals("Text not updated in the brick list", newValue,
-				Double.parseDouble(solo.getEditText(editTextNumber).getText().toString().replace(',', '.')), 0.01f);
+				Double.parseDouble(((TextView) solo.getView(editTextId)).getText().toString().replace(',', '.')), 0.01f);
 
 	}
 
-	public static void insertValueViaFormulaEditor(Solo solo, int editTextNumber, double value) {
+	public static void insertValueViaFormulaEditor(Solo solo, int editTextId, double value) {
 
-		solo.clickOnEditText(editTextNumber);
+		solo.clickOnView(solo.getView(editTextId));
 		UiTestUtils.insertDoubleIntoEditText(solo, value);
 
-		assertEquals("Text not updated within FormulaEditor", value,
-				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()));
-		solo.goBack();
+		assertEquals(
+				"Text not updated within FormulaEditor",
+				value,
+				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()
+						.replace(',', '.')));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(200);
 	}
 
-	public static void clickEnterClose(Solo solo, int editTextIndex, String value) {
-		solo.clickOnEditText(editTextIndex);
+	public static void clickEnterClose(Solo solo, int editTextNumber, String value) {
+		solo.clickOnEditText(editTextNumber);
 		solo.clearEditText(0);
 		solo.enterText(0, value);
 		String buttonPositiveText = solo.getString(R.string.ok);
@@ -381,33 +408,139 @@ public class UiTestUtils {
 	}
 
 	public static void addNewBrick(Solo solo, int categoryStringId, int brickStringId, int nThElement) {
+		String brickName = solo.getCurrentActivity().getString(brickStringId);
+		addNewBrick(solo, categoryStringId, brickName, nThElement);
+	}
+
+	private static void addNewBrick(Solo solo, int categoryStringId, String brickName, int nThElement) {
 		clickOnBottomBar(solo, R.id.button_add);
-		if (!solo.waitForText(solo.getCurrentActivity().getString(categoryStringId), nThElement, 5000)) {
+		if (!solo.waitForText(solo.getCurrentActivity().getString(categoryStringId), nThElement, 2000)) {
 			fail("Text not shown in 5 secs!");
 		}
 
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
-		solo.searchText(solo.getCurrentActivity().getString(categoryStringId));
+		boolean fragmentAppeared = solo.waitForFragmentByTag(AddBrickFragment.ADD_BRICK_FRAGMENT_TAG, 1000);
+		if (!fragmentAppeared) {
+			fail("add brick fragment should appear");
+		}
 
-		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
-				solo.getCurrentViews(ListView.class).size() - 1);
+		solo.sleep(600);
+		boolean succeeded = clickOnBrickInAddBrickFragment(solo, brickName, true);
+		if (!succeeded) {
+			fail(brickName + " should appear. Failed to scroll to find it.");
+		}
+		solo.sleep(600);
+	}
 
-		while (!solo.searchText(solo.getCurrentActivity().getString(brickStringId))) {
-			if (!solo.scrollDownList(fragmentListView)) {
-				fail("Text not shown");
+	private static boolean clickOnBrickInAddBrickFragment(Solo solo, String brickName, boolean addToScript) {
+		boolean success = false;
+		int lowestIdTimeBeforeLast = -2;
+		int lowestIdLastTime = -1;
+
+		while (!success && lowestIdLastTime != lowestIdTimeBeforeLast) {
+
+			lowestIdTimeBeforeLast = lowestIdLastTime;
+			int farthestDownThisTime = -999999;
+			int highestUpThisTime = 999999;
+
+			ArrayList<TextView> array = solo.getCurrentViews(TextView.class);
+			for (TextView candidate : array) {
+				View greatGreatGrandParent = greatGreatGrandParent(candidate);
+				if (greatGreatGrandParent != null && greatGreatGrandParent.getId() == R.id.add_brick_fragment_list) {
+					int bottom = getBottomOfBrickGivenViewInsideThatBrick(candidate);
+					if (farthestDownThisTime < bottom) {
+						farthestDownThisTime = bottom;
+						lowestIdLastTime = candidate.getId();
+					}
+					if (highestUpThisTime > bottom) {
+						highestUpThisTime = bottom;
+					}
+					if (candidate.getText().toString().equals(brickName)) {
+						solo.clickOnView(candidate);
+						success = true;
+						break;
+					}
+				}
+			}
+
+			if (!success) {
+				int difference = farthestDownThisTime - highestUpThisTime;
+				solo.drag(40, 40, difference * 0.75f, 40, DRAG_FRAMES);
 			}
 		}
 
-		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId), nThElement, true);
-		solo.sleep(500);
+		return success;
 	}
 
-	public static List<Brick> createTestProject() {
+	private static int getBottomOfBrickGivenViewInsideThatBrick(View view) {
+		return ((View) (view.getParent().getParent())).getBottom();
+	}
+
+	private static View greatGreatGrandParent(View view) {
+		ViewParent parent = view.getParent();
+		int i = 0;
+		while (i < 3 && parent != null) {
+			parent = parent.getParent();
+			i++;
+		}
+
+		return (parent != null && parent instanceof View ? ((View) parent) : null);
+	}
+
+	public static int[] tapFloatingBrick(Solo solo) {
+		return dragFloatingBrick(solo, 0);
+	}
+
+	public static int[] dragFloatingBrickUpwards(Solo solo) {
+		return dragFloatingBrick(solo, -1);
+	}
+
+	public static int[] dragFloatingBrickUpwards(Solo solo, int bricks) {
+		return dragFloatingBrick(solo, -bricks);
+	}
+
+	public static int[] dragFloatingBrickDownwards(Solo solo) {
+		return dragFloatingBrick(solo, 1);
+	}
+
+	public static int[] dragFloatingBrickDownwards(Solo solo, int bricks) {
+		return dragFloatingBrick(solo, bricks);
+	}
+
+	public static int[] dragFloatingBrick(Solo solo, float offsetY) {
+		int[] location = null;
+		int width = 0;
+		int height = 0;
+
+		ArrayList<View> views = solo.getCurrentViews();
+		for (View view : views) {
+			if (view.getId() == R.id.drag_and_drop_list_view_image_view) {
+				location = new int[2];
+				view.getLocationOnScreen(location);
+				width = view.getWidth();
+				height = view.getHeight();
+			}
+		}
+
+		int originX = location[0] + Math.round(width * 0.2f);
+		int originY = location[1] + Math.round(height * 0.5f);
+		int destinationX = originX;
+		int destinationY = Math.round(originY + height * offsetY);
+
+		solo.drag(originX, destinationX, originY, destinationY, DRAG_FRAMES);
+
+		location[0] = destinationX;
+		location[1] = destinationY;
+
+		return location;
+	}
+
+	public static List<Brick> createTestProject(String projectName) {
 		int xPosition = 457;
 		int yPosition = 598;
 		double size = 0.8;
 
-		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Project project = new Project(null, projectName);
 		Sprite firstSprite = new Sprite("cat");
 
 		Script testScript = new StartScript(firstSprite);
@@ -434,7 +567,15 @@ public class UiTestUtils {
 		projectManager.setCurrentScript(testScript);
 		StorageHandler.getInstance().saveProject(project);
 
+		// the application version is needed when the project will be uploaded
+		// 0.7.3beta is the lowest possible version currently accepted by the web
+		Reflection.setPrivateField(project.getXmlHeader(), "applicationVersion", "0.7.3beta");
+
 		return brickList;
+	}
+
+	public static List<Brick> createTestProject() {
+		return createTestProject(DEFAULT_TEST_PROJECT_NAME);
 	}
 
 	public static List<Brick> createTestProjectNestedLoops() {
@@ -479,15 +620,15 @@ public class UiTestUtils {
 
 		ArrayList<Brick> brickList = new ArrayList<Brick>();
 
-		IfLogicBeginBrick IfBeginBrick = new IfLogicBeginBrick(firstSprite, 0);
-		IfLogicElseBrick IfElseBrick = new IfLogicElseBrick(firstSprite, IfBeginBrick);
-		IfLogicEndBrick IfEndBrick = new IfLogicEndBrick(firstSprite, IfElseBrick, IfBeginBrick);
+		IfLogicBeginBrick ifBeginBrick = new IfLogicBeginBrick(firstSprite, 0);
+		IfLogicElseBrick ifElseBrick = new IfLogicElseBrick(firstSprite, ifBeginBrick);
+		IfLogicEndBrick ifEndBrick = new IfLogicEndBrick(firstSprite, ifElseBrick, ifBeginBrick);
 
-		brickList.add(IfBeginBrick);
+		brickList.add(ifBeginBrick);
 		brickList.add(new ShowBrick(firstSprite));
-		brickList.add(IfElseBrick);
+		brickList.add(ifElseBrick);
 		brickList.add(new ComeToFrontBrick(firstSprite));
-		brickList.add(IfEndBrick);
+		brickList.add(ifEndBrick);
 
 		for (Brick brick : brickList) {
 			testScript.addBrick(brick);
@@ -519,6 +660,7 @@ public class UiTestUtils {
 		brickList.add(new ChangeGhostEffectByNBrick(firstSprite, 0));
 		brickList.add(new ChangeSizeByNBrick(firstSprite, 0));
 		brickList.add(new ChangeVolumeByNBrick(firstSprite, 0));
+		brickList.add(new ChangeVariableBrick(firstSprite, 0));
 		brickList.add(new ChangeXByNBrick(firstSprite, 0));
 		brickList.add(new ChangeYByNBrick(firstSprite, 0));
 		brickList.add(new ClearGraphicEffectBrick(firstSprite));
@@ -540,6 +682,7 @@ public class UiTestUtils {
 		brickList.add(new SetGhostEffectBrick(firstSprite, 0));
 		brickList.add(new SetLookBrick(firstSprite));
 		brickList.add(new SetSizeToBrick(firstSprite, 0));
+		brickList.add(new SetVariableBrick(firstSprite, 0));
 		brickList.add(new SetVolumeToBrick(firstSprite, 0));
 		brickList.add(new SetXBrick(firstSprite, 0));
 		brickList.add(new SetYBrick(firstSprite, 0));
@@ -949,9 +1092,9 @@ public class UiTestUtils {
 	}
 
 	public static void clickOnBottomBar(Solo solo, int buttonId) {
-		solo.waitForView(LinearLayout.class);
-		LinearLayout linearLayout = (LinearLayout) solo.getView(buttonId);
-		solo.clickOnView(linearLayout);
+		solo.waitForView(ImageButton.class);
+		ImageButton imageButton = (ImageButton) solo.getView(buttonId);
+		solo.clickOnView(imageButton);
 	}
 
 	public static File createTestMediaFile(String filePath, int fileID, Context context) throws IOException {
@@ -1008,6 +1151,11 @@ public class UiTestUtils {
 
 	public static void comparePixelArrayWithPixelScreenArray(byte[] pixelArray, byte[] screenArray, int x, int y,
 			int screenWidth, int screenHeight) {
+		comparePixelArrayWithPixelScreenArrayWithTolerance(pixelArray, screenArray, x, y, screenWidth, screenHeight, 10);
+	}
+
+	public static void comparePixelArrayWithPixelScreenArrayWithTolerance(byte[] pixelArray, byte[] screenArray, int x,
+			int y, int screenWidth, int screenHeight, int tolerance) {
 		assertEquals("Length of pixel array not 4", 4, pixelArray.length);
 		int convertedX = x + (screenWidth / 2);
 		int convertedY = y + (screenHeight / 2);
@@ -1015,10 +1163,10 @@ public class UiTestUtils {
 		for (int i = 0; i < 4; i++) {
 			screenPixel[i] = screenArray[(convertedX * 3 + convertedX + convertedY * screenWidth * 4) + i];
 		}
-		assertEquals("Pixels don't have same content.", pixelArray[0], screenPixel[0], 10);
-		assertEquals("Pixels don't have same content.", pixelArray[1], screenPixel[1], 10);
-		assertEquals("Pixels don't have same content.", pixelArray[2], screenPixel[2], 10);
-		assertEquals("Pixels don't have same content.", pixelArray[3], screenPixel[3], 10);
+		assertEquals("Pixels don't have same content.", pixelArray[0], screenPixel[0], tolerance);
+		assertEquals("Pixels don't have same content.", pixelArray[1], screenPixel[1], tolerance);
+		assertEquals("Pixels don't have same content.", pixelArray[2], screenPixel[2], tolerance);
+		assertEquals("Pixels don't have same content.", pixelArray[3], screenPixel[3], tolerance);
 	}
 
 	/**
@@ -1057,7 +1205,7 @@ public class UiTestUtils {
 	}
 
 	public static int getAddedListItemYPosition(Solo solo) {
-		ArrayList<Integer> yPositionsList = getListItemYPositions(solo, 1);
+		ArrayList<Integer> yPositionsList = getListItemYPositions(solo, 0);
 		int middleYPositionIndex = yPositionsList.size() / 2;
 
 		return yPositionsList.get(middleYPositionIndex);
@@ -1074,6 +1222,7 @@ public class UiTestUtils {
 				MotionEvent downEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
 						MotionEvent.ACTION_DOWN, xFrom, yFrom, 0);
 				activity.dispatchTouchEvent(downEvent);
+				downEvent.recycle();
 			}
 		});
 
@@ -1093,6 +1242,7 @@ public class UiTestUtils {
 					activity.dispatchTouchEvent(moveEvent);
 
 					solo.sleep(20);
+					moveEvent.recycle();
 				}
 			}
 		});
@@ -1105,10 +1255,10 @@ public class UiTestUtils {
 				MotionEvent upEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
 						MotionEvent.ACTION_UP, xTo, yTo, 0);
 				activity.dispatchTouchEvent(upEvent);
+				upEvent.recycle();
 			}
 		});
 
-		solo.clickInList(0); // needed because of bug(?) in Nexus S 2.3.6
 		solo.sleep(1000);
 	}
 
@@ -1148,6 +1298,7 @@ public class UiTestUtils {
 		activity.startActivity(intent);
 	}
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public static void clickOnHomeActionBarButton(Solo solo) {
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
 			Activity activity = solo.getCurrentActivity();
@@ -1273,6 +1424,7 @@ public class UiTestUtils {
 		while (more) {
 			try {
 				instrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+				instrumentation.waitForIdleSync();
 			} catch (SecurityException e) { // Done, at Home.
 				more = false;
 			}
@@ -1288,7 +1440,7 @@ public class UiTestUtils {
 	}
 
 	public static ListView getScriptListView(Solo solo) {
-		return solo.getCurrentViews(ListView.class).get(1);
+		return solo.getCurrentViews(ListView.class).get(0);
 	}
 
 	public static void waitForFragment(Solo solo, int fragmentRootLayoutId) {
@@ -1302,50 +1454,8 @@ public class UiTestUtils {
 		}
 	}
 
-	public static void changeToFragmentViaActionbar(Solo solo, String currentSpinnerItem, String itemToSwitchTo) {
-		solo.clickOnText(currentSpinnerItem);
-		solo.sleep(50);
-		solo.clickOnText(itemToSwitchTo);
-		solo.sleep(50);
-	}
-
-	public static IcsSpinner getActionbarSpinnerOnPreHoneyComb(Solo solo) {
-		ArrayList<View> activityViews = solo.getViews();
-		IcsSpinner spinner = null;
-		for (View viewToCheck : activityViews) {
-			if (viewToCheck instanceof IcsSpinner) {
-				spinner = (IcsSpinner) viewToCheck;
-				break;
-			}
-		}
-		if (spinner == null) {
-			fail("no spinner found");
-		}
-		return spinner;
-	}
-
-	public static void clickOnActionBarSpinnerItem(Solo solo, int itemIndex) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			IcsSpinner spinner = UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo);
-			int activeSpinnerItemIndex = spinner.getSelectedItemPosition();
-			String itemToClickOnText = spinner.getAdapter().getItem(activeSpinnerItemIndex + itemIndex).toString();
-			UiTestUtils.changeToFragmentViaActionbar(solo,
-					spinner.getItemAtPosition(activeSpinnerItemIndex).toString(), itemToClickOnText);
-		} else {
-			solo.pressSpinnerItem(ACTION_BAR_SPINNER_INDEX, itemIndex);
-		}
-	}
-
-	public static int getActionBarSpinnerItemCount(Solo solo) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			return UiTestUtils.getActionbarSpinnerOnPreHoneyComb(solo).getAdapter().getCount();
-		} else {
-			return solo.getCurrentViews(Spinner.class).get(ACTION_BAR_SPINNER_INDEX).getAdapter().getCount();
-		}
-	}
-
-	public static View getViewContainerByIds(Solo solo, int id, int container_id) {
-		View parent = solo.getView(container_id);
+	public static View getViewContainerByIds(Solo solo, int id, int containerId) {
+		View parent = solo.getView(containerId);
 		List<View> views = solo.getViews(parent);
 		for (View view : views) {
 			if (view.getId() == id) {
@@ -1408,5 +1518,59 @@ public class UiTestUtils {
 
 	public static void waitForText(Solo solo, String text) {
 		assertEquals("Text not found!", true, solo.waitForText(text, 0, 2000));
+	}
+
+	public static void switchToFragmentInScriptActivity(Solo solo, int fragmentIndex) {
+		solo.goBack();
+		solo.waitForActivity(ProgramMenuActivity.class);
+		solo.clickOnButton(fragmentIndex);
+		solo.waitForActivity(ScriptActivity.class);
+		int id = FRAGMENT_INDEX_LIST.get(fragmentIndex);
+		solo.waitForFragmentById(id);
+	}
+
+	public static void cancelAllNotifications(Context context) {
+		NotificationManager notificationManager = (NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		notificationManager.cancelAll();
+
+		@SuppressWarnings("unchecked")
+		SparseArray<NotificationData> notificationMap = (SparseArray<NotificationData>) Reflection.getPrivateField(
+				StatusBarNotificationManager.class, StatusBarNotificationManager.getInstance(), "notificationDataMap");
+		notificationMap.clear();
+	}
+
+	public static boolean getContextMenuAndGoBackToCheckIfSelected(Solo solo, Activity activity, int buttonId,
+			String buttonText, String listElementName) {
+		longClickOnTextInList(solo, listElementName);
+		solo.waitForText(buttonText);
+		solo.goBack();
+
+		openActionMode(solo, buttonText, buttonId, activity);
+		ArrayList<CheckBox> checkBoxList = solo.getCurrentViews(CheckBox.class);
+		for (CheckBox checkBox : checkBoxList) {
+			if (checkBox.isChecked()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static boolean menuButtonVisible(Solo solo, int menuItemId) {
+		ArrayList<View> views = solo.getCurrentViews();
+
+		for (View view : views) {
+			if (view.getId() == menuItemId) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static String ecsapeRegularExpressionMetaCharacters(String stringToEscape) {
+		stringToEscape = stringToEscape.replaceAll("\n", " ");
+		stringToEscape = stringToEscape.replaceAll("\\)", "\\)");
+		stringToEscape = stringToEscape.replaceAll("\\(", "\\(");
+		return stringToEscape;
 	}
 }

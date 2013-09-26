@@ -22,13 +22,12 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import android.os.Bundle;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.Utils;
-
-import android.os.Bundle;
 
 public class RenameProjectDialog extends TextDialog {
 
@@ -57,6 +56,7 @@ public class RenameProjectDialog extends TextDialog {
 	protected void initialize() {
 		oldProjectName = getArguments().getString(BUNDLE_ARGUMENTS_OLD_PROJECT_NAME);
 		input.setText(oldProjectName);
+		inputTitle.setText(R.string.new_project_name);
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class RenameProjectDialog extends TextDialog {
 		if (newProjectName.equalsIgnoreCase("")) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.notification_invalid_text_entered));
 			return false;
-		} else if (StorageHandler.getInstance().projectExistsIgnoreCase(newProjectName)
+		} else if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(newProjectName)
 				&& !oldProjectName.equalsIgnoreCase(newProjectName)) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_project_exists));
 			return false;

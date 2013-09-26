@@ -20,55 +20,49 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="@dimen/my_projects_list_item_height"
-    android:background="@color/my_projects_activity_background_color"
-    android:orientation="vertical" >
+    android:layout_height="0dp"
+    android:orientation="horizontal" >
 
-    <LinearLayout
+    <CheckBox
+        android:id="@+id/project_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/my_projects_activity_item_background"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/my_projects_list_item_height"
-        android:orientation="horizontal" >
+        android:background="@drawable/button_background_selector"
+        android:minHeight="@dimen/my_projects_list_item_height" >
 
-        <CheckBox
-            android:id="@+id/project_checkbox"
+        <ImageView
+            android:id="@+id/my_projects_activity_project_image"
+            android:layout_width="72dp"
+            android:layout_height="65dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="9dp"
+            android:background="@drawable/my_projects_activity_list_item_thumbnail_border"
+            android:cropToPadding="true"
+            android:padding="1.5dp"
+            android:scaleType="centerCrop" />
+
+        <include layout="@layout/activity_my_projects_title_details_view" />
+
+        <ImageView
+            android:id="@+id/arrow_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:visibility="gone" />
-
-        <RelativeLayout
-            android:id="@+id/my_projects_activity_item_background"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@drawable/button_background_selector" >
-
-            <ImageView
-                android:id="@+id/my_projects_activity_project_image"
-                android:layout_width="72dp"
-                android:layout_height="65dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="9dp"
-                android:scaleType="centerCrop"
-                android:cropToPadding="true"
-                android:padding="1.5dp"
-                android:background="@drawable/my_projects_activity_list_item_thumbnail_border" />
-
-            <include layout="@layout/activity_my_projects_title_details_view" />
-            
-            <ImageView
-                android:id="@+id/arrow_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:paddingRight="14dp"
-                android:src="@drawable/ic_arrow_right_dark" />
-        </RelativeLayout>
-    </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="14dp"
+            android:src="@drawable/ic_arrow_right" />
+    </RelativeLayout>
 
 </LinearLayout>

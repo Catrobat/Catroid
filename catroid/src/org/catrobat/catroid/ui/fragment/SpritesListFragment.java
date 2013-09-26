@@ -22,27 +22,6 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
-import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.ProgramMenuActivity;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.SpriteAdapter;
-import org.catrobat.catroid.ui.adapter.SpriteAdapter.OnSpriteCheckedListener;
-import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
-import org.catrobat.catroid.utils.Utils;
-
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -72,6 +51,26 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
+import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.ProgramMenuActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.adapter.SpriteAdapter;
+import org.catrobat.catroid.ui.adapter.SpriteAdapter.OnSpriteCheckedListener;
+import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
+import org.catrobat.catroid.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 public class SpritesListFragment extends SherlockListFragment implements OnSpriteCheckedListener {
 
@@ -138,7 +137,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	@Override
 	public void onResume() {
 		super.onResume();
-
 		if (actionMode != null) {
 			actionMode.finish();
 			actionMode = null;
@@ -205,8 +203,8 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
+	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, view, menuInfo);
 
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
 
@@ -286,7 +284,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	public void startRenameActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = true;
 		}
 	}
@@ -294,7 +292,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
 	}
@@ -302,7 +300,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	public void startCopyActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
-			BottomBar.disableButtons(getActivity());
+			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
 	}
@@ -323,8 +321,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 
-		copyUserVariables(copiedSprite);
-
 		projectManager.addSprite(copiedSprite);
 		projectManager.setCurrentSprite(copiedSprite);
 
@@ -336,21 +332,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 						.concat(this.getString(R.string.copy_sprite_finished)), Toast.LENGTH_LONG).show();
 
 		Log.d("Sprite copied", copiedSprite.toString());
-	}
-
-	private void copyUserVariables(Sprite copiedSprite) {
-		ProjectManager projectManager = ProjectManager.getInstance();
-		UserVariablesContainer userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
-
-		List<UserVariable> userVariablesList = userVariablesContainer.getOrCreateVariableListForSprite(spriteToEdit);
-
-		if (userVariablesList != null) {
-			userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
-			for (int variable = 0; variable < userVariablesList.size(); variable++) {
-				String userVariableName = userVariablesList.get(variable).getName();
-				userVariablesContainer.addSpriteUserVariableToSprite(copiedSprite, userVariableName);
-			}
-		}
 	}
 
 	private static String getSpriteName(String name, int nextNumber) {
@@ -440,7 +421,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		actionMode = null;
 		actionModeActive = false;
 
-		BottomBar.enableButtons(getActivity());
+		BottomBar.showBottomBar(getActivity());
 	}
 
 	public void setSelectMode(int selectMode) {

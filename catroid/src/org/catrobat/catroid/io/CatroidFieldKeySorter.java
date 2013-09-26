@@ -22,14 +22,14 @@
  */
 package org.catrobat.catroid.io;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.converters.reflection.FieldKey;
+import com.thoughtworks.xstream.converters.reflection.FieldKeySorter;
+
 import java.lang.reflect.Field;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
-
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.converters.reflection.FieldKey;
-import com.thoughtworks.xstream.converters.reflection.FieldKeySorter;
 
 public class CatroidFieldKeySorter implements FieldKeySorter {
 

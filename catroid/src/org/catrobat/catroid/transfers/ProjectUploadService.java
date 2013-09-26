@@ -22,17 +22,6 @@
  */
 package org.catrobat.catroid.transfers;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.utils.UtilDeviceInfo;
-import org.catrobat.catroid.utils.UtilZip;
-import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.web.ServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
-
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
@@ -40,10 +29,23 @@ import android.os.ResultReceiver;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.utils.UtilDeviceInfo;
+import org.catrobat.catroid.utils.UtilZip;
+import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.ServerCalls;
+import org.catrobat.catroid.web.WebconnectionException;
+
+import java.io.File;
+import java.io.IOException;
+
 public class ProjectUploadService extends IntentService {
 
 	private static final String TAG = ProjectUploadService.class.getSimpleName();
-	private static final String UPLOAD_FILE_NAME = "upload" + Constants.CATROBAT_EXTENTION;
+	private static final String UPLOAD_FILE_NAME = "upload" + Constants.CATROBAT_EXTENSION;
 
 	private String projectPath;
 	private String projectName;
@@ -81,6 +83,8 @@ public class ProjectUploadService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
+		StorageHandler.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
+
 		receiver = (ResultReceiver) intent.getParcelableExtra("receiver");
 		try {
 			if (projectPath == null) {
@@ -139,7 +143,7 @@ public class ProjectUploadService extends IntentService {
 			showToast(getString(R.string.error_project_upload));
 			return;
 		}
-		showToast(getString(R.string.success_project_upload));
+		showToast(getString(R.string.notification_upload_finished));
 		super.onDestroy();
 	}
 

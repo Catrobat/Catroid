@@ -22,6 +22,10 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent;
@@ -30,10 +34,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 public class ExtendedActions extends Actions {
 
@@ -318,7 +318,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	static public IfLogicAction ifLogc(Sprite sprite, Formula condition, Action ifAction, Action elseAction) {
+	public static IfLogicAction ifLogc(Sprite sprite, Formula condition, Action ifAction, Action elseAction) {
 		IfLogicAction action = action(IfLogicAction.class);
 		action.setIfAction(ifAction);
 		action.setIfCondition(condition);
@@ -327,7 +327,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	static public RepeatAction repeat(Sprite sprite, Formula count, Action repeatedAction) {
+	public static RepeatAction repeat(Sprite sprite, Formula count, Action repeatedAction) {
 		RepeatAction action = action(RepeatAction.class);
 		action.setRepeatCount(count);
 		action.setAction(repeatedAction);
@@ -335,7 +335,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	static public WaitAction delay(Sprite sprite, Formula delay) {
+	public static WaitAction delay(Sprite sprite, Formula delay) {
 		WaitAction action = action(WaitAction.class);
 		action.setSprite(sprite);
 		action.setDelay(delay);

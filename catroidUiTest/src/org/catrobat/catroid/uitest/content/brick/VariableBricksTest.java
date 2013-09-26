@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
+import android.widget.Spinner;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -35,9 +37,6 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.Spinner;
 
 public class VariableBricksTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private Project project;
@@ -67,7 +66,6 @@ public class VariableBricksTest extends BaseActivityInstrumentationTestCase<Main
 		super.tearDown();
 	}
 
-	@Smoke
 	public void testVariableBricks() {
 		Spinner setVariableSpinner = solo.getCurrentViews(Spinner.class).get(0);
 		Spinner changeVariableSpinner = solo.getCurrentViews(Spinner.class).get(1);
@@ -80,17 +78,17 @@ public class VariableBricksTest extends BaseActivityInstrumentationTestCase<Main
 		//		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, 50, "variable_formula", setVariableBrick);
 		solo.clickOnText("0");
 		UiTestUtils.insertIntegerIntoEditText(solo, 50);
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 
 		//		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, -8, "variable_formula", changeVariableBrick);
 		solo.clickOnText("1");
 		UiTestUtils.insertDoubleIntoEditText(solo, -8.0);
-		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 
 		solo.waitForView(solo.getView(R.id.button_play));
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(1500);
+		solo.sleep(5000);
 
 		assertEquals("Variable has the wrong value after stage", 42.0,
 				userVariablesContainer.getUserVariable("p2", sprite).getValue());

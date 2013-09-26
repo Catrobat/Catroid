@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import java.util.LinkedList;
-import java.util.List;
+import android.content.Context;
+import android.util.Log;
 
 import org.catrobat.catroid.R;
 
-import android.content.Context;
-import android.util.Log;
+import java.util.LinkedList;
+import java.util.List;
 
 public class InternFormula {
 
@@ -106,7 +106,7 @@ public class InternFormula {
 
 		CursorTokenPropertiesAfterModification cursorTokenPropertiesAfterInput = CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 
-		if (resourceId == R.id.formula_editor_keyboard_delete) {
+		if (resourceId == R.id.formula_editor_edit_field_clear) {
 
 			cursorTokenPropertiesAfterInput = handleDeletion();
 

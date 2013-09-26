@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -39,9 +40,7 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ListView;
-import android.widget.TextView;
+import java.util.ArrayList;
 
 /**
  * 
@@ -67,7 +66,6 @@ public class GoNStepsBackTest extends BaseActivityInstrumentationTestCase<Script
 		super.setUp();
 	}
 
-	@Smoke
 	public void testGoNStepsBackBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
@@ -84,21 +82,24 @@ public class GoNStepsBackTest extends BaseActivityInstrumentationTestCase<Script
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_go_back)));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, STEPS_TO_GO_BACK);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_go_back_edit_text, STEPS_TO_GO_BACK);
 
 		assertEquals("Wrong text in field.", STEPS_TO_GO_BACK,
 				(int) ((Formula) Reflection.getPrivateField(goNStepsBackBrick, "steps")).interpretDouble(null));
-		assertEquals("Value in Brick is not updated.", (double) STEPS_TO_GO_BACK,
-				Double.valueOf(solo.getEditText(0).getText().toString()));
+		assertEquals(
+				"Value in Brick is not updated.",
+				(double) STEPS_TO_GO_BACK,
+				Double.valueOf(((TextView) solo.getView(R.id.brick_go_back_edit_text)).getText().toString()
+						.replace(',', '.')));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_go_back_edit_text, 1);
 		TextView secondsTextView = (TextView) solo.getView(R.id.brick_go_back_layers_text_view);
 		assertTrue(
 				"Specifier hasn't changed from plural to singular",
 				secondsTextView.getText().equals(
 						dragDropListView.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural, 1)));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 2);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_go_back_edit_text, 2);
 		secondsTextView = (TextView) solo.getView(R.id.brick_go_back_layers_text_view);
 		assertTrue(
 				"Specifier hasn't changed from singular to plural",

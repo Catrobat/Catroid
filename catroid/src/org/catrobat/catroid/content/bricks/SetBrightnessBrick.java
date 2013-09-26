@@ -22,7 +22,16 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -31,20 +40,9 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
-public class SetBrightnessBrick extends BrickBaseType implements OnClickListener {
+public class SetBrightnessBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private Formula brightness;
 
@@ -62,6 +60,11 @@ public class SetBrightnessBrick extends BrickBaseType implements OnClickListener
 	public SetBrightnessBrick(Sprite sprite, Formula brightness) {
 		this.sprite = sprite;
 		this.brightness = brightness;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return brightness;
 	}
 
 	@Override
@@ -97,7 +100,7 @@ public class SetBrightnessBrick extends BrickBaseType implements OnClickListener
 		});
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_set_brightness_prototype_text_view);
-		EditText editX = (EditText) view.findViewById(R.id.brick_set_brightness_edit_text);
+		TextView editX = (TextView) view.findViewById(R.id.brick_set_brightness_edit_text);
 		brightness.setTextFieldId(R.id.brick_set_brightness_edit_text);
 		brightness.refreshTextField(view);
 		textX.setVisibility(View.GONE);
@@ -126,14 +129,14 @@ public class SetBrightnessBrick extends BrickBaseType implements OnClickListener
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_brightness_layout);
+			View layout = (View) view.findViewById(R.id.brick_set_brightness_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView textBrightness = (TextView) view.findViewById(R.id.brick_set_brightness_label);
 			TextView textTo = (TextView) view.findViewById(R.id.brick_set_brightness_to_textview);
 			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_brightness_to_percent);
-			EditText editGhostEffect = (EditText) view.findViewById(R.id.brick_set_brightness_edit_text);
+			TextView editGhostEffect = (TextView) view.findViewById(R.id.brick_set_brightness_edit_text);
 			textBrightness.setTextColor(textBrightness.getTextColors().withAlpha(alphaValue));
 			textTo.setTextColor(textTo.getTextColors().withAlpha(alphaValue));
 			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));

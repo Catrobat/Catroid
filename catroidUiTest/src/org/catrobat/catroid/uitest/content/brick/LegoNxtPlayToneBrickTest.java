@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -37,8 +37,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ListView;
+import java.util.ArrayList;
 
 public class LegoNxtPlayToneBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
@@ -62,7 +61,6 @@ public class LegoNxtPlayToneBrickTest extends BaseActivityInstrumentationTestCas
 		super.setUp();
 	}
 
-	@Smoke
 	public void testNXTPlayToneBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
@@ -79,9 +77,11 @@ public class LegoNxtPlayToneBrickTest extends BaseActivityInstrumentationTestCas
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.nxt_play_tone)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 2, SET_DURATION, "durationInSeconds", playToneBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.nxt_tone_duration_edit_text, SET_DURATION,
+				"durationInSeconds", playToneBrick);
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, 1, 2, SET_FREQUENCY, "frequency", playToneBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.nxt_tone_freq_edit_text, SET_FREQUENCY, "frequency",
+				playToneBrick);
 
 	}
 

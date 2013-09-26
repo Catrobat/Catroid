@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -41,8 +41,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ListView;
+import java.util.ArrayList;
 
 public class PlaceAtBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
@@ -62,7 +61,6 @@ public class PlaceAtBrickTest extends BaseActivityInstrumentationTestCase<Script
 		super.setUp();
 	}
 
-	@Smoke
 	public void testPlaceAtBrick() throws InterruptedException {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
@@ -88,10 +86,12 @@ public class PlaceAtBrickTest extends BaseActivityInstrumentationTestCase<Script
 		int xPosition = 987;
 		int yPosition = 654;
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 2, xPosition, "xPosition", placeAtBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_place_at_edit_text_x, xPosition, "xPosition",
+				placeAtBrick);
 		solo.sleep(200);
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, 1, 2, yPosition, "yPosition", placeAtBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_place_at_edit_text_y, yPosition, "yPosition",
+				placeAtBrick);
 	}
 
 	private void createProject() {

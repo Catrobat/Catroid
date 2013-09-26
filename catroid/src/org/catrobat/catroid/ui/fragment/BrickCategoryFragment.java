@@ -22,14 +22,6 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.locks.Lock;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.ViewSwitchLock;
-import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -44,11 +36,19 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.ViewSwitchLock;
+import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.locks.Lock;
+
 public class BrickCategoryFragment extends SherlockListFragment {
 
 	public static final String BRICK_CATEGORY_FRAGMENT_TAG = "brick_category_fragment";
 
-	private int previousActionBarNavigationMode;
 	private CharSequence previousActionBarTitle;
 	private OnCategorySelectedListener onCategorySelectedListener;
 	BrickCategoryAdapter adapter;
@@ -70,7 +70,7 @@ public class BrickCategoryFragment extends SherlockListFragment {
 		View rootView = inflater.inflate(R.layout.fragment_brick_categories, null);
 
 		setUpActionBar();
-		getSherlockActivity().findViewById(R.id.bottom_bar).setVisibility(View.GONE);
+		BottomBar.hideBottomBar(getSherlockActivity());
 		setupBrickCategories();
 
 		return rootView;
@@ -103,13 +103,14 @@ public class BrickCategoryFragment extends SherlockListFragment {
 	@Override
 	public void onDestroy() {
 		resetActionBar();
-		getSherlockActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
+		BottomBar.showBottomBar(getSherlockActivity());
 		super.onDestroy();
 	}
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.findItem(R.id.delete).setVisible(false);
+		menu.findItem(R.id.copy).setVisible(false);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
@@ -119,17 +120,12 @@ public class BrickCategoryFragment extends SherlockListFragment {
 
 		this.previousActionBarTitle = actionBar.getTitle();
 		actionBar.setTitle(R.string.categories);
-
-		this.previousActionBarNavigationMode = actionBar.getNavigationMode();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 	}
 
 	private void resetActionBar() {
 		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
-		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(this.previousActionBarTitle);
-		actionBar.setNavigationMode(this.previousActionBarNavigationMode);
-		actionBar.setSelectedNavigationItem(0);
 	}
 
 	private void setupBrickCategories() {

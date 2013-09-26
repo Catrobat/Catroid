@@ -22,14 +22,16 @@
  */
 package org.catrobat.catroid.uitest.ui.fragment;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
-import org.catrobat.catroid.uitest.util.UiTestUtils;
-
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.ListView;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
+import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 public class AddBrickFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
@@ -68,31 +70,48 @@ public class AddBrickFragmentTest extends BaseActivityInstrumentationTestCase<Ma
 
 	public void testCorrectReturnToScriptFragment() {
 		goToAddBrickFromMainMenu();
-		assertTrue("Script text in action bar not found before adding a brick",
-				solo.waitForText(solo.getString(R.string.scripts), 0, 2000));
+
+		String currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
+		assertEquals("Current sprite name is not shown as actionbar title or is wrong before adding a brick", "cat",
+				currentSprite);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
-		solo.sleep(2000);
+		solo.waitForActivity(ScriptActivity.class);
+		solo.waitForFragmentById(R.id.fragment_script);
 
-		assertTrue("Script text in action bar not found after adding a brick",
-				solo.waitForText(solo.getString(R.string.scripts), 0, 2000));
+		assertEquals("Current sprite name is not shown as actionbar title or is wrong before adding a brick", "cat",
+				currentSprite);
 		solo.goBack();
-
 	}
 
 	public void testCorrectReturnToCategoriesFragment() {
 		goToAddBrickFromMainMenu();
+		String categoriesString = solo.getString(R.string.categories);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 
 		assertTrue("Categories text in action bar not found before selecting a category",
-				solo.waitForText(solo.getString(R.string.categories), 0, 2000));
+				solo.waitForText(categoriesString, 0, 2000));
 
 		solo.clickOnText(solo.getString(R.string.category_control));
 		solo.goBack();
 
 		assertTrue("Categories text in action bar not found after selecting a category",
-				solo.waitForText(solo.getString(R.string.categories), 0, 2000));
+				solo.waitForText(categoriesString, 0, 2000));
 
+		String selectSoundCatogory = solo.getString(R.string.category_sound);
+		solo.clickOnText(selectSoundCatogory);
+		String selectPlaySound = solo.getString(R.string.brick_play_sound);
+		solo.clickOnText(selectPlaySound);
+		solo.clickOnScreen(400, 200);
+		String selectNewSound = solo.getString(R.string.new_broadcast_message);
+		solo.clickOnText(selectNewSound);
+		solo.clickOnText(selectNewSound);
+		solo.clickOnText(solo.getString(R.string.soundrecorder_name));
+		solo.clickOnImageButton(0);
+		solo.clickOnImageButton(0);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		assertTrue("Categories text in action bar not found after selecting a category",
+				solo.waitForText(categoriesString, 0, 2000));
 	}
 
 	private void checkActionBarInACategory(String categoryID, String category) {

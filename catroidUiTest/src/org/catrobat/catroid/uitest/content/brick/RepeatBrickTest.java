@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -37,9 +38,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ListView;
-import android.widget.TextView;
+import java.util.ArrayList;
 
 public class RepeatBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
@@ -58,7 +57,6 @@ public class RepeatBrickTest extends BaseActivityInstrumentationTestCase<ScriptA
 		super.setUp();
 	}
 
-	@Smoke
 	public void testRepeatBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
@@ -74,13 +72,13 @@ public class RepeatBrickTest extends BaseActivityInstrumentationTestCase<ScriptA
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_repeat)));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_repeat_edit_text, 1);
 		TextView timesTextView = (TextView) solo.getView(R.id.brick_repeat_time_text_view);
 		assertTrue("Specifier hasn't changed from plural to singular",
 				timesTextView.getText()
 						.equals(timesTextView.getResources().getQuantityString(R.plurals.time_plural, 1)));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 5);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_repeat_edit_text, 5);
 		timesTextView = (TextView) solo.getView(R.id.brick_repeat_time_text_view);
 		assertTrue("Specifier hasn't changed from singular to plural",
 				timesTextView.getText()

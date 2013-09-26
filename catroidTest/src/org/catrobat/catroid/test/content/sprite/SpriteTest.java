@@ -22,15 +22,72 @@
  */
 package org.catrobat.catroid.test.content.sprite;
 
+import android.test.AndroidTestCase;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.test.utils.TestUtils;
 
-import android.test.AndroidTestCase;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class SpriteTest extends AndroidTestCase {
+
+	private static final String LOCAL_VARIABLE_NAME = "test_local";
+	private static final double LOCAL_VARIABLE_VALUE = 0xDEADBEEF;
+
+	private static final String GLOBAL_VARIABLE_NAME = "test_global";
+	private static final double GLOBAL_VARIABLE_VALUE = 0xC0FFEE;
+
+	private Sprite sprite;
+	private Project project;
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		sprite = new Sprite("testSprite");
+		project = new Project(getContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		project.addSprite(sprite);
+		project.getUserVariables().addSpriteUserVariableToSprite(sprite, LOCAL_VARIABLE_NAME);
+		project.getUserVariables().getUserVariable(LOCAL_VARIABLE_NAME, sprite).setValue(LOCAL_VARIABLE_VALUE);
+
+		project.getUserVariables().addProjectUserVariable(GLOBAL_VARIABLE_NAME);
+		project.getUserVariables().getUserVariable(GLOBAL_VARIABLE_NAME, null).setValue(GLOBAL_VARIABLE_VALUE);
+
+		ProjectManager.getInstance().setProject(project);
+	}
+
+	public void testSpriteCloneWithLocalVariable() {
+		Script script = new StartScript(sprite);
+		Brick brick = new ChangeBrightnessByNBrick(sprite, new Formula(new FormulaElement(ElementType.USER_VARIABLE,
+				LOCAL_VARIABLE_NAME, null)));
+		script.addBrick(brick);
+		sprite.addScript(script);
+		Sprite clonedSprite = sprite.clone();
+
+		UserVariable clonedVariable = project.getUserVariables().getUserVariable(LOCAL_VARIABLE_NAME, clonedSprite);
+		assertNotNull("local variable isn't copied properly", clonedVariable);
+		assertEquals("variable not cloned properly", LOCAL_VARIABLE_NAME, clonedVariable.getName());
+		assertEquals("variable not cloned properly", LOCAL_VARIABLE_VALUE, clonedVariable.getValue());
+
+		List<UserVariable> userVariableList = project.getUserVariables().getOrCreateVariableListForSprite(clonedSprite);
+		Set<String> hashSet = new HashSet<String>();
+		for (UserVariable userVariable : userVariableList) {
+			assertTrue("Variable already exists", hashSet.add(userVariable.getName()));
+		}
+	}
 
 	public void testAddScript() {
 		Sprite sprite = new Sprite("new sprite");

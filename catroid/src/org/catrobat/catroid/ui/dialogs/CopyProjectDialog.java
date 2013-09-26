@@ -22,14 +22,13 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import android.app.ProgressDialog;
+import android.os.Bundle;
+
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.fragment.ProjectsListFragment;
 import org.catrobat.catroid.utils.CopyProjectTask;
 import org.catrobat.catroid.utils.Utils;
-
-import android.app.ProgressDialog;
-import android.os.Bundle;
 
 public class CopyProjectDialog extends TextDialog {
 
@@ -59,6 +58,7 @@ public class CopyProjectDialog extends TextDialog {
 	protected void initialize() {
 		oldProjectName = getArguments().getString(BUNDLE_ARGUMENTS_OLD_PROJECT_NAME);
 		input.setText(oldProjectName);
+		inputTitle.setText(R.string.new_project_name);
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class CopyProjectDialog extends TextDialog {
 		if (newProjectName.equalsIgnoreCase("")) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.notification_invalid_text_entered));
 			return false;
-		} else if (StorageHandler.getInstance().projectExistsIgnoreCase(newProjectName)) {
+		} else if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(newProjectName)) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_project_exists));
 			return false;
 		}
@@ -98,6 +98,6 @@ public class CopyProjectDialog extends TextDialog {
 
 	@Override
 	protected String getTitle() {
-		return null;
+		return getString(R.string.dialog_copy_project_title);
 	}
 }

@@ -22,12 +22,6 @@
  */
 package org.catrobat.catroid.soundrecorder;
 
-import java.io.IOException;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.utils.Utils;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -36,16 +30,20 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.ui.BaseActivity;
+import org.catrobat.catroid.utils.Utils;
 
-public class SoundRecorderActivity extends SherlockFragmentActivity implements OnClickListener {
+import java.io.IOException;
 
+public class SoundRecorderActivity extends BaseActivity implements OnClickListener {
+
+	private static final String TAG = SoundRecorderActivity.class.getSimpleName();
 	private SoundRecorder soundRecorder;
 	private Chronometer timeRecorderChronometer;
 	private ImageButton recordButton;
@@ -60,29 +58,6 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 		timeRecorderChronometer = (Chronometer) findViewById(R.id.soundrecorder_chronometer_time_recorded);
 		recordButton.setOnClickListener(this);
 		Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this);
-	}
-
-	// Code from Stackoverflow to reduce memory problems
-	// onDestroy() and unbindDrawables() methods taken from
-	// http://stackoverflow.com/a/6779067
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-
-		unbindDrawables(findViewById(R.id.soundrecorder));
-		System.gc();
-	}
-
-	private void unbindDrawables(View view) {
-		if (view.getBackground() != null) {
-			view.getBackground().setCallback(null);
-		}
-		if (view instanceof ViewGroup && !(view instanceof AdapterView)) {
-			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-				unbindDrawables(((ViewGroup) view).getChildAt(i));
-			}
-			((ViewGroup) view).removeAllViews();
-		}
 	}
 
 	@Override
@@ -113,12 +88,16 @@ public class SoundRecorderActivity extends SherlockFragmentActivity implements O
 		}
 		try {
 			String recordPath = Utils.buildPath(Constants.TMP_PATH, getString(R.string.soundrecorder_recorded_filename)
-					+ Constants.RECORDING_EXTENTION);
+					+ Constants.RECORDING_EXTENSION);
 			soundRecorder = new SoundRecorder(recordPath);
 			soundRecorder.start();
 			setViewsToRecordingState();
 		} catch (IOException e) {
-			Log.e("CATROID", "Error recording sound.", e);
+			Log.e(TAG, "Error recording sound.", e);
+			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
+		} catch (IllegalStateException e) {
+			// app would crash if other app uses mic, catch IllegalStateException and display Toast
+			Log.e(TAG, "Error recording sound (Other recorder running?).", e);
 			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
 		}
 	}

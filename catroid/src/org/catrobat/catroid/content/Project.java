@@ -22,9 +22,10 @@
  */
 package org.catrobat.catroid.content;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import android.content.Context;
+import android.os.Build;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -34,10 +35,9 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.utils.Utils;
 
-import android.content.Context;
-import android.os.Build;
-
-import com.thoughtworks.xstream.annotations.XStreamAlias;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @XStreamAlias("program")
 public class Project implements Serializable {
@@ -54,10 +54,6 @@ public class Project implements Serializable {
 	public Project(Context context, String name) {
 		xmlHeader.setProgramName(name);
 		xmlHeader.setDescription("");
-		xmlHeader.setCatrobatLanguageVersion(Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION);
-		xmlHeader.setPlatform(Constants.PLATFORM_NAME);
-		xmlHeader.setApplicationBuildName(Constants.APPLICATION_BUILD_NAME);
-		xmlHeader.setApplicationBuildNumber(Constants.APPLICATION_BUILD_NUMBER);
 
 		ifLandscapeSwitchWidthAndHeight();
 		xmlHeader.virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
@@ -72,7 +68,6 @@ public class Project implements Serializable {
 			return;
 		}
 
-		xmlHeader.setApplicationName(context.getString(R.string.app_name));
 		Sprite background = new Sprite(context.getString(R.string.background));
 		background.look.setZIndex(0);
 		addSprite(background);
@@ -136,15 +131,20 @@ public class Project implements Serializable {
 
 	public void setDeviceData(Context context) {
 		// TODO add other header values
-		xmlHeader.setDeviceName(Build.MODEL);
+		xmlHeader.setPlatform(Constants.PLATFORM_NAME);
 		xmlHeader.setPlatformVersion(Build.VERSION.SDK_INT);
+		xmlHeader.setDeviceName(Build.MODEL);
+
+		xmlHeader.setCatrobatLanguageVersion(Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION);
+		xmlHeader.setApplicationBuildName(Constants.APPLICATION_BUILD_NAME);
+		xmlHeader.setApplicationBuildNumber(Constants.APPLICATION_BUILD_NUMBER);
 
 		if (context == null) {
 			xmlHeader.setApplicationVersion("unknown");
-
+			xmlHeader.setApplicationName("unknown");
 		} else {
 			xmlHeader.setApplicationVersion(Utils.getVersionName(context));
-
+			xmlHeader.setApplicationName(context.getString(R.string.app_name));
 		}
 	}
 

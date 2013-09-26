@@ -22,14 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
-
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
@@ -40,11 +32,17 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+
+import java.util.List;
 
 public class NoteBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
@@ -98,13 +96,13 @@ public class NoteBrick extends BrickBaseType {
 		});
 
 		TextView textHolder = (TextView) view.findViewById(R.id.brick_note_prototype_text_view);
-		EditText editText = (EditText) view.findViewById(R.id.brick_note_edit_text);
-		editText.setText(note);
+		TextView textField = (TextView) view.findViewById(R.id.brick_note_edit_text);
+		textField.setText(note);
 
 		textHolder.setVisibility(View.GONE);
-		editText.setVisibility(View.VISIBLE);
+		textField.setVisibility(View.VISIBLE);
 
-		editText.setOnClickListener(new OnClickListener() {
+		textField.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View view) {
@@ -118,6 +116,7 @@ public class NoteBrick extends BrickBaseType {
 					protected void initialize() {
 						input.setText(note);
 						input.setSelectAllOnFocus(true);
+						inputTitle.setText(R.string.dialog_edit_note_text);
 					}
 
 					@Override
@@ -147,6 +146,11 @@ public class NoteBrick extends BrickBaseType {
 						note = (input.getText().toString()).trim();
 						return true;
 					}
+
+					@Override
+					protected String getTitle() {
+						return getString(R.string.dialog_edit_note_title);
+					}
 				};
 
 				editDialog.show(activity.getSupportFragmentManager(), "dialog_note_brick");
@@ -161,15 +165,15 @@ public class NoteBrick extends BrickBaseType {
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_note_layout);
+			View layout = view.findViewById(R.id.brick_note_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView noteLabel = (TextView) view.findViewById(R.id.brick_note_text_view);
-			EditText noteEditText = (EditText) view.findViewById(R.id.brick_note_edit_text);
+			TextView noteTextView = (TextView) view.findViewById(R.id.brick_note_edit_text);
 			noteLabel.setTextColor(noteLabel.getTextColors().withAlpha(alphaValue));
-			noteEditText.setTextColor(noteEditText.getTextColors().withAlpha(alphaValue));
-			noteEditText.getBackground().setAlpha(alphaValue);
+			noteTextView.setTextColor(noteTextView.getTextColors().withAlpha(alphaValue));
+			noteTextView.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
 

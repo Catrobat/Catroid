@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.widget.ListView;
+import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -37,10 +38,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.os.Build;
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ListView;
-import android.widget.Spinner;
+import java.util.ArrayList;
 
 public class LegoNxtMotorStopBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
@@ -60,7 +58,6 @@ public class LegoNxtMotorStopBrickTest extends BaseActivityInstrumentationTestCa
 		super.setUp();
 	}
 
-	@Smoke
 	public void testMotorActionBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
@@ -80,11 +77,7 @@ public class LegoNxtMotorStopBrickTest extends BaseActivityInstrumentationTestCa
 		String[] motors = getActivity().getResources().getStringArray(R.array.nxt_stop_motor_chooser);
 		assertTrue("Spinner items list too short!", motors.length == 5);
 
-		int legoSpinnerIndex = 1;
-
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			legoSpinnerIndex = 0;
-		}
+		int legoSpinnerIndex = 0;
 
 		Spinner currentSpinner = solo.getCurrentViews(Spinner.class).get(legoSpinnerIndex);
 		solo.pressSpinnerItem(legoSpinnerIndex, 5);

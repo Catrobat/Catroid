@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.util.Log;
+import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -40,9 +41,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.suitebuilder.annotation.Smoke;
-import android.util.Log;
-import android.widget.ListView;
+import java.util.ArrayList;
 
 public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private Project project;
@@ -59,7 +58,6 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
-	@Smoke
 	public void testIfBrick() {
 		ListView view = UiTestUtils.getScriptListView(solo);
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
@@ -67,7 +65,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, 5, "ifCondition", ifBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_if_begin_edit_text, 5, "ifCondition", ifBrick);
 
 		assertEquals("Incorrect number of bricks.", 6, dragDropListView.getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 0, childrenCount);
@@ -81,7 +79,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 	public void testStrings() {
 
-		solo.clickOnEditText(0);
+		solo.clickOnView(solo.getView(R.id.brick_if_begin_edit_text));
 		solo.sleep(100);
 
 		boolean isFound = solo.searchText(solo.getString(R.string.brick_if_begin_second_part));
@@ -100,7 +98,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		Log.e("info", "Befor drag item 1 to item 4 + 20");
 		logBrickListForJenkins(projectBrickList);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, yPosition.get(4) + 20, 20);
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(1) instanceof IfLogicBeginBrick));
@@ -108,21 +106,20 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		Log.e("info", "Befor drag item 2 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(2), 10, yPosition.get(0), 20);
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(0) instanceof IfLogicBeginBrick));
 
 		// just to get focus
 		// seems to be a bug just with the Nexus S 2.3.6
-		String spinnerScripts = solo.getString(R.string.scripts);
-		solo.clickOnText(spinnerScripts);
-		solo.clickOnText(spinnerScripts);
+		solo.clickOnText(solo.getString(R.string.brick_when_started));
+		solo.goBack();
 
-		Log.e("info", "Befor drag item 3 to item 0");
+		Log.e("info", "Before drag item 3 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(3), 10, yPosition.get(0), 20);
 
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
@@ -137,7 +134,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		Log.e("info", "Befor drag item 4 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4) - 10, 10, yPosition.get(0), 20);
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 
@@ -155,7 +152,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		//
 
 		//		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
-		//		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		//		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		//		int addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 		//
 		//		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
@@ -163,14 +160,14 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		//
 		//		solo.goBack();
 		//
-		//		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		//		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		//		solo.clickOnScreen(20, yPosition.get(3));
 		//		clickOnDeleteInDialog();
 		//
 		//		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		//		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeYByNBrick);
 		//
-		//		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		//		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		//		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, yPosition.get(2) + 20, 20);
 		//		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());
 		//		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
@@ -178,16 +175,16 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		//		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeYByNBrick);
 		//
 		//		UiTestUtils.addNewBrick(solo, R.string.brick_if_begin);
-		//		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		//		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		//		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 		//		solo.drag(20, 20, addedYPosition, yPosition.get(3) + 20, 20);
 		//
 		//		UiTestUtils.addNewBrick(solo, R.string.brick_set_look);
-		//		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		//		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		//		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 		//		solo.drag(20, 20, addedYPosition, yPosition.get(5) + 20, 20);
 		//
-		//		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		//		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		//		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, yPosition.get(5) + 20, 20);
 		//		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
 		//

@@ -22,21 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
-import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
-import org.catrobat.catroid.ui.dialogs.NewVariableDialog;
-import org.catrobat.catroid.ui.dialogs.NewVariableDialog.NewVariableDialogListener;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
@@ -49,15 +34,31 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class ChangeVariableBrick extends BrickBaseType implements OnClickListener, NewVariableDialogListener {
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
+import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
+import org.catrobat.catroid.ui.dialogs.NewVariableDialog;
+import org.catrobat.catroid.ui.dialogs.NewVariableDialog.NewVariableDialogListener;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+
+import java.util.List;
+
+public class ChangeVariableBrick extends BrickBaseType implements OnClickListener, NewVariableDialogListener,
+		FormulaBrick {
+
 	private static final long serialVersionUID = 1L;
 	private UserVariable userVariable;
 	private Formula variableFormula;
@@ -106,13 +107,13 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 			}
 		});
 
-		TextView prototype_text = (TextView) view.findViewById(R.id.brick_change_variable_prototype_view);
-		EditText edit_text = (EditText) view.findViewById(R.id.brick_change_variable_edit_text);
-		prototype_text.setVisibility(View.GONE);
+		TextView prototypeText = (TextView) view.findViewById(R.id.brick_change_variable_prototype_view);
+		TextView textField = (TextView) view.findViewById(R.id.brick_change_variable_edit_text);
+		prototypeText.setVisibility(View.GONE);
 		variableFormula.setTextFieldId(R.id.brick_change_variable_edit_text);
 		variableFormula.refreshTextField(view);
-		edit_text.setVisibility(View.VISIBLE);
-		edit_text.setOnClickListener(this);
+		textField.setVisibility(View.VISIBLE);
+		textField.setOnClickListener(this);
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.change_variable_spinner);
 		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
@@ -136,10 +137,11 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 		variableSpinner.setOnTouchListener(new OnTouchListener() {
 
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
+			public boolean onTouch(View view, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					if (((Spinner) v).getSelectedItemPosition() == 0 && ((Spinner) v).getAdapter().getCount() == 1) {
-						NewVariableDialog dialog = new NewVariableDialog((Spinner) v);
+					if (((Spinner) view).getSelectedItemPosition() == 0
+							&& ((Spinner) view).getAdapter().getCount() == 1) {
+						NewVariableDialog dialog = new NewVariableDialog((Spinner) view);
 						dialog.addVariableDialogListener(ChangeVariableBrick.this);
 						dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
 								NewVariableDialog.DIALOG_FRAGMENT_TAG);
@@ -198,13 +200,13 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_variable_layout);
+			View layout = view.findViewById(R.id.brick_change_variable_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView textSetVariable = (TextView) view.findViewById(R.id.brick_change_variable_label);
 			TextView textTo = (TextView) view.findViewById(R.id.brick_change_variable_by);
-			EditText editVariable = (EditText) view.findViewById(R.id.brick_change_variable_edit_text);
+			TextView editVariable = (TextView) view.findViewById(R.id.brick_change_variable_edit_text);
 			Spinner variablebrickSpinner = (Spinner) view.findViewById(R.id.change_variable_spinner);
 
 			ColorStateList color = textSetVariable.getTextColors().withAlpha(alphaValue);
@@ -245,8 +247,14 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		if (!currentProject.getSpriteList().contains(this.sprite)) {
+			throw new RuntimeException("this is not the current project");
+		}
+
 		ChangeVariableBrick copyBrick = (ChangeVariableBrick) clone();
 		copyBrick.sprite = sprite;
+		copyBrick.userVariable = currentProject.getUserVariables().getUserVariable(userVariable.getName(), sprite);
 		return copyBrick;
 	}
 
@@ -281,5 +289,10 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 				.getAdapter());
 		userVariableAdapterWrapper.notifyDataSetChanged();
 		setSpinnerSelection(spinnerToUpdate, newUserVariable);
+	}
+
+	@Override
+	public Formula getFormula() {
+		return variableFormula;
 	}
 }

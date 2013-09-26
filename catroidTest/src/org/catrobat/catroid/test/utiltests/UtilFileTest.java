@@ -22,11 +22,8 @@
  */
 package org.catrobat.catroid.test.utiltests;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.DecimalFormat;
-import java.util.List;
+import android.os.Environment;
+import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -36,24 +33,30 @@ import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
-import android.test.InstrumentationTestCase;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.DecimalFormat;
+import java.util.List;
 
 public class UtilFileTest extends InstrumentationTestCase {
+	private static final String CATROID_DIRECTORY = Environment.getExternalStorageDirectory().getAbsolutePath()
+			+ "/Pocket Code";
+
 	private File testDirectory;
 	private File subDirectory;
 	private File file1;
 	private File file2;
 
 	private String projectName = "project1";
-	private String catroidDirectory = "/sdcard/Pocket Code";
 
 	@Override
 	protected void setUp() throws Exception {
 
-		UtilFile.deleteDirectory(new File(catroidDirectory + "/testDirectory"));
+		UtilFile.deleteDirectory(new File(CATROID_DIRECTORY + "/testDirectory"));
 		TestUtils.clearProject(projectName);
 
-		testDirectory = new File(catroidDirectory + "/testDirectory");
+		testDirectory = new File(CATROID_DIRECTORY + "/testDirectory");
 		testDirectory.mkdir();
 		file1 = new File(testDirectory.getAbsolutePath() + "/file1");
 		file1.createNewFile();
@@ -136,7 +139,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 		project.addSprite(sprite);
 		StorageHandler.getInstance().saveProject(project);
 
-		File catroidDirectoryFile = new File(catroidDirectory);
+		File catroidDirectoryFile = new File(CATROID_DIRECTORY);
 		File project1Directory = new File(catroidDirectoryFile + "/" + projectName);
 
 		List<File> projectList = UtilFile.getProjectFiles(catroidDirectoryFile);

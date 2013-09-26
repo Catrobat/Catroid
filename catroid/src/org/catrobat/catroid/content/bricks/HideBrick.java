@@ -22,24 +22,22 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+
+import java.util.List;
 
 public class HideBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
@@ -89,7 +87,7 @@ public class HideBrick extends BrickBaseType {
 	public View getViewWithAlpha(int alphaValue) {
 		if (view != null) {
 			Log.d("TAG", "VIEW != NULL");
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_hide_layout);
+			View layout = (View) view.findViewById(R.id.brick_hide_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 			this.alphaValue = (alphaValue);

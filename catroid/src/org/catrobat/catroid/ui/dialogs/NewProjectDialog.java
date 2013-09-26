@@ -22,15 +22,6 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import java.io.IOException;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.utils.Utils;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -47,10 +38,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.utils.Utils;
+
+import java.io.IOException;
 
 public class NewProjectDialog extends DialogFragment {
 
@@ -84,6 +84,7 @@ public class NewProjectDialog extends DialogFragment {
 
 		newProjectDialog.setCanceledOnTouchOutside(true);
 		newProjectDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		newProjectDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
 		newProjectDialog.setOnShowListener(new OnShowListener() {
 			@Override
@@ -117,7 +118,7 @@ public class NewProjectDialog extends DialogFragment {
 				positiveButton.setOnClickListener(new OnClickListener() {
 
 					@Override
-					public void onClick(View v) {
+					public void onClick(View view) {
 						handleOkButtonClick();
 					}
 				});
@@ -137,12 +138,12 @@ public class NewProjectDialog extends DialogFragment {
 		String projectName = newProjectEditText.getText().toString().trim();
 		boolean shouldBeEmpty = emptyProjectCheckBox.isChecked();
 
-		if (projectName.length() == 0) {
+		if (projectName.isEmpty()) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_no_name_entered));
 			return;
 		}
 
-		if (StorageHandler.getInstance().projectExistsIgnoreCase(projectName)) {
+		if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(projectName)) {
 			Utils.showErrorDialog(getActivity(), getString(R.string.error_project_exists));
 			return;
 		}

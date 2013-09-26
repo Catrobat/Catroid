@@ -22,7 +22,11 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.io.File;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.util.DisplayMetrics;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -43,12 +47,7 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.test.suitebuilder.annotation.Smoke;
-import android.util.DisplayMetrics;
-import android.util.Log;
+import java.io.File;
 
 public class SetSizeToBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int SCREEN_WIDTH = 480;
@@ -83,11 +82,10 @@ public class SetSizeToBrickTest extends BaseActivityInstrumentationTestCase<Main
 		super.tearDown();
 	}
 
-	@Smoke
 	public void testSetSizeToBrick() {
 		double newSize = 200;
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, newSize, "size", setSizeToBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_size_to_edit_text, newSize, "size", setSizeToBrick);
 
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -133,6 +131,7 @@ public class SetSizeToBrickTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("Image was not scaled up even though SetSizeTo was exectuted before!", Color.RED,
 				colorInsideSizedQuad);
 		assertEquals("Wrong stage background color!", Color.WHITE, colorOutsideSizedQuad);
+
 	}
 
 	private void createProject() {

@@ -22,8 +22,15 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.LinkedList;
-import java.util.List;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
@@ -32,19 +39,10 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import java.util.LinkedList;
+import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
-public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
+public class RepeatBrick extends LoopBeginBrick implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private Formula timesToRepeat;
 
@@ -70,6 +68,11 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	}
 
 	@Override
+	public Formula getFormula() {
+		return timesToRepeat;
+	}
+
+	@Override
 	public Brick clone() {
 		return new RepeatBrick(sprite, timesToRepeat.clone());
 	}
@@ -88,7 +91,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		final Brick brickInstance = this;
 		checkbox.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(View view) {
 				checked = !checked;
 				if (!checked) {
 					for (Brick currentBrick : adapter.getCheckedBricks()) {
@@ -100,7 +103,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		});
 
 		TextView text = (TextView) view.findViewById(R.id.brick_repeat_prototype_text_view);
-		EditText edit = (EditText) view.findViewById(R.id.brick_repeat_edit_text);
+		TextView edit = (TextView) view.findViewById(R.id.brick_repeat_edit_text);
 		timesToRepeat.setTextFieldId(R.id.brick_repeat_edit_text);
 		timesToRepeat.refreshTextField(view);
 
@@ -140,12 +143,12 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_repeat_layout);
+			View layout = (View) view.findViewById(R.id.brick_repeat_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView repeatLabel = (TextView) view.findViewById(R.id.brick_repeat_label);
-			EditText editRepeat = (EditText) view.findViewById(R.id.brick_repeat_edit_text);
+			TextView editRepeat = (TextView) view.findViewById(R.id.brick_repeat_edit_text);
 			TextView times = (TextView) view.findViewById(R.id.brick_repeat_time_text_view);
 			repeatLabel.setTextColor(repeatLabel.getTextColors().withAlpha(alphaValue));
 			times.setTextColor(times.getTextColors().withAlpha(alphaValue));

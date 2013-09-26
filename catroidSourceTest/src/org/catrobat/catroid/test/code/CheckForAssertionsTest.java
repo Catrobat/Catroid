@@ -22,6 +22,10 @@
  */
 package org.catrobat.catroid.test.code;
 
+import junit.framework.TestCase;
+
+import org.catrobat.catroid.test.utils.Utils;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -29,18 +33,15 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import junit.framework.TestCase;
-
-import org.catrobat.catroid.test.utils.Utils;
-
 public class CheckForAssertionsTest extends TestCase {
 	private StringBuffer errorMessages;
 	private boolean assertionNotFound;
 	private static final String[] DIRECTORIES = { "../catroidUiTest", "../catroidTest" };
 	private static final String[] IGNORED_FILES = { "MockGalleryActivity.java", "UiTestUtils.java",
-			"SimulatedSensorManager.java", "TestUtils.java", "MockPaintroidActivity.java", "TestMainMenuActivity.java",
-			"TestErrorListenerInterface.java", "XmlTestUtils.java", "MockSoundActivity.java", "Reflection.java",
-			"BaseActivityInstrumentationTestCase.java" };
+			"SimulatedSensorManager.java", "SimulatedSoundRecorder.java", "TestUtils.java",
+			"MockPaintroidActivity.java", "TestMainMenuActivity.java", "TestErrorListenerInterface.java",
+			"XmlTestUtils.java", "MockSoundActivity.java", "Reflection.java",
+			"BaseActivityInstrumentationTestCase.java", "Device.java" };
 
 	private void checkFileForAssertions(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));

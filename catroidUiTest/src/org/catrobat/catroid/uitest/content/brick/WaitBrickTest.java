@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -40,9 +41,7 @@ import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ListView;
-import android.widget.TextView;
+import java.util.ArrayList;
 
 public class WaitBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
@@ -62,7 +61,6 @@ public class WaitBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 		super.setUp();
 	}
 
-	@Smoke
 	public void testWaitBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
@@ -79,20 +77,24 @@ public class WaitBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 
 		double waitTime = 2.25;
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, waitTime);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_wait_edit_text, waitTime);
 
 		Formula actualWaitTime = (Formula) Reflection.getPrivateField(waitBrick, "timeToWaitInSeconds");
 		assertEquals("Wrong text in field", waitTime, actualWaitTime.interpretDouble(null));
-		assertEquals("Text not updated", waitTime, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		assertEquals(
+				"Text not updated",
+				waitTime,
+				Double.parseDouble(((TextView) solo.getView(R.id.brick_wait_edit_text)).getText().toString()
+						.replace(',', '.')));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_wait_edit_text, 1);
 		TextView secondsTextView = (TextView) solo.getView(R.id.brick_wait_second_text_view);
 		assertTrue(
 				"Specifier hasn't changed from plural to singular",
 				secondsTextView.getText().equals(
 						secondsTextView.getResources().getQuantityString(R.plurals.second_plural, 1)));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1.4);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_wait_edit_text, 1.4);
 		secondsTextView = (TextView) solo.getView(R.id.brick_wait_second_text_view);
 		assertTrue(
 				"Specifier hasn't changed from singular to plural",

@@ -22,25 +22,25 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import java.io.Serializable;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.view.View;
+import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 
-import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.text.Layout;
-import android.view.View;
-import android.widget.EditText;
+import java.io.Serializable;
 
 public class Formula implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private FormulaElement formulaTree;
 	private transient Integer formulaTextFieldId = null;
-	private transient Drawable originalEditTextDrawable = null;
 	private transient InternFormula internFormula = null;
+	private transient String displayText = null;
 
 	public Object readResolve() {
 
@@ -86,6 +86,10 @@ public class Formula implements Serializable {
 		}
 	}
 
+	public void setDisplayText(String text) {
+		displayText = text;
+	}
+
 	public boolean interpretBoolean(Sprite sprite) {
 		int result = interpretInteger(sprite);
 
@@ -107,6 +111,7 @@ public class Formula implements Serializable {
 	}
 
 	public void setRoot(FormulaElement formula) {
+		displayText = null;
 		formulaTree = formula;
 		internFormula = new InternFormula(formula.getInternTokenList());
 
@@ -116,56 +121,31 @@ public class Formula implements Serializable {
 		formulaTextFieldId = id;
 	}
 
+	public String getDisplayString(Context context) {
+		if (displayText != null) {
+			return displayText;
+		} else {
+			if (context != null) {
+				internFormula.generateExternFormulaStringAndInternExternMapping(context);
+			}
+			return internFormula.getExternFormulaString();
+		}
+	}
+
 	public void refreshTextField(View view) {
-		if (formulaTextFieldId != null && formulaTree != null && view != null) {
-			EditText formulaTextField = (EditText) view.findViewById(formulaTextFieldId);
-			if (formulaTextField == null) {
-				return;
-			}
-			internFormula.generateExternFormulaStringAndInternExternMapping(view.getContext());
-
-			formulaTextField.setText(internFormula.getExternFormulaString());
-		}
-
+		refreshTextField(view, getDisplayString(view.getContext()));
 	}
 
-	public void refreshTextField(View view, String formulaString, int position) {
+	public void refreshTextField(View view, String formulaString) {
 		if (formulaTextFieldId != null && formulaTree != null && view != null) {
-			EditText formulaTextField = (EditText) view.findViewById(formulaTextFieldId);
-			if (formulaTextField == null) {
-				return;
-			}
-			formulaTextField.setText(formulaString);
-			Layout formulaTextFieldLayout = formulaTextField.getLayout();
-			if (position < 0 || formulaTextFieldLayout == null) {
-				return;
-			}
-			int char_count = formulaTextFieldLayout.getLineVisibleEnd(0);
-			if (formulaString.length() > char_count && char_count > 0) {
-				int start = position - (char_count / 2);
-				int end = position + (char_count / 2) + 1;
-				if (end > formulaString.length() - 1) {
-					end = formulaString.length() - 1;
-					start = end - char_count;
-				}
-				if (start < 0) {
-					start = 0;
-					end = char_count;
-				}
-				formulaTextField.setText(formulaString.substring(start, end));
+			TextView formulaTextField = (TextView) view.findViewById(formulaTextFieldId);
+			if (formulaTextField != null) {
+				formulaTextField.setText(formulaString);
 			}
 		}
 	}
 
-	public void removeTextFieldHighlighting(View brickView, int orientation) {
-		EditText formulaTextField = (EditText) brickView.findViewById(formulaTextFieldId);
-
-		int width = formulaTextField.getWidth();
-		formulaTextField.setBackgroundDrawable(originalEditTextDrawable);
-		formulaTextField.setWidth(width);
-		originalEditTextDrawable = null;
-	}
-
+	@SuppressWarnings("deprecation")
 	public void highlightTextField(View brickView, int orientation) {
 		Drawable highlightBackground = null;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -174,19 +154,12 @@ public class Formula implements Serializable {
 			highlightBackground = brickView.getResources().getDrawable(R.drawable.textfield_pressed);
 		}
 
-		EditText formulaTextField = (EditText) brickView.findViewById(formulaTextFieldId);
+		TextView formulaTextField = (TextView) brickView.findViewById(formulaTextFieldId);
 
-		if (originalEditTextDrawable == null) {
-			originalEditTextDrawable = formulaTextField.getBackground();
-		}
-		int width = formulaTextField.getWidth();
-		width = Math.max(width, 130);
 		formulaTextField.setBackgroundDrawable(highlightBackground);
-		formulaTextField.setWidth(width);
 	}
 
 	public void prepareToRemove() {
-		originalEditTextDrawable = null;
 		formulaTextFieldId = null;
 	}
 

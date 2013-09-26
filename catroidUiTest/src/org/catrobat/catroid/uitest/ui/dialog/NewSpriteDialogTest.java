@@ -22,7 +22,10 @@
  */
 package org.catrobat.catroid.uitest.ui.dialog;
 
-import java.io.IOException;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.widget.EditText;
+
+import com.jayway.android.robotium.solo.Solo;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -37,10 +40,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.widget.EditText;
-
-import com.jayway.android.robotium.solo.Solo;
+import java.io.IOException;
 
 public class NewSpriteDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
@@ -131,7 +131,6 @@ public class NewSpriteDialogTest extends BaseActivityInstrumentationTestCase<Mai
 	private void enterTextAndCloseDialog(String text) {
 		solo.clearEditText(0);
 		solo.enterText(0, text);
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(200);
 	}

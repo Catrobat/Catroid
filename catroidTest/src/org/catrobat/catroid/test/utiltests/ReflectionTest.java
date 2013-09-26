@@ -22,22 +22,24 @@
  */
 package org.catrobat.catroid.test.utiltests;
 
-import java.util.Arrays;
+import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.Parameter;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 
-import android.test.AndroidTestCase;
+import java.util.Arrays;
 
 public class ReflectionTest extends AndroidTestCase {
 
 	private class SuperClass {
+		// CHECKSTYLE DISABLE MemberNameCheck FOR 2 LINES
 		private final float SECRET_FLOAT = 3.1415f;
 		protected byte SECRET_BYTE = 32;
 	}
 
 	private class SubClass extends SuperClass {
+		// CHECKSTYLE DISABLE MemberNameCheck FOR 3 LINES
 		private static final char SECRET_STATIC_CHAR = 'c';
 		private final int SECRET_INTEGER = 42;
 		private String SECRET_STRING = "This is a secret string!";

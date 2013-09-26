@@ -22,7 +22,16 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -31,20 +40,9 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
-public class SetXBrick extends BrickBaseType implements OnClickListener {
+public class SetXBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private Formula xPosition;
 
@@ -62,6 +60,11 @@ public class SetXBrick extends BrickBaseType implements OnClickListener {
 
 	public SetXBrick() {
 
+	}
+
+	@Override
+	public Formula getFormula() {
+		return xPosition;
 	}
 
 	@Override
@@ -96,7 +99,7 @@ public class SetXBrick extends BrickBaseType implements OnClickListener {
 			}
 		});
 		TextView textX = (TextView) view.findViewById(R.id.brick_set_x_prototype_text_view);
-		EditText editX = (EditText) view.findViewById(R.id.brick_set_x_edit_text);
+		TextView editX = (TextView) view.findViewById(R.id.brick_set_x_edit_text);
 
 		xPosition.setTextFieldId(R.id.brick_set_x_edit_text);
 		xPosition.refreshTextField(view);
@@ -113,12 +116,12 @@ public class SetXBrick extends BrickBaseType implements OnClickListener {
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_x_layout);
+			View layout = (View) view.findViewById(R.id.brick_set_x_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView textX = (TextView) view.findViewById(R.id.brick_set_x_text_view);
-			EditText editX = (EditText) view.findViewById(R.id.brick_set_x_edit_text);
+			TextView editX = (TextView) view.findViewById(R.id.brick_set_x_edit_text);
 			textX.setTextColor(textX.getTextColors().withAlpha(alphaValue));
 			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
 			editX.getBackground().setAlpha(alphaValue);

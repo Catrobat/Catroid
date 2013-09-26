@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.utils.Utils;
-
-import android.content.Intent;
-import android.os.Bundle;
 
 public class RenameSpriteDialog extends TextDialog {
 
@@ -52,6 +52,7 @@ public class RenameSpriteDialog extends TextDialog {
 	protected void initialize() {
 		oldSpriteName = getArguments().getString(BUNDLE_ARGUMENTS_OLD_SPRITE_NAME);
 		input.setText(oldSpriteName);
+		inputTitle.setText(R.string.sprite_name);
 	}
 
 	@Override

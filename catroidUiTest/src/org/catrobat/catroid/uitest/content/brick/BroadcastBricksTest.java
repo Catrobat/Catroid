@@ -22,7 +22,10 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.List;
+import android.util.SparseArray;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -38,11 +41,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.suitebuilder.annotation.Smoke;
-import android.util.SparseArray;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Spinner;
+import java.util.List;
 
 public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
@@ -67,13 +66,11 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Scr
 		// when starting in ScriptActivity
 		createProject();
 		super.setUp();
-
 		expectedSpinnterText.put(broadcastReceiverSpinnerId, defaultBroadcastMessage);
 		expectedSpinnterText.put(broadcastSpinnerId, defaultBroadcastMessage);
 		expectedSpinnterText.put(broadcastWaitSpinnerId, defaultBroadcastMessage);
 	}
 
-	@Smoke
 	public void testBroadcastBricks() {
 		checkSetupBricks();
 
@@ -94,15 +91,24 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Scr
 		dismissEnterNewTextIntoSpinner(broadcastSpinnerId);
 		dismissEnterNewTextIntoSpinner(broadcastWaitSpinnerId);
 
-		solo.clickLongOnText(solo.getString(R.string.brick_broadcast_receive));
-		solo.clickOnText(solo.getString(R.string.delete));
+		solo.waitForText(solo.getString(R.string.brick_broadcast_receive));
+		solo.clickOnText(solo.getString(R.string.brick_broadcast_receive));
+		solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_script));
+		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_script));
+		solo.waitForText(solo.getString(R.string.yes));
 		solo.clickOnButton(solo.getString(R.string.yes));
 
-		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast);
+		solo.sleep(200);
+
+		UiTestUtils.addNewBrick(solo, R.string.category_control, R.string.brick_broadcast);
+		//dont need to place it because there are 0 bricks, places automatically.
+
+		//to gain focus
 		solo.clickOnScreen(200, 200);
 		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
 			solo.goBack();
 		}
+
 		Spinner broadcastSpinner = (Spinner) solo.getView(R.id.brick_broadcast_spinner);
 
 		assertEquals("Wrong selection", defaultBroadcastMessage, broadcastSpinner.getSelectedItem().toString());
@@ -150,8 +156,6 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Scr
 		solo.clickInList(0);
 		solo.waitForView(EditText.class);
 		solo.enterText(0, text);
-		solo.goBack();
-		solo.sleep(200);
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForView(solo.getView(spinnerId));
 		gainFocus();
@@ -201,7 +205,7 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Scr
 
 	private void gainFocus() {
 		solo.clickOnText(solo.getString(R.string.brick_broadcast_receive));
-		if (solo.searchText(solo.getString(R.string.brick_context_dialog_delete_brick), true)) {
+		if (solo.searchText(solo.getString(R.string.brick_context_dialog_delete_script), true)) {
 			solo.goBack();
 		}
 	}

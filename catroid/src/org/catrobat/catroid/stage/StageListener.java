@@ -22,23 +22,8 @@
  */
 package org.catrobat.catroid.stage;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.List;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.ScreenValues;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.robot.albert.RobotAlbert;
 import org.catrobat.catroid.robot.albert.RobotAlbertCommunicator;
-import org.catrobat.catroid.ui.dialogs.StageDialog;
-import org.catrobat.catroid.utils.Utils;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -64,16 +49,33 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-public class StageListener implements ApplicationListener {
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.ui.dialogs.StageDialog;
+import org.catrobat.catroid.utils.Utils;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.List;
+
+public class StageListener implements ApplicationListener {
 	private static final float DELTA_ACTIONS_DIVIDER_MAXIMUM = 50f;
 	private static final int ACTIONS_COMPUTATION_TIME_MAXIMUM = 8;
-	private float deltaActionTimeDivisor = 10f;
-	private static boolean DYNAMIC_SAMPLING_RATE_FOR_ACTIONS = true;
-
 	private static final boolean DEBUG = false;
 	public static final String SCREENSHOT_AUTOMATIC_FILE_NAME = "automatic_screenshot.png";
 	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot.png";
+
+	// needed for UiTests - is disabled to fix crashes with EMMA coverage
+	// CHECKSTYLE DISABLE StaticVariableNameCheck FOR 1 LINES
+	private static boolean DYNAMIC_SAMPLING_RATE_FOR_ACTIONS = true;
+
+	private float deltaActionTimeDivisor = 10f;
 	private FPSLogger fpsLogger;
 
 	private Stage stage;
@@ -166,6 +168,7 @@ public class StageListener implements ApplicationListener {
 
 		for (Sprite sprite : sprites) {
 			sprite.resetSprite();
+			sprite.look.createBrightnessContrastShader();
 			stage.addActor(sprite.look);
 			sprite.resume();
 		}
@@ -276,7 +279,7 @@ public class StageListener implements ApplicationListener {
 
 	@Override
 	public void render() {
-
+		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		if (reloadProject) {
@@ -292,11 +295,12 @@ public class StageListener implements ApplicationListener {
 			sprites = project.getSpriteList();
 			if (spriteSize > 0) {
 				sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
-				sprites.get(0).pause();
 			}
+			Sprite sprite;
 			for (int i = 0; i < spriteSize; i++) {
-				Sprite sprite = sprites.get(i);
+				sprite = sprites.get(i);
 				sprite.resetSprite();
+				sprite.look.createBrightnessContrastShader();
 				stage.addActor(sprite.look);
 				sprite.pause();
 			}
@@ -339,8 +343,13 @@ public class StageListener implements ApplicationListener {
 			if (spriteSize > 0) {
 				sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
 			}
+			Sprite sprite;
 			for (int i = 0; i < spriteSize; i++) {
-				sprites.get(i).createStartScriptActionSequence();
+				sprite = sprites.get(i);
+				sprite.createStartScriptActionSequence();
+				if (!sprite.getLookDataList().isEmpty()) {
+					sprite.look.setLookData(sprite.getLookDataList().get(0));
+				}
 			}
 			firstStart = false;
 		}

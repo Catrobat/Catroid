@@ -22,15 +22,13 @@
  */
 package org.catrobat.catroid.ui;
 
-import org.catrobat.catroid.R;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
-import com.actionbarsherlock.view.MenuItem;
+
+import org.catrobat.catroid.R;
 
 public class SettingsActivity extends SherlockPreferenceActivity {
 
@@ -46,18 +44,5 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		actionBar.setTitle(R.string.preference_title);
 		actionBar.setHomeButtonEnabled(true);
 	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
 		Log.d("!!!!!!!!!!!!!!", "onOptionsItemSelected");
-		switch (item.getItemId()) {
-			case android.R.id.home: {
-				Intent intent = new Intent(this, MainMenuActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-				return true;
-			}
-		}
-		return super.onOptionsItemSelected(item);
-	}
 }

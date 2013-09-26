@@ -22,7 +22,16 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -31,20 +40,9 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
-public class ChangeYByNBrick extends BrickBaseType implements OnClickListener {
+public class ChangeYByNBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private Formula yMovement;
 
@@ -64,6 +62,11 @@ public class ChangeYByNBrick extends BrickBaseType implements OnClickListener {
 		this.sprite = sprite;
 
 		this.yMovement = yMovement;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return yMovement;
 	}
 
 	@Override
@@ -98,7 +101,7 @@ public class ChangeYByNBrick extends BrickBaseType implements OnClickListener {
 		});
 
 		TextView textY = (TextView) view.findViewById(R.id.brick_change_y_prototype_text_view);
-		EditText editY = (EditText) view.findViewById(R.id.brick_change_y_edit_text);
+		TextView editY = (TextView) view.findViewById(R.id.brick_change_y_edit_text);
 		yMovement.setTextFieldId(R.id.brick_change_y_edit_text);
 		yMovement.refreshTextField(view);
 
@@ -126,12 +129,12 @@ public class ChangeYByNBrick extends BrickBaseType implements OnClickListener {
 
 		if (view != null) {
 
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_y_layout);
+			View layout = (View) view.findViewById(R.id.brick_change_y_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView changeYLabel = (TextView) view.findViewById(R.id.brick_change_y_label);
-			EditText editY = (EditText) view.findViewById(R.id.brick_change_y_edit_text);
+			TextView editY = (TextView) view.findViewById(R.id.brick_change_y_edit_text);
 			changeYLabel.setTextColor(changeYLabel.getTextColors().withAlpha(alphaValue));
 			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
 			editY.getBackground().setAlpha(alphaValue);

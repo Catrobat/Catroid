@@ -22,6 +22,12 @@
  */
 package org.catrobat.catroid.uitest.ui.dialog;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -30,12 +36,6 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 
 public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
@@ -69,7 +69,6 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 				solo.waitForText(solo.getString(R.string.new_project_dialog_title), 0, 5000));
 		EditText newProject = (EditText) solo.getView(R.id.project_name_edittext);
 		solo.enterText(newProject, testingproject);
-		solo.goBack();
 		solo.clickOnButton(buttonOkText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		assertTrue("New Project is not testingproject!", ProjectManager.getInstance().getCurrentProject().getName()
@@ -91,7 +90,7 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		Button okButton = solo.getButton(getActivity().getString(R.string.ok));
 		EditText editText = (EditText) solo.getView(R.id.project_name_edittext);
 
-		assertTrue("EditText was not empty", editText.getText().length() == 0);
+		assertTrue("EditText was not empty", editText.length() == 0);
 
 		final String projectName = "MyTestProject";
 		UiTestUtils.enterText(solo, 0, projectName);
@@ -120,8 +119,7 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.sleep(2000);
 		assertEquals("New project name field is not a text field", newProjectInputTypeReference, newProjectInputType);
 
-		int projectNameNumberOfLines = (newProjectName.getHeight() - newProjectName.getCompoundPaddingTop() - newProjectName
-				.getCompoundPaddingBottom()) / newProjectName.getLineHeight();
+		int projectNameNumberOfLines = newProjectName.getLineCount();
 
 		assertEquals("Project name field is not a text field", 1, projectNameNumberOfLines);
 
@@ -130,12 +128,11 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 	public void testCreateEmptyProject() {
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		UiTestUtils.waitForText(solo, solo.getString(R.string.new_project_dialog_title));
-		solo.goBack(); // get rid of the keyboard since it is disturbing checkbox-click-event
 		solo.clickOnCheckBox(0);
 		solo.enterText(0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		UiTestUtils.waitForText(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		UiTestUtils.waitForText(solo, solo.getString(R.string.background));
 		Project project = ProjectManager.getInstance().getCurrentProject();
 
 		assertNotNull("Empty project shouldn't be null", project);
@@ -153,7 +150,6 @@ public class NewProjectDialogTest extends BaseActivityInstrumentationTestCase<Ma
 		CheckBox emptyProjectCheckBox = (CheckBox) solo.getView(R.id.project_empty_checkbox);
 		assertTrue("Checkbox should be checked", emptyProjectCheckBox.isChecked());
 
-		solo.goBack(); // get rid of the keyboard since it is disturbing checkbox-click-event
 		solo.clickOnCheckBox(0);
 		solo.clickOnButton(solo.getString(R.string.cancel_button));
 		assertTrue("Checkbox state should not be saved when canceling dialog",

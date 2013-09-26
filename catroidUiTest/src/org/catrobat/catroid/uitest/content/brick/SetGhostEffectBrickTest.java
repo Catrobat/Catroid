@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -37,8 +37,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ListView;
+import java.util.ArrayList;
 
 public class SetGhostEffectBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
@@ -58,7 +57,6 @@ public class SetGhostEffectBrickTest extends BaseActivityInstrumentationTestCase
 		super.setUp();
 	}
 
-	@Smoke
 	public void testSetGhostEffectBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
@@ -77,7 +75,8 @@ public class SetGhostEffectBrickTest extends BaseActivityInstrumentationTestCase
 
 		double newEffect = 65.9;
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, newEffect, "transparency", setGhostEffectBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_ghost_effect_to_edit_text, newEffect,
+				"transparency", setGhostEffectBrick);
 	}
 
 	private void createProject() {

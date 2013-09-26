@@ -22,6 +22,11 @@
  */
 package org.catrobat.catroid.test.content.sprite;
 
+import android.test.InstrumentationTestCase;
+
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
@@ -29,11 +34,6 @@ import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.test.utils.Reflection;
-
-import android.test.InstrumentationTestCase;
-
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 public class LookTest extends InstrumentationTestCase {
 	private Look look;

@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -37,8 +37,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ListView;
+import java.util.ArrayList;
 
 public class ChangeYByNBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final int Y_TO_CHANGE = 17;
@@ -59,7 +58,6 @@ public class ChangeYByNBrickTest extends BaseActivityInstrumentationTestCase<Scr
 		super.setUp();
 	}
 
-	@Smoke
 	public void testChangeYByNBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
@@ -76,7 +74,8 @@ public class ChangeYByNBrickTest extends BaseActivityInstrumentationTestCase<Scr
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_change_y_by)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, Y_TO_CHANGE, "yMovement", changeYByNBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_change_y_edit_text, Y_TO_CHANGE, "yMovement",
+				changeYByNBrick);
 	}
 
 	private void createProject() {

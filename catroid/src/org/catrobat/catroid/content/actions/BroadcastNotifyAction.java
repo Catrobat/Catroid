@@ -22,9 +22,9 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import org.catrobat.catroid.content.BroadcastEvent;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
+
+import org.catrobat.catroid.content.BroadcastEvent;
 
 public class BroadcastNotifyAction extends Action {
 

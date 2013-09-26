@@ -20,26 +20,66 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <!-- NewApi lint warnings can be ignored - functionality is handled by ActionBarSherlock -->
     <style name="Theme.Catroid" parent="Theme.Sherlock.ForceOverflow">
         <item name="actionBarStyle">@style/Widget.Catroid.ActionBar</item>
-        <item name="android:actionBarStyle">@style/Widget.Catroid.ActionBar</item>
+        <item name="android:actionBarStyle" tools:ignore="NewApi">@style/Widget.Catroid.ActionBar</item>
+        <item name="android:windowBackground">@color/application_background_color</item>
     </style>
 
     <style name="Widget.Catroid.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
         <item name="background">@drawable/actionbar_background</item>
         <item name="android:background">@drawable/actionbar_background</item>
         <item name="homeAsUpIndicator">@drawable/ic_actionbar_back</item>
-        <item name="android:homeAsUpIndicator">@drawable/ic_actionbar_back</item>
+        <item name="android:homeAsUpIndicator" tools:ignore="NewApi">@drawable/ic_actionbar_back</item>
         <item name="titleTextStyle">@style/Widget.Catroid.ActionBar.Title</item>
-        <item name="android:titleTextStyle">@style/Widget.Catroid.ActionBar.Title</item>
+        <item name="android:titleTextStyle" tools:ignore="NewApi">@style/Widget.Catroid.ActionBar.Title</item>
         <item name="height">@dimen/actionbar_height</item>
     </style>
 
     <style name="Widget.Catroid.ActionBar.Title" parent="TextAppearance.Sherlock.Widget.ActionBar.Title">
         <item name="android:textColor">@color/actionbar_title_color</item>
+    </style>
+
+    <style name="DefaultDialog" parent="android:style/Theme.Dialog">
+        <item name="android:paddingBottom">@dimen/dialog_item_margin</item>
+        <item name="android:layout_marginLeft">@dimen/dialog_margin</item>
+        <item name="android:layout_marginRight">@dimen/dialog_margin</item>
+        <item name="android:windowBackground">@null</item>
+    </style>
+
+    <style name="DefaultDialog.Item">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:minHeight">@dimen/dialog_item_height</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/dialog_item_margin</item>
+        <item name="android:layout_marginRight">@dimen/dialog_item_margin</item>
+    </style>
+
+    <style name="DefaultDialog.TextView" parent="DefaultDialog.Item">
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingBottom">@dimen/dialog_item_header_linepadding</item>
+        <item name="android:layout_height">@dimen/dialog_item_header_height</item>
+        <item name="android:textSize">@dimen/dialog_item_text_size</item>
+        <item name="android:textColor">@color/spritelist_details_text_color</item>
+        <item name="android:gravity">bottom</item>
+    </style>
+
+    <style name="DefaultDialog.Line" parent="DefaultDialog.Item">
+        <item name="android:layout_height">@dimen/dialog_item_header_line_height</item>
+        <item name="android:background">@color/dialog_text_line</item>
+    </style>
+
+    <style name="DefaultDialog.EditText" parent="@android:style/Widget.EditText"> 
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:minHeight">@dimen/dialog_item_height</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/dialog_item_edittext_margin</item>
+        <item name="android:layout_marginRight">@dimen/dialog_item_edittext_margin</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:gravity">bottom</item>
     </style>
 
     <style name="stage_dialog" parent="android:style/Theme.Dialog">
@@ -76,14 +116,14 @@
         <item name="android:windowEnterAnimation">@anim/slide_up</item>
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
-    
+
     <style name="ListViewShadowed">
         <item name="android:cacheColorHint">@color/solid_black</item>
         <item name="android:drawSelectorOnTop">false</item>
         <item name="android:drawingCacheQuality">high</item>
         <item name="android:fadingEdgeLength">10dp</item>
         <item name="android:fastScrollEnabled">true</item>
-        <item name="android:requiresFadingEdge">vertical</item>
+        <!-- TODO Causing error needs api 14: <item name="android:requiresFadingEdge">vertical</item> -->
         <item name="android:scrollingCache">@string/scrolling_cache_enabled</item>
         <item name="android:animationCache">@string/animation_cache_enabled</item>
     </style>
@@ -94,7 +134,7 @@
         <item name="android:layout_weight">1</item>
         <item name="android:background">@drawable/button_background_selector</item>
         <item name="android:drawablePadding">28dp</item>
-        <item name="android:drawableRight">@drawable/ic_main_menu_button_arrow</item>
+        <item name="android:drawableRight">@drawable/ic_arrow_right</item>
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:paddingLeft">21dp</item>
         <item name="android:paddingRight">14dp</item>
@@ -122,19 +162,19 @@
         <item name="android:textColor">@color/list_view_item_title_text_color</item>
         <item name="android:textSize">22sp</item>
     </style>
-    
+
     <style name="ListViewItemDetailsText">
         <item name="android:singleLine">true</item>
         <item name="android:textColor">@color/list_view_item_details_text_color</item>
         <item name="android:textSize">14sp</item>
     </style>
-    
+
     <style name="ProgramMenuButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/program_menu_button_height</item>
         <item name="android:background">@drawable/button_background_selector</item>
         <item name="android:drawablePadding">28dp</item>
-        <item name="android:drawableRight">@drawable/ic_arrow_right_dark</item>
+        <item name="android:drawableRight">@drawable/ic_arrow_right</item>
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:paddingLeft">21dp</item>
         <item name="android:paddingRight">15dp</item>
@@ -158,12 +198,11 @@
     <style name="BrickText.SingleLine">
         <item name="android:maxLines">1</item>
     </style>
-    
+
     <style name="BrickText.Multiple">
         <item name="android:layout_centerVertical">true</item>
         <item name="android:maxLines">1</item>
     </style>
-    
 
     <style name="BrickPrototypeTextView" parent="android:style/Widget.EditText">
         <item name="android:focusable">false</item>
@@ -171,19 +210,16 @@
         <item name="android:clickable">false</item>
         <item name="android:minWidth">@dimen/brick_edit_text_and_prototype_text_view_minimum_width</item>
         <item name="android:gravity">right</item>
-        <item name="android:minEms">3</item>
+        <item name="android:minEms">1</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
     <style name="BrickEditText" parent="@style/BrickPrototypeTextView">
-        <item name="android:maxLines">1</item>
         <item name="android:visibility">gone</item>
-    </style>
-    
-    <style name="BrickEditTextMultiple" parent="@style/BrickEditText">
-        <item name="android:maxEms">6</item>
     </style>
 
     <style name="BrickContainer">
@@ -345,7 +381,7 @@
         <item name="android:textColor">@color/sound_fragment_text_main_color</item>
         <item name="android:textSize">22sp</item>
     </style>
-    
+
     <style name="sound_fragment_detail" parent="fragment_basic_style">
         <item name="android:textColor">@color/sound_fragment_text_detail_color</item>
         <item name="android:textSize">14sp</item>
@@ -369,18 +405,18 @@
         <item name="android:layout_marginBottom">@dimen/key_margin</item>
         <item name="android:layout_marginRight">@dimen/key_margin</item>
     </style>
-    
-    <style name="formulaeditor_variblelist_fragment_main" parent ="fragment_basic_style">
+
+    <style name="formulaeditor_variblelist_fragment_main" parent="fragment_basic_style">
         <item name="android:textColor">@color/sound_fragment_text_main_color</item>
         <item name="android:textSize">22sp</item>
     </style>
-    
-    <style name="formulaeditor_variblelist_fragment_variable_value" parent ="fragment_basic_style">
+
+    <style name="formulaeditor_variblelist_fragment_variable_value" parent="fragment_basic_style">
         <item name="android:textColor">@color/solid_white</item>
         <item name="android:textSize">22sp</item>
     </style>
-    
-        <style name="BrickCategory">
+
+    <style name="BrickCategory">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:orientation">vertical</item>
@@ -420,7 +456,7 @@
         <item name="android:background">@drawable/brick_selection_background_variables</item>
         <item name="android:drawableRight">@drawable/main_menu_button_arrow_variables</item>
     </style>
-    
+
     <style name="BrickCategoryText.Lego">
         <item name="android:background">@drawable/brick_selection_background_lego</item>
         <item name="android:drawableRight">@drawable/main_menu_button_arrow_lego</item>
@@ -430,6 +466,45 @@
         <item name="android:textColor">@color/abs__background_holo_light</item>
         <item name="android:typeface">normal</item>
         <item name="android:textSize">@dimen/text_size_medium</item>
+    </style>
+
+    <style name="headlineLinearLayout">
+        <item name="android:clickable">true</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="headlineTextView" parent="android:Widget.TextView">
+        <item name="android:paddingBottom">5dip</item>
+        <item name="android:paddingLeft">16dip</item>
+        <item name="android:paddingTop">9dip</item>
+        <item name="android:textColor">@color/spritelist_details_text_color</item>
+        <item name="android:textColorHighlight">@color/spritelist_details_text_color</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="headlineView">
+        <item name="android:background">@color/spritelist_separation_line_color</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">50dp</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1.5dp</item>
+    </style>
+
+    <style name="headlineTextViewObjects" parent="android:Widget.TextView">
+        <item name="android:paddingBottom">5dip</item>
+        <item name="android:paddingLeft">16dip</item>
+        <item name="android:paddingTop">18dip</item>
+        <item name="android:textColor">@color/spritelist_details_text_color</item>
+        <item name="android:textColorHighlight">@color/spritelist_details_text_color</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
 </resources>
