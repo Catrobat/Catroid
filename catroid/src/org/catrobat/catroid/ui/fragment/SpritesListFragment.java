@@ -63,6 +63,7 @@ import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter.OnSpriteEditListener;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
 import org.catrobat.catroid.utils.Utils;
 
@@ -367,7 +368,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			titleId = R.string.dialog_confirm_delete_multiple_objects_title;
 		}
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
 		builder.setTitle(titleId);
 		builder.setMessage(R.string.dialog_confirm_delete_object_message);
 		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {

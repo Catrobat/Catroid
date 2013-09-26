@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,31 +19,37 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/DefaultDialog"
-    android:orientation="vertical" >
+ */
+package org.catrobat.catroid.ui.dialogs;
 
-    <org.catrobat.catroid.ui.CapitalizedTextView
-        style="@style/DefaultDialog.TextView"
-        android:text="@string/description" />
+import android.app.AlertDialog;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
-    <View style="@style/DefaultDialog.Line" />
+import org.catrobat.catroid.R;
 
-    <EditText
-        android:id="@+id/dialog_text_EditMultiLineText"
-        style="@style/DefaultDialog.EditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/new_project_description_dialog_hint"
-        android:inputType="textMultiLine"
-        android:lines="3"
-        android:maxLines="3"
-        android:minLines="1"
-        android:scrollbarAlwaysDrawVerticalTrack="true"
-        android:scrollbars="vertical"
-        android:selectAllOnFocus="true"
-        android:singleLine="false" >
-    </EditText>
+public class CustomAlertDialogBuilder extends AlertDialog.Builder {
 
-</LinearLayout>
+	private TextView textView;
+
+	public CustomAlertDialogBuilder(Context context) {
+		super(context);
+		View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_custom_alert_dialog, null);
+		textView = (TextView) dialogView.findViewById(R.id.dialog_text_text_view);
+		setView(dialogView);
+	}
+
+	@Override
+	public CustomAlertDialogBuilder setMessage(int messageId) {
+		textView.setText(messageId);
+		return this;
+	}
+
+	@Override
+	public CustomAlertDialogBuilder setMessage(CharSequence message) {
+		textView.setText(message);
+		return this;
+	}
+}

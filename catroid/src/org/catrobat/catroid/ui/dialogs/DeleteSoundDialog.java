@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -57,7 +56,7 @@ public class DeleteSoundDialog extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		final int selectedPosition = getArguments().getInt(BUNDLE_ARGUMENTS_SELECTED_POSITION);
 
-		Dialog dialog = new AlertDialog.Builder(getActivity()).setTitle(R.string.delete_sound_dialog)
+		Dialog dialog = new CustomAlertDialogBuilder(getActivity()).setTitle(R.string.delete_sound_dialog)
 				.setNegativeButton(R.string.cancel_button, new OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {

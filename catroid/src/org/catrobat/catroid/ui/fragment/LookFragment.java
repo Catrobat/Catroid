@@ -76,6 +76,7 @@ import org.catrobat.catroid.ui.adapter.LookAdapter;
 import org.catrobat.catroid.ui.adapter.LookBaseAdapter;
 import org.catrobat.catroid.ui.adapter.LookBaseAdapter.OnLookEditListener;
 import org.catrobat.catroid.ui.controller.LookController;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.ui.dialogs.NewLookDialog;
 import org.catrobat.catroid.ui.dialogs.RenameLookDialog;
@@ -139,7 +140,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		public void onDestroyActionMode(ActionMode mode) {
 			for (int position : adapter.getCheckedItems()) {
 				LookController.getInstance().copyLook(position, lookDataList, getActivity(),
-                        ((LookAdapter) adapter).getLookFragment());
+						((LookAdapter) adapter).getLookFragment());
 			}
 			clearCheckedLooksAndEnableButtons();
 		}
@@ -409,7 +410,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		switch (item.getItemId()) {
 			case R.id.context_menu_copy: {
 				LookController.getInstance().copyLook(selectedLookPosition, lookDataList, getActivity(),
-                        ((LookAdapter) adapter).getLookFragment());
+						((LookAdapter) adapter).getLookFragment());
 				break;
 			}
 
@@ -673,7 +674,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			titleId = R.string.dialog_confirm_delete_multiple_looks_title;
 		}
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
 		builder.setTitle(titleId);
 		builder.setMessage(R.string.dialog_confirm_delete_look_message);
 		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -794,11 +795,11 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		}
 	}
 
-    public void destroyLoader() {
-        getLoaderManager().destroyLoader(LookController.ID_LOADER_MEDIA_IMAGE);
-    }
+	public void destroyLoader() {
+		getLoaderManager().destroyLoader(LookController.ID_LOADER_MEDIA_IMAGE);
+	}
 
-    public interface OnLookDataListChangedAfterNewListener {
+	public interface OnLookDataListChangedAfterNewListener {
 
 		public void onLookDataListChangedAfterNew(LookData soundInfo);
 
