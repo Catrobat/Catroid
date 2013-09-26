@@ -83,7 +83,7 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
-		ViewHolder holder;
+		final ViewHolder holder;
 
 		if (convertView == null) {
 			convertView = View.inflate(context, R.layout.fragment_look_looklist_item, null);
@@ -140,14 +140,12 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 				holder.checkbox.setVisibility(View.VISIBLE);
 				holder.lookArrowView.setVisibility(View.GONE);
 				holder.lookElement.setBackgroundResource(R.drawable.button_background_shadowed);
-				holder.lookElement.setClickable(false);
 				checkboxIsVisible = true;
 			} else {
 				holder.checkbox.setVisibility(View.GONE);
 				holder.checkbox.setChecked(false);
 				holder.lookArrowView.setVisibility(View.VISIBLE);
 				holder.lookElement.setBackgroundResource(R.drawable.button_background_selector);
-				holder.lookElement.setClickable(true);
 				clearCheckedItems();
 			}
 
@@ -180,7 +178,9 @@ public class LookAdapter extends ArrayAdapter<LookData> implements ScriptActivit
 				holder.lookElement.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						if (onLookEditListener != null) {
+						if (selectMode != ListView.CHOICE_MODE_NONE) {
+							holder.checkbox.setChecked(!holder.checkbox.isChecked());
+						} else if (onLookEditListener != null) {
 							onLookEditListener.onLookEdit(view);
 						}
 					}

@@ -398,6 +398,19 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 	}
 
+	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
+		Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu).setOnClickListener(
+				new OnClickListener() {
+
+					@Override
+					public void onClick(View view) {
+						adapter.checkAllItems();
+						view.setVisibility(View.GONE);
+					}
+
+				});
+	}
+
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
 
 		@Override
@@ -415,6 +428,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			multipleItemAppendixActionMode = getString(R.string.brick_multiple);
 
 			mode.setTitle(actionModeTitle);
+			addSelectAllActionModeButton(mode, menu);
 
 			return true;
 		}

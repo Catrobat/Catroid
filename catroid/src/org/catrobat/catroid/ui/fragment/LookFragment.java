@@ -54,6 +54,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -89,7 +90,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.SortedSet;
 import java.util.concurrent.locks.Lock;
 
 public class LookFragment extends ScriptActivityFragment implements OnLookEditListener,
@@ -797,6 +797,23 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		}
 	}
 
+	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
+		Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu).setOnClickListener(
+				new OnClickListener() {
+
+					@Override
+					public void onClick(View view) {
+						for (int position = 0; position < lookDataList.size(); position++) {
+							adapter.addCheckedItem(position);
+						}
+						adapter.notifyDataSetChanged();
+						view.setVisibility(View.GONE);
+						onLookChecked();
+					}
+
+				});
+	}
+
 	private ActionMode.Callback copyModeCallBack = new ActionMode.Callback() {
 
 		@Override
@@ -814,6 +831,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			multipleItemAppendixActionMode = getString(R.string.looks);
 
 			mode.setTitle(actionModeTitle);
+			addSelectAllActionModeButton(mode, menu);
 
 			return true;
 		}
@@ -825,11 +843,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			Set<Integer> checkedLooks = adapter.getCheckedItems();
-			Iterator<Integer> iterator = checkedLooks.iterator();
-
-			while (iterator.hasNext()) {
-				int position = iterator.next();
+			for (int position : adapter.getCheckedItems()) {
 				copyLook(position);
 			}
 			clearCheckedLooksAndEnableButtons();
@@ -889,6 +903,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			multipleItemAppendixActionMode = getString(R.string.looks);
 
 			mode.setTitle(actionModeTitle);
+			addSelectAllActionModeButton(mode, menu);
 
 			return true;
 		}
@@ -918,11 +933,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	private void deleteCheckedLooks() {
-		SortedSet<Integer> checkedLooks = adapter.getCheckedItems();
-		Iterator<Integer> iterator = checkedLooks.iterator();
 		int numberDeleted = 0;
-		while (iterator.hasNext()) {
-			int position = iterator.next();
+		for (int position : adapter.getCheckedItems()) {
 			deleteLook(position - numberDeleted);
 			++numberDeleted;
 		}

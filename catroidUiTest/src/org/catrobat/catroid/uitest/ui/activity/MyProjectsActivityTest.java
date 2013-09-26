@@ -69,6 +69,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final String INVALID_PROJECT_MODIFIER = "invalidProject";
@@ -348,16 +349,23 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.sleep(500);
 		solo.goBack();
 
-		corruptProjectXML(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		solo.sleep(200);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName(), 1000);
 		solo.clickOnButton(myProjectsText);
+
+		solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		assertTrue("longclick on project '" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "' in list not successful",
+				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME));
+		solo.clickOnText(solo.getString(R.string.delete));
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+		solo.clickOnText(yes);
+		assertTrue("delete dialog not closed in time", solo.waitForText(standardProjectName));
 
 		solo.waitForText(standardProjectName);
 		assertTrue("longclick on project '" + standardProjectName + "' in list not successful",
 				UiTestUtils.longClickOnTextInList(solo, standardProjectName));
 		solo.clickOnText(solo.getString(R.string.delete));
-		String yes = solo.getString(R.string.yes);
 		solo.waitForText(yes);
 		solo.clickOnText(yes);
 		assertTrue("delete dialog not closed in time", solo.waitForText(standardProjectName));
@@ -661,8 +669,10 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 1, true));
 		assertTrue("project " + UiTestUtils.PROJECTNAME1 + " is not visible anymore",
 				solo.searchText(UiTestUtils.PROJECTNAME1, 1, true));
-		assertNotSame("the deleted project is still the current project", UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
-				ProjectManager.getInstance().getCurrentProject().getName());
+		if (ProjectManager.getInstance().getCurrentProject() != null) {
+			assertNotSame("the deleted project is still the current project", UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
+					ProjectManager.getInstance().getCurrentProject().getName());
+		}
 	}
 
 	public void testDeleteAllProjects() {
@@ -700,10 +710,12 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				solo.searchText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 1));
 		assertTrue("project " + UiTestUtils.PROJECTNAME1 + " is not visible anymore",
 				solo.searchText(UiTestUtils.PROJECTNAME1, 1));
-		assertNotSame("the deleted project is still the current project", UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
-				projectManager.getCurrentProject().getName());
-		assertEquals(UiTestUtils.PROJECTNAME1 + " should be the current project", UiTestUtils.PROJECTNAME1,
-				projectManager.getCurrentProject().getName());
+		if (projectManager.getCurrentProject() != null) {
+			assertNotSame("the deleted project is still the current project", UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
+					projectManager.getCurrentProject().getName());
+			assertEquals(UiTestUtils.PROJECTNAME1 + " should be the current project", UiTestUtils.PROJECTNAME1,
+					projectManager.getCurrentProject().getName());
+		}
 
 		//delete second project
 		solo.waitForText(UiTestUtils.PROJECTNAME1);
@@ -721,6 +733,56 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("default project not visible", solo.searchText(defaultProjectName));
 		assertEquals("the current project is not the default project", defaultProjectName, projectManager
 				.getCurrentProject().getName());
+	}
+
+	public void testDeleteManyProjects() {
+		for (int count = 0; count < 10; count++) {
+			UiTestUtils.createTestProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME + " " + count);
+		}
+
+		solo.sleep(200);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+
+		UiTestUtils.clickOnActionBar(solo, R.id.delete);
+		solo.waitForText(solo.getString(R.string.delete));
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		solo.clickOnText(selectAll);
+		solo.sleep(200);
+		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
+
+		solo.sleep(200);
+
+		for (int count = 0; count < 10; count++) {
+			assertFalse("Project not deleted",
+					solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME + " " + count, 0, 200));
+		}
+
+		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.default_project_name)));
+	}
+
+	public void testItemClick() {
+		createProjects();
+		solo.sleep(2000);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+
+		UiTestUtils.clickOnActionBar(solo, R.id.delete);
+		solo.clickInList(0);
+
+		ArrayList<CheckBox> checkBoxList = solo.getCurrentViews(CheckBox.class);
+		assertTrue("CheckBox not checked", checkBoxList.get(0).isChecked());
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.yes)));
+		solo.clickOnButton(solo.getString(R.string.yes));
+
+		assertFalse("Project not deleted", solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, 0, 200));
 	}
 
 	public void testDeleteProjectViaActionBar() {

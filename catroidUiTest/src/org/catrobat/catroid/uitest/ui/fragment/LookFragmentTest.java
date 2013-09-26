@@ -54,6 +54,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int RESOURCE_IMAGE = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
@@ -966,6 +967,39 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				solo.waitForText(SECOND_TEST_LOOK_NAME, 0, 200, false, false));
 	}
 
+	public void testDeleteSelectAll() {
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		solo.clickOnText(selectAll);
+
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
+		}
+		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+		solo.clickOnText(yes);
+
+		assertFalse("Look was not Deleted!", solo.waitForText(FIRST_TEST_LOOK_NAME, 1, 200));
+		assertFalse("Look was not Deleted!", solo.waitForText(SECOND_TEST_LOOK_NAME, 1, 200));
+	}
+
+	public void testItemClick() {
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		solo.clickInList(2);
+
+		ArrayList<CheckBox> checkBoxList = solo.getCurrentViews(CheckBox.class);
+		assertTrue("CheckBox not checked", checkBoxList.get(1).isChecked());
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.yes)));
+		solo.clickOnButton(solo.getString(R.string.yes));
+
+		assertFalse("Look not deleted", solo.waitForText(SECOND_TEST_LOOK_NAME, 0, 200));
+	}
+
 	public void testDeleteAndCopyActionMode() {
 		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
 
@@ -1127,6 +1161,22 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				"Selected look '" + SECOND_TEST_LOOK_NAME + "' was not copied!",
 				solo.searchText(SECOND_TEST_LOOK_NAME, 2)
 						&& solo.searchText(SECOND_TEST_LOOK_NAME + copiedLookAddition));
+	}
+
+	public void testCopySelectAll() {
+		int currentNumberOfLooks = lookDataList.size();
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		solo.clickOnText(selectAll);
+
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
+		}
+		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		checkIfNumberOfLooksIsEqual(currentNumberOfLooks * 2);
 	}
 
 	public void testResolutionWhenCroppedWithPaintroid() {
