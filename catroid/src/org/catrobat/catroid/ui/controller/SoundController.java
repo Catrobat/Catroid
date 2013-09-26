@@ -428,7 +428,7 @@ public class SoundController {
 		}
 
 		if (audioPath.equalsIgnoreCase("")) {
-			Utils.showErrorDialog(activity, activity.getString(R.string.error_load_sound));
+			Utils.showErrorDialog(activity, R.string.error_load_sound);
 			audioPath = "";
 			return audioPath;
 		} else {

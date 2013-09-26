@@ -64,9 +64,8 @@ public class AboutDialogFragment extends DialogFragment {
 		String versionName = this.getString(R.string.android_version_prefix) + Utils.getVersionName(getActivity());
 		aboutVersionNameTextView.setText(versionName);
 
-		Dialog aboutDialog = new AlertDialog.Builder(getActivity()).setView(view)
-				.setTitle(getString(R.string.dialog_about_title))
-				.setNeutralButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+		Dialog aboutDialog = new AlertDialog.Builder(getActivity()).setView(view).setTitle(R.string.dialog_about_title)
+				.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.cancel();

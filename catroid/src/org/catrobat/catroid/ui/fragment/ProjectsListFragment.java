@@ -363,28 +363,24 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	}
 
 	private void showConfirmDeleteDialog() {
-		String yes = getActivity().getString(R.string.yes);
-		String no = getActivity().getString(R.string.no);
-		String title = "";
+		int titleId;
 		if (adapter.getAmountOfCheckedProjects() == 1) {
-			title = getActivity().getString(R.string.dialog_confirm_delete_program_title);
+			titleId = R.string.dialog_confirm_delete_program_title;
 		} else {
-			title = getActivity().getString(R.string.dialog_confirm_delete_multiple_programs_title);
+			titleId = R.string.dialog_confirm_delete_multiple_programs_title;
 		}
 
-		String message = getActivity().getString(R.string.dialog_confirm_delete_program_message);
-
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(title);
-		builder.setMessage(message);
-		builder.setPositiveButton(yes, new DialogInterface.OnClickListener() {
+		builder.setTitle(titleId);
+		builder.setMessage(R.string.dialog_confirm_delete_program_message);
+		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				deleteCheckedProjects();
 				clearCheckedProjectsAndEnableButtons();
 			}
 		});
-		builder.setNegativeButton(no, new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				clearCheckedProjectsAndEnableButtons();
@@ -501,7 +497,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			setSelectMode(ListView.CHOICE_MODE_SINGLE);
-			mode.setTitle(getString(R.string.rename));
+			mode.setTitle(R.string.rename);
 
 			actionModeActive = true;
 
@@ -536,7 +532,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			setSelectMode(ListView.CHOICE_MODE_SINGLE);
-			mode.setTitle(getString(R.string.copy));
+			mode.setTitle(R.string.copy);
 
 			actionModeActive = true;
 

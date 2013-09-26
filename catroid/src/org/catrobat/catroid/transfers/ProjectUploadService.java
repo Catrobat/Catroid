@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.transfers;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
@@ -140,15 +142,11 @@ public class ProjectUploadService extends IntentService {
 	@Override
 	public void onDestroy() {
 		if (!result) {
-			showToast(getString(R.string.error_project_upload));
+			Toast.makeText(this, R.string.error_project_upload, LENGTH_SHORT).show();
 			return;
 		}
-		showToast(getString(R.string.notification_upload_finished));
+		Toast.makeText(this, R.string.notification_upload_finished, LENGTH_SHORT).show();
 		super.onDestroy();
-	}
-
-	private void showToast(String message) {
-		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 	}
 
 }
