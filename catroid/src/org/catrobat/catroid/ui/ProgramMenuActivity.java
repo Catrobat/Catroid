@@ -30,7 +30,6 @@ import android.widget.Button;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -44,7 +43,6 @@ public class ProgramMenuActivity extends BaseActivity {
 
 	private static final String TAG = ProgramMenuActivity.class.getSimpleName();
 
-	private ActionBar actionBar;
 	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	@Override
@@ -55,7 +53,7 @@ public class ProgramMenuActivity extends BaseActivity {
 
 		BottomBar.hideAddButton(this);
 
-		actionBar = getSupportActionBar();
+		final ActionBar actionBar = getSupportActionBar();
 
 		//The try-catch block is a fix for this bug: https://github.com/Catrobat/Catroid/issues/618
 		try {
@@ -94,17 +92,6 @@ public class ProgramMenuActivity extends BaseActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.menu_program_activity, menu);
 		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.settings: {
-				Intent intent = new Intent(this, SettingsActivity.class);
-				startActivity(intent);
-			}
-		}
-		return super.onOptionsItemSelected(item);
 	}
 
 	public void handleScriptsButton(View view) {

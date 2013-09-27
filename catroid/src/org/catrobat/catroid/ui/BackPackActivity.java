@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -155,12 +154,6 @@ public class BackPackActivity extends BaseActivity {
 			case R.id.delete:
 				currentFragment.startDeleteActionMode();
 				break;
-
-			case R.id.settings:
-				Intent settingsIntent = new Intent(BackPackActivity.this, SettingsActivity.class);
-				startActivity(settingsIntent);
-				break;
-
 		}
 		return super.onOptionsItemSelected(item);
 	}

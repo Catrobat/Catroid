@@ -1151,7 +1151,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	public void testOverFlowMenuSettings() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
-		solo.clickOnMenuItem(solo.getString(R.string.main_menu_settings));
+		solo.clickOnMenuItem(solo.getString(R.string.settings));
 		solo.assertCurrentActivity("Not in SettingsActivity", SettingsActivity.class);
 	}
 

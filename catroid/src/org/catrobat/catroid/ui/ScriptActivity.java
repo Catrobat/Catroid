@@ -28,7 +28,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -96,7 +95,7 @@ public class ScriptActivity extends BaseActivity {
 	private boolean isLookFragmentFromSetLookBrickNew = false;
 	private boolean isLookFragmentHandleAddButtonHandled = false;
 
-	private ImageButton buttonAdd = null;
+	private ImageButton buttonAdd;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -248,11 +247,6 @@ public class ScriptActivity extends BaseActivity {
 			case R.id.delete:
 				currentFragment.startDeleteActionMode();
 				break;
-
-			case R.id.settings:
-				Intent settingsIntent = new Intent(ScriptActivity.this, SettingsActivity.class);
-				startActivity(settingsIntent);
-				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -275,9 +269,6 @@ public class ScriptActivity extends BaseActivity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-		Log.i("info", "onKeyDown() ScriptActivity.... keyCode: " + keyCode);
-
 		FragmentManager fragmentManager = getSupportFragmentManager();
 
 		for (String tag : FormulaEditorListFragment.TAGS) {
@@ -439,13 +430,7 @@ public class ScriptActivity extends BaseActivity {
 	public void handleShowDetails(boolean showDetails, MenuItem item) {
 		currentFragment.setShowDetails(showDetails);
 
-		String menuItemText = "";
-		if (showDetails) {
-			menuItemText = getString(R.string.hide_details);
-		} else {
-			menuItemText = getString(R.string.show_details);
-		}
-		item.setTitle(menuItemText);
+		item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
 	}
 
 	public ScriptActivityFragment getFragment(int fragmentPosition) {

@@ -31,10 +31,6 @@
     <string name="copy">"Kopiëren"</string>
     <string name="cut">"Knippen"</string>
     <string name="move">"Verplaatsen"</string>
-    <!--  -->
-
-
-    <!-- General -->
     <string name="close">"Sluiten"</string>
     <string name="error">"Fout"</string>
     <string name="please_wait">"Even geduld"</string>
@@ -42,6 +38,7 @@
     <string name="background">"Achtergrond"</string>
     <string name="stage">"Speelveld"</string>
     <string name="ok">"OK"</string>
+    <string name="settings">"Instellingen"</string>
     <!--  -->
 
 
@@ -52,7 +49,6 @@
     <string name="main_menu_forum">"Forum"</string>
     <string name="main_menu_web">"Gemeenschap"</string>
     <string name="main_menu_upload">"Uploaden"</string>
-    <string name="main_menu_settings">"Instellingen"</string>
     <string name="main_menu_about_pocketcode">"Over Pocket Code"</string>
     <string name="main_menu_rate_app">"Beoordeel ons!"</string>
     <string name="main_menu_play_store_not_installed">"Play Store-app niet gevonden"</string>
