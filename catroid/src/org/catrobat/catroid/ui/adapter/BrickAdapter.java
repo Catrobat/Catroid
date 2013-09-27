@@ -948,21 +948,18 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	private void showConfirmDeleteDialog(int itemPosition) {
 		this.clickItemPosition = itemPosition;
-		String yes = context.getString(R.string.yes);
-		String no = context.getString(R.string.no);
-		String title;
-		String message = context.getString(R.string.dialog_confirm_delete_brick_message);
+		int titleId;
 
 		if (getItem(clickItemPosition) instanceof ScriptBrick) {
-			title = context.getString(R.string.dialog_confirm_delete_script_title);
+			titleId = R.string.dialog_confirm_delete_script_title;
 		} else {
-			title = context.getString(R.string.dialog_confirm_delete_brick_title);
+			titleId = R.string.dialog_confirm_delete_brick_title;
 		}
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		builder.setTitle(title);
-		builder.setMessage(message);
-		builder.setPositiveButton(yes, new DialogInterface.OnClickListener() {
+		builder.setTitle(titleId);
+		builder.setMessage(R.string.dialog_confirm_delete_brick_message);
+		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				if (getItem(clickItemPosition) instanceof ScriptBrick) {
@@ -975,7 +972,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				}
 			}
 		});
-		builder.setNegativeButton(no, new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();

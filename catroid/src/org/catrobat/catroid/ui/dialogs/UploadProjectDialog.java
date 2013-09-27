@@ -209,18 +209,18 @@ public class UploadProjectDialog extends DialogFragment {
 		String projectDescription = projectDescriptionField.getText().toString();
 
 		if (uploadName.isEmpty()) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.error_no_name_entered));
+			Utils.showErrorDialog(getActivity(), R.string.error_no_name_entered);
 			return;
 		}
 
 		if (uploadName.equals(getString(R.string.default_project_name))) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.error_upload_project_with_default_name));
+			Utils.showErrorDialog(getActivity(), R.string.error_upload_project_with_default_name);
 			return;
 		}
 
 		Context context = getActivity().getApplicationContext();
 		if (Utils.isStandardProject(projectManager.getCurrentProject(), context)) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.error_upload_default_project));
+			Utils.showErrorDialog(getActivity(), R.string.error_upload_default_project);
 			return;
 		}
 

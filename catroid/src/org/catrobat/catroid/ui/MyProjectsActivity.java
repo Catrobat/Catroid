@@ -42,7 +42,6 @@ public class MyProjectsActivity extends BaseActivity {
 
 	public static final String ACTION_PROJECT_LIST_INIT = "org.catrobat.catroid.PROJECT_LIST_INIT";
 
-	private ActionBar actionBar;
 	private Lock viewSwitchLock = new ViewSwitchLock();
 	private ProjectsListFragment projectsListFragment;
 
@@ -107,10 +106,8 @@ public class MyProjectsActivity extends BaseActivity {
 	}
 
 	private void setUpActionBar() {
-		String title = getResources().getString(R.string.my_projects_activity_title);
-
-		actionBar = getSupportActionBar();
-		actionBar.setTitle(title);
+		final ActionBar actionBar = getSupportActionBar();
+		actionBar.setTitle(R.string.my_projects_activity_title);
 		actionBar.setHomeButtonEnabled(true);
 	}
 

@@ -413,19 +413,17 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 	};
 
 	private void showConfirmDeleteDialog() {
-		String title = "";
+		int titleId;
 		if (adapter.getAmountOfCheckedItems() == 1) {
-			title = getActivity().getString(R.string.dialog_confirm_delete_sound_title);
+			titleId = R.string.dialog_confirm_delete_sound_title;
 		} else {
-			title = getActivity().getString(R.string.dialog_confirm_delete_multiple_sounds_title);
+			titleId = R.string.dialog_confirm_delete_multiple_sounds_title;
 		}
 
-		String message = getActivity().getString(R.string.dialog_confirm_delete_sound_message);
-
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(title);
-		builder.setMessage(message);
-		builder.setPositiveButton(getActivity().getString(R.string.yes), new DialogInterface.OnClickListener() {
+		builder.setTitle(titleId);
+		builder.setMessage(R.string.dialog_confirm_delete_sound_message);
+		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				SoundController.getInstance().deleteCheckedSounds(getActivity(), adapter,
@@ -433,7 +431,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 				clearCheckedSoundsAndEnableButtons();
 			}
 		});
-		builder.setNegativeButton(getActivity().getString(R.string.no), new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();

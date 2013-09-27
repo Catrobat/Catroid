@@ -360,28 +360,24 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	}
 
 	private void showConfirmDeleteDialog() {
-		String yes = getActivity().getString(R.string.yes);
-		String no = getActivity().getString(R.string.no);
-		String title = "";
+		int titleId;
 		if (spriteAdapter.getAmountOfCheckedSprites() == 1) {
-			title = getActivity().getString(R.string.dialog_confirm_delete_object_title);
+			titleId = R.string.dialog_confirm_delete_object_title;
 		} else {
-			title = getActivity().getString(R.string.dialog_confirm_delete_multiple_objects_title);
+			titleId = R.string.dialog_confirm_delete_multiple_objects_title;
 		}
 
-		String message = getActivity().getString(R.string.dialog_confirm_delete_object_message);
-
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(title);
-		builder.setMessage(message);
-		builder.setPositiveButton(yes, new DialogInterface.OnClickListener() {
+		builder.setTitle(titleId);
+		builder.setMessage(R.string.dialog_confirm_delete_object_message);
+		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				deleteCheckedSprites();
 				clearCheckedSpritesAndEnableButtons();
 			}
 		});
-		builder.setNegativeButton(no, new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
@@ -546,7 +542,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			setSelectMode(ListView.CHOICE_MODE_SINGLE);
-			mode.setTitle(getString(R.string.rename));
+			mode.setTitle(R.string.rename);
 
 			actionModeActive = true;
 
