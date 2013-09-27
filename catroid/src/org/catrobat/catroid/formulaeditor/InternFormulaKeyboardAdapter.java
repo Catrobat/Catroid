@@ -29,11 +29,16 @@ import java.util.List;
 
 public class InternFormulaKeyboardAdapter {
 
-	public List<InternToken> createInternTokenListByResourceId(int resource, String userVariableName) {
+	public List<InternToken> createInternTokenListByResourceId(int resource, String name) {
 
 		//USER VARIABLES
-		if ((resource == 0) && !userVariableName.isEmpty()) {
-			return buildUserVariable(userVariableName);
+		if ((resource == 0) && !name.isEmpty()) {
+			return buildUserVariable(name);
+		}
+
+		//STRING
+		if ((resource == R.id.formula_editor_keyboard_string) && !name.isEmpty()) {
+			return buildString(name);
 		}
 
 		switch (resource) {
@@ -262,6 +267,12 @@ public class InternFormulaKeyboardAdapter {
 
 		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
+		return returnList;
+	}
+
+	private List<InternToken> buildString(String myString) {
+		List<InternToken> returnList = new LinkedList<InternToken>();
+		returnList.add(new InternToken(InternTokenType.STRING, myString));
 		return returnList;
 	}
 

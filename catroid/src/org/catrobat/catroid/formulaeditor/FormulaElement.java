@@ -36,7 +36,7 @@ public class FormulaElement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static enum ElementType {
-		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, BRACKET
+		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, BRACKET, STRING
 	}
 
 	public static final Double NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE = 0d;
@@ -119,6 +119,9 @@ public class FormulaElement implements Serializable {
 			case SENSOR:
 				internTokenList.add(new InternToken(InternTokenType.SENSOR, this.value));
 				break;
+			case STRING:
+				internTokenList.add(new InternToken(InternTokenType.STRING, value));
+				break;
 		}
 		return internTokenList;
 	}
@@ -167,6 +170,10 @@ public class FormulaElement implements Serializable {
 					break;
 				}
 				returnValue = userVariable.getValue();
+				break;
+
+			case STRING:
+				returnValue = interpretString(value);
 				break;
 
 		}
@@ -356,6 +363,16 @@ public class FormulaElement implements Serializable {
 				returnValue = (double) sprite.look.getYInUserInterfaceDimensionUnit();
 				break;
 		}
+		return returnValue;
+	}
+
+	private Double interpretString(String value) {
+		Double returnValue = new Double(0);
+		try {
+			returnValue = Double.valueOf(value);
+		} catch (NumberFormatException numberFormatException) {
+		}
+
 		return returnValue;
 	}
 

@@ -99,10 +99,10 @@ public class InternFormula {
 
 	}
 
-	public void handleKeyInput(int resourceId, Context context, String userVariableName) {
+	public void handleKeyInput(int resourceId, Context context, String name) {
 
 		List<InternToken> keyInputInternTokenList = new InternFormulaKeyboardAdapter()
-				.createInternTokenListByResourceId(resourceId, userVariableName);
+				.createInternTokenListByResourceId(resourceId, name);
 
 		CursorTokenPropertiesAfterModification cursorTokenPropertiesAfterInput = CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 

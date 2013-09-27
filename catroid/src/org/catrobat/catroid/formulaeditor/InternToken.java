@@ -124,6 +124,13 @@ public class InternToken {
 		return false;
 	}
 
+	public boolean isString() {
+		if (internTokenType == InternTokenType.STRING) {
+			return true;
+		}
+		return false;
+	}
+
 	public void appendToTokenStringValue(String stringToAppend) {
 		this.tokenStringValue += stringToAppend;
 	}
@@ -145,5 +152,4 @@ public class InternToken {
 	public InternToken deepCopy() {
 		return new InternToken(internTokenType, tokenStringValue);
 	}
-
 }

@@ -57,10 +57,9 @@ public class InternFormulaParser {
 		this.internTokensToParse = internTokensToParse;
 	}
 
-	private void getNextToken() throws InternFormulaParserException {
+	private void getNextToken() {
 		currentTokenParseIndex++;
 		currentToken = internTokensToParse.get(currentTokenParseIndex);
-
 	}
 
 	public int getErrorTokenIndex() {
@@ -237,10 +236,13 @@ public class InternFormulaParser {
 				currentElement.replaceElement(userVariable());
 				break;
 
+			case STRING:
+				currentElement.replaceElement(FormulaElement.ElementType.STRING, string());
+				break;
+
 			default:
 				throw new InternFormulaParserException("Parse Error");
 		}
-
 		return termTree;
 	}
 
@@ -304,5 +306,11 @@ public class InternFormulaParser {
 
 		getNextToken();
 		return numberToCheck;
+	}
+
+	private String string() {
+		String currentStringValue = currentToken.getTokenStringValue();
+		getNextToken();
+		return currentStringValue;
 	}
 }
