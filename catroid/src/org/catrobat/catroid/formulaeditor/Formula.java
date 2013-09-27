@@ -28,6 +28,7 @@ import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
@@ -92,7 +93,6 @@ public class Formula implements Serializable {
 
 	public boolean interpretBoolean(Sprite sprite) {
 		int result = interpretInteger(sprite);
-
 		return result != 0 ? true : false;
 	}
 
@@ -107,6 +107,11 @@ public class Formula implements Serializable {
 
 	public float interpretFloat(Sprite sprite) {
 		return (float) interpretDouble(sprite);
+	}
+
+	public char interpretChar(Sprite sprite) {
+		Double interpret = formulaTree.interpretRecursive(sprite);
+		return (char) interpret.intValue();
 	}
 
 	public void setRoot(FormulaElement formula) {
@@ -178,10 +183,6 @@ public class Formula implements Serializable {
 		return false;
 	}
 
-	public boolean isLogicalFormula() {
-		return formulaTree.isLogicalOperator();
-	}
-
 	public boolean isSingleNumberFormula() {
 		return formulaTree.isSingleNumberFormula();
 	}
@@ -195,4 +196,22 @@ public class Formula implements Serializable {
 		return new Formula(0);
 	}
 
+	public String getResultForComputeDialog(Context context) {
+
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+
+		if (formulaTree.isLogicalOperator()) {
+			boolean result = this.interpretBoolean(sprite);
+			int logicalFormulaResultIdentifier = result ? R.string.formula_editor_true : R.string.formula_editor_false;
+			return context.getString(logicalFormulaResultIdentifier);
+		} else if (formulaTree.hasFunctionCharacterReturnType()) {
+			char result = this.interpretChar(sprite);
+			return String.valueOf(result);
+		} else {
+			float floatInterpretationResult = this.interpretFloat(sprite);
+			floatInterpretationResult *= 100;
+			floatInterpretationResult = Math.round(floatInterpretationResult) / 100f;
+			return String.valueOf(floatInterpretationResult);
+		}
+	}
 }

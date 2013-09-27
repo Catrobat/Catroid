@@ -22,11 +22,25 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+
 import android.util.Log;
+
+import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 
 public enum Functions {
 
-	SIN, COS, TAN, LN, LOG, SQRT, RAND, ROUND, ABS, PI, MOD, ARCSIN, ARCCOS, ARCTAN, EXP, MAX, MIN, TRUE, FALSE;
+	SIN(ElementType.NUMBER), COS(ElementType.NUMBER), TAN(ElementType.NUMBER), LN(ElementType.NUMBER), LOG(
+			ElementType.NUMBER), SQRT(ElementType.NUMBER), RAND(ElementType.NUMBER), ROUND(ElementType.NUMBER), ABS(
+			ElementType.NUMBER), PI(ElementType.NUMBER), MOD(ElementType.NUMBER), ARCSIN(ElementType.NUMBER), ARCCOS(
+			ElementType.NUMBER), ARCTAN(ElementType.NUMBER), EXP(ElementType.NUMBER), MAX(ElementType.NUMBER), MIN(
+			ElementType.NUMBER), TRUE(ElementType.NUMBER), FALSE(ElementType.NUMBER), LENGTH(ElementType.NUMBER), LETTER(
+			ElementType.CHAR);
+
+	ElementType returnType;
+
+	Functions(ElementType type) {
+		returnType = type;
+	}
 
 	private static final String TAG = Functions.class.getSimpleName();
 

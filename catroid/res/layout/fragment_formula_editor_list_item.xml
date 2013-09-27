@@ -32,3 +32,4 @@
     android:paddingRight="6dp"
     android:textAppearance="?android:attr/textAppearanceLarge"
     android:textColor="@color/sound_fragment_text_main_color" />
+

@@ -601,6 +601,8 @@
     <string name="formula_editor_function_min">min</string>
     <string name="formula_editor_function_true">WAHR</string>
     <string name="formula_editor_function_false">FALSCH</string>
+    <string name="formula_editor_function_length">länge</string>
+    <string name="formula_editor_function_letter">buchstabe</string>
     <string name="formula_editor_sensor_x_acceleration">Beschleunigung_x</string>
     <string name="formula_editor_sensor_y_acceleration">Beschleunigung_y</string>
     <string name="formula_editor_sensor_z_acceleration">Beschleunigung_z</string>

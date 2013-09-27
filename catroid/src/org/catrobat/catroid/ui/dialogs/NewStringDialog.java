@@ -29,8 +29,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -45,7 +43,6 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 public class NewStringDialog extends SherlockDialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_string";
-
 	private EditText newStringEditText;
 	private Dialog newStringDialog;
 
@@ -80,31 +77,8 @@ public class NewStringDialog extends SherlockDialogFragment {
 				InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
 						Context.INPUT_METHOD_SERVICE);
 				inputManager.showSoftInput(newStringEditText, InputMethodManager.SHOW_IMPLICIT);
-
-				((AlertDialog) newStringDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
-				newStringEditText.addTextChangedListener(new TextWatcher() {
-
-					@Override
-					public void onTextChanged(CharSequence s, int start, int before, int count) {
-					}
-
-					@Override
-					public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-					}
-
-					@Override
-					public void afterTextChanged(Editable s) {
-						if (newStringEditText.length() == 0) {
-							((AlertDialog) newStringDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
-						} else {
-							((AlertDialog) newStringDialog).getButton(Dialog.BUTTON_POSITIVE).setEnabled(true);
-						}
-					}
-				});
-
 			}
 		});
-
 		return newStringDialog;
 	}
 

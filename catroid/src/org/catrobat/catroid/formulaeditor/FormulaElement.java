@@ -36,7 +36,7 @@ public class FormulaElement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static enum ElementType {
-		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, BRACKET, STRING
+		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, BRACKET, STRING, CHAR
 	}
 
 	public static final Double NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE = 0d;
@@ -68,6 +68,10 @@ public class FormulaElement implements Serializable {
 			this.rightChild.parent = this;
 		}
 
+	}
+
+	public ElementType getElementType() {
+		return type;
 	}
 
 	public String getValue() {
@@ -276,13 +280,25 @@ public class FormulaElement implements Serializable {
 			case MIN:
 				right = rightChild.interpretRecursive(sprite);
 				return java.lang.Math.min(left, right);
-
 			case TRUE:
 				return 1.0;
-
 			case FALSE:
 				return 0.0;
-
+			case LETTER:
+				rightChild.interpretRecursive(sprite);
+				int index = left.intValue() - 1;
+				if (index < 0) {
+					return 0.0;
+					// TODO handle this with correct exception or errorcode (NaN, Null etc..)
+					// What about empty strings('') ?
+				} else if (index >= rightChild.value.length()) {
+					index = rightChild.value.length() - 1;
+				}
+				return (double) rightChild.value.charAt(index); // TODO return char not ASCII value!
+			case LENGTH:
+				if (leftChild.type == ElementType.STRING) {
+					return (double) leftChild.value.length();
+				}
 		}
 
 		return 0d;
@@ -367,7 +383,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Double interpretString(String value) {
-		Double returnValue = new Double(0);
+		Double returnValue = Double.valueOf(0.0);
 		try {
 			returnValue = Double.valueOf(value);
 		} catch (NumberFormatException numberFormatException) {
@@ -449,6 +465,11 @@ public class FormulaElement implements Serializable {
 			return Operators.getOperatorByValue(value).isLogicalOperator;
 		}
 		return false;
+	}
+
+	public boolean hasFunctionCharacterReturnType() {
+		Functions function = Functions.getFunctionByValue(value);
+		return function.returnType == ElementType.CHAR;
 	}
 
 	public boolean containsElement(ElementType elementType) {
