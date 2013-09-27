@@ -96,11 +96,6 @@ public class MyProjectsActivity extends BaseActivity {
 				handleShowDetails(!projectsListFragment.getShowDetails(), item);
 				break;
 			}
-			case R.id.settings: {
-				Intent intent = new Intent(MyProjectsActivity.this, SettingsActivity.class);
-				startActivity(intent);
-				break;
-			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -133,12 +128,6 @@ public class MyProjectsActivity extends BaseActivity {
 	private void handleShowDetails(boolean showDetails, MenuItem item) {
 		projectsListFragment.setShowDetails(showDetails);
 
-		String menuItemText = "";
-		if (showDetails) {
-			menuItemText = getString(R.string.hide_details);
-		} else {
-			menuItemText = getString(R.string.show_details);
-		}
-		item.setTitle(menuItemText);
+		item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
 	}
 }
