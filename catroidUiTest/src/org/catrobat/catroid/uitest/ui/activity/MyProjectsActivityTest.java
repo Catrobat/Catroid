@@ -47,11 +47,14 @@ import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -79,10 +82,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	private static final int IMAGE_RESOURCE_1 = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
 	private static final int IMAGE_RESOURCE_2 = org.catrobat.catroid.uitest.R.drawable.background_white;
 	private static final int IMAGE_RESOURCE_3 = org.catrobat.catroid.uitest.R.drawable.background_black;
-	// TODO
-	// commented - used for currently disabled testScreenshotUpdate
-	//	private final int IMAGE_RESOURCE_4 = org.catrobat.catroid.uitest.R.drawable.background_green;
-	//	private final int IMAGE_RESOURCE_5 = org.catrobat.catroid.uitest.R.drawable.background_red;
+	private static final int IMAGE_RESOURCE_4 = org.catrobat.catroid.uitest.R.drawable.background_green;
+	private static final int IMAGE_RESOURCE_5 = org.catrobat.catroid.uitest.R.drawable.background_red;
 	private static final String MY_PROJECTS_ACTIVITY_TEST_TAG = MyProjectsActivityTest.class.getSimpleName();
 	private static final String KEY_SHOW_DETAILS = "showDetailsMyProjects";
 	private static final String ZIPFILE_NAME = "testzip";
@@ -1687,159 +1688,146 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("Long Projectname not found", solo.searchText(longProjectName));
 	}
 
-	// TODO
-	// commented due to causing Screenlock on SlaveDevice
-	// sounds weird, but must be fixed
+	public void testScreenshotUpdate() {
+		createProjectWithBackgrounds();
 
-	//	private void playTheProject(boolean switchGreenToRed, boolean switchRedToGreen, boolean makeScreenshot) {
-	//		String scriptsText = solo.getString(R.string.scripts);
-	//		solo.clickOnText(solo.getString(R.string.background));
-	//		solo.clickOnText(scriptsText);
-	//		if (switchGreenToRed) {
-	//			solo.clickOnText("backgroundGreen");
-	//			solo.clickOnText("backgroundRed");
-	//		}
-	//
-	//		if (switchRedToGreen) {
-	//			solo.clickOnText("backgroundRed");
-	//			solo.clickOnText("backgroundGreen");
-	//		}
-	//
-	//		//Reflection.setPrivateField(StageListener.class, "makeAutomaticScreenshot", true);
-	//		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-	//		solo.waitForActivity(StageActivity.class.getSimpleName());
-	//		solo.sleep(2000);
-	//
-	//		if (makeScreenshot) {
-	//			solo.goBack();
-	//			solo.clickOnText(solo.getString(R.string.stage_dialog_screenshot));
-	//			solo.goBack();
-	//		} else {
-	//			solo.goBack();
-	//			solo.goBack();
-	//		}
-	//
-	//		// on Nexus S 2.3.6 solo.currentActivity was StageActivity sometimes
-	//		// which lead to an Exception in UiTestUtils.clickOnHomeActionBarButton
-	//		// workaround to get focus
-	//		solo.waitForActivity(ScriptActivity.class);
-	//		solo.sleep(200);
-	//		solo.clickOnText(scriptsText);
-	//		solo.sleep(200);
-	//		solo.clickOnText(scriptsText);
-	//		solo.sleep(200);
-	//		Log.v("MyProjectsActivityTest", "current activity - " + solo.getCurrentActivity().getClass().getSimpleName());
-	//		UiTestUtils.clickOnHomeActionBarButton(solo);
-	//
-	//		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-	//		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-	//		solo.sleep(500);
-	//	}
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
-	//	private int createScreenshotBitmap() {
-	//
-	//		Bitmap viewBitmap;
-	//		int currentViewID;
-	//		int imageViewID = R.id.my_projects_activity_project_image;
-	//		int pixel = -1;
-	//
-	//		ArrayList<View> currentViews = solo.getCurrentViews();
-	//		int viewSize = currentViews.size();
-	//
-	//		for (int i = 0; i < viewSize; i++) {
-	//			View viewToTest = currentViews.get(i);
-	//			currentViewID = viewToTest.getId();
-	//			if (currentViewID == imageViewID) { // Only stop at Image View...
-	//				TextView textField = (TextView) currentViews.get(i + 2);
-	//				if (textView.getText().equals(UiTestUtils.DEFAULT_TEST_PROJECT_NAME)) { // ...and check if it belongs to the test project
-	//					viewToTest.buildDrawingCache();
-	//					viewBitmap = viewToTest.getDrawingCache();
-	//					pixel = viewBitmap.getPixel(viewBitmap.getWidth() / 2, viewBitmap.getHeight() / 2);
-	//					viewToTest.destroyDrawingCache();
-	//				}
-	//			}
-	//		}
-	//		return pixel;
-	//	}
+		playTheProject(false, false, false); // green to green
+		int greenPixel1 = createScreenshotBitmap();
 
-	//	public void testScreenshotUpdate() {
-	//		createProjectWithBackgrounds();
-	//
-	//		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-	//		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-	//		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-	//		solo.waitForFragmentById(R.id.fragment_projects_list);
-	//		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-	//
-	//		playTheProject(false, false, false); // green to green
-	//		int greenPixel1 = createScreenshotBitmap();
-	//
-	//		//The color values below are those we get on our test devices
-	//		String greenHexValue = "ff00fc00";
-	//		String redHexValue = "fff80000";
-	//		String pixelHexValue = Integer.toHexString(greenPixel1);
-	//		assertEquals("The extracted pixel was not green", greenHexValue, pixelHexValue);
-	//		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-	//
-	//		playTheProject(true, false, false); // green to red
-	//		int redPixel1 = createScreenshotBitmap();
-	//		pixelHexValue = Integer.toHexString(redPixel1);
-	//		assertEquals("The extracted pixel was not red", redHexValue, pixelHexValue);
-	//		assertFalse("The screenshot has not been changed", greenPixel1 == redPixel1);
-	//		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-	//
-	//		playTheProject(false, true, true);// red to green + screenshot
-	//		int greenPixel2 = createScreenshotBitmap();
-	//		pixelHexValue = Integer.toHexString(greenPixel2);
-	//		assertEquals("The extracted pixel was not green", greenHexValue, pixelHexValue);
-	//		assertFalse("The screenshot has not been changed", redPixel1 == greenPixel2);
-	//		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-	//
-	//		playTheProject(true, false, false); // green to red, screenshot must stay green
-	//		int greenPixel3 = createScreenshotBitmap();
-	//		pixelHexValue = Integer.toHexString(greenPixel3);
-	//		assertEquals("The extracted pixel was not green", greenHexValue, pixelHexValue);
-	//		assertTrue("The screenshot has not been changed", greenPixel2 == greenPixel3);
-	//	}
+		//The color values below are those we get on our emulated test device
+		String greenHexValue = "ff00ff00";
+		String redHexValue = "ffff0000";
+		String pixelHexValue = Integer.toHexString(greenPixel1);
+		assertEquals("The extracted pixel was not green", greenHexValue, pixelHexValue);
+		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
-	//	private void createProjectWithBackgrounds() {
-	//
-	//		LookData backgroundGreen;
-	//		LookData backgroundRed;
-	//		ProjectManager projectManager = ProjectManager.getInstance();
-	//
-	//		UiTestUtils.createEmptyProject();
-	//
-	//		File imageFile1 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
-	//				StageListener.SCREENSHOT_MANUAL_FILE_NAME, IMAGE_RESOURCE_4, getInstrumentation().getContext(),
-	//				UiTestUtils.FileTypes.IMAGE);
-	//		File imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
-	//				StageListener.SCREENSHOT_MANUAL_FILE_NAME, IMAGE_RESOURCE_5, getInstrumentation().getContext(),
-	//				UiTestUtils.FileTypes.IMAGE);
-	//
-	//		ArrayList<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
-	//
-	//		backgroundGreen = new LookData();
-	//		backgroundGreen.setLookFilename(imageFile1.getName());
-	//		backgroundGreen.setLookName("backgroundGreen");
-	//		lookDataList.add(backgroundGreen);
-	//
-	//		projectManager.getFileChecksumContainer().addChecksum(backgroundGreen.getChecksum(),
-	//				backgroundGreen.getAbsolutePath());
-	//
-	//		backgroundRed = new LookData();
-	//		backgroundRed.setLookFilename(imageFile2.getName());
-	//		backgroundRed.setLookName("backgroundRed");
-	//		lookDataList.add(backgroundRed);
-	//
-	//		projectManager.getFileChecksumContainer().addChecksum(backgroundRed.getChecksum(),
-	//				backgroundRed.getAbsolutePath());
-	//
-	//		SetLookBrick setBackgroundBrick = new SetLookBrick(projectManager.getCurrentSprite());
-	//		projectManager.getCurrentScript().addBrick(setBackgroundBrick);
-	//		setBackgroundBrick.setLook(backgroundGreen);
-	//		StorageHandler.getInstance().saveProject(projectManager.getCurrentProject());
-	//	}
+		playTheProject(true, false, false); // green to red
+		int redPixel1 = createScreenshotBitmap();
+		pixelHexValue = Integer.toHexString(redPixel1);
+		assertEquals("The extracted pixel was not red", redHexValue, pixelHexValue);
+		assertFalse("The screenshot has not been changed", greenPixel1 == redPixel1);
+		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+
+		playTheProject(false, true, true);// red to green + screenshot
+		int greenPixel2 = createScreenshotBitmap();
+		pixelHexValue = Integer.toHexString(greenPixel2);
+		assertEquals("The extracted pixel was not green", greenHexValue, pixelHexValue);
+		assertFalse("The screenshot has not been changed", redPixel1 == greenPixel2);
+		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+
+		playTheProject(true, false, false); // green to red, screenshot must stay green
+		int greenPixel3 = createScreenshotBitmap();
+		pixelHexValue = Integer.toHexString(greenPixel3);
+		assertEquals("The extracted pixel was not green", greenHexValue, pixelHexValue);
+		assertTrue("The screenshot has not been changed", greenPixel2 == greenPixel3);
+	}
+
+	private void createProjectWithBackgrounds() {
+
+		LookData backgroundGreen;
+		LookData backgroundRed;
+		ProjectManager projectManager = ProjectManager.getInstance();
+
+		UiTestUtils.createEmptyProject();
+
+		File imageFile1 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
+				StageListener.SCREENSHOT_MANUAL_FILE_NAME, IMAGE_RESOURCE_4, getInstrumentation().getContext(),
+				UiTestUtils.FileTypes.IMAGE);
+		File imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
+				StageListener.SCREENSHOT_MANUAL_FILE_NAME, IMAGE_RESOURCE_5, getInstrumentation().getContext(),
+				UiTestUtils.FileTypes.IMAGE);
+
+		ArrayList<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
+
+		backgroundGreen = new LookData();
+		backgroundGreen.setLookFilename(imageFile1.getName());
+		backgroundGreen.setLookName("backgroundGreen");
+		lookDataList.add(backgroundGreen);
+
+		projectManager.getFileChecksumContainer().addChecksum(backgroundGreen.getChecksum(),
+				backgroundGreen.getAbsolutePath());
+
+		backgroundRed = new LookData();
+		backgroundRed.setLookFilename(imageFile2.getName());
+		backgroundRed.setLookName("backgroundRed");
+		lookDataList.add(backgroundRed);
+
+		projectManager.getFileChecksumContainer().addChecksum(backgroundRed.getChecksum(),
+				backgroundRed.getAbsolutePath());
+
+		SetLookBrick setBackgroundBrick = new SetLookBrick(projectManager.getCurrentSprite());
+		projectManager.getCurrentScript().addBrick(setBackgroundBrick);
+		setBackgroundBrick.setLook(backgroundGreen);
+		StorageHandler.getInstance().saveProject(projectManager.getCurrentProject());
+	}
+
+	private void playTheProject(boolean switchGreenToRed, boolean switchRedToGreen, boolean makeScreenshot) {
+		String scriptsText = solo.getString(R.string.scripts);
+		solo.clickOnText("cat");
+		solo.clickOnText(scriptsText);
+		if (switchGreenToRed) {
+			solo.clickOnText("backgroundGreen");
+			solo.clickOnText("backgroundRed");
+		}
+
+		if (switchRedToGreen) {
+			solo.clickOnText("backgroundRed");
+			solo.clickOnText("backgroundGreen");
+		}
+
+		Reflection.setPrivateField(StageListener.class, "makeAutomaticScreenshot", true);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(2000);
+
+		if (makeScreenshot) {
+			solo.goBack();
+			solo.clickOnText(solo.getString(R.string.stage_dialog_screenshot));
+			solo.goBack();
+		} else {
+			solo.goBack();
+			solo.goBack();
+		}
+
+		solo.waitForActivity(ScriptActivity.class);
+		UiTestUtils.clickOnHomeActionBarButton(solo);
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.sleep(500);
+	}
+
+	private int createScreenshotBitmap() {
+
+		Bitmap viewBitmap;
+		int currentViewID;
+		int imageViewID = R.id.my_projects_activity_project_image;
+		int pixel = -1;
+
+		ArrayList<View> currentViews = solo.getCurrentViews();
+		int viewSize = currentViews.size();
+
+		for (int i = 0; i < viewSize; i++) {
+			View viewToTest = currentViews.get(i);
+			currentViewID = viewToTest.getId();
+			if (currentViewID == imageViewID) { // Only stop at Image View...
+				TextView textView = (TextView) currentViews.get(i + 2);
+				if (textView.getText().equals(UiTestUtils.DEFAULT_TEST_PROJECT_NAME)) { // ...and check if it belongs to the test project
+					viewToTest.buildDrawingCache();
+					viewBitmap = viewToTest.getDrawingCache();
+					pixel = viewBitmap.getPixel(viewBitmap.getWidth() / 2, viewBitmap.getHeight() / 2);
+					viewToTest.destroyDrawingCache();
+				}
+			}
+		}
+		return pixel;
+	}
 
 	private void corruptProjectXML(String projectName) {
 		String projectPath = Utils.buildPath(Constants.DEFAULT_ROOT, projectName, Constants.PROJECTCODE_NAME);
