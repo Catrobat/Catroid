@@ -28,6 +28,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.webkit.DownloadListener;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -53,6 +54,7 @@ public class WebViewActivity extends BaseActivity {
 		actionBar.hide();
 
 		webView = (WebView) findViewById(R.id.webView);
+		webView.setWebChromeClient(new WebChromeClient());
 		webView.setWebViewClient(new MyWebViewClient());
 		webView.getSettings().setJavaScriptEnabled(true);
 
