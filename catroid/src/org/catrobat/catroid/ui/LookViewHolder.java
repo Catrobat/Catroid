@@ -22,19 +22,19 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.widget.ImageView;
 import android.widget.CheckBox;
-import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class LookViewHolder {
-    public ImageView lookImageView;
-    public CheckBox checkbox;
-    public TextView lookNameTextView;
-    public LinearLayout lookDetailsLinearLayout;
-    public TextView lookFileSizeTextView;
-    public TextView lookMeasureTextView;
-    public ImageView lookArrowView;
-    public RelativeLayout lookElement;
+	public ImageView lookImageView;
+	public CheckBox checkbox;
+	public TextView lookNameTextView;
+	public LinearLayout lookDetailsLinearLayout;
+	public TextView lookFileSizeTextView;
+	public TextView lookMeasureTextView;
+	public ImageView lookArrowView;
+	public RelativeLayout lookElement;
 }

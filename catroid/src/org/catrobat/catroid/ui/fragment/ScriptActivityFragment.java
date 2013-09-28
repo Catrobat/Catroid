@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
-import android.os.Bundle;
 import com.actionbarsherlock.app.SherlockListFragment;
 
 public abstract class ScriptActivityFragment extends SherlockListFragment {

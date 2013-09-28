@@ -24,50 +24,36 @@ package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.ui.fragment.LookFragment;
-import org.catrobat.catroid.utils.UtilFile;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 public class LookAdapter extends LookBaseAdapter implements ScriptActivityAdapterInterface {
 
-    private LookFragment lookFragment;
+	private LookFragment lookFragment;
 
-	public LookAdapter(final Context context, int resource, int textViewResourceId, ArrayList<LookData> items, boolean showDetails) {
+	public LookAdapter(final Context context, int resource, int textViewResourceId, ArrayList<LookData> items,
+			boolean showDetails) {
 		super(context, resource, textViewResourceId, items, showDetails);
 	}
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
-        if(lookFragment == null){
-            return convertView;
-        }
-        return lookFragment.getView(position, convertView);
+		if (lookFragment == null) {
+			return convertView;
+		}
+		return lookFragment.getView(position, convertView);
 	}
 
-    public void setLookFragment(LookFragment lookFragment) {
-        this.lookFragment = lookFragment;
-    }
+	public void setLookFragment(LookFragment lookFragment) {
+		this.lookFragment = lookFragment;
+	}
 
-    public LookFragment getLookFragment() {
-        return lookFragment;
-    }
+	public LookFragment getLookFragment() {
+		return lookFragment;
+	}
 }

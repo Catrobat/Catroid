@@ -27,8 +27,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.ui.fragment.LookFragment;
 
 import java.util.ArrayList;
 import java.util.SortedSet;
@@ -36,83 +36,83 @@ import java.util.TreeSet;
 
 public class LookBaseAdapter extends ArrayAdapter<LookData> implements ScriptActivityAdapterInterface {
 
-    protected ArrayList<LookData> lookDataItems;
-    protected Context context;
+	protected ArrayList<LookData> lookDataItems;
+	protected Context context;
 
-    private OnLookEditListener onLookEditListener;
+	private OnLookEditListener onLookEditListener;
 
-    private int selectMode;
-    private boolean showDetails;
-    private SortedSet<Integer> checkedLooks = new TreeSet<Integer>();
+	private int selectMode;
+	private boolean showDetails;
+	private SortedSet<Integer> checkedLooks = new TreeSet<Integer>();
 
-    public LookBaseAdapter(final Context context, AttributeSet attributeSet, int currentPlayingposition) {
+	public LookBaseAdapter(final Context context, AttributeSet attributeSet, int currentPlayingposition) {
 		super(context, currentPlayingposition);
 	}
 
 	public LookBaseAdapter(final Context context, int resource, int textViewResourceId, ArrayList<LookData> items,
-                           boolean showDetails) {
+			boolean showDetails) {
 		super(context, resource, textViewResourceId, items);
-        this.context = context;
-        this.showDetails = showDetails;
-        this.lookDataItems = items;
-        this.selectMode = ListView.CHOICE_MODE_NONE;
+		this.context = context;
+		this.showDetails = showDetails;
+		this.lookDataItems = items;
+		this.selectMode = ListView.CHOICE_MODE_NONE;
 	}
 
-    public OnLookEditListener getOnLookEditListener() {
-        return onLookEditListener;
-    }
+	public OnLookEditListener getOnLookEditListener() {
+		return onLookEditListener;
+	}
 
-    public void setOnLookEditListener(OnLookEditListener listener) {
-        onLookEditListener = listener;
-    }
+	public void setOnLookEditListener(OnLookEditListener listener) {
+		onLookEditListener = listener;
+	}
 
-    @Override
-    public void setShowDetails(boolean showDetails) {
-        this.showDetails = showDetails;
-    }
+	@Override
+	public void setShowDetails(boolean showDetails) {
+		this.showDetails = showDetails;
+	}
 
-    @Override
-    public boolean getShowDetails() {
-        return showDetails;
-    }
+	@Override
+	public boolean getShowDetails() {
+		return showDetails;
+	}
 
-    @Override
-    public void setSelectMode(int mode) {
-        selectMode = mode;
-    }
+	@Override
+	public void setSelectMode(int mode) {
+		selectMode = mode;
+	}
 
-    @Override
-    public int getSelectMode() {
-        return selectMode;
-    }
+	@Override
+	public int getSelectMode() {
+		return selectMode;
+	}
 
-    @Override
-    public int getAmountOfCheckedItems() {
-        return checkedLooks.size();
-    }
+	@Override
+	public int getAmountOfCheckedItems() {
+		return checkedLooks.size();
+	}
 
-    @Override
-    public SortedSet<Integer> getCheckedItems() {
-        return checkedLooks;
-    }
+	@Override
+	public SortedSet<Integer> getCheckedItems() {
+		return checkedLooks;
+	}
 
-    public ArrayList<LookData> getLookDataItems(){
-        return lookDataItems;
-    }
+	public ArrayList<LookData> getLookDataItems() {
+		return lookDataItems;
+	}
 
-    public void addCheckedItem(int position) {
-        checkedLooks.add(position);
-    }
+	public void addCheckedItem(int position) {
+		checkedLooks.add(position);
+	}
 
-    @Override
-    public void clearCheckedItems() {
-        checkedLooks.clear();
-    }
+	@Override
+	public void clearCheckedItems() {
+		checkedLooks.clear();
+	}
 
-    public interface OnLookEditListener {
+	public interface OnLookEditListener {
 
-        public void onLookEdit(View view);
+		public void onLookEdit(View view);
 
-        public void onLookChecked();
-    }
+		public void onLookChecked();
+	}
 }
