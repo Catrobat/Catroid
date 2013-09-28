@@ -22,7 +22,9 @@
  */
 package org.catrobat.catroid.facedetection;
 
+import android.annotation.TargetApi;
 import android.hardware.Camera;
+import android.os.Build;
 
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
 
@@ -136,7 +138,7 @@ public class FaceDetectionHandler {
 		Camera camera = null;
 		try {
 			camera = Camera.open();
-			possibleFaces = camera.getParameters().getMaxNumDetectedFaces();
+			possibleFaces = getNumberOfCameras(camera);
 			camera.release();
 		} catch (Exception exc) {
 		} finally {
@@ -145,5 +147,10 @@ public class FaceDetectionHandler {
 			}
 		}
 		return possibleFaces > 0;
+	}
+
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	private static int getNumberOfCameras(Camera camera) {
+		return camera.getParameters().getMaxNumDetectedFaces();
 	}
 }

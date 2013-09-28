@@ -58,5 +58,7 @@
     <string name="scrolling_cache_enabled">false</string>
     <string name="animation_cache_enabled">false</string>
     <!--  -->
+    
+    <string name="preference_key_select_camera" translatable="false">setting_select_camera</string>
 
 </resources>

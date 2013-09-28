@@ -117,7 +117,7 @@ public class CameraManager implements Camera.PreviewCallback {
 		if (useTexture) {
 			if (texture != null) {
 				try {
-					camera.setPreviewTexture(texture);
+					setTexture();
 				} catch (IOException e) {
 					e.printStackTrace(); // TODO
 					return false;
@@ -187,6 +187,11 @@ public class CameraManager implements Camera.PreviewCallback {
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void createTexture() {
 		texture = new SurfaceTexture(TEXTURE_NAME);
+	}
+
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private void setTexture() throws IOException {
+		camera.setPreviewTexture(texture);
 	}
 
 }
