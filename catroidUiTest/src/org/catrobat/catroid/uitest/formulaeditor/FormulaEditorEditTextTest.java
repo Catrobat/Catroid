@@ -735,8 +735,9 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
 		solo.waitForView(solo.getView(R.id.formula_editor_compute_dialog_textview));
 		computeTextView = (TextView) solo.getView(R.id.formula_editor_compute_dialog_textview);
-		computeTextView = (TextView) solo.getView(R.id.formula_editor_compute_dialog_textview);
-		assertEquals("computeTextView did not contain the correct value", "-8.11", computeTextView.getText().toString());
+		//computeTextView = (TextView) solo.getView(R.id.formula_editor_compute_dialog_textview);
+		assertEquals("computeTextView did not contain the correct value", "-8.111", computeTextView.getText()
+				.toString());
 
 		solo.goBack();
 
@@ -782,6 +783,38 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 		assertTrue("Sensor interpretation error", maxLoops > 0);
 
+		solo.goBack();
+
+		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
+		preview = UiTestUtils.getViewContainerByIds(solo, R.id.brick_change_size_by_edit_text,
+				R.id.formula_editor_brick_space);
+		solo.clickOnView(preview);
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
+
+		computeTextView = (TextView) solo.getView(R.id.formula_editor_compute_dialog_textview);
+		assertEquals("computeTextView did not contain the correct value", "1.0E17", computeTextView.getText()
+				.toString());
 	}
 
 	private Formula createVeryLongFormula() {
