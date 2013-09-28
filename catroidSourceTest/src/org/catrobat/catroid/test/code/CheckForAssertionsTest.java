@@ -41,7 +41,7 @@ public class CheckForAssertionsTest extends TestCase {
 			"SimulatedSensorManager.java", "SimulatedSoundRecorder.java", "TestUtils.java",
 			"MockPaintroidActivity.java", "TestMainMenuActivity.java", "TestErrorListenerInterface.java",
 			"XmlTestUtils.java", "MockSoundActivity.java", "Reflection.java",
-			"BaseActivityInstrumentationTestCase.java", "Device.java" };
+			"BaseActivityInstrumentationTestCase.java", "Device.java", "TestFaceDetector.java" };
 
 	private void checkFileForAssertions(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));

@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import org.catrobat.catroid.facedetection.FaceDetectionHandler;
-
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.util.Log;
+
+import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 
 public class SensorHandler implements SensorEventListener, SensorCustomEventListener {
 	private static final String TAG = SensorHandler.class.getSimpleName();

@@ -38,7 +38,8 @@ public class CameraManagerTest extends TestCase {
 			boolean started = CameraManager.getInstance().startCamera();
 			assertFalse("Expected camera not to be able to start when hardware already in use", started);
 		} catch (Exception exc) {
-			fail("Unavailable camera should not cause an exception \"" + exc.getMessage() + "\"");
+			String errorMsg = "Unavailable camera should not cause an exception \"" + exc.getMessage() + "\"";
+			fail(errorMsg);
 		} finally {
 			if (camera != null) {
 				camera.release();
