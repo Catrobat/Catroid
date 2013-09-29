@@ -42,6 +42,7 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -67,6 +68,7 @@ public class CameraTest extends BaseActivityInstrumentationTestCase<MainMenuActi
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 	}
 
+	@Device
 	public void testJpgPreviewFrameCallback() {
 		final int[] calls = new int[1];
 		calls[0] = 0;
