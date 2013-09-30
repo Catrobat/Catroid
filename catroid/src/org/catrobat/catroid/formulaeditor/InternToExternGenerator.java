@@ -77,6 +77,10 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.Y_INCLINATION.name(),
 				R.string.formula_editor_sensor_y_inclination);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.LOUDNESS.name(), R.string.formula_editor_sensor_loudness);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.ALBERT_ROBOT_DISTANCE_LEFT.name(),
+				R.string.formula_editor_sensor_albert_robot_distance_left);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.ALBERT_ROBOT_DISTANCE_RIGHT.name(),
+				R.string.formula_editor_sensor_albert_robot_distance_right);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_X.name(), R.string.formula_editor_object_x);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_Y.name(), R.string.formula_editor_object_y);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_GHOSTEFFECT.name(),

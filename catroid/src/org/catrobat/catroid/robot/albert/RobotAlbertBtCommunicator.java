@@ -42,21 +42,21 @@
  */
 package org.catrobat.catroid.robot.albert;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.lang.reflect.Method;
-import java.util.UUID;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.bluetooth.BTConnectable;
-
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.res.Resources;
 import android.os.Handler;
 import android.util.Log;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.bluetooth.BTConnectable;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.reflect.Method;
+import java.util.UUID;
 
 /**
  * This class is for talking to a LEGO NXT robot via bluetooth.
@@ -77,6 +77,7 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 
 	private String mMACaddress;
 	private BTConnectable myOwner;
+	private static boolean DEBUG_OUTPUT = false;
 
 	public RobotAlbertBtCommunicator(BTConnectable myOwner, Handler uiHandler, BluetoothAdapter btAdapter,
 			Resources resources) {
@@ -328,16 +329,18 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 		sensors.setValueOfLeftDistanceSensor(leftDistance);
 		sensors.setValueOfRightDistanceSensor(rightDistance);
 
-		Log.d("RobotAlbertBtComm", "receiveMessage:  leftDistance=" + leftDistance);
-		Log.d("RobotAlbertBtComm", "receiveMessage: rightDistance=" + rightDistance);
-		//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[13]=" + buffer[13]);
-		//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[14]=" + buffer[14]);
-		//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[15]=" + buffer[15]);
-		//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[16]=" + buffer[16]);
-		//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[17]=" + buffer[17]);
-		//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[18]=" + buffer[18]);
-		//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[19]=" + buffer[19]);
-		//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[20]=" + buffer[20]);
+		if (DEBUG_OUTPUT == true) {
+			Log.d("RobotAlbertBtComm", "receiveMessage:  leftDistance=" + leftDistance);
+			Log.d("RobotAlbertBtComm", "receiveMessage: rightDistance=" + rightDistance);
+			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[13]=" + buffer[13]);
+			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[14]=" + buffer[14]);
+			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[15]=" + buffer[15]);
+			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[16]=" + buffer[16]);
+			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[17]=" + buffer[17]);
+			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[18]=" + buffer[18]);
+			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[19]=" + buffer[19]);
+			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[20]=" + buffer[20]);
+		}
 
 		return buffer;
 	}

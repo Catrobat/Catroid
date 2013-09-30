@@ -46,6 +46,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
@@ -60,6 +61,9 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 	private UserVariable userVariable;
 	private Formula variableFormula;
 	private transient AdapterView<?> adapterView;
+	//this is used if there should be a sensor selected by default
+	private boolean isStringInPrototype = false;
+	private String stringInPrototype;
 
 	public SetVariableBrick(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
 		this.sprite = sprite;
@@ -73,6 +77,15 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 		this.userVariable = null;
 	}
 
+	public SetVariableBrick(Sprite sprite, String value) {
+		this.isStringInPrototype = true;
+		this.stringInPrototype = value;
+		this.sprite = sprite;
+		this.variableFormula = new Formula(value);
+		this.userVariable = null;
+
+	}
+
 	@Override
 	public Formula getFormula() {
 		return variableFormula;
@@ -80,7 +93,11 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		if (variableFormula.containsRobotAlbertSensors() == true) {
+			return BLUETOOTH_ROBOT_ALBERT;
+		} else {
+			return NO_RESOURCES;
+		}
 	}
 
 	@Override
@@ -195,8 +212,19 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 		setSpinnerSelection(variableSpinner, null);
 
 		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_set_variable_prototype_view);
-		textSetVariable.setText(String.valueOf(variableFormula.interpretDouble(sprite)));
-
+		if (isStringInPrototype == false) {
+			textSetVariable.setText(String.valueOf(variableFormula.interpretDouble(sprite)));
+		} else {
+			if (stringInPrototype.equalsIgnoreCase(Sensors.ALBERT_ROBOT_DISTANCE_LEFT.toString())) {
+				textSetVariable.setText(context.getResources().getString(
+						R.string.formula_editor_sensor_albert_robot_distance_left));
+			} else if (stringInPrototype.equalsIgnoreCase(Sensors.ALBERT_ROBOT_DISTANCE_RIGHT.toString())) {
+				textSetVariable.setText(context.getResources().getString(
+						R.string.formula_editor_sensor_albert_robot_distance_right));
+			} else {
+				textSetVariable.setText(stringInPrototype);
+			}
+		}
 		return prototypeView;
 	}
 

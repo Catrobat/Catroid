@@ -504,7 +504,8 @@
     <string name="robot_albert_eye_both">Both</string>
     <string name="robot_albert_eye_left">Left</string>
     <string name="robot_albert_eye_right">Right</string>
-    
+    <string name="formula_editor_sensor_albert_robot_distance_left">robot albert left distance</string>
+    <string name="formula_editor_sensor_albert_robot_distance_right">robot albert right distance</string>
     <!--  -->
 
 

@@ -25,7 +25,9 @@ package org.catrobat.catroid.ui.fragment;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -42,6 +44,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.robot.albert.SensorRobotAlbert;
 
 public class FormulaEditorListFragment extends SherlockListFragment implements Dialog.OnKeyListener {
 
@@ -80,7 +83,9 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 	private static final int[] SENSOR_ITEMS = { R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration,
 			R.string.formula_editor_sensor_compass_direction, R.string.formula_editor_sensor_x_inclination,
-			R.string.formula_editor_sensor_y_inclination, R.string.formula_editor_sensor_loudness };
+			R.string.formula_editor_sensor_y_inclination, R.string.formula_editor_sensor_loudness,
+			R.string.formula_editor_sensor_albert_robot_distance_left,
+			R.string.formula_editor_sensor_albert_robot_distance_right };
 
 	private String tag;
 	private String[] items;
@@ -122,11 +127,27 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			itemsIds = SENSOR_ITEMS;
 		}
 
-		items = new String[itemsIds.length];
-		int index = 0;
-		for (Integer item : itemsIds) {
-			items[index] = getString(item);
-			index++;
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		if ((tag == SENSOR_TAG)
+				&& (sharedPreferences.getBoolean(SensorRobotAlbert.KEY_SETTINGS_ROBOT_ALBERT_BRICKS, false))) {
+			items = new String[itemsIds.length];
+			int index = 0;
+			for (Integer item : itemsIds) {
+				items[index] = getString(item);
+				index++;
+			}
+		} else {
+			//if the option "Robot Albert bricks" is not selected, than remove the 2 entries in the sensor-enum
+			items = new String[itemsIds.length - 2];
+			int index = 0;
+			for (Integer item : itemsIds) {
+
+				if (!(item.equals(R.string.formula_editor_sensor_albert_robot_distance_left) || item
+						.equals(R.string.formula_editor_sensor_albert_robot_distance_right))) {
+					items[index] = getString(item);
+					index++;
+				}
+			}
 		}
 
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
