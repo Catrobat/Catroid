@@ -459,7 +459,7 @@
     <string name="no_paired_nxt">No paired NXT found</string>
     <string name="none_found">No unpaired devices found</string>
     <string name="none_paired">No paired devices found</string>
-     <string name="select_device_robot_albert">Choose Robot Albert</string>
+    <string name="select_device_robot_albert">Choose Robot Albert</string>
     <string name="connecting_please_wait_robot_albert">Connect to Robot Albert.\nPlease wait…</string>
     <!--  -->
 
@@ -485,7 +485,6 @@
     <!-- Robot Albert Strings -->
     <string name="brick_robot_albert_motor_action">Albert move motor</string>
     <string name="robot_albert_motor_speed">Speed</string>
-    <string name="robot_albert_motor_stop">Albert stop motor</string>
     <string name="brick_robot_albert_buzzer_action">Albert use buzzer</string>
     <string name="robot_albert_buzzer_frequency">Frequency</string>
     <string name="brick_robot_albert_rgb_led_action">Albert illuminate eye</string>
@@ -504,8 +503,8 @@
     <string name="robot_albert_eye_both">Both</string>
     <string name="robot_albert_eye_left">Left</string>
     <string name="robot_albert_eye_right">Right</string>
-    <string name="formula_editor_sensor_albert_robot_distance_left">robot albert left distance</string>
-    <string name="formula_editor_sensor_albert_robot_distance_right">robot albert right distance</string>
+    <string name="formula_editor_sensor_albert_robot_distance_left">Albert_robot_left_distance</string>
+    <string name="formula_editor_sensor_albert_robot_distance_right">Albert_robot_right_distance</string>
     <!--  -->
 
 

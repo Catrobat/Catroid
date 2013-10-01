@@ -70,6 +70,8 @@
     <string name="preference_title">Einstellungen</string>
     <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorm Bausteine</string>
     <string name="preference_description_mindstorm_bricks">Erlaube Steuerung von Lego Mindstorm Robotern</string>
+    <string name="pref_enable_robot_albert_bricks">Roboter Albert Bausteine</string>
+    <string name="pref_descr_robot_albert_bricks">Erlaube Steuerung von Roboter Albert</string>
     <!--  -->
 
 
@@ -479,6 +481,32 @@
     <string name="nxt_motor_c">C</string>
     <string name="nxt_motor_a_and_c">A+C</string>
     <string name="nxt_motor_all">Alle</string>
+    <!--  -->
+
+
+    <!-- Robot Albert Strings -->
+    <string name="brick_robot_albert_motor_action">Albert bewege Motor</string>
+    <string name="robot_albert_motor_speed">Geschwindigkeit</string>
+    <string name="brick_robot_albert_buzzer_action">Albert benutze Summer</string>
+    <string name="robot_albert_buzzer_frequency">Frequenz</string>
+    <string name="brick_robot_albert_rgb_led_action">Albert beleuchte Auge</string>
+    <string name="robot_albert_rgb_led_red">Rot</string>
+    <string name="robot_albert_rgb_led_green">Gruen</string>
+    <string name="robot_albert_rgb_led_blue">Blau</string>
+    <string name="robot_albert_rgb_led_color">Farbe</string>
+    <string name="brick_robot_albert_front_led_action">Albert benutze fordere LED</string>
+    <string name="robot_albert_front_led_status">Status</string>
+    <string name="robot_albert_front_led_status_info">Wert: 0=aus sonst=ein</string>
+    <string name="brick_robot_albert_distance_sensor_left">Setze linken Abstandssensor auf</string>
+    <string name="brick_robot_albert_distance_sensor_right">Setze rechten Abstandssensor auf</string>
+    <string name="robot_albert_motor_both">Beide</string>
+    <string name="robot_albert_motor_left">Links</string>
+    <string name="robot_albert_motor_right">Rechts</string>
+    <string name="robot_albert_eye_both">Beide</string>
+    <string name="robot_albert_eye_left">Links</string>
+    <string name="robot_albert_eye_right">Rechts</string>
+    <string name="formula_editor_sensor_albert_robot_distance_left">Albert_robot_linker_Abstand</string>
+    <string name="formula_editor_sensor_albert_robot_distance_right">Albert_robot_rechter_Abstand</string>
     <!--  -->
 
 

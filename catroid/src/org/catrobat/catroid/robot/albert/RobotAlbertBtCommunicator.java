@@ -55,7 +55,6 @@ import org.catrobat.catroid.bluetooth.BTConnectable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Method;
 import java.util.UUID;
 
 /**
@@ -67,7 +66,7 @@ import java.util.UUID;
 //@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH) just needed for debug output: btSocket.isConnected()
 public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 
-	private static final UUID SERIAL_PORT_SERVICE_CLASS_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+	private static final UUID SERIAL_PORT_SERVICE_CLASS_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
 	// this is the only OUI registered by LEGO, see http://standards.ieee.org/regauth/oui/index.shtml
 
 	private BluetoothAdapter btAdapter;
@@ -168,7 +167,9 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 			btSocketTemporary = btDevice.createRfcommSocketToServiceRecord(SERIAL_PORT_SERVICE_CLASS_UUID);
 			try {
 
+				Log.d("TestRobotAlbert", "before btSocketTemporary.connect();\n" + SERIAL_PORT_SERVICE_CLASS_UUID);
 				btSocketTemporary.connect();
+				Log.d("TestRobotAlbert", "after btSocketTemporary.connect()");
 
 			} catch (IOException e) {
 				if (myOwner.isPairing()) {
@@ -182,19 +183,19 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 				}
 
 				// try another method for connection, this should work on the HTC desire, credits to Michael Biermann
-				try {
-
-					Method mMethod = btDevice.getClass().getMethod("createRfcommSocket", new Class[] { int.class });
-					btSocketTemporary = (BluetoothSocket) mMethod.invoke(btDevice, Integer.valueOf(1));
-					btSocketTemporary.connect();
-				} catch (Exception e1) {
-					if (uiHandler == null) {
-						throw new IOException();
-					} else {
-						sendState(STATE_CONNECTERROR);
-					}
-					return;
-				}
+				//				try {
+				//
+				//					Method mMethod = btDevice.getClass().getMethod("createRfcommSocket", new Class[] { int.class });
+				//					btSocketTemporary = (BluetoothSocket) mMethod.invoke(btDevice, Integer.valueOf(1));
+				//					btSocketTemporary.connect();
+				//				} catch (Exception e1) {
+				//					if (uiHandler == null) {
+				//						throw new IOException();
+				//					} else {
+				//						sendState(STATE_CONNECTERROR);
+				//					}
+				//					return;
+				//				}
 			}
 			btSocket = btSocketTemporary;
 			inputStream = btSocket.getInputStream();
@@ -332,6 +333,8 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 		if (DEBUG_OUTPUT == true) {
 			Log.d("RobotAlbertBtComm", "receiveMessage:  leftDistance=" + leftDistance);
 			Log.d("RobotAlbertBtComm", "receiveMessage: rightDistance=" + rightDistance);
+			//Log.d("RobotAlbertBtComm", "receiveMessage: leftMotor=" + buffer[8]);
+			//Log.d("RobotAlbertBtComm", "receiveMessage: rightMotor=" + buffer[9]);
 			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[13]=" + buffer[13]);
 			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[14]=" + buffer[14]);
 			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[15]=" + buffer[15]);
