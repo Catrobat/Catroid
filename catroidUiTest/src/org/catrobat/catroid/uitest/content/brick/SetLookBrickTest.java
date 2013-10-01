@@ -39,6 +39,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -201,7 +202,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		ScriptActivity currentActivity = (ScriptActivity) solo.getCurrentActivity();
 		solo.sleep(200);
 		LookFragment lookFragment = (LookFragment) currentActivity.getFragment(ScriptActivity.FRAGMENT_LOOKS);
-		lookFragment.startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
+		lookFragment.startActivityForResult(intent, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
 
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
