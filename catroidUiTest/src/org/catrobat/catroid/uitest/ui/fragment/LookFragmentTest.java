@@ -44,6 +44,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.LookAdapter;
+import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
@@ -302,7 +303,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
 
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -333,7 +334,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
 
 		solo.sleep(2000);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName(), 2000);
@@ -353,7 +354,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
@@ -381,7 +382,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
@@ -430,7 +431,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_POCKET_PAINT_EDIT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE);
 
 		solo.sleep(5000);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -468,7 +469,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_POCKET_PAINT_EDIT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE);
 
 		solo.sleep(500);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -489,7 +490,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_POCKET_PAINT_EDIT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE);
 
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -519,7 +520,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_POCKET_PAINT_EDIT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE);
 
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -553,7 +554,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_POCKET_PAINT_EDIT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE);
 		solo.sleep(4000);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
@@ -598,7 +599,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_POCKET_PAINT_EDIT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE);
 		solo.sleep(4000);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
@@ -658,7 +659,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.sleep(5000);
@@ -685,7 +686,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.sleep(5000);
