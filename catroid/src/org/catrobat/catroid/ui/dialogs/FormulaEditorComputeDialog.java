@@ -100,8 +100,6 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 			});
 		} else {
 			floatInterpretationResult = formulaToCompute.interpretFloat(sprite);
-			floatInterpretationResult *= 100;
-			floatInterpretationResult = Math.round(floatInterpretationResult) / 100f;
 			computeTextView.post(new Runnable() {
 				@Override
 				public void run() {
