@@ -34,6 +34,8 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
@@ -106,34 +108,36 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertEquals("Not equal Activities", previousActivity, getActivity());
 	}
 
-	// TODO
-	//	public void testPauseOnBackButton() {
-	//		double scale = 100.0;
-	//
-	//		Project project = new Project(getActivity(), testProject);
-	//		Sprite sprite = new Sprite("testSprite");
-	//		Script script = new StartScript(sprite);
-	//		WaitBrick waitBrick = new WaitBrick(sprite, 5000);
-	//		SetSizeToBrick scaleLookBrick = new SetSizeToBrick(sprite, scale);
-	//
-	//		script.addBrick(waitBrick);
-	//		script.addBrick(scaleLookBrick);
-	//		sprite.addScript(script);
-	//		project.addSprite(sprite);
-	//
-	//		storageHandler.saveProject(project);
-	//		ProjectManager.getInstance().setProject(project);
-	//
-	//		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
+	public void testPauseOnBackButton() {
+		float scale = 100.0f;
 
-	//		assertEquals("Unexpected sprite size", 100.0, sprite.getSize());
-	//		solo.goBack();
-	//		solo.sleep(6000);
-	//		solo.goBack();
-	//		assertEquals("Unexpected sprite size", 100.0, sprite.getSize());
-	//		solo.sleep(4000);
-	//		assertEquals("Unexpected sprite size", scale, sprite.getSize());
-	//	}
+		Project project = new Project(getActivity(), testProject);
+		Sprite sprite = new Sprite("testSprite");
+		Script script = new StartScript(sprite);
+		WaitBrick waitBrick = new WaitBrick(sprite, 5000);
+		SetSizeToBrick scaleLookBrick = new SetSizeToBrick(sprite, scale);
+
+		script.addBrick(waitBrick);
+		script.addBrick(scaleLookBrick);
+		sprite.addScript(script);
+		project.addSprite(sprite);
+
+		StorageHandler.getInstance().saveProject(project);
+		ProjectManager.getInstance().setProject(project);
+
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		assertEquals("Unexpected look size", scale, sprite.look.getSizeInUserInterfaceDimensionUnit());
+
+		solo.goBack();
+		solo.goBack();
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		assertEquals("Unexpected look size", scale, sprite.look.getSizeInUserInterfaceDimensionUnit());
+		solo.sleep(4000);
+		assertEquals("Unexpected look size", scale, sprite.look.getSizeInUserInterfaceDimensionUnit());
+	}
 
 	public void testRestartButtonActivityChain() {
 		createAndSaveTestProject(testProject);
