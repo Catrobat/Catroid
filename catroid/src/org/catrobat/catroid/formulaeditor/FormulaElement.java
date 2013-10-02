@@ -36,7 +36,7 @@ public class FormulaElement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static enum ElementType {
-		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, BRACKET, STRING, CHAR
+		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, BRACKET, STRING
 	}
 
 	public static final Double NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE = 0d;
@@ -279,40 +279,61 @@ public class FormulaElement implements Serializable {
 				right = rightChild.interpretRecursive(sprite);
 				return java.lang.Math.min((Double) left, (Double) right);
 			case TRUE:
-				return 1.0;
+				return 1d;
 			case FALSE:
-				return 0.0;
+				return 0d;
 			case LETTER:
 				rightChild.interpretRecursive(sprite);
 				int index = ((Double) left).intValue() - 1;
 				if (index < 0) {
-					return 0.0;
-					// TODO handle this with correct exception or errorcode (NaN, Null etc..)
-					// What about empty strings('') ?
+					return "";
 				} else if (index >= rightChild.value.length()) {
-					index = rightChild.value.length() - 1;
+					return "";
 				}
-				return (double) rightChild.value.charAt(index); // TODO return char not ASCII value!
+				return String.valueOf(rightChild.value.charAt(index));
 			case LENGTH:
 				if (leftChild == null) {
 					return 0d;
 				}
 				if (leftChild.type == ElementType.NUMBER) {
-					return 1.0;
+					return (double) leftChild.value.length();
 				}
 				if (leftChild.type == ElementType.STRING) {
 					return (double) leftChild.value.length();
 				}
-
+				return (double) ((String) left).length();
 			case JOIN:
-				String result = "";
+				String firstPart = "";
 				if (leftChild != null) {
-					result = leftChild.value;
+					if (leftChild.getElementType() == ElementType.NUMBER) {
+						Double number = ((Double) leftChild.interpretRecursive(sprite));
+						if (isInteger(number)) {
+							firstPart += number.intValue();
+						} else {
+							firstPart += number;
+						}
+					} else if (leftChild.getElementType() == ElementType.STRING) {
+						firstPart = leftChild.value;
+					} else if (leftChild.getElementType() != ElementType.STRING) {
+						firstPart += leftChild.interpretRecursive(sprite);
+					}
 				}
+				String secondPart = "";
 				if (rightChild != null) {
-					result += rightChild.value;
+					if (rightChild.getElementType() == ElementType.NUMBER) {
+						Double number = ((Double) rightChild.interpretRecursive(sprite));
+						if (isInteger(number)) {
+							secondPart += number.intValue();
+						} else {
+							secondPart += number;
+						}
+					} else if (rightChild.getElementType() == ElementType.STRING) {
+						secondPart = rightChild.value;
+					} else if (rightChild.getElementType() != ElementType.STRING) {
+						secondPart += rightChild.interpretRecursive(sprite);
+					}
 				}
-				return result;
+				return firstPart + secondPart;
 		}
 		return 0d;
 	}
@@ -325,43 +346,54 @@ public class FormulaElement implements Serializable {
 			Double left;
 			Double right;
 
-			if (leftObject instanceof String) {
-				left = Double.valueOf((String) leftObject);
-			} else {
-				left = (Double) leftObject;
-			}
-			if (rightObject instanceof String) {
-				right = Double.valueOf((String) rightObject);
-			} else {
-				right = (Double) rightObject;
-			}
-
 			switch (operator) {
 				case PLUS:
+					left = (Double) interpretOperatorDefault(leftObject);
+					right = (Double) interpretOperatorDefault(rightObject);
 					return left + right;
 				case MINUS:
+					left = (Double) interpretOperatorDefault(leftObject);
+					right = (Double) interpretOperatorDefault(rightObject);
 					return left - right;
 				case MULT:
+					left = (Double) interpretOperatorDefault(leftObject);
+					right = (Double) interpretOperatorDefault(rightObject);
 					return left * right;
 				case DIVIDE:
+					left = (Double) interpretOperatorDefault(leftObject);
+					right = (Double) interpretOperatorDefault(rightObject);
 					return left / right;
 				case POW:
+					left = (Double) interpretOperatorDefault(leftObject);
+					right = (Double) interpretOperatorDefault(rightObject);
 					return java.lang.Math.pow(left, right);
 				case EQUAL:
-					return left.equals(right) ? 1d : 0d; //TODO Double equality, may round first?
+					return interpretOperatorEqual(leftObject, rightObject);
 				case NOT_EQUAL:
-					return left.equals(right) ? 0d : 1d;//TODO Double equality, may round first?
+					return interpretOperatorEqual(leftObject, rightObject) == 1d ? 0d : 1d;
 				case GREATER_THAN:
+					left = (Double) interpretOperatorDefault(leftObject);
+					right = (Double) interpretOperatorDefault(rightObject);
 					return left.compareTo(right) > 0 ? 1d : 0d;
 				case GREATER_OR_EQUAL:
+					left = (Double) interpretOperatorDefault(leftObject);
+					right = (Double) interpretOperatorDefault(rightObject);
 					return left.compareTo(right) >= 0 ? 1d : 0d;
 				case SMALLER_THAN:
+					left = (Double) interpretOperatorDefault(leftObject);
+					right = (Double) interpretOperatorDefault(rightObject);
 					return left.compareTo(right) < 0 ? 1d : 0d;
 				case SMALLER_OR_EQUAL:
+					left = (Double) interpretOperatorDefault(leftObject);
+					right = (Double) interpretOperatorDefault(rightObject);
 					return left.compareTo(right) <= 0 ? 1d : 0d;
 				case LOGICAL_AND:
+					left = (Double) interpretOperatorDefault(leftObject);
+					right = (Double) interpretOperatorDefault(rightObject);
 					return (left * right) != 0d ? 1d : 0d;
 				case LOGICAL_OR:
+					left = (Double) interpretOperatorDefault(leftObject);
+					right = (Double) interpretOperatorDefault(rightObject);
 					return left != 0d || right != 0d ? 1d : 0d;
 			}
 
@@ -410,7 +442,6 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretValueAsString(String value) throws NumberFormatException {
-		// TODO
 
 		if (parent == null) {
 			return value;
@@ -418,6 +449,13 @@ public class FormulaElement implements Serializable {
 
 		boolean isParentAFunction = Functions.getFunctionByValue(parent.value) != null;
 		if (isParentAFunction && Functions.getFunctionByValue(parent.value).returnType == ElementType.STRING) {
+			if (Functions.getFunctionByValue(parent.value) == Functions.LETTER && parent.leftChild == this) {
+				try {
+					return Double.valueOf(value);
+				} catch (NumberFormatException numberFormatexception) {
+					return Double.valueOf(0);
+				}
+			}
 			return value;
 		}
 
@@ -429,10 +467,59 @@ public class FormulaElement implements Serializable {
 			return Double.valueOf(0.0);
 		}
 
+		boolean isParentAOperator = Operators.getOperatorByValue(parent.value) != null;
+		if (isParentAOperator
+				&& (Operators.getOperatorByValue(parent.value) == Operators.EQUAL || Operators
+						.getOperatorByValue(parent.value) == Operators.NOT_EQUAL)) {
+			return value;
+		}
+
 		return Double.valueOf(value);
 	}
 
-	private Object checkDegeneratedDoubleValues(Object valueToCheck) {
+	private Double interpretOperatorEqual(Object left, Object right) {
+
+		if (left instanceof String && right instanceof String) {
+			int compareResult = ((String) left).compareTo((String) right);
+			if (compareResult == 0) {
+				return 1d;
+			}
+		}
+		if (left instanceof Double && right instanceof String) {
+			try {
+				int compareResult = ((Double) left).compareTo(Double.valueOf((String) right));
+				if (compareResult == 0) {
+					return 1d;
+				}
+			} catch (NumberFormatException numberFormatException) {
+				return 0d;
+			}
+		}
+		if (left instanceof String && right instanceof Double) {
+			try {
+				int compareResult = Double.valueOf((String) left).compareTo((Double) right);
+				if (compareResult == 0) {
+					return 1d;
+				}
+			} catch (NumberFormatException numberFormatException) {
+				return 0d;
+			}
+		}
+		if (left instanceof Double && right instanceof Double) {
+			return (((Double) left).compareTo((Double) right) == 0) ? 1d : 0d;
+		}
+		return 0d;
+	}
+
+	private Object interpretOperatorDefault(Object object) throws NumberFormatException {
+		if (object instanceof String) {
+			return Double.valueOf((String) object);
+		} else {
+			return object;
+		}
+	}
+
+	private Object checkDegeneratedDoubleValues(Object valueToCheck) throws NumberFormatException {
 
 		if (valueToCheck instanceof String) {
 			return valueToCheck;
@@ -441,6 +528,7 @@ public class FormulaElement implements Serializable {
 		if (valueToCheck == null) {
 			return 1.0;
 		}
+
 		if (((Double) valueToCheck).doubleValue() == Double.NEGATIVE_INFINITY) {
 			return -Double.MAX_VALUE;
 		}
@@ -448,7 +536,7 @@ public class FormulaElement implements Serializable {
 			return Double.MAX_VALUE;
 		}
 		if (((Double) valueToCheck).isNaN()) {
-			return 1.0;
+			throw new NumberFormatException("NaN");
 		}
 
 		return valueToCheck;
@@ -510,14 +598,6 @@ public class FormulaElement implements Serializable {
 			return Operators.getOperatorByValue(value).isLogicalOperator;
 		}
 		return false;
-	}
-
-	public boolean hasFunctionCharacterReturnType() {
-		Functions function = Functions.getFunctionByValue(value);
-		if (function == null) {
-			return false;
-		}
-		return function.returnType == ElementType.CHAR;
 	}
 
 	public boolean hasFunctionStringReturnType() {

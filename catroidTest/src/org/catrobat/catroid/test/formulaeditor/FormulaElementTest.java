@@ -108,8 +108,12 @@ public class FormulaElementTest extends InstrumentationTestCase {
 		formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.DIVIDE.name(), null, new FormulaElement(
 				ElementType.NUMBER, "0", null), new FormulaElement(ElementType.NUMBER, "0", null));
 
-		assertEquals("Degenerated double values error", 1d, formulaElement.interpretRecursive(null));
-
+		try {
+			formulaElement.interpretRecursive(null);
+			fail("NumberFormatException not thrown!");
+		} catch (NumberFormatException numberFormatException) {
+			assertEquals("Wrong Exception!", "NaN", numberFormatException.getMessage());
+		}
 	}
 
 	public void testIsLogicalOperator() {
