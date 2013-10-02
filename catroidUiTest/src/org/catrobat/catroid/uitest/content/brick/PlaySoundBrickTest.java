@@ -42,10 +42,12 @@ import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
@@ -87,10 +89,11 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 		solo.clickOnText(soundName);
 		assertTrue(soundName + " is not selected in Spinner", solo.searchText(soundName));
-		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
+
+		MediaPlayer mediaPlayer = getMediaPlayers().get(0);
 		assertTrue("mediaPlayer is not playing", mediaPlayer.isPlaying());
 		assertEquals("wrong file playing", 7592, mediaPlayer.getDuration());
 		solo.goBack();
@@ -101,10 +104,11 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		solo.clickOnText(soundName);
 		solo.clickOnText(soundName2);
 		assertTrue(soundName2 + " is not selected in Spinner", solo.searchText(soundName2));
-		mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
+
+		mediaPlayer = getMediaPlayers().get(0);
 		assertTrue("mediaPlayer is not playing", mediaPlayer.isPlaying());
 		assertEquals("wrong file playing", 4875, mediaPlayer.getDuration());
 	}
@@ -219,5 +223,10 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 				.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 		ProjectManager.getInstance().getFileChecksumContainer()
 				.addChecksum(soundInfo2.getChecksum(), soundInfo2.getAbsolutePath());
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<MediaPlayer> getMediaPlayers() {
+		return (List<MediaPlayer>) Reflection.getPrivateField(SoundManager.getInstance(), "mediaPlayers");
 	}
 }

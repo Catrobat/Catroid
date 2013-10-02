@@ -120,19 +120,19 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class StorageHandler {
 	private static final String TAG = StorageHandler.class.getSimpleName();
+	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private static final int JPG_COMPRESSION_SETTING = 95;
 
 	private static final StorageHandler INSTANCE;
 
 	private XStream xstream;
-	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
-	private ReentrantLock saveLoadLock = new ReentrantLock();
+	private Lock loadSaveLock = new ReentrantLock();
 
 	// TODO: Since the StorageHandler constructor throws an exception, the member INSTANCE couldn't be assigned
 	// directly and therefore we need this static block. Should be refactored and removed in the future.
@@ -235,97 +235,85 @@ public class StorageHandler {
 	}
 
 	public Project loadProject(String projectName) {
-		saveLoadLock.lock();
-		createCatroidRoot();
+		loadSaveLock.lock();
 		try {
-			File projectDirectory = new File(buildProjectPath(projectName));
-
-			if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
-				InputStream projectFileStream = new FileInputStream(buildPath(projectDirectory.getAbsolutePath(),
-						PROJECTCODE_NAME));
-				Project returned = (Project) xstream.fromXML(projectFileStream);
-				saveLoadLock.unlock();
-				return returned;
-			} else {
-				saveLoadLock.unlock();
-				return null;
-			}
-
-		} catch (Exception e) {
-			Log.e("CATROID", "Cannot load project.", e);
-			saveLoadLock.unlock();
+			File projectCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
+			return (Project) xstream.fromXML(new FileInputStream(projectCodeFile));
+		} catch (Exception exception) {
+			Log.e(TAG, "Loading project " + projectName + " failed.", exception);
 			return null;
+		} finally {
+			loadSaveLock.unlock();
 		}
 	}
 
 	public boolean saveProject(Project project) {
-		saveLoadLock.lock();
-		createCatroidRoot();
-		if (project == null) {
-			saveLoadLock.unlock();
-			return false;
-		}
+		BufferedWriter writer = null;
 
+		loadSaveLock.lock();
 		try {
-			String projectFile = xstream.toXML(project);
-
-			String projectDirectoryName = buildProjectPath(project.getName());
-			File projectDirectory = new File(projectDirectoryName);
-
-			if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
-				projectDirectory.mkdir();
-
-				BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
-
-				File imageDirectory = new File(buildPath(projectDirectoryName, IMAGE_DIRECTORY));
-				imageDirectory.mkdir();
-
-				File noMediaFile = new File(buildPath(projectDirectoryName, IMAGE_DIRECTORY, NO_MEDIA_FILE));
-				noMediaFile.createNewFile();
-
-				File soundDirectory = new File(buildPath(projectDirectoryName, SOUND_DIRECTORY));
-				soundDirectory.mkdir();
-
-				noMediaFile = new File(buildPath(projectDirectoryName, SOUND_DIRECTORY, NO_MEDIA_FILE));
-				noMediaFile.createNewFile();
-
-				File backPackDirectory = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY));
-				backPackDirectory.mkdir();
-
-				noMediaFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, NO_MEDIA_FILE));
-				noMediaFile.createNewFile();
-
-				File backPackSoundDirectory = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY,
-						BACKPACK_SOUND_DIRECTORY));
-				backPackSoundDirectory.mkdir();
-
-				noMediaFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_SOUND_DIRECTORY,
-						NO_MEDIA_FILE));
-				noMediaFile.createNewFile();
-
-				File backPackImageDirectory = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY,
-						BACKPACK_IMAGE_DIRECTORY));
-				backPackImageDirectory.mkdir();
-
-				noMediaFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_IMAGE_DIRECTORY,
-						NO_MEDIA_FILE));
-				noMediaFile.createNewFile();
-
+			if (project == null) {
+				return false;
 			}
 
-			BufferedWriter writer = new BufferedWriter(
-					new FileWriter(buildPath(projectDirectoryName, PROJECTCODE_NAME)), Constants.BUFFER_8K);
-			writer.write(XML_HEADER.concat(projectFile));
+			BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
+			File projectDirectory = new File(buildProjectPath(project.getName()));
+			createProjectDataStructure(projectDirectory);
+
+			writer = new BufferedWriter(new FileWriter(new File(projectDirectory, PROJECTCODE_NAME)),
+					Constants.BUFFER_8K);
+			String projectXml = XML_HEADER.concat(xstream.toXML(project));
+			writer.write(projectXml);
 			writer.flush();
-			writer.close();
-			saveLoadLock.unlock();
 			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			Log.e(TAG, "saveProject threw an exception and failed.");
-			saveLoadLock.unlock();
+		} catch (Exception exception) {
+			Log.e(TAG, "Saving project " + project.getName() + " failed.", exception);
 			return false;
+		} finally {
+			if (writer != null) {
+				try {
+					writer.close();
+				} catch (IOException ioException) {
+					Log.e(TAG, "Failed closing the buffered writer", ioException);
+				}
+			}
+			loadSaveLock.unlock();
 		}
+	}
+
+	private void createProjectDataStructure(File projectDirectory) throws IOException {
+		createCatroidRoot();
+		projectDirectory.mkdir();
+
+		File imageDirectory = new File(projectDirectory, IMAGE_DIRECTORY);
+		imageDirectory.mkdir();
+
+		File noMediaFile = new File(imageDirectory, NO_MEDIA_FILE);
+		noMediaFile.createNewFile();
+
+		File soundDirectory = new File(projectDirectory, SOUND_DIRECTORY);
+		soundDirectory.mkdir();
+
+		noMediaFile = new File(soundDirectory, NO_MEDIA_FILE);
+		noMediaFile.createNewFile();
+
+		File backPackDirectory = new File(DEFAULT_ROOT, BACKPACK_DIRECTORY);
+		backPackDirectory.mkdir();
+
+		noMediaFile = new File(backPackDirectory, NO_MEDIA_FILE);
+		noMediaFile.createNewFile();
+
+		File backPackSoundDirectory = new File(backPackDirectory, BACKPACK_SOUND_DIRECTORY);
+		backPackSoundDirectory.mkdir();
+
+		noMediaFile = new File(backPackSoundDirectory, NO_MEDIA_FILE);
+		noMediaFile.createNewFile();
+
+		File backPackImageDirectory = new File(backPackDirectory, BACKPACK_IMAGE_DIRECTORY);
+		backPackImageDirectory.mkdir();
+
+		noMediaFile = new File(backPackImageDirectory, NO_MEDIA_FILE);
+		noMediaFile.createNewFile();
 	}
 
 	public boolean deleteProject(Project project) {
@@ -342,7 +330,7 @@ public class StorageHandler {
 		return false;
 	}
 
-	public boolean projectExistsCheckCase(String projectName) {
+	public boolean projectExists(String projectName) {
 		List<String> projectNameList = UtilFile.getProjectNames(new File(DEFAULT_ROOT));
 		for (String projectNameIterator : projectNameList) {
 			if ((projectNameIterator.equals(projectName))) {
