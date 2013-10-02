@@ -109,13 +109,14 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 	}
 
 	public void testPauseOnBackButton() {
-		float scale = 100.0f;
+		float defaultScale = 100.0f;
+		float newScale = 50.0f;
 
 		Project project = new Project(getActivity(), testProject);
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript(sprite);
 		WaitBrick waitBrick = new WaitBrick(sprite, 5000);
-		SetSizeToBrick scaleLookBrick = new SetSizeToBrick(sprite, scale);
+		SetSizeToBrick scaleLookBrick = new SetSizeToBrick(sprite, newScale);
 
 		script.addBrick(waitBrick);
 		script.addBrick(scaleLookBrick);
@@ -129,14 +130,16 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		assertEquals("Unexpected look size", scale, sprite.look.getSizeInUserInterfaceDimensionUnit());
+		solo.sleep(1000);
+		assertEquals("Unexpected look size", defaultScale, sprite.look.getSizeInUserInterfaceDimensionUnit());
 
 		solo.goBack();
-		solo.goBack();
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		assertEquals("Unexpected look size", scale, sprite.look.getSizeInUserInterfaceDimensionUnit());
-		solo.sleep(4000);
-		assertEquals("Unexpected look size", scale, sprite.look.getSizeInUserInterfaceDimensionUnit());
+		solo.sleep(6000);
+		assertEquals("Unexpected look size", defaultScale, sprite.look.getSizeInUserInterfaceDimensionUnit());
+
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
+		solo.sleep(6000);
+		assertEquals("Unexpected look size", newScale, sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}
 
 	public void testRestartButtonActivityChain() {
