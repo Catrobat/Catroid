@@ -53,6 +53,7 @@ import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.ViewSwitchLock;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -956,7 +957,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			titleId = R.string.dialog_confirm_delete_brick_title;
 		}
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		AlertDialog.Builder builder = new CustomAlertDialogBuilder(context);
 		builder.setTitle(titleId);
 		builder.setMessage(R.string.dialog_confirm_delete_brick_message);
 		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {

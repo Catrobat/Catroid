@@ -30,7 +30,6 @@
 package org.catrobat.catroid.utils;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
@@ -69,6 +68,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -100,7 +100,7 @@ public class Utils {
 
 	public static boolean checkForExternalStorageAvailableAndDisplayErrorIfNot(final Context context) {
 		if (!externalStorageAvailable()) {
-			Builder builder = new AlertDialog.Builder(context);
+			Builder builder = new CustomAlertDialogBuilder(context);
 
 			builder.setTitle(R.string.error);
 			builder.setMessage(R.string.error_no_writiable_external_storage_available);
@@ -161,7 +161,7 @@ public class Utils {
 	}
 
 	public static void showErrorDialog(Context context, int errorMessageId) {
-		Builder builder = new AlertDialog.Builder(context);
+		Builder builder = new CustomAlertDialogBuilder(context);
 		builder.setTitle(R.string.error);
 		builder.setMessage(errorMessageId);
 		builder.setNeutralButton(R.string.close, new OnClickListener() {
