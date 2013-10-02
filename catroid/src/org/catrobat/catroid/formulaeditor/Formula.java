@@ -97,21 +97,24 @@ public class Formula implements Serializable {
 	}
 
 	public int interpretInteger(Sprite sprite) {
-		Double interpretedValue = formulaTree.interpretRecursive(sprite);
-		return interpretedValue.intValue();
+		return ((Double) formulaTree.interpretRecursive(sprite)).intValue();
 	}
 
 	public double interpretDouble(Sprite sprite) {
-		return formulaTree.interpretRecursive(sprite);
+		return (Double) formulaTree.interpretRecursive(sprite);
 	}
 
 	public float interpretFloat(Sprite sprite) {
-		return (float) interpretDouble(sprite);
+		return ((Double) formulaTree.interpretRecursive(sprite)).floatValue();
 	}
 
 	public char interpretChar(Sprite sprite) {
-		Double interpret = formulaTree.interpretRecursive(sprite);
-		return (char) interpret.intValue();
+		Double interpretation = (Double) formulaTree.interpretRecursive(sprite);
+		return (char) interpretation.intValue();
+	}
+
+	public String interpretString(Sprite sprite) {
+		return (String) formulaTree.interpretRecursive(sprite);
 	}
 
 	public void setRoot(FormulaElement formula) {
@@ -207,11 +210,19 @@ public class Formula implements Serializable {
 		} else if (formulaTree.hasFunctionCharacterReturnType()) {
 			char result = this.interpretChar(sprite);
 			return String.valueOf(result);
+		} else if (formulaTree.hasFunctionStringReturnType() || formulaTree.getElementType() == ElementType.STRING) {
+			return interpretString(sprite);
 		} else {
-			float floatInterpretationResult = this.interpretFloat(sprite);
-			floatInterpretationResult *= 100;
-			floatInterpretationResult = Math.round(floatInterpretationResult) / 100f;
-			return String.valueOf(floatInterpretationResult);
+			double interpretationResult = 0;
+			try {
+				interpretationResult = this.interpretDouble(sprite);
+			} catch (NumberFormatException numberFormatException) {
+				return String.valueOf("NaN");
+			}
+
+			interpretationResult *= 100;
+			interpretationResult = Math.round(interpretationResult) / 100f;
+			return String.valueOf(interpretationResult);
 		}
 	}
 }

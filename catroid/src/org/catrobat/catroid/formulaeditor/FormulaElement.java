@@ -138,9 +138,9 @@ public class FormulaElement implements Serializable {
 		return root;
 	}
 
-	public Double interpretRecursive(Sprite sprite) {
+	public Object interpretRecursive(Sprite sprite) throws NumberFormatException {
 
-		Double returnValue = 0d;
+		Object returnValue = 0d;
 
 		switch (type) {
 			case BRACKET:
@@ -177,20 +177,18 @@ public class FormulaElement implements Serializable {
 				break;
 
 			case STRING:
-				returnValue = interpretString(value);
+				returnValue = interpretValueAsString(value);
 				break;
 
 		}
 
 		returnValue = checkDegeneratedDoubleValues(returnValue);
-
 		return returnValue;
-
 	}
 
-	private Double interpretFunction(Functions function, Sprite sprite) {
-		Double left = null;
-		Double right = null;
+	private Object interpretFunction(Functions function, Sprite sprite) throws NumberFormatException {
+		Object left = null;
+		Object right = null;
 
 		if (leftChild != null) {
 			left = leftChild.interpretRecursive(sprite);
@@ -198,27 +196,27 @@ public class FormulaElement implements Serializable {
 
 		switch (function) {
 			case SIN:
-				return java.lang.Math.sin(Math.toRadians(left));
+				return java.lang.Math.sin(Math.toRadians((Double) left));
 
 			case COS:
-				return java.lang.Math.cos(Math.toRadians(left));
+				return java.lang.Math.cos(Math.toRadians((Double) left));
 
 			case TAN:
-				return java.lang.Math.tan(Math.toRadians(left));
+				return java.lang.Math.tan(Math.toRadians((Double) left));
 
 			case LN:
-				return java.lang.Math.log(left);
+				return java.lang.Math.log((Double) left);
 
 			case LOG:
-				return java.lang.Math.log10(left);
+				return java.lang.Math.log10((Double) left);
 
 			case SQRT:
-				return java.lang.Math.sqrt(left);
+				return java.lang.Math.sqrt((Double) left);
 
 			case RAND:
 				right = rightChild.interpretRecursive(sprite);
-				Double minimum = java.lang.Math.min(left, right);
-				Double maximum = java.lang.Math.max(left, right);
+				Double minimum = java.lang.Math.min((Double) left, (Double) right);
+				Double maximum = java.lang.Math.max((Double) left, (Double) right);
 
 				Double randomDouble = minimum + (java.lang.Math.random() * (maximum - minimum));
 
@@ -238,17 +236,17 @@ public class FormulaElement implements Serializable {
 				}
 
 			case ABS:
-				return java.lang.Math.abs(left);
+				return java.lang.Math.abs((Double) left);
 
 			case ROUND:
-				return (double) java.lang.Math.round(left);
+				return (double) java.lang.Math.round((Double) left);
 
 			case PI:
 				return java.lang.Math.PI;
 
 			case MOD:
-				double dividend = left;
-				double divisor = rightChild.interpretRecursive(sprite);
+				double dividend = (Double) left;
+				double divisor = (Double) rightChild.interpretRecursive(sprite);
 
 				if (dividend == 0 || divisor == 0) {
 					return dividend;
@@ -267,26 +265,26 @@ public class FormulaElement implements Serializable {
 				return dividend % divisor;
 
 			case ARCSIN:
-				return java.lang.Math.toDegrees(Math.asin(left));
+				return java.lang.Math.toDegrees(Math.asin((Double) left));
 			case ARCCOS:
-				return java.lang.Math.toDegrees(Math.acos(left));
+				return java.lang.Math.toDegrees(Math.acos((Double) left));
 			case ARCTAN:
-				return java.lang.Math.toDegrees(Math.atan(left));
+				return java.lang.Math.toDegrees(Math.atan((Double) left));
 			case EXP:
-				return java.lang.Math.exp(left);
+				return java.lang.Math.exp((Double) left);
 			case MAX:
 				right = rightChild.interpretRecursive(sprite);
-				return java.lang.Math.max(left, right);
+				return java.lang.Math.max((Double) left, (Double) right);
 			case MIN:
 				right = rightChild.interpretRecursive(sprite);
-				return java.lang.Math.min(left, right);
+				return java.lang.Math.min((Double) left, (Double) right);
 			case TRUE:
 				return 1.0;
 			case FALSE:
 				return 0.0;
 			case LETTER:
 				rightChild.interpretRecursive(sprite);
-				int index = left.intValue() - 1;
+				int index = ((Double) left).intValue() - 1;
 				if (index < 0) {
 					return 0.0;
 					// TODO handle this with correct exception or errorcode (NaN, Null etc..)
@@ -296,19 +294,47 @@ public class FormulaElement implements Serializable {
 				}
 				return (double) rightChild.value.charAt(index); // TODO return char not ASCII value!
 			case LENGTH:
+				if (leftChild == null) {
+					return 0d;
+				}
+				if (leftChild.type == ElementType.NUMBER) {
+					return 1.0;
+				}
 				if (leftChild.type == ElementType.STRING) {
 					return (double) leftChild.value.length();
 				}
-		}
 
+			case JOIN:
+				String result = "";
+				if (leftChild != null) {
+					result = leftChild.value;
+				}
+				if (rightChild != null) {
+					result += rightChild.value;
+				}
+				return result;
+		}
 		return 0d;
 	}
 
-	private Double interpretOperator(Operators operator, Sprite sprite) {
+	private Object interpretOperator(Operators operator, Sprite sprite) throws NumberFormatException {
 
 		if (leftChild != null) {// binary operator
-			Double left = leftChild.interpretRecursive(sprite);
-			Double right = rightChild.interpretRecursive(sprite);
+			Object leftObject = leftChild.interpretRecursive(sprite);
+			Object rightObject = rightChild.interpretRecursive(sprite);
+			Double left;
+			Double right;
+
+			if (leftObject instanceof String) {
+				left = Double.valueOf((String) leftObject);
+			} else {
+				left = (Double) leftObject;
+			}
+			if (rightObject instanceof String) {
+				right = Double.valueOf((String) rightObject);
+			} else {
+				right = (Double) rightObject;
+			}
 
 			switch (operator) {
 				case PLUS:
@@ -340,13 +366,14 @@ public class FormulaElement implements Serializable {
 			}
 
 		} else {//unary operators
-			Double right = rightChild.interpretRecursive(sprite);
+			Object right = rightChild.interpretRecursive(sprite);
 
 			switch (operator) {
 				case MINUS:
-					return -right;
+					Double result = (Double) right;
+					return Double.valueOf(-result.doubleValue());
 				case LOGICAL_NOT:
-					return right == 0d ? 1d : 0d;
+					return (Double) right == 0d ? 1d : 0d;
 			}
 
 		}
@@ -354,8 +381,8 @@ public class FormulaElement implements Serializable {
 		return 0d;
 	}
 
-	private Double interpretObjectSensor(Sensors sensor, Sprite sprite) {
-		Double returnValue = 0d;
+	private Object interpretObjectSensor(Sensors sensor, Sprite sprite) throws NumberFormatException {
+		Object returnValue = 0d;
 		switch (sensor) {
 			case OBJECT_BRIGHTNESS:
 				returnValue = (double) sprite.look.getBrightnessInUserInterfaceDimensionUnit();
@@ -382,27 +409,45 @@ public class FormulaElement implements Serializable {
 		return returnValue;
 	}
 
-	private Double interpretString(String value) {
-		Double returnValue = Double.valueOf(0.0);
-		try {
-			returnValue = Double.valueOf(value);
-		} catch (NumberFormatException numberFormatException) {
+	private Object interpretValueAsString(String value) throws NumberFormatException {
+		// TODO
+
+		if (parent == null) {
+			return value;
 		}
 
-		return returnValue;
+		boolean isParentAFunction = Functions.getFunctionByValue(parent.value) != null;
+		if (isParentAFunction && Functions.getFunctionByValue(parent.value).returnType == ElementType.STRING) {
+			return value;
+		}
+
+		if (value.length() == 0) {
+			return Double.valueOf(0.0);
+		}
+
+		if (isParentAFunction) {
+			return Double.valueOf(0.0);
+		}
+
+		return Double.valueOf(value);
 	}
 
-	private Double checkDegeneratedDoubleValues(Double valueToCheck) {
+	private Object checkDegeneratedDoubleValues(Object valueToCheck) {
+
+		if (valueToCheck instanceof String) {
+			return valueToCheck;
+		}
+
 		if (valueToCheck == null) {
 			return 1.0;
 		}
-		if (valueToCheck.doubleValue() == Double.NEGATIVE_INFINITY) {
+		if (((Double) valueToCheck).doubleValue() == Double.NEGATIVE_INFINITY) {
 			return -Double.MAX_VALUE;
 		}
-		if (valueToCheck.doubleValue() == Double.POSITIVE_INFINITY) {
+		if (((Double) valueToCheck).doubleValue() == Double.POSITIVE_INFINITY) {
 			return Double.MAX_VALUE;
 		}
-		if (valueToCheck.isNaN()) {
+		if (((Double) valueToCheck).isNaN()) {
 			return 1.0;
 		}
 
@@ -469,7 +514,18 @@ public class FormulaElement implements Serializable {
 
 	public boolean hasFunctionCharacterReturnType() {
 		Functions function = Functions.getFunctionByValue(value);
+		if (function == null) {
+			return false;
+		}
 		return function.returnType == ElementType.CHAR;
+	}
+
+	public boolean hasFunctionStringReturnType() {
+		Functions function = Functions.getFunctionByValue(value);
+		if (function == null) {
+			return false;
+		}
+		return function.returnType == ElementType.STRING;
 	}
 
 	public boolean containsElement(ElementType elementType) {

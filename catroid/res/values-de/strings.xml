@@ -651,6 +651,7 @@
     <string name="variable_name">Variablenname:</string>
     <string name="formula_editor_new_string_name">Neue Zeichenkette</string>
     <string name="formula_editor_new_string_dialog_hint">Neue Zeichenkette hier eingeben!</string>
+    <string name="formula_editor_function_join">zusammenfügen</string>
 
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable ausgewählt!</item>

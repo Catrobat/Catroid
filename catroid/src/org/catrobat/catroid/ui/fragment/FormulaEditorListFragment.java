@@ -76,7 +76,8 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			R.string.formula_editor_function_arcsin, R.string.formula_editor_function_arccos,
 			R.string.formula_editor_function_arctan, R.string.formula_editor_function_exp,
 			R.string.formula_editor_function_max, R.string.formula_editor_function_min,
-			R.string.formula_editor_function_length, R.string.formula_editor_function_letter };
+			R.string.formula_editor_function_length, R.string.formula_editor_function_letter,
+			R.string.formula_editor_function_join };
 
 	private static final int[] SENSOR_ITEMS = { R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration,
