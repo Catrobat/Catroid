@@ -128,10 +128,10 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 		}
 		if (message == null) {
 			new CustomAlertDialogBuilder(context).setTitle(R.string.register_error).setMessage(messageId)
-					.setPositiveButton("OK", null).show();
+					.setPositiveButton(R.string.ok, null).show();
 		} else {
 			new CustomAlertDialogBuilder(context).setTitle(R.string.register_error).setMessage(message)
-					.setPositiveButton("OK", null).show();
+					.setPositiveButton(R.string.ok, null).show();
 		}
 	}
 

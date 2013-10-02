@@ -33,17 +33,17 @@ public class ExternInternRepresentationMappingTest extends InstrumentationTestCa
 
 		ExternInternRepresentationMapping externInternRepresentationMapping = new ExternInternRepresentationMapping();
 
-		Integer externTokenStringStartIndex = 1;
-		Integer externTokenStringEndIndex = 3;
-		Integer internTokenListIndex = 0;
+		int externTokenStringStartIndex = 1;
+		int externTokenStringEndIndex = 3;
+		int internTokenListIndex = 0;
 
 		externInternRepresentationMapping.putMapping(externTokenStringStartIndex, externTokenStringEndIndex,
 				internTokenListIndex);
 
-		assertEquals("getExternTokenStartIndex returns wrong value", externTokenStringStartIndex.intValue(),
+		assertEquals("getExternTokenStartIndex returns wrong value", externTokenStringStartIndex,
 				externInternRepresentationMapping.getExternTokenStartIndex(internTokenListIndex));
 
-		assertEquals("getExternTokenEndIndex returns wrong value", externTokenStringEndIndex.intValue(),
+		assertEquals("getExternTokenEndIndex returns wrong value", externTokenStringEndIndex,
 				externInternRepresentationMapping.getExternTokenEndIndex(internTokenListIndex));
 
 		assertEquals("Mapping should not exist", ExternInternRepresentationMapping.MAPPING_NOT_FOUND,
