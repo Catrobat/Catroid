@@ -60,6 +60,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 
 public class FormulaEditorFragment extends SherlockFragment implements OnKeyListener,
@@ -426,7 +427,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
 				if (formulaEditorEditText.hasChanges()) {
-					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+					AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
 					builder.setTitle(R.string.formula_editor_discard_changes_dialog_title)
 							.setMessage(R.string.formula_editor_discard_changes_dialog_message)
 							.setNegativeButton(R.string.no, new OnClickListener() {

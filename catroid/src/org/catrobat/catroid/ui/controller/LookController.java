@@ -75,7 +75,6 @@ public class LookController {
 	public static final String LOADER_ARGUMENTS_IMAGE_URI = "image_uri";
 	public static final String SHARED_PREFERENCE_NAME = "showDetailsLooks";
 
-	private static final String TAG = LookController.class.getSimpleName();
 	private static LookController instance;
 
 	public static LookController getInstance() {
@@ -268,7 +267,7 @@ public class LookController {
 		} catch (IOException e) {
 			Utils.showErrorDialog(activity, R.string.error_load_image);
 		}
-        fragment.destroyLoader();
+		fragment.destroyLoader();
 		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 	}
 

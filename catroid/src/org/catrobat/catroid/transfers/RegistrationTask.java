@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.transfers;
 
-import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -32,6 +31,7 @@ import android.widget.Toast;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
@@ -127,11 +127,11 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			return;
 		}
 		if (message == null) {
-			new Builder(context).setTitle(R.string.register_error).setMessage(messageId).setPositiveButton("OK", null)
-					.show();
+			new CustomAlertDialogBuilder(context).setTitle(R.string.register_error).setMessage(messageId)
+					.setPositiveButton("OK", null).show();
 		} else {
-			new Builder(context).setTitle(R.string.register_error).setMessage(message).setPositiveButton("OK", null)
-					.show();
+			new CustomAlertDialogBuilder(context).setTitle(R.string.register_error).setMessage(message)
+					.setPositiveButton("OK", null).show();
 		}
 	}
 
