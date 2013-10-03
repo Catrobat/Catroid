@@ -88,7 +88,7 @@ public class InternFormula {
 		internFormulaTokenSelection = null;
 
 		if (isSelected
-				|| externInternRepresentationMapping.getInternTokenByExternIndex(externCursorPosition) != null
+				|| externInternRepresentationMapping.getInternTokenByExternIndex(externCursorPosition) != ExternInternRepresentationMapping.MAPPING_NOT_FOUND
 				&& (getFirstLeftInternToken(externCursorPosition - 1) == cursorPositionInternToken || cursorPositionInternToken
 						.isFunctionParameterBracketOpen())
 				&& ((cursorPositionInternToken.isFunctionName())
@@ -118,18 +118,18 @@ public class InternFormula {
 
 			cursorTokenPropertiesAfterInput = insertRightToCurrentToken(keyInputInternTokenList);
 
-		} else if (cursorTokenPosition == CursorTokenPosition.LEFT) {
-
-			cursorTokenPropertiesAfterInput = insertLeftToCurrentToken(keyInputInternTokenList);
-
-		} else if (cursorTokenPosition == CursorTokenPosition.MIDDLE) {
-
-			cursorTokenPropertiesAfterInput = replaceCursorPositionInternTokenByTokenList(keyInputInternTokenList);
-
-		} else if (cursorTokenPosition == CursorTokenPosition.RIGHT) {
-
-			cursorTokenPropertiesAfterInput = insertRightToCurrentToken(keyInputInternTokenList);
-
+		} else {
+			switch (cursorTokenPosition) {
+				case LEFT:
+					cursorTokenPropertiesAfterInput = insertLeftToCurrentToken(keyInputInternTokenList);
+					break;
+				case MIDDLE:
+					cursorTokenPropertiesAfterInput = replaceCursorPositionInternTokenByTokenList(keyInputInternTokenList);
+					break;
+				case RIGHT:
+					cursorTokenPropertiesAfterInput = insertRightToCurrentToken(keyInputInternTokenList);
+					break;
+			}
 		}
 
 		generateExternFormulaStringAndInternExternMapping(context);
@@ -139,29 +139,27 @@ public class InternFormula {
 	}
 
 	public void updateInternCursorPosition() {
-		Integer cursorPositionTokenIndex = externInternRepresentationMapping
+		int cursorPositionTokenIndex = externInternRepresentationMapping
 				.getInternTokenByExternIndex(externCursorPosition);
 
-		Integer leftCursorPositionTokenIndex = externInternRepresentationMapping
+		int leftCursorPositionTokenIndex = externInternRepresentationMapping
 				.getInternTokenByExternIndex(externCursorPosition - 1);
 
-		Integer leftleftCursorPositionTokenIndex = externInternRepresentationMapping
+		int leftleftCursorPositionTokenIndex = externInternRepresentationMapping
 				.getInternTokenByExternIndex(externCursorPosition - 2);
 
-		if (cursorPositionTokenIndex != null) {
-			if (leftCursorPositionTokenIndex != null) {
-				if (cursorPositionTokenIndex.equals(leftCursorPositionTokenIndex)) {
-					cursorTokenPosition = CursorTokenPosition.MIDDLE;
-				} else {
-					cursorTokenPosition = CursorTokenPosition.LEFT;
-				}
+		if (cursorPositionTokenIndex != ExternInternRepresentationMapping.MAPPING_NOT_FOUND) {
+			if (leftCursorPositionTokenIndex != ExternInternRepresentationMapping.MAPPING_NOT_FOUND
+					&& cursorPositionTokenIndex == leftCursorPositionTokenIndex) {
+				cursorTokenPosition = CursorTokenPosition.MIDDLE;
 			} else {
 				cursorTokenPosition = CursorTokenPosition.LEFT;
 			}
-		} else if (leftCursorPositionTokenIndex != null) {
+
+		} else if (leftCursorPositionTokenIndex != ExternInternRepresentationMapping.MAPPING_NOT_FOUND) {
 			cursorTokenPosition = CursorTokenPosition.RIGHT;
 
-		} else if (leftleftCursorPositionTokenIndex != null) {
+		} else if (leftleftCursorPositionTokenIndex != ExternInternRepresentationMapping.MAPPING_NOT_FOUND) {
 			cursorTokenPosition = CursorTokenPosition.RIGHT;
 			leftCursorPositionTokenIndex = leftleftCursorPositionTokenIndex;
 		} else {
@@ -267,27 +265,28 @@ public class InternFormula {
 
 			cursorTokenPropertiesAfterModification = CursorTokenPropertiesAfterModification.LEFT;
 
-		} else if (cursorTokenPosition == CursorTokenPosition.LEFT) {
+		} else {
+			switch (cursorTokenPosition) {
+				case LEFT:
+					InternToken firstLeftInternToken = getFirstLeftInternToken(externCursorPosition - 1);
+					if (firstLeftInternToken == null) {
+						cursorTokenPropertiesAfterModification = CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
+					} else {
 
-			InternToken firstLeftInternToken = getFirstLeftInternToken(externCursorPosition - 1);
+						int firstLeftInternTokenIndex = internTokenFormulaList.indexOf(firstLeftInternToken);
 
-			if (firstLeftInternToken == null) {
-				cursorTokenPropertiesAfterModification = CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
-			} else {
+						cursorTokenPropertiesAfterModification = deleteInternTokenByIndex(firstLeftInternTokenIndex);
+					}
+					break;
 
-				int firstLeftInternTokenIndex = internTokenFormulaList.indexOf(firstLeftInternToken);
+				case MIDDLE:
+					cursorTokenPropertiesAfterModification = deleteInternTokenByIndex(cursorPositionInternTokenIndex);
+					break;
 
-				cursorTokenPropertiesAfterModification = deleteInternTokenByIndex(firstLeftInternTokenIndex);
+				case RIGHT:
+					cursorTokenPropertiesAfterModification = deleteInternTokenByIndex(cursorPositionInternTokenIndex);
+					break;
 			}
-
-		} else if (cursorTokenPosition == CursorTokenPosition.MIDDLE) {
-
-			cursorTokenPropertiesAfterModification = deleteInternTokenByIndex(cursorPositionInternTokenIndex);
-
-		} else if (cursorTokenPosition == CursorTokenPosition.RIGHT) {
-
-			cursorTokenPropertiesAfterModification = deleteInternTokenByIndex(cursorPositionInternTokenIndex);
-
 		}
 
 		return cursorTokenPropertiesAfterModification;
@@ -419,8 +418,8 @@ public class InternFormula {
 			return;
 		}
 
-		Integer externTokenStartIndex = externInternRepresentationMapping.getExternTokenStartIndex(internTokenIndex);
-		if (externTokenStartIndex == null) {
+		int externTokenStartIndex = externInternRepresentationMapping.getExternTokenStartIndex(internTokenIndex);
+		if (externTokenStartIndex == ExternInternRepresentationMapping.MAPPING_NOT_FOUND) {
 			return;
 		}
 
@@ -438,8 +437,8 @@ public class InternFormula {
 			internTokenIndex = internTokenFormulaList.size() - 1;
 		}
 
-		Integer externTokenEndIndex = externInternRepresentationMapping.getExternTokenEndIndex(internTokenIndex);
-		if (externTokenEndIndex == null) {
+		int externTokenEndIndex = externInternRepresentationMapping.getExternTokenEndIndex(internTokenIndex);
+		if (externTokenEndIndex == ExternInternRepresentationMapping.MAPPING_NOT_FOUND) {
 			return;
 		}
 
@@ -480,10 +479,9 @@ public class InternFormula {
 
 				internFormulaTokenSelection = new InternFormulaTokenSelection(internTokenSelectionType,
 						cursorPositionInternTokenIndex, endSelectionIndex);
-
 				break;
-			case FUNCTION_PARAMETERS_BRACKET_OPEN:
 
+			case FUNCTION_PARAMETERS_BRACKET_OPEN:
 				functionInternTokens = InternFormulaUtils.getFunctionByFunctionBracketOpen(internTokenFormulaList,
 						cursorPositionInternTokenIndex);
 
@@ -499,8 +497,8 @@ public class InternFormula {
 
 				internFormulaTokenSelection = new InternFormulaTokenSelection(internTokenSelectionType,
 						startSelectionIndex, endSelectionIndex);
-
 				break;
+
 			case FUNCTION_PARAMETERS_BRACKET_CLOSE:
 				functionInternTokens = InternFormulaUtils.getFunctionByFunctionBracketClose(internTokenFormulaList,
 						cursorPositionInternTokenIndex);
@@ -535,7 +533,6 @@ public class InternFormula {
 
 				internFormulaTokenSelection = new InternFormulaTokenSelection(internTokenSelectionType,
 						startSelectionIndex, endSelectionIndex);
-
 				break;
 
 			case BRACKET_OPEN:
@@ -554,11 +551,9 @@ public class InternFormula {
 
 				internFormulaTokenSelection = new InternFormulaTokenSelection(internTokenSelectionType,
 						startSelectionIndex, endSelectionIndex);
-
 				break;
 
 			case BRACKET_CLOSE:
-
 				bracketsInternTokens = InternFormulaUtils.generateTokenListByBracketClose(internTokenFormulaList,
 						cursorPositionInternTokenIndex);
 
@@ -574,7 +569,6 @@ public class InternFormula {
 
 				internFormulaTokenSelection = new InternFormulaTokenSelection(internTokenSelectionType,
 						startSelectionIndex, endSelectionIndex);
-
 				break;
 
 			default:
@@ -600,8 +594,9 @@ public class InternFormula {
 			externCursorPosition++;
 
 			return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
+		}
 
-		} else if (cursorPositionInternToken.isNumber() && InternFormulaUtils.isPeriodToken(internTokensToInsert)) {
+		if (cursorPositionInternToken.isNumber() && InternFormulaUtils.isPeriodToken(internTokensToInsert)) {
 			String numberString = cursorPositionInternToken.getTokenStringValue();
 			if (numberString.contains(".")) {
 				return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
@@ -611,15 +606,17 @@ public class InternFormula {
 			externCursorPosition += 2;
 
 			return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
+		}
 
-		} else if (firstLeftInternToken != null && firstLeftInternToken.isNumber()
+		if (firstLeftInternToken != null && firstLeftInternToken.isNumber()
 				&& InternFormulaUtils.isNumberToken(internTokensToInsert)) {
 
 			firstLeftInternToken.appendToTokenStringValue(internTokensToInsert);
 
 			return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
+		}
 
-		} else if (firstLeftInternToken != null && firstLeftInternToken.isNumber()
+		if (firstLeftInternToken != null && firstLeftInternToken.isNumber()
 				&& InternFormulaUtils.isPeriodToken(internTokensToInsert)) {
 
 			String numberString = firstLeftInternToken.getTokenStringValue();
@@ -630,18 +627,17 @@ public class InternFormula {
 			firstLeftInternToken.appendToTokenStringValue(".");
 
 			return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
+		}
 
-		} else if (InternFormulaUtils.isPeriodToken(internTokensToInsert)) {
+		if (InternFormulaUtils.isPeriodToken(internTokensToInsert)) {
 			internTokenFormulaList.add(cursorPositionInternTokenIndex, new InternToken(InternTokenType.NUMBER, "0."));
 
 			cursorPositionInternToken = null;
 			return CursorTokenPropertiesAfterModification.RIGHT;
-		} else {
-
-			internTokenFormulaList.addAll(cursorPositionInternTokenIndex, internTokensToInsert);
-
-			return setCursorPositionAndSelectionAfterInput(cursorPositionInternTokenIndex);
 		}
+
+		internTokenFormulaList.addAll(cursorPositionInternTokenIndex, internTokensToInsert);
+		return setCursorPositionAndSelectionAfterInput(cursorPositionInternTokenIndex);
 	}
 
 	private CursorTokenPropertiesAfterModification insertRightToCurrentToken(List<InternToken> internTokensToInsert) {
@@ -655,14 +651,16 @@ public class InternFormula {
 			internTokenFormulaList.addAll(0, internTokensToInsert);
 
 			return setCursorPositionAndSelectionAfterInput(0);
+		}
 
-		} else if (cursorPositionInternToken.isNumber() && InternFormulaUtils.isNumberToken(internTokensToInsert)) {
+		if (cursorPositionInternToken.isNumber() && InternFormulaUtils.isNumberToken(internTokensToInsert)) {
 
 			cursorPositionInternToken.appendToTokenStringValue(internTokensToInsert);
 
 			return CursorTokenPropertiesAfterModification.RIGHT;
+		}
 
-		} else if (cursorPositionInternToken.isNumber() && InternFormulaUtils.isPeriodToken(internTokensToInsert)) {
+		if (cursorPositionInternToken.isNumber() && InternFormulaUtils.isPeriodToken(internTokensToInsert)) {
 			String numberString = cursorPositionInternToken.getTokenStringValue();
 			if (numberString.contains(".")) {
 				return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
@@ -670,8 +668,9 @@ public class InternFormula {
 			cursorPositionInternToken.appendToTokenStringValue(".");
 
 			return CursorTokenPropertiesAfterModification.RIGHT;
+		}
 
-		} else if (InternFormulaUtils.isPeriodToken(internTokensToInsert)) {
+		if (InternFormulaUtils.isPeriodToken(internTokensToInsert)) {
 
 			internTokenFormulaList.add(cursorPositionInternTokenIndex + 1,
 					new InternToken(InternTokenType.NUMBER, "0."));
@@ -679,12 +678,10 @@ public class InternFormula {
 			cursorPositionInternToken = null;
 			cursorPositionInternTokenIndex = cursorPositionInternTokenIndex + 1;
 			return CursorTokenPropertiesAfterModification.RIGHT;
-		} else {
-
-			internTokenFormulaList.addAll(cursorPositionInternTokenIndex + 1, internTokensToInsert);
-
-			return setCursorPositionAndSelectionAfterInput(cursorPositionInternTokenIndex + 1);
 		}
+
+		internTokenFormulaList.addAll(cursorPositionInternTokenIndex + 1, internTokensToInsert);
+		return setCursorPositionAndSelectionAfterInput(cursorPositionInternTokenIndex + 1);
 	}
 
 	private CursorTokenPropertiesAfterModification setCursorPositionAndSelectionAfterInput(int insertedInternTokenIndex) {
@@ -743,7 +740,9 @@ public class InternFormula {
 			externCursorPosition++;
 			return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 
-		} else if (cursorPositionInternToken.isNumber() && InternFormulaUtils.isPeriodToken(internTokensToReplaceWith)) {
+		}
+
+		if (cursorPositionInternToken.isNumber() && InternFormulaUtils.isPeriodToken(internTokensToReplaceWith)) {
 
 			String numberString = cursorPositionInternToken.getTokenStringValue();
 			if (numberString.contains(".")) {
@@ -761,8 +760,9 @@ public class InternFormula {
 			externCursorPosition++;
 
 			return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
+		}
 
-		} else if (cursorPositionInternToken.isFunctionName()) {
+		if (cursorPositionInternToken.isFunctionName()) {
 
 			List<InternToken> functionInternTokens = InternFormulaUtils.getFunctionByName(internTokenFormulaList,
 					cursorPositionInternTokenIndex);
@@ -781,27 +781,25 @@ public class InternFormula {
 			replaceInternTokens(tokensToInsert, cursorPositionInternTokenIndex, endIndexToReplace);
 
 			return setCursorPositionAndSelectionAfterInput(cursorPositionInternTokenIndex);
+		}
 
-		} else if (InternFormulaUtils.isPeriodToken(internTokensToReplaceWith)) {
+		if (InternFormulaUtils.isPeriodToken(internTokensToReplaceWith)) {
 			internTokenFormulaList.add(cursorPositionInternTokenIndex + 1,
 					new InternToken(InternTokenType.NUMBER, "0."));
 
 			cursorPositionInternToken = null;
 			cursorPositionInternTokenIndex = cursorPositionInternTokenIndex + 1;
 			return CursorTokenPropertiesAfterModification.RIGHT;
-		} else {
-
-			replaceInternTokens(internTokensToReplaceWith, cursorPositionInternTokenIndex,
-					cursorPositionInternTokenIndex);
-
-			return setCursorPositionAndSelectionAfterInput(cursorPositionInternTokenIndex);
 		}
 
+		replaceInternTokens(internTokensToReplaceWith, cursorPositionInternTokenIndex, cursorPositionInternTokenIndex);
+
+		return setCursorPositionAndSelectionAfterInput(cursorPositionInternTokenIndex);
 	}
 
 	public InternToken getFirstLeftInternToken(int externIndex) {
 		for (int searchIndex = externIndex; searchIndex >= 0; searchIndex--) {
-			if (externInternRepresentationMapping.getInternTokenByExternIndex(searchIndex) != null) {
+			if (externInternRepresentationMapping.getInternTokenByExternIndex(searchIndex) != ExternInternRepresentationMapping.MAPPING_NOT_FOUND) {
 				int internTokenIndex = externInternRepresentationMapping.getInternTokenByExternIndex(searchIndex);
 				InternToken internTokenToReturn = internTokenFormulaList.get(internTokenIndex);
 				return internTokenToReturn;
@@ -823,11 +821,7 @@ public class InternFormula {
 	}
 
 	public void selectParseErrorTokenAndSetCursor() {
-		if (internTokenFormulaParser == null) {
-			return;
-		}
-
-		if (internTokenFormulaList.size() == 0) {
+		if (internTokenFormulaParser == null || internTokenFormulaList.size() == 0) {
 			return;
 		}
 
@@ -892,10 +886,10 @@ public class InternFormula {
 			return -1;
 		}
 
-		Integer externSelectionStartIndex = externInternRepresentationMapping
+		int externSelectionStartIndex = externInternRepresentationMapping
 				.getExternTokenStartIndex(internFormulaTokenSelection.getStartIndex());
 
-		if (externSelectionStartIndex == null) {
+		if (externSelectionStartIndex == ExternInternRepresentationMapping.MAPPING_NOT_FOUND) {
 			return -1;
 		}
 
@@ -907,10 +901,10 @@ public class InternFormula {
 			return -1;
 		}
 
-		Integer externSelectionEndIndex = externInternRepresentationMapping
+		int externSelectionEndIndex = externInternRepresentationMapping
 				.getExternTokenEndIndex(internFormulaTokenSelection.getEndIndex());
 
-		if (externSelectionEndIndex == null) {
+		if (externSelectionEndIndex == ExternInternRepresentationMapping.MAPPING_NOT_FOUND) {
 			return -1;
 		}
 
@@ -924,22 +918,19 @@ public class InternFormula {
 	private boolean isTokenSelected() {
 		if (internFormulaTokenSelection == null) {
 			return false;
-		} else {
-			return true;
 		}
+		return true;
+
 	}
 
 	public boolean isThereSomethingToDelete() {
 		if (internFormulaTokenSelection != null) {
 			return true;
 		}
-		if (cursorTokenPosition == null) {
+		if (cursorTokenPosition == null
+				|| (cursorTokenPosition == CursorTokenPosition.LEFT && getFirstLeftInternToken(externCursorPosition - 1) == null)) {
 			return false;
-		}
-		if (cursorTokenPosition == CursorTokenPosition.LEFT) {
-			if (getFirstLeftInternToken(externCursorPosition - 1) == null) {
-				return false;
-			}
+
 		}
 		return true;
 	}
