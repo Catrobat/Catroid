@@ -177,6 +177,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 
+		solo.sleep(50);
 		assertEquals("Undo did something wrong", "1 - 2 ", ((TextView) solo.getView(X_POS_EDIT_TEXT_RID)).getText()
 				.toString());
 

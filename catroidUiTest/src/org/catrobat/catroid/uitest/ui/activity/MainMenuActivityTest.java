@@ -118,7 +118,6 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.clearEditText(0);
 		solo.enterText(0, "");
-
 		Button okButton = solo.getButton(getActivity().getString(R.string.ok));
 
 		assertFalse("New project ok button is enabled!", okButton.isEnabled());
@@ -131,7 +130,8 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.enterText(0, testProject);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
-				solo.searchText(solo.getString(R.string.error_project_exists)));
+				solo.searchText(UiTestUtils.ecsapeRegularExpressionMetaCharacters(solo
+						.getString(R.string.error_project_exists))));
 		solo.clickOnButton(0);
 
 		directory = new File(Utils.buildProjectPath("te?st"));
@@ -142,7 +142,8 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.enterText(0, name);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
-				solo.searchText(solo.getString(R.string.error_project_exists)));
+				solo.searchText(UiTestUtils.ecsapeRegularExpressionMetaCharacters(solo
+						.getString(R.string.error_project_exists))));
 		solo.clickOnButton(solo.getString(R.string.close));
 
 		UtilFile.deleteDirectory(directory);
@@ -242,6 +243,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("MyProjectsActivity not shown", solo.waitForActivity(MyProjectsActivity.class.getSimpleName()));
 		solo.clickOnText(testProject3);
 		assertTrue("ProjectActivity not shown", solo.waitForActivity(ProjectActivity.class.getSimpleName()));
+		solo.sleep(200);
 		solo.goBack();
 		assertTrue("MainMenuActivity not shown", solo.waitForActivity(MainMenuActivity.class.getSimpleName()));
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));

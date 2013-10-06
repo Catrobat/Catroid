@@ -169,7 +169,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText(backgroundName);
-		solo.clickOnMenuItem(solo.getString(R.string.main_menu_settings));
+		solo.clickOnMenuItem(solo.getString(R.string.settings));
 		solo.assertCurrentActivity("Not in SettingsActivity", SettingsActivity.class);
 	}
 
@@ -240,7 +240,6 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 				addNewSpriteEditText.getHint());
 		assertEquals("There should no text be set", "", addNewSpriteEditText.getText().toString());
 		solo.enterText(0, spriteName);
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(200);
 	}

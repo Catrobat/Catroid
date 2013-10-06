@@ -44,6 +44,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.LookAdapter;
+import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
@@ -54,6 +55,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int RESOURCE_IMAGE = org.catrobat.catroid.uitest.R.drawable.catroid_sunglasses;
@@ -301,7 +303,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
 
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -332,7 +334,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
 
 		solo.sleep(2000);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName(), 2000);
@@ -352,7 +354,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
@@ -380,7 +382,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
@@ -398,8 +400,8 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		Reflection.setPrivateField(Constants.class, "POCKET_PAINT_INTENT_ACTIVITY_NAME", "for.science");
 
 		solo.clickOnView(solo.getView(R.id.look_main_layout));
-		assertTrue("Paintroid not installed dialog missing after click on look",
-				solo.searchText(solo.getString(R.string.pocket_paint_not_installed)));
+		assertTrue("Paintroid not installed dialog missing after click on look", solo.searchText(UiTestUtils
+				.ecsapeRegularExpressionMetaCharacters(solo.getString(R.string.pocket_paint_not_installed))));
 		solo.clickOnButton(solo.getString(R.string.no));
 	}
 
@@ -429,7 +431,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_POCKET_PAINT_EDIT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE);
 
 		solo.sleep(5000);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -467,7 +469,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_POCKET_PAINT_EDIT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE);
 
 		solo.sleep(500);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -488,7 +490,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_POCKET_PAINT_EDIT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE);
 
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -518,7 +520,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_POCKET_PAINT_EDIT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE);
 
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
@@ -552,7 +554,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_POCKET_PAINT_EDIT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE);
 		solo.sleep(4000);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
@@ -597,7 +599,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_POCKET_PAINT_EDIT_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE);
 		solo.sleep(4000);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
@@ -657,7 +659,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.sleep(5000);
@@ -684,7 +686,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.sleep(5000);
@@ -966,6 +968,39 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				solo.waitForText(SECOND_TEST_LOOK_NAME, 0, 200, false, false));
 	}
 
+	public void testDeleteSelectAll() {
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		solo.clickOnText(selectAll);
+
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
+		}
+		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+		solo.clickOnText(yes);
+
+		assertFalse("Look was not Deleted!", solo.waitForText(FIRST_TEST_LOOK_NAME, 1, 200));
+		assertFalse("Look was not Deleted!", solo.waitForText(SECOND_TEST_LOOK_NAME, 1, 200));
+	}
+
+	public void testItemClick() {
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		solo.clickInList(2);
+
+		ArrayList<CheckBox> checkBoxList = solo.getCurrentViews(CheckBox.class);
+		assertTrue("CheckBox not checked", checkBoxList.get(1).isChecked());
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.yes)));
+		solo.clickOnButton(solo.getString(R.string.yes));
+
+		assertFalse("Look not deleted", solo.waitForText(SECOND_TEST_LOOK_NAME, 0, 200));
+	}
+
 	public void testDeleteAndCopyActionMode() {
 		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
 
@@ -1127,6 +1162,22 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				"Selected look '" + SECOND_TEST_LOOK_NAME + "' was not copied!",
 				solo.searchText(SECOND_TEST_LOOK_NAME, 2)
 						&& solo.searchText(SECOND_TEST_LOOK_NAME + copiedLookAddition));
+	}
+
+	public void testCopySelectAll() {
+		int currentNumberOfLooks = lookDataList.size();
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		solo.clickOnText(selectAll);
+
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
+		}
+		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		checkIfNumberOfLooksIsEqual(currentNumberOfLooks * 2);
 	}
 
 	public void testResolutionWhenCroppedWithPaintroid() {

@@ -50,7 +50,7 @@ public class SoundAdapter extends SoundBaseAdapter implements ScriptActivityAdap
 
 	public SoundAdapter(final Context context, int resource, int textViewResourceId, ArrayList<SoundInfo> items,
 			boolean showDetails) {
-		super(context, resource, textViewResourceId, items, false);
+		super(context, resource, textViewResourceId, items, showDetails);
 	}
 
 	@Override

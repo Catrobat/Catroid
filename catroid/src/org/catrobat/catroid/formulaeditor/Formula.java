@@ -124,12 +124,13 @@ public class Formula implements Serializable {
 	public String getDisplayString(Context context) {
 		if (displayText != null) {
 			return displayText;
-		} else {
-			if (context != null) {
-				internFormula.generateExternFormulaStringAndInternExternMapping(context);
-			}
-			return internFormula.getExternFormulaString();
 		}
+
+		if (context != null) {
+			internFormula.generateExternFormulaStringAndInternExternMapping(context);
+		}
+		return internFormula.getExternFormulaString();
+
 	}
 
 	public void refreshTextField(View view) {

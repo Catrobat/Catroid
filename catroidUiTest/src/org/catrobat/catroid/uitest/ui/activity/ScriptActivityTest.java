@@ -174,7 +174,7 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	private void checkSettingsAndGoBack() {
-		solo.clickOnMenuItem(solo.getString(R.string.main_menu_settings), true);
+		solo.clickOnMenuItem(solo.getString(R.string.settings), true);
 		solo.assertCurrentActivity("Not in " + SettingsActivity.class.getSimpleName(), SettingsActivity.class);
 		solo.goBack();
 		solo.assertCurrentActivity("Not in " + ScriptActivity.class.getSimpleName(), ScriptActivity.class);

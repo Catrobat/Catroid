@@ -70,6 +70,7 @@ public class SoundController {
 	public static final String SHARED_PREFERENCE_NAME = "showDetailsSounds";
 	public static final int ID_LOADER_MEDIA_IMAGE = 1;
 	public static final int REQUEST_SELECT_MUSIC = 0;
+	private static final String TAG = SoundController.class.getSimpleName();
 
 	private static SoundController instance;
 
@@ -81,15 +82,15 @@ public class SoundController {
 		return instance;
 	}
 
-	public void updateSoundLogic(final int position, SoundViewHolder holder, final SoundBaseAdapter soundAdapter) {
+	public void updateSoundLogic(final int position, final SoundViewHolder holder, final SoundBaseAdapter soundAdapter) {
 		final SoundInfo soundInfo = soundAdapter.getSoundInfoItems().get(position);
 
 		if (soundInfo != null) {
-			holder.getPlayButton().setTag(position);
-			holder.getPauseButton().setTag(position);
-			holder.getTitleTextView().setText(soundInfo.getTitle());
+			holder.playButton.setTag(position);
+			holder.pauseButton.setTag(position);
+			holder.titleTextView.setText(soundInfo.getTitle());
 
-			holder.getCheckbox().setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			holder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 					if (isChecked) {
@@ -109,21 +110,21 @@ public class SoundController {
 			});
 
 			if (soundAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
-				holder.getCheckbox().setVisibility(View.VISIBLE);
-				holder.getCheckbox().setVisibility(View.VISIBLE);
-				holder.getSoundFragmentButtonLayout().setBackgroundResource(R.drawable.button_background_shadowed);
+				holder.checkbox.setVisibility(View.VISIBLE);
+				holder.checkbox.setVisibility(View.VISIBLE);
+				holder.soundFragmentButtonLayout.setBackgroundResource(R.drawable.button_background_shadowed);
 			} else {
-				holder.getCheckbox().setVisibility(View.GONE);
-				holder.getCheckbox().setVisibility(View.GONE);
-				holder.getSoundFragmentButtonLayout().setBackgroundResource(R.drawable.button_background_selector);
-				holder.getCheckbox().setChecked(false);
+				holder.checkbox.setVisibility(View.GONE);
+				holder.checkbox.setVisibility(View.GONE);
+				holder.soundFragmentButtonLayout.setBackgroundResource(R.drawable.button_background_selector);
+				holder.checkbox.setChecked(false);
 				soundAdapter.clearCheckedItems();
 			}
 
 			if (soundAdapter.getCheckedSounds().contains(position)) {
-				holder.getCheckbox().setChecked(true);
+				holder.checkbox.setChecked(true);
 			} else {
-				holder.getCheckbox().setChecked(false);
+				holder.checkbox.setChecked(false);
 			}
 
 			try {
@@ -137,9 +138,9 @@ public class SoundController {
 				int hours = (int) ((milliseconds / 1000) / 3600);
 
 				if (hours == 0) {
-					holder.getTimeDurationTextView().setText(String.format("%02d:%02d", minutes, seconds));
+					holder.timeDurationTextView.setText(String.format("%02d:%02d", minutes, seconds));
 				} else {
-					holder.getTimeDurationTextView().setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
+					holder.timeDurationTextView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
 				}
 
 				if (soundAdapter.getCurrentPlayingPosition() == Constants.NO_POSITION) {
@@ -152,53 +153,63 @@ public class SoundController {
 				}
 
 				if (soundInfo.isPlaying) {
-					holder.getPlayButton().setVisibility(Button.GONE);
-					holder.getPauseButton().setVisibility(Button.VISIBLE);
+					holder.playButton.setVisibility(Button.GONE);
+					holder.pauseButton.setVisibility(Button.VISIBLE);
 
-					holder.getTimeSeperatorTextView().setVisibility(TextView.VISIBLE);
-					holder.getTimePlayedChronometer().setVisibility(Chronometer.VISIBLE);
+					holder.timeDurationTextView.setVisibility(TextView.VISIBLE);
+					holder.timePlayedChronometer.setVisibility(Chronometer.VISIBLE);
 
 					if (soundAdapter.getCurrentPlayingPosition() == Constants.NO_POSITION) {
-						startPlayingSound(holder.getTimePlayedChronometer(), position, soundAdapter);
+						startPlayingSound(holder.timePlayedChronometer, position, soundAdapter);
 					} else if ((position == soundAdapter.getCurrentPlayingPosition())
 							&& (SoundBaseAdapter.getElapsedMilliSeconds() > (milliseconds - 1000))) {
-						stopPlayingSound(soundInfo, holder.getTimePlayedChronometer(), soundAdapter);
+						stopPlayingSound(soundInfo, holder.timePlayedChronometer, soundAdapter);
 					} else {
-						continuePlayingSound(holder.getTimePlayedChronometer(), SystemClock.elapsedRealtime());
+						continuePlayingSound(holder.timePlayedChronometer, SystemClock.elapsedRealtime());
 					}
 				} else {
-					holder.getPlayButton().setVisibility(Button.VISIBLE);
-					holder.getPauseButton().setVisibility(Button.GONE);
+					holder.playButton.setVisibility(Button.VISIBLE);
+					holder.pauseButton.setVisibility(Button.GONE);
 
-					holder.getTimeSeperatorTextView().setVisibility(TextView.GONE);
-					holder.getTimePlayedChronometer().setVisibility(Chronometer.GONE);
+					holder.timePlayedChronometer.setVisibility(TextView.GONE);
+					holder.timePlayedChronometer.setVisibility(Chronometer.GONE);
 
 					if (position == soundAdapter.getCurrentPlayingPosition()) {
-						stopPlayingSound(soundInfo, holder.getTimePlayedChronometer(), soundAdapter);
+						stopPlayingSound(soundInfo, holder.timePlayedChronometer, soundAdapter);
 					}
 				}
 
 				if (soundAdapter.getShowDetails()) {
-					holder.getSoundFileSizeTextView().setText(
+					holder.soundFileSizeTextView.setText(
 							UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
-					holder.getSoundFileSizeTextView().setVisibility(TextView.VISIBLE);
-					holder.getSoundFileSizePrefixTextView().setVisibility(TextView.VISIBLE);
+					holder.soundFileSizeTextView.setVisibility(TextView.VISIBLE);
+					holder.soundFileSizePrefixTextView.setVisibility(TextView.VISIBLE);
 				} else {
-					holder.getSoundFileSizeTextView().setVisibility(TextView.GONE);
-					holder.getSoundFileSizePrefixTextView().setVisibility(TextView.GONE);
+					holder.soundFileSizeTextView.setVisibility(TextView.GONE);
+					holder.soundFileSizePrefixTextView.setVisibility(TextView.GONE);
 				}
 
 				tempPlayer.reset();
 				tempPlayer.release();
-			} catch (IOException e) {
-				Log.e("CATROID", "Cannot get view.", e);
+			} catch (IOException ioException) {
+				Log.e(TAG, "Cannot get view.", ioException);
 			}
 
+			OnClickListener listItemOnClickListener = (new OnClickListener() {
+
+				@Override
+				public void onClick(View view) {
+					if (soundAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
+						holder.checkbox.setChecked(!holder.checkbox.isChecked());
+					}
+				}
+			});
+
 			if (soundAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
-				holder.getPlayButton().setOnClickListener(null);
-				holder.getPauseButton().setOnClickListener(null);
+				holder.playButton.setOnClickListener(listItemOnClickListener);
+				holder.pauseButton.setOnClickListener(listItemOnClickListener);
 			} else {
-				holder.getPlayButton().setOnClickListener(new OnClickListener() {
+				holder.playButton.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View view) {
 						if (soundAdapter.getOnSoundEditListener() != null) {
@@ -207,7 +218,7 @@ public class SoundController {
 					}
 				});
 
-				holder.getPauseButton().setOnClickListener(new OnClickListener() {
+				holder.pauseButton.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View view) {
 						if (soundAdapter.getOnSoundEditListener() != null) {
@@ -216,6 +227,7 @@ public class SoundController {
 					}
 				});
 			}
+			holder.soundFragmentButtonLayout.setOnClickListener(listItemOnClickListener);
 		}
 	}
 
@@ -388,8 +400,8 @@ public class SoundController {
 				mediaPlayer.start();
 
 				soundInfo.isPlaying = true;
-			} catch (IOException e) {
-				Log.e("CATROID", "Cannot start sound.", e);
+			} catch (IOException ioException) {
+				Log.e(TAG, "Cannot start sound.", ioException);
 			}
 		}
 	}
@@ -416,7 +428,7 @@ public class SoundController {
 		}
 
 		if (audioPath.equalsIgnoreCase("")) {
-			Utils.showErrorDialog(activity, activity.getString(R.string.error_load_sound));
+			Utils.showErrorDialog(activity, R.string.error_load_sound);
 			audioPath = "";
 			return audioPath;
 		} else {

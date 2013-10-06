@@ -42,7 +42,6 @@ public class MyProjectsActivity extends BaseActivity {
 
 	public static final String ACTION_PROJECT_LIST_INIT = "org.catrobat.catroid.PROJECT_LIST_INIT";
 
-	private ActionBar actionBar;
 	private Lock viewSwitchLock = new ViewSwitchLock();
 	private ProjectsListFragment projectsListFragment;
 
@@ -97,20 +96,13 @@ public class MyProjectsActivity extends BaseActivity {
 				handleShowDetails(!projectsListFragment.getShowDetails(), item);
 				break;
 			}
-			case R.id.settings: {
-				Intent intent = new Intent(MyProjectsActivity.this, SettingsActivity.class);
-				startActivity(intent);
-				break;
-			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
 	private void setUpActionBar() {
-		String title = getResources().getString(R.string.my_projects_activity_title);
-
-		actionBar = getSupportActionBar();
-		actionBar.setTitle(title);
+		final ActionBar actionBar = getSupportActionBar();
+		actionBar.setTitle(R.string.my_projects_activity_title);
 		actionBar.setHomeButtonEnabled(true);
 	}
 
@@ -136,12 +128,6 @@ public class MyProjectsActivity extends BaseActivity {
 	private void handleShowDetails(boolean showDetails, MenuItem item) {
 		projectsListFragment.setShowDetails(showDetails);
 
-		String menuItemText = "";
-		if (showDetails) {
-			menuItemText = getString(R.string.hide_details);
-		} else {
-			menuItemText = getString(R.string.show_details);
-		}
-		item.setTitle(menuItemText);
+		item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
 	}
 }

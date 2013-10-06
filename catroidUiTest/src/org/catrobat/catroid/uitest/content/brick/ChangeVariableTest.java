@@ -155,7 +155,6 @@ public class ChangeVariableTest extends BaseActivityInstrumentationTestCase<Main
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
 
 		solo.enterText(editText, userVariableName);
-		solo.goBack();
 		finishUserVariableCreationSafeButSlow(userVariableName, true);
 
 		solo.goBack();

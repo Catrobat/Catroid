@@ -34,10 +34,6 @@
     <string name="move">Move</string>
     <string name="backpack">Backpack</string>
     <string name="copy_addition">copy</string>
-    <!--  -->
-
-
-    <!-- General -->
     <string name="close">Close</string>
     <string name="error">Error</string>
     <string name="please_wait">Please wait</string>
@@ -45,6 +41,7 @@
     <string name="background">Background</string>
     <string name="stage">Stage</string>
     <string name="ok">OK</string>
+    <string name="settings">Settings</string>
     <!--  -->
 
 
@@ -55,7 +52,6 @@
     <string name="main_menu_forum">Discuss</string>
     <string name="main_menu_web">Explore</string>
     <string name="main_menu_upload">Upload</string>
-    <string name="main_menu_settings">Settings</string>
     <string name="main_menu_about_pocketcode">About Pocket Code</string>
     <string name="main_menu_rate_app">Rate us!</string>
     <string name="main_menu_play_store_not_installed">Play Store app not found</string>
@@ -102,6 +98,7 @@
     <string name="dialog_confirm_delete_object_title">Delete this object?</string>
     <string name="dialog_confirm_delete_multiple_objects_title">Delete these objects?</string>
     <string name="dialog_confirm_delete_object_message">This can not be undone!</string>
+    <string name="select_all">Select all</string>
     <!--  -->
 
 
@@ -562,6 +559,7 @@
     <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
     <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
     <string name="variable_name">variable name:</string>
+
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable selected!</item>
         <item quantity="other">Variables selected!</item>

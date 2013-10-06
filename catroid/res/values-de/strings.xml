@@ -34,11 +34,6 @@
     <string name="move">Verschieben</string>
     <string name="backpack">Einpacken</string>
     <string name="copy_addition">Kopie</string>
-
-    <!--  -->
-
-
-    <!-- General -->
     <string name="close">Schließen</string>
     <string name="error">Fehler</string>
     <string name="please_wait">Bitte warten</string>
@@ -46,6 +41,7 @@
     <string name="background">Hintergrund</string>
     <string name="stage">Bühne</string>
     <string name="ok">OK</string>
+    <string name="settings">Einstellungen</string>
     <!--  -->
 
 
@@ -56,7 +52,6 @@
     <string name="main_menu_forum">Diskutieren</string>
     <string name="main_menu_web">Erkunden</string>
     <string name="main_menu_upload">Hochladen</string>
-    <string name="main_menu_settings">Einstellungen</string>
     <string name="main_menu_about_pocketcode">Über Pocket Code</string>
     <string name="main_menu_rate_app">Bewerte uns!</string>
     <string name="main_menu_play_store_not_installed">Play Store App nicht gefunden</string>
@@ -102,6 +97,7 @@
     <string name="dialog_confirm_delete_object_title">Dieses Objekt löschen?</string>
     <string name="dialog_confirm_delete_multiple_objects_title">Diese Objekte löschen?</string>
     <string name="dialog_confirm_delete_object_message">Kann nicht rückgängig gemacht werden!</string>
+    <string name="select_all">Alle auswählen</string>
     <!--  -->
 
 
@@ -562,6 +558,7 @@
     <string name="formula_editor_discard_changes_dialog_message">Möchten Sie die Änderungen speichern?</string>
     <string name="formula_editor_discard_changes_dialog_title">Änderungen speichern?</string>
     <string name="variable_name">Variablenname:</string>
+
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable ausgewählt!</item>
         <item quantity="other">Variablen ausgewählt!</item>
