@@ -69,7 +69,7 @@ public class CameraSettingTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	public void testSettingsList() {
-		solo.clickOnMenuItem(solo.getString(R.string.main_menu_settings));
+		solo.clickOnMenuItem(solo.getString(R.string.settings));
 
 		String cameraSettingsTitle = solo.getString(R.string.preference_title_select_camera);
 		solo.waitForText(cameraSettingsTitle);
@@ -93,7 +93,7 @@ public class CameraSettingTest extends BaseActivityInstrumentationTestCase<MainM
 	public void testWriteSettings() {
 		assertTrue("Device must have at least 2 cameras for this test", Camera.getNumberOfCameras() >= 2);
 
-		solo.clickOnMenuItem(solo.getString(R.string.main_menu_settings));
+		solo.clickOnMenuItem(solo.getString(R.string.settings));
 
 		String cameraSettingsTitle = solo.getString(R.string.preference_title_select_camera);
 		solo.waitForText(cameraSettingsTitle);

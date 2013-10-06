@@ -37,6 +37,7 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 
 import java.util.Random;
 
+@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class IcsFaceDetectorTest extends InstrumentationTestCase {
 
 	private static final int FACE_RECT_SIZE = 2000; // see reference of Camera.Face.rect (1000 - -1000 = 2000)
@@ -57,6 +58,22 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		super.setUp();
 		ScreenValues.SCREEN_WIDTH = 720;
 		ScreenValues.SCREEN_HEIGHT = 1080;
+	}
+
+	public void testDeviceFaceDetectionSupport() {
+		int possibleFaces = 0;
+		Camera camera = null;
+		try {
+			camera = Camera.open();
+			possibleFaces = camera.getParameters().getMaxNumDetectedFaces();
+			camera.release();
+		} catch (Exception exc) {
+		} finally {
+			if (camera != null) {
+				camera.release();
+			}
+		}
+		assertTrue("Device does not support native face detection (other tests will fail as well)", possibleFaces > 0);
 	}
 
 	public void testNotAvailable() {
