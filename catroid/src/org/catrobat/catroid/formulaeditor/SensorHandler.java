@@ -214,4 +214,13 @@ public class SensorHandler implements SensorEventListener, SensorCustomEventList
 		}
 	}
 
+	public static void clearFaceDetectionValues() {
+		if (instance != null) {
+			instance.faceDetected = 0f;
+			instance.faceSize = 0f;
+			instance.facePositionX = 0f;
+			instance.facePositionY = 0f;
+		}
+	}
+
 }

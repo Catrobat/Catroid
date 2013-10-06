@@ -31,7 +31,7 @@
         
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="@string/preference_title_use_face_detection"
+            android:key="@string/preference_key_use_face_detection"
             android:summary="@string/preference_description_use_face_detection"
             android:title="@string/preference_title_use_face_detection" />
         

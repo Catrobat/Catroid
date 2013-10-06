@@ -28,10 +28,12 @@ import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
+import org.catrobat.catroid.formulaeditor.SensorHandler;
 
 public class FaceDetectionHandler {
 
@@ -54,6 +56,7 @@ public class FaceDetectionHandler {
 	public static boolean startFaceDetection(Context context) {
 		if (context != null) {
 			if (!useFaceDetection(context)) {
+				SensorHandler.clearFaceDetectionValues();
 				return true;
 			}
 		}
@@ -164,8 +167,16 @@ public class FaceDetectionHandler {
 
 	public static boolean useFaceDetection(Context context) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		return preferences.getBoolean(context.getResources().getString(R.string.preference_key_use_face_detection),
-				false);
+		boolean useFaceDetection = preferences.getBoolean(
+				context.getResources().getString(R.string.preference_key_use_face_detection), false);
+		Log.d("Blah",
+				context.getResources().getString(R.string.preference_key_use_face_detection)
+						+ " "
+						+ useFaceDetection
+						+ " "
+						+ preferences.contains(context.getResources().getString(
+								R.string.preference_key_use_face_detection)));
+		return useFaceDetection;
 	}
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
