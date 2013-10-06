@@ -65,8 +65,10 @@
     <string name="preference_title">Settings</string>
     <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorms bricks</string>
     <string name="preference_description_mindstorm_bricks">Allow to control Lego Mindstorms robots</string>
+    <string name="preference_title_use_face_detection">Face Detection</string>
+    <string name="preference_description_use_face_detection">Allow to detect faces</string>
     <string name="preference_title_select_camera">Choose Camera</string>
-    <string name="preference_description_select_camera">which is used for face detection</string>
+    <string name="preference_description_select_camera">Select camera which is used for face detection</string>
     <!--  -->
 
 

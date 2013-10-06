@@ -65,8 +65,10 @@
     <string name="preference_title">Einstellungen</string>
     <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorm Bausteine</string>
     <string name="preference_description_mindstorm_bricks">Erlaube Steuerung von Lego Mindstorm Robotern</string>
+    <string name="preference_title_use_face_detection">Gesichtserkennung</string>
+    <string name="preference_description_use_face_detection">Erlaube das Erkennen von Gesichtern</string>
     <string name="preference_title_select_camera">Auswahl der Kamera</string>
-    <string name="preference_description_select_camera">wähle die zu verwendende Kamera</string>
+    <string name="preference_description_select_camera">Wähle die zu verwendende Kamera</string>
     <!--  -->
 
 
