@@ -35,7 +35,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -515,7 +514,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	}
 
-	public void addNewBrick(int position, Brick brickToBeAdded) {
+	public void addNewBrick(int position, Brick brickToBeAdded, boolean initInsertedBrick) {
 
 		if (draggedBrick != null) {
 			Log.w(TAG, "Want to add Brick while there is another one currently dragged.");
@@ -554,8 +553,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		}
 
-		initInsertedBrick = true;
-		positionOfInsertedBrick = position;
+		this.initInsertedBrick = initInsertedBrick;
+		this.positionOfInsertedBrick = position;
 
 		if (scriptCount == 0) {
 			Script script = new StartScript(currentSprite);
@@ -566,59 +565,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 
 		notifyDataSetChanged();
-
-	}
-
-	public void addNewMultipleBricks(int position, Brick brickToBeAdded) {
-
-		if (draggedBrick != null) {
-			Log.w(TAG, "Want to add Brick while there is another one currently dragged.");
-			return;
-		}
-
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		int scriptCount = currentSprite.getNumberOfScripts();
-		if (scriptCount == 0 && brickToBeAdded instanceof ScriptBrick) {
-			currentSprite.addScript(((ScriptBrick) brickToBeAdded).initScript(currentSprite));
-			initBrickList();
-			notifyDataSetChanged();
-			return;
-		}
-
-		if (position < 0) {
-			position = 0;
-		} else if (position > brickList.size()) {
-			position = brickList.size();
-		}
-
-		if (brickToBeAdded instanceof ScriptBrick) {
-
-			brickList.add(position, brickToBeAdded);
-			position = getNewPositionForScriptBrick(position, brickToBeAdded);
-			brickList.remove(brickToBeAdded);
-			brickList.add(position, brickToBeAdded);
-			scrollToPosition(position);
-
-		} else {
-
-			position = getNewPositionIfEndingBrickIsThere(position, brickToBeAdded);
-			position = position <= 0 ? 1 : position;
-			position = position > brickList.size() ? brickList.size() : position;
-			brickList.add(position, brickToBeAdded);
-
-		}
-
-		if (scriptCount == 0) {
-			Script script = new StartScript(currentSprite);
-			currentSprite.addScript(script);
-			brickList.add(0, script.getScriptBrick());
-			positionOfInsertedBrick = 1;
-		}
-
-		notifyDataSetChanged();
-
 		ProjectManager.getInstance().saveProject();
-
 	}
 
 	private int getNewPositionForScriptBrick(int position, Brick brick) {
@@ -904,7 +851,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_move_brick))) {
 					view.performLongClick();
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_copy_brick))) {
-					copyBrickListAndProject(itemPosition, false);
+					copyBrickListAndProject(itemPosition);
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_delete_brick))
 						|| clickedItemText.equals(context.getText(R.string.brick_context_dialog_delete_script))) {
 					showConfirmDeleteDialog(itemPosition);
@@ -934,15 +881,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 	}
 
-	protected void copyBrickListAndProject(int itemPosition, boolean b) {
-
-		Brick copy;
-
+	protected void copyBrickListAndProject(int itemPosition) {
 		Brick origin = (Brick) (dragAndDropListView.getItemAtPosition(itemPosition));
+		Brick copy = origin.clone();
 
-		copy = origin.clone();
-
-		addNewBrick(itemPosition, copy);
+		addNewBrick(itemPosition, copy, true);
 
 		notifyDataSetChanged();
 	}
@@ -991,10 +934,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	private int calculateItemPositionAndTouchPointY(View view) {
-		int itemPosition = AdapterView.INVALID_POSITION;
-		itemPosition = dragAndDropListView.pointToPosition(view.getLeft(), view.getTop());
-
-		return itemPosition;
+		return dragAndDropListView.pointToPosition(view.getLeft(), view.getTop());
 	}
 
 	@Override
@@ -1163,7 +1103,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			int counter = 1;
 			int from = 0;
 			int to = 0;
-			for (Brick currentBrick : ((NestingBrick) brick).getAllNestingBrickParts(false)) {
+			for (Brick currentBrick : ((NestingBrick) brick).getAllNestingBrickParts(true)) {
 				if (currentBrick == null) {
 					break;
 				}

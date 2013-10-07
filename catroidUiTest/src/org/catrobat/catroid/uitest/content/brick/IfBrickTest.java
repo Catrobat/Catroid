@@ -23,6 +23,7 @@
 package org.catrobat.catroid.uitest.content.brick;
 
 import android.util.Log;
+import android.widget.CheckBox;
 import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -183,6 +184,83 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof SetLookBrick);
 		assertTrue("Wrong Brick instance.", projectBrickList.get(3) instanceof IfLogicElseBrick);
 		assertTrue("Wrong Brick instance.", projectBrickList.get(4) instanceof IfLogicEndBrick);
+	}
+
+	public void testCopyIfLogicBeginBrickActionMode() {
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(1);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		assertEquals("Incorrect number of bricks.", 8, projectBrickList.size());
+		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof IfLogicBeginBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof ChangeYByNBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof IfLogicElseBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(3) instanceof IfLogicEndBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(4) instanceof IfLogicBeginBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(5) instanceof IfLogicElseBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(6) instanceof IfLogicEndBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(7) instanceof ChangeYByNBrick);
+	}
+
+	public void testCopyIfLogicElseBrickActionMode() {
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(3);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		assertEquals("Incorrect number of bricks.", 8, projectBrickList.size());
+		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof IfLogicBeginBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof ChangeYByNBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof IfLogicElseBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(3) instanceof IfLogicEndBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(4) instanceof IfLogicBeginBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(5) instanceof IfLogicElseBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(6) instanceof IfLogicEndBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(7) instanceof ChangeYByNBrick);
+	}
+
+	public void testCopyIfLogicEndBrickActionMode() {
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(4);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		assertEquals("Incorrect number of bricks.", 8, projectBrickList.size());
+		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof IfLogicBeginBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof ChangeYByNBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof IfLogicElseBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(3) instanceof IfLogicEndBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(4) instanceof IfLogicBeginBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(5) instanceof IfLogicElseBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(6) instanceof IfLogicEndBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(7) instanceof ChangeYByNBrick);
+	}
+
+	public void testSelectionAfterCopyActionMode() {
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(1);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		solo.clickOnCheckBox(6);
+
+		CheckBox firstIfLogicBeginBrickCheckBox = (CheckBox) solo.getView(R.id.brick_if_begin_checkbox, 0);
+		CheckBox secondIfLogicBeginBrickCheckBox = (CheckBox) solo.getView(R.id.brick_if_begin_checkbox, 1);
+		CheckBox firstIfLogicElseBrickCheckBox = (CheckBox) solo.getView(R.id.brick_if_else_checkbox, 0);
+		CheckBox secondIfLogicElseBrickCheckBox = (CheckBox) solo.getView(R.id.brick_if_else_checkbox, 1);
+		// Solo doesn't scroll automatically to get those views
+		solo.scrollToBottom();
+		CheckBox firstIfLogicEndBrickCheckBox = (CheckBox) solo.getView(R.id.brick_if_end_if_checkbox, 0);
+		CheckBox secondIfLogicEndBrickCheckBox = (CheckBox) solo.getView(R.id.brick_if_end_if_checkbox, 1);
+
+		assertFalse("CheckBox is checked but shouldn't be.", firstIfLogicBeginBrickCheckBox.isChecked());
+		assertTrue("CheckBox is not checked but should be.", secondIfLogicBeginBrickCheckBox.isChecked());
+		assertFalse("CheckBox is checked but shouldn't be.", firstIfLogicElseBrickCheckBox.isChecked());
+		assertTrue("CheckBox is not checked but should be.", secondIfLogicElseBrickCheckBox.isChecked());
+		assertFalse("CheckBox is checked but shouldn't be.", firstIfLogicEndBrickCheckBox.isChecked());
+		assertTrue("CheckBox is not checked but should be.", secondIfLogicEndBrickCheckBox.isChecked());
 	}
 
 	private void logBrickListForJenkins(ArrayList<Brick> projectBrickList) {
