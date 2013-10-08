@@ -23,6 +23,10 @@
 package org.catrobat.catroid.io;
 
 import android.app.Activity;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -30,7 +34,7 @@ import android.widget.LinearLayout;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
 public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	private Activity activity;
@@ -66,9 +70,7 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		if (currentProject == null) {
-			return ProjectManager.getInstance().loadProject(projectName, activity, false);
-		} else if (!currentProject.getName().equals(projectName)) {
+		if (currentProject == null || !currentProject.getName().equals(projectName)) {
 			return ProjectManager.getInstance().loadProject(projectName, activity, false);
 		}
 		return true;
@@ -80,7 +82,20 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 
 		if (onLoadProjectCompleteListener != null) {
 			if (!success && showErrorMessage) {
-				Utils.showErrorDialog(activity, R.string.error_load_project);
+				linearLayoutProgressCircle.setVisibility(View.GONE);
+
+				Builder builder = new CustomAlertDialogBuilder(activity);
+				builder.setTitle(R.string.error);
+				builder.setMessage(R.string.error_load_project);
+				builder.setNeutralButton(R.string.close, new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						onLoadProjectCompleteListener.onLoadProjectFailure();
+					}
+				});
+				Dialog errorDialog = builder.create();
+				errorDialog.show();
+
 			} else {
 				onLoadProjectCompleteListener.onLoadProjectSuccess(startProjectActivity);
 			}
@@ -91,5 +106,8 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 
 		void onLoadProjectSuccess(boolean startProjectActivity);
 
+		void onLoadProjectFailure();
+
 	}
+
 }
