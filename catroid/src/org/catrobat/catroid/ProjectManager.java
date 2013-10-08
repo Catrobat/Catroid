@@ -132,6 +132,10 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				project.setCatrobatLanguageVersion(0.91f);
 				//no convertion needed - only change to white background
 			}
+			if (project.getCatrobatLanguageVersion() == 0.91f) {
+				project.setCatrobatLanguageVersion(0.92f);
+				project.setScreenMode("MAXIMIZE");
+			}
 			//insert further convertions here
 
 			if (project.getCatrobatLanguageVersion() == Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {

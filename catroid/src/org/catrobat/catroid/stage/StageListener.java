@@ -83,7 +83,7 @@ public class StageListener implements ApplicationListener {
 	private boolean reloadProject = false;
 
 	private static boolean checkIfAutomaticScreenshotShouldBeTaken = true;
-	private boolean makeAutomaticScreenshot = true;
+	private boolean makeAutomaticScreenshot = false;
 	private boolean makeScreenshot = false;
 	private String pathForScreenshot;
 	private int screenshotWidth;
@@ -190,16 +190,11 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
-	/**
-	 * @return
-	 */
 	private ScreenModes getScreenMode() {
-		if (ProjectManager.getInstance().getCurrentProject().getScreenMode().equals(ScreenModes.STRETCH.name())) {
-			return ScreenModes.STRETCH;
-		} else {
+		if (ProjectManager.getInstance().getCurrentProject().getScreenMode().equals(ScreenModes.MAXIMIZE.name())) {
 			return ScreenModes.MAXIMIZE;
 		}
-
+		return ScreenModes.STRETCH;
 	}
 
 	void menuResume() {
@@ -266,15 +261,11 @@ public class StageListener implements ApplicationListener {
 	public void finish() {
 		finished = true;
 		SoundManager.getInstance().clear();
-		if (thumbnail != null) {
+		if (thumbnail != null && !makeAutomaticScreenshot) {
 			saveScreenshot(thumbnail, SCREENSHOT_AUTOMATIC_FILE_NAME);
 		}
 
-		if (screenMode == ScreenModes.STRETCH) {
-			ProjectManager.getInstance().getCurrentProject().setScreenMode(ScreenModes.STRETCH.name());
-		} else if (screenMode == ScreenModes.MAXIMIZE) {
-			ProjectManager.getInstance().getCurrentProject().setScreenMode(ScreenModes.MAXIMIZE.name());
-		}
+		ProjectManager.getInstance().getCurrentProject().setScreenMode(screenMode.name());
 	}
 
 	@Override
@@ -326,6 +317,10 @@ public class StageListener implements ApplicationListener {
 				screenshotX = 0;
 				screenshotY = 0;
 				break;
+
+			default:
+				break;
+
 		}
 
 		batch.setProjectionMatrix(camera.combined);
@@ -456,6 +451,10 @@ public class StageListener implements ApplicationListener {
 		Bitmap centerSquareBitmap;
 		int[] colors = new int[length / 4];
 
+		if (colors.length != screenshotWidth * screenshotHeight || colors.length == 0) {
+			return false;
+		}
+
 		for (int i = 0; i < length; i += 4) {
 			colors[i / 4] = Color.argb(255, screenshot[i + 0] & 0xFF, screenshot[i + 1] & 0xFF,
 					screenshot[i + 2] & 0xFF);
@@ -507,6 +506,10 @@ public class StageListener implements ApplicationListener {
 			case STRETCH:
 				screenMode = ScreenModes.MAXIMIZE;
 				break;
+		}
+
+		if (checkIfAutomaticScreenshotShouldBeTaken) {
+			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
 		}
 	}
 

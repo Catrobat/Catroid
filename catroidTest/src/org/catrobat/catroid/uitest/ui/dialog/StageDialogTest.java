@@ -412,8 +412,8 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		StorageHandler.getInstance().saveProject(project);
 		solo.sleep(200);
 
-		assertTrue("Wrong screenMode in xml-file.",
-				ProjectManager.getInstance().getCurrentProject().getScreenMode() == "STRETCH");
+		assertTrue("Wrong screenMode in xml-file.", ProjectManager.getInstance().getCurrentProject().getScreenMode()
+				.equals("MAXIMIZE"));
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(200);
@@ -424,8 +424,8 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.goBack();
 		solo.goBack();
 
-		assertTrue("Wrong screenMode in xml-file.",
-				ProjectManager.getInstance().getCurrentProject().getScreenMode() == "MAXIMIZE");
+		assertTrue("Wrong screenMode in xml-file.", ProjectManager.getInstance().getCurrentProject().getScreenMode()
+				.equals("STRETCH"));
 	}
 
 	private Project createTestProject(String projectName) {
