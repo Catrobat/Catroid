@@ -30,7 +30,6 @@
 package org.catrobat.catroid.utils;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
@@ -47,9 +46,13 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
+import com.actionbarsherlock.view.ActionMode;
+import com.actionbarsherlock.view.Menu;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.GdxNativesLoader;
@@ -65,6 +68,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -96,11 +100,11 @@ public class Utils {
 
 	public static boolean checkForExternalStorageAvailableAndDisplayErrorIfNot(final Context context) {
 		if (!externalStorageAvailable()) {
-			Builder builder = new AlertDialog.Builder(context);
+			Builder builder = new CustomAlertDialogBuilder(context);
 
-			builder.setTitle(context.getString(R.string.error));
-			builder.setMessage(context.getString(R.string.error_no_writiable_external_storage_available));
-			builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
+			builder.setTitle(R.string.error);
+			builder.setMessage(R.string.error_no_writiable_external_storage_available);
+			builder.setNeutralButton(R.string.close, new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					((Activity) context).moveTaskToBack(true);
@@ -156,17 +160,29 @@ public class Utils {
 		return buildPath(Constants.DEFAULT_ROOT, deleteSpecialCharactersInString(projectName));
 	}
 
-	public static void showErrorDialog(Context context, String errorMessage) {
-		Builder builder = new AlertDialog.Builder(context);
-		builder.setTitle(context.getString(R.string.error));
-		builder.setMessage(errorMessage);
-		builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
+	public static void showErrorDialog(Context context, int errorMessageId) {
+		Builder builder = new CustomAlertDialogBuilder(context);
+		builder.setTitle(R.string.error);
+		builder.setMessage(errorMessageId);
+		builder.setNeutralButton(R.string.close, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 			}
 		});
 		Dialog errorDialog = builder.create();
 		errorDialog.show();
+	}
+
+	public static View addSelectAllActionModeButton(LayoutInflater inflator, ActionMode mode, Menu menu) {
+		mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
+		com.actionbarsherlock.view.MenuItem item = menu.findItem(R.id.select_all);
+		View view = item.getActionView();
+		if (view.getId() == R.id.select_all) {
+			View selectAllView = inflator.inflate(R.layout.action_mode_select_all, null);
+			item.setActionView(selectAllView);
+			return selectAllView;
+		}
+		return null;
 	}
 
 	public static String md5Checksum(File file) {

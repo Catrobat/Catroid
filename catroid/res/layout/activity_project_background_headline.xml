@@ -23,13 +23,12 @@
  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/spritelist_background_headline"
-    style="@style/headlineLinearLayout">
+    style="@style/headlineLinearLayout" >
 
-    <TextView
+    <org.catrobat.catroid.ui.CapitalizedTextView
         style="@style/headlineTextView"
-        android:text="@string/spritelist_background_headline"/>
+        android:text="@string/spritelist_background_headline" />
 
-    <View
-        style="@style/headlineView"/>
+    <View style="@style/headlineView" />
 
 </LinearLayout>

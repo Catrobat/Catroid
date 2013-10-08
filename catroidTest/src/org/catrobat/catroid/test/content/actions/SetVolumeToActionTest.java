@@ -24,63 +24,21 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.InstrumentationTestCase;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.SetVolumeToAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
-import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.test.R;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.UtilFile;
-
-import java.io.File;
-import java.io.IOException;
 
 public class SetVolumeToActionTest extends InstrumentationTestCase {
-
-	private static final int SOUND_FILE_ID = R.raw.testsound;
-	private File soundFile;
-	private String projectName = "projectiName";
-	private Formula volume = new Formula(50.6f);
-
-	@Override
-	protected void setUp() throws Exception {
-		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-		UtilFile.deleteDirectory(directory);
-		this.createTestProject();
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		if (soundFile != null && soundFile.exists()) {
-			soundFile.delete();
-		}
-		TestUtils.clearProject(projectName);
-		SoundManager.getInstance().clear();
-		super.tearDown();
-	}
+	private final Formula volume = new Formula(50.6f);
 
 	public void testVolume() {
-		SetVolumeToAction action = ExtendedActions.setVolumeTo(null, volume);
+		Sprite sprite = new Sprite("testSprite");
+
+		SetVolumeToAction action = ExtendedActions.setVolumeTo(sprite, volume);
 		action.act(1.0f);
-		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", volume.interpretFloat(null),
+		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", volume.interpretFloat(sprite),
 				SoundManager.getInstance().getVolume());
-	}
-
-	private void createTestProject() throws IOException {
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		StorageHandler.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
-
-		setUpSoundFile();
-	}
-
-	private void setUpSoundFile() throws IOException {
-
-		soundFile = TestUtils.saveFileToProject(projectName, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()
-				.getContext(), TestUtils.TYPE_SOUND_FILE);
 	}
 }

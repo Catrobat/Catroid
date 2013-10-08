@@ -34,14 +34,13 @@ import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 
@@ -61,9 +60,10 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.adapter.ProjectAdapter;
-import org.catrobat.catroid.ui.adapter.ProjectAdapter.OnProjectCheckedListener;
+import org.catrobat.catroid.ui.adapter.ProjectAdapter.OnProjectEditListener;
 import org.catrobat.catroid.ui.dialogs.CopyProjectDialog;
 import org.catrobat.catroid.ui.dialogs.CopyProjectDialog.OnCopyProjectListener;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.RenameProjectDialog;
 import org.catrobat.catroid.ui.dialogs.RenameProjectDialog.OnProjectRenameListener;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
@@ -80,8 +80,7 @@ import java.util.List;
 import java.util.Set;
 
 public class ProjectsListFragment extends SherlockListFragment implements OnProjectRenameListener,
-		OnUpdateProjectDescriptionListener, OnCopyProjectListener, OnProjectCheckedListener,
-		OnLoadProjectCompleteListener {
+		OnUpdateProjectDescriptionListener, OnCopyProjectListener, OnProjectEditListener, OnLoadProjectCompleteListener {
 
 	private static final String BUNDLE_ARGUMENTS_PROJECT_DATA = "project_data";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsMyProjects";
@@ -161,7 +160,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		}
 
 		initAdapter();
-		initClickListener();
 	}
 
 	@Override
@@ -225,25 +223,19 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		adapter = new ProjectAdapter(getActivity(), R.layout.activity_my_projects_list_item,
 				R.id.my_projects_activity_project_title, projectList);
 		setListAdapter(adapter);
+		initClickListener();
 	}
 
 	private void initClickListener() {
-		adapter.setOnProjectCheckedListener(this);
-		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				LoadProjectTask loadProjectTask = new LoadProjectTask(getActivity(),
-						(adapter.getItem(position)).projectName, true, true);
-				loadProjectTask.setOnLoadProjectCompleteListener(parentFragment);
-				loadProjectTask.execute();
-			}
-		});
+		adapter.setOnProjectEditListener(this);
 	}
 
 	@Override
 	public void onLoadProjectSuccess(boolean startProjectActivity) {
-		Intent intent = new Intent(getActivity(), ProjectActivity.class);
-		getActivity().startActivity(intent);
+		if (startProjectActivity) {
+			Intent intent = new Intent(getActivity(), ProjectActivity.class);
+			getActivity().startActivity(intent);
+		}
 	}
 
 	@Override
@@ -324,6 +316,14 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		}
 	}
 
+	@Override
+	public void onProjectEdit(int position) {
+		LoadProjectTask loadProjectTask = new LoadProjectTask(getActivity(), (adapter.getItem(position)).projectName,
+				true, true);
+		loadProjectTask.setOnLoadProjectCompleteListener(parentFragment);
+		loadProjectTask.execute();
+	}
+
 	public void startRenameActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
@@ -364,28 +364,24 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	}
 
 	private void showConfirmDeleteDialog() {
-		String yes = getActivity().getString(R.string.yes);
-		String no = getActivity().getString(R.string.no);
-		String title = "";
+		int titleId;
 		if (adapter.getAmountOfCheckedProjects() == 1) {
-			title = getActivity().getString(R.string.dialog_confirm_delete_program_title);
+			titleId = R.string.dialog_confirm_delete_program_title;
 		} else {
-			title = getActivity().getString(R.string.dialog_confirm_delete_multiple_programs_title);
+			titleId = R.string.dialog_confirm_delete_multiple_programs_title;
 		}
 
-		String message = getActivity().getString(R.string.dialog_confirm_delete_program_message);
-
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(title);
-		builder.setMessage(message);
-		builder.setPositiveButton(yes, new DialogInterface.OnClickListener() {
+		AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
+		builder.setTitle(titleId);
+		builder.setMessage(R.string.dialog_confirm_delete_program_message);
+		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				deleteCheckedProjects();
 				clearCheckedProjectsAndEnableButtons();
 			}
 		});
-		builder.setNegativeButton(no, new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				clearCheckedProjectsAndEnableButtons();
@@ -406,32 +402,26 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		} else {
 			StorageHandler.getInstance().deleteProject(projectToEdit);
 		}
-		try {
-			projectList.remove(projectToEdit);
-			if (projectList.size() == 0) {
-				projectManager.initializeDefaultProject(getActivity());
-			} else {
-
-				projectManager.loadProject((projectList.get(0)).projectName, getActivity(), false);
-				projectManager.saveProject();
-			}
-		} catch (ClassCastException exception) {
-			Log.e("CATROID", getActivity().toString() + " does not implement ErrorListenerInterface", exception);
-		}
-
-		initAdapter();
+		projectList.remove(projectToEdit);
 	}
 
 	private void deleteCheckedProjects() {
-		Set<Integer> checkedSprites = adapter.getCheckedProjects();
-		Iterator<Integer> iterator = checkedSprites.iterator();
 		int numDeleted = 0;
-		while (iterator.hasNext()) {
-			int position = iterator.next();
+		for (int position : adapter.getCheckedProjects()) {
 			projectToEdit = (ProjectData) getListView().getItemAtPosition(position - numDeleted);
 			deleteProject();
 			numDeleted++;
 		}
+
+		if (projectList.isEmpty()) {
+			ProjectManager projectManager = ProjectManager.getInstance();
+			projectManager.initializeDefaultProject(getActivity());
+		} else if (ProjectManager.getInstance().getCurrentProject() == null) {
+			Utils.saveToPreferences(getActivity().getApplicationContext(), Constants.PREF_PROJECTNAME_KEY,
+					projectList.get(0).projectName);
+		}
+
+		initAdapter();
 	}
 
 	private void clearCheckedProjectsAndEnableButtons() {
@@ -442,6 +432,23 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		actionModeActive = false;
 
 		BottomBar.showBottomBar(getActivity());
+	}
+
+	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
+		Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu).setOnClickListener(
+				new OnClickListener() {
+
+					@Override
+					public void onClick(View view) {
+						for (int position = 0; position < projectList.size(); position++) {
+							adapter.addCheckedProject(position);
+						}
+						adapter.notifyDataSetChanged();
+						view.setVisibility(View.GONE);
+						onProjectChecked();
+					}
+
+				});
 	}
 
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
@@ -461,6 +468,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			multipleItemAppendixDeleteActionMode = getString(R.string.programs);
 
 			mode.setTitle(deleteActionModeTitle);
+			addSelectAllActionModeButton(mode, menu);
 
 			return true;
 		}
@@ -490,7 +498,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			setSelectMode(ListView.CHOICE_MODE_SINGLE);
-			mode.setTitle(getString(R.string.rename));
+			mode.setTitle(R.string.rename);
 
 			actionModeActive = true;
 
@@ -525,7 +533,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			setSelectMode(ListView.CHOICE_MODE_SINGLE);
-			mode.setTitle(getString(R.string.copy));
+			mode.setTitle(R.string.copy);
 
 			actionModeActive = true;
 

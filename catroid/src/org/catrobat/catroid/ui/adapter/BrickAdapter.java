@@ -53,6 +53,7 @@ import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.ViewSwitchLock;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -948,21 +949,18 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	private void showConfirmDeleteDialog(int itemPosition) {
 		this.clickItemPosition = itemPosition;
-		String yes = context.getString(R.string.yes);
-		String no = context.getString(R.string.no);
-		String title;
-		String message = context.getString(R.string.dialog_confirm_delete_brick_message);
+		int titleId;
 
 		if (getItem(clickItemPosition) instanceof ScriptBrick) {
-			title = context.getString(R.string.dialog_confirm_delete_script_title);
+			titleId = R.string.dialog_confirm_delete_script_title;
 		} else {
-			title = context.getString(R.string.dialog_confirm_delete_brick_title);
+			titleId = R.string.dialog_confirm_delete_brick_title;
 		}
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		builder.setTitle(title);
-		builder.setMessage(message);
-		builder.setPositiveButton(yes, new DialogInterface.OnClickListener() {
+		AlertDialog.Builder builder = new CustomAlertDialogBuilder(context);
+		builder.setTitle(titleId);
+		builder.setMessage(R.string.dialog_confirm_delete_brick_message);
+		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				if (getItem(clickItemPosition) instanceof ScriptBrick) {
@@ -975,7 +973,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				}
 			}
 		});
-		builder.setNegativeButton(no, new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
@@ -1043,6 +1041,18 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			CheckBox checkbox = brick.getCheckBox();
 			if (checkbox != null) {
 				checkbox.setChecked(false);
+			}
+		}
+	}
+
+	public void checkAllItems() {
+		for (Brick brick : brickList) {
+			if (brick instanceof ScriptBrick) {
+				if (brick.getCheckBox() != null) {
+					brick.getCheckBox().setChecked(true);
+					brick.setCheckedBoolean(true);
+				}
+				smartBrickSelection(brick, true);
 			}
 		}
 	}

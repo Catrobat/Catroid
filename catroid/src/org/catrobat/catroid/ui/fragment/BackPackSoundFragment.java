@@ -71,6 +71,7 @@ import org.catrobat.catroid.ui.adapter.BackPackSoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
 
 public class BackPackSoundFragment extends BackPackActivityFragment implements SoundBaseAdapter.OnSoundEditListener,
@@ -268,7 +269,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 					.findViewById(R.id.fragment_sound_item_main_linear_layout);
 			holder.checkbox = (CheckBox) convertView.findViewById(R.id.fragment_sound_item_checkbox);
 			holder.titleTextView = (TextView) convertView.findViewById(R.id.fragment_sound_item_title_text_view);
-			holder.timeSeperatorTextView = (TextView) convertView
+			holder.timeSeparatorTextView = (TextView) convertView
 					.findViewById(R.id.fragment_sound_item_time_seperator_text_view);
 			holder.timeDurationTextView = (TextView) convertView
 					.findViewById(R.id.fragment_sound_item_duration_text_view);
@@ -456,19 +457,17 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 	};
 
 	private void showConfirmDeleteDialog() {
-		String title = "";
+		int titleId;
 		if (adapter.getAmountOfCheckedItems() == 1) {
-			title = getActivity().getString(R.string.dialog_confirm_delete_sound_title);
+			titleId = R.string.dialog_confirm_delete_sound_title;
 		} else {
-			title = getActivity().getString(R.string.dialog_confirm_delete_multiple_sounds_title);
+			titleId = R.string.dialog_confirm_delete_multiple_sounds_title;
 		}
 
-		String message = getActivity().getString(R.string.dialog_confirm_delete_sound_message);
-
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(title);
-		builder.setMessage(message);
-		builder.setPositiveButton(getActivity().getString(R.string.yes), new DialogInterface.OnClickListener() {
+		AlertDialog.Builder builder = new CustomAlertDialogBuilder(getActivity());
+		builder.setTitle(titleId);
+		builder.setMessage(R.string.dialog_confirm_delete_sound_message);
+		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				SoundController.getInstance().deleteCheckedSounds(getActivity(), adapter,
@@ -476,7 +475,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 				clearCheckedSoundsAndEnableButtons();
 			}
 		});
-		builder.setNegativeButton(getActivity().getString(R.string.no), new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();

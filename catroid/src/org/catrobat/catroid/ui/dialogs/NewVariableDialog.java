@@ -33,6 +33,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -95,6 +96,7 @@ public class NewVariableDialog extends SherlockDialogFragment {
 				}).create();
 
 		dialogNewVariable.setCanceledOnTouchOutside(true);
+		dialogNewVariable.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
 		dialogNewVariable.setOnShowListener(new OnShowListener() {
 			@Override

@@ -24,77 +24,34 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.InstrumentationTestCase;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ChangeVolumeByNAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
-import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.test.R;
-import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.UtilFile;
-
-import java.io.File;
-import java.io.IOException;
 
 public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
-
-	private static final int SOUND_FILE_ID = R.raw.testsound;
-	private File soundFile;
-	private String projectName = "projectiName";
-	private Formula louder = new Formula(10.6f);
-	private Formula softer = new Formula(-20.3f);
-
-	@Override
-	protected void setUp() throws Exception {
-		File directory = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-		UtilFile.deleteDirectory(directory);
-		this.createTestProject();
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		if (soundFile != null && soundFile.exists()) {
-			soundFile.delete();
-		}
-		TestUtils.clearProject(projectName);
-		SoundManager.getInstance().clear();
-		super.tearDown();
-	}
+	private final float louderValue = 10.6f;
+	private final float softerValue = -20.3f;
 
 	public void testVolume() {
-		assertEquals("Unexpected initial volume value", 70.0f, SoundManager.getInstance().getVolume());
+		Sprite sprite = new Sprite("testSprite");
+		float expectedVolume = SoundManager.getInstance().getVolume();
 
-		float volume = SoundManager.getInstance().getVolume();
-		volume += louder.interpretDouble(null);
+		expectedVolume += louderValue;
+		Formula louder = new Formula(louderValue);
 
-		ChangeVolumeByNAction action1 = ExtendedActions.changeVolumeByN(null, louder);
-		action1.act(1.0f);
-		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", volume, SoundManager.getInstance()
-				.getVolume());
-
-		volume = SoundManager.getInstance().getVolume();
-		volume += softer.interpretDouble(null);
-
-		ChangeVolumeByNAction action2 = ExtendedActions.changeVolumeByN(null, softer);
-		action2.act(1.0f);
-		assertEquals("Incorrect sprite size value after ChangeVolumeByNBrick executed", volume, SoundManager
+		ChangeVolumeByNAction changeVolumeByAction = ExtendedActions.changeVolumeByN(sprite, louder);
+		changeVolumeByAction.act(1.0f);
+		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", expectedVolume, SoundManager
 				.getInstance().getVolume());
-	}
 
-	private void createTestProject() throws IOException {
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		StorageHandler.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
+		expectedVolume += softerValue;
+		Formula softer = new Formula(softerValue);
 
-		setUpSoundFile();
-	}
-
-	private void setUpSoundFile() throws IOException {
-
-		soundFile = TestUtils.saveFileToProject(projectName, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()
-				.getContext(), TestUtils.TYPE_SOUND_FILE);
+		changeVolumeByAction = ExtendedActions.changeVolumeByN(sprite, softer);
+		changeVolumeByAction.act(1.0f);
+		assertEquals("Incorrect sprite size value after ChangeVolumeByNBrick executed", expectedVolume, SoundManager
+				.getInstance().getVolume());
 	}
 }

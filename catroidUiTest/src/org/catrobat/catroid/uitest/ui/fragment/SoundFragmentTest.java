@@ -55,6 +55,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int RESOURCE_SOUND = org.catrobat.catroid.uitest.R.raw.longsound;
@@ -174,7 +175,9 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
 		solo.clickOnCheckBox(0);
 
+		solo.clickOnText(SECOND_TEST_SOUND_NAME);
 		assertFalse("Mediaplayer is playing within the checkbox action", soundInfo2.isPlaying);
+		solo.clickOnText(SECOND_TEST_SOUND_NAME);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
@@ -182,6 +185,24 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		assertEquals("No sound has been copied!", ++numberOfSoundsBeforeCopy, numberOfSoundsAfterCopy);
 
+	}
+
+	public void testCopySelectAll() {
+		int numberOfSoundsBeforeCopy = getCurrentNumberOfSounds();
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		solo.clickOnText(selectAll);
+
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
+		}
+		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		int numberOfSoundsAfterCopy = getCurrentNumberOfSounds();
+
+		assertEquals("No all sounds have been copied!", numberOfSoundsBeforeCopy * 2, numberOfSoundsAfterCopy);
 	}
 
 	public void testDeleteSoundContextMenu() {
@@ -658,6 +679,39 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.sleep(500);
 
 		checkIfContextMenuAppears(true, true);
+	}
+
+	public void testItemClick() {
+		UiTestUtils.clickOnActionBar(solo, R.id.delete);
+		solo.clickInList(1);
+
+		ArrayList<CheckBox> checkBoxList = solo.getCurrentViews(CheckBox.class);
+		assertTrue("CheckBox not checked", checkBoxList.get(0).isChecked());
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.yes)));
+		solo.clickOnButton(solo.getString(R.string.yes));
+
+		assertFalse("Sound not deleted", solo.waitForText(FIRST_TEST_SOUND_NAME, 0, 200));
+	}
+
+	public void testDeleteSelectAll() {
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		solo.clickOnText(selectAll);
+
+		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
+			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
+		}
+		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+		solo.clickOnText(yes);
+
+		assertFalse("Sound was not Deleted!", solo.waitForText(FIRST_TEST_SOUND_NAME, 1, 200));
+		assertFalse("Sound was not Deleted!", solo.waitForText(SECOND_TEST_SOUND_NAME, 1, 200));
 	}
 
 	public void testDeleteActionModeCheckingAndTitle() {

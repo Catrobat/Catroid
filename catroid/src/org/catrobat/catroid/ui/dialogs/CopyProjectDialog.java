@@ -58,6 +58,7 @@ public class CopyProjectDialog extends TextDialog {
 	protected void initialize() {
 		oldProjectName = getArguments().getString(BUNDLE_ARGUMENTS_OLD_PROJECT_NAME);
 		input.setText(oldProjectName);
+		inputTitle.setText(R.string.new_project_name);
 	}
 
 	@Override
@@ -65,10 +66,10 @@ public class CopyProjectDialog extends TextDialog {
 		String newProjectName = (input.getText().toString()).trim();
 
 		if (newProjectName.equalsIgnoreCase("")) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.notification_invalid_text_entered));
+			Utils.showErrorDialog(getActivity(), R.string.notification_invalid_text_entered);
 			return false;
 		} else if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(newProjectName)) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.error_project_exists));
+			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 			return false;
 		}
 
@@ -78,7 +79,7 @@ public class CopyProjectDialog extends TextDialog {
 			this.dismiss();
 
 		} else {
-			Utils.showErrorDialog(getActivity(), getString(R.string.notification_invalid_text_entered));
+			Utils.showErrorDialog(getActivity(), R.string.notification_invalid_text_entered);
 			return false;
 		}
 		return false;
@@ -97,6 +98,6 @@ public class CopyProjectDialog extends TextDialog {
 
 	@Override
 	protected String getTitle() {
-		return null;
+		return getString(R.string.dialog_copy_project_title);
 	}
 }

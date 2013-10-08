@@ -28,24 +28,27 @@ import android.test.InstrumentationTestCase;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.test.R;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 
 import java.io.File;
-import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.util.Collections;
+import java.util.List;
 
 public class SoundManagerTest extends InstrumentationTestCase {
-	private static final int LONG_TEST_SOUND = R.raw.longtestsound;
-	private static final int TEST_SOUND = R.raw.testsound;
+	private final SoundManager soundManager = SoundManager.getInstance();
+	private final int soundFileId = R.raw.testsound;
+	private final int soundFileDuration = 144;
+
 	private File soundFile;
-	private File longSoundFile;
 
 	@Override
 	protected void setUp() throws Exception {
-		soundFile = TestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "testSound.mp3", TEST_SOUND,
+		soundManager.clear();
+		soundFile = TestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/testSound.mp3", soundFileId,
 				getInstrumentation().getContext());
-
-		longSoundFile = TestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "longTestSound.mp3", LONG_TEST_SOUND,
-				getInstrumentation().getContext());
+		super.setUp();
 	}
 
 	@Override
@@ -53,135 +56,141 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		if (soundFile != null && soundFile.exists()) {
 			soundFile.delete();
 		}
-		if (longSoundFile != null && longSoundFile.exists()) {
-			longSoundFile.delete();
-		}
-		SoundManager.getInstance().clear();
+		soundManager.clear();
 		super.tearDown();
 	}
 
-	public void testGetInstance() {
-		SoundManager soundManager = SoundManager.getInstance();
-		assertNotNull("SoundManager could not be initialized", soundManager);
-	}
+	public void testPlaySound() {
+		soundManager.playSoundFile(soundFile.getAbsolutePath());
 
-	public void testGetMediaPlayer() {
-		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-		assertNotNull("SoundManager failed to return a MediaPlayer", mediaPlayer);
-		assertFalse("SoundManager provided a MediaPlayer that was already playing", mediaPlayer.isPlaying());
+		MediaPlayer mediaPlayer = getMediaPlayers().get(0);
+		assertTrue("Media player isn't playing", mediaPlayer.isPlaying());
+		assertEquals("Wrong sound file is playing", soundFileDuration, mediaPlayer.getDuration());
 	}
 
 	public void testClear() {
-		SoundManager soundManager = SoundManager.getInstance();
+		soundManager.playSoundFile(soundFile.getAbsolutePath());
+
+		MediaPlayer mediaPlayer = getMediaPlayers().get(0);
+		assertTrue("Media player isn't playing", mediaPlayer.isPlaying());
+
 		soundManager.clear();
-		assertEquals("SoundManager was destroyed when calling clear", soundManager, SoundManager.getInstance());
-
-		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-		assertNotNull("SoundManager failed to return a MediaPlayer after clear", mediaPlayer);
-		assertFalse("SoundManager provided a MediaPlayer that was already playing", mediaPlayer.isPlaying());
+		assertTrue("SoundManager still holds media player references", getMediaPlayers().isEmpty());
+		try {
+			mediaPlayer.isPlaying();
+			fail("The media player hasn't been released");
+		} catch (IllegalStateException expectedIllegalStateException) {
+			// The media player has been released and therefore isPlaying throws an IllegalStateException.
+		}
 	}
 
-	public void testPauseAndResume() throws IllegalStateException, IOException, InterruptedException {
-		final String soundFilePath = soundFile.getAbsolutePath();
-		assertNotNull("Could not open test sound file", soundFilePath);
-		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
+	public void testPauseAndResume() {
+		soundManager.playSoundFile(soundFile.getAbsolutePath());
 
-		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-		mediaPlayer.setDataSource(soundFilePath);
-		mediaPlayer.prepare();
-		mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-			public void onCompletion(MediaPlayer mp) {
-				mp.release();
-			}
-		});
-		mediaPlayer.start();
-		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
+		MediaPlayer mediaPlayer = getMediaPlayers().get(0);
+		assertTrue("Media player isn't playing", mediaPlayer.isPlaying());
 
-		SoundManager.getInstance().pause();
-		assertFalse("MediaPlayer is still playing after SoundManager was paused", mediaPlayer.isPlaying());
+		soundManager.pause();
+		assertFalse("Media player is still playing", mediaPlayer.isPlaying());
 
-		SoundManager.getInstance().resume();
-		assertTrue("MediaPlayer is not playing after resume", mediaPlayer.isPlaying());
-
-		final int duration = mediaPlayer.getDuration() + 300;
-		Thread.sleep(duration);
-
-		assertFalse("MediaPlayer is not done playing after pause and resume", mediaPlayer.isPlaying());
+		soundManager.resume();
+		assertTrue("Media player isn't playing", mediaPlayer.isPlaying());
 	}
 
-	/**
-	 * TODO: Test was meaningless before (because it only really tested one MediaPlayer) and fails now.
-	 * There seems to be a bigger problem with the SoundManager itself. See ticket "Improve MediaPlayer recycling" for
-	 * details.
-	 */
-	//	public void testPauseAndResumeMultiplePlayers() throws IllegalArgumentException, IllegalStateException, IOException {
-	//		final String soundFilePath = soundFile.getAbsolutePath();
-	//		assertNotNull("Could not open test sound file", soundFilePath);
-	//		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
-	//
-	//		ArrayList<MediaPlayer> mediaPlayers = new ArrayList<MediaPlayer>();
-	//		for (int i = 0; i < SoundManager.MAX_MEDIA_PLAYERS; i++) {
-	//			MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-	//			mediaPlayers.add(mediaPlayer);
-	//			mediaPlayer.setDataSource(soundFilePath);
-	//			mediaPlayer.prepare();
-	//			mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-	//				public void onCompletion(MediaPlayer mp) {
-	//					mp.release();
-	//				}
-	//			});
-	//			mediaPlayer.start();
-	//			mediaPlayer.pause();
-	//		}
-	//
-	//		for (int i = 0; i < mediaPlayers.size(); i++) {
-	//			for (int j = i + 1; j < mediaPlayers.size(); j++) {
-	//				assertNotSame("SoundManager returned the same MediaPlayer twice. i = " + i + ", j = " + j,
-	//						mediaPlayers.get(i), mediaPlayers.get(j));
-	//			}
-	//		}
-	//
-	//		for (MediaPlayer mediaPlayer : mediaPlayers) {
-	//			mediaPlayer.start();
-	//			assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
-	//		}
-	//
-	//		SoundManager.getInstance().pause();
-	//		for (MediaPlayer mediaPlayer : mediaPlayers) {
-	//			assertFalse("MediaPlayer is still playing after SoundManager was paused", mediaPlayer.isPlaying());
-	//		}
-	//
-	//		SoundManager.getInstance().resume();
-	//		for (MediaPlayer mediaPlayer : mediaPlayers) {
-	//			assertTrue("MediaPlayer is not playing after resume", mediaPlayer.isPlaying());
-	//		}
-	//	}
+	public void testPauseAndResumeMultipleSounds() {
+		final int playSoundFilesCount = 3;
+		List<MediaPlayer> mediaPlayers = getMediaPlayers();
 
-	public void testMediaPlayerLimit() throws IllegalArgumentException, IllegalStateException, IOException {
-		assertNotNull("Test sound file was not copied properly", longSoundFile);
-		final String soundFilePath = longSoundFile.getAbsolutePath();
-		assertNotNull("Could not open test sound file", soundFilePath);
-		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
-
-		for (int i = 0; i < SoundManager.MAX_MEDIA_PLAYERS; i++) {
-			MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-			mediaPlayer.setDataSource(soundFilePath);
-			mediaPlayer.prepare();
-			mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-				public void onCompletion(MediaPlayer mp) {
-					mp.release();
-				}
-			});
-			mediaPlayer.start();
-			assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
+		for (int index = 0; index < playSoundFilesCount; index++) {
+			soundManager.playSoundFile(soundFile.getAbsolutePath());
 		}
 
-		assertNull("Too many MediaPlayers created by SoundManager", SoundManager.getInstance().getMediaPlayer());
+		for (int index = 0; index < playSoundFilesCount; index++) {
+			assertTrue("Media player isn't playing", mediaPlayers.get(index).isPlaying());
+		}
+
+		soundManager.pause();
+
+		for (int index = 0; index < playSoundFilesCount; index++) {
+			assertFalse("Media player is still playing", mediaPlayers.get(index).isPlaying());
+		}
+
+		soundManager.resume();
+
+		for (int index = 0; index < playSoundFilesCount; index++) {
+			assertTrue("Media player isn't playing", mediaPlayers.get(index).isPlaying());
+		}
+	}
+
+	public void testMediaPlayerLimit() {
+		assertEquals("Wrong maximum count of sound players", 7, SoundManager.MAX_MEDIA_PLAYERS);
+
+		List<MediaPlayer> mediaPlayers = getMediaPlayers();
+		for (int index = 0; index < SoundManager.MAX_MEDIA_PLAYERS + 3; index++) {
+			soundManager.playSoundFile(soundFile.getAbsolutePath());
+		}
+
+		assertEquals("Maximum count of media players is exceeded", SoundManager.MAX_MEDIA_PLAYERS, mediaPlayers.size());
+	}
+
+	public void testIfAllMediaPlayersInTheListAreUnique() {
+		List<MediaPlayer> mediaPlayers = getMediaPlayers();
+		for (int index = 0; index < SoundManager.MAX_MEDIA_PLAYERS; index++) {
+			SoundManager.getInstance().playSoundFile(soundFile.getAbsolutePath());
+		}
+
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
+			assertEquals("MediaPlayerList contains one media players twice.", 1,
+					Collections.frequency(mediaPlayers, mediaPlayer));
+		}
+	}
+
+	/*
+	 * TODO: Since the SoundManager shouldn't be a Singleton, this is just a temporary solution.
+	 */
+	public void testInitialVolumeValue() {
+		Constructor<SoundManager> privateSoundManagerConstructor = null;
+		try {
+			privateSoundManagerConstructor = SoundManager.class.getDeclaredConstructor((Class<?>[]) null);
+			privateSoundManagerConstructor.setAccessible(true);
+			SoundManager soundManager = privateSoundManagerConstructor.newInstance();
+
+			assertEquals("Wrong initial sound volume value", 70.0f, soundManager.getVolume());
+		} catch (Exception exception) {
+			fail("Couldn't instantiate sound manager");
+		} finally {
+			if (privateSoundManagerConstructor != null) {
+				privateSoundManagerConstructor.setAccessible(false);
+			}
+		}
 	}
 
 	public void testSetVolume() {
-		float vol = 80.9f;
-		SoundManager.getInstance().setVolume(vol);
-		assertEquals("Volume loudness doesn't change", vol, SoundManager.getInstance().getVolume());
+		List<MediaPlayer> mediaPlayers = getMediaPlayers();
+		MediaPlayerMock mediaPlayerMock = new MediaPlayerMock();
+		mediaPlayers.add(mediaPlayerMock);
+
+		float newVolume = 80.9f;
+		soundManager.setVolume(newVolume);
+
+		assertEquals("Volume hasn't changed", newVolume, soundManager.getVolume());
+		assertEquals("Wrong volume value", newVolume / 100f, mediaPlayerMock.leftVolume);
+		assertEquals("Wrong volume value", newVolume / 100f, mediaPlayerMock.rightVolume);
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<MediaPlayer> getMediaPlayers() {
+		return (List<MediaPlayer>) Reflection.getPrivateField(soundManager, "mediaPlayers");
+	}
+
+	private class MediaPlayerMock extends MediaPlayer {
+		private float leftVolume;
+		private float rightVolume;
+
+		@Override
+		public void setVolume(float leftVolume, float rightVolume) {
+			this.leftVolume = leftVolume;
+			this.rightVolume = rightVolume;
+		}
 	}
 }

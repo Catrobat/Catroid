@@ -46,6 +46,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.legonxt.LegoNXT;
 import org.catrobat.catroid.legonxt.LegoNXTBtCommunicator;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -236,9 +237,9 @@ public class PreStageActivity extends Activity {
 						resourceFailed();
 					}
 				} else {
-					AlertDialog.Builder builder = new AlertDialog.Builder(this);
-					builder.setMessage(getString(R.string.text_to_speech_engine_not_installed)).setCancelable(false)
-							.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+					AlertDialog.Builder builder = new CustomAlertDialogBuilder(this);
+					builder.setMessage(R.string.text_to_speech_engine_not_installed).setCancelable(false)
+							.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int id) {
 									Intent installIntent = new Intent();
@@ -246,7 +247,7 @@ public class PreStageActivity extends Activity {
 									startActivity(installIntent);
 									resourceFailed();
 								}
-							}).setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+							}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int id) {
 									dialog.cancel();

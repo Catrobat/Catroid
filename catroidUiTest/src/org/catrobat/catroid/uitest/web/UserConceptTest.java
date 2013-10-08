@@ -30,10 +30,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.jayway.android.robotium.solo.Solo;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -71,7 +72,6 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		super.tearDown();
 	}
 
-	@Device
 	public void testLicenceLinkPresent() throws Throwable {
 		setTestUrl();
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -85,7 +85,6 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 				solo.searchText(solo.getString(R.string.register_pocketcode_terms_of_use_text)));
 	}
 
-	@Device
 	public void testRegisterNewUser() throws Throwable {
 		setTestUrl();
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -99,7 +98,6 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 	}
 
-	@Device
 	public void testRegisterWithValidTokenSaved() throws Throwable {
 		setTestUrl();
 		UiTestUtils.createValidUser(getActivity());
@@ -110,7 +108,6 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 	}
 
-	@Device
 	public void testTokenPersistance() throws Throwable {
 		setTestUrl();
 
@@ -123,14 +120,12 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		solo.waitForText(uploadDialogTitle);
 		assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
-		solo.goBack();
 
 		solo.waitForDialogToClose(10000);
 
 		assertNotNull("Upload Dialog is not shown.", solo.getText(solo.getString(R.string.upload_project_dialog_title)));
 	}
 
-	@Device
 	public void testRegisterWithWrongToken() throws Throwable {
 		setTestUrl();
 
@@ -145,7 +140,6 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		UiTestUtils.goBackToHome(getInstrumentation());
 	}
 
-	@Device
 	public void testRegisterWithShortPassword() throws Throwable {
 		setTestUrl();
 
@@ -161,7 +155,6 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.login_register_dialog_title)));
 	}
 
-	@Device
 	public void testRegisterUsernameDifferentCases() throws Throwable {
 		setTestUrl();
 		clearSharedPreferences();
@@ -173,9 +166,6 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		fillLoginDialogWithUsername(true, username);
 
 		solo.waitForText(uploadDialogTitle);
-		solo.goBack();
-		solo.sleep(200);
-		solo.goBack();
 		String cancel = solo.getString(R.string.cancel_button);
 		if (solo.searchText(cancel)) {
 			solo.clickOnText(cancel);
@@ -189,6 +179,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		username = username.toLowerCase(Locale.ENGLISH);
 		fillLoginDialogWithUsername(true, username);
 		solo.waitForText(uploadDialogTitle);
+		solo.goBack();
 
 		TextView uploadProject = (TextView) solo.getView(R.id.dialog_upload_size_of_project);
 		ArrayList<View> currentViews = solo.getCurrentViews();
@@ -206,12 +197,12 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 
 	private void fillLoginDialogWithUsername(boolean correct, String username) {
 		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.login_register_dialog_title)));
-		ArrayList<EditText> currentEditTexts = solo.getCurrentViews(EditText.class);
 		// enter a username
 		String testUser = username;
-		solo.clearEditText(currentEditTexts.get(0));
-		solo.enterText(currentEditTexts.get(0), testUser);
-		solo.goBack();
+		EditText projectNameEditText = (EditText) solo.getView(R.id.username);
+		solo.clearEditText(projectNameEditText);
+		solo.enterText(projectNameEditText, testUser);
+		solo.sendKey(Solo.ENTER);
 		// enter a password
 		String testPassword;
 		if (correct) {
@@ -219,43 +210,22 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		} else {
 			testPassword = "short";
 		}
-		solo.clearEditText(currentEditTexts.get(1));
-		solo.clickOnView(currentEditTexts.get(1));
-		solo.enterText(currentEditTexts.get(1), testPassword);
+		EditText passwordEditText = (EditText) solo.getView(R.id.password);
+		solo.clearEditText(passwordEditText);
+		solo.clickOnView(passwordEditText);
+		solo.enterText(passwordEditText, testPassword);
 
 		// set the email to use. we need a random email because the server does not allow same email with different users 
 		String testEmail = testUser + "@gmail.com";
 		Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", testEmail);
+		solo.sendKey(Solo.ENTER);
 
 		int buttonId = android.R.id.button1;
 		solo.clickOnView(solo.getView(buttonId));
 	}
 
 	private void fillLoginDialog(boolean correct) {
-		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.login_register_dialog_title)));
-		ArrayList<EditText> currentEditTexts = solo.getCurrentViews(EditText.class);
-		// enter a username
-		String testUser = "testUser" + System.currentTimeMillis();
-		solo.clearEditText(currentEditTexts.get(0));
-		solo.enterText(currentEditTexts.get(0), testUser);
-		solo.goBack();
-		// enter a password
-		String testPassword;
-		if (correct) {
-			testPassword = "blubblub";
-		} else {
-			testPassword = "short";
-		}
-		solo.clearEditText(currentEditTexts.get(1));
-		solo.clickOnView(currentEditTexts.get(1));
-		solo.enterText(currentEditTexts.get(1), testPassword);
-
-		// set the email to use. we need a random email because the server does not allow same email with different users 
-		String testEmail = testUser + "@gmail.com";
-		Reflection.setPrivateField(ServerCalls.getInstance(), "emailForUiTests", testEmail);
-
-		int buttonId = android.R.id.button1;
-		solo.clickOnView(solo.getView(buttonId));
+		fillLoginDialogWithUsername(correct, "testUser" + System.currentTimeMillis());
 	}
 
 	private void clearSharedPreferences() {

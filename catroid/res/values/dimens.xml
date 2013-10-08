@@ -43,6 +43,18 @@
     <dimen name="text_size_xxlarge">24sp</dimen>
     <dimen name="brick_category_height">90dp</dimen>
     <dimen name="text_size_brick_category">22sp</dimen>
+    
+    <!-- Dialog -->
+    <dimen name="dialog_item_height">48dp</dimen>
+    <dimen name="dialog_item_margin">16dp</dimen>
+    <dimen name="dialog_item_edittext_margin">12dp</dimen>
+    <dimen name="dialog_item_header_height">46dp</dimen>
+    <dimen name="dialog_item_header_linepadding">4dp</dimen>
+    <dimen name="dialog_item_header_line_height">2dp</dimen>
+    <dimen name="dialog_margin">16dp</dimen>
+    <dimen name="dialog_item_text_size">14sp</dimen>
+    <!--  -->
+
 
     <!-- Flow Layout -->
     <dimen name="brick_flow_layout_vertical_spacing">0dp</dimen>

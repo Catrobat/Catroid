@@ -40,6 +40,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 
@@ -50,11 +51,13 @@ import org.catrobat.catroid.R;
 public abstract class TextDialog extends DialogFragment {
 
 	protected EditText input;
+	protected TextView inputTitle;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_text_dialog, null);
-		input = (EditText) dialogView.findViewById(R.id.dialog_text_EditText);
+		input = (EditText) dialogView.findViewById(R.id.dialog_text_edit_text);
+		inputTitle = (TextView) dialogView.findViewById(R.id.dialog_text_text_view);
 
 		if (getHint() != null) {
 			input.setHint(getHint());

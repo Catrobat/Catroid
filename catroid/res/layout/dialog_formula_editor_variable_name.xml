@@ -21,33 +21,53 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/DefaultDialog"
+    android:paddingBottom="0dp" >
 
-    <EditText
-        android:id="@+id/dialog_formula_editor_variable_name_edit_text"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/formula_editor_variable_dialog_hint"
-        android:inputType="text" />
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dialog_item_margin" >
 
-    <RadioGroup
-        android:id="@+id/dialog_formula_editor_variable_name_radio_group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        <org.catrobat.catroid.ui.CapitalizedTextView
+            style="@style/DefaultDialog.TextView"
+            android:text="@string/variable_name" />
 
-        <RadioButton
-            android:id="@+id/dialog_formula_editor_variable_name_global_variable_radio_button"
-            android:checked="true"
-            android:text="@string/formula_editor_variable_dialog_for_all_sprites" />
+        <View style="@style/DefaultDialog.Line" />
 
-        <RadioButton
-            android:id="@+id/dialog_formula_editor_variable_name_local_variable_radio_button"
-            android:text="@string/formula_editor_variable_dialog_for_this_sprite_only" />
-    </RadioGroup>
+        <EditText
+            android:id="@+id/dialog_formula_editor_variable_name_edit_text"
+            style="@style/DefaultDialog.EditText"
+            android:ems="10"
+            android:hint="@string/formula_editor_variable_dialog_hint"
+            android:inputType="text" />
 
-</LinearLayout>
+        <RadioGroup
+            android:id="@+id/dialog_formula_editor_variable_name_radio_group"
+            style="@style/DefaultDialog.Item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:paddingBottom="0dp"
+            android:paddingTop="12dp" >
+
+            <RadioButton
+                android:id="@+id/dialog_formula_editor_variable_name_global_variable_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/formula_editor_variable_dialog_for_all_sprites"
+                android:textColor="@color/spritelist_details_text_color" />
+
+            <RadioButton
+                android:id="@+id/dialog_formula_editor_variable_name_local_variable_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/formula_editor_variable_dialog_for_this_sprite_only"
+                android:textColor="@color/spritelist_details_text_color" />
+        </RadioGroup>
+    </LinearLayout>
+
+</ScrollView>

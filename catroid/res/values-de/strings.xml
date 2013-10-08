@@ -36,11 +36,6 @@
     <string name="unpacking">Auspacken</string>
     <string name="unpack">Pack es aus</string>
     <string name="copy_addition">Kopie</string>
-
-    <!--  -->
-
-
-    <!-- General -->
     <string name="close">Schließen</string>
     <string name="error">Fehler</string>
     <string name="please_wait">Bitte warten</string>
@@ -48,6 +43,7 @@
     <string name="background">Hintergrund</string>
     <string name="stage">Bühne</string>
     <string name="ok">OK</string>
+    <string name="settings">Einstellungen</string>
     <!--  -->
 
 
@@ -58,7 +54,6 @@
     <string name="main_menu_forum">Diskutieren</string>
     <string name="main_menu_web">Erkunden</string>
     <string name="main_menu_upload">Hochladen</string>
-    <string name="main_menu_settings">Einstellungen</string>
     <string name="main_menu_about_pocketcode">Über Pocket Code</string>
     <string name="main_menu_rate_app">Bewerte uns!</string>
     <string name="main_menu_play_store_not_installed">Play Store App nicht gefunden</string>
@@ -102,6 +97,7 @@
     <string name="dialog_confirm_delete_object_title">Dieses Objekt löschen?</string>
     <string name="dialog_confirm_delete_multiple_objects_title">Diese Objekte löschen?</string>
     <string name="dialog_confirm_delete_object_message">Kann nicht rückgängig gemacht werden!</string>
+    <string name="select_all">Alle auswählen</string>
     <!--  -->
 
 
@@ -145,6 +141,7 @@
     <string name="dialog_confirm_delete_look_title">Dieses Aussehen löschen?</string>
     <string name="dialog_confirm_delete_multiple_looks_title">Diese Aussehen löschen?</string>
     <string name="dialog_confirm_delete_look_message">Kann nicht rückgängig gemacht werden!</string>
+    <string name="lookname">Name:</string>
     <!--  -->
 
 
@@ -162,6 +159,7 @@
     <string name="dialog_confirm_delete_sound_title">Diesen Klang löschen?</string>
     <string name="dialog_confirm_delete_multiple_sounds_title">Diese Klänge löschen?</string>
     <string name="dialog_confirm_delete_sound_message">Kann nicht rückgängig gemacht werden!</string>
+    <string name="sound_name">Name:</string>
     <!--  -->
 
 
@@ -178,6 +176,7 @@
     <string name="dialog_confirm_delete_program_message">Kann nicht rückgängig gemacht werden!</string>
     <string name="details_date_today">Heute</string>
     <string name="details_date_yesterday">Gestern</string>
+    <string name="dialog_copy_project_title">Programm kopieren</string>
     <!--  -->
 
 
@@ -223,10 +222,11 @@
 
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">Mein Objekt</string>
-    <string name="new_sprite_dialog_title">Name des Objekts</string>
+    <string name="new_sprite_dialog_title">Neues Objekt</string>
     <string name="spritename_already_exists">Dieser Objektname existiert bereits</string>
     <string name="spritename_invalid">Dieser Objektname ist ungültig</string>
     <string name="rename_sprite_dialog">Objekt umbenennen</string>
+    <string name="sprite_name">Objektname:</string>
     <!--  -->
 
 
@@ -263,6 +263,8 @@
 
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">Neu…</string>
+    <string name="dialog_new_broadcast_message_title">Neue Nachricht</string>
+    <string name="dialog_new_broadcast_message_name">Nachricht:</string>
     <!--  -->
 
 
@@ -342,6 +344,8 @@
     <string name="brick_change_volume_by">Ändere Lautstärke um</string>
     <string name="brick_speak">Sprich</string>
     <string name="brick_speak_default_value">"Hallo!"</string>
+    <string name="dialog_edit_speak_title">Text bearbeiten</string>
+    <string name="dialog_edit_speak_text">Sprich:</string>
     <!--  -->
 
 
@@ -361,6 +365,8 @@
     <string name="brick_note">Notiz</string>
     <string name="brick_forever">Wiederhole fortlaufend</string>
     <string name="brick_repeat">Wiederhole</string>
+    <string name="dialog_edit_note_title">Notiz bearbeiten</string>
+    <string name="dialog_edit_note_text">Notiz:</string>
 
     <plurals name="time_plural">
         <item quantity="one">mal</item>
@@ -547,6 +553,7 @@
     <string name="formula_editor_variable_dialog_hint">Variablenname eingeben</string>
     <string name="formula_editor_discard_changes_dialog_message">Möchten Sie die Änderungen speichern?</string>
     <string name="formula_editor_discard_changes_dialog_title">Änderungen speichern?</string>
+    <string name="variable_name">Variablenname:</string>
 
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable ausgewählt!</item>

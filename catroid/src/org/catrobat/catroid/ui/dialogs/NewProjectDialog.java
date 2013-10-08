@@ -38,6 +38,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -83,6 +84,7 @@ public class NewProjectDialog extends DialogFragment {
 
 		newProjectDialog.setCanceledOnTouchOutside(true);
 		newProjectDialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		newProjectDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
 		newProjectDialog.setOnShowListener(new OnShowListener() {
 			@Override
@@ -137,12 +139,12 @@ public class NewProjectDialog extends DialogFragment {
 		boolean shouldBeEmpty = emptyProjectCheckBox.isChecked();
 
 		if (projectName.isEmpty()) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.error_no_name_entered));
+			Utils.showErrorDialog(getActivity(), R.string.error_no_name_entered);
 			return;
 		}
 
 		if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(projectName)) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.error_project_exists));
+			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 			return;
 		}
 
@@ -150,7 +152,7 @@ public class NewProjectDialog extends DialogFragment {
 			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), shouldBeEmpty);
 
 		} catch (IOException e) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.error_new_project));
+			Utils.showErrorDialog(getActivity(), R.string.error_new_project);
 			dismiss();
 			return;
 		}

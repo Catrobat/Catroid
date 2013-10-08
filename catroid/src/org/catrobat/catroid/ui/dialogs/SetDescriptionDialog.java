@@ -70,7 +70,7 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 
 	@Override
 	protected boolean handleOkButton() {
-		String description = (input.getText().toString());
+		String description = input.getText().toString();
 		String currentProjectName = projectManager.getCurrentProject().getName();
 
 		if (projectToChangeName.equalsIgnoreCase(currentProjectName)) {
@@ -91,7 +91,7 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 
 	@Override
 	protected String getTitle() {
-		return getString(R.string.description);
+		return getString(R.string.set_description);
 	}
 
 	@Override

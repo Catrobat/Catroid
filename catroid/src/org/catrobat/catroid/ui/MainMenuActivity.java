@@ -73,7 +73,6 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 	private static final String TYPE_FILE = "file";
 	private static final String TYPE_HTTP = "http";
 
-	private ActionBar actionBar;
 	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	@Override
@@ -86,7 +85,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 
 		setContentView(R.layout.activity_main_menu);
 
-		actionBar = getSupportActionBar();
+		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayUseLogoEnabled(true);
 		actionBar.setTitle(R.string.app_name);
 
@@ -131,23 +130,11 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 			return;
 		}
 
-		// onPause is sufficient --> gets called before "process_killed",
-		// onStop(), onDestroy(), onRestart()
-		// also when you switch activities
 		if (ProjectManager.getInstance().getCurrentProject() != null) {
 			ProjectManager.getInstance().saveProject();
 			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, ProjectManager.getInstance()
 					.getCurrentProject().getName());
 		}
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		if (!Utils.externalStorageAvailable()) {
-			return;
-		}
-
 	}
 
 	@Override
@@ -159,11 +146,6 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.menu_settings: {
-				Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
-				startActivity(intent);
-				return true;
-			}
 			case R.id.menu_rate_app:
 				launchMarket();
 				return true;
@@ -264,10 +246,9 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(getText(R.string.main_menu_web_dialog_title));
-		builder.setMessage(getText(R.string.main_menu_web_dialog_message));
 		builder.setView(checkboxView);
 
-		builder.setPositiveButton(getText(R.string.ok), new DialogInterface.OnClickListener() {
+		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				CheckBox dontShowAgainCheckBox = (CheckBox) checkboxView
@@ -280,7 +261,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 				startActivity(browserIntent);
 			}
 		});
-		builder.setNegativeButton(getText(R.string.cancel_button), new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
@@ -343,7 +324,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 			int b = path.lastIndexOf('.');
 			String projectName = path.substring(a, b);
 			if (!UtilZip.unZipFile(path, Utils.buildProjectPath(projectName))) {
-				Utils.showErrorDialog(this, getResources().getString(R.string.error_load_project));
+				Utils.showErrorDialog(this, R.string.error_load_project);
 			}
 		}
 	}
