@@ -26,11 +26,13 @@
     <item
         android:id="@+id/backpack"
         android:showAsAction="never"
+        android:visible="false"
         android:title="@string/backpack" />
   
      <item
         android:id="@+id/unpacking"
         android:showAsAction="never"
+        android:visible="false"
         android:title="@string/unpacking" />
 
     <item
@@ -45,6 +47,7 @@
     <item
         android:id="@+id/cut"
         android:showAsAction="never"
+        android:visible="false"
         android:title="@string/cut"/>
     <item
         android:id="@+id/insert_below"

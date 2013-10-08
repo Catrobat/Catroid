@@ -127,6 +127,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		menu.findItem(R.id.show_details).setVisible(false);
 		menu.findItem(R.id.rename).setVisible(false);
+		menu.findItem(R.id.backpack).setVisible(false);
+		menu.findItem(R.id.unpacking).setVisible(false);
 
 		super.onPrepareOptionsMenu(menu);
 	}

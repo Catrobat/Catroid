@@ -195,8 +195,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			menu.findItem(R.id.unpacking).setVisible(true);
 		} else {
 			menu.findItem(R.id.unpacking).setVisible(false);
-			File directory = BackPackListManager.getBackPackSoundDirectory();
-			StorageHandler.getInstance().setBackPackSoundDirectoryEmpty(directory);
+
+			StorageHandler.getInstance().clearBackPackSoundDirectory();
 		}
 
 		super.onPrepareOptionsMenu(menu);

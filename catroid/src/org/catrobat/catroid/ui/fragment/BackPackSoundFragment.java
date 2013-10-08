@@ -146,13 +146,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		menu.setHeaderTitle(selectedSoundInfoBackPack.getTitle());
 		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
 
-		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
-		menu.findItem(R.id.context_menu_copy).setVisible(false);
-		menu.findItem(R.id.context_menu_cut).setVisible(false);
-		menu.findItem(R.id.context_menu_delete).setVisible(true);
-		menu.findItem(R.id.context_menu_backpack).setVisible(false);
-		menu.findItem(R.id.context_menu_rename).setVisible(false);
-		menu.findItem(R.id.context_menu_unpacking).setVisible(true);
+		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_unpacking, menu);
 	}
 
 	@Override
@@ -160,10 +154,11 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		switch (item.getItemId()) {
 
 			case R.id.context_menu_unpacking:
+				String textForUnPacking = this.getString(R.string.sound_unpacking_text);
 				SoundController.getInstance().copySound(selectedSoundInfoBackPack,
 						BackPackListManager.getCurrentSoundInfoArrayList(), BackPackListManager.getCurrentAdapter());
-				Toast.makeText(getActivity(), "File " + selectedSoundInfoBackPack.getTitle() + " was unpacked!",
-						Toast.LENGTH_LONG).show();
+				Toast.makeText(getActivity(), selectedSoundInfoBackPack.getTitle() + " " + textForUnPacking,
+						Toast.LENGTH_SHORT).show();
 				break;
 			case R.id.context_menu_delete:
 				showConfirmDeleteDialog();

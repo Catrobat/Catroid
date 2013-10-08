@@ -65,11 +65,16 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 	private static final int TIME_TO_WAIT = 50;
 
+	private static final int TIME_TO_WAIT_BACKPACK = 1000;
+
 	private static final String FIRST_TEST_SOUND_NAME = "testSound1";
 	private static final String SECOND_TEST_SOUND_NAME = "testSound2";
 
 	private static final String FIRST_TEST_UNPACKING_SOUND_NAME = "testSound11";
 	private static final String SECOND_TEST_UNPACKING_SOUND_NAME = "testSound21";
+
+	private static final String SPRITE_NAME = "cat";
+	private static final String SECOND_SPRITE_NAME = "second_sprite";
 
 	private String rename;
 	private String renameDialogTitle;
@@ -433,9 +438,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	public void testBackPackActionModeIfNothingSelected() {
-
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack, getActivity());
-
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
 		// Check if rename ActionMode disappears if nothing was selected
@@ -446,39 +449,30 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	public void testBackPackActionModeIfSomethingSelectedAndPressingBack() {
-
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack, getActivity());
-
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
-
 		assertTrue("BackPack dialog title didn't show up", solo.waitForText(backPackDialogTitle, 0, TIME_TO_WAIT));
+
 		solo.goBack();
 		assertFalse("BackPack title didn't show up", solo.waitForText(backPackTitle, 0, TIME_TO_WAIT));
-
 	}
 
 	public void testBackPackActionModeIfSomethingSelectedForBackPack() {
-
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack, getActivity());
-
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
-
 		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.waitForActivity(BackPackActivity.class.getSimpleName(), TIME_TO_WAIT_BACKPACK);
 
-		solo.waitForActivity(BackPackActivity.class.getSimpleName(), 1000);
 		assertTrue("BackPack title didn't show up", solo.waitForText(backPackTitle, 0, TIME_TO_WAIT));
-
 	}
 
 	public void testBackPackSoundContextMenu() {
 		SoundAdapter adapter = getSoundAdapter();
 		assertNotNull("Could not get Adapter", adapter);
-
 		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.backpack));
-
-		solo.waitForDialogToClose(1000);
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 
 		assertTrue("BackPack title didn't show up", solo.waitForText(backPackTitle, 0, TIME_TO_WAIT));
 	}
@@ -488,35 +482,26 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		ImageButton playImageButton = (ImageButton) solo.getView(R.id.fragment_sound_item_play_image_button);
 		SoundAdapter adapter = getSoundAdapter();
 		assertNotNull("Could not get Adapter", adapter);
-		int timeToWait = 1000;
-
 		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.backpack));
-
-		solo.waitForDialogToClose(1000);
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 
 		assertTrue("BackPack title didn't show up", solo.waitForText(backPackTitle, 0, TIME_TO_WAIT));
-
 		soundInfoList = backPackListManager.getSoundInfoArrayList();
 		SoundInfo soundInfo = soundInfoList.get(0);
-
 		solo.clickOnView(playImageButton);
-		solo.sleep(timeToWait);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
 
 		assertTrue("Mediaplayer is not playing although play button was touched", soundInfo.isPlaying);
 	}
 
 	public void testSimpleUnpacking() {
 		SoundAdapter adapter = getSoundAdapter();
+
 		assertNotNull("Could not get Adapter", adapter);
-		int timeToWait = 1000;
-
 		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.backpack));
-
-		solo.sleep(timeToWait);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		clickOnContextMenuItem(FIRST_TEST_UNPACKING_SOUND_NAME, solo.getString(R.string.unpack));
-
-		solo.waitForDialogToClose(1000);
-
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
 
 		assertTrue("Sound wasn't unpacked!", solo.waitForText(FIRST_TEST_UNPACKING_SOUND_NAME, 0, TIME_TO_WAIT));
@@ -525,27 +510,18 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	public void testSimpleUnpackingAndDelete() {
 		SoundAdapter adapter = getSoundAdapter();
 		int oldCount = adapter.getCount();
+
 		assertNotNull("Could not get Adapter", adapter);
-		int timeToWait = 1000;
-
 		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.backpack));
-
-		solo.sleep(timeToWait);
-
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
-
 		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.delete));
-
 		solo.waitForText(deleteDialogTitle);
 		solo.clickOnButton(solo.getString(R.string.yes));
 		solo.sleep(50);
-
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.unpacking), R.id.unpacking, getActivity());
-
 		clickOnContextMenuItem(FIRST_TEST_UNPACKING_SOUND_NAME, solo.getString(R.string.unpack));
-
-		solo.waitForDialogToClose(1000);
-
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
 
 		assertTrue("Sound wasn't unpacked!", solo.waitForText(FIRST_TEST_UNPACKING_SOUND_NAME, 0, TIME_TO_WAIT));
@@ -557,33 +533,71 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	public void testMultipleUnpacking() {
 		SoundAdapter adapter = getSoundAdapter();
 		int oldCount = adapter.getCount();
+
 		assertNotNull("Could not get Adapter", adapter);
-		int timeToWait = 1000;
-
 		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.backpack));
-
-		solo.sleep(timeToWait);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		clickOnContextMenuItem(FIRST_TEST_UNPACKING_SOUND_NAME, solo.getString(R.string.unpack));
-
-		solo.waitForDialogToClose(1000);
-
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
 
 		assertTrue("Sound wasn't unpacked!", solo.waitForText(FIRST_TEST_UNPACKING_SOUND_NAME, 0, TIME_TO_WAIT));
-
 		clickOnContextMenuItem(SECOND_TEST_SOUND_NAME, solo.getString(R.string.backpack));
-
-		solo.sleep(timeToWait);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		clickOnContextMenuItem(SECOND_TEST_UNPACKING_SOUND_NAME, solo.getString(R.string.unpack));
-
-		solo.waitForDialogToClose(1000);
-
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
 
 		assertTrue("Sound wasn't unpacked!", solo.waitForText(SECOND_TEST_UNPACKING_SOUND_NAME, 0, TIME_TO_WAIT));
-
 		int newCount = adapter.getCount();
 		assertEquals("There are sounds missing", oldCount + 2, newCount);
+	}
+
+	public void testBackPackAndUnPackFromDifferentProgrammes() {
+		UiTestUtils.createTestProject(UiTestUtils.PROJECTNAME1);
+		SoundAdapter adapter = getSoundAdapter();
+
+		assertNotNull("Could not get Adapter", adapter);
+		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.backpack));
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		UiTestUtils.clickOnHomeActionBarButton(solo);
+		solo.clickOnText(solo.getString(R.string.programs));
+		UiTestUtils.clickOnTextInList(solo, solo.getString(R.string.programs));
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		UiTestUtils.clickOnTextInList(solo, UiTestUtils.PROJECTNAME1);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		UiTestUtils.clickOnTextInList(solo, SPRITE_NAME);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		solo.clickOnText(solo.getString(R.string.sounds));
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.unpacking), R.id.unpacking, getActivity());
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.unpack));
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+		solo.goBack();
+
+		assertTrue("Sound wasn't unpacked!", solo.waitForText(FIRST_TEST_SOUND_NAME, 0, TIME_TO_WAIT));
+	}
+
+	public void testBackPackAndUnPackFromDifferentSprites() {
+		UiTestUtils.createTestProjectWithTwoSprites(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		SoundAdapter adapter = getSoundAdapter();
+
+		assertNotNull("Could not get Adapter", adapter);
+		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.backpack));
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		solo.goBack();
+		solo.goBack();
+		solo.goBack();
+		solo.clickOnText(SECOND_SPRITE_NAME);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		solo.clickOnText(solo.getString(R.string.sounds));
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.unpacking), R.id.unpacking, getActivity());
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.unpack));
+		solo.waitForDialogToClose(1000);
+		solo.goBack();
+
+		assertTrue("Sound wasn't unpacked!", solo.waitForText(FIRST_TEST_SOUND_NAME, 0, TIME_TO_WAIT));
 	}
 
 	public void testRenameActionModeIfSomethingSelectedAndPressingBack() {

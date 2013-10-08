@@ -234,7 +234,7 @@ public class ScriptActivity extends BaseActivity {
 
 			case R.id.unpacking:
 				Intent intent = new Intent(currentFragment.getActivity(), BackPackActivity.class);
-				intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, 2);
+				intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_SOUNDS);
 				startActivity(intent);
 				break;
 

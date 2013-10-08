@@ -108,7 +108,6 @@ import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -264,7 +263,6 @@ public class StorageHandler {
 				return false;
 			}
 
-			BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
 			File projectDirectory = new File(buildProjectPath(project.getName()));
 			createProjectDataStructure(projectDirectory);
 
@@ -311,10 +309,8 @@ public class StorageHandler {
 		noMediaFile = new File(backPackDirectory, NO_MEDIA_FILE);
 		noMediaFile.createNewFile();
 
-		File backPackSoundDirectory = new File(backPackDirectory, BACKPACK_SOUND_DIRECTORY);
+		backPackSoundDirectory = new File(backPackDirectory, BACKPACK_SOUND_DIRECTORY);
 		backPackSoundDirectory.mkdir();
-
-		BackPackListManager.setBackPackSoundDirectory(backPackSoundDirectory);
 
 		noMediaFile = new File(backPackSoundDirectory, NO_MEDIA_FILE);
 		noMediaFile.createNewFile();
@@ -326,17 +322,14 @@ public class StorageHandler {
 		noMediaFile.createNewFile();
 	}
 
-	public void setBackPackSoundDirectoryEmpty(File directory) {
-
-		if (directory.listFiles().length > 1) {
-			for (File node : directory.listFiles()) {
+	public void clearBackPackSoundDirectory() {
+		if (backPackSoundDirectory.listFiles().length > 1) {
+			for (File node : backPackSoundDirectory.listFiles()) {
 				if (!(node.getName().equals(".nomedia"))) {
 					node.delete();
 				}
 			}
-
 		}
-
 	}
 
 	public boolean deleteProject(Project project) {
