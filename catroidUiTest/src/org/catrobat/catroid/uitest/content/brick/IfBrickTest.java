@@ -45,6 +45,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import java.util.ArrayList;
 
 public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+	private static final String TAG = IfBrickTest.class.getSimpleName();
 	private Project project;
 	private IfLogicBeginBrick ifBrick;
 
@@ -79,7 +80,6 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 	}
 
 	public void testStrings() {
-
 		solo.clickOnView(solo.getView(R.id.brick_if_begin_edit_text));
 		solo.sleep(100);
 
@@ -88,40 +88,33 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 		isFound = solo.searchText(solo.getString(R.string.brick_if_begin));
 		assertTrue("String: " + getActivity().getString(R.string.brick_if_begin) + " not found!", isFound);
-
-		solo.goBack();
-		solo.goBack();
 	}
 
 	public void testIfBrickParts() {
+		int dragAndDropSteps = 100;
 		ArrayList<Integer> yPosition;
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
-		Log.e("info", "Befor drag item 1 to item 4 + 20");
+		Log.e(TAG, "Befor drag item 1 to item 4 + 20");
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, yPosition.get(4) + 20, 20);
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, yPosition.get(4) + 20, dragAndDropSteps);
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(1) instanceof IfLogicBeginBrick));
 
-		Log.e("info", "Befor drag item 2 to item 0");
+		Log.e(TAG, "Befor drag item 2 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(2), 10, yPosition.get(0), 20);
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(2), 10, yPosition.get(0), dragAndDropSteps);
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(0) instanceof IfLogicBeginBrick));
 
-		// just to get focus
-		// seems to be a bug just with the Nexus S 2.3.6
-		solo.clickOnText(solo.getString(R.string.brick_when_started));
-		solo.goBack();
-
-		Log.e("info", "Before drag item 3 to item 0");
+		Log.e(TAG, "Before drag item 3 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(3), 10, yPosition.get(0), 20);
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(3), 10, yPosition.get(0), dragAndDropSteps);
 
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 		assertTrue("Wrong Brick instance - expected IfElseBrick but was "
@@ -132,14 +125,14 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 				+ projectBrickList.get(2).getClass().getSimpleName(),
 				projectBrickList.get(2) instanceof ChangeYByNBrick);
 
-		Log.e("info", "Befor drag item 4 to item 0");
+		Log.e(TAG, "Befor drag item 4 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4) - 10, 10, yPosition.get(0), 20);
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4) - 10, 10, yPosition.get(0), dragAndDropSteps);
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 
-		Log.e("info", "After drag item 4 to item 0");
+		Log.e(TAG, "After drag item 4 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
 		assertTrue("Wrong Brick instance, expected IfLogicEndBrick but was "
@@ -148,7 +141,6 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		int addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		assertEquals("Incorrect number of Scripts.", 2, sprite.getNumberOfScripts());
@@ -163,7 +155,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeYByNBrick);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, yPosition.get(2) + 20, 20);
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, yPosition.get(2) + 20, dragAndDropSteps);
 		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());
 		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
@@ -171,17 +163,20 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_if_begin);
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
-		solo.drag(20, 20, addedYPosition, yPosition.get(3) + 20, 20);
+		int addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
+		solo.drag(20, 20, addedYPosition, yPosition.get(3) + 20, dragAndDropSteps);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_look);
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
-		solo.drag(20, 20, addedYPosition, yPosition.get(5) + 20, 20);
+		solo.drag(20, 20, addedYPosition, yPosition.get(5) + 20, dragAndDropSteps);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, yPosition.get(5) + 20, 20);
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, yPosition.get(5) + 20, dragAndDropSteps);
 		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
+
+		Log.e(TAG, "Final order of bricks");
+		logBrickListForJenkins(projectBrickList);
 
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeYByNBrick);
 		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof IfLogicBeginBrick);
@@ -192,8 +187,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 	private void logBrickListForJenkins(ArrayList<Brick> projectBrickList) {
 		for (Brick brick : projectBrickList) {
-			Log.e("info", "Brick at Positon " + projectBrickList.indexOf(brick) + ": "
-					+ brick.getClass().getSimpleName());
+			Log.e(TAG, "Brick at Positon " + projectBrickList.indexOf(brick) + ": " + brick.getClass().getSimpleName());
 		}
 	}
 
