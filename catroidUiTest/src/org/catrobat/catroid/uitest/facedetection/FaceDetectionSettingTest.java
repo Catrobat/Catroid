@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
+import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
@@ -48,14 +49,14 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class CameraSettingTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+public class FaceDetectionSettingTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int SCREEN_WIDTH = 480;
 	private static final int SCREEN_HEIGHT = 800;
 
 	private Project project;
 	Sprite sprite;
 
-	public CameraSettingTest() {
+	public FaceDetectionSettingTest() {
 		super(MainMenuActivity.class);
 	}
 
@@ -68,7 +69,70 @@ public class CameraSettingTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.sleep(300);
 	}
 
-	public void testSettingsList() {
+	public void testFaceDetectionDefaultPreference() {
+		clearFaceDetectionPreference();
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+
+		assertTrue("Default preference for using face detection should be <true>",
+				FaceDetectionHandler.isFaceDetectionRunning());
+
+		solo.sleep(500);
+
+		solo.goBackToActivity(MainMenuActivity.class.getSimpleName());
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+	}
+
+	public void testReadFaceDetectionPreference() {
+		writeFaceDetectionPreference(false);
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.sleep(1000);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(1000);
+
+		assertFalse("Face Detection was started although disabled in settings",
+				FaceDetectionHandler.isFaceDetectionRunning());
+
+		solo.goBackToActivity(MainMenuActivity.class.getSimpleName());
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+
+		writeFaceDetectionPreference(true);
+
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+
+		assertTrue("Face Detection was not started although enabled in settings",
+				FaceDetectionHandler.isFaceDetectionRunning());
+
+		solo.goBackToActivity(MainMenuActivity.class.getSimpleName());
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+	}
+
+	public void testWriteFaceDetectionPreference() {
+		clearFaceDetectionPreference();
+
+		solo.clickOnMenuItem(solo.getString(R.string.settings));
+
+		String preferenceTitle = solo.getString(R.string.preference_title_use_face_detection);
+		solo.waitForText(preferenceTitle);
+		solo.clickOnText(preferenceTitle);
+		solo.sleep(300);
+
+		assertFalse("Face Detection Preference was not properly written to shared preferences",
+				readFaceDetectionPreference());
+
+		solo.clickOnText(preferenceTitle);
+		solo.sleep(300);
+
+		assertTrue("Face Detection Preference was not properly written to shared preferences",
+				readFaceDetectionPreference());
+
+	}
+
+	public void testCameraSettingsList() {
 		solo.clickOnMenuItem(solo.getString(R.string.settings));
 
 		String cameraSettingsTitle = solo.getString(R.string.preference_title_select_camera);
@@ -90,7 +154,7 @@ public class CameraSettingTest extends BaseActivityInstrumentationTestCase<MainM
 		assertTrue("No list with camera choices available in Settings", listFound);
 	}
 
-	public void testWriteSettings() {
+	public void testWriteCameraSettings() {
 		assertTrue("Device must have at least 2 cameras for this test", Camera.getNumberOfCameras() >= 2);
 
 		solo.clickOnMenuItem(solo.getString(R.string.settings));
@@ -117,13 +181,15 @@ public class CameraSettingTest extends BaseActivityInstrumentationTestCase<MainM
 
 	}
 
-	public void testReadSettings() {
+	public void testReadCameraSettings() {
 		assertTrue("Device must have at least 2 cameras for this test", Camera.getNumberOfCameras() >= 2);
 
 		writeCameraIDPreference("1");
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.sleep(1000);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(1000);
 
 		assertEquals("CameraManager did not properly read camera id", 1, CameraManager.getInstance().getCameraID());
 
@@ -156,9 +222,27 @@ public class CameraSettingTest extends BaseActivityInstrumentationTestCase<MainM
 		return id;
 	}
 
+	private boolean readFaceDetectionPreference() {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		String key = solo.getString(R.string.preference_key_use_face_detection);
+		assertTrue("There is no face detection preference", preferences.contains(key));
+		return preferences.getBoolean(key, true);
+	}
+
 	private void writeCameraIDPreference(String id) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		preferences.edit().putString(solo.getString(R.string.preference_key_select_camera), id).commit();
+	}
+
+	private void writeFaceDetectionPreference(boolean useFaceDetection) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		preferences.edit().putBoolean(solo.getString(R.string.preference_key_use_face_detection), useFaceDetection)
+				.commit();
+	}
+
+	private void clearFaceDetectionPreference() {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		preferences.edit().remove(solo.getString(R.string.preference_key_use_face_detection)).commit();
 	}
 
 	private void createCameraProject() {

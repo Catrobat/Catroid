@@ -60,6 +60,7 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		ScreenValues.SCREEN_HEIGHT = 1080;
 	}
 
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public void testDeviceFaceDetectionSupport() {
 		int possibleFaces = 0;
 		Camera camera = null;
@@ -76,6 +77,7 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		assertTrue("Device does not support native face detection (other tests will fail as well)", possibleFaces > 0);
 	}
 
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public void testNotAvailable() {
 		Camera camera = null;
 		try {
@@ -92,6 +94,7 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		}
 	}
 
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public void testStartAndStop() {
 
 		Camera camera = null;
@@ -133,6 +136,7 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		}
 	}
 
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public void testDoubleStart() {
 		IcsFaceDetector detector = new IcsFaceDetector();
 		detector.startFaceDetection();

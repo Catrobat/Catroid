@@ -28,7 +28,6 @@ import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
@@ -168,14 +167,7 @@ public class FaceDetectionHandler {
 	public static boolean useFaceDetection(Context context) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		boolean useFaceDetection = preferences.getBoolean(
-				context.getResources().getString(R.string.preference_key_use_face_detection), false);
-		Log.d("Blah",
-				context.getResources().getString(R.string.preference_key_use_face_detection)
-						+ " "
-						+ useFaceDetection
-						+ " "
-						+ preferences.contains(context.getResources().getString(
-								R.string.preference_key_use_face_detection)));
+				context.getResources().getString(R.string.preference_key_use_face_detection), true);
 		return useFaceDetection;
 	}
 
