@@ -108,7 +108,6 @@ import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -132,6 +131,9 @@ public class StorageHandler {
 	private static final StorageHandler INSTANCE;
 
 	private XStream xstream;
+
+	private File backPackSoundDirectory;
+
 	private Lock loadSaveLock = new ReentrantLock();
 
 	// TODO: Since the StorageHandler constructor throws an exception, the member INSTANCE couldn't be assigned
@@ -234,6 +236,10 @@ public class StorageHandler {
 		return INSTANCE;
 	}
 
+	public File getBackPackSoundDirectory() {
+		return backPackSoundDirectory;
+	}
+
 	public Project loadProject(String projectName) {
 		loadSaveLock.lock();
 		try {
@@ -252,11 +258,11 @@ public class StorageHandler {
 
 		loadSaveLock.lock();
 		try {
+
 			if (project == null) {
 				return false;
 			}
 
-			BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
 			File projectDirectory = new File(buildProjectPath(project.getName()));
 			createProjectDataStructure(projectDirectory);
 
@@ -303,7 +309,7 @@ public class StorageHandler {
 		noMediaFile = new File(backPackDirectory, NO_MEDIA_FILE);
 		noMediaFile.createNewFile();
 
-		File backPackSoundDirectory = new File(backPackDirectory, BACKPACK_SOUND_DIRECTORY);
+		backPackSoundDirectory = new File(backPackDirectory, BACKPACK_SOUND_DIRECTORY);
 		backPackSoundDirectory.mkdir();
 
 		noMediaFile = new File(backPackSoundDirectory, NO_MEDIA_FILE);
@@ -314,6 +320,16 @@ public class StorageHandler {
 
 		noMediaFile = new File(backPackImageDirectory, NO_MEDIA_FILE);
 		noMediaFile.createNewFile();
+	}
+
+	public void clearBackPackSoundDirectory() {
+		if (backPackSoundDirectory.listFiles().length > 1) {
+			for (File node : backPackSoundDirectory.listFiles()) {
+				if (!(node.getName().equals(".nomedia"))) {
+					node.delete();
+				}
+			}
+		}
 	}
 
 	public boolean deleteProject(Project project) {

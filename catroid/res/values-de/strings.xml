@@ -33,6 +33,8 @@
     <string name="cut">Ausschneiden</string>
     <string name="move">Verschieben</string>
     <string name="backpack">Einpacken</string>
+    <string name="unpacking">Auspacken</string>
+    <string name="unpack">Pack es aus</string>
     <string name="copy_addition">Kopie</string>
     <string name="close">Schließen</string>
     <string name="error">Fehler</string>
@@ -158,6 +160,7 @@
     <string name="dialog_confirm_delete_multiple_sounds_title">Diese Klänge löschen?</string>
     <string name="dialog_confirm_delete_sound_message">Kann nicht rückgängig gemacht werden!</string>
     <string name="sound_name">Name:</string>
+    <string name="sound_unpacking_text">wurde entpackt</string>
     <!--  -->
 
 

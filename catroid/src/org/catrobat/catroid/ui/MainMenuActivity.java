@@ -51,6 +51,7 @@ import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
@@ -96,6 +97,10 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 
 		if (loadExternalProjectUri != null) {
 			loadProgramFromExternalSource(loadExternalProjectUri);
+		}
+
+		if (!BackPackListManager.isBackpackFlag()) {
+			BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
 		}
 	}
 

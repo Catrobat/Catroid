@@ -39,11 +39,15 @@ import android.support.v4.content.Loader;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -52,6 +56,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
@@ -127,6 +132,39 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		menu.findItem(R.id.copy).setVisible(false);
 		BottomBar.hideBottomBar(getActivity());
 		super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, view, menuInfo);
+
+		if (SoundController.getInstance().isSoundPlaying(mediaPlayer)) {
+			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer,
+					BackPackListManager.getInstance().getSoundInfoArrayList(), adapter);
+		}
+		selectedSoundInfoBackPack = adapter.getItem(selectedSoundPosition);
+		menu.setHeaderTitle(selectedSoundInfoBackPack.getTitle());
+		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
+
+		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_unpacking, menu);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+
+			case R.id.context_menu_unpacking:
+				String textForUnPacking = this.getString(R.string.sound_unpacking_text);
+				SoundController.getInstance().copySound(selectedSoundInfoBackPack,
+						BackPackListManager.getCurrentSoundInfoArrayList(), BackPackListManager.getCurrentAdapter());
+				Toast.makeText(getActivity(), selectedSoundInfoBackPack.getTitle() + " " + textForUnPacking,
+						Toast.LENGTH_SHORT).show();
+				break;
+			case R.id.context_menu_delete:
+				showConfirmDeleteDialog();
+				break;
+		}
+		return super.onContextItemSelected(item);
 	}
 
 	@Override
