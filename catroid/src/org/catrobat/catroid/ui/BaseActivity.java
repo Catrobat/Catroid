@@ -31,6 +31,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
 
 public class BaseActivity extends SherlockFragmentActivity {
 
@@ -48,6 +49,7 @@ public class BaseActivity extends SherlockFragmentActivity {
 			case android.R.id.home: {
 				Intent intent = new Intent(this, MainMenuActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				BackPackListManager.setBackPackFlag(true);
 				startActivity(intent);
 				break;
 			}

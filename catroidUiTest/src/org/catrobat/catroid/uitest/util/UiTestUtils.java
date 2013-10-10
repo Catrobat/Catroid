@@ -535,6 +535,47 @@ public class UiTestUtils {
 		return location;
 	}
 
+	public static List<Brick> createTestProjectWithTwoSprites(String projectName) {
+		int xPosition = 457;
+		int yPosition = 598;
+		double size = 0.8;
+
+		Project project = new Project(null, projectName);
+		Sprite firstSprite = new Sprite("cat");
+		Sprite secondSprite = new Sprite("second_sprite");
+
+		Script testScript = new StartScript(firstSprite);
+
+		ArrayList<Brick> brickList = new ArrayList<Brick>();
+		brickList.add(new HideBrick(firstSprite));
+		brickList.add(new ShowBrick(firstSprite));
+		brickList.add(new SetSizeToBrick(firstSprite, size));
+		brickList.add(new GoNStepsBackBrick(firstSprite, 1));
+		brickList.add(new ComeToFrontBrick(firstSprite));
+		brickList.add(new PlaceAtBrick(firstSprite, xPosition, yPosition));
+
+		for (Brick brick : brickList) {
+			testScript.addBrick(brick);
+		}
+
+		firstSprite.addScript(testScript);
+
+		project.addSprite(firstSprite);
+		project.addSprite(secondSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+		StorageHandler.getInstance().saveProject(project);
+
+		// the application version is needed when the project will be uploaded
+		// 0.7.3beta is the lowest possible version currently accepted by the web
+		Reflection.setPrivateField(project.getXmlHeader(), "applicationVersion", "0.7.3beta");
+
+		return brickList;
+	}
+
 	public static List<Brick> createTestProject(String projectName) {
 		int xPosition = 457;
 		int yPosition = 598;
