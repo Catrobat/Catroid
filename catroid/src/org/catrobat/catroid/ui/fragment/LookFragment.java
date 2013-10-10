@@ -64,6 +64,7 @@ import android.widget.TextView;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -265,6 +266,25 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+
+		menu.findItem(R.id.copy).setVisible(true);
+		menu.findItem(R.id.cut).setVisible(true);
+		menu.findItem(R.id.rename).setVisible(true);
+		menu.findItem(R.id.show_details).setVisible(true);
+		menu.findItem(R.id.settings).setVisible(true);
+
+		boolean visibility = false;
+		if (BuildConfig.DEBUG) {
+			visibility = true;
+		}
+		menu.findItem(R.id.backpack).setVisible(visibility);
+		menu.findItem(R.id.unpacking).setVisible(false);
+
+		super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putBoolean(LookController.BUNDLE_ARGUMENTS_URI_IS_SET, (lookFromCameraUri != null));
 		outState.putSerializable(LookController.BUNDLE_ARGUMENTS_SELECTED_LOOK, selectedLookData);
@@ -402,6 +422,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
+        menu.findItem(R.id.context_menu_backpack).setVisible(false);
+        menu.findItem(R.id.context_menu_unpacking).setVisible(false);
 	}
 
 	@Override
