@@ -130,7 +130,13 @@ public class StageListener implements ApplicationListener {
 
 	private byte[] thumbnail;
 
+	private com.badlogic.gdx.ApplicationListener delegate;
+
 	StageListener() {
+	}
+
+	public void setStageListenerDelegate(ApplicationListener delegate){
+		this.delegate = delegate;
 	}
 
 	@Override
@@ -323,7 +329,7 @@ public class StageListener implements ApplicationListener {
 		}
 		if (!paused) {
 			float deltaTime = Gdx.graphics.getDeltaTime();
-
+			if(delegate != null) delegate.render();
 			/*
 			 * Necessary for UiTests, when EMMA - code coverage is enabled.
 			 * 
