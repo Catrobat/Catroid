@@ -12,27 +12,27 @@ import org.catrobat.catroid.content.bricks.SetLookBrick;
 import java.io.File;
 
 public class ObjectSteps extends AndroidTestCase {
-    @Given("^an object '(\\w+)'$")
-    public void object(String name) {
-        Project project = (Project) Cucumber.get(Cucumber.KEY_PROJECT);
-        Sprite object = newObject(name);
-        project.addSprite(object);
-        Cucumber.put(Cucumber.KEY_CURRENT_OBJECT, object);
-    }
+	@Given("^an object '(\\w+)'$")
+	public void object(String name) {
+		Project project = (Project) Cucumber.get(Cucumber.KEY_PROJECT);
+		Sprite object = newObject(name);
+		project.addSprite(object);
+		Cucumber.put(Cucumber.KEY_CURRENT_OBJECT, object);
+	}
 
-    private Sprite newObject(String name) {
-        Sprite object = new Sprite(name);
-        object.look.setZIndex(0);
+	private Sprite newObject(String name) {
+		Sprite object = new Sprite(name);
+		object.look.setZIndex(0);
 
-        StartScript startScript = new StartScript(object);
-        SetLookBrick setLookBrick = new SetLookBrick(object);
-        startScript.addBrick(setLookBrick);
-        object.addScript(startScript);
+		StartScript startScript = new StartScript(object);
+		SetLookBrick setLookBrick = new SetLookBrick(object);
+		startScript.addBrick(setLookBrick);
+		object.addScript(startScript);
 
-        File image = Util.createObjectImage(getContext(), name, R.drawable.default_project_mole_1);
-        LookData lookData = Util.newLookData(name, image);
-        object.getLookDataList().add(lookData);
-        setLookBrick.setLook(lookData);
-        return object;
-    }
+		File image = Util.createObjectImage(getContext(), name, R.drawable.default_project_mole_1);
+		LookData lookData = Util.newLookData(name, image);
+		object.getLookDataList().add(lookData);
+		setLookBrick.setLook(lookData);
+		return object;
+	}
 }
