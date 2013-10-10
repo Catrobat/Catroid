@@ -22,17 +22,17 @@
  */
 package org.catrobat.catroid.stage;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.ScreenValues;
-import org.catrobat.catroid.formulaeditor.SensorHandler;
-import org.catrobat.catroid.ui.dialogs.StageDialog;
-
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.ui.dialogs.StageDialog;
 
 public class StageActivity extends AndroidApplication {
 	public static final String TAG = StageActivity.class.getSimpleName();
@@ -67,8 +67,21 @@ public class StageActivity extends AndroidApplication {
 
 		PreStageActivity.shutdownResources();
 	}
+	
+	public void onPause()
+	{
+		SensorHandler.stopSensorListeners();
+		super.onPause();
+	}
+	
+	public void onResume()
+	{
+		SensorHandler.startSensorListener(this);
+		super.onResume();
+	}
 
 	public void pause() {
+		SensorHandler.stopSensorListeners();
 		stageListener.menuPause();
 	}
 

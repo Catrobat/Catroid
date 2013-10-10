@@ -22,14 +22,14 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 
-import android.util.Log;
+import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 public class FormulaElement implements Serializable {
 
@@ -338,13 +338,13 @@ public class FormulaElement implements Serializable {
 				returnValue = (double) sprite.look.getBrightnessInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_GHOSTEFFECT:
-				returnValue = (double) sprite.look.getGhostEffectInUserInterfaceDimensionUnit();
+				returnValue = (double) sprite.look.getTransparencyInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_LAYER:
 				returnValue = (double) sprite.look.getZIndex();
 				break;
 			case OBJECT_ROTATION:
-				returnValue = (double) sprite.look.getRotationInUserInterfaceDimensionUnit();
+				returnValue = (double) sprite.look.getDirectionInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_SIZE:
 				returnValue = (double) sprite.look.getSizeInUserInterfaceDimensionUnit();
@@ -360,6 +360,9 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Double checkDegeneratedDoubleValues(Double valueToCheck) {
+		if (valueToCheck == null) {
+			return 1.0;
+		}
 		if (valueToCheck.doubleValue() == Double.NEGATIVE_INFINITY) {
 			return -Double.MAX_VALUE;
 		}
@@ -432,15 +435,9 @@ public class FormulaElement implements Serializable {
 	}
 
 	public boolean containsElement(ElementType elementType) {
-		if (type.equals(elementType)) {
-			return true;
-		}
-
-		if (leftChild != null && leftChild.containsElement(elementType)) {
-			return true;
-		}
-
-		if (rightChild != null && rightChild.containsElement(elementType)) {
+		if (type.equals(elementType)
+				|| (leftChild != null && (leftChild.containsElement(elementType) || rightChild
+						.containsElement(elementType)))) {
 			return true;
 		}
 		return false;

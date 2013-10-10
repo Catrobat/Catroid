@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import android.content.Intent;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.utils.Utils;
-
-import android.content.Intent;
 
 public class NewSpriteDialog extends TextDialog {
 
@@ -36,25 +36,26 @@ public class NewSpriteDialog extends TextDialog {
 
 	@Override
 	protected void initialize() {
+		inputTitle.setText(R.string.sprite_name);
 	}
 
 	@Override
 	protected boolean handleOkButton() {
-		String newSpriteName = (input.getText().toString()).trim();
+		String newSpriteName = input.getText().toString().trim();
 		ProjectManager projectManager = ProjectManager.getInstance();
 
 		if (projectManager.spriteExists(newSpriteName)) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.spritename_already_exists));
+			Utils.showErrorDialog(getActivity(), R.string.spritename_already_exists);
 			return false;
 		}
 
 		if (newSpriteName == null || newSpriteName.equalsIgnoreCase("")) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.spritename_invalid));
+			Utils.showErrorDialog(getActivity(), R.string.spritename_invalid);
 			return false;
 		}
 
 		if (projectManager.spriteExists(newSpriteName)) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.spritename_already_exists));
+			Utils.showErrorDialog(getActivity(), R.string.spritename_already_exists);
 			return false;
 		}
 

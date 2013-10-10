@@ -22,19 +22,19 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 public class SetYAction extends TemporalAction {
 
 	private Sprite sprite;
-	private Formula y;
+	private Formula yPosition;
 
 	@Override
 	protected void update(float delta) {
-		sprite.look.setYInUserInterfaceDimensionUnit(y.interpretFloat(sprite));
+		sprite.look.setYInUserInterfaceDimensionUnit(yPosition.interpretFloat(sprite));
 	}
 
 	public void setSprite(Sprite sprite) {
@@ -42,7 +42,7 @@ public class SetYAction extends TemporalAction {
 	}
 
 	public void setY(Formula y) {
-		this.y = y;
+		this.yPosition = y;
 	}
 
 }

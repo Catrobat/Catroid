@@ -22,21 +22,30 @@
  */
 package org.catrobat.catroid.io;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.concurrent.locks.ReentrantLock;
+import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT;
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.NO_MEDIA_FILE;
+import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME;
+import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY;
+import static org.catrobat.catroid.utils.Utils.buildPath;
+import static org.catrobat.catroid.utils.Utils.buildProjectPath;
+
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.util.Log;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
+import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
@@ -99,31 +108,43 @@ import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
-import org.catrobat.catroid.ui.fragment.ProjectsListFragment.ProjectData;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
-import android.util.Log;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
-import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class StorageHandler {
-
+	private static final String TAG = StorageHandler.class.getSimpleName();
+	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private static final int JPG_COMPRESSION_SETTING = 95;
 
-	private static final String TAG = StorageHandler.class.getSimpleName();
-	private static StorageHandler instance;
+	private static final StorageHandler INSTANCE;
+
 	private XStream xstream;
-	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
-	private ReentrantLock saveLoadLock = new ReentrantLock();
+	private Lock loadSaveLock = new ReentrantLock();
+
+	// TODO: Since the StorageHandler constructor throws an exception, the member INSTANCE couldn't be assigned
+	// directly and therefore we need this static block. Should be refactored and removed in the future.
+	static {
+		try {
+			INSTANCE = new StorageHandler();
+		} catch (IOException ioException) {
+			throw new RuntimeException("Initialize StorageHandler failed");
+		}
+	}
 
 	private StorageHandler() throws IOException {
-
 		xstream = new XStream(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 		xstream.processAnnotations(Project.class);
 		xstream.processAnnotations(XmlHeader.class);
@@ -203,111 +224,114 @@ public class StorageHandler {
 	}
 
 	private void createCatroidRoot() {
-		File catroidRoot = new File(Constants.DEFAULT_ROOT);
+		File catroidRoot = new File(DEFAULT_ROOT);
 		if (!catroidRoot.exists()) {
 			catroidRoot.mkdirs();
 		}
 	}
 
-	public synchronized static StorageHandler getInstance() {
-		if (instance == null) {
-			try {
-				instance = new StorageHandler();
-			} catch (IOException e) {
-				e.printStackTrace();
-				Log.e(TAG, "Exception in Storagehandler, please refer to the StackTrace");
-			}
-		}
-		return instance;
+	public static StorageHandler getInstance() {
+		return INSTANCE;
 	}
 
 	public Project loadProject(String projectName) {
-		saveLoadLock.lock();
-		createCatroidRoot();
+		loadSaveLock.lock();
 		try {
-			File projectDirectory = new File(Utils.buildProjectPath(projectName));
-
-			if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
-				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
-						Constants.PROJECTCODE_NAME));
-				Project returned = (Project) xstream.fromXML(projectFileStream);
-				saveLoadLock.unlock();
-				return returned;
-			} else {
-				saveLoadLock.unlock();
-				return null;
-			}
-
-		} catch (Exception e) {
-			Log.e("CATROID", "Cannot load project.", e);
-			saveLoadLock.unlock();
+			File projectCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
+			return (Project) xstream.fromXML(new FileInputStream(projectCodeFile));
+		} catch (Exception exception) {
+			Log.e(TAG, "Loading project " + projectName + " failed.", exception);
 			return null;
+		} finally {
+			loadSaveLock.unlock();
 		}
 	}
 
 	public boolean saveProject(Project project) {
-		saveLoadLock.lock();
-		createCatroidRoot();
-		if (project == null) {
-			saveLoadLock.unlock();
-			return false;
-		}
+		BufferedWriter writer = null;
 
+		loadSaveLock.lock();
 		try {
-			String projectFile = xstream.toXML(project);
-
-			String projectDirectoryName = Utils.buildProjectPath(project.getName());
-			File projectDirectory = new File(projectDirectoryName);
-
-			if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
-				projectDirectory.mkdir();
-
-				File imageDirectory = new File(Utils.buildPath(projectDirectoryName, Constants.IMAGE_DIRECTORY));
-				imageDirectory.mkdir();
-
-				File noMediaFile = new File(Utils.buildPath(projectDirectoryName, Constants.IMAGE_DIRECTORY,
-						Constants.NO_MEDIA_FILE));
-				noMediaFile.createNewFile();
-
-				File soundDirectory = new File(projectDirectoryName + "/" + Constants.SOUND_DIRECTORY);
-				soundDirectory.mkdir();
-
-				noMediaFile = new File(Utils.buildPath(projectDirectoryName, Constants.SOUND_DIRECTORY,
-						Constants.NO_MEDIA_FILE));
-				noMediaFile.createNewFile();
+			if (project == null) {
+				return false;
 			}
 
-			BufferedWriter writer = new BufferedWriter(new FileWriter(Utils.buildPath(projectDirectoryName,
-					Constants.PROJECTCODE_NAME)), Constants.BUFFER_8K);
-			writer.write(XML_HEADER.concat(projectFile));
+			BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
+			File projectDirectory = new File(buildProjectPath(project.getName()));
+			createProjectDataStructure(projectDirectory);
+
+			writer = new BufferedWriter(new FileWriter(new File(projectDirectory, PROJECTCODE_NAME)),
+					Constants.BUFFER_8K);
+			String projectXml = XML_HEADER.concat(xstream.toXML(project));
+			writer.write(projectXml);
 			writer.flush();
-			writer.close();
-			saveLoadLock.unlock();
 			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			Log.e(TAG, "saveProject threw an exception and failed.");
-			saveLoadLock.unlock();
+		} catch (Exception exception) {
+			Log.e(TAG, "Saving project " + project.getName() + " failed.", exception);
 			return false;
+		} finally {
+			if (writer != null) {
+				try {
+					writer.close();
+				} catch (IOException ioException) {
+					Log.e(TAG, "Failed closing the buffered writer", ioException);
+				}
+			}
+			loadSaveLock.unlock();
 		}
+	}
+
+	private void createProjectDataStructure(File projectDirectory) throws IOException {
+		createCatroidRoot();
+		projectDirectory.mkdir();
+
+		File imageDirectory = new File(projectDirectory, IMAGE_DIRECTORY);
+		imageDirectory.mkdir();
+
+		File noMediaFile = new File(imageDirectory, NO_MEDIA_FILE);
+		noMediaFile.createNewFile();
+
+		File soundDirectory = new File(projectDirectory, SOUND_DIRECTORY);
+		soundDirectory.mkdir();
+
+		noMediaFile = new File(soundDirectory, NO_MEDIA_FILE);
+		noMediaFile.createNewFile();
+
+		File backPackDirectory = new File(DEFAULT_ROOT, BACKPACK_DIRECTORY);
+		backPackDirectory.mkdir();
+
+		noMediaFile = new File(backPackDirectory, NO_MEDIA_FILE);
+		noMediaFile.createNewFile();
+
+		File backPackSoundDirectory = new File(backPackDirectory, BACKPACK_SOUND_DIRECTORY);
+		backPackSoundDirectory.mkdir();
+
+		noMediaFile = new File(backPackSoundDirectory, NO_MEDIA_FILE);
+		noMediaFile.createNewFile();
+
+		File backPackImageDirectory = new File(backPackDirectory, BACKPACK_IMAGE_DIRECTORY);
+		backPackImageDirectory.mkdir();
+
+		noMediaFile = new File(backPackImageDirectory, NO_MEDIA_FILE);
+		noMediaFile.createNewFile();
 	}
 
 	public boolean deleteProject(Project project) {
 		if (project != null) {
-			return UtilFile.deleteDirectory(new File(Utils.buildProjectPath(project.getName())));
+			return UtilFile.deleteDirectory(new File(buildProjectPath(project.getName())));
 		}
 		return false;
 	}
 
 	public boolean deleteProject(ProjectData projectData) {
 		if (projectData != null) {
-			return UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectData.projectName)));
+			return UtilFile.deleteDirectory(new File(buildProjectPath(projectData.projectName)));
 		}
 		return false;
 	}
 
-	public boolean projectExistsCheckCase(String projectName) {
-		List<String> projectNameList = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT));
+	public boolean projectExists(String projectName) {
+		List<String> projectNameList = UtilFile.getProjectNames(new File(DEFAULT_ROOT));
 		for (String projectNameIterator : projectNameList) {
 			if ((projectNameIterator.equals(projectName))) {
 				return true;
@@ -316,18 +340,9 @@ public class StorageHandler {
 		return false;
 	}
 
-	public boolean projectExistsIgnoreCase(String projectName) {
-		File projectDirectory = new File(Utils.buildProjectPath(projectName));
-		if (!projectDirectory.exists()) {
-			return false;
-		}
-		return true;
-	}
-
 	public File copySoundFile(String path) throws IOException {
 		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
-		File soundDirectory = new File(Utils.buildPath(Utils.buildProjectPath(currentProject),
-				Constants.SOUND_DIRECTORY));
+		File soundDirectory = new File(buildPath(buildProjectPath(currentProject), SOUND_DIRECTORY));
 
 		File inputFile = new File(path);
 		if (!inputFile.exists() || !inputFile.canRead()) {
@@ -340,16 +355,35 @@ public class StorageHandler {
 			fileChecksumContainer.addChecksum(inputFileChecksum, null);
 			return new File(fileChecksumContainer.getPath(inputFileChecksum));
 		}
-		File outputFile = new File(Utils.buildPath(soundDirectory.getAbsolutePath(), inputFileChecksum + "_"
-				+ inputFile.getName()));
+		File outputFile = new File(buildPath(soundDirectory.getAbsolutePath(),
+				inputFileChecksum + "_" + inputFile.getName()));
 
 		return copyFileAddCheckSum(outputFile, inputFile, soundDirectory);
 	}
 
+	public File copySoundFileBackPack(SoundInfo selectedSoundInfo) throws IOException {
+
+		String path = selectedSoundInfo.getAbsolutePath();
+
+		File backPackDirectory = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_SOUND_DIRECTORY));
+
+		File inputFile = new File(path);
+		if (!inputFile.exists() || !inputFile.canRead()) {
+			return null;
+		}
+		String inputFileChecksum = Utils.md5Checksum(inputFile);
+
+		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
+
+		File outputFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_SOUND_DIRECTORY, currentProject
+				+ "_" + selectedSoundInfo.getTitle() + "_" + inputFileChecksum));
+
+		return copyFileAddCheckSum(outputFile, inputFile, backPackDirectory);
+	}
+
 	public File copyImage(String currentProjectName, String inputFilePath, String newName) throws IOException {
 		String newFilePath;
-		File imageDirectory = new File(Utils.buildPath(Utils.buildProjectPath(currentProjectName),
-				Constants.IMAGE_DIRECTORY));
+		File imageDirectory = new File(buildPath(buildProjectPath(currentProjectName), IMAGE_DIRECTORY));
 
 		File inputFile = new File(inputFilePath);
 		if (!inputFile.exists() || !inputFile.canRead()) {
@@ -366,10 +400,9 @@ public class StorageHandler {
 			String checksumSource = Utils.md5Checksum(inputFile);
 
 			if (newName != null) {
-				newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(), checksumSource + "_" + newName);
+				newFilePath = buildPath(imageDirectory.getAbsolutePath(), checksumSource + "_" + newName);
 			} else {
-				newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(),
-						checksumSource + "_" + inputFile.getName());
+				newFilePath = buildPath(imageDirectory.getAbsolutePath(), checksumSource + "_" + inputFile.getName());
 				if (checksumCont.containsChecksum(checksumSource)) {
 					checksumCont.addChecksum(checksumSource, newFilePath);
 					return new File(checksumCont.getPath(checksumSource));
@@ -378,7 +411,7 @@ public class StorageHandler {
 			File outputFile = new File(newFilePath);
 			return copyFileAddCheckSum(outputFile, inputFile, imageDirectory);
 		} else {
-			File outputFile = new File(Utils.buildPath(imageDirectory.getAbsolutePath(), inputFile.getName()));
+			File outputFile = new File(buildPath(imageDirectory.getAbsolutePath(), inputFile.getName()));
 			return copyAndResizeImage(outputFile, inputFile, imageDirectory);
 		}
 	}
@@ -393,7 +426,7 @@ public class StorageHandler {
 		String checksumCompressedFile = Utils.md5Checksum(outputFile);
 
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
-		String newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(),
+		String newFilePath = buildPath(imageDirectory.getAbsolutePath(),
 				checksumCompressedFile + "_" + inputFile.getName());
 
 		if (!fileChecksumContainer.addChecksum(checksumCompressedFile, newFilePath)) {
@@ -443,7 +476,7 @@ public class StorageHandler {
 		//}
 		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 
-		Project newProject = ProjectManager.INSTANCE.getCurrentProject();
+		Project newProject = ProjectManager.getInstance().getCurrentProject();
 		List<Sprite> currentSpriteList = newProject.getSpriteList();
 
 		for (Sprite currentSprite : currentSpriteList) {
@@ -462,6 +495,7 @@ public class StorageHandler {
 	}
 
 	private File copyFileAddCheckSum(File destinationFile, File sourceFile, File directory) throws IOException {
+
 		File copiedFile = UtilFile.copyFile(destinationFile, sourceFile, directory);
 		addChecksum(destinationFile, sourceFile);
 

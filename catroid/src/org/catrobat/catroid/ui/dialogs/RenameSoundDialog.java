@@ -22,16 +22,16 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.utils.Utils;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.Toast;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.utils.Utils;
 
 public class RenameSoundDialog extends TextDialog {
 
@@ -55,11 +55,12 @@ public class RenameSoundDialog extends TextDialog {
 	protected void initialize() {
 		oldSoundTitle = getArguments().getString(BUNDLE_ARGUMENTS_OLD_SOUND_NAME);
 		input.setText(oldSoundTitle);
+		inputTitle.setText(R.string.sound_name);
 	}
 
 	@Override
 	protected boolean handleOkButton() {
-		String newSoundTitle = (input.getText().toString()).trim();
+		String newSoundTitle = input.getText().toString().trim();
 
 		if (newSoundTitle.equals(oldSoundTitle)) {
 			dismiss();
@@ -68,7 +69,7 @@ public class RenameSoundDialog extends TextDialog {
 		if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
 			newSoundTitle = Utils.getUniqueSoundName(newSoundTitle);
 		} else {
-			Utils.showErrorDialog(getActivity(), getString(R.string.soundname_invalid));
+			Utils.showErrorDialog(getActivity(), R.string.soundname_invalid);
 		}
 
 		Intent intent = new Intent(ScriptActivity.ACTION_SOUND_RENAMED);

@@ -22,11 +22,11 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class LoopBeginBrick extends NestingBrick {
 	private static final long serialVersionUID = 1L;

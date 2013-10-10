@@ -22,62 +22,55 @@
  */
 package org.catrobat.catroid.uitest.ui.dialog;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import android.app.Activity;
+import android.media.MediaPlayer;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
-import android.app.Activity;
-import android.media.MediaPlayer;
-import android.test.ActivityInstrumentationTestCase2;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.jayway.android.robotium.solo.Solo;
+public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-
-	private Solo solo;
 	private String testProject = UiTestUtils.PROJECTNAME1;
-	private StorageHandler storageHandler;
 
 	public StageDialogTest() {
 		super(MainMenuActivity.class);
-		storageHandler = StorageHandler.getInstance();
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
-		UiTestUtils.clearAllUtilTestProjects();
-		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		ProjectManager.getInstance().deleteCurrentProject();
-		UiTestUtils.clearAllUtilTestProjects();
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
-		solo = null;
+		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
 	public void testBackButtonPressedTwice() {
@@ -115,34 +108,39 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		assertEquals("Not equal Activities", previousActivity, getActivity());
 	}
 
-	// TODO
-	//	public void testPauseOnBackButton() {
-	//		double scale = 100.0;
-	//
-	//		Project project = new Project(getActivity(), testProject);
-	//		Sprite sprite = new Sprite("testSprite");
-	//		Script script = new StartScript(sprite);
-	//		WaitBrick waitBrick = new WaitBrick(sprite, 5000);
-	//		SetSizeToBrick scaleLookBrick = new SetSizeToBrick(sprite, scale);
-	//
-	//		script.addBrick(waitBrick);
-	//		script.addBrick(scaleLookBrick);
-	//		sprite.addScript(script);
-	//		project.addSprite(sprite);
-	//
-	//		storageHandler.saveProject(project);
-	//		ProjectManager.getInstance().setProject(project);
-	//
-	//		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
+	public void testPauseOnBackButton() {
+		float defaultScale = 100.0f;
+		float newScale = 50.0f;
 
-	//		assertEquals("Unexpected sprite size", 100.0, sprite.getSize());
-	//		solo.goBack();
-	//		solo.sleep(6000);
-	//		solo.goBack();
-	//		assertEquals("Unexpected sprite size", 100.0, sprite.getSize());
-	//		solo.sleep(4000);
-	//		assertEquals("Unexpected sprite size", scale, sprite.getSize());
-	//	}
+		Project project = new Project(getActivity(), testProject);
+		Sprite sprite = new Sprite("testSprite");
+		Script script = new StartScript(sprite);
+		WaitBrick waitBrick = new WaitBrick(sprite, 5000);
+		SetSizeToBrick scaleLookBrick = new SetSizeToBrick(sprite, newScale);
+
+		script.addBrick(waitBrick);
+		script.addBrick(scaleLookBrick);
+		sprite.addScript(script);
+		project.addSprite(sprite);
+
+		StorageHandler.getInstance().saveProject(project);
+		ProjectManager.getInstance().setProject(project);
+
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(1000);
+		assertEquals("Unexpected look size", defaultScale, sprite.look.getSizeInUserInterfaceDimensionUnit());
+
+		solo.goBack();
+		solo.sleep(6000);
+		assertEquals("Unexpected look size", defaultScale, sprite.look.getSizeInUserInterfaceDimensionUnit());
+
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
+		solo.sleep(6000);
+		assertEquals("Unexpected look size", newScale, sprite.look.getSizeInUserInterfaceDimensionUnit());
+	}
 
 	public void testRestartButtonActivityChain() {
 		createAndSaveTestProject(testProject);
@@ -171,12 +169,16 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	}
 
 	public void testRestartButtonScriptPosition() {
+		createAndSaveTestProject(testProject);
 		ArrayList<Script> scriptStart = new ArrayList<Script>();
 		ArrayList<Script> scriptRestart = new ArrayList<Script>();
 		scriptStart.clear();
 		scriptRestart.clear();
 
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
@@ -253,15 +255,15 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		firstSprite.getSoundList().add(soundInfo);
 
-		storageHandler.saveProject(project);
-
-		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
+		StorageHandler.getInstance().saveProject(project);
 
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(4000);
+
+		MediaPlayer mediaPlayer = getMediaPlayers().get(0);
 		assertTrue("Sound not playing.", mediaPlayer.isPlaying());
 		int positionBeforeRestart = mediaPlayer.getCurrentPosition();
 		solo.goBack();
@@ -269,11 +271,10 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		assertFalse("Sound playing but should be paused.", mediaPlayer.isPlaying());
 		solo.clickOnButton(solo.getString(R.string.stage_dialog_restart));
 		solo.sleep(2000);
-		@SuppressWarnings("unchecked")
-		ArrayList<MediaPlayer> mediaPlayerArrayList = (ArrayList<MediaPlayer>) Reflection.getPrivateField(
-				SoundManager.getInstance(), "mediaPlayers");
-		int positionAfterRestart = mediaPlayerArrayList.get(0).getCurrentPosition();
-		assertTrue("Sound not playing after stage restart.", mediaPlayerArrayList.get(0).isPlaying());
+
+		mediaPlayer = getMediaPlayers().get(0);
+		int positionAfterRestart = mediaPlayer.getCurrentPosition();
+		assertTrue("Sound not playing after stage restart.", mediaPlayer.isPlaying());
 		assertTrue("Sound did not play from start!", positionBeforeRestart > positionAfterRestart);
 	}
 
@@ -291,31 +292,36 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
 		solo.sleep(100);
 		byte[] redPixel = { (byte) 255, 0, 0, (byte) 255 };
-		byte[] stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2, ScreenValues.SCREEN_HEIGHT / 2, 1,
-				1);
+		byte[] stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2,
+				ScreenValues.SCREEN_HEIGHT / 2, 1, 1);
 		UiTestUtils.compareByteArrays(redPixel, stagePixel);
 		stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2, 0, 1, 1);
 		UiTestUtils.compareByteArrays(redPixel, stagePixel);
-		stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH - 1, ScreenValues.SCREEN_HEIGHT / 2, 1, 1);
+		stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH - 1,
+				ScreenValues.SCREEN_HEIGHT / 2, 1, 1);
 		UiTestUtils.compareByteArrays(redPixel, stagePixel);
 		stagePixel = StageActivity.stageListener.getPixels(0, ScreenValues.SCREEN_HEIGHT / 2, 1, 1);
 		UiTestUtils.compareByteArrays(redPixel, stagePixel);
-		stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2, ScreenValues.SCREEN_HEIGHT, 1, 1);
+		stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2, ScreenValues.SCREEN_HEIGHT,
+				1, 1);
 		UiTestUtils.compareByteArrays(redPixel, stagePixel);
 		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.stage_dialog_axes_off));
 		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
 		solo.sleep(100);
 		byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
-		stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2, ScreenValues.SCREEN_HEIGHT / 2, 1, 1);
+		stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2,
+				ScreenValues.SCREEN_HEIGHT / 2, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, stagePixel);
 		stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2, 0, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, stagePixel);
-		stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH - 1, ScreenValues.SCREEN_HEIGHT / 2, 1, 1);
+		stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH - 1,
+				ScreenValues.SCREEN_HEIGHT / 2, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, stagePixel);
 		stagePixel = StageActivity.stageListener.getPixels(0, ScreenValues.SCREEN_HEIGHT / 2, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, stagePixel);
-		stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2, ScreenValues.SCREEN_HEIGHT, 1, 1);
+		stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2, ScreenValues.SCREEN_HEIGHT,
+				1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, stagePixel);
 	}
 
@@ -324,7 +330,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		project.getXmlHeader().virtualScreenWidth = 480;
 		project.getXmlHeader().virtualScreenHeight = 700;
 		project.setDeviceData(getActivity());
-		storageHandler.saveProject(project);
+		StorageHandler.getInstance().saveProject(project);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -338,7 +344,8 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
 		byte[] screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
-		screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH - 1, ScreenValues.SCREEN_HEIGHT - 1, 1, 1);
+		screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH - 1,
+				ScreenValues.SCREEN_HEIGHT - 1, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
 		screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH - 1, 0, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
@@ -351,14 +358,16 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		byte[] blackPixel = { 0, 0, 0, (byte) 255 };
 		screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
 		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
-		screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH - 1, ScreenValues.SCREEN_HEIGHT - 1, 1, 1);
+		screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH - 1,
+				ScreenValues.SCREEN_HEIGHT - 1, 1, 1);
 		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
 		screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH - 1, 0, 1, 1);
 		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
 		screenPixel = StageActivity.stageListener.getPixels(0, ScreenValues.SCREEN_HEIGHT - 1, 1, 1);
 		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
 
-		screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT, 1, 1);
+		screenPixel = StageActivity.stageListener
+				.getPixels(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
 
 		solo.goBack();
@@ -367,7 +376,8 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.sleep(100);
 		screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
-		screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH - 1, ScreenValues.SCREEN_HEIGHT - 1, 1, 1);
+		screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH - 1,
+				ScreenValues.SCREEN_HEIGHT - 1, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
 		screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH - 1, 0, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
@@ -394,5 +404,10 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		Project project = createTestProject(projectName);
 		StorageHandler.getInstance().saveProject(project);
 		return project;
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<MediaPlayer> getMediaPlayers() {
+		return (List<MediaPlayer>) Reflection.getPrivateField(SoundManager.getInstance(), "mediaPlayers");
 	}
 }

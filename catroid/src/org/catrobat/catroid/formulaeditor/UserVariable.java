@@ -28,11 +28,16 @@ public class UserVariable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String name;
-	private transient Double value;
+	private transient double value;
 
-	public UserVariable(String name) {
+	public UserVariable(final String name) {
 		this.name = name;
-		this.value = new Double(0.0);
+		this.value = 0.0;
+	}
+
+	public UserVariable(final String name, final double value) {
+		this.name = name;
+		this.value = value;
 	}
 
 	public Double getValue() {
@@ -40,7 +45,7 @@ public class UserVariable implements Serializable {
 	}
 
 	public void setValue(double value) {
-		this.value = Double.valueOf(value);
+		this.value = value;
 	}
 
 	public String getName() {

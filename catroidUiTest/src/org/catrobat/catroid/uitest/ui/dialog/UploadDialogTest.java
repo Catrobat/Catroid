@@ -22,7 +22,12 @@
  */
 package org.catrobat.catroid.uitest.ui.dialog;
 
-import java.io.File;
+import android.annotation.TargetApi;
+import android.content.SharedPreferences;
+import android.os.Build;
+import android.preference.PreferenceManager;
+import android.view.View;
+import android.widget.EditText;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -31,52 +36,52 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.web.ServerCalls;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.UiThreadTest;
-import android.view.View;
-import android.widget.EditText;
+import java.io.File;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private String testProject = UiTestUtils.PROJECTNAME1;
-	private String newTestProject = UiTestUtils.PROJECTNAME2;
 
-	private Solo solo;
 	private String saveToken;
 	private String uploadDialogTitle;
+	private Project uploadProject;
 
 	public UploadDialogTest() {
 		super(MainMenuActivity.class);
 	}
 
 	@Override
-	@UiThreadTest
 	public void setUp() throws Exception {
-		UiTestUtils.clearAllUtilTestProjects();
-		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		saveToken = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		uploadDialogTitle = solo.getString(R.string.upload_project_dialog_title);
+		createTestProject();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName(), 3000);
+		solo.sleep(300);
+		try {
+			setServerURLToTestURL();
+		} catch (Throwable e) {
+			throw new Exception();
+		}
+		solo.sleep(200);
+		UiTestUtils.createValidUser(getActivity());
+		solo.sleep(200);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, saveToken).commit();
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		ProjectManager.getInstance().deleteCurrentProject();
-		UiTestUtils.clearAllUtilTestProjects();
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
-		solo = null;
+		ProjectManager.getInstance().deleteCurrentProject();
+		uploadProject = null;
 	}
 
 	private void setServerURLToTestURL() throws Throwable {
@@ -88,19 +93,11 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 	}
 
 	public void testUploadDialog() throws Throwable {
-		setServerURLToTestURL();
-		createTestProject();
-		solo.sleep(200);
-		UiTestUtils.createValidUser(getActivity());
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.waitForText(uploadDialogTitle);
 
-		// robotium updated getText with RegularExpressions
-		// need to escape brackets for test to work
-		String projectRenameString = solo.getString(R.string.project_rename);
-		projectRenameString.replaceAll("\\(", "");
-		projectRenameString.replaceAll("\\)", "");
-		View renameView = solo.getText("\\(" + projectRenameString + "\\)");
+		View renameView = solo.getText(UiTestUtils.ecsapeRegularExpressionMetaCharacters(solo
+				.getString(R.string.project_rename)));
 		assertNotNull("View for rename project could not be found", renameView);
 		assertEquals("rename View is visible.", renameView.getVisibility(), View.GONE);
 
@@ -109,16 +106,13 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertEquals("rename View is hidden.", renameView.getVisibility(), View.VISIBLE);
 
 		// enter the same title
-		solo.clickOnEditText(0);
 		solo.enterText(0, testProject);
 		assertEquals("rename View is visible.", renameView.getVisibility(), View.GONE);
 
 		// enter a new title
-		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, newTestProject);
+		solo.enterText(0, UiTestUtils.PROJECTNAME2);
 		assertEquals("rename View is hidden.", renameView.getVisibility(), View.VISIBLE);
-		solo.goBack();
 
 		solo.clickOnButton(solo.getString(R.string.cancel_button));
 	}
@@ -126,29 +120,20 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void testUploadingProjectDescriptionDefaultValue() throws Throwable {
 		String testDescription = "Test description";
 		String actionSetDescriptionText = solo.getString(R.string.set_description);
-		String setDescriptionDialogTitle = solo.getString(R.string.description);
-		Project uploadProject = new Project(getActivity(), testProject);
-		ProjectManager.INSTANCE.setProject(uploadProject);
-		StorageHandler.getInstance().saveProject(uploadProject);
-		setServerURLToTestURL();
-		UiTestUtils.createValidUser(getActivity());
 
-		solo.sleep(300);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
-		UiTestUtils.longClickOnTextInList(solo, uploadProject.getName());
+		solo.clickLongOnText(uploadProject.getName().toString());
 		assertTrue("context menu not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		solo.clickOnText(actionSetDescriptionText);
-		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
+		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		solo.clearEditText(0);
 		solo.enterText(0, testDescription);
-		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(setDescriptionDialogTitle, 0, 5000));
+		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		solo.sleep(300);
 
-		// workaround - Ok button not clickable
-		solo.sendKey(Solo.ENTER);
-		solo.sendKey(Solo.ENTER);
+		solo.clickOnText(solo.getString(R.string.ok));
 
 		solo.waitForDialogToClose(500);
 		solo.goBack();
@@ -164,15 +149,9 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertEquals("Project description was not set or is wrong", testDescription, uploadDescription);
 	}
 
+	// Not testable with Android 2.3, because solo is not able to enter new lines
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	public void testProjectDescriptionUploadProject() throws Throwable {
-		Project uploadProject = new Project(getActivity(), testProject);
-		ProjectManager.INSTANCE.setProject(uploadProject);
-		StorageHandler.getInstance().saveProject(uploadProject);
-
-		solo.sleep(300);
-		setServerURLToTestURL();
-		UiTestUtils.createValidUser(getActivity());
-		solo.sleep(200);
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		boolean uploadDialogShown = solo.waitForText(uploadDialogTitle);
 
@@ -190,14 +169,13 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		assertEquals("Project description field is not multiline", newProjectDescriptionInputTypeReference,
 				projectUploadDescriptionInputType);
 
-		int projectUploadNameNumberOfLines = (editTextUploadName.getHeight()
-				- editTextUploadName.getCompoundPaddingTop() - editTextUploadName.getCompoundPaddingBottom())
-				/ editTextUploadName.getLineHeight();
-		int projectUploadDescriptionNumberOfLines = (editTextUploadDescription.getHeight()
-				- editTextUploadDescription.getCompoundPaddingTop() - editTextUploadDescription
-					.getCompoundPaddingBottom()) / editTextUploadDescription.getLineHeight();
+		int projectUploadNameNumberOfLines = editTextUploadName.getLineCount();
 		assertEquals("Project name field is not a text field", 1, projectUploadNameNumberOfLines);
-		assertEquals("Project description field is not multiline", 2, projectUploadDescriptionNumberOfLines);
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+			int projectUploadDescriptionNumberOfLines = editTextUploadDescription.getMaxLines();
+			assertEquals("Project description field is not multiline", 2, projectUploadDescriptionNumberOfLines);
+		}
 	}
 
 	private void createTestProject() {
@@ -207,14 +185,11 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		}
 		assertFalse("testProject was not deleted!", directory.exists());
 
-		solo.clickOnButton(solo.getString(R.string.main_menu_new));
-		solo.enterText(0, testProject);
-		solo.goBack();
-		solo.clickOnButton(solo.getString(R.string.ok));
-		solo.sleep(2000);
+		uploadProject = new Project(getActivity(), testProject);
+		ProjectManager.getInstance().setProject(uploadProject);
+		StorageHandler.getInstance().saveProject(uploadProject);
 
 		File file = new File(Constants.DEFAULT_ROOT + "/" + testProject + "/" + Constants.PROJECTCODE_NAME);
 		assertTrue(testProject + " was not created!", file.exists());
-		UiTestUtils.goToHomeActivity(getActivity());
 	}
 }

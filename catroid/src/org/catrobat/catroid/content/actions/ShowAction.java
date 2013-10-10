@@ -22,9 +22,9 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import org.catrobat.catroid.content.Sprite;
-
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+
+import org.catrobat.catroid.content.Sprite;
 
 public class ShowAction extends TemporalAction {
 
@@ -32,7 +32,7 @@ public class ShowAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		sprite.look.show = true;
+		sprite.look.visible = true;
 	}
 
 	public void setSprite(Sprite sprite) {

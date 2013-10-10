@@ -27,7 +27,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 
 public class SensorManager implements SensorManagerInterface {
-	android.hardware.SensorManager sensorManager;
+	private final android.hardware.SensorManager sensorManager;
 
 	public SensorManager(android.hardware.SensorManager sensorManager) {
 		this.sensorManager = sensorManager;
@@ -47,6 +47,21 @@ public class SensorManager implements SensorManagerInterface {
 	@Override
 	public Sensor getDefaultSensor(int type) {
 		return this.sensorManager.getDefaultSensor(type);
+	}
+
+	@Override
+	public void unregisterListener(SensorCustomEventListener listener) {
+		SensorLoudness.getSensorLoudness().unregisterListener(listener);
+	}
+
+	@Override
+	public boolean registerListener(SensorCustomEventListener listener, Sensors sensor) {
+		switch (sensor) {
+			case LOUDNESS:
+				return SensorLoudness.getSensorLoudness().registerListener(listener);
+			default:
+				return false;
+		}
 	}
 
 }

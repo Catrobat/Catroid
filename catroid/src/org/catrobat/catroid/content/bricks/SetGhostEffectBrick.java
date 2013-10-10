@@ -22,7 +22,16 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -31,20 +40,9 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
-public class SetGhostEffectBrick extends BrickBaseType implements OnClickListener {
+public class SetGhostEffectBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private Formula transparency;
 
@@ -62,6 +60,11 @@ public class SetGhostEffectBrick extends BrickBaseType implements OnClickListene
 
 	public SetGhostEffectBrick() {
 
+	}
+
+	@Override
+	public Formula getFormula() {
+		return transparency;
 	}
 
 	@Override
@@ -97,7 +100,7 @@ public class SetGhostEffectBrick extends BrickBaseType implements OnClickListene
 		});
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to_prototype_text_view);
-		EditText editX = (EditText) view.findViewById(R.id.brick_set_ghost_effect_to_edit_text);
+		TextView editX = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to_edit_text);
 		transparency.setTextFieldId(R.id.brick_set_ghost_effect_to_edit_text);
 		transparency.refreshTextField(view);
 		textX.setVisibility(View.GONE);
@@ -123,21 +126,27 @@ public class SetGhostEffectBrick extends BrickBaseType implements OnClickListene
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_ghost_effect_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView textGhostLabel = (TextView) view.findViewById(R.id.brick_set_ghost_effect_label);
-		TextView textGhostTo = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to);
-		TextView textPercent = (TextView) view.findViewById(R.id.brick_set_ghost_effect_percent);
-		EditText editGhostEffect = (EditText) view.findViewById(R.id.brick_set_ghost_effect_to_edit_text);
-		textGhostLabel.setTextColor(textGhostLabel.getTextColors().withAlpha(alphaValue));
-		textGhostTo.setTextColor(textGhostTo.getTextColors().withAlpha(alphaValue));
-		textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
-		editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));
-		editGhostEffect.getBackground().setAlpha(alphaValue);
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			View layout = (View) view.findViewById(R.id.brick_set_ghost_effect_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView textGhostLabel = (TextView) view.findViewById(R.id.brick_set_ghost_effect_label);
+			TextView textGhostTo = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to);
+			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_ghost_effect_percent);
+			TextView editGhostEffect = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to_edit_text);
+			textGhostLabel.setTextColor(textGhostLabel.getTextColors().withAlpha(alphaValue));
+			textGhostTo.setTextColor(textGhostTo.getTextColors().withAlpha(alphaValue));
+			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
+			editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));
+			editGhostEffect.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

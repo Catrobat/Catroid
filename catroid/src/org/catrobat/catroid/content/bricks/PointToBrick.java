@@ -22,17 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
@@ -48,13 +37,22 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
+import android.widget.CompoundButton.OnCheckedChangeListener;import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PointToBrick extends BrickBaseType {
 
@@ -157,20 +155,26 @@ public class PointToBrick extends BrickBaseType {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_point_to_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView textPointToLabel = (TextView) view.findViewById(R.id.brick_point_to_label);
-		textPointToLabel.setTextColor(textPointToLabel.getTextColors().withAlpha(alphaValue));
-		Spinner pointToSpinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
-		ColorStateList color = textPointToLabel.getTextColors().withAlpha(alphaValue);
-		pointToSpinner.getBackground().setAlpha(alphaValue);
-		if (adapterView != null) {
-			((TextView) adapterView.getChildAt(0)).setTextColor(color);
+		if (view != null) {
+
+			View layout = (View) view.findViewById(R.id.brick_point_to_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView textPointToLabel = (TextView) view.findViewById(R.id.brick_point_to_label);
+			textPointToLabel.setTextColor(textPointToLabel.getTextColors().withAlpha(alphaValue));
+			Spinner pointToSpinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
+			ColorStateList color = textPointToLabel.getTextColors().withAlpha(alphaValue);
+			pointToSpinner.getBackground().setAlpha(alphaValue);
+			if (adapterView != null) {
+				((TextView) adapterView.getChildAt(0)).setTextColor(color);
+			}
+
+			this.alphaValue = (alphaValue);
+
 		}
 
-		this.alphaValue = (alphaValue);
 		return view;
 	}
 

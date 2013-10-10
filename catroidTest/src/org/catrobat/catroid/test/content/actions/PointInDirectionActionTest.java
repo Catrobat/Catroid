@@ -22,55 +22,55 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.test.AndroidTestCase;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.PointInDirectionAction;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-import android.test.AndroidTestCase;
-
 public class PointInDirectionActionTest extends AndroidTestCase {
 
 	public void testPointRight() {
 		Sprite sprite = new Sprite("test");
 		PointInDirectionAction action = ExtendedActions.pointInDirection(sprite,
-				new Formula(Direction.DIRECTION_RIGHT.getDegrees()));
+				new Formula(Direction.RIGHT.getDegrees()));
 		action.act(1.0f);
-		assertEquals("Wrong direction", 0f, sprite.look.getRotation(), 1e-3);
+		assertEquals("Wrong direction", 90f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 	public void testPointLeft() {
 		Sprite sprite = new Sprite("test");
 		PointInDirectionAction action = ExtendedActions.pointInDirection(sprite,
-				new Formula(Direction.DIRECTION_LEFT.getDegrees()));
+				new Formula(Direction.LEFT.getDegrees()));
 		action.act(1.0f);
-		assertEquals("Wrong direction", 180f, sprite.look.getRotation(), 1e-3);
+		assertEquals("Wrong direction", -90f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 	public void testPointUp() {
 		Sprite sprite = new Sprite("test");
 		PointInDirectionAction action = ExtendedActions.pointInDirection(sprite,
-				new Formula(Direction.DIRECTION_UP.getDegrees()));
+				new Formula(Direction.UP.getDegrees()));
 		action.act(1.0f);
-		assertEquals("Wrong direction", 90f, sprite.look.getRotation(), 1e-3);
+		assertEquals("Wrong direction", 0f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 	public void testPointDown() {
 		Sprite sprite = new Sprite("test");
 		PointInDirectionAction action = ExtendedActions.pointInDirection(sprite,
-				new Formula(Direction.DIRECTION_DOWN.getDegrees()));
+				new Formula(Direction.DOWN.getDegrees()));
 		action.act(1.0f);
-		assertEquals("Wrong direction", -90f, sprite.look.getRotation(), 1e-3);
+		assertEquals("Wrong direction", 180f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 	public void testRotateAndPoint() {
 		Sprite sprite = new Sprite("test");
 		sprite.look.setRotation(-42);
 		PointInDirectionAction action = ExtendedActions.pointInDirection(sprite,
-				new Formula(Direction.DIRECTION_RIGHT.getDegrees()));
+				new Formula(Direction.RIGHT.getDegrees()));
 		action.act(1.0f);
-		assertEquals("Wrong direction", 0f, sprite.look.getRotation(), 1e-3);
+		assertEquals("Wrong direction", 90f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
 }

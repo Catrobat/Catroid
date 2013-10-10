@@ -43,19 +43,10 @@ public class InternFormulaState {
 
 		if (objectToCompare instanceof InternFormulaState) {
 			InternFormulaState stateToCompare = (InternFormulaState) objectToCompare;
-			if (externCursorPosition != stateToCompare.externCursorPosition) {
-				return false;
-			}
-
-			if (tokenSelection == null && stateToCompare.tokenSelection != null) {
-				return false;
-			}
-
-			if (tokenSelection != null && !tokenSelection.equals(stateToCompare.tokenSelection)) {
-				return false;
-			}
-
-			if (internTokenFormulaList.size() != stateToCompare.internTokenFormulaList.size()) {
+			if (externCursorPosition != stateToCompare.externCursorPosition
+					|| (tokenSelection == null && stateToCompare.tokenSelection != null)
+					|| (tokenSelection != null && !tokenSelection.equals(stateToCompare.tokenSelection) || (internTokenFormulaList
+							.size() != stateToCompare.internTokenFormulaList.size()))) {
 				return false;
 			}
 
@@ -63,10 +54,8 @@ public class InternFormulaState {
 				InternToken original = internTokenFormulaList.get(index);
 				InternToken internTokenToCompare = stateToCompare.internTokenFormulaList.get(index);
 
-				if (original.getInternTokenType() != internTokenToCompare.getInternTokenType()) {
-					return false;
-				}
-				if (!original.getTokenStringValue().equals(internTokenToCompare.getTokenStringValue())) {
+				if (original.getInternTokenType() != internTokenToCompare.getInternTokenType()
+						|| !original.getTokenStringValue().equals(internTokenToCompare.getTokenStringValue())) {
 					return false;
 				}
 

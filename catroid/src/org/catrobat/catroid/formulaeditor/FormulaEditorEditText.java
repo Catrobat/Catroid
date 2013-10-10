@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import org.catrobat.catroid.formulaeditor.InternFormula.TokenSelectionType;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.text.Layout;
@@ -37,6 +34,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.EditText;
+
+import org.catrobat.catroid.formulaeditor.InternFormula.TokenSelectionType;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
@@ -95,8 +95,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
-		absoluteCursorPosition = absoluteCursorPosition > getText().length() ? getText().length()
-				: absoluteCursorPosition;
+		absoluteCursorPosition = absoluteCursorPosition > length() ? length() : absoluteCursorPosition;
 
 		Layout layout = getLayout();
 		if (layout != null) {
@@ -158,9 +157,15 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 		internFormula.handleKeyInput(resource, context, userVariableName);
 		history.push(internFormula.getInternFormulaState());
-		updateTextAndCursorFromInternFormula();
+
+		String resultingText = updateTextAndCursorFromInternFormula();
 		setSelection(absoluteCursorPosition);
-		formulaEditorFragment.refreshFormulaPreviewString();
+
+		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
+	}
+
+	public String getStringFromInternFormula() {
+		return internFormula.getExternFormulaString();
 	}
 
 	public boolean hasChanges() {
@@ -219,19 +224,21 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		super.setSelection(index);
 	}
 
-	private void updateTextAndCursorFromInternFormula() {
+	private String updateTextAndCursorFromInternFormula() {
 		String newExternFormulaString = internFormula.getExternFormulaString();
 		setText(newExternFormulaString);
 		absoluteCursorPosition = internFormula.getExternCursorPosition();
-		if (absoluteCursorPosition > getText().length()) {
-			absoluteCursorPosition = getText().length();
+		if (absoluteCursorPosition > length()) {
+			absoluteCursorPosition = length();
 		}
 
 		highlightSelection();
+
+		return newExternFormulaString;
 	}
 
 	@Override
-	public boolean onTouch(View v, MotionEvent motion) {
+	public boolean onTouch(View view, MotionEvent motion) {
 		return gestureDetector.onTouchEvent(motion);
 	}
 
@@ -291,15 +298,14 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 				int tempCursorPosition = layout.getOffsetForHorizontal(cursorY + linesDown, cursorXOffset);
 
-				if (tempCursorPosition > getText().length()) {
-					tempCursorPosition = getText().length();
+				if (tempCursorPosition > length()) {
+					tempCursorPosition = length();
 				}
 
 				if (isDoNotMoveCursorOnTab() == false) {
 					absoluteCursorPosition = tempCursorPosition;
 				}
-				absoluteCursorPosition = absoluteCursorPosition > getText().length() ? getText().length()
-						: absoluteCursorPosition;
+				absoluteCursorPosition = absoluteCursorPosition > length() ? length() : absoluteCursorPosition;
 				setSelection(absoluteCursorPosition);
 				postInvalidate();
 

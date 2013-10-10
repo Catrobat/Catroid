@@ -22,17 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.fragment.LookFragment;
-import org.catrobat.catroid.ui.fragment.LookFragment.OnLookDataListChangedAfterNewListener;
-
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.database.DataSetObserver;
@@ -47,12 +36,22 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.ui.fragment.LookFragment.OnLookDataListChangedAfterNewListener;
+
+import java.util.List;
 
 public class SetLookBrick extends BrickBaseType implements OnLookDataListChangedAfterNewListener {
 	private static final long serialVersionUID = 1L;
@@ -152,8 +151,8 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		setSpinnerSelection(lookbrickSpinner);
 
 		if (sprite.getName().equals(context.getString(R.string.background))) {
-			TextView textView = (TextView) view.findViewById(R.id.brick_set_look_prototype_text_view);
-			textView.setText(R.string.brick_set_background);
+			TextView textField = (TextView) view.findViewById(R.id.brick_set_look_prototype_text_view);
+			textField.setText(R.string.brick_set_background);
 		}
 
 		return view;
@@ -161,21 +160,27 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_look_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.brick_set_look_spinner);
-		TextView lookbrickTextView = (TextView) view.findViewById(R.id.brick_set_look_prototype_text_view);
+		if (view != null) {
 
-		ColorStateList color = lookbrickTextView.getTextColors().withAlpha(alphaValue);
-		lookbrickTextView.setTextColor(color);
-		lookbrickSpinner.getBackground().setAlpha(alphaValue);
-		if (adapterView != null) {
-			((TextView) adapterView.getChildAt(0)).setTextColor(color);
+			View layout = view.findViewById(R.id.brick_set_look_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.brick_set_look_spinner);
+			TextView lookbrickTextView = (TextView) view.findViewById(R.id.brick_set_look_prototype_text_view);
+
+			ColorStateList color = lookbrickTextView.getTextColors().withAlpha(alphaValue);
+			lookbrickTextView.setTextColor(color);
+			lookbrickSpinner.getBackground().setAlpha(alphaValue);
+			if (adapterView != null) {
+				((TextView) adapterView.getChildAt(0)).setTextColor(color);
+			}
+
+			this.alphaValue = (alphaValue);
+
 		}
 
-		this.alphaValue = (alphaValue);
 		return view;
 	}
 
@@ -195,8 +200,8 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_look, null);
 		if (sprite.getName().equals(context.getString(R.string.background))) {
-			TextView textView = (TextView) prototypeView.findViewById(R.id.brick_set_look_prototype_text_view);
-			textView.setText(R.string.brick_set_background);
+			TextView textField = (TextView) prototypeView.findViewById(R.id.brick_set_look_prototype_text_view);
+			textField.setText(R.string.brick_set_background);
 		}
 		Spinner setLookSpinner = (Spinner) prototypeView.findViewById(R.id.brick_set_look_spinner);
 		setLookSpinner.setFocusableInTouchMode(false);

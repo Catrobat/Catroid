@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -36,21 +37,16 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ListView;
-import android.widget.TextView;
+import java.util.ArrayList;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class MoveNStepsBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final double STEPS_TO_MOVE = 23.0;
 
-	private Solo solo;
 	private Project project;
 	private MoveNStepsBrick moveNStepsBrick;
 
@@ -60,16 +56,11 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
+		super.setUp();
 	}
 
 	private void createProject() {
@@ -88,7 +79,6 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 
 	}
 
-	@Smoke
 	public void testGoNStepsBackBrick() {
 		ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
 		ScriptFragment fragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
@@ -97,7 +87,7 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentViews(ListView.class).get(1).getChildCount());
+		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentViews(ListView.class).get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -106,23 +96,27 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_move)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, STEPS_TO_MOVE, "steps", moveNStepsBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_move_n_steps_edit_text, STEPS_TO_MOVE, "steps",
+				moveNStepsBrick);
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, STEPS_TO_MOVE);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_move_n_steps_edit_text, STEPS_TO_MOVE);
 
 		assertEquals("Wrong text in field.", STEPS_TO_MOVE,
 				((Formula) Reflection.getPrivateField(moveNStepsBrick, "steps")).interpretDouble(null));
-		assertEquals("Value in Brick is not updated.", STEPS_TO_MOVE,
-				Double.valueOf(solo.getEditText(0).getText().toString()));
+		assertEquals(
+				"Value in Brick is not updated.",
+				STEPS_TO_MOVE,
+				Double.valueOf(((TextView) solo.getView(R.id.brick_move_n_steps_edit_text)).getText().toString()
+						.replace(',', '.')));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_move_n_steps_edit_text, 1);
 		TextView stepTextView = (TextView) solo.getView(R.id.brick_move_n_steps_step_text_view);
 		assertTrue(
 				"Specifier hasn't changed from plural to singular",
 				stepTextView.getText().equals(
 						stepTextView.getResources().getQuantityString(R.plurals.brick_move_n_step_plural, 1)));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1.4);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_move_n_steps_edit_text, 1.4);
 		stepTextView = (TextView) solo.getView(R.id.brick_move_n_steps_step_text_view);
 		assertTrue(
 				"Specifier hasn't changed from singular to plural",

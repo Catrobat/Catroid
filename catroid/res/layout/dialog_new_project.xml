@@ -20,36 +20,52 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+ --><ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/DefaultDialog"
     android:orientation="vertical"
+    android:paddingBottom="0dp"
     android:theme="@android:style/Theme.Light" >
 
-    <TextView
-        android:id="@+id/project_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="@string/new_project_name"
-        android:paddingTop="5dp" >
-    </TextView>
-	
-    <EditText
-        android:id="@+id/project_name_edittext"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/project_name"
-        android:hint="@string/new_project_dialog_hint"
-        android:inputType="text"
-        android:maxLines="1"
-        android:selectAllOnFocus="true" />
-    <CheckBox
-            android:layout_width="226dp"
-            android:layout_height="wrap_content"
-            android:text="@string/new_project_empty"
-            android:id="@+id/project_empty_checkbox"
-            android:layout_alignLeft="@+id/project_name" android:layout_below="@+id/project_name_edittext"
-            android:checked="false"/>
-</RelativeLayout>
+        android:paddingBottom="@dimen/dialog_item_margin" >
+
+        <org.catrobat.catroid.ui.CapitalizedTextView
+            android:id="@+id/project_name"
+            style="@style/DefaultDialog.TextView"
+            android:text="@string/new_project_name" />
+
+        <View
+            android:id="@+id/project_name_line"
+            style="@style/DefaultDialog.Line"
+            android:layout_below="@+id/project_name" />
+
+        <EditText
+            android:id="@+id/project_name_edittext"
+            style="@style/DefaultDialog.EditText"
+            android:layout_below="@+id/project_name_line"
+            android:hint="@string/new_project_dialog_hint"
+            android:inputType="text"
+            android:maxLines="1"
+            android:selectAllOnFocus="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_below="@+id/project_name_edittext"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp" >
+
+            <CheckBox
+                android:id="@+id/project_empty_checkbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:checked="false"
+                android:text="@string/new_project_empty"
+                android:textColor="@color/spritelist_details_text_color" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</ScrollView>

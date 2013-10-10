@@ -23,10 +23,8 @@
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ProjectActivityRoot"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/project_activity_background_color" >
+    android:layout_height="match_parent" >
 
     <include
         android:id="@+id/bottom_bar"

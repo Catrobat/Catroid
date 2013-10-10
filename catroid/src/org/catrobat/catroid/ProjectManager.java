@@ -22,8 +22,9 @@
  */
 package org.catrobat.catroid;
 
-import java.io.File;
-import java.io.IOException;
+import android.content.Context;
+import android.os.AsyncTask;
+import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
@@ -35,16 +36,17 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.Utils;
 
-import android.content.Context;
-import android.os.AsyncTask;
-import android.util.Log;
+import java.io.File;
+import java.io.IOException;
 
 public class ProjectManager {
+	private static final ProjectManager INSTANCE = new ProjectManager();
+	private static final String TAG = ProjectManager.class.getSimpleName();
 
-	public static final ProjectManager INSTANCE = new ProjectManager();
 	private Project project;
 	private Script currentScript;
 	private Sprite currentSprite;
+	private boolean asynchronTask = true;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
@@ -71,24 +73,24 @@ public class ProjectManager {
 					try {
 						project = StandardProjectHandler.createAndSaveStandardProject(context);
 						MessageContainer.clearBackup();
-					} catch (IOException e) {
+					} catch (IOException ioException) {
 						if (errorMessage) {
-							Utils.showErrorDialog(context, context.getString(R.string.error_load_project));
+							Utils.showErrorDialog(context, R.string.error_load_project);
 						}
-						Log.e("CATROID", "Cannot load project.", e);
+						Log.e(TAG, "Cannot load project.", ioException);
 						return false;
 					}
 				}
 			}
 			if (errorMessage) {
-				Utils.showErrorDialog(context, context.getString(R.string.error_load_project));
+				Utils.showErrorDialog(context, R.string.error_load_project);
 			}
 			return false;
 		} else if (!Utils.isApplicationDebuggable(context)
 				&& (project.getCatrobatLanguageVersion() > Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION)) {
 			project = oldProject;
 			if (errorMessage) {
-				Utils.showErrorDialog(context, context.getString(R.string.error_project_compatability));
+				Utils.showErrorDialog(context, R.string.error_project_compatability);
 				// TODO show dialog to download latest catroid version instead
 			}
 			return false;
@@ -96,7 +98,7 @@ public class ProjectManager {
 				&& (project.getCatrobatLanguageVersion() < Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION)) {
 			project = oldProject;
 			if (errorMessage) {
-				Utils.showErrorDialog(context, context.getString(R.string.error_project_compatability));
+				Utils.showErrorDialog(context, R.string.error_project_compatability);
 				// TODO show dialog to convert project to a supported version
 			}
 			return false;
@@ -123,8 +125,12 @@ public class ProjectManager {
 			return;
 		}
 
-		SaveProjectAsynchronousTask saveTask = new SaveProjectAsynchronousTask();
-		saveTask.execute();
+		if (asynchronTask) {
+			SaveProjectAsynchronousTask saveTask = new SaveProjectAsynchronousTask();
+			saveTask.execute();
+		} else {
+			StorageHandler.getInstance().saveProject(project);
+		}
 	}
 
 	public boolean initializeDefaultProject(Context context) {
@@ -134,9 +140,9 @@ public class ProjectManager {
 			currentSprite = null;
 			currentScript = null;
 			return true;
-		} catch (Exception e) {
-			Log.e("CATROID", "Cannot initialize default project.", e);
-			Utils.showErrorDialog(context, context.getString(R.string.error_load_project));
+		} catch (IOException ioException) {
+			Log.e(TAG, "Cannot initialize default project.", ioException);
+			Utils.showErrorDialog(context, R.string.error_load_project);
 			return false;
 		}
 	}
@@ -144,11 +150,11 @@ public class ProjectManager {
 	public void initializeNewProject(String projectName, Context context, boolean empty) throws IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
-        if(empty) {
-            project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context);
-        } else {
-		    project = StandardProjectHandler.createAndSaveStandardProject(projectName, context);
-        }
+		if (empty) {
+			project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context);
+		} else {
+			project = StandardProjectHandler.createAndSaveStandardProject(projectName, context);
+		}
 
 		currentSprite = null;
 		currentScript = null;
@@ -171,8 +177,8 @@ public class ProjectManager {
 	}
 
 	public boolean renameProject(String newProjectName, Context context) {
-		if (StorageHandler.getInstance().projectExistsCheckCase(newProjectName)) {
-			Utils.showErrorDialog(context, context.getString(R.string.error_project_exists));
+		if (StorageHandler.getInstance().projectExists(newProjectName)) {
+			Utils.showErrorDialog(context, R.string.error_project_exists);
 			return false;
 		}
 
@@ -201,15 +207,15 @@ public class ProjectManager {
 		}
 
 		if (!directoryRenamed) {
-			Utils.showErrorDialog(context, context.getString(R.string.error_rename_project));
+			Utils.showErrorDialog(context, R.string.error_rename_project);
 		}
 
 		return directoryRenamed;
 	}
 
 	public boolean renameProjectNameAndDescription(String newProjectName, String newProjectDescription, Context context) {
-		if (StorageHandler.getInstance().projectExistsCheckCase(newProjectName)) {
-			Utils.showErrorDialog(context, context.getString(R.string.error_project_exists));
+		if (StorageHandler.getInstance().projectExists(newProjectName)) {
+			Utils.showErrorDialog(context, R.string.error_project_exists);
 			return false;
 		}
 
@@ -239,7 +245,7 @@ public class ProjectManager {
 		}
 
 		if (!directoryRenamed) {
-			Utils.showErrorDialog(context, context.getString(R.string.error_rename_project));
+			Utils.showErrorDialog(context, R.string.error_rename_project);
 		}
 
 		return directoryRenamed;
@@ -299,7 +305,7 @@ public class ProjectManager {
 		String temporaryDirectorySuffix = "_tmp";
 		String temporaryDirectoryName = projectDirectoryName + temporaryDirectorySuffix;
 		int suffixCounter = 0;
-		while (StorageHandler.getInstance().projectExistsIgnoreCase(temporaryDirectoryName)) {
+		while (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(temporaryDirectoryName)) {
 			temporaryDirectoryName = projectDirectoryName + temporaryDirectorySuffix + suffixCounter;
 			suffixCounter++;
 		}

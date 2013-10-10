@@ -22,11 +22,14 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import java.util.LinkedList;
-import java.util.List;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
+
+import java.util.ArrayList;
+import java.util.EmptyStackException;
+import java.util.List;
 
 public class InternFormulaParser {
 
@@ -51,13 +54,7 @@ public class InternFormulaParser {
 	private InternToken currentToken;
 
 	public InternFormulaParser(List<InternToken> internTokensToParse) {
-
-		this.internTokensToParse = new LinkedList<InternToken>();
-
-		for (InternToken internToken : internTokensToParse) {
-			this.internTokensToParse.add(internToken);
-		}
-
+		this.internTokensToParse = internTokensToParse;
 	}
 
 	private void getNextToken() throws InternFormulaParserException {
@@ -68,58 +65,58 @@ public class InternFormulaParser {
 
 	public int getErrorTokenIndex() {
 		return errorTokenIndex;
-
 	}
 
-	private FormulaElement findLowerOrEqualPriorityOperatorElement(Operators currentOp, FormulaElement curElem) {
-		FormulaElement returnElem = curElem.getParent();
-		FormulaElement notNullElem = curElem;
-		boolean goon = true;
+	private FormulaElement findLowerOrEqualPriorityOperatorElement(Operators currentOperator,
+			FormulaElement currentElement) {
 
-		while (goon) {
-			if (returnElem == null) {
-				goon = false;
-				returnElem = notNullElem;
+		FormulaElement returnElement = currentElement.getParent();
+		FormulaElement notNullElement = currentElement;
+		boolean condition = true;
+
+		while (condition) {
+			if (returnElement == null) {
+				condition = false;
+				returnElement = notNullElement;
 			} else {
-				Operators parentOp = Operators.getOperatorByValue(returnElem.getValue());
-				int compareOp = parentOp.compareOperatorTo(currentOp);
-				if (compareOp < 0) {
-					goon = false;
-					returnElem = notNullElem;
+				Operators parentOperator = Operators.getOperatorByValue(returnElement.getValue());
+				int compareOperator = parentOperator.compareOperatorTo(currentOperator);
+				if (compareOperator < 0) {
+					condition = false;
+					returnElement = notNullElement;
 				} else {
-					notNullElem = returnElem;
-					returnElem = returnElem.getParent();
+					notNullElement = returnElement;
+					returnElement = returnElement.getParent();
 				}
 			}
 		}
-		return returnElem;
+		return returnElement;
 	}
 
-	public void handleOperator(String operator, FormulaElement curElem, FormulaElement newElem) {
+	public void handleOperator(String operator, FormulaElement currentElement, FormulaElement newElement) {
 
-		if (curElem.getParent() == null) {
-			new FormulaElement(FormulaElement.ElementType.OPERATOR, operator, null, curElem, newElem);
+		if (currentElement.getParent() == null) {
+			new FormulaElement(FormulaElement.ElementType.OPERATOR, operator, null, currentElement, newElement);
 			return;
 		}
 
-		Operators parentOp = Operators.getOperatorByValue(curElem.getParent().getValue());
-		Operators currentOp = Operators.getOperatorByValue(operator);
+		Operators parentOperator = Operators.getOperatorByValue(currentElement.getParent().getValue());
+		Operators currentOperator = Operators.getOperatorByValue(operator);
 
-		int compareOp = parentOp.compareOperatorTo(currentOp);
+		int compareOperator = parentOperator.compareOperatorTo(currentOperator);
 
-		if (compareOp >= 0) {
-			FormulaElement newLeftChild = findLowerOrEqualPriorityOperatorElement(currentOp, curElem);
+		if (compareOperator >= 0) {
+			FormulaElement newLeftChild = findLowerOrEqualPriorityOperatorElement(currentOperator, currentElement);
 			FormulaElement newParent = newLeftChild.getParent();
 
 			if (newParent != null) {
-				newLeftChild.replaceWithSubElement(operator, newElem);
+				newLeftChild.replaceWithSubElement(operator, newElement);
 			} else {
-				new FormulaElement(FormulaElement.ElementType.OPERATOR, operator, null, newLeftChild, newElem);
+				new FormulaElement(FormulaElement.ElementType.OPERATOR, operator, null, newLeftChild, newElement);
 			}
 		} else {
-			curElem.replaceWithSubElement(operator, newElem);
+			currentElement.replaceWithSubElement(operator, newElement);
 		}
-
 	}
 
 	private void addEndOfFileToken() {
@@ -127,15 +124,15 @@ public class InternFormulaParser {
 		internTokensToParse.add(endOfFileParserToken);
 	}
 
+	private void removeEndOfFileToken() {
+		internTokensToParse.remove(internTokensToParse.size() - 1);
+	}
+
 	public FormulaElement parseFormula() {
 		errorTokenIndex = PARSER_OK;
 		currentTokenParseIndex = 0;
 
-		if (internTokensToParse == null) {
-			errorTokenIndex = PARSER_NO_INPUT;
-			return null;
-		}
-		if (internTokensToParse.size() == 0) {
+		if (internTokensToParse == null || internTokensToParse.size() == 0) {
 			errorTokenIndex = PARSER_NO_INPUT;
 			return null;
 		}
@@ -145,25 +142,31 @@ public class InternFormulaParser {
 			return null;
 		}
 
+		try {
+			List<InternToken> copyIternTokensToParse = new ArrayList<InternToken>(internTokensToParse);
+			if (InternFormulaUtils.applyBracketCorrection(copyIternTokensToParse)) {
+				Log.i("info", "applyBracketCorrection-> TRUE");
+				internTokensToParse.clear();
+				internTokensToParse.addAll(copyIternTokensToParse);
+			}
+		} catch (EmptyStackException emptyStackException) {
+			Log.i("info", "emptyStackException-> TRUE");
+		}
+
 		addEndOfFileToken();
-
 		currentToken = internTokensToParse.get(0);
-
 		FormulaElement formulaParseTree = null;
 
 		try {
 			formulaParseTree = formula();
 		} catch (InternFormulaParserException parseExeption) {
-
 			errorTokenIndex = currentTokenParseIndex;
 		}
-
+		removeEndOfFileToken();
 		return formulaParseTree;
-
 	}
 
 	private FormulaElement formula() throws InternFormulaParserException {
-
 		FormulaElement termListTree = termList();
 
 		if (currentToken.isEndOfFileToken()) {
@@ -174,79 +177,75 @@ public class InternFormulaParser {
 	}
 
 	private FormulaElement termList() throws InternFormulaParserException {
-		FormulaElement curElem = term();
-
+		FormulaElement currentElement = term();
 		FormulaElement loopTermTree;
 		String operatorStringValue;
-		while (currentToken.isOperator() && !currentToken.getTokenStringValue().equals(Operators.LOGICAL_NOT.name())) {
 
+		while (currentToken.isOperator() && !currentToken.getTokenStringValue().equals(Operators.LOGICAL_NOT.name())) {
 			operatorStringValue = currentToken.getTokenStringValue();
 			getNextToken();
-
 			loopTermTree = term();
-			handleOperator(operatorStringValue, curElem, loopTermTree);
-			curElem = loopTermTree;
+			handleOperator(operatorStringValue, currentElement, loopTermTree);
+			currentElement = loopTermTree;
 		}
-
-		return curElem.getRoot();
+		return currentElement.getRoot();
 	}
 
 	private FormulaElement term() throws InternFormulaParserException {
 
 		FormulaElement termTree = new FormulaElement(FormulaElement.ElementType.NUMBER, null, null);
-		FormulaElement curElem = termTree;
+		FormulaElement currentElement = termTree;
 
 		if (currentToken.isOperator() && currentToken.getTokenStringValue().equals(Operators.MINUS.name())) {
-
-			curElem = new FormulaElement(FormulaElement.ElementType.NUMBER, null, termTree, null, null);
+			currentElement = new FormulaElement(FormulaElement.ElementType.NUMBER, null, termTree, null, null);
 			termTree.replaceElement(new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.MINUS.name(),
-					null, null, curElem));
-
+					null, null, currentElement));
 			getNextToken();
 		} else if (currentToken.isOperator() && currentToken.getTokenStringValue().equals(Operators.LOGICAL_NOT.name())) {
-			curElem = new FormulaElement(FormulaElement.ElementType.NUMBER, null, termTree, null, null);
+			currentElement = new FormulaElement(FormulaElement.ElementType.NUMBER, null, termTree, null, null);
 			termTree.replaceElement(new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.LOGICAL_NOT
-					.name(), null, null, curElem));
+					.name(), null, null, currentElement));
 
 			getNextToken();
 		}
 
-		if (currentToken.isNumber()) {
+		switch (currentToken.getInternTokenType()) {
 
-			curElem.replaceElement(FormulaElement.ElementType.NUMBER, number());
+			case NUMBER:
+				currentElement.replaceElement(FormulaElement.ElementType.NUMBER, number());
+				break;
 
-		} else if (currentToken.isBracketOpen()) {
+			case BRACKET_OPEN:
+				getNextToken();
+				currentElement.replaceElement(new FormulaElement(FormulaElement.ElementType.BRACKET, null, null, null,
+						termList()));
+				if (!currentToken.isBracketClose()) {
+					throw new InternFormulaParserException("Parse Error");
+				}
+				getNextToken();
+				break;
 
-			getNextToken();
+			case FUNCTION_NAME:
+				currentElement.replaceElement(function());
+				break;
 
-			curElem.replaceElement(new FormulaElement(FormulaElement.ElementType.BRACKET, null, null, null, termList()));
+			case SENSOR:
+				currentElement.replaceElement(sensor());
+				break;
 
-			if (!currentToken.isBracketClose()) {
+			case USER_VARIABLE:
+				currentElement.replaceElement(userVariable());
+				break;
+
+			default:
 				throw new InternFormulaParserException("Parse Error");
-			}
-			getNextToken();
-
-		} else if (currentToken.isFunctionName()) {
-			curElem.replaceElement(function());
-
-		} else if (currentToken.isSensor()) {
-			curElem.replaceElement(sensor());
-
-		} else if (currentToken.isUserVariable()) {
-
-			curElem.replaceElement(userVariable());
-
-		} else {
-			throw new InternFormulaParserException("Parse Error");
 		}
 
 		return termTree;
-
 	}
 
 	private FormulaElement userVariable() throws InternFormulaParserException {
 		UserVariablesContainer userVariables = ProjectManager.getInstance().getCurrentProject().getUserVariables();
-
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
 		if (userVariables.getUserVariable(currentToken.getTokenStringValue(), currentSprite) == null) {
@@ -261,16 +260,13 @@ public class InternFormulaParser {
 	}
 
 	private FormulaElement sensor() throws InternFormulaParserException {
-
 		if (!Sensors.isSensor(currentToken.getTokenStringValue())) {
 			throw new InternFormulaParserException("Parse Error");
 		}
 
 		FormulaElement sensorTree = new FormulaElement(FormulaElement.ElementType.SENSOR,
 				currentToken.getTokenStringValue(), null);
-
 		getNextToken();
-
 		return sensorTree;
 	}
 
@@ -287,24 +283,19 @@ public class InternFormulaParser {
 		if (currentToken.isFunctionParameterBracketOpen()) {
 			getNextToken();
 			functionTree.setLeftChild(termList());
-
 			if (currentToken.isFunctionParameterDelimiter()) {
 				getNextToken();
 				functionTree.setRightChild(termList());
 			}
-
 			if (!currentToken.isFunctionParameterBracketClose()) {
 				throw new InternFormulaParserException("Parse Error");
 			}
 			getNextToken();
-
 		}
-
 		return functionTree;
 	}
 
 	private String number() throws InternFormulaParserException {
-
 		String numberToCheck = currentToken.getTokenStringValue();
 
 		if (!numberToCheck.matches("(\\d)+(\\.(\\d)+)?")) {
@@ -312,7 +303,6 @@ public class InternFormulaParser {
 		}
 
 		getNextToken();
-
 		return numberToCheck;
 	}
 }

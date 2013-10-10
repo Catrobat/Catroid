@@ -22,7 +22,16 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -31,20 +40,10 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 
-public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private Formula volume;
@@ -65,6 +64,11 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 		this.sprite = sprite;
 
 		this.volume = volume;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return volume;
 	}
 
 	@Override
@@ -99,7 +103,7 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 			}
 		});
 		TextView text = (TextView) view.findViewById(R.id.brick_change_volume_by_prototype_text_view);
-		EditText edit = (EditText) view.findViewById(R.id.brick_change_volume_by_edit_text);
+		TextView edit = (TextView) view.findViewById(R.id.brick_change_volume_by_edit_text);
 		volume.setTextFieldId(R.id.brick_change_volume_by_edit_text);
 		volume.refreshTextField(view);
 
@@ -126,17 +130,22 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_volume_by_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView changeVolume = (TextView) view.findViewById(R.id.brick_change_volume_by_label);
-		EditText editVolume = (EditText) view.findViewById(R.id.brick_change_volume_by_edit_text);
-		changeVolume.setTextColor(changeVolume.getTextColors().withAlpha(alphaValue));
-		editVolume.setTextColor(editVolume.getTextColors().withAlpha(alphaValue));
-		editVolume.getBackground().setAlpha(alphaValue);
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			View layout = (View) view.findViewById(R.id.brick_change_volume_by_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView changeVolume = (TextView) view.findViewById(R.id.brick_change_volume_by_label);
+			TextView editVolume = (TextView) view.findViewById(R.id.brick_change_volume_by_edit_text);
+			changeVolume.setTextColor(changeVolume.getTextColors().withAlpha(alphaValue));
+			editVolume.setTextColor(editVolume.getTextColors().withAlpha(alphaValue));
+			editVolume.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
 		return view;
 	}
 

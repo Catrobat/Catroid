@@ -22,7 +22,16 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -31,20 +40,9 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
-public class SetVolumeToBrick extends BrickBaseType implements OnClickListener {
+public class SetVolumeToBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private Formula volume;
@@ -61,6 +59,11 @@ public class SetVolumeToBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	public SetVolumeToBrick() {
+	}
+
+	@Override
+	public Formula getFormula() {
+		return volume;
 	}
 
 	@Override
@@ -95,7 +98,7 @@ public class SetVolumeToBrick extends BrickBaseType implements OnClickListener {
 		});
 
 		TextView text = (TextView) view.findViewById(R.id.brick_set_volume_to_prototype_text_view);
-		EditText edit = (EditText) view.findViewById(R.id.brick_set_volume_to_edit_text);
+		TextView edit = (TextView) view.findViewById(R.id.brick_set_volume_to_edit_text);
 		volume.setTextFieldId(R.id.brick_set_volume_to_edit_text);
 		volume.refreshTextField(view);
 		text.setVisibility(View.GONE);
@@ -120,19 +123,25 @@ public class SetVolumeToBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_volume_to_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView textVolume = (TextView) view.findViewById(R.id.brick_set_volume_to_text_view);
-		TextView textPercent = (TextView) view.findViewById(R.id.brick_set_volume_to_percent);
-		EditText editVolume = (EditText) view.findViewById(R.id.brick_set_volume_to_edit_text);
-		textVolume.setTextColor(textVolume.getTextColors().withAlpha(alphaValue));
-		textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
-		editVolume.setTextColor(editVolume.getTextColors().withAlpha(alphaValue));
-		editVolume.getBackground().setAlpha(alphaValue);
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			View layout = (View) view.findViewById(R.id.brick_set_volume_to_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView textVolume = (TextView) view.findViewById(R.id.brick_set_volume_to_text_view);
+			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_volume_to_percent);
+			TextView editVolume = (TextView) view.findViewById(R.id.brick_set_volume_to_edit_text);
+			textVolume.setTextColor(textVolume.getTextColors().withAlpha(alphaValue));
+			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
+			editVolume.setTextColor(editVolume.getTextColors().withAlpha(alphaValue));
+			editVolume.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

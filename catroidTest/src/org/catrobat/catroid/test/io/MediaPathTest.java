@@ -22,9 +22,7 @@
  */
 package org.catrobat.catroid.test.io;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
+import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
@@ -55,7 +53,9 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Utils;
 
-import android.test.InstrumentationTestCase;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class MediaPathTest extends InstrumentationTestCase {
 
@@ -178,6 +178,23 @@ public class MediaPathTest extends InstrumentationTestCase {
 		assertEquals("Wrong amount of files in folder", 3, filesImage.length);
 		assertNotSame("The image was not downsized", Utils.md5Checksum(bigBlue), Utils.md5Checksum(bigBlue2));
 		assertEquals("The copies are not the same", bigBlue2.hashCode(), bigBlue3.hashCode());
+	}
+
+	public void testIncrementUsage() {
+
+		Sprite testSprite = new Sprite("testSprite");
+		ArrayList<LookData> lookDataList = new ArrayList<LookData>();
+
+		LookData lookData = new LookData();
+		lookData.setLookName("testLook");
+		lookData.setLookFilename(testImage.getName());
+		lookDataList.add(lookData);
+		project.addSprite(testSprite);
+		project.addSprite(testSprite.clone());
+
+		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
+
+		assertEquals("Usage counter has not been incremented!", 2, container.getUsage(Utils.md5Checksum(testImage)));
 	}
 
 	public void testDecrementUsage() {

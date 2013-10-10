@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 public class MoveNStepsAction extends TemporalAction {
 
@@ -34,15 +34,12 @@ public class MoveNStepsAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		float stepsValue = steps.interpretFloat(sprite);
-		double radians = Math.toRadians(sprite.look.getRotation());
+		double stepsValue = steps.interpretDouble(sprite);
+		double radians = Math.toRadians(sprite.look.getDirectionInUserInterfaceDimensionUnit());
 
-		int newXPosition = (int) Math.round(sprite.look.getXInUserInterfaceDimensionUnit() + stepsValue
-				* Math.cos(radians));
-		int newYPosition = (int) Math.round(sprite.look.getYInUserInterfaceDimensionUnit() + stepsValue
-				* Math.sin(radians));
+		sprite.look.changeXInUserInterfaceDimensionUnit((float) (stepsValue * Math.sin(radians)));
+		sprite.look.changeYInUserInterfaceDimensionUnit((float) (stepsValue * Math.cos(radians)));
 
-		sprite.look.setXYInUserInterfaceDimensionUnit(newXPosition, newYPosition);
 	}
 
 	public void setSprite(Sprite sprite) {

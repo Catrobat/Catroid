@@ -22,24 +22,22 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class ForeverBrick extends LoopBeginBrick {
 	private static final long serialVersionUID = 1L;
@@ -90,14 +88,20 @@ public class ForeverBrick extends LoopBeginBrick {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_forever_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView ifForeverLabel = (TextView) view.findViewById(R.id.brick_forever_label);
-		ifForeverLabel.setTextColor(ifForeverLabel.getTextColors().withAlpha(alphaValue));
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			View layout = (View) view.findViewById(R.id.brick_forever_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView ifForeverLabel = (TextView) view.findViewById(R.id.brick_forever_label);
+			ifForeverLabel.setTextColor(ifForeverLabel.getTextColors().withAlpha(alphaValue));
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

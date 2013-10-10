@@ -22,14 +22,6 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import java.util.UUID;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.utils.StatusBarNotificationManager;
-import org.catrobat.catroid.utils.UtilZip;
-import org.catrobat.catroid.utils.Utils;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -42,23 +34,40 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.utils.DownloadUtil;
+import org.catrobat.catroid.utils.Utils;
 
 public class OverwriteRenameDialog extends DialogFragment implements OnClickListener {
 	protected RadioButton replaceButton, renameButton;
-	protected String projectName, zipFileString;
+	protected String programName, url;
 	protected Context context;
 	protected EditText projectText;
+	protected TextView projectTextView;
+	protected View projectTextLine;
 
 	public static final String DIALOG_FRAGMENT_TAG = "overwrite_rename_look";
 
-	public OverwriteRenameDialog(Context context, String projectName, String zipFileString) {
+	public OverwriteRenameDialog() {
 		super();
-		this.projectName = projectName;
-		this.zipFileString = zipFileString;
+	}
+
+	public void setProgramName(String programName) {
+		this.programName = programName;
+	}
+
+	public void setURL(String url) {
+		this.url = url;
+	}
+
+	public void setContext(Context context) {
 		this.context = context;
 	}
 
@@ -71,7 +80,9 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 		renameButton = (RadioButton) dialogView.findViewById(R.id.dialog_overwrite_project_radio_rename);
 		renameButton.setOnClickListener(this);
 		projectText = (EditText) dialogView.findViewById(R.id.dialog_overwrite_project_edit);
-		projectText.setText(projectName);
+		projectText.setText(programName);
+		projectTextView = (TextView) dialogView.findViewById(R.id.dialog_overwrite_project_edit_text);
+		projectTextLine = dialogView.findViewById(R.id.dialog_overwrite_project_edit_line);
 
 		Dialog dialog = new AlertDialog.Builder(getActivity()).setView(dialogView).setTitle(R.string.overwrite_text)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -81,9 +92,12 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 				}).setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						Toast.makeText(context, R.string.notification_load_project_cancel, Toast.LENGTH_SHORT).show();
+						Toast.makeText(context, R.string.notification_download_project_cancel, Toast.LENGTH_SHORT)
+								.show();
 					}
 				}).create();
+
+		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
 		dialog.setOnShowListener(new OnShowListener() {
 			@Override
@@ -91,7 +105,7 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 				Button positiveButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
 				positiveButton.setOnClickListener(new OnClickListener() {
 					@Override
-					public void onClick(View v) {
+					public void onClick(View view) {
 						handleOkButton();
 					}
 				});
@@ -107,6 +121,9 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 						dismiss();
 					}
 					return okButtonResult;
+				} else if (keyCode == KeyEvent.KEYCODE_BACK) {
+					Toast.makeText(context, R.string.notification_download_project_cancel, Toast.LENGTH_SHORT).show();
+					return true;
 				}
 
 				return false;
@@ -117,13 +134,17 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 	}
 
 	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
+	public void onClick(View view) {
+		switch (view.getId()) {
 			case R.id.dialog_overwrite_project_radio_replace:
+				projectTextView.setVisibility(TextView.GONE);
+				projectTextLine.setVisibility(View.GONE);
 				projectText.setVisibility(EditText.GONE);
 				break;
 
 			case R.id.dialog_overwrite_project_radio_rename:
+				projectTextView.setVisibility(TextView.VISIBLE);
+				projectTextLine.setVisibility(View.VISIBLE);
 				projectText.setVisibility(EditText.VISIBLE);
 				break;
 
@@ -134,31 +155,16 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 
 	private boolean handleOkButton() {
 		if (replaceButton.isChecked()) {
-			UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
-			ProjectManager.INSTANCE.loadProject(projectName, context, false);
+			DownloadUtil.getInstance().startDownload(context, url, programName);
 		} else if (renameButton.isChecked()) {
-			String newProjectName = projectName + UUID.randomUUID();
-			ProjectManager.INSTANCE.loadProject(projectName, context, false);
-			ProjectManager.INSTANCE.renameProject(newProjectName, context);
-			UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
-			ProjectManager.INSTANCE.loadProject(projectName, context, false);
-			boolean error = !ProjectManager.INSTANCE.renameProject(projectText.getText().toString(), context);
-
-			if (error) {
-				ProjectManager.INSTANCE.deleteCurrentProject();
-			}
-			ProjectManager.INSTANCE.loadProject(newProjectName, context, false);
-			ProjectManager.INSTANCE.renameProject(projectName, context);
-			if (error) {
+			String newProgramName = projectText.getText().toString();
+			if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(newProgramName)) {
 				return false;
 			}
-			ProjectManager.INSTANCE.loadProject(projectText.getText().toString(), context, false);
-		}
-		Toast.makeText(context, R.string.success_project_download, Toast.LENGTH_SHORT).show();
-		dismiss();
 
-		StatusBarNotificationManager.INSTANCE.downloadProjectName.remove(projectName);
-		StatusBarNotificationManager.INSTANCE.downloadProjectZipFileString.remove(zipFileString);
+			DownloadUtil.getInstance().startDownload(context, url, newProgramName);
+		}
+		dismiss();
 
 		return true;
 	}

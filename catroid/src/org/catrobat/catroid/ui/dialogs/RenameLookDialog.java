@@ -22,16 +22,16 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.utils.Utils;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.Toast;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.utils.Utils;
 
 public class RenameLookDialog extends TextDialog {
 
@@ -55,11 +55,12 @@ public class RenameLookDialog extends TextDialog {
 	protected void initialize() {
 		oldLookName = getArguments().getString(BUNDLE_ARGUMENTS_OLD_LOOK_NAME);
 		input.setText(oldLookName);
+		inputTitle.setText(R.string.lookname);
 	}
 
 	@Override
 	protected boolean handleOkButton() {
-		String newLookName = (input.getText().toString()).trim();
+		String newLookName = input.getText().toString().trim();
 
 		if (newLookName.equals(oldLookName)) {
 			dismiss();
@@ -68,7 +69,7 @@ public class RenameLookDialog extends TextDialog {
 		if (newLookName != null && !newLookName.equalsIgnoreCase("")) {
 			newLookName = Utils.getUniqueLookName(newLookName);
 		} else {
-			Utils.showErrorDialog(getActivity(), getString(R.string.lookname_invalid));
+			Utils.showErrorDialog(getActivity(), R.string.lookname_invalid);
 			dismiss();
 		}
 

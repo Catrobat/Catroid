@@ -22,7 +22,16 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -31,20 +40,9 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
-public class ChangeXByNBrick extends BrickBaseType implements OnClickListener {
+public class ChangeXByNBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private Formula xMovement;
 
@@ -64,6 +62,11 @@ public class ChangeXByNBrick extends BrickBaseType implements OnClickListener {
 		this.sprite = sprite;
 
 		this.xMovement = xMovement;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return xMovement;
 	}
 
 	@Override
@@ -98,7 +101,7 @@ public class ChangeXByNBrick extends BrickBaseType implements OnClickListener {
 			}
 		});
 		TextView textX = (TextView) view.findViewById(R.id.brick_change_x_prototype_text_view);
-		EditText editX = (EditText) view.findViewById(R.id.brick_change_x_edit_text);
+		TextView editX = (TextView) view.findViewById(R.id.brick_change_x_edit_text);
 		xMovement.setTextFieldId(R.id.brick_change_x_edit_text);
 		xMovement.refreshTextField(view);
 
@@ -123,17 +126,23 @@ public class ChangeXByNBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_change_x_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView changeXByLabel = (TextView) view.findViewById(R.id.brick_change_x_label);
-		EditText editChangeSize = (EditText) view.findViewById(R.id.brick_change_x_edit_text);
-		changeXByLabel.setTextColor(changeXByLabel.getTextColors().withAlpha(alphaValue));
-		editChangeSize.setTextColor(editChangeSize.getTextColors().withAlpha(alphaValue));
-		editChangeSize.getBackground().setAlpha(alphaValue);
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			View layout = (View) view.findViewById(R.id.brick_change_x_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView changeXByLabel = (TextView) view.findViewById(R.id.brick_change_x_label);
+			TextView editChangeSize = (TextView) view.findViewById(R.id.brick_change_x_edit_text);
+			changeXByLabel.setTextColor(changeXByLabel.getTextColors().withAlpha(alphaValue));
+			editChangeSize.setTextColor(editChangeSize.getTextColors().withAlpha(alphaValue));
+			editChangeSize.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

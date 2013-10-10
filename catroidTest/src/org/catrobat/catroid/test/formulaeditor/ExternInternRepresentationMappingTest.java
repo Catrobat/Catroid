@@ -23,9 +23,9 @@
 
 package org.catrobat.catroid.test.formulaeditor;
 
-import org.catrobat.catroid.formulaeditor.ExternInternRepresentationMapping;
-
 import android.test.InstrumentationTestCase;
+
+import org.catrobat.catroid.formulaeditor.ExternInternRepresentationMapping;
 
 public class ExternInternRepresentationMappingTest extends InstrumentationTestCase {
 
@@ -33,9 +33,9 @@ public class ExternInternRepresentationMappingTest extends InstrumentationTestCa
 
 		ExternInternRepresentationMapping externInternRepresentationMapping = new ExternInternRepresentationMapping();
 
-		Integer externTokenStringStartIndex = 1;
-		Integer externTokenStringEndIndex = 3;
-		Integer internTokenListIndex = 0;
+		int externTokenStringStartIndex = 1;
+		int externTokenStringEndIndex = 3;
+		int internTokenListIndex = 0;
 
 		externInternRepresentationMapping.putMapping(externTokenStringStartIndex, externTokenStringEndIndex,
 				internTokenListIndex);
@@ -46,8 +46,10 @@ public class ExternInternRepresentationMappingTest extends InstrumentationTestCa
 		assertEquals("getExternTokenEndIndex returns wrong value", externTokenStringEndIndex,
 				externInternRepresentationMapping.getExternTokenEndIndex(internTokenListIndex));
 
-		assertNull("Mapping should not exist", externInternRepresentationMapping.getExternTokenStartIndex(1));
-		assertNull("Mapping should not exist", externInternRepresentationMapping.getExternTokenEndIndex(1));
+		assertEquals("Mapping should not exist", ExternInternRepresentationMapping.MAPPING_NOT_FOUND,
+				externInternRepresentationMapping.getExternTokenStartIndex(1));
+		assertEquals("Mapping should not exist", ExternInternRepresentationMapping.MAPPING_NOT_FOUND,
+				externInternRepresentationMapping.getExternTokenEndIndex(1));
 
 	}
 }

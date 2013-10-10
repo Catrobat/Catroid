@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
+import android.os.Bundle;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-
-import android.os.Bundle;
 
 public class SetDescriptionDialog extends MultiLineTextDialog {
 
@@ -70,7 +70,7 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 
 	@Override
 	protected boolean handleOkButton() {
-		String description = (input.getText().toString());
+		String description = input.getText().toString();
 		String currentProjectName = projectManager.getCurrentProject().getName();
 
 		if (projectToChangeName.equalsIgnoreCase(currentProjectName)) {
@@ -91,7 +91,7 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 
 	@Override
 	protected String getTitle() {
-		return getString(R.string.description);
+		return getString(R.string.set_description);
 	}
 
 	@Override
@@ -102,6 +102,7 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 	private void setDescription(String description) {
 		projectManager.getCurrentProject().setDescription(description);
 		projectManager.saveProject();
+		updateProjectDescriptionListener();
 	}
 
 	private void updateProjectDescriptionListener() {

@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import java.io.File;
+import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
@@ -40,7 +40,7 @@ import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 
-import android.test.InstrumentationTestCase;
+import java.io.File;
 
 public class TurnLeftActionTest extends InstrumentationTestCase {
 
@@ -154,7 +154,7 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		TurnLeftAction action = ExtendedActions.turnLeft(sprite, new Formula(370.0f));
 		action.act(1.0f);
 
-		assertEquals("Wrong direction!", 370f, sprite.look.getRotation(), 1e-3);
+		assertEquals("Wrong direction!", 80f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}

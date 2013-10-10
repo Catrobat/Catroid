@@ -22,6 +22,12 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
@@ -31,22 +37,11 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
+public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-
-	private Solo solo;
 	private static final String KEY_SETTINGS_MINDSTORM_BRICKS = "setting_mindstorm_bricks";
 
 	public BrickValueParameterTest() {
@@ -57,7 +52,6 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.clearAllUtilTestProjects();
 
 		// enable mindstorm bricks, if disabled at start
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -65,25 +59,19 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, true).commit();
 		}
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo, 2);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
 		// disable mindstorm bricks, if enabled
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		if (sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
 			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
 		}
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
-		solo = null;
 	}
 
-	@Smoke
 	public void testMotionBricksDefaultValues() {
 		String categoryMotionText = solo.getString(R.string.category_motion);
 
@@ -186,7 +174,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		solo.clickOnText(solo.getString(R.string.brick_go_back));
 		solo.clickOnScreen(200, 200);
 
-		EditText goBackEditText = (EditText) solo.getView(R.id.brick_go_back_edit_text);
+		TextView goBackEditText = (TextView) solo.getView(R.id.brick_go_back_edit_text);
 		// Formula appends a blank after the value, so last character has to be deleted
 		// before parsing an int from the string
 		String goBackEditTextString = goBackEditText.getText().toString();
@@ -195,7 +183,6 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		assertEquals("Value in Selected Brick GoBack is not correct", BrickValues.GO_BACK, goBackEditTextValue);
 	}
 
-	@Smoke
 	public void testLookBricksDefaultValues() {
 		String categoryLooksText = solo.getString(R.string.category_looks);
 
@@ -260,13 +247,14 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		solo.clickOnText(solo.getString(R.string.brick_change_brightness));
 		solo.clickOnScreen(200, 200);
 
-		EditText changeBrightnessEditText = (EditText) solo.getView(R.id.brick_change_brightness_edit_text);
-		float changeBrightnessEditTextValue = Float.parseFloat(changeBrightnessEditText.getText().toString());
+		TextView changeBrightnessEditText = (TextView) solo.getView(R.id.brick_change_brightness_edit_text);
+		float changeBrightnessEditTextValue = Float.parseFloat(changeBrightnessEditText.getText().toString()
+				.replace(',', '.'));
+
 		assertEquals("Value in Selected Brick ChangeBrightness is not correct",
 				(float) BrickValues.CHANGE_BRITHNESS_BY, changeBrightnessEditTextValue);
 	}
 
-	@Smoke
 	public void testSoundBricksDefaultValues() {
 		String categorySoundText = solo.getString(R.string.category_sound);
 
@@ -297,7 +285,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		solo.clickOnText(solo.getString(R.string.brick_speak));
 		solo.clickOnScreen(200, 200);
 
-		EditText speakEditText = (EditText) solo.getView(R.id.brick_speak_edit_text);
+		TextView speakEditText = (TextView) solo.getView(R.id.brick_speak_edit_text);
 		String speakEditTextValue = speakEditText.getText().toString();
 		assertEquals("Value in Selected Brick Speak is not correct", defaultSpeakValue, speakEditTextValue);
 
@@ -307,17 +295,17 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		solo.clickOnText(solo.getString(R.string.brick_change_volume_by));
 		solo.clickOnScreen(200, 200);
 
-		EditText changeVolumeByEditText = (EditText) solo.getView(R.id.brick_change_volume_by_edit_text);
+		TextView changeVolumeByEditText = (TextView) solo.getView(R.id.brick_change_volume_by_edit_text);
 		// Formula appends a blank after the value, so last character has to be deleted
 		// before parsing an int from the string
 		// in this case, between the minus operator and the value there is a blank also
 		String changeVolumeByEditTextString = changeVolumeByEditText.getText().toString();
-		float changeVolumeByEditTextValue = Float.parseFloat(changeVolumeByEditTextString.replaceAll(" ", ""));
+		float changeVolumeByEditTextValue = Float.parseFloat(changeVolumeByEditTextString.replaceAll(" ", "").replace(
+				',', '.'));
 		assertEquals("Value in Selected Brick ChangeVolumeBy is not correct", BrickValues.CHANGE_VOLUME_BY,
 				changeVolumeByEditTextValue);
 	}
 
-	@Smoke
 	public void testControlBricksDefaultValues() {
 		String categoryControlText = solo.getString(R.string.category_control);
 
@@ -381,7 +369,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		solo.clickOnText(solo.getString(R.string.brick_repeat));
 		solo.clickOnScreen(200, 200);
 
-		EditText repeatEditText = (EditText) solo.getView(R.id.brick_repeat_edit_text);
+		TextView repeatEditText = (TextView) solo.getView(R.id.brick_repeat_edit_text);
 		// Formula appends a blank after the value, so last character has to be deleted
 		// before parsing an int from the string
 		String repeatEditTextString = repeatEditText.getText().toString();
@@ -390,7 +378,6 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		assertEquals("Value in Selected Brick Repeat is not correct", BrickValues.REPEAT, repeatEditTextValue);
 	}
 
-	@Smoke
 	public void testLegoBricksDefaultValues() {
 		String categoryLegoNXTText = solo.getString(R.string.category_lego_nxt);
 
@@ -433,7 +420,7 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 		solo.clickOnText(solo.getString(R.string.nxt_play_tone));
 		solo.clickOnScreen(200, 200);
 
-		EditText nxtPlayToneEditText = (EditText) solo.getView(R.id.nxt_tone_freq_edit_text);
+		TextView nxtPlayToneEditText = (TextView) solo.getView(R.id.nxt_tone_freq_edit_text);
 		// Formula appends a blank after the value, so last character has to be deleted
 		// before parsing an int from the string
 		String nxtPlayToneEditTextString = nxtPlayToneEditText.getText().toString();
@@ -443,7 +430,6 @@ public class BrickValueParameterTest extends ActivityInstrumentationTestCase2<Ma
 				nxtPlayToneEditTextValue);
 	}
 
-	@Smoke
 	public void testUserVariablesBricksDefaultValues() {
 		String categoryUserVariablesText = solo.getString(R.string.category_variables);
 

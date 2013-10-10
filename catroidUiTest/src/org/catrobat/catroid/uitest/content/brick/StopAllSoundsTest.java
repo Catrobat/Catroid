@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -34,17 +34,13 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ListView;
+import java.util.ArrayList;
 
-import com.jayway.android.robotium.solo.Solo;
+public class StopAllSoundsTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
-public class StopAllSoundsTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
-
-	private Solo solo;
 	private Project project;
 
 	public StopAllSoundsTest() {
@@ -53,19 +49,13 @@ public class StopAllSoundsTest extends ActivityInstrumentationTestCase2<ScriptAc
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
+		super.setUp();
 	}
 
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
-	}
-
-	@Smoke
 	public void testStopAllSoundsBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();

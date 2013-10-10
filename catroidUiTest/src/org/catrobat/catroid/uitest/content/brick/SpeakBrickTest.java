@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -34,18 +35,14 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ListView;
+import java.util.ArrayList;
 
-import com.jayway.android.robotium.solo.Solo;
+public class SpeakBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
-public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
-
-	private Solo solo;
 	private Project project;
 	private SpeakBrick speakBrick;
 
@@ -63,19 +60,13 @@ public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
+		super.setUp();
 	}
 
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
-	}
-
-	@Smoke
 	public void testSpeakBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
@@ -83,7 +74,7 @@ public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -92,35 +83,35 @@ public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_speak)));
 
-		solo.clickOnEditText(0);
+		solo.clickOnView(solo.getView(R.id.brick_speak_edit_text));
 		solo.clearEditText(0);
 		solo.enterText(0, testString);
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		String brickText = (String) Reflection.getPrivateField(speakBrick, "text");
 		assertEquals("Wrong text in field.", testString, brickText);
-		assertEquals("Value in Brick is not updated.", testString, solo.getEditText(0).getText().toString());
+		assertEquals("Value in Brick is not updated.", testString,
+				((TextView) solo.getView(R.id.brick_speak_edit_text)).getText().toString());
 
-		solo.clickOnEditText(0);
+		solo.clickOnView(solo.getView(R.id.brick_speak_edit_text));
 		solo.clearEditText(0);
 		solo.enterText(0, testLeadingWhitespaces);
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		brickText = (String) Reflection.getPrivateField(speakBrick, "text");
 		assertEquals("Wrong text in field.", leading, brickText);
-		assertEquals("Value in Brick is not updated.", leading, solo.getEditText(0).getText().toString());
+		assertEquals("Value in Brick is not updated.", leading, ((TextView) solo.getView(R.id.brick_speak_edit_text))
+				.getText().toString());
 
-		solo.clickOnEditText(0);
+		solo.clickOnView(solo.getView(R.id.brick_speak_edit_text));
 		solo.clearEditText(0);
 		solo.enterText(0, testTrailingWhitespaces);
-		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.ok));
 
 		brickText = (String) Reflection.getPrivateField(speakBrick, "text");
 		assertEquals("Wrong text in field.", trailing, brickText);
-		assertEquals("Value in Brick is not updated.", trailing, solo.getEditText(0).getText().toString());
+		assertEquals("Value in Brick is not updated.", trailing, ((TextView) solo.getView(R.id.brick_speak_edit_text))
+				.getText().toString());
 	}
 
 	private void createProject() {

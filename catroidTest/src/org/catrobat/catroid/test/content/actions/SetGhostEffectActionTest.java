@@ -22,12 +22,12 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.test.InstrumentationTestCase;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.SetGhostEffectAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-
-import android.test.InstrumentationTestCase;
 
 public class SetGhostEffectActionTest extends InstrumentationTestCase {
 
@@ -35,11 +35,22 @@ public class SetGhostEffectActionTest extends InstrumentationTestCase {
 
 	public void testGhostEffect() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite scale value", 1f, sprite.look.getAlphaValue());
+		assertEquals("Unexpected initial sprite ghost effect value", 0f,
+				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 		SetGhostEffectAction action = ExtendedActions.setGhostEffect(sprite, effectValue);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed",
-				(100 - effectValue.interpretFloat(sprite)) / 100, sprite.look.getAlphaValue());
+				effectValue.interpretFloat(sprite), sprite.look.getTransparencyInUserInterfaceDimensionUnit());
+
+		action = ExtendedActions.setGhostEffect(sprite, new Formula(-50.0));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", 0f,
+				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
+
+		action = ExtendedActions.setGhostEffect(sprite, new Formula(150.0));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", 100f,
+				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {

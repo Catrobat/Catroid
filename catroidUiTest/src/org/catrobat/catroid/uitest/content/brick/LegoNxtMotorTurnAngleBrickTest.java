@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.widget.ListView;
+import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -34,20 +35,14 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.os.Build;
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ListView;
-import android.widget.Spinner;
+import java.util.ArrayList;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class LegoNxtMotorTurnAngleBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final int SET_ANGLE = 135;
 
-	private Solo solo;
 	private Project project;
 	private LegoNxtMotorTurnAngleBrick motorBrick;
 
@@ -57,19 +52,13 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
+		super.setUp();
 	}
 
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
-	}
-
-	@Smoke
 	public void testMotorTurnAngleBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
@@ -88,16 +77,12 @@ public class LegoNxtMotorTurnAngleBrickTest extends ActivityInstrumentationTestC
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.motor_angle)));
 		assertTrue("Unit missing for angle!", solo.searchText("°"));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, SET_ANGLE, "degrees", motorBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.motor_turn_angle_edit_text, SET_ANGLE, "degrees", motorBrick);
 
 		String[] array = getActivity().getResources().getStringArray(R.array.nxt_motor_chooser);
 		assertTrue("Spinner items list too short!", array.length == 4);
 
-		int legoSpinnerIndex = 1;
-
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			legoSpinnerIndex = 0;
-		}
+		int legoSpinnerIndex = 0;
 
 		Spinner currentSpinner = solo.getCurrentViews(Spinner.class).get(legoSpinnerIndex);
 		solo.pressSpinnerItem(legoSpinnerIndex, 0);

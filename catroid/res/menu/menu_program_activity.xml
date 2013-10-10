@@ -20,10 +20,12 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
     <item
         android:id="@+id/settings"
         android:showAsAction="never"
-        android:title="@string/main_menu_settings"/>
+        android:title="@string/settings"/>
+
 </menu>

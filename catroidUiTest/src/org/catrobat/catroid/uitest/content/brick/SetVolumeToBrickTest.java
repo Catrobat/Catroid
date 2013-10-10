@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -34,18 +34,14 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ListView;
+import java.util.ArrayList;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class SetVolumeToBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final float VOLUME = 50.0f;
 
-	private Solo solo;
 	private Project project;
 	private SetVolumeToBrick setVolumeToBrick;
 
@@ -55,19 +51,13 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
+		super.setUp();
 	}
 
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
-	}
-
-	@Smoke
 	public void testSetVolumeToBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
@@ -84,7 +74,8 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_set_volume_to)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, VOLUME, "volume", setVolumeToBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_volume_to_edit_text, VOLUME, "volume",
+				setVolumeToBrick);
 	}
 
 	private void createProject() {

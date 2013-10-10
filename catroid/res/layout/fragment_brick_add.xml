@@ -21,16 +21,23 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
+
+
+<!-- Overdraw lint warning is ignored - fragments need refactoring -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_brick_fragment_list"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:background="@color/fragment_background_color"
-    android:orientation="vertical" >
-    
+    android:background="@color/application_background_color"
+    android:orientation="vertical"
+    tools:ignore="Overdraw" >
+
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:cacheColorHint="#00000000" />
+        android:cacheColorHint="#00000000"
+        android:divider="@android:color/transparent" />
 
 </LinearLayout>

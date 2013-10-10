@@ -22,7 +22,17 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -32,21 +42,9 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
-public class MoveNStepsBrick extends BrickBaseType implements OnClickListener {
+public class MoveNStepsBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 	private Formula steps;
@@ -66,6 +64,11 @@ public class MoveNStepsBrick extends BrickBaseType implements OnClickListener {
 		this.sprite = sprite;
 
 		this.steps = steps;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return steps;
 	}
 
 	@Override
@@ -100,7 +103,7 @@ public class MoveNStepsBrick extends BrickBaseType implements OnClickListener {
 		});
 
 		TextView text = (TextView) view.findViewById(R.id.brick_move_n_steps_prototype_text_view);
-		EditText edit = (EditText) view.findViewById(R.id.brick_move_n_steps_edit_text);
+		TextView edit = (TextView) view.findViewById(R.id.brick_move_n_steps_edit_text);
 
 		steps.setTextFieldId(R.id.brick_move_n_steps_edit_text);
 		steps.refreshTextField(view);
@@ -143,19 +146,25 @@ public class MoveNStepsBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_move_n_steps_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView moveNStepsLabel = (TextView) view.findViewById(R.id.brick_move_n_steps_label);
-		TextView times = (TextView) view.findViewById(R.id.brick_move_n_steps_step_text_view);
-		EditText moveNStepsEdit = (EditText) view.findViewById(R.id.brick_move_n_steps_edit_text);
-		moveNStepsLabel.setTextColor(moveNStepsLabel.getTextColors().withAlpha(alphaValue));
-		times.setTextColor(times.getTextColors().withAlpha(alphaValue));
-		moveNStepsEdit.setTextColor(moveNStepsEdit.getTextColors().withAlpha(alphaValue));
-		moveNStepsEdit.getBackground().setAlpha(alphaValue);
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			View layout = (View) view.findViewById(R.id.brick_move_n_steps_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView moveNStepsLabel = (TextView) view.findViewById(R.id.brick_move_n_steps_label);
+			TextView times = (TextView) view.findViewById(R.id.brick_move_n_steps_step_text_view);
+			TextView moveNStepsEdit = (TextView) view.findViewById(R.id.brick_move_n_steps_edit_text);
+			moveNStepsLabel.setTextColor(moveNStepsLabel.getTextColors().withAlpha(alphaValue));
+			times.setTextColor(times.getTextColors().withAlpha(alphaValue));
+			moveNStepsEdit.setTextColor(moveNStepsEdit.getTextColors().withAlpha(alphaValue));
+			moveNStepsEdit.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

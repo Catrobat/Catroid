@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -35,17 +35,13 @@ import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ListView;
+import java.util.ArrayList;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class PointInDirectionBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final double SET_DEGREE = 90.0;
-	private Solo solo;
 	private Project project;
 	private PointInDirectionBrick pointInDirectionBrick;
 
@@ -55,19 +51,13 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
+		super.setUp();
 	}
 
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
-	}
-
-	@Smoke
 	public void testPointInDirectionBrickTest() throws InterruptedException {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
@@ -84,21 +74,22 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_point_in_direction)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, SET_DEGREE, "degrees", pointInDirectionBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_point_in_direction_edit_text, SET_DEGREE, "degrees",
+				pointInDirectionBrick);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		pointInDirectionBrick = new PointInDirectionBrick(sprite, Direction.DIRECTION_RIGHT);
+		pointInDirectionBrick = new PointInDirectionBrick(sprite, Direction.RIGHT);
 		script.addBrick(pointInDirectionBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);
 
-		ProjectManager.INSTANCE.setProject(project);
-		ProjectManager.INSTANCE.setCurrentSprite(sprite);
-		ProjectManager.INSTANCE.setCurrentScript(script);
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentScript(script);
 	}
 }

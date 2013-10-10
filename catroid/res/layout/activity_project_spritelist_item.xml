@@ -24,7 +24,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="@dimen/spritelist_item_height"
-    android:background="@color/project_activity_background_color"
     android:orientation="vertical" >
 
     <include layout="@layout/activity_project_background_headline" />
@@ -46,8 +45,7 @@
         <RelativeLayout
             android:id="@+id/spritelist_item_background"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@drawable/button_background_selector" >
+            android:layout_height="fill_parent" >
 
             <ImageView
                 android:id="@+id/sprite_img"
@@ -55,10 +53,10 @@
                 android:layout_height="65dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="9dp"
-                android:scaleType="centerCrop"
+                android:background="@drawable/spritelist_item_thumbnail_border"
                 android:cropToPadding="true"
                 android:padding="1.5dp"
-                android:background="@drawable/spritelist_item_thumbnail_border" />
+                android:scaleType="centerCrop" />
 
             <include layout="@layout/activity_project_sprite_title_details_view" />
 
@@ -69,7 +67,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:paddingRight="14dp"
-                android:src="@drawable/ic_arrow_right_dark" />
+                android:src="@drawable/ic_arrow_right" />
         </RelativeLayout>
     </LinearLayout>
 

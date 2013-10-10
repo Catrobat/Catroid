@@ -22,7 +22,16 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -31,25 +40,14 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
-public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListener {
+public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
 
-	private transient EditText editFreq;
+	private transient TextView editFreq;
 
 	private Formula frequency;
 	private Formula durationInSeconds;
@@ -66,6 +64,11 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 
 		this.frequency = frequencyFormula;
 		this.durationInSeconds = durationFormula;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return durationInSeconds;
 	}
 
 	@Override
@@ -118,7 +121,7 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 		});
 
 		TextView textDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_text_view);
-		EditText editDuration = (EditText) view.findViewById(R.id.nxt_tone_duration_edit_text);
+		TextView editDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_edit_text);
 		//		editDuration.setText(String.valueOf(durationInMs / 1000.0));
 		durationInSeconds.setTextFieldId(R.id.nxt_tone_duration_edit_text);
 		durationInSeconds.refreshTextField(view);
@@ -134,7 +137,7 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 		editDuration.setOnClickListener(this);
 
 		TextView textFreq = (TextView) view.findViewById(R.id.nxt_tone_freq_text_view);
-		editFreq = (EditText) view.findViewById(R.id.nxt_tone_freq_edit_text);
+		editFreq = (TextView) view.findViewById(R.id.nxt_tone_freq_edit_text);
 		//		editFreq.setText(String.valueOf(hertz / 100));
 		frequency.setTextFieldId(R.id.nxt_tone_freq_edit_text);
 		frequency.refreshTextField(view);
@@ -164,33 +167,39 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_nxt_play_tone_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView textLegoPlayToneLabel = (TextView) view.findViewById(R.id.brick_nxt_play_tone_label);
-		TextView textLegoPlayToneDuration = (TextView) view.findViewById(R.id.brick_nxt_play_tone_duration);
-		TextView textLegoPlayToneDurationTextView = (TextView) view.findViewById(R.id.nxt_tone_duration_text_view);
-		TextView textLegoPlayToneSeconds = (TextView) view.findViewById(R.id.brick_nxt_play_tone_seconds);
-		TextView textLegoPlayToneFrequency = (TextView) view.findViewById(R.id.brick_nxt_play_tone_frequency);
-		TextView textLegoPlayToneOz = (TextView) view.findViewById(R.id.brick_nxt_play_tone_hundred_hz);
+		if (view != null) {
 
-		EditText editLegoDuration = (EditText) view.findViewById(R.id.nxt_tone_duration_edit_text);
-		EditText editLegoFrequency = (EditText) view.findViewById(R.id.nxt_tone_freq_edit_text);
-		textLegoPlayToneLabel.setTextColor(textLegoPlayToneLabel.getTextColors().withAlpha(alphaValue));
-		textLegoPlayToneDuration.setTextColor(textLegoPlayToneDuration.getTextColors().withAlpha(alphaValue));
-		textLegoPlayToneDurationTextView.setTextColor(textLegoPlayToneDurationTextView.getTextColors().withAlpha(
-				alphaValue));
-		textLegoPlayToneSeconds.setTextColor(textLegoPlayToneSeconds.getTextColors().withAlpha(alphaValue));
-		textLegoPlayToneFrequency.setTextColor(textLegoPlayToneFrequency.getTextColors().withAlpha(alphaValue));
-		textLegoPlayToneOz.setTextColor(textLegoPlayToneOz.getTextColors().withAlpha(alphaValue));
+			View layout = (View) view.findViewById(R.id.brick_nxt_play_tone_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
 
-		editLegoFrequency.setTextColor(editLegoFrequency.getTextColors().withAlpha(alphaValue));
-		editLegoFrequency.getBackground().setAlpha(alphaValue);
-		editLegoDuration.setTextColor(editLegoDuration.getTextColors().withAlpha(alphaValue));
-		editLegoDuration.getBackground().setAlpha(alphaValue);
+			TextView textLegoPlayToneLabel = (TextView) view.findViewById(R.id.brick_nxt_play_tone_label);
+			TextView textLegoPlayToneDuration = (TextView) view.findViewById(R.id.brick_nxt_play_tone_duration);
+			TextView textLegoPlayToneDurationTextView = (TextView) view.findViewById(R.id.nxt_tone_duration_text_view);
+			TextView textLegoPlayToneSeconds = (TextView) view.findViewById(R.id.brick_nxt_play_tone_seconds);
+			TextView textLegoPlayToneFrequency = (TextView) view.findViewById(R.id.brick_nxt_play_tone_frequency);
+			TextView textLegoPlayToneOz = (TextView) view.findViewById(R.id.brick_nxt_play_tone_hundred_hz);
 
-		this.alphaValue = (alphaValue);
+			TextView editLegoDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_edit_text);
+			TextView editLegoFrequency = (TextView) view.findViewById(R.id.nxt_tone_freq_edit_text);
+			textLegoPlayToneLabel.setTextColor(textLegoPlayToneLabel.getTextColors().withAlpha(alphaValue));
+			textLegoPlayToneDuration.setTextColor(textLegoPlayToneDuration.getTextColors().withAlpha(alphaValue));
+			textLegoPlayToneDurationTextView.setTextColor(textLegoPlayToneDurationTextView.getTextColors().withAlpha(
+					alphaValue));
+			textLegoPlayToneSeconds.setTextColor(textLegoPlayToneSeconds.getTextColors().withAlpha(alphaValue));
+			textLegoPlayToneFrequency.setTextColor(textLegoPlayToneFrequency.getTextColors().withAlpha(alphaValue));
+			textLegoPlayToneOz.setTextColor(textLegoPlayToneOz.getTextColors().withAlpha(alphaValue));
+
+			editLegoFrequency.setTextColor(editLegoFrequency.getTextColors().withAlpha(alphaValue));
+			editLegoFrequency.getBackground().setAlpha(alphaValue);
+			editLegoDuration.setTextColor(editLegoDuration.getTextColors().withAlpha(alphaValue));
+			editLegoDuration.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

@@ -22,22 +22,22 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.test.AndroidTestCase;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.ShowAction;
-
-import android.test.AndroidTestCase;
 
 public class ShowActionTest extends AndroidTestCase {
 
 	public void testShow() {
 		Sprite sprite = new Sprite("new sprite");
-		sprite.look.show = false;
-		assertFalse("Sprite is still visible after calling hide", sprite.look.show);
+		sprite.look.visible = false;
+		assertFalse("Sprite is still visible after calling hide", sprite.look.visible);
 
 		ShowAction action = ExtendedActions.show(sprite);
 		action.act(1.0f);
-		assertTrue("Sprite is not visible after ShowBrick executed", sprite.look.show);
+		assertTrue("Sprite is not visible after ShowBrick executed", sprite.look.visible);
 	}
 
 	public void testNullSprite() {

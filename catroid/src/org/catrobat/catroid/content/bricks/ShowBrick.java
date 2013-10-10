@@ -22,23 +22,21 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import java.util.List;
 
 public class ShowBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
@@ -85,13 +83,18 @@ public class ShowBrick extends BrickBaseType {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_show_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
-		this.alphaValue = (alphaValue);
 
-		TextView textSpeak = (TextView) view.findViewById(R.id.brick_show_textview);
-		textSpeak.setTextColor(textSpeak.getTextColors().withAlpha(alphaValue));
+		if (view != null) {
+
+			View layout = (View) view.findViewById(R.id.brick_show_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+			this.alphaValue = (alphaValue);
+
+			TextView textSpeak = (TextView) view.findViewById(R.id.brick_show_textview);
+			textSpeak.setTextColor(textSpeak.getTextColors().withAlpha(alphaValue));
+
+		}
 
 		return view;
 	}

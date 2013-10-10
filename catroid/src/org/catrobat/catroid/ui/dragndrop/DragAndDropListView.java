@@ -28,13 +28,6 @@
  */
 package org.catrobat.catroid.ui.dragndrop;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.ScreenValues;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.utils.Utils;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BlurMaskFilter;
@@ -52,6 +45,13 @@ import android.view.View.OnLongClickListener;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ListView;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.utils.Utils;
 
 public class DragAndDropListView extends ListView implements OnLongClickListener {
 
@@ -288,6 +288,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	public ImageView getGlowingBorder(Bitmap bitmap) {
 		ImageView imageView = new ImageView(getContext());
 		imageView.setBackgroundColor(DRAG_BACKGROUND_COLOR);
+		imageView.setId(R.id.drag_and_drop_list_view_image_view);
 
 		Bitmap glowingBitmap = Bitmap.createBitmap(bitmap.getWidth() + 30, bitmap.getHeight() + 30,
 				Bitmap.Config.ARGB_8888);

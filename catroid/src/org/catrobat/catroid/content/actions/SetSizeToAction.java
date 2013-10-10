@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 public class SetSizeToAction extends TemporalAction {
 
@@ -34,7 +34,7 @@ public class SetSizeToAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		sprite.look.setSize(size.interpretFloat(sprite) / 100f);
+		sprite.look.setSizeInUserInterfaceDimensionUnit(size.interpretFloat(sprite));
 	}
 
 	public void setSprite(Sprite sprite) {

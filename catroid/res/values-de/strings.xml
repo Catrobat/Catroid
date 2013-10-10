@@ -24,7 +24,6 @@
 <resources>
 
     <!-- General terms -->
-    <string name="app_name">Pocket Code</string>
     <string name="cancel_button">Abbrechen</string>
     <string name="rename">Umbenennen</string>
     <string name="delete">Löschen</string>
@@ -33,10 +32,8 @@
     <string name="copy">Kopieren</string>
     <string name="cut">Ausschneiden</string>
     <string name="move">Verschieben</string>
-    <!--  -->
-
-
-    <!-- General -->
+    <string name="backpack">Einpacken</string>
+    <string name="copy_addition">Kopie</string>
     <string name="close">Schließen</string>
     <string name="error">Fehler</string>
     <string name="please_wait">Bitte warten</string>
@@ -44,6 +41,7 @@
     <string name="background">Hintergrund</string>
     <string name="stage">Bühne</string>
     <string name="ok">OK</string>
+    <string name="settings">Einstellungen</string>
     <!--  -->
 
 
@@ -51,11 +49,15 @@
     <string name="main_menu_new">Neu</string>
     <string name="main_menu_continue">Fortsetzen</string>
     <string name="main_menu_programs">Programme</string>
-    <string name="main_menu_forum">Forum</string>
-    <string name="main_menu_web">Community</string>
+    <string name="main_menu_forum">Diskutieren</string>
+    <string name="main_menu_web">Erkunden</string>
     <string name="main_menu_upload">Hochladen</string>
-    <string name="main_menu_settings">Einstellungen</string>
     <string name="main_menu_about_pocketcode">Über Pocket Code</string>
+    <string name="main_menu_rate_app">Bewerte uns!</string>
+    <string name="main_menu_play_store_not_installed">Play Store App nicht gefunden</string>
+    <string name="main_menu_web_dialog_title">Achtung!</string>
+    <string name="main_menu_web_dialog_message">Derzeit werden keine alternativen Browser wie Firefox oder Dolphin unterstützt</string>
+    <string name="main_menu_web_dialog_dont_show">Nicht mehr anzeigen</string>
     <!--  -->
 
 
@@ -73,6 +75,7 @@
         Pocket Code steht großteils unter der GNU AGPL v3 Lizenz.
         Für nähere Informationen zur Lizenz siehe untenstehenden Link.\n</string>
     <string name="dialog_about_pocketcode_license_link_text">Pocket Code Lizenz</string>
+    <string name="dialog_about_catrobat_link_text">Über Catrobat</string>
     <!--  -->
 
 
@@ -86,14 +89,13 @@
     <string name="show_details">Details anzeigen</string>
     <string name="hide_details">Details verbergen</string>
     <string name="insert_below">Darunter einfügen</string>
-    <string name="edit_in_pocket_paint">Bearbeite In Pocket Paint</string>
     <string name="sprite">Objekt</string>
     <string name="sprites">Objekte</string>
-    <string name="spritelist_background_headline">HINTERGRUND</string>
-    <string name="spritelist_objects_headline">OBJEKTE</string>
+    <string name="spritelist_background_headline">Hintergrund</string>
     <string name="dialog_confirm_delete_object_title">Dieses Objekt löschen?</string>
     <string name="dialog_confirm_delete_multiple_objects_title">Diese Objekte löschen?</string>
     <string name="dialog_confirm_delete_object_message">Kann nicht rückgängig gemacht werden!</string>
+    <string name="select_all">Alle auswählen</string>
     <!--  -->
 
 
@@ -115,16 +117,19 @@
 
 
     <!-- Script fragment -->
+    <string name="fragment_script_text_description">Klicke auf \"+\" um Skripte hinzuzufügen</string>
     <string name="dialog_confirm_delete_brick_title">Diesen Baustein löschen?</string>
+    <string name="dialog_confirm_delete_script_title">Dieses Skript löschen?</string>
     <string name="dialog_confirm_delete_multiple_bricks_title">Diese Bausteine löschen?</string>
     <string name="dialog_confirm_delete_brick_message">Kann nicht rückgängig gemacht werden!</string>
     <!--  -->
 
 
     <!-- Look fragment -->
+    <string name="fragment_look_text_description">Klicke auf \"+\" um Aussehen hinzuzufügen</string>
+    <string name="fragment_background_text_description">Klicke auf \"+\" um Hintergründe hinzuzufügen</string>
     <string name="rename_look_dialog">Aussehen umbenennen</string>
     <string name="lookname_invalid">Dieser Name ist nicht zulässig</string>
-    <string name="copy_look_addition">Kopie</string>
     <string name="pocket_paint_not_installed">Pocket Paint ist nicht installiert!\nJetzt installieren?</string>
     <string name="default_look_name">Aussehen</string>
     <string name="delete_look_dialog">Aussehen löschen?</string>
@@ -134,11 +139,14 @@
     <string name="dialog_confirm_delete_look_title">Dieses Aussehen löschen?</string>
     <string name="dialog_confirm_delete_multiple_looks_title">Diese Aussehen löschen?</string>
     <string name="dialog_confirm_delete_look_message">Kann nicht rückgängig gemacht werden!</string>
+    <string name="lookname">Name:</string>
     <!--  -->
 
 
     <!-- Sound fragment -->
+    <string name="fragment_sound_text_description">Klicke auf \"+\" um Klänge hinzuzufügen</string>
     <string name="rename_sound_dialog">Klang umbenennen</string>
+    <string name="backpack_title">Rucksack</string>
     <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
     <string name="sound_play">abspielen</string>
     <string name="sound_pause">pausieren</string>
@@ -149,6 +157,7 @@
     <string name="dialog_confirm_delete_sound_title">Diesen Klang löschen?</string>
     <string name="dialog_confirm_delete_multiple_sounds_title">Diese Klänge löschen?</string>
     <string name="dialog_confirm_delete_sound_message">Kann nicht rückgängig gemacht werden!</string>
+    <string name="sound_name">Name:</string>
     <!--  -->
 
 
@@ -157,7 +166,6 @@
     <string name="description">Beschreibung:</string>
     <string name="set_description">Beschreibung</string>
     <string name="rename_project">Programm umbenennen</string>
-    <string name="notification_title_copy_project">Kopiere Programm</string>
     <string name="copy_project_finished"> kopiert.</string>
     <string name="program">Programm</string>
     <string name="programs">Programme</string>
@@ -166,6 +174,7 @@
     <string name="dialog_confirm_delete_program_message">Kann nicht rückgängig gemacht werden!</string>
     <string name="details_date_today">Heute</string>
     <string name="details_date_yesterday">Gestern</string>
+    <string name="dialog_copy_project_title">Programm kopieren</string>
     <!--  -->
 
 
@@ -173,6 +182,7 @@
     <string name="soundrecorder_name">Pocket Code Recorder</string>
     <string name="soundrecorder_error">Aufnahme fehlgeschlagen</string>
     <string name="soundrecorder_recorded_filename">Aufnahme</string>
+    <string name="soundrecorder_text_view">Zum Starten und Stoppen der Aufnahme klicke auf das Symbol oben.</string>
     <!--  -->
 
 
@@ -181,20 +191,13 @@
     <!--  -->
 
 
-    <!-- Script context menu -->
-    <string name="script_context_menu_title">Skript Menü</string>
-    <!--  -->
-
-
-    <!-- Look context menu -->
-    <string name="look_context_menu_edit_in_pocket_paint">Bearbeite In Pocket Paint</string>
-    <!--  -->
-
-
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Verschiebe Baustein</string>
     <string name="brick_context_dialog_delete_brick">Lösche Baustein</string>
+    <string name="brick_context_dialog_copy_brick">Kopiere Baustein</string>
     <string name="brick_context_dialog_animate_bricks">Animiere Baustein-Teile</string>
+    <string name="brick_context_dialog_formula_edit_brick">Bearbeite Formel</string>
+    <string name="brick_context_dialog_delete_script">Lösche Skript</string>
     <!--  -->
 
 
@@ -211,16 +214,17 @@
     <string name="new_project_dialog_hint">Mein Programm</string>
     <string name="new_project_description_dialog_hint">Meine Beschreibung</string>
     <string name="new_project_name">Programmname:</string>
-    <string name="new_project_empty">Erstelle leeres Progamm</string>
+    <string name="new_project_empty">Erstelle leeres Programm</string>
     <!--  -->
 
 
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">Mein Objekt</string>
-    <string name="new_sprite_dialog_title">Name des Objekts</string>
+    <string name="new_sprite_dialog_title">Neues Objekt</string>
     <string name="spritename_already_exists">Dieser Objektname existiert bereits</string>
     <string name="spritename_invalid">Dieser Objektname ist ungültig</string>
     <string name="rename_sprite_dialog">Objekt umbenennen</string>
+    <string name="sprite_name">Objektname:</string>
     <!--  -->
 
 
@@ -257,6 +261,8 @@
 
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">Neu…</string>
+    <string name="dialog_new_broadcast_message_title">Neue Nachricht</string>
+    <string name="dialog_new_broadcast_message_name">Nachricht:</string>
     <!--  -->
 
 
@@ -278,13 +284,13 @@
 
 
     <!-- Motion bricks -->
-    <string name="brick_place_at">Setze Position:</string>
-    <string name="x_label">X:</string>
-    <string name="y_label">Y:</string>
-    <string name="brick_set_x">Setze X auf:</string>
-    <string name="brick_set_y">Setze Y auf:</string>
-    <string name="brick_change_x_by">Ändere X um:</string>
-    <string name="brick_change_y_by">Ändere Y um:</string>
+    <string name="brick_place_at">"Setze Position "</string>
+    <string name="x_label">"X: "</string>
+    <string name="y_label">"Y: "</string>
+    <string name="brick_set_x">"Setze X auf "</string>
+    <string name="brick_set_y">"Setze Y auf "</string>
+    <string name="brick_change_x_by">"Ändere X um "</string>
+    <string name="brick_change_y_by">"Ändere Y um "</string>
     <string name="brick_go_back">Gehe</string>
 
     <plurals name="brick_go_back_layer_plural">
@@ -317,10 +323,10 @@
     <string name="brick_change_size_by">Ändere Größe um</string>
     <string name="brick_hide">Verstecke dich</string>
     <string name="brick_show">Zeige dich</string>
-    <string name="brick_set_ghost_effect">Setze Transparenz</string>
-    <string name="brick_change_ghost_effect">Ändere Transparenz</string>
-    <string name="brick_set_brightness">Setze Helligkeit</string>
-    <string name="brick_change_brightness">Ändere Helligkeit</string>
+    <string name="brick_set_ghost_effect">"Setze Transparenz "</string>
+    <string name="brick_change_ghost_effect">"Ändere Transparenz "</string>
+    <string name="brick_set_brightness">"Setze Helligkeit "</string>
+    <string name="brick_change_brightness">"Ändere Helligkeit "</string>
     <string name="by_label">um</string>
     <string name="to_label">auf</string>
     <string name="brick_clear_graphic_effect">Schalte Grafikeffekte aus</string>
@@ -336,6 +342,8 @@
     <string name="brick_change_volume_by">Ändere Lautstärke um</string>
     <string name="brick_speak">Sprich</string>
     <string name="brick_speak_default_value">"Hallo!"</string>
+    <string name="dialog_edit_speak_title">Text bearbeiten</string>
+    <string name="dialog_edit_speak_text">Sprich:</string>
     <!--  -->
 
 
@@ -345,8 +353,8 @@
     <string name="brick_wait">Warte</string>
 
     <plurals name="second_plural">
-        <item quantity="one">Sekunde</item>
-        <item quantity="other">Sekunden</item>
+        <item quantity="one">"Sekunde "</item>
+        <item quantity="other">"Sekunden "</item>
     </plurals>
 
     <string name="brick_broadcast_receive">Wenn ich empfange:</string>
@@ -355,6 +363,8 @@
     <string name="brick_note">Notiz</string>
     <string name="brick_forever">Wiederhole fortlaufend</string>
     <string name="brick_repeat">Wiederhole</string>
+    <string name="dialog_edit_note_title">Notiz bearbeiten</string>
+    <string name="dialog_edit_note_text">Notiz:</string>
 
     <plurals name="time_plural">
         <item quantity="one">mal</item>
@@ -388,7 +398,23 @@
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Bitte einen Wert eingeben</string>
     <string name="notification_screenshot_ok">Screenshot erfolgreich gespeichert</string>
-    <string name="notification_load_project_cancel">Programm laden abgebrochen</string>
+    <string name="notification_download_project_cancel">Programm herunterladen abgebrochen</string>
+    <string name="notification_copy_title_pending">"Kopiere "</string>
+    <string name="notification_copy_pending">Kopieren wird ausgeführt</string>
+    <string name="notification_copy_finished">Kopieren erfolgreich</string>
+    <string name="notification_upload_title_pending">"Hochladen von "</string>
+    <string name="notification_upload_title_finished">"Anschauen von "</string>
+    <string name="notification_upload_pending">Upload wird ausgeführt</string>
+    <string name="notification_upload_finished">Upload erfolgreich</string>
+    <string name="notification_download_title_pending">"Downloaden von "</string>
+    <string name="notification_download_pending">Download wird ausgeführt</string>
+    <string name="notification_download_finished">Download erfolgreich</string>
+    <string name="notification_title_open">"Öffne "</string>
+    <string name="project_rename">(Das Programm wird umbenannt.)</string>
+    <string name="size_of_project">Größe:</string>
+    <string name="upload_button">Hochladen</string>
+    <string name="upload_project_dialog_title">Programm hochladen</string>
+    <string name="upload_description">Beschreibung:</string>
     <!--  -->
 
 
@@ -409,20 +435,6 @@
     <string name="error_copy_project">Beim kopieren des Programms ist ein Fehler aufgetreten.</string>
     <string name="error_upload_project_with_default_name">Das Programm mit dem Namen \'Mein erstes Programm\' kann nicht hochgeladen werden. Bitte das Programm umbenennen.</string>
     <string name="error_upload_default_project">Das Programm entspricht dem Programm \'Mein erstes Programm\'. Bitte ändere es und versuche es noch einmal.</string>
-    <!--  -->
-
-
-    <!-- Notifications -->
-    <string name="success_project_upload">Upload erfolgreich.</string>
-    <string name="success_project_download">Download erfolgreich.</string>
-    <string name="upload_button">Hochladen</string>
-    <string name="upload_project_dialog_title">Programm hochladen</string>
-    <string name="upload_description">Beschreibung:</string>
-    <string name="project_rename">(Das Programm wird umbenannt.)</string>
-    <string name="size_of_project">Größe:</string>
-    <string name="notification_percent_completed">abgeschlossen</string>
-    <string name="notification_upload_title">Programm raufladen</string>
-    <string name="notification_download_title">Programm runterladen</string>
     <!--  -->
 
 
@@ -469,9 +481,9 @@
     <string name="formula_editor_title">Formel Editor</string>
     <string name="formula_editor_changes_saved">Änderungen gespeichert!</string>
     <string name="formula_editor_changes_discarded">Änderungen verworfen!</string>
-    <string name="formula_editor_parse_fail">Fehler in der Eingabe! Zum Verwerfen erneut klicken.</string>
+    <string name="formula_editor_parse_fail">Fehler in der Eingabe!</string>
     <string name="formula_nothing_selected">Bitte Wert eingeben!</string>
-    <string name="formula_editor_parse_fail_formula_too_long">Formel zu lang! Zum Verwerfen erneut klicken.</string>
+    <string name="formula_editor_parse_fail_formula_too_long">Formel zu lang!</string>
     <string name="formula_editor_choose_object_variable">Objekt-Eigenschaften</string>
     <string name="formula_editor_existing_variable">Name wird bereits verwendet!</string>
     <string name="formula_editor_bracket_open">(</string>
@@ -501,6 +513,7 @@
     <string name="formula_editor_sensor_compass_direction">Kompass_Richtung</string>
     <string name="formula_editor_sensor_x_inclination">Neigung_x</string>
     <string name="formula_editor_sensor_y_inclination">Neigung_y</string>
+    <string name="formula_editor_sensor_loudness">Umgebungslautstärke</string>
     <string name="formula_editor_object_x">Position_x</string>
     <string name="formula_editor_object_y">Position_y</string>
     <string name="formula_editor_object_ghosteffect">Transparenz</string>
@@ -536,6 +549,9 @@
     <string name="formula_editor_variable_dialog_for_all_sprites">Für alle Objekte</string>
     <string name="formula_editor_variable_dialog_for_this_sprite_only">Nur für dieses Objekt</string>
     <string name="formula_editor_variable_dialog_hint">Variablenname eingeben</string>
+    <string name="formula_editor_discard_changes_dialog_message">Möchten Sie die Änderungen speichern?</string>
+    <string name="formula_editor_discard_changes_dialog_title">Änderungen speichern?</string>
+    <string name="variable_name">Variablenname:</string>
 
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable ausgewählt!</item>

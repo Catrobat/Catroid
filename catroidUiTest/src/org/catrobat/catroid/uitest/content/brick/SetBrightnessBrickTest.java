@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -34,17 +34,13 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ListView;
+import java.util.ArrayList;
 
-import com.jayway.android.robotium.solo.Solo;
+public class SetBrightnessBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
-public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
-
-	private Solo solo;
 	private Project project;
 	private SetBrightnessBrick setBrightnessBrick;
 
@@ -54,19 +50,13 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
+		super.setUp();
 	}
 
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
-	}
-
-	@Smoke
 	public void testSetBrightnessBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
@@ -85,7 +75,8 @@ public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 		double newBrightness = 65.5;
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 1, newBrightness, "brightness", setBrightnessBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_brightness_edit_text, newBrightness, "brightness",
+				setBrightnessBrick);
 	}
 
 	private void createProject() {

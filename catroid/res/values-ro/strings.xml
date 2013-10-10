@@ -24,7 +24,6 @@
 <resources>
 
     <!-- General terms -->
-    <string name="app_name">Catroid</string>
     <string name="project">proiect</string>
     <string name="sprite">obiect</string>
     <string name="script">script</string>
@@ -122,8 +121,6 @@
     <!-- Sprite dialog -->
     <!-- <string name="sprite_button_text">Creare</string> -->
     <!-- <string name="newsprite">Obiect nou</string> -->
-    <!-- Script context menu -->
-    <string name="script_context_menu_title">Meniul Scriptului</string>
     <!-- New project dialog -->
     <string name="new_project_dialog_title">Denumirea proiectului nou</string>
     <!-- Edit Sprite Dialog -->

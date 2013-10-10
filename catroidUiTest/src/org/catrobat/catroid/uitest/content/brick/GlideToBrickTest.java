@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.List;
+import android.os.Build;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -34,18 +35,14 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.os.Build;
-import android.test.ActivityInstrumentationTestCase2;
-import android.widget.TextView;
+import java.util.List;
 
-import com.jayway.android.robotium.solo.Solo;
+public class GlideToBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-
-	private Solo solo;
 	private Project project;
 	private Sprite sprite;
 
@@ -57,17 +54,7 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void setUp() throws Exception {
 		super.setUp();
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
 	}
 
 	public void testNumberInput() {
@@ -82,16 +69,20 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 			solo.clickOnView(solo.getView(R.id.brick_glide_to_edit_text_duration));
 		}
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, duration);
-		UiTestUtils.insertValueViaFormulaEditor(solo, 1, xPosition);
-		UiTestUtils.insertValueViaFormulaEditor(solo, 2, yPosition);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_glide_to_edit_text_duration, duration);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_glide_to_edit_text_x, xPosition);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_glide_to_edit_text_y, yPosition);
+
+		TextView textViewDuration = ((TextView) solo.getView(R.id.brick_glide_to_edit_text_duration));
+		TextView textViewX = ((TextView) solo.getView(R.id.brick_glide_to_edit_text_x));
+		TextView textViewY = ((TextView) solo.getView(R.id.brick_glide_to_edit_text_y));
 
 		assertEquals("Text not updated within FormulaEditor", duration,
-				Double.parseDouble(solo.getEditText(0).getText().toString()));
+				Double.parseDouble(textViewDuration.getText().toString().replace(',', '.')));
 		assertEquals("Text not updated within FormulaEditor", xPosition,
-				Integer.parseInt(solo.getEditText(1).getText().toString().substring(0, 3)));
+				Integer.parseInt(textViewX.getText().toString().substring(0, 3)));
 		assertEquals("Text not updated within FormulaEditor", yPosition,
-				Integer.parseInt(solo.getEditText(2).getText().toString().substring(0, 3)));
+				Integer.parseInt(textViewY.getText().toString().substring(0, 3)));
 
 		ProjectManager manager = ProjectManager.getInstance();
 		List<Brick> brickList = manager.getCurrentSprite().getScript(0).getBrickList();
@@ -109,14 +100,14 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<MainMenuA
 		temp2 = formula.interpretInteger(sprite);
 		assertEquals("Wrong y input in Glide to brick", yPosition, temp2);
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_glide_to_edit_text_duration, 1);
 		TextView secondsTextView = (TextView) solo.getView(R.id.brick_glide_to_seconds_text_view);
 		assertTrue(
 				"Specifier hasn't changed from plural to singular",
 				secondsTextView.getText().equals(
 						secondsTextView.getResources().getQuantityString(R.plurals.second_plural, 1)));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 5);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_glide_to_edit_text_duration, 5);
 		secondsTextView = (TextView) solo.getView(R.id.brick_glide_to_seconds_text_view);
 		assertTrue(
 				"Specifier hasn't changed from singular to plural",

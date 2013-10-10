@@ -22,17 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.fragment.SoundFragment;
-import org.catrobat.catroid.ui.fragment.SoundFragment.OnSoundInfoListChangedAfterNewListener;
-
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.database.DataSetObserver;
@@ -46,13 +35,22 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
+import android.widget.CompoundButton.OnCheckedChangeListener;import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.fragment.SoundFragment;
+import org.catrobat.catroid.ui.fragment.SoundFragment.OnSoundInfoListChangedAfterNewListener;
+
+import java.util.List;
 
 public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListener,
 		OnSoundInfoListChangedAfterNewListener {
@@ -135,22 +133,28 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_play_sound_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView playSoundLabel = (TextView) view.findViewById(R.id.brick_play_sound_label);
-		playSoundLabel.setTextColor(playSoundLabel.getTextColors().withAlpha(alphaValue));
+		if (view != null) {
 
-		Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
+			View layout = (View) view.findViewById(R.id.brick_play_sound_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
 
-		ColorStateList color = playSoundLabel.getTextColors().withAlpha(alphaValue);
-		lookbrickSpinner.getBackground().setAlpha(alphaValue);
-		if (adapterView != null) {
-			((TextView) adapterView.getChildAt(0)).setTextColor(color);
+			TextView playSoundLabel = (TextView) view.findViewById(R.id.brick_play_sound_label);
+			playSoundLabel.setTextColor(playSoundLabel.getTextColors().withAlpha(alphaValue));
+
+			Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
+
+			ColorStateList color = playSoundLabel.getTextColors().withAlpha(alphaValue);
+			lookbrickSpinner.getBackground().setAlpha(alphaValue);
+			if (adapterView != null) {
+				((TextView) adapterView.getChildAt(0)).setTextColor(color);
+			}
+
+			this.alphaValue = (alphaValue);
+
 		}
 
-		this.alphaValue = (alphaValue);
 		return view;
 	}
 

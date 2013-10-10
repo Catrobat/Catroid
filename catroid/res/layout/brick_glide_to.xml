@@ -20,10 +20,10 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/org.catrobat.catroid"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -36,80 +36,76 @@
         android:gravity="center_vertical"
         android:visibility="gone" />
 
-    <LinearLayout
+    <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_glide_to_layout"
-        style="@style/BrickContainer.Motion.Medium"
-        android:gravity="center_vertical"
-        android:orientation="vertical" >
+        style="@style/BrickContainer.Motion.Big"
+        android:orientation="horizontal"
+        android:paddingBottom="0dp"
+        android:paddingTop="0dp"
+        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/brick_glide_to_label"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_glide" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/brick_glide_to_prototype_text_view_duration"
+            style="@style/BrickPrototypeTextView"
+            android:layout_width="match_parent" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/brick_glide_to_edit_text_duration"
+            style="@style/BrickEditText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            app:layout_inputType="number"
+            app:layout_textField="true" >
+        </TextView>
 
-            <TextView
-                android:id="@+id/brick_glide_to_label"
-                style="@style/BrickText.SingleLine"
-                android:text="@string/brick_glide" >
-            </TextView>
+        <TextView
+            android:id="@+id/brick_glide_to_seconds_text_view"
+            style="@style/BrickText.SingleLine" >
+        </TextView>
 
-            <TextView
-                android:id="@+id/brick_glide_to_prototype_text_view_duration"
-                style="@style/BrickPrototypeTextView" >
-            </TextView>
+        <TextView
+            android:id="@+id/brick_glide_to_x"
+            style="@style/BrickText.SingleLine"
+            app:layout_newLine="true"
+            android:text="@string/brick_glide_to_x" >
+        </TextView>
 
-            <EditText
-                android:id="@+id/brick_glide_to_edit_text_duration"
-                style="@style/BrickEditText"
-                android:maxEms="7"
-                android:inputType="number|numberDecimal" >
-            </EditText>
+        <TextView
+            android:id="@+id/brick_glide_to_prototype_text_view_x"
+            style="@style/BrickPrototypeTextView" >
+        </TextView>
 
-            <TextView
-                android:id="@+id/brick_glide_to_seconds_text_view"
-                style="@style/BrickText.SingleLine" >
-            </TextView>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/brick_glide_to_edit_text_x"
+            style="@style/BrickEditText"
+            app:layout_inputType="number"
+            app:layout_textField="true" >
+        </TextView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+        <TextView
+            android:id="@+id/brick_glide_to_y"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/y_label" >
+        </TextView>
 
-            <TextView
-                android:id="@+id/brick_glide_to_x"
-                style="@style/BrickText.SingleLine"
-                android:text="@string/brick_glide_to_x" >
-            </TextView>
+        <TextView
+            android:id="@+id/brick_glide_to_prototype_text_view_y"
+            style="@style/BrickPrototypeTextView" >
+        </TextView>
 
-            <TextView
-                android:id="@+id/brick_glide_to_prototype_text_view_x"
-                style="@style/BrickPrototypeTextView" >
-            </TextView>
-
-            <EditText
-                android:id="@+id/brick_glide_to_edit_text_x"
-                style="@style/BrickEditText"
-                android:maxEms="5"
-                android:inputType="number|numberDecimal|numberSigned" >
-            </EditText>
-
-            <TextView
-                android:id="@+id/brick_glide_to_y"
-                style="@style/BrickText.SingleLine"
-                android:text="@string/y_label" >
-            </TextView>
-
-            <TextView
-                android:id="@+id/brick_glide_to_prototype_text_view_y"
-                style="@style/BrickPrototypeTextView" >
-            </TextView>
-
-            <EditText
-                android:id="@+id/brick_glide_to_edit_text_y"
-                style="@style/BrickEditText"
-                android:maxEms="5"
-                android:inputType="number|numberDecimal|numberSigned" >
-            </EditText>
-        </LinearLayout>
-    </LinearLayout>
+        <TextView
+            android:id="@+id/brick_glide_to_edit_text_y"
+            style="@style/BrickEditText"
+            app:layout_inputType="number"
+            app:layout_textField="true" >
+        </TextView>
+    </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

@@ -22,10 +22,8 @@
  */
 package org.catrobat.catroid.uitest.stage;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import android.content.Intent;
+import android.os.Bundle;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -41,18 +39,18 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.test.ActivityInstrumentationTestCase2;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class SwitchToLookCrashTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-	private Solo solo;
+public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	public SwitchToLookCrashTest() {
 		super(MainMenuActivity.class);
@@ -62,21 +60,10 @@ public class SwitchToLookCrashTest extends ActivityInstrumentationTestCase2<Main
 	protected void setUp() throws Exception {
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
-		UiTestUtils.clearAllUtilTestProjects();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
+		prepareTest();
 	}
 
 	public void testSwitchToLookCrashPNG() throws IOException {
-		prepareTest();
-
 		String nyanCatPath = "";
 		String nyanCat = "nyancat_crash";
 		String nyanCatPng = "nyancat_crash.png";
@@ -101,16 +88,16 @@ public class SwitchToLookCrashTest extends ActivityInstrumentationTestCase2<Main
 				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
 		solo.sleep(200);
 		assertTrue("Testfile not added from mockActivity", solo.searchText(nyanCat));
 
 		String checksumNyanCatImageFile = Utils.md5Checksum(nyanCatPngFile);
-		assertTrue("Checksum not in checksumcontainer", ProjectManager.INSTANCE.getFileChecksumContainer()
+		assertTrue("Checksum not in checksumcontainer", ProjectManager.getInstance().getFileChecksumContainer()
 				.containsChecksum(checksumNyanCatImageFile));
 
 		boolean isInLookDataList = false;
-		for (LookData lookData : ProjectManager.INSTANCE.getCurrentSprite().getLookDataList()) {
+		for (LookData lookData : ProjectManager.getInstance().getCurrentSprite().getLookDataList()) {
 			if (lookData.getChecksum().equalsIgnoreCase(checksumNyanCatImageFile)) {
 				isInLookDataList = true;
 			}
@@ -119,9 +106,7 @@ public class SwitchToLookCrashTest extends ActivityInstrumentationTestCase2<Main
 			fail("File not added in LookDataList");
 		}
 
-		String scriptsSpinnerText = solo.getString(R.string.scripts);
-		String looksSpinnerText = solo.getString(R.string.category_looks);
-		UiTestUtils.changeToFragmentViaActionbar(solo, looksSpinnerText, scriptsSpinnerText);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
 
 		assertTrue(nyanCat + " is not selected in Spinner", solo.isSpinnerTextSelected(nyanCat));
 
@@ -131,8 +116,6 @@ public class SwitchToLookCrashTest extends ActivityInstrumentationTestCase2<Main
 	}
 
 	public void testSwitchToLookCrashJPG() throws IOException {
-		prepareTest();
-
 		String manImagePath = "";
 		String manImage = "man_crash";
 		String manImageJpg = "man_crash.jpg";
@@ -157,16 +140,16 @@ public class SwitchToLookCrashTest extends ActivityInstrumentationTestCase2<Main
 				org.catrobat.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
 
-		getLookFragment().startActivityForResult(intent, LookFragment.REQUEST_SELECT_OR_DRAW_IMAGE);
+		getLookFragment().startActivityForResult(intent, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
 		solo.sleep(200);
 		assertTrue("Testfile not added from mockActivity", solo.searchText(manImage));
 
 		String checksumNyanCatImageFile = Utils.md5Checksum(nyanCatPngFile);
-		assertTrue("Checksum not in checksumcontainer", ProjectManager.INSTANCE.getFileChecksumContainer()
+		assertTrue("Checksum not in checksumcontainer", ProjectManager.getInstance().getFileChecksumContainer()
 				.containsChecksum(checksumNyanCatImageFile));
 
 		boolean isInLookDataList = false;
-		for (LookData lookData : ProjectManager.INSTANCE.getCurrentSprite().getLookDataList()) {
+		for (LookData lookData : ProjectManager.getInstance().getCurrentSprite().getLookDataList()) {
 			if (lookData.getChecksum().equalsIgnoreCase(checksumNyanCatImageFile)) {
 				isInLookDataList = true;
 			}
@@ -175,9 +158,7 @@ public class SwitchToLookCrashTest extends ActivityInstrumentationTestCase2<Main
 			fail("File not added in LookDataList");
 		}
 
-		String scriptsSpinnerText = solo.getString(R.string.scripts);
-		String looksSpinnerText = solo.getString(R.string.category_looks);
-		UiTestUtils.changeToFragmentViaActionbar(solo, looksSpinnerText, scriptsSpinnerText);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SCRIPTS_INDEX);
 
 		assertTrue(manImage + " is not selected in Spinner", solo.isSpinnerTextSelected(manImage));
 
@@ -199,10 +180,7 @@ public class SwitchToLookCrashTest extends ActivityInstrumentationTestCase2<Main
 	private void prepareTest() {
 		createProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-		String scriptsSpinnerText = solo.getString(R.string.scripts);
-		String looksSpinnerText = solo.getString(R.string.category_looks);
-		UiTestUtils.changeToFragmentViaActionbar(solo, scriptsSpinnerText, looksSpinnerText);
-		UiTestUtils.waitForFragment(solo, R.id.fragment_look_relative_layout);
+		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.LOOKS_INDEX);
 	}
 
 	private void createProject() {
@@ -217,10 +195,10 @@ public class SwitchToLookCrashTest extends ActivityInstrumentationTestCase2<Main
 		backgroundSprite.addScript(startScript);
 		project.addSprite(backgroundSprite);
 
-		ProjectManager.INSTANCE.setFileChecksumContainer(new FileChecksumContainer());
-		ProjectManager.INSTANCE.setProject(project);
-		ProjectManager.INSTANCE.setCurrentSprite(backgroundSprite);
-		ProjectManager.INSTANCE.setCurrentScript(startScript);
+		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(backgroundSprite);
+		ProjectManager.getInstance().setCurrentScript(startScript);
 		storageHandler.saveProject(project);
 	}
 

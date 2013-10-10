@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -34,21 +34,17 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ListView;
+import java.util.ArrayList;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class LegoNxtPlayToneBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class LegoNxtPlayToneBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
 	private static final double SET_DURATION = 3.0;
 	private static final int SET_FREQUENCY = 70;
 	private static final int SET_FREQUENCY_INITIALLY = 20;
 
-	private Solo solo;
 	private Project project;
 	private LegoNxtPlayToneBrick playToneBrick;
 
@@ -58,19 +54,13 @@ public class LegoNxtPlayToneBrickTest extends ActivityInstrumentationTestCase2<S
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
+		super.setUp();
 	}
 
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
-	}
-
-	@Smoke
 	public void testNXTPlayToneBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
@@ -87,9 +77,11 @@ public class LegoNxtPlayToneBrickTest extends ActivityInstrumentationTestCase2<S
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.nxt_play_tone)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, 0, 2, SET_DURATION, "durationInSeconds", playToneBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.nxt_tone_duration_edit_text, SET_DURATION,
+				"durationInSeconds", playToneBrick);
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, 1, 2, SET_FREQUENCY, "frequency", playToneBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.nxt_tone_freq_edit_text, SET_FREQUENCY, "frequency",
+				playToneBrick);
 
 	}
 

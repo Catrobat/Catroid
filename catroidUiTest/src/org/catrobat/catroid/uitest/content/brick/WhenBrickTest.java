@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -36,16 +36,13 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-import android.widget.ListView;
+import java.util.ArrayList;
 
-import com.jayway.android.robotium.solo.Solo;
+public class WhenBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
-public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
-
-	private Solo solo;
 	private Project project;
 
 	public WhenBrickTest() {
@@ -54,17 +51,19 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
+		super.setUp();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		ProjectManager.getInstance().deleteCurrentProject();
-		UiTestUtils.clearAllUtilTestProjects();
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
-		solo = null;
+		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
 	public void testWhenBrick() {
@@ -96,7 +95,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		//		UiTestUtils.addNewBrick(solo, UiTestUtils.getBrickCategory(solo, R.string.brick_when), R.string.brick_when, 1);
 		UiTestUtils.addNewBrick(solo, R.string.brick_when);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPosition, yPosition.get(yPosition.size() - 1) + 20, 100);
@@ -115,7 +114,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		solo.clickOnScreen(200, 300);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.drag(20, 20, addedYPosition, yPosition.get(3) + 20, 100);
@@ -139,7 +138,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		UiTestUtils.addNewBrick(solo, UiTestUtils.getBrickCategory(solo, R.string.brick_when), R.string.brick_when, 1);
 
-		yPosition = UiTestUtils.getListItemYPositions(solo, 1);
+		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
 
 		solo.goBack();

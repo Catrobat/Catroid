@@ -22,7 +22,16 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -32,20 +41,9 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
-public class GlideToBrick extends BrickBaseType implements OnClickListener {
+public class GlideToBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private Formula xDestination;
@@ -72,6 +70,11 @@ public class GlideToBrick extends BrickBaseType implements OnClickListener {
 		this.xDestination = xDestination;
 		this.yDestination = yDestination;
 		this.durationInSeconds = durationInSeconds;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return durationInSeconds;
 	}
 
 	public void setXDestination(Formula xDestination) {
@@ -116,20 +119,21 @@ public class GlideToBrick extends BrickBaseType implements OnClickListener {
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
+
 		TextView textX = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_x);
-		EditText editX = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_x);
+		TextView editX = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_x);
 		xDestination.setTextFieldId(R.id.brick_glide_to_edit_text_x);
 		xDestination.refreshTextField(view);
 		editX.setOnClickListener(this);
 
 		TextView textY = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_y);
-		EditText editY = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_y);
+		TextView editY = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_y);
 		yDestination.setTextFieldId(R.id.brick_glide_to_edit_text_y);
 		yDestination.refreshTextField(view);
 		editY.setOnClickListener(this);
 
 		TextView textDuration = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
-		EditText editDuration = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_duration);
+		TextView editDuration = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_duration);
 		durationInSeconds.setTextFieldId(R.id.brick_glide_to_edit_text_duration);
 		durationInSeconds.refreshTextField(view);
 
@@ -178,30 +182,36 @@ public class GlideToBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_glide_to_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView glideToLabel = (TextView) view.findViewById(R.id.brick_glide_to_label);
-		TextView glideToSeconds = (TextView) view.findViewById(R.id.brick_glide_to_seconds_text_view);
-		TextView glideToXTextView = (TextView) view.findViewById(R.id.brick_glide_to_x);
-		TextView glideToYTextView = (TextView) view.findViewById(R.id.brick_glide_to_y);
-		EditText editDuration = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_duration);
-		EditText editX = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_x);
-		EditText editY = (EditText) view.findViewById(R.id.brick_glide_to_edit_text_y);
+		if (view != null) {
 
-		glideToLabel.setTextColor(glideToLabel.getTextColors().withAlpha(alphaValue));
-		glideToSeconds.setTextColor(glideToSeconds.getTextColors().withAlpha(alphaValue));
-		glideToXTextView.setTextColor(glideToXTextView.getTextColors().withAlpha(alphaValue));
-		glideToYTextView.setTextColor(glideToYTextView.getTextColors().withAlpha(alphaValue));
-		editDuration.setTextColor(editDuration.getTextColors().withAlpha(alphaValue));
-		editDuration.getBackground().setAlpha(alphaValue);
-		editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
-		editX.getBackground().setAlpha(alphaValue);
-		editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
-		editY.getBackground().setAlpha(alphaValue);
+			View layout = view.findViewById(R.id.brick_glide_to_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
 
-		this.alphaValue = (alphaValue);
+			TextView glideToLabel = (TextView) view.findViewById(R.id.brick_glide_to_label);
+			TextView glideToSeconds = (TextView) view.findViewById(R.id.brick_glide_to_seconds_text_view);
+			TextView glideToXTextView = (TextView) view.findViewById(R.id.brick_glide_to_x);
+			TextView glideToYTextView = (TextView) view.findViewById(R.id.brick_glide_to_y);
+			TextView editDuration = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_duration);
+			TextView editX = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_x);
+			TextView editY = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_y);
+
+			glideToLabel.setTextColor(glideToLabel.getTextColors().withAlpha(alphaValue));
+			glideToSeconds.setTextColor(glideToSeconds.getTextColors().withAlpha(alphaValue));
+			glideToXTextView.setTextColor(glideToXTextView.getTextColors().withAlpha(alphaValue));
+			glideToYTextView.setTextColor(glideToYTextView.getTextColors().withAlpha(alphaValue));
+			editDuration.setTextColor(editDuration.getTextColors().withAlpha(alphaValue));
+			editDuration.getBackground().setAlpha(alphaValue);
+			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
+			editX.getBackground().setAlpha(alphaValue);
+			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
+			editY.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

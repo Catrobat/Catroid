@@ -22,12 +22,12 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.test.AndroidTestCase;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.GlideToAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-
-import android.test.AndroidTestCase;
 
 public class PlaceAtBrickTest extends AndroidTestCase {
 
@@ -52,8 +52,8 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 	}
 
 	public void testNullSprite() {
-		GlideToAction action = ExtendedActions.placeAt(null, xPosition, yPosition);
 		try {
+			GlideToAction action = ExtendedActions.placeAt(null, xPosition, yPosition);
 			action.act(1.0f);
 			fail("Execution of PlaceAtBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
 		} catch (NullPointerException e) {

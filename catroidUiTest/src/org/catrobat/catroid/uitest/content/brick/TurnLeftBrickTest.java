@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -35,18 +36,14 @@ import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ListView;
+import java.util.ArrayList;
 
-import com.jayway.android.robotium.solo.Solo;
+public class TurnLeftBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
-public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
-
-	private Solo solo;
 	private Project project;
 	private TurnLeftBrick turnLeftBrick;
 
@@ -56,19 +53,13 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptAc
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
+		super.setUp();
 	}
 
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
-	}
-
-	@Smoke
 	public void testTurnLeftBrickTest() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
@@ -87,14 +78,18 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptAc
 
 		double turnDegrees = 25;
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, turnDegrees);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_turn_left_edit_text, turnDegrees);
 
 		Formula actualDegrees = (Formula) Reflection.getPrivateField(turnLeftBrick, "degrees");
 		assertEquals("Wrong text in field", turnDegrees, actualDegrees.interpretDouble(null));
-		assertEquals("Text not updated", turnDegrees, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		assertEquals(
+				"Text not updated",
+				turnDegrees,
+				Double.parseDouble(((TextView) solo.getView(R.id.brick_turn_left_edit_text)).getText().toString()
+						.replace(',', '.')));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1.4);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_turn_left_edit_text, 1);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_turn_left_edit_text, 1.4);
 	}
 
 	private void createProject() {

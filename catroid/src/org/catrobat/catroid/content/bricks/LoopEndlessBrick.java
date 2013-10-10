@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
-
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -32,9 +29,10 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;import android.widget.TextView;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Sprite;
 
 public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
@@ -76,19 +74,25 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = null;
-		if (isPuzzleView) {
-			layout = (LinearLayout) view.findViewById(R.id.brick_loop_endless_layout);
-			TextView endlessLabel = (TextView) view.findViewById(R.id.brick_loop_endless_label);
-			endlessLabel.setTextColor(endlessLabel.getTextColors().withAlpha(alphaValue));
-		} else {
-			layout = (LinearLayout) view.findViewById(R.id.brick_loop_endless_nopuzzle_layout);
-			TextView endlessLabel = (TextView) view.findViewById(R.id.brick_loop_endless_nopuzzle_label);
-			endlessLabel.setTextColor(endlessLabel.getTextColors().withAlpha(alphaValue));
+
+		if (view != null) {
+
+			View layout = null;
+			if (isPuzzleView) {
+				layout = (View) view.findViewById(R.id.brick_loop_endless_layout);
+				TextView endlessLabel = (TextView) view.findViewById(R.id.brick_loop_endless_label);
+				endlessLabel.setTextColor(endlessLabel.getTextColors().withAlpha(alphaValue));
+			} else {
+				layout = (View) view.findViewById(R.id.brick_loop_endless_nopuzzle_layout);
+				TextView endlessLabel = (TextView) view.findViewById(R.id.brick_loop_endless_nopuzzle_label);
+				endlessLabel.setTextColor(endlessLabel.getTextColors().withAlpha(alphaValue));
+			}
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+			this.alphaValue = (alphaValue);
+
 		}
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
-		this.alphaValue = (alphaValue);
+
 		return view;
 	}
 

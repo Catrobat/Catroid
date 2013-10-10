@@ -22,8 +22,7 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
-import java.util.LinkedList;
-import java.util.List;
+import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -33,7 +32,8 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Sensors;
 
-import android.test.AndroidTestCase;
+import java.util.LinkedList;
+import java.util.List;
 
 public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 
@@ -51,10 +51,10 @@ public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 		testSprite = new Sprite("sprite");
 		testSprite.look.setXInUserInterfaceDimensionUnit(LOOK_X_POSITION);
 		testSprite.look.setYInUserInterfaceDimensionUnit(LOOK_Y_POSITION);
-		testSprite.look.setGhostEffectInUserInterfaceDimensionUnit(LOOK_ALPHA);
+		testSprite.look.setTransparencyInUserInterfaceDimensionUnit(LOOK_ALPHA);
 		testSprite.look.setBrightnessInUserInterfaceDimensionUnit(LOOK_BRIGHTNESS);
 		testSprite.look.setSizeInUserInterfaceDimensionUnit(LOOK_SCALE);
-		testSprite.look.setRotationInUserInterfaceDimensionUnit(LOOK_ROTATION);
+		testSprite.look.setDirectionInUserInterfaceDimensionUnit(LOOK_ROTATION);
 	}
 
 	public Formula getFormulaBySensor(Sensors sensor) {

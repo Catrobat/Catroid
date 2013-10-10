@@ -22,7 +22,16 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -31,20 +40,9 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
-public class SetSizeToBrick extends BrickBaseType implements OnClickListener {
+public class SetSizeToBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private Formula size;
 
@@ -62,6 +60,11 @@ public class SetSizeToBrick extends BrickBaseType implements OnClickListener {
 
 	public SetSizeToBrick() {
 
+	}
+
+	@Override
+	public Formula getFormula() {
+		return size;
 	}
 
 	@Override
@@ -96,7 +99,7 @@ public class SetSizeToBrick extends BrickBaseType implements OnClickListener {
 			}
 		});
 		TextView text = (TextView) view.findViewById(R.id.brick_set_size_to_prototype_text_view);
-		EditText edit = (EditText) view.findViewById(R.id.brick_set_size_to_edit_text);
+		TextView edit = (TextView) view.findViewById(R.id.brick_set_size_to_edit_text);
 		size.setTextFieldId(R.id.brick_set_size_to_edit_text);
 		size.refreshTextField(view);
 		text.setVisibility(View.GONE);
@@ -120,19 +123,25 @@ public class SetSizeToBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_size_to_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView textSize = (TextView) view.findViewById(R.id.brick_set_size_to_label);
-		TextView textPercent = (TextView) view.findViewById(R.id.brick_set_size_to_percent);
-		EditText editSize = (EditText) view.findViewById(R.id.brick_set_size_to_edit_text);
-		textSize.setTextColor(textSize.getTextColors().withAlpha(alphaValue));
-		textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
-		editSize.setTextColor(editSize.getTextColors().withAlpha(alphaValue));
-		editSize.getBackground().setAlpha(alphaValue);
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			View layout = (View) view.findViewById(R.id.brick_set_size_to_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView textSize = (TextView) view.findViewById(R.id.brick_set_size_to_label);
+			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_size_to_percent);
+			TextView editSize = (TextView) view.findViewById(R.id.brick_set_size_to_edit_text);
+			textSize.setTextColor(textSize.getTextColors().withAlpha(alphaValue));
+			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
+			editSize.setTextColor(editSize.getTextColors().withAlpha(alphaValue));
+			editSize.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

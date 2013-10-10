@@ -22,12 +22,12 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import org.catrobat.catroid.LegoNXT.LegoNXT;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick.Motor;
 import org.catrobat.catroid.formulaeditor.Formula;
-
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import org.catrobat.catroid.legonxt.LegoNXT;
 
 public class LegoNxtMotorActionAction extends TemporalAction {
 	private static final int MIN_SPEED = -100;
@@ -40,7 +40,12 @@ public class LegoNxtMotorActionAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		int speedValue = speed.interpretInteger(MIN_SPEED, MAX_SPEED, sprite);
+		int speedValue = speed.interpretInteger(sprite);
+		if (speedValue < MIN_SPEED) {
+			speedValue = MIN_SPEED;
+		} else if (speedValue > MAX_SPEED) {
+			speedValue = MAX_SPEED;
+		}
 
 		if (motorEnum.equals(Motor.MOTOR_A_C)) {
 			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), speedValue, 0);

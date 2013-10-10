@@ -22,7 +22,16 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
+
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -32,20 +41,9 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-
-public class WaitBrick extends BrickBaseType implements OnClickListener {
+public class WaitBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private Formula timeToWaitInSeconds;
 
@@ -63,6 +61,11 @@ public class WaitBrick extends BrickBaseType implements OnClickListener {
 
 	public WaitBrick() {
 
+	}
+
+	@Override
+	public Formula getFormula() {
+		return timeToWaitInSeconds;
 	}
 
 	@Override
@@ -106,7 +109,7 @@ public class WaitBrick extends BrickBaseType implements OnClickListener {
 		});
 
 		TextView text = (TextView) view.findViewById(R.id.brick_wait_prototype_text_view);
-		EditText edit = (EditText) view.findViewById(R.id.brick_wait_edit_text);
+		TextView edit = (TextView) view.findViewById(R.id.brick_wait_edit_text);
 		timeToWaitInSeconds.setTextFieldId(R.id.brick_wait_edit_text);
 		timeToWaitInSeconds.refreshTextField(view);
 
@@ -147,20 +150,26 @@ public class WaitBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_wait_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView textWaitLabel = (TextView) view.findViewById(R.id.brick_wait_label);
-		TextView textWaitSeconds = (TextView) view.findViewById(R.id.brick_wait_second_text_view);
-		EditText editWait = (EditText) view.findViewById(R.id.brick_wait_edit_text);
+		if (view != null) {
 
-		textWaitLabel.setTextColor(textWaitLabel.getTextColors().withAlpha(alphaValue));
-		textWaitSeconds.setTextColor(textWaitSeconds.getTextColors().withAlpha(alphaValue));
-		editWait.setTextColor(editWait.getTextColors().withAlpha(alphaValue));
-		editWait.getBackground().setAlpha(alphaValue);
+			View layout = (View) view.findViewById(R.id.brick_wait_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
 
-		this.alphaValue = (alphaValue);
+			TextView textWaitLabel = (TextView) view.findViewById(R.id.brick_wait_label);
+			TextView textWaitSeconds = (TextView) view.findViewById(R.id.brick_wait_second_text_view);
+			TextView editWait = (TextView) view.findViewById(R.id.brick_wait_edit_text);
+
+			textWaitLabel.setTextColor(textWaitLabel.getTextColors().withAlpha(alphaValue));
+			textWaitSeconds.setTextColor(textWaitSeconds.getTextColors().withAlpha(alphaValue));
+			editWait.setTextColor(editWait.getTextColors().withAlpha(alphaValue));
+			editWait.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 

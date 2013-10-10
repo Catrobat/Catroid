@@ -22,11 +22,11 @@
  */
 package org.catrobat.catroid.soundrecorder;
 
-import java.io.File;
-import java.io.IOException;
-
 import android.media.MediaRecorder;
 import android.net.Uri;
+
+import java.io.File;
+import java.io.IOException;
 
 public class SoundRecorder {
 
@@ -40,7 +40,7 @@ public class SoundRecorder {
 		this.path = path;
 	}
 
-	public void start() throws IOException {
+	public void start() throws IOException, IllegalStateException {
 		File soundFile = new File(path);
 		if (soundFile.exists()) {
 			soundFile.delete();
@@ -69,6 +69,10 @@ public class SoundRecorder {
 
 	public Uri getPath() {
 		return Uri.fromFile(new File(path));
+	}
+
+	public int getMaxAmplitude() {
+		return recorder.getMaxAmplitude();
 	}
 
 	public boolean isRecording() {

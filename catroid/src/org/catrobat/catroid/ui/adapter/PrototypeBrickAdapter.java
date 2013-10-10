@@ -27,14 +27,14 @@ package org.catrobat.catroid.ui.adapter;
  *
  */
 
-import java.util.List;
-
-import org.catrobat.catroid.content.bricks.Brick;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import org.catrobat.catroid.content.bricks.Brick;
+
+import java.util.List;
 
 public class PrototypeBrickAdapter extends BaseAdapter {
 

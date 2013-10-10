@@ -22,11 +22,11 @@
  */
 package org.catrobat.catroid.utils;
 
-import java.util.Locale;
-
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
+
+import java.util.Locale;
 
 public class UtilDeviceInfo {
 	public static final String SERVER_VALUE_FOR_UNDEFINED_COUNTRY = "undef";
@@ -48,7 +48,7 @@ public class UtilDeviceInfo {
 
 	public static String getUserCountryCode(Context context) {
 		String country = Locale.getDefault().getCountry();
-		if (country.length() == 0) {
+		if (country.isEmpty()) {
 			country = SERVER_VALUE_FOR_UNDEFINED_COUNTRY;
 		}
 		return country;

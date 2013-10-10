@@ -22,27 +22,28 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import android.test.AndroidTestCase;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ClearGraphicEffectAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
-import android.test.AndroidTestCase;
-
 public class ClearGraphicEffectActionTest extends AndroidTestCase {
 
 	public void testClearGraphicEffect() {
-		float value = 0.8f;
+		float value = 80f;
 		Sprite sprite = new Sprite("new sprite");
-		sprite.look.setAlphaValue(value);
-		assertEquals("Look hasn't ghost effect.", value, sprite.look.getAlphaValue());
-		sprite.look.setBrightness(value);
-		assertEquals("Look hasn't brightness effect.", value, sprite.look.getBrightness());
+		sprite.look.setTransparencyInUserInterfaceDimensionUnit(value);
+		assertEquals("Look hasn't ghost effect.", value, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
+		sprite.look.setBrightnessInUserInterfaceDimensionUnit(value);
+		assertEquals("Look hasn't brightness effect.", value, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 
 		ClearGraphicEffectAction action = ExtendedActions.clearGraphicEffect(sprite);
 		sprite.look.addAction(action);
 		action.act(1.0f);
-		assertEquals("Look's ghost effect is removed.", 1f, sprite.look.getAlphaValue());
-		assertEquals("Look's brightness effect is removed.", 1f, sprite.look.getBrightness());
+		assertEquals("Look's ghost effect is removed.", 0f, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
+		assertEquals("Look's brightness effect is removed.", 100f,
+				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {

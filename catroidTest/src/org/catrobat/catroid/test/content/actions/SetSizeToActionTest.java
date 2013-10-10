@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import java.io.File;
+import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
@@ -36,7 +36,7 @@ import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 
-import android.test.InstrumentationTestCase;
+import java.io.File;
 
 public class SetSizeToActionTest extends InstrumentationTestCase {
 
@@ -86,6 +86,18 @@ public class SetSizeToActionTest extends InstrumentationTestCase {
 				sprite.look.getScaleX());
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", size.interpretFloat(sprite) / 100,
 				sprite.look.getScaleY());
+	}
+
+	public void testNegativeSize() {
+		Sprite sprite = new Sprite("testSprite");
+		float initialSize = sprite.look.getSizeInUserInterfaceDimensionUnit();
+		assertEquals("Unexpected initial sprite size value", 100f, initialSize);
+
+		SetSizeToAction action = ExtendedActions.setSizeTo(sprite, new Formula(-10));
+		sprite.look.addAction(action);
+		action.act(1.0f);
+		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", 0f,
+				sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {

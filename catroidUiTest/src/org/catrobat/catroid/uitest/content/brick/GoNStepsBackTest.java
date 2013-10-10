@@ -22,7 +22,8 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -35,25 +36,20 @@ import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import com.jayway.android.robotium.solo.Solo;
+import java.util.ArrayList;
 
 /**
  * 
  * @author Daniel Burtscher
  * 
  */
-public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class GoNStepsBackTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final int STEPS_TO_GO_BACK = 17;
 
-	private Solo solo;
 	private Project project;
 	private GoNStepsBackBrick goNStepsBackBrick;
 
@@ -63,19 +59,13 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 	@Override
 	public void setUp() throws Exception {
+		// normally super.setUp should be called first
+		// but kept the test failing due to view is null
+		// when starting in ScriptActivity
 		createProject();
-		solo = new Solo(getInstrumentation(), getActivity());
+		super.setUp();
 	}
 
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
-	}
-
-	@Smoke
 	public void testGoNStepsBackBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
@@ -92,21 +82,24 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_go_back)));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, STEPS_TO_GO_BACK);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_go_back_edit_text, STEPS_TO_GO_BACK);
 
 		assertEquals("Wrong text in field.", STEPS_TO_GO_BACK,
 				(int) ((Formula) Reflection.getPrivateField(goNStepsBackBrick, "steps")).interpretDouble(null));
-		assertEquals("Value in Brick is not updated.", (double) STEPS_TO_GO_BACK,
-				Double.valueOf(solo.getEditText(0).getText().toString()));
+		assertEquals(
+				"Value in Brick is not updated.",
+				(double) STEPS_TO_GO_BACK,
+				Double.valueOf(((TextView) solo.getView(R.id.brick_go_back_edit_text)).getText().toString()
+						.replace(',', '.')));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 1);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_go_back_edit_text, 1);
 		TextView secondsTextView = (TextView) solo.getView(R.id.brick_go_back_layers_text_view);
 		assertTrue(
 				"Specifier hasn't changed from plural to singular",
 				secondsTextView.getText().equals(
 						dragDropListView.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural, 1)));
 
-		UiTestUtils.insertValueViaFormulaEditor(solo, 0, 2);
+		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_go_back_edit_text, 2);
 		secondsTextView = (TextView) solo.getView(R.id.brick_go_back_layers_text_view);
 		assertTrue(
 				"Specifier hasn't changed from singular to plural",

@@ -23,7 +23,6 @@
 <resources>
 
     <!-- General terms -->
-    <string name="app_name">"Catroid"</string>
     <string name="cancel_button">"Cancelar"</string>
     <string name="rename">"Renomear"</string>
     <string name="delete">"Excluir"</string>
@@ -33,10 +32,6 @@
     <string name="cut">"Cortar"</string>
     <string name="move">"Mover"</string>
     <string name="play">"Play"</string>
-    <!--  -->
-
-
-    <!-- General -->
     <string name="close">"Fechar"</string>
     <string name="error">"Erro"</string>
     <string name="please_wait">"Por favor, aguarde…"</string>
@@ -45,6 +40,7 @@
     <string name="stage">"Etapa"</string>
     <string name="ok">"Ok"</string>
     <string name="add">"Adicionar"</string>
+    <string name="settings">"Configurações"</string>
     <!--  -->
 
 
@@ -55,7 +51,6 @@
     <string name="main_menu_forum">"Fórum"</string>
     <string name="main_menu_web">"Comunidade"</string>
     <string name="main_menu_upload">"Upload"</string>
-    <string name="main_menu_settings">"Configurações"</string>
     <string name="main_menu_about_pocketcode">"Sobre Catroid"</string>
     <!--  -->
 
@@ -95,7 +90,7 @@
     <string name="pocket_paint_not_installed">"Paintroid não instalado!\nVocê deseja instalá-lo?"</string>
     <string name="default_look_name">"traje"</string>
     <string name="delete_look_dialog">"Excluir traje?"</string>
-    <string name="add_look_from_camera">"Da Câmera"</string> 
+    <string name="add_look_from_camera">"Da Câmera"</string>
     <string name="add_look_draw_new_image">"Da Câmera"</string>
     <string name="add_look_choose_image">"Da Galeria"</string>
     <string name="select_look_from_gallery">"Selecione uma imagem"</string>
@@ -124,8 +119,6 @@
     <string name="soundrecorder_recorded_filename">"gravar"</string>
     <!-- PreStage activity -->
     <string name="text_to_speech_engine_not_installed">"TTS não instalado!\nVocê deseja instalá-lo?"</string>
-    <!-- Script context menu -->
-    <string name="script_context_menu_title">"Menu"</string>
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">"Mover Bloco"</string>
     <string name="brick_context_dialog_delete_brick">"Excluir Bloco"</string>
@@ -257,7 +250,6 @@
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">"Insira um valor"</string>
     <string name="notification_screenshot_ok">"Foto da tela salvo"</string>
-    <string name="notification_load_project_cancel">"Cancelado abertura do projeto"</string>
     <!-- Error messages -->
     <string name="error_no_writiable_external_storage_available">"Catroid requer armazenamento externo desbloqueado como um cartão SD para executar, mas nenhum foi encontrado.\nCorrija isso desbloqueando seu cartão SD ou inseririndo um."</string>
     <string name="error_no_name_entered">"Por favor, digite um nome"</string>

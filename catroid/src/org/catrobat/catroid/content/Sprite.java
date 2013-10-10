@@ -22,9 +22,8 @@
  */
 package org.catrobat.catroid.content;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.FileChecksumContainer;
@@ -32,9 +31,12 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 
-import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Sprite implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
@@ -45,8 +47,6 @@ public class Sprite implements Serializable, Cloneable {
 	public transient Look look;
 
 	public transient boolean isPaused;
-
-	public static transient String SCRIPT_THREAD_NAME_PREFIX = "sprite_name_";
 
 	private Object readResolve() {
 		//filling FileChecksumContainer:
@@ -117,6 +117,17 @@ public class Sprite implements Serializable, Cloneable {
 	public Sprite clone() {
 		final Sprite cloneSprite = new Sprite();
 		cloneSprite.setName(this.getName());
+
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		if (currentProject == null || !currentProject.getSpriteList().contains(this)) {
+			throw new RuntimeException("The sprite must be in the current project before cloning it.");
+		}
+		UserVariablesContainer userVariables = currentProject.getUserVariables();
+		List<UserVariable> originalSpriteVariables = userVariables.getOrCreateVariableListForSprite(this);
+		List<UserVariable> clonedSpriteVariables = userVariables.getOrCreateVariableListForSprite(cloneSprite);
+		for (UserVariable variable : originalSpriteVariables) {
+			clonedSpriteVariables.add(new UserVariable(variable.getName(), variable.getValue()));
+		}
 
 		ArrayList<LookData> cloneLookList = new ArrayList<LookData>();
 		for (LookData element : this.lookList) {

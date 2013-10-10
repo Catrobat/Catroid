@@ -22,103 +22,110 @@
  */
 package org.catrobat.catroid.io;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 import android.media.MediaPlayer;
+import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * As long as both OpenGL render() and StageDialog access the SoundManager, the public methods have to stay
+ * synchronized.
+ */
 public class SoundManager {
-	private ArrayList<MediaPlayer> mediaPlayers;
-
-	private transient float volume = 70.0f;
+	private static final String TAG = SoundManager.class.getSimpleName();
+	private static final SoundManager INSTANCE = new SoundManager();
 
 	public static final int MAX_MEDIA_PLAYERS = 7;
-	private static SoundManager soundManager;
 
-	private SoundManager() {
-		mediaPlayers = new ArrayList<MediaPlayer>(MAX_MEDIA_PLAYERS);
+	private final List<MediaPlayer> mediaPlayers = new ArrayList<MediaPlayer>(MAX_MEDIA_PLAYERS);
+	private float volume = 70.0f;
+
+	protected SoundManager() {
 	}
 
-	public synchronized static SoundManager getInstance() {
-		if (soundManager == null) {
-			soundManager = new SoundManager();
-		}
-		return soundManager;
+	public static SoundManager getInstance() {
+		return INSTANCE;
 	}
 
-	public MediaPlayer getMediaPlayer() {
-		for (int i = 0; i < mediaPlayers.size(); i++) {
-			if (!mediaPlayers.get(i).isPlaying()) {
-				mediaPlayers.get(i).reset();
-				setVolume(volume);
-				return mediaPlayers.get(i);
-			}
-		}
-		if (mediaPlayers.size() < MAX_MEDIA_PLAYERS) {
-			MediaPlayer mediaPlayer = new MediaPlayer();
-			mediaPlayers.add(mediaPlayer);
-			setVolume(volume);
-			return mediaPlayer;
-		} else {
-			return null;
-		}
-	}
-
-	public synchronized MediaPlayer playSoundFile(String pathToSoundfile) {
-		MediaPlayer mediaPlayer = getMediaPlayer();
+	public synchronized void playSoundFile(String pathToSoundfile) {
+		MediaPlayer mediaPlayer = getAvailableMediaPlayer();
 		if (mediaPlayer != null) {
 			try {
 				mediaPlayer.setDataSource(pathToSoundfile);
 				mediaPlayer.prepare();
 				mediaPlayer.start();
-			} catch (IOException e) {
-				throw new IllegalArgumentException("IO error", e);
+			} catch (Exception exception) {
+				Log.e(TAG, "Couldn't play sound file '" + pathToSoundfile + "'", exception);
 			}
 		}
-		return mediaPlayer;
+	}
+
+	private MediaPlayer getAvailableMediaPlayer() {
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
+			if (!mediaPlayer.isPlaying()) {
+				mediaPlayer.reset();
+				return mediaPlayer;
+			}
+		}
+
+		if (mediaPlayers.size() < MAX_MEDIA_PLAYERS) {
+			MediaPlayer mediaPlayer = new MediaPlayer();
+			mediaPlayers.add(mediaPlayer);
+			setVolume(volume);
+			return mediaPlayer;
+		}
+		Log.d(TAG, "All MediaPlayer instances in use");
+		return null;
 	}
 
 	public synchronized void setVolume(float volume) {
+		if (volume > 100.0f) {
+			volume = 100.0f;
+		} else if (volume < 0.0f) {
+			volume = 0.0f;
+		}
+
 		this.volume = volume;
 		float volumeScalar = volume * 0.01f;
-		for (int i = 0; i < mediaPlayers.size(); i++) {
-			mediaPlayers.get(i).setVolume(volumeScalar, volumeScalar);
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
+			mediaPlayer.setVolume(volumeScalar, volumeScalar);
 		}
 	}
 
-	public float getVolume() {
+	public synchronized float getVolume() {
 		return this.volume;
 	}
 
 	public synchronized void clear() {
-		for (int i = 0; i < mediaPlayers.size(); i++) {
-			mediaPlayers.get(i).release();
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
+			mediaPlayer.release();
 		}
 		mediaPlayers.clear();
 	}
 
 	public synchronized void pause() {
-		for (int i = 0; i < mediaPlayers.size(); i++) {
-			if (mediaPlayers.get(i).isPlaying()) {
-				mediaPlayers.get(i).pause();
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
+			if (mediaPlayer.isPlaying()) {
+				mediaPlayer.pause();
 			} else {
-				mediaPlayers.get(i).reset();
+				mediaPlayer.reset();
 			}
 		}
 	}
 
 	public synchronized void resume() {
-		for (int i = 0; i < mediaPlayers.size(); i++) {
-			if (!mediaPlayers.get(i).isPlaying()) {
-				mediaPlayers.get(i).start();
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
+			if (!mediaPlayer.isPlaying()) {
+				mediaPlayer.start();
 			}
 		}
 	}
 
 	public synchronized void stopAllSounds() {
-		for (int i = 0; i < mediaPlayers.size(); i++) {
-			if (mediaPlayers.get(i).isPlaying()) {
-				mediaPlayers.get(i).stop();
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
+			if (mediaPlayer.isPlaying()) {
+				mediaPlayer.stop();
 			}
 		}
 	}

@@ -22,21 +22,24 @@
  */
 package org.catrobat.catroid.test.ui;
 
-import java.lang.reflect.Field;
-
-import org.catrobat.catroid.R;
-
 import android.content.Context;
 import android.test.AndroidTestCase;
-import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.BrickLayout.LayoutParams;
+import org.catrobat.catroid.ui.BrickLayout.LayoutParams.InputType;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 public class EditTextAlignmentTest extends AndroidTestCase {
 
-	static private LayoutInflater inflater;
+	private static LayoutInflater inflater;
 	private Context context;
 
 	@Override
@@ -52,35 +55,58 @@ public class EditTextAlignmentTest extends AndroidTestCase {
 	 */
 	public void testAllBricks() throws IllegalArgumentException, IllegalAccessException {
 
-		Field[] idFields = R.id.class.getFields();
 		Field[] layoutFields = R.layout.class.getFields();
 
 		for (Field layoutField : layoutFields) {
 			String layoutName = layoutField.getName();
 
 			if (layoutName.startsWith("brick_")) {
-				for (Field idField : idFields) {
-					String idName = idField.getName();
+				int brickId = layoutField.getInt(null);
+				View brickView = inflater.inflate(brickId, null);
+				ArrayList<View> allChildsOfLayout = getAllChildren(brickView);
 
-					if (idName.contains(layoutName) && idName.contains("_edit_text")) {
-						int brickId = layoutField.getInt(null);
+				for (View child : allChildsOfLayout) {
+					if (child.getId() != View.NO_ID) {
+						String idName = child.getResources().getResourceName(child.getId());
+						if (idName.contains(layoutName) && idName.contains("_edit_text")) {
+							TextView edit = (TextView) child;
+							LayoutParams layoutParams = (LayoutParams) edit.getLayoutParams();
 
-						View brickView = inflater.inflate(brickId, null);
-						int editTextId = idField.getInt(null);
-
-						EditText edit = (EditText) brickView.findViewById(editTextId);
-						if ((edit.getInputType() & InputType.TYPE_CLASS_NUMBER) == InputType.TYPE_CLASS_NUMBER) {
-							assertEquals("Brick " + layoutName
-									+ " does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
-									Gravity.RIGHT & edit.getGravity());
-						} else {
-							assertEquals("Brick " + layoutName
-									+ " does not have correct gravity (horizontal alignment)", Gravity.LEFT,
-									Gravity.LEFT & edit.getGravity());
+							if (layoutParams.getInputType() == InputType.NUMBER) {
+								assertEquals("Brick " + layoutName + " does not have correct gravity (Gravity.RIGHT)",
+										Gravity.RIGHT, Gravity.RIGHT & edit.getGravity());
+							} else {
+								assertEquals("Brick " + layoutName + " does not have correct gravity (Gravity.LEFT)",
+										Gravity.LEFT, Gravity.LEFT & edit.getGravity());
+							}
 						}
 					}
 				}
 			}
 		}
+	}
+
+	private ArrayList<View> getAllChildren(View v) {
+
+		if (!(v instanceof ViewGroup)) {
+			ArrayList<View> viewArrayList = new ArrayList<View>();
+			viewArrayList.add(v);
+			return viewArrayList;
+		}
+
+		ArrayList<View> result = new ArrayList<View>();
+
+		ViewGroup vg = (ViewGroup) v;
+		for (int i = 0; i < vg.getChildCount(); i++) {
+
+			View child = vg.getChildAt(i);
+
+			ArrayList<View> viewArrayList = new ArrayList<View>();
+			viewArrayList.add(v);
+			viewArrayList.addAll(getAllChildren(child));
+
+			result.addAll(viewArrayList);
+		}
+		return result;
 	}
 }

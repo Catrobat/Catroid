@@ -22,22 +22,21 @@
  */
 package org.catrobat.catroid.uitest.ui.dialog;
 
+import android.annotation.TargetApi;
+import android.os.Build;
+import android.widget.EditText;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-import android.widget.EditText;
+public class SetDescriptionDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class SetDescriptionDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-
-	private Solo solo;
 	private String testProject = UiTestUtils.PROJECTNAME1;
 
 	public SetDescriptionDialogTest() {
@@ -45,22 +44,15 @@ public class SetDescriptionDialogTest extends ActivityInstrumentationTestCase2<M
 	}
 
 	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		UiTestUtils.clearAllUtilTestProjects();
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
-
-	@Override
 	protected void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		ProjectManager.getInstance().deleteCurrentProject();
-		UiTestUtils.clearAllUtilTestProjects();
+		// normally super.teardown should be called last
+		// but tests crashed with Nullpointer
 		super.tearDown();
-		solo = null;
+		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
+	// Not testable with Android 2.3, because solo is not able to enter new lines
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	public void testMultiLineProjectDescription() {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 		Project uploadProject = new Project(getActivity(), testProject);
@@ -79,8 +71,13 @@ public class SetDescriptionDialogTest extends ActivityInstrumentationTestCase2<M
 				| android.text.InputType.TYPE_TEXT_VARIATION_NORMAL;
 		assertEquals("Description field is not multiline!", descriptionInputType, typeToCheck);
 
-		int projectDescriptionNumberOfLines = (description.getHeight() - description.getCompoundPaddingTop() - description
-				.getCompoundPaddingBottom()) / description.getLineHeight();
-		assertEquals("Project description field is not multiline", 3, projectDescriptionNumberOfLines);
+		int projectDescriptionNumberOfLines = description.getLineCount();
+		assertEquals("Project description field should only have one line without some input", 1,
+				projectDescriptionNumberOfLines);
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+			projectDescriptionNumberOfLines = description.getMaxLines();
+			assertEquals("Project description field is not multiline", 3, projectDescriptionNumberOfLines);
+		}
 	}
 }

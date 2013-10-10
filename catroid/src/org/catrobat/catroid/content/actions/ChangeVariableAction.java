@@ -22,29 +22,17 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-
-import com.badlogic.gdx.scenes.scene2d.Action;
 
 public class ChangeVariableAction extends Action {
 
 	private Sprite sprite;
 	private Formula changeVariable;
 	private UserVariable userVariable;
-
-	public void setUserVariable(UserVariable userVariable) {
-		this.userVariable = userVariable;
-	}
-
-	public void setChangeVariable(Formula changeVariable) {
-		this.changeVariable = changeVariable;
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
 
 	@Override
 	public boolean act(float delta) {
@@ -57,4 +45,15 @@ public class ChangeVariableAction extends Action {
 		return true;
 	}
 
+	public void setUserVariable(UserVariable userVariable) {
+		this.userVariable = userVariable;
+	}
+
+	public void setChangeVariable(Formula changeVariable) {
+		this.changeVariable = changeVariable;
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
+	}
 }
