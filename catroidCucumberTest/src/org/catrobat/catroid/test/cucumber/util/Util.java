@@ -1,4 +1,4 @@
-package org.catrobat.catroid.test.cucumber;
+package org.catrobat.catroid.test.cucumber.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,6 +13,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.test.cucumber.Cucumber;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.Utils;
 
@@ -22,6 +23,15 @@ import static junit.framework.Assert.fail;
 
 public final class Util {
 	private Util() {
+	}
+
+	public static Sprite addNewObjectWithLook(Context context, Project project, String name, int id) {
+		Sprite sprite = new Sprite(name);
+		project.addSprite(sprite);
+		File file = createObjectImage(context, name, id);
+		LookData lookData = newLookData(name, file);
+		sprite.getLookDataList().add(lookData);
+		return sprite;
 	}
 
 	public static Sprite findSprite(Project project, String name) {
@@ -39,11 +49,11 @@ public final class Util {
 		Display display = wm.getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
-//        Log.d(CucumberInstrumentation.TAG, String.format("center: [%d/%d]", size.x / 2, size.y / 2));
+//		Log.d(CucumberInstrumentation.TAG, String.format("center: [%d/%d]", size.x / 2, size.y / 2));
 		Point point = new Point();
 		point.x = Math.round((size.x / 2f) + x);
 		point.y = Math.round((size.y / 2f) + y);
-//        Log.d(CucumberInstrumentation.TAG, String.format("coords: [%d/%d]", point.x, point.y));
+//		Log.d(CucumberInstrumentation.TAG, String.format("coords: [%d/%d]", point.x, point.y));
 		return point;
 	}
 

@@ -1,3 +1,4 @@
+# DEPRECATED
 Feature: Repeat Brick
   A Repeat Brick repeats no brick, one brick or a sequence of bricks a given number of times.
 

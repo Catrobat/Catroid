@@ -7,6 +7,10 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
 public class VariableSteps extends AndroidTestCase {
+	////////////////////////////////////////////////////////////////////////////
+	///// LEGACY STEP DEFINTIONS ///////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////
+	@Deprecated
 	@Then("^the variable '(\\w+)' is (-?\\d+.?\\d*)$")
 	public void variable_x_is(String name, float expected) {
 		Project project = (Project) Cucumber.get(Cucumber.KEY_PROJECT);

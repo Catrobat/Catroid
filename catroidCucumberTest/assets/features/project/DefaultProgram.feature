@@ -1,3 +1,4 @@
+# DEPRECATED
 Feature: Default Program
 
   Scenario: Create and execute the default program

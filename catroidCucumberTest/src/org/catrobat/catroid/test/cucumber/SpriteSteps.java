@@ -9,17 +9,23 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.test.cucumber.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SpriteSteps extends AndroidTestCase {
+	////////////////////////////////////////////////////////////////////////////
+	///// LEGACY STEP DEFINTIONS ///////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////
+	@Deprecated
 	@And("^I (\\w+) the default object$")
 	public void I_s_the_default_object(String action) {
 		String defaultSpriteName = (String) Cucumber.get(Cucumber.KEY_DEFAULT_SPRITE_NAME);
 		I_s_the_object_s(action, defaultSpriteName);
 	}
 
+	@Deprecated
 	@And("^I (\\w+) the object '(\\w+)'$")
 	public void I_s_the_object_s(String action, String name) {
 		Solo solo = (Solo) Cucumber.get(Cucumber.KEY_SOLO);
@@ -45,6 +51,7 @@ public class SpriteSteps extends AndroidTestCase {
 		}
 	}
 
+	@Deprecated
 	@Then("^the object '(\\w+)' is \\b(visible|invisible)$")
 	public void object_is_visible_or_not(String name, String visibility) {
 		Solo solo = (Solo) Cucumber.get(Cucumber.KEY_SOLO);
@@ -60,6 +67,7 @@ public class SpriteSteps extends AndroidTestCase {
 		}
 	}
 
+	@Deprecated
 	@Then("^the default object is changing its costumes$")
 	public void default_object_changing_costumes() {
 		Project project = (Project) Cucumber.get(Cucumber.KEY_PROJECT);
@@ -77,6 +85,7 @@ public class SpriteSteps extends AndroidTestCase {
 		assertTrue("Looks did not change!", names.size() > 1);
 	}
 
+	@Deprecated
 	@Then("^the object '(\\w+)' has a \\b(x|y) position of (\\d+)$")
 	public void object_has_position(String name, String axis, int position) {
 		Project project = (Project) Cucumber.get(Cucumber.KEY_PROJECT);

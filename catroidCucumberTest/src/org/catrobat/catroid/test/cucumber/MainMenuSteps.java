@@ -15,12 +15,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainMenuSteps extends AndroidTestCase {
+	////////////////////////////////////////////////////////////////////////////
+	///// LEGACY STEP DEFINTIONS ///////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////
+	@Deprecated
 	@Given("^I am in the main menu$")
 	public void I_am_in_the_main_menu() {
 		Solo solo = (Solo) Cucumber.get(Cucumber.KEY_SOLO);
 		assertEquals(MainMenuActivity.class, solo.getCurrentActivity().getClass());
 	}
 
+	@Deprecated
 	@When("^I press the (\\w+) button$")
 	public void I_press_the_s_Button(String button) {
 		// searchButton(String) apparently returns true even for
@@ -31,6 +36,7 @@ public class MainMenuSteps extends AndroidTestCase {
 		solo.clickOnText(button);
 	}
 
+	@Deprecated
 	@Then("^I should see the following buttons:$")
 	public void I_should_see_the_following_buttons(List<String> expectedButtons) {
 		Solo solo = (Solo) Cucumber.get(Cucumber.KEY_SOLO);
@@ -46,6 +52,7 @@ public class MainMenuSteps extends AndroidTestCase {
 		assertEquals(expectedButtons, actualButtons);
 	}
 
+	@Deprecated
 	@Then("^I should switch to the (\\w+) view$")
 	public void I_should_switch_to_the_s_view(String view) {
 		Class<? extends Activity> activityClass = null;

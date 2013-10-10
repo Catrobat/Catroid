@@ -8,10 +8,15 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.test.cucumber.util.Util;
 
 import java.io.File;
 
 public class ObjectSteps extends AndroidTestCase {
+	////////////////////////////////////////////////////////////////////////////
+	///// LEGACY STEP DEFINTIONS ///////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////
+	@Deprecated
 	@Given("^an object '(\\w+)'$")
 	public void object(String name) {
 		Project project = (Project) Cucumber.get(Cucumber.KEY_PROJECT);
