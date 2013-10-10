@@ -1,4 +1,4 @@
-package org.catrobat.catroid.test;
+package org.catrobat.catroid.test.cucumber;
 
 import android.test.AndroidTestCase;
 import com.jayway.android.robotium.solo.Solo;

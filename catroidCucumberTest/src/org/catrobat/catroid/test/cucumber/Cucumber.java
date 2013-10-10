@@ -1,4 +1,4 @@
-package org.catrobat.catroid.test;
+package org.catrobat.catroid.test.cucumber;
 
 import cucumber.api.CucumberOptions;
 
