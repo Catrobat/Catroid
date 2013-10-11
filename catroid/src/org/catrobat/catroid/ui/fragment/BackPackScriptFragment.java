@@ -101,4 +101,8 @@ public class BackPackScriptFragment extends BackPackActivityFragment implements 
 	public BrickAdapter getAdapter() {
 		return null;
 	}
+
+	@Override
+	public void startUnPackingActionMode() {
+	}
 }

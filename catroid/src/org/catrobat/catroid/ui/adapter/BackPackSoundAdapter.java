@@ -27,10 +27,15 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.actionbarsherlock.view.ActionMode;
+
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class BackPackSoundAdapter extends SoundBaseAdapter implements ScriptActivityAdapterInterface {
 
@@ -55,5 +60,15 @@ public class BackPackSoundAdapter extends SoundBaseAdapter implements ScriptActi
 		}
 		return this.backPackSoundFragment.getView(position, convertView);
 
+	}
+
+	public void onDestroyActionModeUnpacking(ActionMode mode) {
+		Iterator<Integer> iterator = checkedSounds.iterator();
+		while (iterator.hasNext()) {
+			int position = iterator.next();
+			SoundController.getInstance().copySound(soundInfoItems.get(position),
+					BackPackListManager.getCurrentSoundInfoArrayList(), BackPackListManager.getCurrentAdapter());
+		}
+		backPackSoundFragment.clearCheckedSoundsAndEnableButtons();
 	}
 }

@@ -161,9 +161,12 @@
     <string name="dialog_confirm_delete_multiple_sounds_title">Delete these sounds?</string>
     <string name="dialog_confirm_delete_sound_message">This can not be undone!</string>
     <string name="sound_name">sound name:</string>
-    <string name="sound_unpacking_text">was unpacked</string>
     <!--  -->
-
+    
+    <plurals name="unpacking_items_plural">
+        <item quantity="one">was unpacked!</item>
+        <item quantity="other">were unpacked!</item>
+    </plurals>
 
     <!-- My Projects activity -->
     <string name="last_used">Last access:</string>
