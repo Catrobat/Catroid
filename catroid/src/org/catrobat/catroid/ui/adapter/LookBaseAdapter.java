@@ -42,7 +42,7 @@ public class LookBaseAdapter extends ArrayAdapter<LookData> implements ScriptAct
 
 	private int selectMode;
 	private boolean showDetails;
-	private SortedSet<Integer> checkedLooks = new TreeSet<Integer>();
+	protected SortedSet<Integer> checkedLooks = new TreeSet<Integer>();
 
 	public LookBaseAdapter(final Context context, int currentPlayingposition) {
 		super(context, currentPlayingposition);
