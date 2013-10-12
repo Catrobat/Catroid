@@ -327,7 +327,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public void startBackPackActionMode() {
-
+		Log.d("TAG", "startBackPackActionMode");
 		if (actionMode == null) {
 			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
 			actionMode = getSherlockActivity().startActionMode(backPackModeCallBack);

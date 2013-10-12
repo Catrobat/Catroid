@@ -149,7 +149,8 @@ public class BackPackActivity extends BaseActivity {
 				handleShowDetails(!currentFragment.getShowDetails(), item);
 				break;
 
-			case R.id.move:
+			case R.id.unpacking:
+				currentFragment.startUnPackingActionMode();
 				break;
 
 			case R.id.delete:
