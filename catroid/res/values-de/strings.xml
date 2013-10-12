@@ -23,61 +23,80 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <string name="app_name">Pocket Code</string>
-  <string name="cancel_button">Abbrechen</string>
-  <string name="rename">Umbenennen</string>
-  <string name="delete">Löschen</string>
-  <string name="yes">Ja</string>
-  <string name="no">Nein</string>
-  <string name="copy">Kopieren</string>
-  <string name="cut">Ausschneiden</string>
-  <string name="move">Verschieben</string>
-  <string name="backpack">Rucksack</string>
-  <string name="unpacking">Auspacken</string>
-  <string name="unpack">Pack es aus</string>
-  <string name="copy_addition">Kopie</string>
-  <string name="close">Schließen</string>
-  <string name="error">Fehler</string>
-  <string name="please_wait">Bitte warten</string>
-  <string name="loading">Lade&#8230;</string>
-  <string name="background">Hintergrund</string>
-  <string name="stage">Bühne</string>
-  <string name="ok">OK</string>
-  <string name="settings">Einstellungen</string>
-  <string name="main_menu_new">Neu</string>
-  <string name="main_menu_continue">Fortsetzen</string>
-  <string name="main_menu_programs">Programme</string>
-  <string name="main_menu_help">Hilfe</string>
-  <string name="main_menu_web">Erkunden</string>
-  <string name="main_menu_upload">Hochladen</string>
-  <string name="main_menu_about_pocketcode">Über Pocket Code</string>
-  <string name="main_menu_terms_of_use">Nutzungsbedingungen</string>
-  <string name="main_menu_rate_app">Bewerte uns!</string>
-  <string name="main_menu_play_store_not_installed">Play Store App nicht gefunden</string>
-  <string name="main_menu_web_dialog_title">Achtung!</string>
-  <string name="main_menu_web_dialog_message">Derzeit werden keine alternativen Browser wie Firefox oder Dolphin unterstützt</string>
-  <string name="main_menu_web_dialog_dont_show">Nicht mehr anzeigen</string>
-  <string name="preference_title">Einstellungen</string>
-  <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorm Bausteine</string>
-  <string name="preference_description_mindstorm_bricks">Erlaube Steuerung von Lego Mindstorm Robotern</string>
-  <string name="preference_title_use_face_detection">Gesichtserkennung</string>
-  <string name="preference_description_use_face_detection">Erlaube das Erkennen von Gesichtern</string>
-  <string name="preference_title_select_camera">Auswahl der Kamera</string>
-  <string name="preference_description_select_camera">Wähle eine Kamera für die Gesichtserkennung</string>
-  <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 Bausteine</string>
-  <string name="preference_description_quadcopter_bricks">Erlaubt dir, die ARDrone 2.0 zu steuern.</string>
-  <string name="dialog_new_object_pocketpaint">Bild zeichnen</string>
-  <string name="dialog_new_object_gallery">Bild auswählen</string>
-  <string name="dialog_new_object_camera">Foto schießen</string>
-  <string name="dialog_new_object_look_preview">Bildvorschau</string>
-  <string name="dialog_new_object_name">Objektname</string>
-  <string name="dialog_new_object_switch_title">Neues Objekt erstellt</string>
-  <string name="dialog_new_object_switch_message">Zu neuem Objekt wechseln?</string>
-  <string name="dialog_terms_of_use_title">Datenschutzrichtlinien</string>
-  <string name="dialog_terms_of_use_info">Um Pocket Code und andere 
-    ausführbare Programme, die 
-    vom Catrobat Projekt angeboten werden, nutzen zu dürfen, musst Du mit unseren 
-    Nutzungsbedingungen einverstanden sein und sie während Deiner Benutzung genau 
+    <!-- General terms -->
+    <string name="app_name">Pocket Code</string>
+    <string name="cancel_button">Abbrechen</string>
+    <string name="rename">Umbenennen</string>
+    <string name="delete">Löschen</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+    <string name="copy">Kopieren</string>
+    <string name="cut">Ausschneiden</string>
+    <string name="move">Verschieben</string>
+    <string name="backpack">Rucksack</string>
+    <string name="unpacking">Auspacken</string>
+    <string name="unpack">Pack es aus</string>
+    <string name="copy_addition">Kopie</string>
+    <string name="unpacking_addition">entpackt</string>
+    <string name="close">Schließen</string>
+    <string name="error">Fehler</string>
+    <string name="please_wait">Bitte warten</string>
+    <string name="loading">Laden…</string>
+    <string name="background">Hintergrund</string>
+    <string name="stage">Bühne</string>
+    <string name="ok">OK</string>
+    <string name="settings">Einstellungen</string>
+    <!--  -->
+
+
+    <!-- Main menu activity -->
+    <string name="main_menu_new">Neu</string>
+    <string name="main_menu_continue">Fortsetzen</string>
+    <string name="main_menu_programs">Programme</string>
+    <string name="main_menu_help">Hilfe</string>
+    <string name="main_menu_web">Erkunden</string>
+    <string name="main_menu_upload">Hochladen</string>
+    <string name="main_menu_about_pocketcode">Über Pocket Code</string>
+    
+    <string name="main_menu_terms_of_use">Nutzungsbedingungen</string>
+ 
+    <string name="main_menu_rate_app">Bewerte uns!</string>
+    <string name="main_menu_play_store_not_installed">Play Store App nicht gefunden</string>
+    <string name="main_menu_web_dialog_title">Achtung!</string>
+    <string name="main_menu_web_dialog_message">Derzeit werden keine alternativen Browser wie Firefox oder Dolphin unterstützt</string>
+    <string name="main_menu_web_dialog_dont_show">Nicht mehr anzeigen</string>
+    <!--  -->
+
+
+    <!-- Settings activity -->
+    <string name="preference_title">Einstellungen</string>
+    <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorm Bausteine</string>
+    <string name="preference_description_mindstorm_bricks">Erlaube Steuerung von Lego Mindstorm Robotern</string>
+    <string name="preference_title_use_face_detection">Gesichtserkennung</string>
+    <string name="preference_description_use_face_detection">Erlaube das Erkennen von Gesichtern</string>
+    <string name="preference_title_select_camera">Auswahl der Kamera</string>
+    <string name="preference_description_select_camera">Wähle die zu verwendende Kamera</string>
+	<string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 Bausteine</string>
+    <string name="preference_description_quadcopter_bricks">Erlaubt dir, die ARDrone 2.0 zu steuern.</string>
+    <!--  -->
+
+
+    <!-- New Object Dialog -->
+    <string name="dialog_new_object_pocketpaint">Bild zeichnen</string>
+    <string name="dialog_new_object_gallery">Bild auswählen</string>
+    <string name="dialog_new_object_camera">Bild aufnehmen</string>
+    <string name="dialog_new_object_look_preview">Vorschau Aussehen</string>
+    <string name="dialog_new_object_name">Objekt Name</string>
+    <string name="dialog_new_object_switch_title">Neues Objekt erstellt</string>
+    <string name="dialog_new_object_switch_message">Zu neuem Objekt wechseln?</string>
+    <!-- -->
+
+
+    <!-- Terms of Use Dialog -->
+    <string name="dialog_terms_of_use_title">Nutzungsbedingungen</string>
+    <string name="dialog_terms_of_use_info">Um Pocket Code und andere ausführbare Programme, die
+    vom Catrobat Projekt angeboten werden, nutzen zu dürfen, musst Du mit unseren
+    Nutzungsbedingungen einverstanden sein und sie während Deiner Benutzung genau
     einhalten. Die exakte Formulierung unserer Nutzungsbedingungen steht unter 
     dem folgenden \"Terms of Use\" Link zur Verfügung.\n</string>
   <string name="dialog_terms_of_use_link_text">Datenschutzrichtlinien</string>
