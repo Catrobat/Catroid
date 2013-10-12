@@ -435,6 +435,9 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	public void testDeleteActionModeAllBricks() {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(solo.getCurrentActivity());
+		sharedPreferences.edit().putBoolean("setting_pc_connection_bricks", true).commit();
+
 		UiTestUtils.createTestProjectWithEveryBrick();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
@@ -460,6 +463,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 				.getNumberOfBricks();
 
 		assertEquals("Not all Bricks have been deleted!", 0, numberOfBricks);
+		sharedPreferences.edit().putBoolean("setting_pc_connection_bricks", false).commit();
 	}
 
 	public void testDeleteActionModeTwoScripts() {

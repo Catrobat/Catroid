@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ *  Catroid: An on-device visual programming system for Android devices
+ *  Copyright (C) 2010-2013 The Catrobat Team
+ *  (<http://developer.catrobat.org/credits>)
+ *  
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://developer.catrobat.org/license_additional_term
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU Affero General Public License for more details.
+ *  
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:keyHeight="10%p" >
+
+    <Row>
+        <Key
+            android:codes="17"
+            android:keyEdgeFlags="left"
+            android:keyLabel="@string/key_control"
+            android:keyWidth="20%" />
+        <Key
+            android:codes="16"
+            android:keyLabel="@string/key_shift"
+            android:keyWidth="25%" />
+        <Key
+            android:codes="20"
+            android:keyLabel="@string/key_caps_lock"
+            android:keyWidth="35%" />
+        <Key
+            android:codes="27"
+            android:keyEdgeFlags="right"
+            android:keyLabel="@string/key_escape"
+            android:keyWidth="20%" />
+    </Row>
+    <Row>
+        <Key
+            android:codes="13"
+            android:keyLabel="@string/key_enter"
+            android:keyWidth="25%" />
+        <Key
+            android:codes="28"
+            android:keyEdgeFlags="right"
+            android:keyIcon="@drawable/arrow_up"
+            android:keyWidth="25%" />
+        <Key
+            android:codes="8"
+            android:keyEdgeFlags="right"
+            android:keyLabel="@string/key_back_space"
+            android:keyWidth="50%" />
+    </Row>
+    <Row>
+        <Key
+            android:codes="37"
+            android:keyIcon="@drawable/arrow_left"
+            android:keyWidth="25%" />
+        <Key
+            android:codes="40"
+            android:keyEdgeFlags="right"
+            android:keyIcon="@drawable/arrow_down"
+            android:keyWidth="25%" />
+        <Key
+            android:codes="39"
+            android:keyEdgeFlags="right"
+            android:keyIcon="@drawable/arrow_right"
+            android:keyWidth="25%" />
+        <Key
+            android:codes="9"
+            android:keyEdgeFlags="right"
+            android:keyIcon="@drawable/tab"
+            android:keyWidth="25%" />
+    </Row>
+    <Row>
+        <Key
+            android:codes="1"
+            android:keyEdgeFlags="left"
+            android:keyLabel="@string/key_alt"
+            android:keyWidth="20%" />
+        <Key
+            android:codes="32"
+            android:keyLabel="@string/key_space"
+            android:keyWidth="55%" />
+        <Key
+            android:codes="2"
+            android:keyLabel="@string/key_alt_gr"
+            android:keyWidth="25%" />
+    </Row>
+
+</Keyboard>

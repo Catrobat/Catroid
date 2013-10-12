@@ -82,6 +82,39 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("Lego brick category is not showing!", solo.searchText(categoryLegoNXTLabel));
 	}
 
+	public void testToggleSendToPcBrick() {
+		String settings = solo.getString(R.string.main_menu_settings);
+		String sendToPcPreferenceString = solo.getString(R.string.preference_title_enable_pc_connection);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+		//disable sendToPc bricks, if enabled at start
+		if (preferences.getBoolean("setting_pc_connection_bricks", false)) {
+			solo.clickOnMenuItem(settings);
+			solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
+			solo.clickOnText(sendToPcPreferenceString);
+			solo.goBack();
+		}
+
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.clickOnText(solo.getString(R.string.category_control));
+		solo.searchText(solo.getString(R.string.category_control));
+		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
+				solo.getCurrentViews(ListView.class).size() - 1);
+		solo.scrollListToBottom(fragmentListView);
+		assertFalse("SendToPc brick is shown!", solo.searchText(solo.getString(R.string.brick_send_to_pc)));
+		solo.clickOnMenuItem(settings);
+		solo.waitForActivity(SettingsActivity.class.getSimpleName());
+		assertTrue("Wrong title", solo.searchText(solo.getString(R.string.preference_title)));
+		solo.clickOnText(sendToPcPreferenceString);
+		assertTrue("Info is not on screen.", solo.searchText(solo.getString(R.string.setting_info_for_send_to_pc)));
+		solo.clickOnText(solo.getString(R.string.ok));
+		solo.goBack();
+		fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
+		solo.scrollListToBottom(fragmentListView);
+		assertTrue("SendToPc brick is not shown!", solo.searchText(solo.getString(R.string.brick_send_to_pc)));
+	}
+
 	public void testOrientation() throws NameNotFoundException {
 		/// Method 1: Assert it is currently in portrait mode.
 		assertEquals("SettingsActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, getActivity()

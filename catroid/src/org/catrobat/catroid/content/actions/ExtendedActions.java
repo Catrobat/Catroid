@@ -31,9 +31,11 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.SendToPcBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.PcConnectionManager;
 
 public class ExtendedActions extends Actions {
 
@@ -347,6 +349,13 @@ public class ExtendedActions extends Actions {
 		action.setIsForeverRepeat(true);
 		action.setAction(foreverSequence);
 		action.setSprite(sprite);
+		return action;
+	}
+
+	public static Action sendToPc(SendToPcBrick sendToPcBrick) {
+		SendToPcAction action = action(SendToPcAction.class);
+		action.setConnection(PcConnectionManager.getInstance(null).getConnection());
+		action.setSendToPcBrick(sendToPcBrick);
 		return action;
 	}
 }

@@ -23,6 +23,8 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -61,6 +63,7 @@ import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.bricks.SendToPcBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
@@ -120,6 +123,10 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new ForeverBrick(sprite));
 		controlBrickList.add(new IfLogicBeginBrick(sprite, 0));
 		controlBrickList.add(new RepeatBrick(sprite, BrickValues.REPEAT));
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		if (sharedPreferences.getBoolean("setting_pc_connection_bricks", false)) {
+			controlBrickList.add(new SendToPcBrick(sprite));
+		}
 
 		return controlBrickList;
 	}

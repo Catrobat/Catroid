@@ -26,7 +26,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,6 +37,11 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.catrobat.catroid.ProjectManager;
@@ -44,6 +51,9 @@ import org.catrobat.catroid.bluetooth.DeviceListActivity;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.SendToPcBrick;
+import org.catrobat.catroid.io.Connection.connectionState;
+import org.catrobat.catroid.io.PcConnectionManager;
 import org.catrobat.catroid.legonxt.LegoNXT;
 import org.catrobat.catroid.legonxt.LegoNXTBtCommunicator;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
@@ -67,6 +77,8 @@ public class PreStageActivity extends Activity {
 	private ProgressDialog connectingProgressDialog;
 	private static TextToSpeech textToSpeech;
 	private static OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer;
+	private AlertDialog connectionDialog;
+	private boolean suppressBroadcast = false;
 
 	private boolean autoConnect = false;
 
@@ -98,6 +110,25 @@ public class PreStageActivity extends Activity {
 				}
 
 			}
+		}
+		if ((requiredResources & Brick.CONNECTION_TO_PC) > 0) {
+			if (!PcConnectionManager.getInstance(this).getConnectionAlreadySetUp()
+					|| PcConnectionManager.getInstance(this).getConnection() == null) {
+				connectionDialog = createSetUpConnectionAlert();
+				connectionDialog.setCancelable(true);
+				connectionDialog.setCanceledOnTouchOutside(false);
+				connectionDialog.setOnCancelListener(new OnCancelListener() {
+
+					@Override
+					public void onCancel(DialogInterface dialog) {
+						resourceFailed();
+					}
+				});
+				connectionDialog.show();
+			} else {
+				resourceInitialized();
+			}
+
 		}
 		if (requiredResourceCounter == Brick.NO_RESOURCES) {
 			startStage();
@@ -307,4 +338,88 @@ public class PreStageActivity extends Activity {
 			}
 		}
 	};
+
+	private Spinner ipSpinner;
+
+	private AlertDialog createSetUpConnectionAlert() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setView(this.findViewById(R.layout.dialog_pc_connection_setup));
+
+		final View dialogLayout = View.inflate(this, R.layout.dialog_pc_connection_setup, null);
+		LinearLayout imageLayout = (LinearLayout) dialogLayout.findViewById(R.id.dialog_connection_setup_layout);
+		SendToPcBrick sendToPcBrick = new SendToPcBrick(null);
+		imageLayout.addView(sendToPcBrick.getPrototypeView(this));
+
+		final Context context = this;
+		builder.setTitle(R.string.dialog_connection_setup_title).setCancelable(false)
+				.setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						resourceFailed();
+					}
+				}).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						connectionState state = PcConnectionManager.getInstance(context).setUpConnection(ipSpinner);
+						if (state == connectionState.CONNECTED) {
+							PcConnectionManager.getInstance(context).setConnectionAlreadySetUp(true);
+							resourceInitialized();
+						} else if (state == connectionState.UNCONNECTED_ILLEGALVERSION) {
+							AlertDialog.Builder builder = new AlertDialog.Builder(PreStageActivity.this);
+							builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									connectionDialog = createSetUpConnectionAlert();
+									suppressBroadcast = false;
+									connectionDialog.show();
+								}
+							});
+							if (PcConnectionManager.getInstance(context).getVersionId() > PcConnectionManager
+									.getInstance(context).getServerVersionId()) {
+								builder.setMessage(getString(R.string.illegalVersionYounger)).setCancelable(false);
+							} else {
+								builder.setMessage(getString(R.string.illegalVersionOlder)).setCancelable(false);
+							}
+							AlertDialog illegalVersiondialog = builder.create();
+							suppressBroadcast = true;
+							illegalVersiondialog.show();
+						} else {
+							AlertDialog noDeviceSelectedDialog = createNoDeviceSelectedDialog();
+							noDeviceSelectedDialog.show();
+						}
+					}
+				}).setView(dialogLayout);
+
+		Button scanButton = (Button) dialogLayout.findViewById(R.id.dialog_connection_setup_button);
+		scanButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+
+				ipSpinner = (Spinner) dialogLayout.findViewById(R.id.dialog_connection_setup_spinner);
+				if (!suppressBroadcast) {
+					PcConnectionManager.getInstance(context).broadcast(ipSpinner);
+				}
+			}
+		});
+
+		scanButton.performClick();
+
+		return builder.create();
+	}
+
+	public AlertDialog createNoDeviceSelectedDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(getString(R.string.no_device_selected)).setCancelable(false)
+				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						connectionDialog.dismiss();
+						connectionDialog = createSetUpConnectionAlert();
+						connectionDialog.show();
+					}
+				});
+		return builder.create();
+	}
 }
