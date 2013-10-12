@@ -578,6 +578,63 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertTrue("Sound wasn't unpacked!", solo.waitForText(FIRST_TEST_SOUND_NAME, 0, TIME_TO_WAIT));
 	}
 
+	public void testSingleUnpackingWithActionBar() {
+		SoundAdapter adapter = getSoundAdapter();
+		int oldCount = adapter.getCount();
+
+		assertNotNull("Could not get Adapter", adapter);
+		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.backpack));
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+
+		solo.goBack();
+
+		clickOnContextMenuItem(SECOND_TEST_SOUND_NAME, solo.getString(R.string.backpack));
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.unpacking), R.id.unpacking, getActivity());
+
+		solo.clickOnCheckBox(0);
+		checkIfCheckboxesAreCorrectlyChecked(true, false);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		solo.waitForDialogToClose(1000);
+
+		solo.goBack();
+
+		int newCount = adapter.getCount();
+		assertEquals("There are sounds missing", oldCount + 1, newCount);
+	}
+
+	public void testMultipleUnpackingWithActionBar() {
+		SoundAdapter adapter = getSoundAdapter();
+		int oldCount = adapter.getCount();
+
+		assertNotNull("Could not get Adapter", adapter);
+		clickOnContextMenuItem(FIRST_TEST_SOUND_NAME, solo.getString(R.string.backpack));
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+
+		solo.goBack();
+
+		clickOnContextMenuItem(SECOND_TEST_SOUND_NAME, solo.getString(R.string.backpack));
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.unpacking), R.id.unpacking, getActivity());
+
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(true, true);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		solo.waitForDialogToClose(1000);
+
+		solo.goBack();
+
+		int newCount = adapter.getCount();
+		assertEquals("There are sounds missing", oldCount + 2, newCount);
+	}
+
 	public void testBackPackAndUnPackFromDifferentSprites() {
 		UiTestUtils.createTestProjectWithTwoSprites(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		SoundAdapter adapter = getSoundAdapter();

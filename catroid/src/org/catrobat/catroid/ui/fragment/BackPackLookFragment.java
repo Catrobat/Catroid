@@ -96,4 +96,8 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 	public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 		return false;
 	}
+
+	@Override
+	public void startUnPackingActionMode() {
+	}
 }
