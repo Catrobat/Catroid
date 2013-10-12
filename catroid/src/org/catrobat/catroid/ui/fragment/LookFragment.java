@@ -140,8 +140,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 			for (int position : adapter.getCheckedItems()) {
-				LookController.getInstance().copyLook(position, lookDataList, getActivity(),
-						((LookAdapter) adapter).getLookFragment());
+				LookController.getInstance().copyLook(position, lookDataList, getActivity(), LookFragment.this);
 			}
 			clearCheckedLooksAndEnableButtons();
 		}
@@ -339,7 +338,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			ScriptActivity scriptActivity = (ScriptActivity) getActivity();
 			if (scriptActivity.getIsLookFragmentFromSetLookBrickNew()
 					&& scriptActivity.getIsLookFragmentHandleAddButtonHandled()) {
-				LookController.getInstance().switchToScriptFragment(((LookAdapter) adapter).getLookFragment());
+				LookController.getInstance().switchToScriptFragment(LookFragment.this);
 			}
 		}
 	}
@@ -422,8 +421,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
-        menu.findItem(R.id.context_menu_backpack).setVisible(false);
-        menu.findItem(R.id.context_menu_unpacking).setVisible(false);
+		menu.findItem(R.id.context_menu_backpack).setVisible(false);
+		menu.findItem(R.id.context_menu_unpacking).setVisible(false);
 	}
 
 	@Override
@@ -432,7 +431,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		switch (item.getItemId()) {
 			case R.id.context_menu_copy: {
 				LookController.getInstance().copyLook(selectedLookPosition, lookDataList, getActivity(),
-						((LookAdapter) adapter).getLookFragment());
+						LookFragment.this);
 				break;
 			}
 

@@ -75,7 +75,6 @@ public class LookController {
 	public static final String BUNDLE_ARGUMENTS_URI_IS_SET = "uri_is_set";
 	public static final String LOADER_ARGUMENTS_IMAGE_URI = "image_uri";
 	public static final String SHARED_PREFERENCE_NAME = "showDetailsLooks";
-
 	private static LookController instance;
 
 	public static LookController getInstance() {
@@ -88,88 +87,95 @@ public class LookController {
 	public void updateLookLogic(final int position, final LookViewHolder holder, final LookBaseAdapter lookAdapter) {
 		final LookData lookData = lookAdapter.getLookDataItems().get(position);
 
-		if (lookData != null) {
-			holder.lookNameTextView.setTag(position);
-			holder.lookElement.setTag(position);
+		if (lookData == null) {
+			return;
+		}
+		holder.lookNameTextView.setTag(position);
+		holder.lookElement.setTag(position);
+		holder.lookImageView.setImageBitmap(lookData.getThumbnailBitmap());
+		holder.lookNameTextView.setText(lookData.getLookName());
 
-			holder.lookImageView.setImageBitmap(lookData.getThumbnailBitmap());
-			holder.lookNameTextView.setText(lookData.getLookName());
+		boolean checkboxIsVisible = handleCheckboxes(position, holder, lookAdapter);
+		handleDetails(lookData, holder, lookAdapter);
 
-			holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+		// Disable ImageView on active ActionMode
+		if (checkboxIsVisible) {
+			holder.lookImageView.setEnabled(false);
+		} else {
+			holder.lookImageView.setEnabled(true);
+		}
+		if (holder.lookElement.isClickable()) {
+			holder.lookElement.setOnClickListener(new View.OnClickListener() {
 				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					if (isChecked) {
-						if (lookAdapter.getSelectMode() == ListView.CHOICE_MODE_SINGLE) {
-							lookAdapter.clearCheckedItems();
-						}
-						lookAdapter.getCheckedItems().add(position);
-					} else {
-						lookAdapter.getCheckedItems().remove(position);
-					}
-					lookAdapter.notifyDataSetChanged();
-
-					if (lookAdapter.getOnLookEditListener() != null) {
-						lookAdapter.getOnLookEditListener().onLookChecked();
+				public void onClick(View view) {
+					if (lookAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
+						holder.checkbox.setChecked(!holder.checkbox.isChecked());
+					} else if (lookAdapter.getOnLookEditListener() != null) {
+						lookAdapter.getOnLookEditListener().onLookEdit(view);
 					}
 				}
 			});
+		} else {
+			holder.lookElement.setOnClickListener(null);
+		}
+	}
 
-			boolean checkboxIsVisible = false;
-
-			if (lookAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
-				holder.checkbox.setVisibility(View.VISIBLE);
-				holder.lookArrowView.setVisibility(View.GONE);
-				holder.lookElement.setBackgroundResource(R.drawable.button_background_shadowed);
-				checkboxIsVisible = true;
-			} else {
-				holder.checkbox.setVisibility(View.GONE);
-				holder.checkbox.setChecked(false);
-				holder.lookArrowView.setVisibility(View.VISIBLE);
-				holder.lookElement.setBackgroundResource(R.drawable.button_background_selector);
-				lookAdapter.clearCheckedItems();
+	private void handleDetails(LookData lookData, LookViewHolder holder, LookBaseAdapter lookAdapter) {
+		if (lookAdapter.getShowDetails()) {
+			if (lookData.getAbsolutePath() != null) {
+				holder.lookFileSizeTextView.setText(UtilFile.getSizeAsString(new File(lookData.getAbsolutePath())));
 			}
+			int[] measure = lookData.getMeasure();
+			String measureString = measure[0] + " x " + measure[1];
 
-			if (lookAdapter.getCheckedItems().contains(position)) {
-				holder.checkbox.setChecked(true);
-			} else {
-				holder.checkbox.setChecked(false);
-			}
+			holder.lookMeasureTextView.setText(measureString);
+			holder.lookDetailsLinearLayout.setVisibility(TextView.VISIBLE);
+		} else {
+			holder.lookDetailsLinearLayout.setVisibility(TextView.GONE);
+		}
+	}
 
-			if (lookAdapter.getShowDetails()) {
-				if (lookData.getAbsolutePath() != null) {
-					holder.lookFileSizeTextView.setText(UtilFile.getSizeAsString(new File(lookData.getAbsolutePath())));
-				}
-				int[] measure = lookData.getMeasure();
-				String measureString = measure[0] + " x " + measure[1];
-
-				holder.lookMeasureTextView.setText(measureString);
-				holder.lookDetailsLinearLayout.setVisibility(TextView.VISIBLE);
-			} else {
-				holder.lookDetailsLinearLayout.setVisibility(TextView.GONE);
-			}
-
-			// Disable ImageView on active ActionMode
-			if (checkboxIsVisible) {
-				holder.lookImageView.setEnabled(false);
-			} else {
-				holder.lookImageView.setEnabled(true);
-			}
-			if (holder.lookElement.isClickable()) {
-				holder.lookElement.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						if (lookAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
-							holder.checkbox.setChecked(!holder.checkbox.isChecked());
-						} else if (lookAdapter.getOnLookEditListener() != null) {
-							lookAdapter.getOnLookEditListener().onLookEdit(view);
-						}
+	private boolean handleCheckboxes(final int position, LookViewHolder holder, final LookBaseAdapter lookAdapter) {
+		holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isChecked) {
+					if (lookAdapter.getSelectMode() == ListView.CHOICE_MODE_SINGLE) {
+						lookAdapter.clearCheckedItems();
 					}
-				});
-			} else {
-				holder.lookElement.setOnClickListener(null);
+					lookAdapter.getCheckedItems().add(position);
+				} else {
+					lookAdapter.getCheckedItems().remove(position);
+				}
+				lookAdapter.notifyDataSetChanged();
+
+				if (lookAdapter.getOnLookEditListener() != null) {
+					lookAdapter.getOnLookEditListener().onLookChecked();
+				}
 			}
+		});
+
+		boolean checkboxIsVisible = false;
+
+		if (lookAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
+			holder.checkbox.setVisibility(View.VISIBLE);
+			holder.lookArrowView.setVisibility(View.GONE);
+			holder.lookElement.setBackgroundResource(R.drawable.button_background_shadowed);
+			checkboxIsVisible = true;
+		} else {
+			holder.checkbox.setVisibility(View.GONE);
+			holder.checkbox.setChecked(false);
+			holder.lookArrowView.setVisibility(View.VISIBLE);
+			holder.lookElement.setBackgroundResource(R.drawable.button_background_selector);
+			lookAdapter.clearCheckedItems();
 		}
 
+		if (lookAdapter.getCheckedItems().contains(position)) {
+			holder.checkbox.setChecked(true);
+		} else {
+			holder.checkbox.setChecked(false);
+		}
+		return checkboxIsVisible;
 	}
 
 	public Loader<Cursor> onCreateLoader(int id, Bundle arguments, FragmentActivity activity) {
