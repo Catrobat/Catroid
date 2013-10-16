@@ -28,7 +28,6 @@ Feature: Broadcast brick
     """
     I am the Start script.
     I am the When 'hello' script.
-
     """
 
   Scenario: A Broadcast brick sends a message in a program with two When scripts
@@ -62,5 +61,4 @@ Feature: Broadcast brick
     I am the first When 'hello' script.
     I am the Start script.
     I am the second When 'hello' script.
-
     """

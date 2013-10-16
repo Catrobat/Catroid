@@ -91,7 +91,7 @@ public class PrintBrick extends BrickBaseType {
 
 		@Override
 		public boolean act(float v) {
-			printStream.println(text);
+			printStream.print(text);
 			return true;
 		}
 	}

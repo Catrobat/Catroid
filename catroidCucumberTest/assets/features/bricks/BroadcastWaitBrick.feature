@@ -28,7 +28,6 @@ Feature: Broadcast wait brick
     """
     I am the When 'hello' script.
     I am the Start script.
-
     """
 
   Scenario: A Broadcast Wait brick sends a message in a program with two When scripts
@@ -61,5 +60,4 @@ Feature: Broadcast wait brick
     I am the first When 'hello' script.
     I am the second When 'hello' script.
     I am the Start script.
-
     """

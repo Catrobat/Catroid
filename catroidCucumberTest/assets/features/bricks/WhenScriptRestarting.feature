@@ -39,5 +39,4 @@ Feature: When script restarting
     I am the When 'hello' script (1).
     I am the When 'hello' script (2).
     I am the When 'hello' script (3).
-
     """
