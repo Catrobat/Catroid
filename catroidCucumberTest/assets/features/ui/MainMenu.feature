@@ -2,8 +2,8 @@ Feature: Main menu
   In order to give the user a starting point
   The main menu offers a number of distinctive options
 
-  Background: Use a default program
-    Given I have a default program
+  Background:
+    Given I have a Program
 
   Scenario: The main menu has a list of labeled buttons
     Given I am in the main menu

@@ -34,7 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AssertionErrorMessageTest extends TestCase {
-	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidUiTest", };
+	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidUiTest",
+			"../catroidCucumberTest", };
 
 	private static final String OPENING_BRACKET = "\\(";
 	private static final String CLOSING_BRACKET = "\\)";
