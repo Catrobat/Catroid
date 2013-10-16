@@ -1,4 +1,5 @@
 Feature: Repeat brick delay
+
   Each iteration of a Repeat brick takes at least 20 milliseconds.
 
   Background:
@@ -6,6 +7,7 @@ Feature: Repeat brick delay
     And this program has an Object 'Object'
 
   Scenario: No more than 200 iterations in 2 seconds
+
     Given 'Object' has a Start script
     And this script has a set 'i' to 0 brick
     And this script has a set 'k' to 0 brick

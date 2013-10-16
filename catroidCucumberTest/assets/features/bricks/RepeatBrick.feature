@@ -1,4 +1,5 @@
 Feature: Repeat brick
+
   A Repeat brick repeats another set of bricks a given number of times.
 
   Background:
@@ -6,6 +7,7 @@ Feature: Repeat brick
     And this program has an Object 'Object'
 
   Scenario: Increment variable inside loop
+
     Given 'Object' has a Start script
     And this script has a set 'i' to 0 brick
     And this script has a Repeat 8 times brick

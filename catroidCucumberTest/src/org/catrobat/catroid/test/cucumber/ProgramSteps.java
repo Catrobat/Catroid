@@ -116,16 +116,6 @@ public class ProgramSteps extends AndroidTestCase {
 		Cucumber.put(Cucumber.KEY_CURRENT_SCRIPT, script);
 	}
 
-	@And("^this script has a Wait (\\d+.?\\d*) seconds brick$")
-	public void script_has_wait_ms_brick(float seconds) {
-		Sprite object = (Sprite) Cucumber.get(Cucumber.KEY_CURRENT_OBJECT);
-		Script script = (Script) Cucumber.get(Cucumber.KEY_CURRENT_SCRIPT);
-
-		int millis = Math.round(seconds * 1000f);
-		Brick brick = new WaitBrick(object, millis);
-		script.addBrick(brick);
-	}
-
 	@And("^this script has a set '(\\w+)' to (\\d+.?\\d*) brick$")
 	public void script_has_set_var_to_val_brick(String a, String b) {
 		Sprite object = (Sprite) Cucumber.get(Cucumber.KEY_CURRENT_OBJECT);
@@ -233,6 +223,11 @@ public class ProgramSteps extends AndroidTestCase {
 		script.addBrick(brick);
 	}
 
+	@And("^this script has a Print brick with '(.*)'$")
+	public void script_has_a_print_brick_s(String text) {
+		script_has_a_print_brick(text);
+	}
+
 	@And("^this script has a Print brick with$")
 	public void script_has_a_print_brick(String text) {
 		Sprite object = (Sprite) Cucumber.get(Cucumber.KEY_CURRENT_OBJECT);
@@ -323,10 +318,16 @@ public class ProgramSteps extends AndroidTestCase {
 		assertThat("The variable is != the value.", actual, equalTo(expected));
 	}
 
+	@Then("^I should see the printed output '(.*)'$")
+	public void I_should_see_printed_output_s(String text) throws IOException {
+		I_should_see_printed_output(text);
+	}
+
 	@Then("^I should see the printed output$")
 	public void I_should_see_printed_output(String text) throws IOException {
-		String actual = outputStream.toString();
-		assertEquals("The printed output is wrong.", text, actual);
+		String actual = outputStream.toString().replace(System.getProperty("line.separator"), "");
+		String expected = text.replace(System.getProperty("line.separator"), "");
+		assertEquals("The printed output is wrong.", expected, actual);
 		outputStream.close();
 	}
 }
