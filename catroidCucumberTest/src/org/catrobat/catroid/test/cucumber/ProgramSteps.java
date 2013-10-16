@@ -116,16 +116,6 @@ public class ProgramSteps extends AndroidTestCase {
 		Cucumber.put(Cucumber.KEY_CURRENT_SCRIPT, script);
 	}
 
-	@And("^this script has a Wait (\\d+.?\\d*) seconds brick$")
-	public void script_has_wait_ms_brick(float seconds) {
-		Sprite object = (Sprite) Cucumber.get(Cucumber.KEY_CURRENT_OBJECT);
-		Script script = (Script) Cucumber.get(Cucumber.KEY_CURRENT_SCRIPT);
-
-		int millis = Math.round(seconds * 1000f);
-		Brick brick = new WaitBrick(object, millis);
-		script.addBrick(brick);
-	}
-
 	@And("^this script has a set '(\\w+)' to (\\d+.?\\d*) brick$")
 	public void script_has_set_var_to_val_brick(String a, String b) {
 		Sprite object = (Sprite) Cucumber.get(Cucumber.KEY_CURRENT_OBJECT);
