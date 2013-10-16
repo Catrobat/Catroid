@@ -60,7 +60,7 @@ public class MainMenuSteps extends AndroidTestCase {
 	}
 
 	@Deprecated
-	@Then("^I should see the following buttons:$")
+	@Then("^I should see the following buttons$")
 	public void I_should_see_the_following_buttons(List<String> expectedButtons) {
 		Solo solo = (Solo) Cucumber.get(Cucumber.KEY_SOLO);
 		List<String> actualButtons = new ArrayList<String>();
