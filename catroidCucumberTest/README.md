@@ -1,6 +1,5 @@
 #### Cucumber tests for Catroid
 
-* Features must be placed in `assets/features/`
+* Features must be placed inside `assets/features/`.
 * Run with CucumberInstrumentation instrumentation test runner.
-* See [cucumber-android](https://github.com/mfellner/cucumber-android) for details.
-
+* See [cucumber-jvm](https://github.com/cucumber/cucumber-jvm) for details.

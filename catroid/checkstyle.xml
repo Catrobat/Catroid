@@ -68,7 +68,7 @@
     <module name="PackageDeclaration"/>
     <module name="ImportOrder">
       <property name="option" value="top"/>
-      <property name="groups" value="android,com,edu,junit,net,org,java,javax"/>
+      <property name="groups" value="android,com,cucumber,edu,junit,net,org,java,javax"/>
       <property name="ordered" value="true"/>
       <property name="separated" value="true"/>
     </module>

@@ -38,7 +38,7 @@ public class BlockCharacterTest extends TestCase {
 	private boolean errorFound;
 
 	private static final String[] DIRECTORIES = { "../catroidUiTest", "../catroidTest", "../catroid",
-			"../catroidSourceTest" };
+			"../catroidSourceTest", "../catroidCucumberTest", };
 
 	private void checkFileForBlockCharacters(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
