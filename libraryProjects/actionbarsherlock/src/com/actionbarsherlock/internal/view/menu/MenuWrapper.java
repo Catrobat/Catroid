@@ -79,21 +79,33 @@ public class MenuWrapper implements Menu {
 
     @Override
     public int addIntentOptions(int groupId, int itemId, int order, ComponentName caller, Intent[] specifics, Intent intent, int flags, MenuItem[] outSpecificItems) {
-        android.view.MenuItem[] nativeOutItems = new android.view.MenuItem[outSpecificItems.length];
-        int result = mNativeMenu.addIntentOptions(groupId, itemId, order, caller, specifics, intent, flags, nativeOutItems);
-        for (int i = 0, length = outSpecificItems.length; i < length; i++) {
-            outSpecificItems[i] = new MenuItemWrapper(nativeOutItems[i]);
+        int result;
+        if (outSpecificItems != null) {
+            android.view.MenuItem[] nativeOutItems = new android.view.MenuItem[outSpecificItems.length];
+            result = mNativeMenu.addIntentOptions(groupId, itemId, order, caller, specifics, intent, flags, nativeOutItems);
+            for (int i = 0, length = outSpecificItems.length; i < length; i++) {
+                outSpecificItems[i] = new MenuItemWrapper(nativeOutItems[i]);
+            }
+        } else {
+            result = mNativeMenu.addIntentOptions(groupId, itemId, order, caller, specifics, intent, flags, null);
         }
         return result;
     }
 
     @Override
     public void removeItem(int id) {
+        mNativeMap.remove(mNativeMenu.findItem(id));
         mNativeMenu.removeItem(id);
     }
 
     @Override
     public void removeGroup(int groupId) {
+        for (int i = 0; i < mNativeMenu.size(); i++) {
+            final android.view.MenuItem item = mNativeMenu.getItem(i);
+            if (item.getGroupId() == groupId) {
+                mNativeMap.remove(item);
+            }
+        }
         mNativeMenu.removeGroup(groupId);
     }
 
@@ -101,6 +113,20 @@ public class MenuWrapper implements Menu {
     public void clear() {
         mNativeMap.clear();
         mNativeMenu.clear();
+    }
+
+    public void invalidate() {
+        if (mNativeMap.isEmpty()) return;
+
+        final WeakHashMap<android.view.MenuItem, MenuItem> menuMapCopy = new WeakHashMap<android.view.MenuItem, MenuItem>(mNativeMap.size());
+
+        for (int i = 0; i < mNativeMenu.size(); i++) {
+            final android.view.MenuItem item = mNativeMenu.getItem(i);
+            menuMapCopy.put(item, mNativeMap.get(item));
+        }
+
+        mNativeMap.clear();
+        mNativeMap.putAll(menuMapCopy);
     }
 
     @Override

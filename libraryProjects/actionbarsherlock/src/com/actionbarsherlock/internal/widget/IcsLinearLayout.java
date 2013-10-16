@@ -3,9 +3,12 @@ package com.actionbarsherlock.internal.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
+
 import com.actionbarsherlock.internal.nineoldandroids.widget.NineLinearLayout;
 
 /**
@@ -16,10 +19,10 @@ import com.actionbarsherlock.internal.nineoldandroids.widget.NineLinearLayout;
  * {@link android.widget.FrameLayout} so it can receive the margin.
  */
 public class IcsLinearLayout extends NineLinearLayout {
-    private static final int[] LinearLayout = new int[] {
+    private static final int[] R_styleable_LinearLayout = new int[] {
         /* 0 */ android.R.attr.divider,
-        /* 1 */ android.R.attr.showDividers,
-        /* 2 */ android.R.attr.dividerPadding,
+        /* 2 */ android.R.attr.showDividers,
+        /* 3 */ android.R.attr.dividerPadding,
     };
     private static final int LinearLayout_divider = 0;
     private static final int LinearLayout_showDividers = 1;
@@ -49,11 +52,10 @@ public class IcsLinearLayout extends NineLinearLayout {
     private int mShowDividers;
     private int mDividerPadding;
 
-
     public IcsLinearLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        TypedArray a = context.obtainStyledAttributes(attrs, /*com.android.internal.R.styleable.*/LinearLayout);
+        TypedArray a = context.obtainStyledAttributes(attrs, /*com.android.internal.R.styleable.*/R_styleable_LinearLayout);
 
         setDividerDrawable(a.getDrawable(/*com.android.internal.R.styleable.*/LinearLayout_divider));
         mShowDividers = a.getInt(/*com.android.internal.R.styleable.*/LinearLayout_showDividers, SHOW_DIVIDER_NONE);
@@ -94,6 +96,12 @@ public class IcsLinearLayout extends NineLinearLayout {
         if (divider == mDivider) {
             return;
         }
+
+        //Fix for issue #379
+        if (divider instanceof ColorDrawable && Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            divider = new IcsColorDrawable((ColorDrawable) divider);
+        }
+
         mDivider = divider;
         if (divider != null) {
             mDividerWidth = divider.getIntrinsicWidth();
@@ -199,6 +207,7 @@ public class IcsLinearLayout extends NineLinearLayout {
             if (child == null) {
                 bottom = getHeight() - getPaddingBottom() - mDividerHeight;
             } else {
+                //final LayoutParams lp = (LayoutParams) child.getLayoutParams();
                 bottom = child.getBottom()/* + lp.bottomMargin*/;
             }
             drawHorizontalDivider(canvas, bottom);
@@ -225,6 +234,7 @@ public class IcsLinearLayout extends NineLinearLayout {
             if (child == null) {
                 right = getWidth() - getPaddingRight() - mDividerWidth;
             } else {
+                //final LayoutParams lp = (LayoutParams) child.getLayoutParams();
                 right = child.getRight()/* + lp.rightMargin*/;
             }
             drawVerticalDivider(canvas, right);
