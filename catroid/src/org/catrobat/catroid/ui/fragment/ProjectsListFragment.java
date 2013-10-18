@@ -280,6 +280,10 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 				showSetDescriptionDialog();
 				break;
 
+			case R.id.context_menu_upload:
+				ProjectManager.getInstance().uploadProject(projectToEdit.projectName, this.getActivity());
+				break;
+
 		}
 		return super.onContextItemSelected(item);
 	}
