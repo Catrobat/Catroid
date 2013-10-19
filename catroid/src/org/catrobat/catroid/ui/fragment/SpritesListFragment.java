@@ -89,6 +89,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	private SpritesListInitReceiver spritesListInitReceiver;
 
 	private ActionMode actionMode;
+	private View selectAllActionModeButton;
 
 	private boolean actionModeActive = false;
 	private boolean isRenameActionMode;
@@ -255,6 +256,12 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			return;
 		}
 
+		updateActionModeTitle();
+		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton, spriteAdapter.getCount() > 1
+				&& spriteAdapter.getAmountOfCheckedSprites() != spriteAdapter.getCount() - 1);
+	}
+
+	private void updateActionModeTitle() {
 		int numberOfSelectedItems = spriteAdapter.getAmountOfCheckedSprites();
 
 		if (numberOfSelectedItems == 0) {
@@ -445,20 +452,19 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu).setOnClickListener(
-				new OnClickListener() {
+		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu);
+		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
-					@Override
-					public void onClick(View view) {
-						for (int position = 1; position < spriteList.size(); position++) {
-							spriteAdapter.addCheckedSprite(position);
-						}
-						spriteAdapter.notifyDataSetChanged();
-						view.setVisibility(View.GONE);
-						onSpriteChecked();
-					}
+			@Override
+			public void onClick(View view) {
+				for (int position = 1; position < spriteList.size(); position++) {
+					spriteAdapter.addCheckedSprite(position);
+				}
+				spriteAdapter.notifyDataSetChanged();
+				onSpriteChecked();
+			}
 
-				});
+		});
 	}
 
 	private class SpriteRenamedReceiver extends BroadcastReceiver {

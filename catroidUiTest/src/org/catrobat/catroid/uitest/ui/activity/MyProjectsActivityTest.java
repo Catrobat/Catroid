@@ -1729,6 +1729,34 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("The screenshot has not been changed", greenPixel2 == greenPixel3);
 	}
 
+	public void testSelectAllActionModeButton() {
+		createProjectWithBackgrounds();
+
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		assertFalse("Select All is shown", solo.searchText(selectAll));
+
+		solo.goBack();
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+
+		solo.clickOnText(selectAll);
+		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+
+		solo.clickOnCheckBox(0);
+		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+
+		solo.clickOnCheckBox(0);
+		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+	}
+
 	private void createProjectWithBackgrounds() {
 
 		LookData backgroundGreen;

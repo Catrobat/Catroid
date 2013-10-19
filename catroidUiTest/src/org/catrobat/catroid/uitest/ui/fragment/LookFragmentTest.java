@@ -1224,6 +1224,44 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 				solo.getView(R.id.bottom_bar_separator).getVisibility() == View.VISIBLE);
 	}
 
+	public void testSelectAllActionModeButton() {
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+
+		solo.clickOnText(selectAll);
+		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+
+		solo.clickOnCheckBox(0);
+		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+
+		solo.clickOnCheckBox(1);
+		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+
+		solo.goBack();
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+
+		solo.clickOnText(selectAll);
+		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+
+		solo.clickOnCheckBox(0);
+		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+
+		solo.clickOnCheckBox(1);
+		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+	}
+
 	private int[] getDisplayedMeasure(LookData look) {
 		TextView measureTextView = (TextView) solo.getView(R.id.fragment_look_item_measure_text_view);
 		String measureString = measureTextView.getText().toString();

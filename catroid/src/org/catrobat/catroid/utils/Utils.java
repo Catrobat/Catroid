@@ -49,7 +49,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
@@ -388,15 +387,6 @@ public class Utils {
 		return pixmap;
 	}
 
-	public static void setBottomBarActivated(Activity activity, boolean isActive) {
-		LinearLayout bottomBarLayout = (LinearLayout) activity.findViewById(R.id.bottom_bar);
-
-		if (bottomBarLayout != null) {
-			bottomBarLayout.findViewById(R.id.button_add).setClickable(isActive);
-			bottomBarLayout.findViewById(R.id.button_play).setClickable(isActive);
-		}
-	}
-
 	public static String getUniqueProjectName() {
 		String projectName = "project_" + String.valueOf(System.currentTimeMillis());
 		while (StorageHandler.getInstance().projectExists(projectName)) {
@@ -456,5 +446,17 @@ public class Utils {
 
 		File projectDirectory = new File(Utils.buildProjectPath(programName));
 		return projectDirectory.exists();
+	}
+
+	public static void setSelectAllActionModeButtonVisibility(View selectAllActionModeButton, boolean setVisible) {
+		if (selectAllActionModeButton == null) {
+			return;
+		}
+
+		if (setVisible) {
+			selectAllActionModeButton.setVisibility(View.VISIBLE);
+		} else {
+			selectAllActionModeButton.setVisibility(View.GONE);
+		}
 	}
 }
