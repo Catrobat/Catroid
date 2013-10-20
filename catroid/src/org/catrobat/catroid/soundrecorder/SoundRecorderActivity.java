@@ -103,7 +103,7 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 	}
 
 	private void setViewsToRecordingState() {
-		recordButton.setImageResource(R.drawable.microphone_icon_active);
+		recordButton.setImageResource(R.drawable.ic_microphone_active);
 	}
 
 	private synchronized void stopRecording() {
@@ -123,7 +123,7 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 	}
 
 	private void setViewsToNotRecordingState() {
-		recordButton.setImageResource(R.drawable.microphone_icon);
+		recordButton.setImageResource(R.drawable.ic_microphone);
 	}
 
 }
