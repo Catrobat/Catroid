@@ -60,6 +60,8 @@ import java.io.OutputStream;
 import java.util.List;
 
 public class StageListener implements ApplicationListener {
+
+	private static final int AXIS_WIDTH = 4;
 	private static final float DELTA_ACTIONS_DIVIDER_MAXIMUM = 50f;
 	private static final int ACTIONS_COMPUTATION_TIME_MAXIMUM = 8;
 	private static final boolean DEBUG = false;
@@ -390,16 +392,16 @@ public class StageListener implements ApplicationListener {
 	private void drawAxes() {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		batch.draw(axes, -virtualWidthHalf, 0, virtualWidth, 1);
-		batch.draw(axes, 0, -virtualHeightHalf, 1, virtualHeight);
+		batch.draw(axes, -virtualWidthHalf, -AXIS_WIDTH / 2, virtualWidth, AXIS_WIDTH);
+		batch.draw(axes, -AXIS_WIDTH / 2, -virtualHeightHalf, AXIS_WIDTH, virtualHeight);
 
-		font.draw(batch, "-" + (int) virtualWidthHalf, -virtualWidthHalf, 0);
-		TextBounds bounds = font.getBounds(String.valueOf((int) virtualWidthHalf));
-		font.draw(batch, String.valueOf((int) virtualWidthHalf), virtualWidthHalf - bounds.width, 0);
+		TextBounds bounds = font.getBounds(String.valueOf((int) virtualHeightHalf));
+		font.draw(batch, "-" + (int) virtualWidthHalf, -virtualWidthHalf + 3, -bounds.height / 2);
+		font.draw(batch, String.valueOf((int) virtualWidthHalf), virtualWidthHalf - bounds.width, -bounds.height / 2);
 
-		font.draw(batch, "-" + (int) virtualHeightHalf, 0, -virtualHeightHalf + bounds.height);
-		font.draw(batch, String.valueOf((int) virtualHeightHalf), 0, virtualHeightHalf);
-		font.draw(batch, "0", 0, 0);
+		font.draw(batch, "-" + (int) virtualHeightHalf, bounds.height / 2, -virtualHeightHalf + bounds.height + 3);
+		font.draw(batch, String.valueOf((int) virtualHeightHalf), bounds.height / 2, virtualHeightHalf - 3);
+		font.draw(batch, "0", bounds.height / 2, -bounds.height / 2);
 		batch.end();
 	}
 
