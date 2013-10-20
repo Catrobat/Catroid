@@ -33,6 +33,8 @@
     <string name="cut">Cut</string>
     <string name="move">Move</string>
     <string name="backpack">Backpack</string>
+    <string name="unpacking">Unpacking</string>
+    <string name="unpack">Unpack it</string>
     <string name="copy_addition">copy</string>
     <string name="close">Close</string>
     <string name="error">Error</string>
@@ -164,7 +166,11 @@
     <string name="dialog_confirm_delete_sound_message">This can not be undone!</string>
     <string name="sound_name">sound name:</string>
     <!--  -->
-
+    
+    <plurals name="unpacking_items_plural">
+        <item quantity="one">was unpacked!</item>
+        <item quantity="other">were unpacked!</item>
+    </plurals>
 
     <!-- My Projects activity -->
     <string name="last_used">Last access:</string>

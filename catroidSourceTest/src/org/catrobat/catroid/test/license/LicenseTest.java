@@ -34,7 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LicenseTest extends TestCase {
-	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidUiTest", };
+	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidUiTest",
+			"../catroidCucumberTest", };
 
 	private ArrayList<String> agplLicenseText;
 	private boolean allLicenseTextsPresentAndCorrect;
@@ -100,8 +101,8 @@ public class LicenseTest extends TestCase {
 			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());
 			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
 
-			List<File> filesToCheck = Utils.getFilesFromDirectoryByExtension(directory,
-					new String[] { ".java", ".xml" });
+			List<File> filesToCheck = Utils.getFilesFromDirectoryByExtension(directory, new String[] { ".java", ".xml",
+					".rb" });
 			for (File file : filesToCheck) {
 				checkFileForLicense(file, agplLicenseText);
 			}

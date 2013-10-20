@@ -142,11 +142,11 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
 		View rootView = inflater.inflate(R.layout.fragment_sounds, null);
 		return rootView;
 	}
@@ -174,6 +174,10 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		Utils.loadProjectIfNeeded(getActivity());
 		setHandleAddbutton();
 
+		// set adapter and soundInfoList for ev. unpacking
+		BackPackListManager.getInstance().setCurrentSoundInfoList(soundInfoList);
+		BackPackListManager.getInstance().setCurrentSoundAdapter(adapter);
+
 	}
 
 	@Override
@@ -186,6 +190,15 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		}
 		menu.findItem(R.id.backpack).setVisible(visibility);
 		menu.findItem(R.id.cut).setVisible(false);
+
+		if (BackPackListManager.getInstance().getSoundInfoArrayList().size() > 0) {
+			menu.findItem(R.id.unpacking).setVisible(true);
+		} else {
+			menu.findItem(R.id.unpacking).setVisible(false);
+
+			StorageHandler.getInstance().clearBackPackSoundDirectory();
+		}
+
 		super.onPrepareOptionsMenu(menu);
 	}
 
@@ -314,7 +327,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public void startBackPackActionMode() {
-
+		Log.d("TAG", "startBackPackActionMode");
 		if (actionMode == null) {
 			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
 			actionMode = getSherlockActivity().startActionMode(backPackModeCallBack);
@@ -459,6 +472,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
 		menu.findItem(R.id.context_menu_copy).setVisible(true);
+		menu.findItem(R.id.context_menu_unpacking).setVisible(false);
 		//TODO: remove this when inserting of sound items from backpack is possible
 		if (!BuildConfig.DEBUG) {
 			menu.findItem(R.id.context_menu_backpack).setVisible(false);
@@ -986,5 +1000,4 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			}
 		}
 	}
-
 }

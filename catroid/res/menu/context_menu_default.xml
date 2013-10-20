@@ -25,7 +25,11 @@
 
     <item
         android:id="@+id/context_menu_backpack"
-        android:title="@string/backpack"/>
+        android:title="@string/backpack" />
+	<item
+        android:id="@+id/context_menu_unpacking"
+        android:title="@string/unpack" />
+
     <item
         android:id="@+id/context_menu_copy"
         android:title="@string/copy"/>
