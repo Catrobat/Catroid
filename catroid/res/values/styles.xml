@@ -23,7 +23,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <!-- NewApi lint warnings can be ignored - functionality is handled by ActionBarSherlock -->
-    <style name="Theme.Catroid" parent="Theme.Sherlock.ForceOverflow">
+    <style name="Theme.Catroid" parent="Theme.Sherlock">
         <item name="actionBarStyle">@style/Widget.Catroid.ActionBar</item>
         <item name="android:actionBarStyle" tools:ignore="NewApi">@style/Widget.Catroid.ActionBar</item>
         <item name="android:windowBackground">@color/application_background_color</item>
