@@ -29,8 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class SoundViewHolder {
-	public ImageButton playButton;
-	public ImageButton stopButton;
+	public ImageButton playAndStopButton;
 	public LinearLayout soundFragmentButtonLayout;
 	public CheckBox checkbox;
 	public TextView titleTextView;

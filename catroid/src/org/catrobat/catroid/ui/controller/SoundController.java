@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui.controller;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
@@ -37,7 +38,6 @@ import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -82,12 +82,12 @@ public class SoundController {
 		return instance;
 	}
 
-	public void updateSoundLogic(final int position, final SoundViewHolder holder, final SoundBaseAdapter soundAdapter) {
+	public void updateSoundLogic(Context context, final int position, final SoundViewHolder holder,
+			final SoundBaseAdapter soundAdapter) {
 		final SoundInfo soundInfo = soundAdapter.getSoundInfoItems().get(position);
 
 		if (soundInfo != null) {
-			holder.playButton.setTag(position);
-			holder.stopButton.setTag(position);
+			holder.playAndStopButton.setTag(position);
 			holder.titleTextView.setText(soundInfo.getTitle());
 
 			holder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -153,8 +153,8 @@ public class SoundController {
 				}
 
 				if (soundInfo.isPlaying) {
-					holder.playButton.setVisibility(Button.GONE);
-					holder.stopButton.setVisibility(Button.VISIBLE);
+					holder.playAndStopButton.setImageResource(R.drawable.ic_media_stop);
+					holder.playAndStopButton.setContentDescription(context.getString(R.string.sound_stop));
 
 					holder.timeDurationTextView.setVisibility(TextView.VISIBLE);
 					holder.timePlayedChronometer.setVisibility(Chronometer.VISIBLE);
@@ -168,8 +168,8 @@ public class SoundController {
 						continuePlayingSound(holder.timePlayedChronometer, SystemClock.elapsedRealtime());
 					}
 				} else {
-					holder.playButton.setVisibility(Button.VISIBLE);
-					holder.stopButton.setVisibility(Button.GONE);
+					holder.playAndStopButton.setImageResource(R.drawable.ic_media_play);
+					holder.playAndStopButton.setContentDescription(context.getString(R.string.sound_play));
 
 					holder.timePlayedChronometer.setVisibility(TextView.GONE);
 					holder.timePlayedChronometer.setVisibility(Chronometer.GONE);
@@ -206,26 +206,27 @@ public class SoundController {
 			});
 
 			if (soundAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
-				holder.playButton.setOnClickListener(listItemOnClickListener);
-				holder.stopButton.setOnClickListener(listItemOnClickListener);
+				holder.playAndStopButton.setOnClickListener(listItemOnClickListener);
 			} else {
-				holder.playButton.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						if (soundAdapter.getOnSoundEditListener() != null) {
-							soundAdapter.getOnSoundEditListener().onSoundPlay(view);
+				if (soundInfo.isPlaying) {
+					holder.playAndStopButton.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View view) {
+							if (soundAdapter.getOnSoundEditListener() != null) {
+								soundAdapter.getOnSoundEditListener().onSoundPause(view);
+							}
 						}
-					}
-				});
-
-				holder.stopButton.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						if (soundAdapter.getOnSoundEditListener() != null) {
-							soundAdapter.getOnSoundEditListener().onSoundPause(view);
+					});
+				} else {
+					holder.playAndStopButton.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View view) {
+							if (soundAdapter.getOnSoundEditListener() != null) {
+								soundAdapter.getOnSoundEditListener().onSoundPlay(view);
+							}
 						}
-					}
-				});
+					});
+				}
 			}
 			holder.soundFragmentButtonLayout.setOnClickListener(listItemOnClickListener);
 		}
