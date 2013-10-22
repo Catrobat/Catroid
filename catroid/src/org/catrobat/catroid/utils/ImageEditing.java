@@ -60,7 +60,8 @@ public class ImageEditing {
 		return newBitmap;
 	}
 
-	public static Bitmap getScaledBitmapFromPath(String imagePath, int outputWidth, int outputHeight, boolean justScaleDown) {
+	public static Bitmap getScaledBitmapFromPath(String imagePath, int outputWidth, int outputHeight,
+			boolean justScaleDown) {
 		if (imagePath == null) {
 			return null;
 		}
@@ -101,12 +102,6 @@ public class ImageEditing {
 		imageDimensions[1] = options.outHeight;
 
 		return imageDimensions;
-	}
-
-	public static Bitmap createSingleColorBitmap(int width, int height, int color) {
-		Bitmap newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-		newBitmap.eraseColor(color);
-		return newBitmap;
 	}
 
 	public static void overwriteImageFileWithNewBitmap(File imageFile) throws FileNotFoundException {

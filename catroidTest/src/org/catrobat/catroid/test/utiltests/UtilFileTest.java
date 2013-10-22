@@ -132,7 +132,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 		UtilFile.deleteDirectory(testDirectory);
 	}
 
-	public void testGetProjectFiles() {
+	public void testGetProjectNames() {
 		Project project = new Project(null, projectName);
 		ProjectManager.getInstance().setProject(project);
 		Sprite sprite = new Sprite("new sprite");
@@ -142,11 +142,11 @@ public class UtilFileTest extends InstrumentationTestCase {
 		File catroidDirectoryFile = new File(CATROID_DIRECTORY);
 		File project1Directory = new File(catroidDirectoryFile + "/" + projectName);
 
-		List<File> projectList = UtilFile.getProjectFiles(catroidDirectoryFile);
+		List<String> projectList = UtilFile.getProjectNames(catroidDirectoryFile);
 
 		assertTrue("project1 should be in Projectlist - is a valid Catroid project",
-				projectList.contains(project1Directory));
+				projectList.contains(project1Directory.getName()));
 		assertFalse("testDirectory should not be in Projectlist - not a Catroid project",
-				projectList.contains(testDirectory));
+				projectList.contains(testDirectory.getName()));
 	}
 }
