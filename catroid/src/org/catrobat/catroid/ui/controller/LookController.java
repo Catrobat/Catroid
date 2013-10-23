@@ -24,20 +24,24 @@ package org.catrobat.catroid.ui.controller;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -50,6 +54,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.ImagePreviewActivity;
 import org.catrobat.catroid.ui.LookViewHolder;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.LookBaseAdapter;
@@ -74,6 +79,7 @@ public class LookController {
 	public static final String BUNDLE_ARGUMENTS_URI_IS_SET = "uri_is_set";
 	public static final String LOADER_ARGUMENTS_IMAGE_URI = "image_uri";
 	public static final String SHARED_PREFERENCE_NAME = "showDetailsLooks";
+	public static final String SHARED_PREFERENCE_SHOW_INSTALL_POCKET_PAINT_PROMPT = "showInstallPocketPaintPrompt";
 
 	private static LookController instance;
 
@@ -347,39 +353,75 @@ public class LookController {
 		}
 	}
 
-	public boolean checkIfPocketPaintIsInstalled(Intent intent, final Activity activity) {
+	public boolean checkIfPocketPaintIsInstalled(Intent intent, final Activity activity, final LookData lookDataForPreview) {
 		// Confirm if Pocket Paint is installed else start dialog --------------------------
 		List<ResolveInfo> packageList = activity.getPackageManager().queryIntentActivities(intent,
 				PackageManager.MATCH_DEFAULT_ONLY);
 
 		if (packageList.size() <= 0) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-			builder.setMessage(R.string.pocket_paint_not_installed).setCancelable(false)
-					.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
+			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
 
-							if (BuildConfig.DEBUG) {
-								Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, Uri
-										.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK_NIGHTLY));
-								activity.startActivity(downloadPocketPaintIntent);
-							} else {
-								Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, Uri
-										.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK));
-								activity.startActivity(downloadPocketPaintIntent);
+			if (lookDataForPreview == null || preferences.getBoolean(SHARED_PREFERENCE_SHOW_INSTALL_POCKET_PAINT_PROMPT, true)) {
+				View tempCheckBoxView = null;
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+				if (lookDataForPreview == null) {
+					builder.setMessage(R.string.pocket_paint_not_installed);
+				} else {
+					tempCheckBoxView = View.inflate(activity, R.layout.dialog_install_pocket_paint, null);
+					builder.setView(tempCheckBoxView);
+				}
+				final View checkboxView = tempCheckBoxView;
+
+				builder.setCancelable(false);
+
+				builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+
+						if (BuildConfig.DEBUG) {
+							Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, Uri
+									.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK_NIGHTLY));
+							activity.startActivity(downloadPocketPaintIntent);
+						} else {
+							Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, Uri
+									.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK));
+							activity.startActivity(downloadPocketPaintIntent);
+						}
+					}
+				}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						if (checkboxView != null && lookDataForPreview != null) {
+							CheckBox dontShowAgainCheckBox = (CheckBox) checkboxView
+									.findViewById(R.id.install_pocket_paint_dialog_dont_show_checkbox);
+							if (dontShowAgainCheckBox != null && dontShowAgainCheckBox.isChecked()) {
+								preferences.edit()
+										.putBoolean(SHARED_PREFERENCE_SHOW_INSTALL_POCKET_PAINT_PROMPT, false).commit();
 							}
+
+							startImagePreview(activity, lookDataForPreview);
 						}
-					}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
-			AlertDialog alert = builder.create();
-			alert.show();
+					}
+				});
+
+				AlertDialog alertDialog = builder.create();
+				alertDialog.setCanceledOnTouchOutside(true);
+				alertDialog.show();
+			} else {
+				startImagePreview(activity, lookDataForPreview);
+			}
+
 			return false;
 		}
 		return true;
+	}
+
+	private void startImagePreview(Context context, LookData lookData) {
+		String lookFileName = lookData.getAbsolutePath();
+		Intent previewIntent = new Intent(context, ImagePreviewActivity.class);
+		previewIntent.putExtra(ImagePreviewActivity.FILE_EXTRA_NAME, lookFileName);
+		context.startActivity(previewIntent);
 	}
 
 	private void deleteLook(int position, ArrayList<LookData> lookDataList, Activity activity) {

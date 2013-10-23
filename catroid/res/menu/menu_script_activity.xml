@@ -23,14 +23,14 @@
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item
-        android:id="@+id/backpack"
+	<item
+    	android:id="@+id/backpack"
         android:showAsAction="never"
         android:visible="false"
         android:title="@string/backpack" />
   
-     <item
-        android:id="@+id/unpacking"
+	<item
+    	android:id="@+id/unpacking"
         android:showAsAction="never"
         android:visible="false"
         android:title="@string/unpacking" />

@@ -44,6 +44,7 @@
     <string name="stage">Stage</string>
     <string name="ok">OK</string>
     <string name="settings">Settings</string>
+    <string name="dialog_dont_show_again">Don\'t show again</string>
     <!--  -->
 
 
@@ -59,7 +60,6 @@
     <string name="main_menu_play_store_not_installed">Play Store app not found</string>
     <string name="main_menu_web_dialog_title">Caution!</string>
     <string name="main_menu_web_dialog_message">Currently alternative browsers like Firefox or Dolphin are not supported</string>
-    <string name="main_menu_web_dialog_dont_show">Don\'t show again</string>
     <!--  -->
 
 
