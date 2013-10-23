@@ -99,7 +99,6 @@
     <string name="rename_sound_dialog">"Renomear som"</string>
     <string name="soundname_invalid">"Nome de som inválido"</string>
     <string name="sound_play">"tocar"</string>
-    <string name="sound_pause">"pausar"</string>
     <string name="sound_select_source">"Selecione um som"</string>
     <string name="delete_sound_dialog">"Excluir som"</string>
     <!-- My Projects activity -->

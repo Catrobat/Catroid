@@ -135,7 +135,6 @@
     <string name="rename_sound_dialog">"Geluid hernoemen"</string>
     <string name="soundname_invalid">"Deze geluidsnaam is ongeldig"</string>
     <string name="sound_play">"afspelen"</string>
-    <string name="sound_pause">"pauze"</string>
     <string name="sound_select_source">"Selecteer een geluid"</string>
     <string name="sound_time_seperator">"/"</string>
     <string name="delete_sound_dialog">"Geluid verwijderen?"</string>
