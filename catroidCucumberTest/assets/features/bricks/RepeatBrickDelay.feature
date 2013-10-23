@@ -6,7 +6,7 @@ Feature: Repeat brick delay
     Given I have a Program
     And this program has an Object 'Object'
 
-  Scenario: No more than 200 iterations in 2 seconds
+  Scenario: No more than 100 iterations in 2 seconds
 
     Given 'Object' has a Start script
     And this script has a set 'i' to 0 brick
@@ -21,5 +21,5 @@ Feature: Repeat brick delay
 
     When I start the program
     And I wait until the program has stopped
-    Then the variable 'k' should be be less than or equal 200
+    Then the variable 'k' should be be less than or equal 100
     And the variable 'k' should be greater than or equal 2
