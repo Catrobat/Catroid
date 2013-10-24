@@ -124,6 +124,15 @@
     <string name="dialog_confirm_delete_script_title">Dieses Skript löschen?</string>
     <string name="dialog_confirm_delete_multiple_bricks_title">Diese Bausteine löschen?</string>
     <string name="dialog_confirm_delete_brick_message">Kann nicht rückgängig gemacht werden!</string>
+
+    <plurals name="number_of_brick_to_delete">
+        <item quantity="one">Lösche 1 Baustein</item>
+        <item quantity="other">Lösche %d Bausteine</item>
+    </plurals>
+    <plurals name="number_of_brick_to_copy">
+        <item quantity="one">Kopiere 1 Baustein</item>
+        <item quantity="other">Kopiere %d Bausteine</item>
+    </plurals>
     <!--  -->
 
 
@@ -162,12 +171,11 @@
     <string name="dialog_confirm_delete_sound_message">Kann nicht rückgängig gemacht werden!</string>
     <string name="sound_name">Name:</string>
     <!--  -->
-    
+
     <plurals name="unpacking_items_plural">
         <item quantity="one">wurde entpackt!</item>
         <item quantity="other">wurden entpackt!</item>
     </plurals>
-
 
     <!-- My Projects activity -->
     <string name="last_used">Letzter Zugriff:</string>
@@ -271,12 +279,6 @@
     <string name="new_broadcast_message">Neu…</string>
     <string name="dialog_new_broadcast_message_title">Neue Nachricht</string>
     <string name="dialog_new_broadcast_message_name">Nachricht:</string>
-    <!--  -->
-
-
-    <!-- Brick general -->
-    <string name="brick_single">Baustein</string>
-    <string name="brick_multiple">Bausteine</string>
     <!--  -->
 
 

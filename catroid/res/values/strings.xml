@@ -125,6 +125,15 @@
     <string name="dialog_confirm_delete_script_title">Delete this script?</string>
     <string name="dialog_confirm_delete_multiple_bricks_title">Delete these bricks?</string>
     <string name="dialog_confirm_delete_brick_message">This can not be undone!</string>
+
+    <plurals name="number_of_brick_to_delete">
+        <item quantity="one">Delete 1 Brick</item>
+        <item quantity="other">Delete %d Bricks</item>
+    </plurals>
+    <plurals name="number_of_brick_to_copy">
+        <item quantity="one">Copy 1 Brick</item>
+        <item quantity="other">Copy %d Bricks</item>
+    </plurals>
     <!--  -->
 
 
@@ -163,7 +172,7 @@
     <string name="dialog_confirm_delete_sound_message">This can not be undone!</string>
     <string name="sound_name">sound name:</string>
     <!--  -->
-    
+
     <plurals name="unpacking_items_plural">
         <item quantity="one">was unpacked!</item>
         <item quantity="other">were unpacked!</item>
@@ -271,12 +280,6 @@
     <string name="new_broadcast_message">New…</string>
     <string name="dialog_new_broadcast_message_title">New message</string>
     <string name="dialog_new_broadcast_message_name">message:</string>
-    <!--  -->
-
-
-    <!-- Brick general -->
-    <string name="brick_single">Brick</string>
-    <string name="brick_multiple">Bricks</string>
     <!--  -->
 
 

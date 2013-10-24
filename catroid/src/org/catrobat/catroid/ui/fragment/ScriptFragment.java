@@ -72,10 +72,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	public static final String TAG = ScriptFragment.class.getSimpleName();
 
-	private static String actionModeTitle;
-
-	private static String singleItemAppendixActionMode;
-	private static String multipleItemAppendixActionMode;
+	private static final int ACTION_MODE_COPY = 0;
+	private static final int ACTION_MODE_DELETE = 1;
 
 	private static int selectedBrickPosition = Constants.NO_POSITION;
 
@@ -194,7 +192,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 		adapter.notifyDataSetChanged();
-
 	}
 
 	public void updateAdapterAfterAddNewBrick(Brick brickToBeAdded) {
@@ -365,11 +362,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
-			actionModeTitle = getString(R.string.delete);
-			singleItemAppendixActionMode = getString(R.string.brick_single);
-			multipleItemAppendixActionMode = getString(R.string.brick_multiple);
-
-			mode.setTitle(actionModeTitle);
+			mode.setTitle(R.string.delete);
+			mode.setTag(ACTION_MODE_DELETE);
 			addSelectAllActionModeButton(mode, menu);
 
 			return true;
@@ -400,15 +394,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
-			actionModeTitle = getString(R.string.copy);
-			singleItemAppendixActionMode = getString(R.string.brick_single);
-			multipleItemAppendixActionMode = getString(R.string.brick_multiple);
-
-			mode.setTitle(actionModeTitle);
+			mode.setTitle(R.string.copy);
+			mode.setTag(ACTION_MODE_COPY);
 
 			return true;
 		}
@@ -420,7 +410,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-
 			List<Brick> checkedBricks = adapter.getCheckedBricks();
 
 			for (Brick brick : checkedBricks) {
@@ -429,16 +418,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 					break;
 				}
 			}
-			setSelectMode(ListView.CHOICE_MODE_NONE);
-			adapter.clearCheckedItems();
 
-			actionMode = null;
-			setActionModeActive(false);
-
-			registerForContextMenu(listView);
-			BottomBar.showBottomBar(getActivity());
-			adapter.setActionMode(false);
-
+			clearCheckedBricksAndEnableButtons();
 		}
 	};
 
@@ -573,27 +554,27 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
 
-		if (numberOfSelectedItems == 0) {
-			actionMode.setTitle(actionModeTitle);
-		} else {
-			String appendix = multipleItemAppendixActionMode;
-
-			if (numberOfSelectedItems == 1) {
-				appendix = singleItemAppendixActionMode;
-			}
-
-			String numberOfItems = Integer.toString(numberOfSelectedItems);
-			String completeTitle = actionModeTitle + " " + numberOfItems + " " + appendix;
-
-			int titleLength = actionModeTitle.length();
-
-			Spannable completeSpannedTitle = new SpannableString(completeTitle);
-			completeSpannedTitle.setSpan(
-					new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)), titleLength + 1,
-					titleLength + (1 + numberOfItems.length()), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-			actionMode.setTitle(completeSpannedTitle);
+		String completeTitle;
+		switch ((Integer) actionMode.getTag()) {
+			case ACTION_MODE_COPY:
+				completeTitle = getResources().getQuantityString(R.plurals.number_of_brick_to_copy,
+						numberOfSelectedItems, numberOfSelectedItems);
+				break;
+			case ACTION_MODE_DELETE:
+				completeTitle = getResources().getQuantityString(R.plurals.number_of_brick_to_delete,
+						numberOfSelectedItems, numberOfSelectedItems);
+				break;
+			default:
+				completeTitle = "Oh boy";
 		}
+
+		int indexOfNumber = completeTitle.indexOf(' ') + 1;
+		Spannable completeSpannedTitle = new SpannableString(completeTitle);
+		completeSpannedTitle.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)),
+				indexOfNumber, indexOfNumber + String.valueOf(numberOfSelectedItems).length(),
+				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+		actionMode.setTitle(completeSpannedTitle);
 	}
 
 	@Override
