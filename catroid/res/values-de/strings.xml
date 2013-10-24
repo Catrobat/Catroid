@@ -132,7 +132,8 @@
     <string name="fragment_background_text_description">Klicke auf \"+\" um Hintergründe hinzuzufügen</string>
     <string name="rename_look_dialog">Aussehen umbenennen</string>
     <string name="lookname_invalid">Dieser Name ist nicht zulässig</string>
-    <string name="pocket_paint_not_installed">Pocket Paint ist nicht installiert!\nJetzt installieren?</string>
+    <string name="pocket_paint_not_installed_title">Pocket Paint ist nicht installiert!</string>
+    <string name="pocket_paint_not_installed">Jetzt installieren?</string>
     <string name="default_look_name">Aussehen</string>
     <string name="delete_look_dialog">Aussehen löschen?</string>
     <string name="select_look_from_gallery">Bild auswählen</string>
