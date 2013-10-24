@@ -58,7 +58,7 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.adapter.BrickAdapter.OnBrickEditListener;
+import org.catrobat.catroid.ui.adapter.BrickAdapter.OnBrickCheckedListener;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
@@ -68,7 +68,8 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 
-public class ScriptFragment extends ScriptActivityFragment implements OnCategorySelectedListener, OnBrickEditListener {
+public class ScriptFragment extends ScriptActivityFragment implements OnCategorySelectedListener,
+		OnBrickCheckedListener {
 
 	public static final String TAG = ScriptFragment.class.getSimpleName();
 
@@ -133,11 +134,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void onStart() {
 		super.onStart();
-		sprite = ProjectManager.getInstance().getCurrentSprite();
-		if (sprite == null) {
-			return;
-		}
-
 		initListeners();
 	}
 
@@ -218,7 +214,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		});
 
 		adapter = new BrickAdapter(getActivity(), sprite, listView);
-		adapter.setOnBrickEditListener(this);
+		adapter.setOnBrickCheckedListener(this);
 
 		if (ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts() > 0) {
 			ProjectManager.getInstance().setCurrentScript(((ScriptBrick) adapter.getItem(0)).initScript(sprite));
@@ -288,6 +284,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			BottomBar.hideBottomBar(getActivity());
 			adapter.setCheckboxVisibility(View.VISIBLE);
 			adapter.setActionMode(true);
+			updateActionModeTitle();
 		}
 	}
 
@@ -362,7 +359,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
-			mode.setTitle(R.string.delete);
 			mode.setTag(ACTION_MODE_DELETE);
 			addSelectAllActionModeButton(mode, menu);
 
@@ -397,7 +393,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
-			mode.setTitle(R.string.copy);
 			mode.setTag(ACTION_MODE_COPY);
 
 			return true;
@@ -541,13 +536,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	@Override
-	public void onBrickEdit(View view) {
-
+	public void onBrickChecked() {
+		updateActionModeTitle();
 	}
 
-	@Override
-	public void onBrickChecked() {
-
+	private void updateActionModeTitle() {
 		if (actionMode == null) {
 			return;
 		}
@@ -557,15 +550,15 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		String completeTitle;
 		switch ((Integer) actionMode.getTag()) {
 			case ACTION_MODE_COPY:
-				completeTitle = getResources().getQuantityString(R.plurals.number_of_brick_to_copy,
+				completeTitle = getResources().getQuantityString(R.plurals.number_of_bricks_to_copy,
 						numberOfSelectedItems, numberOfSelectedItems);
 				break;
 			case ACTION_MODE_DELETE:
-				completeTitle = getResources().getQuantityString(R.plurals.number_of_brick_to_delete,
+				completeTitle = getResources().getQuantityString(R.plurals.number_of_bricks_to_delete,
 						numberOfSelectedItems, numberOfSelectedItems);
 				break;
 			default:
-				completeTitle = "Oh boy";
+				throw new IllegalArgumentException("Wrong or unhandled tag in ActionMode.");
 		}
 
 		int indexOfNumber = completeTitle.indexOf(' ') + 1;

@@ -126,11 +126,11 @@
     <string name="dialog_confirm_delete_multiple_bricks_title">Delete these bricks?</string>
     <string name="dialog_confirm_delete_brick_message">This can not be undone!</string>
 
-    <plurals name="number_of_brick_to_delete">
+    <plurals name="number_of_bricks_to_delete">
         <item quantity="one">Delete 1 Brick</item>
         <item quantity="other">Delete %d Bricks</item>
     </plurals>
-    <plurals name="number_of_brick_to_copy">
+    <plurals name="number_of_bricks_to_copy">
         <item quantity="one">Copy 1 Brick</item>
         <item quantity="other">Copy %d Bricks</item>
     </plurals>

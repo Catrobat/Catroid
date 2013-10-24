@@ -125,11 +125,11 @@
     <string name="dialog_confirm_delete_multiple_bricks_title">Diese Bausteine löschen?</string>
     <string name="dialog_confirm_delete_brick_message">Kann nicht rückgängig gemacht werden!</string>
 
-    <plurals name="number_of_brick_to_delete">
+    <plurals name="number_of_bricks_to_delete">
         <item quantity="one">Lösche 1 Baustein</item>
         <item quantity="other">Lösche %d Bausteine</item>
     </plurals>
-    <plurals name="number_of_brick_to_copy">
+    <plurals name="number_of_bricks_to_copy">
         <item quantity="one">Kopiere 1 Baustein</item>
         <item quantity="other">Kopiere %d Bausteine</item>
     </plurals>
