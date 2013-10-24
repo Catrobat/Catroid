@@ -64,7 +64,6 @@ import android.widget.TextView;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -183,11 +182,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.copy).setVisible(true);
 
-		boolean visibility = false;
-		if (BuildConfig.DEBUG) {
-			visibility = true;
-		}
-		menu.findItem(R.id.backpack).setVisible(visibility);
+		// set visibility to true when backpack is allowed
+		menu.findItem(R.id.backpack).setVisible(false);
 		menu.findItem(R.id.cut).setVisible(false);
 
 		if (BackPackListManager.getInstance().getSoundInfoArrayList().size() > 0) {
@@ -472,10 +468,9 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
 		menu.findItem(R.id.context_menu_copy).setVisible(true);
 		menu.findItem(R.id.context_menu_unpacking).setVisible(false);
-		//TODO: remove this when inserting of sound items from backpack is possible
-		if (!BuildConfig.DEBUG) {
-			menu.findItem(R.id.context_menu_backpack).setVisible(false);
-		}
+
+		// remove when backpack sound is allowed
+		menu.findItem(R.id.context_menu_backpack).setVisible(false);
 	}
 
 	@Override
