@@ -271,8 +271,17 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void startCopyActionMode() {
+		startActionMode(copyModeCallBack);
+	}
+
+	@Override
+	public void startDeleteActionMode() {
+		startActionMode(deleteModeCallBack);
+	}
+
+	private void startActionMode(ActionMode.Callback actionModeCallback) {
 		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
+			actionMode = getSherlockActivity().startActionMode(actionModeCallback);
 
 			for (int i = adapter.listItemCount; i < adapter.getBrickList().size(); i++) {
 				adapter.getView(i, null, getListView());
@@ -283,7 +292,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			adapter.setCheckboxVisibility(View.VISIBLE);
 			adapter.setActionMode(true);
 		}
-
 	}
 
 	@Override
@@ -314,22 +322,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	public void setSelectMode(int selectMode) {
 		adapter.setSelectMode(selectMode);
 		adapter.notifyDataSetChanged();
-	}
-
-	@Override
-	public void startDeleteActionMode() {
-		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
-
-			for (int i = adapter.listItemCount; i < adapter.getBrickList().size(); i++) {
-				adapter.getView(i, null, getListView());
-			}
-
-			unregisterForContextMenu(listView);
-			BottomBar.hideBottomBar(getActivity());
-			adapter.setCheckboxVisibility(View.VISIBLE);
-			adapter.setActionMode(true);
-		}
 	}
 
 	@Override
