@@ -153,7 +153,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 	public void testInitialLayout() {
 		assertFalse("Initially showing details", getSoundAdapter().getShowDetails());
-		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, GONE);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 		checkPlayAndStopButton(R.string.sound_play);
 	}
 
@@ -270,11 +270,11 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	public void testShowAndHideDetails() {
 		int timeToWait = 300;
 
-		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, GONE);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 		checkPlayAndStopButton(R.string.sound_play);
 		solo.clickOnMenuItem(solo.getString(R.string.show_details));
 		solo.sleep(timeToWait);
-		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, VISIBLE, GONE);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, VISIBLE, GONE);
 		checkPlayAndStopButton(R.string.sound_play);
 
 		// Test if showDetails is remembered after pressing back
@@ -283,12 +283,12 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.clickOnText(solo.getString(R.string.sounds));
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.sleep(timeToWait);
-		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, VISIBLE, GONE);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, VISIBLE, GONE);
 		checkPlayAndStopButton(R.string.sound_play);
 
 		solo.clickOnMenuItem(solo.getString(R.string.hide_details));
 		solo.sleep(timeToWait);
-		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, GONE);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 		checkPlayAndStopButton(R.string.sound_play);
 	}
 
@@ -309,7 +309,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.sleep(timeToWait);
 
 		assertTrue("Mediaplayer is not playing although play button was touched", soundInfo.isPlaying);
-		checkVisibilityOfViews(VISIBLE, VISIBLE, VISIBLE, GONE, GONE);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 		checkPlayAndStopButton(R.string.sound_stop);
 
 		solo.sleep(timeToWait);
@@ -317,7 +317,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.sleep(timeToWait);
 
 		assertFalse("Mediaplayer is playing after touching stop button", soundInfo.isPlaying);
-		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, GONE);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 		checkPlayAndStopButton(R.string.sound_play);
 
 		// test the text fields
@@ -326,7 +326,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		assertTrue("Mediaplayer is not playing although play button was touched", soundInfo.isPlaying);
 		assertFalse("Mediaplayer is not playing although play button was touched", soundInfo2.isPlaying);
-		checkVisibilityOfViews(VISIBLE, VISIBLE, VISIBLE, GONE, GONE);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 		checkPlayAndStopButton(R.string.sound_stop);
 
 		solo.sleep(timeToWait);
@@ -335,7 +335,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		assertFalse("Mediaplayer is playing after touching stop button", soundInfo.isPlaying);
 		assertFalse("Mediaplayer is not playing although play button was touched", soundInfo2.isPlaying);
-		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, GONE);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 		checkPlayAndStopButton(R.string.sound_play);
 
 		audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
@@ -358,7 +358,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.sleep(timeToWait);
 
 		assertTrue("Mediaplayer is not playing although play button was touched", soundInfo.isPlaying);
-		checkVisibilityOfViews(VISIBLE, VISIBLE, VISIBLE, GONE, GONE);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 		checkPlayAndStopButton(R.string.sound_stop);
 
 		solo.sleep(timeToWait);
@@ -366,7 +366,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.SOUNDS_INDEX);
 
 		assertFalse("Mediaplayer is playing after switching fragments", soundInfo.isPlaying);
-		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, GONE);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 		checkPlayAndStopButton(R.string.sound_play);
 
 		audioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
@@ -415,14 +415,14 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	public void testRenameActionModeChecking() {
-		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, GONE);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 		checkPlayAndStopButton(R.string.sound_play);
 		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
 		// Check if checkboxes are visible
-		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, VISIBLE);
 		checkPlayAndStopButton(R.string.sound_play);
 
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
@@ -810,7 +810,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertFalse("Sound should not be displayed in title", solo.waitForText(sound, 5, 300, false, true));
 
 		// Check if checkboxes are visible
-		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, VISIBLE);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, VISIBLE);
 		checkPlayAndStopButton(R.string.sound_play);
 
 		checkIfCheckboxesAreCorrectlyChecked(false, false);
@@ -968,7 +968,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.sleep(timeToWait);
 		assertFalse("Mediaplayer continues playing even if context menu has been opened", soundInfo.isPlaying);
 		solo.goBack();
-		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, GONE);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 		checkPlayAndStopButton(R.string.sound_play);
 
 		solo.clickOnView(playAndStopImageButton);
@@ -977,7 +977,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.sleep(timeToWait);
 		assertFalse("Mediaplayer continues playing even if rename action has been opened", soundInfo.isPlaying);
 		solo.goBack();
-		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, GONE);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 		checkPlayAndStopButton(R.string.sound_play);
 
 		solo.clickOnView(playAndStopImageButton);
@@ -986,7 +986,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.sleep(timeToWait);
 		assertFalse("Mediaplayer continues playing even if delete action has been opened", soundInfo.isPlaying);
 		solo.goBack();
-		checkVisibilityOfViews(VISIBLE, GONE, VISIBLE, GONE, GONE);
+		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
 		checkPlayAndStopButton(R.string.sound_play);
 
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
@@ -1067,14 +1067,12 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		return (SoundAdapter) getSoundFragment().getListAdapter();
 	}
 
-	private void checkVisibilityOfViews(int soundNameVisibility, int timePlayedVisibility, int soundDurationVisibility,
-			int soundSizeVisibility, int checkBoxVisibility) {
+	private void checkVisibilityOfViews(int soundNameVisibility, int timePlayedVisibility, int soundSizeVisibility,
+			int checkBoxVisibility) {
 		assertTrue("Sound name " + getAssertMessageAffix(soundNameVisibility),
 				solo.getView(R.id.fragment_sound_item_title_text_view).getVisibility() == soundNameVisibility);
 		assertTrue("Chronometer " + getAssertMessageAffix(timePlayedVisibility),
 				solo.getView(R.id.fragment_sound_item_time_played_chronometer).getVisibility() == timePlayedVisibility);
-		assertTrue("Sound duration " + getAssertMessageAffix(soundDurationVisibility),
-				solo.getView(R.id.fragment_sound_item_duration_text_view).getVisibility() == soundDurationVisibility);
 		assertTrue("Sound size " + getAssertMessageAffix(soundSizeVisibility),
 				solo.getView(R.id.fragment_sound_item_size_text_view).getVisibility() == soundSizeVisibility);
 		assertTrue("Checkboxes " + getAssertMessageAffix(checkBoxVisibility),

@@ -35,6 +35,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -154,14 +155,13 @@ public class SoundController {
 			tempPlayer.prepare();
 
 			long milliseconds = tempPlayer.getDuration();
-			long seconds = (int) ((milliseconds / 1000) % 60);
-			holder.timeDurationTextView.setText(android.text.format.DateUtils.formatElapsedTime(seconds));
+			long seconds = milliseconds / 1000;
+			holder.timePlayedChronometer.setText(DateUtils.formatElapsedTime(seconds));
+			holder.timePlayedChronometer.setVisibility(Chronometer.VISIBLE);
 
 			if (soundAdapter.getCurrentPlayingPosition() == Constants.NO_POSITION) {
-
 				SoundBaseAdapter.setElapsedMilliSeconds(0);
 			} else {
-
 				SoundBaseAdapter.setElapsedMilliSeconds(SystemClock.elapsedRealtime()
 						- SoundBaseAdapter.getCurrentPlayingBase());
 			}
@@ -169,9 +169,6 @@ public class SoundController {
 			if (soundInfo.isPlaying) {
 				holder.playAndStopButton.setImageResource(R.drawable.ic_media_stop);
 				holder.playAndStopButton.setContentDescription(context.getString(R.string.sound_stop));
-
-				holder.timeDurationTextView.setVisibility(TextView.VISIBLE);
-				holder.timePlayedChronometer.setVisibility(Chronometer.VISIBLE);
 
 				if (soundAdapter.getCurrentPlayingPosition() == Constants.NO_POSITION) {
 					startPlayingSound(holder.timePlayedChronometer, position, soundAdapter);
@@ -184,22 +181,7 @@ public class SoundController {
 			} else {
 				holder.playAndStopButton.setImageResource(R.drawable.ic_media_play);
 				holder.playAndStopButton.setContentDescription(context.getString(R.string.sound_play));
-
-				holder.timePlayedChronometer.setVisibility(TextView.GONE);
-				holder.timePlayedChronometer.setVisibility(Chronometer.GONE);
-
-				if (position == soundAdapter.getCurrentPlayingPosition()) {
-					stopPlayingSound(soundInfo, holder.timePlayedChronometer, soundAdapter);
-				}
-			}
-
-			if (soundAdapter.getShowDetails()) {
-				holder.soundFileSizeTextView.setText(UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
-				holder.soundFileSizeTextView.setVisibility(TextView.VISIBLE);
-				holder.soundFileSizePrefixTextView.setVisibility(TextView.VISIBLE);
-			} else {
-				holder.soundFileSizeTextView.setVisibility(TextView.GONE);
-				holder.soundFileSizePrefixTextView.setVisibility(TextView.GONE);
+				stopPlayingSound(soundInfo, holder.timePlayedChronometer, soundAdapter);
 			}
 
 			tempPlayer.reset();
@@ -250,9 +232,7 @@ public class SoundController {
 
 	private void startPlayingSound(Chronometer chronometer, int position, final SoundBaseAdapter soundAdapter) {
 		soundAdapter.setCurrentPlayingPosition(position);
-
 		SoundBaseAdapter.setCurrentPlayingBase(SystemClock.elapsedRealtime());
-
 		continuePlayingSound(chronometer, SoundBaseAdapter.getCurrentPlayingBase());
 	}
 
@@ -263,65 +243,51 @@ public class SoundController {
 
 	private void stopPlayingSound(SoundInfo soundInfo, Chronometer chronometer, final SoundBaseAdapter soundAdapter) {
 		chronometer.stop();
-		chronometer.setBase(SystemClock.elapsedRealtime());
-
 		soundAdapter.setCurrentPlayingPosition(Constants.NO_POSITION);
-
 		soundInfo.isPlaying = false;
 	}
 
 	public void backPackSound(SoundInfo selectedSoundInfo, BackPackSoundFragment backPackSoundActivity,
 			ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
-
 		copySoundBackPack(selectedSoundInfo, soundInfoList, adapter);
 	}
 
 	private void copySoundBackPack(SoundInfo selectedSoundInfo, ArrayList<SoundInfo> soundInfoList,
 			SoundBaseAdapter adapter) {
-
 		try {
 			StorageHandler.getInstance().copySoundFileBackPack(selectedSoundInfo);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		updateBackPackActivity(selectedSoundInfo.getTitle(), selectedSoundInfo.getSoundFileName(), soundInfoList,
 				adapter);
 	}
 
 	public SoundInfo copySound(SoundInfo selectedSoundInfo, ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
-
 		try {
 			StorageHandler.getInstance().copySoundFile(selectedSoundInfo.getAbsolutePath());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		return updateSoundAdapter(selectedSoundInfo.getTitle(), selectedSoundInfo.getSoundFileName(), soundInfoList,
 				adapter);
 	}
 
 	public void copySound(int position, ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
-
 		SoundInfo soundInfo = soundInfoList.get(position);
-
 		try {
 			StorageHandler.getInstance().copySoundFile(soundInfo.getAbsolutePath());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		SoundController.getInstance().updateSoundAdapter(soundInfo.getTitle(), soundInfo.getSoundFileName(),
 				soundInfoList, adapter);
-
 	}
 
 	private void deleteSound(int position, ArrayList<SoundInfo> soundInfoList, Activity activity) {
 		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
-
 		soundInfoList.remove(position);
 		ProjectManager.getInstance().getCurrentSprite().setSoundList(soundInfoList);
-
 		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));
 	}
 
