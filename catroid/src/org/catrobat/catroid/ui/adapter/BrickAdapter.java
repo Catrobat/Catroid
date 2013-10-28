@@ -565,7 +565,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 
 		notifyDataSetChanged();
-		ProjectManager.getInstance().saveProject();
 	}
 
 	private int getNewPositionForScriptBrick(int position, Brick brick) {
