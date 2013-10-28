@@ -72,7 +72,8 @@ public class RepeatActionTest extends InstrumentationTestCase {
 			}
 		}
 
-		assertEquals("Loop delay did was not 20ms!", deltaY * REPEAT_TIMES, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals("Loop delay did was not 20ms!", deltaY * REPEAT_TIMES,
+				(int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testRepeatBrick() throws InterruptedException {
@@ -96,7 +97,8 @@ public class RepeatActionTest extends InstrumentationTestCase {
 			testSprite.look.act(1.0f);
 		}
 
-		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * deltaY, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * deltaY,
+				(int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testRepeatCount() {
@@ -122,7 +124,8 @@ public class RepeatActionTest extends InstrumentationTestCase {
 			testSprite.look.act(1.0f);
 		}
 
-		assertEquals("Executed the wrong number of times!", deltaY * 9, (int) testSprite.look.getYInUserInterfaceDimensionUnit());
+		assertEquals("Executed the wrong number of times!", deltaY * 9,
+				(int) testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNestedRepeatBrick() throws InterruptedException {

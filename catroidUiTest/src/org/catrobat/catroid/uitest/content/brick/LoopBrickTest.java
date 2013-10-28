@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -46,6 +48,7 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private Project project;
@@ -263,6 +266,107 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		checkIfForeverLoopsAreCorrectlyPlaced(3);
 	}
 
+	public void testCopyForeverBrickActionMode() {
+		deleteAllBricks();
+
+		UiTestUtils.addNewBrick(solo, R.string.category_control, R.string.brick_forever);
+		UiTestUtils.dragFloatingBrickDownwards(solo, 0);
+
+		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		assertEquals("Incorrect number of bricks.", 2, projectBrickList.size());
+		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ForeverBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof LoopEndlessBrick);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(1);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
+		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ForeverBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof LoopEndlessBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof ForeverBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(3) instanceof LoopEndlessBrick);
+	}
+
+	public void testLoopEndBrickCheckBoxVisibleActionMode() {
+		deleteAllBricks();
+
+		UiTestUtils.addNewBrick(solo, R.string.category_control, R.string.brick_repeat);
+		UiTestUtils.dragFloatingBrickDownwards(solo, 0);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+
+		boolean isCheckBoxVisible = false;
+
+		for (View currentView : solo.getViews()) {
+			if (currentView.getId() == R.id.brick_loop_end_checkbox) {
+				isCheckBoxVisible = currentView.getVisibility() == View.VISIBLE;
+				break;
+			}
+		}
+
+		assertTrue("CheckBock is not visible.", isCheckBoxVisible);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+
+		isCheckBoxVisible = false;
+
+		for (View currentView : solo.getViews()) {
+			if (currentView.getId() == R.id.brick_loop_end_checkbox) {
+				isCheckBoxVisible = currentView.getVisibility() == View.VISIBLE;
+				break;
+			}
+		}
+
+		assertTrue("CheckBock is not visible.", isCheckBoxVisible);
+	}
+
+	public void testCopyLoopEndBrickActionMode() {
+		deleteAllBricks();
+
+		UiTestUtils.addNewBrick(solo, R.string.category_control, R.string.brick_repeat);
+		UiTestUtils.dragFloatingBrickDownwards(solo, 0);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(2);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
+		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof RepeatBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof LoopEndBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof RepeatBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(3) instanceof LoopEndBrick);
+	}
+
+	public void testSelectionAfterCopyActionMode() {
+		deleteAllBricks();
+
+		UiTestUtils.addNewBrick(solo, R.string.category_control, R.string.brick_repeat);
+		UiTestUtils.dragFloatingBrickDownwards(solo, 0);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(1);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		solo.clickOnCheckBox(3);
+
+		CheckBox firstRepeatBrickCheckBox = (CheckBox) solo.getView(R.id.brick_repeat_checkbox, 0);
+		CheckBox secondRepeatBrickCheckBox = (CheckBox) solo.getView(R.id.brick_repeat_checkbox, 1);
+		CheckBox firstLoopEndBrickCheckBox = (CheckBox) solo.getView(R.id.brick_loop_end_checkbox, 0);
+		CheckBox secondLoopEndBrickCheckBox = (CheckBox) solo.getView(R.id.brick_loop_end_checkbox, 1);
+
+		assertFalse("CheckBox is checked but shouldn't be.", firstRepeatBrickCheckBox.isChecked());
+		assertTrue("CheckBox is not checked but should be.", secondRepeatBrickCheckBox.isChecked());
+		assertFalse("CheckBox is checked but shouldn't be.", firstLoopEndBrickCheckBox.isChecked());
+		assertTrue("CheckBox is not checked but should be.", secondLoopEndBrickCheckBox.isChecked());
+	}
+
 	private void createProject() {
 		LoopBeginBrick beginBrick;
 		LoopEndBrick endBrick;
@@ -311,5 +415,14 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 				- offset)).getAllNestingBrickParts(false).get(1), projectBrickList.get(position));
 		assertEquals("Wrong LoopEnd-Brick instance", ((NestingBrick) projectBrickList.get(position))
 				.getAllNestingBrickParts(false).get(1), projectBrickList.get(projectBrickList.size() - offset));
+	}
+
+	private void deleteAllBricks() {
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		solo.clickOnText(solo.getString(R.string.select_all).toUpperCase(Locale.getDefault()));
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+		solo.clickOnText(yes);
 	}
 }

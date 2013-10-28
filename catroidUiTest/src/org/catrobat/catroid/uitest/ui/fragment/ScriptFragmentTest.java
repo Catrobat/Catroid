@@ -193,13 +193,13 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
-		solo.clickOnCheckBox(0);
+		solo.clickOnText(solo.getString(R.string.select_all).toUpperCase(Locale.getDefault()));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.clickOnButton(solo.getString(R.string.yes));
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
-		solo.clickOnText(solo.getString(R.string.brick_when_started));
+		UiTestUtils.dragFloatingBrickDownwards(solo, 0);
 		solo.sleep(100);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
