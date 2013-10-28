@@ -224,17 +224,20 @@ public class UploadProjectDialog extends DialogFragment {
 			return;
 		}
 
-		if (!uploadName.equals(currentProjectName)) {
+		boolean needsRenaming;
+		if ((needsRenaming = !uploadName.equals(currentProjectName))
+				|| !projectDescription.equals(currentProjectDescription)) {
 
-			projectRename.setVisibility(View.VISIBLE);
-			boolean renamed = projectManager.renameProjectNameAndDescription(newProjectName, projectDescription,
-					getActivity());
-			if (!renamed) {
-				return;
-			}
-
-		} else if (uploadName.equals(currentProjectName) && (!projectDescription.equals(currentProjectDescription))) {
+			String oldDescription = currentProjectDescription;
 			projectManager.getCurrentProject().setDescription(projectDescription);
+			if (needsRenaming) {
+				projectRename.setVisibility(View.VISIBLE);
+				boolean renamed = projectManager.renameProject(newProjectName, getActivity());
+				if (!renamed) {
+					projectManager.getCurrentProject().setDescription(oldDescription);
+					return;
+				}
+			}
 		}
 
 		projectManager.getCurrentProject().setDeviceData(getActivity());

@@ -953,6 +953,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	public void testRenameProject() {
 		createProjects();
+		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronTask", false);
 		String currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
 		solo.sleep(200);
 		String buttonPositiveText = solo.getString(R.string.ok);
