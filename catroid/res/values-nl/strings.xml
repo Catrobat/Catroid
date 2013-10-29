@@ -246,12 +246,6 @@
     <!--  -->
 
 
-    <!-- Brick general -->
-    <string name="brick_single">"Steen"</string>
-    <string name="brick_multiple">"Stenen"</string>
-    <!--  -->
-
-
     <!-- Brick categories -->
     <string name="categories">"Categorieën"</string>
     <string name="category_motion">"Bewegen"</string>

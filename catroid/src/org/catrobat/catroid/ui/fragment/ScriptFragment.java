@@ -58,7 +58,7 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.adapter.BrickAdapter.OnBrickEditListener;
+import org.catrobat.catroid.ui.adapter.BrickAdapter.OnBrickCheckedListener;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
@@ -68,14 +68,13 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 
-public class ScriptFragment extends ScriptActivityFragment implements OnCategorySelectedListener, OnBrickEditListener {
+public class ScriptFragment extends ScriptActivityFragment implements OnCategorySelectedListener,
+		OnBrickCheckedListener {
 
 	public static final String TAG = ScriptFragment.class.getSimpleName();
 
-	private static String actionModeTitle;
-
-	private static String singleItemAppendixActionMode;
-	private static String multipleItemAppendixActionMode;
+	private static final int ACTION_MODE_COPY = 0;
+	private static final int ACTION_MODE_DELETE = 1;
 
 	private static int selectedBrickPosition = Constants.NO_POSITION;
 
@@ -135,11 +134,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void onStart() {
 		super.onStart();
-		sprite = ProjectManager.getInstance().getCurrentSprite();
-		if (sprite == null) {
-			return;
-		}
-
 		initListeners();
 	}
 
@@ -194,7 +188,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 		adapter.notifyDataSetChanged();
-
 	}
 
 	public void updateAdapterAfterAddNewBrick(Brick brickToBeAdded) {
@@ -221,7 +214,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		});
 
 		adapter = new BrickAdapter(getActivity(), sprite, listView);
-		adapter.setOnBrickEditListener(this);
+		adapter.setOnBrickCheckedListener(this);
 
 		if (ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts() > 0) {
 			ProjectManager.getInstance().setCurrentScript(((ScriptBrick) adapter.getItem(0)).initScript(sprite));
@@ -271,8 +264,17 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void startCopyActionMode() {
+		startActionMode(copyModeCallBack);
+	}
+
+	@Override
+	public void startDeleteActionMode() {
+		startActionMode(deleteModeCallBack);
+	}
+
+	private void startActionMode(ActionMode.Callback actionModeCallback) {
 		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
+			actionMode = getSherlockActivity().startActionMode(actionModeCallback);
 
 			for (int i = adapter.listItemCount; i < adapter.getBrickList().size(); i++) {
 				adapter.getView(i, null, getListView());
@@ -282,8 +284,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			BottomBar.hideBottomBar(getActivity());
 			adapter.setCheckboxVisibility(View.VISIBLE);
 			adapter.setActionMode(true);
+			updateActionModeTitle();
 		}
-
 	}
 
 	@Override
@@ -314,22 +316,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	public void setSelectMode(int selectMode) {
 		adapter.setSelectMode(selectMode);
 		adapter.notifyDataSetChanged();
-	}
-
-	@Override
-	public void startDeleteActionMode() {
-		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
-
-			for (int i = adapter.listItemCount; i < adapter.getBrickList().size(); i++) {
-				adapter.getView(i, null, getListView());
-			}
-
-			unregisterForContextMenu(listView);
-			BottomBar.hideBottomBar(getActivity());
-			adapter.setCheckboxVisibility(View.VISIBLE);
-			adapter.setActionMode(true);
-		}
 	}
 
 	@Override
@@ -373,11 +359,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
-			actionModeTitle = getString(R.string.delete);
-			singleItemAppendixActionMode = getString(R.string.brick_single);
-			multipleItemAppendixActionMode = getString(R.string.brick_multiple);
-
-			mode.setTitle(actionModeTitle);
+			mode.setTag(ACTION_MODE_DELETE);
 			addSelectAllActionModeButton(mode, menu);
 
 			return true;
@@ -408,15 +390,10 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
-			actionModeTitle = getString(R.string.copy);
-			singleItemAppendixActionMode = getString(R.string.brick_single);
-			multipleItemAppendixActionMode = getString(R.string.brick_multiple);
-
-			mode.setTitle(actionModeTitle);
+			mode.setTag(ACTION_MODE_COPY);
 
 			return true;
 		}
@@ -428,7 +405,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-
 			List<Brick> checkedBricks = adapter.getCheckedBricks();
 
 			for (Brick brick : checkedBricks) {
@@ -437,16 +413,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 					break;
 				}
 			}
-			setSelectMode(ListView.CHOICE_MODE_NONE);
-			adapter.clearCheckedItems();
 
-			actionMode = null;
-			setActionModeActive(false);
-
-			registerForContextMenu(listView);
-			BottomBar.showBottomBar(getActivity());
-			adapter.setActionMode(false);
-
+			clearCheckedBricksAndEnableButtons();
 		}
 	};
 
@@ -568,40 +536,38 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	@Override
-	public void onBrickEdit(View view) {
-
+	public void onBrickChecked() {
+		updateActionModeTitle();
 	}
 
-	@Override
-	public void onBrickChecked() {
-
+	private void updateActionModeTitle() {
 		if (actionMode == null) {
 			return;
 		}
 
 		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
 
-		if (numberOfSelectedItems == 0) {
-			actionMode.setTitle(actionModeTitle);
-		} else {
-			String appendix = multipleItemAppendixActionMode;
-
-			if (numberOfSelectedItems == 1) {
-				appendix = singleItemAppendixActionMode;
-			}
-
-			String numberOfItems = Integer.toString(numberOfSelectedItems);
-			String completeTitle = actionModeTitle + " " + numberOfItems + " " + appendix;
-
-			int titleLength = actionModeTitle.length();
-
-			Spannable completeSpannedTitle = new SpannableString(completeTitle);
-			completeSpannedTitle.setSpan(
-					new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)), titleLength + 1,
-					titleLength + (1 + numberOfItems.length()), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-			actionMode.setTitle(completeSpannedTitle);
+		String completeTitle;
+		switch ((Integer) actionMode.getTag()) {
+			case ACTION_MODE_COPY:
+				completeTitle = getResources().getQuantityString(R.plurals.number_of_bricks_to_copy,
+						numberOfSelectedItems, numberOfSelectedItems);
+				break;
+			case ACTION_MODE_DELETE:
+				completeTitle = getResources().getQuantityString(R.plurals.number_of_bricks_to_delete,
+						numberOfSelectedItems, numberOfSelectedItems);
+				break;
+			default:
+				throw new IllegalArgumentException("Wrong or unhandled tag in ActionMode.");
 		}
+
+		int indexOfNumber = completeTitle.indexOf(' ') + 1;
+		Spannable completeSpannedTitle = new SpannableString(completeTitle);
+		completeSpannedTitle.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.actionbar_title_color)),
+				indexOfNumber, indexOfNumber + String.valueOf(numberOfSelectedItems).length(),
+				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+		actionMode.setTitle(completeSpannedTitle);
 	}
 
 	@Override

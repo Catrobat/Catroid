@@ -95,7 +95,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	private List<Brick> checkedBricks = new ArrayList<Brick>();
 
 	private int selectMode;
-	private OnBrickEditListener onBrickEditListener;
+	private OnBrickCheckedListener onBrickCheckedListener;
 	private boolean actionMode = false;
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
@@ -1002,15 +1002,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 	}
 
-	public interface OnBrickEditListener {
-
-		public void onBrickEdit(View view);
-
+	public interface OnBrickCheckedListener {
 		public void onBrickChecked();
 	}
 
-	public void setOnBrickEditListener(OnBrickEditListener listener) {
-		onBrickEditListener = listener;
+	public void setOnBrickCheckedListener(OnBrickCheckedListener listener) {
+		onBrickCheckedListener = listener;
 	}
 
 	public void handleCheck(Brick brick, boolean isChecked) {
@@ -1033,8 +1030,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 		notifyDataSetChanged();
 
-		if (onBrickEditListener != null) {
-			onBrickEditListener.onBrickChecked();
+		if (onBrickCheckedListener != null) {
+			onBrickCheckedListener.onBrickChecked();
 		}
 	}
 
@@ -1093,8 +1090,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 			animateSelectedBricks();
 
-			if (onBrickEditListener != null) {
-				onBrickEditListener.onBrickChecked();
+			if (onBrickCheckedListener != null) {
+				onBrickCheckedListener.onBrickChecked();
 			}
 			notifyDataSetChanged();
 			return true;
@@ -1141,8 +1138,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 			animateSelectedBricks();
 
-			if (onBrickEditListener != null) {
-				onBrickEditListener.onBrickChecked();
+			if (onBrickCheckedListener != null) {
+				onBrickCheckedListener.onBrickChecked();
 			}
 			notifyDataSetChanged();
 			return true;
