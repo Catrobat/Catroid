@@ -367,6 +367,32 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		assertTrue("CheckBox is not checked but should be.", secondLoopEndBrickCheckBox.isChecked());
 	}
 
+	public void testSelectionActionMode() {
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.clickOnCheckBox(1);
+
+		CheckBox repeatBrickCheckbox = (CheckBox) solo.getView(R.id.brick_repeat_checkbox);
+		CheckBox loopEndBrickCheckbox = (CheckBox) solo.getView(R.id.brick_loop_end_checkbox);
+		CheckBox changeYByNBrickCheckbox = (CheckBox) solo.getView(R.id.brick_change_y_checkbox);
+
+		assertTrue("CheckBox is not checked but should be.",
+				repeatBrickCheckbox.isChecked() && loopEndBrickCheckbox.isChecked());
+		assertFalse("CheckBox is checked but shouldn't be.", changeYByNBrickCheckbox.isChecked());
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		solo.clickOnCheckBox(1);
+
+		repeatBrickCheckbox = (CheckBox) solo.getView(R.id.brick_repeat_checkbox);
+		loopEndBrickCheckbox = (CheckBox) solo.getView(R.id.brick_loop_end_checkbox);
+		changeYByNBrickCheckbox = (CheckBox) solo.getView(R.id.brick_change_y_checkbox);
+
+		assertTrue("CheckBox is not checked but should be.",
+				repeatBrickCheckbox.isChecked() && loopEndBrickCheckbox.isChecked());
+		assertFalse("CheckBox is checked but shouldn't be.", changeYByNBrickCheckbox.isChecked());
+	}
+
 	private void createProject() {
 		LoopBeginBrick beginBrick;
 		LoopEndBrick endBrick;

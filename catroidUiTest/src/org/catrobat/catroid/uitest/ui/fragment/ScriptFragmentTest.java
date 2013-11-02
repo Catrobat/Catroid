@@ -382,8 +382,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
-		String expectedTitle = getActivity().getResources()
-				.getQuantityString(R.plurals.number_of_bricks_to_delete, 0, 0);
+		String expectedTitle = getActivity().getResources().getQuantityString(R.plurals.number_of_bricks_to_delete, 0,
+				0);
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, 300, false, true));
 
 		solo.clickOnCheckBox(0);
@@ -510,8 +510,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
 		solo.clickOnCheckBox(3);
-		String expectedTitle = getActivity().getResources()
-				.getQuantityString(R.plurals.number_of_bricks_to_delete, 3, 3);
+		String expectedTitle = getActivity().getResources().getQuantityString(R.plurals.number_of_bricks_to_delete, 2,
+				2);
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, 300, false, true));
 
 		solo.clickOnCheckBox(4);
@@ -519,11 +519,10 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		solo.sleep(500);
 		solo.clickOnCheckBox(1);
-		expectedTitle = getActivity().getResources().getQuantityString(R.plurals.number_of_bricks_to_delete, 6, 6);
+		expectedTitle = getActivity().getResources().getQuantityString(R.plurals.number_of_bricks_to_delete, 5, 5);
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, 300, false, true));
 
 		solo.clickOnCheckBox(1);
-		solo.clickOnCheckBox(3);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.clickOnButton(solo.getString(R.string.yes));
@@ -566,18 +565,19 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		solo.clickOnCheckBox(2);
 		solo.clickOnCheckBox(5);
-		String expectedTitle = getActivity().getResources()
-				.getQuantityString(R.plurals.number_of_bricks_to_delete, 5, 5);
+		String expectedTitle = getActivity().getResources().getQuantityString(R.plurals.number_of_bricks_to_delete, 4,
+				4);
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, 300, false, true));
 
 		solo.sleep(500);
 		solo.clickOnCheckBox(5);
-		expectedTitle = solo.getString(R.string.delete);
+		solo.clickOnCheckBox(2);
+		expectedTitle = getActivity().getResources().getQuantityString(R.plurals.number_of_bricks_to_delete, 0, 0);
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, 300, false, true));
 
 		solo.sleep(300);
 		solo.clickOnCheckBox(3);
-		expectedTitle = getActivity().getResources().getQuantityString(R.plurals.number_of_bricks_to_delete, 5, 5);
+		expectedTitle = getActivity().getResources().getQuantityString(R.plurals.number_of_bricks_to_delete, 3, 3);
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, 300, false, true));
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -594,7 +594,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 			currentBrickList.add((Brick) dragAndDropListView.getItemAtPosition(position));
 		}
 
-		assertEquals("Wrong number of bricks left", 0, numberOfBricks);
+		assertEquals("Wrong number of bricks left", 2, numberOfBricks);
 	}
 
 	public void testDeleteItem() {

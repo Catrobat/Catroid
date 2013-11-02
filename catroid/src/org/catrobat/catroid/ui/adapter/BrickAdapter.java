@@ -1096,9 +1096,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			notifyDataSetChanged();
 			return true;
 		} else if (brick instanceof NestingBrick) {
-			int counter = 1;
-			int from = 0;
-			int to = 0;
 			for (Brick currentBrick : ((NestingBrick) brick).getAllNestingBrickParts(true)) {
 				if (currentBrick == null) {
 					break;
@@ -1109,31 +1106,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				} else {
 					checkedBricks.remove(currentBrick);
 				}
-				if (counter == 1) {
-					from = brickList.indexOf(currentBrick);
-					counter++;
-				} else {
-					to = brickList.indexOf(currentBrick);
-				}
+
 				currentBrick.getCheckBox().setChecked(checked);
-			}
-			if (from > to) {
-				int temp = from;
-				from = to;
-				to = temp;
-			}
-			from++;
-			while (from < to) {
-				Brick currentBrick = brickList.get(from);
-				if (checked) {
-					animatedBricks.add(currentBrick);
-					addElementToCheckedBricks(currentBrick);
-				} else {
-					checkedBricks.remove(currentBrick);
-				}
-				currentBrick.getCheckBox().setChecked(checked);
-				handleBrickEnabledState(currentBrick, !checked);
-				from++;
 			}
 
 			animateSelectedBricks();
