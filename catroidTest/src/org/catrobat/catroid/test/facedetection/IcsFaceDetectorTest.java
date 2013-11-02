@@ -28,6 +28,7 @@ import android.hardware.Camera;
 import android.hardware.Camera.Face;
 import android.os.Build;
 import android.test.InstrumentationTestCase;
+import android.util.Log;
 
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.facedetection.IcsFaceDetector;
@@ -40,6 +41,7 @@ import java.util.Random;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class IcsFaceDetectorTest extends InstrumentationTestCase {
 
+	private static final String TAG = IcsFaceDetectorTest.class.getSimpleName();
 	private static final int FACE_RECT_SIZE = 2000; // see reference of Camera.Face.rect (1000 - -1000 = 2000)
 
 	private static final int COUNTER_INDEX = 0;
@@ -62,6 +64,10 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public void testDeviceFaceDetectionSupport() {
+		if (!isMinApiICS()) {
+			Log.w(TAG, "testDeviceFaceDetectionSupport was not performed (higher API level required)");
+		}
+
 		int possibleFaces = 0;
 		Camera camera = null;
 		try {
@@ -79,6 +85,10 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public void testNotAvailable() {
+		if (!isMinApiICS()) {
+			Log.w(TAG, "testNotAvailable was not performed (higher API level required)");
+		}
+
 		Camera camera = null;
 		try {
 			camera = Camera.open();
@@ -96,6 +106,9 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public void testStartAndStop() {
+		if (!isMinApiICS()) {
+			Log.w(TAG, "testStartAndStop was not performed (higher API level required)");
+		}
 
 		Camera camera = null;
 		try {
@@ -138,6 +151,10 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public void testDoubleStart() {
+		if (!isMinApiICS()) {
+			Log.w(TAG, "testDoubleStart was not performed (higher API level required)");
+		}
+
 		IcsFaceDetector detector = new IcsFaceDetector();
 		detector.startFaceDetection();
 		try {
@@ -151,6 +168,10 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public void testOnFaceDetectionStatusListener() {
+		if (!isMinApiICS()) {
+			Log.w(TAG, "testOnFaceDetectionStatusListener was not performed (higher API level required)");
+		}
+
 		IcsFaceDetector detector = new IcsFaceDetector();
 		final float[] detected = new float[1];
 		SensorCustomEventListener listener = new SensorCustomEventListener() {
@@ -174,6 +195,10 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public void testOnFaceDetectedListener() {
+		if (!isMinApiICS()) {
+			Log.w(TAG, "testOnFaceDetectedListener was not performed (higher API level required)");
+		}
+
 		IcsFaceDetector detector = new IcsFaceDetector();
 
 		final int[] detectedFaces = new int[4];
@@ -240,6 +265,10 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public void testFaceSizeBounds() {
+		if (!isMinApiICS()) {
+			Log.w(TAG, "testFaceSizeBounds was not performed (higher API level required)");
+		}
+
 		IcsFaceDetector detector = new IcsFaceDetector();
 
 		final float[] faceSize = new float[1];
@@ -275,5 +304,10 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		assertTrue("Illegal face size, range is [0,100]", faceSize[0] <= 100);
 
 		detector.removeOnFaceDetectedListener(detectionListener);
+	}
+
+	private boolean isMinApiICS() {
+		int currentApi = android.os.Build.VERSION.SDK_INT;
+		return currentApi >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 	}
 }
