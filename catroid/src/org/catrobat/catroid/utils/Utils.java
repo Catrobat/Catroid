@@ -78,13 +78,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.Semaphore;
 
 public class Utils {
 
 	private static final String TAG = Utils.class.getSimpleName();
-	private static long uniqueLong = 0;
-	private static Semaphore uniqueNameLock = new Semaphore(1);
 	public static final int PICTURE_INTENT = 1;
 	public static final int FILE_INTENT = 2;
 	public static final int TRANSLATION_PLURAL_OTHER_INTEGER = 767676;
@@ -224,13 +221,6 @@ public class Utils {
 		messageDigest.update(string.getBytes());
 
 		return toHex(messageDigest.digest()).toLowerCase(Locale.US);
-	}
-
-	public static String getUniqueName() {
-		uniqueNameLock.acquireUninterruptibly();
-		String uniqueName = String.valueOf(uniqueLong++);
-		uniqueNameLock.release();
-		return uniqueName;
 	}
 
 	private static String toHex(byte[] messageDigest) {

@@ -164,33 +164,16 @@ public class UtilFile {
 	 */
 	public static List<String> getProjectNames(File directory) {
 		List<String> projectList = new ArrayList<String>();
-		File[] sdFileList = directory.listFiles();
-		for (File file : sdFileList) {
-			FilenameFilter filenameFilter = new FilenameFilter() {
-				@Override
-				public boolean accept(File dir, String filename) {
-					return filename.contentEquals(Constants.PROJECTCODE_NAME);
-				}
-			};
-			if (file.isDirectory() && file.list(filenameFilter).length != 0) {
-				projectList.add(file.getName());
-			}
-		}
-		return projectList;
-	}
-
-	public static List<File> getProjectFiles(File directory) {
-		List<File> projectList = new ArrayList<File>();
-		File[] sdFileList = directory.listFiles();
+		File[] fileList = directory.listFiles();
 		FilenameFilter filenameFilter = new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String filename) {
 				return filename.contentEquals(Constants.PROJECTCODE_NAME);
 			}
 		};
-		for (File file : sdFileList) {
+		for (File file : fileList) {
 			if (file.isDirectory() && file.list(filenameFilter).length != 0) {
-				projectList.add(file);
+				projectList.add(file.getName());
 			}
 		}
 		return projectList;

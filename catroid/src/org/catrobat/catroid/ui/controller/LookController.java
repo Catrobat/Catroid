@@ -53,6 +53,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.LookViewHolder;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.LookBaseAdapter;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.ImageEditing;
@@ -353,7 +354,8 @@ public class LookController {
 				PackageManager.MATCH_DEFAULT_ONLY);
 
 		if (packageList.size() <= 0) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+			AlertDialog.Builder builder = new CustomAlertDialogBuilder(activity);
+			builder.setTitle(R.string.pocket_paint_not_installed_title);
 			builder.setMessage(R.string.pocket_paint_not_installed).setCancelable(false)
 					.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 						@Override

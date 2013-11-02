@@ -211,11 +211,11 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 		startActivity(intent);
 	}
 
-	public void handleForumButton(View view) {
+	public void handleHelpButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.CATROBAT_FORUM_URL));
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.CATROBAT_HELP_URL));
 		startActivity(browserIntent);
 	}
 

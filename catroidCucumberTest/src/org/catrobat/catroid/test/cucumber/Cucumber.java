@@ -29,7 +29,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 // Here you can configure which feature or feature-subfolder to test.
-@CucumberOptions(features = "features/bricks")
+@CucumberOptions(features = "features/bricks",
+				 format = {"pretty", "html:/sdcard/cucumber/report"})
 public final class Cucumber {
 	public static final String KEY_SOLO = "KEY_SOLO";
 	public static final String KEY_PROJECT = "KEY_PROJECT";

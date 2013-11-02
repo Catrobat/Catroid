@@ -51,7 +51,7 @@
     <string name="main_menu_new">New</string>
     <string name="main_menu_continue">Continue</string>
     <string name="main_menu_programs">Programs</string>
-    <string name="main_menu_forum">Discuss</string>
+    <string name="main_menu_help">Help</string>
     <string name="main_menu_web">Explore</string>
     <string name="main_menu_upload">Upload</string>
     <string name="main_menu_about_pocketcode">About Pocket Code</string>
@@ -129,6 +129,15 @@
     <string name="dialog_confirm_delete_script_title">Delete this script?</string>
     <string name="dialog_confirm_delete_multiple_bricks_title">Delete these bricks?</string>
     <string name="dialog_confirm_delete_brick_message">This can not be undone!</string>
+
+    <plurals name="number_of_bricks_to_delete">
+        <item quantity="one">Delete 1 Brick</item>
+        <item quantity="other">Delete %d Bricks</item>
+    </plurals>
+    <plurals name="number_of_bricks_to_copy">
+        <item quantity="one">Copy 1 Brick</item>
+        <item quantity="other">Copy %d Bricks</item>
+    </plurals>
     <!--  -->
 
 
@@ -137,7 +146,8 @@
     <string name="fragment_background_text_description">Click \"+\" to add Backgrounds</string>
     <string name="rename_look_dialog">Rename Look</string>
     <string name="lookname_invalid">This look\'s name is invalid</string>
-    <string name="pocket_paint_not_installed">Pocket Paint is not installed!\nDo you want to install it?</string>
+    <string name="pocket_paint_not_installed_title">Pocket Paint is not installed!</string>
+    <string name="pocket_paint_not_installed">Do you want to install it?</string>
     <string name="default_look_name">look</string>
     <string name="delete_look_dialog">Delete look?</string>
     <string name="select_look_from_gallery">Select image</string>
@@ -156,7 +166,7 @@
     <string name="backpack_title">BackPack</string>
     <string name="soundname_invalid">This sound\'s name is invalid</string>
     <string name="sound_play">play</string>
-    <string name="sound_pause">pause</string>
+    <string name="sound_stop">stop</string>
     <string name="sound_select_source">Select a sound</string>
     <string name="sound_time_seperator">/</string>
     <string name="delete_sound_dialog">Delete sound?</string>
@@ -166,7 +176,7 @@
     <string name="dialog_confirm_delete_sound_message">This can not be undone!</string>
     <string name="sound_name">sound name:</string>
     <!--  -->
-    
+
     <plurals name="unpacking_items_plural">
         <item quantity="one">was unpacked!</item>
         <item quantity="other">were unpacked!</item>
@@ -274,12 +284,6 @@
     <string name="new_broadcast_message">New…</string>
     <string name="dialog_new_broadcast_message_title">New message</string>
     <string name="dialog_new_broadcast_message_name">message:</string>
-    <!--  -->
-
-
-    <!-- Brick general -->
-    <string name="brick_single">Brick</string>
-    <string name="brick_multiple">Bricks</string>
     <!--  -->
 
 

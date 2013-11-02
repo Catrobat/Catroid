@@ -51,7 +51,7 @@
     <string name="main_menu_new">Neu</string>
     <string name="main_menu_continue">Fortsetzen</string>
     <string name="main_menu_programs">Programme</string>
-    <string name="main_menu_forum">Diskutieren</string>
+    <string name="main_menu_help">Hilfe</string>
     <string name="main_menu_web">Erkunden</string>
     <string name="main_menu_upload">Hochladen</string>
     <string name="main_menu_about_pocketcode">Über Pocket Code</string>
@@ -128,6 +128,15 @@
     <string name="dialog_confirm_delete_script_title">Dieses Skript löschen?</string>
     <string name="dialog_confirm_delete_multiple_bricks_title">Diese Bausteine löschen?</string>
     <string name="dialog_confirm_delete_brick_message">Kann nicht rückgängig gemacht werden!</string>
+
+    <plurals name="number_of_bricks_to_delete">
+        <item quantity="one">Lösche 1 Baustein</item>
+        <item quantity="other">Lösche %d Bausteine</item>
+    </plurals>
+    <plurals name="number_of_bricks_to_copy">
+        <item quantity="one">Kopiere 1 Baustein</item>
+        <item quantity="other">Kopiere %d Bausteine</item>
+    </plurals>
     <!--  -->
 
 
@@ -136,7 +145,8 @@
     <string name="fragment_background_text_description">Klicke auf \"+\" um Hintergründe hinzuzufügen</string>
     <string name="rename_look_dialog">Aussehen umbenennen</string>
     <string name="lookname_invalid">Dieser Name ist nicht zulässig</string>
-    <string name="pocket_paint_not_installed">Pocket Paint ist nicht installiert!\nJetzt installieren?</string>
+    <string name="pocket_paint_not_installed_title">Pocket Paint ist nicht installiert!</string>
+    <string name="pocket_paint_not_installed">Jetzt installieren?</string>
     <string name="default_look_name">Aussehen</string>
     <string name="delete_look_dialog">Aussehen löschen?</string>
     <string name="select_look_from_gallery">Bild auswählen</string>
@@ -155,7 +165,7 @@
     <string name="backpack_title">Rucksack</string>
     <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
     <string name="sound_play">abspielen</string>
-    <string name="sound_pause">pausieren</string>
+    <string name="sound_stop">stoppen</string>
     <string name="sound_select_source">Klang auswählen</string>
     <string name="sound_time_seperator">/</string>
     <string name="delete_sound_dialog">Klang löschen?</string>
@@ -165,12 +175,11 @@
     <string name="dialog_confirm_delete_sound_message">Kann nicht rückgängig gemacht werden!</string>
     <string name="sound_name">Name:</string>
     <!--  -->
-    
+
     <plurals name="unpacking_items_plural">
         <item quantity="one">wurde entpackt!</item>
         <item quantity="other">wurden entpackt!</item>
     </plurals>
-
 
     <!-- My Projects activity -->
     <string name="last_used">Letzter Zugriff:</string>
@@ -274,12 +283,6 @@
     <string name="new_broadcast_message">Neu…</string>
     <string name="dialog_new_broadcast_message_title">Neue Nachricht</string>
     <string name="dialog_new_broadcast_message_name">Nachricht:</string>
-    <!--  -->
-
-
-    <!-- Brick general -->
-    <string name="brick_single">Baustein</string>
-    <string name="brick_multiple">Bausteine</string>
     <!--  -->
 
 

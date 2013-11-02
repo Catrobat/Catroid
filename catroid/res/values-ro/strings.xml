@@ -116,7 +116,6 @@
     <string name="rename_sound_dialog">Redenumirea sunetului</string>
     <string name="soundname_invalid">Această denumire de sunet este nevalabilă</string>
     <string name="sound_play">redare</string>
-    <string name="sound_pause">pauză </string>
     <string name="sound_rename">redenumire</string>
     <!-- Sprite dialog -->
     <!-- <string name="sprite_button_text">Creare</string> -->

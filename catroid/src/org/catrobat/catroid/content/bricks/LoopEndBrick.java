@@ -30,7 +30,8 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -85,19 +86,25 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 		if (animationState) {
 			return view;
 		}
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		view = inflater.inflate(R.layout.brick_loop_end, null);
-		view = getViewWithAlpha(alphaValue);
-		checkbox = (CheckBox) view.findViewById(R.id.brick_loop_end_checkbox);
-		final Brick brickInstance = this;
 
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
+		if (view == null) {
+			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			view = inflater.inflate(R.layout.brick_loop_end, null);
+			view = getViewWithAlpha(alphaValue);
+			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_end_checkbox);
+
+			setCheckboxView(R.id.brick_loop_end_checkbox);
+			final Brick brickInstance = this;
+
+			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					checked = isChecked;
+					adapter.handleCheck(brickInstance, isChecked);
+				}
+			});
+		}
+
 		return view;
 	}
 
@@ -106,9 +113,9 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 
 		if (view != null) {
 
-			View layout = (View) view.findViewById(R.id.brick_loop_end_layout);
+			View layout = view.findViewById(R.id.brick_loop_end_layout);
 			if (layout == null) {
-				layout = (View) view.findViewById(R.id.brick_loop_end_no_puzzle_layout);
+				layout = view.findViewById(R.id.brick_loop_end_no_puzzle_layout);
 				TextView loopLabel = (TextView) view.findViewById(R.id.brick_loop_end_no_puzzle_label);
 				loopLabel.setTextColor(loopLabel.getTextColors().withAlpha(alphaValue));
 			} else {
@@ -173,7 +180,7 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	}
 
 	@Override
-	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
+	public View getNoPuzzleView(Context context, int brickId, BaseAdapter baseAdapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		return inflater.inflate(R.layout.brick_loop_end_no_puzzle, null);
 	}

@@ -29,7 +29,8 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
@@ -59,6 +60,7 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 			view = getViewWithAlpha(alphaValue);
 			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_endless_checkbox);
 
+			setCheckboxView(R.id.brick_loop_endless_checkbox);
 			final Brick brickInstance = this;
 
 			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -79,11 +81,11 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
 			View layout = null;
 			if (isPuzzleView) {
-				layout = (View) view.findViewById(R.id.brick_loop_endless_layout);
+				layout = view.findViewById(R.id.brick_loop_endless_layout);
 				TextView endlessLabel = (TextView) view.findViewById(R.id.brick_loop_endless_label);
 				endlessLabel.setTextColor(endlessLabel.getTextColors().withAlpha(alphaValue));
 			} else {
-				layout = (View) view.findViewById(R.id.brick_loop_endless_nopuzzle_layout);
+				layout = view.findViewById(R.id.brick_loop_endless_nopuzzle_layout);
 				TextView endlessLabel = (TextView) view.findViewById(R.id.brick_loop_endless_nopuzzle_label);
 				endlessLabel.setTextColor(endlessLabel.getTextColors().withAlpha(alphaValue));
 			}
