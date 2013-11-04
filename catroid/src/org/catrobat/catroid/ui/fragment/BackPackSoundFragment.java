@@ -266,8 +266,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 			holder.titleTextView = (TextView) convertView.findViewById(R.id.fragment_sound_item_title_text_view);
 			holder.timeSeparatorTextView = (TextView) convertView
 					.findViewById(R.id.fragment_sound_item_time_seperator_text_view);
-			holder.timeDurationTextView = (TextView) convertView
-					.findViewById(R.id.fragment_sound_item_duration_text_view);
 			holder.soundFileSizePrefixTextView = (TextView) convertView
 					.findViewById(R.id.fragment_sound_item_size_prefix_text_view);
 			holder.soundFileSizeTextView = (TextView) convertView.findViewById(R.id.fragment_sound_item_size_text_view);

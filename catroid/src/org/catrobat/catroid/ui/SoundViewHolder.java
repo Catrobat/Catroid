@@ -34,7 +34,6 @@ public class SoundViewHolder {
 	public CheckBox checkbox;
 	public TextView titleTextView;
 	public TextView timeSeparatorTextView;
-	public TextView timeDurationTextView;
 	public TextView soundFileSizePrefixTextView;
 	public TextView soundFileSizeTextView;
 	public Chronometer timePlayedChronometer;

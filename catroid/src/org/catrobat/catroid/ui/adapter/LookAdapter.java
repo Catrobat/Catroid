@@ -52,8 +52,4 @@ public class LookAdapter extends LookBaseAdapter implements ScriptActivityAdapte
 	public void setLookFragment(LookFragment lookFragment) {
 		this.lookFragment = lookFragment;
 	}
-
-	public LookFragment getLookFragment() {
-		return lookFragment;
-	}
 }
