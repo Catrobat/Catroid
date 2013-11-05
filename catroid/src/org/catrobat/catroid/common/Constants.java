@@ -34,8 +34,10 @@ public final class Constants {
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build
 	public static final String APPLICATION_BUILD_NAME = ""; // updated from jenkins nightly/release build
 	public static final String PROJECTCODE_NAME = "code.xml";
+
 	public static final String CATROBAT_EXTENSION = ".catrobat";
 	public static final String RECORDING_EXTENSION = ".mp3";
+	public static final String IMAGE_STANDARD_EXTENTION = ".png";
 	public static final String TEXT_TO_SPEECH_EXTENSION = ".wav";
 
 	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
@@ -48,6 +50,7 @@ public final class Constants {
 
 	public static final String BACKPACK_SOUND_DIRECTORY = "backpack_sound";
 	public static final String BACKPACK_IMAGE_DIRECTORY = "backpack_image";
+	public static final String FILENAME_SEPARATOR = "_";
 
 	public static final String NO_MEDIA_FILE = ".nomedia";
 

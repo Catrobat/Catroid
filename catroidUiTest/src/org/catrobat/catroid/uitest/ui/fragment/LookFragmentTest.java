@@ -25,7 +25,6 @@ package org.catrobat.catroid.uitest.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
@@ -38,6 +37,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -99,7 +99,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		super(MainMenuActivity.class);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
@@ -137,9 +136,9 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		lookData3.setLookFilename(imageFileJpg.getName());
 		lookData3.setLookName(THIRD_TEST_LOOK_NAME);
 
-		Display display = getActivity().getWindowManager().getDefaultDisplay();
-		projectManager.getCurrentProject().getXmlHeader().virtualScreenWidth = display.getWidth();
-		projectManager.getCurrentProject().getXmlHeader().virtualScreenHeight = display.getHeight();
+		Utils.updateScreenWidthAndHeight(solo.getCurrentActivity());
+		projectManager.getCurrentProject().getXmlHeader().virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
+		projectManager.getCurrentProject().getXmlHeader().virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
 
 		UiTestUtils.getIntoLooksFromMainMenu(solo, true);
 

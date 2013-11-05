@@ -65,14 +65,15 @@ public class StageListener implements ApplicationListener {
 	private static final float DELTA_ACTIONS_DIVIDER_MAXIMUM = 50f;
 	private static final int ACTIONS_COMPUTATION_TIME_MAXIMUM = 8;
 	private static final boolean DEBUG = false;
-	public static final String SCREENSHOT_AUTOMATIC_FILE_NAME = "automatic_screenshot.png";
-	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot.png";
 
 	// needed for UiTests - is disabled to fix crashes with EMMA coverage
 	// CHECKSTYLE DISABLE StaticVariableNameCheck FOR 1 LINES
 	private static boolean DYNAMIC_SAMPLING_RATE_FOR_ACTIONS = true;
 
 	private float deltaActionTimeDivisor = 10f;
+	public static final String SCREENSHOT_AUTOMATIC_FILE_NAME = "automatic_screenshot"
+			+ Constants.IMAGE_STANDARD_EXTENTION;
+	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot" + Constants.IMAGE_STANDARD_EXTENTION;
 	private FPSLogger fpsLogger;
 
 	private Stage stage;
@@ -328,10 +329,10 @@ public class StageListener implements ApplicationListener {
 
 			/*
 			 * Necessary for UiTests, when EMMA - code coverage is enabled.
-			 *
+			 * 
 			 * Without setting DYNAMIC_SAMPLING_RATE_FOR_ACTIONS to false(via reflection), before
 			 * the UiTest enters the stage, random segmentation faults(triggered by EMMA) will occur.
-			 *
+			 * 
 			 * Can be removed, when EMMA is replaced by an other code coverage tool, or when a
 			 * future EMMA - update will fix the bugs.
 			 */
