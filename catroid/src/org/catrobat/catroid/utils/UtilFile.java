@@ -42,8 +42,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class UtilFile {
-	public static final int TYPE_IMAGE_FILE = 0;
-	public static final int TYPE_SOUND_FILE = 1;
+	public enum FileType {
+		TYPE_IMAGE_FILE, TYPE_SOUND_FILE
+	}
 
 	private static long getSizeOfFileOrDirectoryInByte(File fileOrDirectory) {
 		if (!fileOrDirectory.exists()) {
@@ -110,7 +111,7 @@ public class UtilFile {
 		return (path.delete());
 	}
 
-	public static File saveFileToProject(String project, String name, int fileID, Context context, int type) {
+	public static File saveFileToProject(String project, String name, int fileID, Context context, FileType type) {
 
 		String filePath;
 		if (project == null || project.equalsIgnoreCase("")) {
