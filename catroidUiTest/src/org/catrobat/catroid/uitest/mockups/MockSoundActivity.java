@@ -49,9 +49,4 @@ public class MockSoundActivity extends Activity {
 		}
 		finish();
 	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-	}
 }
