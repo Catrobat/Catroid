@@ -273,11 +273,11 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 	}
 
 	public interface OnCheckedChangeListener {
-		public void onCheckedChange();
+		void onCheckedChange();
 	}
 
 	public interface OnListItemClickListener {
-		public void onListItemClick(int position);
+		void onListItemClick(int position);
 	}
 
 }

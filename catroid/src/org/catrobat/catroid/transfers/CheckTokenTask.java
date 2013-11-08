@@ -121,9 +121,9 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 
 	public interface OnCheckTokenCompleteListener {
 
-		public void onTokenNotValid();
+		void onTokenNotValid();
 
-		public void onCheckTokenSuccess();
+		void onCheckTokenSuccess();
 
 	}
 }

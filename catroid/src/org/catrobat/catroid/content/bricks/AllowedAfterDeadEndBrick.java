@@ -31,5 +31,5 @@ import android.widget.BaseAdapter;
  * Examples are: Scripts, Condition-Ends (e.g. Else-Brick or End-If-Else-Brick)
  */
 public interface AllowedAfterDeadEndBrick {
-	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter);
+	View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter);
 }

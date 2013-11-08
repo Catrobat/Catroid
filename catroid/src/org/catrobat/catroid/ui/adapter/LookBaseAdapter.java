@@ -111,8 +111,8 @@ public class LookBaseAdapter extends ArrayAdapter<LookData> implements ScriptAct
 
 	public interface OnLookEditListener {
 
-		public void onLookEdit(View view);
+		void onLookEdit(View view);
 
-		public void onLookChecked();
+		void onLookChecked();
 	}
 }

@@ -92,7 +92,7 @@ public class CopyProjectDialog extends TextDialog {
 
 	public interface OnCopyProjectListener {
 
-		public void onCopyProject();
+		void onCopyProject();
 
 	}
 
