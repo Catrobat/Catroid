@@ -156,7 +156,7 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UiTestUtils {
+public final class UiTestUtils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();
 	private static SparseIntArray brickCategoryMap;
 	private static List<InternToken> internTokenList = new ArrayList<InternToken>();
@@ -191,9 +191,10 @@ public class UiTestUtils {
 		IMAGE, SOUND, ROOT
 	};
 
+	// Suppress default constructor for noninstantiability
 	private UiTestUtils() {
-
-	};
+		throw new AssertionError();
+	}
 
 	public static void enterText(Solo solo, int editTextIndex, String text) {
 

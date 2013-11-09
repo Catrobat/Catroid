@@ -35,7 +35,7 @@ import java.util.List;
 
 public class LicenseTest extends TestCase {
 	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidUiTest",
-			"../catroidCucumberTest", };
+			"../catroidCucumberTest" };
 
 	private ArrayList<String> agplLicenseText;
 	private boolean allLicenseTextsPresentAndCorrect;

@@ -124,12 +124,11 @@ import java.util.Locale;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class StorageHandler {
+public final class StorageHandler {
+	private static final StorageHandler INSTANCE;
 	private static final String TAG = StorageHandler.class.getSimpleName();
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private static final int JPG_COMPRESSION_SETTING = 95;
-
-	private static final StorageHandler INSTANCE;
 
 	private XStream xstream;
 

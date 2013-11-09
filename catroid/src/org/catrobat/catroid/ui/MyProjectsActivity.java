@@ -80,22 +80,22 @@ public class MyProjectsActivity extends BaseActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.copy: {
+			case R.id.copy:
 				projectsListFragment.startCopyActionMode();
 				break;
-			}
-			case R.id.delete: {
+
+			case R.id.delete:
 				projectsListFragment.startDeleteActionMode();
 				break;
-			}
-			case R.id.rename: {
+
+			case R.id.rename:
 				projectsListFragment.startRenameActionMode();
 				break;
-			}
-			case R.id.show_details: {
+
+			case R.id.show_details:
 				handleShowDetails(!projectsListFragment.getShowDetails(), item);
 				break;
-			}
+
 		}
 		return super.onOptionsItemSelected(item);
 	}

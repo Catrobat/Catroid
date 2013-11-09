@@ -430,11 +430,10 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	public boolean onContextItemSelected(MenuItem item) {
 
 		switch (item.getItemId()) {
-			case R.id.context_menu_copy: {
+			case R.id.context_menu_copy:
 				LookController.getInstance().copyLook(selectedLookPosition, lookDataList, getActivity(),
 						LookFragment.this);
 				break;
-			}
 
 			case R.id.context_menu_cut:
 				break;
@@ -445,15 +444,14 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			case R.id.context_menu_move:
 				break;
 
-			case R.id.context_menu_rename: {
+			case R.id.context_menu_rename:
 				showRenameDialog();
 				break;
-			}
 
-			case R.id.context_menu_delete: {
+			case R.id.context_menu_delete:
 				showConfirmDeleteDialog();
 				break;
-			}
+
 		}
 		return super.onContextItemSelected(item);
 	}

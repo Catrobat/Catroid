@@ -252,7 +252,7 @@ public class PointToBrick extends BrickBaseType {
 		return arrayAdapter;
 	}
 
-	public class SpinnerAdapterWrapper implements SpinnerAdapter {
+	public final class SpinnerAdapterWrapper implements SpinnerAdapter {
 
 		protected Context context;
 		protected Spinner spinner;

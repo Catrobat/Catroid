@@ -77,7 +77,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class Utils {
+public final class Utils {
 
 	private static final String TAG = Utils.class.getSimpleName();
 	public static final int PICTURE_INTENT = 1;
@@ -85,6 +85,11 @@ public class Utils {
 	public static final int TRANSLATION_PLURAL_OTHER_INTEGER = 767676;
 	private static final int DEFAULT_SCREEN_WIDTH = 1280;
 	private static final int DEFAULT_SCREEN_HEIGHT = 768;
+
+	// Suppress default constructor for noninstantiability
+	private Utils() {
+		throw new AssertionError();
+	}
 
 	public static boolean externalStorageAvailable() {
 		String externalStorageState = Environment.getExternalStorageState();

@@ -32,7 +32,8 @@ import android.util.SparseArray;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 
-public class StatusBarNotificationManager {
+public final class StatusBarNotificationManager {
+	public static final String EXTRA_PROJECT_NAME = "projectName";
 
 	private static final StatusBarNotificationManager INSTANCE = new StatusBarNotificationManager();
 
@@ -40,8 +41,6 @@ public class StatusBarNotificationManager {
 	private SparseArray<NotificationData> notificationDataMap = new SparseArray<NotificationData>();
 
 	private NotificationManager notificationManager;
-
-	public static final String EXTRA_PROJECT_NAME = "projectName";
 
 	private StatusBarNotificationManager() {
 	}

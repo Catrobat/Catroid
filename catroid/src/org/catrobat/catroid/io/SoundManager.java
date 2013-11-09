@@ -33,10 +33,10 @@ import java.util.List;
  * synchronized.
  */
 public class SoundManager {
+	public static final int MAX_MEDIA_PLAYERS = 7;
+
 	private static final String TAG = SoundManager.class.getSimpleName();
 	private static final SoundManager INSTANCE = new SoundManager();
-
-	public static final int MAX_MEDIA_PLAYERS = 7;
 
 	private final List<MediaPlayer> mediaPlayers = new ArrayList<MediaPlayer>(MAX_MEDIA_PLAYERS);
 	private float volume = 70.0f;

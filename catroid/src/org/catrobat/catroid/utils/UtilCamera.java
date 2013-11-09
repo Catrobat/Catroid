@@ -36,9 +36,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class UtilCamera {
+public final class UtilCamera {
 
+	// Suppress default constructor for noninstantiability
 	private UtilCamera() {
+		throw new AssertionError();
 	}
 
 	public static Uri getDefaultLookFromCameraUri(String defLookName) {

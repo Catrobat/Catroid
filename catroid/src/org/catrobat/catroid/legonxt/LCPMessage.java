@@ -46,7 +46,7 @@ package org.catrobat.catroid.legonxt;
  * Class for composing the proper messages for simple
  * communication over bluetooth
  */
-public class LCPMessage {
+public final class LCPMessage {
 
 	// the folowing constants were taken from the leJOS project (http://www.lejos.org) 
 
@@ -125,6 +125,11 @@ public class LCPMessage {
 	public static final byte[] FIRMWARE_VERSION_LEJOSMINDDROID = { 0x6c, 0x4d, 0x49, 0x64 };
 
 	private static boolean requestConfirmFromDevice = false;
+
+	// Suppress default constructor for noninstantiability
+	private LCPMessage() {
+		throw new AssertionError();
+	}
 
 	public static void enableRequestConfirmFromDevice() {
 		//this request will only return a small error message, not the actually executed command!

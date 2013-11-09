@@ -29,9 +29,12 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 public class GlideToAction extends TemporalAction {
 
-	private float startX, startY;
-	private float currentX, currentY;
-	private Formula endX, endY;
+	private float startX;
+	private float startY;
+	private float currentX;
+	private float currentY;
+	private Formula endX;
+	private Formula endY;
 	private Sprite sprite;
 	private Formula duration;
 	private float endXValue;

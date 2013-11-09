@@ -56,9 +56,14 @@ import org.catrobat.catroid.utils.UtilFile;
 import java.io.File;
 import java.io.IOException;
 
-public class StandardProjectHandler {
+public final class StandardProjectHandler {
 
 	private static double backgroundImageScaleFactor = 1;
+
+	// Suppress default constructor for noninstantiability
+	private StandardProjectHandler() {
+		throw new AssertionError();
+	}
 
 	public static Project createAndSaveStandardProject(Context context) throws IOException {
 		String projectName = context.getString(R.string.default_project_name);

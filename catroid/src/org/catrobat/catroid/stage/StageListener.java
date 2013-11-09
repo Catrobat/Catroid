@@ -431,7 +431,8 @@ public class StageListener implements ApplicationListener {
 
 	private boolean saveScreenshot(byte[] screenshot, String fileName) {
 		int length = screenshot.length;
-		Bitmap fullScreenBitmap, centerSquareBitmap;
+		Bitmap fullScreenBitmap;
+		Bitmap centerSquareBitmap;
 		int[] colors = new int[length / 4];
 
 		for (int i = 0; i < length; i += 4) {

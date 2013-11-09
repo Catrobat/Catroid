@@ -68,7 +68,7 @@ public class ImageEditingTest extends TestCase {
 			e.printStackTrace();
 		}
 
-		int dimensions[] = new int[2];
+		int[] dimensions = new int[2];
 
 		dimensions = ImageEditing.getImageDimensions(testImageFile.getAbsolutePath());
 

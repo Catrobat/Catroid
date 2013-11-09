@@ -28,7 +28,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.util.Log;
 
-public class SensorHandler implements SensorEventListener, SensorCustomEventListener {
+public final class SensorHandler implements SensorEventListener, SensorCustomEventListener {
 	private static final String TAG = SensorHandler.class.getSimpleName();
 	private static SensorHandler instance = null;
 	private SensorManagerInterface sensorManager = null;
