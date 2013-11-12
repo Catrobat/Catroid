@@ -37,6 +37,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ListView;
@@ -44,7 +45,6 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.graphics.Pixmap;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -366,15 +366,17 @@ public class LookController {
 					.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int id) {
-
-							if (BuildConfig.DEBUG) {
-								Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, Uri
-										.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK_NIGHTLY));
+							try {
+								Uri pocketPaintUri = Uri.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK);
+								//TODO: QUICKFIX because BuildConfig.DEBUG never set to false https://code.google.com/p/android/issues/detail?id=27940
+								//if (BuildConfig.DEBUG) {
+								//  pocketPaintUri = Uri.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK_NIGHTLY);
+								//}
+								Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, pocketPaintUri);
 								activity.startActivity(downloadPocketPaintIntent);
-							} else {
-								Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, Uri
-										.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK));
-								activity.startActivity(downloadPocketPaintIntent);
+							} catch (NullPointerException e) {
+								e.printStackTrace();
+								Log.e("LookController", "Pocket Paint link is null");
 							}
 						}
 					}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
