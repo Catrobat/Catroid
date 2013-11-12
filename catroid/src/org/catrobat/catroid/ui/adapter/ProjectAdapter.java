@@ -278,9 +278,9 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 	}
 
 	public interface OnProjectEditListener {
-		public void onProjectChecked();
+		void onProjectChecked();
 
-		public void onProjectEdit(int position);
+		void onProjectEdit(int position);
 	}
 
 }

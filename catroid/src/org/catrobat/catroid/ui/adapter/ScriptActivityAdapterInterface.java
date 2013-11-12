@@ -24,22 +24,18 @@ package org.catrobat.catroid.ui.adapter;
 
 import java.util.Set;
 
-/**
- * @author Daniel
- * 
- */
 public interface ScriptActivityAdapterInterface {
-	public void setSelectMode(int mode);
+	void setSelectMode(int mode);
 
-	public int getSelectMode();
+	int getSelectMode();
 
-	public void setShowDetails(boolean showDetails);
+	void setShowDetails(boolean showDetails);
 
-	public boolean getShowDetails();
+	boolean getShowDetails();
 
-	public int getAmountOfCheckedItems();
+	int getAmountOfCheckedItems();
 
-	public Set<Integer> getCheckedItems();
+	Set<Integer> getCheckedItems();
 
-	public void clearCheckedItems();
+	void clearCheckedItems();
 }

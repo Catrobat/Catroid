@@ -148,7 +148,7 @@ public class BrickCategoryFragment extends SherlockListFragment {
 
 	public interface OnCategorySelectedListener {
 
-		public void onCategorySelected(String category);
+		void onCategorySelected(String category);
 
 	}
 }

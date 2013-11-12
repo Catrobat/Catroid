@@ -79,11 +79,6 @@ public class ProjectUploadService extends IntentService {
 	}
 
 	@Override
-	public void onCreate() {
-		super.onCreate();
-	}
-
-	@Override
 	protected void onHandleIntent(Intent intent) {
 		StorageHandler.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
 

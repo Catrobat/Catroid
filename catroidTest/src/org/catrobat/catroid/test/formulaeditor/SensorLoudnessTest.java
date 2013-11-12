@@ -32,11 +32,6 @@ import org.catrobat.catroid.test.utils.SimulatedSoundRecorder;
 public class SensorLoudnessTest extends InstrumentationTestCase {
 
 	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-	}
-
-	@Override
 	public void tearDown() throws Exception {
 		SensorHandler.stopSensorListeners();
 		Reflection.setPrivateField(SensorLoudness.class, "instance", null);

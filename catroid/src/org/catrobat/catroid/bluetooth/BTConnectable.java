@@ -47,6 +47,6 @@ public interface BTConnectable {
 	/**
 	 * @return true, when currently pairing
 	 */
-	public boolean isPairing();
+	boolean isPairing();
 
 }

@@ -890,7 +890,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	public interface OnSoundInfoListChangedAfterNewListener {
 
-		public void onSoundInfoListChangedAfterNew(SoundInfo soundInfo);
+		void onSoundInfoListChangedAfterNew(SoundInfo soundInfo);
 
 	}
 

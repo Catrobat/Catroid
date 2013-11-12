@@ -35,16 +35,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		super(MainMenuActivity.class);
 	}
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
-
 	@UiThreadTest
 	public void testShouldNotCrashIfProjectIsNull() {
 		ProjectManager.getInstance().setProject(null);

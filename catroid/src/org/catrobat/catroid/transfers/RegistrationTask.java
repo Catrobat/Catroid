@@ -137,7 +137,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 
 	public interface OnRegistrationCompleteListener {
 
-		public void onRegistrationComplete();
+		void onRegistrationComplete();
 
 	}
 }
