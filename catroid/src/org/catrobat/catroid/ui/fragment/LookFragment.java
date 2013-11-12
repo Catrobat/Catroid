@@ -106,6 +106,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	private LookRenamedReceiver lookRenamedReceiver;
 	private LooksListInitReceiver looksListInitReceiver;
 	private ActionMode actionMode;
+	private View selectAllActionModeButton;
 	private boolean isRenameActionMode;
 	private boolean isResultHandled = false;
 	private OnLookDataListChangedAfterNewListener lookDataListChangedAfterNewListener;
@@ -607,6 +608,12 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			return;
 		}
 
+		updateActionModeTitle();
+		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
+				adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount());
+	}
+
+	private void updateActionModeTitle() {
 		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
 
 		if (numberOfSelectedItems == 0) {
@@ -671,20 +678,19 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu).setOnClickListener(
-				new OnClickListener() {
+		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu);
+		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
-					@Override
-					public void onClick(View view) {
-						for (int position = 0; position < lookDataList.size(); position++) {
-							adapter.addCheckedItem(position);
-						}
-						adapter.notifyDataSetChanged();
-						view.setVisibility(View.GONE);
-						onLookChecked();
-					}
+			@Override
+			public void onClick(View view) {
+				for (int position = 0; position < lookDataList.size(); position++) {
+					adapter.addCheckedItem(position);
+				}
+				adapter.notifyDataSetChanged();
+				onLookChecked();
+			}
 
-				});
+		});
 	}
 
 	private void showConfirmDeleteDialog() {

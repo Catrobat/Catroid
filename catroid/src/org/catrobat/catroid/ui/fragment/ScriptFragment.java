@@ -79,6 +79,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	private static int selectedBrickPosition = Constants.NO_POSITION;
 
 	private ActionMode actionMode;
+	private View selectAllActionModeButton;
 
 	private BrickAdapter adapter;
 	private DragAndDropListView listView;
@@ -273,19 +274,17 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	private void startActionMode(ActionMode.Callback actionModeCallback) {
-		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(actionModeCallback);
+		actionMode = getSherlockActivity().startActionMode(actionModeCallback);
 
-			for (int i = adapter.listItemCount; i < adapter.getBrickList().size(); i++) {
-				adapter.getView(i, null, getListView());
-			}
-
-			unregisterForContextMenu(listView);
-			BottomBar.hideBottomBar(getActivity());
-			adapter.setCheckboxVisibility(View.VISIBLE);
-			adapter.setActionMode(true);
-			updateActionModeTitle();
+		for (int i = adapter.listItemCount; i < adapter.getBrickList().size(); i++) {
+			adapter.getView(i, null, getListView());
 		}
+
+		unregisterForContextMenu(listView);
+		BottomBar.hideBottomBar(getActivity());
+		adapter.setCheckboxVisibility(View.VISIBLE);
+		adapter.setActionMode(true);
+		updateActionModeTitle();
 	}
 
 	@Override
@@ -335,16 +334,14 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu).setOnClickListener(
-				new OnClickListener() {
+		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu);
+		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
-					@Override
-					public void onClick(View view) {
-						adapter.checkAllItems();
-						view.setVisibility(View.GONE);
-					}
-
-				});
+			@Override
+			public void onClick(View view) {
+				adapter.checkAllItems();
+			}
+		});
 	}
 
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
@@ -394,6 +391,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			setActionModeActive(true);
 
 			mode.setTag(ACTION_MODE_COPY);
+			addSelectAllActionModeButton(mode, menu);
 
 			return true;
 		}
@@ -527,7 +525,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		setSelectMode(ListView.CHOICE_MODE_NONE);
 		adapter.clearCheckedItems();
 
-		actionMode = null;
 		setActionModeActive(false);
 
 		registerForContextMenu(listView);
@@ -538,13 +535,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void onBrickChecked() {
 		updateActionModeTitle();
+		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
+				adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount());
 	}
 
 	private void updateActionModeTitle() {
-		if (actionMode == null) {
-			return;
-		}
-
 		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
 
 		String completeTitle;

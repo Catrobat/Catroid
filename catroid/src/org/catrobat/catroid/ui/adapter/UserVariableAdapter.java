@@ -267,6 +267,10 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 		return vars;
 	}
 
+	public void addCheckedItem(int position) {
+		checkedVariables.add(position);
+	}
+
 	@Override
 	public void clearCheckedItems() {
 		checkedVariables.clear();

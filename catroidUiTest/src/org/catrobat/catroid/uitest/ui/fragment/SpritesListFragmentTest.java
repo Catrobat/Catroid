@@ -33,6 +33,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
@@ -94,5 +95,36 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		for (UserVariable userVariable : userVariableList) {
 			assertTrue("Variable already exists", hashSet.add(userVariable.getName()));
 		}
+	}
+
+	public void testSelectAllActionModeButton() {
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+
+		solo.clickOnText(selectAll);
+		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+
+		solo.clickOnCheckBox(0);
+		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+
+		solo.clickOnCheckBox(0);
+		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+
+		solo.goBack();
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+
+		solo.clickOnText(selectAll);
+		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+
+		solo.clickOnCheckBox(0);
+		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+
+		solo.clickOnCheckBox(0);
+		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
 	}
 }

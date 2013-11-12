@@ -113,6 +113,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	private SoundsListInitReceiver soundsListInitReceiver;
 
 	private ActionMode actionMode;
+	private View selectAllActionModeButton;
 
 	private boolean isRenameActionMode;
 	private boolean isResultHandled = false;
@@ -394,11 +395,16 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public void onSoundChecked() {
-
 		if (isRenameActionMode || actionMode == null) {
 			return;
 		}
 
+		updateActionModeTitle();
+		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
+				adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount());
+	}
+
+	private void updateActionModeTitle() {
 		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
 
 		if (numberOfSelectedItems == 0) {
@@ -632,20 +638,19 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu).setOnClickListener(
-				new OnClickListener() {
+		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu);
+		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
-					@Override
-					public void onClick(View view) {
-						for (int position = 0; position < soundInfoList.size(); position++) {
-							adapter.addCheckedItem(position);
-						}
-						adapter.notifyDataSetChanged();
-						view.setVisibility(View.GONE);
-						onSoundChecked();
-					}
+			@Override
+			public void onClick(View view) {
+				for (int position = 0; position < soundInfoList.size(); position++) {
+					adapter.addCheckedItem(position);
+				}
+				adapter.notifyDataSetChanged();
+				onSoundChecked();
+			}
 
-				});
+		});
 	}
 
 	private ActionMode.Callback renameModeCallBack = new ActionMode.Callback() {
@@ -731,6 +736,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
 
 			mode.setTitle(actionModeTitle);
+			addSelectAllActionModeButton(mode, menu);
 
 			return true;
 		}
@@ -761,12 +767,11 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
-			mode.setTitle(R.string.delete);
-
 			actionModeTitle = getString(R.string.delete);
 			singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
 			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
 
+			mode.setTitle(R.string.delete);
 			addSelectAllActionModeButton(mode, menu);
 
 			return true;
