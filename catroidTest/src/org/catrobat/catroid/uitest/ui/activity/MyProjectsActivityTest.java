@@ -1791,7 +1791,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 			solo.clickOnText("backgroundGreen");
 		}
 
-		Reflection.setPrivateField(StageListener.class, "makeAutomaticScreenshot", true);
+		Reflection.setPrivateField(StageListener.class, "checkIfAutomaticScreenshotShouldBeTaken", true);
+		//Reflection.setPrivateField(StageListener.class, "makeAutomaticScreenshot", true);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);

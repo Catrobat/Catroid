@@ -47,7 +47,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 		super.setUp();
 		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
-		Reflection.setPrivateField(StageListener.class, "makeAutomaticScreenshot", false);
+		Reflection.setPrivateField(StageListener.class, "checkIfAutomaticScreenshotShouldBeTaken", false);
 	}
 
 	@Override

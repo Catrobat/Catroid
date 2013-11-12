@@ -500,4 +500,14 @@ public final class Utils {
 			selectAllActionModeButton.setVisibility(View.GONE);
 		}
 	}
+
+	public static boolean checkIfAtomaticSreenshotsShouldBeTaken(String programName, String manuelScreenshotName) {
+
+		String path = buildProjectPath(programName) + "/" + manuelScreenshotName;
+		File manuelScreenshot = new File(path);
+		if (manuelScreenshot.exists()) {
+			return false;
+		}
+		return true;
+	}
 }
