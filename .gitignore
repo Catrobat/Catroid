@@ -35,3 +35,7 @@ proguard-project.txt
 ehthumbs.db
 Thumbs.db
 
+# Gradle
+.gradle/
+build/
+
