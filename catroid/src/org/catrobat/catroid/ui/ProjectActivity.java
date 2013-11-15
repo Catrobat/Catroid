@@ -39,6 +39,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.concurrent.locks.Lock;
 
@@ -111,6 +112,10 @@ public class ProjectActivity extends BaseActivity {
 			case R.id.delete: {
 				spritesListFragment.startDeleteActionMode();
 				break;
+			}
+
+			case R.id.upload: {
+				ProjectManager.getInstance().uploadProject(Utils.getCurrentProjectName(this), this);
 			}
 		}
 		return super.onOptionsItemSelected(item);

@@ -49,24 +49,18 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.stage.PreStageActivity;
-import org.catrobat.catroid.transfers.CheckTokenTask;
-import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
-import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
-import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.web.ServerCalls;
 
 import java.util.concurrent.locks.Lock;
 
-public class MainMenuActivity extends BaseActivity implements OnCheckTokenCompleteListener,
-		OnLoadProjectCompleteListener {
+public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompleteListener {
 
 	public static final String SHARED_PREFERENCES_SHOW_BROWSER_WARNING = "shared_preferences_browser_warning";
 
@@ -277,39 +271,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		if (ProjectManager.getInstance().getCurrentProject() == null) {
-			LoadProjectTask loadProjectTask = new LoadProjectTask(this, Utils.getCurrentProjectName(this), false, false);
-			loadProjectTask.setOnLoadProjectCompleteListener(this);
-			loadProjectTask.execute();
-		}
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
-
-		if (token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
-				|| token.equals(ServerCalls.TOKEN_CODE_INVALID)) {
-			showLoginRegisterDialog();
-		} else {
-			CheckTokenTask checkTokenTask = new CheckTokenTask(this, token, username);
-			checkTokenTask.setOnCheckTokenCompleteListener(this);
-			checkTokenTask.execute();
-		}
-	}
-
-	@Override
-	public void onTokenNotValid() {
-		showLoginRegisterDialog();
-	}
-
-	@Override
-	public void onCheckTokenSuccess() {
-		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
-		uploadProjectDialog.show(getSupportFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
-	}
-
-	private void showLoginRegisterDialog() {
-		LoginRegisterDialog loginRegisterDialog = new LoginRegisterDialog();
-		loginRegisterDialog.show(getSupportFragmentManager(), LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
+		ProjectManager.getInstance().uploadProject(Utils.getCurrentProjectName(this), this);
 	}
 
 	private void loadProgramFromExternalSource(Uri loadExternalProjectUri) {
