@@ -19,6 +19,7 @@ dependencies {
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
     compile 'com.android.support:support-v4:18.0.+'
     compile fileTree(dir: 'catroid/libs', include: '*.jar')
+    compile fileTree(dir: 'catroid/libs-natives', include: '*.jar')
 
     instrumentTestCompile fileTree(dir: 'catroidTest/libs', include: '*.jar', exclude: 'the-missing-android-xml-junit-test-runner-release-1.3_2.jar')
     
