@@ -24,6 +24,9 @@ package org.catrobat.catroid.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -123,6 +126,8 @@ public class ProjectActivity extends BaseActivity {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			SensorHandler.startSensorListener(this);
 			Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
@@ -149,8 +154,14 @@ public class ProjectActivity extends BaseActivity {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		NewSpriteDialog dialog = new NewSpriteDialog();
-		dialog.show(getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+		Fragment previousFragment = getSupportFragmentManager().findFragmentByTag(NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+		if (previousFragment != null) {
+			fragmentTransaction.remove(previousFragment);
+		}
+
+		DialogFragment newFragment = new NewSpriteDialog();
+		newFragment.show(fragmentTransaction, NewSpriteDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	public void handlePlayButton(View view) {

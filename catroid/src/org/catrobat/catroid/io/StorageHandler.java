@@ -425,6 +425,12 @@ public class StorageHandler {
 					return new File(checksumCont.getPath(checksumSource));
 				}
 			}
+
+			File outputFileDirectory = new File(imageDirectory.getAbsolutePath());
+			if (outputFileDirectory.exists() == false) {
+				outputFileDirectory.mkdirs();
+			}
+
 			File outputFile = new File(newFilePath);
 			return copyFileAddCheckSum(outputFile, inputFile, imageDirectory);
 		} else {
@@ -513,7 +519,6 @@ public class StorageHandler {
 	}
 
 	private File copyFileAddCheckSum(File destinationFile, File sourceFile, File directory) throws IOException {
-
 		File copiedFile = UtilFile.copyFile(destinationFile, sourceFile, directory);
 		addChecksum(destinationFile, sourceFile);
 

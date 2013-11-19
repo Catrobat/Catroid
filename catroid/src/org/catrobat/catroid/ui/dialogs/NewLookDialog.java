@@ -35,7 +35,6 @@ import org.catrobat.catroid.ui.fragment.LookFragment;
 public class NewLookDialog extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_look";
-	public static final String LOOK_FRAGMENT_KEY = "dialog_new_look_look_fragment";
 
 	public static final int FROM_CAMERA_INDEX = 0;
 	public static final int CHOOSE_IMAGE_INDEX = 1;

@@ -34,9 +34,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.text.InputType;
 import android.util.Log;
@@ -104,6 +107,7 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.content.bricks.PointToBrick;
+import org.catrobat.catroid.content.bricks.PointToBrick.SpinnerAdapterWrapper;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
@@ -129,6 +133,9 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
+import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.ActionAfterFinished;
+import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.DialogWizardStep;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.utils.NotificationData;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
@@ -145,6 +152,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -1613,5 +1621,84 @@ public class UiTestUtils {
 		stringToEscape = stringToEscape.replaceAll("\\)", "\\)");
 		stringToEscape = stringToEscape.replaceAll("\\(", "\\(");
 		return stringToEscape;
+	}
+
+	public static File setUpLookFile(Solo solo) throws IOException {
+		File lookFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/testFile.png",
+				R.drawable.default_project_mole_whacked, solo.getCurrentActivity());
+
+		return lookFile;
+	}
+
+	public static void showAndFilloutNewSpriteDialogWithoutClickingOk(Solo solo, String spriteName, File file,
+			ActionAfterFinished actionToPerform, SpinnerAdapterWrapper spinner) {
+		showAndFilloutNewSpriteDialogWithoutClickingOk(solo, spriteName, Uri.fromFile(file), actionToPerform, spinner);
+	}
+
+	public static void showAndFilloutNewSpriteDialogWithoutClickingOk(Solo solo, String spriteName, Uri uri,
+			ActionAfterFinished actionToPerform, SpinnerAdapterWrapper spinner) {
+		if (!(solo.getCurrentActivity() instanceof FragmentActivity)) {
+			fail("Current activity is not a FragmentActivity");
+		}
+
+		FragmentManager fragmentManager = ((FragmentActivity) solo.getCurrentActivity()).getSupportFragmentManager();
+
+		NewSpriteDialog dialog;
+
+		// create dialog and skip step 1 (choosing an image)
+		try {
+			Constructor<NewSpriteDialog> constructor = NewSpriteDialog.class.getDeclaredConstructor(
+					DialogWizardStep.class, Uri.class, String.class, ActionAfterFinished.class,
+					SpinnerAdapterWrapper.class);
+			constructor.setAccessible(true);
+			dialog = constructor.newInstance(DialogWizardStep.STEP_2, uri, spriteName, actionToPerform, spinner);
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			fail("Reflection failure");
+			return;
+		}
+
+		dialog.show(fragmentManager, NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+
+		EditText addNewSpriteEditText = solo.getEditText(0);
+
+		//check if hint is set
+		String hintString = addNewSpriteEditText.getHint().toString();
+		assertEquals("Not the proper hint set", true, hintString.startsWith(spriteName));
+		assertEquals("There should no text be set", "", addNewSpriteEditText.getText().toString());
+		solo.enterText(0, spriteName);
+	}
+
+	public static void addNewSprite(Solo solo, String spriteName, File file, ActionAfterFinished actionToPerform) {
+		addNewSprite(solo, spriteName, Uri.fromFile(file), actionToPerform);
+	}
+
+	public static void addNewSprite(Solo solo, String spriteName, File file) {
+		addNewSprite(solo, spriteName, Uri.fromFile(file), ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT);
+	}
+
+	public static void addNewSprite(Solo solo, String spriteName, Uri uri, ActionAfterFinished actionToPerform) {
+		showAndFilloutNewSpriteDialogWithoutClickingOk(solo, spriteName, uri, actionToPerform, null);
+
+		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.waitForDialogToClose();
+		assertEquals("Not in expected object", true, solo.waitForText(spriteName, 0, 500));
+		assertEquals("Not in expected fragment", true, solo.waitForText(solo.getString(R.string.scripts), 0, 500));
+		solo.goBack();
+		solo.waitForActivity(ProgramMenuActivity.class);
+		assertEquals("Not in expected fragment", true, solo.waitForText(solo.getString(R.string.scripts), 0, 500));
+		assertEquals("Not in expected fragment", true, solo.waitForText(solo.getString(R.string.looks), 0, 500));
+		assertEquals("Not in expected fragment", true, solo.waitForText(solo.getString(R.string.sounds), 0, 500));
+		solo.goBack();
+		hidePocketPaintDialog(solo);
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		assertEquals("Not in expected fragment", true,
+				solo.waitForText(ProjectManager.getInstance().getCurrentProject().getName(), 0, 500));
+	}
+
+	public static void hidePocketPaintDialog(Solo solo) {
+		while (solo.searchText(solo.getString(R.string.pocket_paint_not_installed_title))) {
+			solo.clickOnButton(solo.getString(R.string.no));
+		}
 	}
 }
