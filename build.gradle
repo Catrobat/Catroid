@@ -20,7 +20,7 @@ dependencies {
     compile 'com.android.support:support-v4:18.0.+'
     compile fileTree(dir: 'catroid/libs', include: '*.jar')
 
-//    instrumentTestCompile fileTree(dir: 'catroidUiTest/libs', include: '*.jar', exclude: 'the-missing-android-xml-junit-test-runner-release-1.3_2.jar')
+    instrumentTestCompile fileTree(dir: 'catroidTest/libs', include: '*.jar', exclude: 'the-missing-android-xml-junit-test-runner-release-1.3_2.jar')
     
 }
 
