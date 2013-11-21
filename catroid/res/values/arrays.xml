@@ -37,6 +37,13 @@
         <item>@string/nxt_motor_a_and_c</item>
         <item>@string/nxt_motor_all</item>
     </string-array>
+    
+        <!-- Physicobjecttype -->
+    <string-array name="physics_object_types">
+        <item>Dynamic</item>
+        <item>Fixed</item>
+        <item>No physical object</item>
+    </string-array>
 
 
 </resources>

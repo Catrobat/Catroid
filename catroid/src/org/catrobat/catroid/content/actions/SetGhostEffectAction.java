@@ -54,5 +54,4 @@ public class SetGhostEffectAction extends TemporalAction {
 	public void setTransparency(Formula transparency) {
 		this.transparency = transparency;
 	}
-
 }

@@ -40,7 +40,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -172,7 +171,9 @@ public class GoNStepsBackBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.goNStepsBack(sprite, getFormulaWithBrickField(BrickField.STEPS)));
+		//sequence.addAction(ExtendedActions.goNStepsBack(sprite, steps));
+		sequence.addAction(sprite.getActionFactory().createGoNStepsBackAction(sprite,
+				getFormulaWithBrickField(BrickField.STEPS))); //TODO[physic]:
 		return null;
 	}
 }

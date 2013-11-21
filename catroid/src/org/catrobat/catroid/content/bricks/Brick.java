@@ -45,7 +45,10 @@ public interface Brick extends Serializable, Cloneable {
 
 		LEGO_NXT_SPEED, LEGO_NXT_DEGREES, LEGO_NXT_FREQUENCY, LEGO_NXT_DURATION_IN_SECONDS,
 
-		DRONE_TIME_TO_FLY_IN_SECONDS, DRONE_POWER_IN_PERCENT
+		DRONE_TIME_TO_FLY_IN_SECONDS, DRONE_POWER_IN_PERCENT,
+
+		PHYSICS_BOUNCE_FACTOR, PHYSICS_FRICTION, PHYSICS_GRAVITY_X, PHYSICS_GRAVITY_Y, PHYSICS_MASS,
+		PHYSICS_VELOCITY_X, PHYSICS_VELOCITY_Y, PHYSICS_TURN_LEFT_SPEED,  PHYSICS_TURN_RIGHT_SPEED
 	}
 
 	//use bitwise | for using multiple ressources in a brick
@@ -56,6 +59,8 @@ public interface Brick extends Serializable, Cloneable {
 	int ARDRONE_SUPPORT = 0x20;
 	int CAMERA_LED = 0x100;
 	int VIBRATOR = 0x200;
+	int PHYSIC = 0x8;
+
 
 	//	public static final int BLUETOOTH_ARDUINO = 0x8;
 

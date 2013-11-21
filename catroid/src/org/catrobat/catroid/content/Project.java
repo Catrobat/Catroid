@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
+import org.catrobat.catroid.physic.PhysicsWorld;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -52,6 +53,8 @@ public class Project implements Serializable {
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
 	@XStreamAlias("variables")
 	private UserVariablesContainer userVariables = null;
+
+	private transient PhysicsWorld physicsWorld;
 
 	public Project(Context context, String name) {
 		xmlHeader.setProgramName(name);
@@ -72,6 +75,8 @@ public class Project implements Serializable {
 		if (context == null) {
 			return;
 		}
+
+		physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight); // TODO[physic]:
 
 		Sprite background = new Sprite(context.getString(R.string.background));
 		background.look.setZIndex(0);
@@ -161,8 +166,19 @@ public class Project implements Serializable {
 		}
 	}
 
+	// TODO[physic]
+	public PhysicsWorld getPhysicWorld() {
+		return physicsWorld;
+	}
+
 	// default constructor for XMLParser
 	public Project() {
+		physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight); // TODO[physic]:
+	}
+
+	// TODO[physic]:
+	public PhysicsWorld resetPhysicWorld() {
+		return (physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight));
 	}
 
 	public UserVariablesContainer getUserVariables() {

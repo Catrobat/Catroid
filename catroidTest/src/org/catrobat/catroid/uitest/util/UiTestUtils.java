@@ -78,49 +78,49 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
-import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
-import org.catrobat.catroid.content.bricks.ChangeGhostEffectByNBrick;
-import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
-import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
-import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
-import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
-import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
-import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
-import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
-import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
-import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
-import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
-import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
-import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
-import org.catrobat.catroid.content.bricks.PointToBrick;
-import org.catrobat.catroid.content.bricks.PointToBrick.SpinnerAdapterWrapper;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
-import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
-import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
-import org.catrobat.catroid.content.bricks.SetLookBrick;
-import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
-import org.catrobat.catroid.content.bricks.SetXBrick;
-import org.catrobat.catroid.content.bricks.SetYBrick;
-import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
-import org.catrobat.catroid.content.bricks.TurnLeftBrick;
-import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.content.bricks.conditional.ChangeBrightnessByNBrick;
+import org.catrobat.catroid.content.bricks.conditional.ChangeGhostEffectByNBrick;
+import org.catrobat.catroid.content.bricks.conditional.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.conditional.ChangeXByNBrick;
+import org.catrobat.catroid.content.bricks.conditional.ChangeYByNBrick;
+import org.catrobat.catroid.content.bricks.conditional.ClearGraphicEffectBrick;
+import org.catrobat.catroid.content.bricks.conditional.GlideToBrick;
+import org.catrobat.catroid.content.bricks.conditional.HideBrick;
+import org.catrobat.catroid.content.bricks.conditional.IfOnEdgeBounceBrick;
+import org.catrobat.catroid.content.bricks.conditional.MoveNStepsBrick;
+import org.catrobat.catroid.content.bricks.conditional.NextLookBrick;
+import org.catrobat.catroid.content.bricks.conditional.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.conditional.PointInDirectionBrick;
+import org.catrobat.catroid.content.bricks.conditional.PointInDirectionBrick.Direction;
+import org.catrobat.catroid.content.bricks.conditional.PointToBrick;
+import org.catrobat.catroid.content.bricks.conditional.PointToBrick.SpinnerAdapterWrapper;
+import org.catrobat.catroid.content.bricks.conditional.SetBrightnessBrick;
+import org.catrobat.catroid.content.bricks.conditional.SetGhostEffectBrick;
+import org.catrobat.catroid.content.bricks.conditional.SetLookBrick;
+import org.catrobat.catroid.content.bricks.conditional.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.conditional.SetXBrick;
+import org.catrobat.catroid.content.bricks.conditional.SetYBrick;
+import org.catrobat.catroid.content.bricks.conditional.ShowBrick;
+import org.catrobat.catroid.content.bricks.conditional.TurnLeftBrick;
+import org.catrobat.catroid.content.bricks.conditional.TurnRightBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternToken;
@@ -341,7 +341,7 @@ public final class UiTestUtils {
 	/**
 	 * Clicks on the EditText given by editTextId, inserts the integer value and closes the Dialog
 	 *
-	 * @param value      The value you want to put into the EditText
+	 * @param value The value you want to put into the EditText
 	 */
 	public static void insertIntegerIntoEditText(Solo solo, int value) {
 		insertValue(solo, value + "");
@@ -350,7 +350,7 @@ public final class UiTestUtils {
 	/**
 	 * Clicks on the EditText given by editTextId, inserts the double value and closes the Dialog
 	 *
-	 * @param value      The value you want to put into the EditText
+	 * @param value The value you want to put into the EditText
 	 */
 	public static void insertDoubleIntoEditText(Solo solo, double value) {
 		insertValue(solo, value + "");

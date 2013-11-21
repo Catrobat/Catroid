@@ -35,7 +35,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.physic.content.ActionFactory;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -116,8 +116,9 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		SequenceAction foreverSequence = ExtendedActions.sequence();
-		Action action = ExtendedActions.forever(sprite, foreverSequence);
+		SequenceAction foreverSequence = ActionFactory.sequence(); // TODO[physic] ExtendedActions- > ActionFactory
+		// Action action = ExtendedActions.forever(sprite, foreverSequence);
+		Action action = sprite.getActionFactory().createForeverAction(sprite, foreverSequence); // TODO[physic]
 		sequence.addAction(action);
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
 		returnActionList.add(foreverSequence);

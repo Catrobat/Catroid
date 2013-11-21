@@ -32,7 +32,7 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class ChangeGhostEffectByNAction extends TemporalAction {
 
-	private Sprite sprite;
+	protected Sprite sprite; // TODO[physic]: private to protected
 	private Formula changeGhostEffect;
 
 	@Override
@@ -55,5 +55,4 @@ public class ChangeGhostEffectByNAction extends TemporalAction {
 	public void setGhostEffect(Formula value) {
 		this.changeGhostEffect = value;
 	}
-
 }
