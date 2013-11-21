@@ -28,7 +28,7 @@ public final class Constants {
 
 	// Reflection in testcases needed
 	// http://stackoverflow.com/questions/1615163/modifying-final-fields-in-java?answertab=votes#tab-top
-	public static final float SUPPORTED_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.91f);
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.91f);
 
 	public static final String PLATFORM_NAME = "Android";
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build
@@ -81,7 +81,6 @@ public final class Constants {
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String POCKET_PAINT_DOWNLOAD_LINK = "market://details?id=" + POCKET_PAINT_PACKAGE_NAME;
-	public static final String POCKET_PAINT_DOWNLOAD_LINK_NIGHTLY = "http://files.catrob.at/pocketpaint_nightly.apk";
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
 
 	//Services + Notifications

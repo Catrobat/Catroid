@@ -54,7 +54,6 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -70,7 +69,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 	private String projectNameWithBlacklistedCharacters = "<H/ey, lo\"ok, :I'\\m s*pe?ci>al! ?äö|üß<>";
 	private String projectNameWithWhitelistedCharacters = "[Hey+, =lo_ok. I'm; -special! ?äöüß<>]";
 
-	private static final float CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED = 0.0f;
+	private static final float CATROBAT_LANGUAGE_VERSION_TOO_LOW = 0.0f;
 
 	public MainMenuActivityTest() {
 		super(MainMenuActivity.class);
@@ -266,13 +265,11 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 				solo.searchText(solo.getString(R.string.main_menu_rate_app)));
 	}
 
-	public void testShouldDisplayDialogIfVersionNumberTooHigh() throws Throwable {
+	public void testShouldDisplayDialogIfVersionNumberTooLow() throws Throwable {
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		// Prevent Utils from returning true in isApplicationDebuggable
-		Reflection.setPrivateField(Utils.class, "isUnderTest", true);
 
 		boolean result = UiTestUtils
-				.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED);
+				.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CATROBAT_LANGUAGE_VERSION_TOO_LOW);
 		assertTrue("Could not create test project.", result);
 
 		runTestOnUiThread(new Runnable() {

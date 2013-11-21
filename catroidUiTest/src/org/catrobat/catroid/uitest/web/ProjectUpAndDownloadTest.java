@@ -79,7 +79,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		saveToken = prefs.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		uploadDialogTitle = solo.getString(R.string.upload_project_dialog_title);
-		currentLanguageVersion = Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION;
+		currentLanguageVersion = Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, saveToken).commit();
 		UiTestUtils.cancelAllNotifications(getActivity());
-		Reflection.setPrivateField(Constants.class, "SUPPORTED_CATROBAT_LANGUAGE_VERSION", currentLanguageVersion);
+		Reflection.setPrivateField(Constants.class, "CURRENT_CATROBAT_LANGUAGE_VERSION", currentLanguageVersion);
 		super.tearDown();
 	}
 
@@ -132,7 +132,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		// change catrobatLanguage to a version that is not supported by web
 		// should lead to an errormessage after upload
 		Project testProject = ProjectManager.getInstance().getCurrentProject();
-		Reflection.setPrivateField(Constants.class, "SUPPORTED_CATROBAT_LANGUAGE_VERSION", 0.3f);
+		Reflection.setPrivateField(Constants.class, "CURRENT_CATROBAT_LANGUAGE_VERSION", 0.3f);
 
 		StorageHandler.getInstance().saveProject(testProject);
 

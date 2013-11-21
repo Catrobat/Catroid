@@ -86,7 +86,7 @@ public class ProjectTest extends AndroidTestCase {
 		project.setDeviceData(getContext());
 
 		languageVersion = (Float) Reflection.getPrivateField(header, "catrobatLanguageVersion");
-		assertEquals("Version should be the current one", Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION,
+		assertEquals("Version should be the current one", Constants.CURRENT_CATROBAT_LANGUAGE_VERSION,
 				languageVersion);
 
 		applicationName = (String) Reflection.getPrivateField(header, "applicationName");

@@ -57,7 +57,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -86,7 +85,6 @@ public class Utils {
 	public static final int TRANSLATION_PLURAL_OTHER_INTEGER = 767676;
 	private static final int DEFAULT_SCREEN_WIDTH = 1280;
 	private static final int DEFAULT_SCREEN_HEIGHT = 768;
-	private static boolean isUnderTest;
 
 	public static boolean externalStorageAvailable() {
 		String externalStorageState = Environment.getExternalStorageState();
@@ -296,9 +294,8 @@ public class Utils {
 
 			if (projectName != null) {
 				ProjectManager.getInstance().loadProject(projectName, context, false);
-			} else if (ProjectManager.getInstance().canLoadProject(context.getString(R.string.default_project_name))) {
-				ProjectManager.getInstance().loadProject(context.getString(R.string.default_project_name), context,
-						false);
+			} else if (ProjectManager.getInstance().loadProject(context.getString(R.string.default_project_name),
+					context, false)) {
 			} else {
 				ProjectManager.getInstance().initializeDefaultProject(context);
 			}
@@ -370,8 +367,8 @@ public class Utils {
 
 		List<String> projectNameList = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT));
 		for (String projectName : projectNameList) {
-			if (ProjectManager.getInstance().canLoadProject(projectName)) {
-				loadableProject = StorageHandler.getInstance().loadProject(projectName);
+			loadableProject = StorageHandler.getInstance().loadProject(projectName);
+			if (loadableProject != null) {
 				break;
 			}
 		}
@@ -393,14 +390,6 @@ public class Utils {
 			}
 		}
 		return newTitle;
-	}
-
-	public static boolean isApplicationDebuggable(Context context) {
-		if (isUnderTest) {
-			return false;
-		} else {
-			return BuildConfig.DEBUG;
-		}
 	}
 
 	public static Pixmap getPixmapFromFile(File imageFile) {
