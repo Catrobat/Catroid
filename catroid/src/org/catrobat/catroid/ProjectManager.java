@@ -116,38 +116,48 @@ public class ProjectManager implements OnLoadProjectCompleteListener, OnCheckTok
 				Utils.showErrorDialog(context, R.string.error_load_project);
 			}
 			return false;
-		} else if (!Utils.isApplicationDebuggable(context)
-				&& (project.getCatrobatLanguageVersion() > Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION)) {
+		} else if (project.getCatrobatLanguageVersion() > Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
 			project = oldProject;
 			if (errorMessage) {
-				Utils.showErrorDialog(context, R.string.error_project_compatability);
-				// TODO show dialog to download latest catroid version instead
-			}
-			return false;
-		} else if (!Utils.isApplicationDebuggable(context)
-				&& (project.getCatrobatLanguageVersion() < Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION)) {
-			project = oldProject;
-			if (errorMessage) {
-				Utils.showErrorDialog(context, R.string.error_project_compatability);
-				// TODO show dialog to convert project to a supported version
+				Utils.showErrorDialog(context, R.string.error_outdated_pocketcode_version);
+				// TODO insert update link to Google Play 
 			}
 			return false;
 		} else {
-			// Set generic localized name on background sprite and move it to the back.
-			if (project.getSpriteList().size() > 0) {
-				project.getSpriteList().get(0).setName(context.getString(R.string.background));
-				project.getSpriteList().get(0).look.setZIndex(0);
+			if (project.getCatrobatLanguageVersion() == 0.8f) {
+				//TODO insert in every "When project starts" script list a "show" brick
+				project.setCatrobatLanguageVersion(0.9f);
 			}
-			MessageContainer.clearBackup();
-			currentSprite = null;
-			currentScript = null;
-			Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, project.getName());
-			return true;
+			if (project.getCatrobatLanguageVersion() == 0.9f) {
+				project.setCatrobatLanguageVersion(0.91f);
+				//no convertion needed - only change to white background
+			}
+			//insert further convertions here
+
+			if (project.getCatrobatLanguageVersion() == Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
+				//project seems to be converted now and can be loaded
+				localizeBackgroundSprite(context);
+				return true;
+			}
+			//project cannot be converted
+			project = oldProject;
+			if (errorMessage) {
+				Utils.showErrorDialog(context, R.string.error_project_compatability);
+			}
+			return false;
 		}
 	}
 
-	public boolean canLoadProject(String projectName) {
-		return StorageHandler.getInstance().loadProject(projectName) != null;
+	private void localizeBackgroundSprite(Context context) {
+		// Set generic localized name on background sprite and move it to the back.
+		if (project.getSpriteList().size() > 0) {
+			project.getSpriteList().get(0).setName(context.getString(R.string.background));
+			project.getSpriteList().get(0).look.setZIndex(0);
+		}
+		MessageContainer.clearBackup();
+		currentSprite = null;
+		currentScript = null;
+		Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, project.getName());
 	}
 
 	public void saveProject() {

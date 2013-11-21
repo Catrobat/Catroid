@@ -296,9 +296,8 @@ public class Utils {
 
 			if (projectName != null) {
 				ProjectManager.getInstance().loadProject(projectName, context, false);
-			} else if (ProjectManager.getInstance().canLoadProject(context.getString(R.string.default_project_name))) {
-				ProjectManager.getInstance().loadProject(context.getString(R.string.default_project_name), context,
-						false);
+			} else if (ProjectManager.getInstance().loadProject(context.getString(R.string.default_project_name),
+					context, false)) {
 			} else {
 				ProjectManager.getInstance().initializeDefaultProject(context);
 			}
@@ -370,8 +369,8 @@ public class Utils {
 
 		List<String> projectNameList = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT));
 		for (String projectName : projectNameList) {
-			if (ProjectManager.getInstance().canLoadProject(projectName)) {
-				loadableProject = StorageHandler.getInstance().loadProject(projectName);
+			loadableProject = StorageHandler.getInstance().loadProject(projectName);
+			if (loadableProject != null) {
 				break;
 			}
 		}
@@ -395,6 +394,7 @@ public class Utils {
 		return newTitle;
 	}
 
+	@Deprecated
 	public static boolean isApplicationDebuggable(Context context) {
 		if (isUnderTest) {
 			return false;

@@ -79,7 +79,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		saveToken = prefs.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		uploadDialogTitle = solo.getString(R.string.upload_project_dialog_title);
-		currentLanguageVersion = Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION;
+		currentLanguageVersion = Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 	}
 
 	@Override
