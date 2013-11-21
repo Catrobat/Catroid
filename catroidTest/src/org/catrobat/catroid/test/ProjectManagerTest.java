@@ -28,7 +28,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Utils;
 
@@ -46,8 +45,6 @@ public class ProjectManagerTest extends AndroidTestCase {
 		super.setUp();
 		Utils.updateScreenWidthAndHeight(getContext());
 		projectManager = ProjectManager.getInstance();
-		// Prevent Utils from returning true in isApplicationDebuggable
-		Reflection.setPrivateField(Utils.class, "isUnderTest", true);
 	}
 
 	@Override
