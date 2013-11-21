@@ -46,7 +46,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class Look extends Image {
-	private static final float DEGREE_UI_OFFSET = 90.0f;
+	public static final float DEGREE_UI_OFFSET = 90.0f; //TODO[TafPhil]: private -> public
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
 	protected LookData lookData;
