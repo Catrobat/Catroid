@@ -26,7 +26,7 @@ import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.SetSizeToAction;
+import org.catrobat.catroid.content.actions.conditional.SetSizeToAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 public class SetSizeToActionTest extends InstrumentationTestCase {

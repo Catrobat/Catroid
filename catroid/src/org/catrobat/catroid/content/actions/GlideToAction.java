@@ -38,7 +38,7 @@ public class GlideToAction extends TemporalAction {
 	private float currentY;
 	private Formula endX;
 	private Formula endY;
-	private Sprite sprite;
+	protected Sprite sprite;
 	private Formula duration;
 	private float endXValue;
 	private float endYValue;
@@ -78,6 +78,7 @@ public class GlideToAction extends TemporalAction {
 			}
 			endXValue = endXInterpretation;
 			endYValue = endYInterpretation;
+			sprite.look.beginTemporalAction();
 		}
 		restart = false;
 
@@ -103,6 +104,11 @@ public class GlideToAction extends TemporalAction {
 			currentY = startY + (endYValue - startY) * percent;
 			sprite.look.setPositionInUserInterfaceDimensionUnit(currentX, currentY);
 		}
+	}
+
+	@Override
+	protected void end() {
+		sprite.look.endTemporalAction();
 	}
 
 	public void setDuration(Formula duration) {

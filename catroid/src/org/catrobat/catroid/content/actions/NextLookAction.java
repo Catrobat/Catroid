@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 public class NextLookAction extends TemporalAction {
 
-	private Sprite sprite;
+	protected Sprite sprite; // TODO[physic]: private to protected
 
 	@Override
 	protected void update(float delta) {
@@ -42,6 +42,8 @@ public class NextLookAction extends TemporalAction {
 			LookData currentLookData = sprite.look.getLookData();
 			int newIndex = (lookDataList.indexOf(currentLookData) + 1) % lookDataListSize;
 			sprite.look.setLookData(lookDataList.get(newIndex));
+		} else {
+			// If there are no looks do nothing
 		}
 	}
 

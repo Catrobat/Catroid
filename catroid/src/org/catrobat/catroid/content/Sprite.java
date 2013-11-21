@@ -35,12 +35,13 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.physic.PhysicsLook;
+import org.catrobat.catroid.physic.content.ActionFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -61,6 +62,8 @@ public class Sprite implements Serializable, Cloneable {
 	private ArrayList<SoundInfo> soundList;
 	private ArrayList<UserBrick> userBricks;
 	private transient int newUserBrickNext = 1;
+
+	protected transient ActionFactory actionFactory = new ActionFactory(); // TODO[physic]:
 
 	public Sprite(String name) {
 		this.name = name;
@@ -93,7 +96,11 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	private void init() {
-		look = new Look(this);
+		if ((getRequiredResources() & Brick.PHYSIC) > 0) {
+			look = new PhysicsLook(this);
+		} else {
+			look = new Look(this);
+		}
 		isPaused = false;
 		if (soundList == null) {
 			soundList = new ArrayList<SoundInfo>();
@@ -110,7 +117,11 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void resetSprite() {
-		look = new Look(this);
+		if ((getRequiredResources() & Brick.PHYSIC) > 0) {
+			look = new PhysicsLook(this);
+		} else {
+			look = new Look(this);
+		}
 		for (LookData lookData : lookList) {
 			lookData.resetLookData();
 		}
@@ -193,9 +204,22 @@ public class Sprite implements Serializable, Cloneable {
 		}
 	}
 
+	public ActionFactory getActionFactory() { // TODO[physic]:
+		return actionFactory;
+	}
+
+	public void setActionFactory(ActionFactory actionFactory) { // TODO[physic]:
+		this.actionFactory = actionFactory;
+	}
+
 	@Override
 	public Sprite clone() {
 		final Sprite cloneSprite = new Sprite();
+		cloneSprite(cloneSprite); // TODO[physic]:
+		return cloneSprite;
+	}
+
+	protected void cloneSprite(final Sprite cloneSprite) {
 		cloneSprite.setName(this.getName());
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
@@ -275,9 +299,6 @@ public class Sprite implements Serializable, Cloneable {
 		} catch (IndexOutOfBoundsException indexOutOfBoundsException) {
 			Log.e(TAG, Log.getStackTraceString(indexOutOfBoundsException));
 		}
-
-		return cloneSprite;
-
 	}
 
 	protected UserBrick findBrickWithId(List<UserBrick> list, int id) {
@@ -290,7 +311,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void createWhenScriptActionSequence(String action) {
-		ParallelAction whenParallelAction = ExtendedActions.parallel();
+		ParallelAction whenParallelAction = ActionFactory.parallel(); //TODO[physic] ExtendedActions -> ActionFactory
 		for (Script s : scriptList) {
 			if (s instanceof WhenScript && (((WhenScript) s).getAction().equalsIgnoreCase(action))) {
 				SequenceAction sequence = createActionSequence(s);
@@ -303,9 +324,16 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	private SequenceAction createActionSequence(Script s) {
-		SequenceAction sequence = ExtendedActions.sequence();
+		SequenceAction sequence = ActionFactory.sequence(); //TODO[physic] ExtendedActions -> ActionFactory
 		s.run(this, sequence);
 		return sequence;
+	}
+
+
+	public void startScriptBroadcast(Script s, boolean overload) {
+		SequenceAction sequence = ActionFactory.sequence(); //TODO[physic] ExtendedActions -> ActionFactory
+		s.run(this, sequence);
+		look.addAction(sequence);
 	}
 
 	public void pause() {
@@ -384,6 +412,9 @@ public class Sprite implements Serializable, Cloneable {
 
 	public void setLookDataList(ArrayList<LookData> list) {
 		lookList = list;
+		if (list.get(0) != null) {
+
+		}
 	}
 
 	public ArrayList<SoundInfo> getSoundList() {

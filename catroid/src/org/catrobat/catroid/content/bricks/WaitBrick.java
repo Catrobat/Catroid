@@ -39,7 +39,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -171,7 +170,9 @@ public class WaitBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.delay(sprite, getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS)));
+		//sequence.addAction(ExtendedActions.delay(sprite, timeToWaitInSeconds));
+		sequence.addAction(sprite.getActionFactory().createWaitAction(sprite,
+				getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS))); // TODO[physic]
 		return null;
 	}
 

@@ -28,8 +28,8 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.MoveNStepsAction;
-import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
+import org.catrobat.catroid.content.actions.conditional.MoveNStepsAction;
+import org.catrobat.catroid.content.bricks.conditional.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 public class MoveNStepsActionTest extends AndroidTestCase {

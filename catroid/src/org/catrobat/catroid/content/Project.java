@@ -27,6 +27,7 @@ import android.os.Build;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.MessageContainer;
@@ -34,6 +35,9 @@ import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
+import org.catrobat.catroid.physic.PhysicsWorld;
+import org.catrobat.catroid.physic.content.ActionFactory;
+import org.catrobat.catroid.physic.content.ActionPhysicsFactory;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -52,6 +56,8 @@ public class Project implements Serializable {
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
 	@XStreamAlias("data")
 	private DataContainer dataContainer = null;
+
+	private transient PhysicsWorld physicsWorld;
 
 	public Project(Context context, String name) {
 		xmlHeader.setProgramName(name);
@@ -72,6 +78,8 @@ public class Project implements Serializable {
 		if (context == null) {
 			return;
 		}
+
+		physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight); // TODO[physic]:
 
 		Sprite background = new Sprite(context.getString(R.string.background));
 		background.look.setZIndex(0);
@@ -139,10 +147,18 @@ public class Project implements Serializable {
 	public int getRequiredResources() {
 		int resources = Brick.NO_RESOURCES;
 
+		ActionFactory physicsActionFactory = new ActionPhysicsFactory();
+
 		for (Sprite sprite : spriteList) {
-			resources |= sprite.getRequiredResources();
+			int tempResources = sprite.getRequiredResources();
+			if ((tempResources & Brick.PHYSIC) > 0) {
+				sprite.setActionFactory(physicsActionFactory);
+				tempResources &= ~Brick.PHYSIC;
+			}
+			resources |= tempResources;
 		}
 		return resources;
+
 	}
 
 	// this method should be removed by the nex refactoring
@@ -170,8 +186,19 @@ public class Project implements Serializable {
 		}
 	}
 
+	// TODO[physic]
+	public PhysicsWorld getPhysicWorld() {
+		return physicsWorld;
+	}
+
 	// default constructor for XMLParser
 	public Project() {
+		physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight); // TODO[physic]:
+	}
+
+	// TODO[physic]:
+	public PhysicsWorld resetPhysicWorld() {
+		return (physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight));
 	}
 
 	public DataContainer getDataContainer() {

@@ -441,7 +441,7 @@ public final class Utils {
 
 	public static boolean isStandardProject(Project projectToCheck, Context context) {
 		try {
-			Project standardProject = StandardProjectHandler.createAndSaveStandardProject(getUniqueProjectName(),
+			Project standardProject = StandardProjectHandler.createAndSaveStandardPhysicProject(getUniqueProjectName(),
 					context);
 			String standardProjectXMLString = StorageHandler.getInstance().getXMLStringOfAProject(standardProject);
 			int start = standardProjectXMLString.indexOf("<objectList>");

@@ -22,8 +22,15 @@
  */
 package org.catrobat.catroid.common;
 
-public final class BrickValues {
+import com.badlogic.gdx.math.Vector2;
 
+import org.catrobat.catroid.physic.PhysicsObject;
+import org.catrobat.catroid.physic.PhysicsObject.Type;
+import org.catrobat.catroid.physic.PhysicsWorld;
+
+public class BrickValues {
+
+	//constants Motions
 	public static final int X_POSITION = 100;
 	public static final int Y_POSITION = 200;
 	public static final int CHANGE_X_BY = 10;
@@ -34,6 +41,15 @@ public final class BrickValues {
 	public static final int GLIDE_SECONDS = 1000;
 	public static final int GO_BACK = 1;
 	public static final int DURATION = 1;
+
+	//constants Physics   // TODO[physic]
+	public static final PhysicsObject.Type PHYSIC_TYPE = Type.DYNAMIC;
+	public static final Float PHYSIC_MASS = PhysicsObject.DEFAULT_MASS;
+	public static final Float PHYSIC_BOUNCE_FACTOR = PhysicsObject.DEFAULT_BOUNCE_FACTOR;
+	public static final Float PHYSIC_FRICTION = PhysicsObject.DEFAULT_FRICTION;
+	public static final Vector2 PHYSIC_GRAVITY = PhysicsWorld.DEFAULT_GRAVITY;
+	public static final Vector2 PHYSIC_VELOCITY = new Vector2();
+	public static final Float PHYSIC_TURN_DEGREES = TURN_DEGREES;
 
 	//constants Looks
 	public static final Float SET_SIZE_TO = 60f;

@@ -26,7 +26,7 @@ import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
+import org.catrobat.catroid.content.bricks.conditional.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 public class PointInDirectionActionTest extends AndroidTestCase {

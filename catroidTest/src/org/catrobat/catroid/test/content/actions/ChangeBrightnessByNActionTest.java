@@ -24,9 +24,9 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ChangeBrightnessByNAction;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 public class ChangeBrightnessByNActionTest extends AndroidTestCase {
@@ -44,48 +44,50 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
     }
 
     public void testNormalBehavior() {
+		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite brightness value", INITIALIZED_VALUE,
 				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 
-		ExtendedActions.changeBrightnessByN(sprite, new Formula(BRIGHTER_VALUE)).act(1.0f);
-		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", INITIALIZED_VALUE + BRIGHTER_VALUE,
-				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
+		sprite.getActionFactory().createChangeBrightnessByNAction(sprite, new Formula(BRIGHTER_VALUE)).act(1.0f);
+		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed",
+				INITIALIZED_VALUE + BRIGHTER_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 
-		ExtendedActions.changeBrightnessByN(sprite, new Formula(DIMMER_VALUE)).act(1.0f);
-		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", INITIALIZED_VALUE + BRIGHTER_VALUE + DIMMER_VALUE,
+		sprite.getActionFactory().createChangeBrightnessByNAction(sprite, new Formula(DIMMER_VALUE)).act(1.0f);
+		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed",
+				INITIALIZED_VALUE + BRIGHTER_VALUE + DIMMER_VALUE,
 				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
-
 	public void testNullSprite() {
-		ChangeBrightnessByNAction action = ExtendedActions.changeBrightnessByN(null, new Formula(BRIGHTER_VALUE));
+		//ChangeBrightnessByNAction action = ExtendedActions.changeBrightnessByN(null, brighter);
+		Action action = sprite.getActionFactory().createChangeBrightnessByNAction(null, new Formula(BRIGHTER_VALUE)); // TODO[physic] ExtendedActions
 		try {
 			action.act(1.0f);
 			fail("Execution of ChangeBrightnessByNBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
-			assertTrue("Exception thrown correctly",true);
+			assertTrue("Exception thrown correctly", true);
 		}
 	}
 
 	public void testBrickWithStringFormula() {
-		ExtendedActions.changeBrightnessByN(sprite, new Formula(String.valueOf(BRIGHTER_VALUE))).act(1.0f);
+		sprite.getActionFactory().createChangeBrightnessByNAction(sprite, new Formula(String.valueOf(BRIGHTER_VALUE))).act(1.0f);
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", INITIALIZED_VALUE
 				+ BRIGHTER_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 
-		ExtendedActions.changeBrightnessByN(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
+		sprite.getActionFactory().createChangeBrightnessByNAction(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", INITIALIZED_VALUE
 				+ BRIGHTER_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 
 	}
 
 	public void testNullFormula() {
-		ExtendedActions.changeBrightnessByN(sprite, null).act(1.0f);
+		sprite.getActionFactory().createChangeBrightnessByNAction(sprite, null).act(1.0f);
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", INITIALIZED_VALUE,
 				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
 	public void testNotANumberFormula() {
-		ExtendedActions.changeBrightnessByN(sprite, new Formula(Double.NaN)).act(1.0f);
+		sprite.getActionFactory().createChangeBrightnessByNAction(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", INITIALIZED_VALUE,
 				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}

@@ -42,7 +42,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
@@ -83,8 +82,9 @@ public class SetVariableBrick extends UserVariableBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setVariable(sprite, getFormulaWithBrickField(BrickField.VARIABLE),
-				userVariable));
+		// sequence.addAction(ExtendedActions.setVariable(sprite, variableFormula, userVariable));
+		sequence.addAction(sprite.getActionFactory().createSetVariableAction(sprite,
+				getFormulaWithBrickField(BrickField.VARIABLE), userVariable)); // TODO[physic]
 		return null;
 	}
 

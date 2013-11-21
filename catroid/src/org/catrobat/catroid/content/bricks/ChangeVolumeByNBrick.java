@@ -37,7 +37,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
@@ -134,7 +133,8 @@ public class ChangeVolumeByNBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.changeVolumeByN(sprite, getFormulaWithBrickField(BrickField.VOLUME_CHANGE)));
+		//sequence.addAction(ExtendedActions.changeVolumeByN(sprite, volume));
+		sequence.addAction(sprite.getActionFactory().createChangeVolumeByNAction(sprite, getFormulaWithBrickField(BrickField.VOLUME_CHANGE))); //TODO[physic]:
 		return null;
 	}
 

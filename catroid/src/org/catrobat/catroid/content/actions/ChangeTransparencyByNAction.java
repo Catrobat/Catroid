@@ -32,7 +32,7 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class ChangeTransparencyByNAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Sprite sprite; // TODO[physic]: private to protected
 	private Formula changeTransparency;
 
 	@Override
@@ -53,5 +53,4 @@ public class ChangeTransparencyByNAction extends TemporalAction {
 	public void setTransparency(Formula value) {
 		this.changeTransparency = value;
 	}
-
 }
