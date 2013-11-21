@@ -42,9 +42,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Look extends Image {
-	private static final float DEGREE_UI_OFFSET = 90.0f;
 	private static ArrayList<Action> actionsToRestart = new ArrayList<Action>();
 	public boolean visible = true;
+	public static final float DEGREE_UI_OFFSET = 90.0f; //TODO[TafPhil]: private -> public
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
 	protected LookData lookData;
@@ -161,7 +161,7 @@ public class Look extends Image {
 		allActionAreFinished = false;
 		int finishedCount = 0;
 
-		for (Iterator<Action> iterator = Look.actionsToRestart.iterator(); iterator.hasNext(); ) {
+		for (Iterator<Action> iterator = Look.actionsToRestart.iterator(); iterator.hasNext();) {
 			Action actionToRestart = iterator.next();
 			actionToRestart.restart();
 			iterator.remove();
