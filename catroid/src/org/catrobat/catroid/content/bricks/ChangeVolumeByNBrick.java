@@ -133,7 +133,7 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 
 		if (view != null) {
 
-			View layout = (View) view.findViewById(R.id.brick_change_volume_by_layout);
+			View layout = view.findViewById(R.id.brick_change_volume_by_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 

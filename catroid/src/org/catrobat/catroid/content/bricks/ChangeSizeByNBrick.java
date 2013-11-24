@@ -125,7 +125,7 @@ public class ChangeSizeByNBrick extends BrickBaseType implements OnClickListener
 
 		if (view != null) {
 
-			View layout = (View) view.findViewById(R.id.brick_change_size_by_layout);
+			View layout = view.findViewById(R.id.brick_change_size_by_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 

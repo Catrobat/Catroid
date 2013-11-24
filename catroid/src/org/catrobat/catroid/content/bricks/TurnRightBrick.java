@@ -127,7 +127,7 @@ public class TurnRightBrick extends BrickBaseType implements OnClickListener, Fo
 
 		if (view != null) {
 
-			View layout = (View) view.findViewById(R.id.brick_turn_right_layout);
+			View layout = view.findViewById(R.id.brick_turn_right_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 

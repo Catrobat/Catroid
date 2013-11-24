@@ -29,7 +29,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -97,7 +98,7 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 
 		if (view != null) {
 
-			View layout = (View) view.findViewById(R.id.brick_if_else_layout);
+			View layout = view.findViewById(R.id.brick_if_else_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 

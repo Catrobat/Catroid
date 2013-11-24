@@ -138,11 +138,11 @@ public class StringsTest extends TestCase {
 		Map<String, List<String>> languageStrings = getStringNamesPerLanguage();
 
 		for (String stringName : allStringNames) {
-			for (int i = 0; i < LANGUAGES.length; i++) {
-				List<String> languageStringNames = languageStrings.get(LANGUAGES[i]);
+			for (String lanugage : LANGUAGES) {
+				List<String> languageStringNames = languageStrings.get(lanugage);
 				if (!languageStringNames.contains(stringName)) {
 					missingStrings = true;
-					errorMessage.append("\nString with name " + stringName + " is missing in " + LANGUAGES[i]);
+					errorMessage.append("\nString with name " + stringName + " is missing in " + lanugage);
 				}
 			}
 		}
@@ -203,10 +203,10 @@ public class StringsTest extends TestCase {
 				unusedStringsFound = true;
 
 				errorMessage.append("\nString with name " + string + " is unused (found in ");
-				for (int i = 0; i < LANGUAGES.length; i++) {
-					List<String> languageStringNames = languageStrings.get(LANGUAGES[i]);
+				for (String language : LANGUAGES) {
+					List<String> languageStringNames = languageStrings.get(language);
 					if (languageStringNames.contains(string)) {
-						errorMessage.append(LANGUAGES[i] + ", ");
+						errorMessage.append(language + ", ");
 					}
 				}
 				errorMessage.replace(errorMessage.length() - 2, errorMessage.length(), ").");
