@@ -116,7 +116,7 @@ public class SetXBrick extends BrickBaseType implements OnClickListener, Formula
 
 		if (view != null) {
 
-			View layout = (View) view.findViewById(R.id.brick_set_x_layout);
+			View layout = view.findViewById(R.id.brick_set_x_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
