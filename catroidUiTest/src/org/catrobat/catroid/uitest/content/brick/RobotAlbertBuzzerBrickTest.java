@@ -22,11 +22,8 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import android.os.Build;
 import android.test.suitebuilder.annotation.Smoke;
-import android.util.Log;
 import android.widget.ListView;
-import android.widget.Spinner;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -35,7 +32,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.RobotAlbertMotorActionBrick;
+import org.catrobat.catroid.content.bricks.RobotAlbertBuzzerBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -43,14 +40,14 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class RobotAlbertMotorActionBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
-	private static final int SET_SPEED = 60;
-	private static final int SET_SPEED_INITIALLY = -50;
+public class RobotAlbertBuzzerBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
+	private static final int SET_FREQ = 30;
+	private static final int SET_FREQ_INITIALLY = 40;
 
 	private Project project;
-	private RobotAlbertMotorActionBrick motorBrick;
+	private RobotAlbertBuzzerBrick brick;
 
-	public RobotAlbertMotorActionBrickTest() {
+	public RobotAlbertBuzzerBrickTest() {
 		super(ScriptActivity.class);
 	}
 
@@ -64,7 +61,7 @@ public class RobotAlbertMotorActionBrickTest extends BaseActivityInstrumentation
 	}
 
 	@Smoke
-	public void testRobotAlbertMotorActionBrick() {
+	public void testRobotAlbertBuzzerBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
@@ -79,34 +76,16 @@ public class RobotAlbertMotorActionBrickTest extends BaseActivityInstrumentation
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.",
-				solo.getText(solo.getString(R.string.brick_robot_albert_motor_action)));
-		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.robot_albert_motor_speed)));
+				solo.getText(solo.getString(R.string.brick_robot_albert_buzzer_action)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.robot_albert_motor_action_speed_edit_text, SET_SPEED,
-				"speed", motorBrick);
+		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.robot_albert_buzzer_frequency)));
 
-		String[] motors = getActivity().getResources().getStringArray(R.array.robot_albert_motor_chooser);
-		assertTrue("Spinner items list too short!", motors.length == 3);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.robot_albert_buzzer_action_frequency_edit_text, SET_FREQ,
+				"value", brick);
 
-		int spinnerIndex = 1;
-
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			spinnerIndex = 0;
-		}
-		//TODO: seams that the if above isn't true......
-		spinnerIndex = 0;
-		Log.d("RobotAlbert-Test", "2: spinnerIndex=" + spinnerIndex);
-
-		Spinner currentSpinner = solo.getCurrentViews(Spinner.class).get(spinnerIndex);
-		solo.pressSpinnerItem(spinnerIndex, 0);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		assertEquals("Wrong item in spinner!", motors[0], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(spinnerIndex, 1);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		assertEquals("Wrong item in spinner!", motors[1], currentSpinner.getSelectedItem());
-		solo.pressSpinnerItem(spinnerIndex, 1);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		assertEquals("Wrong item in spinner!", motors[2], currentSpinner.getSelectedItem());
+		//TODO: Prints an error after setting it from init to new value, but I can see that it was set. Executing the command a second time seams to solve that. Why not the first time??
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.robot_albert_buzzer_action_frequency_edit_text, SET_FREQ,
+				"value", brick);
 	}
 
 	private void createProject() {
@@ -114,10 +93,9 @@ public class RobotAlbertMotorActionBrickTest extends BaseActivityInstrumentation
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 
-		motorBrick = new RobotAlbertMotorActionBrick(sprite, RobotAlbertMotorActionBrick.Motor.Left,
-				SET_SPEED_INITIALLY);
+		brick = new RobotAlbertBuzzerBrick(sprite, SET_FREQ_INITIALLY);
 
-		script.addBrick(motorBrick);
+		script.addBrick(brick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

@@ -83,6 +83,11 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 	private static final int[] SENSOR_ITEMS = { R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration,
 			R.string.formula_editor_sensor_compass_direction, R.string.formula_editor_sensor_x_inclination,
+			R.string.formula_editor_sensor_y_inclination, R.string.formula_editor_sensor_loudness };
+
+	private static final int[] SENSOR_ITEMS_WITH_ALBERT = { R.string.formula_editor_sensor_x_acceleration,
+			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration,
+			R.string.formula_editor_sensor_compass_direction, R.string.formula_editor_sensor_x_inclination,
 			R.string.formula_editor_sensor_y_inclination, R.string.formula_editor_sensor_loudness,
 			R.string.formula_editor_sensor_albert_robot_distance_left,
 			R.string.formula_editor_sensor_albert_robot_distance_right };
@@ -124,31 +129,46 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 		} else if (tag == LOGIC_TAG) {
 			itemsIds = LOGIC_ITEMS;
 		} else if (tag == SENSOR_TAG) {
-			itemsIds = SENSOR_ITEMS;
-		}
 
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		if ((tag == SENSOR_TAG)
-				&& (sharedPreferences.getBoolean(SensorRobotAlbert.KEY_SETTINGS_ROBOT_ALBERT_BRICKS, false))) {
-			items = new String[itemsIds.length];
-			int index = 0;
-			for (Integer item : itemsIds) {
-				items[index] = getString(item);
-				index++;
-			}
-		} else {
-			//if the option "Robot Albert bricks" is not selected, than remove the 2 entries in the sensor-enum
-			items = new String[itemsIds.length - 2];
-			int index = 0;
-			for (Integer item : itemsIds) {
-
-				if (!(item.equals(R.string.formula_editor_sensor_albert_robot_distance_left) || item
-						.equals(R.string.formula_editor_sensor_albert_robot_distance_right))) {
-					items[index] = getString(item);
-					index++;
-				}
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+			if ((sharedPreferences.getBoolean(SensorRobotAlbert.KEY_SETTINGS_ROBOT_ALBERT_BRICKS, false))) {
+				itemsIds = SENSOR_ITEMS_WITH_ALBERT;
+			} else {
+				//if the option "Robot Albert bricks" is not selected, than use the standard SENSOR_ITEMS
+				itemsIds = SENSOR_ITEMS;
 			}
 		}
+
+		items = new String[itemsIds.length];
+		int index = 0;
+		for (Integer item : itemsIds) {
+			items[index] = getString(item);
+			index++;
+		}
+
+		//		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		//		if ((tag == SENSOR_TAG)
+		//				&& (sharedPreferences.getBoolean(SensorRobotAlbert.KEY_SETTINGS_ROBOT_ALBERT_BRICKS, false))) {
+		//			items = new String[itemsIds.length];
+		//			int index = 0;
+		//			for (Integer item : itemsIds) {
+		//				items[index] = getString(item);
+		//				index++;
+		//			}
+		//		} else {
+		//			//if the option "Robot Albert bricks" is not selected, than remove the 2 entries in the sensor-enum
+		//			
+		//			items = new String[itemsIds.length - 2];
+		//			int index = 0;
+		//			for (Integer item : itemsIds) {
+		//
+		//				if (!(item.equals(R.string.formula_editor_sensor_albert_robot_distance_left) || item
+		//						.equals(R.string.formula_editor_sensor_albert_robot_distance_right))) {
+		//					items[index] = getString(item);
+		//					index++;
+		//				}
+		//			}
+		//		}
 
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
 				R.layout.fragment_formula_editor_list_item, items);

@@ -35,7 +35,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.RobotAlbertMotorActionBrick;
+import org.catrobat.catroid.content.bricks.RobotAlbertRgbLedEyeActionBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -43,14 +43,19 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class RobotAlbertMotorActionBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
-	private static final int SET_SPEED = 60;
-	private static final int SET_SPEED_INITIALLY = -50;
+public class RobotAlbertRgbLedEyeActionBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
+
+	private static final int SET_RED = 50;
+	private static final int SET_RED_INITIALLY = 10;
+	private static final int SET_GREEN = 40;
+	private static final int SET_GREEN_INITIALLY = 20;
+	private static final int SET_BLUE = 30;
+	private static final int SET_BLUE_INITIALLY = 90;
 
 	private Project project;
-	private RobotAlbertMotorActionBrick motorBrick;
+	private RobotAlbertRgbLedEyeActionBrick brick;
 
-	public RobotAlbertMotorActionBrickTest() {
+	public RobotAlbertRgbLedEyeActionBrickTest() {
 		super(ScriptActivity.class);
 	}
 
@@ -64,7 +69,7 @@ public class RobotAlbertMotorActionBrickTest extends BaseActivityInstrumentation
 	}
 
 	@Smoke
-	public void testRobotAlbertMotorActionBrick() {
+	public void testRobotAlbertRgbLedActionBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
@@ -79,14 +84,21 @@ public class RobotAlbertMotorActionBrickTest extends BaseActivityInstrumentation
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.",
-				solo.getText(solo.getString(R.string.brick_robot_albert_motor_action)));
-		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.robot_albert_motor_speed)));
+				solo.getText(solo.getString(R.string.brick_robot_albert_rgb_led_action)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.robot_albert_motor_action_speed_edit_text, SET_SPEED,
-				"speed", motorBrick);
+		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.robot_albert_rgb_led_red)));
+		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.robot_albert_rgb_led_green)));
+		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.robot_albert_rgb_led_blue)));
 
-		String[] motors = getActivity().getResources().getStringArray(R.array.robot_albert_motor_chooser);
-		assertTrue("Spinner items list too short!", motors.length == 3);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.robot_albert_rgb_led_action_red_edit_text, SET_RED, "red",
+				brick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.robot_albert_rgb_led_action_green_edit_text, SET_GREEN,
+				"green", brick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.robot_albert_rgb_led_action_blue_edit_text, SET_BLUE, "blue",
+				brick);
+
+		String[] eyes = getActivity().getResources().getStringArray(R.array.robot_albert_eye_chooser);
+		assertTrue("Spinner items list too short!", eyes.length == 3);
 
 		int spinnerIndex = 1;
 
@@ -100,13 +112,14 @@ public class RobotAlbertMotorActionBrickTest extends BaseActivityInstrumentation
 		Spinner currentSpinner = solo.getCurrentViews(Spinner.class).get(spinnerIndex);
 		solo.pressSpinnerItem(spinnerIndex, 0);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		assertEquals("Wrong item in spinner!", motors[0], currentSpinner.getSelectedItem());
+		assertEquals("Wrong item in spinner!", eyes[0], currentSpinner.getSelectedItem());
 		solo.pressSpinnerItem(spinnerIndex, 1);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		assertEquals("Wrong item in spinner!", motors[1], currentSpinner.getSelectedItem());
+		assertEquals("Wrong item in spinner!", eyes[1], currentSpinner.getSelectedItem());
 		solo.pressSpinnerItem(spinnerIndex, 1);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		assertEquals("Wrong item in spinner!", motors[2], currentSpinner.getSelectedItem());
+		assertEquals("Wrong item in spinner!", eyes[2], currentSpinner.getSelectedItem());
+
 	}
 
 	private void createProject() {
@@ -114,10 +127,10 @@ public class RobotAlbertMotorActionBrickTest extends BaseActivityInstrumentation
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
 
-		motorBrick = new RobotAlbertMotorActionBrick(sprite, RobotAlbertMotorActionBrick.Motor.Left,
-				SET_SPEED_INITIALLY);
+		brick = new RobotAlbertRgbLedEyeActionBrick(sprite, RobotAlbertRgbLedEyeActionBrick.Eye.Left,
+				SET_RED_INITIALLY, SET_GREEN_INITIALLY, SET_BLUE_INITIALLY);
 
-		script.addBrick(motorBrick);
+		script.addBrick(brick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);
