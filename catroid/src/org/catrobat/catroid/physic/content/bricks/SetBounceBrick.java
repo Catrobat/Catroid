@@ -45,34 +45,34 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SetBounceFactorBrick extends BrickBaseType implements OnClickListener {
+public class SetBounceBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private Formula bounceFactor;
 
 	private transient View prototypeView;
 
-	public SetBounceFactorBrick() {
+	public SetBounceBrick() {
 	}
 
-	public SetBounceFactorBrick(Sprite sprite, float bounceFactor) {
+	public SetBounceBrick(Sprite sprite, float bounceFactor) {
 		this.sprite = sprite;
 		this.bounceFactor = new Formula(bounceFactor);
 	}
 
-	public SetBounceFactorBrick(Sprite sprite, Formula bounceFactor) {
+	public SetBounceBrick(Sprite sprite, Formula bounceFactor) {
 		this.sprite = sprite;
 		this.bounceFactor = bounceFactor;
 	}
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return PHYSIC;
 	}
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		SetBounceFactorBrick copyBrick = (SetBounceFactorBrick) clone();
+		SetBounceBrick copyBrick = (SetBounceBrick) clone();
 		copyBrick.sprite = sprite;
 		return copyBrick;
 	}
@@ -138,7 +138,7 @@ public class SetBounceFactorBrick extends BrickBaseType implements OnClickListen
 
 	@Override
 	public Brick clone() {
-		return new SetBounceFactorBrick(getSprite(), bounceFactor.clone());
+		return new SetBounceBrick(getSprite(), bounceFactor.clone());
 	}
 
 	@Override

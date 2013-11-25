@@ -67,7 +67,7 @@ public class TurnLeftSpeedBrick extends BrickBaseType implements OnClickListener
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return PHYSIC;
 	}
 
 	@Override
