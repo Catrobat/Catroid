@@ -52,6 +52,8 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.physic.PhysicsDebugSettings;
+import org.catrobat.catroid.physic.PhysicsWorld;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.Utils;
 
@@ -97,6 +99,8 @@ public class StageListener implements ApplicationListener {
 	private boolean skipFirstFrameForAutomaticScreenshot;
 
 	private Project project;
+
+	private PhysicsWorld physicsWorld; // TODO[physic]
 
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
@@ -153,6 +157,8 @@ public class StageListener implements ApplicationListener {
 
 		Gdx.gl.glViewport(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
 		initScreenMode();
+
+		physicsWorld = project.resetPhysicWorld(); // TODO[physic]
 
 		sprites = project.getSpriteList();
 		for (Sprite sprite : sprites) {
@@ -266,6 +272,8 @@ public class StageListener implements ApplicationListener {
 			stage.clear();
 			SoundManager.getInstance().clear();
 
+			physicsWorld = project.resetPhysicWorld();//TODO[physic]
+
 			Sprite sprite;
 			if (spriteSize > 0) {
 				sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
@@ -317,11 +325,13 @@ public class StageListener implements ApplicationListener {
 			 * future EMMA - update will fix the bugs.
 			 */
 			if (DYNAMIC_SAMPLING_RATE_FOR_ACTIONS == false) {
+				physicsWorld.step(deltaTime); //TODO[physic]
 				stage.act(deltaTime);
 			} else {
 				float optimizedDeltaTime = deltaTime / deltaActionTimeDivisor;
 				long timeBeforeActionsUpdate = SystemClock.uptimeMillis();
 				while (deltaTime > 0f) {
+					physicsWorld.step(optimizedDeltaTime); //TODO[physic]
 					stage.act(optimizedDeltaTime);
 					deltaTime -= optimizedDeltaTime;
 				}
@@ -358,6 +368,10 @@ public class StageListener implements ApplicationListener {
 
 		if (axesOn && !finished) {
 			drawAxes();
+		}
+
+		if (PhysicsDebugSettings.Render.RENDER_COLLISION_FRAMES && !finished) {
+			physicsWorld.render(camera.combined);
 		}
 
 		if (DEBUG) {
