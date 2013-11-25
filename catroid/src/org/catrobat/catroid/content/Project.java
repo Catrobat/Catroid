@@ -76,6 +76,8 @@ public class Project implements Serializable {
 			return;
 		}
 
+		physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight); // TODO[physic]:
+
 		Sprite background = new Sprite(context.getString(R.string.background));
 		background.look.setZIndex(0);
 		addSprite(background);
@@ -171,7 +173,13 @@ public class Project implements Serializable {
 
 	// default constructor for XMLParser
 	public Project() {
+		physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight); // TODO[physic]:
 	}
+
+	// TODO[physic]:
+	//	public PhysicsWorld resetPhysicWorld() {
+	//		return (physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight));
+	//	}
 
 	public UserVariablesContainer getUserVariables() {
 		return userVariables;
