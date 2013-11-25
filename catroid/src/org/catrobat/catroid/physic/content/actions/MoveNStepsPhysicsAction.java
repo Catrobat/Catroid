@@ -20,34 +20,43 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.physic.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.physic.content.PhysicActionExtension;
+import org.catrobat.catroid.physic.PhysicsObject;
 
-public class SetSizeToAction extends TemporalAction implements PhysicActionExtension {
+public class MoveNStepsPhysicsAction extends TemporalAction {
 
-	protected Sprite sprite; // TODO[physic]: private to protected
-	private Formula size;
+	private Sprite sprite;
+	private PhysicsObject physicsObject;
+	private Formula steps;
 
 	@Override
-	protected void update(float delta) {
-		sprite.look.setSizeInUserInterfaceDimensionUnit(size.interpretFloat(sprite));
+	protected void update(float percent) {
+		float stepsValue = steps.interpretFloat(sprite);
+		double radians = Math.toRadians(sprite.look.getRotation());
+
+		int newXPosition = (int) Math.round(sprite.look.getXInUserInterfaceDimensionUnit() + stepsValue
+				* Math.cos(radians));
+		int newYPosition = (int) Math.round(sprite.look.getYInUserInterfaceDimensionUnit() + stepsValue
+				* Math.sin(radians));
+
+		physicsObject.setPosition(newXPosition, newYPosition);
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public void setSize(Formula size) {
-		this.size = size;
+	public void setPhysicObject(PhysicsObject physicsObject) {
+		this.physicsObject = physicsObject;
 	}
 
-	@Override
-	public void physicsUpdateHook() {
+	public void setSteps(Formula steps) {
+		this.steps = steps;
 	}
 
 }
