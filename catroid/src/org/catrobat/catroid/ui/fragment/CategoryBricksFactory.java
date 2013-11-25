@@ -95,6 +95,14 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Operators;
+import org.catrobat.catroid.physic.content.bricks.SetBounceBrick;
+import org.catrobat.catroid.physic.content.bricks.SetFrictionBrick;
+import org.catrobat.catroid.physic.content.bricks.SetGravityBrick;
+import org.catrobat.catroid.physic.content.bricks.SetMassBrick;
+import org.catrobat.catroid.physic.content.bricks.SetPhysicsObjectTypeBrick;
+import org.catrobat.catroid.physic.content.bricks.SetVelocityBrick;
+import org.catrobat.catroid.physic.content.bricks.TurnLeftSpeedBrick;
+import org.catrobat.catroid.physic.content.bricks.TurnRightSpeedBrick;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -164,6 +172,16 @@ public class CategoryBricksFactory {
 			motionBrickList.add(new GoNStepsBackBrick(sprite, BrickValues.GO_BACK));
 			motionBrickList.add(new ComeToFrontBrick(sprite));
 		}
+
+		// TODO[physic]
+		motionBrickList.add(new SetPhysicsObjectTypeBrick(sprite, BrickValues.PHYSIC_TYPE));
+		motionBrickList.add(new SetMassBrick(sprite, BrickValues.PHYSIC_MASS));
+		motionBrickList.add(new SetBounceBrick(sprite, BrickValues.PHYSIC_BOUNCE_FACTOR * 100));
+		motionBrickList.add(new SetFrictionBrick(sprite, BrickValues.PHYSIC_FRICTION * 100));
+		motionBrickList.add(new SetGravityBrick(sprite, BrickValues.PHYSIC_GRAVITY));
+		motionBrickList.add(new SetVelocityBrick(sprite, BrickValues.PHYSIC_VELOCITY));
+		motionBrickList.add(new TurnLeftSpeedBrick(sprite, BrickValues.PHYSIC_TURN_DEGREES));
+		motionBrickList.add(new TurnRightSpeedBrick(sprite, BrickValues.PHYSIC_TURN_DEGREES));
 
 		return motionBrickList;
 	}

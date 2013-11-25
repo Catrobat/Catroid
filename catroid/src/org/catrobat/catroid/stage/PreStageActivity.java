@@ -50,6 +50,8 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.legonxt.LegoNXT;
 import org.catrobat.catroid.legonxt.LegoNXTBtCommunicator;
+import org.catrobat.catroid.physic.content.ActionFactory;
+import org.catrobat.catroid.physic.content.ActionPhysicsFactory;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.LedUtil;
@@ -294,11 +296,21 @@ public class PreStageActivity extends BaseActivity {
 		ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
 				.getSpriteList();
 
-		resources = Brick.NO_RESOURCES;
+		ActionFactory actionFactory = new ActionFactory();
+		ActionFactory actionPhysicsFactory = new ActionPhysicsFactory();
+
+		int ressources = Brick.NO_RESOURCES;
 		for (Sprite sprite : spriteList) {
-			resources |= sprite.getRequiredResources();
+			ressources |= sprite.getRequiredResources();
+			if ((ressources & Brick.PHYSIC) > 0) {
+				sprite.setActionFactory(actionPhysicsFactory);
+				ressources &= ~Brick.PHYSIC;
+			} else {
+				sprite.setActionFactory(actionFactory);
+			}
 		}
-		return resources;
+
+		return ressources;
 	}
 
 	@Override

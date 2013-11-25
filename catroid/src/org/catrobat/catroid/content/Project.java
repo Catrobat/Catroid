@@ -177,9 +177,9 @@ public class Project implements Serializable {
 	}
 
 	// TODO[physic]:
-	//	public PhysicsWorld resetPhysicWorld() {
-	//		return (physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight));
-	//	}
+	public PhysicsWorld resetPhysicWorld() {
+		return (physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight));
+	}
 
 	public UserVariablesContainer getUserVariables() {
 		return userVariables;
