@@ -134,6 +134,10 @@ public class Sprite implements Serializable, Cloneable {
 		return actionFactory;
 	}
 
+	public void setActionFactory(ActionFactory actionFactory) { // TODO[physic]:
+		this.actionFactory = actionFactory;
+	}
+
 	@Override
 	public Sprite clone() {
 		final Sprite cloneSprite = new Sprite();
