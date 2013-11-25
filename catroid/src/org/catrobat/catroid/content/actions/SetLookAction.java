@@ -26,11 +26,12 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.physic.content.PhysicActionExtension;
 
-public class SetLookAction extends TemporalAction {
+public class SetLookAction extends TemporalAction implements PhysicActionExtension {
 
 	private LookData look;
-	private Sprite sprite;
+	protected Sprite sprite; // TODO[physic]: private to protected
 
 	@Override
 	protected void update(float percent) {
@@ -52,6 +53,10 @@ public class SetLookAction extends TemporalAction {
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
+	}
+
+	@Override
+	public void physicsUpdateHook() {
 	}
 
 }

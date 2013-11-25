@@ -26,10 +26,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.physic.content.PhysicActionExtension;
 
-public class SetSizeToAction extends TemporalAction {
+public class SetSizeToAction extends TemporalAction implements PhysicActionExtension {
 
-	private Sprite sprite;
+	protected Sprite sprite; // TODO[physic]: private to protected
 	private Formula size;
 
 	@Override
@@ -43,6 +44,10 @@ public class SetSizeToAction extends TemporalAction {
 
 	public void setSize(Formula size) {
 		this.size = size;
+	}
+
+	@Override
+	public void physicsUpdateHook() {
 	}
 
 }
