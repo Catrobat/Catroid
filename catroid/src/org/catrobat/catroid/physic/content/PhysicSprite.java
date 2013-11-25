@@ -20,34 +20,40 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
-
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+package org.catrobat.catroid.physic.content;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.physic.content.PhysicActionExtension;
 
-public class SetSizeToAction extends TemporalAction implements PhysicActionExtension {
+public class PhysicSprite extends Sprite {
+	private static final long serialVersionUID = 1L;
 
-	protected Sprite sprite; // TODO[physic]: private to protected
-	private Formula size;
-
-	@Override
-	protected void update(float delta) {
-		sprite.look.setSizeInUserInterfaceDimensionUnit(size.interpretFloat(sprite));
+	public PhysicSprite(String name) {
+		super(name);
+		actionFactory = new ActionPhysicsFactory();
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
-	public void setSize(Formula size) {
-		this.size = size;
+	public PhysicSprite() {
+		super();
+		actionFactory = new ActionPhysicsFactory();
 	}
 
 	@Override
-	public void physicsUpdateHook() {
+	public Sprite clone() {
+		final Sprite cloneSprite = new PhysicSprite();
+		cloneSprite(cloneSprite);
+		return cloneSprite;
 	}
+
+	//	@Override
+	//	protected void init() {
+	//		super.init();
+	//		actionFactory = new ActionPhysicsFactory();
+	//	}
+	//
+	//	@Override
+	//	public void resetSprite() {
+	//		super.resetSprite();
+	//		actionFactory = new ActionPhysicsFactory();
+	//	}
 
 }

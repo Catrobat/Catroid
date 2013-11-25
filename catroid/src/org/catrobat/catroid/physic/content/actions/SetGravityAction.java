@@ -20,34 +20,36 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.physic.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.physic.content.PhysicActionExtension;
+import org.catrobat.catroid.physic.PhysicsWorld;
 
-public class SetSizeToAction extends TemporalAction implements PhysicActionExtension {
+public class SetGravityAction extends TemporalAction {
 
-	protected Sprite sprite; // TODO[physic]: private to protected
-	private Formula size;
+	private Sprite sprite;
+	private PhysicsWorld physicsWorld;
+	private Formula gravityX;
+	private Formula gravityY;
 
 	@Override
-	protected void update(float delta) {
-		sprite.look.setSizeInUserInterfaceDimensionUnit(size.interpretFloat(sprite));
+	protected void update(float percent) {
+		physicsWorld.setGravity(gravityX.interpretFloat(sprite), gravityY.interpretFloat(sprite));
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public void setSize(Formula size) {
-		this.size = size;
+	public void setPhysicWorld(PhysicsWorld physicsWorld) {
+		this.physicsWorld = physicsWorld;
 	}
 
-	@Override
-	public void physicsUpdateHook() {
+	public void setGravity(Formula gravityX, Formula gravityY) {
+		this.gravityX = gravityX;
+		this.gravityY = gravityY;
 	}
-
 }
