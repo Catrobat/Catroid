@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
+import org.catrobat.catroid.physic.content.ActionFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ public class Sprite implements Serializable, Cloneable {
 	private List<Script> scriptList;
 	private ArrayList<LookData> lookList;
 	private ArrayList<SoundInfo> soundList;
+	protected transient ActionFactory actionFactory = new ActionFactory(); // TODO[physic]:
 
 	public Sprite(String name) {
 		this.name = name;
@@ -131,6 +133,12 @@ public class Sprite implements Serializable, Cloneable {
 	@Override
 	public Sprite clone() {
 		final Sprite cloneSprite = new Sprite();
+		cloneSprite(cloneSprite); // TODO[physic]:
+		return cloneSprite;
+
+	}
+
+	protected void cloneSprite(final Sprite cloneSprite) {
 		cloneSprite.setName(this.getName());
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
@@ -172,9 +180,6 @@ public class Sprite implements Serializable, Cloneable {
 		} catch (IndexOutOfBoundsException indexOutOfBoundsException) {
 			Log.e(TAG, Log.getStackTraceString(indexOutOfBoundsException));
 		}
-
-		return cloneSprite;
-
 	}
 
 	public void createWhenScriptActionSequence(String action) {
