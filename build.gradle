@@ -5,6 +5,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.6.+'
+	//classpath 'com.puppycrawl.tools:checkstyle:5.6'
     }
 }
 
@@ -21,9 +22,10 @@ dependencies {
     compile fileTree(dir: 'catroid/libs', include: '*.jar')
     compile fileTree(dir: 'catroid/libs-natives', include: '*.jar')
 
-    instrumentTestCompile fileTree(dir: 'catroidTest/libs', include: '*.jar', exclude: 'the-missing-android-xml-junit-test-runner-release-1.3_2.jar')
+    instrumentTestCompile fileTree(dir: 'catroidTest/libs', include: '*.jar')
     
 }
+
 
 android {
     compileSdkVersion 18
@@ -32,6 +34,7 @@ android {
     defaultConfig {
         minSdkVersion 10
         targetSdkVersion 18
+	testInstrumentationRunner "pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
     }
 
     sourceSets {
