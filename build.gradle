@@ -51,6 +51,7 @@ android {
         minSdkVersion 10
         targetSdkVersion 18
 	packageName "org.catrobat.catroid"
+	testPackageName "org.catrobat.catroid.test"
 	testInstrumentationRunner "pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
 	versionCode getVersionCode()
 	versionName getVersionName()
