@@ -34,6 +34,7 @@ android {
     defaultConfig {
         minSdkVersion 10
         targetSdkVersion 18
+	packageName "org.catrobat.catroid"
 	testInstrumentationRunner "pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
     }
 
@@ -57,6 +58,15 @@ android {
             assets.srcDirs = ['catroidTest/assets']
         }
 
+    }
+}
+
+task jenkins() << {
+    android.buildTypes.each { type ->
+	if(type.name == "debug") {
+        	type.packageNameSuffix = ".jenkinsdebug"
+        	type.versionNameSuffix = "-jenkins-$type.name"
+	}
     }
 }
 
