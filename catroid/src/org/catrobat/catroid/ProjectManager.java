@@ -23,7 +23,10 @@
 package org.catrobat.catroid;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
@@ -33,13 +36,20 @@ import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.LoadProjectTask;
+import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.transfers.CheckTokenTask;
+import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
+import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
+import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.ServerCalls;
 
 import java.io.File;
 import java.io.IOException;
 
-public class ProjectManager {
+public class ProjectManager implements OnLoadProjectCompleteListener, OnCheckTokenCompleteListener {
 	private static final ProjectManager INSTANCE = new ProjectManager();
 	private static final String TAG = ProjectManager.class.getSimpleName();
 
@@ -55,6 +65,26 @@ public class ProjectManager {
 
 	public static ProjectManager getInstance() {
 		return INSTANCE;
+	}
+
+	public void uploadProject(String projectName, FragmentActivity fragmentActivity) {
+		if (getCurrentProject() == null || !getCurrentProject().getName().equals(projectName)) {
+			LoadProjectTask loadProjectTask = new LoadProjectTask(fragmentActivity, projectName, false, false);
+			loadProjectTask.setOnLoadProjectCompleteListener(this);
+			loadProjectTask.execute();
+		}
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(fragmentActivity);
+		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
+
+		if (token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
+				|| token.equals(ServerCalls.TOKEN_CODE_INVALID)) {
+			showLoginRegisterDialog(fragmentActivity);
+		} else {
+			CheckTokenTask checkTokenTask = new CheckTokenTask(fragmentActivity, token, username);
+			checkTokenTask.setOnCheckTokenCompleteListener(this);
+			checkTokenTask.execute();
+		}
 	}
 
 	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
@@ -86,38 +116,48 @@ public class ProjectManager {
 				Utils.showErrorDialog(context, R.string.error_load_project);
 			}
 			return false;
-		} else if (!Utils.isApplicationDebuggable(context)
-				&& (project.getCatrobatLanguageVersion() > Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION)) {
+		} else if (project.getCatrobatLanguageVersion() > Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
 			project = oldProject;
 			if (errorMessage) {
-				Utils.showErrorDialog(context, R.string.error_project_compatability);
-				// TODO show dialog to download latest catroid version instead
-			}
-			return false;
-		} else if (!Utils.isApplicationDebuggable(context)
-				&& (project.getCatrobatLanguageVersion() < Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION)) {
-			project = oldProject;
-			if (errorMessage) {
-				Utils.showErrorDialog(context, R.string.error_project_compatability);
-				// TODO show dialog to convert project to a supported version
+				Utils.showErrorDialog(context, R.string.error_outdated_pocketcode_version);
+				// TODO insert update link to Google Play 
 			}
 			return false;
 		} else {
-			// Set generic localized name on background sprite and move it to the back.
-			if (project.getSpriteList().size() > 0) {
-				project.getSpriteList().get(0).setName(context.getString(R.string.background));
-				project.getSpriteList().get(0).look.setZIndex(0);
+			if (project.getCatrobatLanguageVersion() == 0.8f) {
+				//TODO insert in every "When project starts" script list a "show" brick
+				project.setCatrobatLanguageVersion(0.9f);
 			}
-			MessageContainer.clearBackup();
-			currentSprite = null;
-			currentScript = null;
-			Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, project.getName());
-			return true;
+			if (project.getCatrobatLanguageVersion() == 0.9f) {
+				project.setCatrobatLanguageVersion(0.91f);
+				//no convertion needed - only change to white background
+			}
+			//insert further convertions here
+
+			if (project.getCatrobatLanguageVersion() == Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
+				//project seems to be converted now and can be loaded
+				localizeBackgroundSprite(context);
+				return true;
+			}
+			//project cannot be converted
+			project = oldProject;
+			if (errorMessage) {
+				Utils.showErrorDialog(context, R.string.error_project_compatability);
+			}
+			return false;
 		}
 	}
 
-	public boolean canLoadProject(String projectName) {
-		return StorageHandler.getInstance().loadProject(projectName) != null;
+	private void localizeBackgroundSprite(Context context) {
+		// Set generic localized name on background sprite and move it to the back.
+		if (project.getSpriteList().size() > 0) {
+			project.getSpriteList().get(0).setName(context.getString(R.string.background));
+			project.getSpriteList().get(0).look.setZIndex(0);
+		}
+		MessageContainer.clearBackup();
+		currentSprite = null;
+		currentScript = null;
+		Utils.saveToPreferences(context, Constants.PREF_PROJECTNAME_KEY, project.getName());
 	}
 
 	public void saveProject() {
@@ -289,5 +329,26 @@ public class ProjectManager {
 			StorageHandler.getInstance().saveProject(project);
 			return null;
 		}
+	}
+
+	@Override
+	public void onTokenNotValid(FragmentActivity fragmentActivity) {
+		showLoginRegisterDialog(fragmentActivity);
+	}
+
+	@Override
+	public void onCheckTokenSuccess(FragmentActivity fragmentActivity) {
+		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
+		uploadProjectDialog.show(fragmentActivity.getSupportFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	private void showLoginRegisterDialog(FragmentActivity fragmentActivity) {
+		LoginRegisterDialog loginRegisterDialog = new LoginRegisterDialog();
+		loginRegisterDialog.show(fragmentActivity.getSupportFragmentManager(), LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	@Override
+	public void onLoadProjectSuccess(boolean startProjectActivity) {
+
 	}
 }

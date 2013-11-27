@@ -126,7 +126,7 @@ public class SetVolumeToBrick extends BrickBaseType implements OnClickListener, 
 
 		if (view != null) {
 
-			View layout = (View) view.findViewById(R.id.brick_set_volume_to_layout);
+			View layout = view.findViewById(R.id.brick_set_volume_to_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 

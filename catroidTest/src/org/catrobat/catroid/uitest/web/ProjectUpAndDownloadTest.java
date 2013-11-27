@@ -41,6 +41,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ProgramMenuActivity;
+import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -77,7 +79,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		saveToken = prefs.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		uploadDialogTitle = solo.getString(R.string.upload_project_dialog_title);
-		currentLanguageVersion = Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION;
+		currentLanguageVersion = Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 	}
 
 	@Override
@@ -85,7 +87,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, saveToken).commit();
 		UiTestUtils.cancelAllNotifications(getActivity());
-		Reflection.setPrivateField(Constants.class, "SUPPORTED_CATROBAT_LANGUAGE_VERSION", currentLanguageVersion);
+		Reflection.setPrivateField(Constants.class, "CURRENT_CATROBAT_LANGUAGE_VERSION", currentLanguageVersion);
 		super.tearDown();
 	}
 
@@ -104,7 +106,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		UiTestUtils.createValidUser(getActivity());
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		String originalToken = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-		uploadProject(newTestProject, newTestDescription);
+		uploadProjectFromMainMenu(newTestProject, newTestDescription);
 		String newToken = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 
 		assertFalse("Original token not available", originalToken.equals(Constants.NO_TOKEN));
@@ -130,7 +132,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		// change catrobatLanguage to a version that is not supported by web
 		// should lead to an errormessage after upload
 		Project testProject = ProjectManager.getInstance().getCurrentProject();
-		Reflection.setPrivateField(Constants.class, "SUPPORTED_CATROBAT_LANGUAGE_VERSION", 0.3f);
+		Reflection.setPrivateField(Constants.class, "CURRENT_CATROBAT_LANGUAGE_VERSION", 0.3f);
 
 		StorageHandler.getInstance().saveProject(testProject);
 
@@ -172,7 +174,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		//Project name and description are renamed to testproject2 and testdescription2 in uploadProject()
 		String projectNameSetWhenUploading = newTestProject;
 		String projectDescriptionSetWhenUploading = newTestDescription;
-		uploadProject(newTestProject, newTestDescription);
+		uploadProjectFromMainMenu(newTestProject, newTestDescription);
 		solo.sleep(5000);
 
 		Project uploadProject = StorageHandler.getInstance().loadProject(newTestProject);
@@ -207,22 +209,38 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		UiTestUtils.createValidUser(getActivity());
 
 		//Project description is changed to testdescription2 in uploadProject()
-		uploadProject(testProject, newTestDescription);
+		uploadProjectFromMainMenu(testProject, newTestDescription);
 		solo.sleep(5000);
 
-		Project uploadProject = StorageHandler.getInstance().loadProject(testProject);
+		checkProjectNameAndDescriptionBeforAndAfterDownload(testProject, newTestDescription);
+	}
 
-		assertEquals("Deserialized project name was changed", testProject, uploadProject.getName());
-		assertEquals("Deserialized project description was not renamed correctly", newTestDescription,
-				uploadProject.getDescription());
+	public void testUploadingFromProgrammList() throws Throwable {
+		setServerURLToTestUrl();
 
-		//Download replaces project. Name and description should be testproject1 and testdescription2
-		downloadProjectAndReplace(testProject);
-		Project downloadedProject = StorageHandler.getInstance().loadProject(testProject);
+		UiTestUtils.createTestProject(testProject);
+		ProjectManager.getInstance().getCurrentProject().setDescription(testDescription);
 
-		assertEquals("Project name on server was changed", testProject, downloadedProject.getName());
-		assertEquals("Project name on server was not correctly renamed", newTestDescription,
-				downloadedProject.getDescription());
+		UiTestUtils.createValidUser(getActivity());
+
+		uploadProjectFromProgrammList(testProject, newTestDescription);
+		solo.sleep(5000);
+
+		checkProjectNameAndDescriptionBeforAndAfterDownload(testProject, newTestDescription);
+	}
+
+	public void testUploadFromProgramm() throws Throwable {
+		setServerURLToTestUrl();
+
+		UiTestUtils.createTestProject(testProject);
+		ProjectManager.getInstance().getCurrentProject().setDescription(testDescription);
+
+		UiTestUtils.createValidUser(getActivity());
+
+		uploadProjectFromProgramm(testProject, newTestDescription);
+		solo.sleep(5000);
+
+		checkProjectNameAndDescriptionBeforAndAfterDownload(testProject, newTestDescription);
 	}
 
 	public void testUpAndDownloadJapaneseUnicodeProject() throws Throwable {
@@ -233,7 +251,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		UiTestUtils.createValidUser(getActivity());
 
-		uploadProject(testProject, "");
+		uploadProjectFromMainMenu(testProject, "");
 
 		ProjectManager.getInstance().loadProject(testProject, getActivity(), false);
 		Project uploadProject = StorageHandler.getInstance().loadProject(testProject);
@@ -273,7 +291,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		ProjectManager.getInstance().setProject(newProject);
 
 		UiTestUtils.createValidUser(getActivity());
-		uploadProject(projectName, "");
+		uploadProjectFromMainMenu(projectName, "");
 
 		Project uploadProject = StorageHandler.getInstance().loadProject(projectName);
 		String deserializedProjectName = uploadProject.getName();
@@ -372,13 +390,68 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		StorageHandler.getInstance().saveProject(standardProject);
 	}
 
-	private void uploadProject(String uploadProjectName, String uploadProjectDescription) {
+	private void uploadProjectFromMainMenu(String uploadProjectName, String uploadProjectDescription) {
+		preUploadProject();
+
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
+
+		uploadProject(uploadProjectName, uploadProjectDescription);
+	}
+
+	private void uploadProjectFromProgrammList(String uploadProjectName, String uploadProjectDescription) {
+		preUploadProject();
+
+		solo.clickOnText(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+
+		String upload = solo.getString(R.string.upload_button);
+		solo.clickLongOnText(testProject);
+		solo.waitForText(upload);
+		solo.clickOnText(upload);
+
+		uploadProject(uploadProjectName, uploadProjectDescription);
+		solo.goBack();
+	}
+
+	private void uploadProjectFromProgramm(String uploadProjectName, String uploadProjectDescription) {
+		preUploadProject();
+
+		solo.clickOnText(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		solo.clickOnText(testProject);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		UiTestUtils.clickOnActionBar(solo, R.id.upload);
+
+		uploadProject(uploadProjectName, uploadProjectDescription);
+		solo.goBack();
+	}
+
+	private void preUploadProject() {
 		// change project to a non default state
 		Sprite firstSprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
 		Script firstScript = firstSprite.getScript(0);
 		firstScript.addBrick(new WaitBrick(firstSprite, 1000));
+	}
 
-		solo.clickOnText(solo.getString(R.string.main_menu_upload));
+	private void checkProjectNameAndDescriptionBeforAndAfterDownload(String projectName, String description) {
+
+		Project uploadProject = StorageHandler.getInstance().loadProject(projectName);
+
+		assertEquals("Deserialized project name was changed", projectName, uploadProject.getName());
+		assertEquals("Deserialized project description was not renamed correctly", description,
+				uploadProject.getDescription());
+
+		//Download replaces project. Name and description should be projectName and description
+		downloadProjectAndReplace(projectName);
+		Project downloadedProject = StorageHandler.getInstance().loadProject(projectName);
+
+		assertEquals("Project name on server was changed", projectName, downloadedProject.getName());
+		assertEquals("Project name on server was not correctly renamed", description,
+				downloadedProject.getDescription());
+	}
+
+	private void uploadProject(String uploadProjectName, String uploadProjectDescription) {
+
 		solo.waitForText(uploadDialogTitle);
 
 		// enter a new title

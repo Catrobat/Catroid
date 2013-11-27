@@ -57,7 +57,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -84,7 +83,8 @@ public class Utils {
 	public static final int PICTURE_INTENT = 1;
 	public static final int FILE_INTENT = 2;
 	public static final int TRANSLATION_PLURAL_OTHER_INTEGER = 767676;
-	private static boolean isUnderTest;
+	private static final int DEFAULT_SCREEN_WIDTH = 1280;
+	private static final int DEFAULT_SCREEN_HEIGHT = 768;
 
 	public static boolean externalStorageAvailable() {
 		String externalStorageState = Environment.getExternalStorageState();
@@ -111,11 +111,18 @@ public class Utils {
 	}
 
 	public static void updateScreenWidthAndHeight(Context context) {
-		WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-		DisplayMetrics displayMetrics = new DisplayMetrics();
-		windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-		ScreenValues.SCREEN_WIDTH = displayMetrics.widthPixels;
-		ScreenValues.SCREEN_HEIGHT = displayMetrics.heightPixels;
+		if (context != null) {
+			WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+			DisplayMetrics displayMetrics = new DisplayMetrics();
+			windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+			ScreenValues.SCREEN_WIDTH = displayMetrics.widthPixels;
+			ScreenValues.SCREEN_HEIGHT = displayMetrics.heightPixels;
+		} else {
+			//a null-context should never be passed. However, an educated guess is needed in that case.
+			ScreenValues.SCREEN_WIDTH = DEFAULT_SCREEN_WIDTH;
+			ScreenValues.SCREEN_HEIGHT = DEFAULT_SCREEN_HEIGHT;
+		}
+
 	}
 
 	public static boolean isNetworkAvailable(Context context) {
@@ -287,9 +294,8 @@ public class Utils {
 
 			if (projectName != null) {
 				ProjectManager.getInstance().loadProject(projectName, context, false);
-			} else if (ProjectManager.getInstance().canLoadProject(context.getString(R.string.default_project_name))) {
-				ProjectManager.getInstance().loadProject(context.getString(R.string.default_project_name), context,
-						false);
+			} else if (ProjectManager.getInstance().loadProject(context.getString(R.string.default_project_name),
+					context, false)) {
 			} else {
 				ProjectManager.getInstance().initializeDefaultProject(context);
 			}
@@ -310,6 +316,26 @@ public class Utils {
 
 	public static String deleteSpecialCharactersInString(String stringToAdapt) {
 		return stringToAdapt.replaceAll("[\"*/:<>?\\\\|]", "");
+	}
+
+	public static String getUniqueObjectName(String name) {
+		return searchForNonExistingObjectNameInCurrentProgram(name, 0);
+	}
+
+	private static String searchForNonExistingObjectNameInCurrentProgram(String name, int nextNumber) {
+		String newName;
+
+		if (nextNumber == 0) {
+			newName = name;
+		} else {
+			newName = name + nextNumber;
+		}
+
+		if (ProjectManager.getInstance().spriteExists(newName)) {
+			return searchForNonExistingObjectNameInCurrentProgram(name, ++nextNumber);
+		}
+
+		return newName;
 	}
 
 	public static String getUniqueLookName(String name) {
@@ -341,8 +367,8 @@ public class Utils {
 
 		List<String> projectNameList = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT));
 		for (String projectName : projectNameList) {
-			if (ProjectManager.getInstance().canLoadProject(projectName)) {
-				loadableProject = StorageHandler.getInstance().loadProject(projectName);
+			loadableProject = StorageHandler.getInstance().loadProject(projectName);
+			if (loadableProject != null) {
 				break;
 			}
 		}
@@ -366,14 +392,6 @@ public class Utils {
 		return newTitle;
 	}
 
-	public static boolean isApplicationDebuggable(Context context) {
-		if (isUnderTest) {
-			return false;
-		} else {
-			return BuildConfig.DEBUG;
-		}
-	}
-
 	public static Pixmap getPixmapFromFile(File imageFile) {
 		Pixmap pixmap = null;
 		try {
@@ -385,6 +403,24 @@ public class Utils {
 			return null;
 		}
 		return pixmap;
+	}
+
+	public static void rewriteImageFileForStage(Context context, File lookFile) throws IOException {
+		// if pixmap cannot be created, image would throw an Exception in stage
+		// so has to be loaded again with other Config
+		Pixmap pixmap = null;
+		pixmap = Utils.getPixmapFromFile(lookFile);
+
+		if (pixmap == null) {
+			ImageEditing.overwriteImageFileWithNewBitmap(lookFile);
+			pixmap = Utils.getPixmapFromFile(lookFile);
+
+			if (pixmap == null) {
+				Utils.showErrorDialog(context, R.string.error_load_image);
+				StorageHandler.getInstance().deleteFile(lookFile.getAbsolutePath());
+				throw new IOException("Pixmap could not be fixed");
+			}
+		}
 	}
 
 	public static String getUniqueProjectName() {

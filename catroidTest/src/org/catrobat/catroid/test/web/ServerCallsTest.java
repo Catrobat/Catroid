@@ -271,7 +271,7 @@ public class ServerCallsTest extends AndroidTestCase {
 		File zipFile = null;
 		try {
 			Project project = TestUtils
-					.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION);
+					.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 
 			Reflection.setPrivateField(project.getXmlHeader(), "applicationVersion", "0.7.3beta");
 			StorageHandler.getInstance().saveProject(project);

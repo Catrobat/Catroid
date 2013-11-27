@@ -70,6 +70,18 @@
     <!--  -->
 
 
+    <!-- New Object Dialog -->
+    <string name="dialog_new_object_look_header">with Look from…</string>
+    <string name="dialog_new_object_pocketpaint">Pocket Paint</string>
+    <string name="dialog_new_object_gallery">Gallery</string>
+    <string name="dialog_new_object_camera">Camera</string>
+    <string name="dialog_new_object_look_preview">look preview</string>
+    <string name="dialog_new_object_name">Object name</string>
+    <string name="dialog_new_object_switch_title">New Object created</string>
+    <string name="dialog_new_object_switch_message">Switch to new Object?</string>
+    <!--  -->
+
+
     <!-- About Dialog -->
     <string name="dialog_about_title">About Pocket Code</string>
     <string name="dialog_about_license_info">Pocket Code is a programming 
@@ -444,6 +456,7 @@
     <string name="error_load_sound">An error occurred while loading the sound.</string>
     <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
     <string name="error_project_compatability">The program is not compatible with this version of Pocket Code.</string>
+    <string name="error_outdated_pocketcode_version">The Pocket Code version is too old. Update now?</string>
     <string name="error_copy_project">An error occurred while copying the program.</string>
     <string name="error_upload_project_with_default_name">You cannot upload a program with the name \'My first program\'. Please rename the program.</string>
     <string name="error_upload_default_project">You cannot upload this program because it is the same as \'My first program\'. Please modify it, and try again.</string>

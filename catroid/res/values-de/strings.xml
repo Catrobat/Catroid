@@ -70,6 +70,18 @@
     <!--  -->
 
 
+    <!-- New Object Dialog -->
+    <string name="dialog_new_object_look_header">mit Aussehen von…</string>
+    <string name="dialog_new_object_pocketpaint">Pocket Paint</string>
+    <string name="dialog_new_object_gallery">Galerie</string>
+    <string name="dialog_new_object_camera">Kamera</string>
+    <string name="dialog_new_object_look_preview">Vorschau Aussehen</string>
+    <string name="dialog_new_object_name">Objekt Name</string>
+    <string name="dialog_new_object_switch_title">Neues Objekt erstellt</string>
+    <string name="dialog_new_object_switch_message">Zu neuem Objekt wechseln?</string>
+    <!--  -->
+
+
     <!-- About Dialog -->
     <string name="dialog_about_title">Über Pocket Code</string>
     <string name="dialog_about_license_info">Pocket Code ist eine Programmierumgebung für Android-Geräte für die grafische
@@ -443,6 +455,7 @@
     <string name="error_load_sound">Beim Laden des Audiofiles ist ein Fehler aufgetreten.</string>
     <string name="error_internet_connection">Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
     <string name="error_project_compatability">Das Programm ist nicht mit dieser Version von Pocket Code kompatibel.</string>
+    <string name="error_outdated_pocketcode_version">Die Pocket Code Version ist zu alt. Jetzt updaten?</string>
     <string name="error_copy_project">Beim kopieren des Programms ist ein Fehler aufgetreten.</string>
     <string name="error_upload_project_with_default_name">Das Programm mit dem Namen \'Mein erstes Programm\' kann nicht hochgeladen werden. Bitte das Programm umbenennen.</string>
     <string name="error_upload_default_project">Das Programm entspricht dem Programm \'Mein erstes Programm\'. Bitte ändere es und versuche es noch einmal.</string>

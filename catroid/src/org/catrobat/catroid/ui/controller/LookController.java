@@ -44,7 +44,6 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.graphics.Pixmap;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -356,6 +355,7 @@ public class LookController {
 
 	public boolean checkIfPocketPaintIsInstalled(Intent intent, final Activity activity) {
 		// Confirm if Pocket Paint is installed else start dialog --------------------------
+
 		List<ResolveInfo> packageList = activity.getPackageManager().queryIntentActivities(intent,
 				PackageManager.MATCH_DEFAULT_ONLY);
 
@@ -366,16 +366,9 @@ public class LookController {
 					.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int id) {
-
-							if (BuildConfig.DEBUG) {
-								Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, Uri
-										.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK_NIGHTLY));
-								activity.startActivity(downloadPocketPaintIntent);
-							} else {
-								Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, Uri
-										.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK));
-								activity.startActivity(downloadPocketPaintIntent);
-							}
+							Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, Uri
+									.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK));
+							activity.startActivity(downloadPocketPaintIntent);
 						}
 					}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 						@Override

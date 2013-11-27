@@ -79,8 +79,8 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		solo.sleep(1400);
 		byte[] screenArray = StageActivity.stageListener.getPixels(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-		UiTestUtils.comparePixelArrayWithPixelScreenArrayWithTolerance(WHITE_PIXEL, screenArray, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT,
-				0);
+		UiTestUtils.comparePixelArrayWithPixelScreenArrayWithTolerance(WHITE_PIXEL, screenArray, 0, 0, SCREEN_WIDTH,
+				SCREEN_HEIGHT, 0);
 
 		UiTestUtils
 				.comparePixelArrayWithPixelScreenArray(RED_PIXEL, screenArray, -41, -41, SCREEN_WIDTH, SCREEN_HEIGHT);

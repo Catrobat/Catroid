@@ -126,7 +126,7 @@ public class SetSizeToBrick extends BrickBaseType implements OnClickListener, Fo
 
 		if (view != null) {
 
-			View layout = (View) view.findViewById(R.id.brick_set_size_to_layout);
+			View layout = view.findViewById(R.id.brick_set_size_to_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 

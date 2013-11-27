@@ -59,5 +59,9 @@
         android:id="@+id/settings"
         android:showAsAction="never"
         android:title="@string/settings"/>
-
-</menu>
+    <item
+        android:id="@+id/upload"
+        android:showAsAction="never"
+        android:title="@string/upload_button">
+    </item>
+</menu>
