@@ -42,6 +42,10 @@ def getVersionName = { ->
     return versionName
 }
 
+def gitDescribe() {
+    return 'git describe --tags'.execute().text.trim()
+}
+
 
 android {
     compileSdkVersion 18
@@ -55,6 +59,9 @@ android {
 	testInstrumentationRunner "pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
 	versionCode getVersionCode()
 	versionName getVersionName()
+	buildConfig """\
+            public static final String GIT_DESCRIBE = "${gitDescribe()}";
+        """
     }
 
     sourceSets {
