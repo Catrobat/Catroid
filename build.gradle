@@ -1,3 +1,5 @@
+import java.util.regex.Pattern
+
 buildscript {
     repositories {
         mavenLocal()
@@ -96,3 +98,19 @@ task jenkins() << {
     }
 }
 
+task testManifestHack() << {
+    def origManifest = file('catroidTest/AndroidManifest.xml')
+    def generatedManifest = file("build/manifests/test/AndroidManifest.xml")
+    def origContent = origManifest.getText()
+    def generatedContent = generatedManifest.getText()
+    def pattern = Pattern.compile("<application.*?>.*?</application>", Pattern.DOTALL)
+    def matcher = pattern.matcher(origContent)
+    matcher.find()
+    origContent =  matcher.group()
+    generatedContent = pattern.matcher(generatedContent).replaceAll(origContent)
+    generatedManifest.write(generatedContent)
+}
+
+gradle.projectsEvaluated {
+    packageTest.dependsOn testManifestHack
+}
