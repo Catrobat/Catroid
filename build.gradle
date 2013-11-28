@@ -112,5 +112,5 @@ task testManifestHack() << {
 }
 
 gradle.projectsEvaluated {
-    packageTest.dependsOn testManifestHack
+    generateTestBuildConfig.dependsOn testManifestHack
 }
