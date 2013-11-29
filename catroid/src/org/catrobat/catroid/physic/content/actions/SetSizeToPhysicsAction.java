@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.physic.content.actions;
 
-import org.catrobat.catroid.content.actions.SetSizeToAction;
+import org.catrobat.catroid.content.actions.conditional.SetSizeToAction;
 import org.catrobat.catroid.physic.PhysicsObject;
 import org.catrobat.catroid.physic.PhysicsWorld;
 

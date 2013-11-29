@@ -27,7 +27,7 @@ import android.test.AndroidTestCase;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.PointToAction;
+import org.catrobat.catroid.content.actions.conditional.PointToAction;
 
 public class PointToActionTest extends AndroidTestCase {
 
