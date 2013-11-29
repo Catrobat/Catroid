@@ -44,7 +44,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
@@ -85,7 +84,8 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setVariable(sprite, variableFormula, userVariable));
+		// sequence.addAction(ExtendedActions.setVariable(sprite, variableFormula, userVariable));
+		sequence.addAction(sprite.getActionFactory().createSetVariableAction(sprite, variableFormula, userVariable)); // TODO[physic]
 		return null;
 	}
 
