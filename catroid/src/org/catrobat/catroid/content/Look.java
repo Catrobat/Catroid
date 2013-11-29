@@ -39,14 +39,14 @@ import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
-import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.physic.content.ActionFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
 public class Look extends Image {
-	public static final float DEGREE_UI_OFFSET = 90.0f; //TODO[TafPhil]: private -> public
+	public static final float DEGREE_UI_OFFSET = 90.0f; //TODO[physic]: private -> public
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
 	protected LookData lookData;
@@ -166,8 +166,8 @@ public class Look extends Image {
 				ArrayList<SequenceAction> actionList = new ArrayList<SequenceAction>();
 				for (SequenceAction broadcastAction : broadcastSequenceMap.get(broadcastMessage)) {
 					event.raiseNumberOfReceivers();
-					SequenceAction broadcastWaitAction = ExtendedActions.sequence(broadcastAction,
-							ExtendedActions.broadcastNotify(event));
+					SequenceAction broadcastWaitAction = ActionFactory.sequence(broadcastAction, //TODO[physic] ExtendedActions.sequence() -> ActionFactory.sequence()
+							sprite.getActionFactory().createBroadcastNotifyAction(event)); //TODO[physic] ExtendedActions.broadcastNotify(event) 
 					actionList.add(broadcastWaitAction);
 					addAction(broadcastWaitAction);
 				}

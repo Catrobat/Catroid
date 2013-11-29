@@ -24,9 +24,9 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ChangeBrightnessByNAction;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 public class ChangeBrightnessByNActionTest extends AndroidTestCase {
@@ -42,7 +42,8 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 		float brightness = sprite.look.getBrightnessInUserInterfaceDimensionUnit();
 		brightness += brighter.interpretDouble(sprite);
 
-		ChangeBrightnessByNAction action1 = ExtendedActions.changeBrightnessByN(sprite, brighter);
+		//ChangeBrightnessByNAction action1 = ExtendedActions.changeBrightnessByN(sprite, brighter);
+		Action action1 = sprite.getActionFactory().createChangeBrightnessByNAction(sprite, brighter); // TODO[physic] 
 		sprite.look.addAction(action1);
 		action1.act(1.0f);
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", brightness,
@@ -51,7 +52,8 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 		brightness = sprite.look.getBrightnessInUserInterfaceDimensionUnit();
 		brightness += dimmer.interpretDouble(sprite);
 
-		ChangeBrightnessByNAction action2 = ExtendedActions.changeBrightnessByN(sprite, dimmer);
+		//ChangeBrightnessByNAction action2 = ExtendedActions.changeBrightnessByN(sprite, dimmer);
+		Action action2 = sprite.getActionFactory().createChangeBrightnessByNAction(sprite, dimmer); // TODO[physic] 
 		sprite.look.addAction(action2);
 		action2.act(1.0f);
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", brightness,
@@ -59,7 +61,8 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 	}
 
 	public void testNullSprite() {
-		ChangeBrightnessByNAction action = ExtendedActions.changeBrightnessByN(null, brighter);
+		//ChangeBrightnessByNAction action = ExtendedActions.changeBrightnessByN(null, brighter);
+		Action action = sprite.getActionFactory().createChangeBrightnessByNAction(null, dimmer); // TODO[physic] ExtendedActions
 		try {
 			action.act(1.0f);
 			fail("Execution of ChangeBrightnessByNBrick with null Sprite did not cause a NullPointerException to be thrown");

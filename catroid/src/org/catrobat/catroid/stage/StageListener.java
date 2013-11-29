@@ -351,7 +351,7 @@ public class StageListener implements ApplicationListener {
 				float optimizedDeltaTime = deltaTime / deltaActionTimeDivisor;
 				long timeBeforeActionsUpdate = SystemClock.uptimeMillis();
 				while (deltaTime > 0f) {
-					physicsWorld.step(optimizedDeltaTime); //TODO[physic]
+					physicsWorld.step(optimizedDeltaTime); // TODO[physic]
 					stage.act(optimizedDeltaTime);
 					deltaTime -= optimizedDeltaTime;
 				}
