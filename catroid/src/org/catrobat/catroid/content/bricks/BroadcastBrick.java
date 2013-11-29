@@ -44,7 +44,6 @@ import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import java.util.List;
@@ -227,7 +226,8 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.broadcast(sprite, broadcastMessage));
+		//sequence.addAction(ExtendedActions.broadcast(sprite, broadcastMessage));
+		sequence.addAction(sprite.getActionFactory().createBroadcastAction(sprite, broadcastMessage)); //TODO[physic]:
 		return null;
 	}
 }

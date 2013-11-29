@@ -39,8 +39,8 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.physic.content.ActionFactory;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.ArrayList;
@@ -221,9 +221,10 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener, 
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		SequenceAction ifAction = ExtendedActions.sequence();
-		SequenceAction elseAction = ExtendedActions.sequence();
-		Action action = ExtendedActions.ifLogc(sprite, ifCondition, ifAction, elseAction); //TODO finish!!!
+		SequenceAction ifAction = ActionFactory.sequence(); // TODO[physic] ExtendedActions- > ActionFactory
+		SequenceAction elseAction = ActionFactory.sequence(); // TODO[physic] ExtendedActions- > ActionFactory
+		// Action action = ExtendedActions.ifLogc(sprite, ifCondition, ifAction, elseAction); //TODO finish!!!
+		Action action = sprite.getActionFactory().createIfLogcAction(sprite, ifCondition, ifAction, elseAction); // TODO[physic]
 		sequence.addAction(action);
 
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
