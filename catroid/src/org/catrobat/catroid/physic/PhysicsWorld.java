@@ -118,6 +118,7 @@ public class PhysicsWorld {
 
 		PhysicsObject physicsObject = createPhysicObject();
 		physicsObjects.put(sprite, physicsObject);
+		changeLook(physicsObject, sprite.look);
 
 		return physicsObject;
 	}
