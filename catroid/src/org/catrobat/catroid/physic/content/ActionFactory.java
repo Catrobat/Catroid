@@ -26,6 +26,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
@@ -35,50 +36,76 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.BroadcastAction;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
 import org.catrobat.catroid.content.actions.ChangeBrightnessByNAction;
-import org.catrobat.catroid.content.actions.ChangeGhostEffectByNAction;
-import org.catrobat.catroid.content.actions.ChangeSizeByNAction;
 import org.catrobat.catroid.content.actions.ChangeVariableAction;
 import org.catrobat.catroid.content.actions.ChangeVolumeByNAction;
-import org.catrobat.catroid.content.actions.ChangeXByNAction;
-import org.catrobat.catroid.content.actions.ChangeYByNAction;
 import org.catrobat.catroid.content.actions.ClearGraphicEffectAction;
 import org.catrobat.catroid.content.actions.ComeToFrontAction;
-import org.catrobat.catroid.content.actions.GlideToAction;
+import org.catrobat.catroid.content.actions.DroneFlipAction;
+import org.catrobat.catroid.content.actions.DroneMoveBackwardAction;
+import org.catrobat.catroid.content.actions.DroneMoveDownAction;
+import org.catrobat.catroid.content.actions.DroneMoveForwardAction;
+import org.catrobat.catroid.content.actions.DroneMoveLeftAction;
+import org.catrobat.catroid.content.actions.DroneMoveRightAction;
+import org.catrobat.catroid.content.actions.DroneMoveUpAction;
+import org.catrobat.catroid.content.actions.DronePlayLedAnimationAction;
+import org.catrobat.catroid.content.actions.DroneTakeoffAction;
+import org.catrobat.catroid.content.actions.DroneTurnLeftAction;
+import org.catrobat.catroid.content.actions.DroneTurnLeftWithMagnetometerAction;
+import org.catrobat.catroid.content.actions.DroneTurnRightAction;
+import org.catrobat.catroid.content.actions.DroneTurnRightWithMagnetometerAction;
 import org.catrobat.catroid.content.actions.GoNStepsBackAction;
-import org.catrobat.catroid.content.actions.HideAction;
 import org.catrobat.catroid.content.actions.IfLogicAction;
-import org.catrobat.catroid.content.actions.IfOnEdgeBounceAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorActionAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorStopAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorTurnAngleAction;
 import org.catrobat.catroid.content.actions.LegoNxtPlayToneAction;
-import org.catrobat.catroid.content.actions.MoveNStepsAction;
-import org.catrobat.catroid.content.actions.NextLookAction;
 import org.catrobat.catroid.content.actions.PlaySoundAction;
-import org.catrobat.catroid.content.actions.PointInDirectionAction;
-import org.catrobat.catroid.content.actions.PointToAction;
 import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
-import org.catrobat.catroid.content.actions.SetGhostEffectAction;
-import org.catrobat.catroid.content.actions.SetLookAction;
-import org.catrobat.catroid.content.actions.SetSizeToAction;
 import org.catrobat.catroid.content.actions.SetVariableAction;
 import org.catrobat.catroid.content.actions.SetVolumeToAction;
-import org.catrobat.catroid.content.actions.SetXAction;
-import org.catrobat.catroid.content.actions.SetYAction;
-import org.catrobat.catroid.content.actions.ShowAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
-import org.catrobat.catroid.content.actions.TurnLeftAction;
-import org.catrobat.catroid.content.actions.TurnRightAction;
 import org.catrobat.catroid.content.actions.WaitAction;
+import org.catrobat.catroid.content.actions.conditional.ChangeGhostEffectByNAction;
+import org.catrobat.catroid.content.actions.conditional.ChangeSizeByNAction;
+import org.catrobat.catroid.content.actions.conditional.ChangeXByNAction;
+import org.catrobat.catroid.content.actions.conditional.ChangeYByNAction;
+import org.catrobat.catroid.content.actions.conditional.GlideToAction;
+import org.catrobat.catroid.content.actions.conditional.HideAction;
+import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
+import org.catrobat.catroid.content.actions.conditional.MoveNStepsAction;
+import org.catrobat.catroid.content.actions.conditional.NextLookAction;
+import org.catrobat.catroid.content.actions.conditional.PointInDirectionAction;
+import org.catrobat.catroid.content.actions.conditional.PointToAction;
+import org.catrobat.catroid.content.actions.conditional.SetGhostEffectAction;
+import org.catrobat.catroid.content.actions.conditional.SetLookAction;
+import org.catrobat.catroid.content.actions.conditional.SetSizeToAction;
+import org.catrobat.catroid.content.actions.conditional.SetXAction;
+import org.catrobat.catroid.content.actions.conditional.SetYAction;
+import org.catrobat.catroid.content.actions.conditional.ShowAction;
+import org.catrobat.catroid.content.actions.conditional.TurnLeftAction;
+import org.catrobat.catroid.content.actions.conditional.TurnRightAction;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick.Motor;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physic.PhysicsObject;
 
-public class ActionFactory {
+public class ActionFactory extends Actions {
+
+	public Action createWaitAction(Sprite sprite, Formula delay) {
+		WaitAction action = action(WaitAction.class);
+		action.setSprite(sprite);
+		action.setDelay(delay);
+		return action;
+	}
+
+	public Action createClearGraphicEffectAction(Sprite sprite) {
+		ClearGraphicEffectAction action = action(ClearGraphicEffectAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
 
 	public Action createBroadcastAction(Sprite sprite, String broadcastMessage) {
 		BroadcastAction action = Actions.action(BroadcastAction.class);
@@ -433,4 +460,101 @@ public class ActionFactory {
 	public Action createSetFrictionAction(Sprite sprite, Formula friction) {
 		throw new RuntimeException("No physics action available in non-physics sprite!");
 	}
+
+	public static TemporalAction droneTakeOff() {
+		return action(DroneTakeoffAction.class);
+	}
+
+	public static TemporalAction droneLand() {
+		return action(DroneTakeoffAction.class);
+	}
+
+	public static TemporalAction droneMoveUp(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneMoveUpAction action = action(DroneMoveUpAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneMoveDown(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneMoveDownAction action = action(DroneMoveDownAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneMoveLeft(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneMoveLeftAction action = action(DroneMoveLeftAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneMoveRight(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneMoveRightAction action = action(DroneMoveRightAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneMoveForward(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneMoveForwardAction action = action(DroneMoveForwardAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneMoveBackward(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneMoveBackwardAction action = action(DroneMoveBackwardAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneTurnRight(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneTurnRightAction action = action(DroneTurnRightAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneTurnLeft(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneTurnLeftAction action = action(DroneTurnLeftAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneTurnLeftMagneto(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneTurnLeftWithMagnetometerAction action = action(DroneTurnLeftWithMagnetometerAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneTurnRightMagneto(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneTurnRightWithMagnetometerAction action = action(DroneTurnRightWithMagnetometerAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction dronePlayLedAnimation() {
+		return action(DronePlayLedAnimationAction.class);
+	}
+
+	public static TemporalAction droneFlip() {
+		return action(DroneFlipAction.class);
+	}
+
 }

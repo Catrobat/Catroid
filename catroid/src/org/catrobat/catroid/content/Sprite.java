@@ -32,7 +32,6 @@ import org.catrobat.catroid.common.BroadcastSequenceMap;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
@@ -190,7 +189,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void createWhenScriptActionSequence(String action) {
-		ParallelAction whenParallelAction = ExtendedActions.parallel();
+		ParallelAction whenParallelAction = ActionFactory.parallel(); //TODO[physic] ExtendedActions -> ActionFactory
 		for (Script s : scriptList) {
 			if (s instanceof WhenScript && (((WhenScript) s).getAction().equalsIgnoreCase(action))) {
 				SequenceAction sequence = createActionSequence(s);
@@ -207,13 +206,13 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	private SequenceAction createActionSequence(Script s) {
-		SequenceAction sequence = ExtendedActions.sequence();
+		SequenceAction sequence = ActionFactory.sequence(); //TODO[physic] ExtendedActions -> ActionFactory
 		s.run(sequence);
 		return sequence;
 	}
 
 	public void startScriptBroadcast(Script s, boolean overload) {
-		SequenceAction sequence = ExtendedActions.sequence();
+		SequenceAction sequence = ActionFactory.sequence(); //TODO[physic] ExtendedActions -> ActionFactory
 		s.run(sequence);
 		look.addAction(sequence);
 	}
