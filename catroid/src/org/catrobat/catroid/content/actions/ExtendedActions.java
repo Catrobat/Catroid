@@ -25,13 +25,31 @@ package org.catrobat.catroid.content.actions;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.conditional.ChangeGhostEffectByNAction;
+import org.catrobat.catroid.content.actions.conditional.ChangeSizeByNAction;
+import org.catrobat.catroid.content.actions.conditional.ChangeXByNAction;
+import org.catrobat.catroid.content.actions.conditional.ChangeYByNAction;
+import org.catrobat.catroid.content.actions.conditional.GlideToAction;
+import org.catrobat.catroid.content.actions.conditional.HideAction;
+import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
+import org.catrobat.catroid.content.actions.conditional.MoveNStepsAction;
+import org.catrobat.catroid.content.actions.conditional.NextLookAction;
+import org.catrobat.catroid.content.actions.conditional.PointInDirectionAction;
+import org.catrobat.catroid.content.actions.conditional.PointToAction;
+import org.catrobat.catroid.content.actions.conditional.SetGhostEffectAction;
+import org.catrobat.catroid.content.actions.conditional.SetLookAction;
+import org.catrobat.catroid.content.actions.conditional.SetSizeToAction;
+import org.catrobat.catroid.content.actions.conditional.SetXAction;
+import org.catrobat.catroid.content.actions.conditional.SetYAction;
+import org.catrobat.catroid.content.actions.conditional.ShowAction;
+import org.catrobat.catroid.content.actions.conditional.TurnLeftAction;
+import org.catrobat.catroid.content.actions.conditional.TurnRightAction;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -350,101 +368,4 @@ public class ExtendedActions extends Actions {
 		action.setSprite(sprite);
 		return action;
 	}
-
-	public static TemporalAction droneTakeOff() {
-		return action(DroneTakeoffAction.class);
-	}
-
-	public static TemporalAction droneLand() {
-		return action(DroneTakeoffAction.class);
-	}
-
-	public static TemporalAction droneMoveUp(Sprite sprite, Formula seconds, Formula powerInPercent) {
-		DroneMoveUpAction action = action(DroneMoveUpAction.class);
-		action.setSprite(sprite);
-		action.setDelay(seconds);
-		action.setPower(powerInPercent);
-		return action;
-	}
-
-	public static TemporalAction droneMoveDown(Sprite sprite, Formula seconds, Formula powerInPercent) {
-		DroneMoveDownAction action = action(DroneMoveDownAction.class);
-		action.setSprite(sprite);
-		action.setDelay(seconds);
-		action.setPower(powerInPercent);
-		return action;
-	}
-
-	public static TemporalAction droneMoveLeft(Sprite sprite, Formula seconds, Formula powerInPercent) {
-		DroneMoveLeftAction action = action(DroneMoveLeftAction.class);
-		action.setSprite(sprite);
-		action.setDelay(seconds);
-		action.setPower(powerInPercent);
-		return action;
-	}
-
-	public static TemporalAction droneMoveRight(Sprite sprite, Formula seconds, Formula powerInPercent) {
-		DroneMoveRightAction action = action(DroneMoveRightAction.class);
-		action.setSprite(sprite);
-		action.setDelay(seconds);
-		action.setPower(powerInPercent);
-		return action;
-	}
-
-	public static TemporalAction droneMoveForward(Sprite sprite, Formula seconds, Formula powerInPercent) {
-		DroneMoveForwardAction action = action(DroneMoveForwardAction.class);
-		action.setSprite(sprite);
-		action.setDelay(seconds);
-		action.setPower(powerInPercent);
-		return action;
-	}
-
-	public static TemporalAction droneMoveBackward(Sprite sprite, Formula seconds, Formula powerInPercent) {
-		DroneMoveBackwardAction action = action(DroneMoveBackwardAction.class);
-		action.setSprite(sprite);
-		action.setDelay(seconds);
-		action.setPower(powerInPercent);
-		return action;
-	}
-
-	public static TemporalAction droneTurnRight(Sprite sprite, Formula seconds, Formula powerInPercent) {
-		DroneTurnRightAction action = action(DroneTurnRightAction.class);
-		action.setSprite(sprite);
-		action.setDelay(seconds);
-		action.setPower(powerInPercent);
-		return action;
-	}
-
-	public static TemporalAction droneTurnLeft(Sprite sprite, Formula seconds, Formula powerInPercent) {
-		DroneTurnLeftAction action = action(DroneTurnLeftAction.class);
-		action.setSprite(sprite);
-		action.setDelay(seconds);
-		action.setPower(powerInPercent);
-		return action;
-	}
-
-	public static TemporalAction droneTurnLeftMagneto(Sprite sprite, Formula seconds, Formula powerInPercent) {
-		DroneTurnLeftWithMagnetometerAction action = action(DroneTurnLeftWithMagnetometerAction.class);
-		action.setSprite(sprite);
-		action.setDelay(seconds);
-		action.setPower(powerInPercent);
-		return action;
-	}
-
-	public static TemporalAction droneTurnRightMagneto(Sprite sprite, Formula seconds, Formula powerInPercent) {
-		DroneTurnRightWithMagnetometerAction action = action(DroneTurnRightWithMagnetometerAction.class);
-		action.setSprite(sprite);
-		action.setDelay(seconds);
-		action.setPower(powerInPercent);
-		return action;
-	}
-
-	public static TemporalAction dronePlayLedAnimation() {
-		return action(DronePlayLedAnimationAction.class);
-	}
-
-	public static TemporalAction droneFlip() {
-		return action(DroneFlipAction.class);
-	}
-
 }

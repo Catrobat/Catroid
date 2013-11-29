@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.physic.content.actions;
 
-import org.catrobat.catroid.content.actions.NextLookAction;
+import org.catrobat.catroid.content.actions.conditional.NextLookAction;
 import org.catrobat.catroid.physic.PhysicsObject;
 import org.catrobat.catroid.physic.PhysicsWorld;
 
