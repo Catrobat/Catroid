@@ -31,8 +31,10 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physic.shapebuilder.PhysicsShapeBuilder;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -53,6 +55,7 @@ public class PhysicsWorld {
 
 	private final World world = new World(PhysicsWorld.DEFAULT_GRAVITY, PhysicsWorld.IGNORE_SLEEPING_OBJECTS);
 	private final Map<Sprite, PhysicsObject> physicsObjects = new HashMap<Sprite, PhysicsObject>();
+	private final ArrayList<Sprite> hangupPhysicsObjects = new ArrayList<Sprite>();
 	private Box2DDebugRenderer renderer;
 	private int stabilizingStep = 0;
 
@@ -79,8 +82,12 @@ public class PhysicsWorld {
 		PhysicsObject physicsObject;
 		Look look;
 		for (Entry<Sprite, PhysicsObject> entry : physicsObjects.entrySet()) {
+
 			physicsObject = entry.getValue();
 			physicsObject.setIfOnEdgeBounce(false);
+			if (hangupPhysicsObjects.contains(entry.getKey())) {
+				continue;
+			}
 
 			look = entry.getKey().look;
 			look.setXInUserInterfaceDimensionUnit(physicsObject.getX());
@@ -107,6 +114,17 @@ public class PhysicsWorld {
 				look.getSizeInUserInterfaceDimensionUnit() / 100f));
 	}
 
+	public void changeLook(Sprite sprite) {
+		PhysicsObject physicsObject = getPhysicObject(sprite);
+		physicsObject.setShape(physicsShapeBuilder.getShape(sprite.look.getLookData(),
+				sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f));
+
+		physicsObject.setX(new Formula(-sprite.look.getX()).interpretFloat(sprite));
+		physicsObject.setY(new Formula(sprite.look.getY()).interpretFloat(sprite));
+		physicsObject.setDirection(sprite.look.getDirectionInUserInterfaceDimensionUnit());
+
+	}
+
 	public PhysicsObject getPhysicObject(Sprite sprite) {
 		if (sprite == null) {
 			throw new NullPointerException();
@@ -118,7 +136,6 @@ public class PhysicsWorld {
 
 		PhysicsObject physicsObject = createPhysicObject();
 		physicsObjects.put(sprite, physicsObject);
-		changeLook(physicsObject, sprite.look);
 
 		return physicsObject;
 	}
@@ -126,7 +143,20 @@ public class PhysicsWorld {
 	private PhysicsObject createPhysicObject() {
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.bullet = true;
-
 		return new PhysicsObject(world.createBody(bodyDef));
+	}
+
+	public void hangup(Sprite sprite) {
+		if (physicsObjects.containsKey(sprite)) {
+			PhysicsObject physicObject = getPhysicObject(sprite);
+			world.destroyBody(physicObject.getBody());
+			physicsObjects.remove(sprite);
+		}
+	}
+
+	public void resume(Sprite sprite) {
+		if (!physicsObjects.containsKey(sprite)) {
+			changeLook(sprite);
+		}
 	}
 }
