@@ -143,11 +143,11 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			case R.id.menu_rate_app:
 				launchMarket();
 				return true;
-			case R.id.menu_about: {
+			case R.id.menu_about:
 				AboutDialogFragment aboutDialog = new AboutDialogFragment();
 				aboutDialog.show(getSupportFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
 				return true;
-			}
+
 		}
 		return super.onOptionsItemSelected(item);
 	}

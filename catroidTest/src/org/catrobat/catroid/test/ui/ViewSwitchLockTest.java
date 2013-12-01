@@ -67,7 +67,7 @@ public class ViewSwitchLockTest extends AndroidTestCase {
 	}
 
 	public void testDefaultSettings() {
-		assertEquals("Wrong default setting", 200l, Reflection.getPrivateField(ViewSwitchLock.class, "UNLOCK_TIMEOUT"));
+		assertEquals("Wrong default setting", 200L, Reflection.getPrivateField(ViewSwitchLock.class, "UNLOCK_TIMEOUT"));
 	}
 
 	public void testUnsupportedMethods() {
@@ -97,7 +97,7 @@ public class ViewSwitchLockTest extends AndroidTestCase {
 		}
 
 		try {
-			viewSwitchLock.tryLock(1l, null);
+			viewSwitchLock.tryLock(1L, null);
 			fail("Method is supported");
 		} catch (UnsupportedOperationException unsupportedOperationException) {
 			// Expected behavior

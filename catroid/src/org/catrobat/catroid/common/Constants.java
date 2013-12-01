@@ -89,4 +89,9 @@ public final class Constants {
 	public static final int UPLOAD_NOTIFICATION = 102;
 	public static final int DOWNLOAD_NOTIFICATION = 103;
 	public static final int COPY_NOTIFICATION = 104;
+
+	// Suppress default constructor for noninstantiability
+	private Constants() {
+		throw new AssertionError();
+	}
 }

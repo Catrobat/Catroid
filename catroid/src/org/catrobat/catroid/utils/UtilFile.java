@@ -41,9 +41,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class UtilFile {
+public final class UtilFile {
 	public enum FileType {
 		TYPE_IMAGE_FILE, TYPE_SOUND_FILE
+	}
+
+	// Suppress default constructor for noninstantiability
+	private UtilFile() {
+		throw new AssertionError();
 	}
 
 	private static long getSizeOfFileOrDirectoryInByte(File fileOrDirectory) {

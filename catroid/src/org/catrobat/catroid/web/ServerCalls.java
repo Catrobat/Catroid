@@ -40,7 +40,7 @@ import java.util.HashMap;
 
 //web status codes are on: https://github.com/Catrobat/Catroweb/blob/master/statusCodes.php
 
-public class ServerCalls {
+public final class ServerCalls {
 
 	private static final String TAG = "ServerCalls";
 
@@ -91,7 +91,7 @@ public class ServerCalls {
 	private String emailForUiTests;
 	private int uploadStatusCode;
 
-	protected ServerCalls() {
+	private ServerCalls() {
 		connection = new ConnectionWrapper();
 	}
 

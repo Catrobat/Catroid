@@ -85,7 +85,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	private Script scriptToDelete;
 
 	private boolean firstDrag;
-	private int fromBeginDrag, toEndDrag;
+	private int fromBeginDrag;
+	private int toEndDrag;
 	private boolean retryScriptDragging;
 	private boolean showDetails = false;
 
@@ -614,7 +615,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		if (addingNewBrick) {
 			brickList.remove(draggedBrick);
 		} else {
-			int temp[] = getScriptAndBrickIndexFromProject(index);
+			int[] temp = getScriptAndBrickIndexFromProject(index);
 			Script script = ProjectManager.getInstance().getCurrentSprite().getScript(temp[0]);
 			if (script != null) {
 

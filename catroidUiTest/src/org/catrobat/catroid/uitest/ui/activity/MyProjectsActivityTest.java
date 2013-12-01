@@ -1258,7 +1258,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	public void testProjectDetailsLastAccess() {
 		String showDetailsText = solo.getString(R.string.show_details);
 
-		Date date = new Date(1357038000000l);
+		Date date = new Date(1357038000000L);
 		DateFormat mediumDateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
 
 		// sometimes standard project is not created for some reason!
