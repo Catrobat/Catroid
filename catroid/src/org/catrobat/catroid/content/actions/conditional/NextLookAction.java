@@ -43,6 +43,9 @@ public class NextLookAction extends TemporalAction implements PhysicActionExtens
 			LookData currentLookData = sprite.look.getLookData();
 			int newIndex = (lookDataList.indexOf(currentLookData) + 1) % lookDataListSize;
 			sprite.look.setLookData(lookDataList.get(newIndex));
+			physicsUpdateHook();
+		} else {
+			// If there are no looks do nothing
 		}
 	}
 

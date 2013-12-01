@@ -28,12 +28,14 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.conditional.HideAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physic.PhysicsObject;
 import org.catrobat.catroid.physic.PhysicsObject.Type;
 import org.catrobat.catroid.physic.PhysicsWorld;
 import org.catrobat.catroid.physic.content.actions.ChangeSizeByNPhysicsAction;
 import org.catrobat.catroid.physic.content.actions.ChangeXByNPhysicsAction;
+import org.catrobat.catroid.physic.content.actions.GlideToPhysicsAction;
 import org.catrobat.catroid.physic.content.actions.IfOnEdgeBouncePhysicsAction;
 import org.catrobat.catroid.physic.content.actions.MoveNStepsPhysicsAction;
 import org.catrobat.catroid.physic.content.actions.NextLookPhysicsAction;
@@ -66,6 +68,13 @@ public class ActionPhysicsFactory extends ActionFactory {
 	}
 
 	@Override
+	public Action createHideAction(Sprite sprite) {
+		HideAction action = Actions.action(HideAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	@Override
 	public Action createChangeSizeByNAction(Sprite sprite, Formula size) {
 		ChangeSizeByNPhysicsAction action = Actions.action(ChangeSizeByNPhysicsAction.class);
 		action.setSprite(sprite);
@@ -95,8 +104,12 @@ public class ActionPhysicsFactory extends ActionFactory {
 
 	@Override
 	public Action createGlideToAction(Sprite sprite, Formula x, Formula y, Formula duration) {
-		// TODO implement.
-		return super.createGlideToAction(sprite, x, y, duration);
+		GlideToPhysicsAction action = Actions.action(GlideToPhysicsAction.class);
+		action.setPosition(x, y);
+		action.setDuration(duration);
+		action.setSprite(sprite);
+		action.setPhysicWorld(getPhysicWorld());
+		return action;
 	}
 
 	@Override
@@ -167,7 +180,6 @@ public class ActionPhysicsFactory extends ActionFactory {
 		SetXPhysicsAction action = Actions.action(SetXPhysicsAction.class);
 		action.setSprite(sprite);
 		action.setX(x);
-		//		action.setPhysicObject(getPhysicObject(sprite));
 		action.setPhysicObject(getPhysicObject(sprite));
 		return action;
 	}
