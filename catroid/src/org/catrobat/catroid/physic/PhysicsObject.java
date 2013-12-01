@@ -207,6 +207,10 @@ public class PhysicsObject {
 		return body.getMass();
 	}
 
+	public Body getBody() {
+		return body;
+	}
+
 	public void setMass(float mass) {
 		if (mass < PhysicsObject.MIN_MASS) {
 			mass = PhysicsObject.MIN_MASS;
