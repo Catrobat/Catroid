@@ -36,6 +36,7 @@ public class SetGhostEffectAction extends TemporalAction implements PhysicAction
 	@Override
 	protected void update(float percent) {
 		sprite.look.setTransparencyInUserInterfaceDimensionUnit(transparency.interpretFloat(sprite));
+		physicsUpdateHook();
 	}
 
 	public void setSprite(Sprite sprite) {
