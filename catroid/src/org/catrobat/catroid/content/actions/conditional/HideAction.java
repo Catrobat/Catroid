@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.actions.conditional;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physic.content.PhysicActionExtension;
 
@@ -34,6 +35,7 @@ public class HideAction extends TemporalAction implements PhysicActionExtension 
 	@Override
 	protected void update(float delta) {
 		sprite.look.visible = false;
+		physicsUpdateHook();
 	}
 
 	public void setSprite(Sprite sprite) {
@@ -43,6 +45,7 @@ public class HideAction extends TemporalAction implements PhysicActionExtension 
 	@Override
 	public void physicsUpdateHook() {
 		// TODO[physic]
+		ProjectManager.getInstance().getCurrentProject().getPhysicWorld().hangup(sprite);
 	}
 
 }

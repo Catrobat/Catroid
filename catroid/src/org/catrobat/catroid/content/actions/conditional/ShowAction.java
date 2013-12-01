@@ -24,19 +24,28 @@ package org.catrobat.catroid.content.actions.conditional;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.physic.content.PhysicActionExtension;
 
-public class ShowAction extends TemporalAction {
+public class ShowAction extends TemporalAction implements PhysicActionExtension {
 
 	private Sprite sprite;
 
 	@Override
 	protected void update(float delta) {
 		sprite.look.visible = true;
+		physicsUpdateHook();
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
+	}
+
+	@Override
+	public void physicsUpdateHook() {
+		ProjectManager.getInstance().getCurrentProject().getPhysicWorld().resume(sprite);
+
 	}
 
 }

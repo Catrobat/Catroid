@@ -37,6 +37,7 @@ public class SetLookAction extends TemporalAction implements PhysicActionExtensi
 	protected void update(float percent) {
 		if (look != null && sprite != null && sprite.getLookDataList().contains(look)) {
 			sprite.look.setLookData(look);
+			physicsUpdateHook();
 		}
 	}
 

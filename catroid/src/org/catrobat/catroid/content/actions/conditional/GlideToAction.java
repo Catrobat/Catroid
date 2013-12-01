@@ -26,9 +26,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.physic.content.PhysicActionExtension;
 
-public class GlideToAction extends TemporalAction implements PhysicActionExtension {
+public class GlideToAction extends TemporalAction {
 
 	private float startX;
 	private float startY;
@@ -78,6 +77,10 @@ public class GlideToAction extends TemporalAction implements PhysicActionExtensi
 		}
 	}
 
+	@Override
+	protected void end() {
+	}
+
 	public void setDuration(Formula duration) {
 		this.duration = duration;
 	}
@@ -91,8 +94,4 @@ public class GlideToAction extends TemporalAction implements PhysicActionExtensi
 		this.sprite = sprite;
 	}
 
-	@Override
-	public void physicsUpdateHook() {
-		// TODO[physic]
-	}
 }
