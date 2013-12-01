@@ -278,6 +278,9 @@ public class Sprite implements Serializable, Cloneable {
 
 	public void setLookDataList(ArrayList<LookData> list) {
 		lookList = list;
+		if (list.get(0) != null) {
+
+		}
 	}
 
 	public ArrayList<SoundInfo> getSoundList() {
