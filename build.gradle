@@ -145,7 +145,7 @@ gradle.projectsEvaluated {
     generateTestBuildConfig.dependsOn testManifestHack
 }
 
-def signing_config_file = file(System.getProperty("user.home") + "/catroid_signing_config.gradle")
+def signing_config_file = file(System.getProperty("user.home") + "/.catrobat/catroid_signing_config.gradle")
 if(signing_config_file.exists()) {
     apply from: signing_config_file.absolutePath
 }
