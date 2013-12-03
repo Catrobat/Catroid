@@ -29,6 +29,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
+import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
@@ -121,6 +122,13 @@ public class FormulaElementTest extends InstrumentationTestCase {
 				new FormulaElement(ElementType.NUMBER, "0.0", null), new FormulaElement(ElementType.USER_VARIABLE,
 						"user-variable", null));
 		assertTrue("ContainsElement: uservariable not found", formulaElement.containsElement(ElementType.USER_VARIABLE));
+
+		formulaElement = new FormulaElement(ElementType.FUNCTION, Functions.SIN.name(), null, new FormulaElement(
+				ElementType.OPERATOR, "+", null), null);
+
+		assertTrue("ContainsElement: Operator \" + \" should not have been found!",
+				!formulaElement.containsElement(ElementType.NUMBER));
+
 	}
 
 	public void testClone() {
