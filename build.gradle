@@ -17,6 +17,9 @@ repositories{
 }
 
 apply plugin: 'android'
+apply plugin: 'findbugs'
+apply plugin: 'checkstyle'
+apply plugin: 'pmd'
 
 ext.catroid_version = "0.9.6"
 
@@ -87,6 +90,33 @@ android {
         }
 
     }
+}
+
+task findbugs(type: FindBugs) {
+    //@TODO use filter from jenkins repo
+    //excludeFilter file('../config/quality/findbugs/findbugs-filter.xml')
+    classes = fileTree('build/classes/debug/')
+    source = fileTree(android.sourceSets.main.java.srcDirs)
+    classpath = files( project.configurations.compile.asPath )
+    effort = 'max'
+    reports.xml.enabled = false
+    reports.html.enabled = true
+}
+
+task checkstyle(type: Checkstyle) {
+    configFile file('catroid/checkstyle.xml')
+    source '.'
+    include '**/*.java'
+    exclude 'build/**', 'libraryProjects/**'
+
+    classpath = files( project.configurations.compile.asPath )
+}
+
+task pmd(type: Pmd) {
+    //@TODO: ruleset files needed? if yes then use from jenkins repo
+    //ruleSetFiles = files('../config/quality/pmd/pmd-ruleset.xml')
+    ruleSets = ["basic", "braces", "strings"]
+    source = fileTree(android.sourceSets.main.java.srcDirs)
 }
 
 task jenkins() << {
