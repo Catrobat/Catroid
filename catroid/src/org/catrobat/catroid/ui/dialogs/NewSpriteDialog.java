@@ -252,7 +252,7 @@ public class NewSpriteDialog extends DialogFragment {
 				}
 			});
 		} else {
-			LinearLayout linearLayout = (LinearLayout) parentView.findViewById(R.id.dialog_new_object_chooser_layout);
+			LinearLayout linearLayout = (LinearLayout) parentView.findViewById(R.id.dialog_new_object_step_1_layout);
 			paintroidButton.setVisibility(View.GONE);
 			linearLayout.setWeightSum(2f);
 		}
