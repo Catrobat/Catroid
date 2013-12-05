@@ -23,36 +23,36 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-  <string name="cancel_button">Cancel</string>
-  <string name="rename">Rename</string>
-  <string name="delete">Delete</string>
-  <string name="yes">Yes</string>
+  <string name="cancel_button">Annulla</string>
+  <string name="rename">Rinomina</string>
+  <string name="delete">Eliminare</string>
+  <string name="yes">Si</string>
   <string name="no">No</string>
-  <string name="copy">Copy</string>
-  <string name="cut">Cut</string>
-  <string name="move">Move</string>
-  <string name="backpack">Backpack</string>
+  <string name="copy">Copiare</string>
+  <string name="cut">Tagliare</string>
+  <string name="move">Muovere</string>
+  <string name="backpack">Zaino</string>
   <string name="unpacking">Unpacking</string>
   <string name="unpack">Unpack it</string>
-  <string name="copy_addition">copy</string>
-  <string name="close">Close</string>
-  <string name="error">Error</string>
-  <string name="please_wait">Please wait</string>
-  <string name="loading">Loading&#8230;</string>
+  <string name="copy_addition">copiare</string>
+  <string name="close">Chiudere</string>
+  <string name="error">Errore</string>
+  <string name="please_wait">Attendere prego</string>
+  <string name="loading">Caricamento in corso&#8230;</string>
   <string name="background">Background</string>
   <string name="stage">Stage</string>
-  <string name="ok">OK</string>
+  <string name="ok">Va bene</string>
   <string name="settings">Settings</string>
-  <string name="main_menu_new">New</string>
-  <string name="main_menu_continue">Continue</string>
-  <string name="main_menu_programs">Programs</string>
-  <string name="main_menu_help">Help</string>
+  <string name="main_menu_new">Nuovo</string>
+  <string name="main_menu_continue">Continuare</string>
+  <string name="main_menu_programs">Programmi</string>
+  <string name="main_menu_help">Guida</string>
   <string name="main_menu_web">Explore</string>
   <string name="main_menu_upload">Upload</string>
-  <string name="main_menu_about_pocketcode">About Pocket Code</string>
+  <string name="main_menu_about_pocketcode">Su Pocket Code</string>
   <string name="main_menu_rate_app">Rate us!</string>
-  <string name="main_menu_play_store_not_installed">Play Store app not found</string>
-  <string name="main_menu_web_dialog_title">Caution!</string>
+  <string name="main_menu_play_store_not_installed">Play Store app non trovato</string>
+  <string name="main_menu_web_dialog_title">Attenzione!</string>
   <string name="main_menu_web_dialog_message">Currently alternative browsers like Firefox or Dolphin are not supported</string>
   <string name="main_menu_web_dialog_dont_show">Don\'t show again</string>
   <string name="preference_title">Settings</string>
@@ -66,16 +66,16 @@
   <string name="dialog_new_object_name">Object name</string>
   <string name="dialog_new_object_switch_title">New Object created</string>
   <string name="dialog_new_object_switch_message">Switch to new Object?</string>
-  <string name="dialog_about_title">About Pocket Code</string>
+  <string name="dialog_about_title">Su Pocket Code</string>
   <string name="dialog_about_license_info">Pocket Code is a programming 
         environment and interpreter for Android devices for the visual 
         programming language Catrobat.\n\n
         Pocket Code is mainly licensed under the GNU AGPL v3 License. 
         For the precise details of the license see the link below.\n</string>
   <string name="dialog_about_pocketcode_license_link_text">Pocket Code License</string>
-  <string name="dialog_about_catrobat_link_text">About Catrobat</string>
+  <string name="dialog_about_catrobat_link_text">Su Catrobat</string>
   <string name="project_name">Program:</string>
-  <string name="my_projects_activity_title">Programs</string>
+  <string name="my_projects_activity_title">Programmi</string>
   <string name="number_of_scripts">Scripts:</string>
   <string name="number_of_bricks">Bricks:</string>
   <string name="number_of_looks">Looks:</string>
@@ -83,7 +83,7 @@
   <string name="show_details">Show Details</string>
   <string name="hide_details">Hide Details</string>
   <string name="insert_below">Insert Below</string>
-  <string name="sprite">Object</string>
+  <string name="sprite">Oggetto</string>
   <string name="sprites">Objects</string>
   <string name="spritelist_background_headline">Background</string>
   <string name="dialog_confirm_delete_object_title">Delete this object?</string>
@@ -139,7 +139,7 @@
   <string name="rename_project">Rename Program</string>
   <string name="copy_project_finished"> copied.</string>
   <string name="program">Program</string>
-  <string name="programs">Programs</string>
+  <string name="programs">Programmi</string>
   <string name="dialog_confirm_delete_program_title">Delete this program?</string>
   <string name="dialog_confirm_delete_multiple_programs_title">Delete these programs?</string>
   <string name="dialog_confirm_delete_program_message">This can not be undone!</string>
@@ -211,7 +211,7 @@
   <string name="brick_go_back">Go back</string>
   <string name="brick_come_to_front">Go to front</string>
   <string name="brick_if_on_edge_bounce">If on edge, bounce</string>
-  <string name="brick_move">Move</string>
+  <string name="brick_move">Muovere</string>
   <string name="brick_turn_left">Turn left</string>
   <string name="brick_turn_right">Turn right</string>
   <string name="brick_point_in_direction">Point in direction</string>
@@ -262,10 +262,10 @@
   <string name="brick_variable_spinner_create_new_variable">New&#8230;</string>
   <string name="brick_note_default_value">"add comment here…"</string>
   <string name="brick_broadcast_default_value">"message 1"</string>
-  <string name="default_project_name">My first program</string>
-  <string name="default_project_sprites_mole_name">Mole</string>
-  <string name="default_project_sprites_mole_moving">Moving Mole</string>
-  <string name="default_project_sprites_mole_whacked">Whacked Mole</string>
+  <string name="default_project_name">Il mio primo programma</string>
+  <string name="default_project_sprites_mole_name">Talpa</string>
+  <string name="default_project_sprites_mole_moving">Talpa in movimento</string>
+  <string name="default_project_sprites_mole_whacked">Talpa stanco</string>
   <string name="default_project_sprites_mole_sound">Hit</string>
   <string name="default_project_backgroundname">Background</string>
   <string name="default_project_var_random_from">random from</string>
@@ -381,7 +381,7 @@
   <string name="formula_editor_object_rotation">direction</string>
   <string name="formula_editor_object_layer">layer</string>
   <string name="formula_editor_compute">Compute</string>
-  <string name="formula_editor_object">Object</string>
+  <string name="formula_editor_object">Oggetto</string>
   <string name="formula_editor_math">Math</string>
   <string name="formula_editor_logic">Logic</string>
   <string name="formula_editor_sensors">Sensors</string>
@@ -432,11 +432,11 @@
     <item quantity="other">steps</item>
   </plurals>
   <plurals name="second_plural">
-    <item quantity="one">"second "</item>
+    <item quantity="one">"secondo "</item>
     <item quantity="other">"seconds "</item>
   </plurals>
   <plurals name="time_plural">
-    <item quantity="one">time</item>
+    <item quantity="one">tempo</item>
     <item quantity="other">times</item>
   </plurals>
   <plurals name="formula_editor_variable_context_action_item_selected">

@@ -425,7 +425,7 @@
   </plurals>
   <plurals name="brick_go_back_layer_plural">
     <item quantity="one">layer</item>
-    <item quantity="other">layer</item>
+    <item quantity="other">layers</item>
   </plurals>
   <plurals name="brick_move_n_step_plural">
     <item quantity="one">step</item>

@@ -413,34 +413,50 @@
   <string name="variable_name">variable name:</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Delete 1 Brick</item>
+    <item quantity="few">Delete %d Bricks</item>
+    <item quantity="many">Delete %d Bricks</item>
     <item quantity="other">Delete %d Bricks</item>
   </plurals>
   <plurals name="number_of_bricks_to_copy">
     <item quantity="one">Copy 1 Brick</item>
+    <item quantity="few">Copy %d Bricks</item>
+    <item quantity="many">Copy %d Bricks</item>
     <item quantity="other">Copy %d Bricks</item>
   </plurals>
   <plurals name="unpacking_items_plural">
     <item quantity="one">was unpacked!</item>
+    <item quantity="few">were unpacked!</item>
+    <item quantity="many">were unpacked!</item>
     <item quantity="other">were unpacked!</item>
   </plurals>
   <plurals name="brick_go_back_layer_plural">
     <item quantity="one">layer</item>
+    <item quantity="few">layer</item>
+    <item quantity="many">layer</item>
     <item quantity="other">layer</item>
   </plurals>
   <plurals name="brick_move_n_step_plural">
     <item quantity="one">step</item>
+    <item quantity="few">steps</item>
+    <item quantity="many">steps</item>
     <item quantity="other">steps</item>
   </plurals>
   <plurals name="second_plural">
     <item quantity="one">"second "</item>
+    <item quantity="few">"seconds "</item>
+    <item quantity="many">"seconds "</item>
     <item quantity="other">"seconds "</item>
   </plurals>
   <plurals name="time_plural">
     <item quantity="one">time</item>
+    <item quantity="few">times</item>
+    <item quantity="many">times</item>
     <item quantity="other">times</item>
   </plurals>
   <plurals name="formula_editor_variable_context_action_item_selected">
     <item quantity="one">Variable selected!</item>
+    <item quantity="few">Variables selected!</item>
+    <item quantity="many">Variables selected!</item>
     <item quantity="other">Variables selected!</item>
   </plurals>
 </resources>
