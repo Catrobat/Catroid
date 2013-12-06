@@ -323,8 +323,6 @@ public final class LookController {
 			try {
 				File newLookFile = StorageHandler.getInstance().copyImage(projectName, pathOfPocketPaintImage,
 						newFileName);
-				File temporaryPictureFileInPocketPaint = new File(pathOfPocketPaintImage);
-				temporaryPictureFileInPocketPaint.delete(); //delete temp file in paintroid
 
 				StorageHandler.getInstance().deleteFile(selectedLookData.getAbsolutePath()); //reduce usage in container or delete it
 
@@ -334,6 +332,7 @@ public final class LookController {
 				e.printStackTrace();
 			}
 		}
+
 	}
 
 	public void loadPictureFromCameraIntoCatroid(Uri lookFromCameraUri, Activity activity,

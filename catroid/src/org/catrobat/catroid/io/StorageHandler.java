@@ -438,6 +438,33 @@ public final class StorageHandler {
 		}
 	}
 
+	public File makeTempImageCopy(String inputFilePath) throws IOException {
+		File tempDirectory = new File(Constants.TMP_PATH);
+
+		File inputFile = new File(inputFilePath);
+		if (!inputFile.exists() || !inputFile.canRead()) {
+			return null;
+		}
+
+		File outputFileDirectory = new File(tempDirectory.getAbsolutePath());
+		if (outputFileDirectory.exists() == false) {
+			outputFileDirectory.mkdirs();
+		}
+
+		File outputFile = new File(Constants.TMP_IMAGE_PATH);
+
+		File copiedFile = UtilFile.copyFile(outputFile, inputFile, tempDirectory);
+
+		return copiedFile;
+	}
+
+	public void deletTempImageCopy() {
+		File temporaryPictureFileInPocketPaint = new File(Constants.TMP_IMAGE_PATH);
+		if (temporaryPictureFileInPocketPaint.exists()) {
+			temporaryPictureFileInPocketPaint.delete();
+		}
+	}
+
 	private File copyAndResizeImage(File outputFile, File inputFile, File imageDirectory) throws IOException {
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		Bitmap bitmap = ImageEditing.getScaledBitmapFromPath(inputFile.getAbsolutePath(),
