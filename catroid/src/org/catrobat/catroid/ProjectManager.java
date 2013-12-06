@@ -193,7 +193,7 @@ public class ProjectManager implements OnLoadProjectCompleteListener, OnCheckTok
 		if (empty) {
 			project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context);
 		} else {
-			project = StandardProjectHandler.createAndSaveStandardProject(projectName, context);
+			project = StandardProjectHandler.createAndSaveStandardPhysicProject(projectName, context);
 		}
 
 		currentSprite = null;
