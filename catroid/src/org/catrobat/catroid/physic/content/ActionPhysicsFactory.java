@@ -28,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ChangeBrightnessByNAction;
 import org.catrobat.catroid.content.actions.conditional.HideAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physic.PhysicsObject;
@@ -270,6 +271,15 @@ public class ActionPhysicsFactory extends ActionFactory {
 		action.setSprite(sprite);
 		action.setPhysicObject(getPhysicObject(sprite));
 		action.setSpeed(speed);
+		return action;
+	}
+
+	@Override
+	public Action createChangeBrightnessByNAction(Sprite sprite, Formula changeBrightness) {
+		ChangeBrightnessByNAction action = Actions.action(ChangeBrightnessByNAction.class);
+		action.setSprite(sprite);
+		action.setBrightness(changeBrightness);
+
 		return action;
 	}
 

@@ -36,6 +36,7 @@ public class ChangeSizeByNAction extends TemporalAction implements PhysicActionE
 	@Override
 	protected void update(float percent) {
 		sprite.look.changeSizeInUserInterfaceDimensionUnit(size.interpretFloat(sprite));
+		physicsUpdateHook();
 	}
 
 	public void setSprite(Sprite sprite) {
