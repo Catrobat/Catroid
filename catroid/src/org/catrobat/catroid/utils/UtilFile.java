@@ -189,7 +189,7 @@ public final class UtilFile {
 		return projectList;
 	}
 
-	public static File copyFile(File destinationFile, File sourceFile, File directory) throws IOException {
+	public static File copyFile(File destinationFile, File sourceFile) throws IOException {
 		FileInputStream inputStream = null;
 		FileChannel inputChannel = null;
 		FileOutputStream outputStream = null;
