@@ -17,11 +17,11 @@ repositories{
 }
 
 apply plugin: 'android'
-apply plugin: 'findbugs'
+//apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
-apply plugin: 'pmd'
+//apply plugin: 'pmd'
 
-ext.catroid_version = "0.9.6"
+ext.catroid_version = "0.9"
 
 dependencies {
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
@@ -59,14 +59,14 @@ android {
     defaultConfig {
         minSdkVersion 10
         targetSdkVersion 18
-	packageName "org.catrobat.catroid"
-	testPackageName "org.catrobat.catroid.test"
-	testInstrumentationRunner "pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
-	versionCode getVersionCode()
-	versionName getVersionName()
-	buildConfig """\
-            public static final String GIT_DESCRIBE = "${gitDescribe()}";
-        """
+        packageName "org.catrobat.catroid"
+        testPackageName "org.catrobat.catroid.test"
+        testInstrumentationRunner "pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
+        versionCode getVersionCode()
+        versionName getVersionName()
+        buildConfig """\
+                public static final String GIT_DESCRIBE = "${gitDescribe()}";
+            """
     }
 
     sourceSets {
@@ -92,16 +92,15 @@ android {
     }
 }
 
-task findbugs(type: FindBugs) {
-    //@TODO use filter from jenkins repo
-    //excludeFilter file('../config/quality/findbugs/findbugs-filter.xml')
-    classes = fileTree('build/classes/debug/')
-    source = fileTree(android.sourceSets.main.java.srcDirs)
-    classpath = files( project.configurations.compile.asPath )
-    effort = 'max'
-    reports.xml.enabled = false
-    reports.html.enabled = true
-}
+// Doesn't work atm. Maybe if the pmd plugin gets updated.
+//task findbugs(type: FindBugs) {
+//    classes = fileTree('build/classes/debug/')
+//    source = fileTree(android.sourceSets.main.java.srcDirs)
+//    classpath = files( project.configurations.compile.asPath )
+//    effort = 'max'
+//    reports.xml.enabled = false
+//    reports.html.enabled = true
+//}
 
 task checkstyle(type: Checkstyle) {
     configFile file('catroid/checkstyle.xml')
@@ -112,19 +111,18 @@ task checkstyle(type: Checkstyle) {
     classpath = files( project.configurations.compile.asPath )
 }
 
-task pmd(type: Pmd) {
-    //@TODO: ruleset files needed? if yes then use from jenkins repo
-    //ruleSetFiles = files('../config/quality/pmd/pmd-ruleset.xml')
-    ruleSets = ["basic", "braces", "strings"]
-    source = fileTree(android.sourceSets.main.java.srcDirs)
-}
+// Doesn't work atm. Maybe if the pmd plugin gets updated.
+//task pmd(type: Pmd) {
+//    ruleSets = ["basic", "braces", "strings"]
+//    source = fileTree(android.sourceSets.main.java.srcDirs)
+//}
 
 task jenkins() << {
     android.buildTypes.each { type ->
-	if(type.name == "debug") {
-        	type.packageNameSuffix = ".jenkinsdebug"
-        	type.versionNameSuffix = "-jenkins-$type.name"
-	}
+        if(type.name == "debug") {
+                type.packageNameSuffix = ".jenkinsdebug"
+                type.versionNameSuffix = "-jenkins-$type.name"
+        }
     }
 }
 
