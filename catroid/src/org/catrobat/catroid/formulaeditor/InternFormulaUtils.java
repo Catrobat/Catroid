@@ -28,7 +28,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
-public class InternFormulaUtils {
+public final class InternFormulaUtils {
+
+	// Suppress default constructor for noninstantiability
+	private InternFormulaUtils() {
+		throw new AssertionError();
+	}
 
 	public static List<InternToken> getFunctionByFunctionBracketClose(List<InternToken> internTokenList,
 			int functionBracketCloseInternTokenListIndex) {

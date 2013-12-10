@@ -33,14 +33,15 @@ import org.catrobat.catroid.io.StorageHandler;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-public class ImageEditing {
+public final class ImageEditing {
 
 	public enum ResizeType {
 		STRETCH_TO_RECTANGLE, STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, FILL_RECTANGLE_WITH_SAME_ASPECT_RATIO
 	}
 
-	public ImageEditing() {
-
+	// Suppress default constructor for noninstantiability
+	private ImageEditing() {
+		throw new AssertionError();
 	}
 
 	/**

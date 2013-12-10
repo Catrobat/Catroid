@@ -49,7 +49,7 @@ import org.catrobat.catroid.web.ServerCalls;
 import java.io.File;
 import java.io.IOException;
 
-public class ProjectManager implements OnLoadProjectCompleteListener, OnCheckTokenCompleteListener {
+public final class ProjectManager implements OnLoadProjectCompleteListener, OnCheckTokenCompleteListener {
 	private static final ProjectManager INSTANCE = new ProjectManager();
 	private static final String TAG = ProjectManager.class.getSimpleName();
 

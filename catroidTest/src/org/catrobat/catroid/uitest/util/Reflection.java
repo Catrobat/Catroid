@@ -25,7 +25,12 @@ package org.catrobat.catroid.uitest.util;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public class Reflection {
+public final class Reflection {
+
+	// Suppress default constructor for noninstantiability
+	private Reflection() {
+		throw new AssertionError();
+	}
 
 	public static Object getPrivateField(Object object, String fieldName) {
 		if (object == null) {

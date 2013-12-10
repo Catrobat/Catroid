@@ -85,41 +85,35 @@ public class ProjectActivity extends BaseActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.show_details: {
+			case R.id.show_details:
 				handleShowDetails(!spritesListFragment.getShowDetails(), item);
 				break;
-			}
 
-			case R.id.copy: {
+			case R.id.copy:
 				spritesListFragment.startCopyActionMode();
 				break;
-			}
 
-			case R.id.cut: {
+			case R.id.cut:
 				break;
-			}
 
-			case R.id.insert_below: {
+			case R.id.insert_below:
 				break;
-			}
 
-			case R.id.move: {
+			case R.id.move:
 				break;
-			}
 
-			case R.id.rename: {
+			case R.id.rename:
 				spritesListFragment.startRenameActionMode();
 				break;
-			}
 
-			case R.id.delete: {
+			case R.id.delete:
 				spritesListFragment.startDeleteActionMode();
 				break;
-			}
 
-			case R.id.upload: {
+			case R.id.upload:
 				ProjectManager.getInstance().uploadProject(Utils.getCurrentProjectName(this), this);
-			}
+				break;
+
 		}
 		return super.onOptionsItemSelected(item);
 	}

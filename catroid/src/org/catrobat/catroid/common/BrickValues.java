@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.common;
 
-public class BrickValues {
+public final class BrickValues {
 
 	public static final int X_POSITION = 100;
 	public static final int Y_POSITION = 200;
@@ -57,4 +57,9 @@ public class BrickValues {
 	public static final int LEGO_SPEED = 100;
 	public static final int LEGO_DURATION = 1;
 	public static final int LEGO_FREQUENCY = 2;
+
+	// Suppress default constructor for noninstantiability
+	private BrickValues() {
+		throw new AssertionError();
+	}
 }

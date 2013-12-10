@@ -529,16 +529,15 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		if (soundInfoListChangedAfterNewListener != null) {
 			soundInfoListChangedAfterNewListener.onSoundInfoListChangedAfterNew(newSoundInfo);
 		}
+
 		//scroll down the list to the new item:
-		{
-			final ListView listView = getListView();
-			listView.post(new Runnable() {
-				@Override
-				public void run() {
-					listView.setSelection(listView.getCount() - 1);
-				}
-			});
-		}
+		final ListView listView = getListView();
+		listView.post(new Runnable() {
+			@Override
+			public void run() {
+				listView.setSelection(listView.getCount() - 1);
+			}
+		});
 
 		if (isResultHandled) {
 			isResultHandled = false;
@@ -957,16 +956,15 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				if (soundInfoListChangedAfterNewListener != null) {
 					soundInfoListChangedAfterNewListener.onSoundInfoListChangedAfterNew(newSoundInfo);
 				}
+
 				//scroll down the list to the new item:
-				{
-					final ListView listView = getListView();
-					listView.post(new Runnable() {
-						@Override
-						public void run() {
-							listView.setSelection(listView.getCount() - 1);
-						}
-					});
-				}
+				final ListView listView = getListView();
+				listView.post(new Runnable() {
+					@Override
+					public void run() {
+						listView.setSelection(listView.getCount() - 1);
+					}
+				});
 
 				if (isResultHandled) {
 					isResultHandled = false;

@@ -27,7 +27,12 @@ import android.view.View;
 
 import org.catrobat.catroid.R;
 
-public class BottomBar {
+public final class BottomBar {
+
+	// Suppress default constructor for noninstantiability
+	private BottomBar() {
+		throw new AssertionError();
+	}
 
 	public static void showBottomBar(Activity activity) {
 		activity.findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
