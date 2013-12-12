@@ -7,7 +7,6 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.6.+'
-	//classpath 'com.puppycrawl.tools:checkstyle:5.6'
     }
 }
 
@@ -22,6 +21,9 @@ apply plugin: 'checkstyle'
 //apply plugin: 'pmd'
 
 ext.catroid_version = "0.9"
+ext.features_enabled = [
+        "backpack":false
+]
 
 dependencies {
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
@@ -51,6 +53,21 @@ def gitDescribe() {
     return 'git describe --tags'.execute().text.trim()
 }
 
+def featuresToBuildconfig = {
+    def erg = ""
+    for(feature in ext.features_enabled) {
+        def name = feature.key
+        def value = feature.value
+        if(project.hasProperty("allFeatures_enabled"))
+            value = project["allFeatures_enabled"]
+        if(project.hasProperty("${name}_enabled"))
+            value = project["${name}_enabled"]
+
+        erg += "public static final boolean FEATURE_${name.toUpperCase()}_ENABLED = ${value};\n"
+    }
+    return erg
+}
+
 
 android {
     compileSdkVersion 18
@@ -66,6 +83,7 @@ android {
         versionName getVersionName()
         buildConfig """\
                 public static final String GIT_DESCRIBE = "${gitDescribe()}";
+                ${featuresToBuildconfig()}
             """
     }
 
