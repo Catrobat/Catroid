@@ -29,7 +29,7 @@ import org.catrobat.catroid.content.Sprite;
 
 public class PhysicsLook extends Look {
 
-	private PhysicsObject physicsObject;
+	private transient final PhysicsObject physicsObject;
 
 	public PhysicsLook(Sprite sprite) {
 		super(sprite);
@@ -52,23 +52,31 @@ public class PhysicsLook extends Look {
 
 	@Override
 	public void setX(float x) {
-		physicsObject.setX(x);
+		if (null != physicsObject) {
+			physicsObject.setX(x);
+		}
 	}
 
 	@Override
 	public void setY(float y) {
-		physicsObject.setY(y);
+		if (null != physicsObject) {
+			physicsObject.setY(y);
+		}
 	}
 
 	@Override
 	public void setRotation(float degrees) {
-		physicsObject.setDirection(degrees);
+		if (null != physicsObject) {
+			physicsObject.setDirection(degrees);
+		}
 	}
 
 	@Override
 	public void setScale(float scaleX, float scaleY) {
 		super.setScale(scaleX, scaleY);
 		PhysicsWorld physicWorld = ProjectManager.getInstance().getCurrentProject().getPhysicWorld();
-		physicWorld.changeLook(physicsObject, this);
+		if (null != physicsObject) {
+			physicWorld.changeLook(physicsObject, this);
+		}
 	}
 }

@@ -26,36 +26,18 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ChangeBrightnessByNAction;
-import org.catrobat.catroid.content.actions.conditional.HideAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physic.PhysicsObject;
 import org.catrobat.catroid.physic.PhysicsObject.Type;
 import org.catrobat.catroid.physic.PhysicsWorld;
-import org.catrobat.catroid.physic.content.actions.ChangeSizeByNPhysicsAction;
-import org.catrobat.catroid.physic.content.actions.ChangeXByNPhysicsAction;
-import org.catrobat.catroid.physic.content.actions.GlideToPhysicsAction;
-import org.catrobat.catroid.physic.content.actions.IfOnEdgeBouncePhysicsAction;
-import org.catrobat.catroid.physic.content.actions.MoveNStepsPhysicsAction;
-import org.catrobat.catroid.physic.content.actions.NextLookPhysicsAction;
-import org.catrobat.catroid.physic.content.actions.PlaceAtPhysicsAction;
-import org.catrobat.catroid.physic.content.actions.PointInDirectionPhysicsAction;
-import org.catrobat.catroid.physic.content.actions.PointToPhysicsAction;
 import org.catrobat.catroid.physic.content.actions.SetBounceFactorAction;
 import org.catrobat.catroid.physic.content.actions.SetFrictionAction;
 import org.catrobat.catroid.physic.content.actions.SetGravityAction;
-import org.catrobat.catroid.physic.content.actions.SetLookPhysicsAction;
 import org.catrobat.catroid.physic.content.actions.SetMassAction;
 import org.catrobat.catroid.physic.content.actions.SetPhysicsObjectTypeAction;
-import org.catrobat.catroid.physic.content.actions.SetSizeToPhysicsAction;
 import org.catrobat.catroid.physic.content.actions.SetVelocityAction;
-import org.catrobat.catroid.physic.content.actions.SetXPhysicsAction;
-import org.catrobat.catroid.physic.content.actions.SetYPhysicsAction;
-import org.catrobat.catroid.physic.content.actions.TurnLeftPhysicsAction;
 import org.catrobat.catroid.physic.content.actions.TurnLeftSpeedAction;
-import org.catrobat.catroid.physic.content.actions.TurnRightPhysicsAction;
 import org.catrobat.catroid.physic.content.actions.TurnRightSpeedAction;
 
 public class ActionPhysicsFactory extends ActionFactory {
@@ -66,150 +48,6 @@ public class ActionPhysicsFactory extends ActionFactory {
 
 	private PhysicsWorld getPhysicWorld() {
 		return ProjectManager.getInstance().getCurrentProject().getPhysicWorld();
-	}
-
-	@Override
-	public Action createHideAction(Sprite sprite) {
-		HideAction action = Actions.action(HideAction.class);
-		action.setSprite(sprite);
-		return action;
-	}
-
-	@Override
-	public Action createChangeSizeByNAction(Sprite sprite, Formula size) {
-		ChangeSizeByNPhysicsAction action = Actions.action(ChangeSizeByNPhysicsAction.class);
-		action.setSprite(sprite);
-		action.setPhysicObject(getPhysicObject(sprite));
-		action.setPhysicWorld(getPhysicWorld());
-		action.setSize(size);
-		return action;
-	}
-
-	@Override
-	public Action createChangeXByNAction(Sprite sprite, Formula xMovement) {
-		ChangeXByNPhysicsAction action = Actions.action(ChangeXByNPhysicsAction.class);
-		action.setSprite(sprite);
-		action.setPhysicObject(getPhysicObject(sprite));
-		action.setxMovement(xMovement);
-		return action;
-	}
-
-	@Override
-	public Action createChangeYByNAction(Sprite sprite, Formula yMovement) {
-		ChangeXByNPhysicsAction action = Actions.action(ChangeXByNPhysicsAction.class);
-		action.setSprite(sprite);
-		action.setPhysicObject(getPhysicObject(sprite));
-		action.setxMovement(yMovement);
-		return action;
-	}
-
-	@Override
-	public Action createGlideToAction(Sprite sprite, Formula x, Formula y, Formula duration) {
-		GlideToPhysicsAction action = Actions.action(GlideToPhysicsAction.class);
-		action.setPosition(x, y);
-		action.setDuration(duration);
-		action.setSprite(sprite);
-		action.setPhysicWorld(getPhysicWorld());
-		return action;
-	}
-
-	@Override
-	public Action createIfOnEdgeBounceAction(Sprite sprite) {
-		IfOnEdgeBouncePhysicsAction action = Actions.action(IfOnEdgeBouncePhysicsAction.class);
-		action.setPhysicObject(getPhysicObject(sprite));
-		return action;
-	}
-
-	@Override
-	public Action createMoveNStepsAction(Sprite sprite, Formula steps) {
-		MoveNStepsPhysicsAction action = Actions.action(MoveNStepsPhysicsAction.class);
-		action.setSprite(sprite);
-		action.setPhysicObject(getPhysicObject(sprite));
-		action.setSteps(steps);
-		return action;
-	}
-
-	@Override
-	public Action createNextLookAction(Sprite sprite) {
-		NextLookPhysicsAction action = Actions.action(NextLookPhysicsAction.class);
-		action.setSprite(sprite);
-		action.setPhysicObject(getPhysicObject(sprite));
-		action.setPhysicWorld(getPhysicWorld());
-		return action;
-	}
-
-	@Override
-	public Action createPointInDirectionAction(Sprite sprite, Formula degrees) {
-		PointInDirectionPhysicsAction action = Actions.action(PointInDirectionPhysicsAction.class);
-		action.setSprite(sprite);
-		action.setPhysicObject(getPhysicObject(sprite));
-		action.setDegreesInUserInterfaceDimensionUnit(degrees);
-		return action;
-	}
-
-	@Override
-	public Action createPointToAction(Sprite sprite, Sprite pointedSprite) {
-		PointToPhysicsAction action = Actions.action(PointToPhysicsAction.class);
-		action.setSprite(sprite);
-		action.setPointedSprite(pointedSprite);
-		action.setPhysicObject(getPhysicObject(pointedSprite));
-		return action;
-	}
-
-	@Override
-	public Action createSetLookAction(Sprite sprite, LookData lookData) {
-		SetLookPhysicsAction action = Actions.action(SetLookPhysicsAction.class);
-		action.setSprite(sprite);
-		action.setLookData(lookData);
-		action.setPhysicWorld(getPhysicWorld());
-		action.setPhysicObject(getPhysicObject(sprite));
-		return action;
-	}
-
-	@Override
-	public Action createSetSizeToAction(Sprite sprite, Formula size) {
-		SetSizeToPhysicsAction action = Actions.action(SetSizeToPhysicsAction.class);
-		action.setSprite(sprite);
-		action.setSize(size);
-		action.setPhysicWorld(getPhysicWorld());
-		action.setPhysicObject(getPhysicObject(sprite));
-		return action;
-	}
-
-	@Override
-	public Action createSetXAction(Sprite sprite, Formula x) {
-		SetXPhysicsAction action = Actions.action(SetXPhysicsAction.class);
-		action.setSprite(sprite);
-		action.setX(x);
-		action.setPhysicObject(getPhysicObject(sprite));
-		return action;
-	}
-
-	@Override
-	public Action createSetYAction(Sprite sprite, Formula y) {
-		SetYPhysicsAction action = Actions.action(SetYPhysicsAction.class);
-		action.setSprite(sprite);
-		action.setY(y);
-		action.setPhysicObject(getPhysicObject(sprite));
-		return action;
-	}
-
-	@Override
-	public Action createTurnLeftAction(Sprite sprite, Formula degrees) {
-		TurnLeftPhysicsAction action = Actions.action(TurnLeftPhysicsAction.class);
-		action.setSprite(sprite);
-		action.setDegrees(degrees);
-		action.setPhysicObject(getPhysicObject(sprite));
-		return action;
-	}
-
-	@Override
-	public Action createTurnRightAction(Sprite sprite, Formula degrees) {
-		TurnRightPhysicsAction action = Actions.action(TurnRightPhysicsAction.class);
-		action.setSprite(sprite);
-		action.setDegrees(degrees);
-		action.setPhysicObject(getPhysicObject(sprite));
-		return action;
 	}
 
 	@Override
@@ -275,15 +113,6 @@ public class ActionPhysicsFactory extends ActionFactory {
 	}
 
 	@Override
-	public Action createChangeBrightnessByNAction(Sprite sprite, Formula changeBrightness) {
-		ChangeBrightnessByNAction action = Actions.action(ChangeBrightnessByNAction.class);
-		action.setSprite(sprite);
-		action.setBrightness(changeBrightness);
-
-		return action;
-	}
-
-	@Override
 	public Action createTurnRightSpeedAction(Sprite sprite, Formula speed) {
 		TurnRightSpeedAction action = Actions.action(TurnRightSpeedAction.class);
 		action.setSprite(sprite);
@@ -292,13 +121,169 @@ public class ActionPhysicsFactory extends ActionFactory {
 		return action;
 	}
 
-	@Override
-	public Action createPlaceAtAction(Sprite sprite, Formula x, Formula y) {
-		PlaceAtPhysicsAction action = Actions.action(PlaceAtPhysicsAction.class);
-		action.setSprite(sprite);
-		action.setPhysicObject(getPhysicObject(sprite));
-		action.setX(x);
-		action.setY(y);
-		return action;
+	{
+		//	@Override
+		//	public Action createHideAction(Sprite sprite) {
+		//		HideAction action = Actions.action(HideAction.class);
+		//		action.setSprite(sprite);
+		//		return action;
+		//	}
+		//
+		//	@Override
+		//	public Action createChangeSizeByNAction(Sprite sprite, Formula size) {
+		//		ChangeSizeByNPhysicsAction action = Actions.action(ChangeSizeByNPhysicsAction.class);
+		//		action.setSprite(sprite);
+		//		action.setPhysicObject(getPhysicObject(sprite));
+		//		action.setPhysicWorld(getPhysicWorld());
+		//		action.setSize(size);
+		//		return action;
+		//	}
+		//
+		//	@Override
+		//	public Action createChangeXByNAction(Sprite sprite, Formula xMovement) {
+		//		ChangeXByNPhysicsAction action = Actions.action(ChangeXByNPhysicsAction.class);
+		//		action.setSprite(sprite);
+		//		action.setPhysicObject(getPhysicObject(sprite));
+		//		action.setxMovement(xMovement);
+		//		return action;
+		//	}
+		//
+		//	@Override
+		//	public Action createChangeYByNAction(Sprite sprite, Formula yMovement) {
+		//		ChangeXByNPhysicsAction action = Actions.action(ChangeXByNPhysicsAction.class);
+		//		action.setSprite(sprite);
+		//		action.setPhysicObject(getPhysicObject(sprite));
+		//		action.setxMovement(yMovement);
+		//		return action;
+		//	}
+		//
+		//	@Override
+		//	public Action createGlideToAction(Sprite sprite, Formula x, Formula y, Formula duration) {
+		//		GlideToPhysicsAction action = Actions.action(GlideToPhysicsAction.class);
+		//		action.setPosition(x, y);
+		//		action.setDuration(duration);
+		//		action.setSprite(sprite);
+		//		action.setPhysicWorld(getPhysicWorld());
+		//		return action;
+		//	}
+		//
+		//	@Override
+		//	public Action createIfOnEdgeBounceAction(Sprite sprite) {
+		//		IfOnEdgeBouncePhysicsAction action = Actions.action(IfOnEdgeBouncePhysicsAction.class);
+		//		action.setPhysicObject(getPhysicObject(sprite));
+		//		return action;
+		//	}
+		//
+		//	@Override
+		//	public Action createMoveNStepsAction(Sprite sprite, Formula steps) {
+		//		MoveNStepsPhysicsAction action = Actions.action(MoveNStepsPhysicsAction.class);
+		//		action.setSprite(sprite);
+		//		action.setPhysicObject(getPhysicObject(sprite));
+		//		action.setSteps(steps);
+		//		return action;
+		//	}
+		//
+		//	@Override
+		//	public Action createNextLookAction(Sprite sprite) {
+		//		NextLookPhysicsAction action = Actions.action(NextLookPhysicsAction.class);
+		//		action.setSprite(sprite);
+		//		action.setPhysicObject(getPhysicObject(sprite));
+		//		action.setPhysicWorld(getPhysicWorld());
+		//		return action;
+		//	}
+		//
+		//	@Override
+		//	public Action createPointInDirectionAction(Sprite sprite, Formula degrees) {
+		//		PointInDirectionPhysicsAction action = Actions.action(PointInDirectionPhysicsAction.class);
+		//		action.setSprite(sprite);
+		//		action.setPhysicObject(getPhysicObject(sprite));
+		//		action.setDegreesInUserInterfaceDimensionUnit(degrees);
+		//		return action;
+		//	}
+		//
+		//	@Override
+		//	public Action createPointToAction(Sprite sprite, Sprite pointedSprite) {
+		//		PointToPhysicsAction action = Actions.action(PointToPhysicsAction.class);
+		//		action.setSprite(sprite);
+		//		action.setPointedSprite(pointedSprite);
+		//		action.setPhysicObject(getPhysicObject(pointedSprite));
+		//		return action;
+		//	}
+		//
+		//	@Override
+		//	public Action createSetLookAction(Sprite sprite, LookData lookData) {
+		//		SetLookPhysicsAction action = Actions.action(SetLookPhysicsAction.class);
+		//		action.setSprite(sprite);
+		//		action.setLookData(lookData);
+		//		action.setPhysicWorld(getPhysicWorld());
+		//		action.setPhysicObject(getPhysicObject(sprite));
+		//		return action;
+		//	}
+		//
+		//	@Override
+		//	public Action createSetSizeToAction(Sprite sprite, Formula size) {
+		//		SetSizeToPhysicsAction action = Actions.action(SetSizeToPhysicsAction.class);
+		//		action.setSprite(sprite);
+		//		action.setSize(size);
+		//		action.setPhysicWorld(getPhysicWorld());
+		//		action.setPhysicObject(getPhysicObject(sprite));
+		//		return action;
+		//	}
+		//
+		//	@Override
+		//	public Action createSetXAction(Sprite sprite, Formula x) {
+		//		SetXPhysicsAction action = Actions.action(SetXPhysicsAction.class);
+		//		action.setSprite(sprite);
+		//		action.setX(x);
+		//		action.setPhysicObject(getPhysicObject(sprite));
+		//		return action;
+		//	}
+		//
+		//	@Override
+		//	public Action createSetYAction(Sprite sprite, Formula y) {
+		//		SetYPhysicsAction action = Actions.action(SetYPhysicsAction.class);
+		//		action.setSprite(sprite);
+		//		action.setY(y);
+		//		action.setPhysicObject(getPhysicObject(sprite));
+		//		return action;
+		//	}
+		//
+		//	@Override
+		//	public Action createTurnLeftAction(Sprite sprite, Formula degrees) {
+		//		TurnLeftPhysicsAction action = Actions.action(TurnLeftPhysicsAction.class);
+		//		action.setSprite(sprite);
+		//		action.setDegrees(degrees);
+		//		action.setPhysicObject(getPhysicObject(sprite));
+		//		return action;
+		//	}
+		//
+		//	@Override
+		//	public Action createTurnRightAction(Sprite sprite, Formula degrees) {
+		//		TurnRightPhysicsAction action = Actions.action(TurnRightPhysicsAction.class);
+		//		action.setSprite(sprite);
+		//		action.setDegrees(degrees);
+		//		action.setPhysicObject(getPhysicObject(sprite));
+		//		return action;
+		//	}
+		//	
+		//	@Override
+		//	public Action createChangeBrightnessByNAction(Sprite sprite, Formula changeBrightness) {
+		//		ChangeBrightnessByNAction action = Actions.action(ChangeBrightnessByNAction.class);
+		//		action.setSprite(sprite);
+		//		action.setBrightness(changeBrightness);
+		//
+		//		return action;
+		//	}
+		//
+		//	@Override
+		//	public Action createPlaceAtAction(Sprite sprite, Formula x, Formula y) {
+		//		PlaceAtPhysicsAction action = Actions.action(PlaceAtPhysicsAction.class);
+		//		action.setSprite(sprite);
+		//		action.setPhysicObject(getPhysicObject(sprite));
+		//		action.setX(x);
+		//		action.setY(y);
+		//		return action;
+		//	}
 	}
+
 }
