@@ -23,7 +23,6 @@
 package org.catrobat.catroid.uitest.stage;
 
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.util.Log;
 import android.widget.ListView;
 
@@ -37,19 +36,18 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.content.bricks.RobotAlbertBuzzerBrick;
 import org.catrobat.catroid.content.bricks.RobotAlbertFrontLedBrick;
 import org.catrobat.catroid.content.bricks.RobotAlbertMotorActionBrick;
+import org.catrobat.catroid.content.bricks.RobotAlbertRgbLedEyeActionBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.legonxt.LegoNXTBtCommunicator;
 import org.catrobat.catroid.robot.albert.ControlCommands;
 import org.catrobat.catroid.robot.albert.RobotAlbertBtCommunicator;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BTDummyClient;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -59,8 +57,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Set;
 
 public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int IMAGE_FILE_ID = org.catrobat.catroid.uitest.R.raw.icon;
@@ -69,7 +65,7 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 	// needed for testdevices
 	// Bluetooth server is running with a name that starts with 'kitty'
 	// e.g. kittyroid-0, kittyslave-0
-	private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "michael";
+	private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "michael-ThinkPad-T420-0-40:2C:F4:69:D0:21";//"michael";
 
 	// needed for testdevices
 	// unavailable device is paired with a name that starts with 'SWEET'
@@ -96,7 +92,7 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 
 	// This test requires the NXTBTTestServer to be running or a LegoNXT Robot to run! Check connect string to see if you connect to the right device!
 	@Device
-	public void testNXTFunctionality() {
+	public void testAlbertFunctionality() {
 		Log.d("TestRobotAlbert", "initialized BTDummyClient");
 		BTDummyClient dummy = new BTDummyClient();
 		dummy.initializeAndConnectToServer(BTDummyClient.SERVERDUMMYROBOTALBERT);
@@ -130,6 +126,8 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 				break;
 			}
 		}
+		Log.d("Robot Albert Test", "connectedDeviceName=" + connectedDeviceName + "  deviceList.getItemAtPosition(0)"
+				+ deviceList.getItemAtPosition(0));
 		solo.clickOnText(connectedDeviceName);
 
 		solo.sleep(8000);
@@ -138,45 +136,6 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnScreen(ScreenValues.SCREEN_WIDTH / 2, ScreenValues.SCREEN_HEIGHT / 2);
 		solo.sleep(5000);
 
-		/*
-		 * ArrayList<byte[]> executedCommands = LegoNXTCommunicator.getReceivedMessageList();
-		 * assertEquals("Commands seem to have not been executed! Connected to correct device??", commands.size(),
-		 * executedCommands.size());
-		 */
-		/*
-		 * int i = 0;
-		 * for (int[] item : commands) {
-		 * switch (item[0]) {
-		 * case MOTOR_ACTION:
-		 * assertEquals("Wrong motor was used!", item[1], executedCommands.get(i)[3]);
-		 * assertEquals("Wrong speed was used!", item[2], executedCommands.get(i)[4]);
-		 * break;
-		 * case MOTOR_STOP:
-		 * assertEquals("Wrong motor was used!", item[1], executedCommands.get(i)[3]);
-		 * assertEquals("Motor didnt actually stop!", 0, executedCommands.get(i)[4]);
-		 * break;
-		 * case MOTOR_TURN:
-		 * assertEquals("Wrong motor was used!", item[1], executedCommands.get(i)[3]);
-		 * int turnValue = 0;
-		 * turnValue = (0x000000FF & executedCommands.get(i)[9]); //unsigned types would be too smart for java, sorry no
-		 * chance mate!
-		 * turnValue += ((0x000000FF & executedCommands.get(i)[10]) << 8);
-		 * turnValue += ((0x000000FF & executedCommands.get(i)[11]) << 16);
-		 * turnValue += ((0x000000FF & executedCommands.get(i)[12]) << 24);
-		 * 
-		 * int turnSpeed = 30; //fixed value in Brick, however LegoBot needs negative speed instead of negative angles
-		 * if (item[2] < 0) {
-		 * item[2] += -2 * item[2];
-		 * turnSpeed -= 2 * turnSpeed;
-		 * }
-		 * 
-		 * assertEquals("Motor turned wrong angle", item[2], turnValue);
-		 * assertEquals("Motor didnt turn with fixed value 30!", turnSpeed, executedCommands.get(i)[4]);
-		 * break;
-		 * }
-		 * i++;
-		 * }
-		 */
 		ByteArrayBuffer receivedBuffer = dummy.getReceivedFeedback();
 		boolean ok = Arrays.equals(sendCommands.toByteArray(), receivedBuffer.toByteArray());
 		Log.d("TestRobotAlbert", "Array comparision successful: " + ok);
@@ -197,81 +156,6 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.goBack();
 		Log.d("TestRobotAlbert", "after goback");
 		//RobotAlbertBtCommunicator.enableRequestConfirmFromDevice(false);
-	}
-
-	// This test requires the NXTBTTestServer to be running or a LegoNXT Robot to run! Check connect string to see if you connect to the right device!
-	@Device
-	public void NXTPersistentConnection() {
-		createTestproject(projectName);
-
-		LegoNXTBtCommunicator.enableRequestConfirmFromDevice(false);
-		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-		assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
-		if (!bluetoothAdapter.isEnabled()) {
-			bluetoothAdapter.enable();
-			solo.sleep(5000);
-		}
-		Set<BluetoothDevice> bondedDevices = bluetoothAdapter.getBondedDevices();
-		Iterator<BluetoothDevice> iterator = bondedDevices.iterator();
-		String connectedDeviceMacAdress = null;
-		while (iterator.hasNext()) {
-			BluetoothDevice device = iterator.next();
-			if (device.getName().startsWith(PAIRED_BLUETOOTH_SERVER_DEVICE_NAME)) {
-				connectedDeviceMacAdress = device.getAddress();
-			}
-		}
-
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.clickOnText(spriteName);
-		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
-		solo.clickOnText(solo.getString(R.string.scripts));
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-
-		ArrayList<String> autoConnectIDs = new ArrayList<String>();
-		autoConnectIDs.add(connectedDeviceMacAdress);
-		DeviceListActivity deviceListActivity = new DeviceListActivity();
-		Reflection.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
-
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-		solo.sleep(6500);// increase this sleep if probs!
-
-		solo.goBack();
-		solo.sleep(500);
-		solo.goBack();
-		solo.sleep(1000);
-		solo.goBack();
-		solo.sleep(1000);
-		//Device is still connected (until visiting main menu or exiting program)!
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-		solo.sleep(1000);
-		solo.assertCurrentActivity("BT connection was not there anymore!!!", StageActivity.class);
-
-		solo.goBack();
-		solo.sleep(500);
-		solo.goBack();
-		solo.sleep(1000);
-		solo.goBack();
-		solo.sleep(1000);
-		solo.goBack();
-		solo.sleep(2000);
-		//main menu => device disconnected!
-
-		autoConnectIDs = new ArrayList<String>();
-		autoConnectIDs.add(PAIRED_UNAVAILABLE_DEVICE_MAC);
-		Reflection.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
-
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-		solo.sleep(10000); //yes, has to be that long! waiting for auto connection timeout!
-
-		assertTrue("I should be on the bluetooth device choosing screen, but am not!",
-				solo.searchText(connectedDeviceMacAdress));
-
-		solo.clickOnText(PAIRED_UNAVAILABLE_DEVICE_NAME);
-		solo.waitForText(solo.getString(R.string.brick_when_started), 1, 20000);
-		solo.assertCurrentActivity("Incorrect Activity reached!", ProjectActivity.class);
 	}
 
 	@Device
@@ -325,8 +209,25 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		commandLength = command.length;
 		sendCommands.append(command, 0, commandLength);
 
+		RobotAlbertBuzzerBrick robotAlbertBuzzerBrick = new RobotAlbertBuzzerBrick(firstSprite, new Formula(50));
+		commands.setBuzzer(50);
+		command = commands.getCommandMessage();
+		commandLength = command.length;
+		sendCommands.append(command, 0, commandLength);
+
+		RobotAlbertRgbLedEyeActionBrick robotAlbertRgbLedEyeActionBrick = new RobotAlbertRgbLedEyeActionBrick(
+				firstSprite, RobotAlbertRgbLedEyeActionBrick.Eye.Both, new Formula(255), new Formula(255), new Formula(
+						255));
+		commands.setLeftEye(255, 255, 255);
+		commands.setRightEye(255, 255, 255);
+		command = commands.getCommandMessage();
+		commandLength = command.length;
+		sendCommands.append(command, 0, commandLength);
+
 		whenScript.addBrick(legoMotorActionBrick);
 		whenScript.addBrick(robotAlbertFrontLedBrick);
+		whenScript.addBrick(robotAlbertBuzzerBrick);
+		whenScript.addBrick(robotAlbertRgbLedEyeActionBrick);
 
 		startScript.addBrick(setLookBrick);
 		firstSprite.addScript(startScript);
