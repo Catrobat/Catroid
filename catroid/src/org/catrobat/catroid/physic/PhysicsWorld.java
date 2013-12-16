@@ -37,7 +37,6 @@ import org.catrobat.catroid.physic.shapebuilder.PhysicsShapeBuilder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public class PhysicsWorld {
 	static {
@@ -74,25 +73,6 @@ public class PhysicsWorld {
 			} catch (Exception exception) {
 				exception.printStackTrace();
 			}
-		}
-		updateSprites();
-	}
-
-	private void updateSprites() {
-		PhysicsObject physicsObject;
-		Look look;
-		for (Entry<Sprite, PhysicsObject> entry : physicsObjects.entrySet()) {
-
-			physicsObject = entry.getValue();
-			physicsObject.setIfOnEdgeBounce(false);
-			if (hangupPhysicsObjects.contains(entry.getKey())) {
-				continue;
-			}
-
-			look = entry.getKey().look;
-			look.setXInUserInterfaceDimensionUnit(physicsObject.getX());
-			look.setYInUserInterfaceDimensionUnit(physicsObject.getY());
-			look.setDirectionInUserInterfaceDimensionUnit(physicsObject.getDirection());
 		}
 	}
 
