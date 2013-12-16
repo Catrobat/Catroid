@@ -319,9 +319,6 @@ public class StageListener implements ApplicationListener {
 				sprite.createStartScriptActionSequenceAndPutToMap(scriptActions);
 				if (!sprite.getLookDataList().isEmpty()) {
 					sprite.look.setLookData(sprite.getLookDataList().get(0));
-					if (i != 0) {
-						physicsWorld.changeLook(sprite);
-					}
 				}
 			}
 

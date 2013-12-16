@@ -198,8 +198,8 @@ public class Look extends Image {
 			float newX = getX() - (pixmap.getWidth() - getWidth()) / 2f;
 			float newY = getY() - (pixmap.getHeight() - getHeight()) / 2f;
 
-			setPosition(newX, newY);
 			setSize(pixmap.getWidth(), pixmap.getHeight());
+			setPosition(newX, newY);
 			setOrigin(getWidth() / 2f, getHeight() / 2f);
 
 			if (brightnessChanged) {

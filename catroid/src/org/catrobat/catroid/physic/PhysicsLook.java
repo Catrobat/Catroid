@@ -53,15 +53,30 @@ public class PhysicsLook extends Look {
 	@Override
 	public void setX(float x) {
 		if (null != physicsObject) {
-			physicsObject.setX(x);
+			physicsObject.setX(x + getWidth() / 2.0f);
 		}
 	}
 
 	@Override
 	public void setY(float y) {
 		if (null != physicsObject) {
-			physicsObject.setY(y);
+			physicsObject.setY(y + getHeight() / 2.0f);
 		}
+	}
+
+	@Override
+	public float getX() {
+		return physicsObject.getX() - getWidth() / 2.0f;
+	}
+
+	@Override
+	public float getY() {
+		return physicsObject.getY() - getHeight() / 2.0f;
+	}
+
+	@Override
+	public float getRotation() {
+		return -physicsObject.getDirection() + DEGREE_UI_OFFSET;
 	}
 
 	@Override
