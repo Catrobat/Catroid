@@ -45,7 +45,6 @@ public class Sprite implements Serializable, Cloneable {
 	private List<Script> scriptList;
 	private ArrayList<LookData> lookList;
 	private ArrayList<SoundInfo> soundList;
-	public int RESOURCES = 0x0;
 	public transient Look look;
 	protected transient ActionFactory actionFactory = new ActionFactory(); // TODO[physic]:
 
@@ -70,7 +69,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	private void init() {
-		if ((RESOURCES & Brick.PHYSIC) > 0) {
+		if ((getRequiredResources() & Brick.PHYSIC) > 0) {
 			look = new PhysicsLook(this);
 		} else {
 			look = new Look(this);
@@ -88,7 +87,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void resetSprite() {
-		if ((RESOURCES & Brick.PHYSIC) > 0) {
+		if ((getRequiredResources() & Brick.PHYSIC) > 0) {
 			look = new PhysicsLook(this);
 		} else {
 			look = new Look(this);
