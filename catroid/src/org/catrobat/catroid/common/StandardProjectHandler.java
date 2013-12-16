@@ -62,7 +62,6 @@ import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.physic.PhysicsObject;
 import org.catrobat.catroid.physic.PhysicsWorld;
-import org.catrobat.catroid.physic.content.PhysicSprite;
 import org.catrobat.catroid.physic.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physic.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.physic.content.bricks.SetGravityBrick;
@@ -554,30 +553,30 @@ public final class StandardProjectHandler {
 
 		Sprite background = defaultProject.getSpriteList().get(0);
 
-		Sprite ball = new PhysicSprite("Ball");
+		Sprite ball = new Sprite("Ball");
 
 		Sprite leftButton = new Sprite("Left button");
 		Sprite rightButton = new Sprite("Right button");
 
-		Sprite leftArm = new PhysicSprite("Left arm");
-		Sprite rightArm = new PhysicSprite("Right arm");
+		Sprite leftArm = new Sprite("Left arm");
+		Sprite rightArm = new Sprite("Right arm");
 
-		Sprite[] upperBouncers = { new PhysicSprite("Middle cat bouncer"), new PhysicSprite("Right cat bouncer") };
+		Sprite[] upperBouncers = { new Sprite("Middle cat bouncer"), new Sprite("Right cat bouncer") };
 
-		Sprite[] lowerBouncers = { new PhysicSprite("Left wool bouncer"), new PhysicSprite("Middle wool bouncer"),
-				new PhysicSprite("Right wool bouncer") };
+		Sprite[] lowerBouncers = { new Sprite("Left wool bouncer"), new Sprite("Middle wool bouncer"),
+				new Sprite("Right wool bouncer") };
 
-		Sprite middleBouncer = new PhysicSprite("Cat head bouncer");
+		Sprite middleBouncer = new Sprite("Cat head bouncer");
 
-		Sprite leftHardBouncer = new PhysicSprite("Left hard bouncer");
-		Sprite leftHardBouncerBouncer = new PhysicSprite("Left hard bouncer bouncer");
-		Sprite rightHardBouncer = new PhysicSprite("Right hard bouncer");
-		Sprite rightHardBouncerBouncer = new PhysicSprite("Right hard bouncer bouncer");
+		Sprite leftHardBouncer = new Sprite("Left hard bouncer");
+		Sprite leftHardBouncerBouncer = new Sprite("Left hard bouncer bouncer");
+		Sprite rightHardBouncer = new Sprite("Right hard bouncer");
+		Sprite rightHardBouncerBouncer = new Sprite("Right hard bouncer bouncer");
 
-		Sprite leftVerticalWall = new PhysicSprite("Left vertical wall");
-		Sprite leftBottomWall = new PhysicSprite("Left bottom wall");
-		Sprite rightVerticalWall = new PhysicSprite("Right vertical wall");
-		Sprite rightBottomWall = new PhysicSprite("Right bottom wall");
+		Sprite leftVerticalWall = new Sprite("Left vertical wall");
+		Sprite leftBottomWall = new Sprite("Left bottom wall");
+		Sprite rightVerticalWall = new Sprite("Right vertical wall");
+		Sprite rightBottomWall = new Sprite("Right bottom wall");
 
 		final String leftButtonPressed = "Left button pressed";
 		final String rightButtonPressed = "Right button pressed";
