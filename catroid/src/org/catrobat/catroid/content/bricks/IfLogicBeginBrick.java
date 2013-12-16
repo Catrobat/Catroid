@@ -143,7 +143,7 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener, 
 
 		if (view != null) {
 
-			View layout = (View) view.findViewById(R.id.brick_if_begin_layout);
+			View layout = view.findViewById(R.id.brick_if_begin_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 

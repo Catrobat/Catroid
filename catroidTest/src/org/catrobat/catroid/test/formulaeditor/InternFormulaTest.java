@@ -45,16 +45,6 @@ import java.util.List;
 
 public class InternFormulaTest extends InstrumentationTestCase {
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
-
 	public void testInsertRightToCurrentToken() {
 
 		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();

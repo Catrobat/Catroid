@@ -35,7 +35,8 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;import android.widget.Spinner;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
@@ -136,7 +137,7 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 
 		if (view != null) {
 
-			View layout = (View) view.findViewById(R.id.brick_play_sound_layout);
+			View layout = view.findViewById(R.id.brick_play_sound_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 

@@ -61,14 +61,14 @@ public class RenameProjectDialog extends TextDialog {
 
 	@Override
 	protected boolean handleOkButton() {
-		String newProjectName = (input.getText().toString()).trim();
+		String newProjectName = input.getText().toString().trim();
 
 		if (newProjectName.equalsIgnoreCase("")) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.notification_invalid_text_entered));
+			Utils.showErrorDialog(getActivity(), R.string.notification_invalid_text_entered);
 			return false;
 		} else if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(newProjectName)
 				&& !oldProjectName.equalsIgnoreCase(newProjectName)) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.error_project_exists));
+			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 			return false;
 		}
 
@@ -99,7 +99,7 @@ public class RenameProjectDialog extends TextDialog {
 				onProjectRenameListener.onProjectRename(isCurrentProject);
 			}
 		} else {
-			Utils.showErrorDialog(getActivity(), getActivity().getString(R.string.notification_invalid_text_entered));
+			Utils.showErrorDialog(getActivity(), R.string.notification_invalid_text_entered);
 			return false;
 		}
 
@@ -118,7 +118,7 @@ public class RenameProjectDialog extends TextDialog {
 
 	public interface OnProjectRenameListener {
 
-		public void onProjectRename(boolean isCurrentProject);
+		void onProjectRename(boolean isCurrentProject);
 
 	}
 }

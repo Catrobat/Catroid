@@ -22,20 +22,20 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import android.annotation.SuppressLint;
 import android.util.SparseArray;
+import android.util.SparseIntArray;
 
 public class ExternInternRepresentationMapping {
 
-	private SparseArray<Integer> externInternMapping;
+	private SparseIntArray externInternMapping;
 	private SparseArray<ExternToken> internExternMapping;
+
+	public static final int MAPPING_NOT_FOUND = Integer.MIN_VALUE;
 
 	private int externStringLength = 0;
 
-	// Suppressed as FormulaEditor is full with checks on null and thats not possible with SparseIntArray()
-	@SuppressLint("UseSparseArrays")
 	public ExternInternRepresentationMapping() {
-		externInternMapping = new SparseArray<Integer>();
+		externInternMapping = new SparseIntArray();
 		internExternMapping = new SparseArray<ExternToken>();
 	}
 
@@ -55,80 +55,76 @@ public class ExternInternRepresentationMapping {
 
 	}
 
-	public Integer getExternTokenStartIndex(int internIndex) {
+	public int getExternTokenStartIndex(int internIndex) {
 		ExternToken externToken = internExternMapping.get(internIndex);
 
 		if (externToken == null) {
-			return null;
+			return MAPPING_NOT_FOUND;
 		}
 
 		return externToken.getStartIndex();
 	}
 
-	public Integer getExternTokenEndIndex(int internIndex) {
+	public int getExternTokenEndIndex(int internIndex) {
 		ExternToken externToken = internExternMapping.get(internIndex);
 
 		if (externToken == null) {
-			return null;
+			return MAPPING_NOT_FOUND;
 		}
 
 		return externToken.getEndIndex();
 	}
 
-	public Integer getInternTokenByExternIndex(int externIndex) {
+	public int getInternTokenByExternIndex(int externIndex) {
 
 		if (externIndex < 0) {
-			return null;
+			return MAPPING_NOT_FOUND;
 		}
 
-		Integer searchDownInternToken = searchDown(externInternMapping, externIndex - 1);
-		Integer currentInternToken = externInternMapping.get(externIndex);
-		Integer searchUpInternToken = searchUp(externInternMapping, externIndex + 1);
+		int searchDownInternToken = searchDown(externInternMapping, externIndex - 1);
+		int currentInternToken = externInternMapping.get(externIndex, MAPPING_NOT_FOUND);
+		int searchUpInternToken = searchUp(externInternMapping, externIndex + 1);
 
-		if (currentInternToken != null) {
+		if (currentInternToken != MAPPING_NOT_FOUND) {
 			return currentInternToken;
 		}
-		if (searchDownInternToken != null && searchUpInternToken != null) {
-			if (searchDownInternToken.equals(searchUpInternToken)) {
-				return searchDownInternToken;
-			}
+		if (searchDownInternToken != MAPPING_NOT_FOUND && searchUpInternToken != MAPPING_NOT_FOUND
+				&& searchDownInternToken == searchUpInternToken) {
+			return searchDownInternToken;
 		}
 
-		return null;
+		return MAPPING_NOT_FOUND;
 	}
 
-	public int getExternTokenStartOffset(int externIndex, Integer internTokenOffsetTo) {
+	public int getExternTokenStartOffset(int externIndex, int internTokenOffsetTo) {
 		for (int searchIndex = externIndex; searchIndex >= 0; searchIndex--) {
-			if (externInternMapping.get(searchIndex) == null) {
-			} else if (externInternMapping.get(searchIndex).equals(internTokenOffsetTo)) {
+			if (externInternMapping.get(searchIndex, MAPPING_NOT_FOUND) != MAPPING_NOT_FOUND
+					&& externInternMapping.get(searchIndex, MAPPING_NOT_FOUND) == internTokenOffsetTo) {
 				int rightEdgeSelectionToken = getExternTokenStartOffset(searchIndex - 1, internTokenOffsetTo);
 				if (rightEdgeSelectionToken == -1) {
 					return externIndex - searchIndex;
-				} else {
-					return externIndex - searchIndex + rightEdgeSelectionToken + 1;
 				}
+				return externIndex - searchIndex + rightEdgeSelectionToken + 1;
 			}
 		}
 		return -1;
 	}
 
-	private Integer searchDown(SparseArray<Integer> mapping, int index) {
-
+	private int searchDown(SparseIntArray mapping, int index) {
 		for (int searchIndex = index; searchIndex >= 0; searchIndex--) {
-			if (mapping.get(searchIndex) != null) {
+			if (mapping.get(searchIndex, MAPPING_NOT_FOUND) != MAPPING_NOT_FOUND) {
 				return mapping.get(searchIndex);
 			}
 		}
-		return null;
+		return MAPPING_NOT_FOUND;
 	}
 
-	private Integer searchUp(SparseArray<Integer> mapping, int index) {
+	private int searchUp(SparseIntArray mapping, int index) {
 		for (int searchIndex = index; searchIndex < externStringLength; searchIndex++) {
-			if (mapping.get(searchIndex) != null) {
+			if (mapping.get(searchIndex, MAPPING_NOT_FOUND) != MAPPING_NOT_FOUND) {
 				return mapping.get(searchIndex);
 			}
 		}
-		return null;
+		return MAPPING_NOT_FOUND;
 	}
-
 }

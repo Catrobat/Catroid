@@ -132,11 +132,7 @@ public class InternFormulaParser {
 		errorTokenIndex = PARSER_OK;
 		currentTokenParseIndex = 0;
 
-		if (internTokensToParse == null) {
-			errorTokenIndex = PARSER_NO_INPUT;
-			return null;
-		}
-		if (internTokensToParse.size() == 0) {
+		if (internTokensToParse == null || internTokensToParse.size() == 0) {
 			errorTokenIndex = PARSER_NO_INPUT;
 			return null;
 		}
@@ -213,24 +209,36 @@ public class InternFormulaParser {
 			getNextToken();
 		}
 
-		if (currentToken.isNumber()) {
-			currentElement.replaceElement(FormulaElement.ElementType.NUMBER, number());
-		} else if (currentToken.isBracketOpen()) {
-			getNextToken();
-			currentElement.replaceElement(new FormulaElement(FormulaElement.ElementType.BRACKET, null, null, null,
-					termList()));
-			if (!currentToken.isBracketClose()) {
+		switch (currentToken.getInternTokenType()) {
+
+			case NUMBER:
+				currentElement.replaceElement(FormulaElement.ElementType.NUMBER, number());
+				break;
+
+			case BRACKET_OPEN:
+				getNextToken();
+				currentElement.replaceElement(new FormulaElement(FormulaElement.ElementType.BRACKET, null, null, null,
+						termList()));
+				if (!currentToken.isBracketClose()) {
+					throw new InternFormulaParserException("Parse Error");
+				}
+				getNextToken();
+				break;
+
+			case FUNCTION_NAME:
+				currentElement.replaceElement(function());
+				break;
+
+			case SENSOR:
+				currentElement.replaceElement(sensor());
+				break;
+
+			case USER_VARIABLE:
+				currentElement.replaceElement(userVariable());
+				break;
+
+			default:
 				throw new InternFormulaParserException("Parse Error");
-			}
-			getNextToken();
-		} else if (currentToken.isFunctionName()) {
-			currentElement.replaceElement(function());
-		} else if (currentToken.isSensor()) {
-			currentElement.replaceElement(sensor());
-		} else if (currentToken.isUserVariable()) {
-			currentElement.replaceElement(userVariable());
-		} else {
-			throw new InternFormulaParserException("Parse Error");
 		}
 
 		return termTree;

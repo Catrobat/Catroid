@@ -34,6 +34,8 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
@@ -106,34 +108,39 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertEquals("Not equal Activities", previousActivity, getActivity());
 	}
 
-	// TODO
-	//	public void testPauseOnBackButton() {
-	//		double scale = 100.0;
-	//
-	//		Project project = new Project(getActivity(), testProject);
-	//		Sprite sprite = new Sprite("testSprite");
-	//		Script script = new StartScript(sprite);
-	//		WaitBrick waitBrick = new WaitBrick(sprite, 5000);
-	//		SetSizeToBrick scaleLookBrick = new SetSizeToBrick(sprite, scale);
-	//
-	//		script.addBrick(waitBrick);
-	//		script.addBrick(scaleLookBrick);
-	//		sprite.addScript(script);
-	//		project.addSprite(sprite);
-	//
-	//		storageHandler.saveProject(project);
-	//		ProjectManager.getInstance().setProject(project);
-	//
-	//		UiTestUtils.clickOnActionBar(solo, R.id.menu_start);
+	public void testPauseOnBackButton() {
+		float defaultScale = 100.0f;
+		float newScale = 50.0f;
 
-	//		assertEquals("Unexpected sprite size", 100.0, sprite.getSize());
-	//		solo.goBack();
-	//		solo.sleep(6000);
-	//		solo.goBack();
-	//		assertEquals("Unexpected sprite size", 100.0, sprite.getSize());
-	//		solo.sleep(4000);
-	//		assertEquals("Unexpected sprite size", scale, sprite.getSize());
-	//	}
+		Project project = new Project(getActivity(), testProject);
+		Sprite sprite = new Sprite("testSprite");
+		Script script = new StartScript(sprite);
+		WaitBrick waitBrick = new WaitBrick(sprite, 5000);
+		SetSizeToBrick scaleLookBrick = new SetSizeToBrick(sprite, newScale);
+
+		script.addBrick(waitBrick);
+		script.addBrick(scaleLookBrick);
+		sprite.addScript(script);
+		project.addSprite(sprite);
+
+		StorageHandler.getInstance().saveProject(project);
+		ProjectManager.getInstance().setProject(project);
+
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(1000);
+		assertEquals("Unexpected look size", defaultScale, sprite.look.getSizeInUserInterfaceDimensionUnit());
+
+		solo.goBack();
+		solo.sleep(6000);
+		assertEquals("Unexpected look size", defaultScale, sprite.look.getSizeInUserInterfaceDimensionUnit());
+
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
+		solo.sleep(6000);
+		assertEquals("Unexpected look size", newScale, sprite.look.getSizeInUserInterfaceDimensionUnit());
+	}
 
 	public void testRestartButtonActivityChain() {
 		createAndSaveTestProject(testProject);
@@ -250,13 +257,13 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		StorageHandler.getInstance().saveProject(project);
 
-		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(4000);
+
+		MediaPlayer mediaPlayer = getMediaPlayers().get(0);
 		assertTrue("Sound not playing.", mediaPlayer.isPlaying());
 		int positionBeforeRestart = mediaPlayer.getCurrentPosition();
 		solo.goBack();
@@ -264,11 +271,10 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertFalse("Sound playing but should be paused.", mediaPlayer.isPlaying());
 		solo.clickOnButton(solo.getString(R.string.stage_dialog_restart));
 		solo.sleep(2000);
-		@SuppressWarnings("unchecked")
-		ArrayList<MediaPlayer> mediaPlayerArrayList = (ArrayList<MediaPlayer>) Reflection.getPrivateField(
-				SoundManager.getInstance(), "mediaPlayers");
-		int positionAfterRestart = mediaPlayerArrayList.get(0).getCurrentPosition();
-		assertTrue("Sound not playing after stage restart.", mediaPlayerArrayList.get(0).isPlaying());
+
+		mediaPlayer = getMediaPlayers().get(0);
+		int positionAfterRestart = mediaPlayer.getCurrentPosition();
+		assertTrue("Sound not playing after stage restart.", mediaPlayer.isPlaying());
 		assertTrue("Sound did not play from start!", positionBeforeRestart > positionAfterRestart);
 	}
 
@@ -398,5 +404,10 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		Project project = createTestProject(projectName);
 		StorageHandler.getInstance().saveProject(project);
 		return project;
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<MediaPlayer> getMediaPlayers() {
+		return (List<MediaPlayer>) Reflection.getPrivateField(SoundManager.getInstance(), "mediaPlayers");
 	}
 }

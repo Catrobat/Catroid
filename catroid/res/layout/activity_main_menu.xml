@@ -51,11 +51,11 @@
         android:text="@string/main_menu_programs" />
 
     <Button
-        android:id="@+id/main_menu_button_forum"
+        android:id="@+id/main_menu_button_help"
         style="@style/MainMenuButton"
-        android:drawableLeft="@drawable/ic_main_menu_forum"
-        android:onClick="handleForumButton"
-        android:text="@string/main_menu_forum" />
+        android:drawableLeft="@drawable/ic_main_menu_help"
+        android:onClick="handleHelpButton"
+        android:text="@string/main_menu_help" />
 
     <Button
         android:id="@+id/main_menu_button_web"

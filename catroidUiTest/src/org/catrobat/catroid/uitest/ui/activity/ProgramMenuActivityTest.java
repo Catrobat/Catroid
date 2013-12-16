@@ -27,7 +27,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.view.View;
-import android.widget.EditText;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -58,6 +57,7 @@ import java.util.ArrayList;
 public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private String backgroundName = "BackgroundSprite";
+	private File lookFile;
 
 	public ProgramMenuActivityTest() {
 		super(MainMenuActivity.class);
@@ -68,10 +68,13 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		super.setUp();
 		createProject();
 		UiTestUtils.prepareStageForTest();
+		lookFile = UiTestUtils.setUpLookFile(solo);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
+		lookFile.delete();
+
 		// normally super.teardown should be called last
 		// but tests crashed with Nullpointer
 		super.tearDown();
@@ -109,7 +112,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 
 		String spriteName = "sprite1";
 
-		addNewSprite(spriteName);
+		UiTestUtils.addNewSprite(solo, spriteName, lookFile);
 		solo.clickOnText(backgroundName);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 
@@ -132,10 +135,11 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 	}
 
 	public void testLookButtonTextChange() {
+		String spriteName = "sprite1";
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		addNewSprite("sprite1");
-		solo.clickOnText("sprite1");
+		UiTestUtils.addNewSprite(solo, spriteName, lookFile);
+		solo.clickOnText(spriteName);
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		assertTrue("Text on look button is not 'Looks'", solo.searchText(solo.getString(R.string.looks)));
 		UiTestUtils.clickOnHomeActionBarButton(solo);
@@ -169,7 +173,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.clickOnText(backgroundName);
-		solo.clickOnMenuItem(solo.getString(R.string.main_menu_settings));
+		solo.clickOnMenuItem(solo.getString(R.string.settings));
 		solo.assertCurrentActivity("Not in SettingsActivity", SettingsActivity.class);
 	}
 
@@ -227,20 +231,5 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		soundInfoList.add(soundInfo);
 		ProjectManager.getInstance().getFileChecksumContainer()
 				.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
-	}
-
-	private void addNewSprite(String spriteName) {
-		solo.sleep(500);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		solo.waitForText(solo.getString(R.string.new_sprite_dialog_title));
-
-		EditText addNewSpriteEditText = solo.getEditText(0);
-		//check if hint is set
-		assertEquals("Not the proper hint set", solo.getString(R.string.new_sprite_dialog_default_sprite_name),
-				addNewSpriteEditText.getHint());
-		assertEquals("There should no text be set", "", addNewSpriteEditText.getText().toString());
-		solo.enterText(0, spriteName);
-		solo.clickOnButton(solo.getString(R.string.ok));
-		solo.sleep(200);
 	}
 }

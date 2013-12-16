@@ -39,43 +39,43 @@ import java.util.List;
 public interface Brick extends Serializable {
 
 	//use bitwise | for using multiple ressources in a brick
-	public static final int NO_RESOURCES = 0x0;
+	int NO_RESOURCES = 0x0;
 	//	public static final int SOUND_MANAGER = 0x1;
-	public static final int TEXT_TO_SPEECH = 0x2;
-	public static final int BLUETOOTH_LEGO_NXT = 0x4;
+	int TEXT_TO_SPEECH = 0x2;
+	int BLUETOOTH_LEGO_NXT = 0x4;
 	//	public static final int BLUETOOTH_ARDUINO = 0x8;
 	public static final int BLUETOOTH_ROBOT_ALBERT = 0x10;
 
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence);
+	List<SequenceAction> addActionToSequence(SequenceAction sequence);
 
-	public Sprite getSprite();
+	Sprite getSprite();
 
 	//needed for the Sprite#clone()-Method
-	public Brick copyBrickForSprite(Sprite sprite, Script script);
+	Brick copyBrickForSprite(Sprite sprite, Script script);
 
-	public View getView(Context context, int brickId, BaseAdapter adapter);
+	View getView(Context context, int brickId, BaseAdapter adapter);
 
-	public View getPrototypeView(Context context);
+	View getPrototypeView(Context context);
 
-	public Brick clone();
+	Brick clone();
 
-	public int getRequiredResources();
+	int getRequiredResources();
 
-	public void setCheckboxVisibility(int visibility);
+	void setCheckboxVisibility(int visibility);
 
-	public int getAlphaValue();
+	int getAlphaValue();
 
-	public void setBrickAdapter(BrickAdapter adapter);
+	void setBrickAdapter(BrickAdapter adapter);
 
-	public CheckBox getCheckBox();
+	CheckBox getCheckBox();
 
-	public boolean isChecked();
+	boolean isChecked();
 
-	public void setCheckedBoolean(boolean newValue);
+	void setCheckedBoolean(boolean newValue);
 
-	public void setCheckboxView(int id);
+	void setCheckboxView(int id);
 
-	public View getViewWithAlpha(int alphaValue);
+	View getViewWithAlpha(int alphaValue);
 
 	void setAnimationState(boolean animationState);
 }

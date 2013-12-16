@@ -1,14 +1,5 @@
 package com.actionbarsherlock;
 
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Iterator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -27,6 +18,16 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Iterator;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 /**
  * <p>Helper for implementing the action bar design pattern across all versions
@@ -40,7 +41,7 @@ import com.actionbarsherlock.view.MenuItem;
  */
 public abstract class ActionBarSherlock {
     protected static final String TAG = "ActionBarSherlock";
-    protected static final boolean DEBUG = false;
+    public static final boolean DEBUG = false;
 
     private static final Class<?>[] CONSTRUCTOR_ARGS = new Class[] { Activity.class, int.class };
     private static final HashMap<Implementation, Class<? extends ActionBarSherlock>> IMPLEMENTATIONS =
@@ -537,6 +538,9 @@ public abstract class ActionBarSherlock {
      */
     public void dispatchDestroy() {}
 
+    public void dispatchSaveInstanceState(Bundle outState) {}
+
+    public void dispatchRestoreInstanceState(Bundle savedInstanceState) {}
 
     ///////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -769,7 +773,7 @@ public abstract class ActionBarSherlock {
         // Make sure that action views can get an appropriate theme.
         if (mMenuInflater == null) {
             if (getActionBar() != null) {
-                mMenuInflater = new MenuInflater(getThemedContext());
+                mMenuInflater = new MenuInflater(getThemedContext(), mActivity);
             } else {
                 mMenuInflater = new MenuInflater(mActivity);
             }
@@ -788,4 +792,9 @@ public abstract class ActionBarSherlock {
      * @see ActionMode
      */
     public abstract ActionMode startActionMode(ActionMode.Callback callback);
+
+    /**
+     * Ensure that the action bar is attached.
+     */
+    public void ensureActionBar() {}
 }

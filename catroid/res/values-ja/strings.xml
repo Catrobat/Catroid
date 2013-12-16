@@ -95,7 +95,6 @@
     <string name="rename_sound_dialog">"音の名前を変更します"</string>
     <string name="soundname_invalid">"この音の名前は無効です"</string>
     <string name="sound_play">"再生"</string>
-    <string name="sound_pause">"休止"</string>
     <string name="sound_select_source">"音を選択してください"</string>
     <!-- My Projects activity -->
     <string name="last_used">"最新の使用："</string>

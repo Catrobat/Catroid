@@ -24,6 +24,9 @@ package org.catrobat.catroid.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -39,6 +42,7 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.concurrent.locks.Lock;
 
@@ -113,10 +117,8 @@ public class ProjectActivity extends BaseActivity {
 				break;
 			}
 
-			case R.id.settings: {
-				Intent intent = new Intent(ProjectActivity.this, SettingsActivity.class);
-				startActivity(intent);
-				break;
+			case R.id.upload: {
+				ProjectManager.getInstance().uploadProject(Utils.getCurrentProjectName(this), this);
 			}
 		}
 		return super.onOptionsItemSelected(item);
@@ -124,6 +126,8 @@ public class ProjectActivity extends BaseActivity {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			SensorHandler.startSensorListener(this);
 			Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
@@ -150,8 +154,14 @@ public class ProjectActivity extends BaseActivity {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		NewSpriteDialog dialog = new NewSpriteDialog();
-		dialog.show(getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+		Fragment previousFragment = getSupportFragmentManager().findFragmentByTag(NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+		if (previousFragment != null) {
+			fragmentTransaction.remove(previousFragment);
+		}
+
+		DialogFragment newFragment = new NewSpriteDialog();
+		newFragment.show(fragmentTransaction, NewSpriteDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	public void handlePlayButton(View view) {
@@ -178,12 +188,6 @@ public class ProjectActivity extends BaseActivity {
 	public void handleShowDetails(boolean showDetails, MenuItem item) {
 		spritesListFragment.setShowDetails(showDetails);
 
-		String menuItemText = "";
-		if (showDetails) {
-			menuItemText = getString(R.string.hide_details);
-		} else {
-			menuItemText = getString(R.string.show_details);
-		}
-		item.setTitle(menuItemText);
+		item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
 	}
 }

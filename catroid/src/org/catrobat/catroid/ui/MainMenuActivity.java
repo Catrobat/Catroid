@@ -49,30 +49,24 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.stage.PreStageActivity;
-import org.catrobat.catroid.transfers.CheckTokenTask;
-import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
-import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
-import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.web.ServerCalls;
 
 import java.util.concurrent.locks.Lock;
 
-public class MainMenuActivity extends BaseActivity implements OnCheckTokenCompleteListener,
-		OnLoadProjectCompleteListener {
+public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompleteListener {
 
 	public static final String SHARED_PREFERENCES_SHOW_BROWSER_WARNING = "shared_preferences_browser_warning";
 
 	private static final String TYPE_FILE = "file";
 	private static final String TYPE_HTTP = "http";
 
-	private ActionBar actionBar;
 	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	@Override
@@ -85,7 +79,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 
 		setContentView(R.layout.activity_main_menu);
 
-		actionBar = getSupportActionBar();
+		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayUseLogoEnabled(true);
 		actionBar.setTitle(R.string.app_name);
 
@@ -97,6 +91,10 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 
 		if (loadExternalProjectUri != null) {
 			loadProgramFromExternalSource(loadExternalProjectUri);
+		}
+
+		if (!BackPackListManager.isBackpackFlag()) {
+			BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
 		}
 	}
 
@@ -126,21 +124,10 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 			return;
 		}
 
-		// onPause is sufficient --> gets called before "process_killed",
-		// onStop(), onDestroy(), onRestart()
-		// also when you switch activities
 		if (ProjectManager.getInstance().getCurrentProject() != null) {
 			ProjectManager.getInstance().saveProject();
 			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, ProjectManager.getInstance()
 					.getCurrentProject().getName());
-		}
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		if (!Utils.externalStorageAvailable()) {
-			return;
 		}
 	}
 
@@ -153,11 +140,6 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.menu_settings: {
-				Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
-				startActivity(intent);
-				return true;
-			}
 			case R.id.menu_rate_app:
 				launchMarket();
 				return true;
@@ -223,11 +205,11 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 		startActivity(intent);
 	}
 
-	public void handleForumButton(View view) {
+	public void handleHelpButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.CATROBAT_FORUM_URL));
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.CATROBAT_HELP_URL));
 		startActivity(browserIntent);
 	}
 
@@ -260,7 +242,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 		builder.setTitle(getText(R.string.main_menu_web_dialog_title));
 		builder.setView(checkboxView);
 
-		builder.setPositiveButton(getText(R.string.ok), new DialogInterface.OnClickListener() {
+		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				CheckBox dontShowAgainCheckBox = (CheckBox) checkboxView
@@ -273,7 +255,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 				startActivity(browserIntent);
 			}
 		});
-		builder.setNegativeButton(getText(R.string.cancel_button), new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
@@ -289,39 +271,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		if (ProjectManager.getInstance().getCurrentProject() == null) {
-			LoadProjectTask loadProjectTask = new LoadProjectTask(this, Utils.getCurrentProjectName(this), false, false);
-			loadProjectTask.setOnLoadProjectCompleteListener(this);
-			loadProjectTask.execute();
-		}
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
-
-		if (token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
-				|| token.equals(ServerCalls.TOKEN_CODE_INVALID)) {
-			showLoginRegisterDialog();
-		} else {
-			CheckTokenTask checkTokenTask = new CheckTokenTask(this, token, username);
-			checkTokenTask.setOnCheckTokenCompleteListener(this);
-			checkTokenTask.execute();
-		}
-	}
-
-	@Override
-	public void onTokenNotValid() {
-		showLoginRegisterDialog();
-	}
-
-	@Override
-	public void onCheckTokenSuccess() {
-		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
-		uploadProjectDialog.show(getSupportFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
-	}
-
-	private void showLoginRegisterDialog() {
-		LoginRegisterDialog loginRegisterDialog = new LoginRegisterDialog();
-		loginRegisterDialog.show(getSupportFragmentManager(), LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
+		ProjectManager.getInstance().uploadProject(Utils.getCurrentProjectName(this), this);
 	}
 
 	private void loadProgramFromExternalSource(Uri loadExternalProjectUri) {
@@ -336,7 +286,7 @@ public class MainMenuActivity extends BaseActivity implements OnCheckTokenComple
 			int b = path.lastIndexOf('.');
 			String projectName = path.substring(a, b);
 			if (!UtilZip.unZipFile(path, Utils.buildProjectPath(projectName))) {
-				Utils.showErrorDialog(this, getResources().getString(R.string.error_load_project));
+				Utils.showErrorDialog(this, R.string.error_load_project);
 			}
 		}
 	}

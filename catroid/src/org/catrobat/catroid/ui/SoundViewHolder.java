@@ -29,55 +29,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class SoundViewHolder {
-	public ImageButton playButton;
-	public ImageButton pauseButton;
+	public ImageButton playAndStopButton;
 	public LinearLayout soundFragmentButtonLayout;
 	public CheckBox checkbox;
 	public TextView titleTextView;
-	public TextView timeSeperatorTextView;
-	public TextView timeDurationTextView;
+	public TextView timeSeparatorTextView;
 	public TextView soundFileSizePrefixTextView;
 	public TextView soundFileSizeTextView;
 	public Chronometer timePlayedChronometer;
-
-	public ImageButton getPlayButton() {
-		return playButton;
-	}
-
-	public ImageButton getPauseButton() {
-		return pauseButton;
-	}
-
-	public LinearLayout getSoundFragmentButtonLayout() {
-		return soundFragmentButtonLayout;
-	}
-
-	public CheckBox getCheckbox() {
-		return checkbox;
-	}
-
-	public TextView getTitleTextView() {
-		return titleTextView;
-	}
-
-	public TextView getTimeSeperatorTextView() {
-		return timeSeperatorTextView;
-	}
-
-	public TextView getTimeDurationTextView() {
-		return timeDurationTextView;
-	}
-
-	public TextView getSoundFileSizePrefixTextView() {
-		return soundFileSizePrefixTextView;
-	}
-
-	public TextView getSoundFileSizeTextView() {
-		return soundFileSizeTextView;
-	}
-
-	public Chronometer getTimePlayedChronometer() {
-		return timePlayedChronometer;
-	}
-
 }

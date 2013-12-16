@@ -31,10 +31,6 @@
     <string name="copy">"Kopiëren"</string>
     <string name="cut">"Knippen"</string>
     <string name="move">"Verplaatsen"</string>
-    <!--  -->
-
-
-    <!-- General -->
     <string name="close">"Sluiten"</string>
     <string name="error">"Fout"</string>
     <string name="please_wait">"Even geduld"</string>
@@ -42,6 +38,7 @@
     <string name="background">"Achtergrond"</string>
     <string name="stage">"Speelveld"</string>
     <string name="ok">"OK"</string>
+    <string name="settings">"Instellingen"</string>
     <!--  -->
 
 
@@ -52,7 +49,6 @@
     <string name="main_menu_forum">"Forum"</string>
     <string name="main_menu_web">"Gemeenschap"</string>
     <string name="main_menu_upload">"Uploaden"</string>
-    <string name="main_menu_settings">"Instellingen"</string>
     <string name="main_menu_about_pocketcode">"Over Pocket Code"</string>
     <string name="main_menu_rate_app">"Beoordeel ons!"</string>
     <string name="main_menu_play_store_not_installed">"Play Store-app niet gevonden"</string>
@@ -139,7 +135,6 @@
     <string name="rename_sound_dialog">"Geluid hernoemen"</string>
     <string name="soundname_invalid">"Deze geluidsnaam is ongeldig"</string>
     <string name="sound_play">"afspelen"</string>
-    <string name="sound_pause">"pauze"</string>
     <string name="sound_select_source">"Selecteer een geluid"</string>
     <string name="sound_time_seperator">"/"</string>
     <string name="delete_sound_dialog">"Geluid verwijderen?"</string>
@@ -248,12 +243,6 @@
 
     <!-- Broadcast spinner -->
     <string name="new_broadcast_message">"Nieuw…"</string>
-    <!--  -->
-
-
-    <!-- Brick general -->
-    <string name="brick_single">"Steen"</string>
-    <string name="brick_multiple">"Stenen"</string>
     <!--  -->
 
 

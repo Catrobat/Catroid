@@ -209,32 +209,35 @@ public class UploadProjectDialog extends DialogFragment {
 		String projectDescription = projectDescriptionField.getText().toString();
 
 		if (uploadName.isEmpty()) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.error_no_name_entered));
+			Utils.showErrorDialog(getActivity(), R.string.error_no_name_entered);
 			return;
 		}
 
 		if (uploadName.equals(getString(R.string.default_project_name))) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.error_upload_project_with_default_name));
+			Utils.showErrorDialog(getActivity(), R.string.error_upload_project_with_default_name);
 			return;
 		}
 
 		Context context = getActivity().getApplicationContext();
 		if (Utils.isStandardProject(projectManager.getCurrentProject(), context)) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.error_upload_default_project));
+			Utils.showErrorDialog(getActivity(), R.string.error_upload_default_project);
 			return;
 		}
 
-		if (!uploadName.equals(currentProjectName)) {
+		boolean needsRenaming;
+		if ((needsRenaming = !uploadName.equals(currentProjectName))
+				|| !projectDescription.equals(currentProjectDescription)) {
 
-			projectRename.setVisibility(View.VISIBLE);
-			boolean renamed = projectManager.renameProjectNameAndDescription(newProjectName, projectDescription,
-					getActivity());
-			if (!renamed) {
-				return;
-			}
-
-		} else if (uploadName.equals(currentProjectName) && (!projectDescription.equals(currentProjectDescription))) {
+			String oldDescription = currentProjectDescription;
 			projectManager.getCurrentProject().setDescription(projectDescription);
+			if (needsRenaming) {
+				projectRename.setVisibility(View.VISIBLE);
+				boolean renamed = projectManager.renameProject(newProjectName, getActivity());
+				if (!renamed) {
+					projectManager.getCurrentProject().setDescription(oldDescription);
+					return;
+				}
+			}
 		}
 
 		projectManager.getCurrentProject().setDeviceData(getActivity());

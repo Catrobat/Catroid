@@ -170,7 +170,7 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 
 		if (view != null) {
 
-			View layout = (View) view.findViewById(R.id.brick_nxt_play_tone_layout);
+			View layout = view.findViewById(R.id.brick_nxt_play_tone_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 

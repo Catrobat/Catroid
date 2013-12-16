@@ -23,7 +23,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <!-- NewApi lint warnings can be ignored - functionality is handled by ActionBarSherlock -->
-    <style name="Theme.Catroid" parent="Theme.Sherlock.ForceOverflow">
+    <style name="Theme.Catroid" parent="Theme.Sherlock">
         <item name="actionBarStyle">@style/Widget.Catroid.ActionBar</item>
         <item name="android:actionBarStyle" tools:ignore="NewApi">@style/Widget.Catroid.ActionBar</item>
         <item name="android:windowBackground">@color/application_background_color</item>
@@ -44,6 +44,8 @@
     </style>
 
     <style name="DefaultDialog" parent="android:style/Theme.Dialog">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingBottom">@dimen/dialog_item_margin</item>
         <item name="android:layout_marginLeft">@dimen/dialog_margin</item>
         <item name="android:layout_marginRight">@dimen/dialog_margin</item>
@@ -72,7 +74,7 @@
         <item name="android:background">@color/dialog_text_line</item>
     </style>
 
-    <style name="DefaultDialog.EditText" parent="@android:style/Widget.EditText"> 
+    <style name="DefaultDialog.EditText" parent="@android:style/Widget.EditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:minHeight">@dimen/dialog_item_height</item>
         <item name="android:layout_height">wrap_content</item>

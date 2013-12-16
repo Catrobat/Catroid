@@ -35,7 +35,8 @@ import java.util.regex.Pattern;
 
 public class VersionNameAndCodeTest extends TestCase {
 
-	private static final String[] DIRECTORIES = { "../catroid", "../catroidTest", "../catroidUiTest" };
+	private static final String[] DIRECTORIES = { "../catroid", "../catroidTest", "../catroidUiTest",
+			"../catroidCucumberTest", };
 	private static final String VERSION_CODE_REGEX = ".*android:versionCode=\"(\\d+)\".*";
 	private static final String VERSION_NAME_REGEX = ".*android:versionName=\"(\\d+\\.\\d+\\.\\d+[a-z]*)\".*";
 

@@ -27,7 +27,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-
     <Chronometer
         android:id="@+id/soundrecorder_chronometer_time_recorded"
         android:layout_width="match_parent"
@@ -43,27 +42,20 @@
         android:id="@+id/soundrecorder_chronometer_bar"
         android:layout_width="225dp"
         android:layout_height="13dp"
-        android:layout_above="@+id/soundrecorder_record_button_layout"
+        android:layout_above="@+id/soundrecorder_record_button"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="35dp"
         android:background="@color/button_background_top_border_color" />
 
-    <FrameLayout
-        android:id="@+id/soundrecorder_record_button_layout"
+    <ImageButton
+        android:id="@+id/soundrecorder_record_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" >
-
-        <ImageButton
-            android:id="@+id/soundrecorder_record_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/actionbar_background"
-            android:contentDescription="@string/soundrecorder_name"
-            android:scaleType="center"
-            android:src="@drawable/microphone_icon" />
-    </FrameLayout>
+        android:layout_centerInParent="true"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/soundrecorder_name"
+        android:scaleType="center"
+        android:src="@drawable/ic_microphone" />
 
     <TextView
         android:id="@+id/soundrecorder_record_text_view"
@@ -71,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/soundrecorder_record_button_layout"
+        android:layout_below="@+id/soundrecorder_record_button"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
         android:layout_marginTop="35dp"

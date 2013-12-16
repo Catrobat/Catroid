@@ -50,8 +50,8 @@ public class PointInDirectionActionTest extends AndroidTestCase {
 
 	public void testPointUp() {
 		Sprite sprite = new Sprite("test");
-		PointInDirectionAction action = ExtendedActions.pointInDirection(sprite,
-				new Formula(Direction.UP.getDegrees()));
+		PointInDirectionAction action = ExtendedActions
+				.pointInDirection(sprite, new Formula(Direction.UP.getDegrees()));
 		action.act(1.0f);
 		assertEquals("Wrong direction", 0f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
 	}

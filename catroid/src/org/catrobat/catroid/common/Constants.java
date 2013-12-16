@@ -28,14 +28,16 @@ public final class Constants {
 
 	// Reflection in testcases needed
 	// http://stackoverflow.com/questions/1615163/modifying-final-fields-in-java?answertab=votes#tab-top
-	public static final float SUPPORTED_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.91f);
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.91f);
 
 	public static final String PLATFORM_NAME = "Android";
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build
 	public static final String APPLICATION_BUILD_NAME = ""; // updated from jenkins nightly/release build
 	public static final String PROJECTCODE_NAME = "code.xml";
+
 	public static final String CATROBAT_EXTENSION = ".catrobat";
 	public static final String RECORDING_EXTENSION = ".mp3";
+	public static final String IMAGE_STANDARD_EXTENTION = ".png";
 	public static final String TEXT_TO_SPEECH_EXTENSION = ".wav";
 
 	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
@@ -48,6 +50,7 @@ public final class Constants {
 
 	public static final String BACKPACK_SOUND_DIRECTORY = "backpack_sound";
 	public static final String BACKPACK_IMAGE_DIRECTORY = "backpack_image";
+	public static final String FILENAME_SEPARATOR = "_";
 
 	public static final String NO_MEDIA_FILE = ".nomedia";
 
@@ -60,7 +63,7 @@ public final class Constants {
 	public static final String CATROBAT_ABOUT_URL = "http://developer.catrobat.org/";
 	public static final String ABOUT_POCKETCODE_LICENSE_URL = CATROBAT_ABOUT_URL + "licenses";
 
-	public static final String CATROBAT_FORUM_URL = "http://catrob.at/PocketCodeUserForum";
+	public static final String CATROBAT_HELP_URL = "http://www.pocketcode.org/tutorial";
 
 	public static final String TOKEN = "token";
 	public static final String NO_TOKEN = "no_token";
@@ -78,7 +81,6 @@ public final class Constants {
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String POCKET_PAINT_DOWNLOAD_LINK = "market://details?id=" + POCKET_PAINT_PACKAGE_NAME;
-	public static final String POCKET_PAINT_DOWNLOAD_LINK_NIGHTLY = "http://files.catrob.at/pocketpaint_nightly.apk";
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
 
 	//Services + Notifications

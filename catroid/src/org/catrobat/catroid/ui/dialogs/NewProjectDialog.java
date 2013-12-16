@@ -139,12 +139,12 @@ public class NewProjectDialog extends DialogFragment {
 		boolean shouldBeEmpty = emptyProjectCheckBox.isChecked();
 
 		if (projectName.isEmpty()) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.error_no_name_entered));
+			Utils.showErrorDialog(getActivity(), R.string.error_no_name_entered);
 			return;
 		}
 
 		if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(projectName)) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.error_project_exists));
+			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
 			return;
 		}
 
@@ -152,7 +152,8 @@ public class NewProjectDialog extends DialogFragment {
 			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), shouldBeEmpty);
 
 		} catch (IOException e) {
-			Utils.showErrorDialog(getActivity(), getString(R.string.error_new_project));
+			Utils.showErrorDialog(getActivity(), R.string.error_new_project);
+			e.printStackTrace();
 			dismiss();
 			return;
 		}

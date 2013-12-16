@@ -25,3 +25,13 @@ gen/
 # Local configuration file (sdk path, etc)
 local.properties
 proguard-project.txt
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+

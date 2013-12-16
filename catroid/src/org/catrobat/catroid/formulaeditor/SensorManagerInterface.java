@@ -27,13 +27,13 @@ import android.hardware.SensorEventListener;
 
 public interface SensorManagerInterface {
 
-	public void unregisterListener(SensorEventListener listener);
+	void unregisterListener(SensorEventListener listener);
 
-	public void unregisterListener(SensorCustomEventListener listener);
+	void unregisterListener(SensorCustomEventListener listener);
 
-	public boolean registerListener(SensorEventListener listener, Sensor sensor, int rate);
+	boolean registerListener(SensorEventListener listener, Sensor sensor, int rate);
 
-	public boolean registerListener(SensorCustomEventListener listener, Sensors sensor);
+	boolean registerListener(SensorCustomEventListener listener, Sensors sensor);
 
-	public Sensor getDefaultSensor(int typeLinearAcceleration);
+	Sensor getDefaultSensor(int typeLinearAcceleration);
 }

@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -127,6 +126,7 @@ public class BackPackActivity extends BaseActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (currentFragment != null) {
 			handleShowDetails(currentFragment.getShowDetails(), menu.findItem(R.id.show_details));
+			menu.findItem(R.id.unpacking).setVisible(false);
 			menu.findItem(R.id.backpack).setVisible(false);
 			menu.findItem(R.id.cut).setVisible(false);
 			menu.findItem(R.id.rename).setVisible(false);
@@ -149,18 +149,13 @@ public class BackPackActivity extends BaseActivity {
 				handleShowDetails(!currentFragment.getShowDetails(), item);
 				break;
 
-			case R.id.move:
+			case R.id.unpacking:
+				currentFragment.startUnPackingActionMode();
 				break;
 
 			case R.id.delete:
 				currentFragment.startDeleteActionMode();
 				break;
-
-			case R.id.settings:
-				Intent settingsIntent = new Intent(BackPackActivity.this, SettingsActivity.class);
-				startActivity(settingsIntent);
-				break;
-
 		}
 		return super.onOptionsItemSelected(item);
 	}

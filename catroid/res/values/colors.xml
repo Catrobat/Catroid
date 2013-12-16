@@ -26,7 +26,6 @@
     <color name="solid_black">#000</color>
     <color name="solid_white">#FFFFFF</color>
     <color name="white">#FFFFFF</color>
-    <color name="actionbar_background">#002534</color>
     <color name="actionbar_title_color">#6F8E9B</color>
     <color name="application_background_color">#04222C</color>
     <color name="transparent">#00000000 </color>
@@ -36,6 +35,7 @@
     <color name="button_background_gradient_end_color">#003F54</color>
     <color name="button_background_top_border_color">#4D7F8F</color>
     <color name="button_background_bottom_border_color">#001724</color>
+    <color name="holo_blue_light">#ff33b5e5</color>
 
     <!-- Main Menu Colors -->
     <color name="main_menu_button_text_color">#A8DFF4</color>

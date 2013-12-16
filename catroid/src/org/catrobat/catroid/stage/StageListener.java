@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -65,17 +65,20 @@ import java.io.OutputStream;
 import java.util.List;
 
 public class StageListener implements ApplicationListener {
+
+	private static final int AXIS_WIDTH = 4;
 	private static final float DELTA_ACTIONS_DIVIDER_MAXIMUM = 50f;
 	private static final int ACTIONS_COMPUTATION_TIME_MAXIMUM = 8;
 	private static final boolean DEBUG = false;
-	public static final String SCREENSHOT_AUTOMATIC_FILE_NAME = "automatic_screenshot.png";
-	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot.png";
 
 	// needed for UiTests - is disabled to fix crashes with EMMA coverage
 	// CHECKSTYLE DISABLE StaticVariableNameCheck FOR 1 LINES
 	private static boolean DYNAMIC_SAMPLING_RATE_FOR_ACTIONS = true;
 
 	private float deltaActionTimeDivisor = 10f;
+	public static final String SCREENSHOT_AUTOMATIC_FILE_NAME = "automatic_screenshot"
+			+ Constants.IMAGE_STANDARD_EXTENTION;
+	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot" + Constants.IMAGE_STANDARD_EXTENTION;
 	private FPSLogger fpsLogger;
 
 	private Stage stage;
@@ -109,7 +112,7 @@ public class StageListener implements ApplicationListener {
 	private float virtualWidth;
 	private float virtualHeight;
 
-	enum ScreenModes {
+	private enum ScreenModes {
 		STRETCH, MAXIMIZE
 	};
 
@@ -125,8 +128,6 @@ public class StageListener implements ApplicationListener {
 	private int testHeight = 0;
 
 	private StageDialog stageDialog;
-
-	private boolean texturesRendered = false;
 
 	public int maximizeViewPortX = 0;
 	public int maximizeViewPortY = 0;
@@ -146,9 +147,8 @@ public class StageListener implements ApplicationListener {
 		font.setColor(1f, 0f, 0.05f, 1f);
 		font.setScale(1.2f);
 
-		pathForScreenshot = Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()) + "/";
-
 		project = ProjectManager.getInstance().getCurrentProject();
+		pathForScreenshot = Utils.buildProjectPath(project.getName()) + "/";
 
 		virtualWidth = project.getXmlHeader().virtualScreenWidth;
 		virtualHeight = project.getXmlHeader().virtualScreenHeight;
@@ -165,7 +165,6 @@ public class StageListener implements ApplicationListener {
 		camera.position.set(0, 0, 0);
 
 		sprites = project.getSpriteList();
-
 		for (Sprite sprite : sprites) {
 			sprite.resetSprite();
 			sprite.look.createBrightnessContrastShader();
@@ -204,7 +203,7 @@ public class StageListener implements ApplicationListener {
 	}
 
 	void menuPause() {
-		if (finished || reloadProject || (sprites == null)) {
+		if (finished || reloadProject) {
 			return;
 		}
 		paused = true;
@@ -223,7 +222,7 @@ public class StageListener implements ApplicationListener {
 		}
 		this.stageDialog = stageDialog;
 
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
+		project.getUserVariables().resetAllUserVariables();
 
 		reloadProject = true;
 	}
@@ -236,7 +235,7 @@ public class StageListener implements ApplicationListener {
 				sprite.resume();
 			}
 		}
-		renderTextures();
+
 		for (Sprite sprite : sprites) {
 			sprite.look.refreshTextures();
 		}
@@ -245,7 +244,7 @@ public class StageListener implements ApplicationListener {
 
 	@Override
 	public void pause() {
-
+		
 		try {
 			Handler btcHandler = RobotAlbert.getBTCHandler();
 			Log.d("StageListener Pause", "sendRobotAlbertMotorResetMessage()");
@@ -256,7 +255,7 @@ public class StageListener implements ApplicationListener {
 		} catch (Exception e) {
 		}
 
-		if (finished || (sprites == null)) {
+		if (finished) {
 			return;
 		}
 		if (!paused) {
@@ -271,7 +270,6 @@ public class StageListener implements ApplicationListener {
 		finished = true;
 		SoundManager.getInstance().clear();
 		if (thumbnail != null) {
-			prepareAutomaticScreenshotAndNoMeadiaFile();
 			saveScreenshot(thumbnail, SCREENSHOT_AUTOMATIC_FILE_NAME);
 		}
 
@@ -285,18 +283,15 @@ public class StageListener implements ApplicationListener {
 		if (reloadProject) {
 			int spriteSize = sprites.size();
 			for (int i = 0; i < spriteSize; i++) {
-				Sprite sprite = sprites.get(i);
-				sprite.pause();
+				sprites.get(i).pause();
 			}
 			stage.clear();
 			SoundManager.getInstance().clear();
 
-			project = ProjectManager.getInstance().getCurrentProject();
-			sprites = project.getSpriteList();
+			Sprite sprite;
 			if (spriteSize > 0) {
 				sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
 			}
-			Sprite sprite;
 			for (int i = 0; i < spriteSize; i++) {
 				sprite = sprites.get(i);
 				sprite.resetSprite();
@@ -311,11 +306,6 @@ public class StageListener implements ApplicationListener {
 			synchronized (stageDialog) {
 				stageDialog.notify();
 			}
-		}
-
-		if (!texturesRendered) {
-			renderTextures();
-			texturesRendered = true;
 		}
 
 		switch (screenMode) {
@@ -405,13 +395,6 @@ public class StageListener implements ApplicationListener {
 			makeScreenshot = false;
 		}
 
-		//		if (paused && !finished) {
-		//			batch.setProjectionMatrix(camera.combined);
-		//			batch.begin();
-		//			batch.draw(pauseScreen, -pauseScreen.getWidth() / 2, -pauseScreen.getHeight() / 2);
-		//			batch.end();
-		//		}
-
 		if (axesOn && !finished) {
 			drawAxes();
 		}
@@ -429,16 +412,16 @@ public class StageListener implements ApplicationListener {
 	private void drawAxes() {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		batch.draw(axes, -virtualWidthHalf, 0, virtualWidth, 1);
-		batch.draw(axes, 0, -virtualHeightHalf, 1, virtualHeight);
+		batch.draw(axes, -virtualWidthHalf, -AXIS_WIDTH / 2, virtualWidth, AXIS_WIDTH);
+		batch.draw(axes, -AXIS_WIDTH / 2, -virtualHeightHalf, AXIS_WIDTH, virtualHeight);
 
-		font.draw(batch, "-" + (int) virtualWidthHalf, -virtualWidthHalf, 0);
-		TextBounds bounds = font.getBounds(String.valueOf((int) virtualWidthHalf));
-		font.draw(batch, String.valueOf((int) virtualWidthHalf), virtualWidthHalf - bounds.width, 0);
+		TextBounds bounds = font.getBounds(String.valueOf((int) virtualHeightHalf));
+		font.draw(batch, "-" + (int) virtualWidthHalf, -virtualWidthHalf + 3, -bounds.height / 2);
+		font.draw(batch, String.valueOf((int) virtualWidthHalf), virtualWidthHalf - bounds.width, -bounds.height / 2);
 
-		font.draw(batch, "-" + (int) virtualHeightHalf, 0, -virtualHeightHalf + bounds.height);
-		font.draw(batch, String.valueOf((int) virtualHeightHalf), 0, virtualHeightHalf);
-		font.draw(batch, "0", 0, 0);
+		font.draw(batch, "-" + (int) virtualHeightHalf, bounds.height / 2, -virtualHeightHalf + bounds.height + 3);
+		font.draw(batch, String.valueOf((int) virtualHeightHalf), bounds.height / 2, virtualHeightHalf - 3);
+		font.draw(batch, "0", bounds.height / 2, -bounds.height / 2);
 		batch.end();
 	}
 
@@ -462,7 +445,7 @@ public class StageListener implements ApplicationListener {
 		while (makeScreenshot) {
 			Thread.yield();
 		}
-		return this.saveScreenshot(this.screenshot, SCREENSHOT_MANUAL_FILE_NAME);
+		return saveScreenshot(this.screenshot, SCREENSHOT_MANUAL_FILE_NAME);
 	}
 
 	private boolean saveScreenshot(byte[] screenshot, String fileName) {
@@ -492,6 +475,7 @@ public class StageListener implements ApplicationListener {
 		FileHandle image = Gdx.files.absolute(pathForScreenshot + fileName);
 		OutputStream stream = image.write(false);
 		try {
+			new File(pathForScreenshot + Constants.NO_MEDIA_FILE).createNewFile();
 			centerSquareBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
 			stream.close();
 		} catch (IOException e) {
@@ -533,19 +517,6 @@ public class StageListener implements ApplicationListener {
 		return whiteBackground;
 	}
 
-	private void renderTextures() {
-		List<Sprite> sprites = project.getSpriteList();
-		int spriteSize = sprites.size();
-		for (int i = 0; i > spriteSize; i++) {
-			List<LookData> data = sprites.get(i).getLookDataList();
-			int dataSize = data.size();
-			for (int j = 0; j < dataSize; j++) {
-				LookData lookData = data.get(j);
-				lookData.setTextureRegion();
-			}
-		}
-	}
-
 	private void disposeTextures() {
 		List<Sprite> sprites = project.getSpriteList();
 		int spriteSize = sprites.size();
@@ -557,24 +528,6 @@ public class StageListener implements ApplicationListener {
 				lookData.getPixmap().dispose();
 				lookData.getTextureRegion().getTexture().dispose();
 			}
-		}
-	}
-
-	private void prepareAutomaticScreenshotAndNoMeadiaFile() {
-		File noMediaFile = new File(pathForScreenshot + Constants.NO_MEDIA_FILE);
-		File screenshotAutomaticFile = new File(pathForScreenshot + SCREENSHOT_AUTOMATIC_FILE_NAME);
-		try {
-			if (screenshotAutomaticFile.exists()) {
-				screenshotAutomaticFile.delete();
-				screenshotAutomaticFile = new File(pathForScreenshot + SCREENSHOT_AUTOMATIC_FILE_NAME);
-			}
-			screenshotAutomaticFile.createNewFile();
-
-			if (!noMediaFile.exists()) {
-				noMediaFile.createNewFile();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 }

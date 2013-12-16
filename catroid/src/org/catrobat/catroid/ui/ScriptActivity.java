@@ -28,7 +28,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -67,7 +66,6 @@ public class ScriptActivity extends BaseActivity {
 	public static final String ACTION_SPRITE_RENAMED = "org.catrobat.catroid.SPRITE_RENAMED";
 	public static final String ACTION_SPRITES_LIST_INIT = "org.catrobat.catroid.SPRITES_LIST_INIT";
 	public static final String ACTION_SPRITES_LIST_CHANGED = "org.catrobat.catroid.SPRITES_LIST_CHANGED";
-	public static final String ACTION_NEW_BRICK_ADDED = "org.catrobat.catroid.NEW_BRICK_ADDED";
 	public static final String ACTION_BRICK_LIST_CHANGED = "org.catrobat.catroid.BRICK_LIST_CHANGED";
 	public static final String ACTION_LOOK_DELETED = "org.catrobat.catroid.LOOK_DELETED";
 	public static final String ACTION_LOOK_RENAMED = "org.catrobat.catroid.LOOK_RENAMED";
@@ -96,7 +94,7 @@ public class ScriptActivity extends BaseActivity {
 	private boolean isLookFragmentFromSetLookBrickNew = false;
 	private boolean isLookFragmentHandleAddButtonHandled = false;
 
-	private ImageButton buttonAdd = null;
+	private ImageButton buttonAdd;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -233,6 +231,12 @@ public class ScriptActivity extends BaseActivity {
 			case R.id.cut:
 				break;
 
+			case R.id.unpacking:
+				Intent intent = new Intent(currentFragment.getActivity(), BackPackActivity.class);
+				intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_SOUNDS);
+				startActivity(intent);
+				break;
+
 			case R.id.insert_below:
 				break;
 
@@ -247,11 +251,6 @@ public class ScriptActivity extends BaseActivity {
 
 			case R.id.delete:
 				currentFragment.startDeleteActionMode();
-				break;
-
-			case R.id.settings:
-				Intent settingsIntent = new Intent(ScriptActivity.this, SettingsActivity.class);
-				startActivity(settingsIntent);
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -275,9 +274,6 @@ public class ScriptActivity extends BaseActivity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-		Log.i("info", "onKeyDown() ScriptActivity.... keyCode: " + keyCode);
-
 		FragmentManager fragmentManager = getSupportFragmentManager();
 
 		for (String tag : FormulaEditorListFragment.TAGS) {
@@ -439,13 +435,7 @@ public class ScriptActivity extends BaseActivity {
 	public void handleShowDetails(boolean showDetails, MenuItem item) {
 		currentFragment.setShowDetails(showDetails);
 
-		String menuItemText = "";
-		if (showDetails) {
-			menuItemText = getString(R.string.hide_details);
-		} else {
-			menuItemText = getString(R.string.show_details);
-		}
-		item.setTitle(menuItemText);
+		item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
 	}
 
 	public ScriptActivityFragment getFragment(int fragmentPosition) {

@@ -35,7 +35,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -53,6 +52,7 @@ import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.ViewSwitchLock;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -95,7 +95,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	private List<Brick> checkedBricks = new ArrayList<Brick>();
 
 	private int selectMode;
-	private OnBrickEditListener onBrickEditListener;
+	private OnBrickCheckedListener onBrickCheckedListener;
 	private boolean actionMode = false;
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
@@ -514,7 +514,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	}
 
-	public void addNewBrick(int position, Brick brickToBeAdded) {
+	public void addNewBrick(int position, Brick brickToBeAdded, boolean initInsertedBrick) {
 
 		if (draggedBrick != null) {
 			Log.w(TAG, "Want to add Brick while there is another one currently dragged.");
@@ -553,8 +553,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		}
 
-		initInsertedBrick = true;
-		positionOfInsertedBrick = position;
+		this.initInsertedBrick = initInsertedBrick;
+		this.positionOfInsertedBrick = position;
 
 		if (scriptCount == 0) {
 			Script script = new StartScript(currentSprite);
@@ -565,59 +565,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 
 		notifyDataSetChanged();
-
-	}
-
-	public void addNewMultipleBricks(int position, Brick brickToBeAdded) {
-
-		if (draggedBrick != null) {
-			Log.w(TAG, "Want to add Brick while there is another one currently dragged.");
-			return;
-		}
-
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		int scriptCount = currentSprite.getNumberOfScripts();
-		if (scriptCount == 0 && brickToBeAdded instanceof ScriptBrick) {
-			currentSprite.addScript(((ScriptBrick) brickToBeAdded).initScript(currentSprite));
-			initBrickList();
-			notifyDataSetChanged();
-			return;
-		}
-
-		if (position < 0) {
-			position = 0;
-		} else if (position > brickList.size()) {
-			position = brickList.size();
-		}
-
-		if (brickToBeAdded instanceof ScriptBrick) {
-
-			brickList.add(position, brickToBeAdded);
-			position = getNewPositionForScriptBrick(position, brickToBeAdded);
-			brickList.remove(brickToBeAdded);
-			brickList.add(position, brickToBeAdded);
-			scrollToPosition(position);
-
-		} else {
-
-			position = getNewPositionIfEndingBrickIsThere(position, brickToBeAdded);
-			position = position <= 0 ? 1 : position;
-			position = position > brickList.size() ? brickList.size() : position;
-			brickList.add(position, brickToBeAdded);
-
-		}
-
-		if (scriptCount == 0) {
-			Script script = new StartScript(currentSprite);
-			currentSprite.addScript(script);
-			brickList.add(0, script.getScriptBrick());
-			positionOfInsertedBrick = 1;
-		}
-
-		notifyDataSetChanged();
-
-		ProjectManager.getInstance().saveProject();
-
 	}
 
 	private int getNewPositionForScriptBrick(int position, Brick brick) {
@@ -903,7 +850,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_move_brick))) {
 					view.performLongClick();
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_copy_brick))) {
-					copyBrickListAndProject(itemPosition, false);
+					copyBrickListAndProject(itemPosition);
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_delete_brick))
 						|| clickedItemText.equals(context.getText(R.string.brick_context_dialog_delete_script))) {
 					showConfirmDeleteDialog(itemPosition);
@@ -933,36 +880,29 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 	}
 
-	protected void copyBrickListAndProject(int itemPosition, boolean b) {
-
-		Brick copy;
-
+	protected void copyBrickListAndProject(int itemPosition) {
 		Brick origin = (Brick) (dragAndDropListView.getItemAtPosition(itemPosition));
+		Brick copy = origin.clone();
 
-		copy = origin.clone();
-
-		addNewBrick(itemPosition, copy);
+		addNewBrick(itemPosition, copy, true);
 
 		notifyDataSetChanged();
 	}
 
 	private void showConfirmDeleteDialog(int itemPosition) {
 		this.clickItemPosition = itemPosition;
-		String yes = context.getString(R.string.yes);
-		String no = context.getString(R.string.no);
-		String title;
-		String message = context.getString(R.string.dialog_confirm_delete_brick_message);
+		int titleId;
 
 		if (getItem(clickItemPosition) instanceof ScriptBrick) {
-			title = context.getString(R.string.dialog_confirm_delete_script_title);
+			titleId = R.string.dialog_confirm_delete_script_title;
 		} else {
-			title = context.getString(R.string.dialog_confirm_delete_brick_title);
+			titleId = R.string.dialog_confirm_delete_brick_title;
 		}
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		builder.setTitle(title);
-		builder.setMessage(message);
-		builder.setPositiveButton(yes, new DialogInterface.OnClickListener() {
+		AlertDialog.Builder builder = new CustomAlertDialogBuilder(context);
+		builder.setTitle(titleId);
+		builder.setMessage(R.string.dialog_confirm_delete_brick_message);
+		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				if (getItem(clickItemPosition) instanceof ScriptBrick) {
@@ -975,7 +915,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				}
 			}
 		});
-		builder.setNegativeButton(no, new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
@@ -993,10 +933,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	private int calculateItemPositionAndTouchPointY(View view) {
-		int itemPosition = AdapterView.INVALID_POSITION;
-		itemPosition = dragAndDropListView.pointToPosition(view.getLeft(), view.getTop());
-
-		return itemPosition;
+		return dragAndDropListView.pointToPosition(view.getLeft(), view.getTop());
 	}
 
 	@Override
@@ -1047,21 +984,30 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 	}
 
+	public void checkAllItems() {
+		for (Brick brick : brickList) {
+			if (brick instanceof ScriptBrick) {
+				if (brick.getCheckBox() != null) {
+					brick.getCheckBox().setChecked(true);
+					brick.setCheckedBoolean(true);
+				}
+				smartBrickSelection(brick, true);
+			}
+		}
+	}
+
 	public void setCheckboxVisibility(int visibility) {
 		for (Brick brick : brickList) {
 			brick.setCheckboxVisibility(visibility);
 		}
 	}
 
-	public interface OnBrickEditListener {
-
-		public void onBrickEdit(View view);
-
-		public void onBrickChecked();
+	public interface OnBrickCheckedListener {
+		void onBrickChecked();
 	}
 
-	public void setOnBrickEditListener(OnBrickEditListener listener) {
-		onBrickEditListener = listener;
+	public void setOnBrickCheckedListener(OnBrickCheckedListener listener) {
+		onBrickCheckedListener = listener;
 	}
 
 	public void handleCheck(Brick brick, boolean isChecked) {
@@ -1084,8 +1030,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 		notifyDataSetChanged();
 
-		if (onBrickEditListener != null) {
-			onBrickEditListener.onBrickChecked();
+		if (onBrickCheckedListener != null) {
+			onBrickCheckedListener.onBrickChecked();
 		}
 	}
 
@@ -1144,16 +1090,13 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 			animateSelectedBricks();
 
-			if (onBrickEditListener != null) {
-				onBrickEditListener.onBrickChecked();
+			if (onBrickCheckedListener != null) {
+				onBrickCheckedListener.onBrickChecked();
 			}
 			notifyDataSetChanged();
 			return true;
 		} else if (brick instanceof NestingBrick) {
-			int counter = 1;
-			int from = 0;
-			int to = 0;
-			for (Brick currentBrick : ((NestingBrick) brick).getAllNestingBrickParts(false)) {
+			for (Brick currentBrick : ((NestingBrick) brick).getAllNestingBrickParts(true)) {
 				if (currentBrick == null) {
 					break;
 				}
@@ -1163,37 +1106,14 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				} else {
 					checkedBricks.remove(currentBrick);
 				}
-				if (counter == 1) {
-					from = brickList.indexOf(currentBrick);
-					counter++;
-				} else {
-					to = brickList.indexOf(currentBrick);
-				}
+
 				currentBrick.getCheckBox().setChecked(checked);
-			}
-			if (from > to) {
-				int temp = from;
-				from = to;
-				to = temp;
-			}
-			from++;
-			while (from < to) {
-				Brick currentBrick = brickList.get(from);
-				if (checked) {
-					animatedBricks.add(currentBrick);
-					addElementToCheckedBricks(currentBrick);
-				} else {
-					checkedBricks.remove(currentBrick);
-				}
-				currentBrick.getCheckBox().setChecked(checked);
-				handleBrickEnabledState(currentBrick, !checked);
-				from++;
 			}
 
 			animateSelectedBricks();
 
-			if (onBrickEditListener != null) {
-				onBrickEditListener.onBrickChecked();
+			if (onBrickCheckedListener != null) {
+				onBrickCheckedListener.onBrickChecked();
 			}
 			notifyDataSetChanged();
 			return true;

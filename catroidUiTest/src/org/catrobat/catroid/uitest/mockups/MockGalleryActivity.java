@@ -56,9 +56,4 @@ public class MockGalleryActivity extends Activity {
 		setResult(RESULT_OK, resultIntent);
 		finish();
 	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-	}
 }

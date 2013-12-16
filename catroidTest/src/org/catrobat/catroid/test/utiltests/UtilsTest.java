@@ -24,7 +24,6 @@ package org.catrobat.catroid.test.utiltests;
 
 import android.test.AndroidTestCase;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
@@ -38,7 +37,6 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -159,15 +157,6 @@ public class UtilsTest extends AndroidTestCase {
 		assertEquals(Utils.buildPath(first, second), result);
 	}
 
-	public void testUniqueName() {
-		String first = Utils.getUniqueName();
-		String second = Utils.getUniqueName();
-		String third = Utils.getUniqueName();
-		assertFalse("Same unique name!", first.equals(second));
-		assertFalse("Same unique name!", first.equals(third));
-		assertFalse("Same unique name!", second.equals(third));
-	}
-
 	public void testDeleteSpecialCharactersFromString() {
 		String testString = "This:IsA-\" */ :<Very>?|Very\\\\Long_Test_String";
 		String newString = Utils.deleteSpecialCharactersInString(testString);
@@ -183,38 +172,29 @@ public class UtilsTest extends AndroidTestCase {
 		assertEquals("Paths are different!", expectedPath, Utils.buildProjectPath(projectName));
 	}
 
-	public void testDebuggableFlagShouldBeSet() throws Exception {
-		// Ensure Utils  returns true in isApplicationDebuggable
-		Reflection.setPrivateField(Utils.class, "isUnderTest", false);
-		assertTrue("Debug flag not set!", Utils.isApplicationDebuggable(getContext()));
-	}
-
 	public void testProjectSameAsStandardProject() {
+		ScreenValues.SCREEN_WIDTH = 480;
+		ScreenValues.SCREEN_HEIGHT = 800;
+
 		try {
-			ScreenValues.SCREEN_WIDTH = 480;
-			ScreenValues.SCREEN_HEIGHT = 800;
-
-			standardProject = StandardProjectHandler.createAndSaveStandardProject(
-					getContext().getString(R.string.default_project_name), getContext());
-			assertTrue("Failed to recognize the standard project",
-					Utils.isStandardProject(standardProject, getContext()));
-
-			standardProject.setName(NEW_PROGRAM_NAME);
-			assertTrue("Failed to recognize renamed standard project",
-					Utils.isStandardProject(standardProject, getContext()));
-
-			addSpriteAndCompareToStandardProject();
-			addScriptAndCompareToStandardProject();
-			addBrickAndCompareToStandardProject();
-			changeParametersOfBricksAndCompareToStandardProject();
-			removeBrickAndCompareToStandardProject();
-			removeScriptAndCompareToStandardProject();
-			removeSpriteAndCompareToStandardProject();
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			standardProject = StandardProjectHandler.createAndSaveStandardProject(NEW_PROGRAM_NAME, getContext());
+		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
+			fail("error creating standard project");
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail("error creating standard project");
 		}
+		assertTrue("Failed to recognize the standard project", Utils.isStandardProject(standardProject, getContext()));
+
+		addSpriteAndCompareToStandardProject();
+		addScriptAndCompareToStandardProject();
+		addBrickAndCompareToStandardProject();
+		changeParametersOfBricksAndCompareToStandardProject();
+		removeBrickAndCompareToStandardProject();
+		removeScriptAndCompareToStandardProject();
+		removeSpriteAndCompareToStandardProject();
+
 	}
 
 	private void addSpriteAndCompareToStandardProject() {

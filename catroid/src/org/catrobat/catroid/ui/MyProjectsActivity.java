@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -42,7 +42,6 @@ public class MyProjectsActivity extends BaseActivity {
 
 	public static final String ACTION_PROJECT_LIST_INIT = "org.catrobat.catroid.PROJECT_LIST_INIT";
 
-	private ActionBar actionBar;
 	private Lock viewSwitchLock = new ViewSwitchLock();
 	private ProjectsListFragment projectsListFragment;
 
@@ -97,20 +96,13 @@ public class MyProjectsActivity extends BaseActivity {
 				handleShowDetails(!projectsListFragment.getShowDetails(), item);
 				break;
 			}
-			case R.id.settings: {
-				Intent intent = new Intent(MyProjectsActivity.this, SettingsActivity.class);
-				startActivity(intent);
-				break;
-			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
 	private void setUpActionBar() {
-		String title = getResources().getString(R.string.my_projects_activity_title);
-
-		actionBar = getSupportActionBar();
-		actionBar.setTitle(title);
+		final ActionBar actionBar = getSupportActionBar();
+		actionBar.setTitle(R.string.my_projects_activity_title);
 		actionBar.setHomeButtonEnabled(true);
 	}
 
@@ -136,12 +128,6 @@ public class MyProjectsActivity extends BaseActivity {
 	private void handleShowDetails(boolean showDetails, MenuItem item) {
 		projectsListFragment.setShowDetails(showDetails);
 
-		String menuItemText = "";
-		if (showDetails) {
-			menuItemText = getString(R.string.hide_details);
-		} else {
-			menuItemText = getString(R.string.show_details);
-		}
-		item.setTitle(menuItemText);
+		item.setTitle(showDetails ? R.string.hide_details : R.string.show_details);
 	}
 }

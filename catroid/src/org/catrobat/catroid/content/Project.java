@@ -56,6 +56,9 @@ public class Project implements Serializable {
 		xmlHeader.setDescription("");
 
 		ifLandscapeSwitchWidthAndHeight();
+		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
+			Utils.updateScreenWidthAndHeight(context);
+		}
 		xmlHeader.virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
 		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
 		setDeviceData(context);
@@ -135,7 +138,7 @@ public class Project implements Serializable {
 		xmlHeader.setPlatformVersion(Build.VERSION.SDK_INT);
 		xmlHeader.setDeviceName(Build.MODEL);
 
-		xmlHeader.setCatrobatLanguageVersion(Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION);
+		xmlHeader.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 		xmlHeader.setApplicationBuildName(Constants.APPLICATION_BUILD_NAME);
 		xmlHeader.setApplicationBuildNumber(Constants.APPLICATION_BUILD_NUMBER);
 

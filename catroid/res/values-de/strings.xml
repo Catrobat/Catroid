@@ -33,12 +33,9 @@
     <string name="cut">Ausschneiden</string>
     <string name="move">Verschieben</string>
     <string name="backpack">Einpacken</string>
+    <string name="unpacking">Auspacken</string>
+    <string name="unpack">Pack es aus</string>
     <string name="copy_addition">Kopie</string>
-
-    <!--  -->
-
-
-    <!-- General -->
     <string name="close">Schließen</string>
     <string name="error">Fehler</string>
     <string name="please_wait">Bitte warten</string>
@@ -46,6 +43,7 @@
     <string name="background">Hintergrund</string>
     <string name="stage">Bühne</string>
     <string name="ok">OK</string>
+    <string name="settings">Einstellungen</string>
     <!--  -->
 
 
@@ -53,10 +51,9 @@
     <string name="main_menu_new">Neu</string>
     <string name="main_menu_continue">Fortsetzen</string>
     <string name="main_menu_programs">Programme</string>
-    <string name="main_menu_forum">Diskutieren</string>
+    <string name="main_menu_help">Hilfe</string>
     <string name="main_menu_web">Erkunden</string>
     <string name="main_menu_upload">Hochladen</string>
-    <string name="main_menu_settings">Einstellungen</string>
     <string name="main_menu_about_pocketcode">Über Pocket Code</string>
     <string name="main_menu_rate_app">Bewerte uns!</string>
     <string name="main_menu_play_store_not_installed">Play Store App nicht gefunden</string>
@@ -72,6 +69,18 @@
     <string name="preference_description_mindstorm_bricks">Erlaube Steuerung von Lego Mindstorm Robotern</string>
     <string name="pref_enable_robot_albert_bricks">Roboter Albert Bausteine</string>
     <string name="pref_descr_robot_albert_bricks">Erlaube Steuerung von Roboter Albert</string>
+    <!--  -->
+
+
+    <!-- New Object Dialog -->
+    <string name="dialog_new_object_look_header">mit Aussehen von…</string>
+    <string name="dialog_new_object_pocketpaint">Pocket Paint</string>
+    <string name="dialog_new_object_gallery">Galerie</string>
+    <string name="dialog_new_object_camera">Kamera</string>
+    <string name="dialog_new_object_look_preview">Vorschau Aussehen</string>
+    <string name="dialog_new_object_name">Objekt Name</string>
+    <string name="dialog_new_object_switch_title">Neues Objekt erstellt</string>
+    <string name="dialog_new_object_switch_message">Zu neuem Objekt wechseln?</string>
     <!--  -->
 
 
@@ -102,6 +111,7 @@
     <string name="dialog_confirm_delete_object_title">Dieses Objekt löschen?</string>
     <string name="dialog_confirm_delete_multiple_objects_title">Diese Objekte löschen?</string>
     <string name="dialog_confirm_delete_object_message">Kann nicht rückgängig gemacht werden!</string>
+    <string name="select_all">Alle auswählen</string>
     <!--  -->
 
 
@@ -128,6 +138,15 @@
     <string name="dialog_confirm_delete_script_title">Dieses Skript löschen?</string>
     <string name="dialog_confirm_delete_multiple_bricks_title">Diese Bausteine löschen?</string>
     <string name="dialog_confirm_delete_brick_message">Kann nicht rückgängig gemacht werden!</string>
+
+    <plurals name="number_of_bricks_to_delete">
+        <item quantity="one">Lösche 1 Baustein</item>
+        <item quantity="other">Lösche %d Bausteine</item>
+    </plurals>
+    <plurals name="number_of_bricks_to_copy">
+        <item quantity="one">Kopiere 1 Baustein</item>
+        <item quantity="other">Kopiere %d Bausteine</item>
+    </plurals>
     <!--  -->
 
 
@@ -136,7 +155,8 @@
     <string name="fragment_background_text_description">Klicke auf \"+\" um Hintergründe hinzuzufügen</string>
     <string name="rename_look_dialog">Aussehen umbenennen</string>
     <string name="lookname_invalid">Dieser Name ist nicht zulässig</string>
-    <string name="pocket_paint_not_installed">Pocket Paint ist nicht installiert!\nJetzt installieren?</string>
+    <string name="pocket_paint_not_installed_title">Pocket Paint ist nicht installiert!</string>
+    <string name="pocket_paint_not_installed">Jetzt installieren?</string>
     <string name="default_look_name">Aussehen</string>
     <string name="delete_look_dialog">Aussehen löschen?</string>
     <string name="select_look_from_gallery">Bild auswählen</string>
@@ -155,7 +175,7 @@
     <string name="backpack_title">Rucksack</string>
     <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
     <string name="sound_play">abspielen</string>
-    <string name="sound_pause">pausieren</string>
+    <string name="sound_stop">stoppen</string>
     <string name="sound_select_source">Klang auswählen</string>
     <string name="sound_time_seperator">/</string>
     <string name="delete_sound_dialog">Klang löschen?</string>
@@ -166,6 +186,10 @@
     <string name="sound_name">Name:</string>
     <!--  -->
 
+    <plurals name="unpacking_items_plural">
+        <item quantity="one">wurde entpackt!</item>
+        <item quantity="other">wurden entpackt!</item>
+    </plurals>
 
     <!-- My Projects activity -->
     <string name="last_used">Letzter Zugriff:</string>
@@ -269,12 +293,6 @@
     <string name="new_broadcast_message">Neu…</string>
     <string name="dialog_new_broadcast_message_title">Neue Nachricht</string>
     <string name="dialog_new_broadcast_message_name">Nachricht:</string>
-    <!--  -->
-
-
-    <!-- Brick general -->
-    <string name="brick_single">Baustein</string>
-    <string name="brick_multiple">Bausteine</string>
     <!--  -->
 
 
@@ -394,6 +412,7 @@
     <!-- defaultValues -->
     <string name="default_project_name">Mein erstes Programm</string>
     <string name="default_project_sprites_mole_name">Maulwurf</string>
+    <string name="default_project_sprites_mole_moving">Bewegender Maulwurf</string>
     <string name="default_project_sprites_mole_whacked">Benommener Maulwurf</string>
     <string name="default_project_sprites_mole_sound">Treffer</string>
     <string name="default_project_backgroundname">Hintergrund</string>
@@ -439,6 +458,7 @@
     <string name="error_load_sound">Beim Laden des Audiofiles ist ein Fehler aufgetreten.</string>
     <string name="error_internet_connection">Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.</string>
     <string name="error_project_compatability">Das Programm ist nicht mit dieser Version von Pocket Code kompatibel.</string>
+    <string name="error_outdated_pocketcode_version">Die Pocket Code Version ist zu alt. Jetzt updaten?</string>
     <string name="error_copy_project">Beim kopieren des Programms ist ein Fehler aufgetreten.</string>
     <string name="error_upload_project_with_default_name">Das Programm mit dem Namen \'Mein erstes Programm\' kann nicht hochgeladen werden. Bitte das Programm umbenennen.</string>
     <string name="error_upload_default_project">Das Programm entspricht dem Programm \'Mein erstes Programm\'. Bitte ändere es und versuche es noch einmal.</string>
@@ -588,6 +608,7 @@
     <string name="formula_editor_discard_changes_dialog_message">Möchten Sie die Änderungen speichern?</string>
     <string name="formula_editor_discard_changes_dialog_title">Änderungen speichern?</string>
     <string name="variable_name">Variablenname:</string>
+
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable ausgewählt!</item>
         <item quantity="other">Variablen ausgewählt!</item>

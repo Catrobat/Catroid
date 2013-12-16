@@ -25,6 +25,8 @@ package org.catrobat.catroid.ui.adapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -51,7 +53,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 	private int selectMode;
 	private boolean showDetails;
 	private Set<Integer> checkedSprites = new TreeSet<Integer>();
-	private OnSpriteCheckedListener onSpriteCheckedListener;
+	private OnSpriteEditListener onSpriteEditListener;
 
 	public SpriteAdapter(Context context, int resource, int textViewResourceId, List<Sprite> objects) {
 		super(context, resource, textViewResourceId, objects);
@@ -61,8 +63,8 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		showDetails = false;
 	}
 
-	public void setOnSpriteCheckedListener(OnSpriteCheckedListener listener) {
-		onSpriteCheckedListener = listener;
+	public void setOnSpriteEditListener(OnSpriteEditListener listener) {
+		onSpriteEditListener = listener;
 	}
 
 	private static class ViewHolder {
@@ -115,7 +117,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View spriteView = convertView;
-		ViewHolder holder;
+		final ViewHolder holder;
 		if (convertView == null) {
 			spriteView = inflater.inflate(R.layout.activity_project_spritelist_item, null);
 			holder = new ViewHolder();
@@ -150,8 +152,8 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 				}
 				notifyDataSetChanged();
 
-				if (onSpriteCheckedListener != null) {
-					onSpriteCheckedListener.onSpriteChecked();
+				if (onSpriteEditListener != null) {
+					onSpriteEditListener.onSpriteChecked();
 				}
 			}
 		});
@@ -221,10 +223,39 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			holder.backgroundHeadline.setVisibility(View.GONE);
 			holder.objectsHeadline.setVisibility(View.GONE);
 		}
+
+		holder.background.setOnLongClickListener(new OnLongClickListener() {
+
+			@Override
+			public boolean onLongClick(View view) {
+				if (selectMode != ListView.CHOICE_MODE_NONE || position == 0) {
+					return true;
+				}
+				return false;
+			}
+		});
+
+		holder.background.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+				if (selectMode == ListView.CHOICE_MODE_NONE) {
+					if (onSpriteEditListener != null) {
+						onSpriteEditListener.onSpriteEdit(position);
+					}
+				} else if (position != 0) {
+					holder.checkbox.setChecked(!holder.checkbox.isChecked());
+				}
+			}
+		});
+
 		return spriteView;
 	}
 
-	public interface OnSpriteCheckedListener {
-		public void onSpriteChecked();
+	public interface OnSpriteEditListener {
+		void onSpriteChecked();
+
+		void onSpriteEdit(int position);
 	}
+
 }

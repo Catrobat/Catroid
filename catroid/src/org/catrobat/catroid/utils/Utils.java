@@ -30,7 +30,6 @@
 package org.catrobat.catroid.utils;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
@@ -45,17 +44,19 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 
+import com.actionbarsherlock.view.ActionMode;
+import com.actionbarsherlock.view.Menu;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -65,6 +66,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -74,19 +76,15 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.Semaphore;
 
 public class Utils {
 
 	private static final String TAG = Utils.class.getSimpleName();
-	private static long uniqueLong = 0;
-	private static Semaphore uniqueNameLock = new Semaphore(1);
 	public static final int PICTURE_INTENT = 1;
 	public static final int FILE_INTENT = 2;
 	public static final int TRANSLATION_PLURAL_OTHER_INTEGER = 767676;
-	private static boolean isUnderTest;
-
-	private static Project standardProject;
+	private static final int DEFAULT_SCREEN_WIDTH = 1280;
+	private static final int DEFAULT_SCREEN_HEIGHT = 768;
 
 	public static boolean externalStorageAvailable() {
 		String externalStorageState = Environment.getExternalStorageState();
@@ -96,11 +94,11 @@ public class Utils {
 
 	public static boolean checkForExternalStorageAvailableAndDisplayErrorIfNot(final Context context) {
 		if (!externalStorageAvailable()) {
-			Builder builder = new AlertDialog.Builder(context);
+			Builder builder = new CustomAlertDialogBuilder(context);
 
-			builder.setTitle(context.getString(R.string.error));
-			builder.setMessage(context.getString(R.string.error_no_writiable_external_storage_available));
-			builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
+			builder.setTitle(R.string.error);
+			builder.setMessage(R.string.error_no_writiable_external_storage_available);
+			builder.setNeutralButton(R.string.close, new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					((Activity) context).moveTaskToBack(true);
@@ -112,12 +110,19 @@ public class Utils {
 		return true;
 	}
 
-	@SuppressWarnings("deprecation")
 	public static void updateScreenWidthAndHeight(Context context) {
-		WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-		Display display = windowManager.getDefaultDisplay();
-		ScreenValues.SCREEN_WIDTH = display.getWidth();
-		ScreenValues.SCREEN_HEIGHT = display.getHeight();
+		if (context != null) {
+			WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+			DisplayMetrics displayMetrics = new DisplayMetrics();
+			windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+			ScreenValues.SCREEN_WIDTH = displayMetrics.widthPixels;
+			ScreenValues.SCREEN_HEIGHT = displayMetrics.heightPixels;
+		} else {
+			//a null-context should never be passed. However, an educated guess is needed in that case.
+			ScreenValues.SCREEN_WIDTH = DEFAULT_SCREEN_WIDTH;
+			ScreenValues.SCREEN_HEIGHT = DEFAULT_SCREEN_HEIGHT;
+		}
+
 	}
 
 	public static boolean isNetworkAvailable(Context context) {
@@ -156,17 +161,29 @@ public class Utils {
 		return buildPath(Constants.DEFAULT_ROOT, deleteSpecialCharactersInString(projectName));
 	}
 
-	public static void showErrorDialog(Context context, String errorMessage) {
-		Builder builder = new AlertDialog.Builder(context);
-		builder.setTitle(context.getString(R.string.error));
-		builder.setMessage(errorMessage);
-		builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
+	public static void showErrorDialog(Context context, int errorMessageId) {
+		Builder builder = new CustomAlertDialogBuilder(context);
+		builder.setTitle(R.string.error);
+		builder.setMessage(errorMessageId);
+		builder.setNeutralButton(R.string.close, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 			}
 		});
 		Dialog errorDialog = builder.create();
 		errorDialog.show();
+	}
+
+	public static View addSelectAllActionModeButton(LayoutInflater inflator, ActionMode mode, Menu menu) {
+		mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
+		com.actionbarsherlock.view.MenuItem item = menu.findItem(R.id.select_all);
+		View view = item.getActionView();
+		if (view.getId() == R.id.select_all) {
+			View selectAllView = inflator.inflate(R.layout.action_mode_select_all, null);
+			item.setActionView(selectAllView);
+			return selectAllView;
+		}
+		return null;
 	}
 
 	public static String md5Checksum(File file) {
@@ -208,13 +225,6 @@ public class Utils {
 		messageDigest.update(string.getBytes());
 
 		return toHex(messageDigest.digest()).toLowerCase(Locale.US);
-	}
-
-	public static String getUniqueName() {
-		uniqueNameLock.acquireUninterruptibly();
-		String uniqueName = String.valueOf(uniqueLong++);
-		uniqueNameLock.release();
-		return uniqueName;
 	}
 
 	private static String toHex(byte[] messageDigest) {
@@ -284,9 +294,8 @@ public class Utils {
 
 			if (projectName != null) {
 				ProjectManager.getInstance().loadProject(projectName, context, false);
-			} else if (ProjectManager.getInstance().canLoadProject(context.getString(R.string.default_project_name))) {
-				ProjectManager.getInstance().loadProject(context.getString(R.string.default_project_name), context,
-						false);
+			} else if (ProjectManager.getInstance().loadProject(context.getString(R.string.default_project_name),
+					context, false)) {
 			} else {
 				ProjectManager.getInstance().initializeDefaultProject(context);
 			}
@@ -307,6 +316,26 @@ public class Utils {
 
 	public static String deleteSpecialCharactersInString(String stringToAdapt) {
 		return stringToAdapt.replaceAll("[\"*/:<>?\\\\|]", "");
+	}
+
+	public static String getUniqueObjectName(String name) {
+		return searchForNonExistingObjectNameInCurrentProgram(name, 0);
+	}
+
+	private static String searchForNonExistingObjectNameInCurrentProgram(String name, int nextNumber) {
+		String newName;
+
+		if (nextNumber == 0) {
+			newName = name;
+		} else {
+			newName = name + nextNumber;
+		}
+
+		if (ProjectManager.getInstance().spriteExists(newName)) {
+			return searchForNonExistingObjectNameInCurrentProgram(name, ++nextNumber);
+		}
+
+		return newName;
 	}
 
 	public static String getUniqueLookName(String name) {
@@ -338,8 +367,8 @@ public class Utils {
 
 		List<String> projectNameList = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT));
 		for (String projectName : projectNameList) {
-			if (ProjectManager.getInstance().canLoadProject(projectName)) {
-				loadableProject = StorageHandler.getInstance().loadProject(projectName);
+			loadableProject = StorageHandler.getInstance().loadProject(projectName);
+			if (loadableProject != null) {
 				break;
 			}
 		}
@@ -363,14 +392,6 @@ public class Utils {
 		return newTitle;
 	}
 
-	public static boolean isApplicationDebuggable(Context context) {
-		if (isUnderTest) {
-			return false;
-		} else {
-			return BuildConfig.DEBUG;
-		}
-	}
-
 	public static Pixmap getPixmapFromFile(File imageFile) {
 		Pixmap pixmap = null;
 		try {
@@ -384,30 +405,44 @@ public class Utils {
 		return pixmap;
 	}
 
-	public static void setBottomBarActivated(Activity activity, boolean isActive) {
-		LinearLayout bottomBarLayout = (LinearLayout) activity.findViewById(R.id.bottom_bar);
+	public static void rewriteImageFileForStage(Context context, File lookFile) throws IOException {
+		// if pixmap cannot be created, image would throw an Exception in stage
+		// so has to be loaded again with other Config
+		Pixmap pixmap = null;
+		pixmap = Utils.getPixmapFromFile(lookFile);
 
-		if (bottomBarLayout != null) {
-			bottomBarLayout.findViewById(R.id.button_add).setClickable(isActive);
-			bottomBarLayout.findViewById(R.id.button_play).setClickable(isActive);
+		if (pixmap == null) {
+			ImageEditing.overwriteImageFileWithNewBitmap(lookFile);
+			pixmap = Utils.getPixmapFromFile(lookFile);
+
+			if (pixmap == null) {
+				Utils.showErrorDialog(context, R.string.error_load_image);
+				StorageHandler.getInstance().deleteFile(lookFile.getAbsolutePath());
+				throw new IOException("Pixmap could not be fixed");
+			}
 		}
 	}
 
+	public static String getUniqueProjectName() {
+		String projectName = "project_" + String.valueOf(System.currentTimeMillis());
+		while (StorageHandler.getInstance().projectExists(projectName)) {
+			projectName = "project_" + String.valueOf(System.currentTimeMillis());
+		}
+		return projectName;
+	}
+
 	public static boolean isStandardProject(Project projectToCheck, Context context) {
-
 		try {
-			if (standardProject == null) {
-				standardProject = StandardProjectHandler.createAndSaveStandardProject(
-						context.getString(R.string.default_project_name), context);
-			}
-
-			ProjectManager.getInstance().setProject(projectToCheck);
-			ProjectManager.getInstance().saveProject();
-
+			Project standardProject = StandardProjectHandler.createAndSaveStandardProject(getUniqueProjectName(),
+					context);
 			String standardProjectXMLString = StorageHandler.getInstance().getXMLStringOfAProject(standardProject);
 			int start = standardProjectXMLString.indexOf("<objectList>");
 			int end = standardProjectXMLString.indexOf("</objectList>");
 			String standardProjectSpriteList = standardProjectXMLString.substring(start, end);
+			ProjectManager.getInstance().deleteCurrentProject();
+
+			ProjectManager.getInstance().setProject(projectToCheck);
+			ProjectManager.getInstance().saveProject();
 
 			String projectToCheckXMLString = StorageHandler.getInstance().getXMLStringOfAProject(projectToCheck);
 			start = projectToCheckXMLString.indexOf("<objectList>");
@@ -415,11 +450,12 @@ public class Utils {
 			String projectToCheckStringList = projectToCheckXMLString.substring(start, end);
 
 			return standardProjectSpriteList.contentEquals(projectToCheckStringList);
-		} catch (IOException e) {
+		} catch (IllegalArgumentException illegalArgumentException) {
+			illegalArgumentException.printStackTrace();
+		} catch (IOException exception) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			exception.printStackTrace();
 		}
-
 		return true;
 
 	}
@@ -446,5 +482,17 @@ public class Utils {
 
 		File projectDirectory = new File(Utils.buildProjectPath(programName));
 		return projectDirectory.exists();
+	}
+
+	public static void setSelectAllActionModeButtonVisibility(View selectAllActionModeButton, boolean setVisible) {
+		if (selectAllActionModeButton == null) {
+			return;
+		}
+
+		if (setVisible) {
+			selectAllActionModeButton.setVisibility(View.VISIBLE);
+		} else {
+			selectAllActionModeButton.setVisibility(View.GONE);
+		}
 	}
 }

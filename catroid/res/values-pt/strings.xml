@@ -32,10 +32,6 @@
     <string name="cut">"Cortar"</string>
     <string name="move">"Mover"</string>
     <string name="play">"Play"</string>
-    <!--  -->
-
-
-    <!-- General -->
     <string name="close">"Fechar"</string>
     <string name="error">"Erro"</string>
     <string name="please_wait">"Por favor, aguarde…"</string>
@@ -44,6 +40,7 @@
     <string name="stage">"Etapa"</string>
     <string name="ok">"Ok"</string>
     <string name="add">"Adicionar"</string>
+    <string name="settings">"Configurações"</string>
     <!--  -->
 
 
@@ -54,7 +51,6 @@
     <string name="main_menu_forum">"Fórum"</string>
     <string name="main_menu_web">"Comunidade"</string>
     <string name="main_menu_upload">"Upload"</string>
-    <string name="main_menu_settings">"Configurações"</string>
     <string name="main_menu_about_pocketcode">"Sobre Catroid"</string>
     <!--  -->
 
@@ -94,7 +90,7 @@
     <string name="pocket_paint_not_installed">"Paintroid não instalado!\nVocê deseja instalá-lo?"</string>
     <string name="default_look_name">"traje"</string>
     <string name="delete_look_dialog">"Excluir traje?"</string>
-    <string name="add_look_from_camera">"Da Câmera"</string> 
+    <string name="add_look_from_camera">"Da Câmera"</string>
     <string name="add_look_draw_new_image">"Da Câmera"</string>
     <string name="add_look_choose_image">"Da Galeria"</string>
     <string name="select_look_from_gallery">"Selecione uma imagem"</string>
@@ -103,7 +99,6 @@
     <string name="rename_sound_dialog">"Renomear som"</string>
     <string name="soundname_invalid">"Nome de som inválido"</string>
     <string name="sound_play">"tocar"</string>
-    <string name="sound_pause">"pausar"</string>
     <string name="sound_select_source">"Selecione um som"</string>
     <string name="delete_sound_dialog">"Excluir som"</string>
     <!-- My Projects activity -->

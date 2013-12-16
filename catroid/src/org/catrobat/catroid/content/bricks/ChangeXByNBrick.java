@@ -129,7 +129,7 @@ public class ChangeXByNBrick extends BrickBaseType implements OnClickListener, F
 
 		if (view != null) {
 
-			View layout = (View) view.findViewById(R.id.brick_change_x_layout);
+			View layout = view.findViewById(R.id.brick_change_x_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 

@@ -51,19 +51,9 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-	}
-
-	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.copy).setVisible(true);
 		super.onPrepareOptionsMenu(menu);
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
 	}
 
 	@Override
@@ -95,5 +85,9 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 	@Override
 	public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 		return false;
+	}
+
+	@Override
+	public void startUnPackingActionMode() {
 	}
 }
