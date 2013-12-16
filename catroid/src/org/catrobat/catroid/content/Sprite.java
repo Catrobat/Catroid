@@ -35,6 +35,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
+import org.catrobat.catroid.physic.PhysicsLook;
 import org.catrobat.catroid.physic.content.ActionFactory;
 
 import java.io.Serializable;
@@ -52,6 +53,8 @@ public class Sprite implements Serializable, Cloneable {
 	private List<Script> scriptList;
 	private ArrayList<LookData> lookList;
 	private ArrayList<SoundInfo> soundList;
+	public int RESOURCES = 0x0;
+
 	protected transient ActionFactory actionFactory = new ActionFactory(); // TODO[physic]:
 
 	public Sprite(String name) {
@@ -85,7 +88,11 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	private void init() {
-		look = new Look(this);
+		if ((RESOURCES & Brick.PHYSIC) > 0) {
+			look = new PhysicsLook(this);
+		} else {
+			look = new Look(this);
+		}
 		isPaused = false;
 		if (soundList == null) {
 			soundList = new ArrayList<SoundInfo>();
@@ -99,7 +106,11 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void resetSprite() {
-		look = new Look(this);
+		if ((RESOURCES & Brick.PHYSIC) > 0) {
+			look = new PhysicsLook(this);
+		} else {
+			look = new Look(this);
+		}
 		for (LookData lookData : lookList) {
 			lookData.resetLookData();
 		}
