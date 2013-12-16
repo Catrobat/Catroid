@@ -42,11 +42,6 @@
  */
 package org.catrobat.catroid.robot.albert;
 
-import java.io.IOException;
-
-import org.catrobat.catroid.bluetooth.BTConnectable;
-import org.catrobat.catroid.bluetooth.DeviceListActivity;
-
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
@@ -54,6 +49,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+
+import org.catrobat.catroid.bluetooth.BTConnectable;
+import org.catrobat.catroid.bluetooth.DeviceListActivity;
+
+import java.io.IOException;
 
 /**
  * @author une
@@ -105,7 +105,6 @@ public class RobotAlbert implements BTConnectable {
 	public void destroyCommunicator() {
 
 		if (myCommunicator != null) {
-			//sendBTCMotorMessage(LegoNXTBtCommunicator.NO_DELAY, LegoNXTBtCommunicator.DISCONNECT, 0, 0);
 			try {
 				myCommunicator.stopAllMovement();
 				myCommunicator.destroyConnection();
@@ -122,44 +121,6 @@ public class RobotAlbert implements BTConnectable {
 		myCommunicator.stopAllMovement();
 	}
 
-	public static synchronized void sendBTCPlayToneMessage(int frequency, int duration) {
-		/*
-		 * Bundle myBundle = new Bundle();
-		 * myBundle.putInt("frequency", frequency);
-		 * myBundle.putInt("duration", duration);
-		 * 
-		 * Message myMessage = btcHandler.obtainMessage();
-		 * myMessage.setData(myBundle);
-		 * myMessage.what = TONE_COMMAND;
-		 * 
-		 * btcHandler.sendMessage(myMessage);
-		 */
-
-	}
-
-	public static synchronized void sendBTCMotorMessage(int delay, int motor, int speed, int angle) {
-		/*
-		 * Bundle myBundle = new Bundle();
-		 * myBundle.putInt("motor", motor);
-		 * myBundle.putInt("speed", speed);
-		 * myBundle.putInt("angle", angle);
-		 * Message myMessage = btcHandler.obtainMessage();
-		 * myMessage.setData(myBundle);
-		 * myMessage.what = motor;
-		 * 
-		 * if (delay == 0) {
-		 * 
-		 * btcHandler.removeMessages(motor);
-		 * btcHandler.sendMessage(myMessage);
-		 * 
-		 * } else {
-		 * //btcHandler.removeMessages(motor);
-		 * btcHandler.sendMessageDelayed(myMessage, delay);
-		 * 
-		 * }
-		 */
-	}
-
 	public static synchronized void sendRobotAlbertMotorMessage(int motor, int speed) {
 		Log.d("RobotAlbert", "sendRobotAlbertMotorMessage():Bundle");
 		Bundle myBundle = new Bundle();
@@ -173,18 +134,6 @@ public class RobotAlbert implements BTConnectable {
 		Log.d("RobotAlbert", "sendRobotAlbertMotorMessage():btcHandler.sendMessage(...)");
 		btcHandler.sendMessage(myMessage);
 		Log.d("RobotAlbert", "sendRobotAlbertMotorMessage finished!");
-		/*
-		 * if (delay == 0) {
-		 * 
-		 * btcHandler.removeMessages(motor);
-		 * btcHandler.sendMessage(myMessage);
-		 * 
-		 * } else {
-		 * //btcHandler.removeMessages(motor);
-		 * btcHandler.sendMessageDelayed(myMessage, delay);
-		 * 
-		 * }
-		 */
 	}
 
 	public static synchronized void sendRobotAlbertBuzzerMessage(int buzzer) {

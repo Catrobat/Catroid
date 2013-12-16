@@ -118,24 +118,6 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 				}
 
 			}
-
-			/*
-			 * try {
-			 * returnMessage = receiveMessage();
-			 * if ((returnMessage.length >= 2)
-			 * && ((returnMessage[0] == LCPMessage.REPLY_COMMAND) || (returnMessage[0] ==
-			 * LCPMessage.DIRECT_COMMAND_NOREPLY))) {
-			 * dispatchMessage(returnMessage);
-			 * }
-			 * 
-			 * } catch (IOException e) {
-			 * // don't inform the user when connection is already closed
-			 * if (connected) {
-			 * sendState(STATE_RECEIVEERROR);
-			 * }
-			 * return;
-			 * }
-			 */
 		}
 	}
 
@@ -255,12 +237,6 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 		myHandler.removeMessages(0);
 		myHandler.removeMessages(1);
 		myHandler.removeMessages(2);
-
-		/*
-		 * moveMotor(0, 0, 0);
-		 * moveMotor(1, 0, 0);
-		 * moveMotor(2, 0, 0);
-		 */
 		resetRobotAlbert();
 
 	}

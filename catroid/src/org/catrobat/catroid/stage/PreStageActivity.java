@@ -46,10 +46,10 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.legonxt.LegoNXT;
 import org.catrobat.catroid.legonxt.LegoNXTBtCommunicator;
-import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.robot.albert.RobotAlbert;
 import org.catrobat.catroid.robot.albert.RobotAlbertBtCommunicator;
 import org.catrobat.catroid.robot.albert.SensorRobotAlbert;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -96,7 +96,7 @@ public class PreStageActivity extends Activity {
 			startActivityForResult(checkIntent, REQUEST_TEXT_TO_SPEECH);
 		}
 		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
-			BluetoothManager bluetoothManager = new BluetoothManager(this);
+			/* BluetoothManager */bluetoothManager = new BluetoothManager(this);
 
 			int bluetoothState = bluetoothManager.activateBluetooth();
 			if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED) {
