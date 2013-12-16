@@ -251,4 +251,8 @@ public class PhysicsObject {
 			fixture.setRestitution(bounceFactor);
 		}
 	}
+
+	public void setVisible(boolean visible) {
+		// TODO Auto-generated method stub
+	}
 }
