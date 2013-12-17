@@ -73,7 +73,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		assertNull("there is a current sprite set", projectManager.getCurrentSprite());
 		assertNull("there is a current script set", projectManager.getCurrentScript());
-		Context context = getInstrumentation().getContext().createPackageContext("org.catrobat.catroid",
+		Context context = getInstrumentation().getContext().createPackageContext(getInstrumentation().getTargetContext().getPackageName(),
 				Context.CONTEXT_IGNORE_SECURITY);
 
 		// initializeNewProject
@@ -134,7 +134,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 	public void testEmptyProject() throws NameNotFoundException, IOException {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		Context context = getInstrumentation().getContext().createPackageContext("org.catrobat.catroid",
+		Context context = getInstrumentation().getContext().createPackageContext(getInstrumentation().getTargetContext().getPackageName(),
 				Context.CONTEXT_IGNORE_SECURITY);
 
 		projectManager.initializeNewProject(projectNameOne, context, true);

@@ -37,8 +37,7 @@ public class SystemOutTest extends TestCase {
 	private StringBuffer errorMessages;
 	private boolean errorFound;
 
-	private static final String[] DIRECTORIES = { "../catroidUiTest", "../catroidTest", "../catroid",
-			"../catroidCucumberTest", };
+	private static final String[] DIRECTORIES = { "../catroidTest", "../catroid", "../catroidCucumberTest" };
 
 	private void checkFileForSystemOut(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
