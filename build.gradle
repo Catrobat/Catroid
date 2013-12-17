@@ -21,8 +21,8 @@ apply plugin: 'checkstyle'
 //apply plugin: 'pmd'
 
 ext.catroid_version = "0.9"
-ext.features_enabled = [
-        "backpack":false
+ext.enabledFeatures = [
+        "backpack": false
 ]
 
 dependencies {
@@ -32,20 +32,19 @@ dependencies {
     compile fileTree(dir: 'catroid/libs-natives', include: '*.jar')
 
     instrumentTestCompile fileTree(dir: 'catroidTest/libs', include: '*.jar')
-    
 }
 
 
 def getVersionCode = { ->
     def code = project.hasProperty('versionCode') ? versionCode.toInteger() : -1
+    println "versionCode is set to $code"
     return code
 }
 
 def getVersionName = { ->
     def code = getVersionCode
     def versionName = "$ext.catroid_version.$code"
-    println "VersionCode is set to $code"
-    println "VersionName is set to $versionName"
+    println "versionName is set to $versionName"
     return versionName
 }
 
@@ -54,18 +53,20 @@ def gitDescribe() {
 }
 
 def featuresToBuildconfig = {
-    def erg = ""
-    for(feature in ext.features_enabled) {
-        def name = feature.key
-        def value = feature.value
-        if(project.hasProperty("allFeatures_enabled"))
+    def features = ""
+
+    println "Features (feature_name: enabled):"
+    ext.enabledFeatures.each() { key, value ->
+        if (project.hasProperty("allFeatures_enabled"))
             value = project["allFeatures_enabled"]
-        if(project.hasProperty("${name}_enabled"))
+        if (project.hasProperty("${name}_enabled"))
             value = project["${name}_enabled"]
 
-        erg += "public static final boolean FEATURE_${name.toUpperCase()}_ENABLED = ${value};\n"
+        println "    ${key}: {$value}"
+        features += "public static final boolean FEATURE_${name.toUpperCase()}_ENABLED = ${value};\n"
     }
-    return erg
+
+    return features
 }
 
 
@@ -137,7 +138,7 @@ task checkstyle(type: Checkstyle) {
 
 task jenkins() << {
     android.buildTypes.each { type ->
-        if(type.name == "debug") {
+        if (type.name == "debug") {
                 type.packageNameSuffix = ".jenkinsdebug"
                 type.versionNameSuffix = "-jenkins-$type.name"
         }
@@ -162,6 +163,6 @@ gradle.projectsEvaluated {
 }
 
 def signing_config_file = file(System.getProperty("user.home") + "/.catrobat/catroid_signing_config.gradle")
-if(signing_config_file.exists()) {
+if (signing_config_file.exists()) {
     apply from: signing_config_file.absolutePath
 }

@@ -3,24 +3,20 @@ repositories{
     mavenCentral()
 }
 
-
 apply plugin: 'java'
 
-
 dependencies {
-	testCompile files( project(":").buildDir.getPath()+'/classes/debug')
+	testCompile files( project(":").buildDir.getPath() + '/classes/debug' )
 	testCompile 'junit:junit:4.10'
 }
 
 sourceSets {
     main {
         test {
-	    java.srcDir 'src'
+            java.srcDir 'src'
         }
         resources {
             srcDir 'res'
         }
     }
 }
-
-
