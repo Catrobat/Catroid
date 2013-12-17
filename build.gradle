@@ -20,13 +20,7 @@ apply plugin: 'android'
 apply plugin: 'checkstyle'
 //apply plugin: 'pmd'
 
-// Taken from https://plus.google.com/+JakeWharton/posts/6f5TcVPRZij
-// and http://stackoverflow.com/a/7710257
-def versionMajor = 0
-def versionMinor = 9
-def versionPatch = 7
-def versionBuild = 0 // bump for dogfood builds, public betas, etc.
-
+ext.catroid_version = "0.9"
 ext.enabledFeatures = [
         "backpack": false
 ]
@@ -40,29 +34,36 @@ dependencies {
     instrumentTestCompile fileTree(dir: 'catroidTest/libs', include: '*.jar')
 }
 
+
 def getVersionCode = { ->
-    def code = versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
+    def code = project.hasProperty('versionCode') ? versionCode.toInteger() : -1
     println "versionCode is set to $code"
     return code
 }
 
 def getVersionName = { ->
-    def name = "${versionMajor}.${versionMinor}.${versionPatch}"
-    println "versionName is set to $name"
-    return name
+    def code = getVersionCode
+    def versionName = "$ext.catroid_version.$code"
+    println "versionName is set to $versionName"
+    return versionName
 }
 
 def gitDescribe() {
     return 'git describe --tags'.execute().text.trim()
 }
 
-def featuresToBuildConfig() {
+def featuresToBuildconfig = {
     def features = ""
 
     println "Features (feature_name: enabled):"
     ext.enabledFeatures.each() { key, value ->
-        println "    ${key}: ${value}"
-        features += "public static final boolean FEATURE_${key.toUpperCase()}_ENABLED = ${value};\n"
+        if (project.hasProperty("allFeatures_enabled"))
+            value = project["allFeatures_enabled"]
+        if (project.hasProperty("${name}_enabled"))
+            value = project["${name}_enabled"]
+
+        println "    ${key}: {$value}"
+        features += "public static final boolean FEATURE_${name.toUpperCase()}_ENABLED = ${value};\n"
     }
 
     return features
@@ -70,12 +71,12 @@ def featuresToBuildConfig() {
 
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19"
+    compileSdkVersion 18
+    buildToolsVersion "18.0.1"
 
     defaultConfig {
         minSdkVersion 10
-        targetSdkVersion 19
+        targetSdkVersion 18
         packageName "org.catrobat.catroid"
         testPackageName "org.catrobat.catroid.test"
         testInstrumentationRunner "pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
@@ -83,7 +84,7 @@ android {
         versionName getVersionName()
         buildConfig """\
                 public static final String GIT_DESCRIBE = "${gitDescribe()}";
-                ${featuresToBuildConfig()}
+                ${featuresToBuildconfig()}
             """
     }
 
