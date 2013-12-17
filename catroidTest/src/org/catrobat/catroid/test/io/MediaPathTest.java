@@ -181,20 +181,19 @@ public class MediaPathTest extends InstrumentationTestCase {
 	}
 
 	public void testIncrementUsage() {
-
+		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 		Sprite testSprite = new Sprite("testSprite");
 		ArrayList<LookData> lookDataList = new ArrayList<LookData>();
 
 		LookData lookData = new LookData();
 		lookData.setLookName("testLook");
-		lookData.setLookFilename(testImage.getName());
+		lookData.setLookFilename(Utils.md5Checksum(testImage) + "_" + testImage.getName());
 		lookDataList.add(lookData);
+		testSprite.setLookDataList(lookDataList);
 		project.addSprite(testSprite);
 		project.addSprite(testSprite.clone());
 
-		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
-
-		assertEquals("Usage counter has not been incremented!", 2, container.getUsage(Utils.md5Checksum(testImage)));
+		assertEquals("Usage counter has not been incremented!", 3, container.getUsage(Utils.md5Checksum(testImage)));
 	}
 
 	public void testDecrementUsage() {

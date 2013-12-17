@@ -393,7 +393,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("Picture changed", md5ChecksumImageFileBeforeIntent, md5ChecksumImageFileAfterIntent);
 	}
 
-	public void testEditImageInPaintroid() {
+	public void testPaintroidNotInstalledDialog() {
 
 		Reflection.setPrivateField(Constants.class, "POCKET_PAINT_PACKAGE_NAME", "destroy.intent");
 		Reflection.setPrivateField(Constants.class, "POCKET_PAINT_INTENT_ACTIVITY_NAME", "for.science");
@@ -453,6 +453,20 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		}
 		assertTrue("File not added in LookDataList", isInLookDataListPaintroidImage);
 		assertFalse("File not deleted from LookDataList", isInLookDataListSunnglasses);
+	}
+
+	public void testEditCopiedImageInPaontroid() {
+
+		Intent intent = new Intent(getInstrumentation().getContext(),
+				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
+		getLookFragment().sendPocketPaintIntent(0, intent);
+
+		solo.sleep(200);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+		assertNotNull("there must be an Intent", getLookFragment().lastRecivedIntent);
+		Bundle bundle = getLookFragment().lastRecivedIntent.getExtras();
+		String pathOfPocketPaintImage = bundle.getString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT);
+		assertEquals("Image must by a temp copy", Constants.TMP_IMAGE_PATH, pathOfPocketPaintImage);
 	}
 
 	public void testPaintroidImagefileExtension() {
