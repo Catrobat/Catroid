@@ -1679,6 +1679,9 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
+		boolean screenshotExists = ProjectManager.getInstance().getCurrentProject()
+				.manualScreenshotExists("manual_screenshot" + Constants.IMAGE_STANDARD_EXTENTION);
+		assertEquals("there should be no manual screenshot", true, screenshotExists);
 		playTheProject(false, false, false); // green to green
 		int greenPixel1 = createScreenshotBitmap();
 
@@ -1689,6 +1692,9 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertEquals("The extracted pixel was not green", greenHexValue, pixelHexValue);
 		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
+		screenshotExists = ProjectManager.getInstance().getCurrentProject()
+				.manualScreenshotExists("manual_screenshot" + Constants.IMAGE_STANDARD_EXTENTION);
+		assertEquals("there should be no manual screenshot", true, screenshotExists);
 		playTheProject(true, false, false); // green to red
 		int redPixel1 = createScreenshotBitmap();
 		pixelHexValue = Integer.toHexString(redPixel1);
@@ -1696,6 +1702,9 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertFalse("The screenshot has not been changed", greenPixel1 == redPixel1);
 		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
+		screenshotExists = ProjectManager.getInstance().getCurrentProject()
+				.manualScreenshotExists("manual_screenshot" + Constants.IMAGE_STANDARD_EXTENTION);
+		assertEquals("there should be no manual screenshot", true, screenshotExists);
 		playTheProject(false, true, true);// red to green + screenshot
 		int greenPixel2 = createScreenshotBitmap();
 		pixelHexValue = Integer.toHexString(greenPixel2);
@@ -1703,6 +1712,9 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertFalse("The screenshot has not been changed", redPixel1 == greenPixel2);
 		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
+		screenshotExists = ProjectManager.getInstance().getCurrentProject()
+				.manualScreenshotExists("manual_screenshot" + Constants.IMAGE_STANDARD_EXTENTION);
+		assertEquals("there should be a manual screenshot", false, screenshotExists);
 		playTheProject(true, false, false); // green to red, screenshot must stay green
 		int greenPixel3 = createScreenshotBitmap();
 		pixelHexValue = Integer.toHexString(greenPixel3);
@@ -1792,7 +1804,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		}
 
 		Reflection.setPrivateField(StageListener.class, "checkIfAutomaticScreenshotShouldBeTaken", true);
-		//Reflection.setPrivateField(StageListener.class, "makeAutomaticScreenshot", true);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);

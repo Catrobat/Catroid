@@ -186,8 +186,7 @@ public class StageListener implements ApplicationListener {
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
 		skipFirstFrameForAutomaticScreenshot = true;
 		if (checkIfAutomaticScreenshotShouldBeTaken) {
-			makeAutomaticScreenshot = Utils.checkIfAtomaticSreenshotsShouldBeTaken(project.getName(),
-					SCREENSHOT_MANUAL_FILE_NAME);
+			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
 		}
 	}
 
