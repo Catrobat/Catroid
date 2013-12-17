@@ -20,9 +20,15 @@ apply plugin: 'android'
 apply plugin: 'checkstyle'
 //apply plugin: 'pmd'
 
-ext.catroid_version = "0.9"
-ext.features_enabled = [
-        "backpack":false
+// Taken from https://plus.google.com/+JakeWharton/posts/6f5TcVPRZij
+// and http://stackoverflow.com/a/7710257
+def versionMajor = 0
+def versionMinor = 9
+def versionPatch = 7
+def versionBuild = 0 // bump for dogfood builds, public betas, etc.
+
+ext.enabledFeatures = [
+        "backpack": false
 ]
 
 dependencies {
@@ -32,50 +38,44 @@ dependencies {
     compile fileTree(dir: 'catroid/libs-natives', include: '*.jar')
 
     instrumentTestCompile fileTree(dir: 'catroidTest/libs', include: '*.jar')
-    
 }
 
-
 def getVersionCode = { ->
-    def code = project.hasProperty('versionCode') ? versionCode.toInteger() : -1
+    def code = versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
+    println "versionCode is set to $code"
     return code
 }
 
 def getVersionName = { ->
-    def code = getVersionCode
-    def versionName = "$ext.catroid_version.$code"
-    println "VersionCode is set to $code"
-    println "VersionName is set to $versionName"
-    return versionName
+    def name = "${versionMajor}.${versionMinor}.${versionPatch}"
+    println "versionName is set to $name"
+    return name
 }
 
 def gitDescribe() {
     return 'git describe --tags'.execute().text.trim()
 }
 
-def featuresToBuildconfig = {
-    def erg = ""
-    for(feature in ext.features_enabled) {
-        def name = feature.key
-        def value = feature.value
-        if(project.hasProperty("allFeatures_enabled"))
-            value = project["allFeatures_enabled"]
-        if(project.hasProperty("${name}_enabled"))
-            value = project["${name}_enabled"]
+def featuresToBuildConfig() {
+    def features = ""
 
-        erg += "public static final boolean FEATURE_${name.toUpperCase()}_ENABLED = ${value};\n"
+    println "Features (feature_name: enabled):"
+    ext.enabledFeatures.each() { key, value ->
+        println "    ${key}: ${value}"
+        features += "public static final boolean FEATURE_${key.toUpperCase()}_ENABLED = ${value};\n"
     }
-    return erg
+
+    return features
 }
 
 
 android {
-    compileSdkVersion 18
-    buildToolsVersion "18.0.1"
+    compileSdkVersion 19
+    buildToolsVersion "19"
 
     defaultConfig {
         minSdkVersion 10
-        targetSdkVersion 18
+        targetSdkVersion 19
         packageName "org.catrobat.catroid"
         testPackageName "org.catrobat.catroid.test"
         testInstrumentationRunner "pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
@@ -83,7 +83,7 @@ android {
         versionName getVersionName()
         buildConfig """\
                 public static final String GIT_DESCRIBE = "${gitDescribe()}";
-                ${featuresToBuildconfig()}
+                ${featuresToBuildConfig()}
             """
     }
 
@@ -137,7 +137,7 @@ task checkstyle(type: Checkstyle) {
 
 task jenkins() << {
     android.buildTypes.each { type ->
-        if(type.name == "debug") {
+        if (type.name == "debug") {
                 type.packageNameSuffix = ".jenkinsdebug"
                 type.versionNameSuffix = "-jenkins-$type.name"
         }
@@ -162,6 +162,6 @@ gradle.projectsEvaluated {
 }
 
 def signing_config_file = file(System.getProperty("user.home") + "/.catrobat/catroid_signing_config.gradle")
-if(signing_config_file.exists()) {
+if (signing_config_file.exists()) {
     apply from: signing_config_file.absolutePath
 }
