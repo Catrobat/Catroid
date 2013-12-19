@@ -181,7 +181,7 @@ public class PreStageActivity extends Activity {
 		for (Sprite sprite : spriteList) {
 			ressources |= sprite.getRequiredResources();
 			if ((ressources & Brick.PHYSIC) > 0) {
-				sprite.setActionFactory(actionPhysicsFactory); // TODO[ physic Look ]
+				sprite.setActionFactory(actionPhysicsFactory);
 				ressources &= ~Brick.PHYSIC;
 			} else {
 				sprite.setActionFactory(actionFactory);
