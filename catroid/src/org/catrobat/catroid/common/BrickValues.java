@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.common;
 
-public class BrickValues {
+public final class BrickValues {
 
 	public static final int X_POSITION = 100;
 	public static final int Y_POSITION = 200;
@@ -66,4 +66,12 @@ public class BrickValues {
 	public static final int ROBOT_ALBERT_RGB_LED_EYE_BLUE = 255;
 	public static final int ROBOT_ALBERT_RGB_LED_EYE = 2;
 	public static final int ROBOT_ALBERT_FRONT_LED = 1;
+
+	
+	// Suppress default constructor for noninstantiability
+	private BrickValues() {
+		throw new AssertionError();
+	}
+	
+	
 }

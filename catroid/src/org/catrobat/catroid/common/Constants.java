@@ -43,6 +43,7 @@ public final class Constants {
 	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath()
 			+ "/Pocket Code";
 	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
+	public static final String TMP_IMAGE_PATH = TMP_PATH + "/PocketPaintImage.tmp";
 	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
 	public static final String IMAGE_DIRECTORY = "images";
 	public static final String SOUND_DIRECTORY = "sounds";
@@ -89,4 +90,9 @@ public final class Constants {
 	public static final int UPLOAD_NOTIFICATION = 102;
 	public static final int DOWNLOAD_NOTIFICATION = 103;
 	public static final int COPY_NOTIFICATION = 104;
+
+	// Suppress default constructor for noninstantiability
+	private Constants() {
+		throw new AssertionError();
+	}
 }

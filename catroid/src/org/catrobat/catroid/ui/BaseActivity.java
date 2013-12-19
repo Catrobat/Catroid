@@ -46,18 +46,18 @@ public class BaseActivity extends SherlockFragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case android.R.id.home: {
+			case android.R.id.home:
 				Intent intent = new Intent(this, MainMenuActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				BackPackListManager.setBackPackFlag(true);
 				startActivity(intent);
 				break;
-			}
-			case R.id.settings: {
+
+			case R.id.settings:
 				Intent settingsIntent = new Intent(this, SettingsActivity.class);
 				startActivity(settingsIntent);
 				break;
-			}
+
 		}
 		return super.onOptionsItemSelected(item);
 	}

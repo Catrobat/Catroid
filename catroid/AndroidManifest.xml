@@ -24,8 +24,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.catrobat.catroid"
     android:installLocation="auto"
-    android:versionCode="13"
-    android:versionName="0.9.6" >
+    android:versionCode="14"
+    android:versionName="0.9.7" >
 
     <supports-screens
         android:largeScreens="true"

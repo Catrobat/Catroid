@@ -36,10 +36,15 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
-public class UtilZip {
+public final class UtilZip {
 	private static final int QUICKEST_COMPRESSION = 0;
 
 	private static ZipOutputStream zipOutputStream;
+
+	// Suppress default constructor for noninstantiability
+	private UtilZip() {
+		throw new AssertionError();
+	}
 
 	public static boolean writeToZipFile(String[] filePaths, String zipFile) {
 		try {
@@ -96,7 +101,7 @@ public class UtilZip {
 			ZipEntry zipEntry = null;
 
 			BufferedOutputStream destinationOutputStream = null;
-			byte data[] = new byte[Constants.BUFFER_8K];
+			byte[] data = new byte[Constants.BUFFER_8K];
 			ZipFile zipfile = new ZipFile(zipFile);
 			Enumeration<? extends ZipEntry> e = zipfile.entries();
 			while (e.hasMoreElements()) {

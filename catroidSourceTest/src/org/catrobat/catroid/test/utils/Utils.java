@@ -31,7 +31,12 @@ import java.util.List;
 
 // Ignored, so JUnit won't try to test this class.
 @Ignore
-public class Utils {
+public final class Utils {
+
+	// Suppress default constructor for noninstantiability
+	private Utils() {
+		throw new AssertionError();
+	}
 
 	public static List<File> getFilesFromDirectoryByExtension(File directory, String extension) {
 		String[] extensions = { extension };

@@ -39,10 +39,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class XMLValidationUtil {
+public final class XMLValidationUtil {
 	// TODO: change to new XML schema
 	private static final String XML_VALIDATING_URL = "http://catroid.org/CatrobatLanguage/xmlSchema/version-0.3/validateXmlVersion3.php";
 	private static final String LOG_TAG = XMLValidationUtil.class.getSimpleName();
+
+	// Suppress default constructor for noninstantiability
+	private XMLValidationUtil() {
+		throw new AssertionError();
+	}
 
 	public static void sendProjectXMLToServerForValidating(Project projectToValidate) throws IOException,
 			JSONException, WebconnectionException {

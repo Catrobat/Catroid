@@ -65,21 +65,20 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.SortedSet;
 
-public class SoundController {
-
+public final class SoundController {
 	public static final String BUNDLE_ARGUMENTS_SELECTED_SOUND = "selected_sound";
 	public static final String SHARED_PREFERENCE_NAME = "showDetailsSounds";
 	public static final int ID_LOADER_MEDIA_IMAGE = 1;
 	public static final int REQUEST_SELECT_MUSIC = 0;
+
+	private static final SoundController INSTANCE = new SoundController();
 	private static final String TAG = SoundController.class.getSimpleName();
-	private static SoundController instance;
+
+	private SoundController() {
+	}
 
 	public static SoundController getInstance() {
-		if (instance == null) {
-			instance = new SoundController();
-		}
-
-		return instance;
+		return INSTANCE;
 	}
 
 	public void updateSoundLogic(Context context, final int position, final SoundViewHolder holder,

@@ -46,8 +46,10 @@ import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.Utils;
 
 public class OverwriteRenameDialog extends DialogFragment implements OnClickListener {
-	protected RadioButton replaceButton, renameButton;
-	protected String programName, url;
+	protected RadioButton replaceButton;
+	protected RadioButton renameButton;
+	protected String programName;
+	protected String url;
 	protected Context context;
 	protected EditText projectText;
 	protected TextView projectTextView;

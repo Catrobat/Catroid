@@ -49,13 +49,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class TestUtils {
+public final class TestUtils {
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
 
+	// Suppress default constructor for noninstantiability
 	private TestUtils() {
-	};
+		throw new AssertionError();
+	}
 
 	/**
 	 * saves a file into the project folder

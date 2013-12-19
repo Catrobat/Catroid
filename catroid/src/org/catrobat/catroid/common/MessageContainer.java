@@ -33,11 +33,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MessageContainer {
+public final class MessageContainer {
 
 	private static Map<String, List<BroadcastScript>> receiverMap = new HashMap<String, List<BroadcastScript>>();
 	private static Map<String, List<BroadcastScript>> backupReceiverMap = null;
 	private static ArrayAdapter<String> messageAdapter = null;
+
+	// Suppress default constructor for noninstantiability
+	private MessageContainer() {
+		throw new AssertionError();
+	}
 
 	public static void clear() {
 		receiverMap.clear();
