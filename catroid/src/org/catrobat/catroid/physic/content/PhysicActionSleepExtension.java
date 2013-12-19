@@ -20,35 +20,12 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.physic.content.actions;
+package org.catrobat.catroid.physic.content;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+public interface PhysicActionSleepExtension {
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.physic.PhysicsObject;
+	public void physicsBeginHook();
 
-public class SetYPhysicsAction extends TemporalAction {
-
-	private Sprite sprite;
-	private PhysicsObject physicsObject;
-	private Formula y;
-
-	@Override
-	protected void update(float delta) {
-		physicsObject.setY(y.interpretFloat(sprite));
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
-	public void setPhysicObject(PhysicsObject physicsObject) {
-		this.physicsObject = physicsObject;
-	}
-
-	public void setY(Formula y) {
-		this.y = y;
-	}
+	public void physicsEndHook();
 
 }
