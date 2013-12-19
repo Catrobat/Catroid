@@ -94,4 +94,5 @@ public class PhysicsLook extends Look {
 			physicWorld.changeLook(physicsObject, this);
 		}
 	}
+
 }
