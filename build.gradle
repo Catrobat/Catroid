@@ -6,7 +6,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.6.+'
+        classpath 'com.android.tools.build:gradle:0.7.+'
     }
 }
 
@@ -53,21 +53,6 @@ def gitDescribe() {
     return 'git describe --tags'.execute().text.trim()
 }
 
-def featuresToBuildconfig = {
-    def erg = ""
-    for (feature in ext.features_enabled) {
-        def name = feature.key
-        def value = feature.value
-        if (project.hasProperty("allFeatures_enabled"))
-            value = project["allFeatures_enabled"]
-        if (project.hasProperty("${name}_enabled"))
-            value = project["${name}_enabled"]
-
-        erg += "public static final boolean FEATURE_${name.toUpperCase()}_ENABLED = ${value};\n"
-    }
-    return erg
-}
-
 
 android {
     compileSdkVersion 19
@@ -81,10 +66,7 @@ android {
         testInstrumentationRunner "pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
         versionCode getVersionCode()
         versionName getVersionName()
-        buildConfig """\
-                public static final String GIT_DESCRIBE = "${gitDescribe()}";
-                ${featuresToBuildconfig()}
-            """
+        buildConfigField "String", "GIT_DESCRIBE", "\"${gitDescribe()}\""
     }
 
     sourceSets {
@@ -144,9 +126,22 @@ task jenkins() << {
     }
 }
 
+task featuresToBuildconfig() {
+    for (feature in project.ext.features_enabled) {
+        def name = feature.key
+        def value = feature.value
+        if (project.hasProperty("allFeatures_enabled"))
+            value = project["allFeatures_enabled"]
+        if (project.hasProperty("${name}_enabled"))
+            value = project["${name}_enabled"]
+
+        android.defaultConfig.buildConfigField "boolean", "FEATURE_${name.toUpperCase()}_ENABLED", "${value}"
+    }
+}
+
 task testManifestHack() << {
     def origManifest = file('catroidTest/AndroidManifest.xml')
-    def generatedManifest = file("build/manifests/test/AndroidManifest.xml")
+    def generatedManifest = file("build/manifests/test/debug/AndroidManifest.xml")
     def origContent = origManifest.getText()
     def generatedContent = generatedManifest.getText()
     def pattern = Pattern.compile("<application.*?>.*?</application>", Pattern.DOTALL)
@@ -158,10 +153,13 @@ task testManifestHack() << {
 }
 
 gradle.projectsEvaluated {
-    generateTestBuildConfig.dependsOn testManifestHack
+    generateDebugTestBuildConfig.dependsOn testManifestHack
 }
+
+preBuild.dependsOn featuresToBuildconfig
 
 def signing_config_file = file(System.getProperty("user.home") + "/.catrobat/catroid_signing_config.gradle")
 if (signing_config_file.exists()) {
     apply from: signing_config_file.absolutePath
 }
+
