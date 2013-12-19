@@ -253,6 +253,6 @@ public class PhysicsObject {
 	}
 
 	public void setVisible(boolean visible) {
-		// TODO Auto-generated method stub
+		// TODO[PHYSIC]
 	}
 }

@@ -61,7 +61,7 @@ public class PhysicsWorld {
 	private PhysicsShapeBuilder physicsShapeBuilder = new PhysicsShapeBuilder();
 
 	public PhysicsWorld(int width, int height) {
-		new PhysicsBoundaryBox(world).create(width, height);
+		//new PhysicsBoundaryBox(world).create(width, height);
 	}
 
 	public void step(float deltaTime) {
