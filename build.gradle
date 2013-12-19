@@ -6,11 +6,11 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.6.+'
+        classpath 'com.android.tools.build:gradle:0.7.+'
     }
 }
 
-repositories{
+repositories {
     mavenLocal()
     mavenCentral()
 }
@@ -22,7 +22,7 @@ apply plugin: 'checkstyle'
 
 ext.catroid_version = "0.9"
 ext.features_enabled = [
-        "backpack":false
+        "backpack": false
 ]
 
 dependencies {
@@ -32,7 +32,7 @@ dependencies {
     compile fileTree(dir: 'catroid/libs-natives', include: '*.jar')
 
     instrumentTestCompile fileTree(dir: 'catroidTest/libs', include: '*.jar')
-    
+
 }
 
 
@@ -53,38 +53,20 @@ def gitDescribe() {
     return 'git describe --tags'.execute().text.trim()
 }
 
-def featuresToBuildconfig = {
-    def erg = ""
-    for(feature in ext.features_enabled) {
-        def name = feature.key
-        def value = feature.value
-        if(project.hasProperty("allFeatures_enabled"))
-            value = project["allFeatures_enabled"]
-        if(project.hasProperty("${name}_enabled"))
-            value = project["${name}_enabled"]
-
-        erg += "public static final boolean FEATURE_${name.toUpperCase()}_ENABLED = ${value};\n"
-    }
-    return erg
-}
-
 
 android {
-    compileSdkVersion 18
-    buildToolsVersion "18.0.1"
+    compileSdkVersion 19
+    buildToolsVersion "19"
 
     defaultConfig {
         minSdkVersion 10
-        targetSdkVersion 18
+        targetSdkVersion 19
         packageName "org.catrobat.catroid"
         testPackageName "org.catrobat.catroid.test"
         testInstrumentationRunner "pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
         versionCode getVersionCode()
         versionName getVersionName()
-        buildConfig """\
-                public static final String GIT_DESCRIBE = "${gitDescribe()}";
-                ${featuresToBuildconfig()}
-            """
+        buildConfigField "String", "GIT_DESCRIBE", "\"${gitDescribe()}\""
     }
 
     sourceSets {
@@ -126,7 +108,7 @@ task checkstyle(type: Checkstyle) {
     include '**/*.java'
     exclude 'build/**', 'libraryProjects/**'
 
-    classpath = files( project.configurations.compile.asPath )
+    classpath = files(project.configurations.compile.asPath)
 }
 
 // Doesn't work atm. Maybe if the pmd plugin gets updated.
@@ -137,31 +119,47 @@ task checkstyle(type: Checkstyle) {
 
 task jenkins() << {
     android.buildTypes.each { type ->
-        if(type.name == "debug") {
-                type.packageNameSuffix = ".jenkinsdebug"
-                type.versionNameSuffix = "-jenkins-$type.name"
+        if (type.name == "debug") {
+            type.packageNameSuffix = ".jenkinsdebug"
+            type.versionNameSuffix = "-jenkins-$type.name"
         }
+    }
+}
+
+task featuresToBuildconfig() {
+    for (feature in project.ext.features_enabled) {
+        def name = feature.key
+        def value = feature.value
+        if (project.hasProperty("allFeatures_enabled"))
+            value = project["allFeatures_enabled"]
+        if (project.hasProperty("${name}_enabled"))
+            value = project["${name}_enabled"]
+
+        android.defaultConfig.buildConfigField "boolean", "FEATURE_${name.toUpperCase()}_ENABLED", "${value}"
     }
 }
 
 task testManifestHack() << {
     def origManifest = file('catroidTest/AndroidManifest.xml')
-    def generatedManifest = file("build/manifests/test/AndroidManifest.xml")
+    def generatedManifest = file("build/manifests/test/debug/AndroidManifest.xml")
     def origContent = origManifest.getText()
     def generatedContent = generatedManifest.getText()
     def pattern = Pattern.compile("<application.*?>.*?</application>", Pattern.DOTALL)
     def matcher = pattern.matcher(origContent)
     matcher.find()
-    origContent =  matcher.group()
+    origContent = matcher.group()
     generatedContent = pattern.matcher(generatedContent).replaceAll(origContent)
     generatedManifest.write(generatedContent)
 }
 
 gradle.projectsEvaluated {
-    generateTestBuildConfig.dependsOn testManifestHack
+    generateDebugTestBuildConfig.dependsOn testManifestHack
 }
 
+preBuild.dependsOn featuresToBuildconfig
+
 def signing_config_file = file(System.getProperty("user.home") + "/.catrobat/catroid_signing_config.gradle")
-if(signing_config_file.exists()) {
+if (signing_config_file.exists()) {
     apply from: signing_config_file.absolutePath
 }
+
