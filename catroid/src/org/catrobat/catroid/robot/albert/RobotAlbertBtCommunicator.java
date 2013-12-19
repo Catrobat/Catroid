@@ -55,6 +55,7 @@ import org.catrobat.catroid.bluetooth.BTConnectable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Method;
 import java.util.UUID;
 
 /**
@@ -164,20 +165,20 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 					return;
 				}
 
-				// try another method for connection, this should work on the HTC desire, credits to Michael Biermann
-				//				try {
-				//
-				//					Method mMethod = btDevice.getClass().getMethod("createRfcommSocket", new Class[] { int.class });
-				//					btSocketTemporary = (BluetoothSocket) mMethod.invoke(btDevice, Integer.valueOf(1));
-				//					btSocketTemporary.connect();
-				//				} catch (Exception e1) {
-				//					if (uiHandler == null) {
-				//						throw new IOException();
-				//					} else {
-				//						sendState(STATE_CONNECTERROR);
-				//					}
-				//					return;
-				//				}
+				//try another method for connection, this should work on the HTC desire, credits to Michael Biermann
+				try {
+
+					Method mMethod = btDevice.getClass().getMethod("createRfcommSocket", new Class[] { int.class });
+					btSocketTemporary = (BluetoothSocket) mMethod.invoke(btDevice, Integer.valueOf(1));
+					btSocketTemporary.connect();
+				} catch (Exception e1) {
+					if (uiHandler == null) {
+						throw new IOException();
+					} else {
+						sendState(STATE_CONNECTERROR);
+					}
+					return;
+				}
 			}
 			btSocket = btSocketTemporary;
 			inputStream = btSocket.getInputStream();

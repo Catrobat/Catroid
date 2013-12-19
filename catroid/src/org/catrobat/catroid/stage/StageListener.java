@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.stage;
 
-import org.catrobat.catroid.robot.albert.RobotAlbert;
-import org.catrobat.catroid.robot.albert.RobotAlbertCommunicator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -56,6 +54,8 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.robot.albert.RobotAlbert;
+import org.catrobat.catroid.robot.albert.RobotAlbertCommunicator;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.Utils;
 
@@ -211,9 +211,6 @@ public class StageListener implements ApplicationListener {
 		for (Sprite sprite : sprites) {
 			sprite.pause();
 		}
-
-		Log.d("XXXXXXXXXXXXXX", "XXXXXXXXXXXXXXXXXXXX");
-
 	}
 
 	public void reloadProject(Context context, StageDialog stageDialog) {
@@ -244,7 +241,7 @@ public class StageListener implements ApplicationListener {
 
 	@Override
 	public void pause() {
-		
+
 		try {
 			Handler btcHandler = RobotAlbert.getBTCHandler();
 			Log.d("StageListener Pause", "sendRobotAlbertMotorResetMessage()");

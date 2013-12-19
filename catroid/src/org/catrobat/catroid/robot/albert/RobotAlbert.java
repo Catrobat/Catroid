@@ -70,7 +70,6 @@ public class RobotAlbert implements BTConnectable {
 	private Handler recieverHandler;
 	private Activity activity;
 
-	//private static int TONE_COMMAND = 101;
 	private static final int MOTOR_COMMAND = 102;
 	private static final int BUZZER_COMMAND = 104;
 	private static final int RGB_EYE_COMMAND = 105;
