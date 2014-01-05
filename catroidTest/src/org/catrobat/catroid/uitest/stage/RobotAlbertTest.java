@@ -22,38 +22,16 @@
  */
 package org.catrobat.catroid.uitest.stage;
 
-import android.bluetooth.BluetoothAdapter;
 import android.util.Log;
 
 import org.apache.http.util.ByteArrayBuffer;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.bluetooth.DeviceListActivity;
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.WhenScript;
-import org.catrobat.catroid.content.bricks.RobotAlbertBuzzerBrick;
-import org.catrobat.catroid.content.bricks.RobotAlbertFrontLedBrick;
-import org.catrobat.catroid.content.bricks.RobotAlbertMotorActionBrick;
-import org.catrobat.catroid.content.bricks.RobotAlbertRgbLedEyeActionBrick;
-import org.catrobat.catroid.content.bricks.SetLookBrick;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.robot.albert.ControlCommands;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import java.io.File;
-import java.util.ArrayList;
-
 public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
-	private static final int IMAGE_FILE_ID = org.catrobat.catroid.uitest.R.raw.icon;
+	private static final int IMAGE_FILE_ID = org.catrobat.catroid.test.R.raw.icon;
 	private static final int MOTOR_ACTION = 0;
 
 	// needed for testdevices
@@ -156,93 +134,97 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 
 	@Device
 	public void NXTConnectionDialogGoBack() {
-		/*createTestproject(projectName);
-
-		ArrayList<String> autoConnectIDs = new ArrayList<String>();
-		autoConnectIDs.add("IM_NOT_A_MAC_ADDRESS");
-		DeviceListActivity deviceListActivity = new DeviceListActivity();
-		Reflection.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
-
-		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-		assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
-		if (!bluetoothAdapter.isEnabled()) {
-			bluetoothAdapter.enable();
-			solo.sleep(5000);
-		}
-
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-		solo.sleep(1000);
-		solo.assertCurrentActivity("Devicelist not shown!", DeviceListActivity.class);
-		solo.goBack();
-		solo.sleep(1000);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-		solo.sleep(1000);
-		solo.assertCurrentActivity("Devicelist not shown!", DeviceListActivity.class);
-*/
+		/*
+		 * createTestproject(projectName);
+		 * 
+		 * ArrayList<String> autoConnectIDs = new ArrayList<String>();
+		 * autoConnectIDs.add("IM_NOT_A_MAC_ADDRESS");
+		 * DeviceListActivity deviceListActivity = new DeviceListActivity();
+		 * Reflection.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
+		 * 
+		 * BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		 * assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
+		 * if (!bluetoothAdapter.isEnabled()) {
+		 * bluetoothAdapter.enable();
+		 * solo.sleep(5000);
+		 * }
+		 * 
+		 * solo.clickOnText(solo.getString(R.string.main_menu_continue));
+		 * solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		 * UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		 * solo.sleep(1000);
+		 * solo.assertCurrentActivity("Devicelist not shown!", DeviceListActivity.class);
+		 * solo.goBack();
+		 * solo.sleep(1000);
+		 * UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		 * solo.sleep(1000);
+		 * solo.assertCurrentActivity("Devicelist not shown!", DeviceListActivity.class);
+		 */
 	}
 
 	private void createTestproject(String projectName) {
-		/*Sprite firstSprite = new Sprite(spriteName);
-		Script startScript = new StartScript(firstSprite);
-		Script whenScript = new WhenScript(firstSprite);
-		SetLookBrick setLookBrick = new SetLookBrick(firstSprite);
-
-		RobotAlbertMotorActionBrick legoMotorActionBrick = new RobotAlbertMotorActionBrick(firstSprite,
-				RobotAlbertMotorActionBrick.Motor.Both, 100);
-		ControlCommands commands = new ControlCommands();
-		commands.setSpeedOfLeftMotor(100);
-		commands.setSpeedOfRightMotor(100);
-		byte[] command = commands.getCommandMessage();
-		int commandLength = command.length;
-		sendCommands.append(command, 0, commandLength);
-		//Log.d("TestRobotAlbert", "size=" + commands.getCommandMessage().length + "size=" + len);
-
-		RobotAlbertFrontLedBrick robotAlbertFrontLedBrick = new RobotAlbertFrontLedBrick(firstSprite, new Formula(1));
-		commands.setFrontLed(1);
-		command = commands.getCommandMessage();
-		commandLength = command.length;
-		sendCommands.append(command, 0, commandLength);
-
-		RobotAlbertBuzzerBrick robotAlbertBuzzerBrick = new RobotAlbertBuzzerBrick(firstSprite, new Formula(50));
-		commands.setBuzzer(50);
-		command = commands.getCommandMessage();
-		commandLength = command.length;
-		sendCommands.append(command, 0, commandLength);
-
-		RobotAlbertRgbLedEyeActionBrick robotAlbertRgbLedEyeActionBrick = new RobotAlbertRgbLedEyeActionBrick(
-				firstSprite, RobotAlbertRgbLedEyeActionBrick.Eye.Both, new Formula(255), new Formula(255), new Formula(
-						255));
-		commands.setLeftEye(255, 255, 255);
-		commands.setRightEye(255, 255, 255);
-		command = commands.getCommandMessage();
-		commandLength = command.length;
-		sendCommands.append(command, 0, commandLength);
-
-		whenScript.addBrick(legoMotorActionBrick);
-		whenScript.addBrick(robotAlbertFrontLedBrick);
-		whenScript.addBrick(robotAlbertBuzzerBrick);
-		whenScript.addBrick(robotAlbertRgbLedEyeActionBrick);
-
-		startScript.addBrick(setLookBrick);
-		firstSprite.addScript(startScript);
-		firstSprite.addScript(whenScript);
-
-		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
-		spriteList.add(firstSprite);
-		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
-
-		String imageName = "image";
-		File image = UiTestUtils.saveFileToProject(projectName, imageName, IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), UiTestUtils.FileTypes.IMAGE);
-
-		LookData lookData = new LookData();
-		lookData.setLookFilename(image.getName());
-		lookData.setLookName(imageName);
-		setLookBrick.setLook(lookData);
-		firstSprite.getLookDataList().add(lookData);
-
-		StorageHandler.getInstance().saveProject(project);*/
+		/*
+		 * Sprite firstSprite = new Sprite(spriteName);
+		 * Script startScript = new StartScript(firstSprite);
+		 * Script whenScript = new WhenScript(firstSprite);
+		 * SetLookBrick setLookBrick = new SetLookBrick(firstSprite);
+		 * 
+		 * RobotAlbertMotorActionBrick legoMotorActionBrick = new RobotAlbertMotorActionBrick(firstSprite,
+		 * RobotAlbertMotorActionBrick.Motor.Both, 100);
+		 * ControlCommands commands = new ControlCommands();
+		 * commands.setSpeedOfLeftMotor(100);
+		 * commands.setSpeedOfRightMotor(100);
+		 * byte[] command = commands.getCommandMessage();
+		 * int commandLength = command.length;
+		 * sendCommands.append(command, 0, commandLength);
+		 * //Log.d("TestRobotAlbert", "size=" + commands.getCommandMessage().length + "size=" + len);
+		 * 
+		 * RobotAlbertFrontLedBrick robotAlbertFrontLedBrick = new RobotAlbertFrontLedBrick(firstSprite, new
+		 * Formula(1));
+		 * commands.setFrontLed(1);
+		 * command = commands.getCommandMessage();
+		 * commandLength = command.length;
+		 * sendCommands.append(command, 0, commandLength);
+		 * 
+		 * RobotAlbertBuzzerBrick robotAlbertBuzzerBrick = new RobotAlbertBuzzerBrick(firstSprite, new Formula(50));
+		 * commands.setBuzzer(50);
+		 * command = commands.getCommandMessage();
+		 * commandLength = command.length;
+		 * sendCommands.append(command, 0, commandLength);
+		 * 
+		 * RobotAlbertRgbLedEyeActionBrick robotAlbertRgbLedEyeActionBrick = new RobotAlbertRgbLedEyeActionBrick(
+		 * firstSprite, RobotAlbertRgbLedEyeActionBrick.Eye.Both, new Formula(255), new Formula(255), new Formula(
+		 * 255));
+		 * commands.setLeftEye(255, 255, 255);
+		 * commands.setRightEye(255, 255, 255);
+		 * command = commands.getCommandMessage();
+		 * commandLength = command.length;
+		 * sendCommands.append(command, 0, commandLength);
+		 * 
+		 * whenScript.addBrick(legoMotorActionBrick);
+		 * whenScript.addBrick(robotAlbertFrontLedBrick);
+		 * whenScript.addBrick(robotAlbertBuzzerBrick);
+		 * whenScript.addBrick(robotAlbertRgbLedEyeActionBrick);
+		 * 
+		 * startScript.addBrick(setLookBrick);
+		 * firstSprite.addScript(startScript);
+		 * firstSprite.addScript(whenScript);
+		 * 
+		 * ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		 * spriteList.add(firstSprite);
+		 * Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
+		 * 
+		 * String imageName = "image";
+		 * File image = UiTestUtils.saveFileToProject(projectName, imageName, IMAGE_FILE_ID, getInstrumentation()
+		 * .getContext(), UiTestUtils.FileTypes.IMAGE);
+		 * 
+		 * LookData lookData = new LookData();
+		 * lookData.setLookFilename(image.getName());
+		 * lookData.setLookName(imageName);
+		 * setLookBrick.setLook(lookData);
+		 * firstSprite.getLookDataList().add(lookData);
+		 * 
+		 * StorageHandler.getInstance().saveProject(project);
+		 */
 	}
 }
