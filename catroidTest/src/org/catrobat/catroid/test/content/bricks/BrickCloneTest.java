@@ -45,7 +45,10 @@ import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.bricks.RobotAlbertBuzzerBrick;
+import org.catrobat.catroid.content.bricks.RobotAlbertFrontLedBrick;
 import org.catrobat.catroid.content.bricks.RobotAlbertMotorActionBrick;
+import org.catrobat.catroid.content.bricks.RobotAlbertRgbLedEyeActionBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
@@ -121,6 +124,16 @@ public class BrickCloneTest extends AndroidTestCase {
 
 		brick = new RobotAlbertMotorActionBrick(sprite, RobotAlbertMotorActionBrick.Motor.Left, BRICK_FORMULA_VALUE);
 		brickClone(brick, "speed");
+
+		brick = new RobotAlbertBuzzerBrick(sprite, BRICK_FORMULA_VALUE);
+		brickClone(brick, "value");
+
+		brick = new RobotAlbertFrontLedBrick(sprite, BRICK_FORMULA_VALUE);
+		brickClone(brick, "value");
+
+		brick = new RobotAlbertRgbLedEyeActionBrick(sprite, RobotAlbertRgbLedEyeActionBrick.Eye.Both,
+				BRICK_FORMULA_VALUE, BRICK_FORMULA_VALUE, BRICK_FORMULA_VALUE);
+		brickClone(brick, "red", "green", "blue");
 
 		brick = new SetBrightnessBrick(sprite, BRICK_FORMULA_VALUE);
 		brickClone(brick, "brightness");
