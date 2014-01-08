@@ -118,12 +118,12 @@ task checkstyle(type: Checkstyle) {
 //}
 
 task jenkins() << {
-    android.buildTypes.each { type ->
-        if (type.name == "debug") {
-            type.packageNameSuffix = ".jenkinsdebug"
-            type.versionNameSuffix = "-jenkins-$type.name"
-        }
-    }
+//    android.buildTypes.each { type ->
+//        if (type.name == "debug") {
+//            type.packageNameSuffix = ".jenkinsdebug"
+//            type.versionNameSuffix = "-jenkins-$type.name"
+//        }
+//    }
 }
 
 task featuresToBuildconfig() {
