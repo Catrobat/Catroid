@@ -76,7 +76,7 @@ public class PhysicsLook extends Look {
 
 	@Override
 	public float getRotation() {
-		return -physicsObject.getDirection() + DEGREE_UI_OFFSET;
+		return -physicsObject.getDirection() + getDegreeUserInterfaceOffset();
 	}
 
 	@Override
@@ -95,4 +95,11 @@ public class PhysicsLook extends Look {
 		}
 	}
 
+	@Override
+	public void beginTemporalAction() {
+	}
+
+	@Override
+	public void endTemporalAction() {
+	}
 }

@@ -42,15 +42,23 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Look extends Image {
+
 	private static ArrayList<Action> actionsToRestart = new ArrayList<Action>();
-	public boolean visible = true;
 	public static final float DEGREE_UI_OFFSET = 90.0f; //TODO[TafPhil]: private -> public
+
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
 	protected LookData lookData;
 	protected Sprite sprite;
 	protected float alpha = 1f;
 	protected float brightness = 1f;
+
+	protected boolean visible = true;
+
+	public void setVisiblenessTo(boolean visible) { // TODO[physics]
+		this.visible = visible;
+	}
+
 	protected Pixmap pixmap;
 	private ParallelAction whenParallelAction;
 	private boolean allActionsAreFinished = false;
@@ -219,13 +227,19 @@ public class Look extends Image {
 		this.imageChanged = true;
 	}
 
+	public void setLookData(LookData lookData) {
+		this.lookData = lookData;
+		imageChanged = true;
+	}
+
 	public LookData getLookData() {
 		return lookData;
 	}
 
-	public void setLookData(LookData lookData) {
-		this.lookData = lookData;
-		imageChanged = true;
+	public void beginTemporalAction() { //TODO[physic]: add
+	}
+
+	public void endTemporalAction() { //TODO[physic]: add
 	}
 
 	public boolean getAllActionsAreFinished() {
@@ -281,6 +295,10 @@ public class Look extends Image {
 
 	public float getHeightInUserInterfaceDimensionUnit() {
 		return getHeight() * getSizeInUserInterfaceDimensionUnit() / 100f;
+	}
+
+	public static float getDegreeUserInterfaceOffset() { //TODO[physic]: add getter
+		return DEGREE_UI_OFFSET;
 	}
 
 	public float getDirectionInUserInterfaceDimensionUnit() {

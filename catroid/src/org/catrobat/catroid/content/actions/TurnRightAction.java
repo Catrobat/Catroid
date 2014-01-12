@@ -20,44 +20,29 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions.conditional;
+package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.physic.content.PhysicActionExtension;
+import org.catrobat.catroid.formulaeditor.Formula;
 
-public class SetLookAction extends TemporalAction implements PhysicActionExtension {
+public class TurnRightAction extends TemporalAction {
 
-	private LookData look;
-	protected Sprite sprite; // TODO[physic]: private to protected
+	private Sprite sprite;
+	private Formula degrees;
 
 	@Override
 	protected void update(float percent) {
-		if (look != null && sprite != null && sprite.getLookDataList().contains(look)) {
-			sprite.look.setLookData(look);
-			physicsUpdateHook();
-		}
-	}
-
-	@Override
-	public void reset() {
-		super.reset();
-		sprite = null;
-		look = null;
-	}
-
-	public void setLookData(LookData look) {
-		this.look = look;
+		sprite.look.changeDirectionInUserInterfaceDimensionUnit(degrees.interpretFloat(sprite));
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	@Override
-	public void physicsUpdateHook() {
+	public void setDegrees(Formula degrees) {
+		this.degrees = degrees;
 	}
 
 }

@@ -20,12 +20,22 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.physic.content;
+package org.catrobat.catroid.content.actions;
 
-public interface PhysicActionSleepExtension {
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-	public void physicsBeginHook();
+import org.catrobat.catroid.content.Sprite;
 
-	public void physicsEndHook();
+public class HideAction extends TemporalAction {
 
+	private Sprite sprite;
+
+	@Override
+	protected void update(float delta) {
+		sprite.look.setVisiblenessTo(false);
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
+	}
 }

@@ -20,15 +20,14 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions.conditional;
+package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.physic.content.PhysicActionSleepExtension;
 
-public class GlideToAction extends TemporalAction implements PhysicActionSleepExtension {
+public class GlideToAction extends TemporalAction {
 
 	private float startX;
 	private float startY;
@@ -51,6 +50,9 @@ public class GlideToAction extends TemporalAction implements PhysicActionSleepEx
 			}
 			endXValue = endX.interpretFloat(sprite);
 			endYValue = endY.interpretFloat(sprite);
+
+			sprite.look.beginTemporalAction();
+
 		}
 		restart = false;
 
@@ -80,6 +82,7 @@ public class GlideToAction extends TemporalAction implements PhysicActionSleepEx
 
 	@Override
 	protected void end() {
+		sprite.look.endTemporalAction();
 	}
 
 	public void setDuration(Formula duration) {
@@ -93,17 +96,5 @@ public class GlideToAction extends TemporalAction implements PhysicActionSleepEx
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
-	}
-
-	@Override
-	public void physicsBeginHook() {
-		// TODO[PHYSIC]
-
-	}
-
-	@Override
-	public void physicsEndHook() {
-		// TODO[PHYSIC]
-
 	}
 }

@@ -20,15 +20,14 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions.conditional;
+package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.physic.content.PhysicActionExtension;
 
-public class ChangeSizeByNAction extends TemporalAction implements PhysicActionExtension {
+public class ChangeSizeByNAction extends TemporalAction {
 
 	protected Sprite sprite; // TODO[physic]: private to protected
 	private Formula size;
@@ -36,7 +35,6 @@ public class ChangeSizeByNAction extends TemporalAction implements PhysicActionE
 	@Override
 	protected void update(float percent) {
 		sprite.look.changeSizeInUserInterfaceDimensionUnit(size.interpretFloat(sprite));
-		physicsUpdateHook();
 	}
 
 	public void setSprite(Sprite sprite) {
@@ -46,10 +44,4 @@ public class ChangeSizeByNAction extends TemporalAction implements PhysicActionE
 	public void setSize(Formula size) {
 		this.size = size;
 	}
-
-	@Override
-	public void physicsUpdateHook() {
-		// TODO[physic]
-	}
-
 }

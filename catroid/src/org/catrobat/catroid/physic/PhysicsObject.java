@@ -25,10 +25,13 @@ package org.catrobat.catroid.physic;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
+import com.badlogic.gdx.physics.box2d.Transform;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +55,12 @@ public class PhysicsObject {
 	private float mass;
 	private boolean ifOnEdgeBounce = false;
 
+	private static Vector2 bodyAABBlower;
+	private static Vector2 bodyAABBupper;
+	private static Vector2 fixtureAABBlower;
+	private static Vector2 fixtureAABBupper;
+	private static Vector2 tmpVertice;
+
 	public PhysicsObject(Body body) {
 		this.body = body;
 
@@ -59,6 +68,12 @@ public class PhysicsObject {
 		fixtureDef.density = PhysicsObject.DEFAULT_DENSITY;
 		fixtureDef.friction = PhysicsObject.DEFAULT_FRICTION;
 		fixtureDef.restitution = PhysicsObject.DEFAULT_BOUNCE_FACTOR;
+
+		bodyAABBlower = new Vector2();
+		bodyAABBupper = new Vector2();
+		fixtureAABBlower = new Vector2();
+		fixtureAABBupper = new Vector2();
+		tmpVertice = new Vector2();
 
 		short collisionBits = 0;
 		setCollisionBits(collisionBits, collisionBits);
@@ -254,5 +269,53 @@ public class PhysicsObject {
 
 	public void setVisible(boolean visible) {
 		// TODO[PHYSIC]
+	}
+
+	public void getBoundaryBox(Vector2 lower, Vector2 upper) {
+		calcAABB(body);
+		lower = PhysicsWorldConverter.toCatroidVector(bodyAABBlower);
+		upper = PhysicsWorldConverter.toCatroidVector(bodyAABBupper);
+	}
+
+	protected void calcAABB(Body body) {
+		Transform transform = body.getTransform();
+		int len = body.getFixtureList().size();
+		List<Fixture> fixtures = body.getFixtureList();
+		for (int i = 0; i < len; i++) {
+			Fixture fixture = fixtures.get(i);
+			calcAABB(fixture, transform);
+		}
+	}
+
+	private void calcAABB(Fixture fixture, Transform transform) {
+		if (fixture.getType() == Shape.Type.Circle) {
+			CircleShape shape = (CircleShape) fixture.getShape();
+			float radius = shape.getRadius();
+			tmpVertice.set(shape.getPosition());
+			tmpVertice.rotate(transform.getRotation()).add(transform.getPosition());
+			fixtureAABBlower.set(tmpVertice.x - radius, tmpVertice.y - radius);
+			fixtureAABBupper.set(tmpVertice.x + radius, tmpVertice.y + radius);
+
+		} else if (fixture.getType() == Shape.Type.Polygon) {
+			PolygonShape shape = (PolygonShape) fixture.getShape();
+			int vertexCount = shape.getVertexCount();
+
+			shape.getVertex(0, tmpVertice);
+			fixtureAABBlower.set(transform.mul(tmpVertice));
+			fixtureAABBupper.set(fixtureAABBlower);
+			for (int i = 1; i < vertexCount; i++) {
+				shape.getVertex(i, tmpVertice);
+				transform.mul(tmpVertice);
+				fixtureAABBlower.x = Math.min(fixtureAABBlower.x, tmpVertice.x);
+				fixtureAABBlower.y = Math.min(fixtureAABBlower.y, tmpVertice.y);
+				fixtureAABBupper.x = Math.max(fixtureAABBupper.x, tmpVertice.x);
+				fixtureAABBupper.y = Math.max(fixtureAABBupper.y, tmpVertice.y);
+			}
+		}
+
+		bodyAABBlower.x = Math.min(fixtureAABBlower.x, bodyAABBlower.x);
+		bodyAABBlower.y = Math.min(fixtureAABBlower.y, bodyAABBlower.y);
+		bodyAABBupper.x = Math.max(fixtureAABBupper.x, bodyAABBupper.x);
+		bodyAABBupper.y = Math.max(fixtureAABBupper.y, bodyAABBupper.y);
 	}
 }

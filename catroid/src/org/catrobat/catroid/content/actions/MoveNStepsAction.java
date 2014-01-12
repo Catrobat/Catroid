@@ -20,36 +20,34 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions.conditional;
+package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.physic.content.PhysicActionExtension;
 
-public class SetGhostEffectAction extends TemporalAction implements PhysicActionExtension {
+public class MoveNStepsAction extends TemporalAction {
 
 	private Sprite sprite;
-	private Formula transparency;
+	private Formula steps;
 
 	@Override
 	protected void update(float percent) {
-		sprite.look.setTransparencyInUserInterfaceDimensionUnit(transparency.interpretFloat(sprite));
-		physicsUpdateHook();
+		double stepsValue = steps.interpretDouble(sprite);
+		double radians = Math.toRadians(sprite.look.getDirectionInUserInterfaceDimensionUnit());
+
+		sprite.look.changeXInUserInterfaceDimensionUnit((float) (stepsValue * Math.sin(radians)));
+		sprite.look.changeYInUserInterfaceDimensionUnit((float) (stepsValue * Math.cos(radians)));
+
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public void setTransparency(Formula transparency) {
-		this.transparency = transparency;
-	}
-
-	@Override
-	public void physicsUpdateHook() {
-		// TODO[physic]
+	public void setSteps(Formula steps) {
+		this.steps = steps;
 	}
 
 }

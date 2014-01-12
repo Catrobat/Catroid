@@ -29,7 +29,7 @@ import org.catrobat.catroid.content.Look;
 public final class PhysicsWorldConverter {
 
 	public static float toCatroidAngle(float box2dAngle) {
-		float direction = (float) (Math.toDegrees(box2dAngle) + Look.DEGREE_UI_OFFSET) % 360;
+		float direction = (float) (Math.toDegrees(box2dAngle) + Look.getDegreeUserInterfaceOffset()) % 360;
 		if (direction < 0) {
 			direction += 360f;
 		}
@@ -39,7 +39,7 @@ public final class PhysicsWorldConverter {
 	}
 
 	public static float toBox2dAngle(float catroidAngle) {
-		return (float) Math.toRadians((-catroidAngle + Look.DEGREE_UI_OFFSET) % 360);
+		return (float) Math.toRadians((-catroidAngle + Look.getDegreeUserInterfaceOffset()) % 360);
 	}
 
 	public static float toCatroidCoordinate(float box2dCoordinate) {
@@ -50,8 +50,8 @@ public final class PhysicsWorldConverter {
 		return catroidCoordinate / PhysicsWorld.RATIO;
 	}
 
-	public static Vector2 toCatroidVector(Vector2 catroidVector) {
-		return new Vector2(toCatroidCoordinate(catroidVector.x), toCatroidCoordinate(catroidVector.y));
+	public static Vector2 toCatroidVector(Vector2 box2DVector) {
+		return new Vector2(toCatroidCoordinate(box2DVector.x), toCatroidCoordinate(box2DVector.y));
 	}
 
 	public static Vector2 toBox2dVector(Vector2 catroidVector) {

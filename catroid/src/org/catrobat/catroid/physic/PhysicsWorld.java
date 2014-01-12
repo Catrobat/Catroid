@@ -56,7 +56,7 @@ public class PhysicsWorld {
 	private final Map<Sprite, PhysicsObject> physicsObjects = new HashMap<Sprite, PhysicsObject>();
 	private final ArrayList<Sprite> hangupPhysicsObjects = new ArrayList<Sprite>();
 	private Box2DDebugRenderer renderer;
-	private int stabilizingStep = 0;
+	private int stabilizingSteCounter = 0;
 
 	private PhysicsShapeBuilder physicsShapeBuilder = new PhysicsShapeBuilder();
 
@@ -65,8 +65,8 @@ public class PhysicsWorld {
 	}
 
 	public void step(float deltaTime) {
-		if (stabilizingStep < STABILIZING_STEPS) {
-			stabilizingStep++;
+		if (stabilizingSteCounter < STABILIZING_STEPS) {
+			stabilizingSteCounter++;
 		} else {
 			try {
 				world.step(deltaTime, PhysicsWorld.VELOCITY_ITERATIONS, PhysicsWorld.POSITION_ITERATIONS);

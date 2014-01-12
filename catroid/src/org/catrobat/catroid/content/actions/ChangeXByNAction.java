@@ -20,42 +20,29 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions.conditional;
+package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.physic.content.PhysicActionExtension;
+import org.catrobat.catroid.formulaeditor.Formula;
 
-import java.util.ArrayList;
+public class ChangeXByNAction extends TemporalAction {
 
-public class NextLookAction extends TemporalAction implements PhysicActionExtension {
-
-	protected Sprite sprite; // TODO[physic]: private to protected
+	private Sprite sprite;
+	private Formula xMovement;
 
 	@Override
-	protected void update(float delta) {
-		final ArrayList<LookData> lookDataList = sprite.getLookDataList();
-		int lookDataListSize = lookDataList.size();
-
-		if (lookDataListSize > 0 && sprite.look.getLookData() != null) {
-			LookData currentLookData = sprite.look.getLookData();
-			int newIndex = (lookDataList.indexOf(currentLookData) + 1) % lookDataListSize;
-			sprite.look.setLookData(lookDataList.get(newIndex));
-			physicsUpdateHook();
-		} else {
-			// If there are no looks do nothing
-		}
+	protected void update(float percent) {
+		sprite.look.changeXInUserInterfaceDimensionUnit(xMovement.interpretFloat(sprite));
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	@Override
-	public void physicsUpdateHook() {
-		// TODO[physic]
+	public void setxMovement(Formula xMovement) {
+		this.xMovement = xMovement;
 	}
 
 }
