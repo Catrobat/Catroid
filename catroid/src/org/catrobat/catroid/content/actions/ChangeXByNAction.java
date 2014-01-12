@@ -20,30 +20,29 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions.conditional;
+package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-public class PointInDirectionAction extends TemporalAction {
+public class ChangeXByNAction extends TemporalAction {
 
 	private Sprite sprite;
-	private Formula degrees;
+	private Formula xMovement;
 
 	@Override
 	protected void update(float percent) {
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(degrees.interpretFloat(sprite));
-
+		sprite.look.changeXInUserInterfaceDimensionUnit(xMovement.interpretFloat(sprite));
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public void setDegreesInUserInterfaceDimensionUnit(Formula degrees) {
-		this.degrees = degrees;
+	public void setxMovement(Formula xMovement) {
+		this.xMovement = xMovement;
 	}
 
 }
