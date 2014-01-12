@@ -20,34 +20,29 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions.conditional;
+package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-public class MoveNStepsAction extends TemporalAction {
+public class SetYAction extends TemporalAction {
 
 	private Sprite sprite;
-	private Formula steps;
+	private Formula yPosition;
 
 	@Override
-	protected void update(float percent) {
-		double stepsValue = steps.interpretDouble(sprite);
-		double radians = Math.toRadians(sprite.look.getDirectionInUserInterfaceDimensionUnit());
-
-		sprite.look.changeXInUserInterfaceDimensionUnit((float) (stepsValue * Math.sin(radians)));
-		sprite.look.changeYInUserInterfaceDimensionUnit((float) (stepsValue * Math.cos(radians)));
-
+	protected void update(float delta) {
+		sprite.look.setYInUserInterfaceDimensionUnit(yPosition.interpretFloat(sprite));
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public void setSteps(Formula steps) {
-		this.steps = steps;
+	public void setY(Formula y) {
+		this.yPosition = y;
 	}
 
 }

@@ -734,7 +734,7 @@ public final class StandardProjectHandler {
 		startScript.addBrick(lookBrick);
 
 		if (!Float.isNaN(angle)) {
-			TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, -angle + Look.DEGREE_UI_OFFSET);
+			TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, -angle + Look.getDegreeUserInterfaceOffset());
 			startScript.addBrick(turnLeftBrick);
 		}
 

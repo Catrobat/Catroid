@@ -20,73 +20,57 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions.conditional;
+package org.catrobat.catroid.physic.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.physic.PhysicsObject;
+import org.catrobat.catroid.physic.PhysicsWorld;
 
-public class IfOnEdgeBounceAction extends TemporalAction {
+public class IfOnEdgeBouncePhysicAction extends TemporalAction {
+
 	private Sprite sprite;
+	private PhysicsWorld physicsWorld;
 
 	@Override
 	protected void update(float percent) {
+		// get boundarybox
+		PhysicsObject physicObject = physicsWorld.getPhysicObject(sprite);
+
 		float width = sprite.look.getWidthInUserInterfaceDimensionUnit();
 		float height = sprite.look.getHeightInUserInterfaceDimensionUnit();
 		float xPosition = sprite.look.getXInUserInterfaceDimensionUnit();
 		float yPosition = sprite.look.getYInUserInterfaceDimensionUnit();
 
-		int halfVirtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2;
-		int halfVirtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight / 2;
-		float newDirection = sprite.look.getDirectionInUserInterfaceDimensionUnit();
+		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2;
+		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight / 2;
 
-		if (xPosition < -halfVirtualScreenWidth + width / 2) {
-			if (isLookingLeft(newDirection)) {
-				newDirection = -newDirection;
-			}
-			xPosition = -halfVirtualScreenWidth + (width / 2);
-		} else if (xPosition > halfVirtualScreenWidth - width / 2) {
-			if (isLookingRight(newDirection)) {
-				newDirection = -newDirection;
-			}
-			xPosition = halfVirtualScreenWidth - (width / 2);
+		if (xPosition < -virtualScreenWidth + width / 2) {
+			// do something
+			xPosition = -virtualScreenWidth + (width / 2);
+		} else if (xPosition > virtualScreenWidth - width / 2) {
+			// do something
+			xPosition = virtualScreenWidth - (width / 2);
 		}
 
-		if (yPosition < -halfVirtualScreenHeight + height / 2) {
-			if (isLookingDown(newDirection)) {
-				newDirection = 180f - newDirection;
-			}
-			yPosition = -halfVirtualScreenHeight + (height / 2);
-		} else if (yPosition > halfVirtualScreenHeight - height / 2) {
-			if (isLookingUp(newDirection)) {
-				newDirection = 180f - newDirection;
-			}
-			yPosition = halfVirtualScreenHeight - (height / 2);
+		if (yPosition < -virtualScreenHeight + height / 2) {
+			// do something
+			yPosition = -virtualScreenHeight + (height / 2);
+		} else if (yPosition > virtualScreenHeight - height / 2) {
+			// do something
+			yPosition = virtualScreenHeight - (height / 2);
 		}
 
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(newDirection);
 		sprite.look.setPositionInUserInterfaceDimensionUnit(xPosition, yPosition);
-	}
-
-	private boolean isLookingUp(float direction) {
-		return (direction > -90f && direction < 90f);
-	}
-
-	private boolean isLookingDown(float direction) {
-		return (direction > 90f || direction < -90f);
-	}
-
-	private boolean isLookingLeft(float direction) {
-		return (direction > -180f && direction < 0f);
-	}
-
-	private boolean isLookingRight(float direction) {
-		return (direction > 0f && direction < 180f);
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
+	public void setPhysicWorld(PhysicsWorld physicsWorld) {
+		this.physicsWorld = physicsWorld;
+	}
 }
