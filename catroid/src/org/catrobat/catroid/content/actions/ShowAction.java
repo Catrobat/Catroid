@@ -20,32 +20,22 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions.conditional;
+package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.physic.content.PhysicActionExtension;
 
-public class ShowAction extends TemporalAction implements PhysicActionExtension {
+public class ShowAction extends TemporalAction {
 
 	private Sprite sprite;
 
 	@Override
 	protected void update(float delta) {
-		sprite.look.visible = true;
-		physicsUpdateHook();
+		sprite.look.setVisiblenessTo(true);
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
-
-	@Override
-	public void physicsUpdateHook() {
-		ProjectManager.getInstance().getCurrentProject().getPhysicWorld().resume(sprite);
-
-	}
-
 }

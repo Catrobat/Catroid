@@ -34,7 +34,7 @@
         android:xlargeScreens="false" />
 
     <uses-sdk
-        android:minSdkVersion="10"
+        android:minSdkVersion="11"
         android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.VIBRATE" />

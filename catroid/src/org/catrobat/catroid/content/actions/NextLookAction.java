@@ -20,30 +20,35 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions.conditional;
+package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.Formula;
 
-public class PointInDirectionAction extends TemporalAction {
+import java.util.ArrayList;
 
-	private Sprite sprite;
-	private Formula degrees;
+public class NextLookAction extends TemporalAction {
+
+	protected Sprite sprite; // TODO[physic]: private to protected
 
 	@Override
-	protected void update(float percent) {
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(degrees.interpretFloat(sprite));
+	protected void update(float delta) {
+		final ArrayList<LookData> lookDataList = sprite.getLookDataList();
+		int lookDataListSize = lookDataList.size();
 
+		if (lookDataListSize > 0 && sprite.look.getLookData() != null) {
+			LookData currentLookData = sprite.look.getLookData();
+			int newIndex = (lookDataList.indexOf(currentLookData) + 1) % lookDataListSize;
+			sprite.look.setLookData(lookDataList.get(newIndex));
+		} else {
+			// If there are no looks do nothing
+		}
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
-	}
-
-	public void setDegreesInUserInterfaceDimensionUnit(Formula degrees) {
-		this.degrees = degrees;
 	}
 
 }

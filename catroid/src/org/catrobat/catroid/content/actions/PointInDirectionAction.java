@@ -20,26 +20,30 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.physic.content.actions;
+package org.catrobat.catroid.content.actions;
 
-import org.catrobat.catroid.content.actions.conditional.SetSizeToAction;
-import org.catrobat.catroid.physic.PhysicsObject;
-import org.catrobat.catroid.physic.PhysicsWorld;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-public class SetSizeToPhysicsAction extends SetSizeToAction {
-	private PhysicsObject physicsObject;
-	private PhysicsWorld physicsWorld;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
+
+public class PointInDirectionAction extends TemporalAction {
+
+	private Sprite sprite;
+	private Formula degrees;
 
 	@Override
-	public void physicsUpdateHook() {
-		physicsWorld.changeLook(physicsObject, sprite.look);
+	protected void update(float percent) {
+		sprite.look.setDirectionInUserInterfaceDimensionUnit(degrees.interpretFloat(sprite));
+
 	}
 
-	public void setPhysicWorld(PhysicsWorld physicsWorld) {
-		this.physicsWorld = physicsWorld;
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
 	}
 
-	public void setPhysicObject(PhysicsObject physicsObject) {
-		this.physicsObject = physicsObject;
+	public void setDegreesInUserInterfaceDimensionUnit(Formula degrees) {
+		this.degrees = degrees;
 	}
+
 }

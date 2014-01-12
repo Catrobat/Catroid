@@ -20,29 +20,28 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions.conditional;
+package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-public class TurnRightAction extends TemporalAction {
+public class SetSizeToAction extends TemporalAction {
 
-	private Sprite sprite;
-	private Formula degrees;
+	protected Sprite sprite; // TODO[physic]: private to protected
+	private Formula size;
 
 	@Override
-	protected void update(float percent) {
-		sprite.look.changeDirectionInUserInterfaceDimensionUnit(degrees.interpretFloat(sprite));
+	protected void update(float delta) {
+		sprite.look.setSizeInUserInterfaceDimensionUnit(size.interpretFloat(sprite));
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public void setDegrees(Formula degrees) {
-		this.degrees = degrees;
+	public void setSize(Formula size) {
+		this.size = size;
 	}
-
 }

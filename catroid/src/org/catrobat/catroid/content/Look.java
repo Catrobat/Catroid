@@ -46,14 +46,19 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class Look extends Image {
-	public static final float DEGREE_UI_OFFSET = 90.0f; //TODO[physic]: private -> public
+	private static final float DEGREE_UI_OFFSET = 90.0f;
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
 	protected LookData lookData;
 	protected Sprite sprite;
 	protected float alpha = 1f;
 	protected float brightness = 1f;
-	public boolean visible = true;
+	protected boolean visible = true;
+
+	public void setVisiblenessTo(boolean visible) { // TODO[physics]
+		this.visible = visible;
+	}
+
 	protected Pixmap pixmap;
 	private HashMap<String, ArrayList<SequenceAction>> broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
 	private HashMap<String, ArrayList<SequenceAction>> broadcastWaitSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
@@ -268,6 +273,12 @@ public class Look extends Image {
 		return lookData;
 	}
 
+	public void beginTemporalAction() { //TODO[physic]: add
+	}
+
+	public void endTemporalAction() { //TODO[physic]: add
+	}
+
 	public boolean getAllActionsAreFinished() {
 		return allActionAreFinished;
 	}
@@ -321,6 +332,10 @@ public class Look extends Image {
 
 	public float getHeightInUserInterfaceDimensionUnit() {
 		return getHeight() * getSizeInUserInterfaceDimensionUnit() / 100f;
+	}
+
+	public static float getDegreeUserInterfaceOffset() { //TODO[physic]: add getter
+		return DEGREE_UI_OFFSET;
 	}
 
 	public float getDirectionInUserInterfaceDimensionUnit() {
