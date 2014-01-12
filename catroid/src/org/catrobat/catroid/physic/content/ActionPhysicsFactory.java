@@ -31,6 +31,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physic.PhysicsObject;
 import org.catrobat.catroid.physic.PhysicsObject.Type;
 import org.catrobat.catroid.physic.PhysicsWorld;
+import org.catrobat.catroid.physic.content.actions.IfOnEdgeBouncePhysicAction;
 import org.catrobat.catroid.physic.content.actions.SetBounceFactorAction;
 import org.catrobat.catroid.physic.content.actions.SetFrictionAction;
 import org.catrobat.catroid.physic.content.actions.SetGravityAction;
@@ -48,6 +49,14 @@ public class ActionPhysicsFactory extends ActionFactory {
 
 	private PhysicsWorld getPhysicWorld() {
 		return ProjectManager.getInstance().getCurrentProject().getPhysicWorld();
+	}
+
+	@Override
+	public Action createIfOnEdgeBounceAction(Sprite sprite) {
+		IfOnEdgeBouncePhysicAction action = Actions.action(IfOnEdgeBouncePhysicAction.class);
+		action.setSprite(sprite);
+		action.setPhysicWorld(getPhysicWorld());
+		return action;
 	}
 
 	@Override
