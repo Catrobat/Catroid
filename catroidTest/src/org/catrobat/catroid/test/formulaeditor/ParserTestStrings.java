@@ -24,6 +24,8 @@ package org.catrobat.catroid.test.formulaeditor;
 
 import android.test.AndroidTestCase;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Functions;
@@ -31,6 +33,8 @@ import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
+import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
+import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -39,12 +43,27 @@ public class ParserTestStrings extends AndroidTestCase {
 
 	private static final double DELTA = 0.01;
 	private Sprite testSprite;
+	private Project project;
 	public static final String STRING_BEGIN_END = "\'";
 	public static final String USERVARIABLE_BEGIN_END = "\"";
+	private static final double USER_VARIABLE_1_VALUE_TYPE_DOUBLE = 888.88;
+	private static final String USER_VARIABLE_2_VALUE_TYPE_STRING = "another String";
+	private static final String PROJECT_USER_VARIABLE_NAME = "projectUserVariable";
+	private static final String PROJECT_USER_VARIABLE_NAME2 = "projectUserVariable2";
 
 	@Override
 	protected void setUp() {
 		testSprite = new Sprite("testsprite");
+		project = new Project(null, UiTestUtils.PROJECTNAME1);
+		project.addSprite(testSprite);
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(testSprite);
+		UserVariablesContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()
+				.getUserVariables();
+		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE_NAME).setValue(
+				USER_VARIABLE_1_VALUE_TYPE_DOUBLE);
+		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE_NAME2).setValue(
+				USER_VARIABLE_2_VALUE_TYPE_STRING);
 	}
 
 	public void testStringInterpretation() {
@@ -57,11 +76,6 @@ public class ParserTestStrings extends AndroidTestCase {
 		assertEquals("Formula interpretation is not as expected:" + testString, testString,
 				parseTree.interpretRecursive(testSprite));
 	}
-
-	//TODO: Decision: string with number -> compute (f.e '1.1' + compute should eval to string or number ?
-	//TODO: testLengthWithUserVariableAsParameterInterpretation
-	//TODO: testLetterWithUserVariableParameterS
-	//TODO: testJoinWithUserVariableParameterS
 
 	public void testStringToNumberInterpretation() {
 		String stringWithNumber = "9.9";
@@ -107,8 +121,7 @@ public class ParserTestStrings extends AndroidTestCase {
 		assertNotNull("Formula is not parsed correctly: " + Functions.LETTER.name() + "(" + index + "," + letterString
 				+ ")", parseTree);
 		assertEquals("Formula interpretation is not as expected: " + Functions.LETTER.name() + "(" + index + ","
-				+ letterString + ")", String.valueOf(letterString.charAt(normalizedIndex)),
-				parseTree.interpretRecursive(testSprite));
+				+ letterString + ")", letterString.charAt(normalizedIndex), parseTree.interpretRecursive(testSprite));
 
 		index = "0";
 		String emptyString = "";
@@ -170,8 +183,7 @@ public class ParserTestStrings extends AndroidTestCase {
 		assertNotNull("Formula is not parsed correctly: " + Functions.LETTER.name() + "(" + index + "," + letterString
 				+ ")", parseTree);
 		assertEquals("Formula interpretation is not as expected: " + Functions.LETTER.name() + "(" + index + ","
-				+ letterString + ")", String.valueOf(letterString.charAt(normalizedIndex)),
-				parseTree.interpretRecursive(testSprite));
+				+ letterString + ")", letterString.charAt(normalizedIndex), parseTree.interpretRecursive(testSprite));
 
 		String firstParameter = "hello";
 		String secondParameter = " world";
@@ -189,8 +201,8 @@ public class ParserTestStrings extends AndroidTestCase {
 		assertEquals(
 				"Formula interpretation is not as expected: " + Functions.LETTER.name() + "(" + Functions.LENGTH.name()
 						+ "(" + Functions.JOIN.name() + "(" + firstParameter + "," + secondParameter + ")" + ")" + ","
-						+ firstParameter + secondParameter + ")", String.valueOf((firstParameter + secondParameter)
-						.charAt((firstParameter + secondParameter).length() - 1)),
+						+ firstParameter + secondParameter + ")",
+				(firstParameter + secondParameter).charAt((firstParameter + secondParameter).length() - 1),
 				parseTree.interpretRecursive(testSprite));
 
 	}
@@ -331,6 +343,95 @@ public class ParserTestStrings extends AndroidTestCase {
 				+ secondOperand, false, (Double) parseTree.interpretRecursive(testSprite) == 1d);
 	}
 
+	public void testLengthWithUserVariableAsParameterInterpretation() {
+
+		List<InternToken> internTokenList = buildSingleParameterFunction(Functions.LENGTH,
+				InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME);
+		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
+		FormulaElement parseTree = internParser.parseFormula();
+		assertNotNull("Formula is not parsed correctly: " + Functions.LENGTH.name() + "(" + PROJECT_USER_VARIABLE_NAME
+				+ ")", parseTree);
+		assertEquals("Formula interpretation is not as expected: " + Functions.LENGTH.name() + "("
+				+ PROJECT_USER_VARIABLE_NAME + ")", (double) Double.toString(USER_VARIABLE_1_VALUE_TYPE_DOUBLE)
+				.length(), parseTree.interpretRecursive(testSprite));
+
+		internTokenList = buildSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_VARIABLE,
+				PROJECT_USER_VARIABLE_NAME2);
+		internParser = new InternFormulaParser(internTokenList);
+		parseTree = internParser.parseFormula();
+		assertNotNull("Formula is not parsed correctly: " + Functions.LENGTH.name() + "(" + PROJECT_USER_VARIABLE_NAME2
+				+ ")", parseTree);
+		assertEquals("Formula interpretation is not as expected: " + Functions.LENGTH.name() + "("
+				+ PROJECT_USER_VARIABLE_NAME2 + ")", (double) USER_VARIABLE_2_VALUE_TYPE_STRING.length(),
+				parseTree.interpretRecursive(testSprite));
+	}
+
+	public void testLetterWithUserVariableAsParameterInterpretation() {
+		String index = "4";
+		int normalizedIndex = Integer.valueOf(index) - 1;
+		List<InternToken> internTokenList = buildDoubleParameterFunction(Functions.LETTER, InternTokenType.NUMBER,
+				index, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME);
+		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
+		FormulaElement parseTree = internParser.parseFormula();
+		assertNotNull("Formula is not parsed correctly: " + Functions.LETTER.name() + "(" + index + ","
+				+ USER_VARIABLE_1_VALUE_TYPE_DOUBLE + ")", parseTree);
+		assertEquals("Formula interpretation is not as expected: " + Functions.LETTER.name() + "(" + index + ","
+				+ USER_VARIABLE_1_VALUE_TYPE_DOUBLE + ")",
+				Double.toString(USER_VARIABLE_1_VALUE_TYPE_DOUBLE).charAt(normalizedIndex),
+				parseTree.interpretRecursive(testSprite));
+
+		index = "4";
+		normalizedIndex = Integer.valueOf(index) - 1;
+		internTokenList = buildDoubleParameterFunction(Functions.LETTER, InternTokenType.NUMBER, index,
+				InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME2);
+		internParser = new InternFormulaParser(internTokenList);
+		parseTree = internParser.parseFormula();
+		assertNotNull("Formula is not parsed correctly: " + Functions.LETTER.name() + "(" + index + ","
+				+ USER_VARIABLE_2_VALUE_TYPE_STRING + ")", parseTree);
+		assertEquals("Formula interpretation is not as expected: " + Functions.LETTER.name() + "(" + index + ","
+				+ USER_VARIABLE_2_VALUE_TYPE_STRING + ")", USER_VARIABLE_2_VALUE_TYPE_STRING.charAt(normalizedIndex),
+				parseTree.interpretRecursive(testSprite));
+	}
+
+	public void testJoinWithUserVariableAsParameterInterpretation() {
+		List<InternToken> internTokenList = buildDoubleParameterFunction(Functions.JOIN, InternTokenType.USER_VARIABLE,
+				PROJECT_USER_VARIABLE_NAME, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME2);
+		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
+		FormulaElement parseTree = internParser.parseFormula();
+		assertNotNull("Formula is not parsed correctly: " + Functions.JOIN.name() + "(" + PROJECT_USER_VARIABLE_NAME
+				+ "," + PROJECT_USER_VARIABLE_NAME2 + ")", parseTree);
+		assertEquals("Formula interpretation is not as expected: " + Functions.JOIN.name() + "("
+				+ PROJECT_USER_VARIABLE_NAME + "," + PROJECT_USER_VARIABLE_NAME2 + ")",
+				USER_VARIABLE_1_VALUE_TYPE_DOUBLE + USER_VARIABLE_2_VALUE_TYPE_STRING,
+				parseTree.interpretRecursive(testSprite));
+	}
+
+	public void testedStringFunctionsNested() {
+		String first = "first";
+		String second = "second";
+		String lengthParameter = "hhhjjj";
+
+		List<InternToken> lengthTokenList = buildSingleParameterFunction(Functions.LENGTH, InternTokenType.STRING,
+				lengthParameter);
+		List<InternToken> joinTokenList = buildDoubleParameterFunction(Functions.JOIN, InternTokenType.STRING, first,
+				InternTokenType.STRING, second);
+		List<InternToken> tokenList = new LinkedList<InternToken>();
+		tokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.LETTER.name()));
+		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
+		tokenList.addAll(lengthTokenList);
+		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
+		tokenList.addAll(joinTokenList);
+		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
+
+		InternFormulaParser internParser = new InternFormulaParser(tokenList);
+		FormulaElement parseTree = internParser.parseFormula();
+
+		assertNotNull("Formula is not parsed correctly:", parseTree);
+		assertEquals("Formula interpretation is not as expected: ",
+				(first + second).charAt(lengthParameter.length() - 1), parseTree.interpretRecursive(testSprite));
+
+	}
+
 	private List<InternToken> buildDoubleParameterFunction(Functions function, InternTokenType firstParameter,
 			String firstParameterNumberValue, InternTokenType secondParameter, String secondParameterNumberValue) {
 		List<InternToken> tokenList = new LinkedList<InternToken>();
@@ -373,5 +474,4 @@ public class ParserTestStrings extends AndroidTestCase {
 		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
 		return tokenList;
 	}
-
 }

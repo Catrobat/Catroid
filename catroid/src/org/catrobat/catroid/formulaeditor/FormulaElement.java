@@ -173,7 +173,17 @@ public class FormulaElement implements Serializable {
 					returnValue = NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE;
 					break;
 				}
-				returnValue = userVariable.getValue();
+
+				Object userVariableValue = userVariable.getValue();
+				if (userVariableValue instanceof String) {
+					try {
+						returnValue = interpretValueAsString((String) userVariableValue);
+					} catch (NumberFormatException numberFormatException) {
+						returnValue = userVariableValue;
+					}
+				} else {
+					returnValue = userVariableValue;
+				}
 				break;
 
 			case STRING:
@@ -283,14 +293,19 @@ public class FormulaElement implements Serializable {
 			case FALSE:
 				return 0d;
 			case LETTER:
-				rightChild.interpretRecursive(sprite);
 				int index = ((Double) left).intValue() - 1;
+				right = rightChild.interpretRecursive(sprite);
+
+				//				if (rightChild.type == ElementType.USER_VARIABLE) {
+				//					value = handleLetterUserVariableParameter(sprite);
+				//				}
+
 				if (index < 0) {
 					return "";
-				} else if (index >= rightChild.value.length()) {
+				} else if (index >= String.valueOf(right).length()) {
 					return "";
 				}
-				return String.valueOf(rightChild.value.charAt(index));
+				return String.valueOf(right).charAt(index);
 			case LENGTH:
 				if (leftChild == null) {
 					return 0d;
@@ -301,7 +316,10 @@ public class FormulaElement implements Serializable {
 				if (leftChild.type == ElementType.STRING) {
 					return (double) leftChild.value.length();
 				}
-				return (double) ((String) left).length();
+				if (leftChild.type == ElementType.USER_VARIABLE) {
+					return (double) handleLengthUserVariableParameter(sprite);
+				}
+				return (double) (String.valueOf(left)).length();
 			case JOIN:
 				String firstPart = "";
 				if (leftChild != null) {
@@ -341,8 +359,20 @@ public class FormulaElement implements Serializable {
 	private Object interpretOperator(Operators operator, Sprite sprite) throws NumberFormatException {
 
 		if (leftChild != null) {// binary operator
-			Object leftObject = leftChild.interpretRecursive(sprite);
-			Object rightObject = rightChild.interpretRecursive(sprite);
+			Object leftObject;
+			Object rightObject;
+			try {
+				leftObject = leftChild.interpretRecursive(sprite);
+			} catch (NumberFormatException numberFormatException) {
+				leftObject = new Double(0);
+			}
+
+			try {
+				rightObject = rightChild.interpretRecursive(sprite);
+			} catch (NumberFormatException numberFormatException) {
+				rightObject = new Double(0);
+			}
+
 			Double left;
 			Double right;
 
@@ -443,35 +473,37 @@ public class FormulaElement implements Serializable {
 
 	private Object interpretValueAsString(String value) throws NumberFormatException {
 
-		if (parent == null) {
+		if (parent == null && type != ElementType.USER_VARIABLE) {
 			return value;
 		}
 
-		boolean isParentAFunction = Functions.getFunctionByValue(parent.value) != null;
-		if (isParentAFunction && Functions.getFunctionByValue(parent.value).returnType == ElementType.STRING) {
-			if (Functions.getFunctionByValue(parent.value) == Functions.LETTER && parent.leftChild == this) {
-				try {
-					return Double.valueOf(value);
-				} catch (NumberFormatException numberFormatexception) {
-					return Double.valueOf(0);
+		if (parent != null) {
+			boolean isParentAFunction = Functions.getFunctionByValue(parent.value) != null;
+			if (isParentAFunction && Functions.getFunctionByValue(parent.value).returnType == ElementType.STRING) {
+				if (Functions.getFunctionByValue(parent.value) == Functions.LETTER && parent.leftChild == this) {
+					try {
+						return Double.valueOf(value);
+					} catch (NumberFormatException numberFormatexception) {
+						return Double.valueOf(0);
+					}
 				}
+				return value;
 			}
-			return value;
+
+			if (isParentAFunction) {
+				return Double.valueOf(0.0);
+			}
+
+			boolean isParentAOperator = Operators.getOperatorByValue(parent.value) != null;
+			if (isParentAOperator
+					&& (Operators.getOperatorByValue(parent.value) == Operators.EQUAL || Operators
+							.getOperatorByValue(parent.value) == Operators.NOT_EQUAL)) {
+				return value;
+			}
 		}
 
 		if (value.length() == 0) {
 			return Double.valueOf(0.0);
-		}
-
-		if (isParentAFunction) {
-			return Double.valueOf(0.0);
-		}
-
-		boolean isParentAOperator = Operators.getOperatorByValue(parent.value) != null;
-		if (isParentAOperator
-				&& (Operators.getOperatorByValue(parent.value) == Operators.EQUAL || Operators
-						.getOperatorByValue(parent.value) == Operators.NOT_EQUAL)) {
-			return value;
 		}
 
 		return Double.valueOf(value);
@@ -521,12 +553,12 @@ public class FormulaElement implements Serializable {
 
 	private Object checkDegeneratedDoubleValues(Object valueToCheck) throws NumberFormatException {
 
-		if (valueToCheck instanceof String) {
+		if (valueToCheck instanceof String || valueToCheck instanceof Character) {
 			return valueToCheck;
 		}
 
 		if (valueToCheck == null) {
-			return 1.0;
+			return 0.0;
 		}
 
 		if (((Double) valueToCheck).doubleValue() == Double.NEGATIVE_INFINITY) {
@@ -615,6 +647,57 @@ public class FormulaElement implements Serializable {
 			return true;
 		}
 		return false;
+	}
+
+	public boolean isUserVariableWithTypeString(Sprite sprite) {
+		if (type == ElementType.USER_VARIABLE) {
+			UserVariablesContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()
+					.getUserVariables();
+			UserVariable userVariable = userVariableContainer.getUserVariable(value, sprite);
+
+			Object userVariableValue = userVariable.getValue();
+			if (userVariableValue instanceof String) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		return false;
+	}
+
+	private int handleLengthUserVariableParameter(Sprite sprite) {
+		UserVariablesContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()
+				.getUserVariables();
+		UserVariable userVariable = userVariableContainer.getUserVariable(leftChild.value, sprite);
+
+		Object userVariableValue = userVariable.getValue();
+		if (userVariableValue instanceof String) {
+			return (String.valueOf(userVariableValue)).length();
+		} else {
+			if (isInteger((Double) userVariableValue)) {
+				return Integer.toString(((Double) userVariableValue).intValue()).length();
+			} else {
+				return Double.toString(((Double) userVariableValue)).length();
+			}
+		}
+
+	}
+
+	private String handleLetterUserVariableParameter(Sprite sprite) {
+		UserVariablesContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()
+				.getUserVariables();
+		UserVariable userVariable = userVariableContainer.getUserVariable(rightChild.value, sprite);
+
+		Object userVariableValue = userVariable.getValue();
+		if (userVariableValue instanceof String) {
+			return String.valueOf(userVariableValue);
+		} else {
+			if (isInteger((Double) userVariableValue)) {
+				return Integer.toString(((Double) userVariableValue).intValue());
+			} else {
+				return Double.toString(((Double) userVariableValue));
+			}
+		}
 	}
 
 	public boolean isSingleNumberFormula() {

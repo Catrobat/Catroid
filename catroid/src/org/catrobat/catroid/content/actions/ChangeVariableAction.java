@@ -39,7 +39,7 @@ public class ChangeVariableAction extends Action {
 		if (userVariable == null) {
 			return true;
 		}
-		double originalValue = userVariable.getValue();
+		double originalValue = (Double) userVariable.getValue();
 		double value = changeVariable.interpretDouble(sprite);
 		userVariable.setValue(originalValue + value);
 		return true;

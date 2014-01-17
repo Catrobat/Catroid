@@ -102,7 +102,7 @@ public class SetVariableActionTest extends AndroidTestCase {
 		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
-		assertEquals("Variable not changed", CHANGE_VARIABLE_VALUE, userVariable.getValue().intValue());
+		assertEquals("Variable not changed", CHANGE_VARIABLE_VALUE, ((Double) userVariable.getValue()).intValue());
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
 
 	}
@@ -142,7 +142,7 @@ public class SetVariableActionTest extends AndroidTestCase {
 		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
-		assertEquals("Variable changed, but should not!", 0, userVariable.getValue().intValue());
+		assertEquals("Variable changed, but should not!", 0, ((Double) userVariable.getValue()).intValue());
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
 
 	}

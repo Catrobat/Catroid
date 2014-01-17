@@ -173,10 +173,10 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		Sprite copiedSprite = project.getSpriteList().get(2);
 		ProjectManager.getInstance().setCurrentSprite(copiedSprite);
 
-		double q = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		double q = (Double) ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable("q", copiedSprite).getValue();
 
-		double p = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		double p = (Double) ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable("p", copiedSprite).getValue();
 
 		Log.e("CATROID", "q hat den Wert: " + q);
