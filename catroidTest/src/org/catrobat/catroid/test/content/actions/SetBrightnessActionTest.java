@@ -32,6 +32,8 @@ import org.catrobat.catroid.formulaeditor.Formula;
 public class SetBrightnessActionTest extends InstrumentationTestCase {
 
 	private Formula brightnessValue = new Formula(50.1f);
+	private static final float VALUE = 91f;
+	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 
 	public void testBrightnessEffect() {
 		Sprite sprite = new Sprite("testSprite");
@@ -60,6 +62,19 @@ public class SetBrightnessActionTest extends InstrumentationTestCase {
 				new Formula(-brightnessValue.interpretFloat(sprite)));
 		action.act(1.0f);
 		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", 0f,
+				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
+	}
+
+	public void testStringFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		SetBrightnessAction action = ExtendedActions.setBrightness(sprite, new Formula(String.valueOf(VALUE)));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", VALUE,
+				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
+
+		action = ExtendedActions.setBrightness(sprite, new Formula(NOT_NUMERICAL_STRING));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", VALUE,
 				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 }

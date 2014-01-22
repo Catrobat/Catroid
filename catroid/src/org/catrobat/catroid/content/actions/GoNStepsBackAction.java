@@ -37,8 +37,12 @@ public class GoNStepsBackAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-
-		int stepsValue = steps.interpretInteger(sprite);
+		int stepsValue;
+		try {
+			stepsValue = steps.interpretInteger(sprite);
+		} catch (Exception exception) {
+			stepsValue = 0;
+		}
 
 		int zPosition = sprite.look.getZIndex();
 		if (stepsValue > 0 && (zPosition - stepsValue) < 1) {

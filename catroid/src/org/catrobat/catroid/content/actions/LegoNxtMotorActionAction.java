@@ -40,7 +40,13 @@ public class LegoNxtMotorActionAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		int speedValue = speed.interpretInteger(sprite);
+		int speedValue;
+		try {
+			speedValue = speed.interpretInteger(sprite);
+		} catch (Exception exception) {
+			speedValue = 0;
+		}
+
 		if (speedValue < MIN_SPEED) {
 			speedValue = MIN_SPEED;
 		} else if (speedValue > MAX_SPEED) {

@@ -61,6 +61,7 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 	private UserVariable userVariable;
 	private transient AdapterView<?> adapterView;
 
+
 	public ChangeVariableBrick() {
 		addAllowedBrickField(BrickField.VARIABLE_CHANGE);
 	}
@@ -70,6 +71,7 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 	}
 
 	public ChangeVariableBrick(Formula variableFormula, UserVariable userVariable) {
+
 		this.userVariable = userVariable;
 		initializeBrickFields(variableFormula);
 	}

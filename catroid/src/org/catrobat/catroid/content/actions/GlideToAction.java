@@ -44,12 +44,32 @@ public class GlideToAction extends TemporalAction {
 
 	@Override
 	protected void begin() {
+		float durationInterpretation;
+		float endXInterpretation;
+		float endYInterpretation;
+
+		try {
+			durationInterpretation = duration.interpretFloat(sprite);
+		} catch (Exception exception) {
+			durationInterpretation = 0;
+		}
+		try {
+			endXInterpretation = endX.interpretFloat(sprite);
+		} catch (Exception exception) {
+			endXInterpretation = 0;
+		}
+		try {
+			endYInterpretation = endY.interpretFloat(sprite);
+		} catch (Exception exception) {
+			endYInterpretation = 0;
+		}
+
 		if (!restart) {
 			if (duration != null) {
-				super.setDuration(duration.interpretFloat(sprite));
+				super.setDuration(durationInterpretation);
 			}
-			endXValue = endX.interpretFloat(sprite);
-			endYValue = endY.interpretFloat(sprite);
+			endXValue = endXInterpretation;
+			endYValue = endYInterpretation;
 		}
 		restart = false;
 
@@ -57,7 +77,7 @@ public class GlideToAction extends TemporalAction {
 		startY = sprite.look.getYInUserInterfaceDimensionUnit();
 		currentX = startX;
 		currentY = startY;
-		if (startX == endX.interpretFloat(sprite) && startY == endY.interpretFloat(sprite)) {
+		if (startX == endXInterpretation && startY == endYInterpretation) {
 			super.finish();
 		}
 	}

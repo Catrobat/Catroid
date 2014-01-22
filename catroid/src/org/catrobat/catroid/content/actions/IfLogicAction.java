@@ -36,9 +36,16 @@ public class IfLogicAction extends Action {
 	private Formula ifCondition;
 	private boolean ifConditionValue;
 	private boolean isInitialized = false;
+	private boolean isInterpretedCorrectly;
 
 	protected void begin() {
-		ifConditionValue = ifCondition.interpretBoolean(sprite);
+		try {
+			ifConditionValue = ifCondition.interpretBoolean(sprite);
+			isInterpretedCorrectly = true;
+		} catch (Exception exception) {
+			isInterpretedCorrectly = false;
+		}
+
 	}
 
 	@Override
@@ -48,12 +55,15 @@ public class IfLogicAction extends Action {
 			isInitialized = true;
 		}
 
+		if (!isInterpretedCorrectly) {
+			return false;
+		}
+
 		if (ifConditionValue) {
 			return ifAction.act(delta);
 		} else {
 			return elseAction.act(delta);
 		}
-
 	}
 
 	@Override

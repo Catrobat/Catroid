@@ -40,7 +40,8 @@ import java.io.File;
 
 public class SetSizeToActionTest extends InstrumentationTestCase {
 
-	private Formula size = new Formula(70.0f);
+	private static final Formula SIZE = new Formula(70.0f);
+	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 
 	private File testImage;
@@ -80,11 +81,11 @@ public class SetSizeToActionTest extends InstrumentationTestCase {
 		assertEquals("Unexpected initial sprite size value", 1f, sprite.look.getScaleX());
 		assertEquals("Unexpected initial sprite size value", 1f, sprite.look.getScaleY());
 
-		SetSizeToAction action = ExtendedActions.setSizeTo(sprite, size);
+		SetSizeToAction action = ExtendedActions.setSizeTo(sprite, SIZE);
 		action.act(1.0f);
-		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", size.interpretFloat(sprite) / 100,
+		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", SIZE.interpretFloat(sprite) / 100,
 				sprite.look.getScaleX());
-		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", size.interpretFloat(sprite) / 100,
+		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", SIZE.interpretFloat(sprite) / 100,
 				sprite.look.getScaleY());
 	}
 
@@ -96,12 +97,12 @@ public class SetSizeToActionTest extends InstrumentationTestCase {
 		SetSizeToAction action = ExtendedActions.setSizeTo(sprite, new Formula(-10));
 		sprite.look.addAction(action);
 		action.act(1.0f);
-		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", 0f,
+		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", 0f,
 				sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
-		SetSizeToAction action = ExtendedActions.setSizeTo(null, size);
+		SetSizeToAction action = ExtendedActions.setSizeTo(null, SIZE);
 		try {
 			action.act(1.0f);
 			fail("Execution of SetSizeToBrick with null Sprite did not cause a NullPointerException to be thrown");
@@ -110,4 +111,17 @@ public class SetSizeToActionTest extends InstrumentationTestCase {
 		}
 	}
 
+	public void testStringFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		SetSizeToAction action = ExtendedActions.setSizeTo(sprite,
+				new Formula(String.valueOf(SIZE.interpretFloat(sprite))));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", SIZE.interpretFloat(sprite),
+				sprite.look.getSizeInUserInterfaceDimensionUnit());
+
+		action = ExtendedActions.setSizeTo(sprite, new Formula(NOT_NUMERICAL_STRING));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", SIZE.interpretFloat(sprite),
+				sprite.look.getSizeInUserInterfaceDimensionUnit());
+	}
 }

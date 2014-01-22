@@ -32,6 +32,8 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 public class PointInDirectionActionTest extends AndroidTestCase {
 
+	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
+
 	public void testPointRight() {
 		Sprite sprite = new Sprite("test");
 		PointInDirectionAction action = ExtendedActions.pointInDirection(sprite,
@@ -73,4 +75,17 @@ public class PointInDirectionActionTest extends AndroidTestCase {
 		assertEquals("Wrong direction", 90f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
 	}
 
+	public void testStringFormula() {
+		Sprite sprite = new Sprite("test");
+		PointInDirectionAction action = ExtendedActions.pointInDirection(sprite,
+				new Formula(String.valueOf(Direction.RIGHT.getDegrees())));
+		action.act(1.0f);
+		assertEquals("Wrong direction", (float) Direction.RIGHT.getDegrees(),
+				sprite.look.getDirectionInUserInterfaceDimensionUnit());
+
+		action = ExtendedActions.pointInDirection(sprite, new Formula(NOT_NUMERICAL_STRING));
+		action.act(1.0f);
+		assertEquals("Wrong direction", (float) Direction.RIGHT.getDegrees(),
+				sprite.look.getDirectionInUserInterfaceDimensionUnit());
+	}
 }

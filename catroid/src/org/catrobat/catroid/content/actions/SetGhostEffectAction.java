@@ -34,7 +34,13 @@ public class SetGhostEffectAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		sprite.look.setTransparencyInUserInterfaceDimensionUnit(transparency.interpretFloat(sprite));
+		float newTransparency = 0;
+		try {
+			newTransparency = transparency.interpretFloat(sprite);
+		} catch (Exception exception) {
+			newTransparency = sprite.look.getTransparencyInUserInterfaceDimensionUnit();
+		}
+		sprite.look.setTransparencyInUserInterfaceDimensionUnit(newTransparency);
 	}
 
 	public void setSprite(Sprite sprite) {

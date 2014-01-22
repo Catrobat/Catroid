@@ -32,6 +32,8 @@ import org.catrobat.catroid.formulaeditor.Formula;
 public class SetGhostEffectActionTest extends InstrumentationTestCase {
 
 	private Formula effectValue = new Formula(50.5f);
+	private static final float VALUE = 91f;
+	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 
 	public void testGhostEffect() {
 		Sprite sprite = new Sprite("testSprite");
@@ -61,5 +63,18 @@ public class SetGhostEffectActionTest extends InstrumentationTestCase {
 		} catch (NullPointerException expected) {
 			assertTrue("Exception thrown as expected", true);
 		}
+	}
+
+	public void testStringFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		SetGhostEffectAction action = ExtendedActions.setGhostEffect(sprite, new Formula(String.valueOf(VALUE)));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", VALUE,
+				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
+
+		action = ExtendedActions.setGhostEffect(sprite, new Formula(NOT_NUMERICAL_STRING));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", VALUE,
+				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 }

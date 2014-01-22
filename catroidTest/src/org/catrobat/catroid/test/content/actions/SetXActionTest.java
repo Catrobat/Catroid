@@ -32,6 +32,8 @@ import org.catrobat.catroid.formulaeditor.Formula;
 public class SetXActionTest extends AndroidTestCase {
 
 	private Formula xPosition = new Formula(100);
+	private static final float VALUE = 91f;
+	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
@@ -69,5 +71,18 @@ public class SetXActionTest extends AndroidTestCase {
 
 		assertEquals("SetXBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
 				(int) sprite.look.getXInUserInterfaceDimensionUnit());
+	}
+
+	public void testStringFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		SetXAction action = ExtendedActions.setX(sprite, new Formula(String.valueOf(VALUE)));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite x position after SetXBrick executed", VALUE,
+				sprite.look.getXInUserInterfaceDimensionUnit());
+
+		action = ExtendedActions.setX(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING)));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite x position after SetXBrick executed", VALUE,
+				sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 }

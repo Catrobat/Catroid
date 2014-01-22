@@ -36,7 +36,20 @@ public class LegoNxtPlayToneAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		LegoNXT.sendBTCPlayToneMessage(hertz.interpretInteger(sprite), durationInSeconds.interpretInteger(sprite));
+		int hertzInterpretation;
+		int durationInterpretation;
+
+		try {
+			hertzInterpretation = hertz.interpretInteger(sprite);
+		} catch (Exception exception) {
+			hertzInterpretation = 0;
+		}
+		try {
+			durationInterpretation = durationInSeconds.interpretInteger(sprite);
+		} catch (Exception exception) {
+			durationInterpretation = 0;
+		}
+		LegoNXT.sendBTCPlayToneMessage(hertzInterpretation, durationInterpretation);
 	}
 
 	public void setHertz(Formula hertz) {

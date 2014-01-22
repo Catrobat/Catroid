@@ -37,6 +37,8 @@ import java.util.List;
 
 public class GoNStepsBackActionTest extends AndroidTestCase {
 
+	private static final float VALUE = 1f;
+	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private final Formula steps = new Formula(17);
 
 	public void testSteps() {
@@ -143,4 +145,27 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 				sprite.look.getZIndex());
 	}
 
+	public void testStringFormula() {
+		Group parentGroup = new Group();
+		Sprite background = new Sprite("background");
+		parentGroup.addActor(background.look);
+		Sprite sprite = new Sprite("testSprite");
+		parentGroup.addActor(sprite.look);
+		Sprite sprite2 = new Sprite("testSprite2");
+		parentGroup.addActor(sprite2.look);
+
+		GoNStepsBackAction action = ExtendedActions.goNStepsBack(sprite2, new Formula(String.valueOf(VALUE)));
+		sprite2.look.addAction(action);
+		action.act(1.0f);
+		assertEquals("Unexpected sprite Z position", 1, sprite2.look.getZIndex());
+		assertEquals("Unexpected sprite Z position", 2, sprite.look.getZIndex());
+		sprite2.look.removeAction(action);
+
+		action = ExtendedActions.goNStepsBack(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING)));
+		sprite.look.addAction(action);
+		action.act(1.0f);
+		assertEquals("Unexpected sprite Z position", 1, sprite2.look.getZIndex());
+		assertEquals("Unexpected sprite Z position", 2, sprite.look.getZIndex());
+		sprite.look.removeAction(action);
+	}
 }

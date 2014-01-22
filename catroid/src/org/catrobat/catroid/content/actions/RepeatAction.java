@@ -42,7 +42,11 @@ public class RepeatAction extends com.badlogic.gdx.scenes.scene2d.actions.Repeat
 
 		if (!isRepeatActionInitialized) {
 			isRepeatActionInitialized = true;
-			repeatCountValue = repeatCount == null ? 0 : repeatCount.interpretInteger(sprite);
+			try {
+				repeatCountValue = repeatCount == null ? 0 : repeatCount.interpretInteger(sprite);
+			} catch (Exception exception) {
+				repeatCountValue = 0;
+			}
 		}
 		if (!isCurrentLoopInitialized) {
 			currentTime = 0f;

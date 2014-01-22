@@ -31,7 +31,10 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
 
 public class SetVolumeToActionTest extends InstrumentationTestCase {
+
 	private final Formula volume = new Formula(50.6f);
+	private static final float VALUE = 91f;
+	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 
 	public void testVolume() {
 		Sprite sprite = new Sprite("testSprite");
@@ -40,5 +43,18 @@ public class SetVolumeToActionTest extends InstrumentationTestCase {
 		action.act(1.0f);
 		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", volume.interpretFloat(sprite),
 				SoundManager.getInstance().getVolume());
+	}
+
+	public void testStringFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		SetVolumeToAction action = ExtendedActions.setVolumeTo(sprite, new Formula(String.valueOf(VALUE)));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", VALUE, SoundManager.getInstance()
+				.getVolume());
+
+		action = ExtendedActions.setVolumeTo(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING)));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", VALUE, SoundManager.getInstance()
+				.getVolume());
 	}
 }

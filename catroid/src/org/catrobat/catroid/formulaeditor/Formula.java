@@ -87,6 +87,11 @@ public class Formula implements Serializable {
 		}
 	}
 
+	public Formula(String value) {
+		formulaTree = new FormulaElement(ElementType.STRING, value, null);
+		internFormula = new InternFormula(formulaTree.getInternTokenList());
+	}
+
 	public void setDisplayText(String text) {
 		displayText = text;
 	}
@@ -110,6 +115,10 @@ public class Formula implements Serializable {
 
 	public String interpretString(Sprite sprite) {
 		return String.valueOf(formulaTree.interpretRecursive(sprite));
+	}
+
+	public Object interpretObject(Sprite sprite) {
+		return formulaTree.interpretRecursive(sprite);
 	}
 
 	public void setRoot(FormulaElement formula) {

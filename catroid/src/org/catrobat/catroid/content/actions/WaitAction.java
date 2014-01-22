@@ -34,7 +34,13 @@ public class WaitAction extends TemporalAction {
 
 	@Override
 	protected void begin() {
-		super.setDuration(duration.interpretFloat(sprite));
+		float newDuration;
+		try {
+			newDuration = duration.interpretFloat(sprite);
+		} catch (Exception exception) {
+			newDuration = 0;
+		}
+		super.setDuration(newDuration);
 	}
 
 	public void setDelay(Formula delay) {

@@ -31,6 +31,8 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 public class ChangeYByNActionTest extends AndroidTestCase {
 
+	private static final float CHANGE_VALUE = 66.6f;
+	private static final String NOT_NUMERICAL_STRING = "yPostion";
 	private Formula yMovement = new Formula(100);
 
 	public void testNormalBehavior() {
@@ -82,6 +84,22 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 
 		assertEquals("ChangeYByNBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
 				(int) sprite.look.getYInUserInterfaceDimensionUnit());
+	}
 
+	public void testStringFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		ChangeYByNAction action = ExtendedActions.changeYByN(sprite, new Formula(String.valueOf(CHANGE_VALUE)));
+		sprite.look.addAction(action);
+		action.act(1.0f);
+		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", CHANGE_VALUE,
+				sprite.look.getYInUserInterfaceDimensionUnit());
+		sprite.look.removeAction(action);
+
+		action = ExtendedActions.changeYByN(sprite, new Formula(NOT_NUMERICAL_STRING));
+		sprite.look.addAction(action);
+		action.act(1.0f);
+		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", CHANGE_VALUE,
+				sprite.look.getYInUserInterfaceDimensionUnit());
+		sprite.look.removeAction(action);
 	}
 }

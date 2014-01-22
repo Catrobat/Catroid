@@ -31,6 +31,12 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 public class GlideToActionTest extends AndroidTestCase {
 
+	private static final float VALUE = 1.2f;
+	private static final float VALUE2 = 150f;
+	private static final float VALUE3 = 225f;
+	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
+	private static final String NOT_NUMERICAL_STRING2 = "NOT_NUMERICAL_STRING2";
+	private static final String NOT_NUMERICAL_STRING3 = "NOT_NUMERICAL_STRING3";
 	Formula xPosition = new Formula(100);
 	Formula yPosition = new Formula(100);
 	Formula duration = new Formula(1000);
@@ -111,5 +117,38 @@ public class GlideToActionTest extends AndroidTestCase {
 				sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Incorrect sprite y position after GlideToBrick executed", yPosition.interpretFloat(sprite),
 				sprite.look.getYInUserInterfaceDimensionUnit());
+	}
+
+	public void testStringFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		GlideToAction action = ExtendedActions.glideTo(sprite, new Formula(String.valueOf(VALUE2)),
+				new Formula(String.valueOf(VALUE3)), new Formula(String.valueOf(VALUE)));
+		sprite.look.addAction(action);
+
+		long currentTimeDelta = System.currentTimeMillis();
+		do {
+			currentTimeDelta = System.currentTimeMillis() - currentTimeDelta;
+		} while (!action.act(currentTimeDelta));
+
+		assertEquals("Incorrect sprite x position after GlideToBrick executed", VALUE2,
+				sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Incorrect sprite y position after GlideToBrick executed", VALUE3,
+				sprite.look.getYInUserInterfaceDimensionUnit());
+		sprite.look.removeAction(action);
+
+		action = ExtendedActions.glideTo(sprite, new Formula(NOT_NUMERICAL_STRING), new Formula(NOT_NUMERICAL_STRING2),
+				new Formula(NOT_NUMERICAL_STRING3));
+		sprite.look.addAction(action);
+
+		currentTimeDelta = System.currentTimeMillis();
+		do {
+			currentTimeDelta = System.currentTimeMillis() - currentTimeDelta;
+		} while (!action.act(currentTimeDelta));
+
+		assertEquals("Incorrect sprite x position after GlideToBrick executed", 0f,
+				sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Incorrect sprite y position after GlideToBrick executed", 0f,
+				sprite.look.getYInUserInterfaceDimensionUnit());
+		sprite.look.removeAction(action);
 	}
 }

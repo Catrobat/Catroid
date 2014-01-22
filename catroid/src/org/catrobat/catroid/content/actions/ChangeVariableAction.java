@@ -39,10 +39,18 @@ public class ChangeVariableAction extends Action {
 		if (userVariable == null) {
 			return true;
 		}
-		double originalValue = (Double) userVariable.getValue();
-		double value = changeVariable.interpretDouble(sprite);
-		userVariable.setValue(originalValue + value);
-		return true;
+		Object originalValue = userVariable.getValue();
+		Object value = changeVariable.interpretObject(sprite);
+
+		if (originalValue instanceof String || value instanceof String) {
+			return true;
+		}
+
+		if (originalValue instanceof Double && value instanceof Double) {
+			userVariable.setValue(((Double) originalValue) + ((Double) value));
+			return true;
+		}
+		return false;
 	}
 
 	public void setUserVariable(UserVariable userVariable) {

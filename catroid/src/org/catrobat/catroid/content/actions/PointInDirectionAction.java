@@ -34,8 +34,13 @@ public class PointInDirectionAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(degrees.interpretFloat(sprite));
-
+		float degreeInterpretation;
+		try {
+			degreeInterpretation = degrees.interpretFloat(sprite);
+		} catch (Exception exception) {
+			degreeInterpretation = sprite.look.getDirectionInUserInterfaceDimensionUnit();
+		}
+		sprite.look.setDirectionInUserInterfaceDimensionUnit(degreeInterpretation);
 	}
 
 	public void setSprite(Sprite sprite) {

@@ -38,8 +38,12 @@ public class LegoNxtMotorTurnAngleAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-
-		int degreesValue = degrees.interpretInteger(sprite);
+		int degreesValue;
+		try {
+			degreesValue = degrees.interpretInteger(sprite);
+		} catch (Exception exception) {
+			degreesValue = 0;
+		}
 
 		int tmpAngle = degreesValue;
 		int direction = 1;

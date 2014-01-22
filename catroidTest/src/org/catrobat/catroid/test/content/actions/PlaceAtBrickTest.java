@@ -31,10 +31,12 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 public class PlaceAtBrickTest extends AndroidTestCase {
 
-	private static final int Y_POSITON_VALUE = 200;
+	private static final int Y_POSITION_VALUE = 200;
 	private static final int X_POSITION_VALUE = 100;
 	private Formula xPosition = new Formula(X_POSITION_VALUE);
-	private Formula yPosition = new Formula(Y_POSITON_VALUE);
+	private Formula yPosition = new Formula(Y_POSITION_VALUE);
+	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
+	private static final String NOT_NUMERICAL_STRING2 = "NOT_NUMERICAL_STRING2";
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
@@ -47,7 +49,7 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 
 		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", X_POSITION_VALUE,
 				(int) sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", Y_POSITON_VALUE,
+		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", Y_POSITION_VALUE,
 				(int) sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
@@ -82,5 +84,24 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 				(int) sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("PlaceAtBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
 				(int) sprite.look.getYInUserInterfaceDimensionUnit());
+	}
+
+	public void testStringFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		GlideToAction action = ExtendedActions.placeAt(sprite, new Formula(String.valueOf(X_POSITION_VALUE)),
+				new Formula(String.valueOf(Y_POSITION_VALUE)));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", X_POSITION_VALUE,
+				(int) sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", Y_POSITION_VALUE,
+				(int) sprite.look.getYInUserInterfaceDimensionUnit());
+
+		action = ExtendedActions.placeAt(sprite, new Formula(NOT_NUMERICAL_STRING),
+				new Formula(String.valueOf(NOT_NUMERICAL_STRING2)));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", 0f,
+				sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", 0f,
+				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 }

@@ -31,6 +31,9 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 
+	private static final float INITIALIZED_VALUE = 100f;
+	private static final float CHANGE_VALUE = 44.4f;
+	private static final String NOT_NUMERICAL_STRING = "size";
 	private static final float CHANGE_SIZE = 20f;
 	private static final float DELTA = 0.0001f;
 
@@ -62,4 +65,20 @@ public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 		}
 	}
 
+	public void testStringFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		ChangeSizeByNAction action = ExtendedActions.changeSizeByN(sprite, new Formula(String.valueOf(CHANGE_VALUE)));
+		sprite.look.addAction(action);
+		action.act(1.0f);
+		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", INITIALIZED_VALUE + CHANGE_VALUE,
+				sprite.look.getSizeInUserInterfaceDimensionUnit());
+		sprite.look.removeAction(action);
+
+		action = ExtendedActions.changeSizeByN(sprite, new Formula(NOT_NUMERICAL_STRING));
+		sprite.look.addAction(action);
+		action.act(1.0f);
+		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", INITIALIZED_VALUE + CHANGE_VALUE,
+				sprite.look.getSizeInUserInterfaceDimensionUnit());
+		sprite.look.removeAction(action);
+	}
 }

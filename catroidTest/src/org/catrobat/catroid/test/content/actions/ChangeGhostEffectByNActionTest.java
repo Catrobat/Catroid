@@ -31,6 +31,9 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 public class ChangeGhostEffectByNActionTest extends AndroidTestCase {
 
+	private static final float DELTA = 0.01f;
+	private static final float CHANGE_VALUE = 98.7f;
+	private static final String NOT_NUMERICAL_STRING = "ghotst";
 	private final Formula increaseGhostEffect = new Formula(100f);
 	private final Formula decreaseGhostEffect = new Formula(-10f);
 
@@ -71,4 +74,21 @@ public class ChangeGhostEffectByNActionTest extends AndroidTestCase {
 		}
 	}
 
+	public void testStringFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		ChangeGhostEffectByNAction action = ExtendedActions.changeGhostEffectByN(sprite,
+				new Formula(String.valueOf(CHANGE_VALUE)));
+		sprite.look.addAction(action);
+		action.act(1.0f);
+		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectByNBrick executed", CHANGE_VALUE,
+				sprite.look.getTransparencyInUserInterfaceDimensionUnit(), DELTA);
+		sprite.look.removeAction(action);
+
+		action = ExtendedActions.changeGhostEffectByN(sprite, new Formula(NOT_NUMERICAL_STRING));
+		sprite.look.addAction(action);
+		action.act(1.0f);
+		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectByNBrick executed", CHANGE_VALUE,
+				sprite.look.getTransparencyInUserInterfaceDimensionUnit(), DELTA);
+		sprite.look.removeAction(action);
+	}
 }

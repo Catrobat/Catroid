@@ -35,8 +35,13 @@ public class ChangeVolumeByNAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		float newVolume = SoundManager.getInstance().getVolume() + volume.interpretFloat(sprite);
-		SoundManager.getInstance().setVolume(newVolume);
+		float newVolume;
+		try {
+			newVolume = volume.interpretFloat(sprite);
+		} catch (Exception exception) {
+			newVolume = 0;
+		}
+		SoundManager.getInstance().setVolume(SoundManager.getInstance().getVolume() + newVolume);
 	}
 
 	public void setVolume(Formula volume) {

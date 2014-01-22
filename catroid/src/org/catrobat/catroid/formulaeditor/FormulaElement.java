@@ -474,7 +474,13 @@ public class FormulaElement implements Serializable {
 	private Object interpretValueAsString(String value) throws NumberFormatException {
 
 		if (parent == null && type != ElementType.USER_VARIABLE) {
-			return value;
+			Double anotherValue;
+			try {
+				anotherValue = Double.valueOf(value);
+			} catch (NumberFormatException numberFormatException) {
+				return value;
+			}
+			return anotherValue;
 		}
 
 		if (parent != null) {

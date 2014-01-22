@@ -33,6 +33,9 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 public class WaitActionTest extends AndroidTestCase {
 
+	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
+	private static final float VALUE = 2f;
+
 	public void testWait() throws InterruptedException {
 		float waitOneSecond = 1.0f;
 		WaitAction action = ExtendedActions.delay(null, new Formula(waitOneSecond));
@@ -60,5 +63,21 @@ public class WaitActionTest extends AndroidTestCase {
 		} while (!action.act(currentTimeInMilliSeconds / 1000f));
 
 		assertTrue("Unexpected waited time!", (action.getTime() - waitOneSecond) > 0.5f);
+	}
+
+	public void testStringFormula() {
+		WaitAction action = ExtendedActions.delay(null, new Formula(String.valueOf(VALUE)));
+		long currentTimeInMilliSeconds = System.currentTimeMillis();
+		do {
+			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
+		} while (!action.act(currentTimeInMilliSeconds / 1000f));
+		assertTrue("Unexpected waited time!", (action.getTime() - VALUE) > 0.5f);
+
+		action = ExtendedActions.delay(null, new Formula(NOT_NUMERICAL_STRING));
+		currentTimeInMilliSeconds = System.currentTimeMillis();
+		do {
+			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
+		} while (!action.act(currentTimeInMilliSeconds / 1000f));
+		assertTrue("Unexpected waited time!", action.getTime() == 0f);
 	}
 }
