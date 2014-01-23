@@ -46,14 +46,13 @@ public class PhysicsObject {
 	public final static float DEFAULT_BOUNCE_FACTOR = 0.8f;
 	public final static float DEFAULT_MASS = 1.0f;
 	public final static float MIN_MASS = 0.000001f;
-	public final static short COLLISION_MASK = 0x0004;
 
 	private final Body body;
 	private final FixtureDef fixtureDef = new FixtureDef();
 	private Shape[] shapes;
 	private Type type;
 	private float mass;
-	private boolean ifOnEdgeBounce = false;
+	private boolean ifOnEdgeBounce = true;
 
 	private static Vector2 bodyAABBlower;
 	private static Vector2 bodyAABBupper;
@@ -68,15 +67,10 @@ public class PhysicsObject {
 		fixtureDef.density = PhysicsObject.DEFAULT_DENSITY;
 		fixtureDef.friction = PhysicsObject.DEFAULT_FRICTION;
 		fixtureDef.restitution = PhysicsObject.DEFAULT_BOUNCE_FACTOR;
-
-		bodyAABBlower = new Vector2();
-		bodyAABBupper = new Vector2();
-		fixtureAABBlower = new Vector2();
-		fixtureAABBupper = new Vector2();
 		tmpVertice = new Vector2();
-
-		short collisionBits = 0;
-		setCollisionBits(collisionBits, collisionBits);
+		//		short collisionBits = 0;
+		//		setCollisionBits(collisionBits, collisionBits);
+		setCollisionBits(PhysicsWorld.PHYSICOBJECT_COLLISION_MASK, PhysicsWorld.BOUNDARYBOX_COLLISION_MASK);
 		setType(Type.NONE);
 	}
 
@@ -102,22 +96,6 @@ public class PhysicsObject {
 		setMass(mass);
 	}
 
-	public void setIfOnEdgeBounce(boolean bounce) {
-		if (ifOnEdgeBounce == bounce) {
-			return;
-		}
-		ifOnEdgeBounce = bounce;
-
-		short maskBits;
-		if (bounce) {
-			maskBits = PhysicsObject.COLLISION_MASK | PhysicsBoundaryBox.COLLISION_MASK;
-		} else {
-			maskBits = PhysicsObject.COLLISION_MASK;
-		}
-
-		setCollisionBits(fixtureDef.filter.categoryBits, maskBits);
-	}
-
 	public Type getType() {
 		return type;
 	}
@@ -134,34 +112,17 @@ public class PhysicsObject {
 				body.setType(BodyType.DynamicBody);
 				body.setGravityScale(1.0f);
 				setMass(mass);
-				collisionMask = PhysicsObject.COLLISION_MASK;
+				collisionMask = PhysicsWorld.PHYSICOBJECT_COLLISION_MASK;
 				break;
 			case FIXED:
 				body.setType(BodyType.KinematicBody);
-				collisionMask = PhysicsObject.COLLISION_MASK;
+				collisionMask = PhysicsWorld.PHYSICOBJECT_COLLISION_MASK;
 				break;
 			case NONE:
 				body.setType(BodyType.KinematicBody);
 				break;
 		}
 		setCollisionBits(collisionMask, collisionMask);
-	}
-
-	/**
-	 * if ((categoryBitsB & maskBitsA) != 0) {
-	 * - A collides with B.
-	 * }
-	 */
-	protected void setCollisionBits(short categoryBits, short maskBits) {
-		fixtureDef.filter.categoryBits = categoryBits;
-		fixtureDef.filter.maskBits = maskBits;
-
-		for (Fixture fixture : body.getFixtureList()) {
-			Filter filter = fixture.getFilterData();
-			filter.categoryBits = categoryBits;
-			filter.maskBits = maskBits;
-			fixture.setFilterData(filter);
-		}
 	}
 
 	public float getDirection() {
@@ -271,13 +232,48 @@ public class PhysicsObject {
 		// TODO[PHYSIC]
 	}
 
-	public void getBoundaryBox(Vector2 lower, Vector2 upper) {
-		calcAABB(body);
-		lower = PhysicsWorldConverter.toCatroidVector(bodyAABBlower);
-		upper = PhysicsWorldConverter.toCatroidVector(bodyAABBupper);
+	public void setIfOnEdgeBounce(boolean bounce) {
+		if (ifOnEdgeBounce == bounce) {
+			return;
+		}
+		ifOnEdgeBounce = bounce;
+
+		short maskBits;
+		if (bounce) {
+			maskBits = PhysicsWorld.PHYSICOBJECT_COLLISION_MASK | PhysicsWorld.BOUNDARYBOX_COLLISION_MASK;
+		} else {
+			maskBits = PhysicsWorld.PHYSICOBJECT_COLLISION_MASK;
+		}
+
+		setCollisionBits(fixtureDef.filter.categoryBits, maskBits);
 	}
 
-	protected void calcAABB(Body body) {
+	/**
+	 * if ((categoryBitsB & maskBitsA) != 0) {
+	 * - A collides with B.
+	 * }
+	 */
+	protected void setCollisionBits(short categoryBits, short maskBits) {
+		fixtureDef.filter.categoryBits = categoryBits;
+		fixtureDef.filter.maskBits = maskBits;
+
+		for (Fixture fixture : body.getFixtureList()) {
+			Filter filter = fixture.getFilterData();
+			filter.categoryBits = categoryBits;
+			filter.maskBits = maskBits;
+			fixture.setFilterData(filter);
+		}
+	}
+
+	public void getBoundaryBox(Vector2 lower, Vector2 upper) {
+		calcAABB();
+		lower.x = PhysicsWorldConverter.toCatroidVector(bodyAABBlower).x;
+		lower.y = PhysicsWorldConverter.toCatroidVector(bodyAABBlower).y;
+		upper.x = PhysicsWorldConverter.toCatroidVector(bodyAABBupper).x;
+		upper.y = PhysicsWorldConverter.toCatroidVector(bodyAABBupper).y;
+	}
+
+	private void calcAABB() {
 		Transform transform = body.getTransform();
 		int len = body.getFixtureList().size();
 		List<Fixture> fixtures = body.getFixtureList();
@@ -288,6 +284,10 @@ public class PhysicsObject {
 	}
 
 	private void calcAABB(Fixture fixture, Transform transform) {
+		bodyAABBlower = new Vector2(Integer.MAX_VALUE, Integer.MAX_VALUE);
+		bodyAABBupper = new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE);
+		fixtureAABBlower = new Vector2(Integer.MAX_VALUE, Integer.MAX_VALUE);
+		fixtureAABBupper = new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE);
 		if (fixture.getType() == Shape.Type.Circle) {
 			CircleShape shape = (CircleShape) fixture.getShape();
 			float radius = shape.getRadius();
