@@ -26,6 +26,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Filter;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -33,7 +35,6 @@ import com.badlogic.gdx.physics.box2d.World;
 public class PhysicsBoundaryBox {
 
 	public final static int FRAME_SIZE = 5;
-	public final static short COLLISION_MASK = 0x0002;
 
 	private final World world;
 
@@ -74,15 +75,18 @@ public class PhysicsBoundaryBox {
 
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = shape;
-		fixtureDef.filter.maskBits = PhysicsObject.COLLISION_MASK;
-
-		if (PhysicsDebugSettings.BOUNCE_ON_EDGES) {
-			fixtureDef.filter.categoryBits = PhysicsObject.COLLISION_MASK;
-		} else {
-			fixtureDef.filter.categoryBits = PhysicsBoundaryBox.COLLISION_MASK;
-		}
+		fixtureDef.filter.maskBits = PhysicsWorld.PHYSICOBJECT_COLLISION_MASK;
+		fixtureDef.filter.categoryBits = PhysicsWorld.BOUNDARYBOX_COLLISION_MASK;
 
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixtureDef);
+
+		for (Fixture f : body.getFixtureList()) {
+			Filter filter = new Filter();
+			filter.categoryBits = 0;
+			filter.maskBits = 0;
+			f.setFilterData(filter);
+		}
+
 	}
 }

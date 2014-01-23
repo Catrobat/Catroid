@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.physic;
 
+import android.util.Log;
+
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -34,7 +36,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physic.shapebuilder.PhysicsShapeBuilder;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,6 +43,12 @@ public class PhysicsWorld {
 	static {
 		GdxNativesLoader.load();
 	}
+
+	private final static String TAG = PhysicsWorld.class.getSimpleName();
+
+	public final static short NOCOLLISION_MASK = 0x0000;
+	public final static short BOUNDARYBOX_COLLISION_MASK = 0x0002;
+	public final static short PHYSICOBJECT_COLLISION_MASK = 0x0004;
 
 	public final static float RATIO = 40.0f;
 	public final static int VELOCITY_ITERATIONS = 8;
@@ -54,14 +61,25 @@ public class PhysicsWorld {
 
 	private final World world = new World(PhysicsWorld.DEFAULT_GRAVITY, PhysicsWorld.IGNORE_SLEEPING_OBJECTS);
 	private final Map<Sprite, PhysicsObject> physicsObjects = new HashMap<Sprite, PhysicsObject>();
-	private final ArrayList<Sprite> hangupPhysicsObjects = new ArrayList<Sprite>();
 	private Box2DDebugRenderer renderer;
 	private int stabilizingSteCounter = 0;
+	private PhysicsBoundaryBox box;
 
 	private PhysicsShapeBuilder physicsShapeBuilder = new PhysicsShapeBuilder();
 
 	public PhysicsWorld(int width, int height) {
-		//new PhysicsBoundaryBox(world).create(width, height);
+		box = new PhysicsBoundaryBox(world);
+		box.create(width, height);
+		world.setContactListener(new PhysicCollision(this));
+	}
+
+	public void setBounceOnce(Sprite sprite) {
+		if (physicsObjects.containsKey(sprite)) {
+			physicsObjects.get(sprite).setIfOnEdgeBounce(true);
+			Log.d(TAG, "setBounceOnce: TRUE");
+		} else {
+			Log.d(TAG, "setBounceOnce: SPRITE NOT KNOWN");
+		}
 	}
 
 	public void step(float deltaTime) {
