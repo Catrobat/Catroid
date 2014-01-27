@@ -48,7 +48,7 @@ import org.catrobat.catroid.test.utils.SimulatedSoundRecorder;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SensorTest extends InstrumentationTestCase {
+public class ParserTestSensors extends InstrumentationTestCase {
 
 	private Project project;
 	private Sprite firstSprite;
@@ -70,6 +70,7 @@ public class SensorTest extends InstrumentationTestCase {
 	public void tearDown() throws Exception {
 		SensorHandler.stopSensorListeners();
 		Reflection.setPrivateField(SensorHandler.class, "instance", null);
+		Reflection.setPrivateField(SensorLoudness.class, "instance", null);
 		super.tearDown();
 	}
 
@@ -211,6 +212,19 @@ public class SensorTest extends InstrumentationTestCase {
 				delta);
 
 		SensorHandler.stopSensorListeners();
+	}
+
+	public void testMicRelease() {
+
+		SensorLoudness.getSensorLoudness();
+		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
+		SimulatedSoundRecorder simSoundRec = new SimulatedSoundRecorder("/dev/null");
+		Reflection.setPrivateField(loudnessSensor, "recorder", simSoundRec);
+
+		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
+		assertEquals("LoudnessSensor not startet recording, isRecording()", true, simSoundRec.isRecording());
+		SensorHandler.stopSensorListeners();
+		assertEquals("LoudnessSensor not stopped recording, isRecording()", false, simSoundRec.isRecording());
 	}
 
 	private boolean checkValidRotationValues(SensorEvent sensorEvent) {

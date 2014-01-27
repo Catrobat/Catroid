@@ -155,17 +155,13 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 		parentGroup.addActor(sprite2.look);
 
 		GoNStepsBackAction action = ExtendedActions.goNStepsBack(sprite2, new Formula(String.valueOf(VALUE)));
-		sprite2.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Unexpected sprite Z position", 1, sprite2.look.getZIndex());
 		assertEquals("Unexpected sprite Z position", 2, sprite.look.getZIndex());
-		sprite2.look.removeAction(action);
 
 		action = ExtendedActions.goNStepsBack(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING)));
-		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Unexpected sprite Z position", 1, sprite2.look.getZIndex());
 		assertEquals("Unexpected sprite Z position", 2, sprite.look.getZIndex());
-		sprite.look.removeAction(action);
 	}
 }

@@ -89,17 +89,13 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 	public void testStringFormula() {
 		Sprite sprite = new Sprite("testSprite");
 		ChangeYByNAction action = ExtendedActions.changeYByN(sprite, new Formula(String.valueOf(CHANGE_VALUE)));
-		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", CHANGE_VALUE,
 				sprite.look.getYInUserInterfaceDimensionUnit());
-		sprite.look.removeAction(action);
 
 		action = ExtendedActions.changeYByN(sprite, new Formula(NOT_NUMERICAL_STRING));
-		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", CHANGE_VALUE,
 				sprite.look.getYInUserInterfaceDimensionUnit());
-		sprite.look.removeAction(action);
 	}
 }

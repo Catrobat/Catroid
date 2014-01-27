@@ -30,174 +30,127 @@ import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
-import org.catrobat.catroid.formulaeditor.Operators;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class ParserTestFunctions extends AndroidTestCase {
 
-	private static final double DELTA = 0.01;
-	private static final float LOOK_ALPHA = 50f;
-	private static final float LOOK_Y_POSITION = 23.4f;
-	private static final float LOOK_X_POSITION = 5.6f;
-	private static final float LOOK_BRIGHTNESS = 70f;
-	private static final float LOOK_SCALE = 90.3f;
-	private static final float LOOK_ROTATION = 30.7f;
-	private static final int LOOK_ZPOSITION = 3;
 	private Sprite testSprite;
 
 	@Override
 	protected void setUp() {
 		testSprite = new Sprite("sprite");
-		testSprite.look.setXInUserInterfaceDimensionUnit(LOOK_X_POSITION);
-		testSprite.look.setYInUserInterfaceDimensionUnit(LOOK_Y_POSITION);
-		testSprite.look.setTransparencyInUserInterfaceDimensionUnit(LOOK_ALPHA);
-		testSprite.look.setBrightnessInUserInterfaceDimensionUnit(LOOK_BRIGHTNESS);
-		testSprite.look.setSizeInUserInterfaceDimensionUnit(LOOK_SCALE);
-		testSprite.look.setRotation(LOOK_ROTATION);
-		testSprite.look.setZIndex(LOOK_ZPOSITION);
 	}
 
 	public void testSin() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		FormulaEditorUtil.testSingleParameterFunction(Functions.SIN, InternTokenType.NUMBER, "90",
+				Math.sin(Math.toRadians(90d)), testSprite);
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "90"));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
-
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
-
-		assertNotNull("Formula is not parsed correctly: sin(90)", parseTree);
-		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(testSprite));
+		FormulaEditorUtil.testSingleParameterFunction(Functions.SIN, InternTokenType.STRING, "45.0",
+				Math.sin(Math.toRadians(45d)), testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.SIN, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.SIN, InternTokenType.STRING, "NotANumber", 0d,
+				testSprite);
 	}
 
 	public void testCos() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		FormulaEditorUtil.testSingleParameterFunction(Functions.COS, InternTokenType.NUMBER, "180",
+				Math.cos(Math.toRadians(180d)), testSprite);
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.COS.name()));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "180"));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
-
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
-
-		assertNotNull("Formula is not parsed correctly: cos(180)", parseTree);
-		assertEquals("Formula interpretation is not as expected", -1d, parseTree.interpretRecursive(testSprite));
+		FormulaEditorUtil.testSingleParameterFunction(Functions.COS, InternTokenType.STRING, "45.0",
+				Math.cos(Math.toRadians(45d)), testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.COS, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.COS, InternTokenType.STRING, "NotANumber", 0d,
+				testSprite);
 	}
 
 	public void testTan() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		FormulaEditorUtil.testSingleParameterFunction(Functions.TAN, InternTokenType.NUMBER, "180",
+				Math.tan(Math.toRadians(180d)), testSprite);
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.TAN.name()));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "180"));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
-
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
-
-		assertNotNull("Formula is not parsed correctly: tan(180)", parseTree);
-		assertEquals("Formula interpretation is not as expected", 0d,
-				(Double) parseTree.interpretRecursive(testSprite), DELTA);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.TAN, InternTokenType.STRING, "45.0",
+				Math.tan(Math.toRadians(45d)), testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.TAN, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.TAN, InternTokenType.STRING, "NotANumber", 0d,
+				testSprite);
 	}
 
 	public void testLn() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		FormulaEditorUtil.testSingleParameterFunction(Functions.LN, InternTokenType.NUMBER, "2.7182818",
+				Math.log(2.7182818), testSprite);
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.LN.name()));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2.7182818"));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
-
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
-
-		assertNotNull("Formula is not parsed correctly: ln(e)", parseTree);
-		assertEquals("Formula interpretation is not as expected", 1d,
-				(Double) parseTree.interpretRecursive(testSprite), DELTA);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.LN, InternTokenType.STRING, "45.0", Math.log(45d),
+				testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.LN, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.LN, InternTokenType.STRING, "NotANumber", 0d,
+				testSprite);
 	}
 
 	public void testLog() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		FormulaEditorUtil.testSingleParameterFunction(Functions.LOG, InternTokenType.NUMBER, "10", Math.log10(10),
+				testSprite);
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.LOG.name()));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "10"));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
-
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
-
-		assertNotNull("Formula is not parsed correctly: log(10)", parseTree);
-		assertEquals("Formula interpretation is not as expected", 1d,
-				(Double) parseTree.interpretRecursive(testSprite), DELTA);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.LOG, InternTokenType.STRING, "45.0", Math.log10(45),
+				testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.LOG, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.LOG, InternTokenType.STRING, "NotANumber", 0d,
+				testSprite);
 	}
 
 	public void testPi() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
-
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.PI.name()));
-
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: pi", parseTree);
-		assertEquals("Formula interpretation is not as expected", Math.PI,
-				(Double) parseTree.interpretRecursive(testSprite), DELTA);
+		assertEquals("Formula interpretation is not as expected", Math.PI, parseTree.interpretRecursive(testSprite));
 	}
 
 	public void testSqrt() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		FormulaEditorUtil.testSingleParameterFunction(Functions.SQRT, InternTokenType.NUMBER, "100", Math.sqrt(100),
+				testSprite);
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SQRT.name()));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "100"));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
-
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
-
-		assertNotNull("Formula is not parsed correctly: sqrt(100)", parseTree);
-		assertEquals("Formula interpretation is not as expected", 10d,
-				(Double) parseTree.interpretRecursive(testSprite), DELTA);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.SQRT, InternTokenType.STRING, "45.0", Math.sqrt(45),
+				testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.SQRT, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.SQRT, InternTokenType.STRING, "NotANumber", 0d,
+				testSprite);
 	}
 
 	public void testRandomNaturalNumbers() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
-
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.RAND.name()));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "0"));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER, ","));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
-
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: random(0,1)", parseTree);
 		Double result = (Double) parseTree.interpretRecursive(testSprite);
 		assertTrue("Formula interpretation is not as expected", result == 0d || result == 1d);
+
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.RAND, InternTokenType.STRING, "1",
+				InternTokenType.STRING, "1", 1d, testSprite);
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.RAND, InternTokenType.STRING, "",
+				InternTokenType.STRING, "3", 0d, testSprite);
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.RAND, InternTokenType.STRING, "5",
+				InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.RAND, InternTokenType.STRING, "5",
+				InternTokenType.STRING, "NotANumber", 0d, testSprite);
 	}
 
 	public void testRound() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ROUND, InternTokenType.NUMBER, "1.33333",
+				((Long) Math.round(1.33333)).doubleValue(), testSprite);
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ROUND.name()));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1.33333"));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
-
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
-
-		assertNotNull("Formula is not parsed correctly: round(1.33333)", parseTree);
-		assertEquals("Formula interpretation is not as expected", 1d,
-				(Double) parseTree.interpretRecursive(testSprite), DELTA);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ROUND, InternTokenType.STRING, "45.55555",
+				((Long) Math.round(45.55555)).doubleValue(), testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ROUND, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ROUND, InternTokenType.STRING, "NotANumber", 0d,
+				testSprite);
 	}
 
 	public void testMod() {
@@ -206,113 +159,61 @@ public class ParserTestFunctions extends AndroidTestCase {
 			Integer dividend = Integer.valueOf(1 + offset);
 			Integer divisor = Integer.valueOf(1 + offset);
 
-			List<InternToken> internTokenList = new LinkedList<InternToken>();
-			internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.MOD.name()));
-			internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-			internTokenList.add(new InternToken(InternTokenType.NUMBER, dividend.toString()));
-			internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
-			internTokenList.add(new InternToken(InternTokenType.NUMBER, divisor.toString()));
-			internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
-
-			InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-			FormulaElement parseTree = internParser.parseFormula();
-
-			assertNotNull("Formula is not parsed correctly: mod(" + dividend.toString() + ", " + divisor.toString()
-					+ ")", parseTree);
-			assertEquals("Formula interpretation is not as expected", 0d,
-					(Double) parseTree.interpretRecursive(testSprite), DELTA);
+			FormulaEditorUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.NUMBER, dividend.toString(),
+					InternTokenType.NUMBER, divisor.toString(), 0d, testSprite);
 		}
 
 		for (int offset = 0; offset < 100; offset += 2) {
 			Integer dividend = Integer.valueOf(3 + offset);
 			Integer divisor = Integer.valueOf(2 + offset);
 
-			List<InternToken> internTokenList = new LinkedList<InternToken>();
-			internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.MOD.name()));
-			internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-			internTokenList.add(new InternToken(InternTokenType.NUMBER, dividend.toString()));
-			internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
-			internTokenList.add(new InternToken(InternTokenType.NUMBER, divisor.toString()));
-			internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
-
-			InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-			FormulaElement parseTree = internParser.parseFormula();
-
-			assertNotNull("Formula is not parsed correctly: mod(" + dividend.toString() + ", " + divisor.toString()
-					+ ")", parseTree);
-			assertEquals("Formula interpretation is not as expected", 1d,
-					(Double) parseTree.interpretRecursive(testSprite), DELTA);
+			FormulaEditorUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.NUMBER, dividend.toString(),
+					InternTokenType.NUMBER, divisor.toString(), 1d, testSprite);
 		}
 
 		for (int offset = 0; offset < 10; offset += 1) {
 			Integer dividend = Integer.valueOf(3 + offset);
 			Integer divisor = Integer.valueOf(5 + offset);
 
-			List<InternToken> internTokenList = new LinkedList<InternToken>();
-			internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.MOD.name()));
-			internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-			internTokenList.add(new InternToken(InternTokenType.NUMBER, dividend.toString()));
-			internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
-			internTokenList.add(new InternToken(InternTokenType.NUMBER, divisor.toString()));
-			internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
-
-			InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-			FormulaElement parseTree = internParser.parseFormula();
-
-			assertNotNull("Formula is not parsed correctly: mod(" + dividend.toString() + ", " + divisor.toString()
-					+ ")", parseTree);
-			assertEquals("Formula interpretation is not as expected", dividend.doubleValue(),
-					(Double) parseTree.interpretRecursive(testSprite), DELTA);
+			FormulaEditorUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.NUMBER, dividend.toString(),
+					InternTokenType.NUMBER, divisor.toString(), dividend.doubleValue(), testSprite);
 		}
 
 		for (int offset = 0; offset < 10; offset += 1) {
 			Integer dividend = Integer.valueOf(-3 - offset);
 			Integer divisor = Integer.valueOf(2 + offset);
 
-			List<InternToken> internTokenList = new LinkedList<InternToken>();
-			internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.MOD.name()));
-			internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-			internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.toString()));
-			internTokenList.add(new InternToken(InternTokenType.NUMBER, String.valueOf(Math.abs(dividend.intValue()))));
-			internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
-			internTokenList.add(new InternToken(InternTokenType.NUMBER, divisor.toString()));
-			internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
-
-			InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-			FormulaElement parseTree = internParser.parseFormula();
-
-			assertNotNull("Formula is not parsed correctly: mod(" + dividend.toString() + ", " + divisor.toString()
-					+ ")", parseTree);
-			assertEquals("Formula interpretation is not as expected", 1d + offset,
-					(Double) parseTree.interpretRecursive(testSprite), DELTA);
+			FormulaEditorUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.NUMBER, dividend.toString(),
+					InternTokenType.NUMBER, divisor.toString(), 1d + offset, testSprite);
 		}
+
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.STRING, "5",
+				InternTokenType.STRING, "3", 2d, testSprite);
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.STRING, "",
+				InternTokenType.STRING, "3", 0d, testSprite);
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.STRING, "5",
+				InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.STRING, "5",
+				InternTokenType.STRING, "NotANumber", 0d, testSprite);
 	}
 
 	public void testAbs() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ABS, InternTokenType.NUMBER, "-1.1", Math.abs(-1.1),
+				testSprite);
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ABS.name()));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
-
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
-
-		assertNotNull("Formula is not parsed correctly: abs(-1)", parseTree);
-		assertEquals("Formula interpretation is not as expected", 1d,
-				(Double) parseTree.interpretRecursive(testSprite), DELTA);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ABS, InternTokenType.STRING, "45.666",
+				Math.abs(45.666), testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ABS, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ABS, InternTokenType.STRING, "NotANumber", 0d,
+				testSprite);
 	}
 
 	public void testInvalidFunction() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
-
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, "INVALID_FUNCTION"));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
-
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula();
 
@@ -322,11 +223,8 @@ public class ParserTestFunctions extends AndroidTestCase {
 
 	public void testTrue() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
-
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.TRUE.name()));
-
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: true", parseTree);
 		assertEquals("Formula interpretation is not as expected", 1.0, parseTree.interpretRecursive(testSprite));
@@ -334,111 +232,83 @@ public class ParserTestFunctions extends AndroidTestCase {
 
 	public void testFalse() {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
-
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.FALSE.name()));
-
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: false", parseTree);
 		assertEquals("Formula interpretation is not as expected", 0.0, parseTree.interpretRecursive(testSprite));
 	}
 
 	public void testArcsin() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCSIN, InternTokenType.NUMBER, "1",
+				Math.toDegrees(Math.asin(1)), testSprite);
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ARCSIN.name()));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
-
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
-
-		assertNotNull("Formula is not parsed correctly: arcsin(1)", parseTree);
-		assertEquals("Formula interpretation is not as expected", 90d, parseTree.interpretRecursive(testSprite));
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCSIN, InternTokenType.STRING, "0.666",
+				Math.toDegrees(Math.asin(0.666)), testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCSIN, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCSIN, InternTokenType.STRING, "NotANumber", 0d,
+				testSprite);
 	}
 
 	public void testArccos() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCCOS, InternTokenType.NUMBER, "0",
+				Math.toDegrees(Math.acos(0)), testSprite);
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ARCCOS.name()));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "0"));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
-
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
-
-		assertNotNull("Formula is not parsed correctly: arccos(0)", parseTree);
-		assertEquals("Formula interpretation is not as expected", 90d, parseTree.interpretRecursive(testSprite));
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCCOS, InternTokenType.STRING, "0.666",
+				Math.toDegrees(Math.acos(0.666)), testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCCOS, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCCOS, InternTokenType.STRING, "NotANumber", 0d,
+				testSprite);
 	}
 
 	public void testArctan() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCTAN, InternTokenType.NUMBER, "1",
+				Math.toDegrees(Math.atan(1)), testSprite);
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ARCTAN.name()));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
-
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
-
-		assertNotNull("Formula is not parsed correctly: arctan(1)", parseTree);
-		assertEquals("Formula interpretation is not as expected", 45d, parseTree.interpretRecursive(testSprite));
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCTAN, InternTokenType.STRING, "45.666",
+				Math.toDegrees(Math.atan(45.666)), testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCTAN, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCTAN, InternTokenType.STRING, "NotANumber", 0d,
+				testSprite);
 	}
 
 	public void testExp() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		FormulaEditorUtil.testSingleParameterFunction(Functions.EXP, InternTokenType.NUMBER, "2", Math.exp(2),
+				testSprite);
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.EXP.name()));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2"));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
-
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
-
-		assertNotNull("Formula is not parsed correctly: exp(2)", parseTree);
-		assertEquals("Formula interpretation is not as expected", Math.exp(2.0),
-				parseTree.interpretRecursive(testSprite));
+		FormulaEditorUtil.testSingleParameterFunction(Functions.EXP, InternTokenType.STRING, "45.666",
+				Math.exp(45.666), testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.EXP, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.EXP, InternTokenType.STRING, "NotANumber", 0d,
+				testSprite);
 	}
 
 	public void testMax() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.MAX, InternTokenType.NUMBER, "3",
+				InternTokenType.STRING, "4", 4d, testSprite);
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.MAX.name()));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "3"));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER, ","));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "4"));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
-
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
-
-		assertNotNull("Formula is not parsed correctly: max(3,4)", parseTree);
-		assertEquals("Formula interpretation is not as expected", 4d, parseTree.interpretRecursive(testSprite));
-
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.MAX, InternTokenType.STRING, "33.22",
+				InternTokenType.STRING, "22.33", 33.22, testSprite);
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.MAX, InternTokenType.STRING, "",
+				InternTokenType.STRING, "22.33", 0d, testSprite);
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.MAX, InternTokenType.STRING, "",
+				InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.MAX, InternTokenType.STRING, "33.22",
+				InternTokenType.STRING, "NotANumber", 0d, testSprite);
 	}
 
 	public void testMin() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.MIN, InternTokenType.NUMBER, "3",
+				InternTokenType.STRING, "4", 3d, testSprite);
 
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.MIN.name()));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "3"));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER, ","));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "4"));
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
-
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
-
-		assertNotNull("Formula is not parsed correctly: min(3,4)", parseTree);
-		assertEquals("Formula interpretation is not as expected", 3d, parseTree.interpretRecursive(testSprite));
-
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.MIN, InternTokenType.STRING, "33.22",
+				InternTokenType.STRING, "22.33", 22.33, testSprite);
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.MIN, InternTokenType.STRING, "",
+				InternTokenType.STRING, "22.33", 0d, testSprite);
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.MIN, InternTokenType.STRING, "",
+				InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.MIN, InternTokenType.STRING, "33.22",
+				InternTokenType.STRING, "NotANumber", 0d, testSprite);
 	}
 
 }

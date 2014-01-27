@@ -63,17 +63,13 @@ public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("testSprite");
 		ChangeVolumeByNAction action = ExtendedActions.changeVolumeByN(sprite,
 				new Formula(String.valueOf(CHANGE_VALUE)));
-		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", INITIALIZED_VALUE + CHANGE_VALUE,
 				SoundManager.getInstance().getVolume());
-		sprite.look.removeAction(action);
 
 		action = ExtendedActions.changeVolumeByN(sprite, new Formula(NOT_NUMERICAL_STRING));
-		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", INITIALIZED_VALUE + CHANGE_VALUE,
 				SoundManager.getInstance().getVolume());
-		sprite.look.removeAction(action);
 	}
 }

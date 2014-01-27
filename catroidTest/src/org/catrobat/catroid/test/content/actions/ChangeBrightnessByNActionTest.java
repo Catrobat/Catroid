@@ -76,17 +76,13 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 		Sprite sprite = new Sprite("testSprite");
 		ChangeBrightnessByNAction action = ExtendedActions.changeBrightnessByN(sprite,
 				new Formula(String.valueOf(CHANGE_VALUE)));
-		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", INITIALIZED_VALUE
 				+ CHANGE_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
-		sprite.look.removeAction(action);
 
 		action = ExtendedActions.changeBrightnessByN(sprite, new Formula(NOT_NUMERICAL_STRING));
-		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", INITIALIZED_VALUE
 				+ CHANGE_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
-		sprite.look.removeAction(action);
 	}
 }

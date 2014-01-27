@@ -38,7 +38,7 @@ import org.catrobat.catroid.test.utils.TestUtils;
 import java.util.LinkedList;
 import java.util.List;
 
-public class LookSensorValuesInterpretationTest extends AndroidTestCase {
+public class ParserTestObject extends AndroidTestCase {
 
 	private static final float LOOK_ALPHA = 0.42f;
 	private static final float LOOK_Y_POSITION = 23.4f;

@@ -123,7 +123,6 @@ public class GlideToActionTest extends AndroidTestCase {
 		Sprite sprite = new Sprite("testSprite");
 		GlideToAction action = ExtendedActions.glideTo(sprite, new Formula(String.valueOf(VALUE2)),
 				new Formula(String.valueOf(VALUE3)), new Formula(String.valueOf(VALUE)));
-		sprite.look.addAction(action);
 
 		long currentTimeDelta = System.currentTimeMillis();
 		do {
@@ -134,11 +133,9 @@ public class GlideToActionTest extends AndroidTestCase {
 				sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Incorrect sprite y position after GlideToBrick executed", VALUE3,
 				sprite.look.getYInUserInterfaceDimensionUnit());
-		sprite.look.removeAction(action);
 
 		action = ExtendedActions.glideTo(sprite, new Formula(NOT_NUMERICAL_STRING), new Formula(NOT_NUMERICAL_STRING2),
 				new Formula(NOT_NUMERICAL_STRING3));
-		sprite.look.addAction(action);
 
 		currentTimeDelta = System.currentTimeMillis();
 		do {
@@ -149,6 +146,5 @@ public class GlideToActionTest extends AndroidTestCase {
 				sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Incorrect sprite y position after GlideToBrick executed", 0f,
 				sprite.look.getYInUserInterfaceDimensionUnit());
-		sprite.look.removeAction(action);
 	}
 }

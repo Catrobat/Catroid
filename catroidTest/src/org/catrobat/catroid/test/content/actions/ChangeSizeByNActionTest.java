@@ -68,17 +68,13 @@ public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 	public void testStringFormula() {
 		Sprite sprite = new Sprite("testSprite");
 		ChangeSizeByNAction action = ExtendedActions.changeSizeByN(sprite, new Formula(String.valueOf(CHANGE_VALUE)));
-		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", INITIALIZED_VALUE + CHANGE_VALUE,
 				sprite.look.getSizeInUserInterfaceDimensionUnit());
-		sprite.look.removeAction(action);
 
 		action = ExtendedActions.changeSizeByN(sprite, new Formula(NOT_NUMERICAL_STRING));
-		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", INITIALIZED_VALUE + CHANGE_VALUE,
 				sprite.look.getSizeInUserInterfaceDimensionUnit());
-		sprite.look.removeAction(action);
 	}
 }

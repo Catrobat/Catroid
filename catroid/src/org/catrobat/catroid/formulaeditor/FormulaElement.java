@@ -158,42 +158,44 @@ public class FormulaElement implements Serializable {
 				returnValue = interpretFunction(function, sprite);
 				break;
 			case SENSOR:
-				Sensors sensor = Sensors.getSensorByValue(value);
-				if (sensor.isObjectSensor) {
-					returnValue = interpretObjectSensor(sensor, sprite);
-				} else {
-					returnValue = SensorHandler.getSensorValue(sensor);
-				}
+				returnValue = interpretSensor(sprite);
 				break;
 			case USER_VARIABLE:
-				UserVariablesContainer userVariables = ProjectManager.getInstance().getCurrentProject()
-						.getUserVariables();
-				UserVariable userVariable = userVariables.getUserVariable(value, sprite);
-				if (userVariable == null) {
-					returnValue = NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE;
-					break;
-				}
-
-				Object userVariableValue = userVariable.getValue();
-				if (userVariableValue instanceof String) {
-					try {
-						returnValue = interpretValueAsString((String) userVariableValue);
-					} catch (NumberFormatException numberFormatException) {
-						returnValue = userVariableValue;
-					}
-				} else {
-					returnValue = userVariableValue;
-				}
+				returnValue = interpretUserVariable(sprite);
 				break;
-
 			case STRING:
-				returnValue = interpretValueAsString(value);
+				returnValue = interpretString(value);
 				break;
+		}
+		return normalizeDegeneratedDoubleValues(returnValue);
+	}
 
+	private Object interpretUserVariable(Sprite sprite) {
+		UserVariablesContainer userVariables = ProjectManager.getInstance().getCurrentProject().getUserVariables();
+		UserVariable userVariable = userVariables.getUserVariable(value, sprite);
+		if (userVariable == null) {
+			return NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE;
 		}
 
-		returnValue = checkDegeneratedDoubleValues(returnValue);
-		return returnValue;
+		Object userVariableValue = userVariable.getValue();
+		if (userVariableValue instanceof String) {
+			try {
+				return interpretString((String) userVariableValue);
+			} catch (NumberFormatException numberFormatException) {
+				return userVariableValue;
+			}
+		} else {
+			return userVariableValue;
+		}
+	}
+
+	private Object interpretSensor(Sprite sprite) {
+		Sensors sensor = Sensors.getSensorByValue(value);
+		if (sensor.isObjectSensor) {
+			return interpretObjectSensor(sensor, sprite);
+		} else {
+			return SensorHandler.getSensorValue(sensor);
+		}
 	}
 
 	private Object interpretFunction(Functions function, Sprite sprite) throws NumberFormatException {
@@ -206,154 +208,172 @@ public class FormulaElement implements Serializable {
 
 		switch (function) {
 			case SIN:
-				return java.lang.Math.sin(Math.toRadians((Double) left));
-
+				return left instanceof String ? 0d : java.lang.Math.sin(Math.toRadians((Double) left));
 			case COS:
-				return java.lang.Math.cos(Math.toRadians((Double) left));
-
+				return left instanceof String ? 0d : java.lang.Math.cos(Math.toRadians((Double) left));
 			case TAN:
-				return java.lang.Math.tan(Math.toRadians((Double) left));
-
+				return left instanceof String ? 0d : java.lang.Math.tan(Math.toRadians((Double) left));
 			case LN:
-				return java.lang.Math.log((Double) left);
-
+				return left instanceof String ? 0d : java.lang.Math.log((Double) left);
 			case LOG:
-				return java.lang.Math.log10((Double) left);
-
+				return left instanceof String ? 0d : java.lang.Math.log10((Double) left);
 			case SQRT:
-				return java.lang.Math.sqrt((Double) left);
-
+				return left instanceof String ? 0d : java.lang.Math.sqrt((Double) left);
 			case RAND:
 				right = rightChild.interpretRecursive(sprite);
-				Double minimum = java.lang.Math.min((Double) left, (Double) right);
-				Double maximum = java.lang.Math.max((Double) left, (Double) right);
-
-				Double randomDouble = minimum + (java.lang.Math.random() * (maximum - minimum));
-
-				if (isInteger(minimum) && isInteger(maximum)
-						&& !(rightChild.type == ElementType.NUMBER && rightChild.value.contains("."))
-						&& !(leftChild.type == ElementType.NUMBER && leftChild.value.contains("."))) {
-					Log.i("info", "randomDouble: " + randomDouble);
-
-					if ((Math.abs(randomDouble) - (int) Math.abs(randomDouble)) >= 0.5) {
-						return Double.valueOf(randomDouble.intValue()) + 1;
-					} else {
-						return Double.valueOf(randomDouble.intValue());
-					}
-
-				} else {
-					return randomDouble;
-				}
-
+				return interpretFunctionRAND(right, left, sprite);
 			case ABS:
-				return java.lang.Math.abs((Double) left);
-
+				return left instanceof String ? 0d : java.lang.Math.abs((Double) left);
 			case ROUND:
-				return (double) java.lang.Math.round((Double) left);
-
+				return left instanceof String ? 0d : (double) java.lang.Math.round((Double) left);
 			case PI:
 				return java.lang.Math.PI;
-
 			case MOD:
-				double dividend = (Double) left;
-				double divisor = (Double) rightChild.interpretRecursive(sprite);
-
-				if (dividend == 0 || divisor == 0) {
-					return dividend;
-				}
-
-				if (divisor > 0) {
-					while (dividend < 0) {
-						dividend += java.lang.Math.abs(divisor);
-					}
-				} else {
-					if (dividend > 0) {
-						return (dividend % divisor) + divisor;
-					}
-				}
-
-				return dividend % divisor;
-
+				right = rightChild.interpretRecursive(sprite);
+				return interpretFunctionMOD(right, left, sprite);
 			case ARCSIN:
-				return java.lang.Math.toDegrees(Math.asin((Double) left));
+				return left instanceof String ? 0d : java.lang.Math.toDegrees(Math.asin((Double) left));
 			case ARCCOS:
-				return java.lang.Math.toDegrees(Math.acos((Double) left));
+				return left instanceof String ? 0d : java.lang.Math.toDegrees(Math.acos((Double) left));
 			case ARCTAN:
-				return java.lang.Math.toDegrees(Math.atan((Double) left));
+				return left instanceof String ? 0d : java.lang.Math.toDegrees(Math.atan((Double) left));
 			case EXP:
-				return java.lang.Math.exp((Double) left);
+				return left instanceof String ? 0d : java.lang.Math.exp((Double) left);
 			case MAX:
 				right = rightChild.interpretRecursive(sprite);
-				return java.lang.Math.max((Double) left, (Double) right);
+				return (left instanceof String || right instanceof String) ? 0d : java.lang.Math.max((Double) left,
+						(Double) right);
 			case MIN:
 				right = rightChild.interpretRecursive(sprite);
-				return java.lang.Math.min((Double) left, (Double) right);
+				return (left instanceof String || right instanceof String) ? 0d : java.lang.Math.min((Double) left,
+						(Double) right);
 			case TRUE:
 				return 1d;
 			case FALSE:
 				return 0d;
 			case LETTER:
-				int index = ((Double) left).intValue() - 1;
 				right = rightChild.interpretRecursive(sprite);
-
-				//				if (rightChild.type == ElementType.USER_VARIABLE) {
-				//					value = handleLetterUserVariableParameter(sprite);
-				//				}
-
-				if (index < 0) {
-					return "";
-				} else if (index >= String.valueOf(right).length()) {
-					return "";
-				}
-				return String.valueOf(right).charAt(index);
+				return interpretFunctionLETTER(right, left, sprite);
 			case LENGTH:
-				if (leftChild == null) {
-					return 0d;
-				}
-				if (leftChild.type == ElementType.NUMBER) {
-					return (double) leftChild.value.length();
-				}
-				if (leftChild.type == ElementType.STRING) {
-					return (double) leftChild.value.length();
-				}
-				if (leftChild.type == ElementType.USER_VARIABLE) {
-					return (double) handleLengthUserVariableParameter(sprite);
-				}
-				return (double) (String.valueOf(left)).length();
+				return interpretFunctionLENGTH(left, sprite);
 			case JOIN:
-				String firstPart = "";
-				if (leftChild != null) {
-					if (leftChild.getElementType() == ElementType.NUMBER) {
-						Double number = ((Double) leftChild.interpretRecursive(sprite));
-						if (isInteger(number)) {
-							firstPart += number.intValue();
-						} else {
-							firstPart += number;
-						}
-					} else if (leftChild.getElementType() == ElementType.STRING) {
-						firstPart = leftChild.value;
-					} else if (leftChild.getElementType() != ElementType.STRING) {
-						firstPart += leftChild.interpretRecursive(sprite);
-					}
-				}
-				String secondPart = "";
-				if (rightChild != null) {
-					if (rightChild.getElementType() == ElementType.NUMBER) {
-						Double number = ((Double) rightChild.interpretRecursive(sprite));
-						if (isInteger(number)) {
-							secondPart += number.intValue();
-						} else {
-							secondPart += number;
-						}
-					} else if (rightChild.getElementType() == ElementType.STRING) {
-						secondPart = rightChild.value;
-					} else if (rightChild.getElementType() != ElementType.STRING) {
-						secondPart += rightChild.interpretRecursive(sprite);
-					}
-				}
-				return firstPart + secondPart;
+				return interpretFunctionJOIN(right, left, sprite);
 		}
 		return 0d;
+	}
+
+	private Object interpretFunctionJOIN(Object right, Object left, Sprite sprite) {
+		String firstPart = "";
+		if (leftChild != null) {
+			if (leftChild.getElementType() == ElementType.NUMBER) {
+				Double number = ((Double) leftChild.interpretRecursive(sprite));
+				if (isInteger(number)) {
+					firstPart += number.intValue();
+				} else {
+					firstPart += number;
+				}
+			} else if (leftChild.getElementType() == ElementType.STRING) {
+				firstPart = leftChild.value;
+			} else if (leftChild.getElementType() != ElementType.STRING) {
+				firstPart += leftChild.interpretRecursive(sprite);
+			}
+		}
+
+		String secondPart = "";
+		if (rightChild != null) {
+			if (rightChild.getElementType() == ElementType.NUMBER) {
+				Double number = ((Double) rightChild.interpretRecursive(sprite));
+				if (isInteger(number)) {
+					secondPart += number.intValue();
+				} else {
+					secondPart += number;
+				}
+			} else if (rightChild.getElementType() == ElementType.STRING) {
+				secondPart = rightChild.value;
+			} else if (rightChild.getElementType() != ElementType.STRING) {
+				secondPart += rightChild.interpretRecursive(sprite);
+			}
+		}
+		return firstPart + secondPart;
+	}
+
+	private Object interpretFunctionLENGTH(Object left, Sprite sprite) {
+		if (leftChild == null) {
+			return 0d;
+		}
+		if (leftChild.type == ElementType.NUMBER) {
+			return (double) leftChild.value.length();
+		}
+		if (leftChild.type == ElementType.STRING) {
+			return (double) leftChild.value.length();
+		}
+		if (leftChild.type == ElementType.USER_VARIABLE) {
+			return (double) handleLengthUserVariableParameter(sprite);
+		}
+		return (double) (String.valueOf(left)).length();
+	}
+
+	private Object interpretFunctionLETTER(Object right, Object left, Sprite sprite) {
+		int index = ((Double) left).intValue() - 1;
+
+		if (index < 0) {
+			return "";
+		} else if (index >= String.valueOf(right).length()) {
+			return "";
+		}
+		return String.valueOf(String.valueOf(right).charAt(index));
+	}
+
+	private Object interpretFunctionMOD(Object right, Object left, Sprite sprite) {
+
+		if (left instanceof String || right instanceof String) {
+			return 0d;
+		}
+
+		double dividend = (Double) left;
+		double divisor = (Double) right;
+
+		if (dividend == 0 || divisor == 0) {
+			return dividend;
+		}
+
+		if (divisor > 0) {
+			while (dividend < 0) {
+				dividend += java.lang.Math.abs(divisor);
+			}
+		} else {
+			if (dividend > 0) {
+				return (dividend % divisor) + divisor;
+			}
+		}
+
+		return dividend % divisor;
+	}
+
+	private Object interpretFunctionRAND(Object right, Object left, Sprite sprite) {
+		if (left instanceof String || right instanceof String) {
+			return 0d;
+		}
+
+		Double minimum = java.lang.Math.min((Double) left, (Double) right);
+		Double maximum = java.lang.Math.max((Double) left, (Double) right);
+
+		Double randomDouble = minimum + (java.lang.Math.random() * (maximum - minimum));
+
+		if (isInteger(minimum) && isInteger(maximum)
+				&& !(rightChild.type == ElementType.NUMBER && rightChild.value.contains("."))
+				&& !(leftChild.type == ElementType.NUMBER && leftChild.value.contains("."))) {
+			Log.i("info", "randomDouble: " + randomDouble);
+
+			if ((Math.abs(randomDouble) - (int) Math.abs(randomDouble)) >= 0.5) {
+				return Double.valueOf(randomDouble.intValue()) + 1;
+			} else {
+				return Double.valueOf(randomDouble.intValue());
+			}
+
+		} else {
+			return randomDouble;
+		}
 	}
 
 	private Object interpretOperator(Operators operator, Sprite sprite) throws NumberFormatException {
@@ -364,13 +384,13 @@ public class FormulaElement implements Serializable {
 			try {
 				leftObject = leftChild.interpretRecursive(sprite);
 			} catch (NumberFormatException numberFormatException) {
-				leftObject = new Double(0);
+				leftObject = new Double(Double.NaN);
 			}
 
 			try {
 				rightObject = rightChild.interpretRecursive(sprite);
 			} catch (NumberFormatException numberFormatException) {
-				rightObject = new Double(0);
+				rightObject = new Double(Double.NaN);
 			}
 
 			Double left;
@@ -378,52 +398,52 @@ public class FormulaElement implements Serializable {
 
 			switch (operator) {
 				case PLUS:
-					left = (Double) interpretOperatorDefault(leftObject);
-					right = (Double) interpretOperatorDefault(rightObject);
+					left = interpretOperator(leftObject);
+					right = interpretOperator(rightObject);
 					return left + right;
 				case MINUS:
-					left = (Double) interpretOperatorDefault(leftObject);
-					right = (Double) interpretOperatorDefault(rightObject);
+					left = interpretOperator(leftObject);
+					right = interpretOperator(rightObject);
 					return left - right;
 				case MULT:
-					left = (Double) interpretOperatorDefault(leftObject);
-					right = (Double) interpretOperatorDefault(rightObject);
+					left = interpretOperator(leftObject);
+					right = interpretOperator(rightObject);
 					return left * right;
 				case DIVIDE:
-					left = (Double) interpretOperatorDefault(leftObject);
-					right = (Double) interpretOperatorDefault(rightObject);
+					left = interpretOperator(leftObject);
+					right = interpretOperator(rightObject);
 					return left / right;
 				case POW:
-					left = (Double) interpretOperatorDefault(leftObject);
-					right = (Double) interpretOperatorDefault(rightObject);
+					left = interpretOperator(leftObject);
+					right = interpretOperator(rightObject);
 					return java.lang.Math.pow(left, right);
 				case EQUAL:
 					return interpretOperatorEqual(leftObject, rightObject);
 				case NOT_EQUAL:
 					return interpretOperatorEqual(leftObject, rightObject) == 1d ? 0d : 1d;
 				case GREATER_THAN:
-					left = (Double) interpretOperatorDefault(leftObject);
-					right = (Double) interpretOperatorDefault(rightObject);
+					left = interpretOperator(leftObject);
+					right = interpretOperator(rightObject);
 					return left.compareTo(right) > 0 ? 1d : 0d;
 				case GREATER_OR_EQUAL:
-					left = (Double) interpretOperatorDefault(leftObject);
-					right = (Double) interpretOperatorDefault(rightObject);
+					left = interpretOperator(leftObject);
+					right = interpretOperator(rightObject);
 					return left.compareTo(right) >= 0 ? 1d : 0d;
 				case SMALLER_THAN:
-					left = (Double) interpretOperatorDefault(leftObject);
-					right = (Double) interpretOperatorDefault(rightObject);
+					left = interpretOperator(leftObject);
+					right = interpretOperator(rightObject);
 					return left.compareTo(right) < 0 ? 1d : 0d;
 				case SMALLER_OR_EQUAL:
-					left = (Double) interpretOperatorDefault(leftObject);
-					right = (Double) interpretOperatorDefault(rightObject);
+					left = interpretOperator(leftObject);
+					right = interpretOperator(rightObject);
 					return left.compareTo(right) <= 0 ? 1d : 0d;
 				case LOGICAL_AND:
-					left = (Double) interpretOperatorDefault(leftObject);
-					right = (Double) interpretOperatorDefault(rightObject);
+					left = interpretOperator(leftObject);
+					right = interpretOperator(rightObject);
 					return (left * right) != 0d ? 1d : 0d;
 				case LOGICAL_OR:
-					left = (Double) interpretOperatorDefault(leftObject);
-					right = (Double) interpretOperatorDefault(rightObject);
+					left = interpretOperator(leftObject);
+					right = interpretOperator(rightObject);
 					return left != 0d || right != 0d ? 1d : 0d;
 			}
 
@@ -437,9 +457,7 @@ public class FormulaElement implements Serializable {
 				case LOGICAL_NOT:
 					return (Double) right == 0d ? 1d : 0d;
 			}
-
 		}
-
 		return 0d;
 	}
 
@@ -471,7 +489,7 @@ public class FormulaElement implements Serializable {
 		return returnValue;
 	}
 
-	private Object interpretValueAsString(String value) throws NumberFormatException {
+	private Object interpretString(String value) throws NumberFormatException {
 
 		if (parent == null && type != ElementType.USER_VARIABLE) {
 			Double anotherValue;
@@ -497,7 +515,11 @@ public class FormulaElement implements Serializable {
 			}
 
 			if (isParentAFunction) {
-				return Double.valueOf(0.0);
+				try {
+					return Double.valueOf(value);
+				} catch (NumberFormatException numberFormatexception) {
+					return value;
+				}
 			}
 
 			boolean isParentAOperator = Operators.getOperatorByValue(parent.value) != null;
@@ -518,9 +540,13 @@ public class FormulaElement implements Serializable {
 	private Double interpretOperatorEqual(Object left, Object right) {
 
 		if (left instanceof String && right instanceof String) {
-			int compareResult = ((String) left).compareTo((String) right);
-			if (compareResult == 0) {
-				return 1d;
+			try {
+				return (Double.valueOf((String) left).compareTo(Double.valueOf((String) right))) == 0 ? 1d : 0;
+			} catch (NumberFormatException numberFormatException) {
+				int compareResult = ((String) left).compareTo((String) right);
+				if (compareResult == 0) {
+					return 1d;
+				}
 			}
 		}
 		if (left instanceof Double && right instanceof String) {
@@ -549,15 +575,15 @@ public class FormulaElement implements Serializable {
 		return 0d;
 	}
 
-	private Object interpretOperatorDefault(Object object) throws NumberFormatException {
+	private Double interpretOperator(Object object) throws NumberFormatException {
 		if (object instanceof String) {
 			return Double.valueOf((String) object);
 		} else {
-			return object;
+			return (Double) object;
 		}
 	}
 
-	private Object checkDegeneratedDoubleValues(Object valueToCheck) throws NumberFormatException {
+	private Object normalizeDegeneratedDoubleValues(Object valueToCheck) throws NumberFormatException {
 
 		if (valueToCheck instanceof String || valueToCheck instanceof Character) {
 			return valueToCheck;
@@ -574,7 +600,7 @@ public class FormulaElement implements Serializable {
 			return Double.MAX_VALUE;
 		}
 		if (((Double) valueToCheck).isNaN()) {
-			throw new NumberFormatException("NaN");
+			throw new NumberFormatException(String.valueOf(Double.NaN));
 		}
 
 		return valueToCheck;
@@ -687,23 +713,6 @@ public class FormulaElement implements Serializable {
 			}
 		}
 
-	}
-
-	private String handleLetterUserVariableParameter(Sprite sprite) {
-		UserVariablesContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()
-				.getUserVariables();
-		UserVariable userVariable = userVariableContainer.getUserVariable(rightChild.value, sprite);
-
-		Object userVariableValue = userVariable.getValue();
-		if (userVariableValue instanceof String) {
-			return String.valueOf(userVariableValue);
-		} else {
-			if (isInteger((Double) userVariableValue)) {
-				return Integer.toString(((Double) userVariableValue).intValue());
-			} else {
-				return Double.toString(((Double) userVariableValue));
-			}
-		}
 	}
 
 	public boolean isSingleNumberFormula() {

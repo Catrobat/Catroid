@@ -78,17 +78,13 @@ public class ChangeGhostEffectByNActionTest extends AndroidTestCase {
 		Sprite sprite = new Sprite("testSprite");
 		ChangeGhostEffectByNAction action = ExtendedActions.changeGhostEffectByN(sprite,
 				new Formula(String.valueOf(CHANGE_VALUE)));
-		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectByNBrick executed", CHANGE_VALUE,
 				sprite.look.getTransparencyInUserInterfaceDimensionUnit(), DELTA);
-		sprite.look.removeAction(action);
 
 		action = ExtendedActions.changeGhostEffectByN(sprite, new Formula(NOT_NUMERICAL_STRING));
-		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectByNBrick executed", CHANGE_VALUE,
 				sprite.look.getTransparencyInUserInterfaceDimensionUnit(), DELTA);
-		sprite.look.removeAction(action);
 	}
 }

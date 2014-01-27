@@ -222,7 +222,7 @@ public class Formula implements Serializable {
 			try {
 				interpretationResult = (float) this.interpretDouble(sprite);
 			} catch (NumberFormatException numberFormatException) {
-				return String.valueOf("NaN");
+				return String.valueOf(Double.NaN);
 			}
 			interpretationResult *= 100;
 			interpretationResult = Math.round(interpretationResult) / 100f;
