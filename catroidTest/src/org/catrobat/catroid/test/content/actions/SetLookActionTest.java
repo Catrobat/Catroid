@@ -25,15 +25,16 @@ package org.catrobat.catroid.test.content.actions;
 import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.conditional.SetLookAction;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.physic.content.ActionFactory;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -97,7 +98,9 @@ public class SetLookActionTest extends InstrumentationTestCase {
 		lookData.setLookFilename(testImage.getName());
 		lookData.setLookName("testImage");
 		sprite.getLookDataList().add(lookData);
-		SetLookAction action = ExtendedActions.setLook(sprite, lookData);
+
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createSetLookAction(sprite, lookData);
 		action.act(1.0f);
 		assertNotNull("current Look is null", sprite.look);
 	}

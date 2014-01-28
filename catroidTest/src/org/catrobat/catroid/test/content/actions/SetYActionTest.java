@@ -24,10 +24,11 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.conditional.SetYAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.physic.content.ActionFactory;
 
 public class SetYActionTest extends AndroidTestCase {
 
@@ -46,13 +47,14 @@ public class SetYActionTest extends AndroidTestCase {
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
-        ExtendedActions.setY(sprite, yPosition).act(1.0f);
+		sprite.getActionFactory().createSetYAction(sprite, yPosition).act(1.0f);
 		assertEquals("Incorrect sprite y position after SetYBrick executed", Y_POSITION,
 				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
-		SetYAction action = ExtendedActions.setY(null, yPosition);
+		ActionFactory factory = new ActionFactory();
+		Action action = factory.createSetYAction(null, yPosition);
 		try {
 			action.act(1.0f);
 			fail("Execution of SetYBrick with null Sprite did not cause a NullPointerException to be thrown");
@@ -62,33 +64,33 @@ public class SetYActionTest extends AndroidTestCase {
 	}
 
 	public void testBoundaryPositions() {
-		ExtendedActions.setY(sprite, new Formula(Integer.MAX_VALUE)).act(1.0f);
+		sprite.getActionFactory().createSetYAction(sprite, new Formula(Integer.MAX_VALUE)).act(1.0f);
 		assertEquals("SetYBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
 				(int) sprite.look.getYInUserInterfaceDimensionUnit());
 
-		ExtendedActions.setY(sprite, new Formula(Integer.MIN_VALUE)).act(1.0f);
+		sprite.getActionFactory().createSetYAction(sprite, new Formula(Integer.MIN_VALUE)).act(1.0f);
 		assertEquals("SetYBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
 				(int) sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testBrickWithStringFormula() {
-		ExtendedActions.setY(sprite, new Formula(String.valueOf(Y_POSITION))).act(1.0f);
+		sprite.getActionFactory().createSetYAction(sprite, new Formula(String.valueOf(Y_POSITION))).act(1.0f);
 		assertEquals("Incorrect sprite y position after SetYBrick executed", Y_POSITION,
 				sprite.look.getYInUserInterfaceDimensionUnit());
 
-		ExtendedActions.setY(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING))).act(1.0f);
+		sprite.getActionFactory().createSetYAction(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING))).act(1.0f);
 		assertEquals("Incorrect sprite y position after SetYBrick executed", Y_POSITION,
 				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullFormula() {
-		ExtendedActions.setY(sprite, null).act(1.0f);
+		sprite.getActionFactory().createSetYAction(sprite, null).act(1.0f);
 		assertEquals("Incorrect sprite y position after SetYBrick executed", 0f,
 				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNotANumberFormula() {
-		ExtendedActions.setY(sprite, new Formula(Double.NaN)).act(1.0f);
+		sprite.getActionFactory().createSetYAction(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals("Incorrect sprite y position after SetYBrick executed", 0f,
 				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
