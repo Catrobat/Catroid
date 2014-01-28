@@ -24,13 +24,13 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ComeToFrontAction;
-import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.physic.content.ActionFactory;
 import org.catrobat.catroid.test.utils.TestUtils;
 
 import java.util.List;
@@ -42,6 +42,7 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 		TestUtils.clearProject("testProject");
 		super.tearDown();
 	}
+
 
 	public void testComeToFront() {
 		Project project = new Project(getContext(), "testProject");
@@ -66,8 +67,9 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 
 		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project);
 
-		ComeToFrontAction action = ExtendedActions.comeToFront(middleSprite);
-		middleSprite.look.addAction(action);
+		ActionFactory factory = middleSprite.getActionFactory();
+		Action action = factory.createComeToFrontAction(middleSprite);
+		bottomSprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("bottomSprite z position should now be 2", middleSprite.look.getZIndex(),
 				getZMaxValue(middleSprite));
@@ -78,15 +80,14 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 
 		assertEquals("Unexpected initial z position of topSprite", 3, nextSprite.look.getZIndex());
 
-
-		ComeToFrontAction action2 = ExtendedActions.comeToFront(bottomSprite);
-		bottomSprite.look.addAction(action);
+		ActionFactory factory2 = middleSprite.getActionFactory();
+		Action action2 = factory2.createComeToFrontAction(bottomSprite);
+		bottomSprite.look.addAction(action2);
 		action2.act(1.0f);
 		assertEquals("bottomSprite z position should now be 3", bottomSprite.look.getZIndex(),
 				getZMaxValue(bottomSprite));
 
 		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project);
-
 	}
 
 	private void checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(Project project) {
@@ -114,7 +115,8 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 
 
 	public void testNullSprite() {
-		ComeToFrontAction action = ExtendedActions.comeToFront(null);
+		ActionFactory factory = new ActionFactory();
+		Action action = factory.createComeToFrontAction(null);
 
 		try {
 			action.act(1.0f);
@@ -141,7 +143,8 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 
 		ProjectManager.getInstance().setProject(project);
 
-		ComeToFrontAction action = ExtendedActions.comeToFront(firstSprite);
+		ActionFactory factory = firstSprite.getActionFactory();
+		Action action = factory.createComeToFrontAction(firstSprite);
 		firstSprite.look.addAction(action);
 		action.act(1.0f);
 
