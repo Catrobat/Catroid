@@ -79,6 +79,10 @@ public class Project implements Serializable {
 			return;
 		}
 
+		@SuppressWarnings("unused")
+		int h = ScreenValues.SCREEN_HEIGHT;
+		int w = ScreenValues.SCREEN_WIDTH;
+
 		physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight); // TODO[physic]:
 
 		Sprite background = new Sprite(context.getString(R.string.background));
@@ -145,17 +149,16 @@ public class Project implements Serializable {
 	}
 
 	public int getRequiredResources() {
-		int resources = Brick.NO_RESOURCES;
+		int ressources = Brick.NO_RESOURCES;
 
-		ActionFactory physicsActionFactory = new ActionPhysicsFactory();
+		ActionFactory actionPhysicsFactory = new ActionPhysicsFactory();
 
 		for (Sprite sprite : spriteList) {
-			int tempResources = sprite.getRequiredResources();
-			if ((tempResources & Brick.PHYSIC) > 0) {
-				sprite.setActionFactory(physicsActionFactory);
-				tempResources &= ~Brick.PHYSIC;
+			ressources |= sprite.getRequiredResources();
+			if ((ressources & Brick.PHYSIC) > 0) {
+				sprite.setActionFactory(actionPhysicsFactory);
+				ressources &= ~Brick.PHYSIC;
 			}
-			resources |= tempResources;
 		}
 		return resources;
 
@@ -193,7 +196,6 @@ public class Project implements Serializable {
 
 	// default constructor for XMLParser
 	public Project() {
-		physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight); // TODO[physic]:
 	}
 
 	// TODO[physic]:
