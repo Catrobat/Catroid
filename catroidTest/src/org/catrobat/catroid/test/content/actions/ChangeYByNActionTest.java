@@ -24,9 +24,9 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.conditional.ChangeYByNAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 public class ChangeYByNActionTest extends AndroidTestCase {
@@ -43,15 +43,16 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 
 	public void testNormalBehavior() {
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
-
-        ExtendedActions.changeYByN(sprite,  new Formula(CHANGE_VALUE)).act(1.0f);
-		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", CHANGE_VALUE,
+		int yPosition = (int) sprite.look.getYInUserInterfaceDimensionUnit();
+		yPosition += CHANGE_VALUE;
+		sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(CHANGE_VALUE)).act(1.0f);
+		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", (float) yPosition,
 				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
-		ChangeYByNAction action = ExtendedActions.changeYByN(null,  new Formula(CHANGE_VALUE));
+		Action action = sprite.getActionFactory().createChangeYByNAction(null,  new Formula(CHANGE_VALUE));
+
 		try {
 			action.act(1.0f);
 			fail("Execution of ChangeYByNBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
@@ -64,36 +65,36 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 		int yPosition = 10;
 		sprite.look.setPositionInUserInterfaceDimensionUnit(sprite.look.getXInUserInterfaceDimensionUnit(), yPosition);
 
-		ExtendedActions.changeYByN(sprite, new Formula(Integer.MAX_VALUE)).act(1.0f);
+		sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(Integer.MAX_VALUE)).act(1.0f);
 		assertEquals("ChangeYByNBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
 				(int) sprite.look.getYInUserInterfaceDimensionUnit());
 
 		yPosition = -10;
 		sprite.look.setPositionInUserInterfaceDimensionUnit(sprite.look.getXInUserInterfaceDimensionUnit(), yPosition);
 
-		ExtendedActions.changeYByN(sprite, new Formula(Integer.MIN_VALUE)).act(1.0f);
+		sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(Integer.MIN_VALUE)).act(1.0f);
 		assertEquals("ChangeYByNBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
 				(int) sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testBrickWithStringFormula() {
-		ExtendedActions.changeYByN(sprite, new Formula(String.valueOf(CHANGE_VALUE))).act(1.0f);
+		sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(String.valueOf(CHANGE_VALUE))).act(1.0f);
 		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", CHANGE_VALUE,
 				sprite.look.getYInUserInterfaceDimensionUnit());
 
-		ExtendedActions.changeYByN(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
+		sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
 		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", CHANGE_VALUE,
 				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullFormula() {
-		ExtendedActions.changeYByN(sprite, null).act(1.0f);
+		sprite.getActionFactory().createChangeYByNAction(sprite, null).act(1.0f);
 		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", 0f,
 				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNotANumberFormula() {
-		ExtendedActions.changeYByN(sprite, new Formula(Double.NaN)).act(1.0f);
+		sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", 0f,
 				sprite.look.getYInUserInterfaceDimensionUnit());
 	}

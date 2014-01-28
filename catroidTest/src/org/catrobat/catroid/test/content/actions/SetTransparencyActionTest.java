@@ -24,10 +24,12 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.SetTransparencyAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.physic.content.ActionFactory;
 
 public class SetTransparencyActionTest extends InstrumentationTestCase {
 
@@ -46,21 +48,21 @@ public class SetTransparencyActionTest extends InstrumentationTestCase {
 		assertEquals("Unexpected initial sprite ghost effect value", 0f,
 				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 
-		ExtendedActions.setTransparency(sprite, effect).act(1.0f);
-		assertEquals("Incorrect sprite scale value after SetTransparencyBrick executed",
-				TRANSPARENCY, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
+		sprite.getActionFactory().createSetGhostEffectAction(sprite, effect).act(1.0f);
+		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed",
+				GHOST_EFFECT, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 
-		ExtendedActions.setTransparency(sprite, new Formula(-50.0)).act(1.0f);
-		assertEquals("Incorrect sprite scale value after SetTransparencyBrick executed", 0f,
+		sprite.getActionFactory().createSetGhostEffectAction(sprite, new Formula(-50.0)).act(1.0f);
+		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", 0f,
 				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 
-		ExtendedActions.setTransparency(sprite, new Formula(150.0)).act(1.0f);
-		assertEquals("Incorrect sprite scale value after SetTransparencyBrick executed", 100f,
+		sprite.getActionFactory().createSetGhostEffectAction(sprite, new Formula(150.0)).act(1.0f);
+		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", 100f,
 				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
-		SetTransparencyAction action = ExtendedActions.setTransparency(null, effect);
+		Action action = sprite.getActionFactory().createSetGhostEffectAction(null, effect);
 		try {
 			action.act(1.0f);
 			fail("Execution of SetTransparencyBrick with null Sprite did not cause a NullPointerException to be thrown");
@@ -70,25 +72,25 @@ public class SetTransparencyActionTest extends InstrumentationTestCase {
 	}
 
 	public void testBrickWithStringFormula() {
-		ExtendedActions.setTransparency(sprite, new Formula(String.valueOf(TRANSPARENCY))).act(1.0f);
-		assertEquals("Incorrect sprite scale value after SetTransparencyBrick executed", TRANSPARENCY,
+		sprite.getActionFactory().createSetGhostEffectAction(sprite, new Formula(String.valueOf(GHOST_EFFECT))).act(1.0f);
+		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", GHOST_EFFECT,
 				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 
-		ExtendedActions.setTransparency(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
-		assertEquals("Incorrect sprite scale value after SetTransparencyBrick executed", TRANSPARENCY,
+		sprite.getActionFactory().createSetGhostEffectAction(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
+		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", GHOST_EFFECT,
 				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullFormula() {
-		ExtendedActions.setTransparency(sprite, null).act(1.0f);
-		assertEquals("Incorrect sprite size value after SetTransparencyBrick executed", 0f,
+		sprite.getActionFactory().createSetGhostEffectAction(sprite, null).act(1.0f);
+		assertEquals("Incorrect sprite size value after SetGhostEffectBrick executed", 0f,
                 sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 
 	}
 
 	public void testNotANumberFormula() {
-        ExtendedActions.setTransparency(sprite, new Formula(Double.NaN)).act(1.0f);
-		assertEquals("Incorrect sprite size value after SetTransparencyBrick executed", 0f,
+		sprite.getActionFactory().createSetGhostEffectAction(sprite, new Formula(Double.NaN)).act(1.0f);
+		assertEquals("Incorrect sprite size value after SetGhostEffectBrick executed", 0f,
 				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 }

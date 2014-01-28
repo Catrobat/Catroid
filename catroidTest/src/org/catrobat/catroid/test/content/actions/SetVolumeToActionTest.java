@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.content.actions;
 import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
 
@@ -43,29 +42,29 @@ public class SetVolumeToActionTest extends InstrumentationTestCase {
     }
 
 	public void testVolume() {
-		ExtendedActions.setVolumeTo(sprite, volume).act(1.0f);
+		sprite.getActionFactory().createSetVolumeToAction(sprite, volume).act(1.0f);
 		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", VOLUME,
 				SoundManager.getInstance().getVolume());
 	}
 
 	public void testBrickWithStringFormula() {
-		ExtendedActions.setVolumeTo(sprite, new Formula(String.valueOf(VOLUME))).act(1.0f);
+		sprite.getActionFactory().createSetVolumeToAction(sprite, new Formula(String.valueOf(VOLUME))).act(1.0f);
 		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", VOLUME, SoundManager.getInstance()
 				.getVolume());
 
-		ExtendedActions.setVolumeTo(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING))).act(1.0f);
+		sprite.getActionFactory().createSetVolumeToAction(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING))).act(1.0f);
 		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", VOLUME, SoundManager.getInstance()
 				.getVolume());
 	}
 
 	public void testNullFormula() {
-		ExtendedActions.setVolumeTo(sprite, null).act(1.0f);
+		sprite.getActionFactory().createSetVolumeToAction(sprite, null).act(1.0f);
 		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", 0f, SoundManager.getInstance()
 				.getVolume());
 	}
 
 	public void testNotANumberFormula() {
-		ExtendedActions.setVolumeTo(sprite, new Formula(Double.NaN)).act(1.0f);
+		sprite.getActionFactory().createSetVolumeToAction(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", VOLUME, SoundManager.getInstance()
 				.getVolume());
 	}
