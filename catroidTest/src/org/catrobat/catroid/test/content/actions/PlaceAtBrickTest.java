@@ -24,10 +24,11 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.physic.content.ActionFactory;
 
 public class PlaceAtBrickTest extends AndroidTestCase {
 
@@ -41,7 +42,8 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
-		GlideToAction action = ExtendedActions.placeAt(sprite, xPosition, yPosition);
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createPlaceAtAction(sprite, xPosition, yPosition);
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
@@ -53,7 +55,8 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 
 	public void testNullSprite() {
 		try {
-			GlideToAction action = ExtendedActions.placeAt(null, xPosition, yPosition);
+			ActionFactory factory = new ActionFactory();
+			Action action = factory.createPlaceAtAction(null, xPosition, yPosition);
 			action.act(1.0f);
 			fail("Execution of PlaceAtBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
 		} catch (NullPointerException e) {
@@ -64,7 +67,8 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 	public void testBoundaryPositions() {
 		Sprite sprite = new Sprite("testSprite");
 
-		GlideToAction action = ExtendedActions.placeAt(sprite, new Formula(Integer.MAX_VALUE), new Formula(
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createPlaceAtAction(sprite, new Formula(Integer.MAX_VALUE), new Formula(
 				Integer.MAX_VALUE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
@@ -74,7 +78,7 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 		assertEquals("PlaceAtBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
 				(int) sprite.look.getYInUserInterfaceDimensionUnit());
 
-		action = ExtendedActions.placeAt(sprite, new Formula(Integer.MIN_VALUE), new Formula(Integer.MIN_VALUE));
+		action = factory.createPlaceAtAction(sprite, new Formula(Integer.MIN_VALUE), new Formula(Integer.MIN_VALUE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
