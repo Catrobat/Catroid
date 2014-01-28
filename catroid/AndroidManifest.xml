@@ -139,7 +139,7 @@
             android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".soundrecorder.SoundRecorderActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/soundrecorder_name"
             android:screenOrientation="portrait" >
             <intent-filter>
