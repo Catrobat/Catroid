@@ -23,20 +23,25 @@
 package org.catrobat.catroid.io;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
 public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	private Activity activity;
 	private String projectName;
-	private ProgressDialog progressDialog;
 	private boolean showErrorMessage;
 	private boolean startProjectActivity;
+	private LinearLayout linearLayoutProgressCircle;
 
 	private OnLoadProjectCompleteListener onLoadProjectCompleteListener;
 
@@ -57,17 +62,15 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 		if (activity == null) {
 			return;
 		}
-		String title = activity.getString(R.string.please_wait);
-		String message = activity.getString(R.string.loading);
-		progressDialog = ProgressDialog.show(activity, title, message);
+		linearLayoutProgressCircle = (LinearLayout) activity.findViewById(R.id.progress_circle);
+		linearLayoutProgressCircle.setVisibility(View.VISIBLE);
+		linearLayoutProgressCircle.bringToFront();
 	}
 
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		if (currentProject == null) {
-			return ProjectManager.getInstance().loadProject(projectName, activity, false);
-		} else if (!currentProject.getName().equals(projectName)) {
+		if (currentProject == null || !currentProject.getName().equals(projectName)) {
 			return ProjectManager.getInstance().loadProject(projectName, activity, false);
 		}
 		return true;
@@ -77,12 +80,22 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	protected void onPostExecute(Boolean success) {
 		super.onPostExecute(success);
 
-		if (progressDialog != null && progressDialog.isShowing()) {
-			progressDialog.dismiss();
-		}
 		if (onLoadProjectCompleteListener != null) {
 			if (!success && showErrorMessage) {
-				Utils.showErrorDialog(activity, R.string.error_load_project);
+				linearLayoutProgressCircle.setVisibility(View.GONE);
+
+				Builder builder = new CustomAlertDialogBuilder(activity);
+				builder.setTitle(R.string.error);
+				builder.setMessage(R.string.error_load_project);
+				builder.setNeutralButton(R.string.close, new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						onLoadProjectCompleteListener.onLoadProjectFailure();
+					}
+				});
+				Dialog errorDialog = builder.create();
+				errorDialog.show();
+
 			} else {
 				onLoadProjectCompleteListener.onLoadProjectSuccess(startProjectActivity);
 			}
@@ -93,5 +106,8 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 
 		void onLoadProjectSuccess(boolean startProjectActivity);
 
+		void onLoadProjectFailure();
+
 	}
+
 }

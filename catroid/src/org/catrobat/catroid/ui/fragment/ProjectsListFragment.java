@@ -53,8 +53,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.io.LoadProjectTask;
-import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.MyProjectsActivity;
@@ -80,7 +78,7 @@ import java.util.List;
 import java.util.Set;
 
 public class ProjectsListFragment extends SherlockListFragment implements OnProjectRenameListener,
-		OnUpdateProjectDescriptionListener, OnCopyProjectListener, OnProjectEditListener, OnLoadProjectCompleteListener {
+		OnUpdateProjectDescriptionListener, OnCopyProjectListener, OnProjectEditListener {
 
 	private static final String BUNDLE_ARGUMENTS_PROJECT_DATA = "project_data";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsMyProjects";
@@ -232,14 +230,6 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	}
 
 	@Override
-	public void onLoadProjectSuccess(boolean startProjectActivity) {
-		if (startProjectActivity) {
-			Intent intent = new Intent(getActivity(), ProjectActivity.class);
-			getActivity().startActivity(intent);
-		}
-	}
-
-	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, view, menuInfo);
 
@@ -327,10 +317,9 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 	@Override
 	public void onProjectEdit(int position) {
-		LoadProjectTask loadProjectTask = new LoadProjectTask(getActivity(), (adapter.getItem(position)).projectName,
-				true, true);
-		loadProjectTask.setOnLoadProjectCompleteListener(parentFragment);
-		loadProjectTask.execute();
+		Intent intent = new Intent(getActivity(), ProjectActivity.class);
+		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, (adapter.getItem(position)).projectName);
+		getActivity().startActivity(intent);
 	}
 
 	public void startRenameActionMode() {
