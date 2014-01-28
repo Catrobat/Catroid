@@ -74,6 +74,10 @@ public class Project implements Serializable {
 			return;
 		}
 
+		@SuppressWarnings("unused")
+		int h = ScreenValues.SCREEN_HEIGHT;
+		int w = ScreenValues.SCREEN_WIDTH;
+
 		physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight); // TODO[physic]:
 
 		Sprite background = new Sprite(context.getString(R.string.background));
@@ -163,7 +167,6 @@ public class Project implements Serializable {
 
 	// default constructor for XMLParser
 	public Project() {
-		physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight); // TODO[physic]:
 	}
 
 	// TODO[physic]:

@@ -174,7 +174,7 @@ public class PreStageActivity extends Activity {
 		ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
 				.getSpriteList();
 
-		ActionFactory actionFactory = new ActionFactory();
+		//ActionFactory actionFactory = new ActionFactory();
 		ActionFactory actionPhysicsFactory = new ActionPhysicsFactory();
 
 		int ressources = Brick.NO_RESOURCES;
@@ -183,9 +183,10 @@ public class PreStageActivity extends Activity {
 			if ((ressources & Brick.PHYSIC) > 0) {
 				sprite.setActionFactory(actionPhysicsFactory);
 				ressources &= ~Brick.PHYSIC;
-			} else {
-				sprite.setActionFactory(actionFactory);
 			}
+			//			else {
+			//				sprite.setActionFactory(actionFactory);
+			//			}
 		}
 
 		return ressources;
