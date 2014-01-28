@@ -24,11 +24,12 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.physic.content.ActionFactory;
 import org.catrobat.catroid.test.utils.Reflection;
 
 public class SpeakActionTest extends AndroidTestCase {
@@ -38,13 +39,15 @@ public class SpeakActionTest extends AndroidTestCase {
 		String text2 = "hello world, hello!";
 		Sprite sprite = new Sprite("testSprite");
 		SpeakBrick speakBrick = new SpeakBrick(sprite, text);
-		SpeakAction action = ExtendedActions.speak(text, speakBrick);
+
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createSpeakAction(text, speakBrick);
 		String textAfterExecution = (String) Reflection.getPrivateField(action, "text");
 
 		assertEquals("Text is not updated after SpeakBrick executed", text, speakBrick.getText());
 		assertEquals("Text is not updated after SpeakBrick executed", text, textAfterExecution);
 		speakBrick = new SpeakBrick(sprite, text2);
-		action = ExtendedActions.speak(text, speakBrick);
+		action = factory.createSpeakAction(text, speakBrick);
 		textAfterExecution = (String) Reflection.getPrivateField(action, "text");
 
 		assertEquals("Text is not updated after SpeakBrick executed", text2, speakBrick.getText());
@@ -54,7 +57,9 @@ public class SpeakActionTest extends AndroidTestCase {
 	public void testNullSprite() {
 		String text = "hello world!";
 		SpeakBrick speakBrick = new SpeakBrick(null, text);
-		SpeakAction action = ExtendedActions.speak(text, speakBrick);
+
+		ActionFactory factory = new ActionFactory();
+		Action action = factory.createSpeakAction(text, speakBrick);
 		try {
 			action.act(1.0f);
 			fail("Execution of ShowBrick with null Sprite did not cause a NullPointerException to be thrown");

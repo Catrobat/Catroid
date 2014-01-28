@@ -24,14 +24,15 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.conditional.SetSizeToAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.physic.content.ActionFactory;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -80,7 +81,8 @@ public class SetSizeToActionTest extends InstrumentationTestCase {
 		assertEquals("Unexpected initial sprite size value", 1f, sprite.look.getScaleX());
 		assertEquals("Unexpected initial sprite size value", 1f, sprite.look.getScaleY());
 
-		SetSizeToAction action = ExtendedActions.setSizeTo(sprite, size);
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createSetSizeToAction(sprite, size);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", size.interpretFloat(sprite) / 100,
 				sprite.look.getScaleX());
@@ -93,7 +95,8 @@ public class SetSizeToActionTest extends InstrumentationTestCase {
 		float initialSize = sprite.look.getSizeInUserInterfaceDimensionUnit();
 		assertEquals("Unexpected initial sprite size value", 100f, initialSize);
 
-		SetSizeToAction action = ExtendedActions.setSizeTo(sprite, new Formula(-10));
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createSetSizeToAction(sprite, new Formula(-10));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", 0f,
@@ -101,7 +104,8 @@ public class SetSizeToActionTest extends InstrumentationTestCase {
 	}
 
 	public void testNullSprite() {
-		SetSizeToAction action = ExtendedActions.setSizeTo(null, size);
+		ActionFactory factory = new ActionFactory();
+		Action action = factory.createSetSizeToAction(null, size);
 		try {
 			action.act(1.0f);
 			fail("Execution of SetSizeToBrick with null Sprite did not cause a NullPointerException to be thrown");

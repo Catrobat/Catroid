@@ -24,10 +24,11 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.conditional.ChangeSizeByNAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.physic.content.ActionFactory;
 
 public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 
@@ -39,13 +40,14 @@ public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 		float initialSize = sprite.look.getSizeInUserInterfaceDimensionUnit();
 		assertEquals("Unexpected initial sprite size value", 100f, initialSize);
 
-		ChangeSizeByNAction action = ExtendedActions.changeSizeByN(sprite, new Formula(CHANGE_SIZE));
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createChangeSizeByNAction(sprite, new Formula(CHANGE_SIZE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", initialSize + CHANGE_SIZE,
 				sprite.look.getSizeInUserInterfaceDimensionUnit(), DELTA);
 
-		action = ExtendedActions.changeSizeByN(sprite, new Formula(-CHANGE_SIZE));
+		action = factory.createChangeSizeByNAction(sprite, new Formula(-CHANGE_SIZE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", initialSize,
@@ -53,7 +55,8 @@ public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 	}
 
 	public void testNullSprite() {
-		ChangeSizeByNAction action = ExtendedActions.changeSizeByN(null, new Formula(CHANGE_SIZE));
+		ActionFactory factory = new ActionFactory();
+		Action action = factory.createChangeSizeByNAction(null, new Formula(CHANGE_SIZE));
 		try {
 			action.act(1.0f);
 			fail("Execution of ChangeSizeByNBrick with null Sprite did not cause a NullPointerException to be thrown");

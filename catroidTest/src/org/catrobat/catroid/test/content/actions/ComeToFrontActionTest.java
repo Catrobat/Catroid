@@ -24,13 +24,13 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ComeToFrontAction;
-import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.physic.content.ActionFactory;
 import org.catrobat.catroid.test.utils.TestUtils;
 
 public class ComeToFrontActionTest extends AndroidTestCase {
@@ -64,7 +64,8 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 		project.addSprite(topSprite);
 		ProjectManager.getInstance().setProject(project);
 
-		ComeToFrontAction action = ExtendedActions.comeToFront(bottomSprite);
+		ActionFactory factory = topSprite.getActionFactory();
+		Action action = factory.createComeToFrontAction(bottomSprite);
 		bottomSprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("bottomSprite z position should now be 2", bottomSprite.look.getZIndex(),
@@ -72,7 +73,8 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 	}
 
 	public void testNullSprite() {
-		ComeToFrontAction action = ExtendedActions.comeToFront(null);
+		ActionFactory factory = new ActionFactory();
+		Action action = factory.createComeToFrontAction(null);
 
 		try {
 			action.act(1.0f);
@@ -99,7 +101,8 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 
 		ProjectManager.getInstance().setProject(project);
 
-		ComeToFrontAction action = ExtendedActions.comeToFront(firstSprite);
+		ActionFactory factory = firstSprite.getActionFactory();
+		Action action = factory.createComeToFrontAction(firstSprite);
 		firstSprite.look.addAction(action);
 		action.act(1.0f);
 
