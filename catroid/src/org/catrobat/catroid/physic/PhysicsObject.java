@@ -33,8 +33,9 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.Transform;
 
+import org.catrobat.catroid.content.Sprite;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class PhysicsObject {
 	public enum Type {
@@ -52,26 +53,24 @@ public class PhysicsObject {
 	private Shape[] shapes;
 	private Type type;
 	private float mass;
-	private boolean ifOnEdgeBounce = true;
+	private boolean ifOnEdgeBounce = false;
 
-	private static Vector2 bodyAABBlower;
-	private static Vector2 bodyAABBupper;
-	private static Vector2 fixtureAABBlower;
-	private static Vector2 fixtureAABBupper;
-	private static Vector2 tmpVertice;
+	private Vector2 bodyAABBlower;
+	private Vector2 bodyAABBupper;
+	private Vector2 fixtureAABBlower;
+	private Vector2 fixtureAABBupper;
+	private Vector2 tmpVertice;
 
 	public PhysicsObject(Body body) {
 		this.body = body;
-
+		//this.body.setUserData(this);
 		mass = PhysicsObject.DEFAULT_MASS;
 		fixtureDef.density = PhysicsObject.DEFAULT_DENSITY;
 		fixtureDef.friction = PhysicsObject.DEFAULT_FRICTION;
 		fixtureDef.restitution = PhysicsObject.DEFAULT_BOUNCE_FACTOR;
-		tmpVertice = new Vector2();
-		//		short collisionBits = 0;
-		//		setCollisionBits(collisionBits, collisionBits);
-		setCollisionBits(PhysicsWorld.PHYSICOBJECT_COLLISION_MASK, PhysicsWorld.BOUNDARYBOX_COLLISION_MASK);
 		setType(Type.NONE);
+		// --
+		tmpVertice = new Vector2();
 	}
 
 	public void setShape(Shape[] shapes) {
@@ -80,7 +79,7 @@ public class PhysicsObject {
 		}
 		this.shapes = shapes;
 
-		List<Fixture> fixturesOld = new ArrayList<Fixture>(body.getFixtureList());
+		ArrayList<Fixture> fixturesOld = new ArrayList<Fixture>(body.getFixtureList());
 
 		if (shapes != null) {
 			for (Shape tempShape : shapes) {
@@ -111,18 +110,20 @@ public class PhysicsObject {
 			case DYNAMIC:
 				body.setType(BodyType.DynamicBody);
 				body.setGravityScale(1.0f);
+				body.setBullet(true);
 				setMass(mass);
-				collisionMask = PhysicsWorld.PHYSICOBJECT_COLLISION_MASK;
+				collisionMask = PhysicsWorld.MASK_PHYSICSOBJECT;
 				break;
 			case FIXED:
 				body.setType(BodyType.KinematicBody);
-				collisionMask = PhysicsWorld.PHYSICOBJECT_COLLISION_MASK;
+				collisionMask = PhysicsWorld.MASK_PHYSICSOBJECT;
 				break;
 			case NONE:
 				body.setType(BodyType.KinematicBody);
+				collisionMask = PhysicsWorld.NOCOLLISION_MASK;
 				break;
 		}
-		setCollisionBits(collisionMask, collisionMask);
+		setCollisionBits(PhysicsWorld.CATEGORY_PHYSICSOBJECT, collisionMask);
 	}
 
 	public float getDirection() {
@@ -228,11 +229,15 @@ public class PhysicsObject {
 		}
 	}
 
+	public void setGravityScale(int scale) {
+		body.setGravityScale(scale);
+	}
+
 	public void setVisible(boolean visible) {
 		// TODO[PHYSIC]
 	}
 
-	public void setIfOnEdgeBounce(boolean bounce) {
+	public void setIfOnEdgeBounce(boolean bounce, Sprite sprite) {
 		if (ifOnEdgeBounce == bounce) {
 			return;
 		}
@@ -240,19 +245,15 @@ public class PhysicsObject {
 
 		short maskBits;
 		if (bounce) {
-			maskBits = PhysicsWorld.PHYSICOBJECT_COLLISION_MASK | PhysicsWorld.BOUNDARYBOX_COLLISION_MASK;
+			maskBits = PhysicsWorld.MASK_TOBOUNCE;
+			body.setUserData(sprite);
 		} else {
-			maskBits = PhysicsWorld.PHYSICOBJECT_COLLISION_MASK;
+			maskBits = PhysicsWorld.MASK_PHYSICSOBJECT;
 		}
 
 		setCollisionBits(fixtureDef.filter.categoryBits, maskBits);
 	}
 
-	/**
-	 * if ((categoryBitsB & maskBitsA) != 0) {
-	 * - A collides with B.
-	 * }
-	 */
 	protected void setCollisionBits(short categoryBits, short maskBits) {
 		fixtureDef.filter.categoryBits = categoryBits;
 		fixtureDef.filter.maskBits = maskBits;
@@ -276,7 +277,7 @@ public class PhysicsObject {
 	private void calcAABB() {
 		Transform transform = body.getTransform();
 		int len = body.getFixtureList().size();
-		List<Fixture> fixtures = body.getFixtureList();
+		ArrayList<Fixture> fixtures = body.getFixtureList();
 		for (int i = 0; i < len; i++) {
 			Fixture fixture = fixtures.get(i);
 			calcAABB(fixture, transform);
