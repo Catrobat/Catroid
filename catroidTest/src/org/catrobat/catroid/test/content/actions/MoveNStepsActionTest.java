@@ -27,10 +27,9 @@ import android.test.AndroidTestCase;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.conditional.MoveNStepsAction;
 import org.catrobat.catroid.content.bricks.conditional.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.physic.content.ActionFactory;
 
 public class MoveNStepsActionTest extends AndroidTestCase {
 	private final float delta = 0.0001f;
@@ -38,67 +37,69 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 	private Sprite sprite;
 	private final float steps = 10f;
 	private final float diagonalStepLength = 7.07106f;
+	private ActionFactory factory;
 
 	@Override
 	protected void setUp() throws Exception {
 		sprite = new Sprite("Test");
+		factory = sprite.getActionFactory();
 	}
 
 	public void testMoveHorizontalForward() {
-		Action moveNStepsAction = ExtendedActions.moveNSteps(sprite, new Formula(steps));
+		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new Formula(steps));
 		executeTest(moveNStepsAction, steps, 0);
 	}
 
 	public void testMoveHorizontalBackward() {
-		Action moveNStepsAction = ExtendedActions.moveNSteps(sprite, new Formula(-steps));
+		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new Formula(-steps));
 		executeTest(moveNStepsAction, -steps, 0);
 	}
 
 	public void testMoveVerticalUp() {
 		sprite.look.setDirectionInUserInterfaceDimensionUnit((float) Direction.UP.getDegrees());
-		Action moveNStepsAction = ExtendedActions.moveNSteps(sprite, new Formula(steps));
+		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new Formula(steps));
 
 		executeTest(moveNStepsAction, 0, steps);
 	}
 
 	public void testMoveVerticalDown() {
 		sprite.look.setDirectionInUserInterfaceDimensionUnit((float) Direction.DOWN.getDegrees());
-		Action moveNStepsAction = ExtendedActions.moveNSteps(sprite, new Formula(steps));
+		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new Formula(steps));
 
 		executeTest(moveNStepsAction, 0, -steps);
 	}
 
 	public void testMoveDiagonalRightUp() {
 		sprite.look.setDirectionInUserInterfaceDimensionUnit(45);
-		MoveNStepsAction moveNStepsAction = ExtendedActions.moveNSteps(sprite, new Formula(steps));
+		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new Formula(steps));
 
 		executeTest(moveNStepsAction, diagonalStepLength, diagonalStepLength);
 	}
 
 	public void testMoveDiagonalLeftUp() {
 		sprite.look.setDirectionInUserInterfaceDimensionUnit(-45);
-		MoveNStepsAction moveNStepsAction = ExtendedActions.moveNSteps(sprite, new Formula(steps));
+		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new Formula(steps));
 
 		executeTest(moveNStepsAction, -diagonalStepLength, diagonalStepLength);
 	}
 
 	public void testMoveDiagonalRightDown() {
 		sprite.look.setDirectionInUserInterfaceDimensionUnit(135);
-		MoveNStepsAction moveNStepsAction = ExtendedActions.moveNSteps(sprite, new Formula(steps));
+		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new Formula(steps));
 
 		executeTest(moveNStepsAction, diagonalStepLength, -diagonalStepLength);
 	}
 
 	public void testMoveDiagonalLeftDown() {
 		sprite.look.setDirectionInUserInterfaceDimensionUnit(-135);
-		MoveNStepsAction moveNStepsAction = ExtendedActions.moveNSteps(sprite, new Formula(steps));
+		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new Formula(steps));
 
 		executeTest(moveNStepsAction, -diagonalStepLength, -diagonalStepLength);
 	}
 
 	public void testMoveOther() {
 		sprite.look.setDirectionInUserInterfaceDimensionUnit(100);
-		MoveNStepsAction action = ExtendedActions.moveNSteps(sprite, new Formula(10));
+		Action action = factory.createMoveNStepsAction(sprite, new Formula(10));
 
 		action.act(1.0f);
 		checkPosition(9.848078f, -1.7364818f);
