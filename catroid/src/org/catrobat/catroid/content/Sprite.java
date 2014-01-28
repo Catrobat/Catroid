@@ -49,7 +49,6 @@ public class Sprite implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = Sprite.class.getSimpleName();
 
-	public transient Look look;
 	public transient boolean isPaused;
 
 	private String name;
@@ -57,7 +56,8 @@ public class Sprite implements Serializable, Cloneable {
 	private ArrayList<LookData> lookList;
 	private ArrayList<SoundInfo> soundList;
 
-	protected transient ActionFactory actionFactory = new ActionFactory(); // TODO[physic]:
+	public transient Look look;
+	protected transient ActionFactory actionFactory = new ActionFactory();
 
 	public Sprite(String name) {
 		this.name = name;
@@ -90,6 +90,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	private void init() {
+		// maybe there is no ScriptList at this time ? ?
 		if ((getRequiredResources() & Brick.PHYSIC) > 0) {
 			look = new PhysicsLook(this);
 		} else {

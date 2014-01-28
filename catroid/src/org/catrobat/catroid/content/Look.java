@@ -236,12 +236,6 @@ public class Look extends Image {
 		return lookData;
 	}
 
-	public void beginTemporalAction() { //TODO[physic]: add
-	}
-
-	public void endTemporalAction() { //TODO[physic]: add
-	}
-
 	public boolean getAllActionsAreFinished() {
 		return allActionsAreFinished;
 	}

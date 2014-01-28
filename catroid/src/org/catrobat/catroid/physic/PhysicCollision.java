@@ -22,14 +22,16 @@
  */
 package org.catrobat.catroid.physic;
 
-import android.util.Log;
-
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
+import org.catrobat.catroid.content.Sprite;
+
 public class PhysicCollision implements ContactListener {
+	@SuppressWarnings("unused")
 	private static final String TAG = PhysicCollision.class.getSimpleName();
 	PhysicsWorld mPhysicWorld;
 
@@ -37,51 +39,36 @@ public class PhysicCollision implements ContactListener {
 		mPhysicWorld = physicWorld;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.physics.box2d.ContactListener#beginContact(com.badlogic.gdx.physics.box2d.Contact)
-	 */
 	@Override
 	public void beginContact(Contact contact) {
-		// TODO Auto-generated method stub
-		Log.d(TAG, "beginContact");
+		// Log.d(TAG, "beginContact");
+
+		Body a = contact.getFixtureA().getBody();
+		Body b = contact.getFixtureB().getBody();
+
+		if (a.getUserData() instanceof Sprite) {
+			mPhysicWorld.bounced((Sprite) a.getUserData());
+			//Log.d(TAG, "SPRITE A");
+		}
+		if (b.getUserData() instanceof Sprite) {
+			mPhysicWorld.bounced((Sprite) b.getUserData());
+			//Log.d(TAG, "SPRITE B");
+		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.physics.box2d.ContactListener#endContact(com.badlogic.gdx.physics.box2d.Contact)
-	 */
 	@Override
 	public void endContact(Contact contact) {
-		// TODO Auto-generated method stub
-		Log.d(TAG, "endContact");
+		//Log.d(TAG, "endContact");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.physics.box2d.ContactListener#preSolve(com.badlogic.gdx.physics.box2d.Contact,
-	 * com.badlogic.gdx.physics.box2d.Manifold)
-	 */
 	@Override
 	public void preSolve(Contact contact, Manifold oldManifold) {
-		// TODO Auto-generated method stub
-		Log.d(TAG, "preSolve");
-
+		//Log.d(TAG, "preSolve");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.physics.box2d.ContactListener#postSolve(com.badlogic.gdx.physics.box2d.Contact,
-	 * com.badlogic.gdx.physics.box2d.ContactImpulse)
-	 */
 	@Override
 	public void postSolve(Contact contact, ContactImpulse impulse) {
-		// TODO Auto-generated method stub
-		Log.d(TAG, "postSolve");
+		//Log.d(TAG, "postSolve");
 	}
 
 }

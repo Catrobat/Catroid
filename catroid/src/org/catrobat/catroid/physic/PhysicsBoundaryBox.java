@@ -26,8 +26,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.Filter;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -68,25 +66,25 @@ public class PhysicsBoundaryBox {
 	private void createSide(Vector2 center, float width, float height) {
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.StaticBody;
-		bodyDef.allowSleep = true;
+		bodyDef.allowSleep = false;
 
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(width / 2.0f, height / 2f, center, 0.0f);
 
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = shape;
-		fixtureDef.filter.maskBits = PhysicsWorld.PHYSICOBJECT_COLLISION_MASK;
-		fixtureDef.filter.categoryBits = PhysicsWorld.BOUNDARYBOX_COLLISION_MASK;
+		fixtureDef.filter.maskBits = PhysicsWorld.MASK_BOUNDARYBOX;
+		fixtureDef.filter.categoryBits = PhysicsWorld.CATEGORY_BOUNDARYBOX;
 
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixtureDef);
 
-		for (Fixture f : body.getFixtureList()) {
-			Filter filter = new Filter();
-			filter.categoryBits = 0;
-			filter.maskBits = 0;
-			f.setFilterData(filter);
-		}
+		//		for (Fixture f : body.getFixtureList()) {
+		//			Filter filter = new Filter();
+		//			filter.categoryBits = 0;
+		//			filter.maskBits = 0;
+		//			f.setFilterData(filter);
+		//		}
 
 	}
 }
