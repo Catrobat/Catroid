@@ -24,16 +24,16 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.conditional.NextLookAction;
-import org.catrobat.catroid.content.actions.conditional.SetLookAction;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.physic.content.ActionFactory;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -93,8 +93,9 @@ public class NextLookActionTest extends InstrumentationTestCase {
 		lookData2.setLookName("testImage2");
 		sprite.getLookDataList().add(lookData2);
 
-		SetLookAction setLookAction = ExtendedActions.setLook(sprite, lookData1);
-		NextLookAction nextLookAction = ExtendedActions.nextLook(sprite);
+		ActionFactory factory = sprite.getActionFactory();
+		Action setLookAction = factory.createSetLookAction(sprite, lookData1);
+		Action nextLookAction = factory.createNextLookAction(sprite);
 
 		setLookAction.act(1.0f);
 		nextLookAction.act(1.0f);
@@ -120,8 +121,9 @@ public class NextLookActionTest extends InstrumentationTestCase {
 		lookData3.setLookName("testImage");
 		sprite.getLookDataList().add(lookData3);
 
-		SetLookAction setLookAction = ExtendedActions.setLook(sprite, lookData3);
-		NextLookAction nextLookAction = ExtendedActions.nextLook(sprite);
+		ActionFactory factory = sprite.getActionFactory();
+		Action setLookAction = factory.createSetLookAction(sprite, lookData3);
+		Action nextLookAction = factory.createNextLookAction(sprite);
 
 		setLookAction.act(1.0f);
 		nextLookAction.act(1.0f);
@@ -132,7 +134,8 @@ public class NextLookActionTest extends InstrumentationTestCase {
 	public void testLookGalleryNull() {
 
 		Sprite sprite = new Sprite("cat");
-		NextLookAction nextLookAction = ExtendedActions.nextLook(sprite);
+		ActionFactory factory = sprite.getActionFactory();
+		Action nextLookAction = factory.createNextLookAction(sprite);
 		nextLookAction.act(1.0f);
 
 		assertEquals("Look is not null", null, sprite.look.getLookData());
@@ -146,8 +149,9 @@ public class NextLookActionTest extends InstrumentationTestCase {
 		lookData1.setLookName("testImage1");
 		sprite.getLookDataList().add(lookData1);
 
-		SetLookAction setLookAction = ExtendedActions.setLook(sprite, lookData1);
-		NextLookAction nextLookAction = ExtendedActions.nextLook(sprite);
+		ActionFactory factory = sprite.getActionFactory();
+		Action setLookAction = factory.createSetLookAction(sprite, lookData1);
+		Action nextLookAction = factory.createNextLookAction(sprite);
 
 		setLookAction.act(1.0f);
 		nextLookAction.act(1.0f);
@@ -160,7 +164,8 @@ public class NextLookActionTest extends InstrumentationTestCase {
 
 		Sprite sprite = new Sprite("cat");
 
-		NextLookAction nextLookAction = ExtendedActions.nextLook(sprite);
+		ActionFactory factory = sprite.getActionFactory();
+		Action nextLookAction = factory.createNextLookAction(sprite);
 
 		LookData lookData1 = new LookData();
 		lookData1.setLookFilename(testImage.getName());
