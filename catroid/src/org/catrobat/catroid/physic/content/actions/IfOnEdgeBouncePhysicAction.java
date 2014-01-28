@@ -27,7 +27,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.physic.PhysicsObject;
 import org.catrobat.catroid.physic.PhysicsWorld;
 
 public class IfOnEdgeBouncePhysicAction extends TemporalAction {
@@ -36,55 +35,46 @@ public class IfOnEdgeBouncePhysicAction extends TemporalAction {
 	private PhysicsWorld physicsWorld;
 
 	@Override
-	protected void begin() {
-		physicsWorld.setBounceOnce(sprite);
-	}
-
-	@Override
 	protected void update(float percent) {
-		// get boundarybox
-		boolean xisOutSide = false;
-		boolean yisOutSide = false;
-		PhysicsObject physicObject = physicsWorld.getPhysicObject(sprite);
-		Vector2 lower = new Vector2();
-		Vector2 upper = new Vector2();
-		physicObject.getBoundaryBox(lower, upper);
+		boolean xIsOutSide = false;
+		boolean yIsOutSide = false;
+		// AABB ... AXIS-ALIGNED-BOUNDING-BOX
+		Vector2 lower_AABB_edge = new Vector2();
+		Vector2 upper_AABB_edge = new Vector2();
+		physicsWorld.getPhysicObject(sprite).getBoundaryBox(lower_AABB_edge, upper_AABB_edge);
 
-		float width = upper.x - lower.x;
-		float height = upper.y - lower.y;
-		float xPosition = lower.x + width / 2;
-		float yPosition = lower.y + height / 2;
+		float AABB_width = upper_AABB_edge.x - lower_AABB_edge.x;
+		float height = upper_AABB_edge.y - lower_AABB_edge.y;
+		float xPosition = lower_AABB_edge.x + AABB_width / 2;
+		float yPosition = lower_AABB_edge.y + height / 2;
 
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight / 2;
 
-		if (xPosition < -virtualScreenWidth + width / 2) {
-			// do something
-			xisOutSide = true;
-			xPosition = -virtualScreenWidth + (width / 2);
-		} else if (xPosition > virtualScreenWidth - width / 2) {
-			// do something
-			xisOutSide = true;
-			xPosition = virtualScreenWidth - (width / 2);
+		if (xPosition < -virtualScreenWidth + AABB_width / 2) {
+			xIsOutSide = true;
+			xPosition = -virtualScreenWidth + (AABB_width / 2);
+		} else if (xPosition > virtualScreenWidth - AABB_width / 2) {
+			xIsOutSide = true;
+			xPosition = virtualScreenWidth - (AABB_width / 2);
 		}
 
 		if (yPosition < -virtualScreenHeight + height / 2) {
-			// do something
-			yisOutSide = true;
+			yIsOutSide = true;
 			yPosition = -virtualScreenHeight + (height / 2);
 		} else if (yPosition > virtualScreenHeight - height / 2) {
-			// do something
-			yisOutSide = true;
+			yIsOutSide = true;
 			yPosition = virtualScreenHeight - (height / 2);
 		}
 
-		if (xisOutSide) {
+		if (xIsOutSide) {
+			physicsWorld.setBounceOnce(sprite);
 			sprite.look.setXInUserInterfaceDimensionUnit(xPosition);
 		}
-		if (yisOutSide) {
+		if (yIsOutSide) {
+			physicsWorld.setBounceOnce(sprite);
 			sprite.look.setYInUserInterfaceDimensionUnit(yPosition);
 		}
-
 	}
 
 	public void setSprite(Sprite sprite) {
