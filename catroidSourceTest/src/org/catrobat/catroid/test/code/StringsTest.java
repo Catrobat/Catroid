@@ -47,22 +47,20 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-/**
- * @author pete
- * 
- */
 public class StringsTest extends TestCase {
 	private static final String[] LANGUAGES = { "English", "German" }; //, "Russian", "Romanian" };
 	private static final String[] LANGUAGE_SUFFIXES = { "", "-de" }; //, "-ru", "-ro" };
-	private static final String SOURCE_DIRECTORY = "../catroid/src";
-	private static final String RESOURCES_DIRECTORY = "../catroid/res";
-	private static final String ANDROID_MANIFEST = "../catroid/AndroidManifest.xml";
+	private static final String SOURCE_DIRECTORY = "../catroid/src/main/java";
+	private static final String RESOURCES_DIRECTORY = "../catroid/src/main/res";
+    private static final String RESOURCES_VALUES_DIRECTORY = RESOURCES_DIRECTORY+"/values";
+    private static final String RESOURCES_LAYOUT_DIRECTORY = RESOURCES_DIRECTORY+"/layout";
+	private static final String ANDROID_MANIFEST = "../catroid/src/main/AndroidManifest.xml";
 	private static final String XML_STRING_PREFIX = "@string/";
 
 	private List<File> getStringFiles() throws IOException {
 		List<File> stringFiles = new ArrayList<File>();
 		for (String languageSuffix : LANGUAGE_SUFFIXES) {
-			File stringFile = new File("../catroid/res/values" + languageSuffix + "/strings.xml");
+			File stringFile = new File(RESOURCES_VALUES_DIRECTORY + languageSuffix + "/strings.xml");
 			assertNotNull("File is null: " + stringFile.getCanonicalPath(), stringFile);
 			if (!stringFile.exists() || !stringFile.canRead()) {
 				fail("Could not read file " + stringFile.getCanonicalPath());
@@ -233,7 +231,7 @@ public class StringsTest extends TestCase {
 	private List<File> getLayoutXmlFiles() {
 		List<File> layoutFiles = new ArrayList<File>();
 
-		File layoutDir = new File("../catroid/res/layout/");
+		File layoutDir = new File(RESOURCES_LAYOUT_DIRECTORY);
 		File[] fileArray = layoutDir.listFiles();
 		if (fileArray != null) {
 			for (File file : fileArray) {
@@ -283,7 +281,7 @@ public class StringsTest extends TestCase {
 		boolean missingStringsFound = false;
 
 		StringBuilder stringXmlSourceCodeBuilder = new StringBuilder();
-		File defaultResDirectory = new File("../catroid/res/values/");
+		File defaultResDirectory = new File(RESOURCES_VALUES_DIRECTORY);
 		File[] fileArray = defaultResDirectory.listFiles();
 		if (fileArray != null) {
 			for (File defaultStringFile : fileArray) {

@@ -1,1 +1,1 @@
-include 'catroidSourceTest'
+include 'catroid', 'catroidSourceTest'

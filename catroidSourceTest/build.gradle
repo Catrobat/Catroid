@@ -1,14 +1,9 @@
-repositories{
-    mavenLocal()
-    mavenCentral()
-}
-
 
 apply plugin: 'java'
 
 
 dependencies {
-	testCompile files( project(":").buildDir.getPath()+'/classes/debug')
+	testCompile files( project(":catroid").buildDir.getPath()+'/classes/debug')
 	testCompile 'junit:junit:4.10'
 }
 
