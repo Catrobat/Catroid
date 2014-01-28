@@ -24,10 +24,12 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.conditional.PointToAction;
+import org.catrobat.catroid.physic.content.ActionFactory;
 
 public class PointToActionTest extends AndroidTestCase {
 
@@ -41,9 +43,8 @@ public class PointToActionTest extends AndroidTestCase {
 		project.addSprite(pointedSprite);
 		ProjectManager.getInstance().setProject(project);
 
-		PointToAction pointToAction = new PointToAction();
-		pointToAction.setSprite(sprite);
-		pointToAction.setPointedSprite(pointedSprite);
+		ActionFactory factory = sprite.getActionFactory();
+		Action pointToAction = factory.createPointToAction(sprite, pointedSprite);
 
 		pointedSprite.look.setPosition(200f, 0f);
 		pointToAction.act(1.0f);
