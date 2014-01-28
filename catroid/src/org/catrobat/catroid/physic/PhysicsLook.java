@@ -94,12 +94,4 @@ public class PhysicsLook extends Look {
 			physicWorld.changeLook(physicsObject, this);
 		}
 	}
-
-	@Override
-	public void beginTemporalAction() {
-	}
-
-	@Override
-	public void endTemporalAction() {
-	}
 }

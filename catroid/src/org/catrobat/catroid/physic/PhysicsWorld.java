@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physic.shapebuilder.PhysicsShapeBuilder;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,9 +47,15 @@ public class PhysicsWorld {
 
 	private final static String TAG = PhysicsWorld.class.getSimpleName();
 
+	// CATEGORY
 	public final static short NOCOLLISION_MASK = 0x0000;
-	public final static short BOUNDARYBOX_COLLISION_MASK = 0x0002;
-	public final static short PHYSICOBJECT_COLLISION_MASK = 0x0004;
+	public final static short CATEGORY_BOUNDARYBOX = 0x0002;
+	public final static short CATEGORY_PHYSICSOBJECT = 0x0004;
+	// COLLISION_MODE
+	public final static short MASK_BOUNDARYBOX = CATEGORY_PHYSICSOBJECT; // collides with physics_objects
+	public final static short MASK_PHYSICSOBJECT = ~CATEGORY_BOUNDARYBOX; // collides with everything but not with the boundarybox
+	public final static short MASK_TOBOUNCE = CATEGORY_BOUNDARYBOX; // collide with the boundarybox
+	public final static short MASK_NOCOLLISION = 0; // collides with NOBODY
 
 	public final static float RATIO = 40.0f;
 	public final static int VELOCITY_ITERATIONS = 8;
@@ -61,6 +68,7 @@ public class PhysicsWorld {
 
 	private final World world = new World(PhysicsWorld.DEFAULT_GRAVITY, PhysicsWorld.IGNORE_SLEEPING_OBJECTS);
 	private final Map<Sprite, PhysicsObject> physicsObjects = new HashMap<Sprite, PhysicsObject>();
+	private final ArrayList<Sprite> toBounce = new ArrayList<Sprite>();
 	private Box2DDebugRenderer renderer;
 	private int stabilizingSteCounter = 0;
 	private PhysicsBoundaryBox box;
@@ -68,6 +76,7 @@ public class PhysicsWorld {
 	private PhysicsShapeBuilder physicsShapeBuilder = new PhysicsShapeBuilder();
 
 	public PhysicsWorld(int width, int height) {
+		// recalculate real with/height
 		box = new PhysicsBoundaryBox(world);
 		box.create(width, height);
 		world.setContactListener(new PhysicCollision(this));
@@ -75,7 +84,9 @@ public class PhysicsWorld {
 
 	public void setBounceOnce(Sprite sprite) {
 		if (physicsObjects.containsKey(sprite)) {
-			physicsObjects.get(sprite).setIfOnEdgeBounce(true);
+			PhysicsObject physicsObject = physicsObjects.get(sprite);
+			physicsObject.setIfOnEdgeBounce(true, sprite);
+			toBounce.add(sprite);
 			Log.d(TAG, "setBounceOnce: TRUE");
 		} else {
 			Log.d(TAG, "setBounceOnce: SPRITE NOT KNOWN");
@@ -140,21 +151,33 @@ public class PhysicsWorld {
 
 	private PhysicsObject createPhysicObject() {
 		BodyDef bodyDef = new BodyDef();
-		bodyDef.bullet = true;
 		return new PhysicsObject(world.createBody(bodyDef));
 	}
 
 	public void hangup(Sprite sprite) {
-		if (physicsObjects.containsKey(sprite)) {
-			PhysicsObject physicObject = getPhysicObject(sprite);
-			world.destroyBody(physicObject.getBody());
-			physicsObjects.remove(sprite);
-		}
+		//world.destroyBody(getPhysicObject(sprite).getBody());
+		getPhysicObject(sprite).setGravityScale(0);
+		//physicsObjects.remove(sprite);
 	}
 
 	public void resume(Sprite sprite) {
-		if (!physicsObjects.containsKey(sprite)) {
-			changeLook(sprite);
+		getPhysicObject(sprite).setGravityScale(1);
+		//      changeLook(sprite);
+		//		PhysicsObject physicObject = getPhysicObject(sprite);
+		//		physicObject.setVisible(true);
+	}
+
+	public void bounced(Sprite sprite) {
+		if (physicsObjects.containsKey(sprite)) {
+			PhysicsObject physicsObject = physicsObjects.get(sprite);
+			physicsObject.setIfOnEdgeBounce(false, sprite);
+			Log.d(TAG, "Bounced");
+			if (toBounce.remove(sprite)) {
+				Log.d(TAG, "SPRITE REMOVED");
+			}
+		} else {
+			Log.d(TAG, "Bounced: BUT SPRITE NOT KNOWN");
 		}
+
 	}
 }

@@ -78,7 +78,6 @@ public class GlideToAction extends TemporalAction {
 			}
 			endXValue = endXInterpretation;
 			endYValue = endYInterpretation;
-			sprite.look.beginTemporalAction();
 		}
 		restart = false;
 
@@ -95,7 +94,7 @@ public class GlideToAction extends TemporalAction {
 	protected void update(float percent) {
 		float deltaX = sprite.look.getXInUserInterfaceDimensionUnit() - currentX;
 		float deltaY = sprite.look.getYInUserInterfaceDimensionUnit() - currentY;
-		if ((-0.1f > deltaX || deltaX > 0.1f) || (-0.1f > deltaY || deltaY > 0.1f)) {
+		if ((-0.1f > deltaX || deltaX > 0.1f) && (-0.1f > deltaY || deltaY > 0.1f)) { //TODO [physics] -> || replaced by &&
 			restart = true;
 			setDuration(getDuration() - getTime());
 			restart();
@@ -104,11 +103,6 @@ public class GlideToAction extends TemporalAction {
 			currentY = startY + (endYValue - startY) * percent;
 			sprite.look.setPositionInUserInterfaceDimensionUnit(currentX, currentY);
 		}
-	}
-
-	@Override
-	protected void end() {
-		sprite.look.endTemporalAction();
 	}
 
 	public void setDuration(Formula duration) {
