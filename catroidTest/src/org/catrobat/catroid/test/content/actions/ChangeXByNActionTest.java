@@ -24,10 +24,11 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.conditional.ChangeXByNAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.physic.content.ActionFactory;
 
 public class ChangeXByNActionTest extends AndroidTestCase {
 
@@ -40,7 +41,8 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 
 		int xPosition = (int) sprite.look.getXInUserInterfaceDimensionUnit();
 
-		ChangeXByNAction action = ExtendedActions.changeXByN(sprite, xMovement);
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createChangeXByNAction(sprite, xMovement);
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
@@ -50,7 +52,8 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 	}
 
 	public void testNullSprite() {
-		ChangeXByNAction action = ExtendedActions.changeXByN(null, xMovement);
+		ActionFactory factory = new ActionFactory();
+		Action action = factory.createChangeXByNAction(null, xMovement);
 		try {
 			action.act(1.0f);
 			fail("Execution of ChangeXByNBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
@@ -65,7 +68,8 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 		int xPosition = 10;
 		sprite.look.setPositionInUserInterfaceDimensionUnit(xPosition, sprite.look.getYInUserInterfaceDimensionUnit());
 
-		ChangeXByNAction action = ExtendedActions.changeXByN(sprite, new Formula(Integer.MAX_VALUE));
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createChangeXByNAction(sprite, new Formula(Integer.MAX_VALUE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
@@ -75,7 +79,7 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 		xPosition = -10;
 		sprite.look.setPositionInUserInterfaceDimensionUnit(xPosition, sprite.look.getYInUserInterfaceDimensionUnit());
 
-		action = ExtendedActions.changeXByN(sprite, new Formula(Integer.MIN_VALUE));
+		action = factory.createChangeXByNAction(sprite, new Formula(Integer.MIN_VALUE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 

@@ -24,18 +24,17 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.conditional.SetSizeToAction;
-import org.catrobat.catroid.content.actions.conditional.TurnLeftAction;
-import org.catrobat.catroid.content.actions.conditional.TurnRightAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.physic.content.ActionFactory;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -92,7 +91,8 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("test");
 		sprite.look.setLookData(lookData);
 
-		TurnRightAction action = ExtendedActions.turnRight(sprite, new Formula(10.0f));
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createTurnRightAction(sprite, new Formula(10.0f));
 		action.act(1.0f);
 
 		assertEquals("Wrong direction", 100f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
@@ -111,8 +111,9 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("test");
 		sprite.look.setLookData(lookData);
 
-		TurnRightAction turnRightAction = ExtendedActions.turnRight(sprite, new Formula(10.0f));
-		SetSizeToAction setSizeToAction = ExtendedActions.setSizeTo(sprite, new Formula(50.0f));
+		ActionFactory factory = sprite.getActionFactory();
+		Action turnRightAction = factory.createTurnRightAction(sprite, new Formula(10.0f));
+		Action setSizeToAction = factory.createSetSizeToAction(sprite, new Formula(50.0f));
 
 		turnRightAction.act(1.0f);
 		setSizeToAction.act(1.0f);
@@ -126,8 +127,9 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("test");
 		sprite.look.setLookData(lookData);
 
-		TurnRightAction turnRightAction = ExtendedActions.turnRight(sprite, new Formula(10.0f));
-		SetSizeToAction setSizeToAction = ExtendedActions.setSizeTo(sprite, new Formula(50.0f));
+		ActionFactory factory = sprite.getActionFactory();
+		Action turnRightAction = factory.createTurnRightAction(sprite, new Formula(10.0f));
+		Action setSizeToAction = factory.createSetSizeToAction(sprite, new Formula(50.0f));
 
 		setSizeToAction.act(1.0f);
 		turnRightAction.act(1.0f);
@@ -141,7 +143,8 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("test");
 		sprite.look.setLookData(lookData);
 
-		TurnRightAction action = ExtendedActions.turnRight(sprite, new Formula(-10.0f));
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createTurnRightAction(sprite, new Formula(-10.0f));
 		action.act(1.0f);
 
 		assertEquals("Wrong direction", 10f, sprite.look.getRotation(), 1e-3);
@@ -154,7 +157,8 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("test");
 		sprite.look.setLookData(lookData);
 
-		TurnRightAction action = ExtendedActions.turnRight(sprite, new Formula(370.0f));
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createTurnRightAction(sprite, new Formula(370.0f));
 		action.act(1.0f);
 
 		assertEquals("Wrong direction", 100f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
@@ -167,8 +171,9 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("test");
 		sprite.look.setLookData(lookData);
 
-		TurnRightAction turnRightAction = ExtendedActions.turnRight(sprite, new Formula(50.0f));
-		TurnLeftAction turnLeftAction = ExtendedActions.turnLeft(sprite, new Formula(20.0f));
+		ActionFactory factory = sprite.getActionFactory();
+		Action turnRightAction = factory.createTurnRightAction(sprite, new Formula(50.0f));
+		Action turnLeftAction = factory.createTurnLeftAction(sprite, new Formula(20.0f));
 		turnRightAction.act(1.0f);
 		turnLeftAction.act(1.0f);
 

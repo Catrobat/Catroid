@@ -24,11 +24,12 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.SetVolumeToAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.physic.content.ActionFactory;
 
 public class SetVolumeToActionTest extends InstrumentationTestCase {
 	private final Formula volume = new Formula(50.6f);
@@ -36,7 +37,8 @@ public class SetVolumeToActionTest extends InstrumentationTestCase {
 	public void testVolume() {
 		Sprite sprite = new Sprite("testSprite");
 
-		SetVolumeToAction action = ExtendedActions.setVolumeTo(sprite, volume);
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createSetVolumeToAction(sprite, volume);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", volume.interpretFloat(sprite),
 				SoundManager.getInstance().getVolume());

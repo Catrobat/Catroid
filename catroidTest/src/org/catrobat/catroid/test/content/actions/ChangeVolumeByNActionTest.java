@@ -24,11 +24,12 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ChangeVolumeByNAction;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.physic.content.ActionFactory;
 
 public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
 	private final float louderValue = 10.6f;
@@ -41,7 +42,8 @@ public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
 		expectedVolume += louderValue;
 		Formula louder = new Formula(louderValue);
 
-		ChangeVolumeByNAction changeVolumeByAction = ExtendedActions.changeVolumeByN(sprite, louder);
+		ActionFactory factory = sprite.getActionFactory();
+		Action changeVolumeByAction = factory.createChangeVolumeByNAction(sprite, louder);
 		changeVolumeByAction.act(1.0f);
 		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", expectedVolume, SoundManager
 				.getInstance().getVolume());
@@ -49,7 +51,7 @@ public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
 		expectedVolume += softerValue;
 		Formula softer = new Formula(softerValue);
 
-		changeVolumeByAction = ExtendedActions.changeVolumeByN(sprite, softer);
+		changeVolumeByAction = factory.createChangeVolumeByNAction(sprite, softer);
 		changeVolumeByAction.act(1.0f);
 		assertEquals("Incorrect sprite size value after ChangeVolumeByNBrick executed", expectedVolume, SoundManager
 				.getInstance().getVolume());

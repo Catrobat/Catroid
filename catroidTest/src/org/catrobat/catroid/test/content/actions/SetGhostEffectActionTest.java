@@ -24,10 +24,11 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.conditional.SetGhostEffectAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.physic.content.ActionFactory;
 
 public class SetGhostEffectActionTest extends InstrumentationTestCase {
 
@@ -37,24 +38,26 @@ public class SetGhostEffectActionTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite ghost effect value", 0f,
 				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
-		SetGhostEffectAction action = ExtendedActions.setGhostEffect(sprite, effectValue);
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createSetGhostEffectAction(sprite, effectValue);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed",
 				effectValue.interpretFloat(sprite), sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 
-		action = ExtendedActions.setGhostEffect(sprite, new Formula(-50.0));
+		action = factory.createSetGhostEffectAction(sprite, new Formula(-50.0));
 		action.act(1.0f);
 		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", 0f,
 				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 
-		action = ExtendedActions.setGhostEffect(sprite, new Formula(150.0));
+		action = factory.createSetGhostEffectAction(sprite, new Formula(150.0));
 		action.act(1.0f);
 		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", 100f,
 				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
-		SetGhostEffectAction action = ExtendedActions.setGhostEffect(null, effectValue);
+		ActionFactory factory = new ActionFactory();
+		Action action = factory.createSetGhostEffectAction(null, effectValue);
 		try {
 			action.act(1.0f);
 			fail("Execution of SetGhostEffectBrick with null Sprite did not cause a NullPointerException to be thrown");

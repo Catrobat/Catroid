@@ -28,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.physic.content.ActionFactory;
 
 public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 
@@ -63,8 +64,8 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 	}
 
 	public void testNullSprite() {
-		//ChangeBrightnessByNAction action = ExtendedActions.changeBrightnessByN(null, brighter);
-		Action action = sprite.getActionFactory().createChangeBrightnessByNAction(null, dimmer); // TODO[physic] ExtendedActions
+		ActionFactory factory = new ActionFactory();
+		Action action = factory.createChangeBrightnessByNAction(null, dimmer); // TODO[physic] ExtendedActions
 		try {
 			action.act(1.0f);
 			fail("Execution of ChangeBrightnessByNBrick with null Sprite did not cause a NullPointerException to be thrown");

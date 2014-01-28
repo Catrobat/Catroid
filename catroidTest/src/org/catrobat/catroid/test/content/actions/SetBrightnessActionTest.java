@@ -24,10 +24,11 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.SetBrightnessAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.physic.content.ActionFactory;
 
 public class SetBrightnessActionTest extends InstrumentationTestCase {
 
@@ -37,14 +38,16 @@ public class SetBrightnessActionTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial brightness value", 100f,
 				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
-		SetBrightnessAction action = ExtendedActions.setBrightness(sprite, brightnessValue);
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createSetBrightnessAction(sprite, brightnessValue);
 		action.act(1.0f);
 		assertEquals("Incorrect brightness value after SetBrightnessBrick executed",
 				brightnessValue.interpretFloat(sprite), sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
-		SetBrightnessAction action = ExtendedActions.setBrightness(null, brightnessValue);
+		ActionFactory factory = new ActionFactory();
+		Action action = factory.createSetBrightnessAction(null, brightnessValue);
 		try {
 			action.act(1.0f);
 			fail("Execution of SetGhostEffectBrick with null Sprite did not cause a NullPointerException to be thrown");
@@ -56,8 +59,8 @@ public class SetBrightnessActionTest extends InstrumentationTestCase {
 
 	public void testNegativeBrightnessValue() {
 		Sprite sprite = new Sprite("testSprite");
-		SetBrightnessAction action = ExtendedActions.setBrightness(sprite,
-				new Formula(-brightnessValue.interpretFloat(sprite)));
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createSetBrightnessAction(sprite, new Formula(-brightnessValue.interpretFloat(sprite)));
 		action.act(1.0f);
 		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", 0f,
 				sprite.look.getBrightnessInUserInterfaceDimensionUnit());

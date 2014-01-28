@@ -24,10 +24,11 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.content.actions.conditional.ChangeYByNAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.physic.content.ActionFactory;
 
 public class ChangeYByNActionTest extends AndroidTestCase {
 
@@ -40,7 +41,8 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 
 		int yPosition = (int) sprite.look.getYInUserInterfaceDimensionUnit();
 
-		ChangeYByNAction action = ExtendedActions.changeYByN(sprite, yMovement);
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createChangeYByNAction(sprite, yMovement);
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
@@ -50,7 +52,8 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 	}
 
 	public void testNullSprite() {
-		ChangeYByNAction action = ExtendedActions.changeYByN(null, yMovement);
+		ActionFactory factory = new ActionFactory();
+		Action action = factory.createChangeYByNAction(null, yMovement);
 
 		try {
 			action.act(1.0f);
@@ -66,7 +69,8 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 		int yPosition = 10;
 		sprite.look.setPositionInUserInterfaceDimensionUnit(sprite.look.getXInUserInterfaceDimensionUnit(), yPosition);
 
-		ChangeYByNAction action = ExtendedActions.changeYByN(sprite, new Formula(Integer.MAX_VALUE));
+		ActionFactory factory = sprite.getActionFactory();
+		Action action = factory.createChangeYByNAction(sprite, new Formula(Integer.MAX_VALUE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
@@ -76,7 +80,7 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 		yPosition = -10;
 		sprite.look.setPositionInUserInterfaceDimensionUnit(sprite.look.getXInUserInterfaceDimensionUnit(), yPosition);
 
-		action = ExtendedActions.changeYByN(sprite, new Formula(Integer.MIN_VALUE));
+		action = factory.createChangeYByNAction(sprite, new Formula(Integer.MIN_VALUE));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
