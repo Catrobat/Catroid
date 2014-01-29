@@ -23,25 +23,25 @@
 package org.catrobat.catroid.content.actions.conditional;
 
 import org.catrobat.catroid.content.actions.GlideToAction;
-import org.catrobat.catroid.physic.PhysicsWorld;
+import org.catrobat.catroid.physic.PhysicsObject;
 
 public class GlideToPhysicAction extends GlideToAction {
-	private PhysicsWorld physicsWorld;
+	private PhysicsObject physicsObject;
 
 	@Override
 	protected void begin() {
-		physicsWorld.hangup(sprite);
+		physicsObject.hangup();
 		super.begin();
 	}
 
 	@Override
 	protected void end() {
 		super.end();
-		physicsWorld.resume(sprite);
+		physicsObject.resume();
 	}
 
-	public void setPhysicWorld(PhysicsWorld physicsWorld) {
-		this.physicsWorld = physicsWorld;
+	public void setPhysicObject(PhysicsObject physicsObject) {
+		this.physicsObject = physicsObject;
 	}
 
 }

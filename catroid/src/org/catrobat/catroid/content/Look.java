@@ -59,6 +59,10 @@ public class Look extends Image {
 		this.visible = visible;
 	}
 
+	public void setTransparencyTo(boolean transparend) { // TODO[physics]
+		this.visible = !transparend;
+	}
+
 	protected Pixmap pixmap;
 	private ParallelAction whenParallelAction;
 	private boolean allActionsAreFinished = false;
@@ -338,11 +342,11 @@ public class Look extends Image {
 			percent = 0f;
 		} else if (percent >= 100f) {
 			percent = 100f;
-			setVisible(false);
+			setTransparencyTo(false);
 		}
 
 		if (percent < 100.0f) {
-			setVisible(true);
+			setTransparencyTo(true);
 		}
 
 		alpha = (100f - percent) / 100f;
