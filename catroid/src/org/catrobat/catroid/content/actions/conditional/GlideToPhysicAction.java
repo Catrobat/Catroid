@@ -37,7 +37,7 @@ public class GlideToPhysicAction extends GlideToAction {
 	@Override
 	protected void end() {
 		super.end();
-		physicsObject.resume();
+		physicsObject.resume(true);
 	}
 
 	public void setPhysicObject(PhysicsObject physicsObject) {

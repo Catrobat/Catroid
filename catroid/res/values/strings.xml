@@ -373,9 +373,9 @@
     <string name="brick_set_mass">Set mass to</string>
     <string name="brick_set_mass_unit">kg</string>
     <string name="brick_set_gravity_to">Set gravity to</string>
-    <string name="brick_set_gravity_unit">pixels/s²</string>
+    <string name="brick_set_gravity_unit">step/s²</string>
     <string name="brick_set_velocity_to">Set velocity to</string>
-    <string name="brick_set_velocity_unit">pixels/s</string>
+    <string name="brick_set_velocity_unit">step/s</string>
     <string name="brick_turn_right_speed">Turn right</string>
     <string name="brick_turn_left_speed">Turn left</string>
     <string name="brick_turn_speed_unit">degrees/s</string>
