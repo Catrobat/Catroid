@@ -61,7 +61,9 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 		ScreenValues.SCREEN_WIDTH = BACKGROUNDIMAGE_WIDTH;
 		ScreenValues.SCREEN_HEIGHT = BACKGROUNDIMAGE_HEIGHT;
 
-		Project testProject = StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME, getContext());
+		//Project testProject = StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME, getContext());
+		Project testProject = StandardProjectHandler.createAndSaveStandardProject(getContext());
+		testProject.setName(TEST_PROJECT_NAME);
 
 		assertEquals("The Project has the wrong name.", TEST_PROJECT_NAME, testProject.getName());
 		assertEquals("wrong number of sprites.", 5, testProject.getSpriteList().size());
@@ -97,7 +99,8 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 		//double scale = ((double) ScreenValues.SCREEN_WIDTH) / (double) BACKGROUNDIMAGE_WIDTH;
 		double scale = (ScreenValues.SCREEN_HEIGHT) / (double) BACKGROUNDIMAGE_HEIGHT;
 
-		Project testProject = StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME, getContext());
+		Project testProject = StandardProjectHandler.createAndSaveStandardProject(getContext());
+		testProject.setName(TEST_PROJECT_NAME);
 
 		int backgroundSpriteIndex = 0;
 		int backgroundLookDataIndex = 0;
@@ -120,7 +123,8 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 	}
 
 	public void testDefaultProjectScreenshot() throws IOException {
-		StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME, getContext());
+		Project defaultProject = StandardProjectHandler.createAndSaveStandardProject(getContext());
+		defaultProject.setName(TEST_PROJECT_NAME);
 		String projectPath = Constants.DEFAULT_ROOT + "/" + TEST_PROJECT_NAME;
 
 		File file = new File(projectPath + "/" + StageListener.SCREENSHOT_MANUAL_FILE_NAME);
