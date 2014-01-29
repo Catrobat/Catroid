@@ -417,8 +417,9 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		Project standardProject = null;
 
 		try {
-			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
-					getInstrumentation().getTargetContext());
+			standardProject = StandardProjectHandler.createAndSaveStandardProject(getInstrumentation()
+					.getTargetContext());
+			standardProject.setName(standardProjectName);
 		} catch (IOException e) {
 			fail("Could not create standard project");
 			e.printStackTrace();

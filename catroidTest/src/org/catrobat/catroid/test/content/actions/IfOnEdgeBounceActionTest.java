@@ -30,7 +30,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.physic.content.ActionFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,7 +63,8 @@ public class IfOnEdgeBounceActionTest extends InstrumentationTestCase {
 		sprite.look.setHeight(HEIGHT);
 		sprite.look.setPositionInUserInterfaceDimensionUnit(0, 0);
 
-		ifOnEdgeBounceAction = ExtendedActions.ifOnEdgeBounce(sprite);
+		ActionFactory factory = sprite.getActionFactory();
+		ifOnEdgeBounceAction = factory.createIfOnEdgeBounceAction(sprite);
 
 		Project project = new Project();
 		project.getXmlHeader().virtualScreenWidth = SCREEN_WIDTH;
