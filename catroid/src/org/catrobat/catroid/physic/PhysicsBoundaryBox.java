@@ -47,7 +47,6 @@ public class PhysicsBoundaryBox {
 	 * @param width
 	 */
 	public void create(int width, int height) {
-		//		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		float boxWidth = PhysicsWorldConverter.toBox2dCoordinate(width);
 		float boxHeight = PhysicsWorldConverter.toBox2dCoordinate(height);
 		float boxElementSize = PhysicsWorldConverter.toBox2dCoordinate(PhysicsBoundaryBox.FRAME_SIZE);
