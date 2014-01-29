@@ -38,9 +38,15 @@ public class PhysicsLook extends Look {
 	}
 
 	@Override
-	public void setVisible(boolean visible) {
-		super.setVisible(visible);
+	public void setVisiblenessTo(boolean visible) {
+		super.setVisiblenessTo(visible);
 		physicsObject.setVisible(visible);
+	}
+
+	@Override
+	public void setTransparencyTo(boolean transparend) { // TODO[physics]
+		super.setTransparencyTo(transparend);
+		physicsObject.setTransparent(transparend);
 	}
 
 	@Override
