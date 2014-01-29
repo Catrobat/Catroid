@@ -24,6 +24,7 @@ package org.catrobat.catroid.physic;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
 
@@ -72,12 +73,26 @@ public class PhysicsLook extends Look {
 
 	@Override
 	public float getX() {
-		return physicsObject.getX() - getWidth() / 2.0f;
+		float x = physicsObject.getX() - getWidth() / 2.0f;
+		float y = physicsObject.getY() - getHeight() / 2.0f;
+		if (Math.abs(x) > (ScreenValues.SCREEN_WIDTH / 2) * 3) {
+			physicsObject.hangup();
+		} else if (!(Math.abs(y) > ScreenValues.SCREEN_HEIGHT)) {
+			physicsObject.resume(false);
+		}
+		return x;
 	}
 
 	@Override
 	public float getY() {
-		return physicsObject.getY() - getHeight() / 2.0f;
+		float x = physicsObject.getX() - getWidth() / 2.0f;
+		float y = physicsObject.getY() - getHeight() / 2.0f;
+		if (Math.abs(y) > ScreenValues.SCREEN_HEIGHT) {
+			physicsObject.hangup();
+		} else if (!(Math.abs(x) > (ScreenValues.SCREEN_WIDTH / 2) * 3)) {
+			physicsObject.resume(false);
+		}
+		return y;
 	}
 
 	@Override
