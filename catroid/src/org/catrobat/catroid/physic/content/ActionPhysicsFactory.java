@@ -64,7 +64,7 @@ public class ActionPhysicsFactory extends ActionFactory {
 	public Action createGlideToAction(Sprite sprite) {
 		GlideToPhysicAction action = Actions.action(GlideToPhysicAction.class);
 		action.setSprite(sprite);
-		action.setPhysicWorld(getPhysicWorld());
+		action.setPhysicObject(getPhysicObject(sprite));
 		return action;
 	}
 
