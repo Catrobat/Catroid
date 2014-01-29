@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.physic;
 
+import android.util.Log;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -278,7 +280,7 @@ public class PhysicsObject {
 
 	public void setVisible(boolean visible) {
 		if (visible && ishidden && !istransparent) {
-			resume();
+			resume(true);
 			ishidden = !visible;
 		} else if (!visible && !ishidden && !istransparent) {
 			hangup();
@@ -288,7 +290,7 @@ public class PhysicsObject {
 
 	public void setTransparent(boolean transparend) {
 		if (!transparend && ishidden && istransparent) {
-			resume();
+			resume(true);
 			istransparent = transparend;
 		} else if (transparend && !ishidden && !istransparent) {
 			hangup();
@@ -297,19 +299,30 @@ public class PhysicsObject {
 	}
 
 	public void hangup() {
-		recordData();
-		setGravityScale(0);
-		setVelocity(0, 0);
-		setRotationSpeed(0);
-		setCollisionBits(PhysicsWorld.NOCOLLISION_MASK);
+		if (!hangup) {
+			Log.d("PhysicsObject", "- - hangup - -");
+			recordData();
+			setGravityScale(0);
+			setVelocity(0, 0);
+			setRotationSpeed(0);
+			setCollisionBits(PhysicsWorld.NOCOLLISION_MASK);
+			hangup = true;
+		}
 	}
 
-	public void resume() {
-		setGravityScale(1);
-		setVelocity(velocity.x, velocity.y);
-		setRotationSpeed(rotationSpeed);
-		setGravityScale(gravityScale);
-		setCollisionBits(COLLISION_MASK_RECORD);
+	public void resume(boolean fromLastRecord) {
+		if (hangup) {
+			Log.d("PhysicsObject", "- - resume - -");
+			if (fromLastRecord) {
+				setGravityScale(gravityScale);
+				setVelocity(velocity.x, velocity.y);
+				setRotationSpeed(rotationSpeed);
+			} else {
+				setGravityScale(1);
+			}
+			setCollisionBits(COLLISION_MASK_RECORD);
+			hangup = false;
+		}
 	}
 
 	private void recordData() {
