@@ -48,12 +48,21 @@ public class PhysicsObject {
 	public final static float DEFAULT_MASS = 1.0f;
 	public final static float MIN_MASS = 0.000001f;
 
+	private short COLLISION_MASK_RECORD = 0;
+	private short CATEGORY_MASK_RECORD = PhysicsWorld.CATEGORY_PHYSICSOBJECT;
+	private Vector2 velocity;
+	private float rotationSpeed;
+	private float gravityScale;
+
 	private final Body body;
 	private final FixtureDef fixtureDef = new FixtureDef();
 	private Shape[] shapes;
 	private Type type;
 	private float mass;
 	private boolean ifOnEdgeBounce = false;
+	private boolean hangup = false;
+	private boolean ishidden = false;
+	private boolean istransparent = false;
 
 	private Vector2 bodyAABBlower;
 	private Vector2 bodyAABBupper;
@@ -105,25 +114,26 @@ public class PhysicsObject {
 		}
 		this.type = type;
 
-		short collisionMask = 0;
+		short collision_mask = 0;
 		switch (type) {
 			case DYNAMIC:
 				body.setType(BodyType.DynamicBody);
 				body.setGravityScale(1.0f);
 				body.setBullet(true);
 				setMass(mass);
-				collisionMask = PhysicsWorld.MASK_PHYSICSOBJECT;
+				collision_mask = PhysicsWorld.MASK_PHYSICSOBJECT;
 				break;
 			case FIXED:
 				body.setType(BodyType.KinematicBody);
-				collisionMask = PhysicsWorld.MASK_PHYSICSOBJECT;
+				collision_mask = PhysicsWorld.MASK_PHYSICSOBJECT;
 				break;
 			case NONE:
 				body.setType(BodyType.KinematicBody);
-				collisionMask = PhysicsWorld.NOCOLLISION_MASK;
+				collision_mask = PhysicsWorld.NOCOLLISION_MASK;
 				break;
 		}
-		setCollisionBits(PhysicsWorld.CATEGORY_PHYSICSOBJECT, collisionMask);
+		COLLISION_MASK_RECORD = collision_mask;
+		setCollisionBits(collision_mask);
 	}
 
 	public float getDirection() {
@@ -229,12 +239,12 @@ public class PhysicsObject {
 		}
 	}
 
-	public void setGravityScale(int scale) {
+	public void setGravityScale(float scale) {
 		body.setGravityScale(scale);
 	}
 
-	public void setVisible(boolean visible) {
-		// TODO[PHYSIC]
+	public float getGravityScale() {
+		return body.getGravityScale();
 	}
 
 	public void setIfOnEdgeBounce(boolean bounce, Sprite sprite) {
@@ -251,19 +261,61 @@ public class PhysicsObject {
 			maskBits = PhysicsWorld.MASK_PHYSICSOBJECT;
 		}
 
-		setCollisionBits(fixtureDef.filter.categoryBits, maskBits);
+		setCollisionBits(maskBits);
 	}
 
-	protected void setCollisionBits(short categoryBits, short maskBits) {
-		fixtureDef.filter.categoryBits = categoryBits;
+	protected void setCollisionBits(short maskBits) {
+		fixtureDef.filter.categoryBits = CATEGORY_MASK_RECORD;
 		fixtureDef.filter.maskBits = maskBits;
 
 		for (Fixture fixture : body.getFixtureList()) {
 			Filter filter = fixture.getFilterData();
-			filter.categoryBits = categoryBits;
+			filter.categoryBits = CATEGORY_MASK_RECORD;
 			filter.maskBits = maskBits;
 			fixture.setFilterData(filter);
 		}
+	}
+
+	public void setVisible(boolean visible) {
+		if (visible && ishidden && !istransparent) {
+			resume();
+			ishidden = !visible;
+		} else if (!visible && !ishidden && !istransparent) {
+			hangup();
+			ishidden = !visible;
+		}
+	}
+
+	public void setTransparent(boolean transparend) {
+		if (!transparend && ishidden && istransparent) {
+			resume();
+			istransparent = transparend;
+		} else if (transparend && !ishidden && !istransparent) {
+			hangup();
+			istransparent = transparend;
+		}
+	}
+
+	public void hangup() {
+		recordData();
+		setGravityScale(0);
+		setVelocity(0, 0);
+		setRotationSpeed(0);
+		setCollisionBits(PhysicsWorld.NOCOLLISION_MASK);
+	}
+
+	public void resume() {
+		setGravityScale(1);
+		setVelocity(velocity.x, velocity.y);
+		setRotationSpeed(rotationSpeed);
+		setGravityScale(gravityScale);
+		setCollisionBits(COLLISION_MASK_RECORD);
+	}
+
+	private void recordData() {
+		velocity = new Vector2(getVelocity());
+		rotationSpeed = getRotationSpeed();
+		gravityScale = getGravityScale();
 	}
 
 	public void getBoundaryBox(Vector2 lower, Vector2 upper) {

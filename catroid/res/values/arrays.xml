@@ -42,7 +42,7 @@
     <string-array name="physics_object_types">
         <item>Dynamic</item>
         <item>Fixed</item>
-        <item>No physical object</item>
+        <item>No</item>
     </string-array>
 
 
