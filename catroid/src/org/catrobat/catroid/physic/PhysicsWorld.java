@@ -76,7 +76,6 @@ public class PhysicsWorld {
 	private PhysicsShapeBuilder physicsShapeBuilder = new PhysicsShapeBuilder();
 
 	public PhysicsWorld(int width, int height) {
-		// recalculate real with/height
 		box = new PhysicsBoundaryBox(world);
 		box.create(width, height);
 		world.setContactListener(new PhysicCollision(this));
@@ -152,19 +151,6 @@ public class PhysicsWorld {
 	private PhysicsObject createPhysicObject() {
 		BodyDef bodyDef = new BodyDef();
 		return new PhysicsObject(world.createBody(bodyDef));
-	}
-
-	public void hangup(Sprite sprite) {
-		//world.destroyBody(getPhysicObject(sprite).getBody());
-		getPhysicObject(sprite).setGravityScale(0);
-		//physicsObjects.remove(sprite);
-	}
-
-	public void resume(Sprite sprite) {
-		getPhysicObject(sprite).setGravityScale(1);
-		//      changeLook(sprite);
-		//		PhysicsObject physicObject = getPhysicObject(sprite);
-		//		physicObject.setVisible(true);
 	}
 
 	public void bounced(Sprite sprite) {

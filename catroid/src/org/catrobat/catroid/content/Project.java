@@ -75,13 +75,6 @@ public class Project implements Serializable {
 		if (context == null) {
 			return;
 		}
-
-		@SuppressWarnings("unused")
-		int h = ScreenValues.SCREEN_HEIGHT;
-		int w = ScreenValues.SCREEN_WIDTH;
-
-		physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight); // TODO[physic]:
-
 		Sprite background = new Sprite(context.getString(R.string.background));
 		background.look.setZIndex(0);
 		addSprite(background);
