@@ -34,13 +34,22 @@ public class IfLogicAction extends Action {
 	private Action ifAction;
 	private Action elseAction;
 	private Formula ifCondition;
-	private boolean ifConditionValue;
+	private Boolean ifConditionValue;
 	private boolean isInitialized = false;
 	private boolean isInterpretedCorrectly;
 
 	protected void begin() {
 		try {
-			ifConditionValue = ifCondition.interpretBoolean(sprite);
+			if (ifCondition == null) {
+				isInterpretedCorrectly = false;
+				return;
+			}
+			Double interpretation = ifCondition.interpretDouble(sprite);
+			if (interpretation.isNaN()) {
+				isInterpretedCorrectly = false;
+				return;
+			}
+			ifConditionValue = interpretation.intValue() != 0 ? true : false;
 			isInterpretedCorrectly = true;
 		} catch (Exception exception) {
 			isInterpretedCorrectly = false;

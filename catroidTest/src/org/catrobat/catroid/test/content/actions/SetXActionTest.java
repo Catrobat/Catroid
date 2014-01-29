@@ -73,7 +73,7 @@ public class SetXActionTest extends AndroidTestCase {
 				(int) sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
-	public void testStringFormula() {
+	public void testBrickWithStringFormula() {
 		Sprite sprite = new Sprite("testSprite");
 		SetXAction action = ExtendedActions.setX(sprite, new Formula(String.valueOf(VALUE)));
 		action.act(1.0f);
@@ -83,6 +83,22 @@ public class SetXActionTest extends AndroidTestCase {
 		action = ExtendedActions.setX(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING)));
 		action.act(1.0f);
 		assertEquals("Incorrect sprite x position after SetXBrick executed", VALUE,
+				sprite.look.getXInUserInterfaceDimensionUnit());
+	}
+
+	public void testNullFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		SetXAction action = ExtendedActions.setX(sprite, null);
+		action.act(1.0f);
+		assertEquals("Incorrect sprite x position after SetXBrick executed", 0f,
+				sprite.look.getXInUserInterfaceDimensionUnit());
+	}
+
+	public void testNotANumberFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		SetXAction action = ExtendedActions.setX(sprite, new Formula(Double.NaN));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite x position after SetXBrick executed", 0f,
 				sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 }

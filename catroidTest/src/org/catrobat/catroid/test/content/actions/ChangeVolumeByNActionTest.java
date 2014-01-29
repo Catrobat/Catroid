@@ -59,7 +59,7 @@ public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
 				.getInstance().getVolume());
 	}
 
-	public void testStringFormula() {
+	public void testBrickWithStringFormula() {
 		Sprite sprite = new Sprite("testSprite");
 		ChangeVolumeByNAction action = ExtendedActions.changeVolumeByN(sprite,
 				new Formula(String.valueOf(CHANGE_VALUE)));
@@ -71,5 +71,21 @@ public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
 		action.act(1.0f);
 		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", INITIALIZED_VALUE + CHANGE_VALUE,
 				SoundManager.getInstance().getVolume());
+	}
+
+	public void testNullFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		ChangeVolumeByNAction action = ExtendedActions.changeVolumeByN(sprite, null);
+		action.act(1.0f);
+		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", INITIALIZED_VALUE, SoundManager
+				.getInstance().getVolume());
+	}
+
+	public void testNotANumberFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		ChangeVolumeByNAction action = ExtendedActions.changeVolumeByN(sprite, new Formula(Double.NaN));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", INITIALIZED_VALUE, SoundManager
+				.getInstance().getVolume());
 	}
 }

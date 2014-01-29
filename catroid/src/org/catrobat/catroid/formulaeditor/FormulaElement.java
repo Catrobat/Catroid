@@ -138,7 +138,7 @@ public class FormulaElement implements Serializable {
 		return root;
 	}
 
-	public Object interpretRecursive(Sprite sprite) throws NumberFormatException {
+	public Object interpretRecursive(Sprite sprite) {
 
 		Object returnValue = 0d;
 
@@ -198,7 +198,7 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
-	private Object interpretFunction(Functions function, Sprite sprite) throws NumberFormatException {
+	private Object interpretFunction(Functions function, Sprite sprite) {
 		Object left = null;
 		Object right = null;
 
@@ -263,38 +263,32 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretFunctionJOIN(Object right, Object left, Sprite sprite) {
-		String firstPart = "";
-		if (leftChild != null) {
-			if (leftChild.getElementType() == ElementType.NUMBER) {
-				Double number = ((Double) leftChild.interpretRecursive(sprite));
-				if (isInteger(number)) {
-					firstPart += number.intValue();
-				} else {
-					firstPart += number;
-				}
-			} else if (leftChild.getElementType() == ElementType.STRING) {
-				firstPart = leftChild.value;
-			} else if (leftChild.getElementType() != ElementType.STRING) {
-				firstPart += leftChild.interpretRecursive(sprite);
-			}
-		}
+		return interpretinterpretFunctionJOINParameter(leftChild, right, left, sprite)
+				+ interpretinterpretFunctionJOINParameter(rightChild, right, left, sprite);
+	}
 
-		String secondPart = "";
-		if (rightChild != null) {
-			if (rightChild.getElementType() == ElementType.NUMBER) {
-				Double number = ((Double) rightChild.interpretRecursive(sprite));
-				if (isInteger(number)) {
-					secondPart += number.intValue();
+	private String interpretinterpretFunctionJOINParameter(FormulaElement child, Object right, Object left,
+			Sprite sprite) {
+		String parameterInterpretation = "";
+		if (child != null) {
+			if (child.getElementType() == ElementType.NUMBER) {
+				Double number = ((Double) child.interpretRecursive(sprite));
+				if (number.isNaN()) {
+					parameterInterpretation = "";
 				} else {
-					secondPart += number;
+					if (isInteger(number)) {
+						parameterInterpretation += number.intValue();
+					} else {
+						parameterInterpretation += number;
+					}
 				}
-			} else if (rightChild.getElementType() == ElementType.STRING) {
-				secondPart = rightChild.value;
-			} else if (rightChild.getElementType() != ElementType.STRING) {
-				secondPart += rightChild.interpretRecursive(sprite);
+			} else if (child.getElementType() == ElementType.STRING) {
+				parameterInterpretation = child.value;
+			} else if (child.getElementType() != ElementType.STRING) {
+				parameterInterpretation += child.interpretRecursive(sprite);
 			}
 		}
-		return firstPart + secondPart;
+		return parameterInterpretation;
 	}
 
 	private Object interpretFunctionLENGTH(Object left, Sprite sprite) {
@@ -309,6 +303,9 @@ public class FormulaElement implements Serializable {
 		}
 		if (leftChild.type == ElementType.USER_VARIABLE) {
 			return (double) handleLengthUserVariableParameter(sprite);
+		}
+		if (left instanceof Double && ((Double) left).isNaN()) {
+			return 0d;
 		}
 		return (double) (String.valueOf(left)).length();
 	}
@@ -376,7 +373,7 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
-	private Object interpretOperator(Operators operator, Sprite sprite) throws NumberFormatException {
+	private Object interpretOperator(Operators operator, Sprite sprite) {
 
 		if (leftChild != null) {// binary operator
 			Object leftObject;
@@ -461,7 +458,7 @@ public class FormulaElement implements Serializable {
 		return 0d;
 	}
 
-	private Object interpretObjectSensor(Sensors sensor, Sprite sprite) throws NumberFormatException {
+	private Object interpretObjectSensor(Sensors sensor, Sprite sprite) {
 		Object returnValue = 0d;
 		switch (sensor) {
 			case OBJECT_BRIGHTNESS:
@@ -575,7 +572,7 @@ public class FormulaElement implements Serializable {
 		return 0d;
 	}
 
-	private Double interpretOperator(Object object) throws NumberFormatException {
+	private Double interpretOperator(Object object) {
 		if (object instanceof String) {
 			return Double.valueOf((String) object);
 		} else {
@@ -583,7 +580,7 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
-	private Object normalizeDegeneratedDoubleValues(Object valueToCheck) throws NumberFormatException {
+	private Object normalizeDegeneratedDoubleValues(Object valueToCheck) {
 
 		if (valueToCheck instanceof String || valueToCheck instanceof Character) {
 			return valueToCheck;
@@ -598,9 +595,6 @@ public class FormulaElement implements Serializable {
 		}
 		if (((Double) valueToCheck).doubleValue() == Double.POSITIVE_INFINITY) {
 			return Double.MAX_VALUE;
-		}
-		if (((Double) valueToCheck).isNaN()) {
-			throw new NumberFormatException(String.valueOf(Double.NaN));
 		}
 
 		return valueToCheck;

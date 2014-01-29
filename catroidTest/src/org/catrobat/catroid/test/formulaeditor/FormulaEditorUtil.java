@@ -46,6 +46,18 @@ public class FormulaEditorUtil {
 		return tokenList;
 	}
 
+	public static void testSingleParameterFunction(Functions function, List<InternToken> internTokenList,
+			Object expected, Sprite testSprite) {
+
+		List<InternToken> tokenList = FormulaEditorUtil.buildSingleParameterFunction(function, internTokenList);
+		FormulaElement parseTree = new InternFormulaParser(tokenList).parseFormula();
+
+		InstrumentationTestCase.assertNotNull("Formula is not parsed correctly: " + function + "(" + tokenList + ")",
+				parseTree);
+		InstrumentationTestCase.assertEquals("Formula interpretation is not as expected! " + function + "(" + tokenList
+				+ ")", expected, parseTree.interpretRecursive(testSprite));
+	}
+
 	public static List<InternToken> buildSingleParameterFunction(Functions function, InternTokenType firstParameter,
 			String parameterNumberValue) {
 		List<InternToken> tokenList = new LinkedList<InternToken>();
@@ -63,16 +75,30 @@ public class FormulaEditorUtil {
 		return tokenList;
 	}
 
-	public static List<InternToken> buildDoubleParameterFunction(Functions function, List<InternToken> internTokenList,
-			InternTokenType secondParameter, String secondParameterNumberValue) {
+	public static List<InternToken> buildDoubleParameterFunction(Functions function,
+			List<InternToken> firstInternTokenList, List<InternToken> secondInternTokenList) {
 		List<InternToken> tokenList = new LinkedList<InternToken>();
 		tokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
 		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-		tokenList.addAll(internTokenList);
+		tokenList.addAll(firstInternTokenList);
 		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
-		tokenList.add(new InternToken(secondParameter, secondParameterNumberValue));
+		tokenList.addAll(secondInternTokenList);
 		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
 		return tokenList;
+	}
+
+	public static void testDoubleParameterFunction(Functions function, List<InternToken> firstInternTokenList,
+			List<InternToken> secondInternTokenList, Object expected, Sprite testSprite) {
+
+		List<InternToken> internTokenList = buildDoubleParameterFunction(function, firstInternTokenList,
+				secondInternTokenList);
+		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
+
+		InstrumentationTestCase.assertNotNull("Formula is not parsed correctly: " + function.name() + "("
+				+ firstInternTokenList + "," + secondInternTokenList + ")", parseTree);
+		InstrumentationTestCase.assertEquals("Formula interpretation is not as expected! " + function.name() + "("
+				+ firstInternTokenList + "," + secondInternTokenList + ")", expected,
+				parseTree.interpretRecursive(testSprite));
 	}
 
 	public static List<InternToken> buildDoubleParameterFunction(Functions function, InternTokenType firstParameter,
@@ -118,11 +144,8 @@ public class FormulaEditorUtil {
 	public static void testBinaryOperator(InternTokenType firstInternTokenType, String firstOperand,
 			Operators operatorType, InternTokenType secondInternTokenType, String secondOperand, Object expected,
 			Sprite testSprite) {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
-
-		internTokenList.add(new InternToken(firstInternTokenType, firstOperand));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, operatorType.name()));
-		internTokenList.add(new InternToken(secondInternTokenType, secondOperand));
+		List<InternToken> internTokenList = buildBinaryOperator(firstInternTokenType, firstOperand, operatorType,
+				secondInternTokenType, secondOperand);
 		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
 
 		InstrumentationTestCase.assertNotNull("Formula is not parsed correctly: " + firstOperand + operatorType
@@ -173,10 +196,8 @@ public class FormulaEditorUtil {
 	public static void testNotANumberWithBinaryOperator(InternTokenType firstInternTokenType, String firstOperand,
 			Operators operatorType, InternTokenType secondInternTokenType, String secondOperand, Sprite testSprite) {
 
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
-		internTokenList.add(new InternToken(firstInternTokenType, firstOperand));
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, operatorType.name()));
-		internTokenList.add(new InternToken(secondInternTokenType, secondOperand));
+		List<InternToken> internTokenList = buildBinaryOperator(firstInternTokenType, firstOperand, operatorType,
+				secondInternTokenType, secondOperand);
 		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
 
 		InstrumentationTestCase.assertNotNull("Formula is not parsed correctly: " + firstOperand + operatorType
@@ -189,6 +210,15 @@ public class FormulaEditorUtil {
 			InstrumentationTestCase.assertEquals("Wrong exception message", exception.getMessage(),
 					String.valueOf(Double.NaN));
 		}
+	}
+
+	public static List<InternToken> buildBinaryOperator(InternTokenType firstInternTokenType, String firstOperand,
+			Operators operatorType, InternTokenType secondInternTokenType, String secondOperand) {
+		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		internTokenList.add(new InternToken(firstInternTokenType, firstOperand));
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, operatorType.name()));
+		internTokenList.add(new InternToken(secondInternTokenType, secondOperand));
+		return internTokenList;
 	}
 
 }

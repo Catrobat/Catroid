@@ -34,11 +34,14 @@ public class ChangeSizeByNAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		float newSize;
+		Float newSize;
 		try {
-			newSize = size.interpretFloat(sprite);
+			newSize = size == null ? 0f : size.interpretFloat(sprite);
+			if (newSize.isNaN()) {
+				return;
+			}
 		} catch (Exception exception) {
-			newSize = 0;
+			return;
 		}
 		sprite.look.changeSizeInUserInterfaceDimensionUnit(newSize);
 	}

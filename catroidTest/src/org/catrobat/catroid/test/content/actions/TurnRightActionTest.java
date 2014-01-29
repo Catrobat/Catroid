@@ -179,9 +179,8 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
-	public void testStringFormula() {
+	public void testBrickWithStringFormula() {
 		Sprite sprite = new Sprite("test");
-		sprite.look.setLookData(lookData);
 		TurnRightAction action = ExtendedActions.turnRight(sprite, new Formula(String.valueOf(VALUE)));
 		action.act(1.0f);
 		assertEquals("Wrong direction!", -VALUE, sprite.look.getRotation());
@@ -191,6 +190,24 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 		action = ExtendedActions.turnRight(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING)));
 		action.act(1.0f);
 		assertEquals("Wrong direction!", -VALUE, sprite.look.getRotation());
+		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+	}
+
+	public void testNullFormula() {
+		Sprite sprite = new Sprite("test");
+		TurnRightAction action = ExtendedActions.turnRight(sprite, null);
+		action.act(1.0f);
+		assertEquals("Wrong direction!", 0f, sprite.look.getRotation());
+		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+	}
+
+	public void testNotANumberFormula() {
+		Sprite sprite = new Sprite("test");
+		TurnRightAction action = ExtendedActions.turnRight(sprite, new Formula(Double.NaN));
+		action.act(1.0f);
+		assertEquals("Wrong direction!", 0f, sprite.look.getRotation());
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}

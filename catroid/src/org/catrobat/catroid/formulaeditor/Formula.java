@@ -96,21 +96,24 @@ public class Formula implements Serializable {
 		displayText = text;
 	}
 
-	public boolean interpretBoolean(Sprite sprite) {
-		int result = interpretInteger(sprite);
+	public Boolean interpretBoolean(Sprite sprite) {
+		int result = interpretDouble(sprite).intValue();
 		return result != 0 ? true : false;
 	}
 
-	public int interpretInteger(Sprite sprite) {
-		return ((Double) formulaTree.interpretRecursive(sprite)).intValue();
+	public Integer interpretInteger(Sprite sprite) {
+		Double returnValue = interpretDouble(sprite);
+		return returnValue.intValue();
 	}
 
-	public double interpretDouble(Sprite sprite) {
-		return (Double) formulaTree.interpretRecursive(sprite);
+	public Double interpretDouble(Sprite sprite) {
+		Double returnValue = (Double) formulaTree.interpretRecursive(sprite);
+		return returnValue;
 	}
 
-	public float interpretFloat(Sprite sprite) {
-		return ((Double) formulaTree.interpretRecursive(sprite)).floatValue();
+	public Float interpretFloat(Sprite sprite) {
+		Double returnValue = interpretDouble(sprite);
+		return returnValue.floatValue();
 	}
 
 	public String interpretString(Sprite sprite) {
@@ -218,14 +221,12 @@ public class Formula implements Serializable {
 			UserVariable userVariable = userVariables.getUserVariable(formulaTree.getValue(), sprite);
 			return (String) userVariable.getValue();
 		} else {
-			float interpretationResult = 0;
-			try {
-				interpretationResult = (float) this.interpretDouble(sprite);
-			} catch (NumberFormatException numberFormatException) {
+			Double interpretationResult = this.interpretDouble(sprite);
+			if (interpretationResult.isNaN()) {
 				return String.valueOf(Double.NaN);
 			}
 			interpretationResult *= 100;
-			interpretationResult = Math.round(interpretationResult) / 100f;
+			interpretationResult = (double) (Math.round(interpretationResult) / 100f);
 			return String.valueOf(interpretationResult);
 		}
 	}

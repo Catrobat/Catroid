@@ -256,4 +256,50 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		assertEquals("Executed the wrong number of times!", startValue,
 				testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
+
+	public void testNullFormula() {
+		Sprite testSprite = new Sprite("sprite");
+		Script testScript = new StartScript(testSprite);
+		RepeatBrick repeatBrick = new RepeatBrick(testSprite, null);
+		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
+		repeatBrick.setLoopEndBrick(loopEndBrick);
+
+		final float startValue = testSprite.look.getYInUserInterfaceDimensionUnit();
+		final int deltaY = 5;
+
+		testScript.addBrick(repeatBrick);
+		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
+		testScript.addBrick(loopEndBrick);
+		testSprite.addScript(testScript);
+		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+
+		while (!testSprite.look.getAllActionsAreFinished()) {
+			testSprite.look.act(1.0f);
+		}
+		assertEquals("Executed the wrong number of times!", startValue,
+				testSprite.look.getYInUserInterfaceDimensionUnit());
+	}
+
+	public void testNotANumberFormula() {
+		Sprite testSprite = new Sprite("sprite");
+		Script testScript = new StartScript(new Sprite("sprite"));
+		RepeatBrick repeatBrick = new RepeatBrick(testSprite, new Formula(Double.NaN));
+		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
+		repeatBrick.setLoopEndBrick(loopEndBrick);
+
+		final float startValue = testSprite.look.getYInUserInterfaceDimensionUnit();
+		final int deltaY = 5;
+
+		testScript.addBrick(repeatBrick);
+		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
+		testScript.addBrick(loopEndBrick);
+		testSprite.addScript(testScript);
+		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+
+		while (!testSprite.look.getAllActionsAreFinished()) {
+			testSprite.look.act(1.0f);
+		}
+		assertEquals("Executed the wrong number of times!", startValue,
+				testSprite.look.getYInUserInterfaceDimensionUnit());
+	}
 }

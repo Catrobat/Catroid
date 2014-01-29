@@ -322,11 +322,11 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.sleep(300);
 
 		//Interpretation test
-		Formula formula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.X_POSITION);
-		assertEquals("Wrong text in field", newXValue, formula.interpretInteger(sprite));
+
+		Formula formula = (Formula) Reflection.getPrivateField(placeAtBrick, "xPosition");
+		assertEquals("Wrong text in field", newXValue, formula.interpretInteger(sprite).intValue());
 
 		formula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.Y_POSITION);
-
 		float newYValue = formula.interpretFloat(sprite);
 		assertTrue("Wrong text in field", newYValue >= -0.5f && newYValue <= 1f);
 

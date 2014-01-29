@@ -80,8 +80,8 @@ public class GoNStepsBackTest extends BaseActivityInstrumentationTestCase<Script
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_go_back_edit_text, STEPS_TO_GO_BACK);
 
-		assertEquals("Wrong text in field.", STEPS_TO_GO_BACK,
-				(int) goNStepsBackBrick.getFormulaWithBrickField(Brick.BrickField.STEPS).interpretDouble(null));
+		assertEquals("Wrong text in field.", STEPS_TO_GO_BACK, goNStepsBackBrick.getFormulaWithBrickField(Brick.BrickField.STEPS).interpretDouble(null).intValue());
+
 		assertEquals(
 				"Value in Brick is not updated.",
 				(double) STEPS_TO_GO_BACK,

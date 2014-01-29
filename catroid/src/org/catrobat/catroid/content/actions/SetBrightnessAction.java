@@ -34,11 +34,14 @@ public class SetBrightnessAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		float newBrightness = 0;
+		Float newBrightness;
 		try {
-			newBrightness = brightness.interpretFloat(sprite);
+			newBrightness = brightness == null ? 0f : brightness.interpretFloat(sprite);
+			if (newBrightness.isNaN()) {
+				return;
+			}
 		} catch (Exception exception) {
-			newBrightness = sprite.look.getBrightnessInUserInterfaceDimensionUnit();
+			return;
 		}
 		sprite.look.setBrightnessInUserInterfaceDimensionUnit(newBrightness);
 	}

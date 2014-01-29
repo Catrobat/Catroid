@@ -111,7 +111,7 @@ public class SetSizeToActionTest extends InstrumentationTestCase {
 		}
 	}
 
-	public void testStringFormula() {
+	public void testBrickWithStringFormula() {
 		Sprite sprite = new Sprite("testSprite");
 		SetSizeToAction action = ExtendedActions.setSizeTo(sprite,
 				new Formula(String.valueOf(SIZE.interpretFloat(sprite))));
@@ -122,6 +122,28 @@ public class SetSizeToActionTest extends InstrumentationTestCase {
 		action = ExtendedActions.setSizeTo(sprite, new Formula(NOT_NUMERICAL_STRING));
 		action.act(1.0f);
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", SIZE.interpretFloat(sprite),
+				sprite.look.getSizeInUserInterfaceDimensionUnit());
+
+		action = ExtendedActions.setSizeTo(sprite, null);
+		action.act(1.0f);
+		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", 0f,
+				sprite.look.getSizeInUserInterfaceDimensionUnit());
+	}
+
+	public void testNullFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		SetSizeToAction action = ExtendedActions.setSizeTo(sprite, null);
+		action.act(1.0f);
+		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", 0f,
+				sprite.look.getSizeInUserInterfaceDimensionUnit());
+
+	}
+
+	public void testNotANumberFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		SetSizeToAction action = ExtendedActions.setSizeTo(sprite, new Formula(Double.NaN));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", 100f,
 				sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}
 }

@@ -37,24 +37,23 @@ public class GoNStepsBackAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		int stepsValue;
+		Float stepsValue;
 		try {
-			stepsValue = steps.interpretInteger(sprite);
+			stepsValue = steps == null ? 0 : steps.interpretFloat(sprite);
+			if (stepsValue.isNaN()) {
+				return;
+			}
 		} catch (Exception exception) {
-			stepsValue = 0;
+			return;
 		}
 
 		int zPosition = sprite.look.getZIndex();
-		if (stepsValue > 0 && (zPosition - stepsValue) < 1) {
+		if (stepsValue.intValue() > 0 && (zPosition - stepsValue.intValue()) < 1) {
 			sprite.look.setZIndex(1);
-
-		} else if (stepsValue < 0 && (zPosition - stepsValue) < zPosition) {
-
+		} else if (stepsValue.intValue() < 0 && (zPosition - stepsValue.intValue()) < zPosition) {
 			toFront();
 		} else {
-
-			goNStepsBack(stepsValue);
-
+			goNStepsBack(stepsValue.intValue());
 		}
 
 	}

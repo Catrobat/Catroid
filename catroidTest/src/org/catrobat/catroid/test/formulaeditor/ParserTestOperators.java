@@ -303,8 +303,8 @@ public class ParserTestOperators extends AndroidTestCase {
 
 		firstOperand = "NotANumber";
 		secondOperand = "3.14";
-		FormulaEditorUtil.testNotANumberWithBinaryOperator(InternTokenType.STRING, firstOperand, Operators.PLUS,
-				InternTokenType.STRING, secondOperand, testSprite);
+		FormulaEditorUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.PLUS,
+				InternTokenType.NUMBER, secondOperand, Double.NaN, testSprite);
 	}
 
 	public void testDivision() {
@@ -325,8 +325,8 @@ public class ParserTestOperators extends AndroidTestCase {
 
 		firstOperand = "NotANumber";
 		secondOperand = "3.14";
-		FormulaEditorUtil.testNotANumberWithBinaryOperator(InternTokenType.STRING, firstOperand, Operators.DIVIDE,
-				InternTokenType.STRING, secondOperand, testSprite);
+		FormulaEditorUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.DIVIDE,
+				InternTokenType.NUMBER, secondOperand, Double.NaN, testSprite);
 	}
 
 	public void testMultiplication() {
@@ -347,8 +347,8 @@ public class ParserTestOperators extends AndroidTestCase {
 
 		firstOperand = "NotANumber";
 		secondOperand = "3.14";
-		FormulaEditorUtil.testNotANumberWithBinaryOperator(InternTokenType.STRING, firstOperand, Operators.MULT,
-				InternTokenType.STRING, secondOperand, testSprite);
+		FormulaEditorUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.MULT,
+				InternTokenType.NUMBER, secondOperand, Double.NaN, testSprite);
 	}
 
 	public void testSubstraction() {
@@ -369,7 +369,7 @@ public class ParserTestOperators extends AndroidTestCase {
 
 		firstOperand = "NotANumber";
 		secondOperand = "3.14";
-		FormulaEditorUtil.testNotANumberWithBinaryOperator(InternTokenType.STRING, firstOperand, Operators.MINUS,
-				InternTokenType.STRING, secondOperand, testSprite);
+		FormulaEditorUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.MINUS,
+				InternTokenType.NUMBER, secondOperand, Double.NaN, testSprite);
 	}
 }

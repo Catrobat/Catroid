@@ -49,7 +49,7 @@ public class SetBrightnessActionTest extends InstrumentationTestCase {
 		SetBrightnessAction action = ExtendedActions.setBrightness(null, brightnessValue);
 		try {
 			action.act(1.0f);
-			fail("Execution of SetGhostEffectBrick with null Sprite did not cause a NullPointerException to be thrown");
+			fail("Execution of SetBrightnessBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
 			assertTrue("Exception thrown  as expected", true);
 
@@ -61,20 +61,37 @@ public class SetBrightnessActionTest extends InstrumentationTestCase {
 		SetBrightnessAction action = ExtendedActions.setBrightness(sprite,
 				new Formula(-brightnessValue.interpretFloat(sprite)));
 		action.act(1.0f);
-		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", 0f,
+		assertEquals("Incorrect sprite scale value after SetBrightnessBrick executed", 0f,
 				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
-	public void testStringFormula() {
+	public void testBrickWithStringFormula() {
 		Sprite sprite = new Sprite("testSprite");
 		SetBrightnessAction action = ExtendedActions.setBrightness(sprite, new Formula(String.valueOf(VALUE)));
 		action.act(1.0f);
-		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", VALUE,
+		assertEquals("Incorrect sprite scale value after SetBrightnessBrick executed", VALUE,
 				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 
 		action = ExtendedActions.setBrightness(sprite, new Formula(NOT_NUMERICAL_STRING));
 		action.act(1.0f);
-		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", VALUE,
+		assertEquals("Incorrect sprite scale value after SetBrightnessBrick executed", VALUE,
+				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
+	}
+
+	public void testNullFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		SetBrightnessAction action = ExtendedActions.setBrightness(sprite, null);
+		action.act(1.0f);
+		assertEquals("Incorrect sprite size value after SetBrightnessBrick executed", 0f,
+				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
+
+	}
+
+	public void testNotANumberFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		SetBrightnessAction action = ExtendedActions.setBrightness(sprite, new Formula(Double.NaN));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite size value after SetBrightnessBrick executed", 100f,
 				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 }

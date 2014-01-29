@@ -34,11 +34,14 @@ public class SetXAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		float newX = 0;
+		Float newX;
 		try {
-			newX = xPosition.interpretFloat(sprite);
+			newX = xPosition == null ? 0f : xPosition.interpretFloat(sprite);
+			if (newX.isNaN()) {
+				return;
+			}
 		} catch (Exception exception) {
-			newX = sprite.look.getXInUserInterfaceDimensionUnit();
+			return;
 		}
 		sprite.look.setXInUserInterfaceDimensionUnit(newX);
 	}

@@ -65,7 +65,7 @@ public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 		}
 	}
 
-	public void testStringFormula() {
+	public void testBrickWithStringFormula() {
 		Sprite sprite = new Sprite("testSprite");
 		ChangeSizeByNAction action = ExtendedActions.changeSizeByN(sprite, new Formula(String.valueOf(CHANGE_VALUE)));
 		action.act(1.0f);
@@ -75,6 +75,22 @@ public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 		action = ExtendedActions.changeSizeByN(sprite, new Formula(NOT_NUMERICAL_STRING));
 		action.act(1.0f);
 		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", INITIALIZED_VALUE + CHANGE_VALUE,
+				sprite.look.getSizeInUserInterfaceDimensionUnit());
+	}
+
+	public void testNullFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		ChangeSizeByNAction action = ExtendedActions.changeSizeByN(sprite, null);
+		action.act(1.0f);
+		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", 100f,
+				sprite.look.getSizeInUserInterfaceDimensionUnit());
+	}
+
+	public void testNotANumberFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		ChangeSizeByNAction action = ExtendedActions.changeSizeByN(sprite, new Formula(Double.NaN));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", 100f,
 				sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}
 }

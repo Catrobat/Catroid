@@ -74,7 +74,7 @@ public class ChangeGhostEffectByNActionTest extends AndroidTestCase {
 		}
 	}
 
-	public void testStringFormula() {
+	public void testBrickWithStringFormula() {
 		Sprite sprite = new Sprite("testSprite");
 		ChangeGhostEffectByNAction action = ExtendedActions.changeGhostEffectByN(sprite,
 				new Formula(String.valueOf(CHANGE_VALUE)));
@@ -86,5 +86,21 @@ public class ChangeGhostEffectByNActionTest extends AndroidTestCase {
 		action.act(1.0f);
 		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectByNBrick executed", CHANGE_VALUE,
 				sprite.look.getTransparencyInUserInterfaceDimensionUnit(), DELTA);
+	}
+
+	public void testNullFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		ChangeGhostEffectByNAction action = ExtendedActions.changeGhostEffectByN(sprite, null);
+		action.act(1.0f);
+		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectByNBrick executed", 0f,
+				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
+	}
+
+	public void testNotANumberFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		ChangeGhostEffectByNAction action = ExtendedActions.changeGhostEffectByN(sprite, new Formula(Double.NaN));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectByNBrick executed", 0f,
+				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 }

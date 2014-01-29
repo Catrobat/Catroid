@@ -34,11 +34,14 @@ public class ChangeYByNAction extends TemporalAction {
 
 	@Override
 	protected void update(float arg0) {
-		float newY;
+		Float newY;
 		try {
-			newY = yMovement.interpretFloat(sprite);
+			newY = yMovement == null ? 0f : yMovement.interpretFloat(sprite);
+			if (newY.isNaN()) {
+				return;
+			}
 		} catch (Exception exception) {
-			newY = 0;
+			return;
 		}
 		sprite.look.changeYInUserInterfaceDimensionUnit(newY);
 	}

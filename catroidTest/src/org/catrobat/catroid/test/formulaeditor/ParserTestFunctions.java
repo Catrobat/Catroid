@@ -30,6 +30,7 @@ import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
+import org.catrobat.catroid.formulaeditor.Operators;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -37,6 +38,7 @@ import java.util.List;
 public class ParserTestFunctions extends AndroidTestCase {
 
 	private Sprite testSprite;
+	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 
 	@Override
 	protected void setUp() {
@@ -50,8 +52,12 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorUtil.testSingleParameterFunction(Functions.SIN, InternTokenType.STRING, "45.0",
 				Math.sin(Math.toRadians(45d)), testSprite);
 		FormulaEditorUtil.testSingleParameterFunction(Functions.SIN, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.SIN, InternTokenType.STRING, "NotANumber", 0d,
+		FormulaEditorUtil.testSingleParameterFunction(Functions.SIN, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
 				testSprite);
+
+		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.SIN, firstParameterList, Double.NaN, testSprite);
 	}
 
 	public void testCos() {
@@ -61,8 +67,12 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorUtil.testSingleParameterFunction(Functions.COS, InternTokenType.STRING, "45.0",
 				Math.cos(Math.toRadians(45d)), testSprite);
 		FormulaEditorUtil.testSingleParameterFunction(Functions.COS, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.COS, InternTokenType.STRING, "NotANumber", 0d,
+		FormulaEditorUtil.testSingleParameterFunction(Functions.COS, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
 				testSprite);
+
+		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.COS, firstParameterList, Double.NaN, testSprite);
 	}
 
 	public void testTan() {
@@ -72,8 +82,12 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorUtil.testSingleParameterFunction(Functions.TAN, InternTokenType.STRING, "45.0",
 				Math.tan(Math.toRadians(45d)), testSprite);
 		FormulaEditorUtil.testSingleParameterFunction(Functions.TAN, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.TAN, InternTokenType.STRING, "NotANumber", 0d,
+		FormulaEditorUtil.testSingleParameterFunction(Functions.TAN, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
 				testSprite);
+
+		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.TAN, firstParameterList, Double.NaN, testSprite);
 	}
 
 	public void testLn() {
@@ -83,8 +97,12 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorUtil.testSingleParameterFunction(Functions.LN, InternTokenType.STRING, "45.0", Math.log(45d),
 				testSprite);
 		FormulaEditorUtil.testSingleParameterFunction(Functions.LN, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.LN, InternTokenType.STRING, "NotANumber", 0d,
+		FormulaEditorUtil.testSingleParameterFunction(Functions.LN, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
 				testSprite);
+
+		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.LN, firstParameterList, Double.NaN, testSprite);
 	}
 
 	public void testLog() {
@@ -94,8 +112,12 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorUtil.testSingleParameterFunction(Functions.LOG, InternTokenType.STRING, "45.0", Math.log10(45),
 				testSprite);
 		FormulaEditorUtil.testSingleParameterFunction(Functions.LOG, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.LOG, InternTokenType.STRING, "NotANumber", 0d,
+		FormulaEditorUtil.testSingleParameterFunction(Functions.LOG, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
 				testSprite);
+
+		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.LOG, firstParameterList, Double.NaN, testSprite);
 	}
 
 	public void testPi() {
@@ -114,8 +136,12 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorUtil.testSingleParameterFunction(Functions.SQRT, InternTokenType.STRING, "45.0", Math.sqrt(45),
 				testSprite);
 		FormulaEditorUtil.testSingleParameterFunction(Functions.SQRT, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.SQRT, InternTokenType.STRING, "NotANumber", 0d,
+		FormulaEditorUtil.testSingleParameterFunction(Functions.SQRT, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
 				testSprite);
+
+		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.SQRT, firstParameterList, Double.NaN, testSprite);
 	}
 
 	public void testRandomNaturalNumbers() {
@@ -139,7 +165,16 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorUtil.testDoubleParameterFunction(Functions.RAND, InternTokenType.STRING, "5",
 				InternTokenType.STRING, "", 0d, testSprite);
 		FormulaEditorUtil.testDoubleParameterFunction(Functions.RAND, InternTokenType.STRING, "5",
-				InternTokenType.STRING, "NotANumber", 0d, testSprite);
+				InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d, testSprite);
+
+		List<InternToken> firstParameterList = new LinkedList<InternToken>();
+		List<InternToken> secondParameterList = new LinkedList<InternToken>();
+		firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
+				InternTokenType.STRING, "datString");
+		secondParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.MULT,
+				InternTokenType.STRING, "anotherString");
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.RAND, firstParameterList, secondParameterList,
+				Double.NaN, testSprite);
 	}
 
 	public void testRound() {
@@ -149,8 +184,12 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorUtil.testSingleParameterFunction(Functions.ROUND, InternTokenType.STRING, "45.55555",
 				((Long) Math.round(45.55555)).doubleValue(), testSprite);
 		FormulaEditorUtil.testSingleParameterFunction(Functions.ROUND, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ROUND, InternTokenType.STRING, "NotANumber", 0d,
-				testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ROUND, InternTokenType.STRING, NOT_NUMERICAL_STRING,
+				0d, testSprite);
+
+		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ROUND, firstParameterList, 0d, testSprite);
 	}
 
 	public void testMod() {
@@ -194,7 +233,16 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.STRING, "5",
 				InternTokenType.STRING, "", 0d, testSprite);
 		FormulaEditorUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.STRING, "5",
-				InternTokenType.STRING, "NotANumber", 0d, testSprite);
+				InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d, testSprite);
+
+		List<InternToken> firstParameterList = new LinkedList<InternToken>();
+		List<InternToken> secondParameterList = new LinkedList<InternToken>();
+		firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
+				InternTokenType.STRING, "datString");
+		secondParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.MULT,
+				InternTokenType.STRING, "anotherString");
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.MOD, firstParameterList, secondParameterList,
+				Double.NaN, testSprite);
 	}
 
 	public void testAbs() {
@@ -204,8 +252,12 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorUtil.testSingleParameterFunction(Functions.ABS, InternTokenType.STRING, "45.666",
 				Math.abs(45.666), testSprite);
 		FormulaEditorUtil.testSingleParameterFunction(Functions.ABS, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ABS, InternTokenType.STRING, "NotANumber", 0d,
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ABS, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
 				testSprite);
+
+		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ABS, firstParameterList, Double.NaN, testSprite);
 	}
 
 	public void testInvalidFunction() {
@@ -246,8 +298,12 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCSIN, InternTokenType.STRING, "0.666",
 				Math.toDegrees(Math.asin(0.666)), testSprite);
 		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCSIN, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCSIN, InternTokenType.STRING, "NotANumber", 0d,
-				testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCSIN, InternTokenType.STRING, NOT_NUMERICAL_STRING,
+				0d, testSprite);
+
+		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCSIN, firstParameterList, Double.NaN, testSprite);
 	}
 
 	public void testArccos() {
@@ -257,8 +313,12 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCCOS, InternTokenType.STRING, "0.666",
 				Math.toDegrees(Math.acos(0.666)), testSprite);
 		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCCOS, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCCOS, InternTokenType.STRING, "NotANumber", 0d,
-				testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCCOS, InternTokenType.STRING, NOT_NUMERICAL_STRING,
+				0d, testSprite);
+
+		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCCOS, firstParameterList, Double.NaN, testSprite);
 	}
 
 	public void testArctan() {
@@ -268,8 +328,12 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCTAN, InternTokenType.STRING, "45.666",
 				Math.toDegrees(Math.atan(45.666)), testSprite);
 		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCTAN, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCTAN, InternTokenType.STRING, "NotANumber", 0d,
-				testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCTAN, InternTokenType.STRING, NOT_NUMERICAL_STRING,
+				0d, testSprite);
+
+		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCTAN, firstParameterList, Double.NaN, testSprite);
 	}
 
 	public void testExp() {
@@ -279,8 +343,12 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorUtil.testSingleParameterFunction(Functions.EXP, InternTokenType.STRING, "45.666",
 				Math.exp(45.666), testSprite);
 		FormulaEditorUtil.testSingleParameterFunction(Functions.EXP, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.EXP, InternTokenType.STRING, "NotANumber", 0d,
+		FormulaEditorUtil.testSingleParameterFunction(Functions.EXP, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
 				testSprite);
+
+		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.EXP, firstParameterList, Double.NaN, testSprite);
 	}
 
 	public void testMax() {
@@ -294,7 +362,17 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorUtil.testDoubleParameterFunction(Functions.MAX, InternTokenType.STRING, "",
 				InternTokenType.STRING, "", 0d, testSprite);
 		FormulaEditorUtil.testDoubleParameterFunction(Functions.MAX, InternTokenType.STRING, "33.22",
-				InternTokenType.STRING, "NotANumber", 0d, testSprite);
+				InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d, testSprite);
+
+		List<InternToken> firstParameterList = new LinkedList<InternToken>();
+		List<InternToken> secondParameterList = new LinkedList<InternToken>();
+		firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
+				InternTokenType.STRING, "datString");
+		secondParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.MULT,
+				InternTokenType.STRING, "anotherString");
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.MAX, firstParameterList, secondParameterList,
+				Double.NaN, testSprite);
+
 	}
 
 	public void testMin() {
@@ -308,7 +386,16 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorUtil.testDoubleParameterFunction(Functions.MIN, InternTokenType.STRING, "",
 				InternTokenType.STRING, "", 0d, testSprite);
 		FormulaEditorUtil.testDoubleParameterFunction(Functions.MIN, InternTokenType.STRING, "33.22",
-				InternTokenType.STRING, "NotANumber", 0d, testSprite);
+				InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d, testSprite);
+
+		List<InternToken> firstParameterList = new LinkedList<InternToken>();
+		List<InternToken> secondParameterList = new LinkedList<InternToken>();
+		firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
+				InternTokenType.STRING, "datString");
+		secondParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.MULT,
+				InternTokenType.STRING, "anotherString");
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.MIN, firstParameterList, secondParameterList,
+				Double.NaN, testSprite);
 	}
 
 }

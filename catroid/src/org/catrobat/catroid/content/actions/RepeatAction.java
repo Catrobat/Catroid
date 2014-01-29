@@ -43,7 +43,11 @@ public class RepeatAction extends com.badlogic.gdx.scenes.scene2d.actions.Repeat
 		if (!isRepeatActionInitialized) {
 			isRepeatActionInitialized = true;
 			try {
-				repeatCountValue = repeatCount == null ? 0 : repeatCount.interpretInteger(sprite);
+				Double intepretation = repeatCount.interpretDouble(sprite);
+				if (intepretation == null || intepretation.isNaN()) {
+					intepretation = 0d;
+				}
+				repeatCountValue = intepretation.intValue();
 			} catch (Exception exception) {
 				repeatCountValue = 0;
 			}

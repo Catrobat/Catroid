@@ -73,7 +73,7 @@ public class SetYActionTest extends AndroidTestCase {
 				(int) sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
-	public void testStringFormula() {
+	public void testBrickWithStringFormula() {
 		Sprite sprite = new Sprite("testSprite");
 		SetYAction action = ExtendedActions.setY(sprite, new Formula(String.valueOf(VALUE)));
 		action.act(1.0f);
@@ -83,6 +83,22 @@ public class SetYActionTest extends AndroidTestCase {
 		action = ExtendedActions.setY(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING)));
 		action.act(1.0f);
 		assertEquals("Incorrect sprite y position after SetYBrick executed", VALUE,
+				sprite.look.getYInUserInterfaceDimensionUnit());
+	}
+
+	public void testNullFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		SetYAction action = ExtendedActions.setY(sprite, null);
+		action.act(1.0f);
+		assertEquals("Incorrect sprite y position after SetYBrick executed", 0f,
+				sprite.look.getYInUserInterfaceDimensionUnit());
+	}
+
+	public void testNotANumberFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		SetYAction action = ExtendedActions.setY(sprite, new Formula(Double.NaN));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite y position after SetYBrick executed", 0f,
 				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 }

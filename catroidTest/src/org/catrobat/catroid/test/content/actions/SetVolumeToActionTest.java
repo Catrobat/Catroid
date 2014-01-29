@@ -45,7 +45,7 @@ public class SetVolumeToActionTest extends InstrumentationTestCase {
 				SoundManager.getInstance().getVolume());
 	}
 
-	public void testStringFormula() {
+	public void testBrickWithStringFormula() {
 		Sprite sprite = new Sprite("testSprite");
 		SetVolumeToAction action = ExtendedActions.setVolumeTo(sprite, new Formula(String.valueOf(VALUE)));
 		action.act(1.0f);
@@ -53,6 +53,22 @@ public class SetVolumeToActionTest extends InstrumentationTestCase {
 				.getVolume());
 
 		action = ExtendedActions.setVolumeTo(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING)));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", VALUE, SoundManager.getInstance()
+				.getVolume());
+	}
+
+	public void testNullFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		SetVolumeToAction action = ExtendedActions.setVolumeTo(sprite, null);
+		action.act(1.0f);
+		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", 0f, SoundManager.getInstance()
+				.getVolume());
+	}
+
+	public void testNotANumberFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		SetVolumeToAction action = ExtendedActions.setVolumeTo(sprite, new Formula(Double.NaN));
 		action.act(1.0f);
 		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", VALUE, SoundManager.getInstance()
 				.getVolume());

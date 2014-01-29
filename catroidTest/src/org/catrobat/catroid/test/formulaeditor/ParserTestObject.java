@@ -101,7 +101,7 @@ public class ParserTestObject extends AndroidTestCase {
 
 		Formula lookZPositionFormula = getFormulaBySensor(Sensors.OBJECT_LAYER);
 		assertEquals("Formula interpretation is not as expected (z-index)", testSprite.look.getZIndex(),
-				lookZPositionFormula.interpretInteger(testSprite));
+				lookZPositionFormula.interpretInteger(testSprite).intValue());
 
 	}
 

@@ -34,11 +34,14 @@ public class WaitAction extends TemporalAction {
 
 	@Override
 	protected void begin() {
-		float newDuration;
+		Float newDuration;
 		try {
-			newDuration = duration.interpretFloat(sprite);
+			newDuration = duration == null ? 0f : duration.interpretFloat(sprite);
+			if (newDuration.isNaN()) {
+				return;
+			}
 		} catch (Exception exception) {
-			newDuration = 0;
+			return;
 		}
 		super.setDuration(newDuration);
 	}

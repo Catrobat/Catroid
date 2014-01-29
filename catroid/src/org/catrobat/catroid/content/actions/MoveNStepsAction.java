@@ -34,11 +34,14 @@ public class MoveNStepsAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		double stepsValue;
+		Double stepsValue;
 		try {
-			stepsValue = steps.interpretDouble(sprite);
+			stepsValue = steps == null ? 0d : steps.interpretDouble(sprite);
+			if (stepsValue.isNaN()) {
+				return;
+			}
 		} catch (Exception exception) {
-			stepsValue = 0;
+			return;
 		}
 
 		double radians = Math.toRadians(sprite.look.getDirectionInUserInterfaceDimensionUnit());

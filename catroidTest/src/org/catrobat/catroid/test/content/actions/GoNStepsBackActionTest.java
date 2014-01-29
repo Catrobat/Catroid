@@ -145,7 +145,7 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 				sprite.look.getZIndex());
 	}
 
-	public void testStringFormula() {
+	public void testBrickWithStringFormula() {
 		Group parentGroup = new Group();
 		Sprite background = new Sprite("background");
 		parentGroup.addActor(background.look);
@@ -156,12 +156,46 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 
 		GoNStepsBackAction action = ExtendedActions.goNStepsBack(sprite2, new Formula(String.valueOf(VALUE)));
 		action.act(1.0f);
+		assertEquals("Unexpected initial sprite Z position", 0, background.look.getZIndex());
 		assertEquals("Unexpected sprite Z position", 1, sprite2.look.getZIndex());
 		assertEquals("Unexpected sprite Z position", 2, sprite.look.getZIndex());
 
 		action = ExtendedActions.goNStepsBack(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING)));
 		action.act(1.0f);
+		assertEquals("Unexpected initial sprite Z position", 0, background.look.getZIndex());
 		assertEquals("Unexpected sprite Z position", 1, sprite2.look.getZIndex());
 		assertEquals("Unexpected sprite Z position", 2, sprite.look.getZIndex());
+	}
+
+	public void testNullFormula() {
+		Group parentGroup = new Group();
+		Sprite background = new Sprite("background");
+		parentGroup.addActor(background.look);
+		Sprite sprite = new Sprite("testSprite");
+		parentGroup.addActor(sprite.look);
+		Sprite sprite2 = new Sprite("testSprite2");
+		parentGroup.addActor(sprite2.look);
+
+		GoNStepsBackAction action = ExtendedActions.goNStepsBack(sprite2, null);
+		action.act(1.0f);
+		assertEquals("Unexpected initial sprite Z position", 0, background.look.getZIndex());
+		assertEquals("Unexpected sprite Z position", 1, sprite.look.getZIndex());
+		assertEquals("Unexpected sprite Z position", 2, sprite2.look.getZIndex());
+	}
+
+	public void testNotANumberFormula() {
+		Group parentGroup = new Group();
+		Sprite background = new Sprite("background");
+		parentGroup.addActor(background.look);
+		Sprite sprite = new Sprite("testSprite");
+		parentGroup.addActor(sprite.look);
+		Sprite sprite2 = new Sprite("testSprite2");
+		parentGroup.addActor(sprite2.look);
+
+		GoNStepsBackAction action = ExtendedActions.goNStepsBack(sprite2, new Formula(Double.NaN));
+		action.act(1.0f);
+		assertEquals("Unexpected initial sprite Z position", 0, background.look.getZIndex());
+		assertEquals("Unexpected sprite Z position", 1, sprite.look.getZIndex());
+		assertEquals("Unexpected sprite Z position", 2, sprite2.look.getZIndex());
 	}
 }

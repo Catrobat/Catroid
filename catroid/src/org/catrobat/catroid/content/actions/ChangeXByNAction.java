@@ -34,11 +34,14 @@ public class ChangeXByNAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		float newX;
+		Float newX;
 		try {
-			newX = xMovement.interpretFloat(sprite);
+			newX = xMovement == null ? 0f : xMovement.interpretFloat(sprite);
+			if (newX.isNaN()) {
+				return;
+			}
 		} catch (Exception exception) {
-			newX = 0;
+			return;
 		}
 		sprite.look.changeXInUserInterfaceDimensionUnit(newX);
 	}

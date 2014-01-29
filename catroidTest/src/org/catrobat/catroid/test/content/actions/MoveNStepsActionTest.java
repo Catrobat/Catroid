@@ -121,13 +121,23 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 
 	}
 
-	public void testValidStringFormula() {
+	public void testBrickWithValidStringFormula() {
 		Action moveNStepsAction = ExtendedActions.moveNSteps(sprite, new Formula(String.valueOf(steps)));
 		executeTest(moveNStepsAction, steps, 0);
 	}
 
-	public void testInValidStringFormula() {
+	public void testBrickWithInValidStringFormula() {
 		Action moveNStepsAction = ExtendedActions.moveNSteps(sprite, new Formula(NOT_NUMERICAL_STRING));
+		executeTest(moveNStepsAction, 0f, 0);
+	}
+
+	public void testNullFormula() {
+		Action moveNStepsAction = ExtendedActions.moveNSteps(sprite, null);
+		executeTest(moveNStepsAction, 0f, 0);
+	}
+
+	public void testNotANumberFormula() {
+		Action moveNStepsAction = ExtendedActions.moveNSteps(sprite, new Formula(Double.NaN));
 		executeTest(moveNStepsAction, 0f, 0);
 	}
 

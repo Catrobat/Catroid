@@ -72,7 +72,7 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 		}
 	}
 
-	public void testStringFormula() {
+	public void testBrickWithStringFormula() {
 		Sprite sprite = new Sprite("testSprite");
 		ChangeBrightnessByNAction action = ExtendedActions.changeBrightnessByN(sprite,
 				new Formula(String.valueOf(CHANGE_VALUE)));
@@ -84,5 +84,22 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 		action.act(1.0f);
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", INITIALIZED_VALUE
 				+ CHANGE_VALUE, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
+
+	}
+
+	public void testNullFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		ChangeBrightnessByNAction action = ExtendedActions.changeBrightnessByN(sprite, null);
+		action.act(1.0f);
+		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", 100f,
+				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
+	}
+
+	public void testNotANumberFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		ChangeBrightnessByNAction action = ExtendedActions.changeBrightnessByN(sprite, new Formula(Double.NaN));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", 100f,
+				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 }

@@ -219,7 +219,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
 	}
 
-	public void testValidStringFormula() {
+	public void testBrickWithValidStringFormula() {
 		testSprite.removeAllScripts();
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
@@ -258,7 +258,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
 	}
 
-	public void testInValidStringFormula() {
+	public void testBrickWithInValidStringFormula() {
 		testSprite.removeAllScripts();
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
@@ -276,6 +276,78 @@ public class IfLogicActionTest extends AndroidTestCase {
 
 		testScript = new StartScript(testSprite);
 		ifLogicBeginBrick = new IfLogicBeginBrick(testSprite, invalidFormula);
+		ifLogicElseBrick = new IfLogicElseBrick(testSprite, ifLogicBeginBrick);
+		ifLogicEndBrick = new IfLogicEndBrick(testSprite, ifLogicElseBrick, ifLogicBeginBrick);
+		testScript.addBrick(ifLogicBeginBrick);
+		testScript.addBrick(setVariableBrickIfTrue);
+		testScript.addBrick(ifLogicElseBrick);
+		testScript.addBrick(setVariableBrickIfFalse);
+		testScript.addBrick(ifLogicEndBrick);
+		testSprite.addScript(testScript);
+		project.addSprite(testSprite);
+		ProjectManager.getInstance().setCurrentSprite(testSprite);
+		ProjectManager.getInstance().setCurrentScript(testScript);
+		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		testSprite.look.act(1f);
+		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.getUserVariable(TEST_USERVARIABLE, null);
+
+		assertEquals("IfBrick not executed as expected", 0.0, userVariable.getValue());
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
+	}
+
+	public void testNullFormula() {
+		testSprite.removeAllScripts();
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().addProjectUserVariable(TEST_USERVARIABLE);
+		UserVariable userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.getUserVariable(TEST_USERVARIABLE, null);
+
+		SetVariableBrick setVariableBrickIfTrue = new SetVariableBrick(testSprite, new Formula(IF_TRUE_VALUE),
+				userVariable);
+		SetVariableBrick setVariableBrickIfFalse = new SetVariableBrick(testSprite, new Formula(IF_FALSE_VALUE),
+				userVariable);
+
+		testScript = new StartScript(testSprite);
+		ifLogicBeginBrick = new IfLogicBeginBrick(testSprite, null);
+		ifLogicElseBrick = new IfLogicElseBrick(testSprite, ifLogicBeginBrick);
+		ifLogicEndBrick = new IfLogicEndBrick(testSprite, ifLogicElseBrick, ifLogicBeginBrick);
+		testScript.addBrick(ifLogicBeginBrick);
+		testScript.addBrick(setVariableBrickIfTrue);
+		testScript.addBrick(ifLogicElseBrick);
+		testScript.addBrick(setVariableBrickIfFalse);
+		testScript.addBrick(ifLogicEndBrick);
+		testSprite.addScript(testScript);
+		project.addSprite(testSprite);
+		ProjectManager.getInstance().setCurrentSprite(testSprite);
+		ProjectManager.getInstance().setCurrentScript(testScript);
+		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		testSprite.look.act(1f);
+		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.getUserVariable(TEST_USERVARIABLE, null);
+
+		assertEquals("IfBrick not executed as expected", 0.0, userVariable.getValue());
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
+	}
+
+	public void testNotANumberFormula() {
+		testSprite.removeAllScripts();
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().addProjectUserVariable(TEST_USERVARIABLE);
+		UserVariable userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.getUserVariable(TEST_USERVARIABLE, null);
+
+		SetVariableBrick setVariableBrickIfTrue = new SetVariableBrick(testSprite, new Formula(IF_TRUE_VALUE),
+				userVariable);
+		SetVariableBrick setVariableBrickIfFalse = new SetVariableBrick(testSprite, new Formula(IF_FALSE_VALUE),
+				userVariable);
+
+		testScript = new StartScript(testSprite);
+		ifLogicBeginBrick = new IfLogicBeginBrick(testSprite, new Formula(Double.NaN));
 		ifLogicElseBrick = new IfLogicElseBrick(testSprite, ifLogicBeginBrick);
 		ifLogicEndBrick = new IfLogicEndBrick(testSprite, ifLogicElseBrick, ifLogicBeginBrick);
 		testScript.addBrick(ifLogicBeginBrick);

@@ -65,7 +65,7 @@ public class WaitActionTest extends AndroidTestCase {
 		assertTrue("Unexpected waited time!", (action.getTime() - waitOneSecond) > 0.5f);
 	}
 
-	public void testStringFormula() {
+	public void testBrickWithStringFormula() {
 		WaitAction action = ExtendedActions.delay(null, new Formula(String.valueOf(VALUE)));
 		long currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
@@ -75,6 +75,24 @@ public class WaitActionTest extends AndroidTestCase {
 
 		action = ExtendedActions.delay(null, new Formula(NOT_NUMERICAL_STRING));
 		currentTimeInMilliSeconds = System.currentTimeMillis();
+		do {
+			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
+		} while (!action.act(currentTimeInMilliSeconds / 1000f));
+		assertTrue("Unexpected waited time!", action.getTime() == 0f);
+	}
+
+	public void testNullFormula() {
+		WaitAction action = ExtendedActions.delay(null, null);
+		long currentTimeInMilliSeconds = System.currentTimeMillis();
+		do {
+			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
+		} while (!action.act(currentTimeInMilliSeconds / 1000f));
+		assertTrue("Unexpected waited time!", action.getTime() == 0f);
+	}
+
+	public void testNotANumberFormula() {
+		WaitAction action = ExtendedActions.delay(null, new Formula(Double.NaN));
+		long currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
 		} while (!action.act(currentTimeInMilliSeconds / 1000f));

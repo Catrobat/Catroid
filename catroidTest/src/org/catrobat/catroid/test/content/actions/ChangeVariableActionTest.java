@@ -126,4 +126,37 @@ public class ChangeVariableActionTest extends AndroidTestCase {
 				.getUserVariable(TEST_USERVARIABLE, null);
 		assertEquals("UserVariable should not have changed!", INITIALIZED_VALUE, userVariable.getValue());
 	}
+
+	public void testNullFormula() {
+		UserVariable userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.getUserVariable(TEST_USERVARIABLE, null);
+
+		ChangeVariableBrick changeVariableBrick = new ChangeVariableBrick(testSprite, null, userVariable);
+		testScript.addBrick(changeVariableBrick);
+		testSprite.addScript(testScript);
+		project.addSprite(testSprite);
+		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		testSprite.look.act(1f);
+
+		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.getUserVariable(TEST_USERVARIABLE, null);
+		assertEquals("UserVariable should not have changed!", INITIALIZED_VALUE, userVariable.getValue());
+	}
+
+	public void testNotANumberFormula() {
+		UserVariable userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.getUserVariable(TEST_USERVARIABLE, null);
+
+		ChangeVariableBrick changeVariableBrick = new ChangeVariableBrick(testSprite, new Formula(Double.NaN),
+				userVariable);
+		testScript.addBrick(changeVariableBrick);
+		testSprite.addScript(testScript);
+		project.addSprite(testSprite);
+		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		testSprite.look.act(1f);
+
+		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.getUserVariable(TEST_USERVARIABLE, null);
+		assertEquals("UserVariable should not have changed!", INITIALIZED_VALUE, userVariable.getValue());
+	}
 }

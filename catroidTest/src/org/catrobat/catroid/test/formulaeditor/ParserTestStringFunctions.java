@@ -32,9 +32,11 @@ import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
+import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class ParserTestStringFunctions extends AndroidTestCase {
@@ -76,6 +78,12 @@ public class ParserTestStringFunctions extends AndroidTestCase {
 
 		FormulaEditorUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_VARIABLE,
 				PROJECT_USER_VARIABLE_NAME2, (double) USER_VARIABLE_2_VALUE_TYPE_STRING.length(), testSprite);
+
+		List<InternToken> firstParameterList = new LinkedList<InternToken>();
+		firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
+				InternTokenType.STRING, "datString");
+		FormulaEditorUtil.testSingleParameterFunction(Functions.LENGTH, firstParameterList, 0d, testSprite);
+
 	}
 
 	public void testLetter() {
@@ -107,24 +115,6 @@ public class ParserTestStringFunctions extends AndroidTestCase {
 				String.valueOf(letterString.charAt(Integer.valueOf(index) - 1)), InternTokenType.STRING, letterString,
 				emptyString, testSprite);
 
-		String firstParameter = "hello";
-		String secondParameter = " world";
-		List<InternToken> internTokenList = FormulaEditorUtil.buildDoubleParameterFunction(Functions.JOIN,
-				InternTokenType.STRING, firstParameter, InternTokenType.STRING, secondParameter);
-		internTokenList = FormulaEditorUtil.buildSingleParameterFunction(Functions.LENGTH, internTokenList);
-		internTokenList = FormulaEditorUtil.buildDoubleParameterFunction(Functions.LETTER, internTokenList,
-				InternTokenType.STRING, firstParameter + secondParameter);
-		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
-		assertNotNull("Formula is not parsed correctly: " + Functions.LETTER.name() + "(" + Functions.LENGTH.name()
-				+ "(" + Functions.JOIN.name() + "(" + firstParameter + "," + secondParameter + ")" + ")" + ","
-				+ firstParameter + secondParameter + ")", parseTree);
-		assertEquals(
-				"Formula interpretation is not as expected: " + Functions.LETTER.name() + "(" + Functions.LENGTH.name()
-						+ "(" + Functions.JOIN.name() + "(" + firstParameter + "," + secondParameter + ")" + ")" + ","
-						+ firstParameter + secondParameter + ")", String.valueOf((firstParameter + secondParameter)
-						.charAt((firstParameter + secondParameter).length() - 1)),
-				parseTree.interpretRecursive(testSprite));
-
 		index = "4";
 		FormulaEditorUtil.testDoubleParameterFunction(Functions.LETTER, InternTokenType.NUMBER, index,
 				InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME,
@@ -136,6 +126,14 @@ public class ParserTestStringFunctions extends AndroidTestCase {
 				InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME2,
 				String.valueOf(USER_VARIABLE_2_VALUE_TYPE_STRING.charAt(Integer.valueOf(index) - 1)), testSprite);
 
+		List<InternToken> firstParameterList = new LinkedList<InternToken>();
+		List<InternToken> secondParameterList = new LinkedList<InternToken>();
+		firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
+				InternTokenType.STRING, "datString");
+		secondParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.MULT,
+				InternTokenType.STRING, "anotherString");
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.LETTER, firstParameterList, secondParameterList, "",
+				testSprite);
 	}
 
 	public void testJoin() {
@@ -176,6 +174,38 @@ public class ParserTestStringFunctions extends AndroidTestCase {
 		FormulaEditorUtil.testDoubleParameterFunction(Functions.JOIN, InternTokenType.USER_VARIABLE,
 				PROJECT_USER_VARIABLE_NAME, InternTokenType.STRING, secondParameter, USER_VARIABLE_1_VALUE_TYPE_DOUBLE
 						+ secondParameter, testSprite);
+
+		List<InternToken> firstParameterList = new LinkedList<InternToken>();
+		List<InternToken> secondParameterList = new LinkedList<InternToken>();
+		firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
+				InternTokenType.STRING, "datString");
+		secondParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.MULT,
+				InternTokenType.STRING, "anotherString");
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.JOIN, firstParameterList, secondParameterList, ""
+				+ Double.NaN + Double.NaN, testSprite);
 	}
 
+	public void testStringFunctionsNested() {
+		String firstParameter = "hello";
+		String secondParameter = " world";
+		List<InternToken> joinTokenList = FormulaEditorUtil.buildDoubleParameterFunction(Functions.JOIN,
+				InternTokenType.STRING, firstParameter, InternTokenType.STRING, secondParameter);
+		List<InternToken> lengthTokenList = FormulaEditorUtil.buildSingleParameterFunction(Functions.LENGTH,
+				joinTokenList);
+		List<InternToken> secondInternTokenList = new LinkedList<InternToken>();
+		secondInternTokenList.add(new InternToken(InternTokenType.STRING, firstParameter + secondParameter));
+		List<InternToken> letterTokenList = FormulaEditorUtil.buildDoubleParameterFunction(Functions.LETTER,
+				lengthTokenList, secondInternTokenList);
+		FormulaElement parseTree = new InternFormulaParser(letterTokenList).parseFormula();
+
+		assertNotNull("Formula is not parsed correctly: " + Functions.LETTER.name() + "(" + Functions.LENGTH.name()
+				+ "(" + Functions.JOIN.name() + "(" + firstParameter + "," + secondParameter + ")" + ")" + ","
+				+ firstParameter + secondParameter + ")", parseTree);
+		assertEquals(
+				"Formula interpretation is not as expected: " + Functions.LETTER.name() + "(" + Functions.LENGTH.name()
+						+ "(" + Functions.JOIN.name() + "(" + firstParameter + "," + secondParameter + ")" + ")" + ","
+						+ firstParameter + secondParameter + ")", String.valueOf((firstParameter + secondParameter)
+						.charAt((firstParameter + secondParameter).length() - 1)),
+				parseTree.interpretRecursive(testSprite));
+	}
 }

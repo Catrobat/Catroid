@@ -141,9 +141,10 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertEquals("Size was not deserialized right", size,
 				actualSize.interpretFloat(postSpriteList.get(1)));
 		assertEquals("XPosition was not deserialized right", xPosition,
-				actualXPosition.interpretInteger(postSpriteList.get(2)));
+				actualXPosition.interpretInteger(postSpriteList.get(2)).intValue());
 		assertEquals("YPosition was not deserialized right", yPosition,
-				actualYPosition.interpretInteger(postSpriteList.get(2)));
+				actualYPosition.interpretInteger(postSpriteList.get(2)).intValue());
+
 
 		assertFalse("paused should not be set in script", preSpriteList.get(1).getScript(0).isPaused());
 

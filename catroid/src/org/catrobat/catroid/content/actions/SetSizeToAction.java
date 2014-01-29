@@ -34,9 +34,12 @@ public class SetSizeToAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		float newSize = 0;
+		Float newSize;
 		try {
-			newSize = size.interpretFloat(sprite);
+			newSize = size == null ? 0f : size.interpretFloat(sprite);
+			if (newSize.isNaN()) {
+				return;
+			}
 		} catch (Exception exception) {
 			newSize = sprite.look.getSizeInUserInterfaceDimensionUnit();
 		}

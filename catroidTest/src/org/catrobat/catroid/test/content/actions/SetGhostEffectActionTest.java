@@ -65,7 +65,7 @@ public class SetGhostEffectActionTest extends InstrumentationTestCase {
 		}
 	}
 
-	public void testStringFormula() {
+	public void testBrickWithStringFormula() {
 		Sprite sprite = new Sprite("testSprite");
 		SetGhostEffectAction action = ExtendedActions.setGhostEffect(sprite, new Formula(String.valueOf(VALUE)));
 		action.act(1.0f);
@@ -75,6 +75,23 @@ public class SetGhostEffectActionTest extends InstrumentationTestCase {
 		action = ExtendedActions.setGhostEffect(sprite, new Formula(NOT_NUMERICAL_STRING));
 		action.act(1.0f);
 		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", VALUE,
+				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
+	}
+
+	public void testNullFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		SetGhostEffectAction action = ExtendedActions.setGhostEffect(sprite, null);
+		action.act(1.0f);
+		assertEquals("Incorrect sprite size value after SetGhostEffectBrick executed", 0f,
+				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
+
+	}
+
+	public void testNotANumberFormula() {
+		Sprite sprite = new Sprite("testSprite");
+		SetGhostEffectAction action = ExtendedActions.setGhostEffect(sprite, new Formula(Double.NaN));
+		action.act(1.0f);
+		assertEquals("Incorrect sprite size value after SetGhostEffectBrick executed", 0f,
 				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 }
