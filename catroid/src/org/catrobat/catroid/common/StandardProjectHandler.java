@@ -555,6 +555,8 @@ public final class StandardProjectHandler {
 		Sprite background = defaultProject.getSpriteList().get(0);
 
 		Sprite ball = new Sprite("Ball");
+		Sprite ball2 = new Sprite("Ball2");
+		Sprite ball3 = new Sprite("Ball3");
 
 		Sprite leftButton = new Sprite("Left button");
 		Sprite rightButton = new Sprite("Right button");
@@ -587,11 +589,12 @@ public final class StandardProjectHandler {
 
 		// Background
 		createElement(background, "background_480_800", R.drawable.background_480_800, new Vector2(), Float.NaN);
+
+		// Ball
 		StartScript startScript = new StartScript(ball);
 		startScript.addBrick(new SetGravityBrick(ball, new Vector2(0.0f, -8.0f)));
 		ball.addScript(startScript);
 
-		// Ball
 		Script ballStartScript = createElement(ball, "pinball", R.drawable.pinball, new Vector2(-200.0f, 300.0f),
 				Float.NaN);
 		setPhysicProperties(ball, ballStartScript, PhysicsObject.Type.DYNAMIC, 20.0f, 80.0f);
@@ -609,6 +612,52 @@ public final class StandardProjectHandler {
 		ballSetLookBrick.setLook(ball.getLookDataList().get(0));
 		ballBroadcastScript.addBrick(ballSetLookBrick);
 		ball.addScript(ballBroadcastScript);
+
+		// Ball2
+		StartScript startScript2 = new StartScript(ball2);
+		startScript2.addBrick(new SetGravityBrick(ball2, new Vector2(0.0f, -8.0f)));
+		ball2.addScript(startScript2);
+
+		Script ballStartScript2 = createElement(ball2, "pinball", R.drawable.pinball, new Vector2(-200.0f, 300.0f),
+				Float.NaN);
+		setPhysicProperties(ball2, ballStartScript2, PhysicsObject.Type.DYNAMIC, 20.0f, 80.0f);
+
+		// Ball v2
+		String ballBroadcastMessage2 = "restart ball2";
+		BroadcastBrick ballBroadcastBrick2 = new BroadcastBrick(ball2, ballBroadcastMessage2);
+		ballStartScript2.addBrick(ballBroadcastBrick2);
+		ball2.addScript(ballStartScript2);
+
+		BroadcastScript ballBroadcastScript2 = new BroadcastScript(ball2, ballBroadcastMessage2);
+		ballBroadcastScript2.addBrick(new PlaceAtBrick(ball2, -100, 300));
+		ballBroadcastScript2.addBrick(new SetVelocityBrick(ball2, new Vector2()));
+		SetLookBrick ballSetLookBrick2 = new SetLookBrick(ball2);
+		ballSetLookBrick2.setLook(ball2.getLookDataList().get(0));
+		ballBroadcastScript2.addBrick(ballSetLookBrick);
+		ball2.addScript(ballBroadcastScript2);
+
+		// Ball3
+		StartScript startScript3 = new StartScript(ball3);
+		startScript3.addBrick(new SetGravityBrick(ball3, new Vector2(0.0f, -8.0f)));
+		ball3.addScript(startScript3);
+
+		Script ballStartScript3 = createElement(ball3, "pinball", R.drawable.pinball, new Vector2(-200.0f, 300.0f),
+				Float.NaN);
+		setPhysicProperties(ball3, ballStartScript3, PhysicsObject.Type.DYNAMIC, 20.0f, 80.0f);
+
+		// ball3 v2
+		String ballBroadcastMessage3 = "restart ball3";
+		BroadcastBrick ballBroadcastBrick3 = new BroadcastBrick(ball3, ballBroadcastMessage3);
+		ballStartScript3.addBrick(ballBroadcastBrick3);
+		ball3.addScript(ballStartScript3);
+
+		BroadcastScript ballBroadcastScript3 = new BroadcastScript(ball3, ballBroadcastMessage3);
+		ballBroadcastScript3.addBrick(new PlaceAtBrick(ball3, 0, 300));
+		ballBroadcastScript3.addBrick(new SetVelocityBrick(ball3, new Vector2()));
+		SetLookBrick ballSetLookBrick3 = new SetLookBrick(ball3);
+		ballSetLookBrick3.setLook(ball3.getLookDataList().get(0));
+		ballBroadcastScript3.addBrick(ballSetLookBrick3);
+		ball3.addScript(ballBroadcastScript3);
 
 		// Buttons
 		createElement(leftButton, "button", R.drawable.button, new Vector2(-175.0f, -330.0f), Float.NaN);
@@ -693,6 +742,8 @@ public final class StandardProjectHandler {
 		defaultProject.addSprite(leftButton);
 		defaultProject.addSprite(rightButton);
 		defaultProject.addSprite(ball);
+		defaultProject.addSprite(ball2);
+		defaultProject.addSprite(ball3);
 		defaultProject.addSprite(leftArm);
 		defaultProject.addSprite(rightArm);
 		defaultProject.addSprite(middleBouncer);
