@@ -509,7 +509,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	public void addLookChooseImage() {
-		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+		Intent intent = new Intent(Intent.ACTION_PICK);
 
 		Bundle bundleForPocketCode = new Bundle();
 		bundleForPocketCode.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, "");
