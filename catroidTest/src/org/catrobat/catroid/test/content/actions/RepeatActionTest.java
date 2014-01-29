@@ -30,7 +30,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
@@ -39,6 +38,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Sensors;
+import org.catrobat.catroid.physic.content.ActionFactory;
 import org.catrobat.catroid.test.utils.Reflection;
 
 import java.util.HashMap;
@@ -171,9 +171,14 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	}
 
 	public void testNegativeRepeats() throws InterruptedException {
+		Sprite testSprite = new Sprite("sprite");
+
 		RepeatBrick repeatBrick = new RepeatBrick(-1);
-		SequenceAction sequence = ExtendedActions.sequence();
+
+		ActionFactory factory = testSprite.getActionFactory();
+		SequenceAction sequence = factory.createSequence();
 		repeatBrick.addActionToSequence(testSprite, sequence);
+
 		RepeatAction repeatAction = (RepeatAction) sequence.getActions().get(0);
 		boolean wait = false;
 		while (!wait) {
@@ -188,13 +193,19 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		final int decoyDeltaY = -150;
 		final int expectedDeltaY = 150;
 
-		RepeatAction repeatAction = ExtendedActions.repeat(testSprite, new Formula(0),
-				ExtendedActions.sequence(ExtendedActions.changeYByN(testSprite, new Formula(decoyDeltaY))));
-		SequenceAction action = ExtendedActions.sequence(repeatAction,
-				ExtendedActions.changeYByN(testSprite, new Formula(expectedDeltaY)));
-		boolean wait = false;
-		while (!wait) {
-			wait = action.act(1.0f);
+		ActionFactory factory = testSprite.getActionFactory();
+		Action changeYByNAction = factory.createChangeYByNAction(testSprite, new Formula(decoyDeltaY));
+		Action expected = factory.createChangeYByNAction(testSprite, new Formula(expectedDeltaY));
+		Action repeatAction = factory.createRepeatAction(testSprite, new Formula(0), changeYByNAction);
+
+		//		RepeatAction repeatAction = ExtendedActions.repeat(testSprite, new Formula(0),
+		//				ExtendedActions.sequence(ExtendedActions.changeYByN(testSprite, new Formula(decoyDeltaY))));
+
+		Action sequence = factory.createSequence();
+		sequence.getActor().addAction(expected);
+		//		SequenceAction action = ExtendedActions.sequence(repeatAction,
+		//				ExtendedActions.changeYByN(testSprite, new Formula(expectedDeltaY)));
+		while (!sequence.act(1.0f)) {
 		}
 		int executedCount = (Integer) Reflection.getPrivateField(repeatAction, "executedCount");
 
@@ -214,8 +225,8 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	}
 
 	public void testNullFormula() {
-		Action repeatedAction = ExtendedActions.setX(testSprite, new Formula(10));
-		Action repeatAction = ExtendedActions.repeat(testSprite, null, repeatedAction);
+		Action repeatedAction = testSprite.getActionFactory().createSetXAction(testSprite, new Formula(10));
+		Action repeatAction = testSprite.getActionFactory().createRepeatAction(testSprite, null, repeatedAction);
 		repeatAction.act(1.0f);
 		Object repeatCountValue = Reflection.getPrivateField(repeatAction, "repeatCountValue");
 		assertEquals("Null Formula should not have been possible to interpret!", 0 , repeatCountValue);

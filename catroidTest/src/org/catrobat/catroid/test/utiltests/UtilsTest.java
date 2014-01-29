@@ -180,7 +180,9 @@ public class UtilsTest extends AndroidTestCase {
 		ScreenValues.SCREEN_HEIGHT = 800;
 
 		try {
-			standardProject = StandardProjectHandler.createAndSaveStandardProject(NEW_PROGRAM_NAME, getContext());
+			//standardProject = StandardProjectHandler.createAndSaveStandardProject(NEW_PROGRAM_NAME, getContext());
+			standardProject = StandardProjectHandler.createAndSaveStandardProject(getContext());
+			standardProject.setName(NEW_PROGRAM_NAME);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			fail("error creating standard project");

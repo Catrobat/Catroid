@@ -693,8 +693,9 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	public void testBackgroundBricks() {
 		Project standardProject = null;
 		try {
-			standardProject = StandardProjectHandler.createAndSaveStandardProject(
-					UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getInstrumentation().getTargetContext());
+			standardProject = StandardProjectHandler.createAndSaveStandardProject(getInstrumentation()
+					.getTargetContext());
+			standardProject.setName(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		} catch (IOException e) {
 			fail("Could not create standard project");
 			e.printStackTrace();
