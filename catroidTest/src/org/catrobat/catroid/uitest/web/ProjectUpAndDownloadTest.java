@@ -475,8 +475,9 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		try {
 			ProjectManager.getInstance().loadProject(standardProjectName, getActivity(), false);
 			ProjectManager.getInstance().deleteCurrentProject();
-			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
-					getInstrumentation().getTargetContext());
+			standardProject = StandardProjectHandler.createAndSaveStandardProject(getInstrumentation()
+					.getTargetContext());
+			standardProject.setName(standardProjectName);
 		} catch (IOException e) {
 			e.printStackTrace();
 			fail("Standard project not created");
