@@ -24,12 +24,9 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
@@ -38,15 +35,17 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class NoteBrick extends BrickBaseType {
+public class NoteBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
-	private String note = "";
+	private Formula note;
 
 	private transient View prototypeView;
 
@@ -55,6 +54,10 @@ public class NoteBrick extends BrickBaseType {
 	}
 
 	public NoteBrick(String note) {
+		this.note = new Formula(note);
+	}
+
+	public NoteBrick(Formula note) {
 		this.note = note;
 	}
 
@@ -62,10 +65,6 @@ public class NoteBrick extends BrickBaseType {
 	public Brick copyBrickForSprite(Sprite sprite) {
 		NoteBrick copyBrick = (NoteBrick) clone();
 		return copyBrick;
-	}
-
-	public String getNote() {
-		return this.note;
 	}
 
 	@Override
@@ -90,65 +89,13 @@ public class NoteBrick extends BrickBaseType {
 
 		TextView textHolder = (TextView) view.findViewById(R.id.brick_note_prototype_text_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_note_edit_text);
-		textField.setText(note);
+		textField.setText(note.interpretString(sprite));
+		note.setTextFieldId(R.id.brick_note_edit_text);
+		note.refreshTextField(view);
 
 		textHolder.setVisibility(View.GONE);
 		textField.setVisibility(View.VISIBLE);
-
-		textField.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View view) {
-				if (checkbox.getVisibility() == View.VISIBLE) {
-					return;
-				}
-				ScriptActivity activity = (ScriptActivity) view.getContext();
-
-				BrickTextDialog editDialog = new BrickTextDialog() {
-					@Override
-					protected void initialize() {
-						input.setText(note);
-						input.setSelectAllOnFocus(true);
-						inputTitle.setText(R.string.dialog_edit_note_text);
-					}
-
-					@Override
-					protected boolean getPositiveButtonEnabled() {
-						return true;
-					}
-
-					@Override
-					protected TextWatcher getInputTextChangedListener(Button buttonPositive) {
-						return new TextWatcher() {
-							@Override
-							public void onTextChanged(CharSequence s, int start, int before, int count) {
-							}
-
-							@Override
-							public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-							}
-
-							@Override
-							public void afterTextChanged(Editable s) {
-							}
-						};
-					}
-
-					@Override
-					protected boolean handleOkButton() {
-						note = (input.getText().toString()).trim();
-						return true;
-					}
-
-					@Override
-					protected String getTitle() {
-						return getString(R.string.dialog_edit_note_title);
-					}
-				};
-
-				editDialog.show(activity.getSupportFragmentManager(), "dialog_note_brick");
-			}
-		});
+		textField.setOnClickListener(this);
 
 		return view;
 	}
@@ -179,7 +126,7 @@ public class NoteBrick extends BrickBaseType {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_note, null);
 		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_note_prototype_text_view);
-		textSpeak.setText(note);
+		textSpeak.setText(note.interpretString(sprite));
 		return prototypeView;
 	}
 
@@ -191,5 +138,24 @@ public class NoteBrick extends BrickBaseType {
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		return null;
+	}
+
+	@Override
+	public Formula getFormula() {
+		return note;
+	}
+
+	@Override
+	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
+		switch (view.getId()) {
+			case R.id.brick_note_edit_text:
+				FormulaEditorFragment.showFragment(view, this, note);
+				break;
+			default:
+				break;
+		}
 	}
 }

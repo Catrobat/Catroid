@@ -36,7 +36,7 @@ public class SetBrightnessAction extends TemporalAction {
 	protected void update(float percent) {
 		Float newBrightness;
 		try {
-			newBrightness = brightness == null ? 0f : brightness.interpretFloat(sprite);
+			newBrightness = brightness == null ? Float.valueOf(0f) : brightness.interpretFloat(sprite);
 			if (newBrightness.isNaN()) {
 				return;
 			}

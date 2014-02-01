@@ -264,9 +264,9 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 						case R.id.formula_editor_keyboard_redo:
 							formulaEditorEditText.redo();
 							return true;
-						case R.id.formula_editor_keyboard_math:
-							showFormulaEditorListFragment(FormulaEditorListFragment.MATH_TAG,
-									R.string.formula_editor_math);
+						case R.id.formula_editor_keyboard_function:
+							showFormulaEditorListFragment(FormulaEditorListFragment.FUNCTION_TAG,
+									R.string.formula_editor_function);
 							return true;
 						case R.id.formula_editor_keyboard_logic:
 							showFormulaEditorListFragment(FormulaEditorListFragment.LOGIC_TAG,

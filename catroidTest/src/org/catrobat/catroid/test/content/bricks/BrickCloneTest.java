@@ -45,6 +45,7 @@ import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
+import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
@@ -54,6 +55,7 @@ import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
+import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
@@ -158,12 +160,21 @@ public class BrickCloneTest extends AndroidTestCase {
 		brick = new WaitBrick(BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.TIME_TO_WAIT_IN_SECONDS);
 
+
 		brick = new PlaceAtBrick(BRICK_FORMULA_VALUE, BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.X_POSITION, Brick.BrickField.Y_POSITION);
 
 		brick = new GlideToBrick(BRICK_FORMULA_VALUE, BRICK_FORMULA_VALUE, BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.X_DESTINATION, Brick.BrickField.Y_DESTINATION,
 				Brick.BrickField.DURATION_IN_SECONDS);
+
+		// TODO: Check if new BrickFields for  Note- and SpeakBrick are necessary.
+		brick = new NoteBrick(String.valueOf(BRICK_FORMULA_VALUE));
+		brickClone(brick, Brick.BrickField.X_POSITION);
+
+		brick = new SpeakBrick(String.valueOf(BRICK_FORMULA_VALUE));
+		brickClone(brick, Brick.BrickField.X_POSITION);
+
 	}
 
 	public void testVariableReferencesSetVariableBrick() throws Exception {
@@ -208,6 +219,7 @@ public class BrickCloneTest extends AndroidTestCase {
 		assertEquals("references should be the same", clonedVariable, clonedVariableFromBrick);
 	}
 
+<<<<<<< HEAD
 	private void brickClone(Brick brick, Brick.BrickField... brickFields) {
 		try {
 			Brick cloneBrick = brick.clone();
@@ -222,6 +234,53 @@ public class BrickCloneTest extends AndroidTestCase {
 			Log.e(TAG, Log.getStackTraceString(exception));
 			fail("cloning the brick failed");
 		}
+=======
+	private void brickClone(Brick brick, String formulaName) {
+		Brick cloneBrick = brick.clone();
+		Formula brickFormula = (Formula) Reflection.getPrivateField(brick, formulaName);
+		Formula cloneBrickFormula = (Formula) Reflection.getPrivateField(cloneBrick, formulaName);
+		cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
+		assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretObject(sprite),
+				cloneBrickFormula.interpretObject(sprite));
+	}
+
+	private void brickClone(Brick brick, String formulaName1, String formulaName2) {
+		Brick cloneBrick = brick.clone();
+		Formula brickFormula = (Formula) Reflection.getPrivateField(brick, formulaName1);
+		Formula cloneBrickFormula = (Formula) Reflection.getPrivateField(cloneBrick, formulaName1);
+		cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
+		assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretObject(sprite),
+				cloneBrickFormula.interpretObject(sprite));
+
+		brickFormula = (Formula) Reflection.getPrivateField(brick, formulaName2);
+		cloneBrickFormula = (Formula) Reflection.getPrivateField(cloneBrick, formulaName2);
+		cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
+		assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretObject(sprite),
+				cloneBrickFormula.interpretObject(sprite));
+	}
+
+	private void brickClone(Brick brick, String formulaName1, String formulaName2, String formulaName3) {
+		Brick cloneBrick = brick.clone();
+		Formula brickFormula = (Formula) Reflection.getPrivateField(brick, formulaName1);
+		Formula cloneBrickFormula = (Formula) Reflection.getPrivateField(cloneBrick, formulaName1);
+		cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
+		assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretObject(sprite),
+				cloneBrickFormula.interpretObject(sprite));
+
+		cloneBrick = brick.clone();
+		brickFormula = (Formula) Reflection.getPrivateField(brick, formulaName2);
+		cloneBrickFormula = (Formula) Reflection.getPrivateField(cloneBrick, formulaName2);
+		cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
+		assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretObject(sprite),
+				cloneBrickFormula.interpretObject(sprite));
+
+		cloneBrick = brick.clone();
+		brickFormula = (Formula) Reflection.getPrivateField(brick, formulaName3);
+		cloneBrickFormula = (Formula) Reflection.getPrivateField(cloneBrick, formulaName3);
+		cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
+		assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretObject(sprite),
+				cloneBrickFormula.interpretObject(sprite));
+>>>>>>> Note- and SpeakBrick now use FormulaEditor.
 	}
 
 }

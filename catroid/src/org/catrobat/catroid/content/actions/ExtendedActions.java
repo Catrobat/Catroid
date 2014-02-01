@@ -278,7 +278,8 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static SpeakAction speak(String text) {
+
+	public static SpeakAction speak(Formula text) {
 		SpeakAction action = action(SpeakAction.class);
 		action.setText(text);
 		return action;

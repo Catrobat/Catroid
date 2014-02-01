@@ -128,10 +128,10 @@
             android:text="@string/formula_editor_operator_mult" />
 
         <Button
-            android:id="@+id/formula_editor_keyboard_math"
+            android:id="@+id/formula_editor_keyboard_function"
             style="@style/FormulaEditorButton"
             android:layout_weight="0.30"
-            android:text="@string/formula_editor_math" />
+            android:text="@string/formula_editor_function" />
     </LinearLayout>
 
     <LinearLayout
@@ -222,17 +222,11 @@
             style="@style/FormulaEditorButton"
             android:layout_weight="0.175"
             android:text="@string/formula_editor_bracket_close" />
-
-        <Button
-            android:id="@+id/formula_editor_keyboard_random"
-            style="@style/FormulaEditorButton"
-            android:layout_weight="0.175"
-            android:text="@string/formula_editor_random" />
         
         <Button
             android:id="@+id/formula_editor_keyboard_string"
             style="@style/FormulaEditorButton"
-            android:layout_weight="0.175"
+            android:layout_weight="0.35"
             android:text="@string/formula_editor_string" />
 
         <Button

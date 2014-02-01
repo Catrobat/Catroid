@@ -37,7 +37,7 @@ public class SetVolumeToAction extends TemporalAction {
 	protected void update(float percent) {
 		Float newVolume;
 		try {
-			newVolume = volume == null ? 0f : volume.interpretFloat(sprite);
+			newVolume = volume == null ? Float.valueOf(0f) : volume.interpretFloat(sprite);
 			if (newVolume.isNaN()) {
 				return;
 			}

@@ -26,6 +26,7 @@ import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
@@ -305,6 +306,12 @@ public class ParserTestOperators extends AndroidTestCase {
 		secondOperand = "3.14";
 		FormulaEditorUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.PLUS,
 				InternTokenType.NUMBER, secondOperand, Double.NaN, testSprite);
+
+		List<InternToken> first = FormulaEditorUtil.buildDoubleParameterFunction(Functions.JOIN,
+				InternTokenType.STRING, "FreeYour", InternTokenType.STRING, "Mind");
+		List<InternToken> second = new LinkedList<InternToken>();
+		second.add(new InternToken(InternTokenType.NUMBER, "1"));
+		FormulaEditorUtil.testBinaryOperator(first, Operators.PLUS, second, Double.NaN, testSprite);
 	}
 
 	public void testDivision() {
@@ -327,6 +334,12 @@ public class ParserTestOperators extends AndroidTestCase {
 		secondOperand = "3.14";
 		FormulaEditorUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.DIVIDE,
 				InternTokenType.NUMBER, secondOperand, Double.NaN, testSprite);
+
+		List<InternToken> first = FormulaEditorUtil.buildDoubleParameterFunction(Functions.JOIN,
+				InternTokenType.STRING, "FreeYour", InternTokenType.STRING, "Mind");
+		List<InternToken> second = new LinkedList<InternToken>();
+		second.add(new InternToken(InternTokenType.NUMBER, "1"));
+		FormulaEditorUtil.testBinaryOperator(first, Operators.DIVIDE, second, Double.NaN, testSprite);
 	}
 
 	public void testMultiplication() {
@@ -349,6 +362,12 @@ public class ParserTestOperators extends AndroidTestCase {
 		secondOperand = "3.14";
 		FormulaEditorUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.MULT,
 				InternTokenType.NUMBER, secondOperand, Double.NaN, testSprite);
+
+		List<InternToken> first = FormulaEditorUtil.buildDoubleParameterFunction(Functions.JOIN,
+				InternTokenType.STRING, "FreeYour", InternTokenType.STRING, "Mind");
+		List<InternToken> second = new LinkedList<InternToken>();
+		second.add(new InternToken(InternTokenType.NUMBER, "1"));
+		FormulaEditorUtil.testBinaryOperator(first, Operators.MULT, second, Double.NaN, testSprite);
 	}
 
 	public void testSubstraction() {
@@ -371,5 +390,11 @@ public class ParserTestOperators extends AndroidTestCase {
 		secondOperand = "3.14";
 		FormulaEditorUtil.testBinaryOperator(InternTokenType.STRING, firstOperand, Operators.MINUS,
 				InternTokenType.NUMBER, secondOperand, Double.NaN, testSprite);
+
+		List<InternToken> first = FormulaEditorUtil.buildDoubleParameterFunction(Functions.JOIN,
+				InternTokenType.STRING, "FreeYour", InternTokenType.STRING, "Mind");
+		List<InternToken> second = new LinkedList<InternToken>();
+		second.add(new InternToken(InternTokenType.NUMBER, "1"));
+		FormulaEditorUtil.testBinaryOperator(first, Operators.MINUS, second, Double.NaN, testSprite);
 	}
 }

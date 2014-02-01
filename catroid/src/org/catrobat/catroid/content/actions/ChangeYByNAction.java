@@ -36,7 +36,7 @@ public class ChangeYByNAction extends TemporalAction {
 	protected void update(float arg0) {
 		Float newY;
 		try {
-			newY = yMovement == null ? 0f : yMovement.interpretFloat(sprite);
+			newY = yMovement == null ? Float.valueOf(0f) : yMovement.interpretFloat(sprite);
 			if (newY.isNaN()) {
 				return;
 			}

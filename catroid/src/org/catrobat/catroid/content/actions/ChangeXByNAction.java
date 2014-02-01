@@ -36,7 +36,7 @@ public class ChangeXByNAction extends TemporalAction {
 	protected void update(float percent) {
 		Float newX;
 		try {
-			newX = xMovement == null ? 0f : xMovement.interpretFloat(sprite);
+			newX = xMovement == null ? Float.valueOf(0f) : xMovement.interpretFloat(sprite);
 			if (newX.isNaN()) {
 				return;
 			}

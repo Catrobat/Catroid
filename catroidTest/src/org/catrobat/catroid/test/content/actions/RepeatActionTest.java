@@ -50,17 +50,20 @@ public class RepeatActionTest extends InstrumentationTestCase {
 
 	private static final int REPEAT_TIMES = 4;
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
+	private Sprite testSprite;
+	private Script testScript;
+	private int delta = 5;
 
 	@Override
 	protected void setUp() throws Exception {
+		testSprite = new Sprite("sprite");
+		testScript = new StartScript();
 	}
 
 	public void testLoopDelay() throws InterruptedException {
 		final int deltaY = -10;
 		final float delta = 0.005f;
 		final float delayByContract = 0.020f;
-		Sprite testSprite = new Sprite("sprite");
-		Script testScript = new StartScript();
 
 		RepeatBrick repeatBrick = new RepeatBrick(REPEAT_TIMES);
 		LoopEndBrick loopEndBrick = new LoopEndBrick(repeatBrick);
@@ -86,11 +89,10 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	}
 
 	public void testRepeatBrick() throws InterruptedException {
-		Sprite testSprite = new Sprite("sprite");
-		Script testScript = new StartScript();
 
 		RepeatBrick repeatBrick = new RepeatBrick(REPEAT_TIMES);
 		LoopEndBrick loopEndBrick = new LoopEndBrick(repeatBrick);
+
 		repeatBrick.setLoopEndBrick(loopEndBrick);
 
 		final int deltaY = -10;
@@ -111,12 +113,6 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	}
 
 	public void testRepeatCount() {
-		Project project = new Project(null, TestUtils.DEFAULT_TEST_PROJECT_NAME);
-		ProjectManager.getInstance().setProject(project);
-		Sprite testSprite = new Sprite("sprite");
-		ProjectManager.getInstance().setCurrentSprite(testSprite);
-		Script testScript = new StartScript();
-
 		Formula repeatFormula = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.OBJECT_Y.name(), null));
 		RepeatBrick repeatBrick = new RepeatBrick(repeatFormula);
 		LoopEndBrick loopEndBrick = new LoopEndBrick(repeatBrick);
@@ -143,11 +139,10 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	public void testNestedRepeatBrick() throws InterruptedException {
 		final int deltaY = -10;
 		final float delta = 0.005f;
-		Sprite testSprite = new Sprite("sprite");
-		Script testScript = new StartScript();
 
 		RepeatBrick repeatBrick = new RepeatBrick(REPEAT_TIMES);
 		LoopEndBrick loopEndBrick = new LoopEndBrick(repeatBrick);
+
 		repeatBrick.setLoopEndBrick(loopEndBrick);
 
 		RepeatBrick nestedRepeatBrick = new RepeatBrick(REPEAT_TIMES);
@@ -175,7 +170,6 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	}
 
 	public void testNegativeRepeats() throws InterruptedException {
-		Sprite testSprite = new Sprite("sprite");
 		RepeatBrick repeatBrick = new RepeatBrick(-1);
 		SequenceAction sequence = ExtendedActions.sequence();
 		repeatBrick.addActionToSequence(testSprite, sequence);
@@ -190,7 +184,6 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	}
 
 	public void testZeroRepeats() throws InterruptedException {
-		Sprite testSprite = new Sprite("sprite");
 		final int decoyDeltaY = -150;
 		final int expectedDeltaY = 150;
 
@@ -210,88 +203,31 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	}
 
 	public void testBrickWithValidStringFormula() {
-		Sprite testSprite = new Sprite("sprite");
-		Script testScript = new StartScript(testSprite);
 		Formula stringFormula = new Formula(String.valueOf(REPEAT_TIMES));
-		RepeatBrick repeatBrick = new RepeatBrick(testSprite, stringFormula);
-		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
-		repeatBrick.setLoopEndBrick(loopEndBrick);
-
-		final float startValue = testSprite.look.getYInUserInterfaceDimensionUnit();
-		final int deltaY = 5;
-
-		testScript.addBrick(repeatBrick);
-		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
-		testScript.addBrick(loopEndBrick);
-		testSprite.addScript(testScript);
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
-
-		while (!testSprite.look.getAllActionsAreFinished()) {
-			testSprite.look.act(1.0f);
-		}
-		assertEquals("Executed the wrong number of times!", startValue + deltaY * REPEAT_TIMES,
-				testSprite.look.getYInUserInterfaceDimensionUnit());
+		testWithFormula(stringFormula, testSprite.look.getYInUserInterfaceDimensionUnit() + delta * REPEAT_TIMES);
 	}
 
 	public void testBrickWithInValidStringFormula() {
-		Sprite testSprite = new Sprite("sprite");
-		Script testScript = new StartScript(testSprite);
 		Formula stringFormula = new Formula(String.valueOf(NOT_NUMERICAL_STRING));
-		RepeatBrick repeatBrick = new RepeatBrick(testSprite, stringFormula);
-		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
-		repeatBrick.setLoopEndBrick(loopEndBrick);
-
-		final float startValue = testSprite.look.getYInUserInterfaceDimensionUnit();
-		final int deltaY = 5;
-
-		testScript.addBrick(repeatBrick);
-		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
-		testScript.addBrick(loopEndBrick);
-		testSprite.addScript(testScript);
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
-
-		while (!testSprite.look.getAllActionsAreFinished()) {
-			testSprite.look.act(1.0f);
-		}
-		assertEquals("Executed the wrong number of times!", startValue,
-				testSprite.look.getYInUserInterfaceDimensionUnit());
+		testWithFormula(stringFormula, testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullFormula() {
-		Sprite testSprite = new Sprite("sprite");
-		Script testScript = new StartScript(testSprite);
-		RepeatBrick repeatBrick = new RepeatBrick(testSprite, null);
-		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
-		repeatBrick.setLoopEndBrick(loopEndBrick);
-
-		final float startValue = testSprite.look.getYInUserInterfaceDimensionUnit();
-		final int deltaY = 5;
-
-		testScript.addBrick(repeatBrick);
-		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
-		testScript.addBrick(loopEndBrick);
-		testSprite.addScript(testScript);
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
-
-		while (!testSprite.look.getAllActionsAreFinished()) {
-			testSprite.look.act(1.0f);
-		}
-		assertEquals("Executed the wrong number of times!", startValue,
-				testSprite.look.getYInUserInterfaceDimensionUnit());
+		testWithFormula(null, testSprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNotANumberFormula() {
-		Sprite testSprite = new Sprite("sprite");
-		Script testScript = new StartScript(new Sprite("sprite"));
-		RepeatBrick repeatBrick = new RepeatBrick(testSprite, new Formula(Double.NaN));
-		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
+		Formula notANumber = new Formula(Double.NaN);
+		testWithFormula(notANumber, testSprite.look.getYInUserInterfaceDimensionUnit());
+	}
+
+	private void testWithFormula(Formula formula, Float expected) {
+		RepeatBrick repeatBrick = new RepeatBrick(formula);
+		LoopEndBrick loopEndBrick = new LoopEndBrick(repeatBrick);
 		repeatBrick.setLoopEndBrick(loopEndBrick);
 
-		final float startValue = testSprite.look.getYInUserInterfaceDimensionUnit();
-		final int deltaY = 5;
-
 		testScript.addBrick(repeatBrick);
-		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
+		testScript.addBrick(new ChangeYByNBrick(delta));
 		testScript.addBrick(loopEndBrick);
 		testSprite.addScript(testScript);
 		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
@@ -299,7 +235,8 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		while (!testSprite.look.getAllActionsAreFinished()) {
 			testSprite.look.act(1.0f);
 		}
-		assertEquals("Executed the wrong number of times!", startValue,
+		assertEquals("Executed the wrong number of times!", expected,
 				testSprite.look.getYInUserInterfaceDimensionUnit());
+
 	}
 }

@@ -36,7 +36,7 @@ public class SetYAction extends TemporalAction {
 	protected void update(float delta) {
 		Float newY;
 		try {
-			newY = yPosition == null ? 0f : yPosition.interpretFloat(sprite);
+			newY = yPosition == null ? Float.valueOf(0f) : yPosition.interpretFloat(sprite);
 			if (newY.isNaN()) {
 				return;
 			}

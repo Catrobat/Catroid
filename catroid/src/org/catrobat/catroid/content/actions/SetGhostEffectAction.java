@@ -36,7 +36,7 @@ public class SetGhostEffectAction extends TemporalAction {
 	protected void update(float percent) {
 		Float newTransparency;
 		try {
-			newTransparency = transparency == null ? 0f : transparency.interpretFloat(sprite);
+			newTransparency = transparency == null ? Float.valueOf(0f) : transparency.interpretFloat(sprite);
 			if (newTransparency.isNaN()) {
 				return;
 			}

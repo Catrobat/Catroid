@@ -158,7 +158,8 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 				.getText().toString().substring(0, text.length() - 1));
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_random));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_function));
+		solo.clickOnText(solo.getString(R.string.formula_editor_function_rand));
 		assertEquals(
 				"Wrong button clicked",
 				solo.getString(R.string.formula_editor_function_rand) + "( 0 , 1 )",
@@ -274,7 +275,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 
 		EditText text = (EditText) solo.getView(R.id.formula_editor_edit_field);
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_function));
 		itemString = solo.getString(R.string.formula_editor_function_sin);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
@@ -282,7 +283,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_function));
 		itemString = solo.getString(R.string.formula_editor_function_cos);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
@@ -290,7 +291,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_function));
 		itemString = solo.getString(R.string.formula_editor_function_tan);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
@@ -298,7 +299,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_function));
 		itemString = solo.getString(R.string.formula_editor_function_ln);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
@@ -306,7 +307,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_function));
 		itemString = solo.getString(R.string.formula_editor_function_log);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
@@ -314,7 +315,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_function));
 		itemString = solo.getString(R.string.formula_editor_function_pi);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
@@ -322,7 +323,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_function));
 		itemString = solo.getString(R.string.formula_editor_function_sqrt);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
@@ -330,7 +331,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_function));
 
 		itemString = solo.getString(R.string.formula_editor_function_rand);
 		solo.clickOnText(itemString);
@@ -339,7 +340,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_function));
 		itemString = solo.getString(R.string.formula_editor_function_abs);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
@@ -347,7 +348,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_math));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_function));
 		itemString = solo.getString(R.string.formula_editor_function_round);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));

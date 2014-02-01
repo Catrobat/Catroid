@@ -64,7 +64,7 @@ public class NewStringDialog extends SherlockDialogFragment {
 				}).setPositiveButton(R.string.ok, new OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						handleOkButton(dialogView);
+						handleOkButton();
 					}
 				}).create();
 		newStringEditText = (EditText) dialogView.findViewById(R.id.formula_editor_string_name_edittext);
@@ -82,7 +82,7 @@ public class NewStringDialog extends SherlockDialogFragment {
 		return newStringDialog;
 	}
 
-	private void handleOkButton(View dialogView) {
+	private void handleOkButton() {
 		String stringName = newStringEditText.getText().toString();
 
 		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getSherlockActivity().getSupportFragmentManager()

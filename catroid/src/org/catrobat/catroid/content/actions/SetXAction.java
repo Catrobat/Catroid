@@ -36,7 +36,7 @@ public class SetXAction extends TemporalAction {
 	protected void update(float delta) {
 		Float newX;
 		try {
-			newX = xPosition == null ? 0f : xPosition.interpretFloat(sprite);
+			newX = xPosition == null ? Float.valueOf(0f) : xPosition.interpretFloat(sprite);
 			if (newX.isNaN()) {
 				return;
 			}

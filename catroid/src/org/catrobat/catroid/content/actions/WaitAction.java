@@ -36,7 +36,7 @@ public class WaitAction extends TemporalAction {
 	protected void begin() {
 		Float newDuration;
 		try {
-			newDuration = duration == null ? 0f : duration.interpretFloat(sprite);
+			newDuration = duration == null ? Float.valueOf(0f) : duration.interpretFloat(sprite);
 			if (newDuration.isNaN()) {
 				return;
 			}

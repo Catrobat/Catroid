@@ -36,7 +36,7 @@ public class ChangeSizeByNAction extends TemporalAction {
 	protected void update(float percent) {
 		Float newSize;
 		try {
-			newSize = size == null ? 0f : size.interpretFloat(sprite);
+			newSize = size == null ? Float.valueOf(0f) : size.interpretFloat(sprite);
 			if (newSize.isNaN()) {
 				return;
 			}

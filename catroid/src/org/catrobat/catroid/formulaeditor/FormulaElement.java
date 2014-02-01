@@ -221,7 +221,7 @@ public class FormulaElement implements Serializable {
 				return left instanceof String ? 0d : java.lang.Math.sqrt((Double) left);
 			case RAND:
 				right = rightChild.interpretRecursive(sprite);
-				return interpretFunctionRAND(right, left, sprite);
+				return interpretFunctionRAND(right, left);
 			case ABS:
 				return left instanceof String ? 0d : java.lang.Math.abs((Double) left);
 			case ROUND:
@@ -230,7 +230,7 @@ public class FormulaElement implements Serializable {
 				return java.lang.Math.PI;
 			case MOD:
 				right = rightChild.interpretRecursive(sprite);
-				return interpretFunctionMOD(right, left, sprite);
+				return interpretFunctionMOD(right, left);
 			case ARCSIN:
 				return left instanceof String ? 0d : java.lang.Math.toDegrees(Math.asin((Double) left));
 			case ARCCOS:
@@ -253,22 +253,21 @@ public class FormulaElement implements Serializable {
 				return 0d;
 			case LETTER:
 				right = rightChild.interpretRecursive(sprite);
-				return interpretFunctionLETTER(right, left, sprite);
+				return interpretFunctionLETTER(right, left);
 			case LENGTH:
 				return interpretFunctionLENGTH(left, sprite);
 			case JOIN:
-				return interpretFunctionJOIN(right, left, sprite);
+				return interpretFunctionJOIN(sprite);
 		}
 		return 0d;
 	}
 
-	private Object interpretFunctionJOIN(Object right, Object left, Sprite sprite) {
-		return interpretinterpretFunctionJOINParameter(leftChild, right, left, sprite)
-				+ interpretinterpretFunctionJOINParameter(rightChild, right, left, sprite);
+	private Object interpretFunctionJOIN(Sprite sprite) {
+		return interpretinterpretFunctionJOINParameter(leftChild, sprite)
+				+ interpretinterpretFunctionJOINParameter(rightChild, sprite);
 	}
 
-	private String interpretinterpretFunctionJOINParameter(FormulaElement child, Object right, Object left,
-			Sprite sprite) {
+	private String interpretinterpretFunctionJOINParameter(FormulaElement child, Sprite sprite) {
 		String parameterInterpretation = "";
 		if (child != null) {
 			if (child.getElementType() == ElementType.NUMBER) {
@@ -310,7 +309,7 @@ public class FormulaElement implements Serializable {
 		return (double) (String.valueOf(left)).length();
 	}
 
-	private Object interpretFunctionLETTER(Object right, Object left, Sprite sprite) {
+	private Object interpretFunctionLETTER(Object right, Object left) {
 		int index = ((Double) left).intValue() - 1;
 
 		if (index < 0) {
@@ -321,7 +320,7 @@ public class FormulaElement implements Serializable {
 		return String.valueOf(String.valueOf(right).charAt(index));
 	}
 
-	private Object interpretFunctionMOD(Object right, Object left, Sprite sprite) {
+	private Object interpretFunctionMOD(Object right, Object left) {
 
 		if (left instanceof String || right instanceof String) {
 			return 0d;
@@ -347,7 +346,7 @@ public class FormulaElement implements Serializable {
 		return dividend % divisor;
 	}
 
-	private Object interpretFunctionRAND(Object right, Object left, Sprite sprite) {
+	private Object interpretFunctionRAND(Object right, Object left) {
 		if (left instanceof String || right instanceof String) {
 			return 0d;
 		}
@@ -381,13 +380,13 @@ public class FormulaElement implements Serializable {
 			try {
 				leftObject = leftChild.interpretRecursive(sprite);
 			} catch (NumberFormatException numberFormatException) {
-				leftObject = new Double(Double.NaN);
+				leftObject = Double.valueOf(Double.NaN);
 			}
 
 			try {
 				rightObject = rightChild.interpretRecursive(sprite);
 			} catch (NumberFormatException numberFormatException) {
-				rightObject = new Double(Double.NaN);
+				rightObject = Double.valueOf(Double.NaN);
 			}
 
 			Double left;
@@ -574,7 +573,11 @@ public class FormulaElement implements Serializable {
 
 	private Double interpretOperator(Object object) {
 		if (object instanceof String) {
-			return Double.valueOf((String) object);
+			try {
+				return Double.valueOf((String) object);
+			} catch (NumberFormatException numberFormatException) {
+				return Double.NaN;
+			}
 		} else {
 			return (Double) object;
 		}

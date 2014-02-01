@@ -28,6 +28,8 @@ import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.utils.Utils;
@@ -38,35 +40,49 @@ import java.util.HashMap;
 @SuppressWarnings("deprecation")
 public class SpeakAction extends TemporalAction {
 
-	private String text;
+	private Formula text;
+	private Object interpretedText;
 	private String hashText;
+	private Sprite sprite;
 
 	private File speechFile;
-	private final OnUtteranceCompletedListener listener = new OnUtteranceCompletedListener() {
+	private OnUtteranceCompletedListener listener;
 
-		@Override
-		public void onUtteranceCompleted(String utteranceId) {
-			SoundManager.getInstance().playSoundFile(speechFile.getAbsolutePath());
+	@Override
+	protected void begin() {
+		interpretedText = text == null ? "" : text.interpretObject(sprite);
+
+		if (interpretedText instanceof Double) {
+			interpretedText = ((Double) interpretedText).isNaN() ? "" : interpretedText;
 		}
-	};
+
+		hashText = Utils.md5Checksum(String.valueOf(interpretedText));
+		String fileName = hashText;
+		File pathToSpeechFile = new File(Constants.TEXT_TO_SPEECH_TMP_PATH);
+		pathToSpeechFile.mkdirs();
+		speechFile = new File(pathToSpeechFile, fileName + Constants.TEXT_TO_SPEECH_EXTENSION);
+		listener = new OnUtteranceCompletedListener() {
+			@Override
+			public void onUtteranceCompleted(String utteranceId) {
+				SoundManager.getInstance().playSoundFile(speechFile.getAbsolutePath());
+			}
+		};
+		super.begin();
+	}
 
 	@Override
 	protected void update(float delta) {
 		HashMap<String, String> speakParameter = new HashMap<String, String>();
 		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, hashText);
-		PreStageActivity.textToSpeech(text, speechFile, listener, speakParameter);
+		PreStageActivity.textToSpeech(String.valueOf(interpretedText), speechFile, listener, speakParameter);
 	}
 
-	public void setText(String text) {
-		if (text == null) {
-			text = "";
-		}
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
+	}
+
+	public void setText(Formula text) {
 		this.text = text;
-
-		hashText = Utils.md5Checksum(text);
-		String fileName = hashText;
-		File pathToSpeechFile = new File(Constants.TEXT_TO_SPEECH_TMP_PATH);
-		pathToSpeechFile.mkdirs();
-		speechFile = new File(pathToSpeechFile, fileName + Constants.TEXT_TO_SPEECH_EXTENSION);
 	}
+
 }

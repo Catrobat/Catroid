@@ -36,7 +36,7 @@ public class TurnRightAction extends TemporalAction {
 	protected void update(float percent) {
 		Float newDegrees;
 		try {
-			newDegrees = degrees == null ? 0f : degrees.interpretFloat(sprite);
+			newDegrees = degrees == null ? Float.valueOf(0f) : degrees.interpretFloat(sprite);
 			if (newDegrees.isNaN()) {
 				return;
 			}

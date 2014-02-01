@@ -355,6 +355,11 @@ public final class UiTestUtils {
 		insertValue(solo, value + "");
 	}
 
+	public static void insertStringIntoEditText(Solo solo, String newValue) {
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_string));
+		UiTestUtils.clickEnterClose(solo, 0, newValue);
+	}
+
 	private static void insertValue(Solo solo, String value) {
 
 		for (char item : (value.toCharArray())) {
@@ -425,6 +430,25 @@ public final class UiTestUtils {
 		assertEquals("Text not updated in the brick list", newValue,
 				Double.parseDouble(((TextView) solo.getView(editTextId)).getText().toString().replace(',', '.')), 0.01f);
 
+	}
+
+	public static void testBrickWithFormulaEditor(Solo solo, int editTextId, String newValue, String fieldName,
+			Brick theBrick) {
+
+		solo.clickOnView(solo.getView(editTextId));
+		insertStringIntoEditText(solo, newValue);
+		String formulaEditorString = ((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString();
+
+		assertEquals("Text not updated within FormulaEditor", "\'" + newValue + "\'",
+				formulaEditorString.substring(0, formulaEditorString.length() - 1));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
+		solo.sleep(200);
+
+		Formula formula = (Formula) Reflection.getPrivateField(theBrick, fieldName);
+		formulaEditorString = ((TextView) solo.getView(editTextId)).getText().toString();
+		assertEquals("Wrong text in field", newValue, formula.interpretString(theBrick.getSprite()));
+		assertEquals("Text not updated in the brick list", "\'" + newValue + "\'",
+				formulaEditorString.substring(0, formulaEditorString.length() - 1));
 	}
 
 	public static void insertValueViaFormulaEditor(Solo solo, int editTextId, double value) {

@@ -36,7 +36,7 @@ public class PointInDirectionAction extends TemporalAction {
 	protected void update(float percent) {
 		Float degreeInterpretation;
 		try {
-			degreeInterpretation = degrees == null ? 0f : degrees.interpretFloat(sprite);
+			degreeInterpretation = degrees == null ? Float.valueOf(0f) : degrees.interpretFloat(sprite);
 			if (degreeInterpretation.isNaN()) {
 				return;
 			}

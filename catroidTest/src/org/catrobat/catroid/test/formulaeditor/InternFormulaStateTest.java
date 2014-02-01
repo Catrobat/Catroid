@@ -36,14 +36,18 @@ import java.util.List;
 
 public class InternFormulaStateTest extends InstrumentationTestCase {
 
-	public void testEquals() {
+	private InternFormulaState internState;
+	private InternFormulaState internStateToCompare;
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
 
 		List<InternToken> internTokenList = new ArrayList<InternToken>();
 		InternFormulaTokenSelection internTokenSelection = new InternFormulaTokenSelection(
 				TokenSelectionType.USER_SELECTION, 0, 1);
-
-		InternFormulaState internState = new InternFormulaState(internTokenList, null, 0);
-		InternFormulaState internStateToCompare = new InternFormulaState(internTokenList, internTokenSelection, 0);
+		internState = new InternFormulaState(internTokenList, null, 0);
+		internStateToCompare = new InternFormulaState(internTokenList, internTokenSelection, 0);
 
 		assertFalse("TokenSelection is different", internState.equals(internStateToCompare));
 
@@ -53,33 +57,19 @@ public class InternFormulaStateTest extends InstrumentationTestCase {
 		internTokenList = new ArrayList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME));
 		internStateToCompare = new InternFormulaState(internTokenList, null, 0);
+	}
 
+	public void testEquals() {
 		assertFalse("Token List ist different", internState.equals(internStateToCompare));
 		assertFalse("Object to compare is not instance of InternFormulaState", internState.equals(Integer.valueOf(1)));
 	}
 
-	public void testHashCode(){
-		List<InternToken> internTokenList = new ArrayList<InternToken>();
-		InternFormulaTokenSelection internTokenSelection = new InternFormulaTokenSelection(
-				TokenSelectionType.USER_SELECTION, 0, 1);
-
-		InternFormulaState internState = new InternFormulaState(internTokenList, null, 0);
-		InternFormulaState internStateToCompare = new InternFormulaState(internTokenList, internTokenSelection, 0);
-
-		assertFalse("TokenSelection is different", internState.equals(internStateToCompare));
-
-		internTokenList = new ArrayList<InternToken>();
-		internTokenList.add(new InternToken(InternTokenType.NUMBER));
-		internState = new InternFormulaState(internTokenList, null, 0);
-		internTokenList = new ArrayList<InternToken>();
-		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME));
-		internStateToCompare = new InternFormulaState(internTokenList, null, 0);
+	public void testHashCode() {
 		int hashCodeInternalState = internState.hashCode();
 		int hashCodeInternStateToCompare = internStateToCompare.hashCode();
-		assertFalse("HashCodes are the same", hashCodeInternalState==hashCodeInternStateToCompare);
+		assertFalse("HashCodes are the same", hashCodeInternalState == hashCodeInternStateToCompare);
 		InternFormulaState internalState2 = internState;
-		assertTrue("HashCodes are different",internalState2.hashCode() == internState.hashCode());
-		assertFalse("HashCode function fail",internState.hashCode() == 1);
+		assertTrue("HashCodes are different", internalState2.hashCode() == internState.hashCode());
+		assertFalse("HashCode function fail", internState.hashCode() == 1);
 	}
-
 }

@@ -39,7 +39,7 @@ public class GoNStepsBackAction extends TemporalAction {
 	protected void update(float delta) {
 		Float stepsValue;
 		try {
-			stepsValue = steps == null ? 0 : steps.interpretFloat(sprite);
+			stepsValue = steps == null ? Float.valueOf(0f) : steps.interpretFloat(sprite);
 			if (stepsValue.isNaN()) {
 				return;
 			}

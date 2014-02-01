@@ -31,6 +31,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -209,10 +210,9 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<ProjectA
 	private void createNullTextProject() {
 		Sprite spriteNull = new Sprite("testNullText");
 		Script startScriptNull = new StartScript();
-		startScriptNull.addBrick(new SpeakBrick(null));
+		startScriptNull.addBrick(new SpeakBrick((Formula)null));
 
 		spriteNull.addScript(startScriptNull);
-
 		ArrayList<Sprite> spriteListNull = new ArrayList<Sprite>();
 		spriteListNull.add(spriteNull);
 

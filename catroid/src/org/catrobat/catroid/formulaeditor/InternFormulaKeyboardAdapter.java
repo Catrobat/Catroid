@@ -65,9 +65,6 @@ public class InternFormulaKeyboardAdapter {
 				return buildNumber("9");
 
 				//FUNCTIONS:
-			case R.id.formula_editor_keyboard_random:
-				return buildDoubleParameterFunction(Functions.RAND, InternTokenType.NUMBER, "0",
-						InternTokenType.NUMBER, "1");
 			case R.string.formula_editor_function_sin:
 				return buildSingleParameterFunction(Functions.SIN, InternTokenType.NUMBER, "0");
 			case R.string.formula_editor_function_cos:

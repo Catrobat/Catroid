@@ -36,18 +36,23 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SpeakBrick extends BrickBaseType {
-	private static final long serialVersionUID = 1L;
-	private String text = "";
+public class SpeakBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 
+	private static final long serialVersionUID = 1L;
+	private Formula text;
 	private transient View prototypeView;
 
+
 	public SpeakBrick(String text) {
+		this.text = new Formula(text);
+	}
+
+	public SpeakBrick(Formula text) {
 		this.text = text;
 	}
 
@@ -63,10 +68,6 @@ public class SpeakBrick extends BrickBaseType {
 	public Brick copyBrickForSprite(Sprite sprite) {
 		SpeakBrick copyBrick = (SpeakBrick) clone();
 		return copyBrick;
-	}
-
-	public String getText() {
-		return text;
 	}
 
 	@Override
@@ -90,42 +91,14 @@ public class SpeakBrick extends BrickBaseType {
 
 		TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_prototype_text_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_speak_edit_text);
-		textField.setText(text);
+		textField.setText(text.interpretString(sprite));
+		text.setTextFieldId(R.id.brick_speak_edit_text);
+		text.refreshTextField(view);
 
 		textHolder.setVisibility(View.GONE);
 		textField.setVisibility(View.VISIBLE);
 
-		textField.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				if (checkbox.getVisibility() == View.VISIBLE) {
-					return;
-				}
-				ScriptActivity activity = (ScriptActivity) context;
-
-				BrickTextDialog editDialog = new BrickTextDialog() {
-					@Override
-					protected void initialize() {
-						input.setText(text);
-						input.setSelectAllOnFocus(true);
-						inputTitle.setText(R.string.dialog_edit_speak_text);
-					}
-
-					@Override
-					protected boolean handleOkButton() {
-						text = (input.getText().toString()).trim();
-						return true;
-					}
-
-					@Override
-					protected String getTitle() {
-						return getString(R.string.dialog_edit_speak_title);
-					}
-				};
-
-				editDialog.show(activity.getSupportFragmentManager(), "dialog_speak_brick");
-			}
-		});
+		textField.setOnClickListener(this);
 		return view;
 	}
 
@@ -156,7 +129,7 @@ public class SpeakBrick extends BrickBaseType {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_speak, null);
 		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_speak_prototype_text_view);
-		textSpeak.setText(text);
+		textSpeak.setText(text.interpretString(sprite));
 		return prototypeView;
 	}
 
@@ -171,4 +144,22 @@ public class SpeakBrick extends BrickBaseType {
 		return null;
 	}
 
+	@Override
+	public Formula getFormula() {
+		return text;
+	}
+
+	@Override
+	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
+		switch (view.getId()) {
+			case R.id.brick_speak_edit_text:
+				FormulaEditorFragment.showFragment(view, this, text);
+				break;
+			default:
+				break;
+		}
+	}
 }

@@ -36,7 +36,8 @@ public class ChangeGhostEffectByNAction extends TemporalAction {
 	protected void update(float delta) {
 		Float newChangeGhostEffect;
 		try {
-			newChangeGhostEffect = changeGhostEffect == null ? 0f : changeGhostEffect.interpretFloat(sprite);
+			newChangeGhostEffect = changeGhostEffect == null ? Float.valueOf(0f) : changeGhostEffect
+					.interpretFloat(sprite);
 			if (newChangeGhostEffect.isNaN()) {
 				return;
 			}

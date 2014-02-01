@@ -36,7 +36,7 @@ public class MoveNStepsAction extends TemporalAction {
 	protected void update(float percent) {
 		Double stepsValue;
 		try {
-			stepsValue = steps == null ? 0d : steps.interpretDouble(sprite);
+			stepsValue = steps == null ? Double.valueOf(0d) : steps.interpretDouble(sprite);
 			if (stepsValue.isNaN()) {
 				return;
 			}

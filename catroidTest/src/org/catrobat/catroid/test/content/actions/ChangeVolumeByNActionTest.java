@@ -37,9 +37,16 @@ public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
 	private static final String NOT_NUMERICAL_STRING = "volume";
 	private final float louderValue = 10.6f;
 	private final float softerValue = -20.3f;
+	private Sprite sprite;
+
+	@Override
+	protected void setUp() throws Exception {
+		sprite = new Sprite("testSprite");
+		SoundManager.getInstance().setVolume(INITIALIZED_VALUE);
+		super.setUp();
+	}
 
 	public void testVolume() {
-		Sprite sprite = new Sprite("testSprite");
 		float expectedVolume = SoundManager.getInstance().getVolume();
 
 		expectedVolume += louderValue;
@@ -60,7 +67,6 @@ public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
 	}
 
 	public void testBrickWithStringFormula() {
-		Sprite sprite = new Sprite("testSprite");
 		ChangeVolumeByNAction action = ExtendedActions.changeVolumeByN(sprite,
 				new Formula(String.valueOf(CHANGE_VALUE)));
 		action.act(1.0f);
@@ -74,7 +80,6 @@ public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
 	}
 
 	public void testNullFormula() {
-		Sprite sprite = new Sprite("testSprite");
 		ChangeVolumeByNAction action = ExtendedActions.changeVolumeByN(sprite, null);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", INITIALIZED_VALUE, SoundManager
@@ -82,7 +87,6 @@ public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
 	}
 
 	public void testNotANumberFormula() {
-		Sprite sprite = new Sprite("testSprite");
 		ChangeVolumeByNAction action = ExtendedActions.changeVolumeByN(sprite, new Formula(Double.NaN));
 		action.act(1.0f);
 		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", INITIALIZED_VALUE, SoundManager
