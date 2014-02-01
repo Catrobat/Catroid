@@ -271,6 +271,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void startDeleteActionMode() {
 		startActionMode(deleteModeCallBack);
+		//
 	}
 
 	private void startActionMode(ActionMode.Callback actionModeCallback) {
