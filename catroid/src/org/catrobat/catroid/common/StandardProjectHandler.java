@@ -656,12 +656,11 @@ public final class StandardProjectHandler {
 		setPhysicProperties(ball2, ballStartScript2, PhysicsObject.Type.DYNAMIC, 20.0f, 80.0f);
 
 		// Ball v2
-		String ballBroadcastMessage2 = "restart ball2";
-		BroadcastBrick ballBroadcastBrick2 = new BroadcastBrick(ball2, ballBroadcastMessage2);
+		BroadcastBrick ballBroadcastBrick2 = new BroadcastBrick(ball2, ballBroadcastMessage);
 		ballStartScript2.addBrick(ballBroadcastBrick2);
 		ball2.addScript(ballStartScript2);
 
-		BroadcastScript ballBroadcastScript2 = new BroadcastScript(ball2, ballBroadcastMessage2);
+		BroadcastScript ballBroadcastScript2 = new BroadcastScript(ball2, ballBroadcastMessage);
 		ballBroadcastScript2.addBrick(new PlaceAtBrick(ball2, -100, 300));
 		ballBroadcastScript2.addBrick(new SetVelocityBrick(ball2, new Vector2()));
 		SetLookBrick ballSetLookBrick2 = new SetLookBrick(ball2);
@@ -679,12 +678,11 @@ public final class StandardProjectHandler {
 		setPhysicProperties(ball3, ballStartScript3, PhysicsObject.Type.DYNAMIC, 20.0f, 80.0f);
 
 		// ball3 v2
-		String ballBroadcastMessage3 = "restart ball3";
-		BroadcastBrick ballBroadcastBrick3 = new BroadcastBrick(ball3, ballBroadcastMessage3);
+		BroadcastBrick ballBroadcastBrick3 = new BroadcastBrick(ball3, ballBroadcastMessage);
 		ballStartScript3.addBrick(ballBroadcastBrick3);
-		ball3.addScript(ballStartScript3);
+		ball3.addScript(ballStartScript);
 
-		BroadcastScript ballBroadcastScript3 = new BroadcastScript(ball3, ballBroadcastMessage3);
+		BroadcastScript ballBroadcastScript3 = new BroadcastScript(ball3, ballBroadcastMessage);
 		ballBroadcastScript3.addBrick(new PlaceAtBrick(ball3, 0, 300));
 		ballBroadcastScript3.addBrick(new SetVelocityBrick(ball3, new Vector2()));
 		SetLookBrick ballSetLookBrick3 = new SetLookBrick(ball3);
