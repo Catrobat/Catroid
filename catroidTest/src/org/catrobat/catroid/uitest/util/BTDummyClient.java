@@ -51,7 +51,10 @@ public class BTDummyClient {
 
 	private static final String CLOSECONNECTION = "closethisconnection";
 	private static final String COMMANDSETVARIABLE = "setvariable;";
+	//public static final UUID DUMMYCONNECTIONUUID = UUID.fromString("eb8ec53af07046e0b6ff1645c931f858");
 	public static final UUID DUMMYCONNECTIONUUID = UUID.fromString("eb8ec53a-f070-46e0-b6ff-1645c931f858");
+	//public static final UUID DUMMYCONNECTIONUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FC");
+	//public static final UUID DUMMYCONNECTIONUUID = new UUID("1101", true);//UUID.fromString("1101");
 	public static final String SERVERDUMMYROBOTALBERT = "albert;" + "0000110100001000800000805F9B34FB";
 
 	public BTDummyClient() {

@@ -57,10 +57,14 @@ public class BTConnectionHandler implements Runnable {
 	@Override
 	public void run() {
 		try {
+			System.out.println("BTConnectionHandler started");
 			InputStream inputStream = btTestConnection.openInputStream();
 			byte[] readBuffer = new byte[1024];
+			System.out.println("Before reading Bytes");
 			int readedBytes = inputStream.read(readBuffer);
+			System.out.println("bytes read=" + readedBytes);
 			String[] receivedMessage = (new String(readBuffer, 0, readedBytes, "ASCII")).split(";");
+			System.out.println("receivedMessage[0]:" + receivedMessage[0]);
 
 			if (receivedMessage[0].equals(SERVERDUMMYMULTIPLAYER)) {
 				uuid = new UUID(receivedMessage[2], false);
@@ -76,10 +80,12 @@ public class BTConnectionHandler implements Runnable {
 					return;
 				}
 			} else if (receivedMessage[0].equals(SERVERDUMMYROBOTALBERT)) {
+				System.out.println("Albert message detected");
 				uuid = new UUID(receivedMessage[1], false);
 				multiplayerDummyServer();
 				btTestConnectionRead(inputStream);
 			}
+			System.out.println("end");
 
 		} catch (IOException e) {
 			e.printStackTrace();

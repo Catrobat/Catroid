@@ -34,6 +34,8 @@ import javax.microedition.io.StreamConnectionNotifier;
 
 public class BTServer {
 	private static final UUID BLUETOOTHSERVERUUID = new UUID("eb8ec53af07046e0b6ff1645c931f858", false);
+	//private static final UUID BLUETOOTHSERVERUUID = new UUID("0000110100001000800000805F9B34FC", true);
+	//private static final UUID BLUETOOTHSERVERUUID = new UUID("1101", true);
 	private static final String BTNAME = "BT Connection Server";
 	private static final String CONNECTIONSTRING = "btspp://localhost:" + BLUETOOTHSERVERUUID + ";name=" + BTNAME
 			+ ";authenticate=false;encrypt=false;";
