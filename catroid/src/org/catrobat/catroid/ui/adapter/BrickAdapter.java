@@ -38,6 +38,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -716,6 +717,19 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				currentBrickView = ((Brick) item).getView(context, position, this);
 			}
 		}
+
+		//////////////now working but the clicks in CHOICE_MODE_NONE do not work anymore ;(, longClick and onClick
+		LinearLayout brickElement = (LinearLayout) currentBrickView;
+		final CheckBox checkbox = ((Brick) getItem(position)).getCheckBox();
+		brickElement.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if (getSelectMode() != ListView.CHOICE_MODE_NONE) {
+					checkbox.setChecked(!checkbox.isChecked());
+				}
+			}
+		});
+		//---------------------------------------------------------------------------------------------------------
 
 		// this one is working but causes null pointer exceptions on movement and control bricks?!
 		//		currentBrickView.setOnLongClickListener(longClickListener);
