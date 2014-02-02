@@ -90,6 +90,8 @@ public class PreStageActivity extends Activity {
 		requiredResourceCounter = Integer.bitCount(requiredResources);
 		BluetoothManager bluetoothManager = null;
 
+		setContentView(R.layout.activity_prestage);
+
 		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
 			Intent checkIntent = new Intent();
 			checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);

@@ -35,7 +35,7 @@
 
     <uses-sdk
         android:minSdkVersion="10"
-        android:targetSdkVersion="18" />
+        android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -139,7 +139,7 @@
             android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".soundrecorder.SoundRecorderActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/soundrecorder_name"
             android:screenOrientation="portrait" >
             <intent-filter>
