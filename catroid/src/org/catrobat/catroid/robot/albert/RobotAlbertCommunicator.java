@@ -79,7 +79,6 @@ public abstract class RobotAlbertCommunicator extends Thread {
 
 	protected boolean connected = false;
 	protected Handler uiHandler;
-	private static boolean requestConfirmFromDevice = false;
 
 	protected static ArrayList<byte[]> receivedMessages = new ArrayList<byte[]>();
 	protected byte[] returnMessage;
@@ -96,10 +95,6 @@ public abstract class RobotAlbertCommunicator extends Thread {
 
 	public static ArrayList<byte[]> getReceivedMessageList() {
 		return receivedMessages;
-	}
-
-	public static void enableRequestConfirmFromDevice(boolean cfd) {
-		requestConfirmFromDevice = cfd;
 	}
 
 	public Handler getHandler() {

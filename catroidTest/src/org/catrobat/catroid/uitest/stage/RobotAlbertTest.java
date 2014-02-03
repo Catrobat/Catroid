@@ -44,7 +44,6 @@ import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.robot.albert.ControlCommands;
-import org.catrobat.catroid.robot.albert.RobotAlbertBtCommunicator;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
@@ -102,7 +101,6 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		createTestproject(projectName);
 
-		RobotAlbertBtCommunicator.enableRequestConfirmFromDevice(true);
 		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
 		if (!bluetoothAdapter.isEnabled()) {
@@ -141,7 +139,7 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		ByteArrayBuffer receivedBuffer = dummy.getReceivedFeedback();
 		boolean ok = Arrays.equals(sendCommands.toByteArray(), receivedBuffer.toByteArray());
-		assertTrue("messages reveived and sent are not equal", ok == true);
+
 		Log.d("TestRobotAlbert_New", receivedBuffer.toByteArray().toString());
 		Log.d("TestRobotAlbert", "Array comparision successful: " + ok);
 
@@ -149,6 +147,7 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		int lenSent1 = sendCommands.length();
 
 		Log.d("TestRobotAlbert", "lenRec=" + lenRec + "\nlenSent1=" + lenSent1);
+		assertTrue("messages reveived and sent are not equal", ok == true);
 
 		solo.sleep(1000);
 		Log.d("TestRobotAlbert", "before goback");

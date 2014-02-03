@@ -58,16 +58,13 @@ import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
-/**
- * This class is for talking to a LEGO NXT robot via bluetooth.
- * The communciation to the robot is done via LCP (LEGO communication protocol).
- * Objects of this class can either be run as standalone thread or controlled
- * by the owners, i.e. calling the send/recive methods by themselves.
- */
 //@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH) just needed for debug output: btSocket.isConnected()
 public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 
-	private static final UUID SERIAL_PORT_SERVICE_CLASS_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
+	private static final UUID SERIAL_PORT_SERVICE_CLASS_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fc");
+	//private static final UUID SERIAL_PORT_SERVICE_CLASS_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
+	//private static final UUID SERIAL_PORT_SERVICE_CLASS_UUID = UUID.fromString("eb8ec53a-f070-46e0-b6ff-1645c931f858");
+
 	// this is the only OUI registered by LEGO, see http://standards.ieee.org/regauth/oui/index.shtml
 
 	private BluetoothAdapter btAdapter;
