@@ -22,15 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -48,6 +39,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+
+import java.util.List;
 
 public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -116,6 +116,17 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 		TextView textblue = (TextView) prototypeView.findViewById(R.id.robot_albert_rgb_led_action_blue_text_view);
 		textblue.setText(String.valueOf(blue.interpretInteger(sprite)));
 		//TextView textColor = (TextView) prototypeView.findViewById(R.id.robot_albert_rgb_led_action_color_text_view);
+		Spinner eyeSpinner = (Spinner) prototypeView.findViewById(R.id.robot_albert_eye_spinner);
+		eyeSpinner.setFocusableInTouchMode(false);
+		eyeSpinner.setFocusable(false);
+
+		ArrayAdapter<CharSequence> eyeAdapter = ArrayAdapter.createFromResource(context,
+				R.array.robot_albert_eye_chooser, android.R.layout.simple_spinner_item);
+		eyeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		eyeSpinner.setAdapter(eyeAdapter);
+		eyeSpinner.setSelection(eyeEnum.ordinal());
+
 		return prototypeView;
 	}
 

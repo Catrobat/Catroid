@@ -22,15 +22,15 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.robot.albert.RobotAlbert;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-
 public class RobotAlbertBuzzerAction extends TemporalAction {
 	private static final int MIN = 0;
-	private static final int MAX = 255;
+	private static final int MAX = 100;
 
 	private Formula value;
 	private Sprite sprite;
