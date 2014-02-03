@@ -1181,7 +1181,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForDialogToClose(500);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown",
-				solo.searchText(UiTestUtils.ecsapeRegularExpressionMetaCharacters(errorMessageProjectExists)));
+				solo.searchText((errorMessageProjectExists)));
 		solo.clickOnButton(solo.getString(R.string.close));
 	}
 
@@ -1202,7 +1202,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForDialogToClose(500);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown",
-				solo.searchText(UiTestUtils.ecsapeRegularExpressionMetaCharacters(errorMessageProjectExists)));
+				solo.searchText((errorMessageProjectExists)));
 		solo.goBack();
 	}
 
@@ -1323,7 +1323,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown",
-				solo.searchText(UiTestUtils.ecsapeRegularExpressionMetaCharacters(errorMessageProjectExists)));
+				solo.searchText(errorMessageProjectExists));
 		solo.clickOnButton(buttonCloseText);
 
 		solo.clearEditText(0);
@@ -1355,14 +1355,12 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(buttonOkText);
 
 		solo.sleep(200);
-		assertTrue("No or wrong error message shown", solo.searchText(UiTestUtils
-				.ecsapeRegularExpressionMetaCharacters(solo.getString(R.string.error_project_exists))));
+		assertTrue("No or wrong error message shown", solo.searchText(solo.getString(R.string.error_project_exists)));
 		solo.sleep(100);
 		solo.clickOnButton(buttonCloseText);
 		solo.sleep(100);
 		solo.clickOnButton(buttonOkText);
-		assertTrue("No or wrong error message shown", solo.searchText(UiTestUtils
-				.ecsapeRegularExpressionMetaCharacters(solo.getString(R.string.error_project_exists))));
+		assertTrue("No or wrong error message shown", solo.searchText(solo.getString(R.string.error_project_exists)));
 		solo.clickOnButton(buttonCloseText);
 	}
 
@@ -1442,7 +1440,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		assertTrue("description is not shown in edittext",
-				solo.searchText(UiTestUtils.ecsapeRegularExpressionMetaCharacters(lorem)));
+				solo.searchText((lorem)));
 
 		ProjectManager.getInstance().loadProject(UiTestUtils.PROJECTNAME1, getActivity(), true);
 
@@ -1575,7 +1573,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.sleep(200);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown",
-				solo.searchText(UiTestUtils.ecsapeRegularExpressionMetaCharacters(errorMessageProjectExists)));
+				solo.searchText((errorMessageProjectExists)));
 		solo.clickOnButton(solo.getString(R.string.close));
 	}
 
@@ -1617,7 +1615,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.sleep(200);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown",
-				solo.searchText(UiTestUtils.ecsapeRegularExpressionMetaCharacters(errorMessageProjectExists)));
+				solo.searchText((errorMessageProjectExists)));
 		solo.clickOnButton(solo.getString(R.string.close));
 	}
 
