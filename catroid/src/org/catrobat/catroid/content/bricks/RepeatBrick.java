@@ -60,7 +60,11 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener, Form
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		if (timesToRepeat.containsRobotAlbertSensors() == true) {
+			return BLUETOOTH_ROBOT_ALBERT;
+		} else {
+			return NO_RESOURCES;
+		}
 	}
 
 	public RepeatBrick() {

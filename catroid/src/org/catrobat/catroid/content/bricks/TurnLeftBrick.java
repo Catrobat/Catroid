@@ -70,7 +70,11 @@ public class TurnLeftBrick extends BrickBaseType implements OnClickListener, For
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		if (degrees.containsRobotAlbertSensors() == true) {
+			return BLUETOOTH_ROBOT_ALBERT;
+		} else {
+			return NO_RESOURCES;
+		}
 	}
 
 	@Override
