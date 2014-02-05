@@ -47,6 +47,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
@@ -108,12 +109,6 @@ public class StageListener implements ApplicationListener {
 	private float virtualWidth;
 	private float virtualHeight;
 
-	private enum ScreenModes {
-		STRETCH, MAXIMIZE
-	};
-
-	private ScreenModes screenMode;
-
 	private Texture axes;
 
 	private boolean makeTestPixels = false;
@@ -152,8 +147,6 @@ public class StageListener implements ApplicationListener {
 		virtualWidthHalf = virtualWidth / 2;
 		virtualHeightHalf = virtualHeight / 2;
 
-		screenMode = getScreenMode();
-
 		stage = new Stage(virtualWidth, virtualHeight, true);
 		batch = stage.getSpriteBatch();
 
@@ -188,13 +181,9 @@ public class StageListener implements ApplicationListener {
 		if (checkIfAutomaticScreenshotShouldBeTaken) {
 			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
 		}
-	}
 
-	private ScreenModes getScreenMode() {
-		if (ProjectManager.getInstance().getCurrentProject().getScreenMode().equals(ScreenModes.MAXIMIZE.name())) {
-			return ScreenModes.MAXIMIZE;
-		}
-		return ScreenModes.STRETCH;
+		Gdx.gl.glViewport(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+		initScreenMode();
 	}
 
 	void menuResume() {
@@ -264,8 +253,6 @@ public class StageListener implements ApplicationListener {
 		if (thumbnail != null && !makeAutomaticScreenshot) {
 			saveScreenshot(thumbnail, SCREENSHOT_AUTOMATIC_FILE_NAME);
 		}
-
-		ProjectManager.getInstance().getCurrentProject().setScreenMode(screenMode.name());
 	}
 
 	@Override
@@ -299,28 +286,6 @@ public class StageListener implements ApplicationListener {
 			synchronized (stageDialog) {
 				stageDialog.notify();
 			}
-		}
-
-		switch (screenMode) {
-			case STRETCH:
-				Gdx.gl.glViewport(maximizeViewPortX, maximizeViewPortY, maximizeViewPortWidth, maximizeViewPortHeight);
-				screenshotWidth = maximizeViewPortWidth;
-				screenshotHeight = maximizeViewPortHeight;
-				screenshotX = maximizeViewPortX;
-				screenshotY = maximizeViewPortY;
-				break;
-
-			case MAXIMIZE:
-				Gdx.gl.glViewport(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
-				screenshotWidth = ScreenValues.SCREEN_WIDTH;
-				screenshotHeight = ScreenValues.SCREEN_HEIGHT;
-				screenshotX = 0;
-				screenshotY = 0;
-				break;
-
-			default:
-				break;
-
 		}
 
 		batch.setProjectionMatrix(camera.combined);
@@ -498,18 +463,48 @@ public class StageListener implements ApplicationListener {
 		return testPixels;
 	}
 
-	public void changeScreenSize() {
-		switch (screenMode) {
+	public void toggleScreenMode() {
+		switch (project.getScreenMode()) {
 			case MAXIMIZE:
-				screenMode = ScreenModes.STRETCH;
+				project.setScreenMode(ScreenModes.STRETCH);
 				break;
 			case STRETCH:
-				screenMode = ScreenModes.MAXIMIZE;
+				project.setScreenMode(ScreenModes.MAXIMIZE);
 				break;
 		}
 
+		initScreenMode();
+
 		if (checkIfAutomaticScreenshotShouldBeTaken) {
 			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
+		}
+	}
+
+	private void initScreenMode() {
+		switch (project.getScreenMode()) {
+			case STRETCH:
+				stage.setViewport(virtualWidth, virtualHeight, false);
+				camera = (OrthographicCamera) stage.getCamera();
+				camera.position.set(0, 0, 0);
+				screenshotWidth = ScreenValues.SCREEN_WIDTH;
+				screenshotHeight = ScreenValues.SCREEN_HEIGHT;
+				screenshotX = 0;
+				screenshotY = 0;
+				break;
+
+			case MAXIMIZE:
+				stage.setViewport(virtualWidth, virtualHeight, true);
+				camera = (OrthographicCamera) stage.getCamera();
+				camera.position.set(0, 0, 0);
+				screenshotWidth = maximizeViewPortWidth;
+				screenshotHeight = maximizeViewPortHeight;
+				screenshotX = maximizeViewPortX;
+				screenshotY = maximizeViewPortY;
+				break;
+
+			default:
+				break;
+
 		}
 	}
 
