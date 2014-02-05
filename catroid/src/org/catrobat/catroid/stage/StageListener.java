@@ -47,6 +47,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
@@ -108,9 +109,9 @@ public class StageListener implements ApplicationListener {
 	private float virtualWidth;
 	private float virtualHeight;
 
-	private enum ScreenModes {
-		STRETCH, MAXIMIZE
-	};
+	//	private enum ScreenModes {
+	//		STRETCH, MAXIMIZE
+	//	};
 
 	private ScreenModes screenMode;
 
@@ -188,6 +189,8 @@ public class StageListener implements ApplicationListener {
 		if (checkIfAutomaticScreenshotShouldBeTaken) {
 			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
 		}
+
+		//initScreenMode();
 	}
 
 	private ScreenModes getScreenMode() {
@@ -265,7 +268,7 @@ public class StageListener implements ApplicationListener {
 			saveScreenshot(thumbnail, SCREENSHOT_AUTOMATIC_FILE_NAME);
 		}
 
-		ProjectManager.getInstance().getCurrentProject().setScreenMode(screenMode.name());
+		ProjectManager.getInstance().getCurrentProject().setScreenMode(screenMode);
 	}
 
 	@Override
@@ -508,10 +511,36 @@ public class StageListener implements ApplicationListener {
 				break;
 		}
 
+		//initScreenMode();
+
 		if (checkIfAutomaticScreenshotShouldBeTaken) {
 			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
 		}
 	}
+
+	//	private void initScreenMode() {
+	//		switch (screenMode) {
+	//			case STRETCH:
+	//				Gdx.gl.glViewport(maximizeViewPortX, maximizeViewPortY, maximizeViewPortWidth, maximizeViewPortHeight);
+	//				screenshotWidth = maximizeViewPortWidth;
+	//				screenshotHeight = maximizeViewPortHeight;
+	//				screenshotX = maximizeViewPortX;
+	//				screenshotY = maximizeViewPortY;
+	//				break;
+	//
+	//			case MAXIMIZE:
+	//				Gdx.gl.glViewport(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+	//				screenshotWidth = ScreenValues.SCREEN_WIDTH;
+	//				screenshotHeight = ScreenValues.SCREEN_HEIGHT;
+	//				screenshotX = 0;
+	//				screenshotY = 0;
+	//				break;
+	//
+	//			default:
+	//				break;
+	//
+	//		}
+	//	}
 
 	private LookData createWhiteBackgroundLookData() {
 		LookData whiteBackground = new LookData();
