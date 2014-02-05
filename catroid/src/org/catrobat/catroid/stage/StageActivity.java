@@ -98,10 +98,10 @@ public class StageActivity extends AndroidApplication {
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 		float aspectRatio = (float) virtualScreenWidth / (float) virtualScreenHeight;
-		float ScreenAspectRatio = ScreenValues.getAspectRatio();
+		float screenAspectRatio = ScreenValues.getAspectRatio();
 
 		if ((virtualScreenWidth == ScreenValues.SCREEN_WIDTH && virtualScreenHeight == ScreenValues.SCREEN_HEIGHT)
-				|| ScreenAspectRatio == aspectRatio) {
+				|| Float.compare(screenAspectRatio, aspectRatio) == 0) {
 			resizePossible = false;
 			stageListener.maximizeViewPortWidth = ScreenValues.SCREEN_WIDTH;
 			stageListener.maximizeViewPortHeight = ScreenValues.SCREEN_HEIGHT;
@@ -114,13 +114,13 @@ public class StageActivity extends AndroidApplication {
 		float ratioHeight = (float) ScreenValues.SCREEN_HEIGHT / (float) virtualScreenHeight;
 		float ratioWidth = (float) ScreenValues.SCREEN_WIDTH / (float) virtualScreenWidth;
 
-		if (aspectRatio < ScreenAspectRatio) {
+		if (aspectRatio < screenAspectRatio) {
 			scale = ratioHeight / ratioWidth;
 			stageListener.maximizeViewPortWidth = (int) (ScreenValues.SCREEN_WIDTH * scale);
 			stageListener.maximizeViewPortX = (int) ((ScreenValues.SCREEN_WIDTH - stageListener.maximizeViewPortWidth) / 2f);
 			stageListener.maximizeViewPortHeight = ScreenValues.SCREEN_HEIGHT;
 
-		} else if (aspectRatio > ScreenAspectRatio) {
+		} else if (aspectRatio > screenAspectRatio) {
 			scale = ratioWidth / ratioHeight;
 			stageListener.maximizeViewPortHeight = (int) (ScreenValues.SCREEN_HEIGHT * scale);
 			stageListener.maximizeViewPortY = (int) ((ScreenValues.SCREEN_HEIGHT - stageListener.maximizeViewPortHeight) / 2f);
