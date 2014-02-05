@@ -94,7 +94,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 				toggleAxes();
 				break;
 			case R.id.stage_dialog_button_maximize:
-				stageListener.changeScreenSize();
+				stageListener.toggleScreenMode();
 				break;
 			case R.id.stage_dialog_button_screenshot:
 				makeScreenshot();

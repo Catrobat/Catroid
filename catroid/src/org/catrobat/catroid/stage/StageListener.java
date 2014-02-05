@@ -186,20 +186,6 @@ public class StageListener implements ApplicationListener {
 		initScreenMode();
 	}
 
-	private ScreenModes getScreenMode() {
-		if (project == null) {
-			project = ProjectManager.getInstance().getCurrentProject();
-		}
-		return project.getScreenMode();
-	}
-
-	private void setScreenMode(ScreenModes screenMode) {
-		if (project == null) {
-			project = ProjectManager.getInstance().getCurrentProject();
-		}
-		project.setScreenMode(screenMode);
-	}
-
 	void menuResume() {
 		if (reloadProject) {
 			return;
@@ -477,13 +463,13 @@ public class StageListener implements ApplicationListener {
 		return testPixels;
 	}
 
-	public void changeScreenSize() {
-		switch (getScreenMode()) {
+	public void toggleScreenMode() {
+		switch (project.getScreenMode()) {
 			case MAXIMIZE:
-				setScreenMode(ScreenModes.STRETCH);
+				project.setScreenMode(ScreenModes.STRETCH);
 				break;
 			case STRETCH:
-				setScreenMode(ScreenModes.MAXIMIZE);
+				project.setScreenMode(ScreenModes.MAXIMIZE);
 				break;
 		}
 
@@ -495,7 +481,7 @@ public class StageListener implements ApplicationListener {
 	}
 
 	private void initScreenMode() {
-		switch (getScreenMode()) {
+		switch (project.getScreenMode()) {
 			case STRETCH:
 				stage.setViewport(virtualWidth, virtualHeight, false);
 				camera = (OrthographicCamera) stage.getCamera();
