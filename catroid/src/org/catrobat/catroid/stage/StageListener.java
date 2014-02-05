@@ -190,7 +190,8 @@ public class StageListener implements ApplicationListener {
 			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
 		}
 
-		//initScreenMode();
+		Gdx.gl.glViewport(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+		initScreenMode();
 	}
 
 	private ScreenModes getScreenMode() {
@@ -302,28 +303,6 @@ public class StageListener implements ApplicationListener {
 			synchronized (stageDialog) {
 				stageDialog.notify();
 			}
-		}
-
-		switch (screenMode) {
-			case STRETCH:
-				Gdx.gl.glViewport(maximizeViewPortX, maximizeViewPortY, maximizeViewPortWidth, maximizeViewPortHeight);
-				screenshotWidth = maximizeViewPortWidth;
-				screenshotHeight = maximizeViewPortHeight;
-				screenshotX = maximizeViewPortX;
-				screenshotY = maximizeViewPortY;
-				break;
-
-			case MAXIMIZE:
-				Gdx.gl.glViewport(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
-				screenshotWidth = ScreenValues.SCREEN_WIDTH;
-				screenshotHeight = ScreenValues.SCREEN_HEIGHT;
-				screenshotX = 0;
-				screenshotY = 0;
-				break;
-
-			default:
-				break;
-
 		}
 
 		batch.setProjectionMatrix(camera.combined);
@@ -511,36 +490,42 @@ public class StageListener implements ApplicationListener {
 				break;
 		}
 
-		//initScreenMode();
+		initScreenMode();
 
 		if (checkIfAutomaticScreenshotShouldBeTaken) {
 			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
 		}
 	}
 
-	//	private void initScreenMode() {
-	//		switch (screenMode) {
-	//			case STRETCH:
-	//				Gdx.gl.glViewport(maximizeViewPortX, maximizeViewPortY, maximizeViewPortWidth, maximizeViewPortHeight);
-	//				screenshotWidth = maximizeViewPortWidth;
-	//				screenshotHeight = maximizeViewPortHeight;
-	//				screenshotX = maximizeViewPortX;
-	//				screenshotY = maximizeViewPortY;
-	//				break;
-	//
-	//			case MAXIMIZE:
-	//				Gdx.gl.glViewport(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
-	//				screenshotWidth = ScreenValues.SCREEN_WIDTH;
-	//				screenshotHeight = ScreenValues.SCREEN_HEIGHT;
-	//				screenshotX = 0;
-	//				screenshotY = 0;
-	//				break;
-	//
-	//			default:
-	//				break;
-	//
-	//		}
-	//	}
+	private void initScreenMode() {
+		switch (screenMode) {
+			case STRETCH:
+
+				stage.setViewport(virtualWidth, virtualHeight, false);
+				camera = (OrthographicCamera) stage.getCamera();
+				camera.position.set(0, 0, 0);
+				screenshotWidth = ScreenValues.SCREEN_WIDTH;
+				screenshotHeight = ScreenValues.SCREEN_HEIGHT;
+				screenshotX = 0;
+				screenshotY = 0;
+				break;
+
+			case MAXIMIZE:
+
+				stage.setViewport(virtualWidth, virtualHeight, true);
+				camera = (OrthographicCamera) stage.getCamera();
+				camera.position.set(0, 0, 0);
+				screenshotWidth = maximizeViewPortWidth;
+				screenshotHeight = maximizeViewPortHeight;
+				screenshotX = maximizeViewPortX;
+				screenshotY = maximizeViewPortY;
+				break;
+
+			default:
+				break;
+
+		}
+	}
 
 	private LookData createWhiteBackgroundLookData() {
 		LookData whiteBackground = new LookData();

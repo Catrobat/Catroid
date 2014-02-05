@@ -115,13 +115,13 @@ public class StageActivity extends AndroidApplication {
 		float ratioWidth = (float) ScreenValues.SCREEN_WIDTH / (float) virtualScreenWidth;
 
 		if (aspectRatio < ScreenAspectRatio) {
-			scale = ratioWidth / ratioHeight;
+			scale = ratioHeight / ratioWidth;
 			stageListener.maximizeViewPortWidth = (int) (ScreenValues.SCREEN_WIDTH * scale);
 			stageListener.maximizeViewPortX = (int) ((ScreenValues.SCREEN_WIDTH - stageListener.maximizeViewPortWidth) / 2f);
 			stageListener.maximizeViewPortHeight = ScreenValues.SCREEN_HEIGHT;
 
 		} else if (aspectRatio > ScreenAspectRatio) {
-			scale = ratioHeight / ratioWidth;
+			scale = ratioWidth / ratioHeight;
 			stageListener.maximizeViewPortHeight = (int) (ScreenValues.SCREEN_HEIGHT * scale);
 			stageListener.maximizeViewPortY = (int) ((ScreenValues.SCREEN_HEIGHT - stageListener.maximizeViewPortHeight) / 2f);
 			stageListener.maximizeViewPortWidth = ScreenValues.SCREEN_WIDTH;
