@@ -109,12 +109,6 @@ public class StageListener implements ApplicationListener {
 	private float virtualWidth;
 	private float virtualHeight;
 
-	//	private enum ScreenModes {
-	//		STRETCH, MAXIMIZE
-	//	};
-
-	private ScreenModes screenMode;
-
 	private Texture axes;
 
 	private boolean makeTestPixels = false;
@@ -152,8 +146,6 @@ public class StageListener implements ApplicationListener {
 
 		virtualWidthHalf = virtualWidth / 2;
 		virtualHeightHalf = virtualHeight / 2;
-
-		screenMode = getScreenMode();
 
 		stage = new Stage(virtualWidth, virtualHeight, true);
 		batch = stage.getSpriteBatch();
@@ -195,10 +187,17 @@ public class StageListener implements ApplicationListener {
 	}
 
 	private ScreenModes getScreenMode() {
-		if (ProjectManager.getInstance().getCurrentProject().getScreenMode().equals(ScreenModes.MAXIMIZE.name())) {
-			return ScreenModes.MAXIMIZE;
+		if (project == null) {
+			project = ProjectManager.getInstance().getCurrentProject();
 		}
-		return ScreenModes.STRETCH;
+		return project.getScreenMode();
+	}
+
+	private void setScreenMode(ScreenModes screenMode) {
+		if (project == null) {
+			project = ProjectManager.getInstance().getCurrentProject();
+		}
+		project.setScreenMode(screenMode);
 	}
 
 	void menuResume() {
@@ -268,8 +267,6 @@ public class StageListener implements ApplicationListener {
 		if (thumbnail != null && !makeAutomaticScreenshot) {
 			saveScreenshot(thumbnail, SCREENSHOT_AUTOMATIC_FILE_NAME);
 		}
-
-		ProjectManager.getInstance().getCurrentProject().setScreenMode(screenMode);
 	}
 
 	@Override
@@ -481,12 +478,12 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void changeScreenSize() {
-		switch (screenMode) {
+		switch (getScreenMode()) {
 			case MAXIMIZE:
-				screenMode = ScreenModes.STRETCH;
+				setScreenMode(ScreenModes.STRETCH);
 				break;
 			case STRETCH:
-				screenMode = ScreenModes.MAXIMIZE;
+				setScreenMode(ScreenModes.MAXIMIZE);
 				break;
 		}
 
@@ -498,9 +495,8 @@ public class StageListener implements ApplicationListener {
 	}
 
 	private void initScreenMode() {
-		switch (screenMode) {
+		switch (getScreenMode()) {
 			case STRETCH:
-
 				stage.setViewport(virtualWidth, virtualHeight, false);
 				camera = (OrthographicCamera) stage.getCamera();
 				camera.position.set(0, 0, 0);
@@ -511,7 +507,6 @@ public class StageListener implements ApplicationListener {
 				break;
 
 			case MAXIMIZE:
-
 				stage.setViewport(virtualWidth, virtualHeight, true);
 				camera = (OrthographicCamera) stage.getCamera();
 				camera.position.set(0, 0, 0);
