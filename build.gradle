@@ -87,6 +87,9 @@ android {
             renderscript.srcDirs = ['catroidTest/src']
             res.srcDirs = ['catroidTest/res']
             assets.srcDirs = ['catroidTest/assets']
+            if(file('testexclusions.txt').exists()){
+                java.exclude file('testexclusions.txt').readLines()
+            }
         }
 
     }
