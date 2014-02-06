@@ -390,7 +390,7 @@ public class PreStageActivity extends Activity {
 						resourceInitialized();
 						break;
 					case LegoNXTBtCommunicator.STATE_CONNECTERROR:
-						Toast.makeText(PreStageActivity.this, R.string.bt_connection_failed, Toast.LENGTH_SHORT).show();
+						Toast.makeText(PreStageActivity.this, R.string.bt_connection_failed, Toast.LENGTH_LONG).show();
 						connectingProgressDialog.dismiss();
 						legoNXT.destroyCommunicator();
 						legoNXT = null;

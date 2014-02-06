@@ -278,6 +278,30 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 		byte[] buf0 = new byte[2];
 		int count2 = 0;
 
+		int available = 0;
+		long timeStart = System.currentTimeMillis();
+		long timePast;
+
+		while (true) {
+			available = inputStream.available();
+			if (available > 0) {
+				break;
+			}
+			try {
+				Thread.sleep(3);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// here you can optionally check elapsed time, and time out
+			timePast = System.currentTimeMillis();
+			if ((timePast - timeStart) > 4000) {
+				Log.d("AlbertRobot-Timeout", "TIMEOUT for receive message occured");
+				throw new IOException(" Software caused connection abort because of timeout");
+			}
+
+		}
+
 		do {
 			//Log.d("test","checking 0xAA");
 			read = inputStream.read(buf0);
