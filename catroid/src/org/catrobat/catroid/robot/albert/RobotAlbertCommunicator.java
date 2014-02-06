@@ -150,7 +150,7 @@ public abstract class RobotAlbertCommunicator extends Thread {
 	 * @return the message
 	 */
 
-	public abstract byte[] receiveMessage() throws IOException;
+	public abstract byte[] receiveMessage() throws IOException, Exception;
 
 	public abstract void stopAllMovement();
 
