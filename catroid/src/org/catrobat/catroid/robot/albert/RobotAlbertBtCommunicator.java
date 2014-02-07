@@ -67,6 +67,13 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 
 	// this is the only OUI registered by LEGO, see http://standards.ieee.org/regauth/oui/index.shtml
 
+	private static final byte PACKET_HEADER_1 = (byte) 0xAA;
+	private static final byte PACKET_HEADER_2 = 0x55;
+	private static final byte PACKET_TAIL_1 = 0x0D;
+	private static final byte PACKET_TAIL_2 = 0x0A;
+
+	private static final byte COMMAND_SENSOR = 0x06;
+	private static final byte COMMAND_EXTERNAL = 0x20;
 	private BluetoothAdapter btAdapter;
 	private BluetoothSocket btSocket = null;
 	private OutputStream outputStream = null;
@@ -244,7 +251,6 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 		myHandler.removeMessages(1);
 		myHandler.removeMessages(2);
 		resetRobotAlbert();
-
 	}
 
 	/**
@@ -280,59 +286,84 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 			throw new IOException(" Software caused connection abort ");
 		}
 
-		byte[] buffer = new byte[100];
 		int read = 0;
 		byte[] buf = new byte[1];
-		byte[] buf0 = new byte[2];
-		int count2 = 0;
 
+		int count = 0;
+
+		// Find start of Packet
 		do {
-			//Log.d("test","checking 0xAA");
-			checkIfDataIsAvailable();
-			read = inputStream.read(buf0);
-			count2++;
-			if (count2 > 200) {
+
+			int count2 = 0;
+			do {
+				checkIfDataIsAvailable(1);
+				read = inputStream.read(buf);
+				count2++;
+				if (count2 > 400) {
+					return null;
+				}
+			} while (buf[0] != PACKET_HEADER_1);
+			count++;
+			if (count > 20) {
 				return null;
 			}
-		} while ((buf0[0] != -86) || (buf0[1] != 85));
 
-		int count = 2;
-		buffer[0] = buf0[0];
-		buffer[1] = buf0[1];
-
-		do {
-			checkIfDataIsAvailable();
+			checkIfDataIsAvailable(1);
 			read = inputStream.read(buf);
-			buffer[count] = buf[0];
-			count++;
-			//Log.d("test", "waiting for 0x0A (count="+count+")");
-		} while ((buffer[count] != 13) && (buffer[count - 1] != 10));
+		} while (buf[0] != PACKET_HEADER_2);
 
-		int leftDistance = (buffer[14] + buffer[16] + buffer[18] + buffer[20]) / 4;
-		int rightDistance = (buffer[13] + buffer[15] + buffer[17] + buffer[19]) / 4;
+		byte[] length = new byte[1];
+		read = inputStream.read(length);
 
-		sensors.setValueOfLeftDistanceSensor(leftDistance);
-		sensors.setValueOfRightDistanceSensor(rightDistance);
+		//Log.d("RobotAlbertBtComm", " Length: " + length[0]);
 
-		if (DEBUG_OUTPUT == true) {
-			Log.d("RobotAlbertBtComm", "receiveMessage:  leftDistance=" + leftDistance);
-			Log.d("RobotAlbertBtComm", "receiveMessage: rightDistance=" + rightDistance);
-			//Log.d("RobotAlbertBtComm", "receiveMessage: leftMotor=" + buffer[8]);
-			//Log.d("RobotAlbertBtComm", "receiveMessage: rightMotor=" + buffer[9]);
-			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[13]=" + buffer[13]);
-			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[14]=" + buffer[14]);
-			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[15]=" + buffer[15]);
-			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[16]=" + buffer[16]);
-			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[17]=" + buffer[17]);
-			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[18]=" + buffer[18]);
-			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[19]=" + buffer[19]);
-			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[20]=" + buffer[20]);
+		byte[] buffer = new byte[length[0] - 1];
+		checkIfDataIsAvailable(length[0] - 1);
+		read = inputStream.read(buffer);
+
+		if (buffer[length[0] - 3] != PACKET_TAIL_1 || buffer[length[0] - 2] != PACKET_TAIL_2) {
+			//Log.d("RobotAlbertBtComm", " ERROR: Packet tail not found!");
+			return null;
+		}
+
+		switch (buffer[0]) {
+			case COMMAND_SENSOR:
+
+				int leftDistance = (buffer[11] + buffer[13] + buffer[15] + buffer[17]) / 4;
+				int rightDistance = (buffer[10] + buffer[12] + buffer[14] + buffer[16]) / 4;
+
+				sensors.setValueOfLeftDistanceSensor(leftDistance);
+				sensors.setValueOfRightDistanceSensor(rightDistance);
+
+				if (DEBUG_OUTPUT == true) {
+					Log.d("RobotAlbertBtComm", "receiveMessage:  leftDistance=" + leftDistance);
+					Log.d("RobotAlbertBtComm", "receiveMessage: rightDistance=" + rightDistance);
+					//Log.d("RobotAlbertBtComm", "receiveMessage: leftMotor=" + buffer[8]);
+					//Log.d("RobotAlbertBtComm", "receiveMessage: rightMotor=" + buffer[9]);
+					//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[13]=" + buffer[13]);
+					//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[14]=" + buffer[14]);
+					//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[15]=" + buffer[15]);
+					//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[16]=" + buffer[16]);
+					//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[17]=" + buffer[17]);
+					//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[18]=" + buffer[18]);
+					//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[19]=" + buffer[19]);
+					//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[20]=" + buffer[20]);
+				}
+
+				break;
+			case COMMAND_EXTERNAL:
+				Log.d("RobotAlbertBtComm", "External Packet received!");
+				break;
+
+			default:
+				Log.d("RobotAlbertBtComm", "Unknown Command! id = " + buffer[0]);
+				break;
 		}
 
 		return buffer;
 	}
 
-	public void checkIfDataIsAvailable() throws IOException {
+	public void checkIfDataIsAvailable(int neededBytes) throws IOException {
 		int available = 0;
 		long timeStart = System.currentTimeMillis();
 		long timePast;
@@ -342,7 +373,7 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 				throw new IOException(" Software caused connection abort ");
 			}
 			available = inputStream.available();
-			if (available > 0) {
+			if (available >= neededBytes) {
 				break;
 			}
 			try {
