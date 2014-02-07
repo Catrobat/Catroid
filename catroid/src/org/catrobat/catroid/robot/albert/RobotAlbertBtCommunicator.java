@@ -111,15 +111,18 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 				//Log.d("Test", e.getMessage());
 				//This error occurs if robot albert is suddenly switched of
 				//if (e.getMessage().equalsIgnoreCase("Software caused connection abort")) {
-				sendState(STATE_CONNECTERROR);
-				connected = false;
-				//}
+				if (connected == true) {
+					sendState(STATE_CONNECTERROR);
+					connected = false;
+				}
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				Log.d("RobotAlbertBtComm", "Exception in run:receiveMessage occured: " + e.toString());
-				sendState(STATE_CONNECTERROR);
-				connected = false;
+				if (connected == true) {
+					sendState(STATE_CONNECTERROR);
+					connected = false;
+				}
 			}
 		}
 	}
@@ -283,35 +286,9 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 		byte[] buf0 = new byte[2];
 		int count2 = 0;
 
-		int available = 0;
-		long timeStart = System.currentTimeMillis();
-		long timePast;
-
-		while (true) {
-			if (inputStream == null) {
-				throw new IOException(" Software caused connection abort ");
-			}
-			available = inputStream.available();
-			if (available > 0) {
-				break;
-			}
-			try {
-				Thread.sleep(3);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			// here you can optionally check elapsed time, and time out
-			timePast = System.currentTimeMillis();
-			if ((timePast - timeStart) > 4000) {
-				Log.d("AlbertRobot-Timeout", "TIMEOUT for receive message occured");
-				throw new IOException(" Software caused connection abort because of timeout");
-			}
-
-		}
-
 		do {
 			//Log.d("test","checking 0xAA");
+			checkIfDataIsAvailable();
 			read = inputStream.read(buf0);
 			count2++;
 			if (count2 > 200) {
@@ -324,6 +301,7 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 		buffer[1] = buf0[1];
 
 		do {
+			checkIfDataIsAvailable();
 			read = inputStream.read(buf);
 			buffer[count] = buf[0];
 			count++;
@@ -353,4 +331,33 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 
 		return buffer;
 	}
+
+	public void checkIfDataIsAvailable() throws IOException {
+		int available = 0;
+		long timeStart = System.currentTimeMillis();
+		long timePast;
+
+		while (true) {
+			if (inputStream == null) {
+				throw new IOException(" Software caused connection abort ");
+			}
+			available = inputStream.available();
+			if (available > 0) {
+				break;
+			}
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// here you can optionally check elapsed time, and time out
+			timePast = System.currentTimeMillis();
+			if ((timePast - timeStart) > 60000) {
+				Log.d("AlbertRobot-Timeout", "TIMEOUT for receive message occured");
+				throw new IOException(" Software caused connection abort because of timeout");
+			}
+		}
+	}
+
 }

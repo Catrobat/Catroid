@@ -137,17 +137,23 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnScreen(ScreenValues.SCREEN_WIDTH / 2, ScreenValues.SCREEN_HEIGHT / 2);
 		solo.sleep(5000);
 
-		ByteArrayBuffer receivedBuffer = dummy.getReceivedFeedback();
+		ByteArrayBuffer receivedBufferOld = dummy.getReceivedFeedback();
+		ByteArrayBuffer receivedBuffer = removeSensorCommands(receivedBufferOld);
+
 		boolean ok = Arrays.equals(sendCommands.toByteArray(), receivedBuffer.toByteArray());
 
 		Log.d("TestRobotAlbert_New", receivedBuffer.toByteArray().toString());
 		Log.d("TestRobotAlbert", "Array comparision successful: " + ok);
 
+		//dummy.sendSetVariableCommandToDummyServer(name, value)
+
 		int lenRec = receivedBuffer.length();
 		int lenSent1 = sendCommands.length();
 
-		Log.d("TestRobotAlbert", "lenRec=" + lenRec + "\nlenSent1=" + lenSent1);
+		Log.d("TestRobotAlbert",
+				"lenRec=" + lenRec + "\nlenSent1=" + lenSent1 + "\nlenWithSensor=" + receivedBufferOld.length());
 		assertTrue("messages reveived and sent are not equal", ok == true);
+		Log.d("temp", receivedBuffer.toString());
 
 		solo.sleep(1000);
 		Log.d("TestRobotAlbert", "before goback");
@@ -200,6 +206,9 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		Script whenScript = new WhenScript(firstSprite);
 		SetLookBrick setLookBrick = new SetLookBrick(firstSprite);
 
+		byte[] sensorCmd = createSensorCommand();
+		//sendCommands.append(sensorCmd, 0, sensorCmd.length);
+
 		RobotAlbertMotorActionBrick legoMotorActionBrick = new RobotAlbertMotorActionBrick(firstSprite,
 				RobotAlbertMotorActionBrick.Motor.Both, 100);
 		ControlCommands commands = new ControlCommands();
@@ -210,17 +219,23 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		sendCommands.append(command, 0, commandLength);
 		//Log.d("TestRobotAlbert", "size=" + commands.getCommandMessage().length + "size=" + len);
 
+		//sendCommands.append(sensorCmd, 0, sensorCmd.length);
+
 		RobotAlbertFrontLedBrick robotAlbertFrontLedBrick = new RobotAlbertFrontLedBrick(firstSprite, new Formula(1));
 		commands.setFrontLed(1);
 		command = commands.getCommandMessage();
 		commandLength = command.length;
 		sendCommands.append(command, 0, commandLength);
 
+		//sendCommands.append(sensorCmd, 0, sensorCmd.length);
+
 		RobotAlbertBuzzerBrick robotAlbertBuzzerBrick = new RobotAlbertBuzzerBrick(firstSprite, new Formula(50));
 		commands.setBuzzer(50);
 		command = commands.getCommandMessage();
 		commandLength = command.length;
 		sendCommands.append(command, 0, commandLength);
+
+		//sendCommands.append(sensorCmd, 0, sensorCmd.length);
 
 		RobotAlbertRgbLedEyeActionBrick robotAlbertRgbLedEyeActionBrick = new RobotAlbertRgbLedEyeActionBrick(
 				firstSprite, RobotAlbertRgbLedEyeActionBrick.Eye.Both, new Formula(255), new Formula(255), new Formula(
@@ -230,6 +245,8 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		command = commands.getCommandMessage();
 		commandLength = command.length;
 		sendCommands.append(command, 0, commandLength);
+
+		//sendCommands.append(sensorCmd, 0, sensorCmd.length);
 
 		whenScript.addBrick(legoMotorActionBrick);
 		whenScript.addBrick(robotAlbertFrontLedBrick);
@@ -256,5 +273,73 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		StorageHandler.getInstance().saveProject(project);
 
+	}
+
+	private byte[] createSensorCommand() {
+		byte[] buffer = new byte[52];
+		buffer[0] = (byte) 0xAA;
+		buffer[1] = (byte) 0x55;
+		buffer[2] = (byte) 52;
+		buffer[3] = (byte) 6;
+		buffer[13] = (byte) 50;
+		buffer[14] = (byte) 50;
+		buffer[15] = (byte) 50;
+		buffer[16] = (byte) 50;
+		buffer[17] = (byte) 50;
+		buffer[18] = (byte) 50;
+		buffer[19] = (byte) 50;
+		buffer[20] = (byte) 50;
+		buffer[50] = (byte) 0x0D;
+		buffer[51] = (byte) 0x0A;
+		return buffer;
+	}
+
+	private ByteArrayBuffer removeSensorCommands(ByteArrayBuffer buffer) {
+		//byte[] result;
+		int i;
+		int length = buffer.length();
+
+		Log.d("removeSensorCommands", "begin");
+		ByteArrayBuffer array = new ByteArrayBuffer(0);
+
+		for (i = 0; i < length; i++) {
+			boolean found = false;
+			if (buffer.toByteArray()[i] == (byte) 0xAA) {
+				Log.d("removeSensorCommands", "0xAA found (i=" + i + ")");
+			}
+			if (buffer.toByteArray()[i] == (byte) 0x55) {
+				Log.d("removeSensorCommands", "0x55 found (i=" + i + ")");
+			}
+			if (buffer.toByteArray()[i] == (byte) 52) {
+				Log.d("removeSensorCommands", "0x52 found (i=" + i + ")");
+			}
+
+			if (buffer.toByteArray()[i] == (byte) 0x0A) {
+				Log.d("removeSensorCommands", "0x0A found (i=" + i + ")");
+			}
+
+			if (buffer.toByteArray()[i] == (byte) 0x0D) {
+				Log.d("removeSensorCommands", "0x0D found (i=" + i + ")");
+			}
+
+			if (i < length - 51) {
+				if ((buffer.toByteArray()[i] == (byte) 0xAA) && (buffer.toByteArray()[i + 1] == (byte) 0x55)
+						&& (buffer.toByteArray()[i + 2] == (byte) 52)) {
+					Log.d("removeSensorCommands", "Sensor command beginning found");
+					if ((buffer.toByteArray()[i + 50] == (byte) 0x0D) && (buffer.toByteArray()[i + 51] == (byte) 0x0A)) {
+						Log.d("removeSensorCommands", "Sensor command end found");
+						i = i + 51;
+						found = true;
+					}
+				}
+			}
+			Log.d("removeSensorCommands", "appending: i=" + i);
+
+			if (found == false) {
+				array.append(buffer.toByteArray()[i]);
+			}
+		}
+		Log.d("removeSensorCommands", "end");
+		return array;
 	}
 }
