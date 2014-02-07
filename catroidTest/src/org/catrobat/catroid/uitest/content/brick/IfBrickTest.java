@@ -95,7 +95,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		int dragAndDropSteps = 100;
 		ArrayList<Integer> yPosition;
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
-		Log.e(TAG, "Befor drag item 1 to item 4 + 20");
+		Log.e(TAG, "Before drag item 1 to item 4 + 20");
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
@@ -103,7 +103,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(1) instanceof IfLogicBeginBrick));
 
-		Log.e(TAG, "Befor drag item 2 to item 0");
+		Log.e(TAG, "Before drag item 2 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
@@ -126,7 +126,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 				+ projectBrickList.get(2).getClass().getSimpleName(),
 				projectBrickList.get(2) instanceof ChangeYByNBrick);
 
-		Log.e(TAG, "Befor drag item 4 to item 0");
+		Log.e(TAG, "Before drag item 4 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);

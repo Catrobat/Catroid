@@ -155,6 +155,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	@Override
 	public void drag(int from, int to) {
 
+		int toOriginal = to;
 		if (to < 0 || to >= brickList.size()) {
 			to = brickList.size() - 1;
 		}
@@ -188,7 +189,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				retryScriptDragging = false;
 			}
 		}
-
 		to = getNewPositionIfEndingBrickIsThere(to, draggedBrick);
 
 		if (!(draggedBrick instanceof ScriptBrick)) {
@@ -201,9 +201,13 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		}
 
 		brickList.remove(draggedBrick);
-		brickList.add(dragTargetPosition, draggedBrick);
-
-		toEndDrag = to;
+		if (dragTargetPosition >= 0 && dragTargetPosition <= brickList.size()) {
+			brickList.add(dragTargetPosition, draggedBrick);
+			toEndDrag = to;
+		} else {
+			brickList.add(toOriginal, draggedBrick);
+			toEndDrag = toOriginal;
+		}
 
 		animatedBricks.clear();
 
