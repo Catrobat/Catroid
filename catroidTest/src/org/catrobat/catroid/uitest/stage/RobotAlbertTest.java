@@ -131,7 +131,7 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 				+ deviceList.getItemAtPosition(0));
 		solo.clickOnText(connectedDeviceName);
 
-		solo.sleep(8000);
+		solo.sleep(5000);
 		solo.assertCurrentActivity("Not in stage - connection to bluetooth-device failed", StageActivity.class);
 
 		solo.clickOnScreen(ScreenValues.SCREEN_WIDTH / 2, ScreenValues.SCREEN_HEIGHT / 2);
@@ -295,45 +295,46 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 	}
 
 	private ByteArrayBuffer removeSensorCommands(ByteArrayBuffer buffer) {
-		//byte[] result;
 		int i;
 		int length = buffer.length();
 
-		Log.d("removeSensorCommands", "begin");
+		//Log.d("removeSensorCommands", "begin");
 		ByteArrayBuffer array = new ByteArrayBuffer(0);
 
 		for (i = 0; i < length; i++) {
 			boolean found = false;
-			if (buffer.toByteArray()[i] == (byte) 0xAA) {
-				Log.d("removeSensorCommands", "0xAA found (i=" + i + ")");
-			}
-			if (buffer.toByteArray()[i] == (byte) 0x55) {
-				Log.d("removeSensorCommands", "0x55 found (i=" + i + ")");
-			}
-			if (buffer.toByteArray()[i] == (byte) 52) {
-				Log.d("removeSensorCommands", "0x52 found (i=" + i + ")");
-			}
-
-			if (buffer.toByteArray()[i] == (byte) 0x0A) {
-				Log.d("removeSensorCommands", "0x0A found (i=" + i + ")");
-			}
-
-			if (buffer.toByteArray()[i] == (byte) 0x0D) {
-				Log.d("removeSensorCommands", "0x0D found (i=" + i + ")");
-			}
+			/*
+			 * if (buffer.toByteArray()[i] == (byte) 0xAA) {
+			 * Log.d("removeSensorCommands", "0xAA found (i=" + i + ")");
+			 * }
+			 * if (buffer.toByteArray()[i] == (byte) 0x55) {
+			 * Log.d("removeSensorCommands", "0x55 found (i=" + i + ")");
+			 * }
+			 * if (buffer.toByteArray()[i] == (byte) 52) {
+			 * Log.d("removeSensorCommands", "0x52 found (i=" + i + ")");
+			 * }
+			 * 
+			 * if (buffer.toByteArray()[i] == (byte) 0x0A) {
+			 * Log.d("removeSensorCommands", "0x0A found (i=" + i + ")");
+			 * }
+			 * 
+			 * if (buffer.toByteArray()[i] == (byte) 0x0D) {
+			 * Log.d("removeSensorCommands", "0x0D found (i=" + i + ")");
+			 * }
+			 */
 
 			if (i < length - 51) {
 				if ((buffer.toByteArray()[i] == (byte) 0xAA) && (buffer.toByteArray()[i + 1] == (byte) 0x55)
 						&& (buffer.toByteArray()[i + 2] == (byte) 52)) {
-					Log.d("removeSensorCommands", "Sensor command beginning found");
+					//Log.d("removeSensorCommands", "Sensor command beginning found");
 					if ((buffer.toByteArray()[i + 50] == (byte) 0x0D) && (buffer.toByteArray()[i + 51] == (byte) 0x0A)) {
-						Log.d("removeSensorCommands", "Sensor command end found");
+						//Log.d("removeSensorCommands", "Sensor command end found");
 						i = i + 51;
 						found = true;
 					}
 				}
 			}
-			Log.d("removeSensorCommands", "appending: i=" + i);
+			//Log.d("removeSensorCommands", "appending: i=" + i);
 
 			if (found == false) {
 				array.append(buffer.toByteArray()[i]);

@@ -50,9 +50,7 @@ public class BTConnectionHandler implements Runnable {
 	private static final String CLOSECONNECTION = "closethisconnection";
 	private static final String SERVERDUMMYROBOTALBERT = "albert";
 
-	private OutputStream temp = null;
-
-	private boolean robotAlbertConnection = false;
+	private OutputStream outputStreamProgram = null;
 
 	public BTConnectionHandler(StreamConnection connection) {
 		this.btTestConnection = connection;
@@ -69,7 +67,7 @@ public class BTConnectionHandler implements Runnable {
 			System.out.println("bytes read=" + readedBytes);
 			String[] receivedMessage = (new String(readBuffer, 0, readedBytes, "ASCII")).split(";");
 			System.out.println("receivedMessage[0]:" + receivedMessage[0]);
-			robotAlbertConnection = false;
+
 			if (receivedMessage[0].equals(SERVERDUMMYMULTIPLAYER)) {
 				uuid = new UUID(receivedMessage[2], false);
 
@@ -85,12 +83,10 @@ public class BTConnectionHandler implements Runnable {
 				}
 			} else if (receivedMessage[0].equals(SERVERDUMMYROBOTALBERT)) {
 				System.out.println("Albert message detected");
-				robotAlbertConnection = true;
 				uuid = new UUID(receivedMessage[1], false);
 				multiplayerDummyServer();
 				//btRobotAlbertSensorThread.start();
 				btTestConnectionRead(inputStream);
-				robotAlbertConnection = false;
 			}
 			System.out.println("end");
 
@@ -131,6 +127,9 @@ public class BTConnectionHandler implements Runnable {
 			outputStream.write(buffer, 0, MAGIC_PACKET.length() + Integer.SIZE);
 			outputStream.flush();
 
+			outputStreamProgram = outputStream;
+			btRobotAlbertSensorThread.start();
+
 			byte[] readBuffer = new byte[1024];
 			int readedBytes;
 			while (true) {
@@ -155,6 +154,15 @@ public class BTConnectionHandler implements Runnable {
 				 * btRobotAlbertSensorThread.start();
 				 * robotAlbertSendDistanceValues(outputStream);
 				 */
+				//}
+				/*
+				 * robotAlbertSendDistanceValues(outputStream);
+				 * robotAlbertSendDistanceValues(outputStream);
+				 * robotAlbertSendDistanceValues(outputStream);
+				 */
+				//if (temp == null) {
+				//temp = outputStream;
+				//btRobotAlbertSensorThread.start();
 				//}
 
 			}
@@ -188,15 +196,30 @@ public class BTConnectionHandler implements Runnable {
 					outputStream.write(buffer, 0, readedbytes);
 					outputStream.flush();
 
-					try {
-						if ((inputStream != null) && (inputStream.available() == 0)) {
-							robotAlbertSendDistanceValues(outputStream);
-							System.out.println("[btProgrammConnectionRead] robotAlbertSendDistanceValues sended");
-						}
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						//e.printStackTrace();
-					}
+					/*
+					 * try {
+					 * if ((inputStream != null) && (inputStream.available() == 0)) {
+					 * robotAlbertSendDistanceValues(outputStream);
+					 * System.out.println("[btProgrammConnectionRead] robotAlbertSendDistanceValues sended");
+					 * }
+					 * } catch (Exception e) {
+					 * // TODO Auto-generated catch block
+					 * //e.printStackTrace();
+					 * }
+					 */
+					/*
+					 * robotAlbertSendDistanceValues(outputStream);
+					 * robotAlbertSendDistanceValues(outputStream);
+					 * robotAlbertSendDistanceValues(outputStream);
+					 * robotAlbertSendDistanceValues(outputStream);
+					 * if (flag == false) {
+					 * flag = true;
+					 * //OutputStream o = btProgramConnection.openOutputStream();
+					 * //temp = o;
+					 * System.out.println("Start btRobotAlbertSensorThread");
+					 * btRobotAlbertSensorThread.start();
+					 * }
+					 */
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -209,6 +232,7 @@ public class BTConnectionHandler implements Runnable {
 			try {
 				outputStream.write(CLOSECONNECTION.getBytes());
 				outputStream.flush();
+				outputStreamProgram = null;
 				btTestConnection.close();
 				btProgramConnection.close();
 			} catch (IOException e) {
@@ -262,17 +286,26 @@ public class BTConnectionHandler implements Runnable {
 		@Override
 		public void run() {
 			System.out.println("[btrobotAlbertSensorThread] begin");
-			for (int i = 0; i < 10; i++) {
-				try {
+			//for (int i = 0; i < 10; i++) {
+			try {
+				while (outputStreamProgram != null) {
+					System.out.println("btRobotAlbertSensorThread: Sending sensor message begin");
+					robotAlbertSendDistanceValues(outputStreamProgram);
+					System.out.println("btRobotAlbertSensorThread: Sending sensor message end");
 
-					robotAlbertSendDistanceValues(temp);
-					this.sleep(2000);
-
-				} catch (Exception e) {
-					// TODO: handle exception
-					System.out.println("btRobotAlbertSensorThread: Exception occured: " + e.getMessage());
+					for (int i = 0; i < 10000; i++) {
+						for (int j = 0; j < 5000; j++) {
+							;
+						}
+					}
 				}
+				System.out.println("btRobotAlbertSensorThread: temp = null !!!");
+
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("btRobotAlbertSensorThread: Exception occured: " + e.getMessage());
 			}
+
 			System.out.println("[btrobotAlbertSensorThread] close");
 		}
 

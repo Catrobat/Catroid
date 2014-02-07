@@ -275,7 +275,7 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 	@Override
 	public byte[] receiveMessage() throws IOException, Exception {
 
-		//Log.d("RobotAlbertBtComm", "receiveMessage");
+		Log.d("RobotAlbertBtComm", "receiveMessage beginning");
 		if (inputStream == null) {
 			throw new IOException(" Software caused connection abort ");
 		}
@@ -287,14 +287,17 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 		int count2 = 0;
 
 		do {
-			//Log.d("test","checking 0xAA");
+			Log.d("RobotAlbertBtComm", "before checkIfDataIsAvailable");
 			checkIfDataIsAvailable();
+			Log.d("RobotAlbertBtComm", "after checkIfDataIsAvailable");
 			read = inputStream.read(buf0);
 			count2++;
 			if (count2 > 200) {
 				return null;
 			}
 		} while ((buf0[0] != -86) || (buf0[1] != 85));
+
+		Log.d("RobotAlbertBtComm", "Found begin of sensor packet");
 
 		int count = 2;
 		buffer[0] = buf0[0];
@@ -308,11 +311,16 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 			//Log.d("test", "waiting for 0x0A (count="+count+")");
 		} while ((buffer[count] != 13) && (buffer[count - 1] != 10));
 
+		Log.d("RobotAlbertBtComm", "Found end of sensor packet");
+
 		int leftDistance = (buffer[14] + buffer[16] + buffer[18] + buffer[20]) / 4;
 		int rightDistance = (buffer[13] + buffer[15] + buffer[17] + buffer[19]) / 4;
 
 		sensors.setValueOfLeftDistanceSensor(leftDistance);
 		sensors.setValueOfRightDistanceSensor(rightDistance);
+
+		Log.d("RobotAlbertBtComm", "receiveMessage:  leftDistance=" + leftDistance);
+		Log.d("RobotAlbertBtComm", "receiveMessage: rightDistance=" + rightDistance);
 
 		if (DEBUG_OUTPUT == true) {
 			Log.d("RobotAlbertBtComm", "receiveMessage:  leftDistance=" + leftDistance);
@@ -328,6 +336,8 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[19]=" + buffer[19]);
 			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[20]=" + buffer[20]);
 		}
+
+		Log.d("RobotAlbertBtComm", "receiveMessage end");
 
 		return buffer;
 	}
@@ -353,7 +363,7 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 			}
 			// here you can optionally check elapsed time, and time out
 			timePast = System.currentTimeMillis();
-			if ((timePast - timeStart) > 60000) {
+			if ((timePast - timeStart) > 13000) {
 				Log.d("AlbertRobot-Timeout", "TIMEOUT for receive message occured");
 				throw new IOException(" Software caused connection abort because of timeout");
 			}
