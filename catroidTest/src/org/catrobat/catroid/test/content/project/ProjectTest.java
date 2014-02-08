@@ -95,4 +95,5 @@ public class ProjectTest extends AndroidTestCase {
 		platform = (String) Reflection.getPrivateField(header, "platform");
 		assertEquals("Platform should be the current one", Constants.PLATFORM_NAME, platform);
 	}
+
 }
