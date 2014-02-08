@@ -41,7 +41,9 @@ import org.catrobat.catroid.content.bricks.RobotAlbertFrontLedBrick;
 import org.catrobat.catroid.content.bricks.RobotAlbertMotorActionBrick;
 import org.catrobat.catroid.content.bricks.RobotAlbertRgbLedEyeActionBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.robot.albert.ControlCommands;
 import org.catrobat.catroid.stage.StageActivity;
@@ -77,6 +79,7 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 
 	private final String projectName = UiTestUtils.PROJECTNAME1;
 	private final String spriteName = "testSprite";
+	private UserVariablesContainer userVariablesContainer;
 
 	//ArrayList<byte[]> sentCommands = new ArrayList<byte[]>();
 	ByteArrayBuffer sendCommands = new ByteArrayBuffer(1024);
@@ -206,7 +209,11 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		Script whenScript = new WhenScript(firstSprite);
 		SetLookBrick setLookBrick = new SetLookBrick(firstSprite);
 
-		byte[] sensorCmd = createSensorCommand();
+		UserVariablesContainer userVariablesContainer = new UserVariablesContainer();
+		userVariablesContainer.addProjectUserVariable("p1");
+		userVariablesContainer.addSpriteUserVariable("sprite_var1");
+
+		//byte[] sensorCmd = createSensorCommand();
 		//sendCommands.append(sensorCmd, 0, sensorCmd.length);
 
 		RobotAlbertMotorActionBrick legoMotorActionBrick = new RobotAlbertMotorActionBrick(firstSprite,
@@ -246,12 +253,15 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		commandLength = command.length;
 		sendCommands.append(command, 0, commandLength);
 
+		SetVariableBrick setVariableBrick = new SetVariableBrick(firstSprite, 0.0);
+
 		//sendCommands.append(sensorCmd, 0, sensorCmd.length);
 
 		whenScript.addBrick(legoMotorActionBrick);
 		whenScript.addBrick(robotAlbertFrontLedBrick);
 		whenScript.addBrick(robotAlbertBuzzerBrick);
 		whenScript.addBrick(robotAlbertRgbLedEyeActionBrick);
+		whenScript.addBrick(setVariableBrick);
 
 		startScript.addBrick(setLookBrick);
 		firstSprite.addScript(startScript);
@@ -273,25 +283,6 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		StorageHandler.getInstance().saveProject(project);
 
-	}
-
-	private byte[] createSensorCommand() {
-		byte[] buffer = new byte[52];
-		buffer[0] = (byte) 0xAA;
-		buffer[1] = (byte) 0x55;
-		buffer[2] = (byte) 52;
-		buffer[3] = (byte) 6;
-		buffer[13] = (byte) 50;
-		buffer[14] = (byte) 50;
-		buffer[15] = (byte) 50;
-		buffer[16] = (byte) 50;
-		buffer[17] = (byte) 50;
-		buffer[18] = (byte) 50;
-		buffer[19] = (byte) 50;
-		buffer[20] = (byte) 50;
-		buffer[50] = (byte) 0x0D;
-		buffer[51] = (byte) 0x0A;
-		return buffer;
 	}
 
 	private ByteArrayBuffer removeSensorCommands(ByteArrayBuffer buffer) {

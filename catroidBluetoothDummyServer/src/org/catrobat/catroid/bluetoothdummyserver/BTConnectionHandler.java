@@ -259,15 +259,18 @@ public class BTConnectionHandler implements Runnable {
 		buffer[50] = (byte) 0x0D;
 		buffer[51] = (byte) 0x0A;
 
+		boolean error = false;
 		try {
-			//if (inputStream.available() == 0) {
-			System.out.println("Sending Robot-Albert-Sensor-Message");
-			outputStream.write(buffer);
-			outputStream.flush();
-			System.out.println("End of sending Robot-Albert-Sensor-Message");
-			//}
+			if ((outputStream != null) && (error == false)) {
+				System.out.println("Sending Robot-Albert-Sensor-Message");
+				outputStream.write(buffer);
+				outputStream.flush();
+				System.out.println("End of sending Robot-Albert-Sensor-Message");
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			error = true;
+			outputStreamProgram = null;
 			e.printStackTrace();
 		}
 
@@ -303,6 +306,7 @@ public class BTConnectionHandler implements Runnable {
 
 			} catch (Exception e) {
 				// TODO: handle exception
+				//outputStreamProgram = null;
 				System.out.println("btRobotAlbertSensorThread: Exception occured: " + e.getMessage());
 			}
 
