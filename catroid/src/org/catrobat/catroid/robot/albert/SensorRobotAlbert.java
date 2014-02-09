@@ -40,7 +40,7 @@ public class SensorRobotAlbert {
 
 	private Handler handler;
 	private float[] distance = new float[2];
-	private static boolean DEBUG_OUTPUT = false;
+	private static boolean DEBUG_OUTPUT = true;
 
 	public static final String KEY_SETTINGS_ROBOT_ALBERT_BRICKS = "setting_robot_albert_bricks";
 	public boolean usingRobotAlbertBricks = false;
@@ -116,5 +116,9 @@ public class SensorRobotAlbert {
 	//if robot albert bricks are used, set the variable true
 	public void setBooleanAlbertBricks(boolean status) {
 		usingRobotAlbertBricks = status;
+	}
+
+	public boolean getBooleanAlbertBricksUsed() {
+		return usingRobotAlbertBricks;
 	}
 }
