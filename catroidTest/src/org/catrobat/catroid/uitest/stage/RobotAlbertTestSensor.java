@@ -27,17 +27,20 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ListView;
-import android.widget.Spinner;
 
 import org.apache.http.util.ByteArrayBuffer;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.DeviceListActivity;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.RobotAlbertFrontLedBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
+import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -85,7 +88,7 @@ public class RobotAlbertTestSensor extends BaseActivityInstrumentationTestCase<M
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		createTestProject();
+		//createTestProject();
 		UiTestUtils.prepareStageForTest();
 		//UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		//UiTestUtils.prepareStageForTest();
@@ -101,22 +104,23 @@ public class RobotAlbertTestSensor extends BaseActivityInstrumentationTestCase<M
 	}
 
 	public void testVariableBricks() {
-		BTDummyClient dummy = new BTDummyClient();
-		dummy.initializeAndConnectToServer(BTDummyClient.SERVERDUMMYROBOTALBERT);
 
-		//createTestproject(projectName);
+		//		BTDummyClient dummy = new BTDummyClient();
+		//		dummy.initializeAndConnectToServer(BTDummyClient.SERVERDUMMYROBOTALBERT);
 
-		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-		assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
-		if (!bluetoothAdapter.isEnabled()) {
-			bluetoothAdapter.enable();
-			solo.sleep(5000);
-		}
+		createTestProject();
 
-		ArrayList<String> autoConnectIDs = new ArrayList<String>();
-		autoConnectIDs.add("IM_NOT_A_MAC_ADDRESS");
-		DeviceListActivity deviceListActivity = new DeviceListActivity();
-		Reflection.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
+		//		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		//		assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
+		//		if (!bluetoothAdapter.isEnabled()) {
+		//			bluetoothAdapter.enable();
+		//			solo.sleep(5000);
+		//		}
+		//
+		//		ArrayList<String> autoConnectIDs = new ArrayList<String>();
+		//		autoConnectIDs.add("IM_NOT_A_MAC_ADDRESS");
+		//		DeviceListActivity deviceListActivity = new DeviceListActivity();
+		//		Reflection.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
 
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
@@ -135,56 +139,56 @@ public class RobotAlbertTestSensor extends BaseActivityInstrumentationTestCase<M
 
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		Spinner setVariableSpinner = solo.getCurrentViews(Spinner.class).get(0);
+		//		Spinner setVariableSpinner = solo.getCurrentViews(Spinner.class).get(0);
+		//
+		//		solo.clickOnView(setVariableSpinner);
+		//		solo.clickOnText("p1");
+		//		solo.clickOnText("0");
+		//		solo.sleep(1000);
+		//		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
+		//		solo.sleep(1000);
+		//		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_albert_robot_distance_left));
+		//		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_albert_robot_distance_left));
+		//		solo.sleep(1000);
+		//		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
+		//
+		//		solo.clickOnText("1.1");
+		//		solo.sleep(1000);
+		//		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
+		//		solo.sleep(1000);
+		//		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_albert_robot_distance_right));
+		//		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_albert_robot_distance_right));
+		//		solo.sleep(1000);
+		//		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
+		//
+		//		//disable albert bricks. Even if disabled, programs using Albert-bricks should work
+		//		if (preferences.getBoolean("setting_robot_albert_bricks", false)) {
+		//			solo.clickOnMenuItem(solo.getString(R.string.settings));
+		//			solo.clickOnText(solo.getString(R.string.pref_enable_robot_albert_bricks));
+		//			solo.goBack();
+		//		}
 
-		solo.clickOnView(setVariableSpinner);
-		solo.clickOnText("p1");
-		solo.clickOnText("0");
-		solo.sleep(1000);
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
-		solo.sleep(1000);
-		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_albert_robot_distance_left));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_albert_robot_distance_left));
-		solo.sleep(1000);
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
+		BTDummyClient dummy = new BTDummyClient();
+		dummy.initializeAndConnectToServer(BTDummyClient.SERVERDUMMYROBOTALBERT);
 
-		solo.clickOnText("1.1");
-		solo.sleep(1000);
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
-		solo.sleep(1000);
-		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_albert_robot_distance_right));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_albert_robot_distance_right));
-		solo.sleep(1000);
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
-
-		//disable albert bricks. Even if disabled, programs using Albert-bricks should work
-		if (preferences.getBoolean("setting_robot_albert_bricks", false)) {
-			solo.clickOnMenuItem(solo.getString(R.string.settings));
-			solo.clickOnText(solo.getString(R.string.pref_enable_robot_albert_bricks));
-			solo.goBack();
+		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
+		if (!bluetoothAdapter.isEnabled()) {
+			bluetoothAdapter.enable();
+			solo.sleep(5000);
 		}
 
-		//		BTDummyClient dummy = new BTDummyClient();
-		//		dummy.initializeAndConnectToServer(BTDummyClient.SERVERDUMMYROBOTALBERT);
-		//
-		//		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-		//		assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
-		//		if (!bluetoothAdapter.isEnabled()) {
-		//			bluetoothAdapter.enable();
-		//			solo.sleep(5000);
-		//		}
-		//
-		//		ArrayList<String> autoConnectIDs = new ArrayList<String>();
-		//		autoConnectIDs.add("IM_NOT_A_MAC_ADDRESS");
-		//		DeviceListActivity deviceListActivity = new DeviceListActivity();
-		//		Reflection.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
+		ArrayList<String> autoConnectIDs = new ArrayList<String>();
+		autoConnectIDs.add("IM_NOT_A_MAC_ADDRESS");
+		DeviceListActivity deviceListActivity = new DeviceListActivity();
+		Reflection.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
 
 		//solo.waitForView(solo.getView(R.id.button_play));
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		Log.d("RobotAlbertTest", "1");
 		//solo.waitForActivity(StageActivity.class.getSimpleName());
 		Log.d("RobotAlbertTest", "2");
-		solo.sleep(5000);
+		solo.sleep(2000);
 
 		Log.d("RobotAlbertTest", "in Stage");
 
@@ -203,7 +207,8 @@ public class RobotAlbertTestSensor extends BaseActivityInstrumentationTestCase<M
 
 		solo.sleep(5000);
 		solo.assertCurrentActivity("Not in stage - connection to bluetooth-device failed", StageActivity.class);
-		solo.sleep(6000);
+		solo.clickOnScreen(ScreenValues.SCREEN_WIDTH / 2, ScreenValues.SCREEN_HEIGHT / 2);
+		solo.sleep(9000);
 
 		double distanceLeft = userVariablesContainer.getUserVariable("p1", sprite).getValue();
 		double distanceRight = userVariablesContainer.getUserVariable("p2", sprite).getValue();
@@ -347,6 +352,12 @@ public class RobotAlbertTestSensor extends BaseActivityInstrumentationTestCase<M
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 
+		//RobotAlbertFrontLedBrick robotAlbertFrontLedBrick = new RobotAlbertFrontLedBrick(sprite, new Formula(1));
+		//script.addBrick(robotAlbertFrontLedBrick);
+		//RepeatBrickTest rep = new Rep
+		//ForeverBrick loop = new ForeverBrick(sprite);
+		//script.addBrick(loop);
+
 		userVariablesContainer = project.getUserVariables();
 		userVariablesContainer.addProjectUserVariable("p1");
 		userVariablesContainer.addProjectUserVariable("p2");
@@ -354,39 +365,17 @@ public class RobotAlbertTestSensor extends BaseActivityInstrumentationTestCase<M
 		userVariablesContainer.addSpriteUserVariable("sprite_var2");
 
 		setVariableBrick = new SetVariableBrick(sprite, 0.0);
-		script.addBrick(setVariableBrick);
+		//script.addBrick(setVariableBrick);
 		setVariableBrick2 = new SetVariableBrick(sprite, 1.1);
-		script.addBrick(setVariableBrick2);
+		//script.addBrick(setVariableBrick2);
+
+		RobotAlbertFrontLedBrick robotAlbertFrontLedBrick = new RobotAlbertFrontLedBrick(sprite, new Formula(1));
+		script.addBrick(robotAlbertFrontLedBrick);
+		WaitBrick waitBrick = new WaitBrick(sprite, 5000);
+		script.addBrick(waitBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);
 	}
 
-	private ByteArrayBuffer removeSensorCommands(ByteArrayBuffer buffer) {
-		int i;
-		int length = buffer.length();
-
-		//Log.d("removeSensorCommands", "begin");
-		ByteArrayBuffer array = new ByteArrayBuffer(0);
-
-		for (i = 0; i < length; i++) {
-			boolean found = false;
-
-			if (i < length - 51) {
-				if ((buffer.toByteArray()[i] == (byte) 0xAA) && (buffer.toByteArray()[i + 1] == (byte) 0x55)
-						&& (buffer.toByteArray()[i + 2] == (byte) 52)) {
-					if ((buffer.toByteArray()[i + 50] == (byte) 0x0D) && (buffer.toByteArray()[i + 51] == (byte) 0x0A)) {
-						i = i + 51;
-						found = true;
-					}
-				}
-			}
-
-			if (found == false) {
-				array.append(buffer.toByteArray()[i]);
-			}
-		}
-		Log.d("removeSensorCommands", "end");
-		return array;
-	}
 }

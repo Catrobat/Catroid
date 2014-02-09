@@ -55,10 +55,6 @@ import org.catrobat.catroid.bluetooth.DeviceListActivity;
 
 import java.io.IOException;
 
-/**
- * @author une
- * 
- */
 public class RobotAlbert implements BTConnectable {
 
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
