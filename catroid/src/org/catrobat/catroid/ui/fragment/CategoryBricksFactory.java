@@ -42,6 +42,7 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.DroneTakeOffBrickNxtCp;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
@@ -100,6 +101,8 @@ public class CategoryBricksFactory {
 			return setupVariablesCategoryList(sprite);
 		} else if (category.equals(context.getString(R.string.category_lego_nxt))) {
 			return setupLegoNxtCategoryList(sprite);
+		} else if (category.equals(context.getString(R.string.category_drone))) {
+			return setupDroneCategoryList(sprite);
 		}
 
 		return new ArrayList<Brick>();
@@ -204,6 +207,13 @@ public class CategoryBricksFactory {
 		legoNXTBrickList.add(new LegoNxtPlayToneBrick(sprite, BrickValues.LEGO_FREQUENCY, BrickValues.LEGO_DURATION));
 
 		return legoNXTBrickList;
+	}
+
+	private List<Brick> setupDroneCategoryList(Sprite sprite) {
+		List<Brick> droneBrickList = new ArrayList<Brick>();
+		droneBrickList.add(new DroneTakeOffBrickNxtCp(sprite));
+
+		return droneBrickList;
 	}
 
 	private boolean isBackground(Sprite sprite) {

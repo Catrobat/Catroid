@@ -22,16 +22,23 @@
  */
 package org.catrobat.catroid.stage;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.WindowManager;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
+import com.parrot.freeflight.service.DroneControlService;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 
@@ -41,11 +48,16 @@ public class StageActivity extends AndroidApplication {
 	private boolean resizePossible;
 	private StageDialog stageDialog;
 
+	protected DroneControlService droneControlService;
+
+	public static final int STAGE_ACTIVITY_FINISH = 7777;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		bindService(new Intent(this, DroneControlService.class), this.droneServiceConnection, Context.BIND_AUTO_CREATE);
 		stageListener = new StageListener();
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
@@ -134,5 +146,24 @@ public class StageActivity extends AndroidApplication {
 			ScreenValues.SCREEN_WIDTH = tmp;
 		}
 	}
+
+	private void onDroneServiceConnected(DroneControlService service) {
+		DroneServiceWrapper.setDroneService(service);
+		Log.d(TAG, "DroneServiceConnection");
+	}
+
+	private ServiceConnection droneServiceConnection = new ServiceConnection() {
+
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			droneControlService = ((DroneControlService.LocalBinder) service).getService();
+			onDroneServiceConnected(droneControlService);
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			droneControlService = null;
+		}
+	};
 
 }
