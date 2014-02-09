@@ -34,7 +34,12 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
+import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.NotificationData;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
@@ -48,14 +53,19 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
-public class TestUtils {
+public final class TestUtils {
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
+	public static final String CORRUPT_PROJECT_NAME = "copiedProject";
 
+	// Suppress default constructor for noninstantiability
 	private TestUtils() {
-	};
+		throw new AssertionError();
+	}
 
 	/**
 	 * saves a file into the project folder
@@ -189,6 +199,57 @@ public class TestUtils {
 
 		StorageHandler.getInstance().saveProject(project);
 		return project;
+	}
+
+	public static List<Brick> createTestProjectWithWrongIfClauseReferences() {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		Project project = new Project(null, CORRUPT_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("corruptReferences");
+
+		Script testScript = new StartScript(firstSprite);
+
+		ArrayList<Brick> brickList = new ArrayList<Brick>();
+
+		IfLogicBeginBrick ifBeginBrick = new IfLogicBeginBrick(firstSprite, 0);
+		IfLogicElseBrick ifElseBrick = new IfLogicElseBrick(firstSprite, ifBeginBrick);
+		ifElseBrick.setIfBeginBrick(null);
+
+		IfLogicBeginBrick ifBeginBrickNested = new IfLogicBeginBrick(firstSprite, 0);
+		//reference shouldn't be null:
+		IfLogicElseBrick ifElseBrickNested = new IfLogicElseBrick(firstSprite, ifBeginBrickNested);
+		ifElseBrickNested.setIfBeginBrick(null);
+		//reference shouldn't be null + wrong ifElseBrickReference:
+		IfLogicEndBrick ifEndBrickNested = new IfLogicEndBrick(firstSprite, ifElseBrick, ifBeginBrickNested);
+		ifEndBrickNested.setIfBeginBrick(null);
+
+		//reference to wrong ifBegin and ifEnd-Bricks:
+		IfLogicEndBrick ifEndBrick = new IfLogicEndBrick(firstSprite, ifElseBrickNested, ifBeginBrickNested);
+
+		brickList.add(ifBeginBrick);
+		brickList.add(new ShowBrick(firstSprite));
+		brickList.add(ifElseBrick);
+		brickList.add(new ComeToFrontBrick(firstSprite));
+		brickList.add(ifBeginBrickNested);
+		brickList.add(new ComeToFrontBrick(firstSprite));
+		brickList.add(ifElseBrickNested);
+		brickList.add(new ShowBrick(firstSprite));
+		brickList.add(ifEndBrickNested);
+		brickList.add(ifEndBrick);
+
+		for (Brick brick : brickList) {
+			testScript.addBrick(brick);
+		}
+
+		firstSprite.addScript(testScript);
+
+		project.addSprite(firstSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+
+		return brickList;
 	}
 
 	public static Project createTestProjectOnLocalStorageWithCatrobatLanguageVersion(float catrobatLanguageVersion) {

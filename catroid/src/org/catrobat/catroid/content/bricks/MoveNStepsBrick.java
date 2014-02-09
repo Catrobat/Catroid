@@ -149,7 +149,7 @@ public class MoveNStepsBrick extends BrickBaseType implements OnClickListener, F
 
 		if (view != null) {
 
-			View layout = (View) view.findViewById(R.id.brick_move_n_steps_layout);
+			View layout = view.findViewById(R.id.brick_move_n_steps_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 

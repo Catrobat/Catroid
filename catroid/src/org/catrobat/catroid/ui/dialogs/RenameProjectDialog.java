@@ -118,7 +118,7 @@ public class RenameProjectDialog extends TextDialog {
 
 	public interface OnProjectRenameListener {
 
-		public void onProjectRename(boolean isCurrentProject);
+		void onProjectRename(boolean isCurrentProject);
 
 	}
 }

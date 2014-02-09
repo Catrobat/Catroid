@@ -39,29 +39,31 @@ import java.io.IOException;
 
 public class StandardProjectHandlerTest extends AndroidTestCase {
 
-	private String testProjectName = "testStandardProjectBuilding";
+	private static final String TEST_PROJECT_NAME = "testStandardProjectBuilding";
+	private static final int BACKGROUNDIMAGE_WIDTH = 720;
+	private static final int BACKGROUNDIMAGE_HEIGHT = 1134;
 
 	public StandardProjectHandlerTest() throws IOException {
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		TestUtils.clearProject(testProjectName);
+		TestUtils.clearProject(TEST_PROJECT_NAME);
 		super.tearDown();
 	}
 
 	@Override
 	public void setUp() {
-		TestUtils.clearProject(testProjectName);
+		TestUtils.clearProject(TEST_PROJECT_NAME);
 	}
 
 	public void testCreateStandardProject() throws IOException {
-		ScreenValues.SCREEN_WIDTH = 720;
-		ScreenValues.SCREEN_HEIGHT = 1134;
+		ScreenValues.SCREEN_WIDTH = BACKGROUNDIMAGE_WIDTH;
+		ScreenValues.SCREEN_HEIGHT = BACKGROUNDIMAGE_HEIGHT;
 
-		Project testProject = StandardProjectHandler.createAndSaveStandardProject(testProjectName, getContext());
+		Project testProject = StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME, getContext());
 
-		assertEquals("The Project has the wrong name.", testProjectName, testProject.getName());
+		assertEquals("The Project has the wrong name.", TEST_PROJECT_NAME, testProject.getName());
 		assertEquals("wrong number of sprites.", 5, testProject.getSpriteList().size());
 
 		int backgroundSpriteIndex = 0;
@@ -89,9 +91,37 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 		}
 	}
 
+	public void testCreateScaledStandardProject() throws IOException {
+		ScreenValues.SCREEN_WIDTH = 800;
+		ScreenValues.SCREEN_HEIGHT = 1280;
+		//double scale = ((double) ScreenValues.SCREEN_WIDTH) / (double) BACKGROUNDIMAGE_WIDTH;
+		double scale = (ScreenValues.SCREEN_HEIGHT) / (double) BACKGROUNDIMAGE_HEIGHT;
+
+		Project testProject = StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME, getContext());
+
+		int backgroundSpriteIndex = 0;
+		int backgroundLookDataIndex = 0;
+		int catroidSpriteIndex = 1;
+		LookData backgroundLookData = testProject.getSpriteList().get(backgroundSpriteIndex).getLookDataList()
+				.get(backgroundLookDataIndex);
+		assertEquals("wrong height of background image", ScreenValues.SCREEN_HEIGHT, backgroundLookData.getMeasure()[1]);
+		//note: the expected value is not ScreenValues.SCREEN_HEIGHT
+		assertEquals("wrong width of background image", (int) (BACKGROUNDIMAGE_WIDTH * scale),
+				backgroundLookData.getMeasure()[0]);
+
+		for (catroidSpriteIndex = 1; catroidSpriteIndex <= 4; catroidSpriteIndex++) {
+			for (int moleNumber = 0; moleNumber < 3; ++moleNumber) {
+				LookData catLookData = testProject.getSpriteList().get(catroidSpriteIndex).getLookDataList()
+						.get(moleNumber);
+				assertEquals("wrong size of mole image", (int) (720d * scale), catLookData.getMeasure()[0]);
+				assertEquals("wrong size of mole image", (int) (542d * scale), catLookData.getMeasure()[1]);
+			}
+		}
+	}
+
 	public void testDefaultProjectScreenshot() throws IOException {
-		StandardProjectHandler.createAndSaveStandardProject(testProjectName, getContext());
-		String projectPath = Constants.DEFAULT_ROOT + "/" + testProjectName;
+		StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME, getContext());
+		String projectPath = Constants.DEFAULT_ROOT + "/" + TEST_PROJECT_NAME;
 
 		File file = new File(projectPath + "/" + StageListener.SCREENSHOT_MANUAL_FILE_NAME);
 		assertFalse("Manual screenshot shouldn't exist in default project", file.exists());

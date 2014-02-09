@@ -33,8 +33,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class GetXListTest extends TestCase {
-	private static final String[] DIRECTORIES = { "../catroid", "../catroidTest", "../catroidUiTest",
-			"../catroidCucumberTest", };
+	private static final String[] DIRECTORIES = { "../catroid", "../catroidTest", "../catroidCucumberTest" };
 	private static final String REGEX_PATTERN = "^.*get(Sprite|Script|Brick)List\\(\\)\\.add\\(.*$";
 
 	private StringBuffer errorMessages;

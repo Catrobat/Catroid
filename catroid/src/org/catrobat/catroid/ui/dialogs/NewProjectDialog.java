@@ -153,6 +153,7 @@ public class NewProjectDialog extends DialogFragment {
 
 		} catch (IOException e) {
 			Utils.showErrorDialog(getActivity(), R.string.error_new_project);
+			e.printStackTrace();
 			dismiss();
 			return;
 		}

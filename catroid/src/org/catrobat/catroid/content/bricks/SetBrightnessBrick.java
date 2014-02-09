@@ -129,7 +129,7 @@ public class SetBrightnessBrick extends BrickBaseType implements OnClickListener
 
 		if (view != null) {
 
-			View layout = (View) view.findViewById(R.id.brick_set_brightness_layout);
+			View layout = view.findViewById(R.id.brick_set_brightness_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 

@@ -49,7 +49,8 @@ public class RepeatActionTest extends InstrumentationTestCase {
 
 	public void testLoopDelay() throws InterruptedException {
 		final int deltaY = -10;
-		final float delta = 0.005f, delayByContract = 0.020f;
+		final float delta = 0.005f;
+		final float delayByContract = 0.020f;
 		Sprite testSprite = new Sprite("sprite");
 		Script testScript = new StartScript(testSprite);
 

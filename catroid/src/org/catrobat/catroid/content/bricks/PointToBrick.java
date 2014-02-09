@@ -22,11 +22,12 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.database.DataSetObserver;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -37,7 +38,8 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;import android.widget.Spinner;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
@@ -45,10 +47,13 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 
 import java.util.ArrayList;
@@ -56,10 +61,13 @@ import java.util.List;
 
 public class PointToBrick extends BrickBaseType {
 
+	public static final String EXTRA_NEW_SPRITE_NAME = "EXTRA_NEW_SPRITE_NAME";
+
 	private static final long serialVersionUID = 1L;
 	private Sprite pointedObject;
 	private transient String oldSelectedObject;
 	private transient AdapterView<?> adapterView;
+	private transient SpinnerAdapterWrapper spinnerAdapterWrapper;
 
 	public PointToBrick(Sprite sprite, Sprite pointedSprite) {
 		this.sprite = sprite;
@@ -117,7 +125,7 @@ public class PointToBrick extends BrickBaseType {
 
 		final ArrayAdapter<String> spinnerAdapter = getArrayAdapterFromSpriteList(context);
 
-		SpinnerAdapterWrapper spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, spinner, spinnerAdapter);
+		spinnerAdapterWrapper = new SpinnerAdapterWrapper(context, spinner, spinnerAdapter);
 
 		spinner.setAdapter(spinnerAdapterWrapper);
 
@@ -158,9 +166,8 @@ public class PointToBrick extends BrickBaseType {
 
 		if (view != null) {
 
-			View layout = (View) view.findViewById(R.id.brick_point_to_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
+			View layout = view.findViewById(R.id.brick_point_to_layout);
+			layout.getBackground().setAlpha(alphaValue);
 
 			TextView textPointToLabel = (TextView) view.findViewById(R.id.brick_point_to_label);
 			textPointToLabel.setTextColor(textPointToLabel.getTextColors().withAlpha(alphaValue));
@@ -171,8 +178,7 @@ public class PointToBrick extends BrickBaseType {
 				((TextView) adapterView.getChildAt(0)).setTextColor(color);
 			}
 
-			this.alphaValue = (alphaValue);
-
+			this.alphaValue = alphaValue;
 		}
 
 		return view;
@@ -246,7 +252,7 @@ public class PointToBrick extends BrickBaseType {
 		return arrayAdapter;
 	}
 
-	private class SpinnerAdapterWrapper implements SpinnerAdapter {
+	public final class SpinnerAdapterWrapper implements SpinnerAdapter {
 
 		protected Context context;
 		protected Spinner spinner;
@@ -255,7 +261,7 @@ public class PointToBrick extends BrickBaseType {
 
 		private boolean isTouchInDropDownView;
 
-		public SpinnerAdapterWrapper(Context context, Spinner spinner, ArrayAdapter<String> spinnerAdapter) {
+		private SpinnerAdapterWrapper(Context context, Spinner spinner, ArrayAdapter<String> spinnerAdapter) {
 			this.context = context;
 			this.spinner = spinner;
 			this.spinnerAdapter = spinnerAdapter;
@@ -346,31 +352,53 @@ public class PointToBrick extends BrickBaseType {
 		}
 
 		protected void showNewSpriteDialog() {
-			NewSpriteDialog dialog = new NewSpriteDialog() {
-
-				@Override
-				protected boolean handleOkButton() {
-					if (super.handleOkButton()) {
-						String newSpriteName = (input.getText().toString()).trim();
-
-						spinnerAdapter.add(newSpriteName);
-						oldSelectedObject = newSpriteName;
-						setSpinnerSelection(spinner);
-
-						return true;
-					}
-
-					return false;
-				}
-
-				@Override
-				public void onDismiss(DialogInterface dialog) {
-					setSpinnerSelection(spinner);
-					super.onDismiss(dialog);
-				}
-			};
-
+			NewSpriteDialog dialog = new NewSpriteDialog(this);
 			dialog.show(((ScriptActivity) context).getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+		}
+
+		public void refreshSpinnerAfterNewSprite(final Context context, final String newSpriteName) {
+			Project project = ProjectManager.getInstance().getCurrentProject();
+			for (Sprite sprite : project.getSpriteList()) {
+				if (sprite.getName().equals(newSpriteName)) {
+					pointedObject = sprite;
+				}
+			}
+
+			setSpinnerSelection(spinner);
+
+			AlertDialog dialog = new CustomAlertDialogBuilder(context)
+					.setTitle(R.string.dialog_new_object_switch_title)
+					.setMessage(R.string.dialog_new_object_switch_message)
+					.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							ProjectManager.getInstance().setCurrentSprite(pointedObject);
+
+							Intent intent = new Intent(context, ProgramMenuActivity.class);
+							intent.putExtra(ProgramMenuActivity.FORWARD_TO_SCRIPT_ACTIVITY,
+									ScriptActivity.FRAGMENT_SCRIPTS);
+							intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+							context.startActivity(intent);
+
+							dialog.dismiss();
+						}
+					}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							spinnerAdapter.notifyDataSetChanged();
+							dialog.dismiss();
+						}
+					}).create();
+			dialog.setCanceledOnTouchOutside(true);
+			dialog.show();
+		}
+
+		public void updateSpinner() {
+			setSpinnerSelection(spinner);
 		}
 	}
 }

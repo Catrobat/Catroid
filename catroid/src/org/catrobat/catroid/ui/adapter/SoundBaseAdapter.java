@@ -162,11 +162,11 @@ public class SoundBaseAdapter extends ArrayAdapter<SoundInfo> implements ScriptA
 
 	public interface OnSoundEditListener {
 
-		public void onSoundPlay(View view);
+		void onSoundPlay(View view);
 
-		public void onSoundPause(View view);
+		void onSoundPause(View view);
 
-		public void onSoundChecked();
+		void onSoundChecked();
 	}
 
 }

@@ -35,6 +35,7 @@
     <color name="button_background_gradient_end_color">#003F54</color>
     <color name="button_background_top_border_color">#4D7F8F</color>
     <color name="button_background_bottom_border_color">#001724</color>
+    <color name="holo_blue_light">#ff33b5e5</color>
 
     <!-- Main Menu Colors -->
     <color name="main_menu_button_text_color">#A8DFF4</color>

@@ -126,7 +126,7 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 
 		if (view != null) {
 
-			View layout = (View) view.findViewById(R.id.brick_change_ghost_effect_layout);
+			View layout = view.findViewById(R.id.brick_change_ghost_effect_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 

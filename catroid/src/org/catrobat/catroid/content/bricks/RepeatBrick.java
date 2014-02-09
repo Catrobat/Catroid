@@ -143,7 +143,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener, Form
 
 		if (view != null) {
 
-			View layout = (View) view.findViewById(R.id.brick_repeat_layout);
+			View layout = view.findViewById(R.id.brick_repeat_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 

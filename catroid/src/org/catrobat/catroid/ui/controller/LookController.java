@@ -44,7 +44,6 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.graphics.Pixmap;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -65,8 +64,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LookController {
-
+public final class LookController {
 	public static final int REQUEST_SELECT_OR_DRAW_IMAGE = 0;
 	public static final int REQUEST_POCKET_PAINT_EDIT_IMAGE = 1;
 	public static final int REQUEST_TAKE_PICTURE = 2;
@@ -76,100 +74,107 @@ public class LookController {
 	public static final String LOADER_ARGUMENTS_IMAGE_URI = "image_uri";
 	public static final String SHARED_PREFERENCE_NAME = "showDetailsLooks";
 
-	private static LookController instance;
+	private static final LookController INSTANCE = new LookController();
+
+	private LookController() {
+	}
 
 	public static LookController getInstance() {
-		if (instance == null) {
-			instance = new LookController();
-		}
-		return instance;
+		return INSTANCE;
 	}
 
 	public void updateLookLogic(final int position, final LookViewHolder holder, final LookBaseAdapter lookAdapter) {
 		final LookData lookData = lookAdapter.getLookDataItems().get(position);
 
-		if (lookData != null) {
-			holder.lookNameTextView.setTag(position);
-			holder.lookElement.setTag(position);
+		if (lookData == null) {
+			return;
+		}
+		holder.lookNameTextView.setTag(position);
+		holder.lookElement.setTag(position);
+		holder.lookImageView.setImageBitmap(lookData.getThumbnailBitmap());
+		holder.lookNameTextView.setText(lookData.getLookName());
 
-			holder.lookImageView.setImageBitmap(lookData.getThumbnailBitmap());
-			holder.lookNameTextView.setText(lookData.getLookName());
+		boolean checkboxIsVisible = handleCheckboxes(position, holder, lookAdapter);
+		handleDetails(lookData, holder, lookAdapter);
 
-			holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+		// Disable ImageView on active ActionMode
+		if (checkboxIsVisible) {
+			holder.lookImageView.setEnabled(false);
+		} else {
+			holder.lookImageView.setEnabled(true);
+		}
+		if (holder.lookElement.isClickable()) {
+			holder.lookElement.setOnClickListener(new View.OnClickListener() {
 				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					if (isChecked) {
-						if (lookAdapter.getSelectMode() == ListView.CHOICE_MODE_SINGLE) {
-							lookAdapter.clearCheckedItems();
-						}
-						lookAdapter.getCheckedItems().add(position);
-					} else {
-						lookAdapter.getCheckedItems().remove(position);
-					}
-					lookAdapter.notifyDataSetChanged();
-
-					if (lookAdapter.getOnLookEditListener() != null) {
-						lookAdapter.getOnLookEditListener().onLookChecked();
+				public void onClick(View view) {
+					if (lookAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
+						holder.checkbox.setChecked(!holder.checkbox.isChecked());
+					} else if (lookAdapter.getOnLookEditListener() != null) {
+						lookAdapter.getOnLookEditListener().onLookEdit(view);
 					}
 				}
 			});
+		} else {
+			holder.lookElement.setOnClickListener(null);
+		}
+	}
 
-			boolean checkboxIsVisible = false;
-
-			if (lookAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
-				holder.checkbox.setVisibility(View.VISIBLE);
-				holder.lookArrowView.setVisibility(View.GONE);
-				holder.lookElement.setBackgroundResource(R.drawable.button_background_shadowed);
-				checkboxIsVisible = true;
-			} else {
-				holder.checkbox.setVisibility(View.GONE);
-				holder.checkbox.setChecked(false);
-				holder.lookArrowView.setVisibility(View.VISIBLE);
-				holder.lookElement.setBackgroundResource(R.drawable.button_background_selector);
-				lookAdapter.clearCheckedItems();
+	private void handleDetails(LookData lookData, LookViewHolder holder, LookBaseAdapter lookAdapter) {
+		if (lookAdapter.getShowDetails()) {
+			if (lookData.getAbsolutePath() != null) {
+				holder.lookFileSizeTextView.setText(UtilFile.getSizeAsString(new File(lookData.getAbsolutePath())));
 			}
+			int[] measure = lookData.getMeasure();
+			String measureString = measure[0] + " x " + measure[1];
 
-			if (lookAdapter.getCheckedItems().contains(position)) {
-				holder.checkbox.setChecked(true);
-			} else {
-				holder.checkbox.setChecked(false);
-			}
+			holder.lookMeasureTextView.setText(measureString);
+			holder.lookDetailsLinearLayout.setVisibility(TextView.VISIBLE);
+		} else {
+			holder.lookDetailsLinearLayout.setVisibility(TextView.GONE);
+		}
+	}
 
-			if (lookAdapter.getShowDetails()) {
-				if (lookData.getAbsolutePath() != null) {
-					holder.lookFileSizeTextView.setText(UtilFile.getSizeAsString(new File(lookData.getAbsolutePath())));
-				}
-				int[] measure = lookData.getMeasure();
-				String measureString = measure[0] + " x " + measure[1];
-
-				holder.lookMeasureTextView.setText(measureString);
-				holder.lookDetailsLinearLayout.setVisibility(TextView.VISIBLE);
-			} else {
-				holder.lookDetailsLinearLayout.setVisibility(TextView.GONE);
-			}
-
-			// Disable ImageView on active ActionMode
-			if (checkboxIsVisible) {
-				holder.lookImageView.setEnabled(false);
-			} else {
-				holder.lookImageView.setEnabled(true);
-			}
-			if (holder.lookElement.isClickable()) {
-				holder.lookElement.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						if (lookAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
-							holder.checkbox.setChecked(!holder.checkbox.isChecked());
-						} else if (lookAdapter.getOnLookEditListener() != null) {
-							lookAdapter.getOnLookEditListener().onLookEdit(view);
-						}
+	private boolean handleCheckboxes(final int position, LookViewHolder holder, final LookBaseAdapter lookAdapter) {
+		holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isChecked) {
+					if (lookAdapter.getSelectMode() == ListView.CHOICE_MODE_SINGLE) {
+						lookAdapter.clearCheckedItems();
 					}
-				});
-			} else {
-				holder.lookElement.setOnClickListener(null);
+					lookAdapter.getCheckedItems().add(position);
+				} else {
+					lookAdapter.getCheckedItems().remove(position);
+				}
+				lookAdapter.notifyDataSetChanged();
+
+				if (lookAdapter.getOnLookEditListener() != null) {
+					lookAdapter.getOnLookEditListener().onLookChecked();
+				}
 			}
+		});
+
+		boolean checkboxIsVisible = false;
+
+		if (lookAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
+			holder.checkbox.setVisibility(View.VISIBLE);
+			holder.lookArrowView.setVisibility(View.GONE);
+			holder.lookElement.setBackgroundResource(R.drawable.button_background_shadowed);
+			checkboxIsVisible = true;
+		} else {
+			holder.checkbox.setVisibility(View.GONE);
+			holder.checkbox.setChecked(false);
+			holder.lookArrowView.setVisibility(View.VISIBLE);
+			holder.lookElement.setBackgroundResource(R.drawable.button_background_selector);
+			lookAdapter.clearCheckedItems();
 		}
 
+		if (lookAdapter.getCheckedItems().contains(position)) {
+			holder.checkbox.setChecked(true);
+		} else {
+			holder.checkbox.setChecked(false);
+		}
+		return checkboxIsVisible;
 	}
 
 	public Loader<Cursor> onCreateLoader(int id, Bundle arguments, FragmentActivity activity) {
@@ -318,8 +323,6 @@ public class LookController {
 			try {
 				File newLookFile = StorageHandler.getInstance().copyImage(projectName, pathOfPocketPaintImage,
 						newFileName);
-				File temporaryPictureFileInPocketPaint = new File(pathOfPocketPaintImage);
-				temporaryPictureFileInPocketPaint.delete(); //delete temp file in paintroid
 
 				StorageHandler.getInstance().deleteFile(selectedLookData.getAbsolutePath()); //reduce usage in container or delete it
 
@@ -329,6 +332,7 @@ public class LookController {
 				e.printStackTrace();
 			}
 		}
+
 	}
 
 	public void loadPictureFromCameraIntoCatroid(Uri lookFromCameraUri, Activity activity,
@@ -350,6 +354,7 @@ public class LookController {
 
 	public boolean checkIfPocketPaintIsInstalled(Intent intent, final Activity activity) {
 		// Confirm if Pocket Paint is installed else start dialog --------------------------
+
 		List<ResolveInfo> packageList = activity.getPackageManager().queryIntentActivities(intent,
 				PackageManager.MATCH_DEFAULT_ONLY);
 
@@ -360,16 +365,9 @@ public class LookController {
 					.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int id) {
-
-							if (BuildConfig.DEBUG) {
-								Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, Uri
-										.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK_NIGHTLY));
-								activity.startActivity(downloadPocketPaintIntent);
-							} else {
-								Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, Uri
-										.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK));
-								activity.startActivity(downloadPocketPaintIntent);
-							}
+							Intent downloadPocketPaintIntent = new Intent(Intent.ACTION_VIEW, Uri
+									.parse(Constants.POCKET_PAINT_DOWNLOAD_LINK));
+							activity.startActivity(downloadPocketPaintIntent);
 						}
 					}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 						@Override

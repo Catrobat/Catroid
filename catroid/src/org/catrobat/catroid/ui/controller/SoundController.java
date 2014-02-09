@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -35,6 +35,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -64,179 +65,173 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.SortedSet;
 
-public class SoundController {
-
+public final class SoundController {
 	public static final String BUNDLE_ARGUMENTS_SELECTED_SOUND = "selected_sound";
 	public static final String SHARED_PREFERENCE_NAME = "showDetailsSounds";
 	public static final int ID_LOADER_MEDIA_IMAGE = 1;
 	public static final int REQUEST_SELECT_MUSIC = 0;
+
+	private static final SoundController INSTANCE = new SoundController();
 	private static final String TAG = SoundController.class.getSimpleName();
 
-	private static SoundController instance;
+	private SoundController() {
+	}
 
 	public static SoundController getInstance() {
-		if (instance == null) {
-			instance = new SoundController();
-		}
-
-		return instance;
+		return INSTANCE;
 	}
 
 	public void updateSoundLogic(Context context, final int position, final SoundViewHolder holder,
 			final SoundBaseAdapter soundAdapter) {
 		final SoundInfo soundInfo = soundAdapter.getSoundInfoItems().get(position);
 
-		if (soundInfo != null) {
-			holder.playAndStopButton.setTag(position);
-			holder.titleTextView.setText(soundInfo.getTitle());
+		if (soundInfo == null) {
+			return;
+		}
+		holder.playAndStopButton.setTag(position);
+		holder.titleTextView.setText(soundInfo.getTitle());
 
-			holder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					if (isChecked) {
-						if (soundAdapter.getSelectMode() == ListView.CHOICE_MODE_SINGLE) {
-							soundAdapter.clearCheckedItems();
+		handleCheckboxes(position, holder, soundAdapter);
+		handleSoundInfo(holder, soundInfo, soundAdapter, position, context);
+		handleDetails(soundAdapter, holder, soundInfo);
+		setClickListener(soundAdapter, holder, soundInfo);
+	}
+
+	private void setClickListener(final SoundBaseAdapter soundAdapter, final SoundViewHolder holder,
+			final SoundInfo soundInfo) {
+		OnClickListener listItemOnClickListener = (new OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+				if (soundAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
+					holder.checkbox.setChecked(!holder.checkbox.isChecked());
+				}
+			}
+		});
+
+		if (soundAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
+			holder.playAndStopButton.setOnClickListener(listItemOnClickListener);
+		} else {
+			if (soundInfo.isPlaying) {
+				holder.playAndStopButton.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						if (soundAdapter.getOnSoundEditListener() != null) {
+							soundAdapter.getOnSoundEditListener().onSoundPause(view);
 						}
-						soundAdapter.getCheckedSounds().add(position);
-					} else {
-						soundAdapter.getCheckedSounds().remove(position);
 					}
-					soundAdapter.notifyDataSetChanged();
-
-					if (soundAdapter.getOnSoundEditListener() != null) {
-						soundAdapter.getOnSoundEditListener().onSoundChecked();
-					}
-				}
-			});
-
-			if (soundAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
-				holder.checkbox.setVisibility(View.VISIBLE);
-				holder.checkbox.setVisibility(View.VISIBLE);
-				holder.soundFragmentButtonLayout.setBackgroundResource(R.drawable.button_background_shadowed);
+				});
 			} else {
-				holder.checkbox.setVisibility(View.GONE);
-				holder.checkbox.setVisibility(View.GONE);
-				holder.soundFragmentButtonLayout.setBackgroundResource(R.drawable.button_background_selector);
-				holder.checkbox.setChecked(false);
-				soundAdapter.clearCheckedItems();
+				holder.playAndStopButton.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						if (soundAdapter.getOnSoundEditListener() != null) {
+							soundAdapter.getOnSoundEditListener().onSoundPlay(view);
+						}
+					}
+				});
+			}
+		}
+		holder.soundFragmentButtonLayout.setOnClickListener(listItemOnClickListener);
+	}
+
+	private void handleDetails(SoundBaseAdapter soundAdapter, SoundViewHolder holder, SoundInfo soundInfo) {
+		if (soundAdapter.getShowDetails()) {
+			holder.soundFileSizeTextView.setText(UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
+			holder.soundFileSizeTextView.setVisibility(TextView.VISIBLE);
+			holder.soundFileSizePrefixTextView.setVisibility(TextView.VISIBLE);
+		} else {
+			holder.soundFileSizeTextView.setVisibility(TextView.GONE);
+			holder.soundFileSizePrefixTextView.setVisibility(TextView.GONE);
+		}
+	}
+
+	private void handleSoundInfo(SoundViewHolder holder, SoundInfo soundInfo, SoundBaseAdapter soundAdapter,
+			int position, Context context) {
+		try {
+			MediaPlayer tempPlayer = new MediaPlayer();
+			tempPlayer.setDataSource(soundInfo.getAbsolutePath());
+			tempPlayer.prepare();
+
+			long milliseconds = tempPlayer.getDuration();
+			long seconds = milliseconds / 1000;
+			holder.timePlayedChronometer.setText(DateUtils.formatElapsedTime(seconds));
+			holder.timePlayedChronometer.setVisibility(Chronometer.VISIBLE);
+
+			if (soundAdapter.getCurrentPlayingPosition() == Constants.NO_POSITION) {
+				SoundBaseAdapter.setElapsedMilliSeconds(0);
+			} else {
+				SoundBaseAdapter.setElapsedMilliSeconds(SystemClock.elapsedRealtime()
+						- SoundBaseAdapter.getCurrentPlayingBase());
 			}
 
-			if (soundAdapter.getCheckedSounds().contains(position)) {
-				holder.checkbox.setChecked(true);
-			} else {
-				holder.checkbox.setChecked(false);
-			}
-
-			try {
-				MediaPlayer tempPlayer = new MediaPlayer();
-				tempPlayer.setDataSource(soundInfo.getAbsolutePath());
-				tempPlayer.prepare();
-
-				long milliseconds = tempPlayer.getDuration();
-				int seconds = (int) ((milliseconds / 1000) % 60);
-				int minutes = (int) ((milliseconds / 1000) / 60);
-				int hours = (int) ((milliseconds / 1000) / 3600);
-
-				if (hours == 0) {
-					holder.timeDurationTextView.setText(String.format("%02d:%02d", minutes, seconds));
-				} else {
-					holder.timeDurationTextView.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
-				}
+			if (soundInfo.isPlaying) {
+				holder.playAndStopButton.setImageResource(R.drawable.ic_media_stop);
+				holder.playAndStopButton.setContentDescription(context.getString(R.string.sound_stop));
 
 				if (soundAdapter.getCurrentPlayingPosition() == Constants.NO_POSITION) {
-
-					SoundBaseAdapter.setElapsedMilliSeconds(0);
+					startPlayingSound(holder.timePlayedChronometer, position, soundAdapter);
+				} else if ((position == soundAdapter.getCurrentPlayingPosition())
+						&& (SoundBaseAdapter.getElapsedMilliSeconds() > (milliseconds - 1000))) {
+					stopPlayingSound(soundInfo, holder.timePlayedChronometer, soundAdapter);
 				} else {
-
-					SoundBaseAdapter.setElapsedMilliSeconds(SystemClock.elapsedRealtime()
-							- SoundBaseAdapter.getCurrentPlayingBase());
+					continuePlayingSound(holder.timePlayedChronometer, SystemClock.elapsedRealtime());
 				}
-
-				if (soundInfo.isPlaying) {
-					holder.playAndStopButton.setImageResource(R.drawable.ic_media_stop);
-					holder.playAndStopButton.setContentDescription(context.getString(R.string.sound_stop));
-
-					holder.timeDurationTextView.setVisibility(TextView.VISIBLE);
-					holder.timePlayedChronometer.setVisibility(Chronometer.VISIBLE);
-
-					if (soundAdapter.getCurrentPlayingPosition() == Constants.NO_POSITION) {
-						startPlayingSound(holder.timePlayedChronometer, position, soundAdapter);
-					} else if ((position == soundAdapter.getCurrentPlayingPosition())
-							&& (SoundBaseAdapter.getElapsedMilliSeconds() > (milliseconds - 1000))) {
-						stopPlayingSound(soundInfo, holder.timePlayedChronometer, soundAdapter);
-					} else {
-						continuePlayingSound(holder.timePlayedChronometer, SystemClock.elapsedRealtime());
-					}
-				} else {
-					holder.playAndStopButton.setImageResource(R.drawable.ic_media_play);
-					holder.playAndStopButton.setContentDescription(context.getString(R.string.sound_play));
-
-					holder.timePlayedChronometer.setVisibility(TextView.GONE);
-					holder.timePlayedChronometer.setVisibility(Chronometer.GONE);
-
-					if (position == soundAdapter.getCurrentPlayingPosition()) {
-						stopPlayingSound(soundInfo, holder.timePlayedChronometer, soundAdapter);
-					}
-				}
-
-				if (soundAdapter.getShowDetails()) {
-					holder.soundFileSizeTextView
-							.setText(UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
-					holder.soundFileSizeTextView.setVisibility(TextView.VISIBLE);
-					holder.soundFileSizePrefixTextView.setVisibility(TextView.VISIBLE);
-				} else {
-					holder.soundFileSizeTextView.setVisibility(TextView.GONE);
-					holder.soundFileSizePrefixTextView.setVisibility(TextView.GONE);
-				}
-
-				tempPlayer.reset();
-				tempPlayer.release();
-			} catch (IOException ioException) {
-				Log.e(TAG, "Cannot get view.", ioException);
-			}
-
-			OnClickListener listItemOnClickListener = (new OnClickListener() {
-
-				@Override
-				public void onClick(View view) {
-					if (soundAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
-						holder.checkbox.setChecked(!holder.checkbox.isChecked());
-					}
-				}
-			});
-
-			if (soundAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
-				holder.playAndStopButton.setOnClickListener(listItemOnClickListener);
 			} else {
-				if (soundInfo.isPlaying) {
-					holder.playAndStopButton.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View view) {
-							if (soundAdapter.getOnSoundEditListener() != null) {
-								soundAdapter.getOnSoundEditListener().onSoundPause(view);
-							}
-						}
-					});
+				holder.playAndStopButton.setImageResource(R.drawable.ic_media_play);
+				holder.playAndStopButton.setContentDescription(context.getString(R.string.sound_play));
+				stopPlayingSound(soundInfo, holder.timePlayedChronometer, soundAdapter);
+			}
+
+			tempPlayer.reset();
+			tempPlayer.release();
+		} catch (IOException ioException) {
+			Log.e(TAG, "Cannot get view.", ioException);
+		}
+	}
+
+	private void handleCheckboxes(final int position, SoundViewHolder holder, final SoundBaseAdapter soundAdapter) {
+		holder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isChecked) {
+					if (soundAdapter.getSelectMode() == ListView.CHOICE_MODE_SINGLE) {
+						soundAdapter.clearCheckedItems();
+					}
+					soundAdapter.getCheckedSounds().add(position);
 				} else {
-					holder.playAndStopButton.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View view) {
-							if (soundAdapter.getOnSoundEditListener() != null) {
-								soundAdapter.getOnSoundEditListener().onSoundPlay(view);
-							}
-						}
-					});
+					soundAdapter.getCheckedSounds().remove(position);
+				}
+				soundAdapter.notifyDataSetChanged();
+
+				if (soundAdapter.getOnSoundEditListener() != null) {
+					soundAdapter.getOnSoundEditListener().onSoundChecked();
 				}
 			}
-			holder.soundFragmentButtonLayout.setOnClickListener(listItemOnClickListener);
+		});
+
+		if (soundAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
+			holder.checkbox.setVisibility(View.VISIBLE);
+			holder.checkbox.setVisibility(View.VISIBLE);
+			holder.soundFragmentButtonLayout.setBackgroundResource(R.drawable.button_background_shadowed);
+		} else {
+			holder.checkbox.setVisibility(View.GONE);
+			holder.checkbox.setVisibility(View.GONE);
+			holder.soundFragmentButtonLayout.setBackgroundResource(R.drawable.button_background_selector);
+			holder.checkbox.setChecked(false);
+			soundAdapter.clearCheckedItems();
+		}
+
+		if (soundAdapter.getCheckedSounds().contains(position)) {
+			holder.checkbox.setChecked(true);
+		} else {
+			holder.checkbox.setChecked(false);
 		}
 	}
 
 	private void startPlayingSound(Chronometer chronometer, int position, final SoundBaseAdapter soundAdapter) {
 		soundAdapter.setCurrentPlayingPosition(position);
-
 		SoundBaseAdapter.setCurrentPlayingBase(SystemClock.elapsedRealtime());
-
 		continuePlayingSound(chronometer, SoundBaseAdapter.getCurrentPlayingBase());
 	}
 
@@ -247,65 +242,51 @@ public class SoundController {
 
 	private void stopPlayingSound(SoundInfo soundInfo, Chronometer chronometer, final SoundBaseAdapter soundAdapter) {
 		chronometer.stop();
-		chronometer.setBase(SystemClock.elapsedRealtime());
-
 		soundAdapter.setCurrentPlayingPosition(Constants.NO_POSITION);
-
 		soundInfo.isPlaying = false;
 	}
 
 	public void backPackSound(SoundInfo selectedSoundInfo, BackPackSoundFragment backPackSoundActivity,
 			ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
-
 		copySoundBackPack(selectedSoundInfo, soundInfoList, adapter);
 	}
 
 	private void copySoundBackPack(SoundInfo selectedSoundInfo, ArrayList<SoundInfo> soundInfoList,
 			SoundBaseAdapter adapter) {
-
 		try {
 			StorageHandler.getInstance().copySoundFileBackPack(selectedSoundInfo);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		updateBackPackActivity(selectedSoundInfo.getTitle(), selectedSoundInfo.getSoundFileName(), soundInfoList,
 				adapter);
 	}
 
 	public SoundInfo copySound(SoundInfo selectedSoundInfo, ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
-
 		try {
 			StorageHandler.getInstance().copySoundFile(selectedSoundInfo.getAbsolutePath());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		return updateSoundAdapter(selectedSoundInfo.getTitle(), selectedSoundInfo.getSoundFileName(), soundInfoList,
 				adapter);
 	}
 
 	public void copySound(int position, ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
-
 		SoundInfo soundInfo = soundInfoList.get(position);
-
 		try {
 			StorageHandler.getInstance().copySoundFile(soundInfo.getAbsolutePath());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		SoundController.getInstance().updateSoundAdapter(soundInfo.getTitle(), soundInfo.getSoundFileName(),
 				soundInfoList, adapter);
-
 	}
 
 	private void deleteSound(int position, ArrayList<SoundInfo> soundInfoList, Activity activity) {
 		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
-
 		soundInfoList.remove(position);
 		ProjectManager.getInstance().getCurrentSprite().setSoundList(soundInfoList);
-
 		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));
 	}
 

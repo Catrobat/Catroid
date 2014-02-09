@@ -53,10 +53,13 @@ import com.actionbarsherlock.view.Menu;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
+import org.catrobat.catroid.io.LoadProjectTask;
+import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
@@ -71,7 +74,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
-public class SpritesListFragment extends SherlockListFragment implements OnSpriteEditListener {
+public class SpritesListFragment extends SherlockListFragment implements OnSpriteEditListener,
+		OnLoadProjectCompleteListener {
 
 	private static final String BUNDLE_ARGUMENTS_SPRITE_TO_EDIT = "sprite_to_edit";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsProjects";
@@ -89,20 +93,26 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	private SpritesListInitReceiver spritesListInitReceiver;
 
 	private ActionMode actionMode;
+	private View selectAllActionModeButton;
 
 	private boolean actionModeActive = false;
 	private boolean isRenameActionMode;
+	private String programName;
+
+	private LoadProjectTask loadProjectTask;
+	public boolean isLoading = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
+
+		programName = getActivity().getIntent().getStringExtra(Constants.PROJECTNAME_TO_LOAD);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_sprites_list, null);
-		return rootView;
+		return inflater.inflate(R.layout.fragment_sprites_list, null);
 	}
 
 	@Override
@@ -131,6 +141,24 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	public void onStart() {
 		super.onStart();
 		initListeners();
+
+		ProjectManager projectManager = ProjectManager.getInstance();
+		if (programName != null
+				&& ((projectManager.getCurrentProject() != null && !projectManager.getCurrentProject().getName()
+						.equals(programName)) || projectManager.getCurrentProject() == null)) {
+
+			getActivity().findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
+			getActivity().findViewById(R.id.progress_circle).bringToFront();
+			getActivity().findViewById(R.id.fragment_sprites_list).setVisibility(View.GONE);
+			getActivity().findViewById(R.id.bottom_bar).setVisibility(View.GONE);
+
+			isLoading = true;
+			this.getSherlockActivity().supportInvalidateOptionsMenu();
+
+			loadProjectTask = new LoadProjectTask(getActivity(), programName, true, true);
+			loadProjectTask.setOnLoadProjectCompleteListener(this);
+			loadProjectTask.execute();
+		}
 	}
 
 	@Override
@@ -176,6 +204,13 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	@Override
 	public void onPause() {
 		super.onPause();
+
+		getActivity().getIntent().removeExtra(Constants.PROJECTNAME_TO_LOAD);
+		if (loadProjectTask != null) {
+			loadProjectTask.cancel(true);
+			ProjectManager.getInstance().cancelLoadProject();
+		}
+
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject();
@@ -255,6 +290,12 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			return;
 		}
 
+		updateActionModeTitle();
+		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton, spriteAdapter.getCount() > 1
+				&& spriteAdapter.getAmountOfCheckedSprites() != spriteAdapter.getCount() - 1);
+	}
+
+	private void updateActionModeTitle() {
 		int numberOfSelectedItems = spriteAdapter.getAmountOfCheckedSprites();
 
 		if (numberOfSelectedItems == 0) {
@@ -445,20 +486,19 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu).setOnClickListener(
-				new OnClickListener() {
+		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu);
+		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
-					@Override
-					public void onClick(View view) {
-						for (int position = 1; position < spriteList.size(); position++) {
-							spriteAdapter.addCheckedSprite(position);
-						}
-						spriteAdapter.notifyDataSetChanged();
-						view.setVisibility(View.GONE);
-						onSpriteChecked();
-					}
+			@Override
+			public void onClick(View view) {
+				for (int position = 1; position < spriteList.size(); position++) {
+					spriteAdapter.addCheckedSprite(position);
+				}
+				spriteAdapter.notifyDataSetChanged();
+				onSpriteChecked();
+			}
 
-				});
+		});
 	}
 
 	private class SpriteRenamedReceiver extends BroadcastReceiver {
@@ -626,4 +666,21 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			StorageHandler.getInstance().deleteFile(currentSoundInfo.getAbsolutePath());
 		}
 	}
+
+	@Override
+	public void onLoadProjectSuccess(boolean startProjectActivity) {
+		initListeners();
+		spriteAdapter.notifyDataSetChanged();
+		isLoading = false;
+		this.getSherlockActivity().supportInvalidateOptionsMenu();
+		getActivity().findViewById(R.id.progress_circle).setVisibility(View.GONE);
+		getActivity().findViewById(R.id.fragment_sprites_list).setVisibility(View.VISIBLE);
+		getActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
+	}
+
+	@Override
+	public void onLoadProjectFailure() {
+		getActivity().onBackPressed();
+	}
+
 }

@@ -69,6 +69,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.LookViewHolder;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -84,6 +85,8 @@ import org.catrobat.catroid.ui.dialogs.RenameLookDialog;
 import org.catrobat.catroid.utils.UtilCamera;
 import org.catrobat.catroid.utils.Utils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
@@ -93,6 +96,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
 
 	public static final String TAG = LookFragment.class.getSimpleName();
+	public Intent lastRecivedIntent = null;
 	private static int selectedLookPosition = Constants.NO_POSITION;
 	private static String actionModeTitle;
 	private static String singleItemAppendixActionMode;
@@ -106,6 +110,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	private LookRenamedReceiver lookRenamedReceiver;
 	private LooksListInitReceiver looksListInitReceiver;
 	private ActionMode actionMode;
+	private View selectAllActionModeButton;
 	private boolean isRenameActionMode;
 	private boolean isResultHandled = false;
 	private OnLookDataListChangedAfterNewListener lookDataListChangedAfterNewListener;
@@ -140,8 +145,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 			for (int position : adapter.getCheckedItems()) {
-				LookController.getInstance().copyLook(position, lookDataList, getActivity(),
-						((LookAdapter) adapter).getLookFragment());
+				LookController.getInstance().copyLook(position, lookDataList, getActivity(), LookFragment.this);
 			}
 			clearCheckedLooksAndEnableButtons();
 		}
@@ -339,7 +343,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			ScriptActivity scriptActivity = (ScriptActivity) getActivity();
 			if (scriptActivity.getIsLookFragmentFromSetLookBrickNew()
 					&& scriptActivity.getIsLookFragmentHandleAddButtonHandled()) {
-				LookController.getInstance().switchToScriptFragment(((LookAdapter) adapter).getLookFragment());
+				LookController.getInstance().switchToScriptFragment(LookFragment.this);
 			}
 		}
 	}
@@ -389,6 +393,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
+		lastRecivedIntent = data;
 		if (resultCode == Activity.RESULT_OK) {
 			switch (requestCode) {
 				case LookController.REQUEST_SELECT_OR_DRAW_IMAGE:
@@ -411,6 +416,10 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			}
 			isResultHandled = true;
 		}
+
+		if (requestCode == LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE) {
+			StorageHandler.getInstance().deletTempImageCopy();
+		}
 	}
 
 	@Override
@@ -422,19 +431,18 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
-        menu.findItem(R.id.context_menu_backpack).setVisible(false);
-        menu.findItem(R.id.context_menu_unpacking).setVisible(false);
+		menu.findItem(R.id.context_menu_backpack).setVisible(false);
+		menu.findItem(R.id.context_menu_unpacking).setVisible(false);
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 
 		switch (item.getItemId()) {
-			case R.id.context_menu_copy: {
+			case R.id.context_menu_copy:
 				LookController.getInstance().copyLook(selectedLookPosition, lookDataList, getActivity(),
-						((LookAdapter) adapter).getLookFragment());
+						LookFragment.this);
 				break;
-			}
 
 			case R.id.context_menu_cut:
 				break;
@@ -445,15 +453,14 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			case R.id.context_menu_move:
 				break;
 
-			case R.id.context_menu_rename: {
+			case R.id.context_menu_rename:
 				showRenameDialog();
 				break;
-			}
 
-			case R.id.context_menu_delete: {
+			case R.id.context_menu_delete:
 				showConfirmDeleteDialog();
 				break;
-			}
+
 		}
 		return super.onContextItemSelected(item);
 	}
@@ -502,7 +509,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	public void addLookChooseImage() {
-		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+		Intent intent = new Intent(Intent.ACTION_PICK);
 
 		Bundle bundleForPocketCode = new Bundle();
 		bundleForPocketCode.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, "");
@@ -608,6 +615,12 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			return;
 		}
 
+		updateActionModeTitle();
+		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
+				adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount());
+	}
+
+	private void updateActionModeTitle() {
 		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
 
 		if (numberOfSelectedItems == 0) {
@@ -645,13 +658,14 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	private void handleEditLook(View view) {
 		int position = (Integer) view.getTag();
-		sendPocketPaintIntent(position);
-	}
-
-	private void sendPocketPaintIntent(int selectedPosition) {
 		Intent intent = new Intent("android.intent.action.MAIN");
 		intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
 				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));
+
+		sendPocketPaintIntent(position, intent);
+	}
+
+	public void sendPocketPaintIntent(int selectedPosition, Intent intent) {
 
 		if (!LookController.getInstance().checkIfPocketPaintIsInstalled(intent, getActivity())) {
 			return;
@@ -661,31 +675,39 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		selectedLookData = lookDataList.get(position);
 
 		Bundle bundleForPocketPaint = new Bundle();
-		bundleForPocketPaint.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, lookDataList.get(position)
-				.getAbsolutePath());
-		bundleForPocketPaint.putInt(Constants.EXTRA_X_VALUE_POCKET_PAINT, 0);
-		bundleForPocketPaint.putInt(Constants.EXTRA_Y_VALUE_POCKET_PAINT, 0);
-		intent.putExtras(bundleForPocketPaint);
 
-		intent.addCategory("android.intent.category.LAUNCHER");
-		startActivityForResult(intent, LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE);
+		try {
+			File tempCopy = StorageHandler.getInstance()
+					.makeTempImageCopy(lookDataList.get(position).getAbsolutePath());
+
+			bundleForPocketPaint.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, tempCopy.getAbsolutePath());
+			bundleForPocketPaint.putInt(Constants.EXTRA_X_VALUE_POCKET_PAINT, 0);
+			bundleForPocketPaint.putInt(Constants.EXTRA_Y_VALUE_POCKET_PAINT, 0);
+			intent.putExtras(bundleForPocketPaint);
+
+			intent.addCategory("android.intent.category.LAUNCHER");
+			startActivityForResult(intent, LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
-		Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu).setOnClickListener(
-				new OnClickListener() {
+		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu);
+		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
 
-					@Override
-					public void onClick(View view) {
-						for (int position = 0; position < lookDataList.size(); position++) {
-							adapter.addCheckedItem(position);
-						}
-						adapter.notifyDataSetChanged();
-						view.setVisibility(View.GONE);
-						onLookChecked();
-					}
+			@Override
+			public void onClick(View view) {
+				for (int position = 0; position < lookDataList.size(); position++) {
+					adapter.addCheckedItem(position);
+				}
+				adapter.notifyDataSetChanged();
+				onLookChecked();
+			}
 
-				});
+		});
 	}
 
 	private void showConfirmDeleteDialog() {
@@ -823,7 +845,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	public interface OnLookDataListChangedAfterNewListener {
 
-		public void onLookDataListChangedAfterNew(LookData soundInfo);
+		void onLookDataListChangedAfterNew(LookData soundInfo);
 
 	}
 
@@ -859,5 +881,4 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			}
 		}
 	}
-
 }

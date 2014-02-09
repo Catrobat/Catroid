@@ -120,19 +120,20 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class StorageHandler {
+public final class StorageHandler {
+	private static final StorageHandler INSTANCE;
 	private static final String TAG = StorageHandler.class.getSimpleName();
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private static final int JPG_COMPRESSION_SETTING = 95;
 
-	private static final StorageHandler INSTANCE;
-
 	private XStream xstream;
 
 	private File backPackSoundDirectory;
+	private FileInputStream fileInputStream;
 
 	private Lock loadSaveLock = new ReentrantLock();
 
@@ -244,13 +245,34 @@ public class StorageHandler {
 		loadSaveLock.lock();
 		try {
 			File projectCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
-			return (Project) xstream.fromXML(new FileInputStream(projectCodeFile));
+			fileInputStream = new FileInputStream(projectCodeFile);
+			return (Project) xstream.fromXML(fileInputStream);
 		} catch (Exception exception) {
 			Log.e(TAG, "Loading project " + projectName + " failed.", exception);
 			return null;
 		} finally {
+			if (fileInputStream != null) {
+				try {
+					fileInputStream.close();
+				} catch (IOException ioException) {
+					Log.e(TAG, "can't close fileStream.", ioException);
+				}
+			}
 			loadSaveLock.unlock();
 		}
+	}
+
+	public boolean cancelLoadProject()
+	{
+		if (fileInputStream !=null){
+			try {
+				fileInputStream.close();
+				return true;
+			} catch (IOException ioException) {
+				Log.e(TAG, "can't close fileStream.", ioException);
+			}
+		}
+		return false;
 	}
 
 	public boolean saveProject(Project project) {
@@ -356,13 +378,13 @@ public class StorageHandler {
 		return false;
 	}
 
-	public File copySoundFile(String path) throws IOException {
+	public File copySoundFile(String path) throws IOException, IllegalArgumentException {
 		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
 		File soundDirectory = new File(buildPath(buildProjectPath(currentProject), SOUND_DIRECTORY));
 
 		File inputFile = new File(path);
 		if (!inputFile.exists() || !inputFile.canRead()) {
-			return null;
+			throw new IllegalArgumentException("file " + path + " doesn`t exist or can`t be read");
 		}
 		String inputFileChecksum = Utils.md5Checksum(inputFile);
 
@@ -377,7 +399,7 @@ public class StorageHandler {
 		return copyFileAddCheckSum(outputFile, inputFile, soundDirectory);
 	}
 
-	public File copySoundFileBackPack(SoundInfo selectedSoundInfo) throws IOException {
+	public File copySoundFileBackPack(SoundInfo selectedSoundInfo) throws IOException, IllegalArgumentException {
 
 		String path = selectedSoundInfo.getAbsolutePath();
 
@@ -385,7 +407,7 @@ public class StorageHandler {
 
 		File inputFile = new File(path);
 		if (!inputFile.exists() || !inputFile.canRead()) {
-			return null;
+			throw new IllegalArgumentException("file " + path + " doesn`t exist or can`t be read");
 		}
 		String inputFileChecksum = Utils.md5Checksum(inputFile);
 
@@ -410,6 +432,11 @@ public class StorageHandler {
 		imageDimensions = ImageEditing.getImageDimensions(inputFilePath);
 		FileChecksumContainer checksumCont = ProjectManager.getInstance().getFileChecksumContainer();
 
+		File outputFileDirectory = new File(imageDirectory.getAbsolutePath());
+		if (outputFileDirectory.exists() == false) {
+			outputFileDirectory.mkdirs();
+		}
+
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		if ((imageDimensions[0] <= project.getXmlHeader().virtualScreenWidth)
 				&& (imageDimensions[1] <= project.getXmlHeader().virtualScreenHeight)) {
@@ -424,6 +451,7 @@ public class StorageHandler {
 					return new File(checksumCont.getPath(checksumSource));
 				}
 			}
+
 			File outputFile = new File(newFilePath);
 			return copyFileAddCheckSum(outputFile, inputFile, imageDirectory);
 		} else {
@@ -432,10 +460,38 @@ public class StorageHandler {
 		}
 	}
 
+	public File makeTempImageCopy(String inputFilePath) throws IOException {
+		File tempDirectory = new File(Constants.TMP_PATH);
+
+		File inputFile = new File(inputFilePath);
+		if (!inputFile.exists() || !inputFile.canRead()) {
+			return null;
+		}
+
+		File outputFileDirectory = new File(tempDirectory.getAbsolutePath());
+		if (outputFileDirectory.exists() == false) {
+			outputFileDirectory.mkdirs();
+		}
+
+		File outputFile = new File(Constants.TMP_IMAGE_PATH);
+
+		File copiedFile = UtilFile.copyFile(outputFile, inputFile, tempDirectory);
+
+		return copiedFile;
+	}
+
+	public void deletTempImageCopy() {
+		File temporaryPictureFileInPocketPaint = new File(Constants.TMP_IMAGE_PATH);
+		if (temporaryPictureFileInPocketPaint.exists()) {
+			temporaryPictureFileInPocketPaint.delete();
+		}
+	}
+
 	private File copyAndResizeImage(File outputFile, File inputFile, File imageDirectory) throws IOException {
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		Bitmap bitmap = ImageEditing.getScaledBitmapFromPath(inputFile.getAbsolutePath(),
-				project.getXmlHeader().virtualScreenWidth, project.getXmlHeader().virtualScreenHeight, true);
+				project.getXmlHeader().virtualScreenWidth, project.getXmlHeader().virtualScreenHeight,
+				ImageEditing.ResizeType.FILL_RECTANGLE_WITH_SAME_ASPECT_RATIO, true);
 
 		saveBitmapToImageFile(outputFile, bitmap);
 
@@ -459,8 +515,8 @@ public class StorageHandler {
 	public static void saveBitmapToImageFile(File outputFile, Bitmap bitmap) throws FileNotFoundException {
 		FileOutputStream outputStream = new FileOutputStream(outputFile);
 		try {
-			if (outputFile.getName().endsWith(".jpg") || outputFile.getName().endsWith(".jpeg")
-					|| outputFile.getName().endsWith(".JPG") || outputFile.getName().endsWith(".JPEG")) {
+			if (outputFile.getName().toLowerCase(Locale.US).endsWith(".jpg")
+					|| outputFile.getName().toLowerCase(Locale.US).endsWith(".jpeg")) {
 				bitmap.compress(CompressFormat.JPEG, JPG_COMPRESSION_SETTING, outputStream);
 			} else {
 				bitmap.compress(CompressFormat.PNG, 0, outputStream);
@@ -511,7 +567,6 @@ public class StorageHandler {
 	}
 
 	private File copyFileAddCheckSum(File destinationFile, File sourceFile, File directory) throws IOException {
-
 		File copiedFile = UtilFile.copyFile(destinationFile, sourceFile, directory);
 		addChecksum(destinationFile, sourceFile);
 

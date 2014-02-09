@@ -45,6 +45,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -72,6 +73,7 @@ import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
+import org.catrobat.catroid.utils.Utils;
 
 public class BackPackSoundFragment extends BackPackActivityFragment implements SoundBaseAdapter.OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
@@ -83,6 +85,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 	private SoundDeletedReceiver soundDeletedReceiver;
 
 	private ActionMode actionMode;
+	private View selectAllActionModeButton;
 
 	private static String actionModeTitle;
 
@@ -266,8 +269,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 			holder.titleTextView = (TextView) convertView.findViewById(R.id.fragment_sound_item_title_text_view);
 			holder.timeSeparatorTextView = (TextView) convertView
 					.findViewById(R.id.fragment_sound_item_time_seperator_text_view);
-			holder.timeDurationTextView = (TextView) convertView
-					.findViewById(R.id.fragment_sound_item_duration_text_view);
 			holder.soundFileSizePrefixTextView = (TextView) convertView
 					.findViewById(R.id.fragment_sound_item_size_prefix_text_view);
 			holder.soundFileSizeTextView = (TextView) convertView.findViewById(R.id.fragment_sound_item_size_text_view);
@@ -329,11 +330,16 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 
 	@Override
 	public void onSoundChecked() {
-
 		if (actionMode == null) {
 			return;
 		}
 
+		updateActionModeTitle();
+		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
+				adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount());
+	}
+
+	private void updateActionModeTitle() {
 		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
 
 		if (numberOfSelectedItems == 0) {
@@ -357,7 +363,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 
 			actionMode.setTitle(completeSpannedTitle);
 		}
-
 	}
 
 	@Override
@@ -413,6 +418,21 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		}
 	}
 
+	private void addSelectAllActionModeButton(ActionMode mode, Menu menu) {
+		selectAllActionModeButton = Utils.addSelectAllActionModeButton(getLayoutInflater(null), mode, menu);
+		selectAllActionModeButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+				for (int position = 0; position < adapter.getCount(); position++) {
+					adapter.addCheckedItem(position);
+				}
+				adapter.notifyDataSetChanged();
+				onSoundChecked();
+			}
+		});
+	}
+
 	private ActionMode.Callback unpackingModeCallBack = new ActionMode.Callback() {
 
 		@Override
@@ -425,11 +445,12 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
-			mode.setTitle(R.string.unpacking);
-
 			actionModeTitle = getString(R.string.unpacking);
 			singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
 			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
+
+			mode.setTitle(R.string.unpacking);
+			addSelectAllActionModeButton(mode, menu);
 
 			return true;
 		}
@@ -471,11 +492,12 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
 			setActionModeActive(true);
 
-			mode.setTitle(R.string.delete);
-
 			actionModeTitle = getString(R.string.delete);
 			singleItemAppendixDeleteActionMode = getString(R.string.category_sound);
 			multipleItemAppendixDeleteActionMode = getString(R.string.sounds);
+
+			mode.setTitle(R.string.delete);
+			addSelectAllActionModeButton(mode, menu);
 
 			return true;
 		}

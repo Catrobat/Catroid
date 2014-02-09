@@ -1,0 +1,168 @@
+import java.util.regex.Pattern
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.7.+'
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+apply plugin: 'android'
+//apply plugin: 'findbugs'
+apply plugin: 'checkstyle'
+//apply plugin: 'pmd'
+
+ext.catroid_version = "0.9"
+ext.features_enabled = [
+        "backpack": false
+]
+
+dependencies {
+    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
+    compile 'com.android.support:support-v4:18.0.+'
+    compile fileTree(dir: 'catroid/libs', include: '*.jar')
+    compile fileTree(dir: 'catroid/libs-natives', include: '*.jar')
+
+    instrumentTestCompile fileTree(dir: 'catroidTest/libs', include: '*.jar')
+
+}
+
+
+def getVersionCode = { ->
+    def code = project.hasProperty('versionCode') ? versionCode.toInteger() : -1
+    return code
+}
+
+def getVersionName = { ->
+    def code = getVersionCode
+    def versionName = "$ext.catroid_version.$code"
+    println "VersionCode is set to $code"
+    println "VersionName is set to $versionName"
+    return versionName
+}
+
+def gitDescribe() {
+    return 'git describe --tags'.execute().text.trim()
+}
+
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19"
+
+    defaultConfig {
+        minSdkVersion 10
+        targetSdkVersion 19
+        packageName "org.catrobat.catroid"
+        testPackageName "org.catrobat.catroid.test"
+        testInstrumentationRunner "pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
+        versionCode getVersionCode()
+        versionName getVersionName()
+        buildConfigField "String", "GIT_DESCRIBE", "\"${gitDescribe()}\""
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'catroid/AndroidManifest.xml'
+            java.srcDirs = ['catroid/src']
+            resources.srcDirs = ['catroid/src']
+            aidl.srcDirs = ['catroid/src']
+            renderscript.srcDirs = ['catroid/src']
+            res.srcDirs = ['catroid/res']
+            assets.srcDirs = ['catroid/assets']
+        }
+
+        instrumentTest {
+            java.srcDirs = ['catroidTest/src']
+            resources.srcDirs = ['catroidTest/src']
+            aidl.srcDirs = ['catroidTest/src']
+            renderscript.srcDirs = ['catroidTest/src']
+            res.srcDirs = ['catroidTest/res']
+            assets.srcDirs = ['catroidTest/assets']
+            if(file('testexclusions.txt').exists()){
+                java.exclude file('testexclusions.txt').readLines()
+            }
+        }
+
+    }
+}
+
+// Doesn't work atm. Maybe if the pmd plugin gets updated.
+//task findbugs(type: FindBugs) {
+//    classes = fileTree('build/classes/debug/')
+//    source = fileTree(android.sourceSets.main.java.srcDirs)
+//    classpath = files( project.configurations.compile.asPath )
+//    effort = 'max'
+//    reports.xml.enabled = false
+//    reports.html.enabled = true
+//}
+
+task checkstyle(type: Checkstyle) {
+    configFile file('catroid/checkstyle.xml')
+    source '.'
+    include '**/*.java'
+    exclude 'build/**', 'libraryProjects/**'
+
+    classpath = files(project.configurations.compile.asPath)
+}
+
+// Doesn't work atm. Maybe if the pmd plugin gets updated.
+//task pmd(type: Pmd) {
+//    ruleSets = ["basic", "braces", "strings"]
+//    source = fileTree(android.sourceSets.main.java.srcDirs)
+//}
+
+task jenkins() << {
+//    android.buildTypes.each { type ->
+//        if (type.name == "debug") {
+//            type.packageNameSuffix = ".jenkinsdebug"
+//            type.versionNameSuffix = "-jenkins-$type.name"
+//        }
+//    }
+}
+
+task featuresToBuildconfig() {
+    for (feature in project.ext.features_enabled) {
+        def name = feature.key
+        def value = feature.value
+        if (project.hasProperty("allFeatures_enabled"))
+            value = project["allFeatures_enabled"]
+        if (project.hasProperty("${name}_enabled"))
+            value = project["${name}_enabled"]
+
+        android.defaultConfig.buildConfigField "boolean", "FEATURE_${name.toUpperCase()}_ENABLED", "${value}"
+    }
+}
+
+task testManifestHack() << {
+    def origManifest = file('catroidTest/AndroidManifest.xml')
+    def generatedManifest = file("build/manifests/test/debug/AndroidManifest.xml")
+    def origContent = origManifest.getText()
+    def generatedContent = generatedManifest.getText()
+    def pattern = Pattern.compile("<application.*?>.*?</application>", Pattern.DOTALL)
+    def matcher = pattern.matcher(origContent)
+    matcher.find()
+    origContent = matcher.group()
+    generatedContent = pattern.matcher(generatedContent).replaceAll(origContent)
+    generatedManifest.write(generatedContent)
+}
+
+gradle.projectsEvaluated {
+    generateDebugTestBuildConfig.dependsOn testManifestHack
+}
+
+preBuild.dependsOn featuresToBuildconfig
+
+def signing_config_file = file(System.getProperty("user.home") + "/.catrobat/catroid_signing_config.gradle")
+if (signing_config_file.exists()) {
+    apply from: signing_config_file.absolutePath
+}
+

@@ -146,7 +146,7 @@ public class GoNStepsBackBrick extends BrickBaseType implements OnClickListener,
 
 		if (view != null) {
 
-			View layout = (View) view.findViewById(R.id.brick_go_back_layout);
+			View layout = view.findViewById(R.id.brick_go_back_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 			this.alphaValue = (alphaValue);

@@ -30,11 +30,13 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.MessageContainer;
+import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.utils.Utils;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +58,9 @@ public class Project implements Serializable {
 		xmlHeader.setDescription("");
 
 		ifLandscapeSwitchWidthAndHeight();
+		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
+			Utils.updateScreenWidthAndHeight(context);
+		}
 		xmlHeader.virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
 		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
 		setDeviceData(context);
@@ -115,6 +120,14 @@ public class Project implements Serializable {
 		return xmlHeader.getDescription();
 	}
 
+	public void setScreenMode(ScreenModes screenMode) {
+		xmlHeader.setScreenMode(screenMode);
+	}
+
+	public ScreenModes getScreenMode() {
+		return xmlHeader.getScreenMode();
+	}
+
 	public float getCatrobatLanguageVersion() {
 		return xmlHeader.getCatrobatLanguageVersion();
 	}
@@ -135,7 +148,7 @@ public class Project implements Serializable {
 		xmlHeader.setPlatformVersion(Build.VERSION.SDK_INT);
 		xmlHeader.setDeviceName(Build.MODEL);
 
-		xmlHeader.setCatrobatLanguageVersion(Constants.SUPPORTED_CATROBAT_LANGUAGE_VERSION);
+		xmlHeader.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 		xmlHeader.setApplicationBuildName(Constants.APPLICATION_BUILD_NAME);
 		xmlHeader.setApplicationBuildNumber(Constants.APPLICATION_BUILD_NUMBER);
 
@@ -181,5 +194,15 @@ public class Project implements Serializable {
 				&& !broadcastMessages.contains(broadcastMessageToAdd)) {
 			broadcastMessages.add(broadcastMessageToAdd);
 		}
+	}
+
+	public boolean manualScreenshotExists(String manualScreenshotName) {
+
+		String path = Utils.buildProjectPath(getName()) + "/" + manualScreenshotName;
+		File manualScreenShot = new File(path);
+		if (manualScreenShot.exists()) {
+			return false;
+		}
+		return true;
 	}
 }

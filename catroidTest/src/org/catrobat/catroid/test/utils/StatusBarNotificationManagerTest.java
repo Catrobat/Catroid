@@ -34,11 +34,6 @@ public class StatusBarNotificationManagerTest extends AndroidTestCase {
 	private final StatusBarNotificationManager notificationManager = StatusBarNotificationManager.getInstance();
 
 	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
-
-	@Override
 	protected void tearDown() throws Exception {
 		TestUtils.cancelAllNotifications(getContext());
 		super.tearDown();

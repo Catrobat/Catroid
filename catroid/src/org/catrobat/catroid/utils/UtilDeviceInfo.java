@@ -28,8 +28,13 @@ import android.content.Context;
 
 import java.util.Locale;
 
-public class UtilDeviceInfo {
+public final class UtilDeviceInfo {
 	public static final String SERVER_VALUE_FOR_UNDEFINED_COUNTRY = "undef";
+
+	// Suppress default constructor for noninstantiability
+	private UtilDeviceInfo() {
+		throw new AssertionError();
+	}
 
 	public static String getUserEmail(Context context) {
 		if (context == null) {

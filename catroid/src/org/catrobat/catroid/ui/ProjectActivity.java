@@ -24,6 +24,9 @@ package org.catrobat.catroid.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -34,12 +37,14 @@ import com.actionbarsherlock.view.MenuItem;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.fragment.SpritesListFragment;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.concurrent.locks.Lock;
 
@@ -58,9 +63,16 @@ public class ProjectActivity extends BaseActivity {
 	protected void onStart() {
 		super.onStart();
 
+		String programName;
+		Bundle bundle = getIntent().getExtras();
+		if (bundle != null) {
+			programName = bundle.getString(Constants.PROJECTNAME_TO_LOAD);
+		} else {
+			programName = ProjectManager.getInstance().getCurrentProject().getName();
+		}
+
 		final ActionBar actionBar = getSupportActionBar();
-		String title = ProjectManager.getInstance().getCurrentProject().getName();
-		actionBar.setTitle(title);
+		actionBar.setTitle(programName);
 		actionBar.setHomeButtonEnabled(true);
 
 		spritesListFragment = (SpritesListFragment) getSupportFragmentManager().findFragmentById(
@@ -69,56 +81,60 @@ public class ProjectActivity extends BaseActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		handleShowDetails(spritesListFragment.getShowDetails(), menu.findItem(R.id.show_details));
+		if (spritesListFragment != null && spritesListFragment.isLoading == false) {
+			handleShowDetails(spritesListFragment.getShowDetails(), menu.findItem(R.id.show_details));
+		}
 		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_current_project, menu);
+		if (spritesListFragment != null && spritesListFragment.isLoading == false) {
+			getSupportMenuInflater().inflate(R.menu.menu_current_project, menu);
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.show_details: {
+			case R.id.show_details:
 				handleShowDetails(!spritesListFragment.getShowDetails(), item);
 				break;
-			}
 
-			case R.id.copy: {
+			case R.id.copy:
 				spritesListFragment.startCopyActionMode();
 				break;
-			}
 
-			case R.id.cut: {
+			case R.id.cut:
 				break;
-			}
 
-			case R.id.insert_below: {
+			case R.id.insert_below:
 				break;
-			}
 
-			case R.id.move: {
+			case R.id.move:
 				break;
-			}
 
-			case R.id.rename: {
+			case R.id.rename:
 				spritesListFragment.startRenameActionMode();
 				break;
-			}
 
-			case R.id.delete: {
+			case R.id.delete:
 				spritesListFragment.startDeleteActionMode();
 				break;
-			}
+
+			case R.id.upload:
+				ProjectManager.getInstance().uploadProject(Utils.getCurrentProjectName(this), this);
+				break;
+
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			SensorHandler.startSensorListener(this);
 			Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
@@ -146,8 +162,14 @@ public class ProjectActivity extends BaseActivity {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		NewSpriteDialog dialog = new NewSpriteDialog();
-		dialog.show(getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+		Fragment previousFragment = getSupportFragmentManager().findFragmentByTag(NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+		if (previousFragment != null) {
+			fragmentTransaction.remove(previousFragment);
+		}
+
+		DialogFragment newFragment = new NewSpriteDialog();
+		newFragment.show(fragmentTransaction, NewSpriteDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	public void handlePlayButton(View view) {

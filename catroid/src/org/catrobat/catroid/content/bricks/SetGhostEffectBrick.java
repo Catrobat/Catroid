@@ -129,7 +129,7 @@ public class SetGhostEffectBrick extends BrickBaseType implements OnClickListene
 
 		if (view != null) {
 
-			View layout = (View) view.findViewById(R.id.brick_set_ghost_effect_layout);
+			View layout = view.findViewById(R.id.brick_set_ghost_effect_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 

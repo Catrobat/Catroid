@@ -42,23 +42,19 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-public class DownloadUtil {
-	private static DownloadUtil instance;
-	private Set<String> programDownloadQueue;
-
+public final class DownloadUtil {
+	private static final DownloadUtil INSTANCE = new DownloadUtil();
 	private static final String TAG = DownloadUtil.class.getSimpleName();
 	private static final String PROJECTNAME_TAG = "fname=";
 
+	private Set<String> programDownloadQueue;
+
 	private DownloadUtil() {
 		programDownloadQueue = Collections.synchronizedSet(new HashSet<String>());
-
 	}
 
 	public static DownloadUtil getInstance() {
-		if (instance == null) {
-			instance = new DownloadUtil();
-		}
-		return instance;
+		return INSTANCE;
 	}
 
 	public void prepareDownloadAndStartIfPossible(FragmentActivity activity, String url) {

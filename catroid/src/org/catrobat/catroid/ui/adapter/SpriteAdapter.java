@@ -253,9 +253,9 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 	}
 
 	public interface OnSpriteEditListener {
-		public void onSpriteChecked();
+		void onSpriteChecked();
 
-		public void onSpriteEdit(int position);
+		void onSpriteEdit(int position);
 	}
 
 }

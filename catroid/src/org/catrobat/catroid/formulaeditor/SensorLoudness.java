@@ -30,7 +30,7 @@ import org.catrobat.catroid.soundrecorder.SoundRecorder;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class SensorLoudness {
+public final class SensorLoudness {
 
 	private static SensorLoudness instance = null;
 	private static final int UPDATE_INTERVAL = 50;

@@ -122,7 +122,8 @@ public class ProjectScreenshotLoader {
 			} else {
 				int width = context.getResources().getDimensionPixelSize(R.dimen.project_thumbnail_width);
 				int height = context.getResources().getDimensionPixelSize(R.dimen.project_thumbnail_height);
-				projectImage = ImageEditing.getScaledBitmapFromPath(pathOfScreenshot, width, height, true);
+				projectImage = ImageEditing.getScaledBitmapFromPath(pathOfScreenshot, width, height,
+						ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, true);
 			}
 
 			imageCache.put(projectScreenshotData.projectName, projectImage);

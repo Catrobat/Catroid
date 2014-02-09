@@ -78,6 +78,8 @@ public class PreStageActivity extends Activity {
 		int requiredResources = getRequiredRessources();
 		requiredResourceCounter = Integer.bitCount(requiredResources);
 
+		setContentView(R.layout.activity_prestage);
+
 		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
 			Intent checkIntent = new Intent();
 			checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
