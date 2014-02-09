@@ -22,21 +22,20 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.RobotAlbertRgbLedEyeActionBrick.Eye;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.robot.albert.RobotAlbert;
-
-import android.util.Log;
-
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 public class RobotAlbertRgbLedEyeAction extends TemporalAction {
 	private static final int MIN_VALUE = 0;
 	private static final int MAX_VALUE = 255;
 
 	private Eye eyeEnum;
-	private Eye eye;
 	private Formula red;
 	private Formula green;
 	private Formula blue;
@@ -75,9 +74,7 @@ public class RobotAlbertRgbLedEyeAction extends TemporalAction {
 			Log.d("Albert", "Error: EyeEnum:" + eyeEnum);
 		}
 
-		//Log.d("RobotAlbert", "RobotAlbertRgbLedEyeAction before send: rbg=" + red + "|" + green + "|" + blue);
 		RobotAlbert.sendRobotAlbertRgbLedEyeMessage(eye, redValue, greenValue, blueValue);
-		//Log.d("RobotAlbert", "RobotAlbertRgbLedEyeAction after sended");
 	}
 
 	public void setEyeEnum(Eye eyeEnum) {

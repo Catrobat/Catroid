@@ -22,21 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
-import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
-import org.catrobat.catroid.ui.dialogs.NewVariableDialog;
-import org.catrobat.catroid.ui.dialogs.NewVariableDialog.NewVariableDialogListener;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
@@ -55,6 +40,21 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
+import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
+import org.catrobat.catroid.ui.dialogs.NewVariableDialog;
+import org.catrobat.catroid.ui.dialogs.NewVariableDialog.NewVariableDialogListener;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+
+import java.util.List;
 
 public class RobotAlbertDistanceSensorRightBrick extends BrickBaseType implements OnClickListener,
 		NewVariableDialogListener {
@@ -107,15 +107,6 @@ public class RobotAlbertDistanceSensorRightBrick extends BrickBaseType implement
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
-
-		//TextView prototype_text = (TextView) view
-		//		.findViewById(R.id.brick_robot_albert_distance_sensor_right_prototype_view);
-		//EditText edit_text = (EditText) view.findViewById(R.id.brick_robot_albert_distance_sensor_right_edit_text);
-		//prototype_text.setVisibility(View.GONE);
-		//variableFormula.setTextFieldId(R.id.brick_robot_albert_distance_sensor_right_edit_text);
-		//variableFormula.refreshTextField(view);
-		//edit_text.setVisibility(View.VISIBLE);
-		//edit_text.setOnClickListener(this);
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.robot_albert_distance_sensor_right_spinner);
 		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
@@ -191,10 +182,6 @@ public class RobotAlbertDistanceSensorRightBrick extends BrickBaseType implement
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
 		setSpinnerSelection(variableSpinner, null);
 
-		//TextView textSetVariable = (TextView) prototypeView
-		//	.findViewById(R.id.brick_robot_albert_distance_sensor_right_prototype_view);
-		//textSetVariable.setText(String.valueOf(variableFormula.interpretDouble(sprite)));
-
 		return prototypeView;
 	}
 
@@ -205,8 +192,6 @@ public class RobotAlbertDistanceSensorRightBrick extends BrickBaseType implement
 		background.setAlpha(alphaValue);
 
 		TextView textSetVariable = (TextView) view.findViewById(R.id.brick_robot_albert_distance_sensor_right_label);
-		//TextView textTo = (TextView) view.findViewById(R.id.brick_robot_albert_distance_sensor_right_to_textview);
-		//EditText editVariable = (EditText) view.findViewById(R.id.brick_robot_albert_distance_sensor_right_edit_text);
 		Spinner variablebrickSpinner = (Spinner) view.findViewById(R.id.robot_albert_distance_sensor_right_spinner);
 
 		ColorStateList color = textSetVariable.getTextColors().withAlpha(alphaValue);
@@ -215,9 +200,6 @@ public class RobotAlbertDistanceSensorRightBrick extends BrickBaseType implement
 			((TextView) adapterView.getChildAt(0)).setTextColor(color);
 		}
 		textSetVariable.setTextColor(textSetVariable.getTextColors().withAlpha(alphaValue));
-		//textTo.setTextColor(textTo.getTextColors().withAlpha(alphaValue));
-		//editVariable.setTextColor(editVariable.getTextColors().withAlpha(alphaValue));
-		//editVariable.getBackground().setAlpha(alphaValue);
 
 		this.alphaValue = (alphaValue);
 		return view;

@@ -31,11 +31,6 @@ public class SensorData {
 	private int right_distance_sensor = 0;
 
 	private SensorData() {
-		/*
-		 * if (instance == null) {
-		 * instance = new SensorData();
-		 * }
-		 */
 	}
 
 	public static SensorData getInstance() {

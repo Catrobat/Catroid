@@ -48,7 +48,6 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.robot.albert.ControlCommands;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BTDummyClient;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -61,26 +60,15 @@ import java.util.Arrays;
 
 public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int IMAGE_FILE_ID = org.catrobat.catroid.test.R.raw.icon;
-	private static final int MOTOR_ACTION = 0;
 
 	// needed for testdevices
 	// Bluetooth server is running with a name that starts with 'kitty'
 	// e.g. kittyroid-0, kittyslave-0
-	private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "T420-40:2C:F4:69:D0:21";//"michael";
-	//private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "michael-ThinkPad-T420-0-40:2C:F4:69:D0:21";//"michael";
-	//private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "michael-ThinkPad-T420-0";//"michael";
-
-	// needed for testdevices
-	// unavailable device is paired with a name that starts with 'SWEET'
-	// e.g. SWEETHEART
-
-	private static final String PAIRED_UNAVAILABLE_DEVICE_NAME = "SWEET";
-	private static final String PAIRED_UNAVAILABLE_DEVICE_MAC = "00:23:4D:F5:A6:18";
+	private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "T420-40:2C:F4:69:D0:21";
 
 	private final String projectName = UiTestUtils.PROJECTNAME1;
 	private final String spriteName = "testSprite";
 
-	//ArrayList<byte[]> sentCommands = new ArrayList<byte[]>();
 	ByteArrayBuffer sendCommands = new ByteArrayBuffer(1024);
 	UserVariablesContainer userVariablesContainer = null;
 	private Sprite sprite;
@@ -95,7 +83,7 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		UiTestUtils.prepareStageForTest();
 	}
 
-	// This test requires the NXTBTTestServer to be running or a LegoNXT Robot to run! Check connect string to see if you connect to the right device!
+	// This test requires the AlbertTestServer to be running
 	@Device
 	public void testAlbertFunctionality() {
 		Log.d("TestRobotAlbert", "initialized BTDummyClient");
@@ -105,7 +93,6 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		createTestproject(projectName);
 
-		//UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.sleep(500);
 		solo.clickOnText(spriteName);
@@ -114,7 +101,6 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.sleep(1000);
 
 		solo.clickOnText("0,0");
-		//solo.sleep(50000);
 		solo.sleep(1000);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
 		solo.sleep(1000);
@@ -122,8 +108,6 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_albert_robot_distance_left));
 		solo.sleep(1000);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
-
-		//solo.sleep(100000);
 
 		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
@@ -137,10 +121,7 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		DeviceListActivity deviceListActivity = new DeviceListActivity();
 		Reflection.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
 
-		/*
-		 * solo.clickOnText(solo.getString(R.string.main_menu_continue));
-		 * solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		 */UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.sleep(2000);
 
 		ListView deviceList = solo.getCurrentViews(ListView.class).get(0);
@@ -170,7 +151,6 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		Log.d("TestRobotAlbert_New", receivedBuffer.toByteArray().toString());
 		Log.d("TestRobotAlbert", "Array comparision successful: " + ok);
 
-		//dummy.sendSetVariableCommandToDummyServer(name, value)
 		double distanceLeft = userVariablesContainer.getUserVariable("p1", sprite).getValue();
 		Log.d("RobotAlbertTest", "left=" + distanceLeft);
 		assertEquals("Variable has the wrong value after stage", 50.0, distanceLeft);
@@ -194,37 +174,6 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.goBack();
 
 		Log.d("TestRobotAlbert", "after goback");
-		//RobotAlbertBtCommunicator.enableRequestConfirmFromDevice(false);
-	}
-
-	@Device
-	public void NXTConnectionDialogGoBack() {
-
-		createTestproject(projectName);
-
-		ArrayList<String> autoConnectIDs = new ArrayList<String>();
-		autoConnectIDs.add("IM_NOT_A_MAC_ADDRESS");
-		DeviceListActivity deviceListActivity = new DeviceListActivity();
-		Reflection.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
-
-		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-		assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
-		if (!bluetoothAdapter.isEnabled()) {
-			bluetoothAdapter.enable();
-			solo.sleep(5000);
-		}
-
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
-		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-		solo.sleep(1000);
-		solo.assertCurrentActivity("Devicelist not shown!", DeviceListActivity.class);
-		solo.goBack();
-		solo.sleep(1000);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-		solo.sleep(1000);
-		solo.assertCurrentActivity("Devicelist not shown!", DeviceListActivity.class);
-
 	}
 
 	private void createTestproject(String projectName) {
@@ -235,13 +184,6 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		SetLookBrick setLookBrick = new SetLookBrick(firstSprite);
 		sprite = firstSprite;
 
-		//		UserVariablesContainer userVariablesContainer = new UserVariablesContainer();
-		//		userVariablesContainer.addProjectUserVariable("p1");
-		//		userVariablesContainer.addSpriteUserVariable("sprite_var1");
-
-		//byte[] sensorCmd = createSensorCommand();
-		//sendCommands.append(sensorCmd, 0, sensorCmd.length);
-
 		RobotAlbertMotorActionBrick legoMotorActionBrick = new RobotAlbertMotorActionBrick(firstSprite,
 				RobotAlbertMotorActionBrick.Motor.Both, 100);
 		ControlCommands commands = new ControlCommands();
@@ -250,9 +192,6 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		byte[] command = commands.getCommandMessage();
 		int commandLength = command.length;
 		sendCommands.append(command, 0, commandLength);
-		//Log.d("TestRobotAlbert", "size=" + commands.getCommandMessage().length + "size=" + len);
-
-		//sendCommands.append(sensorCmd, 0, sensorCmd.length);
 
 		RobotAlbertFrontLedBrick robotAlbertFrontLedBrick = new RobotAlbertFrontLedBrick(firstSprite, new Formula(1));
 		commands.setFrontLed(1);
@@ -260,15 +199,11 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		commandLength = command.length;
 		sendCommands.append(command, 0, commandLength);
 
-		//sendCommands.append(sensorCmd, 0, sensorCmd.length);
-
 		RobotAlbertBuzzerBrick robotAlbertBuzzerBrick = new RobotAlbertBuzzerBrick(firstSprite, new Formula(50));
 		commands.setBuzzer(50);
 		command = commands.getCommandMessage();
 		commandLength = command.length;
 		sendCommands.append(command, 0, commandLength);
-
-		//sendCommands.append(sensorCmd, 0, sensorCmd.length);
 
 		RobotAlbertRgbLedEyeActionBrick robotAlbertRgbLedEyeActionBrick = new RobotAlbertRgbLedEyeActionBrick(
 				firstSprite, RobotAlbertRgbLedEyeActionBrick.Eye.Both, new Formula(255), new Formula(255), new Formula(
@@ -280,8 +215,6 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		sendCommands.append(command, 0, commandLength);
 
 		SetVariableBrick setVariableBrick = new SetVariableBrick(firstSprite, 0.0);
-
-		//sendCommands.append(sensorCmd, 0, sensorCmd.length);
 
 		whenScript.addBrick(legoMotorActionBrick);
 		whenScript.addBrick(robotAlbertFrontLedBrick);
@@ -298,13 +231,9 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
 		userVariablesContainer = project.getUserVariables();
 		userVariablesContainer.addProjectUserVariable("p1");
-		//userVariablesContainer.addProjectUserVariable("p2");
 		userVariablesContainer.addSpriteUserVariable("sprite_var1");
-		//userVariablesContainer.addSpriteUserVariable("sprite_var2");
 
 		setVariableBrick = new SetVariableBrick(firstSprite, 0.0);
-		//script.addBrick(setVariableBrick);
-		//setVariableBrick2 = new SetVariableBrick(firstSprite, 1.1);
 
 		String imageName = "image";
 		File image = UiTestUtils.saveFileToProject(projectName, imageName, IMAGE_FILE_ID, getInstrumentation()
@@ -324,49 +253,25 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		int i;
 		int length = buffer.length();
 
-		//Log.d("removeSensorCommands", "begin");
 		ByteArrayBuffer array = new ByteArrayBuffer(0);
 
 		for (i = 0; i < length; i++) {
 			boolean found = false;
-			/*
-			 * if (buffer.toByteArray()[i] == (byte) 0xAA) {
-			 * Log.d("removeSensorCommands", "0xAA found (i=" + i + ")");
-			 * }
-			 * if (buffer.toByteArray()[i] == (byte) 0x55) {
-			 * Log.d("removeSensorCommands", "0x55 found (i=" + i + ")");
-			 * }
-			 * if (buffer.toByteArray()[i] == (byte) 52) {
-			 * Log.d("removeSensorCommands", "0x52 found (i=" + i + ")");
-			 * }
-			 * 
-			 * if (buffer.toByteArray()[i] == (byte) 0x0A) {
-			 * Log.d("removeSensorCommands", "0x0A found (i=" + i + ")");
-			 * }
-			 * 
-			 * if (buffer.toByteArray()[i] == (byte) 0x0D) {
-			 * Log.d("removeSensorCommands", "0x0D found (i=" + i + ")");
-			 * }
-			 */
 
 			if (i < length - 51) {
 				if ((buffer.toByteArray()[i] == (byte) 0xAA) && (buffer.toByteArray()[i + 1] == (byte) 0x55)
 						&& (buffer.toByteArray()[i + 2] == (byte) 52)) {
-					//Log.d("removeSensorCommands", "Sensor command beginning found");
 					if ((buffer.toByteArray()[i + 50] == (byte) 0x0D) && (buffer.toByteArray()[i + 51] == (byte) 0x0A)) {
-						//Log.d("removeSensorCommands", "Sensor command end found");
 						i = i + 51;
 						found = true;
 					}
 				}
 			}
-			//Log.d("removeSensorCommands", "appending: i=" + i);
 
 			if (found == false) {
 				array.append(buffer.toByteArray()[i]);
 			}
 		}
-		Log.d("removeSensorCommands", "end");
 		return array;
 	}
 }

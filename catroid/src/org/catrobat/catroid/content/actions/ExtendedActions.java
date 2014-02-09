@@ -388,7 +388,7 @@ public class ExtendedActions extends Actions {
 
 		RobotAlbertDistanceSensorLeftAction action = action(RobotAlbertDistanceSensorLeftAction.class);
 		action.setSprite(sprite);
-		action.setChangeVariable(variableFormula);
+		//action.setChangeVariable(variableFormula);
 		action.setUserVariable(userVariable);
 		return action;
 	}
@@ -398,7 +398,7 @@ public class ExtendedActions extends Actions {
 
 		RobotAlbertDistanceSensorRightAction action = action(RobotAlbertDistanceSensorRightAction.class);
 		action.setSprite(sprite);
-		action.setChangeVariable(variableFormula);
+		//action.setChangeVariable(variableFormula);
 		action.setUserVariable(userVariable);
 		return action;
 	}

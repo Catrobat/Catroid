@@ -58,14 +58,10 @@ import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
-//@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH) just needed for debug output: btSocket.isConnected()
+//This code is based on the nxt-implementation
 public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 
 	private static final UUID SERIAL_PORT_SERVICE_CLASS_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fc");
-	//private static final UUID SERIAL_PORT_SERVICE_CLASS_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
-	//private static final UUID SERIAL_PORT_SERVICE_CLASS_UUID = UUID.fromString("eb8ec53a-f070-46e0-b6ff-1645c931f858");
-
-	// this is the only OUI registered by LEGO, see http://standards.ieee.org/regauth/oui/index.shtml
 
 	private BluetoothAdapter btAdapter;
 	private BluetoothSocket btSocket = null;
@@ -88,10 +84,6 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 		this.mMACaddress = mMACaddress;
 	}
 
-	/**
-	 * Creates the connection, waits for incoming messages and dispatches them. The thread will be terminated
-	 * on closing of the connection.
-	 */
 	@Override
 	public void run() {
 
@@ -101,23 +93,15 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 		}
 
 		while (connected) {
-
-			//TODO: Test it on more devices. If everything works use this else use Version in branch albert_robot_presentation_V2 
 			try {
 				receiveMessage();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				Log.d("RobotAlbertBtComm", "IOException in run:receiveMessage occured: " + e.toString());
-				//Log.d("Test", e.getMessage());
-				//This error occurs if robot albert is suddenly switched of
-				//if (e.getMessage().equalsIgnoreCase("Software caused connection abort")) {
 				if (connected == true) {
 					sendState(STATE_CONNECTERROR);
 					connected = false;
 				}
-
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				Log.d("RobotAlbertBtComm", "Exception in run:receiveMessage occured: " + e.toString());
 				if (connected == true) {
 					sendState(STATE_CONNECTERROR);
@@ -127,15 +111,6 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 		}
 	}
 
-	/**
-	 * Create a bluetooth connection with SerialPortServiceClass_UUID
-	 * 
-	 * @see <a href=
-	 *      "http://lejos.sourceforge.net/forum/viewtopic.php?t=1991&highlight=android"
-	 *      />
-	 *      On error the method either sends a message to it's owner or creates an exception in the
-	 *      case of no message handler.
-	 */
 	@Override
 	public void createConnection() throws IOException {
 		try {
@@ -154,10 +129,7 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 
 			btSocketTemporary = btDevice.createRfcommSocketToServiceRecord(SERIAL_PORT_SERVICE_CLASS_UUID);
 			try {
-
-				Log.d("TestRobotAlbert", "before btSocketTemporary.connect();\n" + SERIAL_PORT_SERVICE_CLASS_UUID);
 				btSocketTemporary.connect();
-				Log.d("TestRobotAlbert", "after btSocketTemporary.connect()");
 
 			} catch (IOException e) {
 				if (myOwner.isPairing()) {
@@ -206,10 +178,6 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 		}
 	}
 
-	/**
-	 * Closes the bluetooth connection. On error the method either sends a message
-	 * to it's owner or creates an exception in the case of no message handler.
-	 */
 	@Override
 	public void destroyConnection() throws IOException {
 
@@ -244,7 +212,6 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 		myHandler.removeMessages(1);
 		myHandler.removeMessages(2);
 		resetRobotAlbert();
-
 	}
 
 	/**
@@ -275,29 +242,25 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 	@Override
 	public byte[] receiveMessage() throws IOException, Exception {
 
-		Log.d("RobotAlbertBtComm", "receiveMessage beginning");
 		if (inputStream == null) {
 			throw new IOException(" Software caused connection abort ");
 		}
 
 		byte[] buffer = new byte[100];
+		@SuppressWarnings("unused")
 		int read = 0;
 		byte[] buf = new byte[1];
 		byte[] buf0 = new byte[2];
 		int count2 = 0;
 
 		do {
-			Log.d("RobotAlbertBtComm", "before checkIfDataIsAvailable");
 			checkIfDataIsAvailable();
-			Log.d("RobotAlbertBtComm", "after checkIfDataIsAvailable");
 			read = inputStream.read(buf0);
 			count2++;
 			if (count2 > 200) {
 				return null;
 			}
 		} while ((buf0[0] != -86) || (buf0[1] != 85));
-
-		Log.d("RobotAlbertBtComm", "Found begin of sensor packet");
 
 		int count = 2;
 		buffer[0] = buf0[0];
@@ -308,10 +271,7 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 			read = inputStream.read(buf);
 			buffer[count] = buf[0];
 			count++;
-			//Log.d("test", "waiting for 0x0A (count="+count+")");
 		} while ((buffer[count] != 13) && (buffer[count - 1] != 10));
-
-		Log.d("RobotAlbertBtComm", "Found end of sensor packet");
 
 		int leftDistance = (buffer[14] + buffer[16] + buffer[18] + buffer[20]) / 4;
 		int rightDistance = (buffer[13] + buffer[15] + buffer[17] + buffer[19]) / 4;
@@ -319,26 +279,11 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 		sensors.setValueOfLeftDistanceSensor(leftDistance);
 		sensors.setValueOfRightDistanceSensor(rightDistance);
 
-		Log.d("RobotAlbertBtComm", "receiveMessage:  leftDistance=" + leftDistance);
-		Log.d("RobotAlbertBtComm", "receiveMessage: rightDistance=" + rightDistance);
-
 		if (DEBUG_OUTPUT == true) {
+			Log.d("RobotAlbertBtComm", "sensor packet found");
 			Log.d("RobotAlbertBtComm", "receiveMessage:  leftDistance=" + leftDistance);
 			Log.d("RobotAlbertBtComm", "receiveMessage: rightDistance=" + rightDistance);
-			//Log.d("RobotAlbertBtComm", "receiveMessage: leftMotor=" + buffer[8]);
-			//Log.d("RobotAlbertBtComm", "receiveMessage: rightMotor=" + buffer[9]);
-			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[13]=" + buffer[13]);
-			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[14]=" + buffer[14]);
-			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[15]=" + buffer[15]);
-			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[16]=" + buffer[16]);
-			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[17]=" + buffer[17]);
-			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[18]=" + buffer[18]);
-			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[19]=" + buffer[19]);
-			//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[20]=" + buffer[20]);
 		}
-
-		Log.d("RobotAlbertBtComm", "receiveMessage end");
-
 		return buffer;
 	}
 
@@ -358,7 +303,6 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			// here you can optionally check elapsed time, and time out

@@ -45,9 +45,7 @@ public class RobotAlbertBuzzerAction extends TemporalAction {
 			loudness = MAX;
 		}
 
-		//Log.d("RobotAlbert", "RobotAlbertBuzzerAction before send: value=" + value);
 		RobotAlbert.sendRobotAlbertBuzzerMessage(loudness);
-		//Log.d("RobotAlbert", "RobotAlbertBuzzerAction after sended");
 	}
 
 	public void setValue(Formula value) {

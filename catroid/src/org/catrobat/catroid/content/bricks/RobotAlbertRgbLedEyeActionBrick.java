@@ -115,7 +115,6 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 		textgreen.setText(String.valueOf(green.interpretInteger(sprite)));
 		TextView textblue = (TextView) prototypeView.findViewById(R.id.robot_albert_rgb_led_action_blue_text_view);
 		textblue.setText(String.valueOf(blue.interpretInteger(sprite)));
-		//TextView textColor = (TextView) prototypeView.findViewById(R.id.robot_albert_rgb_led_action_color_text_view);
 		Spinner eyeSpinner = (Spinner) prototypeView.findViewById(R.id.robot_albert_eye_spinner);
 		eyeSpinner.setFocusableInTouchMode(false);
 		eyeSpinner.setFocusable(false);
@@ -237,8 +236,6 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 
 	@Override
 	public void onClick(View view) {
-
-		//setContentView(R.layout.brick_robot_albert_rgb_eye_action);
 
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;

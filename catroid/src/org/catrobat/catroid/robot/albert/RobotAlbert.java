@@ -48,13 +48,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import org.catrobat.catroid.bluetooth.BTConnectable;
 import org.catrobat.catroid.bluetooth.DeviceListActivity;
 
 import java.io.IOException;
 
+//This code is based on the nxt-implementation
 public class RobotAlbert implements BTConnectable {
 
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
@@ -93,19 +93,13 @@ public class RobotAlbert implements BTConnectable {
 		myCommunicator.start();
 	}
 
-	/**
-	 * Receive messages from the BTCommunicator
-	 */
-
 	public void destroyCommunicator() {
 
 		if (myCommunicator != null) {
 			try {
 				myCommunicator.stopAllMovement();
 				myCommunicator.destroyConnection();
-			} catch (IOException e) { // TODO Auto-generated method stub
-
-				// TODO Auto-generated catch block
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			myCommunicator = null;
@@ -117,36 +111,25 @@ public class RobotAlbert implements BTConnectable {
 	}
 
 	public static synchronized void sendRobotAlbertMotorMessage(int motor, int speed) {
-		Log.d("RobotAlbert", "sendRobotAlbertMotorMessage():Bundle");
 		Bundle myBundle = new Bundle();
 		myBundle.putInt("motor", motor);
 		myBundle.putInt("speed", speed);
-		Log.d("RobotAlbert", "1");
 		Message myMessage = btcHandler.obtainMessage();
-		Log.d("RobotAlbert", "2");
 		myMessage.setData(myBundle);
 		myMessage.what = MOTOR_COMMAND;
-		Log.d("RobotAlbert", "sendRobotAlbertMotorMessage():btcHandler.sendMessage(...)");
 		btcHandler.sendMessage(myMessage);
-		Log.d("RobotAlbert", "sendRobotAlbertMotorMessage finished!");
 	}
 
 	public static synchronized void sendRobotAlbertBuzzerMessage(int buzzer) {
-		Log.d("RobotAlbert", "sendRobotAlbert BuzzerMessage():Bundle");
 		Bundle myBundle = new Bundle();
 		myBundle.putInt("buzzer", buzzer);
-		Log.d("RobotAlbert", "1");
 		Message myMessage = btcHandler.obtainMessage();
-		Log.d("RobotAlbert", "2");
 		myMessage.setData(myBundle);
 		myMessage.what = BUZZER_COMMAND;
-		Log.d("RobotAlbert", "sendRobotAlbertBuzzerMessage():btcHandler.sendMessage(...)");
 		btcHandler.sendMessage(myMessage);
-		Log.d("RobotAlbert", "sendRobotAlbertBuzzerMessage finished!");
 	}
 
 	public static synchronized void sendRobotAlbertFrontLedMessage(int status) {
-		Log.d("RobotAlbert", "sendRobotAlbert FrontLedMessage():Bundle");
 		Bundle myBundle = new Bundle();
 		myBundle.putInt("frontLED", status);
 		Message myMessage = btcHandler.obtainMessage();
@@ -156,20 +139,15 @@ public class RobotAlbert implements BTConnectable {
 	}
 
 	public static synchronized void sendRobotAlbertRgbLedEyeMessage(int eye, int red, int green, int blue) {
-		Log.d("RobotAlbert", "sendRobotAlbert RgbLedEyeMessage():Bundle");
 		Bundle myBundle = new Bundle();
 		myBundle.putInt("eye", eye);
 		myBundle.putInt("red", red);
 		myBundle.putInt("green", green);
 		myBundle.putInt("blue", blue);
-		Log.d("RobotAlbert", "1");
 		Message myMessage = btcHandler.obtainMessage();
-		Log.d("RobotAlbert", "2");
 		myMessage.setData(myBundle);
 		myMessage.what = RGB_EYE_COMMAND;
-		Log.d("RobotAlbert", "sendRobotAlbertRgbLedEyeMessage():btcHandler.sendMessage(...)");
 		btcHandler.sendMessage(myMessage);
-		Log.d("RobotAlbert", "sendRobotAlbertRgbLedEyeMessage finished!");
 	}
 
 	public static int getRobotAlbertDistanceSensorLeftMessage() {
@@ -188,7 +166,6 @@ public class RobotAlbert implements BTConnectable {
 
 	@Override
 	public boolean isPairing() {
-		// TODO Auto-generated method stub
 		return pairing;
 	}
 

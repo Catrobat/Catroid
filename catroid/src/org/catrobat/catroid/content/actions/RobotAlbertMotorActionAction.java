@@ -22,14 +22,14 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.RobotAlbertMotorActionBrick.Motor;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.robot.albert.RobotAlbert;
-
-import android.util.Log;
-
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 public class RobotAlbertMotorActionAction extends TemporalAction {
 	private static final int MIN = -100;
@@ -60,9 +60,7 @@ public class RobotAlbertMotorActionAction extends TemporalAction {
 			Log.d("Albert", "Error: motorEnum:" + motorEnum);
 		}
 
-		//Log.d("RobotAlbert", "RobotAlbertMotorActionAction before send: speed=" + speedValue);
 		RobotAlbert.sendRobotAlbertMotorMessage(motor, speedValue);
-		//Log.d("RobotAlbert", "RobotAlbertMotorActionAction after sended");
 	}
 
 	public void setMotorEnum(Motor motorEnum) {
