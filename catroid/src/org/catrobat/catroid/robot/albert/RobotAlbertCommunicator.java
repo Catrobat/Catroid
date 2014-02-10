@@ -85,14 +85,14 @@ public abstract class RobotAlbertCommunicator extends Thread {
 	protected static ArrayList<byte[]> receivedMessages = new ArrayList<byte[]>();
 	protected byte[] returnMessage;
 
-	protected Resources mResources;
+	protected Resources resources;
 
 	protected ControlCommands commands = new ControlCommands();
 	protected SensorData sensors = SensorData.getInstance();
 
 	public RobotAlbertCommunicator(Handler uiHandler, Resources resources) {
 		this.uiHandler = uiHandler;
-		this.mResources = resources;
+		this.resources = resources;
 	}
 
 	public static ArrayList<byte[]> getReceivedMessageList() {
@@ -188,9 +188,9 @@ public abstract class RobotAlbertCommunicator extends Thread {
 		sendCommandMessage(commands.getCommandMessage());
 	}
 
-	protected synchronized void sendCommandMessage(byte[] command_message) {
+	protected synchronized void sendCommandMessage(byte[] commandMessage) {
 		try {
-			sendMessage(command_message);
+			sendMessage(commandMessage);
 		} catch (IOException e) {
 			sendState(STATE_SENDERROR);
 		}
@@ -202,7 +202,7 @@ public abstract class RobotAlbertCommunicator extends Thread {
 		@Override
 		public void handleMessage(Message message) {
 
-			byte[] command_message;
+			byte[] commandMessage;
 			switch (message.what) {
 				case MOTOR_COMMAND:
 					int motor = message.getData().getInt("motor");
@@ -221,8 +221,8 @@ public abstract class RobotAlbertCommunicator extends Thread {
 						default:
 							Log.d("Albert", "Handler: ERROR: default-Motor !!!!!!!!!!!!!!!");
 					}
-					command_message = commands.getCommandMessage();
-					sendCommandMessage(command_message);
+					commandMessage = commands.getCommandMessage();
+					sendCommandMessage(commandMessage);
 					break;
 				case MOTOR_RESET_COMMAND:
 					commands.setSpeedOfLeftMotor(0);
@@ -230,20 +230,20 @@ public abstract class RobotAlbertCommunicator extends Thread {
 					commands.setBuzzer(0);
 					commands.setLeftEye(255, 255, 255);
 					commands.setRightEye(255, 255, 255);
-					command_message = commands.getCommandMessage();
-					sendCommandMessage(command_message);
+					commandMessage = commands.getCommandMessage();
+					sendCommandMessage(commandMessage);
 					break;
 				case BUZZER_COMMAND:
 					int buzzer = message.getData().getInt("buzzer");
 					commands.setBuzzer(buzzer);
-					command_message = commands.getCommandMessage();
-					sendCommandMessage(command_message);
+					commandMessage = commands.getCommandMessage();
+					sendCommandMessage(commandMessage);
 					break;
 				case FRONT_LED_COMMAND:
 					int status = message.getData().getInt("frontLED");
 					commands.setFrontLed(status);
-					command_message = commands.getCommandMessage();
-					sendCommandMessage(command_message);
+					commandMessage = commands.getCommandMessage();
+					sendCommandMessage(commandMessage);
 					break;
 				case RGB_EYE_COMMAND:
 					Log.d("Albert", "create command-message");
@@ -265,8 +265,8 @@ public abstract class RobotAlbertCommunicator extends Thread {
 						default:
 							Log.d("Albert", "Handler: ERROR: default-Motor !!!!!!!!!!!!!!!");
 					}
-					command_message = commands.getCommandMessage();
-					sendCommandMessage(command_message);
+					commandMessage = commands.getCommandMessage();
+					sendCommandMessage(commandMessage);
 					break;
 
 				default:

@@ -45,7 +45,7 @@ public class BTDummyClient {
 	private InputStream inputStream = null;
 	//  private String MACAddress = "00:1F:3A:E9:70:58"; // Martin Laptop
 	//	private String MACAddress = "EC:55:F9:DE:41:6A"; // Manuel Laptop
-	private String MACAddress = "40:2C:F4:69:D0:21"; // Michael Laptop
+	private String macAddress = "40:2C:F4:69:D0:21"; // Michael Laptop
 	private ByteArrayBuffer receivedFeedback = new ByteArrayBuffer(1024);
 	private boolean connected = false;
 
@@ -66,7 +66,7 @@ public class BTDummyClient {
 	}
 
 	public void initializeAndConnectToServer(String option) {
-		BluetoothDevice dummyServer = btAdapter.getRemoteDevice(MACAddress);
+		BluetoothDevice dummyServer = btAdapter.getRemoteDevice(macAddress);
 
 		if (!connected) {
 			try {

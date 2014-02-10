@@ -68,9 +68,9 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 	private OutputStream outputStream = null;
 	private InputStream inputStream = null;
 
-	private String mMACaddress;
+	private String mMacAddress;
 	private BTConnectable myOwner;
-	private static boolean DEBUG_OUTPUT = false;
+	private static boolean debugOutput = false;
 
 	public RobotAlbertBtCommunicator(BTConnectable myOwner, Handler uiHandler, BluetoothAdapter btAdapter,
 			Resources resources) {
@@ -81,7 +81,7 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 	}
 
 	public void setMACAddress(String mMACaddress) {
-		this.mMACaddress = mMACaddress;
+		this.mMacAddress = mMACaddress;
 	}
 
 	@Override
@@ -116,12 +116,12 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 		try {
 			BluetoothSocket btSocketTemporary;
 			BluetoothDevice btDevice = null;
-			btDevice = btAdapter.getRemoteDevice(mMACaddress);
+			btDevice = btAdapter.getRemoteDevice(mMacAddress);
 			if (btDevice == null) {
 				if (uiHandler == null) {
 					throw new IOException();
 				} else {
-					sendToast(mResources.getString(R.string.no_paired_nxt));
+					sendToast(resources.getString(R.string.no_paired_nxt));
 					sendState(STATE_CONNECTERROR);
 					return;
 				}
@@ -134,7 +134,7 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 			} catch (IOException e) {
 				if (myOwner.isPairing()) {
 					if (uiHandler != null) {
-						sendToast(mResources.getString(R.string.pairing_message));
+						sendToast(resources.getString(R.string.pairing_message));
 						sendState(STATE_CONNECTERROR_PAIRING);
 					} else {
 						throw e;
@@ -166,7 +166,7 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 				throw e;
 			} else {
 				if (myOwner.isPairing()) {
-					sendToast(mResources.getString(R.string.pairing_message));
+					sendToast(resources.getString(R.string.pairing_message));
 				}
 				sendState(STATE_CONNECTERROR);
 				return;
@@ -201,7 +201,7 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 			if (uiHandler == null) {
 				throw e;
 			} else {
-				sendToast(mResources.getString(R.string.problem_at_closing));
+				sendToast(resources.getString(R.string.problem_at_closing));
 			}
 		}
 	}
@@ -279,7 +279,7 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 		sensors.setValueOfLeftDistanceSensor(leftDistance);
 		sensors.setValueOfRightDistanceSensor(rightDistance);
 
-		if (DEBUG_OUTPUT == true) {
+		if (debugOutput == true) {
 			Log.d("RobotAlbertBtComm", "sensor packet found");
 			Log.d("RobotAlbertBtComm", "receiveMessage:  leftDistance=" + leftDistance);
 			Log.d("RobotAlbertBtComm", "receiveMessage: rightDistance=" + rightDistance);

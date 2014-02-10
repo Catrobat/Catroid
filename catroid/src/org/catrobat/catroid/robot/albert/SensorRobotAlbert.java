@@ -31,7 +31,7 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 
 import java.util.ArrayList;
 
-public class SensorRobotAlbert {
+public final class SensorRobotAlbert {
 
 	private static SensorRobotAlbert instance = null;
 	private static final int UPDATE_INTERVAL = 50; //New sensordata comes around every 40ms
@@ -40,7 +40,7 @@ public class SensorRobotAlbert {
 
 	private Handler handler;
 	private float[] distance = new float[2];
-	private static boolean DEBUG_OUTPUT = true;
+	private static boolean debugOutput = true;
 
 	public static final String KEY_SETTINGS_ROBOT_ALBERT_BRICKS = "setting_robot_albert_bricks";
 	public boolean usingRobotAlbertBricks = false;
@@ -53,7 +53,7 @@ public class SensorRobotAlbert {
 			distance[0] = SensorData.getInstance().getValueOfLeftDistanceSensor();
 			distance[1] = SensorData.getInstance().getValueOfRightDistanceSensor();
 
-			if (DEBUG_OUTPUT == true) {
+			if (debugOutput == true) {
 				Log.d("SensorRobotAlbert", "LeftSensorvalue:  "
 						+ SensorData.getInstance().getValueOfLeftDistanceSensor());
 				Log.d("SensorRobotAlbert", "RightSensorvalue: "

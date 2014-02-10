@@ -48,17 +48,17 @@ public class ControlCommands {
 	private byte[] buffer = new byte[22];
 
 	//Actor variables
-	private int speed_motor_left = 0; // -100...+100
-	private int speed_motor_right = 0; // -100...+100
+	private int speedMotorLeft = 0; // -100...+100
+	private int speedMotorRight = 0; // -100...+100
 	private int buzzer = 0;
-	private int left_led_green = 0; // 0...255
-	private int left_led_blue = 0; // 0...255
-	private int left_led_red = 0; // 0...255
-	private int right_led_green = 0; // 0...255
-	private int right_led_blue = 0; // 0...255
-	private int right_led_red = 0; // 0...255
-	private int front_led = 0; //Front-LED 0...1
-	private int body_led = 0; //Body-LED 0...255
+	private int leftLedGreen = 0; // 0...255
+	private int leftLedBlue = 0; // 0...255
+	private int leftLedRed = 0; // 0...255
+	private int rightLedGreen = 0; // 0...255
+	private int rightLedBlue = 0; // 0...255
+	private int rightLedRed = 0; // 0...255
+	private int frontLed = 0; //Front-LED 0...1
+	private int bodyLed = 0; //Body-LED 0...255
 	private byte sendFrameNumber = 0;
 
 	public ControlCommands() {
@@ -87,11 +87,11 @@ public class ControlCommands {
 	}
 
 	public void setSpeedOfLeftMotor(int speed) {
-		speed_motor_left = speed;
+		speedMotorLeft = speed;
 	}
 
 	public void setSpeedOfRightMotor(int speed) {
-		speed_motor_right = speed;
+		speedMotorRight = speed;
 	}
 
 	public void setBuzzer(int buzz) {
@@ -99,35 +99,35 @@ public class ControlCommands {
 	}
 
 	public void setFrontLed(int status) {
-		front_led = status;
+		frontLed = status;
 	}
 
 	public void setLeftEye(int red, int green, int blue) {
-		left_led_red = red;
-		left_led_green = green;
-		left_led_blue = blue;
+		leftLedRed = red;
+		leftLedGreen = green;
+		leftLedBlue = blue;
 	}
 
 	public void setRightEye(int red, int green, int blue) {
-		right_led_red = red;
-		right_led_green = green;
-		right_led_blue = blue;
+		rightLedRed = red;
+		rightLedGreen = green;
+		rightLedBlue = blue;
 	}
 
 	public byte[] getCommandMessage() {
 		buffer[5] = (byte) (sendFrameNumber + 1);
 		sendFrameNumber = (byte) (sendFrameNumber + 2);
-		buffer[8] = (byte) speed_motor_left;
-		buffer[9] = (byte) speed_motor_right;
+		buffer[8] = (byte) speedMotorLeft;
+		buffer[9] = (byte) speedMotorRight;
 		buffer[10] = (byte) buzzer;
-		buffer[11] = (byte) left_led_red;
-		buffer[12] = (byte) left_led_green;
-		buffer[13] = (byte) left_led_blue;
-		buffer[14] = (byte) right_led_red;
-		buffer[15] = (byte) right_led_green;
-		buffer[16] = (byte) right_led_blue;
-		buffer[17] = (byte) front_led;
-		buffer[19] = (byte) body_led;
+		buffer[11] = (byte) leftLedRed;
+		buffer[12] = (byte) leftLedGreen;
+		buffer[13] = (byte) leftLedBlue;
+		buffer[14] = (byte) rightLedRed;
+		buffer[15] = (byte) rightLedGreen;
+		buffer[16] = (byte) rightLedBlue;
+		buffer[17] = (byte) frontLed;
+		buffer[19] = (byte) bodyLed;
 		return buffer;
 	}
 

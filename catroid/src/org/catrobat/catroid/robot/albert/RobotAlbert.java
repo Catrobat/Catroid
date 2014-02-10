@@ -76,7 +76,7 @@ public class RobotAlbert implements BTConnectable {
 		this.recieverHandler = recieverHandler;
 	}
 
-	public void startBTCommunicator(String mac_address) {
+	public void startBTCommunicator(String macAddress) {
 
 		if (myCommunicator != null) {
 			try {
@@ -89,7 +89,7 @@ public class RobotAlbert implements BTConnectable {
 				activity.getResources());
 		btcHandler = myCommunicator.getHandler();
 
-		((RobotAlbertBtCommunicator) myCommunicator).setMACAddress(mac_address);
+		((RobotAlbertBtCommunicator) myCommunicator).setMACAddress(macAddress);
 		myCommunicator.start();
 	}
 

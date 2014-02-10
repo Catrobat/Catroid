@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid.robot.albert;
 
-public class SensorData {
+public final class SensorData {
 
 	private static SensorData instance = null;
 
 	//Sensor variables
-	private int left_distance_sensor = 0; //0=infinity 100=0mm
-	private int right_distance_sensor = 0;
+	private int leftDistanceSensor = 0; //0=infinity 100=0mm
+	private int rightDistanceSensor = 0;
 
 	private SensorData() {
 	}
@@ -41,19 +41,19 @@ public class SensorData {
 	}
 
 	public void setValueOfLeftDistanceSensor(int value) {
-		left_distance_sensor = value;
+		leftDistanceSensor = value;
 	}
 
 	public int getValueOfLeftDistanceSensor() {
-		return left_distance_sensor;
+		return leftDistanceSensor;
 	}
 
 	public void setValueOfRightDistanceSensor(int value) {
-		right_distance_sensor = value;
+		rightDistanceSensor = value;
 	}
 
 	public int getValueOfRightDistanceSensor() {
-		return right_distance_sensor;
+		return rightDistanceSensor;
 	}
 
 }

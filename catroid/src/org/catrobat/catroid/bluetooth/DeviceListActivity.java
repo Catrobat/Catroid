@@ -42,8 +42,6 @@
  */
 package org.catrobat.catroid.bluetooth;
 
-import org.catrobat.catroid.R;
-
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -62,6 +60,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.catrobat.catroid.R;
 
 import java.util.ArrayList;
 import java.util.Set;

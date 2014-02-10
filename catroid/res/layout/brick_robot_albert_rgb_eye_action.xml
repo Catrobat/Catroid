@@ -44,8 +44,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true" >
+            android:layout_height="wrap_content" >
 
             <TextView
                 style="@style/BrickText"
@@ -74,8 +73,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true" >
+            android:layout_height="wrap_content" >
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -86,7 +84,6 @@
                 
                 <TextView
                 		style="@style/BrickText"
-                		android:layout_centerVertical="true"
                 		android:paddingRight="10dip"
                 		android:text="@string/robot_albert_rgb_led_red" >
             		</TextView>
@@ -96,15 +93,14 @@
                     android:id="@+id/robot_albert_rgb_led_action_red_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_marginLeft="5dip"
                     android:background="@color/white"
                     android:gravity="right"
                     android:minHeight="27dip"
                     android:minWidth="70dip"
                     android:paddingRight="5dip"
-                    android:text="0"
-                    android:textSize="20dip" 
+                    android:text="@string/number_0"
+                    android:textSize="20sp" 
                     >
                 </TextView>
 
@@ -119,7 +115,7 @@
                     android:inputType="number|numberDecimal|numberSigned"
                     android:maxLength="4"
                     android:maxLines="1"
-                    android:text="0"
+                    android:text="@string/number_0"
                     android:visibility="gone" 
                     android:layout_marginRight="145dip">
                 </EditText>
@@ -134,7 +130,6 @@
                 
                 <TextView
                 		style="@style/BrickText"
-                		android:layout_centerVertical="true"
                 		android:paddingRight="10dip"
                 		android:text="@string/robot_albert_rgb_led_green" 
                 		>
@@ -144,15 +139,14 @@
                     android:id="@+id/robot_albert_rgb_led_action_green_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_marginLeft="5dip"
                     android:background="@color/white"
                     android:gravity="right"
                     android:minHeight="27dip"
                     android:minWidth="70dip"
                     android:paddingRight="5dip"
-                    android:text="0"
-                    android:textSize="20dip" >
+                    android:text="@string/number_0"
+                    android:textSize="20sp" >
                 </TextView>
 
                 <EditText
@@ -166,7 +160,7 @@
                     android:inputType="number|numberDecimal|numberSigned"
                     android:maxLength="4"
                     android:maxLines="1"
-                    android:text="0"
+                    android:text="@string/number_0"
                     android:visibility="gone" >
                 </EditText> 
             </LinearLayout>
@@ -177,8 +171,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dip"
-            android:layout_centerVertical="true" >
+            android:layout_marginTop="5dip" >
 
 
             <LinearLayout
@@ -190,7 +183,6 @@
                 
                 <TextView
                 		style="@style/BrickText"
-                		android:layout_centerVertical="true"
                 		android:paddingRight="10dip"
                 		android:text="@string/robot_albert_rgb_led_blue" >
             		</TextView>
@@ -199,15 +191,14 @@
                     android:id="@+id/robot_albert_rgb_led_action_blue_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_marginLeft="5dip"
                     android:background="@color/white"
                     android:gravity="right"
                     android:minHeight="27dip"
                     android:minWidth="70dip"
                     android:paddingRight="5dip"
-                    android:text="0"
-                    android:textSize="20dip" >
+                    android:text="@string/number_0"
+                    android:textSize="20sp" >
                 </TextView>
 
                 <EditText
@@ -221,7 +212,7 @@
                     android:inputType="number|numberDecimal|numberSigned"
                     android:maxLength="4"
                     android:maxLines="1"
-                    android:text="0"
+                    android:text="@string/number_0"
                     android:visibility="gone" 
                     android:layout_marginRight="145dip">
                 </EditText>
@@ -236,7 +227,6 @@
                 
                 <TextView
                     style="@style/BrickText"
-                    android:layout_centerVertical="true"
                     android:paddingRight="10dip"
                     android:text="@string/robot_albert_rgb_led_color" >
                 </TextView>
@@ -245,14 +235,13 @@
                     android:id="@+id/robot_albert_rgb_led_action_color_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_marginLeft="5dip"
                     android:background="@color/white"
                     android:gravity="right"
                     android:minHeight="27dip"
                     android:minWidth="70dip"
                     android:paddingRight="5dip"
-                    android:textSize="20dip" >
+                    android:textSize="20sp" >
                 </TextView>
             </LinearLayout>
         </RelativeLayout>
