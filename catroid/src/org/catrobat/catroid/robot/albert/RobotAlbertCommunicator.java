@@ -76,8 +76,8 @@ public abstract class RobotAlbertCommunicator extends Thread {
 	public static final int MOTOR_COMMAND = 102;
 	public static final int MOTOR_RESET_COMMAND = 103;
 	public static final int BUZZER_COMMAND = 104;
-	private static final int RGB_EYE_COMMAND = 105;
-	private static final int FRONT_LED_COMMAND = 106;
+	public static final int RGB_EYE_COMMAND = 105;
+	public static final int FRONT_LED_COMMAND = 106;
 
 	protected boolean connected = false;
 	protected Handler uiHandler;
