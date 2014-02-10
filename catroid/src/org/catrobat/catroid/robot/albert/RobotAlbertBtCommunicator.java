@@ -281,48 +281,40 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 	@Override
 	public byte[] receiveMessage() throws IOException, Exception {
 
-		//Log.d("RobotAlbertBtComm", "receiveMessage");
 		if (inputStream == null) {
 			throw new IOException(" Software caused connection abort ");
 		}
 
+		@SuppressWarnings("unused")
 		int read = 0;
 		byte[] buf = new byte[1];
 
 		int count = 0;
 
-		// Find start of Packet
 		do {
-
-			int count2 = 0;
 			do {
 				checkIfDataIsAvailable(1);
 				read = inputStream.read(buf);
-				count2++;
-				if (count2 > 400) {
+				count++;
+				if (count > 400) {
 					return null;
 				}
 			} while (buf[0] != PACKET_HEADER_1);
-			count++;
-			if (count > 20) {
-				return null;
-			}
 
 			checkIfDataIsAvailable(1);
 			read = inputStream.read(buf);
 		} while (buf[0] != PACKET_HEADER_2);
 
 		byte[] length = new byte[1];
+		checkIfDataIsAvailable(1);
 		read = inputStream.read(length);
-
-		//Log.d("RobotAlbertBtComm", " Length: " + length[0]);
 
 		byte[] buffer = new byte[length[0] - 1];
 		checkIfDataIsAvailable(length[0] - 1);
 		read = inputStream.read(buffer);
 
 		if (buffer[length[0] - 3] != PACKET_TAIL_1 || buffer[length[0] - 2] != PACKET_TAIL_2) {
-			//Log.d("RobotAlbertBtComm", " ERROR: Packet tail not found!");
+			Log.d("RobotAlbertBtComm", "ERROR: Packet tail not found!");
 			return null;
 		}
 
@@ -331,7 +323,7 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 
 				int leftDistance = (buffer[11] + buffer[13] + buffer[15] + buffer[17]) / 4;
 				int rightDistance = (buffer[10] + buffer[12] + buffer[14] + buffer[16]) / 4;
-				
+
 				if (leftDistance > 25 || rightDistance > 25) {
 					int divisor1 = 0;
 					int divisor2 = 0;
@@ -359,16 +351,6 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 				if (DEBUG_OUTPUT == true) {
 					Log.d("RobotAlbertBtComm", "receiveMessage:  leftDistance=" + leftDistance);
 					Log.d("RobotAlbertBtComm", "receiveMessage: rightDistance=" + rightDistance);
-					//Log.d("RobotAlbertBtComm", "receiveMessage: leftMotor=" + buffer[8]);
-					//Log.d("RobotAlbertBtComm", "receiveMessage: rightMotor=" + buffer[9]);
-					//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[13]=" + buffer[13]);
-					//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[14]=" + buffer[14]);
-					//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[15]=" + buffer[15]);
-					//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[16]=" + buffer[16]);
-					//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[17]=" + buffer[17]);
-					//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[18]=" + buffer[18]);
-					//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[19]=" + buffer[19]);
-					//Log.d("RobotAlbertBtComm", "receiveMessage: buffer[20]=" + buffer[20]);
 				}
 
 				break;
