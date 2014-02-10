@@ -126,11 +126,11 @@ public class PreStageActivity extends Activity {
 			SensorRobotAlbert sensor = SensorRobotAlbert.getSensorRobotAlbertInstance();
 			sensor.setBooleanAlbertBricks(true);
 
-			String waiting_text = getResources().getString(R.string.connectingPleaseWaitRobotAlbert);
+			String waitingText = getResources().getString(R.string.connectingPleaseWaitRobotAlbert);
 			String title = getResources().getString(R.string.select_device_robot_albert);
 			bluetoothDeviceName = title;
-			bluetoothDeviceWaitingText = waiting_text;
-			int bluetoothState = bluetoothManager.activateBluetooth(title, waiting_text);
+			bluetoothDeviceWaitingText = waitingText;
+			int bluetoothState = bluetoothManager.activateBluetooth(title, waitingText);
 			if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED) {
 				Log.d("PreStageActivity", "Bluetooth not supported");
 				Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
@@ -139,7 +139,7 @@ public class PreStageActivity extends Activity {
 				Log.d("PrestageActivity", "Bluetooth already on");
 				robotAlbertActive = true;
 				if (robotAlbert == null) {
-					startBluetoothCommunication(true, title, waiting_text);
+					startBluetoothCommunication(true, title, waitingText);
 				} else {
 					resourceInitialized();
 				}
