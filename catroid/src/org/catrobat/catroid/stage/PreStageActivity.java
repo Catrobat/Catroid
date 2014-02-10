@@ -420,7 +420,7 @@ public class PreStageActivity extends Activity {
 						}
 						robotAlbert = null;
 						if (autoConnect) {
-							String waitingText = getResources().getString(R.string.connecting_please_wait_robot_albert);
+							String waitingText = getResources().getString(R.string.connectingPleaseWaitRobotAlbert);
 							String title = getResources().getString(R.string.select_device_robot_albert);
 							startBluetoothCommunication(false, title, waitingText);
 						} else {
