@@ -44,13 +44,11 @@ package org.catrobat.catroid.robot.albert;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
 import org.catrobat.catroid.bluetooth.BTConnectable;
-import org.catrobat.catroid.bluetooth.DeviceListActivity;
 
 import java.io.IOException;
 
@@ -169,10 +167,4 @@ public class RobotAlbert implements BTConnectable {
 		return pairing;
 	}
 
-	public void connectRobotAlbert() {
-		Intent serverIntent = new Intent(this.activity, DeviceListActivity.class);
-		serverIntent.putExtra("RobotAlbert", true);
-		activity.startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
-
-	}
 }
