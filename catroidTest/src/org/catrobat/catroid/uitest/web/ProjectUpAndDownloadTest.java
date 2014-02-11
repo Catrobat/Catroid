@@ -434,17 +434,18 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	}
 
 	private void checkProjectNameAndDescriptionBeforAndAfterDownload(String projectName, String description) {
-
+		solo.sleep(1000);
 		Project uploadProject = StorageHandler.getInstance().loadProject(projectName);
 
 		assertEquals("Deserialized project name was changed", projectName, uploadProject.getName());
 		assertEquals("Deserialized project description was not renamed correctly", description,
 				uploadProject.getDescription());
-
+		solo.sleep(1000);
 		//Download replaces project. Name and description should be projectName and description
 		downloadProjectAndReplace(projectName);
+		solo.sleep(1000);
 		Project downloadedProject = StorageHandler.getInstance().loadProject(projectName);
-
+		solo.sleep(1000);
 		assertEquals("Project name on server was changed", projectName, downloadedProject.getName());
 		assertEquals("Project name on server was not correctly renamed", description,
 				downloadedProject.getDescription());
@@ -496,7 +497,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
 		intent.setAction(Intent.ACTION_VIEW);
 		intent.setData(Uri.parse(downloadUrl));
-        launchActivityWithIntent(getInstrumentation().getTargetContext().getPackageName(), MainMenuActivity.class, intent);
+		launchActivityWithIntent(getInstrumentation().getTargetContext().getPackageName(), MainMenuActivity.class,
+				intent);
 		solo.sleep(500);
 		assertTrue("OverwriteRenameDialog not shown.", solo.searchText(solo.getString(R.string.overwrite_text)));
 
