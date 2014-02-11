@@ -31,7 +31,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -142,68 +141,67 @@ public class AddBrickFragment extends SherlockListFragment {
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				String selectedCategory = getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY);
-				//Toast.makeText(getActivity(), "Test: " + selectedCategory, Toast.LENGTH_SHORT).show();
-				if (((getRequiredRessources() & Brick.BLUETOOTH_LEGO_NXT) > 0)
-						&& selectedCategory.equals(getActivity().getString(R.string.category_robot_albert))) {
-					Toast.makeText(getActivity(),
-							getActivity().getString(R.string.category_error_message_already_albert_bricks_in_use),
-							Toast.LENGTH_LONG).show();
-				} else if (((getRequiredRessources() & Brick.BLUETOOTH_ROBOT_ALBERT) > 0)
-						&& selectedCategory.equals(getActivity().getString(R.string.category_lego_nxt))) {
-					Toast.makeText(getActivity(),
-							getActivity().getString(R.string.category_error_message_already_nxt_bricks_in_use),
-							Toast.LENGTH_LONG).show();
-				} else {
-					Brick brickToBeAdded = adapter.getItem(position).clone();
-					scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded);
+				//				String selectedCategory = getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY);
+				//				//Toast.makeText(getActivity(), "Test: " + selectedCategory, Toast.LENGTH_SHORT).show();
+				//				if (((getRequiredRessources() & Brick.BLUETOOTH_LEGO_NXT) > 0)
+				//						&& selectedCategory.equals(getActivity().getString(R.string.category_robot_albert))) {
+				//					Toast.makeText(getActivity(),
+				//							getActivity().getString(R.string.category_error_message_already_albert_bricks_in_use),
+				//							Toast.LENGTH_LONG).show();
+				//				} else if (((getRequiredRessources() & Brick.BLUETOOTH_ROBOT_ALBERT) > 0)
+				//						&& selectedCategory.equals(getActivity().getString(R.string.category_lego_nxt))) {
+				//					Toast.makeText(getActivity(),
+				//							getActivity().getString(R.string.category_error_message_already_nxt_bricks_in_use),
+				//							Toast.LENGTH_LONG).show();
+				//				} else {
+				//					Brick brickToBeAdded = adapter.getItem(position).clone();
+				//					scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded);
+				//
+				//					if (brickToBeAdded instanceof ScriptBrick) {
+				//						Script script = ((ScriptBrick) brickToBeAdded).initScript(ProjectManager.getInstance()
+				//								.getCurrentSprite());
+				//						ProjectManager.getInstance().setCurrentScript(script);
+				//					}
+				//
+				//					FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+				//					Fragment categoryFragment = getFragmentManager().findFragmentByTag(
+				//							BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+				//					if (categoryFragment != null) {
+				//						fragmentTransaction.remove(categoryFragment);
+				//						getFragmentManager().popBackStack();
+				//					}
+				//					Fragment addBrickFragment = getFragmentManager().findFragmentByTag(
+				//							AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
+				//					if (addBrickFragment != null) {
+				//						fragmentTransaction.remove(addBrickFragment);
+				//						getFragmentManager().popBackStack();
+				//					}
+				//					fragmentTransaction.commit();
+				//				}
 
-					if (brickToBeAdded instanceof ScriptBrick) {
-						Script script = ((ScriptBrick) brickToBeAdded).initScript(ProjectManager.getInstance()
-								.getCurrentSprite());
-						ProjectManager.getInstance().setCurrentScript(script);
-					}
+				Brick brickToBeAdded = adapter.getItem(position).clone();
+				scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded);
 
-					FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-					Fragment categoryFragment = getFragmentManager().findFragmentByTag(
-							BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
-					if (categoryFragment != null) {
-						fragmentTransaction.remove(categoryFragment);
-						getFragmentManager().popBackStack();
-					}
-					Fragment addBrickFragment = getFragmentManager().findFragmentByTag(
-							AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
-					if (addBrickFragment != null) {
-						fragmentTransaction.remove(addBrickFragment);
-						getFragmentManager().popBackStack();
-					}
-					fragmentTransaction.commit();
+				if (brickToBeAdded instanceof ScriptBrick) {
+					Script script = ((ScriptBrick) brickToBeAdded).initScript(ProjectManager.getInstance()
+							.getCurrentSprite());
+					ProjectManager.getInstance().setCurrentScript(script);
 				}
 
-				//				
-				//				Brick brickToBeAdded = adapter.getItem(position).clone();
-				//				scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded);
-				//
-				//				if (brickToBeAdded instanceof ScriptBrick) {
-				//					Script script = ((ScriptBrick) brickToBeAdded).initScript(ProjectManager.getInstance()
-				//							.getCurrentSprite());
-				//					ProjectManager.getInstance().setCurrentScript(script);
-				//				}
-				//
-				//				FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-				//				Fragment categoryFragment = getFragmentManager().findFragmentByTag(
-				//						BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
-				//				if (categoryFragment != null) {
-				//					fragmentTransaction.remove(categoryFragment);
-				//					getFragmentManager().popBackStack();
-				//				}
-				//				Fragment addBrickFragment = getFragmentManager().findFragmentByTag(
-				//						AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
-				//				if (addBrickFragment != null) {
-				//					fragmentTransaction.remove(addBrickFragment);
-				//					getFragmentManager().popBackStack();
-				//				}
-				//				fragmentTransaction.commit();
+				FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+				Fragment categoryFragment = getFragmentManager().findFragmentByTag(
+						BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+				if (categoryFragment != null) {
+					fragmentTransaction.remove(categoryFragment);
+					getFragmentManager().popBackStack();
+				}
+				Fragment addBrickFragment = getFragmentManager().findFragmentByTag(
+						AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
+				if (addBrickFragment != null) {
+					fragmentTransaction.remove(addBrickFragment);
+					getFragmentManager().popBackStack();
+				}
+				fragmentTransaction.commit();
 			}
 
 		});
