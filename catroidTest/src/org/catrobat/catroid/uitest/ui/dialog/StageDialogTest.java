@@ -367,8 +367,8 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		screenPixel = StageActivity.stageListener.getPixels(0, ScreenValues.SCREEN_HEIGHT - 1, 1, 1);
 		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
 
-		screenPixel = StageActivity.stageListener
-				.getPixels(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT, 1, 1);
+		screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2,
+				ScreenValues.SCREEN_HEIGHT / 2, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
 
 		solo.goBack();
