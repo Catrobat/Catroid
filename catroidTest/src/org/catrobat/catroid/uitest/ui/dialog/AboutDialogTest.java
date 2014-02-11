@@ -28,7 +28,6 @@ import android.widget.Button;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
-import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
@@ -42,8 +41,8 @@ public class AboutDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 	public void testAboutDialog() {
 		solo.clickOnMenuItem(solo.getString(R.string.main_menu_about_pocketcode));
 		assertTrue("AboutDialog title not found", solo.searchText(solo.getString(R.string.dialog_about_title)));
-		assertTrue("AboutDialog text not found", solo.searchText(UiTestUtils.ecsapeRegularExpressionMetaCharacters(solo
-				.getString(R.string.dialog_about_license_info))));
+		assertTrue("AboutDialog text not found", solo.searchText(solo
+				.getString(R.string.dialog_about_license_info)));
 		assertTrue("AboutDialog linktext not found",
 				solo.searchText(solo.getString(R.string.dialog_about_pocketcode_license_link_text)));
 		assertTrue("AboutDialog linktext not found",

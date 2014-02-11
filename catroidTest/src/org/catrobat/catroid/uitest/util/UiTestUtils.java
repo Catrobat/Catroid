@@ -1617,13 +1617,6 @@ public final class UiTestUtils {
 		return false;
 	}
 
-	public static String ecsapeRegularExpressionMetaCharacters(String stringToEscape) {
-		stringToEscape = stringToEscape.replaceAll("\n", " ");
-		stringToEscape = stringToEscape.replaceAll("\\)", "\\)");
-		stringToEscape = stringToEscape.replaceAll("\\(", "\\(");
-		return stringToEscape;
-	}
-
 	public static File setUpLookFile(Solo solo) throws IOException {
 		File lookFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/testFile.png",
 				R.drawable.default_project_mole_whacked, solo.getCurrentActivity());

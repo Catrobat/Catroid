@@ -96,8 +96,8 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.waitForText(uploadDialogTitle);
 
-		View renameView = solo.getText(UiTestUtils.ecsapeRegularExpressionMetaCharacters(solo
-				.getString(R.string.project_rename)));
+		View renameView = solo.getText(solo
+				.getString(R.string.project_rename));
 		assertNotNull("View for rename project could not be found", renameView);
 		assertEquals("rename View is visible.", renameView.getVisibility(), View.GONE);
 
