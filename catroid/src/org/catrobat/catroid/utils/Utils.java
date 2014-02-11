@@ -83,8 +83,6 @@ public final class Utils {
 	public static final int PICTURE_INTENT = 1;
 	public static final int FILE_INTENT = 2;
 	public static final int TRANSLATION_PLURAL_OTHER_INTEGER = 767676;
-	private static final int DEFAULT_SCREEN_WIDTH = 1280;
-	private static final int DEFAULT_SCREEN_HEIGHT = 768;
 
 	// Suppress default constructor for noninstantiability
 	private Utils() {
@@ -124,8 +122,7 @@ public final class Utils {
 			ScreenValues.SCREEN_HEIGHT = displayMetrics.heightPixels;
 		} else {
 			//a null-context should never be passed. However, an educated guess is needed in that case.
-			ScreenValues.SCREEN_WIDTH = DEFAULT_SCREEN_WIDTH;
-			ScreenValues.SCREEN_HEIGHT = DEFAULT_SCREEN_HEIGHT;
+			ScreenValues.setToDefaultSreenSize();
 		}
 
 	}

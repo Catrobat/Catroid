@@ -47,6 +47,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
@@ -83,7 +84,7 @@ public class StageListener implements ApplicationListener {
 	private boolean reloadProject = false;
 
 	private static boolean checkIfAutomaticScreenshotShouldBeTaken = true;
-	private boolean makeAutomaticScreenshot = true;
+	private boolean makeAutomaticScreenshot = false;
 	private boolean makeScreenshot = false;
 	private String pathForScreenshot;
 	private int screenshotWidth;
@@ -107,12 +108,6 @@ public class StageListener implements ApplicationListener {
 	private float virtualHeightHalf;
 	private float virtualWidth;
 	private float virtualHeight;
-
-	private enum ScreenModes {
-		STRETCH, MAXIMIZE
-	};
-
-	private ScreenModes screenMode;
 
 	private Texture axes;
 
@@ -152,8 +147,6 @@ public class StageListener implements ApplicationListener {
 		virtualWidthHalf = virtualWidth / 2;
 		virtualHeightHalf = virtualHeight / 2;
 
-		screenMode = ScreenModes.STRETCH;
-
 		stage = new Stage(virtualWidth, virtualHeight, true);
 		batch = stage.getSpriteBatch();
 
@@ -188,6 +181,9 @@ public class StageListener implements ApplicationListener {
 		if (checkIfAutomaticScreenshotShouldBeTaken) {
 			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
 		}
+
+		Gdx.gl.glViewport(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+		initScreenMode();
 	}
 
 	void menuResume() {
@@ -254,10 +250,9 @@ public class StageListener implements ApplicationListener {
 	public void finish() {
 		finished = true;
 		SoundManager.getInstance().clear();
-		if (thumbnail != null) {
+		if (thumbnail != null && !makeAutomaticScreenshot) {
 			saveScreenshot(thumbnail, SCREENSHOT_AUTOMATIC_FILE_NAME);
 		}
-
 	}
 
 	@Override
@@ -291,24 +286,6 @@ public class StageListener implements ApplicationListener {
 			synchronized (stageDialog) {
 				stageDialog.notify();
 			}
-		}
-
-		switch (screenMode) {
-			case MAXIMIZE:
-				Gdx.gl.glViewport(maximizeViewPortX, maximizeViewPortY, maximizeViewPortWidth, maximizeViewPortHeight);
-				screenshotWidth = maximizeViewPortWidth;
-				screenshotHeight = maximizeViewPortHeight;
-				screenshotX = maximizeViewPortX;
-				screenshotY = maximizeViewPortY;
-				break;
-			case STRETCH:
-			default:
-				Gdx.gl.glViewport(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
-				screenshotWidth = ScreenValues.SCREEN_WIDTH;
-				screenshotHeight = ScreenValues.SCREEN_HEIGHT;
-				screenshotX = 0;
-				screenshotY = 0;
-				break;
 		}
 
 		batch.setProjectionMatrix(camera.combined);
@@ -439,6 +416,10 @@ public class StageListener implements ApplicationListener {
 		Bitmap centerSquareBitmap;
 		int[] colors = new int[length / 4];
 
+		if (colors.length != screenshotWidth * screenshotHeight || colors.length == 0) {
+			return false;
+		}
+
 		for (int i = 0; i < length; i += 4) {
 			colors[i / 4] = Color.argb(255, screenshot[i + 0] & 0xFF, screenshot[i + 1] & 0xFF,
 					screenshot[i + 2] & 0xFF);
@@ -482,14 +463,48 @@ public class StageListener implements ApplicationListener {
 		return testPixels;
 	}
 
-	public void changeScreenSize() {
-		switch (screenMode) {
+	public void toggleScreenMode() {
+		switch (project.getScreenMode()) {
 			case MAXIMIZE:
-				screenMode = ScreenModes.STRETCH;
+				project.setScreenMode(ScreenModes.STRETCH);
 				break;
 			case STRETCH:
-				screenMode = ScreenModes.MAXIMIZE;
+				project.setScreenMode(ScreenModes.MAXIMIZE);
 				break;
+		}
+
+		initScreenMode();
+
+		if (checkIfAutomaticScreenshotShouldBeTaken) {
+			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
+		}
+	}
+
+	private void initScreenMode() {
+		switch (project.getScreenMode()) {
+			case STRETCH:
+				stage.setViewport(virtualWidth, virtualHeight, false);
+				camera = (OrthographicCamera) stage.getCamera();
+				camera.position.set(0, 0, 0);
+				screenshotWidth = ScreenValues.SCREEN_WIDTH;
+				screenshotHeight = ScreenValues.SCREEN_HEIGHT;
+				screenshotX = 0;
+				screenshotY = 0;
+				break;
+
+			case MAXIMIZE:
+				stage.setViewport(virtualWidth, virtualHeight, true);
+				camera = (OrthographicCamera) stage.getCamera();
+				camera.position.set(0, 0, 0);
+				screenshotWidth = maximizeViewPortWidth;
+				screenshotHeight = maximizeViewPortHeight;
+				screenshotX = maximizeViewPortX;
+				screenshotY = maximizeViewPortY;
+				break;
+
+			default:
+				break;
+
 		}
 	}
 

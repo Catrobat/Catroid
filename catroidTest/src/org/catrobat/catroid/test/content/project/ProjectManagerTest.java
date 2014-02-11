@@ -34,8 +34,12 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
+import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
@@ -73,8 +77,8 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		assertNull("there is a current sprite set", projectManager.getCurrentSprite());
 		assertNull("there is a current script set", projectManager.getCurrentScript());
-		Context context = getInstrumentation().getContext().createPackageContext(getInstrumentation().getTargetContext().getPackageName(),
-				Context.CONTEXT_IGNORE_SECURITY);
+		Context context = getInstrumentation().getContext().createPackageContext(
+				getInstrumentation().getTargetContext().getPackageName(), Context.CONTEXT_IGNORE_SECURITY);
 
 		// initializeNewProject
 		projectManager.initializeNewProject(projectNameOne, context, false);
@@ -134,8 +138,8 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 	public void testEmptyProject() throws NameNotFoundException, IOException {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		Context context = getInstrumentation().getContext().createPackageContext(getInstrumentation().getTargetContext().getPackageName(),
-				Context.CONTEXT_IGNORE_SECURITY);
+		Context context = getInstrumentation().getContext().createPackageContext(
+				getInstrumentation().getTargetContext().getPackageName(), Context.CONTEXT_IGNORE_SECURITY);
 
 		projectManager.initializeNewProject(projectNameOne, context, true);
 		Project currentProject = projectManager.getCurrentProject();
@@ -191,6 +195,34 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 		//this fails because catroid is buggy, fix catroid not this test --> we haven't decided yet how to fix the FileChecksumContainer
 		assertFalse("old projectName still in project file", projectFileAsString.contains(oldProjectName));
+	}
+
+	public void testNestingBrickReferences() throws Throwable {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		TestUtils.createTestProjectWithWrongIfClauseReferences();
+
+		projectManager.checkNestingBrickReferences();
+
+		List<Brick> newBrickList = projectManager.getCurrentProject().getSpriteList().get(0).getScript(0)
+				.getBrickList();
+
+		assertEquals("Wrong reference", newBrickList.get(2), ((IfLogicBeginBrick) newBrickList.get(0)).getIfElseBrick());
+		assertEquals("Wrong reference", newBrickList.get(9), ((IfLogicBeginBrick) newBrickList.get(0)).getIfEndBrick());
+
+		assertEquals("Wrong reference", newBrickList.get(0), ((IfLogicElseBrick) newBrickList.get(2)).getIfBeginBrick());
+		assertEquals("Wrong reference", newBrickList.get(9), ((IfLogicElseBrick) newBrickList.get(2)).getIfEndBrick());
+
+		assertEquals("Wrong reference", newBrickList.get(6), ((IfLogicBeginBrick) newBrickList.get(4)).getIfElseBrick());
+		assertEquals("Wrong reference", newBrickList.get(8), ((IfLogicBeginBrick) newBrickList.get(4)).getIfEndBrick());
+
+		assertEquals("Wrong reference", newBrickList.get(4), ((IfLogicElseBrick) newBrickList.get(6)).getIfBeginBrick());
+		assertEquals("Wrong reference", newBrickList.get(8), ((IfLogicElseBrick) newBrickList.get(6)).getIfEndBrick());
+
+		assertEquals("Wrong reference", newBrickList.get(4), ((IfLogicEndBrick) newBrickList.get(8)).getIfBeginBrick());
+		assertEquals("Wrong reference", newBrickList.get(6), ((IfLogicEndBrick) newBrickList.get(8)).getIfElseBrick());
+
+		assertEquals("Wrong reference", newBrickList.get(0), ((IfLogicEndBrick) newBrickList.get(9)).getIfBeginBrick());
+		assertEquals("Wrong reference", newBrickList.get(2), ((IfLogicEndBrick) newBrickList.get(9)).getIfElseBrick());
 	}
 
 	public Project createTestProject(String projectName) throws IOException {

@@ -24,6 +24,8 @@ package org.catrobat.catroid.content;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.common.ScreenModes;
+
 import java.io.Serializable;
 
 public class XmlHeader implements Serializable {
@@ -37,6 +39,8 @@ public class XmlHeader implements Serializable {
 	public int virtualScreenWidth = 0;
 	@XStreamAlias("screenHeight")
 	public int virtualScreenHeight = 0;
+	@XStreamAlias("screenMode")
+	public ScreenModes screenMode = ScreenModes.STRETCH;
 
 	private float catrobatLanguageVersion;
 
@@ -144,5 +148,13 @@ public class XmlHeader implements Serializable {
 
 	void setPlatformVersion(int platformVersion) {
 		this.platformVersion = platformVersion;
+	}
+
+	void setScreenMode(ScreenModes screenMode) {
+		this.screenMode = screenMode;
+	}
+
+	ScreenModes getScreenMode() {
+		return this.screenMode;
 	}
 }

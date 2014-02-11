@@ -22,30 +22,6 @@
  */
 package org.catrobat.catroid.common;
 
-public final class ScreenValues {
-
-	private static final int DEFAULT_SCREEN_WIDTH = 1280;
-	private static final int DEFAULT_SCREEN_HEIGHT = 768;
-
-	// CHECKSTYLE DISABLE StaticVariableNameCheck FOR 2 LINES
-	public static int SCREEN_WIDTH;
-	public static int SCREEN_HEIGHT;
-
-	// Suppress default constructor for noninstantiability
-	private ScreenValues() {
-		throw new AssertionError();
-	}
-
-	public static float getAspectRatio() {
-		if (SCREEN_WIDTH == 0 || SCREEN_HEIGHT == 0) {
-			setToDefaultSreenSize();
-		}
-		return (float) SCREEN_WIDTH / (float) SCREEN_HEIGHT;
-	}
-
-	public static void setToDefaultSreenSize() {
-		SCREEN_WIDTH = DEFAULT_SCREEN_WIDTH;
-		SCREEN_HEIGHT = DEFAULT_SCREEN_HEIGHT;
-	}
-
-}
+public enum ScreenModes {
+	STRETCH, MAXIMIZE
+};
