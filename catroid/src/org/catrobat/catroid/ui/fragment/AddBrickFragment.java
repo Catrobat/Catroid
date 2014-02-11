@@ -146,15 +146,13 @@ public class AddBrickFragment extends SherlockListFragment {
 				//Toast.makeText(getActivity(), "Test: " + selectedCategory, Toast.LENGTH_SHORT).show();
 				if (((getRequiredRessources() & Brick.BLUETOOTH_LEGO_NXT) > 0)
 						&& selectedCategory.equals(getActivity().getString(R.string.category_robot_albert))) {
-					Toast.makeText(
-							getActivity(),
-							"Your project already contains nxt-bricks, you can't use Albert-bricks in the same project",
+					Toast.makeText(getActivity(),
+							getActivity().getString(R.string.category_error_message_already_albert_bricks_in_use),
 							Toast.LENGTH_LONG).show();
 				} else if (((getRequiredRessources() & Brick.BLUETOOTH_ROBOT_ALBERT) > 0)
 						&& selectedCategory.equals(getActivity().getString(R.string.category_lego_nxt))) {
-					Toast.makeText(
-							getActivity(),
-							"Your project already contains Albert-bricks, you can't use nxt-bricks in the same project",
+					Toast.makeText(getActivity(),
+							getActivity().getString(R.string.category_error_message_already_nxt_bricks_in_use),
 							Toast.LENGTH_LONG).show();
 				} else {
 					Brick brickToBeAdded = adapter.getItem(position).clone();

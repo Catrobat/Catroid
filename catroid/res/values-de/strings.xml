@@ -527,6 +527,9 @@
     <string name="robot_albert_eye_right">Rechts</string>
     <string name="formula_editor_sensor_albert_robot_distance_left">Albert_robot_linker_Abstand</string>
     <string name="formula_editor_sensor_albert_robot_distance_right">Albert_robot_rechter_Abstand</string>
+    <string name="category_error_message_already_albert_bricks_in_use">Your project already contains Albert-bricks, you cannot use nxt-bricks in the same project</string>
+    <string name="category_error_message_already_nxt_bricks_in_use">Your project already contains nxt-bricks, you cannot use Albert-bricks in the same project</string>
+    
     <!--  -->
 
 
