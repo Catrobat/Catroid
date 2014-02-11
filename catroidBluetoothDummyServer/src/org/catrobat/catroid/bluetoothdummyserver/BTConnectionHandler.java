@@ -201,7 +201,7 @@ public class BTConnectionHandler implements Runnable {
 		byte[] buffer = new byte[52];
 		buffer[0] = (byte) 0xAA;
 		buffer[1] = (byte) 0x55;
-		buffer[2] = (byte) 52;
+		buffer[2] = (byte) 50;
 		buffer[3] = (byte) 6;
 		buffer[13] = (byte) 50;
 		buffer[14] = (byte) 50;

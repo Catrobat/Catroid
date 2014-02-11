@@ -98,7 +98,7 @@ public class PreStageActivity extends Activity {
 			startActivityForResult(checkIntent, REQUEST_TEXT_TO_SPEECH);
 		}
 		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
-			/* BluetoothManager */bluetoothManager = new BluetoothManager(this);
+			bluetoothManager = new BluetoothManager(this);
 
 			int bluetoothState = bluetoothManager.activateBluetooth();
 			if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED) {
