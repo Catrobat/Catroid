@@ -309,8 +309,8 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 					if (divisor2 == 0) {
 						divisor2 = 1;
 					}
-					leftDistance = (buffer[11] + buffer[13] + buffer[15] + buffer[17]) / divisor1;
-					rightDistance = (buffer[10] + buffer[12] + buffer[14] + buffer[16]) / divisor2;
+					leftDistance = (buffer[11] + buffer[13] + buffer[15] + buffer[17]) / divisor2;
+					rightDistance = (buffer[10] + buffer[12] + buffer[14] + buffer[16]) / divisor1;
 				}
 
 				sensors.setValueOfLeftDistanceSensor(leftDistance);
