@@ -26,7 +26,7 @@ import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 
-import com.jayway.android.robotium.solo.Solo;
+import com.robotium.solo.Solo;
 
 import org.catrobat.catroid.stage.StageListener;
 

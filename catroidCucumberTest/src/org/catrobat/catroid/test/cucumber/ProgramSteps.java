@@ -28,7 +28,7 @@ import static org.hamcrest.Matchers.*;
 
 import android.test.AndroidTestCase;
 
-import com.jayway.android.robotium.solo.Solo;
+import com.robotium.solo.Solo;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
