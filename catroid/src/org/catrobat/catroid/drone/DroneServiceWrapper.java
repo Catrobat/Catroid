@@ -27,7 +27,7 @@ import com.parrot.freeflight.service.DroneControlService;
 public class DroneServiceWrapper {
 
 	private static DroneServiceWrapper instance = null;
-	private static DroneControlService droneService = null;
+	private static DroneControlService droneControlService = null;
 
 	private DroneServiceWrapper() {
 	}
@@ -40,10 +40,10 @@ public class DroneServiceWrapper {
 	}
 
 	public static void setDroneService(DroneControlService service) {
-		droneService = service;
+		droneControlService = service;
 	}
 
 	public static DroneControlService getDroneService() {
-		return droneService;
+		return droneControlService;
 	}
 }

@@ -116,8 +116,12 @@ public class PreStageActivity extends Activity
 			}
 		}
 		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
-			bindService(new Intent(this, DroneControlService.class), this.droneServiceConnection,
-					Context.BIND_AUTO_CREATE);
+			boolean isSuccessful = bindService(new Intent(this, DroneControlService.class),
+					this.droneServiceConnection, Context.BIND_AUTO_CREATE);
+			if (!isSuccessful) {
+				Toast.makeText(this, "Connection to the drone failed!", Toast.LENGTH_LONG).show();
+				resourceFailed();
+			}
 		}
 
 		if (requiredResourceCounter == Brick.NO_RESOURCES) {
@@ -155,7 +159,9 @@ public class PreStageActivity extends Activity
 	protected void onDestroy() {
 		super.onDestroy();
 
-		unbindService(this.droneServiceConnection);
+		if (droneControlService != null) {
+			unbindService(this.droneServiceConnection);
+		}
 		Log.d(TAG, "PrestageActivity destroyed");
 	}
 
@@ -374,28 +380,5 @@ public class PreStageActivity extends Activity
 			droneControlService = null;
 		}
 	};
-	//
-	//	@Override
-	//	public void onDroneConnected() {
-	//		resourceInitialized();
-	//	}
-	//
-	//	@Override
-	//	public void onDroneDisconnected() {
-	//		// TODO Auto-generated method stub
-	//
-	//	}
-	//
-	//	@Override
-	//	public void onDroneFlyingStateChanged(boolean flying) {
-	//		// TODO Auto-generated method stub
-	//
-	//	}
-	//
-	//	@Override
-	//	public void onDroneReady() {
-	//		// TODO Auto-generated method stub
-	//
-	//	}
 
 }
