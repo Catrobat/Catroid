@@ -101,6 +101,7 @@ public class StageListener implements ApplicationListener {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private BitmapFont font;
+	private Passepartout passepartout;
 
 	private List<Sprite> sprites;
 
@@ -161,6 +162,10 @@ public class StageListener implements ApplicationListener {
 			sprite.resume();
 		}
 
+		passepartout = new Passepartout(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT, maximizeViewPortWidth,
+				maximizeViewPortHeight, virtualWidth, virtualHeight, camera.combined);
+		stage.addActor(passepartout);
+
 		if (sprites.size() > 0) {
 			sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
 		}
@@ -184,6 +189,7 @@ public class StageListener implements ApplicationListener {
 
 		Gdx.gl.glViewport(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
 		initScreenMode();
+
 	}
 
 	void menuResume() {
@@ -259,7 +265,6 @@ public class StageListener implements ApplicationListener {
 	public void render() {
 		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 		if (reloadProject) {
 			int spriteSize = sprites.size();
 			for (int i = 0; i < spriteSize; i++) {
@@ -484,28 +489,30 @@ public class StageListener implements ApplicationListener {
 		switch (project.getScreenMode()) {
 			case STRETCH:
 				stage.setViewport(virtualWidth, virtualHeight, false);
-				camera = (OrthographicCamera) stage.getCamera();
-				camera.position.set(0, 0, 0);
 				screenshotWidth = ScreenValues.SCREEN_WIDTH;
 				screenshotHeight = ScreenValues.SCREEN_HEIGHT;
 				screenshotX = 0;
 				screenshotY = 0;
+				passepartout.setVisible(false);
 				break;
 
 			case MAXIMIZE:
 				stage.setViewport(virtualWidth, virtualHeight, true);
-				camera = (OrthographicCamera) stage.getCamera();
-				camera.position.set(0, 0, 0);
 				screenshotWidth = maximizeViewPortWidth;
 				screenshotHeight = maximizeViewPortHeight;
 				screenshotX = maximizeViewPortX;
 				screenshotY = maximizeViewPortY;
+				passepartout.setVisible(true);
 				break;
 
 			default:
 				break;
 
 		}
+		camera = (OrthographicCamera) stage.getCamera();
+		camera.position.set(0, 0, 0);
+		camera.update();
+		passepartout.setCameraCombined(camera.combined);
 	}
 
 	private LookData createWhiteBackgroundLookData() {
