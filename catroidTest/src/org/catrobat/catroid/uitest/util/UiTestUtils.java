@@ -1200,6 +1200,18 @@ public final class UiTestUtils {
 		assertEquals("Arrays don't have same content.", firstArray[3] & 0xFF, secondArray[3] & 0xFF, 10);
 	}
 
+	public static boolean comparePixelRgbaArrays(byte[] firstArray, byte[] secondArray) {
+		if (firstArray == null || secondArray == null || firstArray.length != secondArray.length) {
+			return false;
+		}
+		for (int i = 0; i < 4; i++) {
+			if (Math.abs((firstArray[0] & 0xFF) - (secondArray[0] & 0xFF)) > 10) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public static void comparePixelArrayWithPixelScreenArray(byte[] pixelArray, byte[] screenArray, int x, int y,
 			int screenWidth, int screenHeight) {
 		comparePixelArrayWithPixelScreenArrayWithTolerance(pixelArray, screenArray, x, y, screenWidth, screenHeight, 10);
