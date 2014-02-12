@@ -228,6 +228,12 @@ public class Look extends Image {
 		}
 	}
 
+	@Override
+	public void addAction(Action action) {
+		super.addAction(action);
+		allActionAreFinished = false;
+	}
+
 	protected void checkImageChanged() {
 		if (imageChanged) {
 			if (lookData == null) {
