@@ -527,8 +527,10 @@ public class FormulaEditorUserVariableFragmentTest extends BaseActivityInstrumen
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
 		solo.clickOnCheckBox(0);
+		solo.sleep(100);
 		solo.clickOnCheckBox(1);
 		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+		solo.sleep(200);
 	}
 
 	private void createProject(String projectName) throws InterruptedException {

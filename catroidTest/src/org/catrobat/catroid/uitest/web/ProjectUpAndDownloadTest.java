@@ -225,6 +225,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		uploadProjectFromProgrammList(testProject, newTestDescription);
 		solo.sleep(5000);
+		solo.sleep(1000);
 
 		checkProjectNameAndDescriptionBeforAndAfterDownload(testProject, newTestDescription);
 	}
@@ -434,18 +435,18 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	}
 
 	private void checkProjectNameAndDescriptionBeforAndAfterDownload(String projectName, String description) {
-		solo.sleep(1000);
+		solo.sleep(400);
 		Project uploadProject = StorageHandler.getInstance().loadProject(projectName);
 
 		assertEquals("Deserialized project name was changed", projectName, uploadProject.getName());
 		assertEquals("Deserialized project description was not renamed correctly", description,
 				uploadProject.getDescription());
-		solo.sleep(1000);
+		solo.sleep(400);
 		//Download replaces project. Name and description should be projectName and description
 		downloadProjectAndReplace(projectName);
-		solo.sleep(1000);
+		solo.sleep(400);
 		Project downloadedProject = StorageHandler.getInstance().loadProject(projectName);
-		solo.sleep(1000);
+		solo.sleep(400);
 		assertEquals("Project name on server was changed", projectName, downloadedProject.getName());
 		assertEquals("Project name on server was not correctly renamed", description,
 				downloadedProject.getDescription());
