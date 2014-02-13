@@ -244,11 +244,14 @@ public class StageListener implements ApplicationListener {
 
 		try {
 			Handler btcHandler = RobotAlbert.getBTCHandler();
-			Log.d("StageListener Pause", "sendRobotAlbertMotorResetMessage()");
-			Message myMessage = btcHandler.obtainMessage();
-			myMessage.what = RobotAlbertCommunicator.MOTOR_RESET_COMMAND;
-			btcHandler.sendMessage(myMessage);
-			Log.d("StageListener Pause", "sendRobotAlbertMotorResetMessage finished!");
+			if (btcHandler != null) {
+				Log.d("StageListener Pause", "sendRobotAlbertMotorResetMessage()");
+				Message myMessage = btcHandler.obtainMessage();
+				myMessage.what = RobotAlbertCommunicator.MOTOR_RESET_COMMAND;
+				btcHandler.sendMessage(myMessage);
+				Log.d("StageListener Pause", "sendRobotAlbertMotorResetMessage finished!");
+			}
+
 		} catch (Exception e) {
 		}
 

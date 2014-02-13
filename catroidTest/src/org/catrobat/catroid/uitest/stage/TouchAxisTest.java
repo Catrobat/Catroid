@@ -61,10 +61,10 @@ public class TouchAxisTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 	public void testYAxis() {
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(2000);
+		solo.sleep(2500);
 
 		solo.clickOnScreen(ScreenValues.SCREEN_WIDTH / 2, 100);
-		solo.sleep(500);
+		solo.sleep(700);
 
 		byte[] blackPixel = { (byte) 0, (byte) 0, (byte) 0, (byte) 255 };
 		byte[] screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2, 100, 1, 1);
