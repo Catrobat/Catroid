@@ -22,15 +22,13 @@
  */
 package org.catrobat.catroid.uitest.util;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
@@ -59,12 +57,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.internal.ActionBarSherlockCompat;
 import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
 import com.jayway.android.robotium.solo.Solo;
 
-import junit.framework.AssertionFailedError;
+
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -155,6 +154,10 @@ import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+import junit.framework.AssertionFailedError;
 
 public final class UiTestUtils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();
@@ -1129,7 +1132,9 @@ public final class UiTestUtils {
 	}
 
 	public static void acceptAndCloseActionMode(Solo solo) {
-		solo.clickOnImage(ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX);
+        int doneButtonId = Resources.getSystem().getIdentifier("action_mode_close_button", "id", "android");
+        View doneButton = solo.getView(doneButtonId);
+        solo.clickOnView(doneButton);
 	}
 
 	/**
@@ -1164,6 +1169,7 @@ public final class UiTestUtils {
 		while ((length = in.read(buffer)) > 0) {
 			out.write(buffer, 0, length);
 		}
+
 
 		in.close();
 		out.flush();
