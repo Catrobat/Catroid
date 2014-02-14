@@ -63,7 +63,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	private static final int VISIBLE = View.VISIBLE;
 	private static final int GONE = View.GONE;
 
-	private static final int TIME_TO_WAIT = 50;
+	private static final int TIME_TO_WAIT = 100;
 
 	private static final int TIME_TO_WAIT_BACKPACK = 1000;
 
@@ -198,14 +198,11 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		solo.clickOnText(selectAll);
 		solo.sleep(TIME_TO_WAIT);
-
 		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
 			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
 		}
 		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
-
 		UiTestUtils.acceptAndCloseActionMode(solo);
-
 		int numberOfSoundsAfterCopy = getCurrentNumberOfSounds();
 
 		assertEquals("No all sounds have been copied!", numberOfSoundsBeforeCopy * 2, numberOfSoundsAfterCopy);
@@ -254,6 +251,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertEquals(assertMessageText, expectedSoundName, getSoundTitle(1));
 
 		expectedSoundName = defaultSoundName + "2";
+        solo.sleep(TIME_TO_WAIT);
 		assertEquals(assertMessageText, expectedSoundName, getSoundTitle(2));
 
 		newSoundName = "x";
@@ -263,7 +261,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		assertNotSame("Sound not renamed", expectedSoundName, getSoundTitle(1));
 		renameSound(newSoundName, defaultSoundName);
-
+        solo.sleep(TIME_TO_WAIT);
 		assertEquals(assertMessageText, expectedSoundName, getSoundTitle(1));
 	}
 
@@ -713,6 +711,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		// If an already existing name was entered a counter should be appended
 		String expectedNewSoundName = newSoundName + "1";
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
+        solo.sleep(TIME_TO_WAIT);
 		assertEquals("Sound is not correctly renamed in SoundList (1 should be appended)", expectedNewSoundName,
 				soundInfoList.get(checkboxIndex).getTitle());
 		assertTrue("Sound not renamed in actual view", solo.searchText(expectedNewSoundName, true));
@@ -929,7 +928,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		addNewSound(testSoundName);
 		addNewSound(testSoundName);
 
-		solo.sleep(300);
+		solo.sleep(500);
 
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
 

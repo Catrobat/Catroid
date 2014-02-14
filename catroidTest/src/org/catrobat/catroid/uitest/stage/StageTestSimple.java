@@ -57,9 +57,6 @@ public class StageTestSimple extends BaseActivityInstrumentationTestCase<MainMen
 
 		result = StageActivity.stageListener.getPixels(19, 19, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, result);
-
-		result = StageActivity.stageListener.getPixels(-1, -1, 1, 1);
-		UiTestUtils.compareByteArrays(whitePixel, result);
 	}
 
 	public void testScreenAlwaysOn() {
