@@ -262,9 +262,8 @@ public final class StorageHandler {
 		}
 	}
 
-	public boolean cancelLoadProject()
-	{
-		if (fileInputStream !=null){
+	public boolean cancelLoadProject() {
+		if (fileInputStream != null) {
 			try {
 				fileInputStream.close();
 				return true;
@@ -438,8 +437,12 @@ public final class StorageHandler {
 		}
 
 		Project project = ProjectManager.getInstance().getCurrentProject();
-		if ((imageDimensions[0] <= project.getXmlHeader().virtualScreenWidth)
-				&& (imageDimensions[1] <= project.getXmlHeader().virtualScreenHeight)) {
+
+		if ((imageDimensions[0] > project.getXmlHeader().virtualScreenWidth)
+				&& (imageDimensions[1] > project.getXmlHeader().virtualScreenHeight)) {
+			File outputFile = new File(buildPath(imageDirectory.getAbsolutePath(), inputFile.getName()));
+			return copyAndResizeImage(outputFile, inputFile, imageDirectory);
+		} else {
 			String checksumSource = Utils.md5Checksum(inputFile);
 
 			if (newName != null) {
@@ -454,9 +457,6 @@ public final class StorageHandler {
 
 			File outputFile = new File(newFilePath);
 			return copyFileAddCheckSum(outputFile, inputFile, imageDirectory);
-		} else {
-			File outputFile = new File(buildPath(imageDirectory.getAbsolutePath(), inputFile.getName()));
-			return copyAndResizeImage(outputFile, inputFile, imageDirectory);
 		}
 	}
 
@@ -502,7 +502,9 @@ public final class StorageHandler {
 				checksumCompressedFile + "_" + inputFile.getName());
 
 		if (!fileChecksumContainer.addChecksum(checksumCompressedFile, newFilePath)) {
-			outputFile.delete();
+			if (!outputFile.getAbsolutePath().equalsIgnoreCase(inputFile.getAbsolutePath())) {
+				outputFile.delete();
+			}
 			return new File(fileChecksumContainer.getPath(checksumCompressedFile));
 		}
 
