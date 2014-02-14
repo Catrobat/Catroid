@@ -455,32 +455,34 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		solo.scrollListToBottom(fragmentListView);
 		solo.clickOnText(categoryRobotAlbertText);
 
-		TextView albertMotorTextView = (TextView) solo.getView(R.id.robot_albert_motor_action_speed_text_view);
+		TextView albertMotorTextView = (TextView) solo
+				.getView(R.id.robot_albert_motor_action_speed_prototype_text_view);
 		int albertMotorPrototypeValue = Integer.parseInt(albertMotorTextView.getText().toString());
 		assertEquals("Value in Brick Robot_Albert_Motor is not correct", BrickValues.ROBOT_ALBERT_SPEED,
 				albertMotorPrototypeValue);
 
-		TextView albertBuzzerTextView = (TextView) solo.getView(R.id.robot_albert_buzzer_frequency_text_view);
+		TextView albertBuzzerTextView = (TextView) solo.getView(R.id.robot_albert_buzzer_frequency_prototype_text_view);
 		int albertBuzzerPrototypeValue = Integer.parseInt(albertBuzzerTextView.getText().toString());
 		assertEquals("Value in Brick Robot_Albert_Buzzer is not correct", BrickValues.ROBOT_ALBERT_FREQUENCY,
 				albertBuzzerPrototypeValue);
 
-		TextView albertEyeRedTextView = (TextView) solo.getView(R.id.robot_albert_rgb_led_red_text_view);
+		TextView albertEyeRedTextView = (TextView) solo.getView(R.id.robot_albert_rgb_led_red_prototype_text_view);
 		int albertEyeRedPrototypeValue = Integer.parseInt(albertEyeRedTextView.getText().toString());
 		assertEquals("Value in Brick Robot_Albert_Eye (Red) is not correct", BrickValues.ROBOT_ALBERT_RGB_LED_EYE_RED,
 				albertEyeRedPrototypeValue);
 
-		TextView albertEyeGreenTextView = (TextView) solo.getView(R.id.robot_albert_rgb_led_green_text_view);
+		TextView albertEyeGreenTextView = (TextView) solo.getView(R.id.robot_albert_rgb_led_green_prototype_text_view);
 		int albertEyeGreenPrototypeValue = Integer.parseInt(albertEyeGreenTextView.getText().toString());
 		assertEquals("Value in Brick Robot_Albert_Eye (Green) is not correct",
 				BrickValues.ROBOT_ALBERT_RGB_LED_EYE_GREEN, albertEyeGreenPrototypeValue);
 
-		TextView albertEyeBlueTextView = (TextView) solo.getView(R.id.robot_albert_rgb_led_blue_text_view);
+		TextView albertEyeBlueTextView = (TextView) solo.getView(R.id.robot_albert_rgb_led_blue_prototype_text_view);
 		int albertEyeBluePrototypeValue = Integer.parseInt(albertEyeBlueTextView.getText().toString());
 		assertEquals("Value in Brick Robot_Albert_Eye (Blue) is not correct",
 				BrickValues.ROBOT_ALBERT_RGB_LED_EYE_BLUE, albertEyeBluePrototypeValue);
 
-		TextView albertFrontLedTextView = (TextView) solo.getView(R.id.robot_albert_front_led_status_text_view);
+		TextView albertFrontLedTextView = (TextView) solo
+				.getView(R.id.robot_albert_front_led_status_prototype_text_view);
 		int albertFrontLedPrototypeValue = Integer.parseInt(albertFrontLedTextView.getText().toString());
 		assertEquals("Value in Brick Robot_Albert_Front_LED is not correct", BrickValues.ROBOT_ALBERT_FRONT_LED,
 				albertFrontLedPrototypeValue);
