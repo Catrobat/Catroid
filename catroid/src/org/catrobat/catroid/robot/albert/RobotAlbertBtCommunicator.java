@@ -354,7 +354,7 @@ public class RobotAlbertBtCommunicator extends RobotAlbertCommunicator {
 			}
 			// here you can optionally check elapsed time, and time out
 			timePast = System.currentTimeMillis();
-			if ((timePast - timeStart) > 13000) {
+			if ((timePast - timeStart) > 6000) {
 				Log.d("AlbertRobot-Timeout", "TIMEOUT for receive message occured");
 				throw new IOException(" Software caused connection abort because of timeout");
 			}
