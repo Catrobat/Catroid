@@ -44,11 +44,8 @@ public class Passepartout extends Actor {
 		this.virtualScreenWidth = virtualScreenWidth;
 		this.virtualScreenHeight = virtualScreenHeight;
 
-		float scale = virtualScreenHeight / screenHeight;
-		passepartoutHeight = ((screenHeight - screenViewPortHeight) * scale);
-
-		scale = virtualScreenWidth / screenWidth;
-		passepartoutWidth = ((screenWidth - screenViewPortWidth) * scale);
+		passepartoutHeight = ((screenHeight / (screenViewPortHeight / virtualScreenHeight)) - virtualScreenHeight) / 2f;
+		passepartoutWidth = ((screenWidth / (screenViewPortWidth / virtualScreenWidth)) - virtualScreenWidth) / 2f;
 
 		Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
 		pixmap.setColor(Color.BLACK);
@@ -59,15 +56,16 @@ public class Passepartout extends Actor {
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		if (Float.compare(passepartoutWidth, 0f) != 0) {
-			batch.draw(texture, -virtualScreenWidth / 2f, -virtualScreenHeight / 2f,
-				-passepartoutWidth, virtualScreenHeight);
-			batch.draw(texture, virtualScreenWidth / 2f, virtualScreenHeight / 2f,
-					passepartoutWidth, -virtualScreenHeight);
-		} else if (Float.compare(passepartoutHeight, 0f) != 0) {
-			batch.draw(texture, -virtualScreenWidth / 2f, -virtualScreenHeight / 2f,
-					virtualScreenWidth, -passepartoutHeight);
-			batch.draw(texture, virtualScreenWidth / 2f, virtualScreenHeight / 2f,
-					-virtualScreenWidth, passepartoutHeight);
+			batch.draw(texture, -virtualScreenWidth / 2f, -virtualScreenHeight / 2f, -passepartoutWidth,
+					virtualScreenHeight);
+			batch.draw(texture, virtualScreenWidth / 2f, virtualScreenHeight / 2f, passepartoutWidth,
+					-virtualScreenHeight);
+		}
+		if (Float.compare(passepartoutHeight, 0f) != 0) {
+			batch.draw(texture, -virtualScreenWidth / 2f, -virtualScreenHeight / 2f, virtualScreenWidth,
+					-passepartoutHeight);
+			batch.draw(texture, virtualScreenWidth / 2f, virtualScreenHeight / 2f, -virtualScreenWidth,
+					passepartoutHeight);
 		}
 		batch.flush();
 	}
