@@ -513,7 +513,6 @@
     <string name="robot_albert_rgb_led_red">Rot</string>
     <string name="robot_albert_rgb_led_green">Gruen</string>
     <string name="robot_albert_rgb_led_blue">Blau</string>
-    <string name="robot_albert_rgb_led_color">Farbe</string>
     <string name="brick_robot_albert_front_led_action">Albert benutze fordere LED</string>
     <string name="robot_albert_front_led_status">Status</string>
     <string name="robot_albert_front_led_status_info">Wert: 0=aus sonst=ein</string>
