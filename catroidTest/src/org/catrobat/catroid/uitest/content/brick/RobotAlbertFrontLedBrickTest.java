@@ -80,8 +80,8 @@ public class RobotAlbertFrontLedBrickTest extends BaseActivityInstrumentationTes
 
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.robot_albert_front_led_status)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.robot_albert_front_led_action_status_edit_text, SET_LED,
-				"value", brick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.robot_albert_front_led_status_edit_text, SET_LED, "value",
+				brick);
 	}
 
 	private void createProject() {

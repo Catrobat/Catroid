@@ -23,6 +23,7 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -34,217 +35,87 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
-
-    <LinearLayout
-        android:id="@+id/brick_robot_albert_rgb_led_action_layout"
-        style="@style/BrickContainer.Lego.Big"
+    
+    <org.catrobat.catroid.ui.BrickLayout
+        android:id="@+id/brick_robot_albert_rgb_led_layout"
+        style="@style/BrickContainer.Albert.Big"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:orientation="vertical" >
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
             <TextView
-                style="@style/BrickText"
-                android:layout_centerVertical="true"
-                android:paddingRight="10dip"
+                android:id="@+id/brick_robot_albert_rgb_led_action_label"
+                style="@style/BrickText.SingleLine"
                 android:text="@string/brick_robot_albert_rgb_led_action" >
             </TextView>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <Spinner
+                android:id="@+id/robot_albert_eye_spinner"
+                style="@style/BrickText.SingleLine"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true" >
+                android:clickable="false"
+                android:focusable="false" >
+                <!-- do not add spinner items here! -->
+            </Spinner>
 
-                <Spinner
-                    android:id="@+id/robot_albert_eye_spinner"
-                    android:layout_width="70dp"
-                    android:layout_height="35dp"
-                    android:clickable="false"
-                    android:focusable="false" >
-
-                    <!-- do not add spinner items here! -->
-                </Spinner>
-            </LinearLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true" 
-                android:layout_marginRight="145dip">
                 
-                <TextView
-                		style="@style/BrickText"
-                		android:paddingRight="10dip"
-                		android:text="@string/robot_albert_rgb_led_red" >
-            		</TextView>
+            <TextView
+                android:id="@+id/robot_albert_rgb_led_red_text_view"
+                style="@style/BrickText"
+                android:text="@string/robot_albert_rgb_led_red" >
+            </TextView>
+            	
+            <TextView
+            	android:id="@+id/robot_albert_rgb_led_red_prototype_text_view"
+            	style="@style/BrickPrototypeTextView" />
+             
+			<TextView
+                android:id="@+id/robot_albert_rgb_led_action_red_edit_text"
+                style="@style/BrickEditText"
+                app:layout_inputType="number"
+                app:layout_textField="true" >
+            </TextView>
+            
+            
+            <TextView
+                android:id="@+id/robot_albert_rgb_led_green_text_view"
+                style="@style/BrickText"
+                android:text="@string/robot_albert_rgb_led_green" >
+            </TextView>
+            	
+            <TextView
+            	android:id="@+id/robot_albert_rgb_led_green_prototype_text_view"
+            	style="@style/BrickPrototypeTextView" />
                 
-
-                <TextView
-                    android:id="@+id/robot_albert_rgb_led_action_red_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dip"
-                    android:background="@color/white"
-                    android:gravity="right"
-                    android:minHeight="27dip"
-                    android:minWidth="70dip"
-                    android:paddingRight="5dip"
-                    android:text="@string/number_0"
-                    android:textSize="20sp" 
-                    >
-                </TextView>
-
-                <EditText
-                    android:id="@+id/robot_albert_rgb_led_action_red_edit_text"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:gravity="right"
-                    android:inputType="number|numberDecimal|numberSigned"
-                    android:maxLength="4"
-                    android:maxLines="1"
-                    android:text="@string/number_0"
-                    android:visibility="gone" 
-                    android:layout_marginRight="145dip">
-                </EditText>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true" 
-                android:layout_marginLeft="130dip">
+            <TextView
+                android:id="@+id/robot_albert_rgb_led_action_green_edit_text"
+                style="@style/BrickEditText"
+                app:layout_inputType="number"
+                app:layout_textField="true" >
+            </TextView>
                 
-                <TextView
-                		style="@style/BrickText"
-                		android:paddingRight="10dip"
-                		android:text="@string/robot_albert_rgb_led_green" 
-                		>
-            		</TextView>
-
-                <TextView
-                    android:id="@+id/robot_albert_rgb_led_action_green_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dip"
-                    android:background="@color/white"
-                    android:gravity="right"
-                    android:minHeight="27dip"
-                    android:minWidth="70dip"
-                    android:paddingRight="5dip"
-                    android:text="@string/number_0"
-                    android:textSize="20sp" >
-                </TextView>
-
-                <EditText
-                    android:id="@+id/robot_albert_rgb_led_action_green_edit_text"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:gravity="right"
-                    android:inputType="number|numberDecimal|numberSigned"
-                    android:maxLength="4"
-                    android:maxLines="1"
-                    android:text="@string/number_0"
-                    android:visibility="gone" >
-                </EditText> 
-            </LinearLayout>
-        </RelativeLayout>
-        
-
-        
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dip" >
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true" 
-                android:layout_marginRight="145dip">
                 
-                <TextView
-                		style="@style/BrickText"
-                		android:paddingRight="10dip"
-                		android:text="@string/robot_albert_rgb_led_blue" >
-            		</TextView>
-
-                <TextView
-                    android:id="@+id/robot_albert_rgb_led_action_blue_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dip"
-                    android:background="@color/white"
-                    android:gravity="right"
-                    android:minHeight="27dip"
-                    android:minWidth="70dip"
-                    android:paddingRight="5dip"
-                    android:text="@string/number_0"
-                    android:textSize="20sp" >
-                </TextView>
-
-                <EditText
-                    android:id="@+id/robot_albert_rgb_led_action_blue_edit_text"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:gravity="right"
-                    android:inputType="number|numberDecimal|numberSigned"
-                    android:maxLength="4"
-                    android:maxLines="1"
-                    android:text="@string/number_0"
-                    android:visibility="gone" 
-                    android:layout_marginRight="145dip">
-                </EditText>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="130dip">
+            <TextView
+                android:id="@+id/robot_albert_rgb_led_blue_text_view"
+                style="@style/BrickText"
+                android:text="@string/robot_albert_rgb_led_blue" >
+            </TextView>
+            	
+            <TextView
+            	android:id="@+id/robot_albert_rgb_led_blue_prototype_text_view"
+            	style="@style/BrickPrototypeTextView" />
                 
-                <TextView
-                    style="@style/BrickText"
-                    android:paddingRight="10dip"
-                    android:text="@string/robot_albert_rgb_led_color" >
-                </TextView>
-
-                <TextView
-                    android:id="@+id/robot_albert_rgb_led_action_color_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dip"
-                    android:background="@color/white"
-                    android:gravity="right"
-                    android:minHeight="27dip"
-                    android:minWidth="70dip"
-                    android:paddingRight="5dip"
-                    android:textSize="20sp" >
-                </TextView>
-            </LinearLayout>
-        </RelativeLayout>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/robot_albert_rgb_led_action_blue_edit_text"
+                style="@style/BrickEditText"
+                app:layout_inputType="number"
+                app:layout_textField="true" >
+            </TextView>
+            
+    
+    </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

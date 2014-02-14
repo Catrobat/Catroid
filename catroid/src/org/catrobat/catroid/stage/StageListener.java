@@ -57,6 +57,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.robot.albert.RobotAlbert;
 import org.catrobat.catroid.robot.albert.RobotAlbertCommunicator;
+import org.catrobat.catroid.robot.albert.SensorRobotAlbert;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.Utils;
 
@@ -243,8 +244,10 @@ public class StageListener implements ApplicationListener {
 	public void pause() {
 
 		try {
-			Handler btcHandler = RobotAlbert.getBTCHandler();
-			if (btcHandler != null) {
+			SensorRobotAlbert sensor = SensorRobotAlbert.getSensorRobotAlbertInstance();
+			boolean albertUsed = sensor.getBooleanAlbertBricksUsed();
+			if (albertUsed == true) {
+				Handler btcHandler = RobotAlbert.getBTCHandler();
 				Log.d("StageListener Pause", "sendRobotAlbertMotorResetMessage()");
 				Message myMessage = btcHandler.obtainMessage();
 				myMessage.what = RobotAlbertCommunicator.MOTOR_RESET_COMMAND;

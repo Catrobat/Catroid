@@ -23,7 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,8 +33,6 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -53,6 +51,7 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
+	private transient AdapterView<?> adapterView;
 
 	public static enum Eye {
 		Left, Right, Both
@@ -60,9 +59,9 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 
 	private String eye;
 	private transient Eye eyeEnum;
-	private transient EditText editRedValue;
-	private transient EditText editGreenValue;
-	private transient EditText editBlueValue;
+	private transient TextView editRedValue;
+	private transient TextView editGreenValue;
+	private transient TextView editBlueValue;
 	private Formula red;
 	private Formula green;
 	private Formula blue;
@@ -109,11 +108,11 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_robot_albert_rgb_eye_action, null);
-		TextView textred = (TextView) prototypeView.findViewById(R.id.robot_albert_rgb_led_action_red_text_view);
+		TextView textred = (TextView) prototypeView.findViewById(R.id.robot_albert_rgb_led_red_prototype_text_view);
 		textred.setText(String.valueOf(red.interpretInteger(sprite)));
-		TextView textgreen = (TextView) prototypeView.findViewById(R.id.robot_albert_rgb_led_action_green_text_view);
+		TextView textgreen = (TextView) prototypeView.findViewById(R.id.robot_albert_rgb_led_green_prototype_text_view);
 		textgreen.setText(String.valueOf(green.interpretInteger(sprite)));
-		TextView textblue = (TextView) prototypeView.findViewById(R.id.robot_albert_rgb_led_action_blue_text_view);
+		TextView textblue = (TextView) prototypeView.findViewById(R.id.robot_albert_rgb_led_blue_prototype_text_view);
 		textblue.setText(String.valueOf(blue.interpretInteger(sprite)));
 		Spinner eyeSpinner = (Spinner) prototypeView.findViewById(R.id.robot_albert_eye_spinner);
 		eyeSpinner.setFocusableInTouchMode(false);
@@ -139,6 +138,9 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 		if (animationState) {
 			return view;
 		}
+		if (view == null) {
+			alphaValue = 255;
+		}
 
 		view = View.inflate(context, R.layout.brick_robot_albert_rgb_eye_action, null);
 		setCheckboxView(R.id.brick_robot_albert_rgb_led_action_checkbox);
@@ -152,8 +154,8 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 			}
 		});
 
-		TextView textRed = (TextView) view.findViewById(R.id.robot_albert_rgb_led_action_red_text_view);
-		editRedValue = (EditText) view.findViewById(R.id.robot_albert_rgb_led_action_red_edit_text);
+		TextView textRed = (TextView) view.findViewById(R.id.robot_albert_rgb_led_red_prototype_text_view);
+		editRedValue = (TextView) view.findViewById(R.id.robot_albert_rgb_led_action_red_edit_text);
 		red.setTextFieldId(R.id.robot_albert_rgb_led_action_red_edit_text);
 		red.refreshTextField(view);
 
@@ -162,8 +164,8 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 
 		editRedValue.setOnClickListener(this);
 
-		TextView textGreen = (TextView) view.findViewById(R.id.robot_albert_rgb_led_action_green_text_view);
-		editGreenValue = (EditText) view.findViewById(R.id.robot_albert_rgb_led_action_green_edit_text);
+		TextView textGreen = (TextView) view.findViewById(R.id.robot_albert_rgb_led_green_prototype_text_view);
+		editGreenValue = (TextView) view.findViewById(R.id.robot_albert_rgb_led_action_green_edit_text);
 		green.setTextFieldId(R.id.robot_albert_rgb_led_action_green_edit_text);
 		green.refreshTextField(view);
 
@@ -172,8 +174,8 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 
 		editGreenValue.setOnClickListener(this);
 
-		TextView textBlue = (TextView) view.findViewById(R.id.robot_albert_rgb_led_action_blue_text_view);
-		editBlueValue = (EditText) view.findViewById(R.id.robot_albert_rgb_led_action_blue_edit_text);
+		TextView textBlue = (TextView) view.findViewById(R.id.robot_albert_rgb_led_blue_prototype_text_view);
+		editBlueValue = (TextView) view.findViewById(R.id.robot_albert_rgb_led_action_blue_edit_text);
 		blue.setTextFieldId(R.id.robot_albert_rgb_led_action_blue_edit_text);
 		blue.refreshTextField(view);
 
@@ -182,13 +184,13 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 
 		editBlueValue.setOnClickListener(this);
 
-		TextView colorView = (TextView) view.findViewById(R.id.robot_albert_rgb_led_action_color_text_view);
-		colorView.setVisibility(View.VISIBLE);
+		//TextView colorView = (TextView) view.findViewById(R.id.robot_albert_rgb_led_color_text_view);
+		//colorView.setVisibility(View.VISIBLE);
 		//update color of the current rgb-selection
 		int r = red.interpretInteger(sprite);
 		int g = green.interpretInteger(sprite);
 		int b = blue.interpretInteger(sprite);
-		colorView.setBackgroundColor(Color.rgb(r, g, b));
+		//colorView.setBackgroundColor(Color.rgb(r, g, b));
 
 		if (r > 255) {
 			editRedValue.setText("" + 255);
@@ -219,6 +221,7 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				eyeEnum = Eye.values()[position];
 				eye = eyeEnum.name();
+				adapterView = arg0;
 			}
 
 			@Override
@@ -257,10 +260,63 @@ public class RobotAlbertRgbLedEyeActionBrick extends BrickBaseType implements On
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_robot_albert_rgb_led_action_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
-		this.alphaValue = (alphaValue);
+
+		if (view != null) {
+
+			View layout = view.findViewById(R.id.brick_robot_albert_rgb_led_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView textAlbertEyeLabel = (TextView) view.findViewById(R.id.brick_robot_albert_rgb_led_action_label);
+			TextView textAlbertEyeRed = (TextView) view.findViewById(R.id.robot_albert_rgb_led_red_text_view);
+			TextView editRed = (TextView) view.findViewById(R.id.robot_albert_rgb_led_action_red_edit_text);
+
+			//			TextView textAlbertEyeColorLabel = (TextView) view
+			//					.findViewById(R.id.robot_albert_rgb_led_color_text_view_label);
+			TextView textAlbertEyeRedView = (TextView) view.findViewById(R.id.robot_albert_rgb_led_red_text_view);
+
+			textAlbertEyeLabel.setTextColor(textAlbertEyeLabel.getTextColors().withAlpha(alphaValue));
+			textAlbertEyeRed.setTextColor(textAlbertEyeRed.getTextColors().withAlpha(alphaValue));
+			//textAlbertEyeColorLabel.setTextColor(textAlbertEyeColorLabel.getTextColors().withAlpha(alphaValue));
+
+			//			textAlbertMotorActionLabelSpeedView.setTextColor(textAlbertMotorActionLabelSpeedView.getTextColors()
+			//					.withAlpha(alphaValue));
+			Spinner eyeSpinner = (Spinner) view.findViewById(R.id.robot_albert_eye_spinner);
+			ColorStateList color = textAlbertEyeRedView.getTextColors().withAlpha(alphaValue);
+			eyeSpinner.getBackground().setAlpha(alphaValue);
+			if (adapterView != null) {
+				((TextView) adapterView.getChildAt(0)).setTextColor(color);
+			}
+			editRed.setTextColor(editRed.getTextColors().withAlpha(alphaValue));
+			editRed.getBackground().setAlpha(alphaValue);
+
+			//green
+			TextView textAlbertEyeGreen = (TextView) view.findViewById(R.id.robot_albert_rgb_led_green_text_view);
+			TextView editGreen = (TextView) view.findViewById(R.id.robot_albert_rgb_led_action_green_edit_text);
+			TextView textAlbertEyeGreenView = (TextView) view.findViewById(R.id.robot_albert_rgb_led_green_text_view);
+			editGreen.setTextColor(editGreen.getTextColors().withAlpha(alphaValue));
+			editGreen.getBackground().setAlpha(alphaValue);
+			ColorStateList color2 = textAlbertEyeGreenView.getTextColors().withAlpha(alphaValue);
+			if (adapterView != null) {
+				((TextView) adapterView.getChildAt(0)).setTextColor(color2);
+			}
+			textAlbertEyeGreen.setTextColor(textAlbertEyeGreen.getTextColors().withAlpha(alphaValue));
+
+			//blue
+			TextView textAlbertEyeBlue = (TextView) view.findViewById(R.id.robot_albert_rgb_led_blue_text_view);
+			TextView editBlue = (TextView) view.findViewById(R.id.robot_albert_rgb_led_action_blue_edit_text);
+			TextView textAlbertEyeBlueView = (TextView) view.findViewById(R.id.robot_albert_rgb_led_blue_text_view);
+			editBlue.setTextColor(editGreen.getTextColors().withAlpha(alphaValue));
+			editBlue.getBackground().setAlpha(alphaValue);
+			ColorStateList color3 = textAlbertEyeBlueView.getTextColors().withAlpha(alphaValue);
+			if (adapterView != null) {
+				((TextView) adapterView.getChildAt(0)).setTextColor(color3);
+			}
+			textAlbertEyeBlue.setTextColor(textAlbertEyeBlue.getTextColors().withAlpha(alphaValue));
+
+			this.alphaValue = (alphaValue);
+		}
+
 		return view;
 	}
 

@@ -29,7 +29,6 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -49,15 +48,10 @@ public class RobotAlbertBuzzerBrick extends BrickBaseType implements OnClickList
 
 	private transient View prototypeView;
 
-	private transient EditText editValue;
+	private transient TextView editValue;
 	private Formula value;
 
 	protected Object readResolve() {
-		/*
-		 * if (motor != null) {
-		 * motorEnum = Motor.valueOf(motor);
-		 * }
-		 */
 		return this;
 	}
 
@@ -86,9 +80,9 @@ public class RobotAlbertBuzzerBrick extends BrickBaseType implements OnClickList
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_robot_albert_buzzer_action, null);
-		TextView textValue = (TextView) prototypeView.findViewById(R.id.robot_albert_buzzer_action_frequency_text_view);
+		TextView textValue = (TextView) prototypeView
+				.findViewById(R.id.robot_albert_buzzer_frequency_prototype_text_view);
 		textValue.setText(String.valueOf(value.interpretInteger(sprite)));
-		//TODO set the spinner Value to A
 		return prototypeView;
 	}
 
@@ -101,6 +95,9 @@ public class RobotAlbertBuzzerBrick extends BrickBaseType implements OnClickList
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;
+		}
+		if (view == null) {
+			alphaValue = 255;
 		}
 
 		view = View.inflate(context, R.layout.brick_robot_albert_buzzer_action, null);
@@ -115,9 +112,9 @@ public class RobotAlbertBuzzerBrick extends BrickBaseType implements OnClickList
 			}
 		});
 
-		TextView textValue = (TextView) view.findViewById(R.id.robot_albert_buzzer_action_frequency_text_view);
-		editValue = (EditText) view.findViewById(R.id.robot_albert_buzzer_action_frequency_edit_text);
-		value.setTextFieldId(R.id.robot_albert_buzzer_action_frequency_edit_text);
+		TextView textValue = (TextView) view.findViewById(R.id.robot_albert_buzzer_frequency_prototype_text_view);
+		editValue = (TextView) view.findViewById(R.id.robot_albert_buzzer_frequency_edit_text);
+		value.setTextFieldId(R.id.robot_albert_buzzer_frequency_edit_text);
 		value.refreshTextField(view);
 
 		textValue.setVisibility(View.GONE);
@@ -142,7 +139,7 @@ public class RobotAlbertBuzzerBrick extends BrickBaseType implements OnClickList
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_robot_albert_buzzer_action_layout);
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_robot_albert_buzzer_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
 		this.alphaValue = (alphaValue);

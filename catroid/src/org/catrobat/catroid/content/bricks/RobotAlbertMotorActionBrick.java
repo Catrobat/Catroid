@@ -23,6 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,8 +33,6 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -52,6 +51,7 @@ public class RobotAlbertMotorActionBrick extends BrickBaseType implements OnClic
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
+	private transient AdapterView<?> adapterView;
 
 	public static enum Motor {
 		Left, Right, Both
@@ -59,7 +59,7 @@ public class RobotAlbertMotorActionBrick extends BrickBaseType implements OnClic
 
 	private String motor;
 	private transient Motor motorEnum;
-	private transient EditText editSpeed;
+	private transient TextView editSpeed;
 	private Formula speed;
 
 	protected Object readResolve() {
@@ -73,7 +73,6 @@ public class RobotAlbertMotorActionBrick extends BrickBaseType implements OnClic
 		this.sprite = sprite;
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
-
 		this.speed = new Formula(speedValue);
 	}
 
@@ -81,7 +80,6 @@ public class RobotAlbertMotorActionBrick extends BrickBaseType implements OnClic
 		this.sprite = sprite;
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
-
 		this.speed = speedFormula;
 	}
 
@@ -100,7 +98,8 @@ public class RobotAlbertMotorActionBrick extends BrickBaseType implements OnClic
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_robot_albert_motor_action, null);
-		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.robot_albert_motor_action_speed_text_view);
+		TextView textSpeed = (TextView) prototypeView
+				.findViewById(R.id.robot_albert_motor_action_speed_prototype_text_view);
 		textSpeed.setText(String.valueOf(speed.interpretInteger(sprite)));
 
 		Spinner motorSpinner = (Spinner) prototypeView.findViewById(R.id.robot_albert_motor_spinner);
@@ -127,8 +126,13 @@ public class RobotAlbertMotorActionBrick extends BrickBaseType implements OnClic
 		if (animationState) {
 			return view;
 		}
+		if (view == null) {
+			alphaValue = 255;
+		}
 
 		view = View.inflate(context, R.layout.brick_robot_albert_motor_action, null);
+		view = getViewWithAlpha(alphaValue);
+
 		setCheckboxView(R.id.brick_robot_albert_motor_action_checkbox);
 
 		final Brick brickInstance = this;
@@ -140,8 +144,8 @@ public class RobotAlbertMotorActionBrick extends BrickBaseType implements OnClic
 			}
 		});
 
-		TextView textSpeed = (TextView) view.findViewById(R.id.robot_albert_motor_action_speed_text_view);
-		editSpeed = (EditText) view.findViewById(R.id.robot_albert_motor_action_speed_edit_text);
+		TextView textSpeed = (TextView) view.findViewById(R.id.robot_albert_motor_action_speed_prototype_text_view);
+		editSpeed = (TextView) view.findViewById(R.id.robot_albert_motor_action_speed_edit_text);
 		speed.setTextFieldId(R.id.robot_albert_motor_action_speed_edit_text);
 		speed.refreshTextField(view);
 
@@ -154,8 +158,15 @@ public class RobotAlbertMotorActionBrick extends BrickBaseType implements OnClic
 				R.array.robot_albert_motor_chooser, android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		Spinner motorSpinner = (Spinner) view.findViewById(R.id.robot_albert_motor_spinner);
-		motorSpinner.setClickable(true);
-		motorSpinner.setEnabled(true);
+
+		if (!(checkbox.getVisibility() == View.VISIBLE)) {
+			motorSpinner.setClickable(true);
+			motorSpinner.setEnabled(true);
+		} else {
+			motorSpinner.setClickable(false);
+			motorSpinner.setEnabled(false);
+		}
+
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -163,6 +174,7 @@ public class RobotAlbertMotorActionBrick extends BrickBaseType implements OnClic
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				motorEnum = Motor.values()[position];
 				motor = motorEnum.name();
+				adapterView = arg0;
 			}
 
 			@Override
@@ -187,16 +199,52 @@ public class RobotAlbertMotorActionBrick extends BrickBaseType implements OnClic
 
 	@Override
 	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
 		FormulaEditorFragment.showFragment(view, this, speed);
 	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_robot_albert_motor_action_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
-		this.alphaValue = (alphaValue);
+
+		if (view != null) {
+
+			View layout = view.findViewById(R.id.brick_robot_albert_motor_action_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView textAlbertMotorActionLabel = (TextView) view.findViewById(R.id.robot_albert_motor_action_label);
+			TextView textAlbertMotorActionSpeed = (TextView) view
+					.findViewById(R.id.robot_albert_motor_action_speed_text_view);
+			TextView editSpeed = (TextView) view.findViewById(R.id.robot_albert_motor_action_speed_edit_text);
+
+			TextView textAlbertMotorActionPercent = (TextView) view
+					.findViewById(R.id.robot_albert_motor_action_percent);
+			TextView textAlbertMotorActionLabelSpeedView = (TextView) view
+					.findViewById(R.id.robot_albert_motor_action_speed_text_view);
+
+			textAlbertMotorActionLabel.setTextColor(textAlbertMotorActionLabel.getTextColors().withAlpha(alphaValue));
+			textAlbertMotorActionSpeed.setTextColor(textAlbertMotorActionSpeed.getTextColors().withAlpha(alphaValue));
+			textAlbertMotorActionPercent.setTextColor(textAlbertMotorActionPercent.getTextColors()
+					.withAlpha(alphaValue));
+			textAlbertMotorActionLabelSpeedView.setTextColor(textAlbertMotorActionLabelSpeedView.getTextColors()
+					.withAlpha(alphaValue));
+			Spinner motorSpinner = (Spinner) view.findViewById(R.id.robot_albert_motor_spinner);
+			ColorStateList color = textAlbertMotorActionLabelSpeedView.getTextColors().withAlpha(alphaValue);
+			motorSpinner.getBackground().setAlpha(alphaValue);
+			if (adapterView != null) {
+				((TextView) adapterView.getChildAt(0)).setTextColor(color);
+			}
+			editSpeed.setTextColor(editSpeed.getTextColors().withAlpha(alphaValue));
+			editSpeed.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
+
 	}
 
 	@Override

@@ -29,7 +29,6 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -49,7 +48,7 @@ public class RobotAlbertFrontLedBrick extends BrickBaseType implements OnClickLi
 
 	private transient View prototypeView;
 
-	private transient EditText editValue;
+	private transient TextView editValue;
 	private Formula value;
 
 	protected Object readResolve() {
@@ -81,7 +80,8 @@ public class RobotAlbertFrontLedBrick extends BrickBaseType implements OnClickLi
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_robot_albert_front_led_action, null);
-		TextView textValue = (TextView) prototypeView.findViewById(R.id.robot_albert_front_led_action_status_text_view);
+		TextView textValue = (TextView) prototypeView
+				.findViewById(R.id.robot_albert_front_led_status_prototype_text_view);
 		textValue.setText(String.valueOf(value.interpretInteger(sprite)));
 		return prototypeView;
 	}
@@ -96,6 +96,9 @@ public class RobotAlbertFrontLedBrick extends BrickBaseType implements OnClickLi
 		if (animationState) {
 			return view;
 		}
+		if (view == null) {
+			alphaValue = 255;
+		}
 
 		view = View.inflate(context, R.layout.brick_robot_albert_front_led_action, null);
 		setCheckboxView(R.id.brick_robot_albert_front_led_action_checkbox);
@@ -109,9 +112,9 @@ public class RobotAlbertFrontLedBrick extends BrickBaseType implements OnClickLi
 			}
 		});
 
-		TextView textValue = (TextView) view.findViewById(R.id.robot_albert_front_led_action_status_text_view);
-		editValue = (EditText) view.findViewById(R.id.robot_albert_front_led_action_status_edit_text);
-		value.setTextFieldId(R.id.robot_albert_front_led_action_status_edit_text);
+		TextView textValue = (TextView) view.findViewById(R.id.robot_albert_front_led_status_prototype_text_view);
+		editValue = (TextView) view.findViewById(R.id.robot_albert_front_led_status_edit_text);
+		value.setTextFieldId(R.id.robot_albert_front_led_status_edit_text);
 		value.refreshTextField(view);
 
 		textValue.setVisibility(View.GONE);
@@ -136,7 +139,7 @@ public class RobotAlbertFrontLedBrick extends BrickBaseType implements OnClickLi
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_robot_albert_front_led_action_layout);
+		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_robot_albert_front_led_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
 		this.alphaValue = (alphaValue);

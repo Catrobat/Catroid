@@ -55,12 +55,10 @@ import java.io.IOException;
 //This code is based on the nxt-implementation
 public class RobotAlbert implements BTConnectable {
 
-	private static final int REQUEST_CONNECT_DEVICE = 1000;
-
 	private static RobotAlbertCommunicator myCommunicator;
 
 	private boolean pairing;
-	private static Handler btcHandler;
+	private static Handler btcHandler = null;
 	private Handler recieverHandler;
 	private Activity activity;
 

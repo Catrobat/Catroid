@@ -80,12 +80,12 @@ public class RobotAlbertBuzzerBrickTest extends BaseActivityInstrumentationTestC
 
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.robot_albert_buzzer_frequency)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.robot_albert_buzzer_action_frequency_edit_text, SET_FREQ,
-				"value", brick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.robot_albert_buzzer_frequency_edit_text, SET_FREQ, "value",
+				brick);
 
 		//TODO: Prints an error after setting it from init to new value, but I can see that it was set. Executing the command a second time seams to solve that. Why not the first time??
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.robot_albert_buzzer_action_frequency_edit_text, SET_FREQ,
-				"value", brick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.robot_albert_buzzer_frequency_edit_text, SET_FREQ, "value",
+				brick);
 	}
 
 	private void createProject() {

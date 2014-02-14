@@ -45,7 +45,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AddBrickFragment extends SherlockListFragment {
@@ -123,17 +122,6 @@ public class AddBrickFragment extends SherlockListFragment {
 		setupSelectedBrickCategory();
 	}
 
-	private int getRequiredRessources() {
-		ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
-				.getSpriteList();
-
-		int ressources = Brick.NO_RESOURCES;
-		for (Sprite sprite : spriteList) {
-			ressources |= sprite.getRequiredResources();
-		}
-		return ressources;
-	}
-
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -141,43 +129,6 @@ public class AddBrickFragment extends SherlockListFragment {
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				//				String selectedCategory = getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY);
-				//				//Toast.makeText(getActivity(), "Test: " + selectedCategory, Toast.LENGTH_SHORT).show();
-				//				if (((getRequiredRessources() & Brick.BLUETOOTH_LEGO_NXT) > 0)
-				//						&& selectedCategory.equals(getActivity().getString(R.string.category_robot_albert))) {
-				//					Toast.makeText(getActivity(),
-				//							getActivity().getString(R.string.category_error_message_already_albert_bricks_in_use),
-				//							Toast.LENGTH_LONG).show();
-				//				} else if (((getRequiredRessources() & Brick.BLUETOOTH_ROBOT_ALBERT) > 0)
-				//						&& selectedCategory.equals(getActivity().getString(R.string.category_lego_nxt))) {
-				//					Toast.makeText(getActivity(),
-				//							getActivity().getString(R.string.category_error_message_already_nxt_bricks_in_use),
-				//							Toast.LENGTH_LONG).show();
-				//				} else {
-				//					Brick brickToBeAdded = adapter.getItem(position).clone();
-				//					scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded);
-				//
-				//					if (brickToBeAdded instanceof ScriptBrick) {
-				//						Script script = ((ScriptBrick) brickToBeAdded).initScript(ProjectManager.getInstance()
-				//								.getCurrentSprite());
-				//						ProjectManager.getInstance().setCurrentScript(script);
-				//					}
-				//
-				//					FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-				//					Fragment categoryFragment = getFragmentManager().findFragmentByTag(
-				//							BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
-				//					if (categoryFragment != null) {
-				//						fragmentTransaction.remove(categoryFragment);
-				//						getFragmentManager().popBackStack();
-				//					}
-				//					Fragment addBrickFragment = getFragmentManager().findFragmentByTag(
-				//							AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
-				//					if (addBrickFragment != null) {
-				//						fragmentTransaction.remove(addBrickFragment);
-				//						getFragmentManager().popBackStack();
-				//					}
-				//					fragmentTransaction.commit();
-				//				}
 
 				Brick brickToBeAdded = adapter.getItem(position).clone();
 				scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded);
