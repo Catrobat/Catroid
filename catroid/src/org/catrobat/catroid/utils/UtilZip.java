@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.utils;
 
+import android.util.Log;
+
 import org.catrobat.catroid.common.Constants;
 
 import java.io.BufferedOutputStream;
@@ -38,6 +40,7 @@ import java.util.zip.ZipOutputStream;
 
 public final class UtilZip {
 	private static final int QUICKEST_COMPRESSION = 0;
+    private static final String TAG = UtilZip.class.getSimpleName();
 
 	private static ZipOutputStream zipOutputStream;
 
@@ -62,15 +65,15 @@ public final class UtilZip {
 			}
 
 			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ex) {
+            Log.e(TAG, ex.getMessage(),ex);
 		} finally {
 			try {
 				if (zipOutputStream != null) {
 					zipOutputStream.close();
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
+                Log.e(TAG, "Error closing stream",e);
 			}
 		}
 
@@ -136,9 +139,9 @@ public final class UtilZip {
 
 			return true;
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+            Log.e(TAG, e.getMessage(),e);
 		} catch (IOException e) {
-			e.printStackTrace();
+            Log.e(TAG, e.getMessage(),e);
 		} finally {
 			try {
 				if (destinationOutputStream != null) {
@@ -151,7 +154,7 @@ public final class UtilZip {
 					zipFile.close();
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
+                Log.e(TAG, "Error closing File",e);
 			}
 		}
 		return false;
