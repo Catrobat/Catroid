@@ -31,6 +31,7 @@ import android.app.Instrumentation;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
@@ -172,7 +173,6 @@ public final class UiTestUtils {
 	public static final String COPIED_PROJECT_NAME = "copiedProject";
 	public static final String JAPANESE_PROJECT_NAME = "これは例の説明です。";
 
-	private static final int ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX = 0;
 	private static final int DRAG_FRAMES = 35;
 
 	public static final int SCRIPTS_INDEX = 0;
@@ -1129,7 +1129,9 @@ public final class UiTestUtils {
 	}
 
 	public static void acceptAndCloseActionMode(Solo solo) {
-		solo.clickOnImage(ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX);
+		int doneButtonId = Resources.getSystem().getIdentifier("action_mode_close_button", "id", "android");
+		View doneButton = solo.getView(doneButtonId);
+		solo.clickOnView(doneButton);
 	}
 
 	/**
