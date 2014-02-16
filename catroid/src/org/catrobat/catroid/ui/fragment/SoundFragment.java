@@ -23,7 +23,6 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.annotation.TargetApi;
-import android.os.Build;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -37,6 +36,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.LoaderManager;
@@ -418,7 +418,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				appendix = singleItemAppendixDeleteActionMode;
 			}
 
-
 			String numberOfItems = Integer.toString(numberOfSelectedItems);
 			String completeTitle = actionModeTitle + " " + numberOfItems + " " + appendix;
 
@@ -587,19 +586,17 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void handleAddButton() {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 		intent.setType("audio/*");
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-        {
-        disableGoogleDrive(intent);
-        }
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			disableGoogleDrive(intent);
+		}
 		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
 				SoundController.REQUEST_SELECT_MUSIC);
 	}
 
-    @TargetApi(19)
-    private void disableGoogleDrive(Intent intent)
-    {
-        intent.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
-    }
+	@TargetApi(19)
+	private void disableGoogleDrive(Intent intent) {
+		intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+	}
 
 	@Override
 	public void showRenameDialog() {

@@ -22,6 +22,9 @@
  */
 package org.catrobat.catroid.uitest.util;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -57,13 +60,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.internal.ActionBarSherlockCompat;
 import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
 import com.jayway.android.robotium.solo.Solo;
 
-
+import junit.framework.AssertionFailedError;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -155,10 +157,6 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
-import junit.framework.AssertionFailedError;
-
 public final class UiTestUtils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();
 	private static SparseIntArray brickCategoryMap;
@@ -175,7 +173,6 @@ public final class UiTestUtils {
 	public static final String COPIED_PROJECT_NAME = "copiedProject";
 	public static final String JAPANESE_PROJECT_NAME = "これは例の説明です。";
 
-	private static final int ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX = 0;
 	private static final int DRAG_FRAMES = 35;
 
 	public static final int SCRIPTS_INDEX = 0;
@@ -1133,9 +1130,9 @@ public final class UiTestUtils {
 	}
 
 	public static void acceptAndCloseActionMode(Solo solo) {
-        int doneButtonId = Resources.getSystem().getIdentifier("action_mode_close_button", "id", "android");
-        View doneButton = solo.getView(doneButtonId);
-        solo.clickOnView(doneButton);
+		int doneButtonId = Resources.getSystem().getIdentifier("action_mode_close_button", "id", "android");
+		View doneButton = solo.getView(doneButtonId);
+		solo.clickOnView(doneButton);
 	}
 
 	/**
@@ -1170,7 +1167,6 @@ public final class UiTestUtils {
 		while ((length = in.read(buffer)) > 0) {
 			out.write(buffer, 0, length);
 		}
-
 
 		in.close();
 		out.flush();
