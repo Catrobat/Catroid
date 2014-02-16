@@ -65,15 +65,15 @@ public final class UtilZip {
 			}
 
 			return true;
-		} catch (IOException ex) {
-            Log.e(TAG, ex.getMessage(),ex);
+		} catch (IOException ioException) {
+            Log.e(TAG, ioException.getMessage(), ioException);
 		} finally {
 			try {
 				if (zipOutputStream != null) {
 					zipOutputStream.close();
 				}
-			} catch (IOException e) {
-                Log.e(TAG, "Error closing stream",e);
+			} catch (IOException ignoredException) {
+                Log.e(TAG, "Error closing stream", ignoredException);
 			}
 		}
 
@@ -138,10 +138,10 @@ public final class UtilZip {
 			}
 
 			return true;
-		} catch (FileNotFoundException e) {
-            Log.e(TAG, e.getMessage(),e);
-		} catch (IOException e) {
-            Log.e(TAG, e.getMessage(),e);
+		} catch (FileNotFoundException fileNotFoundException) {
+            Log.e(TAG, fileNotFoundException.getMessage(), fileNotFoundException);
+		} catch (IOException ioException) {
+            Log.e(TAG, ioException.getMessage(), ioException);
 		} finally {
 			try {
 				if (destinationOutputStream != null) {
@@ -153,8 +153,8 @@ public final class UtilZip {
 				if (zipFile != null) {
 					zipFile.close();
 				}
-			} catch (IOException e) {
-                Log.e(TAG, "Error closing File",e);
+			} catch (IOException ignoredException) {
+                Log.e(TAG, "Error closing File", ignoredException);
 			}
 		}
 		return false;
