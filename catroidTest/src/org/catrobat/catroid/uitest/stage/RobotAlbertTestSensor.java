@@ -99,7 +99,7 @@ public class RobotAlbertTestSensor extends BaseActivityInstrumentationTestCase<M
 		solo.clickOnText(solo.getString(R.string.scripts));
 		solo.sleep(1000);
 
-		solo.clickOnText("0,0");
+		solo.clickOnText("0.0");
 		solo.sleep(1000);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
 		solo.sleep(1000);
