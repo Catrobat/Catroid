@@ -22,9 +22,10 @@
  */
 package org.catrobat.catroid.stage;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Passepartout extends Actor {
@@ -35,47 +36,38 @@ public class Passepartout extends Actor {
 	private float passepartoutHeight;
 	private float passepartoutWidth;
 
-	private ShapeRenderer screenModeMaximizedPassepartout;
+	private Texture texture;
 
 	Passepartout(int screenWidth, int screenHeight, int screenViewPortWidth, int screenViewPortHeight,
-			float virtualScreenWidth, float virtualScreenHeight, Matrix4 cameraCombined) {
+			float virtualScreenWidth, float virtualScreenHeight) {
 
 		this.virtualScreenWidth = virtualScreenWidth;
 		this.virtualScreenHeight = virtualScreenHeight;
 
-		float scale = virtualScreenHeight / screenHeight;
-		passepartoutHeight = ((screenHeight - screenViewPortHeight) * scale);
+		passepartoutHeight = ((screenHeight / (screenViewPortHeight / virtualScreenHeight)) - virtualScreenHeight) / 2f;
+		passepartoutWidth = ((screenWidth / (screenViewPortWidth / virtualScreenWidth)) - virtualScreenWidth) / 2f;
 
-		scale = virtualScreenWidth / screenWidth;
-		passepartoutWidth = ((screenWidth - screenViewPortWidth) * scale);
-
-		screenModeMaximizedPassepartout = new ShapeRenderer();
-		screenModeMaximizedPassepartout.setColor(0f, 0f, 0f, 1f);
-		screenModeMaximizedPassepartout.setProjectionMatrix(cameraCombined);
-	}
-
-	public void setCameraCombined(Matrix4 cameraCombined) {
-		screenModeMaximizedPassepartout.setProjectionMatrix(cameraCombined);
+		Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+		pixmap.setColor(Color.BLACK);
+		pixmap.fill();
+		texture = new Texture(pixmap);
 	}
 
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
-
-		screenModeMaximizedPassepartout.begin(ShapeRenderer.ShapeType.FilledRectangle);
-
 		if (Float.compare(passepartoutWidth, 0f) != 0) {
-			screenModeMaximizedPassepartout.filledRect(-virtualScreenWidth / 2f, -virtualScreenHeight / 2f,
-					-passepartoutWidth, virtualScreenHeight);
-			screenModeMaximizedPassepartout.filledRect(virtualScreenWidth / 2f, virtualScreenHeight / 2f,
-					passepartoutWidth, -virtualScreenHeight);
-
-		} else if (Float.compare(passepartoutHeight, 0f) != 0) {
-			screenModeMaximizedPassepartout.filledRect(-virtualScreenWidth / 2f, -virtualScreenHeight / 2f,
-					virtualScreenWidth, -passepartoutHeight);
-			screenModeMaximizedPassepartout.filledRect(virtualScreenWidth / 2f, virtualScreenHeight / 2f,
-					-virtualScreenWidth, passepartoutHeight);
+			batch.draw(texture, -virtualScreenWidth / 2f, -virtualScreenHeight / 2f, -passepartoutWidth,
+					virtualScreenHeight);
+			batch.draw(texture, virtualScreenWidth / 2f, virtualScreenHeight / 2f, passepartoutWidth,
+					-virtualScreenHeight);
 		}
-		screenModeMaximizedPassepartout.end();
+		if (Float.compare(passepartoutHeight, 0f) != 0) {
+			batch.draw(texture, -virtualScreenWidth / 2f, -virtualScreenHeight / 2f, virtualScreenWidth,
+					-passepartoutHeight);
+			batch.draw(texture, virtualScreenWidth / 2f, virtualScreenHeight / 2f, -virtualScreenWidth,
+					passepartoutHeight);
+		}
+		batch.flush();
 	}
 
 	@Override
