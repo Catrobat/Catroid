@@ -396,7 +396,7 @@ public final class StorageHandler {
 		File outputFile = new File(buildPath(soundDirectory.getAbsolutePath(),
 				inputFileChecksum + "_" + inputFile.getName()));
 
-		return copyFileAddCheckSum(outputFile, inputFile, soundDirectory);
+		return copyFileAddCheckSum(outputFile, inputFile);
 	}
 
 	public File copySoundFileBackPack(SoundInfo selectedSoundInfo) throws IOException, IllegalArgumentException {
@@ -416,7 +416,7 @@ public final class StorageHandler {
 		File outputFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_SOUND_DIRECTORY, currentProject
 				+ "_" + selectedSoundInfo.getTitle() + "_" + inputFileChecksum));
 
-		return copyFileAddCheckSum(outputFile, inputFile, backPackDirectory);
+		return copyFileAddCheckSum(outputFile, inputFile);
 	}
 
 	public File copyImage(String currentProjectName, String inputFilePath, String newName) throws IOException {
@@ -433,7 +433,7 @@ public final class StorageHandler {
 		FileChecksumContainer checksumCont = ProjectManager.getInstance().getFileChecksumContainer();
 
 		File outputFileDirectory = new File(imageDirectory.getAbsolutePath());
-		if (outputFileDirectory.exists() == false) {
+		if (!outputFileDirectory.exists()) {
 			outputFileDirectory.mkdirs();
 		}
 
@@ -453,34 +453,30 @@ public final class StorageHandler {
 			}
 
 			File outputFile = new File(newFilePath);
-			return copyFileAddCheckSum(outputFile, inputFile, imageDirectory);
+			return copyFileAddCheckSum(outputFile, inputFile);
 		} else {
 			File outputFile = new File(buildPath(imageDirectory.getAbsolutePath(), inputFile.getName()));
 			return copyAndResizeImage(outputFile, inputFile, imageDirectory);
 		}
 	}
 
-	public File makeTempImageCopy(String inputFilePath) throws IOException {
-		File tempDirectory = new File(Constants.TMP_PATH);
-
+	public File makeTempImageCopy(String inputFilePath) throws IOException, IllegalArgumentException {
 		File inputFile = new File(inputFilePath);
 		if (!inputFile.exists() || !inputFile.canRead()) {
-			return null;
-		}
-
-		File outputFileDirectory = new File(tempDirectory.getAbsolutePath());
-		if (outputFileDirectory.exists() == false) {
-			outputFileDirectory.mkdirs();
+			throw new IllegalArgumentException("File doesn't exists");
 		}
 
 		File outputFile = new File(Constants.TMP_IMAGE_PATH);
 
-		File copiedFile = UtilFile.copyFile(outputFile, inputFile, tempDirectory);
+		File outputFileDirectory = outputFile.getParentFile();
+		if (!outputFileDirectory.exists()) {
+			outputFileDirectory.mkdirs();
+		}
 
-		return copiedFile;
+		return UtilFile.copyFile(outputFile, inputFile);
 	}
 
-	public void deletTempImageCopy() {
+	public void deleteTempImageCopy() {
 		File temporaryPictureFileInPocketPaint = new File(Constants.TMP_IMAGE_PATH);
 		if (temporaryPictureFileInPocketPaint.exists()) {
 			temporaryPictureFileInPocketPaint.delete();
@@ -524,7 +520,7 @@ public final class StorageHandler {
 			outputStream.flush();
 			outputStream.close();
 		} catch (IOException e) {
-
+			e.printStackTrace();
 		}
 	}
 
@@ -566,8 +562,8 @@ public final class StorageHandler {
 		return xstream.toXML(project);
 	}
 
-	private File copyFileAddCheckSum(File destinationFile, File sourceFile, File directory) throws IOException {
-		File copiedFile = UtilFile.copyFile(destinationFile, sourceFile, directory);
+	private File copyFileAddCheckSum(File destinationFile, File sourceFile) throws IOException {
+		File copiedFile = UtilFile.copyFile(destinationFile, sourceFile);
 		addChecksum(destinationFile, sourceFile);
 
 		return copiedFile;

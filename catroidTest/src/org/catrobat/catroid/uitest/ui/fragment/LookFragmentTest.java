@@ -46,6 +46,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.LookAdapter;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.uitest.mockups.MockPaintroidActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -54,6 +55,8 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -454,16 +457,17 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertFalse("File not deleted from LookDataList", isInLookDataListSunnglasses);
 	}
 
-	public void testEditCopiedImageInPaontroid() {
-
+	public void testEditCopiedImageInPaintroid() {
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
-		getLookFragment().sendPocketPaintIntent(0, intent);
 
+		Reflection.ParameterList parameterList = new Reflection.ParameterList(0, intent);
+		Reflection.invokeMethod(LookFragment.class, getLookFragment(), "sendPocketPaintIntent", parameterList);
+
+		solo.waitForActivity(MockPaintroidActivity.class.getSimpleName());
 		solo.sleep(200);
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		assertNotNull("there must be an Intent", getLookFragment().lastRecivedIntent);
-		Bundle bundle = getLookFragment().lastRecivedIntent.getExtras();
+		Bundle bundle = getLookFragment().getActivity().getIntent().getExtras();
 		String pathOfPocketPaintImage = bundle.getString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT);
 		assertEquals("Image must by a temp copy", Constants.TMP_IMAGE_PATH, pathOfPocketPaintImage);
 	}

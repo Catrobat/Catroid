@@ -96,7 +96,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
 
 	public static final String TAG = LookFragment.class.getSimpleName();
-	public Intent lastRecivedIntent = null;
 	private static int selectedLookPosition = Constants.NO_POSITION;
 	private static String actionModeTitle;
 	private static String singleItemAppendixActionMode;
@@ -393,7 +392,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		lastRecivedIntent = data;
 		if (resultCode == Activity.RESULT_OK) {
 			switch (requestCode) {
 				case LookController.REQUEST_SELECT_OR_DRAW_IMAGE:
@@ -418,7 +416,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		}
 
 		if (requestCode == LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE) {
-			StorageHandler.getInstance().deletTempImageCopy();
+			StorageHandler.getInstance().deleteTempImageCopy();
 		}
 	}
 
@@ -665,7 +663,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		sendPocketPaintIntent(position, intent);
 	}
 
-	public void sendPocketPaintIntent(int selectedPosition, Intent intent) {
+	private void sendPocketPaintIntent(int selectedPosition, Intent intent) {
 
 		if (!LookController.getInstance().checkIfPocketPaintIsInstalled(intent, getActivity())) {
 			return;
@@ -688,6 +686,9 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			intent.addCategory("android.intent.category.LAUNCHER");
 			startActivityForResult(intent, LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE);
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
