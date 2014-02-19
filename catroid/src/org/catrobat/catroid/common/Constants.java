@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyright (C) 2010-2014 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -61,8 +61,8 @@ public final class Constants {
 	public static final String BASE_URL_HTTPS = "https://www.pocketcode.org/";
 	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
 
-	public static final String CATROBAT_ABOUT_URL = "http://developer.catrobat.org/";
-	public static final String ABOUT_POCKETCODE_LICENSE_URL = CATROBAT_ABOUT_URL + "licenses";
+	public static final String CATROBAT_ABOUT_URL = "http://www.catrobat.org/";
+	public static final String ABOUT_POCKETCODE_LICENSE_URL = "http://developer.catrobat.org/licenses";
 
 	public static final String CATROBAT_HELP_URL = "http://www.pocketcode.org/tutorial";
 

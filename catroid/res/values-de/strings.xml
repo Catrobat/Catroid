@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyright (C) 2010-2014 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -55,6 +55,9 @@
     <string name="main_menu_web">Erkunden</string>
     <string name="main_menu_upload">Hochladen</string>
     <string name="main_menu_about_pocketcode">Über Pocket Code</string>
+    
+    <string name="main_menu_terms_of_use">Nutzungsbedingungen</string>
+ 
     <string name="main_menu_rate_app">Bewerte uns!</string>
     <string name="main_menu_play_store_not_installed">Play Store App nicht gefunden</string>
     <string name="main_menu_web_dialog_title">Achtung!</string>
@@ -82,13 +85,25 @@
     <!--  -->
 
 
+    <!-- Terms of Use Dialog -->
+    <string name="dialog_terms_of_use_title">Nutzungsbedingungen</string>
+    <string name="dialog_terms_of_use_info">Um Pocket Code und andere Software, die 
+    vom Catrobat Projekt angeboten werden, nutzen zu dürfen, musst Du mit unseren 
+    Nutzungsbedingungen einverstanden sein und sie während Deiner Benutzung genau 
+    einhalten. Die exakte Formulierung unserer Nutzungsbedingungen steht unter 
+    dem folgenden "Terms of Use" Link zur Verfügung.\n</string>
+    <string name="dialog_terms_of_use_link_text">Terms of Use</string>
+    <string name="dialog_terms_of_use_about_catrobat_link_text">Über Catrobat</string>
+    <!--  -->
+
+
     <!-- About Dialog -->
     <string name="dialog_about_title">Über Pocket Code</string>
     <string name="dialog_about_license_info">Pocket Code ist eine Programmierumgebung für Android-Geräte für die grafische
         Programmiersprache Catrobat.\n\n
-        Pocket Code steht großteils unter der GNU AGPL v3 Lizenz.
+        Der Source Code Pocket Code steht großteils unter der GNU AGPL v3 Lizenz.
         Für nähere Informationen zur Lizenz siehe untenstehenden Link.\n</string>
-    <string name="dialog_about_pocketcode_license_link_text">Pocket Code Lizenz</string>
+    <string name="dialog_about_pocketcode_license_link_text">Pocket Code Source Code Lizenz</string>
     <string name="dialog_about_catrobat_link_text">Über Catrobat</string>
     <!--  -->
 
@@ -265,7 +280,7 @@
     <string name="new_user_registered">Neuer Account wurde erstellt</string>
     <string name="register_error">Fehler aufgetreten</string>
     <string name="register_terms">Mit der Registrierung akzeptierst du unsere</string>
-    <string name="register_pocketcode_terms_of_use_text">Lizenzbedingungen</string>
+    <string name="register_pocketcode_terms_of_use_text">Nutzungsbedingungen</string>
     <!--  -->
 
 
