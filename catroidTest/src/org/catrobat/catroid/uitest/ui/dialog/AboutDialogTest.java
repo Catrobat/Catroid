@@ -52,7 +52,7 @@ public class AboutDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 				solo.searchText(solo.getString(R.string.android_version_prefix)
 						+ Utils.getVersionName(solo.getCurrentActivity())));
 
-		Button aboutDialogButton = (Button) solo.getView(android.R.id.button4);
+		Button aboutDialogButton = (Button) solo.getView(android.R.id.button3);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(200);
 

@@ -52,7 +52,7 @@ public class TermsOfUseDialogTest extends BaseActivityInstrumentationTestCase<Ma
 //				solo.searchText(solo.getString(R.string.android_version_prefix)
 //						+ Utils.getVersionName(solo.getCurrentActivity())));
 
-		Button termsOfUseDialogButton = (Button) solo.getView(android.R.id.button3);
+		Button termsOfUseDialogButton = (Button) solo.getView(android.R.id.button2);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.sleep(200);
 
