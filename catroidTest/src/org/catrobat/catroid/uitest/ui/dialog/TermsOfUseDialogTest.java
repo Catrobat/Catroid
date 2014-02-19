@@ -45,12 +45,6 @@ public class TermsOfUseDialogTest extends BaseActivityInstrumentationTestCase<Ma
 				.getString(R.string.dialog_terms_of_use_info)));
 		assertTrue("TermsOfUseDialog linktext not found",
 				solo.searchText(solo.getString(R.string.dialog_terms_of_use_link_text)));
-		assertTrue("TermsOfUseDialog linktext not found",
-				solo.searchText(solo.getString(R.string.dialog_terms_of_use_about_catrobat_link_text)));
-//		assertTrue(
-//				"TermsOfUseDialog version not found",
-//				solo.searchText(solo.getString(R.string.android_version_prefix)
-//						+ Utils.getVersionName(solo.getCurrentActivity())));
 
 		Button termsOfUseDialogButton = (Button) solo.getView(android.R.id.button2);
 		solo.clickOnButton(solo.getString(R.string.ok));

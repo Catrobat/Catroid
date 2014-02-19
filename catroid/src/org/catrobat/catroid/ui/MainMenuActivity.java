@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyright (C) 2010-2014 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -50,6 +50,7 @@ import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.utils.DownloadUtil;
@@ -144,6 +145,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		switch (item.getItemId()) {
 			case R.id.menu_rate_app:
 				launchMarket();
+				return true;
+			case R.id.menu_terms_of_use:
+				TermsOfUseDialogFragment termsOfUseDialog = new TermsOfUseDialogFragment();
+				termsOfUseDialog.show(getSupportFragmentManager(), TermsOfUseDialogFragment.DIALOG_FRAGMENT_TAG);
 				return true;
 			case R.id.menu_about:
 				AboutDialogFragment aboutDialog = new AboutDialogFragment();
