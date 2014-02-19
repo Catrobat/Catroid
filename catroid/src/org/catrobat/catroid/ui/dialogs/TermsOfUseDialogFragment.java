@@ -35,7 +35,6 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.utils.Utils;
 
 public class TermsOfUseDialogFragment extends DialogFragment {
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_terms_of_use";
