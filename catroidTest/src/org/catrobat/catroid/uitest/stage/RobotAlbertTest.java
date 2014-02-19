@@ -142,6 +142,7 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnText(connectedDeviceName);
 
 		solo.sleep(5000);
+		solo.sleep(3000);
 		solo.assertCurrentActivity("Not in stage - connection to bluetooth-device failed", StageActivity.class);
 
 		solo.clickOnScreen(ScreenValues.SCREEN_WIDTH / 2, ScreenValues.SCREEN_HEIGHT / 2);
