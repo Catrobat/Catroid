@@ -87,7 +87,8 @@
 
     <!-- Terms of Use Dialog -->
     <string name="dialog_terms_of_use_title">Nutzungsbedingungen</string>
-    <string name="dialog_terms_of_use_info">Um Pocket Code und andere Software, die 
+    <string name="dialog_terms_of_use_info">Um Pocket Code und andere 
+    ausführbare Programme, die 
     vom Catrobat Projekt angeboten werden, nutzen zu dürfen, musst Du mit unseren 
     Nutzungsbedingungen einverstanden sein und sie während Deiner Benutzung genau 
     einhalten. Die exakte Formulierung unserer Nutzungsbedingungen steht unter 
@@ -98,9 +99,9 @@
 
     <!-- About Dialog -->
     <string name="dialog_about_title">Über Pocket Code</string>
-    <string name="dialog_about_license_info">Pocket Code ist eine Programmierumgebung für Android-Geräte für die grafische
-        Programmiersprache Catrobat.\n\n
-        Der Source Code Pocket Code steht großteils unter der GNU AGPL v3 Lizenz.
+    <string name="dialog_about_license_info">Pocket Code ist eine Programmierumgebung 
+        für Android-Geräte für die visuelle Programmiersprache Catrobat.\n\n
+        Der Quellode von Pocket Code steht großteils unter der GNU AGPL v3 Lizenz.
         Für nähere Informationen zur Lizenz siehe untenstehenden Link.\n</string>
     <string name="dialog_about_pocketcode_license_link_text">Pocket Code Source Code Lizenz</string>
     <string name="dialog_about_catrobat_link_text">Über Catrobat</string>
