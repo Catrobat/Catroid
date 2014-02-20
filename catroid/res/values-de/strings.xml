@@ -374,6 +374,8 @@
     <string name="brick_when">Wenn angetippt</string>
     <string name="brick_wait">Warte</string>
 
+    <string name="brick_led">setze Licht auf</string>
+
     <plurals name="second_plural">
         <item quantity="one">"Sekunde "</item>
         <item quantity="other">"Sekunden "</item>

@@ -375,6 +375,8 @@
     <string name="brick_when">When tapped</string>
     <string name="brick_wait">Wait</string>
 
+    <string name="brick_led">set LED</string>
+
     <plurals name="second_plural">
         <item quantity="one">"second "</item>
         <item quantity="other">"seconds "</item>
