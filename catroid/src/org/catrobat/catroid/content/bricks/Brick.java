@@ -44,6 +44,8 @@ public interface Brick extends Serializable {
 	int TEXT_TO_SPEECH = 0x2;
 	int BLUETOOTH_LEGO_NXT = 0x4;
 
+    int CAMERA_LED = 0x10;
+
 	//	public static final int BLUETOOTH_ARDUINO = 0x8;
 
 	List<SequenceAction> addActionToSequence(SequenceAction sequence);
