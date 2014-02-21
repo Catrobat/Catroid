@@ -450,7 +450,7 @@ public class ExtendedActions extends Actions {
   public static LEDAction ligths( Sprite sprite, boolean illuminate ) {
         LEDAction action = new LEDAction();
         action.setSprite( sprite );
-        action.illuminate( illuminate );
+        action.setLedValue( ledValue );
         return action;
     }
 }

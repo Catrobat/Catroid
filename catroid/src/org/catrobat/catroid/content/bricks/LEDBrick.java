@@ -108,7 +108,7 @@ public class LEDBrick extends BrickBaseType implements OnClickListener, FormulaB
 
     @Override
     public List<SequenceAction> addActionToSequence( SequenceAction sequence ) {
-        sequence.addAction( ExtendedActions.ligths( this.sprite, lightValue.interpretBoolean(this.sprite)));
+        sequence.addAction( ExtendedActions.lights( this.sprite, lightValue ) );
         return null;
     }
     
@@ -127,6 +127,6 @@ public class LEDBrick extends BrickBaseType implements OnClickListener, FormulaB
 
     @Override
     public int getRequiredResources() {
-        return NO_RESOURCES;
+        return CAMERA_LED;
     }
 }
