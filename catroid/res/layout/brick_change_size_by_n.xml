@@ -63,11 +63,6 @@
             android:maxEms="5" >
         </TextView>
 
-        <TextView
-            android:id="@+id/brick_change_size_by_percent"
-            style="@style/BrickText.SingleLine"
-            android:text="@string/percent_symbol" >
-        </TextView>
     </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>
