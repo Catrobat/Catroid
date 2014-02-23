@@ -32,16 +32,11 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.BroadcastSequenceMap;
-import org.catrobat.catroid.common.BroadcastWaitSequenceMap;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -59,6 +54,7 @@ public class Look extends Image {
 	private ParallelAction whenParallelAction;
 	private boolean allActionAreFinished = false;
 	private BrightnessContrastShader shader;
+	public ArrayList<Action> actionsToRestart = new ArrayList<Action>();
 
 	public Look(Sprite sprite) {
 		this.sprite = sprite;
@@ -132,60 +128,6 @@ public class Look extends Image {
 		return false;
 	}
 
-	public void putBroadcastSequenceAction(String broadcastMessage, SequenceAction action) {
-		if (BroadcastSequenceMap.containsKey(broadcastMessage)) {
-			BroadcastSequenceMap.get(broadcastMessage).add(action);
-		} else {
-			ArrayList<SequenceAction> actionList = new ArrayList<SequenceAction>();
-			actionList.add(action);
-			BroadcastSequenceMap.put(broadcastMessage, actionList);
-		}
-	}
-
-	public void doHandleBroadcastEvent(String broadcastMessage) {
-		if (!BroadcastSequenceMap.containsKey(broadcastMessage)) {
-			return;
-		}
-
-		for (SequenceAction action : BroadcastSequenceMap.get(broadcastMessage)) {
-			if (!handleAction(action)) {
-				addOrRestartAction(action);
-			}
-		}
-
-		if (BroadcastWaitSequenceMap.containsKey(broadcastMessage)) {
-			for (SequenceAction action : BroadcastWaitSequenceMap.get(broadcastMessage)) {
-				addOrRestartAction(action);
-			}
-			BroadcastWaitSequenceMap.currentBroadcastEvent.resetEventAndResumeScript();
-		}
-	}
-
-	public void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
-		if (!BroadcastSequenceMap.containsKey(broadcastMessage)) {
-			return;
-		}
-
-		if (!BroadcastWaitSequenceMap.containsKey(broadcastMessage)) {
-			BroadcastWaitSequenceMap.currentBroadcastEvent = event;
-			addBroadcastMessageToBroadcastWaitSequenceMap(event, broadcastMessage);
-		} else {
-			if (BroadcastWaitSequenceMap.currentBroadcastEvent == event
-					&& BroadcastWaitSequenceMap.currentBroadcastEvent != null) {
-				for (SequenceAction action : BroadcastWaitSequenceMap.get(broadcastMessage)) {
-					BroadcastWaitSequenceMap.currentBroadcastEvent.resetNumberOfFinishedReceivers();
-					addOrRestartAction(action);
-				}
-			} else {
-				if (BroadcastWaitSequenceMap.currentBroadcastEvent != null) {
-					BroadcastWaitSequenceMap.currentBroadcastEvent.resetEventAndResumeScript();
-				}
-				BroadcastWaitSequenceMap.currentBroadcastEvent = event;
-				addBroadcastMessageToBroadcastWaitSequenceMap(event, broadcastMessage);
-			}
-		}
-	}
-
 	public void createBrightnessContrastShader() {
 		shader = new BrightnessContrastShader();
 		shader.setBrightness(brightness);
@@ -211,7 +153,7 @@ public class Look extends Image {
 		allActionAreFinished = false;
 		int finishedCount = 0;
 
-		for (Iterator<Action> iterator = BroadcastSequenceMap.actionsToRestart.iterator(); iterator.hasNext();) {
+		for (Iterator<Action> iterator = this.actionsToRestart.iterator(); iterator.hasNext();) {
 			Action actionToRestart = iterator.next();
 			actionToRestart.restart();
 			iterator.remove();
@@ -409,48 +351,6 @@ public class Look extends Image {
 		setBrightnessInUserInterfaceDimensionUnit(getBrightnessInUserInterfaceDimensionUnit() + changePercent);
 	}
 
-	private void addOrRestartAction(Action action) {
-		if (action.getActor() == null) {
-			if (!getActions().contains(action, false)) {
-				addAction(action);
-			}
-		} else {
-			if (!BroadcastSequenceMap.actionsToRestart.contains(action)) {
-				BroadcastSequenceMap.actionsToRestart.add(action);
-			}
-		}
-	}
-
-	private void addBroadcastMessageToBroadcastWaitSequenceMap(BroadcastEvent event, String broadcastMessage) {
-		ArrayList<SequenceAction> actionList = new ArrayList<SequenceAction>();
-		for (SequenceAction action : BroadcastSequenceMap.get(broadcastMessage)) {
-			event.raiseNumberOfReceivers();
-			SequenceAction broadcastWaitAction = ExtendedActions.sequence(action,
-					ExtendedActions.broadcastNotify(event));
-			actionList.add(broadcastWaitAction);
-			addOrRestartAction(broadcastWaitAction);
-		}
-		BroadcastWaitSequenceMap.put(broadcastMessage, actionList);
-	}
-
-	private boolean handleAction(Action action) {
-		for (Sprite sprites : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
-			for (Action actionOfLook : sprites.look.getActions()) {
-				if (action == actionOfLook) {
-					actionOfLook.restart();
-					return true;
-				} else {
-					if (actionOfLook instanceof SequenceAction && ((SequenceAction) actionOfLook).getActions().size > 0
-							&& ((SequenceAction) actionOfLook).getActions().get(0) == action) {
-						actionOfLook.restart();
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
-
 	private class BrightnessContrastShader extends ShaderProgram {
 
 		private static final String VERTEX_SHADER = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
@@ -487,5 +387,13 @@ public class Look extends Image {
 			setUniformf(BRIGHTNESS_STRING_IN_SHADER, brightness - 1f);
 			end();
 		}
+	}
+
+	private void doHandleBroadcastEvent(String broadcastMessage) {
+		BroadcastHandler.doHandleBroadcastEvent(this, broadcastMessage);
+	}
+
+	private void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
+		BroadcastHandler.doHandleBroadcastFromWaiterEvent(this, event, broadcastMessage);
 	}
 }

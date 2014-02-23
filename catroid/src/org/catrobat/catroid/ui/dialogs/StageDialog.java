@@ -36,6 +36,7 @@ import android.widget.Toast;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BroadcastSequenceMap;
+import org.catrobat.catroid.common.BroadcastWaitSequenceMap;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 
@@ -88,7 +89,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 				stageActivity.resume();
 				break;
 			case R.id.stage_dialog_button_restart:
-				clearBroadcastSequenceMap();
+				clearBroadcastMaps();
 				dismiss();
 				restartProject();
 				break;
@@ -109,7 +110,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 
 	@Override
 	public void onBackPressed() {
-		clearBroadcastSequenceMap();
+		clearBroadcastMaps();
 		dismiss();
 		stageActivity.exit();
 		new FinishThreadAndDisposeTexturesTask().execute(null, null, null);
@@ -146,8 +147,10 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		}
 	}
 
-	private void clearBroadcastSequenceMap() {
+	private void clearBroadcastMaps() {
 		BroadcastSequenceMap.clear();
+		BroadcastWaitSequenceMap.clear();
+		BroadcastWaitSequenceMap.currentBroadcastEvent = null;
 	}
 
 	private class FinishThreadAndDisposeTexturesTask extends AsyncTask<Void, Void, Void> {

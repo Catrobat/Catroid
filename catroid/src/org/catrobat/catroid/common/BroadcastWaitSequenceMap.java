@@ -52,4 +52,8 @@ public final class BroadcastWaitSequenceMap {
 	public static ArrayList<SequenceAction> remove(String key) {
 		return broadcastWaitSequenceMap.remove(key);
 	}
+
+	public static void clear() {
+		broadcastWaitSequenceMap.clear();
+	}
 }

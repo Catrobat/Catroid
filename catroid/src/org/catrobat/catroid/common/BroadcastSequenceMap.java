@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.common;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import java.util.ArrayList;
@@ -30,7 +29,6 @@ import java.util.HashMap;
 
 public final class BroadcastSequenceMap {
 	private static HashMap<String, ArrayList<SequenceAction>> broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
-	public static ArrayList<Action> actionsToRestart = new ArrayList<Action>();
 
 	private BroadcastSequenceMap() {
 		throw new AssertionError();
