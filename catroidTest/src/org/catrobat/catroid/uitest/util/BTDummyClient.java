@@ -47,8 +47,8 @@ public class BTDummyClient {
 	//	private String MACAddress = "EC:55:F9:DE:41:6A"; // Manuel Laptop
 	//private String macAddress = "40:2C:F4:69:D0:21"; // Michael Laptop
 	//private String macAddress = "00:26:83:2E:33:42"; // catrobat 1
-	//private String macAddress = "00:02:72:17:60:F0"; // catrobat 2
-	private String macAddress = "00:15:83:3F:E3:2C"; // catrobat 3
+	private String macAddress = "00:02:72:17:60:F0"; // catrobat 2
+	//private String macAddress = "00:15:83:3F:E3:2C"; // catrobat 3
 	private ByteArrayBuffer receivedFeedback = new ByteArrayBuffer(1024);
 	private boolean connected = false;
 
