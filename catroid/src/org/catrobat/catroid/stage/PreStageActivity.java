@@ -129,6 +129,7 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 
 			}
 		}
+
 		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
 			Log.d(TAG, "Adding drone support!");
 			Intent startService = new Intent(this, DroneControlService.class);
@@ -137,6 +138,7 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 
 			boolean isSuccessful = bindService(new Intent(this, DroneControlService.class),
 					this.droneServiceConnection, Context.BIND_AUTO_CREATE);
+			// TODO: Abfrage sinnlos, auch wenn die Drone ausgeschalten ist, wird vermeindlich eine Verbindung hergestellt
 			if (obj == null || !isSuccessful) {
 				Toast.makeText(this, "Connection to the drone failed!", Toast.LENGTH_LONG).show();
 				resourceFailed();

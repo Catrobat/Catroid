@@ -144,7 +144,7 @@ public class BrickCategoryFragment extends SherlockListFragment {
 		}
 
 		if (sharedPreferences.getBoolean(SettingsActivity.setting_quadcopter_bricks, false)) {
-			categories.add(inflater.inflate(R.layout.brick_category_drone_nxt_cp, null));
+			categories.add(inflater.inflate(R.layout.brick_category_drone, null));
 		}
 
 		adapter = new BrickCategoryAdapter(categories);

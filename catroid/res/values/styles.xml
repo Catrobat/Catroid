@@ -296,6 +296,23 @@
         <item name="android:minHeight">@dimen/brick_height_big</item>
         <item name="android:background">@drawable/brick_red_3h</item>
     </style>
+    
+    <style name="BrickContainer.Drone"></style>
+
+    <style name="BrickContainer.Drone.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_olivegreen_1h</item>
+    </style>
+
+    <style name="BrickContainer.Drone.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_olivegreen_2h</item>
+    </style>
+
+    <style name="BrickContainer.Drone.Big">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
+        <item name="android:background">@drawable/brick_olivegreen_3h</item>
+    </style>
 
     <style name="BrickContainer.Lego"></style>
 
@@ -459,6 +476,11 @@
         <item name="android:drawableRight">@drawable/main_menu_button_arrow_variables</item>
     </style>
 
+    <style name="BrickCategoryText.Drone">
+        <item name="android:background">@drawable/brick_selection_background_drone</item>
+        <item name="android:drawableRight">@drawable/main_menu_button_arrow_drone</item>
+    </style>
+    
     <style name="BrickCategoryText.Lego">
         <item name="android:background">@drawable/brick_selection_background_lego</item>
         <item name="android:drawableRight">@drawable/main_menu_button_arrow_lego</item>

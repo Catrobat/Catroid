@@ -517,8 +517,17 @@
     <!--  -->
 
     <!-- Drone Bricks -->
-	<string name="brick_drone_takeoff">Drone: take off</string>
-    <string name="brick_drone_play_led_animation">Drone: Play LED animation</string>
+	<string name="brick_drone_takeoff">take off</string>
+	<string name="brick_drone_land">land</string>
+	  <string name="brick_drone_play_led_animation">Play LED animation</string>
+	<string name="brick_drone_move_left">move left</string>
+	<string name="brick_drone_move_right">move right</string>
+	<string name="brick_drone_move_forward">move forward</string>
+	<string name="brick_drone_move_backward">move backward</string>
+	<string name="brick_drone_move_up">move up</string>
+	<string name="brick_drone_move_down">move down</string>
+	<string name="brick_drone_flip">flip</string>
+  
 	<!-- <string name="brick_drone_land">Drone: land</string>  -->
 	<!--  -->
 

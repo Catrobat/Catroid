@@ -67,6 +67,16 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.DroneFlipBrick;
+import org.catrobat.catroid.content.bricks.DroneLandBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
+import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
+import org.catrobat.catroid.content.bricks.DroneTakeOffBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
@@ -244,6 +254,17 @@ public final class StorageHandler {
 		xstream.alias("waitBrick", WaitBrick.class);
 		xstream.alias("whenBrick", WhenBrick.class);
 		xstream.alias("whenStartedBrick", WhenStartedBrick.class);
+
+		xstream.alias("dronePlayLedAnimationBrick", DronePlayLedAnimationBrick.class);
+		xstream.alias("droneFlipBrick", DroneFlipBrick.class);
+		xstream.alias("DroneTakeOffBrick", DroneTakeOffBrick.class);
+		xstream.alias("droneLandBrick", DroneLandBrick.class);
+		xstream.alias("droneMoveForwardBrick", DroneMoveForwardBrick.class);
+		xstream.alias("droneMoveBackwardBrick", DroneMoveBackwardBrick.class);
+		xstream.alias("droneMoveUpBrick", DroneMoveUpBrick.class);
+		xstream.alias("droneMoveDownBrick", DroneMoveDownBrick.class);
+		xstream.alias("DroneMoveLeftBrick", DroneMoveLeftBrick.class);
+		xstream.alias("DroneMoveRightBrick", DroneMoveRightBrick.class);
 	}
 
 	private void createCatroidRoot() {

@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
-  *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -20,13 +19,20 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickCategory" >
+ */
+package org.catrobat.catroid.exceptions;
 
-    <TextView
-        style="@style/BrickCategoryText.Lego"
-        android:text="@string/category_drone" >
-    </TextView>
+public class NotYetImplementedException extends Exception {
 
-</LinearLayout>
+	private static final long serialVersionUID = 1L;
+
+	public NotYetImplementedException() {
+		// TODO Auto-generated constructor stub
+		super("not yet implemented!");
+	}
+
+	public NotYetImplementedException(String msg) {
+		// TODO Auto-generated constructor stub
+		super(msg);
+	}
+}

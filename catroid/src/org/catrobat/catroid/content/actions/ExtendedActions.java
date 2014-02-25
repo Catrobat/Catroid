@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.actions;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
@@ -184,16 +185,6 @@ public class ExtendedActions extends Actions {
 		action.setHertz(hertz);
 		action.setSprite(sprite);
 		action.setDurationInSeconds(durationInSeconds);
-		return action;
-	}
-
-	public static DroneTakeoffAction droneTakeOff() {
-		DroneTakeoffAction action = action(DroneTakeoffAction.class);
-		return action;
-	}
-
-	public static DronePlayLedAnimationAction dronePlayLedAnimation() {
-		DronePlayLedAnimationAction action = action(DronePlayLedAnimationAction.class);
 		return action;
 	}
 
@@ -359,4 +350,63 @@ public class ExtendedActions extends Actions {
 		action.setSprite(sprite);
 		return action;
 	}
+
+	public static TemporalAction droneTakeOff() {
+		return action(DroneTakeoffAction.class);
+	}
+
+	public static TemporalAction droneLand() {
+		return action(DroneTakeoffAction.class);
+	}
+
+	public static TemporalAction droneMoveUp(Sprite sprite, Formula seconds) {
+		DroneMoveUpAction action = action(DroneMoveUpAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		return action;
+	}
+
+	public static TemporalAction droneMoveDown(Sprite sprite, Formula seconds) {
+		DroneMoveDownAction action = action(DroneMoveDownAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		return action;
+	}
+
+	public static TemporalAction droneMoveLeft(Sprite sprite, Formula seconds) {
+		DroneMoveLeftAction action = action(DroneMoveLeftAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		return action;
+	}
+
+	public static TemporalAction droneMoveRight(Sprite sprite, Formula seconds) {
+		DroneMoveRightAction action = action(DroneMoveRightAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		return action;
+	}
+
+	public static TemporalAction droneMoveForward(Sprite sprite, Formula seconds) {
+		DroneMoveForwardAction action = action(DroneMoveForwardAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		return action;
+	}
+
+	public static TemporalAction droneMoveBackward(Sprite sprite, Formula seconds) {
+		DroneMoveBackwardAction action = action(DroneMoveBackwardAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		return action;
+	}
+
+	public static TemporalAction dronePlayLedAnimation() {
+		return action(DronePlayLedAnimationAction.class);
+	}
+
+	public static TemporalAction droneFlip() {
+		return action(DroneFlipAction.class);
+	}
+
 }

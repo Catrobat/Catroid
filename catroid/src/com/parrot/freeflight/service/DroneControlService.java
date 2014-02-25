@@ -79,6 +79,8 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	private static final int CONTROL_SET_PITCH = 2;
 	private static final int CONTROL_SET_ROLL = 3;
 
+	public static final float POWER = 0.2f;
+
 	private final IBinder binder = new LocalBinder();
 	private DroneProxy droneProxy;
 

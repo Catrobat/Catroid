@@ -58,6 +58,9 @@ public final class BrickValues {
 	public static final int LEGO_DURATION = 1;
 	public static final int LEGO_FREQUENCY = 2;
 
+	//Constants Drone
+	public static final int FLY = 1000;
+
 	// Suppress default constructor for noninstantiability
 	private BrickValues() {
 		throw new AssertionError();

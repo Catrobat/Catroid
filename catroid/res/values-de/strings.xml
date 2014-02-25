@@ -516,9 +516,15 @@
     <!--  -->
     
     <!-- Drone Bricks -->
-	<string name="brick_drone_takeoff">Drone: Hebe ab</string>
-    <string name="brick_drone_play_led_animation">Drone: Spiele LED-Animation</string>
-	<!--<string name="brick_drone_land">Drone: lande</string>  -->
+	<string name="brick_drone_takeoff">Hebe ab</string>
+    <string name="brick_drone_play_led_animation">Spiele LED-Animation</string>
+	<string name="brick_drone_land">Lande</string>
+	<string name="brick_drone_move_left">Fliege nach links</string>
+	<string name="brick_drone_move_right">Fliege nach rechts</string>
+	<string name="brick_drone_move_up">Fliege nach oben</string>
+	<string name="brick_drone_move_down">Fliege nach unten</string>
+	<string name="brick_drone_move_forward">Fliege nach vorne</string>
+	<string name="brick_drone_move_backward">Fliege nach hinten</string>
 	<!--  -->
 	 
     <!-- Formula Editor Strings -->

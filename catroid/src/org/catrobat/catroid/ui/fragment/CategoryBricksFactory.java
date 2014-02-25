@@ -42,6 +42,14 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.DroneFlipBrick;
+import org.catrobat.catroid.content.bricks.DroneLandBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
@@ -213,8 +221,15 @@ public class CategoryBricksFactory {
 	private List<Brick> setupDroneCategoryList(Sprite sprite) {
 		List<Brick> droneBrickList = new ArrayList<Brick>();
 		droneBrickList.add(new DroneTakeOffBrick(sprite));
+		droneBrickList.add(new DroneLandBrick(sprite));
 		droneBrickList.add(new DronePlayLedAnimationBrick(sprite));
-
+		droneBrickList.add(new DroneFlipBrick(sprite));
+		droneBrickList.add(new DroneMoveUpBrick(sprite, BrickValues.FLY));
+		droneBrickList.add(new DroneMoveDownBrick(sprite, BrickValues.FLY));
+		droneBrickList.add(new DroneMoveLeftBrick(sprite, BrickValues.FLY));
+		droneBrickList.add(new DroneMoveRightBrick(sprite, BrickValues.FLY));
+		droneBrickList.add(new DroneMoveForwardBrick(sprite, BrickValues.FLY));
+		droneBrickList.add(new DroneMoveBackwardBrick(sprite, BrickValues.FLY));
 		return droneBrickList;
 	}
 

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,20 +19,37 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+ */
+package org.catrobat.catroid.content.actions;
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="setting_mindstorm_bricks"
-        android:summary="@string/preference_description_mindstorm_bricks"
-        android:title="@string/preference_title_enable_mindstorm_bricks" />
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="setting_quadcopter_bricks"
-        android:summary="@string/preference_description_quadcopter_bricks"
-        android:title="@string/preference_title_enable_quadcopter_bricks" 
-        android:enabled="false"
-        />
+import android.util.Log;
 
-</PreferenceScreen>
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+
+import org.catrobat.catroid.exceptions.NotYetImplementedException;
+
+public class DroneFlipAction extends TemporalAction {
+
+	private static final String TAG = DroneFlipAction.class.getSimpleName();
+
+	@Override
+	protected void update(float percent) {
+		Log.d(TAG, "update!");
+	}
+
+	// TODO: complete the method
+	@Override
+	public boolean act(float delta) {
+		Boolean superReturn = super.act(delta);
+		Log.d(TAG, "Do Drone Stuff once, superReturn = " + superReturn.toString());
+		//DroneServiceWrapper.getInstance().getDroneService().triggerTakeOff();
+		try {
+			throw new NotYetImplementedException();
+		} catch (NotYetImplementedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return superReturn;
+	}
+
+}
