@@ -613,6 +613,9 @@
     <string name="formula_editor_object_size">Größe</string>
     <string name="formula_editor_object_rotation">Richtung</string>
     <string name="formula_editor_object_layer">Ebene</string>
+    <string name="formula_editor_object_x_velocity">x_Geschwindigkeit</string>
+    <string name="formula_editor_object_y_velocity">y_Geschwindigkeit</string>
+    <string name="formula_editor_object_angular_velocity">Winkel_Geschwindigkeit</string>
     <string name="formula_editor_compute">Berechnen</string>
     <string name="formula_editor_object">Objekt</string>
     <string name="formula_editor_math">Funktionen</string>
