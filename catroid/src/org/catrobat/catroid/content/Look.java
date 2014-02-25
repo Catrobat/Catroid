@@ -59,9 +59,9 @@ public class Look extends Image {
 		this.visible = visible;
 	}
 
-	public void setTransparencyTo(boolean transparend) { // TODO[physics]
-		// this.visible = !transparend;
-	}
+	//	public void setTransparencyTo(boolean transparend) { // TODO[physics]
+	//		// this.visible = !transparend;
+	//	}
 
 	protected Pixmap pixmap;
 	private HashMap<String, ArrayList<SequenceAction>> broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
@@ -311,6 +311,21 @@ public class Look extends Image {
 		setY(y - getHeight() / 2f);
 	}
 
+	public float getAngularVelocityInUserInterfaceDimensionUnit() {
+		// only available in physicLook
+		return 0;
+	}
+
+	public float getXVelocityInUserInterfaceDimensionUnit() {
+		// only available in physicLook
+		return 0;
+	}
+
+	public float getYVelocityInUserInterfaceDimensionUnit() {
+		// only available in physicLook
+		return 0;
+	}
+
 	public void setPositionInUserInterfaceDimensionUnit(float x, float y) {
 		setXInUserInterfaceDimensionUnit(x);
 		setYInUserInterfaceDimensionUnit(y);
@@ -379,13 +394,13 @@ public class Look extends Image {
 			percent = 0f;
 		} else if (percent >= 100f) {
 			percent = 100f;
-			setTransparencyTo(true);
-			setVisible(false);
+			//			setTransparencyTo(true);
+			setVisiblenessTo(false);
 		}
 
 		if (percent < 100.0f) {
-			setTransparencyTo(false);
-			setVisible(true);
+			//			setTransparencyTo(false);
+			setVisiblenessTo(true);
 		}
 
 		alpha = (100f - percent) / 100f;
@@ -452,4 +467,5 @@ public class Look extends Image {
 			end();
 		}
 	}
+
 }

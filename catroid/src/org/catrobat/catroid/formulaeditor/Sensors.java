@@ -25,7 +25,7 @@ package org.catrobat.catroid.formulaeditor;
 public enum Sensors {
 	X_ACCELERATION, Y_ACCELERATION, Z_ACCELERATION, COMPASS_DIRECTION, X_INCLINATION, Y_INCLINATION, LOUDNESS, OBJECT_X(
 			true), OBJECT_Y(true), OBJECT_GHOSTEFFECT(true), OBJECT_BRIGHTNESS(true), OBJECT_SIZE(true), OBJECT_ROTATION(
-			true), OBJECT_LAYER(true);
+			true), OBJECT_LAYER(true), OBJECT_X_VELOCITY(true), OBJECT_Y_VELOCITY(true), OBJECT_ANGULAR_VELOCITY(true);
 	public final boolean isObjectSensor;
 
 	Sensors(boolean isObjectSensor) {

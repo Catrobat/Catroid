@@ -44,11 +44,11 @@ public class PhysicsLook extends Look {
 		physicsObject.setVisible(visible);
 	}
 
-	@Override
-	public void setTransparencyTo(boolean transparend) { // TODO[physics]
-		super.setTransparencyTo(transparend);
-		physicsObject.setTransparent(transparend);
-	}
+	//	@Override
+	//	public void setTransparencyTo(boolean transparend) { // TODO[physics]
+	//		super.setTransparencyTo(transparend);
+	//		physicsObject.setTransparent(transparend);
+	//	}
 
 	@Override
 	public void setLookData(LookData lookData) {
@@ -69,6 +69,21 @@ public class PhysicsLook extends Look {
 		if (null != physicsObject) {
 			physicsObject.setY(y + getHeight() / 2.0f);
 		}
+	}
+
+	@Override
+	public float getAngularVelocityInUserInterfaceDimensionUnit() {
+		return physicsObject.getRotationSpeed();
+	}
+
+	@Override
+	public float getXVelocityInUserInterfaceDimensionUnit() {
+		return physicsObject.getVelocity().x;
+	}
+
+	@Override
+	public float getYVelocityInUserInterfaceDimensionUnit() {
+		return physicsObject.getVelocity().y;
 	}
 
 	@Override

@@ -184,9 +184,6 @@ public class PreStageActivity extends Activity {
 				sprite.setActionFactory(actionPhysicsFactory);
 				ressources &= ~Brick.PHYSIC;
 			}
-			//			else {
-			//				sprite.setActionFactory(actionFactory);
-			//			}
 		}
 
 		return ressources;
