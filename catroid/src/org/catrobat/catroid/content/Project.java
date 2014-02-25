@@ -153,8 +153,7 @@ public class Project implements Serializable {
 				ressources &= ~Brick.PHYSIC;
 			}
 		}
-		return resources;
-
+		return ressources;
 	}
 
 	// this method should be removed by the nex refactoring

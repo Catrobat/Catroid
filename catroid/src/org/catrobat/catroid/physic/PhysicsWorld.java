@@ -51,6 +51,7 @@ public class PhysicsWorld {
 	public final static short NOCOLLISION_MASK = 0x0000;
 	public final static short CATEGORY_BOUNDARYBOX = 0x0002;
 	public final static short CATEGORY_PHYSICSOBJECT = 0x0004;
+
 	// COLLISION_MODE
 	public final static short MASK_BOUNDARYBOX = CATEGORY_PHYSICSOBJECT; // collides with physics_objects
 	public final static short MASK_PHYSICSOBJECT = ~CATEGORY_BOUNDARYBOX; // collides with everything but not with the boundarybox
