@@ -28,6 +28,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -403,21 +404,27 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				viewBitmap = viewToTest.getDrawingCache();
 				int testPixelX = viewBitmap.getWidth() / 2;
 				int testPixelY = viewBitmap.getHeight() / 2;
-				//the following equals ARGB value #fff8fcf8, which is
-				//the white value on the test device
-				int expectedWhite = -459528;
+
+				byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
+				byte[] blackPixel = { 0, 0, 0, (byte) 255 };
 				switch (counter) {
 					case 1:
 						pixelColor = viewBitmap.getPixel(testPixelX, testPixelY);
-						assertEquals("Image color should be white", expectedWhite, pixelColor);
+						byte[] screenPixel = { (byte) Color.red(pixelColor), (byte) Color.green(pixelColor),
+								(byte) Color.blue(pixelColor), (byte) Color.alpha(pixelColor) };
+						assertTrue("Image color should be white",
+								UiTestUtils.comparePixelRgbaArrays(whitePixel, screenPixel));
 
 						assertEquals("Image is not scaled right", expectedImageWidth, viewBitmap.getWidth());
 						assertEquals("Image is not scaled right", expectedImageHeigth, viewBitmap.getHeight());
 						break;
 					case 2:
 						pixelColor = viewBitmap.getPixel(testPixelX, testPixelY);
-						assertEquals("Image color should be black",
-								solo.getCurrentActivity().getResources().getColor(R.color.solid_black), pixelColor);
+						byte[] screenPixel2 = { (byte) Color.red(pixelColor), (byte) Color.green(pixelColor),
+								(byte) Color.blue(pixelColor), (byte) Color.alpha(pixelColor) };
+						assertTrue("Image color should be black",
+								UiTestUtils.comparePixelRgbaArrays(blackPixel, screenPixel2));
+
 						assertEquals("Image is not scaled right", expectedImageWidth, viewBitmap.getWidth());
 						assertEquals("Image is not scaled right", expectedImageHeigth, viewBitmap.getHeight());
 						break;
@@ -1181,7 +1188,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForDialogToClose(500);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown",
-				solo.searchText(UiTestUtils.ecsapeRegularExpressionMetaCharacters(errorMessageProjectExists)));
+				solo.searchText((errorMessageProjectExists)));
 		solo.clickOnButton(solo.getString(R.string.close));
 	}
 
@@ -1202,7 +1209,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForDialogToClose(500);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown",
-				solo.searchText(UiTestUtils.ecsapeRegularExpressionMetaCharacters(errorMessageProjectExists)));
+				solo.searchText((errorMessageProjectExists)));
 		solo.goBack();
 	}
 
@@ -1323,7 +1330,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown",
-				solo.searchText(UiTestUtils.ecsapeRegularExpressionMetaCharacters(errorMessageProjectExists)));
+				solo.searchText(errorMessageProjectExists));
 		solo.clickOnButton(buttonCloseText);
 
 		solo.clearEditText(0);
@@ -1355,14 +1362,12 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(buttonOkText);
 
 		solo.sleep(200);
-		assertTrue("No or wrong error message shown", solo.searchText(UiTestUtils
-				.ecsapeRegularExpressionMetaCharacters(solo.getString(R.string.error_project_exists))));
+		assertTrue("No or wrong error message shown", solo.searchText(solo.getString(R.string.error_project_exists)));
 		solo.sleep(100);
 		solo.clickOnButton(buttonCloseText);
 		solo.sleep(100);
 		solo.clickOnButton(buttonOkText);
-		assertTrue("No or wrong error message shown", solo.searchText(UiTestUtils
-				.ecsapeRegularExpressionMetaCharacters(solo.getString(R.string.error_project_exists))));
+		assertTrue("No or wrong error message shown", solo.searchText(solo.getString(R.string.error_project_exists)));
 		solo.clickOnButton(buttonCloseText);
 	}
 
@@ -1442,7 +1447,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		assertTrue("description is not shown in edittext",
-				solo.searchText(UiTestUtils.ecsapeRegularExpressionMetaCharacters(lorem)));
+				solo.searchText((lorem)));
 
 		ProjectManager.getInstance().loadProject(UiTestUtils.PROJECTNAME1, getActivity(), true);
 
@@ -1575,7 +1580,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.sleep(200);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown",
-				solo.searchText(UiTestUtils.ecsapeRegularExpressionMetaCharacters(errorMessageProjectExists)));
+				solo.searchText((errorMessageProjectExists)));
 		solo.clickOnButton(solo.getString(R.string.close));
 	}
 
@@ -1617,7 +1622,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.sleep(200);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown",
-				solo.searchText(UiTestUtils.ecsapeRegularExpressionMetaCharacters(errorMessageProjectExists)));
+				solo.searchText((errorMessageProjectExists)));
 		solo.clickOnButton(solo.getString(R.string.close));
 	}
 
@@ -1682,43 +1687,40 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				.manualScreenshotExists("manual_screenshot" + Constants.IMAGE_STANDARD_EXTENTION);
 		assertEquals("there should be no manual screenshot", true, screenshotExists);
 		playTheProject(false, false, false); // green to green
-		int greenPixel1 = createScreenshotBitmap();
+		byte[] greenPixel1 = createScreenshotBitmap();
 
 		//The color values below are those we get on our emulated test device
-		String greenHexValue = "ff00ff00";
-		String redHexValue = "ffff0000";
-		String pixelHexValue = Integer.toHexString(greenPixel1);
-		assertEquals("The extracted pixel was not green", greenHexValue, pixelHexValue);
+		byte[] greenPixel = { 0, (byte) 255, 0, (byte) 255 };
+		byte[] redPixel = { (byte) 255, 0, 0, (byte) 255 };
+
+		assertTrue("The extracted pixel was not green", UiTestUtils.comparePixelRgbaArrays(greenPixel, greenPixel1));
 		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		screenshotExists = ProjectManager.getInstance().getCurrentProject()
 				.manualScreenshotExists("manual_screenshot" + Constants.IMAGE_STANDARD_EXTENTION);
 		assertEquals("there should be no manual screenshot", true, screenshotExists);
 		playTheProject(true, false, false); // green to red
-		int redPixel1 = createScreenshotBitmap();
-		pixelHexValue = Integer.toHexString(redPixel1);
-		assertEquals("The extracted pixel was not red", redHexValue, pixelHexValue);
-		assertFalse("The screenshot has not been changed", greenPixel1 == redPixel1);
+		byte[] redPixel1 = createScreenshotBitmap();
+		assertTrue("The extracted pixel was not red", UiTestUtils.comparePixelRgbaArrays(redPixel, redPixel1));
+		assertFalse("The screenshot has not been changed", UiTestUtils.comparePixelRgbaArrays(greenPixel1, redPixel1));
 		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		screenshotExists = ProjectManager.getInstance().getCurrentProject()
 				.manualScreenshotExists("manual_screenshot" + Constants.IMAGE_STANDARD_EXTENTION);
 		assertEquals("there should be no manual screenshot", true, screenshotExists);
 		playTheProject(false, true, true);// red to green + screenshot
-		int greenPixel2 = createScreenshotBitmap();
-		pixelHexValue = Integer.toHexString(greenPixel2);
-		assertEquals("The extracted pixel was not green", greenHexValue, pixelHexValue);
-		assertFalse("The screenshot has not been changed", redPixel1 == greenPixel2);
+		byte[] greenPixel2 = createScreenshotBitmap();
+		assertTrue("The extracted pixel was not green", UiTestUtils.comparePixelRgbaArrays(greenPixel, greenPixel2));
+		assertFalse("The screenshot has not been changed", UiTestUtils.comparePixelRgbaArrays(redPixel1, greenPixel2));
 		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		screenshotExists = ProjectManager.getInstance().getCurrentProject()
 				.manualScreenshotExists("manual_screenshot" + Constants.IMAGE_STANDARD_EXTENTION);
 		assertEquals("there should be a manual screenshot", false, screenshotExists);
 		playTheProject(true, false, false); // green to red, screenshot must stay green
-		int greenPixel3 = createScreenshotBitmap();
-		pixelHexValue = Integer.toHexString(greenPixel3);
-		assertEquals("The extracted pixel was not green", greenHexValue, pixelHexValue);
-		assertTrue("The screenshot has not been changed", greenPixel2 == greenPixel3);
+		byte[] greenPixel3 = createScreenshotBitmap();
+		assertTrue("The extracted pixel was not green", UiTestUtils.comparePixelRgbaArrays(greenPixel, greenPixel3));
+		assertTrue("The screenshot has been changed", UiTestUtils.comparePixelRgbaArrays(greenPixel2, greenPixel3));
 	}
 
 	public void testSelectAllActionModeButton() {
@@ -1824,12 +1826,12 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.sleep(500);
 	}
 
-	private int createScreenshotBitmap() {
+	private byte[] createScreenshotBitmap() {
 
 		Bitmap viewBitmap;
 		int currentViewID;
 		int imageViewID = R.id.my_projects_activity_project_image;
-		int pixel = -1;
+		byte[] pixel = null;
 
 		ArrayList<View> currentViews = solo.getCurrentViews();
 		int viewSize = currentViews.size();
@@ -1842,8 +1844,10 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				if (textView.getText().equals(UiTestUtils.DEFAULT_TEST_PROJECT_NAME)) { // ...and check if it belongs to the test project
 					viewToTest.buildDrawingCache();
 					viewBitmap = viewToTest.getDrawingCache();
-					pixel = viewBitmap.getPixel(viewBitmap.getWidth() / 2, viewBitmap.getHeight() / 2);
+					int pixelValue = viewBitmap.getPixel(viewBitmap.getWidth() / 2, viewBitmap.getHeight() / 2);
 					viewToTest.destroyDrawingCache();
+					pixel = new byte[] { (byte) Color.red(pixelValue), (byte) Color.green(pixelValue),
+							(byte) Color.blue(pixelValue), (byte) Color.alpha(pixelValue) };
 				}
 			}
 		}

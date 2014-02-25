@@ -303,8 +303,8 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		UiTestUtils.compareByteArrays(redPixel, stagePixel);
 		stagePixel = StageActivity.stageListener.getPixels(0, ScreenValues.SCREEN_HEIGHT / 2, 1, 1);
 		UiTestUtils.compareByteArrays(redPixel, stagePixel);
-		stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2, ScreenValues.SCREEN_HEIGHT,
-				1, 1);
+		stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2,
+				ScreenValues.SCREEN_HEIGHT - 1, 1, 1);
 		UiTestUtils.compareByteArrays(redPixel, stagePixel);
 		solo.goBack();
 		solo.clickOnButton(solo.getString(R.string.stage_dialog_axes_off));
@@ -321,8 +321,8 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		UiTestUtils.compareByteArrays(whitePixel, stagePixel);
 		stagePixel = StageActivity.stageListener.getPixels(0, ScreenValues.SCREEN_HEIGHT / 2, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, stagePixel);
-		stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2, ScreenValues.SCREEN_HEIGHT,
-				1, 1);
+		stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2,
+				ScreenValues.SCREEN_HEIGHT - 1, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, stagePixel);
 	}
 
@@ -367,8 +367,8 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		screenPixel = StageActivity.stageListener.getPixels(0, ScreenValues.SCREEN_HEIGHT - 1, 1, 1);
 		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
 
-		screenPixel = StageActivity.stageListener
-				.getPixels(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT, 1, 1);
+		screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2,
+				ScreenValues.SCREEN_HEIGHT / 2, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
 
 		solo.goBack();
@@ -383,6 +383,28 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH - 1, 0, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
 		screenPixel = StageActivity.stageListener.getPixels(0, ScreenValues.SCREEN_HEIGHT - 1, 1, 1);
+		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+
+		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.stage_dialog_button_maximize));
+		solo.goBack();
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		assertTrue("Stage not resizeable.", ((StageActivity) solo.getCurrentActivity()).getResizePossible());
+
+		screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
+		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
+		screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH - 1,
+				ScreenValues.SCREEN_HEIGHT - 1, 1, 1);
+		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
+		screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH - 1, 0, 1, 1);
+		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
+		screenPixel = StageActivity.stageListener.getPixels(0, ScreenValues.SCREEN_HEIGHT - 1, 1, 1);
+		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
+
+		screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2,
+				ScreenValues.SCREEN_HEIGHT / 2, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
 	}
 

@@ -101,7 +101,7 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 
 		UiTestUtils.comparePixelArrayWithPixelScreenArray(WHITE_PIXEL, screenArray, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(BLACK_PIXEL, screenArray, -80, -80, SCREEN_WIDTH,
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(BLACK_PIXEL, screenArray, -54, 55, SCREEN_WIDTH,
 				SCREEN_HEIGHT);
 
 		solo.clickOnScreen((SCREEN_WIDTH / 2) + 21, (SCREEN_HEIGHT / 2) - 21);

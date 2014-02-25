@@ -31,6 +31,7 @@ import android.app.Instrumentation;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
@@ -172,7 +173,6 @@ public final class UiTestUtils {
 	public static final String COPIED_PROJECT_NAME = "copiedProject";
 	public static final String JAPANESE_PROJECT_NAME = "これは例の説明です。";
 
-	private static final int ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX = 0;
 	private static final int DRAG_FRAMES = 35;
 
 	public static final int SCRIPTS_INDEX = 0;
@@ -1129,7 +1129,9 @@ public final class UiTestUtils {
 	}
 
 	public static void acceptAndCloseActionMode(Solo solo) {
-		solo.clickOnImage(ACTION_MODE_ACCEPT_IMAGE_BUTTON_INDEX);
+		int doneButtonId = Resources.getSystem().getIdentifier("action_mode_close_button", "id", "android");
+		View doneButton = solo.getView(doneButtonId);
+		solo.clickOnView(doneButton);
 	}
 
 	/**
@@ -1193,10 +1195,23 @@ public final class UiTestUtils {
 	// Stage methods
 	public static void compareByteArrays(byte[] firstArray, byte[] secondArray) {
 		assertEquals("Length of byte arrays not equal", firstArray.length, secondArray.length);
-		assertEquals("Arrays don't have same content.", firstArray[0], secondArray[0], 10);
-		assertEquals("Arrays don't have same content.", firstArray[1], secondArray[1], 10);
-		assertEquals("Arrays don't have same content.", firstArray[2], secondArray[2], 10);
-		assertEquals("Arrays don't have same content.", firstArray[3], secondArray[3], 10);
+
+		assertEquals("Arrays don't have same content.", firstArray[0] & 0xFF, secondArray[0] & 0xFF, 10);
+		assertEquals("Arrays don't have same content.", firstArray[1] & 0xFF, secondArray[1] & 0xFF, 10);
+		assertEquals("Arrays don't have same content.", firstArray[2] & 0xFF, secondArray[2] & 0xFF, 10);
+		assertEquals("Arrays don't have same content.", firstArray[3] & 0xFF, secondArray[3] & 0xFF, 10);
+	}
+
+	public static boolean comparePixelRgbaArrays(byte[] firstArray, byte[] secondArray) {
+		if (firstArray == null || secondArray == null || firstArray.length != secondArray.length) {
+			return false;
+		}
+		for (int i = 0; i < 4; i++) {
+			if (Math.abs((firstArray[0] & 0xFF) - (secondArray[0] & 0xFF)) > 10) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public static void comparePixelArrayWithPixelScreenArray(byte[] pixelArray, byte[] screenArray, int x, int y,
@@ -1213,10 +1228,10 @@ public final class UiTestUtils {
 		for (int i = 0; i < 4; i++) {
 			screenPixel[i] = screenArray[(convertedX * 3 + convertedX + convertedY * screenWidth * 4) + i];
 		}
-		assertEquals("Pixels don't have same content.", pixelArray[0], screenPixel[0], tolerance);
-		assertEquals("Pixels don't have same content.", pixelArray[1], screenPixel[1], tolerance);
-		assertEquals("Pixels don't have same content.", pixelArray[2], screenPixel[2], tolerance);
-		assertEquals("Pixels don't have same content.", pixelArray[3], screenPixel[3], tolerance);
+		assertEquals("Pixels don't have same content.", pixelArray[0] & 0xFF, screenPixel[0] & 0xFF, tolerance);
+		assertEquals("Pixels don't have same content.", pixelArray[1] & 0xFF, screenPixel[1] & 0xFF, tolerance);
+		assertEquals("Pixels don't have same content.", pixelArray[2] & 0xFF, screenPixel[2] & 0xFF, tolerance);
+		assertEquals("Pixels don't have same content.", pixelArray[3] & 0xFF, screenPixel[3] & 0xFF, tolerance);
 	}
 
 	/**
@@ -1615,13 +1630,6 @@ public final class UiTestUtils {
 			}
 		}
 		return false;
-	}
-
-	public static String ecsapeRegularExpressionMetaCharacters(String stringToEscape) {
-		stringToEscape = stringToEscape.replaceAll("\n", " ");
-		stringToEscape = stringToEscape.replaceAll("\\)", "\\)");
-		stringToEscape = stringToEscape.replaceAll("\\(", "\\(");
-		return stringToEscape;
 	}
 
 	public static File setUpLookFile(Solo solo) throws IOException {

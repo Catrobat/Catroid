@@ -25,13 +25,13 @@ package org.catrobat.catroid.stage;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
-import android.graphics.Color;
 import android.os.SystemClock;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -102,6 +102,7 @@ public class StageListener implements ApplicationListener {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private BitmapFont font;
+	private Passepartout passepartout;
 
 	private List<Sprite> sprites;
 
@@ -151,8 +152,8 @@ public class StageListener implements ApplicationListener {
 		stage = new Stage(virtualWidth, virtualHeight, true);
 		batch = stage.getSpriteBatch();
 
-		camera = (OrthographicCamera) stage.getCamera();
-		camera.position.set(0, 0, 0);
+		Gdx.gl.glViewport(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+		initScreenMode();
 
 		sprites = project.getSpriteList();
 		for (Sprite sprite : sprites) {
@@ -162,9 +163,9 @@ public class StageListener implements ApplicationListener {
 			sprite.resume();
 		}
 
-		if (sprites.size() > 0) {
-			sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
-		}
+		passepartout = new Passepartout(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT, maximizeViewPortWidth,
+				maximizeViewPortHeight, virtualWidth, virtualHeight);
+		stage.addActor(passepartout);
 
 		if (DEBUG) {
 			OrthoCamController camController = new OrthoCamController(camera);
@@ -183,8 +184,6 @@ public class StageListener implements ApplicationListener {
 			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
 		}
 
-		Gdx.gl.glViewport(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
-		initScreenMode();
 	}
 
 	void activityResume() {
@@ -275,7 +274,6 @@ public class StageListener implements ApplicationListener {
 	public void render() {
 		Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 		if (reloadProject) {
 			int spriteSize = sprites.size();
 			for (int i = 0; i < spriteSize; i++) {
@@ -295,6 +293,7 @@ public class StageListener implements ApplicationListener {
 				stage.addActor(sprite.look);
 				sprite.pause();
 			}
+			stage.addActor(passepartout);
 
 			paused = true;
 			firstStart = true;
@@ -437,7 +436,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		for (int i = 0; i < length; i += 4) {
-			colors[i / 4] = Color.argb(255, screenshot[i + 0] & 0xFF, screenshot[i + 1] & 0xFF,
+			colors[i / 4] = android.graphics.Color.argb(255, screenshot[i + 0] & 0xFF, screenshot[i + 1] & 0xFF,
 					screenshot[i + 2] & 0xFF);
 		}
 		fullScreenBitmap = Bitmap.createBitmap(colors, 0, screenshotWidth, screenshotWidth, screenshotHeight,
@@ -500,8 +499,6 @@ public class StageListener implements ApplicationListener {
 		switch (project.getScreenMode()) {
 			case STRETCH:
 				stage.setViewport(virtualWidth, virtualHeight, false);
-				camera = (OrthographicCamera) stage.getCamera();
-				camera.position.set(0, 0, 0);
 				screenshotWidth = ScreenValues.SCREEN_WIDTH;
 				screenshotHeight = ScreenValues.SCREEN_HEIGHT;
 				screenshotX = 0;
@@ -510,8 +507,6 @@ public class StageListener implements ApplicationListener {
 
 			case MAXIMIZE:
 				stage.setViewport(virtualWidth, virtualHeight, true);
-				camera = (OrthographicCamera) stage.getCamera();
-				camera.position.set(0, 0, 0);
 				screenshotWidth = maximizeViewPortWidth;
 				screenshotHeight = maximizeViewPortHeight;
 				screenshotX = maximizeViewPortX;
@@ -522,6 +517,9 @@ public class StageListener implements ApplicationListener {
 				break;
 
 		}
+		camera = (OrthographicCamera) stage.getCamera();
+		camera.position.set(0, 0, 0);
+		camera.update();
 	}
 
 	private LookData createWhiteBackgroundLookData() {

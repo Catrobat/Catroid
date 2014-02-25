@@ -399,8 +399,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		Reflection.setPrivateField(Constants.class, "POCKET_PAINT_INTENT_ACTIVITY_NAME", "for.science");
 
 		solo.clickOnView(solo.getView(R.id.look_main_layout));
-		assertTrue("Paintroid not installed dialog missing after click on look", solo.searchText(UiTestUtils
-				.ecsapeRegularExpressionMetaCharacters(solo.getString(R.string.pocket_paint_not_installed))));
+		assertTrue("Paintroid not installed dialog missing after click on look", solo.searchText(solo.getString(R.string.pocket_paint_not_installed)));
 		solo.clickOnButton(solo.getString(R.string.no));
 	}
 

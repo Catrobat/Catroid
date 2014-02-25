@@ -53,6 +53,7 @@
  
 
     <string name="about_link_template" translatable="false">&lt;a href="%1$s">%2$s&lt;/a></string>
+    <string name="terms_of_use_link_template" translatable="false">&lt;a href="%1$s">%2$s&lt;/a></string>
 
     <!-- Settings, some overridden in values-v14 -->
     <string name="scrolling_cache_enabled">false</string>
