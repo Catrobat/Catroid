@@ -355,6 +355,15 @@ public class FormulaElement implements Serializable {
 			case OBJECT_Y:
 				returnValue = (double) sprite.look.getYInUserInterfaceDimensionUnit();
 				break;
+			case OBJECT_ANGULAR_VELOCITY:
+				returnValue = (double) sprite.look.getAngularVelocityInUserInterfaceDimensionUnit();
+				break;
+			case OBJECT_X_VELOCITY:
+				returnValue = (double) sprite.look.getXVelocityInUserInterfaceDimensionUnit();
+				break;
+			case OBJECT_Y_VELOCITY:
+				returnValue = (double) sprite.look.getYVelocityInUserInterfaceDimensionUnit();
+				break;
 		}
 		return returnValue;
 	}
