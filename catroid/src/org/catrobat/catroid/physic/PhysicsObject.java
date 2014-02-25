@@ -50,8 +50,8 @@ public class PhysicsObject {
 	public final static float DEFAULT_MASS = 1.0f;
 	public final static float MIN_MASS = 0.000001f;
 
-	private short COLLISION_MASK_RECORD = 0;
-	private short CATEGORY_MASK_RECORD = PhysicsWorld.CATEGORY_PHYSICSOBJECT;
+	private short collisionMaskRecord = 0;
+	private short categoryMaskRecord = PhysicsWorld.CATEGORY_PHYSICSOBJECT;
 	private Vector2 velocity;
 	private float rotationSpeed;
 	private float gravityScale;
@@ -63,8 +63,8 @@ public class PhysicsObject {
 	private float mass;
 	private boolean ifOnEdgeBounce = false;
 	private boolean hangup = false;
-	private boolean ishidden = false;
-	private boolean istransparent = false;
+	private boolean isVisible = true;
+	private boolean isTransparent = false;
 
 	private Vector2 bodyAABBlower;
 	private Vector2 bodyAABBupper;
@@ -134,7 +134,7 @@ public class PhysicsObject {
 				collision_mask = PhysicsWorld.NOCOLLISION_MASK;
 				break;
 		}
-		COLLISION_MASK_RECORD = collision_mask;
+		collisionMaskRecord = collision_mask;
 		setCollisionBits(collision_mask);
 	}
 
@@ -267,34 +267,33 @@ public class PhysicsObject {
 	}
 
 	protected void setCollisionBits(short maskBits) {
-		fixtureDef.filter.categoryBits = CATEGORY_MASK_RECORD;
+		fixtureDef.filter.categoryBits = categoryMaskRecord;
 		fixtureDef.filter.maskBits = maskBits;
 
 		for (Fixture fixture : body.getFixtureList()) {
 			Filter filter = fixture.getFilterData();
-			filter.categoryBits = CATEGORY_MASK_RECORD;
+			filter.categoryBits = categoryMaskRecord;
 			filter.maskBits = maskBits;
 			fixture.setFilterData(filter);
 		}
 	}
 
 	public void setVisible(boolean visible) {
-		if (visible && ishidden && !istransparent) {
+		if (!isVisible) {
 			resume(true);
-			ishidden = !visible;
-		} else if (!visible && !ishidden && !istransparent) {
+		} else if (isVisible) {
 			hangup();
-			ishidden = !visible;
 		}
+		isVisible = visible;
 	}
 
 	public void setTransparent(boolean transparend) {
-		if (!transparend && ishidden && istransparent) {
+		if (!transparend && isVisible && isTransparent) {
 			resume(true);
-			istransparent = transparend;
-		} else if (transparend && !ishidden && !istransparent) {
+			isTransparent = transparend;
+		} else if (transparend && !isVisible && !isTransparent) {
 			hangup();
-			istransparent = transparend;
+			isTransparent = transparend;
 		}
 	}
 
@@ -320,7 +319,7 @@ public class PhysicsObject {
 			} else {
 				setGravityScale(1);
 			}
-			setCollisionBits(COLLISION_MASK_RECORD);
+			setCollisionBits(collisionMaskRecord);
 			hangup = false;
 		}
 	}
