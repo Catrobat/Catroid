@@ -53,6 +53,8 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.physic.PhysicsDebugSettings;
+import org.catrobat.catroid.physic.PhysicsLook;
+import org.catrobat.catroid.physic.PhysicsObject;
 import org.catrobat.catroid.physic.PhysicsWorld;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.Utils;
@@ -370,6 +372,10 @@ public class StageListener implements ApplicationListener {
 			drawAxes();
 		}
 
+		if (PhysicsDebugSettings.Render.RENDER_PHYSIC_OBJECT_LABELING) {
+			printVelocityOnScreen();
+		}
+
 		if (PhysicsDebugSettings.Render.RENDER_COLLISION_FRAMES && !finished) {
 			physicsWorld.render(camera.combined);
 		}
@@ -382,6 +388,26 @@ public class StageListener implements ApplicationListener {
 			testPixels = ScreenUtils.getFrameBufferPixels(testX, testY, testWidth, testHeight, false);
 			makeTestPixels = false;
 		}
+	}
+
+	private void printVelocityOnScreen() {
+		PhysicsObject tempPhysicObject;
+		final int fontOffset = 5;
+		batch.setProjectionMatrix(camera.combined);
+		batch.begin();
+		for (Sprite sprite : sprites) {
+			if (sprite.look instanceof PhysicsLook) {
+				tempPhysicObject = physicsWorld.getPhysicObject(sprite);
+				font.draw(batch, "velocity_x: " + tempPhysicObject.getVelocity().x, tempPhysicObject.getX(),
+						tempPhysicObject.getY());
+				font.draw(batch, "velocity_y: " + tempPhysicObject.getVelocity().y, tempPhysicObject.getX(),
+						tempPhysicObject.getY() + font.getXHeight() + fontOffset);
+				font.draw(batch, "angular velocity: " + tempPhysicObject.getRotationSpeed(), tempPhysicObject.getX(),
+						tempPhysicObject.getY() + font.getXHeight() * 2 + fontOffset * 2);
+
+			}
+		}
+		batch.end();
 	}
 
 	private void drawAxes() {
