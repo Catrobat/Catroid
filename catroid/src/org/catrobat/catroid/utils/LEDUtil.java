@@ -3,6 +3,7 @@ package org.catrobat.catroid.utils;
 import android.app.Activity;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.os.Build;
 import android.util.Log;
 
 /**
@@ -47,7 +48,10 @@ public class LEDUtil {
                     params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
 
                     try {
-                        cam.setPreviewTexture(new SurfaceTexture(0));
+                        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD){
+                            cam.setPreviewTexture(new SurfaceTexture(0));
+                        }
+
                         cam.setParameters(params);
                         cam.startPreview();
                         lightON = true;
