@@ -174,12 +174,12 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView textLegoPlayToneLabel = (TextView) view.findViewById(R.id.brick_nxt_play_tone_label);
-			TextView textLegoPlayToneDuration = (TextView) view.findViewById(R.id.brick_nxt_play_tone_duration);
+			TextView textLegoPlayToneLabel =            (TextView) view.findViewById(R.id.brick_nxt_play_tone_label);
+			TextView textLegoPlayToneDuration =         (TextView) view.findViewById(R.id.brick_nxt_play_tone_duration);
 			TextView textLegoPlayToneDurationTextView = (TextView) view.findViewById(R.id.nxt_tone_duration_text_view);
-			TextView textLegoPlayToneSeconds = (TextView) view.findViewById(R.id.brick_nxt_play_tone_seconds);
-			TextView textLegoPlayToneFrequency = (TextView) view.findViewById(R.id.brick_nxt_play_tone_frequency);
-			TextView textLegoPlayToneOz = (TextView) view.findViewById(R.id.brick_nxt_play_tone_hundred_hz);
+			TextView textLegoPlayToneSeconds =          (TextView) view.findViewById(R.id.brick_nxt_play_tone_seconds);
+			TextView textLegoPlayToneFrequency =        (TextView) view.findViewById(R.id.brick_nxt_play_tone_frequency);
+			TextView textLegoPlayToneOz =               (TextView) view.findViewById(R.id.brick_nxt_play_tone_hundred_hz);
 
 			TextView editLegoDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_edit_text);
 			TextView editLegoFrequency = (TextView) view.findViewById(R.id.nxt_tone_freq_edit_text);

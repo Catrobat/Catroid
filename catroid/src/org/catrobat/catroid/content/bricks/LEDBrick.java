@@ -87,11 +87,13 @@ public class LEDBrick extends BrickBaseType implements OnClickListener, FormulaB
     @Override
     public View getViewWithAlpha( int alphaValue ) {
         if (view != null) {
+
             View layout = view.findViewById( R.id.brick_led_layout );
             Drawable background = layout.getBackground();
             background.setAlpha( alphaValue );
 
-            TextView textLED = (TextView) view.findViewById( R.id.brick_led_label );
+            TextView textLEDLabel = (TextView) view.findViewById( R.id.brick_led_label );
+            TextView textLED = (TextView) view.findViewById( R.id.brick_led_prototype_text_view );
             TextView editLED = (TextView) view.findViewById( R.id.brick_led_edit_text );
             textLED.setTextColor( textLED.getTextColors().withAlpha( alphaValue ));
             editLED.setTextColor( textLED.getTextColors().withAlpha( alphaValue ));
