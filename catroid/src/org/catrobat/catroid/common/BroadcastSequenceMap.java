@@ -1,43 +1,52 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+ */
+package org.catrobat.catroid.common;
 
-    <item
-        android:id="@+id/menu_rate_app"
-        android:showAsAction="withText"
-        android:title="@string/main_menu_rate_app"/>
-    <item
-        android:id="@+id/menu_terms_of_use"
-        android:showAsAction="withText"
-        android:title="@string/main_menu_terms_of_use"/>
-    <item
-        android:id="@+id/menu_about"
-        android:showAsAction="withText"
-        android:title="@string/main_menu_about_pocketcode"/>
-    <item
-        android:id="@+id/settings"
-        android:showAsAction="never"
-        android:title="@string/settings"/>
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-</menu>
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public final class BroadcastSequenceMap {
+	private static HashMap<String, ArrayList<SequenceAction>> broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
+
+	private BroadcastSequenceMap() {
+		throw new AssertionError();
+	}
+
+	public static boolean containsKey(String key) {
+		return broadcastSequenceMap.containsKey(key);
+	}
+
+	public static ArrayList<SequenceAction> get(String key) {
+		return broadcastSequenceMap.get(key);
+	}
+
+	public static ArrayList<SequenceAction> put(String key, ArrayList<SequenceAction> value) {
+		return broadcastSequenceMap.put(key, value);
+	}
+
+	public static void clear() {
+		broadcastSequenceMap.clear();
+	}
+}
