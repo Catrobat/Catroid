@@ -1,6 +1,7 @@
 package org.catrobat.catroid.utils;
 
 import android.app.Activity;
+import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.util.Log;
 
@@ -11,10 +12,10 @@ public class LEDUtil {
 
     private static final String LOG_TAG = "LED ";
     private static boolean lightON = false;
-
     private static Camera cam = null;
+    private static boolean previousLightOn = false;
 
-    public LEDUtil(Activity activity) {
+    private LEDUtil() {
 
     }
 
@@ -23,12 +24,9 @@ public class LEDUtil {
     }
 
     public static void setLEDValue(boolean val) {
-        Log.d(LOG_TAG, "setLEDValue()");
-        if ( val ) {
-            Log.d(LOG_TAG, "setLEDValue()");
+        if (val) {
             ledON();
         } else {
-            Log.d(LOG_TAG, "setLEDValue()");
             ledOFF();
         }
     }
@@ -37,35 +35,43 @@ public class LEDUtil {
         if (lightON == true)
             return;
 
-        Thread lightThread = new Thread( new Runnable() {
+        Thread lightThread = new Thread(new Runnable() {
             @Override
             public void run() {
-
                 cam = Camera.open();
+
+
                 if (cam != null) {
+
                     Camera.Parameters params = cam.getParameters();
                     params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
 
                     try {
+                        cam.setPreviewTexture(new SurfaceTexture(0));
                         cam.setParameters(params);
                         cam.startPreview();
                         lightON = true;
+                        Log.d(LOG_TAG, "led is on");
                     } catch (Exception e) {
                         // TODO: toast message
+
+                        Log.d(LOG_TAG, e.getMessage());
                     }
                 } else {
                     // TODO: toast message
+                    Log.d(LOG_TAG, "cam is null :(");
                 }
             }
         });
         lightThread.start();
+
     }
 
-    private static void ledOFF() {
+    public static void ledOFF() {
         if (lightON == false)
             return;
 
-        Thread lightThread = new Thread( new Runnable() {
+        Thread lightThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 if (cam != null) {
@@ -76,8 +82,25 @@ public class LEDUtil {
                 } else {
                     // TODO: toast message
                 }
+
             }
         });
         lightThread.start();
+
+
+    }
+
+    public static void pauseLed() {
+        if (lightON == true) {
+            ledOFF();
+            previousLightOn = true;
+        } else {
+            previousLightOn = false;
+        }
+    }
+
+    public static void resumeLed() {
+        Log.d(LOG_TAG, "resume led");
+        setLEDValue(previousLightOn);
     }
 }
