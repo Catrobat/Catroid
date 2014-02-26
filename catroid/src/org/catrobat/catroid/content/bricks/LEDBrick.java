@@ -25,7 +25,6 @@ import java.util.List;
  */
 public class LEDBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 
-    private transient TextView editLightValue;
     private Formula lightValue;
 
     private transient View prototypeView;

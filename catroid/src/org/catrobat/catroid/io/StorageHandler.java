@@ -254,7 +254,6 @@ public final class StorageHandler {
 		xstream.alias("waitBrick", WaitBrick.class);
 		xstream.alias("whenBrick", WhenBrick.class);
 		xstream.alias("whenStartedBrick", WhenStartedBrick.class);
-
 		xstream.alias("dronePlayLedAnimationBrick", DronePlayLedAnimationBrick.class);
 		xstream.alias("droneFlipBrick", DroneFlipBrick.class);
 		xstream.alias("droneTakeOffBrick", DroneTakeOffBrick.class);
@@ -265,6 +264,7 @@ public final class StorageHandler {
 		xstream.alias("droneMoveDownBrick", DroneMoveDownBrick.class);
 		xstream.alias("droneMoveLeftBrick", DroneMoveLeftBrick.class);
 		xstream.alias("droneMoveRightBrick", DroneMoveRightBrick.class);
+    xstream.alias("ledBrick", LEDBrick.class);
 	}
 
 	private void createCatroidRoot() {

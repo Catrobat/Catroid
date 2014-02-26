@@ -38,6 +38,7 @@ import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.AsyncTask.Status;
 import android.os.Build;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -133,6 +134,19 @@ public class PreStageActivity extends BaseActivity implements DroneReadyReceiver
 			checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
 			startActivityForResult(checkIntent, REQUEST_TEXT_TO_SPEECH);
 		}
+
+        if ( (requiredResources & Brick.CAMERA_LED ) > 0 ) {
+            boolean hasCamera = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
+            boolean hasLED =    getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
+
+            if ( hasCamera && hasLED ) {
+                requiredResources &= ~Brick.CAMERA_LED;
+            } else {
+                // TODO: make Toast and error handling
+//                Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
+//				resourceFailed();
+            }
+        }
 
 		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
 			BluetoothManager bluetoothManager = new BluetoothManager(this);
