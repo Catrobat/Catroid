@@ -25,7 +25,9 @@ import java.util.List;
  */
 public class LEDBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 
+    private transient TextView editLightValue;
     private Formula lightValue;
+
     private transient View prototypeView;
 
     public LEDBrick( Sprite sprite, Formula lightValue ) {
@@ -51,16 +53,24 @@ public class LEDBrick extends BrickBaseType implements OnClickListener, FormulaB
             return view;
         }
 
+        if ( view == null ) {
+            alphaValue = 0xFF;
+        }
+
         view = View.inflate( context, R.layout.brick_led, null );
         view = getViewWithAlpha( alphaValue );
 
         setCheckboxView( R.id.brick_led_checkbox );
 
-//        final Brick brickInstance = this;
-//        checkbox.setOnCheckedChangeListener( (buttonView, isChecked) -> {
-//            checked = isChecked;
-//            adapter.handleCheck( brickInstance, isChecked );
-//        });
+        final Brick brickInstance = this;
+        checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                checked = isChecked;
+                adapter.handleCheck(brickInstance, isChecked);
+            }
+        });
+
         TextView textLED = (TextView) view.findViewById( R.id.brick_led_prototype_text_view );
         TextView editLED = (TextView) view.findViewById( R.id.brick_led_edit_text );
 
