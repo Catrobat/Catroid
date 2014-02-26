@@ -33,6 +33,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
+import org.catrobat.catroid.utils.LEDUtil;
 
 public class StageActivity extends AndroidApplication {
 	public static final String TAG = StageActivity.class.getSimpleName();
@@ -57,6 +58,7 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onBackPressed() {
 		pause();
+        LEDUtil.pauseLed();
 		stageDialog.show();
 	}
 
@@ -70,22 +72,26 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onPause() {
 		SensorHandler.stopSensorListeners();
+        LEDUtil.pauseLed();
 		super.onPause();
 	}
 
 	@Override
 	public void onResume() {
 		SensorHandler.startSensorListener(this);
+        LEDUtil.resumeLed();
 		super.onResume();
 	}
 
 	public void pause() {
 		SensorHandler.stopSensorListeners();
 		stageListener.menuPause();
+        LEDUtil.pauseLed();
 	}
 
 	public void resume() {
 		stageListener.menuResume();
+        LEDUtil.resumeLed();
 		SensorHandler.startSensorListener(this);
 	}
 
