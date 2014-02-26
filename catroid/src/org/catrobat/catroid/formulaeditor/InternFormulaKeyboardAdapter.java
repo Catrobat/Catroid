@@ -215,7 +215,12 @@ public class InternFormulaKeyboardAdapter {
 				return buildObject(Sensors.OBJECT_ROTATION);
 			case R.string.formula_editor_object_layer:
 				return buildObject(Sensors.OBJECT_LAYER);
-
+			case R.string.formula_editor_object_x_velocity:
+				return buildObject(Sensors.OBJECT_X_VELOCITY);
+			case R.string.formula_editor_object_y_velocity:
+				return buildObject(Sensors.OBJECT_Y_VELOCITY);
+			case R.string.formula_editor_object_angular_velocity:
+				return buildObject(Sensors.OBJECT_ANGULAR_VELOCITY);
 		}
 		return null;
 	}

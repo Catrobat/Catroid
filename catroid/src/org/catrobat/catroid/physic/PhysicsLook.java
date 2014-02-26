@@ -40,8 +40,8 @@ public class PhysicsLook extends Look {
 
 	@Override
 	public void setVisiblenessTo(boolean visible) {
-		super.setVisiblenessTo(visible);
 		physicsObject.setVisible(visible);
+		super.setVisiblenessTo(visible);
 	}
 
 	//	@Override
