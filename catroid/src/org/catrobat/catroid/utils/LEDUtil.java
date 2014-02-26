@@ -6,6 +6,8 @@ import android.hardware.Camera;
 import android.os.Build;
 import android.util.Log;
 
+import java.util.concurrent.Semaphore;
+
 /**
  * Created by bernd on 2/21/14.
  */
@@ -15,6 +17,7 @@ public class LEDUtil {
     private static boolean lightON = false;
     private static Camera cam = null;
     private static boolean previousLightOn = false;
+    private static Semaphore ledSemaphore = new Semaphore(1);
 
     private LEDUtil() {
 
@@ -39,32 +42,39 @@ public class LEDUtil {
         Thread lightThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                cam = Camera.open();
+                try {
+                    ledSemaphore.acquire();
+                    cam = Camera.open();
 
 
-                if (cam != null) {
+                    if (cam != null) {
 
-                    Camera.Parameters params = cam.getParameters();
-                    params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                        Camera.Parameters params = cam.getParameters();
+                        params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
 
-                    try {
-                        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1){
-                            cam.setPreviewTexture(new SurfaceTexture(0));
+                        try {
+                            if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD){
+                                cam.setPreviewTexture(new SurfaceTexture(0));
+                            }
+
+                            cam.setParameters(params);
+                            cam.startPreview();
+                            lightON = true;
+                            Log.d(LOG_TAG, "led is on");
+                        } catch (Exception e) {
+                            // TODO: toast message
+
+                            Log.d(LOG_TAG, e.getMessage());
                         }
-
-                        cam.setParameters(params);
-                        cam.startPreview();
-                        lightON = true;
-                        Log.d(LOG_TAG, "led is on");
-                    } catch (Exception e) {
+                    } else {
                         // TODO: toast message
-
-                        Log.d(LOG_TAG, e.getMessage());
+                        Log.d(LOG_TAG, "cam is null :(");
                     }
-                } else {
-                    // TODO: toast message
-                    Log.d(LOG_TAG, "cam is null :(");
+                    ledSemaphore.release();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+
             }
         });
         lightThread.start();
@@ -78,15 +88,20 @@ public class LEDUtil {
         Thread lightThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                if (cam != null) {
-                    cam.stopPreview();
-                    cam.release();
-                    cam = null;
-                    lightON = false;
-                } else {
-                    // TODO: toast message
+                try {
+                    ledSemaphore.acquire();
+                    if (cam != null) {
+                        cam.stopPreview();
+                        cam.release();
+                        cam = null;
+                        lightON = false;
+                    } else {
+                        // TODO: toast message
+                    }
+                    ledSemaphore.release();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-
             }
         });
         lightThread.start();
