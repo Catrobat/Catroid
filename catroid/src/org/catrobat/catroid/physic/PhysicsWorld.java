@@ -131,7 +131,6 @@ public class PhysicsWorld {
 		physicsObject.setX(new Formula(-sprite.look.getX()).interpretFloat(sprite));
 		physicsObject.setY(new Formula(sprite.look.getY()).interpretFloat(sprite));
 		physicsObject.setDirection(sprite.look.getDirectionInUserInterfaceDimensionUnit());
-
 	}
 
 	public PhysicsObject getPhysicObject(Sprite sprite) {
@@ -143,15 +142,15 @@ public class PhysicsWorld {
 			return physicsObjects.get(sprite);
 		}
 
-		PhysicsObject physicsObject = createPhysicObject();
+		PhysicsObject physicsObject = createPhysicObject(sprite);
 		physicsObjects.put(sprite, physicsObject);
 
 		return physicsObject;
 	}
 
-	private PhysicsObject createPhysicObject() {
+	private PhysicsObject createPhysicObject(Sprite sprite) {
 		BodyDef bodyDef = new BodyDef();
-		return new PhysicsObject(world.createBody(bodyDef));
+		return new PhysicsObject(world.createBody(bodyDef), sprite);
 	}
 
 	public void bounced(Sprite sprite) {
