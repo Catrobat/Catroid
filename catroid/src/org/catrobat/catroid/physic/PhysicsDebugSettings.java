@@ -27,7 +27,7 @@ public class PhysicsDebugSettings {
 	public final static boolean BOUNCE_ON_EDGES = true;
 
 	public static class Render {
-		public final static boolean RENDER_COLLISION_FRAMES = false;
+		public final static boolean RENDER_COLLISION_FRAMES = true;
 		public final static boolean RENDER_BODIES = true;
 		public final static boolean RENDER_JOINTS = false;
 		public final static boolean RENDER_AABBs = false;
