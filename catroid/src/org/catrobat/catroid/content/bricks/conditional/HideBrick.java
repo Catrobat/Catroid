@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
+import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.List;
 
@@ -113,8 +114,8 @@ public class HideBrick extends BrickBaseType {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		//sequence.addAction(ExtendedActions.hide(sprite));
-		sequence.addAction(sprite.getActionFactory().createHideAction(sprite)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createWaitAction(sprite, new Formula(300 / 1000.0))); // TODO[physic] hack - Race-condition
+		sequence.addAction(sprite.getActionFactory().createHideAction(sprite));
 		return null;
 	}
 }
