@@ -48,7 +48,7 @@ public class LEDUtil {
                     params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
 
                     try {
-                        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD){
+                        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1){
                             cam.setPreviewTexture(new SurfaceTexture(0));
                         }
 
