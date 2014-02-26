@@ -1,27 +1,21 @@
 package org.catrobat.catroid.utils;
 
 import android.app.Activity;
-import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.util.Log;
 
 /**
  * Created by bernd on 2/21/14.
  */
 public class LEDUtil {
 
+    private static final String LOG_TAG = "LED ";
     private static boolean lightON = false;
 
     private static Camera cam = null;
 
     public LEDUtil(Activity activity) {
-        boolean hasCamera = activity.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
-        boolean hasLED =    activity.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
 
-        if (!hasCamera || !hasLED) {
-            // what now?
-        } else {
-            // supi
-        }
     }
 
     public boolean getLEDValue() {
@@ -29,9 +23,12 @@ public class LEDUtil {
     }
 
     public static void setLEDValue(boolean val) {
+        Log.d(LOG_TAG, "setLEDValue()");
         if ( val ) {
+            Log.d(LOG_TAG, "setLEDValue()");
             ledON();
         } else {
+            Log.d(LOG_TAG, "setLEDValue()");
             ledOFF();
         }
     }
