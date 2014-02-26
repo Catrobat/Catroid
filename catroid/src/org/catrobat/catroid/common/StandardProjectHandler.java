@@ -66,7 +66,6 @@ import org.catrobat.catroid.physic.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physic.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.physic.content.bricks.SetGravityBrick;
 import org.catrobat.catroid.physic.content.bricks.SetPhysicsObjectTypeBrick;
-import org.catrobat.catroid.physic.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physic.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 import org.catrobat.catroid.stage.StageListener;
@@ -553,7 +552,7 @@ public final class StandardProjectHandler {
 		Sprite background = defaultProject.getSpriteList().get(0);
 
 		Sprite ball = new Sprite("Ball");
-		//		Sprite ball2 = new Sprite("Ball2");
+		Sprite ball2 = new Sprite("Ball2");
 		//		Sprite ball3 = new Sprite("Ball3");
 		//
 		//		Sprite leftButton = new Sprite("Left button");
@@ -589,35 +588,35 @@ public final class StandardProjectHandler {
 
 		// Ball
 		StartScript startScript = new StartScript(ball);
-		startScript.addBrick(new SetGravityBrick(ball, new Vector2(0.0f, -8.0f)));
+		startScript.addBrick(new SetGravityBrick(ball, new Vector2(0.0f, -4.0f)));
 		ball.addScript(startScript);
 
-		Script ballStartScript = createElement(ball, "pinball", R.drawable.pinball, new Vector2(-200.0f, 300.0f),
+		Script ballStartScript = createElement(ball, "pinball", R.drawable.pinball, new Vector2(0.0f, 250.0f),
 				Float.NaN);
-		setPhysicProperties(ball, ballStartScript, PhysicsObject.Type.DYNAMIC, 20.0f, 80.0f);
+		setPhysicProperties(ball, ballStartScript, PhysicsObject.Type.DYNAMIC, 60.0f, 40.0f);
 
-		// Ball v2
-		String ballBroadcastMessage = "restart ball";
-		BroadcastBrick ballBroadcastBrick = new BroadcastBrick(ball, ballBroadcastMessage);
-		ballStartScript.addBrick(ballBroadcastBrick);
-		ball.addScript(ballStartScript);
+		//		// Ball v2
+		//		String ballBroadcastMessage = "restart ball";
+		//		BroadcastBrick ballBroadcastBrick = new BroadcastBrick(ball, ballBroadcastMessage);
+		//		ballStartScript.addBrick(ballBroadcastBrick);
+		//		ball.addScript(ballStartScript);
 
-		BroadcastScript ballBroadcastScript = new BroadcastScript(ball, ballBroadcastMessage);
-		ballBroadcastScript.addBrick(new PlaceAtBrick(ball, -200, -50));
-		ballBroadcastScript.addBrick(new SetVelocityBrick(ball, new Vector2()));
-		SetLookBrick ballSetLookBrick = new SetLookBrick(ball);
-		ballSetLookBrick.setLook(ball.getLookDataList().get(0));
-		ballBroadcastScript.addBrick(ballSetLookBrick);
-		ball.addScript(ballBroadcastScript);
+		//		BroadcastScript ballBroadcastScript = new BroadcastScript(ball, ballBroadcastMessage);
+		//		ballBroadcastScript.addBrick(new PlaceAtBrick(ball, -200, -50));
+		//		ballBroadcastScript.addBrick(new SetVelocityBrick(ball, new Vector2()));
+		//		SetLookBrick ballSetLookBrick = new SetLookBrick(ball);
+		//		ballSetLookBrick.setLook(ball.getLookDataList().get(0));
+		//		ballBroadcastScript.addBrick(ballSetLookBrick);
+		//		ball.addScript(ballBroadcastScript);
 
-		//		// Ball2
-		//		StartScript startScript2 = new StartScript(ball2);
-		//		startScript2.addBrick(new SetGravityBrick(ball2, new Vector2(0.0f, -8.0f)));
-		//		ball2.addScript(startScript2);
-		//
-		//		Script ballStartScript2 = createElement(ball2, "pinball", R.drawable.pinball, new Vector2(-200.0f, 300.0f),
-		//				Float.NaN);
-		//		setPhysicProperties(ball2, ballStartScript2, PhysicsObject.Type.DYNAMIC, 20.0f, 80.0f);
+		// Ball2
+		StartScript startScript2 = new StartScript(ball2);
+		startScript2.addBrick(new SetGravityBrick(ball2, new Vector2(0.0f, -8.0f)));
+		ball2.addScript(startScript2);
+
+		Script ballStartScript2 = createElement(ball2, "pinball", R.drawable.pinball, new Vector2(0.0f, 300.0f),
+				Float.NaN);
+		setPhysicProperties(ball2, ballStartScript2, PhysicsObject.Type.DYNAMIC, 60.0f, 40.0f);
 		//
 		//		// Ball v2
 		//		BroadcastBrick ballBroadcastBrick2 = new BroadcastBrick(ball2, ballBroadcastMessage);
@@ -679,7 +678,7 @@ public final class StandardProjectHandler {
 		//		setPhysicProperties(rightVerticalWall, rightVerticalWallStartScript, PhysicsObject.Type.FIXED, 5.0f, -1.0f);
 		//
 		Script leftBottomWallStartScript = createElement(leftBottomWall, "wall_bottom", R.drawable.wall_bottom,
-				new Vector2(-155.0f, -255.0f), 58.5f);
+				new Vector2(0.0f, -100.0f), 90f);
 		setPhysicProperties(leftBottomWall, leftBottomWallStartScript, PhysicsObject.Type.FIXED, 5.0f, -1.0f);
 		//		Script rightBottomWallStartScript = createElement(rightBottomWall, "wall_bottom", R.drawable.wall_bottom,
 		//				new Vector2(155.0f, -255.0f), -58.5f);
@@ -737,7 +736,7 @@ public final class StandardProjectHandler {
 		//		defaultProject.addSprite(leftButton);
 		//		defaultProject.addSprite(rightButton);
 		defaultProject.addSprite(ball);
-		//		defaultProject.addSprite(ball2);
+		defaultProject.addSprite(ball2);
 		//		defaultProject.addSprite(ball3);
 		//		defaultProject.addSprite(leftArm);
 		//		defaultProject.addSprite(rightArm);
