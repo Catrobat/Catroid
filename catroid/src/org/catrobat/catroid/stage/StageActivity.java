@@ -58,7 +58,6 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onBackPressed() {
 		pause();
-        LEDUtil.pauseLED();
 		stageDialog.show();
 	}
 
