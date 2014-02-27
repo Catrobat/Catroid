@@ -405,6 +405,8 @@
         <item quantity="other">"Sekunden "</item>
     </plurals>
 
+    <string name="brick_collision_receive">Bei einer Kollision von:</string>
+    <string name="collision_with_anybody">anybody</string>
     <string name="brick_broadcast_receive">Wenn ich empfange:</string>
     <string name="brick_broadcast">Verschicke an alle:</string>
     <string name="brick_broadcast_wait">Verschicke und warte:</string>

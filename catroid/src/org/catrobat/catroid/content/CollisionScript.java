@@ -20,19 +20,26 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.physic;
+package org.catrobat.catroid.content;
 
-public class PhysicsDebugSettings {
+import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.physic.content.bricks.CollisionReceiverBrick;
 
-	public final static boolean BOUNCE_ON_EDGES = true;
+public class CollisionScript extends BroadcastScript {
 
-	public static class Render {
-		public final static boolean RENDER_COLLISION_FRAMES = false;
-		public final static boolean RENDER_BODIES = false;
-		public final static boolean RENDER_JOINTS = false;
-		public final static boolean RENDER_AABBs = false;
-		public final static boolean RENDER_INACTIVE_BODIES = true;
-		public final static boolean RENDER_VELOCITIES = false;
-		public final static boolean RENDER_PHYSIC_OBJECT_LABELING = true;
+	private static final long serialVersionUID = 1L;
+
+	public CollisionScript(Sprite sprite, String broadcastMessage) {
+		super(sprite, broadcastMessage);
 	}
+
+	@Override
+	public ScriptBrick getScriptBrick() {
+		if (brick == null) {
+			brick = new CollisionReceiverBrick(object, this);
+		}
+
+		return brick;
+	}
+
 }

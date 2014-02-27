@@ -112,6 +112,7 @@ import org.catrobat.catroid.content.bricks.conditional.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.conditional.TurnRightBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
+import org.catrobat.catroid.physic.content.bricks.CollisionReceiverBrick;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -210,6 +211,7 @@ public final class StorageHandler {
 		xstream.aliasField("object", BrickBaseType.class, "sprite");
 
 		xstream.alias("broadcastBrick", BroadcastBrick.class);
+		xstream.alias("collisionReceiverBrick", CollisionReceiverBrick.class);
 		xstream.alias("broadcastReceiverBrick", BroadcastReceiverBrick.class);
 		xstream.alias("broadcastWaitBrick", BroadcastWaitBrick.class);
 		xstream.alias("changeBrightnessByNBrick", ChangeBrightnessByNBrick.class);
