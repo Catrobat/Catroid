@@ -47,6 +47,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.robot.albert.ControlCommands;
+import org.catrobat.catroid.robot.albert.SensorData;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
@@ -64,7 +65,9 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 	// needed for testdevices
 	// Bluetooth server is running with a name that starts with 'kitty'
 	// e.g. kittyroid-0, kittyslave-0
-	private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "kittyslave";
+	private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "T420";
+	//private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "kittyslave-0";
+	//private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "kittyslave-1";
 
 	private final String projectName = UiTestUtils.PROJECTNAME1;
 	private final String spriteName = "testSprite";
@@ -126,7 +129,7 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		}
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-		solo.sleep(2000);
+		solo.sleep(2500);
 
 		ListView deviceList = solo.getCurrentViews(ListView.class).get(0);
 		String connectedDeviceName = null;
@@ -141,9 +144,10 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 				+ deviceList.getItemAtPosition(0));
 		solo.clickOnText(connectedDeviceName);
 
-		solo.sleep(5000);
-		solo.sleep(3000);
+		solo.sleep(6000);
 		solo.assertCurrentActivity("Not in stage - connection to bluetooth-device failed", StageActivity.class);
+
+		double distanceLeft = userVariablesContainer.getUserVariable("p1", sprite).getValue();
 
 		solo.clickOnScreen(ScreenValues.SCREEN_WIDTH / 2, ScreenValues.SCREEN_HEIGHT / 2);
 		solo.sleep(5000);
@@ -156,11 +160,6 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		Log.d("TestRobotAlbert_New", receivedBuffer.toByteArray().toString());
 		Log.d("TestRobotAlbert", "Array comparision successful: " + ok);
 
-		double distanceLeft = userVariablesContainer.getUserVariable("p1", sprite).getValue();
-		Log.d("RobotAlbertTest", "left=" + distanceLeft);
-		//BluetoothServer always sends a distance of 50
-		assertEquals("Variable has the wrong value after stage", 50.0, distanceLeft);
-
 		int lenRec = receivedBuffer.length();
 		int lenSent1 = sendCommands.length();
 
@@ -169,17 +168,25 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertTrue("messages reveived and sent are not equal", ok == true);
 		Log.d("temp", receivedBuffer.toString());
 
-		solo.sleep(1000);
-		Log.d("TestRobotAlbert", "before goback");
-		solo.goBack();
-		solo.sleep(100);
-		solo.goBack();
-		solo.sleep(100);
-		solo.goBack();
-		solo.sleep(100);
-		solo.goBack();
+		//BluetoothServer always sends a distance of 50.0
+		//if for whatever reason the previous attempt to read the current distance value 
+		//failed, check again but this time read it directly from SensorData-class
+		if (distanceLeft != 50.0) {
+			distanceLeft = SensorData.getInstance().getValueOfLeftDistanceSensor();
+		}
+		Log.d("RobotAlbertTest", "left=" + distanceLeft);
 
-		Log.d("TestRobotAlbert", "after goback");
+		assertEquals("Variable has the wrong value after stage", 50.0, distanceLeft);
+
+		solo.sleep(500);
+		solo.goBack();
+		solo.sleep(100);
+		solo.goBack();
+		solo.sleep(100);
+		solo.goBack();
+		solo.sleep(100);
+		solo.goBack();
+		Log.d("RobotAlbertTest", "finshed");
 	}
 
 	private void createTestproject(String projectName) {

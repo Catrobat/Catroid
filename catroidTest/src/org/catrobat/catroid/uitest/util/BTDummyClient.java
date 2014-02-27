@@ -45,21 +45,16 @@ public class BTDummyClient {
 	private InputStream inputStream = null;
 	//  private String MACAddress = "00:1F:3A:E9:70:58"; // Martin Laptop
 	//	private String MACAddress = "EC:55:F9:DE:41:6A"; // Manuel Laptop
-	//private String macAddress = "40:2C:F4:69:D0:21"; // Michael Laptop
-	//private String macAddress = "00:26:83:2E:33:42"; // catrobat 1
-	private String macAddress = "00:02:72:17:60:F0"; // catrobat 2
-	//private String macAddress = "00:15:83:3F:E3:2C"; // catrobat 3
+	private String macAddress = "40:2C:F4:69:D0:21"; // Michael Laptop
+	//private String macAddress = "00:02:72:17:60:F0"; // kittyslave-0
+	//private String macAddress = "00:26:83:2E:33:42"; // kittyslave-1
 	private ByteArrayBuffer receivedFeedback = new ByteArrayBuffer(1024);
 	private boolean connected = false;
 
 	private static final String CLOSECONNECTION = "closethisconnection";
 	private static final String COMMANDSETVARIABLE = "setvariable;";
-	//public static final UUID DUMMYCONNECTIONUUID = UUID.fromString("eb8ec53af07046e0b6ff1645c931f858");
+
 	public static final UUID DUMMYCONNECTIONUUID = UUID.fromString("eb8ec53a-f070-46e0-b6ff-1645c931f858");
-	//public static final UUID TEMPUUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
-	//public static final UUID TEMPUUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
-	//public static final UUID DUMMYCONNECTIONUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-	//public static final UUID DUMMYCONNECTIONUUID = new UUID("1101", true);//UUID.fromString("1101");
 	public static final String SERVERDUMMYROBOTALBERT = "albert;" + "0000110100001000800000805F9B34FC";
 
 	public BTDummyClient() {
@@ -74,18 +69,33 @@ public class BTDummyClient {
 		if (!connected) {
 			try {
 				btSocket = dummyServer.createRfcommSocketToServiceRecord(DUMMYCONNECTIONUUID);
+				Log.d("TestRobotAlbert", "before btAdapter.cancelDiscovery();");
 				Log.d("TestRobotAlbert", "before btSocket.connect();");
-				btSocket.connect();
-				Log.d("TestRobotAlbert", "after btSocket.connect();");
-				connected = true;
 
-				this.outputStream = btSocket.getOutputStream();
-				outputStream.write(option.getBytes(), 0, option.length());
-				outputStream.flush();
+				try {
+					Log.d("TestRobotAlbert", "testing 2nd variant");
+					btSocket = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(dummyServer.getAddress())
+							.createRfcommSocketToServiceRecord(UUID.fromString("eb8ec53a-f070-46e0-b6ff-1645c931f858"));
+					btSocket.connect();
+					Log.d("TestRobotAlbert", "after btSocket.connect();");
+					connected = true;
+					this.outputStream = btSocket.getOutputStream();
+					outputStream.write(option.getBytes(), 0, option.length());
+					outputStream.flush();
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					Log.d("TestRobotAlbert", "error: testing 2nd variant");
+					Log.d("BTDummyClient.EEEEEERRRRRRROOOOORRRRR", e.getMessage());
+				}
+
+				Log.d("TestRobotAlbert", "connection established");
 
 				readFeedbackThread.start();
+
 			} catch (IOException e) {
 				Log.e("DummyServer", "DummyServer is not running pls start it");
+				Log.e("DummyServer", e.getMessage());
 				return;
 			}
 		}
@@ -112,7 +122,9 @@ public class BTDummyClient {
 				}
 
 			} catch (IOException e) {
+
 				Log.d("Multiplayer", "TestReceiver Thread END in Exeption");
+				Log.d("Multiplayer", e.getMessage());
 			}
 			Log.d("Multiplayer", "TestReceiver Thread END");
 		}
