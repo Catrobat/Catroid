@@ -41,6 +41,7 @@ import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.robot.albert.SensorData;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
@@ -57,7 +58,9 @@ public class RobotAlbertTestSensor extends BaseActivityInstrumentationTestCase<M
 	// needed for testdevices
 	// Bluetooth server is running with a name that starts with 'kitty'
 	// e.g. kittyroid-0, kittyslave-0
-	private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "kitty";
+	//private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "T420";
+	private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "kittyslave-0";
+	//private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "kittyslave-1";
 
 	private final String projectName = UiTestUtils.PROJECTNAME1;
 	private final String spriteName = "testSprite";
@@ -138,16 +141,21 @@ public class RobotAlbertTestSensor extends BaseActivityInstrumentationTestCase<M
 				+ deviceList.getItemAtPosition(0));
 		solo.clickOnText(connectedDeviceName);
 
-		solo.sleep(5000);
-		solo.sleep(2000);
+		solo.sleep(6000);
+		double distanceLeft = userVariablesContainer.getUserVariable("p1", sprite).getValue();
+
 		solo.assertCurrentActivity("Not in stage - connection to bluetooth-device failed", StageActivity.class);
 
 		solo.clickOnScreen(ScreenValues.SCREEN_WIDTH / 2, ScreenValues.SCREEN_HEIGHT / 2);
 		solo.sleep(5000);
-		
-		solo.sleep(2000);
-		double distanceLeft = userVariablesContainer.getUserVariable("p1", sprite).getValue();
+
 		Log.d("RobotAlbertTest", "left=" + distanceLeft);
+		//if for whatever reason the previous attempt to read the current distance value 
+		//fails, check again but this time read it directly from SensorData-class
+		if (distanceLeft != 50.0) {
+			distanceLeft = SensorData.getInstance().getValueOfLeftDistanceSensor();
+		}
+
 		assertEquals("Variable has the wrong value after stage", 50.0, distanceLeft);
 
 		solo.sleep(1000);
@@ -168,7 +176,7 @@ public class RobotAlbertTestSensor extends BaseActivityInstrumentationTestCase<M
 		SetLookBrick setLookBrick = new SetLookBrick(firstSprite);
 		sprite = firstSprite;
 
-		WaitBrick waitBrick = new WaitBrick(firstSprite, 4000);
+		WaitBrick waitBrick = new WaitBrick(firstSprite, 7000);
 
 		SetVariableBrick setVariableBrick = new SetVariableBrick(firstSprite, 0.0);
 
