@@ -50,7 +50,6 @@ import android.os.Message;
 import android.util.Log;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 //This code is based on the nxt-implementation
 public abstract class RobotAlbertCommunicator extends Thread {
@@ -82,9 +81,6 @@ public abstract class RobotAlbertCommunicator extends Thread {
 	protected boolean connected = false;
 	protected Handler uiHandler;
 
-	protected static ArrayList<byte[]> receivedMessages = new ArrayList<byte[]>();
-	protected byte[] returnMessage;
-
 	protected Resources resources;
 
 	protected ControlCommands commands = new ControlCommands();
@@ -95,16 +91,8 @@ public abstract class RobotAlbertCommunicator extends Thread {
 		this.resources = resources;
 	}
 
-	public static ArrayList<byte[]> getReceivedMessageList() {
-		return receivedMessages;
-	}
-
 	public Handler getHandler() {
 		return myHandler;
-	}
-
-	public byte[] getReturnMessage() {
-		return returnMessage;
 	}
 
 	/**
