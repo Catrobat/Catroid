@@ -30,15 +30,15 @@ import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 public class BroadcastListener implements EventListener {
 
 	@Override
-	public boolean handle(Event e) {
-		if (e instanceof BroadcastEvent) {
-			BroadcastEvent event = (BroadcastEvent) e;
-			if (event.getType().equals(BroadcastType.broadcast)) {
-				handleBroadcastEvent(event, event.getBroadcastMessage());
+	public boolean handle(Event event) {
+		if (event instanceof BroadcastEvent) {
+			BroadcastEvent broadcastEvent = (BroadcastEvent) event;
+			if (broadcastEvent.getType().equals(BroadcastType.broadcast)) {
+				handleBroadcastEvent(broadcastEvent, broadcastEvent.getBroadcastMessage());
 				return true;
 			}
-			if (event.getType().equals(BroadcastType.broadcastWait)) {
-				handleBroadcastFromWaiterEvent(event, event.getBroadcastMessage());
+			if (broadcastEvent.getType().equals(BroadcastType.broadcastWait)) {
+				handleBroadcastFromWaiterEvent(broadcastEvent, broadcastEvent.getBroadcastMessage());
 				return true;
 			}
 		}

@@ -25,6 +25,7 @@ package org.catrobat.catroid.stage;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
@@ -34,7 +35,6 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -157,8 +157,8 @@ public class StageListener implements ApplicationListener {
 		stage = new Stage(virtualWidth, virtualHeight, true);
 		batch = stage.getSpriteBatch();
 
-		Gdx.gl.glViewport(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
-		initScreenMode();
+		camera = (OrthographicCamera) stage.getCamera();
+		camera.position.set(0, 0, 0);
 
 		sprites = project.getSpriteList();
 		for (Sprite sprite : sprites) {
@@ -169,8 +169,12 @@ public class StageListener implements ApplicationListener {
 		}
 
 		passepartout = new Passepartout(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT, maximizeViewPortWidth,
-				maximizeViewPortHeight, virtualWidth, virtualHeight);
+				maximizeViewPortHeight, virtualWidth, virtualHeight, camera.combined);
 		stage.addActor(passepartout);
+
+		if (sprites.size() > 0) {
+			sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
+		}
 
 		if (DEBUG) {
 			OrthoCamController camController = new OrthoCamController(camera);
@@ -188,6 +192,9 @@ public class StageListener implements ApplicationListener {
 		if (checkIfAutomaticScreenshotShouldBeTaken) {
 			makeAutomaticScreenshot = project.manualScreenshotExists(SCREENSHOT_MANUAL_FILE_NAME);
 		}
+
+		Gdx.gl.glViewport(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+		initScreenMode();
 
 	}
 
@@ -299,7 +306,6 @@ public class StageListener implements ApplicationListener {
 				stage.addActor(sprite.look);
 				sprite.pause();
 			}
-			stage.addActor(passepartout);
 
 			paused = true;
 			firstStart = true;
@@ -442,7 +448,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		for (int i = 0; i < length; i += 4) {
-			colors[i / 4] = android.graphics.Color.argb(255, screenshot[i + 0] & 0xFF, screenshot[i + 1] & 0xFF,
+			colors[i / 4] = Color.argb(255, screenshot[i + 0] & 0xFF, screenshot[i + 1] & 0xFF,
 					screenshot[i + 2] & 0xFF);
 		}
 		fullScreenBitmap = Bitmap.createBitmap(colors, 0, screenshotWidth, screenshotWidth, screenshotHeight,
@@ -509,6 +515,7 @@ public class StageListener implements ApplicationListener {
 				screenshotHeight = ScreenValues.SCREEN_HEIGHT;
 				screenshotX = 0;
 				screenshotY = 0;
+				passepartout.setVisible(false);
 				break;
 
 			case MAXIMIZE:
@@ -517,6 +524,7 @@ public class StageListener implements ApplicationListener {
 				screenshotHeight = maximizeViewPortHeight;
 				screenshotX = maximizeViewPortX;
 				screenshotY = maximizeViewPortY;
+				passepartout.setVisible(true);
 				break;
 
 			default:
@@ -526,6 +534,7 @@ public class StageListener implements ApplicationListener {
 		camera = (OrthographicCamera) stage.getCamera();
 		camera.position.set(0, 0, 0);
 		camera.update();
+		passepartout.setCameraCombined(camera.combined);
 	}
 
 	private LookData createWhiteBackgroundLookData() {

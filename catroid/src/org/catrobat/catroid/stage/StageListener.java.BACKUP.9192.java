@@ -25,8 +25,12 @@ package org.catrobat.catroid.stage;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+<<<<<<< HEAD
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+=======
+>>>>>>> master
 import android.os.SystemClock;
 import android.util.Log;
 
