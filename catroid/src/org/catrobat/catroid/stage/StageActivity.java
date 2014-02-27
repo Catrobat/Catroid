@@ -64,7 +64,7 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onBackPressed() {
 		pause();
-        LEDUtil.pauseLed();
+        LEDUtil.pauseLED();
 		stageDialog.show();
 	}
 
@@ -78,7 +78,7 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onPause() {
 		SensorHandler.stopSensorListeners();
-        LEDUtil.pauseLed();
+        LEDUtil.pauseLED();
 		super.onPause();
 
 		droneConnection.pause();
@@ -88,7 +88,7 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onResume() {
 		SensorHandler.startSensorListener(this);
-        LEDUtil.resumeLed();
+        LEDUtil.resumeLED();
 		super.onResume();
 
 		droneConnection.start();
@@ -97,12 +97,12 @@ public class StageActivity extends AndroidApplication {
 	public void pause() {
 		SensorHandler.stopSensorListeners();
 		stageListener.menuPause();
-        LEDUtil.pauseLed();
+        LEDUtil.pauseLED();
 	}
 
 	public void resume() {
 		stageListener.menuResume();
-        LEDUtil.resumeLed();
+        LEDUtil.resumeLED();
 		SensorHandler.startSensorListener(this);
 	}
 
