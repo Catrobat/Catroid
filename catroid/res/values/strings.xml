@@ -417,31 +417,33 @@
 
 
     <!-- Control bricks -->
-    <string name="brick_when_started" >When program started</string >
-    <string name="brick_when" >When tapped</string >
-    <string name="brick_wait" >Wait</string >
+    <string name="brick_when_started">When program started</string>
+    <string name="brick_when">When tapped</string>
+    <string name="brick_wait">Wait</string>
 
-    <plurals name="second_plural" >
-        <item quantity="one" >"second "</item >
-        <item quantity="other" >"seconds "</item >
-    </plurals >
+    <plurals name="second_plural">
+        <item quantity="one">"second "</item>
+        <item quantity="other">"seconds "</item>
+    </plurals>
+    
+	<string name="brick_collision_receive">When collision between</string>
+	<string name="collision_with_anybody">anybody</string>
+    <string name="brick_broadcast_receive">When I receive</string>
+    <string name="brick_broadcast">Broadcast</string>
+    <string name="brick_broadcast_wait">Broadcast and wait</string>
+    <string name="brick_note">Note</string>
+    <string name="brick_forever">Forever</string>
+    <string name="brick_repeat">Repeat</string>
 
-    <string name="brick_broadcast_receive" >When I receive</string >
-    <string name="brick_broadcast" >Broadcast</string >
-    <string name="brick_broadcast_wait" >Broadcast and wait</string >
-    <string name="brick_note" >Note</string >
-    <string name="brick_forever" >Forever</string >
-    <string name="brick_repeat" >Repeat</string >
+    <plurals name="time_plural">
+        <item quantity="one">time</item>
+        <item quantity="other">times</item>
+    </plurals>
 
-    <plurals name="time_plural" >
-        <item quantity="one" >time</item >
-        <item quantity="other" >times</item >
-    </plurals >
-
-    <string name="brick_loop_end" >End of loop</string >
-    <string name="brick_if_begin" >If</string >
-    <string name="brick_if_begin_second_part" >is true then</string >
-    <string name="brick_if_else" >Else</string >
+    <string name="brick_loop_end">End of loop</string>
+    <string name="brick_if_begin">If</string>
+    <string name="brick_if_begin_second_part">is true then</string>
+    <string name="brick_if_else">Else</string>
     <string name="brick_if_end">End If</string>
     <string name="brick_set_variable" >Set variable</string >
     <string name="brick_change_variable" >Change variable</string >
