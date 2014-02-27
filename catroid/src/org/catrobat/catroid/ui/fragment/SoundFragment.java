@@ -89,6 +89,8 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Stack;
 
 public class SoundFragment extends ScriptActivityFragment implements SoundBaseAdapter.OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
@@ -106,6 +108,9 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	private SoundBaseAdapter adapter;
 	private ArrayList<SoundInfo> soundInfoList;
 	private SoundInfo selectedSoundInfo;
+
+	private Stack<SoundInfo> undoSoundInfoStack;
+	private Stack<SoundInfo> redoSoundInfoStack;
 
 	private ListView listView;
 
@@ -155,6 +160,18 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	}
 
 	@Override
+	public void onDestroyView() {
+		// delete sound files
+		if (undoSoundInfoStack != null & !undoSoundInfoStack.isEmpty()) {
+			Iterator<SoundInfo> it = undoSoundInfoStack.iterator();
+			while (it.hasNext()) {
+				SoundController.getInstance().deleteSound(it.next(), getActivity());
+			}
+		}
+		super.onDestroyView();
+	}
+
+	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
@@ -176,6 +193,9 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 		Utils.loadProjectIfNeeded(getActivity());
 		setHandleAddbutton();
+
+		undoSoundInfoStack = new Stack<SoundInfo>();
+		redoSoundInfoStack = new Stack<SoundInfo>();
 
 		// set adapter and soundInfoList for ev. unpacking
 		BackPackListManager.getInstance().setCurrentSoundInfoList(soundInfoList);
@@ -354,12 +374,35 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public void startDeleteActionMode() {
+		Log.v(TAG, "Size = " + undoSoundInfoStack.size());
 		if (actionMode == null) {
 			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
+		}
+	}
+
+	@Override
+	public void startUndoActionMode() {
+		if (actionMode == null) {
+			if (!undoSoundInfoStack.isEmpty()) {
+				SoundInfo currentSoundInfo = undoSoundInfoStack.pop();
+				SoundController.getInstance().addSoundToList(currentSoundInfo, soundInfoList, adapter,
+						redoSoundInfoStack);
+			}
+		}
+	}
+
+	@Override
+	public void startRedoActionMode() {
+		if (actionMode == null) {
+			if (!redoSoundInfoStack.isEmpty()) {
+				SoundInfo currentSoundInfo = redoSoundInfoStack.pop();
+				SoundController.getInstance().deleteSoundFromList(currentSoundInfo, soundInfoList, adapter,
+						undoSoundInfoStack);
+			}
 		}
 	}
 
@@ -825,7 +868,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
-				SoundController.getInstance().deleteCheckedSounds(getActivity(), adapter, soundInfoList, mediaPlayer);
+				SoundController.getInstance().deleteCheckedSounds(getActivity(), adapter, soundInfoList,
+						undoSoundInfoStack, mediaPlayer);
 				dialog.cancel();
 			}
 		});

@@ -274,6 +274,18 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		startActionMode(deleteModeCallBack);
 	}
 
+	@Override
+	public void startUndoActionMode() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void startRedoActionMode() {
+		// TODO Auto-generated method stub
+
+	}
+
 	private void startActionMode(ActionMode.Callback actionModeCallback) {
 		actionMode = getSherlockActivity().startActionMode(actionModeCallback);
 
