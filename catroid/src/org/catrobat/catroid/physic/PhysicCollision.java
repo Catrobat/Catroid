@@ -22,13 +22,20 @@
  */
 package org.catrobat.catroid.physic;
 
+import android.util.Log;
+
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.BroadcastEvent;
+import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
+
+import java.util.List;
 
 public class PhysicCollision implements ContactListener {
 	@SuppressWarnings("unused")
@@ -53,6 +60,25 @@ public class PhysicCollision implements ContactListener {
 		if (b.getUserData() instanceof Sprite) {
 			mPhysicWorld.bounced((Sprite) b.getUserData());
 			//Log.d(TAG, "SPRITE B");
+		}
+		if (a.getUserData() instanceof Sprite && b.getUserData() instanceof Sprite) {
+			Sprite sprite1 = (Sprite) a.getUserData();
+			Sprite sprite2 = (Sprite) b.getUserData();
+			Log.d(TAG, "# COLLISION # :" + sprite1.getName() + "<->" + sprite2.getName());
+			fireEvent(sprite1.getName() + "<->" + sprite2.getName());
+			fireEvent(sprite2.getName() + "<->" + sprite1.getName());
+			fireEvent(sprite2.getName() + "<->anybody");
+			fireEvent(sprite2.getName() + "<->anybody");
+		}
+	}
+
+	private void fireEvent(String message) {
+		BroadcastEvent event = new BroadcastEvent();
+		event.setBroadcastMessage(message);
+		event.setType(BroadcastType.broadcast);
+		List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		for (Sprite spriteOfList : sprites) {
+			spriteOfList.look.fire(event);
 		}
 	}
 
