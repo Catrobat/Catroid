@@ -414,7 +414,9 @@
         <item quantity="one">"second "</item>
         <item quantity="other">"seconds "</item>
     </plurals>
-
+    
+	<string name="brick_collision_receive">When collision between</string>
+	<string name="collision_with_anybody">anybody</string>
     <string name="brick_broadcast_receive">When I receive</string>
     <string name="brick_broadcast">Broadcast</string>
     <string name="brick_broadcast_wait">Broadcast and wait</string>
