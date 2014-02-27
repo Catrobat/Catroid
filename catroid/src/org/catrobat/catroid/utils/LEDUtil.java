@@ -30,11 +30,13 @@ public class LEDUtil {
             while (lightThreadActive) {
                 try {
                     lightThreadSemaphore.acquire();
+                    setLED(ledValue);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                setLED(ledValue);
+
             }
+            lightThreadSemaphore.release();
         }
     });
 
@@ -44,8 +46,6 @@ public class LEDUtil {
     }
 
     public static void setLEDValue(boolean val) {
-        //Log.d(LOG_TAG, "setLEDValue");
-        // TODO: Wake up thread
         ledValue = val;
         lightThreadSemaphore.release();
     }
@@ -70,21 +70,20 @@ public class LEDUtil {
     }
 
     public LEDUtil() {
-
     }
 
     public static void activateLEDThread() {
         Log.d(LOG_TAG, "activateLEDThread()");
-        lightThread.setName("lightThread");
 
         if (!lightThread.isAlive()) {
-
-            lightThread.start();
             try {
+                // thread has to start in waiting state
                 lightThreadSemaphore.acquire();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            lightThread.setName("lightThread");
+            lightThread.start();
         }
     }
 
@@ -106,15 +105,17 @@ public class LEDUtil {
 
             if (cam != null) {
                 Camera.Parameters params = cam.getParameters();
-                params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                if (params != null) {
+                    params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
 
-                if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
-                    cam.setPreviewTexture(new SurfaceTexture(0));
+                    if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
+                        cam.setPreviewTexture(new SurfaceTexture(0));
+                    }
+
+                    cam.setParameters(params);
+                    cam.startPreview();
+                    lightON = true;
                 }
-
-                cam.setParameters(params);
-                cam.startPreview();
-                lightON = true;
             }
         } catch (Exception e) {
             // TODO: Toast message
@@ -135,6 +136,7 @@ public class LEDUtil {
                 lightON = false;
             }
         } catch (Exception e) {
+            // TODO: Toast message
             Log.d(LOG_TAG, e.getMessage());
         }
     }
