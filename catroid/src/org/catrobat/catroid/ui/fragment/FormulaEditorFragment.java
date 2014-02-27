@@ -489,7 +489,8 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		FragmentManager fragmentManager = ((SherlockFragmentActivity) context).getSupportFragmentManager();
 		Fragment fragment = fragmentManager.findFragmentByTag(tag);
 
-		if (fragment == null) {
+		//update fragment always to ensure that changes in the available sensors are recognized
+		//if (fragment == null) {
 			fragment = new FormulaEditorListFragment();
 			Bundle bundle = new Bundle();
 			bundle.putString(FormulaEditorListFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
@@ -497,7 +498,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			bundle.putString(FormulaEditorListFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
 			fragment.setArguments(bundle);
 			fragmentManager.beginTransaction().add(R.id.script_fragment_container, fragment, tag).commit();
-		}
+		//}
 		((FormulaEditorListFragment) fragment).showFragment(context);
 	}
 
