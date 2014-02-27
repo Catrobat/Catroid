@@ -1,125 +1,120 @@
 package org.catrobat.catroid.utils;
 
-import android.app.Activity;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.os.Build;
 import android.util.Log;
 
-import java.util.concurrent.Semaphore;
 
 /**
  * Created by bernd on 2/21/14.
  */
 public class LEDUtil {
 
-    private static final String LOG_TAG = "LED ";
-    private static boolean lightON = false;
+    private static final String LOG_TAG = "LEDUtil::";
     private static Camera cam = null;
+
+    private static boolean lightON = false;
     private static boolean previousLightOn = false;
-    private static Semaphore ledSemaphore = new Semaphore(1);
+    private static boolean ledValue = false;
+    private static boolean paused = false;
 
-    private LEDUtil() {
+    private static Thread lightThread;
 
+    public static boolean getLEDValue() {
+        return ledValue;
     }
 
-    public boolean getLEDValue() {
-        return lightON;
+    public static void setLEDValue( boolean val ) {
+        //Log.d(LOG_TAG, "setLEDValue");
+        // TODO: Wake up thread
+        ledValue = val;
+        lightThread.run();
     }
 
-    public static void setLEDValue(boolean val) {
-        if (val) {
-            ledON();
-        } else {
-            ledOFF();
+    public static void pauseLED() {
+        Log.d(LOG_TAG, "pauseLED");
+        if ( !paused ) {
+            paused = true;
+            if ( lightON == true ) {
+                setLEDValue( false );
+                previousLightOn = true;
+            } else {
+                previousLightOn = false;
+            }
         }
     }
 
-    private static void ledON() {
+    public static void resumeLED() {
+        Log.d(LOG_TAG, "resumeLED()");
+        setLEDValue( previousLightOn );
+        paused = false;
+    }
+
+    public LEDUtil() {
+
+    }
+
+    public static void activateLEDThread() {
+        Log.d(LOG_TAG, "activateLEDThread()");
+        lightThread = new Thread( new Runnable() {
+            @Override
+            public void run() {
+                setLED( ledValue );
+            }
+        });
+        lightThread.setName("lightThread");
+        lightThread.start();
+    }
+
+    private synchronized static void setLED( boolean ledValue ) {
+        Log.d(LOG_TAG, "setLED()");
+        if ( ledValue )
+            ledON();
+        else
+            ledOFF();
+    }
+
+    private synchronized static void ledON() {
         if (lightON == true)
             return;
 
-        Thread lightThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    ledSemaphore.acquire();
-                    cam = Camera.open();
+        Log.d(LOG_TAG, "ledON()");
+        try {
+            cam = Camera.open();
 
+            if ( cam != null ) {
+                Camera.Parameters params = cam.getParameters();
+                params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
 
-                    if (cam != null) {
-
-                        Camera.Parameters params = cam.getParameters();
-                        params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-
-                        try {
-                            if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD){
-                                cam.setPreviewTexture(new SurfaceTexture(0));
-                            }
-
-                            cam.setParameters(params);
-                            cam.startPreview();
-                            lightON = true;
-                            Log.d(LOG_TAG, "led is on");
-                        } catch (Exception e) {
-                            // TODO: toast message
-
-                            Log.d(LOG_TAG, e.getMessage());
-                        }
-                    } else {
-                        // TODO: toast message
-                        Log.d(LOG_TAG, "cam is null :(");
-                    }
-                    ledSemaphore.release();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                if ( android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1 ) {
+                    cam.setPreviewTexture( new SurfaceTexture( 0 ) );
                 }
 
+                cam.setParameters(params);
+                cam.startPreview();
+                lightON = true;
             }
-        });
-        lightThread.start();
-
-    }
-
-    public static void ledOFF() {
-        if (lightON == false)
-            return;
-
-        Thread lightThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    ledSemaphore.acquire();
-                    if (cam != null) {
-                        cam.stopPreview();
-                        cam.release();
-                        cam = null;
-                        lightON = false;
-                    } else {
-                        // TODO: toast message
-                    }
-                    ledSemaphore.release();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        lightThread.start();
-
-
-    }
-
-    public static void pauseLed() {
-        if (lightON == true) {
-            ledOFF();
-            previousLightOn = true;
-        } else {
-            previousLightOn = false;
+        } catch( Exception e ) {
+            // TODO: Toast message
+            Log.d( LOG_TAG, e.getMessage() );
         }
     }
 
-    public static void resumeLed() {
-        Log.d(LOG_TAG, "resume led");
-        setLEDValue(previousLightOn);
+    private synchronized static void ledOFF() {
+        if (lightON == false)
+            return;
+
+        Log.d(LOG_TAG, "ledOFF()");
+        try {
+            if ( cam != null ) {
+                cam.stopPreview();;
+                cam.release();
+                cam = null;
+                lightON = false;
+            }
+        } catch ( Exception e ) {
+            Log.d( LOG_TAG, e.getMessage() );
+        }
     }
 }

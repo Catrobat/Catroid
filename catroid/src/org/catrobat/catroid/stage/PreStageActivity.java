@@ -48,6 +48,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.legonxt.LegoNXT;
 import org.catrobat.catroid.legonxt.LegoNXTBtCommunicator;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.utils.LEDUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -93,6 +94,7 @@ public class PreStageActivity extends Activity {
             if ( hasCamera && hasLED ) {
                 requiredResources &= ~Brick.CAMERA_LED;
                 requiredResourceCounter--;
+                LEDUtil.activateLEDThread();
             } else {
                 // TODO: make Toast and error handling
 //                Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
