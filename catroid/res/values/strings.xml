@@ -372,6 +372,7 @@
     <string name="brick_clear_graphic_effect">Clear graphic effects</string>
     <string name="brick_next_look">Next look</string>
     <string name="brick_next_background">Next background</string>
+    <string name="brick_led">set LED</string>
     <!--  -->
 
 
@@ -392,7 +393,6 @@
     <string name="brick_when">When tapped</string>
     <string name="brick_wait">Wait</string>
 
-    <string name="brick_led">set LED</string>
 
     <plurals name="second_plural">
         <item quantity="one">"second "</item>
