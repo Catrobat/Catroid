@@ -11,6 +11,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.LEDBrick;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -34,7 +35,7 @@ public class LEDBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
     private Socket clientSocket = null;
     private DataOutputStream sendToServer;
     private BufferedReader recvFromServer;
-    private static final String serverIP = "192.168.8.200";
+    private static final String serverIP = "129.27.202.103";
     private static final int serverPort = 6789;
     private static final int getLightValueID = 2;
 
@@ -76,6 +77,7 @@ public class LEDBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
     }
 
     public void testLedBrick() {
+        Log.d(LOG_LEDTEST, "testLedBrick() started");
         ListView dragDropListView = UiTestUtils.getScriptListView(solo);
         BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
@@ -91,30 +93,56 @@ public class LEDBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
         assertEquals( "Wrong brick instance", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0) );
         assertNotNull( "TextView does not exist.", solo.getText(solo.getString(R.string.brick_led)));
 
+        Log.d(LOG_LEDTEST, "test script initialized");
+
         UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_led_edit_text, SET_LED_ON_VALUE,
-                "ledValue", ledBrick);
+                "lightValue", ledBrick);
+
+        Log.d(LOG_LEDTEST, "LED value set to " + SET_LED_ON_VALUE);
+
+        UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+        solo.waitForActivity(StageActivity.class.getSimpleName());
+
+        Log.d(LOG_LEDTEST, "StageActivity started");
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(8000);
+            Log.d(LOG_LEDTEST, "checking sensor value");
             checkSensorValue(SET_LED_ON_VALUE);
+            Thread.sleep(500);
+            checkSensorValue(SET_LED_ON_VALUE);
+            Thread.sleep(500);
+            checkSensorValue(SET_LED_ON_VALUE);
+            Thread.sleep(500);
         } catch (Exception e) {
             Log.e(LOG_LEDTEST, e.getMessage());
         }
 
+        Log.d(LOG_LEDTEST, "pause StageActivity - this should turn off the led");
         solo.goBack();
 
         try {
+            Thread.sleep(8000);
+            Log.d(LOG_LEDTEST, "checking sensor value");
+            checkSensorValue(SET_LED_OFF_VALUE);
             Thread.sleep(500);
             checkSensorValue(SET_LED_OFF_VALUE);
+            Thread.sleep(500);
+            checkSensorValue(SET_LED_OFF_VALUE);
+            Thread.sleep(500);
         } catch (Exception e) {
             Log.e(LOG_LEDTEST, e.getMessage());
         }
+        Log.d(LOG_LEDTEST, "testLedBrick() finished");
     }
 
     private void connectToArduinoServer() throws IOException {
-        clientSocket = new Socket( serverIP, serverPort );
+        Log.d(LOG_LEDTEST, "Trying to connect to server...");
 
-        Log.d(LOG_LEDTEST, "Connected to:" + serverIP + "on port" + serverPort);
+        clientSocket = new Socket( serverIP, serverPort );
+        clientSocket.setKeepAlive(true);
+
+        Log.d(LOG_LEDTEST, "Connected to: " + serverIP + " on port " + serverPort);
         sendToServer = new DataOutputStream( clientSocket.getOutputStream() );
         recvFromServer = new BufferedReader( new InputStreamReader( clientSocket.getInputStream() ) );
     }
@@ -139,6 +167,7 @@ public class LEDBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 
         char expectedChar;
         String assertString;
+        String response;
         if ( expected == SET_LED_ON_VALUE ) {
             expectedChar = '1';
             assertString = "Error: LED is turned off!";
@@ -147,15 +176,24 @@ public class LEDBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
             assertString = "Error: LED is turned on!";
         }
         try {
-            sendToServer.writeBytes( Integer.toHexString( getLightValueID ) );
-            String response = recvFromServer.readLine();
+            clientSocket.close();
+            Thread.sleep(500);
+            connectToArduinoServer();
+            Log.d(LOG_LEDTEST, "requesting sensor value: ");
+            sendToServer.writeByte(Integer.toHexString(getLightValueID).charAt(0));
+            sendToServer.flush();
+            Thread.sleep(500);
+            response = recvFromServer.readLine();
+            Log.d(LOG_LEDTEST, "response received! " + response);
 
-            assertFalse( "Wrong Command!", response.contains( "ERROR" ) );
+            assertFalse("Wrong Command!", response.contains("ERROR"));
             assertTrue( "Wrong data received!", response.contains( "LIGHT_END" ) );
             assertTrue( assertString, response.charAt(0) == expectedChar );
 
         } catch ( IOException ioe ) {
             throw new AssertionFailedError( "Data exchange failed! Check server connection!" );
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
