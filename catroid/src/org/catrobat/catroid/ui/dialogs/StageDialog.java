@@ -150,7 +150,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	private void clearBroadcastMaps() {
 		BroadcastSequenceMap.clear();
 		BroadcastWaitSequenceMap.clear();
-		BroadcastWaitSequenceMap.currentBroadcastEvent = null;
+		BroadcastWaitSequenceMap.clearCurrentBroadcastEvent();
 	}
 
 	private class FinishThreadAndDisposeTexturesTask extends AsyncTask<Void, Void, Void> {

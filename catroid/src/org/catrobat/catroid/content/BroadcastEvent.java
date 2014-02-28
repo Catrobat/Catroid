@@ -95,7 +95,7 @@ public class BroadcastEvent extends Event {
 		resetNumberOfReceivers();
 		resetNumberOfFinishedReceivers();
 		BroadcastWaitSequenceMap.remove(getBroadcastMessage());
-		BroadcastWaitSequenceMap.currentBroadcastEvent = null;
+		BroadcastWaitSequenceMap.clearCurrentBroadcastEvent();
 		setRun(true);
 	}
 
