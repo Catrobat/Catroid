@@ -75,8 +75,6 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new IfLogicBeginBrick(sprite, 0));
 		controlBrickList.add(new RepeatBrick(sprite, BrickValues.REPEAT));
 
-        controlBrickList.add(new LEDBrick( sprite ) );
-
 		return controlBrickList;
 	}
 
@@ -139,6 +137,7 @@ public class CategoryBricksFactory {
 		looksBrickList.add(new SetBrightnessBrick(sprite, BrickValues.SET_BRIGHTNESS_TO));
 		looksBrickList.add(new ChangeBrightnessByNBrick(sprite, BrickValues.CHANGE_BRITHNESS_BY));
 		looksBrickList.add(new ClearGraphicEffectBrick(sprite));
+        looksBrickList.add(new LEDBrick(sprite));
 
 		return looksBrickList;
 	}
