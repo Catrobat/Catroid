@@ -343,6 +343,8 @@ public class PhysicsObject {
 	}
 
 	private void calcAABB() {
+		bodyAABBlower = new Vector2(Integer.MAX_VALUE, Integer.MAX_VALUE);
+		bodyAABBupper = new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE);
 		Transform transform = body.getTransform();
 		int len = body.getFixtureList().size();
 		ArrayList<Fixture> fixtures = body.getFixtureList();
@@ -353,8 +355,6 @@ public class PhysicsObject {
 	}
 
 	private void calcAABB(Fixture fixture, Transform transform) {
-		bodyAABBlower = new Vector2(Integer.MAX_VALUE, Integer.MAX_VALUE);
-		bodyAABBupper = new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE);
 		fixtureAABBlower = new Vector2(Integer.MAX_VALUE, Integer.MAX_VALUE);
 		fixtureAABBupper = new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE);
 		if (fixture.getType() == Shape.Type.Circle) {
