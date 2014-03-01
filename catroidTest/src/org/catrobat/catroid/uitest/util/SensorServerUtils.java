@@ -1,0 +1,110 @@
+/**
+ *  Catroid: An on-device visual programming system for Android devices
+ *  Copyright (C) 2010-2013 The Catrobat Team
+ *  (<http://developer.catrobat.org/credits>)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://developer.catrobat.org/license_additional_term
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU Affero General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package org.catrobat.catroid.uitest.util;
+
+import android.util.Log;
+
+import junit.framework.AssertionFailedError;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
+
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+
+/**
+ * @author BerndBaumann
+ *
+ * This client provides communication to a test server running on an arduino board.
+ * Enter the right IP adress and port number to connect and request sensor values.
+ */
+public final class SensorServerUtils {
+    private static final String LOG_LEDTEST = "SensorServerUtils::";
+
+    // fields to provide ethernet connection to the arduino server
+    private static Socket clientSocket = null;
+    private static DataOutputStream sendToServer;
+    private static BufferedReader recvFromServer;
+    private static final String serverIP = "129.27.202.103";
+    private static final int serverPort = 6789;
+    private static final int getLightValueID = 2;
+
+    public static final int SET_LED_ON_VALUE = 1;
+    public static final int SET_LED_OFF_VALUE = 0;
+
+    public static void connectToArduinoServer() throws IOException {
+        Log.d(LOG_LEDTEST, "Trying to connect to server...");
+
+        clientSocket = new Socket( serverIP, serverPort );
+        clientSocket.setKeepAlive(true);
+
+        Log.d(LOG_LEDTEST, "Connected to: " + serverIP + " on port " + serverPort);
+        sendToServer = new DataOutputStream( clientSocket.getOutputStream() );
+        recvFromServer = new BufferedReader( new InputStreamReader( clientSocket.getInputStream() ) );
+    }
+
+    public static void closeConnection() throws IOException {
+        if (clientSocket != null)
+            clientSocket.close();
+        clientSocket = null;
+        sendToServer = null;
+        recvFromServer = null;
+    }
+
+    public static void checkSensorValue( int expected ) {
+
+        char expectedChar;
+        String assertString;
+        String response;
+        if ( expected == SET_LED_ON_VALUE ) {
+            expectedChar = '1';
+            assertString = "Error: LED is turned off!";
+        } else {
+            expectedChar = '0';
+            assertString = "Error: LED is turned on!";
+        }
+        try {
+            clientSocket.close();
+            Thread.sleep(500);
+            connectToArduinoServer();
+            Log.d(LOG_LEDTEST, "requesting sensor value: ");
+            sendToServer.writeByte(Integer.toHexString(getLightValueID).charAt(0));
+            sendToServer.flush();
+            Thread.sleep(500);
+            response = recvFromServer.readLine();
+            Log.d(LOG_LEDTEST, "response received! " + response);
+
+            assertFalse("Wrong Command!", response.contains("ERROR"));
+            assertTrue( "Wrong data received!", response.contains( "LIGHT_END" ) );
+            assertTrue( assertString, response.charAt(0) == expectedChar );
+
+        } catch ( IOException ioe ) {
+            throw new AssertionFailedError( "Data exchange failed! Check server connection!" );
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}

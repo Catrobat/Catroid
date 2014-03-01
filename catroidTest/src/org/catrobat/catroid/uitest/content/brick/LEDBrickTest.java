@@ -1,8 +1,29 @@
+/**
+ *  Catroid: An on-device visual programming system for Android devices
+ *  Copyright (C) 2010-2013 The Catrobat Team
+ *  (<http://developer.catrobat.org/credits>)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://developer.catrobat.org/license_additional_term
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU Affero General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.catrobat.catroid.uitest.content.brick;
 
 import android.util.Log;
 import android.widget.ListView;
-import junit.framework.AssertionFailedError;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -15,32 +36,25 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
+import org.catrobat.catroid.uitest.util.SensorServerUtils;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.*;
 import java.util.ArrayList;
 
 /**
- * Created by bernd on 2/28/14.
+ * @author BerndBaumann
+ *
+ * To successfully execute this tests you need to make sure they are running on
+ * an actual phone (not a virtual device), with a led flash next to the back camera.
+ * This phone must be connected to a WLAN access point to connect to the
+ * server and request its sensor values.
  */
 public class LEDBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
     private static final String LOG_LEDTEST = "LEDBrickTest::";
 
-    // fields to provide ethernet connection to the arduino server
-    private Socket clientSocket = null;
-    private DataOutputStream sendToServer;
-    private BufferedReader recvFromServer;
-    private static final String serverIP = "129.27.202.103";
-    private static final int serverPort = 6789;
-    private static final int getLightValueID = 2;
-
-    private static final int SET_LED_ON_VALUE = 1;
-    private static final int SET_LED_OFF_VALUE = 0;
+    private static final int LED_DELAY = 8000; // 8 seconds
+    private static final int WLAN_DELAY = 500; // .5 secons
 
     private LEDBrick ledBrick;
     private Project project;
@@ -57,7 +71,7 @@ public class LEDBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
         super.setUp();
 
         // create server connection
-        connectToArduinoServer();
+        SensorServerUtils.connectToArduinoServer();
 
         // disable touch screen while testing
         setActivityInitialTouchMode(false);
@@ -67,17 +81,12 @@ public class LEDBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
     protected void tearDown() throws Exception {
         super.tearDown();
 
-        if (clientSocket != null)
-            clientSocket.close();
-        clientSocket = null;
-        sendToServer = null;
-        recvFromServer = null;
+        SensorServerUtils.closeConnection();
 
         setActivityInitialTouchMode(true);
     }
 
     public void testLedBrick() {
-        Log.d(LOG_LEDTEST, "testLedBrick() started");
         ListView dragDropListView = UiTestUtils.getScriptListView(solo);
         BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
@@ -93,27 +102,25 @@ public class LEDBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
         assertEquals( "Wrong brick instance", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0) );
         assertNotNull( "TextView does not exist.", solo.getText(solo.getString(R.string.brick_led)));
 
-        Log.d(LOG_LEDTEST, "test script initialized");
-
-        UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_led_edit_text, SET_LED_ON_VALUE,
+        UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_led_edit_text, SensorServerUtils.SET_LED_ON_VALUE,
                 "lightValue", ledBrick);
 
-        Log.d(LOG_LEDTEST, "LED value set to " + SET_LED_ON_VALUE);
+        Log.d(LOG_LEDTEST, "LED value set to " + SensorServerUtils.SET_LED_ON_VALUE);
 
+        // executing the script should turn on the LED
         UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
         solo.waitForActivity(StageActivity.class.getSimpleName());
 
-        Log.d(LOG_LEDTEST, "StageActivity started");
-
         try {
-            Thread.sleep(8000);
+            // wait a long time, then check the sensor value weather the light is really on
+            Thread.sleep(LED_DELAY);
             Log.d(LOG_LEDTEST, "checking sensor value");
-            checkSensorValue(SET_LED_ON_VALUE);
-            Thread.sleep(500);
-            checkSensorValue(SET_LED_ON_VALUE);
-            Thread.sleep(500);
-            checkSensorValue(SET_LED_ON_VALUE);
-            Thread.sleep(500);
+            SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
+            Thread.sleep(WLAN_DELAY);
+            SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
+            Thread.sleep(WLAN_DELAY);
+            SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
+            Thread.sleep(WLAN_DELAY);
         } catch (Exception e) {
             Log.e(LOG_LEDTEST, e.getMessage());
         }
@@ -121,30 +128,21 @@ public class LEDBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
         Log.d(LOG_LEDTEST, "pause StageActivity - this should turn off the led");
         solo.goBack();
 
+        // pausing the activity should turn the light off. again, check the sensor value
         try {
-            Thread.sleep(8000);
+            Thread.sleep(LED_DELAY);
             Log.d(LOG_LEDTEST, "checking sensor value");
-            checkSensorValue(SET_LED_OFF_VALUE);
-            Thread.sleep(500);
-            checkSensorValue(SET_LED_OFF_VALUE);
-            Thread.sleep(500);
-            checkSensorValue(SET_LED_OFF_VALUE);
-            Thread.sleep(500);
+            SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
+            Thread.sleep(WLAN_DELAY);
+            SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
+            Thread.sleep(WLAN_DELAY);
+            SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
+            Thread.sleep(WLAN_DELAY);
         } catch (Exception e) {
             Log.e(LOG_LEDTEST, e.getMessage());
         }
+
         Log.d(LOG_LEDTEST, "testLedBrick() finished");
-    }
-
-    private void connectToArduinoServer() throws IOException {
-        Log.d(LOG_LEDTEST, "Trying to connect to server...");
-
-        clientSocket = new Socket( serverIP, serverPort );
-        clientSocket.setKeepAlive(true);
-
-        Log.d(LOG_LEDTEST, "Connected to: " + serverIP + " on port " + serverPort);
-        sendToServer = new DataOutputStream( clientSocket.getOutputStream() );
-        recvFromServer = new BufferedReader( new InputStreamReader( clientSocket.getInputStream() ) );
     }
 
     private void createProject () {
@@ -163,37 +161,4 @@ public class LEDBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
         ProjectManager.getInstance().setCurrentScript(script);
     }
 
-    private void checkSensorValue( int expected ) {
-
-        char expectedChar;
-        String assertString;
-        String response;
-        if ( expected == SET_LED_ON_VALUE ) {
-            expectedChar = '1';
-            assertString = "Error: LED is turned off!";
-        } else {
-            expectedChar = '0';
-            assertString = "Error: LED is turned on!";
-        }
-        try {
-            clientSocket.close();
-            Thread.sleep(500);
-            connectToArduinoServer();
-            Log.d(LOG_LEDTEST, "requesting sensor value: ");
-            sendToServer.writeByte(Integer.toHexString(getLightValueID).charAt(0));
-            sendToServer.flush();
-            Thread.sleep(500);
-            response = recvFromServer.readLine();
-            Log.d(LOG_LEDTEST, "response received! " + response);
-
-            assertFalse("Wrong Command!", response.contains("ERROR"));
-            assertTrue( "Wrong data received!", response.contains( "LIGHT_END" ) );
-            assertTrue( assertString, response.charAt(0) == expectedChar );
-
-        } catch ( IOException ioe ) {
-            throw new AssertionFailedError( "Data exchange failed! Check server connection!" );
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 }
