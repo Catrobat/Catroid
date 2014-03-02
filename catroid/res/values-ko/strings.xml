@@ -30,6 +30,8 @@
     <string name="cancel_button">"취소"</string>
     <string name="rename">"이름 바꾸기"</string>
     <string name="delete">"삭제"</string>
+    <string name="undo">"취소"</string>
+    <string name="redo">"다시 실행"</string>
     <string name="yes">"예"</string>
     <string name="no">"아니오"</string>
     <string name="copy">"복사"</string>
