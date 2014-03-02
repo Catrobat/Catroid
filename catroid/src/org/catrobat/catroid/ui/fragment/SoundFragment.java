@@ -162,7 +162,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	@Override
 	public void onDestroyView() {
 		// delete sound files
-		if (undoSoundInfoStack != null & !undoSoundInfoStack.isEmpty()) {
+		if (undoSoundInfoStack != null && !undoSoundInfoStack.isEmpty()) {
 			Iterator<SoundInfo> it = undoSoundInfoStack.iterator();
 			while (it.hasNext()) {
 				SoundController.getInstance().deleteSound(it.next(), getActivity());
@@ -386,23 +386,18 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public void startUndoActionMode() {
-		if (actionMode == null) {
-			if (!undoSoundInfoStack.isEmpty()) {
-				SoundInfo currentSoundInfo = undoSoundInfoStack.pop();
-				SoundController.getInstance().addSoundToList(currentSoundInfo, soundInfoList, adapter,
-						redoSoundInfoStack);
-			}
+		if (actionMode == null && !undoSoundInfoStack.isEmpty()) {
+			SoundInfo currentSoundInfo = undoSoundInfoStack.pop();
+			SoundController.getInstance().addSoundToList(currentSoundInfo, soundInfoList, adapter, redoSoundInfoStack);
 		}
 	}
 
 	@Override
 	public void startRedoActionMode() {
-		if (actionMode == null) {
-			if (!redoSoundInfoStack.isEmpty()) {
-				SoundInfo currentSoundInfo = redoSoundInfoStack.pop();
-				SoundController.getInstance().deleteSoundFromList(currentSoundInfo, soundInfoList, adapter,
-						undoSoundInfoStack);
-			}
+		if (actionMode == null && !redoSoundInfoStack.isEmpty()) {
+			SoundInfo currentSoundInfo = redoSoundInfoStack.pop();
+			SoundController.getInstance().deleteSoundFromList(currentSoundInfo, soundInfoList, adapter,
+					undoSoundInfoStack);
 		}
 	}
 
