@@ -286,7 +286,6 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 		solo.sleep(200);
-		Log.d("testme", "3");
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.sleep(200);
 		Log.d("testme", "4");
@@ -402,6 +401,28 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH - 1, 0, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
 		screenPixel = StageActivity.stageListener.getPixels(0, ScreenValues.SCREEN_HEIGHT - 1, 1, 1);
+		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+
+		solo.goBack();
+		solo.clickOnView(solo.getView(R.id.stage_dialog_button_maximize));
+		solo.goBack();
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		assertTrue("Stage not resizeable.", ((StageActivity) solo.getCurrentActivity()).getResizePossible());
+
+		screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
+		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
+		screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH - 1,
+				ScreenValues.SCREEN_HEIGHT - 1, 1, 1);
+		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
+		screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH - 1, 0, 1, 1);
+		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
+		screenPixel = StageActivity.stageListener.getPixels(0, ScreenValues.SCREEN_HEIGHT - 1, 1, 1);
+		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
+
+		screenPixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2,
+				ScreenValues.SCREEN_HEIGHT / 2, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
 	}
 
