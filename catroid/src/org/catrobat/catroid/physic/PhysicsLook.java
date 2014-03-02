@@ -112,13 +112,15 @@ public class PhysicsLook extends Look {
 
 	@Override
 	public float getRotation() {
-		return -physicsObject.getDirection() + getDegreeUserInterfaceOffset();
+		super.setRotation(-physicsObject.getDirection() + getDegreeUserInterfaceOffset());
+		return super.getRotation();
 	}
 
 	@Override
 	public void setRotation(float degrees) {
+		super.setRotation(degrees);
 		if (null != physicsObject) {
-			physicsObject.setDirection(degrees);
+			physicsObject.setDirection(super.getRotation() + getDegreeUserInterfaceOffset());
 		}
 	}
 
