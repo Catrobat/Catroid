@@ -70,8 +70,8 @@
     <string name="preference_title">Settings</string>
     <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorms bricks</string>
     <string name="preference_description_mindstorm_bricks">Allow to control Lego Mindstorms robots</string>
-    <string name="pref_enable_robot_albert_bricks">Robot Albert bricks</string>
-    <string name="pref_descr_robot_albert_bricks">Allow to control robot Albert</string>
+    <string name="preference_title_enable_robot_albert_bricks">Robot Albert bricks</string>
+    <string name="preference_description_robot_albert_bricks">Allow to control robot Albert</string>
     <!--  -->
 
 
@@ -493,8 +493,8 @@
     <string name="no_paired_nxt">No paired NXT found</string>
     <string name="none_found">No unpaired devices found</string>
     <string name="none_paired">No paired devices found</string>
-    <string name="select_device_robot_albert">Choose Robot Albert</string>
-    <string name="connectingPleaseWaitRobotAlbert">Connect to Robot Albert.\nPlease wait…</string>
+    <string name="robot_albert_select_device">Choose Robot Albert</string>
+    <string name="robot_albert_connecting_please_wait">Connect to Robot Albert.\nPlease wait…</string>
     <!--  -->
 
 

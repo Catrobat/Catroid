@@ -40,15 +40,15 @@ public class BTConnectionHandler implements Runnable {
 	private StreamConnection btProgramConnection = null;
 	private UUID uuid = null;
 
-	private static final String SERVERDUMMYMULTIPLAYER = "multiplayer";
-	private static final String SETASCLIENT = "setasclient";
-	private static final String SETASSERVER = "setasserver";
-	private static final String COMMANDSETVARIABLE = "setvariable;";
-	private static final String CONNECTIONSTRINGBEGIN = "btspp://localhost:";
-	private static final String BTNAMEANDAUTHENTICATION = ";name=BT Dummy Server;authenticate=false;encrypt=false;";
+	private static final String SERVER_DUMMY_MULTIPLAYER = "multiplayer";
+	private static final String SET_AS_CLIENT = "setasclient";
+	private static final String SET_AS_SERVER = "setasserver";
+	private static final String COMMAND_SET_VARIABLE = "setvariable;";
+	private static final String CONNECTION_STRING_BEGIN = "btspp://localhost:";
+	private static final String BT_NAME_AND_AUTHENTICATION = ";name=BT Dummy Server;authenticate=false;encrypt=false;";
 	private static final String MAGIC_PACKET = "AEIOU";
-	private static final String CLOSECONNECTION = "closethisconnection";
-	private static final String SERVERDUMMYROBOTALBERT = "albert";
+	private static final String CLOSE_CONNECTION = "closethisconnection";
+	private static final String SERVER_DUMMY_ROBOT_ALBERT = "albert";
 
 	private OutputStream outputStreamProgram = null;
 	private boolean stopAlbertSensorThread = true;
@@ -69,20 +69,20 @@ public class BTConnectionHandler implements Runnable {
 			String[] receivedMessage = (new String(readBuffer, 0, readedBytes, "ASCII")).split(";");
 			System.out.println("receivedMessage[0]:" + receivedMessage[0]);
 
-			if (receivedMessage[0].equals(SERVERDUMMYMULTIPLAYER)) {
+			if (receivedMessage[0].equals(SERVER_DUMMY_MULTIPLAYER)) {
 				uuid = new UUID(receivedMessage[2], false);
 
-				if (receivedMessage[1].equals(SETASCLIENT)) {
+				if (receivedMessage[1].equals(SET_AS_CLIENT)) {
 					multiplayerDummyClient();
 					btTestConnectionRead(inputStream);
-				} else if (receivedMessage[1].equals(SETASSERVER)) {
+				} else if (receivedMessage[1].equals(SET_AS_SERVER)) {
 					multiplayerDummyServer();
 					btTestConnectionRead(inputStream);
 				} else {
 					System.err.println("Incorrect message for Multiplayer-Server");
 					return;
 				}
-			} else if (receivedMessage[0].equals(SERVERDUMMYROBOTALBERT)) {
+			} else if (receivedMessage[0].equals(SERVER_DUMMY_ROBOT_ALBERT)) {
 				System.out.println("Albert message detected");
 				uuid = new UUID(receivedMessage[1], false);
 				multiplayerDummyServer();
@@ -97,7 +97,7 @@ public class BTConnectionHandler implements Runnable {
 	}
 
 	private void multiplayerDummyServer() throws IOException {
-		String connectionstring = CONNECTIONSTRINGBEGIN + uuid + BTNAMEANDAUTHENTICATION;
+		String connectionstring = CONNECTION_STRING_BEGIN + uuid + BT_NAME_AND_AUTHENTICATION;
 		System.out.println("[SERVER] Waiting for incoming connection...  UUID: " + uuid);
 		StreamConnectionNotifier stream_conn_notifier = (StreamConnectionNotifier) Connector.open(connectionstring);
 		System.out.println("[Server] Notifier done");
@@ -144,9 +144,9 @@ public class BTConnectionHandler implements Runnable {
 				}
 
 				String receivedMessage = new String(readBuffer, 0, readedBytes, "ASCII");
-				if (receivedMessage.startsWith(COMMANDSETVARIABLE)) {
-					outputStream.write(readBuffer, COMMANDSETVARIABLE.length(),
-							readedBytes - COMMANDSETVARIABLE.length());
+				if (receivedMessage.startsWith(COMMAND_SET_VARIABLE)) {
+					outputStream.write(readBuffer, COMMAND_SET_VARIABLE.length(),
+							readedBytes - COMMAND_SET_VARIABLE.length());
 					outputStream.flush();
 				}
 			}
@@ -185,7 +185,7 @@ public class BTConnectionHandler implements Runnable {
 		private void closeTestConnection(OutputStream outputStream) {
 			try {
 				stopAlbertSensorThread = true;
-				outputStream.write(CLOSECONNECTION.getBytes());
+				outputStream.write(CLOSE_CONNECTION.getBytes());
 				outputStream.flush();
 				outputStreamProgram = null;
 				btTestConnection.close();

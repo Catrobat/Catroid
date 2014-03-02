@@ -33,15 +33,13 @@ import javax.microedition.io.StreamConnectionNotifier;
 // you need to install  libbluetooth-dev
 
 public class BTServer {
-	private static final UUID BLUETOOTHSERVERUUID = new UUID("eb8ec53af07046e0b6ff1645c931f858", false);
-	//private static final UUID BLUETOOTHSERVERUUID = new UUID("0000110100001000800000805F9B34FB", false);
-	//private static final UUID BLUETOOTHSERVERUUID = new UUID("1101", true);
-	private static final String BTNAME = "BT Connection Server";
-	private static final String CONNECTIONSTRING = "btspp://localhost:" + BLUETOOTHSERVERUUID + ";name=" + BTNAME
+	private static final UUID BLUETOOTH_SERVER_UUID = new UUID("eb8ec53af07046e0b6ff1645c931f858", false);
+	private static final String BT_NAME = "BT Connection Server";
+	private static final String CONNECTION_STRING = "btspp://localhost:" + BLUETOOTH_SERVER_UUID + ";name=" + BT_NAME
 			+ ";authenticate=false;encrypt=false;";
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-		StreamConnectionNotifier stream_conn_notifier = (StreamConnectionNotifier) Connector.open(CONNECTIONSTRING);
+		StreamConnectionNotifier stream_conn_notifier = (StreamConnectionNotifier) Connector.open(CONNECTION_STRING);
 		StreamConnection connection = null;
 		while (true) {
 			System.out.println("[CONNECTOR] Waiting for incoming connection...");

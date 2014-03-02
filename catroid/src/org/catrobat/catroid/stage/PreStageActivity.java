@@ -126,8 +126,8 @@ public class PreStageActivity extends Activity {
 			SensorRobotAlbert sensor = SensorRobotAlbert.getSensorRobotAlbertInstance();
 			sensor.setBooleanAlbertBricks(true);
 
-			String waitingText = getResources().getString(R.string.connectingPleaseWaitRobotAlbert);
-			String title = getResources().getString(R.string.select_device_robot_albert);
+			String waitingText = getResources().getString(R.string.robot_albert_connecting_please_wait);
+			String title = getResources().getString(R.string.robot_albert_select_device);
 			bluetoothDeviceName = title;
 			bluetoothDeviceWaitingText = waitingText;
 			int bluetoothState = bluetoothManager.activateBluetooth(title, waitingText);
@@ -420,8 +420,8 @@ public class PreStageActivity extends Activity {
 						}
 						robotAlbert = null;
 						if (autoConnect) {
-							String waitingText = getResources().getString(R.string.connectingPleaseWaitRobotAlbert);
-							String title = getResources().getString(R.string.select_device_robot_albert);
+							String waitingText = getResources().getString(R.string.robot_albert_connecting_please_wait);
+							String title = getResources().getString(R.string.robot_albert_select_device);
 							startBluetoothCommunication(false, title, waitingText);
 						} else {
 							resourceFailed();

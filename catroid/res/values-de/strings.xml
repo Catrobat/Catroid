@@ -70,8 +70,8 @@
     <string name="preference_title">Einstellungen</string>
     <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorm Bausteine</string>
     <string name="preference_description_mindstorm_bricks">Erlaube Steuerung von Lego Mindstorm Robotern</string>
-    <string name="pref_enable_robot_albert_bricks">Roboter Albert Bausteine</string>
-    <string name="pref_descr_robot_albert_bricks">Erlaube Steuerung von Roboter Albert</string>
+    <string name="preference_title_enable_robot_albert_bricks">Roboter Albert Bausteine</string>
+    <string name="preference_description_robot_albert_bricks">Erlaube Steuerung von Roboter Albert</string>
     <!--  -->
 
 
@@ -495,8 +495,8 @@
     <string name="none_found">Keine nicht verbundenen Geräte gefunden</string>
     <string name="none_paired">Keine verbundenen Geräte gefunden</string>
     
-    <string name="select_device_robot_albert">Wähle deinen Robot Albert</string>
-    <string name="connectingPleaseWaitRobotAlbert">Verbinde zum Robot Albert.\nBitte warten…</string>
+    <string name="robot_albert_select_device">Wähle deinen Robot Albert</string>
+    <string name="robot_albert_connecting_please_wait">Verbinde zum Robot Albert.\nBitte warten…</string>
     <!--  -->
 
 

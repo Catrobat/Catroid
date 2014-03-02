@@ -63,11 +63,8 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 	private static final int IMAGE_FILE_ID = org.catrobat.catroid.test.R.raw.icon;
 
 	// needed for testdevices
-	// Bluetooth server is running with a name that starts with 'kitty'
-	// e.g. kittyroid-0, kittyslave-0
-	//private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "T420";
+	// Bluetooth server is running on kittyslave-0
 	private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "kittyslave-0";
-	//private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "kittyslave-1";
 
 	private final String projectName = UiTestUtils.PROJECTNAME1;
 	private final String spriteName = "testSprite";
@@ -101,7 +98,7 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		if (!preferences.getBoolean("setting_robot_albert_bricks", false)) {
 			Log.d("RobotAlbertTest", "enabling albert bricks");
 			solo.clickOnMenuItem(solo.getString(R.string.settings));
-			solo.clickOnText(solo.getString(R.string.pref_enable_robot_albert_bricks));
+			solo.clickOnText(solo.getString(R.string.preference_title_enable_robot_albert_bricks));
 			solo.goBack();
 		}
 
@@ -157,16 +154,12 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		boolean ok = Arrays.equals(sendCommands.toByteArray(), receivedBuffer.toByteArray());
 
-		Log.d("TestRobotAlbert_New", receivedBuffer.toByteArray().toString());
-		Log.d("TestRobotAlbert", "Array comparision successful: " + ok);
-
 		int lenRec = receivedBuffer.length();
 		int lenSent1 = sendCommands.length();
 
 		Log.d("TestRobotAlbert",
 				"lenRec=" + lenRec + "\nlenSent1=" + lenSent1 + "\nlenWithSensor=" + receivedBufferOld.length());
 		assertTrue("messages reveived and sent are not equal", ok == true);
-		Log.d("temp", receivedBuffer.toString());
 
 		//BluetoothServer always sends a distance of 50.0
 		//if for whatever reason the previous attempt to read the current distance value 
@@ -174,7 +167,6 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		if (distanceLeft != 50.0) {
 			distanceLeft = SensorData.getInstance().getValueOfLeftDistanceSensor();
 		}
-		Log.d("RobotAlbertTest", "left=" + distanceLeft);
 
 		assertEquals("Variable has the wrong value after stage", 50.0, distanceLeft);
 
@@ -186,7 +178,6 @@ public class RobotAlbertTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.goBack();
 		solo.sleep(100);
 		solo.goBack();
-		Log.d("RobotAlbertTest", "finshed");
 	}
 
 	private void createTestproject(String projectName) {
