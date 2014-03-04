@@ -67,8 +67,8 @@ public class ConnectionWrapper {
 			HttpRequest.setConnectionFactory(new OkConnectionFactory(okHttpClient));
 			HttpRequest uploadRequest = HttpRequest.post(urlString).chunk(0);
 
-			for (String key : postValues.keySet()) {
-				uploadRequest.part(key, postValues.get(key));
+			for (HashMap.Entry<String, String> entry : postValues.entrySet()) {
+				uploadRequest.part(entry.getKey(), entry.getValue());
 			}
 			File file = new File(filePath);
 			uploadRequest.part(fileTag, fileName, file);
@@ -94,7 +94,9 @@ public class ConnectionWrapper {
 			ResultReceiver receiver, Integer notificationId) throws IOException {
 		HttpRequest request = HttpRequest.post(urlString);
 		File file = new File(filePath);
-		file.getParentFile().mkdirs();
+		if (!(file.getParentFile().mkdirs() || file.getParentFile().isDirectory())) {
+			throw (new IOException("Folder not created"));
+		}
 
 		request = request.form(postValues).acceptGzipEncoding();
 		long fileSize = request.contentLength();
@@ -121,7 +123,7 @@ public class ConnectionWrapper {
 	 * Call {@link HttpRequest#setConnectionFactory(HttpRequest.ConnectionFactory)} with an instance of this class to
 	 * enable.
 	 */
-	private class OkConnectionFactory implements HttpRequest.ConnectionFactory {
+	private static class OkConnectionFactory implements HttpRequest.ConnectionFactory {
 		private final OkHttpClient client;
 
 		@SuppressWarnings("unused")
