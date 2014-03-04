@@ -32,8 +32,10 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
+import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 public class BroadcastActionTest extends AndroidTestCase {
 
@@ -51,7 +53,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 		broadcastScript.addBrick(testBrick);
 		sprite.addScript(broadcastScript);
 
-		Project project = new Project(getContext(), "testProject");
+		Project project = new Project(getContext(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		project.addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 
@@ -85,7 +87,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 		broadcastScript.addBrick(setXBrick2);
 		sprite.addScript(broadcastScript);
 
-		Project project = new Project(getContext(), "testProject");
+		Project project = new Project(getContext(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		project.addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 
@@ -98,6 +100,43 @@ public class BroadcastActionTest extends AndroidTestCase {
 		}
 
 		assertEquals("Broadcast and wait failed", testPosition, (int) sprite.look.getXInUserInterfaceDimensionUnit());
+	}
+
+	public void testWhenScriptRestartingItself() {
+		Sprite sprite = new Sprite("testSprite");
+		Script script = new StartScript(sprite);
+
+		String message = "simpleTest";
+		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite, message);
+		script.addBrick(broadcastBrick);
+		sprite.addScript(script);
+
+		BroadcastScript broadcastScript = new BroadcastScript(sprite, message);
+
+		final int xMovement = 1;
+		ChangeXByNBrick changeXByNBrick = new ChangeXByNBrick(sprite, xMovement);
+		broadcastScript.addBrick(changeXByNBrick);
+
+		BroadcastBrick broadcastBrickLoop = new BroadcastBrick(sprite, message);
+		broadcastScript.addBrick(broadcastBrickLoop);
+
+		sprite.addScript(broadcastScript);
+
+		Project project = new Project(getContext(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		project.addSprite(sprite);
+		ProjectManager.getInstance().setProject(project);
+
+		sprite.createStartScriptActionSequence();
+
+		int loopCounter = 0;
+		while (!allActionsOfAllSpritesAreFinished() && loopCounter++ < 20) {
+			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+				spriteOfList.look.act(1.0f);
+			}
+		}
+
+		assertTrue("When script does not restart itself!",
+				(int) sprite.look.getXInUserInterfaceDimensionUnit() > xMovement);
 	}
 
 	public boolean allActionsOfAllSpritesAreFinished() {

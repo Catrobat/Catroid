@@ -31,7 +31,7 @@ import java.util.HashMap;
 
 public final class BroadcastWaitSequenceMap {
 	private static HashMap<String, ArrayList<SequenceAction>> broadcastWaitSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
-	public static BroadcastEvent currentBroadcastEvent = null;
+	private static BroadcastEvent currentBroadcastEvent = null;
 
 	private BroadcastWaitSequenceMap() {
 		throw new AssertionError();
@@ -55,5 +55,17 @@ public final class BroadcastWaitSequenceMap {
 
 	public static void clear() {
 		broadcastWaitSequenceMap.clear();
+	}
+
+	public static BroadcastEvent getCurrentBroadcastEvent() {
+		return BroadcastWaitSequenceMap.currentBroadcastEvent;
+	}
+
+	public static void setCurrentBroadcastEvent(BroadcastEvent broadcastEvent) {
+		BroadcastWaitSequenceMap.currentBroadcastEvent = broadcastEvent;
+	}
+
+	public static void clearCurrentBroadcastEvent() {
+		BroadcastWaitSequenceMap.currentBroadcastEvent = null;
 	}
 }
