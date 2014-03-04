@@ -38,6 +38,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -717,6 +718,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			}
 		}
 
+		LinearLayout brickElement = (LinearLayout) currentBrickView;
+		final CheckBox checkbox = ((Brick) getItem(position)).getCheckBox();
+
 		// this one is working but causes null pointer exceptions on movement and control bricks?!
 		//		currentBrickView.setOnLongClickListener(longClickListener);
 
@@ -734,6 +738,13 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				if (!(item instanceof DeadEndBrick)) {
 					wrapper.setOnLongClickListener(dragAndDropListView);
 				}
+			} else {
+				brickElement.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						checkbox.setChecked(!checkbox.isChecked());
+					}
+				});
 			}
 		}
 
