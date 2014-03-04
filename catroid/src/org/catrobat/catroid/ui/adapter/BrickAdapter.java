@@ -38,6 +38,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -731,6 +732,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			((ViewGroup) currentBrickView.getParent()).removeView(currentBrickView);
 		}
 
+		LinearLayout brickElement = (LinearLayout) currentBrickView;
+		final CheckBox checkbox = ((Brick) getItem(position)).getCheckBox();
+
 		wrapper.addView(currentBrickView);
 		if (draggedBrick == null) {
 			if ((selectMode == ListView.CHOICE_MODE_NONE)) {
@@ -738,6 +742,13 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				if (!(item instanceof DeadEndBrick)) {
 					wrapper.setOnLongClickListener(dragAndDropListView);
 				}
+			} else {
+				brickElement.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						checkbox.setChecked(!checkbox.isChecked());
+					}
+				});
 			}
 		}
 
