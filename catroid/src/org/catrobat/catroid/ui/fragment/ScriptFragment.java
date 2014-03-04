@@ -26,6 +26,7 @@ import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -273,6 +274,18 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		startActionMode(deleteModeCallBack);
 	}
 
+	@Override
+	public void startUndoActionMode() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void startRedoActionMode() {
+		// TODO Auto-generated method stub
+
+	}
+
 	private void startActionMode(ActionMode.Callback actionModeCallback) {
 		actionMode = getSherlockActivity().startActionMode(actionModeCallback);
 
@@ -503,14 +516,20 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 					adapter.handleScriptDelete(sprite, scriptToEdit);
 				} else {
 					deleteCheckedBricks();
-					clearCheckedBricksAndEnableButtons();
 				}
+				dialog.cancel();
 			}
 		});
 		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
+			}
+		});
+		builder.setOnCancelListener(new OnCancelListener() {
+
+			@Override
+			public void onCancel(DialogInterface dialog) {
 				if (!deleteScriptFromContextMenu) {
 					clearCheckedBricksAndEnableButtons();
 				}

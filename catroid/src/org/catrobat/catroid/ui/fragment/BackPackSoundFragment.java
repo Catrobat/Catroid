@@ -532,7 +532,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				SoundController.getInstance().deleteCheckedSounds(getActivity(), adapter,
-						BackPackListManager.getInstance().getSoundInfoArrayList(), mediaPlayer);
+						BackPackListManager.getInstance().getSoundInfoArrayList(), null, mediaPlayer);
 				clearCheckedSoundsAndEnableButtons();
 			}
 		});
