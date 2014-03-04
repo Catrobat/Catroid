@@ -402,6 +402,30 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("Not all Bricks have been deleted!", 0, numberOfBricks);
 	}
 
+	public void testCheckboxActionModeEntireLine() {
+		UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
+		String expectedTitle = getActivity().getResources().getQuantityString(R.plurals.number_of_bricks_to_delete, 0,
+				0);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, 300, false, true));
+
+		solo.clickOnCheckBox(1);
+		solo.clickOnView(solo.getView(R.id.brick_hide_layout));
+		solo.clickOnCheckBox(1);
+
+		expectedTitle = getActivity().getResources().getQuantityString(R.plurals.number_of_bricks_to_delete, 1, 1);
+		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, 300, false, true));
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
+		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.string.delete), 0, 50));
+	}
+
 	public void testDeleteActionModeSelectAll() {
 		UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
