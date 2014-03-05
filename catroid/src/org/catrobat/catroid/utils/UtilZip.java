@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -39,10 +39,10 @@ import java.util.zip.ZipOutputStream;
 
 public final class UtilZip {
 	private static final int QUICKEST_COMPRESSION = 0;
-    private static final String TAG = UtilZip.class.getSimpleName();
-    private static final String DIRECTORY_LEVEL_UP = "../";
-    private static final String ERROR_FOLDER_NOT_CREATED = "Folder not created";
-    private static final String ERROR_CLOSING_STREAM = "Error closing stream";
+	private static final String TAG = UtilZip.class.getSimpleName();
+	private static final String DIRECTORY_LEVEL_UP = "../";
+	private static final String ERROR_FOLDER_NOT_CREATED = "Folder not created";
+	private static final String ERROR_CLOSING_STREAM = "Error closing stream";
 
 	private static ZipOutputStream zipOutputStream;
 
@@ -68,14 +68,14 @@ public final class UtilZip {
 
 			return true;
 		} catch (IOException ioException) {
-            Log.e(TAG, ioException.getMessage(), ioException);
+			Log.e(TAG, ioException.getMessage(), ioException);
 		} finally {
 			try {
 				if (zipOutputStream != null) {
 					zipOutputStream.close();
 				}
 			} catch (IOException ignoredException) {
-                Log.e(TAG, ERROR_CLOSING_STREAM, ignoredException);
+				Log.e(TAG, ERROR_CLOSING_STREAM, ignoredException);
 			}
 		}
 
@@ -111,32 +111,32 @@ public final class UtilZip {
 	public static boolean unZipFile(String zipFileName, String outDirectory) {
 		File file;
 		BufferedOutputStream destinationOutputStream = null;
-        ZipInputStream zipInputStream = null;
+		ZipInputStream zipInputStream = null;
 		try {
 			byte[] data = new byte[Constants.BUFFER_8K];
 			file = new File(zipFileName);
-            zipInputStream = new ZipInputStream(new BufferedInputStream(new FileInputStream(file)));
-            ZipEntry zipEntry;
+			zipInputStream = new ZipInputStream(new BufferedInputStream(new FileInputStream(file)));
+			ZipEntry zipEntry;
 
-            while ((zipEntry = zipInputStream.getNextEntry()) != null) {
-                if (zipEntry.getName().startsWith(DIRECTORY_LEVEL_UP)) {
-                    continue;
-                }
-
-				if (zipEntry.isDirectory()) {
-					File entryFile = new File(Utils.buildPath(outDirectory, zipEntry.getName()));
-                    if (!entryFile.mkdir() && !entryFile.isDirectory()) {
-                        throw new IOException(ERROR_FOLDER_NOT_CREATED);
-                    }
-                    zipInputStream.close();
+			while ((zipEntry = zipInputStream.getNextEntry()) != null) {
+				if (zipEntry.getName().startsWith(DIRECTORY_LEVEL_UP)) {
 					continue;
 				}
 
-                File entryFile = new File(Utils.buildPath(outDirectory, zipEntry.getName()));
-                if (!entryFile.getParentFile().mkdirs() && !entryFile.getParentFile().isDirectory()) {
-                    throw new IOException(ERROR_FOLDER_NOT_CREATED);
-                }
-                FileOutputStream fileOutputStream = new FileOutputStream(entryFile);
+				if (zipEntry.isDirectory()) {
+					File entryFile = new File(Utils.buildPath(outDirectory, zipEntry.getName()));
+					if (!entryFile.mkdir() && !entryFile.isDirectory()) {
+						throw new IOException(ERROR_FOLDER_NOT_CREATED);
+					}
+					zipInputStream.close();
+					continue;
+				}
+
+				File entryFile = new File(Utils.buildPath(outDirectory, zipEntry.getName()));
+				if (!entryFile.getParentFile().mkdirs() && !entryFile.getParentFile().isDirectory()) {
+					throw new IOException(ERROR_FOLDER_NOT_CREATED);
+				}
+				FileOutputStream fileOutputStream = new FileOutputStream(entryFile);
 				int count;
 				destinationOutputStream = new BufferedOutputStream(fileOutputStream, Constants.BUFFER_8K);
 				while ((count = zipInputStream.read(data, 0, Constants.BUFFER_8K)) != -1) {
@@ -146,19 +146,19 @@ public final class UtilZip {
 			}
 			return true;
 		} catch (FileNotFoundException fileNotFoundException) {
-            Log.e(TAG, fileNotFoundException.getMessage(), fileNotFoundException);
+			Log.e(TAG, fileNotFoundException.getMessage(), fileNotFoundException);
 		} catch (IOException ioException) {
-            Log.e(TAG, ioException.getMessage(), ioException);
+			Log.e(TAG, ioException.getMessage(), ioException);
 		} finally {
 			try {
 				if (destinationOutputStream != null) {
 					destinationOutputStream.close();
 				}
 				if (zipInputStream != null) {
-                    zipInputStream.close();
+					zipInputStream.close();
 				}
 			} catch (IOException ignoredException) {
-                Log.e(TAG, ERROR_CLOSING_STREAM, ignoredException);
+				Log.e(TAG, ERROR_CLOSING_STREAM, ignoredException);
 			}
 		}
 		return false;
