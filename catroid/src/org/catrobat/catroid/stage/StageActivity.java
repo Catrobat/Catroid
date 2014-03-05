@@ -71,26 +71,26 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onPause() {
 		SensorHandler.stopSensorListeners();
-        LedUtil.pauseLed();
+		LedUtil.pauseLed();
 		super.onPause();
 	}
 
 	@Override
 	public void onResume() {
 		SensorHandler.startSensorListener(this);
-        LedUtil.resumeLed();
+		LedUtil.resumeLed();
 		super.onResume();
 	}
 
 	public void pause() {
 		SensorHandler.stopSensorListeners();
 		stageListener.menuPause();
-        LedUtil.pauseLed();
+		LedUtil.pauseLed();
 	}
 
 	public void resume() {
 		stageListener.menuResume();
-        LedUtil.resumeLed();
+		LedUtil.resumeLed();
 		SensorHandler.startSensorListener(this);
 	}
 

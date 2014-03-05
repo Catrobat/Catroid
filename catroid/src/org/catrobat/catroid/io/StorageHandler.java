@@ -225,7 +225,7 @@ public final class StorageHandler {
 		xstream.alias("waitBrick", WaitBrick.class);
 		xstream.alias("whenBrick", WhenBrick.class);
 		xstream.alias("whenStartedBrick", WhenStartedBrick.class);
-        xstream.alias("ledBrick", LedBrick.class);
+		xstream.alias("ledBrick", LedBrick.class);
 	}
 
 	private void createCatroidRoot() {
