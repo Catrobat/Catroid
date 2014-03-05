@@ -52,7 +52,7 @@ public final class BroadcastHandler {
 			for (SequenceAction action : BroadcastWaitSequenceMap.get(broadcastMessage)) {
 				addOrRestartAction(look, action);
 			}
-			BroadcastWaitSequenceMap.currentBroadcastEvent.resetEventAndResumeScript();
+			BroadcastWaitSequenceMap.getCurrentBroadcastEvent().resetEventAndResumeScript();
 		}
 	}
 
@@ -62,20 +62,20 @@ public final class BroadcastHandler {
 		}
 
 		if (!BroadcastWaitSequenceMap.containsKey(broadcastMessage)) {
-			BroadcastWaitSequenceMap.currentBroadcastEvent = event;
+			BroadcastWaitSequenceMap.setCurrentBroadcastEvent(event);
 			addBroadcastMessageToBroadcastWaitSequenceMap(look, event, broadcastMessage);
 		} else {
-			if (BroadcastWaitSequenceMap.currentBroadcastEvent == event
-					&& BroadcastWaitSequenceMap.currentBroadcastEvent != null) {
+			if (BroadcastWaitSequenceMap.getCurrentBroadcastEvent() == event
+					&& BroadcastWaitSequenceMap.getCurrentBroadcastEvent() != null) {
 				for (SequenceAction action : BroadcastWaitSequenceMap.get(broadcastMessage)) {
-					BroadcastWaitSequenceMap.currentBroadcastEvent.resetNumberOfFinishedReceivers();
+					BroadcastWaitSequenceMap.getCurrentBroadcastEvent().resetNumberOfFinishedReceivers();
 					addOrRestartAction(look, action);
 				}
 			} else {
-				if (BroadcastWaitSequenceMap.currentBroadcastEvent != null) {
-					BroadcastWaitSequenceMap.currentBroadcastEvent.resetEventAndResumeScript();
+				if (BroadcastWaitSequenceMap.getCurrentBroadcastEvent() != null) {
+					BroadcastWaitSequenceMap.getCurrentBroadcastEvent().resetEventAndResumeScript();
 				}
-				BroadcastWaitSequenceMap.currentBroadcastEvent = event;
+				BroadcastWaitSequenceMap.setCurrentBroadcastEvent(event);
 				addBroadcastMessageToBroadcastWaitSequenceMap(look, event, broadcastMessage);
 			}
 		}
@@ -87,8 +87,8 @@ public final class BroadcastHandler {
 				look.addAction(action);
 			}
 		} else {
-			if (!look.actionsToRestart.contains(action)) {
-				look.actionsToRestart.add(action);
+			if (!Look.actionsToRestartContains(action)) {
+				Look.actionsToRestartAdd(action);
 			}
 		}
 	}
@@ -110,12 +110,12 @@ public final class BroadcastHandler {
 		for (Sprite sprites : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
 			for (Action actionOfLook : sprites.look.getActions()) {
 				if (action == actionOfLook) {
-					actionOfLook.restart();
+					Look.actionsToRestartAdd(actionOfLook);
 					return true;
 				} else {
 					if (actionOfLook instanceof SequenceAction && ((SequenceAction) actionOfLook).getActions().size > 0
 							&& ((SequenceAction) actionOfLook).getActions().get(0) == action) {
-						actionOfLook.restart();
+						Look.actionsToRestartAdd(actionOfLook);
 						return true;
 					}
 				}

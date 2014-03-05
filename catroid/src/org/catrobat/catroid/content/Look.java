@@ -54,7 +54,7 @@ public class Look extends Image {
 	private ParallelAction whenParallelAction;
 	private boolean allActionAreFinished = false;
 	private BrightnessContrastShader shader;
-	public ArrayList<Action> actionsToRestart = new ArrayList<Action>();
+	private static ArrayList<Action> actionsToRestart = new ArrayList<Action>();
 
 	public Look(Sprite sprite) {
 		this.sprite = sprite;
@@ -153,7 +153,7 @@ public class Look extends Image {
 		allActionAreFinished = false;
 		int finishedCount = 0;
 
-		for (Iterator<Action> iterator = this.actionsToRestart.iterator(); iterator.hasNext();) {
+		for (Iterator<Action> iterator = Look.actionsToRestart.iterator(); iterator.hasNext();) {
 			Action actionToRestart = iterator.next();
 			actionToRestart.restart();
 			iterator.remove();
@@ -387,6 +387,14 @@ public class Look extends Image {
 			setUniformf(BRIGHTNESS_STRING_IN_SHADER, brightness - 1f);
 			end();
 		}
+	}
+
+	public static boolean actionsToRestartContains(Action action) {
+		return Look.actionsToRestart.contains(action);
+	}
+
+	public static void actionsToRestartAdd(Action action) {
+		Look.actionsToRestart.add(action);
 	}
 
 	private void doHandleBroadcastEvent(String broadcastMessage) {
