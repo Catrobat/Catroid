@@ -236,6 +236,7 @@
 
     <!-- PreStage activity -->
     <string name="text_to_speech_engine_not_installed">Text-to-Speech Modul nicht installiert!\nJetzt installieren?</string>
+    <string name="no_flash_led_available">Kein Blitzlicht gefunden</string>
     <!--  -->
 
 

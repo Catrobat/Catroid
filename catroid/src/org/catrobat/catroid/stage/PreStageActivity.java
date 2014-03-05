@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -136,20 +136,19 @@ public class PreStageActivity extends BaseActivity implements DroneReadyReceiver
 			startActivityForResult(checkIntent, REQUEST_TEXT_TO_SPEECH);
 		}
 
-        if ( (requiredResources & Brick.CAMERA_LED ) > 0 ) {
-            boolean hasCamera = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
-            boolean hasLED =    getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
+		if ( (requiredResources & Brick.CAMERA_LED ) > 0 ) {
+			boolean hasCamera = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
+			boolean hasLed =    getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
 
-            if ( hasCamera && hasLED ) {
-                requiredResources &= ~Brick.CAMERA_LED;
-                requiredResourceCounter--;
-                LEDUtil.activateLEDThread();
-            } else {
-                // TODO: make Toast and error handling
-//                Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
-//				resourceFailed();
-            }
-        }
+			if ( hasCamera && hasLed ) {
+				requiredResources &= ~Brick.CAMERA_LED;
+				requiredResourceCounter--;
+				LedUtil.activateLedThread();
+			} else {
+				Toast.makeText(PreStageActivity.this, R.string.no_flash_led_available, Toast.LENGTH_LONG).show();
+				resourceFailed();
+			}
+		}
 
 		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
 			BluetoothManager bluetoothManager = new BluetoothManager(this);

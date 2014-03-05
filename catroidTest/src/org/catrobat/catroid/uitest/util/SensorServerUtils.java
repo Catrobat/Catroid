@@ -39,72 +39,75 @@ import static junit.framework.Assert.assertTrue;
  * @author BerndBaumann
  *
  * This client provides communication to a test server running on an arduino board.
- * Enter the right IP adress and port number to connect and request sensor values.
  */
 public final class SensorServerUtils {
-    private static final String LOG_LEDTEST = "SensorServerUtils::";
+	private static final String LOG_LED_TEST = "SensorServerUtils::";
 
-    // fields to provide ethernet connection to the arduino server
-    private static Socket clientSocket = null;
-    private static DataOutputStream sendToServer;
-    private static BufferedReader recvFromServer;
-    private static final String serverIP = "129.27.202.103";
-    private static final int serverPort = 6789;
-    private static final int getLightValueID = 2;
+	// fields to provide ethernet connection to the arduino server
+	private static Socket clientSocket = null;
+	private static DataOutputStream sendToServer;
+	private static BufferedReader receiveFromServer;
 
-    public static final int SET_LED_ON_VALUE = 1;
-    public static final int SET_LED_OFF_VALUE = 0;
+	// Enter the right IP address and port number to connect and request sensor values.
+	private static final String SERVER_IP = "129.27.202.103";
+	private static final int SERVER_PORT = 6789;
+	private static final int GET_LIGHT_VALUE_ID = 2;
 
-    public static void connectToArduinoServer() throws IOException {
-        Log.d(LOG_LEDTEST, "Trying to connect to server...");
+	public static final int SET_LED_ON_VALUE = 1;
+	public static final int SET_LED_OFF_VALUE = 0;
 
-        clientSocket = new Socket( serverIP, serverPort );
-        clientSocket.setKeepAlive(true);
+	public static final int NETWORK_DELAY_MS = 500;
 
-        Log.d(LOG_LEDTEST, "Connected to: " + serverIP + " on port " + serverPort);
-        sendToServer = new DataOutputStream( clientSocket.getOutputStream() );
-        recvFromServer = new BufferedReader( new InputStreamReader( clientSocket.getInputStream() ) );
-    }
+	public static void connectToArduinoServer() throws IOException {
+		Log.d(LOG_LED_TEST, "Trying to connect to server...");
 
-    public static void closeConnection() throws IOException {
-        if (clientSocket != null)
-            clientSocket.close();
-        clientSocket = null;
-        sendToServer = null;
-        recvFromServer = null;
-    }
+		clientSocket = new Socket(SERVER_IP, SERVER_PORT);
+		clientSocket.setKeepAlive(true);
 
-    public static void checkSensorValue( int expected ) {
+		Log.d(LOG_LED_TEST, "Connected to: " + SERVER_IP + " on port " + SERVER_PORT);
+		sendToServer = new DataOutputStream( clientSocket.getOutputStream() );
+		receiveFromServer = new BufferedReader( new InputStreamReader( clientSocket.getInputStream() ) );
+	}
 
-        char expectedChar;
-        String assertString;
-        String response;
-        if ( expected == SET_LED_ON_VALUE ) {
-            expectedChar = '1';
-            assertString = "Error: LED is turned off!";
-        } else {
-            expectedChar = '0';
-            assertString = "Error: LED is turned on!";
-        }
-        try {
-            clientSocket.close();
-            Thread.sleep(500);
-            connectToArduinoServer();
-            Log.d(LOG_LEDTEST, "requesting sensor value: ");
-            sendToServer.writeByte(Integer.toHexString(getLightValueID).charAt(0));
-            sendToServer.flush();
-            Thread.sleep(500);
-            response = recvFromServer.readLine();
-            Log.d(LOG_LEDTEST, "response received! " + response);
+	public static void closeConnection() throws IOException {
+		if (clientSocket != null)
+			clientSocket.close();
+		clientSocket = null;
+		sendToServer = null;
+		receiveFromServer = null;
+	}
 
-            assertFalse("Wrong Command!", response.contains("ERROR"));
-            assertTrue( "Wrong data received!", response.contains( "LIGHT_END" ) );
-            assertTrue( assertString, response.charAt(0) == expectedChar );
+	public static void checkSensorValue( int expected ) {
 
-        } catch ( IOException ioe ) {
-            throw new AssertionFailedError( "Data exchange failed! Check server connection!" );
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+		char expectedChar;
+		String assertString;
+		String response;
+		if ( expected == SET_LED_ON_VALUE ) {
+			expectedChar = '1';
+			assertString = "Error: LED is turned off!";
+		} else {
+			expectedChar = '0';
+			assertString = "Error: LED is turned on!";
+		}
+		try {
+			clientSocket.close();
+			Thread.sleep(NETWORK_DELAY_MS);
+			connectToArduinoServer();
+			Log.d(LOG_LED_TEST, "requesting sensor value: ");
+			sendToServer.writeByte(Integer.toHexString(GET_LIGHT_VALUE_ID).charAt(0));
+			sendToServer.flush();
+			Thread.sleep(NETWORK_DELAY_MS);
+			response = receiveFromServer.readLine();
+			Log.d(LOG_LED_TEST, "response received! " + response);
+
+			assertFalse("Wrong Command!", response.contains("ERROR"));
+			assertTrue( "Wrong data received!", response.contains( "LIGHT_END" ) );
+			assertTrue( assertString, response.charAt(0) == expectedChar );
+
+		} catch ( IOException ioException ) {
+			throw new AssertionFailedError( "Data exchange failed! Check server connection!" );
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 }

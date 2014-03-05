@@ -447,7 +447,7 @@ public class ExtendedActions extends Actions {
 		return action(DroneFlipAction.class);
 	}
 
-  public static LEDAction ligths( Sprite sprite, boolean illuminate ) {
+  public static LEDAction ligths( Sprite sprite, boolean ledValue ) {
         LEDAction action = new LEDAction();
         action.setSprite( sprite );
         action.setLedValue( ledValue );

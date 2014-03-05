@@ -44,28 +44,26 @@ import java.util.List;
 
 /**
  * @author BerndBaumann
- *
- * Implementation of a brick to control the flash led of a camera
  */
-public class LEDBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class LedBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 
     private Formula lightValue;
 
     private transient View prototypeView;
 
-    public LEDBrick( Sprite sprite, Formula lightValue ) {
+    public LedBrick( Sprite sprite, Formula lightValue ) {
         this.sprite = sprite;
         this.lightValue = lightValue;
     }
 
-    public LEDBrick( Sprite sprite ) {
+    public LedBrick( Sprite sprite ) {
         this.sprite = sprite;
         this.lightValue = new Formula( 0 );
     }
 
     @Override
     public Brick copyBrickForSprite( Sprite sprite, Script script ) {
-        LEDBrick copyBrick = (LEDBrick) clone();
+        LedBrick copyBrick = (LedBrick) clone();
         copyBrick.sprite = sprite;
         return copyBrick;
     }
@@ -94,15 +92,15 @@ public class LEDBrick extends BrickBaseType implements OnClickListener, FormulaB
             }
         });
 
-        TextView textLED = (TextView) view.findViewById( R.id.brick_led_prototype_text_view );
-        TextView editLED = (TextView) view.findViewById( R.id.brick_led_edit_text );
+        TextView textLed = (TextView) view.findViewById( R.id.brick_led_prototype_text_view );
+        TextView editLed = (TextView) view.findViewById( R.id.brick_led_edit_text );
 
         lightValue.setTextFieldId( R.id.brick_led_edit_text );
         lightValue.refreshTextField( view );
 
-        textLED.setVisibility( View.GONE );
-        editLED.setVisibility( View.VISIBLE );
-        editLED.setOnClickListener( this );
+        textLed.setVisibility( View.GONE );
+        editLed.setVisibility( View.VISIBLE );
+        editLed.setOnClickListener( this );
 
         return view;
     }
@@ -115,11 +113,11 @@ public class LEDBrick extends BrickBaseType implements OnClickListener, FormulaB
             Drawable background = layout.getBackground();
             background.setAlpha( alphaValue );
 
-            TextView textLED = (TextView) view.findViewById( R.id.brick_led_prototype_text_view );
-            TextView editLED = (TextView) view.findViewById( R.id.brick_led_edit_text );
-            textLED.setTextColor( textLED.getTextColors().withAlpha( alphaValue ));
-            editLED.setTextColor( textLED.getTextColors().withAlpha( alphaValue ));
-            editLED.getBackground().setAlpha( alphaValue );
+            TextView textLed = (TextView) view.findViewById( R.id.brick_led_prototype_text_view );
+            TextView editLed = (TextView) view.findViewById( R.id.brick_led_edit_text );
+            textLed.setTextColor( textLed.getTextColors().withAlpha( alphaValue ));
+            editLed.setTextColor( textLed.getTextColors().withAlpha( alphaValue ));
+            editLed.getBackground().setAlpha( alphaValue );
 
             this.alphaValue = (alphaValue);
         }
@@ -156,7 +154,7 @@ public class LEDBrick extends BrickBaseType implements OnClickListener, FormulaB
 
     @Override
     public Brick clone() {
-        return new LEDBrick( getSprite(), lightValue.clone() );
+        return new LedBrick( getSprite(), lightValue.clone() );
     }
 
     @Override
