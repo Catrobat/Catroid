@@ -251,7 +251,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertEquals(assertMessageText, expectedSoundName, getSoundTitle(1));
 
 		expectedSoundName = defaultSoundName + "2";
-        solo.sleep(TIME_TO_WAIT);
+		solo.sleep(TIME_TO_WAIT);
 		assertEquals(assertMessageText, expectedSoundName, getSoundTitle(2));
 
 		newSoundName = "x";
@@ -261,7 +261,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		assertNotSame("Sound not renamed", expectedSoundName, getSoundTitle(1));
 		renameSound(newSoundName, defaultSoundName);
-        solo.sleep(TIME_TO_WAIT);
+		solo.sleep(TIME_TO_WAIT);
 		assertEquals(assertMessageText, expectedSoundName, getSoundTitle(1));
 	}
 
@@ -709,7 +709,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		// If an already existing name was entered a counter should be appended
 		String expectedNewSoundName = newSoundName + "1";
 		soundInfoList = projectManager.getCurrentSprite().getSoundList();
-        solo.sleep(TIME_TO_WAIT);
+		solo.sleep(TIME_TO_WAIT);
 		assertEquals("Sound is not correctly renamed in SoundList (1 should be appended)", expectedNewSoundName,
 				soundInfoList.get(checkboxIndex).getTitle());
 		assertTrue("Sound not renamed in actual view", solo.searchText(expectedNewSoundName, true));
@@ -875,11 +875,14 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(true, true);
+		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.goBack();
 
 		// Check if rename ActionMode disappears if back was pressed
-		assertFalse("Delete dialog showed up", solo.waitForText(deleteDialogTitle, 0, TIME_TO_WAIT));
+		assertFalse("Delete dialog is still showing", solo.waitForText(deleteDialogTitle, 0, TIME_TO_WAIT));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
+		assertFalse("Checkboxes didn't disappear",
+				solo.getView(R.id.fragment_sound_item_checkbox).getVisibility() == View.VISIBLE);
 
 		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
 	}
