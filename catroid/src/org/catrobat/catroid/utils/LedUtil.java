@@ -40,7 +40,7 @@ public class LedUtil {
 	private static final String LOG_TAG = "LedUtil::";
 	private static Camera cam = null;
 
-	private static boolean lightON = false;
+	private static boolean lightOn = false;
 	private static boolean previousLightOn = false;
 	private static boolean ledValue = false;
 	private static boolean paused = false;
@@ -78,7 +78,7 @@ public class LedUtil {
 		Log.d(LOG_TAG, "pauseLed");
 		if (!paused) {
 			paused = true;
-			if (lightON == true) {
+			if (lightOn == true) {
 				setLedValue(false);
 				previousLightOn = true;
 			} else {
@@ -112,18 +112,17 @@ public class LedUtil {
 	}
 
 	private synchronized static void setLed(boolean ledValue) {
-		Log.d(LOG_TAG, "setLed()");
 		if (ledValue)
-			ledON();
+			ledOn();
 		else
-			ledOFF();
+			ledOff();
 	}
 
-	private synchronized static void ledON() {
-		if (lightON == true)
+	private synchronized static void ledOn() {
+		if (lightOn == true)
 			return;
 
-		Log.d(LOG_TAG, "ledON()");
+		Log.d(LOG_TAG, "ledOn()");
 		try {
 			cam = Camera.open();
 
@@ -138,29 +137,27 @@ public class LedUtil {
 
 					cam.setParameters(params);
 					cam.startPreview();
-					lightON = true;
+					lightOn = true;
 				}
 			}
 		} catch (Exception e) {
-			// TODO: Toast message
 			Log.d(LOG_TAG, e.getMessage());
 		}
 	}
 
-	private synchronized static void ledOFF() {
-		if (lightON == false)
+	private synchronized static void ledOff() {
+		if (lightOn == false)
 			return;
 
-		Log.d(LOG_TAG, "ledOFF()");
+		Log.d(LOG_TAG, "ledOff()");
 		try {
 			if (cam != null) {
 				cam.stopPreview();
 				cam.release();
 				cam = null;
-				lightON = false;
+				lightOn = false;
 			}
 		} catch (Exception e) {
-			// TODO: Toast message
 			Log.d(LOG_TAG, e.getMessage());
 		}
 	}
