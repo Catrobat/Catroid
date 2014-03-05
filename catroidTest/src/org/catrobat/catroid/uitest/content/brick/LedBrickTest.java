@@ -71,6 +71,8 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 
 			// disable touch screen while testing
 			setActivityInitialTouchMode(false);
+		} else {
+			Log.d(LOG_LED_TEST, "setUp() - no flash led available");
 		}
 	}
 
