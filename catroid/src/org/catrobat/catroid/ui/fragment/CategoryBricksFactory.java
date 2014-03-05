@@ -197,7 +197,7 @@ public class CategoryBricksFactory {
 		looksBrickList.add(new SetBrightnessBrick(sprite, BrickValues.SET_BRIGHTNESS_TO));
 		looksBrickList.add(new ChangeBrightnessByNBrick(sprite, BrickValues.CHANGE_BRITHNESS_BY));
 		looksBrickList.add(new ClearGraphicEffectBrick(sprite));
-    looksBrickList.add(new LedBrick(sprite));
+		looksBrickList.add(new LedBrick(sprite));
 
 		return looksBrickList;
 	}
