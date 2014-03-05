@@ -119,7 +119,8 @@ public final class UtilZip {
 			ZipEntry zipEntry;
 
 			while ((zipEntry = zipInputStream.getNextEntry()) != null) {
-				if (zipEntry.getName().startsWith(DIRECTORY_LEVEL_UP)) {
+				if (zipEntry.getName().contains(DIRECTORY_LEVEL_UP)) {
+					Log.d(TAG, "Path traversal attack prevented");
 					continue;
 				}
 
