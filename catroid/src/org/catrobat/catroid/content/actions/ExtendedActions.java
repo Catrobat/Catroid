@@ -350,8 +350,8 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-    public static LEDAction lights( Sprite sprite, Formula ledValue ) {
-        LEDAction action = action( LEDAction.class );
+    public static LedAction lights( Sprite sprite, Formula ledValue ) {
+		LedAction action = action( LedAction.class );
         action.setSprite( sprite );
         action.setLedValue( ledValue );
         return action;
