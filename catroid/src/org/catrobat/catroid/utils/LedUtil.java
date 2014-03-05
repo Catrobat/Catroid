@@ -93,7 +93,7 @@ public class LedUtil {
 		paused = false;
 	}
 
-	public LedUtil() {
+	private LedUtil() {
 	}
 
 	public static void activateLedThread() {
@@ -111,16 +111,18 @@ public class LedUtil {
 		}
 	}
 
-	private synchronized static void setLed(boolean ledValue) {
-		if (ledValue)
+	private static synchronized void setLed(boolean ledValue) {
+		if (ledValue) {
 			ledOn();
-		else
+		} else {
 			ledOff();
+		}
 	}
 
-	private synchronized static void ledOn() {
-		if (lightOn == true)
+	private static synchronized void ledOn() {
+		if (lightOn == true) {
 			return;
+		}
 
 		Log.d(LOG_TAG, "ledOn()");
 		try {
@@ -145,9 +147,10 @@ public class LedUtil {
 		}
 	}
 
-	private synchronized static void ledOff() {
-		if (lightOn == false)
+	private static synchronized void ledOff() {
+		if (lightOn == false) {
 			return;
+		}
 
 		Log.d(LOG_TAG, "ledOff()");
 		try {

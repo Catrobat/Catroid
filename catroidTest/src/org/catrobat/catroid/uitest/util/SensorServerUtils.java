@@ -22,18 +22,18 @@
  */
 package org.catrobat.catroid.uitest.util;
 
-import android.util.Log;
-
-import junit.framework.AssertionFailedError;
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-import static junit.framework.Assert.assertFalse;
+import android.util.Log;
+
+import junit.framework.AssertionFailedError;
+
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.assertFalse;
 
 /**
  * @author BerndBaumann
@@ -58,6 +58,9 @@ public final class SensorServerUtils {
 
 	public static final int NETWORK_DELAY_MS = 500;
 
+	private SensorServerUtils() {
+	}
+
 	public static void connectToArduinoServer() throws IOException {
 		Log.d(LOG_LED_TEST, "Trying to connect to server...");
 
@@ -70,9 +73,10 @@ public final class SensorServerUtils {
 	}
 
 	public static void closeConnection() throws IOException {
-		if (clientSocket != null)
+		if (clientSocket != null) {
 			clientSocket.close();
-		clientSocket = null;
+	}
+	clientSocket = null;
 		sendToServer = null;
 		receiveFromServer = null;
 	}

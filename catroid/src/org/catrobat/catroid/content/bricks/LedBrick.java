@@ -43,122 +43,123 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import java.util.List;
 
 /**
- * @author BerndBaumann
+ * @author BerndBaumanne
  */
 public class LedBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+	private static final long serialVersionUID = 1L;
 
-    private Formula lightValue;
+	private Formula lightValue;
 
-    private transient View prototypeView;
+	private transient View prototypeView;
 
-    public LedBrick( Sprite sprite, Formula lightValue ) {
-        this.sprite = sprite;
-        this.lightValue = lightValue;
-    }
+	public LedBrick( Sprite sprite, Formula lightValue ) {
+		this.sprite = sprite;
+		this.lightValue = lightValue;
+	}
 
-    public LedBrick( Sprite sprite ) {
-        this.sprite = sprite;
-        this.lightValue = new Formula( 0 );
-    }
+	public LedBrick( Sprite sprite ) {
+		this.sprite = sprite;
+		this.lightValue = new Formula( 0 );
+	}
 
-    @Override
-    public Brick copyBrickForSprite( Sprite sprite, Script script ) {
-        LedBrick copyBrick = (LedBrick) clone();
-        copyBrick.sprite = sprite;
-        return copyBrick;
-    }
+	@Override
+	public Brick copyBrickForSprite( Sprite sprite, Script script ) {
+		LedBrick copyBrick = (LedBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
+	}
 
-    @Override
-    public View getView( Context context, int brickId, BaseAdapter baseAdapter ) {
-        if ( animationState ) {
-            return view;
-        }
+	@Override
+	public View getView( Context context, int brickId, BaseAdapter baseAdapter ) {
+		if ( animationState ) {
+			return view;
+		}
 
-        if ( view == null ) {
-            alphaValue = 0xFF;
-        }
+		if ( view == null ) {
+			alphaValue = 0xFF;
+		}
 
-        view = View.inflate( context, R.layout.brick_led, null );
-        view = getViewWithAlpha( alphaValue );
+		view = View.inflate( context, R.layout.brick_led, null );
+		view = getViewWithAlpha( alphaValue );
 
-        setCheckboxView( R.id.brick_led_checkbox );
+		setCheckboxView( R.id.brick_led_checkbox );
 
-        final Brick brickInstance = this;
-        checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                checked = isChecked;
-                adapter.handleCheck(brickInstance, isChecked);
-            }
-        });
+		final Brick brickInstance = this;
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checked = isChecked;
+				adapter.handleCheck(brickInstance, isChecked);
+			}
+		});
 
-        TextView textLed = (TextView) view.findViewById( R.id.brick_led_prototype_text_view );
-        TextView editLed = (TextView) view.findViewById( R.id.brick_led_edit_text );
+		TextView textLed = (TextView) view.findViewById( R.id.brick_led_prototype_text_view );
+		TextView editLed = (TextView) view.findViewById( R.id.brick_led_edit_text );
 
-        lightValue.setTextFieldId( R.id.brick_led_edit_text );
-        lightValue.refreshTextField( view );
+		lightValue.setTextFieldId( R.id.brick_led_edit_text );
+		lightValue.refreshTextField( view );
 
-        textLed.setVisibility( View.GONE );
-        editLed.setVisibility( View.VISIBLE );
-        editLed.setOnClickListener( this );
+		textLed.setVisibility( View.GONE );
+		editLed.setVisibility( View.VISIBLE );
+		editLed.setOnClickListener( this );
 
-        return view;
-    }
+		return view;
+	}
 
-    @Override
-    public View getViewWithAlpha( int alphaValue ) {
-        if (view != null) {
+	@Override
+	public View getViewWithAlpha( int alphaValue ) {
+		if (view != null) {
 
-            View layout = view.findViewById( R.id.brick_led_layout );
-            Drawable background = layout.getBackground();
-            background.setAlpha( alphaValue );
+			View layout = view.findViewById( R.id.brick_led_layout );
+			Drawable background = layout.getBackground();
+			background.setAlpha( alphaValue );
 
-            TextView textLed = (TextView) view.findViewById( R.id.brick_led_prototype_text_view );
-            TextView editLed = (TextView) view.findViewById( R.id.brick_led_edit_text );
-            textLed.setTextColor( textLed.getTextColors().withAlpha( alphaValue ));
-            editLed.setTextColor( textLed.getTextColors().withAlpha( alphaValue ));
-            editLed.getBackground().setAlpha( alphaValue );
+			TextView textLed = (TextView) view.findViewById( R.id.brick_led_prototype_text_view );
+			TextView editLed = (TextView) view.findViewById( R.id.brick_led_edit_text );
+			textLed.setTextColor( textLed.getTextColors().withAlpha( alphaValue ));
+			editLed.setTextColor( textLed.getTextColors().withAlpha( alphaValue ));
+			editLed.getBackground().setAlpha( alphaValue );
 
-            this.alphaValue = (alphaValue);
-        }
+			this.alphaValue = (alphaValue);
+		}
 
-        return view;
-    }
+		return view;
+	}
 
-    @Override
-    public void onClick(View v) {
-        if ( checkbox.getVisibility() == View.VISIBLE ) {
-            return;
-        }
-        FormulaEditorFragment.showFragment(view, this, lightValue);
-    }
+	@Override
+	public void onClick(View v) {
+		if ( checkbox.getVisibility() == View.VISIBLE ) {
+			return;
+		}
+		FormulaEditorFragment.showFragment(view, this, lightValue);
+	}
 
-    @Override
-    public Formula getFormula() {
+	@Override
+	public Formula getFormula() {
         return lightValue;
     }
 
-    @Override
-    public List<SequenceAction> addActionToSequence( SequenceAction sequence ) {
-        sequence.addAction( ExtendedActions.lights( this.sprite, lightValue ) );
-        return null;
-    }
-    
-    @Override
-    public View getPrototypeView( Context context ) {
-        prototypeView = View.inflate( context, R.layout.brick_led, null );
-        TextView ledTextView = (TextView) prototypeView.findViewById( R.id.brick_led_prototype_text_view );
-        ledTextView.setText( String.valueOf( lightValue.interpretBoolean( sprite )));
-        return prototypeView;
-    }
+	@Override
+	public List<SequenceAction> addActionToSequence( SequenceAction sequence ) {
+		sequence.addAction( ExtendedActions.lights( this.sprite, lightValue ) );
+		return null;
+	}
 
-    @Override
-    public Brick clone() {
-        return new LedBrick( getSprite(), lightValue.clone() );
-    }
+	@Override
+	public View getPrototypeView( Context context ) {
+		prototypeView = View.inflate( context, R.layout.brick_led, null );
+		TextView ledTextView = (TextView) prototypeView.findViewById( R.id.brick_led_prototype_text_view );
+		ledTextView.setText( String.valueOf( lightValue.interpretBoolean( sprite )));
+		return prototypeView;
+	}
 
-    @Override
-    public int getRequiredResources() {
+	@Override
+	public Brick clone() {
+		return new LedBrick( getSprite(), lightValue.clone() );
+	}
+
+	@Override
+	public int getRequiredResources() {
         return CAMERA_LED;
     }
 }
