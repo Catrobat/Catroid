@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.bricks.LedBrick;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.SensorServerUtils;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
