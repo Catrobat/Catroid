@@ -470,7 +470,9 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 	public void testBackPackActionModeIfSomethingSelectedForBackPack() {
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack, getActivity());
+		solo.sleep(1000);
 		solo.clickOnCheckBox(1);
+		solo.sleep(500);
 		checkIfCheckboxesAreCorrectlyChecked(false, true);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.waitForActivity(BackPackActivity.class.getSimpleName(), TIME_TO_WAIT_BACKPACK);
@@ -1205,6 +1207,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
 			boolean secondCheckboxExpectedChecked) {
 		solo.sleep(300);
+		solo.sleep(1000);
 		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(0);
 		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(1);
 		assertEquals("First checkbox not correctly checked", firstCheckboxExpectedChecked, firstCheckBox.isChecked());

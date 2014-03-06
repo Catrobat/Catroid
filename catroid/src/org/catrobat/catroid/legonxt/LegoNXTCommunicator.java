@@ -213,6 +213,7 @@ public abstract class LegoNXTCommunicator extends Thread {
 		//		for (int i = 0; i < message.length; i++) {
 		//			Log.i("bt", " " + (0x000000FF & message[i]));
 		//		}
+		Log.d("NXT", "Why is LegoNXTCommunicator active?");
 
 		switch (message[1]) {
 

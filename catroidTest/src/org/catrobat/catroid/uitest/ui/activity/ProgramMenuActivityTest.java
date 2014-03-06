@@ -160,10 +160,15 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		assertTrue("Bottombar separator is not visible",
 				solo.getView(R.id.bottom_bar_separator).getVisibility() == View.GONE);
 
+		solo.sleep(100);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.sleep(1000);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(1000);
 		solo.assertCurrentActivity("Not in StageActivity", StageActivity.class);
+		solo.sleep(600);
 		solo.goBack();
+		solo.sleep(500);
 		solo.goBack();
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Not in ProgramMenuActivity", ProgramMenuActivity.class);

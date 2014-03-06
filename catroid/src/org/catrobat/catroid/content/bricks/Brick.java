@@ -43,8 +43,8 @@ public interface Brick extends Serializable {
 	//	public static final int SOUND_MANAGER = 0x1;
 	int TEXT_TO_SPEECH = 0x2;
 	int BLUETOOTH_LEGO_NXT = 0x4;
-
 	//	public static final int BLUETOOTH_ARDUINO = 0x8;
+	public static final int BLUETOOTH_ROBOT_ALBERT = 0x10;
 
 	List<SequenceAction> addActionToSequence(SequenceAction sequence);
 

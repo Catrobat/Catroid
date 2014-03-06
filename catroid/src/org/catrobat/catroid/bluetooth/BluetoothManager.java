@@ -45,13 +45,18 @@ package org.catrobat.catroid.bluetooth;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.util.Log;
 
 public class BluetoothManager {
 
 	private static final int REQUEST_ENABLE_BT = 2000;
+	private static final int REQUEST_ENABLE_BT_WITH_TEXT = 2001;
 	public static final int BLUETOOTH_NOT_SUPPORTED = -1;
 	public static final int BLUETOOTH_ALREADY_ON = 1;
 	public static final int BLUETOOTH_ACTIVATING = 0;
+	public static final String BLUETOOTH_TITLE = "Bluetooth_title";
+	public static final String BLUETOOTH_TEXT = "Bluetooth_text";
+
 	private BluetoothAdapter bluetoothAdapter;
 
 	private final Activity activity;
@@ -73,6 +78,23 @@ public class BluetoothManager {
 		} else {
 			//Log.d("TAG", "LOOP!!!!!");
 			//connectLegoNXT();
+			return BLUETOOTH_ALREADY_ON;
+		}
+	}
+
+	public int activateBluetooth(String title, String waitingText) {
+		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		if (bluetoothAdapter == null) {
+			return BLUETOOTH_NOT_SUPPORTED;// Device does not support Bluetooth
+		}
+		if (!bluetoothAdapter.isEnabled()) {
+			Log.d("BluetoothManager", "Before enable Bluetooth");
+			Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			activity.startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT_WITH_TEXT);
+			Log.d("BluetoothManager", "After enable Bluetooth");
+			return BLUETOOTH_ACTIVATING;
+		} else {
+			Log.d("BluetoothManager", "activateBluetooth:BLUETOOTH_ALREADY_ON");
 			return BLUETOOTH_ALREADY_ON;
 		}
 	}

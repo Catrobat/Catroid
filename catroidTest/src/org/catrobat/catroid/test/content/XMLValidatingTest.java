@@ -94,7 +94,7 @@ public class XMLValidatingTest extends AndroidTestCase {
 		String[] categories = { context.getString(R.string.category_control),
 				context.getString(R.string.category_motion), context.getString(R.string.category_sound),
 				context.getString(R.string.category_looks), context.getString(R.string.category_variables),
-				context.getString(R.string.category_lego_nxt) };
+				context.getString(R.string.category_lego_nxt), context.getString(R.string.category_robot_albert) };
 
 		CategoryBricksFactory brickFactory = new CategoryBricksFactory();
 		List<Brick> bricks = new ArrayList<Brick>();

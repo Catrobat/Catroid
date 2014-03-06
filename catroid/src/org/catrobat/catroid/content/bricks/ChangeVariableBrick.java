@@ -82,7 +82,11 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		if (variableFormula.containsRobotAlbertSensors() == true) {
+			return BLUETOOTH_ROBOT_ALBERT;
+		} else {
+			return NO_RESOURCES;
+		}
 	}
 
 	public ChangeVariableBrick() {

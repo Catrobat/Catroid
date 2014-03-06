@@ -58,8 +58,18 @@ public final class BrickValues {
 	public static final int LEGO_DURATION = 1;
 	public static final int LEGO_FREQUENCY = 2;
 
+	//Constants Robot Albert
+	public static final int ROBOT_ALBERT_SPEED = 100;
+	public static final int ROBOT_ALBERT_FREQUENCY = 100;
+	public static final int ROBOT_ALBERT_RGB_LED_EYE_RED = 255;
+	public static final int ROBOT_ALBERT_RGB_LED_EYE_GREEN = 255;
+	public static final int ROBOT_ALBERT_RGB_LED_EYE_BLUE = 255;
+	public static final int ROBOT_ALBERT_RGB_LED_EYE = 2;
+	public static final int ROBOT_ALBERT_FRONT_LED = 1;
+
 	// Suppress default constructor for noninstantiability
 	private BrickValues() {
 		throw new AssertionError();
 	}
+
 }

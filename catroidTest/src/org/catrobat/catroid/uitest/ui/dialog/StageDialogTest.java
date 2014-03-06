@@ -24,6 +24,7 @@ package org.catrobat.catroid.uitest.ui.dialog;
 
 import android.app.Activity;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -284,14 +285,27 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.sleep(200);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
+		solo.sleep(200);
+		Log.d("testme", "4");
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.sleep(1500);
+		Log.d("testme", "5");
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.sleep(2000);
+		Log.d("testme", "6");
 		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(2000);
+		Log.d("testme", "7");
 		solo.goBack();
+		solo.sleep(1000);
+		Log.d("testme", "8");
 		solo.clickOnButton(solo.getString(R.string.stage_dialog_axes_on));
+		solo.sleep(1000);
 		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
 		solo.sleep(100);
+		solo.sleep(1000);
 		byte[] redPixel = { (byte) 255, 0, 0, (byte) 255 };
 		byte[] stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2,
 				ScreenValues.SCREEN_HEIGHT / 2, 1, 1);
@@ -306,9 +320,13 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2,
 				ScreenValues.SCREEN_HEIGHT - 1, 1, 1);
 		UiTestUtils.compareByteArrays(redPixel, stagePixel);
+		solo.sleep(1000);
 		solo.goBack();
+		solo.sleep(1000);
 		solo.clickOnButton(solo.getString(R.string.stage_dialog_axes_off));
+		solo.sleep(1000);
 		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
+		solo.sleep(1000);
 		solo.sleep(100);
 		byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
 		stagePixel = StageActivity.stageListener.getPixels(ScreenValues.SCREEN_WIDTH / 2,

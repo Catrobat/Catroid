@@ -30,13 +30,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
@@ -76,6 +80,17 @@ public class BrickCategoryFragment extends SherlockListFragment {
 		return rootView;
 	}
 
+	private int getRequiredRessources() {
+		ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
+				.getSpriteList();
+
+		int ressources = Brick.NO_RESOURCES;
+		for (Sprite sprite : spriteList) {
+			ressources |= sprite.getRequiredResources();
+		}
+		return ressources;
+	}
+
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -83,12 +98,26 @@ public class BrickCategoryFragment extends SherlockListFragment {
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				if (!viewSwitchLock.tryLock()) {
-					return;
-				}
 
-				if (onCategorySelectedListener != null) {
-					onCategorySelectedListener.onCategorySelected(adapter.getItem(position));
+				String selectedCategory = adapter.getItem(position).toString();
+				if (((getRequiredRessources() & Brick.BLUETOOTH_LEGO_NXT) > 0)
+						&& selectedCategory.equals(getActivity().getString(R.string.category_robot_albert))) {
+					Toast.makeText(getActivity(),
+							getActivity().getString(R.string.category_error_message_already_nxt_bricks_in_use),
+							Toast.LENGTH_LONG).show();
+				} else if (((getRequiredRessources() & Brick.BLUETOOTH_ROBOT_ALBERT) > 0)
+						&& selectedCategory.equals(getActivity().getString(R.string.category_lego_nxt))) {
+					Toast.makeText(getActivity(),
+							getActivity().getString(R.string.category_error_message_already_albert_bricks_in_use),
+							Toast.LENGTH_LONG).show();
+				} else {
+					if (!viewSwitchLock.tryLock()) {
+						return;
+					}
+
+					if (onCategorySelectedListener != null) {
+						onCategorySelectedListener.onCategorySelected(adapter.getItem(position));
+					}
 				}
 			}
 		});
@@ -140,6 +169,9 @@ public class BrickCategoryFragment extends SherlockListFragment {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		if (sharedPreferences.getBoolean("setting_mindstorm_bricks", false)) {
 			categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null));
+		}
+		if (sharedPreferences.getBoolean("setting_robot_albert_bricks", false)) {
+			categories.add(inflater.inflate(R.layout.brick_category_robot_albert, null));
 		}
 
 		adapter = new BrickCategoryAdapter(categories);

@@ -68,7 +68,9 @@ public class LegoNXTTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 	// needed for testdevices
 	// Bluetooth server is running with a name that starts with 'kitty'
 	// e.g. kittyroid-0, kittyslave-0
-	private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "kitty";
+	//private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "michael-ThinkPad-T420-0-40:2C:F4:69:D0:21";
+	//private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "T420-40:2C:F4:69:D0:21";
+	private static final String PAIRED_BLUETOOTH_SERVER_DEVICE_NAME = "kittyslave-0";
 
 	// needed for testdevices
 	// unavailable device is paired with a name that starts with 'SWEET'

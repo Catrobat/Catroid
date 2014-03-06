@@ -43,6 +43,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private static final String KEY_SETTINGS_MINDSTORM_BRICKS = "setting_mindstorm_bricks";
+	private static final String KEY_SETTINGS_ROBOT_ALBERT_BRICKS = "setting_robot_albert_bricks";
 
 	public BrickValueParameterTest() {
 		super(MainMenuActivity.class);
@@ -58,6 +59,12 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		if (!sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
 			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, true).commit();
 		}
+
+		// enable robot albert bricks, if disabled at start
+		if (!sharedPreferences.getBoolean(KEY_SETTINGS_ROBOT_ALBERT_BRICKS, false)) {
+			sharedPreferences.edit().putBoolean(KEY_SETTINGS_ROBOT_ALBERT_BRICKS, true).commit();
+		}
+
 		createProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo, 2);
 	}
@@ -69,6 +76,12 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		if (sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
 			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
 		}
+
+		// disable robot albert bricks, if enabled
+		if (sharedPreferences.getBoolean(KEY_SETTINGS_ROBOT_ALBERT_BRICKS, false)) {
+			sharedPreferences.edit().putBoolean(KEY_SETTINGS_ROBOT_ALBERT_BRICKS, false).commit();
+		}
+
 		super.tearDown();
 	}
 
@@ -428,6 +441,52 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 				nxtPlayToneEditTextString.length() - 1));
 		assertEquals("Value in Selected Brick Repeat is not correct", BrickValues.LEGO_FREQUENCY,
 				nxtPlayToneEditTextValue);
+	}
+
+	public void testRobotAlbertBricksDefaultValues() {
+
+		//TODO: Check if Spinner-Value is correct
+
+		String categoryRobotAlbertText = solo.getString(R.string.category_robot_albert);
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
+				solo.getCurrentViews(ListView.class).size() - 1);
+		solo.scrollListToBottom(fragmentListView);
+		solo.clickOnText(categoryRobotAlbertText);
+
+		TextView albertMotorTextView = (TextView) solo
+				.getView(R.id.robot_albert_motor_action_speed_prototype_text_view);
+		int albertMotorPrototypeValue = Integer.parseInt(albertMotorTextView.getText().toString());
+		assertEquals("Value in Brick Robot_Albert_Motor is not correct", BrickValues.ROBOT_ALBERT_SPEED,
+				albertMotorPrototypeValue);
+
+		TextView albertBuzzerTextView = (TextView) solo.getView(R.id.robot_albert_buzzer_frequency_prototype_text_view);
+		int albertBuzzerPrototypeValue = Integer.parseInt(albertBuzzerTextView.getText().toString());
+		assertEquals("Value in Brick Robot_Albert_Buzzer is not correct", BrickValues.ROBOT_ALBERT_FREQUENCY,
+				albertBuzzerPrototypeValue);
+
+		TextView albertEyeRedTextView = (TextView) solo.getView(R.id.robot_albert_rgb_led_red_prototype_text_view);
+		int albertEyeRedPrototypeValue = Integer.parseInt(albertEyeRedTextView.getText().toString());
+		assertEquals("Value in Brick Robot_Albert_Eye (Red) is not correct", BrickValues.ROBOT_ALBERT_RGB_LED_EYE_RED,
+				albertEyeRedPrototypeValue);
+
+		TextView albertEyeGreenTextView = (TextView) solo.getView(R.id.robot_albert_rgb_led_green_prototype_text_view);
+		int albertEyeGreenPrototypeValue = Integer.parseInt(albertEyeGreenTextView.getText().toString());
+		assertEquals("Value in Brick Robot_Albert_Eye (Green) is not correct",
+				BrickValues.ROBOT_ALBERT_RGB_LED_EYE_GREEN, albertEyeGreenPrototypeValue);
+
+		TextView albertEyeBlueTextView = (TextView) solo.getView(R.id.robot_albert_rgb_led_blue_prototype_text_view);
+		int albertEyeBluePrototypeValue = Integer.parseInt(albertEyeBlueTextView.getText().toString());
+		assertEquals("Value in Brick Robot_Albert_Eye (Blue) is not correct",
+				BrickValues.ROBOT_ALBERT_RGB_LED_EYE_BLUE, albertEyeBluePrototypeValue);
+
+		TextView albertFrontLedTextView = (TextView) solo
+				.getView(R.id.robot_albert_front_led_status_prototype_text_view);
+		int albertFrontLedPrototypeValue = Integer.parseInt(albertFrontLedTextView.getText().toString());
+		assertEquals("Value in Brick Robot_Albert_Front_LED is not correct", BrickValues.ROBOT_ALBERT_FRONT_LED,
+				albertFrontLedPrototypeValue);
+
 	}
 
 	public void testUserVariablesBricksDefaultValues() {

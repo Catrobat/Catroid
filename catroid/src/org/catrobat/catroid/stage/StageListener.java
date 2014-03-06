@@ -25,7 +25,10 @@ package org.catrobat.catroid.stage;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.os.Handler;
+import android.os.Message;
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -52,6 +55,9 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.robot.albert.RobotAlbert;
+import org.catrobat.catroid.robot.albert.RobotAlbertCommunicator;
+import org.catrobat.catroid.robot.albert.SensorRobotAlbert;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.Utils;
 
@@ -235,6 +241,22 @@ public class StageListener implements ApplicationListener {
 
 	@Override
 	public void pause() {
+
+		try {
+			SensorRobotAlbert sensor = SensorRobotAlbert.getSensorRobotAlbertInstance();
+			boolean albertUsed = sensor.getBooleanAlbertBricksUsed();
+			if (albertUsed == true) {
+				Handler btcHandler = RobotAlbert.getBTCHandler();
+				Log.d("StageListener Pause", "sendRobotAlbertMotorResetMessage()");
+				Message myMessage = btcHandler.obtainMessage();
+				myMessage.what = RobotAlbertCommunicator.MOTOR_RESET_COMMAND;
+				btcHandler.sendMessage(myMessage);
+				Log.d("StageListener Pause", "sendRobotAlbertMotorResetMessage finished!");
+			}
+
+		} catch (Exception e) {
+		}
+
 		if (finished) {
 			return;
 		}

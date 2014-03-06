@@ -28,5 +28,12 @@
             android:key="setting_mindstorm_bricks"
             android:summary="@string/preference_description_mindstorm_bricks"
             android:title="@string/preference_title_enable_mindstorm_bricks" />
+        
+        <CheckBoxPreference             
+            android:defaultValue="false"
+            android:key="setting_robot_albert_bricks"
+            android:summary="@string/preference_description_robot_albert_bricks"
+            android:title="@string/preference_title_enable_robot_albert_bricks"
+            />
 
 </PreferenceScreen>

@@ -173,13 +173,15 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<ProjectA
 		createMultiSpeechesProject();
 		prepareStageForTesting(UiTestUtils.PROJECTNAME3);
 		solo.sleep(2000);
+		solo.sleep(500);
 
 		assertTrue("speechFileLongText does not exist", speechFileLongText.exists());
 		assertTrue("speechFileSimultaneousText does not exist", speechFileSimultaneousText.exists());
 
 		UiTestUtils.goToHomeActivity(getActivity());
+		solo.sleep(300);
 		solo.waitForActivity(MainMenuActivity.class);
-
+		solo.sleep(300);
 		assertEquals("TextToSpeech folder is not empty", 0,
 				new File(Constants.TEXT_TO_SPEECH_TMP_PATH).listFiles().length);
 	}
