@@ -74,10 +74,10 @@
 
 
     <!-- New Object Dialog -->
-    <string name="dialog_new_object_look_header">with Look from…</string>
-    <string name="dialog_new_object_pocketpaint">Pocket Paint</string>
-    <string name="dialog_new_object_gallery">Gallery</string>
-    <string name="dialog_new_object_camera">Camera</string>
+
+    <string name="dialog_new_object_pocketpaint">Draw Image</string>
+    <string name="dialog_new_object_gallery">Select Image</string>
+    <string name="dialog_new_object_camera">Take Picture</string>
     <string name="dialog_new_object_look_preview">look preview</string>
     <string name="dialog_new_object_name">Object name</string>
     <string name="dialog_new_object_switch_title">New Object created</string>
