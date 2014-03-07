@@ -29,7 +29,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.jayway.android.robotium.solo.Solo;
+import com.robotium.solo.Solo;
 
 import junit.framework.TestSuite;
 

@@ -19,6 +19,13 @@ apply plugin: 'android'
 //apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
 //apply plugin: 'pmd'
+apply plugin: 'idea'
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = false
+    }
+}
 
 ext.catroid_version = "0.9"
 ext.features_enabled = [
@@ -31,6 +38,9 @@ dependencies {
     compile fileTree(dir: 'catroid/libs', include: '*.jar')
     compile fileTree(dir: 'catroid/libs-natives', include: '*.jar')
 
+    instrumentTestCompile 'junit:junit:4.10'
+    instrumentTestCompile 'org.powermock:powermock-easymock-release-full:1.4.12'
+    instrumentTestCompile 'com.jayway.android.robotium:robotium-solo:5.0.1'
     instrumentTestCompile fileTree(dir: 'catroidTest/libs', include: '*.jar')
 
 }

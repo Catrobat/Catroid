@@ -25,7 +25,7 @@ package org.catrobat.catroid.uitest.ui.dialog;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.widget.ListView;
 
-import com.jayway.android.robotium.solo.Solo;
+import com.robotium.solo.Solo;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
