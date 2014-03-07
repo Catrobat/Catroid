@@ -586,8 +586,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		NewLookDialog dialog = new NewLookDialog();
-		dialog.showDialog(getActivity().getSupportFragmentManager(), this);
+		NewLookDialog dialog = NewLookDialog.newInstance();
+		dialog.showDialog(this);
 	}
 
 	@Override

@@ -55,6 +55,9 @@
     <string name="main_menu_web">Explore</string>
     <string name="main_menu_upload">Upload</string>
     <string name="main_menu_about_pocketcode">About Pocket Code</string>
+    
+    <string name="main_menu_terms_of_use">Terms of use</string>
+ 
     <string name="main_menu_rate_app">Rate us!</string>
     <string name="main_menu_play_store_not_installed">Play Store app not found</string>
     <string name="main_menu_web_dialog_title">Caution!</string>
@@ -71,14 +74,24 @@
 
 
     <!-- New Object Dialog -->
-    <string name="dialog_new_object_look_header">with Look from…</string>
-    <string name="dialog_new_object_pocketpaint">Pocket Paint</string>
-    <string name="dialog_new_object_gallery">Gallery</string>
-    <string name="dialog_new_object_camera">Camera</string>
+
+    <string name="dialog_new_object_pocketpaint">Draw Image</string>
+    <string name="dialog_new_object_gallery">Select Image</string>
+    <string name="dialog_new_object_camera">Take Picture</string>
     <string name="dialog_new_object_look_preview">look preview</string>
     <string name="dialog_new_object_name">Object name</string>
     <string name="dialog_new_object_switch_title">New Object created</string>
     <string name="dialog_new_object_switch_message">Switch to new Object?</string>
+    <!--  -->
+
+
+    <!-- Terms of Use Dialog -->
+    <string name="dialog_terms_of_use_title">Terms of Use</string>
+    <string name="dialog_terms_of_use_info">In order to 
+    be allowed to use Pocket Code and other executables offered by the Catrobat project, you 
+    must agree to our Terms of Use and strictly follow them when you use Pocket 
+    Code and our other executables. Please see the link below for their precise formulation.\n</string>
+    <string name="dialog_terms_of_use_link_text">Terms of Use</string>
     <!--  -->
 
 
@@ -87,9 +100,9 @@
     <string name="dialog_about_license_info">Pocket Code is a programming 
         environment and interpreter for Android devices for the visual 
         programming language Catrobat.\n\n
-        Pocket Code is mainly licensed under the GNU AGPL v3 License. 
+        The source code of Pocket Code is mainly licensed under the GNU AGPL v3 License. 
         For the precise details of the license see the link below.\n</string>
-    <string name="dialog_about_pocketcode_license_link_text">Pocket Code License</string>
+    <string name="dialog_about_pocketcode_license_link_text">Pocket Code Source Code License</string>
     <string name="dialog_about_catrobat_link_text">About Catrobat</string>
     <!--  -->
 
