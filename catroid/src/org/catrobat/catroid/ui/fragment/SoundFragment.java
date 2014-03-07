@@ -826,7 +826,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				SoundController.getInstance().deleteCheckedSounds(getActivity(), adapter, soundInfoList, mediaPlayer);
-				dialog.cancel();
+				clearCheckedSoundsAndEnableButtons();
 			}
 		});
 		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
