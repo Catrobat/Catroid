@@ -28,6 +28,7 @@ import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
+import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -111,5 +112,40 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 
 		assertTrue("When script does not restart itself!",
 				(int) sprite.look.getXInUserInterfaceDimensionUnit() > xMovement);
+	}
+
+	public void testRestartingOfWhenScriptWithBroadcastWaitBrick() {
+		String messageOne = "messageOne";
+		String messageTwo = "messageTwo";
+		final int xMovement = 1;
+
+		UiTestUtils.createEmptyProject();
+		Sprite sprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
+		Script startScript = sprite.getScript(0);
+		BroadcastBrick startBroadcastBrick = new BroadcastBrick(sprite, messageOne);
+		startScript.addBrick(startBroadcastBrick);
+
+		BroadcastScript broadcastScriptMessageOne = new BroadcastScript(sprite, messageOne);
+		ChangeXByNBrick changeXByNBrickOne = new ChangeXByNBrick(sprite, xMovement);
+		BroadcastWaitBrick broadcastWaitBrickOne = new BroadcastWaitBrick(sprite, messageTwo);
+		broadcastScriptMessageOne.addBrick(changeXByNBrickOne);
+		broadcastScriptMessageOne.addBrick(broadcastWaitBrickOne);
+		sprite.addScript(broadcastScriptMessageOne);
+
+		BroadcastScript broadcastScriptMessageTwo = new BroadcastScript(sprite, messageTwo);
+		ChangeXByNBrick changeXByNBrickTwo = new ChangeXByNBrick(sprite, xMovement);
+		BroadcastWaitBrick broadcastWaitBrickTwo = new BroadcastWaitBrick(sprite, messageOne);
+		broadcastScriptMessageTwo.addBrick(changeXByNBrickTwo);
+		broadcastScriptMessageTwo.addBrick(broadcastWaitBrickTwo);
+		sprite.addScript(broadcastScriptMessageTwo);
+
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(3000);
+
+		assertTrue("When script does not restart itself when a BroadcastWait is sent!",
+				(int) sprite.look.getXInUserInterfaceDimensionUnit() > 5 * xMovement);
 	}
 }

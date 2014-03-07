@@ -139,6 +139,48 @@ public class BroadcastActionTest extends AndroidTestCase {
 				(int) sprite.look.getXInUserInterfaceDimensionUnit() > xMovement);
 	}
 
+	public void testRestartingOfWhenScriptWithBroadcastWaitBrick() {
+		String messageOne = "messageOne";
+		String messageTwo = "messageTwo";
+		final int xMovement = 1;
+
+		Sprite sprite = new Sprite("cat");
+		Script startScript = new StartScript(sprite);
+		BroadcastBrick startBroadcastBrick = new BroadcastBrick(sprite, messageOne);
+		startScript.addBrick(startBroadcastBrick);
+		sprite.addScript(startScript);
+
+		BroadcastScript broadcastScriptMessageOne = new BroadcastScript(sprite, messageOne);
+		ChangeXByNBrick changeXByNBrickOne = new ChangeXByNBrick(sprite, xMovement);
+		BroadcastWaitBrick broadcastWaitBrickOne = new BroadcastWaitBrick(sprite, messageTwo);
+		broadcastScriptMessageOne.addBrick(changeXByNBrickOne);
+		broadcastScriptMessageOne.addBrick(broadcastWaitBrickOne);
+		sprite.addScript(broadcastScriptMessageOne);
+
+		BroadcastScript broadcastScriptMessageTwo = new BroadcastScript(sprite, messageTwo);
+		ChangeXByNBrick changeXByNBrickTwo = new ChangeXByNBrick(sprite, xMovement);
+		BroadcastWaitBrick broadcastWaitBrickTwo = new BroadcastWaitBrick(sprite, messageOne);
+		broadcastScriptMessageTwo.addBrick(changeXByNBrickTwo);
+		broadcastScriptMessageTwo.addBrick(broadcastWaitBrickTwo);
+		sprite.addScript(broadcastScriptMessageTwo);
+
+		Project project = new Project(getContext(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		project.addSprite(sprite);
+		ProjectManager.getInstance().setProject(project);
+
+		sprite.createStartScriptActionSequence();
+
+		int loopCounter = 0;
+		while (!allActionsOfAllSpritesAreFinished() && loopCounter++ < 20) {
+			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+				spriteOfList.look.act(1.0f);
+			}
+		}
+
+		assertTrue("When script does not restart itself when a BroadcastWait is sent! ",
+				(int) sprite.look.getXInUserInterfaceDimensionUnit() > 5 * xMovement);
+	}
+
 	public boolean allActionsOfAllSpritesAreFinished() {
 		for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
 			if (!spriteOfList.look.getAllActionsAreFinished()) {
