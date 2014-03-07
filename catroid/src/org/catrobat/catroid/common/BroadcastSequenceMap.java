@@ -35,18 +35,18 @@ public final class BroadcastSequenceMap {
 	}
 
 	public static boolean containsKey(String key) {
-		return broadcastSequenceMap.containsKey(key);
+		return BroadcastSequenceMap.broadcastSequenceMap.containsKey(key);
 	}
 
 	public static ArrayList<SequenceAction> get(String key) {
-		return broadcastSequenceMap.get(key);
+		return BroadcastSequenceMap.broadcastSequenceMap.get(key);
 	}
 
 	public static ArrayList<SequenceAction> put(String key, ArrayList<SequenceAction> value) {
-		return broadcastSequenceMap.put(key, value);
+		return BroadcastSequenceMap.broadcastSequenceMap.put(key, value);
 	}
 
 	public static void clear() {
-		broadcastSequenceMap.clear();
+		BroadcastSequenceMap.broadcastSequenceMap.clear();
 	}
 }
