@@ -26,6 +26,7 @@ import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -416,13 +417,19 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				deleteCheckedSprites();
-				clearCheckedSpritesAndEnableButtons();
+				dialog.cancel();
 			}
 		});
 		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
+			}
+		});
+		builder.setOnCancelListener(new OnCancelListener() {
+
+			@Override
+			public void onCancel(DialogInterface dialog) {
 				clearCheckedSpritesAndEnableButtons();
 			}
 		});
