@@ -6,7 +6,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.7.+'
+        classpath 'com.android.tools.build:gradle:0.9.+'
     }
 }
 
@@ -31,7 +31,7 @@ dependencies {
     compile fileTree(dir: 'catroid/libs', include: '*.jar')
     compile fileTree(dir: 'catroid/libs-natives', include: '*.jar')
 
-    instrumentTestCompile fileTree(dir: 'catroidTest/libs', include: '*.jar')
+    androidTestCompile fileTree(dir: 'catroidTest/libs', include: '*.jar')
 
 }
 
@@ -80,7 +80,7 @@ android {
             assets.srcDirs = ['catroid/assets']
         }
 
-        instrumentTest {
+        androidTest {
             java.srcDirs = ['catroidTest/src']
             resources.srcDirs = ['catroidTest/src']
             aidl.srcDirs = ['catroidTest/src']
