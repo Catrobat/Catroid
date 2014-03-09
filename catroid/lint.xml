@@ -54,7 +54,4 @@
         <ignore path="res/values-ru/strings.xml" />
         <ignore path="res/values-nl/strings.xml" />
     </issue>
-    <issue id="UseSparseArrays">
-        <ignore path="src/org/catrobat/catroid/commands/DeleteCheckedSounds.java" />
-    </issue>
 </lint>

@@ -25,6 +25,7 @@ package org.catrobat.catroid.commands;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.util.SparseArray;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.SoundInfo;
@@ -33,7 +34,6 @@ import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
 import org.catrobat.catroid.ui.controller.SoundController;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.SortedSet;
 
@@ -44,7 +44,7 @@ public class DeleteCheckedSounds implements Command {
 	private ArrayList<SoundInfo> soundInfoList;
 	private MediaPlayer mediaPlayer;
 
-	private HashMap<Integer, SoundInfo> checkedSoundInfoList;
+	private SparseArray<SoundInfo> checkedSoundInfoList;
 
 	public DeleteCheckedSounds(Activity activity, SoundBaseAdapter adapter, ArrayList<SoundInfo> soundInfoList,
 			MediaPlayer mediaPlayer) {
@@ -65,7 +65,7 @@ public class DeleteCheckedSounds implements Command {
 			while (iterator.hasNext()) {
 				int position = iterator.next() - numberDeleted;
 				if (checkedSoundInfoList == null) {
-					checkedSoundInfoList = new HashMap<Integer, SoundInfo>();
+					checkedSoundInfoList = new SparseArray<SoundInfo>();
 				}
 				checkedSoundInfoList.put(position, soundInfoList.get(position));
 				deleteSound(position, soundInfoList, activity);
@@ -74,9 +74,8 @@ public class DeleteCheckedSounds implements Command {
 
 		} else {
 			// redo command
-			Iterator<Integer> iterator = checkedSoundInfoList.keySet().iterator();
-			while (iterator.hasNext()) {
-				int position = iterator.next();
+			for (int i = 0; i < checkedSoundInfoList.size(); i++) {
+				int position = checkedSoundInfoList.keyAt(i);
 				deleteSound(position, soundInfoList, activity);
 			}
 
@@ -86,9 +85,8 @@ public class DeleteCheckedSounds implements Command {
 
 	@Override
 	public void undo() {
-		Iterator<Integer> iterator = checkedSoundInfoList.keySet().iterator();
-		while (iterator.hasNext()) {
-			int position = iterator.next();
+		for (int i = 0; i < checkedSoundInfoList.size(); i++) {
+			int position = checkedSoundInfoList.keyAt(i);
 			addSound(position, checkedSoundInfoList.get(position));
 		}
 	}
