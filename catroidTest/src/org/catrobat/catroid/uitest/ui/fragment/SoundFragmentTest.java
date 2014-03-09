@@ -80,6 +80,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	private String rename;
 	private String renameDialogTitle;
 	private String delete;
+	private String undo, redo;
 	private String deleteDialogTitle;
 	private String backPackDialogTitle;
 	private String backPackTitle;
@@ -139,6 +140,8 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		backPackDialogTitle = solo.getString(R.string.backpack);
 		backPackTitle = solo.getString(R.string.backpack_title);
 		delete = solo.getString(R.string.delete);
+		undo = solo.getString(R.string.undo);
+		redo = solo.getString(R.string.redo);
 		deleteDialogTitle = solo.getString(R.string.dialog_confirm_delete_sound_title);
 
 		if (getSoundAdapter().getShowDetails()) {
@@ -239,13 +242,11 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertTrue("Sound not renamed in actual view", solo.searchText(newSoundName));
 	}
 
-
 	public void testSoundTimeUnderOneSecond() {
 		String soundName = "shortSound";
 		addNewSound(soundName, "soundunderonesecond.m4p", RESOURCE_SHORT_SOUND);
 		solo.sleep(1000);
 		assertTrue("Sound has a length of 00:00", !solo.searchText("00:00"));
-
 
 	}
 
@@ -923,6 +924,32 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 				solo.waitForText(SECOND_TEST_SOUND_NAME, 0, 200, false, false));
 	}
 
+	public void testUndoRedoActionModeIfDeleted() {
+		int expectedNumberOfSounds = getCurrentNumberOfSounds();
+
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
+		solo.clickOnCheckBox(1);
+		checkIfCheckboxesAreCorrectlyChecked(false, true);
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
+		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
+
+		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds - 1);
+
+		UiTestUtils.openActionMode(solo, undo, R.id.undo, getActivity());
+		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
+
+		UiTestUtils.openActionMode(solo, redo, R.id.redo, getActivity());
+		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds - 1);
+
+		UiTestUtils.openActionMode(solo, redo, R.id.redo, getActivity());
+		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds - 1);
+	}
+
 	public void testLongClickCancelDeleteAndCopy() {
 		assertFalse("Sound is selected!", UiTestUtils.getContextMenuAndGoBackToCheckIfSelected(solo, getActivity(),
 				R.id.delete, delete, FIRST_TEST_SOUND_NAME));
@@ -950,7 +977,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
-		int[] checkboxIndicesToCheck = {solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2};
+		int[] checkboxIndicesToCheck = { solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2 };
 		int expectedNumberOfSounds = currentNumberOfSounds - checkboxIndicesToCheck.length;
 
 		solo.scrollDown();
@@ -1134,8 +1161,8 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	private void addNewSound(String title, String fileName, int resource) {
-		File soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, fileName,
-				resource, getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
+		File soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, fileName, resource,
+				getInstrumentation().getContext(), UiTestUtils.FileTypes.SOUND);
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());
 		soundInfo.setTitle(title);
@@ -1144,7 +1171,6 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		projectManager.getFileChecksumContainer().addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 		StorageHandler.getInstance().saveProject(projectManager.getCurrentProject());
 	}
-
 
 	private void renameSound(String soundToRename, String newSoundName) {
 		clickOnContextMenuItem(soundToRename, solo.getString(R.string.rename));
@@ -1165,7 +1191,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	private void checkVisibilityOfViews(int soundNameVisibility, int timePlayedVisibility, int soundSizeVisibility,
-										int checkBoxVisibility) {
+			int checkBoxVisibility) {
 		assertTrue("Sound name " + getAssertMessageAffix(soundNameVisibility),
 				solo.getView(R.id.fragment_sound_item_title_text_view).getVisibility() == soundNameVisibility);
 		assertTrue("Chronometer " + getAssertMessageAffix(timePlayedVisibility),
@@ -1217,7 +1243,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	private void checkIfCheckboxesAreCorrectlyChecked(boolean firstCheckboxExpectedChecked,
-													  boolean secondCheckboxExpectedChecked) {
+			boolean secondCheckboxExpectedChecked) {
 		solo.sleep(300);
 		firstCheckBox = solo.getCurrentViews(CheckBox.class).get(0);
 		secondCheckBox = solo.getCurrentViews(CheckBox.class).get(1);
