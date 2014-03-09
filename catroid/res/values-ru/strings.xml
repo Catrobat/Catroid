@@ -32,6 +32,8 @@
     <string name="cancel_button">Отмена</string>
     <string name="rename">Переименовать</string>
     <string name="delete">Удалить</string>
+    <string name="undo">Aннулировать</string>
+ 	<string name="redo">Переделывать</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <!-- User interface -->

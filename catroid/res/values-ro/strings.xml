@@ -32,6 +32,8 @@
     <string name="cancel_button">Anulare</string>
     <string name="rename">Redenumire</string>
     <string name="delete">Ștergere</string>
+    <string name="undo">Anula</string>
+ 	<string name="redo">Reface</string>
     <string name="yes">Da</string>
     <string name="no">Nu</string>
     <!-- User interface -->
