@@ -34,6 +34,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 
 public final class StatusBarNotificationManager {
 	public static final String EXTRA_PROJECT_NAME = "projectName";
+	public static final int MAXIMUM_PERCENT = 100;
 
 	private static final StatusBarNotificationManager INSTANCE = new StatusBarNotificationManager();
 
@@ -151,6 +152,17 @@ public final class StatusBarNotificationManager {
 					.setAutoCancel(true).setContentIntent(notificationData.getPendingIntent()).setOngoing(false);
 			notificationManager.notify(id, notificationBuilder.build());
 		}
+	}
+	public void abortProgressNotificationWithMessage(int id, String changeDoneText){
+
+		NotificationData notificationData = notificationDataMap.get(id);
+		if (notificationData == null) {
+			return;
+		}
+		notificationData.setNotificationTextDone(changeDoneText);
+		notificationDataMap.put(id, notificationData);
+
+		showOrUpdateNotification(id, MAXIMUM_PERCENT);
 	}
 
 	public void cancelNotification(int id) {

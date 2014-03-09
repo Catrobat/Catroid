@@ -61,6 +61,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	private final String newTestProject = UiTestUtils.PROJECTNAME2;
 	private final String testDescription = UiTestUtils.PROJECTDESCRIPTION1;
 	private final String newTestDescription = UiTestUtils.PROJECTDESCRIPTION2;
+	private final String offensiveLanguageDescription = UiTestUtils.PROJECTNAMEOFFENSIVELANGUAGE;
 	private String saveToken;
 	private String uploadDialogTitle;
 	private int serverProjectId;
@@ -160,6 +161,46 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		assertEquals("Wrong status code from Web", statusCodeWrongLanguageVersion, statusCode);
 		UiTestUtils.clearAllUtilTestProjects();
 	}
+
+	public void testUploadProjectOffensiveLanguageUsed() throws Throwable {
+		setServerURLToTestUrl();
+
+		UiTestUtils.createTestProject(testProject);
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.sleep(1000);
+		UiTestUtils.clickOnHomeActionBarButton(solo);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+
+		UiTestUtils.createValidUser(getActivity());
+		Project testProject = ProjectManager.getInstance().getCurrentProject();
+		StorageHandler.getInstance().saveProject(testProject);
+
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
+		solo.waitForText(uploadDialogTitle);
+
+		// enter a new title
+		solo.clearEditText(0);
+		solo.enterText(0, offensiveLanguageDescription);
+
+		// enter a description
+		solo.clearEditText(1);
+		solo.enterText(1, newTestDescription);
+
+		solo.clickOnButton(solo.getString(R.string.upload_button));
+
+		boolean uploadErrorOccurred = solo.waitForText(solo.getString(R.string.error_project_upload));
+
+		int statusCode = 0;
+		int statusCodeOffensiveLanguage = 511;
+		statusCode = (Integer) Reflection.getPrivateField(ServerCalls.getInstance(), "uploadStatusCode");
+		Log.v("statusCode=", "" + statusCode);
+
+		assertTrue("Upload did work, but error toastmessage should have been displayed", uploadErrorOccurred);
+		assertEquals("Wrong status code from Web should be 511 for offensive language", statusCodeOffensiveLanguage, statusCode);
+		UiTestUtils.clearAllUtilTestProjects();
+	}
+
+
 
 	public void testRenameProjectNameAndDescriptionWhenUploading() throws Throwable {
 		setServerURLToTestUrl();
