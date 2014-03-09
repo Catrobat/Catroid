@@ -80,7 +80,8 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	private String rename;
 	private String renameDialogTitle;
 	private String delete;
-	private String undo, redo;
+	private String undo;
+	private String redo;
 	private String deleteDialogTitle;
 	private String backPackDialogTitle;
 	private String backPackTitle;

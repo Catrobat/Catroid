@@ -22,17 +22,22 @@
  */
 package org.catrobat.catroid.history;
 
+import android.util.Log;
+
 import org.catrobat.catroid.commands.Command;
 
 import java.util.EmptyStackException;
 import java.util.Stack;
 
 public class SoundHistoryManager {
+	private static final String TAG = "SoundsHistoryManager";
+
 	private static final SoundHistoryManager INSTANCE = new SoundHistoryManager();
 
-	private Stack<Command> undoStack, redoStack;
+	private Stack<Command> undoStack;
+	private Stack<Command> redoStack;
 
-	private SoundHistoryManager() {
+	public SoundHistoryManager() {
 		undoStack = new Stack<Command>();
 		redoStack = new Stack<Command>();
 	}
@@ -52,6 +57,7 @@ public class SoundHistoryManager {
 			prevCommand.undo();
 			redoStack.push(prevCommand);
 		} catch (EmptyStackException ex) {
+			Log.v(TAG, "No command to undo");
 		}
 	}
 
@@ -61,6 +67,8 @@ public class SoundHistoryManager {
 			nextCommand.execute();
 			undoStack.push(nextCommand);
 		} catch (EmptyStackException ex) {
+			Log.v(TAG, "No command to redo");
+
 		}
 	}
 

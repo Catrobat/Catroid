@@ -24,8 +24,8 @@ package org.catrobat.catroid.commands;
 
 public interface Command {
 
-	public void execute();
+	void execute();
 
-	public void undo();
+	void undo();
 
 }
