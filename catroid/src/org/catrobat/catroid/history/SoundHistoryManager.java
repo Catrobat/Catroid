@@ -20,45 +20,48 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.ui.fragment;
+package org.catrobat.catroid.history;
 
-import com.actionbarsherlock.app.SherlockListFragment;
+import org.catrobat.catroid.commands.Command;
 
-public abstract class ScriptActivityFragment extends SherlockListFragment {
+import java.util.EmptyStackException;
+import java.util.Stack;
 
-	protected boolean actionModeActive = false;
+public class SoundHistoryManager {
+	private static final SoundHistoryManager INSTANCE = new SoundHistoryManager();
 
-	public boolean getActionModeActive() {
-		return actionModeActive;
+	private Stack<Command> undoStack, redoStack;
+
+	private SoundHistoryManager() {
+		undoStack = new Stack<Command>();
+		redoStack = new Stack<Command>();
 	}
 
-	public void setActionModeActive(boolean actionModeActive) {
-		this.actionModeActive = actionModeActive;
+	public static SoundHistoryManager getInstance() {
+		return INSTANCE;
 	}
 
-	public abstract boolean getShowDetails();
+	public void executeCommand(Command command) {
+		command.execute();
+		undoStack.push(command);
+	}
 
-	public abstract void setShowDetails(boolean showDetails);
+	public void undo() {
+		try {
+			Command prevCommand = undoStack.pop();
+			prevCommand.undo();
+			redoStack.push(prevCommand);
+		} catch (EmptyStackException ex) {
+		}
+	}
 
-	public abstract void setSelectMode(int selectMode);
+	public void redo() {
+		try {
+			Command nextCommand = redoStack.pop();
+			nextCommand.execute();
+			undoStack.push(nextCommand);
+		} catch (EmptyStackException ex) {
+		}
+	}
 
-	public abstract int getSelectMode();
-
-	public abstract void startCopyActionMode();
-
-	public abstract void startRenameActionMode();
-
-	public abstract void startDeleteActionMode();
-
-	public abstract void startBackPackActionMode();
-
-	public abstract void startUndoActionMode();
-
-	public abstract void startRedoActionMode();
-
-	public abstract void handleAddButton();
-
-	protected abstract void showRenameDialog();
-
-	protected abstract void showDeleteDialog();
 }
