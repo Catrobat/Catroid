@@ -32,9 +32,8 @@ public class PhysicsLook extends Look {
 
 	private transient final PhysicsObject physicsObject;
 
-	public PhysicsLook(Sprite sprite) {
+	public PhysicsLook(Sprite sprite, PhysicsWorld physicWorld) {
 		super(sprite);
-		PhysicsWorld physicWorld = ProjectManager.getInstance().getCurrentProject().getPhysicWorld();
 		physicsObject = physicWorld.getPhysicObject(sprite);
 	}
 
