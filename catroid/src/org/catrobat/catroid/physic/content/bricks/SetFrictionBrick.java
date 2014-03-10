@@ -56,18 +56,24 @@ public class SetFrictionBrick extends FormulaBrick implements OnClickListener {
 		addAllowedBrickField(BrickField.PHYSICS_FRICTION);
 	}
 
-	public SetFrictionBrick( float friction) {
+	public SetFrictionBrick(float friction) {
+		if (friction < 0) {
+			friction = 0;
+		} else if (friction > 100) {
+			friction = 100;
+		}
 		initializeBrickFields(new Formula(friction));
 	}
 
-	public SetFrictionBrick( Formula friction) {
-		initializeBrickFields(friction);
-	}
+	//public SetFrictionBrick(Formula friction) {
+	//	initializeBrickFields(friction);
+	//}
 
 	private void initializeBrickFields(Formula friction) {
 		addAllowedBrickField(BrickField.PHYSICS_FRICTION);
 		setFormulaWithBrickField(BrickField.PHYSICS_FRICTION, friction);
 	}
+
 
 	@Override
 	public int getRequiredResources() {
@@ -143,8 +149,9 @@ public class SetFrictionBrick extends FormulaBrick implements OnClickListener {
 
 	/*@Override
 	public Brick clone() {
-		return new SetFrictionBrick(getSprite(), friction.clone());
+		return new SetFrictionBrick(getSprite(), friction.clone().interpretFloat(sprite));
 	}*/
+
 
 	@Override
 	public void onClick(final View view) {
