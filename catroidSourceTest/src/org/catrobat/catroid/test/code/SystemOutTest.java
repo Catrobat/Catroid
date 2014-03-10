@@ -34,7 +34,7 @@ import java.util.List;
 
 public class SystemOutTest extends TestCase {
 
-	private StringBuffer errorMessages;
+	private String errorMessages;
 	private boolean errorFound;
 
 	private static final String[] DIRECTORIES = { "../catroidTest", "../catroid", "../catroidCucumberTest" };
@@ -48,7 +48,7 @@ public class SystemOutTest extends TestCase {
 		while ((line = reader.readLine()) != null) {
 			if (line.contains("System.out")) {
 				errorFound = true;
-				errorMessages.append(file.getName() + " in line " + lineCount + "\n");
+				errorMessages += (file.getName() + " in line " + lineCount + "\n");
 			}
 			++lineCount;
 		}
@@ -56,7 +56,7 @@ public class SystemOutTest extends TestCase {
 	}
 
 	public void testForSystemOut() throws IOException {
-		errorMessages = new StringBuffer();
+		errorMessages = "";
 		errorFound = false;
 
 		for (String directoryName : DIRECTORIES) {
@@ -70,6 +70,6 @@ public class SystemOutTest extends TestCase {
 			}
 		}
 
-		assertFalse("Files with System.out found: \n" + errorMessages.toString(), errorFound);
+		assertFalse("Files with System.out found: \n" + errorMessages, errorFound);
 	}
 }

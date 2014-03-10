@@ -459,7 +459,9 @@ public class StageListener implements ApplicationListener {
 		while (makeTestPixels) {
 			Thread.yield();
 		}
-		return testPixels;
+		byte[] copyOfTestPixels = new byte[testPixels.length];
+		System.arraycopy(testPixels,0,copyOfTestPixels,0,testPixels.length);
+		return copyOfTestPixels;
 	}
 
 	public void toggleScreenMode() {

@@ -36,7 +36,7 @@ public class SleepTest extends TestCase {
 	private static final String[] DIRECTORIES = { "../catroidCucumberTest" };
 	private static final String REGEX_PATTERN = "^.*Thread\\.sleep\\(\\w+\\).*$";
 
-	private StringBuffer errorMessages;
+	private String errorMessages;
 	private boolean errorFound;
 
 	private void checkFileForThreadSleep(File file) throws IOException {
@@ -48,7 +48,7 @@ public class SleepTest extends TestCase {
 		while ((line = reader.readLine()) != null) {
 			if (line.matches(REGEX_PATTERN)) {
 				errorFound = true;
-				errorMessages.append("File " + file.getName() + ":" + lineCount + " contains \"Thread.sleep()\"");
+				errorMessages += "File " + file.getName() + ":" + lineCount + " contains \"Thread.sleep()\"";
 			}
 			++lineCount;
 		}
@@ -68,7 +68,7 @@ public class SleepTest extends TestCase {
 		assertFalse("Pattern matched! But shouldn't!", "Thread.sleep(\"42\")".matches(REGEX_PATTERN));
 		assertFalse("Pattern matched! But shouldn't!", "Thread0sleep(MyVar)".matches(REGEX_PATTERN));
 
-		errorMessages = new StringBuffer();
+		errorMessages = "";
 		errorFound = false;
 
 		for (String directoryName : DIRECTORIES) {
@@ -82,6 +82,6 @@ public class SleepTest extends TestCase {
 			}
 		}
 
-		assertFalse("Files with Block Characters found: \n" + errorMessages.toString(), errorFound);
+		assertFalse("Files with Block Characters found: \n" + errorMessages, errorFound);
 	}
 }
