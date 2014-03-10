@@ -113,6 +113,13 @@ import org.catrobat.catroid.content.bricks.conditional.TurnRightBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.physic.content.bricks.CollisionReceiverBrick;
+import org.catrobat.catroid.physic.content.bricks.SetBounceBrick;
+import org.catrobat.catroid.physic.content.bricks.SetFrictionBrick;
+import org.catrobat.catroid.physic.content.bricks.SetGravityBrick;
+import org.catrobat.catroid.physic.content.bricks.SetMassBrick;
+import org.catrobat.catroid.physic.content.bricks.SetVelocityBrick;
+import org.catrobat.catroid.physic.content.bricks.TurnLeftSpeedBrick;
+import org.catrobat.catroid.physic.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -276,6 +283,16 @@ public final class StorageHandler {
 		xstream.alias("droneMoveDownBrick", DroneMoveDownBrick.class);
 		xstream.alias("droneMoveLeftBrick", DroneMoveLeftBrick.class);
 		xstream.alias("droneMoveRightBrick", DroneMoveRightBrick.class);
+		// Physic Bricks
+		xstream.alias("collisionReceiverBrick", CollisionReceiverBrick.class);
+		xstream.alias("setBounceBrick", SetBounceBrick.class);
+		xstream.alias("setFrictionBrick", SetFrictionBrick.class);
+		xstream.alias("setGravityBrick", SetGravityBrick.class);
+		xstream.alias("setMassBrick", SetMassBrick.class);
+		//		xstream.alias("setPhysicsObjectTypeBrick", SetPhysicsObjectTypeBrick.class);
+		xstream.alias("setVelocityBrick", SetVelocityBrick.class);
+		xstream.alias("turnLeftSpeedBrick", TurnLeftSpeedBrick.class);
+		xstream.alias("turnRightSpeedBrick", TurnRightSpeedBrick.class);
 	}
 
 	private void createCatroidRoot() {
@@ -368,6 +385,7 @@ public final class StorageHandler {
 			}
 
 			File projectDirectory = new File(buildProjectPath(project.getName()));
+			Log.d(TAG, "# # " + projectDirectory.getAbsolutePath());
 			createProjectDataStructure(projectDirectory);
 
 			writer = new BufferedWriter(new FileWriter(tmpCodeFile), Constants.BUFFER_8K);
