@@ -183,6 +183,9 @@ public class Project implements Serializable {
 
 	// TODO[physic]
 	public PhysicsWorld getPhysicWorld() {
+		if (physicsWorld == null) {
+			resetPhysicWorld();
+		}
 		return physicsWorld;
 	}
 

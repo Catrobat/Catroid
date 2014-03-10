@@ -390,7 +390,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public FileChecksumContainer getFileChecksumContainer() {
-		return this.fileChecksumContainer;
+		return fileChecksumContainer;
 	}
 
 	public void setFileChecksumContainer(FileChecksumContainer fileChecksumContainer) {

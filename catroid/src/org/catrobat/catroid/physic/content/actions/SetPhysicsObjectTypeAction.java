@@ -30,7 +30,7 @@ import org.catrobat.catroid.physic.PhysicsObject.Type;
 public class SetPhysicsObjectTypeAction extends TemporalAction {
 
 	private PhysicsObject physicsObject;
-	private Type type;
+	private Type type = PhysicsObject.Type.NONE;
 
 	@Override
 	protected void update(float percent) {

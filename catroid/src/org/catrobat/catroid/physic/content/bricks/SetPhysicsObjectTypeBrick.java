@@ -41,6 +41,7 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
@@ -51,7 +52,7 @@ import java.util.List;
 public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
-	private PhysicsObject.Type type;
+	private PhysicsObject.Type type = PhysicsObject.Type.NONE;
 	private transient AdapterView<?> adapterView;
 
 	public SetPhysicsObjectTypeBrick() {
@@ -165,5 +166,12 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 		//		sequence.addAction(ExtendedActions.setPhysicObjectType(sprite, physicsObject, type));
 		sequence.addAction(sprite.getActionFactory().createSetPhysicObjectTypeAction(sprite, type));
 		return null;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		SetPhysicsObjectTypeBrick copyBrick = (SetPhysicsObjectTypeBrick) clone();
+		copyBrick.sprite = sprite;
+		return copyBrick;
 	}
 }
