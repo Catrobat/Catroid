@@ -108,12 +108,12 @@ public class MyProjectsActivity extends BaseActivity {
 
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
-		if (projectsListFragment.getActionModeActive()) {
-			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-				ProjectAdapter adapter = (ProjectAdapter) projectsListFragment.getListAdapter();
-				adapter.clearCheckedProjects();
-			}
+		if (projectsListFragment.getActionModeActive()
+				&& event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+			ProjectAdapter adapter = (ProjectAdapter) projectsListFragment.getListAdapter();
+			adapter.clearCheckedProjects();
 		}
+
 		return super.dispatchKeyEvent(event);
 	}
 

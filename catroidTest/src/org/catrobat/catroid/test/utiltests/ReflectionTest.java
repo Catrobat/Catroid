@@ -89,6 +89,7 @@ public class ReflectionTest extends AndroidTestCase {
 			Reflection.getPrivateField(nullObject, "nullObjectsDontHaveFields");
 			fail("Getting private field of null object didn't cause an IllegalArgumentException");
 		} catch (IllegalArgumentException illegalArgumentException) {
+			assertTrue("Exception thrown as expected", true);
 		}
 
 		try {
@@ -102,6 +103,7 @@ public class ReflectionTest extends AndroidTestCase {
 			Reflection.setPrivateField(nullObject, "nullObjectsDontHaveFields", null);
 			fail("Setting private field of null object didn't cause an IllegalArgumentException");
 		} catch (IllegalArgumentException illegalArgumentException) {
+			assertTrue("Exception thrown as expected", true);
 		}
 
 		try {
@@ -288,12 +290,14 @@ public class ReflectionTest extends AndroidTestCase {
 			Reflection.invokeMethod(nullObject, "nullObjectsDontHaveMethods");
 			fail("Invoking method of a null object didn't cause an IllegalArgumentException");
 		} catch (IllegalArgumentException illegalArgumentException) {
+			assertTrue("Exception thrown as expected", true);
 		}
 
 		try {
 			Reflection.invokeMethod(nullObject, "nullObjectsDontHaveMethods", new ParameterList("text"));
 			fail("Invoking method of a null object didn't cause an IllegalArgumentException");
 		} catch (IllegalArgumentException illegalArgumentException) {
+			assertTrue("Exception thrown as expected", true);
 		}
 
 		try {
@@ -323,6 +327,7 @@ public class ReflectionTest extends AndroidTestCase {
 					parameter2));
 			fail("Found not existing method signature");
 		} catch (RuntimeException runtimeException) {
+			assertTrue("Exception thrown as expected", true);
 		}
 	}
 }

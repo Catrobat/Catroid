@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -52,22 +52,16 @@ public class BackPackActivity extends BaseActivity {
 
 	public static final String EXTRA_FRAGMENT_POSITION = "org.catrobat.catroid.ui.fragmentPosition";
 	public static final String BACKPACK_ITEM = "backpackItem";
-
-	private boolean backpackItem = false;
-
 	public static final String ACTION_SOUND_DELETED = "org.catrobat.catroid.SOUND_DELETED";
 	public static final String ACTION_LOOK_DELETED = "org.catrobat.catroid.LOOK_DELETED";
 	public static final String ACTION_SCRIPT_DELETED = "org.catrobat.catroid.SCRIPT_DELETED";
-
+	private static int currentFragmentPosition;
+	private boolean backpackItem = false;
 	private FragmentManager fragmentManager = getSupportFragmentManager();
-
 	private BackPackSoundFragment backPackSoundFragment = null;
 	private BackPackLookFragment backPackLookFragment = null;
 	private BackPackScriptFragment backPackScriptFragment = null;
-
 	private BackPackActivityFragment currentFragment = null;
-
-	private static int currentFragmentPosition;
 	private String currentFragmentTag;
 
 	@Override
@@ -114,7 +108,7 @@ public class BackPackActivity extends BaseActivity {
 			BackPackListManager.getActionBarSoundInfoArrayList().clear();
 			backpackItem = false;
 		}
-	};
+	}
 
 	@Override
 	protected void onDestroy() {
@@ -164,17 +158,17 @@ public class BackPackActivity extends BaseActivity {
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		//Dismiss ActionMode without effecting checked items
 
-		if (currentFragment != null && currentFragment.getActionModeActive()) {
-			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-				ListAdapter adapter = null;
-				if (currentFragment instanceof BackPackScriptFragment) {
-					adapter = ((BackPackScriptFragment) currentFragment).getAdapter();
-				} else {
-					adapter = currentFragment.getListAdapter();
-				}
-				((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
+		if (currentFragment != null && currentFragment.getActionModeActive()
+				&& event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+			ListAdapter adapter = null;
+			if (currentFragment instanceof BackPackScriptFragment) {
+				adapter = ((BackPackScriptFragment) currentFragment).getAdapter();
+			} else {
+				adapter = currentFragment.getListAdapter();
 			}
+			((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
 		}
+
 		return super.dispatchKeyEvent(event);
 	}
 
