@@ -315,7 +315,7 @@ public class ProjectManager implements OnLoadProjectCompleteListener, OnCheckTok
 	}
 
 	public FileChecksumContainer getFileChecksumContainer() {
-		return this.fileChecksumContainer;
+		return fileChecksumContainer;
 	}
 
 	public void setFileChecksumContainer(FileChecksumContainer fileChecksumContainer) {
