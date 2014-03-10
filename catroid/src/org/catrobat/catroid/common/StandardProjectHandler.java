@@ -758,6 +758,8 @@ public final class StandardProjectHandler {
 		//			defaultProject.addSprite(sprite);
 		//		}
 
+		StorageHandler.getInstance().saveProject(defaultProject);
+
 		return defaultProject;
 	}
 
