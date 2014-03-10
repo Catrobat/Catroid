@@ -68,7 +68,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 
 		// http://code.google.com/p/catroid/issues/detail?id=28
 		for (int index = 0; index < REPEAT_TIMES; index++) {
-			for (float time = 0f; time < delayByContract; time += delta) {
+			for (double time = 0f; time < delayByContract; time += delta) {
 				testSprite.look.act(delta);
 			}
 		}
@@ -169,8 +169,9 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		SequenceAction sequence = ExtendedActions.sequence();
 		repeatBrick.addActionToSequence(sequence);
 		RepeatAction repeatAction = (RepeatAction) sequence.getActions().get(0);
-
-		while (!sequence.act(1.0f)) {
+		boolean wait = true;
+		while (!wait) {
+			wait = sequence.act(1.0f);
 		}
 		int executedCount = (Integer) Reflection.getPrivateField(repeatAction, "executedCount");
 
@@ -186,7 +187,9 @@ public class RepeatActionTest extends InstrumentationTestCase {
 				ExtendedActions.sequence(ExtendedActions.changeYByN(testSprite, new Formula(decoyDeltaY))));
 		SequenceAction action = ExtendedActions.sequence(repeatAction,
 				ExtendedActions.changeYByN(testSprite, new Formula(expectedDeltaY)));
-		while (!action.act(1.0f)) {
+		boolean wait = true;
+		while (!wait) {
+			wait = action.act(1.0f);
 		}
 		int executedCount = (Integer) Reflection.getPrivateField(repeatAction, "executedCount");
 

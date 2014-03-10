@@ -67,6 +67,7 @@ public class ChangeGhostEffectByNActionTest extends AndroidTestCase {
 			fail("Execution of ChangeGhostEffectByNBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
 			assertTrue("Exception thrown as aspected", true);
+
 		}
 	}
 
