@@ -141,6 +141,7 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Scr
 	}
 
 	private void checkCorrectSpinnerSelections() {
+		solo.sleep(1000);
 		assertEquals("Wrong broadcast message in broadcast receiver.",
 				expectedSpinnterText.get(broadcastReceiverSpinnerId),
 				((Spinner) solo.getView(broadcastReceiverSpinnerId)).getSelectedItem().toString());

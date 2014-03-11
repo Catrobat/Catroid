@@ -34,7 +34,7 @@ dependencies {
 
 //    instrumentTestCompile fileTree(dir: 'catroidTest/libs', include: '*.jar')
     androidTestCompile 'junit:junit:4.8.2'
-    androidTestCompile 'com.jayway.android.robotium:robotium-solo:4.3'
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:4.3.1'
     androidTestCompile files('libs/the-missing-android-xml-junit-test-runner-release-1.3_2.jar')
 
 }

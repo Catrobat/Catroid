@@ -562,8 +562,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 			solo.clickOnButton(solo.getString(R.string.ok));
 			solo.sleep(500);
-			assertTrue("projectName not visible.", solo.searchText(projectName));
-
+			assertTrue("projectName not visible.", solo.waitForText(projectName));
 			solo.sleep(500);
 			solo.clearEditText(0);
 			solo.enterText(0, newProjectName);

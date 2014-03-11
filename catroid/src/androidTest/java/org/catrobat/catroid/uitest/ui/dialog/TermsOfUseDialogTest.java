@@ -40,7 +40,7 @@ public class TermsOfUseDialogTest extends BaseActivityInstrumentationTestCase<Ma
 	public void testTermsOfUseDialog() {
 		solo.clickOnMenuItem(solo.getString(R.string.main_menu_terms_of_use));
 		assertTrue("TermsOfUseDialog title not found", solo.searchText(solo.getString(R.string.dialog_terms_of_use_title)));
-		assertTrue("TermsOfUseDialog text not found", solo.searchText(solo
+		assertTrue("TermsOfUseDialog text not found", solo.waitForText(solo
 				.getString(R.string.dialog_terms_of_use_info)));
 		assertTrue("TermsOfUseDialog linktext not found",
 				solo.searchText(solo.getString(R.string.dialog_terms_of_use_link_text)));

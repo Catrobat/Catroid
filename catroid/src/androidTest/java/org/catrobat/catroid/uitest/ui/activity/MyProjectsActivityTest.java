@@ -1188,7 +1188,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForDialogToClose(500);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown",
-				solo.searchText((errorMessageProjectExists)));
+				solo.waitForText((errorMessageProjectExists)));
 		solo.clickOnButton(solo.getString(R.string.close));
 	}
 
@@ -1209,7 +1209,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForDialogToClose(500);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown",
-				solo.searchText((errorMessageProjectExists)));
+				solo.waitForText((errorMessageProjectExists)));
 		solo.goBack();
 	}
 
@@ -1327,10 +1327,10 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		solo.enterText(0, UiTestUtils.PROJECTNAME1);
 		solo.clickOnButton(buttonOkText);
-
+		solo.wait(1000);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown",
-				solo.searchText(errorMessageProjectExists));
+				solo.waitForText(errorMessageProjectExists));
 		solo.clickOnButton(buttonCloseText);
 
 		solo.clearEditText(0);
@@ -1362,12 +1362,12 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(buttonOkText);
 
 		solo.sleep(200);
-		assertTrue("No or wrong error message shown", solo.searchText(solo.getString(R.string.error_project_exists)));
+		assertTrue("No or wrong error message shown", solo.waitForText(solo.getString(R.string.error_project_exists)));
 		solo.sleep(100);
 		solo.clickOnButton(buttonCloseText);
 		solo.sleep(100);
 		solo.clickOnButton(buttonOkText);
-		assertTrue("No or wrong error message shown", solo.searchText(solo.getString(R.string.error_project_exists)));
+		assertTrue("No or wrong error message shown", solo.waitForText(solo.getString(R.string.error_project_exists)));
 		solo.clickOnButton(buttonCloseText);
 	}
 
@@ -1580,7 +1580,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.sleep(200);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown",
-				solo.searchText((errorMessageProjectExists)));
+				solo.waitForText((errorMessageProjectExists)));
 		solo.clickOnButton(solo.getString(R.string.close));
 	}
 
@@ -1622,7 +1622,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.sleep(200);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown",
-				solo.searchText((errorMessageProjectExists)));
+				solo.waitForText((errorMessageProjectExists)));
 		solo.clickOnButton(solo.getString(R.string.close));
 	}
 

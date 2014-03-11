@@ -129,7 +129,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.enterText(0, testProject);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
-				solo.searchText(solo
+				solo.waitForText(solo
 						.getString(R.string.error_project_exists)));
 		solo.clickOnButton(0);
 
@@ -389,7 +389,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
 		solo.goBack();
-		assertTrue("The name of the current project is not displayed on the continue button", solo.getButton(0)
+		assertTrue("The name of the current project is not displayed on the continue button", solo.getButton(testProject)
 				.getText().toString().endsWith(testProject));
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
