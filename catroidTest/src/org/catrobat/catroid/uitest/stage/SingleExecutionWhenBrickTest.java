@@ -60,12 +60,6 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 		super(MainMenuActivity.class);
 	}
 
-	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-
-	}
-
 	public void testWaitBrickWhenTapped() {
 
 		createProjectWhenBrick(SCREEN_HEIGHT, SCREEN_WIDTH);
