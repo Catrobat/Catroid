@@ -42,9 +42,6 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-/**
- * @author BerndBaumanne
- */
 public class LedBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 

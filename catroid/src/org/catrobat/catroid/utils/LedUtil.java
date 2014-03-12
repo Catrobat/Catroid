@@ -29,12 +29,6 @@ import android.util.Log;
 
 import java.util.concurrent.Semaphore;
 
-
-/**
- * @author BerndBaumann
- *
- * Run a daemon thread that controls the LED flash of a back camera.
- */
 public class LedUtil {
 
 	private static final String LOG_TAG = "LedUtil::";
