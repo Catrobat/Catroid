@@ -45,9 +45,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-/**
- * @author BerndBaumann
- */
 public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
 	private static final String LOG_LED_TEST = "LedBrickTest::";

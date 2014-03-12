@@ -35,11 +35,6 @@ import junit.framework.AssertionFailedError;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.assertFalse;
 
-/**
- * @author BerndBaumann
- *
- * This client provides communication to a test server running on an arduino board.
- */
 public final class SensorServerUtils {
 	private static final String LOG_LED_TEST = "SensorServerUtils::";
 
