@@ -230,6 +230,7 @@
 
     <!-- PreStage activity -->
     <string name="text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
+    <string name="no_flash_led_available">No flash LED available</string>
     <!--  -->
 
 
@@ -368,6 +369,7 @@
     <string name="brick_clear_graphic_effect">Clear graphic effects</string>
     <string name="brick_next_look">Next look</string>
     <string name="brick_next_background">Next background</string>
+    <string name="brick_led">set LED</string>
     <!--  -->
 
 
@@ -387,6 +389,7 @@
     <string name="brick_when_started">When program started</string>
     <string name="brick_when">When tapped</string>
     <string name="brick_wait">Wait</string>
+
 
     <plurals name="second_plural">
         <item quantity="one">"second "</item>

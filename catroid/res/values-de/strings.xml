@@ -230,6 +230,7 @@
 
     <!-- PreStage activity -->
     <string name="text_to_speech_engine_not_installed">Text-to-Speech Modul nicht installiert!\nJetzt installieren?</string>
+    <string name="no_flash_led_available">Kein Blitzlicht gefunden</string>
     <!--  -->
 
 
@@ -387,6 +388,8 @@
     <string name="brick_when_started">Wenn Programm gestartet</string>
     <string name="brick_when">Wenn angetippt</string>
     <string name="brick_wait">Warte</string>
+
+    <string name="brick_led">setze Licht auf</string>
 
     <plurals name="second_plural">
         <item quantity="one">"Sekunde "</item>
