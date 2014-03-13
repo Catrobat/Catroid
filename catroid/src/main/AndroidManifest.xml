@@ -24,8 +24,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.catrobat.catroid"
     android:installLocation="auto"
-    android:versionCode="-1"
-    android:versionName="0.9.-1" >
+    android:versionCode="-1" >
 
     <supports-screens
         android:largeScreens="true"
@@ -33,9 +32,7 @@
         android:smallScreens="true"
         android:xlargeScreens="false" />
 
-    <uses-sdk
-        android:minSdkVersion="10"
-        android:targetSdkVersion="19" />
+    <uses-sdk/>
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -151,19 +148,6 @@
 
                 <data android:mimeType="audio/*" />
             </intent-filter>
-        </activity>
-
-        <activity
-            android:name="org.catrobat.catroid.uitest.mockups.MockGalleryActivity"
-            android:exported="true" >
-        </activity>
-        <activity
-            android:name="org.catrobat.catroid.uitest.mockups.MockPaintroidActivity"
-            android:exported="true" >
-        </activity>
-        <activity
-            android:name="org.catrobat.catroid.uitest.mockups.MockSoundActivity"
-            android:exported="true" >
         </activity>
 
         <service android:name=".transfers.ProjectUploadService" />

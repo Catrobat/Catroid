@@ -22,7 +22,7 @@ configurations {
 
 dependencies {
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
-    compile 'com.android.support:support-v4:18.0.+'
+    compile 'com.android.support:support-v4:19.0.+'
 //    compile fileTree(dir: 'catroid/libs', include: '*.jar')
     compile files('libs/gdx.jar')
     compile files('libs/gdx-backend-android.jar')
@@ -60,7 +60,7 @@ def gitDescribe() {
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19"
+    buildToolsVersion "19.0.3"
 
     defaultConfig {
         minSdkVersion 10
@@ -74,14 +74,21 @@ android {
     }
 
     sourceSets {
-        instrumentTest {
+        androidTest {
             if(file('testexclusions.txt').exists()){
                 java.exclude file('testexclusions.txt').readLines()
+                println "found testexclusions.txt"
             }
             if(file('../testexclusions.txt').exists()){
                 java.exclude file('../testexclusions.txt').readLines()
+                println "found ../testexclusions.txt"
             }
         }
+    }
+
+    lintOptions {
+        lintConfig file('lint.xml')
+        abortOnError false //@todo, set to true once we are at 0 lint warnings!
     }
 
 }

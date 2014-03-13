@@ -24,34 +24,34 @@
 <lint>
     <issue id="ContentDescription" severity="ignore" />
     <issue id="ExtraTranslation">
-        <ignore path="res/values-ja/strings.xml" />
-        <ignore path="res/values-ko/strings.xml" />
-        <ignore path="res/values-pt/strings.xml" />
-        <ignore path="res/values-ro/strings.xml" />
-        <ignore path="res/values-ru/strings.xml" />
-        <ignore path="res/values-nl/strings.xml" />
+        <ignore path="*res/values-ja/strings.xml" />
+        <ignore path="*res/values-ko/strings.xml" />
+        <ignore path="*res/values-pt/strings.xml" />
+        <ignore path="*res/values-ro/strings.xml" />
+        <ignore path="*res/values-ru/strings.xml" />
+        <ignore path="*res/values-nl/strings.xml" />
     </issue>
     <issue id="IconDensities">
-        <ignore path="res/drawable-mdpi" />
-        <ignore path="res/drawable-hdpi" />
-        <ignore path="res/drawable-xhdpi" />
+        <ignore path="*res/drawable-mdpi" />
+        <ignore path="*res/drawable-hdpi" />
+        <ignore path="*res/drawable-xhdpi" />
     </issue>
     <issue id="InvalidPackage" severity="ignore" />
     <issue id="MissingTranslation" severity="ignore">
-        <ignore path="res/values/strings-global.xml" />
-        <ignore path="res/values-ja/strings.xml" />
-        <ignore path="res/values-ko/strings.xml" />
-        <ignore path="res/values-pt/strings.xml" />
-        <ignore path="res/values-ro/strings.xml" />
-        <ignore path="res/values-ru/strings.xml" />
-        <ignore path="res/values-nl/strings.xml" />
+        <ignore path="*res/values/strings-global.xml" />
+        <ignore path="*res/values-ja/strings.xml" />
+        <ignore path="*res/values-ko/strings.xml" />
+        <ignore path="*res/values-pt/strings.xml" />
+        <ignore path="*res/values-ro/strings.xml" />
+        <ignore path="*res/values-ru/strings.xml" />
+        <ignore path="*res/values-nl/strings.xml" />
     </issue>
     <issue id="UnusedResources">
-        <ignore path="res/values-ja/strings.xml" />
-        <ignore path="res/values-ko/strings.xml" />
-        <ignore path="res/values-pt/strings.xml" />
-        <ignore path="res/values-ro/strings.xml" />
-        <ignore path="res/values-ru/strings.xml" />
-        <ignore path="res/values-nl/strings.xml" />
+        <ignore path="*res/values-ja/strings.xml" />
+        <ignore path="*res/values-ko/strings.xml" />
+        <ignore path="*res/values-pt/strings.xml" />
+        <ignore path="*res/values-ro/strings.xml" />
+        <ignore path="*res/values-ru/strings.xml" />
+        <ignore path="*res/values-nl/strings.xml" />
     </issue>
 </lint>
