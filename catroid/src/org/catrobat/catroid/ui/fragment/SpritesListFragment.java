@@ -51,6 +51,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -253,6 +254,10 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
 		menu.findItem(R.id.context_menu_copy).setVisible(true);
+		if (!BuildConfig.FEATURE_BACKPACK_ENABLED) {
+			menu.findItem(R.id.context_menu_backpack).setVisible(false);
+			menu.findItem(R.id.context_menu_unpacking).setVisible(false);
+		}
 
 	}
 
