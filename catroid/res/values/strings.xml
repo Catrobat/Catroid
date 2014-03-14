@@ -434,6 +434,22 @@
     <string name="default_project_backgroundname">Background</string>
     <string name="default_project_var_random_from">random from</string>
     <string name="default_project_var_random_to">random to</string>
+    
+    <!-- defaultdroneValues -->
+    <string name="default_drone_project_name">My first Drone program</string>  
+    <string name="default_drone_project_sprites_takeoff">Take off</string>
+    
+    <string name="default_drone_project_sprites_blink_led">Blink led</string>
+    <string name="default_drone_project_srpites_land">Land</string>
+    <string name="default_drone_project_srpites_rotate">Rotate</string>
+    <string name="default_drone_project_sprites_up">Up</string>
+    <string name="default_drone_project_sprites_down">Down</string>
+    <string name="default_drone_project_sprites_left">Left</string>
+    <string name="default_drone_project_sprites_right">Right</string>
+    <string name="default_drone_project_sprites_forward">Forward</string>
+    <string name="default_drone_project_sprites_back">Back</string>
+    <!-- <string name="default_drone_project_sprites_"></string>  -->
+    
     <!--  -->
 
 
@@ -478,6 +494,8 @@
     <string name="error_copy_project">An error occurred while copying the program.</string>
     <string name="error_upload_project_with_default_name">You cannot upload a program with the name \'My first program\'. Please rename the program.</string>
     <string name="error_upload_default_project">You cannot upload this program because it is the same as \'My first program\'. Please modify it, and try again.</string>
+    <string name="error_no_drone_connected">You need a wifi connection with the ARDrone 2.0 to run this program. Please connect your wifi to the hotspot.</string>
+    <string name="error_drone_low_battery">Your drone battery is low. Please recharge it and try again.</string>
     <!--  -->
 
 

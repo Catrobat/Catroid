@@ -20,32 +20,15 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.drone;
 
-import android.util.Log;
+import com.parrot.freeflight.service.DroneControlService;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-import com.parrot.freeflight.drone.DroneProxy.ARDRONE_LED_ANIMATION;
+/**
+ * @author Gerald
+ * 
+ */
+public interface IDroneServiceWrapper {
 
-import org.catrobat.catroid.drone.DroneServiceWrapper;
-
-public class DronePlayLedAnimationAction extends TemporalAction {
-
-	private static final String TAG = DronePlayLedAnimationAction.class.getSimpleName();
-
-	@Override
-	protected void update(float percent) {
-		Log.d(TAG, "update!");
-	}
-
-	@Override
-	public boolean act(float delta) {
-		Boolean superReturn = super.act(delta);
-		Log.d(TAG, "Do Drone Stuff once, superReturn = " + superReturn.toString());
-		DroneServiceWrapper.getInstance().getDroneService()
-				.playLedAnimation(5.0f, 3, ARDRONE_LED_ANIMATION.ARDRONE_LED_ANIMATION_BLINK_ORANGE.ordinal());
-		return superReturn;
-
-	}
-
+	public DroneControlService getDroneService();
 }

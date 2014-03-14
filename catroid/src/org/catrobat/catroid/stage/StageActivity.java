@@ -224,7 +224,7 @@ public class StageActivity extends AndroidApplication implements DroneReadyRecei
 	}
 
 	private void helpUnbindService() {
-		if (droneServiceConnection != null) {
+		if (droneControlService != null) {
 			unbindService(droneServiceConnection);
 			droneServiceConnection = null;
 			droneControlService = null;

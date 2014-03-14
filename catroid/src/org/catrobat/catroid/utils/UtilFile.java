@@ -26,6 +26,7 @@ import android.content.Context;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 
@@ -169,6 +170,18 @@ public final class UtilFile {
 		if (rootDirectory == null || rootDirectory.listFiles() == null || rootDirectory.listFiles().length == 0) {
 			ProjectManager.getInstance().initializeDefaultProject(context);
 		}
+	}
+
+	public static void deleteStandardDroneProjectAndReCreate(Context context) {
+		String droneStandardProjectName = context.getString(R.string.default_drone_project_name);
+		ProjectManager.getInstance().loadProject(droneStandardProjectName, context, false);
+		String currentName = ProjectManager.getInstance().getCurrentProject().getName();
+
+		if (currentName.equals(droneStandardProjectName)) {
+			Log.d(TAG, "Delete standard drone project.");
+			ProjectManager.getInstance().deleteCurrentProject();
+		}
+		ProjectManager.getInstance().initializeDroneProject(context);
 	}
 
 	/**

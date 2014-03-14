@@ -175,6 +175,7 @@ public class DroneProxy {
 	}
 
 	public void onConfigChanged() {
+		Log.d(TAG, "Drone config changed");
 		Intent configChanged = new Intent(DRONE_PROXY_CONFIG_CHANGED_ACTION);
 		LocalBroadcastManager mgr = LocalBroadcastManager.getInstance(applicationContext);
 		mgr.sendBroadcast(configChanged);

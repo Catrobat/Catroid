@@ -23,6 +23,7 @@
 package org.catrobat.catroid.common;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -31,6 +32,9 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.content.bricks.DroneLandBrick;
+import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
+import org.catrobat.catroid.content.bricks.DroneTakeOffBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
@@ -61,6 +65,7 @@ public final class StandardProjectHandler {
 
 	private static final String TAG = StandardProjectHandler.class.getSimpleName();
 	private static double backgroundImageScaleFactor = 1;
+	public static final String TAG = StandardProjectHandler.class.getSimpleName();
 
 	// Suppress default constructor for noninstantiability
 	private StandardProjectHandler() {
@@ -70,6 +75,150 @@ public final class StandardProjectHandler {
 	public static Project createAndSaveStandardProject(Context context) throws IOException {
 		String projectName = context.getString(R.string.default_project_name);
 		return createAndSaveStandardProject(projectName, context);
+	}
+
+	public static Project createAndSaveStandardDroneProject(Context context) throws IOException {
+		Log.d(TAG, "createAndSaveStandardDroneProject");
+		String projectName = context.getString(R.string.default_drone_project_name);
+		return createAndSaveStandardDroneProject(projectName, context);
+	}
+
+	public static Project createAndSaveStandardDroneProject(String projectName, Context context) throws IOException,
+			IllegalArgumentException {
+		if (StorageHandler.getInstance().projectExists(projectName)) {
+			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");
+		}
+
+		String backgroundName = context.getString(R.string.default_project_backgroundname);
+		String takeOffSpriteName = context.getString(R.string.default_drone_project_sprites_takeoff);
+		String landSpriteName = context.getString(R.string.default_drone_project_srpites_land);
+		String blinkLedSpriteName = context.getString(R.string.default_drone_project_sprites_blink_led);
+		String takeOffLookName = context.getString(R.string.default_drone_project_sprites_takeoff) + " arrow";
+		String landLookName = context.getString(R.string.default_drone_project_srpites_land) + " arrow";
+
+		String playLedName = context.getString(R.string.default_drone_project_sprites_takeoff) + " arrow";
+
+		Project defaultDroneProject = new Project(context, projectName);
+		defaultDroneProject.setDeviceData(context); // density anywhere here
+		StorageHandler.getInstance().saveProject(defaultDroneProject);
+		ProjectManager.getInstance().setProject(defaultDroneProject);
+
+		backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
+				R.drawable.default_project_background, context);
+
+		File backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background, context, true,
+				backgroundImageScaleFactor);
+
+		File takeOffArrowFile = UtilFile.copyImageFromResourceIntoProject(projectName, takeOffSpriteName
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_drone_go_top_orange, context,
+				true, backgroundImageScaleFactor);
+
+		File landArrowFile = UtilFile.copyImageFromResourceIntoProject(projectName, takeOffSpriteName
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_drone_go_bottom_orange, context,
+				true, backgroundImageScaleFactor);
+
+		File playLedFile = UtilFile.copyImageFromResourceIntoProject(projectName, playLedName
+				+ Constants.IMAGE_STANDARD_EXTENTION,
+				R.drawable.default_drone_project_084323_orange_white_pearl_icon_business_light_bulb2_sc52, context,
+				true, backgroundImageScaleFactor);
+
+		LookData backgroundLookData = new LookData();
+		backgroundLookData.setLookName(backgroundName);
+		backgroundLookData.setLookFilename(backgroundFile.getName());
+
+		Sprite backgroundSprite = defaultDroneProject.getSpriteList().get(0);
+
+		// Background sprite
+		backgroundSprite.getLookDataList().add(backgroundLookData);
+		Script backgroundStartScript = new StartScript(backgroundSprite);
+
+		SetLookBrick setLookBrick = new SetLookBrick(backgroundSprite);
+		setLookBrick.setLook(backgroundLookData);
+		backgroundStartScript.addBrick(setLookBrick);
+
+		backgroundSprite.addScript(backgroundStartScript);
+
+		//Takeoff sprite
+		Sprite takeOffSprite = new Sprite(takeOffSpriteName);
+		defaultDroneProject.addSprite(takeOffSprite);
+
+		Script whenSpriteTappedScript = new WhenScript(takeOffSprite);
+		DroneTakeOffBrick takeOffBrick = new DroneTakeOffBrick(takeOffSprite);
+		whenSpriteTappedScript.addBrick(takeOffBrick);
+
+		Script whenProjectStartsScript = new StartScript(takeOffSprite);
+		PlaceAtBrick placeAtBrick = new PlaceAtBrick(takeOffSprite, calculateValueRelativeToScaledBackground(0),
+				calculateValueRelativeToScaledBackground(-400));
+		SetSizeToBrick setSizeBrick = new SetSizeToBrick(takeOffSprite, 50.0);
+
+		whenProjectStartsScript.addBrick(placeAtBrick);
+		whenProjectStartsScript.addBrick(setSizeBrick);
+
+		LookData takeOffLookData = new LookData();
+		takeOffLookData.setLookName(takeOffLookName);
+		takeOffLookData.setLookFilename(takeOffArrowFile.getName());
+
+		takeOffSprite.getLookDataList().add(takeOffLookData);
+
+		takeOffSprite.addScript(whenSpriteTappedScript);
+		takeOffSprite.addScript(whenProjectStartsScript);
+		//Takeoff sprite end
+
+		//land Sprite start
+		Sprite landSprite = new Sprite(landSpriteName);
+		defaultDroneProject.addSprite(landSprite);
+
+		Script whenLandSpriteTappedScript = new WhenScript(landSprite);
+		DroneLandBrick landBrick = new DroneLandBrick(landSprite);
+		whenLandSpriteTappedScript.addBrick(landBrick);
+
+		Script whenProjectStartsLandScript = new StartScript(landSprite);
+		PlaceAtBrick placeAtBrickLandSprite = new PlaceAtBrick(landSprite,
+				calculateValueRelativeToScaledBackground(200), calculateValueRelativeToScaledBackground(-400));
+		SetSizeToBrick setSizeBrickLandSprite = new SetSizeToBrick(landSprite, 50.0);
+
+		whenProjectStartsLandScript.addBrick(placeAtBrickLandSprite);
+		whenProjectStartsLandScript.addBrick(setSizeBrickLandSprite);
+
+		LookData landLookData = new LookData();
+		landLookData.setLookName(landLookName);
+		landLookData.setLookFilename(landArrowFile.getName());
+
+		landSprite.getLookDataList().add(landLookData);
+
+		landSprite.addScript(whenProjectStartsLandScript);
+		landSprite.addScript(whenLandSpriteTappedScript);
+		//land Sprite end
+
+		//Led Sprite
+		Sprite blinkLedSprite = new Sprite(blinkLedSpriteName);
+		defaultDroneProject.addSprite(blinkLedSprite);
+
+		Script whenBlinkLedSpriteTappedScript = new WhenScript(blinkLedSprite);
+		DronePlayLedAnimationBrick blinkLedBrick = new DronePlayLedAnimationBrick(blinkLedSprite);
+		whenBlinkLedSpriteTappedScript.addBrick(blinkLedBrick);
+
+		Script whenProjectStartsScriptLed = new StartScript(blinkLedSprite);
+		PlaceAtBrick placeAtBrickLed = new PlaceAtBrick(blinkLedSprite, calculateValueRelativeToScaledBackground(-200),
+				calculateValueRelativeToScaledBackground(-400));
+		SetSizeToBrick setSizeBrickLed = new SetSizeToBrick(blinkLedSprite, 50.0);
+
+		whenProjectStartsScriptLed.addBrick(placeAtBrickLed);
+		whenProjectStartsScriptLed.addBrick(setSizeBrickLed);
+
+		LookData blinkLedLookData = new LookData();
+		blinkLedLookData.setLookName(playLedName);
+		blinkLedLookData.setLookFilename(playLedFile.getName());
+
+		blinkLedSprite.getLookDataList().add(blinkLedLookData);
+
+		blinkLedSprite.addScript(whenBlinkLedSpriteTappedScript);
+		blinkLedSprite.addScript(whenProjectStartsScriptLed);
+
+		StorageHandler.getInstance().saveProject(defaultDroneProject);
+
+		return defaultDroneProject;
 	}
 
 	public static Project createAndSaveStandardProject(String projectName, Context context) throws IOException,

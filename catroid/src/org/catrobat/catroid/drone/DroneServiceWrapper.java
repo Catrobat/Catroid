@@ -24,7 +24,7 @@ package org.catrobat.catroid.drone;
 
 import com.parrot.freeflight.service.DroneControlService;
 
-public class DroneServiceWrapper {
+public class DroneServiceWrapper implements IDroneServiceWrapper {
 
 	private static DroneServiceWrapper instance = null;
 	private static DroneControlService droneControlService = null;
@@ -43,6 +43,7 @@ public class DroneServiceWrapper {
 		droneControlService = service;
 	}
 
+	@Override
 	public DroneControlService getDroneService() {
 		return droneControlService;
 	}

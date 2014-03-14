@@ -426,6 +426,7 @@
 
     <!-- defaultValues -->
     <string name="default_project_name">Mein erstes Programm</string>
+    <string name="default_drone_project_name">Dronen Test Programm</string>  
     <string name="default_project_sprites_mole_name">Maulwurf</string>
     <string name="default_project_sprites_mole_moving">Bewegender Maulwurf</string>
     <string name="default_project_sprites_mole_whacked">Benommener Maulwurf</string>
@@ -477,6 +478,7 @@
     <string name="error_copy_project">Beim kopieren des Programms ist ein Fehler aufgetreten.</string>
     <string name="error_upload_project_with_default_name">Das Programm mit dem Namen \'Mein erstes Programm\' kann nicht hochgeladen werden. Bitte das Programm umbenennen.</string>
     <string name="error_upload_default_project">Das Programm entspricht dem Programm \'Mein erstes Programm\'. Bitte ändere es und versuche es noch einmal.</string>
+    <string name="error_no_drone_connected">Um dieses Programm auszuführen benötigst du eine Verbindung mit der ARDrone 2.0. Bitte verbinde dich mit dem WLan der Drone und probier es nochmal.</string>
     <!--  -->
 
 
