@@ -22,12 +22,16 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.util.Log;
+
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
 public class ViewSwitchLock implements Lock {
 	private static final long UNLOCK_TIMEOUT = 200;
+	private static final String TAG = ViewSwitchLock.class.getSimpleName();
+
 	private boolean locked = false;
 
 	@Override
@@ -44,7 +48,7 @@ public class ViewSwitchLock implements Lock {
 				try {
 					Thread.sleep(UNLOCK_TIMEOUT);
 				} catch (InterruptedException interruptedException) {
-					interruptedException.printStackTrace();
+					Log.e(TAG, Log.getStackTraceString(interruptedException));
 				}
 				ViewSwitchLock.this.unlock();
 			}

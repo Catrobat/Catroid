@@ -23,6 +23,7 @@
 package org.catrobat.catroid.utils;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
@@ -45,6 +46,8 @@ public final class UtilFile {
 	public enum FileType {
 		TYPE_IMAGE_FILE, TYPE_SOUND_FILE
 	}
+
+	private static final String TAG = UtilFile.class.getSimpleName();
 
 	// Suppress default constructor for noninstantiability
 	private UtilFile() {
@@ -154,8 +157,8 @@ public final class UtilFile {
 			out.close();
 
 			return file;
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
 			return null;
 		}
 	}
