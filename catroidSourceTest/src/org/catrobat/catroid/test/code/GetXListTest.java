@@ -41,18 +41,27 @@ public class GetXListTest extends TestCase {
 
 	private void checkFile(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
+		StringBuilder errorMessageBuilder = new StringBuilder(35);
 
 		int lineCount = 1;
-		String line = null;
+		String line;
 
 		while ((line = reader.readLine()) != null) {
 			if (line.matches(REGEX_PATTERN)) {
 				errorFound = true;
-				errorMessages += "File " + file.getName() + ":" + lineCount + " contains 'getScriptList().add()'\n";
+				errorMessageBuilder
+						.append("File ")
+						.append(file.getName())
+						.append(':')
+						.append(lineCount)
+						.append(" contains 'getScriptList().add()'\n");
 			}
 			++lineCount;
 		}
 		reader.close();
+		if (errorMessageBuilder.length() > 0) {
+			errorMessages += errorMessageBuilder.toString();
+		}
 	}
 
 	public void testGetXListAddNotPresent() throws IOException {

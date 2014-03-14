@@ -183,9 +183,9 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue("New sound file is not selected", solo.isSpinnerTextSelected(recordedFilename));
 
 		solo.goBack();
-		String programMenuActivityClass = ProgramMenuActivity.class.getSimpleName().toString();
+		String programMenuActivityClass = ProgramMenuActivity.class.getSimpleName();
 		assertTrue("Should be in " + programMenuActivityClass, solo.getCurrentActivity().getClass().getSimpleName()
-				.toString().equals(programMenuActivityClass));
+				.equals(programMenuActivityClass));
 	}
 
 	private void createProject() {

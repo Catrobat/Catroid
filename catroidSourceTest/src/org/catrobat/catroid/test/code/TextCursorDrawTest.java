@@ -49,7 +49,7 @@ public class TextCursorDrawTest extends TestCase {
 		try {
 			reader = new BufferedReader(new FileReader(new File(FORMULA_EDITOR_EDIT_TEXT_PATH)));
 
-			String line = null;
+			String line;
 
 			while ((line = reader.readLine()) != null) {
 				if (line.contains("protected void onDraw(Canvas canvas)")) {

@@ -31,6 +31,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SleepTest extends TestCase {
 	private static final String[] DIRECTORIES = { "../catroidCucumberTest" };
@@ -38,21 +40,31 @@ public class SleepTest extends TestCase {
 
 	private String errorMessages;
 	private boolean errorFound;
+	private Pattern regexPattern;
 
 	private void checkFileForThreadSleep(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
-
+		StringBuilder errorMessageBuilder = new StringBuilder(28);
+		Matcher regexMatcher = regexPattern.matcher("");
 		int lineCount = 1;
-		String line = null;
+		String line;
 
 		while ((line = reader.readLine()) != null) {
-			if (line.matches(REGEX_PATTERN)) {
+			if (regexMatcher.reset(line).matches()) {
 				errorFound = true;
-				errorMessages += "File " + file.getName() + ":" + lineCount + " contains \"Thread.sleep()\"";
+				errorMessageBuilder
+						.append("File ")
+						.append(file.getName())
+						.append(':')
+						.append(lineCount)
+						.append(" contains \"Thread.sleep()\"");
 			}
 			++lineCount;
 		}
 		reader.close();
+		if (errorMessageBuilder.length() > 0) {
+			errorMessages += errorMessageBuilder.toString();
+		}
 	}
 
 	public void testThreadSleepNotPresentInAnyUiTests() throws IOException {
@@ -70,6 +82,7 @@ public class SleepTest extends TestCase {
 
 		errorMessages = "";
 		errorFound = false;
+		regexPattern = Pattern.compile(REGEX_PATTERN);
 
 		for (String directoryName : DIRECTORIES) {
 			File directory = new File(directoryName);

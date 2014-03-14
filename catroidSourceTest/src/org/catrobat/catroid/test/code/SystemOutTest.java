@@ -44,22 +44,30 @@ public class SystemOutTest extends TestCase {
 
 	private void checkFileForString(File file, String string) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
-
+		StringBuilder errorMessageBuilder = new StringBuilder();
 		int lineCount = 1;
 		String line;
 
 		while ((line = reader.readLine()) != null) {
 			if (line.contains(string)) {
 				errorFound = true;
-				errorMessages += file.getName() + " in line " + lineCount + "\n";
+				errorMessageBuilder
+						.append(file.getName())
+						.append(" in line ")
+						.append(lineCount)
+						.append('\n');
 			}
 			++lineCount;
 		}
 		reader.close();
+		if (errorMessageBuilder.length() > 0) {
+			errorMessages += errorMessageBuilder.toString();
+		}
 	}
 
 	private void checkForStringInFiles(String string, String[] directories) throws IOException {
-		for (String directoryName : directories) {			File directory = new File(directoryName);
+		for (String directoryName : directories) {
+			File directory = new File(directoryName);
 			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());
 			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
 
@@ -77,13 +85,11 @@ public class SystemOutTest extends TestCase {
 
 	public void testForSystemOut() throws IOException {
 		checkForStringInFiles(SYSTEM_OUT, SYSTEM_OUT_DIRECTORIES);
-
 		assertFalse("Files with 'System.out' found! \nPlease use 'Log.d(TAG, message)' instead \n\n" + errorMessages, errorFound);
 	}
 
 	public void testForPrintStackTrace() throws IOException {
 		checkForStringInFiles(PRINT_STACK_TRACE, STACK_TRACE_DIRECTORIES);
-
 		assertFalse("Files with '.printStackTrace()' found! \nPlease use 'Log.e(TAG, \"Reason for Exception\", exception)' or 'Log.e(TAG, Log.getStackTraceString(exception))' instead\n\n" + errorMessages, errorFound);
 	}
 }
