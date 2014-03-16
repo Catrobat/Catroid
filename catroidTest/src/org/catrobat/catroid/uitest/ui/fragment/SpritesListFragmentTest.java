@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.uitest.ui.fragment;
 
+import android.widget.CheckBox;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -31,6 +33,7 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -127,4 +130,17 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		solo.clickOnCheckBox(0);
 		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
 	}
+
+	public void testDeleteActionModeIfSelectedAndPressingBack() {
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
+
+		solo.clickOnActionBarItem(R.id.delete);
+		solo.clickOnCheckBox(0);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.goBack();
+
+		ArrayList<CheckBox> checkBoxes = solo.getCurrentViews(CheckBox.class);
+		assertFalse("Checkboxes didn't disappear", checkBoxes.get(1).isShown());
+	}
+
 }

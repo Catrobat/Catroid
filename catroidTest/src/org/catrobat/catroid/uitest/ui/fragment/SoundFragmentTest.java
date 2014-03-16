@@ -888,11 +888,14 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(true, true);
+		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.goBack();
 
 		// Check if rename ActionMode disappears if back was pressed
-		assertFalse("Delete dialog showed up", solo.waitForText(deleteDialogTitle, 0, TIME_TO_WAIT));
+		assertFalse("Delete dialog is still showing", solo.waitForText(deleteDialogTitle, 0, TIME_TO_WAIT));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
+		assertFalse("Checkboxes didn't disappear",
+				solo.getView(R.id.fragment_sound_item_checkbox).getVisibility() == View.VISIBLE);
 
 		checkIfNumberOfSoundsIsEqual(expectedNumberOfSounds);
 	}

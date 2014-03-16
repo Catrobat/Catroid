@@ -399,7 +399,8 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		Reflection.setPrivateField(Constants.class, "POCKET_PAINT_INTENT_ACTIVITY_NAME", "for.science");
 
 		solo.clickOnView(solo.getView(R.id.look_main_layout));
-		assertTrue("Paintroid not installed dialog missing after click on look", solo.searchText(solo.getString(R.string.pocket_paint_not_installed)));
+		assertTrue("Paintroid not installed dialog missing after click on look",
+				solo.searchText(solo.getString(R.string.pocket_paint_not_installed)));
 		solo.clickOnButton(solo.getString(R.string.no));
 	}
 
@@ -946,11 +947,14 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
 		checkIfCheckboxesAreCorrectlyChecked(true, true);
+		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.goBack();
 
 		// Check if delete ActionMode disappears if back was pressed
 		assertFalse("Delete dialog showed up", solo.waitForText(deleteDialogTitle, 0, TIME_TO_WAIT));
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
+		assertFalse("Checkboxes didn't disappear",
+				solo.getView(R.id.fragment_look_item_checkbox).getVisibility() == View.VISIBLE);
 
 		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
 	}
