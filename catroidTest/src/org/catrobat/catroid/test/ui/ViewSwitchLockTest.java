@@ -77,14 +77,14 @@ public class ViewSwitchLockTest extends AndroidTestCase {
 			viewSwitchLock.lock();
 			fail("Method is supported");
 		} catch (UnsupportedOperationException unsupportedOperationException) {
-			// Expected behavior
+			assertTrue("Exception thrown successful", true);
 		}
 
 		try {
 			viewSwitchLock.lockInterruptibly();
 			fail("Method is supported");
 		} catch (UnsupportedOperationException unsupportedOperationException) {
-			// Expected behavior
+			assertTrue("Exception thrown successful", true);
 		} catch (Exception exception) {
 			fail("An unexcpected excpetion occured");
 		}
@@ -93,14 +93,14 @@ public class ViewSwitchLockTest extends AndroidTestCase {
 			viewSwitchLock.newCondition();
 			fail("Method is supported");
 		} catch (UnsupportedOperationException unsupportedOperationException) {
-			// Expected behavior
+			assertTrue("Exception thrown successful", true);
 		}
 
 		try {
 			viewSwitchLock.tryLock(1L, null);
 			fail("Method is supported");
 		} catch (UnsupportedOperationException unsupportedOperationException) {
-			// Expected behavior
+			assertTrue("Exception thrown successful", true);
 		} catch (Exception exception) {
 			fail("An unexcpected excpetion occured");
 		}

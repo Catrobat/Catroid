@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -32,18 +32,21 @@ import java.util.ArrayList;
 
 public final class SensorLoudness {
 
-	private static SensorLoudness instance = null;
 	private static final int UPDATE_INTERVAL = 50;
 	private static final double SCALE_RANGE = 100d;
-
 	private static final double MAX_AMP_VALUE = 32767d;
+	private static SensorLoudness instance = null;
 	private ArrayList<SensorCustomEventListener> listenerList = new ArrayList<SensorCustomEventListener>();
 
 	private SoundRecorder recorder = null;
 	private Handler handler;
 	private float lastValue = 0f;
 
-	//Periodic update the loudness_value
+	private SensorLoudness() {
+		handler = new Handler();
+		recorder = new SoundRecorder("/dev/null");
+	}
+
 	Runnable statusChecker = new Runnable() {
 		@Override
 		public void run() {
@@ -60,17 +63,14 @@ public final class SensorLoudness {
 		}
 	};
 
-	private SensorLoudness() {
-		handler = new Handler();
-		recorder = new SoundRecorder("/dev/null");
-	};
-
 	public static SensorLoudness getSensorLoudness() {
 		if (instance == null) {
 			instance = new SensorLoudness();
 		}
 		return instance;
 	}
+
+	;
 
 	public synchronized boolean registerListener(SensorCustomEventListener listener) {
 		if (listenerList.contains(listener)) {
@@ -101,6 +101,7 @@ public final class SensorLoudness {
 						recorder.stop();
 					} catch (IOException e) {
 						// ignored, nothing we can do
+						e.printStackTrace();
 					}
 					recorder = new SoundRecorder("/dev/null");
 				}
@@ -108,4 +109,6 @@ public final class SensorLoudness {
 			}
 		}
 	}
+
+
 }

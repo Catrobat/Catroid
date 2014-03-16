@@ -43,18 +43,18 @@ import java.util.Iterator;
 
 public class Look extends Image {
 	private static final float DEGREE_UI_OFFSET = 90.0f;
+	private static ArrayList<Action> actionsToRestart = new ArrayList<Action>();
+	public boolean visible = true;
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
 	protected LookData lookData;
 	protected Sprite sprite;
 	protected float alpha = 1f;
 	protected float brightness = 1f;
-	public boolean visible = true;
 	protected Pixmap pixmap;
 	private ParallelAction whenParallelAction;
 	private boolean allActionAreFinished = false;
 	private BrightnessContrastShader shader;
-	private static ArrayList<Action> actionsToRestart = new ArrayList<Action>();
 
 	public Look(Sprite sprite) {
 		this.sprite = sprite;
@@ -92,6 +92,14 @@ public class Look extends Image {
 		});
 	}
 
+	public static boolean actionsToRestartContains(Action action) {
+		return Look.actionsToRestart.contains(action);
+	}
+
+	public static void actionsToRestartAdd(Action action) {
+		Look.actionsToRestart.add(action);
+	}
+
 	public Look copyLookForSprite(final Sprite cloneSprite) {
 		Look cloneLook = cloneSprite.look;
 
@@ -115,16 +123,16 @@ public class Look extends Image {
 		// We use Y-down, libgdx Y-up. This is the fix for accurate y-axis detection
 		y = (getHeight() - 1) - y;
 
-		if (x >= 0 && x < getWidth() && y >= 0 && y < getHeight()) {
-			if (pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
-				if (whenParallelAction == null) {
-					sprite.createWhenScriptActionSequence("Tapped");
-				} else {
-					whenParallelAction.restart();
-				}
-				return true;
+		if (x >= 0 && x < getWidth() && y >= 0 && y < getHeight()
+				&& ((pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)))) {
+			if (whenParallelAction == null) {
+				sprite.createWhenScriptActionSequence("Tapped");
+			} else {
+				whenParallelAction.restart();
 			}
+			return true;
 		}
+
 		return false;
 	}
 
@@ -153,7 +161,7 @@ public class Look extends Image {
 		allActionAreFinished = false;
 		int finishedCount = 0;
 
-		for (Iterator<Action> iterator = Look.actionsToRestart.iterator(); iterator.hasNext();) {
+		for (Iterator<Action> iterator = Look.actionsToRestart.iterator(); iterator.hasNext(); ) {
 			Action actionToRestart = iterator.next();
 			actionToRestart.restart();
 			iterator.remove();
@@ -210,13 +218,13 @@ public class Look extends Image {
 		this.imageChanged = true;
 	}
 
+	public LookData getLookData() {
+		return lookData;
+	}
+
 	public void setLookData(LookData lookData) {
 		this.lookData = lookData;
 		imageChanged = true;
-	}
-
-	public LookData getLookData() {
-		return lookData;
 	}
 
 	public boolean getAllActionsAreFinished() {
@@ -241,12 +249,12 @@ public class Look extends Image {
 		return getX() + getWidth() / 2f;
 	}
 
-	public float getYInUserInterfaceDimensionUnit() {
-		return getY() + getHeight() / 2f;
-	}
-
 	public void setXInUserInterfaceDimensionUnit(float x) {
 		setX(x - getWidth() / 2f);
+	}
+
+	public float getYInUserInterfaceDimensionUnit() {
+		return getY() + getHeight() / 2f;
 	}
 
 	public void setYInUserInterfaceDimensionUnit(float y) {
@@ -351,6 +359,14 @@ public class Look extends Image {
 		setBrightnessInUserInterfaceDimensionUnit(getBrightnessInUserInterfaceDimensionUnit() + changePercent);
 	}
 
+	private void doHandleBroadcastEvent(String broadcastMessage) {
+		BroadcastHandler.doHandleBroadcastEvent(this, broadcastMessage);
+	}
+
+	private void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
+		BroadcastHandler.doHandleBroadcastFromWaiterEvent(this, event, broadcastMessage);
+	}
+
 	private class BrightnessContrastShader extends ShaderProgram {
 
 		private static final String VERTEX_SHADER = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
@@ -387,21 +403,5 @@ public class Look extends Image {
 			setUniformf(BRIGHTNESS_STRING_IN_SHADER, brightness - 1f);
 			end();
 		}
-	}
-
-	public static boolean actionsToRestartContains(Action action) {
-		return Look.actionsToRestart.contains(action);
-	}
-
-	public static void actionsToRestartAdd(Action action) {
-		Look.actionsToRestart.add(action);
-	}
-
-	private void doHandleBroadcastEvent(String broadcastMessage) {
-		BroadcastHandler.doHandleBroadcastEvent(this, broadcastMessage);
-	}
-
-	private void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
-		BroadcastHandler.doHandleBroadcastFromWaiterEvent(this, event, broadcastMessage);
 	}
 }

@@ -93,12 +93,11 @@ public class WebViewActivity extends BaseActivity {
 	private class MyWebViewClient extends WebViewClient {
 		@Override
 		public void onPageStarted(WebView view, String urlClient, Bitmap favicon) {
-			if (callMainMenu) {
-				if (urlClient.equals(url)) {
-					Intent intent = new Intent(getBaseContext(), MainMenuActivity.class);
-					startActivity(intent);
-				}
+			if (callMainMenu && urlClient.equals(url)) {
+				Intent intent = new Intent(getBaseContext(), MainMenuActivity.class);
+				startActivity(intent);
 			}
+
 		}
 
 		@Override

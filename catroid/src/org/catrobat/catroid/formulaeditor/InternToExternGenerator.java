@@ -168,8 +168,8 @@ public class InternToExternGenerator {
 					return number;
 				}
 
-				String left = number.substring(0, number.indexOf("."));
-				String right = number.substring(number.indexOf(".") + 1);
+				String left = number.substring(0, number.indexOf('.'));
+				String right = number.substring(number.indexOf('.') + 1);
 
 				return left + getExternStringForInternTokenValue(".", context) + right;
 

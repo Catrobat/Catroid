@@ -2,27 +2,27 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *    
+ *
  *    This file incorporates work covered by the following copyright and  
  *    permission notice: 
- *    
+ *
  *		   	Copyright 2010 Guenther Hoelzl, Shawn Brown
  *
  *		   	This file is part of MINDdroid.
@@ -58,57 +58,15 @@ public class LegoNXT implements BTConnectable {
 
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 	private static final int TONE_COMMAND = 101;
-
-	private LegoNXTCommunicator myNXTCommunicator;
-
-	private boolean pairing;
 	private static Handler btcHandler;
+	private LegoNXTCommunicator myNXTCommunicator;
+	private boolean pairing;
 	private Handler recieverHandler;
 	private Activity activity;
 
 	public LegoNXT(Activity activity, Handler recieverHandler) {
 		this.activity = activity;
 		this.recieverHandler = recieverHandler;
-	}
-
-	public void startBTCommunicator(String macAddress) {
-
-		if (myNXTCommunicator != null) {
-			try {
-				myNXTCommunicator.destroyNXTconnection();
-			} catch (IOException e) {
-			}
-		}
-
-		myNXTCommunicator = new LegoNXTBtCommunicator(this, recieverHandler, BluetoothAdapter.getDefaultAdapter(),
-				activity.getResources());
-		btcHandler = myNXTCommunicator.getHandler();
-
-		((LegoNXTBtCommunicator) myNXTCommunicator).setMACAddress(macAddress);
-		myNXTCommunicator.start();
-	}
-
-	/**
-	 * Receive messages from the BTCommunicator
-	 */
-
-	public void destroyCommunicator() {
-
-		if (myNXTCommunicator != null) {
-			//sendBTCMotorMessage(LegoNXTBtCommunicator.NO_DELAY, LegoNXTBtCommunicator.DISCONNECT, 0, 0);
-			try {
-				myNXTCommunicator.destroyNXTconnection();
-			} catch (IOException e) { // TODO Auto-generated method stub
-
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			myNXTCommunicator = null;
-		}
-	}
-
-	public void pauseCommunicator() {
-		myNXTCommunicator.stopAllNXTMovement();
 	}
 
 	public static synchronized void sendBTCPlayToneMessage(int frequency, int duration) {
@@ -147,6 +105,47 @@ public class LegoNXT implements BTConnectable {
 
 	public static Handler getBTCHandler() {
 		return btcHandler;
+	}
+
+	public void startBTCommunicator(String macAddress) {
+
+		if (myNXTCommunicator != null) {
+			try {
+				myNXTCommunicator.destroyNXTconnection();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		myNXTCommunicator = new LegoNXTBtCommunicator(this, recieverHandler, BluetoothAdapter.getDefaultAdapter(),
+				activity.getResources());
+		btcHandler = myNXTCommunicator.getHandler();
+
+		((LegoNXTBtCommunicator) myNXTCommunicator).setMACAddress(macAddress);
+		myNXTCommunicator.start();
+	}
+
+	/**
+	 * Receive messages from the BTCommunicator
+	 */
+
+	public void destroyCommunicator() {
+
+		if (myNXTCommunicator != null) {
+			//sendBTCMotorMessage(LegoNXTBtCommunicator.NO_DELAY, LegoNXTBtCommunicator.DISCONNECT, 0, 0);
+			try {
+				myNXTCommunicator.destroyNXTconnection();
+			} catch (IOException e) { // TODO Auto-generated method stub
+
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			myNXTCommunicator = null;
+		}
+	}
+
+	public void pauseCommunicator() {
+		myNXTCommunicator.stopAllNXTMovement();
 	}
 
 	@Override

@@ -2,27 +2,27 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *    
+ *
  *    This file incorporates work covered by the following copyright and  
  *    permission notice: 
- *    
+ *
  *		   	Copyright 2010 Guenther Hoelzl, Shawn Brown
  *
  *		   	This file is part of MINDdroid.
@@ -77,7 +77,7 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 	private BTConnectable myOwner;
 
 	public LegoNXTBtCommunicator(BTConnectable myOwner, Handler uiHandler, BluetoothAdapter btAdapter,
-			Resources resources) {
+								 Resources resources) {
 		super(uiHandler, resources);
 
 		this.myOwner = myOwner;
@@ -98,6 +98,7 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 		try {
 			createNXTconnection();
 		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		while (connected) {
@@ -120,12 +121,12 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 
 	/**
 	 * Create a bluetooth connection with SerialPortServiceClass_UUID
-	 * 
+	 *
 	 * @see <a href=
-	 *      "http://lejos.sourceforge.net/forum/viewtopic.php?t=1991&highlight=android"
-	 *      />
-	 *      On error the method either sends a message to it's owner or creates an exception in the
-	 *      case of no message handler.
+	 * "http://lejos.sourceforge.net/forum/viewtopic.php?t=1991&highlight=android"
+	 * />
+	 * On error the method either sends a message to it's owner or creates an exception in the
+	 * case of no message handler.
 	 */
 	@Override
 	public void createNXTconnection() throws IOException {
@@ -162,7 +163,7 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 				// try another method for connection, this should work on the HTC desire, credits to Michael Biermann
 				try {
 
-					Method mMethod = nxtDevice.getClass().getMethod("createRfcommSocket", new Class[] { int.class });
+					Method mMethod = nxtDevice.getClass().getMethod("createRfcommSocket", new Class[]{int.class});
 					nxtBTSocketTemporary = (BluetoothSocket) mMethod.invoke(nxtDevice, Integer.valueOf(1));
 					nxtBTSocketTemporary.connect();
 				} catch (Exception e1) {
@@ -238,9 +239,8 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 
 	/**
 	 * Sends a message on the opened OutputStream
-	 * 
-	 * @param message
-	 *            , the message as a byte array
+	 *
+	 * @param message , the message as a byte array
 	 */
 	@Override
 	public void sendMessage(byte[] message) throws IOException {
@@ -259,7 +259,7 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 
 	/**
 	 * Receives a message on the opened InputStream
-	 * 
+	 *
 	 * @return the message
 	 */
 	@Override

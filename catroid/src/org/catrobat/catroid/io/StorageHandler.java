@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -161,6 +161,27 @@ public final class StorageHandler {
 		createCatroidRoot();
 	}
 
+	public static StorageHandler getInstance() {
+		return INSTANCE;
+	}
+
+	public static void saveBitmapToImageFile(File outputFile, Bitmap bitmap) throws FileNotFoundException {
+		FileOutputStream outputStream = new FileOutputStream(outputFile);
+		try {
+			if (outputFile.getName().toLowerCase(Locale.US).endsWith(".jpg")
+					|| outputFile.getName().toLowerCase(Locale.US).endsWith(".jpeg")) {
+				bitmap.compress(CompressFormat.JPEG, JPG_COMPRESSION_SETTING, outputStream);
+			} else {
+				bitmap.compress(CompressFormat.PNG, 0, outputStream);
+			}
+			outputStream.flush();
+			outputStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+
+		}
+	}
+
 	private void setXstreamAliases() {
 		xstream.alias("look", LookData.class);
 		xstream.alias("sound", SoundInfo.class);
@@ -233,10 +254,6 @@ public final class StorageHandler {
 		if (!catroidRoot.exists()) {
 			catroidRoot.mkdirs();
 		}
-	}
-
-	public static StorageHandler getInstance() {
-		return INSTANCE;
 	}
 
 	public File getBackPackSoundDirectory() {
@@ -514,22 +531,6 @@ public final class StorageHandler {
 		outputFile.renameTo(compressedFile);
 
 		return compressedFile;
-	}
-
-	public static void saveBitmapToImageFile(File outputFile, Bitmap bitmap) throws FileNotFoundException {
-		FileOutputStream outputStream = new FileOutputStream(outputFile);
-		try {
-			if (outputFile.getName().toLowerCase(Locale.US).endsWith(".jpg")
-					|| outputFile.getName().toLowerCase(Locale.US).endsWith(".jpeg")) {
-				bitmap.compress(CompressFormat.JPEG, JPG_COMPRESSION_SETTING, outputStream);
-			} else {
-				bitmap.compress(CompressFormat.PNG, 0, outputStream);
-			}
-			outputStream.flush();
-			outputStream.close();
-		} catch (IOException e) {
-
-		}
 	}
 
 	public void deleteFile(String filepath) {
