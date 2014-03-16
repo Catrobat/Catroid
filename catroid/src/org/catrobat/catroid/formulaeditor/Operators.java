@@ -57,6 +57,7 @@ public enum Operators {
 		try {
 			return valueOf(value);
 		} catch (IllegalArgumentException exception) {
+			exception.printStackTrace();
 
 		}
 		return null;

@@ -75,4 +75,40 @@ public class InternFormulaTokenSelectionTest extends InstrumentationTestCase {
 		assertFalse("Equal error in InternFormulaTokenSelection", tokenSelectionDeepCopy.equals(1));
 	}
 
+	public void testHashCodeFunction() {
+
+		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
+		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
+
+		InternFormula internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		String externFormulaString = internFormula.getExternFormulaString();
+		int doubleClickIndex = externFormulaString.length();
+
+		internFormula.setCursorAndSelection(doubleClickIndex, true);
+
+
+		InternFormulaTokenSelection tokenSelection = internFormula.getSelection();
+		InternFormulaTokenSelection tokenSelectionDeepCopy = tokenSelection.deepCopy();
+
+		assertTrue("HashCode function not correct implemented", tokenSelection.hashCode() == tokenSelectionDeepCopy.hashCode());
+
+		Reflection.setPrivateField(tokenSelectionDeepCopy, "tokenSelectionType",
+				TokenSelectionType.PARSER_ERROR_SELECTION);
+		assertFalse("HashCode function not correct implemented", tokenSelectionDeepCopy.hashCode() ==tokenSelection.hashCode());
+
+		tokenSelectionDeepCopy = tokenSelection.deepCopy();
+		Reflection.setPrivateField(tokenSelectionDeepCopy, "internTokenSelectionStart", -1);
+		assertFalse("HashCode function not correct implemented", tokenSelectionDeepCopy.hashCode() == tokenSelection.hashCode());
+
+		tokenSelectionDeepCopy = tokenSelection.deepCopy();
+		Reflection.setPrivateField(tokenSelectionDeepCopy, "internTokenSelectionEnd", -1);
+		assertFalse("HashCode function not correct implemented", tokenSelectionDeepCopy.hashCode() == tokenSelection.hashCode());
+
+		assertFalse("HashCode function not correct implemented", tokenSelectionDeepCopy.hashCode() == 1);
+	}
+
 }

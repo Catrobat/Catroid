@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -33,10 +33,10 @@ import java.io.IOException;
 import java.util.List;
 
 public class GetXListTest extends TestCase {
-	private static final String[] DIRECTORIES = { "../catroid", "../catroidTest", "../catroidCucumberTest" };
+	private static final String[] DIRECTORIES = {"../catroid", "../catroidTest", "../catroidCucumberTest"};
 	private static final String REGEX_PATTERN = "^.*get(Sprite|Script|Brick)List\\(\\)\\.add\\(.*$";
 
-	private StringBuffer errorMessages;
+	private String errorMessages;
 	private boolean errorFound;
 
 	private void checkFile(File file) throws IOException {
@@ -48,8 +48,7 @@ public class GetXListTest extends TestCase {
 		while ((line = reader.readLine()) != null) {
 			if (line.matches(REGEX_PATTERN)) {
 				errorFound = true;
-				errorMessages
-						.append("File " + file.getName() + ":" + lineCount + " contains 'getScriptList().add()'\n");
+				errorMessages += "File " + file.getName() + ":" + lineCount + " contains 'getScriptList().add()'\n";
 			}
 			++lineCount;
 		}
@@ -66,7 +65,7 @@ public class GetXListTest extends TestCase {
 		assertFalse("Pattern matched! But shouldn't!", "getScriptList()add(MyVar)".matches(REGEX_PATTERN));
 		assertFalse("Pattern matched! But shouldn't!", "getBrickList.add(MyVar)".matches(REGEX_PATTERN));
 
-		errorMessages = new StringBuffer();
+		errorMessages = "";
 		errorFound = false;
 
 		for (String directoryName : DIRECTORIES) {
@@ -80,6 +79,6 @@ public class GetXListTest extends TestCase {
 			}
 		}
 
-		assertFalse("Files with Block Characters found: \n" + errorMessages.toString(), errorFound);
+		assertFalse("Files with Block Characters found: \n" + errorMessages, errorFound);
 	}
 }
