@@ -35,6 +35,7 @@ import java.io.Serializable;
 public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable {
 
 	private static final long serialVersionUID = 1L;
+	private static final String TAG = SoundInfo.class.getSimpleName();
 
 	private String name;
 	private String fileName;
@@ -66,8 +67,8 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 							Utils.buildPath(
 									Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
 									Constants.SOUND_DIRECTORY, fileName)).getName();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
 		}
 
 		return cloneSoundInfo;

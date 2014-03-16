@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.io;
 
+import android.util.Log;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.converters.reflection.FieldKey;
 import com.thoughtworks.xstream.converters.reflection.FieldKeySorter;
@@ -32,6 +34,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class CatroidFieldKeySorter implements FieldKeySorter {
+
+	private static final String TAG = CatroidFieldKeySorter.class.getSimpleName();
 
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -67,10 +71,10 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 				return fieldName;
 			}
 
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
+		} catch (SecurityException securityException) {
+			Log.e(TAG, Log.getStackTraceString(securityException));
+		} catch (NoSuchFieldException noSuchFieldException) {
+			Log.e(TAG, Log.getStackTraceString(noSuchFieldException));
 		}
 		return fieldName;
 	}

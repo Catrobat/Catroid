@@ -22,11 +22,15 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import android.util.Log;
+
 public enum Sensors {
 	X_ACCELERATION, Y_ACCELERATION, Z_ACCELERATION, COMPASS_DIRECTION, X_INCLINATION, Y_INCLINATION, LOUDNESS, OBJECT_X(
 			true), OBJECT_Y(true), OBJECT_GHOSTEFFECT(true), OBJECT_BRIGHTNESS(true), OBJECT_SIZE(true), OBJECT_ROTATION(
 			true), OBJECT_LAYER(true);
+
 	public final boolean isObjectSensor;
+	public static final String TAG = Sensors.class.getSimpleName();
 
 	Sensors(boolean isObjectSensor) {
 		this.isObjectSensor = true;
@@ -46,8 +50,8 @@ public enum Sensors {
 	public static Sensors getSensorByValue(String value) {
 		try {
 			return valueOf(value);
-		} catch (IllegalArgumentException exception) {
-			exception.printStackTrace();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			Log.e(TAG, Log.getStackTraceString(illegalArgumentException));
 		}
 		return null;
 	}
