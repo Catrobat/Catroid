@@ -39,11 +39,11 @@ public class LicenseTest extends TestCase {
 
 	private ArrayList<String> agplLicenseText;
 	private boolean allLicenseTextsPresentAndCorrect;
-	private StringBuilder errorMessages;
+	private String errorMessages;
 
 	public LicenseTest() throws IOException {
 		allLicenseTextsPresentAndCorrect = true;
-		errorMessages = new StringBuilder();
+		errorMessages = "";
 		agplLicenseText = readLicenseFile(new File("res/agpl_license_text.txt"));
 	}
 
@@ -87,10 +87,10 @@ public class LicenseTest extends TestCase {
 
 		if (notFound) {
 			allLicenseTextsPresentAndCorrect = false;
-			errorMessages.append("License text was not found in file " + file.getCanonicalPath() + "\n");
+			errorMessages += "License text was not found in file " + file.getCanonicalPath() + "\n";
 		} else if (wrongOrder) {
 			allLicenseTextsPresentAndCorrect = false;
-			errorMessages.append("License text was found in the wrong order in file " + file.getCanonicalPath() + "\n");
+			errorMessages += "License text was found in the wrong order in file " + file.getCanonicalPath() + "\n";
 		}
 		reader.close();
 	}
