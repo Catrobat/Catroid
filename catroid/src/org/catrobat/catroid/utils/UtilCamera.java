@@ -50,7 +50,7 @@ public final class UtilCamera {
 
 	public static Uri rotatePictureIfNecessary(Uri lookFromCameraUri, String defLookName) {
 		Uri rotatedPictureUri;
-		int rotate = getPhotoRotationDegree(lookFromCameraUri, lookFromCameraUri.getPath());
+		int rotate = getPhotoRotationDegree(lookFromCameraUri.getPath());
 
 		if (rotate != 0) {
 			Project project = ProjectManager.getInstance().getCurrentProject();
@@ -75,7 +75,7 @@ public final class UtilCamera {
 		return lookFromCameraUri;
 	}
 
-	private static int getPhotoRotationDegree(Uri imageUri, String imagePath) {
+	private static int getPhotoRotationDegree(String imagePath) {
 		int rotate = 0;
 		try {
 			File imageFile = new File(imagePath);

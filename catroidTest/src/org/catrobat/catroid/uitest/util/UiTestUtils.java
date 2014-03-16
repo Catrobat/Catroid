@@ -434,14 +434,14 @@ public final class UiTestUtils {
 		}
 
 		solo.sleep(600);
-		boolean succeeded = clickOnBrickInAddBrickFragment(solo, brickName, true);
+		boolean succeeded = clickOnBrickInAddBrickFragment(solo, brickName);
 		if (!succeeded) {
 			fail(brickName + " should appear. Failed to scroll to find it.");
 		}
 		solo.sleep(600);
 	}
 
-	private static boolean clickOnBrickInAddBrickFragment(Solo solo, String brickName, boolean addToScript) {
+	private static boolean clickOnBrickInAddBrickFragment(Solo solo, String brickName) {
 		boolean success = false;
 		int lowestIdTimeBeforeLast = -2;
 		int lowestIdLastTime = -1;
