@@ -284,7 +284,7 @@ public class NewSpriteDialog extends DialogFragment {
 			newSpriteName = editText.getText().toString().trim();
 		}
 		if (newSpriteName.contains(".")) {
-			int fileExtensionPosition = newSpriteName.indexOf(".");
+			int fileExtensionPosition = newSpriteName.indexOf('.');
 			newSpriteName = newSpriteName.substring(0, fileExtensionPosition);
 		}
 
