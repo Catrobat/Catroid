@@ -540,6 +540,12 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
+			}
+		});
+		builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+			@Override
+			public void onCancel(DialogInterface dialog) {
 				clearCheckedSoundsAndEnableButtons();
 			}
 		});
