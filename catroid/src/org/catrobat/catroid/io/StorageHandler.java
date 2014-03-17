@@ -176,9 +176,8 @@ public final class StorageHandler {
 			}
 			outputStream.flush();
 			outputStream.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
 		}
 	}
 
@@ -540,8 +539,8 @@ public final class StorageHandler {
 				File toDelete = new File(filepath);
 				toDelete.delete();
 			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+		} catch (FileNotFoundException fileNotFoundException) {
+			Log.e(TAG, Log.getStackTraceString(fileNotFoundException));
 			//deleteFile(filepath);
 		}
 	}

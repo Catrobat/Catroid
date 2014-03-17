@@ -33,6 +33,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -59,6 +60,7 @@ import java.io.IOException;
 public class NewSpriteDialog extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_sprite";
+	public static final String TAG = NewSpriteDialog.class.getSimpleName();
 
 	private static final int REQUEST_SELECT_IMAGE = 0;
 	private static final int REQUEST_CREATE_POCKET_PAINT_IMAGE = 1;
@@ -312,10 +314,9 @@ public class NewSpriteDialog extends DialogFragment {
 			lookData = new LookData();
 			lookData.setLookFilename(imageFileName);
 			lookData.setLookName(newSpriteName);
-		} catch (IOException exception) {
+		} catch (IOException ioException) {
 			Utils.showErrorDialog(getActivity(), R.string.error_load_image);
-			exception.printStackTrace();
-
+			Log.e(TAG, Log.getStackTraceString(ioException));
 			return false;
 		}
 

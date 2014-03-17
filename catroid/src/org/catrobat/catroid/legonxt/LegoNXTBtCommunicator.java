@@ -47,6 +47,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.res.Resources;
 import android.os.Handler;
+import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.BTConnectable;
@@ -65,6 +66,7 @@ import java.util.UUID;
  */
 public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 
+	private static final String TAG = LegoNXTBtCommunicator.class.getSimpleName();
 	private static final UUID SERIAL_PORT_SERVICE_CLASS_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	// this is the only OUI registered by LEGO, see http://standards.ieee.org/regauth/oui/index.shtml
 
@@ -97,8 +99,8 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 
 		try {
 			createNXTconnection();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
 		}
 
 		while (connected) {

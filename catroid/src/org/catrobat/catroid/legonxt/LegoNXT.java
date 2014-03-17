@@ -2,27 +2,27 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *
+ *  
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *
+ *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ *    
  *    This file incorporates work covered by the following copyright and  
  *    permission notice: 
- *
+ *    
  *		   	Copyright 2010 Guenther Hoelzl, Shawn Brown
  *
  *		   	This file is part of MINDdroid.
@@ -48,6 +48,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import org.catrobat.catroid.bluetooth.BTConnectable;
 import org.catrobat.catroid.bluetooth.DeviceListActivity;
@@ -58,6 +59,7 @@ public class LegoNXT implements BTConnectable {
 
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 	private static final int TONE_COMMAND = 101;
+	private static final String TAG = LegoNXT.class.getSimpleName();
 	private static Handler btcHandler;
 	private LegoNXTCommunicator myNXTCommunicator;
 	private boolean pairing;
@@ -112,8 +114,8 @@ public class LegoNXT implements BTConnectable {
 		if (myNXTCommunicator != null) {
 			try {
 				myNXTCommunicator.destroyNXTconnection();
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (IOException ioException) {
+				Log.e(TAG, Log.getStackTraceString(ioException));
 			}
 		}
 
@@ -135,10 +137,8 @@ public class LegoNXT implements BTConnectable {
 			//sendBTCMotorMessage(LegoNXTBtCommunicator.NO_DELAY, LegoNXTBtCommunicator.DISCONNECT, 0, 0);
 			try {
 				myNXTCommunicator.destroyNXTconnection();
-			} catch (IOException e) { // TODO Auto-generated method stub
-
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (IOException ioException) { // TODO Auto-generated method stub
+				Log.e(TAG, Log.getStackTraceString(ioException));
 			}
 			myNXTCommunicator = null;
 		}

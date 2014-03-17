@@ -35,6 +35,7 @@ public final class SensorLoudness {
 	private static final int UPDATE_INTERVAL = 50;
 	private static final double SCALE_RANGE = 100d;
 	private static final double MAX_AMP_VALUE = 32767d;
+	private static final String TAG = SensorLoudness.class.getSimpleName();
 	private static SensorLoudness instance = null;
 	private ArrayList<SensorCustomEventListener> listenerList = new ArrayList<SensorCustomEventListener>();
 
@@ -70,8 +71,6 @@ public final class SensorLoudness {
 		return instance;
 	}
 
-	;
-
 	public synchronized boolean registerListener(SensorCustomEventListener listener) {
 		if (listenerList.contains(listener)) {
 			return true;
@@ -82,7 +81,7 @@ public final class SensorLoudness {
 				recorder.start();
 				statusChecker.run();
 			} catch (Exception e) {
-				Log.w(SensorLoudness.class.getSimpleName(), "Could not start recorder", e);
+				Log.w(TAG, "Could not start recorder", e);
 				listenerList.remove(listener);
 				recorder = new SoundRecorder("/dev/null");
 				return false;
@@ -99,9 +98,9 @@ public final class SensorLoudness {
 				if (recorder.isRecording()) {
 					try {
 						recorder.stop();
-					} catch (IOException e) {
+					} catch (IOException ioException) {
 						// ignored, nothing we can do
-						e.printStackTrace();
+						Log.e(TAG, Log.getStackTraceString(ioException));
 					}
 					recorder = new SoundRecorder("/dev/null");
 				}
