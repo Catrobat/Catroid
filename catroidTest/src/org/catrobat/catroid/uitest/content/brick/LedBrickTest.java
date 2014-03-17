@@ -145,6 +145,11 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 		Log.d(LOG_LED_TEST, "testLedBrick() finished");
 	}
 
+	@Device
+	public void testMultipleLedBricks() {
+
+	}
+
 	private boolean createProject () {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
