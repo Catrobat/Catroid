@@ -34,6 +34,9 @@ public class LedUtil {
 	private static final String LOG_TAG = "LedUtil::";
 	private static Camera cam = null;
 
+	private static final long CAM_RELEASE_DELAY_MILLIS = 4000;
+	private static long switchOffTimeMillis;
+
 	private static boolean lightOn = false;
 	private static boolean previousLightOn = false;
 	private static boolean ledValue = false;
@@ -41,8 +44,11 @@ public class LedUtil {
 
 	private static boolean lightThreadActive = true;
 	private static Semaphore lightThreadSemaphore = new Semaphore(1);
-	private static Thread lightThread = new Thread(new Runnable() {
+	private static Semaphore cameraReleaseThreadSemaphore = new Semaphore(1);
+	private static Semaphore lightOnSemaphore = new Semaphore(1);
+	private static Semaphore camSemaphore = new Semaphore(1);
 
+	private static Thread lightThread = new Thread(new Runnable() {
 		@Override
 		public void run() {
 			while (lightThreadActive) {
@@ -58,9 +64,41 @@ public class LedUtil {
 		}
 	});
 
+	private static Thread cameraReleaseThread = new Thread(new Runnable () {
+		@Override
+		public void run() {
+			while (lightThreadActive) {
+				try {
+					cameraReleaseThreadSemaphore.acquire();
+					while (switchOffTimeMillis > System.currentTimeMillis()) {
+						Thread.sleep(100);
+					}
+					camSemaphore.acquire();
+					if (cam != null && !getLightOn()) {
+//						cam.release();
+//						cam = null;
+						Log.d(LOG_TAG, "cameraReleaseThread: camera released! " + System.currentTimeMillis());
+					}
+					camSemaphore.release();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			cameraReleaseThreadSemaphore.release();
+		}
+	});
 
-	public static boolean getLedValue() {
-		return ledValue;
+	private static void setLightOn(boolean lightOn) throws InterruptedException {
+		lightOnSemaphore.acquire();
+		LedUtil.lightOn = lightOn;
+		lightOnSemaphore.release();
+	}
+
+	private static boolean getLightOn() throws InterruptedException {
+		lightOnSemaphore.acquire();
+		boolean ret = LedUtil.lightOn;
+		lightOnSemaphore.release();
+		return ret;
 	}
 
 	public static void setLedValue(boolean val) {
@@ -72,11 +110,15 @@ public class LedUtil {
 		Log.d(LOG_TAG, "pauseLed");
 		if (!paused) {
 			paused = true;
-			if (lightOn == true) {
-				setLedValue(false);
-				previousLightOn = true;
-			} else {
-				previousLightOn = false;
+			try {
+				if (getLightOn()) {
+					setLedValue(false);
+					previousLightOn = true;
+				} else {
+					previousLightOn = false;
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -95,65 +137,88 @@ public class LedUtil {
 
 		if (!lightThread.isAlive()) {
 			try {
-				// thread has to start in waiting state
+				// threads have to start in waiting state
 				lightThreadSemaphore.acquire();
+				cameraReleaseThreadSemaphore.acquire();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			lightThread.setName("lightThread");
 			lightThread.start();
 		}
+		if (!cameraReleaseThread.isAlive()) {
+			Log.d(LOG_TAG, "start cameraReleaseThread");
+			cameraReleaseThread.setName("cameraReleaseThread");
+			cameraReleaseThread.start();
+		}
 	}
 
 	private static synchronized void setLed(boolean ledValue) {
-		if (ledValue) {
-			ledOn();
-		} else {
-			ledOff();
+		try {
+			if (ledValue) {
+				ledOn();
+			} else {
+				ledOff();
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
-	private static synchronized void ledOn() {
-		if (lightOn == true) {
+	private static synchronized void ledOn() throws InterruptedException {
+		if (getLightOn()) {
 			return;
 		}
 
-		Log.d(LOG_TAG, "ledOn()");
 		try {
-			cam = Camera.open();
-
+			camSemaphore.acquire();
 			if (cam != null) {
-				Camera.Parameters params = cam.getParameters();
-				if (params != null) {
-					params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+				cam.startPreview();
+				setLightOn(true);
+				Log.d(LOG_TAG, "ledOn()");
+			} else {
+				cam = Camera.open();
 
-					if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
-						cam.setPreviewTexture(new SurfaceTexture(0));
+				if (cam != null) {
+					Camera.Parameters params = cam.getParameters();
+					if (params != null) {
+						params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+
+						if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
+							cam.setPreviewTexture(new SurfaceTexture(0));
+						}
+
+						cam.setParameters(params);
+						cam.startPreview();
+						setLightOn(true);
+						Log.d(LOG_TAG, "ledON() + open()");
 					}
-
-					cam.setParameters(params);
-					cam.startPreview();
-					lightOn = true;
 				}
 			}
+			camSemaphore.release();
 		} catch (Exception e) {
 			Log.d(LOG_TAG, e.getMessage());
 		}
 	}
 
-	private static synchronized void ledOff() {
-		if (lightOn == false) {
+	private static synchronized void ledOff() throws InterruptedException {
+		if (!getLightOn()) {
 			return;
 		}
 
 		Log.d(LOG_TAG, "ledOff()");
 		try {
+			camSemaphore.acquire();
 			if (cam != null) {
 				cam.stopPreview();
-				cam.release();
-				cam = null;
-				lightOn = false;
+				setLightOn(false);
+				switchOffTimeMillis = System.currentTimeMillis() + CAM_RELEASE_DELAY_MILLIS;
+				Log.d(LOG_TAG, "release at " + switchOffTimeMillis + " ms");
+				if (cameraReleaseThreadSemaphore.hasQueuedThreads()) {
+					cameraReleaseThreadSemaphore.release();
+				}
 			}
+			camSemaphore.release();
 		} catch (Exception e) {
 			Log.d(LOG_TAG, e.getMessage());
 		}
