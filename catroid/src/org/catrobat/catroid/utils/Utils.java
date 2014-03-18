@@ -161,7 +161,7 @@ public final class Utils {
 	}
 
 	public static String buildProjectPath(String projectName) {
-		return buildPath(Constants.DEFAULT_ROOT, deleteSpecialCharactersInString(projectName));
+		return buildPath(Constants.DEFAULT_ROOT, UtilFile.encodeSpecialCharsForFileSystem(projectName));
 	}
 
 	public static void showErrorDialog(Context context, int errorMessageId) {

@@ -77,9 +77,6 @@ import java.util.Locale;
 
 public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final String INVALID_PROJECT_MODIFIER = "invalidProject";
-	private static final String WHITELISTED_CHARACTER_STRING = "[Hey+, =lo_ok. I'm; -special! too!]";
-	private static final String BLACKLISTED_CHARACTER_STRING = "<H/ey,\", :I'\\m s*pe?ci>al! ?äö|üß<>";
-	private static final String BLACKLISTED_ONLY_CHARACTER_STRING = "<>?*|";
 	private static final int IMAGE_RESOURCE_1 = org.catrobat.catroid.test.R.drawable.catroid_sunglasses;
 	private static final int IMAGE_RESOURCE_2 = org.catrobat.catroid.test.R.drawable.background_white;
 	private static final int IMAGE_RESOURCE_3 = org.catrobat.catroid.test.R.drawable.background_black;
@@ -121,9 +118,11 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	public void tearDown() throws Exception {
 		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronTask", true);
 
-		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(WHITELISTED_CHARACTER_STRING)));
-		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(BLACKLISTED_CHARACTER_STRING)));
-		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(BLACKLISTED_ONLY_CHARACTER_STRING)));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME)));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2)));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME)));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_ONE_DOT_PROJECT_NAME)));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME)));
 		lookFile.delete();
 
 		if (renameDirectory != null && renameDirectory.isDirectory()) {
@@ -758,6 +757,44 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.default_project_name)));
 	}
 
+	public void testDeleteProjectsWithSpecialChars()
+	{
+		createProjectsWithSpecialChars();
+
+		solo.sleep(200);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+
+		assertTrue("Project with normal and special chars not created",
+				UiTestUtils.searchExactText(solo, UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME));
+		assertTrue("Project with normal and special chars two not created",
+				UiTestUtils.searchExactText(solo, UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2));
+		assertTrue("Project just one dot not created", UiTestUtils.searchExactText(solo, UiTestUtils.JUST_ONE_DOT_PROJECT_NAME));
+		assertTrue("Project just two dots not created", UiTestUtils.searchExactText(solo, UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME));
+
+		UiTestUtils.clickOnActionBar(solo, R.id.delete);
+		solo.waitForText(solo.getString(R.string.delete));
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		solo.clickOnText(selectAll);
+		solo.sleep(200);
+		assertFalse("Select All is still shown", solo.waitForText(selectAll, 1, 200, false, true));
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.yes));
+
+		solo.sleep(200);
+
+		assertFalse("Project with normal and special chars not deleted",
+				UiTestUtils.searchExactText(solo, UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME));
+		assertFalse("Project with normal and special chars two not deleted",
+				UiTestUtils.searchExactText(solo, UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2));
+		assertFalse("Project just one dot not deleted", UiTestUtils.searchExactText(solo, UiTestUtils.JUST_ONE_DOT_PROJECT_NAME));
+		assertFalse("Project just two dots not deleted", UiTestUtils.searchExactText(solo, UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME));
+		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.default_project_name)));
+
+	}
+
 	public void testItemClick() {
 		createProjects();
 		solo.sleep(2000);
@@ -1134,7 +1171,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(solo.getString(R.string.close));
 	}
 
-	public void testRenameProjectWithWhitelistedCharacters() {
+	public void testRenameProjectWithNormalAndSpecialChars() {
 		createProjects();
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
@@ -1145,14 +1182,14 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.rename));
 		solo.clearEditText(0);
-		solo.enterText(0, WHITELISTED_CHARACTER_STRING);
+		solo.enterText(0, UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME);
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToClose(500);
-		renameDirectory = new File(Utils.buildProjectPath(WHITELISTED_CHARACTER_STRING));
-		assertTrue("Rename with whitelisted characters was not successfull", renameDirectory.isDirectory());
+		renameDirectory = new File(Utils.buildProjectPath(UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME));
+		assertTrue("Rename with normal and special characters was not successful", renameDirectory.isDirectory());
 	}
 
-	public void testRenameProjectWithBlacklistedCharacters() {
+	public void testRenameProjectWithNormalAndSpecialCharsTwo() {
 		createProjects();
 		solo.sleep(200);
 
@@ -1164,14 +1201,16 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.rename));
 		solo.clearEditText(0);
-		solo.enterText(0, BLACKLISTED_CHARACTER_STRING);
+		solo.enterText(0, UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2);
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToClose(500);
-		renameDirectory = new File(Utils.buildProjectPath(BLACKLISTED_CHARACTER_STRING));
-		assertTrue("Rename with blacklisted characters was not successfull", renameDirectory.isDirectory());
+		renameDirectory = new File(Utils.buildProjectPath(UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2));
+		assertTrue("Rename with normal and special characters two was not successful", renameDirectory.isDirectory());
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME)));
+
 	}
 
-	public void testRenameProjectWithOnlyBlacklistedCharacters() {
+	public void testRenameProjectJustSpecialCharacters() {
 		createProjects();
 		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
@@ -1182,13 +1221,73 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.rename));
 		solo.clearEditText(0);
-		solo.enterText(0, BLACKLISTED_ONLY_CHARACTER_STRING);
+		solo.enterText(0, UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME);
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToClose(500);
-		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
-		assertTrue("No or wrong error message shown",
-				solo.searchText((errorMessageProjectExists)));
-		solo.clickOnButton(solo.getString(R.string.close));
+		renameDirectory = new File(Utils.buildProjectPath(UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME));
+		assertTrue("Rename with just special characters was not successful", renameDirectory.isDirectory());
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME)));
+	}
+
+	public void testRenameProjectJustSpecialCharactersTwo() {
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
+		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
+				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
+		solo.clickOnText(solo.getString(R.string.rename));
+		solo.clearEditText(0);
+		solo.enterText(0, UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME2);
+		solo.clickOnText(solo.getString(R.string.ok));
+		solo.waitForDialogToClose(500);
+		renameDirectory = new File(Utils.buildProjectPath(UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME2));
+		assertTrue("Rename with just special characters two was not successful", renameDirectory.isDirectory());
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME2)));
+	}
+
+	public void testRenameProjectJustOneDot() {
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
+		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
+				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
+		solo.clickOnText(solo.getString(R.string.rename));
+		solo.clearEditText(0);
+		solo.enterText(0, UiTestUtils.JUST_ONE_DOT_PROJECT_NAME);
+		solo.clickOnText(solo.getString(R.string.ok));
+		solo.waitForDialogToClose(500);
+		assertFalse("project exists error shown.",
+				solo.searchText(solo.getString(R.string.error_project_exists)));
+		renameDirectory = new File(Utils.buildProjectPath(UiTestUtils.JUST_ONE_DOT_PROJECT_NAME));
+		assertTrue("Rename with just one dot was not successful", renameDirectory.isDirectory());
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_ONE_DOT_PROJECT_NAME)));
+	}
+
+	public void testRenameProjectJustTwoDots() {
+		createProjects();
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
+		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
+				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
+		solo.clickOnText(solo.getString(R.string.rename));
+		solo.clearEditText(0);
+		solo.enterText(0, UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME);
+		solo.clickOnText(solo.getString(R.string.ok));
+		solo.waitForDialogToClose(500);
+		assertFalse("project exists error shown.",
+				solo.searchText(solo.getString(R.string.error_project_exists)));
+		renameDirectory = new File(Utils.buildProjectPath(UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME));
+		assertTrue("Rename with just two dots was not successful", renameDirectory.isDirectory());
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME)));
 	}
 
 	public void testRenameToExistingProjectMixedCase() {
@@ -1604,7 +1703,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(solo.getString(R.string.close));
 	}
 
-	public void testCopyProjectWithOnlyBlacklistedCharacters() {
+	public void testCopyProjectJustSpecialCharacters() {
 		createProjects();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(200);
@@ -1616,13 +1715,106 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
 		solo.clickOnText(solo.getString(R.string.copy));
 		solo.clearEditText(0);
-		solo.enterText(0, BLACKLISTED_ONLY_CHARACTER_STRING);
+		solo.enterText(0, UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME);
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.sleep(200);
-		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
-		assertTrue("No or wrong error message shown",
-				solo.searchText((errorMessageProjectExists)));
-		solo.clickOnButton(solo.getString(R.string.close));
+		assertTrue("Did not copy the selected project to just special chars", UiTestUtils.searchExactText(solo, UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME, true));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME)));
+	}
+
+	public void testCopyProjectJustSpecialCharactersTwo() {
+		createProjects();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
+		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
+				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
+		solo.clickOnText(solo.getString(R.string.copy));
+		solo.clearEditText(0);
+		solo.enterText(0, UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME2);
+		solo.clickOnText(solo.getString(R.string.ok));
+		solo.sleep(200);
+		assertTrue("Did not copy the selected project to just special chars two", UiTestUtils.searchExactText(solo, UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME2, true));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME2)));
+	}
+
+	public void testCopyProjectWithNormalAndSpecialCharacters() {
+		createProjects();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
+		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
+				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
+		solo.clickOnText(solo.getString(R.string.copy));
+		solo.clearEditText(0);
+		solo.enterText(0, UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME);
+		solo.clickOnText(solo.getString(R.string.ok));
+		solo.sleep(200);
+		assertTrue("Did not copy the selected project to normal and special chars", UiTestUtils.searchExactText(solo, UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME, true));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME)));
+	}
+
+	public void testCopyProjectWithNormalAndSpecialCharactersTwo() {
+		createProjects();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
+		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
+				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
+		solo.clickOnText(solo.getString(R.string.copy));
+		solo.clearEditText(0);
+		solo.enterText(0, UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2);
+		solo.clickOnText(solo.getString(R.string.ok));
+		solo.sleep(200);
+		assertTrue("Did not copy the selected project to normal and special chars two", UiTestUtils.searchExactText(solo, UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2, true));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2)));
+	}
+
+	public void testCopyProjectJustDot() {
+		createProjects();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
+		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
+				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
+		solo.clickOnText(solo.getString(R.string.copy));
+		solo.clearEditText(0);
+		solo.enterText(0, UiTestUtils.JUST_ONE_DOT_PROJECT_NAME);
+		solo.clickOnText(solo.getString(R.string.ok));
+		solo.sleep(200);
+		assertTrue("Did not copy the selected project to one dot", UiTestUtils.searchExactText(solo, UiTestUtils.JUST_ONE_DOT_PROJECT_NAME, true));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_ONE_DOT_PROJECT_NAME)));
+	}
+
+	public void testCopyProjectJustDots() {
+		createProjects();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
+		assertTrue("longclick on project '" + UiTestUtils.PROJECTNAME1 + "' in list not successful",
+				UiTestUtils.longClickOnTextInList(solo, UiTestUtils.PROJECTNAME1));
+		solo.clickOnText(solo.getString(R.string.copy));
+		solo.clearEditText(0);
+		solo.enterText(0, UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME);
+		solo.clickOnText(solo.getString(R.string.ok));
+		solo.sleep(200);
+		assertTrue("Did not copy the selected project to two dots", UiTestUtils.searchExactText(solo, UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME, true));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME)));
 	}
 
 	public void testBottombarElementsVisibilty() {
@@ -1901,6 +2093,47 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		UiTestUtils.saveFileToProject(UiTestUtils.PROJECTNAME1, StageListener.SCREENSHOT_MANUAL_FILE_NAME,
 				IMAGE_RESOURCE_3, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
+
+		solo.sleep(1000);
+	}
+
+	private void createProjectsWithSpecialChars() {
+		Project project1 = new Project(getActivity(), UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME);
+		StorageHandler.getInstance().saveProject(project1);
+
+		Project project2 = new Project(getActivity(), UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2);
+		StorageHandler.getInstance().saveProject(project2);
+
+		Project project3 = new Project(getActivity(), UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME);
+		StorageHandler.getInstance().saveProject(project3);
+
+		solo.sleep(500);
+
+		Project project4 = new Project(getActivity(), UiTestUtils.JUST_ONE_DOT_PROJECT_NAME);
+		StorageHandler.getInstance().saveProject(project4);
+		ProjectManager.getInstance().setProject(project4);
+		ProjectManager projectManager = ProjectManager.getInstance();
+
+		Sprite testSprite = new Sprite("sprite1");
+		projectManager.addSprite(testSprite);
+		projectManager.setCurrentSprite(testSprite);
+
+		File imageFile = UiTestUtils.saveFileToProject(UiTestUtils.JUST_ONE_DOT_PROJECT_NAME, "catroid_sunglasses.png",
+				IMAGE_RESOURCE_1, getActivity(), UiTestUtils.FileTypes.IMAGE);
+
+		ArrayList<LookData> lookDataList = projectManager.getCurrentSprite().getLookDataList();
+		LookData lookData = new LookData();
+		lookData.setLookFilename(imageFile.getName());
+		lookData.setLookName("testname");
+		lookDataList.add(lookData);
+		projectManager.getFileChecksumContainer().addChecksum(lookData.getChecksum(), lookData.getAbsolutePath());
+
+		StorageHandler.getInstance().saveProject(project4);
+
+		//-------------------------------------------------
+
+		UiTestUtils.saveFileToProject(UiTestUtils.JUST_ONE_DOT_PROJECT_NAME, StageListener.SCREENSHOT_MANUAL_FILE_NAME,
+				IMAGE_RESOURCE_2, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 
 		solo.sleep(1000);
 	}
