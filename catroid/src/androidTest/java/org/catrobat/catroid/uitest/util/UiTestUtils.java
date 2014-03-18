@@ -158,7 +158,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class UiTestUtils {
-	private static ProjectManager projectManager = ProjectManager.getInstance();
+    private static final String TAG = UiTestUtils.class.getSimpleName();
+    private static ProjectManager projectManager = ProjectManager.getInstance();
 	private static SparseIntArray brickCategoryMap;
 	private static List<InternToken> internTokenList = new ArrayList<InternToken>();
 
@@ -877,8 +878,9 @@ public final class UiTestUtils {
 			file.renameTo(tempFile);
 
 			return tempFile;
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
+            fail("error while saving file");
 			return null;
 		}
 	}
@@ -1186,8 +1188,8 @@ public final class UiTestUtils {
 
 			assert (userRegistered);
 
-		} catch (WebconnectionException e) {
-			e.printStackTrace();
+		} catch (WebconnectionException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			fail("Error creating test user.");
 		}
 	}
@@ -1662,7 +1664,7 @@ public final class UiTestUtils {
 			constructor.setAccessible(true);
 			dialog = constructor.newInstance(DialogWizardStep.STEP_2, uri, spriteName, actionToPerform, spinner);
 		} catch (Exception exception) {
-			exception.printStackTrace();
+            Log.e(TAG, Log.getStackTraceString(exception));
 			fail("Reflection failure");
 			return;
 		}

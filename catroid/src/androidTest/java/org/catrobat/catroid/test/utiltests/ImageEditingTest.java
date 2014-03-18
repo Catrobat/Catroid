@@ -26,6 +26,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import junit.framework.TestCase;
 
@@ -42,7 +43,9 @@ import java.io.FileOutputStream;
 
 public class ImageEditingTest extends TestCase {
 
-	public void testScaleImage() {
+    private static final String TAG = ImageEditingTest.class.getSimpleName();
+
+    public void testScaleImage() {
 		Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.RGB_565);
 		Bitmap scaledBitmap = (Bitmap) Reflection.invokeMethod(ImageEditing.class, "scaleBitmap", new ParameterList(
 				bitmap, 60, 70));
@@ -63,9 +66,9 @@ public class ImageEditingTest extends TestCase {
 			bitmap.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
 			bos.close();
-		} catch (Exception e) {
-			assertFalse("Test file could not be created", true);
-			e.printStackTrace();
+		} catch (Exception exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
+            assertFalse("Test file could not be created", true);
 		}
 
 		int[] dimensions = new int[2];
@@ -95,9 +98,9 @@ public class ImageEditingTest extends TestCase {
 			bitmap.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
 			bos.close();
-		} catch (Exception e) {
+		} catch (Exception exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			assertFalse("Test file could not be created", true);
-			e.printStackTrace();
 		}
 
 		Bitmap loadedBitmap = ImageEditing.getScaledBitmapFromPath(testImageFile.getAbsolutePath(), maxBitmapWidth,
@@ -126,9 +129,9 @@ public class ImageEditingTest extends TestCase {
 			bitmap.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
 			bos.close();
-		} catch (Exception e) {
+		} catch (Exception exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			assertFalse("Test file could not be created", true);
-			e.printStackTrace();
 		}
 
 		loadedBitmap = ImageEditing.getScaledBitmapFromPath(testImageFile.getAbsolutePath(), maxBitmapWidth,
@@ -158,9 +161,9 @@ public class ImageEditingTest extends TestCase {
 			bitmap.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
 			bos.close();
-		} catch (Exception e) {
+		} catch (Exception exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			assertFalse("Test file could not be created", true);
-			e.printStackTrace();
 		}
 
 		Bitmap loadedBitmap = ImageEditing.getScaledBitmapFromPath(testImageFile.getAbsolutePath(), targetBitmapWidth,
@@ -189,9 +192,9 @@ public class ImageEditingTest extends TestCase {
 
 		try {
 			ImageEditing.scaleImageFile(testImageFile, 1 / sampleSizeReturnValue);
-		} catch (FileNotFoundException e) {
+		} catch (FileNotFoundException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			assertFalse("Testfile not found", true);
-			e.printStackTrace();
 		}
 		imageFileDimensions = ImageEditing.getImageDimensions(testImageFile.getAbsolutePath());
 		assertEquals("Width should be initial value again", bitmapWidth, imageFileDimensions[0]);
@@ -225,8 +228,8 @@ public class ImageEditingTest extends TestCase {
 				ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, false);
 		try {
 			StorageHandler.saveBitmapToImageFile(file, scaledBitmap);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+		} catch (FileNotFoundException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			fail("file saving error");
 		}
 

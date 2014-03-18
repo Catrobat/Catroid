@@ -24,6 +24,7 @@ package org.catrobat.catroid.uitest.stage;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -52,7 +53,9 @@ import java.io.InputStream;
 
 public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-	public SwitchToLookCrashTest() {
+    private static final String TAG = SwitchToLookCrashTest.class.getSimpleName();
+
+    public SwitchToLookCrashTest() {
 		super(MainMenuActivity.class);
 	}
 
@@ -76,8 +79,8 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 			nyanCatPath = Utils.buildPath(Utils.buildProjectPath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME),
 					Constants.IMAGE_DIRECTORY, nyanCatPng);
 			writeBufferToFile(inputStream, nyanCatPath);
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			fail("Image not loaded from Assets");
 		}
 
@@ -128,8 +131,8 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 			manImagePath = Utils.buildPath(Utils.buildProjectPath(UiTestUtils.DEFAULT_TEST_PROJECT_NAME),
 					Constants.IMAGE_DIRECTORY, manImageJpg);
 			writeBufferToFile(inputStream, manImagePath);
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			fail("Image not loaded from Assets");
 		}
 

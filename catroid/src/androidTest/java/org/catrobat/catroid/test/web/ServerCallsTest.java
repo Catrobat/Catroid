@@ -43,7 +43,7 @@ import java.io.File;
  * This tests need an internet connection
  */
 public class ServerCallsTest extends AndroidTestCase {
-	private static final String LOG_TAG = ServerCalls.class.getSimpleName();
+	private static final String TAG = ServerCalls.class.getSimpleName();
 	public static final int STATUS_CODE_AUTHENTICATION_FAILED = 601;
 	public static final int STATUS_CODE_AUTHENTICATION_REGISTRATION_FAILED = 602;
 
@@ -81,12 +81,12 @@ public class ServerCallsTest extends AndroidTestCase {
 			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 			boolean tokenOk = ServerCalls.getInstance().checkToken(token, testUser);
 
-			Log.i(LOG_TAG, "tokenOk: " + tokenOk);
+			Log.i(TAG, "tokenOk: " + tokenOk);
 			assertTrue("token should be ok", tokenOk);
-		} catch (WebconnectionException e) {
-			e.printStackTrace();
-			assertFalse("WebconnectionException: the token should be valid \nstatus code:" + e.getStatusCode()
-					+ "\nmessage: " + e.getMessage(), true);
+		} catch (WebconnectionException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
+			assertFalse("WebconnectionException: the token should be valid \nstatus code:" + exception.getStatusCode()
+					+ "\nmessage: " + exception.getMessage(), true);
 		}
 
 	}
@@ -101,7 +101,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
 					"de", "at", token, getContext());
 
-			Log.i(LOG_TAG, "user registered: " + userRegistered);
+			Log.i(TAG, "user registered: " + userRegistered);
 			assertTrue("Should be a new user, but server response indicates that this user already exists",
 					userRegistered);
 
@@ -110,14 +110,14 @@ public class ServerCallsTest extends AndroidTestCase {
 			userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de",
 					"at", token, getContext());
 
-			Log.i(LOG_TAG, "user registered: " + userRegistered);
+			Log.i(TAG, "user registered: " + userRegistered);
 			assertFalse("Should be an existing user, but server responce indicates that this user is new",
 					userRegistered);
-		} catch (WebconnectionException e) {
-			e.printStackTrace();
+		} catch (WebconnectionException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			assertFalse(
-					"an exception should not be thrown! \nstatus code:" + e.getStatusCode() + "\nmessage: "
-							+ e.getMessage(), true);
+					"an exception should not be thrown! \nstatus code:" + exception.getStatusCode() + "\nmessage: "
+							+ exception.getMessage(), true);
 		}
 
 	}
@@ -132,7 +132,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
 					"de", "at", token, getContext());
 
-			Log.i(LOG_TAG, "user registered: " + userRegistered);
+			Log.i(TAG, "user registered: " + userRegistered);
 			assertTrue("Should be a new user, but server response indicates that this user already exists",
 					userRegistered);
 
@@ -144,12 +144,12 @@ public class ServerCallsTest extends AndroidTestCase {
 
 			assertFalse("should never be reached because the password is wrong", true);
 
-		} catch (WebconnectionException e) {
-			e.printStackTrace();
+		} catch (WebconnectionException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			assertTrue("an exception should be thrown because the password is wrong", true);
-			assertEquals("wrong status code from server", STATUS_CODE_AUTHENTICATION_FAILED, e.getStatusCode());
-			assertNotNull("no error message available", e.getMessage());
-			assertTrue("no error message available", e.getMessage().length() > 0);
+			assertEquals("wrong status code from server", STATUS_CODE_AUTHENTICATION_FAILED, exception.getStatusCode());
+			assertNotNull("no error message available", exception.getMessage());
+			assertTrue("no error message available", exception.getMessage().length() > 0);
 		}
 
 	}
@@ -164,7 +164,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
 					"de", "at", token, getContext());
 
-			Log.i(LOG_TAG, "user registered: " + userRegistered);
+			Log.i(TAG, "user registered: " + userRegistered);
 			assertTrue("Should be a new user, but server responce indicates that this user already exists",
 					userRegistered);
 
@@ -177,13 +177,13 @@ public class ServerCallsTest extends AndroidTestCase {
 					"should never be reached because two registrations with the same email address are not allowed",
 					true);
 
-		} catch (WebconnectionException e) {
-			e.printStackTrace();
+		} catch (WebconnectionException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			assertTrue("an exception should be thrown because the email already exists on the server", true);
 			assertEquals("wrong status code from server", STATUS_CODE_AUTHENTICATION_REGISTRATION_FAILED,
-					e.getStatusCode());
-			assertNotNull("no error message available", e.getMessage());
-			assertTrue("no error message available", e.getMessage().length() > 0);
+					exception.getStatusCode());
+			assertNotNull("no error message available", exception.getMessage());
+			assertTrue("no error message available", exception.getMessage().length() > 0);
 		}
 
 	}
@@ -200,13 +200,13 @@ public class ServerCallsTest extends AndroidTestCase {
 
 			assertFalse("should never be reached because the password is too short", true);
 
-		} catch (WebconnectionException e) {
-			e.printStackTrace();
+		} catch (WebconnectionException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			assertTrue("an exception should be thrown because the password is too short", true);
 			assertEquals("wrong status code from server", STATUS_CODE_AUTHENTICATION_REGISTRATION_FAILED,
-					e.getStatusCode());
-			assertNotNull("no error message available", e.getMessage());
-			assertTrue("no error message available", e.getMessage().length() > 0);
+                    exception.getStatusCode());
+			assertNotNull("no error message available", exception.getMessage());
+			assertTrue("no error message available", exception.getMessage().length() > 0);
 		}
 	}
 
@@ -222,13 +222,13 @@ public class ServerCallsTest extends AndroidTestCase {
 
 			assertFalse("should never be reached because the email is not valid", true);
 
-		} catch (WebconnectionException e) {
-			e.printStackTrace();
+		} catch (WebconnectionException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			assertTrue("an exception should be thrown because the email is not valid", true);
 			assertEquals("wrong status code from server", STATUS_CODE_AUTHENTICATION_REGISTRATION_FAILED,
-					e.getStatusCode());
-			assertNotNull("no error message available", e.getMessage());
-			assertTrue("no error message available", e.getMessage().length() > 0);
+                    exception.getStatusCode());
+			assertNotNull("no error message available", exception.getMessage());
+			assertTrue("no error message available", exception.getMessage().length() > 0);
 		}
 	}
 
@@ -238,14 +238,14 @@ public class ServerCallsTest extends AndroidTestCase {
 			String username = "anonymous";
 			boolean tokenOk = ServerCalls.getInstance().checkToken(anonymousToken, username);
 
-			Log.i(LOG_TAG, "tokenOk: " + tokenOk);
+			Log.i(TAG, "tokenOk: " + tokenOk);
 			assertTrue("token should be ok", tokenOk);
 
-		} catch (WebconnectionException e) {
+		} catch (WebconnectionException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			assertFalse(
-					"an exception should not be thrown! \nstatus code:" + e.getStatusCode() + "\nmessage: "
-							+ e.getMessage(), true);
-			e.printStackTrace();
+					"an exception should not be thrown! \nstatus code:" + exception.getStatusCode() + "\nmessage: "
+							+ exception.getMessage(), true);
 		}
 
 	}
@@ -256,14 +256,15 @@ public class ServerCallsTest extends AndroidTestCase {
 			String username = "badUser";
 			boolean tokenOk = ServerCalls.getInstance().checkToken(wrongToken, username);
 
-			Log.i(LOG_TAG, "tokenOk: " + tokenOk);
+			Log.i(TAG, "tokenOk: " + tokenOk);
 			assertFalse("should not be reanched, exception is thrown", tokenOk);
 
-		} catch (WebconnectionException e) {
+		} catch (WebconnectionException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			assertTrue("exception is thrown if we pass a wrong token", true);
-			assertEquals("wrong status code from server", STATUS_CODE_AUTHENTICATION_FAILED, e.getStatusCode());
-			assertNotNull("no error message available", e.getMessage());
-			assertTrue("no error message available", e.getMessage().length() > 0);
+			assertEquals("wrong status code from server", STATUS_CODE_AUTHENTICATION_FAILED, exception.getStatusCode());
+			assertNotNull("no error message available", exception.getMessage());
+			assertTrue("no error message available", exception.getMessage().length() > 0);
 		}
 	}
 
@@ -307,7 +308,7 @@ public class ServerCallsTest extends AndroidTestCase {
 					getContext());
 
 		} catch (Exception exception) {
-			Log.e(LOG_TAG, "testUploadWithExistingUserWithoutEmail: error", exception);
+			Log.e(TAG, "testUploadWithExistingUserWithoutEmail: error", exception);
 			fail("Upload with existing user but without e-mail failed!");
 		} finally {
 			if (zipFile != null) {
@@ -327,7 +328,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
 					"de", "at", token, getContext());
 
-			Log.i(LOG_TAG, "user registered: " + userRegistered);
+			Log.i(TAG, "user registered: " + userRegistered);
 			assertTrue("Should be a new user, but server responce indicates that this user already exists",
 					userRegistered);
 
@@ -335,13 +336,13 @@ public class ServerCallsTest extends AndroidTestCase {
 			token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 			boolean tokenOk = ServerCalls.getInstance().checkToken(token, testUser);
 
-			Log.i(LOG_TAG, "tokenOk: " + tokenOk);
+			Log.i(TAG, "tokenOk: " + tokenOk);
 			assertTrue("token should be ok", tokenOk);
 
-		} catch (WebconnectionException e) {
-			assertFalse("WebconnectionException \nstatus code:" + e.getStatusCode() + "\nmessage: " + e.getMessage(),
+		} catch (WebconnectionException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
+			assertFalse("WebconnectionException \nstatus code:" + exception.getStatusCode() + "\nmessage: " + exception.getMessage(),
 					true);
-			e.printStackTrace();
 		}
 
 	}

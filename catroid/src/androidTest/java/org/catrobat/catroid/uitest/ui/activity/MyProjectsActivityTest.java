@@ -88,8 +88,9 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	private static final String MY_PROJECTS_ACTIVITY_TEST_TAG = MyProjectsActivityTest.class.getSimpleName();
 	private static final String KEY_SHOW_DETAILS = "showDetailsMyProjects";
 	private static final String ZIPFILE_NAME = "testzip";
+    private static final String TAG = MyProjectsActivityTest.class.getSimpleName();
 
-	private File renameDirectory = null;
+    private File renameDirectory = null;
 	private boolean unzip;
 	private boolean deleteCacheProjects = false;
 	private int numberOfCacheProjects = 27;
@@ -227,8 +228,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	public void testDeleteSprite() {
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			fail("Standard Project not created");
 		}
 
@@ -276,8 +277,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		saveProjectsToZip();
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			fail("Standard Project not created");
 		}
 		UiTestUtils.createTestProject();
@@ -317,8 +318,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		saveProjectsToZip();
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			fail("Standard Project not created");
 		}
 		UiTestUtils.createTestProject();
@@ -895,8 +896,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		saveProjectsToZip();
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			fail("Standard Project not created");
 		}
 		String delete = solo.getString(R.string.delete);
@@ -1327,7 +1328,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		solo.enterText(0, UiTestUtils.PROJECTNAME1);
 		solo.clickOnButton(buttonOkText);
-		solo.wait(1000);
+		solo.sleep(1000);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
 		assertTrue("No or wrong error message shown",
 				solo.waitForText(errorMessageProjectExists));
@@ -1922,8 +1923,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 			Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "projectlist empty - creating standard project");
 			try {
 				StandardProjectHandler.createAndSaveStandardProject(getActivity());
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (IOException exception) {
+                Log.e(TAG, Log.getStackTraceString(exception));
 				fail("Standard Project could not be not created");
 			}
 		}

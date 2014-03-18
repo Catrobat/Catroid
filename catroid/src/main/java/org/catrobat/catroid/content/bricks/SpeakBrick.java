@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -73,6 +74,7 @@ public class SpeakBrick extends BrickBaseType {
 	}
 
 	@Override
+    @SuppressLint("ValidFragment")
 	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;

@@ -72,8 +72,9 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	private static final String FIRST_TEST_LOOK_NAME = "lookNameTest";
 	private static final String SECOND_TEST_LOOK_NAME = "lookNameTest2";
 	private static final String THIRD_TEST_LOOK_NAME = "lookNameTest3";
+    private static final String TAG = LookFragmentTest.class.getSimpleName();
 
-	private String copy;
+    private String copy;
 	private String rename;
 	private String renameDialogTitle;
 	private String delete;
@@ -659,8 +660,8 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		try {
 			imageFile = UiTestUtils.createTestMediaFile(Utils.buildPath(Constants.DEFAULT_ROOT, fileName + ".png"),
 					RESOURCE_IMAGE2, getActivity());
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			fail("Image was not created");
 		}
 		String md5ChecksumImageFile = Utils.md5Checksum(imageFile);
@@ -686,8 +687,8 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		try {
 			imageFile = UiTestUtils.createTestMediaFile(Utils.buildPath(Constants.DEFAULT_ROOT, fileName + ".png"),
 					RESOURCE_IMAGE, getActivity());
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			fail("Image was not created");
 		}
 		md5ChecksumImageFile = Utils.md5Checksum(imageFile);
@@ -1209,9 +1210,9 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.sleep(1000);
 		try {
 			UiTestUtils.cropImage(pathToImageFile, sampleSize);
-		} catch (FileNotFoundException e) {
+		} catch (FileNotFoundException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			fail("Test failed because file was not found");
-			e.printStackTrace();
 		}
 
 		UiTestUtils.clickOnHomeActionBarButton(solo);

@@ -29,6 +29,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -63,7 +64,8 @@ import java.io.IOException;
 
 public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-	private String testProject = UiTestUtils.PROJECTNAME1;
+    private static final String TAG = MainMenuActivityTest.class.getSimpleName();
+    private String testProject = UiTestUtils.PROJECTNAME1;
 	private String testProject2 = UiTestUtils.PROJECTNAME2;
 	private String testProject3 = UiTestUtils.PROJECTNAME3;
 	private String projectNameWithBlacklistedCharacters = "<H/ey, lo\"ok, :I'\\m s*pe?ci>al! ?äö|üß<>";
@@ -212,14 +214,15 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		UtilFile.deleteDirectory(directory);
 		assertFalse(testProject2 + " was not deleted!", directory.exists());
 
-		createTestProject(testProject2);
-		solo.sleep(200);
+		assertTrue("error creating project", createTestProject(testProject2));
+		solo.sleep(500);
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.clickOnText(testProject2);
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
+		solo.sleep(200);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
 		assertEquals("Sprite at index 1 is not \"cat\"!", "cat", first.getName());
 		Sprite second = (Sprite) spritesList.getItemAtPosition(2);
@@ -235,7 +238,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		UtilFile.deleteDirectory(directory);
 		assertFalse(testProject3 + " was not deleted!", directory.exists());
 
-		createTestProject(testProject3);
+		assertTrue("error creating project", createTestProject(testProject3));
 		solo.sleep(200);
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
@@ -283,7 +286,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.waitForDialogToClose(500);
 	}
 
-	public void createTestProject(String projectName) {
+	public boolean createTestProject(String projectName) {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 
 		int xPosition = 457;
@@ -321,7 +324,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
 
-		storageHandler.saveProject(project);
+		return storageHandler.saveProject(project);
 	}
 
 	public void testOverrideMyFirstProject() {
@@ -331,9 +334,9 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		try {
 			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
 					getInstrumentation().getTargetContext());
-		} catch (IOException e) {
+		} catch (IOException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			fail("Could not create standard project");
-			e.printStackTrace();
 		}
 
 		if (standardProject == null) {
@@ -380,8 +383,8 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 	}
 
 	public void testProjectNameVisible() {
-		createTestProject(testProject);
-		createTestProject(testProject2);
+		assertTrue("error creating project", createTestProject(testProject));
+		assertTrue("error creating project", createTestProject(testProject2));
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());

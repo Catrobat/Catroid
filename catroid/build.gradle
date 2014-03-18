@@ -88,7 +88,7 @@ android {
 
     lintOptions {
         lintConfig file('lint.xml')
-        abortOnError false //@todo, set to true once we are at 0 lint warnings!
+        textReport true
     }
 
 }

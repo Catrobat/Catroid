@@ -87,8 +87,9 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	private static final String SECOND_TEST_SPRITE_NAME = "test2";
 	private static final String THIRD_TEST_SPRITE_NAME = "test3";
 	private static final String FOURTH_TEST_SPRITE_NAME = "test4";
+    private static final String TAG = ProjectActivityTest.class.getSimpleName();
 
-	private String rename;
+    private String rename;
 	private String renameDialogTitle;
 	private String delete;
 	String defaultSpriteName;
@@ -264,8 +265,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	public void testCopySpriteWithNameTaken() {
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException exception) {
+            Log.e(TAG, Log.getStackTraceString(exception));
 			fail("Standard Project not created");
 		}
 

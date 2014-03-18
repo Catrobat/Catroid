@@ -75,8 +75,7 @@ public class StatusBarNotificationManagerTest extends AndroidTestCase {
 	public void testShowOrUpdateNotification() {
 		try {
 			notificationManager.showOrUpdateNotification(-1, 0);
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		} catch (Exception exception) {
 			fail("there shouldn't be any exception thrown");
 		}
 	}

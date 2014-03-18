@@ -246,9 +246,9 @@
 
     <!-- New look dialog -->
     <string name="new_look_dialog_title">Aussehen hinzufügen</string>
-    <string name="add_look_from_camera">Von Kamera</string>
     <string name="add_look_draw_new_image">Neues Bild erstellen</string>
     <string name="add_look_choose_image">Bild auswählen</string>
+    <string name="add_look_from_camera">Von Kamera</string>
     <!--  -->
 
 
