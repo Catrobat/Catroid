@@ -131,7 +131,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	public void testDeleteIconClickablity() {
 		solo.clickOnButton(solo.getString(R.string.main_menu_continue));
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
-		assertTrue("Delete icon is clickable", solo.getView(R.id.delete).isEnabled());
+		assertTrue("Delete icon is not clickable", solo.getView(R.id.delete).isEnabled());
 		UiTestUtils.clickOnActionBar(solo, R.id.delete);
 		solo.clickOnText(selectAll);
 		UiTestUtils.acceptAndCloseActionMode(solo);//solo.clickOnImage(0);
