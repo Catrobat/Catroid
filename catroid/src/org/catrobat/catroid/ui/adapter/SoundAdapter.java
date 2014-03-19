@@ -24,7 +24,6 @@ package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -43,10 +42,6 @@ import java.util.Iterator;
 public class SoundAdapter extends SoundBaseAdapter implements ScriptActivityAdapterInterface {
 
 	private SoundFragment soundFragment;
-
-	public SoundAdapter(final Context context, AttributeSet attributeSet, int currentPlayingPosition) {
-		super(context, attributeSet, currentPlayingPosition);
-	}
 
 	public SoundAdapter(final Context context, int resource, int textViewResourceId, ArrayList<SoundInfo> items,
 			boolean showDetails) {

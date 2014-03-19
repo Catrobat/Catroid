@@ -22,7 +22,9 @@
  */
 package org.catrobat.catroid.uitest.formulaeditor;
 
+import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -38,6 +40,7 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
@@ -164,6 +167,34 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
+	}
+
+	public void testLayout() {
+		solo.clickOnView(solo.getView(CHANGE_SIZE_EDIT_TEXT_RID));
+
+		List<List<View>> keyboard = new ArrayList<List<View>>();
+		LinearLayout keyboardContainer = (LinearLayout) solo.getView(R.id.formula_editor_keyboardview);
+
+		for (int rowIndex = 0; rowIndex < keyboardContainer.getChildCount(); rowIndex++) {
+			View rowView = keyboardContainer.getChildAt(rowIndex);
+			List<View> row = new ArrayList<View>();
+
+			if (rowView.getClass() == LinearLayout.class) {
+				for (int i = 0; i < ((LinearLayout) rowView).getChildCount(); i++) {
+					row.add(((LinearLayout) rowView).getChildAt(i));
+				}
+			}
+			keyboard.add(row);
+		}
+
+		for (int rowIndex = 0; rowIndex < keyboard.size(); rowIndex++) {
+			List<View> row = keyboard.get(rowIndex);
+			float currentRowWeightSum = 0;
+			for (View key : row) {
+				currentRowWeightSum += ((LinearLayout.LayoutParams) key.getLayoutParams()).weight;
+			}
+			assertEquals("Row " + (rowIndex + 1) + "'s weights don't add up.", 1.0f, currentRowWeightSum);
+		}
 	}
 
 	public void testObjectFragment() {

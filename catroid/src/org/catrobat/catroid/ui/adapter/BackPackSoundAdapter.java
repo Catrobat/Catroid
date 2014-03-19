@@ -23,7 +23,6 @@
 package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
-import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -40,10 +39,6 @@ import java.util.Iterator;
 public class BackPackSoundAdapter extends SoundBaseAdapter implements ScriptActivityAdapterInterface {
 
 	private BackPackSoundFragment backPackSoundFragment;
-
-	public BackPackSoundAdapter(Context context, AttributeSet attributeSet, int currentPlayingposition) {
-		super(context, attributeSet, currentPlayingposition);
-	}
 
 	public BackPackSoundAdapter(Context context, int resource, int textViewResourceId, ArrayList<SoundInfo> items,
 			boolean showDetails, BackPackSoundFragment backPackSoundFragment) {
