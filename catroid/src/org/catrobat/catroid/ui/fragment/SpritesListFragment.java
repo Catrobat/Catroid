@@ -101,6 +101,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	private LoadProjectTask loadProjectTask;
 	public boolean isLoading = false;
+	public Menu parentMenu;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -451,6 +452,8 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			deleteSprite();
 			numDeleted++;
 		}
+		Intent intent = new Intent(ScriptActivity.ACTION_SPRITES_LIST_CHANGED);
+		getActivity().sendBroadcast(intent);
 	}
 
 	private void clearCheckedSpritesAndEnableButtons() {
@@ -515,6 +518,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if (intent.getAction().equals(ScriptActivity.ACTION_SPRITES_LIST_CHANGED)) {
+				updateTopActionBar();
 				spriteAdapter.notifyDataSetChanged();
 				final ListView listView = getListView();
 				listView.post(new Runnable() {
@@ -664,6 +668,15 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		for (SoundInfo currentSoundInfo : spriteToEdit.getSoundList()) {
 			StorageHandler.getInstance().deleteFile(currentSoundInfo.getAbsolutePath());
+		}
+	}
+
+	public void updateTopActionBar() {
+		com.actionbarsherlock.view.MenuItem spriteEmptyLayout = parentMenu.findItem(R.id.delete);
+		if (spriteList.size() == 1) {
+			spriteEmptyLayout.setEnabled(false);
+		} else {
+			spriteEmptyLayout.setEnabled(true);
 		}
 	}
 

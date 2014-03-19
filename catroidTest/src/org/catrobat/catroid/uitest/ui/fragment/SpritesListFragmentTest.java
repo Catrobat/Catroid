@@ -127,4 +127,15 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		solo.clickOnCheckBox(0);
 		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
 	}
+
+	public void testDeleteIconClickablity() {
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
+		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
+		assertTrue("Delete icon is clickable", solo.getView(R.id.delete).isEnabled());
+		UiTestUtils.clickOnActionBar(solo, R.id.delete);
+		solo.clickOnText(selectAll);
+		solo.clickOnImage(0);
+		solo.clickOnText("Yes");
+		assertFalse("Delete icon is still clickable", solo.getView(R.id.delete).isEnabled());
+	}
 }
