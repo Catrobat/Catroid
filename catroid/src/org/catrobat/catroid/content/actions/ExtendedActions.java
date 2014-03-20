@@ -412,6 +412,11 @@ public class ExtendedActions extends Actions {
 		action.setSprite(sprite);
 		action.setDelay(seconds);
 		action.setPower(powerInPercent);
+    
+    public static LedAction lights( Sprite sprite, boolean ledValue ) {
+		LedAction action = action( LedAction.class );
+		action.setSprite( sprite );
+		action.setLedValue( ledValue );
 		return action;
 	}
 
@@ -446,11 +451,4 @@ public class ExtendedActions extends Actions {
 	public static TemporalAction droneFlip() {
 		return action(DroneFlipAction.class);
 	}
-
-  public static LEDAction ligths( Sprite sprite, boolean ledValue ) {
-        LEDAction action = new LEDAction();
-        action.setSprite( sprite );
-        action.setLedValue( ledValue );
-        return action;
-    }
 }

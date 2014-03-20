@@ -396,7 +396,8 @@
     <string name="brick_when">Wenn angetippt</string>
     <string name="brick_wait">Warte</string>
 
-    <string name="brick_led">setze Licht auf</string>
+    <string name="brick_led_on">Kamera LED einschalten</string>
+    <string name="brick_led_off">Kamera LED ausschalten</string>
 
     <plurals name="second_plural">
         <item quantity="one">"Sekunde "</item>
