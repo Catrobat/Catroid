@@ -32,14 +32,14 @@ import org.catrobat.catroid.utils.LedUtil;
 public class LedAction extends TemporalAction {
 
 	private Sprite sprite;
-	private Formula ledValue;
+	private boolean ledValue;
 
 	@Override
 	protected void update(float percent) {
-		LedUtil.setNextLedValue(this.ledValue.interpretBoolean(sprite));
+		LedUtil.setNextLedValue(this.ledValue);
 	}
 
-	public void setLedValue(Formula ledValue) {
+	public void setLedValue(boolean ledValue) {
 		this.ledValue = ledValue;
 	}
 

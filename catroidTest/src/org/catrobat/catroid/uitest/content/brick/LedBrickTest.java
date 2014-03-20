@@ -33,8 +33,10 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.LedBrick;
+import org.catrobat.catroid.content.bricks.LedOffBrick;
+import org.catrobat.catroid.content.bricks.LedOnBrick;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
@@ -52,7 +54,8 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 	private static final int LED_DELAY_MS = 8000;
 	private static final int WLAN_DELAY_MS = 500;
 
-	private LedBrick ledBrick;
+	private LedOffBrick ledOffBrick;
+	private LedOnBrick ledOnBrick;
 	private Project project;
 
 
@@ -86,7 +89,7 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 	}
 
 	@Device
-	public void testLedBrick() {
+	public void testLedBricks() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
@@ -100,16 +103,31 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 		assertEquals( "Incorrect number of bricks", 1, projectBrickList.size() );
 
 		assertEquals( "Wrong brick instance", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0) );
-		assertNotNull( "TextView does not exist.", solo.getText(solo.getString(R.string.brick_led)));
+		assertNotNull( "TextView does not exist.", solo.getText(solo.getString(R.string.brick_led_on)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_led_edit_text, SensorServerUtils.SET_LED_ON_VALUE,
-				"lightValue", ledBrick);
 
 		Log.d(LOG_LED_TEST, "LED value set to " + SensorServerUtils.SET_LED_ON_VALUE);
 
 		// executing the script should turn on the LED
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
+
+		// first the led should remain dark
+		try {
+			Thread.sleep(LED_DELAY_MS);
+			Log.d(LOG_LED_TEST, "checking sensor value");
+			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
+			Thread.sleep(WLAN_DELAY_MS);
+			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
+			Thread.sleep(WLAN_DELAY_MS);
+			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
+			Thread.sleep(WLAN_DELAY_MS);
+		} catch (Exception e) {
+			Log.e(LOG_LED_TEST, e.getMessage());
+		}
+
+		Log.d(LOG_LED_TEST, "tapping the screen should turn on the led");
+		UiTestUtils.clickOnStageCoordinates(solo, 0, 0, 480, 800);
 
 		try {
 			// wait a long time, then check the sensor value weather the light is really on
@@ -142,6 +160,21 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 			Log.e(LOG_LED_TEST, e.getMessage());
 		}
 
+		// resuming the activity should turn the led on again
+		try {
+			// wait a long time, then check the sensor value weather the light is really on
+			Thread.sleep(LED_DELAY_MS);
+			Log.d(LOG_LED_TEST, "checking sensor value");
+			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
+			Thread.sleep(WLAN_DELAY_MS);
+			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
+			Thread.sleep(WLAN_DELAY_MS);
+			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
+			Thread.sleep(WLAN_DELAY_MS);
+		} catch (Exception e) {
+			Log.e(LOG_LED_TEST, e.getMessage());
+		}
+
 		Log.d(LOG_LED_TEST, "testLedBrick() finished");
 	}
 
@@ -153,17 +186,23 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 	private boolean createProject () {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
+		Script startScript = new StartScript(sprite);
+		Script tappedScript = new WhenScript(sprite);
 
-		ledBrick = new LedBrick(sprite);
+		ledOnBrick = new LedOnBrick(sprite);
+		ledOffBrick = new LedOffBrick(sprite);
 
-		script.addBrick(ledBrick);
-		sprite.addScript(script);
+		sprite.addScript(startScript);
+		startScript.addBrick(ledOffBrick);
+		startScript.addBrick(ledOffBrick);
+		sprite.addScript(tappedScript);
+		tappedScript.addBrick(ledOnBrick);
+		tappedScript.addBrick(ledOnBrick);
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentScript(script);
+		ProjectManager.getInstance().setCurrentScript(startScript);
 
 		boolean hasCamera = this.getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
 		boolean hasLed = this.getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
