@@ -309,6 +309,9 @@ public class PreStageActivity extends BaseActivity implements DroneReadyReceiver
 			legoNXT = null;
 		}
 		deleteSpeechFiles();
+		if (LedUtil.isActive()) {
+			LedUtil.killLedThread();
+		}
 	}
 
 	private static void deleteSpeechFiles() {

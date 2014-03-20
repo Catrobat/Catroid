@@ -36,7 +36,7 @@ public class LedAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		LedUtil.setLedValue(this.ledValue.interpretBoolean(sprite));
+		LedUtil.setNextLedValue(this.ledValue.interpretBoolean(sprite));
 	}
 
 	public void setLedValue(Formula ledValue) {
