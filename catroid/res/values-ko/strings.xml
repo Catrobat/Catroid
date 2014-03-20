@@ -268,7 +268,7 @@
     <string name="select_device">"레고 마인드 스톰 NXT 선택"</string>
     <string name="scanning">"검색 중"</string>
     <string name="connecting_please_wait">"장치에 연결중입니다. \n 기다려 주세요 …"</string>
-    <string name="pairing_message">"페어링 후, 연결하십시오."</string>
+   <!-- <string name="pairing_message">"페어링 후, 연결하십시오."</string> -->
     <string name="problem_at_closing">"연결 종료시 문제!"</string>
     <string name="bt_connection_failed">"장치 연결에 실패했습니다!"</string>
     <string name="no_paired_nxt">"패어링된  NXT를 찾을 수 없습니다"</string>
