@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.actions;
 import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-import com.parrot.freeflight.service.DroneControlService;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
@@ -37,6 +36,7 @@ public class DroneMoveLeftAction extends TemporalAction {
 
 	private Sprite sprite;
 	private Formula duration;
+	private Formula powerInPercent;
 
 	@Override
 	protected void begin() {
@@ -51,12 +51,18 @@ public class DroneMoveLeftAction extends TemporalAction {
 		this.sprite = sprite;
 	}
 
+	public void setPower(Formula powerInPercent) {
+		this.powerInPercent = powerInPercent;
+	}
+
 	@Override
 	protected void update(float percent) {
 		Log.d(TAG, "update!");
 		DroneServiceWrapper.getInstance().getDroneService().setProgressiveCommandEnabled(true);
 		DroneServiceWrapper.getInstance().getDroneService().setProgressiveCommandCombinedYawEnabled(true);
-		DroneServiceWrapper.getInstance().getDroneService().moveLeft(DroneControlService.POWER);
+		//DroneServiceWrapper.getInstance().getDroneService().moveLeft(DroneControlService.POWER);
+		DroneServiceWrapper.getInstance().getDroneService()
+				.moveForward((float) powerInPercent.interpretInteger(sprite) / 100);
 	}
 
 	// TODO: complete the method

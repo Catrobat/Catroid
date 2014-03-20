@@ -224,12 +224,12 @@ public class CategoryBricksFactory {
 		droneBrickList.add(new DroneLandBrick(sprite));
 		droneBrickList.add(new DronePlayLedAnimationBrick(sprite));
 		droneBrickList.add(new DroneFlipBrick(sprite));
-		droneBrickList.add(new DroneMoveUpBrick(sprite, BrickValues.FLY));
-		droneBrickList.add(new DroneMoveDownBrick(sprite, BrickValues.FLY));
-		droneBrickList.add(new DroneMoveLeftBrick(sprite, BrickValues.FLY));
-		droneBrickList.add(new DroneMoveRightBrick(sprite, BrickValues.FLY));
-		droneBrickList.add(new DroneMoveForwardBrick(sprite, BrickValues.FLY));
-		droneBrickList.add(new DroneMoveBackwardBrick(sprite, BrickValues.FLY));
+		droneBrickList.add(new DroneMoveUpBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
+		droneBrickList.add(new DroneMoveDownBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
+		droneBrickList.add(new DroneMoveLeftBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
+		droneBrickList.add(new DroneMoveRightBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
+		droneBrickList.add(new DroneMoveForwardBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
+		droneBrickList.add(new DroneMoveBackwardBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
 		return droneBrickList;
 	}
 

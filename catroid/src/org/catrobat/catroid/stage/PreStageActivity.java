@@ -150,6 +150,9 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 			}
 		}
 
+		//testing
+		//startStage();
+
 		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
 			Log.d(TAG, "Adding drone support!");
 

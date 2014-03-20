@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyleft (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -30,14 +30,14 @@
     android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/brick_drone_move_backward_checkbox"
+        android:id="@+id/brick_drone_turn_left_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_drone_move_backward_layout"
+        android:id="@+id/brick_drone_turn_left_layout"
         style="@style/BrickContainer.Drone.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,40 +46,40 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
-            android:id="@+id/brick_drone_move_backward_label"
+            android:id="@+id/brick_drone_turn_left_label"
             style="@style/BrickText.Multiple"
-            android:text="@string/brick_drone_move_backward" >
+            android:text="@string/brick_drone_turn_left" >
         </TextView>
         
          <TextView
-            android:id="@+id/brick_drone_move_backward_text_view_second"
+            android:id="@+id/brick_drone_turn_left_text_view_second"
             style="@style/BrickText.SingleLine"
             app:layout_newLine="true" >
         </TextView>
 
         <TextView
-            android:id="@+id/brick_drone_move_backward_prototype_text_view_second"
+            android:id="@+id/brick_drone_turn_left_prototype_text_view_second"
             style="@style/BrickPrototypeTextView" />
 
         <TextView
-            android:id="@+id/brick_drone_move_backward_edit_text_second"
+            android:id="@+id/brick_drone_turn_left_edit_text_second"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true" >
         </TextView>
         
         <TextView
-            android:id="@+id/brick_drone_move_backward_text_view_power"
+            android:id="@+id/brick_drone_turn_left_text_view_power"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_drone_power" >
         </TextView>
 
         <TextView
-            android:id="@+id/brick_drone_move_backward_prototype_text_view_power"
+            android:id="@+id/brick_drone_turn_left_prototype_text_view_power"
             style="@style/BrickPrototypeTextView" />
 
         <TextView
-            android:id="@+id/brick_drone_move_backward_edit_text_power"
+            android:id="@+id/brick_drone_turn_left_edit_text_power"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true" >

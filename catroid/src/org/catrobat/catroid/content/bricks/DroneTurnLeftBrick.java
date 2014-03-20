@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyleft (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -43,25 +43,25 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
-public class DroneMoveForwardBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class DroneTurnLeftBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private Formula timeToFlyInSeconds;
 	private Formula powerInPercent;
 	private transient View prototypeView;
 
-	public DroneMoveForwardBrick(Sprite sprite, int timeInMillisecondsValue, int powerInPercent) {
+	public DroneTurnLeftBrick(Sprite sprite, int timeInMillisecondsValue, int powerInPercent) {
 		this.sprite = sprite;
 		this.timeToFlyInSeconds = new Formula(timeInMillisecondsValue / 1000.0);
 		this.powerInPercent = new Formula(powerInPercent);
 	}
 
-	public DroneMoveForwardBrick(Sprite sprite, Formula time, Formula powerInPercent) {
+	public DroneTurnLeftBrick(Sprite sprite, Formula time, Formula powerInPercent) {
 		this.sprite = sprite;
 		this.timeToFlyInSeconds = time;
 		this.powerInPercent = powerInPercent;
 	}
 
-	public DroneMoveForwardBrick() {
+	public DroneTurnLeftBrick() {
 
 	}
 
@@ -89,7 +89,7 @@ public class DroneMoveForwardBrick extends BrickBaseType implements OnClickListe
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		DroneMoveForwardBrick copyBrick = (DroneMoveForwardBrick) clone();
+		DroneTurnLeftBrick copyBrick = (DroneTurnLeftBrick) clone();
 		copyBrick.sprite = sprite;
 		return copyBrick;
 	}
@@ -100,10 +100,10 @@ public class DroneMoveForwardBrick extends BrickBaseType implements OnClickListe
 			return view;
 		}
 
-		view = View.inflate(context, R.layout.brick_drone_move_forward, null);
+		view = View.inflate(context, R.layout.brick_drone_turn_left, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_drone_move_forward_checkbox);
+		setCheckboxView(R.id.brick_drone_turn_left_checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -114,12 +114,12 @@ public class DroneMoveForwardBrick extends BrickBaseType implements OnClickListe
 			}
 		});
 
-		TextView textTime = (TextView) view.findViewById(R.id.brick_drone_move_forward_prototype_text_view_second);
-		TextView editTime = (TextView) view.findViewById(R.id.brick_drone_move_forward_edit_text_second);
-		timeToFlyInSeconds.setTextFieldId(R.id.brick_drone_move_forward_edit_text_second);
+		TextView textTime = (TextView) view.findViewById(R.id.brick_drone_turn_left_prototype_text_view_second);
+		TextView editTime = (TextView) view.findViewById(R.id.brick_drone_turn_left_edit_text_second);
+		timeToFlyInSeconds.setTextFieldId(R.id.brick_drone_turn_left_edit_text_second);
 		timeToFlyInSeconds.refreshTextField(view);
 
-		TextView times = (TextView) view.findViewById(R.id.brick_drone_move_forward_text_view_second);
+		TextView times = (TextView) view.findViewById(R.id.brick_drone_turn_left_text_view_second);
 
 		if (timeToFlyInSeconds.isSingleNumberFormula()) {
 			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
@@ -136,12 +136,12 @@ public class DroneMoveForwardBrick extends BrickBaseType implements OnClickListe
 		editTime.setVisibility(View.VISIBLE);
 		editTime.setOnClickListener(this);
 
-		TextView textPower = (TextView) view.findViewById(R.id.brick_drone_move_forward_prototype_text_view_power);
-		TextView editPower = (TextView) view.findViewById(R.id.brick_drone_move_forward_edit_text_power);
-		powerInPercent.setTextFieldId(R.id.brick_drone_move_forward_edit_text_power);
+		TextView textPower = (TextView) view.findViewById(R.id.brick_drone_turn_left_prototype_text_view_power);
+		TextView editPower = (TextView) view.findViewById(R.id.brick_drone_turn_left_edit_text_power);
+		powerInPercent.setTextFieldId(R.id.brick_drone_turn_left_edit_text_power);
 		powerInPercent.refreshTextField(view);
 
-		//TextView power = (TextView) view.findViewById(R.id.brick_drone_move_forward_text_view_power);
+		//TextView power = (TextView) view.findViewById(R.id.brick_drone_turn_left_text_view_power);
 
 		textPower.setVisibility(View.GONE);
 		editPower.setVisibility(View.VISIBLE);
@@ -152,16 +152,16 @@ public class DroneMoveForwardBrick extends BrickBaseType implements OnClickListe
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_drone_move_forward, null);
+		prototypeView = View.inflate(context, R.layout.brick_drone_turn_left, null);
 		TextView textTime = (TextView) prototypeView
-				.findViewById(R.id.brick_drone_move_forward_prototype_text_view_second);
+				.findViewById(R.id.brick_drone_turn_left_prototype_text_view_second);
 		textTime.setText(String.valueOf(timeToFlyInSeconds.interpretInteger(sprite)));
-		TextView times = (TextView) prototypeView.findViewById(R.id.brick_drone_move_forward_text_view_second);
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_drone_turn_left_text_view_second);
 		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(timeToFlyInSeconds.interpretDouble(sprite))));
 
 		TextView textPower = (TextView) prototypeView
-				.findViewById(R.id.brick_drone_move_forward_prototype_text_view_power);
+				.findViewById(R.id.brick_drone_turn_left_prototype_text_view_power);
 		textPower.setText(String.valueOf(powerInPercent.interpretFloat(sprite)));
 
 		return prototypeView;
@@ -169,7 +169,7 @@ public class DroneMoveForwardBrick extends BrickBaseType implements OnClickListe
 
 	@Override
 	public Brick clone() {
-		return new DroneMoveForwardBrick(getSprite(), timeToFlyInSeconds.clone(), powerInPercent.clone());
+		return new DroneTurnLeftBrick(getSprite(), timeToFlyInSeconds.clone(), powerInPercent.clone());
 	}
 
 	@Override
@@ -177,18 +177,18 @@ public class DroneMoveForwardBrick extends BrickBaseType implements OnClickListe
 
 		if (view != null) {
 
-			View layout = view.findViewById(R.id.brick_drone_move_forward_layout);
+			View layout = view.findViewById(R.id.brick_drone_turn_left_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView textTimeLabel = (TextView) view.findViewById(R.id.brick_drone_move_forward_label);
+			TextView textTimeLabel = (TextView) view.findViewById(R.id.brick_drone_turn_left_label);
 			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_size_to_percent);
 
-			TextView textTimeSeconds = (TextView) view.findViewById(R.id.brick_drone_move_forward_text_view_second);
-			TextView editTime = (TextView) view.findViewById(R.id.brick_drone_move_forward_edit_text_second);
+			TextView textTimeSeconds = (TextView) view.findViewById(R.id.brick_drone_turn_left_text_view_second);
+			TextView editTime = (TextView) view.findViewById(R.id.brick_drone_turn_left_edit_text_second);
 
-			TextView textPower = (TextView) view.findViewById(R.id.brick_drone_move_forward_text_view_power);
-			TextView editPower = (TextView) view.findViewById(R.id.brick_drone_move_forward_edit_text_power);
+			TextView textPower = (TextView) view.findViewById(R.id.brick_drone_turn_left_text_view_power);
+			TextView editPower = (TextView) view.findViewById(R.id.brick_drone_turn_left_edit_text_power);
 
 			textTimeLabel.setTextColor(textTimeLabel.getTextColors().withAlpha(alphaValue));
 
@@ -216,11 +216,11 @@ public class DroneMoveForwardBrick extends BrickBaseType implements OnClickListe
 		}
 
 		switch (view.getId()) {
-			case R.id.brick_drone_move_forward_edit_text_second:
+			case R.id.brick_drone_turn_left_edit_text_second:
 				FormulaEditorFragment.showFragment(view, this, timeToFlyInSeconds);
 				break;
 
-			case R.id.brick_drone_move_forward_edit_text_power:
+			case R.id.brick_drone_turn_left_edit_text_power:
 				FormulaEditorFragment.showFragment(view, this, powerInPercent);
 				break;
 		}
@@ -228,7 +228,7 @@ public class DroneMoveForwardBrick extends BrickBaseType implements OnClickListe
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.droneMoveForward(sprite, timeToFlyInSeconds, powerInPercent));
+		sequence.addAction(ExtendedActions.droneTurnLeft(sprite, timeToFlyInSeconds, powerInPercent));
 		return null;
 	}
 }

@@ -26,15 +26,42 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
+import org.catrobat.catroid.formulaeditor.Formula;
 
-public class DroneFlipAction extends TemporalAction {
+public class DroneTurnRightAction extends TemporalAction {
 
-	private static final String TAG = DroneFlipAction.class.getSimpleName();
+	private static final String TAG = DroneTurnRightAction.class.getSimpleName();
+
+	private Sprite sprite;
+	private Formula duration;
+	private Formula powerInPercent;
+
+	@Override
+	protected void begin() {
+		super.setDuration(duration.interpretFloat(sprite));
+	}
+
+	public void setDelay(Formula delay) {
+		this.duration = delay;
+	}
+
+	public void setPower(Formula powerInPercent) {
+		this.powerInPercent = powerInPercent;
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
+	}
 
 	@Override
 	protected void update(float percent) {
 		Log.d(TAG, "update!");
+		DroneServiceWrapper.getInstance().getDroneService().setProgressiveCommandEnabled(true);
+		DroneServiceWrapper.getInstance().getDroneService().setProgressiveCommandCombinedYawEnabled(true);
+		DroneServiceWrapper.getInstance().getDroneService()
+				.turnRight((float) powerInPercent.interpretInteger(sprite) / 100);
 	}
 
 	// TODO: complete the method
@@ -42,9 +69,15 @@ public class DroneFlipAction extends TemporalAction {
 	public boolean act(float delta) {
 		Boolean superReturn = super.act(delta);
 		Log.d(TAG, "Do Drone Stuff once, superReturn = " + superReturn.toString());
-		DroneServiceWrapper.getInstance().getDroneService().doLeftFlip();
-
 		return superReturn;
+	}
+
+	@Override
+	protected void end() {
+		super.end();
+		DroneServiceWrapper.getInstance().getDroneService().setProgressiveCommandEnabled(false);
+		DroneServiceWrapper.getInstance().getDroneService().setProgressiveCommandCombinedYawEnabled(false);
+		DroneServiceWrapper.getInstance().getDroneService().turnRight(0);
 	}
 
 }

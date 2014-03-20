@@ -46,16 +46,19 @@ import java.util.List;
 public class DroneMoveRightBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private Formula timeToFlyInSeconds;
+	private Formula powerInPercent;
 	private transient View prototypeView;
 
-	public DroneMoveRightBrick(Sprite sprite, int timeInMillisecondsValue) {
+	public DroneMoveRightBrick(Sprite sprite, int timeInMillisecondsValue, int powerInPercent) {
 		this.sprite = sprite;
-		timeToFlyInSeconds = new Formula(timeInMillisecondsValue / 1000.0);
+		this.timeToFlyInSeconds = new Formula(timeInMillisecondsValue / 1000.0);
+		this.powerInPercent = new Formula(powerInPercent);
 	}
 
-	public DroneMoveRightBrick(Sprite sprite, Formula time) {
+	public DroneMoveRightBrick(Sprite sprite, Formula time, Formula powerInPercent) {
 		this.sprite = sprite;
 		this.timeToFlyInSeconds = time;
+		this.powerInPercent = powerInPercent;
 	}
 
 	public DroneMoveRightBrick() {
@@ -72,8 +75,12 @@ public class DroneMoveRightBrick extends BrickBaseType implements OnClickListene
 		return NO_RESOURCES;
 	}
 
-	public Formula getTimeToWait() {
-		return timeToFlyInSeconds;
+	//	public Formula getTimeToWait() {
+	//		return timeToFlyInSeconds;
+	//	}
+
+	public void setPower(Formula powerInPercent) {
+		this.powerInPercent = powerInPercent;
 	}
 
 	public void setTimeToWait(Formula timeToWaitInSeconds) {
@@ -107,12 +114,12 @@ public class DroneMoveRightBrick extends BrickBaseType implements OnClickListene
 			}
 		});
 
-		TextView text = (TextView) view.findViewById(R.id.brick_drone_move_right_prototype_text_view);
-		TextView edit = (TextView) view.findViewById(R.id.brick_drone_move_right_edit_text);
-		timeToFlyInSeconds.setTextFieldId(R.id.brick_drone_move_right_edit_text);
+		TextView textTime = (TextView) view.findViewById(R.id.brick_drone_move_right_prototype_text_view_second);
+		TextView editTime = (TextView) view.findViewById(R.id.brick_drone_move_right_edit_text_second);
+		timeToFlyInSeconds.setTextFieldId(R.id.brick_drone_move_right_edit_text_second);
 		timeToFlyInSeconds.refreshTextField(view);
 
-		TextView times = (TextView) view.findViewById(R.id.brick_drone_move_right_second_text_view);
+		TextView times = (TextView) view.findViewById(R.id.brick_drone_move_right_text_view_second);
 
 		if (timeToFlyInSeconds.isSingleNumberFormula()) {
 			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
@@ -125,26 +132,44 @@ public class DroneMoveRightBrick extends BrickBaseType implements OnClickListene
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
 
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
-		edit.setOnClickListener(this);
+		textTime.setVisibility(View.GONE);
+		editTime.setVisibility(View.VISIBLE);
+		editTime.setOnClickListener(this);
+
+		TextView textPower = (TextView) view.findViewById(R.id.brick_drone_move_right_prototype_text_view_power);
+		TextView editPower = (TextView) view.findViewById(R.id.brick_drone_move_right_edit_text_power);
+		powerInPercent.setTextFieldId(R.id.brick_drone_move_right_edit_text_power);
+		powerInPercent.refreshTextField(view);
+
+		//TextView power = (TextView) view.findViewById(R.id.brick_drone_move_right_text_view_power);
+
+		textPower.setVisibility(View.GONE);
+		editPower.setVisibility(View.VISIBLE);
+		editPower.setOnClickListener(this);
+
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_drone_move_right, null);
-		TextView textWait = (TextView) prototypeView.findViewById(R.id.brick_drone_move_right_prototype_text_view);
-		textWait.setText(String.valueOf(timeToFlyInSeconds.interpretInteger(sprite)));
-		TextView times = (TextView) prototypeView.findViewById(R.id.brick_drone_move_right_second_text_view);
+		TextView textTime = (TextView) prototypeView
+				.findViewById(R.id.brick_drone_move_right_prototype_text_view_second);
+		textTime.setText(String.valueOf(timeToFlyInSeconds.interpretInteger(sprite)));
+		TextView times = (TextView) prototypeView.findViewById(R.id.brick_drone_move_right_text_view_second);
 		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(timeToFlyInSeconds.interpretDouble(sprite))));
+
+		TextView textPower = (TextView) prototypeView
+				.findViewById(R.id.brick_drone_move_right_prototype_text_view_power);
+		textPower.setText(String.valueOf(powerInPercent.interpretFloat(sprite)));
+
 		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new DroneMoveRightBrick(getSprite(), timeToFlyInSeconds.clone());
+		return new DroneMoveRightBrick(getSprite(), timeToFlyInSeconds.clone(), powerInPercent.clone());
 	}
 
 	@Override
@@ -156,14 +181,26 @@ public class DroneMoveRightBrick extends BrickBaseType implements OnClickListene
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView textWaitLabel = (TextView) view.findViewById(R.id.brick_drone_move_right_label);
-			TextView textWaitSeconds = (TextView) view.findViewById(R.id.brick_drone_move_right_second_text_view);
-			TextView editWait = (TextView) view.findViewById(R.id.brick_drone_move_right_edit_text);
+			TextView textTimeLabel = (TextView) view.findViewById(R.id.brick_drone_move_right_label);
+			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_size_to_percent);
 
-			textWaitLabel.setTextColor(textWaitLabel.getTextColors().withAlpha(alphaValue));
-			textWaitSeconds.setTextColor(textWaitSeconds.getTextColors().withAlpha(alphaValue));
-			editWait.setTextColor(editWait.getTextColors().withAlpha(alphaValue));
-			editWait.getBackground().setAlpha(alphaValue);
+			TextView textTimeSeconds = (TextView) view.findViewById(R.id.brick_drone_move_right_text_view_second);
+			TextView editTime = (TextView) view.findViewById(R.id.brick_drone_move_right_edit_text_second);
+
+			TextView textPower = (TextView) view.findViewById(R.id.brick_drone_move_right_text_view_power);
+			TextView editPower = (TextView) view.findViewById(R.id.brick_drone_move_right_edit_text_power);
+
+			textTimeLabel.setTextColor(textTimeLabel.getTextColors().withAlpha(alphaValue));
+
+			textTimeSeconds.setTextColor(textTimeSeconds.getTextColors().withAlpha(alphaValue));
+			editTime.setTextColor(editTime.getTextColors().withAlpha(alphaValue));
+			editTime.getBackground().setAlpha(alphaValue);
+
+			textPower.setTextColor(textPower.getTextColors().withAlpha(alphaValue));
+			editPower.setTextColor(editPower.getTextColors().withAlpha(alphaValue));
+
+			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
+			editPower.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
 
@@ -177,12 +214,21 @@ public class DroneMoveRightBrick extends BrickBaseType implements OnClickListene
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		FormulaEditorFragment.showFragment(view, this, timeToFlyInSeconds);
+
+		switch (view.getId()) {
+			case R.id.brick_drone_move_right_edit_text_second:
+				FormulaEditorFragment.showFragment(view, this, timeToFlyInSeconds);
+				break;
+
+			case R.id.brick_drone_move_right_edit_text_power:
+				FormulaEditorFragment.showFragment(view, this, powerInPercent);
+				break;
+		}
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.droneMoveRight(sprite, timeToFlyInSeconds));
+		sequence.addAction(ExtendedActions.droneMoveRight(sprite, timeToFlyInSeconds, powerInPercent));
 		return null;
 	}
 }

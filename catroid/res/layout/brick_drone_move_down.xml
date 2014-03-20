@@ -38,7 +38,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_drone_move_down_layout"
-        style="@style/BrickContainer.Drone.Small"
+        style="@style/BrickContainer.Drone.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -52,20 +52,45 @@
         </TextView>
 
         <TextView
-            android:id="@+id/brick_drone_move_down_prototype_text_view"
+            android:id="@+id/brick_drone_move_down_text_view_second"
+            style="@style/BrickText.SingleLine"
+            app:layout_newLine="true" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/brick_drone_move_down_prototype_text_view_second"
             style="@style/BrickPrototypeTextView" />
 
         <TextView
-            android:id="@+id/brick_drone_move_down_edit_text"
+            android:id="@+id/brick_drone_move_down_edit_text_second"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true" >
         </TextView>
+        
+        <TextView
+            android:id="@+id/brick_drone_move_down_text_view_power"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_drone_power" >
+        </TextView>
 
         <TextView
-            android:id="@+id/brick_drone_move_down_second_text_view"
-            style="@style/BrickText.Multiple" >
+            android:id="@+id/brick_drone_move_down_prototype_text_view_power"
+            style="@style/BrickPrototypeTextView" />
+
+        <TextView
+            android:id="@+id/brick_drone_move_down_edit_text_power"
+            style="@style/BrickEditText"
+            app:layout_inputType="number"
+            app:layout_textField="true" >
         </TextView>
+        
+		<TextView
+            android:id="@+id/brick_set_size_to_percent"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/percent_symbol" >
+        </TextView>
+
     </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

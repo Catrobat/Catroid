@@ -60,6 +60,7 @@ public final class BrickValues {
 
 	//Constants Drone
 	public static final int FLY = 1000;
+	public static final float POWER = 0.2f;
 
 	// Suppress default constructor for noninstantiability
 	private BrickValues() {

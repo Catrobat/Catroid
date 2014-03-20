@@ -36,6 +36,7 @@ public class DroneServiceWrapper implements IDroneServiceWrapper {
 		if (instance == null) {
 			instance = new DroneServiceWrapper();
 		}
+
 		return instance;
 	}
 
@@ -45,6 +46,11 @@ public class DroneServiceWrapper implements IDroneServiceWrapper {
 
 	@Override
 	public DroneControlService getDroneService() {
+
+		//		if (droneControlService == null) {
+		//			throw new Exception("DroneControlService not initialzied");
+		//		}
+
 		return droneControlService;
 	}
 }

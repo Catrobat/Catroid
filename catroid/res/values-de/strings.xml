@@ -527,6 +527,8 @@
 	<string name="brick_drone_move_down">Fliege nach unten</string>
 	<string name="brick_drone_move_forward">Fliege nach vorne</string>
 	<string name="brick_drone_move_backward">Fliege nach hinten</string>
+	<string name="brick_drone_turn_right">Drehe nach rechts</string>
+	<string name="brick_drone_turn_left">Drehe nach links</string>
 	<!--  -->
 	 
     <!-- Formula Editor Strings -->

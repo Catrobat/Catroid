@@ -41,7 +41,9 @@ public class DroneTakeoffAction extends TemporalAction {
 	public boolean act(float delta) {
 		Boolean superReturn = super.act(delta);
 		Log.d(TAG, "Do Drone Stuff once, superReturn = " + superReturn.toString());
+
 		DroneServiceWrapper.getInstance().getDroneService().triggerTakeOff();
+
 		return superReturn;
 	}
 
