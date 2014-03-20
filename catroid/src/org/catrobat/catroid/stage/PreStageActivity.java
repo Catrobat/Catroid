@@ -149,6 +149,9 @@ public class PreStageActivity extends Activity {
 			legoNXT = null;
 		}
 		deleteSpeechFiles();
+		if (LedUtil.isActive()) {
+			LedUtil.killLedThread();
+		}
 	}
 
 	private static void deleteSpeechFiles() {
