@@ -1073,6 +1073,21 @@ public final class UiTestUtils {
 			UtilFile.deleteDirectory(directory);
 		}
 
+		directory = new File(Constants.DEFAULT_ROOT + "/" + "My first program");
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Constants.DEFAULT_ROOT + "/" + "Mein erstes Programm");
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Constants.DEFAULT_ROOT + "/" + "Project");
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
 		directory = new File(Constants.DEFAULT_ROOT + "/" + DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);

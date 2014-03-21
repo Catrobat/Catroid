@@ -40,12 +40,19 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
+	private String settings;
+
 	public SettingsActivityTest() {
 		super(MainMenuActivity.class);
 	}
 
+	public void setUp() throws Exception {
+		super.setUp();
+		UiTestUtils.createEmptyProject();
+		settings = solo.getString(R.string.settings);
+	}
+
 	public void testToggleMindstormBricks() {
-		String settings = solo.getString(R.string.settings);
 		String mindstormsPreferenceString = solo.getString(R.string.preference_title_enable_mindstorm_bricks);
 		String categoryLegoNXTLabel = solo.getString(R.string.category_lego_nxt);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -62,8 +69,8 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		assertFalse("Lego brick category is showing!", solo.searchText(categoryLegoNXTLabel));
 		solo.goBack();
-		// 0 is the Home Button in the ActionBar
-		solo.clickOnImage(0);
+		solo.sleep(200);
+		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
 		solo.clickOnMenuItem(settings);
@@ -83,6 +90,9 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 	}
 
 	public void testOrientation() throws NameNotFoundException {
+		solo.clickOnMenuItem(settings);
+		solo.waitForActivity(SettingsActivity.class.getSimpleName());
+
 		/// Method 1: Assert it is currently in portrait mode.
 		assertEquals("SettingsActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, getActivity()
 				.getResources().getConfiguration().orientation);

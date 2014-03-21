@@ -35,6 +35,7 @@ import com.jayway.android.robotium.solo.Solo;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -62,6 +63,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		loginDialogTitle = solo.getString(R.string.login_register_dialog_title);
 		uploadDialogTitle = solo.getString(R.string.upload_project_dialog_title);
 		solo.waitForActivity(MainMenuActivity.class);
+		UiTestUtils.createEmptyProject();
 	}
 
 	@Override
@@ -155,6 +157,7 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		assertNotNull("Login Dialog is not shown.", solo.getText(solo.getString(R.string.login_register_dialog_title)));
 	}
 
+	@Device
 	public void testRegisterUsernameDifferentCases() throws Throwable {
 		setTestUrl();
 		clearSharedPreferences();

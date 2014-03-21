@@ -104,7 +104,7 @@ android {
 //}
 
 task checkstyle(type: Checkstyle) {
-    configFile file('catroid/checkstyle.xml')
+    configFile file('checkstyle.xml')
     source '.'
     include '**/*.java'
     exclude 'build/**', 'libraryProjects/**'

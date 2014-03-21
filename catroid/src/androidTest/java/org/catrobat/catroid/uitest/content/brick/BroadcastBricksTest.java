@@ -36,14 +36,15 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.List;
 
-public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
+public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private Project project;
 	private Sprite sprite;
@@ -56,22 +57,21 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Scr
 	private final int broadcastWaitSpinnerId = R.id.brick_broadcast_wait_spinner;
 
 	public BroadcastBricksTest() {
-		super(ScriptActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
-		// normally super.setUp should be called first
-		// but kept the test failing due to view is null
-		// when starting in ScriptActivity
-		createProject();
 		super.setUp();
 		defaultBroadcastMessage = solo.getString(R.string.brick_broadcast_default_value);
 		expectedSpinnerText.put(broadcastReceiverSpinnerId, defaultBroadcastMessage);
 		expectedSpinnerText.put(broadcastSpinnerId, defaultBroadcastMessage);
 		expectedSpinnerText.put(broadcastWaitSpinnerId, defaultBroadcastMessage);
+		createProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
+	@Device
 	public void testBroadcastBricks() {
 		checkSetupBricks();
 
@@ -115,6 +115,7 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Scr
 		assertEquals("Wrong selection", defaultBroadcastMessage, broadcastSpinner.getSelectedItem().toString());
 	}
 
+	@Device
 	public void testRemoveUnusedMessages() {
 		checkSetupBricks();
 
