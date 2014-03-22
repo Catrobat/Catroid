@@ -103,8 +103,8 @@ public class ImageEditingTest extends TestCase {
 		Bitmap loadedBitmap = ImageEditing.getScaledBitmapFromPath(testImageFile.getAbsolutePath(), maxBitmapWidth,
 				maxBitmapHeight, ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, true);
 
-		assertEquals("Loaded bitmap has incorrect height", bitmap.getHeight(), loadedBitmap.getHeight());
-		assertEquals("Loaded bitmap has incorrect width", bitmap.getWidth(), loadedBitmap.getWidth());
+		assertEquals("Loaded bitmap has incorrect height", 500, loadedBitmap.getHeight());
+		assertEquals("Loaded bitmap has incorrect width", 250, loadedBitmap.getWidth());
 
 		bitmapWidth = 600;
 		bitmapHeight = 800;
