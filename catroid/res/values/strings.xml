@@ -371,6 +371,7 @@
     <string name="brick_next_background">Next background</string>
     <string name="brick_led_on">switch camera LED ON</string>
 	<string name="brick_led_off">switch camera LED OFF</string>
+	<string name="brick_vibration">vibrate</string>
     <!--  -->
 
 
@@ -595,7 +596,7 @@
     <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
     <string name="variable_name">variable name:</string>
 
-    <plurals name="formula_editor_variable_context_action_item_selected">
+	<plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable selected!</item>
         <item quantity="other">Variables selected!</item>
     </plurals>

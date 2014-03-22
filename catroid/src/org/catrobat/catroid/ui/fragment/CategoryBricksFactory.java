@@ -76,6 +76,7 @@ import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
+import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
@@ -187,6 +188,7 @@ public class CategoryBricksFactory {
 		looksBrickList.add(new ClearGraphicEffectBrick(sprite));
 		looksBrickList.add(new LedOnBrick(sprite));
 		looksBrickList.add(new LedOffBrick(sprite));
+		looksBrickList.add(new VibrationBrick(sprite, BrickValues.VIBRATE));
 
 		return looksBrickList;
 	}
