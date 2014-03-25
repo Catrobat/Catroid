@@ -34,18 +34,17 @@ public class DronePlayLedAnimationAction extends TemporalAction {
 	private static final String TAG = DronePlayLedAnimationAction.class.getSimpleName();
 
 	@Override
-	protected void update(float percent) {
-		Log.d(TAG, "update!");
+	protected void begin() {
+		// TODO Auto-generated method stub
+		super.begin();
+		Log.d(TAG, "begin!");
+		DroneServiceWrapper.getInstance().getDroneService()
+				.playLedAnimation(5.0f, 3, ARDRONE_LED_ANIMATION.ARDRONE_LED_ANIMATION_BLINK_ORANGE.ordinal());
 	}
 
 	@Override
-	public boolean act(float delta) {
-		Boolean superReturn = super.act(delta);
-		Log.d(TAG, "Do Drone Stuff once, superReturn = " + superReturn.toString());
-		DroneServiceWrapper.getInstance().getDroneService()
-				.playLedAnimation(5.0f, 3, ARDRONE_LED_ANIMATION.ARDRONE_LED_ANIMATION_BLINK_ORANGE.ordinal());
-		return superReturn;
+	protected void update(float percent) {
+		// TODO Auto-generated method stub
 
 	}
-
 }

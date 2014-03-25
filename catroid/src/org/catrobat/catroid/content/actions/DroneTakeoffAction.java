@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import android.util.Log;
-
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.drone.DroneServiceWrapper;
@@ -33,18 +31,16 @@ public class DroneTakeoffAction extends TemporalAction {
 	private static final String TAG = DroneTakeoffAction.class.getSimpleName();
 
 	@Override
-	protected void update(float percent) {
-		Log.d(TAG, "update!");
+	protected void begin() {
+		// TODO Auto-generated method stub
+		super.begin();
+		DroneServiceWrapper.getInstance().getDroneService().triggerTakeOff();
 	}
 
 	@Override
-	public boolean act(float delta) {
-		Boolean superReturn = super.act(delta);
-		Log.d(TAG, "Do Drone Stuff once, superReturn = " + superReturn.toString());
+	protected void update(float percent) {
+		// TODO Auto-generated method stub
 
-		DroneServiceWrapper.getInstance().getDroneService().triggerTakeOff();
-
-		return superReturn;
 	}
 
 }
