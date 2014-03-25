@@ -230,6 +230,7 @@ public class CategoryBricksFactory {
 		droneBrickList.add(new DroneMoveRightBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
 		droneBrickList.add(new DroneMoveForwardBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
 		droneBrickList.add(new DroneMoveBackwardBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
+
 		return droneBrickList;
 	}
 

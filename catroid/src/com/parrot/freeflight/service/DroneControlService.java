@@ -26,6 +26,7 @@ import com.parrot.freeflight.drone.DroneConfig;
 import com.parrot.freeflight.drone.DroneConfig.EDroneVersion;
 import com.parrot.freeflight.drone.DroneProxy;
 import com.parrot.freeflight.drone.DroneProxy.DroneProgressiveCommandFlag;
+import com.parrot.freeflight.drone.DroneProxyWrapper;
 import com.parrot.freeflight.drone.NavData;
 import com.parrot.freeflight.service.commands.DroneServiceCommand;
 import com.parrot.freeflight.service.intents.DroneStateManager;
@@ -46,7 +47,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class DroneControlService extends Service implements Runnable, DroneAcademyMediaListener, LocationListener {
+public class DroneControlService extends Service implements DroneControlServiceInterface, Runnable,
+		DroneAcademyMediaListener, LocationListener {
 	public static final String VIDEO_RECORDING_STATE_CHANGED_ACTION = "com.parrot.recording.changed";
 	public static final String DRONE_EMERGENCY_STATE_CHANGED_ACTION = "com.parrot.emergency.changed";
 	public static final String DRONE_FLYING_STATE_CHANGED_ACTION = "com.parrot.flying.changed";
@@ -82,7 +84,7 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	public static final float POWER = 0.2f;
 
 	private final IBinder binder = new LocalBinder();
-	private DroneProxy droneProxy;
+	private DroneProxyWrapper droneProxy;
 
 	private Thread navdataUpdateThread;
 	private Thread workerThread;
@@ -134,7 +136,10 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 		workerThreadLock = new Object();
 		navdataThreadLock = new Object();
 
-		droneProxy = DroneProxy.getInstance(getApplicationContext());
+		//droneProxy = DroneProxy.getInstance(getApplicationContext());
+
+		droneProxy = new DroneProxyWrapper(DroneProxy.getInstance(getApplicationContext()));
+
 		// Preventing device from sleep
 		PowerManager service = (PowerManager) getSystemService(POWER_SERVICE);
 		wakeLock = service.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "DimWakeLock");
@@ -254,6 +259,7 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	/**
 	 * Makes ArDrone fly or land
 	 */
+	@Override
 	public void triggerTakeOff() {
 		droneProxy.triggerTakeOff();
 	}
@@ -261,6 +267,7 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	/**
 	 * Makes the drone to turn around in order to calibrate its compass
 	 */
+	@Override
 	public void calibrateMagneto() {
 		droneProxy.calibrateMagneto();
 	}
@@ -268,6 +275,7 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	/**
 	 * Makes the drone to do left flip
 	 */
+	@Override
 	public void doLeftFlip() {
 		droneProxy.doFlip();
 	}
@@ -275,6 +283,7 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	/**
 	 * Makes ArDrone to stop engines and fall
 	 */
+	@Override
 	public void triggerEmergency() {
 		droneProxy.triggerEmergency();
 	}
@@ -283,6 +292,7 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	 * Gets config from the drone. When config is updated -
 	 * DRONE_CONFIG_STATE_CHANGED_ACTION will be fired.
 	 */
+	@Override
 	public void triggerConfigUpdate() {
 		droneProxy.triggerConfigUpdateNative();
 	}
@@ -293,6 +303,7 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	 * @param power
 	 *            - value between 0 and 1
 	 */
+	@Override
 	public void turnLeft(final float power) {
 		droneProxy.setControlValue(CONTROL_SET_YAW, -power);
 	}
@@ -303,6 +314,7 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	 * @param power
 	 *            - value between 0 and 1
 	 */
+	@Override
 	public void turnRight(final float power) {
 		droneProxy.setControlValue(CONTROL_SET_YAW, power);
 	}
@@ -313,6 +325,7 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	 * @param power
 	 *            - value between 0 and 1
 	 */
+	@Override
 	public void moveForward(final float power) {
 		droneProxy.setControlValue(CONTROL_SET_PITCH, -power);
 	}
@@ -323,6 +336,7 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	 * @param power
 	 *            - value between 0 and 1
 	 */
+	@Override
 	public void moveBackward(final float power) {
 		droneProxy.setControlValue(CONTROL_SET_PITCH, power);
 	}
@@ -333,6 +347,7 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	 * @param power
 	 *            - value between 0 and 1
 	 */
+	@Override
 	public void moveUp(final float power) {
 		droneProxy.setControlValue(CONTROL_SET_GAZ, power);
 	}
@@ -343,6 +358,7 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	 * @param power
 	 *            - value between 0 and 1
 	 */
+	@Override
 	public void moveDown(final float power) {
 		droneProxy.setControlValue(CONTROL_SET_GAZ, -power);
 	}
@@ -353,6 +369,7 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	 * @param power
 	 *            - value between 0 and 1
 	 */
+	@Override
 	public void moveLeft(final float power) {
 		droneProxy.setControlValue(CONTROL_SET_ROLL, -power);
 	}
@@ -363,6 +380,7 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	 * @param power
 	 *            - value between 0 and 1
 	 */
+	@Override
 	public void moveRight(final float power) {
 		droneProxy.setControlValue(CONTROL_SET_ROLL, power);
 	}
@@ -379,6 +397,7 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	 * 
 	 * @return instance of DroneConfig.
 	 */
+	@Override
 	public DroneConfig getDroneConfig() {
 		DroneConfig config = null;
 
@@ -393,10 +412,12 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	 * Will reset all drone configuration to it's default values.
 	 * DRONE_CONFIG_STATE_CHANGED_ACTION will be fired.
 	 */
+	@Override
 	public void resetConfigToDefaults() {
 		droneProxy.resetConfigToDefaults();
 	}
 
+	@Override
 	public void requestConfigUpdate() {
 		droneProxy.triggerConfigUpdateNative();
 	}
@@ -405,6 +426,7 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	 * Capture the photo from the drone camera. Will trigger
 	 * NEW_MEDIA_IS_AVAILABLE_ACTION action to be sent.
 	 */
+	@Override
 	public void takePhoto() {
 		droneProxy.takePhoto();
 	}
@@ -414,6 +436,7 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	 * was started. Will trigger NEW_MEDIA_IS_AVAILABLE_ACTION action to be sent
 	 * if new video file become available.
 	 */
+	@Override
 	public void record() {
 		droneProxy.record();
 	}
@@ -425,10 +448,12 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	/**
 	 * Performs flat trim
 	 */
+	@Override
 	public void flatTrim() {
 		droneProxy.flatTrimNative();
 	}
 
+	@Override
 	public void playLedAnimation(float frequency, int duration, int animationMode) {
 		droneProxy.playLedAnimation(frequency, duration, animationMode);
 	}
@@ -443,6 +468,7 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	 * @param power
 	 *            - value between -1 and 1.
 	 */
+	@Override
 	public void setGaz(final float value) {
 		droneProxy.setControlValue(CONTROL_SET_GAZ, value);
 	}
@@ -453,6 +479,7 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	 * @param power
 	 *            - value between -1 and 1.
 	 */
+	@Override
 	public void setRoll(final float value) {
 		droneProxy.setControlValue(CONTROL_SET_ROLL, value);
 	}
@@ -463,6 +490,7 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	 * @param power
 	 *            - value between -1 and 1.
 	 */
+	@Override
 	public void setPitch(final float value) {
 		droneProxy.setControlValue(CONTROL_SET_PITCH, value);
 	}
@@ -473,6 +501,7 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 	 * @param power
 	 *            - value between -1 and 1.
 	 */
+	@Override
 	public void setYaw(final float value) {
 		droneProxy.setControlValue(CONTROL_SET_YAW, value);
 	}
@@ -875,10 +904,12 @@ public class DroneControlService extends Service implements Runnable, DroneAcade
 		}
 	};
 
+	@Override
 	public void setProgressiveCommandEnabled(boolean b) {
 		droneProxy.setCommandFlag(DroneProgressiveCommandFlag.ARDRONE_PROGRESSIVE_CMD_ENABLE.ordinal(), b);
 	}
 
+	@Override
 	public void setProgressiveCommandCombinedYawEnabled(boolean b) {
 		droneProxy.setCommandFlag(DroneProgressiveCommandFlag.ARDRONE_PROGRESSIVE_CMD_COMBINED_YAW_ACTIVE.ordinal(), b);
 	}

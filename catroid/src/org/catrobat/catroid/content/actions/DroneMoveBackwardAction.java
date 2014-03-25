@@ -62,7 +62,7 @@ public class DroneMoveBackwardAction extends TemporalAction {
 		DroneServiceWrapper.getInstance().getDroneService().setProgressiveCommandCombinedYawEnabled(true);
 		//DroneServiceWrapper.getInstance().getDroneService().moveBackward(DroneControlService.POWER);
 		DroneServiceWrapper.getInstance().getDroneService()
-				.moveForward((float) powerInPercent.interpretInteger(sprite) / 100);
+				.moveBackward((float) powerInPercent.interpretInteger(sprite) / 100);
 	}
 
 	// TODO: complete the method

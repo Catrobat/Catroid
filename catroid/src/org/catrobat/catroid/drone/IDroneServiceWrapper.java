@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.drone;
 
-import com.parrot.freeflight.service.DroneControlService;
+import com.parrot.freeflight.service.DroneControlServiceInterface;
 
 /**
  * @author Gerald
@@ -30,5 +30,5 @@ import com.parrot.freeflight.service.DroneControlService;
  */
 public interface IDroneServiceWrapper {
 
-	public DroneControlService getDroneService();
+	public DroneControlServiceInterface getDroneService();
 }

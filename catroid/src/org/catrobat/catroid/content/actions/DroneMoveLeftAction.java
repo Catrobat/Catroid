@@ -62,7 +62,7 @@ public class DroneMoveLeftAction extends TemporalAction {
 		DroneServiceWrapper.getInstance().getDroneService().setProgressiveCommandCombinedYawEnabled(true);
 		//DroneServiceWrapper.getInstance().getDroneService().moveLeft(DroneControlService.POWER);
 		DroneServiceWrapper.getInstance().getDroneService()
-				.moveForward((float) powerInPercent.interpretInteger(sprite) / 100);
+				.moveLeft((float) powerInPercent.interpretInteger(sprite) / 100);
 	}
 
 	// TODO: complete the method

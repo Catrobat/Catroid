@@ -60,7 +60,7 @@ public class DroneMoveUpAction extends TemporalAction {
 		Log.d(TAG, "update!");
 		//DroneServiceWrapper.getInstance().getDroneService().moveUp(DroneControlService.POWER);
 		DroneServiceWrapper.getInstance().getDroneService()
-				.moveForward((float) powerInPercent.interpretInteger(sprite) / 100);
+				.moveUp((float) powerInPercent.interpretInteger(sprite) / 100);
 	}
 
 	// TODO: complete the method

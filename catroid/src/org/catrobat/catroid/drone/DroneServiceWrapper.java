@@ -23,11 +23,12 @@
 package org.catrobat.catroid.drone;
 
 import com.parrot.freeflight.service.DroneControlService;
+import com.parrot.freeflight.service.DroneControlServiceInterface;
 
 public class DroneServiceWrapper implements IDroneServiceWrapper {
 
 	private static DroneServiceWrapper instance = null;
-	private static DroneControlService droneControlService = null;
+	private static DroneControlServiceInterface droneControlService = null;
 
 	private DroneServiceWrapper() {
 	}
@@ -45,7 +46,7 @@ public class DroneServiceWrapper implements IDroneServiceWrapper {
 	}
 
 	@Override
-	public DroneControlService getDroneService() {
+	public DroneControlServiceInterface getDroneService() {
 
 		//		if (droneControlService == null) {
 		//			throw new Exception("DroneControlService not initialzied");
