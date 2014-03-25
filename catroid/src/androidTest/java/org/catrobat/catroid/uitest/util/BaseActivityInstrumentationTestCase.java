@@ -59,4 +59,17 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 		solo = null;
 	}
 
+	@Override
+	public void runTest() throws Throwable {
+		try {
+			super.runTest();
+		}
+		catch (Throwable throwable) {
+			String testCaseName = String.format("%s.%s", getClass().getName(), getName());
+			solo.takeScreenshot(testCaseName+".png");
+			Log.w("Boom! Screenshot!",String.format("Captured screenshot for failed test: %s", testCaseName));
+			throw throwable;
+		}
+	}
+
 }
