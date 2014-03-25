@@ -19,7 +19,7 @@ import com.parrot.freeflight.utils.FileUtils;
 
 import java.io.File;
 
-public class DroneProxy {
+public class DroneProxy implements DroneProxyInterface {
 
 	public enum DroneProgressiveCommandFlag {
 		ARDRONE_PROGRESSIVE_CMD_ENABLE, // 1: use progressive commands - 0: try hovering
@@ -84,12 +84,17 @@ public class DroneProxy {
 		return instance;
 	}
 
+	//	public static DroneProxyTestingHack(Context context, DroneProxyInterface mockDroneProxy) {
+	//		instance = mockDroneProxy
+	//	}
+
 	public DroneProxy(Context appContext) {
 		navdata = new NavData();
 		config = new DroneConfig();
 		DCIMdirPath = null;
 	}
 
+	@Override
 	public void doConnect(final Context context, EVideoRecorderCapability recordVideoResolution) {
 		try {
 			Log.d(TAG, "Connecting...");
@@ -134,22 +139,27 @@ public class DroneProxy {
 		}
 	}
 
+	@Override
 	public void doDisconnect() {
 		disconnect();
 	}
 
+	@Override
 	public NavData getNavdata() {
 		return navdata;
 	}
 
+	@Override
 	public void doPause() {
 		pause();
 	}
 
+	@Override
 	public void doResume() {
 		resume();
 	}
 
+	@Override
 	public void updateNavdata() {
 		this.navdata = takeNavDataSnapshot(navdata);
 	}
@@ -181,11 +191,13 @@ public class DroneProxy {
 		mgr.sendBroadcast(configChanged);
 	}
 
+	@Override
 	public DroneConfig getConfig() {
 		config = takeConfigSnapshot(config);
 		return config;
 	}
 
+	@Override
 	public void setAcademyMediaListener(DroneAcademyMediaListener listener) {
 		this.academyMediaListener = listener;
 	}
@@ -197,6 +209,7 @@ public class DroneProxy {
 	/*
 	 * Rename with caution! This method is called from native code. Rename will require rebuild of the native libraries!
 	 */
+	@Override
 	public void onAcademyNewMediaReady(String path, boolean addToQueue) {
 		if (null == path || 0 == path.length()) {
 			if (academyMediaListener != null) {
@@ -237,40 +250,58 @@ public class DroneProxy {
 
 	// Native methods
 
+	@Override
 	public native void initNavdata();
 
+	@Override
 	public native void triggerTakeOff();
 
+	@Override
 	public native void triggerEmergency();
 
+	@Override
 	public native void setControlValue(int control, float value);
 
+	@Override
 	public native void setMagnetoEnabled(boolean absoluteControlEnabled);
 
+	@Override
 	public native void setCommandFlag(int flag, boolean enable);
 
+	@Override
 	public native void setDeviceOrientation(int heading, int headingAccuracy);
 
+	@Override
 	public native void switchCamera();
 
+	@Override
 	public native void triggerConfigUpdateNative();
 
+	@Override
 	public native void flatTrimNative();
 
+	@Override
 	public native void setDefaultConfigurationNative();
 
+	@Override
 	public native void resetConfigToDefaults();
 
+	@Override
 	public native void takePhoto();
 
+	@Override
 	public native void record();
 
+	@Override
 	public native void playLedAnimation(float frequency, int duration, int animationMode);
 
+	@Override
 	public native void calibrateMagneto();
 
+	@Override
 	public native void doFlip();
 
+	@Override
 	public native void setLocation(double latitude, double longitude, double altitude);
 
 	private native void connect(String appName, String username, String rootDir, String flightDir, int flightSize,

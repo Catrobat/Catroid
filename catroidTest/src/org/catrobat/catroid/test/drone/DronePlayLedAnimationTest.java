@@ -29,7 +29,7 @@ import static org.easymock.EasyMock.verify;
 import android.test.InstrumentationTestCase;
 
 import com.parrot.freeflight.drone.DroneConfig;
-import com.parrot.freeflight.drone.DroneProxy;
+import com.parrot.freeflight.drone.DroneProxyInterface;
 import com.parrot.freeflight.service.DroneControlServiceInterface;
 
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
@@ -55,19 +55,17 @@ public class DronePlayLedAnimationTest extends InstrumentationTestCase {
 
 		assertNotNull("Oject is Null!", droneControlServiceMock);
 
-		DroneProxy proxy = EasyMock.createMock(DroneProxy.class);
+		DroneProxyInterface proxy = EasyMock.createMock(DroneProxyInterface.class);
 
 	}
 
 	public void testResourcesTakeoffBrick() {
 		DronePlayLedAnimationBrick brick = new DronePlayLedAnimationBrick(null);
 		assertEquals("Drone brick resources configured wrong", 0x20, brick.getRequiredResources());
-
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		// TODO Auto-generated method stub
 		super.tearDown();
 	}
 

@@ -37,6 +37,8 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
+import com.parrot.freeflight.receivers.DroneConnectionChangeReceiverDelegate;
+import com.parrot.freeflight.receivers.DroneConnectionChangedReceiver;
 import com.parrot.freeflight.receivers.DroneReadyReceiver;
 import com.parrot.freeflight.receivers.DroneReadyReceiverDelegate;
 import com.parrot.freeflight.service.DroneControlService;
@@ -48,7 +50,8 @@ import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 
-public class StageActivity extends AndroidApplication implements DroneReadyReceiverDelegate {
+public class StageActivity extends AndroidApplication implements DroneReadyReceiverDelegate,
+		DroneConnectionChangeReceiverDelegate {
 	public static final String TAG = StageActivity.class.getSimpleName();
 	public static StageListener stageListener;
 	private boolean resizePossible;
@@ -56,6 +59,7 @@ public class StageActivity extends AndroidApplication implements DroneReadyRecei
 
 	protected DroneControlService droneControlService = null;
 	private BroadcastReceiver droneReadyReceiver = null;
+	DroneConnectionChangedReceiver droneConnectionChangeReceiver = null;
 
 	public static final int STAGE_ACTIVITY_FINISH = 7777;
 
@@ -81,6 +85,7 @@ public class StageActivity extends AndroidApplication implements DroneReadyRecei
 		Log.d(TAG, "prepareRessources() initDrone=" + initDrone.toString());
 		if (initDrone) {
 			droneReadyReceiver = new DroneReadyReceiver(this);
+			droneConnectionChangeReceiver = new DroneConnectionChangedReceiver(this);
 
 			helpBindService();
 		}
@@ -113,6 +118,7 @@ public class StageActivity extends AndroidApplication implements DroneReadyRecei
 		}
 		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
 		manager.unregisterReceiver(droneReadyReceiver);
+		manager.unregisterReceiver(droneConnectionChangeReceiver);
 
 	}
 
@@ -130,6 +136,8 @@ public class StageActivity extends AndroidApplication implements DroneReadyRecei
 		}
 		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
 		manager.registerReceiver(droneReadyReceiver, new IntentFilter(DroneControlService.DRONE_STATE_READY_ACTION));
+		manager.registerReceiver(droneConnectionChangeReceiver, new IntentFilter(
+				DroneControlService.DRONE_CONNECTION_CHANGED_ACTION));
 
 		SensorHandler.startSensorListener(this);
 	}
@@ -196,6 +204,7 @@ public class StageActivity extends AndroidApplication implements DroneReadyRecei
 		DroneServiceWrapper.getInstance().setDroneService(droneControlService);
 		droneControlService.resume();
 		droneControlService.requestDroneStatus();
+		droneControlService.requestConfigUpdate();
 
 		Log.d(TAG, "DroneServiceConnection");
 	}
@@ -246,6 +255,19 @@ public class StageActivity extends AndroidApplication implements DroneReadyRecei
 	@Override
 	public void onDroneReady() {
 		Log.d(TAG, "onDroneReady");
+
+	}
+
+	@Override
+	public void onDroneConnected() {
+		Log.d(TAG, "onDroneConnected");
+		droneControlService.requestConfigUpdate();
+
+	}
+
+	@Override
+	public void onDroneDisconnected() {
+		// TODO Auto-generated method stub
 
 	}
 }

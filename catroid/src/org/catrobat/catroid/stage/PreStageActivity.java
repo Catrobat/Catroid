@@ -55,7 +55,6 @@ import com.parrot.freeflight.receivers.DroneBatteryChangedReceiver;
 import com.parrot.freeflight.receivers.DroneBatteryChangedReceiverDelegate;
 import com.parrot.freeflight.receivers.DroneConnectionChangeReceiverDelegate;
 import com.parrot.freeflight.receivers.DroneConnectionChangedReceiver;
-import com.parrot.freeflight.receivers.DroneEmergencyChangeReceiver;
 import com.parrot.freeflight.receivers.DroneReadyReceiver;
 import com.parrot.freeflight.receivers.DroneReadyReceiverDelegate;
 import com.parrot.freeflight.service.DroneControlService;
@@ -111,7 +110,7 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 	private Intent intent = null;
 
 	private DroneConnectionChangedReceiver droneConnectionChangeReceiver;
-	private DroneEmergencyChangeReceiver droneEmergencyReceiver;
+	//private DroneEmergencyChangeReceiver droneEmergencyReceiver;
 	private DroneBatteryChangedReceiver droneBatteryReceiver;
 
 	private int droneBatteryStatus = 0;
@@ -500,6 +499,7 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 
 		Log.d(TAG, "onDroneConnected, requesting Config update and wait for drone ready.");
 		droneControlService.requestConfigUpdate();
+
 	}
 
 	@Override

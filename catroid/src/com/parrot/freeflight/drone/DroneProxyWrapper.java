@@ -28,10 +28,24 @@ import com.parrot.freeflight.drone.DroneProxy.EVideoRecorderCapability;
 
 public class DroneProxyWrapper implements DroneProxyInterface {
 
-	private DroneProxy droneProxy = null;
+	private static DroneProxy droneProxy = null;
 
-	public DroneProxyWrapper(DroneProxy droneProxy) {
-		this.droneProxy = droneProxy;
+	private static DroneProxyWrapper instance = null;
+
+	public static DroneProxyInterface getInstance(Context appContext) {
+		if (instance == null) {
+			instance = new DroneProxyWrapper(null);
+		}
+		return instance;
+	}
+
+	public static DroneProxyInterface getSpecificInstanceForTesting(DroneProxyWrapper wrapper) {
+		instance = wrapper;
+		return instance;
+	}
+
+	public DroneProxyWrapper(Context appContext) {
+		droneProxy = DroneProxy.getInstance(appContext);
 	}
 
 	@Override
