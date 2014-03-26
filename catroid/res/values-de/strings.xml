@@ -426,7 +426,6 @@
 
     <!-- defaultValues -->
     <string name="default_project_name">Mein erstes Programm</string>
-    <string name="default_drone_project_name">Dronen Test Programm</string>  
     <string name="default_project_sprites_mole_name">Maulwurf</string>
     <string name="default_project_sprites_mole_moving">Bewegender Maulwurf</string>
     <string name="default_project_sprites_mole_whacked">Benommener Maulwurf</string>
@@ -436,6 +435,22 @@
     <string name="default_project_var_random_to">zufällig bis</string>
     <!--  -->
 
+    <!-- defaultdroneValues -->
+    <string name="default_drone_project_name">Mein erstes Drohnen-Programm</string>  
+    <string name="default_drone_project_sprites_takeoff">Abheben</string>
+    
+    <string name="default_drone_project_sprites_blink_led">LED blinken</string>
+    <string name="default_drone_project_srpites_land">Landen</string>
+    <string name="default_drone_project_srpites_rotate">Flip</string>
+    <string name="default_drone_project_sprites_up">Fliege hoch</string>
+    <string name="default_drone_project_sprites_down">Fliege runter</string>
+    <string name="default_drone_project_sprites_left">Fliege links</string>
+    <string name="default_drone_project_sprites_right">Fliege rechts</string>
+    <string name="default_drone_project_sprites_forward">Fliege nach vorne</string>
+    <string name="default_drone_project_sprites_back">Fliege rückwärts</string>
+    <string name="default_drone_project_sprites_turn_left">Drehe links</string>
+    <string name="default_drone_project_sprites_turn_right">Drehe rechts</string>
+     <!--  -->
 
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Bitte einen Wert eingeben</string>
@@ -479,6 +494,7 @@
     <string name="error_upload_project_with_default_name">Das Programm mit dem Namen \'Mein erstes Programm\' kann nicht hochgeladen werden. Bitte das Programm umbenennen.</string>
     <string name="error_upload_default_project">Das Programm entspricht dem Programm \'Mein erstes Programm\'. Bitte ändere es und versuche es noch einmal.</string>
     <string name="error_no_drone_connected">Um dieses Programm auszuführen benötigst du eine Verbindung mit der ARDrone 2.0. Bitte verbinde dich mit dem WLan der Drone und probier es nochmal.</string>
+     <string name="error_drone_low_battery">Deine Drohnen-Batterie ist fast leer. Lade sie auf und versuche es erneut.</string>
     <!--  -->
 
 
@@ -527,6 +543,8 @@
 	<string name="brick_drone_move_down">Fliege nach unten</string>
 	<string name="brick_drone_move_forward">Fliege nach vorne</string>
 	<string name="brick_drone_move_backward">Fliege nach hinten</string>
+	<string name="brick_drone_flip">Flip</string>
+	<string name="brick_drone_power">Power</string>
 	<string name="brick_drone_turn_right">Drehe nach rechts</string>
 	<string name="brick_drone_turn_left">Drehe nach links</string>
 	<!--  -->

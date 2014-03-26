@@ -448,6 +448,8 @@
     <string name="default_drone_project_sprites_right">Right</string>
     <string name="default_drone_project_sprites_forward">Forward</string>
     <string name="default_drone_project_sprites_back">Back</string>
+    <string name="default_drone_project_sprites_turn_left">Turn left</string>
+    <string name="default_drone_project_sprites_turn_right">Turn right</string>
     <!-- <string name="default_drone_project_sprites_"></string>  -->
     <!--  -->
 

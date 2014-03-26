@@ -43,6 +43,8 @@ import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffBrick;
+import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
+import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
@@ -73,7 +75,7 @@ public final class StandardProjectHandler {
 
 	private enum DroneBricks {
 
-		DRONE_TAKE_OFF_BRICK, DRONE_PLAY_LED_ANIMATION_BRICK, DRONE_LAND_BRICK, DRONE_FLIP_BRICK, DRONE_MOVE_DOWN_BRICK, DRONE_MOVE_UP_BRICK, DRONE_MOVE_LEFT_BRICK, DRONE_MOVE_RIGHT_BRICK, DRONE_MOVE_BACKWARD_BRICK, DRONE_MOVE_FORWARD_BRICK,
+		DRONE_TAKE_OFF_BRICK, DRONE_PLAY_LED_ANIMATION_BRICK, DRONE_LAND_BRICK, DRONE_FLIP_BRICK, DRONE_MOVE_DOWN_BRICK, DRONE_MOVE_UP_BRICK, DRONE_MOVE_LEFT_BRICK, DRONE_MOVE_RIGHT_BRICK, DRONE_MOVE_BACKWARD_BRICK, DRONE_MOVE_FORWARD_BRICK, DRONE_TURN_RIGHT_BRICK, DRONE_TURN_LEFT_BRICK,
 	}
 
 	private static double backgroundImageScaleFactor = 1;
@@ -154,7 +156,7 @@ public final class StandardProjectHandler {
 		//rotate Sprite start
 		String rotateSpriteName = context.getString(R.string.default_drone_project_srpites_rotate);
 
-		File rotateFile = UtilFile.copyImageFromResourceIntoProject(projectName, takeOffSpriteName
+		File rotateFile = UtilFile.copyImageFromResourceIntoProject(projectName, rotateSpriteName
 				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_rotate, context, true,
 				backgroundImageScaleFactor);
 
@@ -199,7 +201,7 @@ public final class StandardProjectHandler {
 				true, backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(forwardSpriteName, DroneBricks.DRONE_MOVE_FORWARD_BRICK, 180,
-				-200, forwardFile, 2000));
+				-75, forwardFile, 2000));
 
 		//Backward Sprite
 		String backwardpriteName = context.getString(R.string.default_drone_project_sprites_back);
@@ -230,6 +232,26 @@ public final class StandardProjectHandler {
 
 		defaultDroneProject.addSprite(createDroneSprite(rightSpriteName, DroneBricks.DRONE_MOVE_RIGHT_BRICK, 260, -325,
 				rightFile, 2000));
+
+		//Turn Left Sprite
+		String turnLeftSpriteName = context.getString(R.string.default_drone_project_sprites_turn_left);
+
+		File turnLeftFile = UtilFile.copyImageFromResourceIntoProject(projectName, turnLeftSpriteName
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_turn_left, context, true,
+				backgroundImageScaleFactor);
+
+		defaultDroneProject.addSprite(createDroneSprite(turnLeftSpriteName, DroneBricks.DRONE_TURN_LEFT_BRICK, 100,
+				-200, turnLeftFile, 2000));
+
+		//Turn Right Sprite
+		String turnRightSpriteName = context.getString(R.string.default_drone_project_sprites_turn_right);
+
+		File turnrightFile = UtilFile.copyImageFromResourceIntoProject(projectName, turnRightSpriteName
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_turn_right, context,
+				true, backgroundImageScaleFactor);
+
+		defaultDroneProject.addSprite(createDroneSprite(turnRightSpriteName, DroneBricks.DRONE_TURN_RIGHT_BRICK, 260,
+				-200, turnrightFile, 2000));
 
 		StorageHandler.getInstance().saveProject(defaultDroneProject);
 		return defaultDroneProject;
@@ -311,6 +333,12 @@ public final class StandardProjectHandler {
 
 			case DRONE_MOVE_RIGHT_BRICK:
 				return new DroneMoveRightBrick(sprite, timeInMilliseconds, powerInPercent);
+
+			case DRONE_TURN_LEFT_BRICK:
+				return new DroneTurnLeftBrick(sprite, timeInMilliseconds, powerInPercent);
+
+			case DRONE_TURN_RIGHT_BRICK:
+				return new DroneTurnRightBrick(sprite, timeInMilliseconds, powerInPercent);
 
 			default:
 				return null;
