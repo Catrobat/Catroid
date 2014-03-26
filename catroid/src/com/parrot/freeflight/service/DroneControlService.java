@@ -159,7 +159,7 @@ public class DroneControlService extends Service implements DroneControlServiceI
 		// Setting current state as disconnected
 		setState(new DisconnectedServiceState(this));
 
-		droneProxy.setAcademyMediaListener(this);
+		//droneProxy.setAcademyMediaListener(this);
 		workerThread.start();
 
 		gallery = new ARDroneMediaGallery(this);
@@ -197,7 +197,7 @@ public class DroneControlService extends Service implements DroneControlServiceI
 		// TODO: This is not correct but without killing our process
 		// ArDrone lib will hang on next launch. Should be removed when
 		// library is fixed.x`x
-		android.os.Process.killProcess(android.os.Process.myPid());
+		//android.os.Process.killProcess(android.os.Process.myPid());
 	}
 
 	private void initIntents() {

@@ -30,7 +30,7 @@ public class DroneProxyWrapper implements DroneProxyInterface {
 
 	private static DroneProxy droneProxy = null;
 
-	private static DroneProxyWrapper instance = null;
+	private static DroneProxyInterface instance = null;
 
 	public static DroneProxyInterface getInstance(Context appContext) {
 		if (instance == null) {
@@ -39,7 +39,7 @@ public class DroneProxyWrapper implements DroneProxyInterface {
 		return instance;
 	}
 
-	public static DroneProxyInterface getSpecificInstanceForTesting(DroneProxyWrapper wrapper) {
+	public static DroneProxyInterface getSpecificInstanceForTesting(DroneProxyInterface wrapper) {
 		instance = wrapper;
 		return instance;
 	}
