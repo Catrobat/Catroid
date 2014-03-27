@@ -22,62 +22,18 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import android.util.Log;
-
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.drone.DroneServiceWrapper;
-import org.catrobat.catroid.formulaeditor.Formula;
-
-public class DroneTurnLeftAction extends TemporalAction {
-
-	private static final String TAG = DroneTurnLeftAction.class.getSimpleName();
-
-	private Sprite sprite;
-	private Formula duration;
-	private Formula powerInPercent;
+public class DroneTurnLeftAction extends DroneMoveAction {
 
 	@Override
-	protected void begin() {
-		super.setDuration(duration.interpretFloat(sprite));
-	}
-
-	public void setDelay(Formula delay) {
-		this.duration = delay;
-	}
-
-	public void setPower(Formula powerInPercent) {
-		this.powerInPercent = powerInPercent;
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	protected void move() {
+		super.setCommandAndYawEnabled(true);
+		super.getDroneService().turnLeft(super.getPowerNormalized());
 	}
 
 	@Override
-	protected void update(float percent) {
-		Log.d(TAG, "update!");
-		DroneServiceWrapper.getInstance().getDroneService().setProgressiveCommandEnabled(true);
-		DroneServiceWrapper.getInstance().getDroneService().setProgressiveCommandCombinedYawEnabled(true);
-		DroneServiceWrapper.getInstance().getDroneService()
-				.turnLeft((float) powerInPercent.interpretInteger(sprite) / 100);
-	}
-
-	// TODO: complete the method
-	@Override
-	public boolean act(float delta) {
-		Boolean superReturn = super.act(delta);
-		Log.d(TAG, "Do Drone Stuff once, superReturn = " + superReturn.toString());
-		return superReturn;
-	}
-
-	@Override
-	protected void end() {
-		super.end();
-		DroneServiceWrapper.getInstance().getDroneService().setProgressiveCommandEnabled(false);
-		DroneServiceWrapper.getInstance().getDroneService().setProgressiveCommandCombinedYawEnabled(false);
-		DroneServiceWrapper.getInstance().getDroneService().turnLeft(0);
+	protected void moveEnd() {
+		super.setCommandAndYawEnabled(false);
+		super.getDroneService().turnLeft(0);
 	}
 
 }

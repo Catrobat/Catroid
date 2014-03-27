@@ -149,7 +149,7 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 			}
 		}
 
-		//testing
+		//drone testing without drone
 		//startStage();
 
 		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {

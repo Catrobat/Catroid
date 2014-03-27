@@ -22,63 +22,18 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import android.util.Log;
-
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.drone.DroneServiceWrapper;
-import org.catrobat.catroid.formulaeditor.Formula;
-
-public class DroneMoveRightAction extends TemporalAction {
-
-	private static final String TAG = DroneMoveRightAction.class.getSimpleName();
-
-	private Sprite sprite;
-	private Formula duration;
-	private Formula powerInPercent;
+public class DroneMoveRightAction extends DroneMoveAction {
 
 	@Override
-	protected void begin() {
-		super.setDuration(duration.interpretFloat(sprite));
-	}
-
-	public void setDelay(Formula delay) {
-		this.duration = delay;
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
-	public void setPower(Formula powerInPercent) {
-		this.powerInPercent = powerInPercent;
+	protected void move() {
+		super.setCommandAndYawEnabled(true);
+		super.getDroneService().moveRight(super.getPowerNormalized());
 	}
 
 	@Override
-	protected void update(float percent) {
-		Log.d(TAG, "update!");
-		DroneServiceWrapper.getInstance().getDroneService().setProgressiveCommandEnabled(true);
-		DroneServiceWrapper.getInstance().getDroneService().setProgressiveCommandCombinedYawEnabled(true);
-		//DroneServiceWrapper.getInstance().getDroneService().moveRight(DroneControlService.POWER);
-		DroneServiceWrapper.getInstance().getDroneService()
-				.moveRight((float) powerInPercent.interpretInteger(sprite) / 100);
-	}
-
-	// TODO: complete the method
-	@Override
-	public boolean act(float delta) {
-		Boolean superReturn = super.act(delta);
-		Log.d(TAG, "Do Drone Stuff once, superReturn = " + superReturn.toString());
-		return superReturn;
-	}
-
-	@Override
-	protected void end() {
-		super.end();
-		DroneServiceWrapper.getInstance().getDroneService().setProgressiveCommandEnabled(false);
-		DroneServiceWrapper.getInstance().getDroneService().setProgressiveCommandCombinedYawEnabled(false);
-		DroneServiceWrapper.getInstance().getDroneService().moveRight(0);
+	protected void moveEnd() {
+		super.setCommandAndYawEnabled(false);
+		super.getDroneService().moveRight(0);
 	}
 
 }

@@ -22,60 +22,16 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import android.util.Log;
-
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.drone.DroneServiceWrapper;
-import org.catrobat.catroid.formulaeditor.Formula;
-
-public class DroneMoveDownAction extends TemporalAction {
-
-	private static final String TAG = DroneMoveDownAction.class.getSimpleName();
-
-	private Sprite sprite;
-	private Formula duration;
-	private Formula powerInPercent;
+public class DroneMoveDownAction extends DroneMoveAction {
 
 	@Override
-	protected void begin() {
-		super.setDuration(duration.interpretFloat(sprite));
-	}
-
-	public void setDelay(Formula delay) {
-		this.duration = delay;
-	}
-
-	public void setPower(Formula powerInPercent) {
-		this.powerInPercent = powerInPercent;
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	protected void move() {
+		super.getDroneService().moveDown(super.getPowerNormalized());
 	}
 
 	@Override
-	protected void update(float percent) {
-		Log.d(TAG, "update!");
-		//DroneServiceWrapper.getInstance().getDroneService().moveDown(DroneControlService.POWER);
-		DroneServiceWrapper.getInstance().getDroneService()
-				.moveDown((float) powerInPercent.interpretInteger(sprite) / 100);
-	}
-
-	// TODO: complete the method
-	@Override
-	public boolean act(float delta) {
-		Boolean superReturn = super.act(delta);
-		Log.d(TAG, "Do Drone Stuff once, superReturn = " + superReturn.toString());
-		return superReturn;
-	}
-
-	@Override
-	protected void end() {
-		super.end();
-		Log.d(TAG, "end!");
-		DroneServiceWrapper.getInstance().getDroneService().moveDown(0);
+	protected void moveEnd() {
+		super.getDroneService().moveDown(0);
 	}
 
 }
