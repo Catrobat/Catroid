@@ -35,6 +35,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 
 public class StageActivity extends AndroidApplication {
@@ -46,6 +47,9 @@ public class StageActivity extends AndroidApplication {
 	private DroneConnection droneConnection = null;
 
 	public static final int STAGE_ACTIVITY_FINISH = 7777;
+
+	private StageAudioFocus stageAudioFocus;
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -61,6 +65,7 @@ public class StageActivity extends AndroidApplication {
 		calculateScreenSizes();
 
 		initialize(stageListener, true);
+
 		if (droneConnection != null) {
 			try {
 				droneConnection.initialise();
@@ -70,6 +75,8 @@ public class StageActivity extends AndroidApplication {
 				this.finish();
 			}
 		}
+
+		stageAudioFocus = new StageAudioFocus(this);
 	}
 
 	@Override
@@ -88,6 +95,7 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onPause() {
 		SensorHandler.stopSensorListeners();
+		stageAudioFocus.releaseAudioFocus();
 		super.onPause();
 
 		if (droneConnection != null) {
@@ -98,6 +106,7 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onResume() {
 		SensorHandler.startSensorListener(this);
+		stageAudioFocus.requestAudioFocus();
 		super.onResume();
 
 		if (droneConnection != null) {
