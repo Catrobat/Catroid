@@ -35,7 +35,7 @@ import java.util.List;
 
 public class CheckForAssertionsTest extends TestCase {
 	private static final String[] DIRECTORIES = Utils.TEST_FILE_DIRECTORIES;
-	private static final String[] IGNORED_FILES = {"MockGalleryActivity.java", "UiTestUtils.java",
+	private static final String[] IGNORED_FILES = { "MockGalleryActivity.java", "UiTestUtils.java",
 			"SimulatedSensorManager.java", "SimulatedSoundRecorder.java", "TestUtils.java",
 			"MockPaintroidActivity.java", "TestMainMenuActivity.java", "TestErrorListenerInterface.java",
 			"XmlTestUtils.java", "MockSoundActivity.java", "Reflection.java", "Utils.java",
@@ -49,6 +49,10 @@ public class CheckForAssertionsTest extends TestCase {
 		String line;
 		while ((line = reader.readLine()) != null) {
 			if (line.matches("[^(//)]*assert[A-Za-z]+\\(.*")) {
+				reader.close();
+				return true;
+			}
+			if (line.matches("[^(//)]*verify[A-Za-z]*\\(.*")) {
 				reader.close();
 				return true;
 			}
@@ -66,13 +70,10 @@ public class CheckForAssertionsTest extends TestCase {
 			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());
 			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
 
-			List<File> filesToCheck = Utils.getFilesFromDirectoryByExtension(directory, new String[]{".java",});
+			List<File> filesToCheck = Utils.getFilesFromDirectoryByExtension(directory, new String[] { ".java", });
 			for (File file : filesToCheck) {
-				if (!Arrays.asList(IGNORED_FILES).contains(file.getName())
-						&& !fileHasAssertions(file)) {
-					errorMessageBuilder
-							.append(file.getPath())
-							.append(" does not seem to contain assertions\n");
+				if (!Arrays.asList(IGNORED_FILES).contains(file.getName()) && !fileHasAssertions(file)) {
+					errorMessageBuilder.append(file.getPath()).append(" does not seem to contain assertions\n");
 					assertionNotFound = true;
 				}
 			}

@@ -427,7 +427,7 @@ public class ExtendedActions extends Actions {
 		return action(DronePlayLedAnimationAction.class);
 	}
 
-	public static DroneFlipAction droneFlip() {
+	public static TemporalAction droneFlip() {
 		return action(DroneFlipAction.class);
 	}
 

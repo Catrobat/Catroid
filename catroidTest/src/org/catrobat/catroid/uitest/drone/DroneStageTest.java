@@ -22,14 +22,12 @@
  */
 package org.catrobat.catroid.uitest.drone;
 
-//import static org.easymock.EasyMock.expect;
-//import static org.easymock.EasyMock.replay;
-//import static org.easymock.EasyMock.verify;
-
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.UtilFile;
 
 //import org.easymock.EasyMock;
 
@@ -52,9 +50,35 @@ public class DroneStageTest extends BaseActivityInstrumentationTestCase<MainMenu
 		UiTestUtils.prepareStageForTest();
 	}
 
+	public void testSimpleUITest() {
+		UtilFile.deleteStandardDroneProjectAndReCreate(getActivity());
+		solo.waitForActivity(MainMenuActivity.class);
+		solo.clickOnText("Fortsetzen");
+		solo.clickOnText("Abheben");
+		solo.clickOnText("Skripte");
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.clickInList(6);
+
+		solo.getText("Hebe ab");
+
+		//		solo.getViews().contains("Hebe ab");
+		//		solo.getViews().contains("Lande");
+		//		solo.getViews().contains("Spiele LED-Animation");
+		//		solo.getViews().contains("Flip");
+		//		solo.getViews().contains("Fliege nach oben");
+		//		solo.getViews().contains("Fliege nach unten");
+		//		solo.getViews().contains("Fliege nach links");
+		//		solo.getViews().contains("Fliege nach rechts");
+		//		solo.getViews().contains("Fliege nach vorne");
+		//		solo.getViews().contains("Fliege nach hinten");
+		//		solo.getViews().contains("Drehe nach links");
+		//		solo.getViews().contains("Drehe nach rechts");
+		//		solo.getViews().contains("blablub");
+	}
+
 	// This test requires the NXTBTTestServer to be running or a LegoNXT Robot to run! Check connect string to see if you connect to the right device!
 	@Device
-	public void testNXTFunctionality() {
+	public void AtestNXTFunctionality() {
 		//		UtilFile.deleteStandardDroneProjectAndReCreate(getActivity());
 		//
 		//		solo.waitForActivity(MainMenuActivity.class);
@@ -340,7 +364,7 @@ public class DroneStageTest extends BaseActivityInstrumentationTestCase<MainMenu
 	//		StorageHandler.getInstance().saveProject(project);
 	//	}
 
-	public void testSomething() {
+	public void AtestSomething() {
 		//		DroneProxyInterface mockWrapper = EasyMock.createMock(DroneProxyInterface.class);
 		//
 		//		mockWrapper.doDisconnect();
