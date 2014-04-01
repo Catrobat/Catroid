@@ -20,15 +20,31 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.drone;
+package org.catrobat.catroid.test.drone;
 
-import com.parrot.freeflight.service.DroneControlServiceInterface;
+import android.test.InstrumentationTestCase;
 
-/**
- * @author Gerald
- * 
- */
-public interface IDroneServiceWrapper {
+import com.parrot.freeflight.drone.DroneProxy;
 
-	public DroneControlServiceInterface getDroneService();
+import org.mockito.Mockito;
+
+public class DroneDemoTest extends InstrumentationTestCase {
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		//Workaround for Android 4.4 Devices
+		//https://code.google.com/p/dexmaker/issues/detail?id=2
+		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+
+	}
+
+	public void testDemo() {
+		DroneProxy droneMock = Mockito.mock(DroneProxy.class);
+
+		droneMock.doFlip();
+
+		// was the method called once?
+		Mockito.verify(droneMock, Mockito.atLeast(1)).doFlip();
+	}
 }

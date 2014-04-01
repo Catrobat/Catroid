@@ -5,7 +5,5 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="lib" path="C:/Users/marc/Catroid/catroidTest/libs/dexmaker-1.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/marc/Catroid/catroidTest/libs/mockito-all-1.9.5.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

@@ -26,19 +26,11 @@ package org.catrobat.catroid.uitest.drone;
 //import static org.easymock.EasyMock.replay;
 //import static org.easymock.EasyMock.verify;
 
-import com.parrot.freeflight.drone.DroneAcademyMediaListener;
-import com.parrot.freeflight.drone.DroneConfig;
-import com.parrot.freeflight.drone.DroneProxyInterface;
-import com.parrot.freeflight.drone.DroneProxyWrapper;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-import org.catrobat.catroid.utils.UtilFile;
+
 //import org.easymock.EasyMock;
 
 public class DroneStageTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
@@ -63,56 +55,56 @@ public class DroneStageTest extends BaseActivityInstrumentationTestCase<MainMenu
 	// This test requires the NXTBTTestServer to be running or a LegoNXT Robot to run! Check connect string to see if you connect to the right device!
 	@Device
 	public void testNXTFunctionality() {
-//		UtilFile.deleteStandardDroneProjectAndReCreate(getActivity());
-//
-//		solo.waitForActivity(MainMenuActivity.class);
-//		DroneProxyInterface mockWrapper = EasyMock.createMock(DroneProxyInterface.class);
-//		DroneProxyInterface droneProxyWrapper = DroneProxyWrapper.getSpecificInstanceForTesting(mockWrapper);
-//
-//		assertNotNull("There has to be an instance of DroneProxyInterface",
-//				DroneProxyWrapper.getInstance(getActivity()));
-//
-//		solo.clickOnText("Fortsetzen");
-//		solo.waitForActivity(ProjectActivity.class);
-//
-//		DroneAcademyMediaListener listener = new DroneAcademyMediaListener() {
-//			;
-//
-//			public void onQueueComplete() {
-//				// TODO Auto-generated method stub
-//
-//			}
-//
-//			public void onNewMediaToQueue(String path) {
-//				// TODO Auto-generated method stub
-//
-//			}
-//
-//			public void onNewMediaIsAvailable(String path) {
-//				// TODO Auto-generated method stub
-//
-//			}
-//		};
-//
-//		//droneProxyWrapper.setAcademyMediaListener(listener);
-//		droneProxyWrapper.setControlValue(CONTROL_SET_PITCH, 0);
-//		droneProxyWrapper.setControlValue(CONTROL_SET_ROLL, 0);
-//		droneProxyWrapper.setControlValue(CONTROL_SET_GAZ, 0);
-//		droneProxyWrapper.setControlValue(CONTROL_SET_YAW, 0);
-//
-//		droneProxyWrapper.setDeviceOrientation(0, 0);
-//
-//		DroneConfig droneConfig = new DroneConfig();
-//
-//		expect(droneProxyWrapper.getConfig()).andReturn(new DroneConfig()).times(200);
-//
-//		replay(droneProxyWrapper);
-//
-//		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-//
-//		solo.waitForActivity(PreStageActivity.class);
-//
-//		verify(droneProxyWrapper);
+		//		UtilFile.deleteStandardDroneProjectAndReCreate(getActivity());
+		//
+		//		solo.waitForActivity(MainMenuActivity.class);
+		//		DroneProxyInterface mockWrapper = EasyMock.createMock(DroneProxyInterface.class);
+		//		DroneProxyInterface droneProxyWrapper = DroneProxyWrapper.getSpecificInstanceForTesting(mockWrapper);
+		//
+		//		assertNotNull("There has to be an instance of DroneProxyInterface",
+		//				DroneProxyWrapper.getInstance(getActivity()));
+		//
+		//		solo.clickOnText("Fortsetzen");
+		//		solo.waitForActivity(ProjectActivity.class);
+		//
+		//		DroneAcademyMediaListener listener = new DroneAcademyMediaListener() {
+		//			;
+		//
+		//			public void onQueueComplete() {
+		//				// TODO Auto-generated method stub
+		//
+		//			}
+		//
+		//			public void onNewMediaToQueue(String path) {
+		//				// TODO Auto-generated method stub
+		//
+		//			}
+		//
+		//			public void onNewMediaIsAvailable(String path) {
+		//				// TODO Auto-generated method stub
+		//
+		//			}
+		//		};
+		//
+		//		//droneProxyWrapper.setAcademyMediaListener(listener);
+		//		droneProxyWrapper.setControlValue(CONTROL_SET_PITCH, 0);
+		//		droneProxyWrapper.setControlValue(CONTROL_SET_ROLL, 0);
+		//		droneProxyWrapper.setControlValue(CONTROL_SET_GAZ, 0);
+		//		droneProxyWrapper.setControlValue(CONTROL_SET_YAW, 0);
+		//
+		//		droneProxyWrapper.setDeviceOrientation(0, 0);
+		//
+		//		DroneConfig droneConfig = new DroneConfig();
+		//
+		//		expect(droneProxyWrapper.getConfig()).andReturn(new DroneConfig()).times(200);
+		//
+		//		replay(droneProxyWrapper);
+		//
+		//		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		//
+		//		solo.waitForActivity(PreStageActivity.class);
+		//
+		//		verify(droneProxyWrapper);
 
 	}
 
@@ -349,13 +341,13 @@ public class DroneStageTest extends BaseActivityInstrumentationTestCase<MainMenu
 	//	}
 
 	public void testSomething() {
-//		DroneProxyInterface mockWrapper = EasyMock.createMock(DroneProxyInterface.class);
-//
-//		mockWrapper.doDisconnect();
-//
-//		replay(mockWrapper);
-//
-//		verify(mockWrapper);
+		//		DroneProxyInterface mockWrapper = EasyMock.createMock(DroneProxyInterface.class);
+		//
+		//		mockWrapper.doDisconnect();
+		//
+		//		replay(mockWrapper);
+		//
+		//		verify(mockWrapper);
 
 	}
 }

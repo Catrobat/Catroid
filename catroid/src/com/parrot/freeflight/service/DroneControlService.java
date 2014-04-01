@@ -24,9 +24,8 @@ import android.util.Log;
 import com.parrot.freeflight.drone.DroneAcademyMediaListener;
 import com.parrot.freeflight.drone.DroneConfig;
 import com.parrot.freeflight.drone.DroneConfig.EDroneVersion;
+import com.parrot.freeflight.drone.DroneProxy;
 import com.parrot.freeflight.drone.DroneProxy.DroneProgressiveCommandFlag;
-import com.parrot.freeflight.drone.DroneProxyInterface;
-import com.parrot.freeflight.drone.DroneProxyWrapper;
 import com.parrot.freeflight.drone.NavData;
 import com.parrot.freeflight.service.commands.DroneServiceCommand;
 import com.parrot.freeflight.service.intents.DroneStateManager;
@@ -84,7 +83,7 @@ public class DroneControlService extends Service implements DroneControlServiceI
 	public static final float POWER = 0.2f;
 
 	private final IBinder binder = new LocalBinder();
-	private DroneProxyInterface droneProxy;
+	private DroneProxy droneProxy;
 
 	private Thread navdataUpdateThread;
 	private Thread workerThread;
@@ -136,11 +135,7 @@ public class DroneControlService extends Service implements DroneControlServiceI
 		workerThreadLock = new Object();
 		navdataThreadLock = new Object();
 
-		// Original call, without the DroneProxyWrapper
-		// DroneProxyWrapper introduced only for testability!
-		//droneProxy = DroneProxy.getInstance(getApplicationContext());
-
-		droneProxy = DroneProxyWrapper.getInstance(getApplicationContext());
+		droneProxy = DroneProxy.getInstance(getApplicationContext());
 
 		// Preventing device from sleep
 		PowerManager service = (PowerManager) getSystemService(POWER_SERVICE);

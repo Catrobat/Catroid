@@ -11,6 +11,18 @@ import org.mockito.Mockito;
 
 public class DroneFlipTest extends InstrumentationTestCase {
 
+	@Override
+	protected void setUp() throws Exception {
+
+		super.setUp();
+		//Workaround for Android 4.4 Devices
+		//https://code.google.com/p/dexmaker/issues/detail?id=2
+		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+
+		dcs = Mockito.mock(DroneControlService.class);
+		DroneServiceWrapper.getInstance().setDroneService(dcs);
+	}
+
 	public void testFlipCalled() {
 		DroneFlipAction action = ExtendedActions.droneFlip();
 		DroneControlService dcs = Mockito.mock(DroneControlService.class);
