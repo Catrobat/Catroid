@@ -207,7 +207,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertFalse("Entry to add look from camera should not be visible", solo.searchText(addLookFromCameraText));
 		assertFalse("Entry to add look from gallery should not be visible", solo.searchText(addLookFromGalleryText));
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 
 		assertTrue("Entry to add look from camera not visible", solo.searchText(addLookFromCameraText));
 		assertTrue("Entry to add look from gallery not visible", solo.searchText(addLookFromGalleryText));

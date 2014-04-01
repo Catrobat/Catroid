@@ -1023,7 +1023,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		assertEquals("Checkboxes are still showing!", 0, numberOfVisibleCheckBoxes);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 
 		assertTrue("Bottom bar buttons are not enabled!",
 				solo.searchText(solo.getString(R.string.new_sprite_dialog_title)));

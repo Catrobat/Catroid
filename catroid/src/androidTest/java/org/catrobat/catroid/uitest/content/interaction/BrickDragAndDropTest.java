@@ -69,7 +69,7 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_x);
 		assertEquals("Wrong number of Bricks", 2, adapter.getCount());
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		solo.sleep(200);
 		assertFalse("Categories shouldn't be shown", solo.searchText(solo.getString(R.string.categories)));
 		solo.clickOnScreen(200, 200);
@@ -137,7 +137,7 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 	public void testAddNewBrickFromAnotherCategory() {
 		int categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_set_x);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		solo.clickOnText(solo.getString(categoryStringId));
 		solo.goBack();
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_stop_all_sounds);

@@ -23,7 +23,6 @@
 package org.catrobat.catroid.uitest.stage;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -103,7 +102,7 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<ProjectA
 
 	private void prepareStageForTesting(String projectName) {
 		ProjectManager.getInstance().loadProject(projectName, getActivity().getApplicationContext(), false);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class);
 		solo.sleep(1500);
 	}

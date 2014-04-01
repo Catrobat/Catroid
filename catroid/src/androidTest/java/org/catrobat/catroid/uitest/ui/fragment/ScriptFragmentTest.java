@@ -258,7 +258,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		if (!sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
 			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, true).commit();
 		}
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		String categorySoundLabel = solo.getString(R.string.category_sound);
 		String categoryLegoNXTLabel = solo.getString(R.string.category_lego_nxt);
 		String categoryControlLabel = solo.getString(R.string.category_control);
@@ -346,7 +346,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 	public void testCopyButtonNotVisibleScriptCategory() {
 		UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 
 		assertFalse("Copy Button visible!", UiTestUtils.menuButtonVisible(solo, R.id.copy));
 
@@ -714,20 +714,20 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		String comeToFront = solo.getString(R.string.brick_come_to_front);
 		String ifOnEdgeBounce = solo.getString(R.string.brick_if_on_edge_bounce);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		solo.clickOnText(categoryLooks);
 		assertTrue("SetLookBrick was not renamed for background sprite", solo.searchText(setBackground));
 		solo.clickOnText(setBackground);
 		solo.clickOnText(solo.getString(R.string.brick_when_started));
 		assertTrue("SetLookBrick was not renamed for background sprite", solo.searchText(setBackground));
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		solo.clickOnText(categoryLooks);
 		assertTrue("NextLookBrick was not renamed for background sprite", solo.searchText(nextBackground));
 		solo.clickOnText(nextBackground);
 		solo.clickOnText(solo.getString(R.string.brick_when_started));
 		assertTrue("NextLookBrick was not renamed for background sprite", solo.searchText(nextBackground));
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		solo.clickOnText(categoryMotion);
 		assertFalse("ComeToFrontBrick is in the brick list!", solo.searchText(comeToFront));
 		assertFalse("IfOnEdgeBounceBrick is in the brick list!", solo.searchText(ifOnEdgeBounce));
@@ -776,7 +776,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
 		}
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 
 		assertFalse("Lego brick category is showing!", solo.searchText(categoryLegoNXTLabel));
 
@@ -785,7 +785,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		String currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
 		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 
 		UiTestUtils.openOptionsMenu(solo);
 
@@ -824,7 +824,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		solo.goBack();
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 
 		solo.waitForActivity(StageActivity.class);
 		solo.goBack();

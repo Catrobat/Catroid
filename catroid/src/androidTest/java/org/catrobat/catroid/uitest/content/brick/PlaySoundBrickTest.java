@@ -89,7 +89,7 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 		solo.clickOnText(soundName);
 		assertTrue(soundName + " is not selected in Spinner", solo.searchText(soundName));
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 
@@ -104,7 +104,7 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		solo.clickOnText(soundName);
 		solo.clickOnText(soundName2);
 		assertTrue(soundName2 + " is not selected in Spinner", solo.searchText(soundName2));
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 

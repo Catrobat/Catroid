@@ -80,7 +80,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
 		solo.goBack();
@@ -99,7 +99,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		Activity previousActivity = getActivity();
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 
 		solo.goBack();
@@ -129,7 +129,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
 		assertEquals("Unexpected look size", defaultScale, sprite.look.getSizeInUserInterfaceDimensionUnit());
@@ -153,7 +153,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		Activity currentActivity = solo.getCurrentActivity();
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.goBack();
 		solo.sleep(400);
@@ -181,7 +181,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
 
@@ -260,7 +260,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(4000);
 
@@ -286,7 +286,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 		assertTrue("Cannot click project.", UiTestUtils.clickOnTextInList(solo, testProject));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.goBack();
 		solo.sleep(400);
@@ -340,7 +340,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		Utils.updateScreenWidthAndHeight(getActivity());
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		assertTrue("Stage not resizeable.", ((StageActivity) solo.getCurrentActivity()).getResizePossible());
 		byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
@@ -390,7 +390,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.clickOnView(solo.getView(R.id.stage_dialog_button_maximize));
 		solo.goBack();
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		assertTrue("Stage not resizeable.", ((StageActivity) solo.getCurrentActivity()).getResizePossible());
 
@@ -422,7 +422,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		Utils.updateScreenWidthAndHeight(getActivity());
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		assertTrue("Stage not resizeable.", ((StageActivity) solo.getCurrentActivity()).getResizePossible());
 
@@ -437,7 +437,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		assertTrue("Wrong screenMode in xml-file.",
 				ProjectManager.getInstance().getCurrentProject().getScreenMode() == ScreenModes.STRETCH);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(200);
 		solo.goBack();

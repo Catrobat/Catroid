@@ -75,7 +75,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 	public void testMotionBricksDefaultValues() {
 		String categoryMotionText = solo.getString(R.string.category_motion);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		solo.clickOnText(categoryMotionText);
 		solo.searchText(categoryMotionText);
 		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
@@ -186,7 +186,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 	public void testLookBricksDefaultValues() {
 		String categoryLooksText = solo.getString(R.string.category_looks);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		solo.clickOnText(categoryLooksText);
 
 		// Just to get focus
@@ -258,7 +258,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 	public void testSoundBricksDefaultValues() {
 		String categorySoundText = solo.getString(R.string.category_sound);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		solo.clickOnText(categorySoundText);
 
 		solo.searchText(solo.getString(R.string.brick_play_sound));
@@ -290,7 +290,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		assertEquals("Value in Selected Brick Speak is not correct", defaultSpeakValue, speakEditTextValue);
 
 		solo.sleep(500);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		solo.clickOnText(categorySoundText);
 		solo.clickOnText(solo.getString(R.string.brick_change_volume_by));
 		solo.clickOnScreen(200, 200);
@@ -309,7 +309,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 	public void testControlBricksDefaultValues() {
 		String categoryControlText = solo.getString(R.string.category_control);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		solo.clickOnText(categoryControlText);
 
 		//Just to get focus
@@ -381,7 +381,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 	public void testLegoBricksDefaultValues() {
 		String categoryLegoNXTText = solo.getString(R.string.category_lego_nxt);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
 				solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollListToBottom(fragmentListView);
@@ -433,7 +433,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 	public void testUserVariablesBricksDefaultValues() {
 		String categoryUserVariablesText = solo.getString(R.string.category_variables);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		solo.clickOnText(categoryUserVariablesText);
 
 		solo.searchText(solo.getString(R.string.brick_set_variable));

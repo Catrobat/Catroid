@@ -108,7 +108,7 @@ public class WhenBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 
 		solo.sleep(200);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		solo.clickOnText(solo.getString(R.string.category_control));
 		solo.searchText(solo.getString(R.string.category_control));
 

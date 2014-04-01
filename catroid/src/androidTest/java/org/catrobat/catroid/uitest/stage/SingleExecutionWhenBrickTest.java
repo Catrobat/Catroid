@@ -23,7 +23,6 @@
 package org.catrobat.catroid.uitest.stage;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.BroadcastScript;
@@ -65,7 +64,7 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 		createProjectWhenBrick(SCREEN_HEIGHT, SCREEN_WIDTH);
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(500);
 
@@ -86,7 +85,7 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 		createProjectWhenBrick(SCREEN_HEIGHT, SCREEN_WIDTH);
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(500);
 
@@ -108,7 +107,7 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 		ScreenValues.SCREEN_HEIGHT = SCREEN_HEIGHT;
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(500);
 

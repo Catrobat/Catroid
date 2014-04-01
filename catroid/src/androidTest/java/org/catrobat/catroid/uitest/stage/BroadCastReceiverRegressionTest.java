@@ -23,7 +23,6 @@
 package org.catrobat.catroid.uitest.stage;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -65,7 +64,7 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 
@@ -76,7 +75,7 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
 		// This is where the magic happens. We try to execute the program again, Broadcasts should still work.
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 
@@ -106,7 +105,7 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 
@@ -141,7 +140,7 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(3000);
 

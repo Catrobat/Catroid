@@ -100,7 +100,7 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
 		solo.clickOnButton(continueString);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 
 		solo.sleep(2000);
@@ -170,7 +170,7 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
 		solo.clickOnButton(continueString);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 
 		solo.sleep(1000);

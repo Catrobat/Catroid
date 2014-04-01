@@ -638,7 +638,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		assertEquals("Checkboxes are still showing!", 0, numberOfVisibleCheckBoxes);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 
 		assertTrue("Bottom bar buttons are not enabled!",
 				solo.searchText(solo.getString(R.string.new_project_dialog_title)));
@@ -1318,7 +1318,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(buttonMyProjectsText);
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		UiTestUtils.waitForText(solo, solo.getString(R.string.new_project_dialog_title));
 
 		EditText addNewProjectEditText = solo.getEditText(0);
@@ -1357,7 +1357,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		String buttonCloseText = solo.getString(R.string.close);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.sleep(200);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		solo.sleep(200);
 		solo.enterText(0, UiTestUtils.DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
 		solo.clickOnButton(buttonOkText);
@@ -1647,7 +1647,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		UiTestUtils.waitForText(solo, solo.getString(R.string.new_project_dialog_title));
 
 		EditText addNewProjectEditText = solo.getEditText(0);
@@ -1795,6 +1795,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		String scriptsText = solo.getString(R.string.scripts);
 		solo.clickOnText("cat");
 		solo.clickOnText(scriptsText);
+		solo.waitForActivity(ScriptActivity.class);
 		if (switchGreenToRed) {
 			solo.clickOnText("backgroundGreen");
 			solo.clickOnText("backgroundRed");
@@ -1806,7 +1807,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		}
 
 		Reflection.setPrivateField(StageListener.class, "checkIfAutomaticScreenshotShouldBeTaken", true);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 

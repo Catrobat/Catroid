@@ -72,7 +72,7 @@ public class NewSpriteDialogTest extends BaseActivityInstrumentationTestCase<Mai
 	public void testNewSpriteDialogStep1() throws Exception {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		Intent intent = new Intent("android.intent.action.MAIN");
 		intent.setComponent(new ComponentName(Constants.POCKET_PAINT_PACKAGE_NAME,
 				Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME));

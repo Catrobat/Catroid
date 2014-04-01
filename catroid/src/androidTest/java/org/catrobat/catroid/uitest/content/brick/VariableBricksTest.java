@@ -86,7 +86,7 @@ public class VariableBricksTest extends BaseActivityInstrumentationTestCase<Main
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 
 		solo.waitForView(solo.getView(R.id.button_play));
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(5000);
 

@@ -53,7 +53,7 @@ public class AddBrickFragmentTest extends BaseActivityInstrumentationTestCase<Ma
 
 	public void testBrickCategories() {
 		goToAddBrickFromMainMenu();
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 
 		checkActionBarInACategory(solo.getString(R.string.category_control), "control");
 		checkActionBarInACategory(solo.getString(R.string.category_motion), "motion");
@@ -87,7 +87,7 @@ public class AddBrickFragmentTest extends BaseActivityInstrumentationTestCase<Ma
 	public void testCorrectReturnToCategoriesFragment() {
 		goToAddBrickFromMainMenu();
 		String categoriesString = solo.getString(R.string.categories);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 
 		assertTrue("Categories text in action bar not found before selecting a category",
 				solo.waitForText(categoriesString, 0, 2000));
@@ -109,7 +109,7 @@ public class AddBrickFragmentTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnText(solo.getString(R.string.soundrecorder_name));
 		solo.clickOnImageButton(0);
 		solo.clickOnImageButton(0);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		assertTrue("Categories text in action bar not found after selecting a category",
 				solo.waitForText(categoriesString, 0, 2000));
 	}

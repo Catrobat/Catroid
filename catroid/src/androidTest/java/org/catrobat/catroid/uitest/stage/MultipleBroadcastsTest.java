@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.uitest.stage;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -57,7 +56,7 @@ public class MultipleBroadcastsTest extends BaseActivityInstrumentationTestCase<
 		createProject();
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 	}
 
 	public void testSendMultipleBroadcastsWhenProjectStart() {

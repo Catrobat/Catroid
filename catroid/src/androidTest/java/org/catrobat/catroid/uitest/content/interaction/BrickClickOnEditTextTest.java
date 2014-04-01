@@ -95,7 +95,7 @@ public class BrickClickOnEditTextTest extends BaseActivityInstrumentationTestCas
 		assertTrue("Set brick should be instance of SetYBrick", brickListToCheck.get(0) instanceof SetYBrick);
 		assertTrue("Set brick should be instance of SetXBrick", brickListToCheck.get(1) instanceof SetXBrick);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 
 		editTextFieldVisibility(solo.getString(R.string.category_control));
 		editTextFieldVisibility(solo.getString(R.string.category_motion));

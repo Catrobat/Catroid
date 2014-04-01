@@ -109,7 +109,7 @@ public class SoundRecorderTest extends BaseActivityInstrumentationTestCase<MainM
 	private void prepareRecording() {
 		UiTestUtils.waitForFragment(solo, R.id.fragment_sound);
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		// quickfix for Jenkins to get rid of Resources$NotFoundException: String resource
 		// String soundRecorderText = solo.getString(R.string.soundrecorder_name);
 		String soundRecorderText = "Pocket Code Recorder";

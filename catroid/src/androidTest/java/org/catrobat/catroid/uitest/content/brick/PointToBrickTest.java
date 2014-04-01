@@ -120,7 +120,7 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<Script
 		createNewObjectWithinBrick(newSpriteName2, R.string.yes);
 		assertEquals("In wrong sprite", newSpriteName2, ProjectManager.getInstance().getCurrentSprite().getName());
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		solo.clickOnText(solo.getString(R.string.category_motion));
 		solo.searchText(solo.getString(R.string.category_motion));
 		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
@@ -153,7 +153,7 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<Script
 		solo.sleep(200);
 		solo.clickOnText(solo.getString(R.string.scripts));
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		solo.clickOnText(solo.getString(R.string.category_motion));
 		solo.searchText(solo.getString(R.string.category_motion));
 		fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);

@@ -24,7 +24,6 @@ package org.catrobat.catroid.uitest.stage;
 
 import android.view.WindowManager;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -45,7 +44,7 @@ public class StageTestSimple extends BaseActivityInstrumentationTestCase<MainMen
 		ScreenValues.SCREEN_WIDTH = 20;
 
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 	}
 

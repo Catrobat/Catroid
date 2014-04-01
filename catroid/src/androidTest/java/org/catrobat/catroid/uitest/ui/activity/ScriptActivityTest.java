@@ -156,7 +156,7 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 	}
 
 	private void checkplayProgramButton() {
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Not in StageActivity", StageActivity.class);
 

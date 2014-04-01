@@ -66,7 +66,7 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		}
 
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		assertFalse("Lego brick category is showing!", solo.searchText(categoryLegoNXTLabel));
 		solo.goBack();
 		solo.sleep(200);
@@ -82,7 +82,7 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		UiTestUtils.clickOnBottomBarAddButton(solo);
 		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
 				solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollListToBottom(fragmentListView);

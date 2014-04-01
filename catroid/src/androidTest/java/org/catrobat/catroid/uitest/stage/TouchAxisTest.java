@@ -23,7 +23,6 @@
 package org.catrobat.catroid.uitest.stage;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
@@ -54,7 +53,7 @@ public class TouchAxisTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		createProject();
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 	}
 
 	// This prevents regression of https://github.com/Catrobat/Catroid/issues/3

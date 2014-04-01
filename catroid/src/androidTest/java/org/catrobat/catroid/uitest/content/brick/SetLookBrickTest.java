@@ -93,7 +93,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testSelectLookAndPlay() {
 		assertTrue(lookName + " is not selected in Spinner", solo.isSpinnerTextSelected(lookName));
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
@@ -107,7 +107,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.clickOnText(lookName2);
 		assertTrue(lookName2 + " is not selected in Spinner", solo.searchText(lookName2));
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1000);
@@ -170,7 +170,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		String look2ImagePath = lookDataList.get(1).getAbsolutePath();
 		assertTrue(lookName + " is not selected in Spinner", solo.isSpinnerTextSelected(lookName));
 
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		String lookPath = ProjectManager.getInstance().getCurrentSprite().getLookDataList().get(0).getAbsolutePath();
 		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", look1ImagePath, lookPath);
@@ -221,7 +221,7 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void selectLook(String newLook, String oldName, String lookImagePath) {
 		solo.clickOnText(oldName);
 		solo.clickOnText(newLook);
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		UiTestUtils.clickOnBottomBarPlayButton(solo);
 		solo.sleep(5000);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
