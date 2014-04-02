@@ -70,6 +70,8 @@ public final class TestUtils {
 	private static final String TAG = TestUtils.class.getSimpleName();
 
 	// Suppress default constructor for noninstantiability
+	public static final double DELTA = 0.00001;
+
 	private TestUtils() {
 		throw new AssertionError();
 	}
