@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.view.View;
+
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
@@ -49,8 +51,8 @@ public class DroneTurnLeftBrick extends DroneMoveBrick {
 	}
 
 	@Override
-	protected String getBrickLabel() {
-		return super.view.getResources().getString(R.string.brick_drone_turn_left);
+	protected String getBrickLabel(View view) {
+		return view.getResources().getString(R.string.brick_drone_turn_left);
 	}
 
 	@Override

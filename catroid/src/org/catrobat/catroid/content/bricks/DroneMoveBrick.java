@@ -79,7 +79,7 @@ public abstract class DroneMoveBrick extends BrickBaseType implements OnClickLis
 		this.timeToFlyInSeconds = timeToWaitInSeconds;
 	}
 
-	protected abstract String getBrickLabel();
+	protected abstract String getBrickLabel(View view);
 
 	@Override
 	public abstract Brick clone();
@@ -133,7 +133,7 @@ public abstract class DroneMoveBrick extends BrickBaseType implements OnClickLis
 		}
 
 		TextView label = (TextView) view.findViewById(R.id.brick_drone_move_label);
-		label.setText(getBrickLabel());
+		label.setText(getBrickLabel(view));
 
 		textTime.setVisibility(View.GONE);
 		editTime.setVisibility(View.VISIBLE);
@@ -156,6 +156,8 @@ public abstract class DroneMoveBrick extends BrickBaseType implements OnClickLis
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_drone_move, null);
+		TextView label = (TextView) prototypeView.findViewById(R.id.brick_drone_move_label);
+		label.setText(getBrickLabel(prototypeView));
 		TextView textTime = (TextView) prototypeView.findViewById(R.id.brick_drone_move_prototype_text_view_second);
 		textTime.setText(String.valueOf(timeToFlyInSeconds.interpretInteger(sprite)));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_drone_move_text_view_second);
@@ -178,7 +180,7 @@ public abstract class DroneMoveBrick extends BrickBaseType implements OnClickLis
 			background.setAlpha(alphaValue);
 
 			TextView textTimeLabel = (TextView) view.findViewById(R.id.brick_drone_move_label);
-			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_size_to_percent);
+			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_power_to_percent);
 
 			TextView textTimeSeconds = (TextView) view.findViewById(R.id.brick_drone_move_text_view_second);
 			TextView editTime = (TextView) view.findViewById(R.id.brick_drone_move_edit_text_second);

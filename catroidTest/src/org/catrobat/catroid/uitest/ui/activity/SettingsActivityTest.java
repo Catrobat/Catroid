@@ -44,6 +44,29 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		super(MainMenuActivity.class);
 	}
 
+	public void testToggleDroneBricks() {
+		String settings = solo.getString(R.string.settings);
+		String dronePreferenceString = solo.getString(R.string.preference_description_quadcopter_bricks);
+		String categoryDroneLabel = solo.getString(R.string.category_drone);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+		//disable drone bricks if enabled
+		if (preferences.getBoolean("setting_quadcopter_bricks", false)) {
+
+			solo.clickOnMenuItem(settings);
+			solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
+			solo.clickOnText(dronePreferenceString);
+			solo.goBack();
+		}
+
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		assertFalse("Drone brick category is showing!", solo.searchText(categoryDroneLabel));
+		solo.goBack();
+		solo.clickOnImage(0); //home button in actionbar
+
+	}
+
 	public void testToggleMindstormBricks() {
 		String settings = solo.getString(R.string.settings);
 		String mindstormsPreferenceString = solo.getString(R.string.preference_title_enable_mindstorm_bricks);

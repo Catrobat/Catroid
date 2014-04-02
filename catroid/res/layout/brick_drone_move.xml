@@ -85,7 +85,7 @@
         </TextView>
         
 		<TextView
-            android:id="@+id/brick_set_size_to_percent"
+            android:id="@+id/brick_set_power_to_percent"
             style="@style/BrickText.SingleLine"
             android:text="@string/percent_symbol" >
         </TextView>

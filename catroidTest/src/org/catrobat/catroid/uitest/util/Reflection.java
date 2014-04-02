@@ -49,9 +49,19 @@ public final class Reflection {
 			Field field = clazz.getDeclaredField(fieldName);
 			field.setAccessible(true);
 			return field.get(object);
+
+		} catch (NoSuchFieldException exception) {
+			Class superClass = clazz.getSuperclass();
+			if (superClass == null) {
+				throw new RuntimeException(exception);
+			} else {
+				return getPrivateField(superClass, object, fieldName);
+			}
 		} catch (Exception exception) {
+
 			throw new RuntimeException(exception);
 		}
+
 	}
 
 	public static void setPrivateField(Object object, String fieldName, Object value) {
