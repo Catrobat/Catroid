@@ -51,7 +51,7 @@ public class DroneStageTest extends BaseActivityInstrumentationTestCase<MainMenu
 	}
 
 	public void testSimpleUITest() {
-		UtilFile.deleteStandardDroneProjectAndReCreate(getActivity());
+		UtilFile.createStandardDroneProjectIfNotPresent(getActivity());
 		solo.waitForActivity(MainMenuActivity.class);
 		solo.clickOnText("Fortsetzen");
 		solo.clickOnText("Abheben");
@@ -74,6 +74,7 @@ public class DroneStageTest extends BaseActivityInstrumentationTestCase<MainMenu
 		//		solo.getViews().contains("Drehe nach links");
 		//		solo.getViews().contains("Drehe nach rechts");
 		//		solo.getViews().contains("blablub");
+		assertTrue("Should not fail", true);
 	}
 
 	// This test requires the NXTBTTestServer to be running or a LegoNXT Robot to run! Check connect string to see if you connect to the right device!

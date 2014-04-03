@@ -99,6 +99,11 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!BackPackListManager.isBackpackFlag()) {
 			BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
 		}
+
+		if (BuildConfig.DEBUG) {
+			UtilFile.createStandardDroneProjectIfNotPresent(this);
+		}
+
 	}
 
 	@Override
@@ -112,11 +117,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		findViewById(R.id.progress_circle).setVisibility(View.GONE);
 
 		UtilFile.createStandardProjectIfRootDirectoryIsEmpty(this);
-
-		if (BuildConfig.DEBUG) {
-			UtilFile.deleteStandardDroneProjectAndReCreate(this);
-
-		}
 
 		PreStageActivity.shutdownPersistentResources();
 		setMainMenuButtonContinueText();

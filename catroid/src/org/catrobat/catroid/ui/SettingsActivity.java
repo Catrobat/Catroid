@@ -55,7 +55,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
 		if (BuildConfig.DEBUG) {
 			dronePreference.setEnabled(true);
-			dronePreference.setChecked(true);
+			//dronePreference.setChecked(true);
 			screen.addPreference(dronePreference);
 		}
 	}

@@ -34,6 +34,7 @@ import com.jayway.android.robotium.solo.Solo;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -57,13 +58,35 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 			solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
 			solo.clickOnText(dronePreferenceString);
 			solo.goBack();
+			solo.waitForActivity(MainMenuActivity.class);
 		}
 
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		solo.waitForActivity(ScriptActivity.class);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.waitForText("Steuerung");
 		assertFalse("Drone brick category is showing!", solo.searchText(categoryDroneLabel));
 		solo.goBack();
-		solo.clickOnImage(0); //home button in actionbar
+		solo.waitForActivity(ScriptActivity.class);
+		solo.clickOnActionBarHomeButton();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+
+		solo.clickOnMenuItem(settings);
+		solo.waitForActivity(SettingsActivity.class.getSimpleName());
+
+		assertTrue("Wrong title", solo.searchText(solo.getString(R.string.preference_title)));
+
+		solo.clickOnText(dronePreferenceString);
+
+		solo.goBack();
+
+		assertTrue("Drone preference should now be enabled", preferences.getBoolean("setting_quadcopter_bricks", false));
+
+		solo.waitForActivity(MainMenuActivity.class);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.waitForText("Steuerung");
+		assertTrue("Drone brick category is showing!", solo.searchText(categoryDroneLabel));
 
 	}
 
