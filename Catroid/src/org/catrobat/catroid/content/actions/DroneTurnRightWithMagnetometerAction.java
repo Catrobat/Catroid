@@ -22,23 +22,39 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import android.util.Log;
 
-import org.catrobat.catroid.drone.DroneServiceWrapper;
+public class DroneTurnRightWithMagnetometerAction extends DroneMoveAction {
 
-public class DroneTakeoffAction extends TemporalAction {
+	private boolean isCalled = false;
 
 	@Override
 	protected void begin() {
-		// TODO Auto-generated method stub
 		super.begin();
-		DroneServiceWrapper.getInstance().getDroneService().triggerTakeOff();
+		if (isCalled == false) {
+			super.getDroneService().setMagnetoEnabled(true);
+			super.getDroneService().calibrateMagneto();
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Log.d(getClass().getSimpleName(), "isCalled");
+		}
 	}
 
 	@Override
-	protected void update(float percent) {
-		// TODO Auto-generated method stub
+	protected void move() {
+		int value = (int) (super.getPowerNormalized() * 100);
+		super.setCommandAndYawEnabled(true);
+		super.getDroneService().setDeviceOrientation(0, -value);
+	}
 
+	@Override
+	protected void moveEnd() {
+		super.setCommandAndYawEnabled(false);
+		isCalled = true;
 	}
 
 }

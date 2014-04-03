@@ -101,7 +101,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		}
 
 		if (BuildConfig.DEBUG) {
-			UtilFile.createStandardDroneProjectIfNotPresent(this);
+			UtilFile.createStandardDroneProject(this);
 		}
 
 	}

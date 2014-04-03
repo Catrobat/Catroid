@@ -172,14 +172,23 @@ public final class UtilFile {
 		}
 	}
 
-	public static void createStandardDroneProjectIfNotPresent(Context context) {
+	public static void createStandardDroneProject(Context context) {
 		String droneStandardProjectName = context.getString(R.string.default_drone_project_name);
 		ProjectManager.getInstance().loadProject(droneStandardProjectName, context, false);
 		String currentName = ProjectManager.getInstance().getCurrentProject().getName();
 
 		if (!currentName.equals(droneStandardProjectName)) {
-			Log.d(TAG, "Delete standard drone project.");
 			ProjectManager.getInstance().initializeDroneProject(context);
+		}
+	}
+
+	public static void deleteStandardDroneProject(Context context) {
+		String droneStandardProjectName = context.getString(R.string.default_drone_project_name);
+		ProjectManager.getInstance().loadProject(droneStandardProjectName, context, false);
+		String currentName = ProjectManager.getInstance().getCurrentProject().getName();
+
+		if (currentName.equals(droneStandardProjectName)) {
+			ProjectManager.getInstance().deleteCurrentProject();
 		}
 	}
 

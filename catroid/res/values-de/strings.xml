@@ -545,8 +545,11 @@
 	<string name="brick_drone_move_backward">Fliege nach hinten</string>
 	<string name="brick_drone_flip">Flip</string>
 	<string name="brick_drone_power">Power</string>
-	<string name="brick_drone_turn_right">Drehe nach rechts</string>
 	<string name="brick_drone_turn_left">Drehe nach links</string>
+	<string name="brick_drone_turn_right">Drehe nach rechts</string>
+	<string name="brick_drone_turn_left_magneto">Drehe nach links</string>
+	<string name="brick_drone_turn_right_magneto">Drehe nach rechts</string>
+	<string name="brick_drone_angle">Winkel</string>
 	<!--  -->
 	 
     <!-- Formula Editor Strings -->

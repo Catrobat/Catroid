@@ -64,7 +64,12 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		solo.waitForActivity(ScriptActivity.class);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		solo.waitForText("Steuerung");
+		solo.waitForText(solo.getString(R.string.category_control));
+
+		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
+				solo.getCurrentViews(ListView.class).size() - 1);
+		solo.scrollListToBottom(fragmentListView);
+
 		assertFalse("Drone brick category is showing!", solo.searchText(categoryDroneLabel));
 		solo.goBack();
 		solo.waitForActivity(ScriptActivity.class);
@@ -85,8 +90,13 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.waitForActivity(MainMenuActivity.class);
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		solo.waitForText("Steuerung");
-		assertTrue("Drone brick category is showing!", solo.searchText(categoryDroneLabel));
+
+		solo.waitForText(solo.getString(R.string.category_control));
+
+		fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
+		solo.scrollListToBottom(fragmentListView);
+
+		assertTrue("Drone brick category is not showing!", solo.searchText(categoryDroneLabel));
 
 	}
 

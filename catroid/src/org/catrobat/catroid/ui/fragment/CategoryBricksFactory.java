@@ -53,7 +53,9 @@ import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
+import org.catrobat.catroid.content.bricks.DroneTurnLeftMagnetoBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
+import org.catrobat.catroid.content.bricks.DroneTurnRightMagnetoBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
@@ -234,6 +236,8 @@ public class CategoryBricksFactory {
 		droneBrickList.add(new DroneMoveBackwardBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
 		droneBrickList.add(new DroneTurnLeftBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
 		droneBrickList.add(new DroneTurnRightBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
+		droneBrickList.add(new DroneTurnLeftMagnetoBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
+		droneBrickList.add(new DroneTurnRightMagnetoBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
 
 		return droneBrickList;
 	}

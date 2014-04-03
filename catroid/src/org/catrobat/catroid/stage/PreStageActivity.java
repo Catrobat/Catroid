@@ -91,6 +91,8 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 
 	public static final String STRING_EXTRA_INIT_DRONE = "STRING_EXTRA_INIT_DRONE";
 
+	private static final int BATTERY_TRESHOLD = 5;
+
 	private int requiredResourceCounter;
 	private static LegoNXT legoNXT;
 	private ProgressDialog connectingProgressDialog;
@@ -482,7 +484,7 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 	public void onDroneReady() {
 		Log.d(TAG, "onDroneReady -> check battery -> go to stage");
 		//droneControlService.
-		if (droneBatteryStatus < 20) {
+		if (droneBatteryStatus < BATTERY_TRESHOLD) {
 			showErrorDialogWhenDroneIsNotAvailable(this, R.string.error_drone_low_battery);
 			return;
 		}
@@ -532,7 +534,8 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 	public static void showErrorDialogWhenDroneIsNotAvailable(final PreStageActivity context, int errorMessage) {
 		Builder builder = new CustomAlertDialogBuilder(context);
 
-		builder.setTitle(R.string.error);
+		int batteryStatus = context.droneBatteryStatus;
+		builder.setTitle(R.string.error + " LeveL: [" + batteryStatus + "%]");
 		builder.setCancelable(false);
 		builder.setMessage(errorMessage);
 		builder.setNeutralButton(R.string.close, new OnClickListener() {

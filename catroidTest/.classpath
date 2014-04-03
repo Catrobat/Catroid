@@ -6,11 +6,11 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-	<classpathentry kind="lib" path="libs/robotium-solo-4.3.1.jar"/>
 	<classpathentry kind="lib" path="libs/the-missing-android-xml-junit-test-runner-release-1.3_2.jar"/>
 	<classpathentry kind="lib" path="libs/dexmaker-1.0.jar"/>
 	<classpathentry kind="lib" path="libs/dexmaker-mockito-1.1.jar"/>
 	<classpathentry kind="lib" path="libs/easymock-3.2.jar"/>
 	<classpathentry kind="lib" path="libs/mockito-all-1.9.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/marc/Catroid/catroidTest/libs/robotium-solo-4.3.1-javadoc.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
