@@ -27,6 +27,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.soundrecorder.SoundRecorder;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -251,9 +252,9 @@ public final class UtilFile {
 	}
 
 	public static File copySoundFromResourceIntoProject(String projectName, String outputFilename, int resourceId,
-			Context context, boolean prependMd5ToFilename) throws IOException {
-		if (!outputFilename.toLowerCase(Locale.US).endsWith(Constants.RECORDING_EXTENSION)) {
-			outputFilename = outputFilename + Constants.RECORDING_EXTENSION;
+			Context context, boolean prependMd5ToFilename) throws IllegalArgumentException, IOException {
+		if (!outputFilename.toLowerCase(Locale.US).endsWith(SoundRecorder.RECORDING_EXTENSION)) {
+			throw new IllegalArgumentException("Only Files with extension " + SoundRecorder.RECORDING_EXTENSION + " allowed");
 		}
 		return copyFromResourceIntoProject(projectName, Constants.SOUND_DIRECTORY, outputFilename, resourceId, context,
 				prependMd5ToFilename);

@@ -153,7 +153,9 @@ public class NewProjectDialog extends DialogFragment {
 
 		try {
 			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), shouldBeEmpty);
-
+		} catch (IllegalArgumentException illegalArgumentException) {
+			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
+			return;
 		} catch (IOException ioException) {
 			Utils.showErrorDialog(getActivity(), R.string.error_new_project);
 			Log.e(TAG, Log.getStackTraceString(ioException));

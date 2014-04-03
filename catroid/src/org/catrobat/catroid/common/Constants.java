@@ -36,7 +36,6 @@ public final class Constants {
 	public static final String PROJECTCODE_NAME = "code.xml";
 
 	public static final String CATROBAT_EXTENSION = ".catrobat";
-	public static final String RECORDING_EXTENSION = ".mp3";
 	public static final String IMAGE_STANDARD_EXTENTION = ".png";
 	public static final String TEXT_TO_SPEECH_EXTENSION = ".wav";
 
