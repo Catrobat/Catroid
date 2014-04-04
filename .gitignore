@@ -39,8 +39,3 @@ Thumbs.db
 # Gradle
 .gradle/
 build/
-*.properties
-catroid/.classpath
-*.cproject
-*.project
-catroid/.project

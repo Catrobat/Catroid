@@ -41,7 +41,7 @@ public class CheckForAssertionsTest extends TestCase {
 			"XmlTestUtils.java", "MockSoundActivity.java", "Reflection.java", "Utils.java",
 			"BaseActivityInstrumentationTestCase.java", "Device.java", "Callback.java", "CallbackBrick.java",
 			"Util.java", "BeforeAfterSteps.java", "Cucumber.java", "CallbackAction.java", "ObjectSteps.java",
-			"CucumberAnnotation.java", "CatroidExampleSteps.java", "PrintBrick.java" };
+			"CucumberAnnotation.java", "CatroidExampleSteps.java", "PrintBrick.java", "DroneTestUtils.java" };
 
 	private boolean fileHasAssertions(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));

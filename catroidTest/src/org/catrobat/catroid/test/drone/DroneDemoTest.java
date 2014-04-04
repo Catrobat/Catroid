@@ -36,14 +36,12 @@ public class DroneDemoTest extends InstrumentationTestCase {
 		//Workaround for Android 4.4 Devices
 		//https://code.google.com/p/dexmaker/issues/detail?id=2
 		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-
 	}
 
 	public void testDemo() {
 		DroneProxy droneMock = Mockito.mock(DroneProxy.class);
 
 		droneMock.doFlip();
-
 		// was the method called once?
 		Mockito.verify(droneMock, Mockito.atLeast(1)).doFlip();
 	}

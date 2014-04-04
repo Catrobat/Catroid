@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,19 +19,43 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+ */
+package org.catrobat.catroid.content.actions;
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="setting_mindstorm_bricks"
-        android:summary="@string/preference_description_mindstorm_bricks"
-        android:title="@string/preference_title_enable_mindstorm_bricks" />
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="setting_quadcopter_bricks"
-        android:summary="@string/preference_description_quadcopter_bricks"
-        android:title="@string/preference_title_enable_quadcopter_bricks" 
-        android:enabled="false" />
+import android.util.Log;
 
-</PreferenceScreen>
+public class DroneTurnRightWithMagnetometerAction extends DroneMoveAction {
+	private static final String TAG = DroneTurnRightWithMagnetometerAction.class.getSimpleName();
+	private boolean isCalled = false;
+
+	@Override
+	protected void begin() {
+		super.begin();
+		if (isCalled == false) {
+			super.getDroneService().setMagnetoEnabled(true);
+			super.getDroneService().calibrateMagneto();
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				Log.e(TAG, Log.getStackTraceString(e));
+
+			}
+			Log.d(getClass().getSimpleName(), "isCalled");
+		}
+	}
+
+	@Override
+	protected void move() {
+		int value = (int) (super.getPowerNormalized() * 100);
+		super.setCommandAndYawEnabled(true);
+		super.getDroneService().setDeviceOrientation(0, -value);
+	}
+
+	@Override
+	protected void moveEnd() {
+		super.setCommandAndYawEnabled(false);
+		isCalled = true;
+	}
+
+}

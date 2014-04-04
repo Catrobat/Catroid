@@ -22,18 +22,14 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import android.util.Log;
-
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-import com.parrot.freeflight.service.DroneControlServiceInterface;
+import com.parrot.freeflight.service.DroneControlService;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 public abstract class DroneMoveAction extends TemporalAction {
-
-	private final String TAG = this.getClass().getSimpleName();
 
 	private Sprite sprite;
 	private Formula duration;
@@ -60,7 +56,7 @@ public abstract class DroneMoveAction extends TemporalAction {
 		return (float) powerInPercent.interpretInteger(sprite) / 100;
 	}
 
-	protected DroneControlServiceInterface getDroneService() {
+	protected DroneControlService getDroneService() {
 		return DroneServiceWrapper.getInstance().getDroneService();
 	}
 
@@ -70,7 +66,7 @@ public abstract class DroneMoveAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		Log.d(TAG, "update!");
+		//Log.d(TAG, "update!");
 		this.move();
 	}
 
@@ -78,7 +74,7 @@ public abstract class DroneMoveAction extends TemporalAction {
 	@Override
 	public boolean act(float delta) {
 		Boolean superReturn = super.act(delta);
-		Log.d(TAG, "Do Drone Stuff once, superReturn = " + superReturn.toString());
+		//Log.d(TAG, "Do Drone Stuff once, superReturn = " + superReturn.toString());
 		return superReturn;
 	}
 

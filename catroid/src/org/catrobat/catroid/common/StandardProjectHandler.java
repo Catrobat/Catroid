@@ -62,8 +62,8 @@ import java.io.IOException;
 
 public final class StandardProjectHandler {
 
+	private static final String TAG = StandardProjectHandler.class.getSimpleName();
 	private static double backgroundImageScaleFactor = 1;
-	public static final String TAG = StandardProjectHandler.class.getSimpleName();
 
 	// Suppress default constructor for noninstantiability
 	private StandardProjectHandler() {
@@ -148,14 +148,17 @@ public final class StandardProjectHandler {
 				-260, -450, rotateFile));
 
 		//Led Sprite
-		String blinkLedSpriteName = context.getString(R.string.default_drone_project_sprites_blink_led);
+		//TODO Drone: add when PlayLedAnimationBrick works
+		//String blinkLedSpriteName = context.getString(R.string.default_drone_project_sprites_blink_led);
 
-		File playLedFile = UtilFile.copyImageFromResourceIntoProject(projectName, blinkLedSpriteName
-				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_light_bulb, context,
-				true, backgroundImageScaleFactor);
+		//TODO Drone: add when PlayLedAnimationBrick works
+		//File playLedFile = UtilFile.copyImageFromResourceIntoProject(projectName, blinkLedSpriteName
+		//		+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_light_bulb, context,
+		//		true, backgroundImageScaleFactor);
 
-		defaultDroneProject.addSprite(createDroneSprite(blinkLedSpriteName,
-				DroneUtils.DroneBricks.DRONE_PLAY_LED_ANIMATION_BRICK, -100, -450, playLedFile));
+		//TODO Drone: add when PlayLedAnimationBrick works
+		//defaultDroneProject.addSprite(createDroneSprite(blinkLedSpriteName,
+		//		DroneUtils.DroneBricks.DRONE_PLAY_LED_ANIMATION_BRICK, -100, -450, playLedFile));
 
 		//Up Sprite
 		String upSpriteName = context.getString(R.string.default_drone_project_sprites_up);

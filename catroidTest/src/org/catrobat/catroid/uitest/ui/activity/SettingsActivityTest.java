@@ -52,8 +52,7 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		//disable drone bricks if enabled
-		if (preferences.getBoolean("setting_quadcopter_bricks", false)) {
-
+		if (preferences.getBoolean(SettingsActivity.SETTINGS_QUADCOPTER_BRICKS, false)) {
 			solo.clickOnMenuItem(settings);
 			solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
 			solo.clickOnText(dronePreferenceString);
@@ -85,7 +84,8 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 
 		solo.goBack();
 
-		assertTrue("Drone preference should now be enabled", preferences.getBoolean("setting_quadcopter_bricks", false));
+		assertTrue("Drone preference should now be enabled",
+				preferences.getBoolean(SettingsActivity.SETTINGS_QUADCOPTER_BRICKS, false));
 
 		solo.waitForActivity(MainMenuActivity.class);
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);

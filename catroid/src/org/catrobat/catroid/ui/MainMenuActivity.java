@@ -43,7 +43,6 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -100,10 +99,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
 		}
 
-		if (BuildConfig.DEBUG) {
-			UtilFile.createStandardDroneProject(this);
-		}
-
+		//TODO Drone dont create project for now
+		//if (BuildConfig.DEBUG && DroneUtils.isDroneSharedPreferenceEnabled(getApplication(), false)) {
+		//	UtilFile.createStandardDroneProject(this);
+		//}
 	}
 
 	@Override

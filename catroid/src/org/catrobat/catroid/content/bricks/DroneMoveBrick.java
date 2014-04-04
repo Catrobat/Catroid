@@ -221,7 +221,15 @@ public abstract class DroneMoveBrick extends BrickBaseType implements OnClickLis
 			case R.id.brick_drone_move_edit_text_power:
 				FormulaEditorFragment.showFragment(view, this, powerInPercent);
 				break;
+
+			default:
+				return;
 		}
+	}
+
+	@Override
+	public int getRequiredResources() {
+		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
 	}
 
 }

@@ -50,12 +50,9 @@ import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
-import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
-import org.catrobat.catroid.content.bricks.DroneTurnLeftMagnetoBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
-import org.catrobat.catroid.content.bricks.DroneTurnRightMagnetoBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
@@ -226,18 +223,18 @@ public class CategoryBricksFactory {
 		List<Brick> droneBrickList = new ArrayList<Brick>();
 		droneBrickList.add(new DroneTakeOffBrick(sprite));
 		droneBrickList.add(new DroneLandBrick(sprite));
-		droneBrickList.add(new DronePlayLedAnimationBrick(sprite));
+		//droneBrickList.add(new DronePlayLedAnimationBrick(sprite)); //TODO Drone: add when brick works
 		droneBrickList.add(new DroneFlipBrick(sprite));
-		droneBrickList.add(new DroneMoveUpBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
-		droneBrickList.add(new DroneMoveDownBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
-		droneBrickList.add(new DroneMoveLeftBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
-		droneBrickList.add(new DroneMoveRightBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
-		droneBrickList.add(new DroneMoveForwardBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
-		droneBrickList.add(new DroneMoveBackwardBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
-		droneBrickList.add(new DroneTurnLeftBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
-		droneBrickList.add(new DroneTurnRightBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
-		droneBrickList.add(new DroneTurnLeftMagnetoBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
-		droneBrickList.add(new DroneTurnRightMagnetoBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));
+		droneBrickList.add(new DroneMoveUpBrick(sprite, BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
+		droneBrickList.add(new DroneMoveDownBrick(sprite, BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
+		droneBrickList.add(new DroneMoveLeftBrick(sprite, BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
+		droneBrickList.add(new DroneMoveRightBrick(sprite, BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
+		droneBrickList.add(new DroneMoveForwardBrick(sprite, BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
+		droneBrickList.add(new DroneMoveBackwardBrick(sprite, BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
+		droneBrickList.add(new DroneTurnLeftBrick(sprite, BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
+		droneBrickList.add(new DroneTurnRightBrick(sprite, BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
+		//droneBrickList.add(new DroneTurnLeftMagnetoBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100)));  //TODO Drone: add when brick works
+		//droneBrickList.add(new DroneTurnRightMagnetoBrick(sprite, BrickValues.FLY, (int) (BrickValues.POWER * 100))); //TODO Drone: add when brick works
 
 		return droneBrickList;
 	}

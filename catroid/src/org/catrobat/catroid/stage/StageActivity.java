@@ -63,6 +63,8 @@ public class StageActivity extends AndroidApplication implements DroneReadyRecei
 
 	public static final int STAGE_ACTIVITY_FINISH = 7777;
 
+	private Boolean droneIsRequired;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -72,24 +74,24 @@ public class StageActivity extends AndroidApplication implements DroneReadyRecei
 		stageListener = new StageListener();
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
+
 		initialize(stageListener, true);
 
+		//TODO Drone: process reuturn value
 		if (prepareRessources()) {
-			//TODO: Abort stage start and show error -> UI-Team
+			Log.d(TAG, "Failure during drone service startup");
 		}
-
 	}
 
 	private boolean prepareRessources() {
-		Boolean initDrone = getIntent().getBooleanExtra(PreStageActivity.STRING_EXTRA_INIT_DRONE, false);
-		Log.d(TAG, "prepareRessources() initDrone=" + initDrone.toString());
-		if (initDrone) {
+		droneIsRequired = getIntent().getBooleanExtra(PreStageActivity.STRING_EXTRA_INIT_DRONE, false);
+		Log.d(TAG, "prepareRessources() initDrone=" + droneIsRequired.toString());
+		if (droneIsRequired) {
 			droneReadyReceiver = new DroneReadyReceiver(this);
 			droneConnectionChangeReceiver = new DroneConnectionChangedReceiver(this);
 
 			helpBindService();
 		}
-
 		return true;
 	}
 
@@ -108,9 +110,8 @@ public class StageActivity extends AndroidApplication implements DroneReadyRecei
 
 	@Override
 	public void onPause() {
-		super.onPause();
-
 		SensorHandler.stopSensorListeners();
+		super.onPause();
 
 		if (droneControlService != null) {
 			droneControlService.pause();
@@ -119,11 +120,12 @@ public class StageActivity extends AndroidApplication implements DroneReadyRecei
 		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
 		manager.unregisterReceiver(droneReadyReceiver);
 		manager.unregisterReceiver(droneConnectionChangeReceiver);
-
 	}
 
 	@Override
 	public void onResume() {
+		Log.d(TAG, "StageActivity::onResume()");
+		SensorHandler.startSensorListener(this);
 		super.onResume();
 
 		Log.d(TAG, "onResume");
@@ -138,8 +140,6 @@ public class StageActivity extends AndroidApplication implements DroneReadyRecei
 		manager.registerReceiver(droneReadyReceiver, new IntentFilter(DroneControlService.DRONE_STATE_READY_ACTION));
 		manager.registerReceiver(droneConnectionChangeReceiver, new IntentFilter(
 				DroneControlService.DRONE_CONNECTION_CHANGED_ACTION));
-
-		SensorHandler.startSensorListener(this);
 	}
 
 	public void pause() {
@@ -200,6 +200,7 @@ public class StageActivity extends AndroidApplication implements DroneReadyRecei
 	}
 
 	private void onDroneServiceConnected(IBinder service) {
+		Log.d(TAG, "onDroneServiceConnected");
 		droneControlService = ((DroneControlService.LocalBinder) service).getService();
 		DroneServiceWrapper.getInstance().setDroneService(droneControlService);
 		droneControlService.resume();
@@ -255,19 +256,15 @@ public class StageActivity extends AndroidApplication implements DroneReadyRecei
 	@Override
 	public void onDroneReady() {
 		Log.d(TAG, "onDroneReady");
-
 	}
 
 	@Override
 	public void onDroneConnected() {
 		Log.d(TAG, "onDroneConnected");
 		droneControlService.requestConfigUpdate();
-
 	}
 
 	@Override
 	public void onDroneDisconnected() {
-		// TODO Auto-generated method stub
-
 	}
 }

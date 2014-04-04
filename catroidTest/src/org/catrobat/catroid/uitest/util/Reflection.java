@@ -51,7 +51,7 @@ public final class Reflection {
 			return field.get(object);
 
 		} catch (NoSuchFieldException exception) {
-			Class superClass = clazz.getSuperclass();
+			Class<?> superClass = clazz.getSuperclass();
 			if (superClass == null) {
 				throw new RuntimeException(exception);
 			} else {

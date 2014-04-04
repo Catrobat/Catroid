@@ -32,11 +32,6 @@ dependencies {
     compile fileTree(dir: 'catroid/libs-natives', include: '*.jar')
 
     androidTestCompile fileTree(dir: 'catroidTest/libs', include: '*.jar')
-    // androidTestCompile 'org.mockito:mockito-core:1.9.5'
-    // androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.1'
-//    androidTestCompile 'org.easymock:easymockclassextension:3.2'
-    //androidTestCompile 'org.powermock:powermock:1.5.4'
-
 }
 
 

@@ -36,7 +36,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
 	CheckBoxPreference dronePreference = null;
 
-	public static final String setting_quadcopter_bricks = "setting_quadcopter_bricks";
+	public static final String SETTINGS_QUADCOPTER_BRICKS = "setting_quadcopter_bricks";
 
 	PreferenceScreen screen = null;
 
@@ -50,12 +50,11 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		actionBar.setTitle(R.string.preference_title);
 		actionBar.setHomeButtonEnabled(true);
 
-		dronePreference = (CheckBoxPreference) findPreference(setting_quadcopter_bricks);
+		dronePreference = (CheckBoxPreference) findPreference(SETTINGS_QUADCOPTER_BRICKS);
 		screen = getPreferenceScreen();
 
 		if (BuildConfig.DEBUG) {
 			dronePreference.setEnabled(true);
-			//dronePreference.setChecked(true);
 			screen.addPreference(dronePreference);
 		}
 	}

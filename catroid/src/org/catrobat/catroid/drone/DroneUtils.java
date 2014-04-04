@@ -22,6 +22,10 @@
  */
 package org.catrobat.catroid.drone;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
@@ -36,12 +40,20 @@ import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
+import org.catrobat.catroid.ui.SettingsActivity;
 
-public class DroneUtils {
+public final class DroneUtils {
+
+	private DroneUtils() {
+	}
 
 	public static enum DroneBricks {
-
 		DRONE_TAKE_OFF_BRICK, DRONE_PLAY_LED_ANIMATION_BRICK, DRONE_LAND_BRICK, DRONE_FLIP_BRICK, DRONE_MOVE_DOWN_BRICK, DRONE_MOVE_UP_BRICK, DRONE_MOVE_LEFT_BRICK, DRONE_MOVE_RIGHT_BRICK, DRONE_MOVE_BACKWARD_BRICK, DRONE_MOVE_FORWARD_BRICK, DRONE_TURN_RIGHT_BRICK, DRONE_TURN_LEFT_BRICK,
+	}
+
+	public static boolean isDroneSharedPreferenceEnabled(Context context, boolean defaultValue) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		return preferences.getBoolean(SettingsActivity.SETTINGS_QUADCOPTER_BRICKS, defaultValue);
 	}
 
 	public static BrickBaseType getInstanceOfDroneBrick(DroneBricks brick, Sprite sprite, int timeInMilliseconds,

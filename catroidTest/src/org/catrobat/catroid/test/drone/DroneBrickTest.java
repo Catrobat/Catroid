@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
@@ -20,19 +19,28 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+ */
+package org.catrobat.catroid.test.drone;
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="setting_mindstorm_bricks"
-        android:summary="@string/preference_description_mindstorm_bricks"
-        android:title="@string/preference_title_enable_mindstorm_bricks" />
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="setting_quadcopter_bricks"
-        android:summary="@string/preference_description_quadcopter_bricks"
-        android:title="@string/preference_title_enable_quadcopter_bricks" 
-        android:enabled="false" />
+import android.test.InstrumentationTestCase;
+import android.util.Log;
 
-</PreferenceScreen>
+import org.catrobat.catroid.content.bricks.BrickBaseType;
+import org.catrobat.catroid.drone.DroneUtils;
+import org.catrobat.catroid.drone.DroneUtils.DroneBricks;
+
+public class DroneBrickTest extends InstrumentationTestCase {
+
+    private static final String TAG = DroneBrickTest.class.getSimpleName();
+	private static final int DRONE_RESOURCE = 0x20;
+
+	public void testAllBrickResources() {
+		for (DroneBricks brick : DroneUtils.DroneBricks.values()) {
+			BrickBaseType brickFromFactory = DroneUtils.getInstanceOfDroneBrick(brick, null, 0, 0);
+			String brickName = brickFromFactory.getClass().getSimpleName();
+            Log.d(TAG, "brickName: " + brickName);
+			assertEquals("Resorce is wrong for brick: " + brickName, DRONE_RESOURCE,
+                    brickFromFactory.getRequiredResources());
+		}
+	}
+}

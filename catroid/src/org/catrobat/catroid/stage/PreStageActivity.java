@@ -61,6 +61,8 @@ import com.parrot.freeflight.service.DroneControlService;
 import com.parrot.freeflight.service.intents.DroneStateManager;
 import com.parrot.freeflight.tasks.CheckDroneNetworkAvailabilityTask;
 
+import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.BluetoothManager;
@@ -79,22 +81,21 @@ import java.util.Locale;
 
 @SuppressWarnings("deprecation")
 public class PreStageActivity extends Activity implements DroneReadyReceiverDelegate,
-		DroneConnectionChangeReceiverDelegate, DroneAvailabilityDelegate
-		//implements DroneReadyReceiverDelegate, DroneFlyingStateReceiverDelegate,
-		, DroneBatteryChangedReceiverDelegate {
-	private static final String TAG = PreStageActivity.class.getSimpleName();
+		DroneConnectionChangeReceiverDelegate, DroneAvailabilityDelegate, DroneBatteryChangedReceiverDelegate {
 
+	private static final String TAG = PreStageActivity.class.getSimpleName();
 	private static final int REQUEST_ENABLE_BLUETOOTH = 2000;
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 	public static final int REQUEST_RESOURCES_INIT = 101;
 	public static final int REQUEST_TEXT_TO_SPEECH = 10;
-
 	public static final String STRING_EXTRA_INIT_DRONE = "STRING_EXTRA_INIT_DRONE";
-
 	private static final int BATTERY_TRESHOLD = 5;
 
+	private int resources = Brick.NO_RESOURCES;
 	private int requiredResourceCounter;
+
 	private static LegoNXT legoNXT;
+	private boolean autoConnect = false;
 	private ProgressDialog connectingProgressDialog;
 	private static TextToSpeech textToSpeech;
 	private static OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer;
@@ -102,26 +103,21 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 	private DroneControlService droneControlService = null;
 	private BroadcastReceiver droneReadyReceiver = null;
 	private BroadcastReceiver droneStateReceiver = null;
-
-	private CheckDroneNetworkAvailabilityTask checkDroneConnectionTask;
-
-	//	private DroneFlyingStateReceiver droneFlyingStateReceiver;
-
-	private boolean autoConnect = false;
-
-	private Intent intent = null;
-
-	private DroneConnectionChangedReceiver droneConnectionChangeReceiver;
-	//private DroneEmergencyChangeReceiver droneEmergencyReceiver;
+	private int droneBatteryCharge = 0;
 	private DroneBatteryChangedReceiver droneBatteryReceiver;
+	private CheckDroneNetworkAvailabilityTask checkDroneConnectionTask;
+	private DroneConnectionChangedReceiver droneConnectionChangeReceiver;
 
-	private int droneBatteryStatus = 0;
+	private Intent returnToActivityIntent = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.d(TAG, "onCreate");
-		intent = new Intent();
+		returnToActivityIntent = new Intent();
+
+		if (isFinishing()) {
+			return;
+		}
 
 		int requiredResources = getRequiredRessources();
 		requiredResourceCounter = Integer.bitCount(requiredResources);
@@ -133,6 +129,7 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 			checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
 			startActivityForResult(checkIntent, REQUEST_TEXT_TO_SPEECH);
 		}
+
 		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
 			BluetoothManager bluetoothManager = new BluetoothManager(this);
 
@@ -147,21 +144,32 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 				} else {
 					resourceInitialized();
 				}
-
 			}
 		}
 
-		//drone testing without drone
-		//startStage();
-
 		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
+			if (!BuildConfig.DEBUG) {
+				Log.d(TAG, "drone is not available in release build");
+				showUncancleableErrorDialog(this, getString(R.string.error_drone_not_available_in_release_build_title),
+						getString(R.string.error_drone_not_available_in_release_build));
+				return;
+			}
+
+			if (!CatroidApplication.OS_ARCH.startsWith("arm")) {
+				Log.d(TAG, "problem, we are on arm");
+				showUncancleableErrorDialog(this, getString(R.string.error_drone_wrong_platform_title),
+						getString(R.string.error_drone_wrong_platform));
+				return;
+			}
+
 			Log.d(TAG, "Adding drone support!");
+			returnToActivityIntent.putExtra(STRING_EXTRA_INIT_DRONE, true);
 
 			droneReadyReceiver = new DroneReadyReceiver(this);
 			droneStateReceiver = new DroneAvailabilityReceiver(this);
 			droneBatteryReceiver = new DroneBatteryChangedReceiver(this);
 			droneConnectionChangeReceiver = new DroneConnectionChangedReceiver(this);
-
+			checkDroneConnectivity();
 		}
 
 		if (requiredResourceCounter == Brick.NO_RESOURCES) {
@@ -176,15 +184,15 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 			finish();
 		}
 
-		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
-		manager.registerReceiver(droneBatteryReceiver, new IntentFilter(
-				DroneControlService.DRONE_BATTERY_CHANGED_ACTION));
-		manager.registerReceiver(droneReadyReceiver, new IntentFilter(DroneControlService.DRONE_STATE_READY_ACTION));
-		manager.registerReceiver(droneConnectionChangeReceiver, new IntentFilter(
-				DroneControlService.DRONE_CONNECTION_CHANGED_ACTION));
-		manager.registerReceiver(droneStateReceiver, new IntentFilter(DroneStateManager.ACTION_DRONE_STATE_CHANGED));
-		checkDroneConnectivity();
-
+		if (BuildConfig.DEBUG) {
+			LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
+			manager.registerReceiver(droneBatteryReceiver, new IntentFilter(
+					DroneControlService.DRONE_BATTERY_CHANGED_ACTION));
+			manager.registerReceiver(droneReadyReceiver, new IntentFilter(DroneControlService.DRONE_STATE_READY_ACTION));
+			manager.registerReceiver(droneConnectionChangeReceiver, new IntentFilter(
+					DroneControlService.DRONE_CONNECTION_CHANGED_ACTION));
+			manager.registerReceiver(droneStateReceiver, new IntentFilter(DroneStateManager.ACTION_DRONE_STATE_CHANGED));
+		}
 	}
 
 	@SuppressLint("NewApi")
@@ -194,12 +202,10 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 		}
 
 		checkDroneConnectionTask = new CheckDroneNetworkAvailabilityTask() {
-
 			@Override
 			protected void onPostExecute(Boolean result) {
 				onDroneAvailabilityChanged(result);
 			}
-
 		};
 
 		if (Build.VERSION.SDK_INT >= 11) {
@@ -211,21 +217,22 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 
 	@Override
 	protected void onPause() {
+		if (BuildConfig.DEBUG) {
+			if (droneControlService != null) {
+				droneControlService.pause();
+			}
+
+			LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
+			manager.unregisterReceiver(droneReadyReceiver);
+			manager.unregisterReceiver(droneConnectionChangeReceiver);
+			manager.unregisterReceiver(droneStateReceiver);
+			manager.unregisterReceiver(droneBatteryReceiver);
+
+			if (taskRunning(checkDroneConnectionTask)) {
+				checkDroneConnectionTask.cancelAnyFtpOperation();
+			}
+		}
 		super.onPause();
-
-		if (droneControlService != null) {
-			droneControlService.pause();
-		}
-
-		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
-		manager.unregisterReceiver(droneReadyReceiver);
-		manager.unregisterReceiver(droneConnectionChangeReceiver);
-		manager.unregisterReceiver(droneStateReceiver);
-		manager.unregisterReceiver(droneBatteryReceiver);
-
-		if (taskRunning(checkDroneConnectionTask)) {
-			checkDroneConnectionTask.cancelAnyFtpOperation();
-		}
 	}
 
 	private boolean taskRunning(AsyncTask<?, ?, ?> checkMediaTask2) {
@@ -242,12 +249,12 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
-
-		if (droneControlService != null) {
-			unbindService(this.droneServiceConnection);
+		if (BuildConfig.DEBUG) {
+			if (droneControlService != null) {
+				unbindService(this.droneServiceConnection);
+			}
 		}
-		Log.d(TAG, "PrestageActivity destroyed");
+		super.onDestroy();
 	}
 
 	//all resources that should be reinitialized with every stage start
@@ -280,13 +287,11 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 	}
 
 	private void resourceFailed() {
-		setResult(RESULT_CANCELED, intent);
+		setResult(RESULT_CANCELED, returnToActivityIntent);
 		finish();
 	}
 
 	private synchronized void resourceInitialized() {
-		//Log.i("res", "Resource initialized: " + requiredResourceCounter);
-
 		requiredResourceCounter--;
 		if (requiredResourceCounter == 0) {
 			Log.d(TAG, "Start Stage");
@@ -296,7 +301,7 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 	}
 
 	public void startStage() {
-		setResult(RESULT_OK, intent);
+		setResult(RESULT_OK, returnToActivityIntent);
 		finish();
 	}
 
@@ -312,11 +317,11 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 		ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
 				.getSpriteList();
 
-		int ressources = Brick.NO_RESOURCES;
+		resources = Brick.NO_RESOURCES;
 		for (Sprite sprite : spriteList) {
-			ressources |= sprite.getRequiredResources();
+			resources |= sprite.getRequiredResources();
 		}
-		return ressources;
+		return resources;
 	}
 
 	@Override
@@ -444,6 +449,8 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 						resourceFailed();
 					}
 					break;
+				default:
+					return;
 			}
 		}
 	};
@@ -471,7 +478,7 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 	};
 
 	public static Intent addDroneSupportToIntent(Intent oldIntent, Intent newIntent) {
-		if (newIntent == null || newIntent == null) {
+		if (newIntent == null || oldIntent == null) {
 			return null;
 		}
 		Boolean isDroneRequired = oldIntent.getBooleanExtra(STRING_EXTRA_INIT_DRONE, false);
@@ -483,25 +490,21 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 	@Override
 	public void onDroneReady() {
 		Log.d(TAG, "onDroneReady -> check battery -> go to stage");
-		//droneControlService.
-		if (droneBatteryStatus < BATTERY_TRESHOLD) {
-			showErrorDialogWhenDroneIsNotAvailable(this, R.string.error_drone_low_battery);
+		if (droneBatteryCharge < BATTERY_TRESHOLD) {
+			String dialogTitle = String.format(getString(R.string.error_drone_low_battery_title), droneBatteryCharge);
+			showUncancleableErrorDialog(this, dialogTitle, getString(R.string.error_drone_low_battery));
 			return;
 		}
-		intent.putExtra(STRING_EXTRA_INIT_DRONE, true);
-		intent.putExtra("USE_SOFTWARE_RENDERING", false); //TODO: Drone: Hand over to Stage Activity
-		intent.putExtra("FORCE_COMBINED_CONTROL_MODE", false); //TODO: Drone: Hand over to Stage Activity
-		//
+		returnToActivityIntent.putExtra("USE_SOFTWARE_RENDERING", false); //TODO Drone: Drone: Hand over to Stage Activity
+		returnToActivityIntent.putExtra("FORCE_COMBINED_CONTROL_MODE", false); //TODO: Drone: Hand over to Stage Activity
 		resourceInitialized();
 	}
 
 	@Override
 	public void onDroneConnected() {
 		// We still waiting for onDroneReady event
-
 		Log.d(TAG, "onDroneConnected, requesting Config update and wait for drone ready.");
 		droneControlService.requestConfigUpdate();
-
 	}
 
 	@Override
@@ -520,28 +523,27 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 
 			boolean isSuccessful = bindService(new Intent(this, DroneControlService.class),
 					this.droneServiceConnection, Context.BIND_AUTO_CREATE);
-			// TODO: Abfrage sinnlos, auch wenn die Drone ausgeschalten ist, wird vermeindlich eine Verbindung hergestellt
+			// TODO Drone: Condition has no effect, even drone is not connected a connection will be "established"
 			if (obj == null || !isSuccessful) {
 				Toast.makeText(this, "Connection to the drone failed!", Toast.LENGTH_LONG).show();
 				resourceFailed();
 			}
 		} else {
-			showErrorDialogWhenDroneIsNotAvailable(this, R.string.error_no_drone_connected);
+			showUncancleableErrorDialog(this, getString(R.string.error_no_drone_connected_title),
+					getString(R.string.error_no_drone_connected));
 		}
-
 	}
 
-	public static void showErrorDialogWhenDroneIsNotAvailable(final PreStageActivity context, int errorMessage) {
+	public static void showUncancleableErrorDialog(final PreStageActivity context, String title, String message) {
 		Builder builder = new CustomAlertDialogBuilder(context);
 
-		int batteryStatus = context.droneBatteryStatus;
-		builder.setTitle(R.string.error + " LeveL: [" + batteryStatus + "%]");
+		builder.setTitle(title);
 		builder.setCancelable(false);
-		builder.setMessage(errorMessage);
+		builder.setMessage(message);
 		builder.setNeutralButton(R.string.close, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				//TODO: shut down nicely all resources and go back to the activity we came from
+				//TODO Drone: shut down nicely all resources and go back to the activity we came from
 				context.resourceFailed();
 			}
 		});
@@ -551,7 +553,6 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 	@Override
 	public void onDroneBatteryChanged(int value) {
 		Log.d(TAG, "Drone Battery Status =" + Integer.toString(value));
-		droneBatteryStatus = value;
-
+		droneBatteryCharge = value;
 	}
 }

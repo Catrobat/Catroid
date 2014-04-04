@@ -439,7 +439,7 @@
     <string name="default_drone_project_name">Mein erstes Drohnen-Programm</string>  
     <string name="default_drone_project_sprites_takeoff">Abheben</string>
     
-    <string name="default_drone_project_sprites_blink_led">LED blinken</string>
+    <!-- <string name="default_drone_project_sprites_blink_led">LED blinken</string> -->
     <string name="default_drone_project_srpites_land">Landen</string>
     <string name="default_drone_project_srpites_rotate">Flip</string>
     <string name="default_drone_project_sprites_up">Fliege hoch</string>
@@ -450,7 +450,8 @@
     <string name="default_drone_project_sprites_back">Fliege rückwärts</string>
     <string name="default_drone_project_sprites_turn_left">Drehe links</string>
     <string name="default_drone_project_sprites_turn_right">Drehe rechts</string>
-     <!--  -->
+    <!--  -->
+    
 
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Bitte einen Wert eingeben</string>
@@ -493,10 +494,15 @@
     <string name="error_copy_project">Beim kopieren des Programms ist ein Fehler aufgetreten.</string>
     <string name="error_upload_project_with_default_name">Das Programm mit dem Namen \'Mein erstes Programm\' kann nicht hochgeladen werden. Bitte das Programm umbenennen.</string>
     <string name="error_upload_default_project">Das Programm entspricht dem Programm \'Mein erstes Programm\'. Bitte ändere es und versuche es noch einmal.</string>
-    <string name="error_no_drone_connected">Um dieses Programm auszuführen benötigst du eine Verbindung mit der ARDrone 2.0. Bitte verbinde dich mit dem WLan der Drone und probier es nochmal.</string>
-     <string name="error_drone_low_battery">Deine Drohnen-Batterie ist fast leer. Lade sie auf und versuche es erneut.</string>
+    <string name="error_no_drone_connected_title">Finde keine ARDrone</string>    
+    <string name="error_no_drone_connected">Verbinde dich mit dem WLan der Drone und probier es nochmal.</string>
+    <string name="error_drone_low_battery_title">Dronen Batterie fast leer: %d%%</string>
+    <string name="error_drone_low_battery">Lege einen geladenen Akku ein und probier es noch einmal.</string>
+    <string name="error_drone_wrong_platform_title">Keine ARDronen Unterstützung</string>
+    <string name="error_drone_wrong_platform">Leider können wir kein Dronen Projekt auf deinem Gerät ausführen.</string>
+    <string name="error_drone_not_available_in_release_build_title">ARDrone Projekt nicht verfügbar</string>
+    <string name="error_drone_not_available_in_release_build">Leider können wir derzeit noch keine Projekte mit ARDronen Bausteinen ausführen.</string>
     <!--  -->
-
 
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Bühne</string>
@@ -513,7 +519,6 @@
     <string name="none_found">Keine nicht verbundenen Geräte gefunden</string>
     <string name="none_paired">Keine verbundenen Geräte gefunden</string>
     <!--  -->
-
 
     <!-- Lego Mindstorms Strings -->
     <string name="brick_motor_action">NXT bewege Motor</string>

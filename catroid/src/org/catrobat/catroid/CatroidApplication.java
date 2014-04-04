@@ -32,33 +32,39 @@ public class CatroidApplication extends Application {
 	private static final String TAG = CatroidApplication.class.getSimpleName();;
 
 	private ApplicationSettings settings;
+	public static final String OS_ARCH = System.getProperty("os.arch");;
 
 	static {
-		System.loadLibrary("avutil");
-		System.loadLibrary("swscale");
-		System.loadLibrary("avcodec");
-		System.loadLibrary("avfilter");
-		System.loadLibrary("avformat");
-		System.loadLibrary("avdevice");
-		System.loadLibrary("adfreeflight");
+		loadDroneNativeLibsDependingOnCpu();
 	}
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		Log.d(TAG, "OnCreate");
-
+		Log.d(TAG, "CatroidApplication onCreate");
 		settings = new ApplicationSettings(this);
-	}
-
-	@Override
-	public void onTerminate() {
-		Log.d(TAG, "OnTerminate");
-		super.onTerminate();
 	}
 
 	public ApplicationSettings getAppSettings() {
 		return settings;
 	}
 
+	private static void loadDroneNativeLibsDependingOnCpu() {
+		Log.d(TAG, "CatroidApplication static block, check platform and load libs.");
+		if (BuildConfig.DEBUG) { //Drone is deactivated in release builds for now 04.2014
+			Log.d(TAG, "Current platform = \"" + OS_ARCH + "\"");
+			if (OS_ARCH.startsWith("arm")) {
+				Log.d(TAG, "We are on an arm platform load parrot native libs");
+				System.loadLibrary("avutil");
+				System.loadLibrary("swscale");
+				System.loadLibrary("avcodec");
+				System.loadLibrary("avfilter");
+				System.loadLibrary("avformat");
+				System.loadLibrary("avdevice");
+				System.loadLibrary("adfreeflight");
+			} else {
+				Log.d(TAG, "We are not on an arm based device, dont load libs");
+			}
+		}
+	}
 }
