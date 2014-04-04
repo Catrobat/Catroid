@@ -22,14 +22,14 @@
  */
 package org.catrobat.catroid.test.physics;
 
-import junit.framework.Assert;
-
-import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.physics.PhysicsWorldConverter;
-
 import android.test.AndroidTestCase;
 
 import com.badlogic.gdx.math.Vector2;
+
+import junit.framework.Assert;
+
+import org.catrobat.catroid.physic.PhysicsWorld;
+import org.catrobat.catroid.physic.PhysicsWorldConverter;
 
 public class PhysicWorldConverterTest extends AndroidTestCase {
 
@@ -57,8 +57,7 @@ public class PhysicWorldConverterTest extends AndroidTestCase {
 		for (float currentAngle : angles) {
 			Assert.assertEquals((float) Math.toDegrees(currentAngle),
 					PhysicsWorldConverter.toCatroidAngle(currentAngle));
-			Assert.assertEquals((float) Math.toRadians(currentAngle),
-					PhysicsWorldConverter.toBox2dAngle(currentAngle));
+			Assert.assertEquals((float) Math.toRadians(currentAngle), PhysicsWorldConverter.toBox2dAngle(currentAngle));
 		}
 	}
 
@@ -92,4 +91,3 @@ public class PhysicWorldConverterTest extends AndroidTestCase {
 		}
 	}
 }
-
