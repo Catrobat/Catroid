@@ -22,9 +22,9 @@
  */
 package org.catrobat.catroid.test.physics;
 
-import org.catrobat.catroid.physics.PhysicsDebugSettings;
-
 import android.test.AndroidTestCase;
+
+import org.catrobat.catroid.physic.PhysicsDebugSettings;
 
 public class PhysicDebugSettingsTest extends AndroidTestCase {
 
@@ -41,4 +41,3 @@ public class PhysicDebugSettingsTest extends AndroidTestCase {
 				PhysicsDebugSettings.Render.RENDER_COLLISION_FRAMES);
 	}
 }
-
