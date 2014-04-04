@@ -22,20 +22,21 @@
  */
 package org.catrobat.catroid.test.physics;
 
-import java.util.Map;
-
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.physics.PhysicLook;
-import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.test.utils.TestUtils;
-
 import android.test.AndroidTestCase;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.GdxNativesLoader;
+
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.physic.PhysicsLook;
+import org.catrobat.catroid.physic.PhysicsObject;
+import org.catrobat.catroid.physic.PhysicsWorld;
+import org.catrobat.catroid.test.utils.Reflection;
+import org.catrobat.catroid.test.utils.Reflection.ParameterList;
+
+import java.util.Map;
 
 public class PhysicWorldTest extends AndroidTestCase {
 	static {
@@ -49,9 +50,10 @@ public class PhysicWorldTest extends AndroidTestCase {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void setUp() {
-		physicsWorld = new PhysicsWorld();
-		world = (World) TestUtils.getPrivateField("world", physicsWorld, false);
-		physicsObjects = (Map<Sprite, PhysicsObject>) TestUtils.getPrivateField("physicsObjects", physicsWorld, false);
+		//TODO[physics] take a meaningful width and height of PhysicsWorld
+		physicsWorld = new PhysicsWorld(1920, 1600);
+		world = (World) Reflection.getPrivateField(physicsWorld, "world");
+		physicsObjects = (Map<Sprite, PhysicsObject>) Reflection.getPrivateField(physicsWorld, "physicsObjects");
 	}
 
 	@Override
@@ -80,7 +82,7 @@ public class PhysicWorldTest extends AndroidTestCase {
 		assertEquals("Wrong initialization", PhysicsWorld.DEFAULT_GRAVITY, world.getGravity());
 
 		Vector2 newGravity = new Vector2(-1.2f, 3.4f);
-		physicsWorld.setGravity(newGravity);
+		physicsWorld.setGravity(newGravity.x, newGravity.y);
 
 		assertEquals("Did not update gravity", newGravity, world.getGravity());
 	}
@@ -105,9 +107,11 @@ public class PhysicWorldTest extends AndroidTestCase {
 	}
 
 	public void testCreatePhysicObject() {
-		PhysicsObject physicsObject = (PhysicsObject) TestUtils
-				.invokeMethod(physicsWorld, "createPhysicObject", null, null);
-		Body body = (Body) TestUtils.getPrivateField("body", physicsObject, false);
+		Object[] values = { new Sprite("testsprite") };
+		ParameterList paramList = new ParameterList(values);
+		PhysicsObject physicsObject = (PhysicsObject) Reflection.invokeMethod(physicsWorld, "createPhysicObject",
+				paramList);
+		Body body = (Body) Reflection.getPrivateField(physicsObject, "body");
 
 		assertTrue("Created body isn't a bullet", body.isBullet());
 	}
@@ -127,7 +131,7 @@ public class PhysicWorldTest extends AndroidTestCase {
 		int stabilizingStep;
 		for (int pass = 0; pass < stepPasses; pass++) {
 			physicsWorld.step(100.0f);
-			stabilizingStep = (Integer) TestUtils.getPrivateField("stabilizingStep", physicsWorld, false);
+			stabilizingStep = (Integer) Reflection.getPrivateField(physicsWorld, "stabilizingSteCounter");
 			assertTrue("Stabilizing the project didn't work",
 					((stabilizingStep == (pass + 1)) && (stabilizingStep < PhysicsWorld.STABILIZING_STEPS))
 							|| (stabilizingStep == PhysicsWorld.STABILIZING_STEPS));
@@ -137,17 +141,18 @@ public class PhysicWorldTest extends AndroidTestCase {
 	public void testSteps() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 		Sprite sprite = new Sprite("TestSprite");
+		sprite.look = new PhysicsLook(sprite, physicsWorld);
+
 		PhysicsObject physicsObject = physicsWorld.getPhysicObject(sprite);
-		sprite.costume = new PhysicLook(sprite, null, physicsObject);
 
 		Vector2 velocity = new Vector2(2.3f, 4.5f);
 		float rotationSpeed = 45.0f;
-		physicsWorld.setGravity(new Vector2(0.0f, 0.0f));
-		TestUtils.setPrivateField(PhysicsWorld.class, physicsWorld, "stabilizingStep", PhysicsWorld.STABILIZING_STEPS);
+		physicsWorld.setGravity(0.0f, 0.0f);
+		Reflection.setPrivateField(PhysicsWorld.class, physicsWorld, "stabilizingStep", PhysicsWorld.STABILIZING_STEPS);
 
 		assertEquals("Physic object has a wrong start position", new Vector2(), physicsObject.getPosition());
 
-		physicsObject.setVelocity(velocity);
+		physicsObject.setVelocity(velocity.x, velocity.y);
 		physicsObject.setRotationSpeed(rotationSpeed);
 
 		physicsWorld.step(1.0f);
@@ -161,4 +166,3 @@ public class PhysicWorldTest extends AndroidTestCase {
 		assertEquals("Wrong angle", 2 * rotationSpeed, physicsObject.getDirection(), 1e-8);
 	}
 }
-
