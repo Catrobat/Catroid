@@ -22,7 +22,12 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.Smoke;
+import android.widget.ListView;
+
+import com.badlogic.gdx.math.Vector2;
+import com.jayway.android.robotium.solo.Solo;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -31,25 +36,21 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.physics.SetGravityBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.physic.content.bricks.SetGravityBrick;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Smoke;
+import java.util.ArrayList;
 
-import com.badlogic.gdx.math.Vector2;
-import com.jayway.android.robotium.solo.Solo;
-
-public class SetGravityTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class SetGravityTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
 	private SetGravityBrick setGravityBrick;
 
 	public SetGravityTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
@@ -69,14 +70,13 @@ public class SetGravityTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 
 	@Smoke
 	public void testSetGravityByBrick() {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
-		BrickAdapter adapter = fragment.getAdapter();
+		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -98,7 +98,7 @@ public class SetGravityTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 		solo.enterText(0, String.valueOf(gravity.y));
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		Vector2 enteredGravity = (Vector2) UiTestUtils.getPrivateField("gravity", setGravityBrick);
+		Vector2 enteredGravity = (Vector2) Reflection.getPrivateField(setGravityBrick, "gravity");
 		assertEquals("X text not updated", String.valueOf(enteredGravity.x), solo.getEditText(0).getText().toString());
 		assertEquals("Y text not updated", String.valueOf(enteredGravity.y), solo.getEditText(1).getText().toString());
 		assertEquals("Values in Brick are not updated", gravity, enteredGravity);
@@ -120,4 +120,3 @@ public class SetGravityTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 	}
 
 }
-

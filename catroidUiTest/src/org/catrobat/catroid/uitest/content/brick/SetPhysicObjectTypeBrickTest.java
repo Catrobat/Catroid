@@ -22,7 +22,12 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.Smoke;
+import android.widget.ListView;
+import android.widget.Spinner;
+
+import com.jayway.android.robotium.solo.Solo;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -31,25 +36,22 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.physics.SetPhysicsObjectTypeBrick;
-import org.catrobat.catroid.physics.PhysicsObject.Type;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.physic.PhysicsObject;
+import org.catrobat.catroid.physic.content.bricks.SetPhysicsObjectTypeBrick;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Smoke;
+import java.util.ArrayList;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class SetPhysicObjectTypeBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class SetPhysicObjectTypeBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
 	private SetPhysicsObjectTypeBrick setPhysicObjectTypeBrick;
 
 	public SetPhysicObjectTypeBrickTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
@@ -72,14 +74,13 @@ public class SetPhysicObjectTypeBrickTest extends ActivityInstrumentationTestCas
 
 	@Smoke
 	public void testPhysicObjectTypeBrick() {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
-		BrickAdapter adapter = fragment.getAdapter();
+		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -95,23 +96,24 @@ public class SetPhysicObjectTypeBrickTest extends ActivityInstrumentationTestCas
 	}
 
 	private void checkSpinnerItemPressed(int spinnerItemIndex) {
-		String[] physicsObjectTypes = getActivity().getResources().getStringArray(R.array.physics_object_type);
+		String[] physicsObjectTypes = getActivity().getResources().getStringArray(R.array.physics_object_types);
 
 		solo.pressSpinnerItem(0, spinnerItemIndex);
 		solo.sleep(200);
-		solo.waitForActivity(ScriptTabActivity.class.getSimpleName());
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 
-		Type choosenPhysicType = (Type) UiTestUtils.getPrivateField("type", setPhysicObjectTypeBrick);
-		assertEquals("Wrong text in field.", Type.values()[spinnerItemIndex], choosenPhysicType);
-		assertEquals("Value in Brick is not updated.", physicsObjectTypes[spinnerItemIndex], solo.getCurrentSpinners()
-				.get(0).getSelectedItem());
+		PhysicsObject.Type choosenPhysicType = (PhysicsObject.Type) Reflection.getPrivateField(
+				setPhysicObjectTypeBrick, "type");
+		assertEquals("Wrong text in field.", PhysicsObject.Type.values()[spinnerItemIndex], choosenPhysicType);
+		assertEquals("Value in Brick is not updated.", physicsObjectTypes[spinnerItemIndex],
+				solo.getCurrentViews(Spinner.class).get(0).getSelectedItem());
 	}
 
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		setPhysicObjectTypeBrick = new SetPhysicsObjectTypeBrick(sprite, Type.DYNAMIC);
+		setPhysicObjectTypeBrick = new SetPhysicsObjectTypeBrick(sprite, PhysicsObject.Type.DYNAMIC);
 		script.addBrick(setPhysicObjectTypeBrick);
 
 		sprite.addScript(script);
@@ -123,4 +125,3 @@ public class SetPhysicObjectTypeBrickTest extends ActivityInstrumentationTestCas
 	}
 
 }
-

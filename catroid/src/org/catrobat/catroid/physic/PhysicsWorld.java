@@ -79,7 +79,7 @@ public class PhysicsWorld {
 	public PhysicsWorld(int width, int height) {
 		box = new PhysicsBoundaryBox(world);
 		box.create(width, height);
-		world.setContactListener(new PhysicCollision(this));
+		world.setContactListener(new PhysicsCollision(this));
 	}
 
 	public void setBounceOnce(Sprite sprite) {
