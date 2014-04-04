@@ -22,7 +22,11 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
+import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.Smoke;
+import android.widget.ListView;
+
+import com.jayway.android.robotium.solo.Solo;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -31,24 +35,21 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.physics.TurnRightSpeedBrick;
-import org.catrobat.catroid.ui.ScriptTabActivity;
+import org.catrobat.catroid.physic.content.bricks.TurnRightSpeedBrick;
+import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Smoke;
+import java.util.ArrayList;
 
-import com.jayway.android.robotium.solo.Solo;
-
-public class TurnRightSpeedBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+public class TurnRightSpeedBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
 	private TurnRightSpeedBrick turnRightSpeedBrick;
 
 	public TurnRightSpeedBrickTest() {
-		super(ScriptTabActivity.class);
+		super(ScriptActivity.class);
 	}
 
 	@Override
@@ -68,14 +69,13 @@ public class TurnRightSpeedBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 	@Smoke
 	public void testSetAngularVelocityBrick() {
-		ScriptTabActivity activity = (ScriptTabActivity) solo.getCurrentActivity();
-		ScriptFragment fragment = (ScriptFragment) activity.getTabFragment(ScriptTabActivity.INDEX_TAB_SCRIPTS);
-		BrickAdapter adapter = fragment.getAdapter();
+		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, solo.getCurrentListViews().get(0).getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -92,7 +92,7 @@ public class TurnRightSpeedBrickTest extends ActivityInstrumentationTestCase2<Sc
 		solo.enterText(0, String.valueOf(speed));
 		solo.clickOnButton(solo.getString(R.string.ok));
 
-		float enteredSpeed = (Float) UiTestUtils.getPrivateField("degreesPerSecond", turnRightSpeedBrick);
+		float enteredSpeed = (Float) Reflection.getPrivateField(turnRightSpeedBrick, "degreesPerSecond");
 		assertEquals("Wrong text in field.", speed, enteredSpeed);
 		assertEquals("Value in Brick is not updated.", String.valueOf(speed), solo.getEditText(0).getText().toString());
 	}
@@ -113,4 +113,3 @@ public class TurnRightSpeedBrickTest extends ActivityInstrumentationTestCase2<Sc
 	}
 
 }
-

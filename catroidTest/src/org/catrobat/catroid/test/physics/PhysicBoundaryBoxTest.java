@@ -22,13 +22,6 @@
  */
 package org.catrobat.catroid.test.physics;
 
-import java.util.Iterator;
-import java.util.List;
-
-import org.catrobat.catroid.physics.PhysicsBoundaryBox;
-import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.PhysicsWorld;
-
 import android.test.AndroidTestCase;
 
 import com.badlogic.gdx.physics.box2d.Body;
@@ -37,6 +30,12 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.GdxNativesLoader;
+
+import org.catrobat.catroid.physic.PhysicsBoundaryBox;
+import org.catrobat.catroid.physic.PhysicsWorld;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class PhysicBoundaryBoxTest extends AndroidTestCase {
 	static {
@@ -54,12 +53,13 @@ public class PhysicBoundaryBoxTest extends AndroidTestCase {
 
 	public void testDefaultSettings() {
 		assertEquals("Wrong configuration", 5, PhysicsBoundaryBox.FRAME_SIZE);
-		assertEquals("Wrong configuration", 0x0002, PhysicsBoundaryBox.COLLISION_MASK);
+		assertEquals("Wrong configuration", 0x0002, PhysicsWorld.MASK_BOUNDARYBOX);
 	}
 
 	public void testProperties() {
 		assertEquals("World isn't emtpy", 0, world.getBodyCount());
-		new PhysicsBoundaryBox(world).create();
+		// TODO[physics] refactor values given to create
+		new PhysicsBoundaryBox(world).create(40, 40);
 		assertEquals("World contains wrong number of boundary box sides", 4, world.getBodyCount());
 
 		Iterator<Body> bodyIterator = world.getBodies();
@@ -72,8 +72,8 @@ public class PhysicBoundaryBoxTest extends AndroidTestCase {
 			assertEquals("Body should contain only one shape (side)", 1, fixtures.size());
 			for (Fixture fixture : fixtures) {
 				Filter filter = fixture.getFilterData();
-				assertEquals("Wrong bit mask for collision", PhysicsObject.COLLISION_MASK, filter.maskBits);
-				assertEquals("Wrong category bits for collision", PhysicsBoundaryBox.COLLISION_MASK, filter.categoryBits);
+				assertEquals("Wrong bit mask for collision", PhysicsWorld.MASK_PHYSICSOBJECT, filter.maskBits);
+				assertEquals("Wrong category bits for collision", PhysicsWorld.MASK_BOUNDARYBOX, filter.categoryBits);
 			}
 		}
 	}
@@ -122,4 +122,3 @@ public class PhysicBoundaryBoxTest extends AndroidTestCase {
 		//		}
 	}
 }
-

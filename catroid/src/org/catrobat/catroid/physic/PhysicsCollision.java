@@ -37,12 +37,12 @@ import org.catrobat.catroid.content.Sprite;
 
 import java.util.List;
 
-public class PhysicCollision implements ContactListener {
+public class PhysicsCollision implements ContactListener {
 	@SuppressWarnings("unused")
-	private static final String TAG = PhysicCollision.class.getSimpleName();
+	private static final String TAG = PhysicsCollision.class.getSimpleName();
 	PhysicsWorld mPhysicWorld;
 
-	public PhysicCollision(PhysicsWorld physicWorld) {
+	public PhysicsCollision(PhysicsWorld physicWorld) {
 		mPhysicWorld = physicWorld;
 	}
 
