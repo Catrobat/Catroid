@@ -31,6 +31,8 @@
     <string name="cancel_button">"キャンセル"</string>
     <string name="rename">"名前の変更"</string>
     <string name="delete">"削除"</string>
+    <string name="undo">"取り消す"</string>
+ 	<string name="redo">"やり直す"</string>
     <string name="yes">"はい"</string>
     <string name="no">"いいえ"</string>
     <!-- General -->

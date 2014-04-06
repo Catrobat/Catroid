@@ -553,6 +553,18 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	@Override
+	public void startUndoActionMode() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void startRedoActionMode() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
 	public void startRenameActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);

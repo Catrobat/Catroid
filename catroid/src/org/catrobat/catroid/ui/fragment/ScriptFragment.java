@@ -269,6 +269,18 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	@Override
+	public void startUndoActionMode() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void startRedoActionMode() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
 	public void startDeleteActionMode() {
 		startActionMode(deleteModeCallBack);
 	}

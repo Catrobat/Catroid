@@ -69,8 +69,10 @@ import com.actionbarsherlock.view.Menu;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.commands.DeleteCheckedSounds;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.history.SoundHistoryManager;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
@@ -363,6 +365,16 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	}
 
 	@Override
+	public void startUndoActionMode() {
+		SoundHistoryManager.getInstance().undo();
+	}
+
+	@Override
+	public void startRedoActionMode() {
+		SoundHistoryManager.getInstance().redo();
+	}
+
+	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
@@ -417,7 +429,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			if (numberOfSelectedItems == 1) {
 				appendix = singleItemAppendixDeleteActionMode;
 			}
-
 
 			String numberOfItems = Integer.toString(numberOfSelectedItems);
 			String completeTitle = actionModeTitle + " " + numberOfItems + " " + appendix;
@@ -587,17 +598,17 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void handleAddButton() {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 		intent.setType("audio/*");
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)	{
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			disableGoogleDrive(intent);
 		}
 		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
 				SoundController.REQUEST_SELECT_MUSIC);
 	}
 
-    @TargetApi(19)
-    private void disableGoogleDrive(Intent intent) {
-        intent.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
-    }
+	@TargetApi(19)
+	private void disableGoogleDrive(Intent intent) {
+		intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+	}
 
 	@Override
 	public void showRenameDialog() {
@@ -825,7 +836,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
-				SoundController.getInstance().deleteCheckedSounds(getActivity(), adapter, soundInfoList, mediaPlayer);
+				SoundHistoryManager.getInstance().executeCommand(
+						new DeleteCheckedSounds(getActivity(), adapter, soundInfoList, mediaPlayer));
 				clearCheckedSoundsAndEnableButtons();
 			}
 		});
