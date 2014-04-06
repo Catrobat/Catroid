@@ -41,18 +41,26 @@ public class BlockCharacterTest extends TestCase {
 
 	private void checkFileForBlockCharacters(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
+		StringBuilder errorMessageBuilder = new StringBuilder();
 
 		int lineCount = 1;
-		String line = null;
+		String line;
 
 		while ((line = reader.readLine()) != null) {
 			if (line.contains("\uFFFD")) {
 				errorFound = true;
-				errorMessages += file.getName() + " in line " + lineCount + "\n";
+				errorMessageBuilder
+						.append(file.getName())
+						.append(" in line ")
+						.append(lineCount)
+						.append('\n');
 			}
 			++lineCount;
 		}
 		reader.close();
+		if (errorMessageBuilder.length() > 0) {
+			errorMessages += errorMessageBuilder.toString();
+		}
 	}
 
 	public void testForBlockCharacters() throws IOException {

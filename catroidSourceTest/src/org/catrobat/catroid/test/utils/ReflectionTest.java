@@ -38,7 +38,7 @@ public class ReflectionTest extends TestCase {
 		private String context;
 
 		public SmartFileContent(String fileString) throws IOException {
-			BufferedReader reader = null;
+			BufferedReader reader;
 			File file = new File(fileString);
 
 			reader = new BufferedReader(new FileReader(file));

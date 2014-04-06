@@ -124,7 +124,7 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
-		solo.clickLongOnText(uploadProject.getName().toString());
+		solo.clickLongOnText(uploadProject.getName());
 		assertTrue("context menu not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
 		solo.clickOnText(actionSetDescriptionText);
 		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
