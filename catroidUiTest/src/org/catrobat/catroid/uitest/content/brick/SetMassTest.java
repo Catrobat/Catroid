@@ -39,7 +39,6 @@ import org.catrobat.catroid.physic.PhysicsObject;
 import org.catrobat.catroid.physic.content.bricks.SetMassBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
@@ -74,31 +73,17 @@ public class SetMassTest extends ActivityInstrumentationTestCase2<ScriptActivity
 
 		float mass = 1.234f;
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, String.valueOf(mass));
-		solo.clickOnButton(solo.getString(R.string.ok));
-
-		float enteredMass = (Float) Reflection.getPrivateField(setMassBrick, "mass");
-		assertEquals("Text not updated", String.valueOf(mass), solo.getEditText(0).getText().toString());
-		assertEquals("Value in Brick is not updated", mass, enteredMass);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_mass_edit_text, mass, "mass", setMassBrick);
 	}
 
 	@Smoke
 	public void testSetInvalidMassValues() {
 		this.checkSetup();
 
-		float masses[] = { -1.0f, 0.0f, PhysicsObject.MIN_MASS / 10.0f };
+		float masses[] = { -1.0f, 0.0f, PhysicsObject.MIN_MASS / 10.0f, PhysicsObject.MIN_MASS / 1.1f };
 
 		for (float mass : masses) {
-			solo.clickOnEditText(0);
-			solo.clearEditText(0);
-			solo.enterText(0, String.valueOf(mass));
-			solo.clickOnButton(solo.getString(R.string.ok));
-
-			float enteredMass = (Float) Reflection.getPrivateField(setMassBrick, "mass");
-			assertEquals("Text not updated", String.valueOf(0.0f), solo.getEditText(0).getText().toString());
-			assertEquals("Value in Brick is not updated", 0.0f, enteredMass);
+			UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_mass_edit_text, mass, "mass", setMassBrick);
 		}
 	}
 
@@ -109,7 +94,7 @@ public class SetMassTest extends ActivityInstrumentationTestCase2<ScriptActivity
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();

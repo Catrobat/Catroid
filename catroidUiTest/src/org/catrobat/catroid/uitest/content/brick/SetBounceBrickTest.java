@@ -38,7 +38,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.physic.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
@@ -75,7 +74,7 @@ public class SetBounceBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -86,15 +85,8 @@ public class SetBounceBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		float bounceFactor = 0.65f;
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, String.valueOf(bounceFactor));
-		solo.clickOnButton(solo.getString(R.string.ok));
-
-		float enteredBounceFactor = (Float) Reflection.getPrivateField(setBounceFactorBrick, "bounceFactor");
-		assertEquals("Wrong text in field.", bounceFactor, enteredBounceFactor);
-		assertEquals("Value in Brick is not updated.", String.valueOf(bounceFactor), solo.getEditText(0).getText()
-				.toString());
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_bounce_factor_edit_text, bounceFactor,
+				"bounceFactor", setBounceFactorBrick);
 	}
 
 	private void createProject() {

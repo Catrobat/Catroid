@@ -90,6 +90,12 @@ import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.bricks.SetVariableBrick;
+import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
+import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
+import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.conditional.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.conditional.ChangeGhostEffectByNBrick;
 import org.catrobat.catroid.content.bricks.conditional.ChangeSizeByNBrick;
@@ -103,7 +109,9 @@ import org.catrobat.catroid.content.bricks.conditional.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.conditional.NextLookBrick;
 import org.catrobat.catroid.content.bricks.conditional.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.conditional.PointInDirectionBrick;
+import org.catrobat.catroid.content.bricks.conditional.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.content.bricks.conditional.PointToBrick;
+import org.catrobat.catroid.content.bricks.conditional.PointToBrick.SpinnerAdapterWrapper;
 import org.catrobat.catroid.content.bricks.conditional.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetLookBrick;
@@ -113,14 +121,6 @@ import org.catrobat.catroid.content.bricks.conditional.SetYBrick;
 import org.catrobat.catroid.content.bricks.conditional.ShowBrick;
 import org.catrobat.catroid.content.bricks.conditional.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.conditional.TurnRightBrick;
-import org.catrobat.catroid.content.bricks.conditional.PointInDirectionBrick.Direction;
-import org.catrobat.catroid.content.bricks.conditional.PointToBrick.SpinnerAdapterWrapper;
-import org.catrobat.catroid.content.bricks.RepeatBrick;
-import org.catrobat.catroid.content.bricks.SetVariableBrick;
-import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
-import org.catrobat.catroid.content.bricks.SpeakBrick;
-import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
-import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternToken;
@@ -151,6 +151,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -340,7 +341,6 @@ public final class UiTestUtils {
 	/**
 	 * Clicks on the EditText given by editTextId, inserts the integer value and closes the Dialog
 	 *
-	 * @param editTextId The ID of the EditText to click on
 	 * @param value      The value you want to put into the EditText
 	 */
 	public static void insertIntegerIntoEditText(Solo solo, int value) {
@@ -350,11 +350,10 @@ public final class UiTestUtils {
 	/**
 	 * Clicks on the EditText given by editTextId, inserts the double value and closes the Dialog
 	 *
-	 * @param editTextId The ID of the EditText to click on
 	 * @param value      The value you want to put into the EditText
 	 */
 	public static void insertDoubleIntoEditText(Solo solo, double value) {
-		insertValue(solo, value + "");
+		insertValue(solo, new BigDecimal(value).toPlainString());
 	}
 
 	private static void insertValue(Solo solo, String value) {
@@ -416,16 +415,19 @@ public final class UiTestUtils {
 				"Text not updated within FormulaEditor",
 				newValue,
 				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()
-						.replace(',', '.'))
-		);
+						.replace(',', '.')));
+
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(200);
 
 		Formula formula = (Formula) Reflection.getPrivateField(theBrick, fieldName);
 
 		assertEquals("Wrong text in field", newValue, formula.interpretDouble(theBrick.getSprite()), 0.01f);
-		assertEquals("Text not updated in the brick list", newValue,
-				Double.parseDouble(((TextView) solo.getView(editTextId)).getText().toString().replace(',', '.')), 0.01f);
+		assertEquals(
+				"Text not updated in the brick list",
+				newValue,
+				Double.parseDouble(((TextView) solo.getView(editTextId)).getText().toString().replace(",", ".")
+						.replace(" ", "")), 0.01f);
 
 	}
 
@@ -1240,7 +1242,7 @@ public final class UiTestUtils {
 	 *
 	 * @param solo                 Use Robotium functionality
 	 * @param overflowMenuItemName Name of the overflow menu item
-	 * @param overflowMenuItemId   ID of an action item (icon)
+	 * @param menuItemId           ID of an action item (icon)
 	 */
 	public static void openActionMode(Solo solo, String overflowMenuItemName, int menuItemId, Activity activity) {
 

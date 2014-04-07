@@ -38,7 +38,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.physic.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
@@ -75,7 +74,7 @@ public class SetFrictionBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -86,15 +85,8 @@ public class SetFrictionBrickTest extends ActivityInstrumentationTestCase2<Scrip
 
 		float friction = 1.234f;
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, String.valueOf(friction));
-		solo.clickOnButton(solo.getString(R.string.ok));
-
-		float enteredFriction = (Float) Reflection.getPrivateField(setFrictionBrick, "friction");
-		assertEquals("Wrong text in field.", friction, enteredFriction);
-		assertEquals("Value in Brick is not updated.", String.valueOf(friction), solo.getEditText(0).getText()
-				.toString());
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_friction_edit_text, friction, "friction",
+				setFrictionBrick);
 	}
 
 	private void createProject() {

@@ -39,7 +39,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.physic.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
@@ -76,7 +75,7 @@ public class SetVelocityBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -88,20 +87,12 @@ public class SetVelocityBrickTest extends ActivityInstrumentationTestCase2<Scrip
 
 		Vector2 velocity = new Vector2(-1.2f, 3.4f);
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, String.valueOf(velocity.x));
-		solo.clickOnButton(solo.getString(R.string.ok));
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_velocity_edit_text_x, velocity.x, "velocityX",
+				setVelocityBrick);
+		solo.sleep(200);
 
-		solo.clickOnEditText(1);
-		solo.clearEditText(0);
-		solo.enterText(0, String.valueOf(velocity.y));
-		solo.clickOnButton(solo.getString(R.string.ok));
-
-		Vector2 enteredVelocity = (Vector2) Reflection.getPrivateField(setVelocityBrick, "velocity");
-		assertEquals("X text not updated", String.valueOf(enteredVelocity.x), solo.getEditText(0).getText().toString());
-		assertEquals("Y text not updated", String.valueOf(enteredVelocity.y), solo.getEditText(1).getText().toString());
-		assertEquals("Values in Brick are not updated", velocity, enteredVelocity);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_velocity_edit_text_y, velocity.y, "velocityY",
+				setVelocityBrick);
 	}
 
 	private void createProject() {
