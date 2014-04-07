@@ -38,7 +38,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.physic.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
@@ -75,7 +74,7 @@ public class TurnLeftSpeedBrickTest extends ActivityInstrumentationTestCase2<Scr
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -85,16 +84,10 @@ public class TurnLeftSpeedBrickTest extends ActivityInstrumentationTestCase2<Scr
 		String textSetRotationSpeed = solo.getString(R.string.brick_turn_left_speed);
 		assertNotNull("TextView does not exist.", solo.getText(textSetRotationSpeed));
 
-		float speed = 10.0f;
+		float degreesPerSecond = 10.0f;
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, String.valueOf(speed));
-		solo.clickOnButton(solo.getString(R.string.ok));
-
-		float enteredSpeed = (Float) Reflection.getPrivateField(turnLeftSpeedBrick, "degreesPerSecond");
-		assertEquals("Wrong text in field.", speed, enteredSpeed);
-		assertEquals("Value in Brick is not updated.", String.valueOf(speed), solo.getEditText(0).getText().toString());
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_turn_left_speed_edit_text, degreesPerSecond,
+				"degreesPerSecond", turnLeftSpeedBrick);
 	}
 
 	private void createProject() {
