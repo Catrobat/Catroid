@@ -39,7 +39,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.physic.content.bricks.SetGravityBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
@@ -76,7 +75,7 @@ public class SetGravityTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals("Incorrect number of bricks.", 2 + 1, dragDropListView.getChildCount()); // don't forget the footer
+		assertEquals("Incorrect number of bricks.", 2, dragDropListView.getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -86,29 +85,21 @@ public class SetGravityTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		String textSetGravity = solo.getString(R.string.brick_set_gravity_to);
 		assertNotNull("TextView does not exist.", solo.getText(textSetGravity));
 
-		Vector2 gravity = new Vector2(1.2f, -3.4f);
+		Vector2 gravity = new Vector2(1.2f, -3.1f);
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, String.valueOf(gravity.x));
-		solo.clickOnButton(solo.getString(R.string.ok));
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_gravity_edit_text_x, gravity.x, "gravityX",
+				setGravityBrick);
+		solo.sleep(200);
 
-		solo.clickOnEditText(1);
-		solo.clearEditText(0);
-		solo.enterText(0, String.valueOf(gravity.y));
-		solo.clickOnButton(solo.getString(R.string.ok));
-
-		Vector2 enteredGravity = (Vector2) Reflection.getPrivateField(setGravityBrick, "gravity");
-		assertEquals("X text not updated", String.valueOf(enteredGravity.x), solo.getEditText(0).getText().toString());
-		assertEquals("Y text not updated", String.valueOf(enteredGravity.y), solo.getEditText(1).getText().toString());
-		assertEquals("Values in Brick are not updated", gravity, enteredGravity);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_gravity_edit_text_y, gravity.y, "gravityY",
+				setGravityBrick);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		setGravityBrick = new SetGravityBrick(sprite, new Vector2(0, 0));
+		setGravityBrick = new SetGravityBrick(sprite, new Vector2(0, 10.0f));
 		script.addBrick(setGravityBrick);
 
 		sprite.addScript(script);
