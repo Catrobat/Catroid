@@ -188,8 +188,8 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.clickOnText(solo.getString(R.string.look));
 		solo.sleep(400);
 
-		emptyViewHeading = (TextView) solo.getCurrentActivity().findViewById(R.id.fragment_look_text_heading);
-		emptyViewDescription = (TextView) solo.getCurrentActivity().findViewById(R.id.fragment_look_text_description);
+		emptyViewHeading = (TextView) solo.getView(R.id.fragment_look_text_heading);
+		emptyViewDescription = (TextView) solo.getView(R.id.fragment_look_text_description);
 
 		assertEquals("Empty View heading is not correct", solo.getString(R.string.looks), emptyViewHeading.getText()
 				.toString());

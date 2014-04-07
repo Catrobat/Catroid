@@ -75,12 +75,12 @@ public class NoteBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_note)));
 
-		UiTestUtils.clickEnterClose(solo, 0, TEST_STRING + "");
+		openFirstEditTextDialogEnterTextAndClose(TEST_STRING);
 
 		String note = Reflection.getPrivateField(noteBrick, "note").toString();
 		assertEquals("Wrong text in field.", TEST_STRING, note);
 
-		UiTestUtils.clickEnterClose(solo, 0, "");
+		openFirstEditTextDialogEnterTextAndClose("");
 
 		note = Reflection.getPrivateField(noteBrick, "note").toString();
 		assertEquals("Wrong text in field.", "", note);
@@ -99,5 +99,16 @@ public class NoteBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
+	}
+
+	private void openFirstEditTextDialogEnterTextAndClose(String textToSaveAsNote) {
+		solo.clickOnEditText(0);
+		solo.waitForDialogToOpen(500);
+		solo.clearEditText(0);
+		if(textToSaveAsNote != "") {
+			solo.enterText(0, textToSaveAsNote);
+		}
+		solo.clickOnButton(android.R.id.button1);
+		solo.waitForDialogToClose(500);
 	}
 }

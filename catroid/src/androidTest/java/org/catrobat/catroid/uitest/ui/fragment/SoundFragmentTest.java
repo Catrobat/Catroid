@@ -1055,17 +1055,17 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 				solo.getView(R.id.bottom_bar_separator).getVisibility() == VISIBLE);
 	}
 
-	public void testSelectAllActionModeButton() {
+	public void testSelectAllActionModeButtonWithCopyPackAndUnpack() {
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
-		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+		assertTrue("Select All is not shown", solo.waitForView(R.id.select_all, 1, 200, false));
 
 		solo.clickOnText(selectAll);
 		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
 
 		solo.clickOnCheckBox(0);
-		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+		assertTrue("Select All is not shown", solo.waitForView(R.id.select_all, 1, 200, false));
 
 		solo.clickOnCheckBox(1);
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());

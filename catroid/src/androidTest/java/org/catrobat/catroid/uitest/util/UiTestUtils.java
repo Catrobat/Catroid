@@ -321,27 +321,6 @@ public final class UiTestUtils {
 		solo.sleep(200);
 	}
 
-	public static void clickEnterClose(Solo solo, int editTextNumber, String value) {
-		solo.clickOnEditText(editTextNumber);
-		solo.clearEditText(0);
-		solo.enterText(0, value);
-		String buttonPositiveText = solo.getString(R.string.ok);
-		// if click is not successful, try workaround
-		try {
-			solo.clickOnText(buttonPositiveText);
-		} catch (AssertionFailedError e) {
-			solo.sendKey(Solo.ENTER);
-		}
-		solo.sleep(50);
-	}
-
-	public static void clickEnterClose(Solo solo, EditText editText, String value, int buttonIndex) {
-		Log.v("debug", "Solo.Enter clickEnterClose");
-		solo.enterText(editText, value);
-		solo.waitForText(solo.getString(R.string.ok));
-		solo.clickOnButton(buttonIndex);
-	}
-
 	private static void initBrickCategoryMap() {
 		brickCategoryMap = new SparseIntArray();
 
@@ -1163,7 +1142,7 @@ public final class UiTestUtils {
 
 	public static void clickOnBottomBarAddButton(Solo solo) {
 		ImageButton imageButton = (ImageButton) solo.getView(R.id.button_add);
-		assertTrue("Add button not found", solo.waitForView(imageButton));
+		solo.waitForView(imageButton);
 		solo.clickOnView(imageButton, true);
 	}
 

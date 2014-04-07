@@ -683,6 +683,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.clickOnButton(solo.getString(R.string.yes));
 
+		solo.waitForDialogToClose(200);
 		numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
 
 		assertEquals("Not all Bricks have been deleted!", 0, numberOfBricks);

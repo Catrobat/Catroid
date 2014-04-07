@@ -55,7 +55,7 @@ public class SetSizeToBrickTest extends BaseActivityInstrumentationTestCase<Main
 
 	private static final String TAG = SetSizeToBrickTest.class.getSimpleName();
 
-	private String projectName = "SetSizeToBrickTestProject";
+	private String projectName = UiTestUtils.DEFAULT_TEST_PROJECT_NAME;
 	private Project project;
 	private SetSizeToBrick setSizeToBrick;
 	private SetLookBrick setLookBrick;
@@ -128,7 +128,7 @@ public class SetSizeToBrickTest extends BaseActivityInstrumentationTestCase<Main
 		int colorOutsideSizedQuad = screenshot.getPixel(ScreenValues.SCREEN_WIDTH / 2 + blackQuadWidth + 10,
 				ScreenValues.SCREEN_WIDTH / 2 + blackQuadHeight + 10);
 
-		assertEquals("Image was not scaled up even though SetSizeTo was exectuted before!", Color.RED,
+		assertEquals("Image was not scaled up even though SetSizeTo was executed before!", Color.RED,
 				colorInsideSizedQuad);
 		assertEquals("Wrong stage background color!", Color.WHITE, colorOutsideSizedQuad);
 
