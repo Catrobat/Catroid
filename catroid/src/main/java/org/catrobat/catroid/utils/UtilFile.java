@@ -55,7 +55,7 @@ public final class UtilFile {
 	}
 
 	private static long getSizeOfFileOrDirectoryInByte(File fileOrDirectory) {
-		if (!fileOrDirectory.exists()) {
+		if (fileOrDirectory == null || !fileOrDirectory.exists()) {
 			return 0;
 		}
 		if (fileOrDirectory.isFile()) {
@@ -63,6 +63,9 @@ public final class UtilFile {
 		}
 
 		File[] contents = fileOrDirectory.listFiles();
+		if (contents == null) {
+			return 0;
+		}
 		long size = 0;
 		for (File file : contents) {
 			size += file.isDirectory() ? getSizeOfFileOrDirectoryInByte(file) : file.length();
@@ -75,8 +78,7 @@ public final class UtilFile {
 		if (fileByteSize == 0) {
 			return (long) 0;
 		}
-		Long progressValue = progress * 100 / fileByteSize;
-		return progressValue;
+		return progress * 100 / fileByteSize;
 	}
 
 	public static String getSizeAsString(File fileOrDirectory) {
