@@ -34,15 +34,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CheckForAssertionsTest extends TestCase {
-	private static final String[] DIRECTORIES = {"../catroidTest", "../catroidCucumberTest",};
+	private static final String[] DIRECTORIES = Utils.TEST_FILE_DIRECTORIES;
 	private static final String[] IGNORED_FILES = {"MockGalleryActivity.java", "UiTestUtils.java",
 			"SimulatedSensorManager.java", "SimulatedSoundRecorder.java", "TestUtils.java",
 			"MockPaintroidActivity.java", "TestMainMenuActivity.java", "TestErrorListenerInterface.java",
-			"XmlTestUtils.java", "MockSoundActivity.java", "Reflection.java",
+			"XmlTestUtils.java", "MockSoundActivity.java", "Reflection.java", "Utils.java",
 			"BaseActivityInstrumentationTestCase.java", "Device.java", "Callback.java", "CallbackBrick.java",
 			"Util.java", "BeforeAfterSteps.java", "Cucumber.java", "CallbackAction.java", "ObjectSteps.java",
-			"CucumberAnnotation.java", "CatroidExampleSteps.java", "PrintBrick.java"};
-	private boolean assertionNotFound;
+			"CucumberAnnotation.java", "CatroidExampleSteps.java", "PrintBrick.java" };
 
 	private boolean fileHasAssertions(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -60,7 +59,7 @@ public class CheckForAssertionsTest extends TestCase {
 
 	public void testForAssertions() throws IOException {
 		StringBuilder errorMessageBuilder = new StringBuilder(38);
-		assertionNotFound = false;
+		boolean assertionNotFound = false;
 
 		for (String directoryName : DIRECTORIES) {
 			File directory = new File(directoryName);
@@ -72,7 +71,7 @@ public class CheckForAssertionsTest extends TestCase {
 				if (!Arrays.asList(IGNORED_FILES).contains(file.getName())
 						&& !fileHasAssertions(file)) {
 					errorMessageBuilder
-							.append(file.getName())
+							.append(file.getPath())
 							.append(" does not seem to contain assertions\n");
 					assertionNotFound = true;
 				}

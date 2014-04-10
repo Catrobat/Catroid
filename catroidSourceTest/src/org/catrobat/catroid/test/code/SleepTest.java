@@ -35,8 +35,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SleepTest extends TestCase {
-	private static final String[] DIRECTORIES = { "../catroidCucumberTest" };
+	private static final String[] DIRECTORIES = Utils.SLEEP_TEST_DIRECTORIES;
 	private static final String REGEX_PATTERN = "^.*Thread\\.sleep\\(\\w+\\).*$";
+	private static final String PATTERN_DID_NOT_MATCH_MESSAGE = "Pattern didn't match!";
+	private static final String PATTERN_MATCHED_BUT_SHOULD_NOT_MESSAGE = "Pattern matched! But shouldn't!";
 
 	private String errorMessages;
 	private boolean errorFound;
@@ -54,10 +56,10 @@ public class SleepTest extends TestCase {
 				errorFound = true;
 				errorMessageBuilder
 						.append("File ")
-						.append(file.getName())
+						.append(file.getPath())
 						.append(':')
 						.append(lineCount)
-						.append(" contains \"Thread.sleep()\"");
+						.append('\n');
 			}
 			++lineCount;
 		}
@@ -68,17 +70,17 @@ public class SleepTest extends TestCase {
 	}
 
 	public void testThreadSleepNotPresentInAnyUiTests() throws IOException {
-		assertTrue("Pattern didn't match!", "Thread.sleep(1337)".matches(REGEX_PATTERN));
-		assertTrue("Pattern didn't match!", "Thread.sleep(virtualVariable)".matches(REGEX_PATTERN));
-		assertTrue("Pattern didn't match!", "Thread.sleep(VIRTUAL_08_VARIABLE)".matches(REGEX_PATTERN));
-		assertTrue("Pattern didn't match!", "Thread.sleep(virtual_VAR14BLE_)".matches(REGEX_PATTERN));
-		assertTrue("Pattern didn't match!", "Thread.sleep(_)".matches(REGEX_PATTERN));
-		assertTrue("Pattern didn't match!", "foo(); Thread.sleep(42); bar();".matches(REGEX_PATTERN));
-		assertFalse("Pattern matched! But shouldn't!", "Thread.sleep()".matches(REGEX_PATTERN));
-		assertFalse("Pattern matched! But shouldn't!", "Thread.sleep(.)".matches(REGEX_PATTERN));
-		assertFalse("Pattern matched! But shouldn't!", "Thread.sleep(\"foobar\")".matches(REGEX_PATTERN));
-		assertFalse("Pattern matched! But shouldn't!", "Thread.sleep(\"42\")".matches(REGEX_PATTERN));
-		assertFalse("Pattern matched! But shouldn't!", "Thread0sleep(MyVar)".matches(REGEX_PATTERN));
+		assertTrue(PATTERN_DID_NOT_MATCH_MESSAGE, "Thread.sleep(1337)".matches(REGEX_PATTERN));
+		assertTrue(PATTERN_DID_NOT_MATCH_MESSAGE, "Thread.sleep(virtualVariable)".matches(REGEX_PATTERN));
+		assertTrue(PATTERN_DID_NOT_MATCH_MESSAGE, "Thread.sleep(VIRTUAL_08_VARIABLE)".matches(REGEX_PATTERN));
+		assertTrue(PATTERN_DID_NOT_MATCH_MESSAGE, "Thread.sleep(virtual_VAR14BLE_)".matches(REGEX_PATTERN));
+		assertTrue(PATTERN_DID_NOT_MATCH_MESSAGE, "Thread.sleep(_)".matches(REGEX_PATTERN));
+		assertTrue(PATTERN_DID_NOT_MATCH_MESSAGE, "foo(); Thread.sleep(42); bar();".matches(REGEX_PATTERN));
+		assertFalse(PATTERN_MATCHED_BUT_SHOULD_NOT_MESSAGE, "Thread.sleep()".matches(REGEX_PATTERN));
+		assertFalse(PATTERN_MATCHED_BUT_SHOULD_NOT_MESSAGE, "Thread.sleep(.)".matches(REGEX_PATTERN));
+		assertFalse(PATTERN_MATCHED_BUT_SHOULD_NOT_MESSAGE, "Thread.sleep(\"foobar\")".matches(REGEX_PATTERN));
+		assertFalse(PATTERN_MATCHED_BUT_SHOULD_NOT_MESSAGE, "Thread.sleep(\"42\")".matches(REGEX_PATTERN));
+		assertFalse(PATTERN_MATCHED_BUT_SHOULD_NOT_MESSAGE, "Thread0sleep(MyVar)".matches(REGEX_PATTERN));
 
 		errorMessages = "";
 		errorFound = false;
@@ -95,6 +97,6 @@ public class SleepTest extends TestCase {
 			}
 		}
 
-		assertFalse("Files with Block Characters found: \n" + errorMessages, errorFound);
+		assertFalse("Files with 'Thread.sleep()' found: \n" + errorMessages, errorFound);
 	}
 }
