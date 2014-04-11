@@ -169,7 +169,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		SequenceAction sequence = ExtendedActions.sequence();
 		repeatBrick.addActionToSequence(sequence);
 		RepeatAction repeatAction = (RepeatAction) sequence.getActions().get(0);
-		boolean wait = true;
+		boolean wait = false;
 		while (!wait) {
 			wait = sequence.act(1.0f);
 		}
@@ -187,7 +187,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 				ExtendedActions.sequence(ExtendedActions.changeYByN(testSprite, new Formula(decoyDeltaY))));
 		SequenceAction action = ExtendedActions.sequence(repeatAction,
 				ExtendedActions.changeYByN(testSprite, new Formula(expectedDeltaY)));
-		boolean wait = true;
+		boolean wait = false;
 		while (!wait) {
 			wait = action.act(1.0f);
 		}
