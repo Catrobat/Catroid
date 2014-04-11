@@ -48,6 +48,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import org.catrobat.catroid.bluetooth.BTConnectable;
 import org.catrobat.catroid.bluetooth.DeviceListActivity;
@@ -58,57 +59,16 @@ public class LegoNXT implements BTConnectable {
 
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 	private static final int TONE_COMMAND = 101;
-
-	private LegoNXTCommunicator myNXTCommunicator;
-
-	private boolean pairing;
+	private static final String TAG = LegoNXT.class.getSimpleName();
 	private static Handler btcHandler;
+	private LegoNXTCommunicator myNXTCommunicator;
+	private boolean pairing;
 	private Handler recieverHandler;
 	private Activity activity;
 
 	public LegoNXT(Activity activity, Handler recieverHandler) {
 		this.activity = activity;
 		this.recieverHandler = recieverHandler;
-	}
-
-	public void startBTCommunicator(String macAddress) {
-
-		if (myNXTCommunicator != null) {
-			try {
-				myNXTCommunicator.destroyNXTconnection();
-			} catch (IOException e) {
-			}
-		}
-
-		myNXTCommunicator = new LegoNXTBtCommunicator(this, recieverHandler, BluetoothAdapter.getDefaultAdapter(),
-				activity.getResources());
-		btcHandler = myNXTCommunicator.getHandler();
-
-		((LegoNXTBtCommunicator) myNXTCommunicator).setMACAddress(macAddress);
-		myNXTCommunicator.start();
-	}
-
-	/**
-	 * Receive messages from the BTCommunicator
-	 */
-
-	public void destroyCommunicator() {
-
-		if (myNXTCommunicator != null) {
-			//sendBTCMotorMessage(LegoNXTBtCommunicator.NO_DELAY, LegoNXTBtCommunicator.DISCONNECT, 0, 0);
-			try {
-				myNXTCommunicator.destroyNXTconnection();
-			} catch (IOException e) { // TODO Auto-generated method stub
-
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			myNXTCommunicator = null;
-		}
-	}
-
-	public void pauseCommunicator() {
-		myNXTCommunicator.stopAllNXTMovement();
 	}
 
 	public static synchronized void sendBTCPlayToneMessage(int frequency, int duration) {
@@ -147,6 +107,45 @@ public class LegoNXT implements BTConnectable {
 
 	public static Handler getBTCHandler() {
 		return btcHandler;
+	}
+
+	public void startBTCommunicator(String macAddress) {
+
+		if (myNXTCommunicator != null) {
+			try {
+				myNXTCommunicator.destroyNXTconnection();
+			} catch (IOException ioException) {
+				Log.e(TAG, Log.getStackTraceString(ioException));
+			}
+		}
+
+		myNXTCommunicator = new LegoNXTBtCommunicator(this, recieverHandler, BluetoothAdapter.getDefaultAdapter(),
+				activity.getResources());
+		btcHandler = myNXTCommunicator.getHandler();
+
+		((LegoNXTBtCommunicator) myNXTCommunicator).setMACAddress(macAddress);
+		myNXTCommunicator.start();
+	}
+
+	/**
+	 * Receive messages from the BTCommunicator
+	 */
+
+	public void destroyCommunicator() {
+
+		if (myNXTCommunicator != null) {
+			//sendBTCMotorMessage(LegoNXTBtCommunicator.NO_DELAY, LegoNXTBtCommunicator.DISCONNECT, 0, 0);
+			try {
+				myNXTCommunicator.destroyNXTconnection();
+			} catch (IOException ioException) { // TODO Auto-generated method stub
+				Log.e(TAG, Log.getStackTraceString(ioException));
+			}
+			myNXTCommunicator = null;
+		}
+	}
+
+	public void pauseCommunicator() {
+		myNXTCommunicator.stopAllNXTMovement();
 	}
 
 	@Override

@@ -44,6 +44,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ListView;
@@ -83,6 +84,7 @@ public final class LookController {
 	public static final String LOADER_ARGUMENTS_IMAGE_URI = "image_uri";
 	public static final String SHARED_PREFERENCE_NAME = "showDetailsLooks";
 
+	private static final String TAG = LookController.class.getSimpleName();
 	private static final LookController INSTANCE = new LookController();
 
 	private LookController() {
@@ -349,8 +351,8 @@ public final class LookController {
 
 				selectedLookData.setLookFilename(newLookFile.getName());
 				selectedLookData.resetThumbnailBitmap();
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (IOException ioException) {
+				Log.e(TAG, Log.getStackTraceString(ioException));
 			}
 		}
 
@@ -481,9 +483,9 @@ public final class LookController {
 			String imageFileName = lookData.getLookFileName();
 
 			updateLookAdapter(imageName, imageFileName, lookDataList, fragment);
-		} catch (IOException e) {
+		} catch (IOException ioException) {
 			Utils.showErrorDialog(activity, R.string.error_load_image);
-			e.printStackTrace();
+			Log.e(TAG, Log.getStackTraceString(ioException));
 		}
 		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 	}

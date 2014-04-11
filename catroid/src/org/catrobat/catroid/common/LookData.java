@@ -24,6 +24,7 @@ package org.catrobat.catroid.common;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -39,6 +40,7 @@ import java.io.Serializable;
 
 public class LookData implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
+	private static final String TAG = LookData.class.getSimpleName();
 
 	private String name;
 	private String fileName;
@@ -60,8 +62,8 @@ public class LookData implements Serializable, Cloneable {
 		String filePath = getPathToImageDirectory() + "/" + fileName;
 		try {
 			ProjectManager.getInstance().getFileChecksumContainer().incrementUsage(filePath);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+		} catch (FileNotFoundException fileNotFoundexception) {
+			Log.e(TAG, Log.getStackTraceString(fileNotFoundexception));
 		}
 
 		return cloneLookData;

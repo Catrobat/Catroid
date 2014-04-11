@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.utils;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.util.Log;
 import android.util.SparseArray;
 
 import org.catrobat.catroid.ProjectManager;
@@ -61,6 +62,8 @@ public final class TestUtils {
 	public static final int TYPE_SOUND_FILE = 1;
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
 	public static final String CORRUPT_PROJECT_NAME = "copiedProject";
+
+	private static final String TAG = TestUtils.class.getSimpleName();
 
 	// Suppress default constructor for noninstantiability
 	private TestUtils() {
@@ -157,8 +160,8 @@ public final class TestUtils {
 			} finally {
 				input.close();
 			}
-		} catch (IOException ex) {
-			ex.printStackTrace();
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
 		}
 		return contents.toString();
 	}

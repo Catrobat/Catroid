@@ -124,11 +124,11 @@ public class ProjectUploadService extends IntentService {
 					language, token, username, receiver, notificationId, context);
 
 			zipFile.delete();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
 			result = false;
-		} catch (WebconnectionException webException) {
-			serverAnswer = webException.getMessage();
+		} catch (WebconnectionException webconnectionException) {
+			serverAnswer = webconnectionException.getMessage();
 			Log.e(TAG, serverAnswer);
 			result = false;
 		}

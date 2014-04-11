@@ -38,11 +38,5 @@
         <item>@string/nxt_motor_all</item>
     </string-array>
 
-    <!-- New Look Dialog -->
-    <string-array name="new_look_chooser">
-        <item>@string/add_look_from_camera</item>
-        <item>@string/add_look_choose_image</item>
-        <item>@string/add_look_draw_new_image</item>
-    </string-array>
 
 </resources>

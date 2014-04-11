@@ -213,9 +213,9 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue(testFile + " is not selected in Spinner", solo.isSpinnerTextSelected(testFile));
 
 		solo.goBack();
-		String programMenuActivityClass = ProgramMenuActivity.class.getSimpleName().toString();
+		String programMenuActivityClass = ProgramMenuActivity.class.getSimpleName();
 		assertTrue("Should be in " + programMenuActivityClass, solo.getCurrentActivity().getClass().getSimpleName()
-				.toString().equals(programMenuActivityClass));
+				.equals(programMenuActivityClass));
 	}
 
 	public void selectLook(String newLook, String oldName, String lookImagePath) {

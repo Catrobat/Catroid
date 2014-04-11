@@ -2,27 +2,27 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *    
+ *
  *    This file incorporates work covered by the following copyright and  
  *    permission notice: 
- *    
+ *
  *		   	Copyright 2010 Guenther Hoelzl, Shawn Brown
  *
  *		   	This file is part of MINDdroid.
@@ -70,12 +70,55 @@ public class DeviceListActivity extends Activity {
 	public static final String AUTO_CONNECT = "auto_connect";
 	public static final String DEVICE_NAME_AND_ADDRESS = "device_infos";
 	public static final String EXTRA_DEVICE_ADDRESS = "device_address";
+	private static final int LENGTH_OF_FOO = 18; //TODO: figure out the meaning of the value
+	
+	private OnItemClickListener deviceClickListener = new OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> av, View view, int position, long id) {
 
+			String info = ((TextView) view).getText().toString();
+			if (info.lastIndexOf('-') != info.length() - LENGTH_OF_FOO) {
+				return;
+			}
+
+			btAdapter.cancelDiscovery();
+			String address = info.substring(info.lastIndexOf('-') + 1);
+			Intent intent = new Intent();
+			Bundle data = new Bundle();
+			data.putString(DEVICE_NAME_AND_ADDRESS, info);
+			data.putString(EXTRA_DEVICE_ADDRESS, address);
+			data.putBoolean(PAIRING, av.getId() == R.id.new_devices);
+			data.putBoolean(AUTO_CONNECT, false);
+			intent.putExtras(data);
+			setResult(RESULT_OK, intent);
+			finish();
+		}
+	};
+	private static ArrayList<String> autoConnectIDs = new ArrayList<String>();
+	private final BroadcastReceiver receiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String action = intent.getAction();
+
+			if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+				BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+				if ((device.getBondState() != BluetoothDevice.BOND_BONDED)) {
+					newDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
+				}
+			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+				setProgressBarIndeterminateVisibility(false);
+				setTitle(R.string.select_device);
+				if (newDevicesArrayAdapter.isEmpty()) {
+					String noDevices = getResources().getString(R.string.none_found);
+					newDevicesArrayAdapter.add(noDevices);
+				}
+			}
+		}
+	};
 	private BluetoothAdapter btAdapter;
 	private ArrayAdapter<String> pairedDevicesArrayAdapter;
 	private ArrayAdapter<String> newDevicesArrayAdapter;
 	private boolean autoConnect = true;
-	private static ArrayList<String> autoConnectIDs = new ArrayList<String>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -174,13 +217,12 @@ public class DeviceListActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
-
 		if (btAdapter != null) {
 			btAdapter.cancelDiscovery();
 		}
 
 		this.unregisterReceiver(receiver);
+		super.onDestroy();
 	}
 
 	private void doDiscovery() {
@@ -196,49 +238,5 @@ public class DeviceListActivity extends Activity {
 
 		btAdapter.startDiscovery();
 	}
-
-	private OnItemClickListener deviceClickListener = new OnItemClickListener() {
-		@Override
-		public void onItemClick(AdapterView<?> av, View view, int arg2, long arg3) {
-
-			String info = ((TextView) view).getText().toString();
-			if (info.lastIndexOf('-') != info.length() - 18) {
-				return;
-			}
-
-			btAdapter.cancelDiscovery();
-			String address = info.substring(info.lastIndexOf('-') + 1);
-			Intent intent = new Intent();
-			Bundle data = new Bundle();
-			data.putString(DEVICE_NAME_AND_ADDRESS, info);
-			data.putString(EXTRA_DEVICE_ADDRESS, address);
-			data.putBoolean(PAIRING, av.getId() == R.id.new_devices);
-			data.putBoolean(AUTO_CONNECT, false);
-			intent.putExtras(data);
-			setResult(RESULT_OK, intent);
-			finish();
-		}
-	};
-
-	private final BroadcastReceiver receiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			String action = intent.getAction();
-
-			if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-				BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-				if ((device.getBondState() != BluetoothDevice.BOND_BONDED)) {
-					newDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
-				}
-			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-				setProgressBarIndeterminateVisibility(false);
-				setTitle(R.string.select_device);
-				if (newDevicesArrayAdapter.getCount() == 0) {
-					String noDevices = getResources().getText(R.string.none_found).toString();
-					newDevicesArrayAdapter.add(noDevices);
-				}
-			}
-		}
-	};
 
 }

@@ -38,23 +38,23 @@ public final class BroadcastWaitSequenceMap {
 	}
 
 	public static boolean containsKey(String key) {
-		return broadcastWaitSequenceMap.containsKey(key);
+		return BroadcastWaitSequenceMap.broadcastWaitSequenceMap.containsKey(key);
 	}
 
 	public static ArrayList<SequenceAction> get(String key) {
-		return broadcastWaitSequenceMap.get(key);
+		return BroadcastWaitSequenceMap.broadcastWaitSequenceMap.get(key);
 	}
 
 	public static ArrayList<SequenceAction> put(String key, ArrayList<SequenceAction> value) {
-		return broadcastWaitSequenceMap.put(key, value);
+		return BroadcastWaitSequenceMap.broadcastWaitSequenceMap.put(key, value);
 	}
 
 	public static ArrayList<SequenceAction> remove(String key) {
-		return broadcastWaitSequenceMap.remove(key);
+		return BroadcastWaitSequenceMap.broadcastWaitSequenceMap.remove(key);
 	}
 
 	public static void clear() {
-		broadcastWaitSequenceMap.clear();
+		BroadcastWaitSequenceMap.broadcastWaitSequenceMap.clear();
 	}
 
 	public static BroadcastEvent getCurrentBroadcastEvent() {

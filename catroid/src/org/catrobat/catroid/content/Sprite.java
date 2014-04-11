@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -41,13 +43,27 @@ import java.util.List;
 
 public class Sprite implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
+	private static final String TAG = Sprite.class.getSimpleName();
+
+	public transient Look look;
+	public transient boolean isPaused;
+
 	private String name;
 	private List<Script> scriptList;
 	private ArrayList<LookData> lookList;
 	private ArrayList<SoundInfo> soundList;
-	public transient Look look;
 
-	public transient boolean isPaused;
+	public Sprite(String name) {
+		this.name = name;
+		scriptList = new ArrayList<Script>();
+		lookList = new ArrayList<LookData>();
+		soundList = new ArrayList<SoundInfo>();
+		init();
+	}
+
+	public Sprite() {
+
+	}
 
 	private Object readResolve() {
 		//filling FileChecksumContainer:
@@ -86,18 +102,6 @@ public class Sprite implements Serializable, Cloneable {
 		for (LookData lookData : lookList) {
 			lookData.resetLookData();
 		}
-	}
-
-	public Sprite(String name) {
-		this.name = name;
-		scriptList = new ArrayList<Script>();
-		lookList = new ArrayList<LookData>();
-		soundList = new ArrayList<SoundInfo>();
-		init();
-	}
-
-	public Sprite() {
-
 	}
 
 	public void createStartScriptActionSequence() {
@@ -165,8 +169,8 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.look = this.look.copyLookForSprite(cloneSprite);
 		try {
 			cloneSprite.look.setLookData(cloneSprite.getLookDataList().get(0));
-		} catch (IndexOutOfBoundsException e) {
-			e.printStackTrace();
+		} catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+			Log.e(TAG, Log.getStackTraceString(indexOutOfBoundsException));
 		}
 
 		return cloneSprite;
@@ -176,11 +180,10 @@ public class Sprite implements Serializable, Cloneable {
 	public void createWhenScriptActionSequence(String action) {
 		ParallelAction whenParallelAction = ExtendedActions.parallel();
 		for (Script s : scriptList) {
-			if (s instanceof WhenScript) {
-				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
-					SequenceAction sequence = createActionSequence(s);
-					whenParallelAction.addAction(sequence);
-				}
+			if (s instanceof WhenScript && (((WhenScript) s).getAction().equalsIgnoreCase(action))) {
+				SequenceAction sequence = createActionSequence(s);
+				whenParallelAction.addAction(sequence);
+
 			}
 		}
 		look.setWhenParallelAction(whenParallelAction);

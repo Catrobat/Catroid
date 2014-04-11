@@ -34,42 +34,62 @@ import java.util.List;
 
 public class SystemOutTest extends TestCase {
 
-	private StringBuffer errorMessages;
+	private String errorMessages;
 	private boolean errorFound;
 
-	private static final String[] DIRECTORIES = { "../catroidTest", "../catroid", "../catroidCucumberTest" };
+	private static final String[] SYSTEM_OUT_DIRECTORIES = { "../catroidTest", "../catroid", "../catroidCucumberTest" };
+	private static final String[] STACK_TRACE_DIRECTORIES = { "../catroid", "../catroidCucumberTest" };
+	private static final String SYSTEM_OUT = "System.out";
+	private static final String PRINT_STACK_TRACE = ".printStackTrace()";
 
-	private void checkFileForSystemOut(File file) throws IOException {
+	private void checkFileForString(File file, String string) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
-
+		StringBuilder errorMessageBuilder = new StringBuilder();
 		int lineCount = 1;
-		String line = null;
+		String line;
 
 		while ((line = reader.readLine()) != null) {
-			if (line.contains("System.out")) {
+			if (line.contains(string)) {
 				errorFound = true;
-				errorMessages.append(file.getName() + " in line " + lineCount + "\n");
+				errorMessageBuilder
+						.append(file.getName())
+						.append(" in line ")
+						.append(lineCount)
+						.append('\n');
 			}
 			++lineCount;
 		}
 		reader.close();
+		if (errorMessageBuilder.length() > 0) {
+			errorMessages += errorMessageBuilder.toString();
+		}
 	}
 
-	public void testForSystemOut() throws IOException {
-		errorMessages = new StringBuffer();
-		errorFound = false;
-
-		for (String directoryName : DIRECTORIES) {
+	private void checkForStringInFiles(String string, String[] directories) throws IOException {
+		for (String directoryName : directories) {
 			File directory = new File(directoryName);
 			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());
 			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
 
 			List<File> filesToCheck = Utils.getFilesFromDirectoryByExtension(directory, new String[] { ".java", });
 			for (File file : filesToCheck) {
-				checkFileForSystemOut(file);
+				checkFileForString(file, string);
 			}
 		}
+	}
 
-		assertFalse("Files with System.out found: \n" + errorMessages.toString(), errorFound);
+	public void setUp() {
+		errorMessages = "";
+		errorFound = false;
+	}
+
+	public void testForSystemOut() throws IOException {
+		checkForStringInFiles(SYSTEM_OUT, SYSTEM_OUT_DIRECTORIES);
+		assertFalse("Files with 'System.out' found! \nPlease use 'Log.d(TAG, message)' instead \n\n" + errorMessages, errorFound);
+	}
+
+	public void testForPrintStackTrace() throws IOException {
+		checkForStringInFiles(PRINT_STACK_TRACE, STACK_TRACE_DIRECTORIES);
+		assertFalse("Files with '.printStackTrace()' found! \nPlease use 'Log.e(TAG, \"Reason for Exception\", exception)' or 'Log.e(TAG, Log.getStackTraceString(exception))' instead\n\n" + errorMessages, errorFound);
 	}
 }

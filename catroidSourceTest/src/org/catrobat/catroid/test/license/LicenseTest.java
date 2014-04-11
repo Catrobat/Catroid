@@ -39,17 +39,18 @@ public class LicenseTest extends TestCase {
 
 	private ArrayList<String> agplLicenseText;
 	private boolean allLicenseTextsPresentAndCorrect;
-	private StringBuilder errorMessages;
+	private String errorMessages;
 
-	public LicenseTest() throws IOException {
+	@Override
+	public void setUp() throws IOException {
 		allLicenseTextsPresentAndCorrect = true;
-		errorMessages = new StringBuilder();
+		errorMessages = "";
 		agplLicenseText = readLicenseFile(new File("res/agpl_license_text.txt"));
 	}
 
 	private ArrayList<String> readLicenseFile(File licenseTextFile) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(licenseTextFile));
-		String line = null;
+		String line;
 		ArrayList<String> licenseText = new ArrayList<String>();
 		while ((line = reader.readLine()) != null) {
 			if (line.length() > 0) {
@@ -64,7 +65,7 @@ public class LicenseTest extends TestCase {
 		StringBuilder fileContentsBuilder = new StringBuilder();
 		BufferedReader reader = new BufferedReader(new FileReader(file));
 
-		String line = null;
+		String line;
 		while ((line = reader.readLine()) != null) {
 			fileContentsBuilder.append(line);
 		}
@@ -85,14 +86,22 @@ public class LicenseTest extends TestCase {
 			lastPosition = position;
 		}
 
+		StringBuilder errorMessageBuilder = new StringBuilder();
 		if (notFound) {
 			allLicenseTextsPresentAndCorrect = false;
-			errorMessages.append("License text was not found in file " + file.getCanonicalPath() + "\n");
+			errorMessageBuilder
+				.append("License text was not found in file ")
+				.append(file.getCanonicalPath())
+				.append('\n');
 		} else if (wrongOrder) {
 			allLicenseTextsPresentAndCorrect = false;
-			errorMessages.append("License text was found in the wrong order in file " + file.getCanonicalPath() + "\n");
+			errorMessageBuilder
+				.append("License text was found in the wrong order in file ")
+				.append(file.getCanonicalPath())
+				.append('\n');
 		}
 		reader.close();
+		errorMessages += errorMessageBuilder.toString();
 	}
 
 	public void testLicensePresentInAllFiles() throws IOException {

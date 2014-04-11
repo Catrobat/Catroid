@@ -1358,7 +1358,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		String pathToImageFile = imageFile.getAbsolutePath();
 		int[] fileResolutionBeforeCrop = lookData.getMeasure();
-		int[] displayedResolutionBeforeCrop = getDisplayedMeasure(lookData);
+		int[] displayedResolutionBeforeCrop = getDisplayedMeasure();
 
 		int sampleSize = 2;
 
@@ -1375,7 +1375,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.getIntoLooksFromMainMenu(solo, true);
 
 		int[] fileResolutionAfterCrop = lookData.getMeasure();
-		int[] displayedResolutionAfterCrop = getDisplayedMeasure(lookData);
+		int[] displayedResolutionAfterCrop = getDisplayedMeasure();
 
 		assertTrue("Bitmap resolution in file was not cropped",
 				fileResolutionAfterCrop[0] < fileResolutionBeforeCrop[0]
@@ -1431,7 +1431,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
 	}
 
-	private int[] getDisplayedMeasure(LookData look) {
+	private int[] getDisplayedMeasure() {
 		TextView measureTextView = (TextView) solo.getView(R.id.fragment_look_item_measure_text_view);
 		String measureString = measureTextView.getText().toString();
 

@@ -1,6 +1,17 @@
 Changelog
 =========
 
+version 0.9.7
+-----------------
+ - fix crashes on Android 4.4 when importing images and sound
+ - fixes a bug where some math functions didn't work correctly
+ - open websites in-app
+ - stage: fix broadcast behavior
+ - stage: hiding objects outside, when not in stretch-mode
+ - stage: correctly show projects with different aspect ratio
+ - stage: correctly taking automatic screenshots during longer sessions
+ - many smaller bugfixes and user experience improvements
+
 version 0.9.6
 -----------------
 - fix a bug where some projects could not be loaded

@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.catrobat.catroid.R;
@@ -38,6 +39,8 @@ import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
 public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
+
+	private static final String TAG = RegistrationTask.class.getSimpleName();
 
 	private Context context;
 	private ProgressDialog progressDialog;
@@ -88,9 +91,9 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 
 			return true;
 
-		} catch (WebconnectionException e) {
-			e.printStackTrace();
-			message = e.getMessage();
+		} catch (WebconnectionException webconnectionException) {
+			Log.e(TAG, Log.getStackTraceString(webconnectionException));
+			message = webconnectionException.getMessage();
 		}
 		return false;
 
