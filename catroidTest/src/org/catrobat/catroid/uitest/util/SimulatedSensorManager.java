@@ -157,11 +157,16 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 				constructor.setAccessible(true);
 				sensorEvent = constructor.newInstance(3);
 
-			} catch (NoSuchMethodException e) {
-			} catch (IllegalArgumentException e) {
-			} catch (InstantiationException e) {
-			} catch (IllegalAccessException e) {
-			} catch (InvocationTargetException e) {
+			} catch (NoSuchMethodException noSuchMethodException) {
+				noSuchMethodException.printStackTrace();
+			} catch (IllegalArgumentException illegalArgumentException) {
+				illegalArgumentException.printStackTrace();
+			} catch (InstantiationException instantiationException) {
+				instantiationException.printStackTrace();
+			} catch (IllegalAccessException illegalAccessException) {
+				illegalAccessException.printStackTrace();
+			} catch (InvocationTargetException invocationTargetException) {
+				invocationTargetException.printStackTrace();
 			}
 
 			if (sensorEvent == null) {
