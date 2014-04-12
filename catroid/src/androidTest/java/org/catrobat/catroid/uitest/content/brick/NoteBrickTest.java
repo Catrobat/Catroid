@@ -24,6 +24,8 @@ package org.catrobat.catroid.uitest.content.brick;
 
 import android.widget.ListView;
 
+import com.robotium.solo.Solo;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -108,7 +110,7 @@ public class NoteBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 		if(textToSaveAsNote != "") {
 			solo.enterText(0, textToSaveAsNote);
 		}
-		solo.clickOnButton(android.R.id.button1);
+		solo.sendKey(Solo.ENTER);
 		solo.waitForDialogToClose(500);
 	}
 }

@@ -26,7 +26,7 @@ import android.app.Activity;
 import android.test.AndroidTestCase;
 import android.widget.Button;
 
-import com.jayway.android.robotium.solo.Solo;
+import com.robotium.solo.Solo;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
