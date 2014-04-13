@@ -504,7 +504,9 @@
     <string name="error_drone_low_battery">Lege einen geladenen Akku ein und probier es noch einmal.</string>
     <string name="error_drone_wrong_platform_title">Keine ARDronen Unterstützung</string>
     <string name="error_drone_wrong_platform">Leider können wir kein Dronen Projekt auf deinem Gerät ausführen.</string>
-    <!--  -->
+	<string name="error_rename_incompatible_project">Es ist nicht möglich ein inkompatibles Projekt umzubenennen.</string>
+    <string name="error_changing_description_of_incompatible_project">Ändern der Beschreibung eines inkompatiblen Projekt ist nicht möglich.</string>
+	<!--  -->
 
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Bühne</string>
