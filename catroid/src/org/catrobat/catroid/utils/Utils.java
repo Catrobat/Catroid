@@ -65,6 +65,7 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
@@ -302,7 +303,7 @@ public final class Utils {
 
 			try {
 				ProjectManager.getInstance().loadProject(projectName, context);
-			} catch (Exception projectException) {
+			} catch (ProjectException projectException) {
 				Log.e(TAG, "Project cannot load", projectException);
 				ProjectManager.getInstance().initializeDefaultProject(context);
 			}

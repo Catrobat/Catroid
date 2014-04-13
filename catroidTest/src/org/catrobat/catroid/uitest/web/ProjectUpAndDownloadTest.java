@@ -39,9 +39,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.WaitBrick;
-import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
-import org.catrobat.catroid.exceptions.CompatibilityProjectException;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
@@ -259,8 +257,9 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		try {
 			ProjectManager.getInstance().loadProject(testProject, getActivity());
-		} catch (Exception loadingProjectException) {
-			fail("Could not load project.");
+			assertTrue("Load project worked correctly", true);
+		} catch (ProjectException projectException) {
+			fail("Project is not loaded successfully");
 		}
 
 		Project uploadProject = StorageHandler.getInstance().loadProject(testProject);
@@ -425,7 +424,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		soundInfoList.remove(0);
 
 		int numberOfSounds = soundInfoList.size();
-		assertEquals("Number of sounds has not changed after deletion", numberOfMediaFilesToExtentDownloadTime - 1, numberOfSounds);
+		assertEquals("Number of sounds has not changed after deletion", numberOfMediaFilesToExtentDownloadTime - 1,
+				numberOfSounds);
 
 		downloadProjectAndReplace(projectName);
 		Project downloadedProject = StorageHandler.getInstance().loadProject(projectName);
@@ -441,16 +441,17 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		String standardProjectName = getActivity().getString(R.string.default_project_name);
 		try {
 			ProjectManager.getInstance().loadProject(standardProjectName, getActivity());
-			ProjectManager.getInstance().deleteCurrentProject();
+			assertTrue("Load standard project worked correctly", true);
+		} catch (ProjectException projectException) {
+			fail("Standard project is not loaded successfully");
+		}
+
+		ProjectManager.getInstance().deleteCurrentProject();
+		try {
 			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
 					getInstrumentation().getTargetContext());
-		} catch (LoadingProjectException loadingProjectException) {
-			fail("Error loading project");
-		} catch (OutdatedVersionProjectException outdatedVersionException) {
-			fail("Pocket code version is outdated");
-		} catch (CompatibilityProjectException compatibilityException) {
-			fail("Project is not combatible");
-		} catch (IOException standardProjectCreationException) {
+			assertTrue("Standard project is created and saved successfully", true);
+		} catch (IOException e) {
 			fail("Standard project not created");
 		}
 
@@ -564,7 +565,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		Intent intent = new Intent(getActivity(), MainMenuActivity.class);
 		intent.setAction(Intent.ACTION_VIEW);
 		intent.setData(Uri.parse(downloadUrl));
-        launchActivityWithIntent(getInstrumentation().getTargetContext().getPackageName(), MainMenuActivity.class, intent);
+		launchActivityWithIntent(getInstrumentation().getTargetContext().getPackageName(), MainMenuActivity.class,
+				intent);
 		solo.sleep(500);
 		assertTrue("OverwriteRenameDialog not shown.", solo.searchText(solo.getString(R.string.overwrite_text)));
 

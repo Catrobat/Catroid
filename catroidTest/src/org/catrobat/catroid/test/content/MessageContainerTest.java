@@ -23,7 +23,6 @@
 package org.catrobat.catroid.test.content;
 
 import android.test.AndroidTestCase;
-import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.MessageContainer;
@@ -34,8 +33,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
-import org.catrobat.catroid.exceptions.CompatibilityProjectException;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -45,8 +43,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class MessageContainerTest extends AndroidTestCase {
-
-	private static final String TAG = "message_container_test";
 
 	private final String projectName1 = "TestProject1";
 	private final String projectName2 = "TestProject2";
@@ -71,7 +67,7 @@ public class MessageContainerTest extends AndroidTestCase {
 
 			Set<String> keySet = getMessages();
 			assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage1));
-		} catch (Exception loadingProjectException) {
+		} catch (ProjectException projectException) {
 			fail("Project is not loaded successfully");
 		}
 	}
@@ -79,7 +75,8 @@ public class MessageContainerTest extends AndroidTestCase {
 	public void testLoadTwoProjects() {
 		try {
 			ProjectManager.getInstance().loadProject(projectName1, getContext());
-		} catch (Exception loadingProjectException) {
+			assertTrue("Project1 is loaded successfully", true);
+		} catch (ProjectException projectException) {
 			fail("Project1 is not loaded successfully");
 		}
 
@@ -88,7 +85,8 @@ public class MessageContainerTest extends AndroidTestCase {
 
 		try {
 			ProjectManager.getInstance().loadProject(projectName2, getContext());
-		} catch (Exception loadingProjectException) {
+			assertTrue("Project2 is loaded successfully", true);
+		} catch (ProjectException projectException) {
 			fail("Project2 is not loaded successfully");
 		}
 
@@ -100,7 +98,8 @@ public class MessageContainerTest extends AndroidTestCase {
 	public void testLoadCorruptedProjectAndCheckForBackup() {
 		try {
 			ProjectManager.getInstance().loadProject(projectName1, getContext());
-		} catch (Exception loadingProjectException) {
+			assertTrue("Project1 is loaded successfully", true);
+		} catch (ProjectException projectException) {
 			fail("Project1 is not loaded successfully");
 		}
 
@@ -111,11 +110,9 @@ public class MessageContainerTest extends AndroidTestCase {
 			ProjectManager.getInstance().loadProject(projectName3, getContext());
 			fail("Project3 should be corrupted");
 		} catch (LoadingProjectException loadingProjectException) {
-			Log.i(TAG, "Project corruption test is successful", loadingProjectException);
-		} catch (OutdatedVersionProjectException outdatedVersionException) {
-			fail("Pocket code version is out dated");
-		} catch (CompatibilityProjectException compatibilityException) {
-			fail("Project3 is not compatible");
+			assertTrue("Project corruption test is successful", true);
+		} catch (ProjectException projectExceptions) {
+			fail("Project corruption test is failed");
 		}
 
 		keySet = getMessages();

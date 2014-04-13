@@ -29,7 +29,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -51,6 +50,7 @@ import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
@@ -65,7 +65,6 @@ import java.io.IOException;
 
 public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-	private static final String TAG = "main_menu_activity_test";
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String testProject2 = UiTestUtils.PROJECTNAME2;
 	private String testProject3 = UiTestUtils.PROJECTNAME3;
@@ -353,10 +352,11 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 			public void run() {
 				try {
 					ProjectManager.getInstance().loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getActivity());
+					fail("Load project didn't fail");
 				} catch (CompatibilityProjectException compatibilityException) {
 					Utils.showErrorDialog(getActivity(), R.string.error_project_compatability);
-				} catch (Exception loadingProjectException) {
-					Log.i(TAG, "Failure test of loading project is successful", loadingProjectException);
+				} catch (ProjectException projectException) {
+					fail("Incompatible project not identified");
 				}
 			}
 		});

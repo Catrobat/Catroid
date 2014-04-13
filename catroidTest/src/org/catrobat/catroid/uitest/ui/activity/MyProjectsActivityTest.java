@@ -49,6 +49,7 @@ import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
@@ -1547,7 +1548,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		try {
 			ProjectManager.getInstance().loadProject(UiTestUtils.PROJECTNAME1, getActivity());
-		} catch (Exception loadingProjectException) {
+			assertTrue("Load project worked correctly", true);
+		} catch (ProjectException projectException) {
 			fail("Could not load project.");
 		}
 

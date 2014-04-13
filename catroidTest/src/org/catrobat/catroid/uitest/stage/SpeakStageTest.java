@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -104,7 +105,8 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<ProjectA
 	private void prepareStageForTesting(String projectName) {
 		try {
 			ProjectManager.getInstance().loadProject(projectName, getActivity().getApplicationContext());
-		} catch (Exception loadingProjectException) {
+			assertTrue("Load project worked correctly", true);
+		} catch (ProjectException projectException) {
 			fail("Could not load project.");
 		}
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);

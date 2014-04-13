@@ -23,21 +23,18 @@
 package org.catrobat.catroid.test;
 
 import android.test.AndroidTestCase;
-import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 public class ProjectManagerTest extends AndroidTestCase {
 
-	private static final String TAG = "project_manager_test";
 	private static final String OLD_PROJECT = "OLD_PROJECT";
 	private static final String NEW_PROJECT = "NEW_PROJECT";
 	private static final String DOES_NOT_EXIST = "DOES_NOT_EXIST";
@@ -66,12 +63,10 @@ public class ProjectManagerTest extends AndroidTestCase {
 		try {
 			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext());
 			fail("Project shouldn't be compatible");
-		} catch (LoadingProjectException loadingProjectException) {
-			fail("Error loading project");
-		} catch (OutdatedVersionProjectException outdatedVersionException) {
-			fail("Pocket code version is outdated");
 		} catch (CompatibilityProjectException compatibilityException) {
-			Log.i(TAG, "Project compatibility test successful", compatibilityException);
+			assertTrue("Incompatible project correctly identified", true);
+		} catch (ProjectException projectException) {
+			fail("Failed to identify incompatible project");
 		}
 
 		TestUtils.deleteTestProjects();
@@ -81,12 +76,9 @@ public class ProjectManagerTest extends AndroidTestCase {
 
 		try {
 			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext());
-		} catch (LoadingProjectException loadingProjectException) {
+			assertTrue("Load project worked correctly", true);
+		} catch (ProjectException projectException) {
 			fail("Error loading project");
-		} catch (OutdatedVersionProjectException outdatedVersionException) {
-			fail("Pocket code version is outdated");
-		} catch (CompatibilityProjectException compatibilityException) {
-			fail("Project is not combatible");
 		}
 
 	}
@@ -97,7 +89,8 @@ public class ProjectManagerTest extends AndroidTestCase {
 
 		try {
 			projectManager.loadProject(OLD_PROJECT, getContext());
-		} catch (Exception loadingProjectException) {
+			assertTrue("Load old project worked correctly", true);
+		} catch (ProjectException projectException) {
 			fail("Could not load project.");
 		}
 
@@ -106,8 +99,8 @@ public class ProjectManagerTest extends AndroidTestCase {
 		try {
 			projectManager.loadProject(NEW_PROJECT, getContext());
 			fail("Load project didn't failed to load project");
-		} catch (Exception loadingProjectException) {
-			Log.i(TAG, "Failure test of loading project is successful", loadingProjectException);
+		} catch (ProjectException projectException) {
+			assertTrue("Failure test of loading project is successful", true);
 		}
 
 		Project currentProject = projectManager.getCurrentProject();
@@ -124,8 +117,8 @@ public class ProjectManagerTest extends AndroidTestCase {
 		try {
 			projectManager.loadProject(DOES_NOT_EXIST, getContext());
 			fail("Load project didn't failed to load project");
-		} catch (Exception loadingProjectException) {
-			Log.i(TAG, "Failure test of loading project is successful", loadingProjectException);
+		} catch (ProjectException projectException) {
+			assertTrue("Failure test of loading project is successful", true);
 		}
 
 		Project currentProject = projectManager.getCurrentProject();

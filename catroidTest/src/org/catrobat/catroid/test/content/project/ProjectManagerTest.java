@@ -44,6 +44,7 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.StorageHandler;
@@ -111,7 +112,8 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		// loadProject
 		try {
 			ProjectManager.getInstance().loadProject(projectNameOne, context);
-		} catch (Exception loadingProjectException) {
+			assertTrue("Load project worked correctly", true);
+		} catch (ProjectException projectException) {
 			fail("Project is not loaded successfully");
 		}
 		assertNotNull("no current project set", projectManager.getCurrentProject());
