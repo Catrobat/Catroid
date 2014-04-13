@@ -209,9 +209,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.sleep(200);
 
 		assertEquals(MyProjectsActivity.class.getSimpleName()
-						+ " not set to be in portrait mode in AndroidManifest.xml!", ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
-				activityInfo.screenOrientation
-		);
+				+ " not set to be in portrait mode in AndroidManifest.xml!", ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
+				activityInfo.screenOrientation);
 	}
 
 	public void testOverFlowMenuSettings() {
@@ -403,13 +402,13 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				int testPixelX = viewBitmap.getWidth() / 2;
 				int testPixelY = viewBitmap.getHeight() / 2;
 
-				byte[] whitePixel = {(byte) 255, (byte) 255, (byte) 255, (byte) 255};
-				byte[] blackPixel = {0, 0, 0, (byte) 255};
+				byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
+				byte[] blackPixel = { 0, 0, 0, (byte) 255 };
 				switch (counter) {
 					case 1:
 						pixelColor = viewBitmap.getPixel(testPixelX, testPixelY);
-						byte[] screenPixel = {(byte) Color.red(pixelColor), (byte) Color.green(pixelColor),
-								(byte) Color.blue(pixelColor), (byte) Color.alpha(pixelColor)};
+						byte[] screenPixel = { (byte) Color.red(pixelColor), (byte) Color.green(pixelColor),
+								(byte) Color.blue(pixelColor), (byte) Color.alpha(pixelColor) };
 						assertTrue("Image color should be white",
 								UiTestUtils.comparePixelRgbaArrays(whitePixel, screenPixel));
 
@@ -418,8 +417,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 						break;
 					case 2:
 						pixelColor = viewBitmap.getPixel(testPixelX, testPixelY);
-						byte[] screenPixel2 = {(byte) Color.red(pixelColor), (byte) Color.green(pixelColor),
-								(byte) Color.blue(pixelColor), (byte) Color.alpha(pixelColor)};
+						byte[] screenPixel2 = { (byte) Color.red(pixelColor), (byte) Color.green(pixelColor),
+								(byte) Color.blue(pixelColor), (byte) Color.alpha(pixelColor) };
 						assertTrue("Image color should be black",
 								UiTestUtils.comparePixelRgbaArrays(blackPixel, screenPixel2));
 
@@ -757,8 +756,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.default_project_name)));
 	}
 
-	public void testDeleteProjectsWithSpecialChars()
-	{
+	public void testDeleteProjectsWithSpecialChars() {
 		createProjectsWithSpecialChars();
 
 		solo.sleep(200);
@@ -771,8 +769,10 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				UiTestUtils.searchExactText(solo, UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME));
 		assertTrue("Project with normal and special chars two not created",
 				UiTestUtils.searchExactText(solo, UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2));
-		assertTrue("Project just one dot not created", UiTestUtils.searchExactText(solo, UiTestUtils.JUST_ONE_DOT_PROJECT_NAME));
-		assertTrue("Project just two dots not created", UiTestUtils.searchExactText(solo, UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME));
+		assertTrue("Project just one dot not created",
+				UiTestUtils.searchExactText(solo, UiTestUtils.JUST_ONE_DOT_PROJECT_NAME));
+		assertTrue("Project just two dots not created",
+				UiTestUtils.searchExactText(solo, UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME));
 
 		UiTestUtils.clickOnActionBar(solo, R.id.delete);
 		solo.waitForText(solo.getString(R.string.delete));
@@ -789,8 +789,10 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				UiTestUtils.searchExactText(solo, UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME));
 		assertFalse("Project with normal and special chars two not deleted",
 				UiTestUtils.searchExactText(solo, UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2));
-		assertFalse("Project just one dot not deleted", UiTestUtils.searchExactText(solo, UiTestUtils.JUST_ONE_DOT_PROJECT_NAME));
-		assertFalse("Project just two dots not deleted", UiTestUtils.searchExactText(solo, UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME));
+		assertFalse("Project just one dot not deleted",
+				UiTestUtils.searchExactText(solo, UiTestUtils.JUST_ONE_DOT_PROJECT_NAME));
+		assertFalse("Project just two dots not deleted",
+				UiTestUtils.searchExactText(solo, UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME));
 		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.default_project_name)));
 
 	}
@@ -1224,6 +1226,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.enterText(0, UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME);
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToClose(500);
+
 		renameDirectory = new File(Utils.buildProjectPath(UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME));
 		assertTrue("Rename with just special characters was not successful", renameDirectory.isDirectory());
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME)));
@@ -1262,8 +1265,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.enterText(0, UiTestUtils.JUST_ONE_DOT_PROJECT_NAME);
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToClose(500);
-		assertFalse("project exists error shown.",
-				solo.searchText(solo.getString(R.string.error_project_exists)));
+		assertFalse("project exists error shown.", solo.searchText(solo.getString(R.string.error_project_exists)));
 		renameDirectory = new File(Utils.buildProjectPath(UiTestUtils.JUST_ONE_DOT_PROJECT_NAME));
 		assertTrue("Rename with just one dot was not successful", renameDirectory.isDirectory());
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_ONE_DOT_PROJECT_NAME)));
@@ -1283,8 +1285,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.enterText(0, UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME);
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToClose(500);
-		assertFalse("project exists error shown.",
-				solo.searchText(solo.getString(R.string.error_project_exists)));
+		assertFalse("project exists error shown.", solo.searchText(solo.getString(R.string.error_project_exists)));
 		renameDirectory = new File(Utils.buildProjectPath(UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME));
 		assertTrue("Rename with just two dots was not successful", renameDirectory.isDirectory());
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME)));
@@ -1306,8 +1307,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.sendKey(Solo.ENTER);
 		solo.waitForDialogToClose(500);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
-		assertTrue("No or wrong error message shown",
-				solo.searchText((errorMessageProjectExists)));
+		assertTrue("No or wrong error message shown", solo.searchText((errorMessageProjectExists)));
 		solo.goBack();
 	}
 
@@ -1427,8 +1427,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnButton(buttonOkText);
 
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
-		assertTrue("No or wrong error message shown",
-				solo.searchText(errorMessageProjectExists));
+		assertTrue("No or wrong error message shown", solo.searchText(errorMessageProjectExists));
 		solo.clickOnButton(buttonCloseText);
 
 		solo.clearEditText(0);
@@ -1544,10 +1543,13 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnText(actionSetDescriptionText);
 
 		assertTrue("dialog not loaded in 5 seconds", solo.waitForText(actionSetDescriptionText, 0, 5000));
-		assertTrue("description is not shown in edittext",
-				solo.searchText((lorem)));
+		assertTrue("description is not shown in edittext", solo.searchText((lorem)));
 
-		ProjectManager.getInstance().loadProject(UiTestUtils.PROJECTNAME1, getActivity(), true);
+		try {
+			ProjectManager.getInstance().loadProject(UiTestUtils.PROJECTNAME1, getActivity());
+		} catch (Exception loadingProjectException) {
+			fail("Could not load project.");
+		}
 
 		assertTrue("description is not set in project", ProjectManager.getInstance().getCurrentProject()
 				.getDescription().equalsIgnoreCase(lorem));
@@ -1677,8 +1679,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(200);
 		String errorMessageProjectExists = solo.getString(R.string.error_project_exists);
-		assertTrue("No or wrong error message shown",
-				solo.searchText((errorMessageProjectExists)));
+		assertTrue("No or wrong error message shown", solo.searchText((errorMessageProjectExists)));
 		solo.clickOnButton(solo.getString(R.string.close));
 	}
 
@@ -1718,7 +1719,9 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.enterText(0, UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME);
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.sleep(200);
-		assertTrue("Did not copy the selected project to just special chars", UiTestUtils.searchExactText(solo, UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME, true));
+
+		assertTrue("Did not copy the selected project to just special chars",
+				UiTestUtils.searchExactText(solo, UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME, true));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME)));
 	}
 
@@ -1737,7 +1740,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.enterText(0, UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME2);
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.sleep(200);
-		assertTrue("Did not copy the selected project to just special chars two", UiTestUtils.searchExactText(solo, UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME2, true));
+		assertTrue("Did not copy the selected project to just special chars two",
+				UiTestUtils.searchExactText(solo, UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME2, true));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME2)));
 	}
 
@@ -1756,7 +1760,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.enterText(0, UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME);
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.sleep(200);
-		assertTrue("Did not copy the selected project to normal and special chars", UiTestUtils.searchExactText(solo, UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME, true));
+		assertTrue("Did not copy the selected project to normal and special chars",
+				UiTestUtils.searchExactText(solo, UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME, true));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME)));
 	}
 
@@ -1775,7 +1780,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.enterText(0, UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2);
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.sleep(200);
-		assertTrue("Did not copy the selected project to normal and special chars two", UiTestUtils.searchExactText(solo, UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2, true));
+		assertTrue("Did not copy the selected project to normal and special chars two",
+				UiTestUtils.searchExactText(solo, UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2, true));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2)));
 	}
 
@@ -1794,7 +1800,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.enterText(0, UiTestUtils.JUST_ONE_DOT_PROJECT_NAME);
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.sleep(200);
-		assertTrue("Did not copy the selected project to one dot", UiTestUtils.searchExactText(solo, UiTestUtils.JUST_ONE_DOT_PROJECT_NAME, true));
+		assertTrue("Did not copy the selected project to one dot",
+				UiTestUtils.searchExactText(solo, UiTestUtils.JUST_ONE_DOT_PROJECT_NAME, true));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_ONE_DOT_PROJECT_NAME)));
 	}
 
@@ -1813,7 +1820,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.enterText(0, UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME);
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.sleep(200);
-		assertTrue("Did not copy the selected project to two dots", UiTestUtils.searchExactText(solo, UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME, true));
+		assertTrue("Did not copy the selected project to two dots",
+				UiTestUtils.searchExactText(solo, UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME, true));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME)));
 	}
 
@@ -1881,8 +1889,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		byte[] greenPixel1 = createScreenshotBitmap();
 
 		//The color values below are those we get on our emulated test device
-		byte[] greenPixel = {0, (byte) 255, 0, (byte) 255};
-		byte[] redPixel = {(byte) 255, 0, 0, (byte) 255};
+		byte[] greenPixel = { 0, (byte) 255, 0, (byte) 255 };
+		byte[] redPixel = { (byte) 255, 0, 0, (byte) 255 };
 
 		assertTrue("The extracted pixel was not green", UiTestUtils.comparePixelRgbaArrays(greenPixel, greenPixel1));
 		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
@@ -2037,8 +2045,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 					viewBitmap = viewToTest.getDrawingCache();
 					int pixelValue = viewBitmap.getPixel(viewBitmap.getWidth() / 2, viewBitmap.getHeight() / 2);
 					viewToTest.destroyDrawingCache();
-					pixel = new byte[]{(byte) Color.red(pixelValue), (byte) Color.green(pixelValue),
-							(byte) Color.blue(pixelValue), (byte) Color.alpha(pixelValue)};
+					pixel = new byte[] { (byte) Color.red(pixelValue), (byte) Color.green(pixelValue),
+							(byte) Color.blue(pixelValue), (byte) Color.alpha(pixelValue) };
 				}
 			}
 		}

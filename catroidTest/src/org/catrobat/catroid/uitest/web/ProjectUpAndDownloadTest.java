@@ -39,6 +39,9 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.exceptions.LoadingProjectException;
+import org.catrobat.catroid.exceptions.OutdatedPocketcodeVersionException;
+import org.catrobat.catroid.exceptions.ProjectCompatibilityException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
@@ -254,7 +257,12 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		uploadProjectFromMainMenu(testProject, "");
 
-		ProjectManager.getInstance().loadProject(testProject, getActivity(), false);
+		try {
+			ProjectManager.getInstance().loadProject(testProject, getActivity());
+		} catch (Exception loadingProjectException) {
+			fail("Could not load project.");
+		}
+
 		Project uploadProject = StorageHandler.getInstance().loadProject(testProject);
 		assertEquals("Deserialized project name was changed", testProject, uploadProject.getName());
 
@@ -432,14 +440,20 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	private void createAndSaveStandardProject() {
 		String standardProjectName = getActivity().getString(R.string.default_project_name);
 		try {
-			ProjectManager.getInstance().loadProject(standardProjectName, getActivity(), false);
+			ProjectManager.getInstance().loadProject(standardProjectName, getActivity());
 			ProjectManager.getInstance().deleteCurrentProject();
 			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
 					getInstrumentation().getTargetContext());
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (LoadingProjectException loadingProjectException) {
+			fail("Error loading project");
+		} catch (OutdatedPocketcodeVersionException outdatedVersionException) {
+			fail("Pocket code version is outdated");
+		} catch (ProjectCompatibilityException compatibilityException) {
+			fail("Project is not combatible");
+		} catch (IOException standardProjectCreationException) {
 			fail("Standard project not created");
 		}
+
 		ProjectManager.getInstance().setProject(standardProject);
 		StorageHandler.getInstance().saveProject(standardProject);
 	}

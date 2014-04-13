@@ -296,10 +296,14 @@ public final class Utils {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String projectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
 
-			if (projectName != null) {
-				ProjectManager.getInstance().loadProject(projectName, context, false);
-			} else if (!ProjectManager.getInstance().loadProject(context.getString(R.string.default_project_name),
-					context, false)) {
+			if (projectName == null) {
+				projectName = context.getString(R.string.default_project_name);
+			}
+
+			try {
+				ProjectManager.getInstance().loadProject(projectName, context);
+			} catch (Exception projectException) {
+				Log.e(TAG, "Project cannot load", projectException);
 				ProjectManager.getInstance().initializeDefaultProject(context);
 			}
 

@@ -29,6 +29,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -49,6 +50,7 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
+import org.catrobat.catroid.exceptions.ProjectCompatibilityException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
@@ -63,6 +65,7 @@ import java.io.IOException;
 
 public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
+	private static final String TAG = "main_menu_activity_test";
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String testProject2 = UiTestUtils.PROJECTNAME2;
 	private String testProject3 = UiTestUtils.PROJECTNAME3;
@@ -137,8 +140,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.enterText(0, testProject);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
-				solo.searchText(solo
-						.getString(R.string.error_project_exists)));
+				solo.searchText(solo.getString(R.string.error_project_exists)));
 		solo.clickOnButton(0);
 
 		directory = new File(Utils.buildProjectPath(projectNameWithNormalAndSpecialChars2 + "_TWO"));
@@ -149,8 +151,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.enterText(0, name);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
-				solo.searchText(solo
-						.getString(R.string.error_project_exists)));
+				solo.searchText(solo.getString(R.string.error_project_exists)));
 		solo.clickOnButton(solo.getString(R.string.close));
 
 		UtilFile.deleteDirectory(directory);
@@ -350,7 +351,13 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 
 		runTestOnUiThread(new Runnable() {
 			public void run() {
-				ProjectManager.getInstance().loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getActivity(), true);
+				try {
+					ProjectManager.getInstance().loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getActivity());
+				} catch (ProjectCompatibilityException compatibilityException) {
+					Utils.showErrorDialog(getActivity(), R.string.error_project_compatability);
+				} catch (Exception loadingProjectException) {
+					Log.i(TAG, "Failure test of loading project is successful", loadingProjectException);
+				}
 			}
 		});
 

@@ -102,7 +102,11 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<ProjectA
 	}
 
 	private void prepareStageForTesting(String projectName) {
-		ProjectManager.getInstance().loadProject(projectName, getActivity().getApplicationContext(), false);
+		try {
+			ProjectManager.getInstance().loadProject(projectName, getActivity().getApplicationContext());
+		} catch (Exception loadingProjectException) {
+			fail("Could not load project.");
+		}
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class);
 		solo.sleep(1500);

@@ -23,15 +23,21 @@
 package org.catrobat.catroid.test;
 
 import android.test.AndroidTestCase;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.exceptions.LoadingProjectException;
+import org.catrobat.catroid.exceptions.OutdatedPocketcodeVersionException;
+import org.catrobat.catroid.exceptions.ProjectCompatibilityException;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Utils;
 
 public class ProjectManagerTest extends AndroidTestCase {
+
+	private static final String TAG = "project_manager_test";
 	private static final String OLD_PROJECT = "OLD_PROJECT";
 	private static final String NEW_PROJECT = "NEW_PROJECT";
 	private static final String DOES_NOT_EXIST = "DOES_NOT_EXIST";
@@ -57,29 +63,52 @@ public class ProjectManagerTest extends AndroidTestCase {
 	public void testShouldReturnFalseIfCatrobatLanguageVersionNotSupported() {
 		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED);
 
-		boolean result = projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext(), false);
-		assertFalse("Load project didn't return false", result);
+		try {
+			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext());
+			fail("Project shouldn't be compatible");
+		} catch (LoadingProjectException loadingProjectException) {
+			fail("Error loading project");
+		} catch (OutdatedPocketcodeVersionException outdatedVersionException) {
+			fail("Pocket code version is outdated");
+		} catch (ProjectCompatibilityException compatibilityException) {
+			Log.i(TAG, "Project compatibility test successful", compatibilityException);
+		}
 
 		TestUtils.deleteTestProjects();
 
 		TestUtils
 				.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
 
-		result = projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext(), false);
-		assertTrue("Load project didn't return true", result);
+		try {
+			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext());
+		} catch (LoadingProjectException loadingProjectException) {
+			fail("Error loading project");
+		} catch (OutdatedPocketcodeVersionException outdatedVersionException) {
+			fail("Pocket code version is outdated");
+		} catch (ProjectCompatibilityException compatibilityException) {
+			fail("Project is not combatible");
+		}
+
 	}
 
 	public void testShouldKeepExistingProjectIfCannotLoadNewProject() {
 		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(
 				Constants.CURRENT_CATROBAT_LANGUAGE_VERSION, OLD_PROJECT);
 
-		boolean result = projectManager.loadProject(OLD_PROJECT, getContext(), false);
-		assertTrue("Could not load project.", result);
+		try {
+			projectManager.loadProject(OLD_PROJECT, getContext());
+		} catch (Exception loadingProjectException) {
+			fail("Could not load project.");
+		}
 
 		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED);
 
-		result = projectManager.loadProject(NEW_PROJECT, getContext(), false);
-		assertFalse("Load project didn't return false", result);
+		try {
+			projectManager.loadProject(NEW_PROJECT, getContext());
+			fail("Load project didn't failed to load project");
+		} catch (Exception loadingProjectException) {
+			Log.i(TAG, "Failure test of loading project is successful", loadingProjectException);
+		}
 
 		Project currentProject = projectManager.getCurrentProject();
 
@@ -92,8 +121,12 @@ public class ProjectManagerTest extends AndroidTestCase {
 	public void testShouldLoadDefaultProjectIfCannotLoadAnotherProject() throws Exception {
 		assertNull("Current project not null.", projectManager.getCurrentProject());
 
-		boolean result = projectManager.loadProject(DOES_NOT_EXIST, getContext(), false);
-		assertFalse("Load project didn't return false", result);
+		try {
+			projectManager.loadProject(DOES_NOT_EXIST, getContext());
+			fail("Load project didn't failed to load project");
+		} catch (Exception loadingProjectException) {
+			Log.i(TAG, "Failure test of loading project is successful", loadingProjectException);
+		}
 
 		Project currentProject = projectManager.getCurrentProject();
 

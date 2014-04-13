@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content;
 
 import android.test.AndroidTestCase;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.MessageContainer;
@@ -32,6 +33,9 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
+import org.catrobat.catroid.exceptions.LoadingProjectException;
+import org.catrobat.catroid.exceptions.OutdatedPocketcodeVersionException;
+import org.catrobat.catroid.exceptions.ProjectCompatibilityException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -41,6 +45,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class MessageContainerTest extends AndroidTestCase {
+
+	private static final String TAG = "message_container_test";
 
 	private final String projectName1 = "TestProject1";
 	private final String projectName2 = "TestProject2";
@@ -60,37 +66,58 @@ public class MessageContainerTest extends AndroidTestCase {
 	}
 
 	public void testLoadProject() {
-		boolean loaded = ProjectManager.getInstance().loadProject(projectName1, getContext(), false);
-		assertTrue("Project was not loaded successfully", loaded);
-		if (loaded) {
+		try {
+			ProjectManager.getInstance().loadProject(projectName1, getContext());
+
 			Set<String> keySet = getMessages();
 			assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage1));
+		} catch (Exception loadingProjectException) {
+			fail("Project is not loaded successfully");
 		}
 	}
 
 	public void testLoadTwoProjects() {
-		boolean loaded = ProjectManager.getInstance().loadProject(projectName1, getContext(), false);
-		assertTrue("Project1 was not loaded successfully", loaded);
+		try {
+			ProjectManager.getInstance().loadProject(projectName1, getContext());
+		} catch (Exception loadingProjectException) {
+			fail("Project1 is not loaded successfully");
+		}
 
 		Set<String> keySet = getMessages();
 		assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage1));
 
-		loaded = ProjectManager.getInstance().loadProject(projectName2, getContext(), false);
-		assertTrue("Project2 was not loaded successfully", loaded);
+		try {
+			ProjectManager.getInstance().loadProject(projectName2, getContext());
+		} catch (Exception loadingProjectException) {
+			fail("Project2 is not loaded successfully");
+		}
+
 		keySet = getMessages();
 		assertEquals("Broadcast message is in the message container", false, keySet.contains(broadcastMessage1));
 		assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage2));
 	}
 
 	public void testLoadCorruptedProjectAndCheckForBackup() {
-		boolean loaded = ProjectManager.getInstance().loadProject(projectName1, getContext(), false);
-		assertTrue("Project1 was not loaded successfully", loaded);
+		try {
+			ProjectManager.getInstance().loadProject(projectName1, getContext());
+		} catch (Exception loadingProjectException) {
+			fail("Project1 is not loaded successfully");
+		}
 
 		Set<String> keySet = getMessages();
 		assertEquals("Broadcast message has the false position", true, keySet.contains(broadcastMessage1));
 
-		loaded = ProjectManager.getInstance().loadProject(projectName3, getContext(), false);
-		assertFalse("Corrupted project was loaded", loaded);
+		try {
+			ProjectManager.getInstance().loadProject(projectName3, getContext());
+			fail("Project3 should be corrupted");
+		} catch (LoadingProjectException loadingProjectException) {
+			Log.i(TAG, "Project corruption test is successful", loadingProjectException);
+		} catch (OutdatedPocketcodeVersionException outdatedVersionException) {
+			fail("Pocket code version is out dated");
+		} catch (ProjectCompatibilityException compatibilityException) {
+			fail("Project3 is not compatible");
+		}
+
 		keySet = getMessages();
 		assertEquals("Broadcast message is not in the message container", true, keySet.contains(broadcastMessage1));
 	}

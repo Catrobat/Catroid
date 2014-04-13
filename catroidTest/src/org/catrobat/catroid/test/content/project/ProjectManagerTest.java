@@ -109,7 +109,11 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertNotNull("no current script set", projectManager.getCurrentScript());
 
 		// loadProject
-		projectManager.loadProject(projectNameOne, context, false);
+		try {
+			ProjectManager.getInstance().loadProject(projectNameOne, context);
+		} catch (Exception loadingProjectException) {
+			fail("Project is not loaded successfully");
+		}
 		assertNotNull("no current project set", projectManager.getCurrentProject());
 		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, projectManager.getCurrentProject()
 				.getName());

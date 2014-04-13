@@ -28,15 +28,22 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.exceptions.LoadingProjectException;
+import org.catrobat.catroid.exceptions.OutdatedPocketcodeVersionException;
+import org.catrobat.catroid.exceptions.ProjectCompatibilityException;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
 public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
+
+	private static final String TAG = "load_project_task";
+
 	private Activity activity;
 	private String projectName;
 	private boolean showErrorMessage;
@@ -71,7 +78,18 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	protected Boolean doInBackground(Void... arg0) {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		if (currentProject == null || !currentProject.getName().equals(projectName)) {
-			return ProjectManager.getInstance().loadProject(projectName, activity, false);
+			try {
+				ProjectManager.getInstance().loadProject(projectName, activity);
+			} catch (LoadingProjectException loadingProjectException) {
+				Log.e(TAG, "Project cannot load", loadingProjectException);
+				return false;
+			} catch (OutdatedPocketcodeVersionException outdatedVersionException) {
+				Log.e(TAG, "Projectcode version is outdated", outdatedVersionException);
+				return false;
+			} catch (ProjectCompatibilityException compatibilityException) {
+				Log.e(TAG, "Project is not compatible", compatibilityException);
+				return false;
+			}
 		}
 		return true;
 	}
