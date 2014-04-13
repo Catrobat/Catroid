@@ -102,13 +102,7 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.sleep(200);
 
 		UiTestUtils.addNewBrick(solo, R.string.category_control, R.string.brick_broadcast);
-		//dont need to place it because there are 0 bricks, places automatically.
-
-		//to gain focus
-		solo.clickOnScreen(200, 200);
-		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
-			solo.goBack();
-		}
+		UiTestUtils.dragFloatingBrickDownwards(solo);
 
 		Spinner broadcastSpinner = (Spinner) solo.getView(R.id.brick_broadcast_spinner);
 
@@ -157,11 +151,10 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.clickOnView(solo.getView(spinnerId));
 		solo.waitForText(solo.getString(R.string.new_broadcast_message));
 		solo.clickInList(0);
-		solo.waitForView(EditText.class);
+		solo.waitForDialogToOpen(200);
 		solo.enterText(0, text);
 		solo.clickOnText(solo.getString(R.string.ok));
-		solo.waitForView(solo.getView(spinnerId));
-		gainFocus();
+		solo.waitForDialogToClose(200);
 		expectedSpinnerText.put(spinnerId, text);
 		checkCorrectSpinnerSelections();
 	}
@@ -170,7 +163,6 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.clickOnView(solo.getView(spinnerId));
 		solo.clickOnText(text);
 		solo.waitForView(solo.getView(spinnerId));
-		gainFocus();
 		expectedSpinnerText.put(spinnerId, text);
 		checkCorrectSpinnerSelections();
 	}
@@ -180,7 +172,7 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.waitForText(solo.getString(R.string.new_broadcast_message));
 		solo.clickInList(0);
 		solo.waitForView(EditText.class);
-		solo.goBack();
+		solo.hideSoftKeyboard();
 		solo.goBack();
 		solo.waitForView(solo.getView(spinnerId));
 		checkCorrectSpinnerSelections();
@@ -202,13 +194,6 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Mai
 		assertEquals("Incorrect number of bricks.", 2, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof BroadcastBrick);
 		assertTrue("Wrong Brick instance.", adapter.getItem(1) instanceof BroadcastBrick);
-	}
-
-	private void gainFocus() {
-		solo.clickOnText(solo.getString(R.string.brick_broadcast_receive));
-		if (solo.searchText(solo.getString(R.string.brick_context_dialog_delete_script), true)) {
-			solo.goBack();
-		}
 	}
 
 	private void createProject() {

@@ -331,7 +331,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	public void testCopySelectAll() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		int currentNumberOfSprites = getCurrentNumberOfSprites() - 1;
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy);
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		solo.clickOnText(selectAll);
 
@@ -748,7 +748,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		checkIfContextMenuAppears(true, false);
 
 		// Test on rename ActionMode
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -769,7 +769,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		checkIfContextMenuAppears(true, false);
 
 		// Test on delete ActionMode
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -793,7 +793,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	public void testDeleteActionModeCheckingAndTitle() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -841,7 +841,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		int expectedNumberOfSprites = getCurrentNumberOfSprites();
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -863,7 +863,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		int timeToWait = 300;
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -886,7 +886,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		int expectedNumberOfSprites = getCurrentNumberOfSprites() - 1;
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -920,7 +920,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	public void testDeleteSelectAll() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 
@@ -967,7 +967,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		String delete = solo.getString(R.string.delete);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -983,7 +983,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		solo.clickOnText(no);
 		solo.sleep(500);
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1000,7 +1000,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	public void testChooseNoOnDeleteQuestionInActionMode() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1033,7 +1033,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		solo.scrollListToBottom(0);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1068,7 +1068,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 	public void testRenameActionModeChecking() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1087,7 +1087,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 	public void testRenameActionModeIfNothingSelected() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1103,7 +1103,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 	public void testRenameActionModeIfSelectedAndPressingBack() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 

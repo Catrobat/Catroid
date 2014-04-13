@@ -182,11 +182,8 @@ public class UserConceptTest extends BaseActivityInstrumentationTestCase<MainMen
 		username = username.toLowerCase(Locale.ENGLISH);
 		fillLoginDialogWithUsername(true, username);
 		solo.waitForText(uploadDialogTitle);
-		solo.goBack();
 
-		TextView uploadProject = (TextView) solo.getView(R.id.dialog_upload_size_of_project);
-		ArrayList<View> currentViews = solo.getCurrentViews();
-		assertTrue("Cannot login because username is upper or lower case", currentViews.contains(uploadProject));
+		assertTrue("Cannot login because username is upper or lower case", solo.waitForView(R.id.dialog_upload_size_of_project));
 
 	}
 

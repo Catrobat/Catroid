@@ -615,7 +615,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		String delete = solo.getString(R.string.delete);
 
 		assertTrue("text not found within 5 secs", solo.waitForText(solo.getString(R.string.programs), 0, 5000));
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -789,7 +789,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
 		assertTrue("text not found within 5 secs", solo.waitForText(solo.getString(R.string.programs), 0, 5000));
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -834,7 +834,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
 		assertTrue("text not found within 5 secs", solo.waitForText(solo.getString(R.string.programs), 0, 5000));
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -850,7 +850,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		solo.clickOnText(no);
 		solo.sleep(500);
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -876,7 +876,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
 		assertTrue("text not found within 5 secs", solo.waitForText(solo.getString(R.string.programs), 0, 5000));
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -908,7 +908,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
 		assertTrue("text not found within 5 secs", solo.waitForText(solo.getString(R.string.programs), 0, 5000));
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1022,7 +1022,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
-		UiTestUtils.openActionMode(solo, rename, R.id.rename, getActivity());
+		UiTestUtils.openActionMode(solo, rename, R.id.rename);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1064,7 +1064,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
-		UiTestUtils.openActionMode(solo, rename, R.id.rename, getActivity());
+		UiTestUtils.openActionMode(solo, rename, R.id.rename);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1542,7 +1542,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 		solo.sleep(500);
 
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1734,12 +1734,12 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy);
 		assertFalse("Select All is shown", solo.searchText(selectAll));
 
 		solo.goBack();
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
 		solo.clickOnText(selectAll);

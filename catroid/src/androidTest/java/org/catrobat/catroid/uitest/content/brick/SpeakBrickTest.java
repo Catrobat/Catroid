@@ -85,6 +85,7 @@ public class SpeakBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 		solo.clearEditText(0);
 		solo.enterText(0, testString);
 		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.waitForDialogToClose(200);
 
 		String brickText = (String) Reflection.getPrivateField(speakBrick, "text");
 		assertEquals("Wrong text in field.", testString, brickText);
@@ -95,6 +96,7 @@ public class SpeakBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 		solo.clearEditText(0);
 		solo.enterText(0, testLeadingWhitespaces);
 		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.waitForDialogToClose(200);
 
 		brickText = (String) Reflection.getPrivateField(speakBrick, "text");
 		assertEquals("Wrong text in field.", leading, brickText);
@@ -105,6 +107,7 @@ public class SpeakBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 		solo.clearEditText(0);
 		solo.enterText(0, testTrailingWhitespaces);
 		solo.clickOnButton(solo.getString(R.string.ok));
+		solo.waitForDialogToClose(200);
 
 		brickText = (String) Reflection.getPrivateField(speakBrick, "text");
 		assertEquals("Wrong text in field.", trailing, brickText);

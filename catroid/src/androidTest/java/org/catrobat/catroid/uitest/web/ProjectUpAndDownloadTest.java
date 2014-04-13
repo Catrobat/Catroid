@@ -368,9 +368,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
 		String uploadButtonText = solo.getString(R.string.upload_button);
-		solo.waitForText(uploadButtonText);
-		solo.goBack();
-		solo.waitForText(uploadButtonText);
+		solo.waitForDialogToOpen(200);
 		solo.clearEditText(0);
 		solo.enterText(0, testProject);
 		solo.clickOnButton(uploadButtonText);

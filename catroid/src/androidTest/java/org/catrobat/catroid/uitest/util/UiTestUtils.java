@@ -66,8 +66,6 @@ import com.actionbarsherlock.internal.ActionBarSherlockCompat;
 import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
 import com.robotium.solo.Solo;
 
-import junit.framework.AssertionFailedError;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -214,9 +212,7 @@ public final class UiTestUtils {
 
 	/**
 	 * Clicks on the EditText given by editTextId, inserts the integer value and closes the Dialog
-	 * 
-	 * @param editTextId
-	 *            The ID of the EditText to click on
+	 *
 	 * @param value
 	 *            The value you want to put into the EditText
 	 */
@@ -226,9 +222,7 @@ public final class UiTestUtils {
 
 	/**
 	 * Clicks on the EditText given by editTextId, inserts the double value and closes the Dialog
-	 * 
-	 * @param editTextId
-	 *            The ID of the EditText to click on
+	 *
 	 * @param value
 	 *            The value you want to put into the EditText
 	 */
@@ -295,7 +289,8 @@ public final class UiTestUtils {
 				"Text not updated within FormulaEditor",
 				newValue,
 				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()
-						.replace(',', '.')));
+						.replace(',', '.'))
+		);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(200);
 
@@ -316,7 +311,8 @@ public final class UiTestUtils {
 				"Text not updated within FormulaEditor",
 				value,
 				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()
-						.replace(',', '.')));
+						.replace(',', '.'))
+		);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(200);
 	}
@@ -402,19 +398,19 @@ public final class UiTestUtils {
 		addNewBrick(solo, categoryStringId, brickName, nThElement);
 	}
 
+	@TargetApi(11)
 	private static void addNewBrick(Solo solo, int categoryStringId, String brickName, int nThElement) {
 		clickOnBottomBarAddButton(solo);
 		if (!solo.waitForText(solo.getCurrentActivity().getString(categoryStringId), nThElement, 2000)) {
 			fail("Text not shown in 5 secs!");
 		}
+		assertEquals("Actionbar title not correct", solo.getString(R.string.categories), solo.getCurrentActivity().getActionBar().getTitle());
 
-		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
-		boolean fragmentAppeared = solo.waitForFragmentByTag(AddBrickFragment.ADD_BRICK_FRAGMENT_TAG, 1000);
-		if (!fragmentAppeared) {
-			fail("add brick fragment should appear");
-		}
+		solo.clickOnText(solo.getString(categoryStringId));
 
 		solo.sleep(600);
+
+		assertEquals("Actionbar title not correct", solo.getString(categoryStringId), solo.getCurrentActivity().getActionBar().getTitle());
 		boolean succeeded = clickOnBrickInAddBrickFragment(solo, brickName);
 		if (!succeeded) {
 			fail(brickName + " should appear. Failed to scroll to find it.");
@@ -1098,15 +1094,13 @@ public final class UiTestUtils {
 	 * This method can be used in 2 ways. Either to click on an action item
 	 * (icon), or to click on an item in the overflow menu. So either pass a
 	 * String + ID --OR-- a String + 0.
-	 * 
-	 * @param solo
+	 *  @param solo
 	 *            Use Robotium functionality
 	 * @param overflowMenuItemName
 	 *            Name of the overflow menu item
-	 * @param overflowMenuItemId
-	 *            ID of an action item (icon)
+	 * @param menuItemId
 	 */
-	public static void openActionMode(Solo solo, String overflowMenuItemName, int menuItemId, Activity activity) {
+	public static void openActionMode(Solo solo, String overflowMenuItemName, int menuItemId) {
 
 		if (overflowMenuItemName != null && menuItemId != 0) {
 			ArrayList<View> views = solo.getCurrentViews();
@@ -1614,7 +1608,7 @@ public final class UiTestUtils {
 		solo.waitForText(buttonText);
 		solo.goBack();
 
-		openActionMode(solo, buttonText, buttonId, activity);
+		openActionMode(solo, buttonText, buttonId);
 		ArrayList<CheckBox> checkBoxList = solo.getCurrentViews(CheckBox.class);
 		for (CheckBox checkBox : checkBoxList) {
 			if (checkBox.isChecked()) {

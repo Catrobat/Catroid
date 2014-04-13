@@ -729,7 +729,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		checkIfContextMenuAppears(true, ACTION_MODE_RENAME);
 
 		// Test on rename ActionMode
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -752,7 +752,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Resolution prefix not visible after ActionMode", solo.searchText(lookResoltionPrefixText, true));
 
 		// Test on delete ActionMode
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -775,7 +775,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Resolution prefix not visible after ActionMode", solo.searchText(lookResoltionPrefixText, true));
 
 		// Test on copy ActionMode
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -800,7 +800,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	public void testRenameActionModeChecking() {
 		checkVisibilityOfViews(VISIBLE, VISIBLE, GONE, GONE);
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -820,7 +820,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testRenameActionModeIfNothingSelected() {
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -832,7 +832,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testRenameActionModeIfSomethingSelectedAndPressingBack() {
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -846,7 +846,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testRenameActionModeEqualLookNames() {
-		UiTestUtils.openActionMode(solo, rename, 0, getActivity());
+		UiTestUtils.openActionMode(solo, rename, 0);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -876,7 +876,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testDeleteActionModeCheckingAndTitle() {
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -924,7 +924,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testDeleteActionModeIfNothingSelected() {
 		int expectedNumberOfLooks = lookDataList.size();
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -940,7 +940,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testDeleteActionModeIfSomethingSelectedAndPressingBack() {
 		int expectedNumberOfLooks = lookDataList.size();
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -960,7 +960,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		int currentNumberOfLooks = lookDataList.size();
 		int expectedNumberOfLooks = currentNumberOfLooks - 1;
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -982,7 +982,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testDeleteSelectAll() {
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		solo.clickOnText(selectAll);
 
@@ -1001,7 +1001,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testItemClick() {
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 		solo.clickInList(2);
 
 		ArrayList<CheckBox> checkBoxList = solo.getCurrentViews(CheckBox.class);
@@ -1015,7 +1015,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testDeleteAndCopyActionMode() {
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1036,7 +1036,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		int currentNumberOfLooks = lookDataList.size();
 		assertEquals("Wrong number of looks", 5, currentNumberOfLooks);
 
-		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, delete, R.id.delete);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1068,7 +1068,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testCopyActionModeCheckingAndTitle() {
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1116,7 +1116,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testCopyActionModeIfNothingSelected() {
 		int expectedNumberOfLooks = lookDataList.size();
 
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1131,7 +1131,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testCopyActionModeIfSomethingSelectedAndPressingBack() {
 		int expectedNumberOfLooks = lookDataList.size();
 
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1153,7 +1153,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		String copiedLookAddition = "_" + solo.getString(R.string.copy_addition);
 		solo.sleep(500);
 
-		UiTestUtils.openActionMode(solo, copy, R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, copy, R.id.copy);
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
@@ -1179,7 +1179,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	public void testCopySelectAll() {
 		int currentNumberOfLooks = lookDataList.size();
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy);
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		solo.clickOnText(selectAll);
 
@@ -1241,7 +1241,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testSelectAllActionModeButton() {
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy);
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
 		solo.clickOnText(selectAll);
@@ -1259,7 +1259,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		solo.goBack();
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete);
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
 		solo.clickOnText(selectAll);
