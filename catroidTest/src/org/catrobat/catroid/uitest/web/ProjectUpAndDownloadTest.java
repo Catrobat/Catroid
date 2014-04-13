@@ -40,8 +40,8 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.exceptions.OutdatedPocketcodeVersionException;
-import org.catrobat.catroid.exceptions.ProjectCompatibilityException;
+import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
+import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
@@ -446,9 +446,9 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 					getInstrumentation().getTargetContext());
 		} catch (LoadingProjectException loadingProjectException) {
 			fail("Error loading project");
-		} catch (OutdatedPocketcodeVersionException outdatedVersionException) {
+		} catch (OutdatedVersionProjectException outdatedVersionException) {
 			fail("Pocket code version is outdated");
-		} catch (ProjectCompatibilityException compatibilityException) {
+		} catch (CompatibilityProjectException compatibilityException) {
 			fail("Project is not combatible");
 		} catch (IOException standardProjectCreationException) {
 			fail("Standard project not created");

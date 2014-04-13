@@ -44,8 +44,8 @@ import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.exceptions.OutdatedPocketcodeVersionException;
-import org.catrobat.catroid.exceptions.ProjectCompatibilityException;
+import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
+import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
@@ -99,7 +99,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public void loadProject(String projectName, Context context) throws LoadingProjectException,
-			OutdatedPocketcodeVersionException, ProjectCompatibilityException {
+			OutdatedVersionProjectException, CompatibilityProjectException {
 		fileChecksumContainer = new FileChecksumContainer();
 		Project oldProject = project;
 		MessageContainer.createBackup();
@@ -125,7 +125,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			throw new LoadingProjectException(context.getString(R.string.error_load_project));
 		} else if (project.getCatrobatLanguageVersion() > Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
 			project = oldProject;
-			throw new OutdatedPocketcodeVersionException(context.getString(R.string.error_outdated_pocketcode_version));
+			throw new OutdatedVersionProjectException(context.getString(R.string.error_outdated_pocketcode_version));
 		} else {
 			if (project.getCatrobatLanguageVersion() == 0.8f) {
 				//TODO insert in every "When project starts" script list a "show" brick
@@ -148,7 +148,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			} else {
 				//project cannot be converted
 				project = oldProject;
-				throw new ProjectCompatibilityException(context.getString(R.string.error_project_compatability));
+				throw new CompatibilityProjectException(context.getString(R.string.error_project_compatability));
 			}
 		}
 

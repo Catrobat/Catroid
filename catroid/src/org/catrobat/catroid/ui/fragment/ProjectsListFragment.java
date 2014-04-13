@@ -55,8 +55,8 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.exceptions.OutdatedPocketcodeVersionException;
-import org.catrobat.catroid.exceptions.ProjectCompatibilityException;
+import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
+import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.MyProjectsActivity;
@@ -251,10 +251,10 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			} catch (LoadingProjectException loadingProjectException) {
 				Log.e(TAG, "Project cannot load", loadingProjectException);
 				Utils.showErrorDialog(getActivity(), R.string.error_load_project);
-			} catch (OutdatedPocketcodeVersionException outdatedVersionException) {
+			} catch (OutdatedVersionProjectException outdatedVersionException) {
 				Log.e(TAG, "Projectcode version is outdated", outdatedVersionException);
 				Utils.showErrorDialog(getActivity(), R.string.error_outdated_pocketcode_version);
-			} catch (ProjectCompatibilityException compatibilityException) {
+			} catch (CompatibilityProjectException compatibilityException) {
 				Log.e(TAG, "Project is not compatible", compatibilityException);
 				Utils.showErrorDialog(getActivity(), R.string.error_project_compatability);
 			}

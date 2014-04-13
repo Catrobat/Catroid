@@ -22,15 +22,15 @@
  */
 package org.catrobat.catroid.exceptions;
 
-public class ProjectCompatibilityException extends Exception {
+public class OutdatedVersionProjectException extends ProjectException {
 
 	private static final long serialVersionUID = 1L;
 
-	public ProjectCompatibilityException() {
+	public OutdatedVersionProjectException() {
 		super();
 	}
 
-	public ProjectCompatibilityException(String message) {
+	public OutdatedVersionProjectException(String message) {
 		super(message);
 	}
 

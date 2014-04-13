@@ -50,7 +50,7 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
-import org.catrobat.catroid.exceptions.ProjectCompatibilityException;
+import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
@@ -353,7 +353,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 			public void run() {
 				try {
 					ProjectManager.getInstance().loadProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, getActivity());
-				} catch (ProjectCompatibilityException compatibilityException) {
+				} catch (CompatibilityProjectException compatibilityException) {
 					Utils.showErrorDialog(getActivity(), R.string.error_project_compatability);
 				} catch (Exception loadingProjectException) {
 					Log.i(TAG, "Failure test of loading project is successful", loadingProjectException);

@@ -22,15 +22,15 @@
  */
 package org.catrobat.catroid.exceptions;
 
-public class LoadingProjectException extends ProjectException {
+public class CompatibilityProjectException extends ProjectException {
 
 	private static final long serialVersionUID = 1L;
 
-	public LoadingProjectException() {
+	public CompatibilityProjectException() {
 		super();
 	}
 
-	public LoadingProjectException(String message) {
+	public CompatibilityProjectException(String message) {
 		super(message);
 	}
 

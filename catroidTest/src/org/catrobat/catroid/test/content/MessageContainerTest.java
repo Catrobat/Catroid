@@ -34,8 +34,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.exceptions.OutdatedPocketcodeVersionException;
-import org.catrobat.catroid.exceptions.ProjectCompatibilityException;
+import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
+import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -112,9 +112,9 @@ public class MessageContainerTest extends AndroidTestCase {
 			fail("Project3 should be corrupted");
 		} catch (LoadingProjectException loadingProjectException) {
 			Log.i(TAG, "Project corruption test is successful", loadingProjectException);
-		} catch (OutdatedPocketcodeVersionException outdatedVersionException) {
+		} catch (OutdatedVersionProjectException outdatedVersionException) {
 			fail("Pocket code version is out dated");
-		} catch (ProjectCompatibilityException compatibilityException) {
+		} catch (CompatibilityProjectException compatibilityException) {
 			fail("Project3 is not compatible");
 		}
 

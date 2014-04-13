@@ -30,8 +30,8 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.exceptions.OutdatedPocketcodeVersionException;
-import org.catrobat.catroid.exceptions.ProjectCompatibilityException;
+import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
+import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Utils;
 
@@ -68,9 +68,9 @@ public class ProjectManagerTest extends AndroidTestCase {
 			fail("Project shouldn't be compatible");
 		} catch (LoadingProjectException loadingProjectException) {
 			fail("Error loading project");
-		} catch (OutdatedPocketcodeVersionException outdatedVersionException) {
+		} catch (OutdatedVersionProjectException outdatedVersionException) {
 			fail("Pocket code version is outdated");
-		} catch (ProjectCompatibilityException compatibilityException) {
+		} catch (CompatibilityProjectException compatibilityException) {
 			Log.i(TAG, "Project compatibility test successful", compatibilityException);
 		}
 
@@ -83,9 +83,9 @@ public class ProjectManagerTest extends AndroidTestCase {
 			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext());
 		} catch (LoadingProjectException loadingProjectException) {
 			fail("Error loading project");
-		} catch (OutdatedPocketcodeVersionException outdatedVersionException) {
+		} catch (OutdatedVersionProjectException outdatedVersionException) {
 			fail("Pocket code version is outdated");
-		} catch (ProjectCompatibilityException compatibilityException) {
+		} catch (CompatibilityProjectException compatibilityException) {
 			fail("Project is not combatible");
 		}
 

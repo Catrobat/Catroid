@@ -22,15 +22,15 @@
  */
 package org.catrobat.catroid.exceptions;
 
-public class OutdatedPocketcodeVersionException extends Exception {
+public abstract class ProjectException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public OutdatedPocketcodeVersionException() {
+	public ProjectException() {
 		super();
 	}
 
-	public OutdatedPocketcodeVersionException(String message) {
+	public ProjectException(String message) {
 		super(message);
 	}
 
