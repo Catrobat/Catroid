@@ -231,7 +231,7 @@ public final class Utils {
 	}
 
 	private static String toHex(byte[] messageDigest) {
-		StringBuilder md5StringBuilder = new StringBuilder(4 * messageDigest.length);
+		StringBuilder md5StringBuilder = new StringBuilder(8 * messageDigest.length);
 
 		for (byte b : messageDigest) {
 			md5StringBuilder.append("0123456789ABCDEF".charAt((b & 0xF0) >> 4)+ "" + "0123456789ABCDEF".charAt((b & 0x0F)));

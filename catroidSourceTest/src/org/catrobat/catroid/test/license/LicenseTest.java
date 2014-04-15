@@ -116,7 +116,7 @@ public class LicenseTest extends TestCase {
 				checkFileForLicense(file, agplLicenseText);
 			}
 		}
-		assertTrue("Correct license text was not found in all files:\n" + errorMessages.toString(),
+		assertTrue("Correct license text was not found in all files:\n" + errorMessages,
 				allLicenseTextsPresentAndCorrect);
 	}
 }
