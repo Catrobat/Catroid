@@ -185,7 +185,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.goBack();
 		solo.clickInList(2);
 		solo.clickOnText(solo.getString(R.string.look));
-		solo.sleep(200);
+		solo.sleep(400);
 
 		emptyViewHeading = (TextView) solo.getCurrentActivity().findViewById(R.id.fragment_look_text_heading);
 		emptyViewDescription = (TextView) solo.getCurrentActivity().findViewById(R.id.fragment_look_text_description);

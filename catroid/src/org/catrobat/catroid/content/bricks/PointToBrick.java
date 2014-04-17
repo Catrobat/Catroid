@@ -292,7 +292,7 @@ public class PointToBrick extends BrickBaseType {
 
 		@Override
 		public long getItemId(int paramInt) {
-			String currentSpriteName = spinnerAdapter.getItem(paramInt).toString();
+			String currentSpriteName = spinnerAdapter.getItem(paramInt);
 			if (!currentSpriteName.equals(context.getString(R.string.new_broadcast_message))) {
 				oldSelectedObject = currentSpriteName;
 			}

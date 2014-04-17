@@ -110,7 +110,7 @@ public abstract class TextDialog extends DialogFragment {
 				Button buttonPositive = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
 				buttonPositive.setEnabled(getPositiveButtonEnabled());
 
-				setPositiveButtonClickCustomListener(dialog);
+				setPositiveButtonClickCustomListener();
 
 				InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
 						Context.INPUT_METHOD_SERVICE);
@@ -171,7 +171,7 @@ public abstract class TextDialog extends DialogFragment {
 	/**
 	 * This method overrides standart AlertDialog's positive button click listener to prevent dialog dismissing.
 	 */
-	private void setPositiveButtonClickCustomListener(final DialogInterface dialog) {
+	private void setPositiveButtonClickCustomListener() {
 		Button buttonPositive = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
 		buttonPositive.setOnClickListener(new View.OnClickListener() {
 			@Override

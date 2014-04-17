@@ -148,7 +148,7 @@ public final class Utils {
 		StringBuilder result = new StringBuilder("/");
 
 		for (String pathElement : pathElements) {
-			result.append(pathElement).append("/");
+			result.append(pathElement).append('/');
 		}
 
 		String returnValue = result.toString().replaceAll("/+", "/");
@@ -231,11 +231,11 @@ public final class Utils {
 	}
 
 	private static String toHex(byte[] messageDigest) {
-		StringBuilder md5StringBuilder = new StringBuilder(2 * messageDigest.length);
+		StringBuilder md5StringBuilder = new StringBuilder(8 * messageDigest.length);
 
 		for (byte b : messageDigest) {
-			md5StringBuilder.append("0123456789ABCDEF".charAt((b & 0xF0) >> 4));
-			md5StringBuilder.append("0123456789ABCDEF".charAt((b & 0x0F)));
+			md5StringBuilder.append("0123456789ABCDEF".charAt((b & 0xF0) >> 4)+ "" + "0123456789ABCDEF".charAt((b & 0x0F)));
+
 		}
 
 		return md5StringBuilder.toString();
@@ -297,11 +297,11 @@ public final class Utils {
 
 			if (projectName != null) {
 				ProjectManager.getInstance().loadProject(projectName, context, false);
-			} else if (ProjectManager.getInstance().loadProject(context.getString(R.string.default_project_name),
+			} else if (!ProjectManager.getInstance().loadProject(context.getString(R.string.default_project_name),
 					context, false)) {
-			} else {
 				ProjectManager.getInstance().initializeDefaultProject(context);
 			}
+
 		}
 	}
 
@@ -427,9 +427,9 @@ public final class Utils {
 	}
 
 	public static String getUniqueProjectName() {
-		String projectName = "project_" + String.valueOf(System.currentTimeMillis());
+		String projectName = "project_" + System.currentTimeMillis();
 		while (StorageHandler.getInstance().projectExists(projectName)) {
-			projectName = "project_" + String.valueOf(System.currentTimeMillis());
+			projectName = "project_" + System.currentTimeMillis();
 		}
 		return projectName;
 	}

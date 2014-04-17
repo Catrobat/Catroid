@@ -285,7 +285,7 @@
     <string name="select_device">"Selecione seu Lego Mindstorms NXT"</string>
     <string name="scanning">"Procurando"</string>
     <string name="connecting_please_wait">"Conectando ao seu dispositivo.\nPor favor, aguarde…"</string>
-    <string name="pairing_message">"Após o pareamento, conectar."</string>
+    <!-- <string name="pairing_message">"Após o pareamento, conectar."</string> -->
     <string name="problem_at_closing">"Problema em fechar a conexão!"</string>
     <string name="bt_connection_failed">"Conexão ao dispositivo falhou!"</string>
     <string name="no_paired_nxt">"Nenhum NXT pareado encontrado"</string>
