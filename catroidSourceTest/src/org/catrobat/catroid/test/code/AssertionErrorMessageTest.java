@@ -36,7 +36,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AssertionErrorMessageTest extends TestCase {
-	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidCucumberTest" };
+	private static final String[] DIRECTORIES = Utils.TEST_FILE_DIRECTORIES;
 
 	private static final String OPENING_BRACKET = "\\(";
 	private static final String CLOSING_BRACKET = "\\)";
@@ -55,8 +55,8 @@ public class AssertionErrorMessageTest extends TestCase {
 	private static final String LINE_COMMENT = "//.*";
 
 	private class AssertMethod {
-		private String commandName;
-		private int numberOfParameters;
+		private final String commandName;
+		private final int numberOfParameters;
 
 		public AssertMethod(String commandName, int numberOfParameters) {
 			this.commandName = commandName;
@@ -72,16 +72,16 @@ public class AssertionErrorMessageTest extends TestCase {
 		}
 	}
 
-	private List<AssertMethod> assertMethods;
-
 	private Pattern regexAssertContainsErrorMessagePattern;
-	private Pattern regexAssertDoesntStartWithNumberPattern;
+	private Pattern regexAssertDoesNotStartWithNumberPattern;
 	private Pattern regexIsCompleteCommandPattern;
 	private Pattern regexIsAssertMethodPattern;
-	private String regexIsAssertMethod;
-	private String regexAssertContainsErrorMessage;
-	private String regexAssertDoesntStartWithNumber;
-	private String regexIsCompleteCommand;
+
+	private final String regexIsAssertMethod;
+	private final String regexAssertContainsErrorMessage;
+	private final String regexAssertDoesNotStartWithNumber;
+	private final String regexIsCompleteCommand;
+
 	private String errorMessages;
 	private boolean errorFound;
 
@@ -91,6 +91,7 @@ public class AssertionErrorMessageTest extends TestCase {
 		 * taken from http://www.junit.org/apidocs/org/junit/Assert.html and
 		 * http://www.junit.org/apidocs/junit/framework/Assert.html as of JUnit version 4.9b2
 		 */
+		List<AssertMethod> assertMethods;
 		assertMethods = new ArrayList<AssertionErrorMessageTest.AssertMethod>();
 		assertMethods.add(new AssertMethod("assertArrayEquals", 3));
 		assertMethods.add(new AssertMethod("assertEquals", 3));
@@ -153,7 +154,7 @@ public class AssertionErrorMessageTest extends TestCase {
 		}
 		regexIsAssertMethod = regexIsAssertMethodBuilder.toString();
 		regexAssertContainsErrorMessage = regexAssertContainsErrorMessageBuilder.toString();
-		regexAssertDoesntStartWithNumber = regexAssertDoesntStartWithNumberBuilder.toString();
+		regexAssertDoesNotStartWithNumber = regexAssertDoesntStartWithNumberBuilder.toString();
 
 		// Build regular expression to check if a command is complete (i.e. not one line of a multi-line command)
 		regexIsCompleteCommand = "(" + STRING_LITERAL + "|" + COMMENT + "|[^;]" + ")*;" + WHITESPACES + "("
@@ -177,7 +178,7 @@ public class AssertionErrorMessageTest extends TestCase {
 			assertTrue(
 					"Regex didn't match expression " + matchingAssert,
 					matchingAssert.matches(regexAssertContainsErrorMessage)
-							&& matchingAssert.matches(regexAssertDoesntStartWithNumber));
+							&& matchingAssert.matches(regexAssertDoesNotStartWithNumber));
 		}
 
 		List<String> notMatchingAsserts = new ArrayList<String>();
@@ -195,7 +196,7 @@ public class AssertionErrorMessageTest extends TestCase {
 			assertFalse(
 					"Expression was matched even though it shouldn't: " + notMatchingAssert,
 					notMatchingAssert.matches(regexAssertContainsErrorMessage)
-							&& notMatchingAssert.matches(regexAssertDoesntStartWithNumber));
+							&& notMatchingAssert.matches(regexAssertDoesNotStartWithNumber));
 		}
 
 		List<String> completeCommands = new ArrayList<String>();
@@ -227,7 +228,7 @@ public class AssertionErrorMessageTest extends TestCase {
 		StringBuilder errorMessageBuilder = new StringBuilder();
 
 		Matcher regexAssertContainsErrorMessageMatcher = regexAssertContainsErrorMessagePattern.matcher("");
-		Matcher regexAssertDoesntStartWithNumberMatcher = regexAssertDoesntStartWithNumberPattern.matcher("");
+		Matcher regexAssertDoesntStartWithNumberMatcher = regexAssertDoesNotStartWithNumberPattern.matcher("");
 		Matcher regexIsCompleteCommandMatcher = regexIsCompleteCommandPattern.matcher("");
 		Matcher regexIsAssertMethodMatcher = regexIsAssertMethodPattern.matcher("");
 
@@ -263,7 +264,7 @@ public class AssertionErrorMessageTest extends TestCase {
 		errorFound = false;
 
 		regexAssertContainsErrorMessagePattern = Pattern.compile(regexAssertContainsErrorMessage);
-		regexAssertDoesntStartWithNumberPattern = Pattern.compile(regexAssertDoesntStartWithNumber);
+		regexAssertDoesNotStartWithNumberPattern = Pattern.compile(regexAssertDoesNotStartWithNumber);
 		regexIsCompleteCommandPattern = Pattern.compile(regexIsCompleteCommand);
 		regexIsAssertMethodPattern = Pattern.compile(regexIsAssertMethod);
 
