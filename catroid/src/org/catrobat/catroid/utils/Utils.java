@@ -231,14 +231,15 @@ public final class Utils {
 	}
 
 	private static String toHex(byte[] messageDigest) {
-		StringBuilder md5StringBuilder = new StringBuilder(8 * messageDigest.length);
+		final char[] hexChars = "0123456789ABCDEF".toCharArray();
 
-		for (byte b : messageDigest) {
-			md5StringBuilder.append("0123456789ABCDEF".charAt((b & 0xF0) >> 4)+ "" + "0123456789ABCDEF".charAt((b & 0x0F)));
-
+		char[] hexBuffer = new char[messageDigest.length * 2];
+		for (int i = 0, j = 0; i < messageDigest.length; i++) {
+			hexBuffer[j++] = hexChars[(messageDigest[i] & 0xF0) >> 4];
+			hexBuffer[j++] = hexChars[messageDigest[i] & 0x0F];
 		}
 
-		return md5StringBuilder.toString();
+		return String.valueOf(hexBuffer);
 	}
 
 	private static MessageDigest getMD5MessageDigest() {
