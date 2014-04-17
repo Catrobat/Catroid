@@ -414,7 +414,7 @@
     <string name="select_device">"Selecteer je Lego Mindstorms NXT"</string>
     <string name="scanning">"Scannen"</string>
     <string name="connecting_please_wait">"Verbinding maken met je apparaat.\nEven wachten…"</string>
-    <string name="pairing_message">"Maak verbinding, na het koppelen."</string>
+    <!-- <string name="pairing_message">"Maak verbinding, na het koppelen."</string> -->
     <string name="problem_at_closing">"Er is een fout opgetreden tijdens het verbreken van de verbinding!"</string>
     <string name="bt_connection_failed">"Verbinding maken mislukt!"</string>
     <string name="no_paired_nxt">"Geen gekoppelde NXT gevonden"</string>

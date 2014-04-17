@@ -317,7 +317,7 @@
     <string name="select_device">Выберите ваш Mindstorms NXT</string>
     <string name="scanning">Сканнирование</string>
     <string name="connecting_please_wait">Подключение к вашему устройству.\nПодождите, пожалуйста…</string>
-    <string name="pairing_message">Подключится после спаривания.</string>
+    <!-- <string name="pairing_message">Подключится после спаривания.</string> -->
     <string name="problem_at_closing">Ошибка при закрытии подключения!</string>
     <!-- <string name="connect_device">Подключить устройство</string> -->
     <!-- <string name="bt_connected">подключен к устройству!</string> -->

@@ -306,7 +306,7 @@
     <string name="select_device">Selectați Mindstorms NXT vostru</string>
     <string name="scanning">Scanare</string>
     <string name="connecting_please_wait">Conecare la dispozitivul vostru.\nVă rugăm să așteptați…</string>
-    <string name="pairing_message">Conectare după împerechere.</string>
+    <!-- <string name="pairing_message">Conectare după împerechere.</string> -->
     <string name="problem_at_closing">Problemă la închiderea conexiunii!</string>
     <!-- <string name="connect_device">Conectarea dispozitivului</string> -->
     <!-- <string name="bt_connected">conectat la dispozitiv!</string> -->
