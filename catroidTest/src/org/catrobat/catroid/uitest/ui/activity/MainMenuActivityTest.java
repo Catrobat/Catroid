@@ -398,6 +398,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
 		solo.goBack();
+		solo.sleep(400);
 		assertTrue("The name of the current project is not displayed on the continue button", solo.getButton(0)
 				.getText().toString().endsWith(testProject2));
 	}
