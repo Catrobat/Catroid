@@ -124,6 +124,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	private ImageButton addButton;
 
+	private boolean activityAddSoundStoppedByUser = false;
+
 	public void setOnSoundInfoListChangedAfterNewListener(OnSoundInfoListChangedAfterNewListener listener) {
 		soundInfoListChangedAfterNewListener = listener;
 	}
@@ -221,7 +223,12 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void onResume() {
 		super.onResume();
 
-		setHandleAddbutton();
+		if (activityAddSoundStoppedByUser == true)
+		{
+			setHandleAddbutton();
+			activityAddSoundStoppedByUser = false;
+
+		}
 
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
 			return;
@@ -377,9 +384,9 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				getLoaderManager().restartLoader(SoundController.ID_LOADER_MEDIA_IMAGE, arguments, this);
 			}
 		}
-		if (requestCode == SoundController.REQUEST_SELECT_MUSIC) {
+		if (resultCode != Activity.RESULT_OK && requestCode == SoundController.REQUEST_SELECT_MUSIC) {
 			Log.d("SoundFragment", "onActivityResult RequestMusic");
-			setHandleAddbutton();
+			activityAddSoundStoppedByUser = true;
 
 		}
 
