@@ -1321,6 +1321,7 @@ public final class UiTestUtils {
 						MotionEvent.ACTION_UP, xTo, yTo, 0);
 				activity.dispatchTouchEvent(upEvent);
 				upEvent.recycle();
+				Log.d("Robotium - waitForLogMessage", "longClickAndDrag finished: " + (int) yTo);
 			}
 		});
 

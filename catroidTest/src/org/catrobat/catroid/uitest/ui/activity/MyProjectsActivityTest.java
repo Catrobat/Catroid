@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -88,16 +88,14 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	private static final String MY_PROJECTS_ACTIVITY_TEST_TAG = MyProjectsActivityTest.class.getSimpleName();
 	private static final String KEY_SHOW_DETAILS = "showDetailsMyProjects";
 	private static final String ZIPFILE_NAME = "testzip";
-
+	// temporarily removed - because of upcoming release, and bad performance of projectdescription
+	//        private final String lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus consequat lacinia ante, ut sollicitudin est hendrerit ut. Nunc at hendrerit mauris. Morbi tincidunt eleifend ligula, eget gravida ante fermentum vitae. Cras dictum nunc non quam posuere dignissim. Etiam vel gravida lacus. Vivamus facilisis, nunc sit amet placerat rutrum, nisl orci accumsan odio, vitae pretium ipsum urna nec ante. Donec scelerisque viverra felis a varius. Sed lacinia ultricies mi, eu euismod leo ultricies eu. Nunc eleifend dignissim nulla eget dictum. Quisque mi eros, faucibus et pretium a, tempor et libero. Etiam dui felis, ultrices id gravida quis, tempor a turpis.Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam consequat velit eu elit adipiscing eu feugiat sapien euismod. Nunc sollicitudin rhoncus velit nec malesuada. Donec velit quam, luctus in sodales eu, viverra vitae massa. Aenean sed dolor sapien, et lobortis lacus. Proin a est vitae metus fringilla malesuada. Pellentesque eu adipiscing diam. Maecenas massa ante, tincidunt volutpat dapibus vitae, mollis in enim. Sed dictum dolor ultricies metus varius sit amet scelerisque lacus convallis. Nullam dui nisl, mollis a molestie non, tempor vitae arcu. Phasellus vitae metus pellentesque ligula scelerisque adipiscing vitae sed quam. Quisque porta rhoncus magna a porttitor. In ac magna nulla. Donec quis lacus felis, in bibendum massa. ";
+	private final String lorem = "Lorem ipsum dolor sit amet";
 	private File renameDirectory = null;
 	private boolean unzip;
 	private boolean deleteCacheProjects = false;
 	private int numberOfCacheProjects = 27;
 	private String cacheProjectName = "cachetestProject";
-
-	// temporarily removed - because of upcoming release, and bad performance of projectdescription        
-	//        private final String lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus consequat lacinia ante, ut sollicitudin est hendrerit ut. Nunc at hendrerit mauris. Morbi tincidunt eleifend ligula, eget gravida ante fermentum vitae. Cras dictum nunc non quam posuere dignissim. Etiam vel gravida lacus. Vivamus facilisis, nunc sit amet placerat rutrum, nisl orci accumsan odio, vitae pretium ipsum urna nec ante. Donec scelerisque viverra felis a varius. Sed lacinia ultricies mi, eu euismod leo ultricies eu. Nunc eleifend dignissim nulla eget dictum. Quisque mi eros, faucibus et pretium a, tempor et libero. Etiam dui felis, ultrices id gravida quis, tempor a turpis.Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam consequat velit eu elit adipiscing eu feugiat sapien euismod. Nunc sollicitudin rhoncus velit nec malesuada. Donec velit quam, luctus in sodales eu, viverra vitae massa. Aenean sed dolor sapien, et lobortis lacus. Proin a est vitae metus fringilla malesuada. Pellentesque eu adipiscing diam. Maecenas massa ante, tincidunt volutpat dapibus vitae, mollis in enim. Sed dictum dolor ultricies metus varius sit amet scelerisque lacus convallis. Nullam dui nisl, mollis a molestie non, tempor vitae arcu. Phasellus vitae metus pellentesque ligula scelerisque adipiscing vitae sed quam. Quisque porta rhoncus magna a porttitor. In ac magna nulla. Donec quis lacus felis, in bibendum massa. ";
-	private final String lorem = "Lorem ipsum dolor sit amet";
 	private File lookFile;
 
 	public MyProjectsActivityTest() {
@@ -212,8 +210,9 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.sleep(200);
 
 		assertEquals(MyProjectsActivity.class.getSimpleName()
-				+ " not set to be in portrait mode in AndroidManifest.xml!", ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
-				activityInfo.screenOrientation);
+						+ " not set to be in portrait mode in AndroidManifest.xml!", ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
+				activityInfo.screenOrientation
+		);
 	}
 
 	public void testOverFlowMenuSettings() {
@@ -405,13 +404,13 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				int testPixelX = viewBitmap.getWidth() / 2;
 				int testPixelY = viewBitmap.getHeight() / 2;
 
-				byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
-				byte[] blackPixel = { 0, 0, 0, (byte) 255 };
+				byte[] whitePixel = {(byte) 255, (byte) 255, (byte) 255, (byte) 255};
+				byte[] blackPixel = {0, 0, 0, (byte) 255};
 				switch (counter) {
 					case 1:
 						pixelColor = viewBitmap.getPixel(testPixelX, testPixelY);
-						byte[] screenPixel = { (byte) Color.red(pixelColor), (byte) Color.green(pixelColor),
-								(byte) Color.blue(pixelColor), (byte) Color.alpha(pixelColor) };
+						byte[] screenPixel = {(byte) Color.red(pixelColor), (byte) Color.green(pixelColor),
+								(byte) Color.blue(pixelColor), (byte) Color.alpha(pixelColor)};
 						assertTrue("Image color should be white",
 								UiTestUtils.comparePixelRgbaArrays(whitePixel, screenPixel));
 
@@ -420,8 +419,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 						break;
 					case 2:
 						pixelColor = viewBitmap.getPixel(testPixelX, testPixelY);
-						byte[] screenPixel2 = { (byte) Color.red(pixelColor), (byte) Color.green(pixelColor),
-								(byte) Color.blue(pixelColor), (byte) Color.alpha(pixelColor) };
+						byte[] screenPixel2 = {(byte) Color.red(pixelColor), (byte) Color.green(pixelColor),
+								(byte) Color.blue(pixelColor), (byte) Color.alpha(pixelColor)};
 						assertTrue("Image color should be black",
 								UiTestUtils.comparePixelRgbaArrays(blackPixel, screenPixel2));
 
@@ -1690,8 +1689,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		byte[] greenPixel1 = createScreenshotBitmap();
 
 		//The color values below are those we get on our emulated test device
-		byte[] greenPixel = { 0, (byte) 255, 0, (byte) 255 };
-		byte[] redPixel = { (byte) 255, 0, 0, (byte) 255 };
+		byte[] greenPixel = {0, (byte) 255, 0, (byte) 255};
+		byte[] redPixel = {(byte) 255, 0, 0, (byte) 255};
 
 		assertTrue("The extracted pixel was not green", UiTestUtils.comparePixelRgbaArrays(greenPixel, greenPixel1));
 		UiTestUtils.clickOnTextInList(solo, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
@@ -1846,8 +1845,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 					viewBitmap = viewToTest.getDrawingCache();
 					int pixelValue = viewBitmap.getPixel(viewBitmap.getWidth() / 2, viewBitmap.getHeight() / 2);
 					viewToTest.destroyDrawingCache();
-					pixel = new byte[] { (byte) Color.red(pixelValue), (byte) Color.green(pixelValue),
-							(byte) Color.blue(pixelValue), (byte) Color.alpha(pixelValue) };
+					pixel = new byte[]{(byte) Color.red(pixelValue), (byte) Color.green(pixelValue),
+							(byte) Color.blue(pixelValue), (byte) Color.alpha(pixelValue)};
 				}
 			}
 		}
