@@ -7,6 +7,7 @@ buildscript {
 }
 
 apply plugin: 'android'
+apply plugin: 'idea'
 //apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
 //apply plugin: 'pmd'
@@ -22,7 +23,7 @@ configurations {
 
 dependencies {
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
-    compile 'com.android.support:support-v4:19.0.+'
+    compile 'com.android.support:support-v4:19.1.0'
 //    compile fileTree(dir: 'catroid/libs', include: '*.jar')
     compile files('libs/gdx.jar')
     compile files('libs/gdx-backend-android.jar')
@@ -164,3 +165,4 @@ if (signing_config_file.exists()) {
     apply from: signing_config_file.absolutePath
 }
 
+//apply from: '../gradle/idea.gradle'

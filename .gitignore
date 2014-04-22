@@ -39,3 +39,4 @@ Thumbs.db
 # Gradle
 .gradle/
 build/
+.gradletasknamecache

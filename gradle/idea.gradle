@@ -1,0 +1,299 @@
+
+allprojects {
+    apply plugin: "idea"
+}
+
+idea {
+    module {
+        excludeDirs += file('catroid/build')
+        excludeDirs += file('catroid/.gradle')
+    }
+
+    project {
+        wildcards += ['?*.gradle']
+
+        ipr {
+            withXml { provider ->
+                def node = provider.asNode()
+
+                // Use git
+                def vcsConfig = node.component.find { it.'@name' == 'VcsDirectoryMappings' }
+                vcsConfig.mapping[0].'@vcs' = 'Git'
+
+                // license header
+                def copyrightManager = node.component.find { it.'@name' == 'CopyrightManager' }
+                copyrightManager.@default = "GPL3"
+                def aslCopyright = copyrightManager.copyright.find { it.option.find { it.@name == "myName" }?.@value == "GPL3" }
+                if (aslCopyright == null) {
+                    copyrightManager.append(new XmlParser().parseText("""
+                        <copyright>
+                            <option name="notice" value="Catroid: An on-device visual programming system for Android devices&#10;Copyright (C) 2010-${Calendar.getInstance().get(Calendar.YEAR)} The Catrobat Team&#10;(&lt;http://developer.catrobat.org/credits&gt;)&#10;&#10;This program is free software: you can redistribute it and/or modify&#10;it under the terms of the GNU Affero General Public License as&#10;published by the Free Software Foundation, either version 3 of the&#10;License, or (at your option) any later version.&#10;&#10;An additional term exception under section 7 of the GNU Affero&#10;General Public License, version 3, is available at&#10;http://developer.catrobat.org/license_additional_term&#10;&#10;This program is distributed in the hope that it will be useful,&#10;but WITHOUT ANY WARRANTY; without even the implied warranty of&#10;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the&#10;GNU Affero General Public License for more details.&#10;&#10;You should have received a copy of the GNU Affero General Public License&#10;along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;." />
+                            <option name="keyword" value="Copyright" />
+                            <option name="allowReplaceKeyword" value="" />
+                            <option name="myName" value="GPL3" />
+                            <option name="myLocal" value="true" />
+                        </copyright>
+                """))
+                }
+
+                // Code formatting options
+                def codeFormatSettings = new XmlParser().parseText('''
+                          <component name="ProjectCodeStyleSettingsManager">
+                            <option name="PER_PROJECT_SETTINGS">
+                              <value>
+                                <option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="99" />
+                                <option name="NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND" value="99" />
+                                <option name="PACKAGES_TO_USE_IMPORT_ON_DEMAND">
+                                  <value />
+                                </option>
+                                <option name="IMPORT_LAYOUT_TABLE">
+                                  <value>
+                                    <package name="android" withSubpackages="true" static="false" />
+                                    <emptyLine />
+                                    <package name="com" withSubpackages="true" static="false" />
+                                    <emptyLine />
+                                    <package name="junit" withSubpackages="true" static="false" />
+                                    <emptyLine />
+                                    <package name="net" withSubpackages="true" static="false" />
+                                    <emptyLine />
+                                    <package name="org" withSubpackages="true" static="false" />
+                                    <emptyLine />
+                                    <package name="java" withSubpackages="true" static="false" />
+                                    <emptyLine />
+                                    <package name="javax" withSubpackages="true" static="false" />
+                                    <emptyLine />
+                                    <package name="" withSubpackages="true" static="false" />
+                                    <emptyLine />
+                                    <package name="" withSubpackages="true" static="true" />
+                                    <emptyLine />
+                                  </value>
+                                </option>
+                                <option name="RIGHT_MARGIN" value="100" />
+                                <AndroidXmlCodeStyleSettings>
+                                  <option name="USE_CUSTOM_SETTINGS" value="true" />
+                                </AndroidXmlCodeStyleSettings>
+                                <XML>
+                                  <option name="XML_KEEP_LINE_BREAKS" value="false" />
+                                  <option name="XML_ALIGN_ATTRIBUTES" value="false" />
+                                  <option name="XML_SPACE_INSIDE_EMPTY_TAG" value="true" />
+                                </XML>
+                                <codeStyleSettings language="JAVA">
+                                  <indentOptions>
+                                    <option name="USE_TAB_CHARACTER" value="true" />
+                                  </indentOptions>
+                                  <arrangement>
+                                    <groups>
+                                      <group>
+                                        <type>GETTERS_AND_SETTERS</type>
+                                        <order>KEEP</order>
+                                      </group>
+                                    </groups>
+                                    <rules>
+                                      <rule>
+                                        <match>
+                                          <AND>
+                                            <FIELD />
+                                            <FINAL />
+                                            <PUBLIC />
+                                            <STATIC />
+                                          </AND>
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <AND>
+                                            <FIELD />
+                                            <FINAL />
+                                            <PROTECTED />
+                                            <STATIC />
+                                          </AND>
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <AND>
+                                            <FIELD />
+                                            <FINAL />
+                                            <PACKAGE_PRIVATE />
+                                            <STATIC />
+                                          </AND>
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <AND>
+                                            <FIELD />
+                                            <FINAL />
+                                            <PRIVATE />
+                                            <STATIC />
+                                          </AND>
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <AND>
+                                            <FIELD />
+                                            <PUBLIC />
+                                            <STATIC />
+                                          </AND>
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <AND>
+                                            <FIELD />
+                                            <PROTECTED />
+                                            <STATIC />
+                                          </AND>
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <AND>
+                                            <FIELD />
+                                            <PACKAGE_PRIVATE />
+                                            <STATIC />
+                                          </AND>
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <AND>
+                                            <FIELD />
+                                            <PRIVATE />
+                                            <STATIC />
+                                          </AND>
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <AND>
+                                            <FIELD />
+                                            <FINAL />
+                                            <PUBLIC />
+                                          </AND>
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <AND>
+                                            <FIELD />
+                                            <FINAL />
+                                            <PROTECTED />
+                                          </AND>
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <AND>
+                                            <FIELD />
+                                            <FINAL />
+                                            <PACKAGE_PRIVATE />
+                                          </AND>
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <AND>
+                                            <FIELD />
+                                            <FINAL />
+                                            <PRIVATE />
+                                          </AND>
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <AND>
+                                            <FIELD />
+                                            <PUBLIC />
+                                          </AND>
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <AND>
+                                            <FIELD />
+                                            <PROTECTED />
+                                          </AND>
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <AND>
+                                            <FIELD />
+                                            <PACKAGE_PRIVATE />
+                                          </AND>
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <AND>
+                                            <FIELD />
+                                            <PRIVATE />
+                                          </AND>
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <FIELD />
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <CONSTRUCTOR />
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <AND>
+                                            <METHOD />
+                                            <STATIC />
+                                          </AND>
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <METHOD />
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <ENUM />
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <INTERFACE />
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <AND>
+                                            <CLASS />
+                                            <STATIC />
+                                          </AND>
+                                        </match>
+                                      </rule>
+                                      <rule>
+                                        <match>
+                                          <CLASS />
+                                        </match>
+                                      </rule>
+                                    </rules>
+                                  </arrangement>
+                                </codeStyleSettings>
+                                <codeStyleSettings language="XML">
+                                  <indentOptions>
+                                    <option name="CONTINUATION_INDENT_SIZE" value="4" />
+                                  </indentOptions>
+                                </codeStyleSettings>
+                              </value>
+                            </option>
+                            <option name="USE_PER_PROJECT_SETTINGS" value="true" />
+                          </component>
+        ''')
+                node.append(codeFormatSettings)
+            }
+        }
+    }
+}
