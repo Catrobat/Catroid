@@ -186,7 +186,7 @@ public final class UtilFile {
 			};
 			for (File file : fileList) {
 				if (file.isDirectory() && file.list(filenameFilter).length != 0) {
-					projectList.add(file.getName());
+					projectList.add(decodeSpecialCharsForFileSystem(file.getName()));
 				}
 			}
 		}
@@ -265,7 +265,7 @@ public final class UtilFile {
 		if (scaleFactor <= 0) {
 			throw new IllegalArgumentException("scale factor is smaller or equal zero");
 		}
-		outputFilename = Utils.deleteSpecialCharactersInString(outputFilename);
+		outputFilename = UtilFile.encodeSpecialCharsForFileSystem(outputFilename);
 		if (!outputFilename.toLowerCase(Locale.US).endsWith(Constants.IMAGE_STANDARD_EXTENTION)) {
 			outputFilename = outputFilename + Constants.IMAGE_STANDARD_EXTENTION;
 		}
@@ -289,6 +289,41 @@ public final class UtilFile {
 					+ " failed");
 		}
 		return fileWithMd5;
+	}
+
+	public static String encodeSpecialCharsForFileSystem(String projectName) {
+		if (projectName.equals(".") || projectName.equals("..")) {
+			projectName = projectName.replace(".", "%2E");
+		}
+		else {
+			projectName = projectName.replace("%", "%25");
+			projectName = projectName.replace("\"", "%22");
+			projectName = projectName.replace("/", "%2F");
+			projectName = projectName.replace(":", "%3A");
+			projectName = projectName.replace("<", "%3C");
+			projectName = projectName.replace(">", "%3E");
+			projectName = projectName.replace("?", "%3F");
+			projectName = projectName.replace("\\", "%5C");
+			projectName = projectName.replace("|", "%7C");
+			projectName = projectName.replace("*", "%2A");
+		}
+		return projectName;
+	}
+
+	public static String decodeSpecialCharsForFileSystem(String projectName) {
+		projectName = projectName.replace("%2E", ".");
+
+		projectName = projectName.replace("%2A", "*");
+		projectName = projectName.replace("%7C", "|");
+		projectName = projectName.replace("%5C", "\\");
+		projectName = projectName.replace("%3F", "?");
+		projectName = projectName.replace("%3E", ">");
+		projectName = projectName.replace("%3C", "<");
+		projectName = projectName.replace("%3A", ":");
+		projectName = projectName.replace("%2F", "/");
+		projectName = projectName.replace("%22", "\"");
+		projectName = projectName.replace("%25", "%");
+		return projectName;
 	}
 
 }
