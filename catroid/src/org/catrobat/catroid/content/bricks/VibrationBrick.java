@@ -39,22 +39,26 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
+import org.w3c.dom.Text;
 
 import java.util.List;
 
 public class VibrationBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
+	private Formula vibrateIntensityPercent;
 	private Formula vibrateDurationInSeconds;
 
 	private transient View prototypeView;
 
-	public VibrationBrick(Sprite sprite, Formula vibrateDurationInSecondsFormula) {
+	public VibrationBrick(Sprite sprite, Formula vibrateIntensityPercent, Formula vibrateDurationInSecondsFormula) {
 		this.sprite = sprite;
+		this.vibrateIntensityPercent = vibrateIntensityPercent;
 		this.vibrateDurationInSeconds = vibrateDurationInSecondsFormula;
 	}
 
-	public VibrationBrick(Sprite sprite, int vibrationDurationInMilliseconds) {
+	public VibrationBrick(Sprite sprite, int vibrationIntensityPercent, int vibrationDurationInMilliseconds) {
 		this.sprite = sprite;
+		this.vibrateIntensityPercent = new Formula(vibrationIntensityPercent % 100 + 1); // TODO
 		this.vibrateDurationInSeconds = new Formula(vibrationDurationInMilliseconds / 1000.0);
 	}
 
@@ -99,9 +103,14 @@ public class VibrationBrick extends BrickBaseType implements OnClickListener, Fo
 			}
 		});
 
-		TextView text = (TextView) view.findViewById(R.id.brick_vibration_prototype_text_view);
-		TextView edit = (TextView) view.findViewById(R.id.brick_vibration_edit_text);
-		vibrateDurationInSeconds.setTextFieldId(R.id.brick_vibration_edit_text);
+		TextView textIntensity = (TextView) view.findViewById(R.id.brick_vibration_prototype_text_view_intensity);
+		TextView editIntensity = (TextView) view.findViewById(R.id.brick_vibration_edit_intensity_text);
+		vibrateIntensityPercent.setTextFieldId(R.id.brick_vibration_edit_intensity_text);
+		vibrateIntensityPercent.refreshTextField(view);
+
+		TextView textSeconds = (TextView) view.findViewById(R.id.brick_vibration_prototype_text_view_seconds);
+		TextView editSeconds = (TextView) view.findViewById(R.id.brick_vibration_edit_seconds_text);
+		vibrateDurationInSeconds.setTextFieldId(R.id.brick_vibration_edit_seconds_text);
 		vibrateDurationInSeconds.refreshTextField(view);
 
 		TextView times = (TextView) view.findViewById(R.id.brick_vibration_second_text_view);
@@ -114,9 +123,13 @@ public class VibrationBrick extends BrickBaseType implements OnClickListener, Fo
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
 
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
-		edit.setOnClickListener(this);
+		textIntensity.setVisibility(View.GONE);
+		editIntensity.setVisibility(View.VISIBLE);
+		editIntensity.setOnClickListener(this);
+
+		textSeconds.setVisibility(View.GONE);
+		editSeconds.setVisibility(View.VISIBLE);
+		// TODO: editSeconds.setOnClickListener(this); ???
 
 		return view;
 	}
@@ -124,8 +137,10 @@ public class VibrationBrick extends BrickBaseType implements OnClickListener, Fo
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_vibration, null);
-		TextView textVibrate = (TextView) prototypeView.findViewById(R.id.brick_vibration_prototype_text_view);
-		textVibrate.setText(String.valueOf(vibrateDurationInSeconds.interpretInteger(sprite)));
+		TextView textIntensity = (TextView) prototypeView.findViewById(R.id.brick_vibration_prototype_text_view_intensity);
+		textIntensity.setText(String.valueOf(vibrateIntensityPercent.interpretInteger(sprite)));
+		TextView textSeconds = (TextView) prototypeView.findViewById(R.id.brick_vibration_prototype_text_view_seconds);
+		textSeconds.setText(String.valueOf(vibrateDurationInSeconds.interpretInteger(sprite)));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_vibration_second_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(vibrateDurationInSeconds.interpretDouble(sprite))));
@@ -134,7 +149,7 @@ public class VibrationBrick extends BrickBaseType implements OnClickListener, Fo
 
 	@Override
 	public Brick clone() {
-		return new VibrationBrick(getSprite(), vibrateDurationInSeconds.clone());
+		return new VibrationBrick(getSprite(), vibrateIntensityPercent.clone(), vibrateDurationInSeconds.clone());
 	}
 
 	@Override
@@ -145,14 +160,22 @@ public class VibrationBrick extends BrickBaseType implements OnClickListener, Fo
 			background.setAlpha(alphaValue);
 
 			TextView textVibrationLabel = (TextView) view.findViewById(R.id.brick_vibration_label);
+			TextView textVibrationIntensity = (TextView) view.findViewById(R.id.brick_vibration_for);
 			TextView textVibrationSeconds = (TextView) view.findViewById(R.id.brick_vibration_second_text_view);
-			TextView editVibration = (TextView) view.findViewById(R.id.brick_vibration_edit_text);
+			TextView editSeconds = (TextView) view.findViewById(R.id.brick_vibration_edit_seconds_text);
+			TextView editIntensity = (TextView) view.findViewById(R.id.brick_vibration_edit_intensity_text);
 
 			textVibrationLabel.setTextColor(textVibrationLabel.getTextColors().withAlpha(alphaValue));
 			textVibrationSeconds.setTextColor(textVibrationSeconds.getTextColors().withAlpha((alphaValue)));
 
-			editVibration.setTextColor(editVibration.getTextColors().withAlpha(alphaValue));
-			editVibration.getBackground().setAlpha(alphaValue);
+			textVibrationIntensity.setTextColor(textVibrationIntensity.getTextColors().withAlpha(alphaValue));
+			textVibrationIntensity.getBackground().setAlpha(alphaValue);
+
+			editSeconds.setTextColor(editSeconds.getTextColors().withAlpha(alphaValue));
+			editSeconds.getBackground().setAlpha(alphaValue);
+
+			editIntensity.setTextColor(editIntensity.getTextColors().withAlpha(alphaValue));
+			editIntensity.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
 		}
@@ -164,12 +187,17 @@ public class VibrationBrick extends BrickBaseType implements OnClickListener, Fo
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		FormulaEditorFragment.showFragment(view, this, vibrateDurationInSeconds);
+		if (view.getId() == R.id.brick_vibration_edit_intensity_text) {
+			FormulaEditorFragment.showFragment(view, this, vibrateIntensityPercent);
+		} else if (view.getId() == R.id.brick_vibration_edit_seconds_text) {
+			FormulaEditorFragment.showFragment(view, this, vibrateDurationInSeconds);
+		}
+
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.delay(sprite, vibrateDurationInSeconds));
+		sequence.addAction(ExtendedActions.vibrate(sprite, vibrateIntensityPercent, vibrateDurationInSeconds));
 		return null;
 	}
 }
