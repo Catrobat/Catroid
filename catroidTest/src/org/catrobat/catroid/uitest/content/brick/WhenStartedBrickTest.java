@@ -52,14 +52,6 @@ public class WhenStartedBrickTest extends BaseActivityInstrumentationTestCase<Ma
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
-	@Override
-	public void tearDown() throws Exception {
-		// normally super.teardown should be called last
-		// but tests crashed with Nullpointer
-		super.tearDown();
-		ProjectManager.getInstance().deleteCurrentProject();
-	}
-
 	public void testWhenStartedBrick() {
 		if (!solo.waitForView(DragAndDropListView.class, 0, 5000, false)) {
 			fail("DragAndDropListView not shown in 5 secs!");

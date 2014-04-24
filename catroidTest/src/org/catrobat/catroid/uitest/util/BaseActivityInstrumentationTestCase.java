@@ -30,17 +30,19 @@ import android.util.Log;
 
 import com.robotium.solo.Solo;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.ui.MainMenuActivity;
 
+import java.io.IOException;
+
 public abstract class BaseActivityInstrumentationTestCase<T extends Activity> extends
 		ActivityInstrumentationTestCase2<T> {
-
 	protected Solo solo;
 
 	private static final String TAG = "BaseActivityInstrumentationTestCase";
-
 	private Class clazz;
 	private SystemAnimations systemAnimations;
 
@@ -55,29 +57,41 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 		super.setUp();
 		systemAnimations = new SystemAnimations(getInstrumentation().getContext());
 		systemAnimations.disableAll();
+		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.clearAllUtilTestProjects();
 		if (clazz.getSimpleName().equalsIgnoreCase(MainMenuActivity.class.getSimpleName())) {
 			UiTestUtils.createEmptyProject();
 		}
-		solo = new Solo(getInstrumentation(), getActivity());
+
 		Reflection.setPrivateField(StageListener.class, "checkIfAutomaticScreenshotShouldBeTaken", false);
 		solo.unlockScreen();
+		Log.v(TAG, "setUp end");
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		Log.v(TAG, "tearDown");
-		Log.v(TAG, "remove Projectname from SharedPreferences");
+		Log.v(TAG, "tearDown - remove Projectname from SharedPreferences");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		SharedPreferences.Editor edit = preferences.edit();
 		edit.remove(Constants.PREF_PROJECTNAME_KEY);
 		edit.commit();
-
 		solo.finishOpenedActivities();
+
+		try {
+			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			if (currentProject != null) {
+				ProjectManager.getInstance().deleteProject(currentProject.getName(), null);
+			}
+		} catch (IOException e) {
+			Log.d(TAG, "deleteCurrentProject exception", e);
+		}
+
 		UiTestUtils.clearAllUtilTestProjects();
+
 		super.tearDown();
 		systemAnimations.enableAll();
 		solo = null;
+		Log.v(TAG, "tearDown end");
 	}
 
 }

@@ -493,6 +493,8 @@
     <string name="error_no_writiable_external_storage_available">Um Pocket Code zu starten wird beschreibbarer externer Speicher wie z.B. eine SD Karte benötigt.\nSie können diesen Fehler beheben indem sie den externen Speicher beschreibbar machen oder eine SD Karte einlegen und es erneut versuchen.</string>
     <string name="error_no_name_entered">Bitte einen Namen eingeben.</string>
     <string name="error_project_exists">Es gibt bereits ein Programm mit dem eingegebenen Namen.\nBitte einen anderen Namen eingeben.</string>
+    <string name="error_delete_project">Ein Fehler beim Löschen des Programms ist aufgetreten.</string>
+    <string name="error_unknown_project">Ein Programm mit diesem Namen existiert nicht!</string>
     <string name="error_project_upload">Beim Upload des Programms ist ein Fehler aufgetreten.</string>
     <string name="error_project_download">Beim Download des Programms ist ein Fehler aufgetreten.</string>
     <string name="error_new_project">Beim Erstellen des neuen Programms ist ein Fehler aufgetreten.</string>

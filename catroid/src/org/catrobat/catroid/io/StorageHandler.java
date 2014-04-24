@@ -35,7 +35,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
@@ -199,9 +198,14 @@ public final class StorageHandler {
 				bitmap.compress(CompressFormat.PNG, 0, outputStream);
 			}
 			outputStream.flush();
-			outputStream.close();
 		} catch (IOException ioException) {
 			Log.e(TAG, Log.getStackTraceString(ioException));
+		} finally {
+			try {
+				outputStream.close();
+			} catch (IOException e) {
+				Log.e(TAG, "Could not close outputstream.", e);
+			}
 		}
 	}
 
@@ -347,6 +351,7 @@ public final class StorageHandler {
 		BufferedWriter writer = null;
 
 		if (project == null) {
+			Log.d(TAG, "project is null!");
 			return false;
 		}
 
@@ -361,7 +366,6 @@ public final class StorageHandler {
 		File currentCodeFile = null;
 
 		try {
-
 			projectXml = XML_HEADER.concat(xstream.toXML(project));
 			tmpCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME_TMP);
 			currentCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME);
@@ -449,6 +453,7 @@ public final class StorageHandler {
 	}
 
 	private void createProjectDataStructure(File projectDirectory) throws IOException {
+		Log.d(TAG, "create Project Data structure");
 		createCatroidRoot();
 		projectDirectory.mkdir();
 
@@ -493,18 +498,15 @@ public final class StorageHandler {
 		}
 	}
 
-	public boolean deleteProject(Project project) {
-		if (project != null) {
-			return UtilFile.deleteDirectory(new File(buildProjectPath(project.getName())));
+	public void deleteProject(String projectName) throws IllegalArgumentException, IOException {
+		boolean success;
+		if (projectName == null || !projectExists(projectName)) {
+			throw new IllegalArgumentException("Project with name " + projectName + " does not exist");
 		}
-		return false;
-	}
-
-	public boolean deleteProject(ProjectData projectData) {
-		if (projectData != null) {
-			return UtilFile.deleteDirectory(new File(buildProjectPath(projectData.projectName)));
+		success = UtilFile.deleteDirectory(new File(buildProjectPath(projectName)));
+		if (!success) {
+			throw new IOException("Error at deleting project " + projectName);
 		}
-		return false;
 	}
 
 	public boolean projectExists(String projectName) {

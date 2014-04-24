@@ -24,6 +24,8 @@ package org.catrobat.catroid.test.utils;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -259,6 +261,7 @@ public final class TestUtils {
 	}
 
 	public static void deleteTestProjects(String... additionalProjectNames) {
+		Log.d(TAG, "deleteTestProjects");
 		ProjectManager.getInstance().setFileChecksumContainer(new FileChecksumContainer());
 
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + DEFAULT_TEST_PROJECT_NAME);
@@ -296,5 +299,12 @@ public final class TestUtils {
 		 "definitionBrick");
 		 sprite.addUserBrick(userBrick);
 		 return definitionBrick.getScriptSafe();
-		 }	
+		 }
+
+	public static void removeFromPreferences(Context context, String key) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor edit = preferences.edit();
+		edit.remove(key);
+		edit.commit();
+	}
 }

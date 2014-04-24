@@ -192,6 +192,11 @@ public final class Utils {
 	public static String md5Checksum(File file) {
 
 		if (!file.isFile()) {
+			Log.e(TAG, String.format("md5Checksum() Error with file %s isFile: %s isDirectory: %s exists: %s",
+					file.getName(),
+						Boolean.valueOf(file.isFile()),
+							Boolean.valueOf(file.isDirectory()),
+								Boolean.valueOf(file.exists())));
 			return null;
 		}
 
@@ -277,12 +282,19 @@ public final class Utils {
 		edit.commit();
 	}
 
+	public static void removeFromPreferences(Context context, String key) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor edit = preferences.edit();
+		edit.remove(key);
+		edit.commit();
+	}
+
 	public static void loadProjectIfNeeded(Context context) {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String projectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
 
-			if (projectName == null) {
+			if (projectName == null || !StorageHandler.getInstance().projectExists(projectName)) {
 				projectName = context.getString(R.string.default_project_name);
 			}
 
@@ -300,7 +312,11 @@ public final class Utils {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
-			if (currentProjectName == null) {
+			if (currentProjectName == null || !StorageHandler.getInstance().projectExists(currentProjectName)) {
+				List<String> projectNameList = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT));
+				if (projectNameList.isEmpty()) {
+					ProjectManager.getInstance().initializeDefaultProject(context);
+				}
 				currentProjectName = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT)).get(0);
 			}
 			return currentProjectName;
@@ -433,7 +449,7 @@ public final class Utils {
 			int start = standardProjectXMLString.indexOf("<objectList>");
 			int end = standardProjectXMLString.indexOf("</objectList>");
 			String standardProjectSpriteList = standardProjectXMLString.substring(start, end);
-			ProjectManager.getInstance().deleteCurrentProject();
+			ProjectManager.getInstance().deleteCurrentProject(null);
 
 			ProjectManager.getInstance().setProject(projectToCheck);
 			ProjectManager.getInstance().saveProject();

@@ -337,6 +337,10 @@ public final class StandardProjectHandler {
 			UtilFile.copyFromResourceIntoProject(projectName, ".", StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME,
 					R.drawable.default_project_screenshot, context, false);
 
+			Log.i(TAG, String.format("createAndSaveStandardProject(%s) %s created%n %s created%n %s created%n %s created%n %s created%n %s created%n %s created%n %s created%n",
+					projectName, backgroundFile.getName(), movingMoleFile.getName(), diggedOutMoleFile.getName(), whackedMoleFile.getName(),
+						soundFile1.getName(), soundFile2.getName(), soundFile3.getName(), soundFile4.getName()));
+
 			LookData movingMoleLookData = new LookData();
 			movingMoleLookData.setLookName(movingMoleLookName);
 			movingMoleLookData.setLookFilename(movingMoleFile.getName());

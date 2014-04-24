@@ -74,14 +74,6 @@ public class UtilFileTest extends InstrumentationTestCase {
 		super.tearDown();
 	}
 
-	public void testClearDirectory() {
-		UtilFile.clearDirectory(testDirectory);
-		assertFalse("File in subdirectory still exists after call to clearDirectory", file2.exists());
-		assertFalse("Subdirectory in test directory still exists after call to clearDirectory", subDirectory.exists());
-		assertFalse("File in test directory still exists after call to clearDirectory", file1.exists());
-		assertTrue("Directory itself was deleted as well after call to clearDirectory", testDirectory.exists());
-	}
-
 	public void testDeleteDirectory() {
 		UtilFile.deleteDirectory(testDirectory);
 		assertFalse("File in subdirectory still exists after call to deleteDirectory", file2.exists());

@@ -167,6 +167,7 @@ public final class UiTestUtils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();
 	private static SparseIntArray brickCategoryMap;
 	private static List<InternToken> internTokenList = new ArrayList<InternToken>();
+	private static final String TAG = UiTestUtils.class.getName();
 
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
 	public static final String PROJECTNAME1 = "testingproject1";
@@ -1351,6 +1352,7 @@ public final class UiTestUtils {
 	}
 
 	public static void clearAllUtilTestProjects() {
+		Log.v(TAG, "clearAllUtilTestProjects");
 		projectManager.setFileChecksumContainer(new FileChecksumContainer());
 		File directory = new File(Constants.DEFAULT_ROOT + "/" + PROJECTNAME1);
 		if (directory.exists()) {
@@ -1805,7 +1807,7 @@ public final class UiTestUtils {
 	}
 
 	public static boolean longClickOnTextInList(Solo solo, String text) {
-		solo.sleep(300);
+		solo.waitForView(solo.getView(android.R.id.list));
 		ArrayList<TextView> textViews = solo.getCurrentViews(TextView.class);
 		for (int position = 0; position < textViews.size(); position++) {
 			TextView view = textViews.get(position);

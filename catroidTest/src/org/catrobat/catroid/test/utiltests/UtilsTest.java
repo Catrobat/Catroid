@@ -201,6 +201,16 @@ public class UtilsTest extends AndroidTestCase {
 		SystemClock.sleep(1000);
 	}
 
+	public void testLoadProjectIfNeeded() {
+		Utils.saveToPreferences(getContext(), Constants.PREF_PROJECTNAME_KEY, "projectNameWhichDoesNotExist");
+		try {
+			Utils.loadProjectIfNeeded(getContext());
+		} catch (Exception e) {
+			fail("Tried to load project which should not be loadable.");
+		}
+		TestUtils.removeFromPreferences(getContext(), Constants.PREF_PROJECTNAME_KEY);
+	}
+
 	private void addSpriteAndCompareToStandardProject() {
 		Sprite sprite = new Sprite("TestSprite");
 		standardProject.addSprite(sprite);

@@ -64,6 +64,6 @@ public class BeforeAfterSteps extends ActivityInstrumentationTestCase2<MainMenuA
 	public void after() {
 		Log.d(CucumberInstrumentation.TAG, "after step");
 		solo.finishOpenedActivities();
-		ProjectManager.getInstance().deleteCurrentProject();
+		ProjectManager.getInstance().deleteCurrentProject(null);
 	}
 }
