@@ -372,7 +372,8 @@
     <string name="brick_next_background">Next background</string>
     <string name="brick_led_on">switch camera LED ON</string>
 	<string name="brick_led_off">switch camera LED OFF</string>
-	<string name="brick_vibration">vibrate</string>
+	<string name="brick_vibration">vibrate at</string>
+	<string name="brick_vibration_seconds">% for</string>
     <!--  -->
 
 
