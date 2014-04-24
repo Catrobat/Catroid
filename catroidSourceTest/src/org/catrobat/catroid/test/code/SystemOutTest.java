@@ -31,14 +31,16 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.ListIterator;
 
 public class SystemOutTest extends TestCase {
 
 	private String errorMessages;
 	private boolean errorFound;
 
-	private static final String[] SYSTEM_OUT_DIRECTORIES = { "../catroidTest", "../catroid", "../catroidCucumberTest" };
-	private static final String[] STACK_TRACE_DIRECTORIES = { "../catroid", "../catroidCucumberTest" };
+	private static final String[] SYSTEM_OUT_DIRECTORIES = Utils.SOURCE_FILE_DIRECTORIES;
+	private static final String[] STACK_TRACE_DIRECTORIES = Utils.PRINT_STACK_TRACE_TEST_DIRECTORIES;
+	private static final String[] IGNORED_FILES = { "SystemOutTest.java" };
 	private static final String SYSTEM_OUT = "System.out";
 	private static final String PRINT_STACK_TRACE = ".printStackTrace()";
 
@@ -52,7 +54,7 @@ public class SystemOutTest extends TestCase {
 			if (line.contains(string)) {
 				errorFound = true;
 				errorMessageBuilder
-						.append(file.getName())
+						.append(file.getPath())
 						.append(" in line ")
 						.append(lineCount)
 						.append('\n');
@@ -72,6 +74,17 @@ public class SystemOutTest extends TestCase {
 			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
 
 			List<File> filesToCheck = Utils.getFilesFromDirectoryByExtension(directory, new String[] { ".java", });
+			if (IGNORED_FILES != null) {
+				for (String ignoredFileString : IGNORED_FILES) {
+					for (ListIterator<File> listIterator = filesToCheck.listIterator(); listIterator.hasNext();) {
+						File file = listIterator.next();
+						if (file.getName().endsWith(ignoredFileString)) {
+							listIterator.remove();
+						}
+					}
+				}
+			}
+
 			for (File file : filesToCheck) {
 				checkFileForString(file, string);
 			}

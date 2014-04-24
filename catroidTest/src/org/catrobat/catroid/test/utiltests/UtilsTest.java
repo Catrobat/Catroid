@@ -168,7 +168,7 @@ public class UtilsTest extends AndroidTestCase {
 			fail("No SD card present");
 		}
 		String projectName = "test?Projekt\"1";
-		String expectedPath = Constants.DEFAULT_ROOT + "/testProjekt1";
+		String expectedPath = Constants.DEFAULT_ROOT + "/test%3FProjekt%221";
 		assertEquals("Paths are different!", expectedPath, Utils.buildProjectPath(projectName));
 	}
 

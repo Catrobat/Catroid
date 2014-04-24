@@ -230,13 +230,16 @@ public class StringsTest extends TestCase {
 		assertFalse("Unused string resources were found:" + errorMessage, unusedStringsFound);
 	}
 
-	private List<File> getLayoutXmlFiles() throws IOException {
+	private List<File> getLayoutXmlFiles() {
 		List<File> layoutFiles = new ArrayList<File>();
 
 		File layoutDir = new File("../catroid/res/layout/");
-		for (File file : layoutDir.listFiles()) {
-			if (file.getName().endsWith(".xml")) {
-				layoutFiles.add(file);
+		File[] fileArray = layoutDir.listFiles();
+		if (fileArray != null) {
+			for (File file : fileArray) {
+				if (file.getName().endsWith(".xml")) {
+					layoutFiles.add(file);
+				}
 			}
 		}
 		return layoutFiles;
@@ -264,7 +267,7 @@ public class StringsTest extends TestCase {
 		return usedStrings;
 	}
 
-	private List<String> getAllStringsUsedInLayoutXMLs() throws SAXException, IOException, ParserConfigurationException {
+	private List<String> getAllStringsUsedInLayoutXMLs() throws IOException {
 		List<String> allStringNames = new ArrayList<String>();
 		List<File> layoutFiles = getLayoutXmlFiles();
 
@@ -281,13 +284,16 @@ public class StringsTest extends TestCase {
 
 		StringBuilder stringXmlSourceCodeBuilder = new StringBuilder();
 		File defaultResDirectory = new File("../catroid/res/values/");
-		for (File defaultStringFile : defaultResDirectory.listFiles()) {
-			BufferedReader reader = new BufferedReader(new FileReader(defaultStringFile));
-			String currentLine;
-			while ((currentLine = reader.readLine()) != null) {
-				stringXmlSourceCodeBuilder.append(currentLine);
+		File[] fileArray = defaultResDirectory.listFiles();
+		if (fileArray != null) {
+			for (File defaultStringFile : fileArray) {
+				BufferedReader reader = new BufferedReader(new FileReader(defaultStringFile));
+				String currentLine;
+				while ((currentLine = reader.readLine()) != null) {
+					stringXmlSourceCodeBuilder.append(currentLine);
+				}
+				reader.close();
 			}
-			reader.close();
 		}
 
 		String stringXmlSourceCode = stringXmlSourceCodeBuilder.toString();
