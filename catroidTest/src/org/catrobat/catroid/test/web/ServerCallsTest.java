@@ -45,7 +45,9 @@ import java.io.File;
 public class ServerCallsTest extends AndroidTestCase {
 	private static final String LOG_TAG = ServerCalls.class.getSimpleName();
 	public static final int STATUS_CODE_AUTHENTICATION_FAILED = 601;
-	public static final int STATUS_CODE_AUTHENTICATION_REGISTRATION_FAILED = 602;
+	public static final int STATUS_CODE_USER_PASSWORD_TOO_SHORT = 753;
+	public static final int STATUS_CODE_USER_ADD_EMAIL_EXISTS = 757;
+	public static final int STATUS_CODE_USER_EMAIL_INVALID = 765;
 
 	public ServerCallsTest() {
 		super();
@@ -180,7 +182,7 @@ public class ServerCallsTest extends AndroidTestCase {
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the email already exists on the server", true);
-			assertEquals("wrong status code from server", STATUS_CODE_AUTHENTICATION_REGISTRATION_FAILED,
+			assertEquals("wrong status code from server", STATUS_CODE_USER_ADD_EMAIL_EXISTS,
 					e.getStatusCode());
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
@@ -203,7 +205,7 @@ public class ServerCallsTest extends AndroidTestCase {
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the password is too short", true);
-			assertEquals("wrong status code from server", STATUS_CODE_AUTHENTICATION_REGISTRATION_FAILED,
+			assertEquals("wrong status code from server", STATUS_CODE_USER_PASSWORD_TOO_SHORT,
 					e.getStatusCode());
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
@@ -225,7 +227,7 @@ public class ServerCallsTest extends AndroidTestCase {
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the email is not valid", true);
-			assertEquals("wrong status code from server", STATUS_CODE_AUTHENTICATION_REGISTRATION_FAILED,
+			assertEquals("wrong status code from server", STATUS_CODE_USER_EMAIL_INVALID,
 					e.getStatusCode());
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
