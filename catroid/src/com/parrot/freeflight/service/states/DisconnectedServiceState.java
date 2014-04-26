@@ -14,32 +14,26 @@ import com.parrot.freeflight.service.ServiceStateBase;
 import com.parrot.freeflight.service.commands.ConnectCommand;
 import com.parrot.freeflight.service.commands.DroneServiceCommand;
 
-public class DisconnectedServiceState 
-	extends ServiceStateBase
-{
+public class DisconnectedServiceState extends ServiceStateBase {
 
-	public DisconnectedServiceState(DroneControlService context) 
-	{
+	public DisconnectedServiceState(DroneControlService context) {
 		super(context);
 	}
 
 	@Override
-	public void connect() 
-	{
+	public void connect() {
 		startCommand(new ConnectCommand(context));
 	}
 
 	@Override
-	public void disconnect() 
-	{
+	public void disconnect() {
 		Log.w(getStateName(), "Disconnect. Already disconnected. Skipped...");
 	}
-	
+
 	@Override
-	public void onCommandFinished(DroneServiceCommand command) 
-	{
+	public void onCommandFinished(DroneServiceCommand command) {
 		if (command instanceof ConnectCommand) {
-			if (((ConnectCommand)command).getResult() == ConnectCommand.CONNECTED) {
+			if (((ConnectCommand) command).getResult() == ConnectCommand.CONNECTED) {
 				setState(new ConnectedServiceState(context));
 				onConnected();
 			} else {
@@ -49,14 +43,12 @@ public class DisconnectedServiceState
 	}
 
 	@Override
-	public void resume() 
-	{
+	public void resume() {
 		Log.w(getStateName(), "Can't resume while in disconnected state. Skipped.");
 	}
 
 	@Override
-	public void pause() 
-	{
+	public void pause() {
 		Log.w(getStateName(), "Can't pause while in disconnected state. Skipped.");
 	}
 

@@ -1,4 +1,3 @@
-
 package com.parrot.freeflight.utils;
 
 import java.io.File;
@@ -11,71 +10,67 @@ import android.graphics.BitmapFactory;
 import android.util.FloatMath;
 import android.util.Log;
 
-public final class ImageUtils
-{
-    private static final String TAG = ImageUtils.class.getSimpleName();
+public final class ImageUtils {
+	private static final String TAG = ImageUtils.class.getSimpleName();
 
+	private ImageUtils() {
+	}
 
-    private ImageUtils()
-    {}
+	public static Bitmap decodeBitmapFromFile(String file, int width, int height) {
+		if (width <= 0 || height <= 0) {
+			return BitmapFactory.decodeFile(file);
+		}
 
+		BitmapFactory.Options options = new BitmapFactory.Options();
 
-    public static Bitmap decodeBitmapFromFile(String file, int width, int height)
-    {
-        if (width <= 0 || height <= 0) { return BitmapFactory.decodeFile(file); }
+		options.inJustDecodeBounds = true;
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
+		Bitmap bit = BitmapFactory.decodeFile(file, options);
 
-        options.inJustDecodeBounds = true;
+		int h = (int) FloatMath.ceil(options.outHeight / (float) height);
+		int w = (int) FloatMath.ceil(options.outWidth / (float) width);
 
-        Bitmap bit = BitmapFactory.decodeFile(file, options);
+		if (h > 1 || w > 1) {
+			if (h > w) {
+				options.inSampleSize = h;
+			} else {
+				options.inSampleSize = w;
+			}
+		}
 
-        int h = (int) FloatMath.ceil(options.outHeight / (float) height);
-        int w = (int) FloatMath.ceil(options.outWidth / (float) width);
+		options.inJustDecodeBounds = false;
 
-        if (h > 1 || w > 1) {
-            if (h > w) {
-                options.inSampleSize = h;
-            } else {
-                options.inSampleSize = w;
-            }
-        }
+		bit = BitmapFactory.decodeFile(file, options);
 
-        options.inJustDecodeBounds = false;
+		return bit;
+	}
 
-        bit = BitmapFactory.decodeFile(file, options);
+	public static boolean saveBitmap(File filename, Bitmap bitmap) {
+		boolean result = false;
 
-        return bit;
-    }
+		FileOutputStream out = null;
+		try {
+			out = new FileOutputStream(filename);
 
+			result = bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+		} catch (FileNotFoundException e) {
+			Log.w(TAG, e.toString());
+		} finally {
+			if (out != null) {
+				try {
+					out.flush();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
-    public static boolean saveBitmap(File filename, Bitmap bitmap)
-    {
-        boolean result = false;
+				try {
+					out.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 
-        FileOutputStream out = null;
-        try {
-            out = new FileOutputStream(filename);
-
-            result = bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-        } catch (FileNotFoundException e) {
-            Log.w(TAG, e.toString());
-        } finally {
-            if (out != null) {
-                try {
-                    out.flush();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        return result;
-    }
+		return result;
+	}
 }

@@ -135,6 +135,8 @@ public class ProjectActivity extends BaseActivity {
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
+			PreStageActivity.addDroneSupportToIntent(data, intent);
+			startActivityForResult(intent, StageActivity.STAGE_ACTIVITY_FINISH);
 			startActivity(intent);
 		}
 	}
@@ -177,8 +179,8 @@ public class ProjectActivity extends BaseActivity {
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		// Dismiss ActionMode without effecting sounds
-		if (spritesListFragment.getActionModeActive()
-				&& event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+		if (spritesListFragment.getActionModeActive() && event.getKeyCode() == KeyEvent.KEYCODE_BACK
+				&& event.getAction() == KeyEvent.ACTION_UP) {
 			SpriteAdapter adapter = (SpriteAdapter) spritesListFragment.getListAdapter();
 			adapter.clearCheckedSprites();
 		}

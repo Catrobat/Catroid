@@ -23,120 +23,94 @@ import com.parrot.freeflight.service.commands.DisconnectCommand;
 import com.parrot.freeflight.service.commands.DroneServiceCommand;
 import com.parrot.freeflight.service.commands.ResumeCommand;
 
-public class PausedServiceState
-        extends ServiceStateBase
-        implements DroneProxyConnectedReceiverDelegate,
-        DroneProxyConnectionFailedReceiverDelegate,
-        DroneProxyDisconnectedReceiverDelegate
-{
-    private Object lock = new Object();
-    boolean disconnected;
+public class PausedServiceState extends ServiceStateBase implements DroneProxyConnectedReceiverDelegate,
+		DroneProxyConnectionFailedReceiverDelegate, DroneProxyDisconnectedReceiverDelegate {
+	private Object lock = new Object();
+	boolean disconnected;
 
-    private LocalBroadcastManager bm;
+	private LocalBroadcastManager bm;
 
-    private DroneProxyDisconnectedReceiver disconnectedReceiver;
-    private DroneProxyConnectionFailedReceiver connFailedReceiver;
+	private DroneProxyDisconnectedReceiver disconnectedReceiver;
+	private DroneProxyConnectionFailedReceiver connFailedReceiver;
 
+	public PausedServiceState(DroneControlService context) {
+		super(context);
 
-    public PausedServiceState(DroneControlService context)
-    {
-        super(context);
+		bm = LocalBroadcastManager.getInstance(context.getApplicationContext());
 
-        bm = LocalBroadcastManager.getInstance(context.getApplicationContext());
+		disconnectedReceiver = new DroneProxyDisconnectedReceiver(this);
+		connFailedReceiver = new DroneProxyConnectionFailedReceiver(this);
+	}
 
-        disconnectedReceiver = new DroneProxyDisconnectedReceiver(this);
-        connFailedReceiver = new DroneProxyConnectionFailedReceiver(this);
-    }
+	@Override
+	protected void onPrepare() {
+		bm.registerReceiver(disconnectedReceiver, new IntentFilter(DroneProxy.DRONE_PROXY_DISCONNECTED_ACTION));
+		bm.registerReceiver(connFailedReceiver, new IntentFilter(DroneProxy.DRONE_PROXY_CONNECTION_FAILED_ACTION));
+	}
 
+	@Override
+	protected void onFinalize() {
+		bm.unregisterReceiver(disconnectedReceiver);
+		bm.unregisterReceiver(connFailedReceiver);
+	}
 
-    @Override
-    protected void onPrepare()
-    {
-        bm.registerReceiver(disconnectedReceiver, new IntentFilter(DroneProxy.DRONE_PROXY_DISCONNECTED_ACTION));
-        bm.registerReceiver(connFailedReceiver, new IntentFilter(DroneProxy.DRONE_PROXY_CONNECTION_FAILED_ACTION));
-    }
+	@Override
+	public void connect() {
+		Log.w(getStateName(), "Can't connect. Already connected. Skipped.");
+	}
 
+	@Override
+	public void disconnect() {
+		Log.d(getStateName(), "Disconnect");
+		disconnected = false;
+		startCommand(new DisconnectCommand(context));
 
-    @Override
-    protected void onFinalize()
-    {
-        bm.unregisterReceiver(disconnectedReceiver);
-        bm.unregisterReceiver(connFailedReceiver);
-    }
+		// synchronized (lock) {
+		// try {
+		// if (!disconnected) {
+		// lock.wait(5000);
+		// }
+		// } catch (InterruptedException e) {
+		// e.printStackTrace();
+		// }
+		// }
+	}
 
+	@Override
+	public void resume() {
+		startCommand(new ResumeCommand(context));
+	}
 
-    @Override
-    public void connect()
-    {
-        Log.w(getStateName(), "Can't connect. Already connected. Skipped.");
-    }
+	@Override
+	public void pause() {
+		Log.w(getStateName(), "Can't pause. Already paused. Skipped.");
+	}
 
+	public void onToolConnected() {
+		Log.w(getStateName(), "onToolConnected() Should not happen here");
+	}
 
-    @Override
-    public void disconnect()
-    {
-        Log.d(getStateName(), "Disconnect");
-        disconnected = false;
-        startCommand(new DisconnectCommand(context));
+	public void onToolConnectionFailed(int reason) {
+		onToolDisconnected();
+	}
 
-        // synchronized (lock) {
-        // try {
-        // if (!disconnected) {
-        // lock.wait(5000);
-        // }
-        // } catch (InterruptedException e) {
-        // e.printStackTrace();
-        // }
-        // }
-    }
+	public void onToolDisconnected() {
+		disconnected = true;
 
+		synchronized (lock) {
+			lock.notify();
+		}
 
-    @Override
-    public void resume()
-    {
-        startCommand(new ResumeCommand(context));
-    }
+		setState(new DisconnectedServiceState(context));
 
+		onDisconnected();
+	}
 
-    @Override
-    public void pause()
-    {
-        Log.w(getStateName(), "Can't pause. Already paused. Skipped.");
-    }
-
-
-    public void onToolConnected()
-    {
-        Log.w(getStateName(), "onToolConnected() Should not happen here");
-    }
-
-
-    public void onToolConnectionFailed(int reason)
-    {
-        onToolDisconnected();
-    }
-
-
-    public void onToolDisconnected()
-    {
-        disconnected = true;
-
-        synchronized (lock) {
-            lock.notify();
-        }
-
-        setState(new DisconnectedServiceState(context));
-
-        onDisconnected();
-    }
-
-
-    @Override
-    public void onCommandFinished(DroneServiceCommand command)
-    {
-        if (command instanceof ResumeCommand) {
-            setState(new ConnectedServiceState(context));
-            onResumed();
-        }
-    }
+	@Override
+	public void onCommandFinished(DroneServiceCommand command) {
+		if (command instanceof ResumeCommand) {
+			setState(new ConnectedServiceState(context));
+			onResumed();
+		}
+	}
 }

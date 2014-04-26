@@ -26,10 +26,12 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,9 +40,14 @@ import android.os.Message;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.parrot.freeflight.receivers.DroneConnectionChangeReceiverDelegate;
+import com.parrot.freeflight.receivers.DroneConnectionChangedReceiver;
+import com.parrot.freeflight.receivers.DroneReadyReceiver;
+import com.parrot.freeflight.receivers.DroneReadyReceiverDelegate;
 import com.parrot.freeflight.service.DroneControlService;
 
 import org.catrobat.catroid.ProjectManager;
@@ -60,9 +67,9 @@ import java.util.HashMap;
 import java.util.Locale;
 
 @SuppressWarnings("deprecation")
-public class PreStageActivity extends Activity
+public class PreStageActivity extends Activity implements DroneReadyReceiverDelegate,
+		DroneConnectionChangeReceiverDelegate
 //implements DroneReadyReceiverDelegate, DroneFlyingStateReceiverDelegate,
-//		DroneConnectionChangeReceiverDelegate 
 {
 	private static final String TAG = PreStageActivity.class.getSimpleName();
 
@@ -71,6 +78,8 @@ public class PreStageActivity extends Activity
 	public static final int REQUEST_RESOURCES_INIT = 101;
 	public static final int REQUEST_TEXT_TO_SPEECH = 10;
 
+	public static final String STRING_EXTRA_INIT_DRONE = "STRING_EXTRA_INIT_DRONE";
+
 	private int requiredResourceCounter;
 	private static LegoNXT legoNXT;
 	private ProgressDialog connectingProgressDialog;
@@ -78,15 +87,20 @@ public class PreStageActivity extends Activity
 	private static OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer;
 
 	private DroneControlService droneControlService = null;
-	//	private BroadcastReceiver droneReadyReceiver;
-	//	private BroadcastReceiver droneConnectionChangeReceiver;
+	private BroadcastReceiver droneReadyReceiver = null;
 	//	private DroneFlyingStateReceiver droneFlyingStateReceiver;
 
 	private boolean autoConnect = false;
 
+	private Intent intent = null;
+
+	private DroneConnectionChangedReceiver droneConnectionChangeReceiver;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.d(TAG, "onCreate");
+		intent = new Intent();
 
 		int requiredResources = getRequiredRessources();
 		requiredResourceCounter = Integer.bitCount(requiredResources);
@@ -116,11 +130,20 @@ public class PreStageActivity extends Activity
 			}
 		}
 		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
+			Log.d(TAG, "Adding drone support!");
+			Intent startService = new Intent(this, DroneControlService.class);
+
+			Object obj = startService(startService);
+
 			boolean isSuccessful = bindService(new Intent(this, DroneControlService.class),
 					this.droneServiceConnection, Context.BIND_AUTO_CREATE);
-			if (!isSuccessful) {
+			if (obj == null || !isSuccessful) {
 				Toast.makeText(this, "Connection to the drone failed!", Toast.LENGTH_LONG).show();
 				resourceFailed();
+			} else {
+				droneReadyReceiver = new DroneReadyReceiver(this);
+				droneConnectionChangeReceiver = new DroneConnectionChangedReceiver(this);
+
 			}
 		}
 
@@ -135,10 +158,11 @@ public class PreStageActivity extends Activity
 		if (requiredResourceCounter == 0) {
 			finish();
 		}
-		//		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
-		//		manager.registerReceiver(droneReadyReceiver, new IntentFilter(DroneControlService.DRONE_STATE_READY_ACTION));
-		//		manager.registerReceiver(droneConnectionChangeReceiver, new IntentFilter(
-		//				DroneControlService.DRONE_CONNECTION_CHANGED_ACTION));
+
+		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
+		manager.registerReceiver(droneReadyReceiver, new IntentFilter(DroneControlService.DRONE_STATE_READY_ACTION));
+		manager.registerReceiver(droneConnectionChangeReceiver, new IntentFilter(
+				DroneControlService.DRONE_CONNECTION_CHANGED_ACTION));
 
 	}
 
@@ -150,9 +174,9 @@ public class PreStageActivity extends Activity
 			droneControlService.pause();
 		}
 
-		//		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
-		//		manager.unregisterReceiver(droneReadyReceiver);
-		//		manager.unregisterReceiver(droneConnectionChangeReceiver);
+		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
+		manager.unregisterReceiver(droneReadyReceiver);
+		manager.unregisterReceiver(droneConnectionChangeReceiver);
 	}
 
 	@Override
@@ -195,7 +219,7 @@ public class PreStageActivity extends Activity
 	}
 
 	private void resourceFailed() {
-		setResult(RESULT_CANCELED, getIntent());
+		setResult(RESULT_CANCELED, intent);
 		finish();
 	}
 
@@ -205,12 +229,13 @@ public class PreStageActivity extends Activity
 		requiredResourceCounter--;
 		if (requiredResourceCounter == 0) {
 			Log.d(TAG, "Start Stage");
+
 			startStage();
 		}
 	}
 
 	public void startStage() {
-		setResult(RESULT_OK, getIntent());
+		setResult(RESULT_OK, intent);
 		finish();
 	}
 
@@ -362,23 +387,55 @@ public class PreStageActivity extends Activity
 		}
 	};
 
-	private void onDroneServiceConnected() {
+	private void onDroneServiceConnected(IBinder service) {
 		Log.d(TAG, "onDroneServiceConnected");
-		resourceInitialized();
+		droneControlService = ((DroneControlService.LocalBinder) service).getService();
+
+		droneControlService.resume();
+		droneControlService.requestDroneStatus();
 	}
 
 	private ServiceConnection droneServiceConnection = new ServiceConnection() {
 
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
-			droneControlService = ((DroneControlService.LocalBinder) service).getService();
-			onDroneServiceConnected();
+			onDroneServiceConnected(service);
 		}
 
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
-			droneControlService = null;
+			droneControlService = null; //nothing else to do here
+
 		}
 	};
 
+	public static Intent addDroneSupportToIntent(Intent oldIntent, Intent newIntent) {
+		if (newIntent == null || newIntent == null) {
+			return null;
+		}
+		Boolean isDroneRequired = oldIntent.getBooleanExtra(STRING_EXTRA_INIT_DRONE, false);
+		Log.d(TAG, "Extra STRING_EXTRA_INIT_DRONE=" + isDroneRequired.toString());
+		newIntent.putExtra(STRING_EXTRA_INIT_DRONE, isDroneRequired);
+		return newIntent;
+	}
+
+	@Override
+	public void onDroneReady() {
+		Log.d(TAG, "onDroneReady -> go to stage");
+		intent.putExtra(STRING_EXTRA_INIT_DRONE, true);
+		intent.putExtra("USE_SOFTWARE_RENDERING", false); //TODO: Drone: Hand over to Stage Activity
+		intent.putExtra("FORCE_COMBINED_CONTROL_MODE", false); //TODO: Drone: Hand over to Stage Activity
+		resourceInitialized();
+	}
+
+	@Override
+	public void onDroneConnected() {
+		// We still waiting for onDroneReady event
+		droneControlService.requestConfigUpdate();
+	}
+
+	@Override
+	public void onDroneDisconnected() {
+		//nothing to do
+	}
 }

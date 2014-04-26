@@ -16,99 +16,84 @@ import com.parrot.freeflight.utils.ImageUtils;
 import com.parrot.freeflight.utils.ThumbnailUtils;
 import com.parrot.freeflight.vo.MediaVO;
 
-public class MediaThumbnailExecutorManager
-{
-    private final ExecutorService execture = Executors.newSingleThreadExecutor();
-    private ThumbnailWorkerTaskDelegate delegate;
-    private Handler handler;
+public class MediaThumbnailExecutorManager {
+	private final ExecutorService execture = Executors.newSingleThreadExecutor();
+	private ThumbnailWorkerTaskDelegate delegate;
+	private Handler handler;
 
-    public MediaThumbnailExecutorManager(final Context context, ThumbnailWorkerTaskDelegate delegate)
-    {
-        this.delegate = delegate;
-        handler = new Handler();
-    }
+	public MediaThumbnailExecutorManager(final Context context, ThumbnailWorkerTaskDelegate delegate) {
+		this.delegate = delegate;
+		handler = new Handler();
+	}
 
-    
-    final public void execute(final MediaVO media, final ImageView imageView)
-    {
-        execture.execute(getThumbnailRunnable(media, imageView));
-    }
-    
-    
-    final public void stop()
-    {
-        execture.shutdownNow();
-    }
+	final public void execute(final MediaVO media, final ImageView imageView) {
+		execture.execute(getThumbnailRunnable(media, imageView));
+	}
 
- 
-    private Runnable getThumbnailRunnable(final MediaVO media, final ImageView imageView)
-    {
-        final Runnable loadImage = new Runnable()
-        {
-            public void run()
-            {
-                Bitmap bitmap = null;
+	final public void stop() {
+		execture.shutdownNow();
+	}
 
-                final Context context = imageView.getContext();
+	private Runnable getThumbnailRunnable(final MediaVO media, final ImageView imageView) {
+		final Runnable loadImage = new Runnable() {
+			public void run() {
+				Bitmap bitmap = null;
 
-                // get thumb from media database
-                if (media.isVideo()) {
+				final Context context = imageView.getContext();
 
-                    bitmap = MediaStore.Video.Thumbnails.getThumbnail(context.getContentResolver(), media.getId(),
-                            MediaStore.Video.Thumbnails.MICRO_KIND, null);
+				// get thumb from media database
+				if (media.isVideo()) {
 
-                } else {
-                    bitmap = MediaStore.Images.Thumbnails.getThumbnail(context.getContentResolver(), media.getId(),
-                            MediaStore.Images.Thumbnails.MICRO_KIND, null);
-                }
+					bitmap = MediaStore.Video.Thumbnails.getThumbnail(context.getContentResolver(), media.getId(),
+							MediaStore.Video.Thumbnails.MICRO_KIND, null);
 
-                
-                if (bitmap == null) {
-                    if (media.isVideo()) {                      
-                      bitmap = ThumbnailUtils.createVideoThumbnail(media.getPath(), Thumbnails.MICRO_KIND);
-                    } else { 
-                      bitmap = ImageUtils.decodeBitmapFromFile(media.getPath(), imageView.getWidth(),
-                              imageView.getHeight());
-                    }
-                }
-                
+				} else {
+					bitmap = MediaStore.Images.Thumbnails.getThumbnail(context.getContentResolver(), media.getId(),
+							MediaStore.Images.Thumbnails.MICRO_KIND, null);
+				}
 
-                if (bitmap != null) {
-                    handler.post(new OnThumbnailReadyMessage(imageView, media.getKey(), new BitmapDrawable(context.getResources(), bitmap)));
-                } else {
-                    Log.w("ThumbnailWorker", "Can't load thumbnail for file " + media.getPath());
-                }
-            }
-        };
+				if (bitmap == null) {
+					if (media.isVideo()) {
+						bitmap = ThumbnailUtils.createVideoThumbnail(media.getPath(), Thumbnails.MICRO_KIND);
+					} else {
+						bitmap = ImageUtils.decodeBitmapFromFile(media.getPath(), imageView.getWidth(),
+								imageView.getHeight());
+					}
+				}
 
-        return loadImage;
-    }
-    
-    protected void onThumbnailReady(final ImageView view, final String key, final BitmapDrawable thumbnail)
-    {
-        if (delegate != null) {
-            delegate.onThumbnailReady(view, key, thumbnail);
-        }
-    }
+				if (bitmap != null) {
+					handler.post(new OnThumbnailReadyMessage(imageView, media.getKey(), new BitmapDrawable(context
+							.getResources(), bitmap)));
+				} else {
+					Log.w("ThumbnailWorker", "Can't load thumbnail for file " + media.getPath());
+				}
+			}
+		};
 
-    
-    private final class OnThumbnailReadyMessage implements Runnable
-    {
-        public BitmapDrawable thumbnail;
-        public String key;
-        public ImageView view;
+		return loadImage;
+	}
 
-        public OnThumbnailReadyMessage(ImageView view, String key, BitmapDrawable thumbnail) {
-            this.thumbnail = thumbnail;
-            this.key = key;
-            this.view = view;
-            
-        }
-        
-        public void run()
-        {
-           onThumbnailReady(view, key, thumbnail);
-        }
-        
-    }
+	protected void onThumbnailReady(final ImageView view, final String key, final BitmapDrawable thumbnail) {
+		if (delegate != null) {
+			delegate.onThumbnailReady(view, key, thumbnail);
+		}
+	}
+
+	private final class OnThumbnailReadyMessage implements Runnable {
+		public BitmapDrawable thumbnail;
+		public String key;
+		public ImageView view;
+
+		public OnThumbnailReadyMessage(ImageView view, String key, BitmapDrawable thumbnail) {
+			this.thumbnail = thumbnail;
+			this.key = key;
+			this.view = view;
+
+		}
+
+		public void run() {
+			onThumbnailReady(view, key, thumbnail);
+		}
+
+	}
 }

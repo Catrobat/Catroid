@@ -39,11 +39,11 @@ public class DroneServiceWrapper {
 		return instance;
 	}
 
-	public static void setDroneService(DroneControlService service) {
+	public void setDroneService(DroneControlService service) {
 		droneControlService = service;
 	}
 
-	public static DroneControlService getDroneService() {
+	public DroneControlService getDroneService() {
 		return droneControlService;
 	}
 }

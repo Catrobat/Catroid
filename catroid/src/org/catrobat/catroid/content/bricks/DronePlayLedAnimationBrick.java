@@ -42,12 +42,12 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.List;
 
-public class DroneTakeOffBrickNxtCp extends BrickBaseType implements OnItemSelectedListener {
+public class DronePlayLedAnimationBrick extends BrickBaseType implements OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
 
 	private transient AdapterView<?> adapterView;
 
-	public DroneTakeOffBrickNxtCp(Sprite sprite) {
+	public DronePlayLedAnimationBrick(Sprite sprite) {
 		this.sprite = sprite;
 
 	}
@@ -59,21 +59,21 @@ public class DroneTakeOffBrickNxtCp extends BrickBaseType implements OnItemSelec
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		DroneTakeOffBrickNxtCp copyBrick = (DroneTakeOffBrickNxtCp) clone();
+		DronePlayLedAnimationBrick copyBrick = (DronePlayLedAnimationBrick) clone();
 		copyBrick.sprite = sprite;
 		return copyBrick;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_drone_takeoff_nxt_cp, null);
+		View prototypeView = View.inflate(context, R.layout.brick_drone_play_led_animation, null);
 
 		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new DroneTakeOffBrickNxtCp(getSprite());
+		return new DronePlayLedAnimationBrick(getSprite());
 	}
 
 	@Override
@@ -84,10 +84,10 @@ public class DroneTakeOffBrickNxtCp extends BrickBaseType implements OnItemSelec
 		if (view == null) {
 			alphaValue = 255;
 		}
-		view = View.inflate(context, R.layout.brick_drone_takeoff_nxt_cp, null);
+		view = View.inflate(context, R.layout.brick_drone_play_led_animation, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_drone_takeoff_checkbox);
+		setCheckboxView(R.id.brick_drone_play_led_animation_checkbox);
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
@@ -114,7 +114,7 @@ public class DroneTakeOffBrickNxtCp extends BrickBaseType implements OnItemSelec
 
 		if (view != null) {
 
-			View layout = view.findViewById(R.id.brick_drone_takeoff_nxt_cp);
+			View layout = view.findViewById(R.id.brick_drone_play_led_animation);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
@@ -134,7 +134,7 @@ public class DroneTakeOffBrickNxtCp extends BrickBaseType implements OnItemSelec
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.droneTakeOff());
+		sequence.addAction(ExtendedActions.dronePlayLedAnimation());
 		return null;
 	}
 }

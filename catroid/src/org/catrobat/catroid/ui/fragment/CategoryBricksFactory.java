@@ -42,7 +42,8 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
-import org.catrobat.catroid.content.bricks.DroneTakeOffBrickNxtCp;
+import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
+import org.catrobat.catroid.content.bricks.DroneTakeOffBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
@@ -211,7 +212,8 @@ public class CategoryBricksFactory {
 
 	private List<Brick> setupDroneCategoryList(Sprite sprite) {
 		List<Brick> droneBrickList = new ArrayList<Brick>();
-		droneBrickList.add(new DroneTakeOffBrickNxtCp(sprite));
+		droneBrickList.add(new DroneTakeOffBrick(sprite));
+		droneBrickList.add(new DronePlayLedAnimationBrick(sprite));
 
 		return droneBrickList;
 	}

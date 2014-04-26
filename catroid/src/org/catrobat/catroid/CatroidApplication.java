@@ -29,7 +29,7 @@ import com.parrot.freeflight.settings.ApplicationSettings;
 
 public class CatroidApplication extends Application {
 
-	private static final String TAG = "CatroidApplicatoin";
+	private static final String TAG = CatroidApplication.class.getSimpleName();;
 
 	private ApplicationSettings settings;
 

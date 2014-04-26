@@ -86,6 +86,10 @@ public class ProgramMenuActivity extends BaseActivity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			Intent intent = new Intent(ProgramMenuActivity.this, StageActivity.class);
+			intent.putExtras(data.getExtras()); //Add Drone Extras
+			Boolean extra = data.getBooleanExtra(PreStageActivity.STRING_EXTRA_INIT_DRONE, false);
+			Log.d(TAG, "Extra STRING_EXTRA_INIT_DRONE=" + extra.toString());
+			PreStageActivity.addDroneSupportToIntent(data, intent);
 			startActivity(intent);
 		}
 	}

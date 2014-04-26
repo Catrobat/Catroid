@@ -7,13 +7,6 @@
 
 package com.parrot.freeflight.service;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
-
 import android.app.Service;
 import android.content.Intent;
 import android.location.Location;
@@ -46,8 +39,14 @@ import com.parrot.freeflight.utils.FTPUtils;
 import com.parrot.freeflight.utils.FileUtils;
 import com.parrot.freeflight.utils.GPSHelper;
 
-public class DroneControlService extends Service implements Runnable,
-		DroneAcademyMediaListener, LocationListener {
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class DroneControlService extends Service implements Runnable, DroneAcademyMediaListener, LocationListener {
 	public static final String VIDEO_RECORDING_STATE_CHANGED_ACTION = "com.parrot.recording.changed";
 	public static final String DRONE_EMERGENCY_STATE_CHANGED_ACTION = "com.parrot.emergency.changed";
 	public static final String DRONE_FLYING_STATE_CHANGED_ACTION = "com.parrot.flying.changed";
@@ -136,8 +135,7 @@ public class DroneControlService extends Service implements Runnable,
 		droneProxy = DroneProxy.getInstance(getApplicationContext());
 		// Preventing device from sleep
 		PowerManager service = (PowerManager) getSystemService(POWER_SERVICE);
-		wakeLock = service.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK,
-				"DimWakeLock");
+		wakeLock = service.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "DimWakeLock");
 		wakeLock.acquire();
 
 		stopThreads = false;
@@ -145,8 +143,7 @@ public class DroneControlService extends Service implements Runnable,
 		// prevBatteryState = 0;
 
 		workerThread = new Thread(this, "Drone Worker Thread");
-		navdataUpdateThread = new Thread(navdataUpdateRunnable,
-				"Navdata Update Thread");
+		navdataUpdateThread = new Thread(navdataUpdateRunnable, "Navdata Update Thread");
 
 		commandQueue = new LinkedList<DroneServiceCommand>();
 
@@ -196,30 +193,19 @@ public class DroneControlService extends Service implements Runnable,
 
 	private void initIntents() {
 		intentCache = new HashMap<String, Intent>(11);
-		intentCache.put(VIDEO_RECORDING_STATE_CHANGED_ACTION, new Intent(
-				VIDEO_RECORDING_STATE_CHANGED_ACTION));
-		intentCache.put(DRONE_EMERGENCY_STATE_CHANGED_ACTION, new Intent(
-				DRONE_EMERGENCY_STATE_CHANGED_ACTION));
-		intentCache.put(DRONE_FLYING_STATE_CHANGED_ACTION, new Intent(
-				DRONE_FLYING_STATE_CHANGED_ACTION));
-		intentCache.put(DRONE_BATTERY_CHANGED_ACTION, new Intent(
-				DRONE_BATTERY_CHANGED_ACTION));
-		intentCache.put(DRONE_FIRMWARE_CHECK_ACTION, new Intent(
-				DRONE_FIRMWARE_CHECK_ACTION));
-		intentCache.put(DRONE_STATE_READY_ACTION, new Intent(
-				DRONE_STATE_READY_ACTION));
-		intentCache.put(DRONE_CONNECTION_CHANGED_ACTION, new Intent(
-				DRONE_CONNECTION_CHANGED_ACTION));
-		intentCache.put(NEW_MEDIA_IS_AVAILABLE_ACTION, new Intent(
-				NEW_MEDIA_IS_AVAILABLE_ACTION));
-		intentCache.put(DRONE_CONFIG_STATE_CHANGED_ACTION, new Intent(
-				DRONE_CONFIG_STATE_CHANGED_ACTION));
-		intentCache.put(RECORD_READY_CHANGED_ACTION, new Intent(
-				RECORD_READY_CHANGED_ACTION));
-		intentCache.put(CAMERA_READY_CHANGED_ACTION, new Intent(
-				CAMERA_READY_CHANGED_ACTION));
-		intentCache.put(DroneStateManager.ACTION_DRONE_STATE_CHANGED,
-				new Intent(DroneStateManager.ACTION_DRONE_STATE_CHANGED));
+		intentCache.put(VIDEO_RECORDING_STATE_CHANGED_ACTION, new Intent(VIDEO_RECORDING_STATE_CHANGED_ACTION));
+		intentCache.put(DRONE_EMERGENCY_STATE_CHANGED_ACTION, new Intent(DRONE_EMERGENCY_STATE_CHANGED_ACTION));
+		intentCache.put(DRONE_FLYING_STATE_CHANGED_ACTION, new Intent(DRONE_FLYING_STATE_CHANGED_ACTION));
+		intentCache.put(DRONE_BATTERY_CHANGED_ACTION, new Intent(DRONE_BATTERY_CHANGED_ACTION));
+		intentCache.put(DRONE_FIRMWARE_CHECK_ACTION, new Intent(DRONE_FIRMWARE_CHECK_ACTION));
+		intentCache.put(DRONE_STATE_READY_ACTION, new Intent(DRONE_STATE_READY_ACTION));
+		intentCache.put(DRONE_CONNECTION_CHANGED_ACTION, new Intent(DRONE_CONNECTION_CHANGED_ACTION));
+		intentCache.put(NEW_MEDIA_IS_AVAILABLE_ACTION, new Intent(NEW_MEDIA_IS_AVAILABLE_ACTION));
+		intentCache.put(DRONE_CONFIG_STATE_CHANGED_ACTION, new Intent(DRONE_CONFIG_STATE_CHANGED_ACTION));
+		intentCache.put(RECORD_READY_CHANGED_ACTION, new Intent(RECORD_READY_CHANGED_ACTION));
+		intentCache.put(CAMERA_READY_CHANGED_ACTION, new Intent(CAMERA_READY_CHANGED_ACTION));
+		intentCache.put(DroneStateManager.ACTION_DRONE_STATE_CHANGED, new Intent(
+				DroneStateManager.ACTION_DRONE_STATE_CHANGED));
 	}
 
 	/*
@@ -431,8 +417,7 @@ public class DroneControlService extends Service implements Runnable,
 	}
 
 	public boolean isMediaStorageAvailable() {
-		return Environment.getExternalStorageState().equals(
-				Environment.MEDIA_MOUNTED);
+		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
 	}
 
 	/**
@@ -440,6 +425,10 @@ public class DroneControlService extends Service implements Runnable,
 	 */
 	public void flatTrim() {
 		droneProxy.flatTrimNative();
+	}
+
+	public void playLedAnimation(float frequency, int duration, int animationMode) {
+		droneProxy.playLedAnimation(frequency, duration, animationMode);
 	}
 
 	/*
@@ -496,9 +485,8 @@ public class DroneControlService extends Service implements Runnable,
 	 * @param heading
 	 * @param accuracy
 	 */
-	public native void setControls(final float pitch, final float roll,
-			final float gaz, final float yaw, final int heading,
-			final int accuracy);
+	public native void setControls(final float pitch, final float roll, final float gaz, final float yaw,
+			final int heading, final int accuracy);
 
 	/**
 	 * Notifies the drone about device orientation
@@ -539,8 +527,7 @@ public class DroneControlService extends Service implements Runnable,
 
 	protected void setState(ServiceStateBase state) {
 		if (this.currState != null && state != null) {
-			Log.d(TAG, "== PREV STATE: " + this.currState.getStateName()
-					+ " NEW STATE: " + state.getStateName());
+			Log.d(TAG, "== PREV STATE: " + this.currState.getStateName() + " NEW STATE: " + state.getStateName());
 		}
 
 		if (currState != null) {
@@ -569,8 +556,7 @@ public class DroneControlService extends Service implements Runnable,
 
 		Intent intent = intentCache.get(DRONE_CONNECTION_CHANGED_ACTION);
 		intent.putExtra(EXTRA_CONNECTION_STATE, "connected");
-		LocalBroadcastManager.getInstance(getApplicationContext())
-				.sendBroadcast(intent);
+		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 	}
 
 	protected void onDisconnected() {
@@ -582,8 +568,7 @@ public class DroneControlService extends Service implements Runnable,
 
 		Intent intent = intentCache.get(DRONE_CONNECTION_CHANGED_ACTION);
 		intent.putExtra(EXTRA_CONNECTION_STATE, "disconnected");
-		LocalBroadcastManager.getInstance(getApplicationContext())
-				.sendBroadcast(intent);
+		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 	}
 
 	protected void onPaused() {
@@ -610,43 +595,37 @@ public class DroneControlService extends Service implements Runnable,
 		Intent intent = intentCache.get(DRONE_FLYING_STATE_CHANGED_ACTION);
 		intent.putExtra(EXTRA_DRONE_FLYING, true);
 
-		LocalBroadcastManager.getInstance(getApplicationContext())
-				.sendBroadcast(intent);
+		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 	}
 
 	protected void onLanded() {
 		Intent intent = intentCache.get(DRONE_FLYING_STATE_CHANGED_ACTION);
 		intent.putExtra(EXTRA_DRONE_FLYING, false);
 
-		LocalBroadcastManager.getInstance(getApplicationContext())
-				.sendBroadcast(intent);
+		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 	}
 
 	protected void onBatteryStateChanged(int batteryStatus) {
 		Intent intent = intentCache.get(DRONE_BATTERY_CHANGED_ACTION);
 		intent.putExtra(EXTRA_DRONE_BATTERY, batteryStatus);
 
-		LocalBroadcastManager.getInstance(getApplicationContext())
-				.sendBroadcast(intent);
+		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 	}
 
 	public void onConfigStateChanged() {
 		Intent intent = intentCache.get(DRONE_CONFIG_STATE_CHANGED_ACTION);
 
-		LocalBroadcastManager.getInstance(getApplicationContext())
-				.sendBroadcast(intent);
+		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 	}
 
 	private void onEmergencyStateChanged(int emergency) {
 		Intent intent = intentCache.get(DRONE_EMERGENCY_STATE_CHANGED_ACTION);
 		intent.putExtra(EXTRA_EMERGENCY_CODE, emergency);
 
-		LocalBroadcastManager.getInstance(getApplicationContext())
-				.sendBroadcast(intent);
+		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 	}
 
-	private void onRecordChanged(boolean inProgress, boolean usbActive,
-			int remaining) {
+	private void onRecordChanged(boolean inProgress, boolean usbActive, int remaining) {
 		this.usbActive = usbActive;
 
 		Intent intent = intentCache.get(VIDEO_RECORDING_STATE_CHANGED_ACTION);
@@ -654,31 +633,27 @@ public class DroneControlService extends Service implements Runnable,
 		intent.putExtra(EXTRA_RECORDING_STATE, inProgress);
 		intent.putExtra(EXTRA_USB_REMAINING_TIME, remaining);
 
-		LocalBroadcastManager.getInstance(getApplicationContext())
-				.sendBroadcast(intent);
+		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 	}
 
 	private void onRecordReadyChanged(boolean recordReady) {
 		Intent intent = intentCache.get(RECORD_READY_CHANGED_ACTION);
 		intent.putExtra(EXTRA_RECORD_READY, recordReady);
 
-		LocalBroadcastManager.getInstance(getApplicationContext())
-				.sendBroadcast(intent);
+		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 	}
 
 	private void onCameraReadyChanged(boolean cameraReady) {
 		Intent intent = intentCache.get(CAMERA_READY_CHANGED_ACTION);
 		intent.putExtra(EXTRA_CAMERA_READY, cameraReady);
 
-		LocalBroadcastManager.getInstance(getApplicationContext())
-				.sendBroadcast(intent);
+		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 	}
 
 	private void onDroneReady() {
 		Intent intent = intentCache.get(DRONE_STATE_READY_ACTION);
 
-		LocalBroadcastManager.getInstance(getApplicationContext())
-				.sendBroadcast(intent);
+		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 	}
 
 	protected void startCommand(DroneServiceCommand cmd) {
@@ -723,6 +698,7 @@ public class DroneControlService extends Service implements Runnable,
 		// }
 	}
 
+	@Override
 	public void run() {
 		while (!stopThreads) {
 			synchronized (commandQueueLock) {
@@ -751,8 +727,9 @@ public class DroneControlService extends Service implements Runnable,
 						command.execute();
 					}
 				} catch (Exception e) {
-					Log.e(TAG, "Commang " + command.getClass().getSimpleName()
-							+ " has failed with exception " + e.toString());
+					Log.e(TAG,
+							"Commang " + command.getClass().getSimpleName() + " has failed with exception "
+									+ e.toString());
 					e.printStackTrace();
 				}
 			}
@@ -764,14 +741,12 @@ public class DroneControlService extends Service implements Runnable,
 	}
 
 	public boolean isDroneConnected() {
-		return currState instanceof ConnectedServiceState
-				|| currState instanceof PausedServiceState;
+		return currState instanceof ConnectedServiceState || currState instanceof PausedServiceState;
 	}
 
 	public void requestDroneStatus() {
 		onBatteryStateChanged(prevNavData.batteryStatus);
-		onRecordChanged(prevNavData.recording, prevNavData.usbActive,
-				prevNavData.usbRemainingTime);
+		onRecordChanged(prevNavData.recording, prevNavData.usbActive, prevNavData.usbRemainingTime);
 		onCameraReadyChanged(prevNavData.cameraReady);
 		onRecordReadyChanged(prevNavData.recordReady);
 		onEmergencyStateChanged(prevNavData.emergencyState);
@@ -786,8 +761,7 @@ public class DroneControlService extends Service implements Runnable,
 			EDroneVersion version = getDroneConfig().getDroneVersion();
 
 			if (version == EDroneVersion.UNKNOWN) {
-				String strVersion = FTPUtils.downloadFile(this,
-						DroneConfig.getHost(), DroneConfig.getFtpPort(),
+				String strVersion = FTPUtils.downloadFile(this, DroneConfig.getHost(), DroneConfig.getFtpPort(),
 						"version.txt");
 				if (strVersion != null && strVersion.startsWith("1.")) {
 					return EDroneVersion.DRONE_1;
@@ -818,6 +792,7 @@ public class DroneControlService extends Service implements Runnable,
 	// some alert has occured
 	private Runnable navdataUpdateRunnable = new Runnable() {
 
+		@Override
 		public void run() {
 
 			droneProxy.initNavdata();
@@ -836,13 +811,10 @@ public class DroneControlService extends Service implements Runnable,
 
 				if (navData.recording != prevNavData.recording
 						|| navData.usbRemainingTime != prevNavData.usbRemainingTime
-						|| navData.usbActive != prevNavData.usbActive
-						|| navData.cameraReady != prevNavData.cameraReady
-						|| navData.recordReady != prevNavData.recordReady
-						|| navData.flying != prevNavData.flying) {
+						|| navData.usbActive != prevNavData.usbActive || navData.cameraReady != prevNavData.cameraReady
+						|| navData.recordReady != prevNavData.recordReady || navData.flying != prevNavData.flying) {
 
-					onRecordChanged(navData.recording, navData.usbActive,
-							navData.usbRemainingTime);
+					onRecordChanged(navData.recording, navData.usbActive, navData.usbRemainingTime);
 					onCameraReadyChanged(navData.cameraReady);
 					onRecordReadyChanged(navData.recordReady);
 
@@ -852,20 +824,16 @@ public class DroneControlService extends Service implements Runnable,
 						onLanded();
 					}
 
-					if ((navData.recording != prevNavData.recording)
-							&& navData.recording && navData.usbActive
-							&& navData.usbRemainingTime == 0
-							&& droneProxy.getConfig().isRecordOnUsb()) {
+					if ((navData.recording != prevNavData.recording) && navData.recording && navData.usbActive
+							&& navData.usbRemainingTime == 0 && droneProxy.getConfig().isRecordOnUsb()) {
 						// Stopping recording because we have not enough space
 						// left on USB.
-						Log.i(TAG,
-								"Not enough space left on USB drive. Stopping recording.");
+						Log.i(TAG, "Not enough space left on USB drive. Stopping recording.");
 						droneProxy.record();
 					}
 				}
 
-				if (navData.initialized != prevNavData.initialized
-						&& navData.initialized) {
+				if (navData.initialized != prevNavData.initialized && navData.initialized) {
 					onDroneReady();
 				}
 
@@ -875,8 +843,8 @@ public class DroneControlService extends Service implements Runnable,
 						prevVideoFrames = navData.numFrames;
 					} else {
 
-						float fps = (float) (navData.numFrames - prevNavData.numFrames)
-								/ (float) ((System.currentTimeMillis() - startTime) / 1000.0f);
+						float fps = (navData.numFrames - prevNavData.numFrames)
+								/ ((System.currentTimeMillis() - startTime) / 1000.0f);
 						startTime = System.currentTimeMillis();
 
 						debugListener.onShowFps((int) fps);
@@ -906,18 +874,14 @@ public class DroneControlService extends Service implements Runnable,
 	};
 
 	public void setProgressiveCommandEnabled(boolean b) {
-		droneProxy.setCommandFlag(
-				DroneProgressiveCommandFlag.ARDRONE_PROGRESSIVE_CMD_ENABLE
-						.ordinal(), b);
+		droneProxy.setCommandFlag(DroneProgressiveCommandFlag.ARDRONE_PROGRESSIVE_CMD_ENABLE.ordinal(), b);
 	}
 
 	public void setProgressiveCommandCombinedYawEnabled(boolean b) {
-		droneProxy
-				.setCommandFlag(
-						DroneProgressiveCommandFlag.ARDRONE_PROGRESSIVE_CMD_COMBINED_YAW_ACTIVE
-								.ordinal(), b);
+		droneProxy.setCommandFlag(DroneProgressiveCommandFlag.ARDRONE_PROGRESSIVE_CMD_COMBINED_YAW_ACTIVE.ordinal(), b);
 	}
 
+	@Override
 	public void onNewMediaIsAvailable(final String path) {
 		final File file = new File(path);
 		// We need to add folder/name.jpg info to .jpg files.
@@ -927,12 +891,9 @@ public class DroneControlService extends Service implements Runnable,
 				ExifInterface eif = new ExifInterface(path);
 
 				String dir_file = file.getParentFile().getName();
-				String dir_date = dir_file.substring(6, 10) + ":"
-						+ dir_file.substring(10, 12) + ":"
-						+ dir_file.substring(12, 14) + " "
-						+ dir_file.substring(15, 17) + ":"
-						+ dir_file.substring(17, 19) + ":"
-						+ dir_file.substring(19);
+				String dir_date = dir_file.substring(6, 10) + ":" + dir_file.substring(10, 12) + ":"
+						+ dir_file.substring(12, 14) + " " + dir_file.substring(15, 17) + ":"
+						+ dir_file.substring(17, 19) + ":" + dir_file.substring(19);
 				eif.setAttribute(ExifInterface.TAG_GPS_TIMESTAMP, dir_date);
 				eif.saveAttributes();
 
@@ -961,13 +922,10 @@ public class DroneControlService extends Service implements Runnable,
 
 						// Notify the rest of the app that new media become
 						// available
-						Intent intent = intentCache
-								.get(NEW_MEDIA_IS_AVAILABLE_ACTION);
-						intent.putExtra(EXTRA_MEDIA_PATH,
-								newFile.getAbsolutePath());
+						Intent intent = intentCache.get(NEW_MEDIA_IS_AVAILABLE_ACTION);
+						intent.putExtra(EXTRA_MEDIA_PATH, newFile.getAbsolutePath());
 
-						LocalBroadcastManager.getInstance(
-								getApplicationContext()).sendBroadcast(intent);
+						LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 					}
 				}
 			};
@@ -976,10 +934,12 @@ public class DroneControlService extends Service implements Runnable,
 		}
 	}
 
+	@Override
 	public void onNewMediaToQueue(String path) {
 		mediaDownloaded.add(path);
 	}
 
+	@Override
 	public void onQueueComplete() {
 		for (String path : mediaDownloaded) {
 			this.onNewMediaIsAvailable(path);
@@ -987,29 +947,31 @@ public class DroneControlService extends Service implements Runnable,
 		mediaDownloaded.clear();
 	}
 
+	@Override
 	public void onLocationChanged(Location location) {
-		if (location.hasAltitude() && location.hasAccuracy()
-				&& location.getAccuracy() < 100) {
-			droneProxy.setLocation(location.getLatitude(),
-					location.getLongitude(), location.getAltitude());
+		if (location.hasAltitude() && location.hasAccuracy() && location.getAccuracy() < 100) {
+			droneProxy.setLocation(location.getLatitude(), location.getLongitude(), location.getAltitude());
 
 			GPSHelper gpsHelper = GPSHelper.getInstance(this);
 			gpsHelper.stopListening(this);
 		} else {
 			Log.d(TAG,
-					"Skipped location value as it doesn't have desired accuracy. Accuracy: "
-							+ location.getAccuracy() + " meters");
+					"Skipped location value as it doesn't have desired accuracy. Accuracy: " + location.getAccuracy()
+							+ " meters");
 		}
 	}
 
+	@Override
 	public void onProviderDisabled(String provider) {
 		// Left unimplemented
 	}
 
+	@Override
 	public void onProviderEnabled(String provider) {
 		// Left unimplemented
 	}
 
+	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		// Left unimplemented
 	}

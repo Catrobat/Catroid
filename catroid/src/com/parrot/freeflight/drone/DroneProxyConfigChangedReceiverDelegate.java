@@ -1,6 +1,5 @@
 package com.parrot.freeflight.drone;
 
-public interface DroneProxyConfigChangedReceiverDelegate
-{
-    void onConfigChanged();
+public interface DroneProxyConfigChangedReceiverDelegate {
+	void onConfigChanged();
 }

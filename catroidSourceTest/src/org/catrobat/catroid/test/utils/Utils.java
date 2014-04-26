@@ -78,6 +78,9 @@ public final class Utils {
 
 		for (File file : contents) {
 			if (file.isDirectory()) {
+				if (file.getName().equalsIgnoreCase("parrot")) {
+					continue; //TODO: Drone: proper handle parrot source code license 
+				}
 				filesFound.addAll(getFilesFromDirectoryByExtension(file, extensions));
 			} else {
 				filesFound.add(file);
@@ -86,5 +89,4 @@ public final class Utils {
 
 		return filesFound;
 	}
-
 }

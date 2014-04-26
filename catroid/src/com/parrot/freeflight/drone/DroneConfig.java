@@ -7,26 +7,23 @@
 
 package com.parrot.freeflight.drone;
 
-public class DroneConfig 
-{
+public class DroneConfig {
 	public enum EDroneVersion {
-		UNKNOWN,
-		DRONE_1,
-		DRONE_2
+		UNKNOWN, DRONE_1, DRONE_2
 	}
-	
-	public static final int YAW_MIN        = 40;
-	public static final int YAW_MAX        = 350;
+
+	public static final int YAW_MIN = 40;
+	public static final int YAW_MAX = 350;
 	public static final int VERT_SPEED_MIN = 200;
 	public static final int VERT_SPEED_MAX = 2000;
-	public static final int TILT_MIN       = 5;
-	public static final int TILT_MAX       = 30;
+	public static final int TILT_MIN = 5;
+	public static final int TILT_MAX = 30;
 	public static final int DEVICE_TILTMAX_MIN = 5;
 	public static final int DEVICE_TILTMAX_MAX = 50;
 	public static final int DEFAULT_TILT_MAX = 30;
-	public static final int ALTITUDE_MIN   = 3;
-	public static final int ALTITUDE_MAX   = 100;
-	
+	public static final int ALTITUDE_MIN = 3;
+	public static final int ALTITUDE_MAX = 100;
+
 	public static final int UVLC_CODEC = 0x20;
 	public static final int P264_CODEC = 0x40;
 	public static final int MP4_360P_CODEC = 0x80;
@@ -37,16 +34,16 @@ public class DroneConfig
 	public static final int H264_360P_SLRS_CODEC = 0x85;
 	public static final int H264_720P_SLRS_CODEC = 0x86;
 	public static final int H264_AUTO_RESIZE_CODEC = 0x87;
-	
+
 	public static final int TELNET_PORT = 23;
 	public static final int REPAIR_FTP_PORT = 21;
-	
+
 	private EDroneVersion droneVersion = EDroneVersion.UNKNOWN;
 	private String softwareVersion;
 	private String hardwareVersion;
 	private String inertialHardwareVersion;
 	private String inertialSoftwareVersion;
-	
+
 	private String motor1SoftVersion;
 	private String motor2SoftVersion;
 	private String motor3SoftVersion;
@@ -59,32 +56,29 @@ public class DroneConfig
 	private String motor2Vendor;
 	private String motor3Vendor;
 	private String motor4Vendor;
-	
+
 	private String networkName;
-	
+
 	private String ownerMac;
 	private boolean adaptiveVideo;
 	private boolean outdoorHull;
 	private boolean outdoorFlight;
 	private boolean recordOnUsb;
-	
+
 	private int yawSpeedMax;
 	private int vertSpeedMax;
 	private int tilt;
-	private int deviceTiltMax; 
+	private int deviceTiltMax;
 	private int videoCodec;
 	private int altitudeLimit;
 
-	
-	public DroneConfig()
-	{
+	public DroneConfig() {
 		yawSpeedMax = YAW_MIN;
 		vertSpeedMax = VERT_SPEED_MIN;
 		tilt = TILT_MIN;
 	}
-	
-	public DroneConfig(DroneConfig config) 
-	{
+
+	public DroneConfig(DroneConfig config) {
 		this.softwareVersion = config.softwareVersion;
 		this.hardwareVersion = config.hardwareVersion;
 		this.inertialHardwareVersion = config.inertialHardwareVersion;
@@ -101,9 +95,9 @@ public class DroneConfig
 		this.motor2SoftVersion = config.motor2SoftVersion;
 		this.motor3SoftVersion = config.motor3SoftVersion;
 		this.motor4SoftVersion = config.motor4SoftVersion;
-		
+
 		this.networkName = config.networkName;
-		this.ownerMac = config.ownerMac;	
+		this.ownerMac = config.ownerMac;
 		this.altitudeLimit = config.altitudeLimit;
 		this.adaptiveVideo = config.adaptiveVideo;
 		this.outdoorHull = config.outdoorHull;
@@ -115,113 +109,84 @@ public class DroneConfig
 		this.videoCodec = config.videoCodec;
 		this.recordOnUsb = config.recordOnUsb;
 	}
-	
-	
-	public static String getHost() 
-	{
+
+	public static String getHost() {
 		return getDroneHostNative();
 	}
-	
-	
-	public static int getFtpPort() 
-	{
+
+	public static int getFtpPort() {
 		return getFtpPortNative();
 	}
-	
-	
-	public void setOutdoorHull(boolean enabled)
-	{
+
+	public void setOutdoorHull(boolean enabled) {
 		this.outdoorHull = enabled;
 		updateOutdoorHullNative();
 	}
-	
-	
-	public void setAdaptiveVideo(boolean enabled)
-	{
+
+	public void setAdaptiveVideo(boolean enabled) {
 		this.adaptiveVideo = enabled;
 		updateAdaptiveVideoNative();
 	}
-	
-	
-	public void setOwnerMac(String ownerMac)
-	{
+
+	public void setOwnerMac(String ownerMac) {
 		this.ownerMac = ownerMac;
 		updateOwnerMacNative();
 	}
-	
 
-	public void setAltitudeLimit(int altitudeLimit) 
-	{
+	public void setAltitudeLimit(int altitudeLimit) {
 		this.altitudeLimit = altitudeLimit;
 		updateAltitudeLimit(altitudeLimit);
 	}
 
-
-	public int getAltitudeLimit() 
-	{
+	public int getAltitudeLimit() {
 		return this.altitudeLimit;
 	}
-	
-	
-	public void setOutdoorFlight(boolean enabled)
-	{
+
+	public void setOutdoorFlight(boolean enabled) {
 		this.outdoorFlight = enabled;
 		updateOutdoorFlightNative();
 	}
-	
-	
-	public void setYawSpeedMax(int yawSpeedMax)
-	{
+
+	public void setYawSpeedMax(int yawSpeedMax) {
 		this.yawSpeedMax = yawSpeedMax;
 		updateYawSpeedMaxNative();
 	}
-	
-	
-	public void setVertSpeedMax(int speed)
-	{
+
+	public void setVertSpeedMax(int speed) {
 		this.vertSpeedMax = speed;
 		updateVertSpeedMaxNative();
 	}
-	
-	
-	public void setTilt(int tilt)
-	{
+
+	public void setTilt(int tilt) {
 		this.tilt = tilt;
 		updateTiltNative();
 	}
 
-
 	public void setDeviceTiltMax(int tiltMax) {
 		this.deviceTiltMax = tiltMax;
-		
+
 		updateDeviceTiltMax(tiltMax);
 	}
 
-
-	public void setNetworkName(String name) 
-	{
+	public void setNetworkName(String name) {
 		this.networkName = name;
 		updateNetworkNameNative();
 	}
-	
-	
-	public void setVideoCodec(int codec)
-	{
+
+	public void setVideoCodec(int codec) {
 		this.videoCodec = codec;
 		updateVideoCodecNative();
 	}
 
-	public void setRecordOnUsb(boolean enable)
-	{
+	public void setRecordOnUsb(boolean enable) {
 		this.recordOnUsb = enable;
 		updateRecordOnUsb();
 	}
-	
-	public String getHardwareVersion()
-	{
+
+	public String getHardwareVersion() {
 		return hardwareVersion;
-	}	 
-	
+	}
+
 	public String getSoftwareVersion() {
 		return softwareVersion;
 	}
@@ -297,14 +262,12 @@ public class DroneConfig
 	public boolean isOutdoorFlight() {
 		return outdoorFlight;
 	}
-	
-	public boolean isAdaptiveVideo()
-	{
+
+	public boolean isAdaptiveVideo() {
 		return adaptiveVideo;
 	}
-	
-	public boolean isRecordOnUsb()
-	{
+
+	public boolean isRecordOnUsb() {
 		return recordOnUsb;
 	}
 
@@ -319,7 +282,7 @@ public class DroneConfig
 	public int getTilt() {
 		return tilt;
 	}
-	
+
 	public int getDeviceTiltMax() {
 		return deviceTiltMax;
 	}
@@ -327,34 +290,43 @@ public class DroneConfig
 	public int getVideoCodec() {
 		return videoCodec;
 	}
-	
-	public EDroneVersion getDroneVersion()
-	{
+
+	public EDroneVersion getDroneVersion() {
 		if (droneVersion == EDroneVersion.UNKNOWN) {
 			droneVersion = EDroneVersion.values()[getDroneFamily()];
 		}
-		
+
 		return droneVersion;
 	}
 
-
 	private native void updateOutdoorHullNative();
-	private native void updateNetworkNameNative();
-	private native void updateAdaptiveVideoNative();
-	private native void updateOwnerMacNative();
-	private native void updateAltitudeLimit(int limit);
-	private native void updateOutdoorFlightNative();
-	private native void updateYawSpeedMaxNative();
-	private native void updateVertSpeedMaxNative();
-	private native void updateTiltNative();
-	private native void updateVideoCodecNative();
-	private native void updateRecordOnUsb();
-	private native void updateDeviceTiltMax(int tilt);
-	
-	private native int getDroneFamily();
-	
-	private static native int getFtpPortNative();
-	private static native String getDroneHostNative();
 
+	private native void updateNetworkNameNative();
+
+	private native void updateAdaptiveVideoNative();
+
+	private native void updateOwnerMacNative();
+
+	private native void updateAltitudeLimit(int limit);
+
+	private native void updateOutdoorFlightNative();
+
+	private native void updateYawSpeedMaxNative();
+
+	private native void updateVertSpeedMaxNative();
+
+	private native void updateTiltNative();
+
+	private native void updateVideoCodecNative();
+
+	private native void updateRecordOnUsb();
+
+	private native void updateDeviceTiltMax(int tilt);
+
+	private native int getDroneFamily();
+
+	private static native int getFtpPortNative();
+
+	private static native String getDroneHostNative();
 
 }

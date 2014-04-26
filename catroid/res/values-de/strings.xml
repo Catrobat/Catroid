@@ -71,6 +71,8 @@
     <string name="preference_title">Einstellungen</string>
     <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorm Bausteine</string>
     <string name="preference_description_mindstorm_bricks">Erlaube Steuerung von Lego Mindstorm Robotern</string>
+    <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 Bausteine</string>
+    <string name="preference_description_quadcopter_bricks">Erlaubt dir, die ARDrone 2.0 zu steuern.</string>
     <!--  -->
 
 
@@ -317,6 +319,7 @@
     <string name="category_control">Steuerung</string>
     <string name="category_variables">Variablen</string>
     <string name="category_lego_nxt">Lego NXT</string>
+    <string name="category_drone">ARDrone</string>
     <!--  -->
 
 
@@ -511,8 +514,13 @@
     <string name="nxt_motor_a_and_c">A+C</string>
     <string name="nxt_motor_all">Alle</string>
     <!--  -->
-
-
+    
+    <!-- Drone Bricks -->
+	<string name="brick_drone_takeoff">Drone: Hebe ab</string>
+    <string name="brick_drone_play_led_animation">Drone: Spiele LED-Animation</string>
+	<!--<string name="brick_drone_land">Drone: lande</string>  -->
+	<!--  -->
+	 
     <!-- Formula Editor Strings -->
     <string name="formula_editor_true">Wahr</string>
     <string name="formula_editor_false">Falsch</string>

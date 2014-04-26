@@ -192,6 +192,11 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
+	public static DronePlayLedAnimationAction dronePlayLedAnimation() {
+		DronePlayLedAnimationAction action = action(DronePlayLedAnimationAction.class);
+		return action;
+	}
+
 	public static MoveNStepsAction moveNSteps(Sprite sprite, Formula steps) {
 		MoveNStepsAction action = action(MoveNStepsAction.class);
 		action.setSprite(sprite);

@@ -7,7 +7,6 @@
 
 package com.parrot.freeflight.utils;
 
-public interface ProgressListener 
-{
+public interface ProgressListener {
 	void onProgress(int round);
 }
