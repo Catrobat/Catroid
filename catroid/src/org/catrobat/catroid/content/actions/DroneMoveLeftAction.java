@@ -33,7 +33,7 @@ public class DroneMoveLeftAction extends DroneMoveAction {
 	@Override
 	protected void moveEnd() {
 		super.setCommandAndYawEnabled(false);
-		super.getDroneService().moveLeft(0);
+		super.getDroneService().moveLeft(DRONE_MOVE_SPEED_STOP);
 	}
 
 }

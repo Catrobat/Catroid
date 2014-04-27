@@ -37,13 +37,12 @@ public class DroneMoveBackwardBrick extends DroneMoveBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	public DroneMoveBackwardBrick(Sprite sprite, int timeInMillisecondsValue, int powerInPercent) {
-		super(sprite, timeInMillisecondsValue, powerInPercent);
+	public DroneMoveBackwardBrick(Sprite sprite, int durationInMilliseconds, int powerInPercent) {
+		super(sprite, durationInMilliseconds, powerInPercent);
 	}
 
-	public DroneMoveBackwardBrick(Sprite sprite, Formula time, Formula powerInPercent) {
-		super(sprite, time, powerInPercent);
-
+	public DroneMoveBackwardBrick(Sprite sprite, Formula durationInMilliseconds, Formula powerInPercent) {
+		super(sprite, durationInMilliseconds, powerInPercent);
 	}
 
 	public DroneMoveBackwardBrick() {

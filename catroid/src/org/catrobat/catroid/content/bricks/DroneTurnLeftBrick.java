@@ -37,13 +37,12 @@ public class DroneTurnLeftBrick extends DroneMoveBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	public DroneTurnLeftBrick(Sprite sprite, int timeInMillisecondsValue, int powerInPercent) {
-		super(sprite, timeInMillisecondsValue, powerInPercent);
+	public DroneTurnLeftBrick(Sprite sprite, int durationInMilliseconds, int powerInPercent) {
+		super(sprite, durationInMilliseconds, powerInPercent);
 	}
 
-	public DroneTurnLeftBrick(Sprite sprite, Formula time, Formula powerInPercent) {
-		super(sprite, time, powerInPercent);
-
+	public DroneTurnLeftBrick(Sprite sprite, Formula durationInMilliseconds, Formula powerInPercent) {
+		super(sprite, durationInMilliseconds, powerInPercent);
 	}
 
 	public DroneTurnLeftBrick() {

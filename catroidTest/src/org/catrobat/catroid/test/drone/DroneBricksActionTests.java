@@ -48,16 +48,16 @@ import org.mockito.Mockito;
 
 public class DroneBricksActionTests extends InstrumentationTestCase {
 
-	public DroneControlService dcs;
+	public DroneControlService droneControlService;
 	public TemporalAction action;
 	Sprite sprite;
 	SequenceAction sequenceAction;
-	private Formula power;
-	private Formula seconds;
+	private Formula powerInPercent;
+	private Formula durationInSeconds;
 
 	public DroneBricksActionTests() {
-		power = new Formula(0.2 * 100);
-		seconds = new Formula(2);
+		powerInPercent = new Formula(0.2 * 100);
+		durationInSeconds = new Formula(2);
 	}
 
 	@Override
@@ -67,8 +67,8 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 		//https://code.google.com/p/dexmaker/issues/detail?id=2
 		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 
-		dcs = Mockito.mock(DroneControlService.class);
-		DroneServiceWrapper.getInstance().setDroneService(dcs);
+		droneControlService = Mockito.mock(DroneControlService.class);
+		DroneServiceWrapper.getInstance().setDroneService(droneControlService);
 		sprite = new Sprite(getName());
 		sequenceAction = new SequenceAction();
 	}
@@ -86,74 +86,74 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 
 	public void testFlip() {
 		addActionToSequenceAndAct(new DroneFlipBrick(sprite));
-		Mockito.verify(dcs, Mockito.atLeast(1)).doLeftFlip();
+		Mockito.verify(droneControlService, Mockito.atLeast(1)).doLeftFlip();
 	}
 
 	public void testPlayLedAnimation() {
 		addActionToSequenceAndAct(new DronePlayLedAnimationBrick(sprite));
-		Mockito.verify(dcs, Mockito.atLeast(1)).playLedAnimation(5.0f, 3, 3);
+		Mockito.verify(droneControlService, Mockito.atLeast(1)).playLedAnimation(5.0f, 3, 3);
 	}
 
 	public void testTakeOff() {
 		addActionToSequenceAndAct(new DroneTakeOffBrick(sprite));
-		Mockito.verify(dcs, Mockito.atLeast(1)).triggerTakeOff();
+		Mockito.verify(droneControlService, Mockito.atLeast(1)).triggerTakeOff();
 	}
 
 	public void testLand() {
 		addActionToSequenceAndAct(new DroneLandBrick(sprite));
-		Mockito.verify(dcs, Mockito.atLeast(1)).triggerTakeOff();
+		Mockito.verify(droneControlService, Mockito.atLeast(1)).triggerTakeOff();
 	}
 
 	public void testMoveUp() {
-		DroneMoveUpBrick moveUpBrick = new DroneMoveUpBrick(sprite, seconds, power);
+		DroneMoveUpBrick moveUpBrick = new DroneMoveUpBrick(sprite, durationInSeconds, powerInPercent);
 
 		addActionToSequenceAndAct(moveUpBrick, 2);
 
-		Mockito.verify(dcs, Mockito.atLeast(1)).moveUp(0.2f);
-		Mockito.verify(dcs, Mockito.atLeast(1)).moveUp(0);
+		Mockito.verify(droneControlService, Mockito.atLeast(1)).moveUp(0.2f);
+		Mockito.verify(droneControlService, Mockito.atLeast(1)).moveUp(0);
 	}
 
 	public void testMoveDown() {
-		DroneMoveDownBrick moveDownBrick = new DroneMoveDownBrick(sprite, seconds, power);
+		DroneMoveDownBrick moveDownBrick = new DroneMoveDownBrick(sprite, durationInSeconds, powerInPercent);
 
 		addActionToSequenceAndAct(moveDownBrick, 2);
 
-		Mockito.verify(dcs, Mockito.atLeast(1)).moveDown(0.2f);
-		Mockito.verify(dcs, Mockito.atLeast(1)).moveDown(0);
+		Mockito.verify(droneControlService, Mockito.atLeast(1)).moveDown(0.2f);
+		Mockito.verify(droneControlService, Mockito.atLeast(1)).moveDown(0);
 	}
 
 	public void testMoveLeft() {
-		DroneMoveLeftBrick moveLeftBrick = new DroneMoveLeftBrick(sprite, seconds, power);
+		DroneMoveLeftBrick moveLeftBrick = new DroneMoveLeftBrick(sprite, durationInSeconds, powerInPercent);
 
 		addActionToSequenceAndAct(moveLeftBrick, 2);
 
-		Mockito.verify(dcs, Mockito.atLeast(1)).moveLeft(0.2f);
-		Mockito.verify(dcs, Mockito.atLeast(1)).moveLeft(0);
+		Mockito.verify(droneControlService, Mockito.atLeast(1)).moveLeft(0.2f);
+		Mockito.verify(droneControlService, Mockito.atLeast(1)).moveLeft(0);
 	}
 
 	public void testMoveRight() {
-		DroneMoveRightBrick moveRightBrick = new DroneMoveRightBrick(sprite, seconds, power);
+		DroneMoveRightBrick moveRightBrick = new DroneMoveRightBrick(sprite, durationInSeconds, powerInPercent);
 
 		addActionToSequenceAndAct(moveRightBrick, 2);
 
-		Mockito.verify(dcs, Mockito.atLeast(1)).moveRight(0.2f);
-		Mockito.verify(dcs, Mockito.atLeast(1)).moveRight(0);
+		Mockito.verify(droneControlService, Mockito.atLeast(1)).moveRight(0.2f);
+		Mockito.verify(droneControlService, Mockito.atLeast(1)).moveRight(0);
 	}
 
 	public void testMoveForward() {
-		DroneMoveForwardBrick moveForwardBrick = new DroneMoveForwardBrick(sprite, seconds, power);
+		DroneMoveForwardBrick moveForwardBrick = new DroneMoveForwardBrick(sprite, durationInSeconds, powerInPercent);
 
 		addActionToSequenceAndAct(moveForwardBrick, 2);
 
-		Mockito.verify(dcs, Mockito.atLeast(1)).moveForward(0.2f);
-		Mockito.verify(dcs, Mockito.atLeast(1)).moveForward(0);
+		Mockito.verify(droneControlService, Mockito.atLeast(1)).moveForward(0.2f);
+		Mockito.verify(droneControlService, Mockito.atLeast(1)).moveForward(0);
 	}
 
 	public void testMoveBackward() {
-		DroneMoveBackwardBrick moveBackwardBrick = new DroneMoveBackwardBrick(sprite, seconds, power);
+		DroneMoveBackwardBrick moveBackwardBrick = new DroneMoveBackwardBrick(sprite, durationInSeconds, powerInPercent);
 
 		addActionToSequenceAndAct(moveBackwardBrick, 2);
-		Mockito.verify(dcs, Mockito.atLeast(1)).moveBackward(0.2f);
-		Mockito.verify(dcs, Mockito.atLeast(1)).moveBackward(0);
+		Mockito.verify(droneControlService, Mockito.atLeast(1)).moveBackward(0.2f);
+		Mockito.verify(droneControlService, Mockito.atLeast(1)).moveBackward(0);
 	}
 }

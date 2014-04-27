@@ -29,6 +29,7 @@ import android.widget.ListView;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -45,6 +46,7 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		UiTestUtils.prepareStageForTest();
 	}
 
+	@Device
 	public void testDroneBricksPrototypeView() {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
@@ -56,7 +58,7 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		boolean droneEnabled = preferences.getBoolean(SettingsActivity.SETTINGS_QUADCOPTER_BRICKS, false);
 		assertTrue("Drone Bricks must be anabled to pass this test, check the Constructor and setup.", droneEnabled);
 
-		UtilFile.createStandardDroneProject(getActivity());
+		UtilFile.loadExistingOrCreateStandardDroneProject(getActivity());
 		solo.waitForActivity(MainMenuActivity.class);
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForText(solo.getString(R.string.default_drone_project_sprites_takeoff));

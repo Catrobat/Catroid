@@ -40,13 +40,12 @@ public class DroneTurnRightMagnetoBrick extends DroneMoveBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	public DroneTurnRightMagnetoBrick(Sprite sprite, int timeInMillisecondsValue, int powerInPercent) {
-		super(sprite, timeInMillisecondsValue, powerInPercent);
+	public DroneTurnRightMagnetoBrick(Sprite sprite, int durationInMilliseconds, int powerInPercent) {
+		super(sprite, durationInMilliseconds, powerInPercent);
 	}
 
-	public DroneTurnRightMagnetoBrick(Sprite sprite, Formula time, Formula powerInPercent) {
-		super(sprite, time, powerInPercent);
-
+	public DroneTurnRightMagnetoBrick(Sprite sprite, Formula durationInMilliseconds, Formula powerInPercent) {
+		super(sprite, durationInMilliseconds, powerInPercent);
 	}
 
 	public DroneTurnRightMagnetoBrick() {

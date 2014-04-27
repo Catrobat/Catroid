@@ -172,23 +172,13 @@ public final class UtilFile {
 		}
 	}
 
-	public static void createStandardDroneProject(Context context) {
+	public static void loadExistingOrCreateStandardDroneProject(Context context) {
 		String droneStandardProjectName = context.getString(R.string.default_drone_project_name);
 		ProjectManager.getInstance().loadProject(droneStandardProjectName, context, false);
 		String currentName = ProjectManager.getInstance().getCurrentProject().getName();
 
 		if (!currentName.equals(droneStandardProjectName)) {
 			ProjectManager.getInstance().initializeDroneProject(context);
-		}
-	}
-
-	public static void deleteStandardDroneProject(Context context) {
-		String droneStandardProjectName = context.getString(R.string.default_drone_project_name);
-		ProjectManager.getInstance().loadProject(droneStandardProjectName, context, false);
-		String currentName = ProjectManager.getInstance().getCurrentProject().getName();
-
-		if (currentName.equals(droneStandardProjectName)) {
-			ProjectManager.getInstance().deleteCurrentProject();
 		}
 	}
 
@@ -275,7 +265,8 @@ public final class UtilFile {
 	public static File copySoundFromResourceIntoProject(String projectName, String outputFilename, int resourceId,
 			Context context, boolean prependMd5ToFilename) throws IllegalArgumentException, IOException {
 		if (!outputFilename.toLowerCase(Locale.US).endsWith(SoundRecorder.RECORDING_EXTENSION)) {
-			throw new IllegalArgumentException("Only Files with extension " + SoundRecorder.RECORDING_EXTENSION + " allowed");
+			throw new IllegalArgumentException("Only Files with extension " + SoundRecorder.RECORDING_EXTENSION
+					+ " allowed");
 		}
 		return copyFromResourceIntoProject(projectName, Constants.SOUND_DIRECTORY, outputFilename, resourceId, context,
 				prependMd5ToFilename);
@@ -315,8 +306,7 @@ public final class UtilFile {
 	public static String encodeSpecialCharsForFileSystem(String projectName) {
 		if (projectName.equals(".") || projectName.equals("..")) {
 			projectName = projectName.replace(".", "%2E");
-		}
-		else {
+		} else {
 			projectName = projectName.replace("%", "%25");
 			projectName = projectName.replace("\"", "%22");
 			projectName = projectName.replace("/", "%2F");

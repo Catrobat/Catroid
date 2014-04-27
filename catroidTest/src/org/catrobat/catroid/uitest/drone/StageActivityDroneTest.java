@@ -37,6 +37,7 @@ import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.test.drone.DroneTestUtils;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -69,6 +70,7 @@ public class StageActivityDroneTest extends BaseActivityInstrumentationTestCase<
 		getActivity().bindService(startService, this, Service.BIND_AUTO_CREATE);
 	}
 
+	@Device
 	public void testDroneProxyOnStage() {
 		waitForDroneServiceToStart();
 
@@ -111,13 +113,13 @@ public class StageActivityDroneTest extends BaseActivityInstrumentationTestCase<
 	private void waitForStageActivity() {
 		solo.waitForActivity(StageActivity.class);
 		stageActivity = (StageActivity) solo.getCurrentActivity();
-		assertNotNull("obviously should not be null", stageActivity);
+		assertNotNull("StageActivity must not be null", stageActivity);
 	}
 
 	private void waitForPrestageActivity() {
 		solo.waitForActivity(PreStageActivity.class);
 		preStageActivity = (PreStageActivity) solo.getCurrentActivity();
-		assertNotNull("obviously should not be null", preStageActivity);
+		assertNotNull("PreStageActivity must not be null", preStageActivity);
 	}
 
 	public void onServiceConnected(ComponentName name, IBinder service) {
@@ -127,9 +129,5 @@ public class StageActivityDroneTest extends BaseActivityInstrumentationTestCase<
 
 	public void onServiceDisconnected(ComponentName name) {
 		droneControlService = null;
-	}
-
-	public static void tearDownAfterClass() throws Exception {
-		Log.d(TAG, "Execution of JUNIT test file done");
 	}
 }

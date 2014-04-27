@@ -35,7 +35,6 @@ public class DronePlayLedAnimationAction extends TemporalAction {
 
 	@Override
 	protected void begin() {
-		// TODO Auto-generated method stub
 		super.begin();
 		Log.d(TAG, "begin!");
 		DroneServiceWrapper.getInstance().getDroneService()
@@ -44,7 +43,6 @@ public class DronePlayLedAnimationAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		// TODO Auto-generated method stub
-
+		//Nothing to do
 	}
 }

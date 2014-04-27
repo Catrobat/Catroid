@@ -27,6 +27,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.test.drone.DroneTestUtils;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -45,6 +46,7 @@ public class DroneMoveTest extends BaseActivityInstrumentationTestCase<ScriptAct
 		super.setUp();
 	}
 
+	@Device
 	public void testAllMoveBricks() {
 		int numberOfBricks = ProjectManager.getInstance().getCurrentScript().getBrickList().size();
 

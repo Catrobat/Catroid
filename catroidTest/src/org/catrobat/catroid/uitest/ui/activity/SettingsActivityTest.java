@@ -97,7 +97,6 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.scrollListToBottom(fragmentListView);
 
 		assertTrue("Drone brick category is not showing!", solo.searchText(categoryDroneLabel));
-
 	}
 
 	public void testToggleMindstormBricks() {

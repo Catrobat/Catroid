@@ -257,7 +257,7 @@ public class ScriptActivity extends BaseActivity {
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			Intent intent = new Intent(ScriptActivity.this, StageActivity.class);
-			PreStageActivity.addDroneSupportToIntent(data, intent);
+			PreStageActivity.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
 			startActivity(intent);
 		}
 	}

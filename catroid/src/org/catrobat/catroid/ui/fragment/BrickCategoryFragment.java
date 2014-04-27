@@ -37,8 +37,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.drone.DroneUtils;
 import org.catrobat.catroid.ui.BottomBar;
-import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
 
@@ -143,7 +143,7 @@ public class BrickCategoryFragment extends SherlockListFragment {
 			categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null));
 		}
 
-		if (sharedPreferences.getBoolean(SettingsActivity.SETTINGS_QUADCOPTER_BRICKS, false)) {
+		if (DroneUtils.isDroneSharedPreferenceEnabled(getActivity(), false)) {
 			categories.add(inflater.inflate(R.layout.brick_category_drone, null));
 		}
 

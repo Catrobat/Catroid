@@ -539,24 +539,24 @@
     <!--  -->
     
     <!-- Drone Bricks -->
-	<string name="brick_drone_takeoff">Hebe ab</string>
+    <string name="brick_drone_takeoff">Hebe ab</string>
     <string name="brick_drone_play_led_animation">Spiele LED-Animation</string>
-	<string name="brick_drone_land">Lande</string>
-	<string name="brick_drone_move_left">Fliege nach links</string>
-	<string name="brick_drone_move_right">Fliege nach rechts</string>
-	<string name="brick_drone_move_up">Fliege nach oben</string>
-	<string name="brick_drone_move_down">Fliege nach unten</string>
-	<string name="brick_drone_move_forward">Fliege nach vorne</string>
-	<string name="brick_drone_move_backward">Fliege nach hinten</string>
-	<string name="brick_drone_flip">Flip</string>
-	<string name="brick_drone_power">Power</string>
-	<string name="brick_drone_turn_left">Drehe nach links</string>
-	<string name="brick_drone_turn_right">Drehe nach rechts</string>
-	<string name="brick_drone_turn_left_magneto">Drehe nach links</string>
-	<string name="brick_drone_turn_right_magneto">Drehe nach rechts</string>
-	<string name="brick_drone_angle">Winkel</string>
-	<!--  -->
-	 
+    <string name="brick_drone_land">Lande</string>
+    <string name="brick_drone_move_left">Fliege nach links</string>
+    <string name="brick_drone_move_right">Fliege nach rechts</string>
+    <string name="brick_drone_move_up">Fliege nach oben</string>
+    <string name="brick_drone_move_down">Fliege nach unten</string>
+    <string name="brick_drone_move_forward">Fliege nach vorne</string>
+    <string name="brick_drone_move_backward">Fliege nach hinten</string>
+    <string name="brick_drone_flip">Flip</string>
+    <string name="brick_drone_power">Power</string>
+    <string name="brick_drone_turn_left">Drehe nach links</string>
+    <string name="brick_drone_turn_right">Drehe nach rechts</string>
+    <string name="brick_drone_turn_left_magneto">Drehe nach links</string>
+    <string name="brick_drone_turn_right_magneto">Drehe nach rechts</string>
+    <string name="brick_drone_angle">Winkel</string>
+    <!--  -->
+
     <!-- Formula Editor Strings -->
     <string name="formula_editor_true">Wahr</string>
     <string name="formula_editor_false">Falsch</string>

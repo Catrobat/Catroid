@@ -31,7 +31,11 @@ import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.test.drone.DroneTestUtils;
@@ -40,20 +44,21 @@ import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.mockito.Mockito;
 
 public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private enum ActivityUnderTest {
 		PRE_STAGE, STAGE
-	};
+	}
 
 	private static final String TAG = PrestageActivityDroneTest.class.getSimpleName();
 	private static final Integer EXPECTED_REQUIRED_RESOURCES = 1;
 
-	PreStageActivity preStageActivity;
-	DroneControlService droneControlService;
-	StageActivity stageActivity;
-	Intent stageActivityIntent;
+	private PreStageActivity preStageActivity;
+	private DroneControlService droneControlService;
+	private StageActivity stageActivity;
+	private Intent stageActivityIntent;
 
 	public PrestageActivityDroneTest() {
 		super(MainMenuActivity.class);
@@ -104,15 +109,30 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 	}
 
 	@Device
-	public void tst03DontStartDroneServiceOnLowBattery() {
+	public void test03DontStartDroneServiceOnLowBattery() {
 		//ATTENTION, test0* must be executed in the right order!
 		//TODO Drone: make test order irrelevant
+		Project project = new Project(getActivity(), "TestProject");
+		Sprite sprite = new Sprite("testSprite");
+		project.addSprite(sprite);
+		Brick brick = new DroneFlipBrick(sprite);
+		Script script = new WhenScript(sprite);
+
+		Brick preparedBrick = Mockito.spy(brick);
+		Mockito.when(preparedBrick.getRequiredResources()).thenReturn(0x10000);
+		assertEquals("Faked property must be set", preparedBrick.getRequiredResources(), 0x10000);
+		sprite.addScript(script);
+		script.addBrick(preparedBrick);
+		ProjectManager.getInstance().setProject(project);
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		UiTestUtils.clickOnPlayButton(solo);
 		waitForPreStageActivity();
 		assertEquals("Must be unchanged 0", 0, getDroneBatteryLevelFromPreStageActivity());
+		solo.sleep(4000);
+		preStageActivity.onDroneBatteryChanged(2);
 		preStageActivity.onDroneReady();
-		assertTrue("Dialog must be present", solo.searchText(solo.getString(R.string.error_drone_low_battery_title)));
+
+		solo.waitForDialogToOpen(2000);
 	}
 
 	@Device
@@ -162,7 +182,7 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 	private void waitForDroneServiceToBindOnActivity(ActivityUnderTest activityUnderTest) {
 		for (int i = 0; i < 10; i++) { //waiting for the service to start
 			Log.d(TAG, "Spinning=" + i);
-			solo.sleep(500);
+			solo.sleep(1000);
 			switch (activityUnderTest) {
 				case PRE_STAGE:
 					getDroneControlServiceFromPreStage(preStageActivity);
@@ -192,6 +212,7 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 	private void waitForPreStageActivity() {
 		solo.waitForActivity(PreStageActivity.class);
 		preStageActivity = (PreStageActivity) solo.getCurrentActivity();
+		assertNotNull("prestage must be present", preStageActivity);
 	}
 
 	private void getDroneControlServiceFromPreStage(PreStageActivity preStage) {

@@ -31,7 +31,7 @@ public class DroneMoveUpAction extends DroneMoveAction {
 
 	@Override
 	protected void moveEnd() {
-		super.getDroneService().moveUp(0);
+		super.getDroneService().moveUp(DRONE_MOVE_SPEED_STOP);
 	}
 
 }

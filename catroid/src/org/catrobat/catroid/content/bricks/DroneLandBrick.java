@@ -49,7 +49,6 @@ public class DroneLandBrick extends BrickBaseType implements OnItemSelectedListe
 
 	public DroneLandBrick(Sprite sprite) {
 		this.sprite = sprite;
-
 	}
 
 	@Override
@@ -111,9 +110,7 @@ public class DroneLandBrick extends BrickBaseType implements OnItemSelectedListe
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-
 		if (view != null) {
-
 			View layout = view.findViewById(R.id.brick_drone_land);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
@@ -124,11 +121,8 @@ public class DroneLandBrick extends BrickBaseType implements OnItemSelectedListe
 			if (adapterView != null) {
 				((TextView) adapterView.getChildAt(0)).setTextColor(color);
 			}
-
 			this.alphaValue = (alphaValue);
-
 		}
-
 		return view;
 	}
 

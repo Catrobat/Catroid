@@ -49,21 +49,19 @@ public abstract class DroneMoveBrick extends BrickBaseType implements OnClickLis
 	protected Formula timeToFlyInSeconds;
 	protected Formula powerInPercent;
 
-	public DroneMoveBrick(Sprite sprite, int timeInMillisecondsValue, int powerInPercent) {
+	public DroneMoveBrick(Sprite sprite, int durationInMilliseconds, int powerInPercent) {
 		this.sprite = sprite;
-		this.timeToFlyInSeconds = new Formula(timeInMillisecondsValue / 1000.0);
+		this.timeToFlyInSeconds = new Formula(durationInMilliseconds / 1000.0);
 		this.powerInPercent = new Formula(powerInPercent);
 	}
 
-	public DroneMoveBrick(Sprite sprite, Formula time, Formula powerInPercent) {
+	public DroneMoveBrick(Sprite sprite, Formula durationInSeconds, Formula powerInPercent) {
 		this.sprite = sprite;
-		this.timeToFlyInSeconds = time;
+		this.timeToFlyInSeconds = durationInSeconds;
 		this.powerInPercent = powerInPercent;
-
 	}
 
 	public DroneMoveBrick() {
-
 	}
 
 	@Override
@@ -125,7 +123,6 @@ public abstract class DroneMoveBrick extends BrickBaseType implements OnClickLis
 			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
 					Utils.convertDoubleToPluralInteger(timeToFlyInSeconds.interpretDouble(sprite))));
 		} else {
-
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
 			// in hopefully all possible languages
 			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
@@ -143,8 +140,6 @@ public abstract class DroneMoveBrick extends BrickBaseType implements OnClickLis
 		TextView editPower = (TextView) view.findViewById(R.id.brick_drone_move_edit_text_power);
 		powerInPercent.setTextFieldId(R.id.brick_drone_move_edit_text_power);
 		powerInPercent.refreshTextField(view);
-
-		//TextView power = (TextView) view.findViewById(R.id.brick_drone_move_forward_text_view_power);
 
 		textPower.setVisibility(View.GONE);
 		editPower.setVisibility(View.VISIBLE);
@@ -172,9 +167,7 @@ public abstract class DroneMoveBrick extends BrickBaseType implements OnClickLis
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-
 		if (view != null) {
-
 			View layout = view.findViewById(R.id.brick_drone_move_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
@@ -201,9 +194,7 @@ public abstract class DroneMoveBrick extends BrickBaseType implements OnClickLis
 			editPower.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
-
 		return view;
 	}
 

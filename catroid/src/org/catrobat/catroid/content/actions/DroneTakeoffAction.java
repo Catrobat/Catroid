@@ -30,15 +30,12 @@ public class DroneTakeoffAction extends TemporalAction {
 
 	@Override
 	protected void begin() {
-		// TODO Auto-generated method stub
 		super.begin();
 		DroneServiceWrapper.getInstance().getDroneService().triggerTakeOff();
 	}
 
 	@Override
 	protected void update(float percent) {
-		// TODO Auto-generated method stub
-
+		//Nothing to do
 	}
-
 }

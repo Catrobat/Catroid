@@ -33,7 +33,7 @@ public class DroneTurnRightAction extends DroneMoveAction {
 	@Override
 	protected void moveEnd() {
 		super.setCommandAndYawEnabled(false);
-		super.getDroneService().turnRight(0);
+		super.getDroneService().turnRight(DRONE_MOVE_SPEED_STOP);
 	}
 
 }

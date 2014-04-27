@@ -20,30 +20,28 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.drone;
+package org.catrobat.catroid.uitest.drone;
 
 import static java.lang.Thread.sleep;
 
-import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 
 import com.parrot.freeflight.service.DroneControlService;
 
 import org.catrobat.catroid.stage.PreStageActivity;
-import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.test.drone.DroneTestUtils;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.Reflection;
 
-public class PreStageActivityDroneTest extends ActivityInstrumentationTestCase2<PreStageActivity> {
+public class PreStageActivityDroneServiceTest extends ActivityInstrumentationTestCase2<PreStageActivity> {
 
-	private static final String TAG = PreStageActivityDroneTest.class.getSimpleName();
+	private static final String TAG = PreStageActivityDroneServiceTest.class.getSimpleName();
 
-	PreStageActivity preStageActivity;
-	DroneControlService droneControlService;
-	StageActivity stageActivity;
-	Intent stageActivityIntent;
+	private PreStageActivity preStageActivity;
+	private DroneControlService droneControlService;
 
-	public PreStageActivityDroneTest() {
+	public PreStageActivityDroneServiceTest() {
 		super(PreStageActivity.class);
 	}
 
@@ -52,32 +50,31 @@ public class PreStageActivityDroneTest extends ActivityInstrumentationTestCase2<
 		super.setUp();
 		preStageActivity = null;
 		droneControlService = null;
-		stageActivity = null;
-		stageActivityIntent = null;
 		DroneTestUtils.createDroneProjectWithScriptAndAllDroneMoveBricks();
 		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 		preStageActivity = getActivity();
 	}
 
+	@Device
 	public void testDroneServiceStart() {
 		getDroneControlServiceFromPrestage(preStageActivity);
 		assertNull("DroneControlServce must not be started", droneControlService);
 
 		preStageActivity.onDroneAvailabilityChanged(true);
 		waitForDroneServiceToStart();
-		assertNotNull("DroneControlService must be instanciated", droneControlService);
+		assertNotNull("DroneControlService must be instanced", droneControlService);
 
 		Reflection.invokeMethod(preStageActivity, "resourceInitialized");
 	}
 
-	//Duplicate code frome here on:
+	//Duplicate code from here on:
 	private void waitForDroneServiceToStart() {
 		for (int i = 0; i < 10; i++) { //waiting for the service to start
 			Log.d(TAG, "Spinning=" + i);
 			try {
 				sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			} catch (InterruptedException interruptedException) {
+				Log.e(TAG, Log.getStackTraceString(interruptedException));
 			}
 			getDroneControlServiceFromPrestage(preStageActivity);
 			if (droneControlService != null) {

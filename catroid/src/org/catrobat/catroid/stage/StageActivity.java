@@ -43,6 +43,7 @@ import com.parrot.freeflight.receivers.DroneReadyReceiver;
 import com.parrot.freeflight.receivers.DroneReadyReceiverDelegate;
 import com.parrot.freeflight.service.DroneControlService;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
@@ -84,15 +85,18 @@ public class StageActivity extends AndroidApplication implements DroneReadyRecei
 	}
 
 	private boolean prepareRessources() {
-		droneIsRequired = getIntent().getBooleanExtra(PreStageActivity.STRING_EXTRA_INIT_DRONE, false);
-		Log.d(TAG, "prepareRessources() initDrone=" + droneIsRequired.toString());
-		if (droneIsRequired) {
-			droneReadyReceiver = new DroneReadyReceiver(this);
-			droneConnectionChangeReceiver = new DroneConnectionChangedReceiver(this);
+		if (BuildConfig.DEBUG) {
+			droneIsRequired = getIntent().getBooleanExtra(PreStageActivity.STRING_EXTRA_INIT_DRONE, false);
+			Log.d(TAG, "prepareRessources() initDrone=" + droneIsRequired.toString());
+			if (droneIsRequired) {
+				droneReadyReceiver = new DroneReadyReceiver(this);
+				droneConnectionChangeReceiver = new DroneConnectionChangedReceiver(this);
 
-			helpBindService();
+				helpBindService();
+			}
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	@Override
@@ -113,33 +117,34 @@ public class StageActivity extends AndroidApplication implements DroneReadyRecei
 		SensorHandler.stopSensorListeners();
 		super.onPause();
 
-		if (droneControlService != null) {
-			droneControlService.pause();
-			DroneServiceWrapper.getInstance().setDroneService(null);
+		if (BuildConfig.DEBUG) {
+			if (droneControlService != null) {
+				droneControlService.pause();
+				DroneServiceWrapper.getInstance().setDroneService(null);
+			}
+			LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
+			manager.unregisterReceiver(droneReadyReceiver);
+			manager.unregisterReceiver(droneConnectionChangeReceiver);
 		}
-		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
-		manager.unregisterReceiver(droneReadyReceiver);
-		manager.unregisterReceiver(droneConnectionChangeReceiver);
 	}
 
 	@Override
 	public void onResume() {
-		Log.d(TAG, "StageActivity::onResume()");
 		SensorHandler.startSensorListener(this);
 		super.onResume();
 
-		Log.d(TAG, "onResume");
+		if (BuildConfig.DEBUG) {
+			if (droneControlService != null) {
+				Log.d(TAG, "droneControlService .. onResume");
+				droneControlService.resume();
+				DroneServiceWrapper.getInstance().setDroneService(droneControlService);
+			}
+			LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
+			manager.registerReceiver(droneReadyReceiver, new IntentFilter(DroneControlService.DRONE_STATE_READY_ACTION));
+			manager.registerReceiver(droneConnectionChangeReceiver, new IntentFilter(
+					DroneControlService.DRONE_CONNECTION_CHANGED_ACTION));
 
-		if (droneControlService != null) {
-			Log.d(TAG, "if (droneCo .. onResume");
-			droneControlService.resume();
-
-			DroneServiceWrapper.getInstance().setDroneService(droneControlService);
 		}
-		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
-		manager.registerReceiver(droneReadyReceiver, new IntentFilter(DroneControlService.DRONE_STATE_READY_ACTION));
-		manager.registerReceiver(droneConnectionChangeReceiver, new IntentFilter(
-				DroneControlService.DRONE_CONNECTION_CHANGED_ACTION));
 	}
 
 	public void pause() {
@@ -266,5 +271,7 @@ public class StageActivity extends AndroidApplication implements DroneReadyRecei
 
 	@Override
 	public void onDroneDisconnected() {
+		Log.d(TAG, "onDroneDisconnected");
+		//Nothing to do here
 	}
 }

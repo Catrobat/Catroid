@@ -33,7 +33,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class CheckForAssertionsTest extends TestCase {
+public class CheckForVerifiesOrAssertionsTest extends TestCase {
 	private static final String[] DIRECTORIES = Utils.TEST_FILE_DIRECTORIES;
 	private static final String[] IGNORED_FILES = { "MockGalleryActivity.java", "UiTestUtils.java",
 			"SimulatedSensorManager.java", "SimulatedSoundRecorder.java", "TestUtils.java",
@@ -43,16 +43,12 @@ public class CheckForAssertionsTest extends TestCase {
 			"Util.java", "BeforeAfterSteps.java", "Cucumber.java", "CallbackAction.java", "ObjectSteps.java",
 			"CucumberAnnotation.java", "CatroidExampleSteps.java", "PrintBrick.java", "DroneTestUtils.java" };
 
-	private boolean fileHasAssertions(File file) throws IOException {
+	private boolean fileHasVerifiesOrAssertions(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
 
 		String line;
 		while ((line = reader.readLine()) != null) {
-			if (line.matches("[^(//)]*assert[A-Za-z]+\\(.*")) {
-				reader.close();
-				return true;
-			}
-			if (line.matches("[^(//)]*verify[A-Za-z]*\\(.*")) {
+			if (line.matches("[^(//)]*assert[A-Za-z]+\\(.*") || line.matches("[^(//)]*verify[A-Za-z]*\\(.*")) {
 				reader.close();
 				return true;
 			}
@@ -61,8 +57,8 @@ public class CheckForAssertionsTest extends TestCase {
 		return false;
 	}
 
-	public void testForAssertions() throws IOException {
-		StringBuilder errorMessageBuilder = new StringBuilder(38);
+	public void testForVerifiesOrAssertions() throws IOException {
+		StringBuilder errorMessageBuilder = new StringBuilder(2);
 		boolean assertionNotFound = false;
 
 		for (String directoryName : DIRECTORIES) {
@@ -72,12 +68,13 @@ public class CheckForAssertionsTest extends TestCase {
 
 			List<File> filesToCheck = Utils.getFilesFromDirectoryByExtension(directory, new String[] { ".java", });
 			for (File file : filesToCheck) {
-				if (!Arrays.asList(IGNORED_FILES).contains(file.getName()) && !fileHasAssertions(file)) {
-					errorMessageBuilder.append(file.getPath()).append(" does not seem to contain assertions\n");
+				if (!Arrays.asList(IGNORED_FILES).contains(file.getName()) && !fileHasVerifiesOrAssertions(file)) {
+					errorMessageBuilder.append(file.getPath()).append('\n');
 					assertionNotFound = true;
 				}
 			}
 		}
-		assertFalse("Files potentially without assertion statements:\n" + errorMessageBuilder, assertionNotFound);
+		assertFalse("Files potentially without \"verify\" or \"assert\" statements:\n" + errorMessageBuilder,
+				assertionNotFound);
 	}
 }

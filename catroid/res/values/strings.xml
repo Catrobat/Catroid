@@ -20,7 +20,7 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
+ -->
 <resources>
 
     <!-- General terms -->
@@ -56,9 +56,7 @@
     <string name="main_menu_web">Explore</string>
     <string name="main_menu_upload">Upload</string>
     <string name="main_menu_about_pocketcode">About Pocket Code</string>
-    
     <string name="main_menu_terms_of_use">Terms of use</string>
- 
     <string name="main_menu_rate_app">Rate us!</string>
     <string name="main_menu_play_store_not_installed">Play Store app not found</string>
     <string name="main_menu_web_dialog_title">Caution!</string>
@@ -73,12 +71,10 @@
     <string name="preference_description_mindstorm_bricks">Allow to control Lego Mindstorms robots</string>
     <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 bricks</string>
     <string name="preference_description_quadcopter_bricks">Allow to control the ARDrone 2.0 quadcopter</string>
-
     <!--  -->
 
 
     <!-- New Object Dialog -->
-
     <string name="dialog_new_object_pocketpaint">Draw Image</string>
     <string name="dialog_new_object_gallery">Select Image</string>
     <string name="dialog_new_object_camera">Take Picture</string>
@@ -434,11 +430,11 @@
     <string name="default_project_backgroundname">Background</string>
     <string name="default_project_var_random_from">random from</string>
     <string name="default_project_var_random_to">random to</string>
-    
+
     <!-- defaultDroneValues -->
-    <string name="default_drone_project_name">My first Drone program</string>  
+    <string name="default_drone_project_name">My first Drone program</string>
     <string name="default_drone_project_sprites_takeoff">Take off</string>
-    
+
     <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
     <string name="default_drone_project_srpites_land">Land</string>
     <string name="default_drone_project_srpites_rotate">Rotate</string>
@@ -451,6 +447,7 @@
     <string name="default_drone_project_sprites_turn_left">Turn left</string>
     <string name="default_drone_project_sprites_turn_right">Turn right</string>
     <!--  -->
+
 
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Please enter a value</string>
@@ -502,7 +499,7 @@
     <string name="error_drone_not_available_in_release_build_title">ARDrone projects not supported</string>
     <string name="error_drone_not_available_in_release_build">Unfortunately we can\'t run projects with ARDrone bricks for now.</string>
     <!--  -->
-    
+
 
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Bluetooth could not be enabled, closing stage</string>
@@ -539,26 +536,28 @@
     <string name="nxt_motor_all">All</string>
     <!--  -->
 
+
     <!-- Drone Bricks -->
-	<string name="brick_drone_takeoff">take off</string>
-	<string name="brick_drone_land">land</string>
-	  <string name="brick_drone_play_led_animation">Play LED animation</string>
-	<string name="brick_drone_move_left">move left</string>
-	<string name="brick_drone_move_right">move right</string>
-	<string name="brick_drone_move_forward">move forward</string>
-	<string name="brick_drone_move_backward">move backward</string>
-	<string name="brick_drone_move_up">move up</string>
-	<string name="brick_drone_move_down">move down</string>
-	<string name="brick_drone_flip">flip</string>
-	<string name="brick_drone_power">power</string>
-	<string name="brick_drone_turn_right">turn right</string>
-	<string name="brick_drone_turn_left">turn left</string>
-	<string name="brick_drone_turn_left_magneto">turn left [angle]</string>
-	<string name="brick_drone_turn_right_magneto">turn right [angle]</string>
-	<string name="brick_drone_angle">angle</string>
-  
-	<!-- <string name="brick_drone_land">Drone: land</string>  -->
-	<!--  -->
+    <string name="brick_drone_takeoff">take off</string>
+    <string name="brick_drone_land">land</string>
+    <string name="brick_drone_play_led_animation">Play LED animation</string>
+    <string name="brick_drone_move_left">move left</string>
+    <string name="brick_drone_move_right">move right</string>
+    <string name="brick_drone_move_forward">move forward</string>
+    <string name="brick_drone_move_backward">move backward</string>
+    <string name="brick_drone_move_up">move up</string>
+    <string name="brick_drone_move_down">move down</string>
+    <string name="brick_drone_flip">flip</string>
+    <string name="brick_drone_power">power</string>
+    <string name="brick_drone_turn_right">turn right</string>
+    <string name="brick_drone_turn_left">turn left</string>
+    <string name="brick_drone_turn_left_magneto">turn left [angle]</string>
+    <string name="brick_drone_turn_right_magneto">turn right [angle]</string>
+    <string name="brick_drone_angle">angle</string>
+
+    <!-- <string name="brick_drone_land">Drone: land</string> -->
+    <!--  -->
+
 
     <!-- Formula Editor Strings -->
     <string name="formula_editor_true">True</string>

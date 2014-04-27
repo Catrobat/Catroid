@@ -150,14 +150,20 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
 			if (!BuildConfig.DEBUG) {
 				Log.d(TAG, "drone is not available in release build");
-				showUncancleableErrorDialog(this, getString(R.string.error_drone_not_available_in_release_build_title),
+				showUncancelableErrorDialog(this, getString(R.string.error_drone_not_available_in_release_build_title),
 						getString(R.string.error_drone_not_available_in_release_build));
 				return;
 			}
 
 			if (!CatroidApplication.OS_ARCH.startsWith("arm")) {
 				Log.d(TAG, "problem, we are on arm");
-				showUncancleableErrorDialog(this, getString(R.string.error_drone_wrong_platform_title),
+				showUncancelableErrorDialog(this, getString(R.string.error_drone_wrong_platform_title),
+						getString(R.string.error_drone_wrong_platform));
+				return;
+			}
+
+			if (!CatroidApplication.parrotNativeLibsAlreadyLoadedOrLoadingWasSucessful()) {
+				showUncancelableErrorDialog(this, getString(R.string.error_drone_wrong_platform_title),
 						getString(R.string.error_drone_wrong_platform));
 				return;
 			}
@@ -208,7 +214,7 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 			}
 		};
 
-		if (Build.VERSION.SDK_INT >= 11) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			checkDroneConnectionTask.executeOnExecutor(CheckDroneNetworkAvailabilityTask.THREAD_POOL_EXECUTOR, this);
 		} else {
 			checkDroneConnectionTask.execute(this);
@@ -236,11 +242,8 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 	}
 
 	private boolean taskRunning(AsyncTask<?, ?, ?> checkMediaTask2) {
-		if (checkMediaTask2 == null) {
-			return false;
-		}
 
-		if (checkMediaTask2.getStatus() == Status.FINISHED) {
+		if (checkMediaTask2 == null || checkMediaTask2.getStatus() == Status.FINISHED) {
 			return false;
 		}
 
@@ -249,10 +252,8 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 
 	@Override
 	protected void onDestroy() {
-		if (BuildConfig.DEBUG) {
-			if (droneControlService != null) {
-				unbindService(this.droneServiceConnection);
-			}
+		if (droneControlService != null) {
+			unbindService(this.droneServiceConnection);
 		}
 		super.onDestroy();
 	}
@@ -477,14 +478,14 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 		}
 	};
 
-	public static Intent addDroneSupportToIntent(Intent oldIntent, Intent newIntent) {
+	public static void addDroneSupportExtraToNewIntentIfPresentInOldIntent(Intent oldIntent, Intent newIntent) {
 		if (newIntent == null || oldIntent == null) {
-			return null;
+			return;
 		}
+
 		Boolean isDroneRequired = oldIntent.getBooleanExtra(STRING_EXTRA_INIT_DRONE, false);
 		Log.d(TAG, "Extra STRING_EXTRA_INIT_DRONE=" + isDroneRequired.toString());
 		newIntent.putExtra(STRING_EXTRA_INIT_DRONE, isDroneRequired);
-		return newIntent;
 	}
 
 	@Override
@@ -492,11 +493,9 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 		Log.d(TAG, "onDroneReady -> check battery -> go to stage");
 		if (droneBatteryCharge < BATTERY_TRESHOLD) {
 			String dialogTitle = String.format(getString(R.string.error_drone_low_battery_title), droneBatteryCharge);
-			showUncancleableErrorDialog(this, dialogTitle, getString(R.string.error_drone_low_battery));
+			showUncancelableErrorDialog(this, dialogTitle, getString(R.string.error_drone_low_battery));
 			return;
 		}
-		returnToActivityIntent.putExtra("USE_SOFTWARE_RENDERING", false); //TODO Drone: Drone: Hand over to Stage Activity
-		returnToActivityIntent.putExtra("FORCE_COMBINED_CONTROL_MODE", false); //TODO: Drone: Hand over to Stage Activity
 		resourceInitialized();
 	}
 
@@ -525,16 +524,15 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 					this.droneServiceConnection, Context.BIND_AUTO_CREATE);
 			// TODO Drone: Condition has no effect, even drone is not connected a connection will be "established"
 			if (obj == null || !isSuccessful) {
-				Toast.makeText(this, "Connection to the drone failed!", Toast.LENGTH_LONG).show();
 				resourceFailed();
 			}
 		} else {
-			showUncancleableErrorDialog(this, getString(R.string.error_no_drone_connected_title),
+			showUncancelableErrorDialog(this, getString(R.string.error_no_drone_connected_title),
 					getString(R.string.error_no_drone_connected));
 		}
 	}
 
-	public static void showUncancleableErrorDialog(final PreStageActivity context, String title, String message) {
+	public static void showUncancelableErrorDialog(final PreStageActivity context, String title, String message) {
 		Builder builder = new CustomAlertDialogBuilder(context);
 
 		builder.setTitle(title);

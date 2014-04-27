@@ -58,10 +58,8 @@ public final class Reflection {
 				return getPrivateField(superClass, object, fieldName);
 			}
 		} catch (Exception exception) {
-
 			throw new RuntimeException(exception);
 		}
-
 	}
 
 	public static void setPrivateField(Object object, String fieldName, Object value) {

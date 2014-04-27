@@ -34,9 +34,7 @@ public class CatroidApplication extends Application {
 	private ApplicationSettings settings;
 	public static final String OS_ARCH = System.getProperty("os.arch");;
 
-	static {
-		loadDroneNativeLibsDependingOnCpu();
-	}
+	private static boolean parrotLibrariesLoaded = false;
 
 	@Override
 	public void onCreate() {
@@ -45,26 +43,36 @@ public class CatroidApplication extends Application {
 		settings = new ApplicationSettings(this);
 	}
 
-	public ApplicationSettings getAppSettings() {
+	public ApplicationSettings getParrotApplicationSettings() {
 		return settings;
 	}
 
-	private static void loadDroneNativeLibsDependingOnCpu() {
-		Log.d(TAG, "CatroidApplication static block, check platform and load libs.");
-		if (BuildConfig.DEBUG) { //Drone is deactivated in release builds for now 04.2014
+	public static synchronized boolean parrotNativeLibsAlreadyLoadedOrLoadingWasSucessful() {
+		if (parrotLibrariesLoaded == true) {
+			return parrotLibrariesLoaded;
+		}
+
+		if (BuildConfig.DEBUG && parrotLibrariesLoaded == false) { //Drone is deactivated in release builds for now 04.2014
 			Log.d(TAG, "Current platform = \"" + OS_ARCH + "\"");
 			if (OS_ARCH.startsWith("arm")) {
 				Log.d(TAG, "We are on an arm platform load parrot native libs");
-				System.loadLibrary("avutil");
-				System.loadLibrary("swscale");
-				System.loadLibrary("avcodec");
-				System.loadLibrary("avfilter");
-				System.loadLibrary("avformat");
-				System.loadLibrary("avdevice");
-				System.loadLibrary("adfreeflight");
+				try {
+					System.loadLibrary("avutil");
+					System.loadLibrary("swscale");
+					System.loadLibrary("avcodec");
+					System.loadLibrary("avfilter");
+					System.loadLibrary("avformat");
+					System.loadLibrary("avdevice");
+					System.loadLibrary("adfreeflight");
+				} catch (UnsatisfiedLinkError e) {
+					Log.e(TAG, Log.getStackTraceString(e));
+					return parrotLibrariesLoaded;
+				}
+				parrotLibrariesLoaded = true;
 			} else {
 				Log.d(TAG, "We are not on an arm based device, dont load libs");
 			}
 		}
+		return parrotLibrariesLoaded;
 	}
 }
