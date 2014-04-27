@@ -43,6 +43,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
@@ -77,7 +78,8 @@ import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
-import org.catrobat.catroid.utils.LEDUtil;
+import org.catrobat.catroid.utils.LedUtil;
+import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -136,9 +138,9 @@ public class PreStageActivity extends BaseActivity implements DroneReadyReceiver
 			startActivityForResult(checkIntent, REQUEST_TEXT_TO_SPEECH);
 		}
 
-		if ( (requiredResources & Brick.CAMERA_LED ) > 0 ) {
+		if ((requiredResources & Brick.CAMERA_LED ) > 0) {
 			boolean hasCamera = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
-			boolean hasLed =    getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
+			boolean hasLed = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
 
 			if ( hasCamera && hasLed ) {
 				requiredResources &= ~Brick.CAMERA_LED;
@@ -146,6 +148,18 @@ public class PreStageActivity extends BaseActivity implements DroneReadyReceiver
 				LedUtil.activateLedThread();
 			} else {
 				Toast.makeText(PreStageActivity.this, R.string.no_flash_led_available, Toast.LENGTH_LONG).show();
+				resourceFailed();
+			}
+		}
+
+		if ((requiredResources & Brick.VIBRATOR) > 0) {
+			Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+			if (vibrator.hasVibrator()) {
+				requiredResources &= ~Brick.VIBRATOR;
+				requiredResourceCounter--;
+				VibratorUtil.activateVibratorThread(this.getBaseContext());
+			} else {
+				Toast.makeText(PreStageActivity.this, R.string.no_vibrator_available, Toast.LENGTH_LONG).show();
 				resourceFailed();
 			}
 		}
@@ -311,6 +325,9 @@ public class PreStageActivity extends BaseActivity implements DroneReadyReceiver
 		deleteSpeechFiles();
 		if (LedUtil.isActive()) {
 			LedUtil.killLedThread();
+		}
+		if (VibratorUtil.isActive()) {
+			VibratorUtil.killVibratorThread();
 		}
 	}
 

@@ -201,7 +201,7 @@ public class CategoryBricksFactory {
 		looksBrickList.add(new ClearGraphicEffectBrick(sprite));
 		looksBrickList.add(new LedOnBrick(sprite));
 		looksBrickList.add(new LedOffBrick(sprite));
-		looksBrickList.add(new VibrationBrick(sprite, BrickValues.VIBRATE_INTENSITY, BrickValues.VIBRATE_SECONDS));
+		looksBrickList.add(new VibrationBrick(sprite, BrickValues.VIBRATE_SECONDS));
 
 		return looksBrickList;
 	}
