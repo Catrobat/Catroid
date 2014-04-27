@@ -157,7 +157,8 @@ public class PreStageActivity extends BaseActivity implements DroneReadyReceiver
 			if (vibrator.hasVibrator()) {
 				requiredResources &= ~Brick.VIBRATOR;
 				requiredResourceCounter--;
-				VibratorUtil.activateVibratorThread(this.getBaseContext());
+				VibratorUtil.setContext(this.getBaseContext());
+				VibratorUtil.activateVibratorThread();
 			} else {
 				Toast.makeText(PreStageActivity.this, R.string.no_vibrator_available, Toast.LENGTH_LONG).show();
 				resourceFailed();
