@@ -357,10 +357,9 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static VibrateAction vibrate(Sprite sprite, Formula intensity, Formula duration) {
+	public static VibrateAction vibrate(Sprite sprite, Formula duration) {
 		VibrateAction action = action(VibrateAction.class);
 		action.setSprite(sprite);
-		action.setIntensity(intensity);
 		action.setDuration(duration);
 		return action;
 	}

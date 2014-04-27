@@ -52,25 +52,6 @@
 		</TextView>
 
 		<TextView
-			android:id="@+id/brick_vibration_prototype_text_view_intensity"
-			style="@style/BrickPrototypeTextView"
-			android:layout_width="match_parent" >
-		</TextView>
-
-		<TextView
-			android:id="@+id/brick_vibration_edit_intensity_text"
-			style="@style/BrickEditText"
-			app:layout_inputType="number"
-			app:layout_textField="true" >
-		</TextView>
-
-		<TextView
-			android:id="@+id/brick_vibration_for"
-			style="@style/BrickText.SingleLine"
-			android:text="@string/brick_vibration_seconds" >
-		</TextView>
-
-		<TextView
 			android:id="@+id/brick_vibration_prototype_text_view_seconds"
 			style="@style/BrickPrototypeTextView"
 			android:layout_width="match_parent" >
