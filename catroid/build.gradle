@@ -3,9 +3,11 @@ import java.util.regex.Pattern
 buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:0.9.+'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.9.+'
     }
 }
 
+apply plugin: 'android-sdk-manager'
 apply plugin: 'android'
 apply plugin: 'idea'
 //apply plugin: 'findbugs'
