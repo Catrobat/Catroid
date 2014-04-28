@@ -46,6 +46,7 @@ public final class SensorServerUtils {
 	// Enter the right IP address and port number to connect and request sensor values.
 	private static final String SERVER_IP = "129.27.202.103";
 	private static final int SERVER_PORT = 6789;
+	private static final int GET_VIBRATION_VALUE_ID = 1;
 	private static final int GET_LIGHT_VALUE_ID = 2;
 
 	public static final int SET_LED_ON_VALUE = 1;
@@ -70,14 +71,13 @@ public final class SensorServerUtils {
 	public static void closeConnection() throws IOException {
 		if (clientSocket != null) {
 			clientSocket.close();
-	}
-	clientSocket = null;
+		}
+		clientSocket = null;
 		sendToServer = null;
 		receiveFromServer = null;
 	}
 
-	public static void checkSensorValue( int expected ) {
-
+	public static void checkLEDSensorValue( int expected ) {
 		char expectedChar;
 		String assertString;
 		String response;
@@ -102,6 +102,27 @@ public final class SensorServerUtils {
 			assertFalse("Wrong Command!", response.contains("ERROR"));
 			assertTrue( "Wrong data received!", response.contains( "LIGHT_END" ) );
 			assertTrue( assertString, response.charAt(0) == expectedChar );
+
+		} catch ( IOException ioException ) {
+			throw new AssertionFailedError( "Data exchange failed! Check server connection!" );
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void checkVibrationSensorValue(int expected) {
+		String response;
+
+		try {
+			clientSocket.close();
+			Thread.sleep(NETWORK_DELAY_MS);
+			connectToArduinoServer();
+			Log.d(LOG_LED_TEST, "requesting sensor value: ");
+			sendToServer.writeByte(Integer.toHexString(GET_VIBRATION_VALUE_ID).charAt(0));
+			sendToServer.flush();
+			Thread.sleep(NETWORK_DELAY_MS);
+			response = receiveFromServer.readLine();
+			Log.d(LOG_LED_TEST, "response received! " + response);
 
 		} catch ( IOException ioException ) {
 			throw new AssertionFailedError( "Data exchange failed! Check server connection!" );
