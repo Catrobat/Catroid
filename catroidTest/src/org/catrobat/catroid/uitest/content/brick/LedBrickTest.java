@@ -114,11 +114,11 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 		try {
 			Thread.sleep(LED_DELAY_MS);
 			Log.d(LOG_LED_TEST, "checking sensor value");
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
+			SensorServerUtils.checkLEDSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
+			SensorServerUtils.checkLEDSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
+			SensorServerUtils.checkLEDSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
 		} catch (Exception e) {
 			Log.e(LOG_LED_TEST, e.getMessage());
@@ -131,11 +131,11 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 			// wait a long time, then check the sensor value weather the light is really on
 			Thread.sleep(LED_DELAY_MS);
 			Log.d(LOG_LED_TEST, "checking sensor value");
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
+			SensorServerUtils.checkLEDSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
+			SensorServerUtils.checkLEDSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
+			SensorServerUtils.checkLEDSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
 		} catch (Exception e) {
 			Log.e(LOG_LED_TEST, e.getMessage());
@@ -148,11 +148,11 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 		try {
 			Thread.sleep(LED_DELAY_MS);
 			Log.d(LOG_LED_TEST, "checking sensor value");
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
+			SensorServerUtils.checkLEDSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
+			SensorServerUtils.checkLEDSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
+			SensorServerUtils.checkLEDSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
 		} catch (Exception e) {
 			Log.e(LOG_LED_TEST, e.getMessage());
@@ -163,11 +163,11 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 			// wait a long time, then check the sensor value weather the light is really on
 			Thread.sleep(LED_DELAY_MS);
 			Log.d(LOG_LED_TEST, "checking sensor value");
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
+			SensorServerUtils.checkLEDSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
+			SensorServerUtils.checkLEDSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
+			SensorServerUtils.checkLEDSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
 		} catch (Exception e) {
 			Log.e(LOG_LED_TEST, e.getMessage());

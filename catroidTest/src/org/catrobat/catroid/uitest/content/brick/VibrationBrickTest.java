@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
@@ -49,6 +50,7 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 	private static final String LOG_VIB_TEST = "VibrationBrickTest::";
 
 	private static final int WLAN_DELAY_MS = 500;
+	private static final int VIBRATION_DURATION_MILLIS = 1000;
 
 	private VibrationBrick vibrationBrick;
 	private Project project;
@@ -91,7 +93,7 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 		int childrenCount = adapter.getChildCountFromLastGroup();
 		int groupCount = adapter.getScriptCount();
 
-		assertEquals( "Incorrect number of bricks.", 6, dragDropListView.getChildCount() );
+		assertEquals( "Incorrect number of bricks.", 1, dragDropListView.getChildCount() );
 		assertEquals( "Incorrect number of bricks.", 2, childrenCount );
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -102,9 +104,14 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 
-		//
+		try {
+			Thread.sleep(WLAN_DELAY_MS);
+			SensorServerUtils.checkVibrationSensorValue(1);
+		} catch (InterruptedException ie) {
+			Log.e(LOG_VIB_TEST, "ERROR: " + ie.getMessage());
+		}
 
-		Log.d(LOG_VIB_TEST, "testLedBrick() finished");
+		Log.d(LOG_VIB_TEST, "testVibrationBrick() finished");
 	}
 
 	private void createProject () {
@@ -112,14 +119,13 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 		Sprite sprite = new Sprite("cat");
 		Script startScript = new StartScript(sprite);
 
-		vibrationBrick = new VibrationBrick(sprite);
+		vibrationBrick = new VibrationBrick(sprite, VIBRATION_DURATION_MILLIS);
 		startScript.addBrick(vibrationBrick);
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(startScript);
-
 	}
 
 }
