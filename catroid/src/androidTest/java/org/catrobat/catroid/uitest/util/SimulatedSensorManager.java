@@ -26,6 +26,7 @@ package org.catrobat.catroid.uitest.util;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.util.Log;
 
 import org.catrobat.catroid.formulaeditor.SensorCustomEvent;
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
@@ -39,6 +40,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class SimulatedSensorManager implements SensorManagerInterface {
+
+	private static final String TAG = SimulatedSensorManager.class.getSimpleName();
 
 	public class Pair<L, R> {
 		private L firstEntry;
@@ -158,15 +161,15 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 				sensorEvent = constructor.newInstance(3);
 
 			} catch (NoSuchMethodException noSuchMethodException) {
-				noSuchMethodException.printStackTrace();
+				Log.e(TAG, Log.getStackTraceString(noSuchMethodException));
 			} catch (IllegalArgumentException illegalArgumentException) {
-				illegalArgumentException.printStackTrace();
+				Log.e(TAG, Log.getStackTraceString(illegalArgumentException));
 			} catch (InstantiationException instantiationException) {
-				instantiationException.printStackTrace();
+				Log.e(TAG, Log.getStackTraceString(instantiationException));
 			} catch (IllegalAccessException illegalAccessException) {
-				illegalAccessException.printStackTrace();
+				Log.e(TAG, Log.getStackTraceString(illegalAccessException));
 			} catch (InvocationTargetException invocationTargetException) {
-				invocationTargetException.printStackTrace();
+				Log.e(TAG, Log.getStackTraceString(invocationTargetException));
 			}
 
 			if (sensorEvent == null) {

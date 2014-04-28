@@ -37,9 +37,9 @@ public final class Utils {
 			"../catroidCucumberTest", "../catroidLegoNXTBTTest" };
 	public static final String[] SOURCE_FILE_DIRECTORIES = { "src", "../catroid/src",
 			"../catroidCucumberTest/src", "../catroidLegoNXTBTTest/src" };
-	public static final String[] SOURCE_AND_RESOURCE_DIRECTORIES = { "src", "res", "../catroid/src",
-			"../catroid/res", "../catroidCucumberTest/src",
-			"../catroidLegoNXTBTTest/src" };
+	public static final String[] SOURCE_AND_RESOURCE_DIRECTORIES = { "src", "res", "../catroid/src/main/java",
+			"../catroid/src/main/res", "../catroid/src/androidTest/java", "../catroid/src/androidTest/res",
+			"../catroidCucumberTest/src", "../catroidLegoNXTBTTest/src" };
 	public static final String[] TEST_FILE_DIRECTORIES = { "src", "../catroid/src/androidTest",
 			"../catroidCucumberTest/src" };
 	public static final String[] PRINT_STACK_TRACE_TEST_DIRECTORIES = { "src", "../catroid/src",
