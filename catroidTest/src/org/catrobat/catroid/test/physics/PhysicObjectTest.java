@@ -40,6 +40,7 @@ import org.catrobat.catroid.physic.PhysicsWorld;
 import org.catrobat.catroid.physic.PhysicsWorldConverter;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
+import org.catrobat.catroid.test.utils.TestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +55,7 @@ public class PhysicObjectTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		// TODO[physic] maybe initialize with values from a real project
-		physicsWorld = new PhysicsWorld(800, 600);
+		physicsWorld = new PhysicsWorld(1920, 1600);
 	}
 
 	@Override
@@ -96,8 +97,9 @@ public class PhysicObjectTest extends AndroidTestCase {
 		assertEquals("Wrong initialization", PhysicsObject.DEFAULT_FRICTION, fixtureDef.friction);
 		assertEquals("Wrong initialization", PhysicsObject.DEFAULT_BOUNCE_FACTOR, fixtureDef.restitution);
 
+		short categoryBits = PhysicsWorld.CATEGORY_PHYSICSOBJECT;
 		short collisionBits = 0;
-		checkCollisionMask(physicsObject, collisionBits, collisionBits);
+		checkCollisionMask(physicsObject, categoryBits, collisionBits);
 
 		assertFalse("Wrong initialization", (Boolean) Reflection.getPrivateField(physicsObject, "ifOnEdgeBounce"));
 	}
@@ -183,16 +185,16 @@ public class PhysicObjectTest extends AndroidTestCase {
 
 	public void testSetCollisionBits() {
 		PhysicsObject physicsObject = createPhysicObject(PhysicsObject.Type.NONE, 10.0f, 5.0f);
-		checkCollisionMask(physicsObject, (short) 0, (short) 0);
+		checkCollisionMask(physicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT, PhysicsWorld.MASK_NOCOLLISION);
 
 		physicsObject.setType(PhysicsObject.Type.FIXED);
-		checkCollisionMask(physicsObject, PhysicsWorld.MASK_PHYSICSOBJECT, PhysicsWorld.MASK_PHYSICSOBJECT);
+		checkCollisionMask(physicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT, PhysicsWorld.MASK_PHYSICSOBJECT);
 
 		physicsObject.setType(PhysicsObject.Type.NONE);
-		checkCollisionMask(physicsObject, (short) 0, (short) 0);
+		checkCollisionMask(physicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT, PhysicsWorld.MASK_NOCOLLISION);
 
 		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
-		checkCollisionMask(physicsObject, PhysicsWorld.MASK_PHYSICSOBJECT, PhysicsWorld.MASK_PHYSICSOBJECT);
+		checkCollisionMask(physicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT, PhysicsWorld.MASK_PHYSICSOBJECT);
 	}
 
 	public void testSetTypeToDynamicUpdatesMass() {
@@ -215,15 +217,23 @@ public class PhysicObjectTest extends AndroidTestCase {
 			PhysicsObject physicsObject = createPhysicObject(type);
 			assertEquals("Wrong initialization", 0.0f, getBody(physicsObject).getAngle());
 
-			float[] degrees = { 1.0f, 131.4f, -10.0f };
+			float[] degrees = { 1.0f, 131.4f, -10.0f, -180.0f };
+			float[] expectedDegrees = { 1.0f, 131.4f, -10.0f, -180.0f };
 
+			int idx = 0;
 			for (float angle : degrees) {
-				physicsObject.setDirection(angle);
 
+				angle = computeScratchCompatibleDirection(angle);
+
+				physicsObject.setDirection(angle);
 				float physicsObjectCatroidAngle = PhysicsWorldConverter.toCatroidAngle(getBody(physicsObject)
 						.getAngle());
-				assertEquals("Wrong catroid angle", angle, physicsObjectCatroidAngle);
-				assertEquals("Wrong box2d angle", angle, physicsObject.getDirection());
+
+				assertEquals("Wrong catroid angle", expectedDegrees[idx], physicsObjectCatroidAngle, TestUtils.DELTA);
+				assertEquals("Wrong box2d angle", expectedDegrees[idx], physicsObject.getDirection(), TestUtils.DELTA);
+				//assertEquals("Wrong catroid angle", angle, physicsObjectCatroidAngle);
+				//assertEquals("Wrong box2d angle", angle, physicsObject.getDirection());
+				idx++;
 			}
 		}
 	}
@@ -260,7 +270,8 @@ public class PhysicObjectTest extends AndroidTestCase {
 			assertEquals("Wrong initialization", 0.0f, getBody(physicsObject).getAngle());
 			assertEquals("initialization", new Vector2(), getBody(physicsObject).getPosition());
 
-			float angle = 15.6f;
+			float angle = computeScratchCompatibleDirection(15.6f);
+			float expectedAngle = 15.6f;
 			Vector2 position = new Vector2(12.34f, 56.78f);
 			physicsObject.setDirection(angle);
 			physicsObject.setPosition(position.x, position.y);
@@ -269,7 +280,7 @@ public class PhysicObjectTest extends AndroidTestCase {
 			Vector2 physicsObjectCatroidPosition = PhysicsWorldConverter.toCatroidVector(getBody(physicsObject)
 					.getPosition());
 
-			assertEquals("Wrong catroid angle", angle, physicsObjectCatroidAngle);
+			assertEquals("Wrong catroid angle", expectedAngle, physicsObjectCatroidAngle, TestUtils.DELTA);
 			assertEquals("Wrong catroid position", position, physicsObjectCatroidPosition);
 		}
 	}
@@ -445,7 +456,10 @@ public class PhysicObjectTest extends AndroidTestCase {
 		float rotationSpeed = 20.0f;
 		physicsObject.setRotationSpeed(rotationSpeed);
 
-		float physicsObjectCatroidRotationSpeed = PhysicsWorldConverter.toCatroidAngle(body.getAngularVelocity());
+		// TODO [Physics] check if toCatroidAngle(...) is needed
+
+		//float physicsObjectCatroidRotationSpeed = PhysicsWorldConverter.toCatroidAngle(body.getAngularVelocity());
+		float physicsObjectCatroidRotationSpeed = (float) Math.toDegrees(body.getAngularVelocity());
 		assertEquals("Set wrong rotation speed", rotationSpeed, physicsObjectCatroidRotationSpeed);
 	}
 
@@ -468,13 +482,12 @@ public class PhysicObjectTest extends AndroidTestCase {
 
 		assertTrue("If on edge bounce hasn't been set correctly",
 				(Boolean) Reflection.getPrivateField(physicsObject, "ifOnEdgeBounce"));
-		checkCollisionMask(physicsObject, PhysicsWorld.MASK_PHYSICSOBJECT,
-				(short) (PhysicsWorld.MASK_PHYSICSOBJECT | PhysicsWorld.MASK_BOUNDARYBOX));
+		checkCollisionMask(physicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT, PhysicsWorld.MASK_TOBOUNCE);
 
 		physicsObject.setIfOnEdgeBounce(false, sprite);
 		assertFalse("If on edge bounce hasn't been set correctly",
 				(Boolean) Reflection.getPrivateField(physicsObject, "ifOnEdgeBounce"));
-		checkCollisionMask(physicsObject, PhysicsWorld.MASK_PHYSICSOBJECT, PhysicsWorld.MASK_PHYSICSOBJECT);
+		checkCollisionMask(physicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT, PhysicsWorld.MASK_PHYSICSOBJECT);
 	}
 
 	// SANTA'S LITTLE HELPERS :)
@@ -603,5 +616,14 @@ public class PhysicObjectTest extends AndroidTestCase {
 				assertEquals("Vertex are different", expectedVertex, actualVertex);
 			}
 		}
+	}
+
+	private float computeScratchCompatibleDirection(float direction) {
+		direction = direction % 360;
+		if (direction < 0) {
+			direction += 360f;
+		}
+		direction = 180f - direction;
+		return direction;
 	}
 }
