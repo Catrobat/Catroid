@@ -54,6 +54,8 @@ public class TestUtils {
 	public static final int TYPE_SOUND_FILE = 1;
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
 
+	public static final double DELTA = 0.00001;
+
 	private TestUtils() {
 	};
 
