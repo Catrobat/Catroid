@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import java.util.ArrayList;
 
 public final class BroadcastHandler {
+
 	private BroadcastHandler() {
 		throw new AssertionError();
 	}
@@ -113,31 +114,11 @@ public final class BroadcastHandler {
 	private static boolean handleAction(Action action) {
 		for (Sprite sprites : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
 			for (Action actionOfLook : sprites.look.getActions()) {
-				if (actionOfLook instanceof SequenceAction && ((SequenceAction) actionOfLook).getActions().size > 0
-						&& ((SequenceAction) actionOfLook).getActions().get(0) == action) {
+				if (action == actionOfLook || bothSequenceActionsAndEqual(actionOfLook, action)
+						|| isFirstSequenceActionAndEqualsSecond(action, actionOfLook)
+						|| isFirstSequenceActionAndEqualsSecond(actionOfLook, action)) {
 					Look.actionsToRestartAdd(actionOfLook);
 					return true;
-				} else {
-					if (action instanceof SequenceAction && ((SequenceAction) action).getActions().size > 0
-							&& ((SequenceAction) action).getActions().get(0) == actionOfLook) {
-						Look.actionsToRestartAdd(action);
-						return true;
-					} else {
-						if (action == actionOfLook) {
-							Look.actionsToRestartAdd(actionOfLook);
-							return true;
-						} else {
-							if (actionOfLook instanceof SequenceAction
-									&& ((SequenceAction) actionOfLook).getActions().size > 0
-									&& action instanceof SequenceAction
-									&& ((SequenceAction) action).getActions().size > 0
-									&& ((SequenceAction) actionOfLook).getActions().get(0) == ((SequenceAction) action)
-											.getActions().get(0)) {
-								Look.actionsToRestartAdd(action);
-								return true;
-							}
-						}
-					}
 				}
 			}
 		}
@@ -150,28 +131,42 @@ public final class BroadcastHandler {
 
 		for (Sprite sprites : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
 			for (Action actionOfLook : sprites.look.getActions()) {
+
 				Action actualActionOfLook = null;
+
 				if (actionOfLook instanceof SequenceAction && ((SequenceAction) actionOfLook).getActions().size > 0) {
 					actualActionOfLook = ((SequenceAction) actionOfLook).getActions().get(0);
 				}
+
 				if (sequenceActionWithBroadcastNotifyAction == actionOfLook) {
 					((BroadcastNotifyAction) ((SequenceAction) actionOfLook).getActions().get(1)).getEvent()
 							.resetNumberOfFinishedReceivers();
 					Look.actionsToRestartAdd(actionOfLook);
 					return true;
-				} else {
-					if (actualActionOfLook != null && actualActionOfLook == actualAction) {
-						((BroadcastNotifyAction) ((SequenceAction) actionOfLook).getActions().get(1)).getEvent()
-								.resetEventAndResumeScript();
-						Look.actionsToRestartAdd(actionOfLook);
-						return false;
-					} else {
-						addOrRestartAction(look, sequenceActionWithBroadcastNotifyAction);
-						return false;
-					}
 				}
+
+				if (actualActionOfLook != null && actualActionOfLook == actualAction) {
+					((BroadcastNotifyAction) ((SequenceAction) actionOfLook).getActions().get(1)).getEvent()
+							.resetEventAndResumeScript();
+					Look.actionsToRestartAdd(actionOfLook);
+					return false;
+				}
+
+				addOrRestartAction(look, sequenceActionWithBroadcastNotifyAction);
+				return false;
 			}
 		}
 		return false;
+	}
+
+	private static boolean isFirstSequenceActionAndEqualsSecond(Action action1, Action action2) {
+		return action1 instanceof SequenceAction && ((SequenceAction) action1).getActions().size > 0
+				&& ((SequenceAction) action1).getActions().get(0) == action2;
+	}
+
+	private static boolean bothSequenceActionsAndEqual(Action action1, Action action2) {
+		return action1 instanceof SequenceAction && ((SequenceAction) action1).getActions().size > 0
+				&& action2 instanceof SequenceAction && ((SequenceAction) action2).getActions().size > 0
+				&& ((SequenceAction) action1).getActions().get(0) == ((SequenceAction) action2).getActions().get(0);
 	}
 }
