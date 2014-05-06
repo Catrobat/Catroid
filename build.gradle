@@ -26,10 +26,12 @@ ext.features_enabled = [
 ]
 
 dependencies {
-    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
+	compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
     compile 'com.android.support:support-v4:18.0.+'
     compile fileTree(dir: 'catroid/libs', include: '*.jar')
     compile fileTree(dir: 'catroid/libs-natives', include: '*.jar')
+	compile 'com.squareup.picasso:picasso:2.2.0'
+
 
     androidTestCompile fileTree(dir: 'catroidTest/libs', include: '*.jar')
 
