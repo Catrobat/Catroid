@@ -32,6 +32,7 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physic.PhysicsLook;
 import org.catrobat.catroid.physic.PhysicsObject;
+import org.catrobat.catroid.physic.PhysicsObject.Type;
 import org.catrobat.catroid.physic.PhysicsWorld;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
@@ -113,7 +114,9 @@ public class PhysicWorldTest extends AndroidTestCase {
 				paramList);
 		Body body = (Body) Reflection.getPrivateField(physicsObject, "body");
 
-		assertTrue("Created body isn't a bullet", body.isBullet());
+		assertEquals("Type is not the expected", Type.NONE, physicsObject.getType());
+		// TODO[Physics] extend test
+		//assertTrue("Created body isn't a bullet", body.isBullet());
 	}
 
 	public void testGetSamePhysicObject() {
@@ -148,7 +151,8 @@ public class PhysicWorldTest extends AndroidTestCase {
 		Vector2 velocity = new Vector2(2.3f, 4.5f);
 		float rotationSpeed = 45.0f;
 		physicsWorld.setGravity(0.0f, 0.0f);
-		Reflection.setPrivateField(PhysicsWorld.class, physicsWorld, "stabilizingStep", PhysicsWorld.STABILIZING_STEPS);
+		Reflection.setPrivateField(PhysicsWorld.class, physicsWorld, "stabilizingSteCounter",
+				PhysicsWorld.STABILIZING_STEPS);
 
 		assertEquals("Physic object has a wrong start position", new Vector2(), physicsObject.getPosition());
 
@@ -165,4 +169,17 @@ public class PhysicWorldTest extends AndroidTestCase {
 		assertEquals("Wrong y position", 2 * velocity.y, physicsObject.getY(), 1e-8);
 		assertEquals("Wrong angle", 2 * rotationSpeed, physicsObject.getDirection(), 1e-8);
 	}
+
+	/*
+	 * Helper
+	 */
+	public static float computeScratchCompatibleAngleForDirectSetting(float direction) {
+		direction = direction % 360;
+		if (direction < 0) {
+			direction += 360f;
+		}
+		direction = 180f - direction;
+		return direction;
+	}
+
 }

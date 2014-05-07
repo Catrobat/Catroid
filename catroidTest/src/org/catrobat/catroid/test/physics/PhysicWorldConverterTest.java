@@ -28,8 +28,10 @@ import com.badlogic.gdx.math.Vector2;
 
 import junit.framework.Assert;
 
+import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.physic.PhysicsWorld;
 import org.catrobat.catroid.physic.PhysicsWorldConverter;
+import org.catrobat.catroid.test.utils.TestUtils;
 
 public class PhysicWorldConverterTest extends AndroidTestCase {
 
@@ -44,14 +46,23 @@ public class PhysicWorldConverterTest extends AndroidTestCase {
 	}
 
 	public void testAngleConversion() {
+		// TODO[Physics] refactor test
 		float angle = 0.0f;
-		Assert.assertEquals(angle, PhysicsWorldConverter.toCatroidAngle(angle));
-		Assert.assertEquals(angle, PhysicsWorldConverter.toBox2dAngle(angle));
+		//float angle = PhysicWorldTest.computeScratchCompatibleAngleForDirectSetting(0.0f);
+		Assert.assertEquals(angle + Look.getDegreeUserInterfaceOffset(), PhysicsWorldConverter.toCatroidAngle(angle));
+		Assert.assertEquals(angle - Math.toRadians(Look.getDegreeUserInterfaceOffset()),
+				PhysicsWorldConverter.toBox2dAngle(angle), TestUtils.DELTA);
 
-		Assert.assertEquals((float) (Math.PI / 2.0), PhysicsWorldConverter.toBox2dAngle(90.0f));
-		Assert.assertEquals((float) Math.PI, PhysicsWorldConverter.toBox2dAngle(180.0f));
-		Assert.assertEquals(90.0f, PhysicsWorldConverter.toCatroidAngle((float) (Math.PI / 2.0)));
-		Assert.assertEquals(180.0f, PhysicsWorldConverter.toCatroidAngle((float) Math.PI));
+		Assert.assertEquals((float) (Math.PI / 2.0) - Math.toRadians(Look.getDegreeUserInterfaceOffset()),
+				PhysicsWorldConverter.toBox2dAngle(90.0f), TestUtils.DELTA);
+		Assert.assertEquals((float) Math.PI - Math.toRadians(Look.getDegreeUserInterfaceOffset()),
+				PhysicsWorldConverter.toBox2dAngle(180.0f), TestUtils.DELTA);
+		angle = PhysicWorldTest.computeScratchCompatibleAngleForDirectSetting(90.0f);
+		Assert.assertEquals(angle + Look.getDegreeUserInterfaceOffset(),
+				PhysicsWorldConverter.toCatroidAngle((float) (Math.PI / 2.0)), TestUtils.DELTA);
+		angle = PhysicWorldTest.computeScratchCompatibleAngleForDirectSetting(180.0f);
+		Assert.assertEquals(angle + Look.getDegreeUserInterfaceOffset(),
+				PhysicsWorldConverter.toCatroidAngle((float) Math.PI), TestUtils.DELTA);
 
 		float[] angles = { 123.456f, -123.456f, 1024.0f };
 		for (float currentAngle : angles) {
