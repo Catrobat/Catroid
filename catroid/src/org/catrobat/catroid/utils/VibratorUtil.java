@@ -46,6 +46,8 @@ public class VibratorUtil {
 	private static long timeToVibrate = 0L;
 	private static long savedTimeToVibrate = 0L;
 
+	private static final int MAX_TIME_TO_VIBRATE = 60000;
+
 	private VibratorUtil() {
 	}
 
@@ -81,10 +83,14 @@ public class VibratorUtil {
 		Log.d(LOG_TAG, "resumeVibrator()");
 		if (paused) {
 			timeToVibrate = savedTimeToVibrate;
+			Log.d(LOG_TAG, "savedTimeToVibrate = " + savedTimeToVibrate);
 			savedTimeToVibrate = 0;
+			keepAlive = true;
 			activateVibratorThread();
 			if (timeToVibrate > 0) {
 				vibratorThreadSemaphore.release();
+			} else {
+				Log.d(LOG_TAG, "nothing to do");
 			}
 		}
 		paused = false;
@@ -137,6 +143,7 @@ public class VibratorUtil {
 			}
 			keepAlive = true;
 			vibratorThread.setName("vibratorThread");
+			Log.d(LOG_TAG, "starting thread...");
 			vibratorThread.start();
 		}
 	}
@@ -148,16 +155,14 @@ public class VibratorUtil {
 			vibratorThreadSemaphore.release();
 		}
 		startTime = 0;
-		savedTimeToVibrate = 0;
 		timeToVibrate = 0;
-		paused = false;
 		vibratorThread = null;
 	}
 
 	private static synchronized void startVibrate() {
 		Log.d(LOG_TAG, "startVibrate()");
 		startTime = SystemClock.uptimeMillis();
-		vibrator.vibrate(60000);
+		vibrator.vibrate(MAX_TIME_TO_VIBRATE);
 		Log.d(LOG_TAG, "start time was: " + Long.toString(startTime));
 	}
 

@@ -44,7 +44,7 @@ public final class SensorServerUtils {
 	private static BufferedReader receiveFromServer;
 
 	// Enter the right IP address and port number to connect and request sensor values.
-	private static final String SERVER_IP = "10.0.0.3";//"129.27.202.103";
+	private static final String SERVER_IP = "129.27.202.103";
 	private static final int SERVER_PORT = 6789;
 	private static final int GET_VIBRATION_VALUE_ID = 1;
 	private static final int GET_LIGHT_VALUE_ID = 2;
