@@ -105,7 +105,7 @@ public class PreStageActivity extends Activity {
 
 		if ((requiredResources & Brick.VIBRATOR) > 0) {
 			Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-			if (vibrator.hasVibrator()) {
+			if (vibrator != null) {
 				requiredResources &= ~Brick.VIBRATOR;
 				requiredResourceCounter--;
 				VibratorUtil.setContext(this.getBaseContext());

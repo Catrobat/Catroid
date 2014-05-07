@@ -100,9 +100,9 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 		assertEquals( "Incorrect number of bricks.", 2, childrenCount );
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
-		assertEquals( "Incorrect number of bricks", 1, projectBrickList.size() );
+		assertEquals( "Incorrect number of bricks", 2, projectBrickList.size() );
 
-		assertEquals( "Wrong brick instance", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0) );
+		//assertEquals( "Wrong brick instance", projectBrickList.get(1), adapter.getChild(groupCount - 1, 0) );
 		assertNotNull( "TextView does not exist.", solo.getText(solo.getString(R.string.brick_led_off)));
 
 
@@ -110,15 +110,14 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 
-		// first the led should remain dark
 		try {
 			Thread.sleep(LED_DELAY_MS);
 			Log.d(LOG_LED_TEST, "checking sensor value");
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
+			SensorServerUtils.checkLightSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
+			SensorServerUtils.checkLightSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
+			SensorServerUtils.checkLightSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
 		} catch (Exception e) {
 			Log.e(LOG_LED_TEST, e.getMessage());
@@ -131,11 +130,11 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 			// wait a long time, then check the sensor value weather the light is really on
 			Thread.sleep(LED_DELAY_MS);
 			Log.d(LOG_LED_TEST, "checking sensor value");
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
+			SensorServerUtils.checkLightSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
+			SensorServerUtils.checkLightSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
+			SensorServerUtils.checkLightSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
 		} catch (Exception e) {
 			Log.e(LOG_LED_TEST, e.getMessage());
@@ -148,37 +147,35 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 		try {
 			Thread.sleep(LED_DELAY_MS);
 			Log.d(LOG_LED_TEST, "checking sensor value");
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
+			SensorServerUtils.checkLightSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
+			SensorServerUtils.checkLightSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
+			SensorServerUtils.checkLightSensorValue(SensorServerUtils.SET_LED_OFF_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
 		} catch (Exception e) {
 			Log.e(LOG_LED_TEST, e.getMessage());
 		}
 
 		// resuming the activity should turn the led on again
+		Log.d(LOG_LED_TEST, "resume StageActivity - this should turn the led on again");
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
+		solo.sleep(6000);
 		try {
 			// wait a long time, then check the sensor value weather the light is really on
 			Thread.sleep(LED_DELAY_MS);
 			Log.d(LOG_LED_TEST, "checking sensor value");
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
+			SensorServerUtils.checkLightSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
+			SensorServerUtils.checkLightSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
-			SensorServerUtils.checkSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
+			SensorServerUtils.checkLightSensorValue(SensorServerUtils.SET_LED_ON_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
 		} catch (Exception e) {
 			Log.e(LOG_LED_TEST, e.getMessage());
 		}
 
 		Log.d(LOG_LED_TEST, "testLedBrick() finished");
-	}
-
-	@Device
-	public void testMultipleLedBricks() {
-
 	}
 
 	private boolean createProject () {

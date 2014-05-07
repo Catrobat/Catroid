@@ -53,12 +53,12 @@ public class VibratorUtil {
 
 	public static void setTimeToVibrate(double timeInMillis) {
 		Log.d(LOG_TAG, "setTimeToVibrate()");
+		timeToVibrate = (long) timeInMillis;
 		if (vibratorThreadSemaphore.hasQueuedThreads()) {
 			vibratorThreadSemaphore.release();
 		} else {
 			startTime = SystemClock.uptimeMillis();
 		}
-		timeToVibrate = (long) timeInMillis;
 	}
 
 	public static void pauseVibrator() {
