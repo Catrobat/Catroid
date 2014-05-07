@@ -35,9 +35,24 @@ public class PhysicDebugSettingsTest extends AndroidTestCase {
 	public void testDefaultSettingsForRelease() {
 		assertFalse(
 				"Tests if all physics debug settings are configured correctly for the release. Therefore there is no problem if it fails during programming or debugging",
-				PhysicsDebugSettings.BOUNCE_ON_EDGES);
+				PhysicsDebugSettings.Render.RENDER_COLLISION_FRAMES);
 		assertFalse(
 				"Tests if all physics debug settings are configured correctly for the release. Therefore there is no problem if it fails during programming or debugging.",
-				PhysicsDebugSettings.Render.RENDER_COLLISION_FRAMES);
+				PhysicsDebugSettings.Render.RENDER_BODIES);
+		assertFalse(
+				"Tests if all physics debug settings are configured correctly for the release. Therefore there is no problem if it fails during programming or debugging.",
+				PhysicsDebugSettings.Render.RENDER_JOINTS);
+		assertFalse(
+				"Tests if all physics debug settings are configured correctly for the release. Therefore there is no problem if it fails during programming or debugging.",
+				PhysicsDebugSettings.Render.RENDER_AABBs);
+		assertFalse(
+				"Tests if all physics debug settings are configured correctly for the release. Therefore there is no problem if it fails during programming or debugging.",
+				PhysicsDebugSettings.Render.RENDER_INACTIVE_BODIES);
+		assertFalse(
+				"Tests if all physics debug settings are configured correctly for the release. Therefore there is no problem if it fails during programming or debugging.",
+				PhysicsDebugSettings.Render.RENDER_VELOCITIES);
+		assertFalse(
+				"Tests if all physics debug settings are configured correctly for the release. Therefore there is no problem if it fails during programming or debugging.",
+				PhysicsDebugSettings.Render.RENDER_PHYSIC_OBJECT_LABELING);
 	}
 }
