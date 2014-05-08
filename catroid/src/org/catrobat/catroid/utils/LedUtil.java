@@ -78,6 +78,20 @@ public class LedUtil {
 		paused = false;
 	}
 
+	public static void reset() {
+		Log.d(LOG_TAG, "reset all variables - called by StageActivity::onDestroy");
+		currentLedValue = false;
+		nextLedValue = false;
+		paused = false;
+		keepAlive = false;
+		if (lightThreadSemaphore.hasQueuedThreads()) {
+			lightThreadSemaphore.release();
+		}
+		cam = null;
+		paramsOff = null;
+		paramsOn = null;
+		surfaceTexture = null;
+	}
 
 	public static void activateLedThread() {
 		Log.d(LOG_TAG, "activateLedThread()");
