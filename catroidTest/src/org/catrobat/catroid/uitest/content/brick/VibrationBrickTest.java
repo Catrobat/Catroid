@@ -101,8 +101,6 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals( "Incorrect number of bricks", 1, projectBrickList.size() );
 
-		//assertEquals( "Wrong brick instance", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0) );
-
 		try {
 			Log.d(LOG_VIB_TEST, "checking vibration sensor value");
 			SensorServerUtils.checkVibrationSensorValue(SensorServerUtils.SET_VIBRATION_OFF_VALUE);
@@ -118,7 +116,7 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 
 		try {
-			Thread.sleep(6000);
+			Thread.sleep(4000);
 			SensorServerUtils.checkVibrationSensorValue(SensorServerUtils.SET_VIBRATION_ON_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
 		} catch (Exception e) {
@@ -142,7 +140,7 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 		UiTestUtils.clickOnStageCoordinates(solo, 100, 200, 480, 800);
 
 		try {
-			Thread.sleep(5000);
+			Thread.sleep(4000);
 			SensorServerUtils.checkVibrationSensorValue(SensorServerUtils.SET_VIBRATION_ON_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
 		} catch (Exception e) {
