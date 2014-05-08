@@ -51,7 +51,7 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 
 	private static final int WLAN_DELAY_MS = 500;
 
-	private VibrationBrick vibrationBrick2Seconds;
+	private VibrationBrick vibrationBrick5Seconds;
 	private VibrationBrick vibrationBrick15Seconds;
 	private Project project;
 
@@ -116,7 +116,7 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 
 		try {
-			Thread.sleep(4000);
+			Thread.sleep(3000);
 			SensorServerUtils.checkVibrationSensorValue(SensorServerUtils.SET_VIBRATION_ON_VALUE);
 			Thread.sleep(WLAN_DELAY_MS);
 		} catch (Exception e) {
@@ -180,11 +180,11 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 		Script startScript = new StartScript(sprite);
 		Script tappedScript = new WhenScript(sprite);
 
-		vibrationBrick2Seconds = new VibrationBrick(sprite, 2000);
+		vibrationBrick5Seconds = new VibrationBrick(sprite, 5000);
 		vibrationBrick15Seconds = new VibrationBrick(sprite, 15000);
 
 		sprite.addScript(startScript);
-		startScript.addBrick(vibrationBrick2Seconds);
+		startScript.addBrick(vibrationBrick5Seconds);
 		sprite.addScript(tappedScript);
 		tappedScript.addBrick(vibrationBrick15Seconds);
 		project.addSprite(sprite);
