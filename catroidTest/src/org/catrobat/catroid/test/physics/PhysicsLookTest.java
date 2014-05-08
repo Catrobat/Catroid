@@ -42,6 +42,7 @@ import org.catrobat.catroid.physic.PhysicsObject;
 import org.catrobat.catroid.physic.PhysicsWorld;
 import org.catrobat.catroid.physic.shapebuilder.PhysicsShapeBuilder;
 import org.catrobat.catroid.test.R;
+import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -57,7 +58,7 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 	private Project project;
 	private File testImage;
 	private String testImageFilename;
-	private static final int IMAGE_FILE_ID = R.raw.polygons;
+	private static final int IMAGE_FILE_ID = R.raw.multible_mixed_polygons;
 	private Sprite sprite;
 
 	static {
@@ -72,7 +73,7 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 		if (projectFile.exists()) {
 			UtilFile.deleteDirectory(projectFile);
 		}
-		testImageFilename = Utils.md5Checksum("testImage.png") + "_testImage.png";
+		testImageFilename = PhysicsTestUtils.getInternalImageFilenameFromFilename("testImage.png");
 
 		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		StorageHandler.getInstance().saveProject(project);
@@ -87,6 +88,7 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
+		TestUtils.clearProject(TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		physicsWorld = null;
 		sprite = null;
 		super.tearDown();
@@ -104,7 +106,7 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 
 		LookData lookData = new LookData();
 		lookData.setLookFilename(testImage.getName());
-		lookData.setLookName(testImageFilename);
+		lookData.setLookName(testImage.getName());
 		sprite.getLookDataList().add(lookData);
 		Pixmap pixmap = null;
 		pixmap = Utils.getPixmapFromFile(testImage);
