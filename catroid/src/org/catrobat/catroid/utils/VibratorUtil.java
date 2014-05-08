@@ -96,6 +96,20 @@ public class VibratorUtil {
 		paused = false;
 	}
 
+	public static void reset() {
+		Log.d(LOG_TAG, "reset() - called by StageActivity::onDestroy");
+		startTime = 0L;
+		timeToVibrate = 0L;
+		savedTimeToVibrate = 0L;
+		keepAlive = false;
+		if (vibratorThreadSemaphore.hasQueuedThreads()) {
+			vibratorThreadSemaphore.release();
+		}
+		paused = false;
+		context = null;
+		vibrator = null;
+	}
+
 	public static void setContext(Context stageContext) {
 		context = stageContext;
 	}

@@ -84,6 +84,13 @@ public class StageActivity extends AndroidApplication {
 		super.onResume();
 	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		LedUtil.reset();
+		VibratorUtil.reset();
+	}
+
 	public void pause() {
 		SensorHandler.stopSensorListeners();
 		stageListener.menuPause();

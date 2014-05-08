@@ -171,7 +171,7 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 			Log.e(LOG_VIB_TEST, e.getMessage());
 		}
 
-		Log.d(LOG_VIB_TEST, "testLedBrick() finished");
+		Log.d(LOG_VIB_TEST, "test finished");
 	}
 
 	private void createProject () {
