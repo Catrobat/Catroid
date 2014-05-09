@@ -8,17 +8,17 @@ import com.badlogic.gdx.physics.box2d.Shape;
 
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.physic.PhysicsObject;
-import org.catrobat.catroid.physic.PhysicsWorld;
+import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 
 public class PhysicsTestUtils {
 
-	public static PhysicsObject createPhysicObject(PhysicsWorld physicsWorld, PhysicsObject.Type type, float width,
+	public static PhysicsObject createPhysicsObject(PhysicsWorld physicsWorld, PhysicsObject.Type type, float width,
 			float height) {
-		return createPhysicObject(physicsWorld, type, createRectanglePolygonShape(width, height));
+		return createPhysicsObject(physicsWorld, type, createRectanglePolygonShape(width, height));
 	}
 
 	public static PolygonShape createRectanglePolygonShape(float width, float height) {
@@ -27,8 +27,8 @@ public class PhysicsTestUtils {
 		return rectangle;
 	}
 
-	public static PhysicsObject createPhysicObject(PhysicsWorld physicsWorld, PhysicsObject.Type type, Shape shape) {
-		PhysicsObject physicsObject = physicsWorld.getPhysicObject(new Sprite("TestSprite"));
+	public static PhysicsObject createPhysicsObject(PhysicsWorld physicsWorld, PhysicsObject.Type type, Shape shape) {
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(new Sprite("TestSprite"));
 
 		if (type != null || type == PhysicsObject.Type.NONE) {
 			physicsObject.setType(type);
@@ -41,12 +41,12 @@ public class PhysicsTestUtils {
 		return physicsObject;
 	}
 
-	public static PhysicsObject createPhysicObject(PhysicsWorld physicsWorld, PhysicsObject.Type type) {
-		return createPhysicObject(physicsWorld, type, null);
+	public static PhysicsObject createPhysicsObject(PhysicsWorld physicsWorld, PhysicsObject.Type type) {
+		return createPhysicsObject(physicsWorld, type, null);
 	}
 
-	public static PhysicsObject createPhysicObject(PhysicsWorld physicsWorld) {
-		return createPhysicObject(physicsWorld, null, null);
+	public static PhysicsObject createPhysicsObject(PhysicsWorld physicsWorld) {
+		return createPhysicsObject(physicsWorld, null, null);
 	}
 
 	// Private member helper methods.

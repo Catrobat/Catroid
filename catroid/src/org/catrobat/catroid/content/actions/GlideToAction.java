@@ -32,7 +32,7 @@ public class GlideToAction extends TemporalAction {
 	private float startX, startY;
 	private float currentX, currentY;
 	private Formula endX, endY;
-	protected Sprite sprite; // TODO[physic]: private to protected
+	protected Sprite sprite; // TODO[physics]: private to protected
 	private Formula duration;
 	private float endXValue;
 	private float endYValue;

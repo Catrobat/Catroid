@@ -37,10 +37,10 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.physic.PhysicsLook;
-import org.catrobat.catroid.physic.PhysicsObject;
-import org.catrobat.catroid.physic.PhysicsWorld;
-import org.catrobat.catroid.physic.shapebuilder.PhysicsShapeBuilder;
+import org.catrobat.catroid.physics.PhysicsLook;
+import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 import org.catrobat.catroid.test.utils.Reflection;
@@ -119,7 +119,7 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 	}
 
 	public void testPositionAndAngle() {
-		PhysicsObject physicsObject = physicsWorld.getPhysicObject(sprite);
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		PhysicsLook physicsLook = new PhysicsLook(sprite, physicsWorld);
 
 		float x = 1.2f;
@@ -153,7 +153,7 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 		pixmap = Utils.getPixmapFromFile(testImage);
 		lookData.setPixmap(pixmap);
 
-		PhysicsObject physicsObject = physicsWorld.getPhysicObject(sprite);
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		PhysicsLook physicsLook = new PhysicsLook(sprite, physicsWorld);
 
 		Shape[] shapes = (Shape[]) Reflection.getPrivateField(physicsObject, "shapes");
@@ -253,8 +253,8 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 ////	public void testUpdatePositionAndRotation() {
 //		Sprite sprite = new Sprite("TestSprite");
 //		PhysicsWorld physicsWorld = new PhysicsWorld();
-//		PhysicsObject physicsObject = physicsWorld.getPhysicObject(sprite);
-//		PhysicCostumeUpdateMock physicsCostume = new PhysicCostumeUpdateMock(sprite, null, physicsObject);
+//		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
+//		PhysicsCostumeUpdateMock physicsCostume = new PhysicsCostumeUpdateMock(sprite, null, physicsObject);
 //
 //		Vector2 position = new Vector2(1.2f, 3.4f);
 //		float rotation = 3.14f;
@@ -275,9 +275,9 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 //	// TODO: Check if this test is correct.
 //	public void testSize() {
 //		Sprite sprite = new Sprite("TestSprite");
-//		PhysicsShapeBuilder physicsShapeBuilder = new PhysicShapeBuilderMock();
-//		PhysicObjectMock physicsObjectMock = new PhysicObjectMock();
-//		PhysicLook physicsCostume = new PhysicLook(sprite, physicsShapeBuilder, physicsObjectMock);
+//		PhysicsShapeBuilder physicsShapeBuilder = new PhysicsShapeBuilderMock();
+//		PhysicsObjectMock physicsObjectMock = new PhysicsObjectMock();
+//		PhysicsLook physicsCostume = new PhysicsLook(sprite, physicsShapeBuilder, physicsObjectMock);
 //		float size = 3.14f;
 //
 //		assertFalse("Set shape has been executed", physicsObjectMock.setShapeExecuted);

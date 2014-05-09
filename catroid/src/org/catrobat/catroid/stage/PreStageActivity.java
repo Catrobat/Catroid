@@ -46,8 +46,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.legonxt.LegoNXT;
 import org.catrobat.catroid.legonxt.LegoNXTBtCommunicator;
-import org.catrobat.catroid.physic.content.ActionFactory;
-import org.catrobat.catroid.physic.content.ActionPhysicsFactory;
+import org.catrobat.catroid.physics.content.ActionFactory;
+import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
 import java.io.File;

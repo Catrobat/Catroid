@@ -39,7 +39,7 @@ import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
-import org.catrobat.catroid.physic.content.ActionFactory;
+import org.catrobat.catroid.physics.content.ActionFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -175,8 +175,8 @@ public class Look extends Image {
 				ArrayList<SequenceAction> actionList = new ArrayList<SequenceAction>();
 				for (SequenceAction broadcastAction : broadcastSequenceMap.get(broadcastMessage)) {
 					event.raiseNumberOfReceivers();
-					SequenceAction broadcastWaitAction = ActionFactory.sequence(broadcastAction, //TODO[physic] ExtendedActions.sequence() -> ActionFactory.sequence()
-							sprite.getActionFactory().createBroadcastNotifyAction(event)); //TODO[physic] ExtendedActions.broadcastNotify(event) 
+					SequenceAction broadcastWaitAction = ActionFactory.sequence(broadcastAction, //TODO[physics] ExtendedActions.sequence() -> ActionFactory.sequence()
+							sprite.getActionFactory().createBroadcastNotifyAction(event)); //TODO[physics] ExtendedActions.broadcastNotify(event) 
 					actionList.add(broadcastWaitAction);
 					addAction(broadcastWaitAction);
 				}
@@ -312,17 +312,17 @@ public class Look extends Image {
 	}
 
 	public float getAngularVelocityInUserInterfaceDimensionUnit() {
-		// only available in physicLook
+		// only available in physicsLook
 		return 0;
 	}
 
 	public float getXVelocityInUserInterfaceDimensionUnit() {
-		// only available in physicLook
+		// only available in physicsLook
 		return 0;
 	}
 
 	public float getYVelocityInUserInterfaceDimensionUnit() {
-		// only available in physicLook
+		// only available in physicsLook
 		return 0;
 	}
 
@@ -347,7 +347,7 @@ public class Look extends Image {
 		return getHeight() * getSizeInUserInterfaceDimensionUnit() / 100f;
 	}
 
-	public static float getDegreeUserInterfaceOffset() { //TODO[physic]: add getter
+	public static float getDegreeUserInterfaceOffset() { //TODO[physics]: add getter
 		return DEGREE_UI_OFFSET;
 	}
 

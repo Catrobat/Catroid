@@ -158,7 +158,7 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.changeGhostEffectByN(sprite, changeGhostEffect));
-		sequence.addAction(sprite.getActionFactory().createChangeGhostEffectByNAction(sprite, changeGhostEffect)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createChangeGhostEffectByNAction(sprite, changeGhostEffect)); // TODO[physics]
 		return null;
 	}
 
