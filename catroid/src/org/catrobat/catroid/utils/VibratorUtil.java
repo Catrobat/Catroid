@@ -137,7 +137,7 @@ public class VibratorUtil {
 							}
 							stopVibrate();
 						} catch (InterruptedException e) {
-							e.printStackTrace();
+							Log.e(LOG_TAG, "vibratorThreadSemaphore! " + e.getMessage());
 						}
 					}
 					vibratorThreadSemaphore.release();
@@ -153,7 +153,7 @@ public class VibratorUtil {
 			try {
 				vibratorThreadSemaphore.acquire();
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				Log.e(LOG_TAG, "vibratorThreadSemaphore! " + e.getMessage());
 			}
 			keepAlive = true;
 			vibratorThread.setName("vibratorThread");
