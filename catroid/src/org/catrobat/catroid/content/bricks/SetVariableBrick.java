@@ -85,7 +85,7 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		// sequence.addAction(ExtendedActions.setVariable(sprite, variableFormula, userVariable));
-		sequence.addAction(sprite.getActionFactory().createSetVariableAction(sprite, variableFormula, userVariable)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createSetVariableAction(sprite, variableFormula, userVariable)); // TODO[physics]
 		return null;
 	}
 

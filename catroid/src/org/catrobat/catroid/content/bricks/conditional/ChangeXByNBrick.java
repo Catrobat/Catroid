@@ -159,7 +159,7 @@ public class ChangeXByNBrick extends BrickBaseType implements OnClickListener, F
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.changeXByN(sprite, xMovement));
-		sequence.addAction(sprite.getActionFactory().createChangeXByNAction(sprite, xMovement)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createChangeXByNAction(sprite, xMovement)); // TODO[physics]
 		return null;
 	}
 }

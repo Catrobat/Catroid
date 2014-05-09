@@ -242,7 +242,7 @@ public class GlideToBrick extends BrickBaseType implements OnClickListener, Form
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.glideTo(sprite, xDestination, yDestination, durationInSeconds));
 		sequence.addAction(sprite.getActionFactory().createGlideToAction(sprite, xDestination, yDestination,
-				durationInSeconds)); // TODO[physic]
+				durationInSeconds)); // TODO[physics]
 		return null;
 	}
 }
