@@ -181,7 +181,7 @@ public class MoveNStepsBrick extends BrickBaseType implements OnClickListener, F
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.moveNSteps(sprite, steps));
-		sequence.addAction(sprite.getActionFactory().createMoveNStepsAction(sprite, steps)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createMoveNStepsAction(sprite, steps)); // TODO[physics]
 		return null;
 	}
 }

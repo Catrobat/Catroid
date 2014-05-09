@@ -34,7 +34,7 @@ import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
-import org.catrobat.catroid.physic.PhysicsWorld;
+import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -163,10 +163,10 @@ public class Project implements Serializable {
 		}
 	}
 
-	// TODO[physic]
-	public PhysicsWorld getPhysicWorld() {
+	// TODO[physics]
+	public PhysicsWorld getPhysicsWorld() {
 		if (physicsWorld == null) {
-			resetPhysicWorld();
+			resetPhysicsWorld();
 		}
 		return physicsWorld;
 	}
@@ -175,8 +175,8 @@ public class Project implements Serializable {
 	public Project() {
 	}
 
-	// TODO[physic]:
-	public PhysicsWorld resetPhysicWorld() {
+	// TODO[physics]:
+	public PhysicsWorld resetPhysicsWorld() {
 		return (physicsWorld = new PhysicsWorld(xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight));
 	}
 
