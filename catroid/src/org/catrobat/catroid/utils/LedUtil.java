@@ -105,7 +105,7 @@ public class LedUtil {
 							lightThreadSemaphore.acquire();
 							setLed();
 						} catch (InterruptedException e) {
-							e.printStackTrace();
+							Log.e(LOG_TAG, "lightThreadSemaphore " + e.getMessage());
 						}
 					}
 					lightThreadSemaphore.release();
@@ -133,7 +133,7 @@ public class LedUtil {
 					surfaceTexture = new SurfaceTexture(1,true);
 					cam.setPreviewTexture(surfaceTexture);
 				} catch (Exception e) {
-					e.printStackTrace();
+					Log.e(LOG_TAG, "surfaceTexture failed! " + e.getMessage());
 				}
 			}
 
@@ -141,7 +141,7 @@ public class LedUtil {
 				try {
 					lightThreadSemaphore.acquire();
 				} catch (InterruptedException e) {
-					e.printStackTrace();
+					Log.e(LOG_TAG, "lightThreadSemaphore " + e.getMessage());
 				}
 				keepAlive = true;
 				lightThread.setName("lightThread");
