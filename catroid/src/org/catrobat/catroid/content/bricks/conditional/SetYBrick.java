@@ -157,7 +157,7 @@ public class SetYBrick extends BrickBaseType implements OnClickListener, Formula
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		// sequence.addAction(ExtendedActions.setY(sprite, yPosition));
-		sequence.addAction(sprite.getActionFactory().createSetYAction(sprite, yPosition)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createSetYAction(sprite, yPosition)); // TODO[physics]
 		return null;
 	}
 }

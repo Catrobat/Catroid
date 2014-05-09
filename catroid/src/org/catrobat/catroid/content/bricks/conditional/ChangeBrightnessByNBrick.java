@@ -161,7 +161,7 @@ public class ChangeBrightnessByNBrick extends BrickBaseType implements OnClickLi
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.changeBrightnessByN(sprite, changeBrightness));
-		sequence.addAction(sprite.getActionFactory().createChangeBrightnessByNAction(sprite, changeBrightness)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createChangeBrightnessByNAction(sprite, changeBrightness)); // TODO[physics]
 		return null;
 	}
 }

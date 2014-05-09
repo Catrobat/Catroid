@@ -29,7 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
-import org.catrobat.catroid.physic.content.ActionFactory;
+import org.catrobat.catroid.physics.content.ActionFactory;
 
 public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
 	private final float louderValue = 10.6f;
