@@ -224,7 +224,7 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.broadcast(sprite, broadcastMessage));
-		sequence.addAction(sprite.getActionFactory().createBroadcastAction(sprite, broadcastMessage)); //TODO[physic]:
+		sequence.addAction(sprite.getActionFactory().createBroadcastAction(sprite, broadcastMessage)); //TODO[physics]:
 		return null;
 	}
 }

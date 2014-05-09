@@ -32,7 +32,7 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class ChangeGhostEffectByNAction extends TemporalAction {
 
-	protected Sprite sprite; // TODO[physic]: private to protected
+	protected Sprite sprite; // TODO[physics]: private to protected
 	private Formula changeGhostEffect;
 
 	@Override

@@ -95,15 +95,15 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Operators;
-import org.catrobat.catroid.physic.content.bricks.CollisionReceiverBrick;
-import org.catrobat.catroid.physic.content.bricks.SetBounceBrick;
-import org.catrobat.catroid.physic.content.bricks.SetFrictionBrick;
-import org.catrobat.catroid.physic.content.bricks.SetGravityBrick;
-import org.catrobat.catroid.physic.content.bricks.SetMassBrick;
-import org.catrobat.catroid.physic.content.bricks.SetPhysicsObjectTypeBrick;
-import org.catrobat.catroid.physic.content.bricks.SetVelocityBrick;
-import org.catrobat.catroid.physic.content.bricks.TurnLeftSpeedBrick;
-import org.catrobat.catroid.physic.content.bricks.TurnRightSpeedBrick;
+import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
+import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
+import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
+import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
+import org.catrobat.catroid.physics.content.bricks.SetMassBrick;
+import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
+import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
+import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
+import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -176,7 +176,7 @@ public class CategoryBricksFactory {
 			motionBrickList.add(new ComeToFrontBrick());
 		}
 
-		// TODO[physic]
+		// TODO[physics]
 		motionBrickList.add(new SetPhysicsObjectTypeBrick(BrickValues.PHYSIC_TYPE));
 		motionBrickList.add(new SetMassBrick(BrickValues.PHYSIC_MASS));
 		motionBrickList.add(new SetBounceBrick(BrickValues.PHYSIC_BOUNCE_FACTOR * 100));

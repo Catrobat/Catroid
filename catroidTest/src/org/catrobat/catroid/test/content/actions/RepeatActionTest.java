@@ -38,7 +38,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Sensors;
-import org.catrobat.catroid.physic.content.ActionFactory;
+import org.catrobat.catroid.physics.content.ActionFactory;
 import org.catrobat.catroid.test.utils.Reflection;
 
 import java.util.HashMap;

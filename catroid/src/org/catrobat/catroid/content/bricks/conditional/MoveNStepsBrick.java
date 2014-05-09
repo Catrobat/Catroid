@@ -178,7 +178,7 @@ public class MoveNStepsBrick extends FormulaBrick implements OnClickListener {
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.moveNSteps(sprite, steps));
 		sequence.addAction(sprite.getActionFactory().createMoveNStepsAction(sprite,
-				getFormulaWithBrickField(BrickField.STEPS))); // TODO[physic]
+				getFormulaWithBrickField(BrickField.STEPS))); // TODO[physics]
 		return null;
 	}
 }

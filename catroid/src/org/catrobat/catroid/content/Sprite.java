@@ -38,9 +38,9 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
-import org.catrobat.catroid.physic.PhysicsLook;
-import org.catrobat.catroid.physic.PhysicsWorld;
-import org.catrobat.catroid.physic.content.ActionFactory;
+import org.catrobat.catroid.physics.PhysicsLook;
+import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.physics.content.ActionFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -95,8 +95,8 @@ public class Sprite implements Serializable, Cloneable {
 	private void init() {
 		// maybe there is no ScriptList at this time ? ?
 		if ((getRequiredResources() & Brick.PHYSIC) > 0) {
-			PhysicsWorld physicWorld = ProjectManager.getInstance().getCurrentProject().getPhysicWorld();
-			look = new PhysicsLook(this, physicWorld);
+			PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentProject().getPhysicsWorld();
+			look = new PhysicsLook(this, physicsWorld);
 		} else {
 			look = new Look(this);
 		}
@@ -114,8 +114,8 @@ public class Sprite implements Serializable, Cloneable {
 
 	public void resetSprite() {
 		if ((getRequiredResources() & Brick.PHYSIC) > 0) {
-			PhysicsWorld physicWorld = ProjectManager.getInstance().getCurrentProject().getPhysicWorld();
-			look = new PhysicsLook(this, physicWorld);
+			PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentProject().getPhysicsWorld();
+			look = new PhysicsLook(this, physicsWorld);
 		} else {
 			look = new Look(this);
 		}
@@ -174,18 +174,18 @@ public class Sprite implements Serializable, Cloneable {
 		}
 	}
 
-	public ActionFactory getActionFactory() { // TODO[physic]:
+	public ActionFactory getActionFactory() { // TODO[physics]:
 		return actionFactory;
 	}
 
-	public void setActionFactory(ActionFactory actionFactory) { // TODO[physic]:
+	public void setActionFactory(ActionFactory actionFactory) { // TODO[physics]:
 		this.actionFactory = actionFactory;
 	}
 
 	@Override
 	public Sprite clone() {
 		final Sprite cloneSprite = new Sprite();
-		cloneSprite(cloneSprite); // TODO[physic]:
+		cloneSprite(cloneSprite); // TODO[physics]:
 		return cloneSprite;
 	}
 
@@ -234,7 +234,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void createWhenScriptActionSequence(String action) {
-		ParallelAction whenParallelAction = ActionFactory.parallel(); //TODO[physic] ExtendedActions -> ActionFactory
+		ParallelAction whenParallelAction = ActionFactory.parallel(); //TODO[physics] ExtendedActions -> ActionFactory
 		for (Script s : scriptList) {
 			if (s instanceof WhenScript && (((WhenScript) s).getAction().equalsIgnoreCase(action))) {
 				SequenceAction sequence = createActionSequence(s);
@@ -247,15 +247,18 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	private SequenceAction createActionSequence(Script s) {
-		SequenceAction sequence = ActionFactory.sequence(); //TODO[physic] ExtendedActions -> ActionFactory
+
+		SequenceAction sequence = ActionFactory.sequence(); //TODO[physics] ExtendedActions -> ActionFactory
 		s.run(this, sequence);
+
 		return sequence;
 	}
 
 
 	public void startScriptBroadcast(Script s, boolean overload) {
-		SequenceAction sequence = ActionFactory.sequence(); //TODO[physic] ExtendedActions -> ActionFactory
+		SequenceAction sequence = ActionFactory.sequence(); //TODO[physics] ExtendedActions -> ActionFactory
 		s.run(this, sequence);
+
 		look.addAction(sequence);
 	}
 

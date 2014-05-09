@@ -147,7 +147,7 @@ public class SetXBrick extends FormulaBrick implements OnClickListener {
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.setX(sprite, xPosition));
 		sequence.addAction(sprite.getActionFactory().createSetXAction(sprite,
-				getFormulaWithBrickField(BrickField.X_POSITION))); //TODO[physic]:
+				getFormulaWithBrickField(BrickField.X_POSITION))); //TODO[physics]:
 		return null;
 	}
 }

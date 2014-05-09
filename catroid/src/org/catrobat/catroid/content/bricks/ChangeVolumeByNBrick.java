@@ -143,7 +143,7 @@ public class ChangeVolumeByNBrick extends FormulaBrick implements OnClickListene
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.changeVolumeByN(sprite, volume));
-		sequence.addAction(sprite.getActionFactory().createChangeVolumeByNAction(sprite, getFormulaWithBrickField(BrickField.VOLUME_CHANGE))); //TODO[physic]:
+		sequence.addAction(sprite.getActionFactory().createChangeVolumeByNAction(sprite, getFormulaWithBrickField(BrickField.VOLUME_CHANGE))); //TODO[physics]:
 		return null;
 	}
 }

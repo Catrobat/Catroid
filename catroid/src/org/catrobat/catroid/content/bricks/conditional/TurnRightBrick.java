@@ -150,7 +150,7 @@ public class TurnRightBrick extends FormulaBrick implements OnClickListener {
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.turnRight(sprite, degrees));
 		sequence.addAction(sprite.getActionFactory().createTurnRightAction(sprite,
-				getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES))); // TODO[physic]
+				getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES))); // TODO[physics]
 		return null;
 	}
 }

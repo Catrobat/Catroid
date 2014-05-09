@@ -39,7 +39,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.physic.content.ActionFactory;
+import org.catrobat.catroid.physics.content.ActionFactory;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.ArrayList;
@@ -221,11 +221,11 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick, OnC
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		SequenceAction ifAction = ActionFactory.sequence(); // TODO[physic] ExtendedActions- > ActionFactory
-		SequenceAction elseAction = ActionFactory.sequence(); // TODO[physic] ExtendedActions- > ActionFactory
+		SequenceAction ifAction = ActionFactory.sequence(); // TODO[physics] ExtendedActions- > ActionFactory
+		SequenceAction elseAction = ActionFactory.sequence(); // TODO[physics] ExtendedActions- > ActionFactory
 		// Action action = ExtendedActions.ifLogc(sprite, ifCondition, ifAction, elseAction); //TODO finish!!!
 		Action action = sprite.getActionFactory().createIfLogicAction(sprite,
-				getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction, elseAction); // TODO[physic]
+				getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction, elseAction); // TODO[physics]
 		sequence.addAction(action);
 
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();

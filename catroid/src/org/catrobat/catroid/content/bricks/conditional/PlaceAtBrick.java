@@ -182,7 +182,7 @@ public class PlaceAtBrick extends FormulaBrick implements OnClickListener {
 		//		sequence.addAction(ExtendedActions.placeAt(sprite, xPosition, yPosition));
 		sequence.addAction(sprite.getActionFactory().createPlaceAtAction(sprite,
 				getFormulaWithBrickField(BrickField.X_POSITION),
-				getFormulaWithBrickField(BrickField.Y_POSITION))); // TODO[physic]
+				getFormulaWithBrickField(BrickField.Y_POSITION))); // TODO[physics]
 		return null;
 	}
 }

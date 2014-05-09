@@ -145,7 +145,7 @@ public class SetSizeToBrick extends FormulaBrick implements OnClickListener {
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.setSizeTo(sprite, size));
 		sequence.addAction(sprite.getActionFactory().createSetSizeToAction(sprite,
-				getFormulaWithBrickField(BrickField.SIZE))); // TODO[physic]
+				getFormulaWithBrickField(BrickField.SIZE))); // TODO[physics]
 		return null;
 	}
 }

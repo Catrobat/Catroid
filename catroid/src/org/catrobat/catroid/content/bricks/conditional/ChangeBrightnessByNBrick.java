@@ -149,7 +149,7 @@ public class ChangeBrightnessByNBrick extends FormulaBrick implements OnClickLis
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.changeBrightnessByN(sprite, changeBrightness));
 		sequence.addAction(sprite.getActionFactory().createChangeBrightnessByNAction(sprite,
-				getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE))); // TODO[physic]
+				getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE))); // TODO[physics]
 		return null;
 	}
 }

@@ -151,7 +151,7 @@ public class SetBrightnessBrick extends FormulaBrick implements OnClickListener 
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		//		sequence.addAction(ExtendedActions.setBrightness(sprite, brightness));
 		sequence.addAction(sprite.getActionFactory().createSetBrightnessAction(sprite,
-				getFormulaWithBrickField(BrickField.BRIGHTNESS))); // TODO[physic]
+				getFormulaWithBrickField(BrickField.BRIGHTNESS))); // TODO[physics]
 		return null;
 	}
 }

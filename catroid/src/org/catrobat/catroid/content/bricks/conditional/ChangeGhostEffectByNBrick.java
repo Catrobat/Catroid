@@ -150,7 +150,7 @@ public class ChangeGhostEffectByNBrick extends FormulaBrick implements OnClickLi
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.changeGhostEffectByN(sprite, changeGhostEffect));
 		sequence.addAction(sprite.getActionFactory().createChangeGhostEffectByNAction(sprite,
-				getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE))); // TODO[physic]
+				getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE))); // TODO[physics]
 		return null;
 	}
 

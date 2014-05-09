@@ -145,7 +145,7 @@ public class ChangeYByNBrick extends FormulaBrick implements OnClickListener {
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.changeYByN(sprite, yMovement));
 		sequence.addAction(sprite.getActionFactory().createChangeSizeByNAction(sprite,
-				getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE))); // TODO[physic]
+				getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE))); // TODO[physics]
 		return null;
 	}
 }

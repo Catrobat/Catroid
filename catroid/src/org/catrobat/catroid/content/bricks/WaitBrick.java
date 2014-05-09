@@ -181,7 +181,7 @@ public class WaitBrick extends FormulaBrick implements OnClickListener {
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.delay(sprite, timeToWaitInSeconds));
 		sequence.addAction(sprite.getActionFactory().createWaitAction(sprite,
-				getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS))); // TODO[physic]
+				getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS))); // TODO[physics]
 		return null;
 	}
 }

@@ -112,14 +112,14 @@ import org.catrobat.catroid.content.bricks.conditional.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.conditional.TurnRightBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
-import org.catrobat.catroid.physic.content.bricks.CollisionReceiverBrick;
-import org.catrobat.catroid.physic.content.bricks.SetBounceBrick;
-import org.catrobat.catroid.physic.content.bricks.SetFrictionBrick;
-import org.catrobat.catroid.physic.content.bricks.SetGravityBrick;
-import org.catrobat.catroid.physic.content.bricks.SetMassBrick;
-import org.catrobat.catroid.physic.content.bricks.SetVelocityBrick;
-import org.catrobat.catroid.physic.content.bricks.TurnLeftSpeedBrick;
-import org.catrobat.catroid.physic.content.bricks.TurnRightSpeedBrick;
+import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
+import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
+import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
+import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
+import org.catrobat.catroid.physics.content.bricks.SetMassBrick;
+import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
+import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
+import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -221,7 +221,6 @@ public final class StorageHandler {
 		xstream.alias("script", BroadcastScript.class);
 
 		xstream.alias("brick", BroadcastBrick.class);
-		xstream.alias("brick", CollisionReceiverBrick.class);
 		xstream.alias("brick", BroadcastReceiverBrick.class);
 		xstream.alias("brick", BroadcastWaitBrick.class);
 		xstream.alias("brick", ChangeBrightnessByNBrick.class);
@@ -287,13 +286,13 @@ public final class StorageHandler {
 		xstream.alias("brick", DroneMoveLeftBrick.class);
 		xstream.alias("brick", DroneMoveRightBrick.class);
 
-		// Physic Bricks
+		// Physics Bricks
 		xstream.alias("brick", CollisionReceiverBrick.class);
 		xstream.alias("brick", SetBounceBrick.class);
 		xstream.alias("brick", SetFrictionBrick.class);
 		xstream.alias("brick", SetGravityBrick.class);
 		xstream.alias("brick", SetMassBrick.class);
-		//		xstream.alias("setPhysicsObjectTypeBrick", SetPhysicsObjectTypeBrick.class);
+		// xstream.alias("setPhysicsObjectTypeBrick", SetPhysicsObjectTypeBrick.class);
 		xstream.alias("brick", SetVelocityBrick.class);
 		xstream.alias("brick", TurnLeftSpeedBrick.class);
 		xstream.alias("brick", TurnRightSpeedBrick.class);

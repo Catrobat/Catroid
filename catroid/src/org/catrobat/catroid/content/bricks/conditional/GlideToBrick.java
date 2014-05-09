@@ -237,7 +237,7 @@ public class GlideToBrick extends FormulaBrick implements OnClickListener {
 		sequence.addAction(sprite.getActionFactory().createGlideToAction(sprite,
 				getFormulaWithBrickField(BrickField.X_DESTINATION),
 				getFormulaWithBrickField(BrickField.Y_DESTINATION),
-				getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS))); // TODO[physic]
+				getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS))); // TODO[physics]
 		return null;
 	}
 }

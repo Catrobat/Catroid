@@ -190,7 +190,7 @@ public class LegoNxtPlayToneBrick extends FormulaBrick implements OnClickListene
 		// sequence.addAction(ExtendedActions.legoNxtPlayTone(sprite, frequency, durationInSeconds));
 		sequence.addAction(sprite.getActionFactory().createLegoNxtPlayToneAction(sprite,
 				getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY),
-				getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS))); // TODO[physic]
+				getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS))); // TODO[physics]
 		return null;
 	}
 }

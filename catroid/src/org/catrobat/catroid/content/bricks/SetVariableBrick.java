@@ -87,7 +87,7 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		// sequence.addAction(ExtendedActions.setVariable(sprite, variableFormula, userVariable));
 		sequence.addAction(sprite.getActionFactory().createSetVariableAction(sprite,
-				getFormulaWithBrickField(BrickField.VARIABLE), userVariable)); // TODO[physic]
+				getFormulaWithBrickField(BrickField.VARIABLE), userVariable)); // TODO[physics]
 		return null;
 	}
 
