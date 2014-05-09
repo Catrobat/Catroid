@@ -393,7 +393,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		if (PhysicsDebugSettings.Render.RENDER_PHYSIC_OBJECT_LABELING) {
-			printVelocityOnScreen();
+			printPhysicsLabelOnScreen();
 		}
 
 		if (PhysicsDebugSettings.Render.RENDER_COLLISION_FRAMES && !finished) {
@@ -410,7 +410,7 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
-	private void printVelocityOnScreen() {
+	private void printPhysicsLabelOnScreen() {
 		PhysicsObject tempPhysicObject;
 		final int fontOffset = 5;
 		batch.setProjectionMatrix(camera.combined);
@@ -424,6 +424,8 @@ public class StageListener implements ApplicationListener {
 						tempPhysicObject.getY() + font.getXHeight() + fontOffset);
 				font.draw(batch, "angular velocity: " + tempPhysicObject.getRotationSpeed(), tempPhysicObject.getX(),
 						tempPhysicObject.getY() + font.getXHeight() * 2 + fontOffset * 2);
+				font.draw(batch, "direction: " + tempPhysicObject.getDirection(), tempPhysicObject.getX(),
+						tempPhysicObject.getY() + font.getXHeight() * 3 + fontOffset * 3);
 
 			}
 		}
