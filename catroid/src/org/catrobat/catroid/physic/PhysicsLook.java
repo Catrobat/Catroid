@@ -126,8 +126,8 @@ public class PhysicsLook extends Look {
 	@Override
 	public void setScale(float scaleX, float scaleY) {
 		super.setScale(scaleX, scaleY);
-		PhysicsWorld physicWorld = ProjectManager.getInstance().getCurrentProject().getPhysicWorld();
 		if (null != physicsObject) {
+			PhysicsWorld physicWorld = ProjectManager.getInstance().getCurrentProject().getPhysicWorld();
 			physicWorld.changeLook(physicsObject, this);
 		}
 	}
