@@ -164,22 +164,10 @@ public class PhysicWorldTest extends AndroidTestCase {
 		assertEquals("Wrong y position", velocity.y, physicsObject.getY(), 1e-8);
 		assertEquals("Wrong angle", rotationSpeed, physicsObject.getDirection(), 1e-8);
 
+		// TODO[Physics] angle problem
 		physicsWorld.step(1.0f);
 		assertEquals("Wrong x position", 2 * velocity.x, physicsObject.getX(), 1e-8);
 		assertEquals("Wrong y position", 2 * velocity.y, physicsObject.getY(), 1e-8);
 		assertEquals("Wrong angle", 2 * rotationSpeed, physicsObject.getDirection(), 1e-8);
 	}
-
-	/*
-	 * Helper
-	 */
-	public static float computeScratchCompatibleAngleForDirectSetting(float direction) {
-		direction = direction % 360;
-		if (direction < 0) {
-			direction += 360f;
-		}
-		direction = 180f - direction;
-		return direction;
-	}
-
 }
