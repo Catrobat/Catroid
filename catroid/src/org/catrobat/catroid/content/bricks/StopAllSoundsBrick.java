@@ -112,7 +112,7 @@ public class StopAllSoundsBrick extends BrickBaseType {
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.stopAllSounds());
-		sequence.addAction(sprite.getActionFactory().createStopAllSoundsAction()); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createStopAllSoundsAction()); // TODO[physics]
 		return null;
 	}
 

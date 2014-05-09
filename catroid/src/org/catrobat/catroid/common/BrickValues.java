@@ -24,9 +24,9 @@ package org.catrobat.catroid.common;
 
 import com.badlogic.gdx.math.Vector2;
 
-import org.catrobat.catroid.physic.PhysicsObject;
-import org.catrobat.catroid.physic.PhysicsObject.Type;
-import org.catrobat.catroid.physic.PhysicsWorld;
+import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsObject.Type;
+import org.catrobat.catroid.physics.PhysicsWorld;
 
 public class BrickValues {
 
@@ -41,7 +41,7 @@ public class BrickValues {
 	public static final int GLIDE_SECONDS = 1000;
 	public static final int GO_BACK = 1;
 
-	//constants Physics   // TODO[physic]
+	//constants Physics   // TODO[physics]
 	public static final PhysicsObject.Type PHYSIC_TYPE = Type.DYNAMIC;
 	public static final Float PHYSIC_MASS = PhysicsObject.DEFAULT_MASS;
 	public static final Float PHYSIC_BOUNCE_FACTOR = PhysicsObject.DEFAULT_BOUNCE_FACTOR;

@@ -163,7 +163,7 @@ public class SetBrightnessBrick extends BrickBaseType implements OnClickListener
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		//		sequence.addAction(ExtendedActions.setBrightness(sprite, brightness));
-		sequence.addAction(sprite.getActionFactory().createSetBrightnessAction(sprite, brightness)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createSetBrightnessAction(sprite, brightness)); // TODO[physics]
 		return null;
 	}
 }

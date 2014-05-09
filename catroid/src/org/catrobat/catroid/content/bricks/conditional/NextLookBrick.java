@@ -126,7 +126,7 @@ public class NextLookBrick extends BrickBaseType {
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		//		sequence.addAction(ExtendedActions.nextLook(sprite));
-		sequence.addAction(sprite.getActionFactory().createNextLookAction(sprite)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createNextLookAction(sprite)); // TODO[physics]
 		return null;
 	}
 }

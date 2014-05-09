@@ -162,7 +162,7 @@ public class TurnRightBrick extends BrickBaseType implements OnClickListener, Fo
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.turnRight(sprite, degrees));
-		sequence.addAction(sprite.getActionFactory().createTurnRightAction(sprite, degrees)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createTurnRightAction(sprite, degrees)); // TODO[physics]
 		return null;
 	}
 }

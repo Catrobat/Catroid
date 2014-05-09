@@ -163,7 +163,7 @@ public class SetGhostEffectBrick extends BrickBaseType implements OnClickListene
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.setGhostEffect(sprite, transparency));
-		sequence.addAction(sprite.getActionFactory().createSetGhostEffectAction(sprite, transparency)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createSetGhostEffectAction(sprite, transparency)); // TODO[physics]
 		return null;
 	}
 }

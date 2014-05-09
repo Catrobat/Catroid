@@ -159,7 +159,7 @@ public class ChangeYByNBrick extends BrickBaseType implements OnClickListener, F
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.changeYByN(sprite, yMovement));
-		sequence.addAction(sprite.getActionFactory().createChangeSizeByNAction(sprite, yMovement)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createChangeSizeByNAction(sprite, yMovement)); // TODO[physics]
 		return null;
 	}
 }

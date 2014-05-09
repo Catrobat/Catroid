@@ -158,7 +158,7 @@ public class SetSizeToBrick extends BrickBaseType implements OnClickListener, Fo
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.setSizeTo(sprite, size));
-		sequence.addAction(sprite.getActionFactory().createSetSizeToAction(sprite, size)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createSetSizeToAction(sprite, size)); // TODO[physics]
 		return null;
 	}
 }

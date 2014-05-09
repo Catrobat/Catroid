@@ -183,7 +183,7 @@ public class WaitBrick extends BrickBaseType implements OnClickListener, Formula
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.delay(sprite, timeToWaitInSeconds));
-		sequence.addAction(sprite.getActionFactory().createWaitAction(sprite, timeToWaitInSeconds)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createWaitAction(sprite, timeToWaitInSeconds)); // TODO[physics]
 		return null;
 	}
 }

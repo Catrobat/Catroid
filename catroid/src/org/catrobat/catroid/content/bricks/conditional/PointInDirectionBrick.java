@@ -181,7 +181,7 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		//		sequence.addAction(ExtendedActions.pointInDirection(sprite, degrees));
-		sequence.addAction(sprite.getActionFactory().createPointInDirectionAction(sprite, degrees)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createPointInDirectionAction(sprite, degrees)); // TODO[physics]
 		return null;
 	}
 }

@@ -23,7 +23,7 @@
 package org.catrobat.catroid.content;
 
 import org.catrobat.catroid.content.bricks.ScriptBrick;
-import org.catrobat.catroid.physic.content.bricks.CollisionReceiverBrick;
+import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 
 public class CollisionScript extends BroadcastScript {
 

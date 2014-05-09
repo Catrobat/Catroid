@@ -196,7 +196,7 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener, Form
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		//		sequence.addAction(ExtendedActions.placeAt(sprite, xPosition, yPosition));
-		sequence.addAction(sprite.getActionFactory().createPlaceAtAction(sprite, xPosition, yPosition)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createPlaceAtAction(sprite, xPosition, yPosition)); // TODO[physics]
 		return null;
 	}
 }
