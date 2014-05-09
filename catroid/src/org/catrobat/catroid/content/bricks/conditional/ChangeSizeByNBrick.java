@@ -155,7 +155,7 @@ public class ChangeSizeByNBrick extends BrickBaseType implements OnClickListener
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.changeSizeByN(sprite, size));
-		sequence.addAction(sprite.getActionFactory().createChangeSizeByNAction(sprite, size)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createChangeSizeByNAction(sprite, size)); // TODO[physics]
 		return null;
 	}
 

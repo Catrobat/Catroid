@@ -240,7 +240,7 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.changeVariable(sprite, variableFormula, userVariable));
-		sequence.addAction(sprite.getActionFactory().createChangeVariableAction(sprite, variableFormula, userVariable)); //TODO[physic]:
+		sequence.addAction(sprite.getActionFactory().createChangeVariableAction(sprite, variableFormula, userVariable)); //TODO[physics]:
 		return null;
 	}
 

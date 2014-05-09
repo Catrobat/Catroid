@@ -275,17 +275,17 @@ public class Look extends Image {
 	}
 
 	public float getAngularVelocityInUserInterfaceDimensionUnit() {
-		// only available in physicLook
+		// only available in physicsLook
 		return 0;
 	}
 
 	public float getXVelocityInUserInterfaceDimensionUnit() {
-		// only available in physicLook
+		// only available in physicsLook
 		return 0;
 	}
 
 	public float getYVelocityInUserInterfaceDimensionUnit() {
-		// only available in physicLook
+		// only available in physicsLook
 		return 0;
 	}
 
@@ -310,7 +310,7 @@ public class Look extends Image {
 		return getHeight() * getSizeInUserInterfaceDimensionUnit() / 100f;
 	}
 
-	public static float getDegreeUserInterfaceOffset() { //TODO[physic]: add getter
+	public static float getDegreeUserInterfaceOffset() { //TODO[physics]: add getter
 		return DEGREE_UI_OFFSET;
 	}
 

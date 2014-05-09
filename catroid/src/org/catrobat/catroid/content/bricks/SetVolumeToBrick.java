@@ -155,7 +155,7 @@ public class SetVolumeToBrick extends BrickBaseType implements OnClickListener, 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		// sequence.addAction(ExtendedActions.setVolumeTo(sprite, volume));
-		sequence.addAction(sprite.getActionFactory().createSetVolumeToAction(sprite, volume)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createSetVolumeToAction(sprite, volume)); // TODO[physics]
 		return null;
 	}
 }

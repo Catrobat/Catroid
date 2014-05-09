@@ -28,7 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.physic.content.ActionFactory;
+import org.catrobat.catroid.physics.content.ActionFactory;
 
 public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 
@@ -46,7 +46,7 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 		brightness += brighter.interpretDouble(sprite);
 
 		//ChangeBrightnessByNAction action1 = ExtendedActions.changeBrightnessByN(sprite, brighter);
-		Action action1 = sprite.getActionFactory().createChangeBrightnessByNAction(sprite, brighter); // TODO[physic] 
+		Action action1 = sprite.getActionFactory().createChangeBrightnessByNAction(sprite, brighter); // TODO[physics] 
 		sprite.look.addAction(action1);
 		action1.act(1.0f);
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", brightness,
@@ -56,7 +56,7 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 		brightness += dimmer.interpretDouble(sprite);
 
 		//ChangeBrightnessByNAction action2 = ExtendedActions.changeBrightnessByN(sprite, dimmer);
-		Action action2 = sprite.getActionFactory().createChangeBrightnessByNAction(sprite, dimmer); // TODO[physic] 
+		Action action2 = sprite.getActionFactory().createChangeBrightnessByNAction(sprite, dimmer); // TODO[physics] 
 		sprite.look.addAction(action2);
 		action2.act(1.0f);
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessByNBrick executed", brightness,
@@ -65,7 +65,7 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 
 	public void testNullSprite() {
 		ActionFactory factory = new ActionFactory();
-		Action action = factory.createChangeBrightnessByNAction(null, dimmer); // TODO[physic] ExtendedActions
+		Action action = factory.createChangeBrightnessByNAction(null, dimmer); // TODO[physics] ExtendedActions
 		try {
 			action.act(1.0f);
 			fail("Execution of ChangeBrightnessByNBrick with null Sprite did not cause a NullPointerException to be thrown");
