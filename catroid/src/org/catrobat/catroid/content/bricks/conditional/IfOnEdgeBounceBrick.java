@@ -110,7 +110,7 @@ public class IfOnEdgeBounceBrick extends BrickBaseType {
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.ifOnEdgeBounce(sprite));
-		sequence.addAction(sprite.getActionFactory().createIfOnEdgeBounceAction(sprite)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createIfOnEdgeBounceAction(sprite)); // TODO[physics]
 		return null;
 	}
 }

@@ -238,7 +238,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		if (empty) {
 			project = StandardProjectHandler.createAndSaveEmptyProject(projectName, context);
 		} else {
-			project = StandardProjectHandler.createAndSaveStandardPhysicProject(projectName, context);
+			project = StandardProjectHandler.createAndSaveStandardPhysicsProject(projectName, context);
 		}
 
 		currentSprite = null;

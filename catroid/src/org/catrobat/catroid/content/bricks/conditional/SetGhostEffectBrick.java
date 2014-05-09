@@ -144,7 +144,7 @@ public class SetGhostEffectBrick extends FormulaBrick {
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.setGhostEffect(sprite, transparency));
 		sequence.addAction(sprite.getActionFactory().createSetGhostEffectAction(sprite,
-				getFormulaWithBrickField(BrickField.TRANSPARENCY))); // TODO[physic]
+				getFormulaWithBrickField(BrickField.TRANSPARENCY))); // TODO[physics]
 		return null;
 	}
 

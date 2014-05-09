@@ -30,7 +30,7 @@ import org.catrobat.catroid.content.Sprite;
 public class SetLookAction extends TemporalAction {
 
 	private LookData look;
-	protected Sprite sprite; // TODO[physic]: private to protected
+	protected Sprite sprite; // TODO[physics]: private to protected
 
 	@Override
 	protected void update(float percent) {

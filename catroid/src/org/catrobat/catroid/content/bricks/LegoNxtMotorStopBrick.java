@@ -176,7 +176,7 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		// sequence.addAction(ExtendedActions.legoNxtMotorStop(motorEnum));
-		sequence.addAction(sprite.getActionFactory().createLegoNxtMotorStopAction(motorEnum)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createLegoNxtMotorStopAction(motorEnum)); // TODO[physics]
 		return null;
 	}
 

@@ -136,7 +136,7 @@ public class ChangeXByNBrick extends FormulaBrick {
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.changeXByN(sprite, xMovement));
 		sequence.addAction(sprite.getActionFactory().createChangeXByNAction(sprite,
-				getFormulaWithBrickField(BrickField.X_POSITION_CHANGE))); // TODO[physic]
+				getFormulaWithBrickField(BrickField.X_POSITION_CHANGE))); // TODO[physics]
 		return null;
 	}
 

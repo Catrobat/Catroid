@@ -137,7 +137,7 @@ public class ChangeSizeByNBrick extends FormulaBrick {
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.changeSizeByN(sprite, size));
 		sequence.addAction(sprite.getActionFactory().createChangeSizeByNAction(sprite,
-				getFormulaWithBrickField(BrickField.SIZE_CHANGE))); // TODO[physic]
+				getFormulaWithBrickField(BrickField.SIZE_CHANGE))); // TODO[physics]
 		return null;
 	}
 

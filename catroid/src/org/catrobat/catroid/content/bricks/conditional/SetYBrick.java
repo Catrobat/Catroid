@@ -135,7 +135,7 @@ public class SetYBrick extends FormulaBrick {
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		// sequence.addAction(ExtendedActions.setY(sprite, yPosition));
 		sequence.addAction(sprite.getActionFactory().createSetYAction(sprite,
-				getFormulaWithBrickField(BrickField.Y_POSITION))); // TODO[physic]
+				getFormulaWithBrickField(BrickField.Y_POSITION))); // TODO[physics]
 		return null;
 	}
 

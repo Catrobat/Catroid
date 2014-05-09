@@ -46,7 +46,8 @@
  		<item >@string/close</item >
  	</string-array >
 
-    <!-- Physicobjecttype -->
+
+    <!-- Physicsobjecttype -->
     <string-array name="physics_object_types">
         <item>Dynamic</item>
         <item>Fixed</item>

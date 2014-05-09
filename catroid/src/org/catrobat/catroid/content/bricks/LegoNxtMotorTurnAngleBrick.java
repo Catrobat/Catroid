@@ -228,7 +228,7 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.legoNxtMotorTurnAngle(sprite, motorEnum, degrees));
 		sequence.addAction(sprite.getActionFactory().createLegoNxtMotorTurnAngleAction(sprite, motorEnum,
-				getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES))); // TODO[physic]
+				getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES))); // TODO[physics]
 		return null;
 	}
 

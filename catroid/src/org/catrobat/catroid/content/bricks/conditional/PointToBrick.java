@@ -203,7 +203,7 @@ public class PointToBrick extends BrickBaseType {
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		//		sequence.addAction(ExtendedActions.pointTo(sprite, pointedObject));
-		sequence.addAction(sprite.getActionFactory().createPointToAction(sprite, pointedObject)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createPointToAction(sprite, pointedObject)); // TODO[physics]
 		return null;
 	}
 

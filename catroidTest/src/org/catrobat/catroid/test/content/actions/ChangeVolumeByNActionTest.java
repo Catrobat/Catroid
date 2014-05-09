@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.content.actions;
 import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
 

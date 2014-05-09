@@ -33,13 +33,13 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 
 	private static final float CHANGE_VALUE = 55.5f;
 	private static final String NOT_NUMERICAL_STRING = "xPosition";
-    private Sprite sprite;
+	private Sprite sprite;
 
-    @Override
-    protected void setUp() throws Exception {
-        sprite = new Sprite("testSprite");
-        super.setUp();
-    }
+	@Override
+	protected void setUp() throws Exception {
+		sprite = new Sprite("testSprite");
+		super.setUp();
+	}
 
 	public void testNormalBehavior() {
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
