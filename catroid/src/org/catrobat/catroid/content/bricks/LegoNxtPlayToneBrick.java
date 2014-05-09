@@ -205,7 +205,7 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		// sequence.addAction(ExtendedActions.legoNxtPlayTone(sprite, frequency, durationInSeconds));
-		sequence.addAction(sprite.getActionFactory().createLegoNxtPlayToneAction(sprite, frequency, durationInSeconds)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createLegoNxtPlayToneAction(sprite, frequency, durationInSeconds)); // TODO[physics]
 		return null;
 	}
 }

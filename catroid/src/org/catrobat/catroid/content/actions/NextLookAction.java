@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 public class NextLookAction extends TemporalAction {
 
-	protected Sprite sprite; // TODO[physic]: private to protected
+	protected Sprite sprite; // TODO[physics]: private to protected
 
 	@Override
 	protected void update(float delta) {

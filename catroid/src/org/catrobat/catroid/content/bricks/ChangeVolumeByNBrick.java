@@ -159,7 +159,7 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.changeVolumeByN(sprite, volume));
-		sequence.addAction(sprite.getActionFactory().createChangeVolumeByNAction(sprite, volume)); //TODO[physic]:
+		sequence.addAction(sprite.getActionFactory().createChangeVolumeByNAction(sprite, volume)); //TODO[physics]:
 		return null;
 	}
 }

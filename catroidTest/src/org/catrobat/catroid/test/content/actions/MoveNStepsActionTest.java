@@ -29,7 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.conditional.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.physic.content.ActionFactory;
+import org.catrobat.catroid.physics.content.ActionFactory;
 
 public class MoveNStepsActionTest extends AndroidTestCase {
 	private final float delta = 0.0001f;

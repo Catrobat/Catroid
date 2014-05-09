@@ -163,7 +163,7 @@ public class TurnLeftBrick extends BrickBaseType implements OnClickListener, For
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.turnLeft(sprite, degrees));
-		sequence.addAction(sprite.getActionFactory().createTurnLeftAction(sprite, degrees)); // TODO[physic]
+		sequence.addAction(sprite.getActionFactory().createTurnLeftAction(sprite, degrees)); // TODO[physics]
 		return null;
 	}
 }
