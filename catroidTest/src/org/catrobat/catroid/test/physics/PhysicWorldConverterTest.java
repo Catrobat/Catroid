@@ -57,10 +57,12 @@ public class PhysicWorldConverterTest extends AndroidTestCase {
 				PhysicsWorldConverter.toBox2dAngle(90.0f), TestUtils.DELTA);
 		Assert.assertEquals((float) Math.PI - Math.toRadians(Look.getDegreeUserInterfaceOffset()),
 				PhysicsWorldConverter.toBox2dAngle(180.0f), TestUtils.DELTA);
-		angle = PhysicWorldTest.computeScratchCompatibleAngleForDirectSetting(90.0f);
+		//angle = PhysicObjectTest.computeScratchCompatibleAngleForDirectSetting(90.0f);
+		angle = 90.0f;
 		Assert.assertEquals(angle + Look.getDegreeUserInterfaceOffset(),
 				PhysicsWorldConverter.toCatroidAngle((float) (Math.PI / 2.0)), TestUtils.DELTA);
-		angle = PhysicWorldTest.computeScratchCompatibleAngleForDirectSetting(180.0f);
+		//angle = PhysicObjectTest.computeScratchCompatibleAngleForDirectSetting(180.0f);
+		angle = 180.0f;
 		Assert.assertEquals(angle + Look.getDegreeUserInterfaceOffset(),
 				PhysicsWorldConverter.toCatroidAngle((float) Math.PI), TestUtils.DELTA);
 

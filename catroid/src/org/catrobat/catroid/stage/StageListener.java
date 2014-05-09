@@ -392,7 +392,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		if (PhysicsDebugSettings.Render.RENDER_PHYSIC_OBJECT_LABELING) {
-			printVelocityOnScreen();
+			printPhysicsLabelOnScreen();
 		}
 
 		if (PhysicsDebugSettings.Render.RENDER_COLLISION_FRAMES && !finished) {
@@ -471,7 +471,35 @@ public class StageListener implements ApplicationListener {
 		return false;
 	}
 
-	private void printVelocityOnScreen() {
+	private static boolean bothSequenceActionsAndEqual(String action1, String action2) {
+		String spriteOfAction1 = action1.substring(action1.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
+		String spriteOfAction2 = action2.substring(action2.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
+
+		if (!spriteOfAction1.equals(spriteOfAction2)) {
+			return false;
+		}
+
+		if (!(action1.startsWith(SEQUENCE) && action2.startsWith(SEQUENCE))) {
+			return false;
+		}
+
+		int startIndex1 = action1.indexOf(Constants.OPENING_BRACE);
+		int endIndex1 = action1.lastIndexOf(Constants.CLOSING_BRACE) + 1;
+
+		int startIndex2 = action2.indexOf(Constants.OPENING_BRACE);
+		int endIndex2 = action2.lastIndexOf(Constants.CLOSING_BRACE) + 1;
+
+		String sequenceOfAction1 = action1.substring(startIndex1, endIndex1);
+		String sequenceOfAction2 = action2.substring(startIndex2, endIndex2);
+
+		if (sequenceOfAction1.equals(sequenceOfAction2)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private void printPhysicsLabelOnScreen() {
 		PhysicsObject tempPhysicObject;
 		final int fontOffset = 5;
 		batch.setProjectionMatrix(camera.combined);
@@ -485,6 +513,8 @@ public class StageListener implements ApplicationListener {
 						tempPhysicObject.getY() + font.getXHeight() + fontOffset);
 				font.draw(batch, "angular velocity: " + tempPhysicObject.getRotationSpeed(), tempPhysicObject.getX(),
 						tempPhysicObject.getY() + font.getXHeight() * 2 + fontOffset * 2);
+				font.draw(batch, "direction: " + tempPhysicObject.getDirection(), tempPhysicObject.getX(),
+						tempPhysicObject.getY() + font.getXHeight() * 3 + fontOffset * 3);
 
 			}
 		}

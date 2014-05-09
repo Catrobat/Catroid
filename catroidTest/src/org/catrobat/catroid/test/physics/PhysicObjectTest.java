@@ -216,6 +216,7 @@ public class PhysicObjectTest extends AndroidTestCase {
 	}
 
 	public void testAngle() {
+		// TODO[Physics] angle problem
 		for (PhysicsObject.Type type : PhysicsObject.Type.values()) {
 			PhysicsObject physicsObject = PhysicsTestUtils.createPhysicObject(physicsWorld, type);
 			assertEquals("Wrong initialization", 0.0f, PhysicsTestUtils.getBody(physicsObject).getAngle());
@@ -226,7 +227,7 @@ public class PhysicObjectTest extends AndroidTestCase {
 			int idx = 0;
 			for (float angle : degrees) {
 
-				//angle = PhysicWorldTest.computeScratchCompatibleAngleForDirectSetting(angle);
+				//angle = computeScratchCompatibleAngleForDirectSetting(angle);
 
 				physicsObject.setDirection(angle);
 				float physicsObjectCatroidAngle = PhysicsWorldConverter.toCatroidAngle(PhysicsTestUtils.getBody(
@@ -274,7 +275,8 @@ public class PhysicObjectTest extends AndroidTestCase {
 			assertEquals("Wrong initialization", 0.0f, PhysicsTestUtils.getBody(physicsObject).getAngle());
 			assertEquals("initialization", new Vector2(), PhysicsTestUtils.getBody(physicsObject).getPosition());
 
-			float angle = PhysicWorldTest.computeScratchCompatibleAngleForDirectSetting(15.6f);
+			float angle = 15.6f;
+			//float angle = computeScratchCompatibleAngleForDirectSetting(15.6f);
 			float expectedAngle = 15.6f;
 			Vector2 position = new Vector2(12.34f, 56.78f);
 			physicsObject.setDirection(angle);
@@ -533,7 +535,9 @@ public class PhysicObjectTest extends AndroidTestCase {
 		protected abstract void setValue(float value);
 	}
 
-	// ... and other helpers
+	/*
+	 * Helper
+	 */
 	private void checkCollisionMask(PhysicsObject physicsObject, short categoryBits, short maskBits) {
 		FixtureDef fixtureDef = PhysicsTestUtils.getFixtureDef(physicsObject);
 		assertEquals("Different category bits", categoryBits, fixtureDef.filter.categoryBits);
@@ -571,5 +575,14 @@ public class PhysicObjectTest extends AndroidTestCase {
 				assertEquals("Vertex are different", expectedVertex, actualVertex);
 			}
 		}
+	}
+
+	public static float computeScratchCompatibleAngleForDirectSetting(float direction) {
+		direction = direction % 360;
+		if (direction < 0) {
+			direction += 360f;
+		}
+		direction = 180f - direction;
+		return direction;
 	}
 }
