@@ -22,13 +22,14 @@
  */
 package org.catrobat.catroid.utils;
 
-import static android.content.Context.*;
 import android.content.Context;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.util.Log;
 
 import java.util.concurrent.Semaphore;
+
+import static android.content.Context.VIBRATOR_SERVICE;
 
 
 public final class VibratorUtil {
