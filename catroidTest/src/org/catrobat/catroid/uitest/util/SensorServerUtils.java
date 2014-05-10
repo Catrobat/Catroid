@@ -28,12 +28,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-import android.util.Log;
-
 import junit.framework.AssertionFailedError;
 
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.assertFalse;
+
+import android.util.Log;
+
 
 public final class SensorServerUtils {
 	private static final String LOG_TEST = "SensorServerUtils::";
