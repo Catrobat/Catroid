@@ -22,13 +22,10 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import java.util.ArrayList;
-
 import android.util.Log;
 import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -44,6 +41,8 @@ import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.SensorServerUtils;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+
+import java.util.ArrayList;
 
 public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 

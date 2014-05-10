@@ -48,26 +48,26 @@ public class LedOffBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Brick copyBrickForSprite( Sprite sprite, Script script ) {
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		LedOffBrick copyBrick = (LedOffBrick) clone();
 		copyBrick.sprite = sprite;
 		return copyBrick;
 	}
 
 	@Override
-	public View getView( Context context, int brickId, BaseAdapter baseAdapter ) {
-		if ( animationState ) {
+	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		if (animationState) {
 			return view;
 		}
 
-		if ( view == null ) {
+		if (view == null) {
 			alphaValue = 0xFF;
 		}
 
-		view = View.inflate( context, R.layout.brick_led_off, null );
-		view = getViewWithAlpha( alphaValue );
+		view = View.inflate(context, R.layout.brick_led_off, null);
+		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView( R.id.brick_led_off_checkbox );
+		setCheckboxView(R.id.brick_led_off_checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -82,12 +82,12 @@ public class LedOffBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getViewWithAlpha( int alphaValue ) {
+	public View getViewWithAlpha(int alphaValue) {
 		if (view != null) {
 
-			View layout = view.findViewById( R.id.brick_led_off_layout );
+			View layout = view.findViewById(R.id.brick_led_off_layout);
 			Drawable background = layout.getBackground();
-			background.setAlpha( alphaValue );
+			background.setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
 		}
@@ -96,20 +96,20 @@ public class LedOffBrick extends BrickBaseType {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence( SequenceAction sequence ) {
-		sequence.addAction( ExtendedActions.lights( this.sprite, false ) );
+	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.lights(this.sprite, false));
 		return null;
 	}
 
 	@Override
-	public View getPrototypeView( Context context ) {
-		prototypeView = View.inflate( context, R.layout.brick_led_off, null );
+	public View getPrototypeView(Context context) {
+		prototypeView = View.inflate(context, R.layout.brick_led_off, null);
 		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new LedOffBrick( getSprite() );
+		return new LedOffBrick(getSprite());
 	}
 
 	@Override

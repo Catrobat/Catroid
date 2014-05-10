@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import java.util.List;
-
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -37,6 +35,8 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
+
+import java.util.List;
 
 public class LedOnBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
