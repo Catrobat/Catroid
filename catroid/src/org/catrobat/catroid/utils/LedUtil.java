@@ -29,7 +29,7 @@ import android.util.Log;
 
 import java.util.concurrent.Semaphore;
 
-public class LedUtil {
+public final class LedUtil {
 
 	private static final String LOG_TAG = "LedUtil::";
 	private static Camera cam = null;

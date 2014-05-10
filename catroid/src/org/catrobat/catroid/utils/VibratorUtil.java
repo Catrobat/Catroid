@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.utils;
 
+import static android.content.Context.*;
 import android.content.Context;
 import android.os.SystemClock;
 import android.os.Vibrator;
@@ -29,9 +30,8 @@ import android.util.Log;
 
 import java.util.concurrent.Semaphore;
 
-import static android.content.Context.*;
 
-public class VibratorUtil {
+public final class VibratorUtil {
 
 	private static final String LOG_TAG = "VibratorUtil::";
 	private static Context context = null;

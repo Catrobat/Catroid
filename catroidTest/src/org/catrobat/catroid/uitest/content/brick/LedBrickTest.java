@@ -94,7 +94,6 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
-		int groupCount = adapter.getScriptCount();
 
 		assertEquals( "Incorrect number of bricks.", 6, dragDropListView.getChildCount() );
 		assertEquals( "Incorrect number of bricks.", 2, childrenCount );
@@ -102,9 +101,7 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals( "Incorrect number of bricks", 2, projectBrickList.size() );
 
-		//assertEquals( "Wrong brick instance", projectBrickList.get(1), adapter.getChild(groupCount - 1, 0) );
 		assertNotNull( "TextView does not exist.", solo.getText(solo.getString(R.string.brick_led_off)));
-
 
 		Log.d(LOG_LED_TEST, "LED value set to " + SensorServerUtils.SET_LED_OFF_VALUE);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);

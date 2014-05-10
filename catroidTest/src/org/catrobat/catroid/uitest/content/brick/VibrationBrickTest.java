@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
+import java.util.ArrayList;
+
 import android.util.Log;
 import android.widget.ListView;
 
@@ -42,8 +44,6 @@ import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.SensorServerUtils;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-
-import java.util.ArrayList;
 
 public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
@@ -93,7 +93,6 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
-		int groupCount = adapter.getScriptCount();
 
 		assertEquals( "Incorrect number of bricks.", 4, dragDropListView.getChildCount() );
 		assertEquals( "Incorrect number of bricks.", 1, childrenCount );
