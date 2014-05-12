@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.utils;
 
+import android.annotation.TargetApi;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.os.Build;
@@ -32,7 +33,7 @@ import java.util.concurrent.Semaphore;
 public final class LedUtil {
 
 	private static final String LOG_TAG = "LedUtil::";
-	private static Camera cam = null;
+	private static Camera cam = Camera.open();
 	private static Camera.Parameters paramsOn = null;
 	private static Camera.Parameters paramsOff = null;
 
@@ -49,7 +50,20 @@ public final class LedUtil {
 	private LedUtil() {
 	}
 
-	private static Thread lightThread = null;
+	private static Thread lightThread = new Thread(new Runnable() {
+		@Override
+		public void run() {
+			while (keepAlive) {
+				try {
+					lightThreadSemaphore.acquire();
+					setLed();
+				} catch (InterruptedException e) {
+					Log.e(LOG_TAG, "lightThreadSemaphore " + e.getMessage());
+				}
+			}
+			lightThreadSemaphore.release();
+		}
+	});
 
 	public static boolean isActive() {
 		return keepAlive;
@@ -128,14 +142,7 @@ public final class LedUtil {
 				paramsOff.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 			}
 
-			if (Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
-				try {
-					surfaceTexture = new SurfaceTexture(1,true);
-					cam.setPreviewTexture(surfaceTexture);
-				} catch (Exception e) {
-					Log.e(LOG_TAG, "surfaceTexture failed! " + e.getMessage());
-				}
-			}
+			initializeCamera();
 
 			if (!lightThread.isAlive()) {
 				try {
@@ -171,6 +178,18 @@ public final class LedUtil {
 			paramsOff = null;
 			currentLedValue = false;
 			Log.d(LOG_TAG, "killLedThread() : camera released! nextLedValue="+nextLedValue);
+		}
+	}
+
+	@TargetApi(Build.VERSION_CODES.KITKAT)
+	private static void initializeCamera() {
+		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
+			try {
+				surfaceTexture = new SurfaceTexture(1, true);
+				cam.setPreviewTexture(surfaceTexture);
+			} catch (Exception e) {
+				Log.e(LOG_TAG, "surfaceTexture failed! " + e.getMessage());
+			}
 		}
 	}
 

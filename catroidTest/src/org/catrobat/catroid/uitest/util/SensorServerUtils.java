@@ -35,6 +35,7 @@ import java.net.Socket;
 
 import junit.framework.AssertionFailedError;
 
+@SurpressWarnings("AvoidUsingHardCodedIP")
 public final class SensorServerUtils {
 	private static final String LOG_TEST = "SensorServerUtils::";
 
@@ -44,7 +45,8 @@ public final class SensorServerUtils {
 	private static BufferedReader receiveFromServer;
 
 	// Enter the right IP address and port number to connect and request sensor values.
-	private static final String SERVER_IP = "129.27.202.103";
+	// PMD DISABLE AvoidUsingHardCodedIP FOR 1 LINES
+	private static final String ARDUINO_SERVER_IP = "129.27.202.103";
 	private static final int SERVER_PORT = 6789;
 	private static final int GET_VIBRATION_VALUE_ID = 1;
 	private static final int GET_LIGHT_VALUE_ID = 2;
@@ -65,10 +67,10 @@ public final class SensorServerUtils {
 	public static void connectToArduinoServer() throws IOException {
 		Log.d(LOG_TEST, "Trying to connect to server...");
 
-		clientSocket = new Socket(SERVER_IP, SERVER_PORT);
+		clientSocket = new Socket(ARDUINO_SERVER_IP, SERVER_PORT);
 		clientSocket.setKeepAlive(true);
 
-		Log.d(LOG_TEST, "Connected to: " + SERVER_IP + " on port " + SERVER_PORT);
+		Log.d(LOG_TEST, "Connected to: " + ARDUINO_SERVER_IP + " on port " + SERVER_PORT);
 		sendToServer = new DataOutputStream( clientSocket.getOutputStream() );
 		receiveFromServer = new BufferedReader( new InputStreamReader( clientSocket.getInputStream() ) );
 	}
