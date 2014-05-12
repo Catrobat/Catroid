@@ -35,7 +35,6 @@ import java.net.Socket;
 
 import junit.framework.AssertionFailedError;
 
-@SurpressWarnings("AvoidUsingHardCodedIP")
 public final class SensorServerUtils {
 	private static final String LOG_TEST = "SensorServerUtils::";
 
@@ -45,7 +44,7 @@ public final class SensorServerUtils {
 	private static BufferedReader receiveFromServer;
 
 	// Enter the right IP address and port number to connect and request sensor values.
-	// PMD DISABLE AvoidUsingHardCodedIP FOR 1 LINES
+	@SurpressWarnings("AvoidUsingHardCodedIP")
 	private static final String ARDUINO_SERVER_IP = "129.27.202.103";
 	private static final int SERVER_PORT = 6789;
 	private static final int GET_VIBRATION_VALUE_ID = 1;
