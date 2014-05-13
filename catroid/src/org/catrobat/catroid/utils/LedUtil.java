@@ -177,7 +177,7 @@ public final class LedUtil {
 			paramsOn = null;
 			paramsOff = null;
 			currentLedValue = false;
-			Log.d(LOG_TAG, "killLedThread() : camera released! nextLedValue="+nextLedValue);
+			Log.d(LOG_TAG, "killLedThread() : camera released! nextLedValue=" + nextLedValue);
 		}
 	}
 
