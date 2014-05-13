@@ -154,7 +154,6 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 		} catch (NullPointerException e) {
 			// expected behavior
 		}
-
 	}
 
 	public void testSimpleSingleConvexPolygon() {
@@ -170,6 +169,7 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 	}
 
 	public void testComplexSingleConvexPolygon() {
+		// TODO[Physics] rework or delete (algorithm works different)
 		LookData lookData = PhysicsTestUtils.generateLookData(complexSingleConvexPolygonFile);
 		physicsLook.setLookData(lookData);
 
@@ -182,6 +182,7 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 	}
 
 	public void testMultibleConvexPolygons() {
+		// TODO[Physics] rework or delete (algorithm detects no multiple)
 		LookData lookData = PhysicsTestUtils.generateLookData(multibleConvexPolygonsFile);
 		physicsLook.setLookData(lookData);
 
@@ -194,6 +195,7 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 	}
 
 	public void testSingleConcavePolygon() {
+		// TODO[Physics] rework or delete (algorithm detects no concave polygons)
 		LookData lookData = PhysicsTestUtils.generateLookData(singleConcavePolygonFile);
 		physicsLook.setLookData(lookData);
 
@@ -206,6 +208,7 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 	}
 
 	public void testMultibleConcavePolygons() {
+		// TODO[Physics] rework or delete (algorithm detects no multiple)
 		LookData lookData = PhysicsTestUtils.generateLookData(multibleConvexPolygonsFile);
 		physicsLook.setLookData(lookData);
 
@@ -218,6 +221,7 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 	}
 
 	public void testMultibleMixedPolygons() {
+		// TODO[Physics] rework or delete (algorithm detects no multiple)
 		LookData lookData = PhysicsTestUtils.generateLookData(multibleMixedPolygonsFile);
 		physicsLook.setLookData(lookData);
 

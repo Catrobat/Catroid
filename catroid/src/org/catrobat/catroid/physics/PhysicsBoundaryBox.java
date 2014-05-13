@@ -47,9 +47,9 @@ public class PhysicsBoundaryBox {
 	 * @param width
 	 */
 	public void create(int width, int height) {
-		float boxWidth = PhysicsWorldConverter.toBox2dCoordinate(width);
-		float boxHeight = PhysicsWorldConverter.toBox2dCoordinate(height);
-		float boxElementSize = PhysicsWorldConverter.toBox2dCoordinate(PhysicsBoundaryBox.FRAME_SIZE);
+		float boxWidth = PhysicsWorldConverter.convertNormalToBox2dCoordinate(width);
+		float boxHeight = PhysicsWorldConverter.convertNormalToBox2dCoordinate(height);
+		float boxElementSize = PhysicsWorldConverter.convertNormalToBox2dCoordinate(PhysicsBoundaryBox.FRAME_SIZE);
 		float halfBoxElementSize = boxElementSize / 2.0f;
 
 		// Top

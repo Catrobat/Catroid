@@ -138,36 +138,38 @@ public class PhysicsObject {
 	}
 
 	public float getDirection() {
-		return PhysicsWorldConverter.toCatroidAngle(body.getAngle());
+		return PhysicsWorldConverter.convertBox2dToNormalAngle(body.getAngle());
 	}
 
 	public void setDirection(float degrees) {
-		body.setTransform(body.getPosition(), PhysicsWorldConverter.toBox2dAngle(degrees));
+		body.setTransform(body.getPosition(), PhysicsWorldConverter.convertNormalToBox2dAngle(degrees));
 	}
 
 	public float getX() {
-		return PhysicsWorldConverter.toCatroidCoordinate(body.getPosition().x);
+		return PhysicsWorldConverter.convertBox2dToNormalCoordinate(body.getPosition().x);
 	}
 
 	public float getY() {
-		return PhysicsWorldConverter.toCatroidCoordinate(body.getPosition().y);
+		return PhysicsWorldConverter.convertBox2dToNormalCoordinate(body.getPosition().y);
 	}
 
 	public Vector2 getPosition() {
-		return PhysicsWorldConverter.toCatroidVector(body.getPosition());
+		return PhysicsWorldConverter.convertBox2dToNormalVector(body.getPosition());
 	}
 
 	public void setX(float x) {
-		body.setTransform(PhysicsWorldConverter.toBox2dCoordinate(x), body.getPosition().y, body.getAngle());
+		body.setTransform(PhysicsWorldConverter.convertNormalToBox2dCoordinate(x), body.getPosition().y,
+				body.getAngle());
 	}
 
 	public void setY(float y) {
-		body.setTransform(body.getPosition().x, PhysicsWorldConverter.toBox2dCoordinate(y), body.getAngle());
+		body.setTransform(body.getPosition().x, PhysicsWorldConverter.convertNormalToBox2dCoordinate(y),
+				body.getAngle());
 	}
 
 	public void setPosition(float x, float y) {
-		x = PhysicsWorldConverter.toBox2dCoordinate(x);
-		y = PhysicsWorldConverter.toBox2dCoordinate(y);
+		x = PhysicsWorldConverter.convertNormalToBox2dCoordinate(x);
+		y = PhysicsWorldConverter.convertNormalToBox2dCoordinate(y);
 		body.setTransform(x, y, body.getAngle());
 	}
 
@@ -184,11 +186,12 @@ public class PhysicsObject {
 	}
 
 	public Vector2 getVelocity() {
-		return PhysicsWorldConverter.toCatroidVector(body.getLinearVelocity());
+		return PhysicsWorldConverter.convertBox2dToNormalVector(body.getLinearVelocity());
 	}
 
 	public void setVelocity(float x, float y) {
-		body.setLinearVelocity(PhysicsWorldConverter.toBox2dCoordinate(x), PhysicsWorldConverter.toBox2dCoordinate(y));
+		body.setLinearVelocity(PhysicsWorldConverter.convertNormalToBox2dCoordinate(x),
+				PhysicsWorldConverter.convertNormalToBox2dCoordinate(y));
 	}
 
 	public float getMass() {
@@ -336,10 +339,10 @@ public class PhysicsObject {
 
 	public void getBoundaryBox(Vector2 lower, Vector2 upper) {
 		calcAABB();
-		lower.x = PhysicsWorldConverter.toCatroidVector(bodyAABBlower).x;
-		lower.y = PhysicsWorldConverter.toCatroidVector(bodyAABBlower).y;
-		upper.x = PhysicsWorldConverter.toCatroidVector(bodyAABBupper).x;
-		upper.y = PhysicsWorldConverter.toCatroidVector(bodyAABBupper).y;
+		lower.x = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBlower).x;
+		lower.y = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBlower).y;
+		upper.x = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBupper).x;
+		upper.y = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBupper).y;
 	}
 
 	private void calcAABB() {

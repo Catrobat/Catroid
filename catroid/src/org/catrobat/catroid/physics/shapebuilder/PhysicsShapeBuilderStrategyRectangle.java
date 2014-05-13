@@ -81,10 +81,10 @@ public class PhysicsShapeBuilderStrategyRectangle implements PhysicsShapeBuilder
 			height = 1;
 		}
 
-		float box2dWidth = PhysicsWorldConverter.toBox2dCoordinate(width) / 2.0f;
-		float box2dHeight = PhysicsWorldConverter.toBox2dCoordinate(height) / 2.0f;
-		Vector2 center = new Vector2(box2dWidth - PhysicsWorldConverter.toBox2dCoordinate(pixmap.getWidth() / 2.0f),
-				box2dHeight - PhysicsWorldConverter.toBox2dCoordinate(pixmap.getHeight() / 2.0f));
+		float box2dWidth = PhysicsWorldConverter.convertNormalToBox2dCoordinate(width) / 2.0f;
+		float box2dHeight = PhysicsWorldConverter.convertNormalToBox2dCoordinate(height) / 2.0f;
+		Vector2 center = new Vector2(box2dWidth - PhysicsWorldConverter.convertNormalToBox2dCoordinate(pixmap.getWidth() / 2.0f),
+				box2dHeight - PhysicsWorldConverter.convertNormalToBox2dCoordinate(pixmap.getHeight() / 2.0f));
 		PolygonShape polygonShape = new PolygonShape();
 		polygonShape.setAsBox(box2dWidth, box2dHeight, center, 0.0f);
 
