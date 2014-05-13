@@ -37,6 +37,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
+import org.catrobat.catroid.physics.content.ActionFactory;
 
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -28,7 +28,6 @@ import com.badlogic.gdx.math.Vector2;
 
 import junit.framework.Assert;
 
-import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.PhysicsWorldConverter;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -46,50 +45,48 @@ public class PhysicsWorldConverterTest extends AndroidTestCase {
 	}
 
 	public void testAngleConversion() {
-		// TODO[Physics] refactor test
 		float angle = 0.0f;
-		//float angle = PhysicsWorldTest.computeScratchCompatibleAngleForDirectSetting(0.0f);
-		Assert.assertEquals(angle + Look.getDegreeUserInterfaceOffset(), PhysicsWorldConverter.toCatroidAngle(angle));
-		Assert.assertEquals(angle - Math.toRadians(Look.getDegreeUserInterfaceOffset()),
-				PhysicsWorldConverter.toBox2dAngle(angle), TestUtils.DELTA);
+		Assert.assertEquals("convertBox2dToNormalAngle(0) should be zero", angle,
+				PhysicsWorldConverter.convertBox2dToNormalAngle(angle));
+		Assert.assertEquals("convertNormalToBox2dAngle(0) should be zero", angle,
+				PhysicsWorldConverter.convertNormalToBox2dAngle(angle), TestUtils.DELTA);
 
-		Assert.assertEquals((float) (Math.PI / 2.0) - Math.toRadians(Look.getDegreeUserInterfaceOffset()),
-				PhysicsWorldConverter.toBox2dAngle(90.0f), TestUtils.DELTA);
-		Assert.assertEquals((float) Math.PI - Math.toRadians(Look.getDegreeUserInterfaceOffset()),
-				PhysicsWorldConverter.toBox2dAngle(180.0f), TestUtils.DELTA);
-		//angle = PhysicsObjectTest.computeScratchCompatibleAngleForDirectSetting(90.0f);
-		angle = 90.0f;
-		Assert.assertEquals(angle + Look.getDegreeUserInterfaceOffset(),
-				PhysicsWorldConverter.toCatroidAngle((float) (Math.PI / 2.0)), TestUtils.DELTA);
-		//angle = PhysicsObjectTest.computeScratchCompatibleAngleForDirectSetting(180.0f);
-		angle = 180.0f;
-		Assert.assertEquals(angle + Look.getDegreeUserInterfaceOffset(),
-				PhysicsWorldConverter.toCatroidAngle((float) Math.PI), TestUtils.DELTA);
+		Assert.assertEquals("PI/2 should be convertNormalToBox2dAngle(90°)", (float) (Math.PI / 2.0),
+				PhysicsWorldConverter.convertNormalToBox2dAngle(90.0f), TestUtils.DELTA);
+		Assert.assertEquals("PI should be convertNormalToBox2dAngle(180°)", (float) Math.PI,
+				PhysicsWorldConverter.convertNormalToBox2dAngle(180.0f), TestUtils.DELTA);
+		Assert.assertEquals("90° should be convertBox2dToNormalAngle(PI/2)", 90.0f,
+				PhysicsWorldConverter.convertBox2dToNormalAngle((float) (Math.PI / 2.0)), TestUtils.DELTA);
+		Assert.assertEquals("180° should be convertBox2dToNormalAngle(PI)", 180.0f,
+				PhysicsWorldConverter.convertBox2dToNormalAngle((float) Math.PI), TestUtils.DELTA);
 
 		float[] angles = { 123.456f, -123.456f, 1024.0f };
 		for (float currentAngle : angles) {
 			Assert.assertEquals((float) Math.toDegrees(currentAngle),
-					PhysicsWorldConverter.toCatroidAngle(currentAngle));
-			Assert.assertEquals((float) Math.toRadians(currentAngle), PhysicsWorldConverter.toBox2dAngle(currentAngle));
+					PhysicsWorldConverter.convertBox2dToNormalAngle(currentAngle));
+			Assert.assertEquals((float) Math.toRadians(currentAngle),
+					PhysicsWorldConverter.convertNormalToBox2dAngle(currentAngle));
 		}
 	}
 
 	public void testLengthConversion() {
 		float length = 0.0f;
-		Assert.assertEquals(length, PhysicsWorldConverter.toCatroidCoordinate(length));
-		Assert.assertEquals(length, PhysicsWorldConverter.toBox2dCoordinate(length));
+		Assert.assertEquals(length, PhysicsWorldConverter.convertBox2dToNormalCoordinate(length));
+		Assert.assertEquals(length, PhysicsWorldConverter.convertNormalToBox2dCoordinate(length));
 
 		float[] lengths = { 123.456f, -654.321f };
 		for (float currentLength : lengths) {
-			Assert.assertEquals(currentLength * ratio, PhysicsWorldConverter.toCatroidCoordinate(currentLength));
-			Assert.assertEquals(currentLength / ratio, PhysicsWorldConverter.toBox2dCoordinate(currentLength));
+			Assert.assertEquals(currentLength * ratio,
+					PhysicsWorldConverter.convertBox2dToNormalCoordinate(currentLength));
+			Assert.assertEquals(currentLength / ratio,
+					PhysicsWorldConverter.convertNormalToBox2dCoordinate(currentLength));
 		}
 	}
 
 	public void testVectorConversation() {
 		Vector2 vector = new Vector2();
-		Assert.assertEquals(vector, PhysicsWorldConverter.toCatroidVector(vector));
-		Assert.assertEquals(vector, PhysicsWorldConverter.toBox2dVector(vector));
+		Assert.assertEquals(vector, PhysicsWorldConverter.convertBox2dToNormalVector(vector));
+		Assert.assertEquals(vector, PhysicsWorldConverter.convertCatroidToBox2dVector(vector));
 
 		Vector2[] vectors = { new Vector2(123.456f, 123.456f), new Vector2(654.321f, -123.456f),
 				new Vector2(-654.321f, 0.0f), new Vector2(-123.456f, -654.321f) };
@@ -97,10 +94,10 @@ public class PhysicsWorldConverterTest extends AndroidTestCase {
 		Vector2 expected;
 		for (Vector2 currentVector : vectors) {
 			expected = new Vector2(currentVector.x * ratio, currentVector.y * ratio);
-			Assert.assertEquals(expected, PhysicsWorldConverter.toCatroidVector(currentVector));
+			Assert.assertEquals(expected, PhysicsWorldConverter.convertBox2dToNormalVector(currentVector));
 
 			expected = new Vector2(currentVector.x / ratio, currentVector.y / ratio);
-			Assert.assertEquals(expected, PhysicsWorldConverter.toBox2dVector(currentVector));
+			Assert.assertEquals(expected, PhysicsWorldConverter.convertCatroidToBox2dVector(currentVector));
 		}
 	}
 }

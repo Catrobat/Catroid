@@ -185,8 +185,8 @@ public class PhysicsObjectTest extends AndroidTestCase {
 	}
 
 	public void testSetCollisionBits() {
-		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, PhysicsObject.Type.NONE, 10.0f,
-				5.0f);
+		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, PhysicsObject.Type.NONE,
+				10.0f, 5.0f);
 		checkCollisionMask(physicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT, PhysicsWorld.MASK_NOCOLLISION);
 
 		physicsObject.setType(PhysicsObject.Type.FIXED);
@@ -230,8 +230,8 @@ public class PhysicsObjectTest extends AndroidTestCase {
 				//angle = computeScratchCompatibleAngleForDirectSetting(angle);
 
 				physicsObject.setDirection(angle);
-				float physicsObjectCatroidAngle = PhysicsWorldConverter.toCatroidAngle(PhysicsTestUtils.getBody(
-						physicsObject).getAngle());
+				float physicsObjectCatroidAngle = PhysicsWorldConverter.convertBox2dToNormalAngle(PhysicsTestUtils
+						.getBody(physicsObject).getAngle());
 				physicsObjectCatroidAngle = physicsObject.getDirection();
 
 				assertEquals("Wrong catroid angle", expectedDegrees[idx], physicsObjectCatroidAngle, TestUtils.DELTA);
@@ -252,8 +252,8 @@ public class PhysicsObjectTest extends AndroidTestCase {
 			for (Vector2 position : positions) {
 				physicsObject.setPosition(position.x, position.y);
 
-				Vector2 physicsObjectCatroidPosition = PhysicsWorldConverter.toCatroidVector(PhysicsTestUtils.getBody(
-						physicsObject).getPosition());
+				Vector2 physicsObjectCatroidPosition = PhysicsWorldConverter
+						.convertBox2dToNormalVector(PhysicsTestUtils.getBody(physicsObject).getPosition());
 				assertEquals("Wrong catroid position", position, physicsObjectCatroidPosition);
 				assertEquals("Wrong box2d position", position, physicsObject.getPosition());
 			}
@@ -261,8 +261,8 @@ public class PhysicsObjectTest extends AndroidTestCase {
 			for (Vector2 position : positions) {
 				physicsObject.setPosition(position);
 
-				Vector2 physicsObjectCatroidPosition = PhysicsWorldConverter.toCatroidVector(PhysicsTestUtils.getBody(
-						physicsObject).getPosition());
+				Vector2 physicsObjectCatroidPosition = PhysicsWorldConverter
+						.convertBox2dToNormalVector(PhysicsTestUtils.getBody(physicsObject).getPosition());
 				assertEquals("Wrong catroid position", position, physicsObjectCatroidPosition);
 				assertEquals("Wrong box2d position", position, physicsObject.getPosition());
 			}
@@ -276,16 +276,15 @@ public class PhysicsObjectTest extends AndroidTestCase {
 			assertEquals("initialization", new Vector2(), PhysicsTestUtils.getBody(physicsObject).getPosition());
 
 			float angle = 15.6f;
-			//float angle = computeScratchCompatibleAngleForDirectSetting(15.6f);
 			float expectedAngle = 15.6f;
 			Vector2 position = new Vector2(12.34f, 56.78f);
 			physicsObject.setDirection(angle);
 			physicsObject.setPosition(position.x, position.y);
 
-			float physicsObjectCatroidAngle = PhysicsWorldConverter.toCatroidAngle(PhysicsTestUtils.getBody(
+			float physicsObjectCatroidAngle = PhysicsWorldConverter.convertBox2dToNormalAngle(PhysicsTestUtils.getBody(
 					physicsObject).getAngle());
-			Vector2 physicsObjectCatroidPosition = PhysicsWorldConverter.toCatroidVector(PhysicsTestUtils.getBody(
-					physicsObject).getPosition());
+			Vector2 physicsObjectCatroidPosition = PhysicsWorldConverter.convertBox2dToNormalVector(PhysicsTestUtils
+					.getBody(physicsObject).getPosition());
 
 			assertEquals("Wrong catroid angle", expectedAngle, physicsObjectCatroidAngle, TestUtils.DELTA);
 			assertEquals("Wrong catroid position", position, physicsObjectCatroidPosition);
@@ -466,10 +465,6 @@ public class PhysicsObjectTest extends AndroidTestCase {
 		assertEquals("Wrong initialization", 0.0f, body.getAngularVelocity());
 		float rotationSpeed = 20.0f;
 		physicsObject.setRotationSpeed(rotationSpeed);
-
-		// TODO [Physics] check if toCatroidAngle(...) is needed
-
-		//float physicsObjectCatroidRotationSpeed = PhysicsWorldConverter.toCatroidAngle(body.getAngularVelocity());
 		float physicsObjectCatroidRotationSpeed = (float) Math.toDegrees(body.getAngularVelocity());
 		assertEquals("Set wrong rotation speed", rotationSpeed, physicsObjectCatroidRotationSpeed);
 	}
@@ -482,7 +477,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 		Vector2 velocity = new Vector2(12.3f, 45.6f);
 		physicsObject.setVelocity(velocity.x, velocity.y);
 
-		Vector2 physicsObjectCatVelocity = PhysicsWorldConverter.toCatroidVector(body.getLinearVelocity());
+		Vector2 physicsObjectCatVelocity = PhysicsWorldConverter.convertBox2dToNormalVector(body.getLinearVelocity());
 		assertEquals("Set wrong velocity", velocity, physicsObjectCatVelocity);
 	}
 
