@@ -27,13 +27,13 @@ import android.util.Log;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
+import junit.framework.AssertionFailedError;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-
-import junit.framework.AssertionFailedError;
 
 @SuppressWarnings("AvoidUsingHardCodedIP")
 public final class SensorServerUtils {
