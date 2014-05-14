@@ -33,6 +33,8 @@ import org.catrobat.catroid.test.utils.Reflection;
 
 public class SpeakActionTest extends AndroidTestCase {
 
+
+    private static final String SPEAK = "hello world!";
 	private Formula text;
 	private Formula text2;
 	private Formula textString;
@@ -41,7 +43,7 @@ public class SpeakActionTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		text = new Formula(666);
 		text2 = new Formula(888.88);
-		textString = new Formula("hello world!");
+		textString = new Formula(SPEAK);
 		super.setUp();
 	}
 
@@ -71,7 +73,7 @@ public class SpeakActionTest extends AndroidTestCase {
 			action.act(1.0f);
 			fail("Execution of ShowBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
-			return;
+			assertTrue("Exception thrown as expected", true);
 		}
 		assertEquals("Stored wrong text in speak brick", text, speakBrick.getFormula());
 	}
@@ -82,17 +84,17 @@ public class SpeakActionTest extends AndroidTestCase {
 	}
 
 	public void testBrickWithStringFormula() {
-		SpeakBrick speakBrick = new SpeakBrick(sprite, textString);
-		SpeakAction action = ExtendedActions.speak(textString, sprite);
+		SpeakBrick speakBrick = new SpeakBrick(textString);
+		SpeakAction action = ExtendedActions.speak(textString);
 		Reflection.invokeMethod(action, "begin");
 
 		assertEquals("Text is not updated after SpeakBrick executed", textString, speakBrick.getFormula());
-		assertEquals("Text is not updated after SpeakBrick executed", textString.interpretString(sprite),
+		assertEquals("Text is not updated after SpeakBrick executed", SPEAK,
 				String.valueOf(Reflection.getPrivateField(action, "interpretedText")));
 	}
 
 	public void testNullFormula() {
-		SpeakAction action = ExtendedActions.speak((Formula) null, sprite);
+		SpeakAction action = ExtendedActions.speak((Formula) null);
 		Reflection.invokeMethod(action, "begin");
 
 		assertEquals("Text is not updated after SpeakBrick executed", "",
@@ -100,7 +102,7 @@ public class SpeakActionTest extends AndroidTestCase {
 	}
 
 	public void testNotANumberFormula() {
-		SpeakAction action = ExtendedActions.speak(new Formula(Double.NaN), sprite);
+		SpeakAction action = ExtendedActions.speak(new Formula(Double.NaN));
 		Reflection.invokeMethod(action, "begin");
 
 		assertEquals("Text is not updated after SpeakBrick executed", "",

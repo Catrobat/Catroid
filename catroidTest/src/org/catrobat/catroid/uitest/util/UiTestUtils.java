@@ -124,6 +124,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternToken;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageListener;
@@ -425,14 +426,18 @@ public final class UiTestUtils {
 		solo.sleep(200);
 
 		Formula formula = theBrick.getFormulaWithBrickField(brickField);
+        try{
+            assertEquals("Wrong text in field", newValue, formula.interpretDouble(sprite), 0.01f);
+        }catch (InterpretationException interpretationException) {
+            fail("Wrong text in field.");
+        }
 
-		assertEquals("Wrong text in field", newValue, formula.interpretDouble(sprite), 0.01f);
 		assertEquals("Text not updated in the brick list", newValue,
 				Double.parseDouble(((TextView) solo.getView(editTextId)).getText().toString().replace(',', '.')), 0.01f);
 
 	}
 
-	public static void testBrickWithFormulaEditor(Solo solo, int editTextId, String newValue, String fieldName,
+	public static void testBrickWithFormulaEditor(Sprite sprite, Solo solo, int editTextId, String newValue, String fieldName,
 			Brick theBrick) {
 
 		solo.clickOnView(solo.getView(editTextId));
@@ -446,7 +451,11 @@ public final class UiTestUtils {
 
 		Formula formula = (Formula) Reflection.getPrivateField(theBrick, fieldName);
 		formulaEditorString = ((TextView) solo.getView(editTextId)).getText().toString();
-		assertEquals("Wrong text in field", newValue, formula.interpretString(theBrick.getSprite()));
+        try{
+            assertEquals("Wrong text in field", newValue, formula.interpretString(sprite));
+        }catch (InterpretationException interpretationException) {
+            fail("Wrong text in field.");
+        }
 		assertEquals("Text not updated in the brick list", "\'" + newValue + "\'",
 				formulaEditorString.substring(0, formulaEditorString.length() - 1));
 	}

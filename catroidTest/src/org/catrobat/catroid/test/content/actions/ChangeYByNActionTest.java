@@ -32,28 +32,26 @@ import org.catrobat.catroid.formulaeditor.Formula;
 public class ChangeYByNActionTest extends AndroidTestCase {
 
 	private static final float CHANGE_VALUE = 66.6f;
-	private static final String NOT_NUMERICAL_STRING = "yPostion";
-	private Formula yMovement = new Formula(100);
+	private static final String NOT_NUMERICAL_STRING = "yPosition";
+    private Sprite sprite;
+
+    @Override
+    protected void setUp() throws Exception {
+        sprite = new Sprite("testSprite");
+        super.setUp();
+    }
 
 	public void testNormalBehavior() {
-		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
-		int yPosition = (int) sprite.look.getYInUserInterfaceDimensionUnit();
-
-		ChangeYByNAction action = ExtendedActions.changeYByN(sprite, yMovement);
-		sprite.look.addAction(action);
-		action.act(1.0f);
-
-		yPosition += yMovement.interpretInteger(sprite);
-		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", (float) yPosition,
+        ExtendedActions.changeYByN(sprite,  new Formula(CHANGE_VALUE)).act(1.0f);
+		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", CHANGE_VALUE,
 				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
-		ChangeYByNAction action = ExtendedActions.changeYByN(null, yMovement);
-
+		ChangeYByNAction action = ExtendedActions.changeYByN(null,  new Formula(CHANGE_VALUE));
 		try {
 			action.act(1.0f);
 			fail("Execution of ChangeYByNBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
@@ -63,54 +61,39 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 	}
 
 	public void testBoundaryPositions() {
-		Sprite sprite = new Sprite("testSprite");
-
 		int yPosition = 10;
 		sprite.look.setPositionInUserInterfaceDimensionUnit(sprite.look.getXInUserInterfaceDimensionUnit(), yPosition);
 
-		ChangeYByNAction action = ExtendedActions.changeYByN(sprite, new Formula(Integer.MAX_VALUE));
-		sprite.look.addAction(action);
-		action.act(1.0f);
-
+		ExtendedActions.changeYByN(sprite, new Formula(Integer.MAX_VALUE)).act(1.0f);
 		assertEquals("ChangeYByNBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
 				(int) sprite.look.getYInUserInterfaceDimensionUnit());
 
 		yPosition = -10;
 		sprite.look.setPositionInUserInterfaceDimensionUnit(sprite.look.getXInUserInterfaceDimensionUnit(), yPosition);
 
-		action = ExtendedActions.changeYByN(sprite, new Formula(Integer.MIN_VALUE));
-		sprite.look.addAction(action);
-		action.act(1.0f);
-
+		ExtendedActions.changeYByN(sprite, new Formula(Integer.MIN_VALUE)).act(1.0f);
 		assertEquals("ChangeYByNBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
 				(int) sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testBrickWithStringFormula() {
-		Sprite sprite = new Sprite("testSprite");
-		ChangeYByNAction action = ExtendedActions.changeYByN(sprite, new Formula(String.valueOf(CHANGE_VALUE)));
-		action.act(1.0f);
+		ExtendedActions.changeYByN(sprite, new Formula(String.valueOf(CHANGE_VALUE))).act(1.0f);
 		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", CHANGE_VALUE,
 				sprite.look.getYInUserInterfaceDimensionUnit());
 
-		action = ExtendedActions.changeYByN(sprite, new Formula(NOT_NUMERICAL_STRING));
-		action.act(1.0f);
+		ExtendedActions.changeYByN(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
 		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", CHANGE_VALUE,
 				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullFormula() {
-		Sprite sprite = new Sprite("testSprite");
-		ChangeYByNAction action = ExtendedActions.changeYByN(sprite, null);
-		action.act(1.0f);
+		ExtendedActions.changeYByN(sprite, null).act(1.0f);
 		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", 0f,
 				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNotANumberFormula() {
-		Sprite sprite = new Sprite("testSprite");
-		ChangeYByNAction action = ExtendedActions.changeYByN(sprite, new Formula(Double.NaN));
-		action.act(1.0f);
+		ExtendedActions.changeYByN(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", 0f,
 				sprite.look.getYInUserInterfaceDimensionUnit());
 	}

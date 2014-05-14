@@ -63,6 +63,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -219,7 +220,6 @@ public class BrickCloneTest extends AndroidTestCase {
 		assertEquals("references should be the same", clonedVariable, clonedVariableFromBrick);
 	}
 
-<<<<<<< HEAD
 	private void brickClone(Brick brick, Brick.BrickField... brickFields) {
 		try {
 			Brick cloneBrick = brick.clone();
@@ -233,54 +233,10 @@ public class BrickCloneTest extends AndroidTestCase {
 		} catch (CloneNotSupportedException exception) {
 			Log.e(TAG, Log.getStackTraceString(exception));
 			fail("cloning the brick failed");
+		} catch (InterpretationException interpretationException) {
+			Log.e(TAG, Log.getStackTraceString(interpretationException));
+			fail("Cloning of the brick failed: Formula interpretation failed.");
 		}
-=======
-	private void brickClone(Brick brick, String formulaName) {
-		Brick cloneBrick = brick.clone();
-		Formula brickFormula = (Formula) Reflection.getPrivateField(brick, formulaName);
-		Formula cloneBrickFormula = (Formula) Reflection.getPrivateField(cloneBrick, formulaName);
-		cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
-		assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretObject(sprite),
-				cloneBrickFormula.interpretObject(sprite));
 	}
-
-	private void brickClone(Brick brick, String formulaName1, String formulaName2) {
-		Brick cloneBrick = brick.clone();
-		Formula brickFormula = (Formula) Reflection.getPrivateField(brick, formulaName1);
-		Formula cloneBrickFormula = (Formula) Reflection.getPrivateField(cloneBrick, formulaName1);
-		cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
-		assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretObject(sprite),
-				cloneBrickFormula.interpretObject(sprite));
-
-		brickFormula = (Formula) Reflection.getPrivateField(brick, formulaName2);
-		cloneBrickFormula = (Formula) Reflection.getPrivateField(cloneBrick, formulaName2);
-		cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
-		assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretObject(sprite),
-				cloneBrickFormula.interpretObject(sprite));
-	}
-
-	private void brickClone(Brick brick, String formulaName1, String formulaName2, String formulaName3) {
-		Brick cloneBrick = brick.clone();
-		Formula brickFormula = (Formula) Reflection.getPrivateField(brick, formulaName1);
-		Formula cloneBrickFormula = (Formula) Reflection.getPrivateField(cloneBrick, formulaName1);
-		cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
-		assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretObject(sprite),
-				cloneBrickFormula.interpretObject(sprite));
-
-		cloneBrick = brick.clone();
-		brickFormula = (Formula) Reflection.getPrivateField(brick, formulaName2);
-		cloneBrickFormula = (Formula) Reflection.getPrivateField(cloneBrick, formulaName2);
-		cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
-		assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretObject(sprite),
-				cloneBrickFormula.interpretObject(sprite));
-
-		cloneBrick = brick.clone();
-		brickFormula = (Formula) Reflection.getPrivateField(brick, formulaName3);
-		cloneBrickFormula = (Formula) Reflection.getPrivateField(cloneBrick, formulaName3);
-		cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
-		assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretObject(sprite),
-				cloneBrickFormula.interpretObject(sprite));
->>>>>>> Note- and SpeakBrick now use FormulaEditor.
-	}
-
 }
+

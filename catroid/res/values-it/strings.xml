@@ -272,8 +272,6 @@
   <string name="brick_change_volume_by">Modifica il volume di</string>
   <string name="brick_speak">Parla</string>
   <string name="brick_speak_default_value">"Ciao!"</string>
-  <string name="dialog_edit_speak_title">Modifica testo</string>
-  <string name="dialog_edit_speak_text">Parla:</string>
   <string name="brick_when_started">Quando il programma inizia</string>
   <string name="brick_when">Quando premuto</string>
   <string name="brick_wait">Attendi</string>
@@ -287,8 +285,6 @@
   <string name="brick_note">Nota</string>
   <string name="brick_forever">Per sempre</string>
   <string name="brick_repeat">Ripeti</string>
-  <string name="dialog_edit_note_title">Modifica nota</string>
-  <string name="dialog_edit_note_text">Nota:</string>
   <plurals name="time_plural">
     <item quantity="one">volta</item>
     <item quantity="other">volte</item>
@@ -461,11 +457,9 @@
   <string name="formula_editor_object_layer">layer</string>
   <string name="formula_editor_compute">Calcola</string>
   <string name="formula_editor_object">Oggetto</string>
-  <string name="formula_editor_math">Matematica</string>
   <string name="formula_editor_logic">Logica</string>
   <string name="formula_editor_sensors">Sensori</string>
   <string name="formula_editor_variables">Variabili</string>
-  <string name="formula_editor_random">Casuale</string>
   <string name="formula_editor_logic_notequal">≠</string>
   <string name="formula_editor_logic_lesserthan">&lt;</string>
   <string name="formula_editor_logic_greaterthan">&gt;</string>

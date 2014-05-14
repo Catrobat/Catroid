@@ -22,11 +22,14 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 import java.util.List;
 
@@ -40,12 +43,10 @@ public class GoNStepsBackAction extends TemporalAction {
 		Float stepsValue;
 		try {
 			stepsValue = steps == null ? Float.valueOf(0f) : steps.interpretFloat(sprite);
-			if (stepsValue.isNaN()) {
-				return;
-			}
-		} catch (Exception exception) {
-			return;
-		}
+        } catch (InterpretationException interpretationException) {
+            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+            return;
+        }
 
 		int zPosition = sprite.look.getZIndex();
 		if (stepsValue.intValue() > 0 && (zPosition - stepsValue.intValue()) < 1) {

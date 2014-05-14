@@ -26,8 +26,6 @@ import android.test.InstrumentationTestCase;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -41,7 +39,6 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.Reflection;
-import org.catrobat.catroid.test.utils.TestUtils;
 
 import java.util.HashMap;
 import java.util.List;

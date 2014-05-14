@@ -36,13 +36,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class NoteBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class NoteBrick extends FormulaBrick implements OnClickListener{
 	private static final long serialVersionUID = 1L;
 
 	private Formula note;
@@ -89,7 +87,6 @@ public class NoteBrick extends BrickBaseType implements OnClickListener, Formula
 
 		TextView textHolder = (TextView) view.findViewById(R.id.brick_note_prototype_text_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_note_edit_text);
-		textField.setText(note.interpretString(sprite));
 		note.setTextFieldId(R.id.brick_note_edit_text);
 		note.refreshTextField(view);
 
@@ -126,7 +123,7 @@ public class NoteBrick extends BrickBaseType implements OnClickListener, Formula
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_note, null);
 		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_note_prototype_text_view);
-		textSpeak.setText(note.interpretString(sprite));
+		textSpeak.setText(context.getString(R.string.brick_note_default_value));
 		return prototypeView;
 	}
 

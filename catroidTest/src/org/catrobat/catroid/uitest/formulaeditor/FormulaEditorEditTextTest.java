@@ -769,7 +769,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
-		final int zeroCount = 17;
+		final int zeroCount = 7;
 		for (int i = 0; i < zeroCount; i++) {
 			solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
 		}

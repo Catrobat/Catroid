@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.formulaeditor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.test.InstrumentationTestCase;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -38,6 +39,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.SensorLoudness;
 import org.catrobat.catroid.formulaeditor.Sensors;
@@ -62,8 +64,8 @@ public class ParserTestSensors extends InstrumentationTestCase {
 		//For initialization
 		SensorLoudness.getSensorLoudness();
 		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
-		SimulatedSoundRecorder simSoundRec = new SimulatedSoundRecorder("/dev/null");
-		Reflection.setPrivateField(loudnessSensor, "recorder", simSoundRec);
+		SimulatedSoundRecorder simulatedSoundRecorder = new SimulatedSoundRecorder("/dev/null");
+		Reflection.setPrivateField(loudnessSensor, "recorder", simulatedSoundRecorder);
 	}
 
 	@Override
@@ -186,29 +188,23 @@ public class ParserTestSensors extends InstrumentationTestCase {
 
 		assertEquals(
 				"Unexpected sensor value for acceleration in x direction(= in portrait mode, from left to right side of screen surface, in m/s^2)",
-				expectedXAcceleration, formula.interpretDouble(firstSprite), delta);
-
+				expectedXAcceleration, interpretFormula(formula), delta);
 		assertEquals(
 				"Unexpected sensor value for acceleration in y direction(= in portrait mode, from bottom to upper side of screen surface, in m/s^2)",
-				expectedYAcceleration, formula1.interpretDouble(firstSprite), delta);
-
+				expectedYAcceleration, interpretFormula(formula1), delta);
 		assertEquals(
 				"Unexpected sensor value for acceleration in z direction(= in portrait mode, from screen surface orthogonally upwards away from screen, in m/s^2)",
-				expectedZAcceleration, formula2.interpretDouble(firstSprite), delta);
-
+				expectedZAcceleration, interpretFormula(formula2), delta);
 		assertEquals(
 				"Unexpected sensor value for compass direction (= in portrait mode, deviation of screen-down-to-up-side (= positive y axis direction) from magnetic north in degrees, with z axis (pointing to sky) serving as rotation axis; positive direction = counter-clockwise turn seen from above; this is the angle between magnetic north and the device's y axis as it is displayed on a compass. For example, if the device's y axis points towards the magnetic north this value is 0, and if the device's y axis is pointing south this value is approaching 180 or -180. When the y axis is pointing west this value is 90 and when it is pointing east this value is -90)",
-				expectedCompassDirection, formula3.interpretDouble(firstSprite), delta);
-
+				expectedCompassDirection, interpretFormula(formula3), delta);
 		assertEquals(
 				"Unexpected sensor value for x inclination (= in portrait mode, deviation from screen-left-to-right-side (= x axis direction) horizontal inclination (range: -180 to +180 degrees; flat = 0); increasing values of x inclination = right border of screen pulled towards user, left border away = positive side of x axis gets lifted up)",
-				expectedXInclination, formula4.interpretDouble(firstSprite), delta);
-
+				expectedXInclination, interpretFormula(formula4), delta);
 		assertEquals(
 				"Unexpected sensor value for y inclination (= in portrait mode, deviation from screen-down-to-up-side (= y axis direction) horizontal inclination (range: -180 to +180 degrees; flat = 0); increasing values of y inclination = upper border of screen pulled towards user, lower border away = positive side of y axis gets lifted up)",
-				expectedYInclination, formula5.interpretDouble(firstSprite), delta);
-
-		assertEquals("Unexpected sensor value for loudness", expectedLoudness, formula6.interpretDouble(firstSprite),
+				expectedYInclination, interpretFormula(formula5), delta);
+		assertEquals("Unexpected sensor value for loudness", expectedLoudness, interpretFormula(formula6),
 				delta);
 
 		SensorHandler.stopSensorListeners();
@@ -218,13 +214,13 @@ public class ParserTestSensors extends InstrumentationTestCase {
 
 		SensorLoudness.getSensorLoudness();
 		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
-		SimulatedSoundRecorder simSoundRec = new SimulatedSoundRecorder("/dev/null");
-		Reflection.setPrivateField(loudnessSensor, "recorder", simSoundRec);
+		SimulatedSoundRecorder simulatedSoundRecorder = new SimulatedSoundRecorder("/dev/null");
+		Reflection.setPrivateField(loudnessSensor, "recorder", simulatedSoundRecorder);
 
 		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
-		assertEquals("LoudnessSensor not startet recording, isRecording()", true, simSoundRec.isRecording());
+		assertEquals("LoudnessSensor dit not start recording, isRecording()", true, simulatedSoundRecorder.isRecording());
 		SensorHandler.stopSensorListeners();
-		assertEquals("LoudnessSensor not stopped recording, isRecording()", false, simSoundRec.isRecording());
+		assertEquals("LoudnessSensor did not stop recording, isRecording()", false, simulatedSoundRecorder.isRecording());
 	}
 
 	private boolean checkValidRotationValues(SensorEvent sensorEvent) {
@@ -268,4 +264,13 @@ public class ParserTestSensors extends InstrumentationTestCase {
 		project.addSprite(firstSprite);
 
 	}
+
+    private Double interpretFormula(Formula formula){
+        try{
+            return formula.interpretDouble(firstSprite);
+        } catch (InterpretationException interpretationException) {
+            Log.d(getClass().getSimpleName(), "Formula interpretation for Formula failed.", interpretationException);
+        }
+        return Double.NaN;
+    }
 }

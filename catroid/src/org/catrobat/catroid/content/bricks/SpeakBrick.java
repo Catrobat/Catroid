@@ -41,7 +41,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SpeakBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class SpeakBrick extends FormulaBrick implements OnClickListener {
 
 	private static final long serialVersionUID = 1L;
 	private Formula text;
@@ -91,7 +91,6 @@ public class SpeakBrick extends BrickBaseType implements OnClickListener, Formul
 
 		TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_prototype_text_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_speak_edit_text);
-		textField.setText(text.interpretString(sprite));
 		text.setTextFieldId(R.id.brick_speak_edit_text);
 		text.refreshTextField(view);
 
@@ -129,7 +128,7 @@ public class SpeakBrick extends BrickBaseType implements OnClickListener, Formul
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_speak, null);
 		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_speak_prototype_text_view);
-		textSpeak.setText(text.interpretString(sprite));
+		textSpeak.setText(context.getString(R.string.brick_speak_default_value));
 		return prototypeView;
 	}
 

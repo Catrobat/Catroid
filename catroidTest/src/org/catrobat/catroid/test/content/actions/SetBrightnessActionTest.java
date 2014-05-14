@@ -31,65 +31,59 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 public class SetBrightnessActionTest extends InstrumentationTestCase {
 
-	private Formula brightnessValue = new Formula(50.1f);
-	private static final float VALUE = 91f;
+    private static final float BRIGHTNESS = 91f;
+	private Formula brightness = new Formula(BRIGHTNESS);
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
+    private Sprite sprite;
+
+    @Override
+    protected void setUp() throws Exception {
+        sprite = new Sprite("testSprite");
+        super.setUp();
+    }
 
 	public void testBrightnessEffect() {
-		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial brightness value", 100f,
 				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
-		SetBrightnessAction action = ExtendedActions.setBrightness(sprite, brightnessValue);
-		action.act(1.0f);
+		ExtendedActions.setBrightness(sprite, brightness).act(1.0f);
 		assertEquals("Incorrect brightness value after SetBrightnessBrick executed",
-				brightnessValue.interpretFloat(sprite), sprite.look.getBrightnessInUserInterfaceDimensionUnit());
+				BRIGHTNESS, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
-		SetBrightnessAction action = ExtendedActions.setBrightness(null, brightnessValue);
+		SetBrightnessAction action = ExtendedActions.setBrightness(null, brightness);
 		try {
 			action.act(1.0f);
 			fail("Execution of SetBrightnessBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
-			return;
+			assertTrue("Exception thrown as expected", true);
 		}
 	}
 
 	public void testNegativeBrightnessValue() {
-		Sprite sprite = new Sprite("testSprite");
-		SetBrightnessAction action = ExtendedActions.setBrightness(sprite,
-				new Formula(-brightnessValue.interpretFloat(sprite)));
-		action.act(1.0f);
+		ExtendedActions.setBrightness(sprite,new Formula(-BRIGHTNESS)).act(1.0f);
 		assertEquals("Incorrect sprite scale value after SetBrightnessBrick executed", 0f,
 				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
 	public void testBrickWithStringFormula() {
-		Sprite sprite = new Sprite("testSprite");
-		SetBrightnessAction action = ExtendedActions.setBrightness(sprite, new Formula(String.valueOf(VALUE)));
-		action.act(1.0f);
-		assertEquals("Incorrect sprite scale value after SetBrightnessBrick executed", VALUE,
+		ExtendedActions.setBrightness(sprite, new Formula(String.valueOf(BRIGHTNESS))).act(1.0f);
+		assertEquals("Incorrect sprite scale value after SetBrightnessBrick executed", BRIGHTNESS,
 				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 
-		action = ExtendedActions.setBrightness(sprite, new Formula(NOT_NUMERICAL_STRING));
-		action.act(1.0f);
-		assertEquals("Incorrect sprite scale value after SetBrightnessBrick executed", VALUE,
+		ExtendedActions.setBrightness(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
+		assertEquals("Incorrect sprite scale value after SetBrightnessBrick executed", BRIGHTNESS,
 				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullFormula() {
-		Sprite sprite = new Sprite("testSprite");
-		SetBrightnessAction action = ExtendedActions.setBrightness(sprite, null);
-		action.act(1.0f);
+		ExtendedActions.setBrightness(sprite, null).act(1.0f);
 		assertEquals("Incorrect sprite size value after SetBrightnessBrick executed", 0f,
 				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
-
 	}
 
 	public void testNotANumberFormula() {
-		Sprite sprite = new Sprite("testSprite");
-		SetBrightnessAction action = ExtendedActions.setBrightness(sprite, new Formula(Double.NaN));
-		action.act(1.0f);
+		ExtendedActions.setBrightness(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals("Incorrect sprite size value after SetBrightnessBrick executed", 100f,
 				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}

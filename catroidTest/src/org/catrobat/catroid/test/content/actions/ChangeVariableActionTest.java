@@ -27,13 +27,9 @@ import android.test.AndroidTestCase;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-
-import java.util.HashMap;
-import java.util.List;
 
 public class ChangeVariableActionTest extends AndroidTestCase {
 
@@ -42,106 +38,47 @@ public class ChangeVariableActionTest extends AndroidTestCase {
 	private static final double CHANGE_VARIABLE_VALUE = 11;
 	private static final double INITIALIZED_VALUE = 0.0;
 	private Sprite testSprite;
-	private Project project;
-	private StartScript testScript;
 	private UserVariable userVariable;
+    Project project;
 
 	@Override
 	protected void setUp() throws Exception {
-		super.setUp();
 		testSprite = new Sprite("testSprite");
-		project = new Project(null, "testProject");
-		testScript = new StartScript();
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(testSprite);
-		ProjectManager.getInstance().setCurrentScript(testScript);
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
+        project = new Project(null, "testProject");
+        ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().addProjectUserVariable(TEST_USERVARIABLE);
 		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);
+        super.setUp();
 	}
 
 	public void testChangeUserVariableWithNumericalFormula() {
-
-		ChangeVariableBrick changeBrick = new ChangeVariableBrick(new Formula(CHANGE_VARIABLE_VALUE), userVariable);
-
-		testScript.addBrick(changeBrick);
-		testSprite.addScript(testScript);
-		project.addSprite(testSprite);
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
-		testSprite.look.act(1f);
-
-		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.getUserVariable(TEST_USERVARIABLE, null);
+        ExtendedActions.changeVariable(testSprite, new Formula(CHANGE_VARIABLE_VALUE), userVariable).act(1f);
 		assertEquals("UserVariable did not change", CHANGE_VARIABLE_VALUE, userVariable.getValue());
 	}
 
 	public void testChangeUserVariableInvalidUserVariable() {
-		ChangeVariableBrick changeBrick = new ChangeVariableBrick(CHANGE_VARIABLE_VALUE);
-		testScript.addBrick(changeBrick);
-		testSprite.addScript(testScript);
-		project.addSprite(testSprite);
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
-		testSprite.look.act(1f);
-
-		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.getUserVariable(TEST_USERVARIABLE, null);
+        ExtendedActions.changeVariable(testSprite, new Formula(CHANGE_VARIABLE_VALUE), null).act(1f);
 		assertEquals("UserVariable changed, but should not!", INITIALIZED_VALUE, userVariable.getValue());
 	}
 
 	public void testChangeUserVariableWithNumericalStringFormula() {
-		Formula changeFormula = new Formula(String.valueOf(CHANGE_VARIABLE_VALUE));
-		ChangeVariableBrick changeVariableBrick = new ChangeVariableBrick(changeFormula, userVariable);
-		testScript.addBrick(changeVariableBrick);
-		testSprite.addScript(testScript);
-		project.addSprite(testSprite);
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
-		testSprite.look.act(1f);
-
-		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.getUserVariable(TEST_USERVARIABLE, null);
-		assertEquals("UserVariable did not change!", Double.valueOf(CHANGE_VARIABLE_VALUE), userVariable.getValue());
+        ExtendedActions.changeVariable(testSprite, new Formula(String.valueOf(CHANGE_VARIABLE_VALUE)), userVariable).act(1f);
+        assertEquals("UserVariable did not change", CHANGE_VARIABLE_VALUE, userVariable.getValue());
 	}
 
 	public void testChangeUserVariableWithStringFormula() {
-		Formula validFormula = new Formula(NOT_NUMERICAL_STRING);
-		ChangeVariableBrick changeVariableBrick = new ChangeVariableBrick(validFormula, userVariable);
-		testScript.addBrick(changeVariableBrick);
-		testSprite.addScript(testScript);
-		project.addSprite(testSprite);
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
-		testSprite.look.act(1f);
-
-
-		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.getUserVariable(TEST_USERVARIABLE, null);
+        ExtendedActions.changeVariable(testSprite,  new Formula(NOT_NUMERICAL_STRING), userVariable).act(1f);
 		assertEquals("UserVariable should not have changed!", INITIALIZED_VALUE, userVariable.getValue());
 	}
 
 	public void testNullFormula() {
-		ChangeVariableBrick changeVariableBrick = new ChangeVariableBrick(null, userVariable);
-		testScript.addBrick(changeVariableBrick);
-		testSprite.addScript(testScript);
-		project.addSprite(testSprite);
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
-		testSprite.look.act(1f);
-
-		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.getUserVariable(TEST_USERVARIABLE, null);
+        ExtendedActions.changeVariable(testSprite,  null, userVariable).act(1f);
 		assertEquals("UserVariable should not have changed!", INITIALIZED_VALUE, userVariable.getValue());
 	}
 
 	public void testNotANumberFormula() {
-		ChangeVariableBrick changeVariableBrick = new ChangeVariableBrick(new Formula(Double.NaN),
-				userVariable);
-		testScript.addBrick(changeVariableBrick);
-		testSprite.addScript(testScript);
-		project.addSprite(testSprite);
-		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
-		testSprite.look.act(1f);
-
-		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.getUserVariable(TEST_USERVARIABLE, null);
+        ExtendedActions.changeVariable(testSprite,  new Formula(Double.NaN), userVariable).act(1f);
 		assertEquals("UserVariable should not have changed!", INITIALIZED_VALUE, userVariable.getValue());
 	}
 }

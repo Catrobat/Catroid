@@ -20,39 +20,16 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
 
-import android.util.Log;
+package org.catrobat.catroid.formulaeditor;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+public class InterpretationException extends Exception {
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
+    public InterpretationException(String detailMessage) {
+        super(detailMessage);
+    }
 
-public class ChangeYByNAction extends TemporalAction {
-
-	private Sprite sprite;
-	private Formula yMovement;
-
-	@Override
-	protected void update(float arg0) {
-		Float newY;
-		try {
-			newY = yMovement == null ? Float.valueOf(0f) : yMovement.interpretFloat(sprite);
-        } catch (InterpretationException interpretationException) {
-            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-            return;
-        }
-		sprite.look.changeYInUserInterfaceDimensionUnit(newY);
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
-	public void setyMovement(Formula yMovement) {
-		this.yMovement = yMovement;
-	}
-
+    public InterpretationException(String detailMessage, Throwable throwable) {
+        super(detailMessage, throwable);
+    }
 }

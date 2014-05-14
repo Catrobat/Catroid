@@ -52,7 +52,7 @@ public class ChangeVariableAction extends Action {
 			userVariable.setValue(((Double) originalValue) + ((Double) value));
 			return true;
 		}
-		return false;
+		return true;
 	}
 
 	public void setUserVariable(UserVariable userVariable) {

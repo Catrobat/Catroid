@@ -22,10 +22,13 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class ChangeXByNAction extends TemporalAction {
 
@@ -37,12 +40,10 @@ public class ChangeXByNAction extends TemporalAction {
 		Float newX;
 		try {
 			newX = xMovement == null ? Float.valueOf(0f) : xMovement.interpretFloat(sprite);
-			if (newX.isNaN()) {
-				return;
-			}
-		} catch (Exception exception) {
-			return;
-		}
+        } catch (InterpretationException interpretationException) {
+            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+            return;
+        }
 		sprite.look.changeXInUserInterfaceDimensionUnit(newX);
 	}
 

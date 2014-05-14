@@ -263,11 +263,11 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretFunctionJOIN(Sprite sprite) {
-		return interpretinterpretFunctionJOINParameter(leftChild, sprite)
-				+ interpretinterpretFunctionJOINParameter(rightChild, sprite);
+		return interpretFunctionJOINParameter(leftChild, sprite)
+				+ interpretFunctionJOINParameter(rightChild, sprite);
 	}
 
-	private String interpretinterpretFunctionJOINParameter(FormulaElement child, Sprite sprite) {
+	private String interpretFunctionJOINParameter(FormulaElement child, Sprite sprite) {
 		String parameterInterpretation = "";
 		if (child != null) {
 			if (child.getElementType() == ElementType.NUMBER) {
@@ -518,8 +518,8 @@ public class FormulaElement implements Serializable {
 				}
 			}
 
-			boolean isParentAOperator = Operators.getOperatorByValue(parent.value) != null;
-			if (isParentAOperator
+			boolean isParentAnOperator = Operators.getOperatorByValue(parent.value) != null;
+			if (isParentAnOperator
 					&& (Operators.getOperatorByValue(parent.value) == Operators.EQUAL || Operators
 							.getOperatorByValue(parent.value) == Operators.NOT_EQUAL)) {
 				return value;

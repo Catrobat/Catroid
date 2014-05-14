@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.uitest.stage;
 
+import android.util.Log;
 import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -40,6 +41,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -84,13 +86,18 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.prepareStageForTest();
 	}
 
-	public Formula getFormulaBySensor(Sensors sensor) {
+	public Double interpretSensor(Sensors sensor) {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.SENSOR, sensor.name()));
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula();
-
-		return new Formula(parseTree);
+		Formula sensorFormula =  new Formula(parseTree);
+        try {
+            return sensorFormula.interpretDouble(sprite);
+        } catch (InterpretationException interpretationException) {
+            Log.d(getClass().getSimpleName(), "Formula interpretation for Sensor failed.", interpretationException);
+        }
+        return Double.NaN;
 	}
 
 	public void testLookSensorValueInStage() {
@@ -106,64 +113,31 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
 
 		solo.sleep(2000);
 
-		Formula lookXPositionFormula = getFormulaBySensor(Sensors.OBJECT_X);
-		assertEquals("Variable shows false x position", SPRITE_X_POSITION,
-				lookXPositionFormula.interpretDouble(sprite), DELTA);
-
-		Formula lookYPositionFormula = getFormulaBySensor(Sensors.OBJECT_Y);
-		assertEquals("Variable shows false y position", SPRITE_Y_POSITION,
-				lookYPositionFormula.interpretDouble(sprite), DELTA);
-
-		Formula lookAlphaValueFormula = getFormulaBySensor(Sensors.OBJECT_GHOSTEFFECT);
-		assertEquals("Variable shows false ghosteffect", SPRITE_GHOSTEFFECT,
-				lookAlphaValueFormula.interpretDouble(sprite), DELTA);
-
-		Formula lookBrightnessFormula = getFormulaBySensor(Sensors.OBJECT_BRIGHTNESS);
-		assertEquals("Variable shows false brightness", SPRITE_BRIGHTNESS,
-				lookBrightnessFormula.interpretDouble(sprite), DELTA);
-
-		Formula lookScaleFormula = getFormulaBySensor(Sensors.OBJECT_SIZE);
-		assertEquals("Variable shows false size", SPRITE_SIZE, lookScaleFormula.interpretDouble(sprite), DELTA);
-
-		Formula lookRotateFormula = getFormulaBySensor(Sensors.OBJECT_ROTATION);
-		assertEquals("Variable shows false direction", SPRITE_DIRECTION, lookRotateFormula.interpretDouble(sprite),
-				DELTA);
-
-		Formula lookZPositionFormula = getFormulaBySensor(Sensors.OBJECT_LAYER);
-		assertEquals("Variable shows false z index", NUMBER_OF_SPRITES - SPRITE_LAYER_CHANGE,
-				lookZPositionFormula.interpretInteger(sprite), DELTA);
-
+		assertEquals("Variable shows false x position", SPRITE_X_POSITION, interpretSensor(Sensors.OBJECT_X), DELTA);
+		assertEquals("Variable shows false y position", SPRITE_Y_POSITION, interpretSensor(Sensors.OBJECT_Y), DELTA);
+		assertEquals("Variable shows false ghosteffect", SPRITE_GHOSTEFFECT, interpretSensor(Sensors.OBJECT_GHOSTEFFECT), DELTA);
+		assertEquals("Variable shows false brightness", SPRITE_BRIGHTNESS, interpretSensor(Sensors.OBJECT_BRIGHTNESS), DELTA);
+		assertEquals("Variable shows false size", SPRITE_SIZE, interpretSensor(Sensors.OBJECT_SIZE), DELTA);
+		assertEquals("Variable shows false direction", SPRITE_DIRECTION, interpretSensor(Sensors.OBJECT_ROTATION), DELTA);
+		assertEquals("Variable shows false z index", NUMBER_OF_SPRITES - SPRITE_LAYER_CHANGE, interpretSensor(Sensors.OBJECT_LAYER), DELTA);
 	}
 
 	public void testLookSensorValueBeforeAndAfterStage() {
 
-		Formula lookXPositionFormula = getFormulaBySensor(Sensors.OBJECT_X);
 		assertEquals("Variable shows false x position before stage", SPRITE_X_POSITION_INITIAL,
-				lookXPositionFormula.interpretDouble(sprite), DELTA);
-
-		Formula lookYPositionFormula = getFormulaBySensor(Sensors.OBJECT_Y);
+                interpretSensor(Sensors.OBJECT_X), DELTA);
 		assertEquals("Variable shows false y position before stage", SPRITE_Y_POSITION_INITIAL,
-				lookYPositionFormula.interpretDouble(sprite), DELTA);
-
-		Formula lookAlphaValueFormula = getFormulaBySensor(Sensors.OBJECT_GHOSTEFFECT);
+                interpretSensor(Sensors.OBJECT_Y), DELTA);
 		assertEquals("Variable shows false ghosteffect before stage", SPRITE_GHOSTEFFECT_INITIAL,
-				lookAlphaValueFormula.interpretDouble(sprite), DELTA);
-
-		Formula lookBrightnessFormula = getFormulaBySensor(Sensors.OBJECT_BRIGHTNESS);
+                interpretSensor(Sensors.OBJECT_GHOSTEFFECT), DELTA);
 		assertEquals("Variable shows false brightness before stage", SPRITE_BRIGHTNESS_INITIAL,
-				lookBrightnessFormula.interpretDouble(sprite), DELTA);
-
-		Formula lookScaleFormula = getFormulaBySensor(Sensors.OBJECT_SIZE);
+                interpretSensor(Sensors.OBJECT_BRIGHTNESS), DELTA);
 		assertEquals("Variable shows false size before stage", SPRITE_SIZE_INITIAL,
-				lookScaleFormula.interpretDouble(sprite), DELTA);
-
-		Formula lookRotateFormula = getFormulaBySensor(Sensors.OBJECT_ROTATION);
+                interpretSensor(Sensors.OBJECT_SIZE), DELTA);
 		assertEquals("Variable shows false direction before stage", SPRITE_DIRECTION_INITIAL,
-				lookRotateFormula.interpretDouble(sprite), DELTA);
-
-		Formula lookZPositionFormula = getFormulaBySensor(Sensors.OBJECT_LAYER);
+                interpretSensor(Sensors.OBJECT_ROTATION), DELTA);
 		assertEquals("Variable shows false z index before stage", NUMBER_OF_SPRITES_INITIAL,
-				lookZPositionFormula.interpretInteger(sprite), DELTA);
+                interpretSensor(Sensors.OBJECT_LAYER), DELTA);
 
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		String continueString = solo.getString(R.string.main_menu_continue);
@@ -181,34 +155,20 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		solo.waitForView(ListView.class);
 
-		lookXPositionFormula = getFormulaBySensor(Sensors.OBJECT_X);
 		assertEquals("Variable shows false x position after Stage", SPRITE_X_POSITION,
-				lookXPositionFormula.interpretDouble(sprite), DELTA);
-
-		lookYPositionFormula = getFormulaBySensor(Sensors.OBJECT_Y);
+                interpretSensor(Sensors.OBJECT_X), DELTA);
 		assertEquals("Variable shows false y position after Stage", SPRITE_Y_POSITION,
-				lookYPositionFormula.interpretDouble(sprite), DELTA);
-
-		lookAlphaValueFormula = getFormulaBySensor(Sensors.OBJECT_GHOSTEFFECT);
+                interpretSensor(Sensors.OBJECT_Y), DELTA);
 		assertEquals("Variable shows false ghosteffect after Stage", SPRITE_GHOSTEFFECT,
-				lookAlphaValueFormula.interpretDouble(sprite), DELTA);
-
-		lookBrightnessFormula = getFormulaBySensor(Sensors.OBJECT_BRIGHTNESS);
+                interpretSensor(Sensors.OBJECT_GHOSTEFFECT), DELTA);
 		assertEquals("Variable shows false brightness after Stage", SPRITE_BRIGHTNESS,
-				lookBrightnessFormula.interpretDouble(sprite), DELTA);
-
-		lookScaleFormula = getFormulaBySensor(Sensors.OBJECT_SIZE);
-		assertEquals("Variable shows false size after Stage", SPRITE_SIZE, lookScaleFormula.interpretDouble(sprite),
-				DELTA);
-
-		lookRotateFormula = getFormulaBySensor(Sensors.OBJECT_ROTATION);
+                interpretSensor(Sensors.OBJECT_BRIGHTNESS), DELTA);
+		assertEquals("Variable shows false size after Stage", SPRITE_SIZE,
+                interpretSensor(Sensors.OBJECT_SIZE),DELTA);
 		assertEquals("Variable shows false direction after Stage", SPRITE_DIRECTION,
-				lookRotateFormula.interpretDouble(sprite), DELTA);
-
-		lookZPositionFormula = getFormulaBySensor(Sensors.OBJECT_LAYER);
+                interpretSensor(Sensors.OBJECT_ROTATION), DELTA);
 		assertEquals("Variable shows false z index after Stage", NUMBER_OF_SPRITES - SPRITE_LAYER_CHANGE,
-				lookZPositionFormula.interpretInteger(sprite), DELTA);
-
+                interpretSensor(Sensors.OBJECT_LAYER), DELTA);
 	}
 
 	private void createProject() {

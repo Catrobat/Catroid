@@ -22,10 +22,13 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class GlideToAction extends TemporalAction {
 
@@ -45,33 +48,29 @@ public class GlideToAction extends TemporalAction {
 	@Override
 	protected void begin() {
 		Float durationInterpretation;
-		Float endXInterpretation;
-		Float endYInterpretation;
+		Float endXInterpretation = 0f;
+		Float endYInterpretation = 0f;
 
 		try {
 			durationInterpretation = duration == null ? Float.valueOf(0f) : duration.interpretFloat(sprite);
-			if (durationInterpretation.isNaN()) {
-				durationInterpretation = 0f;
-			}
-		} catch (Exception exception) {
-			durationInterpretation = 0f;
-		}
+        } catch (InterpretationException interpretationException) {
+            durationInterpretation = 0f;
+            Log.d(getClass().getSimpleName(),"Formula interpretation for this specific Brick failed." , interpretationException);
+        }
+
 		try {
-			endXInterpretation = endX == null ? 0f : endX.interpretFloat(sprite);
-			if (endXInterpretation.isNaN()) {
-				endXInterpretation = 0f;
-			}
-		} catch (Exception exception) {
-			endXInterpretation = 0f;
-		}
+			endXInterpretation = endX == null ? Float.valueOf(0f) : endX.interpretFloat(sprite);
+        } catch (InterpretationException interpretationException) {
+            durationInterpretation = 0f;
+            Log.d(getClass().getSimpleName(),"Formula interpretation for this specific Brick failed." , interpretationException);
+        }
+
 		try {
-			endYInterpretation = endY == null ? 0f : endY.interpretFloat(sprite);
-			if (endYInterpretation.isNaN()) {
-				endYInterpretation = 0f;
-			}
-		} catch (Exception exception) {
-			endYInterpretation = 0f;
-		}
+			endYInterpretation = endY == null ? Float.valueOf(0f) : endY.interpretFloat(sprite);
+        } catch (InterpretationException interpretationException) {
+            durationInterpretation = 0f;
+            Log.d(getClass().getSimpleName(),"Formula interpretation for this specific Brick failed." , interpretationException);
+        }
 
 		if (!restart) {
 			if (duration != null) {

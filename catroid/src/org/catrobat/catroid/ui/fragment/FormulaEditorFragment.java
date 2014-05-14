@@ -294,7 +294,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 									.findFragmentByTag(NewStringDialog.DIALOG_FRAGMENT_TAG);
 
 							if (dialogFragment == null) {
-								dialogFragment = new NewStringDialog();
+								dialogFragment = NewStringDialog.newInstance();
 							}
 
 							((NewStringDialog) dialogFragment).show(fragmentManager,

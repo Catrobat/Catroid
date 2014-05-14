@@ -30,6 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.utils.Utils;
@@ -50,11 +51,11 @@ public class SpeakAction extends TemporalAction {
 
 	@Override
 	protected void begin() {
-		interpretedText = text == null ? "" : text.interpretObject(sprite);
-
-		if (interpretedText instanceof Double) {
-			interpretedText = ((Double) interpretedText).isNaN() ? "" : interpretedText;
-		}
+        try{
+            interpretedText = text == null ? "" : text.interpretString(sprite);
+        }catch(InterpretationException interpretationException){
+            interpretedText = "";
+        }
 
 		hashText = Utils.md5Checksum(String.valueOf(interpretedText));
 		String fileName = hashText;
