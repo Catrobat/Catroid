@@ -129,7 +129,7 @@ public final class PhysicsShapeBuilderStrategyFastHull implements PhysicsShapeBu
 			Vector2 point = convexpoints[index];
 			point.x -= width / 2;
 			point.y = height - point.y - height / 2;
-			convexpoints[index] = PhysicsWorldConverter.toBox2dVector(point);
+			convexpoints[index] = PhysicsWorldConverter.convertCatroidToBox2dVector(point);
 		}
 
 		if (convexpoints.length < 9) {

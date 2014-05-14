@@ -352,21 +352,15 @@ public class Look extends Image {
 	}
 
 	public float getDirectionInUserInterfaceDimensionUnit() {
-		float direction = (getRotation() + DEGREE_UI_OFFSET) % 360;
-		if (direction < 0) {
-			direction += 360f;
-		}
-		direction = 180f - direction;
-
-		return direction;
+		return convertStageAngleToCatroidAngle(getRotation());
 	}
 
 	public void setDirectionInUserInterfaceDimensionUnit(float degrees) {
-		setRotation((-degrees + DEGREE_UI_OFFSET) % 360);
+		setRotation(convertCatroidAngleToStageAngle(degrees));
 	}
 
 	public void changeDirectionInUserInterfaceDimensionUnit(float changeDegrees) {
-		setRotation((getRotation() - changeDegrees) % 360);
+		setRotation(getRotation() - changeDegrees);
 	}
 
 	public float getSizeInUserInterfaceDimensionUnit() {
@@ -428,6 +422,30 @@ public class Look extends Image {
 
 	public void changeBrightnessInUserInterfaceDimensionUnit(float changePercent) {
 		setBrightnessInUserInterfaceDimensionUnit(getBrightnessInUserInterfaceDimensionUnit() + changePercent);
+	}
+
+	private boolean isAngleInCatroidIntervall(float catroidAngle) {
+		return (catroidAngle > -180 && catroidAngle <= 180);
+	}
+
+	private float breakDownCatroidAngle(float catroidAngle) { //TODO[physics]: add method
+		catroidAngle = catroidAngle % 360;
+		if (catroidAngle >= 0 && !isAngleInCatroidIntervall(catroidAngle)) {
+			return catroidAngle - 360;
+		} else if (catroidAngle < 0 && !isAngleInCatroidIntervall(catroidAngle)) {
+			return catroidAngle + 360;
+		}
+		return catroidAngle;
+	}
+
+	protected float convertCatroidAngleToStageAngle(float catroidAngle) { //TODO[physics]: add method
+		catroidAngle = breakDownCatroidAngle(catroidAngle);
+		return -catroidAngle + DEGREE_UI_OFFSET;
+	}
+
+	protected float convertStageAngleToCatroidAngle(float stageAngle) { //TODO[physics]: add method
+		float catroidAngle = -stageAngle + DEGREE_UI_OFFSET;
+		return breakDownCatroidAngle(catroidAngle);
 	}
 
 	private class BrightnessContrastShader extends ShaderProgram {
