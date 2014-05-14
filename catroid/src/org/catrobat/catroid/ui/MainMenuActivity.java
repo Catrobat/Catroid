@@ -103,6 +103,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		//if (BuildConfig.DEBUG && DroneUtils.isDroneSharedPreferenceEnabled(getApplication(), false)) {
 		//	UtilFile.loadExistingOrCreateStandardDroneProject(this);
 		//}
+		//SettingsActivity.setTermsOfSerivceAgreedPermanently(this, false);
 	}
 
 	@Override

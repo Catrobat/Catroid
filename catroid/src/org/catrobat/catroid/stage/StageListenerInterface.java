@@ -20,27 +20,14 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.drone;
+package org.catrobat.catroid.stage;
 
-import android.test.InstrumentationTestCase;
-import android.util.Log;
+public interface StageListenerInterface {
+	void onCreate();
 
-import org.catrobat.catroid.content.bricks.BrickBaseType;
-import org.catrobat.catroid.drone.DroneBrickFactory;
-import org.catrobat.catroid.drone.DroneBrickFactory.DroneBricks;
+	void onResume();
 
-public class DroneBrickTest extends InstrumentationTestCase {
+	void onPause();
 
-	private static final String TAG = DroneBrickTest.class.getSimpleName();
-	private static final int DRONE_RESOURCE = 0x20;
-
-	public void testAllBrickResources() {
-		for (DroneBricks brick : DroneBrickFactory.DroneBricks.values()) {
-			BrickBaseType brickFromFactory = DroneBrickFactory.getInstanceOfDroneBrick(brick, null, 0, 0);
-			String brickName = brickFromFactory.getClass().getSimpleName();
-			Log.d(TAG, "brickName: " + brickName);
-			assertEquals("Resorce is wrong for brick: " + brickName, DRONE_RESOURCE,
-					brickFromFactory.getRequiredResources());
-		}
-	}
+	void onDestroy();
 }

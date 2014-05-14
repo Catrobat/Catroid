@@ -96,6 +96,9 @@
     einhalten. Die exakte Formulierung unserer Nutzungsbedingungen steht unter 
     dem folgenden "Terms of Use" Link zur Verfügung.\n</string>
     <string name="dialog_terms_of_use_link_text">Terms of Use</string>
+    <string name="dialog_terms_of_use_agree_permanet">Ich möchte immer zustimmen --- frage mich nicht noch einmal. Ich übernehme auch die Verantworung, wenn jemand anderer mein Gerät verwendet.</string>
+    <string name="dialog_terms_of_use_agree">Ich stimme zu</string>
+    <string name="dialog_terms_of_use_do_not_agree">Ich stimme nicht zu</string>
     <!--  -->
 
 

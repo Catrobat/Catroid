@@ -72,6 +72,7 @@ public class StageActivityDroneTest extends BaseActivityInstrumentationTestCase<
 
 	@Device
 	public void testDroneProxyOnStage() {
+		DroneTestUtils.setDroneTermsOfUseAcceptedPermanently(getActivity());
 		waitForDroneServiceToStart();
 
 		droneProxyMock = Mockito.mock(DroneProxy.class);

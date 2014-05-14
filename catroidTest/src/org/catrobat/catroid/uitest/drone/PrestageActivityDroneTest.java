@@ -23,7 +23,10 @@
 package org.catrobat.catroid.uitest.drone;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.CheckBox;
 
 import com.parrot.freeflight.service.DroneControlService;
 
@@ -36,10 +39,13 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
+import org.catrobat.catroid.stage.DroneStageListener;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.test.drone.DroneTestUtils;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
@@ -53,12 +59,13 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 	}
 
 	private static final String TAG = PrestageActivityDroneTest.class.getSimpleName();
-	private static final Integer EXPECTED_REQUIRED_RESOURCES = 1;
+	private static final int EXPECTED_REQUIRED_RESOURCES = 1;
 
 	private PreStageActivity preStageActivity;
 	private DroneControlService droneControlService;
 	private StageActivity stageActivity;
 	private Intent stageActivityIntent;
+	private DroneStageListener dronePrestageListener = null;
 
 	public PrestageActivityDroneTest() {
 		super(MainMenuActivity.class);
@@ -71,8 +78,47 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 		droneControlService = null;
 		stageActivity = null;
 		stageActivityIntent = null;
+		DroneTestUtils.setDroneTermsOfUseAcceptedPermanently(getActivity());
 		DroneTestUtils.createDroneProjectWithScriptAndAllDroneMoveBricks();
 		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+	}
+
+	@Device
+	public void test00DroneTermsOfServiceDialog() {
+		//ATTENTION, test0* must be executed in the right order!
+		//TODO Drone: make test order irrelevant
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		if (preferences.getBoolean(SettingsActivity.SETTINGS_QUADCOPTER_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY,
+				false)) {
+			preferences
+					.edit()
+					.putBoolean(SettingsActivity.SETTINGS_QUADCOPTER_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY,
+							false).commit();
+		}
+
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		UiTestUtils.clickOnPlayButton(solo);
+		solo.waitForDialogToOpen();
+		assertTrue("Terms of use title must be present in dialog head",
+				solo.searchText(solo.getString(R.string.dialog_terms_of_use_title)));
+
+		solo.clickOnText(solo.getString(R.string.dialog_terms_of_use_agree), 2);
+		solo.waitForDialogToOpen();
+		solo.clickOnText(solo.getString(R.string.close));
+		UiTestUtils.clickOnPlayButton(solo);
+		CheckBox checkbox = (CheckBox) solo.getView(R.id.dialog_terms_of_use_check_box_agree_permanently);
+		assertNotNull("Check box must me present", checkbox);
+		solo.clickOnText(solo.getString(R.string.dialog_terms_of_use_agree_permanet));
+		assertTrue("checkbox must be checked", checkbox.isChecked());
+		solo.clickOnText(solo.getString(R.string.dialog_terms_of_use_agree), 2);
+		solo.waitForDialogToOpen();
+		solo.waitForText(solo.getString(R.string.error_no_drone_connected_title));
+		solo.clickOnText(solo.getString(R.string.close));
+		assertTrue("Must go back to Projectactivity", solo.waitForActivity(ProjectActivity.class));
+		UiTestUtils.clickOnPlayButton(solo);
+		solo.waitForDialogToOpen();
+		assertTrue("No drone Message must be visible",
+				solo.searchText(solo.getString(R.string.error_no_drone_connected_title)));
 	}
 
 	@Device
@@ -84,10 +130,9 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 		solo.sleep(4000);
 		solo.getText(solo.getString(R.string.close));
 		waitForPreStageActivity();
-		Integer requiredResourceCounter = (Integer) Reflection.getPrivateField(preStageActivity,
-				"requiredResourceCounter");
-		Integer resources = (Integer) Reflection.getPrivateField(preStageActivity, "resources");
-		assertEquals("Only drone bit should be set", Brick.ARDRONE_SUPPORT, resources.intValue());
+		int requiredResourceCounter = (Integer) Reflection.getPrivateField(preStageActivity, "requiredResourceCounter");
+		int resources = (Integer) Reflection.getPrivateField(preStageActivity, "resources");
+		assertEquals("Only drone bit should be set", Brick.ARDRONE_SUPPORT, resources);
 		assertEquals("Required resource counter should be 1", EXPECTED_REQUIRED_RESOURCES, requiredResourceCounter);
 	}
 
@@ -104,7 +149,7 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 		//check if drone service should be started on stage activity
 		boolean droneStartExtra = getStageActivityIntentAndDroneStartValue(true);
 		assertFalse("No extra should be present", droneStartExtra);
-		waitForDroneServiceToBindOnActivity(ActivityUnderTest.STAGE);
+		waitForDroneServiceToBind(ActivityUnderTest.STAGE);
 		assertTrue("DroneControlService must not start:", droneControlService == null);
 	}
 
@@ -160,26 +205,26 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 		UiTestUtils.clickOnPlayButton(solo);
 		waitForPreStageActivity();
 
-		waitForDroneServiceToBindOnActivity(ActivityUnderTest.PRE_STAGE);
+		waitForDroneServiceToBind(ActivityUnderTest.PRE_STAGE);
 		assertNull("DroneControlService must not be started", droneControlService);
 
 		preStageActivity.onDroneAvailabilityChanged(true);
 
-		waitForDroneServiceToBindOnActivity(ActivityUnderTest.PRE_STAGE);
+		waitForDroneServiceToBind(ActivityUnderTest.PRE_STAGE);
 		assertNotNull("DroneControlService must be started", droneControlService);
 
 		Reflection.invokeMethod(preStageActivity, "resourceInitialized");
 
 		waitForStageActivity();
 
-		waitForDroneServiceToBindOnActivity(ActivityUnderTest.STAGE);
+		waitForDroneServiceToBind(ActivityUnderTest.STAGE);
 		assertNotNull("DroneControlService must be instantiate", droneControlService);
 
 		Boolean droneStartExtra = getStageActivityIntentAndDroneStartValue(false);
 		assertTrue("Drone extra should be present", droneStartExtra);
 	}
 
-	private void waitForDroneServiceToBindOnActivity(ActivityUnderTest activityUnderTest) {
+	private void waitForDroneServiceToBind(ActivityUnderTest activityUnderTest) {
 		for (int i = 0; i < 10; i++) { //waiting for the service to start
 			Log.d(TAG, "Spinning=" + i);
 			solo.sleep(1000);
@@ -188,7 +233,10 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 					getDroneControlServiceFromPreStage(preStageActivity);
 					break;
 				case STAGE:
-					getDroneControlServiceFromStage(stageActivity);
+					dronePrestageListener = (DroneStageListener) Reflection.getPrivateField(stageActivity,
+							"droneStageListener");
+					assertNotNull("DronePrestageListener must instanced", dronePrestageListener);
+					getDroneControlServiceFromDroneStageListenerOnStage();
 					break;
 				default:
 					return;
@@ -219,12 +267,13 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 		droneControlService = (DroneControlService) Reflection.getPrivateField(preStage, "droneControlService");
 	}
 
-	private void getDroneControlServiceFromStage(StageActivity stage) {
-		droneControlService = (DroneControlService) Reflection.getPrivateField(stage, "droneControlService");
+	private void getDroneControlServiceFromDroneStageListenerOnStage() {
+		droneControlService = (DroneControlService) Reflection.getPrivateField(dronePrestageListener,
+				"droneControlService");
 	}
 
 	private boolean getStageActivityIntentAndDroneStartValue(boolean defaultValue) {
 		stageActivityIntent = stageActivity.getIntent();
-		return stageActivityIntent.getBooleanExtra(PreStageActivity.STRING_EXTRA_INIT_DRONE, defaultValue);
+		return stageActivityIntent.getBooleanExtra(PreStageActivity.INIT_DRONE_STRING_EXTRA, defaultValue);
 	}
 }

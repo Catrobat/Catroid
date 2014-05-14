@@ -72,7 +72,10 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.legonxt.LegoNXT;
 import org.catrobat.catroid.legonxt.LegoNXTBtCommunicator;
+import org.catrobat.catroid.ui.BaseActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -80,7 +83,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 @SuppressWarnings("deprecation")
-public class PreStageActivity extends Activity implements DroneReadyReceiverDelegate,
+public class PreStageActivity extends BaseActivity implements DroneReadyReceiverDelegate,
 		DroneConnectionChangeReceiverDelegate, DroneAvailabilityDelegate, DroneBatteryChangedReceiverDelegate {
 
 	private static final String TAG = PreStageActivity.class.getSimpleName();
@@ -88,8 +91,9 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 	public static final int REQUEST_RESOURCES_INIT = 101;
 	public static final int REQUEST_TEXT_TO_SPEECH = 10;
-	public static final String STRING_EXTRA_INIT_DRONE = "STRING_EXTRA_INIT_DRONE";
-	private static final int BATTERY_TRESHOLD = 5;
+
+	public static final String INIT_DRONE_STRING_EXTRA = "STRING_EXTRA_INIT_DRONE";
+	private static final int DRONE_BATTERY_TRESHOLD = 5;
 
 	private int resources = Brick.NO_RESOURCES;
 	private int requiredResourceCounter;
@@ -119,10 +123,10 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 			return;
 		}
 
+		setContentView(R.layout.activity_prestage);
+
 		int requiredResources = getRequiredRessources();
 		requiredResourceCounter = Integer.bitCount(requiredResources);
-
-		setContentView(R.layout.activity_prestage);
 
 		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
 			Intent checkIntent = new Intent();
@@ -148,39 +152,47 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 		}
 
 		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
-			if (!BuildConfig.DEBUG) {
-				Log.d(TAG, "drone is not available in release build");
-				showUncancelableErrorDialog(this, getString(R.string.error_drone_not_available_in_release_build_title),
-						getString(R.string.error_drone_not_available_in_release_build));
-				return;
+			if (SettingsActivity.areTermsOfSericeAgreedPermanently(getApplicationContext())) {
+				initialiseDrone();
+			} else {
+				Bundle args = new Bundle();
+				args.putBoolean(TermsOfUseDialogFragment.DIALOG_ARGUMENT_TERMS_OF_USE_ACCEPT, true);
+				TermsOfUseDialogFragment termsOfUseDialog = new TermsOfUseDialogFragment();
+				termsOfUseDialog.setArguments(args);
+				termsOfUseDialog.show(getSupportFragmentManager(), TermsOfUseDialogFragment.DIALOG_FRAGMENT_TAG);
 			}
-
-			if (!CatroidApplication.OS_ARCH.startsWith("arm")) {
-				Log.d(TAG, "problem, we are on arm");
-				showUncancelableErrorDialog(this, getString(R.string.error_drone_wrong_platform_title),
-						getString(R.string.error_drone_wrong_platform));
-				return;
-			}
-
-			if (!CatroidApplication.parrotNativeLibsAlreadyLoadedOrLoadingWasSucessful()) {
-				showUncancelableErrorDialog(this, getString(R.string.error_drone_wrong_platform_title),
-						getString(R.string.error_drone_wrong_platform));
-				return;
-			}
-
-			Log.d(TAG, "Adding drone support!");
-			returnToActivityIntent.putExtra(STRING_EXTRA_INIT_DRONE, true);
-
-			droneReadyReceiver = new DroneReadyReceiver(this);
-			droneStateReceiver = new DroneAvailabilityReceiver(this);
-			droneBatteryReceiver = new DroneBatteryChangedReceiver(this);
-			droneConnectionChangeReceiver = new DroneConnectionChangedReceiver(this);
-			checkDroneConnectivity();
 		}
 
 		if (requiredResourceCounter == Brick.NO_RESOURCES) {
 			startStage();
 		}
+	}
+
+	public void initialiseDrone() {
+		if (!BuildConfig.DEBUG) {
+			Log.d(TAG, "drone is not available in release build");
+			showUncancelableErrorDialog(this, getString(R.string.error_drone_not_available_in_release_build_title),
+					getString(R.string.error_drone_not_available_in_release_build));
+			return;
+		}
+
+		if (!CatroidApplication.OS_ARCH.startsWith("arm")) {
+			Log.d(TAG, "problem, we are on arm");
+			showUncancelableErrorDialog(this, getString(R.string.error_drone_wrong_platform_title),
+					getString(R.string.error_drone_wrong_platform));
+			return;
+		}
+
+		if (!CatroidApplication.parrotNativeLibsAlreadyLoadedOrLoadingWasSucessful()) {
+			showUncancelableErrorDialog(this, getString(R.string.error_drone_wrong_platform_title),
+					getString(R.string.error_drone_wrong_platform));
+			return;
+		}
+
+		Log.d(TAG, "Adding drone support!");
+		returnToActivityIntent.putExtra(INIT_DRONE_STRING_EXTRA, true);
+
+		checkDroneConnectivity();
 	}
 
 	@Override
@@ -191,6 +203,11 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 		}
 
 		if (BuildConfig.DEBUG) {
+			droneReadyReceiver = new DroneReadyReceiver(this);
+			droneStateReceiver = new DroneAvailabilityReceiver(this);
+			droneBatteryReceiver = new DroneBatteryChangedReceiver(this);
+			droneConnectionChangeReceiver = new DroneConnectionChangedReceiver(this);
+
 			LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
 			manager.registerReceiver(droneBatteryReceiver, new IntentFilter(
 					DroneControlService.DRONE_BATTERY_CHANGED_ACTION));
@@ -483,15 +500,15 @@ public class PreStageActivity extends Activity implements DroneReadyReceiverDele
 			return;
 		}
 
-		Boolean isDroneRequired = oldIntent.getBooleanExtra(STRING_EXTRA_INIT_DRONE, false);
+		Boolean isDroneRequired = oldIntent.getBooleanExtra(INIT_DRONE_STRING_EXTRA, false);
 		Log.d(TAG, "Extra STRING_EXTRA_INIT_DRONE=" + isDroneRequired.toString());
-		newIntent.putExtra(STRING_EXTRA_INIT_DRONE, isDroneRequired);
+		newIntent.putExtra(INIT_DRONE_STRING_EXTRA, isDroneRequired);
 	}
 
 	@Override
 	public void onDroneReady() {
 		Log.d(TAG, "onDroneReady -> check battery -> go to stage");
-		if (droneBatteryCharge < BATTERY_TRESHOLD) {
+		if (droneBatteryCharge < DRONE_BATTERY_TRESHOLD) {
 			String dialogTitle = String.format(getString(R.string.error_drone_low_battery_title), droneBatteryCharge);
 			showUncancelableErrorDialog(this, dialogTitle, getString(R.string.error_drone_low_battery));
 			return;

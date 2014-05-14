@@ -22,6 +22,9 @@
  */
 package org.catrobat.catroid.test.drone;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.catrobat.catroid.CatroidApplication;
@@ -32,8 +35,9 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
-import org.catrobat.catroid.drone.DroneUtils;
-import org.catrobat.catroid.drone.DroneUtils.DroneBricks;
+import org.catrobat.catroid.drone.DroneBrickFactory;
+import org.catrobat.catroid.drone.DroneBrickFactory.DroneBricks;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.lang.reflect.Field;
@@ -50,10 +54,10 @@ public abstract class DroneTestUtils {
 		Sprite sprite = new Sprite("DoneMoveBricksTest");
 		Script script = new StartScript(sprite);
 
-		for (DroneBricks brick : DroneUtils.DroneBricks.values()) {
+		for (DroneBricks brick : DroneBrickFactory.DroneBricks.values()) {
 			String brickName = brick.name().toLowerCase(Locale.getDefault());
 			if (brickName.contains("move") || brickName.contains("turn")) {
-				BrickBaseType moveBrick = DroneUtils.getInstanceOfDroneBrick(brick, sprite,
+				BrickBaseType moveBrick = DroneBrickFactory.getInstanceOfDroneBrick(brick, sprite,
 						DEFAULT_MOVE_TIME_IN_MILLISECONDS, DEFAULT_MOVE_POWER_IN_PERCENT);
 				script.addBrick(moveBrick);
 				sprite.addScript(script);
@@ -98,5 +102,24 @@ public abstract class DroneTestUtils {
 		} catch (Exception e) {
 			Log.e(TAG, "Reflection went", e);
 		}
+	}
+
+	public static void setDroneTermsOfUseAcceptedPermanently(Context context) {
+		setDroneTermsOfUseAcceptedValue(context, true);
+	}
+
+	private static void setDroneTermsOfUseAcceptedValue(Context context, boolean accepted) {
+		getSharedPreferences(context)
+				.edit()
+				.putBoolean(SettingsActivity.SETTINGS_QUADCOPTER_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY,
+						accepted).commit();
+	}
+
+	private static SharedPreferences getSharedPreferences(Context context) {
+		return PreferenceManager.getDefaultSharedPreferences(context);
+	}
+
+	public static void disableARDroneBricks(Context context) {
+		getSharedPreferences(context).edit().putBoolean(SettingsActivity.SETTINGS_QUADCOPTER_BRICKS, false).commit();
 	}
 }

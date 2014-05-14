@@ -43,6 +43,7 @@ public class DroneMoveTest extends BaseActivityInstrumentationTestCase<ScriptAct
 	@Override
 	public void setUp() throws Exception {
 		DroneTestUtils.createDroneProjectWithScriptAndAllDroneMoveBricks();
+		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 		super.setUp();
 	}
 

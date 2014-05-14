@@ -22,49 +22,28 @@
  */
 package org.catrobat.catroid.stage;
 
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
-import com.parrot.freeflight.receivers.DroneConnectionChangeReceiverDelegate;
-import com.parrot.freeflight.receivers.DroneConnectionChangedReceiver;
-import com.parrot.freeflight.receivers.DroneReadyReceiver;
-import com.parrot.freeflight.receivers.DroneReadyReceiverDelegate;
-import com.parrot.freeflight.service.DroneControlService;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
-import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 
-public class StageActivity extends AndroidApplication implements DroneReadyReceiverDelegate,
-		DroneConnectionChangeReceiverDelegate {
+public class StageActivity extends AndroidApplication {
 	public static final String TAG = StageActivity.class.getSimpleName();
 	public static StageListener stageListener;
 	private boolean resizePossible;
 	private StageDialog stageDialog;
 
-	protected DroneControlService droneControlService = null;
-	private BroadcastReceiver droneReadyReceiver = null;
-	DroneConnectionChangedReceiver droneConnectionChangeReceiver = null;
+	private DroneStageListener droneStageListener = null;
 
 	public static final int STAGE_ACTIVITY_FINISH = 7777;
-
-	private Boolean droneIsRequired;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -72,31 +51,13 @@ public class StageActivity extends AndroidApplication implements DroneReadyRecei
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+		droneStageListener = new DroneStageListener(this, getIntent());
 		stageListener = new StageListener();
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
 
 		initialize(stageListener, true);
-
-		//TODO Drone: process reuturn value
-		if (prepareRessources()) {
-			Log.d(TAG, "Failure during drone service startup");
-		}
-	}
-
-	private boolean prepareRessources() {
-		if (BuildConfig.DEBUG) {
-			droneIsRequired = getIntent().getBooleanExtra(PreStageActivity.STRING_EXTRA_INIT_DRONE, false);
-			Log.d(TAG, "prepareRessources() initDrone=" + droneIsRequired.toString());
-			if (droneIsRequired) {
-				droneReadyReceiver = new DroneReadyReceiver(this);
-				droneConnectionChangeReceiver = new DroneConnectionChangedReceiver(this);
-
-				helpBindService();
-			}
-			return true;
-		}
-		return false;
+		droneStageListener.onCreate();
 	}
 
 	@Override
@@ -117,15 +78,8 @@ public class StageActivity extends AndroidApplication implements DroneReadyRecei
 		SensorHandler.stopSensorListeners();
 		super.onPause();
 
-		if (BuildConfig.DEBUG) {
-			if (droneControlService != null) {
-				droneControlService.pause();
-				DroneServiceWrapper.getInstance().setDroneService(null);
-			}
-			LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
-			manager.unregisterReceiver(droneReadyReceiver);
-			manager.unregisterReceiver(droneConnectionChangeReceiver);
-		}
+		droneStageListener.onPause();
+
 	}
 
 	@Override
@@ -133,18 +87,7 @@ public class StageActivity extends AndroidApplication implements DroneReadyRecei
 		SensorHandler.startSensorListener(this);
 		super.onResume();
 
-		if (BuildConfig.DEBUG) {
-			if (droneControlService != null) {
-				Log.d(TAG, "droneControlService .. onResume");
-				droneControlService.resume();
-				DroneServiceWrapper.getInstance().setDroneService(droneControlService);
-			}
-			LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
-			manager.registerReceiver(droneReadyReceiver, new IntentFilter(DroneControlService.DRONE_STATE_READY_ACTION));
-			manager.registerReceiver(droneConnectionChangeReceiver, new IntentFilter(
-					DroneControlService.DRONE_CONNECTION_CHANGED_ACTION));
-
-		}
+		droneStageListener.onResume();
 	}
 
 	public void pause() {
@@ -204,74 +147,11 @@ public class StageActivity extends AndroidApplication implements DroneReadyRecei
 		}
 	}
 
-	private void onDroneServiceConnected(IBinder service) {
-		Log.d(TAG, "onDroneServiceConnected");
-		droneControlService = ((DroneControlService.LocalBinder) service).getService();
-		DroneServiceWrapper.getInstance().setDroneService(droneControlService);
-		droneControlService.resume();
-		droneControlService.requestDroneStatus();
-		droneControlService.requestConfigUpdate();
-
-		Log.d(TAG, "DroneServiceConnection");
-	}
-
-	private ServiceConnection droneServiceConnection = new ServiceConnection() {
-
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			Log.d(TAG, "Drone Connected");
-			onDroneServiceConnected(service);
-		}
-
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-			Log.d(TAG, "Drone Disconnected");
-			droneControlService = null;
-		}
-
-	};
-
 	@Override
 	protected void onDestroy() {
-		helpUnbindService();
+		droneStageListener.onDestroy();
 		Log.d(TAG, "Destroy");
 		super.onDestroy();
 	}
 
-	private void helpUnbindService() {
-		if (droneControlService != null) {
-			unbindService(droneServiceConnection);
-			droneServiceConnection = null;
-			droneControlService = null;
-		}
-	}
-
-	private boolean helpBindService() {
-		boolean droneServiceWasCreated = false;
-		if (droneControlService == null) {
-			droneServiceWasCreated = bindService(new Intent(this, DroneControlService.class),
-					this.droneServiceConnection, Context.BIND_AUTO_CREATE);
-			if (!droneServiceWasCreated) {
-				Toast.makeText(this, "Connection to the drone not successful", Toast.LENGTH_LONG).show();
-			}
-		}
-		return droneServiceWasCreated;
-	}
-
-	@Override
-	public void onDroneReady() {
-		Log.d(TAG, "onDroneReady");
-	}
-
-	@Override
-	public void onDroneConnected() {
-		Log.d(TAG, "onDroneConnected");
-		droneControlService.requestConfigUpdate();
-	}
-
-	@Override
-	public void onDroneDisconnected() {
-		Log.d(TAG, "onDroneDisconnected");
-		//Nothing to do here
-	}
 }

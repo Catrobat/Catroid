@@ -33,6 +33,7 @@ import android.widget.ListView;
 import com.jayway.android.robotium.solo.Solo;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.test.drone.DroneTestUtils;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -40,6 +41,8 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+
+	private static final String SETTINGS_QUADCOPTER_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_quadcopter_catrobat_terms_of_service_accpted_permanently";
 
 	public SettingsActivityTest() {
 		super(MainMenuActivity.class);
@@ -100,6 +103,7 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 	}
 
 	public void testToggleMindstormBricks() {
+		DroneTestUtils.disableARDroneBricks(getActivity());
 		String settings = solo.getString(R.string.settings);
 		String mindstormsPreferenceString = solo.getString(R.string.preference_title_enable_mindstorm_bricks);
 		String categoryLegoNXTLabel = solo.getString(R.string.category_lego_nxt);
@@ -155,5 +159,25 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertEquals(
 				SettingsActivity.class.getSimpleName() + " not set to be in portrait mode in AndroidManifest.xml!",
 				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, activityInfo.screenOrientation);
+	}
+
+	public void testDroneTermsOfUsePermanentAgree() {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+		preferences.edit().putBoolean(SETTINGS_QUADCOPTER_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, false)
+				.commit();
+
+		assertFalse("Terms of servie should not be accepted",
+				SettingsActivity.areTermsOfSericeAgreedPermanently(getActivity()));
+
+		assertFalse("Terms of servie should not be accepted",
+				preferences.getBoolean(SETTINGS_QUADCOPTER_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, true));
+
+		SettingsActivity.setTermsOfSerivceAgreedPermanently(getActivity(), true);
+		assertTrue("Terms of servie should be permanently accepted",
+				SettingsActivity.areTermsOfSericeAgreedPermanently(getActivity()));
+
+		assertTrue("Terms of servie should be permanently accepted",
+				preferences.getBoolean(SETTINGS_QUADCOPTER_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, false));
 	}
 }
