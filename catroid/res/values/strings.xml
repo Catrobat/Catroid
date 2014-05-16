@@ -20,7 +20,7 @@
  *  
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
+ -->
 <resources>
 
     <!-- General terms -->
@@ -56,9 +56,7 @@
     <string name="main_menu_web">Explore</string>
     <string name="main_menu_upload">Upload</string>
     <string name="main_menu_about_pocketcode">About Pocket Code</string>
-    
     <string name="main_menu_terms_of_use">Terms of use</string>
- 
     <string name="main_menu_rate_app">Rate us!</string>
     <string name="main_menu_play_store_not_installed">Play Store app not found</string>
     <string name="main_menu_web_dialog_title">Caution!</string>
@@ -71,11 +69,12 @@
     <string name="preference_title">Settings</string>
     <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorms bricks</string>
     <string name="preference_description_mindstorm_bricks">Allow to control Lego Mindstorms robots</string>
+    <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 bricks</string>
+    <string name="preference_description_quadcopter_bricks">Allow to control the ARDrone 2.0 quadcopter</string>
     <!--  -->
 
 
     <!-- New Object Dialog -->
-
     <string name="dialog_new_object_pocketpaint">Draw Image</string>
     <string name="dialog_new_object_gallery">Select Image</string>
     <string name="dialog_new_object_camera">Take Picture</string>
@@ -93,6 +92,9 @@
     must agree to our Terms of Use and strictly follow them when you use Pocket 
     Code and our other executables. Please see the link below for their precise formulation.\n</string>
     <string name="dialog_terms_of_use_link_text">Terms of Use</string>
+    <string name="dialog_terms_of_use_agree_permanet">I agree permanently --- do not ask me again. I assume full responsibility when someone else uses my device.</string>
+    <string name="dialog_terms_of_use_agree">"I agree</string>
+    <string name="dialog_terms_of_use_do_not_agree">I do not agree</string>
     <!--  -->
 
 
@@ -317,6 +319,7 @@
     <string name="category_control">Control</string>
     <string name="category_variables">Variables</string>
     <string name="category_lego_nxt">Lego NXT</string>
+    <string name="category_drone">ARDrone</string>
     <!--  -->
 
 
@@ -430,6 +433,22 @@
     <string name="default_project_backgroundname">Background</string>
     <string name="default_project_var_random_from">random from</string>
     <string name="default_project_var_random_to">random to</string>
+
+    <!-- defaultDroneValues -->
+    <string name="default_drone_project_name">My first Drone program</string>
+    <string name="default_drone_project_sprites_takeoff">Take off</string>
+
+    <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
+    <string name="default_drone_project_srpites_land">Land</string>
+    <string name="default_drone_project_srpites_rotate">Rotate</string>
+    <string name="default_drone_project_sprites_up">Up</string>
+    <string name="default_drone_project_sprites_down">Down</string>
+    <string name="default_drone_project_sprites_left">Left</string>
+    <string name="default_drone_project_sprites_right">Right</string>
+    <string name="default_drone_project_sprites_forward">Forward</string>
+    <string name="default_drone_project_sprites_back">Back</string>
+    <string name="default_drone_project_sprites_turn_left">Turn left</string>
+    <string name="default_drone_project_sprites_turn_right">Turn right</string>
     <!--  -->
 
 
@@ -474,6 +493,14 @@
     <string name="error_copy_project">An error occurred while copying the program.</string>
     <string name="error_upload_project_with_default_name">You cannot upload a program with the name \'My first program\'. Please rename the program.</string>
     <string name="error_upload_default_project">You cannot upload this program because it is the same as \'My first program\'. Please modify it, and try again.</string>
+    <string name="error_no_drone_connected_title">Cannot find ARDrone</string>
+    <string name="error_no_drone_connected">Connect your wifi to the ARDrone and try again.</string>
+    <string name="error_drone_low_battery_title">Drone battery low: %d%%</string>
+    <string name="error_drone_low_battery">Insert a charged battery and try again.</string>
+    <string name="error_drone_wrong_platform_title">No ARDrone support</string>
+    <string name="error_drone_wrong_platform">We can not run a ARDrone project on your device.</string>
+    <string name="error_drone_not_available_in_release_build_title">ARDrone projects not supported</string>
+    <string name="error_drone_not_available_in_release_build">Unfortunately we can\'t run projects with ARDrone bricks for now.</string>
     <!--  -->
 
 
@@ -510,6 +537,28 @@
     <string name="nxt_motor_c">C</string>
     <string name="nxt_motor_a_and_c">A+C</string>
     <string name="nxt_motor_all">All</string>
+    <!--  -->
+
+
+    <!-- Drone Bricks -->
+    <string name="brick_drone_takeoff">take off</string>
+    <string name="brick_drone_land">land</string>
+    <string name="brick_drone_play_led_animation">Play LED animation</string>
+    <string name="brick_drone_move_left">move left</string>
+    <string name="brick_drone_move_right">move right</string>
+    <string name="brick_drone_move_forward">move forward</string>
+    <string name="brick_drone_move_backward">move backward</string>
+    <string name="brick_drone_move_up">move up</string>
+    <string name="brick_drone_move_down">move down</string>
+    <string name="brick_drone_flip">flip</string>
+    <string name="brick_drone_power">power</string>
+    <string name="brick_drone_turn_right">turn right</string>
+    <string name="brick_drone_turn_left">turn left</string>
+    <string name="brick_drone_turn_left_magneto">turn left [angle]</string>
+    <string name="brick_drone_turn_right_magneto">turn right [angle]</string>
+    <string name="brick_drone_angle">angle</string>
+
+    <!-- <string name="brick_drone_land">Drone: land</string> -->
     <!--  -->
 
 

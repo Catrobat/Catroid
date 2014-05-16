@@ -1155,6 +1155,10 @@ public final class UiTestUtils {
 		solo.clickOnView(imageButton);
 	}
 
+	public static void clickOnPlayButton(Solo solo) {
+		clickOnBottomBar(solo, R.id.button_play);
+	}
+
 	public static File createTestMediaFile(String filePath, int fileID, Context context) throws IOException {
 
 		File testImage = new File(filePath);

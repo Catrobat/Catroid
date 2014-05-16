@@ -41,15 +41,23 @@ public class StageActivity extends AndroidApplication {
 	private boolean resizePossible;
 	private StageDialog stageDialog;
 
+	private DroneStageListener droneStageListener = null;
+
+	public static final int STAGE_ACTIVITY_FINISH = 7777;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+		droneStageListener = new DroneStageListener(this, getIntent());
 		stageListener = new StageListener();
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
+
 		initialize(stageListener, true);
+		droneStageListener.onCreate();
 	}
 
 	@Override
@@ -69,13 +77,17 @@ public class StageActivity extends AndroidApplication {
 	public void onPause() {
 		SensorHandler.stopSensorListeners();
 		super.onPause();
+
+		droneStageListener.onPause();
+
 	}
 
 	@Override
 	public void onResume() {
-		Log.d(TAG, "StageActivity::onResume()");
 		SensorHandler.startSensorListener(this);
 		super.onResume();
+
+		droneStageListener.onResume();
 	}
 
 	public void pause() {
@@ -133,6 +145,13 @@ public class StageActivity extends AndroidApplication {
 			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
 			ScreenValues.SCREEN_WIDTH = tmp;
 		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		droneStageListener.onDestroy();
+		Log.d(TAG, "Destroy");
+		super.onDestroy();
 	}
 
 }

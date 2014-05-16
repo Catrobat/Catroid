@@ -32,7 +32,6 @@ dependencies {
     compile fileTree(dir: 'catroid/libs-natives', include: '*.jar')
 
     androidTestCompile fileTree(dir: 'catroidTest/libs', include: '*.jar')
-
 }
 
 
