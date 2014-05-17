@@ -22,12 +22,12 @@
  */
 package org.catrobat.catroid.stage;
 
-public interface StageListenerInterface {
-	void onCreate();
+public interface StageResourceInterface {
+	void initialise();
 
-	void onResume();
+	void start();
 
-	void onPause();
+	void pause();
 
-	void onDestroy();
+	void destroy();
 }
