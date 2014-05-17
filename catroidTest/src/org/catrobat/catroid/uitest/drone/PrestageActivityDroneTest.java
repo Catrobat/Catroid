@@ -39,7 +39,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
-import org.catrobat.catroid.stage.DroneStageListener;
+import org.catrobat.catroid.stage.DroneConnection;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.test.drone.DroneTestUtils;
@@ -65,7 +65,7 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 	private DroneControlService droneControlService;
 	private StageActivity stageActivity;
 	private Intent stageActivityIntent;
-	private DroneStageListener dronePrestageListener = null;
+	private DroneConnection dronePrestageListener = null;
 
 	public PrestageActivityDroneTest() {
 		super(MainMenuActivity.class);
@@ -233,7 +233,7 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 					getDroneControlServiceFromPreStage(preStageActivity);
 					break;
 				case STAGE:
-					dronePrestageListener = (DroneStageListener) Reflection.getPrivateField(stageActivity,
+					dronePrestageListener = (DroneConnection) Reflection.getPrivateField(stageActivity,
 							"droneStageListener");
 					assertNotNull("DronePrestageListener must instanced", dronePrestageListener);
 					getDroneControlServiceFromDroneStageListenerOnStage();

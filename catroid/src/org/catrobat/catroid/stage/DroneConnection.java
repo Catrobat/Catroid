@@ -41,7 +41,7 @@ import com.parrot.freeflight.service.DroneControlService;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 
-public class DroneStageListener implements StageListenerInterface, DroneReadyReceiverDelegate,
+public class DroneConnection implements StageResourceInterface, DroneReadyReceiverDelegate,
 		DroneConnectionChangeReceiverDelegate {
 
 	private Context stageActivityContext = null;
@@ -49,19 +49,19 @@ public class DroneStageListener implements StageListenerInterface, DroneReadyRec
 
 	private Boolean droneIsRequired = false;
 
-	private static final String TAG = DroneStageListener.class.getSimpleName();
+	private static final String TAG = DroneConnection.class.getSimpleName();
 
 	protected DroneControlService droneControlService = null;
 	private BroadcastReceiver droneReadyReceiver = null;
 	private DroneConnectionChangedReceiver droneConnectionChangeReceiver = null;
 
-	public DroneStageListener(Context stageActivityContext, Intent stageStartIntent) {
+	public DroneConnection(Context stageActivityContext, Intent stageStartIntent) {
 		this.stageActivityContext = stageActivityContext;
 		this.stageStartIntent = stageStartIntent;
 	}
 
 	@Override
-	public void onCreate() {
+	public void initialise() {
 		//TODO Drone: process reuturn value
 		if (prepareDroneRessources()) {
 			Log.d(TAG, "Failure during drone service startup");
@@ -69,7 +69,7 @@ public class DroneStageListener implements StageListenerInterface, DroneReadyRec
 	}
 
 	@Override
-	public void onResume() {
+	public void start() {
 		if (BuildConfig.DEBUG) {
 			if (droneControlService != null) {
 				Log.d(TAG, "droneControlService .. onResume");
@@ -85,7 +85,7 @@ public class DroneStageListener implements StageListenerInterface, DroneReadyRec
 	}
 
 	@Override
-	public void onPause() {
+	public void pause() {
 		if (BuildConfig.DEBUG) {
 			if (droneControlService != null) {
 				droneControlService.pause();
@@ -98,7 +98,7 @@ public class DroneStageListener implements StageListenerInterface, DroneReadyRec
 	}
 
 	@Override
-	public void onDestroy() {
+	public void destroy() {
 		helpUnbindDroneService();
 	}
 
