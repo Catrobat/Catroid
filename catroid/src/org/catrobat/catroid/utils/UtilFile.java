@@ -28,7 +28,6 @@ import android.util.Log;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 
 import java.io.BufferedInputStream;
@@ -173,9 +172,9 @@ public final class UtilFile {
 		}
 	}
 
-	public static void loadExistingOrCreateStandardDroneProject(Context context) throws ProjectException {
+	public static void loadExistingOrCreateStandardDroneProject(Context context) {
 		String droneStandardProjectName = context.getString(R.string.default_drone_project_name);
-		ProjectManager.getInstance().loadProject(droneStandardProjectName, context);
+		ProjectManager.getInstance().loadProject(droneStandardProjectName, context, false);
 		String currentName = ProjectManager.getInstance().getCurrentProject().getName();
 
 		if (!currentName.equals(droneStandardProjectName)) {
