@@ -35,9 +35,9 @@ import android.widget.LinearLayout;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
-import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
 public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
