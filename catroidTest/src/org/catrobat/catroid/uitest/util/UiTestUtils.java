@@ -166,9 +166,9 @@ public final class UiTestUtils {
 	public static final String PROJECTNAME1 = "testingproject1";
 	public static final String PROJECTNAME2 = "testingproject2";
 	public static final String PROJECTNAME3 = "testingproject3";
+	public static final String PROJECTNAMEOFFENSIVELANGUAGE = "fuck i have to use fuck";
 	public static final String PROJECTDESCRIPTION1 = "testdescription1";
 	public static final String PROJECTDESCRIPTION2 = "testdescription2";
-	public static final String PROJECTDESCRIPTION3 = "testdescription3";
 	public static final String DEFAULT_TEST_PROJECT_NAME_MIXED_CASE = "TeStPROjeCt";
 	public static final String COPIED_PROJECT_NAME = "copiedProject";
 	public static final String JAPANESE_PROJECT_NAME = "これは例の説明です。";

@@ -467,6 +467,7 @@
     <string name="notification_upload_title_finished">"Anschauen von "</string>
     <string name="notification_upload_pending">Upload wird ausgeführt</string>
     <string name="notification_upload_finished">Upload erfolgreich</string>
+    <string name="notification_upload_rejected">Upload verweigert</string>
     <string name="notification_download_title_pending">"Downloaden von "</string>
     <string name="notification_download_pending">Download wird ausgeführt</string>
     <string name="notification_download_finished">Download erfolgreich</string>

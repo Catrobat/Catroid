@@ -463,6 +463,7 @@
     <string name="notification_upload_title_finished">"Look at "</string>
     <string name="notification_upload_pending">Upload in progress</string>
     <string name="notification_upload_finished">Upload successful</string>
+    <string name="notification_upload_rejected">Uploaded program rejected</string>
     <string name="notification_download_title_pending">"Downloading "</string>
     <string name="notification_download_pending">Download in progress</string>
     <string name="notification_download_finished">Download successful</string>
