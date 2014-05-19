@@ -57,7 +57,6 @@ public class PhysicsObject {
 	private float gravityScale;
 
 	private final Body body;
-	private Sprite sprite;
 	private final FixtureDef fixtureDef = new FixtureDef();
 	private Shape[] shapes;
 	private Type type;
@@ -195,7 +194,7 @@ public class PhysicsObject {
 	}
 
 	public float getMass() {
-		return body.getMass();
+		return this.mass;
 	}
 
 	public Body getBody() {
@@ -203,22 +202,24 @@ public class PhysicsObject {
 	}
 
 	public void setMass(float mass) {
+		this.mass = mass;
+
+		if (mass < 0) {
+			this.mass = PhysicsObject.MIN_MASS;
+		}
 		if (mass < PhysicsObject.MIN_MASS) {
 			mass = PhysicsObject.MIN_MASS;
 		}
-
-		//		if (mass != Integer.MAX_VALUE) {
-		this.mass = mass;
-		//		}
-
-		float bodyMass = body.getMass();
-		if (bodyMass == 0.0f) {
+		if (isStaticObject()) {
 			return;
 		}
-
-		float area = bodyMass / fixtureDef.density;
+		float area = body.getMass() / fixtureDef.density;
 		float density = mass / area;
 		setDensity(density);
+	}
+
+	private boolean isStaticObject() {
+		return body.getMass() == 0.0f;
 	}
 
 	private void setDensity(float density) {

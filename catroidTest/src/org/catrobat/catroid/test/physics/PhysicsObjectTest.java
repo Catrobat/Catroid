@@ -423,13 +423,20 @@ public class PhysicsObjectTest extends AndroidTestCase {
 				assertEquals("Wrong mass in physics object", mass, PhysicsTestUtils.getMass(physicsObject));
 			}
 
-			float[] massesResetedToMinMass = { PhysicsObject.MIN_MASS / 10.0f, 0.0f, -1.0f };
-			for (float mass : massesResetedToMinMass) {
-				physicsObject.setMass(mass);
-				checkBodyMassDependingOnType(type, body, PhysicsObject.MIN_MASS);
-				assertEquals("Body mass isn't set to MIN_MASS", PhysicsObject.MIN_MASS,
-						PhysicsTestUtils.getMass(physicsObject));
-			}
+			physicsObject.setMass(PhysicsObject.MIN_MASS / 10.0f);
+			checkBodyMassDependingOnType(type, body, PhysicsObject.MIN_MASS);
+			assertEquals("Body mass isn't set to PhysicsObject.MIN_MASS / 10.0f", PhysicsObject.MIN_MASS / 10.0f,
+					PhysicsTestUtils.getMass(physicsObject));
+
+			physicsObject.setMass(0.0f);
+			checkBodyMassDependingOnType(type, body, PhysicsObject.MIN_MASS);
+			assertEquals("Body mass isn't set to 0", 0.0f, PhysicsTestUtils.getMass(physicsObject));
+
+			physicsObject.setMass(-1.0f);
+			checkBodyMassDependingOnType(type, body, PhysicsObject.MIN_MASS);
+			assertEquals("Body mass isn't set to MIN_MASS", PhysicsObject.MIN_MASS,
+					PhysicsTestUtils.getMass(physicsObject));
+
 		}
 	}
 
