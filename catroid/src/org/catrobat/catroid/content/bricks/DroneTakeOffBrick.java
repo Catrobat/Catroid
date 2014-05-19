@@ -38,16 +38,11 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.List;
 
-public class DroneTakeOffBrick extends BrickBaseType {
+public class DroneTakeOffBrick extends DroneBrick {
 	private static final long serialVersionUID = 1L;
 
 	public DroneTakeOffBrick(Sprite sprite) {
 		this.sprite = sprite;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return ARDRONE_SUPPORT;
 	}
 
 	@Override
