@@ -65,7 +65,7 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 	private DroneControlService droneControlService;
 	private StageActivity stageActivity;
 	private Intent stageActivityIntent;
-	private DroneConnection dronePrestageListener = null;
+	private DroneConnection droneConnection = null;
 
 	public PrestageActivityDroneTest() {
 		super(MainMenuActivity.class);
@@ -233,9 +233,8 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 					getDroneControlServiceFromPreStage(preStageActivity);
 					break;
 				case STAGE:
-					dronePrestageListener = (DroneConnection) Reflection.getPrivateField(stageActivity,
-							"droneStageListener");
-					assertNotNull("DronePrestageListener must instanced", dronePrestageListener);
+					droneConnection = (DroneConnection) Reflection.getPrivateField(stageActivity, "droneConnection");
+					assertNotNull("DronePrestageListener must instanced", droneConnection);
 					getDroneControlServiceFromDroneStageListenerOnStage();
 					break;
 				default:
@@ -268,8 +267,7 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 	}
 
 	private void getDroneControlServiceFromDroneStageListenerOnStage() {
-		droneControlService = (DroneControlService) Reflection.getPrivateField(dronePrestageListener,
-				"droneControlService");
+		droneControlService = (DroneControlService) Reflection.getPrivateField(droneConnection, "droneControlService");
 	}
 
 	private boolean getStageActivityIntentAndDroneStartValue(boolean defaultValue) {
