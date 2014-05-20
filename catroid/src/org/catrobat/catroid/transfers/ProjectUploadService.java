@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.transfers;
 
-import static android.widget.Toast.LENGTH_SHORT;
-
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +33,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
@@ -124,11 +123,11 @@ public class ProjectUploadService extends IntentService {
 					language, token, username, receiver, notificationId, context);
 
 			zipFile.delete();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
 			result = false;
-		} catch (WebconnectionException webException) {
-			serverAnswer = webException.getMessage();
+		} catch (WebconnectionException webconnectionException) {
+			serverAnswer = webconnectionException.getMessage();
 			Log.e(TAG, serverAnswer);
 			result = false;
 		}
@@ -137,10 +136,12 @@ public class ProjectUploadService extends IntentService {
 	@Override
 	public void onDestroy() {
 		if (!result) {
-			Toast.makeText(this, R.string.error_project_upload, LENGTH_SHORT).show();
-			return;
+			Toast.makeText(this, getResources().getText(R.string.error_project_upload).toString() + " " + serverAnswer, Toast.LENGTH_SHORT).show();
+			StatusBarNotificationManager.getInstance().abortProgressNotificationWithMessage(notificationId, getResources().getString(R.string.notification_upload_rejected));
 		}
-		Toast.makeText(this, R.string.notification_upload_finished, LENGTH_SHORT).show();
+		else {
+			Toast.makeText(this, R.string.notification_upload_finished, Toast.LENGTH_SHORT).show();
+		}
 		super.onDestroy();
 	}
 

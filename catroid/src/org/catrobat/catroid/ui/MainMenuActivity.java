@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -46,6 +46,7 @@ import com.actionbarsherlock.view.MenuItem;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.stage.PreStageActivity;
@@ -97,6 +98,12 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!BackPackListManager.isBackpackFlag()) {
 			BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
 		}
+
+		//TODO Drone dont create project for now
+		//if (BuildConfig.DEBUG && DroneUtils.isDroneSharedPreferenceEnabled(getApplication(), false)) {
+		//	UtilFile.loadExistingOrCreateStandardDroneProject(this);
+		//}
+		//SettingsActivity.setTermsOfSerivceAgreedPermanently(this, false);
 	}
 
 	@Override
@@ -110,6 +117,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		findViewById(R.id.progress_circle).setVisibility(View.GONE);
 
 		UtilFile.createStandardProjectIfRootDirectoryIsEmpty(this);
+
 		PreStageActivity.shutdownPersistentResources();
 		setMainMenuButtonContinueText();
 		findViewById(R.id.main_menu_button_continue).setEnabled(true);
@@ -127,10 +135,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			return;
 		}
 
-		if (ProjectManager.getInstance().getCurrentProject() != null) {
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		if (currentProject != null) {
 			ProjectManager.getInstance().saveProject();
-			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, ProjectManager.getInstance()
-					.getCurrentProject().getName());
+			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, currentProject.getName());
 		}
 	}
 
@@ -219,8 +227,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.CATROBAT_HELP_URL));
-		startActivity(browserIntent);
+
+		startWebViewActivity(Constants.CATROBAT_HELP_URL);
 	}
 
 	public void handleWebButton(View view) {
@@ -228,6 +236,11 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			return;
 		}
 
+		startWebViewActivity(Constants.BASE_URL_HTTPS);
+
+	}
+
+	private void startWebViewActivity(String url) {
 		// TODO just a quick fix for not properly working webview on old devices
 		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
 			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -240,8 +253,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			}
 		} else {
 			Intent intent = new Intent(MainMenuActivity.this, WebViewActivity.class);
+			intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, url);
 			startActivity(intent);
 		}
+
 	}
 
 	private void showWebWarningDialog() {

@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -32,33 +32,27 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 
 public class Look extends Image {
 	private static final float DEGREE_UI_OFFSET = 90.0f;
+	private static ArrayList<Action> actionsToRestart = new ArrayList<Action>();
+	public boolean visible = true;
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
 	protected LookData lookData;
 	protected Sprite sprite;
 	protected float alpha = 1f;
 	protected float brightness = 1f;
-	public boolean visible = true;
 	protected Pixmap pixmap;
-	private HashMap<String, ArrayList<SequenceAction>> broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
-	private HashMap<String, ArrayList<SequenceAction>> broadcastWaitSequenceMap = new HashMap<String, ArrayList<SequenceAction>>();
 	private ParallelAction whenParallelAction;
-	private ArrayList<Action> actionsToRestart = new ArrayList<Action>();
 	private boolean allActionAreFinished = false;
 	private BrightnessContrastShader shader;
 
@@ -98,18 +92,22 @@ public class Look extends Image {
 		});
 	}
 
+	public static boolean actionsToRestartContains(Action action) {
+		return Look.actionsToRestart.contains(action);
+	}
+
+	public static void actionsToRestartAdd(Action action) {
+		Look.actionsToRestart.add(action);
+	}
+
 	public Look copyLookForSprite(final Sprite cloneSprite) {
 		Look cloneLook = cloneSprite.look;
 
 		cloneLook.alpha = this.alpha;
 		cloneLook.brightness = this.brightness;
 		cloneLook.visible = this.visible;
-		cloneLook.broadcastSequenceMap = new HashMap<String, ArrayList<SequenceAction>>(this.broadcastSequenceMap);
-		cloneLook.broadcastWaitSequenceMap = new HashMap<String, ArrayList<SequenceAction>>(
-				this.broadcastWaitSequenceMap);
 		cloneLook.whenParallelAction = null;
 		cloneLook.allActionAreFinished = this.allActionAreFinished;
-		cloneLook.actionsToRestart = new ArrayList<Action>();
 
 		return cloneLook;
 	}
@@ -125,64 +123,17 @@ public class Look extends Image {
 		// We use Y-down, libgdx Y-up. This is the fix for accurate y-axis detection
 		y = (getHeight() - 1) - y;
 
-		if (x >= 0 && x < getWidth() && y >= 0 && y < getHeight()) {
-			if (pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
-				if (whenParallelAction == null) {
-					sprite.createWhenScriptActionSequence("Tapped");
-				} else {
-					whenParallelAction.restart();
-				}
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public void putBroadcastSequenceAction(String broadcastMessage, SequenceAction action) {
-		if (broadcastSequenceMap.containsKey(broadcastMessage)) {
-			broadcastSequenceMap.get(broadcastMessage).add(action);
-		} else {
-			ArrayList<SequenceAction> actionList = new ArrayList<SequenceAction>();
-			actionList.add(action);
-			broadcastSequenceMap.put(broadcastMessage, actionList);
-		}
-	}
-
-	public void doHandleBroadcastEvent(String broadcastMessage) {
-		if (broadcastSequenceMap.containsKey(broadcastMessage)) {
-			for (SequenceAction action : broadcastSequenceMap.get(broadcastMessage)) {
-				if (action.getActor() == null) {
-					addAction(action);
-				} else {
-					actionsToRestart.add(action);
-				}
-			}
-		}
-	}
-
-	public void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
-		if (broadcastSequenceMap.containsKey(broadcastMessage)) {
-			if (!broadcastWaitSequenceMap.containsKey(broadcastMessage)) {
-				ArrayList<SequenceAction> actionList = new ArrayList<SequenceAction>();
-				for (SequenceAction broadcastAction : broadcastSequenceMap.get(broadcastMessage)) {
-					event.raiseNumberOfReceivers();
-					SequenceAction broadcastWaitAction = ExtendedActions.sequence(broadcastAction,
-							ExtendedActions.broadcastNotify(event));
-					actionList.add(broadcastWaitAction);
-					addAction(broadcastWaitAction);
-				}
-				broadcastWaitSequenceMap.put(broadcastMessage, actionList);
+		if (x >= 0 && x < getWidth() && y >= 0 && y < getHeight()
+				&& ((pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)))) {
+			if (whenParallelAction == null) {
+				sprite.createWhenScriptActionSequence("Tapped");
 			} else {
-				ArrayList<SequenceAction> actionList = broadcastWaitSequenceMap.get(broadcastMessage);
-				for (SequenceAction action : actionList) {
-					event.raiseNumberOfReceivers();
-					Array<Action> actions = action.getActions();
-					BroadcastNotifyAction notifyAction = (BroadcastNotifyAction) actions.get(actions.size - 1);
-					notifyAction.setEvent(event);
-					actionsToRestart.add(action);
-				}
+				whenParallelAction.restart();
 			}
+			return true;
 		}
+
+		return false;
 	}
 
 	public void createBrightnessContrastShader() {
@@ -209,12 +160,14 @@ public class Look extends Image {
 		Array<Action> actions = getActions();
 		allActionAreFinished = false;
 		int finishedCount = 0;
+
+		for (Iterator<Action> iterator = Look.actionsToRestart.iterator(); iterator.hasNext(); ) {
+			Action actionToRestart = iterator.next();
+			actionToRestart.restart();
+			iterator.remove();
+		}
+
 		for (int i = 0, n = actions.size; i < n; i++) {
-			for (Iterator<Action> iterator = actionsToRestart.iterator(); iterator.hasNext();) {
-				Action actionToRestart = iterator.next();
-				actionToRestart.restart();
-				iterator.remove();
-			}
 			Action action = actions.get(i);
 			if (action.act(delta)) {
 				finishedCount++;
@@ -223,6 +176,12 @@ public class Look extends Image {
 		if (finishedCount == actions.size) {
 			allActionAreFinished = true;
 		}
+	}
+
+	@Override
+	public void addAction(Action action) {
+		super.addAction(action);
+		allActionAreFinished = false;
 	}
 
 	protected void checkImageChanged() {
@@ -264,13 +223,13 @@ public class Look extends Image {
 		this.imageChanged = true;
 	}
 
+	public LookData getLookData() {
+		return lookData;
+	}
+
 	public void setLookData(LookData lookData) {
 		this.lookData = lookData;
 		imageChanged = true;
-	}
-
-	public LookData getLookData() {
-		return lookData;
 	}
 
 	public boolean getAllActionsAreFinished() {
@@ -295,12 +254,12 @@ public class Look extends Image {
 		return getX() + getWidth() / 2f;
 	}
 
-	public float getYInUserInterfaceDimensionUnit() {
-		return getY() + getHeight() / 2f;
-	}
-
 	public void setXInUserInterfaceDimensionUnit(float x) {
 		setX(x - getWidth() / 2f);
+	}
+
+	public float getYInUserInterfaceDimensionUnit() {
+		return getY() + getHeight() / 2f;
 	}
 
 	public void setYInUserInterfaceDimensionUnit(float y) {
@@ -403,6 +362,14 @@ public class Look extends Image {
 
 	public void changeBrightnessInUserInterfaceDimensionUnit(float changePercent) {
 		setBrightnessInUserInterfaceDimensionUnit(getBrightnessInUserInterfaceDimensionUnit() + changePercent);
+	}
+
+	private void doHandleBroadcastEvent(String broadcastMessage) {
+		BroadcastHandler.doHandleBroadcastEvent(this, broadcastMessage);
+	}
+
+	private void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
+		BroadcastHandler.doHandleBroadcastFromWaiterEvent(this, event, broadcastMessage);
 	}
 
 	private class BrightnessContrastShader extends ShaderProgram {

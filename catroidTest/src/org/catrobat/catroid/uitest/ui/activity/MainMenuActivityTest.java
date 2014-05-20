@@ -66,8 +66,12 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String testProject2 = UiTestUtils.PROJECTNAME2;
 	private String testProject3 = UiTestUtils.PROJECTNAME3;
-	private String projectNameWithBlacklistedCharacters = "<H/ey, lo\"ok, :I'\\m s*pe?ci>al! ?äö|üß<>";
-	private String projectNameWithWhitelistedCharacters = "[Hey+, =lo_ok. I'm; -special! ?äöüß<>]";
+	private String projectNameWithNormalAndSpecialChars = UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME;
+	private String projectNameWithNormalAndSpecialChars2 = UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2;
+	private String projectNameJustSpecialChars = UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME;
+	private String projectNameJustSpecialChars2 = UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME2;
+	private String projectNameJustOneDot = UiTestUtils.JUST_ONE_DOT_PROJECT_NAME;
+	private String projectNameJustTwoDots = UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME;
 
 	private static final float CATROBAT_LANGUAGE_VERSION_TOO_LOW = 0.0f;
 
@@ -77,8 +81,12 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 
 	@Override
 	public void tearDown() throws Exception {
-		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithBlacklistedCharacters)));
-		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithWhitelistedCharacters)));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithNormalAndSpecialChars)));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameWithNormalAndSpecialChars2)));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameJustSpecialChars)));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameJustSpecialChars2)));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameJustOneDot)));
+		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameJustTwoDots)));
 		// normally super.teardown should be called last
 		// but tests crashed with Nullpointer
 		super.tearDown();
@@ -133,9 +141,9 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 						.getString(R.string.error_project_exists)));
 		solo.clickOnButton(0);
 
-		directory = new File(Utils.buildProjectPath("te?st"));
+		directory = new File(Utils.buildProjectPath(projectNameWithNormalAndSpecialChars2 + "_TWO"));
 		directory.mkdirs();
-		String name = "te/st:";
+		String name = projectNameWithNormalAndSpecialChars2 + "_TWO";
 		solo.sleep(50);
 		solo.clearEditText(0);
 		solo.enterText(0, name);
@@ -148,38 +156,106 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		UtilFile.deleteDirectory(directory);
 	}
 
-	public void testCreateNewProjectWithBlacklistedCharacters() {
-		String directoryPath = Utils.buildProjectPath(projectNameWithBlacklistedCharacters);
+	public void testCreateNewProjectWithNormalAndSpecialChars() {
+		String directoryPath = Utils.buildProjectPath(projectNameWithNormalAndSpecialChars);
 		File directory = new File(directoryPath);
 		UtilFile.deleteDirectory(directory);
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.clearEditText(0);
-		solo.enterText(0, projectNameWithBlacklistedCharacters);
+		solo.enterText(0, projectNameWithNormalAndSpecialChars);
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		File file = new File(Utils.buildPath(directoryPath, Constants.PROJECTCODE_NAME));
-		assertTrue("Project with blacklisted characters was not created!", file.exists());
+		assertTrue("Project file with normal and special characters was not created!", file.exists());
 	}
 
-	public void testCreateNewProjectWithWhitelistedCharacters() {
-		String directoryPath = Utils.buildProjectPath(projectNameWithWhitelistedCharacters);
+	public void testCreateNewProjectsWithNormalAndSpecialCharsTwo() {
+		String directoryPath = Utils.buildProjectPath(projectNameWithNormalAndSpecialChars2);
 		File directory = new File(directoryPath);
 		UtilFile.deleteDirectory(directory);
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_new));
 		solo.clearEditText(0);
-		solo.enterText(0, projectNameWithWhitelistedCharacters);
+		solo.enterText(0, projectNameWithNormalAndSpecialChars2);
 		String buttonOKText = solo.getString(R.string.ok);
 		solo.waitForText(buttonOKText);
 		solo.clickOnText(buttonOKText);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 
 		File file = new File(Utils.buildPath(directoryPath, Constants.PROJECTCODE_NAME));
-		assertTrue("Project file with whitelisted characters was not created!", file.exists());
+		assertTrue("Project file with special characters two was not created!", file.exists());
+	}
+
+	public void testCreateNewProjectsJustSpecialChars() {
+		String directoryPath = Utils.buildProjectPath(projectNameJustSpecialChars);
+		File directory = new File(directoryPath);
+		UtilFile.deleteDirectory(directory);
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_new));
+		solo.clearEditText(0);
+		solo.enterText(0, projectNameJustSpecialChars);
+		String buttonOKText = solo.getString(R.string.ok);
+		solo.waitForText(buttonOKText);
+		solo.clickOnText(buttonOKText);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+
+		File file = new File(Utils.buildPath(directoryPath, Constants.PROJECTCODE_NAME));
+		assertTrue("Project file with just special characters was not created!", file.exists());
+	}
+
+	public void testCreateNewProjectsJustSpecialCharsTwo() {
+		String directoryPath = Utils.buildProjectPath(projectNameJustSpecialChars2);
+		File directory = new File(directoryPath);
+		UtilFile.deleteDirectory(directory);
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_new));
+		solo.clearEditText(0);
+		solo.enterText(0, projectNameJustSpecialChars2);
+		String buttonOKText = solo.getString(R.string.ok);
+		solo.waitForText(buttonOKText);
+		solo.clickOnText(buttonOKText);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+
+		File file = new File(Utils.buildPath(directoryPath, Constants.PROJECTCODE_NAME));
+		assertTrue("Project file with just special characters two was not created!", file.exists());
+	}
+
+	public void testCreateNewProjectJustOneDot() {
+		String directoryPath = Utils.buildProjectPath(projectNameJustOneDot);
+		File directory = new File(directoryPath);
+		UtilFile.deleteDirectory(directory);
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_new));
+		solo.clearEditText(0);
+		solo.enterText(0, projectNameJustOneDot);
+		String buttonOKText = solo.getString(R.string.ok);
+		solo.waitForText(buttonOKText);
+		solo.clickOnText(buttonOKText);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+
+		File file = new File(Utils.buildPath(directoryPath, Constants.PROJECTCODE_NAME));
+		assertTrue("Project file just one dot was not created!", file.exists());
+	}
+
+	public void testCreateNewProjectJustTwoDots(){
+		String directoryPath = Utils.buildProjectPath(projectNameJustTwoDots);
+		File directory = new File(directoryPath);
+		UtilFile.deleteDirectory(directory);
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_new));
+		solo.clearEditText(0);
+		solo.enterText(0, projectNameJustTwoDots);
+		String buttonOKText = solo.getString(R.string.ok);
+		solo.waitForText(buttonOKText);
+		solo.clickOnText(buttonOKText);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+
+		File file = new File(Utils.buildPath(directoryPath, Constants.PROJECTCODE_NAME));
+		assertTrue("Project file just two dots was not created!", file.exists());
 	}
 
 	public void testOrientation() throws NameNotFoundException {
@@ -326,6 +402,10 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 
 	public void testOverrideMyFirstProject() {
 		String standardProjectName = solo.getString(R.string.default_project_name);
+		File directory = new File(Constants.DEFAULT_ROOT + "/" + standardProjectName);
+		UtilFile.deleteDirectory(directory);
+		assertFalse(standardProjectName + " was not deleted!", directory.exists());
+
 		Project standardProject = null;
 
 		try {
@@ -383,13 +463,15 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		createTestProject(testProject);
 		createTestProject(testProject2);
 
+
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.clickOnText(testProject);
+		solo.clickOnText(testProject, 1, true);
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
 		solo.goBack();
-		assertTrue("The name of the current project is not displayed on the continue button", solo.getButton(0)
+		solo.sleep(400);
+		assertTrue("The name of the current testProject is not displayed on the continue button", solo.getButton(0)
 				.getText().toString().endsWith(testProject));
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
@@ -398,7 +480,61 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
 		solo.goBack();
-		assertTrue("The name of the current project is not displayed on the continue button", solo.getButton(0)
+		solo.sleep(400);
+		assertTrue("The name of the current testProject2 is not displayed on the continue button", solo.getButton(0)
 				.getText().toString().endsWith(testProject2));
+
+	}
+
+
+	public void testProjectNameWithNormalAndSpecialCharsVisible() {
+		createTestProject(projectNameJustSpecialChars);
+		createTestProject(projectNameWithNormalAndSpecialChars2);
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		UiTestUtils.clickOnExactText(solo, projectNameJustSpecialChars);
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
+
+		solo.goBack();
+		solo.sleep(400);
+		assertTrue("The name of the current projectNameJustSpecialChars is not displayed on the continue button", solo.getButton(0)
+				.getText().toString().endsWith(projectNameJustSpecialChars));
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		UiTestUtils.clickOnExactText(solo, projectNameWithNormalAndSpecialChars2);
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
+
+		solo.goBack();
+		solo.sleep(400);
+		assertTrue("The name of the current projectNameWithNormalAndSpecialChars2 is not displayed on the continue button", solo.getButton(0)
+				.getText().toString().endsWith(projectNameWithNormalAndSpecialChars2));
+
+	}
+
+	public void testProjectNameWithDotsVisible() {
+		createTestProject(projectNameJustOneDot);
+		createTestProject(projectNameJustTwoDots);
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		UiTestUtils.clickOnExactText(solo, projectNameJustOneDot);
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
+
+		solo.goBack();
+		solo.sleep(400);
+		assertTrue("The name of the current projectNameJustOneDot is not displayed on the continue button", solo.getButton(0)
+				.getText().toString().endsWith(projectNameJustOneDot));
+
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		UiTestUtils.clickOnExactText(solo, projectNameJustTwoDots);
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
+
+		solo.goBack();
+		solo.sleep(400);
+		assertTrue("The name of the current projectNameJustTwoDots is not displayed on the continue button", solo.getButton(0)
+				.getText().toString().endsWith(projectNameJustTwoDots));
 	}
 }

@@ -58,6 +58,10 @@ public final class BrickValues {
 	public static final int LEGO_DURATION = 1;
 	public static final int LEGO_FREQUENCY = 2;
 
+	//Constants Drone
+	public static final int DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS = 1000;
+	public static final float DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT = 0.2f;
+
 	// Suppress default constructor for noninstantiability
 	private BrickValues() {
 		throw new AssertionError();

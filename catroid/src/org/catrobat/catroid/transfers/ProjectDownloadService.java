@@ -89,8 +89,8 @@ public class ProjectDownloadService extends IntentService {
 			ServerCalls.getInstance().downloadProject(url, zipFileString, receiver, notificationId);
 			result = UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
 			Log.v(TAG, "url: " + url + ", zip-file: " + zipFileString + ", notificationId: " + notificationId);
-		} catch (WebconnectionException e) {
-			e.printStackTrace();
+		} catch (WebconnectionException webconnectionException) {
+			Log.e(TAG, Log.getStackTraceString(webconnectionException));
 		} finally {
 			DownloadUtil.getInstance().downloadFinished(projectName);
 		}

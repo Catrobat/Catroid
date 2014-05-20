@@ -42,7 +42,7 @@ import java.util.HashMap;
 
 public final class ServerCalls {
 
-	private static final String TAG = "ServerCalls";
+	private static final String TAG = ServerCalls.class.getCanonicalName();
 
 	private static final String REGISTRATION_USERNAME_KEY = "registrationUsername";
 	private static final String REGISTRATION_PASSWORD_KEY = "registrationPassword";
@@ -147,7 +147,7 @@ public final class ServerCalls {
 
 				if (uploadStatusCode == SERVER_RESPONSE_TOKEN_OK) {
 					tokenReceived = jsonObject.getString(JSON_TOKEN);
-					if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived == ""
+					if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived.equals("")
 							|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
 						throw new WebconnectionException(uploadStatusCode, serverAnswer);
 					}
@@ -160,11 +160,11 @@ public final class ServerCalls {
 					throw new WebconnectionException(uploadStatusCode, serverAnswer);
 				}
 			}
-		} catch (JSONException e) {
-			e.printStackTrace();
+		} catch (JSONException jsonException) {
+			Log.e(TAG, Log.getStackTraceString(jsonException));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Exception");
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "IO-Exception");
 		}
 	}
@@ -175,11 +175,11 @@ public final class ServerCalls {
 		try {
 			connection.doHttpPostFileDownload(downloadUrl, new HashMap<String, String>(), zipFileString, receiver,
 					notificationId);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
+		} catch (MalformedURLException malformedURLException) {
+			Log.e(TAG, Log.getStackTraceString(malformedURLException));
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Malformed URL");
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "IO-Exception");
 		}
 
@@ -211,8 +211,8 @@ public final class ServerCalls {
 			} else {
 				throw new WebconnectionException(statusCode, "server response token ok, but error: " + serverAnswer);
 			}
-		} catch (JSONException e) {
-			e.printStackTrace();
+		} catch (JSONException jsonException) {
+			Log.e(TAG, Log.getStackTraceString(jsonException));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Exception");
 		}
 	}
@@ -254,7 +254,7 @@ public final class ServerCalls {
 
 			if (statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK) {
 				tokenReceived = jsonObject.getString(JSON_TOKEN);
-				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived == ""
+				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived.equals("")
 						|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
 					throw new WebconnectionException(statusCode, serverAnswer);
 				}
@@ -274,8 +274,8 @@ public final class ServerCalls {
 				throw new WebconnectionException(statusCode, serverAnswer);
 			}
 			return registered;
-		} catch (JSONException e) {
-			e.printStackTrace();
+		} catch (JSONException jsonException) {
+			Log.e(TAG, Log.getStackTraceString(jsonException));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Error");
 		}
 	}

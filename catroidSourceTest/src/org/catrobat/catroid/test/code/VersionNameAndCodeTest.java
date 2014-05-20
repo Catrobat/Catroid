@@ -24,6 +24,8 @@ package org.catrobat.catroid.test.code;
 
 import junit.framework.TestCase;
 
+import org.catrobat.catroid.test.utils.Utils;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -35,7 +37,7 @@ import java.util.regex.Pattern;
 
 public class VersionNameAndCodeTest extends TestCase {
 
-	private static final String[] DIRECTORIES = { "../catroid", "../catroidTest", "../catroidCucumberTest" };
+	private static final String[] DIRECTORIES = Utils.VERSION_NAME_AND_CODE_TEST_DIRECTORIES;
 	private static final String VERSION_CODE_REGEX = ".*android:versionCode=\"(\\d+)\".*";
 	private static final String VERSION_NAME_REGEX = ".*android:versionName=\"(\\d+\\.\\d+\\.\\d+[a-z]*)\".*";
 

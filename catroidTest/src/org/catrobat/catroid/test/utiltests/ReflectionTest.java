@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -31,19 +31,6 @@ import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import java.util.Arrays;
 
 public class ReflectionTest extends AndroidTestCase {
-
-	private class SuperClass {
-		// CHECKSTYLE DISABLE MemberNameCheck FOR 2 LINES
-		private final float SECRET_FLOAT = 3.1415f;
-		protected byte SECRET_BYTE = 32;
-	}
-
-	private class SubClass extends SuperClass {
-		// CHECKSTYLE DISABLE MemberNameCheck FOR 3 LINES
-		private static final char SECRET_STATIC_CHAR = 'c';
-		private final int SECRET_INTEGER = 42;
-		private String SECRET_STRING = "This is a secret string!";
-	}
 
 	public void testPrivateFieldGettersAndSetters() {
 		char secretChar = (Character) Reflection.getPrivateField(SubClass.class, "SECRET_STATIC_CHAR");
@@ -89,6 +76,7 @@ public class ReflectionTest extends AndroidTestCase {
 			Reflection.getPrivateField(nullObject, "nullObjectsDontHaveFields");
 			fail("Getting private field of null object didn't cause an IllegalArgumentException");
 		} catch (IllegalArgumentException illegalArgumentException) {
+			assertTrue("Exception thrown as expected", true);
 		}
 
 		try {
@@ -102,6 +90,7 @@ public class ReflectionTest extends AndroidTestCase {
 			Reflection.setPrivateField(nullObject, "nullObjectsDontHaveFields", null);
 			fail("Setting private field of null object didn't cause an IllegalArgumentException");
 		} catch (IllegalArgumentException illegalArgumentException) {
+			assertTrue("Exception thrown as expected", true);
 		}
 
 		try {
@@ -159,50 +148,6 @@ public class ReflectionTest extends AndroidTestCase {
 		} catch (RuntimeException runtimeException) {
 			assertEquals("Wrong exception has been thrown", runtimeException.getCause().getClass(),
 					NullPointerException.class);
-		}
-	}
-
-	private static class InvokeMethodClass {
-		private static boolean calledVoidMethod = false;
-
-		@SuppressWarnings("unused")
-		private String methodWithoutParameters() {
-			return "Called methodWithoutParameters!";
-		};
-
-		@SuppressWarnings("unused")
-		private static String staticMethodWithoutParameters() {
-			return "Called staticMethodWithoutParameters!";
-		}
-
-		@SuppressWarnings("unused")
-		private String methodWithParameters(String param1, String param2) {
-			return param1 + param2;
-		};
-
-		@SuppressWarnings("unused")
-		private static String staticMethodWithParameters(String param1, String param2) {
-			return param1 + param2;
-		}
-
-		@SuppressWarnings("unused")
-		private void voidMethod() {
-			calledVoidMethod = true;
-		}
-
-		@SuppressWarnings("unused")
-		private static void staticVoidMethod() {
-			calledVoidMethod = true;
-		}
-
-		@SuppressWarnings("unused")
-		private float methodWithPrimitiveParameter(float parameter) {
-			return 1.0f;
-		}
-
-		@SuppressWarnings("unused")
-		private float methodWithWrappedPrimitiveParameter(Float parameter) {
-			return -1.0f;
 		}
 	}
 
@@ -271,13 +216,13 @@ public class ReflectionTest extends AndroidTestCase {
 	}
 
 	public void testConvertObjectsIntoPrimitives() {
-		ParameterList parameterList = new ParameterList(Boolean.valueOf(true), Byte.valueOf((byte) 1),
+		ParameterList parameterList = new ParameterList(Boolean.TRUE, Byte.valueOf((byte) 1),
 				Character.valueOf('c'), Double.valueOf(1.0), Float.valueOf(1.0f), Integer.valueOf(1), Long.valueOf(1L),
 				Short.valueOf((short) 1));
 
 		Class<?>[] primitiveObjectsClass = (Class<?>[]) Reflection.getPrivateField(parameterList, "types");
-		Class<?>[] expectedPrimitiveObjectsClasses = new Class<?>[] { boolean.class, byte.class, char.class,
-				double.class, float.class, int.class, long.class, short.class };
+		Class<?>[] expectedPrimitiveObjectsClasses = new Class<?>[]{boolean.class, byte.class, char.class,
+				double.class, float.class, int.class, long.class, short.class};
 		assertTrue("Not all object classes are converted into primitve classes",
 				Arrays.deepEquals(expectedPrimitiveObjectsClasses, primitiveObjectsClass));
 	}
@@ -288,12 +233,14 @@ public class ReflectionTest extends AndroidTestCase {
 			Reflection.invokeMethod(nullObject, "nullObjectsDontHaveMethods");
 			fail("Invoking method of a null object didn't cause an IllegalArgumentException");
 		} catch (IllegalArgumentException illegalArgumentException) {
+			assertTrue("Exception thrown as expected", true);
 		}
 
 		try {
 			Reflection.invokeMethod(nullObject, "nullObjectsDontHaveMethods", new ParameterList("text"));
 			fail("Invoking method of a null object didn't cause an IllegalArgumentException");
 		} catch (IllegalArgumentException illegalArgumentException) {
+			assertTrue("Exception thrown as expected", true);
 		}
 
 		try {
@@ -323,6 +270,68 @@ public class ReflectionTest extends AndroidTestCase {
 					parameter2));
 			fail("Found not existing method signature");
 		} catch (RuntimeException runtimeException) {
+			assertTrue("Exception thrown as expected", true);
 		}
+	}
+
+	private static class InvokeMethodClass {
+		private static boolean calledVoidMethod = false;
+
+		@SuppressWarnings("unused")
+		private static String staticMethodWithoutParameters() {
+			return "Called staticMethodWithoutParameters!";
+		}
+
+		;
+
+		@SuppressWarnings("unused")
+		private static String staticMethodWithParameters(String param1, String param2) {
+			return param1 + param2;
+		}
+
+		@SuppressWarnings("unused")
+		private static void staticVoidMethod() {
+			calledVoidMethod = true;
+		}
+
+		;
+
+		@SuppressWarnings("unused")
+		private String methodWithoutParameters() {
+			return "Called methodWithoutParameters!";
+		}
+
+		@SuppressWarnings("unused")
+		private String methodWithParameters(String param1, String param2) {
+			return param1 + param2;
+		}
+
+		@SuppressWarnings("unused")
+		private void voidMethod() {
+			calledVoidMethod = true;
+		}
+
+		@SuppressWarnings("unused")
+		private float methodWithPrimitiveParameter(float parameter) {
+			return 1.0f;
+		}
+
+		@SuppressWarnings("unused")
+		private float methodWithWrappedPrimitiveParameter(Float parameter) {
+			return -1.0f;
+		}
+	}
+
+	private class SuperClass {
+		// CHECKSTYLE DISABLE MemberNameCheck FOR 2 LINES
+		private final float SECRET_FLOAT = 3.1415f;
+		protected byte SECRET_BYTE = 32;
+	}
+
+	private class SubClass extends SuperClass {
+		// CHECKSTYLE DISABLE MemberNameCheck FOR 3 LINES
+		private static final char SECRET_STATIC_CHAR = 'c';
+		private final int SECRET_INTEGER = 42;
+		private String SECRET_STRING = "This is a secret string!";
 	}
 }

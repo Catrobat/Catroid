@@ -34,6 +34,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -56,6 +57,8 @@ public class NewProjectDialog extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_project";
 	public static final String SHARED_PREFERENCES_EMPTY_PROJECT = "shared_preferences_empty_project";
+
+	private static final String TAG = NewProjectDialog.class.getSimpleName();
 
 	private EditText newProjectEditText;
 	private Dialog newProjectDialog;
@@ -150,10 +153,12 @@ public class NewProjectDialog extends DialogFragment {
 
 		try {
 			ProjectManager.getInstance().initializeNewProject(projectName, getActivity(), shouldBeEmpty);
-
-		} catch (IOException e) {
+		} catch (IllegalArgumentException illegalArgumentException) {
+			Utils.showErrorDialog(getActivity(), R.string.error_project_exists);
+			return;
+		} catch (IOException ioException) {
 			Utils.showErrorDialog(getActivity(), R.string.error_new_project);
-			e.printStackTrace();
+			Log.e(TAG, Log.getStackTraceString(ioException));
 			dismiss();
 			return;
 		}

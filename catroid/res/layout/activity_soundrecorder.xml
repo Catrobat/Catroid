@@ -47,8 +47,8 @@
         android:layout_marginBottom="35dp"
         android:background="@color/button_background_top_border_color" />
 
-    <ImageButton
-        android:id="@+id/soundrecorder_record_button"
+    <org.catrobat.catroid.soundrecorder.RecordButton
+        android:id="@id/soundrecorder_record_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/soundrecorder_record_button"
+        android:layout_below="@id/soundrecorder_record_button"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
         android:layout_marginTop="35dp"

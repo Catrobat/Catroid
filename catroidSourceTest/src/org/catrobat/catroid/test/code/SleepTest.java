@@ -31,45 +31,60 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SleepTest extends TestCase {
-	private static final String[] DIRECTORIES = { "../catroidCucumberTest" };
+	private static final String[] DIRECTORIES = Utils.SLEEP_TEST_DIRECTORIES;
 	private static final String REGEX_PATTERN = "^.*Thread\\.sleep\\(\\w+\\).*$";
+	private static final String PATTERN_DID_NOT_MATCH_MESSAGE = "Pattern didn't match!";
+	private static final String PATTERN_MATCHED_BUT_SHOULD_NOT_MESSAGE = "Pattern matched! But shouldn't!";
 
-	private StringBuffer errorMessages;
+	private String errorMessages;
 	private boolean errorFound;
+	private Pattern regexPattern;
 
 	private void checkFileForThreadSleep(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
-
+		StringBuilder errorMessageBuilder = new StringBuilder(28);
+		Matcher regexMatcher = regexPattern.matcher("");
 		int lineCount = 1;
-		String line = null;
+		String line;
 
 		while ((line = reader.readLine()) != null) {
-			if (line.matches(REGEX_PATTERN)) {
+			if (regexMatcher.reset(line).matches()) {
 				errorFound = true;
-				errorMessages.append("File " + file.getName() + ":" + lineCount + " contains \"Thread.sleep()\"");
+				errorMessageBuilder
+						.append("File ")
+						.append(file.getPath())
+						.append(':')
+						.append(lineCount)
+						.append('\n');
 			}
 			++lineCount;
 		}
 		reader.close();
+		if (errorMessageBuilder.length() > 0) {
+			errorMessages += errorMessageBuilder.toString();
+		}
 	}
 
 	public void testThreadSleepNotPresentInAnyUiTests() throws IOException {
-		assertTrue("Pattern didn't match!", "Thread.sleep(1337)".matches(REGEX_PATTERN));
-		assertTrue("Pattern didn't match!", "Thread.sleep(virtualVariable)".matches(REGEX_PATTERN));
-		assertTrue("Pattern didn't match!", "Thread.sleep(VIRTUAL_08_VARIABLE)".matches(REGEX_PATTERN));
-		assertTrue("Pattern didn't match!", "Thread.sleep(virtual_VAR14BLE_)".matches(REGEX_PATTERN));
-		assertTrue("Pattern didn't match!", "Thread.sleep(_)".matches(REGEX_PATTERN));
-		assertTrue("Pattern didn't match!", "foo(); Thread.sleep(42); bar();".matches(REGEX_PATTERN));
-		assertFalse("Pattern matched! But shouldn't!", "Thread.sleep()".matches(REGEX_PATTERN));
-		assertFalse("Pattern matched! But shouldn't!", "Thread.sleep(.)".matches(REGEX_PATTERN));
-		assertFalse("Pattern matched! But shouldn't!", "Thread.sleep(\"foobar\")".matches(REGEX_PATTERN));
-		assertFalse("Pattern matched! But shouldn't!", "Thread.sleep(\"42\")".matches(REGEX_PATTERN));
-		assertFalse("Pattern matched! But shouldn't!", "Thread0sleep(MyVar)".matches(REGEX_PATTERN));
+		assertTrue(PATTERN_DID_NOT_MATCH_MESSAGE, "Thread.sleep(1337)".matches(REGEX_PATTERN));
+		assertTrue(PATTERN_DID_NOT_MATCH_MESSAGE, "Thread.sleep(virtualVariable)".matches(REGEX_PATTERN));
+		assertTrue(PATTERN_DID_NOT_MATCH_MESSAGE, "Thread.sleep(VIRTUAL_08_VARIABLE)".matches(REGEX_PATTERN));
+		assertTrue(PATTERN_DID_NOT_MATCH_MESSAGE, "Thread.sleep(virtual_VAR14BLE_)".matches(REGEX_PATTERN));
+		assertTrue(PATTERN_DID_NOT_MATCH_MESSAGE, "Thread.sleep(_)".matches(REGEX_PATTERN));
+		assertTrue(PATTERN_DID_NOT_MATCH_MESSAGE, "foo(); Thread.sleep(42); bar();".matches(REGEX_PATTERN));
+		assertFalse(PATTERN_MATCHED_BUT_SHOULD_NOT_MESSAGE, "Thread.sleep()".matches(REGEX_PATTERN));
+		assertFalse(PATTERN_MATCHED_BUT_SHOULD_NOT_MESSAGE, "Thread.sleep(.)".matches(REGEX_PATTERN));
+		assertFalse(PATTERN_MATCHED_BUT_SHOULD_NOT_MESSAGE, "Thread.sleep(\"foobar\")".matches(REGEX_PATTERN));
+		assertFalse(PATTERN_MATCHED_BUT_SHOULD_NOT_MESSAGE, "Thread.sleep(\"42\")".matches(REGEX_PATTERN));
+		assertFalse(PATTERN_MATCHED_BUT_SHOULD_NOT_MESSAGE, "Thread0sleep(MyVar)".matches(REGEX_PATTERN));
 
-		errorMessages = new StringBuffer();
+		errorMessages = "";
 		errorFound = false;
+		regexPattern = Pattern.compile(REGEX_PATTERN);
 
 		for (String directoryName : DIRECTORIES) {
 			File directory = new File(directoryName);
@@ -82,6 +97,6 @@ public class SleepTest extends TestCase {
 			}
 		}
 
-		assertFalse("Files with Block Characters found: \n" + errorMessages.toString(), errorFound);
+		assertFalse("Files with 'Thread.sleep()' found: \n" + errorMessages, errorFound);
 	}
 }

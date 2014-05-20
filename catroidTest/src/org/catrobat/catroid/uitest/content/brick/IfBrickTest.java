@@ -95,27 +95,42 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		int dragAndDropSteps = 100;
 		ArrayList<Integer> yPosition;
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
-		Log.e(TAG, "Before drag item 1 to item 4 + 20");
+		Log.d(TAG, "Before drag item 1 to item 4 + 20");
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, yPosition.get(4) + 20, dragAndDropSteps);
+
+		int oldYto = yPosition.get(4) + 20;
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, oldYto, dragAndDropSteps);
+
+		boolean result = solo.waitForLogMessage("longClickAndDrag finished: " + oldYto, 1000);
+		assertTrue("Timeout during longClickAndDrag on item 1! y-Coordinate: " + oldYto, result);
+
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(1) instanceof IfLogicBeginBrick));
 
-		Log.e(TAG, "Before drag item 2 to item 0");
+		Log.d(TAG, "Before drag item 2 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(2), 10, yPosition.get(0), dragAndDropSteps);
+		oldYto = yPosition.get(0);
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(2), 10, oldYto, dragAndDropSteps);
+
+		result = solo.waitForLogMessage("longClickAndDrag finished: " + oldYto, 1000);
+		assertTrue("Timeout during longClickAndDrag on item 2! y-Coordinate: " + oldYto, result);
+
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(0) instanceof IfLogicBeginBrick));
 
-		Log.e(TAG, "Before drag item 3 to item 0");
+		Log.d(TAG, "Before drag item 3 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(3), 10, yPosition.get(0), dragAndDropSteps);
+		oldYto = yPosition.get(0);
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(3), 10, oldYto, dragAndDropSteps);
+
+		result = solo.waitForLogMessage("longClickAndDrag finished: " + oldYto, 1000);
+		assertTrue("Timeout during longClickAndDrag on item 3! y-Coordinate: " + oldYto, result);
 
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 		assertTrue("Wrong Brick instance - expected IfElseBrick but was "
@@ -123,17 +138,22 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 				projectBrickList.get(1) instanceof IfLogicElseBrick);
 
 		assertTrue("Wrong Brick instance - expected ChangeYByNBrick but was "
-				+ projectBrickList.get(2).getClass().getSimpleName(),
-				projectBrickList.get(2) instanceof ChangeYByNBrick);
+						+ projectBrickList.get(2).getClass().getSimpleName(),
+				projectBrickList.get(2) instanceof ChangeYByNBrick
+		);
 
-		Log.e(TAG, "Before drag item 4 to item 0");
+		Log.d(TAG, "Before drag item 4 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4) - 10, 10, yPosition.get(0), dragAndDropSteps);
+		oldYto = yPosition.get(0);
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4) - 10, 10, oldYto, dragAndDropSteps);
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 
-		Log.e(TAG, "After drag item 4 to item 0");
+		result = solo.waitForLogMessage("longClickAndDrag finished: " + oldYto, 1000);
+		assertTrue("Timeout during longClickAndDrag on item 4! y-Coordinate: " + oldYto, result);
+
+		Log.d(TAG, "After drag item 4 to item 0");
 		logBrickListForJenkins(projectBrickList);
 
 		assertTrue("Wrong Brick instance, expected IfLogicEndBrick but was "
@@ -156,9 +176,15 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeYByNBrick);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, yPosition.get(2) + 20, dragAndDropSteps);
+		oldYto = yPosition.get(2) + 20;
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, oldYto, dragAndDropSteps);
+
+		result = solo.waitForLogMessage("longClickAndDrag finished: " + oldYto, 1000);
+		assertTrue("Timeout during longClickAndDrag! y-Coordinate: " + oldYto, result);
+
 		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());
 		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
+
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeYByNBrick);
 
@@ -173,10 +199,14 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		solo.drag(20, 20, addedYPosition, yPosition.get(5) + 20, dragAndDropSteps);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, yPosition.get(5) + 20, dragAndDropSteps);
+		oldYto = yPosition.get(5) + 20;
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, oldYto, dragAndDropSteps);
 		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
 
-		Log.e(TAG, "Final order of bricks");
+		result = solo.waitForLogMessage("longClickAndDrag finished: " + oldYto, 1000);
+		assertTrue("Timeout during longClickAndDrag! y-Coordinate: " + oldYto, result);
+
+		Log.d(TAG, "Final order of bricks");
 		logBrickListForJenkins(projectBrickList);
 
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeYByNBrick);
@@ -290,7 +320,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 	private void logBrickListForJenkins(ArrayList<Brick> projectBrickList) {
 		for (Brick brick : projectBrickList) {
-			Log.e(TAG, "Brick at Positon " + projectBrickList.indexOf(brick) + ": " + brick.getClass().getSimpleName());
+			Log.d(TAG, "Brick at Positon " + projectBrickList.indexOf(brick) + ": " + brick.getClass().getSimpleName());
 		}
 	}
 

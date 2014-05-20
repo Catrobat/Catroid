@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -42,17 +42,93 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	private static final BackgroundColorSpan COLOR_ERROR = new BackgroundColorSpan(0xFFF00000);
 	private static final BackgroundColorSpan COLOR_HIGHLIGHT = new BackgroundColorSpan(0xFFFFFF00);
-
+	private static FormulaEditorHistory history = null;
+	FormulaEditorFragment formulaEditorFragment = null;
 	private int absoluteCursorPosition = 0;
 	private InternFormula internFormula;
-
 	private Spannable highlightSpan = null;
-
-	private static FormulaEditorHistory history = null;
-
 	private Context context;
+	final GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+		@Override
+		public boolean onDoubleTap(MotionEvent event) {
 
-	FormulaEditorFragment formulaEditorFragment = null;
+			internFormula.setCursorAndSelection(absoluteCursorPosition, true);
+			history.updateCurrentSelection(internFormula.getSelection());
+			highlightSelection();
+
+			return true;
+		}
+
+		@Override
+		public boolean onSingleTapUp(MotionEvent motion) {
+			Layout layout = getLayout();
+			if (layout != null) {
+
+				float lineHeight = getLineHeight();
+				int yCoordinate = (int) motion.getY();
+				int cursorY = 0;
+
+				int paddingLeft = getPaddingLeft();
+
+				int cursorXOffset = (int) motion.getX() - paddingLeft;
+
+				int initialScrollY = getScrollY();
+				int firstLineSize = (int) (initialScrollY % lineHeight);
+				int numberOfVisibleLines = (int) (getHeight() / lineHeight);
+
+				if (yCoordinate <= lineHeight - firstLineSize) {
+
+					scrollBy(0, (int) (initialScrollY > lineHeight ? -1 * (firstLineSize + lineHeight / 2) : -1
+							* firstLineSize));
+					cursorY = 0;
+				} else if (yCoordinate >= numberOfVisibleLines * lineHeight - lineHeight / 2) {
+					if (!(yCoordinate > layout.getLineCount() * lineHeight - getScrollY() - getPaddingTop())) {
+						Log.e("info", "Scroll down activated");
+						scrollBy(0, (int) (lineHeight - firstLineSize + lineHeight / 2));
+					}
+					cursorY = numberOfVisibleLines;
+				} else {
+					for (int i = 1; i <= numberOfVisibleLines; i++) {
+						if (yCoordinate <= ((lineHeight - firstLineSize) + getPaddingTop() + i * lineHeight)) {
+							cursorY = i;
+							break;
+						}
+					}
+				}
+
+				int linesDown = (int) (initialScrollY / lineHeight);
+
+				while (cursorY + linesDown >= layout.getLineCount()) {
+					linesDown--;
+				}
+
+				int tempCursorPosition = layout.getOffsetForHorizontal(cursorY + linesDown, cursorXOffset);
+
+				if (tempCursorPosition > length()) {
+					tempCursorPosition = length();
+				}
+
+				if (isDoNotMoveCursorOnTab() == false) {
+					absoluteCursorPosition = tempCursorPosition;
+				}
+				absoluteCursorPosition = absoluteCursorPosition > length() ? length() : absoluteCursorPosition;
+				setSelection(absoluteCursorPosition);
+				postInvalidate();
+
+				internFormula.setCursorAndSelection(absoluteCursorPosition, false);
+
+				highlightSelection();
+				history.updateCurrentSelection(internFormula.getSelection());
+				history.updateCurrentCursor(absoluteCursorPosition);
+
+				formulaEditorFragment.refreshFormulaPreviewString();
+				formulaEditorFragment.updateButtonViewOnKeyboard();
+			}
+			return true;
+
+		}
+
+	});
 	private boolean doNotMoveCursorOnTab = false;
 
 	public FormulaEditorEditText(Context context) {
@@ -218,12 +294,6 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		return true;
 	}
 
-	@Override
-	public void setSelection(int index) {
-		//This is only used to get the scrollbar to the right position easily
-		super.setSelection(index);
-	}
-
 	private String updateTextAndCursorFromInternFormula() {
 		String newExternFormulaString = internFormula.getExternFormulaString();
 		setText(newExternFormulaString);
@@ -241,88 +311,6 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	public boolean onTouch(View view, MotionEvent motion) {
 		return gestureDetector.onTouchEvent(motion);
 	}
-
-	final GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-		@Override
-		public boolean onDoubleTap(MotionEvent event) {
-
-			internFormula.setCursorAndSelection(absoluteCursorPosition, true);
-			history.updateCurrentSelection(internFormula.getSelection());
-			highlightSelection();
-
-			return true;
-		}
-
-		@Override
-		public boolean onSingleTapUp(MotionEvent motion) {
-			Layout layout = getLayout();
-			if (layout != null) {
-
-				float lineHeight = getLineHeight();
-				int yCoordinate = (int) motion.getY();
-				int cursorY = 0;
-
-				int paddingLeft = getPaddingLeft();
-
-				int cursorXOffset = (int) motion.getX() - paddingLeft;
-
-				int initialScrollY = getScrollY();
-				int firstLineSize = (int) (initialScrollY % lineHeight);
-				int numberOfVisibleLines = (int) (getHeight() / lineHeight);
-
-				if (yCoordinate <= lineHeight - firstLineSize) {
-
-					scrollBy(0, (int) (initialScrollY > lineHeight ? -1 * (firstLineSize + lineHeight / 2) : -1
-							* firstLineSize));
-					cursorY = 0;
-				} else if (yCoordinate >= numberOfVisibleLines * lineHeight - lineHeight / 2) {
-					if (!(yCoordinate > layout.getLineCount() * lineHeight - getScrollY() - getPaddingTop())) {
-						Log.e("info", "Scroll down activated");
-						scrollBy(0, (int) (lineHeight - firstLineSize + lineHeight / 2));
-					}
-					cursorY = numberOfVisibleLines;
-				} else {
-					for (int i = 1; i <= numberOfVisibleLines; i++) {
-						if (yCoordinate <= ((lineHeight - firstLineSize) + getPaddingTop() + i * lineHeight)) {
-							cursorY = i;
-							break;
-						}
-					}
-				}
-
-				int linesDown = (int) (initialScrollY / lineHeight);
-
-				while (cursorY + linesDown >= layout.getLineCount()) {
-					linesDown--;
-				}
-
-				int tempCursorPosition = layout.getOffsetForHorizontal(cursorY + linesDown, cursorXOffset);
-
-				if (tempCursorPosition > length()) {
-					tempCursorPosition = length();
-				}
-
-				if (isDoNotMoveCursorOnTab() == false) {
-					absoluteCursorPosition = tempCursorPosition;
-				}
-				absoluteCursorPosition = absoluteCursorPosition > length() ? length() : absoluteCursorPosition;
-				setSelection(absoluteCursorPosition);
-				postInvalidate();
-
-				internFormula.setCursorAndSelection(absoluteCursorPosition, false);
-
-				highlightSelection();
-				history.updateCurrentSelection(internFormula.getSelection());
-				history.updateCurrentCursor(absoluteCursorPosition);
-
-				formulaEditorFragment.refreshFormulaPreviewString();
-				formulaEditorFragment.updateButtonViewOnKeyboard();
-			}
-			return true;
-
-		}
-
-	});
 
 	@Override
 	public boolean onCheckIsTextEditor() {

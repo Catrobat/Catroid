@@ -81,6 +81,7 @@ public class SoundManagerTest extends InstrumentationTestCase {
 			fail("The media player hasn't been released");
 		} catch (IllegalStateException expectedIllegalStateException) {
 			// The media player has been released and therefore isPlaying throws an IllegalStateException.
+			assertTrue("Expected Exception", true);
 		}
 	}
 

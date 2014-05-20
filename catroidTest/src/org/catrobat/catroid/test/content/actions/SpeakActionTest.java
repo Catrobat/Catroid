@@ -59,7 +59,7 @@ public class SpeakActionTest extends AndroidTestCase {
 			action.act(1.0f);
 			fail("Execution of ShowBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
-			// expected behavior
+			assertTrue("Exception thrown  as expected", true);
 		}
 		assertEquals("Stored wrong text in speak brick", text, speakBrick.getText());
 	}

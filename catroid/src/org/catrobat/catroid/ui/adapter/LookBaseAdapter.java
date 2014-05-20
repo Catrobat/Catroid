@@ -23,7 +23,6 @@
 package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -45,7 +44,7 @@ public class LookBaseAdapter extends ArrayAdapter<LookData> implements ScriptAct
 	private boolean showDetails;
 	private SortedSet<Integer> checkedLooks = new TreeSet<Integer>();
 
-	public LookBaseAdapter(final Context context, AttributeSet attributeSet, int currentPlayingposition) {
+	public LookBaseAdapter(final Context context, int currentPlayingposition) {
 		super(context, currentPlayingposition);
 	}
 

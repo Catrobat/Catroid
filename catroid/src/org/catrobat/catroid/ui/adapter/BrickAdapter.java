@@ -38,6 +38,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -175,7 +176,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		if (draggedBrick instanceof NestingBrick) {
 			NestingBrick nestingBrick = (NestingBrick) draggedBrick;
 			if (nestingBrick.isInitialized()) {
-				to = getDraggedNestingBricksToPosition(nestingBrick, from, to);
+				to = getDraggedNestingBricksToPosition(nestingBrick, to);
 			}
 		} else if (draggedBrick instanceof ScriptBrick) {
 			int currentPosition = to;
@@ -239,7 +240,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		return to;
 	}
 
-	private int getDraggedNestingBricksToPosition(NestingBrick nestingBrick, int from, int to) {
+	private int getDraggedNestingBricksToPosition(NestingBrick nestingBrick, int to) {
 		List<NestingBrick> nestingBrickList = nestingBrick.getAllNestingBrickParts(true);
 		int restrictedTop = 0;
 		int restrictedBottom = brickList.size();
@@ -731,6 +732,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			((ViewGroup) currentBrickView.getParent()).removeView(currentBrickView);
 		}
 
+		LinearLayout brickElement = (LinearLayout) currentBrickView;
+		final CheckBox checkbox = ((Brick) getItem(position)).getCheckBox();
+
 		wrapper.addView(currentBrickView);
 		if (draggedBrick == null) {
 			if ((selectMode == ListView.CHOICE_MODE_NONE)) {
@@ -738,6 +742,13 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				if (!(item instanceof DeadEndBrick)) {
 					wrapper.setOnLongClickListener(dragAndDropListView);
 				}
+			} else {
+				brickElement.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						checkbox.setChecked(!checkbox.isChecked());
+					}
+				});
 			}
 		}
 
@@ -869,13 +880,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 						}
 					}
 					notifyDataSetChanged();
-				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_formula_edit_brick))) {
-
-					if (brickList.get(itemPosition) instanceof FormulaBrick) {
+				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_formula_edit_brick))
+						&& brickList.get(itemPosition) instanceof FormulaBrick) {
 						FormulaEditorFragment.showFragment(view, brickList.get(itemPosition),
-								((FormulaBrick) brickList.get(itemPosition)).getFormula());
+						   ((FormulaBrick) brickList.get(itemPosition)).getFormula());
 					}
-				}
+
 			}
 		});
 		AlertDialog alertDialog = builder.create();

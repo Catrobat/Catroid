@@ -2,30 +2,33 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.content;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.BroadcastSequenceMap;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
@@ -40,13 +43,27 @@ import java.util.List;
 
 public class Sprite implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
+	private static final String TAG = Sprite.class.getSimpleName();
+
+	public transient Look look;
+	public transient boolean isPaused;
+
 	private String name;
 	private List<Script> scriptList;
 	private ArrayList<LookData> lookList;
 	private ArrayList<SoundInfo> soundList;
-	public transient Look look;
 
-	public transient boolean isPaused;
+	public Sprite(String name) {
+		this.name = name;
+		scriptList = new ArrayList<Script>();
+		lookList = new ArrayList<LookData>();
+		soundList = new ArrayList<SoundInfo>();
+		init();
+	}
+
+	public Sprite() {
+
+	}
 
 	private Object readResolve() {
 		//filling FileChecksumContainer:
@@ -87,18 +104,6 @@ public class Sprite implements Serializable, Cloneable {
 		}
 	}
 
-	public Sprite(String name) {
-		this.name = name;
-		scriptList = new ArrayList<Script>();
-		lookList = new ArrayList<LookData>();
-		soundList = new ArrayList<SoundInfo>();
-		init();
-	}
-
-	public Sprite() {
-
-	}
-
 	public void createStartScriptActionSequence() {
 		for (Script s : scriptList) {
 			if (s instanceof StartScript) {
@@ -107,9 +112,19 @@ public class Sprite implements Serializable, Cloneable {
 			if (s instanceof BroadcastScript) {
 				BroadcastScript script = (BroadcastScript) s;
 				SequenceAction action = createBroadcastScriptActionSequence(script);
-				look.putBroadcastSequenceAction(script.getBroadcastMessage(), action);
+				putBroadcastSequenceAction(script.getBroadcastMessage(), action);
 
 			}
+		}
+	}
+
+	private void putBroadcastSequenceAction(String broadcastMessage, SequenceAction action) {
+		if (BroadcastSequenceMap.containsKey(broadcastMessage)) {
+			BroadcastSequenceMap.get(broadcastMessage).add(action);
+		} else {
+			ArrayList<SequenceAction> actionList = new ArrayList<SequenceAction>();
+			actionList.add(action);
+			BroadcastSequenceMap.put(broadcastMessage, actionList);
 		}
 	}
 
@@ -154,8 +169,8 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.look = this.look.copyLookForSprite(cloneSprite);
 		try {
 			cloneSprite.look.setLookData(cloneSprite.getLookDataList().get(0));
-		} catch (IndexOutOfBoundsException e) {
-			e.printStackTrace();
+		} catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+			Log.e(TAG, Log.getStackTraceString(indexOutOfBoundsException));
 		}
 
 		return cloneSprite;
@@ -165,11 +180,10 @@ public class Sprite implements Serializable, Cloneable {
 	public void createWhenScriptActionSequence(String action) {
 		ParallelAction whenParallelAction = ExtendedActions.parallel();
 		for (Script s : scriptList) {
-			if (s instanceof WhenScript) {
-				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
-					SequenceAction sequence = createActionSequence(s);
-					whenParallelAction.addAction(sequence);
-				}
+			if (s instanceof WhenScript && (((WhenScript) s).getAction().equalsIgnoreCase(action))) {
+				SequenceAction sequence = createActionSequence(s);
+				whenParallelAction.addAction(sequence);
+
 			}
 		}
 		look.setWhenParallelAction(whenParallelAction);

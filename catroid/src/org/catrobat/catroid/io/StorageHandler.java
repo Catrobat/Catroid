@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -67,6 +67,16 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.DroneFlipBrick;
+import org.catrobat.catroid.content.bricks.DroneLandBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
+import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
+import org.catrobat.catroid.content.bricks.DroneTakeOffBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
@@ -160,6 +170,26 @@ public final class StorageHandler {
 		createCatroidRoot();
 	}
 
+	public static StorageHandler getInstance() {
+		return INSTANCE;
+	}
+
+	public static void saveBitmapToImageFile(File outputFile, Bitmap bitmap) throws FileNotFoundException {
+		FileOutputStream outputStream = new FileOutputStream(outputFile);
+		try {
+			if (outputFile.getName().toLowerCase(Locale.US).endsWith(".jpg")
+					|| outputFile.getName().toLowerCase(Locale.US).endsWith(".jpeg")) {
+				bitmap.compress(CompressFormat.JPEG, JPG_COMPRESSION_SETTING, outputStream);
+			} else {
+				bitmap.compress(CompressFormat.PNG, 0, outputStream);
+			}
+			outputStream.flush();
+			outputStream.close();
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
+		}
+	}
+
 	private void setXstreamAliases() {
 		xstream.alias("look", LookData.class);
 		xstream.alias("sound", SoundInfo.class);
@@ -224,6 +254,17 @@ public final class StorageHandler {
 		xstream.alias("waitBrick", WaitBrick.class);
 		xstream.alias("whenBrick", WhenBrick.class);
 		xstream.alias("whenStartedBrick", WhenStartedBrick.class);
+
+		xstream.alias("dronePlayLedAnimationBrick", DronePlayLedAnimationBrick.class);
+		xstream.alias("droneFlipBrick", DroneFlipBrick.class);
+		xstream.alias("droneTakeOffBrick", DroneTakeOffBrick.class);
+		xstream.alias("droneLandBrick", DroneLandBrick.class);
+		xstream.alias("droneMoveForwardBrick", DroneMoveForwardBrick.class);
+		xstream.alias("droneMoveBackwardBrick", DroneMoveBackwardBrick.class);
+		xstream.alias("droneMoveUpBrick", DroneMoveUpBrick.class);
+		xstream.alias("droneMoveDownBrick", DroneMoveDownBrick.class);
+		xstream.alias("droneMoveLeftBrick", DroneMoveLeftBrick.class);
+		xstream.alias("droneMoveRightBrick", DroneMoveRightBrick.class);
 	}
 
 	private void createCatroidRoot() {
@@ -231,10 +272,6 @@ public final class StorageHandler {
 		if (!catroidRoot.exists()) {
 			catroidRoot.mkdirs();
 		}
-	}
-
-	public static StorageHandler getInstance() {
-		return INSTANCE;
 	}
 
 	public File getBackPackSoundDirectory() {
@@ -514,22 +551,6 @@ public final class StorageHandler {
 		return compressedFile;
 	}
 
-	public static void saveBitmapToImageFile(File outputFile, Bitmap bitmap) throws FileNotFoundException {
-		FileOutputStream outputStream = new FileOutputStream(outputFile);
-		try {
-			if (outputFile.getName().toLowerCase(Locale.US).endsWith(".jpg")
-					|| outputFile.getName().toLowerCase(Locale.US).endsWith(".jpeg")) {
-				bitmap.compress(CompressFormat.JPEG, JPG_COMPRESSION_SETTING, outputStream);
-			} else {
-				bitmap.compress(CompressFormat.PNG, 0, outputStream);
-			}
-			outputStream.flush();
-			outputStream.close();
-		} catch (IOException e) {
-
-		}
-	}
-
 	public void deleteFile(String filepath) {
 		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 		try {
@@ -537,8 +558,8 @@ public final class StorageHandler {
 				File toDelete = new File(filepath);
 				toDelete.delete();
 			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+		} catch (FileNotFoundException fileNotFoundException) {
+			Log.e(TAG, Log.getStackTraceString(fileNotFoundException));
 			//deleteFile(filepath);
 		}
 	}

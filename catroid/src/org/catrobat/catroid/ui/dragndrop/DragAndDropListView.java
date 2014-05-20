@@ -201,7 +201,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 					scrollListWithDraggedItem(y);
 
-					dragTouchedListItem(x, (int) event.getRawY());
+					dragTouchedListItem((int) event.getRawY());
 					dragItemInList(y, itemPosition);
 
 					dimBackground = true;
@@ -308,7 +308,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		return imageView;
 	}
 
-	private void dragTouchedListItem(int x, int y) {
+	private void dragTouchedListItem(int y) {
 		WindowManager.LayoutParams dragViewParameters = (WindowManager.LayoutParams) dragView.getLayoutParams();
 		dragViewParameters.y = y - dragView.getHeight() / 2;
 
