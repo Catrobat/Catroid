@@ -320,7 +320,8 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("MyProjectsActivity not shown", solo.waitForActivity(MyProjectsActivity.class.getSimpleName()));
 		solo.clickOnText(testProject3);
 		assertTrue("ProjectActivity not shown", solo.waitForActivity(ProjectActivity.class.getSimpleName()));
-		solo.sleep(200);
+		solo.goBack();
+		assertTrue("MyProjectsActivity not shown", solo.waitForActivity(MyProjectsActivity.class.getSimpleName()));
 		solo.goBack();
 		assertTrue("MainMenuActivity not shown", solo.waitForActivity(MainMenuActivity.class.getSimpleName()));
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
@@ -477,18 +478,25 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		UiTestUtils.clickOnExactText(solo, testProject);
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
-		solo.goBackToActivity("MainMenuActivity");
-		solo.sleep(400);
-		assertTrue("The name of the current testProject is not displayed on the continue button", solo.searchText(testProject));
+		solo.goBack();
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.goBack();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		assertTrue("The name of the current testProject is not displayed on the continue button", solo.getButton(0)
+				.getText().toString().endsWith(testProject));
 
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		UiTestUtils.clickOnExactText(solo, testProject2);
+
+		solo.clickOnText(testProject2, 1, true);
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
 		solo.goBack();
-		solo.sleep(400);
-		assertTrue("The name of the current testProject2 is not displayed on the continue button", solo.searchText(testProject2));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.goBack();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		assertTrue("The name of the current testProject2 is not displayed on the continue button", solo.getButton(0)
+				.getText().toString().endsWith(testProject2));
 
 	}
 
@@ -502,7 +510,11 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
 		solo.goBack();
-		solo.sleep(400);
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.goBack();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		assertTrue("The name of the current projectNameJustSpecialChars is not displayed on the continue button", solo
+				.getButton(0).getText().toString().endsWith(projectNameJustSpecialChars));
 
 		assertTrue("The name of the current projectNameJustSpecialChars is not displayed on the continue button", solo.searchText(projectNameJustSpecialChars));
 
@@ -512,9 +524,12 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
 		solo.goBack();
-		solo.sleep(400);
-
-		assertTrue("The name of the current projectNameWithNormalAndSpecialChars2 is not displayed on the continue button", solo.searchText(projectNameWithNormalAndSpecialChars2));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.goBack();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		assertTrue(
+				"The name of the current projectNameWithNormalAndSpecialChars2 is not displayed on the continue button",
+				solo.getButton(0).getText().toString().endsWith(projectNameWithNormalAndSpecialChars2));
 	}
 
 	public void testProjectNameWithDotsVisible() {
@@ -527,6 +542,11 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
 		solo.goBack();
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.goBack();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		assertTrue("The name of the current projectNameJustOneDot is not displayed on the continue button", solo
+				.getButton(0).getText().toString().endsWith(projectNameJustOneDot));
 
 		solo.sleep(400);
 		assertTrue("The name of the current projectNameJustOneDot is not displayed on the continue button", solo.searchText(projectNameJustOneDot));
@@ -537,8 +557,10 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 
 		solo.goBack();
-
-		solo.sleep(400);
-		assertTrue("The name of the current projectNameJustTwoDots is not displayed on the continue button", solo.searchText(projectNameJustTwoDots));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.goBack();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		assertTrue("The name of the current projectNameJustTwoDots is not displayed on the continue button", solo
+				.getButton(0).getText().toString().endsWith(projectNameJustTwoDots));
 	}
 }

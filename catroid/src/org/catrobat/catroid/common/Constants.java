@@ -91,6 +91,7 @@ public final class Constants {
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
 	public static final String PROJECTNAME_TO_LOAD = "projectNameToLoad";
+	public static final String PROJECT_OPENED_FROM_PROJECTS_LIST = "projectList";
 
 	//Services + Notifications
 	public static final int UPDATE_UPLOAD_PROGRESS = 100;

@@ -279,7 +279,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 			fail("Standard Project not created");
 		}
 		UiTestUtils.createTestProject();
-		solo.sleep(200);
+		solo.sleep(600);
 
 		String myProjectsText = solo.getString(R.string.main_menu_programs);
 		assertTrue("Main-Menu not shown in 5 secs!", solo.waitForText(myProjectsText, 0, 5000));
@@ -295,9 +295,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.goBack();
 
 		corruptProjectXML(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		solo.sleep(200);
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName(), 1000);
-		solo.clickOnButton(myProjectsText);
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 		solo.clickOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
@@ -305,6 +302,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("No error message was shown", solo.searchText(solo.getString(R.string.error_load_project)));
 
 		solo.clickOnButton(0);
+		solo.goBack();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		assertTrue("Default Project should not be overwritten", spriteList.size() == 6);
@@ -334,10 +333,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 		UiTestUtils.addNewSprite(solo, "testSprite", lookFile);
 		solo.goBack();
-
-		solo.sleep(200);
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName(), 1000);
-		solo.clickOnButton(myProjectsText);
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 
 		solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		assertTrue("longclick on project '" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME + "' in list not successful",
@@ -362,7 +358,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-
 		solo.clickOnButton(myProjectsText);
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -1438,7 +1433,10 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.assertCurrentActivity("not in projectactivity", ProjectActivity.class);
 		assertEquals("current project not updated", UiTestUtils.PROJECTNAME2, ProjectManager.getInstance()
 				.getCurrentProject().getName());
+
 		UiTestUtils.waitForText(solo, UiTestUtils.PROJECTNAME2);
+		solo.goBack();
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.assertCurrentActivity("not in MainMenuActivity after goBack from ProjectActivity", MainMenuActivity.class);
@@ -1574,8 +1572,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		UiTestUtils.addNewSprite(solo, "testSprite", lookFile);
 
 		solo.goBack();
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 		solo.sleep(300);
@@ -1865,8 +1861,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForText(solo.getString(R.string.sprites));
 		solo.goBack();
 
-		solo.waitForText(solo.getString(R.string.main_menu_programs));
-		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 
 		assertTrue("Projectnames not cropped", solo.searchText(".+\\W+", true));

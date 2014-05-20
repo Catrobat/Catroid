@@ -121,7 +121,7 @@ public class MyProjectsActivity extends BaseActivity {
 		if (!viewSwitchLock.tryLock()) {
 			return;
 		}
-		NewProjectDialog dialog = new NewProjectDialog();
+		NewProjectDialog dialog = new NewProjectDialog(projectsListFragment);
 		dialog.show(getSupportFragmentManager(), NewProjectDialog.DIALOG_FRAGMENT_TAG);
 	}
 

@@ -1798,6 +1798,7 @@ public final class UiTestUtils {
 		assertEquals("Not in expected fragment", true, solo.waitForText(solo.getString(R.string.looks), 0, 500));
 		assertEquals("Not in expected fragment", true, solo.waitForText(solo.getString(R.string.sounds), 0, 500));
 		solo.goBack();
+		solo.waitForActivity(ProjectActivity.class);
 		hidePocketPaintDialog(solo);
 		solo.waitForFragmentById(R.id.fragment_sprites_list);
 		assertEquals("Not in expected fragment", true,

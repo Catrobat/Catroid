@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -35,6 +36,16 @@ import org.catrobat.catroid.ui.controller.BackPackListManager;
 
 public class BaseActivity extends SherlockFragmentActivity {
 
+	private boolean returnToProjectsList;
+	private String titleActionBar;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		titleActionBar = null;
+		returnToProjectsList = false;
+	}
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
@@ -44,13 +55,32 @@ public class BaseActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+
+		if (getTitleActionBar() != null) {
+			getSupportActionBar().setTitle(getTitleActionBar());
+		}
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
-				Intent intent = new Intent(this, MainMenuActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				BackPackListManager.setBackPackFlag(true);
-				startActivity(intent);
+
+				if (returnToProjectsList) {
+					Intent intent = new Intent(this, MyProjectsActivity.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					BackPackListManager.setBackPackFlag(true);
+					startActivity(intent);
+				}
+				else
+				{
+					Intent intent = new Intent(this, MainMenuActivity.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					BackPackListManager.setBackPackFlag(true);
+					startActivity(intent);
+				}
 				break;
 
 			case R.id.settings:
@@ -77,4 +107,19 @@ public class BaseActivity extends SherlockFragmentActivity {
 		}
 	}
 
+	public boolean isReturnToProjectsList() {
+		return returnToProjectsList;
+	}
+
+	public void setReturnToProjectsList(boolean returnToProjectsList) {
+		this.returnToProjectsList = returnToProjectsList;
+	}
+
+	public String getTitleActionBar() {
+		return titleActionBar;
+	}
+
+	public void setTitleActionBar(String titleActionBar) {
+		this.titleActionBar = titleActionBar;
+	}
 }

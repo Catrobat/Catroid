@@ -49,6 +49,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.fragment.ProjectsListFragment;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
@@ -64,6 +65,20 @@ public class NewProjectDialog extends DialogFragment {
 	private Dialog newProjectDialog;
 	private CheckBox emptyProjectCheckBox;
 	private SharedPreferences sharedPreferences;
+
+	ProjectsListFragment projectsListFragment;
+
+	public NewProjectDialog()
+	{
+		super();
+		projectsListFragment = null;
+	}
+
+	public NewProjectDialog(ProjectsListFragment fragment)
+	{
+		super();
+		projectsListFragment = fragment;
+	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -167,6 +182,15 @@ public class NewProjectDialog extends DialogFragment {
 
 		Utils.saveToPreferences(getActivity(), Constants.PREF_PROJECTNAME_KEY, projectName);
 		Intent intent = new Intent(getActivity(), ProjectActivity.class);
+
+		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
+
+		if (projectsListFragment != null)
+		{
+			projectsListFragment.initAdapter();
+			intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
+		}
+
 		getActivity().startActivity(intent);
 
 		dismiss();
