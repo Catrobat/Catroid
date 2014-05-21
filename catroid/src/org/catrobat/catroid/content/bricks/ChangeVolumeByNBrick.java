@@ -34,7 +34,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -46,41 +45,35 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 
 	private static final long serialVersionUID = 1L;
 
-	private Formula volume;
-
 	private transient View prototypeView;
 
 	public ChangeVolumeByNBrick() {
-
+		addAllowedBrickField(BrickField.VOLUME_CHANGE);
 	}
 
 	public ChangeVolumeByNBrick(Sprite sprite, double changeVolumeValue) {
 		this.sprite = sprite;
-
-		volume = new Formula(changeVolumeValue);
+		initializeBrickFields(new Formula(changeVolumeValue));
 	}
 
 	public ChangeVolumeByNBrick(Sprite sprite, Formula volume) {
 		this.sprite = sprite;
+		initializeBrickFields(volume);
+	}
 
-		this.volume = volume;
+	private void initializeBrickFields(Formula volume) {
+		addAllowedBrickField(BrickField.VOLUME_CHANGE);
+		setFormulaWithBrickField(BrickField.VOLUME_CHANGE, volume);
 	}
 
 	@Override
 	public Formula getFormula() {
-		return volume;
+		return getFormulaWithBrickField(BrickField.VOLUME_CHANGE);
 	}
 
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		ChangeVolumeByNBrick copyBrick = (ChangeVolumeByNBrick) clone();
-		copyBrick.sprite = sprite;
-		return copyBrick;
 	}
 
 	@Override
@@ -104,8 +97,8 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 		});
 		TextView text = (TextView) view.findViewById(R.id.brick_change_volume_by_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_change_volume_by_edit_text);
-		volume.setTextFieldId(R.id.brick_change_volume_by_edit_text);
-		volume.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.VOLUME_CHANGE).setTextFieldId(R.id.brick_change_volume_by_edit_text);
+		getFormulaWithBrickField(BrickField.VOLUME_CHANGE).refreshTextField(view);
 
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
@@ -119,13 +112,9 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 		prototypeView = View.inflate(context, R.layout.brick_change_volume_by, null);
 		TextView textSetVolumenTo = (TextView) prototypeView
 				.findViewById(R.id.brick_change_volume_by_prototype_text_view);
-		textSetVolumenTo.setText(String.valueOf(volume.interpretDouble(sprite)));
+		textSetVolumenTo.setText(String.valueOf(getFormulaWithBrickField(BrickField.VOLUME_CHANGE)
+				.interpretDouble(sprite)));
 		return prototypeView;
-	}
-
-	@Override
-	public Brick clone() {
-		return new ChangeVolumeByNBrick(getSprite(), volume.clone());
 	}
 
 	@Override
@@ -154,12 +143,12 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		FormulaEditorFragment.showFragment(view, this, volume);
+		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.VOLUME_CHANGE));
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.changeVolumeByN(sprite, volume));
+		sequence.addAction(ExtendedActions.changeVolumeByN(sprite, getFormulaWithBrickField(BrickField.VOLUME_CHANGE)));
 		return null;
 	}
 }

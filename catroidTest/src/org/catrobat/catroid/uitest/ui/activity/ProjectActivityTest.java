@@ -54,7 +54,6 @@ import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
-import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -209,11 +208,13 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		SetVariableBrick setVariableBrick1 = new SetVariableBrick(secondSprite, new Formula(setVariable1ToValue),
 				ProjectManager.getInstance().getCurrentProject().getUserVariables()
-						.getUserVariable(firstUserVariableName, secondSprite));
+						.getUserVariable(firstUserVariableName, secondSprite)
+		);
 
 		SetVariableBrick setVariableBrick2 = new SetVariableBrick(secondSprite, new Formula(setVariable2ToValue),
 				ProjectManager.getInstance().getCurrentProject().getUserVariables()
-						.getUserVariable(secondUserVariableName, secondSprite));
+						.getUserVariable(secondUserVariableName, secondSprite)
+		);
 
 		ChangeVariableBrick changeVariableBrick1 = new ChangeVariableBrick(secondSprite, new Formula(
 				setVariable1ToValue), ProjectManager.getInstance().getCurrentProject().getUserVariables()
@@ -266,8 +267,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	public void testCopySpriteWithNameTaken() {
 		String directoryPath = Utils.buildProjectPath(solo.getString(R.string.default_project_name));
 		File directory = new File(directoryPath);
-		if (directory.exists() && directory.isDirectory())
-		{
+		if (directory.exists() && directory.isDirectory()) {
 			UtilFile.deleteDirectory(directory);
 		}
 		try {
@@ -1316,10 +1316,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		copiedLoopBrick = (LoopBeginBrick) brickListCopiedSprite.get(34);
 		copiedEndBrick = (LoopEndBrick) brickListCopiedSprite.get(35);
 
-		Formula firstCondition = (Formula) Reflection.getPrivateField(RepeatBrick.class, firstLoopBrick,
-				"timesToRepeat");
-		Formula copiedCondition = (Formula) Reflection.getPrivateField(RepeatBrick.class, copiedLoopBrick,
-				"timesToRepeat");
+		Formula firstCondition = firstLoopBrick.getFormulaWithBrickField(Brick.BrickField.TIMES_TO_REPEAT);
+		Formula copiedCondition = copiedLoopBrick.getFormulaWithBrickField(Brick.BrickField.TIMES_TO_REPEAT);
 
 		assertNotSame("Loop Brick is not copied right!", firstLoopBrick, copiedLoopBrick);
 		assertNotSame("Loop Brick is not copied right!", firstEndBrick, copiedEndBrick);
@@ -1340,10 +1338,8 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		IfLogicElseBrick copiedIfElseBrick = (IfLogicElseBrick) brickListCopiedSprite.get(39);
 		IfLogicEndBrick copiedIfEndBrick = (IfLogicEndBrick) brickListCopiedSprite.get(41);
 
-		firstCondition = (Formula) Reflection
-				.getPrivateField(IfLogicBeginBrick.class, firstIfBeginBrick, "ifCondition");
-		copiedCondition = (Formula) Reflection.getPrivateField(IfLogicBeginBrick.class, copiedIfBeginBrick,
-				"ifCondition");
+		firstCondition = firstIfBeginBrick.getFormulaWithBrickField(Brick.BrickField.IF_CONDITION);
+		copiedCondition = copiedIfBeginBrick.getFormulaWithBrickField(Brick.BrickField.IF_CONDITION);
 
 		assertNotSame("If Brick is not copied right!", firstIfBeginBrick, copiedIfBeginBrick);
 		assertNotSame("If Brick is not copied right!", firstIfElseBrick, copiedIfElseBrick);

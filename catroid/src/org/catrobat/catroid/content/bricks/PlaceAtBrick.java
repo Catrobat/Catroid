@@ -34,7 +34,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -44,52 +43,47 @@ import java.util.List;
 
 public class PlaceAtBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
-	private Formula xPosition;
-	private Formula yPosition;
 
 	private transient View prototypeView;
 
 	public PlaceAtBrick() {
-
+		addAllowedBrickField(BrickField.X_POSITION);
+		addAllowedBrickField(BrickField.Y_POSITION);
 	}
 
 	public PlaceAtBrick(Sprite sprite, int xPositionValue, int yPositionValue) {
 		this.sprite = sprite;
-
-		xPosition = new Formula(xPositionValue);
-		yPosition = new Formula(yPositionValue);
+		initializeBrickFields(new Formula(xPositionValue), new Formula(yPositionValue));
 	}
 
 	public PlaceAtBrick(Sprite sprite, Formula xPosition, Formula yPosition) {
 		this.sprite = sprite;
-
-		this.xPosition = xPosition;
-		this.yPosition = yPosition;
+		initializeBrickFields(xPosition, yPosition);
 	}
 
 	@Override
 	public Formula getFormula() {
-		return xPosition;
+		return getFormulaWithBrickField(BrickField.X_POSITION);
 	}
 
 	public void setXPosition(Formula xPosition) {
-		this.xPosition = xPosition;
+		setFormulaWithBrickField(BrickField.X_POSITION, xPosition);
 	}
 
 	public void setYPosition(Formula yPosition) {
-		this.yPosition = yPosition;
+		setFormulaWithBrickField(BrickField.Y_POSITION, yPosition);
+	}
+
+	private void initializeBrickFields(Formula xPosition, Formula yPosition) {
+		addAllowedBrickField(BrickField.X_POSITION);
+		addAllowedBrickField(BrickField.Y_POSITION);
+		setFormulaWithBrickField(BrickField.X_POSITION, xPosition);
+		setFormulaWithBrickField(BrickField.Y_POSITION, yPosition);
 	}
 
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		PlaceAtBrick copyBrick = (PlaceAtBrick) clone();
-		copyBrick.sprite = sprite;
-		return copyBrick;
 	}
 
 	@Override
@@ -114,8 +108,8 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener, Form
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_x);
 		TextView editX = (TextView) view.findViewById(R.id.brick_place_at_edit_text_x);
-		xPosition.setTextFieldId(R.id.brick_place_at_edit_text_x);
-		xPosition.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.X_POSITION).setTextFieldId(R.id.brick_place_at_edit_text_x);
+		getFormulaWithBrickField(BrickField.X_POSITION).refreshTextField(view);
 
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
@@ -123,8 +117,8 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener, Form
 
 		TextView textY = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_y);
 		TextView editY = (TextView) view.findViewById(R.id.brick_place_at_edit_text_y);
-		yPosition.setTextFieldId(R.id.brick_place_at_edit_text_y);
-		yPosition.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.Y_POSITION).setTextFieldId(R.id.brick_place_at_edit_text_y);
+		getFormulaWithBrickField(BrickField.Y_POSITION).refreshTextField(view);
 		textY.setVisibility(View.GONE);
 		editY.setVisibility(View.VISIBLE);
 		editY.setOnClickListener(this);
@@ -135,15 +129,10 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener, Form
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_place_at, null);
 		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_place_at_prototype_text_view_x);
-		textX.setText(String.valueOf(xPosition.interpretInteger(sprite)));
+		textX.setText(String.valueOf(getFormulaWithBrickField(BrickField.X_POSITION).interpretInteger(sprite)));
 		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_place_at_prototype_text_view_y);
-		textY.setText(String.valueOf(yPosition.interpretInteger(sprite)));
+		textY.setText(String.valueOf(getFormulaWithBrickField(BrickField.Y_POSITION).interpretInteger(sprite)));
 		return prototypeView;
-	}
-
-	@Override
-	public Brick clone() {
-		return new PlaceAtBrick(getSprite(), xPosition.clone(), yPosition.clone());
 	}
 
 	@Override
@@ -182,18 +171,19 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener, Form
 		}
 		switch (view.getId()) {
 			case R.id.brick_place_at_edit_text_x:
-				FormulaEditorFragment.showFragment(view, this, xPosition);
+				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.X_POSITION));
 				break;
 
 			case R.id.brick_place_at_edit_text_y:
-				FormulaEditorFragment.showFragment(view, this, yPosition);
+				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.Y_POSITION));
 				break;
 		}
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.placeAt(sprite, xPosition, yPosition));
+		sequence.addAction(ExtendedActions.placeAt(sprite, getFormulaWithBrickField(BrickField.X_POSITION),
+				getFormulaWithBrickField(BrickField.Y_POSITION)));
 		return null;
 	}
 }

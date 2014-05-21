@@ -34,7 +34,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -44,41 +43,36 @@ import java.util.List;
 
 public class ChangeYByNBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
-	private Formula yMovement;
 
 	private transient View prototypeView;
 
 	public ChangeYByNBrick() {
-
+		addAllowedBrickField(BrickField.Y_POSITION_CHANGE);
 	}
 
 	public ChangeYByNBrick(Sprite sprite, int yMovementValue) {
 		this.sprite = sprite;
-
-		yMovement = new Formula(yMovementValue);
+		initializeBrickFields(new Formula(yMovementValue));
 	}
 
 	public ChangeYByNBrick(Sprite sprite, Formula yMovement) {
 		this.sprite = sprite;
+		initializeBrickFields(yMovement);
+	}
 
-		this.yMovement = yMovement;
+	private void initializeBrickFields(Formula yMovement) {
+		addAllowedBrickField(BrickField.Y_POSITION_CHANGE);
+		setFormulaWithBrickField(BrickField.Y_POSITION_CHANGE, yMovement);
 	}
 
 	@Override
 	public Formula getFormula() {
-		return yMovement;
+		return getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE);
 	}
 
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		ChangeYByNBrick copyBrick = (ChangeYByNBrick) clone();
-		copyBrick.sprite = sprite;
-		return copyBrick;
 	}
 
 	@Override
@@ -102,8 +96,8 @@ public class ChangeYByNBrick extends BrickBaseType implements OnClickListener, F
 
 		TextView textY = (TextView) view.findViewById(R.id.brick_change_y_prototype_text_view);
 		TextView editY = (TextView) view.findViewById(R.id.brick_change_y_edit_text);
-		yMovement.setTextFieldId(R.id.brick_change_y_edit_text);
-		yMovement.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE).setTextFieldId(R.id.brick_change_y_edit_text);
+		getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE).refreshTextField(view);
 
 		textY.setVisibility(View.GONE);
 		editY.setVisibility(View.VISIBLE);
@@ -115,13 +109,8 @@ public class ChangeYByNBrick extends BrickBaseType implements OnClickListener, F
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_change_y, null);
 		TextView textYMovement = (TextView) prototypeView.findViewById(R.id.brick_change_y_prototype_text_view);
-		textYMovement.setText(String.valueOf(yMovement.interpretInteger(sprite)));
+		textYMovement.setText(String.valueOf(getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE).interpretInteger(sprite)));
 		return prototypeView;
-	}
-
-	@Override
-	public Brick clone() {
-		return new ChangeYByNBrick(getSprite(), yMovement.clone());
 	}
 
 	@Override
@@ -151,12 +140,12 @@ public class ChangeYByNBrick extends BrickBaseType implements OnClickListener, F
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		FormulaEditorFragment.showFragment(view, this, yMovement);
+		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE));
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.changeYByN(sprite, yMovement));
+		sequence.addAction(ExtendedActions.changeYByN(sprite, getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE)));
 		return null;
 	}
 }

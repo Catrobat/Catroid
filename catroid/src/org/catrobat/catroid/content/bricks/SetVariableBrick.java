@@ -58,24 +58,32 @@ import java.util.List;
 public class SetVariableBrick extends BrickBaseType implements OnClickListener, NewVariableDialogListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
 	private UserVariable userVariable;
-	private Formula variableFormula;
 	private transient AdapterView<?> adapterView;
+
+	public SetVariableBrick() {
+		addAllowedBrickField(BrickField.VARIABLE);
+	}
 
 	public SetVariableBrick(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
 		this.sprite = sprite;
-		this.variableFormula = variableFormula;
 		this.userVariable = userVariable;
+		initializeBrickFields(variableFormula);
 	}
 
 	public SetVariableBrick(Sprite sprite, double value) {
 		this.sprite = sprite;
-		this.variableFormula = new Formula(value);
 		this.userVariable = null;
+		initializeBrickFields(new Formula(value));
+	}
+
+	private void initializeBrickFields(Formula variableFormula) {
+		addAllowedBrickField(BrickField.VARIABLE);
+		setFormulaWithBrickField(BrickField.VARIABLE, variableFormula);
 	}
 
 	@Override
 	public Formula getFormula() {
-		return variableFormula;
+		return getFormulaWithBrickField(BrickField.VARIABLE);
 	}
 
 	@Override
@@ -85,7 +93,8 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setVariable(sprite, variableFormula, userVariable));
+		sequence.addAction(ExtendedActions.setVariable(sprite, getFormulaWithBrickField(BrickField.VARIABLE),
+				userVariable));
 		return null;
 	}
 
@@ -114,8 +123,8 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 		TextView prototypeText = (TextView) view.findViewById(R.id.brick_set_variable_prototype_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_set_variable_edit_text);
 		prototypeText.setVisibility(View.GONE);
-		variableFormula.setTextFieldId(R.id.brick_set_variable_edit_text);
-		variableFormula.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.VARIABLE).setTextFieldId(R.id.brick_set_variable_edit_text);
+		getFormulaWithBrickField(BrickField.VARIABLE).refreshTextField(view);
 		textField.setVisibility(View.VISIBLE);
 		textField.setOnClickListener(this);
 
@@ -143,8 +152,7 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_UP
-						&& (((Spinner) view).getSelectedItemPosition() == 0
-						&& ((Spinner) view).getAdapter().getCount() == 1)) {
+						&& (((Spinner) view).getSelectedItemPosition() == 0 && ((Spinner) view).getAdapter().getCount() == 1)) {
 					NewVariableDialog dialog = new NewVariableDialog((Spinner) view);
 					dialog.addVariableDialogListener(SetVariableBrick.this);
 					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
@@ -195,7 +203,7 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 		setSpinnerSelection(variableSpinner, null);
 
 		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_set_variable_prototype_view);
-		textSetVariable.setText(String.valueOf(variableFormula.interpretDouble(sprite)));
+		textSetVariable.setText(String.valueOf(getFormulaWithBrickField(BrickField.VARIABLE).interpretDouble(sprite)));
 
 		return prototypeView;
 	}
@@ -229,7 +237,8 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 
 	@Override
 	public Brick clone() {
-		SetVariableBrick clonedBrick = new SetVariableBrick(getSprite(), variableFormula.clone(), userVariable);
+		SetVariableBrick clonedBrick = new SetVariableBrick(getSprite(), getFormulaWithBrickField(BrickField.VARIABLE)
+				.clone(), userVariable);
 		return clonedBrick;
 	}
 
@@ -238,7 +247,7 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		FormulaEditorFragment.showFragment(view, this, variableFormula);
+		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.VARIABLE));
 	}
 
 	@Override
@@ -255,8 +264,7 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 	}
 
 	private void updateUserVariableIfDeleted(UserVariableAdapterWrapper userVariableAdapterWrapper) {
-		if (userVariable != null
-				&& (userVariableAdapterWrapper.getPositionOfItem(userVariable) == 0)) {
+		if (userVariable != null && (userVariableAdapterWrapper.getPositionOfItem(userVariable) == 0)) {
 			userVariable = null;
 		}
 

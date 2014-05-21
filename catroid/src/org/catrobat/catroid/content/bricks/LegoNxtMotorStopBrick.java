@@ -46,26 +46,25 @@ import java.util.List;
 
 public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
-
-	public static enum Motor {
-		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C, ALL_MOTORS
-	}
-
 	private transient Motor motorEnum;
 	private String motor;
 	private transient AdapterView<?> adapterView;
 
-	protected Object readResolve() {
-		if (motor != null) {
-			motorEnum = Motor.valueOf(motor);
-		}
-		return this;
+	public static enum Motor {
+		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C, ALL_MOTORS
 	}
 
 	public LegoNxtMotorStopBrick(Sprite sprite, Motor motor) {
 		this.sprite = sprite;
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
+	}
+
+	protected Object readResolve() {
+		if (motor != null) {
+			motorEnum = Motor.valueOf(motor);
+		}
+		return this;
 	}
 
 	@Override
@@ -183,4 +182,5 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 		sequence.addAction(ExtendedActions.legoNxtMotorStop(motorEnum));
 		return null;
 	}
+
 }

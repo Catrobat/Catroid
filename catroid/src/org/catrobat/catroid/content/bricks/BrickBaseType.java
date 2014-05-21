@@ -23,6 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
@@ -31,12 +32,14 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
 
 public class BrickBaseType implements Brick {
 	private static final long serialVersionUID = 1L;
+	private static final String TAG = BrickBaseType.class.getSimpleName();
 	protected transient View view;
 	protected Sprite sprite;
 	protected transient CheckBox checkbox;
@@ -44,6 +47,7 @@ public class BrickBaseType implements Brick {
 	protected transient BrickAdapter adapter;
 	protected transient int alphaValue = 255;
 	public transient boolean animationState = false;
+	private ConcurrentFormulaHashMap formulaMap;
 
 	@Override
 	public boolean isChecked() {
@@ -73,6 +77,29 @@ public class BrickBaseType implements Brick {
 				checked = false;
 			}
 		}
+	}
+
+	public Formula getFormulaWithBrickField(BrickField brickField) throws IllegalArgumentException {
+		if (formulaMap != null && formulaMap.containsKey(brickField)) {
+			return formulaMap.get(brickField);
+		} else {
+			throw new IllegalArgumentException("Incompatible Brick Field : " + brickField.toString());
+		}
+	}
+
+	public void setFormulaWithBrickField(BrickField brickField, Formula formula) throws IllegalArgumentException {
+		if (formulaMap != null && formulaMap.containsKey(brickField)) {
+			formulaMap.replace(brickField, formula);
+		} else {
+			throw new IllegalArgumentException("Incompatible Brick Field : " + brickField.toString());
+		}
+	}
+
+	protected void addAllowedBrickField(BrickField brickField) {
+		if (formulaMap == null) {
+			formulaMap = new ConcurrentFormulaHashMap();
+		}
+		formulaMap.putIfAbsent(brickField, new Formula(0));
 	}
 
 	@Override
@@ -117,8 +144,10 @@ public class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public Brick clone() {
-		return null;
+	public Brick clone() throws CloneNotSupportedException {
+		BrickBaseType clonedBrick = (BrickBaseType) super.clone();
+		clonedBrick.formulaMap = this.formulaMap.clone();
+		return clonedBrick;
 	}
 
 	@Override
@@ -138,7 +167,14 @@ public class BrickBaseType implements Brick {
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		return null;
+		BrickBaseType copyBrick = null;
+		try {
+			copyBrick = (BrickBaseType) clone();
+			copyBrick.sprite = sprite;
+		} catch (CloneNotSupportedException exception) {
+			Log.e(TAG, Log.getStackTraceString(exception));
+		}
+		return copyBrick;
 	}
 
 }

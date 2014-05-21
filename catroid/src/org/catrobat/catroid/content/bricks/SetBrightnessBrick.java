@@ -34,7 +34,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -44,39 +43,36 @@ import java.util.List;
 
 public class SetBrightnessBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
-	private Formula brightness;
 
 	private transient View prototypeView;
 
 	public SetBrightnessBrick() {
-
+		addAllowedBrickField(BrickField.BRIGHTNESS);
 	}
 
 	public SetBrightnessBrick(Sprite sprite, double brightnessValue) {
 		this.sprite = sprite;
-		brightness = new Formula(brightnessValue);
+		initializeBrickFields(new Formula(brightnessValue));
 	}
 
 	public SetBrightnessBrick(Sprite sprite, Formula brightness) {
 		this.sprite = sprite;
-		this.brightness = brightness;
+		initializeBrickFields(brightness);
+	}
+
+	private void initializeBrickFields(Formula brightness) {
+		addAllowedBrickField(BrickField.BRIGHTNESS);
+		setFormulaWithBrickField(BrickField.BRIGHTNESS, brightness);
 	}
 
 	@Override
 	public Formula getFormula() {
-		return brightness;
+		return getFormulaWithBrickField(BrickField.BRIGHTNESS);
 	}
 
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		SetBrightnessBrick copyBrick = (SetBrightnessBrick) clone();
-		copyBrick.sprite = sprite;
-		return copyBrick;
 	}
 
 	@Override
@@ -101,8 +97,8 @@ public class SetBrightnessBrick extends BrickBaseType implements OnClickListener
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_set_brightness_prototype_text_view);
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_brightness_edit_text);
-		brightness.setTextFieldId(R.id.brick_set_brightness_edit_text);
-		brightness.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.BRIGHTNESS).setTextFieldId(R.id.brick_set_brightness_edit_text);
+		getFormulaWithBrickField(BrickField.BRIGHTNESS).refreshTextField(view);
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
 
@@ -115,13 +111,9 @@ public class SetBrightnessBrick extends BrickBaseType implements OnClickListener
 		prototypeView = View.inflate(context, R.layout.brick_set_brightness, null);
 		TextView textSetBrightness = (TextView) prototypeView
 				.findViewById(R.id.brick_set_brightness_prototype_text_view);
-		textSetBrightness.setText(String.valueOf(brightness.interpretDouble(sprite)));
+		textSetBrightness.setText(String.valueOf(getFormulaWithBrickField(BrickField.BRIGHTNESS)
+				.interpretDouble(sprite)));
 		return prototypeView;
-	}
-
-	@Override
-	public Brick clone() {
-		return new SetBrightnessBrick(getSprite(), brightness.clone());
 	}
 
 	@Override
@@ -155,12 +147,12 @@ public class SetBrightnessBrick extends BrickBaseType implements OnClickListener
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		FormulaEditorFragment.showFragment(view, this, brightness);
+		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.BRIGHTNESS));
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setBrightness(sprite, brightness));
+		sequence.addAction(ExtendedActions.setBrightness(sprite, getFormulaWithBrickField(BrickField.BRIGHTNESS)));
 		return null;
 	}
 }

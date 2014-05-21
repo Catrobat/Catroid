@@ -34,7 +34,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -45,39 +44,36 @@ import java.util.List;
 public class TurnLeftBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
-	private Formula degrees;
 
 	private transient View prototypeView;
 
+	public TurnLeftBrick() {
+		addAllowedBrickField(BrickField.TURN_LEFT_DEGREES);
+	}
+
 	public TurnLeftBrick(Sprite sprite, double degreesValue) {
 		this.sprite = sprite;
-		degrees = new Formula(degreesValue);
+		initializeBrickFields(new Formula(degreesValue));
 	}
 
 	public TurnLeftBrick(Sprite sprite, Formula degrees) {
 		this.sprite = sprite;
-		this.degrees = degrees;
+		initializeBrickFields(degrees);
 	}
 
-	public TurnLeftBrick() {
-
+	private void initializeBrickFields(Formula degrees) {
+		addAllowedBrickField(BrickField.TURN_LEFT_DEGREES);
+		setFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES, degrees);
 	}
 
 	@Override
 	public Formula getFormula() {
-		return degrees;
+		return getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES);
 	}
 
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		TurnLeftBrick copyBrick = (TurnLeftBrick) clone();
-		copyBrick.sprite = sprite;
-		return copyBrick;
 	}
 
 	@Override
@@ -101,8 +97,8 @@ public class TurnLeftBrick extends BrickBaseType implements OnClickListener, For
 
 		TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_left_prototype_text_view);
 		TextView editDegrees = (TextView) view.findViewById(R.id.brick_turn_left_edit_text);
-		degrees.setTextFieldId(R.id.brick_turn_left_edit_text);
-		degrees.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES).setTextFieldId(R.id.brick_turn_left_edit_text);
+		getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES).refreshTextField(view);
 
 		textDegrees.setVisibility(View.GONE);
 		editDegrees.setVisibility(View.VISIBLE);
@@ -114,13 +110,8 @@ public class TurnLeftBrick extends BrickBaseType implements OnClickListener, For
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_turn_left, null);
 		TextView textDegrees = (TextView) prototypeView.findViewById(R.id.brick_turn_left_prototype_text_view);
-		textDegrees.setText(String.valueOf(degrees.interpretDouble(sprite)));
+		textDegrees.setText(String.valueOf(getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES).interpretDouble(sprite)));
 		return prototypeView;
-	}
-
-	@Override
-	public Brick clone() {
-		return new TurnLeftBrick(getSprite(), degrees.clone());
 	}
 
 	@Override
@@ -155,12 +146,12 @@ public class TurnLeftBrick extends BrickBaseType implements OnClickListener, For
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		FormulaEditorFragment.showFragment(view, this, degrees);
+		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES));
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.turnLeft(sprite, degrees));
+		sequence.addAction(ExtendedActions.turnLeft(sprite, getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES)));
 		return null;
 	}
 }

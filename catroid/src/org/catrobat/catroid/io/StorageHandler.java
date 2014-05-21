@@ -26,9 +26,12 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.util.Log;
 
+<<<<<<< Upstream, based on master
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.thoughtworks.xstream.XStream;
+=======
+>>>>>>> 2701253 Introduced ConcurrentFormulaHashMap to BrickBaseType Introduced custom xstream converter to support porting old projects' code.xml to new structure of code.xml
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
@@ -58,6 +61,7 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.ConcurrentFormulaHashMapConverter;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.content.bricks.DroneLandBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
@@ -110,6 +114,7 @@ import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.utils.ImageEditing;
@@ -146,7 +151,7 @@ public final class StorageHandler {
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private static final int JPG_COMPRESSION_SETTING = 95;
 
-	private XStream xstream;
+	private XStreamToSupportCatrobatLanguageVersion091AndBefore xstream;
 
 	private File backPackSoundDirectory;
 	private FileInputStream fileInputStream;
@@ -164,10 +169,11 @@ public final class StorageHandler {
 	}
 
 	private StorageHandler() throws IOException {
-		xstream = new XStream(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
+		xstream = new XStreamToSupportCatrobatLanguageVersion091AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 		xstream.processAnnotations(Project.class);
 		xstream.processAnnotations(XmlHeader.class);
 		xstream.processAnnotations(UserVariablesContainer.class);
+		xstream.registerConverter(new ConcurrentFormulaHashMapConverter());
 		setXstreamAliases();
 
 		if (!Utils.externalStorageAvailable()) {
@@ -274,6 +280,8 @@ public final class StorageHandler {
 		xstream.alias("droneMoveDownBrick", DroneMoveDownBrick.class);
 		xstream.alias("droneMoveLeftBrick", DroneMoveLeftBrick.class);
 		xstream.alias("droneMoveRightBrick", DroneMoveRightBrick.class);
+
+		xstream.alias("formulaTree", FormulaElement.class);
 	}
 
 	private void createCatroidRoot() {
@@ -296,7 +304,7 @@ public final class StorageHandler {
 		try {
 			File projectCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
 			fileInputStream = new FileInputStream(projectCodeFile);
-			return (Project) xstream.fromXML(fileInputStream);
+			return (Project) xstream.getProjectFromXML(projectCodeFile);
 		} catch (Exception exception) {
 			Log.e(TAG, "Loading project " + projectName + " failed.", exception);
 			return null;

@@ -34,7 +34,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -44,39 +43,36 @@ import java.util.List;
 
 public class SetXBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 	private static final long serialVersionUID = 1L;
-	private Formula xPosition;
 
 	private transient View prototypeView;
 
+	public SetXBrick() {
+		addAllowedBrickField(BrickField.X_POSITION);
+	}
+
 	public SetXBrick(Sprite sprite, int xPositionValue) {
 		this.sprite = sprite;
-		xPosition = new Formula(xPositionValue);
+		initializeBrickFields(new Formula(xPositionValue));
 	}
 
 	public SetXBrick(Sprite sprite, Formula xPosition) {
 		this.sprite = sprite;
-		this.xPosition = xPosition;
+		initializeBrickFields(xPosition);
 	}
 
-	public SetXBrick() {
-
+	private void initializeBrickFields(Formula xPosition) {
+		addAllowedBrickField(BrickField.X_POSITION);
+		setFormulaWithBrickField(BrickField.X_POSITION, xPosition);
 	}
 
 	@Override
 	public Formula getFormula() {
-		return xPosition;
+		return getFormulaWithBrickField(BrickField.X_POSITION);
 	}
 
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		SetXBrick copyBrick = (SetXBrick) clone();
-		copyBrick.sprite = sprite;
-		return copyBrick;
 	}
 
 	@Override
@@ -101,8 +97,8 @@ public class SetXBrick extends BrickBaseType implements OnClickListener, Formula
 		TextView textX = (TextView) view.findViewById(R.id.brick_set_x_prototype_text_view);
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_x_edit_text);
 
-		xPosition.setTextFieldId(R.id.brick_set_x_edit_text);
-		xPosition.refreshTextField(view);
+		getFormula().setTextFieldId(R.id.brick_set_x_edit_text);
+		getFormula().refreshTextField(view);
 
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
@@ -137,13 +133,8 @@ public class SetXBrick extends BrickBaseType implements OnClickListener, Formula
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_x, null);
 		TextView textXPosition = (TextView) prototypeView.findViewById(R.id.brick_set_x_prototype_text_view);
-		textXPosition.setText(String.valueOf(xPosition.interpretInteger(sprite)));
+		textXPosition.setText(String.valueOf(getFormula().interpretInteger(sprite)));
 		return prototypeView;
-	}
-
-	@Override
-	public Brick clone() {
-		return new SetXBrick(getSprite(), xPosition.clone());
 	}
 
 	@Override
@@ -151,12 +142,12 @@ public class SetXBrick extends BrickBaseType implements OnClickListener, Formula
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		FormulaEditorFragment.showFragment(view, this, xPosition);
+		FormulaEditorFragment.showFragment(view, this, getFormula());
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setX(sprite, xPosition));
+		sequence.addAction(ExtendedActions.setX(sprite, getFormula()));
 		return null;
 	}
 }

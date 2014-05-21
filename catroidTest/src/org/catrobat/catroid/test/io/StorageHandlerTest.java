@@ -34,6 +34,8 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
@@ -41,7 +43,6 @@ import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 
@@ -129,13 +130,13 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertEquals("Title missmatch after deserialization", project.getName(), loadedProject.getName());
 
 		// Test random brick values
-		Formula actualXPosition = (Formula) Reflection.getPrivateField((postSpriteList.get(2).getScript(0)
-				.getBrickList().get(0)), "xPosition");
-		Formula actualYPosition = (Formula) Reflection.getPrivateField((postSpriteList.get(2).getScript(0)
-				.getBrickList().get(0)), "yPosition");
+		Formula actualXPosition = ((BrickBaseType) postSpriteList.get(2).getScript(0).getBrickList().get(0))
+				.getFormulaWithBrickField(Brick.BrickField.X_POSITION);
+		Formula actualYPosition = ((BrickBaseType) postSpriteList.get(2).getScript(0).getBrickList().get(0))
+				.getFormulaWithBrickField(Brick.BrickField.Y_POSITION);
 
-		Formula actualSize = (Formula) Reflection.getPrivateField(
-				(postSpriteList.get(1).getScript(0).getBrickList().get(2)), "size");
+		Formula actualSize = ((BrickBaseType) postSpriteList.get(1).getScript(0).getBrickList().get(2))
+				.getFormulaWithBrickField(Brick.BrickField.SIZE);
 
 		assertEquals("Size was not deserialized right", size,
 				actualSize.interpretFloat(postSpriteList.get(1).getScript(0).getBrickList().get(2).getSprite()));

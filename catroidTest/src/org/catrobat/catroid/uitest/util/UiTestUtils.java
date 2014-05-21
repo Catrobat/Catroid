@@ -75,6 +75,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
@@ -404,6 +405,32 @@ public final class UiTestUtils {
 	/**
 	 * For bricks using the FormulaEditor. Tests starting the FE, entering a new number/formula and
 	 * ensures its set correctly to the brick´s edit text field
+	 */
+	public static void testBrickWithFormulaEditor(Solo solo, int editTextId, double newValue,
+			Brick.BrickField brickField, BrickBaseType theBrick) {
+
+		solo.clickOnView(solo.getView(editTextId));
+
+		insertDoubleIntoEditText(solo, newValue);
+
+		assertEquals(
+				"Text not updated within FormulaEditor",
+				newValue,
+				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()
+						.replace(',', '.')));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
+		solo.sleep(200);
+
+		Formula formula = theBrick.getFormulaWithBrickField(brickField);
+
+		assertEquals("Wrong text in field", newValue, formula.interpretDouble(theBrick.getSprite()), 0.01f);
+		assertEquals("Text not updated in the brick list", newValue,
+				Double.parseDouble(((TextView) solo.getView(editTextId)).getText().toString().replace(',', '.')), 0.01f);
+
+	}
+
+	/**
+	 * TODO: Remove this once all the brick classes support ConcurrentFormulaHashMap
 	 */
 	public static void testBrickWithFormulaEditor(Solo solo, int editTextId, double newValue, String fieldName,
 			Brick theBrick) {
@@ -1704,7 +1731,7 @@ public final class UiTestUtils {
 	/*
 	 * This is a workaround from this robotium issue
 	 * http://code.google.com/p/robotium/issues/detail?id=296
-	 * 
+	 *
 	 * This method should be removed, when the issue is fixed in robotium!
 	 */
 	public static void clickOnButton(Solo solo, ActivityInstrumentationTestCase2<?> testCase, String buttonText) {

@@ -34,11 +34,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
@@ -440,25 +442,32 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 
 		int newPosition = adapter.getCount();
-		Brick copy = brick.clone();
-		Script scriptList = ProjectManager.getInstance().getCurrentScript();
 
-		if (brick instanceof NestingBrick) {
-			NestingBrick nestingBrickCopy = (NestingBrick) copy;
-			nestingBrickCopy.initialize();
+		try {
+			Brick copiedBrick = brick.clone();
 
-			for (Brick nestingBrick : nestingBrickCopy.getAllNestingBrickParts(true)) {
-				scriptList.addBrick(nestingBrick);
+			Script scriptList = ProjectManager.getInstance().getCurrentScript();
+
+			if (brick instanceof NestingBrick) {
+				NestingBrick nestingBrickCopy = (NestingBrick) copiedBrick;
+				nestingBrickCopy.initialize();
+
+				for (Brick nestingBrick : nestingBrickCopy.getAllNestingBrickParts(true)) {
+					scriptList.addBrick(nestingBrick);
+				}
+			} else {
+				scriptList.addBrick(copiedBrick);
 			}
-		} else {
-			scriptList.addBrick(copy);
+
+			adapter.addNewBrick(newPosition, copiedBrick, false);
+			adapter.initBrickList();
+
+			ProjectManager.getInstance().saveProject();
+			adapter.notifyDataSetChanged();
+		} catch (CloneNotSupportedException exception) {
+			Log.e(getTag(), "Copying a Brick failed", exception);
+			Toast.makeText(getActivity(), R.string.error_copying_brick, Toast.LENGTH_SHORT).show();
 		}
-
-		adapter.addNewBrick(newPosition, copy, false);
-		adapter.initBrickList();
-
-		ProjectManager.getInstance().saveProject();
-		adapter.notifyDataSetChanged();
 	}
 
 	private void deleteBrick(Brick brick) {

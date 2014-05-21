@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
@@ -38,7 +39,6 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.io.File;
@@ -49,13 +49,13 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 	private final int screenHeight = 800;
 	private final String catFilename = "catroid_sunglasses.png";
 	private final String fishFilename = "fish.jpg";
+	SetGhostEffectBrick setGhostEffectBrick;
 	private int catXPosition = 60;
 	private int catYPosition = 150;
 	private int fishXPosition = -60;
 	private int fishYPosition = -150;
 	private Sprite cat;
 	private Sprite fish;
-	SetGhostEffectBrick setGhostEffectBrick;
 
 	public TransparentWhenBrickTest() {
 		super(MainMenuActivity.class);
@@ -91,12 +91,12 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 		assertTrue(
 				"Sprite fish has moved",
 				fish.look.getXInUserInterfaceDimensionUnit() == fishXPosition
-						&& fish.look.getYInUserInterfaceDimensionUnit() == fishYPosition);
+						&& fish.look.getYInUserInterfaceDimensionUnit() == fishYPosition
+		);
 	}
 
 	public void testTapOnHalfTransparentAreaOfForegroundSprite() {
-		Formula ghostEffectValue = new Formula(50.0);
-		Reflection.setPrivateField(setGhostEffectBrick, "transparency", ghostEffectValue);
+		setGhostEffectBrick.setFormulaWithBrickField(Brick.BrickField.TRANSPARENCY, new Formula(50.0));
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 		assertTrue("Sprite cat is not at x=0 and y=0",
@@ -117,12 +117,12 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 		assertTrue(
 				"Sprite fish has moved",
 				fish.look.getXInUserInterfaceDimensionUnit() == fishXPosition
-						&& fish.look.getYInUserInterfaceDimensionUnit() == fishYPosition);
+						&& fish.look.getYInUserInterfaceDimensionUnit() == fishYPosition
+		);
 	}
 
 	public void testTapOnFullTransparentAreaOfForegroundSprite() {
-		Formula ghostEffectValue = new Formula(100.0);
-		Reflection.setPrivateField(setGhostEffectBrick, "transparency", ghostEffectValue);
+		setGhostEffectBrick.setFormulaWithBrickField(Brick.BrickField.TRANSPARENCY, new Formula(100.0));
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 		assertTrue("Sprite cat is not at x=0 and y=0",

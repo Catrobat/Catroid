@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
@@ -321,10 +322,10 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.sleep(300);
 
 		//Interpretation test
-		Formula formula = (Formula) Reflection.getPrivateField(placeAtBrick, "xPosition");
+		Formula formula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.X_POSITION);
 		assertEquals("Wrong text in field", newXValue, formula.interpretInteger(sprite));
 
-		formula = (Formula) Reflection.getPrivateField(placeAtBrick, "yPosition");
+		formula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.Y_POSITION);
 
 		float newYValue = formula.interpretFloat(sprite);
 		assertTrue("Wrong text in field", newYValue >= -0.5f && newYValue <= 1f);
@@ -345,7 +346,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(300);
 
-		Formula formula = (Formula) Reflection.getPrivateField(placeAtBrick, "xPosition");
+		Formula formula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.X_POSITION);
 		float value = formula.interpretFloat(sprite);
 
 		Log.i("info", "value: " + value);
@@ -365,7 +366,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(300);
 
-		Formula anotherFormula = (Formula) Reflection.getPrivateField(placeAtBrick, "yPosition");
+		Formula anotherFormula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.Y_POSITION);
 		float anotherValue = anotherFormula.interpretFloat(sprite);
 
 		Log.i("info", "value: " + value);
@@ -390,7 +391,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(300);
 
-		Formula formula = (Formula) Reflection.getPrivateField(placeAtBrick, "xPosition");
+		Formula formula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.X_POSITION);
 		float value = formula.interpretFloat(sprite);
 
 		Log.i("info", "value: " + value);
@@ -410,7 +411,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(300);
 
-		Formula anotherFormula = (Formula) Reflection.getPrivateField(placeAtBrick, "yPosition");
+		Formula anotherFormula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.Y_POSITION);
 		float anotherValue = anotherFormula.interpretFloat(sprite);
 
 		Log.i("info", "anotherValue: " + anotherValue);

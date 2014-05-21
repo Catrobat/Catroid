@@ -75,7 +75,7 @@ public class ChangeBrightnessByNBrickTest extends BaseActivityInstrumentationTes
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_change_brightness)));
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_change_brightness_edit_text, BRIGHTNESS_TO_CHANGE,
-				"changeBrightness", changeBrightnessByNBrick);
+				Brick.BrickField.BRIGHTNESS_CHANGE, changeBrightnessByNBrick);
 	}
 
 	private void createProject() {

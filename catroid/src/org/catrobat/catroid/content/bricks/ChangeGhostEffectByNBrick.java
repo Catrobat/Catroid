@@ -34,7 +34,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -45,36 +44,31 @@ import java.util.List;
 public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
-	private Formula changeGhostEffect;
 
 	private transient View prototypeView;
 
 	public ChangeGhostEffectByNBrick() {
-
+		addAllowedBrickField(BrickField.TRANSPARENCY_CHANGE);
 	}
 
 	public ChangeGhostEffectByNBrick(Sprite sprite, double changeGhostEffectValue) {
 		this.sprite = sprite;
-
-		changeGhostEffect = new Formula(changeGhostEffectValue);
+		initializeBrickFields(new Formula(changeGhostEffectValue));
 	}
 
 	public ChangeGhostEffectByNBrick(Sprite sprite, Formula changeGhostEffect) {
 		this.sprite = sprite;
+		initializeBrickFields(changeGhostEffect);
+	}
 
-		this.changeGhostEffect = changeGhostEffect;
+	private void initializeBrickFields(Formula changeGhostEffect) {
+		addAllowedBrickField(BrickField.TRANSPARENCY_CHANGE);
+		setFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE, changeGhostEffect);
 	}
 
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		ChangeGhostEffectByNBrick copyBrick = (ChangeGhostEffectByNBrick) clone();
-		copyBrick.sprite = sprite;
-		return copyBrick;
 	}
 
 	@Override
@@ -98,8 +92,9 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 		});
 		TextView textX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
 		TextView editX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
-		changeGhostEffect.setTextFieldId(R.id.brick_change_ghost_effect_edit_text);
-		changeGhostEffect.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE)
+				.setTextFieldId(R.id.brick_change_ghost_effect_edit_text);
+		getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE).refreshTextField(view);
 
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
@@ -112,13 +107,9 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 		prototypeView = View.inflate(context, R.layout.brick_change_ghost_effect, null);
 		TextView textChangeGhostEffect = (TextView) prototypeView
 				.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
-		textChangeGhostEffect.setText(String.valueOf(changeGhostEffect.interpretDouble(sprite)));
+		textChangeGhostEffect.setText(String.valueOf(getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE)
+				.interpretDouble(sprite)));
 		return prototypeView;
-	}
-
-	@Override
-	public Brick clone() {
-		return new ChangeGhostEffectByNBrick(getSprite(), changeGhostEffect.clone());
 	}
 
 	@Override
@@ -150,18 +141,19 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		FormulaEditorFragment.showFragment(view, this, changeGhostEffect);
+		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE));
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 
-		sequence.addAction(ExtendedActions.changeGhostEffectByN(sprite, changeGhostEffect));
+		sequence.addAction(ExtendedActions.changeGhostEffectByN(sprite,
+				getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE)));
 		return null;
 	}
 
 	@Override
 	public Formula getFormula() {
-		return changeGhostEffect;
+		return getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE);
 	}
 }

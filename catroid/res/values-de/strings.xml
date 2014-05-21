@@ -503,6 +503,8 @@
     <string name="error_copy_project">Beim kopieren des Programms ist ein Fehler aufgetreten.</string>
     <string name="error_upload_project_with_default_name">Das Programm mit dem Namen \'Mein erstes Programm\' kann nicht hochgeladen werden. Bitte das Programm umbenennen.</string>
     <string name="error_upload_default_project">Das Programm entspricht dem Programm \'Mein erstes Programm\'. Bitte ändere es und versuche es noch einmal.</string>
+    <string name="error_adding_brick">Beim Hinzufügen des Bricks ist ein Fehler aufgetreten</string>
+    <string name="error_copying_brick">Beim Kopieren des Bricks ist ein Fehler aufgetreten</string>
     <string name="error_no_drone_connected_title">Finde keine ARDrone</string>    
     <string name="error_no_drone_connected">Verbinde dich mit dem WLan der Drone und probier es nochmal.</string>
     <string name="error_drone_low_battery_title">Dronen Batterie fast leer: %d%%</string>

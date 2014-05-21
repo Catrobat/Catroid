@@ -61,26 +61,31 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 
 	private static final long serialVersionUID = 1L;
 	private UserVariable userVariable;
-	private Formula variableFormula;
 	private transient AdapterView<?> adapterView;
+
+	public ChangeVariableBrick() {
+		addAllowedBrickField(BrickField.VARIABLE_CHANGE);
+	}
 
 	public ChangeVariableBrick(Sprite sprite, Formula variableFormula) {
 		this.sprite = sprite;
-		this.variableFormula = variableFormula;
+		initializeBrickFields(variableFormula);
 	}
 
 	public ChangeVariableBrick(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
 		this.sprite = sprite;
-		this.variableFormula = variableFormula;
 		this.userVariable = userVariable;
+		initializeBrickFields(variableFormula);
 	}
 
 	public ChangeVariableBrick(Sprite sprite, double value) {
 		this.sprite = sprite;
-		this.variableFormula = new Formula(value);
+		initializeBrickFields(new Formula(value));
 	}
 
-	public ChangeVariableBrick() {
+	private void initializeBrickFields(Formula variableFormula) {
+		addAllowedBrickField(BrickField.VARIABLE_CHANGE);
+		setFormulaWithBrickField(BrickField.VARIABLE_CHANGE, variableFormula);
 	}
 
 	@Override
@@ -110,8 +115,8 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 		TextView prototypeText = (TextView) view.findViewById(R.id.brick_change_variable_prototype_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_change_variable_edit_text);
 		prototypeText.setVisibility(View.GONE);
-		variableFormula.setTextFieldId(R.id.brick_change_variable_edit_text);
-		variableFormula.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).setTextFieldId(R.id.brick_change_variable_edit_text);
+		getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).refreshTextField(view);
 		textField.setVisibility(View.VISIBLE);
 		textField.setOnClickListener(this);
 
@@ -190,7 +195,8 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 		setSpinnerSelection(variableSpinner, null);
 
 		TextView textChangeVariable = (TextView) prototypeView.findViewById(R.id.brick_change_variable_prototype_view);
-		textChangeVariable.setText(String.valueOf(variableFormula.interpretDouble(sprite)));
+		textChangeVariable.setText(String
+				.valueOf(getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).interpretDouble(sprite)));
 		return prototypeView;
 	}
 
@@ -226,7 +232,8 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 
 	@Override
 	public Brick clone() {
-		ChangeVariableBrick clonedBrick = new ChangeVariableBrick(sprite, variableFormula.clone(), userVariable);
+		ChangeVariableBrick clonedBrick = new ChangeVariableBrick(sprite, getFormulaWithBrickField(
+				BrickField.VARIABLE_CHANGE).clone(), userVariable);
 		return clonedBrick;
 	}
 
@@ -235,12 +242,13 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		FormulaEditorFragment.showFragment(view, this, variableFormula);
+		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.VARIABLE_CHANGE));
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.changeVariable(sprite, variableFormula, userVariable));
+		sequence.addAction(ExtendedActions.changeVariable(sprite, getFormulaWithBrickField(BrickField.VARIABLE_CHANGE),
+				userVariable));
 		return null;
 	}
 
@@ -291,6 +299,6 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 
 	@Override
 	public Formula getFormula() {
-		return variableFormula;
+		return getFormulaWithBrickField(BrickField.VARIABLE_CHANGE);
 	}
 }

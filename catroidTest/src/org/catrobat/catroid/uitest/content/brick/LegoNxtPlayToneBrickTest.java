@@ -78,10 +78,10 @@ public class LegoNxtPlayToneBrickTest extends BaseActivityInstrumentationTestCas
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.nxt_play_tone)));
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.nxt_tone_duration_edit_text, SET_DURATION,
-				"durationInSeconds", playToneBrick);
+				Brick.BrickField.LEGO_NXT_DURATION_IN_SECONDS, playToneBrick);
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.nxt_tone_freq_edit_text, SET_FREQUENCY, "frequency",
-				playToneBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.nxt_tone_freq_edit_text, SET_FREQUENCY,
+				Brick.BrickField.LEGO_NXT_FREQUENCY, playToneBrick);
 
 	}
 

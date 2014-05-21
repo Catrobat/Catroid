@@ -39,7 +39,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -51,16 +50,32 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
+	private String motor;
+	private transient Motor motorEnum;
+	private transient TextView editSpeed;
+	private transient AdapterView<?> adapterView;
 
 	public static enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C
 	}
 
-	private String motor;
-	private transient Motor motorEnum;
-	private Formula degrees;
-	private transient TextView editSpeed;
-	private transient AdapterView<?> adapterView;
+	public LegoNxtMotorTurnAngleBrick() {
+		addAllowedBrickField(BrickField.LEGO_NXT_DEGREES);
+	}
+
+	public LegoNxtMotorTurnAngleBrick(Sprite sprite, Motor motor, int degrees) {
+		this.sprite = sprite;
+		this.motorEnum = motor;
+		this.motor = motorEnum.name();
+		initializeBrickFields(new Formula(degrees));
+	}
+
+	public LegoNxtMotorTurnAngleBrick(Sprite sprite, Motor motor, Formula degreesFormula) {
+		this.sprite = sprite;
+		this.motorEnum = motor;
+		this.motor = motorEnum.name();
+		initializeBrickFields(degreesFormula);
+	}
 
 	protected Object readResolve() {
 		if (motor != null) {
@@ -69,25 +84,14 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 		return this;
 	}
 
-	public LegoNxtMotorTurnAngleBrick(Sprite sprite, Motor motor, int degrees) {
-		this.sprite = sprite;
-		this.motorEnum = motor;
-		this.motor = motorEnum.name();
-
-		this.degrees = new Formula(degrees);
-	}
-
-	public LegoNxtMotorTurnAngleBrick(Sprite sprite, Motor motor, Formula degreesFormula) {
-		this.sprite = sprite;
-		this.motorEnum = motor;
-		this.motor = motorEnum.name();
-
-		this.degrees = degreesFormula;
+	private void initializeBrickFields(Formula degreesFormula) {
+		addAllowedBrickField(BrickField.LEGO_NXT_DEGREES);
+		setFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES, degreesFormula);
 	}
 
 	@Override
 	public Formula getFormula() {
-		return degrees;
+		return getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES);
 	}
 
 	@Override
@@ -96,17 +100,10 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		LegoNxtMotorTurnAngleBrick copyBrick = (LegoNxtMotorTurnAngleBrick) clone();
-		copyBrick.sprite = sprite;
-		return copyBrick;
-	}
-
-	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 		TextView textX = (TextView) prototypeView.findViewById(R.id.motor_turn_angle_text_view);
-		textX.setText(String.valueOf(degrees.interpretInteger(sprite)));
+		textX.setText(String.valueOf(getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).interpretInteger(sprite)));
 
 		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.lego_motor_turn_angle_spinner);
 		legoSpinner.setFocusableInTouchMode(false);
@@ -123,7 +120,8 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 
 	@Override
 	public Brick clone() {
-		return new LegoNxtMotorTurnAngleBrick(getSprite(), motorEnum, degrees.clone());
+		return new LegoNxtMotorTurnAngleBrick(getSprite(), motorEnum,
+				getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).clone());
 	}
 
 	@Override
@@ -149,8 +147,8 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 
 		TextView textSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_text_view);
 		editSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_edit_text);
-		degrees.setTextFieldId(R.id.motor_turn_angle_edit_text);
-		degrees.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).setTextFieldId(R.id.motor_turn_angle_edit_text);
+		getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).refreshTextField(view);
 
 		textSpeed.setVisibility(View.GONE);
 		editSpeed.setVisibility(View.VISIBLE);
@@ -197,7 +195,7 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		FormulaEditorFragment.showFragment(view, this, degrees);
+		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES));
 	}
 
 	@Override
@@ -237,7 +235,9 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.legoNxtMotorTurnAngle(sprite, motorEnum, degrees));
+		sequence.addAction(ExtendedActions.legoNxtMotorTurnAngle(sprite, motorEnum,
+				getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES)));
 		return null;
 	}
+
 }

@@ -33,7 +33,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -44,8 +43,6 @@ import java.util.List;
 public class PointInDirectionBrick extends BrickBaseType implements View.OnClickListener, FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
-
-	private Formula degrees;
 
 	private transient View prototypeView;
 
@@ -64,39 +61,37 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 	}
 
 	public PointInDirectionBrick() {
-
+		addAllowedBrickField(BrickField.DEGREES);
 	}
 
 	public PointInDirectionBrick(Sprite sprite, Direction direction) {
 		this.sprite = sprite;
-		this.degrees = new Formula(direction.getDegrees());
+		initializeBrickFields(new Formula(direction.getDegrees()));
 	}
 
 	public PointInDirectionBrick(Sprite sprite, Formula direction) {
 		this.sprite = sprite;
-		this.degrees = direction;
+		initializeBrickFields(direction);
 	}
 
 	public PointInDirectionBrick(Sprite sprite, double direction) {
 		this.sprite = sprite;
-		this.degrees = new Formula(direction);
+		initializeBrickFields(new Formula(direction));
+	}
+
+	private void initializeBrickFields(Formula direction) {
+		addAllowedBrickField(BrickField.DEGREES);
+		setFormulaWithBrickField(BrickField.DEGREES, direction);
 	}
 
 	@Override
 	public Formula getFormula() {
-		return degrees;
+		return getFormulaWithBrickField(BrickField.DEGREES);
 	}
 
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		PointInDirectionBrick copyBrick = (PointInDirectionBrick) clone();
-		copyBrick.sprite = sprite;
-		return copyBrick;
 	}
 
 	@Override
@@ -120,8 +115,8 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 		TextView setAngleTextView = (TextView) view.findViewById(R.id.brick_point_in_direction_prototype_text_view);
 		TextView setAngleTextField = (TextView) view.findViewById(R.id.brick_point_in_direction_edit_text);
 
-		degrees.setTextFieldId(R.id.brick_point_in_direction_edit_text);
-		degrees.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.DEGREES).setTextFieldId(R.id.brick_point_in_direction_edit_text);
+		getFormulaWithBrickField(BrickField.DEGREES).refreshTextField(view);
 
 		setAngleTextView.setVisibility(View.GONE);
 		setAngleTextField.setVisibility(View.VISIBLE);
@@ -135,13 +130,8 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 		prototypeView = View.inflate(context, R.layout.brick_point_in_direction, null);
 		TextView setAngleTextView = (TextView) prototypeView
 				.findViewById(R.id.brick_point_in_direction_prototype_text_view);
-		setAngleTextView.setText(String.valueOf(degrees.interpretDouble(sprite)));
+		setAngleTextView.setText(String.valueOf(getFormulaWithBrickField(BrickField.DEGREES).interpretDouble(sprite)));
 		return prototypeView;
-	}
-
-	@Override
-	public Brick clone() {
-		return new PointInDirectionBrick(getSprite(), degrees.clone());
 	}
 
 	@Override
@@ -173,12 +163,12 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		FormulaEditorFragment.showFragment(view, this, degrees);
+		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.DEGREES));
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.pointInDirection(sprite, degrees));
+		sequence.addAction(ExtendedActions.pointInDirection(sprite, getFormulaWithBrickField(BrickField.DEGREES)));
 		return null;
 	}
 }
