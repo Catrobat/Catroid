@@ -38,16 +38,11 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.List;
 
-public class DronePlayLedAnimationBrick extends BrickBaseType {
+public class DronePlayLedAnimationBrick extends DroneBrick {
 	private static final long serialVersionUID = 1L;
 
 	public DronePlayLedAnimationBrick(Sprite sprite) {
 		this.sprite = sprite;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return ARDRONE_SUPPORT;
 	}
 
 	@Override

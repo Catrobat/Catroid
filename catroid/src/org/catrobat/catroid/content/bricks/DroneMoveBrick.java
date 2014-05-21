@@ -42,7 +42,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
-public abstract class DroneMoveBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public abstract class DroneMoveBrick extends DroneBrick implements OnClickListener, FormulaBrick {
 
 	protected transient View prototypeView;
 	private static final long serialVersionUID = 1L;
@@ -217,10 +217,4 @@ public abstract class DroneMoveBrick extends BrickBaseType implements OnClickLis
 				return;
 		}
 	}
-
-	@Override
-	public int getRequiredResources() {
-		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
-	}
-
 }
