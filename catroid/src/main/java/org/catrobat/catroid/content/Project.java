@@ -136,7 +136,7 @@ public class Project implements Serializable {
 		return this.xmlHeader;
 	}
 
-	// this method should be removed by the nex refactoring
+	// this method should be removed by the next refactoring
 	// (used only in tests)
 	public void setCatrobatLanguageVersion(float catrobatLanguageVersion) {
 		xmlHeader.setCatrobatLanguageVersion(catrobatLanguageVersion);
