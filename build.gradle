@@ -20,10 +20,18 @@ apply plugin: 'android'
 apply plugin: 'checkstyle'
 //apply plugin: 'pmd'
 
-ext.catroid_version = "0.9"
-ext.features_enabled = [
-        "backpack": false
-]
+ext {
+    projectVersion = "0.9"
+    featuresEnabled = [
+            "backpack": false,
+            "parrot_ar_drone": false,
+            "apk_generator": false,
+            "computer_vision_enhancement": false,
+            "formula_editor_lists": false,
+            "physics_engine_collision_filtering": false,
+            "time_capsule": false
+    ]
+}
 
 dependencies {
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
@@ -35,21 +43,35 @@ dependencies {
 }
 
 
-def getVersionCode = { ->
+def getBuildNumberParameter = { ->
     def code = project.hasProperty('versionCode') ? versionCode.toInteger() : -1
     return code
 }
 
-def getVersionName = { ->
-    def code = getVersionCode
-    def versionName = "$ext.catroid_version.$code"
-    println "VersionCode is set to $code"
-    println "VersionName is set to $versionName"
+def generateVersionName(version, buildNumber) {
+    def versionName
+    if (buildNumber == -1) {
+        versionName = getGitDescribe() + " " + getCurrentGitBranch()
+    } else {
+        versionName = version + "." + buildNumber
+    }
     return versionName
 }
 
-def gitDescribe() {
-    return 'git describe --tags'.execute().text.trim()
+def getGitDescribe() {
+    try {
+        return 'git describe --tags'.execute().text.trim()
+    } catch (IOException exception) {
+        throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?")
+    }
+}
+
+def getCurrentGitBranch() {
+    try {
+        return 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
+    } catch (IOException exception) {
+        throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?")
+    }
 }
 
 
@@ -63,9 +85,12 @@ android {
         packageName "org.catrobat.catroid"
         testPackageName "org.catrobat.catroid.test"
         testInstrumentationRunner "pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
-        versionCode getVersionCode()
-        versionName getVersionName()
-        buildConfigField "String", "GIT_DESCRIBE", "\"${gitDescribe()}\""
+        versionCode getBuildNumberParameter()
+        println "VersionCode is " + versionCode
+        versionName generateVersionName(projectVersion, versionCode)
+        println "VersionName is " + versionName
+        buildConfigField "String", "GIT_DESCRIBE", "\"${getGitDescribe()}\""
+        buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
     }
 
     sourceSets {
@@ -135,8 +160,8 @@ task jenkins() << {
 //    }
 }
 
-task featuresToBuildconfig() {
-    for (feature in project.ext.features_enabled) {
+task featuresToBuildconfig << {
+    for (feature in featuresEnabled) {
         def name = feature.key
         def value = feature.value
         if (project.hasProperty("allFeatures_enabled"))
@@ -148,7 +173,7 @@ task featuresToBuildconfig() {
     }
 }
 
-task testManifestHack() << {
+task testManifestHack << {
     def origManifest = file('catroidTest/AndroidManifest.xml')
     def generatedManifest = file("build/manifests/test/debug/AndroidManifest.xml")
     def origContent = origManifest.getText()
