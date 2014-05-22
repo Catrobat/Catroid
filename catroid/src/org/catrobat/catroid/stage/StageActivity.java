@@ -43,15 +43,23 @@ public class StageActivity extends AndroidApplication {
 	private boolean resizePossible;
 	private StageDialog stageDialog;
 
+	private DroneConnection droneConnection = null;
+
+	public static final int STAGE_ACTIVITY_FINISH = 7777;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+		droneConnection = new DroneConnection(this, getIntent());
 		stageListener = new StageListener();
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
+
 		initialize(stageListener, true);
+		droneConnection.initialise();
 	}
 
 	@Override
@@ -73,22 +81,19 @@ public class StageActivity extends AndroidApplication {
 		LedUtil.pauseLed();
 		VibratorUtil.pauseVibrator();
 		super.onPause();
+
+		droneConnection.pause();
+
 	}
 
 	@Override
 	public void onResume() {
-		Log.d(TAG, "StageActivity::onResume()");
 		SensorHandler.startSensorListener(this);
 		LedUtil.resumeLed();
 		VibratorUtil.resumeVibrator();
 		super.onResume();
-	}
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		LedUtil.reset();
-		VibratorUtil.reset();
+		droneConnection.start();
 	}
 
 	public void pause() {
@@ -150,6 +155,15 @@ public class StageActivity extends AndroidApplication {
 			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
 			ScreenValues.SCREEN_WIDTH = tmp;
 		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		droneConnection.destroy();
+		Log.d(TAG, "Destroy");
+		LedUtil.reset();
+		VibratorUtil.reset();
+		super.onDestroy();
 	}
 
 }

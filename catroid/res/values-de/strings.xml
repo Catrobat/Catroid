@@ -71,6 +71,8 @@
     <string name="preference_title">Einstellungen</string>
     <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorm Bausteine</string>
     <string name="preference_description_mindstorm_bricks">Erlaube Steuerung von Lego Mindstorm Robotern</string>
+    <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 Bausteine</string>
+    <string name="preference_description_quadcopter_bricks">Erlaubt dir, die ARDrone 2.0 zu steuern.</string>
     <!--  -->
 
 
@@ -94,6 +96,9 @@
     einhalten. Die exakte Formulierung unserer Nutzungsbedingungen steht unter 
     dem folgenden "Terms of Use" Link zur Verfügung.\n</string>
     <string name="dialog_terms_of_use_link_text">Terms of Use</string>
+    <string name="dialog_terms_of_use_agree_permanet">Ich stimme immer zu --- frage mich nicht noch einmal. Ich übernehme auch die Verantworung, wenn jemand anderer mein Gerät verwendet.</string>
+    <string name="dialog_terms_of_use_agree">Ich stimme zu</string>
+    <string name="dialog_terms_of_use_do_not_agree">Ich stimme nicht zu</string>
     <!--  -->
 
 
@@ -319,6 +324,7 @@
     <string name="category_control">Steuerung</string>
     <string name="category_variables">Variablen</string>
     <string name="category_lego_nxt">Lego NXT</string>
+    <string name="category_drone">ARDrone</string>
     <!--  -->
 
 
@@ -437,6 +443,23 @@
     <string name="default_project_var_random_to">zufällig bis</string>
     <!--  -->
 
+    <!-- defaultdroneValues -->
+    <string name="default_drone_project_name">Mein erstes Drohnen-Programm</string>  
+    <string name="default_drone_project_sprites_takeoff">Abheben</string>
+    
+    <!-- <string name="default_drone_project_sprites_blink_led">LED blinken</string> -->
+    <string name="default_drone_project_srpites_land">Landen</string>
+    <string name="default_drone_project_srpites_rotate">Flip</string>
+    <string name="default_drone_project_sprites_up">Fliege hoch</string>
+    <string name="default_drone_project_sprites_down">Fliege runter</string>
+    <string name="default_drone_project_sprites_left">Fliege links</string>
+    <string name="default_drone_project_sprites_right">Fliege rechts</string>
+    <string name="default_drone_project_sprites_forward">Fliege nach vorne</string>
+    <string name="default_drone_project_sprites_back">Fliege rückwärts</string>
+    <string name="default_drone_project_sprites_turn_left">Drehe links</string>
+    <string name="default_drone_project_sprites_turn_right">Drehe rechts</string>
+    <!--  -->
+    
 
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Bitte einen Wert eingeben</string>
@@ -449,6 +472,7 @@
     <string name="notification_upload_title_finished">"Anschauen von "</string>
     <string name="notification_upload_pending">Upload wird ausgeführt</string>
     <string name="notification_upload_finished">Upload erfolgreich</string>
+    <string name="notification_upload_rejected">Upload verweigert</string>
     <string name="notification_download_title_pending">"Downloaden von "</string>
     <string name="notification_download_pending">Download wird ausgeführt</string>
     <string name="notification_download_finished">Download erfolgreich</string>
@@ -479,8 +503,15 @@
     <string name="error_copy_project">Beim kopieren des Programms ist ein Fehler aufgetreten.</string>
     <string name="error_upload_project_with_default_name">Das Programm mit dem Namen \'Mein erstes Programm\' kann nicht hochgeladen werden. Bitte das Programm umbenennen.</string>
     <string name="error_upload_default_project">Das Programm entspricht dem Programm \'Mein erstes Programm\'. Bitte ändere es und versuche es noch einmal.</string>
+    <string name="error_no_drone_connected_title">Finde keine ARDrone</string>    
+    <string name="error_no_drone_connected">Verbinde dich mit dem WLan der Drone und probier es nochmal.</string>
+    <string name="error_drone_low_battery_title">Dronen Batterie fast leer: %d%%</string>
+    <string name="error_drone_low_battery">Lege einen geladenen Akku ein und probier es noch einmal.</string>
+    <string name="error_drone_wrong_platform_title">Keine ARDronen Unterstützung</string>
+    <string name="error_drone_wrong_platform">Leider können wir kein Dronen Projekt auf deinem Gerät ausführen.</string>
+    <string name="error_drone_not_available_in_release_build_title">ARDrone Projekt nicht verfügbar</string>
+    <string name="error_drone_not_available_in_release_build">Leider können wir derzeit noch keine Projekte mit ARDronen Bausteinen ausführen.</string>
     <!--  -->
-
 
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Bühne</string>
@@ -497,7 +528,6 @@
     <string name="none_found">Keine nicht verbundenen Geräte gefunden</string>
     <string name="none_paired">Keine verbundenen Geräte gefunden</string>
     <!--  -->
-
 
     <!-- Lego Mindstorms Strings -->
     <string name="brick_motor_action">NXT bewege Motor</string>
@@ -516,7 +546,25 @@
     <string name="nxt_motor_a_and_c">A+C</string>
     <string name="nxt_motor_all">Alle</string>
     <!--  -->
-
+    
+    <!-- Drone Bricks -->
+    <string name="brick_drone_takeoff">Hebe ab</string>
+    <string name="brick_drone_play_led_animation">Spiele LED-Animation</string>
+    <string name="brick_drone_land">Lande</string>
+    <string name="brick_drone_move_left">Fliege nach links</string>
+    <string name="brick_drone_move_right">Fliege nach rechts</string>
+    <string name="brick_drone_move_up">Fliege nach oben</string>
+    <string name="brick_drone_move_down">Fliege nach unten</string>
+    <string name="brick_drone_move_forward">Fliege nach vorne</string>
+    <string name="brick_drone_move_backward">Fliege nach hinten</string>
+    <string name="brick_drone_flip">Flip</string>
+    <string name="brick_drone_power">Power</string>
+    <string name="brick_drone_turn_left">Drehe nach links</string>
+    <string name="brick_drone_turn_right">Drehe nach rechts</string>
+    <string name="brick_drone_turn_left_magneto">Drehe nach links</string>
+    <string name="brick_drone_turn_right_magneto">Drehe nach rechts</string>
+    <string name="brick_drone_angle">Winkel</string>
+    <!--  -->
 
     <!-- Formula Editor Strings -->
     <string name="formula_editor_true">Wahr</string>
