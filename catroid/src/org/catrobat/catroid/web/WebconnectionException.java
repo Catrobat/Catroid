@@ -22,21 +22,17 @@
  */
 package org.catrobat.catroid.web;
 
+import android.util.Log;
+
 public class WebconnectionException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
 	public static final int ERROR_JSON = 1001;
 	public static final int ERROR_NETWORK = 1002;
-	public static final int ERROR_UNKNOWN = 1003;
 
 	private int statusCode;
 	private String message;
-
-	//	public WebconnectionException(int statusCode) {
-	//		super();
-	//		this.statusCode = statusCode;
-	//	}
 
 	public WebconnectionException(int statusCode, String message) {
 		super(message);
@@ -53,7 +49,9 @@ public class WebconnectionException extends Exception {
 		if (message == null) {
 			message = "Unknown Error, no exception message given.";
 		}
-		return "Error #" + statusCode + ": " + message;
+
+		Log.d("DEBUG", "Error #" + statusCode + ": " + message);
+		return message;
 	}
 
 }

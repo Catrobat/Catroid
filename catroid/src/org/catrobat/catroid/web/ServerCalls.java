@@ -47,7 +47,6 @@ public final class ServerCalls {
 	private static final String REGISTRATION_USERNAME_KEY = "registrationUsername";
 	private static final String REGISTRATION_PASSWORD_KEY = "registrationPassword";
 	private static final String REGISTRATION_COUNTRY_KEY = "registrationCountry";
-	private static final String REGISTRATION_LANGUAGE_KEY = "registrationLanguage";
 	private static final String REGISTRATION_EMAIL_KEY = "registrationEmail";
 	private static final String LOGIN_USERNAME_KEY = "username";
 
@@ -56,7 +55,7 @@ public final class ServerCalls {
 	private static final String PROJECT_DESCRIPTION_TAG = "projectDescription";
 	private static final String PROJECT_CHECKSUM_TAG = "fileChecksum";
 	private static final String USER_EMAIL = "userEmail";
-	private static final String USER_LANGUAGE = "userLanguage";
+	private static final String DEVICE_LANGUAGE = "deviceLanguage";
 
 	private static final int SERVER_RESPONSE_TOKEN_OK = 200;
 	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
@@ -69,15 +68,12 @@ public final class ServerCalls {
 	public static final String BASE_URL_TEST_HTTP = "http://catroid-test.catrob.at/";
 
 	public static final String TEST_FILE_UPLOAD_URL_HTTP = BASE_URL_TEST_HTTP + "api/upload/upload.json";
-	public static final String FILE_UPLOAD_URL_HTTPS = Constants.BASE_URL_HTTPS + "api/upload/upload.json";
 
 	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST_HTTP + "api/checkToken/check.json";
 	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST_HTTP + "api/loginOrRegister/loginOrRegister.json";
 
 	public static final int TOKEN_LENGTH = 32;
 	public static final String TOKEN_CODE_INVALID = "-1";
-
-	public static final String JSON_PROJECT_ID = "projectId";
 
 	private static final String JSON_STATUS_CODE = "statusCode";
 	private static final String JSON_ANSWER = "answer";
@@ -123,7 +119,7 @@ public final class ServerCalls {
 			postValues.put(Constants.USERNAME, username);
 
 			if (language != null) {
-				postValues.put(USER_LANGUAGE, language);
+				postValues.put(DEVICE_LANGUAGE, language);
 			}
 
 			String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL;
@@ -235,7 +231,7 @@ public final class ServerCalls {
 				postValues.put(REGISTRATION_COUNTRY_KEY, country);
 			}
 			if (language != null) {
-				postValues.put(REGISTRATION_LANGUAGE_KEY, language);
+				postValues.put(DEVICE_LANGUAGE, language);
 			}
 			String serverUrl = useTestUrl ? TEST_REGISTRATION_URL : REGISTRATION_URL;
 
