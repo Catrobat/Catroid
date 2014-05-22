@@ -92,15 +92,7 @@ public class StageActivity extends AndroidApplication {
 		LedUtil.resumeLed();
 		VibratorUtil.resumeVibrator();
 		super.onResume();
-
 		droneConnection.start();
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		LedUtil.reset();
-		VibratorUtil.reset();
 	}
 
 	public void pause() {
@@ -168,6 +160,8 @@ public class StageActivity extends AndroidApplication {
 	protected void onDestroy() {
 		droneConnection.destroy();
 		Log.d(TAG, "Destroy");
+		LedUtil.reset();
+		VibratorUtil.reset();
 		super.onDestroy();
 	}
 
