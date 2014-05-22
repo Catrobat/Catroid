@@ -123,6 +123,15 @@ public class PreStageActivity extends BaseActivity implements DroneReadyReceiver
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		returnToActivityIntent = new Intent();
+<<<<<<< HEAD
+=======
+
+		if (isFinishing()) {
+			return;
+		}
+
+		setContentView(R.layout.activity_prestage);
+>>>>>>> da840ea2201fd21bb4e7450eb79e9cd0f07707ba
 
 		if (isFinishing()) {
 			return;
