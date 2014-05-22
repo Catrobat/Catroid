@@ -56,7 +56,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
@@ -64,6 +63,7 @@ import com.actionbarsherlock.view.Menu;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.common.ToastManager;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SoundViewHolder;
@@ -160,10 +160,10 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 
 			case R.id.context_menu_unpacking:
 				SoundController.getInstance().copySound(selectedSoundInfoBackPack,
-						BackPackListManager.getCurrentSoundInfoArrayList(), BackPackListManager.getCurrentAdapter());
+				BackPackListManager.getCurrentSoundInfoArrayList(), BackPackListManager.getCurrentAdapter());
 				String textForUnPacking = getResources().getQuantityString(R.plurals.unpacking_items_plural, 1);
-				Toast.makeText(getActivity(), selectedSoundInfoBackPack.getTitle() + " " + textForUnPacking,
-						Toast.LENGTH_SHORT).show();
+
+				ToastManager.showSuccess(getActivity(), selectedSoundInfoBackPack.getTitle() + " " + textForUnPacking);
 				break;
 			case R.id.context_menu_delete:
 				showConfirmDeleteDialog();
@@ -557,7 +557,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 	private void showUnpackingConfirmationMessage() {
 		String messageForUser = getResources().getQuantityString(R.plurals.unpacking_items_plural,
 				adapter.getAmountOfCheckedItems());
-		Toast.makeText(getActivity(), messageForUser, Toast.LENGTH_SHORT).show();
+		ToastManager.showSuccess(getActivity(), messageForUser);
 	}
 
 	public BackPackSoundAdapter getAdapter() {

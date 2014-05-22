@@ -91,9 +91,9 @@
 
 
     <!-- Sprite activity -->
-    <string name="copy_sprite_finished">"gekopieerd."</string>
-    <string name="copy_sprite_prefix">"Object:"</string>
     <string name="copy_sprite_name_suffix">"_Kopiëren"</string>
+    <!--<string name="copy_sprite_finished">"gekopieerd."</string>-->
+    <!--<string name="copy_sprite_prefix">"Object:"</string>-->
     <!--  -->
 
 
@@ -151,7 +151,6 @@
     <string name="set_description">"Vul omschrijving in"</string>
     <string name="rename_project">"Programma hernoemen"</string>
     <string name="notification_title_copy_project">"Programma kopiëren"</string>
-    <string name="copy_project_finished">" gekopieerd."</string>
     <string name="program">"Programma"</string>
     <string name="programs">"Programma\'s"</string>
     <string name="dialog_confirm_delete_program_title">"Dit programma verwijderen?"</string>
@@ -159,6 +158,7 @@
     <string name="dialog_confirm_delete_program_message">"Dit kan niet ongedaan worden gemaakt!"</string>
     <string name="details_date_today">"Vandaag"</string>
     <string name="details_date_yesterday">"Gisteren"</string>
+    <!--<string name="copy_project_finished">" gekopieerd."</string>-->
     <!--  -->
 
 

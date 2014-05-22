@@ -37,7 +37,6 @@ import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
@@ -46,6 +45,7 @@ import com.actionbarsherlock.view.MenuItem;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.ToastManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
@@ -174,8 +174,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		try {
 			startActivity(myAppLinkToMarket);
 		} catch (ActivityNotFoundException e) {
-			Toast.makeText(this, R.string.main_menu_play_store_not_installed, Toast.LENGTH_SHORT).show();
-		}
+			ToastManager.showError(this, R.string.main_menu_play_store_not_installed);
+        }
 	}
 
 	// needed because of android:onClick in activity_main_menu.xml

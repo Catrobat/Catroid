@@ -44,7 +44,6 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
@@ -53,6 +52,7 @@ import com.actionbarsherlock.view.Menu;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.ToastManager;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
@@ -85,13 +85,11 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	private LinearLayout formulaEditorKeyboard;
 	private ImageButton formularEditorFieldDeleteButton;
 	private LinearLayout formulaEditorBrick;
-	private Toast toast;
 	private View brickView;
 	private long[] confirmSwitchEditTextTimeStamp = { 0, 0 };
 	private int confirmSwitchEditTextCounter = 0;
 	private CharSequence previousActionBarTitle;
 
-	public boolean restoreInstance = false;
 	private View fragmentView;
 	private VariableDeletedReceiver variableDeletedReceiver;
 
@@ -371,7 +369,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 					currentFormula.refreshTextField(brickView);
 				}
 				formulaEditorEditText.formulaSaved();
-				showToast(R.string.formula_editor_changes_saved);
+				showToast(R.string.formula_editor_changes_saved, false);
 				return true;
 			case PARSER_STACK_OVERFLOW:
 				return checkReturnWithoutSaving(PARSER_STACK_OVERFLOW);
@@ -392,15 +390,15 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			confirmSwitchEditTextTimeStamp[1] = 0;
 			confirmSwitchEditTextCounter = 0;
 			currentFormula.setDisplayText(null);
-			showToast(R.string.formula_editor_changes_discarded);
+			showToast(R.string.formula_editor_changes_discarded, false);
 			return true;
 		} else {
 			switch (errorType) {
 				case PARSER_INPUT_SYNTAX_ERROR:
-					showToast(R.string.formula_editor_parse_fail);
+					showToast(R.string.formula_editor_parse_fail, true);
 					break;
 				case PARSER_STACK_OVERFLOW:
-					showToast(R.string.formula_editor_parse_fail_formula_too_long);
+					showToast(R.string.formula_editor_parse_fail_formula_too_long, true);
 					break;
 			}
 			return false;
@@ -412,13 +410,13 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	 * TODO Remove Toasts from this class and replace them with something useful
 	 * This is a hack more than anything else. We shouldn't use Toasts if we're going to change the message all the time
 	 */
-	private void showToast(int resourceId) {
-		if (toast == null || toast.getView().getWindowVisibility() != View.VISIBLE) {
-			toast = Toast.makeText(getActivity().getApplicationContext(), resourceId, Toast.LENGTH_SHORT);
+	private void showToast(int resourceId, boolean error) {
+
+		if (error) {
+			ToastManager.showError(getActivity().getApplicationContext(), resourceId);
 		} else {
-			toast.setText(resourceId);
+			ToastManager.showSuccess(getActivity().getApplicationContext(), resourceId);
 		}
-		toast.show();
 	}
 
 	@Override
@@ -435,7 +433,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
 
-									showToast(R.string.formula_editor_changes_discarded);
+									showToast(R.string.formula_editor_changes_discarded, false);
 									currentFormula.setDisplayText(null);
 									onUserDismiss();
 								}

@@ -27,11 +27,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.ResultReceiver;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.ToastManager;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
@@ -136,13 +136,12 @@ public class ProjectUploadService extends IntentService {
 	@Override
 	public void onDestroy() {
 		if (!result) {
-			Toast.makeText(this, getResources().getText(R.string.error_project_upload).toString() + " " + serverAnswer, Toast.LENGTH_SHORT).show();
+			String message = getResources().getText(R.string.error_project_upload).toString() + " " + serverAnswer;
+			ToastManager.showError(this, message);
 			StatusBarNotificationManager.getInstance().abortProgressNotificationWithMessage(notificationId, getResources().getString(R.string.notification_upload_rejected));
-		}
-		else {
-			Toast.makeText(this, R.string.notification_upload_finished, Toast.LENGTH_SHORT).show();
+		} else {
+			ToastManager.showSuccess(this, R.string.notification_upload_finished);
 		}
 		super.onDestroy();
 	}
-
 }

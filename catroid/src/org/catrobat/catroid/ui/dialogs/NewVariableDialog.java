@@ -39,12 +39,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
-import android.widget.Toast;
+
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.ToastManager;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
 import java.util.ArrayList;
@@ -131,8 +132,7 @@ public class NewVariableDialog extends SherlockDialogFragment {
 		if (globalVariable.isChecked()) {
 			if (ProjectManager.getInstance().getCurrentProject().getUserVariables()
 					.getUserVariable(variableName, ProjectManager.getInstance().getCurrentSprite()) != null) {
-
-				Toast.makeText(getActivity(), R.string.formula_editor_existing_variable, Toast.LENGTH_LONG).show();
+				ToastManager.showError(getActivity(), R.string.formula_editor_existing_variable);
 
 			} else {
 				newUserVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
@@ -173,7 +173,7 @@ public class NewVariableDialog extends SherlockDialogFragment {
 				if (ProjectManager.getInstance().getCurrentProject().getUserVariables()
 						.getUserVariable(variableName, ProjectManager.getInstance().getCurrentSprite()) != null) {
 
-					Toast.makeText(getActivity(), R.string.formula_editor_existing_variable, Toast.LENGTH_SHORT).show();
+					ToastManager.showError(getActivity(), R.string.formula_editor_existing_variable);
 
 					positiveButton.setEnabled(false);
 				} else {

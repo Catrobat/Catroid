@@ -26,13 +26,13 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.common.ToastManager;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
@@ -66,7 +66,7 @@ public class StageActivity extends AndroidApplication {
 				droneConnection.initialise();
 			} catch (RuntimeException runtimeException) {
 				Log.e(TAG, "Failure during drone service startup", runtimeException);
-				Toast.makeText(this, R.string.error_no_drone_connected, Toast.LENGTH_LONG).show();
+				ToastManager.showError(this, R.string.error_no_drone_connected);
 				this.finish();
 			}
 		}

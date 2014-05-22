@@ -39,6 +39,7 @@ dependencies {
     compile 'com.android.support:support-v4:18.0.+'
     compile fileTree(dir: 'catroid/libs', include: '*.jar')
     compile fileTree(dir: 'catroid/libs-natives', include: '*.jar')
+    compile 'com.github.johnpersano:supertoasts:1.3.4@aar'
 
     androidTestCompile fileTree(dir: 'catroidTest/libs', include: '*.jar')
 }

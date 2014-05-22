@@ -24,7 +24,6 @@ package org.catrobat.catroid.utils;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -37,7 +36,6 @@ import java.io.IOException;
 public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 
 	private ProjectsListFragment parentFragment;
-	private String newName;
 
 	public CopyProjectTask(ProjectsListFragment parentActivity) {
 		this.parentFragment = parentActivity;
@@ -46,7 +44,6 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 	@Override
 	protected Boolean doInBackground(String... projectNameArray) {
 		String newProjectName = projectNameArray[0];
-		newName = newProjectName;
 		int notificationId = StatusBarNotificationManager.getInstance().createCopyNotification(
 				parentFragment.getActivity(), newProjectName);
 		String oldProjectName = projectNameArray[1];
@@ -88,10 +85,6 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 			return;
 		}
 
-		Toast.makeText(
-				parentFragment.getActivity(),
-				parentFragment.getString(R.string.project_name) + " " + newName + " "
-						+ parentFragment.getString(R.string.copy_project_finished), Toast.LENGTH_SHORT).show();
 		parentFragment.onCopyProject();
 	}
 

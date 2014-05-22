@@ -131,9 +131,9 @@
 
 
     <!-- Sprite activity -->
-    <string name="copy_sprite_finished">copied.</string>
-    <string name="copy_sprite_prefix">Object:</string>
     <string name="copy_sprite_name_suffix">_Copy</string>
+    <!--<string name="copy_sprite_finished">copied.</string> -->
+    <!--<string name="copy_sprite_prefix">Object:</string> -->
     <!--  -->
 
 
@@ -211,7 +211,6 @@
     <string name="description">Description:</string>
     <string name="set_description">Set description</string>
     <string name="rename_project">Rename Program</string>
-    <string name="copy_project_finished"> copied.</string>
     <string name="program">Program</string>
     <string name="programs">Programs</string>
     <string name="dialog_confirm_delete_program_title">Delete this program?</string>
@@ -220,6 +219,7 @@
     <string name="details_date_today">Today</string>
     <string name="details_date_yesterday">Yesterday</string>
     <string name="dialog_copy_project_title">Copy program</string>
+    <!-- <string name="copy_project_finished"> copied.</string> -->
     <!--  -->
 
 
@@ -514,6 +514,7 @@
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="problem_at_closing">Problem while closing the connection!</string>
     <string name="bt_connection_failed">Connection to device failed!</string>
+    <string name="tts_engine_error">Error occurred while initializing Text-To-Speech engine</string>
     <string name="no_paired_nxt">No paired NXT found</string>
     <string name="none_found">No unpaired devices found</string>
     <string name="none_paired">No paired devices found</string>

@@ -75,4 +75,8 @@ public class CatroidApplication extends Application {
 		}
 		return parrotLibrariesLoaded;
 	}
+
+	//public static getCatroidApplication(){
+	//	return this.getApplicationContext()
+	//}
 }

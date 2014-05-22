@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import static android.widget.Toast.LENGTH_SHORT;
-
 import android.app.Dialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -32,11 +30,11 @@ import android.view.View;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BroadcastSequenceMap;
 import org.catrobat.catroid.common.BroadcastWaitSequenceMap;
+import org.catrobat.catroid.common.ToastManager;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 
@@ -118,9 +116,9 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 
 	private void makeScreenshot() {
 		if (stageListener.makeManualScreenshot()) {
-			Toast.makeText(stageActivity, R.string.notification_screenshot_ok, LENGTH_SHORT).show();
+			ToastManager.showSuccess(stageActivity, R.string.notification_screenshot_ok);
 		} else {
-			Toast.makeText(stageActivity, R.string.error_screenshot_failed, LENGTH_SHORT).show();
+			ToastManager.showError(stageActivity, R.string.error_screenshot_failed);
 		}
 	}
 
