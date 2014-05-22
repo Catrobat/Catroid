@@ -29,7 +29,7 @@ import org.catrobat.catroid.utils.LedUtil;
 
 public class LedAction extends TemporalAction {
 
-	private Sprite sprite; //NOPMD
+	private Sprite sprite;
 	private boolean ledValue;
 
 	@Override
