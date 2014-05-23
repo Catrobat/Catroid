@@ -79,10 +79,6 @@ public class DroneInitialiser implements DroneReadyReceiverDelegate, DroneConnec
 	private PreStageActivity prestageStageActivity;
 	private Intent returnToActivityIntent = null;
 
-	@SuppressWarnings("unused")
-	private DroneInitialiser() {
-	}
-
 	public DroneInitialiser(PreStageActivity prestageStageActivity, Intent returnToActivityIntent) {
 		this.prestageStageActivity = prestageStageActivity;
 		this.returnToActivityIntent = returnToActivityIntent;
@@ -165,7 +161,6 @@ public class DroneInitialiser implements DroneReadyReceiverDelegate, DroneConnec
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
 			droneControlService = null; //nothing else to do here
-
 		}
 	};
 
@@ -254,7 +249,6 @@ public class DroneInitialiser implements DroneReadyReceiverDelegate, DroneConnec
 					DroneControlService.DRONE_CONNECTION_CHANGED_ACTION));
 			manager.registerReceiver(droneStateReceiver, new IntentFilter(DroneStateManager.ACTION_DRONE_STATE_CHANGED));
 		}
-
 	}
 
 	@SuppressLint("NewApi")
@@ -301,8 +295,6 @@ public class DroneInitialiser implements DroneReadyReceiverDelegate, DroneConnec
 		if (checkMediaTask2 == null || checkMediaTask2.getStatus() == Status.FINISHED) {
 			return false;
 		}
-
 		return true;
 	}
-
 }

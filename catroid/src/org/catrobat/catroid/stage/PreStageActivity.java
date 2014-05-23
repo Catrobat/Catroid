@@ -115,7 +115,7 @@ public class PreStageActivity extends BaseActivity {
 		}
 
 		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
-			droneInitialiser = new DroneInitialiser(this, returnToActivityIntent);
+			droneInitialiser = getDroneInitialiser();
 			droneInitialiser.initialise();
 		}
 
@@ -125,6 +125,9 @@ public class PreStageActivity extends BaseActivity {
 	}
 
 	public DroneInitialiser getDroneInitialiser() {
+		if (droneInitialiser == null) {
+			droneInitialiser = new DroneInitialiser(this, returnToActivityIntent);
+		}
 		return droneInitialiser;
 	}
 

@@ -84,11 +84,11 @@ public class StageActivityDroneTest extends BaseActivityInstrumentationTestCase<
 
 		waitForPrestageActivity();
 
-		Reflection.setPrivateField(preStageActivity, "droneBatteryCharge", 100);
+		Reflection.setPrivateField(preStageActivity.getDroneInitialiser(), "droneBatteryCharge", 100);
 
 		assertNull("Drone service wrapper should not be initialised", DroneServiceWrapper.getInstance()
 				.getDroneService());
-		preStageActivity.onDroneReady();
+		preStageActivity.getDroneInitialiser().onDroneReady();
 
 		waitForStageActivity();
 
