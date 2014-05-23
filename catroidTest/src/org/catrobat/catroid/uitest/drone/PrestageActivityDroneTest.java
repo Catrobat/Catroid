@@ -39,6 +39,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
+import org.catrobat.catroid.drone.DroneInitialiser;
 import org.catrobat.catroid.stage.DroneConnection;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
@@ -272,6 +273,6 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 
 	private boolean getStageActivityIntentAndDroneStartValue(boolean defaultValue) {
 		stageActivityIntent = stageActivity.getIntent();
-		return stageActivityIntent.getBooleanExtra(PreStageActivity.INIT_DRONE_STRING_EXTRA, defaultValue);
+		return stageActivityIntent.getBooleanExtra(DroneInitialiser.INIT_DRONE_STRING_EXTRA, defaultValue);
 	}
 }
