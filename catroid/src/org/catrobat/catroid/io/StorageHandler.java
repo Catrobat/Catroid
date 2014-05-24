@@ -85,6 +85,7 @@ import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
+import org.catrobat.catroid.content.bricks.LedOffBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -265,6 +266,7 @@ public final class StorageHandler {
 		xstream.alias("droneMoveDownBrick", DroneMoveDownBrick.class);
 		xstream.alias("droneMoveLeftBrick", DroneMoveLeftBrick.class);
 		xstream.alias("droneMoveRightBrick", DroneMoveRightBrick.class);
+   	xstream.alias("ledBrick", LedOffBrick.class);
 	}
 
 	private void createCatroidRoot() {

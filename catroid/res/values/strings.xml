@@ -233,6 +233,8 @@
 
     <!-- PreStage activity -->
     <string name="text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
+    <string name="no_flash_led_available">No flash LED available</string>
+    <string name="no_vibrator_available">Vibrator not available</string>
     <!--  -->
 
 
@@ -372,6 +374,9 @@
     <string name="brick_clear_graphic_effect">Clear graphic effects</string>
     <string name="brick_next_look">Next look</string>
     <string name="brick_next_background">Next background</string>
+    <string name="brick_led_on">switch camera LED ON</string>
+    <string name="brick_led_off">switch camera LED OFF</string>
+    <string name="brick_vibration">vibrate for</string>
     <!--  -->
 
 
@@ -391,6 +396,7 @@
     <string name="brick_when_started">When program started</string>
     <string name="brick_when">When tapped</string>
     <string name="brick_wait">Wait</string>
+
 
     <plurals name="second_plural">
         <item quantity="one">"second "</item>
@@ -642,7 +648,7 @@
     <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
     <string name="variable_name">variable name:</string>
 
-    <plurals name="formula_editor_variable_context_action_item_selected">
+	<plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable selected!</item>
         <item quantity="other">Variables selected!</item>
     </plurals>

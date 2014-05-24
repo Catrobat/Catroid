@@ -412,6 +412,82 @@ public class ExtendedActions extends Actions {
 		action.setSprite(sprite);
 		action.setDelay(seconds);
 		action.setPower(powerInPercent);
+    
+  public static LedAction lights(Sprite sprite, boolean ledValue) {
+		LedAction action = action(LedAction.class);
+		action.setSprite(sprite);
+		action.setLedValue(ledValue);
+		return action;
+	}
+
+	public static VibrateAction vibrate(Sprite sprite, Formula duration) {
+		VibrateAction action = action(VibrateAction.class);
+		action.setSprite(sprite);
+		action.setDuration(duration);
+		return action;
+	}
+
+	public static TemporalAction droneTakeOff() {
+		return action(DroneTakeoffAction.class);
+	}
+
+	public static TemporalAction droneLand() {
+		return action(DroneTakeoffAction.class);
+	}
+
+	public static TemporalAction droneMoveUp(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneMoveUpAction action = action(DroneMoveUpAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneMoveDown(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneMoveDownAction action = action(DroneMoveDownAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneMoveLeft(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneMoveLeftAction action = action(DroneMoveLeftAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneMoveRight(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneMoveRightAction action = action(DroneMoveRightAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneMoveForward(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneMoveForwardAction action = action(DroneMoveForwardAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneMoveBackward(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneMoveBackwardAction action = action(DroneMoveBackwardAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
+		return action;
+	}
+
+	public static TemporalAction droneTurnRight(Sprite sprite, Formula seconds, Formula powerInPercent) {
+		DroneTurnRightAction action = action(DroneTurnRightAction.class);
+		action.setSprite(sprite);
+		action.setDelay(seconds);
+		action.setPower(powerInPercent);
 		return action;
 	}
 
@@ -446,5 +522,4 @@ public class ExtendedActions extends Actions {
 	public static TemporalAction droneFlip() {
 		return action(DroneFlipAction.class);
 	}
-
 }

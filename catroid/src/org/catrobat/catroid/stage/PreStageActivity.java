@@ -38,10 +38,12 @@ import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.AsyncTask.Status;
 import android.os.Build;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
@@ -75,6 +77,9 @@ import org.catrobat.catroid.legonxt.LegoNXTBtCommunicator;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
+import org.catrobat.catroid.utils.LedUtil;
+import org.catrobat.catroid.utils.VibratorUtil;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 
 import java.io.File;
@@ -118,6 +123,7 @@ public class PreStageActivity extends BaseActivity implements DroneReadyReceiver
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		returnToActivityIntent = new Intent();
+		setContentView(R.layout.activity_prestage);
 
 		if (isFinishing()) {
 			return;
@@ -132,6 +138,33 @@ public class PreStageActivity extends BaseActivity implements DroneReadyReceiver
 			Intent checkIntent = new Intent();
 			checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
 			startActivityForResult(checkIntent, REQUEST_TEXT_TO_SPEECH);
+		}
+
+		if ((requiredResources & Brick.CAMERA_LED ) > 0) {
+			boolean hasCamera = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
+			boolean hasLed = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
+
+			if ( hasCamera && hasLed ) {
+				requiredResources &= ~Brick.CAMERA_LED;
+				requiredResourceCounter--;
+				LedUtil.activateLedThread();
+			} else {
+				Toast.makeText(PreStageActivity.this, R.string.no_flash_led_available, Toast.LENGTH_LONG).show();
+				resourceFailed();
+			}
+		}
+
+		if ((requiredResources & Brick.VIBRATOR) > 0) {
+			Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+			if (vibrator != null) {
+				requiredResources &= ~Brick.VIBRATOR;
+				requiredResourceCounter--;
+				VibratorUtil.setContext(this.getBaseContext());
+				VibratorUtil.activateVibratorThread();
+			} else {
+				Toast.makeText(PreStageActivity.this, R.string.no_vibrator_available, Toast.LENGTH_LONG).show();
+				resourceFailed();
+			}
 		}
 
 		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
@@ -293,6 +326,12 @@ public class PreStageActivity extends BaseActivity implements DroneReadyReceiver
 			legoNXT = null;
 		}
 		deleteSpeechFiles();
+		if (LedUtil.isActive()) {
+			LedUtil.killLedThread();
+		}
+		if (VibratorUtil.isActive()) {
+			VibratorUtil.killVibratorThread();
+		}
 	}
 
 	private static void deleteSpeechFiles() {

@@ -236,6 +236,8 @@
 
     <!-- PreStage activity -->
     <string name="text_to_speech_engine_not_installed">Text-to-Speech Modul nicht installiert!\nJetzt installieren?</string>
+    <string name="no_flash_led_available">Kein Blitzlicht gefunden</string>
+    <string name="no_vibrator_available">Vibrationsfunktion nicht verfügbar</string>
     <!--  -->
 
 
@@ -375,6 +377,9 @@
     <string name="brick_clear_graphic_effect">Schalte Grafikeffekte aus</string>
     <string name="brick_next_look">Nächstes Aussehen</string>
     <string name="brick_next_background">Nächster Hintergrund</string>
+    <string name="brick_led_on">LED einschalten</string>
+    <string name="brick_led_off">LED ausschalten</string>
+    <string name="brick_vibration">vibrieren für</string>
     <!--  -->
 
 
