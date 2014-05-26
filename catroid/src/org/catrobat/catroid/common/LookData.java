@@ -98,6 +98,9 @@ public class LookData implements Serializable, Cloneable {
 				if (gdxRuntimeException.getMessage().startsWith("Couldn't load file:")) {
 					pixmap = new Pixmap(1, 1, Pixmap.Format.Alpha);
 				}
+			} catch (NullPointerException nullPointerException) {
+				Log.d(TAG, "gdx.files throws nullpointer");
+				pixmap = new Pixmap(1, 1, Pixmap.Format.Alpha);
 			}
 		}
 		return pixmap;
