@@ -20,12 +20,13 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uitest.content.brick;
+package org.catrobat.catroid.uitest.content.brick.physics;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
 
+import com.badlogic.gdx.math.Vector2;
 import com.jayway.android.robotium.solo.Solo;
 
 import org.catrobat.catroid.ProjectManager;
@@ -35,19 +36,19 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
+import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class SetFrictionBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class SetGravityTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
-	private SetFrictionBrick setFrictionBrick;
+	private SetGravityBrick setGravityBrick;
 
-	public SetFrictionBrickTest() {
+	public SetGravityTest() {
 		super(ScriptActivity.class);
 	}
 
@@ -67,7 +68,7 @@ public class SetFrictionBrickTest extends ActivityInstrumentationTestCase2<Scrip
 	}
 
 	@Smoke
-	public void testSetFrictionBrick() {
+	public void testSetGravityByBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
@@ -81,20 +82,25 @@ public class SetFrictionBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_set_friction)));
+		String textSetGravity = solo.getString(R.string.brick_set_gravity_to);
+		assertNotNull("TextView does not exist.", solo.getText(textSetGravity));
 
-		float friction = 1.234f;
+		Vector2 gravity = new Vector2(1.2f, -3.1f);
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_friction_edit_text, friction, "friction",
-				setFrictionBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_gravity_edit_text_x, gravity.x, "gravityX",
+				setGravityBrick);
+		solo.sleep(200);
+
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_gravity_edit_text_y, gravity.y, "gravityY",
+				setGravityBrick);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		setFrictionBrick = new SetFrictionBrick(sprite, 0.0f);
-		script.addBrick(setFrictionBrick);
+		setGravityBrick = new SetGravityBrick(sprite, new Vector2(0, 10.0f));
+		script.addBrick(setGravityBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

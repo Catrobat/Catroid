@@ -20,12 +20,11 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uitest.content.brick;
+package org.catrobat.catroid.uitest.content.brick.physics;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
-import android.widget.Spinner;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -36,21 +35,19 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
+import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class SetPhysicsObjectTypeBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class SetFrictionBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
-	private SetPhysicsObjectTypeBrick setPhysicsObjectTypeBrick;
+	private SetFrictionBrick setFrictionBrick;
 
-	public SetPhysicsObjectTypeBrickTest() {
+	public SetFrictionBrickTest() {
 		super(ScriptActivity.class);
 	}
 
@@ -62,18 +59,15 @@ public class SetPhysicsObjectTypeBrickTest extends ActivityInstrumentationTestCa
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-
-		getActivity().finish();
+		UiTestUtils.goBackToHome(getInstrumentation());
+		solo.finishOpenedActivities();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		solo = null;
 	}
 
 	@Smoke
-	public void testPhysicsObjectTypeBrick() {
+	public void testSetFrictionBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
@@ -87,34 +81,20 @@ public class SetPhysicsObjectTypeBrickTest extends ActivityInstrumentationTestCa
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
-		String textSetPhysicsObjectType = solo.getString(R.string.brick_set_physics_object_type);
-		assertNotNull("TextView does not exist.", solo.getText(textSetPhysicsObjectType));
+		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_set_friction)));
 
-		checkSpinnerItemPressed(0);
-		checkSpinnerItemPressed(1);
-		checkSpinnerItemPressed(2);
-	}
+		float friction = 1.234f;
 
-	private void checkSpinnerItemPressed(int spinnerItemIndex) {
-		String[] physicsObjectTypes = getActivity().getResources().getStringArray(R.array.physics_object_types);
-
-		solo.pressSpinnerItem(0, spinnerItemIndex);
-		solo.sleep(200);
-		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-
-		PhysicsObject.Type choosenPhysicsType = (PhysicsObject.Type) Reflection.getPrivateField(
-				setPhysicsObjectTypeBrick, "type");
-		assertEquals("Wrong text in field.", PhysicsObject.Type.values()[spinnerItemIndex], choosenPhysicsType);
-		assertEquals("Value in Brick is not updated.", physicsObjectTypes[spinnerItemIndex],
-				solo.getCurrentViews(Spinner.class).get(0).getSelectedItem());
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_friction_edit_text, friction, "friction",
+				setFrictionBrick);
 	}
 
 	private void createProject() {
-		project = new Project(null, "testProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		setPhysicsObjectTypeBrick = new SetPhysicsObjectTypeBrick(sprite, PhysicsObject.Type.DYNAMIC);
-		script.addBrick(setPhysicsObjectTypeBrick);
+		setFrictionBrick = new SetFrictionBrick(sprite, 0.0f);
+		script.addBrick(setFrictionBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

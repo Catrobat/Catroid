@@ -20,11 +20,12 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uitest.content.brick;
+package org.catrobat.catroid.uitest.content.brick.physics;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -35,19 +36,21 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
+import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class SetBounceBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class SetPhysicsObjectTypeBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
-	private SetBounceBrick setBounceFactorBrick;
+	private SetPhysicsObjectTypeBrick setPhysicsObjectTypeBrick;
 
-	public SetBounceBrickTest() {
+	public SetPhysicsObjectTypeBrickTest() {
 		super(ScriptActivity.class);
 	}
 
@@ -59,15 +62,18 @@ public class SetBounceBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
+		try {
+			solo.finalize();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+
+		getActivity().finish();
 		super.tearDown();
-		solo = null;
 	}
 
 	@Smoke
-	public void testSetBounceFactorBrick() {
+	public void testPhysicsObjectTypeBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
@@ -81,20 +87,34 @@ public class SetBounceBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_set_bounce_factor)));
+		String textSetPhysicsObjectType = solo.getString(R.string.brick_set_physics_object_type);
+		assertNotNull("TextView does not exist.", solo.getText(textSetPhysicsObjectType));
 
-		float bounceFactor = 0.65f;
+		checkSpinnerItemPressed(0);
+		checkSpinnerItemPressed(1);
+		checkSpinnerItemPressed(2);
+	}
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_bounce_factor_edit_text, bounceFactor,
-				"bounceFactor", setBounceFactorBrick);
+	private void checkSpinnerItemPressed(int spinnerItemIndex) {
+		String[] physicsObjectTypes = getActivity().getResources().getStringArray(R.array.physics_object_types);
+
+		solo.pressSpinnerItem(0, spinnerItemIndex);
+		solo.sleep(200);
+		solo.waitForActivity(ScriptActivity.class.getSimpleName());
+
+		PhysicsObject.Type choosenPhysicsType = (PhysicsObject.Type) Reflection.getPrivateField(
+				setPhysicsObjectTypeBrick, "type");
+		assertEquals("Wrong text in field.", PhysicsObject.Type.values()[spinnerItemIndex], choosenPhysicsType);
+		assertEquals("Value in Brick is not updated.", physicsObjectTypes[spinnerItemIndex],
+				solo.getCurrentViews(Spinner.class).get(0).getSelectedItem());
 	}
 
 	private void createProject() {
-		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		setBounceFactorBrick = new SetBounceBrick(sprite, 0.0f);
-		script.addBrick(setBounceFactorBrick);
+		setPhysicsObjectTypeBrick = new SetPhysicsObjectTypeBrick(sprite, PhysicsObject.Type.DYNAMIC);
+		script.addBrick(setPhysicsObjectTypeBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);
