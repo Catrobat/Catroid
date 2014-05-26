@@ -39,6 +39,7 @@ import com.parrot.freeflight.receivers.DroneReadyReceiverDelegate;
 import com.parrot.freeflight.service.DroneControlService;
 
 import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.drone.DroneInitialiser;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 
 public class DroneConnection implements StageResourceInterface, DroneReadyReceiverDelegate,
@@ -104,7 +105,7 @@ public class DroneConnection implements StageResourceInterface, DroneReadyReceiv
 
 	private boolean prepareDroneRessources() {
 		if (BuildConfig.DEBUG) {
-			droneIsRequired = stageStartIntent.getBooleanExtra(PreStageActivity.INIT_DRONE_STRING_EXTRA, false);
+			droneIsRequired = stageStartIntent.getBooleanExtra(DroneInitialiser.INIT_DRONE_STRING_EXTRA, false);
 			Log.d(TAG, "prepareRessources() initDrone=" + droneIsRequired.toString());
 			if (droneIsRequired) {
 				droneReadyReceiver = new DroneReadyReceiver(this);

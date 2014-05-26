@@ -39,6 +39,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
+import org.catrobat.catroid.drone.DroneInitialiser;
 import org.catrobat.catroid.stage.DroneConnection;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
@@ -172,10 +173,11 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		UiTestUtils.clickOnPlayButton(solo);
 		waitForPreStageActivity();
-		assertEquals("Must be unchanged 0", 0, getDroneBatteryLevelFromPreStageActivity());
 		solo.sleep(4000);
-		preStageActivity.onDroneBatteryChanged(2);
-		preStageActivity.onDroneReady();
+		assertEquals("Must be unchanged 0", 0, getDroneBatteryLevelFromPreStageActivityDroneinitialiser());
+		solo.sleep(4000);
+		preStageActivity.getDroneInitialiser().onDroneBatteryChanged(2);
+		preStageActivity.getDroneInitialiser().onDroneReady();
 
 		solo.waitForDialogToOpen(2000);
 	}
@@ -208,7 +210,7 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 		waitForDroneServiceToBind(ActivityUnderTest.PRE_STAGE);
 		assertNull("DroneControlService must not be started", droneControlService);
 
-		preStageActivity.onDroneAvailabilityChanged(true);
+		preStageActivity.getDroneInitialiser().onDroneAvailabilityChanged(true);
 
 		waitForDroneServiceToBind(ActivityUnderTest.PRE_STAGE);
 		assertNotNull("DroneControlService must be started", droneControlService);
@@ -230,7 +232,7 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 			solo.sleep(1000);
 			switch (activityUnderTest) {
 				case PRE_STAGE:
-					getDroneControlServiceFromPreStage(preStageActivity);
+					getDroneControlServiceFromPreStageDroneInitialiser();
 					break;
 				case STAGE:
 					droneConnection = (DroneConnection) Reflection.getPrivateField(stageActivity, "droneConnection");
@@ -251,9 +253,11 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 		stageActivity = (StageActivity) solo.getCurrentActivity();
 	}
 
-	private int getDroneBatteryLevelFromPreStageActivity() {
+	private int getDroneBatteryLevelFromPreStageActivityDroneinitialiser() {
 		assertNotNull("PreStage not correctly initialized", preStageActivity);
-		return (Integer) Reflection.getPrivateField(preStageActivity, "droneBatteryCharge");
+		DroneInitialiser droneInitialiser = preStageActivity.getDroneInitialiser();
+		assertNotNull("Must be created if drone property is set", droneInitialiser);
+		return (Integer) Reflection.getPrivateField(droneInitialiser, "droneBatteryCharge");
 	}
 
 	private void waitForPreStageActivity() {
@@ -262,8 +266,9 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 		assertNotNull("prestage must be present", preStageActivity);
 	}
 
-	private void getDroneControlServiceFromPreStage(PreStageActivity preStage) {
-		droneControlService = (DroneControlService) Reflection.getPrivateField(preStage, "droneControlService");
+	private void getDroneControlServiceFromPreStageDroneInitialiser() {
+		droneControlService = (DroneControlService) Reflection.getPrivateField(preStageActivity.getDroneInitialiser(),
+				"droneControlService");
 	}
 
 	private void getDroneControlServiceFromDroneStageListenerOnStage() {
@@ -272,6 +277,6 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 
 	private boolean getStageActivityIntentAndDroneStartValue(boolean defaultValue) {
 		stageActivityIntent = stageActivity.getIntent();
-		return stageActivityIntent.getBooleanExtra(PreStageActivity.INIT_DRONE_STRING_EXTRA, defaultValue);
+		return stageActivityIntent.getBooleanExtra(DroneInitialiser.INIT_DRONE_STRING_EXTRA, defaultValue);
 	}
 }
