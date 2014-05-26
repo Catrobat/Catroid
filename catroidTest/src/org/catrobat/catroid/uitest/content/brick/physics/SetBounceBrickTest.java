@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uitest.content.brick;
+package org.catrobat.catroid.uitest.content.brick.physics;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
@@ -35,19 +35,19 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
+import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class TurnRightSpeedBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class SetBounceBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
-	private TurnRightSpeedBrick turnRightSpeedBrick;
+	private SetBounceBrick setBounceFactorBrick;
 
-	public TurnRightSpeedBrickTest() {
+	public SetBounceBrickTest() {
 		super(ScriptActivity.class);
 	}
 
@@ -67,7 +67,7 @@ public class TurnRightSpeedBrickTest extends ActivityInstrumentationTestCase2<Sc
 	}
 
 	@Smoke
-	public void testSetAngularVelocityBrick() {
+	public void testSetBounceFactorBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
@@ -81,21 +81,20 @@ public class TurnRightSpeedBrickTest extends ActivityInstrumentationTestCase2<Sc
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
-		String textSetRotationSpeed = solo.getString(R.string.brick_turn_right_speed);
-		assertNotNull("TextView does not exist.", solo.getText(textSetRotationSpeed));
+		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_set_bounce_factor)));
 
-		float degreesPerSecond = 10.0f;
+		float bounceFactor = 0.65f;
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_turn_right_speed_edit_text, degreesPerSecond,
-				"degreesPerSecond", turnRightSpeedBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_bounce_factor_edit_text, bounceFactor,
+				"bounceFactor", setBounceFactorBrick);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		turnRightSpeedBrick = new TurnRightSpeedBrick(sprite, 0.0f);
-		script.addBrick(turnRightSpeedBrick);
+		setBounceFactorBrick = new SetBounceBrick(sprite, 0.0f);
+		script.addBrick(setBounceFactorBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);
