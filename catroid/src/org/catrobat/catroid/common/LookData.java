@@ -90,7 +90,12 @@ public class LookData implements Serializable, Cloneable {
 
 	public Pixmap getPixmap() {
 		if (pixmap == null) {
-			pixmap = new Pixmap(Gdx.files.absolute(getAbsolutePath()));
+			try {
+				pixmap = new Pixmap(Gdx.files.absolute(getAbsolutePath()));
+			} catch (NullPointerException nullPointerException) {
+				Log.d(TAG, "gdx.files throws nullpointer");
+				return null;
+			}
 		}
 		return pixmap;
 	}

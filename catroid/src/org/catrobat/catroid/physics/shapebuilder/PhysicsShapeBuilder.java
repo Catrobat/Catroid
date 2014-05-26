@@ -53,6 +53,9 @@ public class PhysicsShapeBuilder {
 		Shape[] shapes = shapeMap.get(getKey(lookData, 1.0f));
 		if (shapes == null) {
 			shapes = strategy.build(lookData);
+			if (shapes == null) {
+				return null;
+			}
 			shapeMap.put(getKey(lookData, 1.0f), shapes);
 		}
 
