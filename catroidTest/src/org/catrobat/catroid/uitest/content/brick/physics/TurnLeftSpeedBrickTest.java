@@ -20,7 +20,7 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uitest.content.brick;
+package org.catrobat.catroid.uitest.content.brick.physics;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
@@ -35,20 +35,19 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.content.bricks.SetMassBrick;
+import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class SetMassTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class TurnLeftSpeedBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
-	private SetMassBrick setMassBrick;
+	private TurnLeftSpeedBrick turnLeftSpeedBrick;
 
-	public SetMassTest() {
+	public TurnLeftSpeedBrickTest() {
 		super(ScriptActivity.class);
 	}
 
@@ -68,26 +67,7 @@ public class SetMassTest extends ActivityInstrumentationTestCase2<ScriptActivity
 	}
 
 	@Smoke
-	public void testSetMassByBrick() {
-		this.checkSetup();
-
-		float mass = 1.234f;
-
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_mass_edit_text, mass, "mass", setMassBrick);
-	}
-
-	@Smoke
-	public void testSetInvalidMassValues() {
-		this.checkSetup();
-
-		float masses[] = { -1.0f, 0.0f, PhysicsObject.MIN_MASS / 10.0f, PhysicsObject.MIN_MASS / 1.1f };
-
-		for (float mass : masses) {
-			UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_mass_edit_text, mass, "mass", setMassBrick);
-		}
-	}
-
-	private void checkSetup() {
+	public void testSetAngularVelocityBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
@@ -101,16 +81,21 @@ public class SetMassTest extends ActivityInstrumentationTestCase2<ScriptActivity
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
-		String textSetMass = solo.getString(R.string.brick_set_mass);
-		assertNotNull("TextView does not exist.", solo.getText(textSetMass));
+		String textSetRotationSpeed = solo.getString(R.string.brick_turn_left_speed);
+		assertNotNull("TextView does not exist.", solo.getText(textSetRotationSpeed));
+
+		float degreesPerSecond = 10.0f;
+
+		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_turn_left_speed_edit_text, degreesPerSecond,
+				"degreesPerSecond", turnLeftSpeedBrick);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		setMassBrick = new SetMassBrick(sprite, 0.0f);
-		script.addBrick(setMassBrick);
+		turnLeftSpeedBrick = new TurnLeftSpeedBrick(sprite, 0.0f);
+		script.addBrick(turnLeftSpeedBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);
