@@ -402,6 +402,32 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("Not all Bricks have been deleted!", 0, numberOfBricks);
 	}
 
+	public void testDeleteActionModeIfSelectedAndPressingBack() {
+		UiTestUtils.createTestProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+
+		int expectedNumberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfBricks();
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
+		solo.clickOnCheckBox(0);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.goBack();
+
+		assertFalse("ActionMode didn't disappear", solo.waitForText(solo.getString(R.id.delete), 0, 50));
+
+		ArrayList<CheckBox> checkBoxes = solo.getCurrentViews(CheckBox.class);
+		assertFalse("Checkboxes didn't disappear", checkBoxes.get(0).isShown());
+
+		int numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0)
+				.getNumberOfBricks();
+
+		assertEquals("Not all Bricks have been deleted!", expectedNumberOfBricks, numberOfBricks);
+	}
+
 	public void testCheckboxActionModeEntireLine() {
 		UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
