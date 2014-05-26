@@ -37,33 +37,24 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
-import org.catrobat.catroid.physics.content.ActionFactory;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Look extends Image {
-
+	private static final float DEGREE_UI_OFFSET = 90.0f;
 	private static ArrayList<Action> actionsToRestart = new ArrayList<Action>();
-	public static final float DEGREE_UI_OFFSET = 90.0f; //TODO[TafPhil]: private -> public
-
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
 	protected LookData lookData;
 	protected Sprite sprite;
 	protected float alpha = 1f;
 	protected float brightness = 1f;
-
 	protected boolean visible = true;
 
 	public void setVisiblenessTo(boolean visible) { // TODO[physics]
 		this.visible = visible;
 	}
-
-	//	public void setTransparencyTo(boolean transparend) { // TODO[physics]
-	//		// this.visible = !transparend;
-	//	}
 
 	protected Pixmap pixmap;
 	private ParallelAction whenParallelAction;
@@ -141,7 +132,6 @@ public class Look extends Image {
 				&& ((pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)))) {
 			if (whenParallelAction == null) {
 				sprite.createWhenScriptActionSequence("Tapped");
-
 			} else {
 				whenParallelAction.restart();
 			}
@@ -233,13 +223,13 @@ public class Look extends Image {
 		this.imageChanged = true;
 	}
 
+	public LookData getLookData() {
+		return lookData;
+	}
+
 	public void setLookData(LookData lookData) {
 		this.lookData = lookData;
 		imageChanged = true;
-	}
-
-	public LookData getLookData() {
-		return lookData;
 	}
 
 	public boolean getAllActionsAreFinished() {
@@ -317,21 +307,15 @@ public class Look extends Image {
 	}
 
 	public float getDirectionInUserInterfaceDimensionUnit() {
-		float direction = (getRotation() + DEGREE_UI_OFFSET) % 360;
-		if (direction < 0) {
-			direction += 360f;
-		}
-		direction = 180f - direction;
-
-		return direction;
+		return convertStageAngleToCatroidAngle(getRotation());
 	}
 
 	public void setDirectionInUserInterfaceDimensionUnit(float degrees) {
-		setRotation((-degrees + DEGREE_UI_OFFSET) % 360);
+		setRotation(convertCatroidAngleToStageAngle(degrees));
 	}
 
 	public void changeDirectionInUserInterfaceDimensionUnit(float changeDegrees) {
-		setRotation((getRotation() - changeDegrees) % 360);
+		setRotation(getRotation() - changeDegrees);
 	}
 
 	public float getSizeInUserInterfaceDimensionUnit() {
@@ -395,12 +379,37 @@ public class Look extends Image {
 		setBrightnessInUserInterfaceDimensionUnit(getBrightnessInUserInterfaceDimensionUnit() + changePercent);
 	}
 
+	private boolean isAngleInCatroidIntervall(float catroidAngle) {
+		return (catroidAngle > -180 && catroidAngle <= 180);
+	}
+
+	private float breakDownCatroidAngle(float catroidAngle) { //TODO[physics]: add method
+		catroidAngle = catroidAngle % 360;
+		if (catroidAngle >= 0 && !isAngleInCatroidIntervall(catroidAngle)) {
+			return catroidAngle - 360;
+		} else if (catroidAngle < 0 && !isAngleInCatroidIntervall(catroidAngle)) {
+			return catroidAngle + 360;
+		}
+		return catroidAngle;
+	}
+
+	protected float convertCatroidAngleToStageAngle(float catroidAngle) { //TODO[physics]: add method
+		catroidAngle = breakDownCatroidAngle(catroidAngle);
+		return -catroidAngle + DEGREE_UI_OFFSET;
+	}
+
+	protected float convertStageAngleToCatroidAngle(float stageAngle) { //TODO[physics]: add method
+		float catroidAngle = -stageAngle + DEGREE_UI_OFFSET;
+		return breakDownCatroidAngle(catroidAngle);
+	}
+
 	private void doHandleBroadcastEvent(String broadcastMessage) {
 		BroadcastHandler.doHandleBroadcastEvent(this, broadcastMessage);
 	}
 
 	private void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
 		BroadcastHandler.doHandleBroadcastFromWaiterEvent(this, event, broadcastMessage);
+
 	}
 
 	private class BrightnessContrastShader extends ShaderProgram {
