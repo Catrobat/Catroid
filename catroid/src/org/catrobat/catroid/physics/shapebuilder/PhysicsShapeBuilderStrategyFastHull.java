@@ -41,6 +41,11 @@ public final class PhysicsShapeBuilderStrategyFastHull implements PhysicsShapeBu
 	@Override
 	public Shape[] build(LookData lookData) {
 		Pixmap pixmap = lookData.getPixmap();
+
+		if (pixmap == null) {
+			return null;
+		}
+
 		int width = pixmap.getWidth();
 		int height = pixmap.getHeight();
 		convexHull.clear();
