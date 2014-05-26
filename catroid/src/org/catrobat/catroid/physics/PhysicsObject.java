@@ -197,6 +197,10 @@ public class PhysicsObject {
 		return this.mass;
 	}
 
+	public float getBounceFactor() {
+		return this.fixtureDef.restitution;
+	}
+
 	public Body getBody() {
 		return body;
 	}
