@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
+
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2014 The Catrobat Team
@@ -21,6 +22,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
+
 <resources>
 
     <!-- General terms -->
@@ -56,9 +58,7 @@
     <string name="main_menu_web">Erkunden</string>
     <string name="main_menu_upload">Hochladen</string>
     <string name="main_menu_about_pocketcode">Über Pocket Code</string>
-    
     <string name="main_menu_terms_of_use">Nutzungsbedingungen</string>
- 
     <string name="main_menu_rate_app">Bewerte uns!</string>
     <string name="main_menu_play_store_not_installed">Play Store App nicht gefunden</string>
     <string name="main_menu_web_dialog_title">Achtung!</string>
@@ -75,7 +75,7 @@
     <string name="preference_description_use_face_detection">Erlaube das Erkennen von Gesichtern</string>
     <string name="preference_title_select_camera">Auswahl der Kamera</string>
     <string name="preference_description_select_camera">Wähle die zu verwendende Kamera</string>
-	<string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 Bausteine</string>
+    <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 Bausteine</string>
     <string name="preference_description_quadcopter_bricks">Erlaubt dir, die ARDrone 2.0 zu steuern.</string>
     <!--  -->
 
@@ -100,9 +100,11 @@
     einhalten. Die exakte Formulierung unserer Nutzungsbedingungen steht unter 
     dem folgenden "Terms of Use" Link zur Verfügung.\n</string>
     <string name="dialog_terms_of_use_link_text">Terms of Use</string>
-    <string name="dialog_terms_of_use_agree_permanent" >Ich stimme immer zu – frage mich nicht noch einmal. Ich übernehme auch die Verantworung, wenn jemand anderer mein Gerät verwendet.</string>
-    <string name="dialog_terms_of_use_agree">Ich stimme zu</string>
-    <string name="dialog_terms_of_use_do_not_agree">Ich stimme nicht zu</string>
+    <string name="dialog_terms_of_use_link_text_parrot_reminder">Catrobat\'s Terms of Use</string>
+    <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s AR.Drone. We strongly remind you that you must abide to Parrot\'s Terms of Use for the drone and to Catrobat\'s Terms of Use for Pocket Code, otherwise you are not allowed to use Pocket Code.
+
+</string>
+    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Erinnere mich nicht mehr.</string>
     <!--  -->
 
 
@@ -443,10 +445,11 @@
     <string name="default_project_var_random_to">zufällig bis</string>
     <!--  -->
 
+
     <!-- defaultdroneValues -->
-    <string name="default_drone_project_name">Mein erstes Drohnen-Programm</string>  
+    <string name="default_drone_project_name">Mein erstes Drohnen-Programm</string>
     <string name="default_drone_project_sprites_takeoff">Abheben</string>
-    
+
     <!-- <string name="default_drone_project_sprites_blink_led">LED blinken</string> -->
     <string name="default_drone_project_srpites_land">Landen</string>
     <string name="default_drone_project_srpites_rotate">Flip</string>
@@ -459,7 +462,7 @@
     <string name="default_drone_project_sprites_turn_left">Drehe links</string>
     <string name="default_drone_project_sprites_turn_right">Drehe rechts</string>
     <!--  -->
-    
+
 
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Bitte einen Wert eingeben</string>
@@ -515,6 +518,8 @@
     <string name="error_changing_description_of_incompatible_project">Ändern der Beschreibung eines inkompatiblen Projekt ist nicht möglich.</string>
 	<!--  -->
 
+
+
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Bühne</string>
     <string name="title_paired_devices">Verbundene Geräte</string>
@@ -530,6 +535,7 @@
     <string name="none_found">Keine nicht verbundenen Geräte gefunden</string>
     <string name="none_paired">Keine verbundenen Geräte gefunden</string>
     <!--  -->
+
 
     <!-- Lego Mindstorms Strings -->
     <string name="brick_motor_action">NXT bewege Motor</string>
@@ -548,7 +554,8 @@
     <string name="nxt_motor_a_and_c">A+C</string>
     <string name="nxt_motor_all">Alle</string>
     <!--  -->
-    
+
+
     <!-- Drone Bricks -->
     <string name="brick_drone_takeoff">Hebe ab</string>
     <string name="brick_drone_play_led_animation">Spiele LED-Animation</string>
@@ -567,6 +574,7 @@
     <string name="brick_drone_turn_right_magneto">Drehe nach rechts</string>
     <string name="brick_drone_angle">Winkel</string>
     <!--  -->
+
 
     <!-- Formula Editor Strings -->
     <string name="formula_editor_true">Wahr</string>
@@ -640,15 +648,15 @@
     <string name="formula_editor_object_ghosteffect">Transparenz</string>
     <string name="formula_editor_object_brightness">Helligkeit</string>
     <string name="formula_editor_object_size">Größe</string>
+    <string name="formula_editor_function">Funktionen</string>
     <string name="formula_editor_object_rotation">Richtung</string>
     <string name="formula_editor_object_layer">Ebene</string>
     <string name="formula_editor_compute">Berechnen</string>
     <string name="formula_editor_object">Objekt</string>
-    <string name="formula_editor_function">Funktionen</string>
+    <string name="formula_editor_string">Zeichenkette</string>
     <string name="formula_editor_logic">Logik</string>
     <string name="formula_editor_sensors">Sensoren</string>
     <string name="formula_editor_variables">Variablen</string>
-    <string name="formula_editor_string">Zeichenkette</string>
     <string name="formula_editor_logic_notequal">&#x2260;</string>
     <string name="formula_editor_logic_lesserthan">&lt;</string>
     <string name="formula_editor_logic_greaterthan">&gt;</string>

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
+
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2014 The Catrobat Team
@@ -21,6 +22,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
+
 <resources>
 
     <!-- General terms -->
@@ -96,9 +98,9 @@
     must agree to our Terms of Use and strictly follow them when you use Pocket 
     Code and our other executables. Please see the link below for their precise formulation.\n</string>
     <string name="dialog_terms_of_use_link_text">Terms of Use</string>
-    <string name="dialog_terms_of_use_agree_permanent">I agree permanently – do not ask me again. I assume full responsibility when someone else uses my device.</string>
-    <string name="dialog_terms_of_use_agree">I agree</string>
-    <string name="dialog_terms_of_use_do_not_agree">I do not agree</string>
+    <string name="dialog_terms_of_use_link_text_parrot_reminder">Pocket Code Terms of Use</string>
+    <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s AR.Drone. We strongly remind you to abide to Parrot\'s Terms of Use for the drone and to Catrobat\'s Terms of Use for Pocket Code.</string>
+    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
     <!--  -->
 
 

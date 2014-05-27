@@ -100,20 +100,26 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		UiTestUtils.clickOnPlayButton(solo);
 		solo.waitForDialogToOpen();
-		assertTrue("Terms of use title must be present in dialog head",
+		assertTrue("Terms of use title must be present in dialog header",
 				solo.searchText(solo.getString(R.string.dialog_terms_of_use_title)));
+		assertTrue("Terms of use reminder text must be visible",
+				solo.searchText(solo.getString(R.string.dialog_terms_of_use_parrot_reminder_text)));
 
-		solo.clickOnText(solo.getString(R.string.dialog_terms_of_use_agree), 2);
+		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForDialogToOpen();
 		solo.clickOnText(solo.getString(R.string.close));
 		UiTestUtils.clickOnPlayButton(solo);
 		CheckBox checkbox = (CheckBox) solo.getView(R.id.dialog_terms_of_use_check_box_agree_permanently);
 		assertNotNull("Check box must me present", checkbox);
-		solo.clickOnText(solo.getString(R.string.dialog_terms_of_use_agree_permanent));
+		assertFalse("checkbox must not be checked", checkbox.isChecked());
+		assertTrue("Do not remind me text must be visible",
+				solo.searchText(solo.getString(R.string.dialog_terms_of_use_parrot_reminder_do_not_remind_again)));
+		solo.clickOnText(solo.getString(R.string.dialog_terms_of_use_parrot_reminder_do_not_remind_again));
 		assertTrue("checkbox must be checked", checkbox.isChecked());
-		solo.clickOnText(solo.getString(R.string.dialog_terms_of_use_agree), 2);
-		solo.waitForDialogToOpen();
-		solo.waitForText(solo.getString(R.string.error_no_drone_connected_title));
+		solo.clickOnText(solo.getString(R.string.ok));
+		assertTrue("Dialog must be visible", solo.waitForDialogToOpen());
+		assertTrue("No drone on wifi dialog must be visible",
+				solo.waitForText(solo.getString(R.string.error_no_drone_connected_title)));
 		solo.clickOnText(solo.getString(R.string.close));
 		assertTrue("Must go back to Projectactivity", solo.waitForActivity(ProjectActivity.class));
 		UiTestUtils.clickOnPlayButton(solo);
