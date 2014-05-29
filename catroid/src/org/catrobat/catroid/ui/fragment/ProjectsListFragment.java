@@ -382,8 +382,15 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
-				clearCheckedProjectsAndEnableButtons();
 				dialog.cancel();
+			}
+		});
+
+		builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				clearCheckedProjectsAndEnableButtons();
 			}
 		});
 
