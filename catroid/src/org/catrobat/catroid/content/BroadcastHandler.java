@@ -44,9 +44,7 @@ public final class BroadcastHandler {
 		}
 
 		for (SequenceAction action : BroadcastSequenceMap.get(broadcastMessage)) {
-			if (!handleAction(action)) {
 				addOrRestartAction(look, action);
-			}
 		}
 
 		if (BroadcastWaitSequenceMap.containsKey(broadcastMessage)) {
@@ -108,40 +106,6 @@ public final class BroadcastHandler {
 		if (actionList.size() > 0) {
 			BroadcastWaitSequenceMap.put(broadcastMessage, actionList);
 		}
-	}
-
-	private static boolean handleAction(Action action) {
-		for (Sprite sprites : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
-			for (Action actionOfLook : sprites.look.getActions()) {
-				if (actionOfLook instanceof SequenceAction && ((SequenceAction) actionOfLook).getActions().size > 0
-						&& ((SequenceAction) actionOfLook).getActions().get(0) == action) {
-					Look.actionsToRestartAdd(actionOfLook);
-					return true;
-				} else {
-					if (action instanceof SequenceAction && ((SequenceAction) action).getActions().size > 0
-							&& ((SequenceAction) action).getActions().get(0) == actionOfLook) {
-						Look.actionsToRestartAdd(action);
-						return true;
-					} else {
-						if (action == actionOfLook) {
-							Look.actionsToRestartAdd(actionOfLook);
-							return true;
-						} else {
-							if (actionOfLook instanceof SequenceAction
-									&& ((SequenceAction) actionOfLook).getActions().size > 0
-									&& action instanceof SequenceAction
-									&& ((SequenceAction) action).getActions().size > 0
-									&& ((SequenceAction) actionOfLook).getActions().get(0) == ((SequenceAction) action)
-											.getActions().get(0)) {
-								Look.actionsToRestartAdd(action);
-								return true;
-							}
-						}
-					}
-				}
-			}
-		}
-		return false;
 	}
 
 	private static boolean handleActionFromBroadcastWait(Look look,
