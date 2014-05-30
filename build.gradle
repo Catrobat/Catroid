@@ -23,6 +23,7 @@ apply plugin: 'checkstyle'
 ext {
     projectVersion = "0.9"
     featuresEnabled = [
+            "lego_nxt": true,
             "backpack": false,
             "parrot_ar_drone": false,
             "apk_generator": false,
@@ -161,6 +162,7 @@ task jenkins() << {
 }
 
 task featuresToBuildconfig << {
+    println "Activated Features:"
     for (feature in featuresEnabled) {
         def name = feature.key
         def value = feature.value
@@ -169,8 +171,15 @@ task featuresToBuildconfig << {
         if (project.hasProperty("${name}_enabled"))
             value = project["${name}_enabled"]
 
+        if (!(value.toString().equals("true") || value.toString().equals("false")))
+            throw new IllegalArgumentException("Wrong Argument! Usage:\ne.g. -PallFeatures_enabled=true -Pparrot_ar_drone_enabled=false")
+
+        if (value.toString().equals("true")) {
+            println "- " + name
+        }
         android.defaultConfig.buildConfigField "boolean", "FEATURE_${name.toUpperCase()}_ENABLED", "${value}"
     }
+    println ""
 }
 
 task testManifestHack << {

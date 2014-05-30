@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -37,11 +37,9 @@ import org.catrobat.catroid.R;
 
 public class SettingsActivity extends SherlockPreferenceActivity {
 
-	CheckBoxPreference dronePreference = null;
-
-	public static final String SETTINGS_QUADCOPTER_BRICKS = "setting_quadcopter_bricks";
-	public static final String SETTINGS_QUADCOPTER_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_quadcopter_catrobat_terms_of_service_accpted_permanently";
-
+	public static final String SETTINGS_SHOW_LEGO_NXT_BRICKS = "setting_mindstorm_bricks";
+	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
+	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
 	PreferenceScreen screen = null;
 
 	@SuppressWarnings("deprecation")
@@ -54,25 +52,31 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		actionBar.setTitle(R.string.preference_title);
 		actionBar.setHomeButtonEnabled(true);
 
-		dronePreference = (CheckBoxPreference) findPreference(SETTINGS_QUADCOPTER_BRICKS);
 		screen = getPreferenceScreen();
 
-		if (BuildConfig.DEBUG) {
-			dronePreference.setEnabled(true);
-			screen.addPreference(dronePreference);
+		if (!BuildConfig.FEATURE_LEGO_NXT_ENABLED) {
+			CheckBoxPreference dronePreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_LEGO_NXT_BRICKS);
+			dronePreference.setEnabled(false);
+			screen.removePreference(dronePreference);
+		}
+
+		if (!BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
+			CheckBoxPreference dronePreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
+			dronePreference.setEnabled(false);
+			screen.removePreference(dronePreference);
 		}
 	}
 
-	public static void setTermsOfSerivceAgreedPermanently(Context context, boolean agreed) {
-		setBooleanSharedPreference(agreed, SETTINGS_QUADCOPTER_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, context);
+	public static void setTermsOfServiceAgreedPermanently(Context context, boolean agreed) {
+		setBooleanSharedPreference(agreed, SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, context);
 	}
 
 	public static boolean isDroneSharedPreferenceEnabled(Context context, boolean defaultValue) {
-		return getBooleanSharedPrefernece(false, SETTINGS_QUADCOPTER_BRICKS, context);
+		return getBooleanSharedPreference(defaultValue, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, context);
 	}
 
-	public static boolean areTermsOfSericeAgreedPermanently(Context context) {
-		return getBooleanSharedPrefernece(false, SETTINGS_QUADCOPTER_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY,
+	public static boolean areTermsOfServiceAgreedPermanently(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY,
 				context);
 	}
 
@@ -81,7 +85,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
 	}
 
-	private static boolean getBooleanSharedPrefernece(boolean defaultValue, String settingsString, Context context) {
+	private static boolean getBooleanSharedPreference(boolean defaultValue, String settingsString, Context context) {
 		return getSharedPreferences(context).getBoolean(settingsString, defaultValue);
 	}
 

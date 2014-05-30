@@ -99,11 +99,11 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
 		}
 
-		//TODO Drone dont create project for now
-		//if (BuildConfig.DEBUG && DroneUtils.isDroneSharedPreferenceEnabled(getApplication(), false)) {
+		//TODO Drone do not create project for now
+		//if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED && DroneUtils.isDroneSharedPreferenceEnabled(getApplication(), false)) {
 		//	UtilFile.loadExistingOrCreateStandardDroneProject(this);
 		//}
-		//SettingsActivity.setTermsOfSerivceAgreedPermanently(this, false);
+		//SettingsActivity.setTermsOfServiceAgreedPermanently(this, false);
 	}
 
 	@Override

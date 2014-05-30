@@ -33,7 +33,7 @@ import com.actionbarsherlock.view.Menu;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.drone.DroneInitialiser;
+import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 
@@ -87,7 +87,7 @@ public class ProgramMenuActivity extends BaseActivity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			Intent intent = new Intent(ProgramMenuActivity.this, StageActivity.class);
-			DroneInitialiser.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
+			DroneInitializer.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
 			startActivity(intent);
 		}
 	}

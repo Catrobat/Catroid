@@ -111,7 +111,7 @@ public abstract class DroneTestUtils {
 	private static void setDroneTermsOfUseAcceptedValue(Context context, boolean accepted) {
 		getSharedPreferences(context)
 				.edit()
-				.putBoolean(SettingsActivity.SETTINGS_QUADCOPTER_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY,
+				.putBoolean(SettingsActivity.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY,
 						accepted).commit();
 	}
 
@@ -120,6 +120,6 @@ public abstract class DroneTestUtils {
 	}
 
 	public static void disableARDroneBricks(Context context) {
-		getSharedPreferences(context).edit().putBoolean(SettingsActivity.SETTINGS_QUADCOPTER_BRICKS, false).commit();
+		getSharedPreferences(context).edit().putBoolean(SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, false).commit();
 	}
 }

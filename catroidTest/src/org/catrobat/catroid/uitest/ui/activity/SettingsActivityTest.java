@@ -42,8 +42,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-	private static final String SETTINGS_QUADCOPTER_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_quadcopter_catrobat_terms_of_service_accpted_permanently";
-
 	public SettingsActivityTest() {
 		super(MainMenuActivity.class);
 	}
@@ -55,7 +53,7 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		//disable drone bricks if enabled
-		if (preferences.getBoolean(SettingsActivity.SETTINGS_QUADCOPTER_BRICKS, false)) {
+		if (preferences.getBoolean(SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, false)) {
 			solo.clickOnMenuItem(settings);
 			solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
 			solo.clickOnText(dronePreferenceString);
@@ -88,7 +86,7 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.goBack();
 
 		assertTrue("Drone preference should now be enabled",
-				preferences.getBoolean(SettingsActivity.SETTINGS_QUADCOPTER_BRICKS, false));
+				preferences.getBoolean(SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, false));
 
 		solo.waitForActivity(MainMenuActivity.class);
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -164,20 +162,20 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 	public void testDroneTermsOfUsePermanentAgree() {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-		preferences.edit().putBoolean(SETTINGS_QUADCOPTER_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, false)
+		preferences.edit().putBoolean(SettingsActivity.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, false)
 				.commit();
 
 		assertFalse("Terms of servie should not be accepted",
-				SettingsActivity.areTermsOfSericeAgreedPermanently(getActivity()));
+				SettingsActivity.areTermsOfServiceAgreedPermanently(getActivity()));
 
 		assertFalse("Terms of servie should not be accepted",
-				preferences.getBoolean(SETTINGS_QUADCOPTER_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, true));
+				preferences.getBoolean(SettingsActivity.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, true));
 
-		SettingsActivity.setTermsOfSerivceAgreedPermanently(getActivity(), true);
+		SettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), true);
 		assertTrue("Terms of servie should be permanently accepted",
-				SettingsActivity.areTermsOfSericeAgreedPermanently(getActivity()));
+				SettingsActivity.areTermsOfServiceAgreedPermanently(getActivity()));
 
 		assertTrue("Terms of servie should be permanently accepted",
-				preferences.getBoolean(SETTINGS_QUADCOPTER_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, false));
+				preferences.getBoolean(SettingsActivity.SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, false));
 	}
 }

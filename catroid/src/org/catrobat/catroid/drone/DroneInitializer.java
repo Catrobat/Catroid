@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -52,7 +52,6 @@ import com.parrot.freeflight.service.DroneControlService;
 import com.parrot.freeflight.service.intents.DroneStateManager;
 import com.parrot.freeflight.tasks.CheckDroneNetworkAvailabilityTask;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.PreStageActivity;
@@ -60,11 +59,11 @@ import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 
-public class DroneInitialiser implements DroneReadyReceiverDelegate, DroneConnectionChangeReceiverDelegate,
+public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnectionChangeReceiverDelegate,
 		DroneAvailabilityDelegate, DroneBatteryChangedReceiverDelegate {
 
 	public static final String INIT_DRONE_STRING_EXTRA = "STRING_EXTRA_INIT_DRONE";
-	private static final int DRONE_BATTERY_TRESHOLD = 5;
+	private static final int DRONE_BATTERY_THRESHOLD = 5;
 
 	private DroneControlService droneControlService = null;
 	private BroadcastReceiver droneReadyReceiver = null;
@@ -74,18 +73,18 @@ public class DroneInitialiser implements DroneReadyReceiverDelegate, DroneConnec
 	private CheckDroneNetworkAvailabilityTask checkDroneConnectionTask;
 	private DroneConnectionChangedReceiver droneConnectionChangeReceiver;
 
-	private static final String TAG = DroneInitialiser.class.getSimpleName();
+	private static final String TAG = DroneInitializer.class.getSimpleName();
 
 	private PreStageActivity prestageStageActivity;
 	private Intent returnToActivityIntent = null;
 
-	public DroneInitialiser(PreStageActivity prestageStageActivity, Intent returnToActivityIntent) {
+	public DroneInitializer(PreStageActivity prestageStageActivity, Intent returnToActivityIntent) {
 		this.prestageStageActivity = prestageStageActivity;
 		this.returnToActivityIntent = returnToActivityIntent;
 	}
 
 	public void initialise() {
-		if (SettingsActivity.areTermsOfSericeAgreedPermanently(prestageStageActivity.getApplicationContext())) {
+		if (SettingsActivity.areTermsOfServiceAgreedPermanently(prestageStageActivity.getApplicationContext())) {
 			initialiseDrone();
 		} else {
 			Bundle args = new Bundle();
@@ -98,14 +97,6 @@ public class DroneInitialiser implements DroneReadyReceiverDelegate, DroneConnec
 	}
 
 	public void initialiseDrone() {
-		if (!BuildConfig.DEBUG) {
-			Log.d(TAG, "drone is not available in release build");
-			showUncancelableErrorDialog(prestageStageActivity,
-					prestageStageActivity.getString(R.string.error_drone_not_available_in_release_build_title),
-					prestageStageActivity.getString(R.string.error_drone_not_available_in_release_build));
-			return;
-		}
-
 		if (!CatroidApplication.OS_ARCH.startsWith("arm")) {
 			Log.d(TAG, "problem, we are on arm");
 			showUncancelableErrorDialog(prestageStageActivity,
@@ -177,7 +168,7 @@ public class DroneInitialiser implements DroneReadyReceiverDelegate, DroneConnec
 	@Override
 	public void onDroneReady() {
 		Log.d(TAG, "onDroneReady -> check battery -> go to stage");
-		if (droneBatteryCharge < DRONE_BATTERY_TRESHOLD) {
+		if (droneBatteryCharge < DRONE_BATTERY_THRESHOLD) {
 			String dialogTitle = String.format(prestageStageActivity.getString(R.string.error_drone_low_battery_title),
 					droneBatteryCharge);
 			showUncancelableErrorDialog(prestageStageActivity, dialogTitle,
@@ -234,21 +225,19 @@ public class DroneInitialiser implements DroneReadyReceiverDelegate, DroneConnec
 	}
 
 	public void onPrestageActivityResume() {
-		if (BuildConfig.DEBUG) {
-			droneReadyReceiver = new DroneReadyReceiver(this);
-			droneStateReceiver = new DroneAvailabilityReceiver(this);
-			droneBatteryReceiver = new DroneBatteryChangedReceiver(this);
-			droneConnectionChangeReceiver = new DroneConnectionChangedReceiver(this);
+		droneReadyReceiver = new DroneReadyReceiver(this);
+		droneStateReceiver = new DroneAvailabilityReceiver(this);
+		droneBatteryReceiver = new DroneBatteryChangedReceiver(this);
+		droneConnectionChangeReceiver = new DroneConnectionChangedReceiver(this);
 
-			LocalBroadcastManager manager = LocalBroadcastManager.getInstance(prestageStageActivity
-					.getApplicationContext());
-			manager.registerReceiver(droneBatteryReceiver, new IntentFilter(
-					DroneControlService.DRONE_BATTERY_CHANGED_ACTION));
-			manager.registerReceiver(droneReadyReceiver, new IntentFilter(DroneControlService.DRONE_STATE_READY_ACTION));
-			manager.registerReceiver(droneConnectionChangeReceiver, new IntentFilter(
-					DroneControlService.DRONE_CONNECTION_CHANGED_ACTION));
-			manager.registerReceiver(droneStateReceiver, new IntentFilter(DroneStateManager.ACTION_DRONE_STATE_CHANGED));
-		}
+		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(prestageStageActivity
+				.getApplicationContext());
+		manager.registerReceiver(droneBatteryReceiver, new IntentFilter(
+				DroneControlService.DRONE_BATTERY_CHANGED_ACTION));
+		manager.registerReceiver(droneReadyReceiver, new IntentFilter(DroneControlService.DRONE_STATE_READY_ACTION));
+		manager.registerReceiver(droneConnectionChangeReceiver, new IntentFilter(
+				DroneControlService.DRONE_CONNECTION_CHANGED_ACTION));
+		manager.registerReceiver(droneStateReceiver, new IntentFilter(DroneStateManager.ACTION_DRONE_STATE_CHANGED));
 	}
 
 	@SuppressLint("NewApi")
@@ -273,28 +262,23 @@ public class DroneInitialiser implements DroneReadyReceiverDelegate, DroneConnec
 	}
 
 	public void onPrestageActivityPause() {
-		if (BuildConfig.DEBUG) {
-			if (droneControlService != null) {
-				droneControlService.pause();
-			}
+		if (droneControlService != null) {
+			droneControlService.pause();
+		}
 
-			LocalBroadcastManager manager = LocalBroadcastManager.getInstance(prestageStageActivity
-					.getApplicationContext());
-			manager.unregisterReceiver(droneReadyReceiver);
-			manager.unregisterReceiver(droneConnectionChangeReceiver);
-			manager.unregisterReceiver(droneStateReceiver);
-			manager.unregisterReceiver(droneBatteryReceiver);
+		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(prestageStageActivity
+				.getApplicationContext());
+		manager.unregisterReceiver(droneReadyReceiver);
+		manager.unregisterReceiver(droneConnectionChangeReceiver);
+		manager.unregisterReceiver(droneStateReceiver);
+		manager.unregisterReceiver(droneBatteryReceiver);
 
-			if (taskRunning(checkDroneConnectionTask)) {
-				checkDroneConnectionTask.cancelAnyFtpOperation();
-			}
+		if (taskRunning(checkDroneConnectionTask)) {
+			checkDroneConnectionTask.cancelAnyFtpOperation();
 		}
 	}
 
 	private boolean taskRunning(AsyncTask<?, ?, ?> checkMediaTask2) {
-		if (checkMediaTask2 == null || checkMediaTask2.getStatus() == Status.FINISHED) {
-			return false;
-		}
-		return true;
+		return !(checkMediaTask2 == null || checkMediaTask2.getStatus() == Status.FINISHED);
 	}
 }

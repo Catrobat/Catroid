@@ -187,7 +187,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		menu.findItem(R.id.copy).setVisible(true);
 
 		boolean visibility = false;
-		if (BuildConfig.DEBUG) {
+		if (BuildConfig.FEATURE_BACKPACK_ENABLED) {
 			visibility = true;
 		}
 		menu.findItem(R.id.backpack).setVisible(visibility);
@@ -482,7 +482,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		menu.findItem(R.id.context_menu_copy).setVisible(true);
 		menu.findItem(R.id.context_menu_unpacking).setVisible(false);
 		//TODO: remove this when inserting of sound items from backpack is possible
-		if (!BuildConfig.DEBUG) {
+		if (!BuildConfig.FEATURE_BACKPACK_ENABLED) {
 			menu.findItem(R.id.context_menu_backpack).setVisible(false);
 		}
 	}

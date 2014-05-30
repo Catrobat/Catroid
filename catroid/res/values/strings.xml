@@ -500,8 +500,6 @@
     <string name="error_drone_low_battery">Insert a charged battery and try again.</string>
     <string name="error_drone_wrong_platform_title">No ARDrone support</string>
     <string name="error_drone_wrong_platform">We can not run a ARDrone project on your device.</string>
-    <string name="error_drone_not_available_in_release_build_title">ARDrone projects not supported</string>
-    <string name="error_drone_not_available_in_release_build">Unfortunately we can\'t run projects with ARDrone bricks for now.</string>
     <!--  -->
 
 
