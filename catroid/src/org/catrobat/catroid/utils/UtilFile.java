@@ -26,7 +26,9 @@ import android.content.Context;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.soundrecorder.SoundRecorder;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -172,6 +174,16 @@ public final class UtilFile {
 		}
 	}
 
+	public static void loadExistingOrCreateStandardDroneProject(Context context) {
+		String droneStandardProjectName = context.getString(R.string.default_drone_project_name);
+		ProjectManager.getInstance().loadProject(droneStandardProjectName, context, false);
+		String currentName = ProjectManager.getInstance().getCurrentProject().getName();
+
+		if (!currentName.equals(droneStandardProjectName)) {
+			ProjectManager.getInstance().initializeDroneProject(context);
+		}
+	}
+
 	/**
 	 * returns a list of strings of all projectnames in the catroid folder
 	 */
@@ -188,7 +200,7 @@ public final class UtilFile {
 			};
 			for (File file : fileList) {
 				if (file.isDirectory() && file.list(filenameFilter).length != 0) {
-					projectList.add(file.getName());
+					projectList.add(decodeSpecialCharsForFileSystem(file.getName()));
 				}
 			}
 		}
@@ -254,9 +266,10 @@ public final class UtilFile {
 	}
 
 	public static File copySoundFromResourceIntoProject(String projectName, String outputFilename, int resourceId,
-			Context context, boolean prependMd5ToFilename) throws IOException {
-		if (!outputFilename.toLowerCase(Locale.US).endsWith(Constants.RECORDING_EXTENSION)) {
-			outputFilename = outputFilename + Constants.RECORDING_EXTENSION;
+			Context context, boolean prependMd5ToFilename) throws IllegalArgumentException, IOException {
+		if (!outputFilename.toLowerCase(Locale.US).endsWith(SoundRecorder.RECORDING_EXTENSION)) {
+			throw new IllegalArgumentException("Only Files with extension " + SoundRecorder.RECORDING_EXTENSION
+					+ " allowed");
 		}
 		return copyFromResourceIntoProject(projectName, Constants.SOUND_DIRECTORY, outputFilename, resourceId, context,
 				prependMd5ToFilename);
@@ -267,7 +280,7 @@ public final class UtilFile {
 		if (scaleFactor <= 0) {
 			throw new IllegalArgumentException("scale factor is smaller or equal zero");
 		}
-		outputFilename = Utils.deleteSpecialCharactersInString(outputFilename);
+		outputFilename = UtilFile.encodeSpecialCharsForFileSystem(outputFilename);
 		if (!outputFilename.toLowerCase(Locale.US).endsWith(Constants.IMAGE_STANDARD_EXTENTION)) {
 			outputFilename = outputFilename + Constants.IMAGE_STANDARD_EXTENTION;
 		}
@@ -291,6 +304,40 @@ public final class UtilFile {
 					+ " failed");
 		}
 		return fileWithMd5;
+	}
+
+	public static String encodeSpecialCharsForFileSystem(String projectName) {
+		if (projectName.equals(".") || projectName.equals("..")) {
+			projectName = projectName.replace(".", "%2E");
+		} else {
+			projectName = projectName.replace("%", "%25");
+			projectName = projectName.replace("\"", "%22");
+			projectName = projectName.replace("/", "%2F");
+			projectName = projectName.replace(":", "%3A");
+			projectName = projectName.replace("<", "%3C");
+			projectName = projectName.replace(">", "%3E");
+			projectName = projectName.replace("?", "%3F");
+			projectName = projectName.replace("\\", "%5C");
+			projectName = projectName.replace("|", "%7C");
+			projectName = projectName.replace("*", "%2A");
+		}
+		return projectName;
+	}
+
+	public static String decodeSpecialCharsForFileSystem(String projectName) {
+		projectName = projectName.replace("%2E", ".");
+
+		projectName = projectName.replace("%2A", "*");
+		projectName = projectName.replace("%7C", "|");
+		projectName = projectName.replace("%5C", "\\");
+		projectName = projectName.replace("%3F", "?");
+		projectName = projectName.replace("%3E", ">");
+		projectName = projectName.replace("%3C", "<");
+		projectName = projectName.replace("%3A", ":");
+		projectName = projectName.replace("%2F", "/");
+		projectName = projectName.replace("%22", "\"");
+		projectName = projectName.replace("%25", "%");
+		return projectName;
 	}
 
 }

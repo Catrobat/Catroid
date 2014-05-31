@@ -74,6 +74,8 @@ import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.ActionAfterFinished;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -262,13 +264,18 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	}
 
 	public void testCopySpriteWithNameTaken() {
+		String directoryPath = Utils.buildProjectPath(solo.getString(R.string.default_project_name));
+		File directory = new File(directoryPath);
+		if (directory.exists() && directory.isDirectory())
+		{
+			UtilFile.deleteDirectory(directory);
+		}
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
 		} catch (IOException e) {
 			e.printStackTrace();
 			fail("Standard Project not created");
 		}
-
 		Sprite sprite = new Sprite(defaultSpriteName + solo.getString(R.string.copy_sprite_name_suffix));
 
 		ProjectManager.getInstance().getCurrentProject().addSprite(sprite);

@@ -93,6 +93,10 @@ public class NotificationData {
 		return notificationTextDone;
 	}
 
+	public void setNotificationTextDone(String newTextDone) {
+		this.notificationTextDone = newTextDone;
+	}
+
 	public NotificationCompat.Builder getNotificationBuilder() {
 		return notificationBuilder;
 	}

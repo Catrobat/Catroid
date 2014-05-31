@@ -28,31 +28,40 @@ import org.catrobat.catroid.test.utils.Utils;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 public class BlockCharacterTest extends TestCase {
 
-	private static final String[] DIRECTORIES = {"../catroidTest", "../catroid", "../catroidSourceTest",
-			"../catroidCucumberTest"};
+	private static final String[] DIRECTORIES = Utils.ALL_DIRECTORIES;
 	private String errorMessages;
 	private boolean errorFound;
 
 	private void checkFileForBlockCharacters(File file) throws IOException {
-		BufferedReader reader = new BufferedReader(new FileReader(file));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				new FileInputStream(file), "UTF8"));
+		StringBuilder errorMessageBuilder = new StringBuilder();
 
 		int lineCount = 1;
-		String line = null;
+		String line;
 
 		while ((line = reader.readLine()) != null) {
-			if (line.contains("\uFFFD")) {
+			if (line.contains("\uFFFD") || line.contains("\uFFFC") || line.contains("\uFFFF")) {
 				errorFound = true;
-				errorMessages += file.getName() + " in line " + lineCount + "\n";
+				errorMessageBuilder
+						.append(file.getPath())
+						.append(" in line ")
+						.append(lineCount)
+						.append('\n');
 			}
 			++lineCount;
 		}
 		reader.close();
+		if (errorMessageBuilder.length() > 0) {
+			errorMessages += errorMessageBuilder.toString();
+		}
 	}
 
 	public void testForBlockCharacters() throws IOException {
@@ -65,7 +74,8 @@ public class BlockCharacterTest extends TestCase {
 			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
 
 			List<File> filesToCheck = Utils.getFilesFromDirectoryByExtension(directory,
-					new String[] {".java", ".xml"});
+					new String[] {".java", ".xml", ".md", ".gradle"});
+
 			for (File file : filesToCheck) {
 				checkFileForBlockCharacters(file);
 			}

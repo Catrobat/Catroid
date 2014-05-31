@@ -55,7 +55,7 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 			action.act(1.0f);
 			fail("Execution of ChangeXByNBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
-			// expected behavior
+			assertTrue("Exception thrown successful", true);
 		}
 	}
 

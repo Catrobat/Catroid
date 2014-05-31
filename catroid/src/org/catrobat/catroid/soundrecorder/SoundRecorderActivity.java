@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -31,7 +31,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Chronometer;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import org.catrobat.catroid.R;
@@ -46,7 +45,7 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 	private static final String TAG = SoundRecorderActivity.class.getSimpleName();
 	private SoundRecorder soundRecorder;
 	private Chronometer timeRecorderChronometer;
-	private ImageButton recordButton;
+	private RecordButton recordButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,7 +53,7 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 
 		setContentView(R.layout.activity_soundrecorder);
 
-		recordButton = (ImageButton) findViewById(R.id.soundrecorder_record_button);
+		recordButton = (RecordButton) findViewById(R.id.soundrecorder_record_button);
 		timeRecorderChronometer = (Chronometer) findViewById(R.id.soundrecorder_chronometer_time_recorded);
 		recordButton.setOnClickListener(this);
 		Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this);
@@ -88,7 +87,7 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 		}
 		try {
 			String recordPath = Utils.buildPath(Constants.TMP_PATH, getString(R.string.soundrecorder_recorded_filename)
-					+ Constants.RECORDING_EXTENSION);
+					+ SoundRecorder.RECORDING_EXTENSION);
 			soundRecorder = new SoundRecorder(recordPath);
 			soundRecorder.start();
 			setViewsToRecordingState();
@@ -103,6 +102,7 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 	}
 
 	private void setViewsToRecordingState() {
+		recordButton.setState(RecordButton.RecordState.RECORD);
 		recordButton.setImageResource(R.drawable.ic_microphone_active);
 	}
 
@@ -123,6 +123,7 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 	}
 
 	private void setViewsToNotRecordingState() {
+		recordButton.setState(RecordButton.RecordState.STOP);
 		recordButton.setImageResource(R.drawable.ic_microphone);
 	}
 

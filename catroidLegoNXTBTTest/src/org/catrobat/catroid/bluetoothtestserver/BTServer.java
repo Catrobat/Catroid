@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.bluetoothtestserver;
 
+import android.util.Log;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -34,6 +36,8 @@ import javax.microedition.io.StreamConnection;
 import javax.microedition.io.StreamConnectionNotifier;
 
 public final class BTServer {
+	private static final String TAG = BTServer.class;
+
 	static StreamConnection connection = null;
 	static BTServer btServer;
 	private static boolean gui = false;
@@ -50,7 +54,7 @@ public final class BTServer {
 				out.write(arg);
 				out.flush();
 			} catch (Exception localException) {
-				localException.printStackTrace();
+				Log.e(TAG, "Exception in writeMessage!", localException);
 			}
 		} else {
 			GUI.writeMessage(arg);
@@ -64,9 +68,8 @@ public final class BTServer {
 			btServer = new BTServer();
 			try {
 				btServer.startServer();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (IOException ioException) {
+				Log.e(TAG, "IOexception!", ioException);
 			}
 		} else {
 			try {
@@ -80,8 +83,8 @@ public final class BTServer {
 
 				btServer = new BTServer();
 				btServer.startServer();
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (IOException ioException) {
+				Log.e(TAG, "IOException!", ioException);
 			}
 		}
 	}

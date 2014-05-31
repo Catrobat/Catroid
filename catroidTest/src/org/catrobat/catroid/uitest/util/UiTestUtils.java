@@ -166,12 +166,18 @@ public final class UiTestUtils {
 	public static final String PROJECTNAME1 = "testingproject1";
 	public static final String PROJECTNAME2 = "testingproject2";
 	public static final String PROJECTNAME3 = "testingproject3";
+	public static final String PROJECTNAMEOFFENSIVELANGUAGE = "fuck i have to use fuck";
 	public static final String PROJECTDESCRIPTION1 = "testdescription1";
 	public static final String PROJECTDESCRIPTION2 = "testdescription2";
-	public static final String PROJECTDESCRIPTION3 = "testdescription3";
 	public static final String DEFAULT_TEST_PROJECT_NAME_MIXED_CASE = "TeStPROjeCt";
 	public static final String COPIED_PROJECT_NAME = "copiedProject";
 	public static final String JAPANESE_PROJECT_NAME = "これは例の説明です。";
+	public static final String NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME = "[Hey+, =lo_ok. I'm; -special! ?äöüß<>]";
+	public static final String NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2 = "../*T?E\"S/T:%22T<E>S?T\\T\\E|S%äö|üß";
+	public static final String JUST_SPECIAL_CHAR_PROJECT_NAME = "*\"/:<>?\\|";
+	public static final String JUST_SPECIAL_CHAR_PROJECT_NAME2 = "*\"/:<>?\\|%";
+	public static final String JUST_ONE_DOT_PROJECT_NAME = ".";
+	public static final String JUST_TWO_DOTS_PROJECT_NAME = "..";
 
 	private static final int DRAG_FRAMES = 35;
 
@@ -434,14 +440,14 @@ public final class UiTestUtils {
 		}
 
 		solo.sleep(600);
-		boolean succeeded = clickOnBrickInAddBrickFragment(solo, brickName, true);
+		boolean succeeded = clickOnBrickInAddBrickFragment(solo, brickName);
 		if (!succeeded) {
 			fail(brickName + " should appear. Failed to scroll to find it.");
 		}
 		solo.sleep(600);
 	}
 
-	private static boolean clickOnBrickInAddBrickFragment(Solo solo, String brickName, boolean addToScript) {
+	private static boolean clickOnBrickInAddBrickFragment(Solo solo, String brickName) {
 		boolean success = false;
 		int lowestIdTimeBeforeLast = -2;
 		int lowestIdLastTime = -1;
@@ -1149,6 +1155,10 @@ public final class UiTestUtils {
 		solo.clickOnView(imageButton);
 	}
 
+	public static void clickOnPlayButton(Solo solo) {
+		clickOnBottomBar(solo, R.id.button_play);
+	}
+
 	public static File createTestMediaFile(String filePath, int fileID, Context context) throws IOException {
 
 		File testImage = new File(filePath);
@@ -1321,6 +1331,7 @@ public final class UiTestUtils {
 						MotionEvent.ACTION_UP, xTo, yTo, 0);
 				activity.dispatchTouchEvent(upEvent);
 				upEvent.recycle();
+				Log.d("Robotium - waitForLogMessage", "longClickAndDrag finished: " + (int) yTo);
 			}
 		});
 
@@ -1716,4 +1727,22 @@ public final class UiTestUtils {
 			solo.clickOnButton(solo.getString(R.string.no));
 		}
 	}
+
+	public static void clickOnExactText(Solo solo, String text)
+	{
+		String regularExpressionForExactClick = "^"+java.util.regex.Pattern.quote(text)+"$";
+		solo.clickOnText(regularExpressionForExactClick);
+	}
+
+	public static boolean searchExactText(Solo solo, String text)
+	{
+		return searchExactText(solo, text, false);
+	}
+
+	public static boolean searchExactText(Solo solo, String text, boolean onlyVisible)
+	{
+		String regularExpressionForExactClick = "^"+java.util.regex.Pattern.quote(text)+"$";
+		return solo.searchText(regularExpressionForExactClick, onlyVisible);
+	}
+
 }

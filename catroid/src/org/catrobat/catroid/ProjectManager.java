@@ -131,7 +131,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			if (project.getCatrobatLanguageVersion() == 0.91f) {
 				project.setCatrobatLanguageVersion(0.92f);
 				project.setScreenMode(ScreenModes.STRETCH);
-                checkNestingBrickReferences();
+				checkNestingBrickReferences();
 			}
 			//insert further convertions here
 
@@ -186,6 +186,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
 			project = StandardProjectHandler.createAndSaveStandardProject(context);
+
 			currentSprite = null;
 			currentScript = null;
 			return true;
@@ -196,7 +197,22 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty) throws IOException {
+	public boolean initializeDroneProject(Context context) {
+		try {
+			fileChecksumContainer = new FileChecksumContainer();
+			project = StandardProjectHandler.createAndSaveStandardDroneProject(context);
+
+			currentSprite = null;
+			currentScript = null;
+			return true;
+		} catch (IOException ioException) {
+			Log.e(TAG, "Cannot initialize default project.", ioException);
+			Utils.showErrorDialog(context, R.string.error_load_project);
+			return false;
+		}
+	}
+
+	public void initializeNewProject(String projectName, Context context, boolean empty) throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
 		if (empty) {

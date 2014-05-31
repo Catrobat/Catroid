@@ -44,8 +44,10 @@ import org.catrobat.catroid.bluetooth.DeviceListActivity;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.drone.DroneInitialiser;
 import org.catrobat.catroid.legonxt.LegoNXT;
 import org.catrobat.catroid.legonxt.LegoNXTBtCommunicator;
+import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
 import java.io.File;
@@ -54,36 +56,47 @@ import java.util.HashMap;
 import java.util.Locale;
 
 @SuppressWarnings("deprecation")
-public class PreStageActivity extends Activity {
-	private static final String TAG = PreStageActivity.class.getSimpleName();
+public class PreStageActivity extends BaseActivity {
 
+	private static final String TAG = PreStageActivity.class.getSimpleName();
 	private static final int REQUEST_ENABLE_BLUETOOTH = 2000;
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 	public static final int REQUEST_RESOURCES_INIT = 101;
 	public static final int REQUEST_TEXT_TO_SPEECH = 10;
 
+	private int resources = Brick.NO_RESOURCES;
 	private int requiredResourceCounter;
+
 	private static LegoNXT legoNXT;
+	private boolean autoConnect = false;
 	private ProgressDialog connectingProgressDialog;
 	private static TextToSpeech textToSpeech;
 	private static OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer;
 
-	private boolean autoConnect = false;
+	private DroneInitialiser droneInitialiser = null;
+
+	private Intent returnToActivityIntent = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		returnToActivityIntent = new Intent();
+
+		if (isFinishing()) {
+			return;
+		}
+
+		setContentView(R.layout.activity_prestage);
 
 		int requiredResources = getRequiredRessources();
 		requiredResourceCounter = Integer.bitCount(requiredResources);
-
-		setContentView(R.layout.activity_prestage);
 
 		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
 			Intent checkIntent = new Intent();
 			checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
 			startActivityForResult(checkIntent, REQUEST_TEXT_TO_SPEECH);
 		}
+
 		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
 			BluetoothManager bluetoothManager = new BluetoothManager(this);
 
@@ -98,20 +111,54 @@ public class PreStageActivity extends Activity {
 				} else {
 					resourceInitialized();
 				}
-
 			}
 		}
+
+		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
+			droneInitialiser = getDroneInitialiser();
+			droneInitialiser.initialise();
+		}
+
 		if (requiredResourceCounter == Brick.NO_RESOURCES) {
 			startStage();
 		}
 	}
 
+	public DroneInitialiser getDroneInitialiser() {
+		if (droneInitialiser == null) {
+			droneInitialiser = new DroneInitialiser(this, returnToActivityIntent);
+		}
+		return droneInitialiser;
+	}
+
 	@Override
 	public void onResume() {
+		if (droneInitialiser != null) {
+			droneInitialiser.onPrestageActivityResume();
+		}
+
 		super.onResume();
 		if (requiredResourceCounter == 0) {
 			finish();
 		}
+	}
+
+	@Override
+	protected void onPause() {
+		if (droneInitialiser != null) {
+			droneInitialiser.onPrestageActivityPause();
+		}
+
+		super.onPause();
+	}
+
+	@Override
+	protected void onDestroy() {
+		if (droneInitialiser != null) {
+			droneInitialiser.onPrestageActivityDestroy();
+		}
+
+		super.onDestroy();
 	}
 
 	//all resources that should be reinitialized with every stage start
@@ -143,22 +190,22 @@ public class PreStageActivity extends Activity {
 		}
 	}
 
-	private void resourceFailed() {
-		setResult(RESULT_CANCELED, getIntent());
+	public void resourceFailed() {
+		setResult(RESULT_CANCELED, returnToActivityIntent);
 		finish();
 	}
 
-	private synchronized void resourceInitialized() {
-		//Log.i("res", "Resource initialized: " + requiredResourceCounter);
-
+	public synchronized void resourceInitialized() {
 		requiredResourceCounter--;
 		if (requiredResourceCounter == 0) {
+			Log.d(TAG, "Start Stage");
+
 			startStage();
 		}
 	}
 
 	public void startStage() {
-		setResult(RESULT_OK, getIntent());
+		setResult(RESULT_OK, returnToActivityIntent);
 		finish();
 	}
 
@@ -174,11 +221,11 @@ public class PreStageActivity extends Activity {
 		ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
 				.getSpriteList();
 
-		int ressources = Brick.NO_RESOURCES;
+		resources = Brick.NO_RESOURCES;
 		for (Sprite sprite : spriteList) {
-			ressources |= sprite.getRequiredResources();
+			resources |= sprite.getRequiredResources();
 		}
-		return ressources;
+		return resources;
 	}
 
 	@Override
@@ -306,7 +353,10 @@ public class PreStageActivity extends Activity {
 						resourceFailed();
 					}
 					break;
+				default:
+					return;
 			}
 		}
 	};
+
 }

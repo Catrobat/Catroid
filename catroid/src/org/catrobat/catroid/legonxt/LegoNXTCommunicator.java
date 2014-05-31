@@ -205,9 +205,11 @@ public abstract class LegoNXTCommunicator extends Thread {
 	 */
 
 	protected void sendState(int message) {
-		Bundle myBundle = new Bundle();
-		myBundle.putInt("message", message);
-		sendBundle(myBundle);
+		if (uiHandler != null) {
+			Bundle myBundle = new Bundle();
+			myBundle.putInt("message", message);
+			sendBundle(myBundle);
+		}
 	}
 
 	protected void sendMessageAndState(byte[] message) {

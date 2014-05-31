@@ -46,6 +46,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.LookAdapter;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
+
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -185,7 +186,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.goBack();
 		solo.clickInList(2);
 		solo.clickOnText(solo.getString(R.string.look));
-		solo.sleep(200);
+		solo.sleep(400);
 
 		emptyViewHeading = (TextView) solo.getCurrentActivity().findViewById(R.id.fragment_look_text_heading);
 		emptyViewDescription = (TextView) solo.getCurrentActivity().findViewById(R.id.fragment_look_text_description);
@@ -1056,6 +1057,30 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertFalse("ActionMode didn't disappear", solo.waitForText(delete, 0, TIME_TO_WAIT));
 
 		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
+	}
+
+	public void testOpenDeleteDialogAndGoBack()
+	{
+		int viewAmountBeforeDeleteMode = solo.getCurrentViews().size();
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
+		int[] checkboxIndicesToCheck = { solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2 };
+
+		solo.scrollDown();
+		solo.clickOnCheckBox(checkboxIndicesToCheck[0]);
+		solo.scrollToTop();
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.no));
+
+		solo.sleep(300);
+
+		int viewAmountAfterDeleteMode = solo.getCurrentViews().size();
+
+		assertTrue("checkboxes or other delete elements are still visible",viewAmountBeforeDeleteMode==viewAmountAfterDeleteMode);
+
 	}
 
 	public void testLongClickCancelDeleteAndCopy() {

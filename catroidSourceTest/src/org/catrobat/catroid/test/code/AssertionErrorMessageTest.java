@@ -32,9 +32,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AssertionErrorMessageTest extends TestCase {
-	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidCucumberTest" };
+	private static final String[] DIRECTORIES = Utils.TEST_FILE_DIRECTORIES;
 
 	private static final String OPENING_BRACKET = "\\(";
 	private static final String CLOSING_BRACKET = "\\)";
@@ -53,8 +55,8 @@ public class AssertionErrorMessageTest extends TestCase {
 	private static final String LINE_COMMENT = "//.*";
 
 	private class AssertMethod {
-		private String commandName;
-		private int numberOfParameters;
+		private final String commandName;
+		private final int numberOfParameters;
 
 		public AssertMethod(String commandName, int numberOfParameters) {
 			this.commandName = commandName;
@@ -70,11 +72,16 @@ public class AssertionErrorMessageTest extends TestCase {
 		}
 	}
 
-	private List<AssertMethod> assertMethods;
-	private String regexIsAssertMethod;
-	private String regexAssertContainsErrorMessage;
-	private String regexAssertDoesntStartWithNumber;
-	private String regexIsCompleteCommand;
+	private Pattern regexAssertContainsErrorMessagePattern;
+	private Pattern regexAssertDoesNotStartWithNumberPattern;
+	private Pattern regexIsCompleteCommandPattern;
+	private Pattern regexIsAssertMethodPattern;
+
+	private final String regexIsAssertMethod;
+	private final String regexAssertContainsErrorMessage;
+	private final String regexAssertDoesNotStartWithNumber;
+	private final String regexIsCompleteCommand;
+
 	private String errorMessages;
 	private boolean errorFound;
 
@@ -84,6 +91,7 @@ public class AssertionErrorMessageTest extends TestCase {
 		 * taken from http://www.junit.org/apidocs/org/junit/Assert.html and
 		 * http://www.junit.org/apidocs/junit/framework/Assert.html as of JUnit version 4.9b2
 		 */
+		List<AssertMethod> assertMethods;
 		assertMethods = new ArrayList<AssertionErrorMessageTest.AssertMethod>();
 		assertMethods.add(new AssertMethod("assertArrayEquals", 3));
 		assertMethods.add(new AssertMethod("assertEquals", 3));
@@ -97,42 +105,56 @@ public class AssertionErrorMessageTest extends TestCase {
 		assertMethods.add(new AssertMethod("assertTrue", 2));
 		assertMethods.add(new AssertMethod("fail", 1));
 
-		// Build regular expressions to check if a String is an assert method
-		regexIsAssertMethod = "";
-		for (int i = 0; i < assertMethods.size(); i++) {
-			regexIsAssertMethod += "(" + WHITESPACES + assertMethods.get(i).getCommandName() + ANYTHING + ")";
-			if (i < assertMethods.size() - 1) {
-				regexIsAssertMethod += "|";
-			}
-		}
 
-		//  Build regular expression to check if an assert method contains an valid error message
-		regexAssertContainsErrorMessage = "";
+		StringBuilder regexIsAssertMethodBuilder = new StringBuilder();
+		StringBuilder regexAssertContainsErrorMessageBuilder = new StringBuilder();
+		StringBuilder regexAssertDoesntStartWithNumberBuilder = new StringBuilder();
 		for (int i = 0; i < assertMethods.size(); i++) {
-			regexAssertContainsErrorMessage += "(" + WHITESPACES + assertMethods.get(i).getCommandName()
-					+ OPENING_BRACKET;
 
-			regexAssertContainsErrorMessage += ASSERT_MESSAGE;
+			// Build regular expressions to check if a String is an assert method
+			regexIsAssertMethodBuilder
+					.append('(')
+					.append(WHITESPACES)
+					.append(assertMethods.get(i).getCommandName())
+					.append(ANYTHING).append(')');
+
+			// Build regular expression to check if an assert method contains an valid error message
+			regexAssertContainsErrorMessageBuilder
+					.append('(')
+					.append(WHITESPACES)
+					.append(assertMethods.get(i).getCommandName())
+					.append(OPENING_BRACKET)
+					.append(ASSERT_MESSAGE);
+
 			for (int parameterCount = 1; parameterCount < assertMethods.get(i).getNumberOfParameters(); parameterCount++) {
-				regexAssertContainsErrorMessage += COMMA + PARAMETER;
+				regexAssertContainsErrorMessageBuilder
+						.append(COMMA)
+						.append(PARAMETER);
 			}
-			regexAssertContainsErrorMessage += CLOSING_BRACKET + ANYTHING + ")";
+			regexAssertContainsErrorMessageBuilder
+					.append(CLOSING_BRACKET)
+					.append(ANYTHING)
+					.append(')');
+
+			// Build regular expression to check if an assert message starts with a number
+			regexAssertDoesntStartWithNumberBuilder
+					.append('(')
+					.append(WHITESPACES)
+					.append(assertMethods.get(i).getCommandName())
+					.append(OPENING_BRACKET)
+					.append(NOT_A_NUMBER)
+					.append(ANYTHING)
+					.append(')');
 
 			if (i < assertMethods.size() - 1) {
-				regexAssertContainsErrorMessage += "|";
+				regexIsAssertMethodBuilder.append('|');
+				regexAssertContainsErrorMessageBuilder.append('|');
+				regexAssertDoesntStartWithNumberBuilder.append('|');
 			}
 		}
-
-		//  Build regular expression to check if an assert message starts with a number
-		regexAssertDoesntStartWithNumber = "";
-		for (int i = 0; i < assertMethods.size(); i++) {
-			regexAssertDoesntStartWithNumber += "(" + WHITESPACES + assertMethods.get(i).getCommandName()
-					+ OPENING_BRACKET + NOT_A_NUMBER + ANYTHING + ")";
-
-			if (i < assertMethods.size() - 1) {
-				regexAssertDoesntStartWithNumber += "|";
-			}
-		}
+		regexIsAssertMethod = regexIsAssertMethodBuilder.toString();
+		regexAssertContainsErrorMessage = regexAssertContainsErrorMessageBuilder.toString();
+		regexAssertDoesNotStartWithNumber = regexAssertDoesntStartWithNumberBuilder.toString();
 
 		// Build regular expression to check if a command is complete (i.e. not one line of a multi-line command)
 		regexIsCompleteCommand = "(" + STRING_LITERAL + "|" + COMMENT + "|[^;]" + ")*;" + WHITESPACES + "("
@@ -156,7 +178,7 @@ public class AssertionErrorMessageTest extends TestCase {
 			assertTrue(
 					"Regex didn't match expression " + matchingAssert,
 					matchingAssert.matches(regexAssertContainsErrorMessage)
-							&& matchingAssert.matches(regexAssertDoesntStartWithNumber));
+							&& matchingAssert.matches(regexAssertDoesNotStartWithNumber));
 		}
 
 		List<String> notMatchingAsserts = new ArrayList<String>();
@@ -174,7 +196,7 @@ public class AssertionErrorMessageTest extends TestCase {
 			assertFalse(
 					"Expression was matched even though it shouldn't: " + notMatchingAssert,
 					notMatchingAssert.matches(regexAssertContainsErrorMessage)
-							&& notMatchingAssert.matches(regexAssertDoesntStartWithNumber));
+							&& notMatchingAssert.matches(regexAssertDoesNotStartWithNumber));
 		}
 
 		List<String> completeCommands = new ArrayList<String>();
@@ -199,36 +221,53 @@ public class AssertionErrorMessageTest extends TestCase {
 		}
 	}
 
-	public void assertionErrorMessagesPresentInFile(File file) throws IOException {
+	private void assertionErrorMessagesPresentInFile(File file) throws IOException {
 		assertTrue("Could not read file " + file.getAbsolutePath(), file.exists() && file.canRead());
 
 		BufferedReader reader = new BufferedReader(new FileReader(file));
+		StringBuilder errorMessageBuilder = new StringBuilder();
 
-		String currentLine = "";
+		Matcher regexAssertContainsErrorMessageMatcher = regexAssertContainsErrorMessagePattern.matcher("");
+		Matcher regexAssertDoesntStartWithNumberMatcher = regexAssertDoesNotStartWithNumberPattern.matcher("");
+		Matcher regexIsCompleteCommandMatcher = regexIsCompleteCommandPattern.matcher("");
+		Matcher regexIsAssertMethodMatcher = regexIsAssertMethodPattern.matcher("");
+
+		String currentLine;
 		int lineNumber = 0;
 		while ((currentLine = reader.readLine()) != null) {
 			lineNumber++;
-			if (currentLine.matches(regexIsAssertMethod)) {
-				while (!currentLine.matches(regexIsCompleteCommand)) {
+			if (regexIsAssertMethodMatcher.reset(currentLine).matches()) {
+				while (! regexIsCompleteCommandMatcher.reset(currentLine).matches()) {
 					currentLine += reader.readLine();
 					lineNumber++;
 				}
-				currentLine.replace("\n", "");
 
-				if (!currentLine.matches(regexAssertContainsErrorMessage)
-						|| !currentLine.matches(regexAssertDoesntStartWithNumber)) {
+				if (!regexAssertContainsErrorMessageMatcher.reset(currentLine).matches()
+						|| !regexAssertDoesntStartWithNumberMatcher.reset(currentLine).matches()) {
 					errorFound = true;
-					errorMessages += (file.getCanonicalPath() + " in line " + lineNumber + "\n");
+					errorMessageBuilder
+							.append(file.getCanonicalPath())
+							.append(" in line ")
+							.append(lineNumber)
+							.append('\n');
 				}
 			}
 		}
-
 		reader.close();
+		if (errorMessageBuilder.length() > 0) {
+			errorMessages += errorMessageBuilder.toString();
+		}
 	}
 
 	public void testAssertionErrorMessagesPresent() throws IOException {
 		errorMessages = "";
 		errorFound = false;
+
+		regexAssertContainsErrorMessagePattern = Pattern.compile(regexAssertContainsErrorMessage);
+		regexAssertDoesNotStartWithNumberPattern = Pattern.compile(regexAssertDoesNotStartWithNumber);
+		regexIsCompleteCommandPattern = Pattern.compile(regexIsCompleteCommand);
+		regexIsAssertMethodPattern = Pattern.compile(regexIsAssertMethod);
+
 		for (String directoryName : DIRECTORIES) {
 			File directory = new File(directoryName);
 			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());

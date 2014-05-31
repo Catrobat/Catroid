@@ -48,6 +48,7 @@ import com.actionbarsherlock.view.MenuItem;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.stage.PreStageActivity;
@@ -113,6 +114,13 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		Editor edit = sharedPreferences.edit();
 		edit.putBoolean(Constants.FIRST_TIME_INSTALL, false);
 		edit.commit();
+
+		//TODO Drone dont create project for now
+		//if (BuildConfig.DEBUG && DroneUtils.isDroneSharedPreferenceEnabled(getApplication(), false)) {
+		//	UtilFile.loadExistingOrCreateStandardDroneProject(this);
+		//}
+		//SettingsActivity.setTermsOfSerivceAgreedPermanently(this, false);
+
 	}
 
 	@Override
@@ -158,12 +166,17 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			return;
 		}
 
-		if (ProjectManager.getInstance().getCurrentProject() != null) {
-			Log.d("MainMenuActivity", "current project != null "
-					+ ProjectManager.getInstance().getCurrentProject().getName());
+		//<<<<<<< HEAD
+		//		if (ProjectManager.getInstance().getCurrentProject() != null) {
+		//			Log.d("MainMenuActivity", "current project != null "
+		//					+ ProjectManager.getInstance().getCurrentProject().getName());
+		//=======
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		if (currentProject != null) {
+			//>>>>>>> master
+
 			ProjectManager.getInstance().saveProject();
-			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, ProjectManager.getInstance()
-					.getCurrentProject().getName());
+			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, currentProject.getName());
 		}
 	}
 

@@ -42,20 +42,17 @@
  */
 package org.catrobat.catroid.legonxt;
 
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.res.Resources;
 import android.os.Handler;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.bluetooth.BTConnectable;
+import org.catrobat.catroid.bluetooth.BluetoothConnection;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Method;
 import java.util.UUID;
 
 /**
@@ -70,20 +67,14 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 	private static final UUID SERIAL_PORT_SERVICE_CLASS_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	// this is the only OUI registered by LEGO, see http://standards.ieee.org/regauth/oui/index.shtml
 
-	private BluetoothAdapter btAdapter;
-	private BluetoothSocket nxtBTsocket = null;
+	private BluetoothSocket bluetoothSocket = null;
 	private OutputStream nxtOutputStream = null;
 	private InputStream nxtInputStream = null;
 
 	private String macAddress;
-	private BTConnectable myOwner;
 
-	public LegoNXTBtCommunicator(BTConnectable myOwner, Handler uiHandler, BluetoothAdapter btAdapter,
-								 Resources resources) {
+	public LegoNXTBtCommunicator(Handler uiHandler, Resources resources) {
 		super(uiHandler, resources);
-
-		this.myOwner = myOwner;
-		this.btAdapter = btAdapter;
 	}
 
 	public void setMACAddress(String mMACaddress) {
@@ -111,7 +102,7 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 					dispatchMessage(returnMessage);
 				}
 
-			} catch (IOException e) {
+			} catch (IOException ioException) {
 				// don't inform the user when connection is already closed
 				if (connected) {
 					sendState(STATE_RECEIVEERROR);
@@ -132,70 +123,26 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 	 */
 	@Override
 	public void createNXTconnection() throws IOException {
-		try {
-			BluetoothSocket nxtBTSocketTemporary;
-			BluetoothDevice nxtDevice = null;
-			nxtDevice = btAdapter.getRemoteDevice(macAddress);
-			if (nxtDevice == null) {
-				if (uiHandler == null) {
-					throw new IOException();
-				} else {
-					sendToast(resources.getString(R.string.no_paired_nxt));
-					sendState(STATE_CONNECTERROR);
-					return;
-				}
-			}
+		BluetoothConnection bluetoothConnection = new BluetoothConnection(macAddress,
+				SERIAL_PORT_SERVICE_CLASS_UUID);
+		BluetoothConnection.State state = bluetoothConnection.connect();
 
-			nxtBTSocketTemporary = nxtDevice.createRfcommSocketToServiceRecord(SERIAL_PORT_SERVICE_CLASS_UUID);
-			try {
-
-				nxtBTSocketTemporary.connect();
-
-			} catch (IOException e) {
-				if (myOwner.isPairing()) {
-					if (uiHandler != null) {
-						sendToast(resources.getString(R.string.pairing_message));
-						sendState(STATE_CONNECTERROR_PAIRING);
-					} else {
-						throw e;
-					}
-					return;
-				}
-
-				// try another method for connection, this should work on the HTC desire, credits to Michael Biermann
-				try {
-
-					Method mMethod = nxtDevice.getClass().getMethod("createRfcommSocket", new Class[]{int.class});
-					nxtBTSocketTemporary = (BluetoothSocket) mMethod.invoke(nxtDevice, Integer.valueOf(1));
-					nxtBTSocketTemporary.connect();
-				} catch (Exception e1) {
-					if (uiHandler == null) {
-						throw new IOException();
-					} else {
-						sendState(STATE_CONNECTERROR);
-					}
-					return;
-				}
-			}
-			nxtBTsocket = nxtBTSocketTemporary;
-			nxtInputStream = nxtBTsocket.getInputStream();
-			nxtOutputStream = nxtBTsocket.getOutputStream();
-			connected = true;
-		} catch (IOException e) {
-			if (uiHandler == null) {
-				throw e;
-			} else {
-				if (myOwner.isPairing()) {
-					sendToast(resources.getString(R.string.pairing_message));
-				}
+		switch (state) {
+			case CONNECTED:
+				break;
+			case ERROR_NOT_BONDED:
+			case ERROR_STILL_BONDING:
+				sendToast(resources.getString(R.string.no_paired_nxt));
+			default:
 				sendState(STATE_CONNECTERROR);
-				return;
-			}
+				throw new IOException("Bluetooth connecting error " + state.name());
 		}
-		// everything was OK
-		if (uiHandler != null) {
-			sendState(STATE_CONNECTED);
-		}
+
+		bluetoothSocket = bluetoothConnection.getBluetoothSocket();
+		nxtInputStream = bluetoothSocket.getInputStream();
+		nxtOutputStream = bluetoothSocket.getOutputStream();
+		connected = true;
+		sendState(STATE_CONNECTED);
 	}
 
 	/**
@@ -204,27 +151,23 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 	 */
 	@Override
 	public void destroyNXTconnection() throws IOException {
-
 		if (connected) {
 			stopAllNXTMovement();
 		}
 
 		try {
-			if (nxtBTsocket != null) {
+			if (bluetoothSocket != null) {
 				connected = false;
-				nxtBTsocket.close();
-				nxtBTsocket = null;
+				bluetoothSocket.close();
+				bluetoothSocket = null;
 			}
 
 			nxtInputStream = null;
 			nxtOutputStream = null;
 
-		} catch (IOException e) {
-			if (uiHandler == null) {
-				throw e;
-			} else {
-				sendToast(resources.getString(R.string.problem_at_closing));
-			}
+		} catch (IOException ioException) {
+			sendToast(resources.getString(R.string.problem_at_closing));
+			Log.e(TAG, Log.getStackTraceString(ioException));
 		}
 	}
 
@@ -248,7 +191,7 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 	public void sendMessage(byte[] message) throws IOException {
 
 		if (nxtOutputStream == null) {
-			throw new IOException();
+			throw new IOException("Outputstream was null");
 		}
 
 		// send message length
@@ -267,7 +210,7 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 	@Override
 	public byte[] receiveMessage() throws IOException {
 		if (nxtInputStream == null) {
-			throw new IOException();
+			throw new IOException("Inputstream was null");
 		}
 
 		int length = nxtInputStream.read();

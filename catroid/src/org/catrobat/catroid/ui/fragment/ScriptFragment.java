@@ -511,6 +511,14 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
+
+			}
+		});
+
+		builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+			@Override
+			public void onCancel(DialogInterface dialog) {
 				if (!deleteScriptFromContextMenu) {
 					clearCheckedBricksAndEnableButtons();
 				}
