@@ -34,6 +34,7 @@ import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -53,6 +54,9 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.exceptions.CompatibilityProjectException;
+import org.catrobat.catroid.exceptions.LoadingProjectException;
+import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.MyProjectsActivity;
@@ -80,6 +84,7 @@ import java.util.Set;
 public class ProjectsListFragment extends SherlockListFragment implements OnProjectRenameListener,
 		OnUpdateProjectDescriptionListener, OnCopyProjectListener, OnProjectEditListener {
 
+	private static final String TAG = "project_list_fragment";
 	private static final String BUNDLE_ARGUMENTS_PROJECT_DATA = "project_data";
 	private static final String SHARED_PREFERENCE_NAME = "showDetailsMyProjects";
 
@@ -241,7 +246,15 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		if (currentProject == null) {
-			ProjectManager.getInstance().loadProject(projectToEdit.projectName, getActivity(), true);
+			try {
+				ProjectManager.getInstance().loadProject(projectToEdit.projectName, getActivity());
+			} catch (LoadingProjectException loadingProjectException) {
+				Log.e(TAG, "Project cannot load", loadingProjectException);
+			} catch (OutdatedVersionProjectException outdatedVersionException) {
+				Log.e(TAG, "Projectcode version is outdated", outdatedVersionException);
+			} catch (CompatibilityProjectException compatibilityException) {
+				Log.e(TAG, "Project is not compatible", compatibilityException);
+			}
 		} else if (currentProject.getSpriteList().indexOf(projectToEdit) == 0) {
 			return;
 		}

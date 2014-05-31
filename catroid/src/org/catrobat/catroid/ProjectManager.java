@@ -43,6 +43,9 @@ import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
+import org.catrobat.catroid.exceptions.CompatibilityProjectException;
+import org.catrobat.catroid.exceptions.LoadingProjectException;
+import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
@@ -95,7 +98,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
+	public void loadProject(String projectName, Context context) throws LoadingProjectException,
+			OutdatedVersionProjectException, CompatibilityProjectException {
 		fileChecksumContainer = new FileChecksumContainer();
 		Project oldProject = project;
 		MessageContainer.createBackup();
@@ -112,25 +116,16 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 						project = StandardProjectHandler.createAndSaveStandardProject(context);
 						MessageContainer.clearBackup();
 					} catch (IOException ioException) {
-						if (errorMessage) {
-							Utils.showErrorDialog(context, R.string.error_load_project);
-						}
 						Log.e(TAG, "Cannot load project.", ioException);
-						return false;
+						throw new LoadingProjectException(context.getString(R.string.error_load_project));
 					}
 				}
 			}
-			if (errorMessage) {
-				Utils.showErrorDialog(context, R.string.error_load_project);
-			}
-			return false;
+
+			throw new LoadingProjectException(context.getString(R.string.error_load_project));
 		} else if (project.getCatrobatLanguageVersion() > Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
 			project = oldProject;
-			if (errorMessage) {
-				Utils.showErrorDialog(context, R.string.error_outdated_pocketcode_version);
-				// TODO insert update link to Google Play
-			}
-			return false;
+			throw new OutdatedVersionProjectException(context.getString(R.string.error_outdated_pocketcode_version));
 		} else {
 			if (project.getCatrobatLanguageVersion() == 0.8f) {
 				//TODO insert in every "When project starts" script list a "show" brick
@@ -150,15 +145,13 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			if (project.getCatrobatLanguageVersion() == Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
 				//project seems to be converted now and can be loaded
 				localizeBackgroundSprite(context);
-				return true;
+			} else {
+				//project cannot be converted
+				project = oldProject;
+				throw new CompatibilityProjectException(context.getString(R.string.error_project_compatability));
 			}
-			//project cannot be converted
-			project = oldProject;
-			if (errorMessage) {
-				Utils.showErrorDialog(context, R.string.error_project_compatability);
-			}
-			return false;
 		}
+
 	}
 
 	private void localizeBackgroundSprite(Context context) {
@@ -224,7 +217,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context, boolean empty) throws IllegalArgumentException, IOException {
+	public void initializeNewProject(String projectName, Context context, boolean empty)
+			throws IllegalArgumentException, IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 
 		if (empty) {

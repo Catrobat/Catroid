@@ -502,6 +502,8 @@
     <string name="error_drone_wrong_platform">We can not run a ARDrone project on your device.</string>
     <string name="error_drone_not_available_in_release_build_title">ARDrone projects not supported</string>
     <string name="error_drone_not_available_in_release_build">Unfortunately we can\'t run projects with ARDrone bricks for now.</string>
+    <string name="error_rename_incompatible_project">Renaming an incompatible project isn\'t possible.</string>
+    <string name="error_changing_description_of_incompatible_project">Changing description of an incompatible project isn\'t possible.</string>
     <!--  -->
 
 
