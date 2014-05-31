@@ -298,9 +298,15 @@ public final class Utils {
 
 			if (projectName != null) {
 				ProjectManager.getInstance().loadProject(projectName, context, false);
-			} else if (!ProjectManager.getInstance().loadProject(context.getString(R.string.default_project_name),
-					context, false)) {
-				ProjectManager.getInstance().initializeDefaultProject(context);
+				/*
+				 * <<<<<<< HEAD
+				 * =======
+				 * } else if
+				 * (!ProjectManager.getInstance().loadProject(context.getString(R.string.default_project_name),
+				 * context, false)) {
+				 * ProjectManager.getInstance().initializeDefaultProject(context);
+				 * >>>>>>> master
+				 */
 			}
 
 		}
@@ -308,11 +314,15 @@ public final class Utils {
 
 	public static String getCurrentProjectName(Context context) {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
+			Log.d("UTILS", "first if");
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
-			if (currentProjectName == null) {
+			if (currentProjectName == null || checkIfProjectExistsOrIsDownloadingIgnoreCase(currentProjectName)) {
+				Log.d("UTILS", "second if");
 				currentProjectName = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT)).get(0);
 			}
+			Log.d("UTILS", "name: " + currentProjectName);
+
 			return currentProjectName;
 		}
 		return ProjectManager.getInstance().getCurrentProject().getName();
@@ -369,7 +379,11 @@ public final class Utils {
 	public static Project findValidProject() {
 		Project loadableProject = null;
 
+		Log.d("Utils", "findValidProject");
+
 		List<String> projectNameList = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT));
+
+		Log.d("Utils", "projectNamesList.size" + Integer.toString(projectNameList.size()));
 		for (String projectName : projectNameList) {
 			loadableProject = StorageHandler.getInstance().loadProject(projectName);
 			if (loadableProject != null) {

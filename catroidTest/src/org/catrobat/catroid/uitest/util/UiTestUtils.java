@@ -1393,6 +1393,12 @@ public final class UiTestUtils {
 		solo.sleep(300);
 
 		String continueString = solo.getString(R.string.main_menu_continue);
+
+		solo.waitForText(solo.getString(R.string.main_menu_programs));
+		solo.clickOnText(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
+		solo.goBack();
+
 		solo.waitForText(continueString);
 
 		solo.clickOnText(continueString);

@@ -134,6 +134,7 @@
     <string name="copy_sprite_finished">copied.</string>
     <string name="copy_sprite_prefix">Object:</string>
     <string name="copy_sprite_name_suffix">_Copy</string>
+    <string name="fragment_sprites_text_description">Click \"+\" to add Objects</string>
     <!--  -->
 
 
@@ -220,6 +221,8 @@
     <string name="details_date_today">Today</string>
     <string name="details_date_yesterday">Yesterday</string>
     <string name="dialog_copy_project_title">Copy program</string>
+    <string name="fragment_projects_text_description">Click \"+\" to add Programs</string>
+
     <!--  -->
 
 

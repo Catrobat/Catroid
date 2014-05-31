@@ -21,8 +21,44 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/list"
-    style="@style/ListViewShadowed"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_sound"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/fragment_sprites_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:id="@+id/fragment_sprites_text_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:paddingBottom="15dp"
+            android:paddingTop="10dp"
+            android:text="@string/fragment_sprites_text_description"
+            android:textColor="@color/actionbar_title_color"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/fragment_sprites_text_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/fragment_sprites_text_description"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/sprites"
+            android:textColor="@color/actionbar_title_color"
+            android:textSize="80sp" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@android:id/list"
+        style="@style/ListViewShadowed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</FrameLayout>

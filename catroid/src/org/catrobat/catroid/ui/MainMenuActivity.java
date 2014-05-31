@@ -27,6 +27,7 @@ import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -98,12 +100,27 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!BackPackListManager.isBackpackFlag()) {
 			BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
 		}
+		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
+			return;
+		}
+		// modified
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+		if (sharedPreferences.getBoolean(Constants.FIRST_TIME_INSTALL, true)) {
+			Log.d("MainMenuActivity", "firsttime");
+			UtilFile.createStandardProjectIfRootDirectoryIsEmpty(this);
+		}
+
+		Editor edit = sharedPreferences.edit();
+		edit.putBoolean(Constants.FIRST_TIME_INSTALL, false);
+		edit.commit();
 
 		//TODO Drone dont create project for now
 		//if (BuildConfig.DEBUG && DroneUtils.isDroneSharedPreferenceEnabled(getApplication(), false)) {
 		//	UtilFile.loadExistingOrCreateStandardDroneProject(this);
 		//}
 		//SettingsActivity.setTermsOfSerivceAgreedPermanently(this, false);
+
 	}
 
 	@Override
@@ -116,16 +133,30 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 		findViewById(R.id.progress_circle).setVisibility(View.GONE);
 
-		UtilFile.createStandardProjectIfRootDirectoryIsEmpty(this);
-
 		PreStageActivity.shutdownPersistentResources();
-		setMainMenuButtonContinueText();
-		findViewById(R.id.main_menu_button_continue).setEnabled(true);
+
 		String projectName = getIntent().getStringExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
+
 		if (projectName != null) {
+			Log.d("MainMenu", "projectName not null");
 			loadProjectInBackground(projectName);
+		} else {
+			Log.d("MainMenu", "projectName null");
+			Utils.loadProjectIfNeeded(this);
 		}
+
+		//		setMainMenuButtonContinueText();
+		//		if (ProjectManager.getInstance().getCurrentProject() != null) {
+		//			Log.d("MainMenuActivity", "projectname not null");
+		//			findViewById(R.id.main_menu_button_continue).setEnabled(true);
+		//		} else {
+		//			Log.d("MainMenuActivity", "projectname null");
+		//			findViewById(R.id.main_menu_button_continue).setEnabled(false);
+		//		}
+
 		getIntent().removeExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
+
+		updateContinueButton();
 	}
 
 	@Override
@@ -135,8 +166,15 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			return;
 		}
 
+		//<<<<<<< HEAD
+		//		if (ProjectManager.getInstance().getCurrentProject() != null) {
+		//			Log.d("MainMenuActivity", "current project != null "
+		//					+ ProjectManager.getInstance().getCurrentProject().getName());
+		//=======
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		if (currentProject != null) {
+			//>>>>>>> master
+
 			ProjectManager.getInstance().saveProject();
 			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, currentProject.getName());
 		}
@@ -316,20 +354,54 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		}
 	}
 
-	private void setMainMenuButtonContinueText() {
+	//	private void setMainMenuButtonContinueText() {
+	//		Button mainMenuButtonContinue = (Button) this.findViewById(R.id.main_menu_button_continue);
+	//		TextAppearanceSpan textAppearanceSpan = new TextAppearanceSpan(this, R.style.MainMenuButtonTextSecondLine);
+	//		SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+	//		String mainMenuContinue = this.getString(R.string.main_menu_continue);
+	//
+	//		spannableStringBuilder.append(mainMenuContinue);
+	//		spannableStringBuilder.append("\n");
+	//		spannableStringBuilder.append(Utils.getCurrentProjectName(this));
+	//
+	//		spannableStringBuilder.setSpan(textAppearanceSpan, mainMenuContinue.length() + 1,
+	//				spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+	//
+	//		mainMenuButtonContinue.setText(spannableStringBuilder);
+	//	}
+
+	private void updateContinueButton() {
 		Button mainMenuButtonContinue = (Button) this.findViewById(R.id.main_menu_button_continue);
-		TextAppearanceSpan textAppearanceSpan = new TextAppearanceSpan(this, R.style.MainMenuButtonTextSecondLine);
 		SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
 		String mainMenuContinue = this.getString(R.string.main_menu_continue);
-
 		spannableStringBuilder.append(mainMenuContinue);
 		spannableStringBuilder.append("\n");
-		spannableStringBuilder.append(Utils.getCurrentProjectName(this));
 
-		spannableStringBuilder.setSpan(textAppearanceSpan, mainMenuContinue.length() + 1,
-				spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+		if (ProjectManager.getInstance().getCurrentProject() != null) {
+			spannableStringBuilder.append(Utils.getCurrentProjectName(this));
+			TextAppearanceSpan textAppearanceSpan = new TextAppearanceSpan(this, R.style.MainMenuButtonTextSecondLine);
+			spannableStringBuilder.setSpan(textAppearanceSpan, mainMenuContinue.length() + 1,
+					spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+			mainMenuButtonContinue.setTextColor(getResources().getColor(R.color.main_menu_button_text_color));
 
-		mainMenuButtonContinue.setText(spannableStringBuilder);
+			mainMenuButtonContinue.setText(spannableStringBuilder);
+			mainMenuButtonContinue.getCompoundDrawables()[0].setAlpha(255);
+			mainMenuButtonContinue.getBackground().setAlpha(255);
+			findViewById(R.id.main_menu_button_continue).setEnabled(true);
+		} else {
+			spannableStringBuilder.append("---");
+			TextAppearanceSpan textAppearanceSpan = new TextAppearanceSpan(this,
+					R.style.MainMenuButtonTextSecondLineDisabled);
+			spannableStringBuilder.setSpan(textAppearanceSpan, mainMenuContinue.length() + 1,
+					spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+			mainMenuButtonContinue.setTextColor(getResources().getColor(R.color.main_menu_button_text_color_disabled));
+
+			mainMenuButtonContinue.setText(spannableStringBuilder);
+			mainMenuButtonContinue.getCompoundDrawables()[0].setAlpha(127);
+			mainMenuButtonContinue.getBackground().setAlpha(178);
+			findViewById(R.id.main_menu_button_continue).setEnabled(false);
+		}
+
 	}
 
 	@Override

@@ -1061,6 +1061,61 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 	}
 
+	public void testEmptyView() {
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		solo.sleep(200);
+		solo.waitForActivity(ProjectActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		TextView emptyViewHeading = (TextView) solo.getCurrentActivity().findViewById(
+				R.id.fragment_sprites_text_heading);
+		TextView emptyViewDescription = (TextView) solo.getCurrentActivity().findViewById(
+				R.id.fragment_sprites_text_description);
+
+		// The Views are gone, we can still make assumptions about them
+		assertEquals("Empty View heading is not correct", solo.getString(R.string.sprites), emptyViewHeading.getText()
+				.toString());
+		assertEquals("Empty View description is not correct",
+				solo.getString(R.string.fragment_sprites_text_description), emptyViewDescription.getText().toString());
+
+		assertEquals("Empty View shown although there are items in the list!", View.GONE,
+				solo.getView(R.id.fragment_sprites_empty).getVisibility());
+
+		//delete objects
+
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+		solo.clickOnCheckBox(2);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		solo.waitForText(solo.getString(R.string.yes));
+		assertTrue("Title in delete dialog is not correct!",
+				solo.searchText(solo.getString(R.string.dialog_confirm_delete_multiple_objects_title)));
+		solo.clickOnText(solo.getString(R.string.yes));
+
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		solo.clickOnCheckBox(0);
+		UiTestUtils.acceptAndCloseActionMode(solo);
+
+		solo.waitForText(solo.getString(R.string.yes));
+		assertTrue("Title in delete dialog is not correct!",
+				solo.searchText(solo.getString(R.string.dialog_confirm_delete_object_title)));
+		solo.clickOnText(solo.getString(R.string.yes));
+
+		emptyViewHeading = (TextView) solo.getCurrentActivity().findViewById(R.id.fragment_sprites_text_heading);
+		emptyViewDescription = (TextView) solo.getCurrentActivity()
+				.findViewById(R.id.fragment_sprites_text_description);
+
+		assertEquals("Empty View heading is not correct", solo.getString(R.string.sprites), emptyViewHeading.getText()
+				.toString());
+		assertEquals("Empty View description is not correct",
+				solo.getString(R.string.fragment_sprites_text_description), emptyViewDescription.getText().toString());
+
+		solo.sleep(200);
+		assertEquals("Empty View not shown although there are items in the list!", View.VISIBLE,
+				solo.getView(R.id.fragment_sprites_empty).getVisibility());
+	}
+
 	public void testLongClickCancelDeleteAndCopy() {
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 

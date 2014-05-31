@@ -39,6 +39,7 @@ import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
+import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
@@ -53,6 +54,12 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.createTestProject();
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+	}
+
+	@Override
+	public void tearDown() throws Exception {
+		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronTask", true);
+		super.tearDown();
 	}
 
 	public void testOrientation() throws NameNotFoundException {
@@ -140,6 +147,7 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 	//regression test for issue#626; Android version < 4.2
 	@Device
 	public void testActionBarTitle() {
+		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronTask", false);
 		assertTrue("Sprite name not found", solo.waitForText("cat"));
 		solo.waitForView(solo.getView(R.id.brick_set_size_to_edit_text));
 		solo.clickOnView(solo.getView(R.id.brick_set_size_to_edit_text));

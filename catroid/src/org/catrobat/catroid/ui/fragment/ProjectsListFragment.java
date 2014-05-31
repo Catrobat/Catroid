@@ -417,11 +417,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			deleteProject();
 			numDeleted++;
 		}
-
-		if (projectList.isEmpty()) {
-			ProjectManager projectManager = ProjectManager.getInstance();
-			projectManager.initializeDefaultProject(getActivity());
-		} else if (ProjectManager.getInstance().getCurrentProject() == null) {
+		if (ProjectManager.getInstance().getCurrentProject() == null) {
 			Utils.saveToPreferences(getActivity().getApplicationContext(), Constants.PREF_PROJECTNAME_KEY,
 					projectList.get(0).projectName);
 		}

@@ -280,10 +280,14 @@ public final class StorageHandler {
 
 	public Project loadProject(String projectName) {
 		loadSaveLock.lock();
+		Log.d("StorageHandler", "loadProject");
 		try {
 			File projectCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
-			fileInputStream = new FileInputStream(projectCodeFile);
-			return (Project) xstream.fromXML(fileInputStream);
+			if (projectCodeFile.exists()) {
+                fileInputStream = new FileInputStream(projectCodeFile);
+                return (Project) xstream.fromXML(fileInputStream);
+			}
+			return null;
 		} catch (Exception exception) {
 			Log.e(TAG, "Loading project " + projectName + " failed.", exception);
 			return null;
@@ -315,6 +319,7 @@ public final class StorageHandler {
 		BufferedWriter writer = null;
 
 		loadSaveLock.lock();
+		Log.d("StorageHandler", "saveProject");
 		try {
 
 			if (project == null) {
@@ -341,6 +346,7 @@ public final class StorageHandler {
 					Log.e(TAG, "Failed closing the buffered writer", ioException);
 				}
 			}
+			Log.d("StorageHandler", "saveProjectEND");
 			loadSaveLock.unlock();
 		}
 	}

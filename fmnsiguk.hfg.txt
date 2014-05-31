@@ -1,0 +1,42 @@
+﻿pick ad9f92a first try
+fixup 143ec5e bla
+fixup 092fea2 fixed continue button
+fixup 37a4825 fixed testcases
+fixup ed09491 fixed emptyviewtest
+fixup 56b10d9 fix tests
+fixup 2e81fc3 fixed tc
+fixup 8b99b1f fixing stagedialogtest
+fixup 2a9682a testfix
+fixup 0f5900a stagedialogtest
+fixup 28a4f94 still working on StageDialogTest
+fixup 347f6da fixed some testcases
+fixup 8634a4b added async loading to testcase actionbartitle
+fixup 2448a70 changed StageDialogTest
+fixup 85b221e changed testBackButtonPressedTwice
+fixup b55fbf6 still working on stagedialogtest
+fixup 185d80e fixed StageDialogTest
+fixup 47b82f9 fixed getIntoSpritesFromMainMenu
+fixup fd62470 added check if filelist!=null in getProjectNames
+fixup 083031f added != null to getSizeOfFileOrDirectoryInByte
+fixup b790e5c changed DeleteAllProjects
+fixup 3a30818 fixed PointtoBrickTest
+fixup 18c8541 added changes suggested in pullrequest
+
+# Rebase d3f69a1..62bad2d onto d3f69a1
+#
+# Commands:
+#  p, pick = use commit
+#  r, reword = use commit, but edit the commit message
+#  e, edit = use commit, but stop for amending
+#  s, squash = use commit, but meld into previous commit
+#  f, fixup = like "squash", but discard this commit's log message
+#  x, exec = run command (the rest of the line) using shell
+#
+# These lines can be re-ordered; they are executed from top to bottom.
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+#
+# However, if you remove everything, the rebase will be aborted.
+#
+# Note that empty commits are commented out
+
