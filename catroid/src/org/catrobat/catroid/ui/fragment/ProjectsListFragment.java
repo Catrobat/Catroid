@@ -250,13 +250,10 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 				ProjectManager.getInstance().loadProject(projectToEdit.projectName, getActivity());
 			} catch (LoadingProjectException loadingProjectException) {
 				Log.e(TAG, "Project cannot load", loadingProjectException);
-				Utils.showErrorDialog(getActivity(), R.string.error_load_project);
 			} catch (OutdatedVersionProjectException outdatedVersionException) {
 				Log.e(TAG, "Projectcode version is outdated", outdatedVersionException);
-				Utils.showErrorDialog(getActivity(), R.string.error_outdated_pocketcode_version);
 			} catch (CompatibilityProjectException compatibilityException) {
 				Log.e(TAG, "Project is not compatible", compatibilityException);
-				Utils.showErrorDialog(getActivity(), R.string.error_project_compatability);
 			}
 		} else if (currentProject.getSpriteList().indexOf(projectToEdit) == 0) {
 			return;

@@ -27,9 +27,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.exceptions.CompatibilityProjectException;
-import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.utils.Utils;
 
 public class SetDescriptionDialog extends MultiLineTextDialog {
@@ -67,43 +65,15 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 		} else {
 			try {
 				projectManager.loadProject(projectToChangeName, getActivity());
-			} catch (LoadingProjectException loadingProjectException) {
-				Log.e(DIALOG_FRAGMENT_TAG, "Project to change name cannot load", loadingProjectException);
-				Utils.showErrorDialog(getActivity(), R.string.error_load_project);
-				dismiss();
-				return;
-			} catch (OutdatedVersionProjectException outdatedVersionException) {
-				Log.e(DIALOG_FRAGMENT_TAG, "Projectcode version of project to change name is outdated",
-						outdatedVersionException);
-				Utils.showErrorDialog(getActivity(), R.string.error_outdated_pocketcode_version);
-				dismiss();
-				return;
-			} catch (CompatibilityProjectException compatibilityException) {
-				Log.e(DIALOG_FRAGMENT_TAG, "Project to change name is not compatible", compatibilityException);
-				Utils.showErrorDialog(getActivity(), R.string.error_project_compatability);
-				dismiss();
-				return;
-			}
-
-			input.setText(projectManager.getCurrentProject().getDescription());
-
-			try {
+				input.setText(projectManager.getCurrentProject().getDescription());
 				projectManager.loadProject(currentProjectName, getActivity());
-			} catch (LoadingProjectException loadingProjectException) {
-				Log.e(DIALOG_FRAGMENT_TAG, "Current project cannot load", loadingProjectException);
+			} catch (ProjectException projectException) {
+				Log.e(DIALOG_FRAGMENT_TAG, "Getting description of an incompatible project isn't possible",
+						projectException);
 				Utils.showErrorDialog(getActivity(), R.string.error_load_project);
 				dismiss();
-			} catch (OutdatedVersionProjectException outdatedVersionException) {
-				Log.e(DIALOG_FRAGMENT_TAG, "Projectcode version of current project is outdated",
-						outdatedVersionException);
-				Utils.showErrorDialog(getActivity(), R.string.error_outdated_pocketcode_version);
-				dismiss();
-			} catch (CompatibilityProjectException compatibilityException) {
-				Log.e(DIALOG_FRAGMENT_TAG, "Current project is not compatible", compatibilityException);
-				Utils.showErrorDialog(getActivity(), R.string.error_project_compatability);
-				dismiss();
+				return;
 			}
-
 		}
 	}
 
@@ -121,41 +91,12 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 
 		try {
 			projectManager.loadProject(projectToChangeName, getActivity());
-		} catch (LoadingProjectException loadingProjectException) {
-			Log.e(DIALOG_FRAGMENT_TAG, "Project to change name cannot load", loadingProjectException);
-			Utils.showErrorDialog(getActivity(), R.string.error_load_project);
-			dismiss();
-			return false;
-		} catch (OutdatedVersionProjectException outdatedVersionException) {
-			Log.e(DIALOG_FRAGMENT_TAG, "Projectcode version of project to change name is outdated",
-					outdatedVersionException);
-			Utils.showErrorDialog(getActivity(), R.string.error_outdated_pocketcode_version);
-			dismiss();
-			return false;
-		} catch (CompatibilityProjectException compatibilityException) {
-			Log.e(DIALOG_FRAGMENT_TAG, "Project to change name is not compatible", compatibilityException);
-			Utils.showErrorDialog(getActivity(), R.string.error_project_compatability);
-			dismiss();
-			return false;
-		}
-
-		setDescription(description);
-
-		try {
+			setDescription(description);
 			projectManager.loadProject(currentProjectName, getActivity());
-		} catch (LoadingProjectException loadingProjectException) {
-			Log.e(DIALOG_FRAGMENT_TAG, "Current project cannot load", loadingProjectException);
-			Utils.showErrorDialog(getActivity(), R.string.error_load_project);
-			dismiss();
-			return false;
-		} catch (OutdatedVersionProjectException outdatedVersionException) {
-			Log.e(DIALOG_FRAGMENT_TAG, "Projectcode version of current project is outdated", outdatedVersionException);
-			Utils.showErrorDialog(getActivity(), R.string.error_outdated_pocketcode_version);
-			dismiss();
-			return false;
-		} catch (CompatibilityProjectException compatibilityException) {
-			Log.e(DIALOG_FRAGMENT_TAG, "Current project is not compatible", compatibilityException);
-			Utils.showErrorDialog(getActivity(), R.string.error_project_compatability);
+		} catch (ProjectException projectException) {
+			Log.e(DIALOG_FRAGMENT_TAG, "Changing description of an incompatible project isn\'t possible.",
+					projectException);
+			Utils.showErrorDialog(getActivity(), R.string.error_changing_description_of_incompatible_project);
 			dismiss();
 			return false;
 		}

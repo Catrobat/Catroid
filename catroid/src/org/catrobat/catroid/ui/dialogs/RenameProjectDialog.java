@@ -28,9 +28,7 @@ import android.util.Log;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.exceptions.CompatibilityProjectException;
-import org.catrobat.catroid.exceptions.LoadingProjectException;
-import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.utils.Utils;
 
 public class RenameProjectDialog extends TextDialog {
@@ -96,46 +94,14 @@ public class RenameProjectDialog extends TextDialog {
 			} else {
 				try {
 					projectManager.loadProject(oldProjectName, getActivity());
-				} catch (LoadingProjectException loadingProjectException) {
-					Log.e(DIALOG_FRAGMENT_TAG, "Old project cannot load", loadingProjectException);
-					Utils.showErrorDialog(getActivity(), R.string.error_load_project);
-					dismiss();
-					return false;
-				} catch (OutdatedVersionProjectException outdatedVersionException) {
-					Log.e(DIALOG_FRAGMENT_TAG, "Projectcode version of old project is outdated",
-							outdatedVersionException);
-					Utils.showErrorDialog(getActivity(), R.string.error_outdated_pocketcode_version);
-					dismiss();
-					return false;
-				} catch (CompatibilityProjectException compatibilityException) {
-					Log.e(DIALOG_FRAGMENT_TAG, "Old project is not compatible", compatibilityException);
-					Utils.showErrorDialog(getActivity(), R.string.error_project_compatability);
-					dismiss();
-					return false;
-				}
-
-				projectManager.renameProject(newProjectName, getActivity());
-
-				try {
+					projectManager.renameProject(newProjectName, getActivity());
 					projectManager.loadProject(currentProjectName, getActivity());
-				} catch (LoadingProjectException loadingProjectException) {
-					Log.e(DIALOG_FRAGMENT_TAG, "Current project cannot load", loadingProjectException);
-					Utils.showErrorDialog(getActivity(), R.string.error_load_project);
-					dismiss();
-					return false;
-				} catch (OutdatedVersionProjectException outdatedVersionException) {
-					Log.e(DIALOG_FRAGMENT_TAG, "Projectcode version of current project is outdated",
-							outdatedVersionException);
-					Utils.showErrorDialog(getActivity(), R.string.error_outdated_pocketcode_version);
-					dismiss();
-					return false;
-				} catch (CompatibilityProjectException compatibilityException) {
-					Log.e(DIALOG_FRAGMENT_TAG, "Current project is not compatible", compatibilityException);
-					Utils.showErrorDialog(getActivity(), R.string.error_project_compatability);
+				} catch (ProjectException projectException) {
+					Log.e(DIALOG_FRAGMENT_TAG, "Renaming an incompatible project isn't possible", projectException);
+					Utils.showErrorDialog(getActivity(), R.string.error_rename_incompatible_project);
 					dismiss();
 					return false;
 				}
-
 			}
 
 			if (onProjectRenameListener != null) {
