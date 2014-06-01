@@ -76,6 +76,8 @@ import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
+import org.catrobat.catroid.content.bricks.LedOffBrick;
+import org.catrobat.catroid.content.bricks.LedOnBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -104,6 +106,7 @@ import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
+import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
@@ -226,6 +229,8 @@ public final class StorageHandler {
 		xstream.alias("ifLogicElseBrick", IfLogicElseBrick.class);
 		xstream.alias("ifLogicEndBrick", IfLogicEndBrick.class);
 		xstream.alias("ifOnEdgeBounceBrick", IfOnEdgeBounceBrick.class);
+		xstream.alias("LedOffBrick", LedOffBrick.class);
+		xstream.alias("LedOnBrick", LedOnBrick.class);
 		xstream.alias("legoNxtMotorActionBrick", LegoNxtMotorActionBrick.class);
 		xstream.alias("legoNxtMotorStopBrick", LegoNxtMotorStopBrick.class);
 		xstream.alias("legoNxtMotorTurnAngleBrick", LegoNxtMotorTurnAngleBrick.class);
@@ -254,6 +259,7 @@ public final class StorageHandler {
 		xstream.alias("stopAllSoundsBrick", StopAllSoundsBrick.class);
 		xstream.alias("turnLeftBrick", TurnLeftBrick.class);
 		xstream.alias("turnRightBrick", TurnRightBrick.class);
+		xstream.alias("VibrationBrick", VibrationBrick.class);
 		xstream.alias("waitBrick", WaitBrick.class);
 		xstream.alias("whenBrick", WhenBrick.class);
 		xstream.alias("whenStartedBrick", WhenStartedBrick.class);
@@ -594,7 +600,7 @@ public final class StorageHandler {
 		return copiedFile;
 	}
 
-	public void deletTempImageCopy() {
+	public void deleteTempImageCopy() {
 		File temporaryPictureFileInPocketPaint = new File(Constants.TMP_IMAGE_PATH);
 		if (temporaryPictureFileInPocketPaint.exists()) {
 			temporaryPictureFileInPocketPaint.delete();

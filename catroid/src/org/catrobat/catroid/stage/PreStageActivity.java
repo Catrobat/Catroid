@@ -28,9 +28,11 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
@@ -49,6 +51,8 @@ import org.catrobat.catroid.legonxt.LegoNXT;
 import org.catrobat.catroid.legonxt.LegoNXTBtCommunicator;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.utils.LedUtil;
+import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -119,6 +123,31 @@ public class PreStageActivity extends BaseActivity {
 			droneInitializer.initialise();
 		}
 
+		if ((requiredResources & Brick.CAMERA_LED ) > 0) {
+			boolean hasCamera = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
+			boolean hasLed = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
+
+			if ( hasCamera && hasLed ) {
+				requiredResourceCounter--;
+				LedUtil.activateLedThread();
+			} else {
+				Toast.makeText(PreStageActivity.this, R.string.no_flash_led_available, Toast.LENGTH_LONG).show();
+				resourceFailed();
+			}
+		}
+
+		if ((requiredResources & Brick.VIBRATOR) > 0) {
+			Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+			if (vibrator != null) {
+				requiredResourceCounter--;
+				VibratorUtil.setContext(this.getBaseContext());
+				VibratorUtil.activateVibratorThread();
+			} else {
+				Toast.makeText(PreStageActivity.this, R.string.no_vibrator_available, Toast.LENGTH_LONG).show();
+				resourceFailed();
+			}
+		}
+
 		if (requiredResourceCounter == Brick.NO_RESOURCES) {
 			startStage();
 		}
@@ -179,6 +208,12 @@ public class PreStageActivity extends BaseActivity {
 			legoNXT = null;
 		}
 		deleteSpeechFiles();
+		if (LedUtil.isActive()) {
+			LedUtil.destroy();
+		}
+		if (VibratorUtil.isActive()) {
+			VibratorUtil.destroy();
+		}
 	}
 
 	private static void deleteSpeechFiles() {

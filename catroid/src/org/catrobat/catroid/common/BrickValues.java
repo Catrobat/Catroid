@@ -41,6 +41,7 @@ public final class BrickValues {
 	public static final Float CHANGE_GHOST_EFFECT = 25f;
 	public static final Float SET_BRIGHTNESS_TO = 50f;
 	public static final Float CHANGE_BRITHNESS_BY = 25f;
+	public static final int VIBRATE_MILLISECONDS = 1000;
 
 	//constants Sounds
 	public static final Float SET_VOLUME_TO = 60f;
