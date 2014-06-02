@@ -62,7 +62,7 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 	private String singleConcavePolygonFileName;
 	private String multibleConcavePolygonsFileName;
 	private String multibleMixedPolygonsFileName;
-	private static final int SIMPLE_SINGLE_CONVEX_POLYGON_RES_ID = R.raw.simple_single_convex_polygon;
+	private static final int SIMPLE_SINGLE_CONVEX_POLYGON_RES_ID = R.raw.rectangle_125x125;
 	private static final int COMPLEX_SINGLE_CONVEX_POLYGON_RES_ID = R.raw.complex_single_convex_polygon;
 	private static final int MULTIBLE_CONVEX_POLYGON_RES_ID = R.raw.multible_convex_polygons;
 	private static final int SINGLE_CONCAVE_POLYGON_RES_ID = R.raw.single_concave_polygon;
