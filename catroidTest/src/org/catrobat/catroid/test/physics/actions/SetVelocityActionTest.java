@@ -3,6 +3,7 @@ package org.catrobat.catroid.test.physics.actions;
 import com.badlogic.gdx.math.Vector2;
 
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.content.actions.SetVelocityAction;
 
 public class SetVelocityActionTest extends PhysicsActionTestCase {
@@ -14,6 +15,7 @@ public class SetVelocityActionTest extends PhysicsActionTestCase {
 		Formula velocityYFormula = new Formula(velocityY);
 		SetVelocityAction setVelocityAction = new SetVelocityAction();
 		setVelocityAction.setSprite(sprite);
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		setVelocityAction.setPhysicsObject(physicsObject);
 		setVelocityAction.setVelocity(velocityXFormula, velocityYFormula);
 
@@ -27,7 +29,6 @@ public class SetVelocityActionTest extends PhysicsActionTestCase {
 		velocityVector = physicsObject.getVelocity();
 		assertEquals("Unexpected velocityX value", velocityX, velocityVector.x);
 		assertEquals("Unexpected velocityY value", velocityY, velocityVector.y);
-
 	}
 
 	public void testNegativeValue() {
@@ -37,6 +38,7 @@ public class SetVelocityActionTest extends PhysicsActionTestCase {
 		Formula velocityYFormula = new Formula(velocityY);
 		SetVelocityAction setVelocityAction = new SetVelocityAction();
 		setVelocityAction.setSprite(sprite);
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		setVelocityAction.setPhysicsObject(physicsObject);
 		setVelocityAction.setVelocity(velocityXFormula, velocityYFormula);
 
@@ -59,6 +61,7 @@ public class SetVelocityActionTest extends PhysicsActionTestCase {
 		Formula velocityYFormula = new Formula(velocityY);
 		SetVelocityAction setVelocityAction = new SetVelocityAction();
 		setVelocityAction.setSprite(sprite);
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		setVelocityAction.setPhysicsObject(physicsObject);
 		setVelocityAction.setVelocity(velocityXFormula, velocityYFormula);
 
