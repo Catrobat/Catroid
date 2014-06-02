@@ -508,8 +508,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("fragment_sprites_list not shown", solo.waitForFragmentById(R.id.fragment_sprites_list));
 
 		solo.goBackToActivity("MainMenuActivity");
-		assertTrue(
-				"The name of the current projectNameWithNormalAndSpecialChars2 is not displayed on the continue button",
+		assertTrue("The name of the current projectNameWithNormalAndSpecialChars2 is not displayed on the continue button",
 				solo.getButton(0).getText().toString().endsWith(projectNameWithNormalAndSpecialChars2));
 
 	}
