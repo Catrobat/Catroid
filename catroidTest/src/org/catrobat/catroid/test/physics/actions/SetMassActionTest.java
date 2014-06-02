@@ -10,6 +10,7 @@ public class SetMassActionTest extends PhysicsActionTestCase {
 		Formula mass = new Formula(10);
 		SetMassAction setMassAction = new SetMassAction();
 		setMassAction.setSprite(sprite);
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		setMassAction.setPhysicsObject(physicsObject);
 		setMassAction.setMass(mass);
 
@@ -23,6 +24,7 @@ public class SetMassActionTest extends PhysicsActionTestCase {
 		Formula mass = new Formula(-10);
 		SetMassAction setMassAction = new SetMassAction();
 		setMassAction.setSprite(sprite);
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		setMassAction.setPhysicsObject(physicsObject);
 		setMassAction.setMass(mass);
 
@@ -34,6 +36,7 @@ public class SetMassActionTest extends PhysicsActionTestCase {
 
 	public void testZeroValue() {
 		Formula mass = new Formula(0);
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		SetMassAction setMassAction = new SetMassAction();
 		setMassAction.setSprite(sprite);
 		setMassAction.setPhysicsObject(physicsObject);
