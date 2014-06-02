@@ -8,6 +8,7 @@ public class SetPhysicsObjectTypeActionTest extends PhysicsActionTestCase {
 	public void testPhysicsTypeNone() {
 		PhysicsObject.Type type = PhysicsObject.Type.NONE;
 		SetPhysicsObjectTypeAction setPhysicsObjectTypeAction = new SetPhysicsObjectTypeAction();
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		setPhysicsObjectTypeAction.setPhysicsObject(physicsObject);
 		setPhysicsObjectTypeAction.setType(type);
 
@@ -21,6 +22,7 @@ public class SetPhysicsObjectTypeActionTest extends PhysicsActionTestCase {
 	public void testPhysicsTypeDynamic() {
 		PhysicsObject.Type type = PhysicsObject.Type.DYNAMIC;
 		SetPhysicsObjectTypeAction setPhysicsObjectTypeAction = new SetPhysicsObjectTypeAction();
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		setPhysicsObjectTypeAction.setPhysicsObject(physicsObject);
 		setPhysicsObjectTypeAction.setType(type);
 
@@ -34,6 +36,7 @@ public class SetPhysicsObjectTypeActionTest extends PhysicsActionTestCase {
 	public void testPhysicsTypeFixed() {
 		PhysicsObject.Type type = PhysicsObject.Type.FIXED;
 		SetPhysicsObjectTypeAction setPhysicsObjectTypeAction = new SetPhysicsObjectTypeAction();
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		setPhysicsObjectTypeAction.setPhysicsObject(physicsObject);
 		setPhysicsObjectTypeAction.setType(type);
 
