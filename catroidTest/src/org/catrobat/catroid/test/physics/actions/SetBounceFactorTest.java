@@ -8,32 +8,36 @@ public class SetBounceFactorTest extends PhysicsActionTestCase {
 
 	public void testDefaultBounceFactor() {
 		physicsWorld.step(1.0f);
-		assertEquals("Unexpected bounce factor", PhysicsObject.DEFAULT_BOUNCE_FACTOR, physicsObject.getBounceFactor());
+		assertEquals("Unexpected bounce factor", PhysicsObject.DEFAULT_BOUNCE_FACTOR,
+				physicsWorld.getPhysicsObject(sprite).getBounceFactor());
 	}
 
 	public void testZeroValue() {
 		float bounceFactor = 0.0f;
 		initBounceFactor(bounceFactor);
-		assertEquals("Unexpected bounce factor", bounceFactor / 100.0f, physicsObject.getBounceFactor());
+		assertEquals("Unexpected bounce factor", bounceFactor / 100.0f, physicsWorld.getPhysicsObject(sprite)
+				.getBounceFactor());
 	}
 
 	public void testHighValue() {
 		float bounceFactor = 250.0f;
 		initBounceFactor(bounceFactor);
-		assertEquals("Unexpected bounce factor", bounceFactor / 100.0f, physicsObject.getBounceFactor());
+		assertEquals("Unexpected bounce factor", bounceFactor / 100.0f, physicsWorld.getPhysicsObject(sprite)
+				.getBounceFactor());
 	}
 
 	public void testNegativeValue() {
 		float bounceFactor = -50.0f;
 		initBounceFactor(bounceFactor);
-		assertEquals("Unexpected bounce factor", bounceFactor / 100.0f, physicsObject.getBounceFactor());
+		assertEquals("Unexpected bounce factor", bounceFactor / 100.0f, physicsWorld.getPhysicsObject(sprite)
+				.getBounceFactor());
 	}
 
 	private void initBounceFactor(float bounceFactor) {
 		Formula bounceFactorFormula = new Formula(bounceFactor);
 		SetBounceFactorAction setBounceFactorAction = new SetBounceFactorAction();
 		setBounceFactorAction.setSprite(sprite);
-		setBounceFactorAction.setPhysicsObject(physicsObject);
+		setBounceFactorAction.setPhysicsObject(physicsWorld.getPhysicsObject(sprite));
 		setBounceFactorAction.setBounceFactor(bounceFactorFormula);
 
 		setBounceFactorAction.act(1.0f);

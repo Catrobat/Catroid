@@ -11,6 +11,7 @@ public class SetBounceFactorActionTest extends PhysicsActionTestCase {
 
 	public void testNormalBehavior() {
 		float bounceFactor = 45.55f;
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		Formula bounceFactorFormula = new Formula(bounceFactor);
 		SetBounceFactorAction setBounceFactorAction = new SetBounceFactorAction();
 		setBounceFactorAction.setSprite(sprite);
@@ -31,6 +32,7 @@ public class SetBounceFactorActionTest extends PhysicsActionTestCase {
 
 	public void testNegativeValue() {
 		float bounceFactor = -45.55f;
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		Formula bounceFactorFormula = new Formula(bounceFactor);
 		SetBounceFactorAction setBounceFactorAction = new SetBounceFactorAction();
 		setBounceFactorAction.setSprite(sprite);
@@ -51,6 +53,7 @@ public class SetBounceFactorActionTest extends PhysicsActionTestCase {
 
 	public void testZeroValue() {
 		float bounceFactor = 0f;
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		Formula bounceFactorFormula = new Formula(bounceFactor);
 		SetBounceFactorAction setBounceFactorAction = new SetBounceFactorAction();
 		setBounceFactorAction.setSprite(sprite);
