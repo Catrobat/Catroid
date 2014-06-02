@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.physics;
 
-import android.util.Log;
-
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -39,7 +37,7 @@ import java.util.List;
 
 public class PhysicsCollision implements ContactListener {
 	//@SuppressWarnings("unused")
-	private static final String TAG = PhysicsCollision.class.getSimpleName();
+	//	private static final String TAG = PhysicsCollision.class.getSimpleName();
 	PhysicsWorld mPhysicsWorld;
 
 	public PhysicsCollision(PhysicsWorld physicsWorld) {
@@ -48,23 +46,23 @@ public class PhysicsCollision implements ContactListener {
 
 	@Override
 	public void beginContact(Contact contact) {
-		Log.d(TAG, "beginContact");
+		//				Log.d(TAG, "beginContact");
 
 		Body a = contact.getFixtureA().getBody();
 		Body b = contact.getFixtureB().getBody();
 
 		if (a.getUserData() instanceof Sprite) {
 			mPhysicsWorld.bounced((Sprite) a.getUserData());
-			Log.d(TAG, "bounced SPRITE A");
+			//			Log.d(TAG, "bounced SPRITE A");
 		}
 		if (b.getUserData() instanceof Sprite) {
 			mPhysicsWorld.bounced((Sprite) b.getUserData());
-			Log.d(TAG, "bounced SPRITE B");
+			//			Log.d(TAG, "bounced SPRITE B");
 		}
 		if (a.getUserData() instanceof Sprite && b.getUserData() instanceof Sprite) {
 			Sprite sprite1 = (Sprite) a.getUserData();
 			Sprite sprite2 = (Sprite) b.getUserData();
-			Log.d(TAG, "# COLLISION # :" + sprite1.getName() + "<->" + sprite2.getName());
+			//			Log.d(TAG, "# COLLISION # :" + sprite1.getName() + "<->" + sprite2.getName());
 			fireEvent(sprite1.getName() + "<->" + sprite2.getName());
 			fireEvent(sprite2.getName() + "<->" + sprite1.getName());
 			fireEvent(sprite2.getName() + "<->anybody");
@@ -84,17 +82,17 @@ public class PhysicsCollision implements ContactListener {
 
 	@Override
 	public void endContact(Contact contact) {
-		Log.d(TAG, "endContact");
+		//		Log.d(TAG, "endContact");
 	}
 
 	@Override
 	public void preSolve(Contact contact, Manifold oldManifold) {
-		Log.d(TAG, "preSolve");
+		//		Log.d(TAG, "preSolve");
 	}
 
 	@Override
 	public void postSolve(Contact contact, ContactImpulse impulse) {
-		Log.d(TAG, "postSolve");
+		//		Log.d(TAG, "postSolve");
 	}
 
 }

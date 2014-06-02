@@ -2,6 +2,12 @@ package org.catrobat.catroid.test.physics.actions;
 
 import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.World;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
@@ -12,6 +18,7 @@ import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 
 import java.io.File;
@@ -20,6 +27,7 @@ public class PhysicsActionTestCase extends InstrumentationTestCase {
 
 	protected Sprite sprite;
 	protected PhysicsWorld physicsWorld;
+	protected boolean bounced;
 
 	private Project project;
 	private String rectangle_125x125_FileName;
@@ -47,8 +55,11 @@ public class PhysicsActionTestCase extends InstrumentationTestCase {
 
 		LookData lookdata = PhysicsTestUtils.generateLookData(rectangle_125x125_File);
 		sprite.look.setLookData(lookdata);
+		assertTrue("Unexpected value: getLookData is null", sprite.look.getLookData() != null);
 
-		assertTrue("getLookData is null", sprite.look.getLookData() != null);
+		((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))
+				.setContactListener(new ContactListenerMock());
+		bounced = false;
 	}
 
 	@Override
@@ -61,7 +72,28 @@ public class PhysicsActionTestCase extends InstrumentationTestCase {
 		rectangle_125x125_File = null;
 
 		TestUtils.deleteTestProjects();
+		bounced = false;
 		super.tearDown();
 	}
 
+	protected class ContactListenerMock implements ContactListener {
+
+		public void beginContact(Contact contact) {
+			//			Log.d("ContactListenerMock", "beginContact");
+			bounced = true;
+		}
+
+		public void endContact(Contact contact) {
+			//			Log.d("ContactListenerMock", "endContact");
+			bounced = true;
+		}
+
+		public void preSolve(Contact contact, Manifold oldManifold) {
+			// TODO Auto-generated method stub
+		}
+
+		public void postSolve(Contact contact, ContactImpulse impulse) {
+			// TODO Auto-generated method stub
+		}
+	}
 }

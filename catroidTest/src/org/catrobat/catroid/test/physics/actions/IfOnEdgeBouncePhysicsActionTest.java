@@ -3,60 +3,63 @@ package org.catrobat.catroid.test.physics.actions;
 import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.physics.PhysicsObject.Type;
 import org.catrobat.catroid.physics.content.ActionFactory;
-import org.catrobat.catroid.test.utils.Reflection;
 
 public class IfOnEdgeBouncePhysicsActionTest extends PhysicsActionTestCase {
 
+	PhysicsObject physicsObject;
+
 	public void testNormalBehavior() {
-		assertTrue("getLookData is null", sprite.look.getLookData() != null);
-		int i = 0;
+		bounce(new Vector2(0, -ScreenValues.SCREEN_HEIGHT / 2), new Vector2(0,-100));
+	}
 
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		//		physicsWorld.changeLook(physicsObject, sprite.look);
-		//		physicsObject.setVelocity(0.0f, -10.0f);
+	public void testRightBounce() {
+		bounce(new Vector2(ScreenValues.SCREEN_WIDTH / 2, 0), new Vector2(100, 0));
+	}
 
-		i = 0;
-		while (i < 10) {
-			physicsWorld.step(0.3f);
-			Log.d("IfOnEdgeBouncePhysicsActionTest", "physicsObject.getY():" + physicsObject.getY());
-			i++;
+	public void testLeftBounce() {
+		bounce(new Vector2(-ScreenValues.SCREEN_WIDTH / 2, 0), new Vector2(-100, 0));
+	}
+
+	public void testUpBounce() {
+		bounce(new Vector2(0, ScreenValues.SCREEN_HEIGHT / 2), new Vector2(0,100));
+	}
+
+	public void bounce(Vector2 position, Vector2 velocity) {
+		physicsObject = physicsWorld.getPhysicsObject(sprite);
+		physicsObject.setType(Type.DYNAMIC);
+		physicsObject.setMass(20);
+		physicsObject.setPosition(position);
+		physicsObject.setBounceFactor(3);
+		// let the sprite fall
+		for (int i = 0; i < 20; i++) {
+			physicsObject.setVelocity(velocity.x,velocity.y);
+			physicsWorld.step(1.3f);
+			float x = physicsObject.getX();
+			float y = physicsObject.getY();
+			Log.d("IfOnEdgeBouncePhysicsActionTest", "physicsObject.getX():" + x);
+			Log.d("IfOnEdgeBouncePhysicsActionTest", "physicsObject.getY():" + y);
+			if ((Math.abs(x) > ScreenValues.SCREEN_WIDTH / 2)||(Math.abs(y) > ScreenValues.SCREEN_HEIGHT / 2)) {
+				break;
+			}
 		}
-
-		float setYValue = -ScreenValues.SCREEN_HEIGHT / 2; // So the half of the rectangle should be outside of the screen
-		physicsObject.setY(setYValue + 15);
-
-		assertTrue("Unexpected Y-value", physicsObject.getY() == (setYValue + 15));
-		physicsWorld.step(1.2f);
+		// to be on the safe site ;)
+		physicsWorld.step(0.1f);
 
 		ActionFactory factory = sprite.getActionFactory();
 		Action ifOnEdgeBouncePhysicsAction = factory.createIfOnEdgeBounceAction(sprite);
-		Log.d("IfOnEdgeBouncePhysicsActionTest", "ifOnEdgeBouncePhysicsAction ....getY():" + physicsObject.getY());
-		ifOnEdgeBouncePhysicsAction.act(0.1f);
-		Log.d("IfOnEdgeBouncePhysicsActionTest", "ifOnEdgeBouncePhysicsAction.act ....getY():" + physicsObject.getY());
-		physicsWorld.step(2.3f);
-		Log.d("IfOnEdgeBouncePhysicsActionTest", "ifOnEdgeBouncePhysicsAction.act ....getY():" + physicsObject.getY());
-
-		assertTrue(physicsObject.getY() + " >= " + setYValue, (physicsObject.getY() > setYValue));
-
-		Vector2 gravityVector2 = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))
-				.getGravity();
-
-		assertEquals("Unexpected gravityX value", PhysicsWorld.DEFAULT_GRAVITY.x, gravityVector2.x);
-		assertEquals("Unexpected gravityY value", PhysicsWorld.DEFAULT_GRAVITY.y, gravityVector2.y);
-
-		i = 0;
-		while (i < 20) {
-			physicsWorld.step(2.3f);
-			Log.d("IfOnEdgeBouncePhysicsActionTest", "physicsObject.getY():" + physicsObject.getY());
-			i++;
-		}
-
+		ifOnEdgeBouncePhysicsAction.act(0.2f);
+		float x = physicsObject.getX();
+		float y = physicsObject.getY();
+		assertTrue("Unexpected X value: object is not totaly on screen", (Math.abs(x) < ScreenValues.SCREEN_WIDTH / 2));
+		assertTrue("Unexpected Y value: object is not totaly on screen", (Math.abs(y) < ScreenValues.SCREEN_HEIGHT / 2));
+		physicsWorld.step(0.1f);
+		assertTrue("Unexpected behavior: object not bounced yet", bounced);
 	}
+
 }
