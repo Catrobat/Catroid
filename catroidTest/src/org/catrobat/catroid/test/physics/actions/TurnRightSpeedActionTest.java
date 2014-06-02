@@ -1,6 +1,7 @@
 package org.catrobat.catroid.test.physics.actions;
 
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.content.actions.TurnRightSpeedAction;
 
 public class TurnRightSpeedActionTest extends PhysicsActionTestCase {
@@ -10,6 +11,7 @@ public class TurnRightSpeedActionTest extends PhysicsActionTestCase {
 		Formula speedFormula = new Formula(speed);
 		TurnRightSpeedAction turnRightSpeedAction = new TurnRightSpeedAction();
 		turnRightSpeedAction.setSprite(sprite);
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		turnRightSpeedAction.setPhysicsObject(physicsObject);
 		turnRightSpeedAction.setSpeed(speedFormula);
 
@@ -25,6 +27,7 @@ public class TurnRightSpeedActionTest extends PhysicsActionTestCase {
 		Formula speedFormula = new Formula(speed);
 		TurnRightSpeedAction turnRightSpeedAction = new TurnRightSpeedAction();
 		turnRightSpeedAction.setSprite(sprite);
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		turnRightSpeedAction.setPhysicsObject(physicsObject);
 		turnRightSpeedAction.setSpeed(speedFormula);
 
@@ -40,6 +43,7 @@ public class TurnRightSpeedActionTest extends PhysicsActionTestCase {
 		Formula speedFormula = new Formula(speed);
 		TurnRightSpeedAction turnRightSpeedAction = new TurnRightSpeedAction();
 		turnRightSpeedAction.setSprite(sprite);
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		turnRightSpeedAction.setPhysicsObject(physicsObject);
 		turnRightSpeedAction.setSpeed(speedFormula);
 
