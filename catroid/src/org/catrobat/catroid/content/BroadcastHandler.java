@@ -22,18 +22,30 @@
  */
 package org.catrobat.catroid.content;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.BroadcastSequenceMap;
 import org.catrobat.catroid.common.BroadcastWaitSequenceMap;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public final class BroadcastHandler {
+
+	private static Multimap<String, String> actionsToRestartMap = ArrayListMultimap.create();
+	private static HashMap<Action, Sprite> actionSpriteMap = new HashMap<Action, Sprite>();
+	private static HashMap<String, Action> stringActionMap = new HashMap<String, Action>();
+
+	private static final String TAG = "BroadcastHandler";
 
 	private BroadcastHandler() {
 		throw new AssertionError();
@@ -45,7 +57,9 @@ public final class BroadcastHandler {
 		}
 
 		for (SequenceAction action : BroadcastSequenceMap.get(broadcastMessage)) {
-			if (!handleAction(action)) {
+			Sprite spriteOfAction = actionSpriteMap.get(action);
+
+			if (!handleAction(action, spriteOfAction)) {
 				addOrRestartAction(look, action);
 			}
 		}
@@ -100,6 +114,10 @@ public final class BroadcastHandler {
 		for (SequenceAction action : BroadcastSequenceMap.get(broadcastMessage)) {
 			SequenceAction broadcastWaitAction = ExtendedActions.sequence(action,
 					ExtendedActions.broadcastNotify(event));
+			Sprite receiverSprite = actionSpriteMap.get(action);
+			actionSpriteMap.put(broadcastWaitAction, receiverSprite);
+			String actionName = broadcastWaitAction.toString() + Constants.ACTION_SPRITE_SEPARATOR + receiverSprite.getName();
+			stringActionMap.put(actionName, broadcastWaitAction);
 			if (!handleActionFromBroadcastWait(look, broadcastWaitAction)) {
 				event.raiseNumberOfReceivers();
 				actionList.add(broadcastWaitAction);
@@ -111,18 +129,24 @@ public final class BroadcastHandler {
 		}
 	}
 
-	private static boolean handleAction(Action action) {
-		for (Sprite sprites : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
-			for (Action actionOfLook : sprites.look.getActions()) {
-				if (action == actionOfLook || bothSequenceActionsAndEqual(actionOfLook, action)
-						|| isFirstSequenceActionAndEqualsSecond(action, actionOfLook)
-						|| isFirstSequenceActionAndEqualsSecond(actionOfLook, action)) {
-					Look.actionsToRestartAdd(actionOfLook);
-					return true;
-				}
-			}
+	private static boolean handleAction(Action action, Sprite spriteOfAction) {
+		String actionToHandle = action.toString() + Constants.ACTION_SPRITE_SEPARATOR + spriteOfAction.getName();
+
+		if (!actionsToRestartMap.containsKey(actionToHandle)) {
+			return false;
 		}
-		return false;
+		for (String actionString : actionsToRestartMap.get(actionToHandle)) {
+			Action actionOfLook = stringActionMap.get(actionString);
+			if (actionOfLook == null) {
+				Log.d(TAG, "Action of look is skipped with action: " + actionString + ". It is probably a BroadcastNotify-Action that must not be restarted yet");
+				continue;
+			}
+			if (actionOfLook.getActor() == null) {
+				return false;
+			}
+			Look.actionsToRestartAdd(actionOfLook);
+		}
+		return true;
 	}
 
 	private static boolean handleActionFromBroadcastWait(Look look,
@@ -131,42 +155,46 @@ public final class BroadcastHandler {
 
 		for (Sprite sprites : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
 			for (Action actionOfLook : sprites.look.getActions()) {
-
 				Action actualActionOfLook = null;
-
 				if (actionOfLook instanceof SequenceAction && ((SequenceAction) actionOfLook).getActions().size > 0) {
 					actualActionOfLook = ((SequenceAction) actionOfLook).getActions().get(0);
 				}
-
 				if (sequenceActionWithBroadcastNotifyAction == actionOfLook) {
 					((BroadcastNotifyAction) ((SequenceAction) actionOfLook).getActions().get(1)).getEvent()
 							.resetNumberOfFinishedReceivers();
 					Look.actionsToRestartAdd(actionOfLook);
 					return true;
+				} else {
+					if (actualActionOfLook != null && actualActionOfLook == actualAction) {
+						((BroadcastNotifyAction) ((SequenceAction) actionOfLook).getActions().get(1)).getEvent()
+								.resetEventAndResumeScript();
+						Look.actionsToRestartAdd(actionOfLook);
+						return false;
+					} else {
+						addOrRestartAction(look, sequenceActionWithBroadcastNotifyAction);
+						return false;
+					}
 				}
-
-				if (actualActionOfLook != null && actualActionOfLook == actualAction) {
-					((BroadcastNotifyAction) ((SequenceAction) actionOfLook).getActions().get(1)).getEvent()
-							.resetEventAndResumeScript();
-					Look.actionsToRestartAdd(actionOfLook);
-					return false;
-				}
-
-				addOrRestartAction(look, sequenceActionWithBroadcastNotifyAction);
-				return false;
 			}
 		}
 		return false;
 	}
 
-	private static boolean isFirstSequenceActionAndEqualsSecond(Action action1, Action action2) {
-		return action1 instanceof SequenceAction && ((SequenceAction) action1).getActions().size > 0
-				&& ((SequenceAction) action1).getActions().get(0) == action2;
+	public static void clearActionMaps() {
+		actionsToRestartMap.clear();
+		actionSpriteMap.clear();
+		stringActionMap.clear();
 	}
 
-	private static boolean bothSequenceActionsAndEqual(Action action1, Action action2) {
-		return action1 instanceof SequenceAction && ((SequenceAction) action1).getActions().size > 0
-				&& action2 instanceof SequenceAction && ((SequenceAction) action2).getActions().size > 0
-				&& ((SequenceAction) action1).getActions().get(0) == ((SequenceAction) action2).getActions().get(0);
+	public static Multimap<String, String> getActionsToRestartMap() {
+		return actionsToRestartMap;
+	}
+
+	public static HashMap<Action, Sprite> getActionSpriteMap() {
+		return actionSpriteMap;
+	}
+
+	public static HashMap<String, Action> getStringActionMap() {
+		return stringActionMap;
 	}
 }
