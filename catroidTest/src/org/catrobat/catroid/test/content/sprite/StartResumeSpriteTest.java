@@ -32,6 +32,9 @@ import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 
+import java.util.HashMap;
+import java.util.List;
+
 public class StartResumeSpriteTest extends AndroidTestCase {
 
 	public void testStartThreads() throws InterruptedException {
@@ -45,7 +48,7 @@ public class StartResumeSpriteTest extends AndroidTestCase {
 		testScript.addBrick(setSizeToBrick);
 		testSprite.addScript(testScript);
 
-		testSprite.createStartScriptActionSequence();
+		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
 		while (!testSprite.look.getAllActionsAreFinished()) {
 			testSprite.look.act(1.0f);
@@ -68,7 +71,7 @@ public class StartResumeSpriteTest extends AndroidTestCase {
 		testScript.addBrick(showBrick);
 		testSprite.addScript(testScript);
 
-		testSprite.createStartScriptActionSequence();
+		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
 		testSprite.look.act(1.0f);
 		testSprite.look.act(1.0f);
@@ -83,7 +86,7 @@ public class StartResumeSpriteTest extends AndroidTestCase {
 
 		testScript.getBrickList().clear();
 		testScript.addBrick(hideBrick);
-		testSprite.createStartScriptActionSequence();
+		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
 		assertTrue("Sprite is hidden - this script shall not be execute", testSprite.look.visible);
 	}

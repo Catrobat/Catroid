@@ -43,12 +43,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.google.common.collect.Multimap;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.content.BroadcastHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
@@ -58,7 +60,10 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StageListener implements ApplicationListener {
 
@@ -66,6 +71,8 @@ public class StageListener implements ApplicationListener {
 	private static final float DELTA_ACTIONS_DIVIDER_MAXIMUM = 50f;
 	private static final int ACTIONS_COMPUTATION_TIME_MAXIMUM = 8;
 	private static final boolean DEBUG = false;
+	private static final java.lang.String SEQUENCE = "Sequence(";
+	public static final String BROADCAST_NOTIFY = ", BroadcastNotify)";
 
 	// needed for UiTests - is disabled to fix crashes with EMMA coverage
 	// CHECKSTYLE DISABLE StaticVariableNameCheck FOR 1 LINES
@@ -294,14 +301,22 @@ public class StageListener implements ApplicationListener {
 			if (spriteSize > 0) {
 				sprites.get(0).look.setLookData(createWhiteBackgroundLookData());
 			}
-			Sprite sprite;
-			for (int i = 0; i < spriteSize; i++) {
-				sprite = sprites.get(i);
-				sprite.createStartScriptActionSequence();
+			Map<String, List<String>> scriptActions = new HashMap<String, List<String>>();
+			for (int currentSprite = 0; currentSprite < spriteSize; currentSprite++) {
+				Sprite sprite = sprites.get(currentSprite);
+				sprite.createStartScriptActionSequenceAndPutToMap(scriptActions);
 				if (!sprite.getLookDataList().isEmpty()) {
 					sprite.look.setLookData(sprite.getLookDataList().get(0));
 				}
 			}
+
+			if (scriptActions.get(Constants.BROADCAST_SCRIPT) != null && !scriptActions.get(Constants.BROADCAST_SCRIPT).isEmpty()) {
+				List<String> broadcastWaitNotifyActions = reconstructNotifyActions(scriptActions);
+				Map<String, List<String>> notifyMap = new HashMap<String, List<String>>();
+				notifyMap.put(Constants.BROADCAST_NOTIFY_ACTION, broadcastWaitNotifyActions);
+				scriptActions.putAll(notifyMap);
+			}
+			precomputeActionsForBroadcastEvents(scriptActions);
 			firstStart = false;
 		}
 		if (!paused) {
@@ -367,6 +382,96 @@ public class StageListener implements ApplicationListener {
 		if (makeTestPixels) {
 			testPixels = ScreenUtils.getFrameBufferPixels(testX, testY, testWidth, testHeight, false);
 			makeTestPixels = false;
+		}
+	}
+
+	private List<String> reconstructNotifyActions(Map<String, List<String>> actions) {
+		List<String> broadcastWaitNotifyActions = new ArrayList<String>();
+		for (String actionString : actions.get(Constants.BROADCAST_SCRIPT)) {
+			String broadcastNotifyString = SEQUENCE + actionString.substring(0, actionString.indexOf(Constants.ACTION_SPRITE_SEPARATOR)) + BROADCAST_NOTIFY + actionString.substring(actionString.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
+			broadcastWaitNotifyActions.add(broadcastNotifyString);
+		}
+		return broadcastWaitNotifyActions;
+	}
+
+	public void precomputeActionsForBroadcastEvents(Map<String, List<String>> currentActions) {
+		Multimap<String, String> actionsToRestartMap = BroadcastHandler.getActionsToRestartMap();
+		if(!actionsToRestartMap.isEmpty()) {
+			return;
+		}
+		List<String> actions = new ArrayList<String>();
+		if (currentActions.get(Constants.START_SCRIPT) != null) {
+			actions.addAll(currentActions.get(Constants.START_SCRIPT));
+		}
+		if (currentActions.get(Constants.BROADCAST_SCRIPT) != null) {
+			actions.addAll(currentActions.get(Constants.BROADCAST_SCRIPT));
+		}
+		if (currentActions.get(Constants.BROADCAST_NOTIFY_ACTION) != null) {
+			actions.addAll(currentActions.get(Constants.BROADCAST_NOTIFY_ACTION));
+		}
+		for (String action : actions) {
+			for (String actionOfLook : actions) {
+				if (action.equals(actionOfLook) || bothSequenceActionsAndEqual(actionOfLook, action)
+						|| isFirstSequenceActionAndEqualsSecond(action, actionOfLook)
+						|| isFirstSequenceActionAndEqualsSecond(actionOfLook, action)) {
+					if (!actionsToRestartMap.containsKey(action)) {
+						actionsToRestartMap.put(action, actionOfLook);
+					} else {
+						actionsToRestartMap.get(action).add(actionOfLook);
+					}
+				}
+			}
+		}
+	}
+
+	private static boolean isFirstSequenceActionAndEqualsSecond(String action1, String action2) {
+		String spriteOfAction1 = action1.substring(action1.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
+		String spriteOfAction2 = action2.substring(action2.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
+
+		if (!spriteOfAction1.equals(spriteOfAction2)) {
+			return false;
+		}
+
+		if (!action1.startsWith(SEQUENCE) || !action1.contains(BROADCAST_NOTIFY)) {
+			return false;
+		}
+
+		int startIndex1 = action1.indexOf(Constants.OPENING_BRACE) + 1;
+		int endIndex1 = action1.indexOf(BROADCAST_NOTIFY);
+		String innerAction1 = action1.substring(startIndex1, endIndex1);
+
+		String action2Sub = action2.substring(0, action2.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
+		if (innerAction1.equals(action2Sub)) {
+			return true;
+		}
+		return false;
+	}
+
+	private static boolean bothSequenceActionsAndEqual(String action1, String action2) {
+		String spriteOfAction1 = action1.substring(action1.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
+		String spriteOfAction2 = action2.substring(action2.indexOf(Constants.ACTION_SPRITE_SEPARATOR));
+
+		if (!spriteOfAction1.equals(spriteOfAction2)) {
+			return false;
+		}
+
+		if (!(action1.startsWith(SEQUENCE) && action2.startsWith(SEQUENCE))) {
+			return false;
+		}
+
+		int startIndex1 = action1.indexOf(Constants.OPENING_BRACE);
+		int endIndex1 = action1.lastIndexOf(Constants.CLOSING_BRACE) + 1;
+
+		int startIndex2 = action2.indexOf(Constants.OPENING_BRACE);
+		int endIndex2 = action2.lastIndexOf(Constants.CLOSING_BRACE) + 1;
+
+		String sequenceOfAction1 = action1.substring(startIndex1, endIndex1);
+		String sequenceOfAction2 = action2.substring(startIndex2, endIndex2);
+
+		if (sequenceOfAction1.equals(sequenceOfAction2)) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 
@@ -460,7 +565,7 @@ public class StageListener implements ApplicationListener {
 			Thread.yield();
 		}
 		byte[] copyOfTestPixels = new byte[testPixels.length];
-		System.arraycopy(testPixels,0,copyOfTestPixels,0,testPixels.length);
+		System.arraycopy(testPixels, 0, copyOfTestPixels, 0, testPixels.length);
 		return copyOfTestPixels;
 	}
 
