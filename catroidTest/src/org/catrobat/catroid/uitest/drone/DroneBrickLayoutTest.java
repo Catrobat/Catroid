@@ -50,12 +50,12 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 	public void testDroneBricksPrototypeView() {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-		if (!preferences.getBoolean(SettingsActivity.SETTINGS_QUADCOPTER_BRICKS, false)) {
+		if (!preferences.getBoolean(SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, false)) {
 			SharedPreferences.Editor editor = preferences.edit();
-			editor.putBoolean(SettingsActivity.SETTINGS_QUADCOPTER_BRICKS, true);
+			editor.putBoolean(SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, true);
 			editor.commit();
 		}
-		boolean droneEnabled = preferences.getBoolean(SettingsActivity.SETTINGS_QUADCOPTER_BRICKS, false);
+		boolean droneEnabled = preferences.getBoolean(SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, false);
 		assertTrue("Drone Bricks must be anabled to pass this test, check the Constructor and setup.", droneEnabled);
 
 		UtilFile.loadExistingOrCreateStandardDroneProject(getActivity());

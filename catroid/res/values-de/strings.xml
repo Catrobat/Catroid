@@ -504,8 +504,6 @@
     <string name="error_drone_low_battery">Lege einen geladenen Akku ein und probier es noch einmal.</string>
     <string name="error_drone_wrong_platform_title">Keine ARDronen Unterstützung</string>
     <string name="error_drone_wrong_platform">Leider können wir kein Dronen Projekt auf deinem Gerät ausführen.</string>
-    <string name="error_drone_not_available_in_release_build_title">ARDrone Projekt nicht verfügbar</string>
-    <string name="error_drone_not_available_in_release_build">Leider können wir derzeit noch keine Projekte mit ARDronen Bausteinen ausführen.</string>
     <!--  -->
 
     <!-- Bluetooth Connection Strings -->
