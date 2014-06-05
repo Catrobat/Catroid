@@ -2,27 +2,30 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.test.io;
 
 import android.test.AndroidTestCase;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
@@ -40,10 +43,15 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.utils.UtilFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME;
+import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME_TMP;
+import static org.catrobat.catroid.utils.Utils.buildProjectPath;
 
 public class StorageHandlerTest extends AndroidTestCase {
 	private final StorageHandler storageHandler;
@@ -194,7 +202,76 @@ public class StorageHandlerTest extends AndroidTestCase {
 		}
 	}
 
-	// TODO: add XML header validation based on xsd 
+	public void testSanityCheck() throws IOException {
+		final int xPosition = 457;
+		final int yPosition = 598;
+		final float size = 0.8f;
+
+		final Project project = new Project(getContext(), projectName);
+		Sprite firstSprite = new Sprite("first");
+		Sprite secondSprite = new Sprite("second");
+		Sprite thirdSprite = new Sprite("third");
+		Sprite fourthSprite = new Sprite("fourth");
+		Script testScript = new StartScript(firstSprite);
+		Script otherScript = new StartScript(secondSprite);
+		HideBrick hideBrick = new HideBrick(firstSprite);
+		ShowBrick showBrick = new ShowBrick(firstSprite);
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(secondSprite, size);
+		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
+		PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);
+
+		testScript.addBrick(hideBrick);
+		testScript.addBrick(showBrick);
+		testScript.addBrick(setSizeToBrick);
+		testScript.addBrick(comeToFrontBrick);
+
+		otherScript.addBrick(placeAtBrick);
+		otherScript.setPaused(true);
+
+		firstSprite.addScript(testScript);
+		secondSprite.addScript(otherScript);
+
+		project.addSprite(firstSprite);
+		project.addSprite(secondSprite);
+		project.addSprite(thirdSprite);
+		project.addSprite(fourthSprite);
+
+
+		File tmpCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME_TMP);
+		File currentCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME);
+		assertFalse(tmpCodeFile.getName() + " exists!", tmpCodeFile.exists());
+		assertFalse(currentCodeFile.getName() + " exists!", currentCodeFile.exists());
+
+		storageHandler.saveProject(project);
+
+		assertTrue(currentCodeFile.getName() + " was not created!", currentCodeFile.exists());
+		assertTrue(PROJECTCODE_NAME + " is empty!", currentCodeFile.length() > 0);
+
+		// simulate 1st Option: tmp_code.xml exists but code.xml doesn't exist --> saveProject process will restore from tmp_code.xml
+		if (!tmpCodeFile.createNewFile()) {
+			fail("Could not create tmp file");
+		}
+		UtilFile.copyFile(tmpCodeFile, currentCodeFile);
+		String currentCodeFileXml = Files.toString(currentCodeFile, Charsets.UTF_8);
+		assertTrue("Could not delete " + currentCodeFile.getName(), currentCodeFile.delete());
+
+		storageHandler.saveProject(project);
+
+		assertTrue(currentCodeFile.getName() + " was not created!", currentCodeFile.exists());
+		assertTrue(PROJECTCODE_NAME + " is empty!", currentCodeFile.length() > 0);
+		assertTrue("Sanity Check Failed. New Code File is not equal with tmp file.", currentCodeFileXml.equals(Files.toString(currentCodeFile, Charsets.UTF_8)));
+
+		// simulate 2nd Option: tmp_code.xml and code.xml exist --> saveProject process will discard tmp_code.xml and use code.xml
+		if (!tmpCodeFile.createNewFile()) {
+			fail("Could not create tmp file");
+		}
+
+		storageHandler.saveProject(project);
+
+		assertFalse("Sanity Check Failed. tmp file was not discarded.", tmpCodeFile.exists());
+	}
+
+	// TODO: add XML header validation based on xsd
 	//	public void testAliasesAndXmlHeader() {
 	//
 	//		String projectName = "myProject";

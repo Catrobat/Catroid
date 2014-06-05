@@ -26,6 +26,8 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.util.Log;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
@@ -130,6 +132,7 @@ import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.NO_MEDIA_FILE;
 import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME;
+import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME_TMP;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY;
 import static org.catrobat.catroid.utils.Utils.buildPath;
 import static org.catrobat.catroid.utils.Utils.buildProjectPath;
@@ -279,6 +282,10 @@ public final class StorageHandler {
 	}
 
 	public Project loadProject(String projectName) {
+		codeFileSanityCheck(projectName);
+
+		Log.d(TAG, "loadProject " + projectName);
+
 		loadSaveLock.lock();
 		try {
 			File projectCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
@@ -311,22 +318,51 @@ public final class StorageHandler {
 		return false;
 	}
 
+
 	public boolean saveProject(Project project) {
 		BufferedWriter writer = null;
 
+		if (project == null) {
+			return false;
+		}
+
+		Log.d(TAG, "saveProject " + project.getName());
+
+		codeFileSanityCheck(project.getName());
+
 		loadSaveLock.lock();
+
+		String projectXml;
+		File tmpCodeFile = null;
+		File currentCodeFile = null;
+
 		try {
 
-			if (project == null) {
-				return false;
+			projectXml = XML_HEADER.concat(xstream.toXML(project));
+			tmpCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME_TMP);
+			currentCodeFile = new File(buildProjectPath(project.getName()), PROJECTCODE_NAME);
+
+			if (currentCodeFile.exists()) {
+				try {
+					String oldProjectXml = Files.toString(currentCodeFile, Charsets.UTF_8);
+
+					if (oldProjectXml.equals(projectXml)) {
+						Log.d(TAG, "Project version is the same. Do not update " + currentCodeFile.getName());
+						return false;
+					}
+					Log.d(TAG, "Project version differ <" + oldProjectXml.length() + "> <"
+							+ projectXml.length() + ">. update " + currentCodeFile.getName());
+
+				} catch (Exception exception) {
+					Log.e(TAG, "Opening old project " + currentCodeFile.getName() + " failed.", exception);
+					return false;
+				}
 			}
 
 			File projectDirectory = new File(buildProjectPath(project.getName()));
 			createProjectDataStructure(projectDirectory);
 
-			writer = new BufferedWriter(new FileWriter(new File(projectDirectory, PROJECTCODE_NAME)),
-					Constants.BUFFER_8K);
-			String projectXml = XML_HEADER.concat(xstream.toXML(project));
+			writer = new BufferedWriter(new FileWriter(tmpCodeFile), Constants.BUFFER_8K);
 			writer.write(projectXml);
 			writer.flush();
 			return true;
@@ -337,10 +373,53 @@ public final class StorageHandler {
 			if (writer != null) {
 				try {
 					writer.close();
+
+					if (currentCodeFile.exists() && !currentCodeFile.delete()) {
+						Log.e(TAG, "Could not delete " + currentCodeFile.getName());
+					}
+
+					if (!tmpCodeFile.renameTo(currentCodeFile)) {
+						Log.e(TAG, "Could not rename " + currentCodeFile.getName());
+					}
+
 				} catch (IOException ioException) {
 					Log.e(TAG, "Failed closing the buffered writer", ioException);
 				}
 			}
+
+			loadSaveLock.unlock();
+		}
+	}
+
+	public void codeFileSanityCheck(String projectName) {
+		loadSaveLock.lock();
+
+		try {
+			File tmpCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME_TMP);
+
+			if (tmpCodeFile.exists()) {
+				File currentCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
+				if (currentCodeFile.exists()) {
+					Log.w(TAG, "TMP File probably corrupted. Both files exist. Discard " + tmpCodeFile.getName());
+
+					if (!tmpCodeFile.delete()) {
+						Log.e(TAG, "Could not delete " + tmpCodeFile.getName());
+					}
+
+					return;
+				}
+
+				Log.w(TAG, "Process interrupted before renaming. Rename " + PROJECTCODE_NAME_TMP +
+						" to " + PROJECTCODE_NAME);
+
+				if (!tmpCodeFile.renameTo(currentCodeFile)) {
+					Log.e(TAG, "Could not rename " + tmpCodeFile.getName());
+				}
+
+			}
+		} catch (Exception exception) {
+			Log.e(TAG, "Exception " + exception);
+		} finally {
 			loadSaveLock.unlock();
 		}
 	}
@@ -432,14 +511,12 @@ public final class StorageHandler {
 		File outputFile = new File(buildPath(soundDirectory.getAbsolutePath(),
 				inputFileChecksum + "_" + inputFile.getName()));
 
-		return copyFileAddCheckSum(outputFile, inputFile, soundDirectory);
+		return copyFileAddCheckSum(outputFile, inputFile);
 	}
 
 	public File copySoundFileBackPack(SoundInfo selectedSoundInfo) throws IOException, IllegalArgumentException {
 
 		String path = selectedSoundInfo.getAbsolutePath();
-
-		File backPackDirectory = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_SOUND_DIRECTORY));
 
 		File inputFile = new File(path);
 		if (!inputFile.exists() || !inputFile.canRead()) {
@@ -452,7 +529,7 @@ public final class StorageHandler {
 		File outputFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_SOUND_DIRECTORY, currentProject
 				+ "_" + selectedSoundInfo.getTitle() + "_" + inputFileChecksum));
 
-		return copyFileAddCheckSum(outputFile, inputFile, backPackDirectory);
+		return copyFileAddCheckSum(outputFile, inputFile);
 	}
 
 	public File copyImage(String currentProjectName, String inputFilePath, String newName) throws IOException {
@@ -493,7 +570,7 @@ public final class StorageHandler {
 			}
 
 			File outputFile = new File(newFilePath);
-			return copyFileAddCheckSum(outputFile, inputFile, imageDirectory);
+			return copyFileAddCheckSum(outputFile, inputFile);
 		}
 	}
 
@@ -512,7 +589,7 @@ public final class StorageHandler {
 
 		File outputFile = new File(Constants.TMP_IMAGE_PATH);
 
-		File copiedFile = UtilFile.copyFile(outputFile, inputFile, tempDirectory);
+		File copiedFile = UtilFile.copyFile(outputFile, inputFile);
 
 		return copiedFile;
 	}
@@ -586,11 +663,18 @@ public final class StorageHandler {
 	}
 
 	public String getXMLStringOfAProject(Project project) {
-		return xstream.toXML(project);
+		loadSaveLock.lock();
+		String xmlProject = "";
+		try {
+			xmlProject = xstream.toXML(project);
+		} finally {
+			loadSaveLock.unlock();
+		}
+		return xmlProject;
 	}
 
-	private File copyFileAddCheckSum(File destinationFile, File sourceFile, File directory) throws IOException {
-		File copiedFile = UtilFile.copyFile(destinationFile, sourceFile, directory);
+	private File copyFileAddCheckSum(File destinationFile, File sourceFile) throws IOException {
+		File copiedFile = UtilFile.copyFile(destinationFile, sourceFile);
 		addChecksum(destinationFile, sourceFile);
 
 		return copiedFile;
