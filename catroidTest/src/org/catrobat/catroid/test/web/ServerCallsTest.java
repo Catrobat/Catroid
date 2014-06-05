@@ -44,10 +44,10 @@ import java.io.File;
  */
 public class ServerCallsTest extends AndroidTestCase {
 	private static final String LOG_TAG = ServerCalls.class.getSimpleName();
-	public static final int STATUS_CODE_AUTHENTICATION_FAILED = 601;
 	public static final int STATUS_CODE_USER_PASSWORD_TOO_SHORT = 753;
 	public static final int STATUS_CODE_USER_ADD_EMAIL_EXISTS = 757;
 	public static final int STATUS_CODE_USER_EMAIL_INVALID = 765;
+	public static final int STATUS_CODE_AUTHENTICATION_FAILED = 601;
 
 	public ServerCallsTest() {
 		super();
