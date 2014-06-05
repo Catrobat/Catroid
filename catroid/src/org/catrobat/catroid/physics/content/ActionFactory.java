@@ -61,6 +61,7 @@ import org.catrobat.catroid.content.actions.GlideToAction;
 import org.catrobat.catroid.content.actions.GoNStepsBackAction;
 import org.catrobat.catroid.content.actions.HideAction;
 import org.catrobat.catroid.content.actions.IfLogicAction;
+import org.catrobat.catroid.content.actions.LedAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorActionAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorStopAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorTurnAngleAction;
@@ -84,6 +85,7 @@ import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
 import org.catrobat.catroid.content.actions.TurnLeftAction;
 import org.catrobat.catroid.content.actions.TurnRightAction;
+import org.catrobat.catroid.content.actions.VibrateAction;
 import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick.Motor;
@@ -122,7 +124,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createBroadcastNotifyAction(BroadcastEvent event) {
+	public static Action createBroadcastNotifyAction(BroadcastEvent event) {
 		BroadcastNotifyAction action = Actions.action(BroadcastNotifyAction.class);
 		action.setEvent(event);
 		return action;
@@ -551,4 +553,17 @@ public class ActionFactory extends Actions {
 		return action(DroneFlipAction.class);
 	}
 
+
+	public static LedAction lights(boolean ledValue) {
+		LedAction action = action(LedAction.class);
+		action.setLedValue(ledValue);
+		return action;
+	}
+
+	public static VibrateAction vibrate(Sprite sprite, Formula duration) {
+		VibrateAction action = action(VibrateAction.class);
+		action.setSprite(sprite);
+		action.setDuration(duration);
+		return action;
+	}
 }
