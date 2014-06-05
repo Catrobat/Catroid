@@ -34,7 +34,7 @@ import org.catrobat.catroid.common.BroadcastSequenceMap;
 import org.catrobat.catroid.common.BroadcastWaitSequenceMap;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
-import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.physics.content.ActionFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -112,12 +112,13 @@ public final class BroadcastHandler {
 		ArrayList<SequenceAction> actionList = new ArrayList<SequenceAction>();
 		BroadcastWaitSequenceMap.setCurrentBroadcastEvent(event);
 		for (SequenceAction action : BroadcastSequenceMap.get(broadcastMessage)) {
-			SequenceAction broadcastWaitAction = ExtendedActions.sequence(action,
-					ExtendedActions.broadcastNotify(event));
+			SequenceAction broadcastWaitAction = ActionFactory.sequence(action,
+					ActionFactory.createBroadcastNotifyAction(event));
 			Sprite receiverSprite = actionSpriteMap.get(action);
 			actionSpriteMap.put(broadcastWaitAction, receiverSprite);
 			String actionName = broadcastWaitAction.toString() + Constants.ACTION_SPRITE_SEPARATOR + receiverSprite.getName();
 			stringActionMap.put(actionName, broadcastWaitAction);
+
 			if (!handleActionFromBroadcastWait(look, broadcastWaitAction)) {
 				event.raiseNumberOfReceivers();
 				actionList.add(broadcastWaitAction);
