@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -727,7 +728,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		// Hack!!!
 		// if wrapper isn't used the longClick event won't be triggered
-		ViewGroup wrapper = (ViewGroup) View.inflate(context, R.layout.brick_wrapper, null);
+		@SuppressLint("ViewHolder") ViewGroup wrapper = (ViewGroup) View.inflate(context, R.layout.brick_wrapper, null);
 		if (currentBrickView.getParent() != null) {
 			((ViewGroup) currentBrickView.getParent()).removeView(currentBrickView);
 		}
