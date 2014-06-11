@@ -33,6 +33,8 @@ import org.catrobat.catroid.content.actions.ComeToFrontAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.test.utils.TestUtils;
 
+import java.util.List;
+
 public class ComeToFrontActionTest extends AndroidTestCase {
 
 	@Override
@@ -57,19 +59,59 @@ public class ComeToFrontActionTest extends AndroidTestCase {
 		parentGroup.addActor(topSprite.look);
 		assertEquals("Unexpected initial z position of topSprite", 2, topSprite.look.getZIndex());
 
-		middleSprite.look.setZIndex(2);
-		assertEquals("topSprite z position should now be 2", 2, middleSprite.look.getZIndex());
 		project.addSprite(bottomSprite);
 		project.addSprite(middleSprite);
 		project.addSprite(topSprite);
 		ProjectManager.getInstance().setProject(project);
 
-		ComeToFrontAction action = ExtendedActions.comeToFront(bottomSprite);
-		bottomSprite.look.addAction(action);
+		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project);
+
+		ComeToFrontAction action = ExtendedActions.comeToFront(middleSprite);
+		middleSprite.look.addAction(action);
 		action.act(1.0f);
-		assertEquals("bottomSprite z position should now be 2", bottomSprite.look.getZIndex(),
+		assertEquals("bottomSprite z position should now be 2", middleSprite.look.getZIndex(),
+				getZMaxValue(middleSprite));
+
+		Sprite nextSprite = new Sprite("dog");
+		parentGroup.addActor(nextSprite.look);
+		project.addSprite(nextSprite);
+
+		assertEquals("Unexpected initial z position of topSprite", 3, nextSprite.look.getZIndex());
+
+
+		ComeToFrontAction action2 = ExtendedActions.comeToFront(bottomSprite);
+		bottomSprite.look.addAction(action);
+		action2.act(1.0f);
+		assertEquals("bottomSprite z position should now be 3", bottomSprite.look.getZIndex(),
 				getZMaxValue(bottomSprite));
+
+		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project);
+
 	}
+
+	private void checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(Project project) {
+		int spriteSize = project.getSpriteList().size();
+		int actualZIndex;
+
+		List<Sprite> spriteList = project.getSpriteList();
+		boolean zIndexFound;
+
+		for (int zIndex = 0; zIndex < spriteSize - 1; zIndex++) {
+			zIndexFound = false;
+			for (int i = 0; i < spriteSize; i++) {
+				actualZIndex = spriteList.get(i).look.getZIndex();
+				if (actualZIndex == zIndex) {
+					zIndexFound = true;
+					break;
+
+				}
+
+			}
+			assertTrue("z-indexing not correct. z-index have to be from 0 to n-1 each value only once", zIndexFound);
+		}
+
+	}
+
 
 	public void testNullSprite() {
 		ComeToFrontAction action = ExtendedActions.comeToFront(null);
