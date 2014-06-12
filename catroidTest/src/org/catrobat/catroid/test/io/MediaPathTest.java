@@ -49,6 +49,7 @@ import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Utils;
@@ -222,7 +223,12 @@ public class MediaPathTest extends InstrumentationTestCase {
 		String checksumSound = Utils.md5Checksum(testSound);
 
 		projectManager.setFileChecksumContainer(null); //hack to delete the filechecksumcontainer and see if a new one is created on load
-		projectManager.loadProject(projectName, getInstrumentation().getTargetContext(), false);
+		try {
+			ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext());
+			assertTrue("Load project worked correctly", true);
+		} catch (ProjectException projectException) {
+			fail("Project is not loaded successfully");
+		}
 
 		assertTrue("does not contain checksum",
 				projectManager.getFileChecksumContainer().containsChecksum(checksumImage));
@@ -242,7 +248,12 @@ public class MediaPathTest extends InstrumentationTestCase {
 		fillProjectWithAllBricksAndMediaFiles();
 		String projectString = TestUtils.getProjectfileAsString(projectName);
 		assertFalse("FileChecksumcontainer is in the project", projectString.contains("FileChecksumContainer"));
-		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), false);
+		try {
+			ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext());
+			assertTrue("Load project worked correctly", true);
+		} catch (ProjectException projectException) {
+			fail("Project is not loaded successfully");
+		}
 		projectString = TestUtils.getProjectfileAsString(projectName);
 		assertFalse("FileChecksumcontainer is in the project", projectString.contains("FileChecksumContainer"));
 	}
@@ -252,7 +263,12 @@ public class MediaPathTest extends InstrumentationTestCase {
 		String projectString = TestUtils.getProjectfileAsString(projectName);
 		assertTrue("LookDataList not in project", projectString.contains("lookList"));
 		assertTrue("SoundList not in project", projectString.contains("soundList"));
-		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), false);
+		try {
+			ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext());
+			assertTrue("Load project worked correctly", true);
+		} catch (ProjectException projectException) {
+			fail("Project is not loaded successfully");
+		}
 		projectString = TestUtils.getProjectfileAsString(projectName);
 		assertTrue("LookDataList not in project", projectString.contains("lookList"));
 		assertTrue("SoundList not in project", projectString.contains("soundList"));

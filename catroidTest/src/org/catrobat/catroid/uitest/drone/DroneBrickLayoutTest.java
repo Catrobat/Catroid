@@ -26,6 +26,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.ListView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -59,6 +60,10 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("Drone Bricks must be anabled to pass this test, check the Constructor and setup.", droneEnabled);
 
 		UtilFile.loadExistingOrCreateStandardDroneProject(getActivity());
+		assertEquals("Cannot create standard drone project",
+				getActivity().getString(R.string.default_drone_project_name), ProjectManager.getInstance()
+						.getCurrentProject().getName());
+
 		solo.waitForActivity(MainMenuActivity.class);
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForText(solo.getString(R.string.default_drone_project_sprites_takeoff));

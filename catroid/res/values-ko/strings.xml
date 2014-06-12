@@ -247,6 +247,8 @@
     <string name="error_project_compatability">"프로젝트는 이 catroid 버전과 호환되지 않습니다."</string>
     <string name="error_copy_project">"프로젝트를 복사하는 동안 오류가 발생했습니다."</string>
     <string name="error_orientation_change_copy_project">"복사가 취소되었습니다. \n 복사하는 중에는 기기를 회전시키지 마세요!"</string>
+    <string name="error_rename_incompatible_project">"호환되지 않는 프로젝트의 이름을 변경 할 수 없습니다"</string>
+    <string name="error_changing_description_of_incompatible_project">"호환되지 않는 프로젝트의 설명을 변경하는 것은 불가능합니다"</string>
     <!-- Notifications -->
     <string name="success_project_upload">"성공적으로 업로드하였습니다."</string>
     <string name="success_project_download">"성공적으로 다운로드하였습니다."</string>

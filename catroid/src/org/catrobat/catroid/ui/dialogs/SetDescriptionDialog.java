@@ -23,9 +23,12 @@
 package org.catrobat.catroid.ui.dialogs;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.utils.Utils;
 
 public class SetDescriptionDialog extends MultiLineTextDialog {
 
@@ -60,11 +63,17 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 		if (projectToChangeName.equalsIgnoreCase(currentProjectName)) {
 			input.setText(projectManager.getCurrentProject().getDescription());
 		} else {
-
-			projectManager.loadProject(projectToChangeName, getActivity(), false); //TODO: check something
-			input.setText(projectManager.getCurrentProject().getDescription());
-			projectManager.loadProject(currentProjectName, getActivity(), false);
-
+			try {
+				projectManager.loadProject(projectToChangeName, getActivity());
+				input.setText(projectManager.getCurrentProject().getDescription());
+				projectManager.loadProject(currentProjectName, getActivity());
+			} catch (ProjectException projectException) {
+				Log.e(DIALOG_FRAGMENT_TAG, "Getting description of an incompatible project isn't possible",
+						projectException);
+				Utils.showErrorDialog(getActivity(), R.string.error_load_project);
+				dismiss();
+				return;
+			}
 		}
 	}
 
@@ -80,11 +89,19 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 			return false;
 		}
 
-		projectManager.loadProject(projectToChangeName, getActivity(), false);
-		setDescription(description);
-		projectManager.loadProject(currentProjectName, getActivity(), false);
+		try {
+			projectManager.loadProject(projectToChangeName, getActivity());
+			setDescription(description);
+			projectManager.loadProject(currentProjectName, getActivity());
+			updateProjectDescriptionListener();
+		} catch (ProjectException projectException) {
+			Log.e(DIALOG_FRAGMENT_TAG, "Changing description of an incompatible project isn\'t possible.",
+					projectException);
+			Utils.showErrorDialog(getActivity(), R.string.error_changing_description_of_incompatible_project);
+			dismiss();
+			return false;
+		}
 
-		updateProjectDescriptionListener();
 		dismiss();
 		return true;
 	}
