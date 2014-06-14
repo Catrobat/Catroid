@@ -71,6 +71,8 @@ public class PhysicsActionTestCase extends InstrumentationTestCase {
 		sprite.look.setLookData(lookdata);
 
 		assertTrue("getLookData is null", sprite.look.getLookData() != null);
+
+		stabilizePhysicsWorld(physicsWorld);
 	}
 
 	@Override
@@ -84,6 +86,12 @@ public class PhysicsActionTestCase extends InstrumentationTestCase {
 
 		TestUtils.deleteTestProjects();
 		super.tearDown();
+	}
+
+	public static void stabilizePhysicsWorld(PhysicsWorld physicsWorld) {
+		for (int index = 0; index < PhysicsWorld.STABILIZING_STEPS; index++) {
+			physicsWorld.step(0.0f);
+		}
 	}
 
 }

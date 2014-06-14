@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.physics.actions;
 
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsObject.Type;
 import org.catrobat.catroid.physics.content.actions.SetMassAction;
 
 public class SetMassActionTest extends PhysicsActionTestCase {
@@ -70,4 +71,16 @@ public class SetMassActionTest extends PhysicsActionTestCase {
 		assertEquals("Unexpected mass value", 0.0f, physicsObject.getMass());
 	}
 
+	public void testMassAcceleration() {
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
+		physicsObject.setType(Type.DYNAMIC);
+		physicsObject.setMass(5.0f);
+
+		physicsWorld.step(0.75f);
+		float lastVelocity = Math.abs(physicsObject.getVelocity().y);
+		physicsWorld.step(0.75f);
+		float currentVelocity = Math.abs(physicsObject.getVelocity().y);
+
+		assertTrue("Object does not accelerate", (currentVelocity - lastVelocity) > 1.0f);
+	}
 }
