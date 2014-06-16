@@ -46,6 +46,8 @@ public class PhysicsObject {
 
 	public final static float DEFAULT_DENSITY = 1.0f;
 	public final static float DEFAULT_FRICTION = 0.2f;
+	public final static float MAX_FRICTION = 1.0f;
+	public final static float MIN_FRICTION = 0.0f;
 	public final static float DEFAULT_BOUNCE_FACTOR = 0.8f;
 	public final static float DEFAULT_MASS = 1.0f;
 	public final static float MIN_MASS = 0.000001f;
@@ -234,8 +236,19 @@ public class PhysicsObject {
 		body.resetMassData();
 	}
 
+	public float getFriction() {
+		return fixtureDef.friction;
+	}
+
 	public void setFriction(float friction) {
 		fixtureDef.friction = friction;
+
+		if (friction < MIN_FRICTION) {
+			fixtureDef.friction = MIN_FRICTION;
+		}
+		if (friction > MAX_FRICTION) {
+			fixtureDef.friction = MAX_FRICTION;
+		}
 		for (Fixture fixture : body.getFixtureList()) {
 			fixture.setFriction(friction);
 		}
