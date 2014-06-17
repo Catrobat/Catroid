@@ -208,13 +208,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			return;
 		}
 
-		getSherlockActivity().findViewById(R.id.button_add).setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View view) {
-				handleAddButton();
-			}
-		});
 
 		adapter = new BrickAdapter(getActivity(), sprite, listView);
 		adapter.setOnBrickCheckedListener(this);

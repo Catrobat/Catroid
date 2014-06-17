@@ -23,6 +23,7 @@
 package org.catrobat.catroid.uitest.content.brick;
 
 import android.media.MediaPlayer;
+import android.os.Build;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -158,7 +159,8 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 	}
 
-	public void testAddNewSound() {
+	private void addNewSound()
+	{
 		String newText = solo.getString(R.string.new_broadcast_message);
 		String recordedFilename = solo.getString(R.string.soundrecorder_recorded_filename);
 
@@ -182,11 +184,55 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 
 		assertTrue("New sound file is not selected", solo.isSpinnerTextSelected(recordedFilename));
 
+	}
+
+
+	public void testAddNewSound() {
+
+		this.addNewSound();
 		solo.goBack();
 		String programMenuActivityClass = ProgramMenuActivity.class.getSimpleName();
 		assertTrue("Should be in " + programMenuActivityClass, solo.getCurrentActivity().getClass().getSimpleName()
 				.equals(programMenuActivityClass));
 	}
+
+	public void testAddNewSoundPlayStageGoBackAddBrick() {
+
+		this.addNewSound();
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(2000);
+		solo.goBack();
+		solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
+		solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
+
+		solo.sleep(500);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+
+		assertTrue("Category chooser not openend ",solo.waitForText(solo.getString(R.string.category_control)));
+
+	}
+
+	public void testOpenAddNewSoundMenuAndGoBack()
+	{
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+			String newText = solo.getString(R.string.new_broadcast_message);
+			solo.clickOnText(soundName);
+			solo.clickOnText(newText);
+			solo.sleep(500);
+			solo.goBack();
+			UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+			solo.sleep(500);
+			String currentActivity = solo.getCurrentActivity().getClass().getSimpleName();
+			assertTrue("File Chooser didn't open", currentActivity.equals("ChooserActivity"));
+		}
+		else
+		{
+			assertTrue("kitkat not implemented (needs mocked filechooser)",true);
+		}
+
+	}
+
 
 	private void createProject() {
 		ProjectManager projectManager = ProjectManager.getInstance();
