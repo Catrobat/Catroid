@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.utils;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -44,9 +45,11 @@ import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.utils.NotificationData;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.utils.Utils;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -289,6 +292,32 @@ public final class TestUtils {
 		}
 
 		notificationMap.clear();
+	}
+
+	public static void createAutomaticScreenshotDummy(String projectName) {
+		String pathForScreenshot = Utils.buildProjectPath(projectName) + "/";
+		String filename = StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
+		int w = 100;
+		int h = 100;
+
+		Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
+		Bitmap bmp = Bitmap.createBitmap(w, h, conf); // this creates a MUTABLE bitmap
+
+		FileOutputStream out = null;
+		try {
+			out = new FileOutputStream(pathForScreenshot + filename);
+			bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				out.close();
+			} catch (Throwable ignore) {
+				ignore.printStackTrace();
+			}
+		}
+
+
 	}
 	
 	public static Script addUserBrickToSpriteAndGetUserScript(UserBrick userBrick, Sprite sprite) {

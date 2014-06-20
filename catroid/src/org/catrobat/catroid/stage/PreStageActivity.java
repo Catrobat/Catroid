@@ -54,6 +54,7 @@ import org.catrobat.catroid.legonxt.LegoNXT;
 import org.catrobat.catroid.legonxt.LegoNXTBtCommunicator;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.ui.dialogs.ExecuteOnceDialog;
 import org.catrobat.catroid.utils.LedUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
@@ -88,7 +89,18 @@ public class PreStageActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+
 		returnToActivityIntent = new Intent();
+
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			String startedFrom = extras.getString(ExecuteOnceDialog.STARTED_FROM_DIALOG);
+			if (startedFrom != null) {
+				returnToActivityIntent.putExtra(ExecuteOnceDialog.STARTED_FROM_DIALOG, startedFrom);
+
+			}
+		}
 
 		if (isFinishing()) {
 			return;

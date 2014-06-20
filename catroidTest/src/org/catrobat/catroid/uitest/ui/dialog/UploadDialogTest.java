@@ -34,6 +34,8 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -92,7 +94,42 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		});
 	}
 
+
+	public void testUploadWithoutExecution()
+	{
+
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
+		assertTrue("Execute Once Dialog didn't appear", solo.waitForText(solo.getString(R.string.execute_once_title)));
+
+		solo.clickOnButton((solo.getString(R.string.execute_once_button)));
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+		solo.sleep(2000);
+		solo.goBack();
+		solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
+		solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
+		solo.sleep(500);
+
+		//workaround for screenshot tests
+		TestUtils.createAutomaticScreenshotDummy(ProjectManager.getInstance().getCurrentProject().getName());
+
+
+		solo.clickOnText(solo.getString(R.string.main_menu_upload));
+		assertTrue("Upload dialog didn't appear",solo.waitForText(uploadDialogTitle));
+
+
+	}
+
+	private void setExecutedOnce(boolean executedOnce)
+	{
+		if (executedOnce) {
+			TestUtils.createAutomaticScreenshotDummy(ProjectManager.getInstance().getCurrentProject().getName());
+		}
+
+	}
+
 	public void testUploadDialog() throws Throwable {
+
+		this.setExecutedOnce(true);
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.waitForText(uploadDialogTitle);
 
@@ -118,6 +155,8 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testUploadingProjectDescriptionDefaultValue() throws Throwable {
+
+		this.setExecutedOnce(true);
 		String testDescription = "Test description";
 		String actionSetDescriptionText = solo.getString(R.string.set_description);
 
@@ -152,6 +191,8 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 	// Not testable with Android 2.3, because solo is not able to enter new lines
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	public void testProjectDescriptionUploadProject() throws Throwable {
+
+		this.setExecutedOnce(true);
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		boolean uploadDialogShown = solo.waitForText(uploadDialogTitle);
 
@@ -191,5 +232,6 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		File file = new File(Constants.DEFAULT_ROOT + "/" + testProject + "/" + Constants.PROJECTCODE_NAME);
 		assertTrue(testProject + " was not created!", file.exists());
+
 	}
 }

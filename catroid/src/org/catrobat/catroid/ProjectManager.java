@@ -23,9 +23,7 @@
 package org.catrobat.catroid;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
@@ -47,21 +45,16 @@ import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
-import org.catrobat.catroid.io.LoadProjectTask;
-import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.transfers.CheckTokenTask;
-import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
-import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
-import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
+import org.catrobat.catroid.web.UploadHandler;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public final class ProjectManager implements OnLoadProjectCompleteListener, OnCheckTokenCompleteListener {
+public final class ProjectManager {
 	private static final ProjectManager INSTANCE = new ProjectManager();
 	private static final String TAG = ProjectManager.class.getSimpleName();
 
@@ -81,23 +74,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	public void uploadProject(String projectName, FragmentActivity fragmentActivity) {
-		if (getCurrentProject() == null || !getCurrentProject().getName().equals(projectName)) {
-			LoadProjectTask loadProjectTask = new LoadProjectTask(fragmentActivity, projectName, false, false);
-			loadProjectTask.setOnLoadProjectCompleteListener(this);
-			loadProjectTask.execute();
-		}
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(fragmentActivity);
-		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-		String username = preferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 
-		if (token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
-				|| token.equals(ServerCalls.TOKEN_CODE_INVALID)) {
-			showLoginRegisterDialog(fragmentActivity);
-		} else {
-			CheckTokenTask checkTokenTask = new CheckTokenTask(fragmentActivity, token, username);
-			checkTokenTask.setOnCheckTokenCompleteListener(this);
-			checkTokenTask.execute();
-		}
+		UploadHandler.getInstance().uploadProject(projectName, fragmentActivity);
+
 	}
 
 	public void loadProject(String projectName, Context context) throws LoadingProjectException,
@@ -374,32 +353,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			StorageHandler.getInstance().saveProject(project);
 			return null;
 		}
-	}
-
-	@Override
-	public void onTokenNotValid(FragmentActivity fragmentActivity) {
-		showLoginRegisterDialog(fragmentActivity);
-	}
-
-	@Override
-	public void onCheckTokenSuccess(FragmentActivity fragmentActivity) {
-		UploadProjectDialog uploadProjectDialog = new UploadProjectDialog();
-		uploadProjectDialog.show(fragmentActivity.getSupportFragmentManager(), UploadProjectDialog.DIALOG_FRAGMENT_TAG);
-	}
-
-	private void showLoginRegisterDialog(FragmentActivity fragmentActivity) {
-		LoginRegisterDialog loginRegisterDialog = new LoginRegisterDialog();
-		loginRegisterDialog.show(fragmentActivity.getSupportFragmentManager(), LoginRegisterDialog.DIALOG_FRAGMENT_TAG);
-	}
-
-	@Override
-	public void onLoadProjectSuccess(boolean startProjectActivity) {
-
-	}
-
-	@Override
-	public void onLoadProjectFailure() {
-
 	}
 
 	public void checkNestingBrickReferences(boolean assumeWrong) {

@@ -274,6 +274,11 @@
     <string name="new_project_empty">Erstelle leeres Programm</string>
     <!--  -->
 
+    <!-- execute once dialog -->
+    <string name="execute_once_title">Programm abspielen</string>
+    <string name="execute_once_text">Bitte spiele dein Programm zumindest einmal ab, bevor du es hochlädst</string>
+    <string name="execute_once_button">Abspielen</string>
+    <!--  -->
 
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">Mein Objekt</string>

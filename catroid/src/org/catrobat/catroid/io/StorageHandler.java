@@ -710,4 +710,14 @@ public final class StorageHandler {
 		fileChecksumContainer.addChecksum(checksumSource, destinationFile.getAbsolutePath());
 	}
 
+	public boolean screenshotExists(String projectName ,String screenshotName) {
+
+		String path = Utils.buildProjectPath(projectName) + "/" + screenshotName;
+		File screenShotFile = new File(path);
+		if (screenShotFile.exists()) {
+			return true;
+		}
+		return false;
+	}
+
 }

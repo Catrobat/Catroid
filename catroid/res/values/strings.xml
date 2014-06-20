@@ -272,6 +272,11 @@
     <string name="new_project_empty">Create empty program</string>
     <!--  -->
 
+    <!-- execute once dialog -->
+    <string name="execute_once_title">Execute program</string>
+    <string name="execute_once_text">Please execute your program at least once before uploading it!</string>
+    <string name="execute_once_button">Execute</string>
+    <!--  -->
 
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">My Object</string>
