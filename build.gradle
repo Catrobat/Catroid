@@ -121,7 +121,7 @@ android {
         textReport true
         ignore 'ContentDescription', 'ExtraTranslation', 'MissingTranslation', 'UnusedResources'
         //these should be fixed soon:
-        ignore 'ValidFragment', 'IconDensities', 'InvalidPackage', 'GradleOverrides', 'GradleDependency', 'ClickableViewAccessibility', 'UnusedAttribute'
+        ignore 'ValidFragment', 'IconDensities', 'InvalidPackage', 'GradleDependency', 'ClickableViewAccessibility', 'UnusedAttribute'
     }
 }
 
