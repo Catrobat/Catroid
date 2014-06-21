@@ -117,11 +117,11 @@ android {
         }
     }
     lintOptions {
-        //lintConfig file('catroid/lint.xml')
+        lintConfig file('catroid/lint.xml')
         textReport true
         ignore 'ContentDescription', 'ExtraTranslation', 'MissingTranslation', 'UnusedResources'
         //these should be fixed soon:
-        ignore 'ValidFragment', 'IconDensities', 'InvalidPackage', 'GradleOverrides', 'GradleDependency', 'ClickableViewAccessibility', 'InflateParams', 'UnusedAttribute'
+        ignore 'ValidFragment', 'IconDensities', 'InvalidPackage', 'GradleOverrides', 'GradleDependency', 'ClickableViewAccessibility', 'UnusedAttribute'
     }
 }
 

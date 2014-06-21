@@ -36,6 +36,16 @@
         <ignore path="res/drawable-hdpi" />
         <ignore path="res/drawable-xhdpi" />
     </issue>
+    <issue id="InflateParams">
+        <ignore path="catroid/src/org/catrobat/catroid/content/bricks/**" />
+        <ignore path="catroid/src/org/catrobat/catroid/ui/dialogs/AboutDialogFragment.java" />
+        <ignore path="catroid/src/org/catrobat/catroid/ui/dialogs/AcceptTermsOfUseDialogFragment.java" />
+        <ignore path="catroid/src/org/catrobat/catroid/ui/dialogs/CustomAlertDialogBuilder.java" />
+        <ignore path="catroid/src/org/catrobat/catroid/ui/dialogs/NewLookDialog.java" />
+        <ignore path="catroid/src/org/catrobat/catroid/ui/dialogs/NewSpriteDialog.java" />
+        <ignore path="catroid/src/org/catrobat/catroid/ui/dialogs/TermsOfUseDialogFragment.java" />
+        <ignore path="catroid/src/org/catrobat/catroid/utils/Utils.java" />
+    </issue>
     <issue id="InvalidPackage" severity="ignore" />
     <issue id="MissingTranslation" severity="ignore">
         <ignore path="res/values/strings-global.xml" />

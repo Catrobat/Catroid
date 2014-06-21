@@ -109,7 +109,7 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 		UiTestUtils.clickOnPlayButton(solo);
 		CheckBox checkbox = (CheckBox) solo.getView(R.id.dialog_terms_of_use_check_box_agree_permanently);
 		assertNotNull("Check box must me present", checkbox);
-		solo.clickOnText(solo.getString(R.string.dialog_terms_of_use_agree_permanet));
+		solo.clickOnText(solo.getString(R.string.dialog_terms_of_use_agree_permanent));
 		assertTrue("checkbox must be checked", checkbox.isChecked());
 		solo.clickOnText(solo.getString(R.string.dialog_terms_of_use_agree), 2);
 		solo.waitForDialogToOpen();

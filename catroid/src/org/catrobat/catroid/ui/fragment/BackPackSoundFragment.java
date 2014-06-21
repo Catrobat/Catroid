@@ -106,7 +106,7 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_sounds, null);
+		View rootView = inflater.inflate(R.layout.fragment_sounds, container);
 		return rootView;
 	}
 

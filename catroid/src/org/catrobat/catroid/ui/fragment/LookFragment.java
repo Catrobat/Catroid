@@ -48,7 +48,6 @@ import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -64,6 +63,7 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -139,7 +139,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -170,7 +170,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -210,7 +210,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -230,8 +230,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_look, null);
-		return rootView;
+		return inflater.inflate(R.layout.fragment_look, container);
 	}
 
 	@Override
@@ -437,7 +436,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	}
 
 	@Override
-	public boolean onContextItemSelected(MenuItem item) {
+	public boolean onContextItemSelected(android.view.MenuItem item) {
 
 		switch (item.getItemId()) {
 			case R.id.context_menu_copy:
@@ -672,14 +671,13 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			return;
 		}
 
-		int position = selectedPosition;
-		selectedLookData = lookDataList.get(position);
+		selectedLookData = lookDataList.get(selectedPosition);
 
 		Bundle bundleForPocketPaint = new Bundle();
 
 		try {
 			File tempCopy = StorageHandler.getInstance()
-					.makeTempImageCopy(lookDataList.get(position).getAbsolutePath());
+					.makeTempImageCopy(lookDataList.get(selectedPosition).getAbsolutePath());
 
 			bundleForPocketPaint.putString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT, tempCopy.getAbsolutePath());
 			bundleForPocketPaint.putInt(Constants.EXTRA_X_VALUE_POCKET_PAINT, 0);

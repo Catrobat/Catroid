@@ -127,7 +127,7 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		View convertView = convView;
 		final ViewHolder holder;
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.activity_my_projects_list_item, null);
+			convertView = inflater.inflate(R.layout.activity_my_projects_list_item, parent);
 			holder = new ViewHolder();
 			holder.background = (RelativeLayout) convertView.findViewById(R.id.my_projects_activity_item_background);
 			holder.checkbox = (CheckBox) convertView.findViewById(R.id.project_checkbox);
