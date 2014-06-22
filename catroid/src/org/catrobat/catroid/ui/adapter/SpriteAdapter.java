@@ -119,7 +119,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		View spriteView = convertView;
 		final ViewHolder holder;
 		if (convertView == null) {
-			spriteView = inflater.inflate(R.layout.activity_project_spritelist_item, parent);
+			spriteView = inflater.inflate(R.layout.activity_project_spritelist_item, parent, false);
 			holder = new ViewHolder();
 			holder.background = (RelativeLayout) spriteView.findViewById(R.id.spritelist_item_background);
 			holder.checkbox = (CheckBox) spriteView.findViewById(R.id.sprite_checkbox);

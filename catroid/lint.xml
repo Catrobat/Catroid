@@ -43,6 +43,7 @@
         <ignore path="catroid/src/org/catrobat/catroid/ui/dialogs/NewSpriteDialog.java" />
         <ignore path="catroid/src/org/catrobat/catroid/ui/dialogs/TermsOfUseDialogFragment.java" />
         <ignore path="catroid/src/org/catrobat/catroid/utils/Utils.java" />
+        <ignore path="catroid/src/org/catrobat/catroid/ui/fragment/ScriptFragment.java" />
     </issue >
     <issue id="MissingTranslation" severity="ignore" >
         <ignore path="catroid/res/values/strings-global.xml" />

@@ -22,9 +22,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="@dimen/spritelist_item_height"
-    android:orientation="vertical" >
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical" >
 
     <include layout="@layout/activity_project_background_headline" />
 
@@ -68,9 +68,9 @@
                 android:layout_centerVertical="true"
                 android:paddingRight="14dp"
                 android:src="@drawable/ic_arrow_right" />
-        </RelativeLayout>
-    </LinearLayout>
+        </RelativeLayout >
+    </LinearLayout >
 
     <include layout="@layout/activity_project_objects_headline" />
 
-</LinearLayout>
+</LinearLayout >

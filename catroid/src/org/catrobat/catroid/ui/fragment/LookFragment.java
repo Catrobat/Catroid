@@ -230,7 +230,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_look, container);
+		return inflater.inflate(R.layout.fragment_look, container, false);
 	}
 
 	@Override
