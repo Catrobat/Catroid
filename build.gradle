@@ -25,14 +25,14 @@ check.dependsOn 'checkstyle'
 ext {
     projectVersion = "0.9"
     featuresEnabled = [
-            "lego_nxt": true,
-            "backpack": false,
-            "parrot_ar_drone": false,
-            "apk_generator": false,
-            "computer_vision_enhancement": false,
-            "formula_editor_lists": false,
+            "lego_nxt"                          : true,
+            "backpack"                          : false,
+            "parrot_ar_drone"                   : false,
+            "apk_generator"                     : false,
+            "computer_vision_enhancement"       : false,
+            "formula_editor_lists"              : false,
             "physics_engine_collision_filtering": false,
-            "time_capsule": false
+            "time_capsule"                      : false
     ]
 }
 
@@ -117,11 +117,13 @@ android {
         }
     }
     lintOptions {
+        // define ignores like a specific res-folder in our lint.xml file
         lintConfig file('catroid/lint.xml')
+
+        // all general ignores should be added in this place
+        ignore 'ContentDescription', 'InvalidPackage', 'ValidFragment', 'GradleDependency', 'ClickableViewAccessibility', 'UnusedAttribute'
+
         textReport true
-        ignore 'ContentDescription', 'ExtraTranslation', 'MissingTranslation', 'UnusedResources'
-        //these should be fixed soon:
-        ignore 'ValidFragment', 'IconDensities', 'InvalidPackage', 'GradleDependency', 'ClickableViewAccessibility', 'UnusedAttribute'
     }
 }
 
@@ -139,7 +141,7 @@ task checkstyle(type: Checkstyle) {
     configFile file('catroid/checkstyle.xml')
     source '.'
     include '**/*.java'
-    exclude '**/gen/**','**/build/**','**/res/**', 'libraryProjects/**'
+    exclude '**/gen/**', '**/build/**', '**/res/**', 'libraryProjects/**'
 
     classpath = files()
 }
