@@ -14,41 +14,9 @@ Nightly builds can be found [here](http://files.catrob.at).
 For reporting issues use our [JIRA Bugtracking System](https://jira.catrob.at/secure/CreateIssue.jspa?pid=10402&issuetype=1). Before, please browse our currently open issues [here](https://jira.catrob.at/secure/IssueNavigator.jspa?reset=true&jqlQuery=project+%3D+CAT+AND+resolution+%3D+Unresolved+ORDER+BY+priority+DESC%2C+key+DESC&mode=hide).
 
 
-# First Steps #
+# Contributing #
 
-There are currently two ways to import the project:
-  * [**old way** without gradle in eclipse](#eclipse)
-  * [**new way** with gradle](#gradle)
-  
-It is recommended to use the [**gradle way**](#gradle) to import the project since the old version won't be supported any longer from us.
-
-## Eclipse ##
-1. Get the repo via shell: `git clone git@github.com:Catrobat/Catroid.git`
-2. Drink some coffee - the repo size is about 100 MBs (2013-12-17)
-3. Open Eclipse and select a workspace of your choice
-4. Import every project from the cloned repo (File > Import... > General > Existing Projects into Workspace > Next > Select root directory (browse to it, confirm and wait until Eclipse shows you all projects below) > Finish
-5. Wait until Eclipse reads/compiles everything
-6. Maybe some cleanups will help to clear any compile errors - if any (Project > Clean... > Clean all projects > OK)
-7. Also take care that a Project Build Target is chosen (Project > Properties > Android > choose any Build Target of your choice > OK)
-
-### Warning ###
- 
-egit (Eclipse extension for git) will ignore some git settings and will make trouble with line endings!
-
-## Gradle ##
-You should have following path variables defined:
-  * ```JAVA_HOME```
-  * ```ANDROID_HOME```
-  * and your git location in ```PATH```
-
-After above settings are done it should be pretty easy:
-
-1. Get the repo via shell: `git clone git@github.com:Catrobat/Catroid.git`
-2. Drink some coffee - the repo size is about 100 MBs (2013-12-17)
-3. (optional:) Open your command line tool in the cloned folder and execute ```gradlew tasks``` (```gradlew.bat tasks``` for windows user)
-4. Import the ```Catroid``` folder into your IDE
-
-**It's recommended to use the gradle-wrapper (```gradlew```) from within the project!**
+We are developing test-driven, so every pull request should include appropriate tests. To set up you working environment take a look at our [Wiki](https://github.com/Catrobat/Catroid/wiki/Setup-working-environment)
 
 
 # Resources and links #
