@@ -18,9 +18,10 @@ apply plugin: 'android-sdk-manager'
 apply plugin: 'android'
 //apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
-//apply plugin: 'pmd'
+apply plugin: 'pmd'
 
 check.dependsOn 'checkstyle'
+check.dependsOn 'pmd'
 
 ext {
     projectVersion = "0.9"
@@ -42,6 +43,7 @@ dependencies {
     compile fileTree(include: '*.jar', dir: 'catroid/libs')
     compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')
+    pmd 'net.sourceforge.pmd:pmd:5.1.1'
 }
 
 
@@ -118,12 +120,16 @@ android {
     }
     lintOptions {
         // define ignores like a specific res-folder in our lint.xml file
-        lintConfig file('catroid/lint.xml')
+        lintConfig file('config/lint.xml')
 
         // all general ignores should be added in this place
-        ignore 'ContentDescription', 'InvalidPackage', 'ValidFragment', 'GradleDependency', 'ClickableViewAccessibility', 'UnusedAttribute'
+        ignore 'ContentDescription', 'InvalidPackage', 'ValidFragment', 'GradleDependency',
+                'ClickableViewAccessibility', 'UnusedAttribute'
 
         textReport true
+        xmlReport true
+        htmlReport false
+        xmlOutput file("build/reports/lint.xml")
     }
 }
 
@@ -138,19 +144,43 @@ android {
 //}
 
 task checkstyle(type: Checkstyle) {
-    configFile file('catroid/checkstyle.xml')
+    configFile file('config/checkstyle.xml')
     source '.'
     include '**/*.java'
     exclude '**/gen/**', '**/build/**', '**/res/**', 'libraryProjects/**'
 
     classpath = files()
+
+    // needed for console output of warnings/errors
+    showViolations true
+    ignoreFailures false
+
+    reports {
+        xml.destination "build/reports/checkstyle.xml"
+    }
 }
 
-// Doesn't work atm. Maybe if the pmd plugin gets updated.
-//task pmd(type: Pmd) {
-//    ruleSets = ["basic", "braces", "strings"]
-//    source = fileTree(android.sourceSets.main.java.srcDirs)
-//}
+task pmd(type: Pmd) {
+    // current plugin has pmd 4.3 as default
+    // gradle 2.0 should support pmd 5.1.1 out of the box; deprecated toolVersion property should be removed then
+    toolVersion = '5.1.1'
+
+    // complete rulesets can be used with the abbrevation
+    // rulesets with specific excludes are moved to a config file containing just a single ruleset with exclude(s)
+    ruleSets = ['java-android', 'java-braces', 'java-empty', 'java-sunsecure', 'java-unusedcode', 'config/pmd_basic.xml',
+                'config/pmd_strings.xml', 'config/pmd_unnecessary.xml']
+    source '.'
+    include '**/*.java'
+    exclude '**/gen/**', '**/build/**', '**/res/**', 'libraryProjects/**', '**/catroidCucumberTest/**'
+
+    ignoreFailures false
+
+    reports {
+        xml.enabled = true
+        html.enabled = false
+        xml.destination "build/reports/pmd.xml"
+    }
+}
 
 task jenkins() << {
 //    android.buildTypes.each { type ->
