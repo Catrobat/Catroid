@@ -480,12 +480,16 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 	private void deleteOldAndCreateAndSaveCleanStandardProject() {
 		String standardProjectName = getActivity().getString(R.string.default_project_name);
 		try {
-			ProjectManager.getInstance().loadProject(standardProjectName, getActivity());
-			ProjectManager.getInstance().deleteCurrentProject();
+			if (StorageHandler.getInstance().projectExists(standardProjectName)) {
+				ProjectManager.getInstance().loadProject(standardProjectName, getActivity());
+				ProjectManager.getInstance().deleteCurrentProject();
+			}
 			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
 					getInstrumentation().getTargetContext());
 			ProjectManager.getInstance().setProject(standardProject);
 		} catch (ProjectException projectException) {
+
+			projectException.printStackTrace();
 			fail("Cannot load old standard project");
 		} catch (IOException exception) {
 			fail("Standard project not created");
