@@ -55,14 +55,16 @@ public class SpeakActionTest extends AndroidTestCase {
 		SpeakAction action = ExtendedActions.speak(sprite, text);
 		Formula textAfterExecution = (Formula) Reflection.getPrivateField(action, "text");
 
-		assertEquals("Text is not updated after SpeakBrick executed", text, speakBrick.getFormula());
+		assertEquals("Text is not updated after SpeakBrick executed", text, speakBrick
+				.getFormulaWithBrickField(Brick.BrickField.SPEAK));
 		assertEquals("Text is not updated after SpeakBrick executed", text, textAfterExecution);
 
 		speakBrick = new SpeakBrick(text2);
 		action = ExtendedActions.speak(sprite, text);
 		textAfterExecution = (Formula) Reflection.getPrivateField(action, "text");
 
-		assertEquals("Text is not updated after SpeakBrick executed", text2, speakBrick.getFormula());
+		assertEquals("Text is not updated after SpeakBrick executed", text2, speakBrick
+				.getFormulaWithBrickField(Brick.BrickField.SPEAK));
 		assertEquals("Text is not updated after SpeakBrick executed", text, textAfterExecution);
 	}
 
@@ -76,7 +78,8 @@ public class SpeakActionTest extends AndroidTestCase {
 		} catch (NullPointerException expected) {
 			assertTrue("Exception thrown as expected", true);
 		}
-		assertEquals("Stored wrong text in speak brick", text, speakBrick.getFormula());
+		assertEquals("Stored wrong text in speak brick", text, speakBrick
+				.getFormulaWithBrickField(Brick.BrickField.SPEAK));
 	}
 
 	public void testRequirements() {
@@ -89,7 +92,8 @@ public class SpeakActionTest extends AndroidTestCase {
 		SpeakAction action = ExtendedActions.speak(sprite, textString);
 		Reflection.invokeMethod(action, "begin");
 
-		assertEquals("Text is not updated after SpeakBrick executed", textString, speakBrick.getFormula());
+		assertEquals("Text is not updated after SpeakBrick executed", textString, speakBrick
+				.getFormulaWithBrickField(Brick.BrickField.SPEAK));
 		assertEquals("Text is not updated after SpeakBrick executed", SPEAK,
 				String.valueOf(Reflection.getPrivateField(action, "interpretedText")));
 	}

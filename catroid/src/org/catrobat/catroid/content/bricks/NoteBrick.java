@@ -129,21 +129,7 @@ public class NoteBrick extends FormulaBrick implements OnClickListener{
 	}
 
 	@Override
-	public Formula getFormula() {
-		return getFormulaWithBrickField(BrickField.NOTE);
-	}
-
-	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-		switch (view.getId()) {
-			case R.id.brick_note_edit_text:
-				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.NOTE));
-				break;
-			default:
-				break;
-		}
+	public void showFormulaEditorToEditFormula(View view) {
+		FormulaEditorFragment.showFragment(view, this, BrickField.NOTE);
 	}
 }
