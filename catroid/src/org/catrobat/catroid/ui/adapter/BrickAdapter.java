@@ -57,14 +57,13 @@ import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.content.bricks.UserBrickParameter;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
-import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 
 import java.util.ArrayList;
@@ -1110,19 +1109,19 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	private void clickedEditFormula(Brick brick, View view) {
-		Formula formula = null;
+		FormulaBrick formulaBrick = null;
 		if (brick instanceof FormulaBrick) {
-			formula = ((FormulaBrick) brick).getFormula();
+			formulaBrick = (FormulaBrick) brick;
 		}
 		if (brick instanceof UserBrick) {
-			List<Formula> formulas = ((UserBrick) brick).getFormulas();
-			if (formulas.size() > 0) {
-				formula = formulas.get(0);
+			List<UserBrickParameter> userBrickParameters = ((UserBrick) brick).getUserBrickParameters();
+			if (userBrickParameters != null && userBrickParameters.size() > 0) {
+				formulaBrick = userBrickParameters.get(0);
 			}
 		}
 
-		if (formula != null) {
-			FormulaEditorFragment.showFragment(view, brick, formula);
+		if (formulaBrick != null) {
+			formulaBrick.showFormulaEditorToEditFormula(view);
 		}
 	}
 

@@ -26,7 +26,6 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -54,8 +53,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-
-public class SetVariableBrick extends FormulaBrick implements OnClickListener, NewDataDialog.NewVariableDialogListener {
+public class SetVariableBrick extends FormulaBrick implements NewDataDialog.NewVariableDialogListener {
 
 	private static final long serialVersionUID = 1L;
 	private UserVariable userVariable;
@@ -245,14 +243,6 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 	}
 
 	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.VARIABLE));
-	}
-
-	@Override
 	public Brick copyBrickForSprite(Sprite cloneSprite) {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		if (currentProject == null) {
@@ -263,6 +253,10 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 		copyBrick.userVariable = currentProject.getDataContainer().getUserVariable(userVariable.getName(), cloneSprite);
 
 		return copyBrick;
+	}
+
+	public void showFormulaEditorToEditFormula(View view) {
+		FormulaEditorFragment.showFragment(view, this, BrickField.VARIABLE);
 	}
 
 	private void updateUserVariableIfDeleted(UserVariableAdapterWrapper userVariableAdapterWrapper) {
