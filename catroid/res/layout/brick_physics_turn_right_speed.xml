@@ -41,7 +41,7 @@
     <TextView
         android:id="@+id/brick_turn_right_speed_text_view"
         style="@style/BrickText.SingleLine"
-        android:text="@string/brick_turn_right_speed" >
+        android:text="@string/brick_turn_right" >
     </TextView>
 
     <TextView

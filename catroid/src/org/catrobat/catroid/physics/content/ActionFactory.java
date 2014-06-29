@@ -404,7 +404,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createDelayAction(Sprite sprite, Formula delay) {
+	public WaitAction createDelayAction(Sprite sprite, Formula delay) {
 		WaitAction action = Actions.action(WaitAction.class);
 		action.setSprite(sprite);
 		action.setDelay(delay);

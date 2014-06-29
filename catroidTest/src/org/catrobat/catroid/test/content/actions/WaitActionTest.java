@@ -27,6 +27,7 @@ import android.test.AndroidTestCase;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.content.ActionFactory;
 
@@ -35,14 +36,13 @@ public class WaitActionTest extends AndroidTestCase {
 	public void testWait() throws InterruptedException {
 		float waitOneSecond = 1.0f;
 		ActionFactory factory = new ActionFactory();
-		Action action = factory.createDelayAction(null, new Formula(waitOneSecond));
+		WaitAction action = factory.createDelayAction(null, new Formula(waitOneSecond));
 		long currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
 		} while (!action.act(currentTimeInMilliSeconds / 1000f));
 
-		// TODO [physics] -> how to get time?
-		//		assertTrue("Unexpected waited time!", (action.getTime() - waitOneSecond) > 0.5f);
+		assertTrue("Unexpected waited time!", (action.getTime() - waitOneSecond) > 0.5f);
 	}
 
 	public void testPauseResume() throws InterruptedException {
@@ -50,7 +50,7 @@ public class WaitActionTest extends AndroidTestCase {
 		float waitOneSecond = 1.0f;
 
 		ActionFactory factory = testSprite.getActionFactory();
-		Action action = factory.createDelayAction(testSprite, new Formula(waitOneSecond));
+		WaitAction action = factory.createDelayAction(testSprite, new Formula(waitOneSecond));
 		testSprite.look.addAction(action);
 		long currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
@@ -62,7 +62,6 @@ public class WaitActionTest extends AndroidTestCase {
 			}
 		} while (!action.act(currentTimeInMilliSeconds / 1000f));
 
-		// TODO [physics] -> how to get time?
-		//		assertTrue("Unexpected waited time!", (action.getTime() - waitOneSecond) > 0.5f);
+		assertTrue("Unexpected waited time!", (action.getTime() - waitOneSecond) > 0.5f);
 	}
 }

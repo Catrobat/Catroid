@@ -100,7 +100,7 @@ public class PhysicsWorld {
 			try {
 				world.step(deltaTime, PhysicsWorld.VELOCITY_ITERATIONS, PhysicsWorld.POSITION_ITERATIONS);
 			} catch (Exception exception) {
-				exception.printStackTrace();
+				Log.e(TAG, Log.getStackTraceString(exception));
 			}
 		}
 	}
