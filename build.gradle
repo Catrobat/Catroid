@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.11.+'
+        classpath 'com.android.tools.build:gradle:0.12.+'
         classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.+'
     }
 }
@@ -15,7 +15,7 @@ repositories {
 }
 
 apply plugin: 'android-sdk-manager'
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 //apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
@@ -123,8 +123,10 @@ android {
         lintConfig file('config/lint.xml')
 
         // all general ignores should be added in this place
+        // CommitPrefEdits should be reviewed, if using apply instead of commit is working with our tests
+        // OldTargetApi should be reviewed - consider updating target API to 20
         ignore 'ContentDescription', 'InvalidPackage', 'ValidFragment', 'GradleDependency',
-                'ClickableViewAccessibility', 'UnusedAttribute'
+                'ClickableViewAccessibility', 'UnusedAttribute', 'CommitPrefEdits', 'OldTargetApi'
 
         textReport true
         xmlReport true
