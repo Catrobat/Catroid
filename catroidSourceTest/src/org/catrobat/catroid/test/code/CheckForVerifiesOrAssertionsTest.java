@@ -36,7 +36,7 @@ import java.util.List;
 public class CheckForVerifiesOrAssertionsTest extends TestCase {
 	private static final String[] DIRECTORIES = Utils.TEST_FILE_DIRECTORIES;
 	private static final String[] IGNORED_FILES = { "MockGalleryActivity.java", "UiTestUtils.java",
-			"SimulatedSensorManager.java", "SimulatedSoundRecorder.java", "TestUtils.java",
+			"SimulatedSensorManager.java", "SimulatedSoundRecorder.java", "TestUtils.java", "PhysicsTestUtils.java",
 			"MockPaintroidActivity.java", "TestMainMenuActivity.java", "TestErrorListenerInterface.java",
 			"XmlTestUtils.java", "MockSoundActivity.java", "Reflection.java", "Utils.java",
 			"BaseActivityInstrumentationTestCase.java", "BaseActivityUnitTestCase.java", "Device.java", "Callback.java", "CallbackBrick.java",

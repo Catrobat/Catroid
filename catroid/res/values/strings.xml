@@ -376,8 +376,6 @@
     <string name="brick_set_gravity_unit">step/s²</string>
     <string name="brick_set_velocity_to">Set velocity to</string>
     <string name="brick_set_velocity_unit">step/s</string>
-    <string name="brick_turn_right_speed">Turn right</string>
-    <string name="brick_turn_left_speed">Turn left</string>
     <string name="brick_turn_speed_unit">degrees/s</string>
     <string name="brick_set_friction">Set friction to</string>
     <string name="brick_set_bounce_factor">Set bounce factor to</string>
