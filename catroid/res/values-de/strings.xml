@@ -360,6 +360,17 @@
     <string name="brick_glide_to_x">zu X:</string>
     <!--  -->
 
+    <!-- Physics -->
+    <string name="brick_set_physics_object_type">Physik Objekt</string>
+    <string name="brick_set_mass">Setze Masse auf</string>
+    <string name="brick_set_mass_unit">kg</string>
+    <string name="brick_set_gravity_to">Setze Schwerkraft auf</string>
+    <string name="brick_set_gravity_unit">Schritte/s²</string>
+    <string name="brick_set_velocity_to">Setze Geschwindigkeit auf</string>
+    <string name="brick_set_velocity_unit">Schritte/s</string>
+    <string name="brick_turn_speed_unit">Grad/s</string>
+    <string name="brick_set_friction">Setze Reibung auf</string>
+    <string name="brick_set_bounce_factor">Setze Sprungkraft auf</string>
 
     <!-- Looks bricks -->
     <string name="brick_set_look">Setze Aussehen</string>
