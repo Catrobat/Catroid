@@ -152,12 +152,9 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 		LookData lookData = PhysicsTestUtils.generateLookData();
 		sprite.getLookDataList().add(lookData);
 
-		try {
-			shapes = physicsShapeBuilder.getShape(lookData, sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
-			fail("does not exit with an null pointer exception");
-		} catch (NullPointerException nullPointerException) {
-			// expected behavior
-		}
+
+		shapes = physicsShapeBuilder.getShape(lookData, sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
+		assertNull("value of no image shaping is not null",shapes);
 	}
 
 	public void testSimpleSingleConvexPolygon() {
