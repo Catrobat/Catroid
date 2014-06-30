@@ -27,6 +27,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.content.actions.SetBounceFactorAction;
+import org.catrobat.catroid.test.physics.PhysicsObjectTest;
 import org.catrobat.catroid.test.utils.Reflection;
 
 public class SetBounceFactorActionTest extends PhysicsActionTestCase {
@@ -70,7 +71,7 @@ public class SetBounceFactorActionTest extends PhysicsActionTestCase {
 
 		fixtureBouceFactor = ((FixtureDef) Reflection.getPrivateField(PhysicsObject.class, physicsObject, "fixtureDef")).restitution;
 
-		assertEquals("Unexpected bounceFactor value", bounceFactor / 100.0f, fixtureBouceFactor);
+		assertEquals("Unexpected bounceFactor value", PhysicsObject.MIN_BOUNCE_FACTOR, fixtureBouceFactor);
 	}
 
 	public void testZeroValue() {
