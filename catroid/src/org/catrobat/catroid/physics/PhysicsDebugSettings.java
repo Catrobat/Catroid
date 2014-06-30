@@ -31,8 +31,8 @@ public class PhysicsDebugSettings {
 		public final static boolean RENDER_BODIES = false;
 		public final static boolean RENDER_JOINTS = false;
 		public final static boolean RENDER_AABBs = false;
-		public final static boolean RENDER_INACTIVE_BODIES = true;
+		public final static boolean RENDER_INACTIVE_BODIES = false;
 		public final static boolean RENDER_VELOCITIES = false;
-		public final static boolean RENDER_PHYSIC_OBJECT_LABELING = true;
+		public final static boolean RENDER_PHYSIC_OBJECT_LABELING = false;
 	}
 }

@@ -359,7 +359,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 			PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type);
 			physicsObject.setShape(new Shape[] { new PolygonShape(), new PolygonShape() });
 
-			float[] frictionValues = { 0.123f, -0.765f, 24.32f };
+			float[] frictionValues = { 0.123f, -0.765f, 0.32f };
 			FixtureProptertyTestTemplate frictionTemplate = new FixtureProptertyTestTemplate(physicsObject,
 					frictionValues) {
 				@Override
@@ -385,7 +385,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 		for (PhysicsObject.Type type : PhysicsObject.Type.values()) {
 			PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, type);
 			physicsObject.setShape(new Shape[] { new PolygonShape(), new PolygonShape() });
-			float[] bounceFactors = { 0.123f, -0.765f, 24.32f };
+			float[] bounceFactors = { 0.123f, -0.765f, 0.32f };
 
 			FixtureProptertyTestTemplate restitutionTemplate = new FixtureProptertyTestTemplate(physicsObject,
 					bounceFactors) {
@@ -523,9 +523,20 @@ public class PhysicsObjectTest extends AndroidTestCase {
 
 			for (float value : values) {
 				setValue(value);
-				assertEquals("Wrong fixture def value in physics object", value, getFixtureDefValue());
+				if (value > 0) {
+					assertEquals("Wrong fixture def value in physics object", value, getFixtureDefValue());
+				}
+				else{
+					assertEquals("Wrong fixture def value in physics object", 0.0f, getFixtureDefValue());
+				}
 				for (Fixture fixture : PhysicsTestUtils.getBody(physicsObject).getFixtureList()) {
-					assertEquals("Wrong fixture def value in bodies fixtures.", value, getFixtureValue(fixture));
+
+					if (value > 0) {
+						assertEquals("Wrong fixture def value in bodies fixtures.", value, getFixtureValue(fixture));
+					}
+					else{
+						assertEquals("Wrong fixture def value in bodies fixtures.", 0.0f, getFixtureValue(fixture));
+					}
 				}
 			}
 		}

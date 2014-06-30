@@ -48,6 +48,9 @@ public class PhysicsObject {
 	public final static float DEFAULT_FRICTION = 0.2f;
 	public final static float MAX_FRICTION = 1.0f;
 	public final static float MIN_FRICTION = 0.0f;
+	public final static float MIN_DENSITY = 0.0f;
+	public final static float MAX_BOUNCE_FACTOR = 1.0f;
+	public final static float MIN_BOUNCE_FACTOR = 0.0f;
 	public final static float DEFAULT_BOUNCE_FACTOR = 0.8f;
 	public final static float DEFAULT_MASS = 1.0f;
 	public final static float MIN_MASS = 0.000001f;
@@ -229,6 +232,9 @@ public class PhysicsObject {
 	}
 
 	private void setDensity(float density) {
+		if (density < MIN_DENSITY) {
+			density = PhysicsObject.MIN_DENSITY;
+		}
 		fixtureDef.density = density;
 		for (Fixture fixture : body.getFixtureList()) {
 			fixture.setDensity(density);
@@ -241,20 +247,28 @@ public class PhysicsObject {
 	}
 
 	public void setFriction(float friction) {
-		fixtureDef.friction = friction;
 
 		if (friction < MIN_FRICTION) {
-			fixtureDef.friction = MIN_FRICTION;
+			friction = MIN_FRICTION;
 		}
 		if (friction > MAX_FRICTION) {
-			fixtureDef.friction = MAX_FRICTION;
+			friction = MAX_FRICTION;
 		}
+
+		fixtureDef.friction = friction;
 		for (Fixture fixture : body.getFixtureList()) {
 			fixture.setFriction(friction);
 		}
 	}
 
 	public void setBounceFactor(float bounceFactor) {
+
+		if (bounceFactor < MIN_BOUNCE_FACTOR) {
+			bounceFactor = MIN_BOUNCE_FACTOR;
+		}
+		if (bounceFactor > MAX_BOUNCE_FACTOR) {
+			bounceFactor = MAX_BOUNCE_FACTOR;
+		}
 		fixtureDef.restitution = bounceFactor;
 		for (Fixture fixture : body.getFixtureList()) {
 			fixture.setRestitution(bounceFactor);
