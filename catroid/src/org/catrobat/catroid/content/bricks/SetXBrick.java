@@ -41,7 +41,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SetXBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class SetXBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -63,11 +63,6 @@ public class SetXBrick extends BrickBaseType implements OnClickListener, Formula
 	private void initializeBrickFields(Formula xPosition) {
 		addAllowedBrickField(BrickField.X_POSITION);
 		setFormulaWithBrickField(BrickField.X_POSITION, xPosition);
-	}
-
-	@Override
-	public Formula getFormula() {
-		return getFormulaWithBrickField(BrickField.X_POSITION);
 	}
 
 	@Override
@@ -97,8 +92,8 @@ public class SetXBrick extends BrickBaseType implements OnClickListener, Formula
 		TextView textX = (TextView) view.findViewById(R.id.brick_set_x_prototype_text_view);
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_x_edit_text);
 
-		getFormula().setTextFieldId(R.id.brick_set_x_edit_text);
-		getFormula().refreshTextField(view);
+		getFormulaWithBrickField(BrickField.X_POSITION).setTextFieldId(R.id.brick_set_x_edit_text);
+		getFormulaWithBrickField(BrickField.X_POSITION).refreshTextField(view);
 
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
@@ -133,7 +128,7 @@ public class SetXBrick extends BrickBaseType implements OnClickListener, Formula
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_x, null);
 		TextView textXPosition = (TextView) prototypeView.findViewById(R.id.brick_set_x_prototype_text_view);
-		textXPosition.setText(String.valueOf(getFormula().interpretInteger(sprite)));
+		textXPosition.setText(String.valueOf(getFormulaWithBrickField(BrickField.X_POSITION).interpretInteger(sprite)));
 		return prototypeView;
 	}
 
@@ -142,12 +137,12 @@ public class SetXBrick extends BrickBaseType implements OnClickListener, Formula
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		FormulaEditorFragment.showFragment(view, this, getFormula());
+		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.X_POSITION));
 	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setX(sprite, getFormula()));
+		sequence.addAction(ExtendedActions.setX(sprite, getFormulaWithBrickField(BrickField.X_POSITION)));
 		return null;
 	}
 }

@@ -29,7 +29,6 @@ import com.thoughtworks.xstream.converters.reflection.AbstractReflectionConverte
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
 import org.catrobat.catroid.content.bricks.Brick.BrickField;
-import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeGhostEffectByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
@@ -37,6 +36,7 @@ import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
@@ -99,7 +99,7 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 	}
 
 	public Object getProjectFromXML(File file) {
-		Object parsedObject = null;
+		Object parsedObject;
 		try {
 			parsedObject = super.fromXML(file);
 		} catch (UnknownFieldException exception) {
@@ -276,9 +276,7 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 						for (int index = 0; index < childNodes.getLength(); index++) {
 							Node node = childNodes.item(index);
 							Node childNode = node.getFirstChild();
-							if (childNode != null && childNode.getNodeName().equals("formulaTree")) {
-								continue;
-							} else {
+							if (!(childNode != null && childNode.getNodeName().equals("formulaTree"))) {
 								Node otherNode = newBrickDoc.adoptNode(node);
 								newBrickRootNode.appendChild(otherNode);
 							}
@@ -332,9 +330,9 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 		if (brickInfo != null) {
 			try {
 				Class<?> brickClass = Class.forName(brickInfo.getBrickClassName());
-				BrickBaseType brickBase = (BrickBaseType) brickClass.newInstance();
-				replaceFormulaMap(brickBase, brickInfo, formulas);
-				brickXML = toXML(brickBase);
+				FormulaBrick formulaBrick = (FormulaBrick) brickClass.newInstance();
+				replaceFormulaMap(formulaBrick, brickInfo, formulas);
+				brickXML = toXML(formulaBrick);
 			} catch (ClassNotFoundException exception) {
 				Log.e(TAG, "Brick class not found", exception);
 			} catch (InstantiationException exception) {
@@ -375,7 +373,7 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 		return formulas;
 	}
 
-	private void replaceFormulaMap(BrickBaseType baseBrick, BrickInfo brickInfo, HashMap<String, Formula> formulaMap) {
+	private void replaceFormulaMap(FormulaBrick formulaBrick, BrickInfo brickInfo, HashMap<String, Formula> formulaMap) {
 		Iterator<String> itKey = formulaMap.keySet().iterator();
 		while (itKey.hasNext()) {
 			String oldFormulaNode = itKey.next();
@@ -387,7 +385,7 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 			} else if (brickField == null) {
 				throw new IllegalArgumentException("Brick field for " + oldFormulaNode + " not found");
 			} else {
-				baseBrick.setFormulaWithBrickField(brickField, formula);
+				formulaBrick.setFormulaWithBrickField(brickField, formula);
 			}
 		}
 	}

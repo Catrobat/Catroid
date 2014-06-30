@@ -41,7 +41,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class LegoNxtPlayToneBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -68,11 +68,6 @@ public class LegoNxtPlayToneBrick extends BrickBaseType implements OnClickListen
 		addAllowedBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS);
 		setFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY, frequencyFormula);
 		setFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS, durationFormula);
-	}
-
-	@Override
-	public Formula getFormula() {
-		return getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS);
 	}
 
 	@Override

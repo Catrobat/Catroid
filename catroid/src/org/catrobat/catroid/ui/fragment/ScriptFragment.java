@@ -452,8 +452,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 				NestingBrick nestingBrickCopy = (NestingBrick) copiedBrick;
 				nestingBrickCopy.initialize();
 
-				for (Brick nestingBrick : nestingBrickCopy.getAllNestingBrickParts(true)) {
-					scriptList.addBrick(nestingBrick);
+				for (NestingBrick nestingBrick : nestingBrickCopy.getAllNestingBrickParts(true)) {
+					scriptList.addBrick((Brick) nestingBrick);
 				}
 			} else {
 				scriptList.addBrick(copiedBrick);

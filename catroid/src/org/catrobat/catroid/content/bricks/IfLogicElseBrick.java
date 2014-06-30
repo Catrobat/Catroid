@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEndBrick {
+public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, AllowedAfterDeadEndBrick {
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = IfLogicElseBrick.class.getSimpleName();

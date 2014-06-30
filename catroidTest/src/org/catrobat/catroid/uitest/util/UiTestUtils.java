@@ -75,7 +75,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
@@ -89,6 +88,7 @@ import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
@@ -317,7 +317,9 @@ public final class UiTestUtils {
 
 	public static enum FileTypes {
 		IMAGE, SOUND, ROOT
-	};
+	}
+
+	;
 
 	// Suppress default constructor for noninstantiability
 	private UiTestUtils() {
@@ -407,7 +409,7 @@ public final class UiTestUtils {
 	 * ensures its set correctly to the brick´s edit text field
 	 */
 	public static void testBrickWithFormulaEditor(Solo solo, int editTextId, double newValue,
-			Brick.BrickField brickField, BrickBaseType theBrick) {
+			Brick.BrickField brickField, FormulaBrick theBrick) {
 
 		solo.clickOnView(solo.getView(editTextId));
 
@@ -417,7 +419,8 @@ public final class UiTestUtils {
 				"Text not updated within FormulaEditor",
 				newValue,
 				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()
-						.replace(',', '.')));
+						.replace(',', '.'))
+		);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(200);
 

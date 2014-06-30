@@ -43,7 +43,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
-public class MoveNStepsBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class MoveNStepsBrick extends FormulaBrick implements OnClickListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -66,11 +66,6 @@ public class MoveNStepsBrick extends BrickBaseType implements OnClickListener, F
 	private void initializeBrickFields(Formula steps) {
 		addAllowedBrickField(BrickField.STEPS);
 		setFormulaWithBrickField(BrickField.STEPS, steps);
-	}
-
-	@Override
-	public Formula getFormula() {
-		return getFormulaWithBrickField(BrickField.STEPS);
 	}
 
 	@Override
@@ -109,7 +104,8 @@ public class MoveNStepsBrick extends BrickBaseType implements OnClickListener, F
 			times.setText(view.getResources().getQuantityString(
 					R.plurals.brick_move_n_step_plural,
 					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(
-							sprite))));
+							sprite))
+			));
 		} else {
 
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees

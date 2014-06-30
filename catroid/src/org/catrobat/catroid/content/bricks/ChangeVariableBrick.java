@@ -56,8 +56,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class ChangeVariableBrick extends BrickBaseType implements OnClickListener, NewVariableDialogListener,
-		FormulaBrick {
+public class ChangeVariableBrick extends FormulaBrick implements OnClickListener, NewVariableDialogListener {
 
 	private static final long serialVersionUID = 1L;
 	private UserVariable userVariable;
@@ -297,8 +296,4 @@ public class ChangeVariableBrick extends BrickBaseType implements OnClickListene
 		setSpinnerSelection(spinnerToUpdate, newUserVariable);
 	}
 
-	@Override
-	public Formula getFormula() {
-		return getFormulaWithBrickField(BrickField.VARIABLE_CHANGE);
-	}
 }

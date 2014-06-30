@@ -24,7 +24,53 @@ package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.formulaeditor.Formula;
 
-public interface FormulaBrick {
+import java.util.Iterator;
 
-	Formula getFormula();
+public class FormulaBrick extends BrickBaseType {
+
+	private ConcurrentFormulaHashMap formulaMap;
+
+	public Formula getFormulaWithBrickField(BrickField brickField) throws IllegalArgumentException {
+		if (formulaMap != null && formulaMap.containsKey(brickField)) {
+			return formulaMap.get(brickField);
+		} else {
+			throw new IllegalArgumentException("Incompatible Brick Field : " + brickField.toString());
+		}
+	}
+
+	public void setFormulaWithBrickField(BrickField brickField, Formula formula) throws IllegalArgumentException {
+		if (formulaMap != null && formulaMap.containsKey(brickField)) {
+			formulaMap.replace(brickField, formula);
+		} else {
+			throw new IllegalArgumentException("Incompatible Brick Field : " + brickField.toString());
+		}
+	}
+
+	protected void addAllowedBrickField(BrickField brickField) {
+		if (formulaMap == null) {
+			formulaMap = new ConcurrentFormulaHashMap();
+		}
+		formulaMap.putIfAbsent(brickField, new Formula(0));
+	}
+
+	@Override
+	public Brick clone() throws CloneNotSupportedException {
+		FormulaBrick clonedBrick = (FormulaBrick) super.clone();
+		clonedBrick.formulaMap = this.formulaMap.clone();
+		return clonedBrick;
+	}
+
+	public Formula getFormula() {
+		if (formulaMap == null) {
+			return null;
+		}
+
+		Iterator<BrickField> brickFieldIterator = formulaMap.keySet().iterator();
+		if (brickFieldIterator.hasNext()) {
+			return formulaMap.get(brickFieldIterator.next());
+		} else {
+			return null;
+		}
+	}
+
 }

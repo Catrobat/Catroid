@@ -41,7 +41,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SetYBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class SetYBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -63,11 +63,6 @@ public class SetYBrick extends BrickBaseType implements OnClickListener, Formula
 	private void initializeBrickFields(Formula yPosition) {
 		addAllowedBrickField(BrickField.Y_POSITION);
 		setFormulaWithBrickField(BrickField.Y_POSITION, yPosition);
-	}
-
-	@Override
-	public Formula getFormula() {
-		return getFormulaWithBrickField(BrickField.Y_POSITION);
 	}
 
 	@Override

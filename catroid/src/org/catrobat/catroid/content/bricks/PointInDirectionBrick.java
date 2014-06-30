@@ -40,7 +40,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class PointInDirectionBrick extends BrickBaseType implements View.OnClickListener, FormulaBrick {
+public class PointInDirectionBrick extends FormulaBrick implements View.OnClickListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -82,11 +82,6 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 	private void initializeBrickFields(Formula direction) {
 		addAllowedBrickField(BrickField.DEGREES);
 		setFormulaWithBrickField(BrickField.DEGREES, direction);
-	}
-
-	@Override
-	public Formula getFormula() {
-		return getFormulaWithBrickField(BrickField.DEGREES);
 	}
 
 	@Override

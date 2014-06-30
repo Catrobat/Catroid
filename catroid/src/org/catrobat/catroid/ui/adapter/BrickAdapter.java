@@ -418,9 +418,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 					}
 					position = getPositionForDeadEndBrick(position);
 					temp = getScriptAndBrickIndexFromProject(position);
-					script.addBrick(temp[1], nestingBrickList.get(i));
+					script.addBrick(temp[1], (Brick) nestingBrickList.get(i));
 				} else {
-					script.addBrick(brickPosition + i, nestingBrickList.get(i));
+					script.addBrick(brickPosition + i, (Brick) nestingBrickList.get(i));
 				}
 			}
 		} else {
@@ -476,7 +476,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		int scriptPosition = 0;
 		int scriptOffset;
-		for (scriptOffset = 0; scriptOffset < position;) {
+		for (scriptOffset = 0; scriptOffset < position; ) {
 			scriptOffset += sprite.getScript(scriptPosition).getBrickList().size() + 1;
 			if (scriptOffset < position) {
 				scriptPosition++;
@@ -627,8 +627,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 				Brick brick = script.getBrick(temp[1]);
 				if (brick instanceof NestingBrick) {
-					for (Brick tempBrick : ((NestingBrick) brick).getAllNestingBrickParts(true)) {
-						script.removeBrick(tempBrick);
+					for (NestingBrick tempBrick : ((NestingBrick) brick).getAllNestingBrickParts(true)) {
+						script.removeBrick((Brick) tempBrick);
 					}
 				} else {
 					script.removeBrick(brick);
@@ -788,7 +788,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	private int getScriptIndexFromProject(int index) {
 		int scriptIndex = 0;
-		for (int i = 0; i < index;) {
+		for (int i = 0; i < index; ) {
 
 			i += sprite.getScript(scriptIndex).getBrickList().size() + 1;
 			if (i <= index) {
@@ -876,8 +876,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 					Brick brick = brickList.get(itemPosition);
 					if (brick instanceof NestingBrick) {
 						List<NestingBrick> list = ((NestingBrick) brick).getAllNestingBrickParts(true);
-						for (Brick tempBrick : list) {
-							animatedBricks.add(tempBrick);
+						for (NestingBrick tempBrick : list) {
+							animatedBricks.add((Brick) tempBrick);
 						}
 					}
 					notifyDataSetChanged();
@@ -1115,18 +1115,18 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			notifyDataSetChanged();
 			return true;
 		} else if (brick instanceof NestingBrick) {
-			for (Brick currentBrick : ((NestingBrick) brick).getAllNestingBrickParts(true)) {
+			for (NestingBrick currentBrick : ((NestingBrick) brick).getAllNestingBrickParts(true)) {
 				if (currentBrick == null) {
 					break;
 				}
 				if (checked) {
-					animatedBricks.add(currentBrick);
-					addElementToCheckedBricks(currentBrick);
+					animatedBricks.add((Brick) currentBrick);
+					addElementToCheckedBricks((Brick) currentBrick);
 				} else {
 					checkedBricks.remove(currentBrick);
 				}
 
-				currentBrick.getCheckBox().setChecked(checked);
+				((Brick) currentBrick).getCheckBox().setChecked(checked);
 			}
 
 			animateSelectedBricks();

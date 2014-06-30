@@ -41,7 +41,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class ChangeVolumeByNBrick extends FormulaBrick implements OnClickListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -64,11 +64,6 @@ public class ChangeVolumeByNBrick extends BrickBaseType implements OnClickListen
 	private void initializeBrickFields(Formula volume) {
 		addAllowedBrickField(BrickField.VOLUME_CHANGE);
 		setFormulaWithBrickField(BrickField.VOLUME_CHANGE, volume);
-	}
-
-	@Override
-	public Formula getFormula() {
-		return getFormulaWithBrickField(BrickField.VOLUME_CHANGE);
 	}
 
 	@Override

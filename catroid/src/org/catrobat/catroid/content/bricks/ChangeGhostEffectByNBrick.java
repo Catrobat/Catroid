@@ -41,7 +41,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class ChangeGhostEffectByNBrick extends FormulaBrick implements OnClickListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -152,8 +152,4 @@ public class ChangeGhostEffectByNBrick extends BrickBaseType implements OnClickL
 		return null;
 	}
 
-	@Override
-	public Formula getFormula() {
-		return getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE);
-	}
 }

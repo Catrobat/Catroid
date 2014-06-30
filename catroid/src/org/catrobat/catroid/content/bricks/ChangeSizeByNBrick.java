@@ -41,7 +41,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class ChangeSizeByNBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class ChangeSizeByNBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -146,8 +146,4 @@ public class ChangeSizeByNBrick extends BrickBaseType implements OnClickListener
 		return null;
 	}
 
-	@Override
-	public Formula getFormula() {
-		return getFormulaWithBrickField(BrickField.SIZE_CHANGE);
-	}
 }

@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class IfLogicBeginBrick extends NestingBrick implements OnClickListener, FormulaBrick {
+public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = IfLogicBeginBrick.class.getSimpleName();
 	public static final int EXECUTE_ELSE_PART = -1;
@@ -72,11 +72,6 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener, 
 	private void initializeBrickFields(Formula ifCondition) {
 		addAllowedBrickField(BrickField.IF_CONDITION);
 		setFormulaWithBrickField(BrickField.IF_CONDITION, ifCondition);
-	}
-
-	@Override
-	public Formula getFormula() {
-		return getFormulaWithBrickField(BrickField.IF_CONDITION);
 	}
 
 	@Override

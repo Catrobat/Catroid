@@ -32,7 +32,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
@@ -47,7 +46,6 @@ public class BrickBaseType implements Brick {
 	protected transient BrickAdapter adapter;
 	protected transient int alphaValue = 255;
 	public transient boolean animationState = false;
-	private ConcurrentFormulaHashMap formulaMap;
 
 	@Override
 	public boolean isChecked() {
@@ -77,29 +75,6 @@ public class BrickBaseType implements Brick {
 				checked = false;
 			}
 		}
-	}
-
-	public Formula getFormulaWithBrickField(BrickField brickField) throws IllegalArgumentException {
-		if (formulaMap != null && formulaMap.containsKey(brickField)) {
-			return formulaMap.get(brickField);
-		} else {
-			throw new IllegalArgumentException("Incompatible Brick Field : " + brickField.toString());
-		}
-	}
-
-	public void setFormulaWithBrickField(BrickField brickField, Formula formula) throws IllegalArgumentException {
-		if (formulaMap != null && formulaMap.containsKey(brickField)) {
-			formulaMap.replace(brickField, formula);
-		} else {
-			throw new IllegalArgumentException("Incompatible Brick Field : " + brickField.toString());
-		}
-	}
-
-	protected void addAllowedBrickField(BrickField brickField) {
-		if (formulaMap == null) {
-			formulaMap = new ConcurrentFormulaHashMap();
-		}
-		formulaMap.putIfAbsent(brickField, new Formula(0));
 	}
 
 	@Override
@@ -145,9 +120,7 @@ public class BrickBaseType implements Brick {
 
 	@Override
 	public Brick clone() throws CloneNotSupportedException {
-		BrickBaseType clonedBrick = (BrickBaseType) super.clone();
-		clonedBrick.formulaMap = this.formulaMap.clone();
-		return clonedBrick;
+		return (Brick) super.clone();
 	}
 
 	@Override

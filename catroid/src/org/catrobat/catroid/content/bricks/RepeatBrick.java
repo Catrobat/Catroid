@@ -42,7 +42,7 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RepeatBrick extends LoopBeginBrick implements OnClickListener, FormulaBrick {
+public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -69,11 +69,6 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener, Form
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public Formula getFormula() {
-		return getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT);
 	}
 
 	@Override
@@ -117,7 +112,8 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener, Form
 			times.setText(view.getResources().getQuantityString(
 					R.plurals.time_plural,
 					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT)
-							.interpretDouble(sprite))));
+							.interpretDouble(sprite))
+			));
 		} else {
 
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -143,7 +139,8 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener, Form
 		times.setText(context.getResources().getQuantityString(
 				R.plurals.time_plural,
 				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT)
-						.interpretDouble(sprite))));
+						.interpretDouble(sprite))
+		));
 		return prototypeView;
 	}
 

@@ -28,7 +28,7 @@ import org.catrobat.catroid.content.Sprite;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class LoopBeginBrick extends NestingBrick {
+public abstract class LoopBeginBrick extends FormulaBrick implements NestingBrick {
 	private static final long serialVersionUID = 1L;
 
 	protected LoopEndBrick loopEndBrick;
@@ -61,20 +61,12 @@ public abstract class LoopBeginBrick extends NestingBrick {
 
 	@Override
 	public boolean isDraggableOver(Brick brick) {
-		if (brick == loopEndBrick) {
-			return false;
-		} else {
-			return true;
-		}
+		return (loopEndBrick != null);
 	}
 
 	@Override
 	public boolean isInitialized() {
-		if (loopEndBrick == null) {
-			return false;
-		} else {
-			return true;
-		}
+		return (loopEndBrick != null);
 	}
 
 	@Override

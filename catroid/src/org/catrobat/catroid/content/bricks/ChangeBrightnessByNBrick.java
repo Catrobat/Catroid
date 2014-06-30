@@ -41,7 +41,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class ChangeBrightnessByNBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class ChangeBrightnessByNBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -133,11 +133,6 @@ public class ChangeBrightnessByNBrick extends BrickBaseType implements OnClickLi
 		}
 
 		return view;
-	}
-
-	@Override
-	public Formula getFormula() {
-		return getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE);
 	}
 
 	@Override

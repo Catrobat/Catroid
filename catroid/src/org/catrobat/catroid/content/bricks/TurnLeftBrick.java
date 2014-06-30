@@ -41,7 +41,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class TurnLeftBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class TurnLeftBrick extends FormulaBrick implements OnClickListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -64,11 +64,6 @@ public class TurnLeftBrick extends BrickBaseType implements OnClickListener, For
 	private void initializeBrickFields(Formula degrees) {
 		addAllowedBrickField(BrickField.TURN_LEFT_DEGREES);
 		setFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES, degrees);
-	}
-
-	@Override
-	public Formula getFormula() {
-		return getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES);
 	}
 
 	@Override

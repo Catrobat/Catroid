@@ -46,7 +46,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -87,11 +87,6 @@ public class LegoNxtMotorTurnAngleBrick extends BrickBaseType implements OnClick
 	private void initializeBrickFields(Formula degreesFormula) {
 		addAllowedBrickField(BrickField.LEGO_NXT_DEGREES);
 		setFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES, degreesFormula);
-	}
-
-	@Override
-	public Formula getFormula() {
-		return getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES);
 	}
 
 	@Override

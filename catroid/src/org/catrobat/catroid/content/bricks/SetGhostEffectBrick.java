@@ -41,7 +41,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SetGhostEffectBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class SetGhostEffectBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -63,11 +63,6 @@ public class SetGhostEffectBrick extends BrickBaseType implements OnClickListene
 	private void initializeBrickFields(Formula transparency) {
 		addAllowedBrickField(BrickField.TRANSPARENCY);
 		setFormulaWithBrickField(BrickField.TRANSPARENCY, transparency);
-	}
-
-	@Override
-	public Formula getFormula() {
-		return getFormulaWithBrickField(BrickField.TRANSPARENCY);
 	}
 
 	@Override

@@ -42,7 +42,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
-public class WaitBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class WaitBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -64,11 +64,6 @@ public class WaitBrick extends BrickBaseType implements OnClickListener, Formula
 	private void initializeBrickFields(Formula timeToWaitInSeconds) {
 		addAllowedBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS);
 		setFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS, timeToWaitInSeconds);
-	}
-
-	@Override
-	public Formula getFormula() {
-		return getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS);
 	}
 
 	@Override
@@ -115,7 +110,8 @@ public class WaitBrick extends BrickBaseType implements OnClickListener, Formula
 			times.setText(view.getResources().getQuantityString(
 					R.plurals.second_plural,
 					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS)
-							.interpretDouble(sprite))));
+							.interpretDouble(sprite))
+			));
 		} else {
 
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -140,7 +136,8 @@ public class WaitBrick extends BrickBaseType implements OnClickListener, Formula
 		times.setText(context.getResources().getQuantityString(
 				R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS)
-						.interpretDouble(sprite))));
+						.interpretDouble(sprite))
+		));
 		return prototypeView;
 	}
 

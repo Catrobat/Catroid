@@ -41,7 +41,7 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.List;
 
-public class DroneFlipBrick extends DroneBrick {
+public class DroneFlipBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
 	private transient AdapterView<?> adapterView;
@@ -115,5 +115,10 @@ public class DroneFlipBrick extends DroneBrick {
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.droneFlip());
 		return null;
+	}
+
+	@Override
+	public int getRequiredResources() {
+		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
 	}
 }

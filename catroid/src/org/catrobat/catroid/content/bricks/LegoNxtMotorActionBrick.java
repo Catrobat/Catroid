@@ -46,7 +46,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class LegoNxtMotorActionBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -82,11 +82,6 @@ public class LegoNxtMotorActionBrick extends BrickBaseType implements OnClickLis
 			motorEnum = Motor.valueOf(motor);
 		}
 		return this;
-	}
-
-	@Override
-	public Formula getFormula() {
-		return getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED);
 	}
 
 	private void initializeBrickFields(Formula speed) {

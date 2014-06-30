@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBrick {
+public class LoopEndBrick extends BrickBaseType implements NestingBrick, AllowedAfterDeadEndBrick {
 	static final int FOREVER = -1;
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = LoopEndBrick.class.getSimpleName();
@@ -144,20 +144,12 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 
 	@Override
 	public boolean isDraggableOver(Brick brick) {
-		if (brick == loopBeginBrick) {
-			return false;
-		} else {
-			return true;
-		}
+		return (loopBeginBrick != null);
 	}
 
 	@Override
 	public boolean isInitialized() {
-		if (loopBeginBrick == null) {
-			return false;
-		} else {
-			return true;
-		}
+		return (loopBeginBrick != null);
 	}
 
 	@Override

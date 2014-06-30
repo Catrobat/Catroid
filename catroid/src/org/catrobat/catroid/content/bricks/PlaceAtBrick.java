@@ -41,7 +41,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class PlaceAtBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class PlaceAtBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -59,11 +59,6 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener, Form
 	public PlaceAtBrick(Sprite sprite, Formula xPosition, Formula yPosition) {
 		this.sprite = sprite;
 		initializeBrickFields(xPosition, yPosition);
-	}
-
-	@Override
-	public Formula getFormula() {
-		return getFormulaWithBrickField(BrickField.X_POSITION);
 	}
 
 	public void setXPosition(Formula xPosition) {

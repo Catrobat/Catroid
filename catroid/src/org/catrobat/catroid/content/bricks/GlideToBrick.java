@@ -42,7 +42,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
-public class GlideToBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class GlideToBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -71,11 +71,6 @@ public class GlideToBrick extends BrickBaseType implements OnClickListener, Form
 		setFormulaWithBrickField(BrickField.X_DESTINATION, xDestination);
 		setFormulaWithBrickField(BrickField.Y_DESTINATION, yDestination);
 		setFormulaWithBrickField(BrickField.DURATION_IN_SECONDS, durationInSeconds);
-	}
-
-	@Override
-	public Formula getFormula() {
-		return getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS);
 	}
 
 	public void setXDestination(Formula xDestination) {
@@ -136,7 +131,8 @@ public class GlideToBrick extends BrickBaseType implements OnClickListener, Form
 			times.setText(view.getResources().getQuantityString(
 					R.plurals.second_plural,
 					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)
-							.interpretDouble(sprite))));
+							.interpretDouble(sprite))
+			));
 		} else {
 
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -170,7 +166,8 @@ public class GlideToBrick extends BrickBaseType implements OnClickListener, Form
 		times.setText(context.getResources().getQuantityString(
 				R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)
-						.interpretDouble(sprite))));
+						.interpretDouble(sprite))
+		));
 		return prototypeView;
 	}
 

@@ -30,7 +30,6 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeGhostEffectByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
@@ -38,6 +37,7 @@ import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
@@ -207,8 +207,8 @@ public class BrickCloneTest extends AndroidTestCase {
 		try {
 			Brick cloneBrick = brick.clone();
 			for (Brick.BrickField brickField : brickFields) {
-				Formula brickFormula = ((BrickBaseType) brick).getFormulaWithBrickField(brickField);
-				Formula cloneBrickFormula = ((BrickBaseType) cloneBrick).getFormulaWithBrickField(brickField);
+				Formula brickFormula = ((FormulaBrick) brick).getFormulaWithBrickField(brickField);
+				Formula cloneBrickFormula = ((FormulaBrick) cloneBrick).getFormulaWithBrickField(brickField);
 				cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
 				assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretInteger(sprite),
 						cloneBrickFormula.interpretInteger(sprite));

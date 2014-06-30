@@ -55,7 +55,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SetVariableBrick extends BrickBaseType implements OnClickListener, NewVariableDialogListener, FormulaBrick {
+public class SetVariableBrick extends FormulaBrick implements OnClickListener, NewVariableDialogListener {
 	private static final long serialVersionUID = 1L;
 	private UserVariable userVariable;
 	private transient AdapterView<?> adapterView;
@@ -79,11 +79,6 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 	private void initializeBrickFields(Formula variableFormula) {
 		addAllowedBrickField(BrickField.VARIABLE);
 		setFormulaWithBrickField(BrickField.VARIABLE, variableFormula);
-	}
-
-	@Override
-	public Formula getFormula() {
-		return getFormulaWithBrickField(BrickField.VARIABLE);
 	}
 
 	@Override
