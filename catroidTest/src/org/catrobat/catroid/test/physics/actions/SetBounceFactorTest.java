@@ -45,14 +45,14 @@ public class SetBounceFactorTest extends PhysicsActionTestCase {
 	public void testHighValue() {
 		float bounceFactor = 250.0f;
 		initBounceFactor(bounceFactor);
-		assertEquals("Unexpected bounce factor", bounceFactor / 100.0f, physicsWorld.getPhysicsObject(sprite)
+		assertEquals("Unexpected bounce factor", PhysicsObject.MAX_BOUNCE_FACTOR, physicsWorld.getPhysicsObject(sprite)
 				.getBounceFactor());
 	}
 
 	public void testNegativeValue() {
 		float bounceFactor = -50.0f;
 		initBounceFactor(bounceFactor);
-		assertEquals("Unexpected bounce factor", bounceFactor / 100.0f, physicsWorld.getPhysicsObject(sprite)
+		assertEquals("Unexpected bounce factor", PhysicsObject.MIN_BOUNCE_FACTOR, physicsWorld.getPhysicsObject(sprite)
 				.getBounceFactor());
 	}
 
