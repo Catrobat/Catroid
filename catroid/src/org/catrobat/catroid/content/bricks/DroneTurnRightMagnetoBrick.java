@@ -58,13 +58,10 @@ public class DroneTurnRightMagnetoBrick extends DroneMoveBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new DroneTurnRightMagnetoBrick(getSprite(), timeToFlyInSeconds.clone(), powerInPercent.clone());
-	}
-
-	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.droneTurnRightMagneto(sprite, timeToFlyInSeconds, powerInPercent));
+		sequence.addAction(ExtendedActions.droneTurnRightMagneto(sprite,
+				getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS),
+				getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)));
 		return null;
 	}
 

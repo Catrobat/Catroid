@@ -55,13 +55,10 @@ public class DroneTurnLeftBrick extends DroneMoveBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new DroneTurnLeftBrick(getSprite(), timeToFlyInSeconds.clone(), powerInPercent.clone());
-	}
-
-	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.droneTurnLeft(sprite, timeToFlyInSeconds, powerInPercent));
+		sequence.addAction(ExtendedActions.droneTurnLeft(sprite,
+				getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS),
+				getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)));
 		return null;
 	}
 }

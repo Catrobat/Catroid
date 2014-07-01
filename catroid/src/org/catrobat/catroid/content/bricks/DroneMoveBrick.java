@@ -34,7 +34,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -46,43 +45,40 @@ public abstract class DroneMoveBrick extends FormulaBrick implements OnClickList
 
 	protected transient View prototypeView;
 	private static final long serialVersionUID = 1L;
-	protected Formula timeToFlyInSeconds;
-	protected Formula powerInPercent;
+//	protected Formula timeToFlyInSeconds;
+//	protected Formula powerInPercent;
+
+	public DroneMoveBrick() {
+		addAllowedBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
+		addAllowedBrickField(BrickField.DRONE_POWER_IN_PERCENT);
+	}
 
 	public DroneMoveBrick(Sprite sprite, int durationInMilliseconds, int powerInPercent) {
 		this.sprite = sprite;
-		this.timeToFlyInSeconds = new Formula(durationInMilliseconds / 1000.0);
-		this.powerInPercent = new Formula(powerInPercent);
+		initializeBrickFields(new Formula(durationInMilliseconds / 1000.0), new Formula(powerInPercent));
 	}
 
 	public DroneMoveBrick(Sprite sprite, Formula durationInSeconds, Formula powerInPercent) {
 		this.sprite = sprite;
-		this.timeToFlyInSeconds = durationInSeconds;
-		this.powerInPercent = powerInPercent;
+		initializeBrickFields(durationInSeconds, powerInPercent);
 	}
 
-	public DroneMoveBrick() {
+	private void initializeBrickFields(Formula durationInSeconds, Formula powerInPercent) {
+		addAllowedBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
+		addAllowedBrickField(BrickField.DRONE_POWER_IN_PERCENT);
+		setFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS, durationInSeconds);
+		setFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT, powerInPercent);
 	}
 
 	public void setPower(Formula powerInPercent) {
-		this.powerInPercent = powerInPercent;
+		setFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT, powerInPercent);
 	}
 
 	public void setTimeToWait(Formula timeToWaitInSeconds) {
-		this.timeToFlyInSeconds = timeToWaitInSeconds;
+		setFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS, timeToWaitInSeconds);
 	}
 
 	protected abstract String getBrickLabel(View view);
-
-	@Override
-	public abstract Brick clone();
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		DroneMoveBrick copyBrick = (DroneMoveBrick) clone();
-		copyBrick.sprite = sprite;
-		return copyBrick;
-	}
 
 	@Override
 	public abstract List<SequenceAction> addActionToSequence(SequenceAction sequence);
@@ -109,14 +105,16 @@ public abstract class DroneMoveBrick extends FormulaBrick implements OnClickList
 
 		TextView textTime = (TextView) view.findViewById(R.id.brick_drone_move_prototype_text_view_second);
 		TextView editTime = (TextView) view.findViewById(R.id.brick_drone_move_edit_text_second);
-		timeToFlyInSeconds.setTextFieldId(R.id.brick_drone_move_edit_text_second);
-		timeToFlyInSeconds.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
+				.setTextFieldId(R.id.brick_drone_move_edit_text_second);
+		getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS).refreshTextField(view);
 
 		TextView times = (TextView) view.findViewById(R.id.brick_drone_move_text_view_second);
 
-		if (timeToFlyInSeconds.isSingleNumberFormula()) {
+		if (getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS).isSingleNumberFormula()) {
 			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
-					Utils.convertDoubleToPluralInteger(timeToFlyInSeconds.interpretDouble(sprite))));
+					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
+							.interpretDouble(sprite))));
 		} else {
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
 			// in hopefully all possible languages
@@ -133,8 +131,9 @@ public abstract class DroneMoveBrick extends FormulaBrick implements OnClickList
 
 		TextView textPower = (TextView) view.findViewById(R.id.brick_drone_move_prototype_text_view_power);
 		TextView editPower = (TextView) view.findViewById(R.id.brick_drone_move_edit_text_power);
-		powerInPercent.setTextFieldId(R.id.brick_drone_move_edit_text_power);
-		powerInPercent.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)
+				.setTextFieldId(R.id.brick_drone_move_edit_text_power);
+		getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT).refreshTextField(view);
 
 		textPower.setVisibility(View.GONE);
 		editPower.setVisibility(View.VISIBLE);
@@ -149,13 +148,16 @@ public abstract class DroneMoveBrick extends FormulaBrick implements OnClickList
 		TextView label = (TextView) prototypeView.findViewById(R.id.brick_drone_move_label);
 		label.setText(getBrickLabel(prototypeView));
 		TextView textTime = (TextView) prototypeView.findViewById(R.id.brick_drone_move_prototype_text_view_second);
-		textTime.setText(String.valueOf(timeToFlyInSeconds.interpretInteger(sprite)));
+		textTime.setText(String.valueOf(getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
+				.interpretInteger(sprite)));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_drone_move_text_view_second);
 		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
-				Utils.convertDoubleToPluralInteger(timeToFlyInSeconds.interpretDouble(sprite))));
+				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
+						.interpretDouble(sprite))));
 
 		TextView textPower = (TextView) prototypeView.findViewById(R.id.brick_drone_move_prototype_text_view_power);
-		textPower.setText(String.valueOf(powerInPercent.interpretFloat(sprite)));
+		textPower.setText(String.valueOf(getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)
+				.interpretFloat(sprite)));
 
 		return prototypeView;
 	}
@@ -201,11 +203,13 @@ public abstract class DroneMoveBrick extends FormulaBrick implements OnClickList
 
 		switch (view.getId()) {
 			case R.id.brick_drone_move_edit_text_second:
-				FormulaEditorFragment.showFragment(view, this, timeToFlyInSeconds);
+				FormulaEditorFragment.showFragment(view, this,
+						getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS));
 				break;
 
 			case R.id.brick_drone_move_edit_text_power:
-				FormulaEditorFragment.showFragment(view, this, powerInPercent);
+				FormulaEditorFragment.showFragment(view, this,
+						getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT));
 				break;
 
 			default:

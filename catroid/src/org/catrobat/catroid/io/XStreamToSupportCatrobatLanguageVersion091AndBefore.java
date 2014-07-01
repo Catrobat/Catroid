@@ -36,6 +36,12 @@ import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
+import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
@@ -69,7 +75,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -152,6 +157,36 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 		brickInfo = new BrickInfo(ChangeYByNBrick.class.getName());
 		brickInfo.addBrickFieldToMap("yMovement", BrickField.Y_POSITION_CHANGE);
 		brickInfoMap.put("changeYByNBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DroneMoveBackwardBrick.class.getName());
+		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
+		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
+		brickInfoMap.put("droneMoveBackwardBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DroneMoveDownBrick.class.getName());
+		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
+		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
+		brickInfoMap.put("droneMoveDownBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DroneMoveForwardBrick.class.getName());
+		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
+		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
+		brickInfoMap.put("droneMoveForwardBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DroneMoveLeftBrick.class.getName());
+		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
+		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
+		brickInfoMap.put("droneMoveLeftBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DroneMoveRightBrick.class.getName());
+		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
+		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
+		brickInfoMap.put("droneMoveRightBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DroneMoveUpBrick.class.getName());
+		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
+		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
+		brickInfoMap.put("droneMoveUpBrick", brickInfo);
 
 		brickInfo = new BrickInfo(GlideToBrick.class.getName());
 		brickInfo.addBrickFieldToMap("xDestination", BrickField.X_DESTINATION);
@@ -374,9 +409,7 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 	}
 
 	private void replaceFormulaMap(FormulaBrick formulaBrick, BrickInfo brickInfo, HashMap<String, Formula> formulaMap) {
-		Iterator<String> itKey = formulaMap.keySet().iterator();
-		while (itKey.hasNext()) {
-			String oldFormulaNode = itKey.next();
+		for (String oldFormulaNode : formulaMap.keySet()) {
 			Formula formula = formulaMap.get(oldFormulaNode);
 			BrickField brickField = brickInfo.getBrickFieldForOldFieldName(oldFormulaNode);
 

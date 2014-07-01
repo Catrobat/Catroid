@@ -42,6 +42,8 @@ import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffBrick;
+import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
+import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.mockito.Mockito;
@@ -156,4 +158,21 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).moveBackward(0.2f);
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).moveBackward(0);
 	}
+
+	public void testTurnLeft() {
+		DroneTurnLeftBrick turnLeftBrick = new DroneTurnLeftBrick(sprite, durationInSeconds, powerInPercent);
+
+		addActionToSequenceAndAct(turnLeftBrick, 2);
+		Mockito.verify(droneControlService, Mockito.atLeast(1)).turnLeft(0.2f);
+		Mockito.verify(droneControlService, Mockito.atLeast(1)).turnLeft(0);
+	}
+
+	public void testTurnRight() {
+		DroneTurnRightBrick turnRightBrick = new DroneTurnRightBrick(sprite, durationInSeconds, powerInPercent);
+
+		addActionToSequenceAndAct(turnRightBrick, 2);
+		Mockito.verify(droneControlService, Mockito.atLeast(1)).turnRight(0.2f);
+		Mockito.verify(droneControlService, Mockito.atLeast(1)).turnRight(0);
+	}
+
 }
