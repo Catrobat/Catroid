@@ -57,11 +57,6 @@ public class SetFrictionBrick extends BrickBaseType implements OnClickListener {
 
 	public SetFrictionBrick(Sprite sprite, float friction) {
 		this.sprite = sprite;
-		if (friction < 0) {
-			friction = 0;
-		} else if (friction > 100) {
-			friction = 100;
-		}
 		this.friction = new Formula(friction);
 	}
 
