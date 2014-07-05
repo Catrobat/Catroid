@@ -65,9 +65,9 @@ public class SetFrictionBrick extends FormulaBrick implements OnClickListener {
 		initializeBrickFields(new Formula(friction));
 	}
 
-	//public SetFrictionBrick(Formula friction) {
-	//	initializeBrickFields(friction);
-	//}
+	public SetFrictionBrick(Formula friction) {
+		initializeBrickFields(friction);
+	}
 
 	private void initializeBrickFields(Formula friction) {
 		addAllowedBrickField(BrickField.PHYSICS_FRICTION);
