@@ -73,7 +73,7 @@ public class BluetoothConnection {
 		}
 
 		Log.d(TAG, "Got remote device");
-		
+
 		try {
 			bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid);
 		} catch (IOException ioException) {

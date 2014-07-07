@@ -575,7 +575,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void handleAddButton() {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 		intent.setType("audio/*");
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)	{
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			disableGoogleDrive(intent);
 		}
 		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
