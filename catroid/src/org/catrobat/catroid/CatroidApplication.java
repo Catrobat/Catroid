@@ -29,10 +29,10 @@ import com.parrot.freeflight.settings.ApplicationSettings;
 
 public class CatroidApplication extends Application {
 
-	private static final String TAG = CatroidApplication.class.getSimpleName();;
+	private static final String TAG = CatroidApplication.class.getSimpleName();
 
 	private ApplicationSettings settings;
-	public static final String OS_ARCH = System.getProperty("os.arch");;
+	public static final String OS_ARCH = System.getProperty("os.arch");
 
 	private static boolean parrotLibrariesLoaded = false;
 

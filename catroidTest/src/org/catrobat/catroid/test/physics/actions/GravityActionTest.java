@@ -48,13 +48,6 @@ public class GravityActionTest extends PhysicsActionTestCase {
 		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
 	}
 
-	private void skipWorldStabilizingSteps()
-	{
-		for (int step = 0; step < PhysicsWorld.STABILIZING_STEPS; step++) {
-			physicsWorld.step(1.0f);
-		}
-	}
-
 	public void testDefaultGravity() {
 		Vector2 gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))
 				.getGravity();
@@ -62,8 +55,6 @@ public class GravityActionTest extends PhysicsActionTestCase {
 		assertEquals("Unexpected initial gravityY value", PhysicsWorld.DEFAULT_GRAVITY.y, gravityVector.y);
 		assertEquals("Unexpected initial velocity Y value", 0, physicsObject.getVelocity().y, TestUtils.DELTA);
 		assertEquals("Unexpected initial y-coordinate", 0, physicsObject.getY(), TestUtils.DELTA);
-
-		skipWorldStabilizingSteps();
 
 		float preVelocityYValue = physicsObject.getVelocity().y;
 		float preYCoordinate = 0.0f;
@@ -90,8 +81,6 @@ public class GravityActionTest extends PhysicsActionTestCase {
 		float startVelocityYValue = 10.0f;
 		physicsObject.setVelocity(0.0f, startVelocityYValue);
 		assertEquals("Unexpected initial velocity Y value", startVelocityYValue, physicsObject.getVelocity().y, TestUtils.DELTA);
-
-		skipWorldStabilizingSteps();
 
 		float startYCoordinate = 0.0f;
 		float preVelocityYValue = physicsObject.getVelocity().y;

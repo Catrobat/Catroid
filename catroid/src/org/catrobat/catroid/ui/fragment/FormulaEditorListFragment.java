@@ -55,18 +55,18 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 
 	public static final String[] TAGS = { OBJECT_TAG, FUNCTION_TAG, LOGIC_TAG, SENSOR_TAG };
 
-	private static final int[] OBJECT_ITEMS = { R.string.formula_editor_object_x, R.string.formula_editor_object_y,
+	private static final int[] OBJECT_ITEMS = {R.string.formula_editor_object_x, R.string.formula_editor_object_y,
 			R.string.formula_editor_object_ghosteffect, R.string.formula_editor_object_brightness,
 			R.string.formula_editor_object_size, R.string.formula_editor_object_rotation,
 			R.string.formula_editor_object_layer, R.string.formula_editor_object_x_velocity,
-			R.string.formula_editor_object_y_velocity, R.string.formula_editor_object_angular_velocity };
+			R.string.formula_editor_object_y_velocity, R.string.formula_editor_object_angular_velocity};
 
-	private static final int[] LOGIC_ITEMS = { R.string.formula_editor_logic_equal,
+	private static final int[] LOGIC_ITEMS = {R.string.formula_editor_logic_equal,
 			R.string.formula_editor_logic_notequal, R.string.formula_editor_logic_lesserthan,
 			R.string.formula_editor_logic_leserequal, R.string.formula_editor_logic_greaterthan,
 			R.string.formula_editor_logic_greaterequal, R.string.formula_editor_logic_and,
 			R.string.formula_editor_logic_or, R.string.formula_editor_logic_not, R.string.formula_editor_function_true,
-			R.string.formula_editor_function_false };
+			R.string.formula_editor_function_false};
 
 	private static final int[] FUNCTIONS_ITEMS = { R.string.formula_editor_function_sin,
 			R.string.formula_editor_function_cos, R.string.formula_editor_function_tan,
@@ -92,10 +92,10 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			R.string.formula_editor_function_length_parameter, R.string.formula_editor_function_letter_parameter,
 			R.string.formula_editor_function_join_parameter };
 
-	private static final int[] SENSOR_ITEMS = { R.string.formula_editor_sensor_x_acceleration,
+	private static final int[] SENSOR_ITEMS = {R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration,
 			R.string.formula_editor_sensor_compass_direction, R.string.formula_editor_sensor_x_inclination,
-			R.string.formula_editor_sensor_y_inclination, R.string.formula_editor_sensor_loudness };
+			R.string.formula_editor_sensor_y_inclination, R.string.formula_editor_sensor_loudness};
 
 	private String tag;
 	private String[] items;
@@ -125,7 +125,7 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 		this.actionBarTitle = getArguments().getString(ACTION_BAR_TITLE_BUNDLE_ARGUMENT);
 		this.tag = getArguments().getString(FRAGMENT_TAG_BUNDLE_ARGUMENT);
 
-		itemsIds = new int[] {};
+		itemsIds = new int[]{};
 
 		if (tag == OBJECT_TAG) {
 			itemsIds = OBJECT_ITEMS;

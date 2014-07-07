@@ -116,9 +116,9 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		SequenceAction foreverSequence = ActionFactory.sequence(); // TODO[physics] ExtendedActions- > ActionFactory
+		SequenceAction foreverSequence = ActionFactory.sequence();
 		// Action action = ExtendedActions.forever(sprite, foreverSequence);
-		Action action = sprite.getActionFactory().createForeverAction(sprite, foreverSequence); // TODO[physics]
+		Action action = sprite.getActionFactory().createForeverAction(sprite, foreverSequence);
 		sequence.addAction(action);
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
 		returnActionList.add(foreverSequence);

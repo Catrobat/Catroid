@@ -247,18 +247,15 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	private SequenceAction createActionSequence(Script s) {
-
-		SequenceAction sequence = ActionFactory.sequence(); //TODO[physics] ExtendedActions -> ActionFactory
+		SequenceAction sequence = ActionFactory.sequence();
 		s.run(this, sequence);
-
 		return sequence;
 	}
 
 
 	public void startScriptBroadcast(Script s, boolean overload) {
-		SequenceAction sequence = ActionFactory.sequence(); //TODO[physics] ExtendedActions -> ActionFactory
+		SequenceAction sequence = ActionFactory.sequence();
 		s.run(this, sequence);
-
 		look.addAction(sequence);
 	}
 

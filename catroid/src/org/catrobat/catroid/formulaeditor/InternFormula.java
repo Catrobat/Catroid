@@ -34,7 +34,7 @@ public class InternFormula {
 
 	public static enum CursorTokenPosition {
 		LEFT, MIDDLE, RIGHT;
-	};
+	}
 
 	public static enum CursorTokenPropertiesAfterModification {
 		LEFT, RIGHT, SELECT, DO_NOT_MODIFY;
@@ -90,7 +90,7 @@ public class InternFormula {
 		if (isSelected
 				|| externInternRepresentationMapping.getInternTokenByExternIndex(externCursorPosition) != ExternInternRepresentationMapping.MAPPING_NOT_FOUND
 				&& (getFirstLeftInternToken(externCursorPosition - 1) == cursorPositionInternToken || cursorPositionInternToken
-						.isFunctionParameterBracketOpen())
+				.isFunctionParameterBracketOpen())
 				&& ((cursorPositionInternToken.isFunctionName())
 						|| (cursorPositionInternToken.isFunctionParameterBracketOpen() && cursorTokenPosition == CursorTokenPosition.LEFT)
 						|| (cursorPositionInternToken.isSensor()) || (cursorPositionInternToken.isUserVariable()) || (cursorPositionInternToken

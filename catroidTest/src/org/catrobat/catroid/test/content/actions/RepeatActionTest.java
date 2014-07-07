@@ -169,7 +169,6 @@ public class RepeatActionTest extends InstrumentationTestCase {
 
 	public void testNegativeRepeats() throws InterruptedException {
 		Sprite testSprite = new Sprite("sprite");
-
 		RepeatBrick repeatBrick = new RepeatBrick(-1);
 
 		ActionFactory factory = testSprite.getActionFactory();
@@ -191,18 +190,15 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		final int expectedDeltaY = 150;
 
 		ActionFactory factory = testSprite.getActionFactory();
-		Action changeYByNAction = factory.createChangeYByNAction(testSprite, new Formula(decoyDeltaY));
-		Action expected = factory.createChangeYByNAction(testSprite, new Formula(expectedDeltaY));
-		Action repeatAction = factory.createRepeatAction(testSprite, new Formula(0), changeYByNAction);
+		RepeatAction repeatAction = factory.createRepeatAction(testSprite, new Formula(0),
+				factory.sequence(factory.createChangeYByNAction(testSprite,new Formula(decoyDeltaY))));
 
-		//		RepeatAction repeatAction = ExtendedActions.repeat(testSprite, new Formula(0),
-		//				ExtendedActions.sequence(ExtendedActions.changeYByN(testSprite, new Formula(decoyDeltaY))));
+		SequenceAction action = factory.sequence(repeatAction,
+				factory.createChangeYByNAction(testSprite, new Formula(expectedDeltaY)));
 
-		Action sequence = factory.createSequence();
-		sequence.getActor().addAction(expected);
-		//		SequenceAction action = ExtendedActions.sequence(repeatAction,
-		//				ExtendedActions.changeYByN(testSprite, new Formula(expectedDeltaY)));
-		while (!sequence.act(1.0f)) {
+		boolean wait = false;
+		while (!wait) {
+			wait = action.act(1.0f);
 		}
 		int executedCount = (Integer) Reflection.getPrivateField(repeatAction, "executedCount");
 

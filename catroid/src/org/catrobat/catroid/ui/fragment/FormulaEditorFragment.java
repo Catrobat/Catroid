@@ -88,7 +88,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	private LinearLayout formulaEditorBrick;
 	private Toast toast;
 	private View brickView;
-	private long[] confirmSwitchEditTextTimeStamp = { 0, 0 };
+	private long[] confirmSwitchEditTextTimeStamp = {0, 0};
 	private int confirmSwitchEditTextCounter = 0;
 	private CharSequence previousActionBarTitle;
 	private View fragmentView;
@@ -396,7 +396,8 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	private boolean checkReturnWithoutSaving(int errorType) {
 		Log.i("info",
 				"confirmSwitchEditTextCounter=" + confirmSwitchEditTextCounter + " "
-						+ (System.currentTimeMillis() <= confirmSwitchEditTextTimeStamp[0] + TIME_WINDOW));
+						+ (System.currentTimeMillis() <= confirmSwitchEditTextTimeStamp[0] + TIME_WINDOW)
+		);
 
 		if ((System.currentTimeMillis() <= confirmSwitchEditTextTimeStamp[0] + TIME_WINDOW)
 				&& (confirmSwitchEditTextCounter > 1)) {
@@ -453,13 +454,13 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 								}
 							}).setPositiveButton(R.string.yes, new OnClickListener() {
 
-								@Override
-								public void onClick(DialogInterface dialog, int which) {
-									if (saveFormulaIfPossible()) {
-										onUserDismiss();
-									}
-								}
-							}).create().show();
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							if (saveFormulaIfPossible()) {
+								onUserDismiss();
+							}
+						}
+					}).create().show();
 
 				} else {
 					onUserDismiss();

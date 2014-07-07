@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -87,9 +87,9 @@ public class PhysicsWorld {
 			PhysicsObject physicsObject = physicsObjects.get(sprite);
 			physicsObject.setIfOnEdgeBounce(true, sprite);
 			toBounce.add(sprite);
-			Log.d(TAG, "setBounceOnce: TRUE");
+			//Log.d(TAG, "setBounceOnce: TRUE");
 		} else {
-			Log.d(TAG, "setBounceOnce: SPRITE NOT KNOWN");
+			//Log.d(TAG, "setBounceOnce: SPRITE NOT KNOWN");
 		}
 	}
 
@@ -157,12 +157,12 @@ public class PhysicsWorld {
 		if (physicsObjects.containsKey(sprite)) {
 			PhysicsObject physicsObject = physicsObjects.get(sprite);
 			physicsObject.setIfOnEdgeBounce(false, sprite);
-			Log.d(TAG, "Bounced");
+			//Log.d(TAG, "Bounced");
 			if (toBounce.remove(sprite)) {
-				Log.d(TAG, "SPRITE REMOVED");
+				//Log.d(TAG, "SPRITE REMOVED");
 			}
 		} else {
-			Log.d(TAG, "Bounced: BUT SPRITE NOT KNOWN");
+			//Log.d(TAG, "Bounced: BUT SPRITE NOT KNOWN");
 		}
 
 	}

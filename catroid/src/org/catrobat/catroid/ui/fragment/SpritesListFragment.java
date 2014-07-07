@@ -146,7 +146,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (programName != null
 				&& ((projectManager.getCurrentProject() != null && !projectManager.getCurrentProject().getName()
-						.equals(programName)) || projectManager.getCurrentProject() == null)) {
+				.equals(programName)) || projectManager.getCurrentProject() == null)) {
 
 			getActivity().findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
 			getActivity().findViewById(R.id.progress_circle).bringToFront();
@@ -377,7 +377,8 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		Toast.makeText(
 				getActivity(),
 				this.getString(R.string.copy_sprite_prefix).concat(" ").concat(spriteToEdit.getName()).concat(" ")
-						.concat(this.getString(R.string.copy_sprite_finished)), Toast.LENGTH_LONG).show();
+						.concat(this.getString(R.string.copy_sprite_finished)), Toast.LENGTH_LONG
+		).show();
 
 		Log.d("Sprite copied", copiedSprite.toString());
 	}

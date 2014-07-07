@@ -42,7 +42,7 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 	private static final String TAG = CatroidFieldKeySorter.class.getSimpleName();
 
 	@Override
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public Map sort(final Class type, final Map keyedByFieldKey) {
 		if (type.equals(Sprite.class)) {
 			return sortSpriteFields(keyedByFieldKey);

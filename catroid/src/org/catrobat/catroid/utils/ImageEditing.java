@@ -46,13 +46,10 @@ public final class ImageEditing {
 
 	/**
 	 * Scales the bitmap to the specified size.
-	 * 
-	 * @param bitmap
-	 *            the bitmap to resize
-	 * @param xSize
-	 *            desired x size
-	 * @param ySize
-	 *            desired y size
+	 *
+	 * @param bitmap the bitmap to resize
+	 * @param xSize  desired x size
+	 * @param ySize  desired y size
 	 * @return a new, scaled bitmap
 	 */
 	private static Bitmap scaleBitmap(Bitmap bitmap, int xSize, int ySize) {
