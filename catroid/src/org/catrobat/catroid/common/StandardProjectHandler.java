@@ -96,7 +96,7 @@ public final class StandardProjectHandler {
 
 	public static Project createAndSaveStandardProject(Context context) throws IOException {
 		String projectName = context.getString(R.string.default_project_name);
-		return createAndSaveStandardPhysicsProject(projectName, context);
+		return createAndSaveStandardProject(projectName, context);
 	}
 
 	public static Project createAndSaveStandardDroneProject(Context context) throws IOException {
@@ -123,7 +123,8 @@ public final class StandardProjectHandler {
 
 		File backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background, context, true,
-				backgroundImageScaleFactor);
+				backgroundImageScaleFactor
+		);
 
 		LookData backgroundLookData = new LookData();
 		backgroundLookData.setLookName(backgroundName);
@@ -146,7 +147,8 @@ public final class StandardProjectHandler {
 
 		File takeOffArrowFile = UtilFile.copyImageFromResourceIntoProject(projectName, takeOffSpriteName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_takeoff, context, true,
-				backgroundImageScaleFactor);
+				backgroundImageScaleFactor
+		);
 
 		defaultDroneProject.addSprite(createDroneSprite(takeOffSpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_TAKE_OFF_BRICK, -260, -200, takeOffArrowFile));
@@ -156,7 +158,8 @@ public final class StandardProjectHandler {
 
 		File landArrowFile = UtilFile.copyImageFromResourceIntoProject(projectName, takeOffSpriteName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_land, context, true,
-				backgroundImageScaleFactor);
+				backgroundImageScaleFactor
+		);
 
 		defaultDroneProject.addSprite(createDroneSprite(landSpriteName, DroneBrickFactory.DroneBricks.DRONE_LAND_BRICK,
 				-260, -325, landArrowFile));
@@ -166,7 +169,8 @@ public final class StandardProjectHandler {
 
 		File rotateFile = UtilFile.copyImageFromResourceIntoProject(projectName, rotateSpriteName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_rotate, context, true,
-				backgroundImageScaleFactor);
+				backgroundImageScaleFactor
+		);
 
 		defaultDroneProject.addSprite(createDroneSprite(rotateSpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_FLIP_BRICK, -260, -450, rotateFile));
@@ -189,7 +193,8 @@ public final class StandardProjectHandler {
 
 		File upFile = UtilFile.copyImageFromResourceIntoProject(projectName, upSpriteName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_arrow_up, context, true,
-				backgroundImageScaleFactor);
+				backgroundImageScaleFactor
+		);
 
 		defaultDroneProject.addSprite(createDroneSprite(upSpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_MOVE_UP_BRICK, -100, -200, upFile, 2000));
@@ -199,7 +204,8 @@ public final class StandardProjectHandler {
 
 		File downFile = UtilFile.copyImageFromResourceIntoProject(projectName, downSpriteName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_arrow_down, context,
-				true, backgroundImageScaleFactor);
+				true, backgroundImageScaleFactor
+		);
 
 		defaultDroneProject.addSprite(createDroneSprite(downSpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_MOVE_DOWN_BRICK, -100, -325, downFile, 2000));
@@ -209,7 +215,8 @@ public final class StandardProjectHandler {
 
 		File forwardFile = UtilFile.copyImageFromResourceIntoProject(projectName, forwardSpriteName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_forward, context,
-				true, backgroundImageScaleFactor);
+				true, backgroundImageScaleFactor
+		);
 
 		defaultDroneProject.addSprite(createDroneSprite(forwardSpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_MOVE_FORWARD_BRICK, 180, -75, forwardFile, 2000));
@@ -219,7 +226,8 @@ public final class StandardProjectHandler {
 
 		File backwardFile = UtilFile.copyImageFromResourceIntoProject(projectName, downSpriteName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_back, context, true,
-				backgroundImageScaleFactor);
+				backgroundImageScaleFactor
+		);
 
 		defaultDroneProject.addSprite(createDroneSprite(backwardpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_MOVE_BACKWARD_BRICK, 180, -450, backwardFile, 2000));
@@ -229,7 +237,8 @@ public final class StandardProjectHandler {
 
 		File leftFile = UtilFile.copyImageFromResourceIntoProject(projectName, leftSpriteName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_left, context, true,
-				backgroundImageScaleFactor);
+				backgroundImageScaleFactor
+		);
 
 		defaultDroneProject.addSprite(createDroneSprite(leftSpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_MOVE_LEFT_BRICK, 100, -325, leftFile, 2000));
@@ -239,7 +248,8 @@ public final class StandardProjectHandler {
 
 		File rightFile = UtilFile.copyImageFromResourceIntoProject(projectName, rightSpriteName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_right, context, true,
-				backgroundImageScaleFactor);
+				backgroundImageScaleFactor
+		);
 
 		defaultDroneProject.addSprite(createDroneSprite(rightSpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_MOVE_RIGHT_BRICK, 260, -325, rightFile, 2000));
@@ -249,7 +259,8 @@ public final class StandardProjectHandler {
 
 		File turnLeftFile = UtilFile.copyImageFromResourceIntoProject(projectName, turnLeftSpriteName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_turn_left, context, true,
-				backgroundImageScaleFactor);
+				backgroundImageScaleFactor
+		);
 
 		defaultDroneProject.addSprite(createDroneSprite(turnLeftSpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_TURN_LEFT_BRICK, 100, -200, turnLeftFile, 2000));
@@ -259,7 +270,8 @@ public final class StandardProjectHandler {
 
 		File turnrightFile = UtilFile.copyImageFromResourceIntoProject(projectName, turnRightSpriteName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_turn_right, context,
-				true, backgroundImageScaleFactor);
+				true, backgroundImageScaleFactor
+		);
 
 		defaultDroneProject.addSprite(createDroneSprite(turnRightSpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_TURN_RIGHT_BRICK, 260, -200, turnrightFile, 2000));
@@ -341,16 +353,20 @@ public final class StandardProjectHandler {
 
 		File backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background, context, true,
-				backgroundImageScaleFactor);
+				backgroundImageScaleFactor
+		);
 		File movingMoleFile = UtilFile.copyImageFromResourceIntoProject(projectName, movingMoleLookName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_mole_moving, context, true,
-				backgroundImageScaleFactor);
+				backgroundImageScaleFactor
+		);
 		File diggedOutMoleFile = UtilFile.copyImageFromResourceIntoProject(projectName, moleLookName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_mole_digged_out, context, true,
-				backgroundImageScaleFactor);
+				backgroundImageScaleFactor
+		);
 		File whackedMoleFile = UtilFile.copyImageFromResourceIntoProject(projectName, whackedMoleLookName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_mole_whacked, context, true,
-				backgroundImageScaleFactor);
+				backgroundImageScaleFactor
+		);
 		try {
 			File soundFile1 = UtilFile.copySoundFromResourceIntoProject(projectName, soundName + "1"
 					+ SoundRecorder.RECORDING_EXTENSION, R.raw.default_project_sound_mole_1, context, true);
@@ -539,10 +555,10 @@ public final class StandardProjectHandler {
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new IOException(TAG, illegalArgumentException);
 		}
-		return null;
+		return defaultProject;
 	}
 
-	public static Project createAndSaveStandardPhysicsProject(String projectName, Context context)  throws IOException {
+	public static Project createAndSaveStandardPhysicsProject(String projectName, Context context) throws IOException {
 		String backgroundName = context.getString(R.string.default_project_backgroundname);
 
 		Project defaultPhysicsProject = new Project(context, projectName);
@@ -556,7 +572,8 @@ public final class StandardProjectHandler {
 
 		File backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background, context, true,
-				backgroundImageScaleFactor);
+				backgroundImageScaleFactor
+		);
 
 		LookData backgroundLookData = new LookData();
 		backgroundLookData.setLookName(backgroundName);

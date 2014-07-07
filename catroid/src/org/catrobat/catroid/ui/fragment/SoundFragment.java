@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -587,17 +587,17 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void handleAddButton() {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 		intent.setType("audio/*");
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)	{
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			disableGoogleDrive(intent);
 		}
 		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
 				SoundController.REQUEST_SELECT_MUSIC);
 	}
 
-    @TargetApi(19)
-    private void disableGoogleDrive(Intent intent) {
-        intent.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
-    }
+	@TargetApi(19)
+	private void disableGoogleDrive(Intent intent) {
+		intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+	}
 
 	@Override
 	public void showRenameDialog() {
@@ -841,7 +841,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 			@Override
 			public void onCancel(DialogInterface dialog) {
-			   clearCheckedSoundsAndEnableButtons();
+				clearCheckedSoundsAndEnableButtons();
 			}
 		});
 

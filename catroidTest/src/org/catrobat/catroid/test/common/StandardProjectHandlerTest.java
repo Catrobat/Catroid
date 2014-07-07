@@ -61,8 +61,7 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 		ScreenValues.SCREEN_WIDTH = BACKGROUNDIMAGE_WIDTH;
 		ScreenValues.SCREEN_HEIGHT = BACKGROUNDIMAGE_HEIGHT;
 
-		//Project testProject = StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME, getContext());
-		Project testProject = StandardProjectHandler.createAndSaveStandardProject(getContext());
+		Project testProject = StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME, getContext());
 		testProject.setName(TEST_PROJECT_NAME);
 
 		assertEquals("The Project has the wrong name.", TEST_PROJECT_NAME, testProject.getName());
@@ -99,7 +98,7 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 		//double scale = ((double) ScreenValues.SCREEN_WIDTH) / (double) BACKGROUNDIMAGE_WIDTH;
 		double scale = (ScreenValues.SCREEN_HEIGHT) / (double) BACKGROUNDIMAGE_HEIGHT;
 
-		Project testProject = StandardProjectHandler.createAndSaveStandardProject(getContext());
+		Project testProject = StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME,getContext());
 		testProject.setName(TEST_PROJECT_NAME);
 
 		int backgroundSpriteIndex = 0;
@@ -123,7 +122,7 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 	}
 
 	public void testDefaultProjectScreenshot() throws IOException {
-		Project defaultProject = StandardProjectHandler.createAndSaveStandardProject(getContext());
+		Project defaultProject = StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME,getContext());
 		defaultProject.setName(TEST_PROJECT_NAME);
 		String projectPath = Constants.DEFAULT_ROOT + "/" + TEST_PROJECT_NAME;
 

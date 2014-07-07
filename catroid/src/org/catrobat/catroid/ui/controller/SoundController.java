@@ -165,7 +165,7 @@ public final class SoundController {
 	}
 
 	private static String getDataColumn(Context context, Uri uri, String selection,
-										String[] selectionArgs) {
+			String[] selectionArgs) {
 
 		Cursor cursor = null;
 		final String column = "_data";
@@ -205,7 +205,7 @@ public final class SoundController {
 	}
 
 	public void updateSoundLogic(Context context, final int position, final SoundViewHolder holder,
-								 final SoundBaseAdapter soundAdapter) {
+			final SoundBaseAdapter soundAdapter) {
 		final SoundInfo soundInfo = soundAdapter.getSoundInfoItems().get(position);
 
 		if (soundInfo == null) {
@@ -221,7 +221,7 @@ public final class SoundController {
 	}
 
 	private void setClickListener(final SoundBaseAdapter soundAdapter, final SoundViewHolder holder,
-								  final SoundInfo soundInfo) {
+			final SoundInfo soundInfo) {
 		OnClickListener listItemOnClickListener = (new OnClickListener() {
 
 			@Override
@@ -270,7 +270,7 @@ public final class SoundController {
 	}
 
 	private void handleSoundInfo(SoundViewHolder holder, SoundInfo soundInfo, SoundBaseAdapter soundAdapter,
-								 int position, Context context) {
+			int position, Context context) {
 		try {
 			MediaPlayer tempPlayer = new MediaPlayer();
 			tempPlayer.setDataSource(soundInfo.getAbsolutePath());
@@ -375,12 +375,12 @@ public final class SoundController {
 	}
 
 	public void backPackSound(SoundInfo selectedSoundInfo, BackPackSoundFragment backPackSoundActivity,
-							  ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
+			ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
 		copySoundBackPack(selectedSoundInfo, soundInfoList, adapter);
 	}
 
 	private void copySoundBackPack(SoundInfo selectedSoundInfo, ArrayList<SoundInfo> soundInfoList,
-								   SoundBaseAdapter adapter) {
+			SoundBaseAdapter adapter) {
 		try {
 			StorageHandler.getInstance().copySoundFileBackPack(selectedSoundInfo);
 		} catch (IOException ioException) {
@@ -419,7 +419,7 @@ public final class SoundController {
 	}
 
 	public void deleteCheckedSounds(Activity activity, SoundBaseAdapter adapter, ArrayList<SoundInfo> soundInfoList,
-									MediaPlayer mediaPlayer) {
+			MediaPlayer mediaPlayer) {
 		SortedSet<Integer> checkedSounds = adapter.getCheckedItems();
 		Iterator<Integer> iterator = checkedSounds.iterator();
 		SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
@@ -432,7 +432,7 @@ public final class SoundController {
 	}
 
 	public SoundInfo updateBackPackActivity(String title, String fileName, ArrayList<SoundInfo> soundInfoList,
-											SoundBaseAdapter adapter) {
+			SoundBaseAdapter adapter) {
 		title = Utils.getUniqueSoundName(title);
 
 		SoundInfo newSoundInfo = new SoundInfo();
@@ -445,7 +445,7 @@ public final class SoundController {
 	}
 
 	public SoundInfo updateSoundAdapter(String title, String fileName, ArrayList<SoundInfo> soundInfoList,
-										SoundBaseAdapter adapter) {
+			SoundBaseAdapter adapter) {
 
 		title = Utils.getUniqueSoundName(title);
 
@@ -473,7 +473,7 @@ public final class SoundController {
 	}
 
 	public void handlePlaySoundButton(View view, ArrayList<SoundInfo> soundInfoList, MediaPlayer mediaPlayer,
-									  final SoundBaseAdapter adapter) {
+			final SoundBaseAdapter adapter) {
 		final int position = (Integer) view.getTag();
 		final SoundInfo soundInfo = soundInfoList.get(position);
 
@@ -493,7 +493,7 @@ public final class SoundController {
 	}
 
 	public void stopSoundAndUpdateList(MediaPlayer mediaPlayer, ArrayList<SoundInfo> soundInfoList,
-									   SoundBaseAdapter adapter) {
+			SoundBaseAdapter adapter) {
 		if (!isSoundPlaying(mediaPlayer)) {
 			return;
 		}

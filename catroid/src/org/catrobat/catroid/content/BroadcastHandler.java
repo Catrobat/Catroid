@@ -132,7 +132,7 @@ public final class BroadcastHandler {
 									&& action instanceof SequenceAction
 									&& ((SequenceAction) action).getActions().size > 0
 									&& ((SequenceAction) actionOfLook).getActions().get(0) == ((SequenceAction) action)
-											.getActions().get(0)) {
+									.getActions().get(0)) {
 								Look.actionsToRestartAdd(action);
 								return true;
 							}

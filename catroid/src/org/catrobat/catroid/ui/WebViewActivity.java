@@ -72,7 +72,7 @@ public class WebViewActivity extends BaseActivity {
 		webView.setDownloadListener(new DownloadListener() {
 			@Override
 			public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype,
-										long contentLength) {
+					long contentLength) {
 				DownloadUtil.getInstance().prepareDownloadAndStartIfPossible(WebViewActivity.this, url);
 				Toast.makeText(WebViewActivity.this, getText(R.string.notification_download_pending), Toast.LENGTH_LONG)
 						.show();

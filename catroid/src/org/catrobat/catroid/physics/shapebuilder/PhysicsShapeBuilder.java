@@ -2,25 +2,27 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.physics.shapebuilder;
+
+import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -34,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PhysicsShapeBuilder {
+	private static final String TAG = PhysicsShapeBuilder.class.getSimpleName();
 	private final Map<String, Shape[]> shapeMap = new HashMap<String, Shape[]>();
 	private PhysicsShapeBuilderStrategy strategy = new PhysicsShapeBuilderStrategyFastHull();
 
@@ -42,17 +45,20 @@ public class PhysicsShapeBuilder {
 
 	public Shape[] getShape(LookData lookData, float scaleFactor) {
 		if (lookData == null) {
+			Log.d(TAG, "lookData == null");
 			return null;
 		}
 
 		String key = getKey(lookData, scaleFactor);
 		if (shapeMap.containsKey(key)) {
+			Log.d(TAG, "reuse");
 			return shapeMap.get(key);
 		}
 
 		Shape[] shapes = shapeMap.get(getKey(lookData, 1.0f));
 		if (shapes == null) {
 			shapes = strategy.build(lookData);
+			Log.d(TAG, "build");
 			if (shapes == null) {
 				return null;
 			}
@@ -61,6 +67,7 @@ public class PhysicsShapeBuilder {
 
 		if (scaleFactor != 1.0f) {
 			Shape[] scaledShapes = scaleShapes(shapes, scaleFactor);
+			Log.d(TAG, "scale");
 			shapeMap.put(key, scaledShapes);
 			shapes = scaledShapes;
 		}

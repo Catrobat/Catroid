@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -44,6 +44,13 @@ public final class PhysicsShapeBuilderStrategyFastHull implements PhysicsShapeBu
 	public Shape[] build(LookData lookData) {
 		Pixmap pixmap = lookData.getPixmap();
 
+
+		//float scale = 0.25f; //25% of original size
+		//Pixmap thumb = new Pixmap((int)(pixmap.getWidth() * scale), (int)(pixmap.getHeight() * scale), pixmap.getFormat());
+		//Pixmap.setFilter(Pixmap.Filter.BiLinear);
+		//thumb.draw(pixmap, 0, 0, pixmap.getWidth(), pixmap.getHeight(), 0, 0, thumb.getWidth(), thumb.getHeight());
+
+
 		if (pixmap == null) {
 			return null;
 		}
@@ -58,7 +65,7 @@ public final class PhysicsShapeBuilderStrategyFastHull implements PhysicsShapeBu
 				if ((pixmap.getPixel(x, y) & 0xff) > 0) {
 					point = new Vector2(x, y);
 					addPoint(convexHull, point);
-					Log.d("PhysicsShapeBuilderStrategyFastHull", "X:" + point.x + " Y:" + point.y);
+					//Log.d("PhysicsShapeBuilderStrategyFastHull", "X:" + point.x + " Y:" + point.y);
 					break;
 				}
 			}
@@ -143,7 +150,7 @@ public final class PhysicsShapeBuilderStrategyFastHull implements PhysicsShapeBu
 		if (convexpoints.length < 9) {
 			PolygonShape polygon = new PolygonShape();
 			polygon.set(convexpoints);
-			return new Shape[] { polygon };
+			return new Shape[]{polygon};
 		}
 
 		List<Shape> shapes = new ArrayList<Shape>(convexpoints.length / 6 + 1);
