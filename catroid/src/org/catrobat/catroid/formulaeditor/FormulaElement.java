@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,10 +39,11 @@ public class FormulaElement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static enum ElementType {
-		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, BRACKET, STRING
+		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, BRACKET, STRING
 	}
 
 	public static final Double NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE = 0d;
+	public static final Double NOT_EXISTING_USER_LIST_INTERPRETATION_VALUE = 0d;
 
 	private ElementType type;
 	private String value;
@@ -119,6 +121,8 @@ public class FormulaElement implements Serializable {
 			case USER_VARIABLE:
 				internTokenList.add(new InternToken(InternTokenType.USER_VARIABLE, this.value));
 				break;
+			case USER_LIST:
+				internTokenList.add(new InternToken(InternTokenType.USER_LIST, this.value));
 			case NUMBER:
 				internTokenList.add(new InternToken(InternTokenType.NUMBER, this.value));
 				break;
@@ -177,11 +181,97 @@ public class FormulaElement implements Serializable {
 			case USER_VARIABLE:
 				returnValue = interpretUserVariable(sprite);
 				break;
+			case USER_LIST:
+				returnValue = interpretUserList(sprite);
+				break;
 			case STRING:
 				returnValue = interpretString(value);
 				break;
 		}
 		return normalizeDegeneratedDoubleValues(returnValue);
+	}
+
+	private Object interpretUserList(Sprite sprite) {
+		UserListContainer userLists = ProjectManager.getInstance().getCurrentProject().getUserLists();
+		UserList userList = userLists.getUserList(value, sprite);
+		if (userList == null) {
+			return NOT_EXISTING_USER_LIST_INTERPRETATION_VALUE;
+		}
+
+		List<Object> userListValues = userList.getList();
+
+		if (userListValues.size() == 0) {
+			return Double.valueOf(0);
+		} else if (userListValues.size() == 1) {
+			Object userListValue = userListValues.get(0);
+			if (userListValue instanceof String) {
+				return interpretListString((String) userListValue);
+
+			} else {
+				return userListValue;
+			}
+
+		} else {
+			return interpretMultipleItemsUserList(sprite, userListValues);
+		}
+
+	}
+
+	private Object interpretMultipleItemsUserList(Sprite sprite, List<Object> userListValues) {
+		List<String> userListStringValues = new ArrayList<String>();
+		boolean concatenateWithoutWhitespace = true;
+
+		for (Object listValue : userListValues) {
+			if (listValue instanceof Double) {
+				Double doubleValueOfListItem = (Double) listValue;
+				if (isNumberAIntegerBetweenZeroAndNine(doubleValueOfListItem)) {
+					userListStringValues.add(doubleValueOfListItem.intValue() + "");
+				} else {
+					concatenateWithoutWhitespace = false;
+					userListStringValues.add(listValue.toString());
+				}
+			} else if (listValue instanceof String) {
+				String stringValueOfListItem = (String) listValue;
+				if (stringValueOfListItem.length() == 1) {
+					userListStringValues.add(stringValueOfListItem);
+				} else {
+					userListStringValues.add(stringValueOfListItem);
+					concatenateWithoutWhitespace = false;
+				}
+			}
+		}
+		String concatenatedList = "";
+		boolean isFirstListItem = true;
+		for (String userListStringValue : userListStringValues) {
+
+			if (!concatenateWithoutWhitespace && !isFirstListItem) {
+				concatenatedList += " ";
+			}
+			if (isFirstListItem) {
+				isFirstListItem = false;
+			}
+			concatenatedList += userListStringValue;
+		}
+		return concatenatedList;
+	}
+
+	private boolean isNumberAIntegerBetweenZeroAndNine(Double valueToCheck) {
+		for (Double index = 0.0; index <= 9.0; index++) {
+			if (valueToCheck.equals(index)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private Object interpretListString(String userListValue) {
+		Double doubleValueOfListItem;
+		try {
+			doubleValueOfListItem = Double.valueOf(userListValue);
+		} catch (NumberFormatException numberFormatException) {
+			return userListValue;
+		}
+		return doubleValueOfListItem;
 	}
 
 	private Object interpretUserVariable(Sprite sprite) {
@@ -499,14 +589,14 @@ public class FormulaElement implements Serializable {
 		return returnValue;
 	}
 
-	private Object interpretString(String value) throws NumberFormatException {
+	private Object interpretString(String stringValue) throws NumberFormatException {
 
 		if (parent == null && type != ElementType.USER_VARIABLE) {
 			Double anotherValue;
 			try {
-				anotherValue = Double.valueOf(value);
+				anotherValue = Double.valueOf(stringValue);
 			} catch (NumberFormatException numberFormatException) {
-				return value;
+				return stringValue;
 			}
 			return anotherValue;
 		}
@@ -516,19 +606,19 @@ public class FormulaElement implements Serializable {
 			if (isParentAFunction && Functions.getFunctionByValue(parent.value).returnType == ElementType.STRING) {
 				if (Functions.getFunctionByValue(parent.value) == Functions.LETTER && parent.leftChild == this) {
 					try {
-						return Double.valueOf(value);
+						return Double.valueOf(stringValue);
 					} catch (NumberFormatException numberFormatexception) {
 						return Double.valueOf(0);
 					}
 				}
-				return value;
+				return stringValue;
 			}
 
 			if (isParentAFunction) {
 				try {
-					return Double.valueOf(value);
+					return Double.valueOf(stringValue);
 				} catch (NumberFormatException numberFormatexception) {
-					return value;
+					return stringValue;
 				}
 			}
 
@@ -536,15 +626,15 @@ public class FormulaElement implements Serializable {
 			if (isParentAnOperator
 					&& (Operators.getOperatorByValue(parent.value) == Operators.EQUAL || Operators
 							.getOperatorByValue(parent.value) == Operators.NOT_EQUAL)) {
-				return value;
+				return stringValue;
 			}
 		}
 
-		if (value.length() == 0) {
+		if (stringValue.length() == 0) {
 			return Double.valueOf(0.0);
 		}
 
-		return Double.valueOf(value);
+		return Double.valueOf(stringValue);
 	}
 
 	private Double interpretOperatorEqual(Object left, Object right) {

@@ -211,12 +211,12 @@ public class ChangeVariableTest extends BaseActivityInstrumentationTestCase<Main
 
 				if (forAllSprites) {
 					assertTrue("Variable Dialog not shown",
-							solo.waitForText(solo.getString(R.string.formula_editor_variable_dialog_for_all_sprites)));
-					solo.clickOnText(solo.getString(R.string.formula_editor_variable_dialog_for_all_sprites));
+							solo.waitForText(solo.getString(R.string.formula_editor_dialog_for_all_sprites)));
+					solo.clickOnText(solo.getString(R.string.formula_editor_dialog_for_all_sprites));
 				} else {
 					assertTrue("Variable Dialog not shown", solo.waitForText(solo
-							.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only)));
-					solo.clickOnText(solo.getString(R.string.formula_editor_variable_dialog_for_this_sprite_only));
+							.getString(R.string.formula_editor_dialog_for_this_sprite_only)));
+					solo.clickOnText(solo.getString(R.string.formula_editor_dialog_for_this_sprite_only));
 				}
 			}
 			Log.i("info", "(" + iteration + ")OkButton-found: " + solo.searchButton(solo.getString(R.string.ok)));

@@ -1,24 +1,24 @@
-/*
- * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
- * (<http://developer.catrobat.org/credits>)
+/**
+ *  Catroid: An on-device visual programming system for Android devices
+ *  Copyright (C) 2010-2013 The Catrobat Team
+ *  (<http://developer.catrobat.org/credits>)
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
  *
- * An additional term exception under section 7 of the GNU Affero
- * General Public License, version 3, is available at
- * http://developer.catrobat.org/license_additional_term
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://developer.catrobat.org/license_additional_term
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.ui.adapter;
 
@@ -34,18 +34,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.UserList;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAdapterInterface {
+public class UserListAdapter extends BaseAdapter implements ScriptActivityAdapterInterface {
 	private Context context;
-	private List<UserVariable> brickVariables;
-	private List<UserVariable> spriteVariables;
-	private List<UserVariable> projectVariables;
+	private List<UserList> spriteLists;
+	private List<UserList> projectLists;
 	private int selectMode;
 	private SortedSet<Integer> checkedVariables = new TreeSet<Integer>();
 	private OnCheckedChangeListener onCheckedChangeListener = null;
@@ -56,29 +55,24 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 	private int textViewId2;
 	private int linearLayoutLocalId;
 	private int linearLayoutGlobalId;
-	private int linearLayoutUserBrickId;
 
 	private static class ViewHolder {
 		private CheckBox checkbox;
 		private TextView text1;
 		private TextView text2;
-		private LinearLayout userbrickHeadline;
 		private LinearLayout localHeadline;
 		private LinearLayout globalHeadline;
 	}
 
-	public UserVariableAdapter(Context context, List<UserVariable> brickVariables, List<UserVariable> spriteVariables,
-			List<UserVariable> projectVariables) {
-		this.brickVariables = brickVariables;
-		this.spriteVariables = spriteVariables;
-		this.projectVariables = projectVariables;
+	public UserListAdapter(Context context, List<UserList> spriteLists, List<UserList> projectLists) {
+		this.spriteLists = spriteLists;
+		this.projectLists = projectLists;
 		this.context = context;
 		this.selectMode = ListView.CHOICE_MODE_NONE;
 		this.itemLayout = R.layout.fragment_formula_editor_variablelist_item;
 		this.checkboxId = R.id.fragment_formula_editor_variablelist_item_checkbox;
 		this.textViewId = R.id.fragment_formula_editor_variablelist_item_name_text_view;
 		this.textViewId2 = R.id.fragment_formula_editor_variablelist_item_value_text_view;
-		this.linearLayoutUserBrickId = R.id.variablelist_userbrick_headline;
 		this.linearLayoutGlobalId = R.id.variablelist_and_userlist_global_headline;
 		this.linearLayoutLocalId = R.id.variablelist_and_userlist_local_headline;
 	}
@@ -94,17 +88,15 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 
 	@Override
 	public int getCount() {
-		return brickVariables.size() + spriteVariables.size() + projectVariables.size();
+		return spriteLists.size() + projectLists.size();
 	}
 
 	@Override
-	public UserVariable getItem(int position) {
-		if (position < brickVariables.size()) {
-			return brickVariables.get(position);
-		} else if (position < brickVariables.size() + spriteVariables.size()) {
-			return spriteVariables.get(position - brickVariables.size());
+	public UserList getItem(int position) {
+		if (position < spriteLists.size()) {
+			return spriteLists.get(position);
 		} else {
-			return projectVariables.get(position - (brickVariables.size() + spriteVariables.size()));
+			return projectLists.get(position - spriteLists.size());
 		}
 	}
 
@@ -113,7 +105,7 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 		return position;
 	}
 
-	public int getPositionOfItem(UserVariable item) {
+	public int getPositionOfItem(UserList item) {
 		for (int i = 0; i < getCount(); i++) {
 			if (getItem(i).getName().equals(item.getName())) {
 				return i;
@@ -132,7 +124,7 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		UserVariable variable = getItem(position);
+		UserList userList = getItem(position);
 		View view = convertView;
 		ViewHolder holder;
 		if (view == null || !(view.getTag() instanceof ViewHolder)) {
@@ -141,7 +133,6 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 			holder.checkbox = (CheckBox) view.findViewById(checkboxId);
 			holder.text1 = (TextView) view.findViewById(textViewId);
 			holder.text2 = (TextView) view.findViewById(textViewId2);
-			holder.userbrickHeadline = (LinearLayout) view.findViewById(linearLayoutUserBrickId);
 			holder.localHeadline = (LinearLayout) view.findViewById(linearLayoutLocalId);
 			holder.globalHeadline = (LinearLayout) view.findViewById(linearLayoutGlobalId);
 			view.setTag(holder);
@@ -149,28 +140,21 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 			holder = (ViewHolder) view.getTag();
 		}
 
-		holder.text1.setText(variable.getName() + ":");
+		holder.text1.setText(userList.getName() + ":");
 		if (holder.text2 != null) {
-			holder.text2.setText(String.valueOf(variable.getValue()));
+			holder.text2.setText(String.valueOf(userList.getList()));
 		}
 
-		if (holder.localHeadline != null && holder.userbrickHeadline != null && holder.globalHeadline != null) {
-			if (brickVariables.size() != 0 && position == 0) {
-				holder.localHeadline.setVisibility(View.GONE);
-				holder.globalHeadline.setVisibility(View.GONE);
-				holder.userbrickHeadline.setVisibility(View.VISIBLE);
-			} else if (spriteVariables.size() != 0 && position == brickVariables.size()) {
+		if (holder.localHeadline != null && holder.globalHeadline != null) {
+			if (spriteLists.size() != 0 && position == 0) {
 				holder.localHeadline.setVisibility(View.VISIBLE);
 				holder.globalHeadline.setVisibility(View.GONE);
-				holder.userbrickHeadline.setVisibility(View.GONE);
-			} else if (projectVariables.size() != 0 && position == brickVariables.size() + spriteVariables.size()) {
+			} else if (projectLists.size() != 0 && position == spriteLists.size()) {
 				holder.localHeadline.setVisibility(View.GONE);
 				holder.globalHeadline.setVisibility(View.VISIBLE);
-				holder.userbrickHeadline.setVisibility(View.GONE);
 			} else {
 				holder.localHeadline.setVisibility(View.GONE);
 				holder.globalHeadline.setVisibility(View.GONE);
-				holder.userbrickHeadline.setVisibility(View.GONE);
 			}
 		}
 
@@ -226,7 +210,7 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 
 	@Override
 	public View getDropDownView(final int position, View convertView, ViewGroup parent) {
-		UserVariable variable = getItem(position);
+		UserList userList = getItem(position);
 		View view = convertView;
 		ViewHolder holder;
 		if (view == null) {
@@ -242,7 +226,7 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 			holder.text1 = (TextView) view.findViewById(android.R.id.text1);
 			view.setTag(holder);
 		}
-		holder.text1.setText(variable.getName());
+		holder.text1.setText(userList.getName());
 		return view;
 	}
 
@@ -275,12 +259,12 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 		return checkedVariables;
 	}
 
-	public List<UserVariable> getCheckedUserVariables() {
-		List<UserVariable> variables = new ArrayList<UserVariable>();
+	public List<UserList> getCheckedUserLists() {
+		List<UserList> userLists = new ArrayList<UserList>();
 		for (int pos : getCheckedItems()) {
-			variables.add(getItem(pos));
+			userLists.add(getItem(pos));
 		}
-		return variables;
+		return userLists;
 	}
 
 	public void addCheckedItem(int position) {

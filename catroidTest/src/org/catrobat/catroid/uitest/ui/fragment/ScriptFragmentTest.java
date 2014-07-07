@@ -266,7 +266,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		String categoryControlLabel = solo.getString(R.string.category_control);
 		String categoryLooksLabel = solo.getString(R.string.category_looks);
 		String categoryMotionLabel = solo.getString(R.string.category_motion);
-		String categoryUserVariablesLabel = solo.getString(R.string.category_variables);
+		String categoryDataLabel = solo.getString(R.string.category_data);
 
 		// Test if all Categories are present
 		assertTrue("A category was not visible after opening BrickCategoryDialog", solo.searchText(categoryMotionLabel));
@@ -277,8 +277,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
 				solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollListToBottom(fragmentListView);
-		assertTrue("A category was not visible after opening BrickCategoryDialog",
-				solo.searchText(categoryUserVariablesLabel));
+		assertTrue("A category was not visible after opening BrickCategoryDialog", solo.searchText(categoryDataLabel));
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
 				solo.searchText(categoryLegoNXTLabel));
 
@@ -312,7 +311,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollListToBottom(fragmentListView);
-		solo.clickOnText(categoryUserVariablesLabel);
+		solo.clickOnText(categoryDataLabel);
 		assertTrue("AddBrickDialog was not opened after selecting a category",
 				solo.waitForText(brickSetVariable, 0, 2000));
 		solo.goBack();

@@ -82,6 +82,16 @@ public class FormulaElementTest extends InstrumentationTestCase {
 
 	}
 
+	public void testInterpretNonExistingUserList() {
+
+		Project project = new Project(getInstrumentation().getTargetContext(), "testProject");
+		ProjectManager.getInstance().setProject(project);
+		FormulaElement formulaElement = new FormulaElement(ElementType.USER_LIST, "notExistingUserList", null);
+		assertEquals("Not existing UserList misinterpretation",
+				FormulaElement.NOT_EXISTING_USER_LIST_INTERPRETATION_VALUE, formulaElement.interpretRecursive(null));
+
+	}
+
 	public void testInterpretNotExisitingUnaryOperator() {
 
 		FormulaElement formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(), null, null,

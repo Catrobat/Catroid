@@ -50,6 +50,7 @@ import org.catrobat.catroid.ui.adapter.ScriptActivityAdapterInterface;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorListFragment;
+import org.catrobat.catroid.ui.fragment.FormulaEditorUserListFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorVariableListFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
@@ -78,6 +79,8 @@ public class ScriptActivity extends BaseActivity {
 	public static final String ACTION_SOUND_RENAMED = "org.catrobat.catroid.SOUND_RENAMED";
 	public static final String ACTION_SOUNDS_LIST_INIT = "org.catrobat.catroid.SOUNDS_LIST_INIT";
 	public static final String ACTION_VARIABLE_DELETED = "org.catrobat.catroid.VARIABLE_DELETED";
+	public static final String ACTION_USERLIST_DELETED = "org.catrobat.catroid.USERLIST_DELETED";
+
 	private static final String TAG = ScriptActivity.class.getSimpleName();
 	private static int currentFragmentPosition;
 	private FragmentManager fragmentManager = getSupportFragmentManager();
@@ -323,6 +326,13 @@ public class ScriptActivity extends BaseActivity {
 			return formulaEditorVariableListFragment.onKey(null, keyCode, event);
 		}
 
+		FormulaEditorUserListFragment formulaEditorUserListFragment = (FormulaEditorUserListFragment) getSupportFragmentManager()
+				.findFragmentByTag(FormulaEditorUserListFragment.USERLIST_TAG);
+
+		if (formulaEditorUserListFragment != null && formulaEditorUserListFragment.isVisible()) {
+			return formulaEditorUserListFragment.onKey(null, keyCode, event);
+		}
+
 		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getSupportFragmentManager().findFragmentByTag(
 				FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 
@@ -405,6 +415,7 @@ public class ScriptActivity extends BaseActivity {
 				return;
 			}
 			ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
+			ProjectManager.getInstance().getCurrentProject().getUserLists().resetAllUserLists();
 			Intent intent = new Intent(this, PreStageActivity.class);
 			startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 		}
@@ -419,6 +430,15 @@ public class ScriptActivity extends BaseActivity {
 
 		if (formulaEditorVariableListFragment != null && formulaEditorVariableListFragment.isVisible()) {
 			ListAdapter adapter = formulaEditorVariableListFragment.getListAdapter();
+			((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
+			return super.dispatchKeyEvent(event);
+		}
+
+		FormulaEditorUserListFragment formulaEditorUserListFragment = (FormulaEditorUserListFragment) getSupportFragmentManager()
+				.findFragmentByTag(FormulaEditorUserListFragment.USERLIST_TAG);
+
+		if (formulaEditorUserListFragment != null && formulaEditorUserListFragment.isVisible()) {
+			ListAdapter adapter = formulaEditorUserListFragment.getListAdapter();
 			((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
 			return super.dispatchKeyEvent(event);
 		}
