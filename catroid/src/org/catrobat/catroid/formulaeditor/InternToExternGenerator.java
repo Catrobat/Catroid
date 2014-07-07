@@ -38,6 +38,7 @@ public class InternToExternGenerator {
 	private Context context;
 
 	private static final HashMap<String, Integer> INTERN_EXTERN_LANGUAGE_CONVERTER_MAP = new HashMap<String, Integer>();
+
 	static {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.DIVIDE.name(), R.string.formula_editor_operator_divide);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.MULT.name(), R.string.formula_editor_operator_mult);

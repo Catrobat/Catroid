@@ -55,10 +55,10 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 	public static final String[] TAGS = {OBJECT_TAG, FUNCTION_TAG, LOGIC_TAG, SENSOR_TAG};
 
 	private static final int[] OBJECT_ITEMS = {R.string.formula_editor_object_x, R.string.formula_editor_object_y,
-			R.string.formula_editor_object_transparency, R.string.formula_editor_object_brightness,
+			R.string.formula_editor_object_ghosteffect, R.string.formula_editor_object_brightness,
 			R.string.formula_editor_object_size, R.string.formula_editor_object_rotation,
 			R.string.formula_editor_object_layer, R.string.formula_editor_object_x_velocity,
-			R.string.formula_editor_object_y_velocity, R.string.formula_editor_object_angular_velocity };
+			R.string.formula_editor_object_y_velocity, R.string.formula_editor_object_angular_velocity};
 
 	private static final int[] LOGIC_ITEMS = {R.string.formula_editor_logic_equal,
 			R.string.formula_editor_logic_notequal, R.string.formula_editor_logic_lesserthan,
@@ -97,7 +97,7 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			R.string.formula_editor_sensor_compass_direction, R.string.formula_editor_sensor_x_inclination,
 			R.string.formula_editor_sensor_y_inclination, R.string.formula_editor_sensor_loudness,
 			R.string.formula_editor_sensor_face_detected, R.string.formula_editor_sensor_face_size,
-			R.string.formula_editor_sensor_face_x_position, R.string.formula_editor_sensor_face_y_position };
+			R.string.formula_editor_sensor_face_x_position, R.string.formula_editor_sensor_face_y_position};
 
 	private String actionBarTitle;
 	private int[] itemsIds;

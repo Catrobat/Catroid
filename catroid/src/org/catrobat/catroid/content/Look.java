@@ -50,12 +50,6 @@ public class Look extends Image {
 	protected Sprite sprite;
 	protected float alpha = 1f;
 	protected float brightness = 1f;
-	protected boolean visible = true;
-
-	public void setVisiblenessTo(boolean visible) { // TODO[physics]
-		this.visible = visible;
-	}
-
 	protected Pixmap pixmap;
 	private ParallelAction whenParallelAction;
 	private boolean allActionsAreFinished = false;
@@ -110,7 +104,6 @@ public class Look extends Image {
 
 		cloneLook.alpha = this.alpha;
 		cloneLook.brightness = this.brightness;
-		cloneLook.visible = this.visible;
 		cloneLook.whenParallelAction = null;
 		cloneLook.allActionsAreFinished = this.allActionsAreFinished;
 
@@ -121,7 +114,7 @@ public class Look extends Image {
 		if (sprite.isPaused) {
 			return true;
 		}
-		if (!visible) {
+		if (!this.isVisible()) {
 			return false;
 		}
 
@@ -155,7 +148,7 @@ public class Look extends Image {
 		} else {
 			setVisible(true);
 		}
-		if (this.visible && this.getDrawable() != null) {
+		if (this.isVisible() && this.getDrawable() != null) {
 			super.draw(batch, this.alpha);
 		}
 	}
@@ -166,7 +159,7 @@ public class Look extends Image {
 		allActionsAreFinished = false;
 		int finishedCount = 0;
 
-		for (Iterator<Action> iterator = Look.actionsToRestart.iterator(); iterator.hasNext();) {
+		for (Iterator<Action> iterator = Look.actionsToRestart.iterator(); iterator.hasNext(); ) {
 			Action actionToRestart = iterator.next();
 			actionToRestart.restart();
 			iterator.remove();
@@ -344,12 +337,12 @@ public class Look extends Image {
 		} else if (percent >= 100f) {
 			percent = 100f;
 			//			setTransparencyTo(true);
-			setVisiblenessTo(false);
+			setVisible(false);
 		}
 
 		if (percent < 100.0f) {
 			//			setTransparencyTo(false);
-			setVisiblenessTo(true);
+			setVisible(true);
 		}
 
 		alpha = (100f - percent) / 100f;

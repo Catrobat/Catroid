@@ -145,7 +145,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (programName != null
 				&& ((projectManager.getCurrentProject() != null && !projectManager.getCurrentProject().getName()
-						.equals(programName)) || projectManager.getCurrentProject() == null)) {
+				.equals(programName)) || projectManager.getCurrentProject() == null)) {
 
 			getActivity().findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
 			getActivity().findViewById(R.id.progress_circle).bringToFront();

@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -48,23 +48,23 @@ public class PhysicsCollision implements ContactListener {
 
 	@Override
 	public void beginContact(Contact contact) {
-		Log.d(TAG, "beginContact");
+		//Log.d(TAG, "beginContact");
 
 		Body a = contact.getFixtureA().getBody();
 		Body b = contact.getFixtureB().getBody();
 
 		if (a.getUserData() instanceof Sprite) {
 			mPhysicsWorld.bounced((Sprite) a.getUserData());
-			Log.d(TAG, "bounced SPRITE A");
+			//Log.d(TAG, "bounced SPRITE A");
 		}
 		if (b.getUserData() instanceof Sprite) {
 			mPhysicsWorld.bounced((Sprite) b.getUserData());
-			Log.d(TAG, "bounced SPRITE B");
+			//Log.d(TAG, "bounced SPRITE B");
 		}
 		if (a.getUserData() instanceof Sprite && b.getUserData() instanceof Sprite) {
 			Sprite sprite1 = (Sprite) a.getUserData();
 			Sprite sprite2 = (Sprite) b.getUserData();
-			Log.d(TAG, "# COLLISION # :" + sprite1.getName() + "<->" + sprite2.getName());
+			//Log.d(TAG, "# COLLISION # :" + sprite1.getName() + "<->" + sprite2.getName());
 			fireEvent(sprite1.getName() + "<->" + sprite2.getName());
 			fireEvent(sprite2.getName() + "<->" + sprite1.getName());
 			fireEvent(sprite2.getName() + "<->anybody");
@@ -84,17 +84,17 @@ public class PhysicsCollision implements ContactListener {
 
 	@Override
 	public void endContact(Contact contact) {
-		Log.d(TAG, "endContact");
+		//Log.d(TAG, "endContact");
 	}
 
 	@Override
 	public void preSolve(Contact contact, Manifold oldManifold) {
-		Log.d(TAG, "preSolve");
+		//Log.d(TAG, "preSolve");
 	}
 
 	@Override
 	public void postSolve(Contact contact, ContactImpulse impulse) {
-		Log.d(TAG, "postSolve");
+		//Log.d(TAG, "postSolve");
 	}
 
 }

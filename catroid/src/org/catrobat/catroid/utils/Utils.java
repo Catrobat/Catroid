@@ -134,11 +134,9 @@ public final class Utils {
 
 	/**
 	 * Constructs a path out of the pathElements.
-	 * 
-	 * @param pathElements
-	 *            the strings to connect. They can have "/" in them which will be de-duped in the result, if necessary.
-	 * @return
-	 *         the path that was constructed.
+	 *
+	 * @param pathElements the strings to connect. They can have "/" in them which will be de-duped in the result, if necessary.
+	 * @return the path that was constructed.
 	 */
 	public static String buildPath(String... pathElements) {
 		StringBuilder result = new StringBuilder("/");
@@ -441,7 +439,7 @@ public final class Utils {
 
 	public static boolean isStandardProject(Project projectToCheck, Context context) {
 		try {
-			Project standardProject = StandardProjectHandler.createAndSaveStandardPhysicsProject(getUniqueProjectName(),
+			Project standardProject = StandardProjectHandler.createAndSaveStandardProject(getUniqueProjectName(),
 					context);
 			String standardProjectXMLString = StorageHandler.getInstance().getXMLStringOfAProject(standardProject);
 			int start = standardProjectXMLString.indexOf("<objectList>");

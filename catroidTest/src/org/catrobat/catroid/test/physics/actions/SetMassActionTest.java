@@ -76,9 +76,12 @@ public class SetMassActionTest extends PhysicsActionTestCase {
 		physicsObject.setType(Type.DYNAMIC);
 		physicsObject.setMass(5.0f);
 
-		physicsWorld.step(0.75f);
+		physicsWorld.step(0.10f);
 		float lastVelocity = Math.abs(physicsObject.getVelocity().y);
-		physicsWorld.step(0.75f);
+		physicsWorld.step(0.25f);
+		physicsWorld.step(0.25f);
+		physicsWorld.step(0.25f);
+		physicsWorld.step(0.25f);
 		float currentVelocity = Math.abs(physicsObject.getVelocity().y);
 
 		assertTrue("Object does not accelerate", (currentVelocity - lastVelocity) > 1.0f);

@@ -102,7 +102,7 @@ public final class LCPMessage {
 	public static final byte NOT_IMPLEMENTED = (byte) 0xFD;
 
 	// Firmware codes
-	public static final byte[] FIRMWARE_VERSION_LEJOSMINDDROID = { 0x6c, 0x4d, 0x49, 0x64 };
+	public static final byte[] FIRMWARE_VERSION_LEJOSMINDDROID = {0x6c, 0x4d, 0x49, 0x64};
 
 	private static boolean requestConfirmFromDevice = false;
 

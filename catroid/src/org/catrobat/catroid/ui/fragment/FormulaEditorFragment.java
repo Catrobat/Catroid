@@ -433,6 +433,11 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	}
 
 	private boolean checkReturnWithoutSaving(int errorType) {
+		Log.i("info",
+				"confirmSwitchEditTextCounter=" + confirmSwitchEditTextCounter + " "
+						+ (System.currentTimeMillis() <= confirmSwitchEditTextTimeStamp[0] + TIME_WINDOW)
+		);
+
 		if ((System.currentTimeMillis() <= confirmSwitchEditTextTimeStamp[0] + TIME_WINDOW)
 				&& (confirmSwitchEditTextCounter > 1)) {
 			confirmSwitchEditTextTimeStamp[0] = 0;
@@ -486,13 +491,13 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 								}
 							}).setPositiveButton(R.string.yes, new OnClickListener() {
 
-								@Override
-								public void onClick(DialogInterface dialog, int which) {
-									if (saveFormulaIfPossible()) {
-										onUserDismiss();
-									}
-								}
-							}).create().show();
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							if (saveFormulaIfPossible()) {
+								onUserDismiss();
+							}
+						}
+					}).create().show();
 
 				} else {
 					onUserDismiss();

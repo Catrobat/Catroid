@@ -125,7 +125,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public static Action createBroadcastNotifyAction(BroadcastEvent event) {
+	public Action createBroadcastNotifyAction(BroadcastEvent event) {
 		BroadcastNotifyAction action = Actions.action(BroadcastNotifyAction.class);
 		action.setEvent(event);
 		return action;
@@ -400,7 +400,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createRepeatAction(Sprite sprite, Formula count, Action repeatedAction) {
+	public RepeatAction createRepeatAction(Sprite sprite, Formula count, Action repeatedAction) {
 		RepeatAction action = Actions.action(RepeatAction.class);
 		action.setRepeatCount(count);
 		action.setAction(repeatedAction);
@@ -555,7 +555,6 @@ public class ActionFactory extends Actions {
 		return action(DroneFlipAction.class);
 	}
 
-
 	public static LedAction lights(boolean ledValue) {
 		LedAction action = action(LedAction.class);
 		action.setLedValue(ledValue);
@@ -568,4 +567,5 @@ public class ActionFactory extends Actions {
 		action.setDuration(duration);
 		return action;
 	}
+
 }
