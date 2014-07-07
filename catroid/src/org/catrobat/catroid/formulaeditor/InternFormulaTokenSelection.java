@@ -31,7 +31,7 @@ public class InternFormulaTokenSelection {
 	private TokenSelectionType tokenSelectionType;
 
 	public InternFormulaTokenSelection(TokenSelectionType tokenSelectionType, int internTokenSelectionStart,
-									   int internTokenSelectionEnd) {
+			int internTokenSelectionEnd) {
 		this.tokenSelectionType = tokenSelectionType;
 		this.internTokenSelectionStart = internTokenSelectionStart;
 		this.internTokenSelectionEnd = internTokenSelectionEnd;

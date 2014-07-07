@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -476,7 +476,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		int scriptPosition = 0;
 		int scriptOffset;
-		for (scriptOffset = 0; scriptOffset < position;) {
+		for (scriptOffset = 0; scriptOffset < position; ) {
 			scriptOffset += sprite.getScript(scriptPosition).getBrickList().size() + 1;
 			if (scriptOffset < position) {
 				scriptPosition++;
@@ -788,7 +788,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	private int getScriptIndexFromProject(int index) {
 		int scriptIndex = 0;
-		for (int i = 0; i < index;) {
+		for (int i = 0; i < index; ) {
 
 			i += sprite.getScript(scriptIndex).getBrickList().size() + 1;
 			if (i <= index) {
@@ -883,9 +883,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 					notifyDataSetChanged();
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_formula_edit_brick))
 						&& brickList.get(itemPosition) instanceof FormulaBrick) {
-						FormulaEditorFragment.showFragment(view, brickList.get(itemPosition),
-						   ((FormulaBrick) brickList.get(itemPosition)).getFormula());
-					}
+					FormulaEditorFragment.showFragment(view, brickList.get(itemPosition),
+							((FormulaBrick) brickList.get(itemPosition)).getFormula());
+				}
 
 			}
 		});
