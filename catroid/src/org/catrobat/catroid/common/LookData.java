@@ -168,7 +168,7 @@ public class LookData implements Serializable, Cloneable {
 		width = options.outWidth;
 		height = options.outHeight;
 
-		return new int[] { width, height };
+		return new int[]{width, height};
 	}
 
 	@Override

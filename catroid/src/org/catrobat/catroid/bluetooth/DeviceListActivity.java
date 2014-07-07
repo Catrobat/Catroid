@@ -51,7 +51,7 @@ public class DeviceListActivity extends Activity {
 	public static final String DEVICE_NAME_AND_ADDRESS = "device_infos";
 	public static final String EXTRA_DEVICE_ADDRESS = "device_address";
 	private static final int LENGTH_OF_FOO = 18; //TODO: figure out the meaning of the value
-	
+
 	private OnItemClickListener deviceClickListener = new OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> av, View view, int position, long id) {

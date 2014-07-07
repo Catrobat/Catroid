@@ -42,8 +42,8 @@ public class ForeverActionTest extends InstrumentationTestCase {
 	public void testLoopDelay() throws InterruptedException {
 		final int deltaY = -10;
 
-		Sprite testSprite = new Sprite("testSprite");
 
+		Sprite testSprite = new Sprite("testSprite");
 		StartScript testScript = new StartScript(testSprite);
 
 		LoopBeginBrick foreverBrick = new ForeverBrick(testSprite);

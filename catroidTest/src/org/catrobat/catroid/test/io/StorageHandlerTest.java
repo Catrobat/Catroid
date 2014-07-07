@@ -158,10 +158,11 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	public void testDefaultProject() throws IOException {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		//		projectManager.setProject(StandardProjectHandler.createAndSaveStandardProject(projectName, getContext()));
-		Project project = StandardProjectHandler.createAndSaveStandardProject(getContext());
-		project.setName(projectName);
+		Project project =StandardProjectHandler.createAndSaveStandardProject(projectName, getContext());
 		projectManager.setProject(project);
+		//Project project = StandardProjectHandler.createAndSaveStandardProject(getContext());
+		//project.setName(projectName);
+		//projectManager.setProject(project);
 
 		// Test background
 		assertEquals("not the right number of sprites in the default project", 5, projectManager.getCurrentProject()

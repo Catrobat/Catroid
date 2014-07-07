@@ -282,8 +282,6 @@ public class ReflectionTest extends AndroidTestCase {
 			return "Called staticMethodWithoutParameters!";
 		}
 
-		;
-
 		@SuppressWarnings("unused")
 		private static String staticMethodWithParameters(String param1, String param2) {
 			return param1 + param2;
@@ -293,8 +291,6 @@ public class ReflectionTest extends AndroidTestCase {
 		private static void staticVoidMethod() {
 			calledVoidMethod = true;
 		}
-
-		;
 
 		@SuppressWarnings("unused")
 		private String methodWithoutParameters() {

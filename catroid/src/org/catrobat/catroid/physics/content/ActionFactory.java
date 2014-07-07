@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -104,7 +104,7 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createBroadcastAction(Sprite sprite, String broadcastMessage) {
-		BroadcastAction action = Actions.action(BroadcastAction.class);
+		BroadcastAction action = action(BroadcastAction.class);
 		BroadcastEvent event = new BroadcastEvent();
 		event.setSenderSprite(sprite);
 		event.setBroadcastMessage(broadcastMessage);
@@ -114,7 +114,7 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createBroadcastActionFromWaiter(Sprite sprite, String broadcastMessage) {
-		BroadcastAction action = Actions.action(BroadcastAction.class);
+		BroadcastAction action = action(BroadcastAction.class);
 		BroadcastEvent event = new BroadcastEvent();
 		event.setSenderSprite(sprite);
 		event.setBroadcastMessage(broadcastMessage);
@@ -125,67 +125,67 @@ public class ActionFactory extends Actions {
 	}
 
 	public static Action createBroadcastNotifyAction(BroadcastEvent event) {
-		BroadcastNotifyAction action = Actions.action(BroadcastNotifyAction.class);
+		BroadcastNotifyAction action = action(BroadcastNotifyAction.class);
 		action.setEvent(event);
 		return action;
 	}
 
 	public Action createChangeBrightnessByNAction(Sprite sprite, Formula changeBrightness) {
-		ChangeBrightnessByNAction action = Actions.action(ChangeBrightnessByNAction.class);
+		ChangeBrightnessByNAction action = action(ChangeBrightnessByNAction.class);
 		action.setSprite(sprite);
 		action.setBrightness(changeBrightness);
 		return action;
 	}
 
 	public Action createChangeGhostEffectByNAction(Sprite sprite, Formula ghostEffect) {
-		ChangeGhostEffectByNAction action = Actions.action(ChangeGhostEffectByNAction.class);
+		ChangeGhostEffectByNAction action = action(ChangeGhostEffectByNAction.class);
 		action.setSprite(sprite);
 		action.setGhostEffect(ghostEffect);
 		return action;
 	}
 
 	public Action createChangeSizeByNAction(Sprite sprite, Formula size) {
-		ChangeSizeByNAction action = Actions.action(ChangeSizeByNAction.class);
+		ChangeSizeByNAction action = action(ChangeSizeByNAction.class);
 		action.setSprite(sprite);
 		action.setSize(size);
 		return action;
 	}
 
 	public Action createChangeVolumeByNAction(Sprite sprite, Formula volume) {
-		ChangeVolumeByNAction action = Actions.action(ChangeVolumeByNAction.class);
+		ChangeVolumeByNAction action = action(ChangeVolumeByNAction.class);
 		action.setVolume(volume);
 		action.setSprite(sprite);
 		return action;
 	}
 
 	public Action createChangeXByNAction(Sprite sprite, Formula xMovement) {
-		ChangeXByNAction action = Actions.action(ChangeXByNAction.class);
+		ChangeXByNAction action = action(ChangeXByNAction.class);
 		action.setSprite(sprite);
 		action.setxMovement(xMovement);
 		return action;
 	}
 
 	public Action createChangeYByNAction(Sprite sprite, Formula yMovement) {
-		ChangeYByNAction action = Actions.action(ChangeYByNAction.class);
+		ChangeYByNAction action = action(ChangeYByNAction.class);
 		action.setSprite(sprite);
 		action.setyMovement(yMovement);
 		return action;
 	}
 
 	public Action createClearGraphicEffectAction(Sprite sprite) {
-		ClearGraphicEffectAction action = Actions.action(ClearGraphicEffectAction.class);
+		ClearGraphicEffectAction action = action(ClearGraphicEffectAction.class);
 		action.setSprite(sprite);
 		return action;
 	}
 
 	public Action createComeToFrontAction(Sprite sprite) {
-		ComeToFrontAction action = Actions.action(ComeToFrontAction.class);
+		ComeToFrontAction action = action(ComeToFrontAction.class);
 		action.setSprite(sprite);
 		return action;
 	}
 
 	public Action createGlideToAction(Sprite sprite, Formula x, Formula y, Formula duration) {
-		GlideToAction action = Actions.action(GlideToAction.class);
+		GlideToAction action = action(GlideToAction.class);
 		action.setPosition(x, y);
 		action.setDuration(duration);
 		action.setSprite(sprite);
@@ -193,7 +193,7 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createGlideToAction(Sprite sprite, Formula x, Formula y, Formula duration, Interpolation interpolation) {
-		GlideToAction action = Actions.action(GlideToAction.class);
+		GlideToAction action = action(GlideToAction.class);
 		action.setPosition(x, y);
 		action.setDuration(duration);
 		action.setInterpolation(interpolation);
@@ -202,7 +202,7 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createPlaceAtAction(Sprite sprite, Formula x, Formula y) {
-		GlideToAction action = Actions.action(GlideToAction.class);
+		GlideToAction action = action(GlideToAction.class);
 		action.setPosition(x, y);
 		action.setDuration(0);
 		action.setInterpolation(null);
@@ -211,26 +211,26 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createGoNStepsBackAction(Sprite sprite, Formula steps) {
-		GoNStepsBackAction action = Actions.action(GoNStepsBackAction.class);
+		GoNStepsBackAction action = action(GoNStepsBackAction.class);
 		action.setSprite(sprite);
 		action.setSteps(steps);
 		return action;
 	}
 
 	public Action createHideAction(Sprite sprite) {
-		HideAction action = Actions.action(HideAction.class);
+		HideAction action = action(HideAction.class);
 		action.setSprite(sprite);
 		return action;
 	}
 
 	public Action createIfOnEdgeBounceAction(Sprite sprite) {
-		IfOnEdgeBounceAction action = Actions.action(IfOnEdgeBounceAction.class);
+		IfOnEdgeBounceAction action = action(IfOnEdgeBounceAction.class);
 		action.setSprite(sprite);
 		return action;
 	}
 
 	public Action createLegoNxtMotorActionAction(Sprite sprite, String motor, Motor motorEnum, Formula speed) {
-		LegoNxtMotorActionAction action = Actions.action(LegoNxtMotorActionAction.class);
+		LegoNxtMotorActionAction action = action(LegoNxtMotorActionAction.class);
 		action.setMotorEnum(motorEnum);
 		action.setSprite(sprite);
 		action.setSpeed(speed);
@@ -238,14 +238,14 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createLegoNxtMotorStopAction(org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick.Motor motorEnum) {
-		LegoNxtMotorStopAction action = Actions.action(LegoNxtMotorStopAction.class);
+		LegoNxtMotorStopAction action = action(LegoNxtMotorStopAction.class);
 		action.setMotorEnum(motorEnum);
 		return action;
 	}
 
 	public Action createLegoNxtMotorTurnAngleAction(Sprite sprite,
 			org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick.Motor motorEnum, Formula degrees) {
-		LegoNxtMotorTurnAngleAction action = Actions.action(LegoNxtMotorTurnAngleAction.class);
+		LegoNxtMotorTurnAngleAction action = action(LegoNxtMotorTurnAngleAction.class);
 		action.setMotorEnum(motorEnum);
 		action.setSprite(sprite);
 		action.setDegrees(degrees);
@@ -253,7 +253,7 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createLegoNxtPlayToneAction(Sprite sprite, Formula hertz, Formula durationInSeconds) {
-		LegoNxtPlayToneAction action = Actions.action(LegoNxtPlayToneAction.class);
+		LegoNxtPlayToneAction action = action(LegoNxtPlayToneAction.class);
 		action.setHertz(hertz);
 		action.setSprite(sprite);
 		action.setDurationInSeconds(durationInSeconds);
@@ -261,120 +261,120 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createMoveNStepsAction(Sprite sprite, Formula steps) {
-		MoveNStepsAction action = Actions.action(MoveNStepsAction.class);
+		MoveNStepsAction action = action(MoveNStepsAction.class);
 		action.setSprite(sprite);
 		action.setSteps(steps);
 		return action;
 	}
 
 	public Action createNextLookAction(Sprite sprite) {
-		NextLookAction action = Actions.action(NextLookAction.class);
+		NextLookAction action = action(NextLookAction.class);
 		action.setSprite(sprite);
 		return action;
 	}
 
 	public Action createPlaySoundAction(Sprite sprite, SoundInfo sound) {
-		PlaySoundAction action = Actions.action(PlaySoundAction.class);
+		PlaySoundAction action = action(PlaySoundAction.class);
 		action.setSprite(sprite);
 		action.setSound(sound);
 		return action;
 	}
 
 	public Action createPointInDirectionAction(Sprite sprite, Formula degrees) {
-		PointInDirectionAction action = Actions.action(PointInDirectionAction.class);
+		PointInDirectionAction action = action(PointInDirectionAction.class);
 		action.setSprite(sprite);
 		action.setDegreesInUserInterfaceDimensionUnit(degrees);
 		return action;
 	}
 
 	public Action createPointToAction(Sprite sprite, Sprite pointedSprite) {
-		PointToAction action = Actions.action(PointToAction.class);
+		PointToAction action = action(PointToAction.class);
 		action.setSprite(sprite);
 		action.setPointedSprite(pointedSprite);
 		return action;
 	}
 
 	public Action createSetBrightnessAction(Sprite sprite, Formula brightness) {
-		SetBrightnessAction action = Actions.action(SetBrightnessAction.class);
+		SetBrightnessAction action = action(SetBrightnessAction.class);
 		action.setSprite(sprite);
 		action.setBrightness(brightness);
 		return action;
 	}
 
 	public Action createSetGhostEffectAction(Sprite sprite, Formula transparency) {
-		SetGhostEffectAction action = Actions.action(SetGhostEffectAction.class);
+		SetGhostEffectAction action = action(SetGhostEffectAction.class);
 		action.setSprite(sprite);
 		action.setTransparency(transparency);
 		return action;
 	}
 
 	public Action createSetLookAction(Sprite sprite, LookData lookData) {
-		SetLookAction action = Actions.action(SetLookAction.class);
+		SetLookAction action = action(SetLookAction.class);
 		action.setSprite(sprite);
 		action.setLookData(lookData);
 		return action;
 	}
 
 	public Action createSetSizeToAction(Sprite sprite, Formula size) {
-		SetSizeToAction action = Actions.action(SetSizeToAction.class);
+		SetSizeToAction action = action(SetSizeToAction.class);
 		action.setSprite(sprite);
 		action.setSize(size);
 		return action;
 	}
 
 	public Action createSetVolumeToAction(Sprite sprite, Formula volume) {
-		SetVolumeToAction action = Actions.action(SetVolumeToAction.class);
+		SetVolumeToAction action = action(SetVolumeToAction.class);
 		action.setVolume(volume);
 		action.setSprite(sprite);
 		return action;
 	}
 
 	public Action createSetXAction(Sprite sprite, Formula x) {
-		SetXAction action = Actions.action(SetXAction.class);
+		SetXAction action = action(SetXAction.class);
 		action.setSprite(sprite);
 		action.setX(x);
 		return action;
 	}
 
 	public Action createSetYAction(Sprite sprite, Formula y) {
-		SetYAction action = Actions.action(SetYAction.class);
+		SetYAction action = action(SetYAction.class);
 		action.setSprite(sprite);
 		action.setY(y);
 		return action;
 	}
 
 	public Action createShowAction(Sprite sprite) {
-		ShowAction action = Actions.action(ShowAction.class);
+		ShowAction action = action(ShowAction.class);
 		action.setSprite(sprite);
 		return action;
 	}
 
 	public Action createSpeakAction(String text, SpeakBrick speakBrick) {
-		SpeakAction action = Actions.action(SpeakAction.class);
+		SpeakAction action = action(SpeakAction.class);
 		action.setText(text);
 		return action;
 	}
 
 	public Action createStopAllSoundsAction() {
-		return Actions.action(StopAllSoundsAction.class);
+		return action(StopAllSoundsAction.class);
 	}
 
 	public Action createTurnLeftAction(Sprite sprite, Formula degrees) {
-		TurnLeftAction action = Actions.action(TurnLeftAction.class);
+		TurnLeftAction action = action(TurnLeftAction.class);
 		action.setSprite(sprite);
 		action.setDegrees(degrees);
 		return action;
 	}
 
 	public Action createTurnRightAction(Sprite sprite, Formula degrees) {
-		TurnRightAction action = Actions.action(TurnRightAction.class);
+		TurnRightAction action = action(TurnRightAction.class);
 		action.setSprite(sprite);
 		action.setDegrees(degrees);
 		return action;
 	}
 
 	public Action createChangeVariableAction(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
-		ChangeVariableAction action = Actions.action(ChangeVariableAction.class);
+		ChangeVariableAction action = action(ChangeVariableAction.class);
 		action.setSprite(sprite);
 		action.setChangeVariable(variableFormula);
 		action.setUserVariable(userVariable);
@@ -382,7 +382,7 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createSetVariableAction(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
-		SetVariableAction action = Actions.action(SetVariableAction.class);
+		SetVariableAction action = action(SetVariableAction.class);
 		action.setSprite(sprite);
 		action.setChangeVariable(variableFormula);
 		action.setUserVariable(userVariable);
@@ -390,7 +390,7 @@ public class ActionFactory extends Actions {
 	}
 
 	public Action createIfLogcAction(Sprite sprite, Formula condition, Action ifAction, Action elseAction) {
-		IfLogicAction action = Actions.action(IfLogicAction.class);
+		IfLogicAction action = action(IfLogicAction.class);
 		action.setIfAction(ifAction);
 		action.setIfCondition(condition);
 		action.setElseAction(elseAction);
@@ -398,8 +398,8 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createRepeatAction(Sprite sprite, Formula count, Action repeatedAction) {
-		RepeatAction action = Actions.action(RepeatAction.class);
+	public RepeatAction createRepeatAction(Sprite sprite, Formula count, Action repeatedAction) {
+		RepeatAction action = action(RepeatAction.class);
 		action.setRepeatCount(count);
 		action.setAction(repeatedAction);
 		action.setSprite(sprite);
@@ -407,22 +407,18 @@ public class ActionFactory extends Actions {
 	}
 
 	public WaitAction createDelayAction(Sprite sprite, Formula delay) {
-		WaitAction action = Actions.action(WaitAction.class);
+		WaitAction action = action(WaitAction.class);
 		action.setSprite(sprite);
 		action.setDelay(delay);
 		return action;
 	}
 
 	public Action createForeverAction(Sprite sprite, SequenceAction foreverSequence) {
-		RepeatAction action = Actions.action(RepeatAction.class);
+		RepeatAction action = action(RepeatAction.class);
 		action.setIsForeverRepeat(true);
 		action.setAction(foreverSequence);
 		action.setSprite(sprite);
 		return action;
-	}
-
-	public SequenceAction createSequence() {
-		return Actions.sequence();
 	}
 
 	public Action createSetBounceFactorAction(Sprite sprite, Formula bounceFactor) {

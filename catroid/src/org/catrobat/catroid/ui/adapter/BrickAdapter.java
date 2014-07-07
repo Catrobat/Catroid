@@ -476,7 +476,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		int scriptPosition = 0;
 		int scriptOffset;
-		for (scriptOffset = 0; scriptOffset < position;) {
+		for (scriptOffset = 0; scriptOffset < position; ) {
 			scriptOffset += sprite.getScript(scriptPosition).getBrickList().size() + 1;
 			if (scriptOffset < position) {
 				scriptPosition++;
@@ -788,7 +788,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 	private int getScriptIndexFromProject(int index) {
 		int scriptIndex = 0;
-		for (int i = 0; i < index;) {
+		for (int i = 0; i < index; ) {
 
 			i += sprite.getScript(scriptIndex).getBrickList().size() + 1;
 			if (i <= index) {
@@ -883,9 +883,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 					notifyDataSetChanged();
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_formula_edit_brick))
 						&& brickList.get(itemPosition) instanceof FormulaBrick) {
-						FormulaEditorFragment.showFragment(view, brickList.get(itemPosition),
-						   ((FormulaBrick) brickList.get(itemPosition)).getFormula());
-					}
+					FormulaEditorFragment.showFragment(view, brickList.get(itemPosition),
+							((FormulaBrick) brickList.get(itemPosition)).getFormula());
+				}
 
 			}
 		});

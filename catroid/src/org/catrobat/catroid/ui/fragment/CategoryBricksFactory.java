@@ -198,7 +198,8 @@ public class CategoryBricksFactory {
 		float positiveDefaultValueChangeVolumeBy = Math.abs(BrickValues.CHANGE_VOLUME_BY);
 		FormulaElement defaultValueChangeVolumeBy = new FormulaElement(ElementType.OPERATOR, Operators.MINUS.name(),
 				null, null, new FormulaElement(ElementType.NUMBER, String.valueOf(positiveDefaultValueChangeVolumeBy),
-						null));
+				null)
+		);
 		soundBrickList.add(new ChangeVolumeByNBrick(sprite, new Formula(defaultValueChangeVolumeBy)));
 
 		soundBrickList.add(new SpeakBrick(sprite, context.getString(R.string.brick_speak_default_value)));

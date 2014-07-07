@@ -185,7 +185,7 @@ public final class LookController {
 		if (arguments != null) {
 			imageUri = (Uri) arguments.get(LOADER_ARGUMENTS_IMAGE_URI);
 		}
-		String[] projection = { MediaStore.MediaColumns.DATA };
+		String[] projection = {MediaStore.MediaColumns.DATA};
 		return new CursorLoader(activity, imageUri, projection, null, null, null);
 	}
 
@@ -377,11 +377,11 @@ public final class LookController {
 							activity.startActivity(downloadPocketPaintIntent);
 						}
 					}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
+				@Override
+				public void onClick(DialogInterface dialog, int id) {
+					dialog.cancel();
+				}
+			});
 			AlertDialog alert = builder.create();
 			alert.show();
 			return false;

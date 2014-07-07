@@ -120,7 +120,6 @@ public final class BroadcastHandler {
 			String actionName = broadcastWaitAction.toString() + Constants.ACTION_SPRITE_SEPARATOR + receiverSprite.getName() + receiverSprite.getScriptIndex(receiverScript);
 
 			stringActionMap.put(actionName, broadcastWaitAction);
-
 			if (!handleActionFromBroadcastWait(look, broadcastWaitAction)) {
 				event.raiseNumberOfReceivers();
 				actionList.add(broadcastWaitAction);

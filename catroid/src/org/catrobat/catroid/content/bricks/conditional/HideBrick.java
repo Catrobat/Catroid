@@ -114,7 +114,7 @@ public class HideBrick extends BrickBaseType {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createWaitAction(sprite, new Formula(300 / 1000.0))); // TODO[physics] hack - Race-condition
+		//sequence.addAction(sprite.getActionFactory().createWaitAction(sprite, new Formula(300 / 1000.0))); // TODO[physics] hack - Race-condition
 		sequence.addAction(sprite.getActionFactory().createHideAction(sprite));
 		return null;
 	}

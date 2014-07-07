@@ -117,6 +117,7 @@ public class ConnectionWrapper {
 	}
 
 	// Taken from https://gist.github.com/JakeWharton/5797571
+
 	/**
 	 * A {@link HttpRequest.ConnectionFactory connection factory} which uses OkHttp.
 	 * <p/>

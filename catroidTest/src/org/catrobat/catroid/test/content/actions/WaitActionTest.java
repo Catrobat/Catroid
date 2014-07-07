@@ -24,8 +24,6 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
-
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.formulaeditor.Formula;

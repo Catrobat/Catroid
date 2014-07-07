@@ -88,7 +88,8 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 							getActivity().finish();
 							dialog.dismiss();
 						}
-					});
+					}
+			);
 			termsOfUseDialogBuilder.setPositiveButton(R.string.dialog_terms_of_use_agree,
 					new DialogInterface.OnClickListener() {
 						@Override
@@ -103,7 +104,8 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 								droneInitializer.initialiseDrone();
 							}
 						}
-					});
+					}
+			);
 			termsOfUseDialogBuilder.setOnKeyListener(new OnKeyListener() {
 				@Override
 				public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
