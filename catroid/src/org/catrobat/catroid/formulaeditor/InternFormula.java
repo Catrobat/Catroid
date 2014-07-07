@@ -93,8 +93,8 @@ public class InternFormula {
 						.isFunctionParameterBracketOpen())
 				&& ((cursorPositionInternToken.isFunctionName())
 						|| (cursorPositionInternToken.isFunctionParameterBracketOpen() && cursorTokenPosition == CursorTokenPosition.LEFT)
-						|| (cursorPositionInternToken.isSensor()) || (cursorPositionInternToken.isUserVariable()) || (cursorPositionInternToken
-							.isString()))) {
+						|| (cursorPositionInternToken.isSensor()) || (cursorPositionInternToken.isUserVariable())
+						|| (cursorPositionInternToken.isUserList()) || (cursorPositionInternToken.isString()))) {
 			selectCursorPositionInternToken(TokenSelectionType.USER_SELECTION);
 		}
 

@@ -30,22 +30,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
-        <ImageButton
-            android:id="@+id/formula_editor_keyboard_undo"
-            style="@style/FormulaEditorImageButton"
+        <Button
+            android:id="@+id/formula_editor_keyboard_lists"
+            style="@style/FormulaEditorButton"
             android:layout_marginLeft="@dimen/key_margin"
             android:layout_marginTop="@dimen/key_margin"
-            android:layout_weight="0.175"
-            android:contentDescription="@string/formula_editor_image_button_description_undo"
-            android:src="@drawable/icon_undo" />
-
-        <ImageButton
-            android:id="@+id/formula_editor_keyboard_redo"
-            style="@style/FormulaEditorImageButton"
-            android:layout_marginTop="@dimen/key_margin"
-            android:layout_weight="0.175"
-            android:contentDescription="@string/formula_editor_image_button_description_redo"
-            android:src="@drawable/icon_redo" />
+            android:layout_weight="0.350"
+            android:text="@string/formula_editor_lists" />
 
         <Button
             android:id="@+id/formula_editor_keyboard_compute"

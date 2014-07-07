@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
 public class ExtendedActions extends Actions {
@@ -320,7 +321,15 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static IfLogicAction ifLogic(Sprite sprite, Formula condition, Action ifAction, Action elseAction) {
+	public static Action addItemToUserList(Sprite sprite, Formula userListFormula, UserList userList) {
+		AddItemToUserListAction action = action(AddItemToUserListAction.class);
+		action.setSprite(sprite);
+		action.setFormulaItemToAdd(userListFormula);
+		action.setUserList(userList);
+		return action;
+	}
+
+	public static IfLogicAction ifLogc(Sprite sprite, Formula condition, Action ifAction, Action elseAction) {
 		IfLogicAction action = action(IfLogicAction.class);
 		action.setIfAction(ifAction);
 		action.setIfCondition(condition);

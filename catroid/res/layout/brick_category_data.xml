@@ -22,13 +22,11 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/variablelist_local_headline"
-              style="@style/headlineLinearLayout" >
+    style="@style/BrickCategory" >
 
-    <org.catrobat.catroid.ui.CapitalizedTextView
-        style="@style/headlineTextView"
-        android:text="@string/formula_editor_variable_dialog_for_this_sprite_only" />
-
-    <View style="@style/headlineView" />
+    <TextView
+        style="@style/BrickCategoryText.Data"
+        android:text="@string/category_data" >
+    </TextView>
 
 </LinearLayout>

@@ -299,6 +299,11 @@
     </style >
     
     <style name="BrickContainer.UserBrick" ></style >
+
+    <style name="BrickCategoryText.Data">
+        <item name="android:background">@drawable/brick_selection_background_data</item>
+        <item name="android:drawableRight">@drawable/main_menu_button_arrow_variables</item>
+    </style>
     
     <style name="BrickContainer.UserBrick.Small" >
         <item name="android:minHeight" >@dimen/brick_height_small</item >

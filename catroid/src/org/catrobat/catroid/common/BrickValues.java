@@ -33,7 +33,7 @@ public final class BrickValues {
 	public static final Float POINT_IN_DIRECTION = 90f;
 	public static final int GLIDE_SECONDS = 1000;
 	public static final int GO_BACK = 1;
-    public static final int DURATION = 1;
+	public static final int DURATION = 1;
 
 	//constants Looks
 	public static final Float SET_SIZE_TO = 60f;
@@ -66,9 +66,12 @@ public final class BrickValues {
 	public static final int DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS = 1000;
 	public static final float DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT = 0.2f;
 
-    //Constants Variables
+	//Constants Variables
 	public static final double SET_VARIABLE = 0d;
 	public static final double CHANGE_VARIABLE = 0d;
+
+	//Constants Lists
+	public static final double ADD_ITEM_TO_USERLIST = 0d;
 
 	// Suppress default constructor for noninstantiability
 	private BrickValues() {

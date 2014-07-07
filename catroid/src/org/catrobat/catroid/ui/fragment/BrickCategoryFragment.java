@@ -151,6 +151,7 @@ public class BrickCategoryFragment extends SherlockListFragment {
 		categories.add(inflater.inflate(R.layout.brick_category_motion, null));
 		categories.add(inflater.inflate(R.layout.brick_category_sound, null));
 		categories.add(inflater.inflate(R.layout.brick_category_looks, null));
+		categories.add(inflater.inflate(R.layout.brick_category_data, null));
 
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		if (sharedPreferences.getBoolean("setting_mindstorm_bricks", false)) {
