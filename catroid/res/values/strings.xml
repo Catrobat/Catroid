@@ -45,6 +45,8 @@
     <string name="stage">Stage</string>
     <string name="ok">OK</string>
     <string name="settings">Settings</string>
+    <string name="redo">Redo</string>
+    <string name="undo">Undo</string>
     <!--  -->
 
 
@@ -327,8 +329,8 @@
     <string name="category_looks">Looks</string>
     <string name="category_sound">Sound</string>
     <string name="category_control">Control</string>
-    <string name="category_variables">Variables</string>
     <string name="category_user_bricks">My Bricks</string>
+    <string name="category_data">Data</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_drone">ARDrone</string>
     <!--  -->
@@ -431,6 +433,8 @@
     <string name="brick_variable_spinner_create_new_variable">New…</string>
     <string name="brick_note_default_value">"add comment here…"</string>
     <string name="brick_broadcast_default_value">"message 1"</string>
+    <string name="brick_add_item_to_userlist_add">Add to list</string>
+    <string name="brick_add_item_to_userlist">the value</string>
     <!--  -->
 
 
@@ -578,6 +582,7 @@
 
 
     <!-- Formula Editor Strings -->
+    <string name="formula_editor_lists">Lists</string>
     <string name="formula_editor_true">True</string>
     <string name="formula_editor_false">False</string>
     <string name="formula_editor_decimal_mark">.</string>
@@ -672,14 +677,13 @@
     <string name="formula_editor_operator_minus">-</string>
     <string name="formula_editor_operator_divide">÷</string>
     <string name="formula_editor_operator_power">^</string>
-    <string name="formula_editor_image_button_description_undo">undo</string>
-    <string name="formula_editor_image_button_description_redo">redo</string>
     <string name="formula_editor_image_button_description_delete">delete</string>
     <string name="formula_editor_variable_dialog_title">New Variable</string>
-    <string name="formula_editor_variable_dialog_for_this_brick">For this brick</string> 
-    <string name="formula_editor_variable_dialog_for_all_sprites">For all objects</string>
-    <string name="formula_editor_variable_dialog_for_this_sprite_only">For this object only</string>
+    <string name="formula_editor_variable_dialog_for_this_brick">For this brick</string>
+    <string name="formula_editor_dialog_for_all_sprites">For all objects</string>
+    <string name="formula_editor_dialog_for_this_sprite_only">For this object only</string>
     <string name="formula_editor_variable_dialog_hint">Enter variable name</string>
+    <string name="formula_editor_userlist_dialog_hint">Enter list name</string>
     <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
     <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
     <string name="variable_name">variable name:</string>
@@ -689,6 +693,13 @@
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable selected!</item>
         <item quantity="other">Variables selected!</item>
+    </plurals>
+    <string name="formula_editor_userlist_dialog_title">New List</string>
+    <string name="userlist_name">list name:</string>
+    <string name="formula_editor_existing_userlist">Name already in use!</string>
+    <plurals name="formula_editor_userlist_context_action_item_selected">
+        <item quantity="one">List selected!</item>
+        <item quantity="other">Lists selected!</item>
     </plurals>
     <!--  -->
     

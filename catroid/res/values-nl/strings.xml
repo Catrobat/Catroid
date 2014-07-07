@@ -514,8 +514,8 @@
     <string name="formula_editor_image_button_description_redo">"opnieuw"</string>
     <string name="formula_editor_image_button_description_delete">"verwijderen"</string>
     <string name="formula_editor_variable_dialog_title">"Nieuwe variabele"</string>
-    <string name="formula_editor_variable_dialog_for_all_sprites">"Voor alle objecten"</string>
-    <string name="formula_editor_variable_dialog_for_this_sprite_only">"Alleen voor dit object"</string>
+    <string name="formula_editor_dialog_for_all_sprites">"Voor alle objecten"</string>
+    <string name="formula_editor_dialog_for_this_sprite_only">"Alleen voor dit object"</string>
     <string name="formula_editor_variable_dialog_hint">"Voer variabelenaam in"</string>
     <string name="formula_editor_new_string_name">Nieuwe tekst</string>
     <string name="formula_editor_new_string_dialog_hint">Typ hier een nieuwe tekst.</string>

@@ -237,8 +237,12 @@ public class StageListener implements ApplicationListener {
 		this.stageDialog = stageDialog;
 
 		project.getUserVariables().resetAllUserVariables();
+
 		LedUtil.reset();
 		VibratorUtil.reset();
+
+		ProjectManager.getInstance().getCurrentProject().getUserLists().resetAllUserLists();
+
 
 		reloadProject = true;
 	}

@@ -25,8 +25,8 @@
     style="@style/BrickCategory" >
 
     <TextView
-        style="@style/BrickCategoryText.Variables"
-        android:text="@string/category_variables" >
+        style="@style/BrickCategoryText.Data"
+        android:text="@string/category_data" >
     </TextView>
 
 </LinearLayout>
