@@ -49,8 +49,6 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_terms_of_use";
 	public static final String DIALOG_ARGUMENT_TERMS_OF_USE_ACCEPT = "dialog_terms_of_use_accept";
 
-	CheckBox checkboxTermsOfUseAccptedPermanently = null;
-
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
 		Bundle fragmentDialogArguments = getArguments();
@@ -60,6 +58,9 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 		}
 
 		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_terms_of_use, null);
+
+		final CheckBox checkBoxTermsOfUseAcceptedPermanently = (CheckBox) view
+				.findViewById(R.id.dialog_terms_of_use_check_box_agree_permanently);
 
 		TextView termsOfUseUrlTextView = (TextView) view.findViewById(R.id.dialog_terms_of_use_text_view_url);
 		termsOfUseUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -92,7 +93,7 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 					new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int id) {
-							if (checkboxTermsOfUseAccptedPermanently.isChecked()) {
+							if (checkBoxTermsOfUseAcceptedPermanently.isChecked()) {
 								SettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), true);
 							}
 							dialog.dismiss();
@@ -111,10 +112,8 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 				}
 			});
 
-			checkboxTermsOfUseAccptedPermanently = (CheckBox) view
-					.findViewById(R.id.dialog_terms_of_use_check_box_agree_permanently);
-			checkboxTermsOfUseAccptedPermanently.setVisibility(CheckBox.VISIBLE);
-			checkboxTermsOfUseAccptedPermanently.setText(R.string.dialog_terms_of_use_agree_permanet);
+			checkBoxTermsOfUseAcceptedPermanently.setVisibility(CheckBox.VISIBLE);
+			checkBoxTermsOfUseAcceptedPermanently.setText(R.string.dialog_terms_of_use_agree_permanent);
 			termsOfUseDialogBuilder.setCancelable(false);
 		}
 

@@ -67,7 +67,7 @@ public class AddBrickFragment extends SherlockListFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_brick_add, null);
+		View view = inflater.inflate(R.layout.fragment_brick_add, container, false);
 
 		setUpActionBar();
 		setupSelectedBrickCategory();

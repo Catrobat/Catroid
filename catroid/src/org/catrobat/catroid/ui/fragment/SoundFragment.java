@@ -122,14 +122,12 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	private OnSoundInfoListChangedAfterNewListener soundInfoListChangedAfterNewListener;
 
-	private ImageButton addButton;
-
 	public void setOnSoundInfoListChangedAfterNewListener(OnSoundInfoListChangedAfterNewListener listener) {
 		soundInfoListChangedAfterNewListener = listener;
 	}
 
 	private void setHandleAddbutton() {
-		addButton = (ImageButton) getSherlockActivity().findViewById(R.id.button_add);
+		ImageButton addButton = (ImageButton) getSherlockActivity().findViewById(R.id.button_add);
 		addButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -148,9 +146,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-		View rootView = inflater.inflate(R.layout.fragment_sounds, null);
-		return rootView;
+		return inflater.inflate(R.layout.fragment_sounds, container, false);
 	}
 
 	@Override
@@ -576,11 +572,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	@Override
 	public boolean getShowDetails() {
 		// TODO CHANGE THIS!!! (was just a quick fix)
-		if (adapter != null) {
-			return adapter.getShowDetails();
-		} else {
-			return false;
-		}
+		return adapter != null && adapter.getShowDetails();
 	}
 
 	@Override
@@ -914,30 +906,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 		void onSoundInfoListChangedAfterNew(SoundInfo soundInfo);
 
-	}
-
-	public SoundDeletedReceiver getSoundDeletedReceiver() {
-		return soundDeletedReceiver;
-	}
-
-	public void setSoundDeletedReceiver(SoundDeletedReceiver soundDeletedReceiver) {
-		this.soundDeletedReceiver = soundDeletedReceiver;
-	}
-
-	public SoundRenamedReceiver getSoundRenamedReceiver() {
-		return soundRenamedReceiver;
-	}
-
-	public void setSoundRenamedReceiver(SoundRenamedReceiver soundRenamedReceiver) {
-		this.soundRenamedReceiver = soundRenamedReceiver;
-	}
-
-	public SoundCopiedReceiver getSoundCopiedReceiver() {
-		return soundCopiedReceiver;
-	}
-
-	public void setSoundCopiedReceiver(SoundCopiedReceiver soundCopiedReceiver) {
-		this.soundCopiedReceiver = soundCopiedReceiver;
 	}
 
 	public class CopyAudioFilesTask extends AsyncTask<String, Void, File> {

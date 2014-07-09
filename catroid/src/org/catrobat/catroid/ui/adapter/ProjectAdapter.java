@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -34,8 +34,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -59,7 +57,6 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 	private int selectMode;
 	private Set<Integer> checkedProjects = new TreeSet<Integer>();
 	private OnProjectEditListener onProjectEditListener;
-	private Context context;
 
 	private static class ViewHolder {
 		private RelativeLayout background;
@@ -83,7 +80,6 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		screenshotLoader = new ProjectScreenshotLoader(context);
 		showDetails = false;
 		selectMode = ListView.CHOICE_MODE_NONE;
-		this.context = context;
 	}
 
 	public void setOnProjectEditListener(OnProjectEditListener listener) {
@@ -123,25 +119,25 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 	}
 
 	@Override
-	public View getView(final int position, View convView, ViewGroup parent) {
-		View convertView = convView;
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		View projectView = convertView;
 		final ViewHolder holder;
-		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.activity_my_projects_list_item, null);
+		if (projectView == null) {
+			projectView = inflater.inflate(R.layout.activity_my_projects_list_item, parent, false);
 			holder = new ViewHolder();
-			holder.background = (RelativeLayout) convertView.findViewById(R.id.my_projects_activity_item_background);
-			holder.checkbox = (CheckBox) convertView.findViewById(R.id.project_checkbox);
-			holder.projectName = (TextView) convertView.findViewById(R.id.my_projects_activity_project_title);
-			holder.image = (ImageView) convertView.findViewById(R.id.my_projects_activity_project_image);
-			holder.size = (TextView) convertView.findViewById(R.id.my_projects_activity_size_of_project_2);
-			holder.dateChanged = (TextView) convertView.findViewById(R.id.my_projects_activity_project_changed_2);
-			holder.projectDetails = convertView.findViewById(R.id.my_projects_activity_list_item_details);
-			holder.arrow = (ImageView) convertView.findViewById(R.id.arrow_right);
+			holder.background = (RelativeLayout) projectView.findViewById(R.id.my_projects_activity_item_background);
+			holder.checkbox = (CheckBox) projectView.findViewById(R.id.project_checkbox);
+			holder.projectName = (TextView) projectView.findViewById(R.id.my_projects_activity_project_title);
+			holder.image = (ImageView) projectView.findViewById(R.id.my_projects_activity_project_image);
+			holder.size = (TextView) projectView.findViewById(R.id.my_projects_activity_size_of_project_2);
+			holder.dateChanged = (TextView) projectView.findViewById(R.id.my_projects_activity_project_changed_2);
+			holder.projectDetails = projectView.findViewById(R.id.my_projects_activity_list_item_details);
+			holder.arrow = (ImageView) projectView.findViewById(R.id.arrow_right);
 			// temporarily removed - because of upcoming release, and bad performance of projectdescription
-			//			holder.description = (TextView) convertView.findViewById(R.id.my_projects_activity_description);
-			convertView.setTag(holder);
+			//			holder.description = (TextView) projectView.findViewById(R.id.my_projects_activity_description);
+			projectView.setTag(holder);
 		} else {
-			holder = (ViewHolder) convertView.getTag();
+			holder = (ViewHolder) projectView.getTag();
 		}
 
 		// ------------------------------------------------------------
@@ -188,15 +184,9 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		if (!showDetails) {
 			holder.projectDetails.setVisibility(View.GONE);
 			holder.projectName.setSingleLine(true);
-			int standardItemHeight = context.getResources().getDimensionPixelSize(R.dimen.my_projects_list_item_height);
-			holder.background.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
-					standardItemHeight));
-
 		} else {
 			holder.projectDetails.setVisibility(View.VISIBLE);
 			holder.projectName.setSingleLine(false);
-			holder.background.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
-					LayoutParams.WRAP_CONTENT));
 		}
 
 		holder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -274,7 +264,7 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		//			projectManager.loadProject(currentProjectName, context, false);
 		//		}
 
-		return convertView;
+		return projectView;
 	}
 
 	public interface OnProjectEditListener {

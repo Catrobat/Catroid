@@ -112,7 +112,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_sprites_list, null);
+		return inflater.inflate(R.layout.fragment_sprites_list, container);
 	}
 
 	@Override
@@ -350,10 +350,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
-	}
-
-	public Sprite getSpriteToEdit() {
-		return spriteToEdit;
 	}
 
 	public void handleCheckBoxClick(View view) {

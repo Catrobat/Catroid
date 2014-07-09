@@ -22,9 +22,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="0dp"
-    android:orientation="horizontal" >
+              android:layout_width="fill_parent"
+              android:layout_height="@dimen/my_projects_list_item_height"
+              android:orientation="horizontal"
+              android:minHeight="@dimen/my_projects_list_item_height" >
 
     <CheckBox
         android:id="@+id/project_checkbox"
@@ -38,9 +39,8 @@
     <RelativeLayout
         android:id="@+id/my_projects_activity_item_background"
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/my_projects_list_item_height"
-        android:background="@drawable/button_background_selector"
-        android:minHeight="@dimen/my_projects_list_item_height" >
+        android:layout_height="match_parent"
+        android:background="@drawable/button_background_selector" >
 
         <ImageView
             android:id="@+id/my_projects_activity_project_image"
@@ -63,6 +63,6 @@
             android:layout_centerVertical="true"
             android:paddingRight="14dp"
             android:src="@drawable/ic_arrow_right" />
-    </RelativeLayout>
+    </RelativeLayout >
 
-</LinearLayout>
+</LinearLayout >

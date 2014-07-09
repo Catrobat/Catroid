@@ -151,7 +151,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_projects_list, null);
+		View rootView = inflater.inflate(R.layout.fragment_projects_list, container);
 		return rootView;
 	}
 
