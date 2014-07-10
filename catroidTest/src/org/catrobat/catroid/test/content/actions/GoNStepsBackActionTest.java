@@ -26,24 +26,34 @@ import android.test.AndroidTestCase;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.GoNStepsBackAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+
+import java.util.List;
 
 public class GoNStepsBackActionTest extends AndroidTestCase {
 
 	private final Formula steps = new Formula(17);
 
 	public void testSteps() {
+		Project project = new Project(getContext(), "testProject");
 		Group parentGroup = new Group();
+
 		for (int i = 0; i < 20; i++) {
 			Sprite spriteBefore = new Sprite("before" + i);
 			parentGroup.addActor(spriteBefore.look);
+			project.addSprite(spriteBefore);
 		}
 		Sprite sprite = new Sprite("testSprite");
 		parentGroup.addActor(sprite.look);
+		project.addSprite(sprite);
 		assertEquals("Unexpected initial sprite Z position", 20, sprite.look.getZIndex());
+
+		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project.getSpriteList());
 
 		int oldPosition = sprite.look.getZIndex();
 
@@ -53,6 +63,7 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed",
 				(oldPosition - steps.interpretInteger(sprite)), sprite.look.getZIndex());
 
+		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project.getSpriteList());
 		oldPosition = sprite.look.getZIndex();
 
 		action = ExtendedActions.goNStepsBack(sprite, new Formula(-steps.interpretInteger(sprite)));
@@ -60,7 +71,32 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 		action.act(1.0f);
 		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed",
 				(oldPosition + steps.interpretInteger(sprite)), sprite.look.getZIndex());
+		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project.getSpriteList());
 	}
+
+	private void checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(List<Sprite> spriteList) {
+		int spriteSize = spriteList.size();
+		int actualZIndex;
+
+		boolean zIndexFound;
+
+		for (int zIndex = 0; zIndex < spriteSize - 1; zIndex++) {
+			zIndexFound = false;
+			for (int i = 0; i < spriteSize; i++) {
+				actualZIndex = spriteList.get(i).look.getZIndex();
+				if (actualZIndex == zIndex) {
+					zIndexFound = true;
+					break;
+
+				}
+
+			}
+			assertTrue("z-indexing not correct. z-index have to be from 0 to n-1 each value only once", zIndexFound);
+		}
+
+
+	}
+
 
 	public void testNullSprite() {
 		GoNStepsBackAction action = ExtendedActions.goNStepsBack(null, steps);
@@ -73,6 +109,7 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 	}
 
 	public void testBoundarySteps() {
+		Project project = new Project(getContext(), "testProject");
 		Group parentGroup = new Group();
 
 		Sprite background = new Sprite("background");
@@ -86,6 +123,12 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 		Sprite sprite2 = new Sprite("testSprite2");
 		parentGroup.addActor(sprite2.look);
 		assertEquals("Unexpected initial sprite Z position", 2, sprite2.look.getZIndex());
+
+
+		project.addSprite(sprite);
+		project.addSprite(sprite2);
+		ProjectManager.getInstance().setProject(project);
+
 
 		GoNStepsBackAction action = ExtendedActions.goNStepsBack(sprite, new Formula(Integer.MAX_VALUE));
 		sprite.look.addAction(action);
