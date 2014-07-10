@@ -87,14 +87,14 @@ public class BroadcastEvent extends Event {
 		this.numberOfFinishedReceivers++;
 	}
 
-	public boolean checkIfAllReceiversHaveFinished() {
+	public boolean allReceiversHaveFinished() {
 		return numberOfReceivers <= numberOfFinishedReceivers;
 	}
 
 	public void resetEventAndResumeScript() {
 		resetNumberOfReceivers();
 		resetNumberOfFinishedReceivers();
-		BroadcastWaitSequenceMap.remove(getBroadcastMessage());
+		BroadcastWaitSequenceMap.remove(broadcastMessage);
 		BroadcastWaitSequenceMap.clearCurrentBroadcastEvent();
 		setRun(true);
 	}

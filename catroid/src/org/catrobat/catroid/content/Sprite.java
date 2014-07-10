@@ -24,11 +24,13 @@ package org.catrobat.catroid.content;
 
 import android.util.Log;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.BroadcastSequenceMap;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
@@ -40,6 +42,7 @@ import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Sprite implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
@@ -104,16 +107,39 @@ public class Sprite implements Serializable, Cloneable {
 		}
 	}
 
-	public void createStartScriptActionSequence() {
-		for (Script s : scriptList) {
-			if (s instanceof StartScript) {
-				look.addAction(createActionSequence(s));
+	public void createStartScriptActionSequenceAndPutToMap(Map<String, List<String>> scriptActions) {
+		for (Script script : scriptList) {
+			if (script instanceof StartScript) {
+				Action sequenceAction = createActionSequence(script);
+				look.addAction(sequenceAction);
+				BroadcastHandler.getActionSpriteMap().put(sequenceAction, script.getScriptBrick().getSprite());
+				String actionName = sequenceAction.toString() + Constants.ACTION_SPRITE_SEPARATOR + name;
+				if(scriptActions.containsKey(Constants.START_SCRIPT)) {
+					scriptActions.get(Constants.START_SCRIPT).add(actionName);
+					BroadcastHandler.getStringActionMap().put(actionName, sequenceAction);
+				}else{
+					List<String> startScriptList = new ArrayList<String>();
+					startScriptList.add(actionName);
+					scriptActions.put(Constants.START_SCRIPT, startScriptList);
+					BroadcastHandler.getStringActionMap().put(actionName, sequenceAction);
+				}
 			}
-			if (s instanceof BroadcastScript) {
-				BroadcastScript script = (BroadcastScript) s;
-				SequenceAction action = createBroadcastScriptActionSequence(script);
-				putBroadcastSequenceAction(script.getBroadcastMessage(), action);
+			if (script instanceof BroadcastScript) {
+				BroadcastScript broadcastScript = (BroadcastScript) script;
+				SequenceAction action = createActionSequence(broadcastScript);
+				BroadcastHandler.getActionSpriteMap().put(action, script.getScriptBrick().getSprite());
+				putBroadcastSequenceAction(broadcastScript.getBroadcastMessage(), action);
+				String actionName = action.toString() + Constants.ACTION_SPRITE_SEPARATOR + name;
 
+				if(scriptActions.containsKey(Constants.BROADCAST_SCRIPT)) {
+					scriptActions.get(Constants.BROADCAST_SCRIPT).add(actionName);
+					BroadcastHandler.getStringActionMap().put(actionName, action);
+				}else{
+					List<String> broadcastScriptList = new ArrayList<String>();
+					broadcastScriptList.add(actionName);
+					scriptActions.put(Constants.BROADCAST_SCRIPT, broadcastScriptList);
+					BroadcastHandler.getStringActionMap().put(actionName, action);
+				}
 			}
 		}
 	}
@@ -190,20 +216,10 @@ public class Sprite implements Serializable, Cloneable {
 		look.addAction(whenParallelAction);
 	}
 
-	public SequenceAction createBroadcastScriptActionSequence(BroadcastScript script) {
-		return createActionSequence(script);
-	}
-
 	private SequenceAction createActionSequence(Script s) {
 		SequenceAction sequence = ExtendedActions.sequence();
 		s.run(sequence);
 		return sequence;
-	}
-
-	public void startScriptBroadcast(Script s, boolean overload) {
-		SequenceAction sequence = ExtendedActions.sequence();
-		s.run(sequence);
-		look.addAction(sequence);
 	}
 
 	public void pause() {

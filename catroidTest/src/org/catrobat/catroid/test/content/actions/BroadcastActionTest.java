@@ -37,6 +37,9 @@ import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
+import java.util.HashMap;
+import java.util.List;
+
 public class BroadcastActionTest extends AndroidTestCase {
 
 	public void testBroadcast() {
@@ -57,7 +60,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 		project.addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 
-		sprite.createStartScriptActionSequence();
+		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
 		while (!allActionsOfAllSpritesAreFinished()) {
 			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
@@ -91,7 +94,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 		project.addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 
-		sprite.createStartScriptActionSequence();
+		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
 		while (!allActionsOfAllSpritesAreFinished()) {
 			for (Sprite spriteOfList : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
@@ -126,7 +129,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 		project.addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 
-		sprite.createStartScriptActionSequence();
+		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
 		int loopCounter = 0;
 		while (!allActionsOfAllSpritesAreFinished() && loopCounter++ < 20) {
@@ -168,7 +171,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 		project.addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 
-		sprite.createStartScriptActionSequence();
+		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
 		int loopCounter = 0;
 		while (!allActionsOfAllSpritesAreFinished() && loopCounter++ < 20) {
