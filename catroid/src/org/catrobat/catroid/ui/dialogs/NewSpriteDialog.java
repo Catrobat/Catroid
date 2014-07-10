@@ -33,6 +33,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +52,7 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.controller.LookController;
+import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.UtilCamera;
 import org.catrobat.catroid.utils.Utils;
 
@@ -157,7 +159,18 @@ public class NewSpriteDialog extends DialogFragment {
 		}
 		newObjectName = Utils.getUniqueObjectName(newObjectName);
 
-		imageView.setImageURI(lookUri);
+		DisplayMetrics metrics = new DisplayMetrics();
+		getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+		int[] imageDimensions = ImageEditing.getImageDimensions(lookUri.getPath());
+
+		while (metrics.widthPixels < imageDimensions[0] && metrics.heightPixels < imageDimensions[1]) {
+			imageDimensions[0] = imageDimensions[0] / 2;
+			imageDimensions[1] = imageDimensions[1] / 2;
+		}
+
+		imageView.setImageBitmap(ImageEditing.getScaledBitmapFromPath(lookUri.getPath(), imageDimensions[0], imageDimensions[1], ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, true));
+
 		EditText editTextNewObject = (EditText) dialogView.findViewById(R.id.dialog_new_object_name_edit_text);
 		editTextNewObject.setHint(newObjectName);
 		return dialog;
