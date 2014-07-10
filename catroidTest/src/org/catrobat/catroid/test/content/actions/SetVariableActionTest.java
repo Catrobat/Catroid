@@ -39,6 +39,9 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
+import java.util.HashMap;
+import java.util.List;
+
 public class SetVariableActionTest extends AndroidTestCase {
 
 	private static final String TEST_USERVARIABLE = "testUservariable";
@@ -92,7 +95,7 @@ public class SetVariableActionTest extends AndroidTestCase {
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
 
-		testSprite.createStartScriptActionSequence();
+		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
 		testSprite.look.act(100f);
 
@@ -132,7 +135,7 @@ public class SetVariableActionTest extends AndroidTestCase {
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
 
-		testSprite.createStartScriptActionSequence();
+		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
 		testSprite.look.act(100f);
 
