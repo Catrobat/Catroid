@@ -5,7 +5,7 @@ repositories{
 apply plugin: 'java'
 
 dependencies {
-    testCompile files( project(":").buildDir.getPath() + '/intermediates/classes/debug' )
+    testCompile files(project(":").buildDir.getPath() + '/intermediates/classes/catroid/debug')
     testCompile 'junit:junit:4.10'
 }
 

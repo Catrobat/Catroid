@@ -19,6 +19,7 @@ apply plugin: 'com.android.application'
 //apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
+apply from: 'buildAPK.gradle'
 apply from: 'gradle/adb_tasks.gradle'
 apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/intellij_config_tasks.gradle'
@@ -177,7 +178,7 @@ task featuresToBuildconfig << {
 
 task testManifestHack << {
     def origManifest = file('catroidTest/AndroidManifest.xml')
-    def generatedManifest = file("build/intermediates/manifests/test/debug/AndroidManifest.xml")
+    def generatedManifest = file("build/intermediates/manifests/test/catroid/debug/AndroidManifest.xml")
     def origContent = origManifest.getText()
     def generatedContent = generatedManifest.getText()
     def pattern = Pattern.compile("<application.*?>.*?</application>", Pattern.DOTALL)
@@ -189,7 +190,7 @@ task testManifestHack << {
 }
 
 gradle.projectsEvaluated {
-    generateDebugTestBuildConfig.dependsOn testManifestHack
+    generateCatroidDebugTestBuildConfig.dependsOn testManifestHack
 }
 
 preBuild.dependsOn featuresToBuildconfig
@@ -198,4 +199,3 @@ def signing_config_file = file(System.getProperty("user.home") + "/.catrobat/cat
 if (signing_config_file.exists()) {
     apply from: signing_config_file.absolutePath
 }
-
