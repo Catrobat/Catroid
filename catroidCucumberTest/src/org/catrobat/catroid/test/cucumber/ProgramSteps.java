@@ -22,10 +22,6 @@
  */
 package org.catrobat.catroid.test.cucumber;
 
-import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-
 import android.test.AndroidTestCase;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -53,6 +49,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+
+import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 // CHECKSTYLE DISABLE MethodNameCheck FOR 1000 LINES
 public class ProgramSteps extends AndroidTestCase {

@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.uitest.util;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -156,6 +153,9 @@ import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
 
 public final class UiTestUtils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();

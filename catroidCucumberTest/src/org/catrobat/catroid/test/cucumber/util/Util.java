@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.test.cucumber.util;
 
-import static junit.framework.Assert.fail;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -43,6 +41,8 @@ import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.*;
+
+import static junit.framework.Assert.fail;
 
 public final class Util {
 	private Util() {
