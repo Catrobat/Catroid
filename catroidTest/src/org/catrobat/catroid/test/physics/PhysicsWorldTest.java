@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.physics;
 
 import android.test.AndroidTestCase;
+import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -44,6 +45,7 @@ public class PhysicsWorldTest extends AndroidTestCase {
 		GdxNativesLoader.load();
 	}
 
+	private final static String TAG = PhysicsObjectTest.class.getSimpleName();
 	private PhysicsWorld physicsWorld;
 	private World world;
 	private Map<Sprite, PhysicsObject> physicsObjects;
@@ -93,7 +95,7 @@ public class PhysicsWorldTest extends AndroidTestCase {
 			physicsWorld.getPhysicsObject(null);
 			fail("Get physics object of a null sprite didn't cause a null pointer exception");
 		} catch (NullPointerException exception) {
-			// Expected behavior
+			Log.e(TAG, exception.toString());
 		}
 	}
 
@@ -112,7 +114,7 @@ public class PhysicsWorldTest extends AndroidTestCase {
 		ParameterList paramList = new ParameterList(values);
 		PhysicsObject physicsObject = (PhysicsObject) Reflection.invokeMethod(physicsWorld, "createPhysicsObject",
 				paramList);
-		Body body = (Body) Reflection.getPrivateField(physicsObject, "body");
+		//Body body = (Body) Reflection.getPrivateField(physicsObject, "body");
 
 		assertEquals("Type is not the expected", Type.NONE, physicsObject.getType());
 		// TODO[Physics] extend test

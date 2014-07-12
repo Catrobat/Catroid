@@ -38,6 +38,7 @@ import com.badlogic.gdx.physics.box2d.Transform;
 import org.catrobat.catroid.content.Sprite;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PhysicsObject {
 	public enum Type {
@@ -90,10 +91,16 @@ public class PhysicsObject {
 	}
 
 	public void setShape(Shape[] shapes) {
-		if (this.shapes == shapes) {
+		if (Arrays.equals(this.shapes , shapes)) {
 			return;
 		}
-		this.shapes = shapes;
+
+		if(shapes != null) {
+			this.shapes = Arrays.copyOf(shapes, shapes.length);
+		}
+		else {
+			this.shapes = null;
+		}
 
 		ArrayList<Fixture> fixturesOld = new ArrayList<Fixture>(body.getFixtureList());
 

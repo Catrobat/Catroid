@@ -24,6 +24,7 @@ package org.catrobat.catroid.physics.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -49,6 +50,8 @@ import java.util.List;
 
 public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMessage {
 	private static final long serialVersionUID = 1L;
+
+	private final static String TAG = CollisionReceiverBrick.class.getSimpleName();
 
 	private CollisionScript receiveScript;
 	private transient String collisionSpriteName;
@@ -141,6 +144,7 @@ public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMess
 				String selectedMessage = broadcastSpinner.getSelectedItem().toString();
 				if (selectedMessage.equals(context.getString(R.string.new_broadcast_message))) {
 					//					showNewMessageDialog(broadcastSpinner);
+					Log.d(TAG, "showNewMessageDialog(broadcastSpinner) ? [physics]");
 				} else {
 					receiveScript.setBroadcastMessage(selectedMessage);
 					collisionSpriteName = selectedMessage;
@@ -166,11 +170,9 @@ public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMess
 		for (Sprite sprite : project.getSpriteList()) {
 			if (!spriteName.equals(sprite.getName())) {
 				ressources |= sprite.getRequiredResources();
-				if ((ressources & Brick.PHYSIC) > 0) {
-					if (messageAdapter.getPosition(sprite.getName()) < 0) {
+				if ((ressources & Brick.PHYSIC) > 0 && messageAdapter.getPosition(sprite.getName()) < 0) {
 						messageAdapter.add(spriteName + "<->" + sprite.getName());
 						ressources &= ~Brick.PHYSIC;
-					}
 				}
 			}
 		}

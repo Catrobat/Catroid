@@ -87,7 +87,7 @@ public final class StandardProjectHandler {
 
 	private static final String TAG = StandardProjectHandler.class.getSimpleName();
 	private static double backgroundImageScaleFactor = 1;
-	private static final String FILENAME_SEPARATOR = "_";
+	//private static final String FILENAME_SEPARATOR = "_";
 
 	// Suppress default constructor for noninstantiability
 	private StandardProjectHandler() {
@@ -565,7 +565,6 @@ public final class StandardProjectHandler {
 		defaultPhysicsProject.setDeviceData(context); // density anywhere here
 		StorageHandler.getInstance().saveProject(defaultPhysicsProject);
 		ProjectManager.getInstance().setProject(defaultPhysicsProject);
-		PhysicsWorld physicsWorld = defaultPhysicsProject.getPhysicsWorld();
 
 		backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
 				R.drawable.background_480_800, context);
@@ -595,7 +594,6 @@ public final class StandardProjectHandler {
 
 		// Square sprite
 		Sprite square = new Sprite("square");
-		StartScript startScriptSquare = new StartScript(square);
 
 		Script squareStartScript = createElement(context, projectName, square, "square", R.drawable.square, new Vector2(0.0f, 400.0f),
 				Float.NaN);
@@ -856,11 +854,11 @@ public final class StandardProjectHandler {
 		sprite.addScript(startScript);
 		return startScript;
 	}
-
-	private static File copyFromResourceInProject(String projectName, String directoryName, String outputName,
-			int fileId, Context context) throws IOException {
-		return copyFromResourceInProject(projectName, directoryName, outputName, fileId, context, true);
-	}
+/*
+//	private static File copyFromResourceInProject(String projectName, String directoryName, String outputName,
+//			int fileId, Context context) throws IOException {
+//		return copyFromResourceInProject(projectName, directoryName, outputName, fileId, context, true);
+//	}
 
 	private static File copyFromResourceInProject(String projectName, String directoryName, String outputName,
 			int fileId, Context context, boolean prependMd5) throws IOException {
@@ -893,7 +891,7 @@ public final class StandardProjectHandler {
 
 		return copiedFileWithMd5;
 	}
-
+*/
 	private static Script setPhysicsProperties(Sprite sprite, Script startScript, PhysicsObject.Type type,
 			float bounce, float friction) {
 		if (startScript == null) {
@@ -914,7 +912,7 @@ public final class StandardProjectHandler {
 		return startScript;
 	}
 
-	private static void createButtonPressed(Context context, String projectName, Sprite sprite, String broadcastMessage) throws IOException {
+/*	private static void createButtonPressed(Context context, String projectName, Sprite sprite, String broadcastMessage) throws IOException {
 		MessageContainer.addMessage(broadcastMessage);
 
 		WhenScript whenPressedScript = new WhenScript(sprite);
@@ -960,7 +958,7 @@ public final class StandardProjectHandler {
 
 		sprite.addScript(broadcastScript);
 	}
-
+*/
 	public static Project createAndSaveEmptyProject(String projectName, Context context) {
 		if (StorageHandler.getInstance().projectExists(projectName)) {
 			throw new IllegalArgumentException("Project with name '" + projectName + "' already exists!");

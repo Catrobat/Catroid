@@ -57,23 +57,23 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 	private Project project;
 	private File projectFile;
 	private String simpleSingleConvexPolygonFileName;
-	private String complexSingleConvexPolygonFileName;
-	private String multibleConvexPolygonsFileName;
-	private String singleConcavePolygonFileName;
-	private String multibleConcavePolygonsFileName;
-	private String multibleMixedPolygonsFileName;
+	//private String complexSingleConvexPolygonFileName;
+	//private String multibleConvexPolygonsFileName;
+	//private String singleConcavePolygonFileName;
+	//private String multibleConcavePolygonsFileName;
+	//private String multibleMixedPolygonsFileName;
 	private static final int SIMPLE_SINGLE_CONVEX_POLYGON_RES_ID = R.raw.rectangle_125x125;
-	private static final int COMPLEX_SINGLE_CONVEX_POLYGON_RES_ID = R.raw.complex_single_convex_polygon;
-	private static final int MULTIBLE_CONVEX_POLYGON_RES_ID = R.raw.multible_convex_polygons;
-	private static final int SINGLE_CONCAVE_POLYGON_RES_ID = R.raw.single_concave_polygon;
-	private static final int MULTIBLE_CONVEX_POLYGONS_RES_ID = R.raw.multible_concave_polygons;
-	private static final int MULTIBLE_MIXED_POLYGONS_RES_ID = R.raw.multible_mixed_polygons;
+	//private static final int COMPLEX_SINGLE_CONVEX_POLYGON_RES_ID = R.raw.complex_single_convex_polygon;
+	//private static final int MULTIBLE_CONVEX_POLYGON_RES_ID = R.raw.multible_convex_polygons;
+	//private static final int SINGLE_CONCAVE_POLYGON_RES_ID = R.raw.single_concave_polygon;
+	//private static final int MULTIBLE_CONVEX_POLYGONS_RES_ID = R.raw.multible_concave_polygons;
+	//private static final int MULTIBLE_MIXED_POLYGONS_RES_ID = R.raw.multible_mixed_polygons;
 	private File simpleSingleConvexPolygonFile;
-	private File complexSingleConvexPolygonFile;
-	private File multibleConvexPolygonsFile;
-	private File singleConcavePolygonFile;
-	private File multibleConcavePolygonsFile;
-	private File multibleMixedPolygonsFile;
+	//private File complexSingleConvexPolygonFile;
+	//private File multibleConvexPolygonsFile;
+	//private File singleConcavePolygonFile;
+	//private File multibleConcavePolygonsFile;
+	//private File multibleMixedPolygonsFile;
 	private Sprite sprite;
 
 	static {
@@ -98,6 +98,7 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 
 		simpleSingleConvexPolygonFileName = PhysicsTestUtils
 				.getInternalImageFilenameFromFilename("simple_single_convex_polygon.png");
+		/*
 		complexSingleConvexPolygonFileName = PhysicsTestUtils
 				.getInternalImageFilenameFromFilename("complex_single_convex_polygon.png");
 		multibleConvexPolygonsFileName = PhysicsTestUtils
@@ -108,10 +109,11 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 				.getInternalImageFilenameFromFilename("multible_concave_polygons.png");
 		multibleMixedPolygonsFileName = PhysicsTestUtils
 				.getInternalImageFilenameFromFilename("multible_mixed_polygons.png");
-
+*/
 		simpleSingleConvexPolygonFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
 				simpleSingleConvexPolygonFileName, SIMPLE_SINGLE_CONVEX_POLYGON_RES_ID, getInstrumentation()
 						.getContext(), TestUtils.TYPE_IMAGE_FILE);
+		/*
 		complexSingleConvexPolygonFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
 				complexSingleConvexPolygonFileName, COMPLEX_SINGLE_CONVEX_POLYGON_RES_ID, getInstrumentation()
 						.getContext(), TestUtils.TYPE_IMAGE_FILE);
@@ -127,7 +129,7 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 		multibleMixedPolygonsFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
 				multibleMixedPolygonsFileName, MULTIBLE_MIXED_POLYGONS_RES_ID, getInstrumentation().getContext(),
 				TestUtils.TYPE_IMAGE_FILE);
-
+*/
 		sprite = new Sprite("TestSprite");
 
 		physicsShapeBuilder = new PhysicsShapeBuilder();
