@@ -57,13 +57,15 @@ public final class PhysicsTestUtils {
 	public static PhysicsObject createPhysicsObject(PhysicsWorld physicsWorld, PhysicsObject.Type type, Shape shape) {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(new Sprite("TestSprite"));
 
-		if (type != null || type == PhysicsObject.Type.NONE) {
-			physicsObject.setType(type);
-		}
 
-		if (shape != null) {
-			physicsObject.setShape(new Shape[] { shape });
-		}
+			if (type != null && type != PhysicsObject.Type.NONE) {
+				physicsObject.setType(type);
+			}
+
+			if (shape != null) {
+				physicsObject.setShape(new Shape[]{shape});
+			}
+
 
 		return physicsObject;
 	}

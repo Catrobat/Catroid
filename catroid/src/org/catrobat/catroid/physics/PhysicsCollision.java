@@ -39,7 +39,7 @@ import java.util.List;
 
 public class PhysicsCollision implements ContactListener {
 	//@SuppressWarnings("unused")
-	private static final String TAG = PhysicsCollision.class.getSimpleName();
+	//private static final String TAG = PhysicsCollision.class.getSimpleName();
 	PhysicsWorld mPhysicsWorld;
 
 	public PhysicsCollision(PhysicsWorld physicsWorld) {

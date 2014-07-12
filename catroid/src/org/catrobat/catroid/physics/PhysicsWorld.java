@@ -89,7 +89,7 @@ public class PhysicsWorld {
 			toBounce.add(sprite);
 			//Log.d(TAG, "setBounceOnce: TRUE");
 		} else {
-			//Log.d(TAG, "setBounceOnce: SPRITE NOT KNOWN");
+			Log.d(TAG, "setBounceOnce: SPRITE NOT KNOWN");
 		}
 	}
 
@@ -159,10 +159,10 @@ public class PhysicsWorld {
 			physicsObject.setIfOnEdgeBounce(false, sprite);
 			//Log.d(TAG, "Bounced");
 			if (toBounce.remove(sprite)) {
-				//Log.d(TAG, "SPRITE REMOVED");
+				Log.d(TAG, "SPRITE REMOVED");
 			}
 		} else {
-			//Log.d(TAG, "Bounced: BUT SPRITE NOT KNOWN");
+			Log.d(TAG, "Bounced: BUT SPRITE NOT KNOWN");
 		}
 
 	}

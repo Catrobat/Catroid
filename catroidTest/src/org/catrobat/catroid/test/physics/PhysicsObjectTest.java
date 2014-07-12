@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.physics;
 
 import android.test.AndroidTestCase;
+import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -44,12 +45,15 @@ import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import org.catrobat.catroid.test.utils.TestUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PhysicsObjectTest extends AndroidTestCase {
 	static {
 		GdxNativesLoader.load();
 	}
+
+	private final static String TAG = PhysicsObjectTest.class.getSimpleName();
 
 	private PhysicsWorld physicsWorld;
 
@@ -81,7 +85,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 			new PhysicsObject(null, new Sprite("TestSprite"));
 			fail("Creating a physics object with no body doesn't cause a NullPointerException");
 		} catch (NullPointerException exception) {
-			// Expected behavior.
+			Log.e(TAG, exception.toString());
 		}
 	}
 
@@ -122,7 +126,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 		PolygonShape[] newShape = new PolygonShape[] { PhysicsTestUtils.createRectanglePolygonShape(1.0f, 2.0f) };
 		physicsObject.setShape(newShape);
 
-		assertSame("The new shape hasn't been set", newShape, PhysicsTestUtils.getShapes(physicsObject));
+		assertTrue("The new shape hasn't been set", Arrays.equals(newShape, PhysicsTestUtils.getShapes(physicsObject)));
 		checkIfShapesAreTheSameAsInPhysicsObject(newShape, body);
 	}
 
@@ -513,7 +517,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 
 		public FixtureProptertyTestTemplate(PhysicsObject physicsObject, float[] values) {
 			this.physicsObject = physicsObject;
-			this.values = values;
+			this.values = Arrays.copyOf(values, values.length);
 		}
 
 		public void test() {
