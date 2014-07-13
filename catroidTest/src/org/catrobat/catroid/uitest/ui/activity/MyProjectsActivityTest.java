@@ -1828,7 +1828,12 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	}
 
 	public void testBottombarElementsVisibilty() {
+		UiTestUtils.createEmptyProject();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(200);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
 
 		assertTrue("Bottombar is not visible", solo.getView(R.id.bottom_bar).getVisibility() == View.VISIBLE);
 		assertTrue("Add button is not visible", solo.getView(R.id.button_add).getVisibility() == View.VISIBLE);

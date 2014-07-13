@@ -75,8 +75,12 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 			assertEquals("Current Activity is not WebViewActivity", WebViewActivity.class, solo.getCurrentActivity()
 					.getClass());
 
-			WebView webView = (WebView) solo.getCurrentActivity().findViewById(R.id.webView);
-			assertEquals("URL is not correct", Constants.BASE_URL_HTTPS, webView.getUrl());
+			final WebView webView = (WebView) solo.getCurrentActivity().findViewById(R.id.webView);
+			solo.getCurrentActivity().runOnUiThread(new Runnable() {
+				public void run() {
+					assertEquals("Catrobat URL is not correct", Constants.BASE_URL_HTTPS, webView.getUrl());
+				}
+			});
 
 			assertTrue("website hasn't been loaded properly", solo.searchText(COPYRIGHT_CHARACTER + " Catrobat"));
 
@@ -97,8 +101,13 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 			assertEquals("Current Activity is not WebViewActivity", WebViewActivity.class, solo.getCurrentActivity()
 					.getClass());
 
-			WebView webView = (WebView) solo.getCurrentActivity().findViewById(R.id.webView);
-			assertEquals("URL is not correct", Constants.CATROBAT_HELP_URL, webView.getUrl());
+			final WebView webView = (WebView) solo.getCurrentActivity().findViewById(R.id.webView);
+			solo.getCurrentActivity().runOnUiThread(new Runnable() {
+				public void run() {
+					assertEquals("Catrobat help URL is not correct", Constants.CATROBAT_HELP_URL, webView.getUrl());
+				}
+			});
+
 			assertTrue("website hasn't been loaded properly", solo.searchText(COPYRIGHT_CHARACTER + " Catrobat"));
 
 		} else {
