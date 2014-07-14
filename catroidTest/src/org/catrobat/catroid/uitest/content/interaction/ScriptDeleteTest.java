@@ -57,13 +57,17 @@ public class ScriptDeleteTest extends BaseActivityInstrumentationTestCase<MainMe
 		String brickSetLookText = solo.getString(R.string.brick_set_look);
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_look);
 
-		gainFocus();
+		solo.sleep(500);
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+		solo.sleep(500);
 
 		assertTrue("Set look brick was not added", solo.searchText(brickSetLookText));
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_size_to);
 
-		gainFocus();
+		solo.sleep(500);
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+		solo.sleep(500);
 
 		assertTrue("Set size to brick was not added", solo.searchText(solo.getString(R.string.brick_set_size_to)));
 	}
@@ -71,7 +75,9 @@ public class ScriptDeleteTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testDeleteScript() {
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
 
-		gainFocus();
+		solo.sleep(500);
+		UiTestUtils.dragFloatingBrick(solo, 0);
+		solo.sleep(500);
 
 		int numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in list", 2, numberOfScripts);
@@ -103,21 +109,15 @@ public class ScriptDeleteTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_hide);
 
-		gainFocus();
+		solo.sleep(500);
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+		solo.sleep(500);
 
 		solo.waitForText(solo.getString(R.string.brick_when_started));
 
 		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 2, UiTestUtils.getScriptListView(solo).getChildCount());
-	}
-
-	private void gainFocus() {
-		solo.clickOnScreen(200, 200);
-		if (solo.searchText(solo.getString(R.string.brick_context_dialog_delete_brick), true)) {
-			solo.goBack();
-		}
-
 	}
 
 	private void createTestProject(String projectName) {

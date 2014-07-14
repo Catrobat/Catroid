@@ -77,8 +77,7 @@ public class TextCursorDrawTest extends TestCase {
 				}
 			}
 		}
-		assertEquals("A number of lines seem to be modified in the source!", EXPECTED_DRAW_CODE.length,
-				correctLines);
+		assertEquals("A number of lines seem to be modified in the source!", EXPECTED_DRAW_CODE.length, correctLines);
 	}
 
 }

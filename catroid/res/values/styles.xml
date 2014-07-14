@@ -297,6 +297,23 @@
         <item name="android:background">@drawable/brick_red_3h</item>
     </style>
     
+    <style name="BrickContainer.UserBrick"></style>
+    
+    <style name="BrickContainer.UserBrick.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_lime_1h</item>
+    </style>
+
+    <style name="BrickContainer.UserBrick.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_lime_2h</item>
+    </style>
+
+    <style name="BrickContainer.UserBrick.Big">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
+        <item name="android:background">@drawable/brick_lime_3h</item>
+    </style>
+    
     <style name="BrickContainer.Drone"></style>
 
     <style name="BrickContainer.Drone.Small">
@@ -405,6 +422,10 @@
         <item name="android:textColor">@color/sound_fragment_text_detail_color</item>
         <item name="android:textSize">14sp</item>
     </style>
+    
+    <style name="NoBackgroundStyle">
+
+	</style>
 
     <style name="FormulaEditorButton">
         <item name="android:layout_width">0dp</item>
@@ -475,6 +496,11 @@
         <item name="android:background">@drawable/brick_selection_background_variables</item>
         <item name="android:drawableRight">@drawable/main_menu_button_arrow_variables</item>
     </style>
+    
+    <style name="BrickCategoryText.UserBricks">
+		<item name="android:background">@drawable/brick_selection_background_user_bricks</item>
+ 		<item name="android:drawableRight">@drawable/main_menu_button_arrow_user_bricks</item>
+ 	</style>
 
     <style name="BrickCategoryText.Drone">
         <item name="android:background">@drawable/brick_selection_background_drone</item>
@@ -485,6 +511,10 @@
         <item name="android:background">@drawable/brick_selection_background_lego</item>
         <item name="android:drawableRight">@drawable/main_menu_button_arrow_lego</item>
     </style>
+    
+    <style name="userBrickDataTextBackground">
+ 		<item name="android:background">@drawable/brick_data_round_rect</item>
+ 	</style>
 
     <style name="ScriptActivitySpinnerItemTextAppearance">
         <item name="android:textColor">@color/abs__background_holo_light</item>

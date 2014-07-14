@@ -32,6 +32,8 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.UserBrickStageToken;
+import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -349,6 +351,14 @@ public class ExtendedActions extends Actions {
 		RepeatAction action = action(RepeatAction.class);
 		action.setIsForeverRepeat(true);
 		action.setAction(foreverSequence);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public static UserBrickAction userBrick(Sprite sprite, Action repeatedAction, UserBrickStageToken stageToken) {
+		UserBrickAction action = action(UserBrickAction.class);
+		action.setAction(repeatedAction);
+		action.setUserBrickStageToken(stageToken);
 		action.setSprite(sprite);
 		return action;
 	}

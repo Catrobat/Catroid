@@ -51,13 +51,13 @@ public class BrickCategoryFragment extends SherlockListFragment {
 	public static final String BRICK_CATEGORY_FRAGMENT_TAG = "brick_category_fragment";
 
 	private CharSequence previousActionBarTitle;
-	private OnCategorySelectedListener onCategorySelectedListener;
-	BrickCategoryAdapter adapter;
+	private OnCategorySelectedListener scriptFragment;
+	private BrickCategoryAdapter adapter;
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	public void setOnCategorySelectedListener(OnCategorySelectedListener listener) {
-		onCategorySelectedListener = listener;
+		scriptFragment = listener;
 	}
 
 	@Override
@@ -88,8 +88,8 @@ public class BrickCategoryFragment extends SherlockListFragment {
 					return;
 				}
 
-				if (onCategorySelectedListener != null) {
-					onCategorySelectedListener.onCategorySelected(adapter.getItem(position));
+				if (scriptFragment != null) {
+					scriptFragment.onCategorySelected(adapter.getItem(position));
 				}
 			}
 		});
@@ -102,10 +102,18 @@ public class BrickCategoryFragment extends SherlockListFragment {
 	}
 
 	@Override
+	public void onPause() {
+		super.onPause();
+		BottomBar.showBottomBar(getSherlockActivity());
+		BottomBar.showPlayButton(getSherlockActivity());
+	}
+
+	@Override
 	public void onDestroy() {
 		resetActionBar();
-		BottomBar.showBottomBar(getSherlockActivity());
 		super.onDestroy();
+		BottomBar.showBottomBar(getSherlockActivity());
+		BottomBar.showPlayButton(getSherlockActivity());
 	}
 
 	@Override
@@ -136,12 +144,14 @@ public class BrickCategoryFragment extends SherlockListFragment {
 		categories.add(inflater.inflate(R.layout.brick_category_motion, null));
 		categories.add(inflater.inflate(R.layout.brick_category_sound, null));
 		categories.add(inflater.inflate(R.layout.brick_category_looks, null));
-		categories.add(inflater.inflate(R.layout.brick_category_uservariables, null));
 
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		if (sharedPreferences.getBoolean("setting_mindstorm_bricks", false)) {
 			categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null));
 		}
+
+		categories.add(inflater.inflate(R.layout.brick_category_uservariables, null));
+		categories.add(inflater.inflate(R.layout.brick_category_userbricks, null));
 
 		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), false)) {
 			categories.add(inflater.inflate(R.layout.brick_category_drone, null));

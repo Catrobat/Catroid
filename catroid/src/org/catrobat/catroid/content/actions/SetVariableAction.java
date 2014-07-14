@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
@@ -41,9 +43,13 @@ public class SetVariableAction extends TemporalAction {
 		}
 		Object value = changeVariable == null ? Double.valueOf(0d) : changeVariable.interpretObject(sprite);
 		userVariable.setValue(value);
+
 	}
 
 	public void setUserVariable(UserVariable userVariable) {
+		if (userVariable == null) {
+			return;
+		}
 		this.userVariable = userVariable;
 	}
 

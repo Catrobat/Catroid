@@ -155,7 +155,7 @@ public class WhenBrick extends ScriptBrick {
 	}
 
 	@Override
-	public Script initScript() {
+	public Script getScriptSafe() {
 		if (whenScript == null) {
 			whenScript = new WhenScript();
 		}

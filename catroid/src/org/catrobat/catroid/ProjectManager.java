@@ -43,6 +43,7 @@ import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
@@ -67,6 +68,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private Project project;
 	private Script currentScript;
 	private Sprite currentSprite;
+	private UserBrick currentUserBrick;
 	private boolean asynchronTask = true;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
@@ -306,6 +308,14 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		} else if (currentSprite.getScriptIndex(script) != -1) {
 			currentScript = script;
 		}
+	}
+
+	public UserBrick getCurrentUserBrick() {
+		return currentUserBrick;
+	}
+
+	public void setCurrentUserBrick(UserBrick brick) {
+		currentUserBrick = brick;
 	}
 
 	public void addSprite(Sprite sprite) {

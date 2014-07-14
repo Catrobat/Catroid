@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.soundrecorder;
 
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ImageButton;
@@ -33,7 +32,6 @@ public class RecordButton extends ImageButton {
 	public RecordButton(Context context) {
 		super(context);
 	}
-
 
 	public RecordButton(Context context, AttributeSet attrs) {
 		super(context, attrs);

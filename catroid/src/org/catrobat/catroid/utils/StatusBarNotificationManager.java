@@ -153,7 +153,8 @@ public final class StatusBarNotificationManager {
 			notificationManager.notify(id, notificationBuilder.build());
 		}
 	}
-	public void abortProgressNotificationWithMessage(int id, String changeDoneText){
+
+	public void abortProgressNotificationWithMessage(int id, String changeDoneText) {
 
 		NotificationData notificationData = notificationDataMap.get(id);
 		if (notificationData == null) {

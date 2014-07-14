@@ -87,6 +87,11 @@ public class BrickBaseType implements Brick {
 
 	@Override
 	public void setCheckboxView(int id) {
+		setCheckboxView(id, view);
+	}
+
+	@Override
+	public void setCheckboxView(int id, View view) {
 		int checkboxVisibility = View.GONE;
 		boolean enabled = true;
 		boolean isChecked = false;
@@ -140,6 +145,11 @@ public class BrickBaseType implements Brick {
 			Log.e(TAG, Log.getStackTraceString(exception));
 		}
 		return copyBrick;
+	}
+
+	@Override
+	public void setAlpha(int newAlpha) {
+		alphaValue = newAlpha;
 	}
 
 }

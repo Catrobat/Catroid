@@ -283,7 +283,11 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		assertEquals("Value in Brick Speak is not correct", defaultSpeakValue, speakPrototypeValue);
 
 		solo.clickOnText(solo.getString(R.string.brick_speak));
-		solo.clickOnScreen(200, 200);
+		solo.sleep(300);
+		
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+		
+		solo.sleep(300);
 
 		String speakEditTextValue = ((TextView) solo.getView(R.id.brick_speak_edit_text)).getText().toString();
 		assertEquals("Value in Selected Brick Speak is not correct", "\'" + defaultSpeakValue + "\'",
@@ -293,7 +297,9 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categorySoundText);
 		solo.clickOnText(solo.getString(R.string.brick_change_volume_by));
-		solo.clickOnScreen(200, 200);
+		solo.sleep(300);
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+		solo.sleep(300);
 
 		TextView changeVolumeByEditText = (TextView) solo.getView(R.id.brick_change_volume_by_edit_text);
 		// Formula appends a blank after the value, so last character has to be deleted

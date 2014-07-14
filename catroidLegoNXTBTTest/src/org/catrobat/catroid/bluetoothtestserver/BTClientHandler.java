@@ -37,7 +37,7 @@ import javax.microedition.io.StreamConnection;
 
 public class BTClientHandler extends Thread
 {
-	private static final String TAG = BTClientHandler.class;
+	private static final String TAG = BTClientHandler.class.getName();
 
 	public static final byte DIRECT_COMMAND_REPLY = 0;
 	public static final byte SYSTEM_COMMAND_REPLY = 1;

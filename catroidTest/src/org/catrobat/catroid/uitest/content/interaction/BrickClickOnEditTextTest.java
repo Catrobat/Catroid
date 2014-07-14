@@ -67,28 +67,19 @@ public class BrickClickOnEditTextTest extends BaseActivityInstrumentationTestCas
 	}
 
 	public void testIfEditTextAreVisibleAndClickOnTextSetXandYInAddBrickDialog() {
-		ArrayList<Integer> yPosition;
-		int addedYPosition;
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_x);
 		solo.sleep(500);
-		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
-
-		solo.drag(20, 20, addedYPosition, yPosition.get(0), 20);
-		solo.sleep(200);
-
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+		solo.sleep(500);
 		List<Brick> brickListToCheck = ProjectManager.getInstance().getCurrentScript().getBrickList();
 		assertEquals("One Brick should be in bricklist", 1, brickListToCheck.size());
 		assertTrue("Set brick should be instance of SetXBrick", brickListToCheck.get(0) instanceof SetXBrick);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_set_y);
 		solo.sleep(500);
-		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
-
-		solo.drag(20, 20, addedYPosition, yPosition.get(1), 20);
-		solo.sleep(200);
+		UiTestUtils.dragFloatingBrickUpwards(solo);
+		solo.sleep(500);
 
 		brickListToCheck = ProjectManager.getInstance().getCurrentScript().getBrickList();
 		assertEquals("Two Bricks should be in bricklist", 2, brickListToCheck.size());
@@ -101,6 +92,7 @@ public class BrickClickOnEditTextTest extends BaseActivityInstrumentationTestCas
 		editTextFieldVisibility(solo.getString(R.string.category_motion));
 		editTextFieldVisibility(solo.getString(R.string.category_sound));
 		editTextFieldVisibility(solo.getString(R.string.category_looks));
+		solo.drag(40, 40, 300, 40, UiTestUtils.DRAG_FRAMES);
 		editTextFieldVisibility(solo.getString(R.string.category_variables));
 		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
 				solo.getCurrentViews(ListView.class).size() - 1);

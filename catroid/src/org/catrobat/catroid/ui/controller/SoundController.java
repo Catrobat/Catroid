@@ -92,8 +92,10 @@ public final class SoundController {
 	 * other file-based ContentProviders.
 	 * <p/>
 	 * <p/>
-	 * solution according to: http://stackoverflow.com/questions/19834842/android-gallery-on-kitkat-returns-different-uri-for-intent-action-get-content
-	 *
+	 * solution according to:
+	 * http://stackoverflow.com/questions/19834842/android-gallery-on-kitkat-returns-different-uri
+	 * -for-intent-action-get-content
+	 * 
 	 * @author paulburke
 	 */
 	@TargetApi(19)
@@ -119,8 +121,8 @@ public final class SoundController {
 			else if (isDownloadsDocument(uri)) {
 
 				final String id = DocumentsContract.getDocumentId(uri);
-				final Uri contentUri = ContentUris.withAppendedId(
-						Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+				final Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"),
+						Long.valueOf(id));
 
 				return getDataColumn(context, contentUri, null, null);
 			}
@@ -140,9 +142,7 @@ public final class SoundController {
 				}
 
 				final String selection = "_id=?";
-				final String[] selectionArgs = new String[]{
-						split[1]
-				};
+				final String[] selectionArgs = new String[] { split[1] };
 
 				return getDataColumn(context, contentUri, selection, selectionArgs);
 			}
@@ -164,18 +164,14 @@ public final class SoundController {
 		return null;
 	}
 
-	private static String getDataColumn(Context context, Uri uri, String selection,
-										String[] selectionArgs) {
+	private static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
 
 		Cursor cursor = null;
 		final String column = "_data";
-		final String[] projection = {
-				column
-		};
+		final String[] projection = { column };
 
 		try {
-			cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
-					null);
+			cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
 			if (cursor != null && cursor.moveToFirst()) {
 				final int index = cursor.getColumnIndexOrThrow(column);
 				return cursor.getString(index);
@@ -205,7 +201,7 @@ public final class SoundController {
 	}
 
 	public void updateSoundLogic(Context context, final int position, final SoundViewHolder holder,
-								 final SoundBaseAdapter soundAdapter) {
+			final SoundBaseAdapter soundAdapter) {
 		final SoundInfo soundInfo = soundAdapter.getSoundInfoItems().get(position);
 
 		if (soundInfo == null) {
@@ -221,7 +217,7 @@ public final class SoundController {
 	}
 
 	private void setClickListener(final SoundBaseAdapter soundAdapter, final SoundViewHolder holder,
-								  final SoundInfo soundInfo) {
+			final SoundInfo soundInfo) {
 		OnClickListener listItemOnClickListener = (new OnClickListener() {
 
 			@Override
@@ -270,7 +266,7 @@ public final class SoundController {
 	}
 
 	private void handleSoundInfo(SoundViewHolder holder, SoundInfo soundInfo, SoundBaseAdapter soundAdapter,
-								 int position, Context context) {
+			int position, Context context) {
 		try {
 			MediaPlayer tempPlayer = new MediaPlayer();
 			tempPlayer.setDataSource(soundInfo.getAbsolutePath());
@@ -375,12 +371,12 @@ public final class SoundController {
 	}
 
 	public void backPackSound(SoundInfo selectedSoundInfo, BackPackSoundFragment backPackSoundActivity,
-							  ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
+			ArrayList<SoundInfo> soundInfoList, SoundBaseAdapter adapter) {
 		copySoundBackPack(selectedSoundInfo, soundInfoList, adapter);
 	}
 
 	private void copySoundBackPack(SoundInfo selectedSoundInfo, ArrayList<SoundInfo> soundInfoList,
-								   SoundBaseAdapter adapter) {
+			SoundBaseAdapter adapter) {
 		try {
 			StorageHandler.getInstance().copySoundFileBackPack(selectedSoundInfo);
 		} catch (IOException ioException) {
@@ -419,7 +415,7 @@ public final class SoundController {
 	}
 
 	public void deleteCheckedSounds(Activity activity, SoundBaseAdapter adapter, ArrayList<SoundInfo> soundInfoList,
-									MediaPlayer mediaPlayer) {
+			MediaPlayer mediaPlayer) {
 		SortedSet<Integer> checkedSounds = adapter.getCheckedItems();
 		Iterator<Integer> iterator = checkedSounds.iterator();
 		SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
@@ -432,7 +428,7 @@ public final class SoundController {
 	}
 
 	public SoundInfo updateBackPackActivity(String title, String fileName, ArrayList<SoundInfo> soundInfoList,
-											SoundBaseAdapter adapter) {
+			SoundBaseAdapter adapter) {
 		title = Utils.getUniqueSoundName(title);
 
 		SoundInfo newSoundInfo = new SoundInfo();
@@ -445,7 +441,7 @@ public final class SoundController {
 	}
 
 	public SoundInfo updateSoundAdapter(String title, String fileName, ArrayList<SoundInfo> soundInfoList,
-										SoundBaseAdapter adapter) {
+			SoundBaseAdapter adapter) {
 
 		title = Utils.getUniqueSoundName(title);
 
@@ -473,7 +469,7 @@ public final class SoundController {
 	}
 
 	public void handlePlaySoundButton(View view, ArrayList<SoundInfo> soundInfoList, MediaPlayer mediaPlayer,
-									  final SoundBaseAdapter adapter) {
+			final SoundBaseAdapter adapter) {
 		final int position = (Integer) view.getTag();
 		final SoundInfo soundInfo = soundInfoList.get(position);
 
@@ -493,7 +489,7 @@ public final class SoundController {
 	}
 
 	public void stopSoundAndUpdateList(MediaPlayer mediaPlayer, ArrayList<SoundInfo> soundInfoList,
-									   SoundBaseAdapter adapter) {
+			SoundBaseAdapter adapter) {
 		if (!isSoundPlaying(mediaPlayer)) {
 			return;
 		}
@@ -522,7 +518,7 @@ public final class SoundController {
 		if (arguments != null) {
 			audioUri = (Uri) arguments.get(BUNDLE_ARGUMENTS_SELECTED_SOUND);
 		}
-		String[] projection = {MediaStore.Audio.Media.DATA};
+		String[] projection = { MediaStore.Audio.Media.DATA };
 		return new CursorLoader(activity, audioUri, projection, null, null, null);
 	}
 

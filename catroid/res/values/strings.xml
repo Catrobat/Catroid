@@ -245,9 +245,12 @@
 
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Move Brick</string>
+    <string name="brick_context_dialog_show_source">Show Source Brick</string>
     <string name="brick_context_dialog_delete_brick">Delete Brick</string>
     <string name="brick_context_dialog_copy_brick">Copy Brick</string>
     <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>
+    <string name="brick_context_dialog_add_to_script">Add To Script</string>
+	<string name="brick_context_dialog_edit_brick">Edit Brick</string>
     <string name="brick_context_dialog_formula_edit_brick">Edit Formula</string>
     <string name="brick_context_dialog_delete_script">Delete Script</string>
     <!--  -->
@@ -325,6 +328,7 @@
     <string name="category_sound">Sound</string>
     <string name="category_control">Control</string>
     <string name="category_variables">Variables</string>
+    <string name="category_user_bricks">My Bricks</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_drone">ARDrone</string>
     <!--  -->
@@ -670,6 +674,7 @@
     <string name="formula_editor_image_button_description_redo">redo</string>
     <string name="formula_editor_image_button_description_delete">delete</string>
     <string name="formula_editor_variable_dialog_title">New Variable</string>
+    <string name="formula_editor_variable_dialog_for_this_brick">For this brick</string> 
     <string name="formula_editor_variable_dialog_for_all_sprites">For all objects</string>
     <string name="formula_editor_variable_dialog_for_this_sprite_only">For this object only</string>
     <string name="formula_editor_variable_dialog_hint">Enter variable name</string>
@@ -690,5 +695,30 @@
     <string name="camera_facing_front">Front Camera</string>
     <string name="camera_facing_back">Back Camera</string>
     <!--  -->
+    
+ 	<!-- Brick Data Editor Strings -->
+ 	<string name="brick_data_editor_title">Brick Editor</string>
+ 	<string name="separator">|</string>
+ 	<string name="add_text">Add Text</string>
+ 	<string name="edit_text">Edit Text</string>
+ 	<string name="text_hint">Brick Text</string>
+ 	<string name="add_variable">Add Variable</string>
+ 	<string name="add_line_break">Add Line Break</string>
+ 	<string name="edit_variable">Edit Variable</string>
+ 	<string name="variable_hint">Variable Name</string>
+ 	<!-- -->
+
+ 	<!-- User Bricks strings -->
+ 	<string name="define">define</string>
+ 	<string name="example_user_brick">Example</string>
+ 	<string name="example_user_brick_variable">Variable 1</string>
+ 	<string name="new_user_brick">New Brick</string>
+ 	<string name="new_user_brick_variable">Variable 1</string>
+ 	
+ 	<!-- TODO: CHANGE these 2 strings below -->
+ 	<string name="brick_single">CHANGEME</string>
+ 	<string name="brick_multiple">CHANGEME</string>
+ 	
+ 	<!-- -->    
 
 </resources>

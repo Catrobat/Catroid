@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
@@ -137,6 +138,20 @@ public class FormulaElement implements Serializable {
 			root = root.getParent();
 		}
 		return root;
+	}
+
+	public void updateVariableReferences(String oldName, String newName, Context context) {
+		if (leftChild != null) {
+			leftChild.updateVariableReferences(oldName, newName, context);
+		}
+		if (rightChild != null) {
+			rightChild.updateVariableReferences(oldName, newName, context);
+		}
+		if (type == ElementType.USER_VARIABLE) {
+			if (value.equals(oldName)) {
+				value = newName;
+			}
+		}
 	}
 
 	public Object interpretRecursive(Sprite sprite) {

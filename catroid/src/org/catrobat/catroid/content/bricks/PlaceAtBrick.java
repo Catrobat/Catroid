@@ -41,6 +41,7 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class PlaceAtBrick extends FormulaBrick implements OnClickListener {
@@ -59,6 +60,14 @@ public class PlaceAtBrick extends FormulaBrick implements OnClickListener {
 
 	public PlaceAtBrick(Formula xPosition, Formula yPosition) {
 		initializeBrickFields(xPosition, yPosition);
+	}
+
+	@Override
+	public List<Formula> getFormulas() {
+		List<Formula> list = new LinkedList<Formula>();
+		list.add(xPosition);
+		list.add(yPosition);
+		return list;
 	}
 
 	public void setXPosition(Formula xPosition) {

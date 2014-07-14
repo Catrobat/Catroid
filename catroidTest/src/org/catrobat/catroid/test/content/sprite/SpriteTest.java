@@ -24,6 +24,8 @@ package org.catrobat.catroid.test.content.sprite;
 
 import android.test.AndroidTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -31,8 +33,12 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
+import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.content.bricks.UserBrickUIData;
+import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
@@ -88,6 +94,152 @@ public class SpriteTest extends AndroidTestCase {
 		for (UserVariable userVariable : userVariableList) {
 			assertTrue("Variable already exists", hashSet.add(userVariable.getName()));
 		}
+	}
+
+	public void testSpriteCloneWithUserBrick() {
+		Integer moveValue = 6;
+		Integer secondMoveValue = 4;
+		int numberOfBricks = 0;
+
+		UserBrick outerBrick = new UserBrick(sprite, 0);
+		numberOfBricks++;
+		outerBrick.addUIText("outerBrick");
+		outerBrick.updateUIComponents(null);
+
+		UserBrick innerBrick = new UserBrick(sprite, 1);
+		numberOfBricks++;
+		innerBrick.addUIText("innerBrick");
+		innerBrick.addUIVariable("innerBrickVariable");
+
+		Script innerScript = TestUtils.addUserBrickToSpriteAndGetUserScript(innerBrick, sprite);
+
+		Formula innerFormula = new Formula(new FormulaElement(ElementType.USER_VARIABLE, "innerBrickVariable", null));
+		innerScript.addBrick(new ChangeXByNBrick(sprite, innerFormula));
+		innerBrick.updateUIComponents(null);
+
+		Script outerScript = TestUtils.addUserBrickToSpriteAndGetUserScript(outerBrick, sprite);
+		UserBrick innerBrickCopyInOuterScript = innerBrick.copyBrickForSprite(sprite, outerScript);
+		setOneFormula(innerBrickCopyInOuterScript, ElementType.USER_VARIABLE, "outerBrickVariable", null);
+		outerScript.addBrick(innerBrickCopyInOuterScript);
+
+		StartScript startScript = new StartScript(sprite);
+		sprite.addScript(startScript);
+
+		UserBrick outerBrickCopy = outerBrick.copyBrickForSprite(sprite, startScript);
+		setOneFormula(outerBrickCopy, ElementType.NUMBER, moveValue.toString(), (float) moveValue);
+		startScript.addBrick(outerBrickCopy);
+
+		Sprite clonedSprite = sprite.clone();
+
+		int minId = 9999;
+		int maxId = -9999;
+
+		for (UserBrick clonedBrick : clonedSprite.getUserBrickList()) {
+			for (UserBrick brick : sprite.getUserBrickList()) {
+				assertNotSame("Cloned brick == original brick!", brick, clonedBrick);
+
+				if (minId > clonedBrick.getId()) {
+					minId = clonedBrick.getId();
+				}
+				if (minId > brick.getId()) {
+					minId = brick.getId();
+				}
+				if (maxId < clonedBrick.getId()) {
+					maxId = clonedBrick.getId();
+				}
+				if (maxId < brick.getId()) {
+					maxId = brick.getId();
+				}
+
+				if (clonedBrick.getId() - numberOfBricks == brick.getId()) {
+					UserScriptDefinitionBrick originalDefinitionBrick = brick.getDefinitionBrick();
+					UserScriptDefinitionBrick clonedDefinitionBrick = clonedBrick.getDefinitionBrick();
+
+					assertNotSame("Cloned definition brick == original definition brick! Id:" + brick.getId(),
+							originalDefinitionBrick, clonedDefinitionBrick);
+
+					assertNotSame("Cloned script == original script! Id:" + brick.getId(),
+							originalDefinitionBrick.getUserScript(), clonedDefinitionBrick.getUserScript());
+
+					assertNotSame("Cloned uiDataArray == original uiDataArray. Id:" + brick.getId(), brick.uiDataArray,
+							clonedBrick.uiDataArray);
+
+					assertEquals("Cloned uiDataArray size != original uiDataArray size. Id:" + brick.getId(),
+							brick.uiDataArray.size(), clonedBrick.uiDataArray.size());
+
+					for (int i = 0; i < brick.uiDataArray.size(); i++) {
+						assertNotSame("Cloned uiDataArray element == original uiDataArray element. Id:" + brick.getId()
+								+ ". arrayId: " + i, brick.uiDataArray.get(i), clonedBrick.uiDataArray.get(i));
+
+						boolean equivalent = checkArrayElementEquivalence(brick.uiDataArray.get(i),
+								clonedBrick.uiDataArray.get(i));
+						assertTrue("Cloned uiDataArray element not equivalent to original uiDataArray element. Id:"
+								+ brick.getId() + ". arrayId: " + i, equivalent);
+					}
+				}
+			}
+		}
+
+		UserBrick clonedOuterBrick = (UserBrick) clonedSprite.getScript(0).getBrickList().get(0);
+		setOneFormula(clonedOuterBrick, ElementType.NUMBER, secondMoveValue.toString(), (float) secondMoveValue);
+
+		assertEquals("unexpected minimum Id:", 0, minId);
+		assertEquals("unexpected maximum Id:", (numberOfBricks * 2) - 1, maxId);
+
+		runScriptOnSprite(sprite, 0, moveValue);
+		runScriptOnSprite(clonedSprite, 0, secondMoveValue);
+
+		runScriptOnSprite(sprite, moveValue, moveValue);
+		runScriptOnSprite(clonedSprite, secondMoveValue, secondMoveValue);
+
+		runScriptOnSprite(sprite, moveValue * 2, moveValue);
+		runScriptOnSprite(clonedSprite, secondMoveValue * 2, secondMoveValue);
+	}
+
+	private void runScriptOnSprite(Sprite theSprite, float expectedOrignalX, float expectedDeltaX) {
+		assertEquals("Script has more than one script", 1, theSprite.getNumberOfScripts());
+		Script startScript = theSprite.getScript(0);
+
+		SequenceAction sequence = new SequenceAction();
+		startScript.run(sequence);
+
+		float x = theSprite.look.getXInUserInterfaceDimensionUnit();
+		float y = theSprite.look.getYInUserInterfaceDimensionUnit();
+
+		assertEquals("Unexpected initial sprite x position: ", expectedOrignalX, x);
+		assertEquals("Unexpected initial sprite y position: ", 0f, y);
+
+		sequence.act(1f);
+
+		x = theSprite.look.getXInUserInterfaceDimensionUnit();
+		y = theSprite.look.getYInUserInterfaceDimensionUnit();
+
+		assertEquals("Unexpected final sprite x position: ", expectedOrignalX + expectedDeltaX,
+				theSprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Unexpected final sprite y position: ", 0f, theSprite.look.getYInUserInterfaceDimensionUnit());
+	}
+
+	private void setOneFormula(UserBrick subject, ElementType elementType, String value, Float expectedValue) {
+		List<Formula> formulaList = subject.getFormulas();
+		assertEquals("formulaList.size() after innerBrick.updateUIComponents()" + formulaList.size(), 1,
+				formulaList.size());
+		for (Formula formula : formulaList) {
+			formula.setRoot(new FormulaElement(elementType, value, null));
+			if (expectedValue != null) {
+				assertEquals("Unexpected value from interpretFloat: ", expectedValue, formula.interpretFloat(sprite));
+			}
+		}
+	}
+
+	private boolean checkArrayElementEquivalence(UserBrickUIData leftHandSide, UserBrickUIData rightHandSide) {
+		boolean foundProblem = false;
+
+		foundProblem = foundProblem || (leftHandSide.isEditModeLineBreak != rightHandSide.isEditModeLineBreak);
+		foundProblem = foundProblem || (leftHandSide.isVariable != rightHandSide.isVariable);
+		foundProblem = foundProblem || (leftHandSide.newLineHint != rightHandSide.newLineHint);
+		foundProblem = foundProblem || (leftHandSide.name != rightHandSide.name);
+
+		return !foundProblem;
 	}
 
 	public void testAddScript() {

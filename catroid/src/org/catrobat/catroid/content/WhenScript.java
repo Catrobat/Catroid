@@ -26,9 +26,10 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class WhenScript extends Script {
 
@@ -84,21 +85,9 @@ public class WhenScript extends Script {
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite sprite) {
-		WhenScript cloneScript = new WhenScript();
-		ArrayList<Brick> cloneBrickList = cloneScript.getBrickList();
-
-		cloneScript.action = getAction();
-
-		for (Brick brick : getBrickList()) {
-			Brick copiedBrick = brick.copyBrickForSprite(sprite);
-			if (copiedBrick instanceof IfLogicEndBrick) {
-				setIfBrickReferences((IfLogicEndBrick) copiedBrick, (IfLogicEndBrick) brick);
-			} else if (copiedBrick instanceof LoopEndBrick) {
-				setLoopBrickReferences((LoopEndBrick) copiedBrick, (LoopEndBrick) brick);
-			}
-			cloneBrickList.add(copiedBrick);
-		}
+	public Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks) {
+		WhenScript cloneScript = new WhenScript(copySprite);
+		doCopy(copySprite, cloneScript, preCopiedUserBricks);
 
 		return cloneScript;
 	}

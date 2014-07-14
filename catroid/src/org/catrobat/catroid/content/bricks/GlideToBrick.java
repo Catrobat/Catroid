@@ -46,6 +46,7 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class GlideToBrick extends FormulaBrick implements OnClickListener {

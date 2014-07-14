@@ -40,8 +40,7 @@ public class BlockCharacterTest extends TestCase {
 	private boolean errorFound;
 
 	private void checkFileForBlockCharacters(File file) throws IOException {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(
-				new FileInputStream(file), "UTF8"));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF8"));
 		StringBuilder errorMessageBuilder = new StringBuilder();
 
 		int lineCount = 1;
@@ -50,11 +49,7 @@ public class BlockCharacterTest extends TestCase {
 		while ((line = reader.readLine()) != null) {
 			if (line.contains("\uFFFD") || line.contains("\uFFFC") || line.contains("\uFFFF")) {
 				errorFound = true;
-				errorMessageBuilder
-						.append(file.getPath())
-						.append(" in line ")
-						.append(lineCount)
-						.append('\n');
+				errorMessageBuilder.append(file.getPath()).append(" in line ").append(lineCount).append('\n');
 			}
 			++lineCount;
 		}
@@ -73,8 +68,8 @@ public class BlockCharacterTest extends TestCase {
 			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());
 			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
 
-			List<File> filesToCheck = Utils.getFilesFromDirectoryByExtension(directory,
-					new String[] {".java", ".xml", ".md", ".gradle"});
+			List<File> filesToCheck = Utils.getFilesFromDirectoryByExtension(directory, new String[] { ".java", ".xml",
+					".md", ".gradle" });
 
 			for (File file : filesToCheck) {
 				checkFileForBlockCharacters(file);

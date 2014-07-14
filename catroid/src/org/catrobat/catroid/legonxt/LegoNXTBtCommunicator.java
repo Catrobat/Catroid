@@ -94,17 +94,16 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 
 	/**
 	 * Create a bluetooth connection with SerialPortServiceClass_UUID
-	 *
+	 * 
 	 * @see <a href=
-	 * "http://lejos.sourceforge.net/forum/viewtopic.php?t=1991&highlight=android"
-	 * />
-	 * On error the method either sends a message to it's owner or creates an exception in the
-	 * case of no message handler.
+	 *      "http://lejos.sourceforge.net/forum/viewtopic.php?t=1991&highlight=android"
+	 *      />
+	 *      On error the method either sends a message to it's owner or creates an exception in the
+	 *      case of no message handler.
 	 */
 	@Override
 	public void createNXTconnection() throws IOException {
-		BluetoothConnection bluetoothConnection = new BluetoothConnection(macAddress,
-				SERIAL_PORT_SERVICE_CLASS_UUID);
+		BluetoothConnection bluetoothConnection = new BluetoothConnection(macAddress, SERIAL_PORT_SERVICE_CLASS_UUID);
 		BluetoothConnection.State state = bluetoothConnection.connect();
 
 		switch (state) {
@@ -164,8 +163,9 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 
 	/**
 	 * Sends a message on the opened OutputStream
-	 *
-	 * @param message , the message as a byte array
+	 * 
+	 * @param message
+	 *            , the message as a byte array
 	 */
 	@Override
 	public void sendMessage(byte[] message) throws IOException {
@@ -184,7 +184,7 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 
 	/**
 	 * Receives a message on the opened InputStream
-	 *
+	 * 
 	 * @return the message
 	 */
 	@Override

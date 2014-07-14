@@ -89,16 +89,12 @@ public class LicenseTest extends TestCase {
 		StringBuilder errorMessageBuilder = new StringBuilder();
 		if (notFound) {
 			allLicenseTextsPresentAndCorrect = false;
-			errorMessageBuilder
-				.append("License text was not found in file ")
-				.append(file.getCanonicalPath())
-				.append('\n');
+			errorMessageBuilder.append("License text was not found in file ").append(file.getCanonicalPath())
+					.append('\n');
 		} else if (wrongOrder) {
 			allLicenseTextsPresentAndCorrect = false;
-			errorMessageBuilder
-				.append("License text was found in the wrong order in file ")
-				.append(file.getCanonicalPath())
-				.append('\n');
+			errorMessageBuilder.append("License text was found in the wrong order in file ")
+					.append(file.getCanonicalPath()).append('\n');
 		}
 		reader.close();
 		errorMessages += errorMessageBuilder.toString();

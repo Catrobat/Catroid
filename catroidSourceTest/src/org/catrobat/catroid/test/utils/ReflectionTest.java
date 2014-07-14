@@ -67,8 +67,7 @@ public class ReflectionTest extends TestCase {
 		}
 
 		@Override
-		public int hashCode()
-		{
+		public int hashCode() {
 			int result = 37;
 			int prime = 41;
 			if (context != null) {
