@@ -56,6 +56,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.DeadEndBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
@@ -203,8 +204,21 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		int lastVisibleBrick = listView.getLastVisiblePosition();
 		int position = ((1 + lastVisibleBrick - firstVisibleBrick) / 2);
 		position += firstVisibleBrick;
-		adapter.addNewBrick(position, brickToBeAdded, true);
-		adapter.notifyDataSetChanged();
+
+		//TODO: allow recursive userbricks if its possible
+		if (adapter.getUserBrick() != null && brickToBeAdded instanceof UserBrick) {// && ((UserBrick) brickToBeAdded).getDefinitionBrick().equals(ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick())) {
+			Toast toast = null;
+			if (toast == null || toast.getView().getWindowVisibility() != View.VISIBLE) {
+				toast = Toast.makeText(getActivity().getApplicationContext(), R.string.recursive_user_brick_forbidden, Toast.LENGTH_LONG);
+			} else {
+				toast.setText(R.string.recursive_user_brick_forbidden);
+			}
+			toast.show();
+		}
+		else {
+			adapter.addNewBrick(position, brickToBeAdded, true);
+			adapter.notifyDataSetChanged();
+		}
 	}
 
 	private void initListeners() {
@@ -238,6 +252,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	private void showCategoryFragment() {
 		BrickCategoryFragment brickCategoryFragment = new BrickCategoryFragment();
+		brickCategoryFragment.setBrickAdapter(adapter);
 		brickCategoryFragment.setOnCategorySelectedListener(this);
 		FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -455,6 +470,15 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 
 		int newPosition = adapter.getCount();
+		Brick copy = brick.clone();
+
+		Script scriptList = null;
+		if (adapter.getUserBrick() != null) {
+			scriptList = ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().getUserScript();
+		}
+		else {
+			scriptList = ProjectManager.getInstance().getCurrentScript();
+		}
 
 		try {
 			Brick copiedBrick = brick.clone();

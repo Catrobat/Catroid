@@ -22,7 +22,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle" >
+       android:shape="rectangle" >
 
     <solid android:color="@color/holo_blue_light" />
 

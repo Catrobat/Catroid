@@ -50,11 +50,13 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.UserScript;
 import org.catrobat.catroid.content.bricks.AllowedAfterDeadEndBrick;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.DeadEndBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.MultiFormulaBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -107,7 +109,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	private List<Brick> checkedBricks = new ArrayList<Brick>();
 
 	private int selectMode;
-	private OnBrickCheckedListener onBrickCheckedListener;
 	private OnBrickCheckedListener scriptFragment;
 	private boolean actionMode = false;
 
@@ -116,6 +117,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	public int listItemCount = 0;
 
 	private int clickItemPosition = 0;
+
+	private AlertDialog alertDialog = null;
 
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
 		this.context = context;
@@ -159,10 +162,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		userScript.getScriptBrick().setBrickAdapter(this);
 		for (Brick brick : userScript.getBrickList()) {
+			if (brick.getClass().equals(ChangeVariableBrick.class) || brick.getClass().equals(SetVariableBrick.class)) {
+					brick.setInUserBrick(true);
+				}
 			brickList.add(brick);
 			brick.setBrickAdapter(this);
 		}
-
 	}
 
 	public void resetAlphas() {
@@ -487,15 +492,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			((NestingBrick) draggedBrick).initialize();
 			List<NestingBrick> nestingBrickList = ((NestingBrick) draggedBrick).getAllNestingBrickParts(true);
 			for (int i = 0; i < nestingBrickList.size(); i++) {
-				if (nestingBrickList.get(i) instanceof DeadEndBrick) {
-					if (i < nestingBrickList.size() - 1) {
-						Log.w(TAG, "Adding a DeadEndBrick in the middle of the NestingBricks");
-					}
-					position = getPositionForDeadEndBrick(position);
-					userScript.addBrick(position, nestingBrickList.get(i));
-				} else {
-					userScript.addBrick(position + i, nestingBrickList.get(i));
-				}
+				userScript.addBrick(position + i, nestingBrickList.get(i));
 			}
 		} else {
 			userScript.addBrick(position, brick);
@@ -923,6 +920,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		return ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 	}
 
+	public AlertDialog getAlertDialog() {
+		return alertDialog;
+	}
+
 	@Override
 	public void onClick(final View view) {
 		if (!viewSwitchLock.tryLock()) {
@@ -1004,7 +1005,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				
 			}
 		});
-		AlertDialog alertDialog = builder.create();
+		alertDialog = builder.create();
 
 		if ((selectMode == ListView.CHOICE_MODE_NONE)) {
 			alertDialog.show();
@@ -1103,7 +1104,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	public void launchAddBrickAndSelectBrickAt(Context context, int index) {
-		int temp[] = getScriptAndBrickIndexFromProject(index);
+		int[] temp = getScriptAndBrickIndexFromProject(index);
 		Script script = ProjectManager.getInstance().getCurrentSprite().getScript(temp[0]);
 		if (script != null) {
 			Brick brick = script.getBrick(temp[1]);
@@ -1186,8 +1187,14 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	public void setCheckboxVisibility(int visibility) {
-		for (Brick brick : brickList) {
-			brick.setCheckboxVisibility(visibility);
+		int index = 0;
+
+		if (ProjectManager.getInstance().getCurrentUserBrick() != null && brickList.get(0).equals(ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick())) {
+			index = 1;
+		}
+		for (; index < brickList.size(); index++)
+		{
+			brickList.get(index).setCheckboxVisibility(visibility);
 		}
 	}
 
@@ -1349,7 +1356,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	private void addElementToCheckedBricks(Brick brick) {
-		if (!(checkedBricks.contains(brick))) {
+		if (!(checkedBricks.contains(brick)) && !brick.getClass().equals(UserScriptDefinitionBrick.class)) {
 			checkedBricks.add(brick);
 		}
 	}

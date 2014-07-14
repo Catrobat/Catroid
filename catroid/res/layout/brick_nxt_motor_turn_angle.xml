@@ -23,11 +23,11 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="horizontal" >
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_vertical"
+              android:orientation="horizontal" >
 
     <CheckBox
         android:id="@+id/brick_nxt_motor_turn_checkbox"
@@ -50,7 +50,7 @@
             android:id="@+id/brick_nxt_motor_turn_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_motor_turn_angle" >
-        </TextView>
+        </TextView >
 
         <Spinner
             android:id="@+id/lego_motor_turn_angle_spinner"
@@ -58,13 +58,13 @@
             android:layout_height="wrap_content"
             android:clickable="false"
             android:focusable="false" >
-        </Spinner>
+        </Spinner >
 
         <TextView
             android:id="@+id/brick_nxt_motor_turn_angle"
             style="@style/BrickText.SingleLine"
             android:text="@string/motor_angle" >
-        </TextView>
+        </TextView >
 
         <TextView
             android:id="@+id/motor_turn_angle_text_view"
@@ -77,13 +77,13 @@
             app:layout_textField="true"
             android:clickable="false"
             android:visibility="gone" >
-        </TextView>
+        </TextView >
 
         <TextView
             android:id="@+id/brick_nxt_motor_turn_degree"
             style="@style/BrickText"
             android:text="@string/degree_symbol" >
-        </TextView>
+        </TextView >
 
         <!--
                      <Button
@@ -94,6 +94,6 @@
                     android:clickable="false"
                     android:focusable="false" />
         -->
-    </org.catrobat.catroid.ui.BrickLayout>
+    </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

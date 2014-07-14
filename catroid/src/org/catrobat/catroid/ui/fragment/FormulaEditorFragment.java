@@ -516,7 +516,12 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		Fragment fragment = fragmentManager.findFragmentByTag(tag);
 
 		if (fragment == null) {
-			fragment = new FormulaEditorVariableListFragment();
+			if (getActivity().getClass().equals(ScriptActivity.class)) {
+				fragment = new FormulaEditorVariableListFragment(false);
+			}
+			else {
+				fragment = new FormulaEditorVariableListFragment(true);
+			}
 			Bundle bundle = new Bundle();
 			bundle.putString(FormulaEditorVariableListFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
 					context.getString(actionbarResId));

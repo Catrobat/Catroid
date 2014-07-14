@@ -71,7 +71,7 @@ import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddBrickFragment extends SherlockListFragment implements DeleteModeListener {
+public class AddBrickFragment extends SherlockListFragment implements DeleteModeListener, PrototypeBrickAdapter.OnBrickCheckedListener {
 
 	private static final String BUNDLE_ARGUMENTS_SELECTED_CATEGORY = "selected_category";
 	public static final String ADD_BRICK_FRAGMENT_TAG = "add_brick_fragment";
@@ -124,6 +124,7 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 
 		List<Brick> brickList = categoryBricksFactory.getBricks(selectedCategory, sprite, context);
 		adapter = new PrototypeBrickAdapter(context, brickList);
+		adapter.setOnBrickCheckedListener(this);
 		setListAdapter(adapter);
 
 		if (selectedCategory.equals(userBricksCategoryString)) {
@@ -236,7 +237,9 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 		}
 
 		ScriptActivity activity = (ScriptActivity) scriptFragment.getActivity();
-		activity.setDeleteModeListener(null);
+		if (activity != null) {
+			activity.setDeleteModeListener(null);
+		}
 		super.onDestroy();
 	}
 
@@ -414,7 +417,7 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 			if (adapter.getAmountOfCheckedItems() == 0) {
 				clearCheckedBricksAndEnableButtons();
 			} else {
-				showConfirmDeleteDialog(false);
+				showConfirmDeleteDialog();
 			}
 		}
 	};
@@ -427,6 +430,9 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 		int brickId = adapter.getBrickList().indexOf(brick);
 		if (brickId != -1) {
 			adapter.removeUserBrick(brick);
+			ScriptFragment scriptFragment = (ScriptFragment)
+					getFragmentManager().findFragmentByTag(ScriptFragment.TAG);
+			scriptFragment.getAdapter().updateProjectBrickList();
 		}
 	}
 
@@ -438,7 +444,7 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 		}
 	}
 
-	private void showConfirmDeleteDialog(boolean fromContextMenu) {
+	private void showConfirmDeleteDialog() {
 		String yes = getActivity().getString(R.string.yes);
 		String no = getActivity().getString(R.string.no);
 		String title = "";

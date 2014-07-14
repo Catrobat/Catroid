@@ -170,42 +170,43 @@ public class CategoryBricksFactory {
 		return controlBrickList;
 	}
 
-	private List<Brick> setupUserBricksCategoryList(Sprite sprite, Context context) {
+	private List<Brick> setupUserBricksCategoryList(Context context) {
 		String defaultText = context.getString(R.string.example_user_brick);
 		String defaultVariable = context.getString(R.string.example_user_brick_variable);
 		List<UserBrick> userBrickList = ProjectManager.getInstance().getCurrentSprite()
 				.getUserBrickListAtLeastOneBrick(defaultText, defaultVariable);
 		ArrayList<Brick> newList = new ArrayList<Brick>();
 
-		UserBrick userBrickWeAreAddingTo = ProjectManager.getInstance().getCurrentUserBrick();
-		if (userBrickWeAreAddingTo != null) {
-			// Maintain a Directed Acyclic Graph of UserBrick call order: Don't allow cycles.
-			for (UserBrick brick : userBrickList) {
-				if (!checkForCycle(brick, userBrickWeAreAddingTo)) {
-					newList.add(brick);
-				}
-			}
-		} else {
-			for (UserBrick brick : userBrickList) {
-				newList.add(brick);
-			}
+//		UserBrick userBrickWeAreAddingTo = ProjectManager.getInstance().getCurrentUserBrick();
+//		if (userBrickWeAreAddingTo != null) {
+//			// Maintain a Directed Acyclic Graph of UserBrick call order: Don't allow cycles.
+//			for (UserBrick brick : userBrickList) {
+//				if (!checkForCycle(brick, userBrickWeAreAddingTo)) {
+//					newList.add(brick);
+
+//				}
+//			}
+//		} else {
+		for (UserBrick brick : userBrickList) {
+			newList.add(brick);
 		}
+//		}
 		return newList;
 	}
 
-	public boolean checkForCycle(UserBrick currentBrick, UserBrick parentBrick) {
-		if (parentBrick.getId() == currentBrick.getId()) {
-			return true;
-		}
-
-		for (Brick childBrick : currentBrick.getDefinitionBrick().getUserScript().getBrickList()) {
-			if (childBrick instanceof UserBrick && checkForCycle(((UserBrick) childBrick), parentBrick)) {
-				return true;
-			}
-		}
-
-		return false;
-	}
+//	public boolean checkForCycle(UserBrick currentBrick, UserBrick parentBrick) {
+//		if (parentBrick.getId() == currentBrick.getId()) {
+//			return true;
+//		}
+//
+//		for (Brick childBrick : currentBrick.getDefinitionBrick().getUserScript().getBrickList()) {
+//			if (childBrick instanceof UserBrick && checkForCycle(((UserBrick) childBrick), parentBrick)) {
+//				return true;
+//			}
+//		}
+//
+//		return false;
+//	}
 
 	private List<Brick> setupMotionCategoryList(Sprite sprite) {
 		List<Brick> motionBrickList = new ArrayList<Brick>();

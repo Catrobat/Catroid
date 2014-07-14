@@ -36,10 +36,12 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
 
 import java.util.ArrayList;
@@ -53,11 +55,16 @@ public class BrickCategoryFragment extends SherlockListFragment {
 	private CharSequence previousActionBarTitle;
 	private OnCategorySelectedListener scriptFragment;
 	private BrickCategoryAdapter adapter;
+	private BrickAdapter brickAdapter;
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	public void setOnCategorySelectedListener(OnCategorySelectedListener listener) {
 		scriptFragment = listener;
+	}
+
+	public void setBrickAdapter(BrickAdapter brickAdapter) {
+		this.brickAdapter = brickAdapter;
 	}
 
 	@Override
@@ -151,7 +158,10 @@ public class BrickCategoryFragment extends SherlockListFragment {
 		}
 
 		categories.add(inflater.inflate(R.layout.brick_category_uservariables, null));
-		categories.add(inflater.inflate(R.layout.brick_category_userbricks, null));
+
+		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter.getUserBrick() == null) {
+			categories.add(inflater.inflate(R.layout.brick_category_userbricks, null));
+		}
 
 		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), false)) {
 			categories.add(inflater.inflate(R.layout.brick_category_drone, null));

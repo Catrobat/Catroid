@@ -23,11 +23,11 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="horizontal" >
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_vertical"
+              android:orientation="horizontal" >
 
     <CheckBox
         android:id="@+id/brick_when_checkbox"
@@ -48,7 +48,7 @@
         <TextView
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_when" >
-        </TextView>
+        </TextView >
 
         <!--
     inactive - to be revived when there are more actions for the spinner 
@@ -64,6 +64,6 @@
 	/>
         -->
 
-    </org.catrobat.catroid.ui.BrickLayout>
+    </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

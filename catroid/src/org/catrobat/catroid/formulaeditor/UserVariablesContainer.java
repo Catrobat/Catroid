@@ -1,29 +1,28 @@
-/*
- * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
- * (<http://developer.catrobat.org/credits>)
+/**
+ *  Catroid: An on-device visual programming system for Android devices
+ *  Copyright (C) 2010-2014 The Catrobat Team
+ *  (<http://developer.catrobat.org/credits>)
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
  *
- * An additional term exception under section 7 of the GNU Affero
- * General Public License, version 3, is available at
- * http://developer.catrobat.org/license_additional_term
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://developer.catrobat.org/license_additional_term
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
-import android.util.Log;
 import android.util.SparseArray;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -61,9 +60,10 @@ public class UserVariablesContainer implements Serializable {
 		userBrickVariables = new SparseArray<List<UserVariable>>();
 	}
 
-	public UserVariableAdapter createUserVariableAdapter(Context context, int userBrickId, Sprite sprite) {
+	public UserVariableAdapter createUserVariableAdapter(Context context, int userBrickId, Sprite sprite, boolean inUserBrick)
+	{
 		List<UserVariable> userBrickVariables = null;
-		if (userBrickId == INVALID_ID) {
+		if (userBrickId == INVALID_ID || !inUserBrick) {
 			userBrickVariables = new LinkedList<UserVariable>();
 		} else {
 			userBrickVariables = getOrCreateVariableListForUserBrick(userBrickId);
@@ -95,8 +95,6 @@ public class UserVariablesContainer implements Serializable {
 	}
 
 	public UserVariable addUserBrickUserVariableToUserBrick(int userBrickId, String userVariableName) {
-		//		Log.e("UserVariablesContainer_addUserBrickUserVariableToUserBrick", "special userVariableName: "
-		//				+ userVariableName);
 		List<UserVariable> varList = getOrCreateVariableListForUserBrick(userBrickId);
 		UserVariable userVariableToAdd = new UserVariable(userVariableName, varList);
 		userVariableToAdd.setValue(0);
@@ -124,7 +122,7 @@ public class UserVariablesContainer implements Serializable {
 
 	/**
 	 * This function deletes the user variable with userVariableName in the current context.
-	 * 
+	 *
 	 * The current context consists of all global variables, the sprite variables for the current sprite,
 	 * and the user brick variables for the current user brick.
 	 */
@@ -135,11 +133,21 @@ public class UserVariablesContainer implements Serializable {
 		if (currentUserBrick != null) {
 			userBrickId = currentUserBrick.getDefinitionBrick().getUserBrickId();
 		}
-		List<UserVariable> contextList = getUserVariableContext(userVariableName, userBrickId, currentSprite);
-		if (contextList != null) {
-			UserVariable variableToDelete = findUserVariable(userVariableName, contextList);
+		List<UserVariable> context = getUserVariableContext(userVariableName, userBrickId, currentSprite);
+		if (context != null) {
+			UserVariable variableToDelete = findUserVariable(userVariableName, context);
 			if (variableToDelete != null) {
-				contextList.remove(variableToDelete);
+				context.remove(variableToDelete);
+				if (currentUserBrick != null) {
+					for (int id = 0; id < currentUserBrick.uiDataArray.size(); id++) {
+						if (currentUserBrick.uiDataArray.get(id).name.equals(userVariableName) && currentUserBrick.uiDataArray.get(id).isVariable) {
+							int alpha = currentUserBrick.getAlphaValue();
+							currentUserBrick.getDefinitionBrick().removeVariablesInFormulas(currentUserBrick.uiDataArray.get(id).name, currentUserBrick.getViewWithAlpha(alpha).getContext());
+							currentUserBrick.uiDataArray.remove(id);
+							currentUserBrick.uiDataArray.version++;
+						}
+					}
+				}
 			}
 		}
 	}
@@ -154,20 +162,6 @@ public class UserVariablesContainer implements Serializable {
 
 	public List<UserVariable> getOrCreateVariableListForUserBrick(int userBrickId) {
 		List<UserVariable> variables = userBrickVariables.get(userBrickId);
-		//		Log.e("UserVariablesContainer_getOrCreateVariableListForUserBrick", "name/value: "
-		//				+ userBrickVariables.valueAt(0).get(0).getName() + " "
-		//				+ userBrickVariables.valueAt(0).get(0).getValue());
-
-		//the value of a brick variable is NOT correct here, in the beginning it is, but after a set/change variable brick in stagemode it's not!
-		//		UserVariable uv = new UserVariable("testUserVar2", variables);
-		//		uv.setValue(5.0);
-		//		uv.setName("blabli2");
-		//		Log.e("UserVariablesContainer_getOrCreateVariableListForUserBrick",
-		//				"name/value: " + uv.getName() + " " + uv.getValue());
-		//		userBrickVariables.get(userBrickId).add(uv);
-		//		Log.e("UserVariablesContainer_getOrCreateVariableListForUserBrick",
-		//				"name/value: " + userBrickVariables.get(userBrickId).get(0).getName() + " "
-		//						+ userBrickVariables.get(userBrickId).get(0).getValue());
 
 		if (variables == null) {
 			variables = new ArrayList<UserVariable>();
@@ -187,10 +181,6 @@ public class UserVariablesContainer implements Serializable {
 
 	public List<UserVariable> getOrCreateVariableListForSprite(Sprite sprite) {
 		List<UserVariable> variables = spriteVariables.get(sprite);
-
-		//the value of a sprite variable is correct here in the beginning and after a set/change variable brick in stagemode
-		//		Log.e("UserVariablesContainer_getOrCreateVariableListForUserBrick", "name/value: "
-		//				+ spriteVariables.get(sprite).get(0).getName() + " " + spriteVariables.get(sprite).get(0).getValue());
 
 		if (variables == null) {
 			variables = new ArrayList<UserVariable>();
@@ -218,7 +208,7 @@ public class UserVariablesContainer implements Serializable {
 
 	/**
 	 * This function finds the user variable with userVariableName in the current context.
-	 * 
+	 *
 	 * The current context consists of all global variables, the sprite variables for the current sprite,
 	 * and the user brick variables for the current user brick.
 	 */
@@ -252,8 +242,6 @@ public class UserVariablesContainer implements Serializable {
 		}
 		for (UserVariable variable : variables) {
 			if (variable.getName().equals(name)) {
-				Log.e("UserVariablesContainer_findUserVariable()",
-						"name: " + variable.getName() + "value: " + variable.getValue());
 				return variable;
 			}
 		}
@@ -273,8 +261,6 @@ public class UserVariablesContainer implements Serializable {
 			int key = userBrickVariables.keyAt(i);
 			resetUserVariables(userBrickVariables.get(key));
 		}
-		Log.e("TEST_USERVARIABLES_USERVARIABLES_CONTAINER",
-				"number of userBrickVariables: " + userBrickVariables.size());
 	}
 
 	private void resetUserVariables(List<UserVariable> userVariableList) {

@@ -47,6 +47,7 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 	private Context context;
 	private List<Brick> brickList;
 
+	private OnBrickCheckedListener addBrickFragment;
 	private List<Brick> checkedBricks = new ArrayList<Brick>();
 
 	public PrototypeBrickAdapter(Context context, List<Brick> brickList) {
@@ -110,6 +111,14 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
+	public interface OnBrickCheckedListener {
+		void onBrickChecked();
+	}
+
+	public void setOnBrickCheckedListener(OnBrickCheckedListener listener) {
+		addBrickFragment = listener;
+	}
+
 	public void handleCheck(Brick brick, boolean isChecked) {
 		if (brick != null && brick.getCheckBox() != null) {
 			brick.getCheckBox().setChecked(isChecked);
@@ -118,6 +127,9 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 			} else {
 				checkedBricks.remove(brick);
 			}
+		}
+		if (addBrickFragment != null) {
+			addBrickFragment.onBrickChecked();
 		}
 	}
 

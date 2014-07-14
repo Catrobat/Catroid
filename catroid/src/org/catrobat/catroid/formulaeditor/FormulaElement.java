@@ -147,10 +147,8 @@ public class FormulaElement implements Serializable {
 		if (rightChild != null) {
 			rightChild.updateVariableReferences(oldName, newName, context);
 		}
-		if (type == ElementType.USER_VARIABLE) {
-			if (value.equals(oldName)) {
+		if (type == ElementType.USER_VARIABLE && value.equals(oldName)) {
 				value = newName;
-			}
 		}
 	}
 

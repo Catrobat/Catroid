@@ -81,6 +81,14 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 		initializeBrickFields(new Formula(value));
 	}
 
+	//TODO: change constructor
+	public ChangeVariableBrick(Sprite sprite, Formula variableFormula, UserVariable userVariable, boolean inUserBrick) {
+		this.sprite = sprite;
+		this.variableFormula = variableFormula;
+		this.userVariable = userVariable;
+		this.inUserBrick = inUserBrick;
+	}
+
 	private void initializeBrickFields(Formula variableFormula) {
 		addAllowedBrickField(BrickField.VARIABLE_CHANGE);
 		setFormulaWithBrickField(BrickField.VARIABLE_CHANGE, variableFormula);
@@ -124,12 +132,13 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 		int userBrickId = (currentBrick == null ? -1 : currentBrick.getDefinitionBrick().getUserBrickId());
 
 		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.createUserVariableAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite());
+				.createUserVariableAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				userVariableAdapter);
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
+
 
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			variableSpinner.setClickable(true);
@@ -192,7 +201,7 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 		int userBrickId = (currentBrick == null ? -1 : currentBrick.getDefinitionBrick().getUserBrickId());
 
 		UserVariableAdapter changeVariableSpinnerAdapter = ProjectManager.getInstance().getCurrentProject()
-				.getUserVariables().createUserVariableAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite());
+				.getUserVariables().createUserVariableAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
 
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				changeVariableSpinnerAdapter);
@@ -238,7 +247,7 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 	@Override
 	public Brick clone() {
 		ChangeVariableBrick clonedBrick = new ChangeVariableBrick(getFormulaWithBrickField(
-				BrickField.VARIABLE_CHANGE).clone(), userVariable);
+				BrickField.VARIABLE_CHANGE).clone(), userVariable, inUserBrick);
 		return clonedBrick;
 	}
 
@@ -299,6 +308,11 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 				.getAdapter());
 		userVariableAdapterWrapper.notifyDataSetChanged();
 		setSpinnerSelection(spinnerToUpdate, newUserVariable);
+	}
+
+	@Override
+	public Formula getFormula() {
+		return variableFormula;
 	}
 
 }

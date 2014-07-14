@@ -79,11 +79,13 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	private boolean inContextMode;
 	private int deleteIndex;
 	private UserVariableAdapter adapter;
+	private boolean inUserBrick;
 
-	public FormulaEditorVariableListFragment() {
+	public FormulaEditorVariableListFragment(boolean inUserBrick) {
 		contextActionMode = null;
 		deleteIndex = -1;
 		inContextMode = false;
+		this.inUserBrick = inUserBrick;
 	}
 
 	@Override
@@ -266,7 +268,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		int userBrickId = (currentBrick == null ? -1 : currentBrick.getDefinitionBrick().getUserBrickId());
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		UserVariablesContainer userVariableContainer = currentProject.getUserVariables();
-		adapter = userVariableContainer.createUserVariableAdapter(getSherlockActivity(), userBrickId, currentSprite);
+		adapter = userVariableContainer.createUserVariableAdapter(getSherlockActivity(), userBrickId, currentSprite, inUserBrick);
 		setListAdapter(adapter);
 		adapter.setOnCheckedChangeListener(this);
 		adapter.setOnListItemClickListener(this);

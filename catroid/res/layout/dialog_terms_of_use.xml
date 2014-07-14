@@ -22,12 +22,12 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/DefaultDialog"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingBottom="0dp" >
+                xmlns:tools="http://schemas.android.com/tools"
+                style="@style/DefaultDialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="0dp" >
 
     <TextView
         android:id="@+id/dialog_terms_of_use_text_view_info"

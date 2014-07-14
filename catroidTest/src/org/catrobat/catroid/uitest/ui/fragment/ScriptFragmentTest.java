@@ -240,7 +240,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		int brickCountInList = brickListToCheck.size();
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
-		solo.clickOnText(solo.getString(R.string.brick_when_started));
+		UiTestUtils.dragFloatingBrick(solo, 1);
 		solo.sleep(100);
 
 		assertTrue("Wait brick is not in List", solo.searchText(solo.getString(R.string.brick_wait)));

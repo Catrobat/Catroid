@@ -23,11 +23,11 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="horizontal" >
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_vertical"
+              android:orientation="horizontal" >
 
     <CheckBox
         android:id="@+id/brick_set_y_checkbox"
@@ -49,19 +49,19 @@
             android:id="@+id/brick_set_y_textview"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_set_y" >
-        </TextView>
+        </TextView >
 
         <TextView
             android:id="@+id/brick_set_y_prototype_text_view"
             style="@style/BrickPrototypeTextView" >
-        </TextView>
+        </TextView >
 
         <TextView
             android:id="@+id/brick_set_y_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true" >
-        </TextView>
-    </org.catrobat.catroid.ui.BrickLayout>
+        </TextView >
+    </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

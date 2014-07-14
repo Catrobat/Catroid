@@ -23,11 +23,11 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:longClickable="true"
-    android:minHeight="90dp"
-    android:orientation="horizontal" >
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:longClickable="true"
+              android:minHeight="90dp"
+              android:orientation="horizontal" >
 
     <CheckBox
         android:id="@+id/fragment_sound_item_checkbox"
@@ -94,7 +94,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/size"
                         android:visibility="gone" />
-                </LinearLayout>
+                </LinearLayout >
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -131,7 +131,7 @@
                             style="@style/sound_fragment_detail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
-                    </LinearLayout>
+                    </LinearLayout >
 
                     <TextView
                         android:id="@+id/fragment_sound_item_size_text_view"
@@ -139,9 +139,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:visibility="gone" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
+                </LinearLayout >
+            </LinearLayout >
+        </LinearLayout >
+    </LinearLayout >
 
 </LinearLayout>

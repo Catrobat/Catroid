@@ -22,10 +22,10 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/DefaultDialog"
-    android:orientation="vertical"
-    android:paddingBottom="0dp"
-    android:theme="@android:style/Theme.Light" >
+            style="@style/DefaultDialog"
+            android:orientation="vertical"
+            android:paddingBottom="0dp"
+            android:theme="@android:style/Theme.Light" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -66,7 +66,7 @@
                 android:checked="false"
                 android:text="@string/new_project_empty"
                 android:textColor="@color/spritelist_details_text_color" />
-        </LinearLayout>
-    </RelativeLayout>
+        </LinearLayout >
+    </RelativeLayout >
 
 </ScrollView>

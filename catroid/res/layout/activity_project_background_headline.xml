@@ -22,8 +22,8 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/spritelist_background_headline"
-    style="@style/headlineLinearLayout" >
+              android:id="@+id/spritelist_background_headline"
+              style="@style/headlineLinearLayout" >
 
     <org.catrobat.catroid.ui.CapitalizedTextView
         style="@style/headlineTextView"

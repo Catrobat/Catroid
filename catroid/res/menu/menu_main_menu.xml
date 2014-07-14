@@ -26,18 +26,18 @@
     <item
         android:id="@+id/menu_rate_app"
         android:showAsAction="withText"
-        android:title="@string/main_menu_rate_app"/>
+        android:title="@string/main_menu_rate_app" />
     <item
         android:id="@+id/menu_terms_of_use"
         android:showAsAction="withText"
-        android:title="@string/main_menu_terms_of_use"/>
+        android:title="@string/main_menu_terms_of_use" />
     <item
         android:id="@+id/menu_about"
         android:showAsAction="withText"
-        android:title="@string/main_menu_about_pocketcode"/>
+        android:title="@string/main_menu_about_pocketcode" />
     <item
         android:id="@+id/settings"
         android:showAsAction="never"
-        android:title="@string/settings"/>
+        android:title="@string/settings" />
 
 </menu>
