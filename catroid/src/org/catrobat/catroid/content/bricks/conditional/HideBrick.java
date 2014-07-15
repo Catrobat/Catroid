@@ -37,7 +37,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
-import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.List;
 

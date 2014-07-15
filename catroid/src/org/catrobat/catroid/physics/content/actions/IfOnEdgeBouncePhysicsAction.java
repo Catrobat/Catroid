@@ -39,24 +39,24 @@ public class IfOnEdgeBouncePhysicsAction extends TemporalAction {
 		boolean xIsOutSide = false;
 		boolean yIsOutSide = false;
 		// AABB ... AXIS-ALIGNED-BOUNDING-BOX
-		Vector2 lower_AABB_edge = new Vector2();
-		Vector2 upper_AABB_edge = new Vector2();
-		physicsWorld.getPhysicsObject(sprite).getBoundaryBox(lower_AABB_edge, upper_AABB_edge);
+		Vector2 lowerEdge = new Vector2();
+		Vector2 upperEdge = new Vector2();
+		physicsWorld.getPhysicsObject(sprite).getBoundaryBox(lowerEdge, upperEdge);
 
-		float AABB_width = upper_AABB_edge.x - lower_AABB_edge.x;
-		float height = upper_AABB_edge.y - lower_AABB_edge.y;
-		float xPosition = lower_AABB_edge.x + AABB_width / 2;
-		float yPosition = lower_AABB_edge.y + height / 2;
+		float width = upperEdge.x - lowerEdge.x;
+		float height = upperEdge.y - lowerEdge.y;
+		float xPosition = lowerEdge.x + width / 2;
+		float yPosition = lowerEdge.y + height / 2;
 
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight / 2;
 
-		if (xPosition < -virtualScreenWidth + AABB_width / 2) {
+		if (xPosition < -virtualScreenWidth + width / 2) {
 			xIsOutSide = true;
-			xPosition = -virtualScreenWidth + (AABB_width / 2);
-		} else if (xPosition > virtualScreenWidth - AABB_width / 2) {
+			xPosition = -virtualScreenWidth + (width / 2);
+		} else if (xPosition > virtualScreenWidth - width / 2) {
 			xIsOutSide = true;
-			xPosition = virtualScreenWidth - (AABB_width / 2);
+			xPosition = virtualScreenWidth - (width / 2);
 		}
 
 		if (yPosition < -virtualScreenHeight + height / 2) {

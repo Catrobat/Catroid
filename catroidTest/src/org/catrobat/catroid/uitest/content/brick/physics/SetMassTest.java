@@ -80,7 +80,12 @@ public class SetMassTest extends ActivityInstrumentationTestCase2<ScriptActivity
 	public void testSetInvalidMassValues() {
 		this.checkSetup();
 
-		float masses[] = { -1.0f, 0.0f, PhysicsObject.MIN_MASS / 10.0f, PhysicsObject.MIN_MASS / 1.1f };
+		float[] masses = {
+				-1.0f,
+				0.0f,
+				PhysicsObject.MIN_MASS / 10.0f,
+				PhysicsObject.MIN_MASS / 1.1f
+		};
 
 		for (float mass : masses) {
 			UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_mass_edit_text, mass, "mass", setMassBrick);
