@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.physics;
 
-import android.util.Log;
-
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -39,11 +37,11 @@ import java.util.List;
 
 public class PhysicsCollision implements ContactListener {
 	//@SuppressWarnings("unused")
-	private static final String TAG = PhysicsCollision.class.getSimpleName();
-	PhysicsWorld mPhysicsWorld;
+	//private static final String TAG = PhysicsCollision.class.getSimpleName();
+	PhysicsWorld physicsWorld;
 
 	public PhysicsCollision(PhysicsWorld physicsWorld) {
-		mPhysicsWorld = physicsWorld;
+		this.physicsWorld = physicsWorld;
 	}
 
 	@Override
@@ -54,11 +52,11 @@ public class PhysicsCollision implements ContactListener {
 		Body b = contact.getFixtureB().getBody();
 
 		if (a.getUserData() instanceof Sprite) {
-			mPhysicsWorld.bounced((Sprite) a.getUserData());
+			physicsWorld.bounced((Sprite) a.getUserData());
 			//Log.d(TAG, "bounced SPRITE A");
 		}
 		if (b.getUserData() instanceof Sprite) {
-			mPhysicsWorld.bounced((Sprite) b.getUserData());
+			physicsWorld.bounced((Sprite) b.getUserData());
 			//Log.d(TAG, "bounced SPRITE B");
 		}
 		if (a.getUserData() instanceof Sprite && b.getUserData() instanceof Sprite) {

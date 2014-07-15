@@ -38,22 +38,23 @@ import com.badlogic.gdx.physics.box2d.Transform;
 import org.catrobat.catroid.content.Sprite;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PhysicsObject {
 	public enum Type {
 		DYNAMIC, FIXED, NONE;
 	}
 
-	public final static float DEFAULT_DENSITY = 1.0f;
-	public final static float DEFAULT_FRICTION = 0.2f;
-	public final static float MAX_FRICTION = 1.0f;
-	public final static float MIN_FRICTION = 0.0f;
-	public final static float MIN_DENSITY = 0.0f;
-	public final static float MAX_BOUNCE_FACTOR = 1.0f;
-	public final static float MIN_BOUNCE_FACTOR = 0.0f;
-	public final static float DEFAULT_BOUNCE_FACTOR = 0.8f;
-	public final static float DEFAULT_MASS = 1.0f;
-	public final static float MIN_MASS = 0.000001f;
+	public static final float DEFAULT_DENSITY = 1.0f;
+	public static final float DEFAULT_FRICTION = 0.2f;
+	public static final float MAX_FRICTION = 1.0f;
+	public static final float MIN_FRICTION = 0.0f;
+	public static final float MIN_DENSITY = 0.0f;
+	public static final float MAX_BOUNCE_FACTOR = 1.0f;
+	public static final float MIN_BOUNCE_FACTOR = 0.0f;
+	public static final float DEFAULT_BOUNCE_FACTOR = 0.8f;
+	public static final float DEFAULT_MASS = 1.0f;
+	public static final float MIN_MASS = 0.000001f;
 
 	private short collisionMaskRecord = 0;
 	private short categoryMaskRecord = PhysicsWorld.CATEGORY_PHYSICSOBJECT;
@@ -93,7 +94,14 @@ public class PhysicsObject {
 		if (this.shapes == shapes) {
 			return;
 		}
-		this.shapes = shapes;
+
+
+		if (shapes != null) {
+			this.shapes = Arrays.copyOf(shapes, shapes.length);
+		}
+		else {
+			this.shapes = null;
+		}
 
 		ArrayList<Fixture> fixturesOld = new ArrayList<Fixture>(body.getFixtureList());
 

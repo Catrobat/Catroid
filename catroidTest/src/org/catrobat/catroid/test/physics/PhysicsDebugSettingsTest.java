@@ -44,7 +44,7 @@ public class PhysicsDebugSettingsTest extends AndroidTestCase {
 				PhysicsDebugSettings.Render.RENDER_JOINTS);
 		assertFalse(
 				"Tests if all physics debug settings are configured correctly for the release. Therefore there is no problem if it fails during programming or debugging.",
-				PhysicsDebugSettings.Render.RENDER_AABBs);
+				PhysicsDebugSettings.Render.RENDER_AABB);
 		assertFalse(
 				"Tests if all physics debug settings are configured correctly for the release. Therefore there is no problem if it fails during programming or debugging.",
 				PhysicsDebugSettings.Render.RENDER_INACTIVE_BODIES);

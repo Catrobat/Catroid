@@ -30,7 +30,7 @@ import org.catrobat.catroid.content.Sprite;
 
 public class PhysicsLook extends Look {
 
-	private transient final PhysicsObject physicsObject;
+	private final transient PhysicsObject physicsObject;
 
 	public PhysicsLook(Sprite sprite, PhysicsWorld physicsWorld) {
 		super(sprite);

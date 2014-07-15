@@ -44,6 +44,7 @@ public class PhysicsWorldTest extends AndroidTestCase {
 		GdxNativesLoader.load();
 	}
 
+	private static final String TAG = PhysicsObjectTest.class.getSimpleName();
 	private PhysicsWorld physicsWorld;
 	private World world;
 	private Map<Sprite, PhysicsObject> physicsObjects;

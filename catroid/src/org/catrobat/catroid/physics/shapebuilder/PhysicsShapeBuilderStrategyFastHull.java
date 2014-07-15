@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.physics.shapebuilder;
 
-import android.util.Log;
-
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.PolygonShape;

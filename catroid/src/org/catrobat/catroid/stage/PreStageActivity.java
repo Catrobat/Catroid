@@ -72,6 +72,7 @@ public class PreStageActivity extends BaseActivity {
 	public static final int REQUEST_RESOURCES_INIT = 101;
 	public static final int REQUEST_TEXT_TO_SPEECH = 10;
 
+	@SuppressWarnings("unused")
 	private int resources = Brick.NO_RESOURCES;
 	private int requiredResourceCounter;
 

@@ -29,7 +29,7 @@ check.dependsOn 'pmd'
 ext {
     projectVersion = "0.9"
     featuresEnabled = [
-            "lego_nxt": false,
+            "lego_nxt": true,
             "backpack": false,
             "parrot_ar_drone": false,
             "apk_generator": false,
