@@ -45,7 +45,7 @@ public class LicenseTest extends TestCase {
 	public void setUp() throws IOException {
 		allLicenseTextsPresentAndCorrect = true;
 		errorMessages = "";
-		agplLicenseText = readLicenseFile(new File("res/agpl_license_text.txt"));
+		agplLicenseText = readLicenseFile(new File("catroidSourceTest/res/agpl_license_text.txt"));
 	}
 
 	private List<String> readLicenseFile(File licenseTextFile) throws IOException {

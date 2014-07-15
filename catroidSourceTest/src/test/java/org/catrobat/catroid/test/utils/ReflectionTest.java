@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReflectionTest extends TestCase {
-	private static final String[] FILES = { "../catroidTest/src/org/catrobat/catroid/test/utils/Reflection.java" };
+	private static final String[] FILES = { "catroidTest/src/org/catrobat/catroid/test/utils/Reflection.java" };
 
 	private class SmartFileContent {
 		private String context;

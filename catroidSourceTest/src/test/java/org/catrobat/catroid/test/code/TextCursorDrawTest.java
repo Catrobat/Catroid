@@ -33,7 +33,7 @@ import java.util.List;
 
 public class TextCursorDrawTest extends TestCase {
 
-	private static final String FORMULA_EDITOR_EDIT_TEXT_PATH = "../catroid/src/org/catrobat/catroid/formulaeditor/FormulaEditorEditText.java";
+	private static final String FORMULA_EDITOR_EDIT_TEXT_PATH = "catroid/src/org/catrobat/catroid/formulaeditor/FormulaEditorEditText.java";
 	private static final String[] EXPECTED_DRAW_CODE = { "int line = layout.getLineForOffset(absoluteCursorPosition);",
 			"int baseline = layout.getLineBaseline(line);", "int ascent = layout.getLineAscent(line)",
 			"float xCoordinate = layout.getPrimaryHorizontal(absoluteCursorPosition)",
