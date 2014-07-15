@@ -103,7 +103,7 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 				copyDirectory(new File(destinationFile, subDirectoryName), new File(sourceFile, subDirectoryName));
 			}
 		} else {
-			UtilFile.copyFile(destinationFile, sourceFile, null);
+			UtilFile.copyFile(destinationFile, sourceFile);
 		}
 	}
 }

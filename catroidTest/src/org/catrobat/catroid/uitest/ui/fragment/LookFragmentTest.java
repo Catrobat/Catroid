@@ -260,6 +260,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertEquals("New count is not correct - one look should be deleted", 1, newCount);
 		assertEquals("Count of the lookDataList is not correct", newCount, lookDataList.size());
 
+		Log.d("LookFragmentTest", "path: " + lookToDelete.getAbsolutePath());
 		File deletedFile = new File(lookToDelete.getAbsolutePath());
 		assertFalse("File should be deleted", deletedFile.exists());
 	}

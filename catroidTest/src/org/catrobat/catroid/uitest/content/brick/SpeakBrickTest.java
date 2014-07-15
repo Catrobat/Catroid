@@ -88,6 +88,7 @@ public class SpeakBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 
 		String brickText = (String) Reflection.getPrivateField(speakBrick, "text");
 		assertEquals("Wrong text in field.", testString, brickText);
+		solo.waitForText(testString);
 		assertEquals("Value in Brick is not updated.", testString,
 				((TextView) solo.getView(R.id.brick_speak_edit_text)).getText().toString());
 
@@ -98,6 +99,7 @@ public class SpeakBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 
 		brickText = (String) Reflection.getPrivateField(speakBrick, "text");
 		assertEquals("Wrong text in field.", leading, brickText);
+		solo.waitForText(leading);
 		assertEquals("Value in Brick is not updated.", leading, ((TextView) solo.getView(R.id.brick_speak_edit_text))
 				.getText().toString());
 
@@ -108,6 +110,7 @@ public class SpeakBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 
 		brickText = (String) Reflection.getPrivateField(speakBrick, "text");
 		assertEquals("Wrong text in field.", trailing, brickText);
+		solo.waitForText(trailing);
 		assertEquals("Value in Brick is not updated.", trailing, ((TextView) solo.getView(R.id.brick_speak_edit_text))
 				.getText().toString());
 	}

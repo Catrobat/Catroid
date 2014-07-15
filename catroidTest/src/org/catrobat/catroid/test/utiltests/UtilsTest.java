@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.utiltests;
 
+import android.os.SystemClock;
 import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.common.Constants;
@@ -64,6 +65,7 @@ public class UtilsTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		OutputStream outputStream = null;
+		TestUtils.deleteTestProjects(NEW_PROGRAM_NAME);
 		try {
 			testFile = File.createTempFile("testCopyFiles", ".txt");
 			if (testFile.canWrite()) {
@@ -90,6 +92,7 @@ public class UtilsTest extends AndroidTestCase {
 		if (copiedFile != null && copiedFile.exists()) {
 			copiedFile.delete();
 		}
+
 		TestUtils.deleteTestProjects(NEW_PROGRAM_NAME);
 		super.tearDown();
 	}
@@ -195,6 +198,7 @@ public class UtilsTest extends AndroidTestCase {
 		removeScriptAndCompareToStandardProject();
 		removeSpriteAndCompareToStandardProject();
 
+		SystemClock.sleep(1000);
 	}
 
 	private void addSpriteAndCompareToStandardProject() {
