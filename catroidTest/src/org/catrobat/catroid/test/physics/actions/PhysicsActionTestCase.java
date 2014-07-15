@@ -44,22 +44,22 @@ public class PhysicsActionTestCase extends InstrumentationTestCase {
 	protected PhysicsWorld physicsWorld;
 
 	private Project project;
-	private String rectangle_125x125_FileName;
-	protected File rectangle_125x125_File;
-	private static final int RECTANGLE_125x125_RES_ID = R.raw.rectangle_125x125;
+	private String rectangle125x125FileName;
+	protected File rectangle125x125File;
+	private static final int RECTANGLE125X125_RES_ID = R.raw.rectangle_125x125;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		TestUtils.deleteTestProjects();
-		rectangle_125x125_FileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("rectangle_125x125.png");
+		rectangle125x125FileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("rectangle_125x125.png");
 
 		project = new Project(getInstrumentation().getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		rectangle_125x125_File = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
-				rectangle_125x125_FileName, RECTANGLE_125x125_RES_ID, getInstrumentation().getContext(),
+		rectangle125x125File = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
+				rectangle125x125FileName, RECTANGLE125X125_RES_ID, getInstrumentation().getContext(),
 				TestUtils.TYPE_IMAGE_FILE);
 
 		physicsWorld = project.getPhysicsWorld();
@@ -67,7 +67,7 @@ public class PhysicsActionTestCase extends InstrumentationTestCase {
 		sprite.look = new PhysicsLook(sprite, physicsWorld);
 		sprite.setActionFactory(new ActionPhysicsFactory());
 
-		LookData lookdata = PhysicsTestUtils.generateLookData(rectangle_125x125_File);
+		LookData lookdata = PhysicsTestUtils.generateLookData(rectangle125x125File);
 		sprite.look.setLookData(lookdata);
 
 		assertTrue("getLookData is null", sprite.look.getLookData() != null);
@@ -81,8 +81,8 @@ public class PhysicsActionTestCase extends InstrumentationTestCase {
 		physicsWorld = null;
 
 		project = null;
-		rectangle_125x125_FileName = null;
-		rectangle_125x125_File = null;
+		rectangle125x125FileName = null;
+		rectangle125x125File = null;
 
 		TestUtils.deleteTestProjects();
 		super.tearDown();

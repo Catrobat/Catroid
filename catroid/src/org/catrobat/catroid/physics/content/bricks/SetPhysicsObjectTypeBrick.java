@@ -25,7 +25,6 @@ package org.catrobat.catroid.physics.content.bricks;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -54,6 +53,8 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 
 	private PhysicsObject.Type type = PhysicsObject.Type.NONE;
 	private transient AdapterView<?> adapterView;
+
+	private transient View prototypeView;
 
 	public SetPhysicsObjectTypeBrick() {
 	}
@@ -156,15 +157,14 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.brick_physics_set_physics_object_type, null);
-		Spinner pointToSpinner = (Spinner) view.findViewById(R.id.brick_set_physics_object_type_spinner);
+		prototypeView = View.inflate(context, R.layout.brick_physics_set_physics_object_type, null);
+		Spinner pointToSpinner = (Spinner) prototypeView.findViewById(R.id.brick_set_physics_object_type_spinner);
 		pointToSpinner.setFocusableInTouchMode(false);
 		pointToSpinner.setFocusable(false);
-		SpinnerAdapter pointToSpinnerAdapter = createAdapter(context);
-		pointToSpinner.setAdapter(pointToSpinnerAdapter);
+		SpinnerAdapter objectTypeSpinnerAdapter = createAdapter(context);
+		pointToSpinner.setAdapter(objectTypeSpinnerAdapter);
 		pointToSpinner.setSelection(PhysicsObject.Type.DYNAMIC.ordinal());
-		return view;
+		return prototypeView;
 	}
 
 	@Override

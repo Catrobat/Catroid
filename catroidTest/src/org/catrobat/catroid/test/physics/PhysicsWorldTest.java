@@ -26,7 +26,6 @@ import android.test.AndroidTestCase;
 import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
@@ -45,7 +44,7 @@ public class PhysicsWorldTest extends AndroidTestCase {
 		GdxNativesLoader.load();
 	}
 
-	private final static String TAG = PhysicsObjectTest.class.getSimpleName();
+	private static final String TAG = PhysicsObjectTest.class.getSimpleName();
 	private PhysicsWorld physicsWorld;
 	private World world;
 	private Map<Sprite, PhysicsObject> physicsObjects;

@@ -71,8 +71,8 @@ public class PreStageActivity extends BaseActivity {
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 	public static final int REQUEST_RESOURCES_INIT = 101;
 	public static final int REQUEST_TEXT_TO_SPEECH = 10;
-
-	//private int resources = Brick.NO_RESOURCES;
+	@SuppressWarnings("unused")
+	private int resources = Brick.NO_RESOURCES;
 	private int requiredResourceCounter;
 
 	private static LegoNXT legoNXT;
