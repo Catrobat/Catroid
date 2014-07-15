@@ -32,7 +32,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class PhysicsBoundaryBox {
 
-	public final static int FRAME_SIZE = 5;
+	public static final int FRAME_SIZE = 5;
 
 	private final World world;
 

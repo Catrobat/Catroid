@@ -33,14 +33,14 @@ import java.util.List;
 @Ignore
 public final class Utils {
 
-	private static final char separatorChar = File.separatorChar;
+	private static final char SEPARATOR_CHAR = File.separatorChar;
 	public static final String[] ALL_DIRECTORIES = { ".", "../catroidTest", "../catroid", "../catroidCucumberTest",
 			"../catroidLegoNXTBTTest" };
-	public static final String[] SOURCE_FILE_DIRECTORIES = { "src", ".."+separatorChar+"catroid"+separatorChar+"src", ".."+separatorChar+"catroidTest"+separatorChar+"src",
+	public static final String[] SOURCE_FILE_DIRECTORIES = { "src", ".."+ SEPARATOR_CHAR +"catroid"+ SEPARATOR_CHAR +"src", ".."+ SEPARATOR_CHAR +"catroidTest"+ SEPARATOR_CHAR +"src",
 			"../catroidCucumberTest/src", "../catroidLegoNXTBTTest/src" };
 	public static final String[] SOURCE_AND_RESOURCE_DIRECTORIES = { "src", "res", "../catroid/src", "../catroid/res",
 			"../catroidTest/src", "../catroidTest/res", "../catroidCucumberTest/src", "../catroidLegoNXTBTTest/src" };
-	public static final String[] TEST_FILE_DIRECTORIES = { "src", ".."+separatorChar+"catroidTest"+separatorChar+"src", ".."+separatorChar+"catroidCucumberTest"+separatorChar+"src" };
+	public static final String[] TEST_FILE_DIRECTORIES = { "src", ".."+ SEPARATOR_CHAR +"catroidTest"+ SEPARATOR_CHAR +"src", ".."+ SEPARATOR_CHAR +"catroidCucumberTest"+ SEPARATOR_CHAR +"src" };
 	public static final String[] PRINT_STACK_TRACE_TEST_DIRECTORIES = { "src", "../catroid/src",
 			"../catroidCucumberTest/src", "../catroidLegoNXTBTTest/src" };
 	public static final String[] VERSION_NAME_AND_CODE_TEST_DIRECTORIES = { "../catroid", "../catroidTest",

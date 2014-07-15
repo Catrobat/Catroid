@@ -45,27 +45,27 @@ public class PhysicsWorld {
 		GdxNativesLoader.load();
 	}
 
-	private final static String TAG = PhysicsWorld.class.getSimpleName();
+	private static final String TAG = PhysicsWorld.class.getSimpleName();
 
 	// CATEGORY
-	public final static short NOCOLLISION_MASK = 0x0000;
-	public final static short CATEGORY_BOUNDARYBOX = 0x0002;
-	public final static short CATEGORY_PHYSICSOBJECT = 0x0004;
+	public static final short NOCOLLISION_MASK = 0x0000;
+	public static final short CATEGORY_BOUNDARYBOX = 0x0002;
+	public static final short CATEGORY_PHYSICSOBJECT = 0x0004;
 
 	// COLLISION_MODE
-	public final static short MASK_BOUNDARYBOX = CATEGORY_PHYSICSOBJECT; // collides with physics_objects
-	public final static short MASK_PHYSICSOBJECT = ~CATEGORY_BOUNDARYBOX; // collides with everything but not with the boundarybox
-	public final static short MASK_TOBOUNCE = CATEGORY_BOUNDARYBOX; // collide with the boundarybox
-	public final static short MASK_NOCOLLISION = 0; // collides with NOBODY
+	public static final short MASK_BOUNDARYBOX = CATEGORY_PHYSICSOBJECT; // collides with physics_objects
+	public static final short MASK_PHYSICSOBJECT = ~CATEGORY_BOUNDARYBOX; // collides with everything but not with the boundarybox
+	public static final short MASK_TOBOUNCE = CATEGORY_BOUNDARYBOX; // collide with the boundarybox
+	public static final short MASK_NOCOLLISION = 0; // collides with NOBODY
 
-	public final static float RATIO = 40.0f;
-	public final static int VELOCITY_ITERATIONS = 8;
-	public final static int POSITION_ITERATIONS = 3;
+	public static final float RATIO = 40.0f;
+	public static final int VELOCITY_ITERATIONS = 8;
+	public static final int POSITION_ITERATIONS = 3;
 
-	public final static Vector2 DEFAULT_GRAVITY = new Vector2(0.0f, -10.0f);
-	public final static boolean IGNORE_SLEEPING_OBJECTS = false;
+	public static final Vector2 DEFAULT_GRAVITY = new Vector2(0.0f, -10.0f);
+	public static final boolean IGNORE_SLEEPING_OBJECTS = false;
 
-	public final static int STABILIZING_STEPS = 6;
+	public static final int STABILIZING_STEPS = 6;
 
 	private final World world = new World(PhysicsWorld.DEFAULT_GRAVITY, PhysicsWorld.IGNORE_SLEEPING_OBJECTS);
 	private final Map<Sprite, PhysicsObject> physicsObjects = new HashMap<Sprite, PhysicsObject>();
@@ -108,7 +108,7 @@ public class PhysicsWorld {
 	public void render(Matrix4 perspectiveMatrix) {
 		if (renderer == null) {
 			renderer = new Box2DDebugRenderer(PhysicsDebugSettings.Render.RENDER_BODIES,
-					PhysicsDebugSettings.Render.RENDER_JOINTS, PhysicsDebugSettings.Render.RENDER_AABBs,
+					PhysicsDebugSettings.Render.RENDER_JOINTS, PhysicsDebugSettings.Render.RENDER_AABB,
 					PhysicsDebugSettings.Render.RENDER_INACTIVE_BODIES, PhysicsDebugSettings.Render.RENDER_VELOCITIES);
 		}
 		renderer.render(world, perspectiveMatrix.scl(PhysicsWorld.RATIO));

@@ -51,7 +51,7 @@ import java.util.List;
 public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMessage {
 	private static final long serialVersionUID = 1L;
 
-	private final static String TAG = CollisionReceiverBrick.class.getSimpleName();
+	private static final String TAG = CollisionReceiverBrick.class.getSimpleName();
 
 	private CollisionScript receiveScript;
 	private transient String collisionSpriteName;
