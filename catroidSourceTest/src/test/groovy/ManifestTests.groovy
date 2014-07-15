@@ -9,7 +9,7 @@ public class ManifestTests {
     def namespace
 
     @Before void setUp() {
-        manifestXML = new XmlParser().parse(new File("build/intermediates/manifests/catroid/debug/AndroidManifest.xml"))
+        manifestXML = new XmlParser().parse(new File("../build/intermediates/manifests/catroid/debug/AndroidManifest.xml"))
         namespace = new groovy.xml.Namespace('http://schemas.android.com/apk/res/android')
     }
 
@@ -19,7 +19,7 @@ public class ManifestTests {
 
     @Test
     public void testAppName() {
-        def codeXML = new XmlParser().parse(new File("catroidSourceTest/res/code.xml"))
+        def codeXML = new XmlParser().parse(new File("res/code.xml"))
         println manifestXML.application[0].attribute(namespace.label) + ' vs ' + codeXML.header.programName.text()
         assert manifestXML.application[0].attribute(namespace.label) == codeXML.header.programName.text()
     }
@@ -38,7 +38,7 @@ public class ManifestTests {
 
     @Test
     public void testPackageName() {
-        def codeXML = new XmlParser().parse(new File("catroidSourceTest/res/code.xml"))
+        def codeXML = new XmlParser().parse(new File("res/code.xml"))
         def programName = codeXML.header.programName.text()
         programName = programName.replaceAll(" ", "")
         println manifestXML.attribute('package') + ' vs ' + ("org.catrobat.catroid." + programName)
