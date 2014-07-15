@@ -133,7 +133,7 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 		waitForPreStageActivity();
 		int requiredResourceCounter = (Integer) Reflection.getPrivateField(preStageActivity, "requiredResourceCounter");
 		int resources = (Integer) Reflection.getPrivateField(preStageActivity, "resources");
-		assertEquals("Only drone bit should be set", Brick.ARDRONE_SUPPORT, resources);
+		assertTrue("Only drone bit should be set", (Brick.ARDRONE_SUPPORT & resources) > 0);
 		assertEquals("Required resource counter should be 1", EXPECTED_REQUIRED_RESOURCES, requiredResourceCounter);
 	}
 

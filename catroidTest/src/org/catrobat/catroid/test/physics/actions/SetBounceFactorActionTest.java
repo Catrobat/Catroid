@@ -27,7 +27,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.content.actions.SetBounceFactorAction;
-import org.catrobat.catroid.test.physics.PhysicsObjectTest;
 import org.catrobat.catroid.test.utils.Reflection;
 
 public class SetBounceFactorActionTest extends PhysicsActionTestCase {

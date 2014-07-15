@@ -28,7 +28,7 @@ import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsObject.Type;
 import org.catrobat.catroid.physics.PhysicsWorld;
 
-public class BrickValues {
+public final class BrickValues {
 
 	//constants Motions
 	public static final int X_POSITION = 100;
@@ -42,7 +42,7 @@ public class BrickValues {
 	public static final int GO_BACK = 1;
     public static final int DURATION = 1;
 
-	//constants Physics   // TODO[physics]
+	//constants Physics
 	public static final PhysicsObject.Type PHYSIC_TYPE = Type.DYNAMIC;
 	public static final Float PHYSIC_MASS = PhysicsObject.DEFAULT_MASS;
 	public static final Float PHYSIC_BOUNCE_FACTOR = PhysicsObject.DEFAULT_BOUNCE_FACTOR;

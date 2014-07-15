@@ -22,17 +22,17 @@
  */
 package org.catrobat.catroid.physics;
 
-public class PhysicsDebugSettings {
+public final class PhysicsDebugSettings {
 
-	public final static boolean BOUNCE_ON_EDGES = true;
+	private PhysicsDebugSettings(){} // Make sure that utility classes (classes that contain only static methods or fields in their API) do not have a public constructor.
 
 	public static class Render {
-		public final static boolean RENDER_COLLISION_FRAMES = false;
-		public final static boolean RENDER_BODIES = false;
-		public final static boolean RENDER_JOINTS = false;
-		public final static boolean RENDER_AABBs = false;
-		public final static boolean RENDER_INACTIVE_BODIES = false;
-		public final static boolean RENDER_VELOCITIES = false;
-		public final static boolean RENDER_PHYSIC_OBJECT_LABELING = false;
+		public static final boolean RENDER_COLLISION_FRAMES = false;
+		public static final boolean RENDER_BODIES = false;
+		public static final boolean RENDER_JOINTS = false;
+		public static final boolean RENDER_AABB = false;
+		public static final boolean RENDER_INACTIVE_BODIES = false;
+		public static final boolean RENDER_VELOCITIES = false;
+		public static final boolean RENDER_PHYSIC_OBJECT_LABELING = false;
 	}
 }

@@ -51,6 +51,8 @@ public class PhysicsObjectTest extends AndroidTestCase {
 		GdxNativesLoader.load();
 	}
 
+	private static final String TAG = PhysicsObjectTest.class.getSimpleName();
+
 	private PhysicsWorld physicsWorld;
 
 	@Override
