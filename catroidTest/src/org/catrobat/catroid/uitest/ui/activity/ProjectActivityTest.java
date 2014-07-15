@@ -49,6 +49,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
@@ -1316,8 +1317,10 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		copiedLoopBrick = (LoopBeginBrick) brickListCopiedSprite.get(34);
 		copiedEndBrick = (LoopEndBrick) brickListCopiedSprite.get(35);
 
-		Formula firstCondition = firstLoopBrick.getFormulaWithBrickField(Brick.BrickField.TIMES_TO_REPEAT);
-		Formula copiedCondition = copiedLoopBrick.getFormulaWithBrickField(Brick.BrickField.TIMES_TO_REPEAT);
+		Formula firstCondition = ((FormulaBrick) firstLoopBrick)
+				.getFormulaWithBrickField(Brick.BrickField.TIMES_TO_REPEAT);
+		Formula copiedCondition = ((FormulaBrick) firstLoopBrick)
+				.getFormulaWithBrickField(Brick.BrickField.TIMES_TO_REPEAT);
 
 		assertNotSame("Loop Brick is not copied right!", firstLoopBrick, copiedLoopBrick);
 		assertNotSame("Loop Brick is not copied right!", firstEndBrick, copiedEndBrick);

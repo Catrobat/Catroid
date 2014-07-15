@@ -22,81 +22,16 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
+public interface LoopBeginBrick extends NestingBrick {
 
-import java.util.ArrayList;
-import java.util.List;
+	long getBeginLoopTime();
 
-public abstract class LoopBeginBrick extends FormulaBrick implements NestingBrick {
-	private static final long serialVersionUID = 1L;
+	void setBeginLoopTime(long beginLoopTime);
 
-	protected LoopEndBrick loopEndBrick;
-	private transient long beginLoopTime;
+	LoopEndBrick getLoopEndBrick();
 
-	private transient LoopBeginBrick copy;
+	void setLoopEndBrick(LoopEndBrick loopEndBrick);
 
-	protected LoopBeginBrick() {
-	}
-
-	protected void setFirstStartTime() {
-		beginLoopTime = System.nanoTime();
-	}
-
-	public long getBeginLoopTime() {
-		return beginLoopTime;
-	}
-
-	public void setBeginLoopTime(long beginLoopTime) {
-		this.beginLoopTime = beginLoopTime;
-	}
-
-	public LoopEndBrick getLoopEndBrick() {
-		return this.loopEndBrick;
-	}
-
-	public void setLoopEndBrick(LoopEndBrick loopEndBrick) {
-		this.loopEndBrick = loopEndBrick;
-	}
-
-	@Override
-	public boolean isDraggableOver(Brick brick) {
-		return (loopEndBrick != null);
-	}
-
-	@Override
-	public boolean isInitialized() {
-		return (loopEndBrick != null);
-	}
-
-	@Override
-	public void initialize() {
-		loopEndBrick = new LoopEndBrick(sprite, this);
-	}
-
-	@Override
-	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
-		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
-		nestingBrickList.add(this);
-		nestingBrickList.add(loopEndBrick);
-
-		return nestingBrickList;
-	}
-
-	@Override
-	public abstract Brick clone();
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		//loopEndBrick will be set in the LoopEndBrick's copyBrickForSprite method
-		LoopBeginBrick copyBrick = (LoopBeginBrick) clone();
-		copyBrick.sprite = sprite;
-		copy = copyBrick;
-		return copyBrick;
-	}
-
-	public LoopBeginBrick getCopy() {
-		return copy;
-	}
+	LoopBeginBrick getCopy();
 
 }

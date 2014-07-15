@@ -96,7 +96,6 @@ import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
-import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
@@ -1100,16 +1099,16 @@ public final class UiTestUtils {
 		brickList.add(new WaitBrick(firstSprite, 19));
 		brickList.add(new BroadcastWaitBrick(firstSprite, "firstMessage"));
 		brickList.add(new NoteBrick(firstSprite));
-		LoopBeginBrick beginBrick = new ForeverBrick(firstSprite);
-		LoopEndBrick endBrick = new LoopEndBrick(firstSprite, beginBrick);
-		beginBrick.setLoopEndBrick(endBrick);
-		brickList.add(beginBrick);
+		ForeverBrick foreverBrick = new ForeverBrick(firstSprite);
+		LoopEndBrick endBrick = new LoopEndBrick(firstSprite, foreverBrick);
+		foreverBrick.setLoopEndBrick(endBrick);
+		brickList.add(foreverBrick);
 		brickList.add(endBrick);
 
-		beginBrick = new RepeatBrick(firstSprite, 20);
-		endBrick = new LoopEndBrick(firstSprite, beginBrick);
-		beginBrick.setLoopEndBrick(endBrick);
-		brickList.add(beginBrick);
+		RepeatBrick repeatBrick = new RepeatBrick(firstSprite, 20);
+		endBrick = new LoopEndBrick(firstSprite, foreverBrick);
+		repeatBrick.setLoopEndBrick(endBrick);
+		brickList.add(repeatBrick);
 		brickList.add(endBrick);
 		brickList.add(new WaitBrick(firstSprite, 1));
 

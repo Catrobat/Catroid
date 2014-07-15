@@ -33,19 +33,26 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
+public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
+
+	protected LoopEndBrick loopEndBrick;
+	private transient long beginLoopTime;
+
+	private transient LoopBeginBrick copy;
 
 	public RepeatBrick() {
 		addAllowedBrickField(BrickField.TIMES_TO_REPEAT);
@@ -185,5 +192,63 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
 		returnActionList.add(repeatSequence);
 		return returnActionList;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		//loopEndBrick will be set in the LoopEndBrick's copyBrickForSprite method
+		ForeverBrick copyBrick = (ForeverBrick) clone();
+		copyBrick.sprite = sprite;
+		copy = copyBrick;
+		return copyBrick;
+	}
+
+	@Override
+	public long getBeginLoopTime() {
+		return beginLoopTime;
+	}
+
+	@Override
+	public void setBeginLoopTime(long beginLoopTime) {
+		this.beginLoopTime = beginLoopTime;
+	}
+
+	@Override
+	public LoopEndBrick getLoopEndBrick() {
+		return loopEndBrick;
+	}
+
+	@Override
+	public void setLoopEndBrick(LoopEndBrick loopEndBrick) {
+		this.loopEndBrick = loopEndBrick;
+	}
+
+	@Override
+	public LoopBeginBrick getCopy() {
+		return copy;
+	}
+
+	@Override
+	public boolean isInitialized() {
+		return (loopEndBrick != null);
+	}
+
+	@Override
+	public void initialize() {
+		loopEndBrick = new LoopEndBrick(sprite, this);
+	}
+
+	@Override
+	public boolean isDraggableOver(Brick brick) {
+		return (loopEndBrick != null);
+	}
+
+	@Override
+	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
+		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
+		nestingBrickList.add(this);
+		nestingBrickList.add(loopEndBrick);
+
+		return nestingBrickList;
 	}
 }

@@ -34,20 +34,24 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ForeverBrick extends LoopBeginBrick {
+public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 	private static final long serialVersionUID = 1L;
+
+	protected LoopEndBrick loopEndBrick;
+	private transient long beginLoopTime;
+
+	private transient LoopBeginBrick copy;
 
 	public ForeverBrick(Sprite sprite) {
 		this.sprite = sprite;
-	}
-
-	public ForeverBrick() {
 	}
 
 	@Override
@@ -112,11 +116,6 @@ public class ForeverBrick extends LoopBeginBrick {
 	}
 
 	@Override
-	public void initialize() {
-		loopEndBrick = new LoopEndlessBrick(sprite, this);
-	}
-
-	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
 		SequenceAction foreverSequence = ExtendedActions.sequence();
 		Action action = ExtendedActions.forever(sprite, foreverSequence);
@@ -124,5 +123,63 @@ public class ForeverBrick extends LoopBeginBrick {
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
 		returnActionList.add(foreverSequence);
 		return returnActionList;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+		//loopEndBrick will be set in the LoopEndBrick's copyBrickForSprite method
+		ForeverBrick copyBrick = (ForeverBrick) clone();
+		copyBrick.sprite = sprite;
+		copy = copyBrick;
+		return copyBrick;
+	}
+
+	@Override
+	public long getBeginLoopTime() {
+		return beginLoopTime;
+	}
+
+	@Override
+	public void setBeginLoopTime(long beginLoopTime) {
+		this.beginLoopTime = beginLoopTime;
+	}
+
+	@Override
+	public LoopEndBrick getLoopEndBrick() {
+		return loopEndBrick;
+	}
+
+	@Override
+	public void setLoopEndBrick(LoopEndBrick loopEndBrick) {
+		this.loopEndBrick = loopEndBrick;
+	}
+
+	@Override
+	public LoopBeginBrick getCopy() {
+		return copy;
+	}
+
+	@Override
+	public boolean isInitialized() {
+		return (loopEndBrick != null);
+	}
+
+	@Override
+	public void initialize() {
+		loopEndBrick = new LoopEndBrick(sprite, this);
+	}
+
+	@Override
+	public boolean isDraggableOver(Brick brick) {
+		return (loopEndBrick != null);
+	}
+
+	@Override
+	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
+		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
+		nestingBrickList.add(this);
+		nestingBrickList.add(loopEndBrick);
+
+		return nestingBrickList;
 	}
 }

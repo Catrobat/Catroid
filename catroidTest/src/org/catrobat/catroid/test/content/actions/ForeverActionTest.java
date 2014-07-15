@@ -28,7 +28,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
-import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 
 import java.util.HashMap;
@@ -46,7 +45,7 @@ public class ForeverActionTest extends InstrumentationTestCase {
 
 		StartScript testScript = new StartScript(testSprite);
 
-		LoopBeginBrick foreverBrick = new ForeverBrick(testSprite);
+		ForeverBrick foreverBrick = new ForeverBrick(testSprite);
 		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
 		foreverBrick.setLoopEndBrick(loopEndBrick);
 
