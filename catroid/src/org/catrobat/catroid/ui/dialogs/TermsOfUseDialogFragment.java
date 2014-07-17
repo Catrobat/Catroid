@@ -39,6 +39,7 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 
@@ -47,8 +48,6 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_terms_of_use";
 	public static final String DIALOG_ARGUMENT_TERMS_OF_USE_ACCEPT = "dialog_terms_of_use_accept";
-
-	CheckBox checkboxTermsOfUseAccptedPermanently = null;
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
@@ -59,6 +58,9 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 		}
 
 		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_terms_of_use, null);
+
+		final CheckBox checkBoxTermsOfUseAcceptedPermanently = (CheckBox) view
+				.findViewById(R.id.dialog_terms_of_use_check_box_agree_permanently);
 
 		TextView termsOfUseUrlTextView = (TextView) view.findViewById(R.id.dialog_terms_of_use_text_view_url);
 		termsOfUseUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -91,11 +93,15 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 					new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int id) {
-							if (checkboxTermsOfUseAccptedPermanently.isChecked()) {
-								SettingsActivity.setTermsOfSerivceAgreedPermanently(getActivity(), true);
+							if (checkBoxTermsOfUseAcceptedPermanently.isChecked()) {
+								SettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), true);
 							}
 							dialog.dismiss();
-							((PreStageActivity) getActivity()).initialiseDrone();
+							DroneInitializer droneInitializer = ((PreStageActivity) getActivity())
+									.getDroneInitializer();
+							if (droneInitializer != null) {
+								droneInitializer.initialiseDrone();
+							}
 						}
 					});
 			termsOfUseDialogBuilder.setOnKeyListener(new OnKeyListener() {
@@ -106,10 +112,8 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 				}
 			});
 
-			checkboxTermsOfUseAccptedPermanently = (CheckBox) view
-					.findViewById(R.id.dialog_terms_of_use_check_box_agree_permanently);
-			checkboxTermsOfUseAccptedPermanently.setVisibility(CheckBox.VISIBLE);
-			checkboxTermsOfUseAccptedPermanently.setText(R.string.dialog_terms_of_use_agree_permanet);
+			checkBoxTermsOfUseAcceptedPermanently.setVisibility(CheckBox.VISIBLE);
+			checkBoxTermsOfUseAcceptedPermanently.setText(R.string.dialog_terms_of_use_agree_permanent);
 			termsOfUseDialogBuilder.setCancelable(false);
 		}
 

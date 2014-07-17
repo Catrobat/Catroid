@@ -23,7 +23,6 @@
 package org.catrobat.catroid.facedetection;
 
 import android.graphics.Point;
-import android.util.Log;
 
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.formulaeditor.SensorCustomEvent;
@@ -67,7 +66,7 @@ public abstract class FaceDetector {
 	}
 
 	protected void onFaceDetected(Point position, int size) {
-		Log.v("Blah", "face detected @ " + position.x + "x" + position.y);// TODO REMOVE
+
 		float[] positionXFloatValue = new float[] { position.x };
 		float[] positionYFloatValue = new float[] { position.y };
 		float[] sizeFloatValue = new float[] { size };

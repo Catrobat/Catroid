@@ -68,7 +68,7 @@ public final class StatusBarNotificationManager {
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationId, uploadIntent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 
-		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_launcher, programName,
+		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_stat, programName,
 				R.string.notification_upload_title_pending, R.string.notification_upload_title_finished,
 				R.string.notification_upload_pending, R.string.notification_upload_finished);
 
@@ -90,7 +90,7 @@ public final class StatusBarNotificationManager {
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationId, copyIntent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 
-		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_launcher, programName,
+		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_stat, programName,
 				R.string.notification_copy_title_pending, R.string.notification_title_open,
 				R.string.notification_copy_pending, R.string.notification_copy_finished);
 
@@ -112,7 +112,7 @@ public final class StatusBarNotificationManager {
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationId, downloadIntent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 
-		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_launcher, programName,
+		NotificationData data = new NotificationData(context, pendingIntent, R.drawable.ic_stat, programName,
 				R.string.notification_download_title_pending, R.string.notification_title_open,
 				R.string.notification_download_pending, R.string.notification_download_finished);
 

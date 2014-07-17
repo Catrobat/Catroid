@@ -96,6 +96,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		}
 		instance.sensorManager.unregisterListener((SensorEventListener) instance);
 		instance.sensorManager.unregisterListener((SensorCustomEventListener) instance);
+
 		FaceDetectionHandler.unregisterOnFaceDetectedListener(instance);
 		FaceDetectionHandler.unregisterOnFaceDetectionStatusListener(instance);
 	}

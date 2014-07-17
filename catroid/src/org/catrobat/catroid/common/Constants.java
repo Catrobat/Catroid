@@ -56,6 +56,14 @@ public final class Constants {
 
 	public static final int NO_POSITION = -1;
 
+	//Broadcast system:
+	public static final String ACTION_SPRITE_SEPARATOR = "#";
+	public static final String BROADCAST_NOTIFY_ACTION = "broadcast_notify";
+	public static final String START_SCRIPT = "start_script";
+	public static final String BROADCAST_SCRIPT = "broadcast_script";
+	public static final String OPENING_BRACE = "(";
+	public static final String CLOSING_BRACE = ")";
+
 	//Web:
 	public static final String BASE_URL_HTTPS = "https://www.pocketcode.org/";
 	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";

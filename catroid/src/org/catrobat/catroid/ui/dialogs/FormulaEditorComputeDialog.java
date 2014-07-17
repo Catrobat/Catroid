@@ -28,6 +28,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -72,6 +73,7 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 		formulaToCompute = formula;
 
 		if (formula.containsElement(ElementType.SENSOR)) {
+            Log.d("Lausi", "setFormula_startListeners");
 			SensorHandler.startSensorListener(context);
 			SensorHandler.registerListener(this);
 		}

@@ -1041,6 +1041,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.clickOnButton(solo.getString(R.string.yes));
+		solo.sleep(300);
 
 		assertEquals("There are still sounds!", 0, getCurrentNumberOfSounds());
 		assertEquals("Empty View not shown although there are items in the list!", View.VISIBLE,
@@ -1145,7 +1146,29 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		StorageHandler.getInstance().saveProject(projectManager.getCurrentProject());
 	}
 
+	public void testOpenDeleteDialogAndGoBack()
+	{
+		int viewAmountBeforeDeleteMode = solo.getCurrentViews().size();
+		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
+		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
+
+		int[] checkboxIndicesToCheck = { solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2 };
+
+		solo.scrollDown();
+		solo.clickOnCheckBox(checkboxIndicesToCheck[0]);
+		solo.scrollToTop();
+
+		UiTestUtils.acceptAndCloseActionMode(solo);
+		solo.clickOnButton(solo.getString(R.string.no));
+
+		solo.sleep(300);
+		int viewAmountAfterDeleteMode = solo.getCurrentViews().size();
+
+		assertTrue("checkboxes or other delete elements are still visible",viewAmountBeforeDeleteMode==viewAmountAfterDeleteMode);
+
+	}
+	
 	private void renameSound(String soundToRename, String newSoundName) {
 		clickOnContextMenuItem(soundToRename, solo.getString(R.string.rename));
 		assertTrue("Wrong title of dialog", solo.searchText(renameDialogTitle));

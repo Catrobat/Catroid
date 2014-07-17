@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.uitest.util;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -157,6 +154,9 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
+
 public final class UiTestUtils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();
 	private static SparseIntArray brickCategoryMap;
@@ -191,6 +191,76 @@ public final class UiTestUtils {
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_script);
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_look);
 		FRAGMENT_INDEX_LIST.add(R.id.fragment_sound);
+	}
+
+	public static SetVariableBrick createSendBroadcastAfterBroadcastAndWaitProject(String message) {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("sprite1");
+		Script scriptOfSprite1 = new StartScript(firstSprite);
+
+		firstSprite.addScript(scriptOfSprite1);
+		project.addSprite(firstSprite);
+
+		Script startScript = firstSprite.getScript(0);
+		SetVariableBrick setVariableBrick = new SetVariableBrick(firstSprite, 1.0f);
+		startScript.addBrick(setVariableBrick);
+		startScript.addBrick(new BroadcastWaitBrick(firstSprite, message));
+		startScript.addBrick(new ChangeVariableBrick(firstSprite, 10.0f));
+
+		Sprite secondSprite = new Sprite("sprite2");
+		Script scriptOfSprite2 = new StartScript(secondSprite);
+		secondSprite.addScript(scriptOfSprite2);
+		scriptOfSprite2.addBrick(new WaitBrick(secondSprite, 300));
+		scriptOfSprite2.addBrick(new ChangeVariableBrick(secondSprite, 100.0f));
+		scriptOfSprite2.addBrick(new BroadcastBrick(secondSprite, message));
+		project.addSprite(secondSprite);
+
+		Sprite thirdSprite = new Sprite("sprite3");
+		Script whenIReceive = new BroadcastScript(thirdSprite, message);
+		thirdSprite.addScript(whenIReceive);
+		whenIReceive.addBrick(new ChangeVariableBrick(thirdSprite, 1000.0f));
+		project.addSprite(thirdSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(scriptOfSprite2);
+
+		return setVariableBrick;
+	}
+
+	public static int createSendBroadcastInBroadcastAndWaitProject(String message1, String message2, double degreesToTurn, Sprite secondSprite, Sprite thirdSprite) {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("sprite1");
+		Script testScript = new StartScript(firstSprite);
+
+		firstSprite.addScript(testScript);
+		project.addSprite(firstSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
+
+		int initialRotation = (int) firstSprite.look.getRotation();
+		Script startScript = firstSprite.getScript(0);
+		startScript.addBrick(new BroadcastBrick(firstSprite, message1));
+
+		Script whenIReceiveSecondSprite = new BroadcastScript(secondSprite, message1);
+		secondSprite.addScript(whenIReceiveSecondSprite);
+		whenIReceiveSecondSprite.addBrick(new TurnRightBrick(secondSprite, degreesToTurn));
+		whenIReceiveSecondSprite.addBrick(new WaitBrick(secondSprite, 1000));
+		whenIReceiveSecondSprite.addBrick(new BroadcastWaitBrick(secondSprite, message2));
+		project.addSprite(secondSprite);
+
+		Script whenIReceiveThirdSprite = new BroadcastScript(thirdSprite, message1);
+		thirdSprite.addScript(whenIReceiveThirdSprite);
+		whenIReceiveThirdSprite.addBrick(new TurnLeftBrick(thirdSprite, degreesToTurn));
+		whenIReceiveThirdSprite.addBrick(new WaitBrick(thirdSprite, 1000));
+		whenIReceiveThirdSprite.addBrick(new BroadcastBrick(thirdSprite, message1));
+		project.addSprite(thirdSprite);
+
+		return initialRotation;
 	}
 
 	public static enum FileTypes {
@@ -1077,6 +1147,21 @@ public final class UiTestUtils {
 			UtilFile.deleteDirectory(directory);
 		}
 
+		directory = new File(Constants.DEFAULT_ROOT + "/" + "My first program");
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Constants.DEFAULT_ROOT + "/" + "Mein erstes Programm");
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Constants.DEFAULT_ROOT + "/" + "Project");
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
 		directory = new File(Constants.DEFAULT_ROOT + "/" + DEFAULT_TEST_PROJECT_NAME_MIXED_CASE);
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
@@ -1593,7 +1678,7 @@ public final class UiTestUtils {
 	}
 
 	public static void waitForText(Solo solo, String text) {
-		assertEquals("Text not found!", true, solo.waitForText(text, 0, 2000));
+		assertEquals("Text not found!", true, solo.waitForText(text, 0, 3000));
 	}
 
 	public static void switchToFragmentInScriptActivity(Solo solo, int fragmentIndex) {

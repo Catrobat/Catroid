@@ -28,17 +28,23 @@ import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 
-public class FaceDetectionHandler {
+public final class FaceDetectionHandler {
 
 	private static FaceDetector faceDetector;
 	private static boolean running = false;
 	private static boolean paused = false;
+
+    // Suppress default constructor for noninstantiability
+    private FaceDetectionHandler() {
+        throw new AssertionError();
+    }
 
 	private static void createFaceDetector() {
 		if (isIcsFaceDetectionSupported()) {
@@ -53,11 +59,10 @@ public class FaceDetectionHandler {
 	}
 
 	public static boolean startFaceDetection(Context context) {
-		if (context != null) {
-			if (!useFaceDetection(context)) {
-				SensorHandler.clearFaceDetectionValues();
-				return true;
-			}
+
+		if (context != null && !useFaceDetection(context)) {
+            SensorHandler.clearFaceDetectionValues();
+            return true;
 		}
 		if (running) {
 			return true;
@@ -89,8 +94,9 @@ public class FaceDetectionHandler {
 		if (faceDetector == null) {
 			return;
 		}
-		faceDetector.stopFaceDetection();
-		running = false;
+
+        faceDetector.stopFaceDetection();
+        running = false;
 	}
 
 	public static void pauseFaceDetection() {
@@ -142,9 +148,7 @@ public class FaceDetectionHandler {
 	}
 
 	public static boolean isIcsFaceDetectionSupported() {
-		//		if (true) {
-		//			return false; // FIXME just for testing
-		//		}
+
 		int currentApi = android.os.Build.VERSION.SDK_INT;
 		if (currentApi < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			return false;
@@ -156,6 +160,8 @@ public class FaceDetectionHandler {
 			possibleFaces = getNumberOfCameras(camera);
 			camera.release();
 		} catch (Exception exc) {
+            Log.e("Camera", "Camera unaccessable!", exc);
+
 		} finally {
 			if (camera != null) {
 				camera.release();

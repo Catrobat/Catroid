@@ -40,6 +40,9 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.Reflection;
 
+import java.util.HashMap;
+import java.util.List;
+
 public class RepeatActionTest extends InstrumentationTestCase {
 	private static final int REPEAT_TIMES = 4;
 
@@ -64,7 +67,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		testScript.addBrick(new ChangeYByNBrick(testSprite, 150));
 
 		testSprite.addScript(testScript);
-		testSprite.createStartScriptActionSequence();
+		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
 		// http://code.google.com/p/catroid/issues/detail?id=28
 		for (int index = 0; index < REPEAT_TIMES; index++) {
@@ -92,7 +95,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		testScript.addBrick(loopEndBrick);
 
 		testSprite.addScript(testScript);
-		testSprite.createStartScriptActionSequence();
+		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
 		while (!testSprite.look.getAllActionsAreFinished()) {
 			testSprite.look.act(1.0f);
@@ -119,7 +122,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		testScript.addBrick(loopEndBrick);
 
 		testSprite.addScript(testScript);
-		testSprite.createStartScriptActionSequence();
+		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
 		while (!testSprite.look.getAllActionsAreFinished()) {
 			testSprite.look.act(1.0f);
@@ -150,7 +153,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		testScript.addBrick(loopEndBrick);
 
 		testSprite.addScript(testScript);
-		testSprite.createStartScriptActionSequence();
+		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 
 		float timePerActCycle = 0.5f;
 

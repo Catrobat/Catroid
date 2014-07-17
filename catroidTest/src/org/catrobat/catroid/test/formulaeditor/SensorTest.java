@@ -113,7 +113,7 @@ public class SensorTest extends InstrumentationTestCase {
 			Log.e("Blah", m.getName());
 		}
 
-		ParameterList parameters = new ParameterList(Boolean.valueOf(true));
+		ParameterList parameters = new ParameterList(Boolean.TRUE);
 		Reflection.invokeMethod(faceDetector.getClass().getSuperclass(), faceDetector, "onFaceDetected", parameters);
 
 		int expectedFaceSize = (int) (Math.random() * 100);

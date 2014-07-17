@@ -2,72 +2,100 @@ import java.util.regex.Pattern
 
 buildscript {
     repositories {
-        mavenLocal()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.9.+'
+        classpath 'com.android.tools.build:gradle:0.12.+'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.+'
     }
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
 }
 
-apply plugin: 'android'
+apply plugin: 'android-sdk-manager'
+apply plugin: 'com.android.application'
 //apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
-//apply plugin: 'pmd'
+apply plugin: 'pmd'
 
-ext.catroid_version = "0.9"
-ext.features_enabled = [
-        "backpack": false
-]
+check.dependsOn 'checkstyle'
+check.dependsOn 'pmd'
+
+ext {
+    projectVersion = "0.9"
+    featuresEnabled = [
+            "lego_nxt"                          : true,
+            "backpack"                          : false,
+            "parrot_ar_drone"                   : false,
+            "apk_generator"                     : false,
+            "computer_vision_enhancement"       : false,
+            "formula_editor_lists"              : false,
+            "physics_engine_collision_filtering": false,
+            "time_capsule"                      : false
+    ]
+}
 
 dependencies {
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
-    compile 'com.android.support:support-v4:18.0.+'
-    compile fileTree(dir: 'catroid/libs', include: '*.jar')
-    compile fileTree(dir: 'catroid/libs-natives', include: '*.jar')
-
-    androidTestCompile fileTree(dir: 'catroidTest/libs', include: '*.jar')
+    compile 'com.android.support:support-v4:19.1.0'
+    compile 'com.google.guava:guava:17.0'
+    compile fileTree(include: '*.jar', dir: 'catroid/libs')
+    compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
+    androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')
+    pmd 'net.sourceforge.pmd:pmd:5.1.1'
 }
 
 
-def getVersionCode = { ->
+def getBuildNumberParameter = { ->
     def code = project.hasProperty('versionCode') ? versionCode.toInteger() : -1
     return code
 }
 
-def getVersionName = { ->
-    def code = getVersionCode
-    def versionName = "$ext.catroid_version.$code"
-    println "VersionCode is set to $code"
-    println "VersionName is set to $versionName"
+def generateVersionName(version, buildNumber) {
+    def versionName
+    if (buildNumber == -1) {
+        versionName = getGitDescribe() + " " + getCurrentGitBranch()
+    } else {
+        versionName = version + "." + buildNumber
+    }
     return versionName
 }
 
-def gitDescribe() {
-    return 'git describe --tags'.execute().text.trim()
+def getGitDescribe() {
+    try {
+        return 'git describe --tags'.execute().text.trim()
+    } catch (IOException exception) {
+        throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
+    }
+}
+
+def getCurrentGitBranch() {
+    try {
+        return 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
+    } catch (IOException exception) {
+        throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
+    }
 }
 
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19"
-
+    buildToolsVersion '19.1.0'
     defaultConfig {
         minSdkVersion 10
         targetSdkVersion 19
-        packageName "org.catrobat.catroid"
-        testPackageName "org.catrobat.catroid.test"
-        testInstrumentationRunner "pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
-        versionCode getVersionCode()
-        versionName getVersionName()
-        buildConfigField "String", "GIT_DESCRIBE", "\"${gitDescribe()}\""
+        applicationId 'org.catrobat.catroid'
+        testApplicationId "org.catrobat.catroid.test"
+        testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
+        versionCode getBuildNumberParameter()
+        println "VersionCode is " + versionCode
+        versionName generateVersionName(projectVersion, versionCode)
+        println "VersionName is " + versionName
+        buildConfigField "String", "GIT_DESCRIBE", "\"${getGitDescribe()}\""
+        buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
     }
-
     sourceSets {
         main {
             manifest.srcFile 'catroid/AndroidManifest.xml'
@@ -86,18 +114,25 @@ android {
             renderscript.srcDirs = ['catroidTest/src']
             res.srcDirs = ['catroidTest/res']
             assets.srcDirs = ['catroidTest/assets']
-            if(file('testexclusions.txt').exists()){
+            if (file('testexclusions.txt').exists()) {
                 java.exclude file('testexclusions.txt').readLines()
             }
         }
     }
-
     lintOptions {
-        //lintConfig file('catroid/lint.xml')
+        // define ignores like a specific res-folder in our lint.xml file
+        lintConfig file('config/lint.xml')
+
+        // all general ignores should be added in this place
+        // CommitPrefEdits should be reviewed, if using apply instead of commit is working with our tests
+        // OldTargetApi should be reviewed - consider updating target API to 20
+        ignore 'ContentDescription', 'InvalidPackage', 'ValidFragment', 'GradleDependency',
+                'ClickableViewAccessibility', 'UnusedAttribute', 'CommitPrefEdits', 'OldTargetApi'
+
         textReport true
-        ignore 'ContentDescription', 'ExtraTranslation', 'MissingTranslation', 'UnusedResources'
-        //these should be fixed soon:
-        ignore 'ValidFragment', 'IconDensities', 'InvalidPackage', 'GradleOverrides', 'GradleDependency'
+        xmlReport true
+        htmlReport false
+        xmlOutput file("build/reports/lint.xml")
     }
 }
 
@@ -112,19 +147,43 @@ android {
 //}
 
 task checkstyle(type: Checkstyle) {
-    configFile file('catroid/checkstyle.xml')
+    configFile file('config/checkstyle.xml')
     source '.'
     include '**/*.java'
-    exclude 'build/**', 'libraryProjects/**'
+    exclude '**/gen/**', '**/build/**', '**/res/**', 'libraryProjects/**'
 
-    classpath = files(project.configurations.compile.asPath)
+    classpath = files()
+
+    // needed for console output of warnings/errors
+    showViolations true
+    ignoreFailures false
+
+    reports {
+        xml.destination "build/reports/checkstyle.xml"
+    }
 }
 
-// Doesn't work atm. Maybe if the pmd plugin gets updated.
-//task pmd(type: Pmd) {
-//    ruleSets = ["basic", "braces", "strings"]
-//    source = fileTree(android.sourceSets.main.java.srcDirs)
-//}
+task pmd(type: Pmd) {
+    // current plugin has pmd 4.3 as default
+    // gradle 2.0 should support pmd 5.1.1 out of the box; deprecated toolVersion property should be removed then
+    toolVersion = '5.1.1'
+
+    // complete rulesets can be used with the abbrevation
+    // rulesets with specific excludes are moved to a config file containing just a single ruleset with exclude(s)
+    ruleSets = ['java-android', 'java-braces', 'java-empty', 'java-sunsecure', 'java-unusedcode', 'config/pmd_basic.xml',
+                'config/pmd_strings.xml', 'config/pmd_unnecessary.xml']
+    source '.'
+    include '**/*.java'
+    exclude '**/gen/**', '**/build/**', '**/res/**', 'libraryProjects/**', '**/catroidCucumberTest/**'
+
+    ignoreFailures false
+
+    reports {
+        xml.enabled = true
+        html.enabled = false
+        xml.destination "build/reports/pmd.xml"
+    }
+}
 
 task jenkins() << {
 //    android.buildTypes.each { type ->
@@ -135,8 +194,9 @@ task jenkins() << {
 //    }
 }
 
-task featuresToBuildconfig() {
-    for (feature in project.ext.features_enabled) {
+task featuresToBuildconfig << {
+    println "Activated Features:"
+    for (feature in featuresEnabled) {
         def name = feature.key
         def value = feature.value
         if (project.hasProperty("allFeatures_enabled"))
@@ -144,13 +204,20 @@ task featuresToBuildconfig() {
         if (project.hasProperty("${name}_enabled"))
             value = project["${name}_enabled"]
 
+        if (!(value.toString().equals("true") || value.toString().equals("false")))
+            throw new IllegalArgumentException("Wrong Argument! Usage:\ne.g. -PallFeatures_enabled=true -Pparrot_ar_drone_enabled=false")
+
+        if (value.toString().equals("true")) {
+            println "- " + name
+        }
         android.defaultConfig.buildConfigField "boolean", "FEATURE_${name.toUpperCase()}_ENABLED", "${value}"
     }
+    println ""
 }
 
-task testManifestHack() << {
+task testManifestHack << {
     def origManifest = file('catroidTest/AndroidManifest.xml')
-    def generatedManifest = file("build/manifests/test/debug/AndroidManifest.xml")
+    def generatedManifest = file("build/intermediates/manifests/test/debug/AndroidManifest.xml")
     def origContent = origManifest.getText()
     def generatedContent = generatedManifest.getText()
     def pattern = Pattern.compile("<application.*?>.*?</application>", Pattern.DOTALL)
@@ -170,5 +237,25 @@ preBuild.dependsOn featuresToBuildconfig
 def signing_config_file = file(System.getProperty("user.home") + "/.catrobat/catroid_signing_config.gradle")
 if (signing_config_file.exists()) {
     apply from: signing_config_file.absolutePath
+}
+
+task gitSkipWorktreeForIntellijConfigFiles << {
+    try {
+        'git update-index --skip-worktree .idea/misc.xml'.execute().text.trim()
+        'git update-index --skip-worktree Catroid.iml'.execute().text.trim()
+        'git update-index --skip-worktree catroidSourceTest/catroidSourceTest.iml'.execute().text.trim()
+    } catch (IOException exception) {
+        throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
+    }
+}
+
+task gitNoSkipWorktreeForIntellijConfigFiles << {
+    try {
+        'git update-index --no-skip-worktree .idea/misc.xml'.execute().text.trim()
+        'git update-index --no-skip-worktree Catroid.iml'.execute().text.trim()
+        'git update-index --no-skip-worktree catroidSourceTest/catroidSourceTest.iml'.execute().text.trim()
+    } catch (IOException exception) {
+        throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
+    }
 }
 

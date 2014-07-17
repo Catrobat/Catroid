@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -64,6 +64,7 @@ public class MoveNStepsBrickTest extends BaseActivityInstrumentationTestCase<Scr
 	}
 
 	private void createProject() {
+
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
@@ -107,14 +108,16 @@ public class MoveNStepsBrickTest extends BaseActivityInstrumentationTestCase<Scr
 				"Value in Brick is not updated.",
 				STEPS_TO_MOVE,
 				Double.valueOf(((TextView) solo.getView(R.id.brick_move_n_steps_edit_text)).getText().toString()
-						.replace(',', '.')));
+						.replace(',', '.'))
+		);
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_move_n_steps_edit_text, 1);
 		TextView stepTextView = (TextView) solo.getView(R.id.brick_move_n_steps_step_text_view);
 		assertTrue(
 				"Specifier hasn't changed from plural to singular",
 				stepTextView.getText().equals(
-						stepTextView.getResources().getQuantityString(R.plurals.brick_move_n_step_plural, 1)));
+						stepTextView.getResources().getQuantityString(R.plurals.brick_move_n_step_plural, 1))
+		);
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_move_n_steps_edit_text, 1.4);
 		stepTextView = (TextView) solo.getView(R.id.brick_move_n_steps_step_text_view);
@@ -122,6 +125,8 @@ public class MoveNStepsBrickTest extends BaseActivityInstrumentationTestCase<Scr
 				"Specifier hasn't changed from singular to plural",
 				stepTextView.getText().equals(
 						stepTextView.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
-								Utils.convertDoubleToPluralInteger(1.4))));
+								Utils.convertDoubleToPluralInteger(1.4))
+				)
+		);
 	}
 }

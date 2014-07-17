@@ -52,9 +52,11 @@
         android:id="@+id/dialog_terms_of_use_check_box_agree_permanently"
         style="@style/DefaultDialog.Item"
         android:layout_below="@+id/dialog_terms_of_use_text_view_url"
+        android:text="@string/dialog_terms_of_use_agree_permanent"
         android:gravity="center"
         android:minHeight="0dp"
         android:textColor="@color/spritelist_details_text_color"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:visibility="visible" />
 
 </RelativeLayout>

@@ -27,7 +27,6 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -42,18 +41,13 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.List;
 
-public class DroneLandBrick extends BrickBaseType implements OnItemSelectedListener {
+public class DroneLandBrick extends DroneBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient AdapterView<?> adapterView;
 
 	public DroneLandBrick(Sprite sprite) {
 		this.sprite = sprite;
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return ARDRONE_SUPPORT;
 	}
 
 	@Override
@@ -97,15 +91,6 @@ public class DroneLandBrick extends BrickBaseType implements OnItemSelectedListe
 		});
 
 		return view;
-	}
-
-	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		adapterView = parent;
-	}
-
-	@Override
-	public void onNothingSelected(AdapterView<?> arg0) {
 	}
 
 	@Override

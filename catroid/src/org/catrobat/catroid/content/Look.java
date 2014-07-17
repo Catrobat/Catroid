@@ -53,7 +53,7 @@ public class Look extends Image {
 	protected float brightness = 1f;
 	protected Pixmap pixmap;
 	private ParallelAction whenParallelAction;
-	private boolean allActionAreFinished = false;
+	private boolean allActionsAreFinished = false;
 	private BrightnessContrastShader shader;
 
 	public Look(Sprite sprite) {
@@ -107,7 +107,7 @@ public class Look extends Image {
 		cloneLook.brightness = this.brightness;
 		cloneLook.visible = this.visible;
 		cloneLook.whenParallelAction = null;
-		cloneLook.allActionAreFinished = this.allActionAreFinished;
+		cloneLook.allActionsAreFinished = this.allActionsAreFinished;
 
 		return cloneLook;
 	}
@@ -158,7 +158,7 @@ public class Look extends Image {
 	@Override
 	public void act(float delta) {
 		Array<Action> actions = getActions();
-		allActionAreFinished = false;
+		allActionsAreFinished = false;
 		int finishedCount = 0;
 
 		for (Iterator<Action> iterator = Look.actionsToRestart.iterator(); iterator.hasNext(); ) {
@@ -174,14 +174,14 @@ public class Look extends Image {
 			}
 		}
 		if (finishedCount == actions.size) {
-			allActionAreFinished = true;
+			allActionsAreFinished = true;
 		}
 	}
 
 	@Override
 	public void addAction(Action action) {
 		super.addAction(action);
-		allActionAreFinished = false;
+		allActionsAreFinished = false;
 	}
 
 	protected void checkImageChanged() {
@@ -233,7 +233,7 @@ public class Look extends Image {
 	}
 
 	public boolean getAllActionsAreFinished() {
-		return allActionAreFinished;
+		return allActionsAreFinished;
 	}
 
 	public String getImagePath() {

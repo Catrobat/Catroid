@@ -24,6 +24,6 @@ package org.catrobat.catroid.camera;
 
 public interface JpgPreviewCallback {
 
-	public void onJpgPreviewFrame(byte[] jpgData);
+	void onFrame(byte[] jpgData);
 
 }

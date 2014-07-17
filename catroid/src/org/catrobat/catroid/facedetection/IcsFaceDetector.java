@@ -46,7 +46,6 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 		if (running) {
 			return true;
 		}
-		Log.d("Blah", "ICS Start");
 		Camera camera = CameraManager.getInstance().getCamera();
 		if (camera == null) {
 			return false;
@@ -62,7 +61,6 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 		if (!running) {
 			return;
 		}
-		Log.d("Blah", "ICS Stop");
 		running = false;
 		CameraManager.getInstance().releaseCamera();
 	}

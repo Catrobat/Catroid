@@ -51,6 +51,8 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 	protected void setUp() throws Exception {
 		super.setUp();
 		UiTestUtils.createEmptyProject();
+		solo.waitForActivity(MainMenuActivity.class);
+		solo.sleep(300);
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 

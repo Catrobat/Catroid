@@ -56,7 +56,8 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 	}
 
 	@Override
-	public void onJpgPreviewFrame(byte[] data) {
+
+	public void onFrame(byte[] data) {
 		Bitmap preview = BitmapFactory.decodeByteArray(data, 0, data.length);
 		detectFaces(preview);
 		preview.recycle();

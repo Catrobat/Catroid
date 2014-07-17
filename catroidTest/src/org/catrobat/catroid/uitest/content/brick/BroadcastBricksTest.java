@@ -36,41 +36,42 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.List;
 
-public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
+public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private Project project;
 	private Sprite sprite;
 
-	private final SparseArray<String> expectedSpinnterText = new SparseArray<String>();
-	private final String defaultBroadcastMessage = "message 1";
+	private final SparseArray<String> expectedSpinnerText = new SparseArray<String>();
+	private String defaultBroadcastMessage = "";
 
 	private final int broadcastReceiverSpinnerId = R.id.brick_broadcast_receive_spinner;
 	private final int broadcastSpinnerId = R.id.brick_broadcast_spinner;
 	private final int broadcastWaitSpinnerId = R.id.brick_broadcast_wait_spinner;
 
 	public BroadcastBricksTest() {
-		super(ScriptActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
-		// normally super.setUp should be called first
-		// but kept the test failing due to view is null
-		// when starting in ScriptActivity
-		createProject();
 		super.setUp();
-		expectedSpinnterText.put(broadcastReceiverSpinnerId, defaultBroadcastMessage);
-		expectedSpinnterText.put(broadcastSpinnerId, defaultBroadcastMessage);
-		expectedSpinnterText.put(broadcastWaitSpinnerId, defaultBroadcastMessage);
+		defaultBroadcastMessage = solo.getString(R.string.brick_broadcast_default_value);
+		expectedSpinnerText.put(broadcastReceiverSpinnerId, defaultBroadcastMessage);
+		expectedSpinnerText.put(broadcastSpinnerId, defaultBroadcastMessage);
+		expectedSpinnerText.put(broadcastWaitSpinnerId, defaultBroadcastMessage);
+		createProject();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
+	@Device
 	public void testBroadcastBricks() {
 		checkSetupBricks();
 
@@ -114,6 +115,7 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Scr
 		assertEquals("Wrong selection", defaultBroadcastMessage, broadcastSpinner.getSelectedItem().toString());
 	}
 
+	@Device
 	public void testRemoveUnusedMessages() {
 		checkSetupBricks();
 
@@ -142,11 +144,11 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Scr
 
 	private void checkCorrectSpinnerSelections() {
 		assertEquals("Wrong broadcast message in broadcast receiver.",
-				expectedSpinnterText.get(broadcastReceiverSpinnerId),
+				expectedSpinnerText.get(broadcastReceiverSpinnerId),
 				((Spinner) solo.getView(broadcastReceiverSpinnerId)).getSelectedItem().toString());
-		assertEquals("Wrong broadcast message in broadcast.", expectedSpinnterText.get(broadcastSpinnerId),
+		assertEquals("Wrong broadcast message in broadcast.", expectedSpinnerText.get(broadcastSpinnerId),
 				((Spinner) solo.getView(broadcastSpinnerId)).getSelectedItem().toString());
-		assertEquals("Wrong broadcast message in broadcastWait.", expectedSpinnterText.get(broadcastWaitSpinnerId),
+		assertEquals("Wrong broadcast message in broadcastWait.", expectedSpinnerText.get(broadcastWaitSpinnerId),
 				((Spinner) solo.getView(broadcastWaitSpinnerId)).getSelectedItem().toString());
 	}
 
@@ -159,7 +161,7 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Scr
 		solo.clickOnText(solo.getString(R.string.ok));
 		solo.waitForView(solo.getView(spinnerId));
 		gainFocus();
-		expectedSpinnterText.put(spinnerId, text);
+		expectedSpinnerText.put(spinnerId, text);
 		checkCorrectSpinnerSelections();
 	}
 
@@ -168,7 +170,7 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Scr
 		solo.clickOnText(text);
 		solo.waitForView(solo.getView(spinnerId));
 		gainFocus();
-		expectedSpinnterText.put(spinnerId, text);
+		expectedSpinnerText.put(spinnerId, text);
 		checkCorrectSpinnerSelections();
 	}
 

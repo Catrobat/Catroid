@@ -97,7 +97,7 @@
     must agree to our Terms of Use and strictly follow them when you use Pocket 
     Code and our other executables. Please see the link below for their precise formulation.\n</string>
     <string name="dialog_terms_of_use_link_text">Terms of Use</string>
-    <string name="dialog_terms_of_use_agree_permanet">I agree permanently --- do not ask me again. I assume full responsibility when someone else uses my device.</string>
+    <string name="dialog_terms_of_use_agree_permanent">I agree permanently – do not ask me again. I assume full responsibility when someone else uses my device.</string>
     <string name="dialog_terms_of_use_agree">I agree</string>
     <string name="dialog_terms_of_use_do_not_agree">I do not agree</string>
     <!--  -->
@@ -153,7 +153,7 @@
 
 
     <!-- Script fragment -->
-    <string name="fragment_script_text_description">Click \"+\" to add Scripts</string>
+    <string name="fragment_script_text_description">Tap \"+\" to add Scripts</string>
     <string name="dialog_confirm_delete_brick_title">Delete this brick?</string>
     <string name="dialog_confirm_delete_script_title">Delete this script?</string>
     <string name="dialog_confirm_delete_multiple_bricks_title">Delete these bricks?</string>
@@ -171,8 +171,8 @@
 
 
     <!-- Look fragment -->
-    <string name="fragment_look_text_description">Click \"+\" to add Looks</string>
-    <string name="fragment_background_text_description">Click \"+\" to add Backgrounds</string>
+    <string name="fragment_look_text_description">Tap \"+\" to add Looks</string>
+    <string name="fragment_background_text_description">Tap \"+\" to add Backgrounds</string>
     <string name="rename_look_dialog">Rename Look</string>
     <string name="lookname_invalid">This look\'s name is invalid</string>
     <string name="pocket_paint_not_installed_title">Pocket Paint is not installed!</string>
@@ -190,7 +190,7 @@
 
 
     <!-- Sound fragment -->
-    <string name="fragment_sound_text_description">Click \"+\" to add Sounds</string>
+    <string name="fragment_sound_text_description">Tap \"+\" to add Sounds</string>
     <string name="rename_sound_dialog">Rename Sound</string>
     <string name="backpack_title">BackPack</string>
     <string name="soundname_invalid">This sound\'s name is invalid</string>
@@ -232,7 +232,7 @@
     <string name="soundrecorder_name">Pocket Code Recorder</string>
     <string name="soundrecorder_error">Sound recording failed</string>
     <string name="soundrecorder_recorded_filename">record</string>
-    <string name="soundrecorder_text_view">Press icon above to start and stop recording.</string>
+    <string name="soundrecorder_text_view">Tap the icon above to start and stop recording.</string>
     <!--  -->
 
 
@@ -505,9 +505,9 @@
     <string name="error_drone_low_battery">Insert a charged battery and try again.</string>
     <string name="error_drone_wrong_platform_title">No ARDrone support</string>
     <string name="error_drone_wrong_platform">We can not run a ARDrone project on your device.</string>
-    <string name="error_drone_not_available_in_release_build_title">ARDrone projects not supported</string>
-    <string name="error_drone_not_available_in_release_build">Unfortunately we can\'t run projects with ARDrone bricks for now.</string>
-    <!--  -->
+	<string name="error_rename_incompatible_project">Renaming an incompatible project isn\'t possible.</string>
+    <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible project isn\'t possible.</string>
+	<!--  -->
 
 
     <!-- Bluetooth Connection Strings -->

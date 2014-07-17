@@ -52,6 +52,7 @@ import android.view.WindowManager;
 
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.GdxNativesLoader;
@@ -65,6 +66,7 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
@@ -81,8 +83,6 @@ public final class Utils {
 
 	private static final String TAG = Utils.class.getSimpleName();
 
-	public static final int PICTURE_INTENT = 1;
-	public static final int FILE_INTENT = 2;
 	public static final int TRANSLATION_PLURAL_OTHER_INTEGER = 767676;
 
 	// Suppress default constructor for noninstantiability
@@ -177,12 +177,12 @@ public final class Utils {
 		errorDialog.show();
 	}
 
-	public static View addSelectAllActionModeButton(LayoutInflater inflator, ActionMode mode, Menu menu) {
+	public static View addSelectAllActionModeButton(LayoutInflater inflater, ActionMode mode, Menu menu) {
 		mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
-		com.actionbarsherlock.view.MenuItem item = menu.findItem(R.id.select_all);
+		MenuItem item = menu.findItem(R.id.select_all);
 		View view = item.getActionView();
 		if (view.getId() == R.id.select_all) {
-			View selectAllView = inflator.inflate(R.layout.action_mode_select_all, null);
+			View selectAllView = inflater.inflate(R.layout.action_mode_select_all, null);
 			item.setActionView(selectAllView);
 			return selectAllView;
 		}
@@ -202,8 +202,7 @@ public final class Utils {
 			fis = new FileInputStream(file);
 			byte[] buffer = new byte[Constants.BUFFER_8K];
 
-			int length = 0;
-
+			int length;
 			while ((length = fis.read(buffer)) != -1) {
 				messageDigest.update(buffer, 0, length);
 			}
@@ -254,18 +253,6 @@ public final class Utils {
 		return messageDigest;
 	}
 
-	public static int getVersionCode(Context context) {
-		int versionCode = -1;
-		try {
-			PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(),
-					PackageManager.GET_META_DATA);
-			versionCode = packageInfo.versionCode;
-		} catch (NameNotFoundException nameNotFoundException) {
-			Log.e(TAG, "Name not found", nameNotFoundException);
-		}
-		return versionCode;
-	}
-
 	public static String getVersionName(Context context) {
 		String versionName = "unknown";
 		try {
@@ -280,8 +267,7 @@ public final class Utils {
 
 	public static int getPhysicalPixels(int densityIndependentPixels, Context context) {
 		final float scale = context.getResources().getDisplayMetrics().density;
-		int physicalPixels = (int) (densityIndependentPixels * scale + 0.5f);
-		return physicalPixels;
+		return (int) (densityIndependentPixels * scale + 0.5f);
 	}
 
 	public static void saveToPreferences(Context context, String key, String message) {
@@ -296,10 +282,14 @@ public final class Utils {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String projectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
 
-			if (projectName != null) {
-				ProjectManager.getInstance().loadProject(projectName, context, false);
-			} else if (!ProjectManager.getInstance().loadProject(context.getString(R.string.default_project_name),
-					context, false)) {
+			if (projectName == null) {
+				projectName = context.getString(R.string.default_project_name);
+			}
+
+			try {
+				ProjectManager.getInstance().loadProject(projectName, context);
+			} catch (ProjectException projectException) {
+				Log.e(TAG, "Project cannot load", projectException);
 				ProjectManager.getInstance().initializeDefaultProject(context);
 			}
 
@@ -397,7 +387,7 @@ public final class Utils {
 	}
 
 	public static Pixmap getPixmapFromFile(File imageFile) {
-		Pixmap pixmap = null;
+		Pixmap pixmap;
 		try {
 			GdxNativesLoader.load();
 			pixmap = new Pixmap(new FileHandle(imageFile));
@@ -412,7 +402,7 @@ public final class Utils {
 	public static void rewriteImageFileForStage(Context context, File lookFile) throws IOException {
 		// if pixmap cannot be created, image would throw an Exception in stage
 		// so has to be loaded again with other Config
-		Pixmap pixmap = null;
+		Pixmap pixmap;
 		pixmap = Utils.getPixmapFromFile(lookFile);
 
 		if (pixmap == null) {

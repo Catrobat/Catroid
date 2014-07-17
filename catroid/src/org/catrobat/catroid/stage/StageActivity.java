@@ -26,13 +26,16 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 
 public class StageActivity extends AndroidApplication {
@@ -41,9 +44,12 @@ public class StageActivity extends AndroidApplication {
 	private boolean resizePossible;
 	private StageDialog stageDialog;
 
-	private DroneConnection droneStageListener = null;
+	private DroneConnection droneConnection = null;
 
 	public static final int STAGE_ACTIVITY_FINISH = 7777;
+
+	private StageAudioFocus stageAudioFocus;
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -51,13 +57,26 @@ public class StageActivity extends AndroidApplication {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-		droneStageListener = new DroneConnection(this, getIntent());
+		if (getIntent().getBooleanExtra(DroneInitializer.INIT_DRONE_STRING_EXTRA, false)) {
+			droneConnection = new DroneConnection(this);
+		}
 		stageListener = new StageListener();
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
 
 		initialize(stageListener, true);
-		droneStageListener.initialise();
+
+		if (droneConnection != null) {
+			try {
+				droneConnection.initialise();
+			} catch (RuntimeException runtimeException) {
+				Log.e(TAG, "Failure during drone service startup", runtimeException);
+				Toast.makeText(this, R.string.error_no_drone_connected, Toast.LENGTH_LONG).show();
+				this.finish();
+			}
+		}
+
+		stageAudioFocus = new StageAudioFocus(this);
 	}
 
 	@Override
@@ -77,19 +96,24 @@ public class StageActivity extends AndroidApplication {
 	public void onPause() {
 		SensorHandler.stopSensorListeners();
 		stageListener.activityPause();
-		super.onPause();
+		stageAudioFocus.releaseAudioFocus();
 
-		droneStageListener.pause();
-
+		if (droneConnection != null) {
+			droneConnection.pause();
+		}
 	}
 
 	@Override
 	public void onResume() {
 		SensorHandler.startSensorListener(this);
 		stageListener.activityResume();
+		stageAudioFocus.requestAudioFocus();
+
 		super.onResume();
 
-		droneStageListener.start();
+		if (droneConnection != null) {
+			droneConnection.start();
+		}
 	}
 
 	public void pause() {
@@ -98,6 +122,7 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	public void resume() {
+        Log.d("Lausi", "resume_startListeners");
 		stageListener.menuResume();
 		SensorHandler.startSensorListener(this);
 	}
@@ -151,7 +176,9 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	protected void onDestroy() {
-		droneStageListener.destroy();
+		if (droneConnection != null) {
+			droneConnection.destroy();
+		}
 		Log.d(TAG, "Destroy");
 		super.onDestroy();
 	}

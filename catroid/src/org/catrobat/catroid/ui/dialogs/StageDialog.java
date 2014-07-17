@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.ui.dialogs;
 
-import static android.widget.Toast.LENGTH_SHORT;
-
 import android.app.Dialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -39,6 +37,8 @@ import org.catrobat.catroid.common.BroadcastSequenceMap;
 import org.catrobat.catroid.common.BroadcastWaitSequenceMap;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
+
+import static android.widget.Toast.LENGTH_SHORT;
 
 public class StageDialog extends Dialog implements View.OnClickListener {
 	private StageActivity stageActivity;

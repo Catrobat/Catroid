@@ -49,8 +49,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 public class CameraTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int SCREEN_WIDTH = 480;
 	private static final int SCREEN_HEIGHT = 800;
-	private static final int MAX_FRAME_DELAY_IN_MS = 1000;
-
+	private static final int MAX_FRAME_DELAY_IN_MS = 1200;
 	private Project project;
 	Sprite sprite;
 
@@ -73,7 +72,8 @@ public class CameraTest extends BaseActivityInstrumentationTestCase<MainMenuActi
 		final int[] calls = new int[1];
 		calls[0] = 0;
 		JpgPreviewCallback callback = new JpgPreviewCallback() {
-			public void onJpgPreviewFrame(byte[] jpgData) {
+
+			public void onFrame(byte[] jpgData) {
 				calls[0]++;
 				if (calls[0] == 1) {
 					Bitmap bitmap = BitmapFactory.decodeByteArray(jpgData, 0, jpgData.length);

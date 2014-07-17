@@ -89,7 +89,7 @@
     <string name="dialog_new_object_name">Objekt Name</string>
     <string name="dialog_new_object_switch_title">Neues Objekt erstellt</string>
     <string name="dialog_new_object_switch_message">Zu neuem Objekt wechseln?</string>
-    <!--  -->
+    <!-- -->
 
 
     <!-- Terms of Use Dialog -->
@@ -101,7 +101,7 @@
     einhalten. Die exakte Formulierung unserer Nutzungsbedingungen steht unter 
     dem folgenden "Terms of Use" Link zur Verfügung.\n</string>
     <string name="dialog_terms_of_use_link_text">Terms of Use</string>
-    <string name="dialog_terms_of_use_agree_permanet">Ich möchte immer zustimmen --- frage mich nicht noch einmal. Ich übernehme auch die Verantworung, wenn jemand anderer mein Gerät verwendet.</string>
+    <string name="dialog_terms_of_use_agree_permanent" >Ich stimme immer zu – frage mich nicht noch einmal. Ich übernehme auch die Verantworung, wenn jemand anderer mein Gerät verwendet.</string>
     <string name="dialog_terms_of_use_agree">Ich stimme zu</string>
     <string name="dialog_terms_of_use_do_not_agree">Ich stimme nicht zu</string>
     <!--  -->
@@ -156,7 +156,7 @@
 
 
     <!-- Script fragment -->
-    <string name="fragment_script_text_description">Klicke auf \"+\" um Skripte hinzuzufügen</string>
+    <string name="fragment_script_text_description">Tippe auf \"+\" um Skripte hinzuzufügen</string>
     <string name="dialog_confirm_delete_brick_title">Diesen Baustein löschen?</string>
     <string name="dialog_confirm_delete_script_title">Dieses Skript löschen?</string>
     <string name="dialog_confirm_delete_multiple_bricks_title">Diese Bausteine löschen?</string>
@@ -174,8 +174,8 @@
 
 
     <!-- Look fragment -->
-    <string name="fragment_look_text_description">Klicke auf \"+\" um Aussehen hinzuzufügen</string>
-    <string name="fragment_background_text_description">Klicke auf \"+\" um Hintergründe hinzuzufügen</string>
+    <string name="fragment_look_text_description">Tippe auf \"+\" um Aussehen hinzuzufügen</string>
+    <string name="fragment_background_text_description">Tippe auf \"+\" um Hintergründe hinzuzufügen</string>
     <string name="rename_look_dialog">Aussehen umbenennen</string>
     <string name="lookname_invalid">Dieser Name ist nicht zulässig</string>
     <string name="pocket_paint_not_installed_title">Pocket Paint ist nicht installiert!</string>
@@ -193,7 +193,7 @@
 
 
     <!-- Sound fragment -->
-    <string name="fragment_sound_text_description">Klicke auf \"+\" um Klänge hinzuzufügen</string>
+    <string name="fragment_sound_text_description">Tippe auf \"+\" um Klänge hinzuzufügen</string>
     <string name="rename_sound_dialog">Klang umbenennen</string>
     <string name="backpack_title">Rucksack</string>
     <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
@@ -235,7 +235,7 @@
     <string name="soundrecorder_name">Pocket Code Recorder</string>
     <string name="soundrecorder_error">Aufnahme fehlgeschlagen</string>
     <string name="soundrecorder_recorded_filename">Aufnahme</string>
-    <string name="soundrecorder_text_view">Zum Starten und Stoppen der Aufnahme klicke auf das Symbol oben.</string>
+    <string name="soundrecorder_text_view">Zum Starten und Stoppen der Aufnahme tippe auf das Symbol oben.</string>
     <!--  -->
 
 
@@ -509,9 +509,9 @@
     <string name="error_drone_low_battery">Lege einen geladenen Akku ein und probier es noch einmal.</string>
     <string name="error_drone_wrong_platform_title">Keine ARDronen Unterstützung</string>
     <string name="error_drone_wrong_platform">Leider können wir kein Dronen Projekt auf deinem Gerät ausführen.</string>
-    <string name="error_drone_not_available_in_release_build_title">ARDrone Projekt nicht verfügbar</string>
-    <string name="error_drone_not_available_in_release_build">Leider können wir derzeit noch keine Projekte mit ARDronen Bausteinen ausführen.</string>
-    <!--  -->
+	<string name="error_rename_incompatible_project">Es ist nicht möglich ein inkompatibles Projekt umzubenennen.</string>
+    <string name="error_changing_description_of_incompatible_project">Ändern der Beschreibung eines inkompatiblen Projekt ist nicht möglich.</string>
+	<!--  -->
 
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Bühne</string>
