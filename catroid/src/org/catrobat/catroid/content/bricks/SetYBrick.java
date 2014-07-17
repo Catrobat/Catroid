@@ -69,7 +69,7 @@ public class SetYBrick extends BrickBaseType implements OnClickListener, Formula
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return yPosition.getRequiredResources();
 	}
 
 	@Override

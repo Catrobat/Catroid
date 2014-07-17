@@ -73,7 +73,7 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener, 
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return ifCondition.getRequiredResources();
 	}
 
 	public IfLogicElseBrick getIfElseBrick() {

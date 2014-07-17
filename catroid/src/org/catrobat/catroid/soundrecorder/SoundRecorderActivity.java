@@ -82,6 +82,7 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 	}
 
 	private synchronized void startRecording() {
+        Log.d("Lausi", "SoundRecorderActivity_startRecording");
 		if (soundRecorder != null && soundRecorder.isRecording()) {
 			return;
 		}
@@ -89,6 +90,7 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 			String recordPath = Utils.buildPath(Constants.TMP_PATH, getString(R.string.soundrecorder_recorded_filename)
 					+ SoundRecorder.RECORDING_EXTENSION);
 			soundRecorder = new SoundRecorder(recordPath);
+            Log.d("Lausi", "SoundREcorderActivity_start");
 			soundRecorder.start();
 			setViewsToRecordingState();
 		} catch (IOException e) {
@@ -107,6 +109,7 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 	}
 
 	private synchronized void stopRecording() {
+        Log.d("Lausi", "SoundRecorderActivity_stopRecording");
 		if (soundRecorder == null || !soundRecorder.isRecording()) {
 			return;
 		}

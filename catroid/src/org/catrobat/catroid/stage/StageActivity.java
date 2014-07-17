@@ -95,7 +95,9 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onPause() {
 		SensorHandler.stopSensorListeners();
+		stageListener.activityPause();
 		stageAudioFocus.releaseAudioFocus();
+
 		super.onPause();
 
 		if (droneConnection != null) {
@@ -106,7 +108,9 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onResume() {
 		SensorHandler.startSensorListener(this);
+		stageListener.activityResume();
 		stageAudioFocus.requestAudioFocus();
+
 		super.onResume();
 
 		if (droneConnection != null) {
@@ -120,6 +124,7 @@ public class StageActivity extends AndroidApplication {
 	}
 
 	public void resume() {
+        Log.d("Lausi", "resume_startListeners");
 		stageListener.menuResume();
 		SensorHandler.startSensorListener(this);
 	}

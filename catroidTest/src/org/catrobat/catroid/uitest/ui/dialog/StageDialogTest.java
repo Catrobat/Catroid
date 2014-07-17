@@ -289,7 +289,7 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.goBack();
-		solo.sleep(400);
+		solo.sleep(600);
 		solo.clickOnButton(solo.getString(R.string.stage_dialog_axes_on));
 		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
 		solo.sleep(100);

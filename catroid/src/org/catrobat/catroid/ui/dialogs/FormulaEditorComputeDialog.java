@@ -28,11 +28,14 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -70,8 +73,13 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 		formulaToCompute = formula;
 
 		if (formula.containsElement(ElementType.SENSOR)) {
+            Log.d("Lausi", "setFormula_startListeners");
 			SensorHandler.startSensorListener(context);
 			SensorHandler.registerListener(this);
+		}
+		int ressources = formula.getRequiredResources();
+		if ((ressources & Brick.FACE_DETECTION) > 0) {
+			FaceDetectionHandler.startFaceDetection(getContext());
 		}
 
 	}
@@ -79,6 +87,7 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 	@Override
 	protected void onStop() {
 		SensorHandler.unregisterListener(this);
+		FaceDetectionHandler.stopFaceDetection();
 		super.onStop();
 	}
 

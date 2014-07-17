@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Catroid.iml" filepath="$PROJECT_DIR$/Catroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/catroidSourceTest/catroidSourceTest.iml" filepath="$PROJECT_DIR$/catroidSourceTest/catroidSourceTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/catroidSourceTest/catroidSourceTest.iml" filepath="$PROJECT_DIR$/catroidSourceTest/catroidSourceTest.iml" />
     </modules>
   </component>
 </project>

@@ -82,7 +82,7 @@ public class PlaceAtBrick extends BrickBaseType implements OnClickListener, Form
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return yPosition.getRequiredResources()|xPosition.getRequiredResources();
 	}
 
 	@Override

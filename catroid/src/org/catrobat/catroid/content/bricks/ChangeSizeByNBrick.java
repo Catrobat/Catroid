@@ -66,7 +66,7 @@ public class ChangeSizeByNBrick extends BrickBaseType implements OnClickListener
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return size.getRequiredResources();
 	}
 
 	@Override

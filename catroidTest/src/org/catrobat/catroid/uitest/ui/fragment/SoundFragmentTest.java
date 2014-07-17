@@ -1041,6 +1041,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.clickOnButton(solo.getString(R.string.yes));
+		solo.sleep(300);
 
 		assertEquals("There are still sounds!", 0, getCurrentNumberOfSounds());
 		assertEquals("Empty View not shown although there are items in the list!", View.VISIBLE,
