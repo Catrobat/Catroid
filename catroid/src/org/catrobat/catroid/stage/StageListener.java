@@ -647,7 +647,8 @@ public class StageListener implements ApplicationListener {
 			int dataSize = data.size();
 			for (int j = 0; j < dataSize; j++) {
 				LookData lookData = data.get(j);
-				lookData.dispose();
+				lookData.getPixmap().dispose();
+				lookData.getTextureRegion().getTexture().dispose();
 			}
 		}
 	}

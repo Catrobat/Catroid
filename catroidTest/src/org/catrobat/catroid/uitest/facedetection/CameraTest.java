@@ -72,7 +72,6 @@ public class CameraTest extends BaseActivityInstrumentationTestCase<MainMenuActi
 		final int[] calls = new int[1];
 		calls[0] = 0;
 		JpgPreviewCallback callback = new JpgPreviewCallback() {
-
 			public void onFrame(byte[] jpgData) {
 				calls[0]++;
 				if (calls[0] == 1) {
@@ -83,6 +82,7 @@ public class CameraTest extends BaseActivityInstrumentationTestCase<MainMenuActi
 		};
 		assertTrue("Face detection is not running (so the camera was probably no started either)",
 				FaceDetectionHandler.isFaceDetectionRunning());
+		solo.sleep(MAX_FRAME_DELAY_IN_MS);
 		CameraManager.getInstance().addOnJpgPreviewFrameCallback(callback);
 		solo.sleep(MAX_FRAME_DELAY_IN_MS);
 		assertTrue("Did not receive frame data from camera", calls[0] > 0);

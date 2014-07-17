@@ -66,7 +66,6 @@ public abstract class FaceDetector {
 	}
 
 	protected void onFaceDetected(Point position, int size) {
-
 		float[] positionXFloatValue = new float[] { position.x };
 		float[] positionYFloatValue = new float[] { position.y };
 		float[] sizeFloatValue = new float[] { size };

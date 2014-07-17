@@ -63,6 +63,7 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		ScreenValues.SCREEN_HEIGHT = 1080;
 	}
 
+
 	// does not run on emulator, and nexus 7
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	@Device
@@ -91,7 +92,9 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		if (possibleFaces == 0) {
 			Log.w("CAMERA", "The hardware does not support facedetection");
 		}
+
 	}
+
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	@Device
@@ -133,7 +136,6 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		} catch (Exception exc) {
 			fail("Camera not available (" + exc.getMessage() + ")");
 
-		} finally {
 			if (camera != null) {
 				camera.release();
 			}
@@ -168,47 +170,45 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 					fail("Ressources were not properly released");
 				}
 			}
-		}
-		if (camera != null) {
-			camera.release();
+			if (camera != null) {
+				camera.release();
+			}
 		}
 	}
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	@Device
 	public void testDoubleStart() {
-		if (!isMinApiICS()) {
-			Log.w(TAG, "testDoubleStart was not performed (higher API level required)");
-		}
+			if (!isMinApiICS()) {
+				Log.w(TAG, "testDoubleStart was not performed (higher API level required)");
+			}
 
-		Camera camera = null;
-		try {
-			camera = Camera.open();
-		} catch (Exception exc) {
-			fail("Camera not available (" + exc.getMessage() + ")");
-		}
-
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-			IcsFaceDetector detector = new IcsFaceDetector();
-			if ((camera.getParameters()).getMaxNumDetectedFaces() > 0) {
-				detector.startFaceDetection();
-				try {
+			Camera camera = null;
+			try {
+				camera = Camera.open();
+			} catch (Exception exc) {
+				fail("Camera not available (" + exc.getMessage() + ")");
+			}
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+				IcsFaceDetector detector = new IcsFaceDetector();
+				if ((camera.getParameters()).getMaxNumDetectedFaces() > 0) {
 					detector.startFaceDetection();
-				} catch (Exception e) {
-					fail("Second start of face detector should be ignored and not cause errors: " + e.getMessage());
-				} finally {
-					detector.stopFaceDetection();
-					camera.release();
-					camera = null;
+					try {
+						detector.startFaceDetection();
+					} catch (Exception e) {
+						fail("Second start of face detector should be ignored and not cause errors: " + e.getMessage());
+					} finally {
+						detector.stopFaceDetection();
+						camera.release();
+						camera = null;
+					}
 				}
+				if (camera != null) {
+					camera.release();
+				}
+
 			}
 		}
-		if (camera != null) {
-			camera.release();
-		}
-
-
-	}
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	@Device
@@ -358,6 +358,7 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 			detector.removeOnFaceDetectedListener(detectionListener);
 		}
 	}
+
 
 	private boolean isMinApiICS() {
 		int currentApi = android.os.Build.VERSION.SDK_INT;

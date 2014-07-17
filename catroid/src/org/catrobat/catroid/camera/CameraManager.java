@@ -171,7 +171,6 @@ public final class CameraManager implements Camera.PreviewCallback {
 		}
 		byte[] jpgData = getDecodeableBytesFromCameraFrame(data);
 		for (JpgPreviewCallback callback : callbacks) {
-
 			callback.onFrame(jpgData);
 		}
 	}

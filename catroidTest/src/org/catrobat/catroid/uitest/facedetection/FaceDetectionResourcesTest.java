@@ -2,37 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
-<<<<<<< HEAD
- *  
-=======
  *
->>>>>>> master
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
-<<<<<<< HEAD
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
-=======
  *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
  *
->>>>>>> master
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
-<<<<<<< HEAD
- *  
-=======
  *
->>>>>>> master
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -90,11 +74,6 @@ public class FaceDetectionResourcesTest extends BaseActivityInstrumentationTestC
 		solo.goBackToActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(SLEEP_TIME);
 		assertFalse("Face detection was not stopped", FaceDetectionHandler.isFaceDetectionRunning());
-
-					FaceDetectionHandler.isFaceDetectionRunning());
-		solo.goBackToActivity(MainMenuActivity.class.getSimpleName());
-		solo.sleep(SLEEP_TIME);
-		assertFalse("Face detection was not stopped", FaceDetectionHandler.isFaceDetectionRunning());
 		solo.goBackToActivity(MainMenuActivity.class.getSimpleName());
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 	}
@@ -110,10 +89,8 @@ public class FaceDetectionResourcesTest extends BaseActivityInstrumentationTestC
 		assertFalse("Face detection was started although it is not needed as a resource",
 				FaceDetectionHandler.isFaceDetectionRunning());
 		solo.goBackToActivity(MainMenuActivity.class.getSimpleName());
-		assertFalse("Face detection was not started although it is needed as a resource",
-					FaceDetectionHandler.isFaceDetectionRunning());
-		solo.goBackToActivity(MainMenuActivity.class.getSimpleName());
 		solo.waitForActivity(StageActivity.class.getSimpleName());
+
 	}
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)

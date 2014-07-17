@@ -31,9 +31,7 @@ import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-
 import android.util.Log;
-
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
@@ -73,7 +71,6 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 					break;
 				default:
 					Log.d("CAMERA", "No Camera detected");
-
 			}
 		}
 		listPreference.setEntries(entries);

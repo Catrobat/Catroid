@@ -80,7 +80,7 @@
     <!--  -->
 
 
-    <!-- New Object Dialog --
+    <!-- New Object Dialog -->
 	<string name="dialog_new_object_look_header">mit Aussehen von…</string>
     <string name="dialog_new_object_pocketpaint">Bild zeichnen</string>
     <string name="dialog_new_object_gallery">Bild auswählen</string>

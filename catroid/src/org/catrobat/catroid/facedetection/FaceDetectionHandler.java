@@ -37,6 +37,7 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 
 public final class FaceDetectionHandler {
 
+
 	private static FaceDetector faceDetector;
 	private static boolean running = false;
 	private static boolean paused = false;
@@ -59,7 +60,6 @@ public final class FaceDetectionHandler {
 	}
 
 	public static boolean startFaceDetection(Context context) {
-
 		if (context != null && !useFaceDetection(context)) {
             SensorHandler.clearFaceDetectionValues();
             return true;
@@ -133,22 +133,7 @@ public final class FaceDetectionHandler {
 		faceDetector.removeOnFaceDetectedListener(listener);
 	}
 
-	public static void registerOnFaceDetectionStatusListener(SensorCustomEventListener listener) {
-		if (faceDetector == null) {
-			createFaceDetector();
-		}
-		faceDetector.addOnFaceDetectionStatusListener(listener);
-	}
-
-	public static void unregisterOnFaceDetectionStatusListener(SensorCustomEventListener listener) {
-		if (faceDetector == null) {
-			return;
-		}
-		faceDetector.removeOnFaceDetectionStatusListener(listener);
-	}
-
 	public static boolean isIcsFaceDetectionSupported() {
-
 		int currentApi = android.os.Build.VERSION.SDK_INT;
 		if (currentApi < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			return false;
@@ -161,7 +146,6 @@ public final class FaceDetectionHandler {
 			camera.release();
 		} catch (Exception exc) {
             Log.e("Camera", "Camera unaccessable!", exc);
-
 		} finally {
 			if (camera != null) {
 				camera.release();

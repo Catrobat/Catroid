@@ -47,6 +47,7 @@ public class FaceDetectionStartStopTest extends BaseActivityInstrumentationTestC
 	private static final int SCREEN_WIDTH = 480;
 	private static final int SCREEN_HEIGHT = 800;
 	private static final int SLEEP_TIME = 1200;
+
 	private Project projectFaceDetection;
 	Sprite sprite;
 
@@ -77,7 +78,6 @@ public class FaceDetectionStartStopTest extends BaseActivityInstrumentationTestC
 
 	public void testOtherActivityStarts() {
 		assertTrue("Face detection was not started", FaceDetectionHandler.isFaceDetectionRunning());
-
 		getInstrumentation().getContext().startActivity(
 				new Intent(Intent.ACTION_DIAL, Uri.parse("tel:42")).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 		solo.sleep(SLEEP_TIME*4);
