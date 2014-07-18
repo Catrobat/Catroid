@@ -29,7 +29,6 @@ import android.hardware.Camera;
 import android.hardware.Camera.Face;
 import android.hardware.Camera.FaceDetectionListener;
 import android.os.Build;
-import android.util.Log;
 
 import org.catrobat.catroid.camera.CameraManager;
 

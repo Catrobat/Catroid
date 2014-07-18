@@ -98,6 +98,8 @@ public class StageActivity extends AndroidApplication {
 		stageListener.activityPause();
 		stageAudioFocus.releaseAudioFocus();
 
+		super.onPause();
+
 		if (droneConnection != null) {
 			droneConnection.pause();
 		}

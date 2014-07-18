@@ -56,11 +56,6 @@ public class FaceDetectionResourcesTest extends BaseActivityInstrumentationTestC
 		super(MainMenuActivity.class);
 	}
 
-	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-	}
-
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	public void testResourceNeeded() throws Exception {
 		createProject(true);

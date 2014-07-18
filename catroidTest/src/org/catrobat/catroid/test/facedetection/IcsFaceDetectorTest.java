@@ -88,7 +88,6 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 				camera.release();
 			}
 		}
-		assertTrue("Device does not support native face detection (other tests will fail as well)", possibleFaces > 0);
 		if (possibleFaces == 0) {
 			Log.w("CAMERA", "The hardware does not support facedetection");
 		}

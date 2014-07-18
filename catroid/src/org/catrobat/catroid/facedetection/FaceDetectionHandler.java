@@ -133,6 +133,20 @@ public final class FaceDetectionHandler {
 		faceDetector.removeOnFaceDetectedListener(listener);
 	}
 
+	public static void registerOnFaceDetectionStatusListener(SensorCustomEventListener listener) {
+		if (faceDetector == null) {
+			createFaceDetector();
+		}
+		faceDetector.addOnFaceDetectionStatusListener(listener);
+	}
+
+	public static void unregisterOnFaceDetectionStatusListener(SensorCustomEventListener listener) {
+		if (faceDetector == null) {
+			return;
+		}
+		faceDetector.removeOnFaceDetectionStatusListener(listener);
+	}
+
 	public static boolean isIcsFaceDetectionSupported() {
 		int currentApi = android.os.Build.VERSION.SDK_INT;
 		if (currentApi < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
