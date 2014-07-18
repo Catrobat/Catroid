@@ -185,7 +185,8 @@ task pmd(type: Pmd) {
     }
 }
 
-task jenkins() << {
+if(project.hasProperty('jenkins')) {
+    project.android.dexOptions.preDexLibraries = false
 //    android.buildTypes.each { type ->
 //        if (type.name == "debug") {
 //            type.packageNameSuffix = ".jenkinsdebug"
