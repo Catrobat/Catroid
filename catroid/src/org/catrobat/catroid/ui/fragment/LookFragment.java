@@ -417,7 +417,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		}
 
 		if (requestCode == LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE) {
-			StorageHandler.getInstance().deletTempImageCopy();
+			StorageHandler.getInstance().deleteTempImageCopy();
 		}
 	}
 

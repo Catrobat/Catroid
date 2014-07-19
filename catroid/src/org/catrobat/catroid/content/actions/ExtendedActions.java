@@ -447,4 +447,16 @@ public class ExtendedActions extends Actions {
 		return action(DroneFlipAction.class);
 	}
 
+	public static LedAction lights(boolean ledValue) {
+		LedAction action = action(LedAction.class);
+		action.setLedValue(ledValue);
+		return action;
+	}
+
+	public static VibrateAction vibrate(Sprite sprite, Formula duration) {
+		VibrateAction action = action(VibrateAction.class);
+		action.setSprite(sprite);
+		action.setDuration(duration);
+		return action;
+	}
 }

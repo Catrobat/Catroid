@@ -37,6 +37,8 @@ import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
+import org.catrobat.catroid.utils.LedUtil;
+import org.catrobat.catroid.utils.VibratorUtil;
 
 public class StageActivity extends AndroidApplication {
 	public static final String TAG = StageActivity.class.getSimpleName();
@@ -65,7 +67,6 @@ public class StageActivity extends AndroidApplication {
 		calculateScreenSizes();
 
 		initialize(stageListener, true);
-
 		if (droneConnection != null) {
 			try {
 				droneConnection.initialise();
@@ -96,6 +97,8 @@ public class StageActivity extends AndroidApplication {
 	public void onPause() {
 		SensorHandler.stopSensorListeners();
 		stageAudioFocus.releaseAudioFocus();
+		LedUtil.pauseLed();
+		VibratorUtil.pauseVibrator();
 		super.onPause();
 
 		if (droneConnection != null) {
@@ -107,6 +110,8 @@ public class StageActivity extends AndroidApplication {
 	public void onResume() {
 		SensorHandler.startSensorListener(this);
 		stageAudioFocus.requestAudioFocus();
+		LedUtil.resumeLed();
+		VibratorUtil.resumeVibrator();
 		super.onResume();
 
 		if (droneConnection != null) {
@@ -117,10 +122,14 @@ public class StageActivity extends AndroidApplication {
 	public void pause() {
 		SensorHandler.stopSensorListeners();
 		stageListener.menuPause();
+		LedUtil.pauseLed();
+		VibratorUtil.pauseVibrator();
 	}
 
 	public void resume() {
 		stageListener.menuResume();
+		LedUtil.resumeLed();
+		VibratorUtil.resumeVibrator();
 		SensorHandler.startSensorListener(this);
 	}
 
@@ -177,6 +186,8 @@ public class StageActivity extends AndroidApplication {
 			droneConnection.destroy();
 		}
 		Log.d(TAG, "Destroy");
+		LedUtil.destroy();
+		VibratorUtil.destroy();
 		super.onDestroy();
 	}
 
