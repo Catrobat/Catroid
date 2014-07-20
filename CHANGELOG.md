@@ -1,16 +1,32 @@
 Changelog
 =========
 
+version 0.9.9
+-----------------
+- new saving strategy: no corrupted projects anymore
+- performance improvements
+  * broadcast/wait
+- general bugfixes
+  * error messages from server
+  * harmonize UI
+  * special characters in project name
+  * length of really short sounds
+
+version 0.9.8
+-----------------
+- bugfixes
+- remove unfinished translations
+
 version 0.9.7
 -----------------
- - fix crashes on Android 4.4 when importing images and sound
- - fixes a bug where some math functions didn't work correctly
- - open websites in-app
- - stage: fix broadcast behavior
- - stage: hiding objects outside, when not in stretch-mode
- - stage: correctly show projects with different aspect ratio
- - stage: correctly taking automatic screenshots during longer sessions
- - many smaller bugfixes and user experience improvements
+- fix crashes on Android 4.4 when importing images and sound
+- fixes a bug where some math functions didn't work correctly
+- open websites in-app
+- stage: fix broadcast behavior
+- stage: hiding objects outside, when not in stretch-mode
+- stage: correctly show projects with different aspect ratio
+- stage: correctly taking automatic screenshots during longer sessions
+- many smaller bugfixes and user experience improvements
 
 version 0.9.6
 -----------------
