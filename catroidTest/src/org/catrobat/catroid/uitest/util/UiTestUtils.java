@@ -431,33 +431,6 @@ public final class UiTestUtils {
 
 	}
 
-	/**
-	 * TODO: Remove this once all the brick classes support ConcurrentFormulaHashMap
-	 */
-	public static void testBrickWithFormulaEditor(Solo solo, int editTextId, double newValue, String fieldName,
-			Brick theBrick) {
-
-		solo.clickOnView(solo.getView(editTextId));
-
-		insertDoubleIntoEditText(solo, newValue);
-
-		assertEquals(
-				"Text not updated within FormulaEditor",
-				newValue,
-				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()
-						.replace(',', '.'))
-		);
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
-		solo.sleep(200);
-
-		Formula formula = (Formula) Reflection.getPrivateField(theBrick, fieldName);
-
-		assertEquals("Wrong text in field", newValue, formula.interpretDouble(theBrick.getSprite()), 0.01f);
-		assertEquals("Text not updated in the brick list", newValue,
-				Double.parseDouble(((TextView) solo.getView(editTextId)).getText().toString().replace(',', '.')), 0.01f);
-
-	}
-
 	public static void insertValueViaFormulaEditor(Solo solo, int editTextId, double value) {
 
 		solo.clickOnView(solo.getView(editTextId));

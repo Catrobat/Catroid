@@ -166,7 +166,7 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 
 	@Override
 	public void initialize() {
-		loopEndBrick = new LoopEndBrick(sprite, this);
+		loopEndBrick = new LoopEndlessBrick(sprite, this);
 	}
 
 	@Override

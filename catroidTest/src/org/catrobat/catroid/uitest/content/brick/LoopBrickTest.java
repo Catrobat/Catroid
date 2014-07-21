@@ -178,9 +178,8 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		UiTestUtils.dragFloatingBrick(solo, 1.25f);
 
 		assertEquals("Incorrect number of bricks.", 8, projectBrickList.size());
-		assertTrue(
-				"Wrong Brick instance. expected 4=ChangeBrightnessByNBrick, bricklist: " + projectBrickList.toString(),
-				projectBrickList.get(4) instanceof ChangeBrightnessByNBrick);
+		assertTrue("Wrong Brick instance. expected 4=ChangeBrightnessByNBrick, bricklist: " +
+						projectBrickList.toString(), projectBrickList.get(4) instanceof ChangeBrightnessByNBrick);
 
 	}
 
