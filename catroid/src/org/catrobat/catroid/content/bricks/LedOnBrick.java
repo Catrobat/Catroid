@@ -34,7 +34,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.physics.content.ActionFactory;
 
 import java.util.List;
 
@@ -97,7 +97,7 @@ public class LedOnBrick extends BrickBaseType {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.lights(true));
+		sequence.addAction(ActionFactory.lights(true));
 		return null;
 	}
 
