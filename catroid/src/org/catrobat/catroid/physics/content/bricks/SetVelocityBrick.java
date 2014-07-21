@@ -179,6 +179,8 @@ public class SetVelocityBrick extends FormulaBrick implements OnClickListener {
 			case R.id.brick_set_velocity_edit_text_y:
 				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_Y));
 				break;
+			default:
+				// nothing to do
 		}
 	}
 

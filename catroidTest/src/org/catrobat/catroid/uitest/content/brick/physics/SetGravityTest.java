@@ -85,7 +85,7 @@ public class SetGravityTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		String textSetGravity = solo.getString(R.string.brick_set_gravity_to);
 		assertNotNull("TextView does not exist.", solo.getText(textSetGravity));
 
-		Vector2 gravity = new Vector2(1.2f, -3.1f);
+		Vector2 gravity = new Vector2(1f, -3f);
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_gravity_edit_text_x, gravity.x, "gravityX",
 				setGravityBrick);

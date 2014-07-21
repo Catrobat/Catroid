@@ -44,7 +44,7 @@ public class PhysicsShapeBuilderStrategyRectangle implements PhysicsShapeBuilder
 
 		Point start = null;
 		Point end = null;
-		
+
 		for (int y = 0; y < pixmap.getHeight(); y++) {
 			for (int x = 0; x < pixmap.getWidth(); x++) {
 				int alpha = pixmap.getPixel(x, y) & 0xff;

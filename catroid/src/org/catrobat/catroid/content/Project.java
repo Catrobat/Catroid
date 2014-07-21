@@ -142,18 +142,17 @@ public class Project implements Serializable {
 	}
 
 	public int getRequiredResources() {
-		int ressources = Brick.NO_RESOURCES;
-
-		ActionFactory actionPhysicsFactory = new ActionPhysicsFactory();
+		int resources = Brick.NO_RESOURCES;
+		ActionFactory physicsActionFactory = new ActionPhysicsFactory();
 
 		for (Sprite sprite : spriteList) {
-			ressources |= sprite.getRequiredResources();
-			if ((ressources & Brick.PHYSIC) > 0) {
-				sprite.setActionFactory(actionPhysicsFactory);
-				ressources &= ~Brick.PHYSIC;
+			int tempResources = sprite.getRequiredResources();
+			if ((tempResources & Brick.PHYSIC) > 0) {
+				sprite.setActionFactory(physicsActionFactory);
 			}
+			resources |= tempResources;
 		}
-		return ressources;
+		return resources;
 	}
 
 	// this method should be removed by the nex refactoring
