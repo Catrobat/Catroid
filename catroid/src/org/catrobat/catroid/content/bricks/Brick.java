@@ -36,11 +36,11 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import java.io.Serializable;
 import java.util.List;
 
-public interface Brick extends Serializable {
+public interface Brick extends Serializable , Cloneable{
 
 	//use bitwise | for using multiple ressources in a brick
 	int NO_RESOURCES = 0x0;
-	int SOUND_MANAGER = 0x1;
+	//int SOUND_MANAGER = 0x1;
 	int TEXT_TO_SPEECH = 0x2;
 	int BLUETOOTH_LEGO_NXT = 0x4;
 	int PHYSIC = 0x8;

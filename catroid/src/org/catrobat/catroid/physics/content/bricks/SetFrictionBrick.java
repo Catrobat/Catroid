@@ -45,7 +45,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SetFrictionBrick extends BrickBaseType implements OnClickListener {
+public class SetFrictionBrick extends BrickBaseType implements OnClickListener, Cloneable {
 	private static final long serialVersionUID = 1L;
 
 	private Formula friction;

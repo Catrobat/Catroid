@@ -48,7 +48,7 @@ import org.catrobat.catroid.physics.PhysicsObject;
 
 import java.util.List;
 
-public class SetPhysicsObjectTypeBrick extends BrickBaseType {
+public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneable{
 	private static final long serialVersionUID = 1L;
 
 	private PhysicsObject.Type type = PhysicsObject.Type.NONE;
