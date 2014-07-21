@@ -47,7 +47,7 @@ import org.catrobat.catroid.content.bricks.ScriptBrick;
 
 import java.util.List;
 
-public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMessage {
+public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMessage, Cloneable {
 	private static final long serialVersionUID = 1L;
 
 	private static final String TAG = CollisionReceiverBrick.class.getSimpleName();

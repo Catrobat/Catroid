@@ -140,8 +140,8 @@ public final class PhysicsShapeBuilderStrategyFastHull implements PhysicsShapeBu
 	private Shape[] devideShape(Vector2[] convexpoints, int width, int height) {
 		for (int index = 0; index < convexpoints.length; index++) {
 			Vector2 point = convexpoints[index];
-			point.x -= width / 2;
-			point.y = height / 2 - point.y;
+			point.x -= width / 2.0f;
+			point.y = height / 2.0f - point.y;
 			convexpoints[index] = PhysicsWorldConverter.convertCatroidToBox2dVector(point);
 		}
 

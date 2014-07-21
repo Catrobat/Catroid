@@ -46,7 +46,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SetVelocityBrick extends BrickBaseType implements OnClickListener {
+public class SetVelocityBrick extends BrickBaseType implements OnClickListener, Cloneable {
 	private static final long serialVersionUID = 1L;
 
 	private Formula velocityX;
@@ -173,6 +173,8 @@ public class SetVelocityBrick extends BrickBaseType implements OnClickListener {
 			case R.id.brick_set_velocity_edit_text_y:
 				FormulaEditorFragment.showFragment(view, this, velocityY);
 				break;
+			default:
+				// nothing to do
 		}
 	}
 

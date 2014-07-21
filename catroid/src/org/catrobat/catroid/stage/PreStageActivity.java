@@ -97,7 +97,7 @@ public class PreStageActivity extends BaseActivity {
 
 		setContentView(R.layout.activity_prestage);
 
-		int requiredResources = getRequiredRessources();
+		int requiredResources = getRequiredResources();
 		requiredResourceCounter = Integer.bitCount(requiredResources);
 
 		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
@@ -293,23 +293,21 @@ public class PreStageActivity extends BaseActivity {
 		this.startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
 	}
 
-	private int getRequiredRessources() {
+	private int getRequiredResources() {
 		ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
 				.getSpriteList();
 
-		//ActionFactory actionFactory = new ActionFactory();
-		ActionFactory actionPhysicsFactory = new ActionPhysicsFactory();
+		ActionFactory physicsActionFactory = new ActionPhysicsFactory();
 
-		int ressources = Brick.NO_RESOURCES;
+		resources = Brick.NO_RESOURCES;
 		for (Sprite sprite : spriteList) {
-			ressources |= sprite.getRequiredResources();
-			if ((ressources & Brick.PHYSIC) > 0) {
-				sprite.setActionFactory(actionPhysicsFactory);
-				ressources &= ~Brick.PHYSIC;
+			int tempResources = sprite.getRequiredResources();
+			if ((tempResources & Brick.PHYSIC) > 0) {
+				sprite.setActionFactory(physicsActionFactory);
 			}
+			resources |= tempResources;
 		}
-
-		return ressources;
+		return resources;
 	}
 
 	@Override
