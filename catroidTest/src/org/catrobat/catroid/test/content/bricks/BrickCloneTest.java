@@ -56,6 +56,7 @@ import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
+import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -151,6 +152,9 @@ public class BrickCloneTest extends AndroidTestCase {
 		brick = new TurnRightBrick(sprite, BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.TURN_RIGHT_DEGREES);
 
+		brick = new VibrationBrick(sprite, BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.VIBRATE_DURATION_IN_SECONDS);
+
 		brick = new WaitBrick(sprite, BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.TIME_TO_WAIT_IN_SECONDS);
 
@@ -158,7 +162,8 @@ public class BrickCloneTest extends AndroidTestCase {
 		brickClone(brick, Brick.BrickField.X_POSITION, Brick.BrickField.Y_POSITION);
 
 		brick = new GlideToBrick(sprite, BRICK_FORMULA_VALUE, BRICK_FORMULA_VALUE, BRICK_FORMULA_VALUE);
-		brickClone(brick, Brick.BrickField.X_DESTINATION, Brick.BrickField.Y_DESTINATION, Brick.BrickField.DURATION_IN_SECONDS);
+		brickClone(brick, Brick.BrickField.X_DESTINATION, Brick.BrickField.Y_DESTINATION,
+				Brick.BrickField.DURATION_IN_SECONDS);
 	}
 
 	public void testVariableReferencesSetVariableBrick() throws Exception {

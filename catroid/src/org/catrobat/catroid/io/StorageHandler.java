@@ -26,12 +26,8 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.util.Log;
 
-<<<<<<< Upstream, based on master
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import com.thoughtworks.xstream.XStream;
-=======
->>>>>>> 2701253 Introduced ConcurrentFormulaHashMap to BrickBaseType Introduced custom xstream converter to support porting old projects' code.xml to new structure of code.xml
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
