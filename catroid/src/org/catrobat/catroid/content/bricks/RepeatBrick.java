@@ -79,7 +79,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 	}
 
 	@Override
-	public Brick clone() {
+	public Brick clone()  {
 		return new RepeatBrick(sprite, getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).clone());
 	}
 
@@ -197,7 +197,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite, Script script) {
 		//loopEndBrick will be set in the LoopEndBrick's copyBrickForSprite method
-		ForeverBrick copyBrick = (ForeverBrick) clone();
+		RepeatBrick copyBrick = (RepeatBrick) clone();
 		copyBrick.sprite = sprite;
 		copy = copyBrick;
 		return copyBrick;

@@ -318,8 +318,6 @@ public final class UiTestUtils {
 		IMAGE, SOUND, ROOT
 	}
 
-	;
-
 	// Suppress default constructor for noninstantiability
 	private UiTestUtils() {
 		throw new AssertionError();
@@ -1074,13 +1072,11 @@ public final class UiTestUtils {
 		brickList.add(new NoteBrick(firstSprite));
 		ForeverBrick foreverBrick = new ForeverBrick(firstSprite);
 		LoopEndBrick endBrick = new LoopEndBrick(firstSprite, foreverBrick);
-		foreverBrick.setLoopEndBrick(endBrick);
 		brickList.add(foreverBrick);
 		brickList.add(endBrick);
 
 		RepeatBrick repeatBrick = new RepeatBrick(firstSprite, 20);
-		endBrick = new LoopEndBrick(firstSprite, foreverBrick);
-		repeatBrick.setLoopEndBrick(endBrick);
+		endBrick = new LoopEndBrick(firstSprite, repeatBrick);
 		brickList.add(repeatBrick);
 		brickList.add(endBrick);
 		brickList.add(new WaitBrick(firstSprite, 1));

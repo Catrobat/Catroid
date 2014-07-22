@@ -1319,7 +1319,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		Formula firstCondition = ((FormulaBrick) firstLoopBrick)
 				.getFormulaWithBrickField(Brick.BrickField.TIMES_TO_REPEAT);
-		Formula copiedCondition = ((FormulaBrick) firstLoopBrick)
+		Formula copiedCondition = ((FormulaBrick) copiedLoopBrick)
 				.getFormulaWithBrickField(Brick.BrickField.TIMES_TO_REPEAT);
 
 		assertNotSame("Loop Brick is not copied right!", firstLoopBrick, copiedLoopBrick);
