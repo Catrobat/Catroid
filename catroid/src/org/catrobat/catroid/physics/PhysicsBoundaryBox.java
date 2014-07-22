@@ -36,6 +36,8 @@ public class PhysicsBoundaryBox {
 
 	private final World world;
 
+	public enum BoundaryBoxIdentifier {BBI_HORIZONTAL, BBI_VERTICAL}
+
 	public PhysicsBoundaryBox(World world) {
 		this.world = world;
 	}
@@ -53,16 +55,16 @@ public class PhysicsBoundaryBox {
 		float halfBoxElementSize = boxElementSize / 2.0f;
 
 		// Top
-		createSide(new Vector2(0.0f, (boxHeight / 2.0f) + halfBoxElementSize), boxWidth, boxElementSize);
+		createSide(new Vector2(0.0f, (boxHeight / 2.0f) + halfBoxElementSize), boxWidth, boxElementSize, BoundaryBoxIdentifier.BBI_HORIZONTAL);
 		// Bottom
-		createSide(new Vector2(0.0f, -(boxHeight / 2.0f) - halfBoxElementSize), boxWidth, boxElementSize);
+		createSide(new Vector2(0.0f, -(boxHeight / 2.0f) - halfBoxElementSize), boxWidth, boxElementSize, BoundaryBoxIdentifier.BBI_HORIZONTAL);
 		// Left
-		createSide(new Vector2(-(boxWidth / 2.0f) - halfBoxElementSize, 0.0f), boxElementSize, boxHeight);
+		createSide(new Vector2(-(boxWidth / 2.0f) - halfBoxElementSize, 0.0f), boxElementSize, boxHeight, BoundaryBoxIdentifier.BBI_VERTICAL);
 		// Right
-		createSide(new Vector2((boxWidth / 2.0f) + halfBoxElementSize, 0.0f), boxElementSize, boxHeight);
+		createSide(new Vector2((boxWidth / 2.0f) + halfBoxElementSize, 0.0f), boxElementSize, boxHeight, BoundaryBoxIdentifier.BBI_VERTICAL);
 	}
 
-	private void createSide(Vector2 center, float width, float height) {
+	private void createSide(Vector2 center, float width, float height, BoundaryBoxIdentifier identifier) {
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.StaticBody;
 		bodyDef.allowSleep = false;
@@ -77,6 +79,7 @@ public class PhysicsBoundaryBox {
 
 		Body body = world.createBody(bodyDef);
 		body.createFixture(fixtureDef);
+		body.setUserData(identifier);
 
 		//		for (Fixture f : body.getFixtureList()) {
 		//			Filter filter = new Filter();
