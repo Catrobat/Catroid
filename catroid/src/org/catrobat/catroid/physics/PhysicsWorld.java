@@ -55,7 +55,7 @@ public class PhysicsWorld {
 	// COLLISION_MODE
 	public static final short MASK_BOUNDARYBOX = CATEGORY_PHYSICSOBJECT; // collides with physics_objects
 	public static final short MASK_PHYSICSOBJECT = ~CATEGORY_BOUNDARYBOX; // collides with everything but not with the boundarybox
-	public static final short MASK_TOBOUNCE = CATEGORY_BOUNDARYBOX; // collide with the boundarybox
+	public static final short MASK_TOBOUNCE = -1; // collides with everything
 	public static final short MASK_NOCOLLISION = 0; // collides with NOBODY
 
 	public static final float RATIO = 40.0f;
@@ -69,7 +69,8 @@ public class PhysicsWorld {
 
 	private final World world = new World(PhysicsWorld.DEFAULT_GRAVITY, PhysicsWorld.IGNORE_SLEEPING_OBJECTS);
 	private final Map<Sprite, PhysicsObject> physicsObjects = new HashMap<Sprite, PhysicsObject>();
-	private final ArrayList<Sprite> toBounce = new ArrayList<Sprite>();
+	private final ArrayList<Sprite> activeVerticalBounces = new ArrayList<Sprite>();
+	private final ArrayList<Sprite> activeHorizontalBounces = new ArrayList<Sprite>();
 	private Box2DDebugRenderer renderer;
 	private int stabilizingSteCounter = 0;
 	private PhysicsBoundaryBox box;
@@ -82,12 +83,18 @@ public class PhysicsWorld {
 		world.setContactListener(new PhysicsCollision(this));
 	}
 
-	public void setBounceOnce(Sprite sprite) {
+	public void setBounceOnce(Sprite sprite, PhysicsBoundaryBox.BoundaryBoxIdentifier boundaryBoxIdentifier) {
 		if (physicsObjects.containsKey(sprite)) {
 			PhysicsObject physicsObject = physicsObjects.get(sprite);
 			physicsObject.setIfOnEdgeBounce(true, sprite);
-			toBounce.add(sprite);
-			//Log.d(TAG, "setBounceOnce: TRUE");
+			switch (boundaryBoxIdentifier) {
+				case BBI_HORIZONTAL:
+					activeHorizontalBounces.add(sprite);
+					break;
+				case BBI_VERTICAL:
+					activeVerticalBounces.add(sprite);
+					break;
+			}
 		} else {
 			//Log.d(TAG, "setBounceOnce: SPRITE NOT KNOWN");
 		}
@@ -116,6 +123,10 @@ public class PhysicsWorld {
 
 	public void setGravity(float x, float y) {
 		world.setGravity(new Vector2(x, y));
+	}
+
+	public Vector2 getGravity() {
+		return world.getGravity();
 	}
 
 	public void changeLook(PhysicsObject physicsObject, Look look) {
@@ -153,17 +164,38 @@ public class PhysicsWorld {
 		return new PhysicsObject(world.createBody(bodyDef), sprite);
 	}
 
-	public void bounced(Sprite sprite) {
+	public void bouncedOnEdge(Sprite sprite, PhysicsBoundaryBox.BoundaryBoxIdentifier boundaryBoxIdentifier) {
 		if (physicsObjects.containsKey(sprite)) {
 			PhysicsObject physicsObject = physicsObjects.get(sprite);
-			physicsObject.setIfOnEdgeBounce(false, sprite);
-			//Log.d(TAG, "Bounced");
-			if (toBounce.remove(sprite)) {
-				//Log.d(TAG, "SPRITE REMOVED");
+			switch (boundaryBoxIdentifier) {
+				case BBI_HORIZONTAL:
+					if (activeHorizontalBounces.remove(sprite) && !activeVerticalBounces.contains(sprite)) {
+						physicsObject.setIfOnEdgeBounce(false, sprite);
+						//Log.d(TAG, "ifOnEdgeBounce deactivated BBI_HORIZONTAL");
+					}
+					break;
+				case BBI_VERTICAL:
+					if (activeVerticalBounces.remove(sprite) && !activeHorizontalBounces.contains(sprite)) {
+						physicsObject.setIfOnEdgeBounce(false, sprite);
+						//Log.d(TAG, "ifOnEdgeBounce deactivated BBI_VERTICAL");
+					}
+					break;
 			}
 		} else {
 			//Log.d(TAG, "Bounced: BUT SPRITE NOT KNOWN");
 		}
-
 	}
+
+	public void resetActiveInOnEdgeBounce(Sprite sprite) {
+		if (physicsObjects.containsKey(sprite)) {
+			activeHorizontalBounces.remove(sprite);
+			activeVerticalBounces.remove(sprite);
+			PhysicsObject physicsObject = physicsObjects.get(sprite);
+			physicsObject.setIfOnEdgeBounce(false, sprite);
+			//Log.d(TAG, "resetActiveInOnEdgeBounce:");
+		} else {
+			Log.d(TAG, "resetActiveInOnEdgeBounce: BUT SPRITE NOT KNOWN");
+		}
+	}
+
 }
