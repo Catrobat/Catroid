@@ -355,6 +355,7 @@
     <string name="brick_point_to">Point towards</string>
     <string name="brick_glide">Glide</string>
     <string name="brick_glide_to_x">to X:</string>
+    <string name="brick_vibration">Vibrate for</string>
     <!--  -->
 
 
@@ -374,9 +375,8 @@
     <string name="brick_clear_graphic_effect">Clear graphic effects</string>
     <string name="brick_next_look">Next look</string>
     <string name="brick_next_background">Next background</string>
-    <string name="brick_led_on">switch camera LED ON</string>
-    <string name="brick_led_off">switch camera LED OFF</string>
-    <string name="brick_vibration">vibrate for</string>
+    <string name="brick_led_on">Turn flashlight ON</string>
+    <string name="brick_led_off">Turn flashlight OFF</string>
     <!--  -->
 
 

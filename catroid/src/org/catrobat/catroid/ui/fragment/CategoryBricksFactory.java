@@ -159,11 +159,13 @@ public class CategoryBricksFactory {
 		motionBrickList.add(new PointToBrick(sprite, null));
 		motionBrickList.add(new GlideToBrick(sprite, BrickValues.X_POSITION, BrickValues.Y_POSITION,
 				BrickValues.GLIDE_SECONDS));
+		motionBrickList.add(new VibrationBrick(sprite, BrickValues.VIBRATE_MILLISECONDS));
 
 		if (!isBackground(sprite)) {
 			motionBrickList.add(new GoNStepsBackBrick(sprite, BrickValues.GO_BACK));
 			motionBrickList.add(new ComeToFrontBrick(sprite));
 		}
+
 
 		return motionBrickList;
 	}
@@ -199,9 +201,8 @@ public class CategoryBricksFactory {
 		looksBrickList.add(new SetBrightnessBrick(sprite, BrickValues.SET_BRIGHTNESS_TO));
 		looksBrickList.add(new ChangeBrightnessByNBrick(sprite, BrickValues.CHANGE_BRITHNESS_BY));
 		looksBrickList.add(new ClearGraphicEffectBrick(sprite));
-		looksBrickList.add(new LedOffBrick(sprite));
 		looksBrickList.add(new LedOnBrick(sprite));
-		looksBrickList.add(new VibrationBrick(sprite, BrickValues.VIBRATE_MILLISECONDS));
+		looksBrickList.add(new LedOffBrick(sprite));
 
 		return looksBrickList;
 	}
