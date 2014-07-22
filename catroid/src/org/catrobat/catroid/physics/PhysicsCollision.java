@@ -51,17 +51,19 @@ public class PhysicsCollision implements ContactListener {
 		Body a = contact.getFixtureA().getBody();
 		Body b = contact.getFixtureB().getBody();
 
-		if (a.getUserData() instanceof Sprite) {
-			physicsWorld.bounced((Sprite) a.getUserData());
-			//Log.d(TAG, "bounced SPRITE A");
-		}
-		if (b.getUserData() instanceof Sprite) {
-			physicsWorld.bounced((Sprite) b.getUserData());
-			//Log.d(TAG, "bounced SPRITE B");
-		}
-		if (a.getUserData() instanceof Sprite && b.getUserData() instanceof Sprite) {
+		if (a.getUserData() instanceof Sprite && b.getUserData() instanceof PhysicsBoundaryBox.BoundaryBoxIdentifier) {
+			physicsWorld.bouncedOnEdge((Sprite) a.getUserData(), (PhysicsBoundaryBox.BoundaryBoxIdentifier) b.getUserData());
+			//Log.d(TAG, "bouncedOnEdge SPRITE A");
+		} else if (a.getUserData() instanceof PhysicsBoundaryBox.BoundaryBoxIdentifier && (b.getUserData() instanceof Sprite)) {
+			physicsWorld.bouncedOnEdge((Sprite) b.getUserData(), (PhysicsBoundaryBox.BoundaryBoxIdentifier) a.getUserData());
+			//Log.d(TAG, "bouncedOnEdge SPRITE B");
+		} else if (a.getUserData() instanceof Sprite && b.getUserData() instanceof Sprite) {
 			Sprite sprite1 = (Sprite) a.getUserData();
 			Sprite sprite2 = (Sprite) b.getUserData();
+
+			physicsWorld.resetActiveInOnEdgeBounce(sprite1);
+			physicsWorld.resetActiveInOnEdgeBounce(sprite2);
+
 			//Log.d(TAG, "# COLLISION # :" + sprite1.getName() + "<->" + sprite2.getName());
 			fireEvent(sprite1.getName() + "<->" + sprite2.getName());
 			fireEvent(sprite2.getName() + "<->" + sprite1.getName());

@@ -51,6 +51,8 @@ import java.io.File;
  */
 public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 
+	private static final String TAG = PhysicsShapeBuilderTest.class.getSimpleName();
+
 	private PhysicsShapeBuilder physicsShapeBuilder;
 	private PhysicsWorld physicsWorld;
 	private PhysicsLook physicsLook;
@@ -251,21 +253,21 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 			Shape shape = shapes[idx];
 			switch (shape.getType()) {
 				case Chain:
-					Log.d("phill_test", "type = Chain: ");
+					Log.d(TAG, "type = Chain: ");
 					break;
 				case Circle:
-					Log.d("phill_test", "type = Circle: ");
+					Log.d(TAG, "type = Circle: ");
 					break;
 				case Edge:
-					Log.d("phill_test", "type = Edge: ");
+					Log.d(TAG, "type = Edge: ");
 					break;
 				case Polygon:
 					int vertexCount = ((PolygonShape) shape).getVertexCount();
-					Log.d("phill_test", "type = Polygon: " + vertexCount);
+					Log.d(TAG, "type = Polygon: " + vertexCount);
 					for (int vertexIdx = 0; vertexIdx < vertexCount; vertexIdx++) {
 						Vector2 vertex = new Vector2();
 						((PolygonShape) shape).getVertex(vertexIdx, vertex);
-						Log.d("phill_test", "x=" + vertex.x + ";y=" + vertex.y);
+						Log.d(TAG, "x=" + vertex.x + ";y=" + vertex.y);
 					}
 					if (!debug) {
 						assertEquals("vertex count is not correct", expectedVertices[idx], vertexCount);
