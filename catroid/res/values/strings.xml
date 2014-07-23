@@ -547,22 +547,22 @@
 
 
     <!-- Drone Bricks -->
-    <string name="brick_drone_takeoff">take off</string>
-    <string name="brick_drone_land">land</string>
+    <string name="brick_drone_takeoff">Take off</string>
+    <string name="brick_drone_land">Land</string>
     <string name="brick_drone_play_led_animation">Play LED animation</string>
-    <string name="brick_drone_move_left">move left</string>
-    <string name="brick_drone_move_right">move right</string>
-    <string name="brick_drone_move_forward">move forward</string>
-    <string name="brick_drone_move_backward">move backward</string>
-    <string name="brick_drone_move_up">move up</string>
-    <string name="brick_drone_move_down">move down</string>
-    <string name="brick_drone_flip">flip</string>
-    <string name="brick_drone_power">power</string>
-    <string name="brick_drone_turn_right">turn right</string>
-    <string name="brick_drone_turn_left">turn left</string>
-    <string name="brick_drone_turn_left_magneto">turn left [angle]</string>
-    <string name="brick_drone_turn_right_magneto">turn right [angle]</string>
-    <string name="brick_drone_angle">angle</string>
+    <string name="brick_drone_move_left">Move left</string>
+    <string name="brick_drone_move_right">Move right</string>
+    <string name="brick_drone_move_forward">Move forward</string>
+    <string name="brick_drone_move_backward">Move backward</string>
+    <string name="brick_drone_move_up">Move up</string>
+    <string name="brick_drone_move_down">Move down</string>
+    <string name="brick_drone_flip">Flip</string>
+    <string name="brick_drone_power">Power</string>
+    <string name="brick_drone_turn_right">Turn right</string>
+    <string name="brick_drone_turn_left">Turn left</string>
+    <string name="brick_drone_turn_left_magneto">Turn left [angle]</string>
+    <string name="brick_drone_turn_right_magneto">Turn right [angle]</string>
+    <string name="brick_drone_angle">Angle</string>
 
     <!-- <string name="brick_drone_land">Drone: land</string> -->
     <!--  -->
