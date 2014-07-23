@@ -111,15 +111,9 @@ public class LegoNxtPlayToneBrick extends FormulaBrick implements OnClickListene
 
 		TextView textDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_text_view);
 		TextView editDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_edit_text);
-		//		editDuration.setText(String.valueOf(durationInMs / 1000.0));
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS)
 				.setTextFieldId(R.id.nxt_tone_duration_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS).refreshTextField(view);
-		//		EditDoubleDialog dialogDuration = new EditDoubleDialog(context, editDuration, duration, MIN_DURATION,
-		//				MAX_DURATION);
-		//		dialogDuration.setOnDismissListener(this);
-		//		dialogDuration.setOnCancelListener((OnCancelListener) context);
-		//		editDuration.setOnClickListener(dialogDuration);
 
 		textDuration.setVisibility(View.GONE);
 		editDuration.setVisibility(View.VISIBLE);
@@ -128,7 +122,6 @@ public class LegoNxtPlayToneBrick extends FormulaBrick implements OnClickListene
 
 		TextView textFreq = (TextView) view.findViewById(R.id.nxt_tone_freq_text_view);
 		editFreq = (TextView) view.findViewById(R.id.nxt_tone_freq_edit_text);
-		//		editFreq.setText(String.valueOf(hertz / 100));
 		getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY).setTextFieldId(R.id.nxt_tone_freq_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY).refreshTextField(view);
 

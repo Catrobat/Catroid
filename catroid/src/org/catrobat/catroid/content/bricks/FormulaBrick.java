@@ -26,7 +26,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.Iterator;
 
-public class FormulaBrick extends BrickBaseType {
+public abstract class FormulaBrick extends BrickBaseType {
 
 	private ConcurrentFormulaHashMap formulaMap;
 

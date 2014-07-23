@@ -54,6 +54,10 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 		this.sprite = sprite;
 	}
 
+	public ForeverBrick() {
+
+	}
+
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
@@ -61,7 +65,7 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 
 	@Override
 	public Brick clone() {
-		return new ForeverBrick(getSprite());
+		return new ForeverBrick(sprite);
 	}
 
 	@Override

@@ -45,8 +45,6 @@ public abstract class DroneMoveBrick extends FormulaBrick implements OnClickList
 
 	protected transient View prototypeView;
 	private static final long serialVersionUID = 1L;
-//	protected Formula timeToFlyInSeconds;
-//	protected Formula powerInPercent;
 
 	public DroneMoveBrick() {
 		addAllowedBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
