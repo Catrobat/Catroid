@@ -176,8 +176,7 @@ public class PreStageActivity extends BaseActivity {
 				camera = LedUtil.getCamera();
 			}
 		} catch (Exception exception) {
-			Log.e(getString(R.string.app_name), "failed to open Camera");
-			exception.printStackTrace();
+			Log.e(getString(R.string.app_name), "failed to open Camera", exception);
 		}
 
 		if (camera == null) {

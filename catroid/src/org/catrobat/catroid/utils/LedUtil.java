@@ -79,8 +79,7 @@ public final class LedUtil {
 			try {
 				cam = Camera.open();
 			} catch (Exception exception) {
-				Log.e(TAG, "failed to open Camera");
-				exception.printStackTrace();
+				Log.e(TAG, "failed to open Camera", exception);
 			}
 		}
 	}
