@@ -34,7 +34,7 @@ import java.util.concurrent.Semaphore;
 public final class LedUtil {
 
 	private static final String TAG = LedUtil.class.getSimpleName();
-	private static Camera cam = Camera.open();
+	private static Camera cam = null;
 	private static Camera.Parameters paramsOn = null;
 	private static Camera.Parameters paramsOff = null;
 
@@ -68,6 +68,21 @@ public final class LedUtil {
 
 	public static boolean isActive() {
 		return keepAlive;
+	}
+
+	public static Camera getCamera() {
+		return cam;
+	}
+
+	public static void openCamera() {
+		if (cam == null) {
+			try {
+				cam = Camera.open();
+			} catch (Exception exception) {
+				Log.e(TAG, "failed to open Camera");
+				exception.printStackTrace();
+			}
+		}
 	}
 
 	public static void setNextLedValue(boolean val) {
@@ -137,9 +152,7 @@ public final class LedUtil {
 			});
 		}
 
-		if (cam == null) {
-			cam = Camera.open();
-		}
+		openCamera();
 
 		if (cam != null) {
 
@@ -152,7 +165,7 @@ public final class LedUtil {
 				paramsOff.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 			}
 
-			initializeCamera();
+			initializeSurfaceTexture();
 
 			if (!lightThread.isAlive()) {
 				try {
@@ -164,8 +177,6 @@ public final class LedUtil {
 				lightThread.setName("lightThread");
 				lightThread.start();
 			}
-		} else {
-			Log.e(TAG, "cam.open() failed!");
 		}
 	}
 
@@ -180,6 +191,10 @@ public final class LedUtil {
 
 		lightThread = null;
 
+		closeCamera();
+	}
+
+	public static void closeCamera() {
 		if (cam != null) {
 			cam.stopPreview();
 			cam.release();
@@ -192,7 +207,7 @@ public final class LedUtil {
 	}
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	private static void initializeCamera() {
+	private static void initializeSurfaceTexture() {
 		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
 			try {
 				surfaceTexture = new SurfaceTexture(1);

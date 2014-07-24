@@ -160,23 +160,6 @@ public class PreStageActivity extends BaseActivity {
 		return droneInitializer;
 	}
 
-//	private boolean safeCameraOpen() {
-//		boolean opened = false;
-//		try {
-//			mPreview.setCamera(null);
-//			if (mCamera != null) {
-//				mCamera.release();
-//				mCamera = null;
-//			}
-//			mCamera = Camera.open();
-//			opened = (mCamera != null);
-//		} catch (Exception exception) {
-//			Log.e(getString(R.string.app_name), "failed to open Camera");
-//			exception.printStackTrace();
-//		}
-//		return opened;
-//	}
-
 	protected boolean hasFlash() {
 		boolean hasCamera = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
 		boolean hasLed = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
@@ -184,13 +167,19 @@ public class PreStageActivity extends BaseActivity {
 		if (!hasCamera || !hasLed) {
 			return false;
 		}
-		Camera camera = null;
+
+		Camera camera = LedUtil.getCamera();
+
 		try {
-			camera = Camera.open();
+			if (camera == null) {
+				LedUtil.openCamera();
+				camera = LedUtil.getCamera();
+			}
 		} catch (Exception exception) {
 			Log.e(getString(R.string.app_name), "failed to open Camera");
 			exception.printStackTrace();
 		}
+
 		if (camera == null) {
 			return false;
 		}
@@ -206,6 +195,7 @@ public class PreStageActivity extends BaseActivity {
 				supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF)) {
 			return false;
 		}
+
 		return true;
 	}
 
