@@ -688,6 +688,9 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		} catch (IOException ioException) {
 			Log.e(TAG, Log.getStackTraceString(ioException));
 		}
+		catch (NullPointerException e) {
+			Log.e(TAG, e.getMessage());
+		}
 
 	}
 
