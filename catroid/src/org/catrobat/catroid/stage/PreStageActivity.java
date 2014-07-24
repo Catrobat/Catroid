@@ -194,6 +194,7 @@ public class PreStageActivity extends BaseActivity {
 				supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF)) {
 			return false;
 		}
+
 		return true;
 	}
 
