@@ -304,6 +304,7 @@ public class PreStageActivity extends BaseActivity {
 			int tempResources = sprite.getRequiredResources();
 			if ((tempResources & Brick.PHYSIC) > 0) {
 				sprite.setActionFactory(physicsActionFactory);
+				tempResources &= ~Brick.PHYSIC;
 			}
 			resources |= tempResources;
 		}

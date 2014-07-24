@@ -55,9 +55,9 @@ public class SetXBrick extends FormulaBrick implements OnClickListener {
 		addAllowedBrickField(BrickField.X_POSITION);
 	}
 
-	public SetXBrick(int xPositionValue) {
-		initializeBrickFields(new Formula(xPositionValue));
-	}
+	//public SetXBrick(int xPositionValue) {
+	//	initializeBrickFields(new Formula(xPositionValue));
+	//}
 
 	public SetXBrick(Formula xPosition) {
 		initializeBrickFields(xPosition);
