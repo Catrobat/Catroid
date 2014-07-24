@@ -58,7 +58,6 @@ public class Arduino implements BTConnectable {
 			}
 		}
 
-
 		myArduinoCommunicator = new ArduinoBtCommunicator(recieverHandler, activity.getResources());
 		btcHandler = myArduinoCommunicator.getHandler();
 
