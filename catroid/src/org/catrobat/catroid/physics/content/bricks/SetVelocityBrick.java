@@ -29,8 +29,6 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.math.Vector2;
@@ -102,7 +100,7 @@ public class SetVelocityBrick extends BrickBaseType implements OnClickListener, 
 		});
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_set_velocity_prototype_text_view_x);
-		EditText editX = (EditText) view.findViewById(R.id.brick_set_velocity_edit_text_x);
+		TextView editX = (TextView) view.findViewById(R.id.brick_set_velocity_edit_text_x);
 		velocityX.setTextFieldId(R.id.brick_set_velocity_edit_text_x);
 		velocityX.refreshTextField(view);
 
@@ -111,7 +109,7 @@ public class SetVelocityBrick extends BrickBaseType implements OnClickListener, 
 		editX.setOnClickListener(this);
 
 		TextView textY = (TextView) view.findViewById(R.id.brick_set_velocity_prototype_text_view_y);
-		EditText editY = (EditText) view.findViewById(R.id.brick_set_velocity_edit_text_y);
+		TextView editY = (TextView) view.findViewById(R.id.brick_set_velocity_edit_text_y);
 		velocityY.setTextFieldId(R.id.brick_set_velocity_edit_text_y);
 		velocityY.refreshTextField(view);
 		textY.setVisibility(View.GONE);
@@ -137,27 +135,33 @@ public class SetVelocityBrick extends BrickBaseType implements OnClickListener, 
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_velocity_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
+		if (view != null) {
 
-		TextView setVelocityLabel = (TextView) view.findViewById(R.id.brick_set_velocity_label);
-		TextView setVelocityX = (TextView) view.findViewById(R.id.brick_set_velocity_x_textview);
-		TextView setVelocityY = (TextView) view.findViewById(R.id.brick_set_velocity_y_textview);
-		TextView setVelocityUnit = (TextView) view.findViewById(R.id.brick_set_velocity_unit);
-		EditText editX = (EditText) view.findViewById(R.id.brick_set_velocity_edit_text_x);
-		EditText editY = (EditText) view.findViewById(R.id.brick_set_velocity_edit_text_y);
-		setVelocityLabel.setTextColor(setVelocityLabel.getTextColors().withAlpha(alphaValue));
-		setVelocityX.setTextColor(setVelocityX.getTextColors().withAlpha(alphaValue));
-		setVelocityY.setTextColor(setVelocityY.getTextColors().withAlpha(alphaValue));
-		setVelocityUnit.setTextColor(setVelocityUnit.getTextColors().withAlpha(alphaValue));
-		editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
-		editX.getBackground().setAlpha(alphaValue);
-		editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
-		editY.getBackground().setAlpha(alphaValue);
+			View layout = view.findViewById(R.id.brick_set_velocity_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
 
-		this.alphaValue = (alphaValue);
+			TextView placeAtLabel = (TextView) view.findViewById(R.id.brick_set_velocity_textview);
+			TextView placeAtX = (TextView) view.findViewById(R.id.brick_set_velocity_x_textview);
+			TextView placeAtY = (TextView) view.findViewById(R.id.brick_set_velocity_y_textview);
+			TextView setVelocityUnit = (TextView) view.findViewById(R.id.brick_set_velocity_unit);
+			TextView editX = (TextView) view.findViewById(R.id.brick_set_velocity_edit_text_x);
+			TextView editY = (TextView) view.findViewById(R.id.brick_set_velocity_edit_text_y);
+			placeAtLabel.setTextColor(placeAtLabel.getTextColors().withAlpha(alphaValue));
+			placeAtX.setTextColor(placeAtX.getTextColors().withAlpha(alphaValue));
+			placeAtY.setTextColor(placeAtY.getTextColors().withAlpha(alphaValue));
+			setVelocityUnit.setTextColor(setVelocityUnit.getTextColors().withAlpha(alphaValue));
+			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
+			editX.getBackground().setAlpha(alphaValue);
+			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
+			editY.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
+
 	}
 
 	@Override

@@ -98,7 +98,7 @@ public final class StandardProjectHandler {
 
 	public static Project createAndSaveStandardProject(Context context) throws IOException {
 		String projectName = context.getString(R.string.default_project_name);
-		return createAndSaveStandardProject(projectName, context);
+		return createAndSaveStandardPhysicsProject(projectName, context);
 	}
 
 	public static Project createAndSaveStandardDroneProject(Context context) throws IOException {

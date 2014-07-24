@@ -29,8 +29,6 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -60,10 +58,10 @@ public class SetBounceBrick extends BrickBaseType implements OnClickListener, Cl
 		this.bounceFactor = new Formula(bounceFactor);
 	}
 
-	public SetBounceBrick(Sprite sprite, Formula bounceFactor) {
-		this.sprite = sprite;
-		this.bounceFactor = bounceFactor;
-	}
+//	public SetBounceBrick(Sprite sprite, Formula bounceFactor) {
+//		this.sprite = sprite;
+//		this.bounceFactor = bounceFactor;
+//	}
 
 	@Override
 	public int getRequiredResources() {
@@ -99,7 +97,7 @@ public class SetBounceBrick extends BrickBaseType implements OnClickListener, Cl
 		});
 
 		TextView text = (TextView) view.findViewById(R.id.brick_set_bounce_factor_prototype_text_view);
-		EditText edit = (EditText) view.findViewById(R.id.brick_set_bounce_factor_edit_text);
+		TextView edit = (TextView) view.findViewById(R.id.brick_set_bounce_factor_edit_text);
 
 		bounceFactor.setTextFieldId(R.id.brick_set_bounce_factor_edit_text);
 		bounceFactor.refreshTextField(view);
@@ -122,23 +120,29 @@ public class SetBounceBrick extends BrickBaseType implements OnClickListener, Cl
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_bounce_factor_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		TextView textView = (TextView) view.findViewById(R.id.brick_set_bounce_factor_prototype_text_view);
-		EditText editText = (EditText) view.findViewById(R.id.brick_set_bounce_factor_edit_text);
-		textView.setTextColor(textView.getTextColors().withAlpha(alphaValue));
-		editText.setTextColor(editText.getTextColors().withAlpha(alphaValue));
-		editText.getBackground().setAlpha(alphaValue);
+		if (view != null) {
 
-		this.alphaValue = (alphaValue);
+			View layout = view.findViewById(R.id.brick_set_bounce_factor_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView textX = (TextView) view.findViewById(R.id.brick_set_bounce_factor_prototype_text_view);
+			TextView editX = (TextView) view.findViewById(R.id.brick_set_bounce_factor_edit_text);
+			textX.setTextColor(textX.getTextColors().withAlpha(alphaValue));
+			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
+			editX.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
 		return view;
 	}
 
 	@Override
 	public Brick clone() {
-		return new SetBounceBrick(getSprite(), bounceFactor.clone());
+		return new SetBounceBrick(getSprite(), bounceFactor.clone().interpretFloat(sprite));
 	}
 
 	@Override
