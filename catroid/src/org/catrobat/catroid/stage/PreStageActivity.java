@@ -29,6 +29,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -57,6 +58,7 @@ import org.catrobat.catroid.utils.VibratorUtil;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 @SuppressWarnings("deprecation")
@@ -124,10 +126,8 @@ public class PreStageActivity extends BaseActivity {
 		}
 
 		if ((requiredResources & Brick.CAMERA_LED ) > 0) {
-			boolean hasCamera = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
-			boolean hasLed = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
 
-			if ( hasCamera && hasLed ) {
+			if ( hasFlash() ) {
 				requiredResourceCounter--;
 				LedUtil.activateLedThread();
 			} else {
@@ -158,6 +158,49 @@ public class PreStageActivity extends BaseActivity {
 			droneInitializer = new DroneInitializer(this, returnToActivityIntent);
 		}
 		return droneInitializer;
+	}
+
+	private boolean safeCameraOpen() {
+		boolean opened = false;
+		try {
+			mPreview.setCamera(null);
+			if (mCamera != null) {
+				mCamera.release();
+				mCamera = null;
+			}
+			mCamera = Camera.open();
+			opened = (mCamera != null);
+		} catch (Exception exception) {
+			Log.e(getString(R.string.app_name), "failed to open Camera");
+			exception.printStackTrace();
+		}
+		return opened;
+	}
+
+	protected boolean hasFlash() {
+		boolean hasCamera = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
+		boolean hasLed = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
+
+		if (!hasCamera || !hasLed) {
+			return false;
+		}
+
+		if (!saveCameraOpen()) {
+			return false;
+		}
+
+		Camera.Parameters parameters = camera.getParameters();
+
+		if (parameters.getFlashMode() == null) {
+			return false;
+		}
+
+		List<String> supportedFlashModes = parameters.getSupportedFlashModes();
+		if (supportedFlashModes == null || supportedFlashModes.isEmpty() ||
+				supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF)) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override
