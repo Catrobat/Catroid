@@ -55,10 +55,10 @@ public class SetXBrick extends BrickBaseType implements OnClickListener, Formula
 		xPosition = new Formula(xPositionValue);
 	}
 
-	public SetXBrick(Sprite sprite, Formula xPosition) {
-		this.sprite = sprite;
-		this.xPosition = xPosition;
-	}
+//	public SetXBrick(Sprite sprite, Formula xPosition) {
+//		this.sprite = sprite;
+//		this.xPosition = xPosition;
+//	}
 
 	public SetXBrick() {
 
@@ -145,7 +145,7 @@ public class SetXBrick extends BrickBaseType implements OnClickListener, Formula
 
 	@Override
 	public Brick clone() {
-		return new SetXBrick(getSprite(), xPosition.clone());
+		return new SetXBrick(getSprite(), xPosition.clone().interpretInteger(sprite));
 	}
 
 	@Override
@@ -158,7 +158,6 @@ public class SetXBrick extends BrickBaseType implements OnClickListener, Formula
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		//sequence.addAction(ExtendedActions.setX(sprite, xPosition));
 		sequence.addAction(sprite.getActionFactory().createSetXAction(sprite, xPosition)); //TODO[physics]:
 		return null;
 	}
