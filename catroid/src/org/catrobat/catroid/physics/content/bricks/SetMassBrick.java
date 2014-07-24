@@ -29,8 +29,6 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -103,7 +101,7 @@ public class SetMassBrick extends FormulaBrick implements OnClickListener {
 		});
 
 		TextView text = (TextView) view.findViewById(R.id.brick_set_mass_prototype_text_view);
-		EditText edit = (EditText) view.findViewById(R.id.brick_set_mass_edit_text);
+		TextView edit = (TextView) view.findViewById(R.id.brick_set_mass_edit_text);
 
 		getFormulaWithBrickField(BrickField.PHYSICS_MASS).setTextFieldId(R.id.brick_set_mass_edit_text);
 		getFormulaWithBrickField(BrickField.PHYSICS_MASS).refreshTextField(view);
@@ -126,17 +124,21 @@ public class SetMassBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_mass_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
+		if (view != null) {
 
-		TextView textX = (TextView) view.findViewById(R.id.brick_set_mass_text_view);
-		EditText editX = (EditText) view.findViewById(R.id.brick_set_mass_edit_text);
-		textX.setTextColor(textX.getTextColors().withAlpha(alphaValue));
-		editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
-		editX.getBackground().setAlpha(alphaValue);
+			View layout = view.findViewById(R.id.brick_set_mass_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
 
-		this.alphaValue = (alphaValue);
+			TextView textX = (TextView) view.findViewById(R.id.brick_set_mass_text_view);
+			TextView editX = (TextView) view.findViewById(R.id.brick_set_mass_edit_text);
+			textX.setTextColor(textX.getTextColors().withAlpha(alphaValue));
+			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
+			editX.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
 		return view;
 	}
 

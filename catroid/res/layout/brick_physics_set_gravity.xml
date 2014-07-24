@@ -35,7 +35,6 @@
         android:gravity="center_vertical"
         android:visibility="gone" />
 
-
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_set_gravity_layout"
         style="@style/BrickContainer.Motion.Big"
@@ -44,7 +43,6 @@
         android:paddingTop="0dp"
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
-
         <TextView
             android:id="@+id/brick_set_gravity_label"
             style="@style/BrickText.SingleLine"
@@ -62,7 +60,6 @@
             android:id="@+id/brick_set_gravity_prototype_text_view_x"
             style="@style/BrickPrototypeTextView" >
         </TextView >
-
         <TextView
             android:id="@+id/brick_set_gravity_edit_text_x"
             style="@style/BrickEditText"
@@ -80,7 +77,6 @@
             android:id="@+id/brick_set_gravity_prototype_text_view_y"
             style="@style/BrickPrototypeTextView" >
         </TextView >
-
         <TextView
             android:id="@+id/brick_set_gravity_edit_text_y"
             style="@style/BrickEditText"

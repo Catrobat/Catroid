@@ -109,7 +109,7 @@ public class SetFrictionBrick extends FormulaBrick implements OnClickListener {
 		});
 
 		TextView text = (TextView) view.findViewById(R.id.brick_set_friction_prototype_text_view);
-		EditText edit = (EditText) view.findViewById(R.id.brick_set_friction_edit_text);
+		TextView edit = (TextView) view.findViewById(R.id.brick_set_friction_edit_text);
 
 		getFormulaWithBrickField(BrickField.PHYSICS_FRICTION).setTextFieldId(R.id.brick_set_friction_edit_text);
 		getFormulaWithBrickField(BrickField.PHYSICS_FRICTION).refreshTextField(view);
@@ -123,28 +123,33 @@ public class SetFrictionBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
+	public View getViewWithAlpha(int alphaValue) {
+		if (view != null) {
+
+			View layout = view.findViewById(R.id.brick_set_friction_layout);
+			Drawable background = layout.getBackground();
+			background.setAlpha(alphaValue);
+
+			TextView textX = (TextView) view.findViewById(R.id.brick_set_friction_text_view);
+			TextView editX = (TextView) view.findViewById(R.id.brick_set_friction_edit_text);
+			textX.setTextColor(textX.getTextColors().withAlpha(alphaValue));
+			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
+			editX.getBackground().setAlpha(alphaValue);
+
+			this.alphaValue = (alphaValue);
+
+		}
+
+		return view;
+	}
+
+	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_physics_set_friction, null);
 		TextView textXPosition = (TextView) prototypeView.findViewById(R.id.brick_set_friction_prototype_text_view);
 		textXPosition.setText(String.valueOf(getFormulaWithBrickField(BrickField.PHYSICS_FRICTION)
 				.interpretInteger(ProjectManager.getInstance().getCurrentSprite())));
 		return prototypeView;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_friction_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
-
-		TextView textView = (TextView) view.findViewById(R.id.brick_set_friction_text_view);
-		EditText editText = (EditText) view.findViewById(R.id.brick_set_friction_edit_text);
-		textView.setTextColor(textView.getTextColors().withAlpha(alphaValue));
-		editText.setTextColor(editText.getTextColors().withAlpha(alphaValue));
-		editText.getBackground().setAlpha(alphaValue);
-
-		this.alphaValue = (alphaValue);
-		return view;
 	}
 
 	/*@Override
