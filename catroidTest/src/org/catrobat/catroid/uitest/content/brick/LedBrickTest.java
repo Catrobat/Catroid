@@ -23,6 +23,7 @@
 package org.catrobat.catroid.uitest.content.brick;
 
 import android.content.pm.PackageManager;
+import android.hardware.Camera;
 import android.util.Log;
 import android.widget.ListView;
 
@@ -46,6 +47,7 @@ import org.catrobat.catroid.uitest.util.SensorTestServerConnection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
@@ -178,7 +180,37 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 	private boolean hasLedSystemFeature() {
 		boolean hasCamera = this.getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
 		boolean hasLed = this.getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
-		return (hasCamera && hasLed);
+
+		if (!hasCamera || !hasLed) {
+			return false;
+		}
+
+		Camera camera = null;
+
+		try {
+			camera = Camera.open();
+		} catch (Exception exception) {
+			Log.e(TAG, "failed to open Camera");
+			exception.printStackTrace();
+		}
+
+		if (camera == null) {
+			return false;
+		}
+
+		Camera.Parameters parameters = camera.getParameters();
+
+		if (parameters.getFlashMode() == null) {
+			return false;
+		}
+
+		List<String> supportedFlashModes = parameters.getSupportedFlashModes();
+		if (supportedFlashModes == null || supportedFlashModes.isEmpty() ||
+				supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF)) {
+			return false;
+		}
+
+		return true;
 	}
 
 }
