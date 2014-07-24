@@ -24,7 +24,6 @@ package org.catrobat.catroid.physics.content.bricks;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -32,7 +31,6 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -137,21 +135,24 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneabl
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
-		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_set_physics_object_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
 
-		Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.brick_set_physics_object_type_spinner);
-		TextView lookbrickTextView = (TextView) view.findViewById(R.id.brick_set_physics_object_text_view);
+		if (view != null) {
 
-		ColorStateList color = lookbrickTextView.getTextColors().withAlpha(alphaValue);
-		lookbrickTextView.setTextColor(color);
-		lookbrickSpinner.getBackground().setAlpha(alphaValue);
-		if (adapterView != null) {
-			((TextView) adapterView.getChildAt(0)).setTextColor(color);
+			View layout = view.findViewById(R.id.brick_set_physics_object_layout);
+			layout.getBackground().setAlpha(alphaValue);
+
+			TextView textPointToLabel = (TextView) view.findViewById(R.id.brick_set_physics_object_text_view);
+			textPointToLabel.setTextColor(textPointToLabel.getTextColors().withAlpha(alphaValue));
+			Spinner pointToSpinner = (Spinner) view.findViewById(R.id.brick_set_physics_object_type_spinner);
+			ColorStateList color = textPointToLabel.getTextColors().withAlpha(alphaValue);
+			pointToSpinner.getBackground().setAlpha(alphaValue);
+			if (adapterView != null) {
+				((TextView) adapterView.getChildAt(0)).setTextColor(color);
+			}
+
+			this.alphaValue = alphaValue;
 		}
 
-		this.alphaValue = (alphaValue);
 		return view;
 	}
 

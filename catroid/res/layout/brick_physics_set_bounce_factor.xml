@@ -21,11 +21,13 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="horizontal" >
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_vertical"
+              android:orientation="horizontal" >
 
     <CheckBox
         android:id="@+id/brick_set_bounce_factor_checkbox"
@@ -34,31 +36,39 @@
         android:gravity="center_vertical"
         android:visibility="gone" />
 
-    <LinearLayout
+    <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_set_bounce_factor_layout"
-        style="@style/BrickContainer.Motion.Small" >
+        style="@style/BrickContainer.Motion.Small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
+        <TextView
+            android:id="@+id/brick_set_bounce_factor_label"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_set_bounce_factor" >
+        </TextView >
 
-    <TextView
-        android:id="@+id/brick_set_bounce_factor_text_view"
-        style="@style/BrickText.SingleLine"
-        android:text="@string/brick_set_bounce_factor" >
-    </TextView>
+        <TextView
+            android:id="@+id/brick_set_bounce_factor_prototype_text_view"
+            style="@style/BrickPrototypeTextView" >
+        </TextView >
 
-    <TextView
-        android:id="@+id/brick_set_bounce_factor_prototype_text_view"
-        style="@style/BrickPrototypeTextView" >
-    </TextView>
+        <TextView
+            android:id="@+id/brick_set_bounce_factor_edit_text"
+            style="@style/BrickEditText"
+            app:layout_inputType="number"
+            app:layout_textField="true"
+            android:maxEms="5" >
+        </TextView >
 
-    <EditText
-        android:id="@+id/brick_set_bounce_factor_edit_text"
-        style="@style/BrickEditText"
-        android:inputType="number|numberDecimal|numberSigned" >
-    </EditText>
+        <TextView
+            android:id="@+id/brick_bounce_factor_text_view"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/percent_symbol" >
+        </TextView >
 
-    <TextView
-        style="@style/BrickText.SingleLine"
-        android:text="@string/percent_symbol" >
-    </TextView>
-    
-	</LinearLayout>
-</LinearLayout>
+    </org.catrobat.catroid.ui.BrickLayout >
+
+</LinearLayout >
