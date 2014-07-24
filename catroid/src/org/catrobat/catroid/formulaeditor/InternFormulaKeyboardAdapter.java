@@ -115,9 +115,12 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_function_join:
 				return buildDoubleParameterFunction(Functions.JOIN, InternTokenType.STRING, "hello",
 						InternTokenType.STRING, " world");
+			case R.string.formula_editor_function_arduino_read_pin_value_digital:
+				return buildSingleParameterFunction(Functions.ARDUINODIGITAL, InternTokenType.STRING, "0");
+			case R.string.formula_editor_function_arduino_read_pin_value_analog:
+				return buildSingleParameterFunction(Functions.ARDUINOANALOG, InternTokenType.STRING, "0");
 
 				//SENSOR
-
 			case R.string.formula_editor_sensor_x_acceleration:
 				return buildSensor(Sensors.X_ACCELERATION);
 			case R.string.formula_editor_sensor_y_acceleration:
@@ -146,7 +149,6 @@ public class InternFormulaKeyboardAdapter {
 				return buildPeriod();
 
 				//OPERATOR
-
 			case R.id.formula_editor_keyboard_plus:
 				return buildOperator(Operators.PLUS);
 			case R.id.formula_editor_keyboard_minus:

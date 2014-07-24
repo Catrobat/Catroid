@@ -34,7 +34,7 @@ public enum Functions {
 			ElementType.NUMBER), PI(ElementType.NUMBER), MOD(ElementType.NUMBER), ARCSIN(ElementType.NUMBER), ARCCOS(
 			ElementType.NUMBER), ARCTAN(ElementType.NUMBER), EXP(ElementType.NUMBER), MAX(ElementType.NUMBER), MIN(
 			ElementType.NUMBER), TRUE(ElementType.NUMBER), FALSE(ElementType.NUMBER), LENGTH(ElementType.NUMBER), LETTER(
-			ElementType.STRING), JOIN(ElementType.STRING);
+			ElementType.STRING), JOIN(ElementType.STRING), ARDUINOANALOG(ElementType.BRACKET.STRING), ARDUINODIGITAL(ElementType.BRACKET.STRING);
 
 	ElementType returnType;
 
