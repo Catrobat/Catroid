@@ -160,22 +160,22 @@ public class PreStageActivity extends BaseActivity {
 		return droneInitializer;
 	}
 
-	private boolean safeCameraOpen() {
-		boolean opened = false;
-		try {
-			mPreview.setCamera(null);
-			if (mCamera != null) {
-				mCamera.release();
-				mCamera = null;
-			}
-			mCamera = Camera.open();
-			opened = (mCamera != null);
-		} catch (Exception exception) {
-			Log.e(getString(R.string.app_name), "failed to open Camera");
-			exception.printStackTrace();
-		}
-		return opened;
-	}
+//	private boolean safeCameraOpen() {
+//		boolean opened = false;
+//		try {
+//			mPreview.setCamera(null);
+//			if (mCamera != null) {
+//				mCamera.release();
+//				mCamera = null;
+//			}
+//			mCamera = Camera.open();
+//			opened = (mCamera != null);
+//		} catch (Exception exception) {
+//			Log.e(getString(R.string.app_name), "failed to open Camera");
+//			exception.printStackTrace();
+//		}
+//		return opened;
+//	}
 
 	protected boolean hasFlash() {
 		boolean hasCamera = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
@@ -184,8 +184,14 @@ public class PreStageActivity extends BaseActivity {
 		if (!hasCamera || !hasLed) {
 			return false;
 		}
-
-		if (!saveCameraOpen()) {
+		Camera camera = null;
+		try {
+			camera = Camera.open();
+		} catch (Exception exception) {
+			Log.e(getString(R.string.app_name), "failed to open Camera");
+			exception.printStackTrace();
+		}
+		if (camera == null) {
 			return false;
 		}
 
