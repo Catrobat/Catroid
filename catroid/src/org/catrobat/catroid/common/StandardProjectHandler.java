@@ -111,7 +111,7 @@ public final class StandardProjectHandler {
 		ProjectManager.getInstance().setProject(defaultDroneProject);
 
 		backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
-				R.drawable.default_project_background, context);
+				R.drawable.drone_project_background, context);
 
 		File backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background, context, true,
