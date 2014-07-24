@@ -275,6 +275,21 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			}
 	}
 
+	public boolean initializeStandardProject(Context context) {
+			try {
+				fileChecksumContainer = new FileChecksumContainer();
+				project = StandardProjectHandler.createAndSaveStandardProject(context);
+
+				currentSprite = null;
+				currentScript = null;
+				return true;
+			} catch (IOException ioException) {
+				Log.e(TAG, "Cannot initialize default project.", ioException);
+				Utils.showErrorDialog(context, R.string.error_load_project);
+				return false;
+			}
+	}
+
 	public boolean initializeDroneProject(Context context) {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
