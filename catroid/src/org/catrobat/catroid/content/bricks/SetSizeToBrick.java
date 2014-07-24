@@ -68,7 +68,11 @@ public class SetSizeToBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.SIZE).getRequiredResources();
+		if (getFormulaWithBrickField(BrickField.SIZE).containsArduinoSensors() == true) {
+			return BLUETOOTH_SENSORS_ARDUINO;
+		} else {
+			return NO_RESOURCES;
+		}
 	}
 
 	@Override

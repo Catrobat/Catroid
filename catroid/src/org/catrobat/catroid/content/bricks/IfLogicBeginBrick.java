@@ -73,7 +73,11 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick, OnC
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.IF_CONDITION).getRequiredResources();
+		if (getFormulaWithBrickField(BrickField.IF_CONDITION).containsArduinoSensors() == true) {
+			return BLUETOOTH_SENSORS_ARDUINO;
+		} else {
+			return NO_RESOURCES;
+		}
 	}
 
 	public IfLogicElseBrick getIfElseBrick() {

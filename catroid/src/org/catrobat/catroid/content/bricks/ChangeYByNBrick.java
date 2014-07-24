@@ -68,7 +68,11 @@ public class ChangeYByNBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE).getRequiredResources();
+		if (getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE).containsArduinoSensors() == true) {
+			return BLUETOOTH_SENSORS_ARDUINO;
+		} else {
+			return NO_RESOURCES;
+		}
 	}
 
 	@Override

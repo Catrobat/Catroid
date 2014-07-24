@@ -72,7 +72,11 @@ public class WaitBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS).getRequiredResources();
+		if (getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS).containsArduinoSensors() == true) {
+			return BLUETOOTH_SENSORS_ARDUINO;
+		} else {
+			return NO_RESOURCES;
+		}
 	}
 
 	public Formula getTimeToWait() {
