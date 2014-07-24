@@ -229,16 +229,17 @@ public final class LookController {
 
 	private void copyImageToCatroid(String originalImagePath, Activity activity, ArrayList<LookData> lookDataList,
 			LookFragment fragment) {
-		int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
-
-		if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
-			Utils.showErrorDialog(activity, R.string.error_load_image);
-			return;
-		}
-
-		File oldFile = new File(originalImagePath);
-
 		try {
+
+			int[] imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
+
+			if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
+				Utils.showErrorDialog(activity, R.string.error_load_image);
+				return;
+			}
+
+			File oldFile = new File(originalImagePath);
+
 			if (originalImagePath.equals("")) {
 				throw new IOException();
 			}
@@ -273,6 +274,10 @@ public final class LookController {
 			pixmap = null;
 			updateLookAdapter(imageName, imageFileName, lookDataList, fragment);
 		} catch (IOException e) {
+			Utils.showErrorDialog(activity, R.string.error_load_image);
+		}
+		catch (NullPointerException e) {
+			Log.e("NullPointerException", "probably originalImagePath null; message: " + e.getMessage());
 			Utils.showErrorDialog(activity, R.string.error_load_image);
 		}
 		fragment.destroyLoader();
