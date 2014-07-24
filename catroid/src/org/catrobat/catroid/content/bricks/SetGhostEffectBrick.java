@@ -68,7 +68,11 @@ public class SetGhostEffectBrick extends FormulaBrick implements OnClickListener
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.TRANSPARENCY).getRequiredResources();
+		if (getFormulaWithBrickField(BrickField.TRANSPARENCY).containsArduinoSensors() == true) {
+			return BLUETOOTH_SENSORS_ARDUINO;
+		} else {
+			return NO_RESOURCES;
+		}
 	}
 
 	@Override

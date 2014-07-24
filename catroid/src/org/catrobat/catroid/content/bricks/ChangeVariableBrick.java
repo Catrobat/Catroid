@@ -93,7 +93,11 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).getRequiredResources();
+		if (getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).containsArduinoSensors() == true) {
+			return BLUETOOTH_SENSORS_ARDUINO;
+		} else {
+			return NO_RESOURCES;
+		}
 	}
 
 	@Override

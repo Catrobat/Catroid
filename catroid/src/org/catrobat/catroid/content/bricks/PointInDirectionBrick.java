@@ -86,7 +86,11 @@ public class PointInDirectionBrick extends FormulaBrick implements View.OnClickL
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		if (getFormulaWithBrickField(BrickField.DEGREES).containsArduinoSensors() == true) {
+			return BLUETOOTH_SENSORS_ARDUINO;
+		} else {
+			return NO_RESOURCES;
+		}
 	}
 
 	@Override
