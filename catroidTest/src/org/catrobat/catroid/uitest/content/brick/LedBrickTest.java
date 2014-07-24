@@ -190,8 +190,7 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 		try {
 			camera = Camera.open();
 		} catch (Exception exception) {
-			Log.e(TAG, "failed to open Camera");
-			exception.printStackTrace();
+			Log.e(TAG, "failed to open Camera", exception);
 		}
 
 		if (camera == null) {
