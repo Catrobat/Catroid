@@ -278,6 +278,7 @@ public class Formula implements Serializable {
 		}
 	}
 
+	
 	//I'm using "Arduino Sensors" as Functions -> to discuss if good/bad
 	/*
 	public boolean containsArduinoSensors() {
