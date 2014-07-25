@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -37,9 +37,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
@@ -57,6 +54,9 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.google.common.base.Charsets;
+import com.google.common.hash.Hashing;
+import com.google.common.io.Files;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -71,13 +71,9 @@ import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public final class Utils {
 
@@ -138,7 +134,7 @@ public final class Utils {
 
 	/**
 	 * Constructs a path out of the pathElements.
-	 * 
+	 *
 	 * @param pathElements
 	 *            the strings to connect. They can have "/" in them which will be de-duped in the result, if necessary.
 	 * @return
@@ -190,79 +186,17 @@ public final class Utils {
 	}
 
 	public static String md5Checksum(File file) {
-
-		if (!file.isFile()) {
-			return null;
-		}
-
-		MessageDigest messageDigest = getMD5MessageDigest();
-
-		FileInputStream fis = null;
+		String hash = "";
 		try {
-			fis = new FileInputStream(file);
-			byte[] buffer = new byte[Constants.BUFFER_8K];
-
-			int length;
-			while ((length = fis.read(buffer)) != -1) {
-				messageDigest.update(buffer, 0, length);
-			}
+			hash = Files.hash(file, Hashing.md5()).toString();
 		} catch (IOException e) {
-			Log.w(TAG, "IOException thrown in md5Checksum()");
-		} finally {
-			try {
-				if (fis != null) {
-					fis.close();
-				}
-			} catch (IOException e) {
-				Log.w(TAG, "IOException thrown in finally block of md5Checksum()");
-			}
+			Log.w(TAG, "IOException thrown in md5Checksum()", e);
 		}
-
-		return toHex(messageDigest.digest()).toLowerCase(Locale.US);
+		return hash;
 	}
 
 	public static String md5Checksum(String string) {
-		MessageDigest messageDigest = getMD5MessageDigest();
-
-		messageDigest.update(string.getBytes());
-
-		return toHex(messageDigest.digest()).toLowerCase(Locale.US);
-	}
-
-	private static String toHex(byte[] messageDigest) {
-		final char[] hexChars = "0123456789ABCDEF".toCharArray();
-
-		char[] hexBuffer = new char[messageDigest.length * 2];
-		for (int i = 0, j = 0; i < messageDigest.length; i++) {
-			hexBuffer[j++] = hexChars[(messageDigest[i] & 0xF0) >> 4];
-			hexBuffer[j++] = hexChars[messageDigest[i] & 0x0F];
-		}
-
-		return String.valueOf(hexBuffer);
-	}
-
-	private static MessageDigest getMD5MessageDigest() {
-		MessageDigest messageDigest = null;
-
-		try {
-			messageDigest = MessageDigest.getInstance("MD5");
-		} catch (NoSuchAlgorithmException e) {
-			Log.w(TAG, "NoSuchAlgorithmException thrown in getMD5MessageDigest()");
-		}
-
-		return messageDigest;
-	}
-
-	public static String getVersionName(Context context) {
-		String versionName = "unknown";
-		try {
-			PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(),
-					PackageManager.GET_META_DATA);
-			versionName = packageInfo.versionName;
-		} catch (NameNotFoundException nameNotFoundException) {
-			Log.e(TAG, "Name not found", nameNotFoundException);
-		}
-		return versionName;
+		return Hashing.md5().hashString(string, Charsets.UTF_8).toString();
 	}
 
 	public static int getPhysicalPixels(int densityIndependentPixels, Context context) {

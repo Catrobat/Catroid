@@ -58,7 +58,6 @@ public class UtilsTest extends AndroidTestCase {
 	private static final String MD5_HELLO_WORLD = "ED076287532E86365E841E92BFC50D8C";
 	private static final String NEW_PROGRAM_NAME = "new name";
 	private File testFile;
-	private File copiedFile;
 
 	private Project standardProject;
 
@@ -88,9 +87,6 @@ public class UtilsTest extends AndroidTestCase {
 	protected void tearDown() throws Exception {
 		if (testFile != null && testFile.exists()) {
 			testFile.delete();
-		}
-		if (copiedFile != null && copiedFile.exists()) {
-			copiedFile.delete();
 		}
 
 		TestUtils.deleteTestProjects(NEW_PROGRAM_NAME);

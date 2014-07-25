@@ -26,6 +26,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.common.io.Files;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageHandler;
@@ -103,7 +105,7 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 				copyDirectory(new File(destinationFile, subDirectoryName), new File(sourceFile, subDirectoryName));
 			}
 		} else {
-			UtilFile.copyFile(destinationFile, sourceFile);
+			Files.copy(sourceFile, destinationFile);
 		}
 	}
 }

@@ -31,11 +31,10 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
-import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.RandomAccessFile;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -91,43 +90,19 @@ public class UtilFileTest extends InstrumentationTestCase {
 	}
 
 	public void testFileSize() throws IOException {
-		for (int i = 0; i < 2; i++) {
-			UtilFile.saveFileToProject("testDirectory", i + "testsound.mp3",
-					org.catrobat.catroid.test.R.raw.longtestsound, getInstrumentation().getContext(),
-					UtilFile.FileType.TYPE_SOUND_FILE);
-		}
-
+		new RandomAccessFile(file1, "rw").setLength(86220);
 		double expectedSizeInKilobytes = 84.2;
 		assertEquals("Unexpected file size String", String.format("%.1f KB", expectedSizeInKilobytes),
 				UtilFile.getSizeAsString(testDirectory));
 
-		for (int i = 2; i < 48; i++) {
-			UtilFile.saveFileToProject("testDirectory", i + "testsound.mp3",
-					org.catrobat.catroid.test.R.raw.longtestsound, getInstrumentation().getContext(),
-					UtilFile.FileType.TYPE_SOUND_FILE);
-		}
+		new RandomAccessFile(file2, "rw").setLength(2010932);
 		DecimalFormat decimalFormat = new DecimalFormat("#.0");
 		String expected = decimalFormat.format(2.0) + " MB";
 		assertEquals("Unexpected file size String", expected, UtilFile.getSizeAsString(testDirectory));
 
-		PrintWriter printWriter = null;
+		new RandomAccessFile(file1, "rw").setLength(7);
 
-		File testFile = new File(Utils.buildPath(testDirectory.getAbsolutePath(), "catroid.txt"));
-
-		try {
-			testFile.createNewFile();
-
-			printWriter = new PrintWriter(testFile);
-			printWriter.print("catroid");
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (printWriter != null) {
-				printWriter.close();
-			}
-		}
-
-		assertEquals("Unexpected Filesize!", "7 Byte", UtilFile.getSizeAsString(testFile));
+		assertEquals("Unexpected Filesize!", "7 Byte", UtilFile.getSizeAsString(file1));
 
 		UtilFile.deleteDirectory(testDirectory);
 	}

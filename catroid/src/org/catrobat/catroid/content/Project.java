@@ -27,6 +27,7 @@ import android.os.Build;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.MessageContainer;
@@ -156,7 +157,7 @@ public class Project implements Serializable {
 			xmlHeader.setApplicationVersion("unknown");
 			xmlHeader.setApplicationName("unknown");
 		} else {
-			xmlHeader.setApplicationVersion(Utils.getVersionName(context));
+			xmlHeader.setApplicationVersion(BuildConfig.VERSION_NAME);
 			xmlHeader.setApplicationName(context.getString(R.string.app_name));
 		}
 	}
