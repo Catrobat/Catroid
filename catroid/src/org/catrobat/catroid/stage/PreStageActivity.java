@@ -42,6 +42,9 @@ import android.widget.Toast;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.arduino.Arduino;
+import org.catrobat.catroid.arduino.ArduinoBtCommunicator;
+import org.catrobat.catroid.arduino.ArduinoReadPinData;
 import org.catrobat.catroid.bluetooth.BluetoothManager;
 import org.catrobat.catroid.bluetooth.DeviceListActivity;
 import org.catrobat.catroid.camera.CameraManager;
@@ -76,6 +79,7 @@ public class PreStageActivity extends BaseActivity {
 	private int requiredResourceCounter;
 
 	private static LegoNXT legoNXT;
+	private static Arduino arduino;
 	private boolean autoConnect = false;
 	private ProgressDialog connectingProgressDialog;
 	private static TextToSpeech textToSpeech;
@@ -115,6 +119,42 @@ public class PreStageActivity extends BaseActivity {
 				resourceFailed();
 			} else if (bluetoothState == BluetoothManager.BLUETOOTH_ALREADY_ON) {
 				if (legoNXT == null) {
+					startBluetoothCommunication(true);
+				} else {
+					resourceInitialized();
+				}
+			}
+		}
+
+		if ((requiredResources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
+			/*//set flag to start thread to update sensor values in formula editor
+			ArduinoReadPinData sensor = ArduinoReadPinData.getArduinoSensorInstance();
+			sensor.setBooleanArduinoBricks(true);
+			Bundle bundle = new Bundle();
+			bundle.putInt(DeviceListActivity.RESOURCE_CONSTANT, Brick.BLUETOOTH_SENSORS_ARDUINO);
+			bundle.putString(DeviceListActivity.RESOURCE_NAME_TEXT,
+					getResources().getString(R.string.select_device_arduino));
+			BTResourceQueue.add(bundle);
+		} else {
+			//disable flag to start thread to update sensor values in formula editor
+			ArduinoReadPinData sensor = ArduinoReadPinData.getArduinoSensorInstance();
+			sensor.setBooleanArduinoBricks(false);*/
+			BluetoothManager bluetoothManager = new BluetoothManager(this);
+
+			int bluetoothState = bluetoothManager.activateBluetooth();
+			if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED) {
+				//is this correct here?!?
+				ArduinoReadPinData sensor = ArduinoReadPinData.getArduinoSensorInstance();
+				sensor.setBooleanArduinoBricks(false);
+
+				Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
+				resourceFailed();
+			} else if (bluetoothState == BluetoothManager.BLUETOOTH_ALREADY_ON) {
+				//is this correct here?!?
+				ArduinoReadPinData sensor = ArduinoReadPinData.getArduinoSensorInstance();
+				sensor.setBooleanArduinoBricks(true);
+
+				if (arduino == null) {
 					startBluetoothCommunication(true);
 				} else {
 					resourceInitialized();
@@ -254,6 +294,11 @@ public class PreStageActivity extends BaseActivity {
 		if (legoNXT != null) {
 			legoNXT.pauseCommunicator();
 		}
+
+		if(arduino != null) {
+			arduino.pauseCommunicator();
+		}
+
         if (FaceDetectionHandler.isFaceDetectionRunning()) {
             FaceDetectionHandler.stopFaceDetection();
         }
@@ -264,6 +309,10 @@ public class PreStageActivity extends BaseActivity {
 		if (legoNXT != null) {
 			legoNXT.destroyCommunicator();
 			legoNXT = null;
+		}
+		if (arduino != null) {
+			arduino.destroyCommunicator();
+			arduino = null;
 		}
 		deleteSpeechFiles();
 		if (LedUtil.isActive()) {
@@ -342,10 +391,25 @@ public class PreStageActivity extends BaseActivity {
 			case REQUEST_CONNECT_DEVICE:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
+						/*
 						legoNXT = new LegoNXT(this, recieveHandler);
 						String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
 						autoConnect = data.getExtras().getBoolean(DeviceListActivity.AUTO_CONNECT);
 						legoNXT.startBTCommunicator(address);
+						*/
+						//check if this is correct
+						if(ProjectManager.getInstance().getCurrentProject().containsArduinoBricks()){
+							arduino = new Arduino(this, recieveHandler);
+							String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+							autoConnect = data.getExtras().getBoolean(DeviceListActivity.AUTO_CONNECT);
+							arduino.startBTCommunicator(address);
+						}
+						else {
+							legoNXT = new LegoNXT(this, recieveHandler);
+							String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+							autoConnect = data.getExtras().getBoolean(DeviceListActivity.AUTO_CONNECT);
+							legoNXT.startBTCommunicator(address);
+						}
 						break;
 
 					case Activity.RESULT_CANCELED:
@@ -436,6 +500,17 @@ public class PreStageActivity extends BaseActivity {
 					resourceInitialized();
 					break;
 				case LegoNXTBtCommunicator.STATE_CONNECTERROR:
+					Toast.makeText(PreStageActivity.this, R.string.bt_connection_failed, Toast.LENGTH_SHORT).show();
+					connectingProgressDialog.dismiss();
+					legoNXT.destroyCommunicator();
+					legoNXT = null;
+					if (autoConnect) {
+						startBluetoothCommunication(false);
+					} else {
+						resourceFailed();
+					}
+					break;
+				case ArduinoBtCommunicator.STATE_CONNECTERROR:
 					Toast.makeText(PreStageActivity.this, R.string.bt_connection_failed, Toast.LENGTH_SHORT).show();
 					connectingProgressDialog.dismiss();
 					legoNXT.destroyCommunicator();
