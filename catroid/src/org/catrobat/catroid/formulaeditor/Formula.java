@@ -292,7 +292,7 @@ public class Formula implements Serializable {
 	}
 	*/
 
-	
+
 	public boolean containsArduinoSensors() {
 		List<InternToken> internTokenList = formulaTree.getInternTokenList();
 		for (InternToken internToken : internTokenList) {
