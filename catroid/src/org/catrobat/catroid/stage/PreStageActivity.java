@@ -375,7 +375,6 @@ public class PreStageActivity extends BaseActivity {
 					case DeviceListActivity.BLUETOOTH_ACTIVATION_CANCELED:
 						Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
 						resourceFailed();
-						break;
 
 					case DeviceListActivity.BLUETOOTH_NOT_SUPPORTED:
 						Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
