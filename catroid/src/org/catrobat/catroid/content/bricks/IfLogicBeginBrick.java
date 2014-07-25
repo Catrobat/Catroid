@@ -37,7 +37,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -59,13 +58,11 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick, OnC
 		addAllowedBrickField(BrickField.IF_CONDITION);
 	}
 
-	public IfLogicBeginBrick(Sprite sprite, int condition) {
-		this.sprite = sprite;
+	public IfLogicBeginBrick(int condition) {
 		initializeBrickFields(new Formula(condition));
 	}
 
-	public IfLogicBeginBrick(Sprite sprite, Formula condition) {
-		this.sprite = sprite;
+	public IfLogicBeginBrick(Formula condition) {
 		initializeBrickFields(condition);
 	}
 
@@ -101,7 +98,7 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick, OnC
 
 	@Override
 	public Brick clone() {
-		return new IfLogicBeginBrick(sprite, getFormulaWithBrickField(BrickField.IF_CONDITION).clone());
+		return new IfLogicBeginBrick(getFormulaWithBrickField(BrickField.IF_CONDITION).clone());
 	}
 
 	@Override
@@ -192,8 +189,8 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick, OnC
 
 	@Override
 	public void initialize() {
-		ifElseBrick = new IfLogicElseBrick(sprite, this);
-		ifEndBrick = new IfLogicEndBrick(sprite, ifElseBrick, this);
+		ifElseBrick = new IfLogicElseBrick(this);
+		ifEndBrick = new IfLogicEndBrick(ifElseBrick, this);
 		Log.w(TAG, "Creating if logic stuff");
 	}
 
@@ -223,7 +220,7 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick, OnC
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		SequenceAction ifAction = ExtendedActions.sequence();
 		SequenceAction elseAction = ExtendedActions.sequence();
 		Action action = ExtendedActions.ifLogc(sprite, getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction,
@@ -238,12 +235,11 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick, OnC
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		//ifEndBrick and ifElseBrick will be set in the copyBrickForSprite method of IfLogicEndBrick
 		IfLogicBeginBrick copyBrick = (IfLogicBeginBrick) clone(); //Using the clone method because of its flexibility if new fields are added
 		copyBrick.ifElseBrick = null; //if the Formula gets a field sprite, a separate copy method will be needed
 		copyBrick.ifEndBrick = null;
-		copyBrick.sprite = sprite;
 		this.copy = copyBrick;
 		return copyBrick;
 	}

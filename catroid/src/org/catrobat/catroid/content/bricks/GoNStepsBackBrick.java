@@ -51,13 +51,11 @@ public class GoNStepsBackBrick extends FormulaBrick implements OnClickListener {
 		addAllowedBrickField(BrickField.STEPS);
 	}
 
-	public GoNStepsBackBrick(Sprite sprite, int stepsValue) {
-		this.sprite = sprite;
+	public GoNStepsBackBrick(int stepsValue) {
 		initializeBrickFields(new Formula(stepsValue));
 	}
 
-	public GoNStepsBackBrick(Sprite sprite, Formula steps) {
-		this.sprite = sprite;
+	public GoNStepsBackBrick(Formula steps) {
 		initializeBrickFields(steps);
 	}
 
@@ -102,7 +100,7 @@ public class GoNStepsBackBrick extends FormulaBrick implements OnClickListener {
 			times.setText(view.getResources().getQuantityString(
 					R.plurals.brick_go_back_layer_plural,
 					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(
-							sprite))
+					))
 			));
 		} else {
 
@@ -122,10 +120,10 @@ public class GoNStepsBackBrick extends FormulaBrick implements OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_go_back, null);
 		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_go_back_prototype_text_view);
-		textSteps.setText(String.valueOf(getFormulaWithBrickField(BrickField.STEPS).interpretInteger(sprite)));
+		textSteps.setText(String.valueOf(getFormulaWithBrickField(BrickField.STEPS).interpretInteger()));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_go_back_layers_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
-				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(sprite))));
+				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble())));
 		return prototypeView;
 
 	}
@@ -162,7 +160,7 @@ public class GoNStepsBackBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.goNStepsBack(sprite, getFormulaWithBrickField(BrickField.STEPS)));
 		return null;
 	}

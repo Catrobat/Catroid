@@ -50,13 +50,11 @@ public class ChangeYByNBrick extends FormulaBrick implements OnClickListener {
 		addAllowedBrickField(BrickField.Y_POSITION_CHANGE);
 	}
 
-	public ChangeYByNBrick(Sprite sprite, int yMovementValue) {
-		this.sprite = sprite;
+	public ChangeYByNBrick(int yMovementValue) {
 		initializeBrickFields(new Formula(yMovementValue));
 	}
 
-	public ChangeYByNBrick(Sprite sprite, Formula yMovement) {
-		this.sprite = sprite;
+	public ChangeYByNBrick(Formula yMovement) {
 		initializeBrickFields(yMovement);
 	}
 
@@ -104,7 +102,7 @@ public class ChangeYByNBrick extends FormulaBrick implements OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_change_y, null);
 		TextView textYMovement = (TextView) prototypeView.findViewById(R.id.brick_change_y_prototype_text_view);
-		textYMovement.setText(String.valueOf(getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE).interpretInteger(sprite)));
+		textYMovement.setText(String.valueOf(getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE).interpretInteger()));
 		return prototypeView;
 	}
 
@@ -139,7 +137,7 @@ public class ChangeYByNBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.changeYByN(sprite, getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE)));
 		return null;
 	}

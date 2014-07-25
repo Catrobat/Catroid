@@ -81,8 +81,8 @@ public class ChangeBrightnessByNBrickTest extends BaseActivityInstrumentationTes
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		changeBrightnessByNBrick = new ChangeBrightnessByNBrick(sprite, 10.2);
+		Script script = new StartScript();
+		changeBrightnessByNBrick = new ChangeBrightnessByNBrick(10.2);
 		script.addBrick(changeBrightnessByNBrick);
 
 		sprite.addScript(script);

@@ -99,10 +99,10 @@ public class LegoNxtMotorTurnAngleBrickTest extends BaseActivityInstrumentationT
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
+		Script script = new StartScript();
 
 		int setAngleInitially = 90;
-		motorBrick = new LegoNxtMotorTurnAngleBrick(sprite, LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, setAngleInitially);
+		motorBrick = new LegoNxtMotorTurnAngleBrick(LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, setAngleInitially);
 
 		script.addBrick(motorBrick);
 		sprite.addScript(script);

@@ -24,13 +24,11 @@ package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
 public class ChangeVariableAction extends Action {
 
-	private Sprite sprite;
 	private Formula changeVariable;
 	private UserVariable userVariable;
 
@@ -40,7 +38,7 @@ public class ChangeVariableAction extends Action {
 			return true;
 		}
 		double originalValue = userVariable.getValue();
-		double value = changeVariable.interpretDouble(sprite);
+		double value = changeVariable.interpretDouble();
 		userVariable.setValue(originalValue + value);
 		return true;
 	}
@@ -53,7 +51,4 @@ public class ChangeVariableAction extends Action {
 		this.changeVariable = changeVariable;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
 }

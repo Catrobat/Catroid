@@ -327,20 +327,20 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		ifBrick = new IfLogicBeginBrick(sprite, 0);
-		IfLogicElseBrick ifElseBrick = new IfLogicElseBrick(sprite, ifBrick);
-		IfLogicEndBrick ifEndBrick = new IfLogicEndBrick(sprite, ifElseBrick, ifBrick);
+		Script script = new StartScript();
+		ifBrick = new IfLogicBeginBrick(0);
+		IfLogicElseBrick ifElseBrick = new IfLogicElseBrick(ifBrick);
+		IfLogicEndBrick ifEndBrick = new IfLogicEndBrick(ifElseBrick, ifBrick);
 		ifBrick.setIfElseBrick(ifElseBrick);
 		ifBrick.setIfEndBrick(ifEndBrick);
 
 		script.addBrick(ifBrick);
-		script.addBrick(new ChangeYByNBrick(sprite, -10));
+		script.addBrick(new ChangeYByNBrick(-10));
 		script.addBrick(ifElseBrick);
 		script.addBrick(ifEndBrick);
 
 		sprite.addScript(script);
-		sprite.addScript(new StartScript(sprite));
+		sprite.addScript(new StartScript());
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);

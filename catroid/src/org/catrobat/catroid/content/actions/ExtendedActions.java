@@ -89,10 +89,9 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static ChangeVolumeByNAction changeVolumeByN(Sprite sprite, Formula volume) {
+	public static ChangeVolumeByNAction changeVolumeByN(Formula volume) {
 		ChangeVolumeByNAction action = action(ChangeVolumeByNAction.class);
 		action.setVolume(volume);
-		action.setSprite(sprite);
 		return action;
 	}
 
@@ -158,11 +157,9 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static LegoNxtMotorActionAction legoNxtMotorAction(Sprite sprite, String motor,
-			LegoNxtMotorActionBrick.Motor motorEnum, Formula speed) {
+	public static LegoNxtMotorActionAction legoNxtMotorAction(LegoNxtMotorActionBrick.Motor motorEnum, Formula speed) {
 		LegoNxtMotorActionAction action = action(LegoNxtMotorActionAction.class);
 		action.setMotorEnum(motorEnum);
-		action.setSprite(sprite);
 		action.setSpeed(speed);
 		return action;
 	}
@@ -174,19 +171,16 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static LegoNxtMotorTurnAngleAction legoNxtMotorTurnAngle(Sprite sprite,
-			LegoNxtMotorTurnAngleBrick.Motor motorEnum, Formula degrees) {
+	public static LegoNxtMotorTurnAngleAction legoNxtMotorTurnAngle(LegoNxtMotorTurnAngleBrick.Motor motorEnum, Formula degrees) {
 		LegoNxtMotorTurnAngleAction action = action(LegoNxtMotorTurnAngleAction.class);
 		action.setMotorEnum(motorEnum);
-		action.setSprite(sprite);
 		action.setDegrees(degrees);
 		return action;
 	}
 
-	public static LegoNxtPlayToneAction legoNxtPlayTone(Sprite sprite, Formula hertz, Formula durationInSeconds) {
+	public static LegoNxtPlayToneAction legoNxtPlayTone(Formula hertz, Formula durationInSeconds) {
 		LegoNxtPlayToneAction action = action(LegoNxtPlayToneAction.class);
 		action.setHertz(hertz);
-		action.setSprite(sprite);
 		action.setDurationInSeconds(durationInSeconds);
 		return action;
 	}
@@ -253,10 +247,9 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static SetVolumeToAction setVolumeTo(Sprite sprite, Formula volume) {
+	public static SetVolumeToAction setVolumeTo(Formula volume) {
 		SetVolumeToAction action = action(SetVolumeToAction.class);
 		action.setVolume(volume);
-		action.setSprite(sprite);
 		return action;
 	}
 
@@ -304,19 +297,15 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static Action changeVariable(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
-
+	public static Action changeVariable(Formula variableFormula, UserVariable userVariable) {
 		ChangeVariableAction action = action(ChangeVariableAction.class);
-		action.setSprite(sprite);
 		action.setChangeVariable(variableFormula);
 		action.setUserVariable(userVariable);
 		return action;
 	}
 
-	public static Action setVariable(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
-
+	public static Action setVariable(Formula variableFormula, UserVariable userVariable) {
 		SetVariableAction action = action(SetVariableAction.class);
-		action.setSprite(sprite);
 		action.setChangeVariable(variableFormula);
 		action.setUserVariable(userVariable);
 		return action;
@@ -331,26 +320,23 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static RepeatAction repeat(Sprite sprite, Formula count, Action repeatedAction) {
+	public static RepeatAction repeat(Formula count, Action repeatedAction) {
 		RepeatAction action = action(RepeatAction.class);
 		action.setRepeatCount(count);
 		action.setAction(repeatedAction);
-		action.setSprite(sprite);
 		return action;
 	}
 
-	public static WaitAction delay(Sprite sprite, Formula delay) {
+	public static WaitAction delay(Formula delay) {
 		WaitAction action = action(WaitAction.class);
-		action.setSprite(sprite);
 		action.setDelay(delay);
 		return action;
 	}
 
-	public static Action forever(Sprite sprite, SequenceAction foreverSequence) {
+	public static Action forever(SequenceAction foreverSequence) {
 		RepeatAction action = action(RepeatAction.class);
 		action.setIsForeverRepeat(true);
 		action.setAction(foreverSequence);
-		action.setSprite(sprite);
 		return action;
 	}
 
@@ -362,81 +348,71 @@ public class ExtendedActions extends Actions {
 		return action(DroneTakeoffAction.class);
 	}
 
-	public static TemporalAction droneMoveUp(Sprite sprite, Formula seconds, Formula powerInPercent) {
+	public static TemporalAction droneMoveUp(Formula seconds, Formula powerInPercent) {
 		DroneMoveUpAction action = action(DroneMoveUpAction.class);
-		action.setSprite(sprite);
 		action.setDelay(seconds);
 		action.setPower(powerInPercent);
 		return action;
 	}
 
-	public static TemporalAction droneMoveDown(Sprite sprite, Formula seconds, Formula powerInPercent) {
+	public static TemporalAction droneMoveDown(Formula seconds, Formula powerInPercent) {
 		DroneMoveDownAction action = action(DroneMoveDownAction.class);
-		action.setSprite(sprite);
 		action.setDelay(seconds);
 		action.setPower(powerInPercent);
 		return action;
 	}
 
-	public static TemporalAction droneMoveLeft(Sprite sprite, Formula seconds, Formula powerInPercent) {
+	public static TemporalAction droneMoveLeft(Formula seconds, Formula powerInPercent) {
 		DroneMoveLeftAction action = action(DroneMoveLeftAction.class);
-		action.setSprite(sprite);
 		action.setDelay(seconds);
 		action.setPower(powerInPercent);
 		return action;
 	}
 
-	public static TemporalAction droneMoveRight(Sprite sprite, Formula seconds, Formula powerInPercent) {
+	public static TemporalAction droneMoveRight(Formula seconds, Formula powerInPercent) {
 		DroneMoveRightAction action = action(DroneMoveRightAction.class);
-		action.setSprite(sprite);
 		action.setDelay(seconds);
 		action.setPower(powerInPercent);
 		return action;
 	}
 
-	public static TemporalAction droneMoveForward(Sprite sprite, Formula seconds, Formula powerInPercent) {
+	public static TemporalAction droneMoveForward(Formula seconds, Formula powerInPercent) {
 		DroneMoveForwardAction action = action(DroneMoveForwardAction.class);
-		action.setSprite(sprite);
 		action.setDelay(seconds);
 		action.setPower(powerInPercent);
 		return action;
 	}
 
-	public static TemporalAction droneMoveBackward(Sprite sprite, Formula seconds, Formula powerInPercent) {
+	public static TemporalAction droneMoveBackward(Formula seconds, Formula powerInPercent) {
 		DroneMoveBackwardAction action = action(DroneMoveBackwardAction.class);
-		action.setSprite(sprite);
 		action.setDelay(seconds);
 		action.setPower(powerInPercent);
 		return action;
 	}
 
-	public static TemporalAction droneTurnRight(Sprite sprite, Formula seconds, Formula powerInPercent) {
+	public static TemporalAction droneTurnRight(Formula seconds, Formula powerInPercent) {
 		DroneTurnRightAction action = action(DroneTurnRightAction.class);
-		action.setSprite(sprite);
 		action.setDelay(seconds);
 		action.setPower(powerInPercent);
 		return action;
 	}
 
-	public static TemporalAction droneTurnLeft(Sprite sprite, Formula seconds, Formula powerInPercent) {
+	public static TemporalAction droneTurnLeft(Formula seconds, Formula powerInPercent) {
 		DroneTurnLeftAction action = action(DroneTurnLeftAction.class);
-		action.setSprite(sprite);
 		action.setDelay(seconds);
 		action.setPower(powerInPercent);
 		return action;
 	}
 
-	public static TemporalAction droneTurnLeftMagneto(Sprite sprite, Formula seconds, Formula powerInPercent) {
+	public static TemporalAction droneTurnLeftMagneto(Formula seconds, Formula powerInPercent) {
 		DroneTurnLeftWithMagnetometerAction action = action(DroneTurnLeftWithMagnetometerAction.class);
-		action.setSprite(sprite);
 		action.setDelay(seconds);
 		action.setPower(powerInPercent);
 		return action;
 	}
 
-	public static TemporalAction droneTurnRightMagneto(Sprite sprite, Formula seconds, Formula powerInPercent) {
+	public static TemporalAction droneTurnRightMagneto(Formula seconds, Formula powerInPercent) {
 		DroneTurnRightWithMagnetometerAction action = action(DroneTurnRightWithMagnetometerAction.class);
-		action.setSprite(sprite);
 		action.setDelay(seconds);
 		action.setPower(powerInPercent);
 		return action;
@@ -456,9 +432,8 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static VibrateAction vibrate(Sprite sprite, Formula duration) {
+	public static VibrateAction vibrate(Formula duration) {
 		VibrateAction action = action(VibrateAction.class);
-		action.setSprite(sprite);
 		action.setDuration(duration);
 		return action;
 	}

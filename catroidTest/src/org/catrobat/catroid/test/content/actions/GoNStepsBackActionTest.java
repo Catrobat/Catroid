@@ -61,16 +61,16 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed",
-				(oldPosition - steps.interpretInteger(sprite)), sprite.look.getZIndex());
+				(oldPosition - steps.interpretInteger()), sprite.look.getZIndex());
 
 		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project.getSpriteList());
 		oldPosition = sprite.look.getZIndex();
 
-		action = ExtendedActions.goNStepsBack(sprite, new Formula(-steps.interpretInteger(sprite)));
+		action = ExtendedActions.goNStepsBack(sprite, new Formula(-steps.interpretInteger()));
 		sprite.look.addAction(action);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed",
-				(oldPosition + steps.interpretInteger(sprite)), sprite.look.getZIndex());
+				(oldPosition + steps.interpretInteger()), sprite.look.getZIndex());
 		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project.getSpriteList());
 	}
 

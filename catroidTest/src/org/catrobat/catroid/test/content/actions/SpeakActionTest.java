@@ -24,7 +24,6 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -36,14 +35,13 @@ public class SpeakActionTest extends AndroidTestCase {
 	public void testSpeak() {
 		String text = "hello world!";
 		String text2 = "hello world, hello!";
-		Sprite sprite = new Sprite("testSprite");
-		SpeakBrick speakBrick = new SpeakBrick(sprite, text);
+		SpeakBrick speakBrick = new SpeakBrick(text);
 		SpeakAction action = ExtendedActions.speak(text, speakBrick);
 		String textAfterExecution = (String) Reflection.getPrivateField(action, "text");
 
 		assertEquals("Text is not updated after SpeakBrick executed", text, speakBrick.getText());
 		assertEquals("Text is not updated after SpeakBrick executed", text, textAfterExecution);
-		speakBrick = new SpeakBrick(sprite, text2);
+		speakBrick = new SpeakBrick(text2);
 		action = ExtendedActions.speak(text, speakBrick);
 		textAfterExecution = (String) Reflection.getPrivateField(action, "text");
 
@@ -53,7 +51,7 @@ public class SpeakActionTest extends AndroidTestCase {
 
 	public void testNullSprite() {
 		String text = "hello world!";
-		SpeakBrick speakBrick = new SpeakBrick(null, text);
+		SpeakBrick speakBrick = new SpeakBrick(text);
 		SpeakAction action = ExtendedActions.speak(text, speakBrick);
 		try {
 			action.act(1.0f);
@@ -65,7 +63,7 @@ public class SpeakActionTest extends AndroidTestCase {
 	}
 
 	public void testRequirements() {
-		SpeakBrick speakBrick = new SpeakBrick(null, null);
+		SpeakBrick speakBrick = new SpeakBrick(null);
 		assertEquals("Wrong required brick resources", Brick.TEXT_TO_SPEECH, speakBrick.getRequiredResources());
 	}
 }

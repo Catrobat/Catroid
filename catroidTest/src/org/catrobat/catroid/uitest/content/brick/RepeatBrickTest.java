@@ -88,8 +88,8 @@ public class RepeatBrickTest extends BaseActivityInstrumentationTestCase<ScriptA
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		script.addBrick(new RepeatBrick(sprite, 3));
+		Script script = new StartScript();
+		script.addBrick(new RepeatBrick(3));
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

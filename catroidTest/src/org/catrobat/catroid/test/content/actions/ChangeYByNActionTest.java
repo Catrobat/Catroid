@@ -44,7 +44,7 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
-		yPosition += yMovement.interpretInteger(sprite);
+		yPosition += yMovement.interpretInteger();
 		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", (float) yPosition,
 				sprite.look.getYInUserInterfaceDimensionUnit());
 	}

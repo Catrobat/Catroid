@@ -33,7 +33,6 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -58,13 +57,11 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 		addAllowedBrickField(BrickField.TIMES_TO_REPEAT);
 	}
 
-	public RepeatBrick(Sprite sprite, int timesToRepeatValue) {
-		this.sprite = sprite;
+	public RepeatBrick(int timesToRepeatValue) {
 		initializeBrickFields(new Formula(timesToRepeatValue));
 	}
 
-	public RepeatBrick(Sprite sprite, Formula timesToRepeat) {
-		this.sprite = sprite;
+	public RepeatBrick(Formula timesToRepeat) {
 		initializeBrickFields(timesToRepeat);
 	}
 
@@ -80,7 +77,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 
 	@Override
 	public Brick clone()  {
-		return new RepeatBrick(sprite, getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).clone());
+		return new RepeatBrick(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).clone());
 	}
 
 	@Override
@@ -119,7 +116,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 			times.setText(view.getResources().getQuantityString(
 					R.plurals.time_plural,
 					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT)
-							.interpretDouble(sprite))
+							.interpretDouble())
 			));
 		} else {
 
@@ -141,12 +138,12 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 		prototypeView = View.inflate(context, R.layout.brick_repeat, null);
 		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_prototype_text_view);
 		textRepeat.setText(String
-				.valueOf(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).interpretInteger(sprite)));
+				.valueOf(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).interpretInteger()));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_repeat_time_text_view);
 		times.setText(context.getResources().getQuantityString(
 				R.plurals.time_plural,
 				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT)
-						.interpretDouble(sprite))
+						.interpretDouble())
 		));
 		return prototypeView;
 	}
@@ -184,9 +181,9 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		SequenceAction repeatSequence = ExtendedActions.sequence();
-		Action action = ExtendedActions.repeat(sprite, getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT),
+		Action action = ExtendedActions.repeat(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT),
 				repeatSequence);
 		sequence.addAction(action);
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
@@ -195,10 +192,9 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		//loopEndBrick will be set in the LoopEndBrick's copyBrickForSprite method
 		RepeatBrick copyBrick = (RepeatBrick) clone();
-		copyBrick.sprite = sprite;
 		copy = copyBrick;
 		return copyBrick;
 	}
@@ -235,7 +231,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 
 	@Override
 	public void initialize() {
-		loopEndBrick = new LoopEndBrick(sprite, this);
+		loopEndBrick = new LoopEndBrick(this);
 	}
 
 	@Override

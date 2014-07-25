@@ -37,12 +37,12 @@ public class DroneMoveLeftBrick extends DroneMoveBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	public DroneMoveLeftBrick(Sprite sprite, int durationInMilliseconds, int powerInPercent) {
-		super(sprite, durationInMilliseconds, powerInPercent);
+	public DroneMoveLeftBrick(int durationInMilliseconds, int powerInPercent) {
+		super(durationInMilliseconds, powerInPercent);
 	}
 
-	public DroneMoveLeftBrick(Sprite sprite, Formula durationInMilliseconds, Formula powerInPercent) {
-		super(sprite, durationInMilliseconds, powerInPercent);
+	public DroneMoveLeftBrick(Formula durationInMilliseconds, Formula powerInPercent) {
+		super(durationInMilliseconds, powerInPercent);
 	}
 
 	public DroneMoveLeftBrick() {
@@ -55,8 +55,8 @@ public class DroneMoveLeftBrick extends DroneMoveBrick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.droneMoveLeft(sprite,
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.droneMoveLeft(
 				getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS),
 				getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)));
 		return null;

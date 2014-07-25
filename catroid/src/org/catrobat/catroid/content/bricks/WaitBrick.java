@@ -51,13 +51,11 @@ public class WaitBrick extends FormulaBrick implements OnClickListener {
 		addAllowedBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS);
 	}
 
-	public WaitBrick(Sprite sprite, int timeToWaitInMillisecondsValue) {
-		this.sprite = sprite;
+	public WaitBrick(int timeToWaitInMillisecondsValue) {
 		initializeBrickFields(new Formula(timeToWaitInMillisecondsValue / 1000.0));
 	}
 
-	public WaitBrick(Sprite sprite, Formula timeToWaitInSecondsFormula) {
-		this.sprite = sprite;
+	public WaitBrick(Formula timeToWaitInSecondsFormula) {
 		initializeBrickFields(timeToWaitInSecondsFormula);
 	}
 
@@ -110,7 +108,7 @@ public class WaitBrick extends FormulaBrick implements OnClickListener {
 			times.setText(view.getResources().getQuantityString(
 					R.plurals.second_plural,
 					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS)
-							.interpretDouble(sprite))
+							.interpretDouble())
 			));
 		} else {
 
@@ -131,12 +129,12 @@ public class WaitBrick extends FormulaBrick implements OnClickListener {
 		prototypeView = View.inflate(context, R.layout.brick_wait, null);
 		TextView textWait = (TextView) prototypeView.findViewById(R.id.brick_wait_prototype_text_view);
 		textWait.setText(String.valueOf(getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS).interpretInteger(
-				sprite)));
+		)));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_wait_second_text_view);
 		times.setText(context.getResources().getQuantityString(
 				R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS)
-						.interpretDouble(sprite))
+						.interpretDouble())
 		));
 		return prototypeView;
 	}
@@ -175,8 +173,8 @@ public class WaitBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.delay(sprite, getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS)));
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.delay(getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS)));
 		return null;
 	}
 }

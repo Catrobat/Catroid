@@ -40,7 +40,7 @@ public class SetGhostEffectActionTest extends InstrumentationTestCase {
 		SetGhostEffectAction action = ExtendedActions.setGhostEffect(sprite, effectValue);
 		action.act(1.0f);
 		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed",
-				effectValue.interpretFloat(sprite), sprite.look.getTransparencyInUserInterfaceDimensionUnit());
+				effectValue.interpretFloat(), sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 
 		action = ExtendedActions.setGhostEffect(sprite, new Formula(-50.0));
 		action.act(1.0f);

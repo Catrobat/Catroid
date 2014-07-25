@@ -51,27 +51,24 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 	private BroadcastScript receiveScript;
 	private transient String broadcastMessage;
 
-	public BroadcastReceiverBrick(Sprite sprite, String broadcastMessage) {
-		this.sprite = sprite;
+	public BroadcastReceiverBrick(String broadcastMessage) {
 		this.broadcastMessage = broadcastMessage;
 	}
 
-	public BroadcastReceiverBrick(Sprite sprite, BroadcastScript receiveScript) {
-		this.sprite = sprite;
+	public BroadcastReceiverBrick(BroadcastScript receiveScript) {
 		this.receiveScript = receiveScript;
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		BroadcastReceiverBrick copyBrick = (BroadcastReceiverBrick) clone();
-		copyBrick.sprite = sprite;
-		copyBrick.receiveScript = (BroadcastScript) script;
+		copyBrick.receiveScript = receiveScript;
 		return copyBrick;
 	}
 
 	@Override
 	public Brick clone() {
-		return new BroadcastReceiverBrick(sprite, new BroadcastScript(sprite, getBroadcastMessage()));
+		return new BroadcastReceiverBrick(new BroadcastScript(getBroadcastMessage()));
 	}
 
 	@Override
@@ -96,7 +93,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 			alphaValue = 255;
 		}
 		if (receiveScript == null) {
-			receiveScript = new BroadcastScript(sprite, broadcastMessage);
+			receiveScript = new BroadcastScript(broadcastMessage);
 			MessageContainer.addMessage(getBroadcastMessage());
 		}
 
@@ -180,7 +177,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 	}
 
 	@Override
-	public Script initScript(Sprite sprite) {
+	public Script initScript() {
 		return receiveScript;
 	}
 
@@ -230,7 +227,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		return null;
 	}
 }

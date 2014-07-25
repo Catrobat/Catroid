@@ -51,13 +51,11 @@ public class ChangeGhostEffectByNBrick extends FormulaBrick implements OnClickLi
 		addAllowedBrickField(BrickField.TRANSPARENCY_CHANGE);
 	}
 
-	public ChangeGhostEffectByNBrick(Sprite sprite, double changeGhostEffectValue) {
-		this.sprite = sprite;
+	public ChangeGhostEffectByNBrick(double changeGhostEffectValue) {
 		initializeBrickFields(new Formula(changeGhostEffectValue));
 	}
 
-	public ChangeGhostEffectByNBrick(Sprite sprite, Formula changeGhostEffect) {
-		this.sprite = sprite;
+	public ChangeGhostEffectByNBrick(Formula changeGhostEffect) {
 		initializeBrickFields(changeGhostEffect);
 	}
 
@@ -108,7 +106,7 @@ public class ChangeGhostEffectByNBrick extends FormulaBrick implements OnClickLi
 		TextView textChangeGhostEffect = (TextView) prototypeView
 				.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
 		textChangeGhostEffect.setText(String.valueOf(getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE)
-				.interpretDouble(sprite)));
+				.interpretDouble()));
 		return prototypeView;
 	}
 
@@ -145,7 +143,7 @@ public class ChangeGhostEffectByNBrick extends FormulaBrick implements OnClickLi
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 
 		sequence.addAction(ExtendedActions.changeGhostEffectByN(sprite,
 				getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE)));

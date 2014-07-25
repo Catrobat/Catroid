@@ -50,13 +50,11 @@ public class SetBrightnessBrick extends FormulaBrick implements OnClickListener 
 		addAllowedBrickField(BrickField.BRIGHTNESS);
 	}
 
-	public SetBrightnessBrick(Sprite sprite, double brightnessValue) {
-		this.sprite = sprite;
+	public SetBrightnessBrick(double brightnessValue) {
 		initializeBrickFields(new Formula(brightnessValue));
 	}
 
-	public SetBrightnessBrick(Sprite sprite, Formula brightness) {
-		this.sprite = sprite;
+	public SetBrightnessBrick(Formula brightness) {
 		initializeBrickFields(brightness);
 	}
 
@@ -107,7 +105,7 @@ public class SetBrightnessBrick extends FormulaBrick implements OnClickListener 
 		TextView textSetBrightness = (TextView) prototypeView
 				.findViewById(R.id.brick_set_brightness_prototype_text_view);
 		textSetBrightness.setText(String.valueOf(getFormulaWithBrickField(BrickField.BRIGHTNESS)
-				.interpretDouble(sprite)));
+				.interpretDouble()));
 		return prototypeView;
 	}
 
@@ -146,7 +144,7 @@ public class SetBrightnessBrick extends FormulaBrick implements OnClickListener 
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.setBrightness(sprite, getFormulaWithBrickField(BrickField.BRIGHTNESS)));
 		return null;
 	}

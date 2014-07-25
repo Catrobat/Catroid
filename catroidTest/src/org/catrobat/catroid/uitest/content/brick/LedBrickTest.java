@@ -159,11 +159,11 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 	private void createProject () {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script startScript = new StartScript(sprite);
-		Script tappedScript = new WhenScript(sprite);
+		Script startScript = new StartScript();
+		Script tappedScript = new WhenScript();
 
-		ledOnBrick = new LedOnBrick(sprite);
-		ledOffBrick = new LedOffBrick(sprite);
+		ledOnBrick = new LedOnBrick();
+		ledOffBrick = new LedOffBrick();
 
 		sprite.addScript(startScript);
 		startScript.addBrick(ledOffBrick);

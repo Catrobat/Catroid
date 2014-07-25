@@ -48,7 +48,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
@@ -69,8 +68,7 @@ public class PointToBrick extends BrickBaseType {
 	private transient AdapterView<?> adapterView;
 	private transient SpinnerAdapterWrapper spinnerAdapterWrapper;
 
-	public PointToBrick(Sprite sprite, Sprite pointedSprite) {
-		this.sprite = sprite;
+	public PointToBrick(Sprite pointedSprite) {
 		this.pointedObject = pointedSprite;
 		this.oldSelectedObject = "";
 	}
@@ -85,9 +83,8 @@ public class PointToBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		PointToBrick copyBrick = (PointToBrick) clone();
-		copyBrick.sprite = sprite;
 		return copyBrick;
 	}
 
@@ -199,11 +196,11 @@ public class PointToBrick extends BrickBaseType {
 
 	@Override
 	public Brick clone() {
-		return new PointToBrick(sprite, pointedObject);
+		return new PointToBrick(pointedObject);
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.pointTo(sprite, pointedObject));
 		return null;
 	}
@@ -243,7 +240,7 @@ public class PointToBrick extends BrickBaseType {
 
 		for (Sprite sprite : spriteList) {
 			String spriteName = sprite.getName();
-			String temp = this.sprite.getName();
+			String temp = ProjectManager.getInstance().getCurrentSprite().getName();
 			if (!spriteName.equals(temp) && !spriteName.equals(context.getString(R.string.background))) {
 				arrayAdapter.add(sprite.getName());
 			}

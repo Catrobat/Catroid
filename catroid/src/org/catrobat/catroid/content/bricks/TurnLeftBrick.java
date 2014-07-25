@@ -51,13 +51,11 @@ public class TurnLeftBrick extends FormulaBrick implements OnClickListener {
 		addAllowedBrickField(BrickField.TURN_LEFT_DEGREES);
 	}
 
-	public TurnLeftBrick(Sprite sprite, double degreesValue) {
-		this.sprite = sprite;
+	public TurnLeftBrick(double degreesValue) {
 		initializeBrickFields(new Formula(degreesValue));
 	}
 
-	public TurnLeftBrick(Sprite sprite, Formula degrees) {
-		this.sprite = sprite;
+	public TurnLeftBrick(Formula degrees) {
 		initializeBrickFields(degrees);
 	}
 
@@ -105,7 +103,7 @@ public class TurnLeftBrick extends FormulaBrick implements OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_turn_left, null);
 		TextView textDegrees = (TextView) prototypeView.findViewById(R.id.brick_turn_left_prototype_text_view);
-		textDegrees.setText(String.valueOf(getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES).interpretDouble(sprite)));
+		textDegrees.setText(String.valueOf(getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES).interpretDouble()));
 		return prototypeView;
 	}
 
@@ -145,7 +143,7 @@ public class TurnLeftBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.turnLeft(sprite, getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES)));
 		return null;
 	}

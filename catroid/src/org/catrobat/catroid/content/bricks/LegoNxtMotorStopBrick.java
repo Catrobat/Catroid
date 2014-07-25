@@ -38,7 +38,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
@@ -54,8 +53,7 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C, ALL_MOTORS
 	}
 
-	public LegoNxtMotorStopBrick(Sprite sprite, Motor motor) {
-		this.sprite = sprite;
+	public LegoNxtMotorStopBrick(Motor motor) {
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
 	}
@@ -73,9 +71,8 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		LegoNxtMotorStopBrick copyBrick = (LegoNxtMotorStopBrick) clone();
-		copyBrick.sprite = sprite;
 		return copyBrick;
 	}
 
@@ -97,7 +94,7 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 
 	@Override
 	public Brick clone() {
-		return new LegoNxtMotorStopBrick(getSprite(), motorEnum);
+		return new LegoNxtMotorStopBrick(motorEnum);
 	}
 
 	@Override
@@ -178,7 +175,7 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.legoNxtMotorStop(motorEnum));
 		return null;
 	}

@@ -50,13 +50,11 @@ public class TurnRightBrick extends FormulaBrick implements OnClickListener {
 		addAllowedBrickField(BrickField.TURN_RIGHT_DEGREES);
 	}
 
-	public TurnRightBrick(Sprite sprite, double degreesValue) {
-		this.sprite = sprite;
+	public TurnRightBrick(double degreesValue) {
 		initializeBrickFields(new Formula(degreesValue));
 	}
 
-	public TurnRightBrick(Sprite sprite, Formula degreesFormula) {
-		this.sprite = sprite;
+	public TurnRightBrick(Formula degreesFormula) {
 		initializeBrickFields(degreesFormula);
 	}
 
@@ -105,7 +103,7 @@ public class TurnRightBrick extends FormulaBrick implements OnClickListener {
 		prototypeView = View.inflate(context, R.layout.brick_turn_right, null);
 		TextView textDegrees = (TextView) prototypeView.findViewById(R.id.brick_turn_right_prototype_text_view);
 		textDegrees.setText(String.valueOf(getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES)
-				.interpretDouble(sprite)));
+				.interpretDouble()));
 		return prototypeView;
 	}
 
@@ -145,7 +143,7 @@ public class TurnRightBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.turnRight(sprite, getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES)));
 		return null;
 	}

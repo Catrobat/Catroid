@@ -50,13 +50,11 @@ public class ChangeBrightnessByNBrick extends FormulaBrick implements OnClickLis
 		addAllowedBrickField(BrickField.BRIGHTNESS_CHANGE);
 	}
 
-	public ChangeBrightnessByNBrick(Sprite sprite, double changeBrightnessValue) {
-		this.sprite = sprite;
+	public ChangeBrightnessByNBrick(double changeBrightnessValue) {
 		initializeBrickFields(new Formula(changeBrightnessValue));
 	}
 
-	public ChangeBrightnessByNBrick(Sprite sprite, Formula changeBrightness) {
-		this.sprite = sprite;
+	public ChangeBrightnessByNBrick(Formula changeBrightness) {
 		initializeBrickFields(changeBrightness);
 	}
 
@@ -107,7 +105,7 @@ public class ChangeBrightnessByNBrick extends FormulaBrick implements OnClickLis
 		TextView textChangeBrightness = (TextView) prototypeView
 				.findViewById(R.id.brick_change_brightness_prototype_text_view);
 		textChangeBrightness.setText(String.valueOf(getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE)
-				.interpretDouble(sprite)));
+				.interpretDouble()));
 		return prototypeView;
 	}
 
@@ -144,8 +142,7 @@ public class ChangeBrightnessByNBrick extends FormulaBrick implements OnClickLis
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.changeBrightnessByN(sprite,
 				getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE)));
 		return null;

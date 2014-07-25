@@ -50,13 +50,11 @@ public class ChangeSizeByNBrick extends FormulaBrick implements OnClickListener 
 		addAllowedBrickField(BrickField.SIZE_CHANGE);
 	}
 
-	public ChangeSizeByNBrick(Sprite sprite, double sizeValue) {
-		this.sprite = sprite;
+	public ChangeSizeByNBrick(double sizeValue) {
 		initializeBrickFields(new Formula(sizeValue));
 	}
 
-	public ChangeSizeByNBrick(Sprite sprite, Formula size) {
-		this.sprite = sprite;
+	public ChangeSizeByNBrick(Formula size) {
 		initializeBrickFields(size);
 	}
 
@@ -106,7 +104,7 @@ public class ChangeSizeByNBrick extends FormulaBrick implements OnClickListener 
 		TextView textChangeSizeBy = (TextView) prototypeView
 				.findViewById(R.id.brick_change_size_by_prototype_text_view);
 		textChangeSizeBy.setText(String.valueOf(getFormulaWithBrickField(BrickField.SIZE_CHANGE)
-				.interpretDouble(sprite)));
+				.interpretDouble()));
 		return prototypeView;
 	}
 
@@ -141,7 +139,7 @@ public class ChangeSizeByNBrick extends FormulaBrick implements OnClickListener 
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.changeSizeByN(sprite, getFormulaWithBrickField(BrickField.SIZE_CHANGE)));
 		return null;
 	}

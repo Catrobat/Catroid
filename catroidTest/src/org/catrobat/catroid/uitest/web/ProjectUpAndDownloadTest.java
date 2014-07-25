@@ -538,7 +538,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		// change project to a non default state
 		Sprite firstSprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
 		Script firstScript = firstSprite.getScript(0);
-		firstScript.addBrick(new WaitBrick(firstSprite, 1000));
+		firstScript.addBrick(new WaitBrick(1000));
 	}
 
 	private void checkProjectNameAndDescriptionBeforAndAfterDownload(String projectName, String description) {

@@ -88,15 +88,15 @@ public class GlideToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		GlideToBrick glideToBrick = (GlideToBrick) brickList.get(0);
 
 		Formula formula = glideToBrick.getFormulaWithBrickField(Brick.BrickField.DURATION_IN_SECONDS);
-		float temp = formula.interpretFloat(sprite);
+		float temp = formula.interpretFloat();
 
 		assertEquals("Wrong duration input in Glide to brick", Math.round(duration * 1000), Math.round(temp * 1000));
 		formula = glideToBrick.getFormulaWithBrickField(Brick.BrickField.X_DESTINATION);
-		int temp2 = formula.interpretInteger(sprite);
+		int temp2 = formula.interpretInteger();
 		assertEquals("Wrong x input in Glide to brick", xPosition, temp2);
 
 		formula = glideToBrick.getFormulaWithBrickField(Brick.BrickField.Y_DESTINATION);
-		temp2 = formula.interpretInteger(sprite);
+		temp2 = formula.interpretInteger();
 		assertEquals("Wrong y input in Glide to brick", yPosition, temp2);
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_glide_to_edit_text_duration, 1);
@@ -119,8 +119,8 @@ public class GlideToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		script.addBrick(new GlideToBrick(sprite, 0, 0, 0));
+		Script script = new StartScript();
+		script.addBrick(new GlideToBrick(0, 0, 0));
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

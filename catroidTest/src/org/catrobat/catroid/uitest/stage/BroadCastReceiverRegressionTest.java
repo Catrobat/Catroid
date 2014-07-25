@@ -61,12 +61,12 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 		Script script = sprite.getScript(0);
 
 		final String testMessage = "RegressionTest#105";
-		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite, testMessage);
+		BroadcastBrick broadcastBrick = new BroadcastBrick(testMessage);
 		script.addBrick(broadcastBrick);
 
-		BroadcastScript broadcastScript = new BroadcastScript(sprite, testMessage);
+		BroadcastScript broadcastScript = new BroadcastScript(testMessage);
 		final int xMovement = 100;
-		ChangeXByNBrick changeXByNBrick = new ChangeXByNBrick(sprite, xMovement);
+		ChangeXByNBrick changeXByNBrick = new ChangeXByNBrick(xMovement);
 		broadcastScript.addBrick(changeXByNBrick);
 		sprite.addScript(broadcastScript);
 
@@ -97,16 +97,16 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 		Script script = sprite.getScript(0);
 
 		final String testMessage = "RegressionTest#875";
-		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite, testMessage);
+		BroadcastBrick broadcastBrick = new BroadcastBrick(testMessage);
 		script.addBrick(broadcastBrick);
 
-		BroadcastScript broadcastScript = new BroadcastScript(sprite, testMessage);
+		BroadcastScript broadcastScript = new BroadcastScript(testMessage);
 
 		final int xMovement = 1;
-		ChangeXByNBrick changeXByNBrick = new ChangeXByNBrick(sprite, xMovement);
+		ChangeXByNBrick changeXByNBrick = new ChangeXByNBrick(xMovement);
 		broadcastScript.addBrick(changeXByNBrick);
 
-		BroadcastBrick broadcastBrickLoop = new BroadcastBrick(sprite, testMessage);
+		BroadcastBrick broadcastBrickLoop = new BroadcastBrick(testMessage);
 		broadcastScript.addBrick(broadcastBrickLoop);
 
 		sprite.addScript(broadcastScript);
@@ -129,19 +129,19 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 
 		Sprite sprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
 		Script startScript = sprite.getScript(0);
-		BroadcastBrick startBroadcastBrick = new BroadcastBrick(sprite, messageOne);
+		BroadcastBrick startBroadcastBrick = new BroadcastBrick(messageOne);
 		startScript.addBrick(startBroadcastBrick);
 
-		BroadcastScript broadcastScriptMessageOne = new BroadcastScript(sprite, messageOne);
-		ChangeXByNBrick changeXByNBrickOne = new ChangeXByNBrick(sprite, xMovement);
-		BroadcastWaitBrick broadcastWaitBrickOne = new BroadcastWaitBrick(sprite, messageTwo);
+		BroadcastScript broadcastScriptMessageOne = new BroadcastScript(messageOne);
+		ChangeXByNBrick changeXByNBrickOne = new ChangeXByNBrick(xMovement);
+		BroadcastWaitBrick broadcastWaitBrickOne = new BroadcastWaitBrick(messageTwo);
 		broadcastScriptMessageOne.addBrick(changeXByNBrickOne);
 		broadcastScriptMessageOne.addBrick(broadcastWaitBrickOne);
 		sprite.addScript(broadcastScriptMessageOne);
 
-		BroadcastScript broadcastScriptMessageTwo = new BroadcastScript(sprite, messageTwo);
-		ChangeXByNBrick changeXByNBrickTwo = new ChangeXByNBrick(sprite, xMovement);
-		BroadcastWaitBrick broadcastWaitBrickTwo = new BroadcastWaitBrick(sprite, messageOne);
+		BroadcastScript broadcastScriptMessageTwo = new BroadcastScript(messageTwo);
+		ChangeXByNBrick changeXByNBrickTwo = new ChangeXByNBrick(xMovement);
+		BroadcastWaitBrick broadcastWaitBrickTwo = new BroadcastWaitBrick(messageOne);
 		broadcastScriptMessageTwo.addBrick(changeXByNBrickTwo);
 		broadcastScriptMessageTwo.addBrick(broadcastWaitBrickTwo);
 		sprite.addScript(broadcastScriptMessageTwo);

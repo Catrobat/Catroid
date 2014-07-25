@@ -219,7 +219,7 @@ public class Sprite implements Serializable, Cloneable {
 
 	private SequenceAction createActionSequence(Script s) {
 		SequenceAction sequence = ExtendedActions.sequence();
-		s.run(sequence);
+		s.run(this, sequence);
 		return sequence;
 	}
 
@@ -309,12 +309,12 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public int getRequiredResources() {
-		int ressources = Brick.NO_RESOURCES;
+		int resources = Brick.NO_RESOURCES;
 
 		for (Script script : scriptList) {
-			ressources |= script.getRequiredResources();
+			resources |= script.getRequiredResources();
 		}
-		return ressources;
+		return resources;
 	}
 
 	@Override

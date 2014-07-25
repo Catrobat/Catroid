@@ -94,31 +94,31 @@ public class SensorTest extends InstrumentationTestCase {
 		createProject();
 
 		Formula formula = createFormulaWithSensor(Sensors.X_ACCELERATION);
-		ChangeSizeByNBrick xAccelerationBrick = new ChangeSizeByNBrick(firstSprite, formula);
+		ChangeSizeByNBrick xAccelerationBrick = new ChangeSizeByNBrick(formula);
 		startScript1.addBrick(xAccelerationBrick);
 
 		Formula formula1 = createFormulaWithSensor(Sensors.Y_ACCELERATION);
-		ChangeSizeByNBrick yAccelerationBrick = new ChangeSizeByNBrick(firstSprite, formula1);
+		ChangeSizeByNBrick yAccelerationBrick = new ChangeSizeByNBrick(formula1);
 		startScript1.addBrick(yAccelerationBrick);
 
 		Formula formula2 = createFormulaWithSensor(Sensors.Z_ACCELERATION);
-		ChangeSizeByNBrick zAccelerationBrick = new ChangeSizeByNBrick(firstSprite, formula2);
+		ChangeSizeByNBrick zAccelerationBrick = new ChangeSizeByNBrick(formula2);
 		startScript1.addBrick(zAccelerationBrick);
 
 		Formula formula3 = createFormulaWithSensor(Sensors.COMPASS_DIRECTION);
-		ChangeSizeByNBrick compassDirectionBrick = new ChangeSizeByNBrick(firstSprite, formula3);
+		ChangeSizeByNBrick compassDirectionBrick = new ChangeSizeByNBrick(formula3);
 		startScript1.addBrick(compassDirectionBrick);
 
 		Formula formula4 = createFormulaWithSensor(Sensors.X_INCLINATION);
-		ChangeSizeByNBrick xInclincationBrick = new ChangeSizeByNBrick(firstSprite, formula4);
+		ChangeSizeByNBrick xInclincationBrick = new ChangeSizeByNBrick(formula4);
 		startScript1.addBrick(xInclincationBrick);
 
 		Formula formula5 = createFormulaWithSensor(Sensors.Y_INCLINATION);
-		ChangeSizeByNBrick yInclinationBrick = new ChangeSizeByNBrick(firstSprite, formula5);
+		ChangeSizeByNBrick yInclinationBrick = new ChangeSizeByNBrick(formula5);
 		startScript1.addBrick(yInclinationBrick);
 
 		Formula formula6 = createFormulaWithSensor(Sensors.LOUDNESS);
-		ChangeSizeByNBrick loudnessBrick = new ChangeSizeByNBrick(firstSprite, formula6);
+		ChangeSizeByNBrick loudnessBrick = new ChangeSizeByNBrick(formula6);
 		startScript1.addBrick(loudnessBrick);
 
 		ProjectManager.getInstance().setProject(project);
@@ -185,29 +185,29 @@ public class SensorTest extends InstrumentationTestCase {
 
 		assertEquals(
 				"Unexpected sensor value for acceleration in x direction(= in portrait mode, from left to right side of screen surface, in m/s^2)",
-				expectedXAcceleration, formula.interpretDouble(firstSprite), delta);
+				expectedXAcceleration, formula.interpretDouble(), delta);
 
 		assertEquals(
 				"Unexpected sensor value for acceleration in y direction(= in portrait mode, from bottom to upper side of screen surface, in m/s^2)",
-				expectedYAcceleration, formula1.interpretDouble(firstSprite), delta);
+				expectedYAcceleration, formula1.interpretDouble(), delta);
 
 		assertEquals(
 				"Unexpected sensor value for acceleration in z direction(= in portrait mode, from screen surface orthogonally upwards away from screen, in m/s^2)",
-				expectedZAcceleration, formula2.interpretDouble(firstSprite), delta);
+				expectedZAcceleration, formula2.interpretDouble(), delta);
 
 		assertEquals(
 				"Unexpected sensor value for compass direction (= in portrait mode, deviation of screen-down-to-up-side (= positive y axis direction) from magnetic north in degrees, with z axis (pointing to sky) serving as rotation axis; positive direction = counter-clockwise turn seen from above; this is the angle between magnetic north and the device's y axis as it is displayed on a compass. For example, if the device's y axis points towards the magnetic north this value is 0, and if the device's y axis is pointing south this value is approaching 180 or -180. When the y axis is pointing west this value is 90 and when it is pointing east this value is -90)",
-				expectedCompassDirection, formula3.interpretDouble(firstSprite), delta);
+				expectedCompassDirection, formula3.interpretDouble(), delta);
 
 		assertEquals(
 				"Unexpected sensor value for x inclination (= in portrait mode, deviation from screen-left-to-right-side (= x axis direction) horizontal inclination (range: -180 to +180 degrees; flat = 0); increasing values of x inclination = right border of screen pulled towards user, left border away = positive side of x axis gets lifted up)",
-				expectedXInclination, formula4.interpretDouble(firstSprite), delta);
+				expectedXInclination, formula4.interpretDouble(), delta);
 
 		assertEquals(
 				"Unexpected sensor value for y inclination (= in portrait mode, deviation from screen-down-to-up-side (= y axis direction) horizontal inclination (range: -180 to +180 degrees; flat = 0); increasing values of y inclination = upper border of screen pulled towards user, lower border away = positive side of y axis gets lifted up)",
-				expectedYInclination, formula5.interpretDouble(firstSprite), delta);
+				expectedYInclination, formula5.interpretDouble(), delta);
 
-		assertEquals("Unexpected sensor value for loudness", expectedLoudness, formula6.interpretDouble(firstSprite),
+		assertEquals("Unexpected sensor value for loudness", expectedLoudness, formula6.interpretDouble(),
 				delta);
 
 		SensorHandler.stopSensorListeners();
@@ -247,8 +247,8 @@ public class SensorTest extends InstrumentationTestCase {
 	private void createProject() {
 		this.project = new Project(null, "testProject");
 		firstSprite = new Sprite("zwoosh");
-		startScript1 = new StartScript(firstSprite);
-		changeBrick = new ChangeSizeByNBrick(firstSprite, 10);
+		startScript1 = new StartScript();
+		changeBrick = new ChangeSizeByNBrick(10);
 		firstSprite.addScript(startScript1);
 		startScript1.addBrick(changeBrick);
 		project.addSprite(firstSprite);

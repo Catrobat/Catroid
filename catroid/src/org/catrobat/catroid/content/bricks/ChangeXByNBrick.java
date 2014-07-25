@@ -50,13 +50,11 @@ public class ChangeXByNBrick extends FormulaBrick implements OnClickListener {
 		addAllowedBrickField(BrickField.X_POSITION_CHANGE);
 	}
 
-	public ChangeXByNBrick(Sprite sprite, int xMovementValue) {
-		this.sprite = sprite;
+	public ChangeXByNBrick(int xMovementValue) {
 		initializeBrickFields(new Formula(xMovementValue));
 	}
 
-	public ChangeXByNBrick(Sprite sprite, Formula xMovement) {
-		this.sprite = sprite;
+	public ChangeXByNBrick(Formula xMovement) {
 		initializeBrickFields(xMovement);
 	}
 
@@ -105,7 +103,7 @@ public class ChangeXByNBrick extends FormulaBrick implements OnClickListener {
 		prototypeView = View.inflate(context, R.layout.brick_change_x, null);
 		TextView textXMovement = (TextView) prototypeView.findViewById(R.id.brick_change_x_prototype_text_view);
 		textXMovement.setText(String.valueOf(getFormulaWithBrickField(BrickField.X_POSITION_CHANGE)
-				.interpretInteger(sprite)));
+				.interpretInteger()));
 		return prototypeView;
 	}
 
@@ -140,7 +138,7 @@ public class ChangeXByNBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.changeXByN(sprite, getFormulaWithBrickField(BrickField.X_POSITION_CHANGE)));
 		return null;
 	}

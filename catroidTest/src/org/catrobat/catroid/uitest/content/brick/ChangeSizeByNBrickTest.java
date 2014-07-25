@@ -78,7 +78,7 @@ public class ChangeSizeByNBrickTest extends BaseActivityInstrumentationTestCase<
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_change_size_by_edit_text, SIZE_TO_CHANGE);
 
 		Formula currentSize = changeSizeByNBrick.getFormulaWithBrickField(Brick.BrickField.SIZE_CHANGE);
-		assertEquals("Wrong text in field", SIZE_TO_CHANGE, currentSize.interpretDouble(null));
+		assertEquals("Wrong text in field", SIZE_TO_CHANGE, currentSize.interpretDouble());
 		TextView textView = ((TextView) solo.getView(R.id.brick_change_size_by_edit_text));
 		assertEquals("Text not updated", SIZE_TO_CHANGE,
 				Double.parseDouble(textView.getText().toString().replace(',', '.')));
@@ -88,8 +88,8 @@ public class ChangeSizeByNBrickTest extends BaseActivityInstrumentationTestCase<
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		changeSizeByNBrick = new ChangeSizeByNBrick(sprite, 20);
+		Script script = new StartScript();
+		changeSizeByNBrick = new ChangeSizeByNBrick(20);
 		script.addBrick(changeSizeByNBrick);
 
 		sprite.addScript(script);

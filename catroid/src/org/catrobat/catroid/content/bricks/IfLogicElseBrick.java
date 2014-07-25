@@ -35,7 +35,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
 import java.util.ArrayList;
@@ -51,8 +50,7 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 
 	private transient IfLogicElseBrick copy;
 
-	public IfLogicElseBrick(Sprite sprite, IfLogicBeginBrick ifBeginBrick) {
-		this.sprite = sprite;
+	public IfLogicElseBrick(IfLogicBeginBrick ifBeginBrick) {
 		this.ifBeginBrick = ifBeginBrick;
 		ifBeginBrick.setIfElseBrick(this);
 	}
@@ -114,7 +112,7 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 
 	@Override
 	public Brick clone() {
-		return new IfLogicElseBrick(sprite, ifBeginBrick);
+		return new IfLogicElseBrick(ifBeginBrick);
 	}
 
 	@Override
@@ -187,14 +185,14 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
 		returnActionList.add(sequence);
 		return returnActionList;
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		//ifEndBrick and ifBeginBrick will be set in the copyBrickForSprite method of IfLogicEndBrick
 		IfLogicElseBrick copyBrick = (IfLogicElseBrick) clone(); //Using the clone method because of its flexibility if new fields are added
 		ifBeginBrick.setIfElseBrick(this);
@@ -202,7 +200,6 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 
 		copyBrick.ifBeginBrick = null;
 		copyBrick.ifEndBrick = null;
-		copyBrick.sprite = sprite;
 		this.copy = copyBrick;
 		return copyBrick;
 	}

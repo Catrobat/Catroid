@@ -50,13 +50,11 @@ public class SetGhostEffectBrick extends FormulaBrick implements OnClickListener
 		addAllowedBrickField(BrickField.TRANSPARENCY);
 	}
 
-	public SetGhostEffectBrick(Sprite sprite, double ghostEffectValue) {
-		this.sprite = sprite;
+	public SetGhostEffectBrick(double ghostEffectValue) {
 		initializeBrickFields(new Formula(ghostEffectValue));
 	}
 
-	public SetGhostEffectBrick(Sprite sprite, Formula transparency) {
-		this.sprite = sprite;
+	public SetGhostEffectBrick(Formula transparency) {
 		initializeBrickFields(transparency);
 	}
 
@@ -107,7 +105,7 @@ public class SetGhostEffectBrick extends FormulaBrick implements OnClickListener
 		TextView textSetGhostEffect = (TextView) prototypeView
 				.findViewById(R.id.brick_set_ghost_effect_to_prototype_text_view);
 		textSetGhostEffect.setText(String.valueOf(getFormulaWithBrickField(BrickField.TRANSPARENCY).interpretDouble(
-				sprite)));
+		)));
 		return prototypeView;
 	}
 
@@ -146,7 +144,7 @@ public class SetGhostEffectBrick extends FormulaBrick implements OnClickListener
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.setGhostEffect(sprite, getFormulaWithBrickField(BrickField.TRANSPARENCY)));
 		return null;
 	}

@@ -82,8 +82,8 @@ public class SetBrightnessBrickTest extends BaseActivityInstrumentationTestCase<
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		setBrightnessBrick = new SetBrightnessBrick(sprite, 30.5);
+		Script script = new StartScript();
+		setBrightnessBrick = new SetBrightnessBrick(30.5);
 		script.addBrick(setBrightnessBrick);
 
 		sprite.addScript(script);

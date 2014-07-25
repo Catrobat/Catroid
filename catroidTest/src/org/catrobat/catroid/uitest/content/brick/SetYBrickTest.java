@@ -81,8 +81,8 @@ public class SetYBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		setYBrick = new SetYBrick(sprite, 0);
+		Script script = new StartScript();
+		setYBrick = new SetYBrick(0);
 		script.addBrick(setYBrick);
 
 		sprite.addScript(script);

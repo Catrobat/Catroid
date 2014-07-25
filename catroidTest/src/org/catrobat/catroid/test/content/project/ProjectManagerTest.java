@@ -103,7 +103,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 				.getName());
 
 		// add script
-		Script startScript = new StartScript(sprite);
+		Script startScript = new StartScript();
 		projectManager.addScript(startScript);
 		projectManager.setCurrentScript(startScript);
 
@@ -130,13 +130,13 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 		// addScript
 		projectManager.setCurrentSprite(sprite2);
-		Script script2 = new StartScript(sprite2);
+		Script script2 = new StartScript();
 		projectManager.addScript(script2);
 		assertTrue("Script not in current Sprite", projectManager.getCurrentSprite().getScriptIndex(script2) != -1);
 
 		// addBrick
 		projectManager.setCurrentScript(script2);
-		SetLookBrick setLookBrick = new SetLookBrick(sprite2);
+		SetLookBrick setLookBrick = new SetLookBrick();
 		projectManager.getCurrentScript().addBrick(setLookBrick);
 		assertTrue("Brick not in current Script",
 				projectManager.getCurrentScript().getBrickList().contains(setLookBrick));
@@ -245,20 +245,20 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		Sprite secondSprite = new Sprite("dog");
 		Sprite thirdSprite = new Sprite("horse");
 		Sprite fourthSprite = new Sprite("pig");
-		testScript = new StartScript(firstSprite);
-		otherScript = new StartScript(secondSprite);
-		HideBrick hideBrick = new HideBrick(firstSprite);
-		ShowBrick showBrick = new ShowBrick(firstSprite);
-		SetLookBrick lookBrick = new SetLookBrick(firstSprite);
+		testScript = new StartScript();
+		otherScript = new StartScript();
+		HideBrick hideBrick = new HideBrick();
+		ShowBrick showBrick = new ShowBrick();
+		SetLookBrick lookBrick = new SetLookBrick();
 		File image = TestUtils.saveFileToProject(projectName, "image.png", org.catrobat.catroid.test.R.raw.icon,
 				getInstrumentation().getContext(), 0);
 		LookData lookData = new LookData();
 		lookData.setLookFilename(image.getName());
 		lookData.setLookName("name");
 		lookBrick.setLook(lookData);
-		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(secondSprite, size);
-		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
-		PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(size);
+		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick();
+		PlaceAtBrick placeAtBrick = new PlaceAtBrick(xPosition, yPosition);
 
 		// adding Bricks: ----------------
 		testScript.addBrick(hideBrick);

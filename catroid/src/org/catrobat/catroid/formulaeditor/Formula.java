@@ -91,23 +91,23 @@ public class Formula implements Serializable {
 	}
 
 	public boolean interpretBoolean(Sprite sprite) {
-		int result = interpretInteger(sprite);
+		int result = interpretInteger();
 
 		return result != 0 ? true : false;
 
 	}
 
-	public int interpretInteger(Sprite sprite) {
-		Double interpretedValue = formulaTree.interpretRecursive(sprite);
+	public int interpretInteger() {
+		Double interpretedValue = formulaTree.interpretRecursive();
 		return interpretedValue.intValue();
 	}
 
-	public double interpretDouble(Sprite sprite) {
-		return formulaTree.interpretRecursive(sprite);
+	public double interpretDouble() {
+		return formulaTree.interpretRecursive();
 	}
 
-	public float interpretFloat(Sprite sprite) {
-		return (float) interpretDouble(sprite);
+	public float interpretFloat() {
+		return (float) interpretDouble();
 	}
 
 	public void setRoot(FormulaElement formula) {

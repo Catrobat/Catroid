@@ -34,7 +34,7 @@ public class TurnRightAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		sprite.look.changeDirectionInUserInterfaceDimensionUnit(degrees.interpretFloat(sprite));
+		sprite.look.changeDirectionInUserInterfaceDimensionUnit(degrees.interpretFloat());
 	}
 
 	public void setSprite(Sprite sprite) {

@@ -189,7 +189,7 @@ public final class TestUtils {
 		project.setCatrobatLanguageVersion(catrobatLanguageVersion);
 
 		Sprite firstSprite = new Sprite("cat");
-		Script testScript = new StartScript(firstSprite);
+		Script testScript = new StartScript();
 		Brick testBrick = new HideBrick();
 		testScript.addBrick(testBrick);
 
@@ -205,33 +205,33 @@ public final class TestUtils {
 		Project project = new Project(null, CORRUPT_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("corruptReferences");
 
-		Script testScript = new StartScript(firstSprite);
+		Script testScript = new StartScript();
 
 		ArrayList<Brick> brickList = new ArrayList<Brick>();
 
-		IfLogicBeginBrick ifBeginBrick = new IfLogicBeginBrick(firstSprite, 0);
-		IfLogicElseBrick ifElseBrick = new IfLogicElseBrick(firstSprite, ifBeginBrick);
+		IfLogicBeginBrick ifBeginBrick = new IfLogicBeginBrick(0);
+		IfLogicElseBrick ifElseBrick = new IfLogicElseBrick(ifBeginBrick);
 		ifElseBrick.setIfBeginBrick(null);
 
-		IfLogicBeginBrick ifBeginBrickNested = new IfLogicBeginBrick(firstSprite, 0);
+		IfLogicBeginBrick ifBeginBrickNested = new IfLogicBeginBrick(0);
 		//reference shouldn't be null:
-		IfLogicElseBrick ifElseBrickNested = new IfLogicElseBrick(firstSprite, ifBeginBrickNested);
+		IfLogicElseBrick ifElseBrickNested = new IfLogicElseBrick(ifBeginBrickNested);
 		ifElseBrickNested.setIfBeginBrick(null);
 		//reference shouldn't be null + wrong ifElseBrickReference:
-		IfLogicEndBrick ifEndBrickNested = new IfLogicEndBrick(firstSprite, ifElseBrick, ifBeginBrickNested);
+		IfLogicEndBrick ifEndBrickNested = new IfLogicEndBrick(ifElseBrick, ifBeginBrickNested);
 		ifEndBrickNested.setIfBeginBrick(null);
 
 		//reference to wrong ifBegin and ifEnd-Bricks:
-		IfLogicEndBrick ifEndBrick = new IfLogicEndBrick(firstSprite, ifElseBrickNested, ifBeginBrickNested);
+		IfLogicEndBrick ifEndBrick = new IfLogicEndBrick(ifElseBrickNested, ifBeginBrickNested);
 
 		brickList.add(ifBeginBrick);
-		brickList.add(new ShowBrick(firstSprite));
+		brickList.add(new ShowBrick());
 		brickList.add(ifElseBrick);
-		brickList.add(new ComeToFrontBrick(firstSprite));
+		brickList.add(new ComeToFrontBrick());
 		brickList.add(ifBeginBrickNested);
-		brickList.add(new ComeToFrontBrick(firstSprite));
+		brickList.add(new ComeToFrontBrick());
 		brickList.add(ifElseBrickNested);
-		brickList.add(new ShowBrick(firstSprite));
+		brickList.add(new ShowBrick());
 		brickList.add(ifEndBrickNested);
 		brickList.add(ifEndBrick);
 

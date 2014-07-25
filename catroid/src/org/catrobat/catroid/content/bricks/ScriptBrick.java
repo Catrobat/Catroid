@@ -27,13 +27,12 @@ import android.view.View;
 import android.widget.BaseAdapter;
 
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
 
 public abstract class ScriptBrick extends BrickBaseType implements AllowedAfterDeadEndBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	public abstract Script initScript(Sprite sprite);
+	public abstract Script initScript();
 
 	@Override
 	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {

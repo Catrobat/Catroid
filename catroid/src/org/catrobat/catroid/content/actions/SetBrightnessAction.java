@@ -34,7 +34,7 @@ public class SetBrightnessAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		sprite.look.setBrightnessInUserInterfaceDimensionUnit(brightness.interpretFloat(sprite));
+		sprite.look.setBrightnessInUserInterfaceDimensionUnit(brightness.interpretFloat());
 	}
 
 	public void setSprite(Sprite sprite) {

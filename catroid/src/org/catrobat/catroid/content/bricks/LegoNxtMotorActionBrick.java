@@ -63,15 +63,13 @@ public class LegoNxtMotorActionBrick extends FormulaBrick implements OnClickList
 		addAllowedBrickField(BrickField.LEGO_NXT_SPEED);
 	}
 
-	public LegoNxtMotorActionBrick(Sprite sprite, Motor motor, int speedValue) {
-		this.sprite = sprite;
+	public LegoNxtMotorActionBrick(Motor motor, int speedValue) {
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
 		initializeBrickFields(new Formula(speedValue));
 	}
 
-	public LegoNxtMotorActionBrick(Sprite sprite, Motor motor, Formula speedFormula) {
-		this.sprite = sprite;
+	public LegoNxtMotorActionBrick(Motor motor, Formula speedFormula) {
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
 		initializeBrickFields(speedFormula);
@@ -98,7 +96,7 @@ public class LegoNxtMotorActionBrick extends FormulaBrick implements OnClickList
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.motor_action_speed_text_view);
-		textSpeed.setText(String.valueOf(getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED).interpretInteger(sprite)));
+		textSpeed.setText(String.valueOf(getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED).interpretInteger()));
 
 		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.lego_motor_action_spinner);
 		legoSpinner.setFocusableInTouchMode(false);
@@ -115,7 +113,7 @@ public class LegoNxtMotorActionBrick extends FormulaBrick implements OnClickList
 
 	@Override
 	public Brick clone() {
-		return new LegoNxtMotorActionBrick(getSprite(), motorEnum, getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED).clone());
+		return new LegoNxtMotorActionBrick(motorEnum, getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED).clone());
 	}
 
 	@Override
@@ -232,8 +230,8 @@ public class LegoNxtMotorActionBrick extends FormulaBrick implements OnClickList
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.legoNxtMotorAction(sprite, motor, motorEnum,
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.legoNxtMotorAction(motorEnum,
 				getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED)));
 		return null;
 	}

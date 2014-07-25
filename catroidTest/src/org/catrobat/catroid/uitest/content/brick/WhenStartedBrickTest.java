@@ -148,10 +148,10 @@ public class WhenStartedBrickTest extends BaseActivityInstrumentationTestCase<Ma
 
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new WhenScript(sprite);
-		script.addBrick(new PlaceAtBrick(sprite, 100, 100));
-		script.addBrick(new PlaceAtBrick(sprite, 100, 100));
-		script.addBrick(new PlaceAtBrick(sprite, 100, 100));
+		Script script = new WhenScript();
+		script.addBrick(new PlaceAtBrick(100, 100));
+		script.addBrick(new PlaceAtBrick(100, 100));
+		script.addBrick(new PlaceAtBrick(100, 100));
 		sprite.addScript(script);
 
 		project.addSprite(sprite);

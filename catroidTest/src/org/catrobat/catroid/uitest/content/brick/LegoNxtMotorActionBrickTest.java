@@ -103,9 +103,9 @@ public class LegoNxtMotorActionBrickTest extends BaseActivityInstrumentationTest
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
+		Script script = new StartScript();
 
-		motorBrick = new LegoNxtMotorActionBrick(sprite, LegoNxtMotorActionBrick.Motor.MOTOR_A, SET_SPEED_INITIALLY);
+		motorBrick = new LegoNxtMotorActionBrick(LegoNxtMotorActionBrick.Motor.MOTOR_A, SET_SPEED_INITIALLY);
 
 		script.addBrick(motorBrick);
 

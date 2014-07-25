@@ -53,13 +53,11 @@ public class LegoNxtPlayToneBrick extends FormulaBrick implements OnClickListene
 		addAllowedBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS);
 	}
 
-	public LegoNxtPlayToneBrick(Sprite sprite, int frequencyValue, int durationValue) {
-		this.sprite = sprite;
+	public LegoNxtPlayToneBrick(int frequencyValue, int durationValue) {
 		initializeBrickFields(new Formula(frequencyValue), new Formula(durationValue));
 	}
 
-	public LegoNxtPlayToneBrick(Sprite sprite, Formula frequencyFormula, Formula durationFormula) {
-		this.sprite = sprite;
+	public LegoNxtPlayToneBrick(Formula frequencyFormula, Formula durationFormula) {
 		initializeBrickFields(frequencyFormula, durationFormula);
 	}
 
@@ -80,10 +78,10 @@ public class LegoNxtPlayToneBrick extends FormulaBrick implements OnClickListene
 		prototypeView = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.nxt_tone_duration_text_view);
 		textDuration.setText(String.valueOf(getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS)
-				.interpretInteger(sprite)));
+				.interpretInteger()));
 		TextView textFreq = (TextView) prototypeView.findViewById(R.id.nxt_tone_freq_text_view);
 		textFreq.setText(String.valueOf(getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY)
-				.interpretInteger(sprite)));
+				.interpretInteger()));
 		return prototypeView;
 	}
 
@@ -188,8 +186,8 @@ public class LegoNxtPlayToneBrick extends FormulaBrick implements OnClickListene
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.legoNxtPlayTone(sprite,
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.legoNxtPlayTone(
 				getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY),
 				getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS)));
 		return null;

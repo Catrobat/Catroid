@@ -64,18 +64,15 @@ public class PointInDirectionBrick extends FormulaBrick implements View.OnClickL
 		addAllowedBrickField(BrickField.DEGREES);
 	}
 
-	public PointInDirectionBrick(Sprite sprite, Direction direction) {
-		this.sprite = sprite;
+	public PointInDirectionBrick(Direction direction) {
 		initializeBrickFields(new Formula(direction.getDegrees()));
 	}
 
-	public PointInDirectionBrick(Sprite sprite, Formula direction) {
-		this.sprite = sprite;
+	public PointInDirectionBrick(Formula direction) {
 		initializeBrickFields(direction);
 	}
 
-	public PointInDirectionBrick(Sprite sprite, double direction) {
-		this.sprite = sprite;
+	public PointInDirectionBrick(double direction) {
 		initializeBrickFields(new Formula(direction));
 	}
 
@@ -125,7 +122,7 @@ public class PointInDirectionBrick extends FormulaBrick implements View.OnClickL
 		prototypeView = View.inflate(context, R.layout.brick_point_in_direction, null);
 		TextView setAngleTextView = (TextView) prototypeView
 				.findViewById(R.id.brick_point_in_direction_prototype_text_view);
-		setAngleTextView.setText(String.valueOf(getFormulaWithBrickField(BrickField.DEGREES).interpretDouble(sprite)));
+		setAngleTextView.setText(String.valueOf(getFormulaWithBrickField(BrickField.DEGREES).interpretDouble()));
 		return prototypeView;
 	}
 
@@ -162,7 +159,7 @@ public class PointInDirectionBrick extends FormulaBrick implements View.OnClickL
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.pointInDirection(sprite, getFormulaWithBrickField(BrickField.DEGREES)));
 		return null;
 	}

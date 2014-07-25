@@ -161,8 +161,8 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 		Project project = new Project(getActivity(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("testSprite");
 		project.addSprite(sprite);
-		Brick brick = new DroneFlipBrick(sprite);
-		Script script = new WhenScript(sprite);
+		Brick brick = new DroneFlipBrick();
+		Script script = new WhenScript();
 
 		Brick preparedBrick = Mockito.spy(brick);
 		Mockito.when(preparedBrick.getRequiredResources()).thenReturn(0x10000);

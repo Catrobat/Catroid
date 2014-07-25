@@ -83,13 +83,13 @@ public class StorageHandlerTest extends AndroidTestCase {
 		Sprite secondSprite = new Sprite("second");
 		Sprite thirdSprite = new Sprite("third");
 		Sprite fourthSprite = new Sprite("fourth");
-		Script testScript = new StartScript(firstSprite);
-		Script otherScript = new StartScript(secondSprite);
-		HideBrick hideBrick = new HideBrick(firstSprite);
-		ShowBrick showBrick = new ShowBrick(firstSprite);
-		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(secondSprite, size);
-		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
-		PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);
+		Script testScript = new StartScript();
+		Script otherScript = new StartScript();
+		HideBrick hideBrick = new HideBrick();
+		ShowBrick showBrick = new ShowBrick();
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(size);
+		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick();
+		PlaceAtBrick placeAtBrick = new PlaceAtBrick(xPosition, yPosition);
 
 		testScript.addBrick(hideBrick);
 		testScript.addBrick(showBrick);
@@ -139,11 +139,11 @@ public class StorageHandlerTest extends AndroidTestCase {
 				.getFormulaWithBrickField(Brick.BrickField.SIZE);
 
 		assertEquals("Size was not deserialized right", size,
-				actualSize.interpretFloat(postSpriteList.get(1).getScript(0).getBrickList().get(2).getSprite()));
+				actualSize.interpretFloat());
 		assertEquals("XPosition was not deserialized right", xPosition,
-				actualXPosition.interpretInteger(postSpriteList.get(2).getScript(0).getBrickList().get(0).getSprite()));
+				actualXPosition.interpretInteger());
 		assertEquals("YPosition was not deserialized right", yPosition,
-				actualYPosition.interpretInteger(postSpriteList.get(2).getScript(0).getBrickList().get(0).getSprite()));
+				actualYPosition.interpretInteger());
 
 		assertFalse("paused should not be set in script", preSpriteList.get(1).getScript(0).isPaused());
 
@@ -213,13 +213,13 @@ public class StorageHandlerTest extends AndroidTestCase {
 		Sprite secondSprite = new Sprite("second");
 		Sprite thirdSprite = new Sprite("third");
 		Sprite fourthSprite = new Sprite("fourth");
-		Script testScript = new StartScript(firstSprite);
-		Script otherScript = new StartScript(secondSprite);
-		HideBrick hideBrick = new HideBrick(firstSprite);
-		ShowBrick showBrick = new ShowBrick(firstSprite);
-		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(secondSprite, size);
-		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
-		PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);
+		Script testScript = new StartScript();
+		Script otherScript = new StartScript();
+		HideBrick hideBrick = new HideBrick();
+		ShowBrick showBrick = new ShowBrick();
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(size);
+		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick();
+		PlaceAtBrick placeAtBrick = new PlaceAtBrick(xPosition, yPosition);
 
 		testScript.addBrick(hideBrick);
 		testScript.addBrick(showBrick);

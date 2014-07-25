@@ -192,11 +192,11 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		Project project = new Project(null, UiTestUtils.PROJECTNAME1);
 
 		Sprite spriteCat = new Sprite(backgroundName);
-		Script startScriptCat = new StartScript(spriteCat);
-		Script scriptTappedCat = new WhenScript(spriteCat);
-		Brick setXBrick = new SetXBrick(spriteCat, 50);
-		Brick setYBrick = new SetYBrick(spriteCat, 50);
-		Brick changeXBrick = new ChangeXByNBrick(spriteCat, 50);
+		Script startScriptCat = new StartScript();
+		Script scriptTappedCat = new WhenScript();
+		Brick setXBrick = new SetXBrick(50);
+		Brick setYBrick = new SetYBrick(50);
+		Brick changeXBrick = new ChangeXByNBrick(50);
 		startScriptCat.addBrick(setYBrick);
 		startScriptCat.addBrick(setXBrick);
 		scriptTappedCat.addBrick(changeXBrick);

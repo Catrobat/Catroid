@@ -50,13 +50,11 @@ public class SetVolumeToBrick extends FormulaBrick implements OnClickListener {
 		addAllowedBrickField(BrickField.VOLUME);
 	}
 
-	public SetVolumeToBrick(Sprite sprite, float volumeValue) {
-		this.sprite = sprite;
+	public SetVolumeToBrick(float volumeValue) {
 		initializeBrickFields(new Formula(volumeValue));
 	}
 
-	public SetVolumeToBrick(Sprite sprite, Formula volume) {
-		this.sprite = sprite;
+	public SetVolumeToBrick(Formula volume) {
 		initializeBrickFields(volume);
 	}
 
@@ -104,7 +102,7 @@ public class SetVolumeToBrick extends FormulaBrick implements OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_volume_to, null);
 		TextView textSetVolumeTo = (TextView) prototypeView.findViewById(R.id.brick_set_volume_to_prototype_text_view);
-		textSetVolumeTo.setText(String.valueOf(getFormulaWithBrickField(BrickField.VOLUME).interpretDouble(sprite)));
+		textSetVolumeTo.setText(String.valueOf(getFormulaWithBrickField(BrickField.VOLUME).interpretDouble()));
 		return prototypeView;
 	}
 
@@ -141,8 +139,8 @@ public class SetVolumeToBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setVolumeTo(sprite, getFormulaWithBrickField(BrickField.VOLUME)));
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.setVolumeTo(getFormulaWithBrickField(BrickField.VOLUME)));
 		return null;
 	}
 }

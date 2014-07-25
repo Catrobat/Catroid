@@ -63,15 +63,13 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickL
 		addAllowedBrickField(BrickField.LEGO_NXT_DEGREES);
 	}
 
-	public LegoNxtMotorTurnAngleBrick(Sprite sprite, Motor motor, int degrees) {
-		this.sprite = sprite;
+	public LegoNxtMotorTurnAngleBrick(Motor motor, int degrees) {
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
 		initializeBrickFields(new Formula(degrees));
 	}
 
-	public LegoNxtMotorTurnAngleBrick(Sprite sprite, Motor motor, Formula degreesFormula) {
-		this.sprite = sprite;
+	public LegoNxtMotorTurnAngleBrick(Motor motor, Formula degreesFormula) {
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
 		initializeBrickFields(degreesFormula);
@@ -98,7 +96,7 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickL
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 		TextView textX = (TextView) prototypeView.findViewById(R.id.motor_turn_angle_text_view);
-		textX.setText(String.valueOf(getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).interpretInteger(sprite)));
+		textX.setText(String.valueOf(getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).interpretInteger()));
 
 		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.lego_motor_turn_angle_spinner);
 		legoSpinner.setFocusableInTouchMode(false);
@@ -115,7 +113,7 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickL
 
 	@Override
 	public Brick clone() {
-		return new LegoNxtMotorTurnAngleBrick(getSprite(), motorEnum,
+		return new LegoNxtMotorTurnAngleBrick(motorEnum,
 				getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).clone());
 	}
 
@@ -229,8 +227,8 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickL
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.legoNxtMotorTurnAngle(sprite, motorEnum,
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.legoNxtMotorTurnAngle(motorEnum,
 				getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES)));
 		return null;
 	}

@@ -151,13 +151,13 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		Double setVariable1ToValue = Double.valueOf(3d);
 		Double setVariable2ToValue = Double.valueOf(8d);
 
-		SetVariableBrick setVariableBrick1 = new SetVariableBrick(secondSprite, new Formula(setVariable1ToValue),
+		SetVariableBrick setVariableBrick1 = new SetVariableBrick(new Formula(setVariable1ToValue),
 				ProjectManager.getInstance().getCurrentProject().getUserVariables().getUserVariable("p", secondSprite));
 
-		SetVariableBrick setVariableBrick2 = new SetVariableBrick(secondSprite, new Formula(setVariable2ToValue),
+		SetVariableBrick setVariableBrick2 = new SetVariableBrick(new Formula(setVariable2ToValue),
 				ProjectManager.getInstance().getCurrentProject().getUserVariables().getUserVariable("q", secondSprite));
 
-		Script startScript1 = new StartScript(secondSprite);
+		Script startScript1 = new StartScript();
 		secondSprite.addScript(startScript1);
 		startScript1.addBrick(setVariableBrick1);
 		startScript1.addBrick(setVariableBrick2);
@@ -207,25 +207,25 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		Double setVariable1ToValue = Double.valueOf(3d);
 		Double setVariable2ToValue = Double.valueOf(8d);
 
-		SetVariableBrick setVariableBrick1 = new SetVariableBrick(secondSprite, new Formula(setVariable1ToValue),
+		SetVariableBrick setVariableBrick1 = new SetVariableBrick(new Formula(setVariable1ToValue),
 				ProjectManager.getInstance().getCurrentProject().getUserVariables()
 						.getUserVariable(firstUserVariableName, secondSprite)
 		);
 
-		SetVariableBrick setVariableBrick2 = new SetVariableBrick(secondSprite, new Formula(setVariable2ToValue),
+		SetVariableBrick setVariableBrick2 = new SetVariableBrick(new Formula(setVariable2ToValue),
 				ProjectManager.getInstance().getCurrentProject().getUserVariables()
 						.getUserVariable(secondUserVariableName, secondSprite)
 		);
 
-		ChangeVariableBrick changeVariableBrick1 = new ChangeVariableBrick(secondSprite, new Formula(
+		ChangeVariableBrick changeVariableBrick1 = new ChangeVariableBrick(new Formula(
 				setVariable1ToValue), ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(firstUserVariableName, secondSprite));
 
-		ChangeVariableBrick changeVariableBrick2 = new ChangeVariableBrick(secondSprite, new Formula(
+		ChangeVariableBrick changeVariableBrick2 = new ChangeVariableBrick(new Formula(
 				setVariable2ToValue), ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(secondUserVariableName, secondSprite));
 
-		Script startScript1 = new StartScript(secondSprite);
+		Script startScript1 = new StartScript();
 		secondSprite.addScript(startScript1);
 		startScript1.addBrick(setVariableBrick1);
 		startScript1.addBrick(setVariableBrick2);
@@ -1428,11 +1428,11 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		Script scriptOriginal = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getScript(0);
 
-		scriptCopied.addBrick(new SetXBrick(currentSprite, 10));
+		scriptCopied.addBrick(new SetXBrick(10));
 		assertEquals("The number of Bricks differs!", scriptCopied.getBrickList().size() - 1, scriptOriginal
 				.getBrickList().size());
 
-		scriptOriginal.addBrick(new SetXBrick(currentSprite, 10));
+		scriptOriginal.addBrick(new SetXBrick(10));
 		assertEquals("The number of Bricks differs!", scriptCopied.getBrickList().size(), scriptOriginal.getBrickList()
 				.size());
 

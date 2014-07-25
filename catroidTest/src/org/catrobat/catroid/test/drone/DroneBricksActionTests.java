@@ -80,34 +80,34 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 	}
 
 	private void addActionToSequenceAndAct(BrickBaseType brick, float actDuration) {
-		brick.addActionToSequence(sequenceAction);
+		brick.addActionToSequence(sprite, sequenceAction);
 		Array<Action> actionArray = sequenceAction.getActions();
 		action = (TemporalAction) actionArray.get(0);
 		action.act(actDuration);
 	}
 
 	public void testFlip() {
-		addActionToSequenceAndAct(new DroneFlipBrick(sprite));
+		addActionToSequenceAndAct(new DroneFlipBrick());
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).doLeftFlip();
 	}
 
 	public void testPlayLedAnimation() {
-		addActionToSequenceAndAct(new DronePlayLedAnimationBrick(sprite));
+		addActionToSequenceAndAct(new DronePlayLedAnimationBrick());
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).playLedAnimation(5.0f, 3, 3);
 	}
 
 	public void testTakeOff() {
-		addActionToSequenceAndAct(new DroneTakeOffBrick(sprite));
+		addActionToSequenceAndAct(new DroneTakeOffBrick());
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).triggerTakeOff();
 	}
 
 	public void testLand() {
-		addActionToSequenceAndAct(new DroneLandBrick(sprite));
+		addActionToSequenceAndAct(new DroneLandBrick());
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).triggerTakeOff();
 	}
 
 	public void testMoveUp() {
-		DroneMoveUpBrick moveUpBrick = new DroneMoveUpBrick(sprite, durationInSeconds, powerInPercent);
+		DroneMoveUpBrick moveUpBrick = new DroneMoveUpBrick(durationInSeconds, powerInPercent);
 
 		addActionToSequenceAndAct(moveUpBrick, 2);
 
@@ -116,7 +116,7 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 	}
 
 	public void testMoveDown() {
-		DroneMoveDownBrick moveDownBrick = new DroneMoveDownBrick(sprite, durationInSeconds, powerInPercent);
+		DroneMoveDownBrick moveDownBrick = new DroneMoveDownBrick(durationInSeconds, powerInPercent);
 
 		addActionToSequenceAndAct(moveDownBrick, 2);
 
@@ -125,7 +125,7 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 	}
 
 	public void testMoveLeft() {
-		DroneMoveLeftBrick moveLeftBrick = new DroneMoveLeftBrick(sprite, durationInSeconds, powerInPercent);
+		DroneMoveLeftBrick moveLeftBrick = new DroneMoveLeftBrick(durationInSeconds, powerInPercent);
 
 		addActionToSequenceAndAct(moveLeftBrick, 2);
 
@@ -134,7 +134,7 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 	}
 
 	public void testMoveRight() {
-		DroneMoveRightBrick moveRightBrick = new DroneMoveRightBrick(sprite, durationInSeconds, powerInPercent);
+		DroneMoveRightBrick moveRightBrick = new DroneMoveRightBrick(durationInSeconds, powerInPercent);
 
 		addActionToSequenceAndAct(moveRightBrick, 2);
 
@@ -143,7 +143,7 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 	}
 
 	public void testMoveForward() {
-		DroneMoveForwardBrick moveForwardBrick = new DroneMoveForwardBrick(sprite, durationInSeconds, powerInPercent);
+		DroneMoveForwardBrick moveForwardBrick = new DroneMoveForwardBrick(durationInSeconds, powerInPercent);
 
 		addActionToSequenceAndAct(moveForwardBrick, 2);
 
@@ -152,7 +152,7 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 	}
 
 	public void testMoveBackward() {
-		DroneMoveBackwardBrick moveBackwardBrick = new DroneMoveBackwardBrick(sprite, durationInSeconds, powerInPercent);
+		DroneMoveBackwardBrick moveBackwardBrick = new DroneMoveBackwardBrick(durationInSeconds, powerInPercent);
 
 		addActionToSequenceAndAct(moveBackwardBrick, 2);
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).moveBackward(0.2f);
@@ -160,7 +160,7 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 	}
 
 	public void testTurnLeft() {
-		DroneTurnLeftBrick turnLeftBrick = new DroneTurnLeftBrick(sprite, durationInSeconds, powerInPercent);
+		DroneTurnLeftBrick turnLeftBrick = new DroneTurnLeftBrick(durationInSeconds, powerInPercent);
 
 		addActionToSequenceAndAct(turnLeftBrick, 2);
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).turnLeft(0.2f);
@@ -168,7 +168,7 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 	}
 
 	public void testTurnRight() {
-		DroneTurnRightBrick turnRightBrick = new DroneTurnRightBrick(sprite, durationInSeconds, powerInPercent);
+		DroneTurnRightBrick turnRightBrick = new DroneTurnRightBrick(durationInSeconds, powerInPercent);
 
 		addActionToSequenceAndAct(turnRightBrick, 2);
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).turnRight(0.2f);

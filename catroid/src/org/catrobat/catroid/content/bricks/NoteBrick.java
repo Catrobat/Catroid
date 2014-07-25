@@ -37,7 +37,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
@@ -51,23 +50,17 @@ public class NoteBrick extends BrickBaseType {
 
 	private transient View prototypeView;
 
-	public NoteBrick(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
 	public NoteBrick() {
 
 	}
 
-	public NoteBrick(Sprite sprite, String note) {
-		this.sprite = sprite;
+	public NoteBrick(String note) {
 		this.note = note;
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		NoteBrick copyBrick = (NoteBrick) clone();
-		copyBrick.sprite = sprite;
 		return copyBrick;
 	}
 
@@ -192,11 +185,11 @@ public class NoteBrick extends BrickBaseType {
 
 	@Override
 	public Brick clone() {
-		return new NoteBrick(this.sprite, this.note);
+		return new NoteBrick(this.note);
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		return null;
 	}
 }

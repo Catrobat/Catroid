@@ -397,17 +397,17 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
+		Script script = new StartScript();
 
-		RepeatBrick repeatBrick = new RepeatBrick(sprite, 3);
-		endBrick = new LoopEndBrick(sprite, repeatBrick);
+		RepeatBrick repeatBrick = new RepeatBrick(3);
+		endBrick = new LoopEndBrick(repeatBrick);
 
 		script.addBrick(repeatBrick);
-		script.addBrick(new ChangeYByNBrick(sprite, -10));
+		script.addBrick(new ChangeYByNBrick(-10));
 		script.addBrick(endBrick);
 
 		sprite.addScript(script);
-		sprite.addScript(new StartScript(sprite));
+		sprite.addScript(new StartScript());
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);

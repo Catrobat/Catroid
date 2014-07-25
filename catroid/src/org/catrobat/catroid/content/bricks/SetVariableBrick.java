@@ -42,7 +42,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -64,14 +63,12 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 		addAllowedBrickField(BrickField.VARIABLE);
 	}
 
-	public SetVariableBrick(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
-		this.sprite = sprite;
+	public SetVariableBrick(Formula variableFormula, UserVariable userVariable) {
 		this.userVariable = userVariable;
 		initializeBrickFields(variableFormula);
 	}
 
-	public SetVariableBrick(Sprite sprite, double value) {
-		this.sprite = sprite;
+	public SetVariableBrick(double value) {
 		this.userVariable = null;
 		initializeBrickFields(new Formula(value));
 	}
@@ -87,8 +84,8 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setVariable(sprite, getFormulaWithBrickField(BrickField.VARIABLE),
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.setVariable(getFormulaWithBrickField(BrickField.VARIABLE),
 				userVariable));
 		return null;
 	}
@@ -125,7 +122,7 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.set_variable_spinner);
 		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.createUserVariableAdapter(context, sprite);
+				.createUserVariableAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				userVariableAdapter);
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
@@ -188,7 +185,7 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 		variableSpinner.setFocusableInTouchMode(false);
 		variableSpinner.setFocusable(false);
 		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.createUserVariableAdapter(context, sprite);
+				.createUserVariableAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				userVariableAdapter);
@@ -198,7 +195,7 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 		setSpinnerSelection(variableSpinner, null);
 
 		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_set_variable_prototype_view);
-		textSetVariable.setText(String.valueOf(getFormulaWithBrickField(BrickField.VARIABLE).interpretDouble(sprite)));
+		textSetVariable.setText(String.valueOf(getFormulaWithBrickField(BrickField.VARIABLE).interpretDouble()));
 
 		return prototypeView;
 	}
@@ -232,7 +229,7 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 
 	@Override
 	public Brick clone() {
-		SetVariableBrick clonedBrick = new SetVariableBrick(getSprite(), getFormulaWithBrickField(BrickField.VARIABLE)
+		SetVariableBrick clonedBrick = new SetVariableBrick(getFormulaWithBrickField(BrickField.VARIABLE)
 				.clone(), userVariable);
 		return clonedBrick;
 	}
@@ -246,15 +243,14 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite cloneSprite) {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		if (!currentProject.getSpriteList().contains(this.sprite)) {
-			throw new RuntimeException("this is not the current project");
+		if (currentProject == null) {
+			throw new RuntimeException("The current project must be set before cloning it");
 		}
 
 		SetVariableBrick copyBrick = (SetVariableBrick) clone();
-		copyBrick.sprite = sprite;
-		copyBrick.userVariable = currentProject.getUserVariables().getUserVariable(userVariable.getName(), sprite);
+		copyBrick.userVariable = currentProject.getUserVariables().getUserVariable(userVariable.getName(), cloneSprite);
 		return copyBrick;
 	}
 

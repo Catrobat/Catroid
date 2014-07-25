@@ -46,17 +46,12 @@ public class WhenScript extends Script {
 	private transient int position;
 
 	public WhenScript() {
-
-	}
-
-	public WhenScript(Sprite sprite) {
-		super(sprite);
+		super();
 		this.position = 0;
 		this.action = TAPPED;
 	}
 
-	public WhenScript(Sprite sprite, WhenBrick brick) {
-		this(sprite);
+	public WhenScript(WhenBrick brick) {
 		this.brick = brick;
 	}
 
@@ -82,21 +77,21 @@ public class WhenScript extends Script {
 	@Override
 	public ScriptBrick getScriptBrick() {
 		if (brick == null) {
-			brick = new WhenBrick(object, this);
+			brick = new WhenBrick(this);
 		}
 
 		return brick;
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
-		WhenScript cloneScript = new WhenScript(copySprite);
+	public Script copyScriptForSprite(Sprite sprite) {
+		WhenScript cloneScript = new WhenScript();
 		ArrayList<Brick> cloneBrickList = cloneScript.getBrickList();
 
 		cloneScript.action = getAction();
 
 		for (Brick brick : getBrickList()) {
-			Brick copiedBrick = brick.copyBrickForSprite(copySprite, cloneScript);
+			Brick copiedBrick = brick.copyBrickForSprite(sprite);
 			if (copiedBrick instanceof IfLogicEndBrick) {
 				setIfBrickReferences((IfLogicEndBrick) copiedBrick, (IfLogicEndBrick) brick);
 			} else if (copiedBrick instanceof LoopEndBrick) {

@@ -144,8 +144,8 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 
 		Project project = new Project(null, UiTestUtils.PROJECTNAME1);
 		cat = new Sprite("cat");
-		StartScript startScriptCat = new StartScript(cat);
-		SetLookBrick setLookCat = new SetLookBrick(cat);
+		StartScript startScriptCat = new StartScript();
+		SetLookBrick setLookCat = new SetLookBrick();
 
 		LookData lookDataCat = new LookData();
 		lookDataCat.setLookName(catFilename);
@@ -155,17 +155,17 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 		startScriptCat.addBrick(setLookCat);
 		cat.addScript(startScriptCat);
 
-		WhenScript whenScriptCat = new WhenScript(cat);
-		PlaceAtBrick placeAtCat = new PlaceAtBrick(cat, catXPosition, catYPosition);
+		WhenScript whenScriptCat = new WhenScript();
+		PlaceAtBrick placeAtCat = new PlaceAtBrick(catXPosition, catYPosition);
 		whenScriptCat.addBrick(placeAtCat);
 		cat.addScript(whenScriptCat);
 
 		project.addSprite(cat);
 
 		fish = new Sprite("fish");
-		StartScript startScriptFish = new StartScript(fish);
-		SetLookBrick setLookFish = new SetLookBrick(fish);
-		setGhostEffectBrick = new SetGhostEffectBrick(fish, 0.0);
+		StartScript startScriptFish = new StartScript();
+		SetLookBrick setLookFish = new SetLookBrick();
+		setGhostEffectBrick = new SetGhostEffectBrick(0.0);
 
 		LookData lookDataFish = new LookData();
 		lookDataFish.setLookName(fishFilename);
@@ -176,8 +176,8 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 		startScriptFish.addBrick(setGhostEffectBrick);
 		fish.addScript(startScriptFish);
 
-		WhenScript whenScriptFish = new WhenScript(fish);
-		PlaceAtBrick placeAtFish = new PlaceAtBrick(fish, fishXPosition, fishYPosition);
+		WhenScript whenScriptFish = new WhenScript();
+		PlaceAtBrick placeAtFish = new PlaceAtBrick(fishXPosition, fishYPosition);
 		whenScriptFish.addBrick(placeAtFish);
 		fish.addScript(whenScriptFish);
 

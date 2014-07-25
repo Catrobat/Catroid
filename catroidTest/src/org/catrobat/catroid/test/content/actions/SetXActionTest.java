@@ -41,7 +41,7 @@ public class SetXActionTest extends AndroidTestCase {
 		SetXAction action = ExtendedActions.setX(sprite, xPosition);
 		action.act(1.0f);
 
-		assertEquals("Incorrect sprite x position after SetXBrick executed", xPosition.interpretFloat(sprite),
+		assertEquals("Incorrect sprite x position after SetXBrick executed", xPosition.interpretFloat(),
 				sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 

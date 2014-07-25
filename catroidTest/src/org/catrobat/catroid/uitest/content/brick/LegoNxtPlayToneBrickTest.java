@@ -88,10 +88,10 @@ public class LegoNxtPlayToneBrickTest extends BaseActivityInstrumentationTestCas
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
+		Script script = new StartScript();
 
 		int setDurationInitially = 1000;
-		playToneBrick = new LegoNxtPlayToneBrick(sprite, SET_FREQUENCY_INITIALLY * 100, setDurationInitially);
+		playToneBrick = new LegoNxtPlayToneBrick(SET_FREQUENCY_INITIALLY * 100, setDurationInitially);
 
 		script.addBrick(playToneBrick);
 		sprite.addScript(script);

@@ -80,10 +80,10 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 	private void createProject(String projectName) throws InterruptedException {
 		Project project = new Project(null, projectName);
 		Sprite firstSprite = new Sprite("nom nom nom");
-		Script startScript = new StartScript(firstSprite);
-		Brick changeBrick = new ChangeSizeByNBrick(firstSprite, 0);
+		Script startScript = new StartScript();
+		Brick changeBrick = new ChangeSizeByNBrick(0);
 		Formula longFormula = createVeryLongFormula();
-		WaitBrick waitBrick = new WaitBrick(firstSprite, longFormula);
+		WaitBrick waitBrick = new WaitBrick(longFormula);
 		firstSprite.addScript(startScript);
 		startScript.addBrick(changeBrick);
 		startScript.addBrick(waitBrick);

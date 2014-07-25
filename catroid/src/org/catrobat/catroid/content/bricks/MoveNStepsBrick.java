@@ -53,13 +53,11 @@ public class MoveNStepsBrick extends FormulaBrick implements OnClickListener {
 		addAllowedBrickField(BrickField.STEPS);
 	}
 
-	public MoveNStepsBrick(Sprite sprite, double stepsValue) {
-		this.sprite = sprite;
+	public MoveNStepsBrick(double stepsValue) {
 		initializeBrickFields(new Formula(stepsValue));
 	}
 
-	public MoveNStepsBrick(Sprite sprite, Formula steps) {
-		this.sprite = sprite;
+	public MoveNStepsBrick(Formula steps) {
 		initializeBrickFields(steps);
 	}
 
@@ -104,7 +102,7 @@ public class MoveNStepsBrick extends FormulaBrick implements OnClickListener {
 			times.setText(view.getResources().getQuantityString(
 					R.plurals.brick_move_n_step_plural,
 					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(
-							sprite))
+					))
 			));
 		} else {
 
@@ -125,10 +123,10 @@ public class MoveNStepsBrick extends FormulaBrick implements OnClickListener {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		prototypeView = inflater.inflate(R.layout.brick_move_n_steps, null);
 		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_prototype_text_view);
-		textSteps.setText(String.valueOf(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(sprite)));
+		textSteps.setText(String.valueOf(getFormulaWithBrickField(BrickField.STEPS).interpretDouble()));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_step_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
-				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(sprite))));
+				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble())));
 		return prototypeView;
 	}
 
@@ -165,7 +163,7 @@ public class MoveNStepsBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.moveNSteps(sprite, getFormulaWithBrickField(BrickField.STEPS)));
 		return null;
 	}

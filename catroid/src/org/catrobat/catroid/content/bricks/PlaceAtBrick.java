@@ -51,13 +51,11 @@ public class PlaceAtBrick extends FormulaBrick implements OnClickListener {
 		addAllowedBrickField(BrickField.Y_POSITION);
 	}
 
-	public PlaceAtBrick(Sprite sprite, int xPositionValue, int yPositionValue) {
-		this.sprite = sprite;
+	public PlaceAtBrick(int xPositionValue, int yPositionValue) {
 		initializeBrickFields(new Formula(xPositionValue), new Formula(yPositionValue));
 	}
 
-	public PlaceAtBrick(Sprite sprite, Formula xPosition, Formula yPosition) {
-		this.sprite = sprite;
+	public PlaceAtBrick(Formula xPosition, Formula yPosition) {
 		initializeBrickFields(xPosition, yPosition);
 	}
 
@@ -124,9 +122,9 @@ public class PlaceAtBrick extends FormulaBrick implements OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_place_at, null);
 		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_place_at_prototype_text_view_x);
-		textX.setText(String.valueOf(getFormulaWithBrickField(BrickField.X_POSITION).interpretInteger(sprite)));
+		textX.setText(String.valueOf(getFormulaWithBrickField(BrickField.X_POSITION).interpretInteger()));
 		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_place_at_prototype_text_view_y);
-		textY.setText(String.valueOf(getFormulaWithBrickField(BrickField.Y_POSITION).interpretInteger(sprite)));
+		textY.setText(String.valueOf(getFormulaWithBrickField(BrickField.Y_POSITION).interpretInteger()));
 		return prototypeView;
 	}
 
@@ -176,7 +174,7 @@ public class PlaceAtBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.placeAt(sprite, getFormulaWithBrickField(BrickField.X_POSITION),
 				getFormulaWithBrickField(BrickField.Y_POSITION)));
 		return null;

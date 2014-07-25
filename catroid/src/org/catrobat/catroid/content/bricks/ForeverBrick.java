@@ -34,7 +34,6 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
@@ -50,10 +49,6 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 
 	private transient LoopBeginBrick copy;
 
-	public ForeverBrick(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
 	public ForeverBrick() {
 
 	}
@@ -65,7 +60,7 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 
 	@Override
 	public Brick clone() {
-		return new ForeverBrick(sprite);
+		return new ForeverBrick();
 	}
 
 	@Override
@@ -120,9 +115,9 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		SequenceAction foreverSequence = ExtendedActions.sequence();
-		Action action = ExtendedActions.forever(sprite, foreverSequence);
+		Action action = ExtendedActions.forever(foreverSequence);
 		sequence.addAction(action);
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
 		returnActionList.add(foreverSequence);
@@ -130,10 +125,9 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		//loopEndBrick will be set in the LoopEndBrick's copyBrickForSprite method
 		ForeverBrick copyBrick = (ForeverBrick) clone();
-		copyBrick.sprite = sprite;
 		copy = copyBrick;
 		return copyBrick;
 	}
@@ -170,7 +164,7 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 
 	@Override
 	public void initialize() {
-		loopEndBrick = new LoopEndlessBrick(sprite, this);
+		loopEndBrick = new LoopEndlessBrick(this);
 	}
 
 	@Override

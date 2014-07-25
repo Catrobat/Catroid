@@ -24,25 +24,19 @@ package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 public class WaitAction extends TemporalAction {
 
-	private Sprite sprite;
 	private Formula duration;
 
 	@Override
 	protected void begin() {
-		super.setDuration(duration.interpretFloat(sprite));
+		super.setDuration(duration.interpretFloat());
 	}
 
 	public void setDelay(Formula delay) {
 		this.duration = delay;
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
 	}
 
 	@Override

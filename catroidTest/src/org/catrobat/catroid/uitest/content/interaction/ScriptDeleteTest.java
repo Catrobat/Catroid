@@ -126,12 +126,12 @@ public class ScriptDeleteTest extends BaseActivityInstrumentationTestCase<MainMe
 		Project project = new Project(null, projectName);
 		Sprite firstSprite = new Sprite("cat");
 
-		Script testScript = new StartScript(firstSprite);
+		Script testScript = new StartScript();
 
 		brickListToCheck = new ArrayList<Brick>();
-		brickListToCheck.add(new HideBrick(firstSprite));
-		brickListToCheck.add(new ShowBrick(firstSprite));
-		brickListToCheck.add(new SetSizeToBrick(firstSprite, size));
+		brickListToCheck.add(new HideBrick());
+		brickListToCheck.add(new ShowBrick());
+		brickListToCheck.add(new SetSizeToBrick(size));
 
 		for (Brick brick : brickListToCheck) {
 			testScript.addBrick(brick);

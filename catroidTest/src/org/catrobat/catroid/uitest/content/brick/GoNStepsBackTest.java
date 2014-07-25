@@ -81,7 +81,7 @@ public class GoNStepsBackTest extends BaseActivityInstrumentationTestCase<Script
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_go_back_edit_text, STEPS_TO_GO_BACK);
 
 		assertEquals("Wrong text in field.", STEPS_TO_GO_BACK,
-				(int) goNStepsBackBrick.getFormulaWithBrickField(Brick.BrickField.STEPS).interpretDouble(null));
+				(int) goNStepsBackBrick.getFormulaWithBrickField(Brick.BrickField.STEPS).interpretDouble());
 		assertEquals(
 				"Value in Brick is not updated.",
 				(double) STEPS_TO_GO_BACK,
@@ -110,8 +110,8 @@ public class GoNStepsBackTest extends BaseActivityInstrumentationTestCase<Script
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		goNStepsBackBrick = new GoNStepsBackBrick(sprite, 0);
+		Script script = new StartScript();
+		goNStepsBackBrick = new GoNStepsBackBrick(0);
 		script.addBrick(goNStepsBackBrick);
 
 		sprite.addScript(script);

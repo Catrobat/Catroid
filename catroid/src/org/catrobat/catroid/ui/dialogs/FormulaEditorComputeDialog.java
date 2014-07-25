@@ -99,7 +99,7 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 				}
 			});
 		} else {
-			floatInterpretationResult = formulaToCompute.interpretFloat(sprite);
+			floatInterpretationResult = formulaToCompute.interpretFloat();
 			computeTextView.post(new Runnable() {
 				@Override
 				public void run() {

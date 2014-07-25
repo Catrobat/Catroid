@@ -140,11 +140,11 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 	private void createProject () {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script startScript = new StartScript(sprite);
-		Script tappedScript = new WhenScript(sprite);
+		Script startScript = new StartScript();
+		Script tappedScript = new WhenScript();
 
-		vibrationBrick5Seconds = new VibrationBrick(sprite, 5000);
-		vibrationBrick15Seconds = new VibrationBrick(sprite, 15000);
+		vibrationBrick5Seconds = new VibrationBrick(5000);
+		vibrationBrick15Seconds = new VibrationBrick(15000);
 
 		sprite.addScript(startScript);
 		startScript.addBrick(vibrationBrick5Seconds);

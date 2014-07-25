@@ -49,9 +49,9 @@ public class GlideToActionTest extends AndroidTestCase {
 			currentTimeDelta = System.currentTimeMillis() - currentTimeDelta;
 		} while (!action.act(currentTimeDelta));
 
-		assertEquals("Incorrect sprite x position after GlideToBrick executed", xPosition.interpretFloat(sprite),
+		assertEquals("Incorrect sprite x position after GlideToBrick executed", xPosition.interpretFloat(),
 				sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Incorrect sprite y position after GlideToBrick executed", yPosition.interpretFloat(sprite),
+		assertEquals("Incorrect sprite y position after GlideToBrick executed", yPosition.interpretFloat(),
 				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
@@ -107,9 +107,9 @@ public class GlideToActionTest extends AndroidTestCase {
 			}
 		} while (!action.act(currentTimeDelta));
 
-		assertEquals("Incorrect sprite x position after GlideToBrick executed", xPosition.interpretFloat(sprite),
+		assertEquals("Incorrect sprite x position after GlideToBrick executed", xPosition.interpretFloat(),
 				sprite.look.getXInUserInterfaceDimensionUnit());
-		assertEquals("Incorrect sprite y position after GlideToBrick executed", yPosition.interpretFloat(sprite),
+		assertEquals("Incorrect sprite y position after GlideToBrick executed", yPosition.interpretFloat(),
 				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 }

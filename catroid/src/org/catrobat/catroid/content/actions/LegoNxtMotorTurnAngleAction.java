@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick.Motor;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.legonxt.LegoNXT;
@@ -34,12 +33,11 @@ public class LegoNxtMotorTurnAngleAction extends TemporalAction {
 	private static final int NO_DELAY = 0;
 	private Motor motorEnum;
 	private Formula degrees;
-	private Sprite sprite;
 
 	@Override
 	protected void update(float percent) {
 
-		int degreesValue = degrees.interpretInteger(sprite);
+		int degreesValue = degrees.interpretInteger();
 
 		int tmpAngle = degreesValue;
 		int direction = 1;
@@ -70,10 +68,6 @@ public class LegoNxtMotorTurnAngleAction extends TemporalAction {
 
 	public void setDegrees(Formula degrees) {
 		this.degrees = degrees;
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
 	}
 
 }

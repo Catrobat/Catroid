@@ -83,8 +83,8 @@ public class ChangeGhostEffectByNBrickTest extends BaseActivityInstrumentationTe
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		changeGhostEffectByNBrick = new ChangeGhostEffectByNBrick(sprite, 30.5);
+		Script script = new StartScript();
+		changeGhostEffectByNBrick = new ChangeGhostEffectByNBrick(30.5);
 		script.addBrick(changeGhostEffectByNBrick);
 
 		sprite.addScript(script);

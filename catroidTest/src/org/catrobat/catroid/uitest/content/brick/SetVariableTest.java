@@ -181,8 +181,8 @@ public class SetVariableTest extends BaseActivityInstrumentationTestCase<MainMen
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		setVariableBrick = new SetVariableBrick(sprite, 10);
+		Script script = new StartScript();
+		setVariableBrick = new SetVariableBrick(10);
 		script.addBrick(setVariableBrick);
 
 		sprite.addScript(script);

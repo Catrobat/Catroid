@@ -81,8 +81,8 @@ public class ChangeVolumeByNBrickTest extends BaseActivityInstrumentationTestCas
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		changeVolumeByNBrick = new ChangeVolumeByNBrick(sprite, 100);
+		Script script = new StartScript();
+		changeVolumeByNBrick = new ChangeVolumeByNBrick(100);
 		script.addBrick(changeVolumeByNBrick);
 
 		sprite.addScript(script);

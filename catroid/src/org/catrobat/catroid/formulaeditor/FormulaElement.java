@@ -131,29 +131,29 @@ public class FormulaElement implements Serializable {
 		return root;
 	}
 
-	public Double interpretRecursive(Sprite sprite) {
+	public Double interpretRecursive() {
 
 		Double returnValue = 0d;
 
 		switch (type) {
 			case BRACKET:
-				returnValue = rightChild.interpretRecursive(sprite);
+				returnValue = rightChild.interpretRecursive();
 				break;
 			case NUMBER:
 				returnValue = Double.parseDouble(value);
 				break;
 			case OPERATOR:
 				Operators operator = Operators.getOperatorByValue(value);
-				returnValue = interpretOperator(operator, sprite);
+				returnValue = interpretOperator(operator);
 				break;
 			case FUNCTION:
 				Functions function = Functions.getFunctionByValue(value);
-				returnValue = interpretFunction(function, sprite);
+				returnValue = interpretFunction(function);
 				break;
 			case SENSOR:
 				Sensors sensor = Sensors.getSensorByValue(value);
 				if (sensor.isObjectSensor) {
-					returnValue = interpretObjectSensor(sensor, sprite);
+					returnValue = interpretObjectSensor(sensor);
 				} else {
 					returnValue = SensorHandler.getSensorValue(sensor);
 				}
@@ -161,7 +161,8 @@ public class FormulaElement implements Serializable {
 			case USER_VARIABLE:
 				UserVariablesContainer userVariables = ProjectManager.getInstance().getCurrentProject()
 						.getUserVariables();
-				UserVariable userVariable = userVariables.getUserVariable(value, sprite);
+				UserVariable userVariable = userVariables.getUserVariable(value, ProjectManager.getInstance()
+						.getCurrentSprite());
 				if (userVariable == null) {
 					returnValue = NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE;
 					break;
@@ -177,12 +178,12 @@ public class FormulaElement implements Serializable {
 
 	}
 
-	private Double interpretFunction(Functions function, Sprite sprite) {
+	private Double interpretFunction(Functions function) {
 		Double left = null;
 		Double right = null;
 
 		if (leftChild != null) {
-			left = leftChild.interpretRecursive(sprite);
+			left = leftChild.interpretRecursive();
 		}
 
 		switch (function) {
@@ -205,7 +206,7 @@ public class FormulaElement implements Serializable {
 				return java.lang.Math.sqrt(left);
 
 			case RAND:
-				right = rightChild.interpretRecursive(sprite);
+				right = rightChild.interpretRecursive();
 				Double minimum = java.lang.Math.min(left, right);
 				Double maximum = java.lang.Math.max(left, right);
 
@@ -237,7 +238,7 @@ public class FormulaElement implements Serializable {
 
 			case MOD:
 				double dividend = left;
-				double divisor = rightChild.interpretRecursive(sprite);
+				double divisor = rightChild.interpretRecursive();
 
 				if (dividend == 0 || divisor == 0) {
 					return dividend;
@@ -264,10 +265,10 @@ public class FormulaElement implements Serializable {
 			case EXP:
 				return java.lang.Math.exp(left);
 			case MAX:
-				right = rightChild.interpretRecursive(sprite);
+				right = rightChild.interpretRecursive();
 				return java.lang.Math.max(left, right);
 			case MIN:
-				right = rightChild.interpretRecursive(sprite);
+				right = rightChild.interpretRecursive();
 				return java.lang.Math.min(left, right);
 
 			case TRUE:
@@ -281,11 +282,11 @@ public class FormulaElement implements Serializable {
 		return 0d;
 	}
 
-	private Double interpretOperator(Operators operator, Sprite sprite) {
+	private Double interpretOperator(Operators operator) {
 
 		if (leftChild != null) {// binary operator
-			Double left = leftChild.interpretRecursive(sprite);
-			Double right = rightChild.interpretRecursive(sprite);
+			Double left = leftChild.interpretRecursive();
+			Double right = rightChild.interpretRecursive();
 
 			switch (operator) {
 				case PLUS:
@@ -317,7 +318,7 @@ public class FormulaElement implements Serializable {
 			}
 
 		} else {//unary operators
-			Double right = rightChild.interpretRecursive(sprite);
+			Double right = rightChild.interpretRecursive();
 
 			switch (operator) {
 				case MINUS:
@@ -331,7 +332,8 @@ public class FormulaElement implements Serializable {
 		return 0d;
 	}
 
-	private Double interpretObjectSensor(Sensors sensor, Sprite sprite) {
+	private Double interpretObjectSensor(Sensors sensor) {
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		Double returnValue = 0d;
 		switch (sensor) {
 			case OBJECT_BRIGHTNESS:

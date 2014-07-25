@@ -24,26 +24,20 @@ package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
-
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 public class VibrateAction extends TemporalAction {
 
-	private Sprite sprite;
 	private Formula duration;
 
 	@Override
 	protected void update(float percent) {
-		VibratorUtil.setTimeToVibrate(duration.interpretDouble(sprite) * 1000);
+		VibratorUtil.setTimeToVibrate(duration.interpretDouble() * 1000);
 	}
 
 	public void setDuration(Formula duration) {
 		this.duration = duration;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
 }

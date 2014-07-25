@@ -118,8 +118,8 @@ public class SpeakBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		speakBrick = new SpeakBrick(sprite, "");
+		Script script = new StartScript();
+		speakBrick = new SpeakBrick("");
 		script.addBrick(speakBrick);
 
 		sprite.addScript(script);

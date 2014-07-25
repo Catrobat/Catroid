@@ -50,13 +50,11 @@ public class SetYBrick extends FormulaBrick implements OnClickListener {
 		addAllowedBrickField(BrickField.Y_POSITION);
 	}
 
-	public SetYBrick(Sprite sprite, int yPositionValue) {
-		this.sprite = sprite;
+	public SetYBrick(int yPositionValue) {
 		initializeBrickFields(new Formula(yPositionValue));
 	}
 
-	public SetYBrick(Sprite sprite, Formula yPosition) {
-		this.sprite = sprite;
+	public SetYBrick(Formula yPosition) {
 		initializeBrickFields(yPosition);
 	}
 
@@ -103,7 +101,7 @@ public class SetYBrick extends FormulaBrick implements OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_y, null);
 		TextView textYPosition = (TextView) prototypeView.findViewById(R.id.brick_set_y_prototype_text_view);
-		textYPosition.setText(String.valueOf(getFormulaWithBrickField(BrickField.Y_POSITION).interpretInteger(sprite)));
+		textYPosition.setText(String.valueOf(getFormulaWithBrickField(BrickField.Y_POSITION).interpretInteger()));
 		return prototypeView;
 	}
 
@@ -139,7 +137,7 @@ public class SetYBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.setY(sprite, getFormulaWithBrickField(BrickField.Y_POSITION)));
 		return null;
 	}

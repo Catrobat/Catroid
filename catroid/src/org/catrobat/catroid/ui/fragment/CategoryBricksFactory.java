@@ -103,141 +103,141 @@ public class CategoryBricksFactory {
 
 	public List<Brick> getBricks(String category, Sprite sprite, Context context) {
 		if (category.equals(context.getString(R.string.category_control))) {
-			return setupControlCategoryList(sprite, context);
+			return setupControlCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_motion))) {
 			return setupMotionCategoryList(sprite);
 		} else if (category.equals(context.getString(R.string.category_sound))) {
-			return setupSoundCategoryList(sprite, context);
+			return setupSoundCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_looks))) {
-			return setupLooksCategoryList(sprite);
+			return setupLooksCategoryList();
 		} else if (category.equals(context.getString(R.string.category_variables))) {
-			return setupVariablesCategoryList(sprite);
+			return setupVariablesCategoryList();
 		} else if (category.equals(context.getString(R.string.category_lego_nxt))) {
-			return setupLegoNxtCategoryList(sprite);
+			return setupLegoNxtCategoryList();
 		} else if (category.equals(context.getString(R.string.category_drone))) {
-			return setupDroneCategoryList(sprite);
+			return setupDroneCategoryList();
 		}
 
 		return new ArrayList<Brick>();
 	}
 
-	private List<Brick> setupControlCategoryList(Sprite sprite, Context context) {
+	private List<Brick> setupControlCategoryList(Context context) {
 		List<Brick> controlBrickList = new ArrayList<Brick>();
-		controlBrickList.add(new WhenStartedBrick(sprite, null));
-		controlBrickList.add(new WhenBrick(sprite, null));
-		controlBrickList.add(new WaitBrick(sprite, BrickValues.WAIT));
+		controlBrickList.add(new WhenStartedBrick(null));
+		controlBrickList.add(new WhenBrick(null));
+		controlBrickList.add(new WaitBrick(BrickValues.WAIT));
 
 		final String broadcastMessage = MessageContainer.getFirst(context);
-		controlBrickList.add(new BroadcastReceiverBrick(sprite, broadcastMessage));
-		controlBrickList.add(new BroadcastBrick(sprite, broadcastMessage));
-		controlBrickList.add(new BroadcastWaitBrick(sprite, broadcastMessage));
+		controlBrickList.add(new BroadcastReceiverBrick(broadcastMessage));
+		controlBrickList.add(new BroadcastBrick(broadcastMessage));
+		controlBrickList.add(new BroadcastWaitBrick(broadcastMessage));
 
-		controlBrickList.add(new NoteBrick(sprite, context.getString(R.string.brick_note_default_value)));
-		controlBrickList.add(new ForeverBrick(sprite));
-		controlBrickList.add(new IfLogicBeginBrick(sprite, 0));
-		controlBrickList.add(new RepeatBrick(sprite, BrickValues.REPEAT));
+		controlBrickList.add(new NoteBrick(context.getString(R.string.brick_note_default_value)));
+		controlBrickList.add(new ForeverBrick());
+		controlBrickList.add(new IfLogicBeginBrick(0));
+		controlBrickList.add(new RepeatBrick(BrickValues.REPEAT));
 
 		return controlBrickList;
 	}
 
 	private List<Brick> setupMotionCategoryList(Sprite sprite) {
 		List<Brick> motionBrickList = new ArrayList<Brick>();
-		motionBrickList.add(new PlaceAtBrick(sprite, BrickValues.X_POSITION, BrickValues.Y_POSITION));
-		motionBrickList.add(new SetXBrick(sprite, BrickValues.X_POSITION));
-		motionBrickList.add(new SetYBrick(sprite, BrickValues.Y_POSITION));
-		motionBrickList.add(new ChangeXByNBrick(sprite, BrickValues.CHANGE_X_BY));
-		motionBrickList.add(new ChangeYByNBrick(sprite, BrickValues.CHANGE_Y_BY));
+		motionBrickList.add(new PlaceAtBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
+		motionBrickList.add(new SetXBrick(BrickValues.X_POSITION));
+		motionBrickList.add(new SetYBrick(BrickValues.Y_POSITION));
+		motionBrickList.add(new ChangeXByNBrick(BrickValues.CHANGE_X_BY));
+		motionBrickList.add(new ChangeYByNBrick(BrickValues.CHANGE_Y_BY));
 
 		if (!isBackground(sprite)) {
-			motionBrickList.add(new IfOnEdgeBounceBrick(sprite));
+			motionBrickList.add(new IfOnEdgeBounceBrick());
 		}
 
-		motionBrickList.add(new MoveNStepsBrick(sprite, BrickValues.MOVE_STEPS));
-		motionBrickList.add(new TurnLeftBrick(sprite, BrickValues.TURN_DEGREES));
-		motionBrickList.add(new TurnRightBrick(sprite, BrickValues.TURN_DEGREES));
-		motionBrickList.add(new PointInDirectionBrick(sprite, Direction.RIGHT));
-		motionBrickList.add(new PointToBrick(sprite, null));
-		motionBrickList.add(new GlideToBrick(sprite, BrickValues.X_POSITION, BrickValues.Y_POSITION,
+		motionBrickList.add(new MoveNStepsBrick(BrickValues.MOVE_STEPS));
+		motionBrickList.add(new TurnLeftBrick(BrickValues.TURN_DEGREES));
+		motionBrickList.add(new TurnRightBrick(BrickValues.TURN_DEGREES));
+		motionBrickList.add(new PointInDirectionBrick(Direction.RIGHT));
+		motionBrickList.add(new PointToBrick(null));
+		motionBrickList.add(new GlideToBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION,
 				BrickValues.GLIDE_SECONDS));
 
 		if (!isBackground(sprite)) {
-			motionBrickList.add(new GoNStepsBackBrick(sprite, BrickValues.GO_BACK));
-			motionBrickList.add(new ComeToFrontBrick(sprite));
+			motionBrickList.add(new GoNStepsBackBrick(BrickValues.GO_BACK));
+			motionBrickList.add(new ComeToFrontBrick());
 		}
 
 		return motionBrickList;
 	}
 
-	private List<Brick> setupSoundCategoryList(Sprite sprite, Context context) {
+	private List<Brick> setupSoundCategoryList(Context context) {
 		List<Brick> soundBrickList = new ArrayList<Brick>();
-		soundBrickList.add(new PlaySoundBrick(sprite));
-		soundBrickList.add(new StopAllSoundsBrick(sprite));
-		soundBrickList.add(new SetVolumeToBrick(sprite, BrickValues.SET_VOLUME_TO));
+		soundBrickList.add(new PlaySoundBrick());
+		soundBrickList.add(new StopAllSoundsBrick());
+		soundBrickList.add(new SetVolumeToBrick(BrickValues.SET_VOLUME_TO));
 
 		// workaround to set a negative default value for a Brick
 		float positiveDefaultValueChangeVolumeBy = Math.abs(BrickValues.CHANGE_VOLUME_BY);
 		FormulaElement defaultValueChangeVolumeBy = new FormulaElement(ElementType.OPERATOR, Operators.MINUS.name(),
 				null, null, new FormulaElement(ElementType.NUMBER, String.valueOf(positiveDefaultValueChangeVolumeBy),
 						null));
-		soundBrickList.add(new ChangeVolumeByNBrick(sprite, new Formula(defaultValueChangeVolumeBy)));
+		soundBrickList.add(new ChangeVolumeByNBrick(new Formula(defaultValueChangeVolumeBy)));
 
-		soundBrickList.add(new SpeakBrick(sprite, context.getString(R.string.brick_speak_default_value)));
+		soundBrickList.add(new SpeakBrick(context.getString(R.string.brick_speak_default_value)));
 
 		return soundBrickList;
 	}
 
-	private List<Brick> setupLooksCategoryList(Sprite sprite) {
+	private List<Brick> setupLooksCategoryList() {
 		List<Brick> looksBrickList = new ArrayList<Brick>();
-		looksBrickList.add(new SetLookBrick(sprite));
-		looksBrickList.add(new NextLookBrick(sprite));
-		looksBrickList.add(new SetSizeToBrick(sprite, BrickValues.SET_SIZE_TO));
-		looksBrickList.add(new ChangeSizeByNBrick(sprite, BrickValues.CHANGE_SIZE_BY));
-		looksBrickList.add(new HideBrick(sprite));
-		looksBrickList.add(new ShowBrick(sprite));
-		looksBrickList.add(new SetGhostEffectBrick(sprite, BrickValues.SET_GHOST_EFFECT));
-		looksBrickList.add(new ChangeGhostEffectByNBrick(sprite, BrickValues.CHANGE_GHOST_EFFECT));
-		looksBrickList.add(new SetBrightnessBrick(sprite, BrickValues.SET_BRIGHTNESS_TO));
-		looksBrickList.add(new ChangeBrightnessByNBrick(sprite, BrickValues.CHANGE_BRITHNESS_BY));
-		looksBrickList.add(new ClearGraphicEffectBrick(sprite));
-		looksBrickList.add(new LedOffBrick(sprite));
-		looksBrickList.add(new LedOnBrick(sprite));
-		looksBrickList.add(new VibrationBrick(sprite, BrickValues.VIBRATE_MILLISECONDS));
+		looksBrickList.add(new SetLookBrick());
+		looksBrickList.add(new NextLookBrick());
+		looksBrickList.add(new SetSizeToBrick(BrickValues.SET_SIZE_TO));
+		looksBrickList.add(new ChangeSizeByNBrick(BrickValues.CHANGE_SIZE_BY));
+		looksBrickList.add(new HideBrick());
+		looksBrickList.add(new ShowBrick());
+		looksBrickList.add(new SetGhostEffectBrick(BrickValues.SET_GHOST_EFFECT));
+		looksBrickList.add(new ChangeGhostEffectByNBrick(BrickValues.CHANGE_GHOST_EFFECT));
+		looksBrickList.add(new SetBrightnessBrick(BrickValues.SET_BRIGHTNESS_TO));
+		looksBrickList.add(new ChangeBrightnessByNBrick(BrickValues.CHANGE_BRITHNESS_BY));
+		looksBrickList.add(new ClearGraphicEffectBrick());
+		looksBrickList.add(new LedOffBrick());
+		looksBrickList.add(new LedOnBrick());
+		looksBrickList.add(new VibrationBrick(BrickValues.VIBRATE_MILLISECONDS));
 
 		return looksBrickList;
 	}
 
-	private List<Brick> setupVariablesCategoryList(Sprite sprite) {
+	private List<Brick> setupVariablesCategoryList() {
 		List<Brick> userVariablesBrickList = new ArrayList<Brick>();
-		userVariablesBrickList.add(new SetVariableBrick(sprite, 0));
-		userVariablesBrickList.add(new ChangeVariableBrick(sprite, 0));
+		userVariablesBrickList.add(new SetVariableBrick(0));
+		userVariablesBrickList.add(new ChangeVariableBrick(0));
 		return userVariablesBrickList;
 	}
 
-	private List<Brick> setupLegoNxtCategoryList(Sprite sprite) {
+	private List<Brick> setupLegoNxtCategoryList() {
 		List<Brick> legoNXTBrickList = new ArrayList<Brick>();
-		legoNXTBrickList.add(new LegoNxtMotorTurnAngleBrick(sprite, LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A,
+		legoNXTBrickList.add(new LegoNxtMotorTurnAngleBrick(LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A,
 				BrickValues.LEGO_ANGLE));
-		legoNXTBrickList.add(new LegoNxtMotorStopBrick(sprite, LegoNxtMotorStopBrick.Motor.MOTOR_A));
-		legoNXTBrickList.add(new LegoNxtMotorActionBrick(sprite, LegoNxtMotorActionBrick.Motor.MOTOR_A,
+		legoNXTBrickList.add(new LegoNxtMotorStopBrick(LegoNxtMotorStopBrick.Motor.MOTOR_A));
+		legoNXTBrickList.add(new LegoNxtMotorActionBrick(LegoNxtMotorActionBrick.Motor.MOTOR_A,
 				BrickValues.LEGO_SPEED));
-		legoNXTBrickList.add(new LegoNxtPlayToneBrick(sprite, BrickValues.LEGO_FREQUENCY, BrickValues.LEGO_DURATION));
+		legoNXTBrickList.add(new LegoNxtPlayToneBrick(BrickValues.LEGO_FREQUENCY, BrickValues.LEGO_DURATION));
 
 		return legoNXTBrickList;
 	}
 
-	private List<Brick> setupDroneCategoryList(Sprite sprite) {
+	private List<Brick> setupDroneCategoryList() {
 		List<Brick> droneBrickList = new ArrayList<Brick>();
-		droneBrickList.add(new DroneTakeOffBrick(sprite));
-		droneBrickList.add(new DroneLandBrick(sprite));
-		droneBrickList.add(new DroneFlipBrick(sprite));
-		droneBrickList.add(new DroneMoveUpBrick(sprite, BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
-		droneBrickList.add(new DroneMoveDownBrick(sprite, BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
-		droneBrickList.add(new DroneMoveLeftBrick(sprite, BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
-		droneBrickList.add(new DroneMoveRightBrick(sprite, BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
-		droneBrickList.add(new DroneMoveForwardBrick(sprite, BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
-		droneBrickList.add(new DroneMoveBackwardBrick(sprite, BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
-		droneBrickList.add(new DroneTurnLeftBrick(sprite, BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
-		droneBrickList.add(new DroneTurnRightBrick(sprite, BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
+		droneBrickList.add(new DroneTakeOffBrick());
+		droneBrickList.add(new DroneLandBrick());
+		droneBrickList.add(new DroneFlipBrick());
+		droneBrickList.add(new DroneMoveUpBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
+		droneBrickList.add(new DroneMoveDownBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
+		droneBrickList.add(new DroneMoveLeftBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
+		droneBrickList.add(new DroneMoveRightBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
+		droneBrickList.add(new DroneMoveForwardBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
+		droneBrickList.add(new DroneMoveBackwardBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
+		droneBrickList.add(new DroneTurnLeftBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
+		droneBrickList.add(new DroneTurnRightBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
 
 		return droneBrickList;
 	}

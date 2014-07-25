@@ -81,8 +81,8 @@ public class PointInDirectionBrickTest extends BaseActivityInstrumentationTestCa
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		pointInDirectionBrick = new PointInDirectionBrick(sprite, Direction.RIGHT);
+		Script script = new StartScript();
+		pointInDirectionBrick = new PointInDirectionBrick(Direction.RIGHT);
 		script.addBrick(pointInDirectionBrick);
 
 		sprite.addScript(script);

@@ -80,8 +80,8 @@ public class TouchAxisTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		final String alphaTestImageName = "alpha_test_image.png";
 
 		Sprite touchSprite = new Sprite("touchSprite");
-		Script startScript = new StartScript(touchSprite);
-		SetLookBrick setAlphaLookBrick = new SetLookBrick(touchSprite);
+		Script startScript = new StartScript();
+		SetLookBrick setAlphaLookBrick = new SetLookBrick();
 
 		LookData touchLookData = new LookData();
 		touchLookData.setLookName(alphaTestImageName);
@@ -92,8 +92,8 @@ public class TouchAxisTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		startScript.addBrick(setAlphaLookBrick);
 		touchSprite.addScript(startScript);
 
-		WhenScript touchWhenScript = new WhenScript(touchSprite);
-		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(touchSprite, 180.0);
+		WhenScript touchWhenScript = new WhenScript();
+		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(180.0);
 		touchWhenScript.addBrick(turnLeftBrick);
 
 		touchSprite.addScript(touchWhenScript);

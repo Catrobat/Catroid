@@ -136,8 +136,7 @@ public class AddBrickFragment extends SherlockListFragment {
 					scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded);
 
 					if (brickToBeAdded instanceof ScriptBrick) {
-						Script script = ((ScriptBrick) brickToBeAdded).initScript(ProjectManager.getInstance()
-								.getCurrentSprite());
+						Script script = ((ScriptBrick) brickToBeAdded).initScript();
 						ProjectManager.getInstance().setCurrentScript(script);
 					}
 

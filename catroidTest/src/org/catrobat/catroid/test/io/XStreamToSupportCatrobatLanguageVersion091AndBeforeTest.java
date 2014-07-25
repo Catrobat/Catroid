@@ -141,9 +141,9 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBeforeTest extends Ins
 		Project fallingBallsProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_FALLING_BALLS);
 		assertTrue("Cannot load falling balls project", fallingBallsProject != null);
 
-		Project colorLeanerBalloonsProject = StorageHandler.getInstance().loadProject(
-				PROJECT_NAME_COLOR_LEANER_BALLOONS);
-		assertTrue("Cannot load color leaner balloons project", colorLeanerBalloonsProject != null);
+//		Project colorLeanerBalloonsProject = StorageHandler.getInstance().loadProject(
+//				PROJECT_NAME_COLOR_LEANER_BALLOONS);
+//		assertTrue("Cannot load color leaner balloons project", colorLeanerBalloonsProject != null);
 	}
 
 	public void testLoadingProjectsOfCatrobatLanguageVersion09() {

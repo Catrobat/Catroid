@@ -80,7 +80,7 @@ public class TurnRightBrickTest extends BaseActivityInstrumentationTestCase<Scri
 
 		Formula actualDegrees = turnRightBrick.getFormulaWithBrickField(Brick.BrickField.TURN_RIGHT_DEGREES);
 
-		assertEquals("Wrong text in field", TURN_DEGREES, actualDegrees.interpretDouble(null));
+		assertEquals("Wrong text in field", TURN_DEGREES, actualDegrees.interpretDouble());
 		assertEquals(
 				"Text not updated",
 				TURN_DEGREES,
@@ -94,8 +94,8 @@ public class TurnRightBrickTest extends BaseActivityInstrumentationTestCase<Scri
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		turnRightBrick = new TurnRightBrick(sprite, 0);
+		Script script = new StartScript();
+		turnRightBrick = new TurnRightBrick(0);
 		script.addBrick(turnRightBrick);
 
 		sprite.addScript(script);

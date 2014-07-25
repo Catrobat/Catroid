@@ -142,9 +142,9 @@ public class SetSizeToBrickTest extends BaseActivityInstrumentationTestCase<Main
 
 		project = new Project(getActivity(), projectName);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		setSizeToBrick = new SetSizeToBrick(sprite, 100);
-		setLookBrick = new SetLookBrick(sprite);
+		Script script = new StartScript();
+		setSizeToBrick = new SetSizeToBrick(100);
+		setLookBrick = new SetLookBrick();
 
 		script.addBrick(setSizeToBrick);
 		script.addBrick(setLookBrick);

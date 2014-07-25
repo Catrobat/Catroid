@@ -44,7 +44,7 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 		sprite.look.addAction(action);
 		action.act(1.0f);
 
-		xPosition += xMovement.interpretInteger(sprite);
+		xPosition += xMovement.interpretInteger();
 		assertEquals("Incorrect sprite x position after ChangeXByNBrick executed", (float) xPosition,
 				sprite.look.getXInUserInterfaceDimensionUnit());
 	}

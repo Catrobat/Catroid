@@ -65,8 +65,8 @@ public class MoveNStepsBrickTest extends BaseActivityInstrumentationTestCase<Scr
 
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		moveNStepsBrick = new MoveNStepsBrick(sprite, 0);
+		Script script = new StartScript();
+		moveNStepsBrick = new MoveNStepsBrick(0);
 		script.addBrick(moveNStepsBrick);
 
 		sprite.addScript(script);
@@ -101,7 +101,7 @@ public class MoveNStepsBrickTest extends BaseActivityInstrumentationTestCase<Scr
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_move_n_steps_edit_text, STEPS_TO_MOVE);
 
 		assertEquals("Wrong text in field.", STEPS_TO_MOVE,
-				(moveNStepsBrick.getFormulaWithBrickField(Brick.BrickField.STEPS)).interpretDouble(null));
+				(moveNStepsBrick.getFormulaWithBrickField(Brick.BrickField.STEPS)).interpretDouble());
 		assertEquals(
 				"Value in Brick is not updated.",
 				STEPS_TO_MOVE,

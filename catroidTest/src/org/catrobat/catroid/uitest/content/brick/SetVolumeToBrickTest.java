@@ -81,8 +81,8 @@ public class SetVolumeToBrickTest extends BaseActivityInstrumentationTestCase<Sc
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		setVolumeToBrick = new SetVolumeToBrick(sprite, 0);
+		Script script = new StartScript();
+		setVolumeToBrick = new SetVolumeToBrick(0);
 		script.addBrick(setVolumeToBrick);
 
 		sprite.addScript(script);

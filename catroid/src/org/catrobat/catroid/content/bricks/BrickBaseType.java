@@ -30,7 +30,6 @@ import android.widget.CheckBox;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
@@ -40,7 +39,6 @@ public class BrickBaseType implements Brick {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = BrickBaseType.class.getSimpleName();
 	protected transient View view;
-	protected Sprite sprite;
 	protected transient CheckBox checkbox;
 	protected transient boolean checked = false;
 	protected transient BrickAdapter adapter;
@@ -60,11 +58,6 @@ public class BrickBaseType implements Brick {
 	@Override
 	public int getAlphaValue() {
 		return alphaValue;
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return sprite;
 	}
 
 	@Override
@@ -134,16 +127,15 @@ public class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		return null;
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		BrickBaseType copyBrick = null;
 		try {
 			copyBrick = (BrickBaseType) clone();
-			copyBrick.sprite = sprite;
 		} catch (CloneNotSupportedException exception) {
 			Log.e(TAG, Log.getStackTraceString(exception));
 		}

@@ -51,13 +51,11 @@ public abstract class DroneMoveBrick extends FormulaBrick implements OnClickList
 		addAllowedBrickField(BrickField.DRONE_POWER_IN_PERCENT);
 	}
 
-	public DroneMoveBrick(Sprite sprite, int durationInMilliseconds, int powerInPercent) {
-		this.sprite = sprite;
+	public DroneMoveBrick(int durationInMilliseconds, int powerInPercent) {
 		initializeBrickFields(new Formula(durationInMilliseconds / 1000.0), new Formula(powerInPercent));
 	}
 
-	public DroneMoveBrick(Sprite sprite, Formula durationInSeconds, Formula powerInPercent) {
-		this.sprite = sprite;
+	public DroneMoveBrick(Formula durationInSeconds, Formula powerInPercent) {
 		initializeBrickFields(durationInSeconds, powerInPercent);
 	}
 
@@ -79,7 +77,7 @@ public abstract class DroneMoveBrick extends FormulaBrick implements OnClickList
 	protected abstract String getBrickLabel(View view);
 
 	@Override
-	public abstract List<SequenceAction> addActionToSequence(SequenceAction sequence);
+	public abstract List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
@@ -112,7 +110,7 @@ public abstract class DroneMoveBrick extends FormulaBrick implements OnClickList
 		if (getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS).isSingleNumberFormula()) {
 			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
 					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
-							.interpretDouble(sprite))));
+							.interpretDouble())));
 		} else {
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
 			// in hopefully all possible languages
@@ -147,15 +145,15 @@ public abstract class DroneMoveBrick extends FormulaBrick implements OnClickList
 		label.setText(getBrickLabel(prototypeView));
 		TextView textTime = (TextView) prototypeView.findViewById(R.id.brick_drone_move_prototype_text_view_second);
 		textTime.setText(String.valueOf(getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
-				.interpretInteger(sprite)));
+				.interpretInteger()));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_drone_move_text_view_second);
 		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
-						.interpretDouble(sprite))));
+						.interpretDouble())));
 
 		TextView textPower = (TextView) prototypeView.findViewById(R.id.brick_drone_move_prototype_text_view_power);
 		textPower.setText(String.valueOf(getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)
-				.interpretFloat(sprite)));
+				.interpretFloat()));
 
 		return prototypeView;
 	}

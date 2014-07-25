@@ -41,7 +41,7 @@ public class SetYActionTest extends AndroidTestCase {
 		SetYAction action = ExtendedActions.setY(sprite, yPosition);
 		action.act(1.0f);
 
-		assertEquals("Incorrect sprite y position after SetYBrick executed", yPosition.interpretFloat(sprite),
+		assertEquals("Incorrect sprite y position after SetYBrick executed", yPosition.interpretFloat(),
 				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 

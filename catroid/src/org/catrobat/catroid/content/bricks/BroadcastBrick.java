@@ -42,7 +42,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastMessage;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
@@ -60,22 +59,20 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 		return this;
 	}
 
-	public BroadcastBrick(Sprite sprite, String broadcastMessage) {
-		this.sprite = sprite;
+	public BroadcastBrick(String broadcastMessage) {
 		this.broadcastMessage = broadcastMessage;
 		MessageContainer.addMessage(broadcastMessage);
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		BroadcastBrick copyBrick = (BroadcastBrick) clone();
-		copyBrick.sprite = sprite;
 		return copyBrick;
 	}
 
 	@Override
 	public Brick clone() {
-		return new BroadcastBrick(sprite, broadcastMessage);
+		return new BroadcastBrick(broadcastMessage);
 	}
 
 	@Override
@@ -226,7 +223,7 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.broadcast(sprite, broadcastMessage));
 		return null;
 	}

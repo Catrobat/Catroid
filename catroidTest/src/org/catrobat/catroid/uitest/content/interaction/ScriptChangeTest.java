@@ -105,14 +105,14 @@ public class ScriptChangeTest extends BaseActivityInstrumentationTestCase<Script
 		Project project = new Project(null, projectName);
 		Sprite firstSprite = new Sprite("cat");
 
-		testScript = new StartScript(firstSprite);
-		testScript2 = new StartScript(firstSprite);
-		testScript3 = new StartScript(firstSprite);
+		testScript = new StartScript();
+		testScript2 = new StartScript();
+		testScript3 = new StartScript();
 
 		brickListToCheck = new ArrayList<Brick>();
-		brickListToCheck.add(new HideBrick(firstSprite));
-		brickListToCheck.add(new ShowBrick(firstSprite));
-		brickListToCheck.add(new SetSizeToBrick(firstSprite, size));
+		brickListToCheck.add(new HideBrick());
+		brickListToCheck.add(new ShowBrick());
+		brickListToCheck.add(new SetSizeToBrick(size));
 
 		// adding Bricks: ----------------
 		for (Brick brick : brickListToCheck) {

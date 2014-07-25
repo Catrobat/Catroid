@@ -76,9 +76,9 @@ public class NextLookBrickTest extends BaseActivityInstrumentationTestCase<Scrip
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
+		Script script = new StartScript();
 		ProjectManager.getInstance().setProject(project);
-		script.addBrick(new NextLookBrick(sprite));
+		script.addBrick(new NextLookBrick());
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

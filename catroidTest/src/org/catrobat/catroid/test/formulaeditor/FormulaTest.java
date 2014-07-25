@@ -58,7 +58,7 @@ public class FormulaTest extends InstrumentationTestCase {
 		FormulaElement parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: - 1", parseTree);
-		assertEquals("Formula interpretation is not as expected", -1d, parseTree.interpretRecursive(null));
+		assertEquals("Formula interpretation is not as expected", -1d, parseTree.interpretRecursive());
 		internTokenList.clear();
 
 		formula = new Formula(parseTree);
@@ -71,7 +71,7 @@ public class FormulaTest extends InstrumentationTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: - 1", parseTree);
-		assertEquals("Formula interpretation is not as expected", -1d, parseTree.interpretRecursive(null));
+		assertEquals("Formula interpretation is not as expected", -1d, parseTree.interpretRecursive());
 		internTokenList.clear();
 
 		formula = new Formula(parseTree);
@@ -86,7 +86,7 @@ public class FormulaTest extends InstrumentationTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: - 1 - 1", parseTree);
-		assertEquals("Formula interpretation is not as expected", -2d, parseTree.interpretRecursive(null));
+		assertEquals("Formula interpretation is not as expected", -2d, parseTree.interpretRecursive());
 		internTokenList.clear();
 
 		formula = new Formula(parseTree);
@@ -101,7 +101,7 @@ public class FormulaTest extends InstrumentationTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: round(1.1111)", parseTree);
-		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(null));
+		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive());
 		internTokenList.clear();
 
 		formula = new Formula(parseTree);

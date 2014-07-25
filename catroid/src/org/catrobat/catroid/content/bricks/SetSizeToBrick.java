@@ -50,13 +50,11 @@ public class SetSizeToBrick extends FormulaBrick implements OnClickListener {
 		addAllowedBrickField(BrickField.SIZE);
 	}
 
-	public SetSizeToBrick(Sprite sprite, double sizeValue) {
-		this.sprite = sprite;
+	public SetSizeToBrick(double sizeValue) {
 		initializeBrickFields(new Formula(sizeValue));
 	}
 
-	public SetSizeToBrick(Sprite sprite, Formula size) {
-		this.sprite = sprite;
+	public SetSizeToBrick(Formula size) {
 		initializeBrickFields(size);
 	}
 
@@ -103,7 +101,7 @@ public class SetSizeToBrick extends FormulaBrick implements OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_size_to, null);
 		TextView textSetSizeTo = (TextView) prototypeView.findViewById(R.id.brick_set_size_to_prototype_text_view);
-		textSetSizeTo.setText(String.valueOf(getFormulaWithBrickField(BrickField.SIZE).interpretDouble(sprite)));
+		textSetSizeTo.setText(String.valueOf(getFormulaWithBrickField(BrickField.SIZE).interpretDouble()));
 		return prototypeView;
 	}
 
@@ -140,7 +138,7 @@ public class SetSizeToBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.setSizeTo(sprite, getFormulaWithBrickField(BrickField.SIZE)));
 		return null;
 	}

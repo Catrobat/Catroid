@@ -46,7 +46,6 @@ public class UserVariablesInterpretationTest extends AndroidTestCase {
 	private static final double USER_VARIABLE_VALUE2 = 3.141592d;
 	private static final String SPRITE_USER_VARIABLE = "spriteUserVariable";
 	private static final double USER_VARIABLE_RESET = 0.0d;
-	private Sprite testSprite;
 	private Project project;
 	private Sprite firstSprite;
 	private StartScript startScript;
@@ -54,11 +53,10 @@ public class UserVariablesInterpretationTest extends AndroidTestCase {
 
 	@Override
 	protected void setUp() {
-		testSprite = new Sprite("testSprite");
 		this.project = new Project(null, "testProject");
 		firstSprite = new Sprite("firstSprite");
-		startScript = new StartScript(firstSprite);
-		changeBrick = new ChangeSizeByNBrick(firstSprite, 10);
+		startScript = new StartScript();
+		changeBrick = new ChangeSizeByNBrick(10);
 		firstSprite.addScript(startScript);
 		startScript.addBrick(changeBrick);
 		project.addSprite(firstSprite);
@@ -75,20 +73,20 @@ public class UserVariablesInterpretationTest extends AndroidTestCase {
 	public void testUserVariableInterpretation() {
 		Formula userVariable = getUservariableByName(PROJECT_USER_VARIABLE);
 		assertEquals("Formula interpretation of ProjectUserVariable is not as expected", USER_VARIABLE_VALUE,
-				userVariable.interpretDouble(testSprite));
+				userVariable.interpretDouble());
 
 		userVariable = getUservariableByName(SPRITE_USER_VARIABLE);
 		assertEquals("Formula interpretation of SpriteUserVariable is not as expected", USER_VARIABLE_VALUE2,
-				userVariable.interpretDouble(firstSprite));
+				userVariable.interpretDouble());
 	}
 
 	public void testUserVariableReseting() {
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
 		Formula userVariable = getUservariableByName(PROJECT_USER_VARIABLE);
-		assertEquals("ProjectUserVariable didnt reset", USER_VARIABLE_RESET, userVariable.interpretDouble(testSprite));
+		assertEquals("ProjectUserVariable didnt reset", USER_VARIABLE_RESET, userVariable.interpretDouble());
 
 		userVariable = getUservariableByName(SPRITE_USER_VARIABLE);
-		assertEquals("SpriteUserVariable didnt reset", USER_VARIABLE_RESET, userVariable.interpretDouble(firstSprite));
+		assertEquals("SpriteUserVariable didnt reset", USER_VARIABLE_RESET, userVariable.interpretDouble());
 	}
 
 	public void testNotExistingUservariable() {

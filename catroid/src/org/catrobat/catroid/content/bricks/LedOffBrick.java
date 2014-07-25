@@ -42,8 +42,8 @@ public class LedOffBrick extends BrickBaseType {
 
 	private transient View prototypeView;
 
-	public LedOffBrick(Sprite sprite) {
-		this.sprite = sprite;
+	public LedOffBrick() {
+
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class LedOffBrick extends BrickBaseType {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.lights(false));
 		return null;
 	}

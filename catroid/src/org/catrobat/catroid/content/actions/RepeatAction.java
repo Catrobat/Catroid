@@ -22,14 +22,12 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 public class RepeatAction extends com.badlogic.gdx.scenes.scene2d.actions.RepeatAction {
 
 	private int executedCount;
 	private Formula repeatCount;
-	private Sprite sprite;
 	private boolean isCurrentLoopInitialized = false;
 	private boolean isRepeatActionInitialized = false;
 	private int repeatCountValue;
@@ -42,7 +40,7 @@ public class RepeatAction extends com.badlogic.gdx.scenes.scene2d.actions.Repeat
 
 		if (!isRepeatActionInitialized) {
 			isRepeatActionInitialized = true;
-			repeatCountValue = repeatCount == null ? 0 : repeatCount.interpretInteger(sprite);
+			repeatCountValue = repeatCount == null ? 0 : repeatCount.interpretInteger();
 		}
 		if (!isCurrentLoopInitialized) {
 			currentTime = 0f;
@@ -82,10 +80,6 @@ public class RepeatAction extends com.badlogic.gdx.scenes.scene2d.actions.Repeat
 
 	public void setRepeatCount(Formula repeatCount) {
 		this.repeatCount = repeatCount;
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
 	}
 
 	public void setIsForeverRepeat(boolean isForeverRepeat) {

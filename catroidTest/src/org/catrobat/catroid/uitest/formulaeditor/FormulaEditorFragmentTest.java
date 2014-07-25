@@ -70,8 +70,8 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		placeAtBrick = new PlaceAtBrick(sprite, INITIAL_X, INITIAL_Y);
+		Script script = new StartScript();
+		placeAtBrick = new PlaceAtBrick(INITIAL_X, INITIAL_Y);
 		script.addBrick(placeAtBrick);
 
 		sprite.addScript(script);
@@ -323,11 +323,11 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 		//Interpretation test
 		Formula formula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.X_POSITION);
-		assertEquals("Wrong text in field", newXValue, formula.interpretInteger(sprite));
+		assertEquals("Wrong text in field", newXValue, formula.interpretInteger());
 
 		formula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.Y_POSITION);
 
-		float newYValue = formula.interpretFloat(sprite);
+		float newYValue = formula.interpretFloat();
 		assertTrue("Wrong text in field", newYValue >= -0.5f && newYValue <= 1f);
 
 	}
@@ -347,7 +347,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.sleep(300);
 
 		Formula formula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.X_POSITION);
-		float value = formula.interpretFloat(sprite);
+		float value = formula.interpretFloat();
 
 		Log.i("info", "value: " + value);
 
@@ -367,7 +367,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.sleep(300);
 
 		Formula anotherFormula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.Y_POSITION);
-		float anotherValue = anotherFormula.interpretFloat(sprite);
+		float anotherValue = anotherFormula.interpretFloat();
 
 		Log.i("info", "value: " + value);
 
@@ -392,7 +392,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.sleep(300);
 
 		Formula formula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.X_POSITION);
-		float value = formula.interpretFloat(sprite);
+		float value = formula.interpretFloat();
 
 		Log.i("info", "value: " + value);
 
@@ -412,7 +412,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.sleep(300);
 
 		Formula anotherFormula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.Y_POSITION);
-		float anotherValue = anotherFormula.interpretFloat(sprite);
+		float anotherValue = anotherFormula.interpretFloat();
 
 		Log.i("info", "anotherValue: " + anotherValue);
 

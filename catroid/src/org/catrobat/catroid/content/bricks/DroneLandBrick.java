@@ -35,7 +35,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
@@ -46,14 +45,13 @@ public class DroneLandBrick extends BrickBaseType {
 
 	private transient AdapterView<?> adapterView;
 
-	public DroneLandBrick(Sprite sprite) {
-		this.sprite = sprite;
+	public DroneLandBrick() {
+
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		DroneLandBrick copyBrick = (DroneLandBrick) clone();
-		copyBrick.sprite = sprite;
 		return copyBrick;
 	}
 
@@ -66,7 +64,7 @@ public class DroneLandBrick extends BrickBaseType {
 
 	@Override
 	public Brick clone() {
-		return new DroneLandBrick(getSprite());
+		return new DroneLandBrick();
 	}
 
 	@Override
@@ -112,7 +110,7 @@ public class DroneLandBrick extends BrickBaseType {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.droneTakeOff()); // same command
 		return null;
 	}

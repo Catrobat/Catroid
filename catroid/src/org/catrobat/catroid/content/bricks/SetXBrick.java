@@ -50,13 +50,11 @@ public class SetXBrick extends FormulaBrick implements OnClickListener {
 		addAllowedBrickField(BrickField.X_POSITION);
 	}
 
-	public SetXBrick(Sprite sprite, int xPositionValue) {
-		this.sprite = sprite;
+	public SetXBrick(int xPositionValue) {
 		initializeBrickFields(new Formula(xPositionValue));
 	}
 
-	public SetXBrick(Sprite sprite, Formula xPosition) {
-		this.sprite = sprite;
+	public SetXBrick(Formula xPosition) {
 		initializeBrickFields(xPosition);
 	}
 
@@ -128,7 +126,7 @@ public class SetXBrick extends FormulaBrick implements OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_x, null);
 		TextView textXPosition = (TextView) prototypeView.findViewById(R.id.brick_set_x_prototype_text_view);
-		textXPosition.setText(String.valueOf(getFormulaWithBrickField(BrickField.X_POSITION).interpretInteger(sprite)));
+		textXPosition.setText(String.valueOf(getFormulaWithBrickField(BrickField.X_POSITION).interpretInteger()));
 		return prototypeView;
 	}
 
@@ -141,7 +139,7 @@ public class SetXBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.setX(sprite, getFormulaWithBrickField(BrickField.X_POSITION)));
 		return null;
 	}

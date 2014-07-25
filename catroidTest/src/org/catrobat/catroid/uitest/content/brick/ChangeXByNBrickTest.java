@@ -81,8 +81,8 @@ public class ChangeXByNBrickTest extends BaseActivityInstrumentationTestCase<Scr
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		changeXByNBrick = new ChangeXByNBrick(sprite, 0);
+		Script script = new StartScript();
+		changeXByNBrick = new ChangeXByNBrick(0);
 		script.addBrick(changeXByNBrick);
 
 		sprite.addScript(script);

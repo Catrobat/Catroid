@@ -1981,7 +1981,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		projectManager.getFileChecksumContainer().addChecksum(backgroundRed.getChecksum(),
 				backgroundRed.getAbsolutePath());
 
-		SetLookBrick setBackgroundBrick = new SetLookBrick(projectManager.getCurrentSprite());
+		SetLookBrick setBackgroundBrick = new SetLookBrick();
 		projectManager.getCurrentScript().addBrick(setBackgroundBrick);
 		setBackgroundBrick.setLook(backgroundGreen);
 		StorageHandler.getInstance().saveProject(projectManager.getCurrentProject());

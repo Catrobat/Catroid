@@ -192,9 +192,9 @@ public class PlaySoundBrickTest extends BaseActivityInstrumentationTestCase<Main
 		ProjectManager projectManager = ProjectManager.getInstance();
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
-		Script testScript = new StartScript(firstSprite);
+		Script testScript = new StartScript();
 
-		PlaySoundBrick playSoundBrick = new PlaySoundBrick(firstSprite);
+		PlaySoundBrick playSoundBrick = new PlaySoundBrick();
 		testScript.addBrick(playSoundBrick);
 
 		firstSprite.addScript(testScript);
