@@ -337,6 +337,7 @@ public class PreStageActivity extends BaseActivity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.i("bt", "requestcode " + requestCode + " result code" + resultCode);
+
 		switch (requestCode) {
 			case REQUEST_CONNECT_DEVICE:
 				switch (resultCode) {
@@ -367,11 +368,11 @@ public class PreStageActivity extends BaseActivity {
 						}
 						break;
 
-						case Activity.RESULT_CANCELED:
-							connectingProgressDialog.dismiss();
-							Toast.makeText(PreStageActivity.this, R.string.bt_connection_failed, Toast.LENGTH_LONG).show();
-							resourceFailed();
-							break;
+					case Activity.RESULT_CANCELED:
+						connectingProgressDialog.dismiss();
+						Toast.makeText(PreStageActivity.this, R.string.bt_connection_failed, Toast.LENGTH_LONG).show();
+						resourceFailed();
+						break;
 
 					case DeviceListActivity.BLUETOOTH_ACTIVATION_CANCELED:
 						Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
