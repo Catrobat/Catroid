@@ -72,6 +72,7 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 			super.setUp();
 			SensorTestServerConnection.connectToArduinoServer();
 			setActivityInitialTouchMode(false);
+			SensorTestServerConnection.closeConnection();
 		} else {
 			Log.d(TAG, " setUp() - no flash led available");
 		}
@@ -79,9 +80,9 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 
 	@Override
 	protected void tearDown() throws Exception {
-		super.tearDown();
 		SensorTestServerConnection.closeConnection();
 		setActivityInitialTouchMode(true);
+		super.tearDown();
 	}
 
 	@Device

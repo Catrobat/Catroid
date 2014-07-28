@@ -46,7 +46,7 @@ public final class SensorTestServerConnection {
 
 	// Enter the right IP address and port number to connect and request sensor values.
 	// PMD DISABLE AvoidUsingHardCodedIP FOR 1 LINES
-	private static final String ARDUINO_SERVER_IP = "129.27.202.103"; //NOPMD
+	private static final String ARDUINO_SERVER_IP = "10.0.0.33";//"129.27.202.103"; //NOPMD
 	private static final int SERVER_PORT = 6789;
 
 	private static final int GET_VIBRATION_VALUE_ID = 1;
@@ -97,15 +97,15 @@ public final class SensorTestServerConnection {
 			assertString = "Error: LED is turned on!";
 		}
 		try {
-			clientSocket.close();
-			Thread.sleep(NETWORK_DELAY_MS);
 			connectToArduinoServer();
+			Thread.sleep(NETWORK_DELAY_MS);
 			Log.d(TAG, "requesting sensor value: ");
 			sendToServer.writeByte(Integer.toHexString(GET_LIGHT_VALUE_ID).charAt(0));
 			sendToServer.flush();
 			Thread.sleep(NETWORK_DELAY_MS);
 			response = receiveFromServer.readLine();
 			Log.d(TAG, "response received! " + response);
+			clientSocket.close();
 
 			assertFalse("Wrong Command!", response.contains("ERROR"));
 			assertTrue("Wrong data received!", response.contains("LIGHT_END"));
@@ -131,15 +131,15 @@ public final class SensorTestServerConnection {
 			assertString = "Error: Vibrator is turned on!";
 		}
 		try {
-			clientSocket.close();
-			Thread.sleep(NETWORK_DELAY_MS);
 			connectToArduinoServer();
+			Thread.sleep(NETWORK_DELAY_MS);
 			Log.d(TAG, "requesting sensor value: ");
 			sendToServer.writeByte(Integer.toHexString(GET_VIBRATION_VALUE_ID).charAt(0));
 			sendToServer.flush();
 			Thread.sleep(NETWORK_DELAY_MS);
 			response = receiveFromServer.readLine();
 			Log.d(TAG, "response received! " + response);
+			clientSocket.close();
 
 			assertFalse("Wrong Command!", response.contains("ERROR"));
 			assertTrue("Wrong data received!", response.contains("VIBRATION_END"));
@@ -155,15 +155,15 @@ public final class SensorTestServerConnection {
 	public static void calibrateVibrationSensor() {
 		String response;
 		try {
-			clientSocket.close();
-			Thread.sleep(NETWORK_DELAY_MS);
 			connectToArduinoServer();
+			Thread.sleep(NETWORK_DELAY_MS);
 			Log.d(TAG, "requesting sensor value: ");
 			sendToServer.writeByte(Integer.toHexString(CALIBRATE_VIBRATION_SENSOR_ID).charAt(0));
 			sendToServer.flush();
 			Thread.sleep(NETWORK_DELAY_MS);
 			response = receiveFromServer.readLine();
 			Log.d(TAG, "response received! " + response);
+			clientSocket.close();
 
 		} catch (IOException ioException) {
 			throw new AssertionFailedError("Data exchange failed! Check server connection!");
