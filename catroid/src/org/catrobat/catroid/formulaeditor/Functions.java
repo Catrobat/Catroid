@@ -29,7 +29,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 
 public enum Functions {
 
-	SIN, COS, TAN, LN, LOG, SQRT, RAND, ROUND, ABS, PI, MOD, ARCSIN, ARCCOS, ARCTAN, EXP, MAX, MIN, TRUE, FALSE, LENGTH, LETTER, JOIN,LIST_ITEM ;
+	SIN, COS, TAN, LN, LOG, SQRT, RAND, ROUND, ABS, PI, MOD, ARCSIN, ARCCOS, ARCTAN, EXP, MAX, MIN, TRUE, FALSE, LENGTH, LETTER, JOIN, LIST_ITEM ;
 
 
 	private static final String TAG = Functions.class.getSimpleName();
