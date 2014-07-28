@@ -91,15 +91,14 @@ public class PhysicsObject {
 	}
 
 	public void setShape(Shape[] shapes) {
-		if (this.shapes == shapes) {
+		if (Arrays.equals(this.shapes, shapes)) {
 			return;
 		}
 
 
 		if (shapes != null) {
 			this.shapes = Arrays.copyOf(shapes, shapes.length);
-		}
-		else {
+		} else {
 			this.shapes = null;
 		}
 
@@ -351,7 +350,7 @@ public class PhysicsObject {
 			setGravityScale(0);
 			setVelocity(0, 0);
 			setRotationSpeed(0);
-			setCollisionBits(PhysicsWorld.NOCOLLISION_MASK, PhysicsWorld.NOCOLLISION_MASK);
+			setCollisionBits(categoryMaskRecord, PhysicsWorld.NOCOLLISION_MASK);
 			hangup = true;
 		}
 	}
