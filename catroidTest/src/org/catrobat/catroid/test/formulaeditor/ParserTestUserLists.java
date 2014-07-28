@@ -35,6 +35,7 @@ import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
+import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.UserListContainer;
 
 import java.util.ArrayList;
@@ -215,8 +216,17 @@ public class ParserTestUserLists extends AndroidTestCase {
 				InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, 1.0,
 				firstSprite);
 
+	}
 
+	public void testLength() {
+		userListContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
 
+		FormulaEditorUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME,
+				(double) 0, firstSprite);
+
+		userListContainer.getUserList(PROJECT_USER_LIST_NAME, firstSprite).setList(USER_LIST_VALUES_MULTIPLE_NUMBERS);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME,
+				(double) USER_LIST_VALUES_MULTIPLE_NUMBERS.size(), firstSprite);
 
 	}
 
