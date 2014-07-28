@@ -19,6 +19,9 @@ apply plugin: 'com.android.application'
 //apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
+apply from: 'gradle/adb_tasks.gradle'
+apply from: 'gradle/code_quality_tasks.gradle'
+apply from: 'gradle/intellij_config_tasks.gradle'
 
 check.dependsOn 'checkstyle'
 check.dependsOn 'pmd'
@@ -136,54 +139,6 @@ android {
     }
 }
 
-// Doesn't work atm. Maybe if the pmd plugin gets updated.
-//task findbugs(type: FindBugs) {
-//    classes = fileTree('build/classes/debug/')
-//    source = fileTree(android.sourceSets.main.java.srcDirs)
-//    classpath = files( project.configurations.compile.asPath )
-//    effort = 'max'
-//    reports.xml.enabled = false
-//    reports.html.enabled = true
-//}
-
-task checkstyle(type: Checkstyle) {
-    configFile file('config/checkstyle.xml')
-    source '.'
-    include '**/*.java'
-    exclude '**/gen/**', '**/build/**', '**/res/**', 'libraryProjects/**'
-
-    classpath = files()
-
-    // needed for console output of warnings/errors
-    showViolations true
-    ignoreFailures false
-
-    reports {
-        xml.destination "build/reports/checkstyle.xml"
-    }
-}
-
-task pmd(type: Pmd) {
-    // current plugin has pmd 4.3 as default
-    // gradle 2.0 should support pmd 5.1.1 out of the box; deprecated toolVersion property should be removed then
-    toolVersion = '5.1.1'
-
-    // complete rulesets can be used with the abbrevation
-    // rulesets with specific excludes are moved to a config file containing just a single ruleset with exclude(s)
-    ruleSets = ['java-android', 'java-braces', 'java-empty', 'java-sunsecure', 'java-unusedcode', 'config/pmd_basic.xml',
-                'config/pmd_strings.xml', 'config/pmd_unnecessary.xml']
-    source '.'
-    include '**/*.java'
-    exclude '**/gen/**', '**/build/**', '**/res/**', 'libraryProjects/**', '**/catroidCucumberTest/**'
-
-    ignoreFailures false
-
-    reports {
-        xml.enabled = true
-        html.enabled = false
-        xml.destination "build/reports/pmd.xml"
-    }
-}
 
 if(project.hasProperty('jenkins')) {
     project.android.dexOptions.preDexLibraries = false
@@ -240,138 +195,3 @@ if (signing_config_file.exists()) {
     apply from: signing_config_file.absolutePath
 }
 
-task gitSkipWorktreeForIntellijConfigFiles << {
-    try {
-        'git update-index --skip-worktree .idea/misc.xml'.execute().text.trim()
-        'git update-index --skip-worktree Catroid.iml'.execute().text.trim()
-        'git update-index --skip-worktree catroidSourceTest/catroidSourceTest.iml'.execute().text.trim()
-    } catch (IOException exception) {
-        throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
-    }
-}
-
-task gitNoSkipWorktreeForIntellijConfigFiles << {
-    try {
-        'git update-index --no-skip-worktree .idea/misc.xml'.execute().text.trim()
-        'git update-index --no-skip-worktree Catroid.iml'.execute().text.trim()
-        'git update-index --no-skip-worktree catroidSourceTest/catroidSourceTest.iml'.execute().text.trim()
-    } catch (IOException exception) {
-        throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
-    }
-}
-
-task gitSaveStashSwitchingToOldBranch << {
-    try {
-        'git update-index --no-skip-worktree .idea/misc.xml'.execute().text.trim()
-        'git update-index --no-skip-worktree Catroid.iml'.execute().text.trim()
-        'git update-index --no-skip-worktree catroidSourceTest/catroidSourceTest.iml'.execute().text.trim()
-        'git stash save "IntelliJConfig"'.execute().text.trim()
-    } catch (IOException exception) {
-        throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
-    }
-}
-
-task gitApplyStashSwitchingToOldBranch << {
-    try {
-        'git stash apply "IntelliJConfig"'.execute().text.trim()
-        'git update-index --skip-worktree .idea/misc.xml'.execute().text.trim()
-        'git update-index --skip-worktree Catroid.iml'.execute().text.trim()
-        'git update-index --skip-worktree catroidSourceTest/catroidSourceTest.iml'.execute().text.trim()
-    } catch (IOException exception) {
-        throw new UnsupportedOperationException("Could not find git! Maybe it is not in \$PATH variable?", exception)
-    }
-}
-
-def getAdb() {
-    def adbPath = "adb"
-    if (System.properties['adbPath']) {
-        adbPath = System.properties['adbPath']
-    }
-    return adbPath.toString()
-}
-
-def getAndroidDevices() {
-    def deviceIds = []
-    [getAdb(), 'devices'].execute().text.eachLine { line ->
-        def matcher = line =~ /^(.*)\tdevice/
-        if (matcher) {
-            deviceIds << matcher[0][1]
-        }
-    }
-    deviceIds
-}
-
-def getAndroidDevice() {
-    def availableDevices = getAndroidDevices()
-    def deviceId
-    if (System.properties['deviceId']) {
-        deviceId = System.properties['deviceId']
-        if (!availableDevices.contains(deviceId))
-            throw new IllegalStateException("Device ${deviceId} not found")
-    } else {
-        if (availableDevices.size() == 0)
-            throw new IllegalStateException("No devices found")
-        else
-            deviceId = availableDevices.first()
-    }
-    return deviceId.toString()
-}
-
-def executeShellCommand(command) {
-    println("executing: ${command}")
-    def process = new ProcessBuilder(command).redirectErrorStream(true).start()
-    process.inputStream.eachLine {println it}
-    process.waitFor()
-    if(process.exitValue() != 0)
-        throw new GradleScriptException("adb exited with exit status ${process.exitValue()}", null)
-}
-
-def createAdbInstallTask(variant) {
-    task ("adbInstall${variant.name.capitalize()}") << {
-        def command = [getAdb(), '-s', getAndroidDevice(), 'install', variant.packageApplication.outputFile.path]
-        executeShellCommand(command)
-    }
-}
-
-android.applicationVariants.all { variant ->
-    createAdbInstallTask(variant)
-}
-
-android.testVariants.all { variant ->
-    createAdbInstallTask(variant)
-}
-
-task adbRunTests << {
-    def command = []
-    command.addAll([getAdb(), '-s', getAndroidDevice(), 'shell', 'am', 'instrument', '-w', '-e', 'junitOutputDirectory', '/mnt/sdcard/testresults'])
-    if (System.properties['noDeviceTests']){
-        command.addAll(['-e', 'notAnnotation', 'org.catrobat.catroid.uitest.annotation.Device'])
-    }
-    if (System.properties['onlyDeviceTests']){
-        command.addAll(['-e', 'annotation', 'org.catrobat.catroid.uitest.annotation.Device'])
-    }
-    if (System.properties['testClass']){
-        command.addAll(['-e', 'class', System.properties['testClass'].toString()])
-    }
-    if (System.properties['testPackage']){
-        command.addAll(['-e', 'package', System.properties['testPackage'].toString()])
-    }
-
-    command.addAll(["${android.defaultConfig.testApplicationId}/${android.defaultConfig.testInstrumentationRunner}".toString()])
-    executeShellCommand(command)
-
-    def adbPath = project.getBuildDir().getPath()+"/adb"
-    def adbTestPath = adbPath+"/test"
-    def adbScreenshotsPath = adbPath+"/robotium_screenshots"
-    file(adbPath).deleteDir()
-    file(adbTestPath).mkdirs()
-    file(adbScreenshotsPath).mkdirs()
-
-    def testPullCommand = [getAdb(), '-s', getAndroidDevice(), 'pull', '/sdcard/testresults', adbTestPath]
-    def screenshotsPullCommand = [getAdb(), '-s', getAndroidDevice(), 'pull', '/sdcard/Robotium-Screenshots', adbScreenshotsPath]
-
-    executeShellCommand(testPullCommand)
-    try {
-        executeShellCommand(screenshotsPullCommand)
-    } catch (GradleScriptException) {}
-}
