@@ -58,10 +58,10 @@ public class SetBounceBrick extends BrickBaseType implements OnClickListener, Cl
 		this.bounceFactor = new Formula(bounceFactor);
 	}
 
-//	public SetBounceBrick(Sprite sprite, Formula bounceFactor) {
-//		this.sprite = sprite;
-//		this.bounceFactor = bounceFactor;
-//	}
+	public SetBounceBrick(Sprite sprite, Formula bounceFactor) {
+		this.sprite = sprite;
+		this.bounceFactor = bounceFactor;
+	}
 
 	@Override
 	public int getRequiredResources() {

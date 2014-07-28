@@ -34,7 +34,7 @@ import java.util.ArrayList;
 public class BroadcastScript extends Script implements BroadcastMessage {
 
 	private static final long serialVersionUID = 1L;
-	private String receivedMessage;
+	protected String receivedMessage;
 
 	public BroadcastScript(Sprite sprite, String broadcastMessage) {
 		super(sprite);
