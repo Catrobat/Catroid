@@ -1,0 +1,48 @@
+// Doesn't work atm. Maybe if the pmd plugin gets updated.
+//task findbugs(type: FindBugs) {
+//    classes = fileTree('build/classes/debug/')
+//    source = fileTree(android.sourceSets.main.java.srcDirs)
+//    classpath = files( project.configurations.compile.asPath )
+//    effort = 'max'
+//    reports.xml.enabled = false
+//    reports.html.enabled = true
+//}
+
+task checkstyle(type: Checkstyle) {
+    configFile file('config/checkstyle.xml')
+    source '.'
+    include '**/*.java'
+    exclude '**/gen/**', '**/build/**', '**/res/**', 'libraryProjects/**'
+
+    classpath = files()
+
+    // needed for console output of warnings/errors
+    showViolations true
+    ignoreFailures false
+
+    reports {
+        xml.destination "build/reports/checkstyle.xml"
+    }
+}
+
+task pmd(type: Pmd) {
+    // current plugin has pmd 4.3 as default
+    // gradle 2.0 should support pmd 5.1.1 out of the box; deprecated toolVersion property should be removed then
+    toolVersion = '5.1.1'
+
+    // complete rulesets can be used with the abbrevation
+    // rulesets with specific excludes are moved to a config file containing just a single ruleset with exclude(s)
+    ruleSets = ['java-android', 'java-braces', 'java-empty', 'java-sunsecure', 'java-unusedcode', 'config/pmd_basic.xml',
+                'config/pmd_strings.xml', 'config/pmd_unnecessary.xml']
+    source '.'
+    include '**/*.java'
+    exclude '**/gen/**', '**/build/**', '**/res/**', 'libraryProjects/**', '**/catroidCucumberTest/**'
+
+    ignoreFailures false
+
+    reports {
+        xml.enabled = true
+        html.enabled = false
+        xml.destination "build/reports/pmd.xml"
+    }
+}
