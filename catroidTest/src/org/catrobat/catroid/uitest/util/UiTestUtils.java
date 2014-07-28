@@ -155,6 +155,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
 public final class UiTestUtils {
@@ -1601,7 +1602,9 @@ public final class UiTestUtils {
 	}
 
 	public static ListView getScriptListView(Solo solo) {
-		return solo.getCurrentViews(ListView.class).get(0);
+		ArrayList<ListView> listOfListViews = solo.getCurrentViews(ListView.class);
+		assertTrue("no ListView found!", listOfListViews.size() > 0);
+		return listOfListViews.get(0);
 	}
 
 	public static void waitForFragment(Solo solo, int fragmentRootLayoutId) {
