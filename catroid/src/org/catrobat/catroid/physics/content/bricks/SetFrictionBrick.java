@@ -58,10 +58,10 @@ public class SetFrictionBrick extends BrickBaseType implements OnClickListener, 
 		this.friction = new Formula(friction);
 	}
 
-	//	public SetFrictionBrick(Sprite sprite, Formula friction) {
-	//		this.sprite = sprite;
-	//		this.friction = friction;
-	//	}
+		public SetFrictionBrick(Sprite sprite, Formula friction) {
+			this.sprite = sprite;
+			this.friction = friction;
+		}
 
 	@Override
 	public int getRequiredResources() {
