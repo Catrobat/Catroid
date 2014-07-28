@@ -385,13 +385,34 @@ public class FormulaElement implements Serializable {
 				return interpretFunctionJOIN(sprite);
 			case LIST_ITEM:
 				return interpretFunctionLISTITEM(left, right, sprite);
+			case CONTAINS:
+				return interpretFunctionCONTAINS(left, right, sprite);
 		}
+		return 0d;
+	}
+
+	private Object interpretFunctionCONTAINS(Object left, Object right, Sprite sprite) {
+		if (leftChild.getElementType() == ElementType.USER_LIST) {
+			UserListContainer userListContainer = ProjectManager.getInstance().getCurrentProject().getUserLists();
+			UserList userList = userListContainer.getUserList(leftChild.getValue(), sprite);
+
+			if (userList == null) {
+				return 0d;
+			}
+
+			for (Object userListElement : userList.getList()) {
+				if (interpretOperatorEqual(userListElement, right) == 1d) {
+					return 1d;
+				}
+			}
+		}
+
 		return 0d;
 	}
 
 	private Object interpretFunctionLISTITEM(Object left, Object right, Sprite sprite) {
 		UserList userList = null;
-		if ( rightChild.getElementType() == ElementType.USER_LIST){
+		if (rightChild.getElementType() == ElementType.USER_LIST) {
 			UserListContainer userLists = ProjectManager.getInstance().getCurrentProject().getUserLists();
 			userList = userLists.getUserList(rightChild.getValue(), sprite);
 		}
@@ -884,12 +905,14 @@ public class FormulaElement implements Serializable {
 			}
 		}
 
-	}private int handleLengthUserListParameter(Sprite sprite) {
+	}
+
+	private int handleLengthUserListParameter(Sprite sprite) {
 		UserListContainer userListContainer = ProjectManager.getInstance().getCurrentProject()
 				.getUserLists();
 		UserList userList = userListContainer.getUserList(leftChild.value, sprite);
 
-		if(userList == null){
+		if (userList == null) {
 			return 0;
 		}
 
