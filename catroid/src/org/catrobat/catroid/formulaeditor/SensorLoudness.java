@@ -101,6 +101,8 @@ public final class SensorLoudness {
 					} catch (IOException ioException) {
 						// ignored, nothing we can do
 						Log.e(TAG, Log.getStackTraceString(ioException));
+					} catch (RuntimeException runtimeException) {
+						Log.d(TAG, "stop was called shortly after start!", runtimeException);
 					}
 					recorder = new SoundRecorder("/dev/null");
 				}
