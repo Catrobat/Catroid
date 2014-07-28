@@ -44,6 +44,7 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.content.bricks.DroneLandBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
@@ -283,6 +284,7 @@ public class CategoryBricksFactory {
 		dataBrickList.add(new SetVariableBrick(sprite, 0));
 		dataBrickList.add(new ChangeVariableBrick(sprite, 0));
 		dataBrickList.add(new AddItemToUserListBrick(sprite, 0));
+		dataBrickList.add(new DeleteItemOfUserListBrick(sprite, 1));
 		return dataBrickList;
 
 	}
