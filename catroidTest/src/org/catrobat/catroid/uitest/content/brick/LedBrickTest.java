@@ -200,14 +200,21 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 		Camera.Parameters parameters = camera.getParameters();
 
 		if (parameters.getFlashMode() == null) {
+			camera.release();
+			camera = null;
 			return false;
 		}
 
 		List<String> supportedFlashModes = parameters.getSupportedFlashModes();
 		if (supportedFlashModes == null || supportedFlashModes.isEmpty() ||
 				supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF)) {
+			camera.release();
+			camera = null;
 			return false;
 		}
+
+		camera.release();
+		camera = null;
 
 		return true;
 	}
