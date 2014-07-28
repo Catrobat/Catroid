@@ -212,12 +212,11 @@ public class FormulaElement implements Serializable {
 			}
 
 		} else {
-			return interpretMultipleItemsUserList(sprite, userListValues);
+			return interpretMultipleItemsUserList(userListValues);
 		}
-
 	}
 
-	private Object interpretMultipleItemsUserList(Sprite sprite, List<Object> userListValues) {
+	private Object interpretMultipleItemsUserList(List<Object> userListValues) {
 		List<String> userListStringValues = new ArrayList<String>();
 		boolean concatenateWithoutWhitespace = true;
 
@@ -308,6 +307,28 @@ public class FormulaElement implements Serializable {
 
 		if (leftChild != null) {
 			left = leftChild.interpretRecursive(sprite);
+			if (left instanceof String) {
+				try {
+					doubleValueOfLeftChild = Double.valueOf((String) left);
+				} catch (NumberFormatException numberFormatException) {
+					Log.d(getClass().getSimpleName(), "Couldn't parse String", numberFormatException);
+				}
+			} else {
+				doubleValueOfLeftChild = (Double) left;
+			}
+		}
+
+		if (rightChild != null) {
+			right = rightChild.interpretRecursive(sprite);
+			if (right instanceof String) {
+				try {
+					doubleValueOfRightChild = Double.valueOf((String) right);
+				} catch (NumberFormatException numberFormatException) {
+					Log.d(getClass().getSimpleName(), "Couldn't parse String", numberFormatException);
+				}
+			} else {
+				doubleValueOfRightChild = (Double) right;
+			}
 		}
 
 		switch (function) {
@@ -362,8 +383,44 @@ public class FormulaElement implements Serializable {
 				return interpretFunctionLENGTH(left, sprite);
 			case JOIN:
 				return interpretFunctionJOIN(sprite);
+			case LIST_ITEM:
+				return interpretFunctionLISTITEM(left, right, sprite);
 		}
 		return 0d;
+	}
+
+	private Object interpretFunctionLISTITEM(Object left, Object right, Sprite sprite) {
+		UserList userList = null;
+		if ( rightChild.getElementType() == ElementType.USER_LIST){
+			UserListContainer userLists = ProjectManager.getInstance().getCurrentProject().getUserLists();
+			userList = userLists.getUserList(rightChild.getValue(), sprite);
+		}
+
+		if (userList == null) {
+			return "";
+		}
+
+		int index = 0;
+		if (left instanceof String) {
+			try {
+				Double doubleValueOfLeftChild = Double.valueOf((String) left);
+				index = doubleValueOfLeftChild.intValue();
+			} catch (NumberFormatException numberFormatexception) {
+				Log.d(getClass().getSimpleName(), "Couldn't parse String", numberFormatexception);
+			}
+		} else {
+			index = ((Double) left).intValue();
+		}
+
+		index--;
+
+		if (index < 0) {
+			return "";
+		} else if (index >= userList.getList().size()) {
+			return "";
+		}
+
+		return userList.getList().get(index);
 	}
 
 	private Object interpretFunctionJOIN(Sprite sprite) {
@@ -414,7 +471,20 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretFunctionLETTER(Object right, Object left) {
-		int index = ((Double) left).intValue() - 1;
+		int index = 0;
+		//((Double) left).intValue() - 1;
+		if (left instanceof String) {
+			try {
+				Double doubleValueOfLeftChild = Double.valueOf((String) left);
+				index = doubleValueOfLeftChild.intValue();
+			} catch (NumberFormatException numberFormatexception) {
+				Log.d(getClass().getSimpleName(), "Couldn't parse String", numberFormatexception);
+			}
+		} else {
+			index = ((Double) left).intValue();
+		}
+
+		index--;
 
 		if (index < 0) {
 			return "";
@@ -589,54 +659,51 @@ public class FormulaElement implements Serializable {
 		return returnValue;
 	}
 
-	private Object interpretString(String stringValue) throws NumberFormatException {
+	private Object interpretString(String value) {
 
-		if (parent == null && type != ElementType.USER_VARIABLE) {
-			Double anotherValue;
-			try {
-				anotherValue = Double.valueOf(stringValue);
-			} catch (NumberFormatException numberFormatException) {
-				return stringValue;
-			}
-			return anotherValue;
-		}
+//		if (parent == null && type != ElementType.USER_VARIABLE) {
+//			Double anotherValue;
+//			try {
+//				anotherValue = Double.valueOf(value);
+//			} catch (NumberFormatException numberFormatException) {
+//				return value;
+//			}
+//			return anotherValue;
+//		}
+//
+//		if (parent != null) {
+//			boolean isParentAFunction = Functions.getFunctionByValue(parent.value) != null;
+//			if (isParentAFunction && Functions.getFunctionByValue(parent.value).returnType == ElementType.STRING) {
+//				if (Functions.getFunctionByValue(parent.value) == Functions.LETTER && parent.leftChild == this) {
+//					try {
+//						return Double.valueOf(value);
+//					} catch (NumberFormatException numberFormatexception) {
+//						return Double.valueOf(0);
+//					}
+//				}
+//				return value;
+//			}
+//
+//			if (isParentAFunction) {
+//				try {
+//					return Double.valueOf(value);
+//				} catch (NumberFormatException numberFormatexception) {
+//					return value;
+//				}
+//			}
+//
+//			boolean isParentAOperator = Operators.getOperatorByValue(parent.value) != null;
+//			if (isParentAOperator
+//					&& (Operators.getOperatorByValue(parent.value) == Operators.EQUAL || Operators
+//							.getOperatorByValue(parent.value) == Operators.NOT_EQUAL)) {
+//				return value;
+//			}
+//		}
 
-		if (parent != null) {
-			boolean isParentAFunction = Functions.getFunctionByValue(parent.value) != null;
-			if (isParentAFunction && Functions.getFunctionByValue(parent.value).returnType == ElementType.STRING) {
-				if (Functions.getFunctionByValue(parent.value) == Functions.LETTER && parent.leftChild == this) {
-					try {
-						return Double.valueOf(stringValue);
-					} catch (NumberFormatException numberFormatexception) {
-						return Double.valueOf(0);
-					}
-				}
-				return stringValue;
-			}
-
-			if (isParentAFunction) {
-				try {
-					return Double.valueOf(stringValue);
-				} catch (NumberFormatException numberFormatexception) {
-					return stringValue;
-				}
-			}
-
-			boolean isParentAnOperator = Operators.getOperatorByValue(parent.value) != null;
-			if (isParentAnOperator
-					&& (Operators.getOperatorByValue(parent.value) == Operators.EQUAL || Operators
-							.getOperatorByValue(parent.value) == Operators.NOT_EQUAL)) {
-				return stringValue;
-			}
-		}
-
-		if (stringValue.length() == 0) {
-			return Double.valueOf(0.0);
-		}
-
-		return Double.valueOf(stringValue);
+//		if (value.length() == 0) {
+//			return Double.valueOf(0.0);
+//		}
 	}
-
 	private Double interpretOperatorEqual(Object left, Object right) {
 
 		if (left instanceof String && right instanceof String) {

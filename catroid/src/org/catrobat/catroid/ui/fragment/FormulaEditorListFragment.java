@@ -77,7 +77,7 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			R.string.formula_editor_function_arctan, R.string.formula_editor_function_exp,
 			R.string.formula_editor_function_max, R.string.formula_editor_function_min,
 			R.string.formula_editor_function_length, R.string.formula_editor_function_letter,
-			R.string.formula_editor_function_join };
+			R.string.formula_editor_function_join , R.string.formula_editor_function_list_item};
 
 	private static final int[] FUNCTIONS_PARAMETERS = { R.string.formula_editor_function_sin_parameter,
 			R.string.formula_editor_function_cos_parameter, R.string.formula_editor_function_tan_parameter,
@@ -89,7 +89,7 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			R.string.formula_editor_function_arctan_parameter, R.string.formula_editor_function_exp_parameter,
 			R.string.formula_editor_function_max_parameter, R.string.formula_editor_function_min_parameter,
 			R.string.formula_editor_function_length_parameter, R.string.formula_editor_function_letter_parameter,
-			R.string.formula_editor_function_join_parameter };
+			R.string.formula_editor_function_join_parameter ,R.string.formula_editor_function_list_item_parameter};
 
 	private static final int[] SENSOR_ITEMS = { R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration,
