@@ -437,7 +437,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 	}
 
 	public void testUserVariablesBricksDefaultValues() {
-		String categoryUserVariablesText = solo.getString(R.string.category_variables);
+		String categoryUserVariablesText = solo.getString(R.string.category_data);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		solo.clickOnText(categoryUserVariablesText);

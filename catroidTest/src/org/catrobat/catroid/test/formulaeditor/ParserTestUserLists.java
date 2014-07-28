@@ -31,6 +31,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
@@ -183,6 +184,40 @@ public class ParserTestUserLists extends AndroidTestCase {
 		assertNull("Invalid user list parsed:   NOT_EXISTING_USER_LIST)", parseTree);
 		int errorTokenIndex = internParser.getErrorTokenIndex();
 		assertEquals("Error Token Index is not as expected", 0, errorTokenIndex);
+	}
+
+	public void testFunctionListItem(){
+		userListContainer.addSpriteUserList(PROJECT_USER_LIST_NAME);
+		userListContainer.getUserList(PROJECT_USER_LIST_NAME, firstSprite).setList(USER_LIST_VALUES_MULTIPLE_NUMBERS);
+
+		String index = "1";
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.NUMBER, index,
+				InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, 1.0,
+				firstSprite);
+
+		index = "0";
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.NUMBER, index,
+				InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "",
+				firstSprite);
+
+		index = "4";
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.NUMBER, index,
+				InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, "",
+				firstSprite);
+
+		index = "1.4";
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.NUMBER, index,
+				InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, 1.0,
+				firstSprite);
+
+		index = "1.0";
+		FormulaEditorUtil.testDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.STRING, index,
+				InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, 1.0,
+				firstSprite);
+
+
+
+
 	}
 
 	private Object interpretUserList(String userListName) {

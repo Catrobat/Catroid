@@ -22,7 +22,11 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import android.content.Context;
+
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -123,6 +127,9 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_function_join:
 				return buildDoubleParameterFunction(Functions.JOIN, InternTokenType.STRING, "hello",
 						InternTokenType.STRING, " world");
+			case R.string.formula_editor_function_list_item:
+				return buildDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.NUMBER, "1",
+						InternTokenType.USER_LIST, "list name");
 
 				//SENSOR
 

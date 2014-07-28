@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -81,16 +81,16 @@ public class UserListContainer implements Serializable {
 		return userListToAdd;
 	}
 
-	public void deleteUserListByName(String userVariableName) {
+	public void deleteUserListByName(String userListName) {
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		UserList listToDelete;
 		List<UserList> spriteVariables = getOrCreateVariableListForSprite(currentSprite);
-		listToDelete = findUserList(userVariableName, spriteVariables);
+		listToDelete = findUserList(userListName, spriteVariables);
 		if (listToDelete != null) {
 			spriteVariables.remove(listToDelete);
 		}
 
-		listToDelete = findUserList(userVariableName, projectLists);
+		listToDelete = findUserList(userListName, projectLists);
 		if (listToDelete != null) {
 			projectLists.remove(listToDelete);
 		}
@@ -105,10 +105,10 @@ public class UserListContainer implements Serializable {
 		return userLists;
 	}
 
-	public void cleanVariableListForSprite(Sprite sprite) {
-		List<UserList> vars = spriteListOfLists.get(sprite);
-		if (vars != null) {
-			vars.clear();
+	public void cleanUserListForSprite(Sprite sprite) {
+		List<UserList> listOfUserLists = spriteListOfLists.get(sprite);
+		if (listOfUserLists != null) {
+			listOfUserLists.clear();
 		}
 		spriteListOfLists.remove(sprite);
 	}
@@ -140,5 +140,21 @@ public class UserListContainer implements Serializable {
 		for (UserList userList : userVariableList) {
 			userList.getList().clear();
 		}
+	}
+
+	public UserList getUserList() {
+
+		if (projectLists.size() > 0) {
+			return projectLists.get(0);
+		}
+
+		Iterator<Sprite> spriteIterator = spriteListOfLists.keySet().iterator();
+		while (spriteIterator.hasNext()) {
+			Sprite currentSprite = spriteIterator.next();
+			if (spriteListOfLists.get(currentSprite).size() > 0) {
+				return spriteListOfLists.get(currentSprite).get(0);
+			}
+		}
+		return null;
 	}
 }
