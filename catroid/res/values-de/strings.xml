@@ -437,6 +437,8 @@
     <string name="brick_broadcast_default_value">"Nachricht 1"</string>
     <string name="brick_add_item_to_userlist_add">Füge zu Liste</string>
     <string name="brick_add_item_to_userlist">den Wert</string>
+    <string name="brick_delete_item_from_userlist_delete">Lösche Element von Liste</string>
+    <string name="brick_delete_item_from_userlist">mit Index</string>
     <!--  -->
 
 

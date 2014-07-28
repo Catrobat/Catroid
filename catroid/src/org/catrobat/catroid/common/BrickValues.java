@@ -72,6 +72,7 @@ public final class BrickValues {
 
 	//Constants Lists
 	public static final double ADD_ITEM_TO_USERLIST = 0d;
+	public static final double DELETE_ITEM_OF_USERLIST = 1d;
 
 	// Suppress default constructor for noninstantiability
 	private BrickValues() {

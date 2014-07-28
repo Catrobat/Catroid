@@ -321,6 +321,14 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
+	public static Action deleteItemOfUserList(Sprite sprite, Formula userListFormula, UserList userList) {
+		DeleteItemOfUserListAction action = action(DeleteItemOfUserListAction.class);
+		action.setSprite(sprite);
+		action.setFormulaIndexToDelete(userListFormula);
+		action.setUserList(userList);
+		return action;
+	}
+
 	public static Action addItemToUserList(Sprite sprite, Formula userListFormula, UserList userList) {
 		AddItemToUserListAction action = action(AddItemToUserListAction.class);
 		action.setSprite(sprite);

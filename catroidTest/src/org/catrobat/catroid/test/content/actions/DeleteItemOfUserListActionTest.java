@@ -36,13 +36,9 @@ import java.util.List;
 
 public class DeleteItemOfUserListActionTest extends AndroidTestCase {
 
-	private static final String TEST_USERLIST_NAME = "testUserList";
-	private static final double DOUBLE_VALUE_ITEM_TO_ADD = 3.0;
+	private static final String TEST_USER_LIST_NAME = "testUserList";
 	private static final List<Object> INITIALIZED_LIST_VALUES = new ArrayList<Object>();
-	static {
-		INITIALIZED_LIST_VALUES.add(1.0);
-		INITIALIZED_LIST_VALUES.add(2.0);
-	}
+
 	private Sprite testSprite;
 	private Project project;
 	private UserList userList;
@@ -52,35 +48,51 @@ public class DeleteItemOfUserListActionTest extends AndroidTestCase {
 		testSprite = new Sprite("testSprite");
 		project = new Project(null, "testProject");
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().getCurrentProject().getUserLists().addProjectUserList(TEST_USERLIST_NAME);
+		ProjectManager.getInstance().getCurrentProject().getUserLists().addProjectUserList(TEST_USER_LIST_NAME);
 		userList = ProjectManager.getInstance().getCurrentProject().getUserLists()
-				.getUserList(TEST_USERLIST_NAME, null);
+				.getUserList(TEST_USER_LIST_NAME, null);
 		userList.setList(INITIALIZED_LIST_VALUES);
+		INITIALIZED_LIST_VALUES.clear();
+		INITIALIZED_LIST_VALUES.add(1.0);
+		INITIALIZED_LIST_VALUES.add(2.0);
+		INITIALIZED_LIST_VALUES.add(3.0);
 		super.setUp();
 	}
 
-	public void testAddNumericalValueToUserList() {
-		ExtendedActions.addItemToUserList(testSprite, new Formula(DOUBLE_VALUE_ITEM_TO_ADD), userList).act(1f);
+	public void testDeleteItemOfUserList() {
+		ExtendedActions.deleteItemOfUserList(testSprite, new Formula(1d), userList).act(1f);
 		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
+		Object firstItemOfUserList = userList.getList().get(0);
 
-		assertEquals("UserList size not changed!", 4, userList.getList().size());
-		assertEquals("UserList not changed!", DOUBLE_VALUE_ITEM_TO_ADD, lastItemOfUserList);
+		assertEquals("UserList size not changed!", 2, userList.getList().size());
+		assertEquals("UserList not changed!", 2.0 , firstItemOfUserList );
+		assertEquals("UserList not changed!", 3.0 , lastItemOfUserList );
 	}
 
-	public void testAddItemWithInvalidUserList() {
-		ExtendedActions.addItemToUserList(testSprite, new Formula(DOUBLE_VALUE_ITEM_TO_ADD), null).act(1f);
-		assertEquals("UserList changed, but should not!", 2, userList.getList().size());
+	public void testDeleteItemWithInvalidUserList() {
+		ExtendedActions.addItemToUserList(testSprite, new Formula(1d), null).act(1f);
+		assertEquals("UserList changed, but should not!", 3, userList.getList().size());
 	}
 
-	public void testAddNullFormula() {
-		ExtendedActions.addItemToUserList(testSprite, null, userList).act(1f);
+	public void testDeleteNullFormula() {
+		ExtendedActions.deleteItemOfUserList(testSprite, null, userList).act(1f);
+
 		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
-		assertEquals("UserList not changed!", 0d, lastItemOfUserList);
+		Object firstItemOfUserList = userList.getList().get(0);
+
+		assertEquals("UserList size not changed!", 2, userList.getList().size());
+		assertEquals("UserList not changed!", 2.0 , firstItemOfUserList );
+		assertEquals("UserList not changed!", 3.0 , lastItemOfUserList );
 	}
 
 	public void testNotANumberFormula() {
-		ExtendedActions.addItemToUserList(testSprite, new Formula(Double.NaN), userList).act(1f);
+		ExtendedActions.deleteItemOfUserList(testSprite, new Formula(Double.NaN), userList).act(1f);
+
 		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
-		assertEquals("String UserVariable not changed!", Double.NaN, lastItemOfUserList);
+		Object firstItemOfUserList = userList.getList().get(0);
+
+		assertEquals("UserList size not changed!", 2, userList.getList().size());
+		assertEquals("UserList not changed!", 2.0 , firstItemOfUserList );
+		assertEquals("UserList not changed!", 3.0 , lastItemOfUserList );
 	}
 }
