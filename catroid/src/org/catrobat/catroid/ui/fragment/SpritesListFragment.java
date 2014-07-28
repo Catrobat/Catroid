@@ -58,6 +58,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.UserListContainer;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
@@ -435,9 +436,12 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	public void deleteSprite() {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		UserVariablesContainer userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
+		UserListContainer userListContainer = projectManager.getCurrentProject().getUserLists();
 
 		deleteSpriteFiles();
 		userVariablesContainer.cleanVariableListForSprite(spriteToEdit);
+		userListContainer.cleanUserListForSprite(spriteToEdit);
+
 
 		if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
 			projectManager.setCurrentSprite(null);

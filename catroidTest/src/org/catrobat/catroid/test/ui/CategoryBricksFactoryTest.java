@@ -79,8 +79,8 @@ public class CategoryBricksFactoryTest extends AndroidTestCase {
 
 	public void testVariablesBricks() {
 		final int expectedBrickCount = 2;
-		checkBrickCountInCategory(R.string.category_variables, background, expectedBrickCount);
-		checkBrickCountInCategory(R.string.category_variables, sprite, expectedBrickCount);
+		checkBrickCountInCategory(R.string.category_data, background, expectedBrickCount);
+		checkBrickCountInCategory(R.string.category_data, sprite, expectedBrickCount);
 
 	}
 
