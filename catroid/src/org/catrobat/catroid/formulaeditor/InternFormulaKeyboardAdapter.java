@@ -130,6 +130,8 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_function_list_item:
 				return buildDoubleParameterFunction(Functions.LIST_ITEM, InternTokenType.NUMBER, "1",
 						InternTokenType.USER_LIST, "list name");
+			case R.string.formula_editor_function_contains:
+				return buildDoubleParameterFunction(Functions.CONTAINS, InternTokenType.USER_LIST, "list name", InternTokenType.NUMBER, "1");
 
 				//SENSOR
 
