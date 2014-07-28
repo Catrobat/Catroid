@@ -22,8 +22,13 @@
  */
 package org.catrobat.catroid.content;
 
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
+
+import java.util.ArrayList;
 
 public class CollisionScript extends BroadcastScript {
 
@@ -40,6 +45,24 @@ public class CollisionScript extends BroadcastScript {
 		}
 
 		return brick;
+	}
+
+	@Override
+	public Script copyScriptForSprite(Sprite copySprite) {
+		CollisionScript cloneScript = new CollisionScript(copySprite, receivedMessage);
+		ArrayList<Brick> cloneBrickList = cloneScript.getBrickList();
+
+		for (Brick brick : getBrickList()) {
+			Brick copiedBrick = brick.copyBrickForSprite(copySprite, cloneScript);
+			if (copiedBrick instanceof IfLogicEndBrick) {
+				setIfBrickReferences((IfLogicEndBrick) copiedBrick, (IfLogicEndBrick) brick);
+			} else if (copiedBrick instanceof LoopEndBrick) {
+				setLoopBrickReferences((LoopEndBrick) copiedBrick, (LoopEndBrick) brick);
+			}
+			cloneBrickList.add(copiedBrick);
+		}
+
+		return cloneScript;
 	}
 
 }

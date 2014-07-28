@@ -74,7 +74,6 @@ public class SetFrictionBrick extends FormulaBrick implements OnClickListener {
 		setFormulaWithBrickField(BrickField.PHYSICS_FRICTION, friction);
 	}
 
-
 	@Override
 	public int getRequiredResources() {
 		return PHYSIC;
