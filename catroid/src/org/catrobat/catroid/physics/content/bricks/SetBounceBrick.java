@@ -58,9 +58,9 @@ public class SetBounceBrick extends FormulaBrick implements OnClickListener {
 		initializeBrickFields(new Formula(bounceFactor));
 	}
 
-	//public SetBounceBrick(Formula bounceFactor) {
-	//	initializeBrickFields(bounceFactor);
-	//}
+	public SetBounceBrick(Formula bounceFactor) {
+		initializeBrickFields(bounceFactor);
+	}
 
 	private void initializeBrickFields(Formula bounceFactor) {
 		addAllowedBrickField(BrickField.PHYSICS_BOUNCE_FACTOR);
