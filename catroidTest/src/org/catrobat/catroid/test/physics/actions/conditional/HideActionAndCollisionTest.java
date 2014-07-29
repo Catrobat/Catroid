@@ -22,66 +22,32 @@
  */
 package org.catrobat.catroid.test.physics.actions.conditional;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
-import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.content.ActionFactory;
-import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
-import org.catrobat.catroid.test.physics.actions.PhysicsActionTestCase;
-import org.catrobat.catroid.test.utils.PhysicsTestUtils;
+import org.catrobat.catroid.test.physics.PhysicsCollisionBaseTest;
 
-public class HideActionAndCollisionTest extends PhysicsActionTestCase {
-
-	private boolean bounced;
-	private Sprite sprite2;
-
-	protected void setUp() throws Exception {
-		super.setUp();
-		bounced = false;
-		assertTrue("Unexpected default visibility", sprite.look.isVisible());
-		sprite2 = new Sprite("TestSprite2");
-		sprite2.look = new PhysicsLook(sprite2, physicsWorld);
-		sprite2.setActionFactory(new ActionPhysicsFactory());
-		LookData lookdata = PhysicsTestUtils.generateLookData(rectangle125x125File);
-		sprite2.look.setLookData(lookdata);
-		assertTrue("Unexpected default visibility", sprite2.look.isVisible());
-	}
-
-	@Override
-	protected void contactBegin() {
-		bounced = true;
+public class HideActionAndCollisionTest extends PhysicsCollisionBaseTest {
+	public HideActionAndCollisionTest() {
+		spritePosition = new Vector2(0.0f, 100.0f);
+		sprite2Position = new Vector2(0.0f, -200.0f);
+		physicsObject1Type = PhysicsObject.Type.DYNAMIC;
+		physicsObject2Type = PhysicsObject.Type.FIXED;
 	}
 
 	public void testNoCollisionAfterHide() {
-		PhysicsObject physicsObject2 = physicsWorld.getPhysicsObject(sprite2);
-		physicsObject2.setType(PhysicsObject.Type.DYNAMIC);
-		physicsObject2.setGravityScale(0.0f);
-		sprite2.look.setVisible(false);
-
-		PhysicsObject physicsObject1 = physicsWorld.getPhysicsObject(sprite);
-		physicsObject1.setType(PhysicsObject.Type.DYNAMIC);
-		sprite.look.setPosition(0f, lookHeigth);
-		setContactListener();
-		simulate(5);
-		assertFalse("PhysicObjects shouldn't collide because sprite2 is invisible", bounced);
+		sprite.look.setVisible(false);
+		simulateFullCollision();
+		assertFalse("PhysicObjects shouldn't collide because sprite2 is invisible", collisionDetected());
 	}
 
 	public void testCollisionAfterHide() {
-		PhysicsObject physicsObject2 = physicsWorld.getPhysicsObject(sprite2);
-		physicsObject2.setType(PhysicsObject.Type.DYNAMIC);
-		physicsObject2.setGravityScale(0.0f);
-		sprite2.look.setVisible(false);
-		sprite2.look.setVisible(true);
-
-		PhysicsObject physicsObject1 = physicsWorld.getPhysicsObject(sprite);
-		physicsObject1.setType(PhysicsObject.Type.DYNAMIC);
-		sprite.look.setPosition(0f, lookHeigth);
-		setContactListener();
-		simulate(5);
-		assertTrue("PhysicObjects should collide because sprite2 is visible", bounced);
+		sprite.look.setVisible(false);
+		sprite.look.setVisible(true);
+		simulateFullCollision();
+		assertTrue("PhysicObjects should collide because sprite2 is visible", collisionDetected());
 	}
 
 	public void testHide() {

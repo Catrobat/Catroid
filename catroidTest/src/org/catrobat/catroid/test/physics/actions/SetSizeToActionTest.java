@@ -27,8 +27,9 @@ import org.catrobat.catroid.content.actions.SetSizeToAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.test.physics.PhysicsBaseTest;
 
-public class SetSizeToActionTest extends PhysicsActionTestCase {
+public class SetSizeToActionTest extends PhysicsBaseTest {
 
 	private class PhysicsLookMock extends PhysicsLook {
 		private float scale = Float.MIN_VALUE;

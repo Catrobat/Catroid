@@ -31,9 +31,10 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.content.ActionFactory;
 import org.catrobat.catroid.physics.content.actions.IfOnEdgeBouncePhysicsAction;
+import org.catrobat.catroid.test.physics.PhysicsBaseTest;
 import org.catrobat.catroid.test.utils.TestUtils;
 
-public class IfOnEdgeBouncePhysicsActionTest extends PhysicsActionTestCase {
+public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 
 	private static final String TAG = IfOnEdgeBouncePhysicsActionTest.class.getSimpleName();
 

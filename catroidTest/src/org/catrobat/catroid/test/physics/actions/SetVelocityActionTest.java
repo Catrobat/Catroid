@@ -27,8 +27,9 @@ import com.badlogic.gdx.math.Vector2;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.content.actions.SetVelocityAction;
+import org.catrobat.catroid.test.physics.PhysicsBaseTest;
 
-public class SetVelocityActionTest extends PhysicsActionTestCase {
+public class SetVelocityActionTest extends PhysicsBaseTest {
 
 	public void testNormalBehavior() {
 		float velocityX = 10.0f;

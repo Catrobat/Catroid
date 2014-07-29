@@ -27,9 +27,10 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.content.actions.SetFrictionAction;
+import org.catrobat.catroid.test.physics.PhysicsBaseTest;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
 
-public class SetFrictionActionTest extends PhysicsActionTestCase {
+public class SetFrictionActionTest extends PhysicsBaseTest {
 
 	public void testDefaultValue() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
