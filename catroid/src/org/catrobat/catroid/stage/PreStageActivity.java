@@ -127,18 +127,6 @@ public class PreStageActivity extends BaseActivity {
 		}
 
 		if ((requiredResources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
-			/*//set flag to start thread to update sensor values in formula editor
-			ArduinoReadPinData sensor = ArduinoReadPinData.getArduinoSensorInstance();
-			sensor.setBooleanArduinoBricks(true);
-			Bundle bundle = new Bundle();
-			bundle.putInt(DeviceListActivity.RESOURCE_CONSTANT, Brick.BLUETOOTH_SENSORS_ARDUINO);
-			bundle.putString(DeviceListActivity.RESOURCE_NAME_TEXT,
-					getResources().getString(R.string.select_device_arduino));
-			BTResourceQueue.add(bundle);
-		} else {
-			//disable flag to start thread to update sensor values in formula editor
-			ArduinoReadPinData sensor = ArduinoReadPinData.getArduinoSensorInstance();
-			sensor.setBooleanArduinoBricks(false);*/
 			BluetoothManager bluetoothManager = new BluetoothManager(this);
 
 			int bluetoothState = bluetoothManager.activateBluetooth();
@@ -398,17 +386,11 @@ public class PreStageActivity extends BaseActivity {
 						legoNXT.startBTCommunicator(address);
 						*/
 						//check if this is correct
-						if(ProjectManager.getInstance().getCurrentProject().containsArduinoBricks()){
+						if(ProjectManager.getInstance().getCurrentProject().containsArduinoBricks()) {
 							arduino = new Arduino(this, recieveHandler);
 							String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
 							autoConnect = data.getExtras().getBoolean(DeviceListActivity.AUTO_CONNECT);
 							arduino.startBTCommunicator(address);
-						}
-						else {
-							legoNXT = new LegoNXT(this, recieveHandler);
-							String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
-							autoConnect = data.getExtras().getBoolean(DeviceListActivity.AUTO_CONNECT);
-							legoNXT.startBTCommunicator(address);
 						}
 						break;
 

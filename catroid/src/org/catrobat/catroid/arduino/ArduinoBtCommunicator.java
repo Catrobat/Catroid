@@ -22,51 +22,35 @@
  */
 package org.catrobat.catroid.arduino;
 
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.res.Resources;
 import android.os.Handler;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.bluetooth.BTConnectable;
 import org.catrobat.catroid.bluetooth.BluetoothConnection;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Method;
 import java.util.UUID;
 
 public class ArduinoBtCommunicator extends ArduinoCommunicator {
 
+	private static final String TAG = ArduinoBtCommunicator.class.getSimpleName();
 	private static final UUID SERIAL_PORT_SERVICE_CLASS_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fc");
 
 	private static final byte BOF = (byte) 126; //Ascii table "~"
 
-	private static final String TAG = ArduinoBtCommunicator.class.getSimpleName();
-
-	private BluetoothAdapter btAdapter;
 	private BluetoothSocket btSocket = null;
-	private OutputStream outputStream = null;
-	private InputStream inputStream = null;
+	private OutputStream arduinoOutputStream = null;
+	private InputStream arduinoInputStream = null;
 
 	private String macAddress;
-	private BTConnectable myOwner;
-	private static boolean debugOutput = true;
 
 	public ArduinoBtCommunicator(Handler uiHandler, Resources resources) {
 		super(uiHandler, resources);
 	}
-
-//	public ArduinoBtCommunicator(BTConnectable myOwner, Handler uiHandler, BluetoothAdapter btAdapter,
-//			Resources resources) {
-//		super(uiHandler, resources);
-//
-//		this.myOwner = myOwner;
-//		this.btAdapter = btAdapter;
-//	}
 
 	public void setMACAddress(String macAddress) {
 		this.macAddress = macAddress;
@@ -76,34 +60,29 @@ public class ArduinoBtCommunicator extends ArduinoCommunicator {
 	public void run() {
 
 		try {
-			createConnection();
-		} catch (IOException e) {
-			Log.d("ArduinoBtComm", "Could not create connection");
+			createArduinoConnection();
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
 		}
 
 		while (isConnected) {
 			try {
-				Log.d("ArduinoBtComm", "receiveMessage() was called ");
 				receiveMessage();
-
-			} catch (IOException e) {
-				Log.d("ArduinoBtComm", "IOException in run:receiveMessage occured: " + e.toString());
-				if (isConnected == true) {
-					sendState(STATE_CONNECTERROR);
-					isConnected = false;
+			} catch (IOException ioException) {
+				if (isConnected) {
+					sendState(STATE_RECEIVEERROR);
 				}
-			} catch (Exception e) {
-				Log.d("ArduinoBtComm", "Exception in run:receiveMessage occured: " + e.toString());
-				if (isConnected == true) {
-					sendState(STATE_CONNECTERROR);
-					isConnected = false;
+			} catch (Exception ioException) {
+				if (isConnected) {
+					sendState(STATE_RECEIVEERROR);
 				}
+				return;
 			}
 		}
 	}
 
 	@Override
-	public void createConnection() throws IOException {
+	public void createArduinoConnection() throws IOException {
 			BluetoothConnection bluetoothConnection = new BluetoothConnection(macAddress,
 					SERIAL_PORT_SERVICE_CLASS_UUID);
 			BluetoothConnection.State state = bluetoothConnection.connect();
@@ -120,17 +99,14 @@ public class ArduinoBtCommunicator extends ArduinoCommunicator {
 			}
 
 			btSocket = bluetoothConnection.getBluetoothSocket();
-			inputStream = btSocket.getInputStream();
-			outputStream = btSocket.getOutputStream();
+			arduinoInputStream = btSocket.getInputStream();
+			arduinoOutputStream = btSocket.getOutputStream();
 			isConnected = true;
 			sendState(STATE_CONNECTED);
 	}
 
 	@Override
-	public void destroyConnection() throws IOException {
-
-		Log.d("ArduinoBtComm", "destroyArduinoConnection");
-
+	public void destroyArduinoConnection() throws IOException {
 		try {
 			if (btSocket != null) {
 				isConnected = false;
@@ -138,15 +114,12 @@ public class ArduinoBtCommunicator extends ArduinoCommunicator {
 				btSocket = null;
 			}
 
-			inputStream = null;
-			outputStream = null;
+			arduinoInputStream = null;
+			arduinoOutputStream = null;
 
-		} catch (IOException e) {
-			if (uiHandler == null) {
-				throw e;
-			} else {
-				sendToast(resources.getString(R.string.problem_at_closing));
-			}
+		} catch (IOException ioException) {
+			sendToast(resources.getString(R.string.problem_at_closing));
+			Log.e(TAG, Log.getStackTraceString(ioException));
 		}
 	}
 
@@ -163,17 +136,14 @@ public class ArduinoBtCommunicator extends ArduinoCommunicator {
 	@Override
 	public void sendMessage(byte[] message) throws IOException {
 		Log.d("ArduinoBtComm", "<<< sendMessage() was called >>> ");
-		try {
-			if (outputStream == null) {
-				throw new IOException();
-			}
-			Log.d("ArduinoBtComm", "message[] to write to the outputstream: " + +message[0] + message[1] + message[2]
-					+ " length: " + message.length);
-			outputStream.write(message, 0, message.length);
-			outputStream.flush();
-		} catch (Exception e) {
-			Log.d("ArduinoBtComm", "ERROR: Exception occured in sendMessage " + e.getMessage());
+
+		if (arduinoOutputStream == null) {
+			throw new IOException("Arduino Outputstream was null");
 		}
+		Log.d("ArduinoBtComm", "message[] to write to the outputstream: " + +message[0] + message[1] + message[2]
+				+ " length: " + message.length);
+		arduinoOutputStream.write(message, 0, message.length);
+		arduinoOutputStream.flush();
 	}
 
 	/**
@@ -184,8 +154,8 @@ public class ArduinoBtCommunicator extends ArduinoCommunicator {
 	@Override
 	public byte[] receiveMessage() throws IOException, Exception {
 
-		if (inputStream == null) {
-			throw new IOException(" Software caused connection abort ");
+		if (arduinoInputStream == null) {
+			throw new IOException("Arduino Inputstream was null");
 		}
 
 		@SuppressWarnings("unused")
@@ -193,28 +163,23 @@ public class ArduinoBtCommunicator extends ArduinoCommunicator {
 		byte[] buf = new byte[1];
 
 		do {
-			checkIfDataIsAvailable(1);
-			read = inputStream.read(buf);
+			//checkIfDataIsAvailable(1);
+			read = arduinoInputStream.read(buf);
 		} while (buf[0] != BOF);
 
 		byte[] length = new byte[1];
 		//checkIfDataIsAvailable(1);
-		read = inputStream.read(length);
+		read = arduinoInputStream.read(length);
 
 		byte[] buffer = new byte[length[0] - 48]; //48 decimal = 0
 		//checkIfDataIsAvailable(length[0] - 1);
-		read = inputStream.read(buffer);
+		read = arduinoInputStream.read(buffer);
 		switch (buffer[0]) {
 			case 'D':
 				if ((buffer[1] > 0) && (buffer[2] > 0) && (buffer[3] > 0)) {
 					sensors.setArduinoDigitalSensor(buffer[3]);
 				} else {
 					Log.d("ArduinoBtComm", "receiveMessage error: received message NOT saved ");
-				}
-
-				if (debugOutput == true) {
-					Log.d("ArduinoBtComm", "sensor packet found");
-					Log.d("ArduinoBtComm", "receiveMessage: Value=" + buffer[1] + buffer[2] + buffer[3]);
 				}
 				break;
 			case 'A':
@@ -228,11 +193,6 @@ public class ArduinoBtCommunicator extends ArduinoCommunicator {
 				}
 				Log.d("ArduinoBtComm", "computed Analog-Sensor-Value: " + SensorValue);
 				sensors.setArduinoAnalogSensor(SensorValue);
-
-				if (debugOutput == true) {
-					Log.d("ArduinoBtComm", "sensor packet found");
-					Log.d("ArduinoBtComm", "receiveMessage: Value=" + buffer[1] + buffer[2] + buffer[3]);
-				}
 				break;
 			default:
 				Log.d("ArduinoBtComm", "Unknown Command! id = " + buffer[0]);
@@ -241,7 +201,7 @@ public class ArduinoBtCommunicator extends ArduinoCommunicator {
 		return buffer;
 	}
 
-	public void checkIfDataIsAvailable(int neededBytes) throws IOException {
+	/*public void checkIfDataIsAvailable(int neededBytes) throws IOException {
 		int available = 0;
 		long timeStart = System.currentTimeMillis();
 		long timePast;
@@ -266,5 +226,5 @@ public class ArduinoBtCommunicator extends ArduinoCommunicator {
 				throw new IOException(" Software caused connection abort because of timeout");
 			}
 		}
-	}
+	}*/
 }

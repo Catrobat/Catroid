@@ -89,13 +89,13 @@ public abstract class ArduinoCommunicator extends Thread {
 	 *      On error the method either sends a message to it's owner or creates an exception in the
 	 *      case of no message handler.
 	 */
-	public abstract void createConnection() throws IOException;
+	public abstract void createArduinoConnection() throws IOException;
 
 	/**
 	 * Closes the bluetooth connection. On error the method either sends a message
 	 * to it's owner or creates an exception in the case of no message handler.
 	 */
-	public abstract void destroyConnection() throws IOException;
+	public abstract void destroyArduinoConnection() throws IOException;
 
 	/**
 	 * Sends a message on the opened OutputStream
