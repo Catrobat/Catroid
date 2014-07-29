@@ -336,6 +336,7 @@ public class PreStageActivity extends BaseActivity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.i("bt", "requestcode " + requestCode + " result code" + resultCode);
+
 		switch (requestCode) {
 			case REQUEST_CONNECT_DEVICE:
 				switch (resultCode) {
@@ -375,6 +376,7 @@ public class PreStageActivity extends BaseActivity {
 					case DeviceListActivity.BLUETOOTH_ACTIVATION_CANCELED:
 						Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
 						resourceFailed();
+						break;
 
 					case DeviceListActivity.BLUETOOTH_NOT_SUPPORTED:
 						Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
