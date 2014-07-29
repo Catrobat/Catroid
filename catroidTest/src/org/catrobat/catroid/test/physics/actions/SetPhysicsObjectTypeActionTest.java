@@ -24,8 +24,9 @@ package org.catrobat.catroid.test.physics.actions;
 
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.content.actions.SetPhysicsObjectTypeAction;
+import org.catrobat.catroid.test.physics.PhysicsBaseTest;
 
-public class SetPhysicsObjectTypeActionTest extends PhysicsActionTestCase {
+public class SetPhysicsObjectTypeActionTest extends PhysicsBaseTest {
 
 	public void testPhysicsTypeNone() {
 		PhysicsObject.Type type = PhysicsObject.Type.NONE;

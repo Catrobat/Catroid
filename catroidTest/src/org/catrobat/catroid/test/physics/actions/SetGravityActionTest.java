@@ -28,9 +28,10 @@ import com.badlogic.gdx.physics.box2d.World;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.content.actions.SetGravityAction;
+import org.catrobat.catroid.test.physics.PhysicsBaseTest;
 import org.catrobat.catroid.test.utils.Reflection;
 
-public class SetGravityActionTest extends PhysicsActionTestCase {
+public class SetGravityActionTest extends PhysicsBaseTest {
 
 	public void testNormalBehavior() {
 		float gravityX = 10.0f;

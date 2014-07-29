@@ -91,7 +91,7 @@ public class PhysicsLook extends Look {
 		float y = physicsObject.getY() - getHeight() / 2.0f;
 		if (Math.abs(x) > (ScreenValues.SCREEN_WIDTH / 2) * 3) {
 			physicsObject.hangup();
-		} else if (!(Math.abs(y) > ScreenValues.SCREEN_HEIGHT)) {
+		} else if (!(Math.abs(y) > ScreenValues.SCREEN_HEIGHT) && isVisible()) {
 			physicsObject.resume(false);
 		}
 		return x;
@@ -103,7 +103,7 @@ public class PhysicsLook extends Look {
 		float y = physicsObject.getY() - getHeight() / 2.0f;
 		if (Math.abs(y) > ScreenValues.SCREEN_HEIGHT) {
 			physicsObject.hangup();
-		} else if (!(Math.abs(x) > (ScreenValues.SCREEN_WIDTH / 2) * 3)) {
+		} else if (!(Math.abs(x) > (ScreenValues.SCREEN_WIDTH / 2) * 3) && isVisible()) {
 			physicsObject.resume(false);
 		}
 		return y;
