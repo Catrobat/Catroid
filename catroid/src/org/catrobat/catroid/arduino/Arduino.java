@@ -57,11 +57,12 @@ public class Arduino implements BTConnectable {
 			try {
 				myCommunicator.destroyConnection();
 			} catch (IOException e) {
+//				Log.e(TAG, Log.getStackTraceString(ioException));
 			}
 		}
 
-		myCommunicator = new ArduinoBtCommunicator(this, recieverHandler, BluetoothAdapter.getDefaultAdapter(),
-				activity.getResources());
+
+		myCommunicator = new ArduinoBtCommunicator(recieverHandler, activity.getResources());
 		btcHandler = myCommunicator.getHandler();
 
 		((ArduinoBtCommunicator) myCommunicator).setMACAddress(macAddress);

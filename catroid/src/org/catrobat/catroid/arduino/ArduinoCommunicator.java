@@ -24,6 +24,7 @@ package org.catrobat.catroid.arduino;
 
 import android.annotation.SuppressLint;
 import android.content.res.Resources;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -169,6 +170,7 @@ public abstract class ArduinoCommunicator extends Thread {
 			switch (message.what) {
 				case SET_DIGITAL_PIN_VALUE_COMMAND:
 					//set pin number + value
+					Log.d("ArduinoCommunicator ","****&&&&****&&&&****&&&&****&&&setDigitalPinValueCommand called");
 					commands.setPinNumberLowerByte(pinLowerByte);
 					commands.setPinNumberHigherByte(pinHigherByte);
 					commands.setPinValue(value);

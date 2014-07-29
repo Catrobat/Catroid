@@ -399,12 +399,10 @@ public class PreStageActivity extends BaseActivity {
 						*/
 						//check if this is correct
 						if(ProjectManager.getInstance().getCurrentProject().containsArduinoBricks()){
-							Log.d(TAG, "Contains Arduino Brick");
 							arduino = new Arduino(this, recieveHandler);
 							String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
 							autoConnect = data.getExtras().getBoolean(DeviceListActivity.AUTO_CONNECT);
 							arduino.startBTCommunicator(address);
-							Log.d(TAG, "*************Arduino:" + arduino.toString());
 						}
 						else {
 							legoNXT = new LegoNXT(this, recieveHandler);
