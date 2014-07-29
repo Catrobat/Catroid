@@ -24,9 +24,10 @@ package org.catrobat.catroid.test.physics.actions;
 
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.test.physics.PhysicsBaseTest;
 import org.catrobat.catroid.test.utils.TestUtils;
 
-public class TurnLeftRightSpeedActionTest extends PhysicsActionTestCase {
+public class TurnLeftRightSpeedActionTest extends PhysicsBaseTest {
 
 	private static final float TURN_TEST_SPEED = 10.0f;
 

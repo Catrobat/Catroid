@@ -24,9 +24,10 @@ package org.catrobat.catroid.test.physics.actions;
 
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.test.physics.PhysicsBaseTest;
 import org.catrobat.catroid.test.utils.TestUtils;
 
-public class VelocityActionTest extends PhysicsActionTestCase {
+public class VelocityActionTest extends PhysicsBaseTest {
 
 	private static final float POSITIVE_X_TEST_VELOCITY = 10.0f;
 	private static final float POSITIVE_Y_TEST_VELOCITY = 10.0f;

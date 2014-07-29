@@ -26,8 +26,9 @@ package org.catrobat.catroid.test.physics.actions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.content.actions.SetBounceFactorAction;
+import org.catrobat.catroid.test.physics.PhysicsBaseTest;
 
-public class SetBounceFactorTest extends PhysicsActionTestCase {
+public class SetBounceFactorTest extends PhysicsBaseTest {
 
 	public void testDefaultBounceFactor() {
 		physicsWorld.step(1.0f);

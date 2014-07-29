@@ -26,8 +26,9 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsObject.Type;
 import org.catrobat.catroid.physics.content.actions.SetMassAction;
+import org.catrobat.catroid.test.physics.PhysicsBaseTest;
 
-public class SetMassActionTest extends PhysicsActionTestCase {
+public class SetMassActionTest extends PhysicsBaseTest {
 
 	public void testNormalBehavior() {
 		Formula mass = new Formula(10);
