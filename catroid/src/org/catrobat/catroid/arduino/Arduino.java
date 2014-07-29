@@ -57,7 +57,7 @@ public class Arduino implements BTConnectable {
 			try {
 				myCommunicator.destroyConnection();
 			} catch (IOException e) {
-//				Log.e(TAG, Log.getStackTraceString(ioException));
+				Log.e(TAG, Log.getStackTraceString(e));
 			}
 		}
 

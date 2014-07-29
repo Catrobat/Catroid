@@ -31,6 +31,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.BTConnectable;
+import org.catrobat.catroid.bluetooth.BluetoothConnection;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -84,6 +85,7 @@ public class ArduinoBtCommunicator extends ArduinoCommunicator {
 			try {
 				Log.d("ArduinoBtComm", "receiveMessage() was called ");
 				receiveMessage();
+
 			} catch (IOException e) {
 				Log.d("ArduinoBtComm", "IOException in run:receiveMessage occured: " + e.toString());
 				if (isConnected == true) {
@@ -102,67 +104,26 @@ public class ArduinoBtCommunicator extends ArduinoCommunicator {
 
 	@Override
 	public void createConnection() throws IOException {
-		try {
-			BluetoothSocket btSocketTemporary;
-			BluetoothDevice btDevice = null;
-			btDevice = btAdapter.getRemoteDevice(macAddress);
-			if (btDevice == null) {
-				if (uiHandler == null) {
-					throw new IOException();
-				} else {
+			BluetoothConnection bluetoothConnection = new BluetoothConnection(macAddress,
+					SERIAL_PORT_SERVICE_CLASS_UUID);
+			BluetoothConnection.State state = bluetoothConnection.connect();
+
+			switch (state) {
+				case CONNECTED:
+					break;
+				case ERROR_NOT_BONDED:
+				case ERROR_STILL_BONDING:
 					sendToast(resources.getString(R.string.no_paired_nxt));
+				default:
 					sendState(STATE_CONNECTERROR);
-					return;
-				}
+					throw new IOException("Bluetooth connecting error " + state.name());
 			}
-			btSocketTemporary = btDevice.createRfcommSocketToServiceRecord(SERIAL_PORT_SERVICE_CLASS_UUID);
-			try {
-				btSocketTemporary.connect();
 
-			} catch (IOException e) {
-				if (myOwner.isPairing()) {
-					if (uiHandler != null) {
-						sendToast(resources.getString(R.string.pairing_message));
-						sendState(STATE_CONNECTERROR_PAIRING);
-					} else {
-						throw e;
-					}
-					return;
-				}
-
-				//try another method for connection, this should work on the HTC desire, credits to Michael Biermann
-				try {
-					Method mMethod = btDevice.getClass().getMethod("createRfcommSocket", new Class[] { int.class });
-					btSocketTemporary = (BluetoothSocket) mMethod.invoke(btDevice, Integer.valueOf(1));
-					btSocketTemporary.connect();
-				} catch (Exception e1) {
-					if (uiHandler == null) {
-						throw new IOException();
-					} else {
-						sendState(STATE_CONNECTERROR);
-					}
-					return;
-				}
-			}
-			btSocket = btSocketTemporary;
+			btSocket = bluetoothConnection.getBluetoothSocket();
 			inputStream = btSocket.getInputStream();
 			outputStream = btSocket.getOutputStream();
 			isConnected = true;
-		} catch (IOException e) {
-			if (uiHandler == null) {
-				throw e;
-			} else {
-				if (myOwner.isPairing()) {
-					sendToast(resources.getString(R.string.pairing_message));
-				}
-				sendState(STATE_CONNECTERROR);
-				return;
-			}
-		}
-		// everything was OK
-		if (uiHandler != null) {
 			sendState(STATE_CONNECTED);
-		}
 	}
 
 	@Override

@@ -150,6 +150,7 @@ public abstract class ArduinoCommunicator extends Thread {
 
 	protected synchronized void sendCommandMessage(byte[] commandMessage) {
 		try {
+			Log.d("*****Fooo","sendcommandmessage");
 			sendMessage(commandMessage);
 		} catch (IOException e) {
 			sendState(STATE_SENDERROR);
