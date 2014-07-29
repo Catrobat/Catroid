@@ -29,10 +29,11 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.test.physics.PhysicsBaseTest;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 
-public class GravityActionTest extends PhysicsActionTestCase {
+public class GravityActionTest extends PhysicsBaseTest {
 
 	private static final String TAG = GravityActionTest.class.getSimpleName();
 

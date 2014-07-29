@@ -25,8 +25,9 @@ package org.catrobat.catroid.test.physics.actions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.content.actions.TurnRightSpeedAction;
+import org.catrobat.catroid.test.physics.PhysicsBaseTest;
 
-public class TurnRightSpeedActionTest extends PhysicsActionTestCase {
+public class TurnRightSpeedActionTest extends PhysicsBaseTest {
 
 	public void testNormalBehavior() {
 		float speed = 45.55f;
