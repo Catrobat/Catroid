@@ -52,14 +52,6 @@ public class ArduinoBtCommunicator extends ArduinoCommunicator {
 		super(uiHandler, resources);
 	}
 
-//	public ArduinoBtCommunicator(BTConnectable myOwner, Handler uiHandler, BluetoothAdapter btAdapter,
-//			Resources resources) {
-//		super(uiHandler, resources);
-//
-//		this.myOwner = myOwner;
-//		this.btAdapter = btAdapter;
-//	}
-
 	public void setMACAddress(String macAddress) {
 		this.macAddress = macAddress;
 	}
@@ -138,11 +130,7 @@ public class ArduinoBtCommunicator extends ArduinoCommunicator {
 
 	/**
 	 * Sends a message on the opened OutputStream
-<<<<<<< HEAD
 	 *
-=======
-	 * 
->>>>>>> Fixed crash bug when bt-connection timed out
 	 * @param message , the message as a byte array
 	 */
 	@Override
