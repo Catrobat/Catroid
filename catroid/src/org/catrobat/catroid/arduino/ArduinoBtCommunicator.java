@@ -52,14 +52,6 @@ public class ArduinoBtCommunicator extends ArduinoCommunicator {
 		super(uiHandler, resources);
 	}
 
-//	public ArduinoBtCommunicator(BTConnectable myOwner, Handler uiHandler, BluetoothAdapter btAdapter,
-//			Resources resources) {
-//		super(uiHandler, resources);
-//
-//		this.myOwner = myOwner;
-//		this.btAdapter = btAdapter;
-//	}
-
 	public void setMACAddress(String macAddress) {
 		this.macAddress = macAddress;
 	}
@@ -136,6 +128,11 @@ public class ArduinoBtCommunicator extends ArduinoCommunicator {
 		pauseArduinoBoard();
 	}
 
+	/**
+	 * Sends a message on the opened OutputStream
+	 *
+	 * @param message , the message as a byte array
+	 */
 	@Override
 	public void sendMessage(byte[] message) throws IOException {
 		Log.d("ArduinoBtComm", "<<< sendMessage() was called >>> ");
@@ -149,6 +146,11 @@ public class ArduinoBtCommunicator extends ArduinoCommunicator {
 		arduinoOutputStream.flush();
 	}
 
+	/**
+	 * Receives a message on the opened InputStream
+	 *
+	 * @return the message
+	 */
 	@Override
 	public byte[] receiveMessage() throws IOException, Exception {
 
