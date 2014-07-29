@@ -193,8 +193,7 @@ public class ArduinoBtCommunicator extends ArduinoCommunicator {
 	/**
 	 * Sends a message on the opened OutputStream
 	 * 
-	 * @param message
-	 *            , the message as a byte array
+	 * @param message , the message as a byte array
 	 */
 	@Override
 	public void sendMessage(byte[] message) throws IOException {
