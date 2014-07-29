@@ -200,31 +200,4 @@ public class ArduinoBtCommunicator extends ArduinoCommunicator {
 		}
 		return buffer;
 	}
-
-	/*public void checkIfDataIsAvailable(int neededBytes) throws IOException {
-		int available = 0;
-		long timeStart = System.currentTimeMillis();
-		long timePast;
-
-		while (true) {
-			if (inputStream == null) {
-				throw new IOException(" Software caused connection abort ");
-			}
-			available = inputStream.available();
-			if (available >= neededBytes) {
-				break;
-			}
-			try {
-				Thread.sleep(1);
-			} catch (InterruptedException interruptedException) {
-				Log.e(TAG, Log.getStackTraceString(interruptedException));
-			}
-			// here you can optionally check elapsed time, and time out
-			timePast = System.currentTimeMillis();
-			if ((timePast - timeStart) > 16000) {
-				Log.d("Arduino-Timeout", "TIMEOUT for receive message occured");
-				throw new IOException(" Software caused connection abort because of timeout");
-			}
-		}
-	}*/
 }
