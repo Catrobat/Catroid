@@ -23,28 +23,26 @@
 package org.catrobat.catroid.arduino;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
 import org.catrobat.catroid.bluetooth.BTConnectable;
+import org.catrobat.catroid.bluetooth.DeviceListActivity;
 
 import java.io.IOException;
 
 public class Arduino implements BTConnectable {
 
-	private static final String TAG = BTConnectable.class.getSimpleName();
+	private static final int SET_DIGITAL_PIN_VALUE_COMMAND = 100;
 
-	private static ArduinoCommunicator myCommunicator;
-
+	private static final String TAG = Arduino.class.getSimpleName();
+	private static Handler btcHandler;
+	private static ArduinoCommunicator myArduinoCommunicator;
 	private boolean isPairing;
-	private static Handler btcHandler = null;
 	private Handler recieverHandler;
 	private Activity activity;
-
-	private static final int SET_DIGITAL_PIN_VALUE_COMMAND = 100;
 
 	public Arduino(Activity activity, Handler recieverHandler) {
 		this.activity = activity;
@@ -52,37 +50,36 @@ public class Arduino implements BTConnectable {
 	}
 
 	public void startBTCommunicator(String macAddress) {
-
-		if (myCommunicator != null) {
+		if (myArduinoCommunicator != null) {
 			try {
-				myCommunicator.destroyConnection();
+				myArduinoCommunicator.destroyArduinoConnection();
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));
 			}
 		}
 
 
-		myCommunicator = new ArduinoBtCommunicator(recieverHandler, activity.getResources());
-		btcHandler = myCommunicator.getHandler();
+		myArduinoCommunicator = new ArduinoBtCommunicator(recieverHandler, activity.getResources());
+		btcHandler = myArduinoCommunicator.getHandler();
 
-		((ArduinoBtCommunicator) myCommunicator).setMACAddress(macAddress);
-		myCommunicator.start();
+		((ArduinoBtCommunicator) myArduinoCommunicator).setMACAddress(macAddress);
+		myArduinoCommunicator.start();
 	}
 
 	public void destroyCommunicator() {
 
-		if (myCommunicator != null) {
+		if (myArduinoCommunicator != null) {
 			try {
-				myCommunicator.destroyConnection();
+				myArduinoCommunicator.destroyArduinoConnection();
 			} catch (IOException ioException) {
 				Log.e(TAG, Log.getStackTraceString(ioException));
 			}
-			myCommunicator = null;
+			myArduinoCommunicator = null;
 		}
 	}
 
 	public void pauseCommunicator() {
-		myCommunicator.stopSensors();
+		myArduinoCommunicator.stopSensors();
 	}
 
 	public static synchronized void sendArduinoDigitalPinMessage(int pinLowerByte, int pinHigherByte, int value) {
@@ -97,12 +94,12 @@ public class Arduino implements BTConnectable {
 	}
 
 	public static int getArduinoDigitalSensorMessage() {
-		int value = myCommunicator.sensors.getArduinoDigitalSensor();
+		int value = myArduinoCommunicator.sensors.getArduinoDigitalSensor();
 		return value;
 	}
 
 	public static int getArduinoAnalogSensorMessage() {
-		int value = myCommunicator.sensors.getArduinoAnalogSensor();
+		int value = myArduinoCommunicator.sensors.getArduinoAnalogSensor();
 		return value;
 	}
 
