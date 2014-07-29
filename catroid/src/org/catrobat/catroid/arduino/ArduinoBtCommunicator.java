@@ -52,6 +52,14 @@ public class ArduinoBtCommunicator extends ArduinoCommunicator {
 		super(uiHandler, resources);
 	}
 
+//	public ArduinoBtCommunicator(BTConnectable myOwner, Handler uiHandler, BluetoothAdapter btAdapter,
+//			Resources resources) {
+//		super(uiHandler, resources);
+//
+//		this.myOwner = myOwner;
+//		this.btAdapter = btAdapter;
+//	}
+
 	public void setMACAddress(String macAddress) {
 		this.macAddress = macAddress;
 	}
