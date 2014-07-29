@@ -442,7 +442,6 @@ public class PreStageActivity extends BaseActivity {
 		if (text == null) {
 			text = "";
 		}
-
 		if (onUtteranceCompletedListenerContainer.addOnUtteranceCompletedListener(speechFile, listener,
 				speakParameter.get(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID))) {
 			int status = textToSpeech.synthesizeToFile(text, speakParameter, speechFile.getAbsolutePath());
