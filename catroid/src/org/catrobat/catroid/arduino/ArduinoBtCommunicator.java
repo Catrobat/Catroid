@@ -130,7 +130,11 @@ public class ArduinoBtCommunicator extends ArduinoCommunicator {
 
 	/**
 	 * Sends a message on the opened OutputStream
+<<<<<<< HEAD
 	 *
+=======
+	 * 
+>>>>>>> Fixed crash bug when bt-connection timed out
 	 * @param message , the message as a byte array
 	 */
 	@Override
