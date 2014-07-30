@@ -31,10 +31,10 @@ import org.catrobat.catroid.formulaeditor.UserList;
 
 import java.util.ArrayList;
 
-public class InsertItemIntoUserListAction extends TemporalAction {
+public class ReplaceItemInUserListAction extends TemporalAction {
 
 	private Sprite sprite;
-	private Formula formulaIndexToInsert;
+	private Formula formulaIndexToReplace;
 	private Formula formulaItemToInsert;
 
 	private UserList userList;
@@ -46,30 +46,30 @@ public class InsertItemIntoUserListAction extends TemporalAction {
 		}
 
 		Object value = formulaItemToInsert == null ? Double.valueOf(0d) : formulaItemToInsert.interpretObject(sprite);
-		int indexToInsert;
+		int indexToReplace;
 
 		try {
-			indexToInsert = formulaIndexToInsert == null ? 1 : formulaIndexToInsert.interpretInteger(sprite);
+			indexToReplace = formulaIndexToReplace == null ? 1 : formulaIndexToReplace.interpretInteger(sprite);
 
 		} catch (InterpretationException interpretationException) {
-			indexToInsert = 1;
+			indexToReplace = 1;
 		}
 
-		indexToInsert--;
+		indexToReplace--;
 
-		if (indexToInsert > userList.getList().size() || indexToInsert < 0) {
+		if (indexToReplace >= userList.getList().size() || indexToReplace < 0) {
 			return;
 		}
 
-		((ArrayList<Object>) userList.getList()).add(indexToInsert, value);
+		((ArrayList<Object>) userList.getList()).set(indexToReplace, value);
 	}
 
 	public void setUserList(UserList userVariable) {
 		this.userList = userVariable;
 	}
 
-	public void setFormulaIndexToInsert(Formula formulaIndexToInsert) {
-		this.formulaIndexToInsert = formulaIndexToInsert;
+	public void setFormulaIndexToReplace(Formula formulaIndexToReplace) {
+		this.formulaIndexToReplace = formulaIndexToReplace;
 	}
 
 	public void setFormulaItemToInsert(Formula formulaItemToInsert) {

@@ -33,7 +33,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
+import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
@@ -47,12 +47,12 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class DeleteItemOfUserListTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+public class ReplaceItemInUserListTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private Project project;
-	private DeleteItemOfUserListBrick deleteItemOfUserListBrick;
+	private ReplaceItemInUserListBrick replaceItemInUserListBrick;
 
-	public DeleteItemOfUserListTest() {
+	public ReplaceItemInUserListTest() {
 		super(MainMenuActivity.class);
 	}
 
@@ -63,7 +63,7 @@ public class DeleteItemOfUserListTest extends BaseActivityInstrumentationTestCas
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
-	public void testCreateNewUserListAndDeletion() {
+	public void testCreateNewUserVariableAndDeletion() {
 		String userListName = "testList1";
 		String secondUserListName = "testList2";
 
@@ -80,7 +80,7 @@ public class DeleteItemOfUserListTest extends BaseActivityInstrumentationTestCas
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_delete_item_from_userlist)));
+		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_replace_item_in_userlist_replace_in_list)));
 
 		solo.clickOnText(getInstrumentation().getTargetContext().getString(
 				R.string.brick_variable_spinner_create_new_variable));
@@ -89,13 +89,13 @@ public class DeleteItemOfUserListTest extends BaseActivityInstrumentationTestCas
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_userlist_name_edit_text);
 		solo.enterText(editText, userListName);
 		solo.clickOnButton(solo.getString(R.string.ok));
-		assertTrue("ScriptFragment not visible", solo.waitForText(solo.getString(R.string.brick_delete_item_from_userlist)));
+		assertTrue("ScriptFragment not visible", solo.waitForText(solo.getString(R.string.brick_replace_item_in_userlist_replace_in_list)));
 		assertTrue("Created List not set in spinner", solo.searchText(userListName));
 
-		UserList userList = (UserList) Reflection.getPrivateField(deleteItemOfUserListBrick, "userList");
+		UserList userList = (UserList) Reflection.getPrivateField(replaceItemInUserListBrick, "userList");
 		assertNotNull("UserList is null", userList);
 
-		solo.clickOnView(solo.getView(R.id.delete_item_of_userlist_spinner));
+		solo.clickOnView(solo.getView(R.id.replace_item_in_userlist_spinner));
 		solo.waitForText(getInstrumentation().getTargetContext().getString(
 				R.string.brick_variable_spinner_create_new_variable));
 		solo.clickOnText(getInstrumentation().getTargetContext().getString(
@@ -106,14 +106,14 @@ public class DeleteItemOfUserListTest extends BaseActivityInstrumentationTestCas
 		editText = (EditText) solo.getView(R.id.dialog_formula_editor_userlist_name_edit_text);
 		solo.enterText(editText, secondUserListName);
 		solo.clickOnButton(solo.getString(R.string.ok));
-		assertTrue("ScriptFragment not visible", solo.waitForText(solo.getString(R.string.brick_delete_item_from_userlist)));
+		assertTrue("ScriptFragment not visible", solo.waitForText(solo.getString(R.string.brick_replace_item_in_userlist_replace_in_list)));
 		assertTrue("Created UserList not set in spinner", solo.searchText(secondUserListName));
 
-		userList = (UserList) Reflection.getPrivateField(deleteItemOfUserListBrick, "userList");
+		userList = (UserList) Reflection.getPrivateField(replaceItemInUserListBrick, "userList");
 		assertNotNull("UserList is null", userList);
 		assertTrue("UserList Name not as expected", userList.getName().equals(secondUserListName));
 
-		solo.clickOnView(solo.getView(R.id.brick_delete_item_of_userlist_edit_text));
+		solo.clickOnView(solo.getView(R.id.brick_replace_item_in_userlist_value_edit_text));
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_lists));
 		assertTrue("UserList Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_lists)));
@@ -126,16 +126,16 @@ public class DeleteItemOfUserListTest extends BaseActivityInstrumentationTestCas
 		solo.goBack();
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		assertTrue("UserList not set in spinner after deletion", solo.searchText(userListName));
-		Spinner userListSpinner = (Spinner) UiTestUtils.getViewContainerByIds(solo, R.id.delete_item_of_userlist_spinner,
+		Spinner userListSpinner = (Spinner) UiTestUtils.getViewContainerByIds(solo, R.id.replace_item_in_userlist_spinner,
 				R.id.formula_editor_brick_space);
 		assertEquals("UserList count not as expected in spinner", 2, userListSpinner.getAdapter().getCount());
 
 		solo.goBack();
 		assertTrue("ScriptFragment not visible", solo.waitForFragmentByTag(ScriptFragment.TAG));
 		assertTrue("UserList not set in spinner after deletion", solo.searchText(userListName));
-		userListSpinner = (Spinner) solo.getView(R.id.delete_item_of_userlist_spinner);
+		userListSpinner = (Spinner) solo.getView(R.id.replace_item_in_userlist_spinner);
 		assertEquals("UserList count not as expected in spinner", 2, userListSpinner.getAdapter().getCount());
-		userList = (UserList) Reflection.getPrivateField(deleteItemOfUserListBrick, "userList");
+		userList = (UserList) Reflection.getPrivateField(replaceItemInUserListBrick, "userList");
 		assertNotNull("UserList is null", userList);
 		assertTrue("UserList Name not as expected", userList.getName().equals(userListName));
 	}
@@ -143,7 +143,7 @@ public class DeleteItemOfUserListTest extends BaseActivityInstrumentationTestCas
 	public void testCreateUserListInFormulaEditor() {
 		String userListName = "testList1";
 
-		solo.clickOnView(solo.getView(R.id.brick_delete_item_of_userlist_edit_text));
+		solo.clickOnView(solo.getView(R.id.brick_replace_item_in_userlist_at_index_edit_text));
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_lists));
 		assertTrue("UserList Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_lists)));
@@ -153,7 +153,7 @@ public class DeleteItemOfUserListTest extends BaseActivityInstrumentationTestCas
 		solo.goBack();
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		assertTrue("UserList not set in spinner after creation", solo.searchText(userListName));
-		Spinner userListSpinner = (Spinner) UiTestUtils.getViewContainerByIds(solo, R.id.delete_item_of_userlist_spinner,
+		Spinner userListSpinner = (Spinner) UiTestUtils.getViewContainerByIds(solo, R.id.replace_item_in_userlist_spinner,
 				R.id.formula_editor_brick_space);
 		assertEquals("UserList count not as expected in spinner", 2, userListSpinner.getAdapter().getCount());
 		assertEquals("UserList not set in spinner after creation", 1, userListSpinner.getSelectedItemPosition());
@@ -161,9 +161,9 @@ public class DeleteItemOfUserListTest extends BaseActivityInstrumentationTestCas
 		solo.goBack();
 		assertTrue("ScriptFragment not visible", solo.waitForFragmentByTag(ScriptFragment.TAG));
 		assertTrue("UserList not set in spinner after deletion", solo.searchText(userListName));
-		userListSpinner = (Spinner) solo.getView(R.id.delete_item_of_userlist_spinner);
+		userListSpinner = (Spinner) solo.getView(R.id.replace_item_in_userlist_spinner);
 		assertEquals("UserList count not as expected in spinner", 2, userListSpinner.getAdapter().getCount());
-		UserList userList = (UserList) Reflection.getPrivateField(deleteItemOfUserListBrick, "userList");
+		UserList userList = (UserList) Reflection.getPrivateField(replaceItemInUserListBrick, "userList");
 		assertNotNull("UserList is null", userList);
 		assertTrue("UserList Name not as expected", userList.getName().equals(userListName));
 	}
@@ -172,8 +172,8 @@ public class DeleteItemOfUserListTest extends BaseActivityInstrumentationTestCas
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript(sprite);
-		deleteItemOfUserListBrick = new DeleteItemOfUserListBrick(sprite, 10);
-		script.addBrick(deleteItemOfUserListBrick);
+		replaceItemInUserListBrick = new ReplaceItemInUserListBrick(sprite, 10, 1);
+		script.addBrick(replaceItemInUserListBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -34,13 +34,12 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
-import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
@@ -48,7 +47,6 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorUserListFragment;
-import org.catrobat.catroid.ui.fragment.FormulaEditorVariableListFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -57,8 +55,8 @@ import java.util.Locale;
 
 public class FormulaEditorUserListFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-	private static final double SET_USERVARIABLE_TO_BRICK_VALUE = 10d;
-	private static final String USER_VARIABLE_NAME_UNDERLINE_PREFIX = "_userVar1";
+	private static final double ADD_VALUE_TO_LIST = 10d;
+	private static final String USER_LIST_NAME = "_userList1";
 	private Project project;
 	private Sprite firstSprite;
 	private Sprite secondSprite;
@@ -66,7 +64,7 @@ public class FormulaEditorUserListFragmentTest extends BaseActivityInstrumentati
 	private Brick glideToBrick;
 
 	private static final int CHANGE_SIZE_EDIT_TEXT_RID = R.id.brick_change_size_by_edit_text;
-	private static final int SET_VARIABLE_EDIT_TEXT_RID = R.id.brick_set_variable_edit_text;
+	private static final int ADD_ITEM_TO_USERLIST_EDIT_TEXT_RID = R.id.brick_add_item_to_userlist_edit_text;
 	private static final int GLIDE_TO_EDIT_TEXT_RID = R.id.brick_glide_to_edit_text_x;
 	private static final int ACTIONMODE_INDEX = 0;
 	private static final String LIST_SYMBOL_LEFT = "[";
@@ -92,35 +90,34 @@ public class FormulaEditorUserListFragmentTest extends BaseActivityInstrumentati
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
-		ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.addProjectUserVariable(USER_VARIABLE_NAME_UNDERLINE_PREFIX);
+		ProjectManager.getInstance().getCurrentProject().getUserLists()
+				.addProjectUserList(USER_LIST_NAME);
 
-		Double setVariableToValue = Double.valueOf(SET_USERVARIABLE_TO_BRICK_VALUE);
+		Double listItemToAdd = Double.valueOf(ADD_VALUE_TO_LIST);
 
-		SetVariableBrick setVariableBrick = new SetVariableBrick(firstSprite, new Formula(setVariableToValue),
-				ProjectManager.getInstance().getCurrentProject().getUserVariables()
-						.getUserVariable(USER_VARIABLE_NAME_UNDERLINE_PREFIX, firstSprite));
+		AddItemToUserListBrick addItemToUserListBrick = new AddItemToUserListBrick(firstSprite, new Formula(listItemToAdd),
+				ProjectManager.getInstance().getCurrentProject().getUserLists()
+						.getUserList(USER_LIST_NAME, firstSprite)
+		);
 
 		Script startScript1 = new StartScript(firstSprite);
 		firstSprite.addScript(startScript1);
-		startScript1.addBrick(setVariableBrick);
+		startScript1.addBrick(addItemToUserListBrick);
 	}
 
 	public void testAddUserListAfterStage() throws InterruptedException {
 		String userListName = "userList1";
 
-		fail("Add item to UserList not yet implemented!");
-
 		solo.goBack();
 		createProjectAndAddAddItemToListBrick("testProject");
 		solo.clickOnView(solo.getView(R.id.program_menu_button_scripts));
-		solo.clickOnView(solo.getView(SET_VARIABLE_EDIT_TEXT_RID));
+		solo.clickOnView(solo.getView(ADD_ITEM_TO_USERLIST_EDIT_TEXT_RID));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_lists));
 		solo.goBack();
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 
 		solo.clickOnView(solo.getView(R.id.button_play));
-		solo.sleep(5000); //TODO just for local testing, reset to 250 before commit
+		solo.sleep(500);
 		assertTrue("StageActivity not shown: ", solo.waitForActivity(StageActivity.class.getSimpleName()));
 
 		solo.goBack();
@@ -129,23 +126,22 @@ public class FormulaEditorUserListFragmentTest extends BaseActivityInstrumentati
 		assertTrue("ScriptActivity not shown: ", solo.waitForActivity(ScriptActivity.class.getSimpleName()));
 
 		solo.sleep(500);
-		solo.clickOnView(solo.getView(SET_VARIABLE_EDIT_TEXT_RID));
+		solo.clickOnView(solo.getView(ADD_ITEM_TO_USERLIST_EDIT_TEXT_RID));
 		assertTrue("FormulaEditorFragment not shown: ",
 				solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_lists));
-		assertTrue("FormulaEditorVariableListFragment not shown: ",
-				solo.waitForFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG));
+		assertTrue("FormulaEditorUserListFragment not shown: ",
+				solo.waitForFragmentByTag(FormulaEditorUserListFragment.USERLIST_TAG));
 
 		createUserListFromUserListFragment(userListName, false);
-		assertTrue("Variable Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_variables)));
+		assertTrue("User List Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_lists)));
 
 		ListView listView = getUserListListView();
-		assertTrue("UserVariable not added!", listView.getCount() == 2);
+		assertTrue("UserList not added!", listView.getCount() == 2);
 	}
 
 	public void testModifyUserListValuesInStage() throws InterruptedException {
 
-		fail("Change UserList item not yet implemented!");
 		solo.goBack();
 		createProjectAndAddAddItemToListBrick("testProject");
 		solo.waitForView(solo.getView(R.id.program_menu_button_scripts));
@@ -153,7 +149,7 @@ public class FormulaEditorUserListFragmentTest extends BaseActivityInstrumentati
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
 		solo.clickOnView(solo.getView(R.id.button_play));
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(250);
+		solo.sleep(500);
 		solo.goBack();
 		solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
 		solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
@@ -163,17 +159,18 @@ public class FormulaEditorUserListFragmentTest extends BaseActivityInstrumentati
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		solo.clickOnView(solo.getView(R.id.program_menu_button_scripts));
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		solo.clickOnView(solo.getView(SET_VARIABLE_EDIT_TEXT_RID));
+		solo.clickOnView(solo.getView(ADD_ITEM_TO_USERLIST_EDIT_TEXT_RID));
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_lists));
-		solo.waitForFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG);
+		solo.waitForFragmentByTag(FormulaEditorUserListFragment.USERLIST_TAG);
 
 		ListView listView = getUserListListView();
 
-		UserVariable userVariable = (UserVariable) listView.getItemAtPosition(0);
-		Double setVariableToValue = Double.valueOf(SET_USERVARIABLE_TO_BRICK_VALUE);
-		assertTrue("Value of UserVariable not saved after stage1!",
-				((Double) userVariable.getValue()).compareTo(setVariableToValue) == 0);
+		UserList userList = (UserList) listView.getItemAtPosition(0);
+		Double addValueToList = Double.valueOf(ADD_VALUE_TO_LIST);
+		assertEquals("Wrong size of User List after stage!", userList.getList().size(), 1);
+		assertTrue("Value of UserList not saved after stage1!",
+				((Double) userList.getList().get(0)).compareTo(addValueToList) == 0);
 
 		solo.goBack();
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
@@ -183,24 +180,24 @@ public class FormulaEditorUserListFragmentTest extends BaseActivityInstrumentati
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		solo.clickOnView(solo.getView(R.id.button_play));
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(250);
+		solo.sleep(500);
 		solo.goBack();
 		solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
 		solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
 		solo.waitForActivity(ProgramMenuActivity.class.getSimpleName());
 		solo.clickOnView(solo.getView(R.id.program_menu_button_scripts));
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		solo.clickOnView(solo.getView(SET_VARIABLE_EDIT_TEXT_RID));
+		solo.clickOnView(solo.getView(ADD_ITEM_TO_USERLIST_EDIT_TEXT_RID));
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_lists));
-		solo.waitForFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG);
+		solo.waitForFragmentByTag(FormulaEditorUserListFragment.USERLIST_TAG);
 
 		listView = getUserListListView();
 
-		userVariable = (UserVariable) listView.getItemAtPosition(0);
-		setVariableToValue = Double.valueOf(SET_USERVARIABLE_TO_BRICK_VALUE);
-		assertTrue("Value of UserVariable not saved after stage2!",
-				((Double) userVariable.getValue()).compareTo(setVariableToValue) == 0);
+		userList = (UserList) listView.getItemAtPosition(0);
+		addValueToList = Double.valueOf(ADD_VALUE_TO_LIST);
+		assertTrue("Value of UserList not added after stage2!",
+				((Double) userList.getList().get(0)).compareTo(addValueToList) == 0);
 
 		solo.goBack();
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
@@ -213,7 +210,7 @@ public class FormulaEditorUserListFragmentTest extends BaseActivityInstrumentati
 
 		solo.clickOnView(solo.getView(R.id.button_play));
 		solo.waitForActivity(StageActivity.class.getSimpleName());
-		solo.sleep(250);
+		solo.sleep(500);
 		solo.goBack();
 		solo.waitForView(solo.getView(R.id.stage_dialog_button_back));
 		solo.clickOnView(solo.getView(R.id.stage_dialog_button_back));
@@ -223,17 +220,17 @@ public class FormulaEditorUserListFragmentTest extends BaseActivityInstrumentati
 
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
-		solo.clickOnView(solo.getView(SET_VARIABLE_EDIT_TEXT_RID));
+		solo.clickOnView(solo.getView(ADD_ITEM_TO_USERLIST_EDIT_TEXT_RID));
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_lists));
-		solo.waitForFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG);
+		solo.waitForFragmentByTag(FormulaEditorUserListFragment.USERLIST_TAG);
 
 		listView = getUserListListView();
 
-		userVariable = (UserVariable) listView.getItemAtPosition(0);
-		setVariableToValue = Double.valueOf(SET_USERVARIABLE_TO_BRICK_VALUE);
-		assertTrue("Value of UserVariable not saved after stage3!",
-				((Double) userVariable.getValue()).compareTo(setVariableToValue) == 0);
+		userList = (UserList) listView.getItemAtPosition(0);
+		addValueToList = Double.valueOf(ADD_VALUE_TO_LIST);
+		assertTrue("Value of UserList not saved after stage3!",
+				((Double) userList.getList().get(0)).compareTo(addValueToList) == 0);
 	}
 
 	public void testCreateUserList() {
@@ -366,7 +363,7 @@ public class FormulaEditorUserListFragmentTest extends BaseActivityInstrumentati
 		solo.clickOnView(solo.getView(CHANGE_SIZE_EDIT_TEXT_RID));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_lists));
-		assertTrue("Variable Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_lists)));
+		assertTrue("UserList Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_lists)));
 
 		createUserListFromUserListFragment(itemString, false);
 		assertTrue(itemString + " not found:", solo.searchText(itemString, true));

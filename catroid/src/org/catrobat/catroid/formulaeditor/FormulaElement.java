@@ -384,14 +384,14 @@ public class FormulaElement implements Serializable {
 			case JOIN:
 				return interpretFunctionJOIN(sprite);
 			case LIST_ITEM:
-				return interpretFunctionLISTITEM(left, right, sprite);
+				return interpretFunctionLISTITEM(left, sprite);
 			case CONTAINS:
-				return interpretFunctionCONTAINS(left, right, sprite);
+				return interpretFunctionCONTAINS(right, sprite);
 		}
 		return 0d;
 	}
 
-	private Object interpretFunctionCONTAINS(Object left, Object right, Sprite sprite) {
+	private Object interpretFunctionCONTAINS(Object right, Sprite sprite) {
 		if (leftChild.getElementType() == ElementType.USER_LIST) {
 			UserListContainer userListContainer = ProjectManager.getInstance().getCurrentProject().getUserLists();
 			UserList userList = userListContainer.getUserList(leftChild.getValue(), sprite);
@@ -410,7 +410,7 @@ public class FormulaElement implements Serializable {
 		return 0d;
 	}
 
-	private Object interpretFunctionLISTITEM(Object left, Object right, Sprite sprite) {
+	private Object interpretFunctionLISTITEM(Object left, Sprite sprite) {
 		UserList userList = null;
 		if (rightChild.getElementType() == ElementType.USER_LIST) {
 			UserListContainer userLists = ProjectManager.getInstance().getCurrentProject().getUserLists();

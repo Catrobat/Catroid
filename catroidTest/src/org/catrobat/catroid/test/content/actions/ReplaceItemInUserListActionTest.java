@@ -34,10 +34,10 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InsertItemintoUserListActionTest extends AndroidTestCase {
+public class ReplaceItemInUserListActionTest extends AndroidTestCase {
 
 	private static final String TEST_USERLIST_NAME = "testUserList";
-	private static final double DOUBLE_VALUE_ITEM_TO_ADD = 3.0;
+	private static final double DOUBLE_VALUE_ITEM_TO_REPLACE_WITH = 4.0;
 	private static final List<Object> INITIALIZED_LIST_VALUES = new ArrayList<Object>();
 
 	private Sprite testSprite;
@@ -56,40 +56,50 @@ public class InsertItemintoUserListActionTest extends AndroidTestCase {
 		INITIALIZED_LIST_VALUES.clear();
 		INITIALIZED_LIST_VALUES.add(1.0);
 		INITIALIZED_LIST_VALUES.add(2.0);
+		INITIALIZED_LIST_VALUES.add(3.0);
 		super.setUp();
 	}
 
-	public void testInsertNumericalValueToUserList() {
-		ExtendedActions.insertItemIntoUserList(testSprite, new Formula(1), new Formula(DOUBLE_VALUE_ITEM_TO_ADD), userList).act(1f);
+	public void testReplaceNumericalValueInUserList() {
+		ExtendedActions.replaceItemInUserList(testSprite, new Formula(1), new Formula(DOUBLE_VALUE_ITEM_TO_REPLACE_WITH), userList).act(1f);
 		Object firstItemOfUserList = userList.getList().get(0);
 
-		assertEquals("UserList size not changed!", 3, userList.getList().size());
-		assertEquals("UserList not changed!", DOUBLE_VALUE_ITEM_TO_ADD, firstItemOfUserList);
+		assertEquals("UserList size changed!", 3, userList.getList().size());
+		assertEquals("UserList not changed!", DOUBLE_VALUE_ITEM_TO_REPLACE_WITH, firstItemOfUserList);
 	}
 
-	public void testInsertNumericalValueToUserListAtLastPosition() {
-		ExtendedActions.insertItemIntoUserList(testSprite, new Formula(3), new Formula(DOUBLE_VALUE_ITEM_TO_ADD), userList).act(1f);
+	public void testReplaceNumericalValueInUserListAtLastPosition() {
+		ExtendedActions.replaceItemInUserList(testSprite, new Formula(3), new Formula(DOUBLE_VALUE_ITEM_TO_REPLACE_WITH), userList).act(1f);
 		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
 
-		assertEquals("UserList size not changed!", 3, userList.getList().size());
-		assertEquals("UserList not changed!", DOUBLE_VALUE_ITEM_TO_ADD, lastItemOfUserList);
+		assertEquals("UserList size changed!", 3, userList.getList().size());
+		assertEquals("UserList not changed!", DOUBLE_VALUE_ITEM_TO_REPLACE_WITH, lastItemOfUserList);
 	}
 
-	public void testInsertItemWithInvalidUserList() {
-		ExtendedActions.insertItemIntoUserList(testSprite, new Formula(1), new Formula(DOUBLE_VALUE_ITEM_TO_ADD), null).act(1f);
-		assertEquals("UserList changed, but should not!", 2, userList.getList().size());
+	public void testReplaceNumericalValueInUserListOutOfUserListBounds() {
+		ExtendedActions.replaceItemInUserList(testSprite, new Formula(4), new Formula(DOUBLE_VALUE_ITEM_TO_REPLACE_WITH), userList).act(1f);
+
+		assertEquals("UserList size changed!", 3, userList.getList().size());
+		assertEquals("UserList changed!", 1d, userList.getList().get(0));
+		assertEquals("UserList changed!", 2d, userList.getList().get(1));
+		assertEquals("UserList changed!", 3d, userList.getList().get(2));
 	}
 
-	public void testInsertNullFormula() {
-		ExtendedActions.insertItemIntoUserList(testSprite, new Formula(1), null, userList).act(1f);
+	public void testReplaceItemWithInvalidUserList() {
+		ExtendedActions.replaceItemInUserList(testSprite, new Formula(1), new Formula(DOUBLE_VALUE_ITEM_TO_REPLACE_WITH), null).act(1f);
+		assertEquals("UserList changed, but should not!", 3, userList.getList().size());
+	}
+
+	public void testReplaceNullFormula() {
+		ExtendedActions.replaceItemInUserList(testSprite, new Formula(1), null, userList).act(1f);
 		Object firstItemOfUserList = userList.getList().get(0);
 
-		assertEquals("UserList size not changed!", 3, userList.getList().size());
+		assertEquals("UserList size changed!", 3, userList.getList().size());
 		assertEquals("UserList not changed!", 0d, firstItemOfUserList);
 	}
 
 	public void testNotANumberFormula() {
-		ExtendedActions.insertItemIntoUserList(testSprite, new Formula(1), new Formula(Double.NaN), userList).act(1f);
+		ExtendedActions.replaceItemInUserList(testSprite, new Formula(1), new Formula(Double.NaN), userList).act(1f);
 		Object firstItemOfUserList = userList.getList().get(0);
 		assertEquals("UserList not changed!", Double.NaN, firstItemOfUserList);
 	}

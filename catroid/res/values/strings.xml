@@ -24,46 +24,46 @@
 <resources>
 
     <!-- General terms -->
-    <string name="app_name">Pocket Code</string>
-    <string name="cancel_button">Cancel</string>
-    <string name="rename">Rename</string>
-    <string name="delete">Delete</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="copy">Copy</string>
-    <string name="cut">Cut</string>
-    <string name="move">Move</string>
-    <string name="backpack">Backpack</string>
-    <string name="unpacking">Unpacking</string>
-    <string name="unpack">Unpack it</string>
-    <string name="copy_addition">copy</string>
-    <string name="close">Close</string>
-    <string name="error">Error</string>
-    <string name="please_wait">Please wait</string>
-    <string name="loading">Loading…</string>
-    <string name="background">Background</string>
-    <string name="stage">Stage</string>
-    <string name="ok">OK</string>
-    <string name="settings">Settings</string>
-    <string name="redo">Redo</string>
-    <string name="undo">Undo</string>
+    <string name="app_name" >Pocket Code</string >
+    <string name="cancel_button" >Cancel</string >
+    <string name="rename" >Rename</string >
+    <string name="delete" >Delete</string >
+    <string name="yes" >Yes</string >
+    <string name="no" >No</string >
+    <string name="copy" >Copy</string >
+    <string name="cut" >Cut</string >
+    <string name="move" >Move</string >
+    <string name="backpack" >Backpack</string >
+    <string name="unpacking" >Unpacking</string >
+    <string name="unpack" >Unpack it</string >
+    <string name="copy_addition" >copy</string >
+    <string name="close" >Close</string >
+    <string name="error" >Error</string >
+    <string name="please_wait" >Please wait</string >
+    <string name="loading" >Loading…</string >
+    <string name="background" >Background</string >
+    <string name="stage" >Stage</string >
+    <string name="ok" >OK</string >
+    <string name="settings" >Settings</string >
+    <string name="redo" >Redo</string >
+    <string name="undo" >Undo</string >
     <!--  -->
 
 
     <!-- Main menu activity -->
-    <string name="main_menu_new">New</string>
-    <string name="main_menu_continue">Continue</string>
-    <string name="main_menu_programs">Programs</string>
-    <string name="main_menu_help">Help</string>
-    <string name="main_menu_web">Explore</string>
-    <string name="main_menu_upload">Upload</string>
-    <string name="main_menu_about_pocketcode">About Pocket Code</string>
-    <string name="main_menu_terms_of_use">Terms of use</string>
-    <string name="main_menu_rate_app">Rate us!</string>
-    <string name="main_menu_play_store_not_installed">Play Store app not found</string>
-    <string name="main_menu_web_dialog_title">Caution!</string>
-    <string name="main_menu_web_dialog_message">Currently alternative browsers like Firefox or Dolphin are not supported</string>
-    <string name="main_menu_web_dialog_dont_show">Don\'t show again</string>
+    <string name="main_menu_new" >New</string >
+    <string name="main_menu_continue" >Continue</string >
+    <string name="main_menu_programs" >Programs</string >
+    <string name="main_menu_help" >Help</string >
+    <string name="main_menu_web" >Explore</string >
+    <string name="main_menu_upload" >Upload</string >
+    <string name="main_menu_about_pocketcode" >About Pocket Code</string >
+    <string name="main_menu_terms_of_use" >Terms of use</string >
+    <string name="main_menu_rate_app" >Rate us!</string >
+    <string name="main_menu_play_store_not_installed" >Play Store app not found</string >
+    <string name="main_menu_web_dialog_title" >Caution!</string >
+    <string name="main_menu_web_dialog_message" >Currently alternative browsers like Firefox or Dolphin are not supported</string >
+    <string name="main_menu_web_dialog_dont_show" >Don\'t show again</string >
     <!--  -->
 
 
@@ -81,159 +81,159 @@
 
 
     <!-- New Object Dialog -->
-    <string name="dialog_new_object_pocketpaint">Draw Image</string>
-    <string name="dialog_new_object_gallery">Select Image</string>
-    <string name="dialog_new_object_camera">Take Picture</string>
-    <string name="dialog_new_object_look_preview">look preview</string>
-    <string name="dialog_new_object_name">Object name</string>
-    <string name="dialog_new_object_switch_title">New Object created</string>
-    <string name="dialog_new_object_switch_message">Switch to new Object?</string>
+    <string name="dialog_new_object_pocketpaint" >Draw Image</string >
+    <string name="dialog_new_object_gallery" >Select Image</string >
+    <string name="dialog_new_object_camera" >Take Picture</string >
+    <string name="dialog_new_object_look_preview" >look preview</string >
+    <string name="dialog_new_object_name" >Object name</string >
+    <string name="dialog_new_object_switch_title" >New Object created</string >
+    <string name="dialog_new_object_switch_message" >Switch to new Object?</string >
     <!--  -->
 
 
     <!-- Terms of Use Dialog -->
-    <string name="dialog_terms_of_use_title">Terms of Use</string>
-    <string name="dialog_terms_of_use_info">In order to 
+    <string name="dialog_terms_of_use_title" >Terms of Use</string >
+    <string name="dialog_terms_of_use_info" >In order to
     be allowed to use Pocket Code and other executables offered by the Catrobat project, you 
     must agree to our Terms of Use and strictly follow them when you use Pocket 
-    Code and our other executables. Please see the link below for their precise formulation.\n</string>
-    <string name="dialog_terms_of_use_link_text">Terms of Use</string>
-    <string name="dialog_terms_of_use_agree_permanent">I agree permanently – do not ask me again. I assume full responsibility when someone else uses my device.</string>
-    <string name="dialog_terms_of_use_agree">I agree</string>
-    <string name="dialog_terms_of_use_do_not_agree">I do not agree</string>
+    Code and our other executables. Please see the link below for their precise formulation.\n</string >
+    <string name="dialog_terms_of_use_link_text" >Terms of Use</string >
+    <string name="dialog_terms_of_use_agree_permanent" >I agree permanently – do not ask me again. I assume full responsibility when someone else uses my device.</string >
+    <string name="dialog_terms_of_use_agree" >I agree</string >
+    <string name="dialog_terms_of_use_do_not_agree" >I do not agree</string >
     <!--  -->
 
 
     <!-- About Dialog -->
-    <string name="dialog_about_title">About Pocket Code</string>
-    <string name="dialog_about_license_info">Pocket Code is a programming 
+    <string name="dialog_about_title" >About Pocket Code</string >
+    <string name="dialog_about_license_info" >Pocket Code is a programming
         environment and interpreter for Android devices for the visual 
         programming language Catrobat.\n\n
         The source code of Pocket Code is mainly licensed under the GNU AGPL v3 License. 
-        For the precise details of the license see the link below.\n</string>
-    <string name="dialog_about_pocketcode_license_link_text">Pocket Code Source Code License</string>
-    <string name="dialog_about_catrobat_link_text">About Catrobat</string>
+        For the precise details of the license see the link below.\n</string >
+    <string name="dialog_about_pocketcode_license_link_text" >Pocket Code Source Code License</string >
+    <string name="dialog_about_catrobat_link_text" >About Catrobat</string >
     <!--  -->
 
 
     <!-- Project activity view -->
-    <string name="project_name">Program:</string>
-    <string name="my_projects_activity_title">Programs</string>
-    <string name="number_of_scripts">Scripts:</string>
-    <string name="number_of_bricks">Bricks:</string>
-    <string name="number_of_looks">Looks:</string>
-    <string name="number_of_sounds">Sounds:</string>
-    <string name="show_details">Show Details</string>
-    <string name="hide_details">Hide Details</string>
-    <string name="insert_below">Insert Below</string>
-    <string name="sprite">Object</string>
-    <string name="sprites">Objects</string>
-    <string name="spritelist_background_headline">Background</string>
-    <string name="dialog_confirm_delete_object_title">Delete this object?</string>
-    <string name="dialog_confirm_delete_multiple_objects_title">Delete these objects?</string>
-    <string name="dialog_confirm_delete_object_message">This can not be undone!</string>
-    <string name="select_all">Select all</string>
+    <string name="project_name" >Program:</string >
+    <string name="my_projects_activity_title" >Programs</string >
+    <string name="number_of_scripts" >Scripts:</string >
+    <string name="number_of_bricks" >Bricks:</string >
+    <string name="number_of_looks" >Looks:</string >
+    <string name="number_of_sounds" >Sounds:</string >
+    <string name="show_details" >Show Details</string >
+    <string name="hide_details" >Hide Details</string >
+    <string name="insert_below" >Insert Below</string >
+    <string name="sprite" >Object</string >
+    <string name="sprites" >Objects</string >
+    <string name="spritelist_background_headline" >Background</string >
+    <string name="dialog_confirm_delete_object_title" >Delete this object?</string >
+    <string name="dialog_confirm_delete_multiple_objects_title" >Delete these objects?</string >
+    <string name="dialog_confirm_delete_object_message" >This can not be undone!</string >
+    <string name="select_all" >Select all</string >
     <!--  -->
 
 
     <!-- Sprite activity -->
-    <string name="copy_sprite_finished">copied.</string>
-    <string name="copy_sprite_prefix">Object:</string>
-    <string name="copy_sprite_name_suffix">_Copy</string>
+    <string name="copy_sprite_finished" >copied.</string >
+    <string name="copy_sprite_prefix" >Object:</string >
+    <string name="copy_sprite_name_suffix" >_Copy</string >
     <!--  -->
 
 
     <!-- Script activity -->
-    <string name="scripts">Scripts</string>
-    <string name="look">Look</string>
-    <string name="looks">Looks</string>
-    <string name="sounds">Sounds</string>
-    <string name="backgrounds">Backgrounds</string>
-    <string name="size">Size:</string>
+    <string name="scripts" >Scripts</string >
+    <string name="look" >Look</string >
+    <string name="looks" >Looks</string >
+    <string name="sounds" >Sounds</string >
+    <string name="backgrounds" >Backgrounds</string >
+    <string name="size" >Size:</string >
     <!--  -->
 
 
     <!-- Script fragment -->
-    <string name="fragment_script_text_description">Tap \"+\" to add Scripts</string>
-    <string name="dialog_confirm_delete_brick_title">Delete this brick?</string>
-    <string name="dialog_confirm_delete_script_title">Delete this script?</string>
-    <string name="dialog_confirm_delete_multiple_bricks_title">Delete these bricks?</string>
-    <string name="dialog_confirm_delete_brick_message">This can not be undone!</string>
+    <string name="fragment_script_text_description" >Tap \"+\" to add Scripts</string >
+    <string name="dialog_confirm_delete_brick_title" >Delete this brick?</string >
+    <string name="dialog_confirm_delete_script_title" >Delete this script?</string >
+    <string name="dialog_confirm_delete_multiple_bricks_title" >Delete these bricks?</string >
+    <string name="dialog_confirm_delete_brick_message" >This can not be undone!</string >
 
-    <plurals name="number_of_bricks_to_delete">
-        <item quantity="one">Delete 1 Brick</item>
-        <item quantity="other">Delete %d Bricks</item>
-    </plurals>
-    <plurals name="number_of_bricks_to_copy">
-        <item quantity="one">Copy 1 Brick</item>
-        <item quantity="other">Copy %d Bricks</item>
-    </plurals>
+    <plurals name="number_of_bricks_to_delete" >
+        <item quantity="one" >Delete 1 Brick</item >
+        <item quantity="other" >Delete %d Bricks</item >
+    </plurals >
+    <plurals name="number_of_bricks_to_copy" >
+        <item quantity="one" >Copy 1 Brick</item >
+        <item quantity="other" >Copy %d Bricks</item >
+    </plurals >
     <!--  -->
 
 
     <!-- Look fragment -->
-    <string name="fragment_look_text_description">Tap \"+\" to add Looks</string>
-    <string name="fragment_background_text_description">Tap \"+\" to add Backgrounds</string>
-    <string name="rename_look_dialog">Rename Look</string>
-    <string name="lookname_invalid">This look\'s name is invalid</string>
-    <string name="pocket_paint_not_installed_title">Pocket Paint is not installed!</string>
-    <string name="pocket_paint_not_installed">Do you want to install it?</string>
-    <string name="default_look_name">look</string>
-    <string name="delete_look_dialog">Delete look?</string>
-    <string name="select_look_from_gallery">Select image</string>
-    <string name="select_look_from_camera">Select photo</string>
-    <string name="look_measure">Measure:</string>
-    <string name="dialog_confirm_delete_look_title">Delete this look?</string>
-    <string name="dialog_confirm_delete_multiple_looks_title">Delete these looks?</string>
-    <string name="dialog_confirm_delete_look_message">This can not be undone!</string>
-    <string name="lookname">look name:</string>
+    <string name="fragment_look_text_description" >Tap \"+\" to add Looks</string >
+    <string name="fragment_background_text_description" >Tap \"+\" to add Backgrounds</string >
+    <string name="rename_look_dialog" >Rename Look</string >
+    <string name="lookname_invalid" >This look\'s name is invalid</string >
+    <string name="pocket_paint_not_installed_title" >Pocket Paint is not installed!</string >
+    <string name="pocket_paint_not_installed" >Do you want to install it?</string >
+    <string name="default_look_name" >look</string >
+    <string name="delete_look_dialog" >Delete look?</string >
+    <string name="select_look_from_gallery" >Select image</string >
+    <string name="select_look_from_camera" >Select photo</string >
+    <string name="look_measure" >Measure:</string >
+    <string name="dialog_confirm_delete_look_title" >Delete this look?</string >
+    <string name="dialog_confirm_delete_multiple_looks_title" >Delete these looks?</string >
+    <string name="dialog_confirm_delete_look_message" >This can not be undone!</string >
+    <string name="lookname" >look name:</string >
     <!--  -->
 
 
     <!-- Sound fragment -->
-    <string name="fragment_sound_text_description">Tap \"+\" to add Sounds</string>
-    <string name="rename_sound_dialog">Rename Sound</string>
-    <string name="backpack_title">BackPack</string>
-    <string name="soundname_invalid">This sound\'s name is invalid</string>
-    <string name="sound_play">play</string>
-    <string name="sound_stop">stop</string>
-    <string name="sound_select_source">Select a sound</string>
-    <string name="sound_time_seperator">/</string>
-    <string name="delete_sound_dialog">Delete sound?</string>
-    <string name="length">Length:</string>
-    <string name="dialog_confirm_delete_sound_title">Delete this sound?</string>
-    <string name="dialog_confirm_delete_multiple_sounds_title">Delete these sounds?</string>
-    <string name="dialog_confirm_delete_sound_message">This can not be undone!</string>
-    <string name="sound_name">sound name:</string>
+    <string name="fragment_sound_text_description" >Tap \"+\" to add Sounds</string >
+    <string name="rename_sound_dialog" >Rename Sound</string >
+    <string name="backpack_title" >BackPack</string >
+    <string name="soundname_invalid" >This sound\'s name is invalid</string >
+    <string name="sound_play" >play</string >
+    <string name="sound_stop" >stop</string >
+    <string name="sound_select_source" >Select a sound</string >
+    <string name="sound_time_seperator" >/</string >
+    <string name="delete_sound_dialog" >Delete sound?</string >
+    <string name="length" >Length:</string >
+    <string name="dialog_confirm_delete_sound_title" >Delete this sound?</string >
+    <string name="dialog_confirm_delete_multiple_sounds_title" >Delete these sounds?</string >
+    <string name="dialog_confirm_delete_sound_message" >This can not be undone!</string >
+    <string name="sound_name" >sound name:</string >
     <!--  -->
 
-    <plurals name="unpacking_items_plural">
-        <item quantity="one">was unpacked!</item>
-        <item quantity="other">were unpacked!</item>
-    </plurals>
+    <plurals name="unpacking_items_plural" >
+        <item quantity="one" >was unpacked!</item >
+        <item quantity="other" >were unpacked!</item >
+    </plurals >
 
     <!-- My Projects activity -->
-    <string name="last_used">Last access:</string>
-    <string name="description">Description:</string>
-    <string name="set_description">Set description</string>
-    <string name="rename_project">Rename Program</string>
-    <string name="copy_project_finished"> copied.</string>
-    <string name="program">Program</string>
-    <string name="programs">Programs</string>
-    <string name="dialog_confirm_delete_program_title">Delete this program?</string>
-    <string name="dialog_confirm_delete_multiple_programs_title">Delete these programs?</string>
-    <string name="dialog_confirm_delete_program_message">This can not be undone!</string>
-    <string name="details_date_today">Today</string>
-    <string name="details_date_yesterday">Yesterday</string>
-    <string name="dialog_copy_project_title">Copy program</string>
+    <string name="last_used" >Last access:</string >
+    <string name="description" >Description:</string >
+    <string name="set_description" >Set description</string >
+    <string name="rename_project" >Rename Program</string >
+    <string name="copy_project_finished" > copied.</string >
+    <string name="program" >Program</string >
+    <string name="programs" >Programs</string >
+    <string name="dialog_confirm_delete_program_title" >Delete this program?</string >
+    <string name="dialog_confirm_delete_multiple_programs_title" >Delete these programs?</string >
+    <string name="dialog_confirm_delete_program_message" >This can not be undone!</string >
+    <string name="details_date_today" >Today</string >
+    <string name="details_date_yesterday" >Yesterday</string >
+    <string name="dialog_copy_project_title" >Copy program</string >
     <!--  -->
 
 
     <!-- Soundrecorder activity -->
-    <string name="soundrecorder_name">Pocket Code Recorder</string>
-    <string name="soundrecorder_error">Sound recording failed</string>
-    <string name="soundrecorder_recorded_filename">record</string>
-    <string name="soundrecorder_text_view">Tap the icon above to start and stop recording.</string>
+    <string name="soundrecorder_name" >Pocket Code Recorder</string >
+    <string name="soundrecorder_error" >Sound recording failed</string >
+    <string name="soundrecorder_recorded_filename" >record</string >
+    <string name="soundrecorder_text_view" >Tap the icon above to start and stop recording.</string >
     <!--  -->
 
 
@@ -259,67 +259,67 @@
 
 
     <!-- New look dialog -->
-    <string name="new_look_dialog_title">Add Look</string>
-    <string name="add_look_from_camera">Take Picture</string>
-    <string name="add_look_draw_new_image">Draw image</string>
-    <string name="add_look_choose_image">Select image</string>
+    <string name="new_look_dialog_title" >Add Look</string >
+    <string name="add_look_from_camera" >Take Picture</string >
+    <string name="add_look_draw_new_image" >Draw image</string >
+    <string name="add_look_choose_image" >Select image</string >
     <!--  -->
 
 
     <!-- New project dialog -->
-    <string name="new_project_dialog_title">New program</string>
-    <string name="new_project_dialog_hint">My Program</string>
-    <string name="new_project_description_dialog_hint">My Description</string>
-    <string name="new_project_name">Program name:</string>
-    <string name="new_project_empty">Create empty program</string>
+    <string name="new_project_dialog_title" >New program</string >
+    <string name="new_project_dialog_hint" >My Program</string >
+    <string name="new_project_description_dialog_hint" >My Description</string >
+    <string name="new_project_name" >Program name:</string >
+    <string name="new_project_empty" >Create empty program</string >
     <!--  -->
 
 
     <!-- New sprite dialog -->
-    <string name="new_sprite_dialog_default_sprite_name">My Object</string>
-    <string name="new_sprite_dialog_title">New Object</string>
-    <string name="spritename_already_exists">This object name already exists</string>
-    <string name="rename_sprite_dialog">Rename Object</string>
-    <string name="spritename_invalid">This object name is invalid</string>
-    <string name="sprite_name">Object name:</string>
+    <string name="new_sprite_dialog_default_sprite_name" >My Object</string >
+    <string name="new_sprite_dialog_title" >New Object</string >
+    <string name="spritename_already_exists" >This object name already exists</string >
+    <string name="rename_sprite_dialog" >Rename Object</string >
+    <string name="spritename_invalid" >This object name is invalid</string >
+    <string name="sprite_name" >Object name:</string >
     <!--  -->
 
 
     <!-- Login Register dialog -->
-    <string name="login_register_dialog_title">Login</string>
-    <string name="username">Username:</string>
-    <string name="password">Password:</string>
-    <string name="login_or_register">Login or Register</string>
-    <string name="password_forgotten">Password forgotten</string>
-    <string name="new_user_registered">New account created</string>
-    <string name="register_error">Error occurred</string>
-    <string name="register_terms">By registering, you agree to our</string>
-    <string name="register_pocketcode_terms_of_use_text">Terms of use</string>
+    <string name="login_register_dialog_title" >Login</string >
+    <string name="username" >Username:</string >
+    <string name="password" >Password:</string >
+    <string name="login_or_register" >Login or Register</string >
+    <string name="password_forgotten" >Password forgotten</string >
+    <string name="new_user_registered" >New account created</string >
+    <string name="register_error" >Error occurred</string >
+    <string name="register_terms" >By registering, you agree to our</string >
+    <string name="register_pocketcode_terms_of_use_text" >Terms of use</string >
     <!--  -->
 
 
     <!-- OverwriteRenameDialog Strings -->
-    <string name="overwrite_text">Program with same name already exists!</string>
-    <string name="overwrite_replace">Replace existing program</string>
-    <string name="overwrite_rename">Rename downloaded program</string>
+    <string name="overwrite_text" >Program with same name already exists!</string >
+    <string name="overwrite_replace" >Replace existing program</string >
+    <string name="overwrite_rename" >Rename downloaded program</string >
     <!--  -->
 
 
     <!-- Stage menu dialog -->
-    <string name="stage_dialog_back">Back</string>
-    <string name="stage_dialog_resume">Resume</string>
-    <string name="stage_dialog_restart">Restart</string>
-    <string name="stage_dialog_axes_on">Axes On</string>
-    <string name="stage_dialog_axes_off">Axes Off</string>
-    <string name="stage_dialog_maximize">Maximize/\nStretch</string>
-    <string name="stage_dialog_screenshot">Screenshot</string>
+    <string name="stage_dialog_back" >Back</string >
+    <string name="stage_dialog_resume" >Resume</string >
+    <string name="stage_dialog_restart" >Restart</string >
+    <string name="stage_dialog_axes_on" >Axes On</string >
+    <string name="stage_dialog_axes_off" >Axes Off</string >
+    <string name="stage_dialog_maximize" >Maximize/\nStretch</string >
+    <string name="stage_dialog_screenshot" >Screenshot</string >
     <!--  -->
 
 
     <!-- Broadcast spinner -->
-    <string name="new_broadcast_message">New…</string>
-    <string name="dialog_new_broadcast_message_title">New message</string>
-    <string name="dialog_new_broadcast_message_name">message:</string>
+    <string name="new_broadcast_message" >New…</string >
+    <string name="dialog_new_broadcast_message_title" >New message</string >
+    <string name="dialog_new_broadcast_message_name" >message:</string >
     <!--  -->
 
 
@@ -335,37 +335,36 @@
     <string name="category_drone">ARDrone</string>
     <!--  -->
 
-
     <!-- Motion bricks -->
-    <string name="brick_place_at">"Place at "</string>
-    <string name="x_label">"X: "</string>
-    <string name="y_label">"Y: "</string>
-    <string name="brick_set_x">"Set X to "</string>
-    <string name="brick_set_y">"Set Y to "</string>
-    <string name="brick_change_x_by">"Change X by "</string>
-    <string name="brick_change_y_by">"Change Y by "</string>
-    <string name="brick_go_back">Go back</string>
+    <string name="brick_place_at" >"Place at "</string >
+    <string name="x_label" >"X: "</string >
+    <string name="y_label" >"Y: "</string >
+    <string name="brick_set_x" >"Set X to "</string >
+    <string name="brick_set_y" >"Set Y to "</string >
+    <string name="brick_change_x_by" >"Change X by "</string >
+    <string name="brick_change_y_by" >"Change Y by "</string >
+    <string name="brick_go_back" >Go back</string >
 
-    <plurals name="brick_go_back_layer_plural">
-        <item quantity="one">layer</item>
-        <item quantity="other">layers</item>
-    </plurals>
+    <plurals name="brick_go_back_layer_plural" >
+        <item quantity="one" >layer</item >
+        <item quantity="other" >layers</item >
+    </plurals >
 
-    <string name="brick_come_to_front">Go to front</string>
-    <string name="brick_if_on_edge_bounce">If on edge, bounce</string>
-    <string name="brick_move">Move</string>
+    <string name="brick_come_to_front" >Go to front</string >
+    <string name="brick_if_on_edge_bounce" >If on edge, bounce</string >
+    <string name="brick_move" >Move</string >
 
-    <plurals name="brick_move_n_step_plural">
-        <item quantity="one">step</item>
-        <item quantity="other">steps</item>
-    </plurals>
+    <plurals name="brick_move_n_step_plural" >
+        <item quantity="one" >step</item >
+        <item quantity="other" >steps</item >
+    </plurals >
 
-    <string name="brick_turn_left">Turn left</string>
-    <string name="brick_turn_right">Turn right</string>
-    <string name="brick_point_in_direction">Point in direction</string>
-    <string name="brick_point_to">Point towards</string>
-    <string name="brick_glide">Glide</string>
-    <string name="brick_glide_to_x">to X:</string>
+    <string name="brick_turn_left" >Turn left</string >
+    <string name="brick_turn_right" >Turn right</string >
+    <string name="brick_point_in_direction" >Point in direction</string >
+    <string name="brick_point_to" >Point towards</string >
+    <string name="brick_glide" >Glide</string >
+    <string name="brick_glide_to_x" >to X:</string >
     <!--  -->
 
 
@@ -404,95 +403,99 @@
 
 
     <!-- Control bricks -->
-    <string name="brick_when_started">When program started</string>
-    <string name="brick_when">When tapped</string>
-    <string name="brick_wait">Wait</string>
+    <string name="brick_when_started" >When program started</string >
+    <string name="brick_when" >When tapped</string >
+    <string name="brick_wait" >Wait</string >
 
-    <plurals name="second_plural">
-        <item quantity="one">"second "</item>
-        <item quantity="other">"seconds "</item>
-    </plurals>
+    <plurals name="second_plural" >
+        <item quantity="one" >"second "</item >
+        <item quantity="other" >"seconds "</item >
+    </plurals >
 
-    <string name="brick_broadcast_receive">When I receive</string>
-    <string name="brick_broadcast">Broadcast</string>
-    <string name="brick_broadcast_wait">Broadcast and wait</string>
-    <string name="brick_note">Note</string>
-    <string name="brick_forever">Forever</string>
-    <string name="brick_repeat">Repeat</string>
-    <string name="dialog_edit_note_title">Edit note</string>
-    <string name="dialog_edit_note_text">Note:</string>
+    <string name="brick_broadcast_receive" >When I receive</string >
+    <string name="brick_broadcast" >Broadcast</string >
+    <string name="brick_broadcast_wait" >Broadcast and wait</string >
+    <string name="brick_note" >Note</string >
+    <string name="brick_forever" >Forever</string >
+    <string name="brick_repeat" >Repeat</string >
 
-    <plurals name="time_plural">
-        <item quantity="one">time</item>
-        <item quantity="other">times</item>
-    </plurals>
+    <plurals name="time_plural" >
+        <item quantity="one" >time</item >
+        <item quantity="other" >times</item >
+    </plurals >
 
-    <string name="brick_loop_end">End of loop</string>
-    <string name="brick_if_begin">If</string>
-    <string name="brick_if_begin_second_part">is true then</string>
-    <string name="brick_if_else">Else</string>
-    <string name="brick_if_end">End If</string>
-    <string name="brick_set_variable">Set variable</string>
-    <string name="brick_change_variable">Change variable</string>
-    <string name="brick_variable_spinner_create_new_variable">New…</string>
-    <string name="brick_note_default_value">"add comment here…"</string>
-    <string name="brick_broadcast_default_value">"message 1"</string>
-    <string name="brick_add_item_to_userlist_add">Add to list</string>
-    <string name="brick_add_item_to_userlist">the value</string>
-    <string name="brick_delete_item_from_userlist_delete">Delete item of list</string>
-    <string name="brick_delete_item_from_userlist">with index</string>
+    <string name="brick_loop_end" >End of loop</string >
+    <string name="brick_if_begin" >If</string >
+    <string name="brick_if_begin_second_part" >is true then</string >
+    <string name="brick_if_else" >Else</string >
+    <string name="brick_if_end" >End If</string >
+    <string name="brick_set_variable" >Set variable</string >
+    <string name="brick_change_variable" >Change variable</string >
+    <string name="brick_variable_spinner_create_new_variable" >New…</string >
+    <string name="brick_note_default_value" >"add comment here…"</string >
+    <string name="brick_broadcast_default_value" >"message 1"</string >
+    <string name="brick_add_item_to_userlist_add" >Add to list</string >
+    <string name="brick_add_item_to_userlist" >the value</string >
+    <string name="brick_delete_item_from_userlist_delete" >Delete item of list</string >
+    <string name="brick_delete_item_from_userlist" >with index</string >
+    <string name="brick_insert_item_into_userlist_insert_into" >Insert into list</string >
+    <string name="brick_insert_item_into_userlist_the_value" >the value</string >
+    <string name="brick_insert_item_into_userlist_at_index" >at index</string >
+    <string name="brick_replace_item_in_userlist_replace_in_list" >Replace in list</string >
+    <string name="brick_replace_item_in_userlist_item_at_index" >at index</string >
+    <string name="brick_replace_item_in_userlist_with_value" >with value</string >
     <!--  -->
 
 
     <!-- defaultValues -->
-    <string name="default_project_name">My first program</string>
-    <string name="default_project_sprites_mole_name">Mole</string>
-    <string name="default_project_sprites_mole_moving">Moving Mole</string>
-    <string name="default_project_sprites_mole_whacked">Whacked Mole</string>
-    <string name="default_project_sprites_mole_sound">Hit</string>
-    <string name="default_project_backgroundname">Background</string>
-    <string name="default_project_var_random_from">random from</string>
-    <string name="default_project_var_random_to">random to</string>
+    <string name="default_project_name" >My first program</string >
+    <string name="default_project_sprites_mole_name" >Mole</string >
+    <string name="default_project_sprites_mole_moving" >Moving Mole</string >
+    <string name="default_project_sprites_mole_whacked" >Whacked Mole</string >
+    <string name="default_project_sprites_mole_sound" >Hit</string >
+    <string name="default_project_backgroundname" >Background</string >
+    <string name="default_project_var_random_from" >random from</string >
+    <string name="default_project_var_random_to" >random to</string >
 
     <!-- defaultDroneValues -->
-    <string name="default_drone_project_name">My first Drone program</string>
-    <string name="default_drone_project_sprites_takeoff">Take off</string>
+    <string name="default_drone_project_name" >My first Drone program</string >
+    <string name="default_drone_project_sprites_takeoff" >Take off</string >
 
     <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-    <string name="default_drone_project_srpites_land">Land</string>
-    <string name="default_drone_project_srpites_rotate">Rotate</string>
-    <string name="default_drone_project_sprites_up">Up</string>
-    <string name="default_drone_project_sprites_down">Down</string>
-    <string name="default_drone_project_sprites_left">Left</string>
-    <string name="default_drone_project_sprites_right">Right</string>
-    <string name="default_drone_project_sprites_forward">Forward</string>
-    <string name="default_drone_project_sprites_back">Back</string>
-    <string name="default_drone_project_sprites_turn_left">Turn left</string>
-    <string name="default_drone_project_sprites_turn_right">Turn right</string>
+    <string name="default_drone_project_srpites_land" >Land</string >
+    <string name="default_drone_project_srpites_rotate" >Rotate</string >
+    <string name="default_drone_project_sprites_up" >Up</string >
+    <string name="default_drone_project_sprites_down" >Down</string >
+    <string name="default_drone_project_sprites_left" >Left</string >
+    <string name="default_drone_project_sprites_right" >Right</string >
+    <string name="default_drone_project_sprites_forward" >Forward</string >
+    <string name="default_drone_project_sprites_back" >Back</string >
+    <string name="default_drone_project_sprites_turn_left" >Turn left</string >
+    <string name="default_drone_project_sprites_turn_right" >Turn right</string >
     <!--  -->
 
 
     <!-- Notifications -->
-    <string name="notification_invalid_text_entered">Please enter a value</string>
-    <string name="notification_screenshot_ok">Screenshot saved</string>
-    <string name="notification_download_project_cancel">Canceled downloading program</string>
-    <string name="notification_copy_title_pending">"Copying "</string>
-    <string name="notification_copy_pending">Copy in progress</string>
-    <string name="notification_copy_finished">Copy completed</string>
-    <string name="notification_upload_title_pending">"Uploading "</string>
-    <string name="notification_upload_title_finished">"Look at "</string>
-    <string name="notification_upload_pending">Upload in progress</string>
-    <string name="notification_upload_finished">Upload successful</string>
-    <string name="notification_upload_rejected">Uploaded program rejected</string>
-    <string name="notification_download_title_pending">"Downloading "</string>
-    <string name="notification_download_pending">Download in progress</string>
-    <string name="notification_download_finished">Download successful</string>
-    <string name="notification_title_open">"Open "</string>
-    <string name="project_rename">(Your program will be renamed.)</string>
-    <string name="size_of_project">Size:</string>
-    <string name="upload_button">Upload</string>
-    <string name="upload_project_dialog_title">Upload program</string>
-    <string name="upload_description">Description:</string>
+    <string name="notification_invalid_text_entered" >Please enter a value</string >
+    <string name="notification_screenshot_ok" >Screenshot saved</string >
+    <string name="notification_download_project_cancel" >Canceled downloading program</string >
+    <string name="notification_copy_title_pending" >"Copying "</string >
+    <string name="notification_copy_pending" >Copy in progress</string >
+    <string name="notification_copy_finished" >Copy completed</string >
+    <string name="notification_upload_title_pending" >"Uploading "</string >
+    <string name="notification_upload_title_finished" >"Look at "</string >
+    <string name="notification_upload_pending" >Upload in progress</string >
+    <string name="notification_upload_finished" >Upload successful</string >
+    <string name="notification_upload_rejected" >Uploaded program rejected</string >
+    <string name="notification_download_title_pending" >"Downloading "</string >
+    <string name="notification_download_pending" >Download in progress</string >
+    <string name="notification_download_finished" >Download successful</string >
+    <string name="notification_title_open" >"Open "</string >
+    <string name="project_rename" >(Your program will be renamed.)</string >
+    <string name="size_of_project" >Size:</string >
+    <string name="upload_button" >Upload</string >
+    <string name="upload_project_dialog_title" >Upload program</string >
+    <string name="upload_description" >Description:</string >
     <!--  -->
 
 
@@ -526,40 +529,39 @@
     <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible project isn\'t possible.</string>
     <!--  -->
 
-
     <!-- Bluetooth Connection Strings -->
-    <string name="notification_blueth_err">Bluetooth could not be enabled, closing stage</string>
-    <string name="title_paired_devices">Paired devices</string>
-    <string name="title_other_devices">New devices</string>
-    <string name="button_scan">Search Bluetooth devices</string>
-    <string name="select_device">Select your Lego Mindstorms NXT</string>
-    <string name="scanning">Scanning</string>
-    <string name="connecting_please_wait">Connecting to your device.\nPlease wait…</string>
+    <string name="notification_blueth_err" >Bluetooth could not be enabled, closing stage</string >
+    <string name="title_paired_devices" >Paired devices</string >
+    <string name="title_other_devices" >New devices</string >
+    <string name="button_scan" >Search Bluetooth devices</string >
+    <string name="select_device" >Select your Lego Mindstorms NXT</string >
+    <string name="scanning" >Scanning</string >
+    <string name="connecting_please_wait" >Connecting to your device.\nPlease wait…</string >
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
-    <string name="problem_at_closing">Problem while closing the connection!</string>
-    <string name="bt_connection_failed">Connection to device failed!</string>
-    <string name="no_paired_nxt">No paired NXT found</string>
-    <string name="none_found">No unpaired devices found</string>
-    <string name="none_paired">No paired devices found</string>
+    <string name="problem_at_closing" >Problem while closing the connection!</string >
+    <string name="bt_connection_failed" >Connection to device failed!</string >
+    <string name="no_paired_nxt" >No paired NXT found</string >
+    <string name="none_found" >No unpaired devices found</string >
+    <string name="none_paired" >No paired devices found</string >
     <!--  -->
 
 
     <!-- Lego Mindstorms Strings -->
-    <string name="brick_motor_action">NXT move motor</string>
-    <string name="motor_speed">Speed</string>
-    <string name="brick_motor_turn_angle">NXT turn motor</string>
-    <string name="motor_angle">Angle</string>
-    <string name="motor_stop">NXT stop motor</string>
-    <string name="nxt_play_tone">NXT play tone</string>
-    <string name="tone_duration">Duration</string>
-    <string name="nxt_tone_frequency">Frequency</string>
-    <string name="nxt_tone_hundred_hz">x100Hz</string>
-    <string name="seconds">seconds</string>
-    <string name="nxt_motor_a">A</string>
-    <string name="nxt_motor_b">B</string>
-    <string name="nxt_motor_c">C</string>
-    <string name="nxt_motor_a_and_c">A+C</string>
-    <string name="nxt_motor_all">All</string>
+    <string name="brick_motor_action" >NXT move motor</string >
+    <string name="motor_speed" >Speed</string >
+    <string name="brick_motor_turn_angle" >NXT turn motor</string >
+    <string name="motor_angle" >Angle</string >
+    <string name="motor_stop" >NXT stop motor</string >
+    <string name="nxt_play_tone" >NXT play tone</string >
+    <string name="tone_duration" >Duration</string >
+    <string name="nxt_tone_frequency" >Frequency</string >
+    <string name="nxt_tone_hundred_hz" >x100Hz</string >
+    <string name="seconds" >seconds</string >
+    <string name="nxt_motor_a" >A</string >
+    <string name="nxt_motor_b" >B</string >
+    <string name="nxt_motor_c" >C</string >
+    <string name="nxt_motor_a_and_c" >A+C</string >
+    <string name="nxt_motor_all" >All</string >
     <!--  -->
 
 
@@ -580,10 +582,8 @@
     <string name="brick_drone_turn_left_magneto">Turn left [angle]</string>
     <string name="brick_drone_turn_right_magneto">Turn right [angle]</string>
     <string name="brick_drone_angle">Angle</string>
-
     <!-- <string name="brick_drone_land">Drone: land</string> -->
     <!--  -->
-
 
     <!-- Formula Editor Strings -->
     <string name="formula_editor_lists">Lists</string>
@@ -742,3 +742,4 @@
     <!-- -->
 
 </resources>
+
