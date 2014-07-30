@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -289,11 +289,9 @@ public final class UiTestUtils {
 
 	/**
 	 * Clicks on the EditText given by editTextId, inserts the integer value and closes the Dialog
-	 * 
-	 * @param editTextId
-	 *            The ID of the EditText to click on
-	 * @param value
-	 *            The value you want to put into the EditText
+	 *
+	 * @param editTextId The ID of the EditText to click on
+	 * @param value      The value you want to put into the EditText
 	 */
 	public static void insertIntegerIntoEditText(Solo solo, int value) {
 		insertValue(solo, value + "");
@@ -301,11 +299,9 @@ public final class UiTestUtils {
 
 	/**
 	 * Clicks on the EditText given by editTextId, inserts the double value and closes the Dialog
-	 * 
-	 * @param editTextId
-	 *            The ID of the EditText to click on
-	 * @param value
-	 *            The value you want to put into the EditText
+	 *
+	 * @param editTextId The ID of the EditText to click on
+	 * @param value      The value you want to put into the EditText
 	 */
 	public static void insertDoubleIntoEditText(Solo solo, double value) {
 		insertValue(solo, value + "");
@@ -370,7 +366,8 @@ public final class UiTestUtils {
 				"Text not updated within FormulaEditor",
 				newValue,
 				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()
-						.replace(',', '.')));
+						.replace(',', '.'))
+		);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(200);
 
@@ -391,7 +388,8 @@ public final class UiTestUtils {
 				"Text not updated within FormulaEditor",
 				value,
 				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()
-						.replace(',', '.')));
+						.replace(',', '.'))
+		);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(200);
 	}
@@ -888,16 +886,12 @@ public final class UiTestUtils {
 	/**
 	 * saves a file into the project folder
 	 * if project == null or "" file will be saved into Catroid folder
-	 * 
-	 * @param project
-	 *            Folder where the file will be saved, this folder should exist
-	 * @param name
-	 *            Name of the file
-	 * @param fileID
-	 *            the id of the file --> needs the right context
+	 *
+	 * @param project Folder where the file will be saved, this folder should exist
+	 * @param name    Name of the file
+	 * @param fileID  the id of the file --> needs the right context
 	 * @param context
-	 * @param type
-	 *            type of the file: 0 = imagefile, 1 = soundfile
+	 * @param type    type of the file: 0 = imagefile, 1 = soundfile
 	 * @return the file
 	 * @throws IOException
 	 */
@@ -1193,13 +1187,10 @@ public final class UiTestUtils {
 	 * This method can be used in 2 ways. Either to click on an action item
 	 * (icon), or to click on an item in the overflow menu. So either pass a
 	 * String + ID --OR-- a String + 0.
-	 * 
-	 * @param solo
-	 *            Use Robotium functionality
-	 * @param overflowMenuItemName
-	 *            Name of the overflow menu item
-	 * @param overflowMenuItemId
-	 *            ID of an action item (icon)
+	 *
+	 * @param solo                 Use Robotium functionality
+	 * @param overflowMenuItemName Name of the overflow menu item
+	 * @param overflowMenuItemId   ID of an action item (icon)
 	 */
 	public static void openActionMode(Solo solo, String overflowMenuItemName, int menuItemId, Activity activity) {
 
@@ -1811,20 +1802,17 @@ public final class UiTestUtils {
 		}
 	}
 
-	public static void clickOnExactText(Solo solo, String text)
-	{
-		String regularExpressionForExactClick = "^"+java.util.regex.Pattern.quote(text)+"$";
+	public static void clickOnExactText(Solo solo, String text) {
+		String regularExpressionForExactClick = "^" + java.util.regex.Pattern.quote(text) + "$";
 		solo.clickOnText(regularExpressionForExactClick);
 	}
 
-	public static boolean searchExactText(Solo solo, String text)
-	{
+	public static boolean searchExactText(Solo solo, String text) {
 		return searchExactText(solo, text, false);
 	}
 
-	public static boolean searchExactText(Solo solo, String text, boolean onlyVisible)
-	{
-		String regularExpressionForExactClick = "^"+java.util.regex.Pattern.quote(text)+"$";
+	public static boolean searchExactText(Solo solo, String text, boolean onlyVisible) {
+		String regularExpressionForExactClick = "^" + java.util.regex.Pattern.quote(text) + "$";
 		return solo.searchText(regularExpressionForExactClick, onlyVisible);
 	}
 
