@@ -61,6 +61,7 @@ import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
+import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.LedOffBrick;
 import org.catrobat.catroid.content.bricks.LedOnBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
@@ -77,6 +78,7 @@ import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
@@ -279,6 +281,8 @@ public class CategoryBricksFactory {
 		dataBrickList.add(new ChangeVariableBrick(sprite, 0));
 		dataBrickList.add(new AddItemToUserListBrick(sprite, 0));
 		dataBrickList.add(new DeleteItemOfUserListBrick(sprite, 1));
+		dataBrickList.add(new InsertItemIntoUserListBrick(sprite, 0, 1));
+		dataBrickList.add(new ReplaceItemInUserListBrick(sprite, 0, 1));
 		return dataBrickList;
 
 	}

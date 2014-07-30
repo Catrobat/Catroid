@@ -27,6 +27,7 @@ import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -445,7 +446,8 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		Rect editfieldRect = new Rect();
 		editField.getGlobalVisibleRect(editfieldRect);
 
-		for (int index = 1; index < 20; index++) {
+
+		for (int index = 10; index < 20; index++) {
 			solo.clickOnScreen(100f, editfieldRect.bottom - index);
 
 		}

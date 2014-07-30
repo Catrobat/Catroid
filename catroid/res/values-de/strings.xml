@@ -439,6 +439,12 @@
     <string name="brick_add_item_to_userlist">den Wert</string>
     <string name="brick_delete_item_from_userlist_delete">Lösche Element von Liste</string>
     <string name="brick_delete_item_from_userlist">mit Index</string>
+    <string name="brick_insert_item_into_userlist_insert_into" >Füge in die Liste</string >
+    <string name="brick_insert_item_into_userlist_the_value" >den Wert</string >
+    <string name="brick_insert_item_into_userlist_at_index" >mit Index</string >
+    <string name="brick_replace_item_in_userlist_replace_in_list" >Ersetze in der Liste</string >
+    <string name="brick_replace_item_in_userlist_item_at_index" >mit dem Index</string >
+    <string name="brick_replace_item_in_userlist_with_value" >den Wert</string >
     <!--  -->
 
 
