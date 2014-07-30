@@ -54,6 +54,8 @@ import java.util.Queue;
 
 public class PhysicsLookTest extends InstrumentationTestCase {
 
+	private static final String TAG = PhysicsLookTest.class.getSimpleName();
+
 	PhysicsWorld physicsWorld;
 	private Project project;
 	private File testImage;
@@ -166,27 +168,27 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 		shapes = (Shape[]) Reflection.getPrivateField(physicsObject, "shapes");
 		assertNotNull("shapes is null", shapes);
 		assertTrue("shapes length not > 0", shapes.length > 0);
-		Log.d("phill_test", "shapes.length: " + shapes.length);
+		Log.d(TAG, "shapes.length: " + shapes.length);
 		for (Shape shape : shapes) {
 			switch (shape.getType()) {
 				case Chain:
-					Log.d("phill_test", "type = Chain: ");
+					Log.d(TAG, "type = Chain: ");
 					break;
 				case Circle:
-					Log.d("phill_test", "type = Circle: ");
+					Log.d(TAG, "type = Circle: ");
 					break;
 				case Edge:
-					Log.d("phill_test", "type = Edge: ");
+					Log.d(TAG, "type = Edge: ");
 					break;
 				case Polygon:
 					int vertexCount = ((PolygonShape) shape).getVertexCount();
-					Log.d("phill_test", "type = Polygon: " + vertexCount);
+					Log.d(TAG, "type = Polygon: " + vertexCount);
 					for (int idx = 0; idx < vertexCount; idx++) {
 						Vector2 vertex = new Vector2();
 						((PolygonShape) shape).getVertex(idx, vertex);
 						vertexXQueue.add(Float.valueOf(vertex.x));
 						vertexYQueue.add(Float.valueOf(vertex.y));
-						Log.d("phill_test", "x=" + vertex.x + ";y=" + vertex.y);
+						Log.d(TAG, "x=" + vertex.x + ";y=" + vertex.y);
 					}
 					break;
 			}
@@ -196,27 +198,27 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 		shapes = (Shape[]) Reflection.getPrivateField(physicsObject, "shapes");
 		assertNotNull("shapes is null", shapes);
 		assertTrue("shapes length not > 0", shapes.length > 0);
-		Log.d("phill_test", "shapes.length: " + shapes.length);
+		Log.d(TAG, "shapes.length: " + shapes.length);
 		for (Shape shape : shapes) {
 			switch (shape.getType()) {
 				case Chain:
-					Log.d("phill_test", "type = Chain: ");
+					Log.d(TAG, "type = Chain: ");
 					break;
 				case Circle:
-					Log.d("phill_test", "type = Circle: ");
+					Log.d(TAG, "type = Circle: ");
 					break;
 				case Edge:
-					Log.d("phill_test", "type = Edge: ");
+					Log.d(TAG, "type = Edge: ");
 					break;
 				case Polygon:
 					int vertexCount = ((PolygonShape) shape).getVertexCount();
-					Log.d("phill_test", "type = Polygon: " + vertexCount);
+					Log.d(TAG, "type = Polygon: " + vertexCount);
 					for (int idx = 0; idx < vertexCount; idx++) {
 						Vector2 vertex = new Vector2();
 						((PolygonShape) shape).getVertex(idx, vertex);
 						assertEquals("vertex x-value is not the expected", vertexXQueue.poll() * 2.0f, vertex.x);
 						assertEquals("vertex x-value is not the expected", vertexYQueue.poll() * 2.0f, vertex.y);
-						Log.d("phill_test", "x=" + vertex.x + ";y=" + vertex.y);
+						Log.d(TAG, "x=" + vertex.x + ";y=" + vertex.y);
 					}
 					break;
 			}
