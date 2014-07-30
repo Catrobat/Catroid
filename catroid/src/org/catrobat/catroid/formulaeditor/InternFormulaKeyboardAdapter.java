@@ -22,11 +22,7 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import android.content.Context;
-
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -54,7 +50,7 @@ public class InternFormulaKeyboardAdapter {
 		}
 
 		switch (resource) {
-		// NUMBER:
+			// NUMBER:
 			case R.id.formula_editor_keyboard_0:
 				return buildNumber("0");
 			case R.id.formula_editor_keyboard_1:
@@ -76,7 +72,7 @@ public class InternFormulaKeyboardAdapter {
 			case R.id.formula_editor_keyboard_9:
 				return buildNumber("9");
 
-				//FUNCTIONS:
+			//FUNCTIONS:
 			case R.string.formula_editor_function_sin:
 				return buildSingleParameterFunction(Functions.SIN, InternTokenType.NUMBER, "0");
 			case R.string.formula_editor_function_cos:
@@ -133,7 +129,7 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_function_contains:
 				return buildDoubleParameterFunction(Functions.CONTAINS, InternTokenType.USER_LIST, "list name", InternTokenType.NUMBER, "1");
 
-				//SENSOR
+			//SENSOR
 
 			case R.string.formula_editor_sensor_x_acceleration:
 				return buildSensor(Sensors.X_ACCELERATION);
@@ -158,11 +154,11 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_sensor_face_y_position:
 				return buildSensor(Sensors.FACE_Y_POSITION);
 
-				//PERIOD
+			//PERIOD
 			case R.id.formula_editor_keyboard_decimal_mark:
 				return buildPeriod();
 
-				//OPERATOR
+			//OPERATOR
 
 			case R.id.formula_editor_keyboard_plus:
 				return buildOperator(Operators.PLUS);
@@ -195,14 +191,14 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_logic_not:
 				return buildOperator(Operators.LOGICAL_NOT);
 
-				//BRACKETS
+			//BRACKETS
 
 			case R.id.formula_editor_keyboard_bracket_open:
 				return buildBracketOpen();
 			case R.id.formula_editor_keyboard_bracket_close:
 				return buildBracketClose();
 
-				//COSTUME
+			//COSTUME
 
 			case R.string.formula_editor_object_x:
 				return buildObject(Sensors.OBJECT_X);

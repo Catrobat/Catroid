@@ -346,6 +346,15 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
+	public static Action replaceItemInUserList(Sprite sprite, Formula userListFormulaIndexToReplace, Formula userListFormulaItemToInsert, UserList userList) {
+		ReplaceItemInUserListAction action = action(ReplaceItemInUserListAction.class);
+		action.setSprite(sprite);
+		action.setFormulaIndexToReplace(userListFormulaIndexToReplace);
+		action.setFormulaItemToInsert(userListFormulaItemToInsert);
+		action.setUserList(userList);
+		return action;
+	}
+
 	public static IfLogicAction ifLogc(Sprite sprite, Formula condition, Action ifAction, Action elseAction) {
 		IfLogicAction action = action(IfLogicAction.class);
 		action.setIfAction(ifAction);
