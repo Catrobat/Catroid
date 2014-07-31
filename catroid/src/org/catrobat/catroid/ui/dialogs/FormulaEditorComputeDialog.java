@@ -64,11 +64,10 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 			SensorHandler.startSensorListener(context);
 			SensorHandler.registerListener(this);
 		}
-		int ressources = formula.getRequiredResources();
-		if ((ressources & Brick.FACE_DETECTION) > 0) {
+		int resources = formula.getRequiredResources();
+		if ((resources & Brick.FACE_DETECTION) > 0) {
 			FaceDetectionHandler.startFaceDetection(getContext());
 		}
-
 	}
 
 	@Override

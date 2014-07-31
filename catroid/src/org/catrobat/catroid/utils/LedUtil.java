@@ -22,23 +22,18 @@
  */
 package org.catrobat.catroid.utils;
 
-import android.annotation.TargetApi;
-import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
-import android.os.Build;
 import android.util.Log;
 
-import java.io.IOException;
+import org.catrobat.catroid.camera.CameraManager;
+
 import java.util.concurrent.Semaphore;
 
 public final class LedUtil {
 
 	private static final String TAG = LedUtil.class.getSimpleName();
-	private static Camera cam = null;
 	private static Camera.Parameters paramsOn = null;
 	private static Camera.Parameters paramsOff = null;
-
-	private static SurfaceTexture surfaceTexture = null;
 
 	private static Semaphore lightThreadSemaphore = new Semaphore(1);
 
@@ -68,20 +63,6 @@ public final class LedUtil {
 
 	public static boolean isActive() {
 		return keepAlive;
-	}
-
-	public static Camera getCamera() {
-		return cam;
-	}
-
-	public static void openCamera() {
-		if (cam == null) {
-			try {
-				cam = Camera.open();
-			} catch (Exception exception) {
-				Log.e(TAG, "failed to open Camera", exception);
-			}
-		}
 	}
 
 	public static void setNextLedValue(boolean val) {
@@ -117,13 +98,10 @@ public final class LedUtil {
 			lightThreadSemaphore.release();
 		}
 		lightThread = null;
-		if (cam != null) {
-			cam.stopPreview();
-			cam.release();
-			cam = null;
+		if (CameraManager.getInstance().getCamera() != null) {
+			CameraManager.getInstance().releaseCamera();
 			paramsOff = null;
 			paramsOn = null;
-			surfaceTexture = null;
 		}
 	}
 
@@ -151,20 +129,16 @@ public final class LedUtil {
 			});
 		}
 
-		openCamera();
+		if (CameraManager.getInstance().getCamera() != null) {
 
-		if (cam != null) {
-
-			paramsOn = cam.getParameters();
+			paramsOn = CameraManager.getInstance().getCamera().getParameters();
 			if (paramsOn != null) {
 				paramsOn.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
 			}
-			paramsOff = cam.getParameters();
+			paramsOff = CameraManager.getInstance().getCamera().getParameters();
 			if (paramsOff != null) {
 				paramsOff.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 			}
-
-			initializeSurfaceTexture();
 
 			if (!lightThread.isAlive()) {
 				try {
@@ -176,6 +150,8 @@ public final class LedUtil {
 				lightThread.setName("lightThread");
 				lightThread.start();
 			}
+		} else {
+			Log.e(TAG, "cam.open() failed!");
 		}
 	}
 
@@ -190,30 +166,12 @@ public final class LedUtil {
 
 		lightThread = null;
 
-		closeCamera();
-	}
-
-	public static void closeCamera() {
-		if (cam != null) {
-			cam.stopPreview();
-			cam.release();
-			cam = null;
+		if (CameraManager.getInstance().getCamera() != null) {
+			CameraManager.getInstance().releaseCamera();
 			paramsOn = null;
 			paramsOff = null;
 			currentLedValue = false;
 			Log.d(TAG, "killLedThread() : camera released! nextLedValue="+nextLedValue);
-		}
-	}
-
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	private static void initializeSurfaceTexture() {
-		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
-			try {
-				surfaceTexture = new SurfaceTexture(1);
-				cam.setPreviewTexture(surfaceTexture);
-			} catch (IOException ioException) {
-				Log.e(TAG, "surfaceTexture failed! " + ioException.getMessage());
-			}
 		}
 	}
 
@@ -232,15 +190,13 @@ public final class LedUtil {
 
 	private static synchronized void ledOn() {
 		Log.d(TAG, "ledOn()");
-		cam.setParameters(paramsOn);
-		cam.startPreview();
+		CameraManager.getInstance().setLedParams(paramsOn);
 		currentLedValue = true;
 	}
 
 	private static synchronized void ledOff() {
 		Log.d(TAG, "ledOff()");
-		cam.setParameters(paramsOff);
-		cam.startPreview();
+		CameraManager.getInstance().setLedParams(paramsOff);
 		currentLedValue = false;
 	}
 }

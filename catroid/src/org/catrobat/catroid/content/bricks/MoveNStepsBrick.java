@@ -74,7 +74,7 @@ public class MoveNStepsBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public int getRequiredResources() {
-		return steps.getRequiredResources();
+		return getFormulaWithBrickField(BrickField.STEPS).getRequiredResources();
 	}
 
 	@Override

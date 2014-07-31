@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyright (C) 2010-2014 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,6 @@ import android.hardware.Camera;
 import android.hardware.Camera.Face;
 import android.hardware.Camera.FaceDetectionListener;
 import android.os.Build;
-import android.util.Log;
 
 import org.catrobat.catroid.camera.CameraManager;
 
@@ -46,7 +45,6 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 		if (running) {
 			return true;
 		}
-		Log.d("Blah", "ICS Start");
 		Camera camera = CameraManager.getInstance().getCamera();
 		if (camera == null) {
 			return false;
@@ -62,7 +60,6 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 		if (!running) {
 			return;
 		}
-		Log.d("Blah", "ICS Stop");
 		running = false;
 		CameraManager.getInstance().releaseCamera();
 	}

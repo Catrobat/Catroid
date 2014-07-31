@@ -66,16 +66,14 @@ public class ParserTestSensors extends InstrumentationTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-
+		createProject();
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 		//For initialization
 		SensorLoudness.getSensorLoudness();
 		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
 		SimulatedSoundRecorder simSoundRec = new SimulatedSoundRecorder("/dev/null");
 		Reflection.setPrivateField(loudnessSensor, "recorder", simSoundRec);
-
-		createProject();
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 	}
 
 	@Override

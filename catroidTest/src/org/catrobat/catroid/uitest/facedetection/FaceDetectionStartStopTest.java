@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyright (C) 2010-2014 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -22,13 +22,11 @@
  */
 package org.catrobat.catroid.uitest.facedetection;
 
-import android.content.SharedPreferences;
-import android.hardware.Camera;
-import android.preference.PreferenceManager;
+import android.content.Intent;
+import android.net.Uri;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
@@ -40,19 +38,20 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-public class ComputeDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+public class FaceDetectionStartStopTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int SCREEN_WIDTH = 480;
 	private static final int SCREEN_HEIGHT = 800;
-	private static final int SLEEP_TIME = 500;
+	private static final int SLEEP_TIME = 1200;
 
 	private Project projectFaceDetection;
 	Sprite sprite;
 
-	public ComputeDialogTest() {
+	public FaceDetectionStartStopTest() {
 		super(MainMenuActivity.class);
 	}
 
@@ -61,50 +60,65 @@ public class ComputeDialogTest extends BaseActivityInstrumentationTestCase<MainM
 		super.setUp();
 		createProjectFaceDetection();
 		UiTestUtils.prepareStageForTest();
-		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		UiTestUtils.getIntoSpritesFromMainMenu(solo);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(SLEEP_TIME);
 	}
 
-	public void testFaceDetectionStart() {
-		assertFalse("Face detection should not be running in ScriptActivity",
+	public void testGoingBack() {
+		assertTrue("Face detection was not started", FaceDetectionHandler.isFaceDetectionRunning());
+
+		solo.goBackToActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(SLEEP_TIME);
+		assertFalse("Face detection should be stopped when leaving to main menu",
 				FaceDetectionHandler.isFaceDetectionRunning());
-		solo.clickOnView(solo.getView(R.id.brick_set_size_to_edit_text));
 		solo.sleep(SLEEP_TIME);
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
-		solo.sleep(SLEEP_TIME);
-		assertTrue("Face detection was not started for compute dialog", FaceDetectionHandler.isFaceDetectionRunning());
-		solo.goBack();
-		solo.sleep(SLEEP_TIME);
-		assertFalse("Face detection was not stopped when compute dialog was closed",
-				FaceDetectionHandler.isFaceDetectionRunning());
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_0));
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
-		solo.sleep(SLEEP_TIME);
-		assertFalse("Face detection should not be started for compute dialog if it is not needed",
-				FaceDetectionHandler.isFaceDetectionRunning());
-		solo.goBack();
 	}
 
-	public void testCameraSetting() {
-		assertTrue("Device must have at least 2 cameras for this test", Camera.getNumberOfCameras() >= 2);
+	public void testOtherActivityStarts() {
+		assertTrue("Face detection was not started", FaceDetectionHandler.isFaceDetectionRunning());
+		getInstrumentation().getContext().startActivity(
+				new Intent(Intent.ACTION_DIAL, Uri.parse("tel:42")).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+		solo.sleep(SLEEP_TIME*4);
+		assertFalse("Face detection should be stopped when other application is started",
+				FaceDetectionHandler.isFaceDetectionRunning());
 
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		preferences.edit().putString(solo.getString(R.string.preference_key_select_camera), "1").commit();
+		solo.assertCurrentActivity("StageActivity was unexpectedly killed", StageActivity.class);
 
-		solo.clickOnView(solo.getView(R.id.brick_set_size_to_edit_text));
+		getInstrumentation().getContext().startActivity(
+				new Intent(solo.getCurrentActivity(), StageActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(SLEEP_TIME);
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
+		assertTrue("Face detection was not restarted when comming back to stage",
+				FaceDetectionHandler.isFaceDetectionRunning());
+	}
+
+	public void testStageMenu() throws Exception {
+		assertTrue("Face detection was not started", FaceDetectionHandler.isFaceDetectionRunning());
+
 		solo.sleep(SLEEP_TIME);
-		assertEquals("CameraManager did not read camera id for compute dialog", 1, CameraManager.getInstance()
-				.getCameraID());
 		solo.goBack();
-		preferences.edit().putString(solo.getString(R.string.preference_key_select_camera), "0").commit();
 		solo.sleep(SLEEP_TIME);
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
+		assertFalse("Face detection should be paused in stage dialog", FaceDetectionHandler.isFaceDetectionRunning());
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
 		solo.sleep(SLEEP_TIME);
-		assertEquals("CameraManager did not read camera id for compute dialog", 0, CameraManager.getInstance()
-				.getCameraID());
+		assertTrue("Face detection was not resumed when leaving stage dialog",
+				FaceDetectionHandler.isFaceDetectionRunning());
+		solo.sleep(SLEEP_TIME);
 		solo.goBack();
+		solo.sleep(SLEEP_TIME);
+		assertFalse("Face detection should be paused in stage dialog", FaceDetectionHandler.isFaceDetectionRunning());
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_restart));
+		solo.sleep(SLEEP_TIME);
+		assertTrue("Face detection was not started when restarting stage",
+				FaceDetectionHandler.isFaceDetectionRunning());
+
+		solo.goBack();
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_back));
+		solo.sleep(SLEEP_TIME);
+		assertFalse("Face detection is running when leaving stage", FaceDetectionHandler.isFaceDetectionRunning());
+		solo.sleep(SLEEP_TIME);
 	}
 
 	private void createProjectFaceDetection() {
@@ -115,8 +129,8 @@ public class ComputeDialogTest extends BaseActivityInstrumentationTestCase<MainM
 
 		sprite = new Sprite("fdSprite");
 
-		StartScript startScript = new StartScript(sprite);
-		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(sprite, new Formula(new FormulaElement(ElementType.SENSOR,
+		StartScript startScript = new StartScript();
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(new Formula(new FormulaElement(ElementType.SENSOR,
 				Sensors.FACE_SIZE.name(), null)));
 		startScript.addBrick(setSizeToBrick);
 		sprite.addScript(startScript);

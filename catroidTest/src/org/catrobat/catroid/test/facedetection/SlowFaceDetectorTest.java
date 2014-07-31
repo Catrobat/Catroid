@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyright (C) 2010-2014 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -145,6 +145,7 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 						break;
 					default:
 						fail("Unexpected Sensor on Face Detection event. Expected face size or position.");
+
 				}
 			}
 		};
@@ -202,33 +203,4 @@ public class SlowFaceDetectorTest extends InstrumentationTestCase {
 
 		detector.removeOnFaceDetectedListener(detectionListener);
 	}
-
-	//	public void testCameraPreviewCallback() {
-	//		SlowFaceDetectionTester testFaceDetector = new SlowFaceDetectionTester();
-	//		assertFalse("Wrong tester setup", testFaceDetector.receivedFrame);
-	//
-	//		testFaceDetector.startFaceDetection();
-	//		try {
-	//			Thread.sleep(10000);
-	//		} catch (InterruptedException e) {
-	//			testFaceDetector.stopFaceDetection();
-	//			fail("Thread interrupted unexpectedly");
-	//		}
-	//		testFaceDetector.stopFaceDetection();
-	//		assertTrue("No preview frame received from camera", testFaceDetector.receivedFrame);
-	//	}
-	//
-	//	private class SlowFaceDetectionTester extends SlowFaceDetector {
-	//
-	//		public boolean receivedFrame = false;
-	//
-	//		@Override
-	//		public void onPreviewFrame(byte[] data, Camera camera) {
-	//			receivedFrame = true;
-	//			assertNotNull("No data in preview frame", data);
-	//			this.notify();
-	//		}
-	//
-	//	}
-
 }
