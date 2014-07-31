@@ -2,27 +2,28 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2013 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.ui;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -35,6 +36,16 @@ import org.catrobat.catroid.ui.controller.BackPackListManager;
 
 public class BaseActivity extends SherlockFragmentActivity {
 
+	private boolean returnToProjectsList;
+	private String titleActionBar;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		titleActionBar = null;
+		returnToProjectsList = false;
+	}
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
@@ -44,13 +55,30 @@ public class BaseActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+
+		if (getTitleActionBar() != null) {
+			getSupportActionBar().setTitle(getTitleActionBar());
+		}
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
-				Intent intent = new Intent(this, MainMenuActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				BackPackListManager.setBackPackFlag(true);
-				startActivity(intent);
+
+				if (returnToProjectsList) {
+					Intent intent = new Intent(this, MyProjectsActivity.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					BackPackListManager.setBackPackFlag(true);
+					startActivity(intent);
+				} else {
+					Intent intent = new Intent(this, MainMenuActivity.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					BackPackListManager.setBackPackFlag(true);
+					startActivity(intent);
+				}
 				break;
 
 			case R.id.settings:
@@ -77,4 +105,19 @@ public class BaseActivity extends SherlockFragmentActivity {
 		}
 	}
 
+	public boolean isReturnToProjectsList() {
+		return returnToProjectsList;
+	}
+
+	public void setReturnToProjectsList(boolean returnToProjectsList) {
+		this.returnToProjectsList = returnToProjectsList;
+	}
+
+	public String getTitleActionBar() {
+		return titleActionBar;
+	}
+
+	public void setTitleActionBar(String titleActionBar) {
+		this.titleActionBar = titleActionBar;
+	}
 }
