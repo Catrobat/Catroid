@@ -24,17 +24,11 @@ package org.catrobat.catroid.test.physics;
 
 import android.test.AndroidTestCase;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.CollisionScript;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
-import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
@@ -46,16 +40,12 @@ import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.test.utils.Reflection;
-import org.catrobat.catroid.test.utils.TestUtils;
-
-import java.lang.reflect.Constructor;
 
 public class PhysicsBricksCloneTest extends AndroidTestCase {
 
 	private static final int BRICK_FORMULA_VALUE = 1;
 	private static final String CLONE_BRICK_FORMULA_VALUE = "2";
 	private static final String COLLISION_RECEIVER_TEST_MESSAGE = "Collision_receiver_test_message";
-	private static final String VARIABLE_NAME = "test_variable";
 
 	Sprite sprite;
 
@@ -105,6 +95,7 @@ public class PhysicsBricksCloneTest extends AndroidTestCase {
 		String brickSpriteName = brick.getSprite().getName();
 		String clonedBrickSpriteName = clonedBrick.getSprite().getName();
 
+		assertFalse("CollisionScripts have same address", brickReceiverScript == clonedBrickReceiverScript);
 		assertEquals("ReceiveMessages are not equal after clone()", scriptReceiveMessage, clonedReceiveMessage);
 		assertEquals("Sprite names are not equal after clone()", brickSpriteName, clonedBrickSpriteName);
 	}
@@ -136,11 +127,7 @@ public class PhysicsBricksCloneTest extends AndroidTestCase {
 		assertTrue("Cloned NONE Brick has wrong Object-Type", clonedNoneBrick.getClass().equals(noneBrick.getClass()));
 	}
 
-	private void brickClone(Brick brick, String formulaName) {
-		Brick clonedBrick = brick.clone();
-		Formula brickFormula = (Formula) Reflection.getPrivateField(brick, formulaName);
-		Formula cloneBrickFormula = (Formula) Reflection.getPrivateField(clonedBrick, formulaName);
-
+	private void checkFormula(Sprite sprite, Formula brickFormula, Formula cloneBrickFormula) {
 		assertEquals("Formulas of bricks are not equal after clone()", brickFormula.interpretInteger(sprite),
 				cloneBrickFormula.interpretInteger(sprite));
 
@@ -148,6 +135,14 @@ public class PhysicsBricksCloneTest extends AndroidTestCase {
 
 		assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretInteger(sprite),
 				cloneBrickFormula.interpretInteger(sprite));
+	}
+
+	private void brickClone(Brick brick, String formulaName) {
+		Brick clonedBrick = brick.clone();
+		Formula brickFormula = (Formula) Reflection.getPrivateField(brick, formulaName);
+		Formula cloneBrickFormula = (Formula) Reflection.getPrivateField(clonedBrick, formulaName);
+
+		checkFormula(sprite, brickFormula, cloneBrickFormula);
 
 		assertTrue("Cloned Brick has wrong Object-Type", clonedBrick.getClass().equals(brick.getClass()));
 	}
@@ -157,65 +152,13 @@ public class PhysicsBricksCloneTest extends AndroidTestCase {
 		Formula brickFormula = (Formula) Reflection.getPrivateField(brick, formulaName1);
 		Formula cloneBrickFormula = (Formula) Reflection.getPrivateField(clonedBrick, formulaName1);
 
-		assertEquals("Formulas of bricks are not equal after clone()", brickFormula.interpretInteger(sprite),
-				cloneBrickFormula.interpretInteger(sprite));
-
-		cloneBrickFormula.setRoot(new FormulaElement(FormulaElement.ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
-		assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretInteger(sprite),
-				cloneBrickFormula.interpretInteger(sprite));
+		checkFormula(sprite, brickFormula, cloneBrickFormula);
 
 		brickFormula = (Formula) Reflection.getPrivateField(brick, formulaName2);
 		cloneBrickFormula = (Formula) Reflection.getPrivateField(clonedBrick, formulaName2);
 
-		assertEquals("Formulas of bricks are not equal after clone()", brickFormula.interpretInteger(sprite),
-				cloneBrickFormula.interpretInteger(sprite));
-
-		cloneBrickFormula.setRoot(new FormulaElement(FormulaElement.ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
-		assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretInteger(sprite),
-				cloneBrickFormula.interpretInteger(sprite));
+		checkFormula(sprite, brickFormula, cloneBrickFormula);
 
 		assertTrue("Cloned Brick has wrong Object-Type", clonedBrick.getClass().equals(brick.getClass()));
-	}
-
-	public void testVariableReferencesSetVariableBrick() throws Exception {
-		testVariableReferences(SetVariableBrick.class);
-	}
-
-	public void testVariableReferencesChangeVariableBrick() throws Exception {
-		testVariableReferences(ChangeVariableBrick.class);
-	}
-
-	private <T extends Brick> void testVariableReferences(Class<T> typeOfBrick) throws Exception {
-		// set up project
-		Project project = new Project(null, TestUtils.DEFAULT_TEST_PROJECT_NAME);
-		ProjectManager.getInstance().setProject(project);
-		project.addSprite(sprite);
-		StartScript script = new StartScript(sprite);
-		sprite.addScript(script);
-		project.getUserVariables().addSpriteUserVariableToSprite(sprite, VARIABLE_NAME);
-		UserVariable spriteVariable = project.getUserVariables().getUserVariable(VARIABLE_NAME, sprite);
-		Formula formula = new Formula(new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, VARIABLE_NAME, null));
-
-		// create brick - expects:
-		// public SetVariableBrick(Sprite sprite, Formula variableFormula, UserVariable userVariable)
-		Constructor<T> constructor = typeOfBrick
-				.getDeclaredConstructor(Sprite.class, Formula.class, UserVariable.class);
-		T toBeTestedBrick = constructor.newInstance(sprite, formula, spriteVariable);
-
-		// add brick to project
-		script.addBrick(toBeTestedBrick);
-
-		// get references
-		Sprite clonedSprite = sprite.clone();
-		@SuppressWarnings("unchecked")
-		T clonedBrick = (T) clonedSprite.getScript(0).getBrick(0);
-		UserVariable clonedVariable = project.getUserVariables().getUserVariable(VARIABLE_NAME, clonedSprite);
-		UserVariable clonedVariableFromBrick = (UserVariable) Reflection.getPrivateField(clonedBrick, "userVariable");
-
-		// check them
-		assertNotNull("variable should be in container", clonedVariable);
-		assertNotSame("references shouldn't be the same", spriteVariable, clonedVariable);
-		assertNotSame("references shouldn't be the same", spriteVariable, clonedVariableFromBrick);
-		assertEquals("references should be the same", clonedVariable, clonedVariableFromBrick);
 	}
 }
