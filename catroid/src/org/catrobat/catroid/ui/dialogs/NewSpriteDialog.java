@@ -86,7 +86,7 @@ public class NewSpriteDialog extends DialogFragment {
 	}
 
 	private NewSpriteDialog(DialogWizardStep wizardStep, Uri lookUri, String newObjectName,
-							ActionAfterFinished requestedAction, SpinnerAdapterWrapper spinnerAdapter) {
+			ActionAfterFinished requestedAction, SpinnerAdapterWrapper spinnerAdapter) {
 		this.requestedAction = requestedAction;
 		this.wizardStep = wizardStep;
 		this.lookUri = lookUri;
@@ -185,25 +185,30 @@ public class NewSpriteDialog extends DialogFragment {
 				lookUri = UtilCamera.getDefaultLookFromCameraUri(getString(R.string.default_look_name));
 			}
 
-			switch (requestCode) {
-				case REQUEST_CREATE_POCKET_PAINT_IMAGE:
-					lookUri = Uri.parse(data.getExtras().getString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT));
-					break;
-				case REQUEST_SELECT_IMAGE:
-					lookUri = decodeUri(data.getData());
-					newObjectName = new File(lookUri.toString()).getName();
-					break;
-				case REQUEST_TAKE_PICTURE:
-					lookUri = UtilCamera.rotatePictureIfNecessary(lookUri, getString(R.string.default_look_name));
-					break;
-				default:
-					return;
-			}
+			try {
+				switch (requestCode) {
+					case REQUEST_CREATE_POCKET_PAINT_IMAGE:
+						lookUri = Uri.parse(data.getExtras().getString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT));
+						break;
+					case REQUEST_SELECT_IMAGE:
+						lookUri = decodeUri(data.getData());
+						newObjectName = new File(lookUri.toString()).getName();
+						break;
+					case REQUEST_TAKE_PICTURE:
+						lookUri = UtilCamera.rotatePictureIfNecessary(lookUri, getString(R.string.default_look_name));
+						break;
+					default:
+						return;
+				}
 
-			NewSpriteDialog dialog = new NewSpriteDialog(DialogWizardStep.STEP_2, lookUri, newObjectName,
-					requestedAction, spinnerAdapter);
-			dialog.show(getActivity().getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
-			dismiss();
+				NewSpriteDialog dialog = new NewSpriteDialog(DialogWizardStep.STEP_2, lookUri, newObjectName,
+						requestedAction, spinnerAdapter);
+				dialog.show(getActivity().getSupportFragmentManager(), NewSpriteDialog.DIALOG_FRAGMENT_TAG);
+				dismiss();
+			} catch (NullPointerException e) {
+				Utils.showErrorDialog(getActivity(), R.string.error_load_image);
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
 		}
 	}
 
@@ -215,7 +220,7 @@ public class NewSpriteDialog extends DialogFragment {
 		}
 	}
 
-	private Uri decodeUri(Uri uri) {
+	private Uri decodeUri(Uri uri) throws NullPointerException {
 		String[] filePathColumn = {MediaStore.Images.Media.DATA};
 		Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumn, null, null, null);
 		cursor.moveToFirst();
