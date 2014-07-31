@@ -68,7 +68,7 @@ public class SetVolumeToBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public int getRequiredResources() {
-		return volume.getRequiredResources();
+		return getFormulaWithBrickField(BrickField.VOLUME).getRequiredResources();
 	}
 
 	@Override

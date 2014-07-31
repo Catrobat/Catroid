@@ -96,10 +96,10 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onPause() {
 		SensorHandler.stopSensorListeners();
+		stageListener.activityPause();
 		stageAudioFocus.releaseAudioFocus();
 		LedUtil.pauseLed();
 		VibratorUtil.pauseVibrator();
-		stageListener.activityPause();
 		super.onPause();
 
 		if (droneConnection != null) {
@@ -110,10 +110,10 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onResume() {
 		SensorHandler.startSensorListener(this);
+		stageListener.activityResume();
 		stageAudioFocus.requestAudioFocus();
 		LedUtil.resumeLed();
 		VibratorUtil.resumeVibrator();
-		stageListener.activityResume();
 		super.onResume();
 
 		if (droneConnection != null) {

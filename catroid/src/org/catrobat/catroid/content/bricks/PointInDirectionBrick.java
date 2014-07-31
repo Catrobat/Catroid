@@ -86,7 +86,7 @@ public class PointInDirectionBrick extends FormulaBrick implements View.OnClickL
 
 	@Override
 	public int getRequiredResources() {
-		return degrees.getRequiredResources();
+		return NO_RESOURCES;
 	}
 
 	@Override

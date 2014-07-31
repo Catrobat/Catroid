@@ -66,7 +66,9 @@ public class ParserTestSensors extends InstrumentationTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-
+		createProject();
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 		//For initialization
 		SensorLoudness.getSensorLoudness();
 		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
@@ -108,12 +110,12 @@ public class ParserTestSensors extends InstrumentationTestCase {
 				SensorHandler.getSensorValue(Sensors.FACE_DETECTED));
 		assertEquals("Face detection size initial value error", 0d, SensorHandler.getSensorValue(Sensors.FACE_SIZE));
 
-		Method[] ms = faceDetector.getClass().getSuperclass().getDeclaredMethods();
-		for (Method m : ms) {
-			Log.e("Blah", m.getName());
+		Method[] methods = faceDetector.getClass().getSuperclass().getDeclaredMethods();
+		for (Method method : methods) {
+			Log.e("SensorTest", method.getName());
 		}
 
-		ParameterList parameters = new ParameterList(Boolean.valueOf(true));
+		ParameterList parameters = new ParameterList(Boolean.TRUE);
 		Reflection.invokeMethod(faceDetector.getClass().getSuperclass(), faceDetector, "onFaceDetected", parameters);
 
 		int expectedFaceSize = (int) (Math.random() * 100);

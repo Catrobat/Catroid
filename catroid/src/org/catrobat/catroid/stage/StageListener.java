@@ -165,13 +165,9 @@ public class StageListener implements ApplicationListener {
 		initScreenMode();
 
 		sprites = project.getSpriteList();
-
-		//VideoDisplayHandler.registerSprite(sprites.get(0));// TODO REMOVE
 		for (Sprite sprite : sprites) {
 			sprite.resetSprite();
 			sprite.look.createBrightnessContrastShader();
-			//VideoDisplayHandler.registerSprite(sprite);// TODO REMOVE
-			//sprite.look.setLookData(VideoDisplayHandler.getVideoLookData());// TODO REMOVE
 			stage.addActor(sprite.look);
 			sprite.resume();
 		}
@@ -258,7 +254,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		for (Sprite sprite : sprites) {
-			sprite.look.refreshTextures();
+            sprite.look.refreshTextures();
 		}
 
 	}
@@ -305,7 +301,6 @@ public class StageListener implements ApplicationListener {
 				sprite = sprites.get(i);
 				sprite.resetSprite();
 				sprite.look.createBrightnessContrastShader();
-				//VideoDisplayHandler.registerSprite(sprite);// TODO REMOVE
 				stage.addActor(sprite.look);
 				sprite.pause();
 			}
@@ -389,6 +384,7 @@ public class StageListener implements ApplicationListener {
 				makeAutomaticScreenshot = false;
 			}
 		}
+
 		if (makeScreenshot) {
 			screenshot = ScreenUtils.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight,
 					true);
@@ -627,27 +623,9 @@ public class StageListener implements ApplicationListener {
 			int dataSize = data.size();
 			for (int j = 0; j < dataSize; j++) {
 				LookData lookData = data.get(j);
-				lookData.dispose();
+				lookData.getPixmap().dispose();
+				lookData.getTextureRegion().getTexture().dispose();
 			}
 		}
 	}
-
-	private void prepareAutomaticScreenshotAndNoMeadiaFile() {
-		File noMediaFile = new File(pathForScreenshot + Constants.NO_MEDIA_FILE);
-		File screenshotAutomaticFile = new File(pathForScreenshot + SCREENSHOT_AUTOMATIC_FILE_NAME);
-		try {
-			if (screenshotAutomaticFile.exists()) {
-				screenshotAutomaticFile.delete();
-				screenshotAutomaticFile = new File(pathForScreenshot + SCREENSHOT_AUTOMATIC_FILE_NAME);
-			}
-			screenshotAutomaticFile.createNewFile();
-
-			if (!noMediaFile.exists()) {
-				noMediaFile.createNewFile();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 }

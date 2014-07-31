@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyright (C) 2010-2014 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -73,31 +73,6 @@ public class CameraManagerTest extends TestCase {
 		}
 		CameraManager.getInstance().releaseCamera();
 	}
-
-	// MOVED TO UI TESTS
-	//	public void testJpgPreviewFrameCallback() {
-	//		final int[] calls = new int[1];
-	//		calls[0] = 0;
-	//		JpgPreviewCallback callback = new JpgPreviewCallback() {
-	//			public void onJpgPreviewFrame(byte[] jpgData) {
-	//				calls[0]++;
-	//				if (calls[0] == 1) {
-	//					Bitmap bitmap = BitmapFactory.decodeByteArray(jpgData, 0, jpgData.length);
-	//					assertNotNull("Could not create bitmap from data - wrong format?", bitmap);
-	//				}
-	//			}
-	//		};
-	//		CameraManager.getInstance().addOnJpgPreviewFrameCallback(callback);
-	//		boolean success = CameraManager.getInstance().startCamera();
-	//		assertTrue("Camera was not started properly", success);
-	//		try {
-	//			Thread.sleep(MAX_FRAME_DELAY_IN_MS);
-	//		} catch (InterruptedException e) {
-	//		}
-	//		assertTrue("Did not receive frame data from camera", calls[0] > 0);
-	//		CameraManager.getInstance().removeOnJpgPreviewFrameCallback(callback);
-	//		CameraManager.getInstance().releaseCamera();
-	//	}
 
 	public void testGetInstance() {
 		assertNotNull("Could not get instance of CameraManager", CameraManager.getInstance());

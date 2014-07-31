@@ -194,10 +194,6 @@ public class Look extends Image {
 			}
 
 			pixmap = lookData.getPixmap();
-			if (pixmap == null) {
-				imageChanged = false;
-				return;
-			}
 			float newX = getX() - (pixmap.getWidth() - getWidth()) / 2f;
 			float newY = getY() - (pixmap.getHeight() - getHeight()) / 2f;
 
@@ -210,7 +206,6 @@ public class Look extends Image {
 				brightnessChanged = false;
 			}
 
-			lookData.setTextureRegion();
 			TextureRegion region = lookData.getTextureRegion();
 			TextureRegionDrawable drawable = new TextureRegionDrawable(region);
 			setDrawable(drawable);

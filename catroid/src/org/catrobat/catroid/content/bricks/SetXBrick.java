@@ -68,7 +68,7 @@ public class SetXBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public int getRequiredResources() {
-		return xPosition.getRequiredResources();
+		return getFormulaWithBrickField(BrickField.X_POSITION).getRequiredResources();
 	}
 
 	@Override
