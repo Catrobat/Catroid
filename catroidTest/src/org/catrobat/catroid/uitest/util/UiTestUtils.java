@@ -68,6 +68,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -124,6 +125,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternToken;
+import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageListener;
@@ -1722,7 +1724,7 @@ public final class UiTestUtils {
 	}
 
 	public static void waitForText(Solo solo, String text) {
-		assertEquals("Text not found!", true, solo.waitForText(text, 0, 2000));
+		assertEquals("Text not found!", true, solo.waitForText(text, 0, 3000));
 	}
 
 	public static void switchToFragmentInScriptActivity(Solo solo, int fragmentIndex) {
@@ -1864,6 +1866,26 @@ public final class UiTestUtils {
 	public static boolean searchExactText(Solo solo, String text, boolean onlyVisible) {
 		String regularExpressionForExactClick = "^" + java.util.regex.Pattern.quote(text) + "$";
 		return solo.searchText(regularExpressionForExactClick, onlyVisible);
+	}
+
+	public static void createProjectFaceDetection() {
+		ScreenValues.SCREEN_HEIGHT = 800;
+		ScreenValues.SCREEN_WIDTH = 480;
+
+		Project projectFaceDetection = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+
+		Sprite sprite = new Sprite("fdSprite");
+
+		StartScript startScript = new StartScript(sprite);
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(sprite, new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR,
+				Sensors.FACE_SIZE.name(), null)));
+		startScript.addBrick(setSizeToBrick);
+		sprite.addScript(startScript);
+
+		projectFaceDetection.addSprite(sprite);
+
+		StorageHandler.getInstance().saveProject(projectFaceDetection);
+		ProjectManager.getInstance().setProject(projectFaceDetection);
 	}
 
 }

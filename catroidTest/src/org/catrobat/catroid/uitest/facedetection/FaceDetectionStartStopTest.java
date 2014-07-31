@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyright (C) 2010-2014 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -44,12 +44,8 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 public class FaceDetectionStartStopTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
-	private static final int SCREEN_WIDTH = 480;
-	private static final int SCREEN_HEIGHT = 800;
-	private static final int SLEEP_TIME = 1000;
 
-	private Project projectFaceDetection;
-	Sprite sprite;
+	private static final int SLEEP_TIME = 1200;
 
 	public FaceDetectionStartStopTest() {
 		super(MainMenuActivity.class);
@@ -58,26 +54,13 @@ public class FaceDetectionStartStopTest extends BaseActivityInstrumentationTestC
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		createProjectFaceDetection();
+		UiTestUtils.createProjectFaceDetection();
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(SLEEP_TIME);
 	}
-
-	//	public void testHome() {
-	//		assertTrue("Face detection was not started", FaceDetectionHandler.isFaceDetectionRunning());
-	//
-	//		solo.sendKey(KeyEvent.KEYCODE_HOME); // does not work
-	//		solo.sleep(SLEEP_TIME * 10);
-	//		assertFalse("Face detection should be stopped when leaving activity with home button",
-	//				FaceDetectionHandler.isFaceDetectionRunning());
-	//		solo.goBackToActivity(StageActivity.class.getSimpleName());
-	//		solo.sleep(SLEEP_TIME);
-	//		assertTrue("Face detection was not started when activity is resumed",
-	//				FaceDetectionHandler.isFaceDetectionRunning());
-	//	}
 
 	public void testGoingBack() {
 		assertTrue("Face detection was not started", FaceDetectionHandler.isFaceDetectionRunning());
@@ -91,10 +74,9 @@ public class FaceDetectionStartStopTest extends BaseActivityInstrumentationTestC
 
 	public void testOtherActivityStarts() {
 		assertTrue("Face detection was not started", FaceDetectionHandler.isFaceDetectionRunning());
-
 		getInstrumentation().getContext().startActivity(
 				new Intent(Intent.ACTION_DIAL, Uri.parse("tel:42")).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-		solo.sleep(SLEEP_TIME * 5);
+		solo.sleep(SLEEP_TIME*4);
 		assertFalse("Face detection should be stopped when other application is started",
 				FaceDetectionHandler.isFaceDetectionRunning());
 
@@ -133,25 +115,5 @@ public class FaceDetectionStartStopTest extends BaseActivityInstrumentationTestC
 		solo.sleep(SLEEP_TIME);
 		assertFalse("Face detection is running when leaving stage", FaceDetectionHandler.isFaceDetectionRunning());
 		solo.sleep(SLEEP_TIME);
-	}
-
-	private void createProjectFaceDetection() {
-		ScreenValues.SCREEN_HEIGHT = SCREEN_HEIGHT;
-		ScreenValues.SCREEN_WIDTH = SCREEN_WIDTH;
-
-		projectFaceDetection = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-
-		sprite = new Sprite("fdSprite");
-
-		StartScript startScript = new StartScript(sprite);
-		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(sprite, new Formula(new FormulaElement(ElementType.SENSOR,
-				Sensors.FACE_SIZE.name(), null)));
-		startScript.addBrick(setSizeToBrick);
-		sprite.addScript(startScript);
-
-		projectFaceDetection.addSprite(sprite);
-
-		StorageHandler.getInstance().saveProject(projectFaceDetection);
-		ProjectManager.getInstance().setProject(projectFaceDetection);
 	}
 }

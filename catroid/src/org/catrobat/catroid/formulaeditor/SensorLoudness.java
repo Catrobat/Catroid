@@ -27,7 +27,6 @@ import android.util.Log;
 
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public final class SensorLoudness {
@@ -48,28 +47,28 @@ public final class SensorLoudness {
 		recorder = new SoundRecorder("/dev/null");
 	}
 
-	Runnable statusChecker = new Runnable() {
-		@Override
-		public void run() {
-			float[] loudness = new float[1];
-			loudness[0] = (float) (SCALE_RANGE / MAX_AMP_VALUE) * recorder.getMaxAmplitude();
-			if (lastValue != loudness[0] && loudness[0] != 0f) {
-				lastValue = loudness[0];
-				SensorCustomEvent event = new SensorCustomEvent(Sensors.LOUDNESS, loudness);
-				for (SensorCustomEventListener listener : listenerList) {
-					listener.onCustomSensorChanged(event);
-				}
-			}
-			handler.postDelayed(statusChecker, UPDATE_INTERVAL);
-		}
-	};
+    Runnable statusChecker = new Runnable() {
+        @Override
+        public void run() {
+            float[] loudness = new float[1];
+            loudness[0] = (float) (SCALE_RANGE / MAX_AMP_VALUE) * recorder.getMaxAmplitude();
+            if (lastValue != loudness[0] && loudness[0] != 0f) {
+                lastValue = loudness[0];
+                SensorCustomEvent event = new SensorCustomEvent(Sensors.LOUDNESS, loudness);
+                for (SensorCustomEventListener listener : listenerList) {
+                    listener.onCustomSensorChanged(event);
+                }
+            }
+            handler.postDelayed(statusChecker, UPDATE_INTERVAL);
+        }
+    };
 
-	public static SensorLoudness getSensorLoudness() {
-		if (instance == null) {
-			instance = new SensorLoudness();
-		}
-		return instance;
-	}
+    public static SensorLoudness getSensorLoudness() {
+        if (instance == null) {
+            instance = new SensorLoudness();
+        }
+        return instance;
+    }
 
 	public synchronized boolean registerListener(SensorCustomEventListener listener) {
 		if (listenerList.contains(listener)) {
@@ -98,11 +97,9 @@ public final class SensorLoudness {
 				if (recorder.isRecording()) {
 					try {
 						recorder.stop();
-					} catch (IOException ioException) {
+					} catch (Exception ioException) {
 						// ignored, nothing we can do
 						Log.e(TAG, Log.getStackTraceString(ioException));
-					} catch (RuntimeException runtimeException) {
-						Log.d(TAG, "stop was called shortly after start!", runtimeException);
 					}
 					recorder = new SoundRecorder("/dev/null");
 				}

@@ -54,7 +54,7 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 	private static final String TAG = LedBrickTest.class.getSimpleName();
 
 	private static final int LED_DELAY_MS = 8000;
-	private static final int WLAN_DELAY_MS = 500;
+	private static final int WLAN_DELAY_MS = 700;
 
 	private LedOffBrick ledOffBrick;
 	private LedOnBrick ledOnBrick;

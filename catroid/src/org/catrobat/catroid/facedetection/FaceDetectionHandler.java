@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyright (C) 2010-2014 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -28,17 +28,24 @@ import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 
-public class FaceDetectionHandler {
+public final class FaceDetectionHandler {
+
 
 	private static FaceDetector faceDetector;
 	private static boolean running = false;
 	private static boolean paused = false;
+
+    // Suppress default constructor for noninstantiability
+    private FaceDetectionHandler() {
+        throw new AssertionError();
+    }
 
 	private static void createFaceDetector() {
 		if (isIcsFaceDetectionSupported()) {
@@ -53,11 +60,9 @@ public class FaceDetectionHandler {
 	}
 
 	public static boolean startFaceDetection(Context context) {
-		if (context != null) {
-			if (!useFaceDetection(context)) {
-				SensorHandler.clearFaceDetectionValues();
-				return true;
-			}
+		if (context != null && !useFaceDetection(context)) {
+            SensorHandler.clearFaceDetectionValues();
+            return true;
 		}
 		if (running) {
 			return true;
@@ -89,8 +94,9 @@ public class FaceDetectionHandler {
 		if (faceDetector == null) {
 			return;
 		}
-		faceDetector.stopFaceDetection();
-		running = false;
+
+        faceDetector.stopFaceDetection();
+        running = false;
 	}
 
 	public static void pauseFaceDetection() {
@@ -142,24 +148,16 @@ public class FaceDetectionHandler {
 	}
 
 	public static boolean isIcsFaceDetectionSupported() {
-		//		if (true) {
-		//			return false; // FIXME just for testing
-		//		}
 		int currentApi = android.os.Build.VERSION.SDK_INT;
 		if (currentApi < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			return false;
 		}
 		int possibleFaces = 0;
-		Camera camera = null;
 		try {
-			camera = Camera.open();
+			Camera camera = CameraManager.getInstance().getCamera();
 			possibleFaces = getNumberOfCameras(camera);
-			camera.release();
-		} catch (Exception exc) {
-		} finally {
-			if (camera != null) {
-				camera.release();
-			}
+		} catch (Exception exception) {
+            Log.e("Camera", "Camera unaccessable!", exception);
 		}
 		return possibleFaces > 0;
 	}
@@ -173,6 +171,9 @@ public class FaceDetectionHandler {
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	private static int getNumberOfCameras(Camera camera) {
-		return camera.getParameters().getMaxNumDetectedFaces();
+		if (camera != null && camera.getParameters() != null) {
+			return camera.getParameters().getMaxNumDetectedFaces();
+		}
+		return 0;
 	}
 }

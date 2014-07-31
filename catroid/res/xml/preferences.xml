@@ -28,7 +28,6 @@
         android:key="setting_mindstorm_bricks"
         android:summary="@string/preference_description_mindstorm_bricks"
         android:title="@string/preference_title_enable_mindstorm_bricks" />
-
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="setting_parrot_ar_drone_bricks"
@@ -40,11 +39,10 @@
         android:key="@string/preference_key_use_face_detection"
         android:summary="@string/preference_description_use_face_detection"
         android:title="@string/preference_title_use_face_detection" />
-        
+    
     <ListPreference
         android:key="@string/preference_key_select_camera"
         android:title="@string/preference_title_select_camera"
         android:summary="@string/preference_description_select_camera"
         android:defaultValue="0" />
-
 </PreferenceScreen>

@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyright (C) 2010-2014 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -45,12 +45,8 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 public class ComputeDialogTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
-	private static final int SCREEN_WIDTH = 480;
-	private static final int SCREEN_HEIGHT = 800;
-	private static final int SLEEP_TIME = 500;
 
-	private Project projectFaceDetection;
-	Sprite sprite;
+	private static final int SLEEP_TIME = 500;
 
 	public ComputeDialogTest() {
 		super(MainMenuActivity.class);
@@ -59,7 +55,7 @@ public class ComputeDialogTest extends BaseActivityInstrumentationTestCase<MainM
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		createProjectFaceDetection();
+		UiTestUtils.createProjectFaceDetection();
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		solo.sleep(SLEEP_TIME);
@@ -105,25 +101,5 @@ public class ComputeDialogTest extends BaseActivityInstrumentationTestCase<MainM
 		assertEquals("CameraManager did not read camera id for compute dialog", 0, CameraManager.getInstance()
 				.getCameraID());
 		solo.goBack();
-	}
-
-	private void createProjectFaceDetection() {
-		ScreenValues.SCREEN_HEIGHT = SCREEN_HEIGHT;
-		ScreenValues.SCREEN_WIDTH = SCREEN_WIDTH;
-
-		projectFaceDetection = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-
-		sprite = new Sprite("fdSprite");
-
-		StartScript startScript = new StartScript(sprite);
-		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(sprite, new Formula(new FormulaElement(ElementType.SENSOR,
-				Sensors.FACE_SIZE.name(), null)));
-		startScript.addBrick(setSizeToBrick);
-		sprite.addScript(startScript);
-
-		projectFaceDetection.addSprite(sprite);
-
-		StorageHandler.getInstance().saveProject(projectFaceDetection);
-		ProjectManager.getInstance().setProject(projectFaceDetection);
 	}
 }

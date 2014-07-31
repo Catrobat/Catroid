@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyright (C) 2010-2014 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,6 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.media.FaceDetector;
 import android.media.FaceDetector.Face;
-import android.util.Log;
 
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.camera.JpgPreviewCallback;
@@ -43,20 +42,18 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 
 	@Override
 	public boolean startFaceDetection() {
-		Log.d("Blah", "Slow Start");
 		CameraManager.getInstance().addOnJpgPreviewFrameCallback(this);
 		return CameraManager.getInstance().startCamera();
 	}
 
 	@Override
 	public void stopFaceDetection() {
-		Log.d("Blah", "Slow Stop");
 		CameraManager.getInstance().removeOnJpgPreviewFrameCallback(this);
 		CameraManager.getInstance().releaseCamera();
 	}
 
 	@Override
-	public void onJpgPreviewFrame(byte[] data) {
+	public void onFrame(byte[] data) {
 		Bitmap preview = BitmapFactory.decodeByteArray(data, 0, data.length);
 		detectFaces(preview);
 		preview.recycle();

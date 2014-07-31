@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyright (C) 2010-2014 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CameraManager implements Camera.PreviewCallback {
+public final class CameraManager implements Camera.PreviewCallback {
 
 	public static final int TEXTURE_NAME = 1;
 	private static CameraManager instance;
@@ -54,6 +54,7 @@ public class CameraManager implements Camera.PreviewCallback {
 	private int previewHeight;
 	private int cameraID = 0;
 	private int orientation = 0;
+
 	private boolean facingBack = true;
 	private boolean useTexture = false;
 
@@ -109,20 +110,19 @@ public class CameraManager implements Camera.PreviewCallback {
 		}
 		try {
 			camera = Camera.open(cameraID);
-			Log.i("Blah", "opened camera " + cameraID);
 		} catch (RuntimeException exception) {
+			Log.e("Camera", exception.getMessage());
 			return false;
 		}
-		camera.setPreviewCallback(this);
-		if (useTexture) {
-			if (texture != null) {
-				try {
-					setTexture();
-				} catch (IOException e) {
-					e.printStackTrace(); // TODO
-					return false;
-				}
-			}
+		camera.setPreviewCallbackWithBuffer(this);
+
+		if (useTexture && texture != null) {
+            try {
+                setTexture();
+            } catch (IOException e) {
+                Log.e("CameraManager", Log.getStackTraceString(e));
+                return false;
+            }
 		}
 		return true;
 	}
@@ -165,13 +165,12 @@ public class CameraManager implements Camera.PreviewCallback {
 
 	@Override
 	public void onPreviewFrame(byte[] data, Camera camera) {
-		//Log.d("Blah", "callback  ");
 		if (callbacks.size() == 0) {
 			return;
 		}
 		byte[] jpgData = getDecodeableBytesFromCameraFrame(data);
 		for (JpgPreviewCallback callback : callbacks) {
-			callback.onJpgPreviewFrame(jpgData);
+			callback.onFrame(jpgData);
 		}
 	}
 
@@ -192,6 +191,12 @@ public class CameraManager implements Camera.PreviewCallback {
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void setTexture() throws IOException {
 		camera.setPreviewTexture(texture);
+	}
+
+	public void setLedParams(Parameters led) {
+		if (camera != null && led != null) {
+			camera.setParameters(led);
+		}
 	}
 
 }

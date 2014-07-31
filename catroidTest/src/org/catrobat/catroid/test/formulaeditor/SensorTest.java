@@ -65,16 +65,14 @@ public class SensorTest extends InstrumentationTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-
+		createProject();
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 		//For initialization
 		SensorLoudness.getSensorLoudness();
 		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
 		SimulatedSoundRecorder simSoundRec = new SimulatedSoundRecorder("/dev/null");
 		Reflection.setPrivateField(loudnessSensor, "recorder", simSoundRec);
-
-		createProject();
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 	}
 
 	@Override
@@ -115,7 +113,7 @@ public class SensorTest extends InstrumentationTestCase {
 			Log.e("Blah", m.getName());
 		}
 
-		ParameterList parameters = new ParameterList(Boolean.valueOf(true));
+		ParameterList parameters = new ParameterList(Boolean.TRUE);
 		Reflection.invokeMethod(faceDetector.getClass().getSuperclass(), faceDetector, "onFaceDetected", parameters);
 
 		int expectedFaceSize = (int) (Math.random() * 100);

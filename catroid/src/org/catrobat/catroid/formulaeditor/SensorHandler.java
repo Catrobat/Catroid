@@ -45,7 +45,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float linearAcceleartionZ = 0f;
 
 	private float loudness = 0f;
-
 	private float faceDetected = 0f;
 	private float faceSize = 0f;
 	private float facePositionX = 0f;
@@ -97,6 +96,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		}
 		instance.sensorManager.unregisterListener((SensorEventListener) instance);
 		instance.sensorManager.unregisterListener((SensorCustomEventListener) instance);
+
 		FaceDetectionHandler.unregisterOnFaceDetectedListener(instance);
 		FaceDetectionHandler.unregisterOnFaceDetectionStatusListener(instance);
 	}
@@ -155,7 +155,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 						return (double) -180f - uncorrectedYInclination;
 					}
 				}
-
 			case FACE_DETECTED:
 				return Double.valueOf(instance.faceDetected);
 			case FACE_SIZE:
@@ -164,6 +163,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				return Double.valueOf(instance.facePositionX);
 			case FACE_Y_POSITION:
 				return Double.valueOf(instance.facePositionY);
+
 			case LOUDNESS:
 				return Double.valueOf(instance.loudness);
 		}

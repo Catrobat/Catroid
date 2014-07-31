@@ -44,6 +44,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.BluetoothManager;
 import org.catrobat.catroid.bluetooth.DeviceListActivity;
+import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -126,14 +127,30 @@ public class PreStageActivity extends BaseActivity {
 			droneInitializer.initialise();
 		}
 
-		if ((requiredResources & Brick.CAMERA_LED ) > 0) {
-
-			if ( hasFlash() ) {
-				requiredResourceCounter--;
-				LedUtil.activateLedThread();
+		FaceDetectionHandler.resetFaceDedection();
+		if ((requiredResources & Brick.FACE_DETECTION) > 0) {
+			boolean success = FaceDetectionHandler.startFaceDetection(this);
+			if (success) {
+				resourceInitialized();
 			} else {
-				Toast.makeText(PreStageActivity.this, R.string.no_flash_led_available, Toast.LENGTH_LONG).show();
 				resourceFailed();
+			}
+		}
+
+		if ((requiredResources & Brick.CAMERA_LED ) > 0) {
+			if (!CameraManager.getInstance().isFacingBack()) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setMessage(getString(R.string.led_and_front_camera_warning)).setCancelable(false)
+						.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								ledInitialize();
+							}
+						});
+				AlertDialog alert = builder.create();
+				alert.show();
+			} else {
+				ledInitialize();
 			}
 		}
 
@@ -145,16 +162,6 @@ public class PreStageActivity extends BaseActivity {
 				VibratorUtil.activateVibratorThread();
 			} else {
 				Toast.makeText(PreStageActivity.this, R.string.no_vibrator_available, Toast.LENGTH_LONG).show();
-				resourceFailed();
-			}
-		}
-
-		FaceDetectionHandler.resetFaceDedection();
-		if ((requiredResources & Brick.FACE_DETECTION) > 0) {
-			boolean success = FaceDetectionHandler.startFaceDetection(this);
-			if (success) {
-				resourceInitialized();
-			} else {
 				resourceFailed();
 			}
 		}
@@ -179,12 +186,11 @@ public class PreStageActivity extends BaseActivity {
 			return false;
 		}
 
-		Camera camera = LedUtil.getCamera();
+		Camera camera = CameraManager.getInstance().getCamera();
 
 		try {
 			if (camera == null) {
-				LedUtil.openCamera();
-				camera = LedUtil.getCamera();
+				camera = CameraManager.getInstance().getCamera();
 			}
 		} catch (Exception exception) {
 			Log.e(getString(R.string.app_name), "failed to open Camera", exception);
@@ -248,7 +254,9 @@ public class PreStageActivity extends BaseActivity {
 		if (legoNXT != null) {
 			legoNXT.pauseCommunicator();
 		}
-		FaceDetectionHandler.stopFaceDetection();
+        if (FaceDetectionHandler.isFaceDetectionRunning()) {
+            FaceDetectionHandler.stopFaceDetection();
+        }
 	}
 
 	//all resources that should not have to be reinitialized every stage start
@@ -443,5 +451,15 @@ public class PreStageActivity extends BaseActivity {
 			}
 		}
 	};
+
+	private void ledInitialize() {
+		if ( hasFlash() ) {
+			resourceInitialized();
+			LedUtil.activateLedThread();
+		} else {
+			Toast.makeText(PreStageActivity.this, R.string.no_flash_led_available, Toast.LENGTH_LONG).show();
+			resourceFailed();
+		}
+	}
 
 }

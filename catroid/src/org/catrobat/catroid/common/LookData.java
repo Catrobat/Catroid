@@ -52,7 +52,6 @@ public class LookData implements Serializable, Cloneable {
 	private transient Pixmap pixmap = null;
 	private transient Pixmap originalPixmap = null;
 	private transient TextureRegion region = null;
-	private transient Texture texture;
 
 	@Override
 	public LookData clone() {
@@ -78,33 +77,18 @@ public class LookData implements Serializable, Cloneable {
 
 	public TextureRegion getTextureRegion() {
 		if (region == null) {
-			setTextureRegion();
+			region = new TextureRegion(new Texture(getPixmap()));
 		}
 		return region;
 	}
 
 	public void setTextureRegion() {
-		if (texture == null) {
-			texture = new Texture(getPixmap());
-			// TODO
-			//			Pixmap pixmap = getPixmap();
-			//			FrameBuffer b = new FrameBuffer(Format.RGB565, pixmap.getWidth(), pixmap.getHeight(), false);
-			//			b.begin();
-			//			b.getColorBufferTexture().
-		} else {
-			texture.draw(getPixmap(), 0, 0);
-		}
-		this.region = new TextureRegion(texture);
+		this.region = new TextureRegion(new Texture(getPixmap()));
 	}
 
 	public Pixmap getPixmap() {
 		if (pixmap == null) {
-			String absolutePath = getAbsolutePath();
-			if (absolutePath != null) {
-				pixmap = new Pixmap(Gdx.files.absolute(absolutePath));
-			} else {
-				return null;
-			}
+			pixmap = new Pixmap(Gdx.files.absolute(getAbsolutePath()));
 		}
 		return pixmap;
 	}
@@ -180,16 +164,6 @@ public class LookData implements Serializable, Cloneable {
 		height = options.outHeight;
 
 		return new int[] { width, height };
-	}
-
-	public void dispose() {
-		if (pixmap == null) {
-			pixmap.dispose();
-		}
-		if (texture != null) {
-			texture.dispose();
-			texture = null;
-		}
 	}
 
 	@Override

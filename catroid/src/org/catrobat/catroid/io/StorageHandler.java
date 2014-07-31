@@ -263,7 +263,7 @@ public final class StorageHandler {
 		xstream.alias("waitBrick", WaitBrick.class);
 		xstream.alias("whenBrick", WhenBrick.class);
 		xstream.alias("whenStartedBrick", WhenStartedBrick.class);
-		xstream.alias("whenFaceDetectedBrick", WhenFaceDetectedBrick.class);
+
 		xstream.alias("dronePlayLedAnimationBrick", DronePlayLedAnimationBrick.class);
 		xstream.alias("droneFlipBrick", DroneFlipBrick.class);
 		xstream.alias("droneTakeOffBrick", DroneTakeOffBrick.class);
