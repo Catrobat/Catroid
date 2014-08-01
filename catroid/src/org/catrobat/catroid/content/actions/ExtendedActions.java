@@ -311,12 +311,11 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static IfLogicAction ifLogc(Sprite sprite, Formula condition, Action ifAction, Action elseAction) {
+	public static IfLogicAction ifLogic(Formula condition, Action ifAction, Action elseAction) {
 		IfLogicAction action = action(IfLogicAction.class);
 		action.setIfAction(ifAction);
 		action.setIfCondition(condition);
 		action.setElseAction(elseAction);
-		action.setSprite(sprite);
 		return action;
 	}
 

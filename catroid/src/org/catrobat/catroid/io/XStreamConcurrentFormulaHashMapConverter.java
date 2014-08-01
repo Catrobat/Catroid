@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks;
+package org.catrobat.catroid.io;
 
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
@@ -28,9 +28,11 @@ import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.ConcurrentFormulaHashMap;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-public class ConcurrentFormulaHashMapConverter implements Converter {
+public class XStreamConcurrentFormulaHashMapConverter implements Converter {
 
 	@SuppressWarnings("rawtypes")
 	@Override

@@ -90,7 +90,7 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 
 		if (formulaToCompute.isLogicalFormula()) {
-			boolean result = formulaToCompute.interpretBoolean(sprite);
+			boolean result = formulaToCompute.interpretBoolean();
 			logicalFormulaResultIdentifier = result ? R.string.formula_editor_true : R.string.formula_editor_false;
 			computeTextView.post(new Runnable() {
 				@Override

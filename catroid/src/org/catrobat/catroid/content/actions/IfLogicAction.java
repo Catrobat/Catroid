@@ -25,12 +25,10 @@ package org.catrobat.catroid.content.actions;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 public class IfLogicAction extends Action {
 
-	private Sprite sprite;
 	private Action ifAction;
 	private Action elseAction;
 	private Formula ifCondition;
@@ -38,7 +36,7 @@ public class IfLogicAction extends Action {
 	private boolean isInitialized = false;
 
 	protected void begin() {
-		ifConditionValue = ifCondition.interpretBoolean(sprite);
+		ifConditionValue = ifCondition.interpretBoolean();
 	}
 
 	@Override
@@ -62,10 +60,6 @@ public class IfLogicAction extends Action {
 		elseAction.restart();
 		isInitialized = false;
 		super.restart();
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
 	}
 
 	public void setIfAction(Action ifAction) {

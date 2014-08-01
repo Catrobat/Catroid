@@ -29,7 +29,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 
 import java.io.Serializable;
@@ -90,7 +89,7 @@ public class Formula implements Serializable {
 		displayText = text;
 	}
 
-	public boolean interpretBoolean(Sprite sprite) {
+	public boolean interpretBoolean() {
 		int result = interpretInteger();
 
 		return result != 0 ? true : false;

@@ -57,7 +57,6 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
-import org.catrobat.catroid.content.bricks.ConcurrentFormulaHashMapConverter;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.content.bricks.DroneLandBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
@@ -169,7 +168,7 @@ public final class StorageHandler {
 		xstream.processAnnotations(Project.class);
 		xstream.processAnnotations(XmlHeader.class);
 		xstream.processAnnotations(UserVariablesContainer.class);
-		xstream.registerConverter(new ConcurrentFormulaHashMapConverter());
+		xstream.registerConverter(new XStreamConcurrentFormulaHashMapConverter());
 		setXstreamAliases();
 
 		if (!Utils.externalStorageAvailable()) {
