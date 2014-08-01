@@ -31,13 +31,16 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ConcurrentFormulaHashMap;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
 
 public class XStreamConcurrentFormulaHashMapConverter implements Converter {
 
-	@SuppressWarnings("rawtypes")
+	private static final String FORMULA = "formula";
+	private static final String CATEGORY = "category";
+
 	@Override
-	public boolean canConvert(Class aClass) {
-		return aClass.equals(ConcurrentFormulaHashMap.class);
+	public boolean canConvert(Class type) {
+		return type.equals(ConcurrentFormulaHashMap.class);
 	}
 
 	@Override
@@ -45,11 +48,9 @@ public class XStreamConcurrentFormulaHashMapConverter implements Converter {
 			MarshallingContext marshallingContext) {
 		ConcurrentFormulaHashMap concurrentFormulaHashMap = (ConcurrentFormulaHashMap) object;
 		for (Brick.BrickField brickField : concurrentFormulaHashMap.keySet()) {
-			hierarchicalStreamWriter.startNode(Brick.BrickField.class.getSimpleName());
-			hierarchicalStreamWriter.setValue(brickField.toString());
-			hierarchicalStreamWriter.endNode();
-			hierarchicalStreamWriter.startNode(Formula.class.getSimpleName());
-			marshallingContext.convertAnother(concurrentFormulaHashMap.get(brickField));
+			hierarchicalStreamWriter.startNode(FORMULA);
+			hierarchicalStreamWriter.addAttribute(CATEGORY, brickField.toString());
+			marshallingContext.convertAnother(concurrentFormulaHashMap.get(brickField).getFormulaTree());
 			hierarchicalStreamWriter.endNode();
 		}
 	}
@@ -59,13 +60,12 @@ public class XStreamConcurrentFormulaHashMapConverter implements Converter {
 		ConcurrentFormulaHashMap concurrentFormulaHashMap = new ConcurrentFormulaHashMap();
 		while (hierarchicalStreamReader.hasMoreChildren()) {
 			hierarchicalStreamReader.moveDown();
-			Brick.BrickField brickField = Brick.BrickField.valueOf(hierarchicalStreamReader.getValue());
-			hierarchicalStreamReader.moveUp();
-
-			hierarchicalStreamReader.moveDown();
+			Brick.BrickField brickField = Brick.BrickField.valueOf(hierarchicalStreamReader.getAttribute(CATEGORY));
 			Formula formula = new Formula(0);
-			if (Formula.class.getSimpleName().equals(hierarchicalStreamReader.getNodeName())) {
-				formula = (Formula) unmarshallingContext.convertAnother(concurrentFormulaHashMap, Formula.class);
+			if (FORMULA.equals(hierarchicalStreamReader.getNodeName())) {
+				FormulaElement formulaTree = (FormulaElement) unmarshallingContext.convertAnother(concurrentFormulaHashMap,
+						FormulaElement.class);
+				formula.setFormulaTree(formulaTree);
 			}
 			hierarchicalStreamReader.moveUp();
 

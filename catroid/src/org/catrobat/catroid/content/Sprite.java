@@ -27,6 +27,7 @@ import android.util.Log;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.BroadcastSequenceMap;
@@ -51,6 +52,7 @@ public class Sprite implements Serializable, Cloneable {
 	public transient Look look;
 	public transient boolean isPaused;
 
+	@XStreamAsAttribute
 	private String name;
 	private List<Script> scriptList;
 	private ArrayList<LookData> lookList;

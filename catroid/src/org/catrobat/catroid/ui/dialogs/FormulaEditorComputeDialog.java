@@ -30,9 +30,7 @@ import android.hardware.SensorEventListener;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -86,8 +84,6 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 		if (computeTextView == null) {
 			return;
 		}
-
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 
 		if (formulaToCompute.isLogicalFormula()) {
 			boolean result = formulaToCompute.interpretBoolean();

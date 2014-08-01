@@ -29,6 +29,9 @@ import com.thoughtworks.xstream.converters.reflection.AbstractReflectionConverte
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
 import org.catrobat.catroid.content.bricks.Brick.BrickField;
+import org.catrobat.catroid.content.bricks.BroadcastBrick;
+import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
+import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeGhostEffectByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
@@ -36,55 +39,74 @@ import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
+import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
+import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.DroneFlipBrick;
+import org.catrobat.catroid.content.bricks.DroneLandBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
+import org.catrobat.catroid.content.bricks.DroneTakeOffBrick;
+import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
+import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
+import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
+import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
+import org.catrobat.catroid.content.bricks.LedOffBrick;
+import org.catrobat.catroid.content.bricks.LedOnBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
+import org.catrobat.catroid.content.bricks.LoopEndBrick;
+import org.catrobat.catroid.content.bricks.LoopEndlessBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
+import org.catrobat.catroid.content.bricks.NextLookBrick;
+import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
+import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
+import org.catrobat.catroid.content.bricks.ShowBrick;
+import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
+import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.content.bricks.WhenBrick;
+import org.catrobat.catroid.content.bricks.WhenStartedBrick;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
 import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
@@ -97,7 +119,6 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 	private static final String TAG = XStreamToSupportCatrobatLanguageVersion091AndBefore.class.getSimpleName();
 
 	private HashMap<String, BrickInfo> brickInfoMap;
-	private Transformer serializer;
 
 	public XStreamToSupportCatrobatLanguageVersion091AndBefore(PureJavaReflectionProvider reflectionProvider) {
 		super(reflectionProvider);
@@ -115,14 +136,6 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 		return parsedObject;
 	}
 
-	private void initSerializer() throws TransformerConfigurationException, TransformerFactoryConfigurationError {
-		if (serializer == null) {
-			serializer = TransformerFactory.newInstance().newTransformer();
-			serializer.setOutputProperty(OutputKeys.INDENT, "yes");
-			serializer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-		}
-	}
-
 	private void initializeBrickInfoMap() {
 		if (brickInfoMap != null) {
 			return;
@@ -130,219 +143,297 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 
 		brickInfoMap = new HashMap<String, BrickInfo>();
 
-		BrickInfo brickInfo = new BrickInfo(ChangeBrightnessByNBrick.class.getName());
+		BrickInfo brickInfo = new BrickInfo(BroadcastBrick.class.getSimpleName());
+		brickInfoMap.put("broadcastBrick", brickInfo);
+
+		brickInfo = new BrickInfo(BroadcastReceiverBrick.class.getSimpleName());
+		brickInfoMap.put("broadcastReceiverBrick", brickInfo);
+
+		brickInfo = new BrickInfo(BroadcastReceiverBrick.class.getSimpleName());
+		brickInfoMap.put("broadcastReceiverBrick", brickInfo);
+
+		brickInfo = new BrickInfo(BroadcastWaitBrick.class.getSimpleName());
+		brickInfoMap.put("broadcastWaitBrick", brickInfo);
+
+		brickInfo = new BrickInfo(ChangeBrightnessByNBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("changeBrightness", BrickField.BRIGHTNESS_CHANGE);
 		brickInfoMap.put("changeBrightnessByNBrick", brickInfo);
 
-		brickInfo = new BrickInfo(ChangeGhostEffectByNBrick.class.getName());
+		brickInfo = new BrickInfo(ChangeGhostEffectByNBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("changeGhostEffect", BrickField.TRANSPARENCY_CHANGE);
 		brickInfoMap.put("changeGhostEffectByNBrick", brickInfo);
 
-		brickInfo = new BrickInfo(ChangeSizeByNBrick.class.getName());
+		brickInfo = new BrickInfo(ChangeSizeByNBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("size", BrickField.SIZE_CHANGE);
 		brickInfoMap.put("changeSizeByNBrick", brickInfo);
 
-		brickInfo = new BrickInfo(ChangeVariableBrick.class.getName());
+		brickInfo = new BrickInfo(ChangeVariableBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("variableFormula", BrickField.VARIABLE_CHANGE);
 		brickInfoMap.put("changeVariableBrick", brickInfo);
 
-		brickInfo = new BrickInfo(ChangeVolumeByNBrick.class.getName());
+		brickInfo = new BrickInfo(ChangeVolumeByNBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("volume", BrickField.VOLUME_CHANGE);
 		brickInfoMap.put("changeVolumeByNBrick", brickInfo);
 
-		brickInfo = new BrickInfo(ChangeXByNBrick.class.getName());
+		brickInfo = new BrickInfo(ChangeXByNBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("xMovement", BrickField.X_POSITION_CHANGE);
 		brickInfoMap.put("changeXByNBrick", brickInfo);
 
-		brickInfo = new BrickInfo(ChangeYByNBrick.class.getName());
+		brickInfo = new BrickInfo(ChangeYByNBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("yMovement", BrickField.Y_POSITION_CHANGE);
 		brickInfoMap.put("changeYByNBrick", brickInfo);
 
-		brickInfo = new BrickInfo(DroneMoveBackwardBrick.class.getName());
-		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
-		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
-		brickInfoMap.put("droneMoveBackwardBrick", brickInfo);
+		brickInfo = new BrickInfo(ClearGraphicEffectBrick.class.getSimpleName());
+		brickInfoMap.put("clearGraphicEffectBrick", brickInfo);
 
-		brickInfo = new BrickInfo(DroneMoveDownBrick.class.getName());
-		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
-		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
-		brickInfoMap.put("droneMoveDownBrick", brickInfo);
+		brickInfo = new BrickInfo(ComeToFrontBrick.class.getSimpleName());
+		brickInfoMap.put("comeToFrontBrick", brickInfo);
 
-		brickInfo = new BrickInfo(DroneMoveForwardBrick.class.getName());
-		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
-		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
-		brickInfoMap.put("droneMoveForwardBrick", brickInfo);
+		brickInfo = new BrickInfo(ForeverBrick.class.getSimpleName());
+		brickInfoMap.put("foreverBrick", brickInfo);
 
-		brickInfo = new BrickInfo(DroneMoveLeftBrick.class.getName());
-		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
-		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
-		brickInfoMap.put("droneMoveLeftBrick", brickInfo);
-
-		brickInfo = new BrickInfo(DroneMoveRightBrick.class.getName());
-		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
-		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
-		brickInfoMap.put("droneMoveRightBrick", brickInfo);
-
-		brickInfo = new BrickInfo(DroneMoveUpBrick.class.getName());
-		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
-		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
-		brickInfoMap.put("droneMoveUpBrick", brickInfo);
-
-		brickInfo = new BrickInfo(GlideToBrick.class.getName());
+		brickInfo = new BrickInfo(GlideToBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("xDestination", BrickField.X_DESTINATION);
 		brickInfo.addBrickFieldToMap("yDestination", BrickField.Y_DESTINATION);
 		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.DURATION_IN_SECONDS);
 		brickInfoMap.put("glideToBrick", brickInfo);
 
-		brickInfo = new BrickInfo(GoNStepsBackBrick.class.getName());
+		brickInfo = new BrickInfo(GoNStepsBackBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("steps", BrickField.STEPS);
 		brickInfoMap.put("goNStepsBackBrick", brickInfo);
 
-		brickInfo = new BrickInfo(IfLogicBeginBrick.class.getName());
+		brickInfo = new BrickInfo(HideBrick.class.getSimpleName());
+		brickInfoMap.put("hideBrick", brickInfo);
+
+		brickInfo = new BrickInfo(IfLogicBeginBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("ifCondition", BrickField.IF_CONDITION);
 		brickInfoMap.put("ifLogicBeginBrick", brickInfo);
 
-		brickInfo = new BrickInfo(LegoNxtMotorActionBrick.class.getName());
+		brickInfo = new BrickInfo(IfLogicElseBrick.class.getSimpleName());
+		brickInfoMap.put("ifLogicElseBrick", brickInfo);
+
+		brickInfo = new BrickInfo(IfLogicEndBrick.class.getSimpleName());
+		brickInfoMap.put("ifLogicEndBrick", brickInfo);
+
+		brickInfo = new BrickInfo(IfOnEdgeBounceBrick.class.getSimpleName());
+		brickInfoMap.put("ifOnEdgeBounceBrick", brickInfo);
+
+		brickInfo = new BrickInfo(LedOffBrick.class.getSimpleName());
+		brickInfoMap.put("ledOffBrick", brickInfo);
+
+		brickInfo = new BrickInfo(LedOnBrick.class.getSimpleName());
+		brickInfoMap.put("ledOnBrick", brickInfo);
+
+		brickInfo = new BrickInfo(LegoNxtMotorActionBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("speed", BrickField.LEGO_NXT_SPEED);
 		brickInfoMap.put("legoNxtMotorActionBrick", brickInfo);
 
-		brickInfo = new BrickInfo(LegoNxtMotorTurnAngleBrick.class.getName());
+		brickInfo = new BrickInfo(LegoNxtMotorStopBrick.class.getSimpleName());
+		brickInfoMap.put("legoNxtMotorStopBrick", brickInfo);
+
+		brickInfo = new BrickInfo(LegoNxtMotorTurnAngleBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("degrees", BrickField.LEGO_NXT_DEGREES);
 		brickInfoMap.put("legoNxtMotorTurnAngleBrick", brickInfo);
 
-		brickInfo = new BrickInfo(LegoNxtPlayToneBrick.class.getName());
+		brickInfo = new BrickInfo(LegoNxtPlayToneBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("frequency", BrickField.LEGO_NXT_FREQUENCY);
 		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.LEGO_NXT_DURATION_IN_SECONDS);
 		brickInfoMap.put("legoNxtPlayToneBrick", brickInfo);
 
-		brickInfo = new BrickInfo(MoveNStepsBrick.class.getName());
+		brickInfo = new BrickInfo(LoopEndBrick.class.getSimpleName());
+		brickInfoMap.put("loopEndBrick", brickInfo);
+
+		brickInfo = new BrickInfo(LoopEndlessBrick.class.getSimpleName());
+		brickInfoMap.put("loopEndlessBrick", brickInfo);
+
+		brickInfo = new BrickInfo(MoveNStepsBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("steps", BrickField.STEPS);
 		brickInfoMap.put("moveNStepsBrick", brickInfo);
 
-		brickInfo = new BrickInfo(PlaceAtBrick.class.getName());
+		brickInfo = new BrickInfo(NextLookBrick.class.getSimpleName());
+		brickInfoMap.put("nextLookBrick", brickInfo);
+
+		brickInfo = new BrickInfo(NoteBrick.class.getSimpleName());
+		brickInfoMap.put("noteBrick", brickInfo);
+
+		brickInfo = new BrickInfo(PlaceAtBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("xPosition", BrickField.X_POSITION);
 		brickInfo.addBrickFieldToMap("yPosition", BrickField.Y_POSITION);
 		brickInfoMap.put("placeAtBrick", brickInfo);
 
-		brickInfo = new BrickInfo(PointInDirectionBrick.class.getName());
+		brickInfo = new BrickInfo(PlaySoundBrick.class.getSimpleName());
+		brickInfoMap.put("playSoundBrick", brickInfo);
+
+		brickInfo = new BrickInfo(PointInDirectionBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("degrees", BrickField.DEGREES);
 		brickInfoMap.put("pointInDirectionBrick", brickInfo);
 
-		brickInfo = new BrickInfo(RepeatBrick.class.getName());
+		brickInfo = new BrickInfo(PointToBrick.class.getSimpleName());
+		brickInfoMap.put("pointToBrick", brickInfo);
+
+		brickInfo = new BrickInfo(RepeatBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("timesToRepeat", BrickField.TIMES_TO_REPEAT);
 		brickInfoMap.put("repeatBrick", brickInfo);
 
-		brickInfo = new BrickInfo(SetBrightnessBrick.class.getName());
+		brickInfo = new BrickInfo(SetBrightnessBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("brightness", BrickField.BRIGHTNESS);
 		brickInfoMap.put("setBrightnessBrick", brickInfo);
 
-		brickInfo = new BrickInfo(SetGhostEffectBrick.class.getName());
+		brickInfo = new BrickInfo(SetGhostEffectBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("transparency", BrickField.TRANSPARENCY);
 		brickInfoMap.put("setGhostEffectBrick", brickInfo);
 
-		brickInfo = new BrickInfo(SetGhostEffectBrick.class.getName());
+		brickInfo = new BrickInfo(SetGhostEffectBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("transparency", BrickField.TRANSPARENCY);
 		brickInfoMap.put("setGhostEffectBrick", brickInfo);
 
-		brickInfo = new BrickInfo(SetSizeToBrick.class.getName());
+		brickInfo = new BrickInfo(SetLookBrick.class.getSimpleName());
+		brickInfoMap.put("setLookBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetSizeToBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("size", BrickField.SIZE);
 		brickInfoMap.put("setSizeToBrick", brickInfo);
 
-		brickInfo = new BrickInfo(SetSizeToBrick.class.getName());
-		brickInfo.addBrickFieldToMap("size", BrickField.SIZE);
-		brickInfoMap.put("setSizeToBrick", brickInfo);
-
-		brickInfo = new BrickInfo(SetVariableBrick.class.getName());
+		brickInfo = new BrickInfo(SetVariableBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("variableFormula", BrickField.VARIABLE);
 		brickInfoMap.put("setVariableBrick", brickInfo);
 
-		brickInfo = new BrickInfo(SetVolumeToBrick.class.getName());
+		brickInfo = new BrickInfo(SetVolumeToBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("volume", BrickField.VOLUME);
 		brickInfoMap.put("setVolumeToBrick", brickInfo);
 
-		brickInfo = new BrickInfo(SetXBrick.class.getName());
+		brickInfo = new BrickInfo(SetXBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("xPosition", BrickField.X_POSITION);
 		brickInfoMap.put("setXBrick", brickInfo);
 
-		brickInfo = new BrickInfo(SetYBrick.class.getName());
+		brickInfo = new BrickInfo(SetYBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("yPosition", BrickField.Y_POSITION);
 		brickInfoMap.put("setYBrick", brickInfo);
 
-		brickInfo = new BrickInfo(TurnLeftBrick.class.getName());
+		brickInfo = new BrickInfo(ShowBrick.class.getSimpleName());
+		brickInfoMap.put("showBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SpeakBrick.class.getSimpleName());
+		brickInfoMap.put("speakBrick", brickInfo);
+
+		brickInfo = new BrickInfo(StopAllSoundsBrick.class.getSimpleName());
+		brickInfoMap.put("stopAllSoundsBrick", brickInfo);
+
+		brickInfo = new BrickInfo(TurnLeftBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("degrees", BrickField.TURN_LEFT_DEGREES);
 		brickInfoMap.put("turnLeftBrick", brickInfo);
 
-		brickInfo = new BrickInfo(TurnRightBrick.class.getName());
+		brickInfo = new BrickInfo(TurnRightBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("degrees", BrickField.TURN_RIGHT_DEGREES);
 		brickInfoMap.put("turnRightBrick", brickInfo);
 
-		brickInfo = new BrickInfo(WaitBrick.class.getName());
+		brickInfo = new BrickInfo(VibrationBrick.class.getSimpleName());
+		brickInfoMap.put("vibrationBrick", brickInfo);
+
+		brickInfo = new BrickInfo(WaitBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("timeToWaitInSeconds", BrickField.TIME_TO_WAIT_IN_SECONDS);
 		brickInfoMap.put("waitBrick", brickInfo);
+
+		brickInfo = new BrickInfo(WhenBrick.class.getSimpleName());
+		brickInfoMap.put("stopAllSoundsBrick", brickInfo);
+
+		brickInfo = new BrickInfo(WhenStartedBrick.class.getSimpleName());
+		brickInfoMap.put("whenStartedBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DronePlayLedAnimationBrick.class.getSimpleName());
+		brickInfoMap.put("dronePlayLedAnimationBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DroneFlipBrick.class.getSimpleName());
+		brickInfoMap.put("droneFlipBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DroneTakeOffBrick.class.getSimpleName());
+		brickInfoMap.put("droneTakeOffBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DroneLandBrick.class.getSimpleName());
+		brickInfoMap.put("droneTakeOffBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DroneMoveForwardBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
+		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
+		brickInfoMap.put("droneMoveForwardBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DroneMoveBackwardBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
+		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
+		brickInfoMap.put("droneMoveBackwardBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DroneMoveUpBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
+		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
+		brickInfoMap.put("droneMoveUpBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DroneMoveDownBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
+		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
+		brickInfoMap.put("droneMoveDownBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DroneMoveLeftBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
+		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
+		brickInfoMap.put("droneMoveLeftBrick", brickInfo);
+
+		brickInfo = new BrickInfo(DroneMoveRightBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
+		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
+		brickInfoMap.put("droneMoveRightBrick", brickInfo);
+
 	}
 
 	private void modifyXMLToSupportUnknownFields(File file) {
 		initializeBrickInfoMap();
+		Document doc = getDocument(file);
+		if (doc != null) {
+			renameAllNodes(doc, "objectList", "sprites");
+			renameAllNodes(doc, "object", "sprite");
+			renameAllNodes(doc, "objectVariableList", "spriteVariableList");
 
+			convertChildNodeToAttribute(doc, "lookList", "name");
+			convertChildNodeToAttribute(doc, "sprite", "name");
+
+			deleteChildNodeByName(doc, "scriptList", "sprite");
+			deleteChildNodeByName(doc, "brickList", "sprite");
+
+			modifyBrickLists(doc);
+			checkReferences(doc.getDocumentElement());
+			modifyUserVariables(doc);
+			saveDocument(doc, file);
+		}
+	}
+
+	private Document getDocument(File file) {
 		try {
-			initSerializer();
+			Transformer serializer= TransformerFactory.newInstance().newTransformer();
+			serializer.setOutputProperty(OutputKeys.INDENT, "yes");
+			serializer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 			Document doc = docBuilder.parse(file);
 			normalizeWhiteSpaces(doc);
+			return doc;
+		} catch (Exception exception) {
+			Log.e(TAG, "Failed to parse file to a Document", exception);
+		}
+		return null;
+	}
 
-			NodeList brickListNodes = doc.getElementsByTagName("brickList");
-			for (int brickListIndex = 0; brickListIndex < brickListNodes.getLength(); brickListIndex++) {
-				Node brickListNode = brickListNodes.item(brickListIndex);
-
-				NodeList brickNodes = brickListNode.getChildNodes();
-				for (int brickNodeIndex = 0; brickNodeIndex < brickNodes.getLength(); brickNodeIndex++) {
-					Node brickNode = brickNodes.item(brickNodeIndex);
-
-					String newBrickContent = createNewBrickIfModified(brickNode);
-					if (newBrickContent != null) {
-						Document newBrickDoc = docBuilder.parse(new ByteArrayInputStream(newBrickContent.getBytes()));
-						normalizeWhiteSpaces(newBrickDoc);
-						Node newBrickRootNode = newBrickDoc.getDocumentElement();
-
-						// add other child brick nodes to newly created brick
-						NodeList childNodes = brickNode.getChildNodes();
-						for (int index = 0; index < childNodes.getLength(); index++) {
-							Node node = childNodes.item(index);
-							Node childNode = node.getFirstChild();
-							if (!(childNode != null && childNode.getNodeName().equals("formulaTree"))) {
-								Node otherNode = newBrickDoc.adoptNode(node);
-								newBrickRootNode.appendChild(otherNode);
-							}
-						}
-
-						Node replacementNode = doc.adoptNode(newBrickRootNode);
-						brickListNode.replaceChild(replacementNode, brickNode);
-					}
-				}
-			}
+	private void saveDocument(Document doc, File file) {
+		try {
+			Transformer serializer= TransformerFactory.newInstance().newTransformer();
+			serializer.setOutputProperty(OutputKeys.INDENT, "yes");
+			serializer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 
 			DOMSource source = new DOMSource(doc);
 			StreamResult result = new StreamResult(file.getPath());
 			serializer.transform(source, result);
-
-		} catch (IllegalArgumentException exception) {
-			Log.e(TAG, "Unknown brick", exception);
-		} catch (ParserConfigurationException exception) {
-			Log.e(TAG, "XML parsing failed", exception);
-		} catch (XPathExpressionException exception) {
-			Log.e(TAG, "Failed white space evaulation", exception);
-		} catch (TransformerConfigurationException exception) {
-			Log.e(TAG, "Failed white space evaulation", exception);
-		} catch (TransformerException exception) {
-			Log.e(TAG, "Failed white space evaulation", exception);
-		} catch (SAXException exception) {
-			Log.e(TAG, "SAX exception", exception);
-		} catch (IOException exception) {
-			Log.e(TAG, "IO exception", exception);
+		} catch (Exception exception) {
+			Log.e(TAG, "Failed to save document to file", exception);
 		}
-
 	}
 
 	private void normalizeWhiteSpaces(Document document) throws XPathExpressionException {
@@ -356,71 +447,295 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 		}
 	}
 
-	private String createNewBrickIfModified(Node brickNode) {
-		String brickXML = null;
-		String brickNodeName = brickNode.getNodeName();
-		HashMap<String, Formula> formulas = extractFormulas(brickNode);
-
-		BrickInfo brickInfo = brickInfoMap.get(brickNodeName);
-		if (brickInfo != null) {
-			try {
-				Class<?> brickClass = Class.forName(brickInfo.getBrickClassName());
-				FormulaBrick formulaBrick = (FormulaBrick) brickClass.newInstance();
-				replaceFormulaMap(formulaBrick, brickInfo, formulas);
-				brickXML = toXML(formulaBrick);
-			} catch (ClassNotFoundException exception) {
-				Log.e(TAG, "Brick class not found", exception);
-			} catch (InstantiationException exception) {
-				Log.e(TAG, "Instantiation error", exception);
-			} catch (IllegalAccessException exception) {
-				Log.e(TAG, "Illegal access to class", exception);
-			}
-		}
-
-		return brickXML;
-	}
-
-	private HashMap<String, Formula> extractFormulas(Node brickNode) {
-		HashMap<String, Formula> formulas = new HashMap<String, Formula>();
-		NodeList childNodes = brickNode.getChildNodes();
-		for (int index = 0; index < childNodes.getLength(); index++) {
-			Node node = childNodes.item(index);
-			Node childNode = node.getFirstChild();
-			if (childNode != null && childNode.getNodeName().equals("formulaTree")) {
-				try {
-					StringWriter writer = new StringWriter();
-					DOMSource formulaElementSource = new DOMSource(childNode);
-					serializer.transform(formulaElementSource, new StreamResult(writer));
-					String xmlString = writer.toString();
-
-					FormulaElement formulaElement = (FormulaElement) fromXML(xmlString);
-					Formula formula = new Formula(formulaElement);
-					formulas.put(node.getNodeName(), formula);
-				} catch (TransformerConfigurationException exception) {
-					Log.e(TAG, "Serializer configuration error", exception);
-				} catch (TransformerFactoryConfigurationError exception) {
-					Log.e(TAG, "Serializer factory configuration error", exception);
-				} catch (TransformerException exception) {
-					Log.e(TAG, "Serializer error", exception);
+	private Element findNodeByName(Node parentNode, String nodeName) {
+		NodeList childNodes = parentNode.getChildNodes();
+		if (childNodes != null) {
+			for (int i = 0; i < childNodes.getLength(); i++) {
+				if (childNodes.item(i).getNodeName().equals(nodeName)) {
+					return (Element) childNodes.item(i);
 				}
 			}
 		}
-		return formulas;
+		return null;
 	}
 
-	private void replaceFormulaMap(FormulaBrick formulaBrick, BrickInfo brickInfo, HashMap<String, Formula> formulaMap) {
-		for (String oldFormulaNode : formulaMap.keySet()) {
-			Formula formula = formulaMap.get(oldFormulaNode);
-			BrickField brickField = brickInfo.getBrickFieldForOldFieldName(oldFormulaNode);
+	private void deleteChildNodeByName(Node parentNode, String childNodeName) {
+		Node node = findNodeByName(parentNode, childNodeName);
+		if (node != null) {
+			parentNode.removeChild(node);
+		}
+	}
 
-			if (formula == null) {
-				throw new IllegalArgumentException(oldFormulaNode + " node not found");
-			} else if (brickField == null) {
-				throw new IllegalArgumentException("Brick field for " + oldFormulaNode + " not found");
-			} else {
-				formulaBrick.setFormulaWithBrickField(brickField, formula);
+	private void deleteChildNodeByName(Document doc, String listNodeName, String childNodeName) {
+		NodeList nodeList = doc.getElementsByTagName(listNodeName);
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node node = nodeList.item(i);
+			if (node.hasChildNodes()) {
+				NodeList childNodes = node.getChildNodes();
+				for (int j = 0; j < childNodes.getLength(); j++) {
+					deleteChildNodeByName(childNodes.item(j), childNodeName);
+				}
 			}
 		}
+	}
+
+	private void copyAttributesIfAny(Node sourceNode, Element destinationNode) {
+		NamedNodeMap namedNodeMap = sourceNode.getAttributes();
+		for (int i = 0; i < namedNodeMap.getLength(); i++) {
+			Attr node = (Attr) namedNodeMap.item(i);
+			destinationNode.setAttributeNS(node.getNamespaceURI(), node.getName(), node.getValue());
+		}
+	}
+
+	private void convertChildNodeToAttribute(Document doc, String parentNodeName, String childNodeName) {
+		NodeList nodeList = doc.getElementsByTagName(parentNodeName);
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node node = nodeList.item(i);
+			Node childNode = findNodeByName(node, childNodeName);
+			if (childNode != null && node instanceof  Element) {
+				Element elem = (Element) node;
+				elem.setAttribute(childNodeName, childNode.getTextContent());
+				node.removeChild(childNode);
+			}
+		}
+	}
+
+	private void renameAllNodes(Document doc, String oldNodeName, String newNodeName) {
+		NodeList nodeList = doc.getElementsByTagName(oldNodeName);
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node node = nodeList.item(i);
+			doc.renameNode(node, node.getNamespaceURI(), newNodeName);
+		}
+	}
+
+	private void modifyBrickLists(Document doc) {
+		NodeList brickListNodeList = doc.getElementsByTagName("brickList");
+		for (int i = 0; i < brickListNodeList.getLength(); i++) {
+			Node brickListNode = brickListNodeList.item(i);
+			if (brickListNode.hasChildNodes()) {
+				NodeList brickListChildNodes = brickListNode.getChildNodes();
+				for (int j = 0; j < brickListChildNodes.getLength(); j++) {
+					Node brickNode = brickListChildNodes.item(j);
+					Element newBrickNode = doc.createElement("brick");
+
+					BrickInfo brickInfo = brickInfoMap.get(brickNode.getNodeName());
+					if (brickInfo != null) {
+						newBrickNode.setAttribute("type", brickInfo.brickClassName);
+						copyAttributesIfAny(brickNode, newBrickNode);
+
+						NodeList brickChildNodes = brickNode.getChildNodes();
+						for (int l = 0; l < brickChildNodes.getLength(); l++) {
+							Element brickChild = (Element) brickChildNodes.item(l);
+
+							if (brickInfo.getBrickFieldForOldFieldName(brickChild.getNodeName()) != null) {
+								handleFormulaNode(doc, brickInfo, newBrickNode, brickChild);
+							} else if (brickChild.getNodeName().equals("userVariable")) {
+								handleUserVariableNode(newBrickNode, brickChild);
+							} else if (brickChild.getNodeName().equals("loopEndBrick")) {
+								handleLoopEndNode(newBrickNode, brickChild);
+							} else if (brickChild.getNodeName().equals("ifElseBrick")) {
+								handleIfElseNode(newBrickNode, brickChild);
+							} else {
+								newBrickNode.appendChild(brickChild);
+							}
+						}
+						brickListNode.replaceChild(newBrickNode, brickNode);
+					} else {
+						Log.e(TAG, brickNode.getNodeName() + " brick cannot be converted to new structure");
+					}
+				}
+			}
+		}
+	}
+
+	private void handleFormulaNode(Document doc, BrickInfo brickInfo, Element parentNode, Element node) {
+		Node formulaListNode = findNodeByName(parentNode, "formulaList");
+		if (formulaListNode == null) {
+			formulaListNode = doc.createElement("formulaList");
+			parentNode.appendChild(formulaListNode);
+		}
+
+		Element formulaNode = findNodeByName(node, "formulaTree");
+		doc.renameNode(formulaNode, formulaNode.getNamespaceURI(), "formula");
+		formulaNode.setAttribute("category", brickInfo.getBrickFieldForOldFieldName(node.getNodeName()).toString());
+		formulaListNode.appendChild(formulaNode);
+	}
+
+	private void handleUserVariableNode(Element parentNode, Element userVariableNode) {
+		if (userVariableNode.hasAttribute("reference")) {
+			parentNode.setAttribute("userVariable", getUserVariableByReference(userVariableNode,
+					userVariableNode.getAttribute("reference")));
+		} else {
+			parentNode.setAttribute("userVariable", findNodeByName(userVariableNode, "name").getTextContent());
+		}
+	}
+
+	private void handleLoopEndNode(Element parentNode, Element loopEndNode) {
+		String type = loopEndNode.hasAttribute("class") ? loopEndNode.getAttribute("class") : "loopEndBrick";
+		loopEndNode.removeAttribute("class");
+		loopEndNode.setAttribute("type", brickInfoMap.get(type).getBrickClassName());
+		deleteChildNodeByName(loopEndNode, "sprite");
+		Element loopBeginNode = findNodeByName(loopEndNode, "loopBeginBrick");
+		loopBeginNode.removeAttribute("class");
+		parentNode.appendChild(loopEndNode);
+	}
+
+	private void handleIfElseNode(Element parentNode, Element ifElseNode) {
+		deleteChildNodeByName(ifElseNode, "sprite");
+		deleteChildNodeByName(findNodeByName(ifElseNode, "ifEndBrick"), "sprite");
+		parentNode.appendChild(ifElseNode);
+	}
+
+	private void modifyUserVariables(Document doc) {
+		NodeList nodeList = doc.getElementsByTagName("userVariable");
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Element node = (Element) nodeList.item(i);
+			if (node.hasAttribute("reference")) {
+				String userVariable = getUserVariableByReference(node, node.getAttribute("reference"));
+				node.removeAttribute("reference");
+				node.setTextContent(userVariable);
+			} else {
+				Node nameNode = findNodeByName(node, "name");
+				if (nameNode != null) {
+					node.removeChild(nameNode);
+					node.setTextContent(node.getTextContent());
+				}
+			}
+		}
+	}
+
+	private String getUserVariableByReference(Node userVariableNode, String reference) {
+		String[] parts = reference.split("/");
+		Node node = userVariableNode;
+		for (int i = 0; i < parts.length - 1; i++) {
+			if (parts[i].equals("..")) {
+				node = node.getParentNode();
+			} else {
+				int position = 0;
+				String nodeName = parts[i];
+				if (parts[i].endsWith("]")) {
+					nodeName = parts[i].substring(0, parts[i].indexOf('['));
+					position = Integer.parseInt(parts[i].substring(parts[i].indexOf('[') + 1, parts[i].indexOf(']'))) - 1;
+				}
+
+				if (nodeName.equals("objectList")) {
+					nodeName = "sprites";
+				} else if (nodeName.equals("object")) {
+					nodeName = "sprite";
+				}
+
+				int occurrence = 0;
+				NodeList childNodes = node.getChildNodes();
+				for (int j = 0; j < childNodes.getLength(); j++) {
+					Element childNode = (Element) childNodes.item(j);
+
+					if (childNode.getNodeName().equals(nodeName)) {
+						if (occurrence == position) {
+							node = childNode;
+							break;
+						} else {
+							occurrence++;
+						}
+					} else if (childNode.hasAttribute("type") &&
+							childNode.getAttribute("type").equals(brickInfoMap.get(nodeName).getBrickClassName())) {
+						if (occurrence == position) {
+							node = childNode;
+							break;
+						} else {
+							occurrence++;
+						}
+					}
+				}
+			}
+		}
+
+		Element elem = (Element) node;
+		if (elem.hasAttribute("userVariable")) {
+			return elem.getAttribute("userVariable");
+		}
+		return null;
+	}
+
+	private void checkReferences(Element node) {
+		if (node.hasAttribute("reference")) {
+			node.setAttribute("reference", getValidReference(node, node.getAttribute("reference")));
+		}
+
+		NodeList childNodes = node.getChildNodes();
+		if (childNodes != null) {
+			for (int i = 0; i < childNodes.getLength(); i++) {
+				Node childNode = childNodes.item(i);
+				if (childNode instanceof Element) {
+					checkReferences((Element) childNode);
+				}
+			}
+		}
+	}
+
+	private String getValidReference(Node brickNode, String reference) {
+		String[] parts = reference.split("/");
+		Node node = brickNode;
+		for (int i = 0; i < parts.length; i++) {
+			if (parts[i].equals("..")) {
+				node = node.getParentNode();
+			} else {
+				int position = 0;
+				String nodeName = parts[i];
+				if (parts[i].endsWith("]")) {
+					nodeName = parts[i].substring(0, parts[i].indexOf('['));
+					position = Integer.parseInt(parts[i].substring(parts[i].indexOf('[') + 1, parts[i].indexOf(']'))) - 1;
+				}
+
+				if (nodeName.equals("objectList")) {
+					nodeName = "sprites";
+					parts[i] = nodeName;
+				} else if (nodeName.equals("object")) {
+					nodeName = "sprite";
+					if (position == 0) {
+						parts[i] = nodeName;
+					} else {
+						parts[i] = nodeName + "[" + (position+1) + "]";
+					}
+				}
+
+				int occurrence = 0;
+				NodeList childNodes = node.getChildNodes();
+				for (int j = 0; j < childNodes.getLength(); j++) {
+					Element childNode = (Element) childNodes.item(j);
+
+					if (childNode.getNodeName().equals(nodeName)) {
+						if (occurrence == position) {
+							node = childNode;
+							break;
+						} else {
+							occurrence++;
+						}
+					} else if (childNode.hasAttribute("type") &&
+							childNode.getAttribute("type").equals(brickInfoMap.get(nodeName).getBrickClassName())) {
+						if (occurrence == position) {
+							parts[i] = "brick[" + (j+1) + "]";
+							node = childNode;
+							break;
+						} else {
+							occurrence++;
+						}
+					}
+				}
+			}
+		}
+
+		return generateReference(parts);
+	}
+
+	private String generateReference(String[] referenceParts) {
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < referenceParts.length; i++) {
+			builder.append(referenceParts[i]);
+			if (i != referenceParts.length - 1) {
+				builder.append('/');
+			}
+		}
+		return builder.toString();
 	}
 
 	private class BrickInfo {

@@ -120,6 +120,14 @@ public class Formula implements Serializable {
 		formulaTextFieldId = id;
 	}
 
+	public void setFormulaTree(FormulaElement formulaTree) {
+		this.formulaTree = formulaTree;
+	}
+
+	public FormulaElement getFormulaTree() {
+		return formulaTree;
+	}
+
 	public String getDisplayString(Context context) {
 		if (displayText != null) {
 			return displayText;
