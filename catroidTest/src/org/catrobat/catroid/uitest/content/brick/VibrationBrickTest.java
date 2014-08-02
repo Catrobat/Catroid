@@ -61,27 +61,18 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 
 	@Override
 	protected void setUp() throws Exception {
-
 		createProject();
-		super.setUp();
-
-		// create server connection
 		SensorTestServerConnection.connectToArduinoServer();
-
-		// disable touch screen while testing
 		setActivityInitialTouchMode(false);
-
-		Log.d(TAG, "setUp() - no flash led available");
-
+		SensorTestServerConnection.closeConnection();
+		super.setUp();
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		super.tearDown();
-
 		SensorTestServerConnection.closeConnection();
-
 		setActivityInitialTouchMode(true);
+		super.tearDown();
 	}
 
 	@Device
@@ -109,16 +100,14 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 
-		solo.sleep(3000);
+		solo.sleep(WLAN_DELAY_MS);
 		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_ON_VALUE);
 		solo.sleep(WLAN_DELAY_MS);
 
-		Log.d(TAG, "sleep two seconds. the phone should have stopped vibrating");
+		Log.d(TAG, "sleep four seconds. the phone should have stopped vibrating");
 
-		solo.sleep(2000);
+		solo.sleep(4000);
 		Log.d(TAG, "checking vibration sensor value");
-		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_OFF_VALUE);
-		solo.sleep(WLAN_DELAY_MS);
 		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_OFF_VALUE);
 		solo.sleep(WLAN_DELAY_MS);
 
@@ -167,5 +156,4 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(startScript);
 	}
-
 }
