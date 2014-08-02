@@ -113,22 +113,6 @@ public class PreStageActivity extends BaseActivity {
 			droneInitializer.initialise();
 		}
 
-		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
-			if (legoNXT == null) {
-				startBluetoothCommunication(true, Brick.BLUETOOTH_LEGO_NXT);
-			} else {
-				resourceInitialized();
-			}
-		}
-
-		if ((requiredResources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
-			if (arduino == null) {
-				startBluetoothCommunication(true, Brick.BLUETOOTH_SENSORS_ARDUINO);
-			} else {
-				resourceInitialized();
-			}
-		}
-
 		FaceDetectionHandler.resetFaceDedection();
 		if ((requiredResources & Brick.FACE_DETECTION) > 0) {
 			boolean success = FaceDetectionHandler.startFaceDetection(this);
@@ -165,6 +149,22 @@ public class PreStageActivity extends BaseActivity {
 			} else {
 				Toast.makeText(PreStageActivity.this, R.string.no_vibrator_available, Toast.LENGTH_LONG).show();
 				resourceFailed();
+			}
+		}
+
+		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
+			if (legoNXT == null) {
+				startBluetoothCommunication(true, Brick.BLUETOOTH_LEGO_NXT);
+			} else {
+				resourceInitialized();
+			}
+		}
+
+		if ((requiredResources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
+			if (arduino == null) {
+				startBluetoothCommunication(true, Brick.BLUETOOTH_SENSORS_ARDUINO);
+			} else {
+				resourceInitialized();
 			}
 		}
 
