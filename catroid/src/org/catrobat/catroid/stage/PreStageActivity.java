@@ -45,7 +45,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.arduino.Arduino;
 import org.catrobat.catroid.arduino.ArduinoBtCommunicator;
 import org.catrobat.catroid.arduino.ArduinoReadPinData;
-import org.catrobat.catroid.bluetooth.BluetoothManager;
 import org.catrobat.catroid.bluetooth.DeviceListActivity;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.Constants;
@@ -109,47 +108,6 @@ public class PreStageActivity extends BaseActivity {
 			startActivityForResult(checkIntent, REQUEST_TEXT_TO_SPEECH);
 		}
 
-		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
-			BluetoothManager bluetoothManager = new BluetoothManager(this);
-
-			int bluetoothState = bluetoothManager.activateBluetooth();
-			if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED) {
-
-				Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
-				resourceFailed();
-			} else if (bluetoothState == BluetoothManager.BLUETOOTH_ALREADY_ON) {
-				if (legoNXT == null) {
-					startBluetoothCommunication(true);
-				} else {
-					resourceInitialized();
-				}
-			}
-		}
-
-		if ((requiredResources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
-			BluetoothManager bluetoothManager = new BluetoothManager(this);
-
-			int bluetoothState = bluetoothManager.activateBluetooth();
-			if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED) {
-				//is this correct here?!?
-				ArduinoReadPinData sensor = ArduinoReadPinData.getArduinoSensorInstance();
-				sensor.setBooleanArduinoBricks(false);
-
-				Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
-				resourceFailed();
-			} else if (bluetoothState == BluetoothManager.BLUETOOTH_ALREADY_ON) {
-				//is this correct here?!?
-				ArduinoReadPinData sensor = ArduinoReadPinData.getArduinoSensorInstance();
-				sensor.setBooleanArduinoBricks(true);
-
-				if (arduino == null) {
-					startBluetoothCommunication(true);
-				} else {
-					resourceInitialized();
-				}
-			}
-		}
-
 		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
 			droneInitializer = getDroneInitializer();
 			droneInitializer.initialise();
@@ -191,6 +149,22 @@ public class PreStageActivity extends BaseActivity {
 			} else {
 				Toast.makeText(PreStageActivity.this, R.string.no_vibrator_available, Toast.LENGTH_LONG).show();
 				resourceFailed();
+			}
+		}
+
+		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
+			if (legoNXT == null) {
+				startBluetoothCommunication(true, Brick.BLUETOOTH_LEGO_NXT);
+			} else {
+				resourceInitialized();
+			}
+		}
+
+		if ((requiredResources & Brick.BLUETOOTH_SENSORS_ARDUINO) > 0) {
+			if (arduino == null) {
+				startBluetoothCommunication(true, Brick.BLUETOOTH_SENSORS_ARDUINO);
+			} else {
+				resourceInitialized();
 			}
 		}
 
@@ -339,11 +313,13 @@ public class PreStageActivity extends BaseActivity {
 		finish();
 	}
 
-	private void startBluetoothCommunication(boolean autoConnect) {
+	private void startBluetoothCommunication(boolean autoConnect, int bluetoothDevice) {
+		Log.d("PreStageActivity","startBluetoothCommunication with device = " + bluetoothDevice);
 		connectingProgressDialog = ProgressDialog.show(this, "",
 				getResources().getString(R.string.connecting_please_wait), true);
 		Intent serverIntent = new Intent(this, DeviceListActivity.class);
 		serverIntent.putExtra(DeviceListActivity.AUTO_CONNECT, autoConnect);
+		serverIntent.putExtra(DeviceListActivity.BLUETOOTH_DEVICE, bluetoothDevice);
 		this.startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
 	}
 
@@ -363,42 +339,51 @@ public class PreStageActivity extends BaseActivity {
 		Log.i("bt", "requestcode " + requestCode + " result code" + resultCode);
 
 		switch (requestCode) {
-			case REQUEST_ENABLE_BLUETOOTH:
-				switch (resultCode) {
-					case Activity.RESULT_OK:
-						startBluetoothCommunication(true);
-						break;
-					case Activity.RESULT_CANCELED:
-						Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG)
-								.show();
-						resourceFailed();
-						break;
-				}
-				break;
-
 			case REQUEST_CONNECT_DEVICE:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
-						/*
-						legoNXT = new LegoNXT(this, recieveHandler);
-						String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
-						autoConnect = data.getExtras().getBoolean(DeviceListActivity.AUTO_CONNECT);
-						legoNXT.startBTCommunicator(address);
-						*/
-						//check if this is correct
-						if(ProjectManager.getInstance().getCurrentProject().containsArduinoBricks()) {
-							arduino = new Arduino(this, recieveHandler);
-							String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
-							autoConnect = data.getExtras().getBoolean(DeviceListActivity.AUTO_CONNECT);
-							arduino.startBTCommunicator(address);
+						Log.d("Prestage", "RESULT_OK");
+						int bluetoothDeviceConstant = data.getExtras().getInt(DeviceListActivity.BLUETOOTH_DEVICE);
+						switch (bluetoothDeviceConstant) {
+							//check if this is correct
+							case Brick.BLUETOOTH_SENSORS_ARDUINO:
+								Log.d("Prestage", "BLUETOOTH_SENSORS_ARDUINO");
+								arduino = new Arduino(this, recieveHandler);
+								String addressArduino = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+								autoConnect = data.getExtras().getBoolean(DeviceListActivity.AUTO_CONNECT);
+								Log.d("Prestage", "Before startBtCommunicator(address)");
+								arduino.startBTCommunicator(addressArduino);
+								Log.d("Prestage", "After startBtCommunicator(address)");
+								break;
+							case Brick.BLUETOOTH_LEGO_NXT:
+								Log.d("Prestage", "BLUETOOTH_LEGO_NXT");
+								legoNXT = new LegoNXT(this, recieveHandler);
+								String addressLego = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+								autoConnect = data.getExtras().getBoolean(DeviceListActivity.AUTO_CONNECT);
+								legoNXT.startBTCommunicator(addressLego);
+								break;
+							default:
+								Log.d("Prestage", "BLUETOOTH_DEVICE_UNKNOWN, deviceConstant was = " + bluetoothDeviceConstant);
+								break;
 						}
 						break;
 
-					case Activity.RESULT_CANCELED:
-						connectingProgressDialog.dismiss();
-						Toast.makeText(PreStageActivity.this, R.string.bt_connection_failed, Toast.LENGTH_LONG).show();
+						case Activity.RESULT_CANCELED:
+							connectingProgressDialog.dismiss();
+							Toast.makeText(PreStageActivity.this, R.string.bt_connection_failed, Toast.LENGTH_LONG).show();
+							resourceFailed();
+							break;
+
+					case DeviceListActivity.BLUETOOTH_ACTIVATION_CANCELED:
+						Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
 						resourceFailed();
 						break;
+
+					case DeviceListActivity.BLUETOOTH_NOT_SUPPORTED:
+						Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
+						resourceFailed();
+						break;
+
 				}
 				break;
 
@@ -487,10 +472,15 @@ public class PreStageActivity extends BaseActivity {
 					legoNXT.destroyCommunicator();
 					legoNXT = null;
 					if (autoConnect) {
-						startBluetoothCommunication(false);
+						startBluetoothCommunication(false, Brick.BLUETOOTH_LEGO_NXT);
 					} else {
 						resourceFailed();
 					}
+					break;
+				case ArduinoBtCommunicator.STATE_CONNECTED:
+					//autoConnect = false;
+					connectingProgressDialog.dismiss();
+					resourceInitialized();
 					break;
 				case ArduinoBtCommunicator.STATE_CONNECTERROR:
 					Toast.makeText(PreStageActivity.this, R.string.bt_connection_failed, Toast.LENGTH_SHORT).show();
@@ -498,7 +488,7 @@ public class PreStageActivity extends BaseActivity {
 					arduino.destroyCommunicator();
 					arduino = null;
 					if (autoConnect) {
-						startBluetoothCommunication(false);
+						startBluetoothCommunication(false, Brick.BLUETOOTH_LEGO_NXT);
 					} else {
 						resourceFailed();
 					}
