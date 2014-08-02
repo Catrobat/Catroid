@@ -336,6 +336,11 @@ public class NewSpriteDialog extends DialogFragment {
 			Utils.showErrorDialog(getActivity(), R.string.error_load_image);
 			Log.e(TAG, Log.getStackTraceString(ioException));
 			return false;
+		} catch (NullPointerException e) {
+			Utils.showErrorDialog(getActivity(), R.string.error_load_image);
+			Log.e(TAG, "somebody might have selected an image and deleted it before it was added");
+			Log.e(TAG, Log.getStackTraceString(e));
+			return false;
 		}
 
 		sprite.getLookDataList().add(lookData);
