@@ -92,7 +92,7 @@ public class ArduinoBtCommunicator extends ArduinoCommunicator {
 					break;
 				case ERROR_NOT_BONDED:
 				case ERROR_STILL_BONDING:
-					sendToast(resources.getString(R.string.no_paired_nxt));
+					sendToast(resources.getString(R.string.no_paired_nxt)); //change stringS
 				default:
 					sendState(STATE_CONNECTERROR);
 					throw new IOException("Bluetooth connecting error " + state.name());
