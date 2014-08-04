@@ -38,7 +38,6 @@ public class CollisionScript extends BroadcastScript {
 		if (brick == null) {
 			brick = new CollisionReceiverBrick(object, this);
 		}
-
 		return brick;
 	}
 

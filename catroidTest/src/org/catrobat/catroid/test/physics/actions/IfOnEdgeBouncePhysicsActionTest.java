@@ -46,6 +46,7 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsActionTestCase {
 	}
 
 	public void testNormalBehavior() {
+
 		assertTrue("getLookData is null", sprite.look.getLookData() != null);
 
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
@@ -85,6 +86,7 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsActionTestCase {
 
 		assertTrue("Unexpected Y-value", sprite.look.getY() == setYValue);
 		assertTrue("Unexpected velocity-Y-value", physicsObject.getVelocity().y == setVelocityYValue);
+
 
 		ActionFactory factory = sprite.getActionFactory();
 		Action ifOnEdgeBouncePhysicsAction = factory.createIfOnEdgeBounceAction(sprite);

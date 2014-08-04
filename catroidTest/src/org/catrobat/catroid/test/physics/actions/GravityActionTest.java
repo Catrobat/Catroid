@@ -67,7 +67,7 @@ public class GravityActionTest extends PhysicsActionTestCase {
 			float postYCoordinate = physicsObject.getY();
 			float postVelocityYValue = physicsObject.getVelocity().y;
 
-			assertTrue("post y-coordinate (" + postYCoordinate + ") is higher than pre y-coordinate (" + preYCoordinate + "), should be lower!", postYCoordinate < preYCoordinate );
+			assertTrue("post y-coordinate (" + postYCoordinate + ") is higher than pre y-coordinate (" + preYCoordinate + "), should be lower!", postYCoordinate < preYCoordinate);
 			assertTrue("post velocity.y (" + postVelocityYValue + ") is higher than pre velocity.y (" + preVelocityYValue + "), should be lower!", postVelocityYValue < preVelocityYValue);
 
 			preYCoordinate = postYCoordinate;
@@ -93,9 +93,8 @@ public class GravityActionTest extends PhysicsActionTestCase {
 		float yCoordinateAfterFirstStep = physicsObject.getY();
 		float postVelocityYValue = physicsObject.getVelocity().y;
 
-		assertTrue("after first step y-coordinate (" + yCoordinateAfterFirstStep + ") is lower than start y-coordinate (" + startYCoordinate + "), should be higher!", yCoordinateAfterFirstStep > startYCoordinate );
+		assertTrue("after first step y-coordinate (" + yCoordinateAfterFirstStep + ") is lower than start y-coordinate (" + startYCoordinate + "), should be higher!", yCoordinateAfterFirstStep > startYCoordinate);
 		assertTrue("post velocity.y (" + postVelocityYValue + ") is higher than initial value (" + preVelocityYValue + "), should be lower!", postVelocityYValue < preVelocityYValue);
-
 
 
 		for (int step = 1; step < TEST_STEP_COUNT; step++) {
@@ -113,7 +112,7 @@ public class GravityActionTest extends PhysicsActionTestCase {
 
 		float yCoordinateAfterLastStep = physicsObject.getY();
 
-		assertTrue("after last step y-coordinate (" + yCoordinateAfterLastStep + ") is higher than start y-coordinate (" + startYCoordinate + "), should be lower!", yCoordinateAfterLastStep < startYCoordinate );
+		assertTrue("after last step y-coordinate (" + yCoordinateAfterLastStep + ") is higher than start y-coordinate (" + startYCoordinate + "), should be lower!", yCoordinateAfterLastStep < startYCoordinate);
 
 	}
 
