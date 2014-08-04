@@ -54,9 +54,9 @@ public class SetXBrick extends FormulaBrick {
 		addAllowedBrickField(BrickField.X_POSITION);
 	}
 
-	//public SetXBrick(int xPositionValue) {
-	//	initializeBrickFields(new Formula(xPositionValue));
-	//}
+	public SetXBrick(int xPositionValue) {
+		initializeBrickFields(new Formula(xPositionValue));
+	}
 
 	public SetXBrick(Formula xPosition) {
 		initializeBrickFields(xPosition);

@@ -24,6 +24,12 @@ package org.catrobat.catroid.test.physics.actions;
 
 import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.World;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
@@ -34,6 +40,7 @@ import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.test.R;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 
 import java.io.File;
@@ -46,6 +53,8 @@ public class PhysicsActionTestCase extends InstrumentationTestCase {
 	private Project project;
 	private String rectangle125x125FileName;
 	protected File rectangle125x125File;
+	protected final int lookHeigth = 125;
+	protected final int lookWith = 125;
 	private static final int RECTANGLE125X125_RES_ID = R.raw.rectangle_125x125;
 
 	@Override
@@ -92,6 +101,48 @@ public class PhysicsActionTestCase extends InstrumentationTestCase {
 		for (int index = 0; index < PhysicsWorld.STABILIZING_STEPS; index++) {
 			physicsWorld.step(0.0f);
 		}
+	}
+
+	protected void simulate(int steps) {
+		for (int i = 0; i < steps; i++) {
+			physicsWorld.step(0.5f);
+		}
+	}
+
+	protected void contactBegin() {
+	}
+
+	protected void contactEnd() {
+	}
+
+	protected void contactPreSolve() {
+	}
+
+	protected void contactPostSolve() {
+	}
+
+	protected void setContactListener() {
+		((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world")).setContactListener(new ContactListener() {
+			@Override
+			public void beginContact(Contact contact) {
+				contactBegin();
+			}
+
+			@Override
+			public void endContact(Contact contact) {
+				contactEnd();
+			}
+
+			@Override
+			public void preSolve(Contact contact, Manifold oldManifold) {
+				contactPreSolve();
+			}
+
+			@Override
+			public void postSolve(Contact contact, ContactImpulse impulse) {
+				contactPostSolve();
+			}
+		});
 	}
 
 }

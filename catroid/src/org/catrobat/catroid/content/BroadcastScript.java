@@ -64,7 +64,6 @@ public class BroadcastScript extends Script implements BroadcastMessage {
 		MessageContainer.removeReceiverScript(this.receivedMessage, this);
 		this.receivedMessage = broadcastMessage;
 		MessageContainer.addMessage(this.receivedMessage, this);
-
 	}
 
 	@Override
