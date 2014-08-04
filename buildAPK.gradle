@@ -75,3 +75,4 @@ gradle.projectsEvaluated {
 
 task assembleDebugTest(dependsOn: ':assembleCatroidDebugTest') << {}
 task commandlineAdbInstallDebug(dependsOn: ':commandlineAdbInstallCatroidDebug') << {}
+task commandlineAdbInstallDebugTest(dependsOn: 'commandlineAdbInstallCatroidDebugTest') << {}
