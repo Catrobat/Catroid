@@ -73,7 +73,6 @@ gradle.projectsEvaluated {
     assembleStandaloneDebug.mustRunAfter buildStandalone
 }
 
-task assembleDebugTest(dependsOn: ':assembleCatroidDebugTest') << {}
 task commandlineAdbInstallDebug(dependsOn: ':commandlineAdbInstallCatroidDebug') << {}
 task commandlineAdbInstallDebugTest(dependsOn: 'commandlineAdbInstallCatroidDebugTest') << {}
 task assembleDebugTest(dependsOn: ':assembleCatroidDebugTest') << {}
