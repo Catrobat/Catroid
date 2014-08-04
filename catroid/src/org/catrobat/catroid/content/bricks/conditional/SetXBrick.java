@@ -61,7 +61,6 @@ public class SetXBrick extends BrickBaseType implements OnClickListener, Formula
 //	}
 
 	public SetXBrick() {
-
 	}
 
 	@Override
@@ -158,7 +157,7 @@ public class SetXBrick extends BrickBaseType implements OnClickListener, Formula
 
 	@Override
 	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSetXAction(sprite, xPosition)); //TODO[physics]:
+		sequence.addAction(sprite.getActionFactory().createSetXAction(sprite, xPosition));
 		return null;
 	}
 }
