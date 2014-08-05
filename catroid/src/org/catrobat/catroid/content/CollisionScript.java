@@ -48,11 +48,11 @@ public class CollisionScript extends BroadcastScript {
 
 	@Override
 	public Script copyScriptForSprite(Sprite copySprite) {
-		CollisionScript cloneScript = new CollisionScript(copySprite, receivedMessage);
+		CollisionScript cloneScript = new CollisionScript(receivedMessage);
 		ArrayList<Brick> cloneBrickList = cloneScript.getBrickList();
 
 		for (Brick brick : getBrickList()) {
-			Brick copiedBrick = brick.copyBrickForSprite(copySprite, cloneScript);
+			Brick copiedBrick = brick.copyBrickForSprite(copySprite);
 			if (copiedBrick instanceof IfLogicEndBrick) {
 				setIfBrickReferences((IfLogicEndBrick) copiedBrick, (IfLogicEndBrick) brick);
 			} else if (copiedBrick instanceof LoopEndBrick) {
