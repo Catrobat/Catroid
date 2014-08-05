@@ -124,9 +124,8 @@ public final class StandardProjectHandler {
 				R.drawable.default_project_background, context);
 
 		File backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background, context, true,
-				backgroundImageScaleFactor
-		);
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background, context, true,
+				backgroundImageScaleFactor);
 
 		LookData backgroundLookData = new LookData();
 		backgroundLookData.setLookName(backgroundName);
@@ -148,34 +147,31 @@ public final class StandardProjectHandler {
 		String takeOffSpriteName = context.getString(R.string.default_drone_project_sprites_takeoff);
 
 		File takeOffArrowFile = UtilFile.copyImageFromResourceIntoProject(projectName, takeOffSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_takeoff, context, true,
-				backgroundImageScaleFactor
-		);
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_takeoff, context, true,
+				backgroundImageScaleFactor);
 
-		defaultDroneProject.addSprite(createDroneSprite(takeOffSpriteName,
-				DroneBrickFactory.DroneBricks.DRONE_TAKE_OFF_BRICK, -260, -200, takeOffArrowFile));
+		defaultDroneProject.addSprite(createDroneSprite(takeOffSpriteName, DroneBrickFactory.DroneBricks.DRONE_TAKE_OFF_BRICK,
+				-260, -200, takeOffArrowFile));
 
 		//land Sprite start
 		String landSpriteName = context.getString(R.string.default_drone_project_srpites_land);
 
 		File landArrowFile = UtilFile.copyImageFromResourceIntoProject(projectName, takeOffSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_land, context, true,
-				backgroundImageScaleFactor
-		);
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_land, context, true,
+				backgroundImageScaleFactor);
 
-		defaultDroneProject.addSprite(createDroneSprite(landSpriteName, DroneBrickFactory.DroneBricks.DRONE_LAND_BRICK,
-				-260, -325, landArrowFile));
+		defaultDroneProject.addSprite(createDroneSprite(landSpriteName, DroneBrickFactory.DroneBricks.DRONE_LAND_BRICK, -260,
+				-325, landArrowFile));
 
 		//rotate Sprite start
 		String rotateSpriteName = context.getString(R.string.default_drone_project_srpites_rotate);
 
 		File rotateFile = UtilFile.copyImageFromResourceIntoProject(projectName, rotateSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_rotate, context, true,
-				backgroundImageScaleFactor
-		);
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_rotate, context, true,
+				backgroundImageScaleFactor);
 
-		defaultDroneProject.addSprite(createDroneSprite(rotateSpriteName,
-				DroneBrickFactory.DroneBricks.DRONE_FLIP_BRICK, -260, -450, rotateFile));
+		defaultDroneProject.addSprite(createDroneSprite(rotateSpriteName, DroneBrickFactory.DroneBricks.DRONE_FLIP_BRICK,
+				-260, -450, rotateFile));
 
 		//Led Sprite
 		//TODO Drone: add when PlayLedAnimationBrick works
@@ -194,31 +190,28 @@ public final class StandardProjectHandler {
 		String upSpriteName = context.getString(R.string.default_drone_project_sprites_up);
 
 		File upFile = UtilFile.copyImageFromResourceIntoProject(projectName, upSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_arrow_up, context, true,
-				backgroundImageScaleFactor
-		);
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_arrow_up, context, true,
+				backgroundImageScaleFactor);
 
-		defaultDroneProject.addSprite(createDroneSprite(upSpriteName,
-				DroneBrickFactory.DroneBricks.DRONE_MOVE_UP_BRICK, -100, -200, upFile, 2000));
+		defaultDroneProject.addSprite(createDroneSprite(upSpriteName, DroneBrickFactory.DroneBricks.DRONE_MOVE_UP_BRICK, -100,
+				-200, upFile, 2000));
 
 		//Down Sprite
 		String downSpriteName = context.getString(R.string.default_drone_project_sprites_down);
 
 		File downFile = UtilFile.copyImageFromResourceIntoProject(projectName, downSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_arrow_down, context,
-				true, backgroundImageScaleFactor
-		);
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_arrow_down, context,
+				true, backgroundImageScaleFactor);
 
-		defaultDroneProject.addSprite(createDroneSprite(downSpriteName,
-				DroneBrickFactory.DroneBricks.DRONE_MOVE_DOWN_BRICK, -100, -325, downFile, 2000));
+		defaultDroneProject.addSprite(createDroneSprite(downSpriteName, DroneBrickFactory.DroneBricks.DRONE_MOVE_DOWN_BRICK,
+				-100, -325, downFile, 2000));
 
 		//Forward Sprite
 		String forwardSpriteName = context.getString(R.string.default_drone_project_sprites_forward);
 
 		File forwardFile = UtilFile.copyImageFromResourceIntoProject(projectName, forwardSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_forward, context,
-				true, backgroundImageScaleFactor
-		);
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_forward, context,
+				true, backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(forwardSpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_MOVE_FORWARD_BRICK, 180, -75, forwardFile, 2000));
@@ -227,9 +220,8 @@ public final class StandardProjectHandler {
 		String backwardpriteName = context.getString(R.string.default_drone_project_sprites_back);
 
 		File backwardFile = UtilFile.copyImageFromResourceIntoProject(projectName, downSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_back, context, true,
-				backgroundImageScaleFactor
-		);
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_back, context, true,
+				backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(backwardpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_MOVE_BACKWARD_BRICK, 180, -450, backwardFile, 2000));
@@ -238,31 +230,28 @@ public final class StandardProjectHandler {
 		String leftSpriteName = context.getString(R.string.default_drone_project_sprites_left);
 
 		File leftFile = UtilFile.copyImageFromResourceIntoProject(projectName, leftSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_left, context, true,
-				backgroundImageScaleFactor
-		);
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_left, context, true,
+				backgroundImageScaleFactor);
 
-		defaultDroneProject.addSprite(createDroneSprite(leftSpriteName,
-				DroneBrickFactory.DroneBricks.DRONE_MOVE_LEFT_BRICK, 100, -325, leftFile, 2000));
+		defaultDroneProject.addSprite(createDroneSprite(leftSpriteName, DroneBrickFactory.DroneBricks.DRONE_MOVE_LEFT_BRICK,
+				100, -325, leftFile, 2000));
 
 		//Right Sprite
 		String rightSpriteName = context.getString(R.string.default_drone_project_sprites_right);
 
 		File rightFile = UtilFile.copyImageFromResourceIntoProject(projectName, rightSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_right, context, true,
-				backgroundImageScaleFactor
-		);
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_right, context, true,
+				backgroundImageScaleFactor);
 
-		defaultDroneProject.addSprite(createDroneSprite(rightSpriteName,
-				DroneBrickFactory.DroneBricks.DRONE_MOVE_RIGHT_BRICK, 260, -325, rightFile, 2000));
+		defaultDroneProject.addSprite(createDroneSprite(rightSpriteName, DroneBrickFactory.DroneBricks.DRONE_MOVE_RIGHT_BRICK,
+				260, -325, rightFile, 2000));
 
 		//Turn Left Sprite
 		String turnLeftSpriteName = context.getString(R.string.default_drone_project_sprites_turn_left);
 
 		File turnLeftFile = UtilFile.copyImageFromResourceIntoProject(projectName, turnLeftSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_turn_left, context, true,
-				backgroundImageScaleFactor
-		);
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_turn_left, context, true,
+				backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(turnLeftSpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_TURN_LEFT_BRICK, 100, -200, turnLeftFile, 2000));
@@ -271,9 +260,8 @@ public final class StandardProjectHandler {
 		String turnRightSpriteName = context.getString(R.string.default_drone_project_sprites_turn_right);
 
 		File turnrightFile = UtilFile.copyImageFromResourceIntoProject(projectName, turnRightSpriteName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_turn_right, context,
-				true, backgroundImageScaleFactor
-		);
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_turn_right, context,
+				true, backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(turnRightSpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_TURN_RIGHT_BRICK, 260, -200, turnrightFile, 2000));
@@ -344,8 +332,7 @@ public final class StandardProjectHandler {
 		String varRandomTo = context.getString(R.string.default_project_var_random_to);
 
 		Project defaultProject = new Project(context, projectName);
-		defaultProject.getXmlHeader().virtualScreenWidth = 480;
-		defaultProject.getXmlHeader().virtualScreenHeight = 800;
+		defaultProject.setDeviceData(context); // density anywhere here
 		StorageHandler.getInstance().saveProject(defaultProject);
 		ProjectManager.getInstance().setProject(defaultProject);
 
@@ -353,21 +340,17 @@ public final class StandardProjectHandler {
 				R.drawable.default_project_background, context);
 
 		File backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background, context, true,
-				backgroundImageScaleFactor
-		);
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background, context, true,
+				backgroundImageScaleFactor);
 		File movingMoleFile = UtilFile.copyImageFromResourceIntoProject(projectName, movingMoleLookName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_mole_moving, context, true,
-				backgroundImageScaleFactor
-		);
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_mole_moving, context, true,
+				backgroundImageScaleFactor);
 		File diggedOutMoleFile = UtilFile.copyImageFromResourceIntoProject(projectName, moleLookName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_mole_digged_out, context, true,
-				backgroundImageScaleFactor
-		);
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_mole_digged_out, context, true,
+				backgroundImageScaleFactor);
 		File whackedMoleFile = UtilFile.copyImageFromResourceIntoProject(projectName, whackedMoleLookName
-						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_mole_whacked, context, true,
-				backgroundImageScaleFactor
-		);
+				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_mole_whacked, context, true,
+				backgroundImageScaleFactor);
 		try {
 			File soundFile1 = UtilFile.copySoundFromResourceIntoProject(projectName, soundName + "1"
 					+ SoundRecorder.RECORDING_EXTENSION, R.raw.default_project_sound_mole_1, context, true);
@@ -551,14 +534,14 @@ public final class StandardProjectHandler {
 			glideToBrick = (GlideToBrick) tempScript.getBrick(6);
 			glideToBrick.setXDestination(new Formula(calculateValueRelativeToScaledBackground(160)));
 			glideToBrick.setYDestination(new Formula(calculateValueRelativeToScaledBackground(-275)));
-
-			StorageHandler.getInstance().saveProject(defaultProject);
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new IOException(TAG, illegalArgumentException);
 		}
+
+		StorageHandler.getInstance().saveProject(defaultProject);
+
 		return defaultProject;
 	}
-
 	public static Project createAndSaveStandardPhysicsProject(String projectName, Context context) throws IOException {
 		String backgroundName = context.getString(R.string.default_project_backgroundname);
 
@@ -586,9 +569,9 @@ public final class StandardProjectHandler {
 
 		// Background sprite
 		backgroundSprite.getLookDataList().add(backgroundLookData);
-		Script backgroundStartScript = new StartScript(backgroundSprite);
+		Script backgroundStartScript = new StartScript();
 
-		SetLookBrick setLookBrick = new SetLookBrick(backgroundSprite);
+		SetLookBrick setLookBrick = new SetLookBrick();
 		setLookBrick.setLook(backgroundLookData);
 		backgroundStartScript.addBrick(setLookBrick);
 
@@ -596,25 +579,25 @@ public final class StandardProjectHandler {
 
 		// Square sprite
 		Sprite square = new Sprite("square");
-		StartScript startScriptSquare = new StartScript(square);
+		StartScript startScriptSquare = new StartScript();
 
 		Script squareStartScript = createElement(context, projectName, square, "square", R.drawable.square, new Vector2(0.0f, 400.0f),
 				Float.NaN);
-		squareStartScript.addBrick(new SetXBrick(square, 100));
-		squareStartScript.addBrick(new SetYBrick(square, -200));
-		squareStartScript.addBrick(new PointInDirectionBrick(square, 135.0));
+		squareStartScript.addBrick(new SetXBrick(100));
+		squareStartScript.addBrick(new SetYBrick(-200));
+		squareStartScript.addBrick(new PointInDirectionBrick(135.0));
 
 		defaultPhysicsProject.addSprite(square);
 
 		// Physics Square Sprite
 		Sprite squareP = new Sprite("square");
-		StartScript startScriptSquareP = new StartScript(squareP);
-		startScriptSquareP.addBrick(new SetGravityBrick(squareP, new Vector2(0.0f, -1.0f)));
+		StartScript startScriptSquareP = new StartScript();
+		startScriptSquareP.addBrick(new SetGravityBrick(new Vector2(0.0f, -1.0f)));
 		squareP.addScript(startScriptSquareP);
 
 		Script squareStartScriptP = createElement(context, projectName, squareP, "square", R.drawable.square, new Vector2(0.0f, 400.0f),
 				Float.NaN);
-		squareStartScriptP.addBrick(new PointInDirectionBrick(squareP, 225.0));
+		squareStartScriptP.addBrick(new PointInDirectionBrick(225.0));
 		setPhysicsProperties(squareP, squareStartScriptP, PhysicsObject.Type.DYNAMIC, 60.0f, 40.0f);
 
 		defaultPhysicsProject.addSprite(squareP);
@@ -653,8 +636,8 @@ public final class StandardProjectHandler {
 		createElement(context, projectName, background, "background_480_800", R.drawable.background_480_800, new Vector2(), Float.NaN);
 
 		// Ball
-		StartScript startScript = new StartScript(ball);
-		startScript.addBrick(new SetGravityBrick(ball, new Vector2(0.0f, -1.0f)));
+		StartScript startScript = new StartScript();
+		startScript.addBrick(new SetGravityBrick(new Vector2(0.0f, -1.0f)));
 		ball.addScript(startScript);
 
 		Script ballStartScript = createElement(context, projectName, ball, "pinball", R.drawable.pinball, new Vector2(0.0f, 250.0f),
@@ -663,21 +646,21 @@ public final class StandardProjectHandler {
 
 		//		// Ball v2
 		String ballBroadcastMessage = "restart ball";
-		BroadcastBrick ballBroadcastBrick = new BroadcastBrick(ball, ballBroadcastMessage);
+		BroadcastBrick ballBroadcastBrick = new BroadcastBrick(ballBroadcastMessage);
 		ballStartScript.addBrick(ballBroadcastBrick);
 		ball.addScript(ballStartScript);
 
-		BroadcastScript ballBroadcastScript = new BroadcastScript(ball, ballBroadcastMessage);
-		ballBroadcastScript.addBrick(new PlaceAtBrick(ball, -200, -50));
-		ballBroadcastScript.addBrick(new SetVelocityBrick(ball, new Vector2()));
-		SetLookBrick ballSetLookBrick = new SetLookBrick(ball);
+		BroadcastScript ballBroadcastScript = new BroadcastScript(ballBroadcastMessage);
+		ballBroadcastScript.addBrick(new PlaceAtBrick(-200, -50));
+		ballBroadcastScript.addBrick(new SetVelocityBrick(new Vector2()));
+		SetLookBrick ballSetLookBrick = new SetLookBrick();
 		ballSetLookBrick.setLook(ball.getLookDataList().get(0));
 		ballBroadcastScript.addBrick(ballSetLookBrick);
 		ball.addScript(ballBroadcastScript);
 
 		// Ball2
-		StartScript startScript2 = new StartScript(ball2);
-		startScript2.addBrick(new SetGravityBrick(ball2, new Vector2(0.0f, -1.0f)));
+		StartScript startScript2 = new StartScript();
+		startScript2.addBrick(new SetGravityBrick(new Vector2(0.0f, -1.0f)));
 		ball2.addScript(startScript2);
 
 		Script ballStartScript2 = createElement(context, projectName, ball2, "pinball", R.drawable.pinball, new Vector2(0.0f, 300.0f),
@@ -685,21 +668,21 @@ public final class StandardProjectHandler {
 		setPhysicsProperties(ball2, ballStartScript2, PhysicsObject.Type.DYNAMIC, 60.0f, 40.0f);
 		//
 		//		// Ball v2
-		BroadcastBrick ballBroadcastBrick2 = new BroadcastBrick(ball2, ballBroadcastMessage);
+		BroadcastBrick ballBroadcastBrick2 = new BroadcastBrick(ballBroadcastMessage);
 		ballStartScript2.addBrick(ballBroadcastBrick2);
 		ball2.addScript(ballStartScript2);
 		//
-		BroadcastScript ballBroadcastScript2 = new BroadcastScript(ball2, ballBroadcastMessage);
-		ballBroadcastScript2.addBrick(new PlaceAtBrick(ball2, -100, 300));
-		ballBroadcastScript2.addBrick(new SetVelocityBrick(ball2, new Vector2()));
-		SetLookBrick ballSetLookBrick2 = new SetLookBrick(ball2);
+		BroadcastScript ballBroadcastScript2 = new BroadcastScript(ballBroadcastMessage);
+		ballBroadcastScript2.addBrick(new PlaceAtBrick(-100, 300));
+		ballBroadcastScript2.addBrick(new SetVelocityBrick(new Vector2()));
+		SetLookBrick ballSetLookBrick2 = new SetLookBrick();
 		ballSetLookBrick2.setLook(ball2.getLookDataList().get(0));
 		ballBroadcastScript2.addBrick(ballSetLookBrick);
 		ball2.addScript(ballBroadcastScript2);
 		//
 		//		// Ball3
-		StartScript startScript3 = new StartScript(ball3);
-		startScript3.addBrick(new SetGravityBrick(ball3, new Vector2(0.0f, -8.0f)));
+		StartScript startScript3 = new StartScript();
+		startScript3.addBrick(new SetGravityBrick(new Vector2(0.0f, -8.0f)));
 		ball3.addScript(startScript3);
 		//
 		Script ballStartScript3 = createElement(context, projectName, ball3, "pinball", R.drawable.pinball, new Vector2(-200.0f, 300.0f),
@@ -707,14 +690,14 @@ public final class StandardProjectHandler {
 		setPhysicsProperties(ball3, ballStartScript3, PhysicsObject.Type.DYNAMIC, 20.0f, 80.0f);
 		//
 		// ball3 v2
-		BroadcastBrick ballBroadcastBrick3 = new BroadcastBrick(ball3, ballBroadcastMessage);
+		BroadcastBrick ballBroadcastBrick3 = new BroadcastBrick(ballBroadcastMessage);
 		ballStartScript3.addBrick(ballBroadcastBrick3);
 		ball3.addScript(ballStartScript);
 		//
-		BroadcastScript ballBroadcastScript3 = new BroadcastScript(ball3, ballBroadcastMessage);
-		ballBroadcastScript3.addBrick(new PlaceAtBrick(ball3, 0, 300));
-		ballBroadcastScript3.addBrick(new SetVelocityBrick(ball3, new Vector2()));
-		SetLookBrick ballSetLookBrick3 = new SetLookBrick(ball3);
+		BroadcastScript ballBroadcastScript3 = new BroadcastScript(ballBroadcastMessage);
+		ballBroadcastScript3.addBrick(new PlaceAtBrick(0, 300));
+		ballBroadcastScript3.addBrick(new SetVelocityBrick(new Vector2()));
+		SetLookBrick ballSetLookBrick3 = new SetLookBrick();
 		ballSetLookBrick3.setLook(ball3.getLookDataList().get(0));
 		ballBroadcastScript3.addBrick(ballSetLookBrick3);
 		ball3.addScript(ballBroadcastScript3);
@@ -780,14 +763,14 @@ public final class StandardProjectHandler {
 		Script middleBouncerStartScript = createElement(context, projectName, middleBouncer, "lego", R.drawable.lego, new Vector2(0.0f,
 				75.0f + doodlydoo), Float.NaN);
 		setPhysicsProperties(middleBouncer, middleBouncerStartScript, PhysicsObject.Type.FIXED, 40.0f, 80.0f);
-		middleBouncerStartScript.addBrick(new TurnLeftSpeedBrick(middleBouncer, 145));
+		middleBouncerStartScript.addBrick(new TurnLeftSpeedBrick(145));
 		//
-		WhenScript whenPressedScript = new WhenScript(middleBouncer);
+		WhenScript whenPressedScript = new WhenScript();
 		whenPressedScript.setAction(0);
 		//
-		BroadcastBrick bb = new BroadcastBrick(middleBouncer, ballBroadcastMessage);
+		BroadcastBrick bb = new BroadcastBrick(ballBroadcastMessage);
 			whenPressedScript.addBrick(bb);
-			whenPressedScript.addBrick(new ChangeSizeByNBrick(middleBouncer, 20));
+			whenPressedScript.addBrick(new ChangeSizeByNBrick(20));
 			middleBouncer.addScript(whenPressedScript);
 
 		// Upper bouncers
@@ -840,15 +823,15 @@ public final class StandardProjectHandler {
 		List<LookData> looks = sprite.getLookDataList();
 		looks.add(lookData);
 
-		SetLookBrick lookBrick = new SetLookBrick(sprite);
+		SetLookBrick lookBrick = new SetLookBrick();
 		lookBrick.setLook(lookData);
 
-		Script startScript = new StartScript(sprite);
-		startScript.addBrick(new PlaceAtBrick(sprite, (int) position.x, (int) position.y));
+		Script startScript = new StartScript();
+		startScript.addBrick(new PlaceAtBrick((int) position.x, (int) position.y));
 		startScript.addBrick(lookBrick);
 
 		if (!Float.isNaN(angle)) {
-			TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, -angle + Look.getDegreeUserInterfaceOffset());
+			TurnLeftBrick turnLeftBrick = new TurnLeftBrick(-angle + Look.getDegreeUserInterfaceOffset());
 			startScript.addBrick(turnLeftBrick);
 		}
 
@@ -896,17 +879,17 @@ public final class StandardProjectHandler {
 	private static Script setPhysicsProperties(Sprite sprite, Script startScript, PhysicsObject.Type type,
 			float bounce, float friction) {
 		if (startScript == null) {
-			startScript = new StartScript(sprite);
+			startScript = new StartScript();
 		}
 
-		startScript.addBrick(new SetPhysicsObjectTypeBrick(sprite, type));
+		startScript.addBrick(new SetPhysicsObjectTypeBrick(type));
 
 		if (bounce >= 0.0f) {
-			startScript.addBrick(new SetBounceBrick(sprite, bounce));
+			startScript.addBrick(new SetBounceBrick(bounce));
 		}
 
 		if (friction >= 0.0f) {
-			startScript.addBrick(new SetFrictionBrick(sprite, friction));
+			startScript.addBrick(new SetFrictionBrick(friction));
 		}
 
 		sprite.addScript(startScript);
@@ -916,10 +899,10 @@ public final class StandardProjectHandler {
 	private static void createButtonPressed(Context context, String projectName, Sprite sprite, String broadcastMessage) throws IOException {
 		MessageContainer.addMessage(broadcastMessage);
 
-		WhenScript whenPressedScript = new WhenScript(sprite);
+		WhenScript whenPressedScript = new WhenScript();
 		whenPressedScript.setAction(0);
 
-		BroadcastBrick leftButtonBroadcastBrick = new BroadcastBrick(sprite, broadcastMessage);
+		BroadcastBrick leftButtonBroadcastBrick = new BroadcastBrick(broadcastMessage);
 
 		String filename = "button_pressed";
 		File file = copyFromResourceInProject(projectName, Constants.IMAGE_DIRECTORY, filename,
@@ -931,12 +914,12 @@ public final class StandardProjectHandler {
 		List<LookData> looks = sprite.getLookDataList();
 		looks.add(lookData);
 
-		SetLookBrick lookBrick = new SetLookBrick(sprite);
+		SetLookBrick lookBrick = new SetLookBrick();
 		lookBrick.setLook(lookData);
 
-		WaitBrick waitBrick = new WaitBrick(sprite, 500);
+		WaitBrick waitBrick = new WaitBrick( 500);
 
-		SetLookBrick lookBack = new SetLookBrick(sprite);
+		SetLookBrick lookBack = new SetLookBrick();
 		lookBack.setLook(looks.get(0));
 
 		whenPressedScript.addBrick(leftButtonBroadcastBrick);
@@ -947,15 +930,15 @@ public final class StandardProjectHandler {
 	}
 
 	private static void createMovingArm(Sprite sprite, String broadcastMessage, float degreeSpeed) {
-		BroadcastScript broadcastScript = new BroadcastScript(sprite, broadcastMessage);
+		BroadcastScript broadcastScript = new BroadcastScript(broadcastMessage);
 
 		int waitInMillis = 110;
 
-		broadcastScript.addBrick(new TurnLeftSpeedBrick(sprite, degreeSpeed));
-		broadcastScript.addBrick(new WaitBrick(sprite, waitInMillis));
+		broadcastScript.addBrick(new TurnLeftSpeedBrick(degreeSpeed));
+		broadcastScript.addBrick(new WaitBrick(waitInMillis));
 
-		broadcastScript.addBrick(new TurnLeftSpeedBrick(sprite, 0));
-		broadcastScript.addBrick(new PointInDirectionBrick(sprite, PointInDirectionBrick.Direction.UP));
+		broadcastScript.addBrick(new TurnLeftSpeedBrick(0));
+		broadcastScript.addBrick(new PointInDirectionBrick(PointInDirectionBrick.Direction.UP));
 
 		sprite.addScript(broadcastScript);
 	}
