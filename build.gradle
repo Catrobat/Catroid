@@ -122,6 +122,15 @@ android {
             }
         }
     }
+    buildTypes {
+        physics {
+            applicationIdSuffix '.physics'
+            versionNameSuffix '-PHYSICS'
+            // NB: If you want to use the default debug key for a (non-debug)
+            // build type, you need to specify it:
+            signingConfig signingConfigs.debug
+        }
+    }
     lintOptions {
         // define ignores like a specific res-folder in our lint.xml file
         lintConfig file('config/lint.xml')
