@@ -264,6 +264,56 @@ public final class UiTestUtils {
 		return initialRotation;
 	}
 
+	public static SetVariableBrick createSameActionsBroadcastProject(String message) {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("sprite1");
+		Script firstScript = new StartScript(firstSprite);
+
+		firstSprite.addScript(firstScript);
+		project.addSprite(firstSprite);
+
+		Script startScript = firstSprite.getScript(0);
+		SetVariableBrick setVariableBrick = new SetVariableBrick(firstSprite, 0.0f);
+		startScript.addBrick(setVariableBrick);
+		LoopBeginBrick beginBrick = new RepeatBrick(firstSprite, 10);
+		LoopEndBrick endBrick = new LoopEndBrick(firstSprite, beginBrick);
+		beginBrick.setLoopEndBrick(endBrick);
+		startScript.addBrick(beginBrick);
+		startScript.addBrick(new BroadcastWaitBrick(firstSprite, message));
+		startScript.addBrick(endBrick);
+
+		Sprite secondSprite = new Sprite("sprite2");
+		Script secondScript = new BroadcastScript(secondSprite, message);
+		secondSprite.addScript(secondScript);
+		IfLogicBeginBrick ifBeginBrickSecondScript = new IfLogicBeginBrick(secondSprite, 1);
+		IfLogicElseBrick ifElseBrickSecondScript = new IfLogicElseBrick(secondSprite, ifBeginBrickSecondScript);
+		IfLogicEndBrick ifEndBrickSecondScript = new IfLogicEndBrick(secondSprite, ifElseBrickSecondScript, ifBeginBrickSecondScript);
+		secondScript.addBrick(ifBeginBrickSecondScript);
+		secondScript.addBrick(new ChangeVariableBrick(secondSprite, 1.0f));
+		secondScript.addBrick(ifElseBrickSecondScript);
+		secondScript.addBrick(ifEndBrickSecondScript);
+		project.addSprite(secondSprite);
+
+		Sprite thirdSprite = new Sprite("sprite3");
+		Script thirdScript = new BroadcastScript(thirdSprite, message);
+		thirdSprite.addScript(thirdScript);
+		IfLogicBeginBrick ifBeginBrickThirdScript = new IfLogicBeginBrick(thirdSprite, 1);
+		IfLogicElseBrick ifElseBrickThirdScript = new IfLogicElseBrick(thirdSprite, ifBeginBrickThirdScript);
+		IfLogicEndBrick ifEndBrickThirdScript = new IfLogicEndBrick(thirdSprite, ifElseBrickThirdScript, ifBeginBrickThirdScript);
+		thirdScript.addBrick(ifBeginBrickThirdScript);
+		thirdScript.addBrick(new ChangeVariableBrick(thirdSprite, 1.0f));
+		thirdScript.addBrick(ifElseBrickThirdScript);
+		thirdScript.addBrick(ifEndBrickThirdScript);
+		project.addSprite(thirdSprite);
+
+		projectManager.setFileChecksumContainer(new FileChecksumContainer());
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(thirdScript);
+
+		return setVariableBrick;
+	}
+
 	public static enum FileTypes {
 		IMAGE, SOUND, ROOT
 	};
