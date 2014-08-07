@@ -594,10 +594,9 @@ public final class StorageHandler {
 		}
 
 		File outputFile = new File(Constants.TMP_IMAGE_PATH);
+		Files.copy(inputFile, outputFile);
 
-		File copiedFile = UtilFile.copyFile(outputFile, inputFile);
-
-		return copiedFile;
+		return outputFile;
 	}
 
 	public void deleteTempImageCopy() {
@@ -680,10 +679,10 @@ public final class StorageHandler {
 	}
 
 	private File copyFileAddCheckSum(File destinationFile, File sourceFile) throws IOException {
-		File copiedFile = UtilFile.copyFile(destinationFile, sourceFile);
+		Files.copy(sourceFile, destinationFile);
 		addChecksum(destinationFile, sourceFile);
 
-		return copiedFile;
+		return destinationFile;
 	}
 
 	private void addChecksum(File destinationFile, File sourceFile) {

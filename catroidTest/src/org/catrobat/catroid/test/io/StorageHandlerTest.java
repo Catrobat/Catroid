@@ -43,7 +43,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.utils.UtilFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -251,7 +250,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		if (!tmpCodeFile.createNewFile()) {
 			fail("Could not create tmp file");
 		}
-		UtilFile.copyFile(tmpCodeFile, currentCodeFile);
+		Files.copy(currentCodeFile, tmpCodeFile);
 		String currentCodeFileXml = Files.toString(currentCodeFile, Charsets.UTF_8);
 		assertTrue("Could not delete " + currentCodeFile.getName(), currentCodeFile.delete());
 

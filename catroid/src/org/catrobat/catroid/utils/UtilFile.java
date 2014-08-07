@@ -31,16 +31,13 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.soundrecorder.SoundRecorder;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -118,50 +115,6 @@ public final class UtilFile {
 		return (path.delete());
 	}
 
-	public static File saveFileToProject(String project, String name, int fileID, Context context, FileType type) {
-
-		String filePath;
-		if (project == null || project.equalsIgnoreCase("")) {
-			filePath = Utils.buildProjectPath(name);
-		} else {
-			switch (type) {
-				case TYPE_IMAGE_FILE:
-					filePath = Utils.buildPath(Utils.buildProjectPath(project), Constants.IMAGE_DIRECTORY, name);
-					break;
-				case TYPE_SOUND_FILE:
-					filePath = Utils.buildPath(Utils.buildProjectPath(project), Constants.SOUND_DIRECTORY, name);
-					break;
-				default:
-					filePath = Utils.buildProjectPath(name);
-					break;
-			}
-		}
-		BufferedInputStream in = new BufferedInputStream(context.getResources().openRawResource(fileID),
-				Constants.BUFFER_8K);
-
-		try {
-			File file = new File(filePath);
-			file.getParentFile().mkdirs();
-			file.createNewFile();
-
-			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file), Constants.BUFFER_8K);
-			byte[] buffer = new byte[Constants.BUFFER_8K];
-			int length = 0;
-			while ((length = in.read(buffer)) > 0) {
-				out.write(buffer, 0, length);
-			}
-
-			in.close();
-			out.flush();
-			out.close();
-
-			return file;
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
-			return null;
-		}
-	}
-
 	public static void createStandardProjectIfRootDirectoryIsEmpty(Context context) {
 		File rootDirectory = new File(Constants.DEFAULT_ROOT);
 		if (rootDirectory == null || rootDirectory.listFiles() == null || rootDirectory.listFiles().length == 0) {
@@ -205,36 +158,6 @@ public final class UtilFile {
 		return projectList;
 	}
 
-	public static File copyFile(File destinationFile, File sourceFile) throws IOException {
-		FileInputStream inputStream = null;
-		FileChannel inputChannel = null;
-		FileOutputStream outputStream = null;
-		FileChannel outputChannel = null;
-		try {
-			inputStream = new FileInputStream(sourceFile);
-			inputChannel = inputStream.getChannel();
-			outputStream = new FileOutputStream(destinationFile);
-			outputChannel = outputStream.getChannel();
-			inputChannel.transferTo(0, inputChannel.size(), outputChannel);
-			return destinationFile;
-		} catch (IOException exception) {
-			throw exception;
-		} finally {
-			if (inputChannel != null) {
-				inputChannel.close();
-			}
-			if (inputStream != null) {
-				inputStream.close();
-			}
-			if (outputChannel != null) {
-				outputChannel.close();
-			}
-			if (outputStream != null) {
-				outputStream.close();
-			}
-		}
-	}
-
 	public static File copyFromResourceIntoProject(String projectName, String directoryInProject,
 			String outputFilename, int resourceId, Context context, boolean prependMd5ToFilename) throws IOException {
 		String directoryPath = Utils.buildPath(Utils.buildProjectPath(projectName), directoryInProject);
@@ -264,17 +187,16 @@ public final class UtilFile {
 	}
 
 	public static File copySoundFromResourceIntoProject(String projectName, String outputFilename, int resourceId,
-			Context context, boolean prependMd5ToFilename) throws IllegalArgumentException, IOException {
+			Context context) throws IllegalArgumentException, IOException {
 		if (!outputFilename.toLowerCase(Locale.US).endsWith(SoundRecorder.RECORDING_EXTENSION)) {
 			throw new IllegalArgumentException("Only Files with extension " + SoundRecorder.RECORDING_EXTENSION
 					+ " allowed");
 		}
-		return copyFromResourceIntoProject(projectName, Constants.SOUND_DIRECTORY, outputFilename, resourceId, context,
-				prependMd5ToFilename);
+		return copyFromResourceIntoProject(projectName, Constants.SOUND_DIRECTORY, outputFilename, resourceId, context, true);
 	}
 
 	public static File copyImageFromResourceIntoProject(String projectName, String outputFilename, int resourceId,
-			Context context, boolean prependMd5ToFilename, double scaleFactor) throws IOException {
+			Context context, double scaleFactor) throws IOException {
 		if (scaleFactor <= 0) {
 			throw new IllegalArgumentException("scale factor is smaller or equal zero");
 		}
@@ -283,15 +205,11 @@ public final class UtilFile {
 			outputFilename = outputFilename + Constants.IMAGE_STANDARD_EXTENTION;
 		}
 		File copiedFile = copyFromResourceIntoProject(projectName, Constants.IMAGE_DIRECTORY, outputFilename,
-				resourceId, context, false);
+				resourceId, context, true);
 
 		ImageEditing.scaleImageFile(copiedFile, scaleFactor);
 
-		if (!prependMd5ToFilename) {
-			return copiedFile;
-		}
-
-		return prependMd5ToFilename(copiedFile);
+		return copiedFile;
 	}
 
 	private static File prependMd5ToFilename(File file) throws IOException {
@@ -336,9 +254,5 @@ public final class UtilFile {
 		projectName = projectName.replace("%22", "\"");
 		projectName = projectName.replace("%25", "%");
 		return projectName;
-	}
-
-	public enum FileType {
-		TYPE_IMAGE_FILE, TYPE_SOUND_FILE
 	}
 }

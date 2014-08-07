@@ -33,9 +33,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.utils.Utils;
 
 public class AboutDialogFragment extends DialogFragment {
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_about_pocketcode";
@@ -61,7 +61,7 @@ public class AboutDialogFragment extends DialogFragment {
 		aboutUrlCatrobatView.setText(Html.fromHtml(aboutCatrobatUrl));
 
 		TextView aboutVersionNameTextView = (TextView) view.findViewById(R.id.dialog_about_text_view_version_name);
-		String versionName = this.getString(R.string.android_version_prefix) + Utils.getVersionName(getActivity());
+		String versionName = this.getString(R.string.android_version_prefix) + BuildConfig.VERSION_NAME;
 		aboutVersionNameTextView.setText(versionName);
 
 		Dialog aboutDialog = new AlertDialog.Builder(getActivity()).setView(view).setTitle(R.string.dialog_about_title)
