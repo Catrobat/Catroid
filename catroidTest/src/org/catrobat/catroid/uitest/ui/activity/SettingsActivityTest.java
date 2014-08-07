@@ -30,7 +30,7 @@ import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.widget.ListView;
 
-import com.jayway.android.robotium.solo.Solo;
+import com.robotium.solo.Solo;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.test.drone.DroneTestUtils;

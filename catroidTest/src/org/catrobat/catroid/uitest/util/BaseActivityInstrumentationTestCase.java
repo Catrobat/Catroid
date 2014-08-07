@@ -28,7 +28,7 @@ import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 
-import com.jayway.android.robotium.solo.Solo;
+import com.robotium.solo.Solo;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.stage.StageListener;
@@ -61,6 +61,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 		}
 		solo = new Solo(getInstrumentation(), getActivity());
 		Reflection.setPrivateField(StageListener.class, "checkIfAutomaticScreenshotShouldBeTaken", false);
+		solo.unlockScreen();
 	}
 
 	@Override

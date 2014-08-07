@@ -31,7 +31,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.jayway.android.robotium.solo.Solo;
+import com.robotium.solo.Solo;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -1042,7 +1042,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
-		int[] checkboxIndicesToCheck = { solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2 };
+		int[] checkboxIndicesToCheck = {solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2};
 		int expectedNumberOfLooks = currentNumberOfLooks - checkboxIndicesToCheck.length;
 
 		solo.scrollDown();
@@ -1061,14 +1061,13 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		checkIfNumberOfLooksIsEqual(expectedNumberOfLooks);
 	}
 
-	public void testOpenDeleteDialogAndGoBack()
-	{
+	public void testOpenDeleteDialogAndGoBack() {
 		int viewAmountBeforeDeleteMode = solo.getCurrentViews().size();
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
-		int[] checkboxIndicesToCheck = { solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2 };
+		int[] checkboxIndicesToCheck = {solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2};
 
 		solo.scrollDown();
 		solo.clickOnCheckBox(checkboxIndicesToCheck[0]);
@@ -1081,7 +1080,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		int viewAmountAfterDeleteMode = solo.getCurrentViews().size();
 
-		assertTrue("checkboxes or other delete elements are still visible",viewAmountBeforeDeleteMode==viewAmountAfterDeleteMode);
+		assertTrue("checkboxes or other delete elements are still visible", viewAmountBeforeDeleteMode == viewAmountAfterDeleteMode);
 
 	}
 
@@ -1200,7 +1199,8 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue(
 				"Selected look '" + SECOND_TEST_LOOK_NAME + "' was not copied!",
 				solo.searchText(SECOND_TEST_LOOK_NAME, 2)
-						&& solo.searchText(SECOND_TEST_LOOK_NAME + copiedLookAddition));
+						&& solo.searchText(SECOND_TEST_LOOK_NAME + copiedLookAddition)
+		);
 	}
 
 	public void testCopySelectAll() {
@@ -1250,10 +1250,12 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		assertTrue("Bitmap resolution in file was not cropped",
 				fileResolutionAfterCrop[0] < fileResolutionBeforeCrop[0]
-						&& fileResolutionAfterCrop[1] < fileResolutionBeforeCrop[1]);
+						&& fileResolutionAfterCrop[1] < fileResolutionBeforeCrop[1]
+		);
 		assertTrue("Image resolution was not updated in look fragment",
 				displayedResolutionAfterCrop[0] < displayedResolutionBeforeCrop[0]
-						&& fileResolutionAfterCrop[1] < displayedResolutionBeforeCrop[1]);
+						&& fileResolutionAfterCrop[1] < displayedResolutionBeforeCrop[1]
+		);
 	}
 
 	public void testBottombarElementsVisibilty() {

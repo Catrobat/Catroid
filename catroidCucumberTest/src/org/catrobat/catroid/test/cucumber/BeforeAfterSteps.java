@@ -26,7 +26,7 @@ import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 
-import com.jayway.android.robotium.solo.Solo;
+import com.robotium.solo.Solo;
 
 import cucumber.api.android.CucumberInstrumentation;
 import cucumber.api.java.After;
