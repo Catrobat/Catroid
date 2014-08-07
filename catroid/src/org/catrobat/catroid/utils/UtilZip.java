@@ -116,6 +116,7 @@ public final class UtilZip {
 			byte[] data = new byte[Constants.BUFFER_8K];
 			file = new File(zipFileName);
 			zipInputStream = new ZipInputStream(new BufferedInputStream(new FileInputStream(file)));
+
 			ZipEntry zipEntry;
 
 			while ((zipEntry = zipInputStream.getNextEntry()) != null) {
@@ -127,14 +128,15 @@ public final class UtilZip {
 				if (zipEntry.isDirectory()) {
 					File entryFile = new File(Utils.buildPath(outDirectory, zipEntry.getName()));
 					if (!entryFile.mkdir() && !entryFile.isDirectory()) {
+						zipInputStream.close();
 						throw new IOException(ERROR_FOLDER_NOT_CREATED);
 					}
-					zipInputStream.close();
 					continue;
 				}
 
 				File entryFile = new File(Utils.buildPath(outDirectory, zipEntry.getName()));
 				if (!entryFile.getParentFile().mkdirs() && !entryFile.getParentFile().isDirectory()) {
+					zipInputStream.close();
 					throw new IOException(ERROR_FOLDER_NOT_CREATED);
 				}
 				FileOutputStream fileOutputStream = new FileOutputStream(entryFile);
