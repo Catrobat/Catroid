@@ -45,8 +45,8 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = IfLogicElseBrick.class.getSimpleName();
-	private IfLogicBeginBrick ifBeginBrick;
-	private IfLogicEndBrick ifEndBrick;
+	private transient IfLogicBeginBrick ifBeginBrick;
+	private transient IfLogicEndBrick ifEndBrick;
 
 	private transient IfLogicElseBrick copy;
 

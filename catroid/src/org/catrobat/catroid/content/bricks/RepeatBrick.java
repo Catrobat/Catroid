@@ -48,7 +48,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 
 	private transient View prototypeView;
 
-	protected LoopEndBrick loopEndBrick;
+	protected transient LoopEndBrick loopEndBrick;
 	private transient long beginLoopTime;
 
 	private transient LoopBeginBrick copy;

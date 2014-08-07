@@ -46,7 +46,7 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 	static final int FOREVER = -1;
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = LoopEndBrick.class.getSimpleName();
-	private LoopBeginBrick loopBeginBrick;
+	private transient LoopBeginBrick loopBeginBrick;
 
 	public LoopEndBrick(LoopBeginBrick loopStartingBrick) {
 		this.loopBeginBrick = loopStartingBrick;

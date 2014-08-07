@@ -50,8 +50,8 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick, OnC
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = IfLogicBeginBrick.class.getSimpleName();
 	public static final int EXECUTE_ELSE_PART = -1;
-	protected IfLogicElseBrick ifElseBrick;
-	protected IfLogicEndBrick ifEndBrick;
+	protected transient IfLogicElseBrick ifElseBrick;
+	protected transient IfLogicEndBrick ifEndBrick;
 	private transient IfLogicBeginBrick copy;
 
 	public IfLogicBeginBrick() {

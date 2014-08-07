@@ -44,7 +44,7 @@ import java.util.List;
 public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 	private static final long serialVersionUID = 1L;
 
-	protected LoopEndBrick loopEndBrick;
+	protected transient LoopEndBrick loopEndBrick;
 	private transient long beginLoopTime;
 
 	private transient LoopBeginBrick copy;
