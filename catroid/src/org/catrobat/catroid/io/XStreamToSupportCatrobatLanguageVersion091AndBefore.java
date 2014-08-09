@@ -479,7 +479,11 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 		}
 	}
 
-	private void copyAttributesIfAny(Node sourceNode, Element destinationNode) {
+	private void copyAttributesIfNeeded(Node sourceNode, Element destinationNode) {
+		if (sourceNode.getNodeName().equals("loopEndlessBrick") || sourceNode.getNodeName().equals("loopEndBrick") ||
+			sourceNode.getNodeName().equals("ifLogicElseBrick") || sourceNode.getNodeName().equals("ifLogicEndBrick")) {
+			return;
+		}
 		NamedNodeMap namedNodeMap = sourceNode.getAttributes();
 		for (int i = 0; i < namedNodeMap.getLength(); i++) {
 			Attr node = (Attr) namedNodeMap.item(i);
@@ -521,7 +525,7 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 					BrickInfo brickInfo = brickInfoMap.get(brickNode.getNodeName());
 					if (brickInfo != null) {
 						newBrickNode.setAttribute("type", brickInfo.brickClassName);
-						copyAttributesIfAny(brickNode, newBrickNode);
+						copyAttributesIfNeeded(brickNode, newBrickNode);
 
 						NodeList brickChildNodes = brickNode.getChildNodes();
 						for (int l = 0; l < brickChildNodes.getLength(); l++) {
@@ -531,11 +535,11 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 								handleFormulaNode(doc, brickInfo, newBrickNode, brickChild);
 							} else if (brickChild.getNodeName().equals("userVariable")) {
 								handleUserVariableNode(newBrickNode, brickChild);
-							} else if (brickChild.getNodeName().equals("loopEndBrick")) {
-								handleLoopEndNode(newBrickNode, brickChild);
-							} else if (brickChild.getNodeName().equals("ifElseBrick")) {
-								handleIfElseNode(newBrickNode, brickChild);
-							} else {
+							} else if (brickChild.getNodeName().equals("loopEndBrick") ||
+									brickChild.getNodeName().equals("ifElseBrick") ||
+									brickChild.getNodeName().equals("ifEndBrick")) {
+								continue;
+							}  else {
 								newBrickNode.appendChild(brickChild);
 							}
 						}
@@ -568,22 +572,6 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 		} else {
 			parentNode.setAttribute("userVariable", findNodeByName(userVariableNode, "name").getTextContent());
 		}
-	}
-
-	private void handleLoopEndNode(Element parentNode, Element loopEndNode) {
-		String type = loopEndNode.hasAttribute("class") ? loopEndNode.getAttribute("class") : "loopEndBrick";
-		loopEndNode.removeAttribute("class");
-		loopEndNode.setAttribute("type", brickInfoMap.get(type).getBrickClassName());
-		deleteChildNodeByName(loopEndNode, "sprite");
-		Element loopBeginNode = findNodeByName(loopEndNode, "loopBeginBrick");
-		loopBeginNode.removeAttribute("class");
-		parentNode.appendChild(loopEndNode);
-	}
-
-	private void handleIfElseNode(Element parentNode, Element ifElseNode) {
-		deleteChildNodeByName(ifElseNode, "sprite");
-		deleteChildNodeByName(findNodeByName(ifElseNode, "ifEndBrick"), "sprite");
-		parentNode.appendChild(ifElseNode);
 	}
 
 	private void modifyUserVariables(Document doc) {
