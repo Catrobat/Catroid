@@ -27,9 +27,13 @@ import android.util.Log;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.converters.reflection.FieldKey;
 import com.thoughtworks.xstream.converters.reflection.FieldKeySorter;
+import com.thoughtworks.xstream.core.util.OrderRetainingMap;
+
+import org.catrobat.catroid.content.Sprite;
 
 import java.lang.reflect.Field;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -40,6 +44,10 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Map sort(final Class type, final Map keyedByFieldKey) {
+		if(type.equals(Sprite.class)) {
+			return sortSpriteFields(keyedByFieldKey);
+		}
+
 		final Map map = new TreeMap(new Comparator() {
 
 			@Override
@@ -77,6 +85,36 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 			Log.e(TAG, Log.getStackTraceString(noSuchFieldException));
 		}
 		return fieldName;
+	}
+
+	private Map sortSpriteFields(Map map) {
+		Map orderedMap = new OrderRetainingMap();
+		FieldKey[] fieldKeyOrder = new FieldKey[map.size()];
+		Iterator<FieldKey> iterator = map.keySet().iterator();
+		while (iterator.hasNext()) {
+			FieldKey fieldKey = iterator.next();
+			if (fieldKey.getFieldName().equals("TAG")) {
+				fieldKeyOrder[0] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("serialVersionUID")) {
+				fieldKeyOrder[1] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("look")) {
+				fieldKeyOrder[2] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("name")) {
+				fieldKeyOrder[3] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("isPaused")) {
+				fieldKeyOrder[4] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("lookList")) {
+				fieldKeyOrder[5] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("soundList")) {
+				fieldKeyOrder[6] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("scriptList")) {
+				fieldKeyOrder[7] = fieldKey;
+			}
+		}
+		for (FieldKey fieldKey : fieldKeyOrder) {
+			orderedMap.put(fieldKey, map.get(fieldKey));
+		}
+		return orderedMap;
 	}
 
 }
