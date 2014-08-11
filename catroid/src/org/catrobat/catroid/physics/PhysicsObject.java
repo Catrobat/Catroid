@@ -95,7 +95,6 @@ public class PhysicsObject {
 			return;
 		}
 
-
 		if (shapes != null) {
 			this.shapes = Arrays.copyOf(shapes, shapes.length);
 		} else {
