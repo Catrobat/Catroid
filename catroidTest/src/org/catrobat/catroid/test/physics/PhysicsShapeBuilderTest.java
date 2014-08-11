@@ -1,24 +1,24 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.test.physics;
 
@@ -59,23 +59,9 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 	private Project project;
 	private File projectFile;
 	private String simpleSingleConvexPolygonFileName;
-	private String complexSingleConvexPolygonFileName;
-	private String multibleConvexPolygonsFileName;
-	private String singleConcavePolygonFileName;
-	private String multibleConcavePolygonsFileName;
-	private String multibleMixedPolygonsFileName;
 	private static final int SIMPLE_SINGLE_CONVEX_POLYGON_RES_ID = R.raw.rectangle_125x125;
-	private static final int COMPLEX_SINGLE_CONVEX_POLYGON_RES_ID = R.raw.complex_single_convex_polygon;
-	private static final int MULTIBLE_CONVEX_POLYGON_RES_ID = R.raw.multible_convex_polygons;
-	private static final int SINGLE_CONCAVE_POLYGON_RES_ID = R.raw.single_concave_polygon;
-	private static final int MULTIBLE_CONVEX_POLYGONS_RES_ID = R.raw.multible_concave_polygons;
-	private static final int MULTIBLE_MIXED_POLYGONS_RES_ID = R.raw.multible_mixed_polygons;
+
 	private File simpleSingleConvexPolygonFile;
-	private File complexSingleConvexPolygonFile;
-	private File multibleConvexPolygonsFile;
-	private File singleConcavePolygonFile;
-	private File multibleConcavePolygonsFile;
-	private File multibleMixedPolygonsFile;
 	private Sprite sprite;
 
 	static {
@@ -100,35 +86,10 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 
 		simpleSingleConvexPolygonFileName = PhysicsTestUtils
 				.getInternalImageFilenameFromFilename("simple_single_convex_polygon.png");
-		complexSingleConvexPolygonFileName = PhysicsTestUtils
-				.getInternalImageFilenameFromFilename("complex_single_convex_polygon.png");
-		multibleConvexPolygonsFileName = PhysicsTestUtils
-				.getInternalImageFilenameFromFilename("multible_convex_polygons.png");
-		singleConcavePolygonFileName = PhysicsTestUtils
-				.getInternalImageFilenameFromFilename("single_concave_polygon.png");
-		multibleConcavePolygonsFileName = PhysicsTestUtils
-				.getInternalImageFilenameFromFilename("multible_concave_polygons.png");
-		multibleMixedPolygonsFileName = PhysicsTestUtils
-				.getInternalImageFilenameFromFilename("multible_mixed_polygons.png");
 
 		simpleSingleConvexPolygonFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
 				simpleSingleConvexPolygonFileName, SIMPLE_SINGLE_CONVEX_POLYGON_RES_ID, getInstrumentation()
 						.getContext(), TestUtils.TYPE_IMAGE_FILE);
-		complexSingleConvexPolygonFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
-				complexSingleConvexPolygonFileName, COMPLEX_SINGLE_CONVEX_POLYGON_RES_ID, getInstrumentation()
-						.getContext(), TestUtils.TYPE_IMAGE_FILE);
-		multibleConvexPolygonsFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
-				multibleConvexPolygonsFileName, MULTIBLE_CONVEX_POLYGON_RES_ID, getInstrumentation().getContext(),
-				TestUtils.TYPE_IMAGE_FILE);
-		singleConcavePolygonFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
-				singleConcavePolygonFileName, SINGLE_CONCAVE_POLYGON_RES_ID, getInstrumentation().getContext(),
-				TestUtils.TYPE_IMAGE_FILE);
-		multibleConcavePolygonsFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
-				multibleConcavePolygonsFileName, MULTIBLE_CONVEX_POLYGONS_RES_ID, getInstrumentation().getContext(),
-				TestUtils.TYPE_IMAGE_FILE);
-		multibleMixedPolygonsFile = TestUtils.saveFileToProject(TestUtils.DEFAULT_TEST_PROJECT_NAME,
-				multibleMixedPolygonsFileName, MULTIBLE_MIXED_POLYGONS_RES_ID, getInstrumentation().getContext(),
-				TestUtils.TYPE_IMAGE_FILE);
 
 		sprite = new Sprite("TestSprite");
 
@@ -170,71 +131,6 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 		int[] expectedVertices = { 4 };
 		checkBuildedShapes(shapes, expectedPolynoms, expectedVertices);
 	}
-
-	//	public void testComplexSingleConvexPolygon() {
-	//		// TODO[Physics] rework or delete (algorithm works different)
-	//		LookData lookData = PhysicsTestUtils.generateLookData(complexSingleConvexPolygonFile);
-	//		physicsLook.setLookData(lookData);
-	//
-	//		Shape[] shapes = physicsShapeBuilder.getShape(lookData,
-	//				sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
-	//
-	//		int expectedPolynoms = 1;
-	//		int[] expectedVertices = { 6 };
-	//		checkBuildedShapes(shapes, expectedPolynoms, expectedVertices);
-	//	}
-	//
-	//	public void testMultibleConvexPolygons() {
-	//		// TODO[Physics] rework or delete (algorithm detects no multiple)
-	//		LookData lookData = PhysicsTestUtils.generateLookData(multibleConvexPolygonsFile);
-	//		physicsLook.setLookData(lookData);
-	//
-	//		Shape[] shapes = physicsShapeBuilder.getShape(lookData,
-	//				sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
-	//
-	//		int expectedPolynoms = 2;
-	//		int[] expectedVertices = { 4, 4 };
-	//		checkBuildedShapes(shapes, expectedPolynoms, expectedVertices);
-	//	}
-	//
-	//	public void testSingleConcavePolygon() {
-	//		// TODO[Physics] rework or delete (algorithm detects no concave polygons)
-	//		LookData lookData = PhysicsTestUtils.generateLookData(singleConcavePolygonFile);
-	//		physicsLook.setLookData(lookData);
-	//
-	//		Shape[] shapes = physicsShapeBuilder.getShape(lookData,
-	//				sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
-	//
-	//		int expectedPolynoms = 1;
-	//		int[] expectedVertices = { 12 };
-	//		checkBuildedShapes(shapes, expectedPolynoms, expectedVertices);
-	//	}
-	//
-	//	public void testMultibleConcavePolygons() {
-	//		// TODO[Physics] rework or delete (algorithm detects no multiple)
-	//		LookData lookData = PhysicsTestUtils.generateLookData(multibleConvexPolygonsFile);
-	//		physicsLook.setLookData(lookData);
-	//
-	//		Shape[] shapes = physicsShapeBuilder.getShape(lookData,
-	//				sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
-	//
-	//		int expectedPolynoms = 2;
-	//		int[] expectedVertices = { 6, 12 };
-	//		checkBuildedShapes(shapes, expectedPolynoms, expectedVertices);
-	//	}
-	//
-	//	public void testMultibleMixedPolygons() {
-	//		// TODO[Physics] rework or delete (algorithm detects no multiple)
-	//		LookData lookData = PhysicsTestUtils.generateLookData(multibleMixedPolygonsFile);
-	//		physicsLook.setLookData(lookData);
-	//
-	//		Shape[] shapes = physicsShapeBuilder.getShape(lookData,
-	//				sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
-	//
-	//		int expectedPolynoms = 2;
-	//		int[] expectedVertices = { 4, 12 };
-	//		checkBuildedShapes(shapes, expectedPolynoms, expectedVertices);
-	//	}
 
 	private void checkBuildedShapes(Shape[] shapes, int expectedPolynomCount, int[] expectedVertices) {
 		boolean debug = false;
