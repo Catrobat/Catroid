@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyright (C) 2010-2014 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -40,8 +40,6 @@
         android:id="@+id/brick_insert_item_into_userlist_layout"
         style="@style/BrickContainer.UserVariables.Medium"
         android:orientation="horizontal"
-        android:paddingBottom="0dp"
-        android:paddingTop="0dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
@@ -51,23 +49,11 @@
             android:id="@+id/brick_insert_item_into_userlist_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_insert_item_into_userlist_insert_into" />
-        
-         <Spinner
-             android:id="@+id/insert_item_into_userlist_spinner"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:clickable="false"
-             android:focusable="false" />
-         
-           <TextView
-               android:id="@+id/brick_insert_item_into_userlist_textview"
-               style="@style/BrickText.SingleLine"
-               android:text="@string/brick_insert_item_into_userlist_the_value" />
 
-         <TextView
-             android:id="@+id/brick_insert_item_into_userlist_value_prototype_view"
-             style="@style/BrickPrototypeTextView"
-             android:layout_width="match_parent" />
+        <TextView
+            android:id="@+id/brick_insert_item_into_userlist_value_prototype_view"
+            style="@style/BrickPrototypeTextView"
+            android:layout_width="match_parent" />
 
         <TextView
             android:id="@+id/brick_insert_item_into_userlist_value_edit_text"
@@ -76,9 +62,21 @@
             app:layout_textField="true" />
 
         <TextView
+            android:id="@+id/brick_insert_item_into_userlist_textview"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_insert_item_into_userlist_into_list" />
+        
+         <Spinner
+             android:id="@+id/insert_item_into_userlist_spinner"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:clickable="false"
+             android:focusable="false" />
+         
+        <TextView
             android:id="@+id/brick_insert_item_into_userlist_at_index_textview"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_insert_item_into_userlist_at_index" />
+            android:text="@string/brick_insert_item_into_userlist_at_position" />
 
          <TextView
              android:id="@+id/brick_insert_item_into_userlist_at_index_prototype_view"

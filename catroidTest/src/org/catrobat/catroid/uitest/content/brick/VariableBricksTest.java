@@ -32,7 +32,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
-import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -40,7 +40,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 public class VariableBricksTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private Project project;
-	private UserVariablesContainer userVariablesContainer;
+	private DataContainer dataContainer;
 	private SetVariableBrick setVariableBrick;
 	private ChangeVariableBrick changeVariableBrick;
 	private Sprite sprite;
@@ -59,10 +59,10 @@ public class VariableBricksTest extends BaseActivityInstrumentationTestCase<Main
 
 	@Override
 	public void tearDown() throws Exception {
-		userVariablesContainer.deleteUserVariableByName("p1");
-		userVariablesContainer.deleteUserVariableByName("p2");
-		userVariablesContainer.deleteUserVariableByName("sprite_var1");
-		userVariablesContainer.deleteUserVariableByName("sprite_var2");
+		dataContainer.deleteUserVariableByName("p1");
+		dataContainer.deleteUserVariableByName("p2");
+		dataContainer.deleteUserVariableByName("sprite_var1");
+		dataContainer.deleteUserVariableByName("sprite_var2");
 		super.tearDown();
 	}
 
@@ -91,7 +91,7 @@ public class VariableBricksTest extends BaseActivityInstrumentationTestCase<Main
 		solo.sleep(5000);
 
 		assertEquals("Variable has the wrong value after stage", 42.0,
-				userVariablesContainer.getUserVariable("p2", sprite).getValue());
+				dataContainer.getUserVariable("p2", sprite).getValue());
 
 	}
 
@@ -103,11 +103,11 @@ public class VariableBricksTest extends BaseActivityInstrumentationTestCase<Main
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 
-		userVariablesContainer = project.getUserVariables();
-		userVariablesContainer.addProjectUserVariable("p1");
-		userVariablesContainer.addProjectUserVariable("p2");
-		userVariablesContainer.addSpriteUserVariable("sprite_var1");
-		userVariablesContainer.addSpriteUserVariable("sprite_var2");
+		dataContainer = project.getDataContainer();
+		dataContainer.addProjectUserVariable("p1");
+		dataContainer.addProjectUserVariable("p2");
+		dataContainer.addSpriteUserVariable("sprite_var1");
+		dataContainer.addSpriteUserVariable("sprite_var2");
 
 		setVariableBrick = new SetVariableBrick(0.0);
 		script.addBrick(setVariableBrick);

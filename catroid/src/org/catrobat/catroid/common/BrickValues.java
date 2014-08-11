@@ -67,16 +67,16 @@ public final class BrickValues {
 	public static final float DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT = 0.2f;
 
 	//Constants Variables
-	public static final double SET_VARIABLE = 0d;
-	public static final double CHANGE_VARIABLE = 0d;
+	public static final double SET_VARIABLE = 1d;
+	public static final double CHANGE_VARIABLE = 1d;
 
 	//Constants Lists
-	public static final double ADD_ITEM_TO_USERLIST = 0d;
+	public static final double ADD_ITEM_TO_USERLIST = 1d;
 	public static final double DELETE_ITEM_OF_USERLIST = 1d;
 	public static final double INSERT_ITEM_INTO_USERLIST_INDEX = 1d;
-	public static final double INSERT_ITEM_INTO_USERLIST_VALUE = 0d;
+	public static final double INSERT_ITEM_INTO_USERLIST_VALUE = 1d;
 	public static final double REPLACE_ITEM_IN_USERLIST_INDEX = 1d;
-	public static final double REPLACE_ITEM_IN_USERLIST_VALUE = 0d;
+	public static final double REPLACE_ITEM_IN_USERLIST_VALUE = 1d;
 
 	// Suppress default constructor for noninstantiability
 	private BrickValues() {

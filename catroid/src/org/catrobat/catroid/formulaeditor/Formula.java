@@ -247,14 +247,14 @@ public class Formula implements Serializable {
             }
 			int logicalFormulaResultIdentifier = result ? R.string.formula_editor_true : R.string.formula_editor_false;
 			return context.getString(logicalFormulaResultIdentifier);
-		} else if (formulaTree.hasFunctionStringReturnType() || formulaTree.getElementType() == ElementType.STRING) {
+		} else if (formulaTree.getElementType() == ElementType.STRING) {
 			try{
                 return interpretString(sprite);
             }catch (InterpretationException interpretationException){
                 return "ERROR";
             }
 		} else if (formulaTree.isUserVariableWithTypeString(sprite)) {
-			UserVariablesContainer userVariables = ProjectManager.getInstance().getCurrentProject().getUserVariables();
+			DataContainer userVariables = ProjectManager.getInstance().getCurrentProject().getDataContainer();
 			UserVariable userVariable = userVariables.getUserVariable(formulaTree.getValue(), sprite);
 			return (String) userVariable.getValue();
 		} else {

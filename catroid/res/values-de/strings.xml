@@ -435,16 +435,16 @@
     <string name="brick_variable_spinner_create_new_variable">Neu…</string>
     <string name="brick_note_default_value">"Anmerkung hier hinzufügen…" </string>
     <string name="brick_broadcast_default_value">"Nachricht 1"</string>
-    <string name="brick_add_item_to_userlist_add">Füge zu Liste</string>
-    <string name="brick_add_item_to_userlist">den Wert</string>
+    <string name="brick_add_item_to_userlist_add">Füge</string>
+    <string name="brick_add_item_to_userlist">zur Liste</string>
     <string name="brick_delete_item_from_userlist_delete">Lösche Element von Liste</string>
-    <string name="brick_delete_item_from_userlist">mit Index</string>
-    <string name="brick_insert_item_into_userlist_insert_into" >Füge in die Liste</string >
-    <string name="brick_insert_item_into_userlist_the_value" >den Wert</string >
-    <string name="brick_insert_item_into_userlist_at_index" >mit Index</string >
-    <string name="brick_replace_item_in_userlist_replace_in_list" >Ersetze in der Liste</string >
-    <string name="brick_replace_item_in_userlist_item_at_index" >mit dem Index</string >
-    <string name="brick_replace_item_in_userlist_with_value" >den Wert</string >
+    <string name="brick_delete_item_from_userlist">an der Stelle</string>
+    <string name="brick_insert_item_into_userlist_insert_into" >Füge</string >
+    <string name="brick_insert_item_into_userlist_into_list" >in die Liste</string >
+    <string name="brick_insert_item_into_userlist_at_position" >an der Stelle</string >
+    <string name="brick_replace_item_in_userlist_replace_in_list" >Ersetze Element in der Liste</string >
+    <string name="brick_replace_item_in_userlist_item_at_index" >an der Stelle</string >
+    <string name="brick_replace_item_in_userlist_with_value" >mit</string >
     <!--  -->
 
 
@@ -587,7 +587,7 @@
     <!--  -->
 
     <!-- Formula Editor Strings -->
-    <string name="formula_editor_lists">Listen</string>
+    <string name="formula_editor_data" >Daten</string >
     <string name="formula_editor_true">Wahr</string>
     <string name="formula_editor_false">Falsch</string>
     <string name="formula_editor_decimal_mark">,</string>
@@ -667,7 +667,7 @@
     <string name="formula_editor_object_layer">Ebene</string>
     <string name="formula_editor_compute">Berechnen</string>
     <string name="formula_editor_object">Objekt</string>
-    <string name="formula_editor_function">Funktionen</string>
+    <string name="formula_editor_math" >Mathe</string>
     <string name="formula_editor_logic">Logik</string>
     <string name="formula_editor_sensors">Sensoren</string>
     <string name="formula_editor_variables">Variablen</string>
@@ -689,26 +689,24 @@
     <string name="formula_editor_image_button_description_delete">Löschen</string>
     <string name="formula_editor_variable_dialog_title">Neue Variable</string>
     <string name="formula_editor_variable_dialog_for_this_brick">Für diesen Baustein</string>
+    <string name="formula_editor_list_dialog_title" >Neue Liste</string >
     <string name="formula_editor_dialog_for_all_sprites">Für alle Objekte</string>
     <string name="formula_editor_dialog_for_this_sprite_only">Nur für dieses Objekt</string>
-    <string name="formula_editor_variable_dialog_hint">Variablenname eingeben</string>
-     <string name="formula_editor_userlist_dialog_hint">Listenname eingeben</string>
+     <string name="formula_editor_data_dialog_hint" >Name eingeben</string>
     <string name="formula_editor_discard_changes_dialog_message">Möchten Sie die Änderungen speichern?</string>
     <string name="formula_editor_discard_changes_dialog_title">Änderungen speichern?</string>
     <string name="variable_name">Variablenname:</string>
     <string name="formula_editor_new_string_name">Neuer Text</string>
     <string name="formula_editor_new_string_dialog_hint">Neuen Text hier eingeben.</string>
 
-    <plurals name="formula_editor_variable_context_action_item_selected">
-        <item quantity="one">Variable ausgewählt!</item>
-        <item quantity="other">Variablen ausgewählt!</item>
-    </plurals>
-    <string name="formula_editor_userlist_dialog_title">New List</string>
-    <string name="userlist_name">Listenname:</string>
-    <string name="formula_editor_existing_userlist">Name wird bereits verwendet!</string>
-    <plurals name="formula_editor_userlist_context_action_item_selected">
-        <item quantity="one">Liste ausgewähl!</item>
-        <item quantity="other">Listen ausgewählt!</item>
+    <string name="formula_editor_data_dialog_title">New</string>
+    <string name="formula_editor_existing_data_item" >Name wird bereits verwendet!</string>
+    <string name="formula_editor_fragment_data_current_items" >Aktuelle Items</string >
+    <string name="formula_editor_data_dialog_is_list" >is List</string >
+    <string name="formula_editor_lists" >Listen</string >
+    <plurals name="formula_editor_data_fragment_context_action_item_selected" >
+        <item quantity="one">Element ausgewähl!</item>
+        <item quantity="other">Elemente ausgewählt!</item>
     </plurals>
     <!--  -->
     

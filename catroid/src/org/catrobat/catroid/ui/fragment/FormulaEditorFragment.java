@@ -261,7 +261,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 							return true;
 						case R.id.formula_editor_keyboard_function:
 							showFormulaEditorListFragment(FormulaEditorListFragment.FUNCTION_TAG,
-									R.string.formula_editor_function);
+									R.string.formula_editor_math);
 							return true;
 						case R.id.formula_editor_keyboard_logic:
 							showFormulaEditorListFragment(FormulaEditorListFragment.LOGIC_TAG,
@@ -275,13 +275,9 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 							showFormulaEditorListFragment(FormulaEditorListFragment.SENSOR_TAG,
 									R.string.formula_editor_sensors);
 							return true;
-						case R.id.formula_editor_keyboard_variables:
-							showFormulaEditorVariableListFragment(FormulaEditorVariableListFragment.VARIABLE_TAG,
-									R.string.formula_editor_variables);
-							return true;
-						case R.id.formula_editor_keyboard_lists:
-							showFormulaEditorUserListFragment(FormulaEditorUserListFragment.USERLIST_TAG,
-									R.string.formula_editor_lists);
+						case R.id.formula_editor_keyboard_data:
+							showFormulaEditorDataFragment(FormulaEditorDataFragment.USER_DATA_TAG,
+									R.string.formula_editor_data);
 							return true;
 						case R.id.formula_editor_keyboard_ok:
 							endFormulaEditor();
@@ -552,44 +548,28 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void showFormulaEditorUserListFragment(String tag, int actionbarResId) {
-		FragmentManager fragmentManager = ((SherlockFragmentActivity) context).getSupportFragmentManager();
-		Fragment fragment = fragmentManager.findFragmentByTag(tag);
-
-		if (fragment == null) {
-			fragment = new FormulaEditorUserListFragment();
-			Bundle bundle = new Bundle();
-			bundle.putString(FormulaEditorUserListFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
-					context.getString(actionbarResId));
-			bundle.putString(FormulaEditorUserListFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
-			fragment.setArguments(bundle);
-			fragmentManager.beginTransaction().add(R.id.script_fragment_container, fragment, tag).commit();
-		}
-		((FormulaEditorUserListFragment) fragment).setAddButtonListener(getSherlockActivity());
-		((FormulaEditorUserListFragment) fragment).showFragment(context);
-	}
-
-	private void showFormulaEditorVariableListFragment(String tag, int actionbarResId) {
+	private void showFormulaEditorDataFragment(String tag, int actionbarResId) {
 		FragmentManager fragmentManager = ((SherlockFragmentActivity) context).getSupportFragmentManager();
 		Fragment fragment = fragmentManager.findFragmentByTag(tag);
 
 		if (fragment == null) {
 			if (getActivity().getClass().equals(ScriptActivity.class)) {
-				fragment = new FormulaEditorVariableListFragment(false);
+				fragment = new FormulaEditorDataFragment(false);
 			}
 			else {
-				fragment = new FormulaEditorVariableListFragment(true);
+				fragment = new FormulaEditorDataFragment(true);
 			}
 			Bundle bundle = new Bundle();
-			bundle.putString(FormulaEditorVariableListFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
+			bundle.putString(FormulaEditorDataFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
 					context.getString(actionbarResId));
-			bundle.putString(FormulaEditorVariableListFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
+			bundle.putString(FormulaEditorDataFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
 			fragment.setArguments(bundle);
 			fragmentManager.beginTransaction().add(R.id.script_fragment_container, fragment, tag).commit();
 		}
-		((FormulaEditorVariableListFragment) fragment).setAddButtonListener(getSherlockActivity());
-		((FormulaEditorVariableListFragment) fragment).showFragment(context);
+		((FormulaEditorDataFragment) fragment).setAddButtonListener(getSherlockActivity());
+		((FormulaEditorDataFragment) fragment).showFragment(context);
 	}
+
 
 	@SuppressWarnings("deprecation")
 	@Override

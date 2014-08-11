@@ -1,6 +1,6 @@
-/**
+/*
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyright (C) 2010-2014 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -29,13 +29,13 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.formulaeditor.UserListContainer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserListContainerTest extends AndroidTestCase {
+public class DataContainerTest extends AndroidTestCase {
 
 	private static final String PROJECT_USER_LIST_NAME_2 = "project_user_list_2";
 	private static final String PROJECT_USER_LIST_NAME = "project_user_list";
@@ -77,7 +77,7 @@ public class UserListContainerTest extends AndroidTestCase {
 	}
 
 	private static final List<Object> USER_LIST_VALUES_STRINGS_AND_NUMBERS = new ArrayList<Object>();
-	private UserListContainer userListContainer;
+	private DataContainer dataContainer;
 
 	static {
 		USER_LIST_VALUES_STRINGS_AND_NUMBERS.add("Hello");
@@ -89,36 +89,36 @@ public class UserListContainerTest extends AndroidTestCase {
 	protected void setUp() {
 		this.project = new Project(null, "testProject");
 		firstSprite = new Sprite("firstSprite");
-		startScript = new StartScript(firstSprite);
-		changeBrick = new ChangeSizeByNBrick(firstSprite, 10);
+		startScript = new StartScript();
+		changeBrick = new ChangeSizeByNBrick(10);
 		firstSprite.addScript(startScript);
 		startScript.addBrick(changeBrick);
 		project.addSprite(firstSprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
-		userListContainer = ProjectManager.getInstance().getCurrentProject().getUserLists();
-		userListContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
-		userListContainer.addSpriteUserListToSprite(firstSprite, SPRITE_USER_LIST_NAME);
-		userListContainer.addProjectUserList(PROJECT_USER_LIST_NAME_2);
+		dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
+		dataContainer.addSpriteUserListToSprite(firstSprite, SPRITE_USER_LIST_NAME);
+		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME_2);
 
 	}
 
 	public void testGetUserList() {
 
-		ProjectManager.getInstance().getCurrentProject().getUserLists().deleteUserListByName(PROJECT_USER_LIST_NAME);
-		ProjectManager.getInstance().getCurrentProject().getUserLists().deleteUserListByName(PROJECT_USER_LIST_NAME_2);
-		ProjectManager.getInstance().getCurrentProject().getUserLists().deleteUserListByName(SPRITE_USER_LIST_NAME);
+		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserListByName(PROJECT_USER_LIST_NAME);
+		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserListByName(PROJECT_USER_LIST_NAME_2);
+		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserListByName(SPRITE_USER_LIST_NAME);
 
-		assertNull("UserList found, but should not!", ProjectManager.getInstance().getCurrentProject().getUserLists().getUserList());
+		assertNull("UserList found, but should not!", ProjectManager.getInstance().getCurrentProject().getDataContainer().getUserList());
 
-		userListContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
-		userListContainer.getUserList(PROJECT_USER_LIST_NAME, firstSprite).setList(USER_LIST_VALUES_MULTIPLE_NUMBERS);
+		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
+		dataContainer.getUserList(PROJECT_USER_LIST_NAME, firstSprite).setList(USER_LIST_VALUES_MULTIPLE_NUMBERS);
 
-		userListContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
-		userListContainer.getUserList(PROJECT_USER_LIST_NAME, firstSprite).setList(USER_LIST_VALUES_SINGLE_NUMBER_STRING);
+		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
+		dataContainer.getUserList(PROJECT_USER_LIST_NAME, firstSprite).setList(USER_LIST_VALUES_SINGLE_NUMBER_STRING);
 
-		UserList userList = ProjectManager.getInstance().getCurrentProject().getUserLists().getUserList();
+		UserList userList = ProjectManager.getInstance().getCurrentProject().getDataContainer().getUserList();
 		assertEquals("getUserList returned wrong UserList values!", USER_LIST_VALUES_SINGLE_NUMBER_STRING, userList.getList());
 
 	}
