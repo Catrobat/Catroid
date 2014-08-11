@@ -25,8 +25,6 @@ package org.catrobat.catroid.formulaeditor;
 
 import android.util.Log;
 
-import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
-
 public enum Functions {
 
 	SIN, COS, TAN, LN, LOG, SQRT, RAND, ROUND, ABS, PI, MOD, ARCSIN, ARCCOS, ARCTAN, EXP, MAX, MIN, TRUE, FALSE, LENGTH, LETTER, JOIN, LIST_ITEM, CONTAINS ;

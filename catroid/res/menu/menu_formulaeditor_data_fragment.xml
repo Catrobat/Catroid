@@ -22,16 +22,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-     <item
-        android:id="@+id/menu_undo"
-        android:title="@string/undo"
-        android:showAsAction="ifRoom"
-        android:icon="@drawable/icon_undo" />
-    
-    <item
-        android:id="@+id/menu_redo"
-        android:title="@string/redo"
-        android:showAsAction="ifRoom"
-        android:icon="@drawable/icon_redo" />
 
+    <item
+        android:id="@+id/formula_editor_data_item_delete"
+        android:icon="@drawable/ic_menu_delete"
+        android:showAsAction="ifRoom"
+        android:title="@string/delete"/>
 </menu>

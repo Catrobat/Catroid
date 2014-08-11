@@ -1,24 +1,24 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
  *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
  *
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.ui.adapter;
 
@@ -36,18 +36,18 @@ import org.catrobat.catroid.formulaeditor.UserList;
 
 public class UserListAdapterWrapper extends BaseAdapter {
 
-	UserListAdapter userListAdapter;
+	DataAdapter dataAdapter;
 	Context context;
 	private boolean isTouchInDropDownView;
 
-	public UserListAdapterWrapper(Context context, UserListAdapter userListAdapter) {
+	public UserListAdapterWrapper(Context context, DataAdapter dataAdapter) {
 		this.context = context;
-		this.userListAdapter = userListAdapter;
+		this.dataAdapter = dataAdapter;
 	}
 
 	@Override
 	public int getCount() {
-		return userListAdapter.getCount() + 1;
+		return dataAdapter.getUserListCount() + 1;
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class UserListAdapterWrapper extends BaseAdapter {
 		if (position == 0) {
 			return null;
 		}
-		return userListAdapter.getItem(position - 1);
+		return dataAdapter.getUserListItem(position - 1);
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class UserListAdapterWrapper extends BaseAdapter {
 	}
 
 	public int getPositionOfItem(UserList item) {
-		return userListAdapter.getPositionOfItem(item) + 1;
+		return dataAdapter.getPositionOfUserListItem(item) + 1;
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class UserListAdapterWrapper extends BaseAdapter {
 		TextView text1;
 		if (position == 0) {
 			if (view == null) {
-				view = View.inflate(context, userListAdapter.getItemLayout(), null);
+				view = View.inflate(context, dataAdapter.getItemLayout(), null);
 				text1 = (TextView) view.findViewById(android.R.id.text1);
 				view.setTag(text1);
 			} else {
@@ -82,7 +82,7 @@ public class UserListAdapterWrapper extends BaseAdapter {
 			text1.setText(R.string.brick_variable_spinner_create_new_variable);
 
 		} else {
-			view = userListAdapter.getView(position - 1, convertView, parent);
+			view = dataAdapter.getViewForUserListItem(position - 1, convertView, parent);
 		}
 		return view;
 	}
@@ -103,7 +103,7 @@ public class UserListAdapterWrapper extends BaseAdapter {
 			text1.setText(R.string.brick_variable_spinner_create_new_variable);
 
 		} else {
-			view = userListAdapter.getDropDownView(position - 1, convertView, parent);
+			view = dataAdapter.getDropDownViewForUserListItem(position - 1, convertView, parent);
 		}
 
 		view.setOnTouchListener(new OnTouchListener() {
@@ -117,7 +117,7 @@ public class UserListAdapterWrapper extends BaseAdapter {
 	}
 
 	public void setItemLayout(int itemLayout, int textViewId) {
-		userListAdapter.setItemLayout(itemLayout, textViewId);
+		dataAdapter.setItemLayout(itemLayout, textViewId);
 	}
 
 	public boolean isTouchInDropDownView() {

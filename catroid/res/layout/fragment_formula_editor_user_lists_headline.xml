@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyright (C) 2010-2014 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -21,11 +21,20 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/data_user_lists_headline"
+              style="@style/headlineLinearLayout" >
 
-    <item
-        android:id="@+id/formula_editor_userlist_delete"
-        android:icon="@drawable/ic_menu_delete"
-        android:showAsAction="ifRoom"
-        android:title="@string/delete"/>
-</menu>
+    <View
+        style="@style/headlineView"
+        android:background="@color/transparent"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="12dp" />
+
+    <org.catrobat.catroid.ui.CapitalizedTextView
+        style="@style/headlineTextView"
+        android:textSize="@dimen/text_size_xxlarge"
+        android:text="@string/formula_editor_lists" />
+
+
+</LinearLayout >

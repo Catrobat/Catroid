@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyright (C) 2010-2014 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal" xmlns:tools="http://schemas.android.com/tools">
+    android:orientation="horizontal">
 
     <CheckBox
         android:id="@+id/brick_add_item_to_userlist_checkbox"
@@ -52,18 +52,6 @@
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_add_item_to_userlist_add" />
         
-         <Spinner
-            android:id="@+id/add_item_to_userlist_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:focusable="false" />
-         
-           <TextView
-            android:id="@+id/brick_add_item_to_userlist_textview"
-            style="@style/BrickText.SingleLine"
-            android:text="@string/brick_add_item_to_userlist" />
-        
          <TextView
             android:id="@+id/brick_add_item_to_userlist_prototype_view"
             style="@style/BrickPrototypeTextView" 
@@ -73,7 +61,20 @@
             android:id="@+id/brick_add_item_to_userlist_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"
-            app:layout_textField="true" />
+            app:layout_textField="true"/>
+
+        <TextView
+            android:id="@+id/brick_add_item_to_userlist_textview"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_add_item_to_userlist" />
+
+         <Spinner
+             app:layout_newLine="true"
+             android:id="@+id/add_item_to_userlist_spinner"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:clickable="false"
+             android:focusable="false" />
         
        
     </org.catrobat.catroid.ui.BrickLayout>

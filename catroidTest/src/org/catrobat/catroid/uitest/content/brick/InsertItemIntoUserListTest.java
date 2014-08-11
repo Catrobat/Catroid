@@ -1,22 +1,22 @@
-/**
+/*
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyright (C) 2010-2014 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -37,9 +37,8 @@ import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.ui.dialogs.NewUserListDialog;
+import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.ui.fragment.FormulaEditorUserListFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
@@ -63,7 +62,7 @@ public class InsertItemIntoUserListTest extends BaseActivityInstrumentationTestC
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
-	public void testCreateNewUserVariableAndDeletion() {
+	public void testCreateNewUserListAndDeletion() {
 		String userListName = "testList1";
 		String secondUserListName = "testList2";
 
@@ -84,9 +83,9 @@ public class InsertItemIntoUserListTest extends BaseActivityInstrumentationTestC
 
 		solo.clickOnText(getInstrumentation().getTargetContext().getString(
 				R.string.brick_variable_spinner_create_new_variable));
-		assertTrue("NewUserListDialog not visible", solo.waitForFragmentByTag(NewUserListDialog.DIALOG_FRAGMENT_TAG));
+		assertTrue("NewUserListDialog not visible", solo.waitForFragmentByTag(NewDataDialog.DIALOG_FRAGMENT_TAG));
 
-		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_userlist_name_edit_text);
+		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_data_name_edit_text);
 		solo.enterText(editText, userListName);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		assertTrue("ScriptFragment not visible", solo.waitForText(solo.getString(R.string.brick_insert_item_into_userlist_insert_into)));
@@ -101,9 +100,9 @@ public class InsertItemIntoUserListTest extends BaseActivityInstrumentationTestC
 		solo.clickOnText(getInstrumentation().getTargetContext().getString(
 				R.string.brick_variable_spinner_create_new_variable));
 
-		assertTrue("NewUserListDialog not visible", solo.waitForFragmentByTag(NewUserListDialog.DIALOG_FRAGMENT_TAG));
+		assertTrue("NewUserListDialog not visible", solo.waitForFragmentByTag(NewDataDialog.DIALOG_FRAGMENT_TAG));
 
-		editText = (EditText) solo.getView(R.id.dialog_formula_editor_userlist_name_edit_text);
+		editText = (EditText) solo.getView(R.id.dialog_formula_editor_data_name_edit_text);
 		solo.enterText(editText, secondUserListName);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		assertTrue("ScriptFragment not visible", solo.waitForText(solo.getString(R.string.brick_insert_item_into_userlist_insert_into)));
@@ -115,13 +114,13 @@ public class InsertItemIntoUserListTest extends BaseActivityInstrumentationTestC
 
 		solo.clickOnView(solo.getView(R.id.brick_insert_item_into_userlist_value_edit_text));
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_lists));
-		assertTrue("UserList Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_lists)));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_data));
+		assertTrue("UserList Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_data)));
 
 		solo.clickLongOnText(secondUserListName);
 		assertTrue("Delete not shown", solo.waitForText(solo.getString(R.string.delete)));
 		solo.clickOnText(solo.getString(R.string.delete));
-		assertTrue("UserList Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_lists)));
+		assertTrue("UserList Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_data)));
 
 		solo.goBack();
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
@@ -145,10 +144,10 @@ public class InsertItemIntoUserListTest extends BaseActivityInstrumentationTestC
 
 		solo.clickOnView(solo.getView(R.id.brick_insert_item_into_userlist_at_index_edit_text));
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
-		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_lists));
-		assertTrue("UserList Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_lists)));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_data));
+		assertTrue("UserList Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_data)));
 
-		createUserListFromUserListFragment(userListName, true);
+		UiTestUtils.createUserListFromDataFragment(solo, userListName, true);
 
 		solo.goBack();
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
@@ -171,8 +170,8 @@ public class InsertItemIntoUserListTest extends BaseActivityInstrumentationTestC
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		insertItemIntoUserListBrick = new InsertItemIntoUserListBrick(sprite, 10, 1);
+		Script script = new StartScript();
+		insertItemIntoUserListBrick = new InsertItemIntoUserListBrick(10, 1);
 		script.addBrick(insertItemIntoUserListBrick);
 
 		sprite.addScript(script);
@@ -182,26 +181,4 @@ public class InsertItemIntoUserListTest extends BaseActivityInstrumentationTestC
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
-	private void createUserListFromUserListFragment(String userListName, boolean forAllSprites) {
-		assertTrue("FormulaEditorUserListFragment not shown: ",
-				solo.waitForFragmentByTag(FormulaEditorUserListFragment.USERLIST_TAG));
-
-		solo.clickOnView(solo.getView(R.id.button_add));
-		assertTrue("Add UserList Dialog not shown",
-				solo.waitForText(solo.getString(R.string.formula_editor_userlist_dialog_title)));
-		solo.waitForView(solo.getView(R.id.dialog_formula_editor_userlist_name_edit_text));
-		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_userlist_name_edit_text);
-		solo.enterText(editText, userListName);
-
-		if (forAllSprites) {
-			solo.waitForView(solo.getView(R.id.dialog_formula_editor_userlist_name_global_variable_radio_button));
-			solo.clickOnView(solo.getView(R.id.dialog_formula_editor_userlist_name_global_variable_radio_button));
-		} else {
-			solo.waitForView(solo.getView(R.id.dialog_formula_editor_userlist_name_local_variable_radio_button));
-			solo.clickOnView(solo.getView(R.id.dialog_formula_editor_userlist_name_local_variable_radio_button));
-		}
-		solo.clickOnButton(solo.getString(R.string.ok));
-	}
-
 }
