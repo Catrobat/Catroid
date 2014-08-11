@@ -63,7 +63,6 @@ import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
@@ -583,7 +582,6 @@ public final class StandardProjectHandler {
 		defaultPhysicsProject.setDeviceData(context); // density anywhere here
 		StorageHandler.getInstance().saveProject(defaultPhysicsProject);
 		ProjectManager.getInstance().setProject(defaultPhysicsProject);
-		PhysicsWorld physicsWorld = defaultPhysicsProject.getPhysicsWorld();
 
 		backgroundImageScaleFactor = ImageEditing.calculateScaleFactorToScreenSize(
 				R.drawable.background_480_800, context);
@@ -613,7 +611,6 @@ public final class StandardProjectHandler {
 
 		// Square sprite
 		Sprite square = new Sprite("square");
-		StartScript startScriptSquare = new StartScript();
 
 		Script squareStartScript = createElement(context, projectName, square, "square", R.drawable.square, new Vector2(0.0f, 400.0f),
 				Float.NaN);

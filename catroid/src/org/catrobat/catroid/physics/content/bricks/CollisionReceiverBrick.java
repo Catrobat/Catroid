@@ -1,24 +1,24 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
  *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
  *
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.physics.content.bricks;
 
@@ -50,7 +50,6 @@ import java.util.List;
 public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMessage, Cloneable {
 	private static final long serialVersionUID = 1L;
 
-	private static final String TAG = CollisionReceiverBrick.class.getSimpleName();
 	private CollisionScript receiveScript;
 	private transient String collisionSpriteName;
 	ArrayAdapter<String> messageAdapter;
@@ -137,9 +136,7 @@ public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMess
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				String selectedMessage = broadcastSpinner.getSelectedItem().toString();
-				if (selectedMessage.equals(context.getString(R.string.new_broadcast_message))) {
-					//					showNewMessageDialog(broadcastSpinner);
-				} else {
+				if (!selectedMessage.equals(context.getString(R.string.new_broadcast_message))) {
 					receiveScript.setBroadcastMessage(selectedMessage);
 					collisionSpriteName = selectedMessage;
 				}
@@ -164,11 +161,10 @@ public class CollisionReceiverBrick extends ScriptBrick implements BroadcastMess
 		for (Sprite sprite : project.getSpriteList()) {
 			if (!spriteName.equals(sprite.getName())) {
 				ressources |= sprite.getRequiredResources();
-				if ((ressources & Brick.PHYSIC) > 0) {
-					if (messageAdapter.getPosition(sprite.getName()) < 0) {
-						messageAdapter.add(spriteName + "<->" + sprite.getName());
-						ressources &= ~Brick.PHYSIC;
-					}
+				if ((ressources & Brick.PHYSIC) > 0 && messageAdapter.getPosition(sprite.getName()) < 0) {
+					messageAdapter.add(spriteName + "<->" + sprite.getName());
+					ressources &= ~Brick.PHYSIC;
+
 				}
 			}
 		}
