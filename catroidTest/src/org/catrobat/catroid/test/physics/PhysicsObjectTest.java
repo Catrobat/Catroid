@@ -129,10 +129,10 @@ public class PhysicsObjectTest extends AndroidTestCase {
 		physicsObject.setShape(shape);
 
 		Body body = PhysicsTestUtils.getBody(physicsObject);
-		PolygonShape[] newShape = new PolygonShape[]{PhysicsTestUtils.createRectanglePolygonShape(1.0f, 2.0f)};
+		PolygonShape[] newShape = new PolygonShape[]{PhysicsTestUtils.createRectanglePolygonShape(2.0f, 3.0f)};
 		physicsObject.setShape(newShape);
 
-		assertSame("The new shape hasn't been set", newShape, PhysicsTestUtils.getShapes(physicsObject));
+		assertNotSame("The new shape hasn't been set", shape, PhysicsTestUtils.getShapes(physicsObject));
 		checkIfShapesAreTheSameAsInPhysicsObject(newShape, body);
 	}
 
