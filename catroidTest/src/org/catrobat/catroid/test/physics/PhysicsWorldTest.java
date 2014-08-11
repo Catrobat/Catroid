@@ -74,6 +74,17 @@ public class PhysicsWorldTest extends AndroidTestCase {
 		assertFalse("Wrong configuration", PhysicsWorld.IGNORE_SLEEPING_OBJECTS);
 
 		assertEquals("Wrong configuration", 6, PhysicsWorld.STABILIZING_STEPS);
+
+		short expectedCategoryBoundaryBox= 0x0002;
+		short expectedCategoryPhysicsObject = 0x0004;
+		assertEquals("Wrong configuration", 0x0000, PhysicsWorld.NOCOLLISION_MASK);
+		assertEquals("Wrong configuration", expectedCategoryBoundaryBox, PhysicsWorld.CATEGORY_BOUNDARYBOX);
+		assertEquals("Wrong configuration", expectedCategoryPhysicsObject, PhysicsWorld.CATEGORY_PHYSICSOBJECT);
+
+		assertEquals("Wrong configuration", expectedCategoryPhysicsObject, PhysicsWorld.MASK_BOUNDARYBOX);
+		assertEquals("Wrong configuration", ~expectedCategoryBoundaryBox, PhysicsWorld.MASK_PHYSICSOBJECT);
+		assertEquals("Wrong configuration", -1, PhysicsWorld.MASK_TOBOUNCE);
+		assertEquals("Wrong configuration", 0, PhysicsWorld.MASK_NOCOLLISION);
 	}
 
 	public void testWrapper() {
