@@ -34,7 +34,9 @@ public class InternFormula {
 
 	public static enum CursorTokenPosition {
 		LEFT, MIDDLE, RIGHT;
-	};
+	}
+
+	;
 
 	public static enum CursorTokenPropertiesAfterModification {
 		LEFT, RIGHT, SELECT, DO_NOT_MODIFY;
@@ -90,11 +92,11 @@ public class InternFormula {
 		if (isSelected
 				|| externInternRepresentationMapping.getInternTokenByExternIndex(externCursorPosition) != ExternInternRepresentationMapping.MAPPING_NOT_FOUND
 				&& (getFirstLeftInternToken(externCursorPosition - 1) == cursorPositionInternToken || cursorPositionInternToken
-						.isFunctionParameterBracketOpen())
+				.isFunctionParameterBracketOpen())
 				&& ((cursorPositionInternToken.isFunctionName())
-						|| (cursorPositionInternToken.isFunctionParameterBracketOpen() && cursorTokenPosition == CursorTokenPosition.LEFT)
-						|| (cursorPositionInternToken.isSensor()) || (cursorPositionInternToken.isUserVariable())
-						|| (cursorPositionInternToken.isUserList()) || (cursorPositionInternToken.isString()))) {
+				|| (cursorPositionInternToken.isFunctionParameterBracketOpen() && cursorTokenPosition == CursorTokenPosition.LEFT)
+				|| (cursorPositionInternToken.isSensor()) || (cursorPositionInternToken.isUserVariable())
+				|| (cursorPositionInternToken.isUserList()) || (cursorPositionInternToken.isString()))) {
 			selectCursorPositionInternToken(TokenSelectionType.USER_SELECTION);
 		}
 
@@ -107,7 +109,7 @@ public class InternFormula {
 
 		CursorTokenPropertiesAfterModification cursorTokenPropertiesAfterInput = CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 
-		if (resourceId == R.id.formula_editor_edit_field_clear) {
+		if (resourceId == R.id.formula_editor_edit_field_clear || resourceId == R.id.formula_editor_keyboard_delete) {
 
 			cursorTokenPropertiesAfterInput = handleDeletion();
 

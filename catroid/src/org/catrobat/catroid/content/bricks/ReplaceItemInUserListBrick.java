@@ -1,24 +1,24 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
  *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
  *
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.content.bricks;
 
@@ -43,44 +43,38 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.ui.adapter.UserListAdapter;
+import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
-import org.catrobat.catroid.ui.dialogs.NewUserListDialog;
-import org.catrobat.catroid.ui.dialogs.NewUserListDialog.NewUserListDialogListener;
+import org.catrobat.catroid.ui.dialogs.NewDataDialog;
+import org.catrobat.catroid.ui.dialogs.NewDataDialog.NewUserListDialogListener;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class ReplaceItemInUserListBrick extends BrickBaseType implements OnClickListener, NewUserListDialogListener,
-		FormulaBrick {
+public class ReplaceItemInUserListBrick extends FormulaBrick implements OnClickListener, NewUserListDialogListener {
 	private static final long serialVersionUID = 1L;
 	private UserList userList;
-	private Formula userListFormulaValueToInsert;
-	private Formula userListFormulaIndexToReplace;
 	private transient AdapterView<?> adapterView;
 
-	public ReplaceItemInUserListBrick(Sprite sprite, Formula userListFormulaValueToInsert, Formula userListFormulaIndexToReplace, UserList userList) {
-		this.sprite = sprite;
-		this.userListFormulaValueToInsert = userListFormulaValueToInsert;
-		this.userListFormulaIndexToReplace = userListFormulaIndexToReplace;
+	public ReplaceItemInUserListBrick(Formula userListFormulaValueToInsert, Formula userListFormulaIndexToReplace, UserList userList) {
+		initializeBrickFields(userListFormulaValueToInsert, userListFormulaIndexToReplace);
 		this.userList = userList;
 	}
 
-	public ReplaceItemInUserListBrick(Sprite sprite, double value, double indexToReplace) {
-		this.sprite = sprite;
-		this.userListFormulaValueToInsert = new Formula(value);
-		this.userListFormulaIndexToReplace = new Formula(indexToReplace);
+	public ReplaceItemInUserListBrick(double value, double indexToReplace) {
+		initializeBrickFields(new Formula(value), new Formula(indexToReplace));
 		this.userList = null;
 	}
 
-	@Override
-	public Formula getFormula() {
-		return userListFormulaValueToInsert;
+	private void initializeBrickFields(Formula userListFormulaValueToInsert, Formula userListFormulaIndexToReplace) {
+		addAllowedBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE);
+		addAllowedBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX);
+		setFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE, userListFormulaValueToInsert);
+		setFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX, userListFormulaIndexToReplace);
 	}
 
 	@Override
@@ -89,8 +83,8 @@ public class ReplaceItemInUserListBrick extends BrickBaseType implements OnClick
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.replaceItemInUserList(sprite, userListFormulaIndexToReplace, userListFormulaValueToInsert, userList));
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.replaceItemInUserList(sprite, getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX), getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE), userList));
 		return null;
 	}
 
@@ -119,23 +113,23 @@ public class ReplaceItemInUserListBrick extends BrickBaseType implements OnClick
 		TextView prototypeTextValue = (TextView) view.findViewById(R.id.brick_replace_item_in_userlist_value_prototype_view);
 		TextView textFieldValue = (TextView) view.findViewById(R.id.brick_replace_item_in_userlist_value_edit_text);
 		prototypeTextValue.setVisibility(View.GONE);
-		userListFormulaValueToInsert.setTextFieldId(R.id.brick_replace_item_in_userlist_value_edit_text);
-		userListFormulaValueToInsert.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE).setTextFieldId(R.id.brick_replace_item_in_userlist_value_edit_text);
+		getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE).refreshTextField(view);
 		textFieldValue.setVisibility(View.VISIBLE);
 		textFieldValue.setOnClickListener(this);
 
 		TextView prototypeTextIndex = (TextView) view.findViewById(R.id.brick_replace_item_in_userlist_at_index_prototype_view);
 		TextView textFieldIndex = (TextView) view.findViewById(R.id.brick_replace_item_in_userlist_at_index_edit_text);
 		prototypeTextIndex.setVisibility(View.GONE);
-		userListFormulaIndexToReplace.setTextFieldId(R.id.brick_replace_item_in_userlist_at_index_edit_text);
-		userListFormulaIndexToReplace.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX).setTextFieldId(R.id.brick_replace_item_in_userlist_at_index_edit_text);
+		getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX).refreshTextField(view);
 		textFieldIndex.setVisibility(View.VISIBLE);
 		textFieldIndex.setOnClickListener(this);
 
 		Spinner userListSpinner = (Spinner) view.findViewById(R.id.replace_item_in_userlist_spinner);
-		UserListAdapter userListAdapter = ProjectManager.getInstance().getCurrentProject().getUserLists()
-				.createUserListAdapter(context, sprite);
-		UserListAdapterWrapper userListAdapterWrapper = new UserListAdapterWrapper(context, userListAdapter);
+		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
+		UserListAdapterWrapper userListAdapterWrapper = new UserListAdapterWrapper(context, dataAdapter);
 		userListAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 
 		userListSpinner.setAdapter(userListAdapterWrapper);
@@ -156,10 +150,10 @@ public class ReplaceItemInUserListBrick extends BrickBaseType implements OnClick
 			public boolean onTouch(View view, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_UP
 						&& (((Spinner) view).getSelectedItemPosition() == 0 && ((Spinner) view).getAdapter().getCount() == 1)) {
-					NewUserListDialog dialog = new NewUserListDialog((Spinner) view);
+					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_LIST);
 					dialog.addUserListDialogListener(ReplaceItemInUserListBrick.this);
 					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
-							NewUserListDialog.DIALOG_FRAGMENT_TAG);
+							NewDataDialog.DIALOG_FRAGMENT_TAG);
 					return true;
 				}
 
@@ -170,10 +164,10 @@ public class ReplaceItemInUserListBrick extends BrickBaseType implements OnClick
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (position == 0 && ((UserListAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
-					NewUserListDialog dialog = new NewUserListDialog((Spinner) parent);
+					NewDataDialog dialog = new NewDataDialog((Spinner) parent, NewDataDialog.DialogType.USER_LIST);
 					dialog.addUserListDialogListener(ReplaceItemInUserListBrick.this);
 					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
-							NewUserListDialog.DIALOG_FRAGMENT_TAG);
+							NewDataDialog.DIALOG_FRAGMENT_TAG);
 				}
 				((UserListAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
 				userList = (UserList) parent.getItemAtPosition(position);
@@ -195,10 +189,10 @@ public class ReplaceItemInUserListBrick extends BrickBaseType implements OnClick
 		Spinner userListSpinner = (Spinner) prototypeView.findViewById(R.id.replace_item_in_userlist_spinner);
 		userListSpinner.setFocusableInTouchMode(false);
 		userListSpinner.setFocusable(false);
-		UserListAdapter userListAdapter = ProjectManager.getInstance().getCurrentProject().getUserLists()
-				.createUserListAdapter(context, sprite);
+		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 
-		UserListAdapterWrapper userListAdapterWrapper = new UserListAdapterWrapper(context, userListAdapter);
+		UserListAdapterWrapper userListAdapterWrapper = new UserListAdapterWrapper(context, dataAdapter);
 
 		userListAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 		userListSpinner.setAdapter(userListAdapterWrapper);
@@ -248,7 +242,7 @@ public class ReplaceItemInUserListBrick extends BrickBaseType implements OnClick
 
 	@Override
 	public Brick clone() {
-		ReplaceItemInUserListBrick clonedBrick = new ReplaceItemInUserListBrick(getSprite(), userListFormulaValueToInsert.clone(), userListFormulaIndexToReplace.clone(), userList);
+		ReplaceItemInUserListBrick clonedBrick = new ReplaceItemInUserListBrick(getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE).clone(), getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX).clone(), userList);
 		return clonedBrick;
 	}
 
@@ -259,25 +253,24 @@ public class ReplaceItemInUserListBrick extends BrickBaseType implements OnClick
 		}
 		switch (view.getId()) {
 			case R.id.brick_replace_item_in_userlist_at_index_edit_text:
-				FormulaEditorFragment.showFragment(view, this, userListFormulaIndexToReplace);
+				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX));
 				break;
 			case R.id.brick_replace_item_in_userlist_value_edit_text:
-				FormulaEditorFragment.showFragment(view, this, userListFormulaValueToInsert);
+				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE));
 				break;
 		}
 
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		if (!currentProject.getSpriteList().contains(this.sprite)) {
-			throw new RuntimeException("this is not the current project");
+		if (currentProject == null) {
+			throw new RuntimeException("The current project must be set before cloning it");
 		}
 
 		ReplaceItemInUserListBrick copyBrick = (ReplaceItemInUserListBrick) clone();
-		copyBrick.sprite = sprite;
-		copyBrick.userList = currentProject.getUserLists().getUserList(userList.getName(), sprite);
+		copyBrick.userList = currentProject.getDataContainer().getUserList(userList.getName(), sprite);
 		return copyBrick;
 	}
 

@@ -254,7 +254,7 @@ public class InternFormulaParser {
 	}
 
 	private FormulaElement userVariable() throws InternFormulaParserException {
-		UserVariablesContainer userVariables = ProjectManager.getInstance().getCurrentProject().getUserVariables();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		int userBrickId = currentBrick == null ? -1 : currentBrick.getDefinitionBrick().getUserBrickId();
@@ -273,10 +273,10 @@ public class InternFormulaParser {
 	}
 
 	private FormulaElement userList() throws InternFormulaParserException {
-		UserListContainer userLists = ProjectManager.getInstance().getCurrentProject().getUserLists();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
-		if (userLists.getUserList(currentToken.getTokenStringValue(), currentSprite) == null) {
+		if (dataContainer.getUserList(currentToken.getTokenStringValue(), currentSprite) == null) {
 			throw new InternFormulaParserException("Parse Error");
 		}
 

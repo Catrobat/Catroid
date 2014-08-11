@@ -1,6 +1,6 @@
-/**
+/*
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyright (C) 2010-2014 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -43,41 +43,39 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
-import org.catrobat.catroid.ui.adapter.UserListAdapter;
+import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
-import org.catrobat.catroid.ui.dialogs.NewUserListDialog;
-import org.catrobat.catroid.ui.dialogs.NewUserListDialog.NewUserListDialogListener;
+import org.catrobat.catroid.ui.dialogs.NewDataDialog;
+import org.catrobat.catroid.ui.dialogs.NewDataDialog.NewUserListDialogListener;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class DeleteItemOfUserListBrick extends BrickBaseType implements OnClickListener, NewUserListDialogListener,
-		FormulaBrick {
+public class DeleteItemOfUserListBrick extends FormulaBrick implements OnClickListener, NewUserListDialogListener {
 	private static final long serialVersionUID = 1L;
 	private UserList userList;
-	private Formula userListFormula;
 	private transient AdapterView<?> adapterView;
 
-	public DeleteItemOfUserListBrick(Sprite sprite, Formula userListFormula, UserList userList) {
-		this.sprite = sprite;
-		this.userListFormula = userListFormula;
+	public DeleteItemOfUserListBrick() {
+		addAllowedBrickField(BrickField.LIST_DELETE_ITEM);
+	}
+
+	public DeleteItemOfUserListBrick(Formula userListFormula, UserList userList) {
+		initializeBrickFields(userListFormula);
 		this.userList = userList;
 	}
 
-	public DeleteItemOfUserListBrick(Sprite sprite, double value) {
-		this.sprite = sprite;
-		this.userListFormula = new Formula(value);
-		this.userList = null;
+	public DeleteItemOfUserListBrick(double value) {
+		initializeBrickFields(new Formula(value));
 	}
 
-	@Override
-	public Formula getFormula() {
-		return userListFormula;
+	private void initializeBrickFields(Formula listAddItemFormula) {
+		addAllowedBrickField(BrickField.LIST_ADD_ITEM);
+		setFormulaWithBrickField(BrickField.LIST_ADD_ITEM, listAddItemFormula);
 	}
 
 	@Override
@@ -86,8 +84,8 @@ public class DeleteItemOfUserListBrick extends BrickBaseType implements OnClickL
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.deleteItemOfUserList(sprite, userListFormula, userList));
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.deleteItemOfUserList(sprite, getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM), userList));
 		return null;
 	}
 
@@ -116,15 +114,15 @@ public class DeleteItemOfUserListBrick extends BrickBaseType implements OnClickL
 		TextView prototypeText = (TextView) view.findViewById(R.id.brick_delete_item_of_userlist_prototype_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_delete_item_of_userlist_edit_text);
 		prototypeText.setVisibility(View.GONE);
-		userListFormula.setTextFieldId(R.id.brick_delete_item_of_userlist_edit_text);
-		userListFormula.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM).setTextFieldId(R.id.brick_delete_item_of_userlist_edit_text);
+		getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM).refreshTextField(view);
 		textField.setVisibility(View.VISIBLE);
 		textField.setOnClickListener(this);
 
 		Spinner userListSpinner = (Spinner) view.findViewById(R.id.delete_item_of_userlist_spinner);
-		UserListAdapter userListAdapter = ProjectManager.getInstance().getCurrentProject().getUserLists()
-				.createUserListAdapter(context, sprite);
-		UserListAdapterWrapper userListAdapterWrapper = new UserListAdapterWrapper(context, userListAdapter);
+		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
+		UserListAdapterWrapper userListAdapterWrapper = new UserListAdapterWrapper(context, dataAdapter);
 		userListAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 
 		userListSpinner.setAdapter(userListAdapterWrapper);
@@ -145,10 +143,10 @@ public class DeleteItemOfUserListBrick extends BrickBaseType implements OnClickL
 			public boolean onTouch(View view, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_UP
 						&& (((Spinner) view).getSelectedItemPosition() == 0 && ((Spinner) view).getAdapter().getCount() == 1)) {
-					NewUserListDialog dialog = new NewUserListDialog((Spinner) view);
+					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_LIST);
 					dialog.addUserListDialogListener(DeleteItemOfUserListBrick.this);
 					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
-							NewUserListDialog.DIALOG_FRAGMENT_TAG);
+							NewDataDialog.DIALOG_FRAGMENT_TAG);
 					return true;
 				}
 
@@ -159,10 +157,10 @@ public class DeleteItemOfUserListBrick extends BrickBaseType implements OnClickL
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (position == 0 && ((UserListAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
-					NewUserListDialog dialog = new NewUserListDialog((Spinner) parent);
+					NewDataDialog dialog = new NewDataDialog((Spinner) parent, NewDataDialog.DialogType.USER_LIST);
 					dialog.addUserListDialogListener(DeleteItemOfUserListBrick.this);
 					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
-							NewUserListDialog.DIALOG_FRAGMENT_TAG);
+							NewDataDialog.DIALOG_FRAGMENT_TAG);
 				}
 				((UserListAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
 				userList = (UserList) parent.getItemAtPosition(position);
@@ -184,10 +182,10 @@ public class DeleteItemOfUserListBrick extends BrickBaseType implements OnClickL
 		Spinner userListSpinner = (Spinner) prototypeView.findViewById(R.id.delete_item_of_userlist_spinner);
 		userListSpinner.setFocusableInTouchMode(false);
 		userListSpinner.setFocusable(false);
-		UserListAdapter userListAdapter = ProjectManager.getInstance().getCurrentProject().getUserLists()
-				.createUserListAdapter(context, sprite);
+		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 
-		UserListAdapterWrapper userListAdapterWrapper = new UserListAdapterWrapper(context, userListAdapter);
+		UserListAdapterWrapper userListAdapterWrapper = new UserListAdapterWrapper(context, dataAdapter);
 
 		userListAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 		userListSpinner.setAdapter(userListAdapterWrapper);
@@ -229,7 +227,7 @@ public class DeleteItemOfUserListBrick extends BrickBaseType implements OnClickL
 
 	@Override
 	public Brick clone() {
-		DeleteItemOfUserListBrick clonedBrick = new DeleteItemOfUserListBrick(getSprite(), userListFormula.clone(), userList);
+		DeleteItemOfUserListBrick clonedBrick = new DeleteItemOfUserListBrick(getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM).clone(), userList);
 		return clonedBrick;
 	}
 
@@ -238,19 +236,18 @@ public class DeleteItemOfUserListBrick extends BrickBaseType implements OnClickL
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		FormulaEditorFragment.showFragment(view, this, userListFormula);
+		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM));
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		if (!currentProject.getSpriteList().contains(this.sprite)) {
-			throw new RuntimeException("this is not the current project");
+		if (currentProject == null) {
+			throw new RuntimeException("The current project must be set before cloning it");
 		}
 
 		DeleteItemOfUserListBrick copyBrick = (DeleteItemOfUserListBrick) clone();
-		copyBrick.sprite = sprite;
-		copyBrick.userList = currentProject.getUserLists().getUserList(userList.getName(), sprite);
+		copyBrick.userList = currentProject.getDataContainer().getUserList(userList.getName(), sprite);
 		return copyBrick;
 	}
 

@@ -33,8 +33,7 @@ import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.formulaeditor.UserListContainer;
-import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -51,10 +50,8 @@ public class Project implements Serializable {
 	private XmlHeader xmlHeader = new XmlHeader();
 	@XStreamAlias("objectList")
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
-	@XStreamAlias("variables")
-	private UserVariablesContainer userVariables = null;
-	@XStreamAlias("lists")
-	private UserListContainer userLists = null;
+	@XStreamAlias("data")
+	private DataContainer dataContainer = null;
 
 	public Project(Context context, String name) {
 		xmlHeader.setProgramName(name);
@@ -70,8 +67,7 @@ public class Project implements Serializable {
 
 		MessageContainer.clear();
 
-		userVariables = new UserVariablesContainer();
-		userLists = new UserListContainer();
+		dataContainer = new DataContainer();
 
 		if (context == null) {
 			return;
@@ -178,12 +174,8 @@ public class Project implements Serializable {
 	public Project() {
 	}
 
-	public UserVariablesContainer getUserVariables() {
-		return userVariables;
-	}
-
-	public UserListContainer getUserLists() {
-		return userLists;
+	public DataContainer getDataContainer() {
+		return dataContainer;
 	}
 
 	public void removeUnusedBroadcastMessages() {

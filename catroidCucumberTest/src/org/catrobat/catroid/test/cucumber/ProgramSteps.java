@@ -122,9 +122,9 @@ public class ProgramSteps extends AndroidTestCase {
 		Script script = (Script) Cucumber.get(Cucumber.KEY_CURRENT_SCRIPT);
 		Project project = ProjectManager.getInstance().getCurrentProject();
 
-		UserVariable varA = project.getUserVariables().getUserVariable(a, object);
+		UserVariable varA = project.getDataContainer().getUserVariable(a, object);
 		if (varA == null) {
-			varA = project.getUserVariables().addSpriteUserVariableToSprite(object, a);
+			varA = project.getDataContainer().addSpriteUserVariableToSprite(object, a);
 		}
 
 		FormulaElement elemB = new FormulaElement(ElementType.NUMBER, b, null);
@@ -139,9 +139,9 @@ public class ProgramSteps extends AndroidTestCase {
 		Script script = (Script) Cucumber.get(Cucumber.KEY_CURRENT_SCRIPT);
 		Project project = ProjectManager.getInstance().getCurrentProject();
 
-		UserVariable varA = project.getUserVariables().getUserVariable(a, object);
+		UserVariable varA = project.getDataContainer().getUserVariable(a, object);
 		if (varA == null) {
-			varA = project.getUserVariables().addSpriteUserVariableToSprite(object, a);
+			varA = project.getDataContainer().addSpriteUserVariableToSprite(object, a);
 		}
 
 		FormulaElement elemB = new FormulaElement(ElementType.USER_VARIABLE, b, null);
@@ -156,9 +156,9 @@ public class ProgramSteps extends AndroidTestCase {
 		Script script = (Script) Cucumber.get(Cucumber.KEY_CURRENT_SCRIPT);
 		Project project = ProjectManager.getInstance().getCurrentProject();
 
-		UserVariable variable = project.getUserVariables().getUserVariable(name, object);
+		UserVariable variable = project.getDataContainer().getUserVariable(name, object);
 		if (variable == null) {
-			variable = project.getUserVariables().addSpriteUserVariableToSprite(object, name);
+			variable = project.getDataContainer().addSpriteUserVariableToSprite(object, name);
 		}
 
 		FormulaElement elemValue = new FormulaElement(ElementType.NUMBER, value, null);
@@ -287,7 +287,7 @@ public class ProgramSteps extends AndroidTestCase {
 		Sprite object = (Sprite) Cucumber.get(Cucumber.KEY_CURRENT_OBJECT);
 		Project project = ProjectManager.getInstance().getCurrentProject();
 
-		UserVariable variable = project.getUserVariables().getUserVariable(name, object);
+		UserVariable variable = project.getDataContainer().getUserVariable(name, object);
 		assertNotNull("The variable does not exist.", variable);
 
 		float actual = variable.getValue().floatValue();
@@ -299,7 +299,7 @@ public class ProgramSteps extends AndroidTestCase {
 		Sprite object = (Sprite) Cucumber.get(Cucumber.KEY_CURRENT_OBJECT);
 		Project project = ProjectManager.getInstance().getCurrentProject();
 
-		UserVariable variable = project.getUserVariables().getUserVariable(name, object);
+		UserVariable variable = project.getDataContainer().getUserVariable(name, object);
 		assertNotNull("The variable does not exist.", variable);
 
 		float actual = variable.getValue().floatValue();
@@ -311,7 +311,7 @@ public class ProgramSteps extends AndroidTestCase {
 		Sprite object = (Sprite) Cucumber.get(Cucumber.KEY_CURRENT_OBJECT);
 		Project project = ProjectManager.getInstance().getCurrentProject();
 
-		UserVariable variable = project.getUserVariables().getUserVariable(name, object);
+		UserVariable variable = project.getDataContainer().getUserVariable(name, object);
 		assertNotNull("The variable does not exist.", variable);
 
 		float actual = variable.getValue().floatValue();

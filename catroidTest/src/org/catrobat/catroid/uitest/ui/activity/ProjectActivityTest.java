@@ -57,11 +57,11 @@ import org.catrobat.catroid.content.bricks.LoopBeginBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -145,17 +145,17 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(secondSprite);
 
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().addSpriteUserVariable("p");
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().addSpriteUserVariable("q");
+		ProjectManager.getInstance().getCurrentProject().getDataContainer().addSpriteUserVariable("p");
+		ProjectManager.getInstance().getCurrentProject().getDataContainer().addSpriteUserVariable("q");
 
 		Double setVariable1ToValue = Double.valueOf(3d);
 		Double setVariable2ToValue = Double.valueOf(8d);
 
 		SetVariableBrick setVariableBrick1 = new SetVariableBrick(new Formula(setVariable1ToValue),
-				ProjectManager.getInstance().getCurrentProject().getUserVariables().getUserVariable("p", secondSprite));
+				ProjectManager.getInstance().getCurrentProject().getDataContainer().getUserVariable("p", secondSprite));
 
 		SetVariableBrick setVariableBrick2 = new SetVariableBrick(new Formula(setVariable2ToValue),
-				ProjectManager.getInstance().getCurrentProject().getUserVariables().getUserVariable("q", secondSprite));
+				ProjectManager.getInstance().getCurrentProject().getDataContainer().getUserVariable("q", secondSprite));
 
 		Script startScript1 = new StartScript();
 		secondSprite.addScript(startScript1);
@@ -173,10 +173,10 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		Sprite copiedSprite = project.getSpriteList().get(2);
 		ProjectManager.getInstance().setCurrentSprite(copiedSprite);
 
-		double q = (Double) ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		double q = (Double) ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.getUserVariable("q", copiedSprite).getValue();
 
-		double p = (Double) ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		double p = (Double) ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.getUserVariable("p", copiedSprite).getValue();
 
 		Log.e("CATROID", "q hat den Wert: " + q);
@@ -199,30 +199,28 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(secondSprite);
 
-		ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.addSpriteUserVariable(firstUserVariableName);
-		ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.addProjectUserVariable(secondUserVariableName);
 
 		Double setVariable1ToValue = Double.valueOf(3d);
 		Double setVariable2ToValue = Double.valueOf(8d);
 
 		SetVariableBrick setVariableBrick1 = new SetVariableBrick(new Formula(setVariable1ToValue),
-				ProjectManager.getInstance().getCurrentProject().getUserVariables()
-						.getUserVariable(firstUserVariableName, secondSprite)
-		);
+				ProjectManager.getInstance().getCurrentProject().getDataContainer()
+						.getUserVariable(firstUserVariableName, secondSprite));
 
 		SetVariableBrick setVariableBrick2 = new SetVariableBrick(new Formula(setVariable2ToValue),
-				ProjectManager.getInstance().getCurrentProject().getUserVariables()
-						.getUserVariable(secondUserVariableName, secondSprite)
-		);
+				ProjectManager.getInstance().getCurrentProject().getDataContainer()
+						.getUserVariable(secondUserVariableName, secondSprite));
 
 		ChangeVariableBrick changeVariableBrick1 = new ChangeVariableBrick(new Formula(
-				setVariable1ToValue), ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				setVariable1ToValue), ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.getUserVariable(firstUserVariableName, secondSprite));
 
 		ChangeVariableBrick changeVariableBrick2 = new ChangeVariableBrick(new Formula(
-				setVariable2ToValue), ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				setVariable2ToValue), ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.getUserVariable(secondUserVariableName, secondSprite));
 
 		Script startScript1 = new StartScript();
@@ -1390,7 +1388,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 					internTokenListToCheck.get(i).getTokenStringValue());
 		}
 
-		UserVariablesContainer variablesContainer = projectManager.getCurrentProject().getUserVariables();
+		DataContainer variablesContainer = projectManager.getCurrentProject().getDataContainer();
 		UserVariable firstVariable = variablesContainer.getUserVariable("global", firstSprite);
 		UserVariable copiedVariable = variablesContainer.getUserVariable("global", copiedSprite);
 		assertSame("Formula is not copied right!", firstVariable, copiedVariable);

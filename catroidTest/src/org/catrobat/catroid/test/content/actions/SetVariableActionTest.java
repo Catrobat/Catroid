@@ -41,15 +41,15 @@ public class SetVariableActionTest extends AndroidTestCase {
 	private UserVariable userVariable;
 
 	@Override
-    protected void setUp() throws Exception {
-        testSprite = new Sprite("testSprite");
-        project = new Project(null, "testProject");
-        ProjectManager.getInstance().setProject(project);
-        ProjectManager.getInstance().getCurrentProject().getUserVariables().addProjectUserVariable(TEST_USERVARIABLE);
-        userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-                .getUserVariable(TEST_USERVARIABLE, null);
-        super.setUp();
-    }
+	protected void setUp() throws Exception {
+		testSprite = new Sprite("testSprite");
+		project = new Project(null, "testProject");
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().getCurrentProject().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
+		userVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+				.getUserVariable(TEST_USERVARIABLE, null);
+		super.setUp();
+	}
 
 	public void testSetVariableWithNumericalFormula() {
         ExtendedActions.setVariable(testSprite,new Formula(SET_VARIABLE_VALUE), userVariable).act(1f);
