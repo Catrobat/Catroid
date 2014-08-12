@@ -35,12 +35,16 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.Transform;
 
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Sprite;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 public class PhysicsObject {
+	private static final String TAG = PhysicsObject.class.getSimpleName();
+
 	public enum Type {
 		DYNAMIC, FIXED, NONE;
 	}
@@ -55,11 +59,11 @@ public class PhysicsObject {
 	public static final float DEFAULT_MASS = 1.0f;
 	public static final float MIN_MASS = 0.000001f;
 
+	private PhysicsObjectHangupState hangupState = new PhysicsObjectHangupState();
+
 	private short collisionMaskRecord = 0;
 	private short categoryMaskRecord = PhysicsWorld.CATEGORY_PHYSICSOBJECT;
-	private Vector2 velocity;
-	private float rotationSpeed;
-	private float gravityScale;
+
 
 	private final Body body;
 	private final FixtureDef fixtureDef = new FixtureDef();
@@ -67,7 +71,6 @@ public class PhysicsObject {
 	private Type type;
 	private float mass;
 	private boolean ifOnEdgeBounce = false;
-	private boolean hangup = false;
 	private boolean isVisible = true;
 	//	private boolean isTransparent = false;
 
@@ -321,11 +324,13 @@ public class PhysicsObject {
 
 		isVisible = visible;
 
+		updateHangupState(true);
+/*
 		if (isVisible) {
 			resume(true);
 		} else if (!isVisible) {
-			hangup();
-		}
+			hangedUp();
+		}*/
 	}
 
 	//	public void setTransparent(boolean transparend) {
@@ -333,43 +338,10 @@ public class PhysicsObject {
 	//			resume(true);
 	//			isTransparent = transparend;
 	//		} else if (transparend && !isVisible && !isTransparent) {
-	//			hangup();
+	//			hangedUp();
 	//			isTransparent = transparend;
 	//		}
 	//	}
-
-	public void hangup() {
-		if (!hangup) {
-			Log.d("PhysicsObject", "- - hangup - -");
-			recordData();
-			setGravityScale(0);
-			setVelocity(0, 0);
-			setRotationSpeed(0);
-			setCollisionBits(categoryMaskRecord, PhysicsWorld.NOCOLLISION_MASK);
-			hangup = true;
-		}
-	}
-
-	public void resume(boolean fromLastRecord) {
-		if (hangup) {
-			Log.d("PhysicsObject", "- - resume - -");
-			if (fromLastRecord) {
-				setGravityScale(gravityScale);
-				setVelocity(velocity.x, velocity.y);
-				setRotationSpeed(rotationSpeed);
-			} else {
-				setGravityScale(1);
-			}
-			setCollisionBits(categoryMaskRecord, collisionMaskRecord);
-			hangup = false;
-		}
-	}
-
-	private void recordData() {
-		velocity = new Vector2(getVelocity());
-		rotationSpeed = getRotationSpeed();
-		gravityScale = getGravityScale();
-	}
 
 	public void getBoundaryBox(Vector2 lower, Vector2 upper) {
 		calcAABB();
@@ -424,4 +396,143 @@ public class PhysicsObject {
 		bodyAABBupper.x = Math.max(fixtureAABBupper.x, bodyAABBupper.x);
 		bodyAABBupper.y = Math.max(fixtureAABBupper.y, bodyAABBupper.y);
 	}
+
+	public void updateHangupState(boolean recoveryModeActive) {
+		hangupState.updateHangupState(recoveryModeActive);
+	}
+
+	public void activateGlideToHangup() {
+		hangupState.activateGlideToHangup();
+	}
+
+	public void deactivateGlideToHangup() {
+		hangupState.deactivateGlideToHangup();
+	}
+
+	private interface HangupCondition {
+		boolean shouldHangupBeActive();
+	}
+
+	private class PhysicsObjectHangupState {
+
+		private final String TAG = PhysicsObjectHangupState.class.getSimpleName();
+
+		private LinkedList<HangupCondition> hangupConditions = new LinkedList<HangupCondition>();
+
+		private HangupCondition positionCondition;
+		private HangupCondition visibleCondition;
+		private HangupCondition glideToCondition;
+
+		private Vector2 velocity = new Vector2(6,6);
+		private float rotationSpeed = 6;
+		private float gravityScale = 0.6f;
+
+		private boolean hangedUp = false;
+
+		private boolean glideToActive = false;
+
+		public PhysicsObjectHangupState() {
+			positionCondition = new HangupCondition() {
+				@Override
+				public boolean shouldHangupBeActive() {
+					Vector2 bbLowerEdge = new Vector2();
+					Vector2 bbUpperEdge = new Vector2();
+					getBoundaryBox(bbLowerEdge, bbUpperEdge);
+					float bbWidth = bbUpperEdge.x - bbLowerEdge.x;
+					float bbHeight = bbUpperEdge.y - bbLowerEdge.y;
+					float bbCenterX = bbLowerEdge.x + bbWidth / 2;
+					float bbCenterY = bbLowerEdge.y + bbHeight / 2;
+					Log.d("phill_test", "bbCenterX: " + bbCenterX);
+					Log.d("phill_test", "bbCenterY: " + bbCenterY);
+					Log.d("phill_test", "ScreenValues.SCREEN_WIDTH: " + ScreenValues.SCREEN_WIDTH);
+					Log.d("phill_test", "ScreenValues.SCREEN_HEIGHT: " + ScreenValues.SCREEN_HEIGHT);
+					boolean isXinActiveArea = !(Math.abs(bbCenterX) > (ScreenValues.SCREEN_WIDTH / 2) * 3);
+					boolean isYinActiveArea = !(Math.abs(bbCenterY) > ScreenValues.SCREEN_HEIGHT);
+					if (isXinActiveArea && isYinActiveArea) {
+						return false;
+					}
+					return true;
+				}
+			};
+
+			visibleCondition = new HangupCondition() {
+				@Override
+				public boolean shouldHangupBeActive() {
+					return !isVisible;
+				}
+			};
+
+			glideToCondition = new HangupCondition() {
+				@Override
+				public boolean shouldHangupBeActive() {
+					return glideToActive;
+				}
+			};
+
+			hangupConditions.add(positionCondition);
+			hangupConditions.add(visibleCondition);
+			hangupConditions.add(glideToCondition);
+		}
+
+		private void recordData() {
+			velocity = new Vector2(getVelocity());
+			rotationSpeed = getRotationSpeed();
+			gravityScale = getGravityScale();
+		}
+
+
+		public void updateHangupState(boolean recoveryModeActive) {
+			boolean shouldBeHangedUp = false;
+			for (HangupCondition hangupCondition : hangupConditions) {
+				if (hangupCondition.shouldHangupBeActive()) {
+					shouldBeHangedUp = true;
+					break;
+				}
+			}
+			boolean resume = hangedUp && !shouldBeHangedUp;
+			boolean hangup = !hangedUp && shouldBeHangedUp;
+			if (resume) {
+				Log.d(TAG, "HangupState.hangedUp = false; recoveryModeActive = " + String.valueOf(recoveryModeActive));
+				if (recoveryModeActive) {
+					setGravityScale(gravityScale);
+					setVelocity(velocity.x, velocity.y);
+					setRotationSpeed(rotationSpeed);
+				} else {
+					setGravityScale(1);
+				}
+				setCollisionBits(categoryMaskRecord, collisionMaskRecord);
+			} else if (hangup) {
+				Log.d(TAG, "HangupState.hangedUp = true");
+				recordData();
+				setGravityScale(0);
+				setVelocity(0, 0);
+				setRotationSpeed(0);
+				setCollisionBits(categoryMaskRecord, PhysicsWorld.NOCOLLISION_MASK);
+			}
+			hangedUp = shouldBeHangedUp;
+		}
+
+		public void activateGlideToHangup() {
+			/*
+			if (!hangupConditions.contains(glideToCondition)) {
+				hangupConditions.add(glideToCondition);
+				updateHangupState(true);
+			}*/
+			if(!glideToActive) {
+				glideToActive = true;
+				updateHangupState(true);
+			}
+
+		}
+
+		public void deactivateGlideToHangup() {
+			/*
+			hangupConditions.remove(glideToCondition);
+			updateHangupState(true);
+			*/
+			glideToActive = false;
+			updateHangupState(true);
+		}
+	}
+
 }

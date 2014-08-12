@@ -24,7 +24,6 @@ package org.catrobat.catroid.physics;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
 
@@ -88,24 +87,26 @@ public class PhysicsLook extends Look {
 	@Override
 	public float getX() {
 		float x = physicsObject.getX() - getWidth() / 2.0f;
-		float y = physicsObject.getY() - getHeight() / 2.0f;
-		if (Math.abs(x) > (ScreenValues.SCREEN_WIDTH / 2) * 3) {
+		//float y = physicsObject.getY() - getHeight() / 2.0f;
+		physicsObject.updateHangupState(false);
+		/*if (Math.abs(x) > (ScreenValues.SCREEN_WIDTH / 2) * 3) {
 			physicsObject.hangup();
 		} else if (!(Math.abs(y) > ScreenValues.SCREEN_HEIGHT) && isVisible()) {
 			physicsObject.resume(false);
-		}
+		}*/
 		return x;
 	}
 
 	@Override
 	public float getY() {
-		float x = physicsObject.getX() - getWidth() / 2.0f;
+		//float x = physicsObject.getX() - getWidth() / 2.0f;
 		float y = physicsObject.getY() - getHeight() / 2.0f;
-		if (Math.abs(y) > ScreenValues.SCREEN_HEIGHT) {
+		physicsObject.updateHangupState(false);
+		/*if (Math.abs(y) > ScreenValues.SCREEN_HEIGHT) {
 			physicsObject.hangup();
 		} else if (!(Math.abs(x) > (ScreenValues.SCREEN_WIDTH / 2) * 3) && isVisible()) {
 			physicsObject.resume(false);
-		}
+		}*/
 		return y;
 	}
 
