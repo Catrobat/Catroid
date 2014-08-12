@@ -27,7 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.conditional.GlideToPhysicsAction;
+import org.catrobat.catroid.physics.content.actions.GlideToPhysicsAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsObject.Type;
@@ -61,8 +61,12 @@ public class ActionPhysicsFactory extends ActionFactory {
 		return action;
 	}
 
-	public Action createGlideToAction(Sprite sprite) {
+	// PHYSICS
+	@Override
+	public Action createGlideToAction(Sprite sprite, Formula x, Formula y, Formula duration) {
 		GlideToPhysicsAction action = Actions.action(GlideToPhysicsAction.class);
+		action.setPosition(x, y);
+		action.setDuration(duration);
 		action.setSprite(sprite);
 		action.setPhysicsObject(getPhysicsObject(sprite));
 		return action;

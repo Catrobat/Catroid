@@ -58,7 +58,7 @@ public abstract class PhysicsCollisionBaseTest extends PhysicsBaseTest implement
 	private int beginContactCounter = 0;
 	private int endContactCounter = 0;
 
-	private static final float MIN_STEP_VALUE = 0.1f;
+	protected static final float DELTA_TIME = 0.1f;
 	private static final int MAX_STEPS = 25;
 
 	@Override
@@ -91,7 +91,7 @@ public abstract class PhysicsCollisionBaseTest extends PhysicsBaseTest implement
 		super.tearDown();
 	}
 
-	public void initializeSpritesForCollision() {
+	protected void initializeSpritesForCollision() {
 		if (spritePosition == null || sprite2Position == null) {
 			throw new RuntimeException("You must initialize the sprite position for your test physicsObject1Type in your constructor.");
 		}
@@ -106,6 +106,11 @@ public abstract class PhysicsCollisionBaseTest extends PhysicsBaseTest implement
 		physicsObject1.setType(physicsObject1Type);
 		physicsObject2.setType(physicsObject2Type);
 
+		physicsObject1.setVelocity(0.0f, 0.0f);
+		physicsObject2.setVelocity(0.0f, 0.0f);
+
+		physicsObject1.setRotationSpeed(0.0f);
+		physicsObject2.setRotationSpeed(0.0f);
 	}
 
 	protected boolean collisionDetected() {
@@ -124,7 +129,7 @@ public abstract class PhysicsCollisionBaseTest extends PhysicsBaseTest implement
 	protected boolean simulateFullCollision() {
 		int stepCount = 0;
 		for (; stepCount < MAX_STEPS; stepCount++) {
-			physicsWorld.step(MIN_STEP_VALUE);
+			physicsWorld.step(DELTA_TIME);
 		}
 		if (beginContactCounter - endContactCounter == 0) {
 			return true;
