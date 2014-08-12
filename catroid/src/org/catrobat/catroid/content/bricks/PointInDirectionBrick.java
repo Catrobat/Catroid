@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -122,7 +123,8 @@ public class PointInDirectionBrick extends FormulaBrick implements View.OnClickL
 		prototypeView = View.inflate(context, R.layout.brick_point_in_direction, null);
 		TextView setAngleTextView = (TextView) prototypeView
 				.findViewById(R.id.brick_point_in_direction_prototype_text_view);
-		setAngleTextView.setText(String.valueOf(getFormulaWithBrickField(BrickField.DEGREES).interpretDouble()));
+		setAngleTextView.setText(String.valueOf(getFormulaWithBrickField(BrickField.DEGREES).interpretDouble(
+				ProjectManager.getInstance().getCurrentSprite())));
 		return prototypeView;
 	}
 

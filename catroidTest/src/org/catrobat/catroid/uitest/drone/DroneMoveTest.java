@@ -62,12 +62,14 @@ public class DroneMoveTest extends BaseActivityInstrumentationTestCase<ScriptAct
 
 		assertNotNull("TextView does not exist.", solo.getView(R.id.brick_drone_move_text_view_second));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_drone_move_edit_text_second, TIME_IN_SECONDS_TO_CHANGE,
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_drone_move_edit_text_second, TIME_IN_SECONDS_TO_CHANGE,
 				Brick.BrickField.DRONE_TIME_TO_FLY_IN_SECONDS, brickTest);
 
 		assertNotNull("TextView does not exist.", solo.getView(R.id.brick_drone_move_text_view_power));
 		assertNotNull("TextView does not exist.", solo.getView(R.id.brick_set_power_to_percent));
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_drone_move_edit_text_power, POWER_IN_PERCENT_TO_CHANGE,
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_drone_move_edit_text_power, POWER_IN_PERCENT_TO_CHANGE,
 				Brick.BrickField.DRONE_POWER_IN_PERCENT, brickTest);
 
 		solo.clickOnView(solo.getView(R.id.brick_drone_move_label));

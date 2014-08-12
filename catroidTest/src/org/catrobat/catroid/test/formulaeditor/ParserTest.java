@@ -68,7 +68,7 @@ public class ParserTest extends AndroidTestCase {
 		FormulaElement parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: 1.0", parseTree);
-		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
@@ -77,7 +77,7 @@ public class ParserTest extends AndroidTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: 1", parseTree);
-		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, ""));
@@ -119,7 +119,7 @@ public class ParserTest extends AndroidTestCase {
 		FormulaElement parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: 2 > 1", parseTree);
-		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
@@ -130,7 +130,7 @@ public class ParserTest extends AndroidTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: 1 > 1", parseTree);
-		assertEquals("Formula interpretation is not as expected", 0d, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 0d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
@@ -141,7 +141,7 @@ public class ParserTest extends AndroidTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: 1 >= 1", parseTree);
-		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
@@ -152,7 +152,7 @@ public class ParserTest extends AndroidTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: 1 >= 2", parseTree);
-		assertEquals("Formula interpretation is not as expected", 0d, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 0d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
@@ -163,7 +163,7 @@ public class ParserTest extends AndroidTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: 1 < 2", parseTree);
-		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
@@ -174,7 +174,7 @@ public class ParserTest extends AndroidTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: 1 < 1", parseTree);
-		assertEquals("Formula interpretation is not as expected", 0d, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 0d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
@@ -185,7 +185,7 @@ public class ParserTest extends AndroidTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: 1 <= 1", parseTree);
-		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2"));
@@ -196,7 +196,7 @@ public class ParserTest extends AndroidTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: 2 <= 1", parseTree);
-		assertEquals("Formula interpretation is not as expected", 0d, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 0d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
@@ -207,7 +207,7 @@ public class ParserTest extends AndroidTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: 1 = 1", parseTree);
-		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2"));
@@ -218,7 +218,7 @@ public class ParserTest extends AndroidTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: 2 = 1", parseTree);
-		assertEquals("Formula interpretation is not as expected", 0d, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 0d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "2"));
@@ -229,7 +229,7 @@ public class ParserTest extends AndroidTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: 2 != 1", parseTree);
-		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
@@ -240,7 +240,7 @@ public class ParserTest extends AndroidTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: 1 != 1", parseTree);
-		assertEquals("Formula interpretation is not as expected", 0d, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 0d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.LOGICAL_NOT.name()));
@@ -252,7 +252,7 @@ public class ParserTest extends AndroidTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: NOT 0 AND 1", parseTree);
-		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.LOGICAL_NOT.name()));
@@ -264,7 +264,7 @@ public class ParserTest extends AndroidTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: NOT 1 OR 0", parseTree);
-		assertEquals("Formula interpretation is not as expected", 0d, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 0d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.LOGICAL_NOT.name()));
@@ -276,7 +276,7 @@ public class ParserTest extends AndroidTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: NOT 0 OR 0", parseTree);
-		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.LOGICAL_NOT.name()));
@@ -288,7 +288,7 @@ public class ParserTest extends AndroidTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: NOT 0 AND 0", parseTree);
-		assertEquals("Formula interpretation is not as expected", 0d, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 0d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 	}
 
@@ -302,7 +302,7 @@ public class ParserTest extends AndroidTestCase {
 		FormulaElement parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: - 42.42", parseTree);
-		assertEquals("Formula interpretation is not as expected", -42.42, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", -42.42, parseTree.interpretRecursive(testSprite));
 	}
 
 	public void testOperatorPriority() {
@@ -318,7 +318,7 @@ public class ParserTest extends AndroidTestCase {
 		FormulaElement parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly:  1 - 2 x 2", parseTree);
-		assertEquals("Formula interpretation is not as expected", -3.0, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", -3.0, parseTree.interpretRecursive(testSprite));
 
 	}
 
@@ -335,7 +335,7 @@ public class ParserTest extends AndroidTestCase {
 		FormulaElement parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly:  5 - 4 - 1", parseTree);
-		assertEquals("Formula interpretation is not as expected", 0.0, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 0.0, parseTree.interpretRecursive(testSprite));
 
 		internTokenList = new LinkedList<InternToken>();
 
@@ -349,7 +349,7 @@ public class ParserTest extends AndroidTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly:  100 ÷ 10 ÷ 10", parseTree);
-		assertEquals("Formula interpretation is not as expected", 1.0, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 1.0, parseTree.interpretRecursive(testSprite));
 
 	}
 
@@ -370,7 +370,7 @@ public class ParserTest extends AndroidTestCase {
 		FormulaElement parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly:  1 + 2 × 3 ^ 2 + 1", parseTree);
-		assertEquals("Formula interpretation is not as expected", 20.0, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 20.0, parseTree.interpretRecursive(testSprite));
 
 		internTokenList = new LinkedList<InternToken>();
 
@@ -386,7 +386,7 @@ public class ParserTest extends AndroidTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly:  1 + 2 ^ 3 * 2 ", parseTree);
-		assertEquals("Formula interpretation is not as expected", 17.0, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 17.0, parseTree.interpretRecursive(testSprite));
 
 	}
 
@@ -410,7 +410,7 @@ public class ParserTest extends AndroidTestCase {
 		FormulaElement parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly:  (1+2) x (1+2)", parseTree);
-		assertEquals("Formula interpretation is not as expected", 9.0, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 9.0, parseTree.interpretRecursive(testSprite));
 
 		internTokenList = new LinkedList<InternToken>();
 
@@ -434,7 +434,7 @@ public class ParserTest extends AndroidTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly:  -(1^2)--(-1--2)", parseTree);
-		assertEquals("Formula interpretation is not as expected", 0.0, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 0.0, parseTree.interpretRecursive(testSprite));
 
 	}
 
@@ -467,7 +467,7 @@ public class ParserTest extends AndroidTestCase {
 		FormulaElement parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: abs(2 * (5 - 10))", parseTree);
-		assertEquals("Formula interpretation is not as expected", 10.0, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 10.0, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "3"));
@@ -485,7 +485,7 @@ public class ParserTest extends AndroidTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: 3 * (2 + cos(0)) ", parseTree);
-		assertEquals("Formula interpretation is not as expected", 9.0, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 9.0, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.MOD.name()));
@@ -511,6 +511,6 @@ public class ParserTest extends AndroidTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: mod( 1 , mod( 1 , mod( 1 , ( 1 )))) ", parseTree);
-		assertEquals("Formula interpretation is not as expected", 0.0, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", 0.0, parseTree.interpretRecursive(testSprite));
 	}
 }

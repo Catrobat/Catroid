@@ -32,6 +32,7 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -116,7 +117,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 			times.setText(view.getResources().getQuantityString(
 					R.plurals.time_plural,
 					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT)
-							.interpretDouble())
+							.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))
 			));
 		} else {
 
@@ -138,12 +139,13 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 		prototypeView = View.inflate(context, R.layout.brick_repeat, null);
 		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_prototype_text_view);
 		textRepeat.setText(String
-				.valueOf(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).interpretInteger()));
+				.valueOf(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).interpretInteger(
+						ProjectManager.getInstance().getCurrentSprite())));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_repeat_time_text_view);
 		times.setText(context.getResources().getQuantityString(
 				R.plurals.time_plural,
 				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT)
-						.interpretDouble())
+						.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))
 		));
 		return prototypeView;
 	}
@@ -183,7 +185,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		SequenceAction repeatSequence = ExtendedActions.sequence();
-		Action action = ExtendedActions.repeat(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT),
+		Action action = ExtendedActions.repeat(sprite, getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT),
 				repeatSequence);
 		sequence.addAction(action);
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();

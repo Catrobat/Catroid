@@ -95,13 +95,13 @@ public class MoveNStepsBrickTest extends BaseActivityInstrumentationTestCase<Scr
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_move)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_move_n_steps_edit_text, STEPS_TO_MOVE,
-				Brick.BrickField.STEPS, moveNStepsBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_move_n_steps_edit_text, STEPS_TO_MOVE, Brick.BrickField.STEPS, moveNStepsBrick);
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_move_n_steps_edit_text, STEPS_TO_MOVE);
 
 		assertEquals("Wrong text in field.", STEPS_TO_MOVE,
-				(moveNStepsBrick.getFormulaWithBrickField(Brick.BrickField.STEPS)).interpretDouble());
+				(moveNStepsBrick.getFormulaWithBrickField(Brick.BrickField.STEPS)).interpretDouble(null));
 		assertEquals(
 				"Value in Brick is not updated.",
 				STEPS_TO_MOVE,

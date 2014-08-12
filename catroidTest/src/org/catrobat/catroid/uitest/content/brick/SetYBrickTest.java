@@ -74,8 +74,8 @@ public class SetYBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_set_y)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_y_edit_text, SET_Y, Brick.BrickField.Y_POSITION,
-				setYBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_set_y_edit_text, SET_Y, Brick.BrickField.Y_POSITION, setYBrick);
 	}
 
 	private void createProject() {

@@ -80,7 +80,7 @@ public class TurnRightBrickTest extends BaseActivityInstrumentationTestCase<Scri
 
 		Formula actualDegrees = turnRightBrick.getFormulaWithBrickField(Brick.BrickField.TURN_RIGHT_DEGREES);
 
-		assertEquals("Wrong text in field", TURN_DEGREES, actualDegrees.interpretDouble());
+		assertEquals("Wrong text in field", TURN_DEGREES, actualDegrees.interpretDouble(null));
 		assertEquals(
 				"Text not updated",
 				TURN_DEGREES,

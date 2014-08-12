@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -103,7 +104,7 @@ public class ChangeXByNBrick extends FormulaBrick implements OnClickListener {
 		prototypeView = View.inflate(context, R.layout.brick_change_x, null);
 		TextView textXMovement = (TextView) prototypeView.findViewById(R.id.brick_change_x_prototype_text_view);
 		textXMovement.setText(String.valueOf(getFormulaWithBrickField(BrickField.X_POSITION_CHANGE)
-				.interpretInteger()));
+				.interpretInteger(ProjectManager.getInstance().getCurrentSprite())));
 		return prototypeView;
 	}
 

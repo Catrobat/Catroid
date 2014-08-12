@@ -24,11 +24,13 @@ package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
 public class SetVariableAction extends TemporalAction {
 
+	private Sprite sprite;
 	private Formula changeVariable;
 	private UserVariable userVariable;
 
@@ -37,7 +39,7 @@ public class SetVariableAction extends TemporalAction {
 		if (userVariable == null) {
 			return;
 		}
-		double value = changeVariable.interpretDouble();
+		double value = changeVariable.interpretDouble(sprite);
 		userVariable.setValue(value);
 
 	}
@@ -48,6 +50,10 @@ public class SetVariableAction extends TemporalAction {
 
 	public void setChangeVariable(Formula changeVariable) {
 		this.changeVariable = changeVariable;
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
 	}
 
 }

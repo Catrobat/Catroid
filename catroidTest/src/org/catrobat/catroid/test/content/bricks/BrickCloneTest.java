@@ -215,8 +215,8 @@ public class BrickCloneTest extends AndroidTestCase {
 				Formula brickFormula = ((FormulaBrick) brick).getFormulaWithBrickField(brickField);
 				Formula cloneBrickFormula = ((FormulaBrick) cloneBrick).getFormulaWithBrickField(brickField);
 				cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
-				assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretInteger(),
-						cloneBrickFormula.interpretInteger());
+				assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretInteger(sprite),
+						cloneBrickFormula.interpretInteger(sprite));
 			}
 		} catch (CloneNotSupportedException exception) {
 			Log.e(TAG, Log.getStackTraceString(exception));

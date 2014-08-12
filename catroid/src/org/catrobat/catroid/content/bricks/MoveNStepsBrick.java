@@ -34,6 +34,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -102,7 +103,7 @@ public class MoveNStepsBrick extends FormulaBrick implements OnClickListener {
 			times.setText(view.getResources().getQuantityString(
 					R.plurals.brick_move_n_step_plural,
 					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(
-					))
+							ProjectManager.getInstance().getCurrentSprite()))
 			));
 		} else {
 
@@ -123,10 +124,12 @@ public class MoveNStepsBrick extends FormulaBrick implements OnClickListener {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		prototypeView = inflater.inflate(R.layout.brick_move_n_steps, null);
 		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_prototype_text_view);
-		textSteps.setText(String.valueOf(getFormulaWithBrickField(BrickField.STEPS).interpretDouble()));
+		textSteps.setText(String.valueOf(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(
+				ProjectManager.getInstance().getCurrentSprite())));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_step_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
-				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble())));
+				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(
+						ProjectManager.getInstance().getCurrentSprite()))));
 		return prototypeView;
 	}
 

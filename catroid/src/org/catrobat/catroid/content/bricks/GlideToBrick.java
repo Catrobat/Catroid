@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -85,7 +86,7 @@ public class GlideToBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	public int getDurationInMilliSeconds() {
-		return getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS).interpretInteger();
+		return getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS).interpretInteger(ProjectManager.getInstance().getCurrentSprite());
 	}
 
 	@Override
@@ -129,7 +130,7 @@ public class GlideToBrick extends FormulaBrick implements OnClickListener {
 			times.setText(view.getResources().getQuantityString(
 					R.plurals.second_plural,
 					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)
-							.interpretDouble())
+							.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))
 			));
 		} else {
 
@@ -154,17 +155,21 @@ public class GlideToBrick extends FormulaBrick implements OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_glide_to, null);
 		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_x);
-		textX.setText(String.valueOf(getFormulaWithBrickField(BrickField.X_DESTINATION).interpretInteger()));
+		textX.setText(String.valueOf(getFormulaWithBrickField(BrickField.X_DESTINATION).interpretInteger(
+				ProjectManager.getInstance().getCurrentSprite())));
 		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_y);
-		textY.setText(String.valueOf(getFormulaWithBrickField(BrickField.Y_DESTINATION).interpretInteger()));
+		textY.setText(String.valueOf(getFormulaWithBrickField(BrickField.Y_DESTINATION).interpretInteger(
+				ProjectManager.getInstance().getCurrentSprite()
+		)));
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
 		textDuration.setText(String.valueOf(getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS).interpretDouble(
+				ProjectManager.getInstance().getCurrentSprite()
 		)));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_glide_to_seconds_text_view);
 		times.setText(context.getResources().getQuantityString(
 				R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)
-						.interpretDouble())
+						.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))
 		));
 		return prototypeView;
 	}

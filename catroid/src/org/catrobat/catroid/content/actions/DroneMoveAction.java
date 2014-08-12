@@ -25,11 +25,13 @@ package org.catrobat.catroid.content.actions;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.parrot.freeflight.service.DroneControlService;
 
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.formulaeditor.Formula;
 
 public abstract class DroneMoveAction extends TemporalAction {
 
+	private Sprite sprite;
 	private Formula duration;
 	private Formula powerInPercent;
 
@@ -37,7 +39,7 @@ public abstract class DroneMoveAction extends TemporalAction {
 
 	@Override
 	protected void begin() {
-		super.setDuration(duration.interpretFloat());
+		super.setDuration(duration.interpretFloat(sprite));
 	}
 
 	public void setDelay(Formula delay) {
@@ -48,8 +50,12 @@ public abstract class DroneMoveAction extends TemporalAction {
 		this.powerInPercent = powerInPercent;
 	}
 
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
+	}
+
 	protected float getPowerNormalized() {
-		return (float) powerInPercent.interpretInteger() / 100;
+		return (float) powerInPercent.interpretInteger(sprite) / 100;
 	}
 
 	protected DroneControlService getDroneService() {

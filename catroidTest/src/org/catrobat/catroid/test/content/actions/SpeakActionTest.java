@@ -36,13 +36,13 @@ public class SpeakActionTest extends AndroidTestCase {
 		String text = "hello world!";
 		String text2 = "hello world, hello!";
 		SpeakBrick speakBrick = new SpeakBrick(text);
-		SpeakAction action = ExtendedActions.speak(text, speakBrick);
+		SpeakAction action = ExtendedActions.speak(text);
 		String textAfterExecution = (String) Reflection.getPrivateField(action, "text");
 
 		assertEquals("Text is not updated after SpeakBrick executed", text, speakBrick.getText());
 		assertEquals("Text is not updated after SpeakBrick executed", text, textAfterExecution);
 		speakBrick = new SpeakBrick(text2);
-		action = ExtendedActions.speak(text, speakBrick);
+		action = ExtendedActions.speak(text);
 		textAfterExecution = (String) Reflection.getPrivateField(action, "text");
 
 		assertEquals("Text is not updated after SpeakBrick executed", text2, speakBrick.getText());
@@ -52,7 +52,7 @@ public class SpeakActionTest extends AndroidTestCase {
 	public void testNullSprite() {
 		String text = "hello world!";
 		SpeakBrick speakBrick = new SpeakBrick(text);
-		SpeakAction action = ExtendedActions.speak(text, speakBrick);
+		SpeakAction action = ExtendedActions.speak(text);
 		try {
 			action.act(1.0f);
 			fail("Execution of ShowBrick with null Sprite did not cause a NullPointerException to be thrown");

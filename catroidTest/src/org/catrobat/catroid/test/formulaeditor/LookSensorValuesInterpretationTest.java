@@ -77,31 +77,31 @@ public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 
 		Formula lookXPositionFormula = getFormulaBySensor(Sensors.OBJECT_X);
 		assertEquals("Formula interpretation is not as expected (x-Position)", LOOK_X_POSITION,
-				lookXPositionFormula.interpretDouble(), DELTA);
+				lookXPositionFormula.interpretDouble(testSprite), DELTA);
 
 		Formula lookYPositionFormula = getFormulaBySensor(Sensors.OBJECT_Y);
 		assertEquals("Formula interpretation is not as expected (y-Position)", LOOK_Y_POSITION,
-				lookYPositionFormula.interpretDouble(), DELTA);
+				lookYPositionFormula.interpretDouble(testSprite), DELTA);
 
 		Formula lookAlphaValueFormula = getFormulaBySensor(Sensors.OBJECT_GHOSTEFFECT);
 		assertEquals("Formula interpretation is not as expected (ghosteffect)", LOOK_ALPHA,
-				lookAlphaValueFormula.interpretDouble(), DELTA);
+				lookAlphaValueFormula.interpretDouble(testSprite), DELTA);
 
 		Formula lookBrightnessFormula = getFormulaBySensor(Sensors.OBJECT_BRIGHTNESS);
 		assertEquals("Formula interpretation is not as expected (brightness)", LOOK_BRIGHTNESS,
-				lookBrightnessFormula.interpretDouble(), DELTA);
+				lookBrightnessFormula.interpretDouble(testSprite), DELTA);
 
 		Formula lookScaleFormula = getFormulaBySensor(Sensors.OBJECT_SIZE);
 		assertEquals("Formula interpretation is not as expected (size)", LOOK_SCALE,
-				lookScaleFormula.interpretDouble(), DELTA);
+				lookScaleFormula.interpretDouble(testSprite), DELTA);
 
 		Formula lookRotateFormula = getFormulaBySensor(Sensors.OBJECT_ROTATION);
 		assertEquals("Formula interpretation is not as expected (rotation)", LOOK_ROTATION,
-				lookRotateFormula.interpretDouble(), DELTA);
+				lookRotateFormula.interpretDouble(testSprite), DELTA);
 
 		Formula lookZPositionFormula = getFormulaBySensor(Sensors.OBJECT_LAYER);
 		assertEquals("Formula interpretation is not as expected (z-index)", testSprite.look.getZIndex(),
-				lookZPositionFormula.interpretInteger());
+				lookZPositionFormula.interpretInteger(testSprite));
 
 	}
 

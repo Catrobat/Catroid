@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -103,7 +104,7 @@ public class TurnRightBrick extends FormulaBrick implements OnClickListener {
 		prototypeView = View.inflate(context, R.layout.brick_turn_right, null);
 		TextView textDegrees = (TextView) prototypeView.findViewById(R.id.brick_turn_right_prototype_text_view);
 		textDegrees.setText(String.valueOf(getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES)
-				.interpretDouble()));
+				.interpretDouble(ProjectManager.getInstance().getCurrentSprite())));
 		return prototypeView;
 	}
 

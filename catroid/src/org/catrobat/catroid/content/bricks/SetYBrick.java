@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -101,7 +102,8 @@ public class SetYBrick extends FormulaBrick implements OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_y, null);
 		TextView textYPosition = (TextView) prototypeView.findViewById(R.id.brick_set_y_prototype_text_view);
-		textYPosition.setText(String.valueOf(getFormulaWithBrickField(BrickField.Y_POSITION).interpretInteger()));
+		textYPosition.setText(String.valueOf(getFormulaWithBrickField(BrickField.Y_POSITION).interpretInteger(
+				ProjectManager.getInstance().getCurrentSprite())));
 		return prototypeView;
 	}
 

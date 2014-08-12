@@ -80,7 +80,7 @@ public class TurnLeftBrickTest extends BaseActivityInstrumentationTestCase<Scrip
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_turn_left_edit_text, turnDegrees);
 
 		Formula actualDegrees = turnLeftBrick.getFormulaWithBrickField(Brick.BrickField.TURN_LEFT_DEGREES);
-		assertEquals("Wrong text in field", turnDegrees, actualDegrees.interpretDouble());
+		assertEquals("Wrong text in field", turnDegrees, actualDegrees.interpretDouble(null));
 		assertEquals(
 				"Text not updated",
 				turnDegrees,

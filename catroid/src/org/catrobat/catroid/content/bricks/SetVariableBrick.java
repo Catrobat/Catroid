@@ -85,7 +85,7 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setVariable(getFormulaWithBrickField(BrickField.VARIABLE),
+		sequence.addAction(ExtendedActions.setVariable(sprite, getFormulaWithBrickField(BrickField.VARIABLE),
 				userVariable));
 		return null;
 	}
@@ -195,7 +195,8 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 		setSpinnerSelection(variableSpinner, null);
 
 		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_set_variable_prototype_view);
-		textSetVariable.setText(String.valueOf(getFormulaWithBrickField(BrickField.VARIABLE).interpretDouble()));
+		textSetVariable.setText(String.valueOf(getFormulaWithBrickField(BrickField.VARIABLE).interpretDouble(
+				ProjectManager.getInstance().getCurrentSprite())));
 
 		return prototypeView;
 	}

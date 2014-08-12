@@ -139,11 +139,11 @@ public class StorageHandlerTest extends AndroidTestCase {
 				.getFormulaWithBrickField(Brick.BrickField.SIZE);
 
 		assertEquals("Size was not deserialized right", size,
-				actualSize.interpretFloat());
+				actualSize.interpretFloat(postSpriteList.get(1)));
 		assertEquals("XPosition was not deserialized right", xPosition,
-				actualXPosition.interpretInteger());
+				actualXPosition.interpretInteger(postSpriteList.get(2)));
 		assertEquals("YPosition was not deserialized right", yPosition,
-				actualYPosition.interpretInteger());
+				actualYPosition.interpretInteger(postSpriteList.get(2)));
 
 		assertFalse("paused should not be set in script", preSpriteList.get(1).getScript(0).isPaused());
 

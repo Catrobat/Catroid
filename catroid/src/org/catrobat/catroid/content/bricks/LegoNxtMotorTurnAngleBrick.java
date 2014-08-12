@@ -38,6 +38,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -96,7 +97,9 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickL
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 		TextView textX = (TextView) prototypeView.findViewById(R.id.motor_turn_angle_text_view);
-		textX.setText(String.valueOf(getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).interpretInteger()));
+		textX.setText(String.valueOf(getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).interpretInteger(
+				ProjectManager.getInstance().getCurrentSprite()
+		)));
 
 		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.lego_motor_turn_angle_spinner);
 		legoSpinner.setFocusableInTouchMode(false);
@@ -228,7 +231,7 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickL
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.legoNxtMotorTurnAngle(motorEnum,
+		sequence.addAction(ExtendedActions.legoNxtMotorTurnAngle(sprite, motorEnum,
 				getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES)));
 		return null;
 	}

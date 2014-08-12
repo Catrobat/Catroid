@@ -185,29 +185,29 @@ public class SensorTest extends InstrumentationTestCase {
 
 		assertEquals(
 				"Unexpected sensor value for acceleration in x direction(= in portrait mode, from left to right side of screen surface, in m/s^2)",
-				expectedXAcceleration, formula.interpretDouble(), delta);
+				expectedXAcceleration, formula.interpretDouble(firstSprite), delta);
 
 		assertEquals(
 				"Unexpected sensor value for acceleration in y direction(= in portrait mode, from bottom to upper side of screen surface, in m/s^2)",
-				expectedYAcceleration, formula1.interpretDouble(), delta);
+				expectedYAcceleration, formula1.interpretDouble(firstSprite), delta);
 
 		assertEquals(
 				"Unexpected sensor value for acceleration in z direction(= in portrait mode, from screen surface orthogonally upwards away from screen, in m/s^2)",
-				expectedZAcceleration, formula2.interpretDouble(), delta);
+				expectedZAcceleration, formula2.interpretDouble(firstSprite), delta);
 
 		assertEquals(
 				"Unexpected sensor value for compass direction (= in portrait mode, deviation of screen-down-to-up-side (= positive y axis direction) from magnetic north in degrees, with z axis (pointing to sky) serving as rotation axis; positive direction = counter-clockwise turn seen from above; this is the angle between magnetic north and the device's y axis as it is displayed on a compass. For example, if the device's y axis points towards the magnetic north this value is 0, and if the device's y axis is pointing south this value is approaching 180 or -180. When the y axis is pointing west this value is 90 and when it is pointing east this value is -90)",
-				expectedCompassDirection, formula3.interpretDouble(), delta);
+				expectedCompassDirection, formula3.interpretDouble(firstSprite), delta);
 
 		assertEquals(
 				"Unexpected sensor value for x inclination (= in portrait mode, deviation from screen-left-to-right-side (= x axis direction) horizontal inclination (range: -180 to +180 degrees; flat = 0); increasing values of x inclination = right border of screen pulled towards user, left border away = positive side of x axis gets lifted up)",
-				expectedXInclination, formula4.interpretDouble(), delta);
+				expectedXInclination, formula4.interpretDouble(firstSprite), delta);
 
 		assertEquals(
 				"Unexpected sensor value for y inclination (= in portrait mode, deviation from screen-down-to-up-side (= y axis direction) horizontal inclination (range: -180 to +180 degrees; flat = 0); increasing values of y inclination = upper border of screen pulled towards user, lower border away = positive side of y axis gets lifted up)",
-				expectedYInclination, formula5.interpretDouble(), delta);
+				expectedYInclination, formula5.interpretDouble(firstSprite), delta);
 
-		assertEquals("Unexpected sensor value for loudness", expectedLoudness, formula6.interpretDouble(),
+		assertEquals("Unexpected sensor value for loudness", expectedLoudness, formula6.interpretDouble(firstSprite),
 				delta);
 
 		SensorHandler.stopSensorListeners();

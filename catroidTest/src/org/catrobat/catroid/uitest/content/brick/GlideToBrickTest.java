@@ -88,15 +88,15 @@ public class GlideToBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		GlideToBrick glideToBrick = (GlideToBrick) brickList.get(0);
 
 		Formula formula = glideToBrick.getFormulaWithBrickField(Brick.BrickField.DURATION_IN_SECONDS);
-		float temp = formula.interpretFloat();
+		float temp = formula.interpretFloat(sprite);
 
 		assertEquals("Wrong duration input in Glide to brick", Math.round(duration * 1000), Math.round(temp * 1000));
 		formula = glideToBrick.getFormulaWithBrickField(Brick.BrickField.X_DESTINATION);
-		int temp2 = formula.interpretInteger();
+		int temp2 = formula.interpretInteger(sprite);
 		assertEquals("Wrong x input in Glide to brick", xPosition, temp2);
 
 		formula = glideToBrick.getFormulaWithBrickField(Brick.BrickField.Y_DESTINATION);
-		temp2 = formula.interpretInteger();
+		temp2 = formula.interpretInteger(sprite);
 		assertEquals("Wrong y input in Glide to brick", yPosition, temp2);
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_glide_to_edit_text_duration, 1);

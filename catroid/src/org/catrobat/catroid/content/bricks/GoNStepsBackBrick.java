@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -100,7 +101,7 @@ public class GoNStepsBackBrick extends FormulaBrick implements OnClickListener {
 			times.setText(view.getResources().getQuantityString(
 					R.plurals.brick_go_back_layer_plural,
 					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(
-					))
+							ProjectManager.getInstance().getCurrentSprite()))
 			));
 		} else {
 
@@ -120,10 +121,12 @@ public class GoNStepsBackBrick extends FormulaBrick implements OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_go_back, null);
 		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_go_back_prototype_text_view);
-		textSteps.setText(String.valueOf(getFormulaWithBrickField(BrickField.STEPS).interpretInteger()));
+		textSteps.setText(String.valueOf(getFormulaWithBrickField(BrickField.STEPS).interpretInteger(
+				ProjectManager.getInstance().getCurrentSprite())));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_go_back_layers_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
-				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble())));
+				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(
+						ProjectManager.getInstance().getCurrentSprite()))));
 		return prototypeView;
 
 	}

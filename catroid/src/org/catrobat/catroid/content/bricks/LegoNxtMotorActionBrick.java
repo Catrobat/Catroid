@@ -38,6 +38,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -96,7 +97,9 @@ public class LegoNxtMotorActionBrick extends FormulaBrick implements OnClickList
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 		TextView textSpeed = (TextView) prototypeView.findViewById(R.id.motor_action_speed_text_view);
-		textSpeed.setText(String.valueOf(getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED).interpretInteger()));
+		textSpeed.setText(String.valueOf(getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED).interpretInteger(
+				ProjectManager.getInstance().getCurrentSprite()
+		)));
 
 		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.lego_motor_action_spinner);
 		legoSpinner.setFocusableInTouchMode(false);
@@ -231,7 +234,7 @@ public class LegoNxtMotorActionBrick extends FormulaBrick implements OnClickList
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.legoNxtMotorAction(motorEnum,
+		sequence.addAction(ExtendedActions.legoNxtMotorAction(sprite, motorEnum,
 				getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED)));
 		return null;
 	}

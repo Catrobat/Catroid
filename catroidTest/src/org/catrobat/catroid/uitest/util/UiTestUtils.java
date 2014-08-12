@@ -405,7 +405,7 @@ public final class UiTestUtils {
 	 * For bricks using the FormulaEditor. Tests starting the FE, entering a new number/formula and
 	 * ensures its set correctly to the brick´s edit text field
 	 */
-	public static void testBrickWithFormulaEditor(Solo solo, int editTextId, double newValue,
+	public static void testBrickWithFormulaEditor(Solo solo, Sprite sprite, int editTextId, double newValue,
 			Brick.BrickField brickField, FormulaBrick theBrick) {
 
 		solo.clickOnView(solo.getView(editTextId));
@@ -423,7 +423,7 @@ public final class UiTestUtils {
 
 		Formula formula = theBrick.getFormulaWithBrickField(brickField);
 
-		assertEquals("Wrong text in field", newValue, formula.interpretDouble(), 0.01f);
+		assertEquals("Wrong text in field", newValue, formula.interpretDouble(sprite), 0.01f);
 		assertEquals("Text not updated in the brick list", newValue,
 				Double.parseDouble(((TextView) solo.getView(editTextId)).getText().toString().replace(',', '.')), 0.01f);
 

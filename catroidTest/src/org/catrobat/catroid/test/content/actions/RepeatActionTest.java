@@ -192,7 +192,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		final int decoyDeltaY = -150;
 		final int expectedDeltaY = 150;
 
-		RepeatAction repeatAction = ExtendedActions.repeat(new Formula(0),
+		RepeatAction repeatAction = ExtendedActions.repeat(testSprite, new Formula(0),
 				ExtendedActions.sequence(ExtendedActions.changeYByN(testSprite, new Formula(decoyDeltaY))));
 		SequenceAction action = ExtendedActions.sequence(repeatAction,
 				ExtendedActions.changeYByN(testSprite, new Formula(expectedDeltaY)));

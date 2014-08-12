@@ -167,7 +167,7 @@ public class SpeakBrick extends BrickBaseType {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.speak(text, this));
+		sequence.addAction(ExtendedActions.speak(text));
 		return null;
 	}
 

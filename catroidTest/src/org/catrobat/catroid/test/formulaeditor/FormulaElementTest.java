@@ -52,7 +52,7 @@ public class FormulaElementTest extends InstrumentationTestCase {
 		FormulaElement parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: ( - 1 )", parseTree);
-		assertEquals("Formula interpretation is not as expected", -1d, parseTree.interpretRecursive());
+		assertEquals("Formula interpretation is not as expected", -1d, parseTree.interpretRecursive(null));
 
 		List<InternToken> internTokenListAfterConversion = parseTree.getInternTokenList();
 		assertEquals("Generate InternTokenList from Tree error", internTokenListAfterConversion.size(),
@@ -78,7 +78,7 @@ public class FormulaElementTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().setProject(project);
 		FormulaElement formulaElement = new FormulaElement(ElementType.USER_VARIABLE, "notExistingUserVariable", null);
 		assertEquals("Not existing UserVariable misinterpretation",
-				FormulaElement.NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE, formulaElement.interpretRecursive());
+				FormulaElement.NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE, formulaElement.interpretRecursive(null));
 
 	}
 
@@ -87,7 +87,7 @@ public class FormulaElementTest extends InstrumentationTestCase {
 		FormulaElement formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(), null, null,
 				new FormulaElement(ElementType.NUMBER, "1.0", null));
 
-		assertEquals("Not existing unary operator misinterpretation", 0d, formulaElement.interpretRecursive());
+		assertEquals("Not existing unary operator misinterpretation", 0d, formulaElement.interpretRecursive(null));
 
 	}
 
@@ -97,18 +97,18 @@ public class FormulaElementTest extends InstrumentationTestCase {
 				new FormulaElement(ElementType.NUMBER, Double.toString(Double.MAX_VALUE), null), new FormulaElement(
 						ElementType.NUMBER, Double.toString(Double.MAX_VALUE), null));
 
-		assertEquals("Degenerated double values error", Double.MAX_VALUE, formulaElement.interpretRecursive());
+		assertEquals("Degenerated double values error", Double.MAX_VALUE, formulaElement.interpretRecursive(null));
 
 		formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.MINUS.name(), null, new FormulaElement(
 				ElementType.NUMBER, Double.toString(Double.MAX_VALUE * -1d), null), new FormulaElement(
 				ElementType.NUMBER, Double.toString(Double.MAX_VALUE), null));
 
-		assertEquals("Degenerated double values error", Double.MAX_VALUE * -1d, formulaElement.interpretRecursive());
+		assertEquals("Degenerated double values error", Double.MAX_VALUE * -1d, formulaElement.interpretRecursive(null));
 
 		formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.DIVIDE.name(), null, new FormulaElement(
 				ElementType.NUMBER, "0", null), new FormulaElement(ElementType.NUMBER, "0", null));
 
-		assertEquals("Degenerated double values error", 1d, formulaElement.interpretRecursive());
+		assertEquals("Degenerated double values error", 1d, formulaElement.interpretRecursive(null));
 
 	}
 

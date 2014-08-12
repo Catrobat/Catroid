@@ -68,7 +68,8 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_if_begin_edit_text, 5, Brick.BrickField.IF_CONDITION, ifBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_if_begin_edit_text, 5, Brick.BrickField.IF_CONDITION, ifBrick);
 
 		assertEquals("Incorrect number of bricks.", 6, dragDropListView.getChildCount()); // don't forget the footer
 		assertEquals("Incorrect number of bricks.", 0, childrenCount);

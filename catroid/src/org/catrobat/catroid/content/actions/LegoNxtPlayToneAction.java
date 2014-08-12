@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.legonxt.LegoNXT;
 
@@ -31,10 +32,11 @@ public class LegoNxtPlayToneAction extends TemporalAction {
 
 	private Formula hertz;
 	private Formula durationInSeconds;
+	private Sprite sprite;
 
 	@Override
 	protected void update(float percent) {
-		LegoNXT.sendBTCPlayToneMessage(hertz.interpretInteger(), durationInSeconds.interpretInteger());
+		LegoNXT.sendBTCPlayToneMessage(hertz.interpretInteger(sprite), durationInSeconds.interpretInteger(sprite));
 	}
 
 	public void setHertz(Formula hertz) {
@@ -43,6 +45,10 @@ public class LegoNxtPlayToneAction extends TemporalAction {
 
 	public void setDurationInSeconds(Formula durationInSeconds) {
 		this.durationInSeconds = durationInSeconds;
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
 	}
 
 }

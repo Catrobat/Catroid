@@ -323,11 +323,11 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 		//Interpretation test
 		Formula formula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.X_POSITION);
-		assertEquals("Wrong text in field", newXValue, formula.interpretInteger());
+		assertEquals("Wrong text in field", newXValue, formula.interpretInteger(sprite));
 
 		formula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.Y_POSITION);
 
-		float newYValue = formula.interpretFloat();
+		float newYValue = formula.interpretFloat(sprite);
 		assertTrue("Wrong text in field", newYValue >= -0.5f && newYValue <= 1f);
 
 	}
@@ -347,7 +347,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.sleep(300);
 
 		Formula formula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.X_POSITION);
-		float value = formula.interpretFloat();
+		float value = formula.interpretFloat(sprite);
 
 		Log.i("info", "value: " + value);
 
@@ -367,7 +367,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.sleep(300);
 
 		Formula anotherFormula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.Y_POSITION);
-		float anotherValue = anotherFormula.interpretFloat();
+		float anotherValue = anotherFormula.interpretFloat(sprite);
 
 		Log.i("info", "value: " + value);
 
@@ -392,7 +392,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.sleep(300);
 
 		Formula formula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.X_POSITION);
-		float value = formula.interpretFloat();
+		float value = formula.interpretFloat(sprite);
 
 		Log.i("info", "value: " + value);
 
@@ -412,7 +412,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.sleep(300);
 
 		Formula anotherFormula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.Y_POSITION);
-		float anotherValue = anotherFormula.interpretFloat();
+		float anotherValue = anotherFormula.interpretFloat(sprite);
 
 		Log.i("info", "anotherValue: " + anotherValue);
 

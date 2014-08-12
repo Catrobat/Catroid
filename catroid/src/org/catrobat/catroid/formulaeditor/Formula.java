@@ -29,6 +29,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 
 import java.io.Serializable;
@@ -89,24 +90,24 @@ public class Formula implements Serializable {
 		displayText = text;
 	}
 
-	public boolean interpretBoolean() {
-		int result = interpretInteger();
+	public boolean interpretBoolean(Sprite sprite) {
+		int result = interpretInteger(sprite);
 
 		return result != 0 ? true : false;
 
 	}
 
-	public int interpretInteger() {
-		Double interpretedValue = formulaTree.interpretRecursive();
+	public int interpretInteger(Sprite sprite) {
+		Double interpretedValue = formulaTree.interpretRecursive(sprite);
 		return interpretedValue.intValue();
 	}
 
-	public double interpretDouble() {
-		return formulaTree.interpretRecursive();
+	public double interpretDouble(Sprite sprite) {
+		return formulaTree.interpretRecursive(sprite);
 	}
 
-	public float interpretFloat() {
-		return (float) interpretDouble();
+	public float interpretFloat(Sprite sprite) {
+		return (float) interpretDouble(sprite);
 	}
 
 	public void setRoot(FormulaElement formula) {

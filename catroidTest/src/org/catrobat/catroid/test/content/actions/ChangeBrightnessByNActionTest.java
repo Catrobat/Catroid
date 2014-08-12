@@ -40,7 +40,7 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 
 		float brightness = sprite.look.getBrightnessInUserInterfaceDimensionUnit();
-		brightness += brighter.interpretDouble();
+		brightness += brighter.interpretDouble(sprite);
 
 		ChangeBrightnessByNAction action1 = ExtendedActions.changeBrightnessByN(sprite, brighter);
 		sprite.look.addAction(action1);
@@ -49,7 +49,7 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 
 		brightness = sprite.look.getBrightnessInUserInterfaceDimensionUnit();
-		brightness += dimmer.interpretDouble();
+		brightness += dimmer.interpretDouble(sprite);
 
 		ChangeBrightnessByNAction action2 = ExtendedActions.changeBrightnessByN(sprite, dimmer);
 		sprite.look.addAction(action2);

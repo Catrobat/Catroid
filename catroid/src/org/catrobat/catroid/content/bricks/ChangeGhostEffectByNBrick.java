@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -106,7 +107,7 @@ public class ChangeGhostEffectByNBrick extends FormulaBrick implements OnClickLi
 		TextView textChangeGhostEffect = (TextView) prototypeView
 				.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
 		textChangeGhostEffect.setText(String.valueOf(getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE)
-				.interpretDouble()));
+				.interpretDouble(ProjectManager.getInstance().getCurrentSprite())));
 		return prototypeView;
 	}
 
@@ -144,7 +145,6 @@ public class ChangeGhostEffectByNBrick extends FormulaBrick implements OnClickLi
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-
 		sequence.addAction(ExtendedActions.changeGhostEffectByN(sprite,
 				getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE)));
 		return null;

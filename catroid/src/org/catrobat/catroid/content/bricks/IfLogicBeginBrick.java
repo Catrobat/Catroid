@@ -223,7 +223,7 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick, OnC
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		SequenceAction ifAction = ExtendedActions.sequence();
 		SequenceAction elseAction = ExtendedActions.sequence();
-		Action action = ExtendedActions.ifLogic(getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction,
+		Action action = ExtendedActions.ifLogic(sprite, getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction,
 				elseAction); //TODO finish!!!
 		sequence.addAction(action);
 

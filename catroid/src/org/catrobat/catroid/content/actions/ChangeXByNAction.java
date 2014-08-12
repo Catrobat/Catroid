@@ -34,7 +34,7 @@ public class ChangeXByNAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		sprite.look.changeXInUserInterfaceDimensionUnit(xMovement.interpretFloat());
+		sprite.look.changeXInUserInterfaceDimensionUnit(xMovement.interpretFloat(sprite));
 	}
 
 	public void setSprite(Sprite sprite) {

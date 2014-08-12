@@ -40,7 +40,7 @@ public class SetBrightnessActionTest extends InstrumentationTestCase {
 		SetBrightnessAction action = ExtendedActions.setBrightness(sprite, brightnessValue);
 		action.act(1.0f);
 		assertEquals("Incorrect brightness value after SetBrightnessBrick executed",
-				brightnessValue.interpretFloat(), sprite.look.getBrightnessInUserInterfaceDimensionUnit());
+				brightnessValue.interpretFloat(sprite), sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
@@ -57,7 +57,7 @@ public class SetBrightnessActionTest extends InstrumentationTestCase {
 	public void testNegativeBrightnessValue() {
 		Sprite sprite = new Sprite("testSprite");
 		SetBrightnessAction action = ExtendedActions.setBrightness(sprite,
-				new Formula(-brightnessValue.interpretFloat()));
+				new Formula(-brightnessValue.interpretFloat(sprite)));
 		action.act(1.0f);
 		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", 0f,
 				sprite.look.getBrightnessInUserInterfaceDimensionUnit());

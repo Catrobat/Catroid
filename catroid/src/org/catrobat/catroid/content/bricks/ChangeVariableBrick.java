@@ -191,7 +191,8 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 
 		TextView textChangeVariable = (TextView) prototypeView.findViewById(R.id.brick_change_variable_prototype_view);
 		textChangeVariable.setText(String
-				.valueOf(getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).interpretDouble()));
+				.valueOf(getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).interpretDouble(ProjectManager
+						.getInstance().getCurrentSprite())));
 		return prototypeView;
 	}
 
@@ -242,7 +243,7 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.changeVariable(getFormulaWithBrickField(BrickField.VARIABLE_CHANGE),
+		sequence.addAction(ExtendedActions.changeVariable(sprite, getFormulaWithBrickField(BrickField.VARIABLE_CHANGE),
 				userVariable));
 		return null;
 	}

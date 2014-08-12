@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -110,7 +111,7 @@ public abstract class DroneMoveBrick extends FormulaBrick implements OnClickList
 		if (getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS).isSingleNumberFormula()) {
 			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
 					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
-							.interpretDouble())));
+							.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))));
 		} else {
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
 			// in hopefully all possible languages
@@ -145,15 +146,15 @@ public abstract class DroneMoveBrick extends FormulaBrick implements OnClickList
 		label.setText(getBrickLabel(prototypeView));
 		TextView textTime = (TextView) prototypeView.findViewById(R.id.brick_drone_move_prototype_text_view_second);
 		textTime.setText(String.valueOf(getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
-				.interpretInteger()));
+				.interpretInteger(ProjectManager.getInstance().getCurrentSprite())));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_drone_move_text_view_second);
 		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
-						.interpretDouble())));
+						.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))));
 
 		TextView textPower = (TextView) prototypeView.findViewById(R.id.brick_drone_move_prototype_text_view_power);
 		textPower.setText(String.valueOf(getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)
-				.interpretFloat()));
+				.interpretFloat(ProjectManager.getInstance().getCurrentSprite())));
 
 		return prototypeView;
 	}

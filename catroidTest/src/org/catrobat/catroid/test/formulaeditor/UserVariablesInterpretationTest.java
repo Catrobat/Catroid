@@ -73,20 +73,20 @@ public class UserVariablesInterpretationTest extends AndroidTestCase {
 	public void testUserVariableInterpretation() {
 		Formula userVariable = getUservariableByName(PROJECT_USER_VARIABLE);
 		assertEquals("Formula interpretation of ProjectUserVariable is not as expected", USER_VARIABLE_VALUE,
-				userVariable.interpretDouble());
+				userVariable.interpretDouble(firstSprite));
 
 		userVariable = getUservariableByName(SPRITE_USER_VARIABLE);
 		assertEquals("Formula interpretation of SpriteUserVariable is not as expected", USER_VARIABLE_VALUE2,
-				userVariable.interpretDouble());
+				userVariable.interpretDouble(firstSprite));
 	}
 
 	public void testUserVariableReseting() {
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
 		Formula userVariable = getUservariableByName(PROJECT_USER_VARIABLE);
-		assertEquals("ProjectUserVariable didnt reset", USER_VARIABLE_RESET, userVariable.interpretDouble());
+		assertEquals("ProjectUserVariable didnt reset", USER_VARIABLE_RESET, userVariable.interpretDouble(firstSprite));
 
 		userVariable = getUservariableByName(SPRITE_USER_VARIABLE);
-		assertEquals("SpriteUserVariable didnt reset", USER_VARIABLE_RESET, userVariable.interpretDouble());
+		assertEquals("SpriteUserVariable didnt reset", USER_VARIABLE_RESET, userVariable.interpretDouble(firstSprite));
 	}
 
 	public void testNotExistingUservariable() {

@@ -35,7 +35,7 @@ public class WaitActionTest extends AndroidTestCase {
 
 	public void testWait() throws InterruptedException {
 		float waitOneSecond = 1.0f;
-		WaitAction action = ExtendedActions.delay(new Formula(waitOneSecond));
+		WaitAction action = ExtendedActions.delay(null, new Formula(waitOneSecond));
 		long currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;

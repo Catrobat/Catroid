@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -108,7 +109,7 @@ public class WaitBrick extends FormulaBrick implements OnClickListener {
 			times.setText(view.getResources().getQuantityString(
 					R.plurals.second_plural,
 					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS)
-							.interpretDouble())
+							.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))
 			));
 		} else {
 
@@ -129,12 +130,13 @@ public class WaitBrick extends FormulaBrick implements OnClickListener {
 		prototypeView = View.inflate(context, R.layout.brick_wait, null);
 		TextView textWait = (TextView) prototypeView.findViewById(R.id.brick_wait_prototype_text_view);
 		textWait.setText(String.valueOf(getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS).interpretInteger(
+				ProjectManager.getInstance().getCurrentSprite()
 		)));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_wait_second_text_view);
 		times.setText(context.getResources().getQuantityString(
 				R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS)
-						.interpretDouble())
+						.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))
 		));
 		return prototypeView;
 	}
@@ -174,7 +176,7 @@ public class WaitBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.delay(getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS)));
+		sequence.addAction(ExtendedActions.delay(sprite, getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS)));
 		return null;
 	}
 }

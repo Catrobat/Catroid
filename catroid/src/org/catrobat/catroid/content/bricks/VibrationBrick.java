@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -99,7 +100,7 @@ public class VibrationBrick extends FormulaBrick implements OnClickListener {
 		if (getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS).isSingleNumberFormula()) {
 			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
 					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS)
-							.interpretDouble())));
+							.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))));
 		} else {
 			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
@@ -116,11 +117,11 @@ public class VibrationBrick extends FormulaBrick implements OnClickListener {
 		prototypeView = View.inflate(context, R.layout.brick_vibration, null);
 		TextView textSeconds = (TextView) prototypeView.findViewById(R.id.brick_vibration_prototype_text_view_seconds);
 		textSeconds.setText(String.valueOf(getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS)
-				.interpretInteger()));
+				.interpretInteger(ProjectManager.getInstance().getCurrentSprite())));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_vibration_second_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS)
-						.interpretDouble())));
+						.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))));
 		return prototypeView;
 	}
 
@@ -156,7 +157,7 @@ public class VibrationBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.vibrate(
+		sequence.addAction(ExtendedActions.vibrate(sprite,
 				getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS)));
 		return null;
 	}

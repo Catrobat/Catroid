@@ -34,7 +34,7 @@ public class ChangeYByNAction extends TemporalAction {
 
 	@Override
 	protected void update(float arg0) {
-		sprite.look.changeYInUserInterfaceDimensionUnit(yMovement.interpretFloat());
+		sprite.look.changeYInUserInterfaceDimensionUnit(yMovement.interpretFloat(sprite));
 	}
 
 	public void setSprite(Sprite sprite) {

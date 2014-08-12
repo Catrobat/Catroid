@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick.Motor;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.legonxt.LegoNXT;
@@ -35,10 +36,11 @@ public class LegoNxtMotorActionAction extends TemporalAction {
 
 	private Motor motorEnum;
 	private Formula speed;
+	private Sprite sprite;
 
 	@Override
 	protected void update(float percent) {
-		int speedValue = speed.interpretInteger();
+		int speedValue = speed.interpretInteger(sprite);
 		if (speedValue < MIN_SPEED) {
 			speedValue = MIN_SPEED;
 		} else if (speedValue > MAX_SPEED) {
@@ -61,6 +63,10 @@ public class LegoNxtMotorActionAction extends TemporalAction {
 
 	public void setSpeed(Formula speed) {
 		this.speed = speed;
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
 	}
 
 }

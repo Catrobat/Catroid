@@ -82,9 +82,9 @@ public class SetSizeToActionTest extends InstrumentationTestCase {
 
 		SetSizeToAction action = ExtendedActions.setSizeTo(sprite, size);
 		action.act(1.0f);
-		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", size.interpretFloat() / 100,
+		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", size.interpretFloat(sprite) / 100,
 				sprite.look.getScaleX());
-		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", size.interpretFloat() / 100,
+		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", size.interpretFloat(sprite) / 100,
 				sprite.look.getScaleY());
 	}
 

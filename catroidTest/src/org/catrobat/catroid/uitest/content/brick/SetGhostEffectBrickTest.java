@@ -75,8 +75,8 @@ public class SetGhostEffectBrickTest extends BaseActivityInstrumentationTestCase
 
 		double newEffect = 65.9;
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_ghost_effect_to_edit_text, newEffect,
-				Brick.BrickField.TRANSPARENCY, setGhostEffectBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_set_ghost_effect_to_edit_text, newEffect, Brick.BrickField.TRANSPARENCY, setGhostEffectBrick);
 	}
 
 	private void createProject() {
