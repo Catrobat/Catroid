@@ -170,6 +170,7 @@ public final class StorageHandler {
 		xstream.registerConverter(new XStreamConcurrentFormulaHashMapConverter());
 		xstream.registerConverter(new XStreamUserVariableConverter());
 		xstream.registerConverter(new XStreamBrickConverter(xstream.getMapper(), xstream.getReflectionProvider()));
+		xstream.registerConverter(new XStreamScriptConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 		setXstreamAliases();
 
 		if (!Utils.externalStorageAvailable()) {
@@ -203,11 +204,12 @@ public final class StorageHandler {
 		xstream.alias("sound", SoundInfo.class);
 		xstream.alias("userVariable", UserVariable.class);
 
-		xstream.alias("broadcastScript", BroadcastScript.class);
 		xstream.alias("script", Script.class);
 		xstream.alias("object", Sprite.class);
-		xstream.alias("startScript", StartScript.class);
-		xstream.alias("whenScript", WhenScript.class);
+
+		xstream.alias("script", StartScript.class);
+		xstream.alias("script", WhenScript.class);
+		xstream.alias("script", BroadcastScript.class);
 
 		xstream.alias("brick", BroadcastBrick.class);
 		xstream.alias("brick", BroadcastReceiverBrick.class);

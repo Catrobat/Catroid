@@ -28,6 +28,9 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.ConversionException;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
+import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick.BrickField;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -119,6 +122,7 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 	private static final String TAG = XStreamToSupportCatrobatLanguageVersion091AndBefore.class.getSimpleName();
 
 	private HashMap<String, BrickInfo> brickInfoMap;
+	private HashMap<String, String> scriptInfoMap;
 
 	public XStreamToSupportCatrobatLanguageVersion091AndBefore(PureJavaReflectionProvider reflectionProvider) {
 		super(reflectionProvider);
@@ -384,7 +388,19 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 
 	}
 
+	private void initializeScriptInfoMap() {
+		if (scriptInfoMap != null) {
+			return;
+		}
+
+		scriptInfoMap = new HashMap<String, String>();
+		scriptInfoMap.put("startScript", StartScript.class.getSimpleName());
+		scriptInfoMap.put("whenScript", WhenScript.class.getSimpleName());
+		scriptInfoMap.put("broadcastScript", BroadcastScript.class.getSimpleName());
+	}
+
 	private void modifyXMLToSupportUnknownFields(File file) {
+		initializeScriptInfoMap();
 		initializeBrickInfoMap();
 		Document doc = getDocument(file);
 		if (doc != null) {
@@ -394,6 +410,7 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 			deleteChildNodeByName(doc, "scriptList", "object");
 			deleteChildNodeByName(doc, "brickList", "object");
 
+			modifyScriptLists(doc);
 			modifyBrickLists(doc);
 			checkReferences(doc.getDocumentElement());
 			modifyUserVariables(doc);
@@ -500,6 +517,37 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 		}
 	}
 
+	private void modifyScriptLists(Document doc) {
+		NodeList scriptListNodeList = doc.getElementsByTagName("scriptList");
+		for (int i = 0; i < scriptListNodeList.getLength(); i++) {
+			Node scriptListNode = scriptListNodeList.item(i);
+			if (scriptListNode.hasChildNodes()) {
+				NodeList scriptListChildNodes = scriptListNode.getChildNodes();
+				for (int j = 0; j < scriptListChildNodes.getLength(); j++) {
+					Node scriptNode = scriptListChildNodes.item(j);
+					Element newScriptNode = doc.createElement("script");
+
+					String scriptName = scriptInfoMap.get(scriptNode.getNodeName());
+					if (scriptName != null) {
+						newScriptNode.setAttribute("type", scriptName);
+						copyAttributesIfNeeded(scriptNode, newScriptNode);
+
+						if (scriptNode.hasChildNodes()) {
+							NodeList scriptNodeChildList = scriptNode.getChildNodes();
+							for (int k = 0; k < scriptNodeChildList.getLength(); k++) {
+								newScriptNode.appendChild(scriptNodeChildList.item(k));
+							}
+						}
+
+						scriptListNode.replaceChild(newScriptNode, scriptNode);
+					} else {
+						Log.e(TAG, scriptNode.getNodeName() + " script cannot be converted to new structure");
+					}
+				}
+			}
+		}
+	}
+
 	private void modifyBrickLists(Document doc) {
 		NodeList brickListNodeList = doc.getElementsByTagName("brickList");
 		for (int i = 0; i < brickListNodeList.getLength(); i++) {
@@ -515,20 +563,22 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 						newBrickNode.setAttribute("type", brickInfo.brickClassName);
 						copyAttributesIfNeeded(brickNode, newBrickNode);
 
-						NodeList brickChildNodes = brickNode.getChildNodes();
-						for (int l = 0; l < brickChildNodes.getLength(); l++) {
-							Element brickChild = (Element) brickChildNodes.item(l);
+						if (brickNode.hasChildNodes()) {
+							NodeList brickChildNodes = brickNode.getChildNodes();
+							for (int k = 0; k < brickChildNodes.getLength(); k++) {
+								Element brickChild = (Element) brickChildNodes.item(k);
 
-							if (brickInfo.getBrickFieldForOldFieldName(brickChild.getNodeName()) != null) {
-								handleFormulaNode(doc, brickInfo, newBrickNode, brickChild);
-							} else if (brickChild.getNodeName().equals("userVariable")) {
-								handleUserVariableNode(newBrickNode, brickChild);
-							} else if (brickChild.getNodeName().equals("loopEndBrick") ||
-									brickChild.getNodeName().equals("ifElseBrick") ||
-									brickChild.getNodeName().equals("ifEndBrick")) {
-								continue;
-							}  else {
-								newBrickNode.appendChild(brickChild);
+								if (brickInfo.getBrickFieldForOldFieldName(brickChild.getNodeName()) != null) {
+									handleFormulaNode(doc, brickInfo, newBrickNode, brickChild);
+								} else if (brickChild.getNodeName().equals("userVariable")) {
+									handleUserVariableNode(newBrickNode, brickChild);
+								} else if (brickChild.getNodeName().equals("loopEndBrick") ||
+										brickChild.getNodeName().equals("ifElseBrick") ||
+										brickChild.getNodeName().equals("ifEndBrick")) {
+									continue;
+								}  else {
+									newBrickNode.appendChild(brickChild);
+								}
 							}
 						}
 						brickListNode.replaceChild(newBrickNode, brickNode);
@@ -606,8 +656,9 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 						} else {
 							occurrence++;
 						}
-					} else if (childNode.hasAttribute("type") &&
-							childNode.getAttribute("type").equals(brickInfoMap.get(nodeName).getBrickClassName())) {
+					} else if ((childNode.getNodeName().equals("script") && childNode.getAttribute("type")
+							.equals(scriptInfoMap.get(nodeName))) || (childNode.getNodeName().equals("brick") &&
+							childNode.getAttribute("type").equals(brickInfoMap.get(nodeName).getBrickClassName()))) {
 						if (occurrence == position) {
 							node = childNode;
 							break;
@@ -668,8 +719,17 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 						} else {
 							occurrence++;
 						}
-					} else if (childNode.hasAttribute("type") &&
-							childNode.getAttribute("type").equals(brickInfoMap.get(nodeName).getBrickClassName())) {
+					} else if (childNode.getNodeName().equals("script") && childNode.getAttribute("type")
+							.equals(scriptInfoMap.get(nodeName))) {
+						if (occurrence == position) {
+							parts[i] = "script[" + (j+1) + "]";
+							node = childNode;
+							break;
+						} else {
+							occurrence++;
+						}
+					} else if (childNode.getNodeName().equals("brick") && childNode.getAttribute("type")
+							.equals(brickInfoMap.get(nodeName).getBrickClassName())) {
 						if (occurrence == position) {
 							parts[i] = "brick[" + (j+1) + "]";
 							node = childNode;
