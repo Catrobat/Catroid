@@ -25,7 +25,7 @@ package org.catrobat.catroid.io;
 import android.util.Log;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.converters.reflection.AbstractReflectionConverter.UnknownFieldException;
+import com.thoughtworks.xstream.converters.ConversionException;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
 import org.catrobat.catroid.content.bricks.Brick.BrickField;
@@ -128,8 +128,8 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 		Object parsedObject;
 		try {
 			parsedObject = super.fromXML(file);
-		} catch (UnknownFieldException exception) {
-			Log.e(TAG, "Unknown field found" + exception.getLocalizedMessage());
+		} catch (ConversionException exception) {
+			Log.e(TAG, "Conversion error " + exception.getLocalizedMessage());
 			modifyXMLToSupportUnknownFields(file);
 			parsedObject = super.fromXML(file);
 		}
@@ -388,15 +388,11 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 		initializeBrickInfoMap();
 		Document doc = getDocument(file);
 		if (doc != null) {
-			renameAllNodes(doc, "objectList", "sprites");
-			renameAllNodes(doc, "object", "sprite");
-			renameAllNodes(doc, "objectVariableList", "spriteVariableList");
-
 			convertChildNodeToAttribute(doc, "lookList", "name");
-			convertChildNodeToAttribute(doc, "sprite", "name");
+			convertChildNodeToAttribute(doc, "object", "name");
 
-			deleteChildNodeByName(doc, "scriptList", "sprite");
-			deleteChildNodeByName(doc, "brickList", "sprite");
+			deleteChildNodeByName(doc, "scriptList", "object");
+			deleteChildNodeByName(doc, "brickList", "object");
 
 			modifyBrickLists(doc);
 			checkReferences(doc.getDocumentElement());
@@ -504,14 +500,6 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 		}
 	}
 
-	private void renameAllNodes(Document doc, String oldNodeName, String newNodeName) {
-		NodeList nodeList = doc.getElementsByTagName(oldNodeName);
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			Node node = nodeList.item(i);
-			doc.renameNode(node, node.getNamespaceURI(), newNodeName);
-		}
-	}
-
 	private void modifyBrickLists(Document doc) {
 		NodeList brickListNodeList = doc.getElementsByTagName("brickList");
 		for (int i = 0; i < brickListNodeList.getLength(); i++) {
@@ -606,12 +594,6 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 					position = Integer.parseInt(parts[i].substring(parts[i].indexOf('[') + 1, parts[i].indexOf(']'))) - 1;
 				}
 
-				if (nodeName.equals("objectList")) {
-					nodeName = "sprites";
-				} else if (nodeName.equals("object")) {
-					nodeName = "sprite";
-				}
-
 				int occurrence = 0;
 				NodeList childNodes = node.getChildNodes();
 				for (int j = 0; j < childNodes.getLength(); j++) {
@@ -672,18 +654,6 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 				if (parts[i].endsWith("]")) {
 					nodeName = parts[i].substring(0, parts[i].indexOf('['));
 					position = Integer.parseInt(parts[i].substring(parts[i].indexOf('[') + 1, parts[i].indexOf(']'))) - 1;
-				}
-
-				if (nodeName.equals("objectList")) {
-					nodeName = "sprites";
-					parts[i] = nodeName;
-				} else if (nodeName.equals("object")) {
-					nodeName = "sprite";
-					if (position == 0) {
-						parts[i] = nodeName;
-					} else {
-						parts[i] = nodeName + "[" + (position+1) + "]";
-					}
 				}
 
 				int occurrence = 0;

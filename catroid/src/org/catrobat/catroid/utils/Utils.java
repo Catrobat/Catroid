@@ -430,8 +430,8 @@ public final class Utils {
 			Project standardProject = StandardProjectHandler.createAndSaveStandardProject(getUniqueProjectName(),
 					context);
 			String standardProjectXMLString = StorageHandler.getInstance().getXMLStringOfAProject(standardProject);
-			int start = standardProjectXMLString.indexOf("<sprites>");
-			int end = standardProjectXMLString.indexOf("</sprites>");
+			int start = standardProjectXMLString.indexOf("<objectList>");
+			int end = standardProjectXMLString.indexOf("</objectList>");
 			String standardProjectSpriteList = standardProjectXMLString.substring(start, end);
 			ProjectManager.getInstance().deleteCurrentProject();
 
@@ -439,8 +439,8 @@ public final class Utils {
 			ProjectManager.getInstance().saveProject();
 
 			String projectToCheckXMLString = StorageHandler.getInstance().getXMLStringOfAProject(projectToCheck);
-			start = projectToCheckXMLString.indexOf("<sprites>");
-			end = projectToCheckXMLString.indexOf("</sprites>");
+			start = projectToCheckXMLString.indexOf("<objectList>");
+			end = projectToCheckXMLString.indexOf("</objectList>");
 			String projectToCheckStringList = projectToCheckXMLString.substring(start, end);
 
 			return standardProjectSpriteList.contentEquals(projectToCheckStringList);

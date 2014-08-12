@@ -42,7 +42,7 @@ public class UserVariablesContainer implements Serializable {
 
 	@XStreamAlias("programVariableList")
 	private List<UserVariable> projectVariables;
-	@XStreamAlias("spriteVariableList")
+	@XStreamAlias("objectVariableList")
 	private Map<Sprite, List<UserVariable>> spriteVariables;
 
 	public UserVariablesContainer() {

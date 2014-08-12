@@ -205,7 +205,7 @@ public final class StorageHandler {
 
 		xstream.alias("broadcastScript", BroadcastScript.class);
 		xstream.alias("script", Script.class);
-		xstream.alias("sprite", Sprite.class);
+		xstream.alias("object", Sprite.class);
 		xstream.alias("startScript", StartScript.class);
 		xstream.alias("whenScript", WhenScript.class);
 
