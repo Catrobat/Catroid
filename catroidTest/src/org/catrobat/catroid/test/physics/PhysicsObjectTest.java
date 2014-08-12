@@ -76,7 +76,6 @@ public class PhysicsObjectTest extends AndroidTestCase {
 		assertEquals("Wrong configuration", 0.0f, PhysicsObject.MIN_FRICTION);
 
 		assertEquals("Wrong configuration", 0.8f, PhysicsObject.DEFAULT_BOUNCE_FACTOR);
-		assertEquals("Wrong configuration", 1.0f, PhysicsObject.MAX_BOUNCE_FACTOR);
 		assertEquals("Wrong configuration", 0.0f, PhysicsObject.MIN_BOUNCE_FACTOR);
 
 		assertEquals("Wrong configuration", 1.0f, PhysicsObject.DEFAULT_MASS);
