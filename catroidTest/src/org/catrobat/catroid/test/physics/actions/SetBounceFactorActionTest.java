@@ -54,9 +54,9 @@ public class SetBounceFactorActionTest extends PhysicsCollisionBaseTest {
 	}
 
 	public void testHighValue() {
-		float bounceFactor = 250.0f;
+		float bounceFactor = 1000.0f;
 		initBounceFactor(bounceFactor);
-		assertEquals("Unexpected bounce factor", PhysicsObject.MAX_BOUNCE_FACTOR, physicsWorld.getPhysicsObject(sprite)
+		assertEquals("Unexpected bounce factor", bounceFactor / 100.0f, physicsWorld.getPhysicsObject(sprite)
 				.getBounceFactor());
 	}
 
