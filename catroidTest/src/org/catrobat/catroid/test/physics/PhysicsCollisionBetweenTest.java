@@ -24,6 +24,8 @@
 package org.catrobat.catroid.test.physics;
 
 
+import android.util.Log;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 
@@ -36,6 +38,8 @@ import java.util.Map;
 
 public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 
+	private static final String TAG = PhysicsCollisionBetweenTest.class.getSimpleName();
+
 	public PhysicsCollisionBetweenTest() {
 		spritePosition = new Vector2(0.0f, 100.0f);
 		sprite2Position = new Vector2(0.0f, -200.0f);
@@ -45,24 +49,34 @@ public class PhysicsCollisionBetweenTest extends PhysicsCollisionBaseTest {
 
 	@Override
 	public void beginContactCallback(Contact contact) {
-		super.beginContactCallback(contact);
-		Map<Integer, PhysicsCollisionBroadcast> physicsCollisionBroadcasts = (Map<Integer, PhysicsCollisionBroadcast>) Reflection.getPrivateField(PhysicsCollision.class, physicsCollisionTestListener, "physicsCollisionBroadcasts");
-		assertTrue("Map must contain one element", physicsCollisionBroadcasts.size() == 2);
-		Object[] parameters = {sprite, sprite2};
-		Reflection.ParameterList paramList = new Reflection.ParameterList(parameters);
-		int key = (Integer) Reflection.invokeMethod(PhysicsCollision.class, physicsCollisionTestListener, "generateKey", paramList);
-		PhysicsCollisionBroadcast collisionBroadcast = physicsCollisionBroadcasts.get(key);
-		assertEquals("collision broadcast counter must be equal to beginCounter - endCounter", collisionBroadcast.getContactCounter(), getContactDifference());
+		try {
+			super.beginContactCallback(contact);
+			Map<Integer, PhysicsCollisionBroadcast> physicsCollisionBroadcasts = (Map<Integer, PhysicsCollisionBroadcast>) Reflection.getPrivateField(PhysicsCollision.class, physicsCollisionTestListener, "physicsCollisionBroadcasts");
+			assertTrue("Map must contain one element", physicsCollisionBroadcasts.size() == 2);
+			Object[] parameters = {sprite, sprite2};
+			Reflection.ParameterList paramList = new Reflection.ParameterList(parameters);
+			String key = (String) Reflection.invokeMethod(PhysicsCollision.class, physicsCollisionTestListener, "generateKey", paramList);
+			PhysicsCollisionBroadcast collisionBroadcast = physicsCollisionBroadcasts.get(key);
+			assertEquals("collision broadcast counter must be equal to beginCounter - endCounter", collisionBroadcast.getContactCounter(), getContactDifference());
+		} catch (Exception exception) {
+			Log.e(TAG, Log.getStackTraceString(exception));
+			fail("An unexpected exception was captured. See Logcat for details");
+		}
 	}
 
 	@Override
 	public void endContactCallback(Contact contact) {
-		super.endContactCallback(contact);
-		Map<Integer, PhysicsCollisionBroadcast> physicsCollisionBroadcasts = (Map<Integer, PhysicsCollisionBroadcast>) Reflection.getPrivateField(PhysicsCollision.class, physicsCollisionTestListener, "physicsCollisionBroadcasts");
-		if (getContactDifference() == 0) {
-			assertTrue("Map must contain zero elements", physicsCollisionBroadcasts.size() == 0);
-		} else {
-			assertTrue("Map must contain one element", physicsCollisionBroadcasts.size() == 2);
+		try {
+			super.endContactCallback(contact);
+			Map<Integer, PhysicsCollisionBroadcast> physicsCollisionBroadcasts = (Map<Integer, PhysicsCollisionBroadcast>) Reflection.getPrivateField(PhysicsCollision.class, physicsCollisionTestListener, "physicsCollisionBroadcasts");
+			if (getContactDifference() == 0) {
+				assertTrue("Map must contain zero elements", physicsCollisionBroadcasts.size() == 0);
+			} else {
+				assertTrue("Map must contain one element", physicsCollisionBroadcasts.size() == 2);
+			}
+		} catch (Exception exception) {
+			Log.e(TAG, Log.getStackTraceString(exception));
+			fail("An unexpected exception was captured. See Logcat for details");
 		}
 	}
 
