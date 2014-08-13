@@ -50,7 +50,7 @@ public class XStreamConcurrentFormulaHashMapConverter implements Converter {
 		for (Brick.BrickField brickField : concurrentFormulaHashMap.keySet()) {
 			hierarchicalStreamWriter.startNode(FORMULA);
 			hierarchicalStreamWriter.addAttribute(CATEGORY, brickField.toString());
-			marshallingContext.convertAnother(concurrentFormulaHashMap.get(brickField).getFormulaTree());
+			marshallingContext.convertAnother(concurrentFormulaHashMap.get(brickField).getRoot());
 			hierarchicalStreamWriter.endNode();
 		}
 	}
@@ -61,11 +61,13 @@ public class XStreamConcurrentFormulaHashMapConverter implements Converter {
 		while (hierarchicalStreamReader.hasMoreChildren()) {
 			hierarchicalStreamReader.moveDown();
 			Brick.BrickField brickField = Brick.BrickField.valueOf(hierarchicalStreamReader.getAttribute(CATEGORY));
-			Formula formula = new Formula(0);
+			Formula formula;
 			if (FORMULA.equals(hierarchicalStreamReader.getNodeName())) {
-				FormulaElement formulaTree = (FormulaElement) unmarshallingContext.convertAnother(concurrentFormulaHashMap,
+				FormulaElement rootFormula = (FormulaElement) unmarshallingContext.convertAnother(concurrentFormulaHashMap,
 						FormulaElement.class);
-				formula.setFormulaTree(formulaTree);
+				formula = new Formula(rootFormula);
+			} else {
+				formula = new Formula(0);
 			}
 			hierarchicalStreamReader.moveUp();
 

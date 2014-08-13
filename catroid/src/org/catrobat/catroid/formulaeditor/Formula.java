@@ -94,7 +94,6 @@ public class Formula implements Serializable {
 		int result = interpretInteger(sprite);
 
 		return result != 0 ? true : false;
-
 	}
 
 	public int interpretInteger(Sprite sprite) {
@@ -114,19 +113,14 @@ public class Formula implements Serializable {
 		displayText = null;
 		formulaTree = formula;
 		internFormula = new InternFormula(formula.getInternTokenList());
+	}
 
+	public FormulaElement getRoot() {
+		return formulaTree;
 	}
 
 	public void setTextFieldId(int id) {
 		formulaTextFieldId = id;
-	}
-
-	public void setFormulaTree(FormulaElement formulaTree) {
-		this.formulaTree = formulaTree;
-	}
-
-	public FormulaElement getFormulaTree() {
-		return formulaTree;
 	}
 
 	public String getDisplayString(Context context) {
