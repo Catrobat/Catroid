@@ -71,7 +71,7 @@ public class ChangeXByNBrick extends BrickBaseType implements OnClickListener, F
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return xMovement.getRequiredResources();
 	}
 
 	@Override

@@ -73,7 +73,7 @@ public class MoveNStepsBrick extends BrickBaseType implements OnClickListener, F
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return steps.getRequiredResources();
 	}
 
 	@Override

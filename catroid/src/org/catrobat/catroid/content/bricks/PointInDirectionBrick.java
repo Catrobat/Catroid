@@ -89,7 +89,7 @@ public class PointInDirectionBrick extends BrickBaseType implements View.OnClick
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return degrees.getRequiredResources();
 	}
 
 	@Override
