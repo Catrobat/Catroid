@@ -43,6 +43,7 @@ public final class BroadcastHandler {
 
 	private static Multimap<String, String> actionsToRestartMap = ArrayListMultimap.create();
 	private static HashMap<Action, Script> actionScriptMap = new HashMap<Action, Script>();
+	private static HashMap<Script, Sprite> scriptSpriteMap = new HashMap<Script, Sprite>();
 	private static HashMap<String, Action> stringActionMap = new HashMap<String, Action>();
 
 	private static final String TAG = "BroadcastHandler";
@@ -116,7 +117,7 @@ public final class BroadcastHandler {
 					ExtendedActions.broadcastNotify(event));
 			Script receiverScript = actionScriptMap.get(action);
 			actionScriptMap.put(broadcastWaitAction, receiverScript);
-			Sprite receiverSprite = receiverScript.getObject();
+			Sprite receiverSprite = scriptSpriteMap.get(receiverScript);
 			String actionName = broadcastWaitAction.toString() + Constants.ACTION_SPRITE_SEPARATOR + receiverSprite.getName() + receiverSprite.getScriptIndex(receiverScript);
 			stringActionMap.put(actionName, broadcastWaitAction);
 			if (!handleActionFromBroadcastWait(look, broadcastWaitAction)) {
@@ -131,7 +132,7 @@ public final class BroadcastHandler {
 	}
 
 	private static boolean handleAction(Action action, Script scriptOfAction) {
-		Sprite spriteOfAction = scriptOfAction.getObject();
+		Sprite spriteOfAction = scriptSpriteMap.get(scriptOfAction);
 		String actionToHandle = action.toString() + Constants.ACTION_SPRITE_SEPARATOR + spriteOfAction.getName() + spriteOfAction.getScriptIndex(scriptOfAction);
 
 		if (!actionsToRestartMap.containsKey(actionToHandle)) {
@@ -194,6 +195,10 @@ public final class BroadcastHandler {
 
 	public static HashMap<Action, Script> getActionScriptMap() {
 		return actionScriptMap;
+	}
+
+	public static HashMap<Script, Sprite> getScriptSpriteMapMap() {
+		return scriptSpriteMap;
 	}
 
 	public static HashMap<String, Action> getStringActionMap() {
