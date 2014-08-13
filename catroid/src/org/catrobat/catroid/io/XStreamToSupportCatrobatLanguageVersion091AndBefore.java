@@ -413,7 +413,6 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 			modifyScriptLists(doc);
 			modifyBrickLists(doc);
 			checkReferences(doc.getDocumentElement());
-			modifyUserVariables(doc);
 			saveDocument(doc, file);
 		}
 	}
@@ -604,77 +603,15 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 	}
 
 	private void handleUserVariableNode(Element parentNode, Element userVariableNode) {
-		if (userVariableNode.hasAttribute("reference")) {
-			parentNode.setAttribute("userVariable", getUserVariableByReference(userVariableNode,
-					userVariableNode.getAttribute("reference")));
-		} else {
-			parentNode.setAttribute("userVariable", findNodeByName(userVariableNode, "name").getTextContent());
-		}
-	}
-
-	private void modifyUserVariables(Document doc) {
-		NodeList nodeList = doc.getElementsByTagName("userVariable");
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			Element node = (Element) nodeList.item(i);
-			if (node.hasAttribute("reference")) {
-				String userVariable = getUserVariableByReference(node, node.getAttribute("reference"));
-				node.removeAttribute("reference");
-				node.setTextContent(userVariable);
-			} else {
-				Node nameNode = findNodeByName(node, "name");
-				if (nameNode != null) {
-					node.removeChild(nameNode);
-					node.setTextContent(node.getTextContent());
-				}
+		if (!userVariableNode.hasAttribute("reference")) {
+			Node nameNode = findNodeByName(userVariableNode, "name");
+			if (nameNode != null) {
+				String userVariable = nameNode.getTextContent();
+				userVariableNode.removeChild(nameNode);
+				userVariableNode.setTextContent(userVariable);
 			}
 		}
-	}
-
-	private String getUserVariableByReference(Node userVariableNode, String reference) {
-		String[] parts = reference.split("/");
-		Node node = userVariableNode;
-		for (int i = 0; i < parts.length - 1; i++) {
-			if (parts[i].equals("..")) {
-				node = node.getParentNode();
-			} else {
-				int position = 0;
-				String nodeName = parts[i];
-				if (parts[i].endsWith("]")) {
-					nodeName = parts[i].substring(0, parts[i].indexOf('['));
-					position = Integer.parseInt(parts[i].substring(parts[i].indexOf('[') + 1, parts[i].indexOf(']'))) - 1;
-				}
-
-				int occurrence = 0;
-				NodeList childNodes = node.getChildNodes();
-				for (int j = 0; j < childNodes.getLength(); j++) {
-					Element childNode = (Element) childNodes.item(j);
-
-					if (childNode.getNodeName().equals(nodeName)) {
-						if (occurrence == position) {
-							node = childNode;
-							break;
-						} else {
-							occurrence++;
-						}
-					} else if ((childNode.getNodeName().equals("script") && childNode.getAttribute("type")
-							.equals(scriptInfoMap.get(nodeName))) || (childNode.getNodeName().equals("brick") &&
-							childNode.getAttribute("type").equals(brickInfoMap.get(nodeName).getBrickClassName()))) {
-						if (occurrence == position) {
-							node = childNode;
-							break;
-						} else {
-							occurrence++;
-						}
-					}
-				}
-			}
-		}
-
-		Element elem = (Element) node;
-		if (elem.hasAttribute("userVariable")) {
-			return elem.getAttribute("userVariable");
-		}
-		return null;
+		parentNode.appendChild(userVariableNode);
 	}
 
 	private void checkReferences(Element node) {

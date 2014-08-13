@@ -44,6 +44,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.XmlHeader;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
@@ -278,8 +279,7 @@ public final class StorageHandler {
 		xstream.alias("brick", DroneMoveRightBrick.class);
 
 		xstream.aliasField("formulaList", FormulaBrick.class, "formulaMap");
-		xstream.useAttributeFor(SetVariableBrick.class, "userVariable");
-		xstream.useAttributeFor(ChangeVariableBrick.class, "userVariable");
+		xstream.aliasField("object", BrickBaseType.class, "sprite");
 	}
 
 	private void createCatroidRoot() {

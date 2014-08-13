@@ -267,41 +267,41 @@ public final class UiTestUtils {
 	public static SetVariableBrick createSameActionsBroadcastProject(String message) {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("sprite1");
-		Script firstScript = new StartScript(firstSprite);
+		Script firstScript = new StartScript();
 
 		firstSprite.addScript(firstScript);
 		project.addSprite(firstSprite);
 
 		Script startScript = firstSprite.getScript(0);
-		SetVariableBrick setVariableBrick = new SetVariableBrick(firstSprite, 0.0f);
+		SetVariableBrick setVariableBrick = new SetVariableBrick(0.0f);
 		startScript.addBrick(setVariableBrick);
-		LoopBeginBrick beginBrick = new RepeatBrick(firstSprite, 10);
-		LoopEndBrick endBrick = new LoopEndBrick(firstSprite, beginBrick);
-		beginBrick.setLoopEndBrick(endBrick);
-		startScript.addBrick(beginBrick);
-		startScript.addBrick(new BroadcastWaitBrick(firstSprite, message));
+		RepeatBrick repeatBrick = new RepeatBrick(10);
+		LoopEndBrick endBrick = new LoopEndBrick(repeatBrick);
+		repeatBrick.setLoopEndBrick(endBrick);
+		startScript.addBrick(repeatBrick);
+		startScript.addBrick(new BroadcastWaitBrick(message));
 		startScript.addBrick(endBrick);
 
 		Sprite secondSprite = new Sprite("sprite2");
-		Script secondScript = new BroadcastScript(secondSprite, message);
+		Script secondScript = new BroadcastScript(message);
 		secondSprite.addScript(secondScript);
-		IfLogicBeginBrick ifBeginBrickSecondScript = new IfLogicBeginBrick(secondSprite, 1);
-		IfLogicElseBrick ifElseBrickSecondScript = new IfLogicElseBrick(secondSprite, ifBeginBrickSecondScript);
-		IfLogicEndBrick ifEndBrickSecondScript = new IfLogicEndBrick(secondSprite, ifElseBrickSecondScript, ifBeginBrickSecondScript);
+		IfLogicBeginBrick ifBeginBrickSecondScript = new IfLogicBeginBrick(1);
+		IfLogicElseBrick ifElseBrickSecondScript = new IfLogicElseBrick(ifBeginBrickSecondScript);
+		IfLogicEndBrick ifEndBrickSecondScript = new IfLogicEndBrick(ifElseBrickSecondScript, ifBeginBrickSecondScript);
 		secondScript.addBrick(ifBeginBrickSecondScript);
-		secondScript.addBrick(new ChangeVariableBrick(secondSprite, 1.0f));
+		secondScript.addBrick(new ChangeVariableBrick(1.0f));
 		secondScript.addBrick(ifElseBrickSecondScript);
 		secondScript.addBrick(ifEndBrickSecondScript);
 		project.addSprite(secondSprite);
 
 		Sprite thirdSprite = new Sprite("sprite3");
-		Script thirdScript = new BroadcastScript(thirdSprite, message);
+		Script thirdScript = new BroadcastScript(message);
 		thirdSprite.addScript(thirdScript);
-		IfLogicBeginBrick ifBeginBrickThirdScript = new IfLogicBeginBrick(thirdSprite, 1);
-		IfLogicElseBrick ifElseBrickThirdScript = new IfLogicElseBrick(thirdSprite, ifBeginBrickThirdScript);
-		IfLogicEndBrick ifEndBrickThirdScript = new IfLogicEndBrick(thirdSprite, ifElseBrickThirdScript, ifBeginBrickThirdScript);
+		IfLogicBeginBrick ifBeginBrickThirdScript = new IfLogicBeginBrick(1);
+		IfLogicElseBrick ifElseBrickThirdScript = new IfLogicElseBrick(ifBeginBrickThirdScript);
+		IfLogicEndBrick ifEndBrickThirdScript = new IfLogicEndBrick(ifElseBrickThirdScript, ifBeginBrickThirdScript);
 		thirdScript.addBrick(ifBeginBrickThirdScript);
-		thirdScript.addBrick(new ChangeVariableBrick(thirdSprite, 1.0f));
+		thirdScript.addBrick(new ChangeVariableBrick(1.0f));
 		thirdScript.addBrick(ifElseBrickThirdScript);
 		thirdScript.addBrick(ifEndBrickThirdScript);
 		project.addSprite(thirdSprite);
@@ -340,7 +340,6 @@ public final class UiTestUtils {
 	/**
 	 * Clicks on the EditText given by editTextId, inserts the integer value and closes the Dialog
 	 *
-	 * @param editTextId The ID of the EditText to click on
 	 * @param value      The value you want to put into the EditText
 	 */
 	public static void insertIntegerIntoEditText(Solo solo, int value) {
@@ -350,7 +349,6 @@ public final class UiTestUtils {
 	/**
 	 * Clicks on the EditText given by editTextId, inserts the double value and closes the Dialog
 	 *
-	 * @param editTextId The ID of the EditText to click on
 	 * @param value      The value you want to put into the EditText
 	 */
 	public static void insertDoubleIntoEditText(Solo solo, double value) {
@@ -1238,7 +1236,6 @@ public final class UiTestUtils {
 	 *
 	 * @param solo                 Use Robotium functionality
 	 * @param overflowMenuItemName Name of the overflow menu item
-	 * @param overflowMenuItemId   ID of an action item (icon)
 	 */
 	public static void openActionMode(Solo solo, String overflowMenuItemName, int menuItemId, Activity activity) {
 
