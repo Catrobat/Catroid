@@ -343,7 +343,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static Action forever(Sprite sprite, SequenceAction foreverSequence) {
+	public static RepeatAction forever(Sprite sprite, SequenceAction foreverSequence) {
 		RepeatAction action = action(RepeatAction.class);
 		action.setIsForeverRepeat(true);
 		action.setAction(foreverSequence);
