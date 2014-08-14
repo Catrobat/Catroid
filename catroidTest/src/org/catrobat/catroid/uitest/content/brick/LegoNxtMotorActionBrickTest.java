@@ -77,7 +77,8 @@ public class LegoNxtMotorActionBrickTest extends BaseActivityInstrumentationTest
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_motor_action)));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.motor_speed)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.motor_action_speed_edit_text, SET_SPEED, "speed", motorBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.motor_action_speed_edit_text, SET_SPEED, Brick.BrickField.LEGO_NXT_SPEED, motorBrick);
 
 		String[] motors = getActivity().getResources().getStringArray(R.array.nxt_motor_chooser);
 		assertTrue("Spinner items list too short!", motors.length == 4);
@@ -102,9 +103,9 @@ public class LegoNxtMotorActionBrickTest extends BaseActivityInstrumentationTest
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
+		Script script = new StartScript();
 
-		motorBrick = new LegoNxtMotorActionBrick(sprite, LegoNxtMotorActionBrick.Motor.MOTOR_A, SET_SPEED_INITIALLY);
+		motorBrick = new LegoNxtMotorActionBrick(LegoNxtMotorActionBrick.Motor.MOTOR_A, SET_SPEED_INITIALLY);
 
 		script.addBrick(motorBrick);
 

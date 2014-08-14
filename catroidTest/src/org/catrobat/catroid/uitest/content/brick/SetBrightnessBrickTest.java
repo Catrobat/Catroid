@@ -75,15 +75,15 @@ public class SetBrightnessBrickTest extends BaseActivityInstrumentationTestCase<
 
 		double newBrightness = 65.5;
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_brightness_edit_text, newBrightness, "brightness",
-				setBrightnessBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_set_brightness_edit_text, newBrightness, Brick.BrickField.BRIGHTNESS, setBrightnessBrick);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		setBrightnessBrick = new SetBrightnessBrick(sprite, 30.5);
+		Script script = new StartScript();
+		setBrightnessBrick = new SetBrightnessBrick(30.5);
 		script.addBrick(setBrightnessBrick);
 
 		sprite.addScript(script);

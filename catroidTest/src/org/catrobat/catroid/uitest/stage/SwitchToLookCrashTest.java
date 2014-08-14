@@ -188,8 +188,8 @@ public class SwitchToLookCrashTest extends BaseActivityInstrumentationTestCase<M
 		Project project = new Project(getActivity(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		Sprite backgroundSprite = project.getSpriteList().get(0);
-		Script startScript = new StartScript(backgroundSprite);
-		SetLookBrick setLookBrick = new SetLookBrick(backgroundSprite);
+		Script startScript = new StartScript();
+		SetLookBrick setLookBrick = new SetLookBrick();
 
 		startScript.addBrick(setLookBrick);
 		backgroundSprite.addScript(startScript);

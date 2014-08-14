@@ -24,6 +24,8 @@ package org.catrobat.catroid.test.formulaeditor;
 
 import android.test.AndroidTestCase;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -31,6 +33,7 @@ import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Sensors;
+import org.catrobat.catroid.test.utils.TestUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -48,7 +51,10 @@ public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 
 	@Override
 	protected void setUp() {
+		Project project = new Project(null, TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		ProjectManager.getInstance().setProject(project);
 		testSprite = new Sprite("sprite");
+		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		testSprite.look.setXInUserInterfaceDimensionUnit(LOOK_X_POSITION);
 		testSprite.look.setYInUserInterfaceDimensionUnit(LOOK_Y_POSITION);
 		testSprite.look.setTransparencyInUserInterfaceDimensionUnit(LOOK_ALPHA);

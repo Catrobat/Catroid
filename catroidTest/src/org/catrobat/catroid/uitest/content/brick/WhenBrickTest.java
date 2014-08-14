@@ -154,10 +154,10 @@ public class WhenBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		script.addBrick(new PlaceAtBrick(sprite, 100, 100));
-		script.addBrick(new PlaceAtBrick(sprite, 100, 100));
-		script.addBrick(new PlaceAtBrick(sprite, 100, 100));
+		Script script = new StartScript();
+		script.addBrick(new PlaceAtBrick(100, 100));
+		script.addBrick(new PlaceAtBrick(100, 100));
+		script.addBrick(new PlaceAtBrick(100, 100));
 		sprite.addScript(script);
 
 		project.addSprite(sprite);

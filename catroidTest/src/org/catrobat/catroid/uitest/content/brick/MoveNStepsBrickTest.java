@@ -33,12 +33,10 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
-import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
@@ -67,8 +65,8 @@ public class MoveNStepsBrickTest extends BaseActivityInstrumentationTestCase<Scr
 
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		moveNStepsBrick = new MoveNStepsBrick(sprite, 0);
+		Script script = new StartScript();
+		moveNStepsBrick = new MoveNStepsBrick(0);
 		script.addBrick(moveNStepsBrick);
 
 		sprite.addScript(script);
@@ -97,13 +95,13 @@ public class MoveNStepsBrickTest extends BaseActivityInstrumentationTestCase<Scr
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_move)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_move_n_steps_edit_text, STEPS_TO_MOVE, "steps",
-				moveNStepsBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_move_n_steps_edit_text, STEPS_TO_MOVE, Brick.BrickField.STEPS, moveNStepsBrick);
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_move_n_steps_edit_text, STEPS_TO_MOVE);
 
 		assertEquals("Wrong text in field.", STEPS_TO_MOVE,
-				((Formula) Reflection.getPrivateField(moveNStepsBrick, "steps")).interpretDouble(null));
+				(moveNStepsBrick.getFormulaWithBrickField(Brick.BrickField.STEPS)).interpretDouble(null));
 		assertEquals(
 				"Value in Brick is not updated.",
 				STEPS_TO_MOVE,

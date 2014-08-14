@@ -193,10 +193,10 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<ProjectA
 	private void createNormalBehaviourProject() {
 		Sprite spriteNormal = new Sprite("testNormalBehaviour");
 
-		Script startScriptNormal = new StartScript(spriteNormal);
-		startScriptNormal.addBrick(new SpeakBrick(spriteNormal, testText));
-		startScriptNormal.addBrick(new WaitBrick(spriteNormal, 1500));
-		startScriptNormal.addBrick(new SpeakBrick(spriteNormal, helloWorldText));
+		Script startScriptNormal = new StartScript();
+		startScriptNormal.addBrick(new SpeakBrick(testText));
+		startScriptNormal.addBrick(new WaitBrick(1500));
+		startScriptNormal.addBrick(new SpeakBrick(helloWorldText));
 
 		spriteNormal.addScript(startScriptNormal);
 
@@ -208,8 +208,8 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<ProjectA
 
 	private void createNullTextProject() {
 		Sprite spriteNull = new Sprite("testNullText");
-		Script startScriptNull = new StartScript(spriteNull);
-		startScriptNull.addBrick(new SpeakBrick(spriteNull, null));
+		Script startScriptNull = new StartScript();
+		startScriptNull.addBrick(new SpeakBrick(null));
 
 		spriteNull.addScript(startScriptNull);
 
@@ -221,9 +221,9 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<ProjectA
 
 	private void createMultiSpeechesProject() {
 		Sprite spriteMultiSpeech = new Sprite("testMultiSpeech");
-		Script startScriptMultiSpeech = new StartScript(spriteMultiSpeech);
-		startScriptMultiSpeech.addBrick(new SpeakBrick(spriteMultiSpeech, longText));
-		startScriptMultiSpeech.addBrick(new SpeakBrick(spriteMultiSpeech, simultaneousText));
+		Script startScriptMultiSpeech = new StartScript();
+		startScriptMultiSpeech.addBrick(new SpeakBrick(longText));
+		startScriptMultiSpeech.addBrick(new SpeakBrick(simultaneousText));
 
 		spriteMultiSpeech.addScript(startScriptMultiSpeech);
 

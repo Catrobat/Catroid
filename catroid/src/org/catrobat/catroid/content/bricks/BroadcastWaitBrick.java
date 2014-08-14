@@ -40,7 +40,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastMessage;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
@@ -49,20 +48,19 @@ import java.util.List;
 public class BroadcastWaitBrick extends BroadcastBrick implements BroadcastMessage {
 	private static final long serialVersionUID = 1L;
 
-	public BroadcastWaitBrick(Sprite sprite, String broadcastMessage) {
-		super(sprite, broadcastMessage);
+	public BroadcastWaitBrick(String broadcastMessage) {
+		super(broadcastMessage);
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		BroadcastWaitBrick copyBrick = (BroadcastWaitBrick) clone();
-		copyBrick.sprite = sprite;
 		return copyBrick;
 	}
 
 	@Override
 	public Brick clone() {
-		return new BroadcastWaitBrick(sprite, broadcastMessage);
+		return new BroadcastWaitBrick(broadcastMessage);
 	}
 
 	@Override
@@ -158,7 +156,7 @@ public class BroadcastWaitBrick extends BroadcastBrick implements BroadcastMessa
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.broadcastFromWaiter(sprite, broadcastMessage));
 		return null;
 	}

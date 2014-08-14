@@ -52,40 +52,40 @@ public final class DroneBrickFactory {
 
 		switch (brick) {
 			case DRONE_TAKE_OFF_BRICK:
-				return new DroneTakeOffBrick(sprite);
+				return new DroneTakeOffBrick();
 
 			case DRONE_FLIP_BRICK:
-				return new DroneFlipBrick(sprite);
+				return new DroneFlipBrick();
 
 			case DRONE_PLAY_LED_ANIMATION_BRICK:
-				return new DronePlayLedAnimationBrick(sprite);
+				return new DronePlayLedAnimationBrick();
 
 			case DRONE_LAND_BRICK:
-				return new DroneLandBrick(sprite);
+				return new DroneLandBrick();
 
 			case DRONE_MOVE_DOWN_BRICK:
-				return new DroneMoveDownBrick(sprite, timeInMilliseconds, powerInPercent);
+				return new DroneMoveDownBrick(timeInMilliseconds, powerInPercent);
 
 			case DRONE_MOVE_UP_BRICK:
-				return new DroneMoveUpBrick(sprite, timeInMilliseconds, powerInPercent);
+				return new DroneMoveUpBrick(timeInMilliseconds, powerInPercent);
 
 			case DRONE_MOVE_FORWARD_BRICK:
-				return new DroneMoveForwardBrick(sprite, timeInMilliseconds, powerInPercent);
+				return new DroneMoveForwardBrick(timeInMilliseconds, powerInPercent);
 
 			case DRONE_MOVE_BACKWARD_BRICK:
-				return new DroneMoveBackwardBrick(sprite, timeInMilliseconds, powerInPercent);
+				return new DroneMoveBackwardBrick(timeInMilliseconds, powerInPercent);
 
 			case DRONE_MOVE_LEFT_BRICK:
-				return new DroneMoveLeftBrick(sprite, timeInMilliseconds, powerInPercent);
+				return new DroneMoveLeftBrick(timeInMilliseconds, powerInPercent);
 
 			case DRONE_MOVE_RIGHT_BRICK:
-				return new DroneMoveRightBrick(sprite, timeInMilliseconds, powerInPercent);
+				return new DroneMoveRightBrick(timeInMilliseconds, powerInPercent);
 
 			case DRONE_TURN_LEFT_BRICK:
-				return new DroneTurnLeftBrick(sprite, timeInMilliseconds, powerInPercent);
+				return new DroneTurnLeftBrick(timeInMilliseconds, powerInPercent);
 
 			case DRONE_TURN_RIGHT_BRICK:
-				return new DroneTurnRightBrick(sprite, timeInMilliseconds, powerInPercent);
+				return new DroneTurnRightBrick(timeInMilliseconds, powerInPercent);
 
 			default:
 				return null;

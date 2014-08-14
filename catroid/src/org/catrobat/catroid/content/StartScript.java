@@ -34,12 +34,11 @@ public class StartScript extends Script {
 
 	private static final long serialVersionUID = 1L;
 
-	public StartScript(Sprite sprite) {
-		super(sprite);
+	public StartScript() {
+		super();
 	}
 
-	public StartScript(Sprite sprite, WhenStartedBrick brick) {
-		this(sprite);
+	public StartScript(WhenStartedBrick brick) {
 		this.brick = brick;
 	}
 
@@ -52,19 +51,19 @@ public class StartScript extends Script {
 	@Override
 	public ScriptBrick getScriptBrick() {
 		if (brick == null) {
-			brick = new WhenStartedBrick(object, this);
+			brick = new WhenStartedBrick(this);
 		}
 
 		return brick;
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
-		Script cloneScript = new StartScript(copySprite);
+	public Script copyScriptForSprite(Sprite sprite) {
+		Script cloneScript = new StartScript();
 		ArrayList<Brick> cloneBrickList = cloneScript.getBrickList();
 
 		for (Brick brick : getBrickList()) {
-			Brick copiedBrick = brick.copyBrickForSprite(copySprite, cloneScript);
+			Brick copiedBrick = brick.copyBrickForSprite(sprite);
 			if (copiedBrick instanceof IfLogicEndBrick) {
 				setIfBrickReferences((IfLogicEndBrick) copiedBrick, (IfLogicEndBrick) brick);
 			} else if (copiedBrick instanceof LoopEndBrick) {

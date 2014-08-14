@@ -457,8 +457,8 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		Project project = new Project(null, UiTestUtils.PROJECTNAME1);
 		Sprite sprite = new Sprite("Dog");
 		Sprite sprite1 = new Sprite("Cat");
-		Script script = new StartScript(sprite);
-		Script script1 = new StartScript(sprite1);
+		Script script = new StartScript();
+		Script script1 = new StartScript();
 		sprite.addScript(script);
 		sprite.addScript(script1);
 		project.addSprite(sprite);

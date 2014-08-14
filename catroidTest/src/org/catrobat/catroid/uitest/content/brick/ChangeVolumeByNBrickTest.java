@@ -74,15 +74,16 @@ public class ChangeVolumeByNBrickTest extends BaseActivityInstrumentationTestCas
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_change_volume_by)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_change_volume_by_edit_text, VOLUME_TO_CHANGE, "volume",
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_change_volume_by_edit_text, VOLUME_TO_CHANGE, Brick.BrickField.VOLUME_CHANGE,
 				changeVolumeByNBrick);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		changeVolumeByNBrick = new ChangeVolumeByNBrick(sprite, 100);
+		Script script = new StartScript();
+		changeVolumeByNBrick = new ChangeVolumeByNBrick(100);
 		script.addBrick(changeVolumeByNBrick);
 
 		sprite.addScript(script);

@@ -74,15 +74,15 @@ public class SetVolumeToBrickTest extends BaseActivityInstrumentationTestCase<Sc
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_set_volume_to)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_volume_to_edit_text, VOLUME, "volume",
-				setVolumeToBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_set_volume_to_edit_text, VOLUME, Brick.BrickField.VOLUME, setVolumeToBrick);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		setVolumeToBrick = new SetVolumeToBrick(sprite, 0);
+		Script script = new StartScript();
+		setVolumeToBrick = new SetVolumeToBrick(0);
 		script.addBrick(setVolumeToBrick);
 
 		sprite.addScript(script);

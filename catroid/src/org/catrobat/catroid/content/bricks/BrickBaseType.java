@@ -23,13 +23,13 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
@@ -37,8 +37,8 @@ import java.util.List;
 
 public class BrickBaseType implements Brick {
 	private static final long serialVersionUID = 1L;
+	private static final String TAG = BrickBaseType.class.getSimpleName();
 	protected transient View view;
-	protected Sprite sprite;
 	protected transient CheckBox checkbox;
 	protected transient boolean checked = false;
 	protected transient BrickAdapter adapter;
@@ -58,11 +58,6 @@ public class BrickBaseType implements Brick {
 	@Override
 	public int getAlphaValue() {
 		return alphaValue;
-	}
-
-	@Override
-	public Sprite getSprite() {
-		return sprite;
 	}
 
 	@Override
@@ -117,8 +112,8 @@ public class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public Brick clone() {
-		return null;
+	public Brick clone() throws CloneNotSupportedException {
+		return (Brick) super.clone();
 	}
 
 	@Override
@@ -132,13 +127,19 @@ public class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		return null;
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		return null;
+	public Brick copyBrickForSprite(Sprite sprite) {
+		BrickBaseType copyBrick = null;
+		try {
+			copyBrick = (BrickBaseType) clone();
+		} catch (CloneNotSupportedException exception) {
+			Log.e(TAG, Log.getStackTraceString(exception));
+		}
+		return copyBrick;
 	}
 
 }

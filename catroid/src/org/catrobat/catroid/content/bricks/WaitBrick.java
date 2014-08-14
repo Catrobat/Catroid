@@ -33,8 +33,8 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -43,29 +43,26 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
-public class WaitBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class WaitBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private Formula timeToWaitInSeconds;
 
 	private transient View prototypeView;
 
-	public WaitBrick(Sprite sprite, int timeToWaitInMillisecondsValue) {
-		this.sprite = sprite;
-		timeToWaitInSeconds = new Formula(timeToWaitInMillisecondsValue / 1000.0);
-	}
-
-	public WaitBrick(Sprite sprite, Formula timeToWaitInSecondsFormula) {
-		this.sprite = sprite;
-		this.timeToWaitInSeconds = timeToWaitInSecondsFormula;
-	}
-
 	public WaitBrick() {
-
+		addAllowedBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS);
 	}
 
-	@Override
-	public Formula getFormula() {
-		return timeToWaitInSeconds;
+	public WaitBrick(int timeToWaitInMillisecondsValue) {
+		initializeBrickFields(new Formula(timeToWaitInMillisecondsValue / 1000.0));
+	}
+
+	public WaitBrick(Formula timeToWaitInSecondsFormula) {
+		initializeBrickFields(timeToWaitInSecondsFormula);
+	}
+
+	private void initializeBrickFields(Formula timeToWaitInSeconds) {
+		addAllowedBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS);
+		setFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS, timeToWaitInSeconds);
 	}
 
 	@Override
@@ -74,18 +71,11 @@ public class WaitBrick extends BrickBaseType implements OnClickListener, Formula
 	}
 
 	public Formula getTimeToWait() {
-		return timeToWaitInSeconds;
+		return getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS);
 	}
 
 	public void setTimeToWait(Formula timeToWaitInSeconds) {
-		this.timeToWaitInSeconds = timeToWaitInSeconds;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		WaitBrick copyBrick = (WaitBrick) clone();
-		copyBrick.sprite = sprite;
-		return copyBrick;
+		setFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS, timeToWaitInSeconds);
 	}
 
 	@Override
@@ -110,14 +100,17 @@ public class WaitBrick extends BrickBaseType implements OnClickListener, Formula
 
 		TextView text = (TextView) view.findViewById(R.id.brick_wait_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_wait_edit_text);
-		timeToWaitInSeconds.setTextFieldId(R.id.brick_wait_edit_text);
-		timeToWaitInSeconds.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS).setTextFieldId(R.id.brick_wait_edit_text);
+		getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS).refreshTextField(view);
 
 		TextView times = (TextView) view.findViewById(R.id.brick_wait_second_text_view);
 
-		if (timeToWaitInSeconds.isSingleNumberFormula()) {
-			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
-					Utils.convertDoubleToPluralInteger(timeToWaitInSeconds.interpretDouble(sprite))));
+		if (getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS).isSingleNumberFormula()) {
+			times.setText(view.getResources().getQuantityString(
+					R.plurals.second_plural,
+					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS)
+							.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))
+			));
 		} else {
 
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -136,16 +129,16 @@ public class WaitBrick extends BrickBaseType implements OnClickListener, Formula
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_wait, null);
 		TextView textWait = (TextView) prototypeView.findViewById(R.id.brick_wait_prototype_text_view);
-		textWait.setText(String.valueOf(timeToWaitInSeconds.interpretInteger(sprite)));
+		textWait.setText(String.valueOf(getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS).interpretInteger(
+				ProjectManager.getInstance().getCurrentSprite()
+		)));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_wait_second_text_view);
-		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
-				Utils.convertDoubleToPluralInteger(timeToWaitInSeconds.interpretDouble(sprite))));
+		times.setText(context.getResources().getQuantityString(
+				R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS)
+						.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))
+		));
 		return prototypeView;
-	}
-
-	@Override
-	public Brick clone() {
-		return new WaitBrick(getSprite(), timeToWaitInSeconds.clone());
 	}
 
 	@Override
@@ -178,12 +171,12 @@ public class WaitBrick extends BrickBaseType implements OnClickListener, Formula
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		FormulaEditorFragment.showFragment(view, this, timeToWaitInSeconds);
+		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS));
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.delay(sprite, timeToWaitInSeconds));
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.delay(sprite, getFormulaWithBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS)));
 		return null;
 	}
 }

@@ -24,6 +24,7 @@ package org.catrobat.catroid.uitest.stage;
 
 import android.widget.ListView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -220,38 +221,40 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
 		spriteList.add(new Sprite("sprite4"));
 
 		sprite = new Sprite("sprite5");
-		StartScript startScript = new StartScript(sprite);
+		StartScript startScript = new StartScript();
 
-		SetXBrick setXBrick = new SetXBrick(sprite, (int) SPRITE_X_POSITION);
+		SetXBrick setXBrick = new SetXBrick((int) SPRITE_X_POSITION);
 		startScript.addBrick(setXBrick);
 		sprite.addScript(startScript);
 
-		SetYBrick setYBrick = new SetYBrick(sprite, (int) SPRITE_Y_POSITION);
+		SetYBrick setYBrick = new SetYBrick((int) SPRITE_Y_POSITION);
 		startScript.addBrick(setYBrick);
 		sprite.addScript(startScript);
 
-		SetGhostEffectBrick setGhostEffectBrick = new SetGhostEffectBrick(sprite, SPRITE_GHOSTEFFECT);
+		SetGhostEffectBrick setGhostEffectBrick = new SetGhostEffectBrick(SPRITE_GHOSTEFFECT);
 		startScript.addBrick(setGhostEffectBrick);
 		sprite.addScript(startScript);
 
-		SetBrightnessBrick setBrightnessBrick = new SetBrightnessBrick(sprite, SPRITE_BRIGHTNESS);
+		SetBrightnessBrick setBrightnessBrick = new SetBrightnessBrick(SPRITE_BRIGHTNESS);
 		startScript.addBrick(setBrightnessBrick);
 		sprite.addScript(startScript);
 
-		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(sprite, SPRITE_SIZE);
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(SPRITE_SIZE);
 		startScript.addBrick(setSizeToBrick);
 		sprite.addScript(startScript);
 
-		PointInDirectionBrick pointInDirectionBrick = new PointInDirectionBrick(sprite, SPRITE_DIRECTION);
+		PointInDirectionBrick pointInDirectionBrick = new PointInDirectionBrick(SPRITE_DIRECTION);
 		startScript.addBrick(pointInDirectionBrick);
 		sprite.addScript(startScript);
 
-		GoNStepsBackBrick goNStepsBackBrick = new GoNStepsBackBrick(sprite, SPRITE_LAYER_CHANGE);
+		GoNStepsBackBrick goNStepsBackBrick = new GoNStepsBackBrick(SPRITE_LAYER_CHANGE);
 		startScript.addBrick(goNStepsBackBrick);
 		sprite.addScript(startScript);
 
 		spriteList.add(sprite);
 
 		UiTestUtils.createProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, spriteList, null);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+
 	}
 }

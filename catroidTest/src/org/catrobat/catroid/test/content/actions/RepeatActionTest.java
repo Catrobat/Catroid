@@ -26,6 +26,8 @@ import android.test.InstrumentationTestCase;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -39,6 +41,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.catrobat.catroid.test.utils.TestUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -55,16 +58,16 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		final float delta = 0.005f;
 		final float delayByContract = 0.020f;
 		Sprite testSprite = new Sprite("sprite");
-		Script testScript = new StartScript(testSprite);
+		Script testScript = new StartScript();
 
-		RepeatBrick repeatBrick = new RepeatBrick(testSprite, REPEAT_TIMES);
-		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
+		RepeatBrick repeatBrick = new RepeatBrick(REPEAT_TIMES);
+		LoopEndBrick loopEndBrick = new LoopEndBrick(repeatBrick);
 		repeatBrick.setLoopEndBrick(loopEndBrick);
 
 		testScript.addBrick(repeatBrick);
-		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
+		testScript.addBrick(new ChangeYByNBrick(deltaY));
 		testScript.addBrick(loopEndBrick);
-		testScript.addBrick(new ChangeYByNBrick(testSprite, 150));
+		testScript.addBrick(new ChangeYByNBrick(150));
 
 		testSprite.addScript(testScript);
 		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
@@ -82,16 +85,16 @@ public class RepeatActionTest extends InstrumentationTestCase {
 
 	public void testRepeatBrick() throws InterruptedException {
 		Sprite testSprite = new Sprite("sprite");
-		Script testScript = new StartScript(testSprite);
+		Script testScript = new StartScript();
 
-		RepeatBrick repeatBrick = new RepeatBrick(testSprite, REPEAT_TIMES);
-		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
+		RepeatBrick repeatBrick = new RepeatBrick(REPEAT_TIMES);
+		LoopEndBrick loopEndBrick = new LoopEndBrick(repeatBrick);
 		repeatBrick.setLoopEndBrick(loopEndBrick);
 
 		final int deltaY = -10;
 
 		testScript.addBrick(repeatBrick);
-		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
+		testScript.addBrick(new ChangeYByNBrick(deltaY));
 		testScript.addBrick(loopEndBrick);
 
 		testSprite.addScript(testScript);
@@ -106,19 +109,22 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	}
 
 	public void testRepeatCount() {
+		Project project = new Project(null, TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		ProjectManager.getInstance().setProject(project);
 		Sprite testSprite = new Sprite("sprite");
-		Script testScript = new StartScript(testSprite);
+		ProjectManager.getInstance().setCurrentSprite(testSprite);
+		Script testScript = new StartScript();
 
 		Formula repeatFormula = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.OBJECT_Y.name(), null));
-		RepeatBrick repeatBrick = new RepeatBrick(testSprite, repeatFormula);
-		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
+		RepeatBrick repeatBrick = new RepeatBrick(repeatFormula);
+		LoopEndBrick loopEndBrick = new LoopEndBrick(repeatBrick);
 		repeatBrick.setLoopEndBrick(loopEndBrick);
 
 		final int deltaY = -10;
 
-		testScript.addBrick(new ChangeYByNBrick(testSprite, 10));
+		testScript.addBrick(new ChangeYByNBrick(10));
 		testScript.addBrick(repeatBrick);
-		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
+		testScript.addBrick(new ChangeYByNBrick(deltaY));
 		testScript.addBrick(loopEndBrick);
 
 		testSprite.addScript(testScript);
@@ -136,19 +142,19 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		final int deltaY = -10;
 		final float delta = 0.005f;
 		Sprite testSprite = new Sprite("sprite");
-		Script testScript = new StartScript(testSprite);
+		Script testScript = new StartScript();
 
-		RepeatBrick repeatBrick = new RepeatBrick(testSprite, REPEAT_TIMES);
-		LoopEndBrick loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
+		RepeatBrick repeatBrick = new RepeatBrick(REPEAT_TIMES);
+		LoopEndBrick loopEndBrick = new LoopEndBrick(repeatBrick);
 		repeatBrick.setLoopEndBrick(loopEndBrick);
 
-		RepeatBrick nestedRepeatBrick = new RepeatBrick(testSprite, REPEAT_TIMES);
-		LoopEndBrick nestedLoopEndBrick = new LoopEndBrick(testSprite, nestedRepeatBrick);
+		RepeatBrick nestedRepeatBrick = new RepeatBrick(REPEAT_TIMES);
+		LoopEndBrick nestedLoopEndBrick = new LoopEndBrick(nestedRepeatBrick);
 		nestedRepeatBrick.setLoopEndBrick(nestedLoopEndBrick);
 
 		testScript.addBrick(repeatBrick);
 		testScript.addBrick(nestedRepeatBrick);
-		testScript.addBrick(new ChangeYByNBrick(testSprite, deltaY));
+		testScript.addBrick(new ChangeYByNBrick(deltaY));
 		testScript.addBrick(nestedLoopEndBrick);
 		testScript.addBrick(loopEndBrick);
 
@@ -168,9 +174,9 @@ public class RepeatActionTest extends InstrumentationTestCase {
 
 	public void testNegativeRepeats() throws InterruptedException {
 		Sprite testSprite = new Sprite("sprite");
-		RepeatBrick repeatBrick = new RepeatBrick(testSprite, -1);
+		RepeatBrick repeatBrick = new RepeatBrick(-1);
 		SequenceAction sequence = ExtendedActions.sequence();
-		repeatBrick.addActionToSequence(sequence);
+		repeatBrick.addActionToSequence(testSprite, sequence);
 		RepeatAction repeatAction = (RepeatAction) sequence.getActions().get(0);
 		boolean wait = false;
 		while (!wait) {

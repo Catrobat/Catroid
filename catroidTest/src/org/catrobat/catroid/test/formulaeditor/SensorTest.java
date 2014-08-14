@@ -94,31 +94,31 @@ public class SensorTest extends InstrumentationTestCase {
 		createProject();
 
 		Formula formula = createFormulaWithSensor(Sensors.X_ACCELERATION);
-		ChangeSizeByNBrick xAccelerationBrick = new ChangeSizeByNBrick(firstSprite, formula);
+		ChangeSizeByNBrick xAccelerationBrick = new ChangeSizeByNBrick(formula);
 		startScript1.addBrick(xAccelerationBrick);
 
 		Formula formula1 = createFormulaWithSensor(Sensors.Y_ACCELERATION);
-		ChangeSizeByNBrick yAccelerationBrick = new ChangeSizeByNBrick(firstSprite, formula1);
+		ChangeSizeByNBrick yAccelerationBrick = new ChangeSizeByNBrick(formula1);
 		startScript1.addBrick(yAccelerationBrick);
 
 		Formula formula2 = createFormulaWithSensor(Sensors.Z_ACCELERATION);
-		ChangeSizeByNBrick zAccelerationBrick = new ChangeSizeByNBrick(firstSprite, formula2);
+		ChangeSizeByNBrick zAccelerationBrick = new ChangeSizeByNBrick(formula2);
 		startScript1.addBrick(zAccelerationBrick);
 
 		Formula formula3 = createFormulaWithSensor(Sensors.COMPASS_DIRECTION);
-		ChangeSizeByNBrick compassDirectionBrick = new ChangeSizeByNBrick(firstSprite, formula3);
+		ChangeSizeByNBrick compassDirectionBrick = new ChangeSizeByNBrick(formula3);
 		startScript1.addBrick(compassDirectionBrick);
 
 		Formula formula4 = createFormulaWithSensor(Sensors.X_INCLINATION);
-		ChangeSizeByNBrick xInclincationBrick = new ChangeSizeByNBrick(firstSprite, formula4);
+		ChangeSizeByNBrick xInclincationBrick = new ChangeSizeByNBrick(formula4);
 		startScript1.addBrick(xInclincationBrick);
 
 		Formula formula5 = createFormulaWithSensor(Sensors.Y_INCLINATION);
-		ChangeSizeByNBrick yInclinationBrick = new ChangeSizeByNBrick(firstSprite, formula5);
+		ChangeSizeByNBrick yInclinationBrick = new ChangeSizeByNBrick(formula5);
 		startScript1.addBrick(yInclinationBrick);
 
 		Formula formula6 = createFormulaWithSensor(Sensors.LOUDNESS);
-		ChangeSizeByNBrick loudnessBrick = new ChangeSizeByNBrick(firstSprite, formula6);
+		ChangeSizeByNBrick loudnessBrick = new ChangeSizeByNBrick(formula6);
 		startScript1.addBrick(loudnessBrick);
 
 		ProjectManager.getInstance().setProject(project);
@@ -247,8 +247,8 @@ public class SensorTest extends InstrumentationTestCase {
 	private void createProject() {
 		this.project = new Project(null, "testProject");
 		firstSprite = new Sprite("zwoosh");
-		startScript1 = new StartScript(firstSprite);
-		changeBrick = new ChangeSizeByNBrick(firstSprite, 10);
+		startScript1 = new StartScript();
+		changeBrick = new ChangeSizeByNBrick(10);
 		firstSprite.addScript(startScript1);
 		startScript1.addBrick(changeBrick);
 		project.addSprite(firstSprite);

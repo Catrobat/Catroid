@@ -33,8 +33,8 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -42,41 +42,31 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SetSizeToBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class SetSizeToBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private Formula size;
 
 	private transient View prototypeView;
 
-	public SetSizeToBrick(Sprite sprite, double sizeValue) {
-		this.sprite = sprite;
-		size = new Formula(sizeValue);
-	}
-
-	public SetSizeToBrick(Sprite sprite, Formula size) {
-		this.sprite = sprite;
-		this.size = size;
-	}
-
 	public SetSizeToBrick() {
-
+		addAllowedBrickField(BrickField.SIZE);
 	}
 
-	@Override
-	public Formula getFormula() {
-		return size;
+	public SetSizeToBrick(double sizeValue) {
+		initializeBrickFields(new Formula(sizeValue));
+	}
+
+	public SetSizeToBrick(Formula size) {
+		initializeBrickFields(size);
+	}
+
+	private void initializeBrickFields(Formula size) {
+		addAllowedBrickField(BrickField.SIZE);
+		setFormulaWithBrickField(BrickField.SIZE, size);
 	}
 
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		SetSizeToBrick copyBrick = (SetSizeToBrick) clone();
-		copyBrick.sprite = sprite;
-		return copyBrick;
 	}
 
 	@Override
@@ -100,8 +90,8 @@ public class SetSizeToBrick extends BrickBaseType implements OnClickListener, Fo
 		});
 		TextView text = (TextView) view.findViewById(R.id.brick_set_size_to_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_set_size_to_edit_text);
-		size.setTextFieldId(R.id.brick_set_size_to_edit_text);
-		size.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.SIZE).setTextFieldId(R.id.brick_set_size_to_edit_text);
+		getFormulaWithBrickField(BrickField.SIZE).refreshTextField(view);
 		text.setVisibility(View.GONE);
 		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
@@ -112,13 +102,9 @@ public class SetSizeToBrick extends BrickBaseType implements OnClickListener, Fo
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_set_size_to, null);
 		TextView textSetSizeTo = (TextView) prototypeView.findViewById(R.id.brick_set_size_to_prototype_text_view);
-		textSetSizeTo.setText(String.valueOf(size.interpretDouble(sprite)));
+		textSetSizeTo.setText(String.valueOf(getFormulaWithBrickField(BrickField.SIZE).interpretDouble(
+				ProjectManager.getInstance().getCurrentSprite())));
 		return prototypeView;
-	}
-
-	@Override
-	public Brick clone() {
-		return new SetSizeToBrick(getSprite(), size.clone());
 	}
 
 	@Override
@@ -150,12 +136,12 @@ public class SetSizeToBrick extends BrickBaseType implements OnClickListener, Fo
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		FormulaEditorFragment.showFragment(view, this, size);
+		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.SIZE));
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setSizeTo(sprite, size));
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.setSizeTo(sprite, getFormulaWithBrickField(BrickField.SIZE)));
 		return null;
 	}
 }

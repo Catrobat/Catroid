@@ -37,12 +37,12 @@ public class DroneMoveBackwardBrick extends DroneMoveBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	public DroneMoveBackwardBrick(Sprite sprite, int durationInMilliseconds, int powerInPercent) {
-		super(sprite, durationInMilliseconds, powerInPercent);
+	public DroneMoveBackwardBrick(int durationInMilliseconds, int powerInPercent) {
+		super(durationInMilliseconds, powerInPercent);
 	}
 
-	public DroneMoveBackwardBrick(Sprite sprite, Formula durationInMilliseconds, Formula powerInPercent) {
-		super(sprite, durationInMilliseconds, powerInPercent);
+	public DroneMoveBackwardBrick(Formula durationInMilliseconds, Formula powerInPercent) {
+		super(durationInMilliseconds, powerInPercent);
 	}
 
 	public DroneMoveBackwardBrick() {
@@ -55,13 +55,10 @@ public class DroneMoveBackwardBrick extends DroneMoveBrick {
 	}
 
 	@Override
-	public Brick clone() {
-		return new DroneMoveBackwardBrick(getSprite(), timeToFlyInSeconds.clone(), powerInPercent.clone());
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.droneMoveBackward(sprite, timeToFlyInSeconds, powerInPercent));
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.droneMoveBackward(sprite,
+				getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS),
+				getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)));
 		return null;
 	}
 }

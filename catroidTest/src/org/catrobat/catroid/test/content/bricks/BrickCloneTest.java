@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content.bricks;
 
 import android.test.AndroidTestCase;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -36,6 +37,7 @@ import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
@@ -54,6 +56,7 @@ import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
+import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -69,6 +72,7 @@ public class BrickCloneTest extends AndroidTestCase {
 	private static final int BRICK_FORMULA_VALUE = 1;
 	private static final String CLONE_BRICK_FORMULA_VALUE = "2";
 	private static final String VARIABLE_NAME = "test_variable";
+	private static final String TAG = null;
 	private Sprite sprite;
 
 	@Override
@@ -79,83 +83,87 @@ public class BrickCloneTest extends AndroidTestCase {
 	}
 
 	public void testBrickCloneWithFormula() {
-		Brick brick = new ChangeBrightnessByNBrick(sprite, new Formula(BRICK_FORMULA_VALUE));
-		brickClone(brick, "changeBrightness");
+		Brick brick = new ChangeBrightnessByNBrick(new Formula(BRICK_FORMULA_VALUE));
+		brickClone(brick, Brick.BrickField.BRIGHTNESS_CHANGE);
 
-		brick = new ChangeGhostEffectByNBrick(sprite, new Formula(BRICK_FORMULA_VALUE));
-		brickClone(brick, "changeGhostEffect");
+		brick = new ChangeGhostEffectByNBrick(new Formula(BRICK_FORMULA_VALUE));
+		brickClone(brick, Brick.BrickField.TRANSPARENCY_CHANGE);
 
-		brick = new ChangeSizeByNBrick(sprite, new Formula(BRICK_FORMULA_VALUE));
-		brickClone(brick, "size");
+		brick = new ChangeSizeByNBrick(new Formula(BRICK_FORMULA_VALUE));
+		brickClone(brick, Brick.BrickField.SIZE_CHANGE);
 
-		brick = new ChangeVariableBrick(sprite, BRICK_FORMULA_VALUE);
-		brickClone(brick, "variableFormula");
+		brick = new ChangeVariableBrick(BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.VARIABLE_CHANGE);
 
-		brick = new ChangeVolumeByNBrick(sprite, BRICK_FORMULA_VALUE);
-		brickClone(brick, "volume");
+		brick = new ChangeVolumeByNBrick(BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.VOLUME_CHANGE);
 
-		brick = new ChangeXByNBrick(sprite, BRICK_FORMULA_VALUE);
-		brickClone(brick, "xMovement");
+		brick = new ChangeXByNBrick(BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.X_POSITION_CHANGE);
 
-		brick = new ChangeYByNBrick(sprite, BRICK_FORMULA_VALUE);
-		brickClone(brick, "yMovement");
+		brick = new ChangeYByNBrick(BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.Y_POSITION_CHANGE);
 
-		brick = new GoNStepsBackBrick(sprite, BRICK_FORMULA_VALUE);
-		brickClone(brick, "steps");
+		brick = new GoNStepsBackBrick(BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.STEPS);
 
-		brick = new IfLogicBeginBrick(sprite, 10);
-		brickClone(brick, "ifCondition");
+		brick = new IfLogicBeginBrick(10);
+		brickClone(brick, Brick.BrickField.IF_CONDITION);
 
-		brick = new LegoNxtMotorActionBrick(sprite, LegoNxtMotorActionBrick.Motor.MOTOR_A, BRICK_FORMULA_VALUE);
-		brickClone(brick, "speed");
+		brick = new LegoNxtMotorActionBrick(LegoNxtMotorActionBrick.Motor.MOTOR_A, BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.LEGO_NXT_SPEED);
 
-		brick = new LegoNxtMotorTurnAngleBrick(sprite, LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, BRICK_FORMULA_VALUE);
-		brickClone(brick, "degrees");
+		brick = new LegoNxtMotorTurnAngleBrick(LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.LEGO_NXT_DEGREES);
 
-		brick = new MoveNStepsBrick(sprite, BRICK_FORMULA_VALUE);
-		brickClone(brick, "steps");
+		brick = new LegoNxtPlayToneBrick(BRICK_FORMULA_VALUE, BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.LEGO_NXT_FREQUENCY, Brick.BrickField.LEGO_NXT_DURATION_IN_SECONDS);
 
-		brick = new RepeatBrick(sprite, BRICK_FORMULA_VALUE);
-		brickClone(brick, "timesToRepeat");
+		brick = new MoveNStepsBrick(BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.STEPS);
 
-		brick = new SetBrightnessBrick(sprite, BRICK_FORMULA_VALUE);
-		brickClone(brick, "brightness");
+		brick = new RepeatBrick(BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.TIMES_TO_REPEAT);
 
-		brick = new SetGhostEffectBrick(sprite, BRICK_FORMULA_VALUE);
-		brickClone(brick, "transparency");
+		brick = new SetBrightnessBrick(BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.BRIGHTNESS);
 
-		brick = new SetSizeToBrick(sprite, BRICK_FORMULA_VALUE);
-		brickClone(brick, "size");
+		brick = new SetGhostEffectBrick(BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.TRANSPARENCY);
 
-		brick = new SetVariableBrick(sprite, BRICK_FORMULA_VALUE);
-		brickClone(brick, "variableFormula");
+		brick = new SetSizeToBrick(BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.SIZE);
 
-		brick = new SetVolumeToBrick(sprite, BRICK_FORMULA_VALUE);
-		brickClone(brick, "volume");
+		brick = new SetVariableBrick(BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.VARIABLE);
 
-		brick = new SetXBrick(sprite, BRICK_FORMULA_VALUE);
-		brickClone(brick, "xPosition");
+		brick = new SetVolumeToBrick(BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.VOLUME);
 
-		brick = new SetYBrick(sprite, BRICK_FORMULA_VALUE);
-		brickClone(brick, "yPosition");
+		brick = new SetXBrick(BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.X_POSITION);
 
-		brick = new TurnLeftBrick(sprite, BRICK_FORMULA_VALUE);
-		brickClone(brick, "degrees");
+		brick = new SetYBrick(BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.Y_POSITION);
 
-		brick = new TurnRightBrick(sprite, BRICK_FORMULA_VALUE);
-		brickClone(brick, "degrees");
+		brick = new TurnLeftBrick(BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.TURN_LEFT_DEGREES);
 
-		brick = new WaitBrick(sprite, BRICK_FORMULA_VALUE);
-		brickClone(brick, "timeToWaitInSeconds");
+		brick = new TurnRightBrick(BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.TURN_RIGHT_DEGREES);
 
-		brick = new PlaceAtBrick(sprite, BRICK_FORMULA_VALUE, BRICK_FORMULA_VALUE);
-		brickClone(brick, "xPosition", "yPosition");
+		brick = new VibrationBrick(BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.VIBRATE_DURATION_IN_SECONDS);
 
-		brick = new LegoNxtPlayToneBrick(sprite, BRICK_FORMULA_VALUE, BRICK_FORMULA_VALUE);
-		brickClone(brick, "frequency", "durationInSeconds");
+		brick = new WaitBrick(BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.TIME_TO_WAIT_IN_SECONDS);
 
-		brick = new GlideToBrick(sprite, BRICK_FORMULA_VALUE, BRICK_FORMULA_VALUE, BRICK_FORMULA_VALUE);
-		brickClone(brick, "xDestination", "yDestination", "durationInSeconds");
+		brick = new PlaceAtBrick(BRICK_FORMULA_VALUE, BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.X_POSITION, Brick.BrickField.Y_POSITION);
+
+		brick = new GlideToBrick(BRICK_FORMULA_VALUE, BRICK_FORMULA_VALUE, BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.X_DESTINATION, Brick.BrickField.Y_DESTINATION,
+				Brick.BrickField.DURATION_IN_SECONDS);
 	}
 
 	public void testVariableReferencesSetVariableBrick() throws Exception {
@@ -171,17 +179,17 @@ public class BrickCloneTest extends AndroidTestCase {
 		Project project = new Project(null, TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		ProjectManager.getInstance().setProject(project);
 		project.addSprite(sprite);
-		StartScript script = new StartScript(sprite);
+		StartScript script = new StartScript();
 		sprite.addScript(script);
 		project.getUserVariables().addSpriteUserVariableToSprite(sprite, VARIABLE_NAME);
 		UserVariable spriteVariable = project.getUserVariables().getUserVariable(VARIABLE_NAME, sprite);
 		Formula formula = new Formula(new FormulaElement(ElementType.USER_VARIABLE, VARIABLE_NAME, null));
 
 		// create brick - expects:
-		// public SetVariableBrick(Sprite sprite, Formula variableFormula, UserVariable userVariable)
+		// public SetVariableBrick(Formula variableFormula, UserVariable userVariable)
 		Constructor<T> constructor = typeOfBrick
-				.getDeclaredConstructor(Sprite.class, Formula.class, UserVariable.class);
-		T toBeTestedBrick = constructor.newInstance(sprite, formula, spriteVariable);
+				.getDeclaredConstructor(Formula.class, UserVariable.class);
+		T toBeTestedBrick = constructor.newInstance(formula, spriteVariable);
 
 		// add brick to project
 		script.addBrick(toBeTestedBrick);
@@ -200,51 +208,20 @@ public class BrickCloneTest extends AndroidTestCase {
 		assertEquals("references should be the same", clonedVariable, clonedVariableFromBrick);
 	}
 
-	private void brickClone(Brick brick, String formulaName) {
-		Brick cloneBrick = brick.clone();
-		Formula brickFormula = (Formula) Reflection.getPrivateField(brick, formulaName);
-		Formula cloneBrickFormula = (Formula) Reflection.getPrivateField(cloneBrick, formulaName);
-		cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
-		assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretInteger(sprite),
-				cloneBrickFormula.interpretInteger(sprite));
-	}
-
-	private void brickClone(Brick brick, String formulaName1, String formulaName2) {
-		Brick cloneBrick = brick.clone();
-		Formula brickFormula = (Formula) Reflection.getPrivateField(brick, formulaName1);
-		Formula cloneBrickFormula = (Formula) Reflection.getPrivateField(cloneBrick, formulaName1);
-		cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
-		assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretInteger(sprite),
-				cloneBrickFormula.interpretInteger(sprite));
-
-		brickFormula = (Formula) Reflection.getPrivateField(brick, formulaName2);
-		cloneBrickFormula = (Formula) Reflection.getPrivateField(cloneBrick, formulaName2);
-		cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
-		assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretInteger(sprite),
-				cloneBrickFormula.interpretInteger(sprite));
-	}
-
-	private void brickClone(Brick brick, String formulaName1, String formulaName2, String formulaName3) {
-		Brick cloneBrick = brick.clone();
-		Formula brickFormula = (Formula) Reflection.getPrivateField(brick, formulaName1);
-		Formula cloneBrickFormula = (Formula) Reflection.getPrivateField(cloneBrick, formulaName1);
-		cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
-		assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretInteger(sprite),
-				cloneBrickFormula.interpretInteger(sprite));
-
-		cloneBrick = brick.clone();
-		brickFormula = (Formula) Reflection.getPrivateField(brick, formulaName2);
-		cloneBrickFormula = (Formula) Reflection.getPrivateField(cloneBrick, formulaName2);
-		cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
-		assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretInteger(sprite),
-				cloneBrickFormula.interpretInteger(sprite));
-
-		cloneBrick = brick.clone();
-		brickFormula = (Formula) Reflection.getPrivateField(brick, formulaName3);
-		cloneBrickFormula = (Formula) Reflection.getPrivateField(cloneBrick, formulaName3);
-		cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
-		assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretInteger(sprite),
-				cloneBrickFormula.interpretInteger(sprite));
+	private void brickClone(Brick brick, Brick.BrickField... brickFields) {
+		try {
+			Brick cloneBrick = brick.clone();
+			for (Brick.BrickField brickField : brickFields) {
+				Formula brickFormula = ((FormulaBrick) brick).getFormulaWithBrickField(brickField);
+				Formula cloneBrickFormula = ((FormulaBrick) cloneBrick).getFormulaWithBrickField(brickField);
+				cloneBrickFormula.setRoot(new FormulaElement(ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
+				assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretInteger(sprite),
+						cloneBrickFormula.interpretInteger(sprite));
+			}
+		} catch (CloneNotSupportedException exception) {
+			Log.e(TAG, Log.getStackTraceString(exception));
+			fail("cloning the brick failed");
+		}
 	}
 
 }

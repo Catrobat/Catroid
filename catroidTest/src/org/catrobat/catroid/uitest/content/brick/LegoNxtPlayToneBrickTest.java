@@ -77,21 +77,21 @@ public class LegoNxtPlayToneBrickTest extends BaseActivityInstrumentationTestCas
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.nxt_play_tone)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.nxt_tone_duration_edit_text, SET_DURATION,
-				"durationInSeconds", playToneBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.nxt_tone_duration_edit_text, SET_DURATION, Brick.BrickField.LEGO_NXT_DURATION_IN_SECONDS, playToneBrick);
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.nxt_tone_freq_edit_text, SET_FREQUENCY, "frequency",
-				playToneBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.nxt_tone_freq_edit_text, SET_FREQUENCY, Brick.BrickField.LEGO_NXT_FREQUENCY, playToneBrick);
 
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
+		Script script = new StartScript();
 
 		int setDurationInitially = 1000;
-		playToneBrick = new LegoNxtPlayToneBrick(sprite, SET_FREQUENCY_INITIALLY * 100, setDurationInitially);
+		playToneBrick = new LegoNxtPlayToneBrick(SET_FREQUENCY_INITIALLY * 100, setDurationInitially);
 
 		script.addBrick(playToneBrick);
 		sprite.addScript(script);

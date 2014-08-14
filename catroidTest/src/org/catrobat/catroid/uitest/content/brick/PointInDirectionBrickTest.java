@@ -74,15 +74,15 @@ public class PointInDirectionBrickTest extends BaseActivityInstrumentationTestCa
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_point_in_direction)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_point_in_direction_edit_text, SET_DEGREE, "degrees",
-				pointInDirectionBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_point_in_direction_edit_text, SET_DEGREE, Brick.BrickField.DEGREES, pointInDirectionBrick);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		pointInDirectionBrick = new PointInDirectionBrick(sprite, Direction.RIGHT);
+		Script script = new StartScript();
+		pointInDirectionBrick = new PointInDirectionBrick(Direction.RIGHT);
 		script.addBrick(pointInDirectionBrick);
 
 		sprite.addScript(script);

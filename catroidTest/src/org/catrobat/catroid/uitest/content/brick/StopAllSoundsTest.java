@@ -76,8 +76,8 @@ public class StopAllSoundsTest extends BaseActivityInstrumentationTestCase<Scrip
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		script.addBrick(new StopAllSoundsBrick(sprite));
+		Script script = new StartScript();
+		script.addBrick(new StopAllSoundsBrick());
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

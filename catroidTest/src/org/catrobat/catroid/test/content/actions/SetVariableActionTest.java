@@ -72,17 +72,17 @@ public class SetVariableActionTest extends AndroidTestCase {
 		UserVariable userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
-		SetVariableBrick setBrick = new SetVariableBrick(testSprite, new Formula(CHANGE_VARIABLE_VALUE), userVariable);
+		SetVariableBrick setBrick = new SetVariableBrick(new Formula(CHANGE_VARIABLE_VALUE), userVariable);
 
 		Formula validFormula = new Formula(0);
 		validFormula.setRoot(new FormulaElement(ElementType.OPERATOR, Operators.SMALLER_THAN.name(), null,
 				new FormulaElement(ElementType.NUMBER, "1", null), new FormulaElement(ElementType.NUMBER, "2", null)));
 
-		testScript = new StartScript(testSprite);
+		testScript = new StartScript();
 
-		ifLogicBeginBrick = new IfLogicBeginBrick(testSprite, validFormula);
-		ifLogicElseBrick = new IfLogicElseBrick(testSprite, ifLogicBeginBrick);
-		ifLogicEndBrick = new IfLogicEndBrick(testSprite, ifLogicElseBrick, ifLogicBeginBrick);
+		ifLogicBeginBrick = new IfLogicBeginBrick(validFormula);
+		ifLogicElseBrick = new IfLogicElseBrick(ifLogicBeginBrick);
+		ifLogicEndBrick = new IfLogicEndBrick(ifLogicElseBrick, ifLogicBeginBrick);
 
 		testScript.addBrick(ifLogicBeginBrick);
 		testScript.addBrick(setBrick);
@@ -119,13 +119,13 @@ public class SetVariableActionTest extends AndroidTestCase {
 		UserVariable userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
-		ChangeVariableBrick changeBrick = new ChangeVariableBrick(testSprite, new Formula(CHANGE_VARIABLE_VALUE));
+		ChangeVariableBrick changeBrick = new ChangeVariableBrick(new Formula(CHANGE_VARIABLE_VALUE));
 
 		Formula validFormula = new Formula(0);
 		validFormula.setRoot(new FormulaElement(ElementType.OPERATOR, Operators.SMALLER_THAN.name(), null,
 				new FormulaElement(ElementType.NUMBER, "1", null), new FormulaElement(ElementType.NUMBER, "2", null)));
 
-		testScript = new StartScript(testSprite);
+		testScript = new StartScript();
 
 		testScript.addBrick(changeBrick);
 

@@ -77,8 +77,8 @@ public class ShowBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		script.addBrick(new ShowBrick(sprite));
+		Script script = new StartScript();
+		script.addBrick(new ShowBrick());
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

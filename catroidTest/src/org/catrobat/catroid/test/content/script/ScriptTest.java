@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.content.script;
 import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.HideBrick;
@@ -36,7 +35,6 @@ import java.util.ArrayList;
 
 public class ScriptTest extends AndroidTestCase {
 
-	private Sprite sprite;
 	private HideBrick hideBrick;
 	private ShowBrick showBrick;
 	private PlaceAtBrick placeAtBrick;
@@ -44,15 +42,13 @@ public class ScriptTest extends AndroidTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		sprite = new Sprite("testSprite");
-		hideBrick = new HideBrick(sprite);
-		showBrick = new ShowBrick(sprite);
-		placeAtBrick = new PlaceAtBrick(sprite, 0, 0);
+		hideBrick = new HideBrick();
+		showBrick = new ShowBrick();
+		placeAtBrick = new PlaceAtBrick(0, 0);
 	};
 
 	public void testAddBricks() {
-		Sprite testSprite = new Sprite("sprite");
-		Script script = new StartScript(testSprite);
+		Script script = new StartScript();
 		script.addBrick(hideBrick);
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);

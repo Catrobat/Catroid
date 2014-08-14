@@ -42,7 +42,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -55,27 +54,28 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SetVariableBrick extends BrickBaseType implements OnClickListener, NewVariableDialogListener, FormulaBrick {
+public class SetVariableBrick extends FormulaBrick implements OnClickListener, NewVariableDialogListener {
 	private static final long serialVersionUID = 1L;
 	private UserVariable userVariable;
-	private Formula variableFormula;
 	private transient AdapterView<?> adapterView;
 
-	public SetVariableBrick(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
-		this.sprite = sprite;
-		this.variableFormula = variableFormula;
+	public SetVariableBrick() {
+		addAllowedBrickField(BrickField.VARIABLE);
+	}
+
+	public SetVariableBrick(Formula variableFormula, UserVariable userVariable) {
 		this.userVariable = userVariable;
+		initializeBrickFields(variableFormula);
 	}
 
-	public SetVariableBrick(Sprite sprite, double value) {
-		this.sprite = sprite;
-		this.variableFormula = new Formula(value);
+	public SetVariableBrick(double value) {
 		this.userVariable = null;
+		initializeBrickFields(new Formula(value));
 	}
 
-	@Override
-	public Formula getFormula() {
-		return variableFormula;
+	private void initializeBrickFields(Formula variableFormula) {
+		addAllowedBrickField(BrickField.VARIABLE);
+		setFormulaWithBrickField(BrickField.VARIABLE, variableFormula);
 	}
 
 	@Override
@@ -84,8 +84,9 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setVariable(sprite, variableFormula, userVariable));
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.setVariable(sprite, getFormulaWithBrickField(BrickField.VARIABLE),
+				userVariable));
 		return null;
 	}
 
@@ -114,14 +115,14 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 		TextView prototypeText = (TextView) view.findViewById(R.id.brick_set_variable_prototype_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_set_variable_edit_text);
 		prototypeText.setVisibility(View.GONE);
-		variableFormula.setTextFieldId(R.id.brick_set_variable_edit_text);
-		variableFormula.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.VARIABLE).setTextFieldId(R.id.brick_set_variable_edit_text);
+		getFormulaWithBrickField(BrickField.VARIABLE).refreshTextField(view);
 		textField.setVisibility(View.VISIBLE);
 		textField.setOnClickListener(this);
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.set_variable_spinner);
 		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.createUserVariableAdapter(context, sprite);
+				.createUserVariableAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				userVariableAdapter);
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
@@ -143,8 +144,7 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_UP
-						&& (((Spinner) view).getSelectedItemPosition() == 0
-						&& ((Spinner) view).getAdapter().getCount() == 1)) {
+						&& (((Spinner) view).getSelectedItemPosition() == 0 && ((Spinner) view).getAdapter().getCount() == 1)) {
 					NewVariableDialog dialog = new NewVariableDialog((Spinner) view);
 					dialog.addVariableDialogListener(SetVariableBrick.this);
 					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
@@ -185,7 +185,7 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 		variableSpinner.setFocusableInTouchMode(false);
 		variableSpinner.setFocusable(false);
 		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.createUserVariableAdapter(context, sprite);
+				.createUserVariableAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				userVariableAdapter);
@@ -195,7 +195,8 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 		setSpinnerSelection(variableSpinner, null);
 
 		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_set_variable_prototype_view);
-		textSetVariable.setText(String.valueOf(variableFormula.interpretDouble(sprite)));
+		textSetVariable.setText(String.valueOf(getFormulaWithBrickField(BrickField.VARIABLE).interpretDouble(
+				ProjectManager.getInstance().getCurrentSprite())));
 
 		return prototypeView;
 	}
@@ -229,7 +230,8 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 
 	@Override
 	public Brick clone() {
-		SetVariableBrick clonedBrick = new SetVariableBrick(getSprite(), variableFormula.clone(), userVariable);
+		SetVariableBrick clonedBrick = new SetVariableBrick(getFormulaWithBrickField(BrickField.VARIABLE)
+				.clone(), userVariable);
 		return clonedBrick;
 	}
 
@@ -238,25 +240,23 @@ public class SetVariableBrick extends BrickBaseType implements OnClickListener, 
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		FormulaEditorFragment.showFragment(view, this, variableFormula);
+		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.VARIABLE));
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite cloneSprite) {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		if (!currentProject.getSpriteList().contains(this.sprite)) {
-			throw new RuntimeException("this is not the current project");
+		if (currentProject == null) {
+			throw new RuntimeException("The current project must be set before cloning it");
 		}
 
 		SetVariableBrick copyBrick = (SetVariableBrick) clone();
-		copyBrick.sprite = sprite;
-		copyBrick.userVariable = currentProject.getUserVariables().getUserVariable(userVariable.getName(), sprite);
+		copyBrick.userVariable = currentProject.getUserVariables().getUserVariable(userVariable.getName(), cloneSprite);
 		return copyBrick;
 	}
 
 	private void updateUserVariableIfDeleted(UserVariableAdapterWrapper userVariableAdapterWrapper) {
-		if (userVariable != null
-				&& (userVariableAdapterWrapper.getPositionOfItem(userVariable) == 0)) {
+		if (userVariable != null && (userVariableAdapterWrapper.getPositionOfItem(userVariable) == 0)) {
 			userVariable = null;
 		}
 

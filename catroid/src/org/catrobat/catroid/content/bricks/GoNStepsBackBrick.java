@@ -33,8 +33,8 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -43,41 +43,31 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
-public class GoNStepsBackBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class GoNStepsBackBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private Formula steps;
 
 	private transient View prototypeView;
 
-	public GoNStepsBackBrick(Sprite sprite, int stepsValue) {
-		this.sprite = sprite;
-		steps = new Formula(stepsValue);
-	}
-
-	public GoNStepsBackBrick(Sprite sprite, Formula steps) {
-		this.sprite = sprite;
-		this.steps = steps;
-	}
-
 	public GoNStepsBackBrick() {
-
+		addAllowedBrickField(BrickField.STEPS);
 	}
 
-	@Override
-	public Formula getFormula() {
-		return steps;
+	public GoNStepsBackBrick(int stepsValue) {
+		initializeBrickFields(new Formula(stepsValue));
+	}
+
+	public GoNStepsBackBrick(Formula steps) {
+		initializeBrickFields(steps);
+	}
+
+	private void initializeBrickFields(Formula steps) {
+		addAllowedBrickField(BrickField.STEPS);
+		setFormulaWithBrickField(BrickField.STEPS, steps);
 	}
 
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		GoNStepsBackBrick copyBrick = (GoNStepsBackBrick) clone();
-		copyBrick.sprite = sprite;
-		return copyBrick;
 	}
 
 	@Override
@@ -102,14 +92,17 @@ public class GoNStepsBackBrick extends BrickBaseType implements OnClickListener,
 		TextView text = (TextView) view.findViewById(R.id.brick_go_back_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_go_back_edit_text);
 
-		steps.setTextFieldId(R.id.brick_go_back_edit_text);
-		steps.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.STEPS).setTextFieldId(R.id.brick_go_back_edit_text);
+		getFormulaWithBrickField(BrickField.STEPS).refreshTextField(view);
 
 		TextView times = (TextView) view.findViewById(R.id.brick_go_back_layers_text_view);
 
-		if (steps.isSingleNumberFormula()) {
-			times.setText(view.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
-					Utils.convertDoubleToPluralInteger(steps.interpretDouble(sprite))));
+		if (getFormulaWithBrickField(BrickField.STEPS).isSingleNumberFormula()) {
+			times.setText(view.getResources().getQuantityString(
+					R.plurals.brick_go_back_layer_plural,
+					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(
+							ProjectManager.getInstance().getCurrentSprite()))
+			));
 		} else {
 
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -128,17 +121,14 @@ public class GoNStepsBackBrick extends BrickBaseType implements OnClickListener,
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_go_back, null);
 		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_go_back_prototype_text_view);
-		textSteps.setText(String.valueOf(steps.interpretInteger(sprite)));
+		textSteps.setText(String.valueOf(getFormulaWithBrickField(BrickField.STEPS).interpretInteger(
+				ProjectManager.getInstance().getCurrentSprite())));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_go_back_layers_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
-				Utils.convertDoubleToPluralInteger(steps.interpretDouble(sprite))));
+				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(
+						ProjectManager.getInstance().getCurrentSprite()))));
 		return prototypeView;
 
-	}
-
-	@Override
-	public Brick clone() {
-		return new GoNStepsBackBrick(getSprite(), steps.clone());
 	}
 
 	@Override
@@ -169,12 +159,12 @@ public class GoNStepsBackBrick extends BrickBaseType implements OnClickListener,
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		FormulaEditorFragment.showFragment(view, this, steps);
+		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.STEPS));
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.goNStepsBack(sprite, steps));
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.goNStepsBack(sprite, getFormulaWithBrickField(BrickField.STEPS)));
 		return null;
 	}
 }

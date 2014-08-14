@@ -35,24 +35,22 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEndBrick {
+public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, AllowedAfterDeadEndBrick {
 
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = IfLogicElseBrick.class.getSimpleName();
-	private IfLogicBeginBrick ifBeginBrick;
-	private IfLogicEndBrick ifEndBrick;
+	private transient IfLogicBeginBrick ifBeginBrick;
+	private transient IfLogicEndBrick ifEndBrick;
 
 	private transient IfLogicElseBrick copy;
 
-	public IfLogicElseBrick(Sprite sprite, IfLogicBeginBrick ifBeginBrick) {
-		this.sprite = sprite;
+	public IfLogicElseBrick(IfLogicBeginBrick ifBeginBrick) {
 		this.ifBeginBrick = ifBeginBrick;
 		ifBeginBrick.setIfElseBrick(this);
 	}
@@ -114,7 +112,7 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 
 	@Override
 	public Brick clone() {
-		return new IfLogicElseBrick(sprite, ifBeginBrick);
+		return new IfLogicElseBrick(ifBeginBrick);
 	}
 
 	@Override
@@ -187,14 +185,14 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
 		returnActionList.add(sequence);
 		return returnActionList;
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		//ifEndBrick and ifBeginBrick will be set in the copyBrickForSprite method of IfLogicEndBrick
 		IfLogicElseBrick copyBrick = (IfLogicElseBrick) clone(); //Using the clone method because of its flexibility if new fields are added
 		ifBeginBrick.setIfElseBrick(this);
@@ -202,7 +200,6 @@ public class IfLogicElseBrick extends NestingBrick implements AllowedAfterDeadEn
 
 		copyBrick.ifBeginBrick = null;
 		copyBrick.ifEndBrick = null;
-		copyBrick.sprite = sprite;
 		this.copy = copyBrick;
 		return copyBrick;
 	}

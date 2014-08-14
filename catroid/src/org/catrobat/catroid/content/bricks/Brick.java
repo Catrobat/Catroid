@@ -29,14 +29,24 @@ import android.widget.CheckBox;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.io.Serializable;
 import java.util.List;
 
-public interface Brick extends Serializable {
+public interface Brick extends Serializable, Cloneable {
+
+	enum BrickField {
+		BRIGHTNESS, BRIGHTNESS_CHANGE, X_POSITION, Y_POSITION, X_POSITION_CHANGE, Y_POSITION_CHANGE, TRANSPARENCY,
+		TRANSPARENCY_CHANGE, SIZE, SIZE_CHANGE, VOLUME, VOLUME_CHANGE, X_DESTINATION, Y_DESTINATION, STEPS,
+		DURATION_IN_SECONDS, DEGREES, TURN_RIGHT_DEGREES, TURN_LEFT_DEGREES, TIME_TO_WAIT_IN_SECONDS, VARIABLE,
+		VARIABLE_CHANGE, IF_CONDITION, TIMES_TO_REPEAT, VIBRATE_DURATION_IN_SECONDS,
+
+		LEGO_NXT_SPEED, LEGO_NXT_DEGREES, LEGO_NXT_FREQUENCY, LEGO_NXT_DURATION_IN_SECONDS,
+
+		DRONE_TIME_TO_FLY_IN_SECONDS, DRONE_POWER_IN_PERCENT
+	}
 
 	//use bitwise | for using multiple ressources in a brick
 	int NO_RESOURCES = 0x0;
@@ -49,18 +59,16 @@ public interface Brick extends Serializable {
 
 	//	public static final int BLUETOOTH_ARDUINO = 0x8;
 
-	List<SequenceAction> addActionToSequence(SequenceAction sequence);
-
-	Sprite getSprite();
+	List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
 
 	//needed for the Sprite#clone()-Method
-	Brick copyBrickForSprite(Sprite sprite, Script script);
+	Brick copyBrickForSprite(Sprite sprite);
 
 	View getView(Context context, int brickId, BaseAdapter adapter);
 
 	View getPrototypeView(Context context);
 
-	Brick clone();
+	Brick clone() throws CloneNotSupportedException;
 
 	int getRequiredResources();
 

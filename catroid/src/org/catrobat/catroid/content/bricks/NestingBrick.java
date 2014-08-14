@@ -24,33 +24,18 @@ package org.catrobat.catroid.content.bricks;
 
 import java.util.List;
 
-public abstract class NestingBrick extends BrickBaseType {
+public interface NestingBrick {
 
-	private static final long serialVersionUID = 1L;
+	boolean isInitialized();
 
-	public boolean containsDeadEnd() {
-		for (Brick brick : getAllNestingBrickParts(false)) {
-			if (brick instanceof DeadEndBrick) {
-				return true;
-			}
-		}
+	void initialize();
 
-		return false;
-	}
-
-	@Override
-	public abstract Brick clone();
-
-	public abstract boolean isInitialized();
-
-	public abstract void initialize();
-
-	public abstract boolean isDraggableOver(Brick brick);
+	boolean isDraggableOver(Brick brick);
 
 	/**
 	 * 
 	 * @return List of NestingBricks in order of their appearance
 	 */
-	public abstract List<NestingBrick> getAllNestingBrickParts(boolean sorted);
+	List<NestingBrick> getAllNestingBrickParts(boolean sorted);
 
 }

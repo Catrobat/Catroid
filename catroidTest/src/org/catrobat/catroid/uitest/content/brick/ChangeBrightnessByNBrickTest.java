@@ -74,15 +74,16 @@ public class ChangeBrightnessByNBrickTest extends BaseActivityInstrumentationTes
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_change_brightness)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_change_brightness_edit_text, BRIGHTNESS_TO_CHANGE,
-				"changeBrightness", changeBrightnessByNBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_change_brightness_edit_text, BRIGHTNESS_TO_CHANGE, Brick.BrickField.BRIGHTNESS_CHANGE,
+				changeBrightnessByNBrick);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		changeBrightnessByNBrick = new ChangeBrightnessByNBrick(sprite, 10.2);
+		Script script = new StartScript();
+		changeBrightnessByNBrick = new ChangeBrightnessByNBrick(10.2);
 		script.addBrick(changeBrightnessByNBrick);
 
 		sprite.addScript(script);

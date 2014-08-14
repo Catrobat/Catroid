@@ -74,15 +74,15 @@ public class ChangeYByNBrickTest extends BaseActivityInstrumentationTestCase<Scr
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_change_y_by)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_change_y_edit_text, Y_TO_CHANGE, "yMovement",
-				changeYByNBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_change_y_edit_text, Y_TO_CHANGE, Brick.BrickField.Y_POSITION_CHANGE, changeYByNBrick);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		changeYByNBrick = new ChangeYByNBrick(sprite, 0);
+		Script script = new StartScript();
+		changeYByNBrick = new ChangeYByNBrick(0);
 		script.addBrick(changeYByNBrick);
 
 		sprite.addScript(script);

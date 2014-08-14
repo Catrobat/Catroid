@@ -28,7 +28,6 @@ import android.util.Log;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
@@ -69,6 +68,7 @@ import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
@@ -146,7 +146,7 @@ public final class StorageHandler {
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private static final int JPG_COMPRESSION_SETTING = 95;
 
-	private XStream xstream;
+	private XStreamToSupportCatrobatLanguageVersion091AndBefore xstream;
 
 	private File backPackSoundDirectory;
 	private FileInputStream fileInputStream;
@@ -164,10 +164,14 @@ public final class StorageHandler {
 	}
 
 	private StorageHandler() throws IOException {
-		xstream = new XStream(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
+		xstream = new XStreamToSupportCatrobatLanguageVersion091AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 		xstream.processAnnotations(Project.class);
 		xstream.processAnnotations(XmlHeader.class);
 		xstream.processAnnotations(UserVariablesContainer.class);
+		xstream.registerConverter(new XStreamConcurrentFormulaHashMapConverter());
+		xstream.registerConverter(new XStreamUserVariableConverter());
+		xstream.registerConverter(new XStreamBrickConverter(xstream.getMapper(), xstream.getReflectionProvider()));
+		xstream.registerConverter(new XStreamScriptConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 		setXstreamAliases();
 
 		if (!Utils.externalStorageAvailable()) {
@@ -201,79 +205,81 @@ public final class StorageHandler {
 		xstream.alias("sound", SoundInfo.class);
 		xstream.alias("userVariable", UserVariable.class);
 
-		xstream.alias("broadcastScript", BroadcastScript.class);
 		xstream.alias("script", Script.class);
 		xstream.alias("object", Sprite.class);
-		xstream.alias("startScript", StartScript.class);
-		xstream.alias("whenScript", WhenScript.class);
 
+		xstream.alias("script", StartScript.class);
+		xstream.alias("script", WhenScript.class);
+		xstream.alias("script", BroadcastScript.class);
+
+		xstream.alias("brick", BroadcastBrick.class);
+		xstream.alias("brick", BroadcastReceiverBrick.class);
+		xstream.alias("brick", BroadcastWaitBrick.class);
+		xstream.alias("brick", ChangeBrightnessByNBrick.class);
+		xstream.alias("brick", ChangeGhostEffectByNBrick.class);
+		xstream.alias("brick", ChangeSizeByNBrick.class);
+		xstream.alias("brick", ChangeVariableBrick.class);
+		xstream.alias("brick", ChangeVolumeByNBrick.class);
+		xstream.alias("brick", ChangeXByNBrick.class);
+		xstream.alias("brick", ChangeYByNBrick.class);
+		xstream.alias("brick", ClearGraphicEffectBrick.class);
+		xstream.alias("brick", ComeToFrontBrick.class);
+		xstream.alias("brick", ForeverBrick.class);
+		xstream.alias("brick", GlideToBrick.class);
+		xstream.alias("brick", GoNStepsBackBrick.class);
+		xstream.alias("brick", HideBrick.class);
+		xstream.alias("brick", IfLogicBeginBrick.class);
+		xstream.alias("brick", IfLogicElseBrick.class);
+		xstream.alias("brick", IfLogicEndBrick.class);
+		xstream.alias("brick", IfOnEdgeBounceBrick.class);
+		xstream.alias("brick", LedOffBrick.class);
+		xstream.alias("brick", LedOnBrick.class);
+		xstream.alias("brick", LegoNxtMotorActionBrick.class);
+		xstream.alias("brick", LegoNxtMotorStopBrick.class);
+		xstream.alias("brick", LegoNxtMotorTurnAngleBrick.class);
+		xstream.alias("brick", LegoNxtPlayToneBrick.class);
+		xstream.alias("brick", LoopBeginBrick.class);
+		xstream.alias("brick", LoopEndBrick.class);
+		xstream.alias("brick", LoopEndlessBrick.class);
+		xstream.alias("brick", MoveNStepsBrick.class);
+		xstream.alias("brick", NextLookBrick.class);
+		xstream.alias("brick", NoteBrick.class);
+		xstream.alias("brick", PlaceAtBrick.class);
+		xstream.alias("brick", PlaySoundBrick.class);
+		xstream.alias("brick", PointInDirectionBrick.class);
+		xstream.alias("brick", PointToBrick.class);
+		xstream.alias("brick", RepeatBrick.class);
+		xstream.alias("brick", SetBrightnessBrick.class);
+		xstream.alias("brick", SetGhostEffectBrick.class);
+		xstream.alias("brick", SetLookBrick.class);
+		xstream.alias("brick", SetSizeToBrick.class);
+		xstream.alias("brick", SetVariableBrick.class);
+		xstream.alias("brick", SetVolumeToBrick.class);
+		xstream.alias("brick", SetXBrick.class);
+		xstream.alias("brick", SetYBrick.class);
+		xstream.alias("brick", ShowBrick.class);
+		xstream.alias("brick", SpeakBrick.class);
+		xstream.alias("brick", StopAllSoundsBrick.class);
+		xstream.alias("brick", TurnLeftBrick.class);
+		xstream.alias("brick", TurnRightBrick.class);
+		xstream.alias("brick", VibrationBrick.class);
+		xstream.alias("brick", WaitBrick.class);
+		xstream.alias("brick", WhenBrick.class);
+		xstream.alias("brick", WhenStartedBrick.class);
+
+		xstream.alias("brick", DronePlayLedAnimationBrick.class);
+		xstream.alias("brick", DroneFlipBrick.class);
+		xstream.alias("brick", DroneTakeOffBrick.class);
+		xstream.alias("brick", DroneLandBrick.class);
+		xstream.alias("brick", DroneMoveForwardBrick.class);
+		xstream.alias("brick", DroneMoveBackwardBrick.class);
+		xstream.alias("brick", DroneMoveUpBrick.class);
+		xstream.alias("brick", DroneMoveDownBrick.class);
+		xstream.alias("brick", DroneMoveLeftBrick.class);
+		xstream.alias("brick", DroneMoveRightBrick.class);
+
+		xstream.aliasField("formulaList", FormulaBrick.class, "formulaMap");
 		xstream.aliasField("object", BrickBaseType.class, "sprite");
-
-		xstream.alias("broadcastBrick", BroadcastBrick.class);
-		xstream.alias("broadcastReceiverBrick", BroadcastReceiverBrick.class);
-		xstream.alias("broadcastWaitBrick", BroadcastWaitBrick.class);
-		xstream.alias("changeBrightnessByNBrick", ChangeBrightnessByNBrick.class);
-		xstream.alias("changeGhostEffectByNBrick", ChangeGhostEffectByNBrick.class);
-		xstream.alias("changeSizeByNBrick", ChangeSizeByNBrick.class);
-		xstream.alias("changeVariableBrick", ChangeVariableBrick.class);
-		xstream.alias("changeVolumeByNBrick", ChangeVolumeByNBrick.class);
-		xstream.alias("changeXByNBrick", ChangeXByNBrick.class);
-		xstream.alias("changeYByNBrick", ChangeYByNBrick.class);
-		xstream.alias("clearGraphicEffectBrick", ClearGraphicEffectBrick.class);
-		xstream.alias("comeToFrontBrick", ComeToFrontBrick.class);
-		xstream.alias("foreverBrick", ForeverBrick.class);
-		xstream.alias("glideToBrick", GlideToBrick.class);
-		xstream.alias("goNStepsBackBrick", GoNStepsBackBrick.class);
-		xstream.alias("hideBrick", HideBrick.class);
-		xstream.alias("ifLogicBeginBrick", IfLogicBeginBrick.class);
-		xstream.alias("ifLogicElseBrick", IfLogicElseBrick.class);
-		xstream.alias("ifLogicEndBrick", IfLogicEndBrick.class);
-		xstream.alias("ifOnEdgeBounceBrick", IfOnEdgeBounceBrick.class);
-		xstream.alias("LedOffBrick", LedOffBrick.class);
-		xstream.alias("LedOnBrick", LedOnBrick.class);
-		xstream.alias("legoNxtMotorActionBrick", LegoNxtMotorActionBrick.class);
-		xstream.alias("legoNxtMotorStopBrick", LegoNxtMotorStopBrick.class);
-		xstream.alias("legoNxtMotorTurnAngleBrick", LegoNxtMotorTurnAngleBrick.class);
-		xstream.alias("legoNxtPlayToneBrick", LegoNxtPlayToneBrick.class);
-		xstream.alias("loopBeginBrick", LoopBeginBrick.class);
-		xstream.alias("loopEndBrick", LoopEndBrick.class);
-		xstream.alias("loopEndlessBrick", LoopEndlessBrick.class);
-		xstream.alias("moveNStepsBrick", MoveNStepsBrick.class);
-		xstream.alias("nextLookBrick", NextLookBrick.class);
-		xstream.alias("noteBrick", NoteBrick.class);
-		xstream.alias("placeAtBrick", PlaceAtBrick.class);
-		xstream.alias("playSoundBrick", PlaySoundBrick.class);
-		xstream.alias("pointInDirectionBrick", PointInDirectionBrick.class);
-		xstream.alias("pointToBrick", PointToBrick.class);
-		xstream.alias("repeatBrick", RepeatBrick.class);
-		xstream.alias("setBrightnessBrick", SetBrightnessBrick.class);
-		xstream.alias("setGhostEffectBrick", SetGhostEffectBrick.class);
-		xstream.alias("setLookBrick", SetLookBrick.class);
-		xstream.alias("setSizeToBrick", SetSizeToBrick.class);
-		xstream.alias("setVariableBrick", SetVariableBrick.class);
-		xstream.alias("setVolumeToBrick", SetVolumeToBrick.class);
-		xstream.alias("setXBrick", SetXBrick.class);
-		xstream.alias("setYBrick", SetYBrick.class);
-		xstream.alias("showBrick", ShowBrick.class);
-		xstream.alias("speakBrick", SpeakBrick.class);
-		xstream.alias("stopAllSoundsBrick", StopAllSoundsBrick.class);
-		xstream.alias("turnLeftBrick", TurnLeftBrick.class);
-		xstream.alias("turnRightBrick", TurnRightBrick.class);
-		xstream.alias("VibrationBrick", VibrationBrick.class);
-		xstream.alias("waitBrick", WaitBrick.class);
-		xstream.alias("whenBrick", WhenBrick.class);
-		xstream.alias("whenStartedBrick", WhenStartedBrick.class);
-
-		xstream.alias("dronePlayLedAnimationBrick", DronePlayLedAnimationBrick.class);
-		xstream.alias("droneFlipBrick", DroneFlipBrick.class);
-		xstream.alias("droneTakeOffBrick", DroneTakeOffBrick.class);
-		xstream.alias("droneLandBrick", DroneLandBrick.class);
-		xstream.alias("droneMoveForwardBrick", DroneMoveForwardBrick.class);
-		xstream.alias("droneMoveBackwardBrick", DroneMoveBackwardBrick.class);
-		xstream.alias("droneMoveUpBrick", DroneMoveUpBrick.class);
-		xstream.alias("droneMoveDownBrick", DroneMoveDownBrick.class);
-		xstream.alias("droneMoveLeftBrick", DroneMoveLeftBrick.class);
-		xstream.alias("droneMoveRightBrick", DroneMoveRightBrick.class);
 	}
 
 	private void createCatroidRoot() {
@@ -296,7 +302,7 @@ public final class StorageHandler {
 		try {
 			File projectCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
 			fileInputStream = new FileInputStream(projectCodeFile);
-			return (Project) xstream.fromXML(fileInputStream);
+			return (Project) xstream.getProjectFromXML(projectCodeFile);
 		} catch (Exception exception) {
 			Log.e(TAG, "Loading project " + projectName + " failed.", exception);
 			return null;

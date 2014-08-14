@@ -32,23 +32,21 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.List;
 
-public class DronePlayLedAnimationBrick extends DroneBrick {
+public class DronePlayLedAnimationBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
-	public DronePlayLedAnimationBrick(Sprite sprite) {
-		this.sprite = sprite;
+	public DronePlayLedAnimationBrick() {
+
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		DronePlayLedAnimationBrick copyBrick = (DronePlayLedAnimationBrick) clone();
-		copyBrick.sprite = sprite;
 		return copyBrick;
 	}
 
@@ -61,7 +59,7 @@ public class DronePlayLedAnimationBrick extends DroneBrick {
 
 	@Override
 	public Brick clone() {
-		return new DronePlayLedAnimationBrick(getSprite());
+		return new DronePlayLedAnimationBrick();
 	}
 
 	@Override
@@ -100,8 +98,13 @@ public class DronePlayLedAnimationBrick extends DroneBrick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.dronePlayLedAnimation());
 		return null;
+	}
+
+	@Override
+	public int getRequiredResources() {
+		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
 	}
 }

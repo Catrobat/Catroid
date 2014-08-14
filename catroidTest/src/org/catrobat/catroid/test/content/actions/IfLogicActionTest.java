@@ -79,23 +79,23 @@ public class IfLogicActionTest extends AndroidTestCase {
 		UserVariable userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
-		SetVariableBrick setVariableBrick = new SetVariableBrick(testSprite, new Formula(IF_TRUE_VALUE), userVariable);
+		SetVariableBrick setVariableBrick = new SetVariableBrick(new Formula(IF_TRUE_VALUE), userVariable);
 
 		Formula validFormula = new Formula(1);
 		validFormula.setRoot(new FormulaElement(ElementType.OPERATOR, Operators.SMALLER_THAN.name(), null,
 				new FormulaElement(ElementType.NUMBER, "1", null), new FormulaElement(ElementType.NUMBER, "2", null)));
 
-		testScript = new StartScript(testSprite);
+		testScript = new StartScript();
 
-		repeatBrick = new RepeatBrick(testSprite, 2);
-		ifLogicBeginBrick = new IfLogicBeginBrick(testSprite, validFormula);
-		ifLogicElseBrick = new IfLogicElseBrick(testSprite, ifLogicBeginBrick);
-		ifLogicEndBrick = new IfLogicEndBrick(testSprite, ifLogicElseBrick, ifLogicBeginBrick);
-		repeatBrick.setLoopEndBrick(new LoopEndBrick(testSprite, repeatBrick));
+		repeatBrick = new RepeatBrick(2);
+		ifLogicBeginBrick = new IfLogicBeginBrick(validFormula);
+		ifLogicElseBrick = new IfLogicElseBrick(ifLogicBeginBrick);
+		ifLogicEndBrick = new IfLogicEndBrick(ifLogicElseBrick, ifLogicBeginBrick);
+		repeatBrick.setLoopEndBrick(new LoopEndBrick(repeatBrick));
 
-		ifLogicBeginBrick2 = new IfLogicBeginBrick(testSprite, validFormula);
-		ifLogicElseBrick2 = new IfLogicElseBrick(testSprite, ifLogicBeginBrick2);
-		ifLogicEndBrick2 = new IfLogicEndBrick(testSprite, ifLogicElseBrick2, ifLogicBeginBrick2);
+		ifLogicBeginBrick2 = new IfLogicBeginBrick(validFormula);
+		ifLogicElseBrick2 = new IfLogicElseBrick(ifLogicBeginBrick2);
+		ifLogicEndBrick2 = new IfLogicEndBrick(ifLogicElseBrick2, ifLogicBeginBrick2);
 
 		testScript.addBrick(ifLogicBeginBrick);
 		testScript.addBrick(ifLogicBeginBrick2);
@@ -137,17 +137,17 @@ public class IfLogicActionTest extends AndroidTestCase {
 		UserVariable userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
-		SetVariableBrick setVariableBrick = new SetVariableBrick(testSprite, new Formula(IF_TRUE_VALUE), userVariable);
+		SetVariableBrick setVariableBrick = new SetVariableBrick(new Formula(IF_TRUE_VALUE), userVariable);
 
 		Formula validFormula = new Formula(1);
 		validFormula.setRoot(new FormulaElement(ElementType.OPERATOR, Operators.SMALLER_THAN.name(), null,
 				new FormulaElement(ElementType.NUMBER, "1", null), new FormulaElement(ElementType.NUMBER, "2", null)));
 
-		testScript = new StartScript(testSprite);
+		testScript = new StartScript();
 
-		ifLogicBeginBrick = new IfLogicBeginBrick(testSprite, validFormula);
-		ifLogicElseBrick = new IfLogicElseBrick(testSprite, ifLogicBeginBrick);
-		ifLogicEndBrick = new IfLogicEndBrick(testSprite, ifLogicElseBrick, ifLogicBeginBrick);
+		ifLogicBeginBrick = new IfLogicBeginBrick(validFormula);
+		ifLogicElseBrick = new IfLogicElseBrick(ifLogicBeginBrick);
+		ifLogicEndBrick = new IfLogicEndBrick(ifLogicElseBrick, ifLogicBeginBrick);
 
 		testScript.addBrick(ifLogicBeginBrick);
 		testScript.addBrick(setVariableBrick);
@@ -183,17 +183,17 @@ public class IfLogicActionTest extends AndroidTestCase {
 		UserVariable userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
-		SetVariableBrick setVariableBrick = new SetVariableBrick(testSprite, new Formula(IF_FALSE_VALUE), userVariable);
+		SetVariableBrick setVariableBrick = new SetVariableBrick(new Formula(IF_FALSE_VALUE), userVariable);
 
 		Formula invalidFormula = new Formula(1);
 		invalidFormula.setRoot(new FormulaElement(ElementType.OPERATOR, Operators.SMALLER_THAN.name(), null,
 				new FormulaElement(ElementType.NUMBER, "2", null), new FormulaElement(ElementType.NUMBER, "1", null)));
 
-		testScript = new StartScript(testSprite);
+		testScript = new StartScript();
 
-		ifLogicBeginBrick = new IfLogicBeginBrick(testSprite, invalidFormula);
-		ifLogicElseBrick = new IfLogicElseBrick(testSprite, ifLogicBeginBrick);
-		ifLogicEndBrick = new IfLogicEndBrick(testSprite, ifLogicElseBrick, ifLogicBeginBrick);
+		ifLogicBeginBrick = new IfLogicBeginBrick(invalidFormula);
+		ifLogicElseBrick = new IfLogicElseBrick(ifLogicBeginBrick);
+		ifLogicEndBrick = new IfLogicEndBrick(ifLogicElseBrick, ifLogicBeginBrick);
 
 		testScript.addBrick(ifLogicBeginBrick);
 		testScript.addBrick(ifLogicElseBrick);

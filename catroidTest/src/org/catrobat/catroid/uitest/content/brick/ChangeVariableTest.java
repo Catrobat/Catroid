@@ -178,8 +178,8 @@ public class ChangeVariableTest extends BaseActivityInstrumentationTestCase<Main
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		changeVariableBrick = new ChangeVariableBrick(sprite, 10);
+		Script script = new StartScript();
+		changeVariableBrick = new ChangeVariableBrick(10);
 		script.addBrick(changeVariableBrick);
 
 		sprite.addScript(script);

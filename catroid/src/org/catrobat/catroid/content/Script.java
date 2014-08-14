@@ -45,12 +45,13 @@ public abstract class Script implements Serializable {
 	protected transient ScriptBrick brick;
 
 	private transient volatile boolean paused;
-	protected Sprite object;
 
 	public Script() {
+		brickList = new ArrayList<Brick>();
+		init();
 	}
 
-	public abstract Script copyScriptForSprite(Sprite copySprite);
+	public abstract Script copyScriptForSprite(Sprite sprite);
 
 	protected Object readResolve() {
 		init();
@@ -59,21 +60,15 @@ public abstract class Script implements Serializable {
 
 	public abstract ScriptBrick getScriptBrick();
 
-	public Script(Sprite sprite) {
-		brickList = new ArrayList<Brick>();
-		this.object = sprite;
-		init();
-	}
-
 	private void init() {
 		paused = false;
 	}
 
-	public void run(SequenceAction sequence) {
+	public void run(Sprite sprite, SequenceAction sequence) {
 		ArrayList<SequenceAction> sequenceList = new ArrayList<SequenceAction>();
 		sequenceList.add(sequence);
 		for (int i = 0; i < brickList.size(); i++) {
-			List<SequenceAction> actions = brickList.get(i).addActionToSequence(
+			List<SequenceAction> actions = brickList.get(i).addActionToSequence(sprite,
 					sequenceList.get(sequenceList.size() - 1));
 			if (actions != null) {
 				for (SequenceAction action : actions) {
@@ -163,10 +158,6 @@ public abstract class Script implements Serializable {
 		}
 
 		return brickList.get(index);
-	}
-
-	public Sprite getObject() {
-		return object;
 	}
 
 	protected void setIfBrickReferences(IfLogicEndBrick copiedIfEndBrick, IfLogicEndBrick originalIfEndBrick) {

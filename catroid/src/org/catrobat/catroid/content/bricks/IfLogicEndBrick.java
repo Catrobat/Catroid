@@ -35,24 +35,22 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEndBrick {
+public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, AllowedAfterDeadEndBrick {
 
 	static final int FOREVER = -1;
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = IfLogicEndBrick.class.getSimpleName();
-	private IfLogicElseBrick ifElseBrick;
+	private transient IfLogicElseBrick ifElseBrick;
 
-	private IfLogicBeginBrick ifBeginBrick;
+	private transient IfLogicBeginBrick ifBeginBrick;
 
-	public IfLogicEndBrick(Sprite sprite, IfLogicElseBrick elseBrick, IfLogicBeginBrick beginBrick) {
-		this.sprite = sprite;
+	public IfLogicEndBrick(IfLogicElseBrick elseBrick, IfLogicBeginBrick beginBrick) {
 		this.ifElseBrick = elseBrick;
 		this.ifBeginBrick = beginBrick;
 		beginBrick.setIfEndBrick(this);
@@ -127,7 +125,7 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 
 	@Override
 	public Brick clone() {
-		return new IfLogicEndBrick(getSprite(), ifElseBrick, ifBeginBrick);
+		return new IfLogicEndBrick(ifElseBrick, ifBeginBrick);
 	}
 
 	@Override
@@ -183,21 +181,20 @@ public class IfLogicEndBrick extends NestingBrick implements AllowedAfterDeadEnd
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
 		returnActionList.add(sequence);
 		return returnActionList;
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		IfLogicEndBrick copyBrick = (IfLogicEndBrick) clone(); //Using the clone method because of its flexibility if new fields are added
 		ifBeginBrick.setIfEndBrick(this);
 		ifElseBrick.setIfEndBrick(this);
 
 		copyBrick.ifBeginBrick = null;
 		copyBrick.ifElseBrick = null;
-		copyBrick.sprite = sprite;
 		return copyBrick;
 	}
 

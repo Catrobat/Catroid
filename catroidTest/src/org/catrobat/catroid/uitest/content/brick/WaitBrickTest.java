@@ -37,7 +37,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.Utils;
 
@@ -79,7 +78,7 @@ public class WaitBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_wait_edit_text, waitTime);
 
-		Formula actualWaitTime = (Formula) Reflection.getPrivateField(waitBrick, "timeToWaitInSeconds");
+		Formula actualWaitTime = waitBrick.getFormulaWithBrickField(Brick.BrickField.TIME_TO_WAIT_IN_SECONDS);
 		assertEquals("Wrong text in field", waitTime, actualWaitTime.interpretDouble(null));
 		assertEquals(
 				"Text not updated",
@@ -107,8 +106,8 @@ public class WaitBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		waitBrick = new WaitBrick(sprite, 1000);
+		Script script = new StartScript();
+		waitBrick = new WaitBrick(1000);
 		script.addBrick(waitBrick);
 
 		sprite.addScript(script);

@@ -35,9 +35,9 @@ public class WhenActionTest extends AndroidTestCase {
 		int testPosition = 100;
 
 		Sprite sprite = new Sprite("new sprite");
-		WhenScript whenScript = new WhenScript(sprite);
+		WhenScript whenScript = new WhenScript();
 		whenScript.setAction(1);
-		Brick placeAtBrick = new PlaceAtBrick(sprite, testPosition, testPosition);
+		Brick placeAtBrick = new PlaceAtBrick(testPosition, testPosition);
 		whenScript.addBrick(placeAtBrick);
 		sprite.addScript(whenScript);
 		sprite.createWhenScriptActionSequence(whenScript.getAction());

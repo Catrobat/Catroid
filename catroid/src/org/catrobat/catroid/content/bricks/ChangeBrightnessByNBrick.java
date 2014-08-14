@@ -33,8 +33,8 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -42,36 +42,31 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class ChangeBrightnessByNBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class ChangeBrightnessByNBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private Formula changeBrightness;
 
 	private transient View prototypeView;
 
 	public ChangeBrightnessByNBrick() {
-
+		addAllowedBrickField(BrickField.BRIGHTNESS_CHANGE);
 	}
 
-	public ChangeBrightnessByNBrick(Sprite sprite, double changeBrightnessValue) {
-		this.sprite = sprite;
-		changeBrightness = new Formula(changeBrightnessValue);
+	public ChangeBrightnessByNBrick(double changeBrightnessValue) {
+		initializeBrickFields(new Formula(changeBrightnessValue));
 	}
 
-	public ChangeBrightnessByNBrick(Sprite sprite, Formula changeBrightness) {
-		this.sprite = sprite;
-		this.changeBrightness = changeBrightness;
+	public ChangeBrightnessByNBrick(Formula changeBrightness) {
+		initializeBrickFields(changeBrightness);
+	}
+
+	private void initializeBrickFields(Formula changeBrightness) {
+		addAllowedBrickField(BrickField.BRIGHTNESS_CHANGE);
+		setFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE, changeBrightness);
 	}
 
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		ChangeBrightnessByNBrick copyBrick = (ChangeBrightnessByNBrick) clone();
-		copyBrick.sprite = sprite;
-		return copyBrick;
 	}
 
 	@Override
@@ -95,8 +90,8 @@ public class ChangeBrightnessByNBrick extends BrickBaseType implements OnClickLi
 		});
 		TextView textX = (TextView) view.findViewById(R.id.brick_change_brightness_prototype_text_view);
 		TextView editX = (TextView) view.findViewById(R.id.brick_change_brightness_edit_text);
-		changeBrightness.setTextFieldId(R.id.brick_change_brightness_edit_text);
-		changeBrightness.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE).setTextFieldId(R.id.brick_change_brightness_edit_text);
+		getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE).refreshTextField(view);
 
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
@@ -110,13 +105,9 @@ public class ChangeBrightnessByNBrick extends BrickBaseType implements OnClickLi
 		prototypeView = View.inflate(context, R.layout.brick_change_brightness, null);
 		TextView textChangeBrightness = (TextView) prototypeView
 				.findViewById(R.id.brick_change_brightness_prototype_text_view);
-		textChangeBrightness.setText(String.valueOf(changeBrightness.interpretDouble(sprite)));
+		textChangeBrightness.setText(String.valueOf(getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE)
+				.interpretDouble(ProjectManager.getInstance().getCurrentSprite())));
 		return prototypeView;
-	}
-
-	@Override
-	public Brick clone() {
-		return new ChangeBrightnessByNBrick(getSprite(), changeBrightness.clone());
 	}
 
 	@Override
@@ -144,22 +135,17 @@ public class ChangeBrightnessByNBrick extends BrickBaseType implements OnClickLi
 	}
 
 	@Override
-	public Formula getFormula() {
-		return changeBrightness;
-	}
-
-	@Override
 	public void onClick(View view) {
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		FormulaEditorFragment.showFragment(view, this, changeBrightness);
+		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE));
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-
-		sequence.addAction(ExtendedActions.changeBrightnessByN(sprite, changeBrightness));
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.changeBrightnessByN(sprite,
+				getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE)));
 		return null;
 	}
 }

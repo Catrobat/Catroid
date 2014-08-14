@@ -74,14 +74,15 @@ public class SetXBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_set_x)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_x_edit_text, SET_X, "xPosition", setXBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_set_x_edit_text, SET_X, Brick.BrickField.X_POSITION, setXBrick);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		setXBrick = new SetXBrick(sprite, 0);
+		Script script = new StartScript();
+		setXBrick = new SetXBrick(0);
 		script.addBrick(setXBrick);
 
 		sprite.addScript(script);

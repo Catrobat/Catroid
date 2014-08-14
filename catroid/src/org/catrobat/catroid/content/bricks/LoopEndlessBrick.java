@@ -33,7 +33,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
 
 public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
@@ -44,8 +43,8 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
 	}
 
-	public LoopEndlessBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
-		super(sprite, loopStartingBrick);
+	public LoopEndlessBrick(LoopBeginBrick loopStartingBrick) {
+		super(loopStartingBrick);
 	}
 
 	@Override
@@ -100,7 +99,7 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
 	@Override
 	public Brick clone() {
-		return new LoopEndlessBrick(getSprite(), getLoopBeginBrick());
+		return new LoopEndlessBrick(getLoopBeginBrick());
 	}
 
 	@Override

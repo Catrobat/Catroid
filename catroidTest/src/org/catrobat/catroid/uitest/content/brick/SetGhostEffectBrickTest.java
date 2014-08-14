@@ -75,15 +75,15 @@ public class SetGhostEffectBrickTest extends BaseActivityInstrumentationTestCase
 
 		double newEffect = 65.9;
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_ghost_effect_to_edit_text, newEffect,
-				"transparency", setGhostEffectBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_set_ghost_effect_to_edit_text, newEffect, Brick.BrickField.TRANSPARENCY, setGhostEffectBrick);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		setGhostEffectBrick = new SetGhostEffectBrick(sprite, 33.8);
+		Script script = new StartScript();
+		setGhostEffectBrick = new SetGhostEffectBrick(33.8);
 		script.addBrick(setGhostEffectBrick);
 
 		sprite.addScript(script);

@@ -52,7 +52,7 @@ public abstract class DroneTestUtils {
 	public static Project createDroneProjectWithScriptAndAllDroneMoveBricks() {
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("DoneMoveBricksTest");
-		Script script = new StartScript(sprite);
+		Script script = new StartScript();
 
 		for (DroneBricks brick : DroneBrickFactory.DroneBricks.values()) {
 			String brickName = brick.name().toLowerCase(Locale.getDefault());
@@ -71,9 +71,9 @@ public abstract class DroneTestUtils {
 	public static Project createBasicDroneProject() {
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("DoneMoveBricksTest");
-		Script script = new StartScript(sprite);
+		Script script = new StartScript();
 
-		script.addBrick(new DroneFlipBrick(sprite));
+		script.addBrick(new DroneFlipBrick());
 
 		project.addSprite(sprite);
 		sprite.addScript(script);

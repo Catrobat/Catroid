@@ -129,7 +129,7 @@ public class ProgramSteps extends AndroidTestCase {
 
 		FormulaElement elemB = new FormulaElement(ElementType.NUMBER, b, null);
 
-		Brick brick = new SetVariableBrick(object, new Formula(elemB), varA);
+		Brick brick = new SetVariableBrick(new Formula(elemB), varA);
 		script.addBrick(brick);
 	}
 
@@ -146,7 +146,7 @@ public class ProgramSteps extends AndroidTestCase {
 
 		FormulaElement elemB = new FormulaElement(ElementType.USER_VARIABLE, b, null);
 
-		Brick brick = new SetVariableBrick(object, new Formula(elemB), varA);
+		Brick brick = new SetVariableBrick(new Formula(elemB), varA);
 		script.addBrick(brick);
 	}
 
@@ -163,7 +163,7 @@ public class ProgramSteps extends AndroidTestCase {
 
 		FormulaElement elemValue = new FormulaElement(ElementType.NUMBER, value, null);
 
-		Brick brick = new ChangeVariableBrick(object, new Formula(elemValue), variable);
+		Brick brick = new ChangeVariableBrick(new Formula(elemValue), variable);
 		script.addBrick(brick);
 	}
 
@@ -172,7 +172,7 @@ public class ProgramSteps extends AndroidTestCase {
 		Sprite object = (Sprite) Cucumber.get(Cucumber.KEY_CURRENT_OBJECT);
 		Script script = (Script) Cucumber.get(Cucumber.KEY_CURRENT_SCRIPT);
 
-		Brick brick = new RepeatBrick(object, new Formula(iterations));
+		Brick brick = new RepeatBrick(new Formula(iterations));
 		Cucumber.put(Cucumber.KEY_LOOP_BEGIN_BRICK, brick);
 		script.addBrick(brick);
 	}
@@ -183,7 +183,7 @@ public class ProgramSteps extends AndroidTestCase {
 		Script script = (Script) Cucumber.get(Cucumber.KEY_CURRENT_SCRIPT);
 
 		LoopBeginBrick loopBeginBrick = (LoopBeginBrick) Cucumber.get(Cucumber.KEY_LOOP_BEGIN_BRICK);
-		Brick brick = new LoopEndBrick(object, loopBeginBrick);
+		Brick brick = new LoopEndBrick(loopBeginBrick);
 		script.addBrick(brick);
 	}
 
@@ -192,7 +192,7 @@ public class ProgramSteps extends AndroidTestCase {
 		Sprite object = (Sprite) Cucumber.get(Cucumber.KEY_CURRENT_OBJECT);
 		Script script = (Script) Cucumber.get(Cucumber.KEY_CURRENT_SCRIPT);
 
-		BroadcastBrick brick = new BroadcastBrick(object, message);
+		BroadcastBrick brick = new BroadcastBrick(message);
 		script.addBrick(brick);
 	}
 
@@ -201,7 +201,7 @@ public class ProgramSteps extends AndroidTestCase {
 		Sprite object = (Sprite) Cucumber.get(Cucumber.KEY_CURRENT_OBJECT);
 		Script script = (Script) Cucumber.get(Cucumber.KEY_CURRENT_SCRIPT);
 
-		BroadcastWaitBrick brick = new BroadcastWaitBrick(object, message);
+		BroadcastWaitBrick brick = new BroadcastWaitBrick(message);
 		script.addBrick(brick);
 	}
 
@@ -210,7 +210,7 @@ public class ProgramSteps extends AndroidTestCase {
 		Sprite object = (Sprite) Cucumber.get(Cucumber.KEY_CURRENT_OBJECT);
 		Script script = (Script) Cucumber.get(Cucumber.KEY_CURRENT_SCRIPT);
 
-		WaitBrick brick = new WaitBrick(object, millis);
+		WaitBrick brick = new WaitBrick(millis);
 		script.addBrick(brick);
 	}
 
@@ -219,7 +219,7 @@ public class ProgramSteps extends AndroidTestCase {
 		Sprite object = (Sprite) Cucumber.get(Cucumber.KEY_CURRENT_OBJECT);
 		Script script = (Script) Cucumber.get(Cucumber.KEY_CURRENT_SCRIPT);
 
-		WaitBrick brick = new WaitBrick(object, seconds * 1000);
+		WaitBrick brick = new WaitBrick(seconds * 1000);
 		script.addBrick(brick);
 	}
 

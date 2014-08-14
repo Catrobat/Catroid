@@ -34,7 +34,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -48,8 +47,7 @@ public class SpeakBrick extends BrickBaseType {
 
 	private transient View prototypeView;
 
-	public SpeakBrick(Sprite sprite, String text) {
-		this.sprite = sprite;
+	public SpeakBrick(String text) {
 		this.text = text;
 	}
 
@@ -62,9 +60,8 @@ public class SpeakBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		SpeakBrick copyBrick = (SpeakBrick) clone();
-		copyBrick.sprite = sprite;
 		return copyBrick;
 	}
 
@@ -165,12 +162,12 @@ public class SpeakBrick extends BrickBaseType {
 
 	@Override
 	public Brick clone() {
-		return new SpeakBrick(this.sprite, this.text);
+		return new SpeakBrick(this.text);
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.speak(text, this));
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.speak(text));
 		return null;
 	}
 

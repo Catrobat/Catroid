@@ -32,7 +32,9 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
@@ -155,8 +157,8 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static LegoNxtMotorActionAction legoNxtMotorAction(Sprite sprite, String motor,
-			org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick.Motor motorEnum, Formula speed) {
+	public static LegoNxtMotorActionAction legoNxtMotorAction(Sprite sprite, LegoNxtMotorActionBrick.Motor motorEnum,
+			Formula speed) {
 		LegoNxtMotorActionAction action = action(LegoNxtMotorActionAction.class);
 		action.setMotorEnum(motorEnum);
 		action.setSprite(sprite);
@@ -164,15 +166,14 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static LegoNxtMotorStopAction legoNxtMotorStop(
-			org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick.Motor motorEnum) {
+	public static LegoNxtMotorStopAction legoNxtMotorStop(LegoNxtMotorStopBrick.Motor motorEnum) {
 		LegoNxtMotorStopAction action = action(LegoNxtMotorStopAction.class);
 		action.setMotorEnum(motorEnum);
 		return action;
 	}
 
 	public static LegoNxtMotorTurnAngleAction legoNxtMotorTurnAngle(Sprite sprite,
-			org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick.Motor motorEnum, Formula degrees) {
+			LegoNxtMotorTurnAngleBrick.Motor motorEnum, Formula degrees) {
 		LegoNxtMotorTurnAngleAction action = action(LegoNxtMotorTurnAngleAction.class);
 		action.setMotorEnum(motorEnum);
 		action.setSprite(sprite);
@@ -277,7 +278,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static SpeakAction speak(String text, SpeakBrick speakBrick) {
+	public static SpeakAction speak(String text) {
 		SpeakAction action = action(SpeakAction.class);
 		action.setText(text);
 		return action;
@@ -302,7 +303,6 @@ public class ExtendedActions extends Actions {
 	}
 
 	public static Action changeVariable(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
-
 		ChangeVariableAction action = action(ChangeVariableAction.class);
 		action.setSprite(sprite);
 		action.setChangeVariable(variableFormula);
@@ -319,7 +319,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static IfLogicAction ifLogc(Sprite sprite, Formula condition, Action ifAction, Action elseAction) {
+	public static IfLogicAction ifLogic(Sprite sprite, Formula condition, Action ifAction, Action elseAction) {
 		IfLogicAction action = action(IfLogicAction.class);
 		action.setIfAction(ifAction);
 		action.setIfCondition(condition);
@@ -343,7 +343,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static Action forever(Sprite sprite, SequenceAction foreverSequence) {
+	public static RepeatAction forever(Sprite sprite, SequenceAction foreverSequence) {
 		RepeatAction action = action(RepeatAction.class);
 		action.setIsForeverRepeat(true);
 		action.setAction(foreverSequence);

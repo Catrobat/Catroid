@@ -33,8 +33,8 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -43,46 +43,41 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
-public class GlideToBrick extends BrickBaseType implements OnClickListener, FormulaBrick {
+public class GlideToBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-
-	private Formula xDestination;
-	private Formula yDestination;
-	private Formula durationInSeconds;
 
 	private transient View prototypeView;
 
 	public GlideToBrick() {
-
+		addAllowedBrickField(BrickField.X_DESTINATION);
+		addAllowedBrickField(BrickField.Y_DESTINATION);
+		addAllowedBrickField(BrickField.DURATION_IN_SECONDS);
 	}
 
-	public GlideToBrick(Sprite sprite, int xDestinationValue, int yDestinationValue, int durationInMilliSecondsValue) {
-		this.sprite = sprite;
-
-		xDestination = new Formula(xDestinationValue);
-		yDestination = new Formula(yDestinationValue);
-		durationInSeconds = new Formula(durationInMilliSecondsValue / 1000.0);
+	public GlideToBrick(int xDestinationValue, int yDestinationValue, int durationInMilliSecondsValue) {
+		initializeBrickFields(new Formula(xDestinationValue), new Formula(yDestinationValue), new Formula(
+				durationInMilliSecondsValue / 1000.0));
 	}
 
-	public GlideToBrick(Sprite sprite, Formula xDestination, Formula yDestination, Formula durationInSeconds) {
-		this.sprite = sprite;
-
-		this.xDestination = xDestination;
-		this.yDestination = yDestination;
-		this.durationInSeconds = durationInSeconds;
+	public GlideToBrick(Formula xDestination, Formula yDestination, Formula durationInSeconds) {
+		initializeBrickFields(xDestination, yDestination, durationInSeconds);
 	}
 
-	@Override
-	public Formula getFormula() {
-		return durationInSeconds;
+	private void initializeBrickFields(Formula xDestination, Formula yDestination, Formula durationInSeconds) {
+		addAllowedBrickField(BrickField.X_DESTINATION);
+		addAllowedBrickField(BrickField.Y_DESTINATION);
+		addAllowedBrickField(BrickField.DURATION_IN_SECONDS);
+		setFormulaWithBrickField(BrickField.X_DESTINATION, xDestination);
+		setFormulaWithBrickField(BrickField.Y_DESTINATION, yDestination);
+		setFormulaWithBrickField(BrickField.DURATION_IN_SECONDS, durationInSeconds);
 	}
 
 	public void setXDestination(Formula xDestination) {
-		this.xDestination = xDestination;
+		setFormulaWithBrickField(BrickField.X_DESTINATION, xDestination);
 	}
 
 	public void setYDestination(Formula yDestination) {
-		this.yDestination = yDestination;
+		setFormulaWithBrickField(BrickField.Y_DESTINATION, yDestination);
 	}
 
 	@Override
@@ -90,15 +85,8 @@ public class GlideToBrick extends BrickBaseType implements OnClickListener, Form
 		return NO_RESOURCES;
 	}
 
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		GlideToBrick copyBrick = (GlideToBrick) clone();
-		copyBrick.sprite = sprite;
-		return copyBrick;
-	}
-
 	public int getDurationInMilliSeconds() {
-		return durationInSeconds.interpretInteger(sprite);
+		return getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS).interpretInteger(ProjectManager.getInstance().getCurrentSprite());
 	}
 
 	@Override
@@ -122,25 +110,28 @@ public class GlideToBrick extends BrickBaseType implements OnClickListener, Form
 
 		TextView textX = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_x);
 		TextView editX = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_x);
-		xDestination.setTextFieldId(R.id.brick_glide_to_edit_text_x);
-		xDestination.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.X_DESTINATION).setTextFieldId(R.id.brick_glide_to_edit_text_x);
+		getFormulaWithBrickField(BrickField.X_DESTINATION).refreshTextField(view);
 		editX.setOnClickListener(this);
 
 		TextView textY = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_y);
 		TextView editY = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_y);
-		yDestination.setTextFieldId(R.id.brick_glide_to_edit_text_y);
-		yDestination.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.Y_DESTINATION).setTextFieldId(R.id.brick_glide_to_edit_text_y);
+		getFormulaWithBrickField(BrickField.Y_DESTINATION).refreshTextField(view);
 		editY.setOnClickListener(this);
 
 		TextView textDuration = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
 		TextView editDuration = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_duration);
-		durationInSeconds.setTextFieldId(R.id.brick_glide_to_edit_text_duration);
-		durationInSeconds.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS).setTextFieldId(R.id.brick_glide_to_edit_text_duration);
+		getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS).refreshTextField(view);
 
 		TextView times = (TextView) view.findViewById(R.id.brick_glide_to_seconds_text_view);
-		if (durationInSeconds.isSingleNumberFormula()) {
-			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
-					Utils.convertDoubleToPluralInteger(durationInSeconds.interpretDouble(sprite))));
+		if (getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS).isSingleNumberFormula()) {
+			times.setText(view.getResources().getQuantityString(
+					R.plurals.second_plural,
+					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)
+							.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))
+			));
 		} else {
 
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -164,20 +155,23 @@ public class GlideToBrick extends BrickBaseType implements OnClickListener, Form
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_glide_to, null);
 		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_x);
-		textX.setText(String.valueOf(xDestination.interpretInteger(sprite)));
+		textX.setText(String.valueOf(getFormulaWithBrickField(BrickField.X_DESTINATION).interpretInteger(
+				ProjectManager.getInstance().getCurrentSprite())));
 		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_y);
-		textY.setText(String.valueOf(yDestination.interpretInteger(sprite)));
+		textY.setText(String.valueOf(getFormulaWithBrickField(BrickField.Y_DESTINATION).interpretInteger(
+				ProjectManager.getInstance().getCurrentSprite()
+		)));
 		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
-		textDuration.setText(String.valueOf(durationInSeconds.interpretDouble(sprite)));
+		textDuration.setText(String.valueOf(getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS).interpretDouble(
+				ProjectManager.getInstance().getCurrentSprite()
+		)));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_glide_to_seconds_text_view);
-		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
-				Utils.convertDoubleToPluralInteger(durationInSeconds.interpretDouble(sprite))));
+		times.setText(context.getResources().getQuantityString(
+				R.plurals.second_plural,
+				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)
+						.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))
+		));
 		return prototypeView;
-	}
-
-	@Override
-	public Brick clone() {
-		return new GlideToBrick(getSprite(), xDestination.clone(), yDestination.clone(), durationInSeconds.clone());
 	}
 
 	@Override
@@ -222,23 +216,26 @@ public class GlideToBrick extends BrickBaseType implements OnClickListener, Form
 		}
 		switch (view.getId()) {
 			case R.id.brick_glide_to_edit_text_x:
-				FormulaEditorFragment.showFragment(view, this, xDestination);
+				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.X_DESTINATION));
 				break;
 
 			case R.id.brick_glide_to_edit_text_y:
-				FormulaEditorFragment.showFragment(view, this, yDestination);
+				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.Y_DESTINATION));
 				break;
 
 			case R.id.brick_glide_to_edit_text_duration:
-				FormulaEditorFragment.showFragment(view, this, durationInSeconds);
+				FormulaEditorFragment
+						.showFragment(view, this, getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS));
 				break;
 		}
 
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.glideTo(sprite, xDestination, yDestination, durationInSeconds));
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.glideTo(sprite, getFormulaWithBrickField(BrickField.X_DESTINATION),
+				getFormulaWithBrickField(BrickField.Y_DESTINATION),
+				getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)));
 		return null;
 	}
 }

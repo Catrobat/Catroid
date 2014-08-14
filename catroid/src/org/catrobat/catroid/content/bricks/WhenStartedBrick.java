@@ -41,9 +41,8 @@ public class WhenStartedBrick extends ScriptBrick {
 
 	private Script script;
 
-	public WhenStartedBrick(Sprite sprite, Script script) {
+	public WhenStartedBrick(Script script) {
 		this.script = script;
-		this.sprite = sprite;
 	}
 
 	public WhenStartedBrick() {
@@ -56,9 +55,8 @@ public class WhenStartedBrick extends ScriptBrick {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		WhenStartedBrick copyBrick = (WhenStartedBrick) clone();
-		copyBrick.sprite = sprite;
 		copyBrick.script = script;
 		return copyBrick;
 	}
@@ -101,13 +99,13 @@ public class WhenStartedBrick extends ScriptBrick {
 
 	@Override
 	public Brick clone() {
-		return new WhenStartedBrick(getSprite(), null);
+		return new WhenStartedBrick(null);
 	}
 
 	@Override
-	public Script initScript(Sprite sprite) {
+	public Script initScript() {
 		if (script == null) {
-			script = new StartScript(sprite);
+			script = new StartScript();
 		}
 
 		return script;
@@ -129,7 +127,7 @@ public class WhenStartedBrick extends ScriptBrick {
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		return null;
 
 	}

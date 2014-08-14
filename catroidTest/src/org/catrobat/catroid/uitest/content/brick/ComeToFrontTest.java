@@ -76,9 +76,9 @@ public class ComeToFrontTest extends BaseActivityInstrumentationTestCase<ScriptA
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
+		Script script = new StartScript();
 		ProjectManager.getInstance().setProject(project);
-		script.addBrick(new ComeToFrontBrick(sprite));
+		script.addBrick(new ComeToFrontBrick());
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

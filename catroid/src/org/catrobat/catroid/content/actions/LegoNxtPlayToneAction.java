@@ -49,7 +49,6 @@ public class LegoNxtPlayToneAction extends TemporalAction {
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
-
 	}
 
 }

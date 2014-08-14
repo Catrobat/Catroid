@@ -67,10 +67,10 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		project = new Project(null, projectName);
 		firstSprite = new Sprite("firstSprite");
 		secondSprite = new Sprite("secondSprite");
-		Script startScript1 = new StartScript(firstSprite);
-		Script startScript2 = new StartScript(secondSprite);
-		changeBrick = new ChangeSizeByNBrick(firstSprite, 0);
-		glideToBrick = new GlideToBrick(secondSprite, 0, 0, 0);
+		Script startScript1 = new StartScript();
+		Script startScript2 = new StartScript();
+		changeBrick = new ChangeSizeByNBrick(0);
+		glideToBrick = new GlideToBrick(0, 0, 0);
 
 		firstSprite.addScript(startScript1);
 		secondSprite.addScript(startScript2);

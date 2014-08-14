@@ -37,7 +37,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
@@ -80,7 +79,7 @@ public class TurnLeftBrickTest extends BaseActivityInstrumentationTestCase<Scrip
 
 		UiTestUtils.insertValueViaFormulaEditor(solo, R.id.brick_turn_left_edit_text, turnDegrees);
 
-		Formula actualDegrees = (Formula) Reflection.getPrivateField(turnLeftBrick, "degrees");
+		Formula actualDegrees = turnLeftBrick.getFormulaWithBrickField(Brick.BrickField.TURN_LEFT_DEGREES);
 		assertEquals("Wrong text in field", turnDegrees, actualDegrees.interpretDouble(null));
 		assertEquals(
 				"Text not updated",
@@ -95,8 +94,8 @@ public class TurnLeftBrickTest extends BaseActivityInstrumentationTestCase<Scrip
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		turnLeftBrick = new TurnLeftBrick(sprite, 0);
+		Script script = new StartScript();
+		turnLeftBrick = new TurnLeftBrick(0);
 		script.addBrick(turnLeftBrick);
 
 		sprite.addScript(script);

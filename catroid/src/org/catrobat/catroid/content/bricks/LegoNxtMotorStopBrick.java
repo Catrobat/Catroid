@@ -38,7 +38,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
@@ -46,14 +45,18 @@ import java.util.List;
 
 public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
+	private transient Motor motorEnum;
+	private String motor;
+	private transient AdapterView<?> adapterView;
 
 	public static enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C, ALL_MOTORS
 	}
 
-	private transient Motor motorEnum;
-	private String motor;
-	private transient AdapterView<?> adapterView;
+	public LegoNxtMotorStopBrick(Motor motor) {
+		this.motorEnum = motor;
+		this.motor = motorEnum.name();
+	}
 
 	protected Object readResolve() {
 		if (motor != null) {
@@ -62,21 +65,14 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 		return this;
 	}
 
-	public LegoNxtMotorStopBrick(Sprite sprite, Motor motor) {
-		this.sprite = sprite;
-		this.motorEnum = motor;
-		this.motor = motorEnum.name();
-	}
-
 	@Override
 	public int getRequiredResources() {
 		return BLUETOOTH_LEGO_NXT;
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		LegoNxtMotorStopBrick copyBrick = (LegoNxtMotorStopBrick) clone();
-		copyBrick.sprite = sprite;
 		return copyBrick;
 	}
 
@@ -98,7 +94,7 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 
 	@Override
 	public Brick clone() {
-		return new LegoNxtMotorStopBrick(getSprite(), motorEnum);
+		return new LegoNxtMotorStopBrick(motorEnum);
 	}
 
 	@Override
@@ -179,8 +175,9 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.legoNxtMotorStop(motorEnum));
 		return null;
 	}
+
 }

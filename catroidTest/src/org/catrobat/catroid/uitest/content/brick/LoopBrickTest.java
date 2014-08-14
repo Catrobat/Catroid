@@ -178,9 +178,8 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		UiTestUtils.dragFloatingBrick(solo, 1.25f);
 
 		assertEquals("Incorrect number of bricks.", 8, projectBrickList.size());
-		assertTrue(
-				"Wrong Brick instance. expected 4=ChangeBrightnessByNBrick, bricklist: " + projectBrickList.toString(),
-				projectBrickList.get(4) instanceof ChangeBrightnessByNBrick);
+		assertTrue("Wrong Brick instance. expected 4=ChangeBrightnessByNBrick, bricklist: " +
+						projectBrickList.toString(), projectBrickList.get(4) instanceof ChangeBrightnessByNBrick);
 
 	}
 
@@ -394,22 +393,21 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 	}
 
 	private void createProject() {
-		LoopBeginBrick beginBrick;
 		LoopEndBrick endBrick;
 
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
+		Script script = new StartScript();
 
-		beginBrick = new RepeatBrick(sprite, 3);
-		endBrick = new LoopEndBrick(sprite, beginBrick);
+		RepeatBrick repeatBrick = new RepeatBrick(3);
+		endBrick = new LoopEndBrick(repeatBrick);
 
-		script.addBrick(beginBrick);
-		script.addBrick(new ChangeYByNBrick(sprite, -10));
+		script.addBrick(repeatBrick);
+		script.addBrick(new ChangeYByNBrick(-10));
 		script.addBrick(endBrick);
 
 		sprite.addScript(script);
-		sprite.addScript(new StartScript(sprite));
+		sprite.addScript(new StartScript());
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);

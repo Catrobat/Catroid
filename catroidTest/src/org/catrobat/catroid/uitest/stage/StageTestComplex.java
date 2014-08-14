@@ -197,7 +197,7 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 
 		// yellow Sprite
 		Sprite yellowSprite = new Sprite("yellowSprite");
-		StartScript yellowStartScript = new StartScript(yellowSprite);
+		StartScript yellowStartScript = new StartScript();
 		LookData yellowLookData = new LookData();
 		String yellowImageName = "yellow_image.bmp";
 
@@ -205,19 +205,19 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 
 		yellowSprite.getLookDataList().add(yellowLookData);
 
-		yellowStartScript.addBrick(new PlaceAtBrick(yellowSprite, -21, 21));
+		yellowStartScript.addBrick(new PlaceAtBrick(-21, 21));
 
 		yellowSprite.addScript(yellowStartScript);
 
-		WhenScript yellowWhenScript = new WhenScript(yellowSprite);
-		SetGhostEffectBrick yellowSetGhostEffectBrick = new SetGhostEffectBrick(yellowSprite, 100d);
+		WhenScript yellowWhenScript = new WhenScript();
+		SetGhostEffectBrick yellowSetGhostEffectBrick = new SetGhostEffectBrick(100d);
 		yellowWhenScript.addBrick(yellowSetGhostEffectBrick);
 
 		yellowSprite.addScript(yellowWhenScript);
 
 		// blue Sprite
 		Sprite blueSprite = new Sprite("blueSprite");
-		StartScript blueStartScript = new StartScript(blueSprite);
+		StartScript blueStartScript = new StartScript();
 		LookData blueLookData = new LookData();
 		String blueImageName = "blue_image.bmp";
 
@@ -225,19 +225,19 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 
 		blueSprite.getLookDataList().add(blueLookData);
 
-		blueStartScript.addBrick(new PlaceAtBrick(blueSprite, 21, 21));
+		blueStartScript.addBrick(new PlaceAtBrick(21, 21));
 
 		blueSprite.addScript(blueStartScript);
 
-		WhenScript blueWhenScript = new WhenScript(blueSprite);
-		SetSizeToBrick blueSetSizeToBrick = new SetSizeToBrick(blueSprite, 200d);
+		WhenScript blueWhenScript = new WhenScript();
+		SetSizeToBrick blueSetSizeToBrick = new SetSizeToBrick(200d);
 		blueWhenScript.addBrick(blueSetSizeToBrick);
 
 		blueSprite.addScript(blueWhenScript);
 
 		// green Sprite
 		Sprite greenSprite = new Sprite("greenSprite");
-		StartScript greenStartScript = new StartScript(greenSprite);
+		StartScript greenStartScript = new StartScript();
 		LookData greenLookData = new LookData();
 		String greenImageName = "green_image.bmp";
 
@@ -245,19 +245,19 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 
 		greenSprite.getLookDataList().add(greenLookData);
 
-		greenStartScript.addBrick(new PlaceAtBrick(greenSprite, 21, -21));
+		greenStartScript.addBrick(new PlaceAtBrick(21, -21));
 
 		greenSprite.addScript(greenStartScript);
 
-		WhenScript greenWhenScript = new WhenScript(greenSprite);
-		ComeToFrontBrick greenComeToFrontBrick = new ComeToFrontBrick(greenSprite);
+		WhenScript greenWhenScript = new WhenScript();
+		ComeToFrontBrick greenComeToFrontBrick = new ComeToFrontBrick();
 		greenWhenScript.addBrick(greenComeToFrontBrick);
 
 		greenSprite.addScript(greenWhenScript);
 
 		// red Sprite
 		Sprite redSprite = new Sprite("redSprite");
-		StartScript redStartScript = new StartScript(redSprite);
+		StartScript redStartScript = new StartScript();
 		LookData redLookData = new LookData();
 		String redImageName = "red_image.bmp";
 
@@ -265,14 +265,14 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 
 		redSprite.getLookDataList().add(redLookData);
 
-		redStartScript.addBrick(new PlaceAtBrick(redSprite, -21, -21));
+		redStartScript.addBrick(new PlaceAtBrick(-21, -21));
 
 		redSprite.addScript(redStartScript);
 
-		WhenScript redWhenScript = new WhenScript(redSprite);
-		ComeToFrontBrick redComeToFrontBrick = new ComeToFrontBrick(redSprite);
-		SetBrightnessBrick redSetBrightnessBrick = new SetBrightnessBrick(redSprite, 50d);
-		TurnLeftBrick redTurnLeftBrick = new TurnLeftBrick(redSprite, 45d);
+		WhenScript redWhenScript = new WhenScript();
+		ComeToFrontBrick redComeToFrontBrick = new ComeToFrontBrick();
+		SetBrightnessBrick redSetBrightnessBrick = new SetBrightnessBrick(50d);
+		TurnLeftBrick redTurnLeftBrick = new TurnLeftBrick(45d);
 		redWhenScript.addBrick(redComeToFrontBrick);
 		redWhenScript.addBrick(redSetBrightnessBrick);
 		redWhenScript.addBrick(redTurnLeftBrick);
@@ -281,7 +281,7 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 
 		// black Sprite
 		Sprite blackSprite = new Sprite("blackSprite");
-		StartScript blackStartScript = new StartScript(blackSprite);
+		StartScript blackStartScript = new StartScript();
 		LookData blackLookData = new LookData();
 		String blackImageName = "black_image.bmp";
 
@@ -289,13 +289,13 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 
 		blackSprite.getLookDataList().add(blackLookData);
 
-		blackStartScript.addBrick(new PlaceAtBrick(blackSprite, -50, 50));
+		blackStartScript.addBrick(new PlaceAtBrick(-50, 50));
 
 		blackSprite.addScript(blackStartScript);
 
-		WhenScript blackWhenScript = new WhenScript(blackSprite);
-		ComeToFrontBrick blackComeToFrontBrick = new ComeToFrontBrick(blackSprite);
-		SetBrightnessBrick blackSetBrightnessBrick = new SetBrightnessBrick(blackSprite, 150d);
+		WhenScript blackWhenScript = new WhenScript();
+		ComeToFrontBrick blackComeToFrontBrick = new ComeToFrontBrick();
+		SetBrightnessBrick blackSetBrightnessBrick = new SetBrightnessBrick(150d);
 		blackWhenScript.addBrick(blackComeToFrontBrick);
 		blackWhenScript.addBrick(blackSetBrightnessBrick);
 

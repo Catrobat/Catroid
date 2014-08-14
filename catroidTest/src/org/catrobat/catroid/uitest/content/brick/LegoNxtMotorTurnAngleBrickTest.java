@@ -77,7 +77,8 @@ public class LegoNxtMotorTurnAngleBrickTest extends BaseActivityInstrumentationT
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.motor_angle)));
 		assertTrue("Unit missing for angle!", solo.searchText("°"));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.motor_turn_angle_edit_text, SET_ANGLE, "degrees", motorBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.motor_turn_angle_edit_text, SET_ANGLE, Brick.BrickField.LEGO_NXT_DEGREES, motorBrick);
 
 		String[] array = getActivity().getResources().getStringArray(R.array.nxt_motor_chooser);
 		assertTrue("Spinner items list too short!", array.length == 4);
@@ -98,10 +99,10 @@ public class LegoNxtMotorTurnAngleBrickTest extends BaseActivityInstrumentationT
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
+		Script script = new StartScript();
 
 		int setAngleInitially = 90;
-		motorBrick = new LegoNxtMotorTurnAngleBrick(sprite, LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, setAngleInitially);
+		motorBrick = new LegoNxtMotorTurnAngleBrick(LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, setAngleInitially);
 
 		script.addBrick(motorBrick);
 		sprite.addScript(script);

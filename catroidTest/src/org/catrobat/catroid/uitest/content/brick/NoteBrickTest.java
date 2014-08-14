@@ -89,8 +89,8 @@ public class NoteBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		noteBrick = new NoteBrick(sprite);
+		Script script = new StartScript();
+		noteBrick = new NoteBrick();
 		script.addBrick(noteBrick);
 
 		sprite.addScript(script);

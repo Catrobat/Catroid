@@ -36,21 +36,19 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBrick {
+public class LoopEndBrick extends BrickBaseType implements NestingBrick, AllowedAfterDeadEndBrick {
 	static final int FOREVER = -1;
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = LoopEndBrick.class.getSimpleName();
-	private LoopBeginBrick loopBeginBrick;
+	private transient LoopBeginBrick loopBeginBrick;
 
-	public LoopEndBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
-		this.sprite = sprite;
+	public LoopEndBrick(LoopBeginBrick loopStartingBrick) {
 		this.loopBeginBrick = loopStartingBrick;
 		loopStartingBrick.setLoopEndBrick(this);
 	}
@@ -65,11 +63,9 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		LoopEndBrick copyBrick = (LoopEndBrick) clone();
 		loopBeginBrick.setLoopEndBrick(this);
-
-		copyBrick.sprite = sprite;
 		return copyBrick;
 	}
 
@@ -134,7 +130,7 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 
 	@Override
 	public Brick clone() {
-		return new LoopEndBrick(getSprite(), getLoopBeginBrick());
+		return new LoopEndBrick(getLoopBeginBrick());
 	}
 
 	@Override
@@ -144,25 +140,17 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 
 	@Override
 	public boolean isDraggableOver(Brick brick) {
-		if (brick == loopBeginBrick) {
-			return false;
-		} else {
-			return true;
-		}
+		return (loopBeginBrick != null);
 	}
 
 	@Override
 	public boolean isInitialized() {
-		if (loopBeginBrick == null) {
-			return false;
-		} else {
-			return true;
-		}
+		return (loopBeginBrick != null);
 	}
 
 	@Override
 	public void initialize() {
-		loopBeginBrick = new ForeverBrick(sprite);
+		loopBeginBrick = new ForeverBrick();
 		Log.w(TAG, "Not supposed to create the LoopBeginBrick!");
 	}
 
@@ -186,7 +174,7 @@ public class LoopEndBrick extends NestingBrick implements AllowedAfterDeadEndBri
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
 		returnActionList.add(sequence);
 		return returnActionList;

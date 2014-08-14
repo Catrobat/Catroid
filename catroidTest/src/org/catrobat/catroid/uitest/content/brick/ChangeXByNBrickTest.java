@@ -74,15 +74,15 @@ public class ChangeXByNBrickTest extends BaseActivityInstrumentationTestCase<Scr
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_change_x_by)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_change_x_edit_text, X_TO_CHANGE, "xMovement",
-				changeXByNBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_change_x_edit_text, X_TO_CHANGE, Brick.BrickField.X_POSITION_CHANGE, changeXByNBrick);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		changeXByNBrick = new ChangeXByNBrick(sprite, 0);
+		Script script = new StartScript();
+		changeXByNBrick = new ChangeXByNBrick(0);
 		script.addBrick(changeXByNBrick);
 
 		sprite.addScript(script);

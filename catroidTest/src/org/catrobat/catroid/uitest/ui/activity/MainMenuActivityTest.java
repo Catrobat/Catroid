@@ -378,13 +378,13 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		Sprite secondSprite = new Sprite("dog");
 		Sprite thirdSprite = new Sprite("horse");
 		Sprite fourthSprite = new Sprite("pig");
-		Script testScript = new StartScript(firstSprite);
-		Script otherScript = new StartScript(secondSprite);
-		HideBrick hideBrick = new HideBrick(firstSprite);
-		ShowBrick showBrick = new ShowBrick(firstSprite);
-		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(secondSprite, size);
-		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
-		PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);
+		Script testScript = new StartScript();
+		Script otherScript = new StartScript();
+		HideBrick hideBrick = new HideBrick();
+		ShowBrick showBrick = new ShowBrick();
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(size);
+		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick();
+		PlaceAtBrick placeAtBrick = new PlaceAtBrick(xPosition, yPosition);
 
 		// adding Bricks: ----------------
 		testScript.addBrick(hideBrick);
@@ -438,9 +438,9 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		Sprite backgroundSprite = standardProject.getSpriteList().get(0);
 		Script startingScript = backgroundSprite.getScript(0);
 		assertEquals("Number of bricks in background sprite was wrong", 3, backgroundSprite.getNumberOfBricks());
-		startingScript.addBrick(new SetLookBrick(backgroundSprite));
-		startingScript.addBrick(new SetLookBrick(backgroundSprite));
-		startingScript.addBrick(new SetLookBrick(backgroundSprite));
+		startingScript.addBrick(new SetLookBrick());
+		startingScript.addBrick(new SetLookBrick());
+		startingScript.addBrick(new SetLookBrick());
 		assertEquals("Number of bricks in background sprite was wrong", 6, backgroundSprite.getNumberOfBricks());
 		ProjectManager.getInstance().setCurrentSprite(backgroundSprite);
 		ProjectManager.getInstance().setCurrentScript(startingScript);

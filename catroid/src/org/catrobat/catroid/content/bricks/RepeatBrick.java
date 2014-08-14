@@ -32,6 +32,7 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -39,23 +40,35 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RepeatBrick extends LoopBeginBrick implements OnClickListener, FormulaBrick {
+public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private Formula timesToRepeat;
 
 	private transient View prototypeView;
 
-	public RepeatBrick(Sprite sprite, int timesToRepeatValue) {
-		this.sprite = sprite;
-		timesToRepeat = new Formula(timesToRepeatValue);
+	protected transient LoopEndBrick loopEndBrick;
+	private transient long beginLoopTime;
+
+	private transient LoopBeginBrick copy;
+
+	public RepeatBrick() {
+		addAllowedBrickField(BrickField.TIMES_TO_REPEAT);
 	}
 
-	public RepeatBrick(Sprite sprite, Formula timesToRepeat) {
-		this.sprite = sprite;
-		this.timesToRepeat = timesToRepeat;
+	public RepeatBrick(int timesToRepeatValue) {
+		initializeBrickFields(new Formula(timesToRepeatValue));
+	}
+
+	public RepeatBrick(Formula timesToRepeat) {
+		initializeBrickFields(timesToRepeat);
+	}
+
+	private void initializeBrickFields(Formula timesToRepeat) {
+		addAllowedBrickField(BrickField.TIMES_TO_REPEAT);
+		setFormulaWithBrickField(BrickField.TIMES_TO_REPEAT, timesToRepeat);
 	}
 
 	@Override
@@ -63,18 +76,9 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener, Form
 		return NO_RESOURCES;
 	}
 
-	public RepeatBrick() {
-
-	}
-
 	@Override
-	public Formula getFormula() {
-		return timesToRepeat;
-	}
-
-	@Override
-	public Brick clone() {
-		return new RepeatBrick(sprite, timesToRepeat.clone());
+	public Brick clone()  {
+		return new RepeatBrick(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).clone());
 	}
 
 	@Override
@@ -104,14 +108,17 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener, Form
 
 		TextView text = (TextView) view.findViewById(R.id.brick_repeat_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_repeat_edit_text);
-		timesToRepeat.setTextFieldId(R.id.brick_repeat_edit_text);
-		timesToRepeat.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).setTextFieldId(R.id.brick_repeat_edit_text);
+		getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).refreshTextField(view);
 
 		TextView times = (TextView) view.findViewById(R.id.brick_repeat_time_text_view);
 
-		if (timesToRepeat.isSingleNumberFormula()) {
-			times.setText(view.getResources().getQuantityString(R.plurals.time_plural,
-					Utils.convertDoubleToPluralInteger(timesToRepeat.interpretDouble(sprite))));
+		if (getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).isSingleNumberFormula()) {
+			times.setText(view.getResources().getQuantityString(
+					R.plurals.time_plural,
+					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT)
+							.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))
+			));
 		} else {
 
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -131,10 +138,15 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener, Form
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_repeat, null);
 		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_prototype_text_view);
-		textRepeat.setText(String.valueOf(timesToRepeat.interpretInteger(sprite)));
+		textRepeat.setText(String
+				.valueOf(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).interpretInteger(
+						ProjectManager.getInstance().getCurrentSprite())));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_repeat_time_text_view);
-		times.setText(context.getResources().getQuantityString(R.plurals.time_plural,
-				Utils.convertDoubleToPluralInteger(timesToRepeat.interpretDouble(sprite))));
+		times.setText(context.getResources().getQuantityString(
+				R.plurals.time_plural,
+				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT)
+						.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))
+		));
 		return prototypeView;
 	}
 
@@ -167,16 +179,74 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener, Form
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		FormulaEditorFragment.showFragment(view, this, timesToRepeat);
+		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT));
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		SequenceAction repeatSequence = ExtendedActions.sequence();
-		Action action = ExtendedActions.repeat(sprite, timesToRepeat, repeatSequence);
+		Action action = ExtendedActions.repeat(sprite, getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT),
+				repeatSequence);
 		sequence.addAction(action);
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
 		returnActionList.add(repeatSequence);
 		return returnActionList;
+	}
+
+	@Override
+	public Brick copyBrickForSprite(Sprite sprite) {
+		//loopEndBrick will be set in the LoopEndBrick's copyBrickForSprite method
+		RepeatBrick copyBrick = (RepeatBrick) clone();
+		copy = copyBrick;
+		return copyBrick;
+	}
+
+	@Override
+	public long getBeginLoopTime() {
+		return beginLoopTime;
+	}
+
+	@Override
+	public void setBeginLoopTime(long beginLoopTime) {
+		this.beginLoopTime = beginLoopTime;
+	}
+
+	@Override
+	public LoopEndBrick getLoopEndBrick() {
+		return loopEndBrick;
+	}
+
+	@Override
+	public void setLoopEndBrick(LoopEndBrick loopEndBrick) {
+		this.loopEndBrick = loopEndBrick;
+	}
+
+	@Override
+	public LoopBeginBrick getCopy() {
+		return copy;
+	}
+
+	@Override
+	public boolean isInitialized() {
+		return (loopEndBrick != null);
+	}
+
+	@Override
+	public void initialize() {
+		loopEndBrick = new LoopEndBrick(this);
+	}
+
+	@Override
+	public boolean isDraggableOver(Brick brick) {
+		return (loopEndBrick != null);
+	}
+
+	@Override
+	public List<NestingBrick> getAllNestingBrickParts(boolean sorted) {
+		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
+		nestingBrickList.add(this);
+		nestingBrickList.add(loopEndBrick);
+
+		return nestingBrickList;
 	}
 }

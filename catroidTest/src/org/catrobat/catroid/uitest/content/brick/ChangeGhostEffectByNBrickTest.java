@@ -75,16 +75,17 @@ public class ChangeGhostEffectByNBrickTest extends BaseActivityInstrumentationTe
 		assertTrue("Wrong Brick instance.", adapter.getChild(groupCount - 1, 0) instanceof ChangeGhostEffectByNBrick);
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_change_ghost_effect)));
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_change_ghost_effect_edit_text, EFFECT_TO_CHANGE,
-				"changeGhostEffect", changeGhostEffectByNBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_change_ghost_effect_edit_text, EFFECT_TO_CHANGE, Brick.BrickField.TRANSPARENCY_CHANGE,
+				changeGhostEffectByNBrick);
 
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		changeGhostEffectByNBrick = new ChangeGhostEffectByNBrick(sprite, 30.5);
+		Script script = new StartScript();
+		changeGhostEffectByNBrick = new ChangeGhostEffectByNBrick(30.5);
 		script.addBrick(changeGhostEffectByNBrick);
 
 		sprite.addScript(script);

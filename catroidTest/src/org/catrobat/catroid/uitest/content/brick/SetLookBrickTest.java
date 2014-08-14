@@ -235,9 +235,9 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		ProjectManager projectManager = ProjectManager.getInstance();
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
-		Script testScript = new StartScript(firstSprite);
+		Script testScript = new StartScript();
 
-		SetLookBrick setLookBrick = new SetLookBrick(firstSprite);
+		SetLookBrick setLookBrick = new SetLookBrick();
 		testScript.addBrick(setLookBrick);
 
 		firstSprite.addScript(testScript);

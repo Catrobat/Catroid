@@ -40,9 +40,8 @@ public class WhenBrick extends ScriptBrick {
 	protected WhenScript whenScript;
 	private static final long serialVersionUID = 1L;
 
-	public WhenBrick(Sprite sprite, WhenScript whenScript) {
+	public WhenBrick(WhenScript whenScript) {
 		this.whenScript = whenScript;
-		this.sprite = sprite;
 	}
 
 	public WhenBrick() {
@@ -55,10 +54,9 @@ public class WhenBrick extends ScriptBrick {
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		WhenBrick copyBrick = (WhenBrick) clone();
-		copyBrick.sprite = sprite;
-		copyBrick.whenScript = (WhenScript) script;
+		copyBrick.whenScript = whenScript;
 		return copyBrick;
 	}
 
@@ -153,20 +151,20 @@ public class WhenBrick extends ScriptBrick {
 
 	@Override
 	public Brick clone() {
-		return new WhenBrick(getSprite(), null);
+		return new WhenBrick(null);
 	}
 
 	@Override
-	public Script initScript(Sprite sprite) {
+	public Script initScript() {
 		if (whenScript == null) {
-			whenScript = new WhenScript(sprite);
+			whenScript = new WhenScript();
 		}
 
 		return whenScript;
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		return null;
 
 	}

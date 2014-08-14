@@ -36,15 +36,15 @@ public class BroadcastScript extends Script implements BroadcastMessage {
 	private static final long serialVersionUID = 1L;
 	private String receivedMessage;
 
-	public BroadcastScript(Sprite sprite, String broadcastMessage) {
-		super(sprite);
+	public BroadcastScript(String broadcastMessage) {
+		super();
 		setBroadcastMessage(broadcastMessage);
 	}
 
 	@Override
 	public ScriptBrick getScriptBrick() {
 		if (brick == null) {
-			brick = new BroadcastReceiverBrick(object, this);
+			brick = new BroadcastReceiverBrick(this);
 		}
 
 		return brick;
@@ -70,12 +70,12 @@ public class BroadcastScript extends Script implements BroadcastMessage {
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite copySprite) {
-		BroadcastScript cloneScript = new BroadcastScript(copySprite, receivedMessage);
+	public Script copyScriptForSprite(Sprite sprite) {
+		BroadcastScript cloneScript = new BroadcastScript(receivedMessage);
 		ArrayList<Brick> cloneBrickList = cloneScript.getBrickList();
 
 		for (Brick brick : getBrickList()) {
-			Brick copiedBrick = brick.copyBrickForSprite(copySprite, cloneScript);
+			Brick copiedBrick = brick.copyBrickForSprite(sprite);
 			if (copiedBrick instanceof IfLogicEndBrick) {
 				setIfBrickReferences((IfLogicEndBrick) copiedBrick, (IfLogicEndBrick) brick);
 			} else if (copiedBrick instanceof LoopEndBrick) {

@@ -37,7 +37,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -47,28 +46,29 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class IfLogicBeginBrick extends NestingBrick implements OnClickListener, FormulaBrick {
+public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = IfLogicBeginBrick.class.getSimpleName();
 	public static final int EXECUTE_ELSE_PART = -1;
-	private Formula ifCondition;
-	protected IfLogicElseBrick ifElseBrick;
-	protected IfLogicEndBrick ifEndBrick;
+	protected transient IfLogicElseBrick ifElseBrick;
+	protected transient IfLogicEndBrick ifEndBrick;
 	private transient IfLogicBeginBrick copy;
 
-	public IfLogicBeginBrick(Sprite sprite, int condition) {
-		this.sprite = sprite;
-		ifCondition = new Formula(condition);
+	public IfLogicBeginBrick() {
+		addAllowedBrickField(BrickField.IF_CONDITION);
 	}
 
-	public IfLogicBeginBrick(Sprite sprite, Formula condition) {
-		this.sprite = sprite;
-		ifCondition = condition;
+	public IfLogicBeginBrick(int condition) {
+		initializeBrickFields(new Formula(condition));
 	}
 
-	@Override
-	public Formula getFormula() {
-		return ifCondition;
+	public IfLogicBeginBrick(Formula condition) {
+		initializeBrickFields(condition);
+	}
+
+	private void initializeBrickFields(Formula ifCondition) {
+		addAllowedBrickField(BrickField.IF_CONDITION);
+		setFormulaWithBrickField(BrickField.IF_CONDITION, ifCondition);
 	}
 
 	@Override
@@ -98,7 +98,7 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener, 
 
 	@Override
 	public Brick clone() {
-		return new IfLogicBeginBrick(sprite, ifCondition.clone());
+		return new IfLogicBeginBrick(getFormulaWithBrickField(BrickField.IF_CONDITION).clone());
 	}
 
 	@Override
@@ -127,8 +127,8 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener, 
 		TextView prototypeTextView = (TextView) view.findViewById(R.id.brick_if_begin_prototype_text_view);
 		TextView ifBeginTextView = (TextView) view.findViewById(R.id.brick_if_begin_edit_text);
 
-		ifCondition.setTextFieldId(R.id.brick_if_begin_edit_text);
-		ifCondition.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.IF_CONDITION).setTextFieldId(R.id.brick_if_begin_edit_text);
+		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
 
 		prototypeTextView.setVisibility(View.GONE);
 		ifBeginTextView.setVisibility(View.VISIBLE);
@@ -175,7 +175,7 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener, 
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		FormulaEditorFragment.showFragment(view, this, ifCondition);
+		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.IF_CONDITION));
 	}
 
 	@Override
@@ -189,8 +189,8 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener, 
 
 	@Override
 	public void initialize() {
-		ifElseBrick = new IfLogicElseBrick(sprite, this);
-		ifEndBrick = new IfLogicEndBrick(sprite, ifElseBrick, this);
+		ifElseBrick = new IfLogicElseBrick(this);
+		ifEndBrick = new IfLogicEndBrick(ifElseBrick, this);
 		Log.w(TAG, "Creating if logic stuff");
 	}
 
@@ -220,10 +220,11 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener, 
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		SequenceAction ifAction = ExtendedActions.sequence();
 		SequenceAction elseAction = ExtendedActions.sequence();
-		Action action = ExtendedActions.ifLogc(sprite, ifCondition, ifAction, elseAction); //TODO finish!!!
+		Action action = ExtendedActions.ifLogic(sprite, getFormulaWithBrickField(BrickField.IF_CONDITION), ifAction,
+				elseAction); //TODO finish!!!
 		sequence.addAction(action);
 
 		LinkedList<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
@@ -234,12 +235,11 @@ public class IfLogicBeginBrick extends NestingBrick implements OnClickListener, 
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		//ifEndBrick and ifElseBrick will be set in the copyBrickForSprite method of IfLogicEndBrick
-		IfLogicBeginBrick copyBrick = (IfLogicBeginBrick) clone(); //Using the clone method because of its flexibility if new fields are added  
+		IfLogicBeginBrick copyBrick = (IfLogicBeginBrick) clone(); //Using the clone method because of its flexibility if new fields are added
 		copyBrick.ifElseBrick = null; //if the Formula gets a field sprite, a separate copy method will be needed
 		copyBrick.ifEndBrick = null;
-		copyBrick.sprite = sprite;
 		this.copy = copyBrick;
 		return copyBrick;
 	}

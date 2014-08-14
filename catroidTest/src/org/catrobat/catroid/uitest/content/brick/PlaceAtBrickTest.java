@@ -86,29 +86,29 @@ public class PlaceAtBrickTest extends BaseActivityInstrumentationTestCase<Script
 		int xPosition = 987;
 		int yPosition = 654;
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_place_at_edit_text_x, xPosition, "xPosition",
-				placeAtBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_place_at_edit_text_x, xPosition, Brick.BrickField.X_POSITION, placeAtBrick);
 		solo.sleep(200);
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_place_at_edit_text_y, yPosition, "yPosition",
-				placeAtBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_place_at_edit_text_y, yPosition, Brick.BrickField.Y_POSITION, placeAtBrick);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		script.addBrick(new HideBrick(sprite));
-		placeAtBrick = new PlaceAtBrick(sprite, 105, 206);
+		Script script = new StartScript();
+		script.addBrick(new HideBrick());
+		placeAtBrick = new PlaceAtBrick(105, 206);
 		script.addBrick(placeAtBrick);
-		PlaySoundBrick soundBrick = new PlaySoundBrick(sprite);
+		PlaySoundBrick soundBrick = new PlaySoundBrick();
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName("sound.mp3");
 		soundInfo.setTitle("sound.mp3");
 		soundBrick.setSoundInfo(soundInfo);
 		script.addBrick(soundBrick);
 
-		script.addBrick(new SetSizeToBrick(sprite, 80));
+		script.addBrick(new SetSizeToBrick(80));
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

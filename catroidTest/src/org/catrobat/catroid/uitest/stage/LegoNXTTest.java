@@ -276,28 +276,28 @@ public class LegoNXTTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 	private void createTestproject(String projectName) {
 		Sprite firstSprite = new Sprite(spriteName);
-		Script startScript = new StartScript(firstSprite);
-		Script whenScript = new WhenScript(firstSprite);
-		SetLookBrick setLookBrick = new SetLookBrick(firstSprite);
+		Script startScript = new StartScript();
+		Script whenScript = new WhenScript();
+		SetLookBrick setLookBrick = new SetLookBrick();
 
-		LegoNxtMotorActionBrick legoMotorActionBrick = new LegoNxtMotorActionBrick(firstSprite,
+		LegoNxtMotorActionBrick legoMotorActionBrick = new LegoNxtMotorActionBrick(
 				LegoNxtMotorActionBrick.Motor.MOTOR_A_C, 100);
 		commands.add(new int[] { MOTOR_ACTION, 0, 100 }); //motor = 3 means brick will move motors A and C.
 		commands.add(new int[] { MOTOR_ACTION, 2, 100 });
-		WaitBrick firstWaitBrick = new WaitBrick(firstSprite, 500);
+		WaitBrick firstWaitBrick = new WaitBrick(500);
 
-		LegoNxtMotorStopBrick legoMotorStopBrick = new LegoNxtMotorStopBrick(firstSprite,
+		LegoNxtMotorStopBrick legoMotorStopBrick = new LegoNxtMotorStopBrick(
 				LegoNxtMotorStopBrick.Motor.MOTOR_A_C);
 		commands.add(new int[] { MOTOR_STOP, 0 });
 		commands.add(new int[] { MOTOR_STOP, 2 });
-		WaitBrick secondWaitBrick = new WaitBrick(firstSprite, 500);
+		WaitBrick secondWaitBrick = new WaitBrick(500);
 
-		LegoNxtMotorTurnAngleBrick legoMotorTurnAngleBrick = new LegoNxtMotorTurnAngleBrick(firstSprite,
+		LegoNxtMotorTurnAngleBrick legoMotorTurnAngleBrick = new LegoNxtMotorTurnAngleBrick(
 				LegoNxtMotorTurnAngleBrick.Motor.MOTOR_C, 515);
 		commands.add(new int[] { MOTOR_TURN, 2, 515 });
 
-		WaitBrick thirdWaitBrick = new WaitBrick(firstSprite, 500);
-		LegoNxtPlayToneBrick legoPlayToneBrick = new LegoNxtPlayToneBrick(firstSprite, 5000, 1000);
+		WaitBrick thirdWaitBrick = new WaitBrick(500);
+		LegoNxtPlayToneBrick legoPlayToneBrick = new LegoNxtPlayToneBrick(5000, 1000);
 		//Tone does not return a command
 
 		whenScript.addBrick(legoMotorActionBrick);

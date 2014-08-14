@@ -137,10 +137,11 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			if (project.getCatrobatLanguageVersion() == 0.91f) {
 				project.setCatrobatLanguageVersion(0.92f);
 				project.setScreenMode(ScreenModes.STRETCH);
-				checkNestingBrickReferences();
+				checkNestingBrickReferences(false);
 			}
 			//insert further convertions here
 
+			checkNestingBrickReferences(true);
 			if (project.getCatrobatLanguageVersion() == Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
 				//project seems to be converted now and can be loaded
 				localizeBackgroundSprite(context);
@@ -387,7 +388,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	}
 
-	public void checkNestingBrickReferences() {
+	public void checkNestingBrickReferences(boolean assumeWrong) {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		if (currentProject != null) {
 			for (Sprite currentSprite : currentProject.getSpriteList()) {
@@ -395,61 +396,75 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				for (int pos = 0; pos < numberOfScripts; pos++) {
 					Script script = currentSprite.getScript(pos);
 					boolean scriptCorrect = true;
+					if (assumeWrong) {
+						scriptCorrect = false;
+					}
 					for (Brick currentBrick : script.getBrickList()) {
-						if (currentBrick instanceof IfLogicBeginBrick) {
-							IfLogicElseBrick elseBrick = ((IfLogicBeginBrick) currentBrick).getIfElseBrick();
-							IfLogicEndBrick endBrick = ((IfLogicBeginBrick) currentBrick).getIfEndBrick();
-							if (elseBrick == null || endBrick == null || elseBrick.getIfBeginBrick() == null
-									|| elseBrick.getIfEndBrick() == null || endBrick.getIfBeginBrick() == null
-									|| endBrick.getIfElseBrick() == null
-									|| !elseBrick.getIfBeginBrick().equals(currentBrick)
-									|| !elseBrick.getIfEndBrick().equals(endBrick)
-									|| !endBrick.getIfBeginBrick().equals(currentBrick)
-									|| !endBrick.getIfElseBrick().equals(elseBrick)) {
-								scriptCorrect = false;
-								Log.d("REFERENCE ERROR!!", "Brick has wrong reference:" + currentSprite + " "
-										+ currentBrick);
-							}
-						} else if (currentBrick instanceof LoopBeginBrick) {
-							LoopEndBrick endBrick = ((LoopBeginBrick) currentBrick).getLoopEndBrick();
-							if (endBrick == null || endBrick.getLoopBeginBrick() == null
-									|| !endBrick.getLoopBeginBrick().equals(currentBrick)) {
-								scriptCorrect = false;
-								Log.d("REFERENCE ERROR!!", "Brick has wrong reference:" + currentSprite + " "
-										+ currentBrick);
-							}
+						if (!scriptCorrect) {
+							continue;
 						}
+						scriptCorrect = checkReferencesOfCurrentBrick(currentBrick);
 					}
 					if (!scriptCorrect) {
-						//correct references
-						ArrayList<IfLogicBeginBrick> ifBeginList = new ArrayList<IfLogicBeginBrick>();
-						ArrayList<LoopBeginBrick> loopBeginList = new ArrayList<LoopBeginBrick>();
-						for (Brick currentBrick : script.getBrickList()) {
-							if (currentBrick instanceof IfLogicBeginBrick) {
-								ifBeginList.add((IfLogicBeginBrick) currentBrick);
-							} else if (currentBrick instanceof LoopBeginBrick) {
-								loopBeginList.add((LoopBeginBrick) currentBrick);
-							} else if (currentBrick instanceof LoopEndBrick) {
-								LoopBeginBrick loopBeginBrick = loopBeginList.get(loopBeginList.size() - 1);
-								loopBeginBrick.setLoopEndBrick((LoopEndBrick) currentBrick);
-								((LoopEndBrick) currentBrick).setLoopBeginBrick(loopBeginBrick);
-								loopBeginList.remove(loopBeginBrick);
-							} else if (currentBrick instanceof IfLogicElseBrick) {
-								IfLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
-								ifBeginBrick.setIfElseBrick((IfLogicElseBrick) currentBrick);
-								((IfLogicElseBrick) currentBrick).setIfBeginBrick(ifBeginBrick);
-							} else if (currentBrick instanceof IfLogicEndBrick) {
-								IfLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
-								IfLogicElseBrick elseBrick = ifBeginBrick.getIfElseBrick();
-								ifBeginBrick.setIfEndBrick((IfLogicEndBrick) currentBrick);
-								elseBrick.setIfEndBrick((IfLogicEndBrick) currentBrick);
-								((IfLogicEndBrick) currentBrick).setIfBeginBrick(ifBeginBrick);
-								((IfLogicEndBrick) currentBrick).setIfElseBrick(elseBrick);
-								ifBeginList.remove(ifBeginBrick);
-							}
-						}
+						correctAllNestedReferences(script);
 					}
 				}
+			}
+		}
+	}
+
+	private boolean checkReferencesOfCurrentBrick(Brick currentBrick) {
+		if (currentBrick instanceof IfLogicBeginBrick) {
+			IfLogicElseBrick elseBrick = ((IfLogicBeginBrick) currentBrick).getIfElseBrick();
+			IfLogicEndBrick endBrick = ((IfLogicBeginBrick) currentBrick).getIfEndBrick();
+			if (elseBrick == null || endBrick == null || elseBrick.getIfBeginBrick() == null
+					|| elseBrick.getIfEndBrick() == null || endBrick.getIfBeginBrick() == null
+					|| endBrick.getIfElseBrick() == null
+					|| !elseBrick.getIfBeginBrick().equals(currentBrick)
+					|| !elseBrick.getIfEndBrick().equals(endBrick)
+					|| !endBrick.getIfBeginBrick().equals(currentBrick)
+					|| !endBrick.getIfElseBrick().equals(elseBrick)) {
+				Log.d("REFERENCE ERROR!!", "Brick has wrong reference:" + currentSprite + " "
+						+ currentBrick);
+				return false;
+			}
+		} else if (currentBrick instanceof LoopBeginBrick) {
+			LoopEndBrick endBrick = ((LoopBeginBrick) currentBrick).getLoopEndBrick();
+			if (endBrick == null || endBrick.getLoopBeginBrick() == null
+					|| !endBrick.getLoopBeginBrick().equals(currentBrick)) {
+				Log.d("REFERENCE ERROR!!", "Brick has wrong reference:" + currentSprite + " "
+						+ currentBrick);
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private void correctAllNestedReferences(Script script) {
+		ArrayList<IfLogicBeginBrick> ifBeginList = new ArrayList<IfLogicBeginBrick>();
+		ArrayList<LoopBeginBrick> loopBeginList = new ArrayList<LoopBeginBrick>();
+		for (Brick currentBrick : script.getBrickList()) {
+			if (currentBrick instanceof IfLogicBeginBrick) {
+				ifBeginList.add((IfLogicBeginBrick) currentBrick);
+			} else if (currentBrick instanceof LoopBeginBrick) {
+				loopBeginList.add((LoopBeginBrick) currentBrick);
+			} else if (currentBrick instanceof LoopEndBrick) {
+				LoopBeginBrick loopBeginBrick = loopBeginList.get(loopBeginList.size() - 1);
+				loopBeginBrick.setLoopEndBrick((LoopEndBrick) currentBrick);
+				((LoopEndBrick) currentBrick).setLoopBeginBrick(loopBeginBrick);
+				loopBeginList.remove(loopBeginBrick);
+			} else if (currentBrick instanceof IfLogicElseBrick) {
+				IfLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
+				ifBeginBrick.setIfElseBrick((IfLogicElseBrick) currentBrick);
+				((IfLogicElseBrick) currentBrick).setIfBeginBrick(ifBeginBrick);
+			} else if (currentBrick instanceof IfLogicEndBrick) {
+				IfLogicBeginBrick ifBeginBrick = ifBeginList.get(ifBeginList.size() - 1);
+				IfLogicElseBrick elseBrick = ifBeginBrick.getIfElseBrick();
+				ifBeginBrick.setIfEndBrick((IfLogicEndBrick) currentBrick);
+				elseBrick.setIfEndBrick((IfLogicEndBrick) currentBrick);
+				((IfLogicEndBrick) currentBrick).setIfBeginBrick(ifBeginBrick);
+				((IfLogicEndBrick) currentBrick).setIfElseBrick(elseBrick);
+				ifBeginList.remove(ifBeginBrick);
 			}
 		}
 	}
