@@ -64,12 +64,13 @@ public class PhysicsObject {
 	private Shape[] shapes;
 	private Type type;
 	private float mass;
+	private float circumference;
 	private boolean ifOnEdgeBounce = false;
 
-	private Vector2 bodyAABBlower;
-	private Vector2 bodyAABBupper;
-	private Vector2 fixtureAABBlower;
-	private Vector2 fixtureAABBupper;
+	private Vector2 bodyAABBLowerLeft;
+	private Vector2 bodyAABBUpperRight;
+	private Vector2 fixtureAABBLowerLeft;
+	private Vector2 fixtureAABBUpperRight;
 	private Vector2 tmpVertice;
 
 	private Vector2 velocity = new Vector2();
@@ -114,6 +115,20 @@ public class PhysicsObject {
 		}
 
 		setMass(mass);
+		calculateCircumference();
+	}
+
+	private void calculateCircumference() {
+		if (body.getFixtureList().size() == 0) {
+			return;
+		}
+
+		calculateAABB();
+		float max1 = Math.max(getMassCenter().dst(fixtureAABBUpperRight), getMassCenter().dst(fixtureAABBLowerLeft));
+		Vector2 aabbLowerRight = new Vector2(fixtureAABBUpperRight.x, fixtureAABBLowerLeft.y);
+		Vector2 aaabbUpperLeft = new Vector2(fixtureAABBLowerLeft.x, fixtureAABBUpperRight.y);
+		float max2 = Math.max(getMassCenter().dst(aabbLowerRight), getMassCenter().dst(aaabbUpperLeft));
+		circumference = Math.max(max1, max2);
 	}
 
 	public Type getType() {
@@ -144,6 +159,7 @@ public class PhysicsObject {
 				break;
 		}
 		setCollisionBits(categoryMaskRecord, collisionMaskRecord);
+		calculateCircumference();
 	}
 
 	public float getDirection() {
@@ -160,6 +176,14 @@ public class PhysicsObject {
 
 	public float getY() {
 		return PhysicsWorldConverter.convertBox2dToNormalCoordinate(body.getPosition().y);
+	}
+
+	public Vector2 getMassCenter() {
+		return body.getWorldCenter();
+	}
+
+	public float getCircumference() {
+		return circumference;
 	}
 
 	public Vector2 getPosition() {
@@ -310,12 +334,12 @@ public class PhysicsObject {
 		}
 	}
 
-	public void getBoundaryBox(Vector2 lower, Vector2 upper) {
-		calcAABB();
-		lower.x = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBlower).x;
-		lower.y = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBlower).y;
-		upper.x = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBupper).x;
-		upper.y = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBupper).y;
+	public void getBoundaryBox(Vector2 lowerLeft, Vector2 upperRight) {
+		calculateAABB();
+		lowerLeft.x = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBLowerLeft).x;
+		lowerLeft.y = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBLowerLeft).y;
+		upperRight.x = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBUpperRight).x;
+		upperRight.y = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBUpperRight).y;
 	}
 
 	public void activateHangup() {
@@ -359,50 +383,50 @@ public class PhysicsObject {
 		}
 	}
 
-	private void calcAABB() {
-		bodyAABBlower = new Vector2(Integer.MAX_VALUE, Integer.MAX_VALUE);
-		bodyAABBupper = new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE);
+	private void calculateAABB() {
+		bodyAABBLowerLeft = new Vector2(Integer.MAX_VALUE, Integer.MAX_VALUE);
+		bodyAABBUpperRight = new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE);
 		Transform transform = body.getTransform();
 		int len = body.getFixtureList().size();
 		ArrayList<Fixture> fixtures = body.getFixtureList();
 		for (int i = 0; i < len; i++) {
 			Fixture fixture = fixtures.get(i);
-			calcAABB(fixture, transform);
+			calculateAABB(fixture, transform);
 		}
 	}
 
-	private void calcAABB(Fixture fixture, Transform transform) {
-		fixtureAABBlower = new Vector2(Integer.MAX_VALUE, Integer.MAX_VALUE);
-		fixtureAABBupper = new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE);
+	private void calculateAABB(Fixture fixture, Transform transform) {
+		fixtureAABBLowerLeft = new Vector2(Integer.MAX_VALUE, Integer.MAX_VALUE);
+		fixtureAABBUpperRight = new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE);
 		if (fixture.getType() == Shape.Type.Circle) {
 			CircleShape shape = (CircleShape) fixture.getShape();
 			float radius = shape.getRadius();
 			tmpVertice.set(shape.getPosition());
 			tmpVertice.rotate(transform.getRotation()).add(transform.getPosition());
-			fixtureAABBlower.set(tmpVertice.x - radius, tmpVertice.y - radius);
-			fixtureAABBupper.set(tmpVertice.x + radius, tmpVertice.y + radius);
+			fixtureAABBLowerLeft.set(tmpVertice.x - radius, tmpVertice.y - radius);
+			fixtureAABBUpperRight.set(tmpVertice.x + radius, tmpVertice.y + radius);
 
 		} else if (fixture.getType() == Shape.Type.Polygon) {
 			PolygonShape shape = (PolygonShape) fixture.getShape();
 			int vertexCount = shape.getVertexCount();
 
 			shape.getVertex(0, tmpVertice);
-			fixtureAABBlower.set(transform.mul(tmpVertice));
-			fixtureAABBupper.set(fixtureAABBlower);
+			fixtureAABBLowerLeft.set(transform.mul(tmpVertice));
+			fixtureAABBUpperRight.set(fixtureAABBLowerLeft);
 			for (int i = 1; i < vertexCount; i++) {
 				shape.getVertex(i, tmpVertice);
 				transform.mul(tmpVertice);
-				fixtureAABBlower.x = Math.min(fixtureAABBlower.x, tmpVertice.x);
-				fixtureAABBlower.y = Math.min(fixtureAABBlower.y, tmpVertice.y);
-				fixtureAABBupper.x = Math.max(fixtureAABBupper.x, tmpVertice.x);
-				fixtureAABBupper.y = Math.max(fixtureAABBupper.y, tmpVertice.y);
+				fixtureAABBLowerLeft.x = Math.min(fixtureAABBLowerLeft.x, tmpVertice.x);
+				fixtureAABBLowerLeft.y = Math.min(fixtureAABBLowerLeft.y, tmpVertice.y);
+				fixtureAABBUpperRight.x = Math.max(fixtureAABBUpperRight.x, tmpVertice.x);
+				fixtureAABBUpperRight.y = Math.max(fixtureAABBUpperRight.y, tmpVertice.y);
 			}
 		}
 
-		bodyAABBlower.x = Math.min(fixtureAABBlower.x, bodyAABBlower.x);
-		bodyAABBlower.y = Math.min(fixtureAABBlower.y, bodyAABBlower.y);
-		bodyAABBupper.x = Math.max(fixtureAABBupper.x, bodyAABBupper.x);
-		bodyAABBupper.y = Math.max(fixtureAABBupper.y, bodyAABBupper.y);
+		bodyAABBLowerLeft.x = Math.min(fixtureAABBLowerLeft.x, bodyAABBLowerLeft.x);
+		bodyAABBLowerLeft.y = Math.min(fixtureAABBLowerLeft.y, bodyAABBLowerLeft.y);
+		bodyAABBUpperRight.x = Math.max(fixtureAABBUpperRight.x, bodyAABBUpperRight.x);
+		bodyAABBUpperRight.y = Math.max(fixtureAABBUpperRight.y, bodyAABBUpperRight.y);
 	}
 
 }
