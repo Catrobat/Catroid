@@ -30,16 +30,10 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
-<<<<<<< HEAD
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.PlaceAtBrick;
-import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
-import org.catrobat.catroid.content.bricks.SetLookBrick;
-=======
 import org.catrobat.catroid.content.bricks.conditional.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetLookBrick;
->>>>>>> move ExtendedActionFunctions
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;

@@ -85,15 +85,16 @@ public class SetBounceBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		float bounceFactor = 0.65f;
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_bounce_factor_edit_text, bounceFactor,
-				"bounceFactor", setBounceFactorBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_set_bounce_factor_edit_text, bounceFactor, Brick.BrickField.PHYSICS_BOUNCE_FACTOR,
+				setBounceFactorBrick);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		setBounceFactorBrick = new SetBounceBrick(sprite, 0.0f);
+		Script script = new StartScript();
+		setBounceFactorBrick = new SetBounceBrick(0.0f);
 		script.addBrick(setBounceFactorBrick);
 
 		sprite.addScript(script);

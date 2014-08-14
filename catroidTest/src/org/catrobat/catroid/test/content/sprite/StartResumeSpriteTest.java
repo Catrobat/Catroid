@@ -63,7 +63,7 @@ public class StartResumeSpriteTest extends AndroidTestCase {
 		Sprite testSprite = new Sprite("testSprite");
 		Script testScript = new StartScript();
 		HideBrick hideBrick = new HideBrick();
-		WaitBrick waitBrick = new WaitBrick(400);
+		WaitBrick waitBrick = new WaitBrick(500);
 		ShowBrick showBrick = new ShowBrick();
 
 		testScript.addBrick(hideBrick);
@@ -80,6 +80,7 @@ public class StartResumeSpriteTest extends AndroidTestCase {
 		assertFalse("Sprite is not hidden", testSprite.look.isVisible());
 		testSprite.resume();
 
+		testSprite.look.act(1.0f);
 		testSprite.look.act(1.0f);
 
 		assertTrue("Sprite is hidden", testSprite.look.isVisible());

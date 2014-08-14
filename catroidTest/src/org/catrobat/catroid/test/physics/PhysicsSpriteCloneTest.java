@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -51,7 +52,6 @@ import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.test.utils.PhysicsTestUtils;
-import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 
 import java.io.File;
@@ -98,7 +98,7 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 		int scriptCount = clonedSprite.getNumberOfScripts();
 		for (int scriptIndex = 0; scriptIndex < scriptCount; scriptIndex++) {
 			Script script = sprite.getScript(scriptIndex);
-			Script clonedScript= clonedSprite.getScript(scriptIndex);
+			Script clonedScript = clonedSprite.getScript(scriptIndex);
 			assertEquals("Cloned script class not equal to origin.", script.getClass().toString(), clonedScript.getClass().toString());
 			ScriptBrick scriptBrick = sprite.getScript(scriptIndex).getScriptBrick();
 			ScriptBrick clonedScriptBrick = clonedSprite.getScript(scriptIndex).getScriptBrick();
@@ -113,16 +113,16 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 	}
 
 	public void testSpriteCloneWithPhysicsScriptAndBricks() {
-		CollisionScript collisionScript = new CollisionScript(sprite, COLLISION_RECEIVER_TEST_MESSAGE);
+		CollisionScript collisionScript = new CollisionScript(COLLISION_RECEIVER_TEST_MESSAGE);
 		collisionScript.getScriptBrick();
-		Brick setBounceBrick = new SetBounceBrick(sprite, BOUNCE_TEST_VALUE);
-		Brick setFrictionBrick = new SetFrictionBrick(sprite, FRICTION_TEST_VALUE);
-		Brick setGravityBrick = new SetGravityBrick(sprite, GRAVITY_TEST_VALUE);
-		Brick setMassBrick = new SetMassBrick(sprite, MASS_TEST_VALUE);
-		Brick setPhysicsObjectTypeBrick = new SetPhysicsObjectTypeBrick(sprite, TYPE_TEST_VALUE);
-		Brick setVelocityBrick = new SetVelocityBrick(sprite, VELOCITY_TEST_VALUE);
-		Brick turnLeftSpeedBrick = new TurnLeftSpeedBrick(sprite, TURN_LEFT_SPEED_TEST_VALUE);
-		Brick turnRightSpeedBrick = new TurnRightSpeedBrick(sprite, TURN_RIGHT_SPEED_TEST_VALUE);
+		Brick setBounceBrick = new SetBounceBrick(BOUNCE_TEST_VALUE);
+		Brick setFrictionBrick = new SetFrictionBrick(FRICTION_TEST_VALUE);
+		Brick setGravityBrick = new SetGravityBrick(GRAVITY_TEST_VALUE);
+		Brick setMassBrick = new SetMassBrick(MASS_TEST_VALUE);
+		Brick setPhysicsObjectTypeBrick = new SetPhysicsObjectTypeBrick(TYPE_TEST_VALUE);
+		Brick setVelocityBrick = new SetVelocityBrick(VELOCITY_TEST_VALUE);
+		Brick turnLeftSpeedBrick = new TurnLeftSpeedBrick(TURN_LEFT_SPEED_TEST_VALUE);
+		Brick turnRightSpeedBrick = new TurnRightSpeedBrick(TURN_RIGHT_SPEED_TEST_VALUE);
 
 		collisionScript.addBrick(setBounceBrick);
 		collisionScript.addBrick(setFrictionBrick);
@@ -141,9 +141,9 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 	}
 
 	public void testSpriteCloneWithCollisionScript() {
-		CollisionScript collisionScript = new CollisionScript(sprite, COLLISION_RECEIVER_TEST_MESSAGE);
+		CollisionScript collisionScript = new CollisionScript(COLLISION_RECEIVER_TEST_MESSAGE);
 		collisionScript.getScriptBrick();
-		Brick setBounceBrick = new SetBounceBrick(sprite, BOUNCE_TEST_VALUE);
+		Brick setBounceBrick = new SetBounceBrick(BOUNCE_TEST_VALUE);
 
 		collisionScript.addBrick(setBounceBrick);
 		sprite.addScript(collisionScript);
@@ -162,15 +162,16 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 		Brick clonedSetBounceBrick = clonedScript.getBrickList().get(0);
 		assertTrue("Cloned brick has wrong class.", clonedSetBounceBrick instanceof SetBounceBrick);
 
-		Formula clonedSetBounceBrickFormula = (Formula) Reflection.getPrivateField(clonedSetBounceBrick, "bounceFactor");
+		Formula clonedSetBounceBrickFormula = ((FormulaBrick) clonedSetBounceBrick)
+				.getFormulaWithBrickField(Brick.BrickField.PHYSICS_BOUNCE_FACTOR);
 		float clonedBounceFactorValue = clonedSetBounceBrickFormula.interpretFloat(clonedSprite);
 		assertEquals("Cloned bounce factor value is not equal to origin value.", BOUNCE_TEST_VALUE, clonedBounceFactorValue);
 	}
 
 	public void testSpriteClonePhysicsLookAndPhysicsObject() {
 		WhenStartedBrick brick = new WhenStartedBrick();
-		StartScript startScript = new StartScript(sprite, brick);
-		Brick setPhysicsObjectTypeBrick = new SetPhysicsObjectTypeBrick(sprite, TYPE_TEST_VALUE);
+		StartScript startScript = new StartScript(brick);
+		Brick setPhysicsObjectTypeBrick = new SetPhysicsObjectTypeBrick(TYPE_TEST_VALUE);
 
 		startScript.addBrick(setPhysicsObjectTypeBrick);
 		sprite.addScript(startScript);

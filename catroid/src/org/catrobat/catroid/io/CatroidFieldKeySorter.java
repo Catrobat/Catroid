@@ -109,6 +109,8 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 				fieldKeyOrder[6] = fieldKey;
 			} else if (fieldKey.getFieldName().equals("scriptList")) {
 				fieldKeyOrder[7] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("actionFactory")) {
+				fieldKeyOrder[8] = fieldKey;
 			}
 		}
 		for (FieldKey fieldKey : fieldKeyOrder) {

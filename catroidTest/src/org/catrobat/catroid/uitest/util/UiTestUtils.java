@@ -1752,7 +1752,7 @@ public final class UiTestUtils {
 	}
 
 	public static void waitForText(Solo solo, String text) {
-		assertEquals("Text not found!", true, solo.waitForText(text, 0, 2000));
+		assertEquals("Text not found!", true, solo.waitForText(text, 0, 2250));
 	}
 
 	public static void switchToFragmentInScriptActivity(Solo solo, int fragmentIndex) {
