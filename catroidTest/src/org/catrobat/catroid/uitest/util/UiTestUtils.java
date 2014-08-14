@@ -437,8 +437,8 @@ public final class UiTestUtils {
 
 	}
 
-	public static void testBrickWithFormulaEditor(Sprite sprite, Solo solo, int editTextId, String newValue, String fieldName,
-			Brick theBrick) {
+	public static void testBrickWithFormulaEditor(Sprite sprite, Solo solo, int editTextId, String newValue, Brick.BrickField brickField,
+			FormulaBrick theBrick) {
 
 		solo.clickOnView(solo.getView(editTextId));
 		insertStringIntoEditText(solo, newValue);
@@ -449,7 +449,7 @@ public final class UiTestUtils {
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(200);
 
-		Formula formula = (Formula) Reflection.getPrivateField(theBrick, fieldName);
+		Formula formula = (Formula) theBrick.getFormulaWithBrickField(brickField);
 		formulaEditorString = ((TextView) solo.getView(editTextId)).getText().toString();
         try{
             assertEquals("Wrong text in field", newValue, formula.interpretString(sprite));
@@ -879,7 +879,7 @@ public final class UiTestUtils {
 		//brickList.add(new LegoNxtMotorTurnAngleBrick(firstSprite, LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, 0));
 		brickList.add(new MoveNStepsBrick(0));
 		brickList.add(new NextLookBrick());
-		brickList.add(new NoteBrick());
+		brickList.add(new NoteBrick(""));
 		brickList.add(new PlaceAtBrick(0, 0));
 		brickList.add(new PlaySoundBrick());
 		brickList.add(new PointInDirectionBrick(Direction.DOWN));
@@ -893,7 +893,7 @@ public final class UiTestUtils {
 		brickList.add(new SetXBrick(0));
 		brickList.add(new SetYBrick(0));
 		brickList.add(new ShowBrick());
-		brickList.add(new SpeakBrick("Hello"));
+		brickList.add(new SpeakBrick(""));
 		brickList.add(new StopAllSoundsBrick());
 		brickList.add(new TurnLeftBrick(0));
 		brickList.add(new TurnRightBrick(0));

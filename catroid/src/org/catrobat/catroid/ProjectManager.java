@@ -139,6 +139,10 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				project.setScreenMode(ScreenModes.STRETCH);
 				checkNestingBrickReferences(false);
 			}
+			if (project.getCatrobatLanguageVersion() == 0.92f) {
+				project.setCatrobatLanguageVersion(0.93f);
+			}
+
 			//insert further convertions here
 
 			checkNestingBrickReferences(true);

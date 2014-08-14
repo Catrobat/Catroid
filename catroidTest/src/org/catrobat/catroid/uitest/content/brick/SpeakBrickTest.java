@@ -32,12 +32,10 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
-import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
@@ -77,18 +75,18 @@ public class SpeakBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_speak)));
 
-		UiTestUtils.testBrickWithFormulaEditor(sprite, solo, R.id.brick_speak_edit_text, testString, "text", speakBrick);
+		UiTestUtils.testBrickWithFormulaEditor(sprite, solo, R.id.brick_speak_edit_text, testString, Brick.BrickField.SPEAK, speakBrick);
         try{
-            String brickText = ((Formula) Reflection.getPrivateField(speakBrick, "text")).interpretString(sprite);
+            String brickText = ( speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK)).interpretString(sprite);
             assertEquals("Wrong text in field.", testString, brickText);
         }catch (InterpretationException interpretationException){
             fail("Wrong text in field.");
         }
 
-		UiTestUtils.testBrickWithFormulaEditor(sprite, solo, R.id.brick_speak_edit_text, "", "text", speakBrick);
+		UiTestUtils.testBrickWithFormulaEditor(sprite, solo, R.id.brick_speak_edit_text, "", Brick.BrickField.SPEAK, speakBrick);
 
         try{
-            String brickText = ((Formula) Reflection.getPrivateField(speakBrick, "text")).interpretString(sprite);
+            String brickText = ( speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK)).interpretString(sprite);
             assertEquals("Wrong text in field.", "", brickText);
         }catch (InterpretationException interpretationException){
             fail("Wrong text in field.");

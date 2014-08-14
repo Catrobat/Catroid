@@ -59,11 +59,6 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<ProjectA
 	private final File speechFileHelloWorlText = new File(Constants.TEXT_TO_SPEECH_TMP_PATH,
 			Utils.md5Checksum(helloWorldText) + Constants.TEXT_TO_SPEECH_EXTENSION);
 
-	private final String nullText = "";
-	private final long byteLengthOfNullText = 44L;
-	private final File speechFileNullText = new File(Constants.TEXT_TO_SPEECH_TMP_PATH, Utils.md5Checksum(nullText)
-			+ Constants.TEXT_TO_SPEECH_EXTENSION);
-
 	private final String simultaneousText = "Speaking simultaneously";
 	private final long byteLengthOfSimultaneousText = 65196L;
 	private final File speechFileSimultaneousText = new File(Constants.TEXT_TO_SPEECH_TMP_PATH,
@@ -141,20 +136,6 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<ProjectA
 	}
 
 	@Device
-	public void testNullText() {
-		createNullTextProject();
-		prepareStageForTesting(UiTestUtils.PROJECTNAME2);
-
-		assertTrue("speechFileNullText does not exist", speechFileNullText.exists());
-		assertEquals("Length of speechFileNullText is different from original", byteLengthOfNullText,
-				speechFileNullText.length());
-
-		assertEquals("Wrong amount of soundfiles played", 1, soundManagerMock.playedSoundFiles.size());
-		assertTrue("Wrong soundfile played",
-				soundManagerMock.playedSoundFiles.contains(speechFileNullText.getAbsolutePath()));
-	}
-
-	@Device
 	public void testMultiSpeech() {
 		createMultiSpeechesProject();
 		prepareStageForTesting(UiTestUtils.PROJECTNAME3);
@@ -205,18 +186,6 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<ProjectA
 		spriteListNormal.add(spriteNormal);
 
 		UiTestUtils.createProject(UiTestUtils.PROJECTNAME1, spriteListNormal, getActivity().getApplicationContext());
-	}
-
-	private void createNullTextProject() {
-		Sprite spriteNull = new Sprite("testNullText");
-		Script startScriptNull = new StartScript();
-		startScriptNull.addBrick(new SpeakBrick((Formula)null));
-
-		spriteNull.addScript(startScriptNull);
-		ArrayList<Sprite> spriteListNull = new ArrayList<Sprite>();
-		spriteListNull.add(spriteNull);
-
-		UiTestUtils.createProject(UiTestUtils.PROJECTNAME2, spriteListNull, getActivity().getApplicationContext());
 	}
 
 	private void createMultiSpeechesProject() {

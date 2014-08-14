@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.InstrumentationTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Script;
@@ -210,7 +211,11 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	}
 
 	public void testNullFormula() {
-		testWithFormula(null, testSprite.look.getYInUserInterfaceDimensionUnit());
+		Action repeatedAction = ExtendedActions.setX(testSprite, new Formula(10));
+		Action repeatAction = ExtendedActions.repeat(testSprite, null, repeatedAction);
+		repeatAction.act(1.0f);
+		Object repeatCountValue = Reflection.getPrivateField(repeatAction, "repeatCountValue");
+		assertEquals("Null Formula should not have been possible to interpret!", 0 , repeatCountValue);
 	}
 
 	public void testNotANumberFormula() {

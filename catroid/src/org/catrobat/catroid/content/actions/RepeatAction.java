@@ -46,8 +46,8 @@ public class RepeatAction extends com.badlogic.gdx.scenes.scene2d.actions.Repeat
 		if (!isRepeatActionInitialized) {
 			isRepeatActionInitialized = true;
 			try {
-				Double intepretation = repeatCount == null ? Double.valueOf(0d) : repeatCount.interpretDouble(sprite);
-				repeatCountValue = intepretation.intValue();
+				Double interpretation = repeatCount == null ? Double.valueOf(0d) : repeatCount.interpretDouble(sprite);
+				repeatCountValue = interpretation.intValue();
             } catch (InterpretationException interpretationException) {
                 repeatCountValue = 0;
                 Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);

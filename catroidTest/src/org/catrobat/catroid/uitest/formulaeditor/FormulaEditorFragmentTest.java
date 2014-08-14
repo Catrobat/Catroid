@@ -324,7 +324,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 		//Interpretation test
 
-		Formula formula = (Formula) Reflection.getPrivateField(placeAtBrick, "xPosition");
+		Formula formula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.X_POSITION);
         try{
             assertEquals("Wrong text in field", newXValue, formula.interpretInteger(sprite).intValue());
         }catch (InterpretationException interpretationException){

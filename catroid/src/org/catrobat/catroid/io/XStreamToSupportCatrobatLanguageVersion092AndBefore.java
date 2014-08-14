@@ -104,6 +104,7 @@ import org.w3c.dom.NodeList;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -117,14 +118,14 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream {
+public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream {
 
-	private static final String TAG = XStreamToSupportCatrobatLanguageVersion091AndBefore.class.getSimpleName();
+	private static final String TAG = XStreamToSupportCatrobatLanguageVersion092AndBefore.class.getSimpleName();
 
 	private HashMap<String, BrickInfo> brickInfoMap;
 	private HashMap<String, String> scriptInfoMap;
 
-	public XStreamToSupportCatrobatLanguageVersion091AndBefore(PureJavaReflectionProvider reflectionProvider) {
+	public XStreamToSupportCatrobatLanguageVersion092AndBefore(PureJavaReflectionProvider reflectionProvider) {
 		super(reflectionProvider);
 	}
 
@@ -413,6 +414,7 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 			modifyScriptLists(doc);
 			modifyBrickLists(doc);
 			checkReferences(doc.getDocumentElement());
+			modifySpeakAndNoteBrick(doc);
 			saveDocument(doc, file);
 		}
 	}
@@ -575,7 +577,7 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 										brickChild.getNodeName().equals("ifElseBrick") ||
 										brickChild.getNodeName().equals("ifEndBrick")) {
 									continue;
-								}  else {
+								} else {
 									newBrickNode.appendChild(brickChild);
 								}
 							}
@@ -583,6 +585,38 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 						brickListNode.replaceChild(newBrickNode, brickNode);
 					} else {
 						Log.e(TAG, brickNode.getNodeName() + " brick cannot be converted to new structure");
+					}
+				}
+			}
+		}
+	}
+
+	private void modifySpeakAndNoteBrick(Document doc) {
+		NodeList brickListNodeList = doc.getElementsByTagName("brickList");
+		for (int i = 0; i < brickListNodeList.getLength(); i++) {
+			Node brickListNode = brickListNodeList.item(i);
+			if (brickListNode.hasChildNodes()) {
+				NodeList brickListChildNodes = brickListNode.getChildNodes();
+				for (int j = 0; j < brickListChildNodes.getLength(); j++) {
+					Node brickNode = brickListChildNodes.item(j);
+					String nodeValue = brickNode.getAttributes().item(0).getNodeValue();
+					String firstLetterLowerCase = nodeValue.substring(0, 1).toLowerCase(Locale.getDefault());
+					String newNodeValue = firstLetterLowerCase + nodeValue.substring(1,nodeValue.length());
+					BrickInfo brickInfo = brickInfoMap.get(newNodeValue);
+					if (brickInfo != null) {
+						if (brickNode.hasChildNodes()) {
+							NodeList brickChildNodes = brickNode.getChildNodes();
+							for (int k = 0; k < brickChildNodes.getLength(); k++) {
+								Element parentNode = (Element) brickNode;
+								if (parentNode.getAttribute("type").equals(NoteBrick.class.getSimpleName())) {
+									handleBrickNode(doc, parentNode, BrickField.NOTE, "note");
+								} else if (parentNode.getAttribute("type").equals(SpeakBrick.class.getSimpleName())) {
+									handleBrickNode(doc, parentNode, BrickField.SPEAK, "text");
+								}
+							}
+						} else {
+							Log.e(TAG, nodeValue + " cannot be converted to formula brick.");
+						}
 					}
 				}
 			}
@@ -612,6 +646,28 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 			}
 		}
 		parentNode.appendChild(userVariableNode);
+	}
+
+	private void handleBrickNode(Document doc, Node parentNode, BrickField brickField, String childNodeName) {
+		Node child = findNodeByName(parentNode, childNodeName);
+		String textContent = child.getTextContent();
+
+		Node formulaListNode = doc.createElement("formulaList");
+
+		Element formulaNode = doc.createElement("formula");
+		formulaNode.setAttribute("category", brickField.toString());
+
+		Element type = doc.createElement("type");
+		type.setTextContent("STRING");
+		formulaNode.appendChild(type);
+
+		Element value = doc.createElement("value");
+		value.setTextContent(textContent);
+		formulaNode.appendChild(value);
+
+		formulaListNode.appendChild(formulaNode);
+
+		parentNode.replaceChild(formulaListNode, child);
 	}
 
 	private void checkReferences(Element node) {

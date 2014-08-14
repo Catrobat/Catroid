@@ -44,30 +44,29 @@ import java.util.List;
 public class SpeakBrick extends FormulaBrick implements OnClickListener {
 
 	private static final long serialVersionUID = 1L;
-	private Formula text;
 	private transient View prototypeView;
 
 
-	public SpeakBrick(String text) {
-		this.text = new Formula(text);
-	}
-
-	public SpeakBrick(Formula text) {
-		this.text = text;
-	}
-
 	public SpeakBrick() {
+		addAllowedBrickField(BrickField.SPEAK);
+	}
+
+	public SpeakBrick(String speak) {
+		initializeBrickFields(new Formula(speak));
+	}
+
+	public SpeakBrick(Formula speak) {
+		initializeBrickFields(speak);
+	}
+
+	private void initializeBrickFields(Formula speak) {
+		addAllowedBrickField(BrickField.SPEAK);
+		setFormulaWithBrickField(BrickField.SPEAK, speak);
 	}
 
 	@Override
 	public int getRequiredResources() {
 		return TEXT_TO_SPEECH;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		SpeakBrick copyBrick = (SpeakBrick) clone();
-		return copyBrick;
 	}
 
 	@Override
@@ -91,8 +90,8 @@ public class SpeakBrick extends FormulaBrick implements OnClickListener {
 
 		TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_prototype_text_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_speak_edit_text);
-		text.setTextFieldId(R.id.brick_speak_edit_text);
-		text.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.SPEAK).setTextFieldId(R.id.brick_speak_edit_text);
+		getFormulaWithBrickField(BrickField.SPEAK).refreshTextField(view);
 
 		textHolder.setVisibility(View.GONE);
 		textField.setVisibility(View.VISIBLE);
@@ -133,19 +132,14 @@ public class SpeakBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
-	public Brick clone() {
-		return new SpeakBrick(this.text);
-	}
-
-	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.speak(text));
+		sequence.addAction(ExtendedActions.speak(getFormulaWithBrickField(BrickField.SPEAK)));
 		return null;
 	}
 
 	@Override
 	public Formula getFormula() {
-		return text;
+		return getFormulaWithBrickField(BrickField.SPEAK);
 	}
 
 	@Override
@@ -155,7 +149,7 @@ public class SpeakBrick extends FormulaBrick implements OnClickListener {
 		}
 		switch (view.getId()) {
 			case R.id.brick_speak_edit_text:
-				FormulaEditorFragment.showFragment(view, this, text);
+				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.SPEAK));
 				break;
 			default:
 				break;

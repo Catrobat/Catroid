@@ -47,11 +47,13 @@ public final class BrickValues {
 	//constants Sounds
 	public static final Float SET_VOLUME_TO = 60f;
 	public static final Float CHANGE_VOLUME_BY = -10f;
+	public static final String SPEAK = "Hello!";
 
 	//Constants Control
 	public static final int WAIT = 1000;
 	public static final int REPEAT = 10;
 	public static final int IF_CONDITION = 1;
+	public static final String NOTE = "add comment here…";
 
 	//Constants Lego
 	public static final String LEGO_MOTOR = "A";

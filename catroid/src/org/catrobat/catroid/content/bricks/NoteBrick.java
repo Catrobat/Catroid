@@ -42,27 +42,23 @@ import java.util.List;
 
 public class NoteBrick extends FormulaBrick implements OnClickListener{
 	private static final long serialVersionUID = 1L;
-
-	private Formula note;
-
 	private transient View prototypeView;
 
 	public NoteBrick() {
-
+		addAllowedBrickField(BrickField.NOTE);
 	}
 
 	public NoteBrick(String note) {
-		this.note = new Formula(note);
+		initializeBrickFields(new Formula(note));
 	}
 
 	public NoteBrick(Formula note) {
-		this.note = note;
+		initializeBrickFields(note);
 	}
 
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		NoteBrick copyBrick = (NoteBrick) clone();
-		return copyBrick;
+	private void initializeBrickFields(Formula note) {
+		addAllowedBrickField(BrickField.NOTE);
+		setFormulaWithBrickField(BrickField.NOTE, note);
 	}
 
 	@Override
@@ -87,8 +83,8 @@ public class NoteBrick extends FormulaBrick implements OnClickListener{
 
 		TextView textHolder = (TextView) view.findViewById(R.id.brick_note_prototype_text_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_note_edit_text);
-		note.setTextFieldId(R.id.brick_note_edit_text);
-		note.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.NOTE).setTextFieldId(R.id.brick_note_edit_text);
+		getFormulaWithBrickField(BrickField.NOTE).refreshTextField(view);
 
 		textHolder.setVisibility(View.GONE);
 		textField.setVisibility(View.VISIBLE);
@@ -128,18 +124,13 @@ public class NoteBrick extends FormulaBrick implements OnClickListener{
 	}
 
 	@Override
-	public Brick clone() {
-		return new NoteBrick(this.note);
-	}
-
-	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		return null;
 	}
 
 	@Override
 	public Formula getFormula() {
-		return note;
+		return getFormulaWithBrickField(BrickField.NOTE);
 	}
 
 	@Override
@@ -149,7 +140,7 @@ public class NoteBrick extends FormulaBrick implements OnClickListener{
 		}
 		switch (view.getId()) {
 			case R.id.brick_note_edit_text:
-				FormulaEditorFragment.showFragment(view, this, note);
+				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.NOTE));
 				break;
 			default:
 				break;

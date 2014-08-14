@@ -169,12 +169,11 @@ public class BrickCloneTest extends AndroidTestCase {
 		brickClone(brick, Brick.BrickField.X_DESTINATION, Brick.BrickField.Y_DESTINATION,
 				Brick.BrickField.DURATION_IN_SECONDS);
 
-		// TODO: Check if new BrickFields for  Note- and SpeakBrick are necessary.
 		brick = new NoteBrick(String.valueOf(BRICK_FORMULA_VALUE));
-		brickClone(brick, Brick.BrickField.X_POSITION);
+		brickClone(brick, Brick.BrickField.NOTE);
 
 		brick = new SpeakBrick(String.valueOf(BRICK_FORMULA_VALUE));
-		brickClone(brick, Brick.BrickField.X_POSITION);
+		brickClone(brick, Brick.BrickField.SPEAK);
 
 	}
 

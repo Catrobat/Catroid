@@ -91,8 +91,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	private long[] confirmSwitchEditTextTimeStamp = { 0, 0 };
 	private int confirmSwitchEditTextCounter = 0;
 	private CharSequence previousActionBarTitle;
-
-	public boolean restoreInstance = false;
 	private View fragmentView;
 	private VariableDeletedReceiver variableDeletedReceiver;
 
