@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.physics;
 
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
@@ -97,16 +97,12 @@ public class PhysicsLook extends Look {
 
 	@Override
 	public float getX() {
-		float x = physicsObject.getX() - getWidth() / 2.0f;
-		updatePhysicsObjectState(false);
-		return x;
+		return physicsObject.getX() - getWidth() / 2.0f;
 	}
 
 	@Override
 	public float getY() {
-		float y = physicsObject.getY() - getHeight() / 2.0f;
-		updatePhysicsObjectState(false);
-		return y;
+		return physicsObject.getY() - getHeight() / 2.0f;
 	}
 
 	@Override
@@ -136,6 +132,10 @@ public class PhysicsLook extends Look {
 		physicsObjectStateHandler.update(record);
 	}
 
+	public boolean isHangedUp() {
+		return physicsObjectStateHandler.isHangedUp();
+	}
+
 	public void startGlide() {
 		physicsObjectStateHandler.activateGlideTo();
 	}
@@ -146,6 +146,12 @@ public class PhysicsLook extends Look {
 
 	private interface PhysicsObjectStateCondition {
 		boolean isTrue();
+	}
+
+	@Override
+	public void draw(SpriteBatch batch, float parentAlpha) {
+		physicsObjectStateHandler.checkHangup(true);
+		super.draw(batch, parentAlpha);
 	}
 
 	private class PhysicsObjectStateHandler {
@@ -168,28 +174,35 @@ public class PhysicsLook extends Look {
 		private boolean nonColliding = false;
 
 		public PhysicsObjectStateHandler() {
+
 			positionCondition = new PhysicsObjectStateCondition() {
 				@Override
 				public boolean isTrue() {
-					Vector2 bbLowerEdge = new Vector2();
-					Vector2 bbUpperEdge = new Vector2();
-					physicsObject.getBoundaryBox(bbLowerEdge, bbUpperEdge);
-					float bbWidth = bbUpperEdge.x - bbLowerEdge.x;
-					float bbHeight = bbUpperEdge.y - bbLowerEdge.y;
-					float bbCenterX = bbLowerEdge.x + bbWidth / 2;
-					float bbCenterY = bbLowerEdge.y + bbHeight / 2;
-					//Log.d(TAG, "bbCenterX: " + bbCenterX);
-					//Log.d(TAG, "bbCenterY: " + bbCenterY);
 					//Log.d(TAG, "PhysicsWorld.activeArea.x: " + PhysicsWorld.activeArea.x);
 					//Log.d(TAG, "PhysicsWorld.activeArea.y: " + PhysicsWorld.activeArea.y);
-					boolean isXinActiveArea = !(Math.abs(bbCenterX) > PhysicsWorld.activeArea.x);
-					boolean isYinActiveArea = !(Math.abs(bbCenterY) > PhysicsWorld.activeArea.y);
-					if (isXinActiveArea && isYinActiveArea) {
+					if (isOutsideActiveArea()) {
+						//Log.d(TAG, "positionCondition: TRUE");
+						return true;
+					} else {
 						//Log.d(TAG, "positionCondition: FALSE");
 						return false;
 					}
-					//Log.d(TAG, "positionCondition: TRUE");
-					return true;
+				}
+
+				private boolean isOutsideActiveArea() {
+					return isXOutsideActiveArea() || isYOutsideActiveArea();
+				}
+
+				private boolean isXOutsideActiveArea() {
+					return Math.abs(PhysicsWorldConverter.convertBox2dToNormalCoordinate(physicsObject.getMassCenter().x))
+							- PhysicsWorldConverter.convertBox2dToNormalCoordinate(physicsObject.getCircumference())
+							> PhysicsWorld.activeArea.x / 2.0f;
+				}
+
+				private boolean isYOutsideActiveArea() {
+					return Math.abs(PhysicsWorldConverter.convertBox2dToNormalCoordinate(physicsObject.getMassCenter().y))
+							- PhysicsWorldConverter.convertBox2dToNormalCoordinate(physicsObject.getCircumference())
+							> PhysicsWorld.activeArea.y / 2.0f;
 				}
 			};
 

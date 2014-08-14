@@ -32,6 +32,7 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
@@ -58,6 +59,9 @@ public class PhysicsWorld {
 	public static final short MASK_TOBOUNCE = -1; // collides with everything
 	public static final short MASK_NOCOLLISION = 0; // collides with NOBODY
 
+	public static final float ACTIVE_AREA_WIDTH_FACTOR = 3.0f;
+	public static final float ACTIVE_AREA_HEIGHT_FACTOR = 2.0f;
+
 	public static final float RATIO = 10.0f;
 	public static final int VELOCITY_ITERATIONS = 3;
 	public static final int POSITION_ITERATIONS = 3;
@@ -77,10 +81,14 @@ public class PhysicsWorld {
 
 	private PhysicsShapeBuilder physicsShapeBuilder = new PhysicsShapeBuilder();
 
+	public PhysicsWorld() {
+		this(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+	}
+
 	public PhysicsWorld(int width, int height) {
 		boundaryBox = new PhysicsBoundaryBox(world);
 		boundaryBox.create(width, height);
-		activeArea = new Vector2((width/2)*3, height);
+		activeArea = new Vector2(width * ACTIVE_AREA_WIDTH_FACTOR, height * ACTIVE_AREA_HEIGHT_FACTOR);
 		world.setContactListener(new PhysicsCollision(this));
 	}
 
