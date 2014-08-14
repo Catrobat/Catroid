@@ -111,6 +111,9 @@ public class RepeatActionTest extends InstrumentationTestCase {
 	}
 
 	public void testRepeatCount() {
+		Sprite testSprite = new Sprite("sprite");
+		Script testScript = new StartScript();
+
 		Formula repeatFormula = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.OBJECT_Y.name(), null));
 		RepeatBrick repeatBrick = new RepeatBrick(repeatFormula);
 		LoopEndBrick loopEndBrick = new LoopEndBrick(repeatBrick);
