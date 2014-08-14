@@ -87,19 +87,21 @@ public class SetGravityTest extends ActivityInstrumentationTestCase2<ScriptActiv
 
 		Vector2 gravity = new Vector2(1f, -3f);
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_gravity_edit_text_x, gravity.x, "gravityX",
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_set_gravity_edit_text_x, gravity.x, Brick.BrickField.PHYSICS_GRAVITY_X,
 				setGravityBrick);
 		solo.sleep(200);
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_gravity_edit_text_y, gravity.y, "gravityY",
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_set_gravity_edit_text_y, gravity.y, Brick.BrickField.PHYSICS_GRAVITY_Y,
 				setGravityBrick);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		setGravityBrick = new SetGravityBrick(sprite, new Vector2(0, 10.0f));
+		Script script = new StartScript();
+		setGravityBrick = new SetGravityBrick(new Vector2(0, 10.0f));
 		script.addBrick(setGravityBrick);
 
 		sprite.addScript(script);

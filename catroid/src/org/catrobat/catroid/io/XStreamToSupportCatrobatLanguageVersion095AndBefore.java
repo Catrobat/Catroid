@@ -35,14 +35,8 @@ import org.catrobat.catroid.content.bricks.Brick.BrickField;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
-import org.catrobat.catroid.content.bricks.conditional.ChangeBrightnessByNBrick;
-import org.catrobat.catroid.content.bricks.conditional.ChangeGhostEffectByNBrick;
-import org.catrobat.catroid.content.bricks.conditional.ChangeSizeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
-import org.catrobat.catroid.content.bricks.conditional.ChangeXByNBrick;
-import org.catrobat.catroid.content.bricks.conditional.ChangeYByNBrick;
-import org.catrobat.catroid.content.bricks.conditional.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.content.bricks.DroneLandBrick;
@@ -55,13 +49,10 @@ import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
-import org.catrobat.catroid.content.bricks.conditional.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
-import org.catrobat.catroid.content.bricks.conditional.HideBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
-import org.catrobat.catroid.content.bricks.conditional.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.LedOffBrick;
 import org.catrobat.catroid.content.bricks.LedOnBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
@@ -70,31 +61,40 @@ import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
 import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.LoopEndlessBrick;
-import org.catrobat.catroid.content.bricks.conditional.MoveNStepsBrick;
-import org.catrobat.catroid.content.bricks.conditional.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
-import org.catrobat.catroid.content.bricks.conditional.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
-import org.catrobat.catroid.content.bricks.conditional.PointInDirectionBrick;
-import org.catrobat.catroid.content.bricks.conditional.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
-import org.catrobat.catroid.content.bricks.conditional.SetBrightnessBrick;
-import org.catrobat.catroid.content.bricks.conditional.SetGhostEffectBrick;
-import org.catrobat.catroid.content.bricks.conditional.SetLookBrick;
-import org.catrobat.catroid.content.bricks.conditional.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
-import org.catrobat.catroid.content.bricks.conditional.SetXBrick;
-import org.catrobat.catroid.content.bricks.conditional.SetYBrick;
-import org.catrobat.catroid.content.bricks.conditional.ShowBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
-import org.catrobat.catroid.content.bricks.conditional.TurnLeftBrick;
-import org.catrobat.catroid.content.bricks.conditional.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
+import org.catrobat.catroid.content.bricks.conditional.ChangeBrightnessByNBrick;
+import org.catrobat.catroid.content.bricks.conditional.ChangeGhostEffectByNBrick;
+import org.catrobat.catroid.content.bricks.conditional.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.conditional.ChangeXByNBrick;
+import org.catrobat.catroid.content.bricks.conditional.ChangeYByNBrick;
+import org.catrobat.catroid.content.bricks.conditional.ClearGraphicEffectBrick;
+import org.catrobat.catroid.content.bricks.conditional.GlideToBrick;
+import org.catrobat.catroid.content.bricks.conditional.HideBrick;
+import org.catrobat.catroid.content.bricks.conditional.IfOnEdgeBounceBrick;
+import org.catrobat.catroid.content.bricks.conditional.MoveNStepsBrick;
+import org.catrobat.catroid.content.bricks.conditional.NextLookBrick;
+import org.catrobat.catroid.content.bricks.conditional.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.conditional.PointInDirectionBrick;
+import org.catrobat.catroid.content.bricks.conditional.PointToBrick;
+import org.catrobat.catroid.content.bricks.conditional.SetBrightnessBrick;
+import org.catrobat.catroid.content.bricks.conditional.SetGhostEffectBrick;
+import org.catrobat.catroid.content.bricks.conditional.SetLookBrick;
+import org.catrobat.catroid.content.bricks.conditional.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.conditional.SetXBrick;
+import org.catrobat.catroid.content.bricks.conditional.SetYBrick;
+import org.catrobat.catroid.content.bricks.conditional.ShowBrick;
+import org.catrobat.catroid.content.bricks.conditional.TurnLeftBrick;
+import org.catrobat.catroid.content.bricks.conditional.TurnRightBrick;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -149,9 +149,6 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 
 		BrickInfo brickInfo = new BrickInfo(BroadcastBrick.class.getSimpleName());
 		brickInfoMap.put("broadcastBrick", brickInfo);
-
-		brickInfo = new BrickInfo(BroadcastReceiverBrick.class.getSimpleName());
-		brickInfoMap.put("broadcastReceiverBrick", brickInfo);
 
 		brickInfo = new BrickInfo(BroadcastReceiverBrick.class.getSimpleName());
 		brickInfoMap.put("broadcastReceiverBrick", brickInfo);
@@ -337,7 +334,7 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfoMap.put("waitBrick", brickInfo);
 
 		brickInfo = new BrickInfo(WhenBrick.class.getSimpleName());
-		brickInfoMap.put("stopAllSoundsBrick", brickInfo);
+		brickInfoMap.put("whenBrick", brickInfo);
 
 		brickInfo = new BrickInfo(WhenStartedBrick.class.getSimpleName());
 		brickInfoMap.put("whenStartedBrick", brickInfo);
@@ -383,14 +380,12 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("timeToFlyInSeconds", BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
 		brickInfo.addBrickFieldToMap("powerInPercent", BrickField.DRONE_POWER_IN_PERCENT);
 		brickInfoMap.put("droneMoveRightBrick", brickInfo);
-
 	}
 
 	private void initializeScriptInfoMap() {
 		if (scriptInfoMap != null) {
 			return;
 		}
-
 		scriptInfoMap = new HashMap<String, String>();
 		scriptInfoMap.put("startScript", StartScript.class.getSimpleName());
 		scriptInfoMap.put("whenScript", WhenScript.class.getSimpleName());

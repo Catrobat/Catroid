@@ -87,19 +87,21 @@ public class SetVelocityBrickTest extends ActivityInstrumentationTestCase2<Scrip
 
 		Vector2 velocity = new Vector2(-1.2f, 3.4f);
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_velocity_edit_text_x, velocity.x, "velocityX",
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_set_velocity_edit_text_x, velocity.x, Brick.BrickField.PHYSICS_VELOCITY_X,
 				setVelocityBrick);
 		solo.sleep(200);
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_velocity_edit_text_y, velocity.y, "velocityY",
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_set_velocity_edit_text_y, velocity.y, Brick.BrickField.PHYSICS_VELOCITY_Y,
 				setVelocityBrick);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		setVelocityBrick = new SetVelocityBrick(sprite, new Vector2());
+		Script script = new StartScript();
+		setVelocityBrick = new SetVelocityBrick(new Vector2());
 		script.addBrick(setVelocityBrick);
 
 		sprite.addScript(script);

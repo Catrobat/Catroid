@@ -86,15 +86,16 @@ public class TurnLeftSpeedBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 		float degreesPerSecond = 10.0f;
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_turn_left_speed_edit_text, degreesPerSecond,
-				"degreesPerSecond", turnLeftSpeedBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_turn_left_speed_edit_text, degreesPerSecond, Brick.BrickField.PHYSICS_TURN_LEFT_SPEED,
+				turnLeftSpeedBrick);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		turnLeftSpeedBrick = new TurnLeftSpeedBrick(sprite, 0.0f);
+		Script script = new StartScript();
+		turnLeftSpeedBrick = new TurnLeftSpeedBrick(0.0f);
 		script.addBrick(turnLeftSpeedBrick);
 
 		sprite.addScript(script);

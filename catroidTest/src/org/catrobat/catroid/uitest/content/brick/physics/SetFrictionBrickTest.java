@@ -85,15 +85,16 @@ public class SetFrictionBrickTest extends ActivityInstrumentationTestCase2<Scrip
 
 		float friction = 1.234f;
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_friction_edit_text, friction, "friction",
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_set_friction_edit_text, friction, Brick.BrickField.PHYSICS_FRICTION,
 				setFrictionBrick);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		setFrictionBrick = new SetFrictionBrick(sprite, 0.0f);
+		Script script = new StartScript();
+		setFrictionBrick = new SetFrictionBrick(0.0f);
 		script.addBrick(setFrictionBrick);
 
 		sprite.addScript(script);

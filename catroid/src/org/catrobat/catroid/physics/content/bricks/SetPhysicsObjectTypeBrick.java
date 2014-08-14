@@ -38,7 +38,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
@@ -46,7 +45,7 @@ import org.catrobat.catroid.physics.PhysicsObject;
 
 import java.util.List;
 
-public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneable{
+public class SetPhysicsObjectTypeBrick extends BrickBaseType implements Cloneable {
 	private static final long serialVersionUID = 1L;
 
 	private PhysicsObject.Type type = PhysicsObject.Type.NONE;

@@ -112,8 +112,8 @@ public class SetPhysicsObjectTypeBrickTest extends ActivityInstrumentationTestCa
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		setPhysicsObjectTypeBrick = new SetPhysicsObjectTypeBrick(sprite, PhysicsObject.Type.DYNAMIC);
+		Script script = new StartScript();
+		setPhysicsObjectTypeBrick = new SetPhysicsObjectTypeBrick(PhysicsObject.Type.DYNAMIC);
 		script.addBrick(setPhysicsObjectTypeBrick);
 
 		sprite.addScript(script);

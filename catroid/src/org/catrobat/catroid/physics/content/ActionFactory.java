@@ -125,7 +125,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createBroadcastNotifyAction(BroadcastEvent event) {
+	public static Action createBroadcastNotifyAction(BroadcastEvent event) {
 		BroadcastNotifyAction action = Actions.action(BroadcastNotifyAction.class);
 		action.setEvent(event);
 		return action;

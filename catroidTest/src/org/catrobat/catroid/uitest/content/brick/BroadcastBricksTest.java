@@ -101,10 +101,9 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.sleep(200);
 
 		UiTestUtils.addNewBrick(solo, R.string.category_control, R.string.brick_broadcast);
-		//dont need to place it because there are 0 bricks, places automatically.
 
 		//to gain focus
-		solo.clickOnScreen(200, 200);
+		solo.clickOnScreen(400,400);
 		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
 			solo.goBack();
 		}

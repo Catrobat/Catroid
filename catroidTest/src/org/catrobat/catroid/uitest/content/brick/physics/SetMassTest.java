@@ -73,7 +73,9 @@ public class SetMassTest extends ActivityInstrumentationTestCase2<ScriptActivity
 
 		float mass = 1.234f;
 
-		UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_mass_edit_text, mass, "mass", setMassBrick);
+		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+				R.id.brick_set_mass_edit_text, mass, Brick.BrickField.PHYSICS_GRAVITY_X.PHYSICS_MASS,
+				setMassBrick);
 	}
 
 	@Smoke
@@ -88,7 +90,8 @@ public class SetMassTest extends ActivityInstrumentationTestCase2<ScriptActivity
 		};
 
 		for (float mass : masses) {
-			UiTestUtils.testBrickWithFormulaEditor(solo, R.id.brick_set_mass_edit_text, mass, "mass", setMassBrick);
+			UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
+					R.id.brick_set_mass_edit_text, mass, Brick.BrickField.PHYSICS_MASS, setMassBrick);
 		}
 	}
 
@@ -113,8 +116,8 @@ public class SetMassTest extends ActivityInstrumentationTestCase2<ScriptActivity
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript(sprite);
-		setMassBrick = new SetMassBrick(sprite, 0.0f);
+		Script script = new StartScript();
+		setMassBrick = new SetMassBrick(0.0f);
 		script.addBrick(setMassBrick);
 
 		sprite.addScript(script);
