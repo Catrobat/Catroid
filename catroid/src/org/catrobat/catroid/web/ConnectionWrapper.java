@@ -73,19 +73,24 @@ public class ConnectionWrapper {
 			File file = new File(filePath);
 			uploadRequest.part(fileTag, fileName, file);
 
-			int responseCode = uploadRequest.code();
-			if (!(responseCode == 200 || responseCode == 201)) {
-				throw new WebconnectionException(responseCode, "Error response code should be 200 or 201!");
-			}
-			if (!uploadRequest.ok()) {
-				Log.v(TAG, "Upload not succesful");
-				StatusBarNotificationManager.getInstance().cancelNotification(notificationId);
-			} else {
-				StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId, 100);
-			}
+			try {
+				int responseCode = uploadRequest.code();
+				if (!(responseCode == 200 || responseCode == 201)) {
+					throw new WebconnectionException(responseCode, "Error response code should be 200 or 201!");
+				}
+				if (!uploadRequest.ok()) {
+					Log.v(TAG, "Upload not successful");
+					StatusBarNotificationManager.getInstance().cancelNotification(notificationId);
+				} else {
+					StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId, 100);
+				}
 
-			answer = uploadRequest.body();
-			Log.v(TAG, "Upload response is: " + answer);
+				answer = uploadRequest.body();
+				Log.v(TAG, "Upload response is: " + answer);
+			} catch (HttpRequest.HttpRequestException exception) {
+				Log.e(TAG, "OkHttpError", exception);
+				throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "OkHttp threw an exception");
+			}
 		}
 		return answer;
 	}
