@@ -24,6 +24,7 @@ package org.catrobat.catroid.physics.shapebuilder;
 
 import android.util.Log;
 
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
@@ -44,35 +45,35 @@ public class PhysicsShapeBuilder {
 	}
 
 	public Shape[] getShape(LookData lookData, float scaleFactor) {
-		if (lookData == null) {
-			Log.d(TAG, "lookData == null");
-			return null;
-		}
+		Shape[] shapes = null;
+		float scaleLevel = getScaleLevel(scaleFactor);
+		String key = getKey(lookData, scaleLevel);
 
-		String key = getKey(lookData, scaleFactor);
 		if (shapeMap.containsKey(key)) {
 			Log.d(TAG, "reuse");
-			return shapeMap.get(key);
+			shapes = shapeMap.get(key);
+		}else{
+			Pixmap pixmap = lookData.getPixmap();
+			Pixmap thumb = new Pixmap((int)(pixmap.getWidth() * scaleLevel), (int)(pixmap.getHeight() * scaleLevel), pixmap.getFormat());
+			Pixmap.setFilter(Pixmap.Filter.NearestNeighbour);
+			thumb.drawPixmap(pixmap,0,0,pixmap.getWidth(),pixmap.getHeight(),0,0,thumb.getWidth(),thumb.getHeight());
+			shapes = strategy.build(thumb, scaleFactor);
+			thumb.dispose();
+			shapes = normalize(shapes, scaleLevel);
+			shapeMap.put(key, shapes);
 		}
+		return scaleShapes(shapes, scaleFactor);
+	}
 
-		Shape[] shapes = shapeMap.get(getKey(lookData, 1.0f));
-		if (shapes == null) {
-			shapes = strategy.build(lookData);
-			Log.d(TAG, "build");
-			if (shapes == null) {
-				return null;
-			}
-			shapeMap.put(getKey(lookData, 1.0f), shapes);
+	private Shape[] normalize(Shape[] shapes, float scaleLevel) {
+		return scaleShapes(shapes, 1/scaleLevel);
+	}
+
+	private float getScaleLevel(float scaleFactor) {
+		if(scaleFactor >= 0.25f) {
+			return  0.25f;
 		}
-
-		if (scaleFactor != 1.0f) {
-			Shape[] scaledShapes = scaleShapes(shapes, scaleFactor);
-			Log.d(TAG, "scale");
-			shapeMap.put(key, scaledShapes);
-			shapes = scaledShapes;
-		}
-
-		return shapes;
+		return 0.05f;
 	}
 
 	private String getKey(LookData lookData, float scaleFactor) {

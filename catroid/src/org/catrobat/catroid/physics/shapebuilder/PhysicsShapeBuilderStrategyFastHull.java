@@ -27,7 +27,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 
-import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.physics.PhysicsWorldConverter;
 
 import java.util.ArrayList;
@@ -39,15 +38,7 @@ public final class PhysicsShapeBuilderStrategyFastHull implements PhysicsShapeBu
 	private final Stack<Vector2> convexHull = new Stack<Vector2>();
 
 	@Override
-	public Shape[] build(LookData lookData) {
-		Pixmap pixmap = lookData.getPixmap();
-
-
-		//float scale = 0.25f; //25% of original size
-		//Pixmap thumb = new Pixmap((int)(pixmap.getWidth() * scale), (int)(pixmap.getHeight() * scale), pixmap.getFormat());
-		//Pixmap.setFilter(Pixmap.Filter.BiLinear);
-		//thumb.draw(pixmap, 0, 0, pixmap.getWidth(), pixmap.getHeight(), 0, 0, thumb.getWidth(), thumb.getHeight());
-
+	public Shape[] build(Pixmap pixmap, float scale) {
 
 		if (pixmap == null) {
 			return null;

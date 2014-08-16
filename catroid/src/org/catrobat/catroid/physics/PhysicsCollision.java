@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.physics;
 
-import android.util.Log;
-
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -59,7 +57,7 @@ public class PhysicsCollision implements ContactListener {
 			physicsCollisionBroadcasts.put(key2, physicsCollisionBroadcast);
 		}
 		physicsCollisionBroadcasts.get(key1).increaseContactCounter();
-		Log.d(TAG, "registerContact:" + physicsCollisionBroadcasts.toString());
+		//Log.d(TAG, "registerContact:" + physicsCollisionBroadcasts.toString());
 	}
 
 	private void unregisterContact(Sprite sprite1, Sprite sprite2) {
@@ -71,7 +69,7 @@ public class PhysicsCollision implements ContactListener {
 
 			if (physicsCollisionBroadcast.getContactCounter() == 0) {
 				physicsCollisionBroadcast.sendBroadcast();
-				Log.d(TAG, "remove contact:" + physicsCollisionBroadcasts.toString());
+				//Log.d(TAG, "remove contact:" + physicsCollisionBroadcasts.toString());
 				physicsCollisionBroadcasts.remove(key1);
 				physicsCollisionBroadcasts.remove(key2);
 			}
@@ -80,10 +78,11 @@ public class PhysicsCollision implements ContactListener {
 
 	@Override
 	public void beginContact(Contact contact) {
-		Log.d(TAG, "beginContact");
+		//Log.d(TAG, "beginContact");
 
 		Body a = contact.getFixtureA().getBody();
 		Body b = contact.getFixtureB().getBody();
+
 
 		if (a.getUserData() instanceof Sprite && b.getUserData() instanceof PhysicsBoundaryBox.BoundaryBoxIdentifier) {
 			physicsWorld.bouncedOnEdge((Sprite) a.getUserData(), (PhysicsBoundaryBox.BoundaryBoxIdentifier) b.getUserData());
@@ -100,7 +99,7 @@ public class PhysicsCollision implements ContactListener {
 
 	@Override
 	public void endContact(Contact contact) {
-		Log.d(TAG, "endContact");
+		//Log.d(TAG, "endContact");
 
 		Body a = contact.getFixtureA().getBody();
 		Body b = contact.getFixtureB().getBody();

@@ -29,14 +29,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 
-import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.physics.PhysicsWorldConverter;
 
 public class PhysicsShapeBuilderStrategyRectangle implements PhysicsShapeBuilderStrategy {
 
 	@Override
-	public Shape[] build(LookData lookData) {
-		Pixmap pixmap = lookData.getPixmap();
+	public Shape[] build(Pixmap pixmap, float scale) {
 
 		if (pixmap == null) {
 			return null;
