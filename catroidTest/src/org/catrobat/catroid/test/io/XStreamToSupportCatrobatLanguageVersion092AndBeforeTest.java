@@ -57,7 +57,7 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBeforeTest extends Ins
 	private static final String PROJECT_NAME_AIR_FIGHT = "Air Fight 0.5";
 	private static final String PROJECT_NAME_XRAY_PHONE = "X-Ray Phone";
 	private static final String PROJECT_NAME_ALL_BRICKS = "All Bricks";
-	private static final String PROJECT_NAME_NOTE_AND_SPEAKBRICK = "NoteAndSpeakbrick";
+	private static final String PROJECT_NAME_NOTE_AND_SPEAKBRICK = "NoteAndSpeakBrick";
 
 	@Override
 	public void setUp() {
@@ -99,7 +99,7 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBeforeTest extends Ins
 		deleteZipFilesOfCatrobatLanguageVersion091AndBefore(ZIP_FILENAME_ALL_BRICKS, Constants.TMP_PATH);
 		deleteZipFilesOfCatrobatLanguageVersion091AndBefore(ZIP_FILENAME_NOTE_AND_SPEAKBRICK, Constants.TMP_PATH);
 
-		TestUtils.deleteTestProjects(new String[] { PROJECT_NAME_FALLING_BALLS, PROJECT_NAME_COLOR_LEANER_BALLOONS,
+		TestUtils.deleteTestProjects(new String[]{PROJECT_NAME_FALLING_BALLS, PROJECT_NAME_COLOR_LEANER_BALLOONS,
 				PROJECT_NAME_PONG_STARTER, PROJECT_NAME_WHIP, PROJECT_NAME_AIR_FIGHT, PROJECT_NAME_XRAY_PHONE,
 				PROJECT_NAME_ALL_BRICKS, PROJECT_NAME_NOTE_AND_SPEAKBRICK});
 		super.tearDown();
@@ -174,5 +174,6 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBeforeTest extends Ins
 	public void testLoadingProjectsOfCatrobatLanguageVersion092() {
 		Project noteAndSpeakBrickProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_NOTE_AND_SPEAKBRICK);
 		assertTrue("Cannot load " + PROJECT_NAME_NOTE_AND_SPEAKBRICK + " project", noteAndSpeakBrickProject != null);
+		assertEquals("Wrong project loaded", PROJECT_NAME_NOTE_AND_SPEAKBRICK, noteAndSpeakBrickProject.getName());
 	}
 }

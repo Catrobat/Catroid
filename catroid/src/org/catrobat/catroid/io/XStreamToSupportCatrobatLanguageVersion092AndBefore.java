@@ -104,7 +104,6 @@ import org.w3c.dom.NodeList;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -259,6 +258,7 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 		brickInfoMap.put("nextLookBrick", brickInfo);
 
 		brickInfo = new BrickInfo(NoteBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("note", BrickField.NOTE);
 		brickInfoMap.put("noteBrick", brickInfo);
 
 		brickInfo = new BrickInfo(PlaceAtBrick.class.getSimpleName());
@@ -319,6 +319,7 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 		brickInfoMap.put("showBrick", brickInfo);
 
 		brickInfo = new BrickInfo(SpeakBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("text", BrickField.SPEAK);
 		brickInfoMap.put("speakBrick", brickInfo);
 
 		brickInfo = new BrickInfo(StopAllSoundsBrick.class.getSimpleName());
@@ -403,19 +404,18 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 	private void modifyXMLToSupportUnknownFields(File file) {
 		initializeScriptInfoMap();
 		initializeBrickInfoMap();
-		Document doc = getDocument(file);
-		if (doc != null) {
-			convertChildNodeToAttribute(doc, "lookList", "name");
-			convertChildNodeToAttribute(doc, "object", "name");
+		Document originalDocument = getDocument(file);
+		if (originalDocument != null) {
+			convertChildNodeToAttribute(originalDocument, "lookList", "name");
+			convertChildNodeToAttribute(originalDocument, "object", "name");
 
-			deleteChildNodeByName(doc, "scriptList", "object");
-			deleteChildNodeByName(doc, "brickList", "object");
+			deleteChildNodeByName(originalDocument, "scriptList", "object");
+			deleteChildNodeByName(originalDocument, "brickList", "object");
 
-			modifyScriptLists(doc);
-			modifyBrickLists(doc);
-			checkReferences(doc.getDocumentElement());
-			modifySpeakAndNoteBrick(doc);
-			saveDocument(doc, file);
+			modifyScriptLists(originalDocument);
+			modifyBrickLists(originalDocument);
+			checkReferences(originalDocument.getDocumentElement());
+			saveDocument(originalDocument, file);
 		}
 	}
 
@@ -505,8 +505,8 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 		}
 	}
 
-	private void convertChildNodeToAttribute(Document doc, String parentNodeName, String childNodeName) {
-		NodeList nodeList = doc.getElementsByTagName(parentNodeName);
+	private void convertChildNodeToAttribute(Document originalDocument, String parentNodeName, String childNodeName) {
+		NodeList nodeList = originalDocument.getElementsByTagName(parentNodeName);
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node node = nodeList.item(i);
 			Node childNode = findNodeByName(node, childNodeName);
@@ -518,15 +518,15 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 		}
 	}
 
-	private void modifyScriptLists(Document doc) {
-		NodeList scriptListNodeList = doc.getElementsByTagName("scriptList");
+	private void modifyScriptLists(Document originalDocument) {
+		NodeList scriptListNodeList = originalDocument.getElementsByTagName("scriptList");
 		for (int i = 0; i < scriptListNodeList.getLength(); i++) {
 			Node scriptListNode = scriptListNodeList.item(i);
 			if (scriptListNode.hasChildNodes()) {
 				NodeList scriptListChildNodes = scriptListNode.getChildNodes();
 				for (int j = 0; j < scriptListChildNodes.getLength(); j++) {
 					Node scriptNode = scriptListChildNodes.item(j);
-					Element newScriptNode = doc.createElement("script");
+					Element newScriptNode = originalDocument.createElement("script");
 
 					String scriptName = scriptInfoMap.get(scriptNode.getNodeName());
 					if (scriptName != null) {
@@ -549,15 +549,15 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 		}
 	}
 
-	private void modifyBrickLists(Document doc) {
-		NodeList brickListNodeList = doc.getElementsByTagName("brickList");
+	private void modifyBrickLists(Document originalDocument) {
+		NodeList brickListNodeList = originalDocument.getElementsByTagName("brickList");
 		for (int i = 0; i < brickListNodeList.getLength(); i++) {
 			Node brickListNode = brickListNodeList.item(i);
 			if (brickListNode.hasChildNodes()) {
 				NodeList brickListChildNodes = brickListNode.getChildNodes();
 				for (int j = 0; j < brickListChildNodes.getLength(); j++) {
 					Node brickNode = brickListChildNodes.item(j);
-					Element newBrickNode = doc.createElement("brick");
+					Element newBrickNode = originalDocument.createElement("brick");
 
 					BrickInfo brickInfo = brickInfoMap.get(brickNode.getNodeName());
 					if (brickInfo != null) {
@@ -570,14 +570,15 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 								Element brickChild = (Element) brickChildNodes.item(k);
 
 								if (brickInfo.getBrickFieldForOldFieldName(brickChild.getNodeName()) != null) {
-									handleFormulaNode(doc, brickInfo, newBrickNode, brickChild);
+									handleFormulaNode(originalDocument, brickInfo, newBrickNode, brickChild);
 								} else if (brickChild.getNodeName().equals("userVariable")) {
 									handleUserVariableNode(newBrickNode, brickChild);
 								} else if (brickChild.getNodeName().equals("loopEndBrick") ||
 										brickChild.getNodeName().equals("ifElseBrick") ||
 										brickChild.getNodeName().equals("ifEndBrick")) {
 									continue;
-								} else {
+								}
+								else {
 									newBrickNode.appendChild(brickChild);
 								}
 							}
@@ -591,48 +592,31 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 		}
 	}
 
-	private void modifySpeakAndNoteBrick(Document doc) {
-		NodeList brickListNodeList = doc.getElementsByTagName("brickList");
-		for (int i = 0; i < brickListNodeList.getLength(); i++) {
-			Node brickListNode = brickListNodeList.item(i);
-			if (brickListNode.hasChildNodes()) {
-				NodeList brickListChildNodes = brickListNode.getChildNodes();
-				for (int j = 0; j < brickListChildNodes.getLength(); j++) {
-					Node brickNode = brickListChildNodes.item(j);
-					String nodeValue = brickNode.getAttributes().item(0).getNodeValue();
-					String firstLetterLowerCase = nodeValue.substring(0, 1).toLowerCase(Locale.getDefault());
-					String newNodeValue = firstLetterLowerCase + nodeValue.substring(1,nodeValue.length());
-					BrickInfo brickInfo = brickInfoMap.get(newNodeValue);
-					if (brickInfo != null) {
-						if (brickNode.hasChildNodes()) {
-							NodeList brickChildNodes = brickNode.getChildNodes();
-							for (int k = 0; k < brickChildNodes.getLength(); k++) {
-								Element parentNode = (Element) brickNode;
-								if (parentNode.getAttribute("type").equals(NoteBrick.class.getSimpleName())) {
-									handleBrickNode(doc, parentNode, BrickField.NOTE, "note");
-								} else if (parentNode.getAttribute("type").equals(SpeakBrick.class.getSimpleName())) {
-									handleBrickNode(doc, parentNode, BrickField.SPEAK, "text");
-								}
-							}
-						} else {
-							Log.e(TAG, nodeValue + " cannot be converted to formula brick.");
-						}
-					}
-				}
-			}
-		}
-	}
-
-	private void handleFormulaNode(Document doc, BrickInfo brickInfo, Element parentNode, Element node) {
-		Node formulaListNode = findNodeByName(parentNode, "formulaList");
+	private void handleFormulaNode(Document doc, BrickInfo brickInfo, Element newParentNode, Element oldNode) {
+		Node formulaListNode = findNodeByName(newParentNode, "formulaList");
 		if (formulaListNode == null) {
 			formulaListNode = doc.createElement("formulaList");
-			parentNode.appendChild(formulaListNode);
+			newParentNode.appendChild(formulaListNode);
 		}
 
-		Element formulaNode = findNodeByName(node, "formulaTree");
-		doc.renameNode(formulaNode, formulaNode.getNamespaceURI(), "formula");
-		formulaNode.setAttribute("category", brickInfo.getBrickFieldForOldFieldName(node.getNodeName()).toString());
+		Element formulaNode = findNodeByName(oldNode, "formulaTree");
+		if (formulaNode == null) {
+			formulaNode = doc.createElement("formula");
+		} else {
+			doc.renameNode(formulaNode, formulaNode.getNamespaceURI(), "formula");
+		}
+		String category = brickInfo.getBrickFieldForOldFieldName(oldNode.getNodeName()).toString();
+		formulaNode.setAttribute("category", category);
+		if (category.equals("SPEAK") || category.equals("NOTE")) {
+			Element type = doc.createElement("type");
+			type.setTextContent("STRING");
+			formulaNode.appendChild(type);
+
+			Element value = doc.createElement("value");
+			String textContent = oldNode.getFirstChild().getTextContent();
+			value.setTextContent(textContent);
+			formulaNode.appendChild(value);
+		}
 		formulaListNode.appendChild(formulaNode);
 	}
 
@@ -646,28 +630,6 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 			}
 		}
 		parentNode.appendChild(userVariableNode);
-	}
-
-	private void handleBrickNode(Document doc, Node parentNode, BrickField brickField, String childNodeName) {
-		Node child = findNodeByName(parentNode, childNodeName);
-		String textContent = child.getTextContent();
-
-		Node formulaListNode = doc.createElement("formulaList");
-
-		Element formulaNode = doc.createElement("formula");
-		formulaNode.setAttribute("category", brickField.toString());
-
-		Element type = doc.createElement("type");
-		type.setTextContent("STRING");
-		formulaNode.appendChild(type);
-
-		Element value = doc.createElement("value");
-		value.setTextContent(textContent);
-		formulaNode.appendChild(value);
-
-		formulaListNode.appendChild(formulaNode);
-
-		parentNode.replaceChild(formulaListNode, child);
 	}
 
 	private void checkReferences(Element node) {
