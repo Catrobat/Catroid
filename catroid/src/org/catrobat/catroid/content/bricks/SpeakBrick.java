@@ -133,7 +133,7 @@ public class SpeakBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.speak(getFormulaWithBrickField(BrickField.SPEAK)));
+		sequence.addAction(ExtendedActions.speak(sprite, getFormulaWithBrickField(BrickField.SPEAK)));
 		return null;
 	}
 

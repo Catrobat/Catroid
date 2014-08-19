@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -33,14 +34,15 @@ import org.catrobat.catroid.test.utils.Reflection;
 
 public class SpeakActionTest extends AndroidTestCase {
 
-
-    private static final String SPEAK = "hello world!";
+	private Sprite sprite;
+	private static final String SPEAK = "hello world!";
 	private Formula text;
 	private Formula text2;
 	private Formula textString;
 
 	@Override
 	protected void setUp() throws Exception {
+		sprite = new Sprite("testSprite");
 		text = new Formula(666);
 		text2 = new Formula(888.88);
 		textString = new Formula(SPEAK);
@@ -50,14 +52,14 @@ public class SpeakActionTest extends AndroidTestCase {
 	public void testSpeak() {
 
 		SpeakBrick speakBrick = new SpeakBrick(text);
-		SpeakAction action = ExtendedActions.speak(text);
+		SpeakAction action = ExtendedActions.speak(sprite, text);
 		Formula textAfterExecution = (Formula) Reflection.getPrivateField(action, "text");
 
 		assertEquals("Text is not updated after SpeakBrick executed", text, speakBrick.getFormula());
 		assertEquals("Text is not updated after SpeakBrick executed", text, textAfterExecution);
 
 		speakBrick = new SpeakBrick(text2);
-		action = ExtendedActions.speak(text);
+		action = ExtendedActions.speak(sprite, text);
 		textAfterExecution = (Formula) Reflection.getPrivateField(action, "text");
 
 		assertEquals("Text is not updated after SpeakBrick executed", text2, speakBrick.getFormula());
@@ -65,9 +67,8 @@ public class SpeakActionTest extends AndroidTestCase {
 	}
 
 	public void testNullSprite() {
-
 		SpeakBrick speakBrick = new SpeakBrick(text);
-		SpeakAction action = ExtendedActions.speak(text);
+		SpeakAction action = ExtendedActions.speak(sprite, text);
 
 		try {
 			action.act(1.0f);
@@ -85,7 +86,7 @@ public class SpeakActionTest extends AndroidTestCase {
 
 	public void testBrickWithStringFormula() {
 		SpeakBrick speakBrick = new SpeakBrick(textString);
-		SpeakAction action = ExtendedActions.speak(textString);
+		SpeakAction action = ExtendedActions.speak(sprite, textString);
 		Reflection.invokeMethod(action, "begin");
 
 		assertEquals("Text is not updated after SpeakBrick executed", textString, speakBrick.getFormula());
@@ -94,7 +95,7 @@ public class SpeakActionTest extends AndroidTestCase {
 	}
 
 	public void testNullFormula() {
-		SpeakAction action = ExtendedActions.speak((Formula) null);
+		SpeakAction action = ExtendedActions.speak(sprite, (Formula) null);
 		Reflection.invokeMethod(action, "begin");
 
 		assertEquals("Text is not updated after SpeakBrick executed", "",
@@ -102,7 +103,7 @@ public class SpeakActionTest extends AndroidTestCase {
 	}
 
 	public void testNotANumberFormula() {
-		SpeakAction action = ExtendedActions.speak(new Formula(Double.NaN));
+		SpeakAction action = ExtendedActions.speak(sprite, new Formula(Double.NaN));
 		Reflection.invokeMethod(action, "begin");
 
 		assertEquals("Text is not updated after SpeakBrick executed", "",
