@@ -35,8 +35,8 @@ public class UserScript extends Script {
 
 	private UserScriptDefinitionBrick definitionBrick;
 
-	public UserScript(Sprite sprite, UserScriptDefinitionBrick brick) {
-		super(sprite);
+	public UserScript(UserScriptDefinitionBrick brick) {
+		super();
 		this.brick = definitionBrick = brick;
 	}
 
@@ -72,7 +72,7 @@ public class UserScript extends Script {
 		UserScriptDefinitionBrick preCopiedDefinitionBrick = findBrickWithId(preCopiedUserBricks,
 				definitionBrick.getUserBrickId()).getDefinitionBrick();
 
-		UserScript cloneScript = new UserScript(copySprite, preCopiedDefinitionBrick);
+		UserScript cloneScript = new UserScript(preCopiedDefinitionBrick);
 
 		doCopy(copySprite, cloneScript, preCopiedUserBricks);
 

@@ -85,7 +85,6 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 
 	private static String singleItemAppendixActionMode;
 	private static String multipleItemAppendixActionMode;
-	private static String userBricksCategoryString;
 
 	private ActionMode actionMode;
 
@@ -103,7 +102,6 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 		arguments.putString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY, selectedCategory);
 		fragment.setArguments(arguments);
 		fragment.scriptFragment = scriptFragment;
-		userBricksCategoryString = scriptFragment.getString(R.string.category_user_bricks);
 		return fragment;
 	}
 
@@ -127,7 +125,7 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 		adapter.setOnBrickCheckedListener(this);
 		setListAdapter(adapter);
 
-		if (selectedCategory.equals(userBricksCategoryString)) {
+		if (selectedCategory.equals(getActivity().getString(R.string.category_user_bricks))) {
 			addButtonHandler = this;
 
 			ScriptActivity activity = (ScriptActivity) scriptFragment.getActivity();
@@ -186,7 +184,7 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		int newBrickId = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getAndIncrementUserBrickId();
-		UserBrick newBrick = new UserBrick(currentSprite, newBrickId);
+		UserBrick newBrick = new UserBrick(newBrickId);
 		newBrick.addUIText(scriptFragment.getString(R.string.new_user_brick) + " "
 				+ currentSprite.getNextNewUserBrickId());
 		newBrick.addUILocalizedVariable(getActivity(), R.string.new_user_brick_variable);
@@ -217,7 +215,7 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		String selectedCategory = getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY);
-		if (selectedCategory.equals(userBricksCategoryString)) {
+		if (selectedCategory.equals(getActivity().getString(R.string.category_user_bricks))) {
 			menu.findItem(R.id.delete).setVisible(true);
 		}
 		menu.findItem(R.id.copy).setVisible(false);
@@ -278,11 +276,10 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 					Brick brickToBeAdded = adapter.getItem(position).clone();
 					scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded);
 
-					if (clickedBrick instanceof UserBrick) {
-						clickedOnUserBrick(((UserBrick) clickedBrick), view);
-					}
-					else if (brickToBeAdded instanceof ScriptBrick) {
-						Script script = ((ScriptBrick) brickToBeAdded).initScript();
+					if (brickToBeAdded instanceof UserBrick) {
+						clickedOnUserBrick(((UserBrick) brickToBeAdded), view);
+					} else if (brickToBeAdded instanceof ScriptBrick) {
+						Script script = ((ScriptBrick) brickToBeAdded).getScriptSafe();
 						ProjectManager.getInstance().setCurrentScript(script);
 					}
 
@@ -304,6 +301,8 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 					Log.e(getTag(), "Adding a Brick was not possible because cloning it from the preview failed",
 							exception);
 					Toast.makeText(getActivity(), R.string.error_adding_brick, Toast.LENGTH_SHORT).show();
+				}
+			}
 		});
 	}
 
@@ -349,11 +348,14 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 	}
 
 	public void addBrickToScript(Brick brickToBeAdded) {
-		scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded.clone());
+		try {
+			scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded.clone());
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
 
 		if (brickToBeAdded instanceof ScriptBrick) {
-			Script script = ((ScriptBrick) brickToBeAdded).getScriptSafe(ProjectManager.getInstance()
-					.getCurrentSprite());
+			Script script = ((ScriptBrick) brickToBeAdded).getScriptSafe();
 			ProjectManager.getInstance().setCurrentScript(script);
 		}
 

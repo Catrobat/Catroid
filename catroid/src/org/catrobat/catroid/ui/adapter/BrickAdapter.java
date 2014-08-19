@@ -404,7 +404,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		int scriptPosition = temp[0];
 		int brickPosition = temp[1];
 
-		Script newScript = scriptBrick.getScriptSafe(currentSprite);
+		Script newScript = scriptBrick.getScriptSafe();
 		if (currentSprite.getNumberOfBricks() > 0) {
 			int addScriptTo = position == 0 ? 0 : scriptPosition + 1;
 			currentSprite.addScript(addScriptTo, newScript);
@@ -492,7 +492,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			((NestingBrick) draggedBrick).initialize();
 			List<NestingBrick> nestingBrickList = ((NestingBrick) draggedBrick).getAllNestingBrickParts(true);
 			for (int i = 0; i < nestingBrickList.size(); i++) {
-				userScript.addBrick(position + i, nestingBrickList.get(i));
+				userScript.addBrick(position + i, (Brick) nestingBrickList.get(i));
 			}
 		} else {
 			userScript.addBrick(position, brick);
@@ -738,8 +738,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 			Brick brick = userScript.getBrick(getPositionInUserScript(index));
 			if (brick instanceof NestingBrick) {
-				for (Brick tempBrick : ((NestingBrick) brick).getAllNestingBrickParts(true)) {
-					userScript.removeBrick(tempBrick);
+				for (NestingBrick tempBrick : ((NestingBrick) brick).getAllNestingBrickParts(true)) {
+					userScript.removeBrick((Brick) tempBrick);
 				}
 			} else {
 				userScript.removeBrick(brick);
@@ -1096,8 +1096,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		Brick brick = brickList.get(itemPosition);
 		if (brick instanceof NestingBrick) {
 			List<NestingBrick> list = ((NestingBrick) brick).getAllNestingBrickParts(true);
-			for (Brick tempBrick : list) {
-				animatedBricks.add(tempBrick);
+			for (NestingBrick tempBrick : list) {
+				animatedBricks.add((Brick)tempBrick);
 			}
 		}
 		notifyDataSetChanged();

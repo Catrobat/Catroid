@@ -72,7 +72,7 @@ public class BroadcastScript extends Script implements BroadcastMessage {
 
 	@Override
 	public Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks) {
-		BroadcastScript cloneScript = new BroadcastScript(copySprite, receivedMessage);
+		BroadcastScript cloneScript = new BroadcastScript(receivedMessage);
 
 		doCopy(copySprite, cloneScript, preCopiedUserBricks);
 		return cloneScript;

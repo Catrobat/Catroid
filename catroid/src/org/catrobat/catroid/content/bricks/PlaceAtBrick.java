@@ -62,14 +62,6 @@ public class PlaceAtBrick extends FormulaBrick implements OnClickListener {
 		initializeBrickFields(xPosition, yPosition);
 	}
 
-	@Override
-	public List<Formula> getFormulas() {
-		List<Formula> list = new LinkedList<Formula>();
-		list.add(xPosition);
-		list.add(yPosition);
-		return list;
-	}
-
 	public void setXPosition(Formula xPosition) {
 		setFormulaWithBrickField(BrickField.X_POSITION, xPosition);
 	}

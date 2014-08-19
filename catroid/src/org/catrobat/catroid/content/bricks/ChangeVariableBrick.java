@@ -81,10 +81,8 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 		initializeBrickFields(new Formula(value));
 	}
 
-	//TODO: change constructor
-	public ChangeVariableBrick(Sprite sprite, Formula variableFormula, UserVariable userVariable, boolean inUserBrick) {
-		this.sprite = sprite;
-		this.variableFormula = variableFormula;
+	public ChangeVariableBrick(Formula variableFormula, UserVariable userVariable, boolean inUserBrick) {
+		initializeBrickFields(variableFormula);
 		this.userVariable = userVariable;
 		this.inUserBrick = inUserBrick;
 	}
@@ -308,11 +306,6 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 				.getAdapter());
 		userVariableAdapterWrapper.notifyDataSetChanged();
 		setSpinnerSelection(spinnerToUpdate, newUserVariable);
-	}
-
-	@Override
-	public Formula getFormula() {
-		return variableFormula;
 	}
 
 }

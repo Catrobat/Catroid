@@ -52,7 +52,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UserBrick extends BrickBaseType implements OnClickListener, MultiFormulaBrick {
+public class UserBrick extends FormulaBrick implements OnClickListener, MultiFormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private UserScriptDefinitionBrick definitionBrick;
@@ -66,19 +66,17 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 	private int lastDataVersion = 0;
 	private int userBrickId;
 
-	public UserBrick(Sprite sprite, int userBrickId) {
+	public UserBrick(int userBrickId) {
+		addAllowedBrickField(BrickField.USER_BRICK);
 		this.userBrickId = userBrickId;
-		this.sprite = sprite;
-		sprite.addUserBrick(this);
 		uiDataArray = new UserBrickUIDataArray();
-		this.definitionBrick = new UserScriptDefinitionBrick(sprite, this, userBrickId);
-
+		this.definitionBrick = new UserScriptDefinitionBrick(this, userBrickId);
 		updateUIComponents(null);
 	}
 
-	public UserBrick(Sprite sprite, UserBrickUIDataArray uiData, UserScriptDefinitionBrick definitionBrick) {
+	public UserBrick(UserBrickUIDataArray uiData, UserScriptDefinitionBrick definitionBrick) {
+		addAllowedBrickField(BrickField.USER_BRICK);
 		this.userBrickId = definitionBrick.getUserBrickId();
-		this.sprite = sprite;
 		this.uiDataArray = uiData;
 		this.definitionBrick = definitionBrick;
 		updateUIComponents(null);
@@ -90,9 +88,8 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 	}
 
 	@Override
-	public UserBrick copyBrickForSprite(Sprite sprite, Script script) {
+	public UserBrick copyBrickForSprite(Sprite sprite) {
 		UserBrick copyBrick = clone();
-		copyBrick.sprite = sprite;
 		return copyBrick;
 	}
 
@@ -370,7 +367,11 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 
 				if (prototype) {
 					currentTextView.setTextAppearance(context, R.style.BrickPrototypeTextView);
-					currentTextView.setText(String.valueOf(component.variableFormula.interpretInteger(sprite)));
+//					currentTextView.setText(String.valueOf(component.variableFormula.interpretInteger(sprite)));
+					currentTextView.setText(String
+							.valueOf(getFormulaWithBrickField(BrickField.USER_BRICK).interpretInteger(ProjectManager
+									.getInstance().getCurrentSprite())));
+
 				} else {
 					currentTextView.setId(id);
 					currentTextView.setTextAppearance(context, R.style.BrickEditText);
@@ -430,7 +431,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 
 	@Override
 	public UserBrick clone() {
-		return new UserBrick(getSprite(), uiDataArray, definitionBrick);
+		return new UserBrick(uiDataArray, definitionBrick);
 	}
 
 	@Override
@@ -449,15 +450,15 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 	}
 
 	@Override
-	public List<SequenceAction> addActionToSequence(SequenceAction sequence) {
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 
 		UserBrickStageToken stageToken = getStageToken();
 
 		ArrayList<SequenceAction> returnActionList = new ArrayList<SequenceAction>();
 
 		SequenceAction userSequence = ExtendedActions.sequence();
-		Script userScript = definitionBrick.getScriptSafe(sprite);
-		userScript.run(userSequence);
+		Script userScript = definitionBrick.getScriptSafe();
+		userScript.run(sprite, userSequence);
 
 		returnActionList.add(userSequence);
 
@@ -488,7 +489,9 @@ public class UserBrick extends BrickBaseType implements OnClickListener, MultiFo
 					if (variable == null) {
 						variable = variablesContainer.addUserBrickUserVariableToUserBrick(userBrickId, uiData.name);
 					}
-					variable.setValue(uiComponent.variableFormula.interpretDouble(sprite));
+					variable.setValue(getFormulaWithBrickField(BrickField.USER_BRICK).interpretDouble(ProjectManager
+									.getInstance().getCurrentSprite()));
+
 					theList.add(new UserBrickVariable(variable, uiComponent.variableFormula));
 				}
 			}

@@ -51,15 +51,14 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.List;
 
 public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickListener {
-	private UserScript userScript;
+	private UserScript userScript; //TODO: member should be removed
 	private UserBrick brick;
 	private int userBrickId;
 	private static final long serialVersionUID = 1L;
 
-	public UserScriptDefinitionBrick(Sprite sprite, UserBrick brick, int userBrickId) {
+	public UserScriptDefinitionBrick(UserBrick brick, int userBrickId) {
 		this.userBrickId = userBrickId;
-		this.userScript = new UserScript(sprite, this);
-		this.sprite = sprite;
+		this.userScript = new UserScript(this);
 		this.brick = brick;
 	}
 
@@ -84,17 +83,15 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 	}
 
 	public void copyScriptFrom(Sprite sprite, UserScriptDefinitionBrick other) {
-		userScript = new UserScript(sprite, this);
+		userScript = new UserScript(this);
 		for (Brick brick : other.getUserScript().getBrickList()) {
-			userScript.addBrick(brick.copyBrickForSprite(sprite, userScript));
+			userScript.addBrick(brick.copyBrickForSprite(sprite));
 		}
 	}
 
 	@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
+	public Brick copyBrickForSprite(Sprite sprite) {
 		UserScriptDefinitionBrick copyBrick = (UserScriptDefinitionBrick) clone();
-		copyBrick.sprite = sprite;
-		copyBrick.setUserScript((UserScript) script);
 		return copyBrick;
 	}
 
@@ -253,13 +250,13 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 
 	@Override
 	public Brick clone() {
-		return new UserScriptDefinitionBrick(getSprite(), brick, userBrickId);
+		return new UserScriptDefinitionBrick(brick, userBrickId);
 	}
 
 	@Override
-	public Script getScriptSafe(Sprite sprite) {
+	public Script getScriptSafe() {
 		if (getUserScript() == null) {
-			setUserScript(new UserScript(sprite, this));
+			setUserScript(new UserScript(this));
 		}
 
 		return getUserScript();

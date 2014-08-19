@@ -60,7 +60,7 @@ public class StartScript extends Script {
 
 	@Override
 	public Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks) {
-		Script cloneScript = new StartScript(copySprite);
+		Script cloneScript = new StartScript();
 		doCopy(copySprite, cloneScript, preCopiedUserBricks);
 
 		return cloneScript;

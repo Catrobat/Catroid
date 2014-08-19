@@ -470,7 +470,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 
 		int newPosition = adapter.getCount();
-		Brick copy = brick.clone();
+		try {
+			Brick copy = brick.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
 
 		Script scriptList = null;
 		if (adapter.getUserBrick() != null) {
@@ -483,7 +487,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		try {
 			Brick copiedBrick = brick.clone();
 
-			Script scriptList = ProjectManager.getInstance().getCurrentScript();
+			scriptList = ProjectManager.getInstance().getCurrentScript();
 
 			if (brick instanceof NestingBrick) {
 				NestingBrick nestingBrickCopy = (NestingBrick) copiedBrick;

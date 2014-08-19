@@ -96,7 +96,7 @@ public class UserVariablesContainer implements Serializable {
 
 	public UserVariable addUserBrickUserVariableToUserBrick(int userBrickId, String userVariableName) {
 		List<UserVariable> varList = getOrCreateVariableListForUserBrick(userBrickId);
-		UserVariable userVariableToAdd = new UserVariable(userVariableName, varList);
+		UserVariable userVariableToAdd = new UserVariable(userVariableName);
 		userVariableToAdd.setValue(0);
 		varList.add(userVariableToAdd);
 		return userVariableToAdd;
@@ -109,13 +109,13 @@ public class UserVariablesContainer implements Serializable {
 
 	public UserVariable addSpriteUserVariableToSprite(Sprite sprite, String userVariableName) {
 		List<UserVariable> varList = getOrCreateVariableListForSprite(sprite);
-		UserVariable userVariableToAdd = new UserVariable(userVariableName, varList);
+		UserVariable userVariableToAdd = new UserVariable(userVariableName);
 		varList.add(userVariableToAdd);
 		return userVariableToAdd;
 	}
 
 	public UserVariable addProjectUserVariable(String userVariableName) {
-		UserVariable userVariableToAdd = new UserVariable(userVariableName, projectVariables);
+		UserVariable userVariableToAdd = new UserVariable(userVariableName);
 		projectVariables.add(userVariableToAdd);
 		return userVariableToAdd;
 	}

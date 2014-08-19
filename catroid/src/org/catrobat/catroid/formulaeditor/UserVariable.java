@@ -28,12 +28,10 @@ import java.util.List;
 public class UserVariable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private List<UserVariable> context;
 	private String name;
 	private transient Object value;
 
-	public UserVariable(String name, List<UserVariable> context) {
-		this.context = context;
+	public UserVariable(String name) {
 		this.name = name;
 		this.value = Double.valueOf(0);
 	}
@@ -53,10 +51,6 @@ public class UserVariable implements Serializable {
 
 	public String getName() {
 		return name;
-	}
-
-	public List<UserVariable> getContext() {
-		return context;
 	}
 
 	public void setName(String name) {

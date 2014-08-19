@@ -106,19 +106,16 @@ import java.util.List;
 public class CategoryBricksFactory {
 
 	public List<Brick> getBricks(String category, Sprite sprite, Context context) {
-
 		UserBrickScriptActivity activity;
 		try {
 			activity = (UserBrickScriptActivity) context;
 		} catch (ClassCastException e) {
 			activity = null;
 		}
-
 		boolean isUserScriptMode = activity != null;
 		List<Brick> tempList = new LinkedList<Brick>();
 		List<Brick> toReturn = new ArrayList<Brick>();
 		if (category.equals(context.getString(R.string.category_control))) {
-			return setupControlCategoryList(context);
 			tempList = setupControlCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_motion))) {
 			tempList = setupMotionCategoryList(sprite);
@@ -135,7 +132,6 @@ public class CategoryBricksFactory {
 		} else if (category.equals(context.getString(R.string.category_drone))) {
 			tempList = setupDroneCategoryList();
 		}
-
 		for (Brick brick : tempList) {
 			ScriptBrick brickAsScriptBrick;
 			try {
@@ -147,9 +143,9 @@ public class CategoryBricksFactory {
 				toReturn.add(brick);
 			}
 		}
-
 		return toReturn;
 	}
+
 
 	private List<Brick> setupControlCategoryList(Context context) {
 		List<Brick> controlBrickList = new ArrayList<Brick>();
@@ -177,7 +173,7 @@ public class CategoryBricksFactory {
 				.getUserBrickListAtLeastOneBrick(defaultText, defaultVariable);
 		ArrayList<Brick> newList = new ArrayList<Brick>();
 
-//		UserBrick userBrickWeAreAddingTo = ProjectManager.getInstance().getCurrentUserBrick();
+		UserBrick userBrickWeAreAddingTo = ProjectManager.getInstance().getCurrentUserBrick();
 //		if (userBrickWeAreAddingTo != null) {
 //			// Maintain a Directed Acyclic Graph of UserBrick call order: Don't allow cycles.
 //			for (UserBrick brick : userBrickList) {

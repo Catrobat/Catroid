@@ -156,10 +156,11 @@ public class Sprite implements Serializable, Cloneable {
 		userBricks = new ArrayList<UserBrick>();
 
 		// the UserBrick constructor will insert the UserBrick into this Sprite's userBricks list.
-		UserBrick exampleBrick = new UserBrick(this, nextUserBrickId);
+		UserBrick exampleBrick = new UserBrick(nextUserBrickId);
 		exampleBrick.addUIText(defaultText);
 		exampleBrick.addUIVariable(defaultVariable);
 
+		userBricks.add(exampleBrick);
 	}
 
 	public void createStartScriptActionSequenceAndPutToMap(Map<String, List<String>> scriptActions) {
@@ -225,7 +226,7 @@ public class Sprite implements Serializable, Cloneable {
 		List<UserVariable> originalSpriteVariables = userVariables.getOrCreateVariableListForSprite(this);
 		List<UserVariable> clonedSpriteVariables = userVariables.getOrCreateVariableListForSprite(cloneSprite);
 		for (UserVariable variable : originalSpriteVariables) {
-			clonedSpriteVariables.add(new UserVariable(variable.getName(), variable.getValue(), clonedSpriteVariables));
+			clonedSpriteVariables.add(new UserVariable(variable.getName(), variable.getValue()));
 		}
 
 		ArrayList<LookData> cloneLookList = new ArrayList<LookData>();
@@ -244,11 +245,11 @@ public class Sprite implements Serializable, Cloneable {
 		for (Brick brick : this.userBricks) {
 			UserBrick original = (UserBrick) brick;
 
-			UserBrick deepClone = new UserBrick(cloneSprite, original.getId());
+			UserBrick deepClone = new UserBrick(original.getId());
 			deepClone.uiDataArray = original.uiDataArray.clone();
 			deepClone.updateUIComponents(null);
 
-			UserScriptDefinitionBrick clonedDefinitionBrick = new UserScriptDefinitionBrick(cloneSprite, deepClone,
+			UserScriptDefinitionBrick clonedDefinitionBrick = new UserScriptDefinitionBrick(deepClone,
 					original.getId());
 			deepClone.setDefinitionBrick(clonedDefinitionBrick);
 
