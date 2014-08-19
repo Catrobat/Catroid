@@ -22,10 +22,13 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class TurnLeftAction extends TemporalAction {
 
@@ -34,7 +37,14 @@ public class TurnLeftAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		sprite.look.changeDirectionInUserInterfaceDimensionUnit(-degrees.interpretFloat(sprite));
+		Float newDegrees;
+		try {
+			newDegrees = degrees == null ? Float.valueOf(0f) : -degrees.interpretFloat(sprite);
+        } catch (InterpretationException interpretationException) {
+            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+            return;
+        }
+		sprite.look.changeDirectionInUserInterfaceDimensionUnit(newDegrees);
 	}
 
 	public void setSprite(Sprite sprite) {

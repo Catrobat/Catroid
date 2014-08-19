@@ -24,10 +24,13 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.test.AndroidTestCase;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
@@ -39,6 +42,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.test.utils.Reflection;
 
 import java.util.HashMap;
 import java.util.List;
@@ -58,27 +62,25 @@ public class IfLogicActionTest extends AndroidTestCase {
 	private IfLogicElseBrick ifLogicElseBrick2;
 	private IfLogicEndBrick ifLogicEndBrick2;
 	private RepeatBrick repeatBrick;
+	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
+	private static final String TRUE = "1.0";
+	private UserVariable userVariable;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		testSprite = new Sprite("testSprite");
 		project = new Project(null, "testProject");
+		testSprite.removeAllScripts();
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().addProjectUserVariable(TEST_USERVARIABLE);
+		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.getUserVariable(TEST_USERVARIABLE, null);
 	}
 
 	public void testNestedIfBrick() throws InterruptedException {
-		testSprite.removeAllScripts();
-
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
-
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
-
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().addProjectUserVariable(TEST_USERVARIABLE);
-
-		UserVariable userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.getUserVariable(TEST_USERVARIABLE, null);
-
 		SetVariableBrick setVariableBrick = new SetVariableBrick(new Formula(IF_TRUE_VALUE), userVariable);
 
 		Formula validFormula = new Formula(1);
@@ -104,10 +106,8 @@ public class IfLogicActionTest extends AndroidTestCase {
 		testScript.addBrick(ifLogicEndBrick2);
 		testScript.addBrick(ifLogicElseBrick);
 		testScript.addBrick(ifLogicEndBrick);
-
 		testSprite.addScript(testScript);
 		project.addSprite(testSprite);
-
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
 
@@ -119,24 +119,10 @@ public class IfLogicActionTest extends AndroidTestCase {
 		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
-		assertEquals("IfBrick not executed as expected", IF_TRUE_VALUE, userVariable.getValue().intValue());
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
-
+		assertEquals("IfBrick not executed as expected", IF_TRUE_VALUE, ((Double) userVariable.getValue()).intValue());
 	}
 
 	public void testIfBrick() throws InterruptedException {
-		testSprite.removeAllScripts();
-
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
-
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
-
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().addProjectUserVariable(TEST_USERVARIABLE);
-
-		UserVariable userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.getUserVariable(TEST_USERVARIABLE, null);
-
 		SetVariableBrick setVariableBrick = new SetVariableBrick(new Formula(IF_TRUE_VALUE), userVariable);
 
 		Formula validFormula = new Formula(1);
@@ -153,36 +139,20 @@ public class IfLogicActionTest extends AndroidTestCase {
 		testScript.addBrick(setVariableBrick);
 		testScript.addBrick(ifLogicElseBrick);
 		testScript.addBrick(ifLogicEndBrick);
-
 		testSprite.addScript(testScript);
 		project.addSprite(testSprite);
-
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
-
 		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 		testSprite.look.act(100f);
 
 		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
-		assertEquals("IfBrick not executed as expected", IF_TRUE_VALUE, userVariable.getValue().intValue());
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
-
+		assertEquals("IfBrick not executed as expected", IF_TRUE_VALUE, ((Double) userVariable.getValue()).intValue());
 	}
 
 	public void testIfElseBrick() throws InterruptedException {
-		testSprite.removeAllScripts();
-
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
-
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().addProjectUserVariable(TEST_USERVARIABLE);
-
-		UserVariable userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.getUserVariable(TEST_USERVARIABLE, null);
-
 		SetVariableBrick setVariableBrick = new SetVariableBrick(new Formula(IF_FALSE_VALUE), userVariable);
 
 		Formula invalidFormula = new Formula(1);
@@ -199,23 +169,67 @@ public class IfLogicActionTest extends AndroidTestCase {
 		testScript.addBrick(ifLogicElseBrick);
 		testScript.addBrick(setVariableBrick);
 		testScript.addBrick(ifLogicEndBrick);
-
 		testSprite.addScript(testScript);
 		project.addSprite(testSprite);
-
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
-
 		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
-
 		testSprite.look.act(100f);
 
 		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
-		assertEquals("IfBrick not executed as expected", IF_FALSE_VALUE, userVariable.getValue().intValue());
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
-
+		assertEquals("IfBrick not executed as expected", IF_FALSE_VALUE, ((Double) userVariable.getValue()).intValue());
 	}
 
+	public void testBrickWithValidStringFormula() {
+		testFormula(new Formula(String.valueOf(TRUE)), Integer.valueOf(IF_TRUE_VALUE).doubleValue());
+	}
+
+	public void testBrickWithInValidStringFormula() {
+		testFormula(new Formula(String.valueOf(NOT_NUMERICAL_STRING)), 0.0);
+	}
+
+	public void testNullFormula() {
+		Object userVariableExpected = userVariable.getValue();
+		Action ifAction = ExtendedActions.setVariable(testSprite, new Formula(IF_TRUE_VALUE), userVariable);
+		Action elseAction = ExtendedActions.setVariable(testSprite, new Formula(IF_FALSE_VALUE), userVariable);
+
+		Action ifLogicAction = ExtendedActions.ifLogic(testSprite, null, ifAction, elseAction);
+		ifLogicAction.act(1.0f);
+		Object isInterpretedCorrectly = Reflection.getPrivateField(ifLogicAction, "isInterpretedCorrectly");
+		assertFalse("Null Formula should not have been possible to interpret!", (Boolean) isInterpretedCorrectly);
+		assertEquals("IfBrick not executed as expected!", userVariableExpected, userVariable.getValue());
+	}
+
+	public void testNotANumberFormula() {
+		testFormula(new Formula(Double.NaN), 0.0);
+	}
+
+	private void testFormula(Formula formula, Object expected) {
+		SetVariableBrick setVariableBrickIfTrue = new SetVariableBrick(new Formula(IF_TRUE_VALUE),
+				userVariable);
+		SetVariableBrick setVariableBrickIfFalse = new SetVariableBrick(new Formula(IF_FALSE_VALUE),
+				userVariable);
+
+		testScript = new StartScript();
+		ifLogicBeginBrick = new IfLogicBeginBrick(formula);
+		ifLogicElseBrick = new IfLogicElseBrick( ifLogicBeginBrick);
+		ifLogicEndBrick = new IfLogicEndBrick(ifLogicElseBrick, ifLogicBeginBrick);
+		testScript.addBrick(ifLogicBeginBrick);
+		testScript.addBrick(setVariableBrickIfTrue);
+		testScript.addBrick(ifLogicElseBrick);
+		testScript.addBrick(setVariableBrickIfFalse);
+		testScript.addBrick(ifLogicEndBrick);
+		testSprite.addScript(testScript);
+		project.addSprite(testSprite);
+		ProjectManager.getInstance().setCurrentSprite(testSprite);
+		ProjectManager.getInstance().setCurrentScript(testScript);
+		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		testSprite.look.act(1f);
+		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+				.getUserVariable(TEST_USERVARIABLE, null);
+
+		assertEquals("IfBrick not executed as expected", expected, userVariable.getValue());
+	}
 }

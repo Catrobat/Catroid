@@ -93,16 +93,17 @@ public class InternFormula {
 						.isFunctionParameterBracketOpen())
 				&& ((cursorPositionInternToken.isFunctionName())
 						|| (cursorPositionInternToken.isFunctionParameterBracketOpen() && cursorTokenPosition == CursorTokenPosition.LEFT)
-						|| (cursorPositionInternToken.isSensor()) || (cursorPositionInternToken.isUserVariable()))) {
+						|| (cursorPositionInternToken.isSensor()) || (cursorPositionInternToken.isUserVariable()) || (cursorPositionInternToken
+							.isString()))) {
 			selectCursorPositionInternToken(TokenSelectionType.USER_SELECTION);
 		}
 
 	}
 
-	public void handleKeyInput(int resourceId, Context context, String userVariableName) {
+	public void handleKeyInput(int resourceId, Context context, String name) {
 
 		List<InternToken> keyInputInternTokenList = new InternFormulaKeyboardAdapter()
-				.createInternTokenListByResourceId(resourceId, userVariableName);
+				.createInternTokenListByResourceId(resourceId, name);
 
 		CursorTokenPropertiesAfterModification cursorTokenPropertiesAfterInput = CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 

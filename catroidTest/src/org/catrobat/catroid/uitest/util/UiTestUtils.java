@@ -124,6 +124,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternToken;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageListener;
@@ -355,6 +356,11 @@ public final class UiTestUtils {
 		insertValue(solo, value + "");
 	}
 
+	public static void insertStringIntoEditText(Solo solo, String newValue) {
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_string));
+		UiTestUtils.clickEnterClose(solo, 0, newValue);
+	}
+
 	private static void insertValue(Solo solo, String value) {
 
 		for (char item : (value.toCharArray())) {
@@ -420,11 +426,38 @@ public final class UiTestUtils {
 		solo.sleep(200);
 
 		Formula formula = theBrick.getFormulaWithBrickField(brickField);
+        try{
+            assertEquals("Wrong text in field", newValue, formula.interpretDouble(sprite), 0.01f);
+        }catch (InterpretationException interpretationException) {
+            fail("Wrong text in field.");
+        }
 
-		assertEquals("Wrong text in field", newValue, formula.interpretDouble(sprite), 0.01f);
 		assertEquals("Text not updated in the brick list", newValue,
 				Double.parseDouble(((TextView) solo.getView(editTextId)).getText().toString().replace(',', '.')), 0.01f);
 
+	}
+
+	public static void testBrickWithFormulaEditor(Sprite sprite, Solo solo, int editTextId, String newValue, Brick.BrickField brickField,
+			FormulaBrick theBrick) {
+
+		solo.clickOnView(solo.getView(editTextId));
+		insertStringIntoEditText(solo, newValue);
+		String formulaEditorString = ((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString();
+
+		assertEquals("Text not updated within FormulaEditor", "\'" + newValue + "\'",
+				formulaEditorString.substring(0, formulaEditorString.length() - 1));
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
+		solo.sleep(200);
+
+		Formula formula = (Formula) theBrick.getFormulaWithBrickField(brickField);
+		formulaEditorString = ((TextView) solo.getView(editTextId)).getText().toString();
+        try{
+            assertEquals("Wrong text in field", newValue, formula.interpretString(sprite));
+        }catch (InterpretationException interpretationException) {
+            fail("Wrong text in field.");
+        }
+		assertEquals("Text not updated in the brick list", "\'" + newValue + "\'",
+				formulaEditorString.substring(0, formulaEditorString.length() - 1));
 	}
 
 	public static void insertValueViaFormulaEditor(Solo solo, int editTextId, double value) {
@@ -846,7 +879,7 @@ public final class UiTestUtils {
 		//brickList.add(new LegoNxtMotorTurnAngleBrick(firstSprite, LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, 0));
 		brickList.add(new MoveNStepsBrick(0));
 		brickList.add(new NextLookBrick());
-		brickList.add(new NoteBrick());
+		brickList.add(new NoteBrick(""));
 		brickList.add(new PlaceAtBrick(0, 0));
 		brickList.add(new PlaySoundBrick());
 		brickList.add(new PointInDirectionBrick(Direction.DOWN));
@@ -860,7 +893,7 @@ public final class UiTestUtils {
 		brickList.add(new SetXBrick(0));
 		brickList.add(new SetYBrick(0));
 		brickList.add(new ShowBrick());
-		brickList.add(new SpeakBrick("Hello"));
+		brickList.add(new SpeakBrick(""));
 		brickList.add(new StopAllSoundsBrick());
 		brickList.add(new TurnLeftBrick(0));
 		brickList.add(new TurnRightBrick(0));

@@ -22,10 +22,13 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.legonxt.LegoNXT;
 
 public class LegoNxtPlayToneAction extends TemporalAction {
@@ -36,7 +39,24 @@ public class LegoNxtPlayToneAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		LegoNXT.sendBTCPlayToneMessage(hertz.interpretInteger(sprite), durationInSeconds.interpretInteger(sprite));
+		int hertzInterpretation;
+		int durationInterpretation;
+
+		try {
+			hertzInterpretation = hertz.interpretInteger(sprite);
+        } catch (InterpretationException interpretationException) {
+            hertzInterpretation = 0;
+            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+        }
+
+		try {
+			durationInterpretation = durationInSeconds.interpretInteger(sprite);
+        } catch (InterpretationException interpretationException) {
+            durationInterpretation = 0;
+            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+        }
+
+		LegoNXT.sendBTCPlayToneMessage(hertzInterpretation, durationInterpretation);
 	}
 
 	public void setHertz(Formula hertz) {

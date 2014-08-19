@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -35,8 +36,12 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+
+import org.catrobat.catroid.common.BrickValues;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
@@ -109,9 +114,15 @@ public abstract class DroneMoveBrick extends FormulaBrick implements OnClickList
 		TextView times = (TextView) view.findViewById(R.id.brick_drone_move_text_view_second);
 
 		if (getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS).isSingleNumberFormula()) {
-			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
-					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
-							.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))));
+			try {
+				times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
+								.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))));
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
+
+
 		} else {
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
 			// in hopefully all possible languages
@@ -145,17 +156,13 @@ public abstract class DroneMoveBrick extends FormulaBrick implements OnClickList
 		TextView label = (TextView) prototypeView.findViewById(R.id.brick_drone_move_label);
 		label.setText(getBrickLabel(prototypeView));
 		TextView textTime = (TextView) prototypeView.findViewById(R.id.brick_drone_move_prototype_text_view_second);
-		textTime.setText(String.valueOf(getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
-				.interpretInteger(ProjectManager.getInstance().getCurrentSprite())));
-		TextView times = (TextView) prototypeView.findViewById(R.id.brick_drone_move_text_view_second);
-		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
-				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
-						.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))));
 
-		TextView textPower = (TextView) prototypeView.findViewById(R.id.brick_drone_move_prototype_text_view_power);
-		textPower.setText(String.valueOf(getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)
-				.interpretFloat(ProjectManager.getInstance().getCurrentSprite())));
-
+        TextView times = (TextView) prototypeView.findViewById(R.id.brick_drone_move_text_view_second);
+        TextView textPower = (TextView) prototypeView.findViewById(R.id.brick_drone_move_prototype_text_view_power);
+        textTime.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000));
+        times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
+                    Utils.convertDoubleToPluralInteger(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS / 1000)));
+        textPower.setText(String.valueOf(BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100));
 		return prototypeView;
 	}
 

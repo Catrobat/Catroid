@@ -38,8 +38,10 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+
+import org.catrobat.catroid.common.BrickValues;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -97,9 +99,7 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickL
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 		TextView textX = (TextView) prototypeView.findViewById(R.id.motor_turn_angle_text_view);
-		textX.setText(String.valueOf(getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).interpretInteger(
-				ProjectManager.getInstance().getCurrentSprite()
-		)));
+		textX.setText(String.valueOf(BrickValues.LEGO_ANGLE));
 
 		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.lego_motor_turn_angle_spinner);
 		legoSpinner.setFocusableInTouchMode(false);

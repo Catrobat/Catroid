@@ -161,12 +161,12 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.brick_set_look_spinner);
-			TextView lookbrickTextView = (TextView) view.findViewById(R.id.brick_set_look_prototype_text_view);
+			Spinner lookBrickSpinner = (Spinner) view.findViewById(R.id.brick_set_look_spinner);
+			TextView lookBrickTextView = (TextView) view.findViewById(R.id.brick_set_look_prototype_text_view);
 
-			ColorStateList color = lookbrickTextView.getTextColors().withAlpha(alphaValue);
-			lookbrickTextView.setTextColor(color);
-			lookbrickSpinner.getBackground().setAlpha(alphaValue);
+			ColorStateList color = lookBrickTextView.getTextColors().withAlpha(alphaValue);
+			lookBrickTextView.setTextColor(color);
+			lookBrickSpinner.getBackground().setAlpha(alphaValue);
 			if (adapterView != null) {
 				((TextView) adapterView.getChildAt(0)).setTextColor(color);
 			}

@@ -117,14 +117,14 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream {
+public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream {
 
-	private static final String TAG = XStreamToSupportCatrobatLanguageVersion091AndBefore.class.getSimpleName();
+	private static final String TAG = XStreamToSupportCatrobatLanguageVersion092AndBefore.class.getSimpleName();
 
 	private HashMap<String, BrickInfo> brickInfoMap;
 	private HashMap<String, String> scriptInfoMap;
 
-	public XStreamToSupportCatrobatLanguageVersion091AndBefore(PureJavaReflectionProvider reflectionProvider) {
+	public XStreamToSupportCatrobatLanguageVersion092AndBefore(PureJavaReflectionProvider reflectionProvider) {
 		super(reflectionProvider);
 	}
 
@@ -258,6 +258,7 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 		brickInfoMap.put("nextLookBrick", brickInfo);
 
 		brickInfo = new BrickInfo(NoteBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("note", BrickField.NOTE);
 		brickInfoMap.put("noteBrick", brickInfo);
 
 		brickInfo = new BrickInfo(PlaceAtBrick.class.getSimpleName());
@@ -318,6 +319,7 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 		brickInfoMap.put("showBrick", brickInfo);
 
 		brickInfo = new BrickInfo(SpeakBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("text", BrickField.SPEAK);
 		brickInfoMap.put("speakBrick", brickInfo);
 
 		brickInfo = new BrickInfo(StopAllSoundsBrick.class.getSimpleName());
@@ -402,18 +404,18 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 	private void modifyXMLToSupportUnknownFields(File file) {
 		initializeScriptInfoMap();
 		initializeBrickInfoMap();
-		Document doc = getDocument(file);
-		if (doc != null) {
-			convertChildNodeToAttribute(doc, "lookList", "name");
-			convertChildNodeToAttribute(doc, "object", "name");
+		Document originalDocument = getDocument(file);
+		if (originalDocument != null) {
+			convertChildNodeToAttribute(originalDocument, "lookList", "name");
+			convertChildNodeToAttribute(originalDocument, "object", "name");
 
-			deleteChildNodeByName(doc, "scriptList", "object");
-			deleteChildNodeByName(doc, "brickList", "object");
+			deleteChildNodeByName(originalDocument, "scriptList", "object");
+			deleteChildNodeByName(originalDocument, "brickList", "object");
 
-			modifyScriptLists(doc);
-			modifyBrickLists(doc);
-			checkReferences(doc.getDocumentElement());
-			saveDocument(doc, file);
+			modifyScriptLists(originalDocument);
+			modifyBrickLists(originalDocument);
+			checkReferences(originalDocument.getDocumentElement());
+			saveDocument(originalDocument, file);
 		}
 	}
 
@@ -503,8 +505,8 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 		}
 	}
 
-	private void convertChildNodeToAttribute(Document doc, String parentNodeName, String childNodeName) {
-		NodeList nodeList = doc.getElementsByTagName(parentNodeName);
+	private void convertChildNodeToAttribute(Document originalDocument, String parentNodeName, String childNodeName) {
+		NodeList nodeList = originalDocument.getElementsByTagName(parentNodeName);
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node node = nodeList.item(i);
 			Node childNode = findNodeByName(node, childNodeName);
@@ -516,15 +518,15 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 		}
 	}
 
-	private void modifyScriptLists(Document doc) {
-		NodeList scriptListNodeList = doc.getElementsByTagName("scriptList");
+	private void modifyScriptLists(Document originalDocument) {
+		NodeList scriptListNodeList = originalDocument.getElementsByTagName("scriptList");
 		for (int i = 0; i < scriptListNodeList.getLength(); i++) {
 			Node scriptListNode = scriptListNodeList.item(i);
 			if (scriptListNode.hasChildNodes()) {
 				NodeList scriptListChildNodes = scriptListNode.getChildNodes();
 				for (int j = 0; j < scriptListChildNodes.getLength(); j++) {
 					Node scriptNode = scriptListChildNodes.item(j);
-					Element newScriptNode = doc.createElement("script");
+					Element newScriptNode = originalDocument.createElement("script");
 
 					String scriptName = scriptInfoMap.get(scriptNode.getNodeName());
 					if (scriptName != null) {
@@ -547,15 +549,15 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 		}
 	}
 
-	private void modifyBrickLists(Document doc) {
-		NodeList brickListNodeList = doc.getElementsByTagName("brickList");
+	private void modifyBrickLists(Document originalDocument) {
+		NodeList brickListNodeList = originalDocument.getElementsByTagName("brickList");
 		for (int i = 0; i < brickListNodeList.getLength(); i++) {
 			Node brickListNode = brickListNodeList.item(i);
 			if (brickListNode.hasChildNodes()) {
 				NodeList brickListChildNodes = brickListNode.getChildNodes();
 				for (int j = 0; j < brickListChildNodes.getLength(); j++) {
 					Node brickNode = brickListChildNodes.item(j);
-					Element newBrickNode = doc.createElement("brick");
+					Element newBrickNode = originalDocument.createElement("brick");
 
 					BrickInfo brickInfo = brickInfoMap.get(brickNode.getNodeName());
 					if (brickInfo != null) {
@@ -568,14 +570,15 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 								Element brickChild = (Element) brickChildNodes.item(k);
 
 								if (brickInfo.getBrickFieldForOldFieldName(brickChild.getNodeName()) != null) {
-									handleFormulaNode(doc, brickInfo, newBrickNode, brickChild);
+									handleFormulaNode(originalDocument, brickInfo, newBrickNode, brickChild);
 								} else if (brickChild.getNodeName().equals("userVariable")) {
 									handleUserVariableNode(newBrickNode, brickChild);
 								} else if (brickChild.getNodeName().equals("loopEndBrick") ||
 										brickChild.getNodeName().equals("ifElseBrick") ||
 										brickChild.getNodeName().equals("ifEndBrick")) {
 									continue;
-								}  else {
+								}
+								else {
 									newBrickNode.appendChild(brickChild);
 								}
 							}
@@ -589,16 +592,31 @@ public class XStreamToSupportCatrobatLanguageVersion091AndBefore extends XStream
 		}
 	}
 
-	private void handleFormulaNode(Document doc, BrickInfo brickInfo, Element parentNode, Element node) {
-		Node formulaListNode = findNodeByName(parentNode, "formulaList");
+	private void handleFormulaNode(Document doc, BrickInfo brickInfo, Element newParentNode, Element oldNode) {
+		Node formulaListNode = findNodeByName(newParentNode, "formulaList");
 		if (formulaListNode == null) {
 			formulaListNode = doc.createElement("formulaList");
-			parentNode.appendChild(formulaListNode);
+			newParentNode.appendChild(formulaListNode);
 		}
 
-		Element formulaNode = findNodeByName(node, "formulaTree");
-		doc.renameNode(formulaNode, formulaNode.getNamespaceURI(), "formula");
-		formulaNode.setAttribute("category", brickInfo.getBrickFieldForOldFieldName(node.getNodeName()).toString());
+		Element formulaNode = findNodeByName(oldNode, "formulaTree");
+		if (formulaNode == null) {
+			formulaNode = doc.createElement("formula");
+		} else {
+			doc.renameNode(formulaNode, formulaNode.getNamespaceURI(), "formula");
+		}
+		String category = brickInfo.getBrickFieldForOldFieldName(oldNode.getNodeName()).toString();
+		formulaNode.setAttribute("category", category);
+		if (category.equals("SPEAK") || category.equals("NOTE")) {
+			Element type = doc.createElement("type");
+			type.setTextContent("STRING");
+			formulaNode.appendChild(type);
+
+			Element value = doc.createElement("value");
+			String textContent = oldNode.getFirstChild().getTextContent();
+			value.setTextContent(textContent);
+			formulaNode.appendChild(value);
+		}
 		formulaListNode.appendChild(formulaNode);
 	}
 

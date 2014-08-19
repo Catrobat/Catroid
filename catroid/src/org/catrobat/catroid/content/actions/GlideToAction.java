@@ -22,10 +22,13 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class GlideToAction extends TemporalAction {
 
@@ -44,12 +47,37 @@ public class GlideToAction extends TemporalAction {
 
 	@Override
 	protected void begin() {
+		Float durationInterpretation;
+		Float endXInterpretation = 0f;
+		Float endYInterpretation = 0f;
+
+		try {
+			durationInterpretation = duration == null ? Float.valueOf(0f) : duration.interpretFloat(sprite);
+        } catch (InterpretationException interpretationException) {
+            durationInterpretation = 0f;
+            Log.d(getClass().getSimpleName(),"Formula interpretation for this specific Brick failed." , interpretationException);
+        }
+
+		try {
+			endXInterpretation = endX == null ? Float.valueOf(0f) : endX.interpretFloat(sprite);
+        } catch (InterpretationException interpretationException) {
+            durationInterpretation = 0f;
+            Log.d(getClass().getSimpleName(),"Formula interpretation for this specific Brick failed." , interpretationException);
+        }
+
+		try {
+			endYInterpretation = endY == null ? Float.valueOf(0f) : endY.interpretFloat(sprite);
+        } catch (InterpretationException interpretationException) {
+            durationInterpretation = 0f;
+            Log.d(getClass().getSimpleName(),"Formula interpretation for this specific Brick failed." , interpretationException);
+        }
+
 		if (!restart) {
 			if (duration != null) {
-				super.setDuration(duration.interpretFloat(sprite));
+				super.setDuration(durationInterpretation);
 			}
-			endXValue = endX.interpretFloat(sprite);
-			endYValue = endY.interpretFloat(sprite);
+			endXValue = endXInterpretation;
+			endYValue = endYInterpretation;
 		}
 		restart = false;
 
@@ -57,7 +85,7 @@ public class GlideToAction extends TemporalAction {
 		startY = sprite.look.getYInUserInterfaceDimensionUnit();
 		currentX = startX;
 		currentY = startY;
-		if (startX == endX.interpretFloat(sprite) && startY == endY.interpretFloat(sprite)) {
+		if (startX == endXInterpretation && startY == endYInterpretation) {
 			super.finish();
 		}
 	}

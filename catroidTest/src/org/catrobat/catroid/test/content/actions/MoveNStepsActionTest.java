@@ -38,6 +38,7 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 	private Sprite sprite;
 	private final float steps = 10f;
 	private final float diagonalStepLength = 7.07106f;
+	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 
 	@Override
 	protected void setUp() throws Exception {
@@ -118,6 +119,26 @@ public class MoveNStepsActionTest extends AndroidTestCase {
 		moveNStepsAction.act(1.0f);
 		checkPosition(2 * expectedX, 2 * expectedY);
 
+	}
+
+	public void testBrickWithValidStringFormula() {
+		Action moveNStepsAction = ExtendedActions.moveNSteps(sprite, new Formula(String.valueOf(steps)));
+		executeTest(moveNStepsAction, steps, 0);
+	}
+
+	public void testBrickWithInValidStringFormula() {
+		Action moveNStepsAction = ExtendedActions.moveNSteps(sprite, new Formula(NOT_NUMERICAL_STRING));
+		executeTest(moveNStepsAction, 0f, 0);
+	}
+
+	public void testNullFormula() {
+		Action moveNStepsAction = ExtendedActions.moveNSteps(sprite, null);
+		executeTest(moveNStepsAction, 0f, 0);
+	}
+
+	public void testNotANumberFormula() {
+		Action moveNStepsAction = ExtendedActions.moveNSteps(sprite, new Formula(Double.NaN));
+		executeTest(moveNStepsAction, 0f, 0);
 	}
 
 	private void checkPosition(float expectedX, float expectedY) {

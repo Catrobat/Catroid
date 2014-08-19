@@ -33,8 +33,9 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -123,11 +124,9 @@ public class PlaceAtBrick extends FormulaBrick implements OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_place_at, null);
 		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_place_at_prototype_text_view_x);
-		textX.setText(String.valueOf(getFormulaWithBrickField(BrickField.X_POSITION).interpretInteger(
-				ProjectManager.getInstance().getCurrentSprite())));
+		textX.setText(String.valueOf(BrickValues.X_POSITION));
 		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_place_at_prototype_text_view_y);
-		textY.setText(String.valueOf(getFormulaWithBrickField(BrickField.Y_POSITION).interpretInteger(
-				ProjectManager.getInstance().getCurrentSprite())));
+		textY.setText(String.valueOf(BrickValues.Y_POSITION));
 		return prototypeView;
 	}
 

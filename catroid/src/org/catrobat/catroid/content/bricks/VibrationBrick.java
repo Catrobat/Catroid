@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -34,9 +35,13 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+
+import org.catrobat.catroid.common.BrickValues;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
@@ -98,9 +103,14 @@ public class VibrationBrick extends FormulaBrick implements OnClickListener {
 		TextView times = (TextView) view.findViewById(R.id.brick_vibration_second_text_view);
 
 		if (getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS).isSingleNumberFormula()) {
-			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
-					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS)
-							.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))));
+			try {
+				times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
+						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS)
+								.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))));
+			} catch (InterpretationException interpretationException) {
+				Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+			}
+
 		} else {
 			times.setText(view.getResources().getQuantityString(R.plurals.second_plural,
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
@@ -116,12 +126,10 @@ public class VibrationBrick extends FormulaBrick implements OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_vibration, null);
 		TextView textSeconds = (TextView) prototypeView.findViewById(R.id.brick_vibration_prototype_text_view_seconds);
-		textSeconds.setText(String.valueOf(getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS)
-				.interpretInteger(ProjectManager.getInstance().getCurrentSprite())));
+		textSeconds.setText(String.valueOf(BrickValues.VIBRATE_MILLISECONDS));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_vibration_second_text_view);
 		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
-				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS)
-						.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))));
+				Utils.convertDoubleToPluralInteger(BrickValues.VIBRATE_MILLISECONDS)));
 		return prototypeView;
 	}
 

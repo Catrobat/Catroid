@@ -29,11 +29,16 @@ import java.util.List;
 
 public class InternFormulaKeyboardAdapter {
 
-	public List<InternToken> createInternTokenListByResourceId(int resource, String userVariableName) {
+	public List<InternToken> createInternTokenListByResourceId(int resource, String name) {
 
 		//USER VARIABLES
-		if ((resource == 0) && !userVariableName.isEmpty()) {
-			return buildUserVariable(userVariableName);
+		if ((resource == 0) && !name.isEmpty()) {
+			return buildUserVariable(name);
+		}
+
+		//STRING
+		if ((resource == R.id.formula_editor_keyboard_string)) {
+			return buildString(name);
 		}
 
 		switch (resource) {
@@ -60,46 +65,56 @@ public class InternFormulaKeyboardAdapter {
 				return buildNumber("9");
 
 				//FUNCTIONS:
-			case R.id.formula_editor_keyboard_random:
-				return buildDoubleParameterFunction(Functions.RAND, "0", "1");
 			case R.string.formula_editor_function_sin:
-				return buildSingleParameterFunction(Functions.SIN, "0");
+				return buildSingleParameterFunction(Functions.SIN, InternTokenType.NUMBER, "0");
 			case R.string.formula_editor_function_cos:
-				return buildSingleParameterFunction(Functions.COS, "0");
+				return buildSingleParameterFunction(Functions.COS, InternTokenType.NUMBER, "0");
 			case R.string.formula_editor_function_tan:
-				return buildSingleParameterFunction(Functions.TAN, "0");
+				return buildSingleParameterFunction(Functions.TAN, InternTokenType.NUMBER, "0");
 			case R.string.formula_editor_function_ln:
-				return buildSingleParameterFunction(Functions.LN, "0");
+				return buildSingleParameterFunction(Functions.LN, InternTokenType.NUMBER, "0");
 			case R.string.formula_editor_function_log:
-				return buildSingleParameterFunction(Functions.LOG, "0");
+				return buildSingleParameterFunction(Functions.LOG, InternTokenType.NUMBER, "0");
 			case R.string.formula_editor_function_pi:
 				return buildFunctionWithoutParametersAndBrackets(Functions.PI);
 			case R.string.formula_editor_function_sqrt:
-				return buildSingleParameterFunction(Functions.SQRT, "0");
+				return buildSingleParameterFunction(Functions.SQRT, InternTokenType.NUMBER, "0");
 			case R.string.formula_editor_function_rand:
-				return buildDoubleParameterFunction(Functions.RAND, "0", "1");
+				return buildDoubleParameterFunction(Functions.RAND, InternTokenType.NUMBER, "0",
+						InternTokenType.NUMBER, "1");
 			case R.string.formula_editor_function_abs:
-				return buildSingleParameterFunction(Functions.ABS, "0");
+				return buildSingleParameterFunction(Functions.ABS, InternTokenType.NUMBER, "0");
 			case R.string.formula_editor_function_round:
-				return buildSingleParameterFunction(Functions.ROUND, "0");
+				return buildSingleParameterFunction(Functions.ROUND, InternTokenType.NUMBER, "0");
 			case R.string.formula_editor_function_mod:
-				return buildDoubleParameterFunction(Functions.MOD, "1", "1");
+				return buildDoubleParameterFunction(Functions.MOD, InternTokenType.NUMBER, "1", InternTokenType.NUMBER,
+						"1");
 			case R.string.formula_editor_function_arcsin:
-				return buildSingleParameterFunction(Functions.ARCSIN, "0");
+				return buildSingleParameterFunction(Functions.ARCSIN, InternTokenType.NUMBER, "0");
 			case R.string.formula_editor_function_arccos:
-				return buildSingleParameterFunction(Functions.ARCCOS, "0");
+				return buildSingleParameterFunction(Functions.ARCCOS, InternTokenType.NUMBER, "0");
 			case R.string.formula_editor_function_arctan:
-				return buildSingleParameterFunction(Functions.ARCTAN, "0");
+				return buildSingleParameterFunction(Functions.ARCTAN, InternTokenType.NUMBER, "0");
 			case R.string.formula_editor_function_exp:
-				return buildSingleParameterFunction(Functions.EXP, "1");
+				return buildSingleParameterFunction(Functions.EXP, InternTokenType.NUMBER, "1");
 			case R.string.formula_editor_function_max:
-				return buildDoubleParameterFunction(Functions.MAX, "0", "1");
+				return buildDoubleParameterFunction(Functions.MAX, InternTokenType.NUMBER, "0", InternTokenType.NUMBER,
+						"1");
 			case R.string.formula_editor_function_min:
-				return buildDoubleParameterFunction(Functions.MIN, "0", "1");
+				return buildDoubleParameterFunction(Functions.MIN, InternTokenType.NUMBER, "0", InternTokenType.NUMBER,
+						"1");
 			case R.string.formula_editor_function_true:
 				return buildFunctionWithoutParametersAndBrackets(Functions.TRUE);
 			case R.string.formula_editor_function_false:
 				return buildFunctionWithoutParametersAndBrackets(Functions.FALSE);
+			case R.string.formula_editor_function_letter:
+				return buildDoubleParameterFunction(Functions.LETTER, InternTokenType.NUMBER, "1",
+						InternTokenType.STRING, "hello world");
+			case R.string.formula_editor_function_length:
+				return buildSingleParameterFunction(Functions.LENGTH, InternTokenType.STRING, "hello world");
+			case R.string.formula_editor_function_join:
+				return buildDoubleParameterFunction(Functions.JOIN, InternTokenType.STRING, "hello",
+						InternTokenType.STRING, " world");
 
 				//SENSOR
 
@@ -233,27 +248,28 @@ public class InternFormulaKeyboardAdapter {
 		return returnList;
 	}
 
-	private List<InternToken> buildDoubleParameterFunction(Functions function, String firstParameterNumberValue,
-			String secondParameterNumberValue) {
+	private List<InternToken> buildDoubleParameterFunction(Functions function, InternTokenType firstParameter,
+			String firstParameterNumberValue, InternTokenType secondParameter, String secondParameterNumberValue) {
 
 		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
 		returnList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-		returnList.add(new InternToken(InternTokenType.NUMBER, firstParameterNumberValue));
+		returnList.add(new InternToken(firstParameter, firstParameterNumberValue));
 		returnList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
-		returnList.add(new InternToken(InternTokenType.NUMBER, secondParameterNumberValue));
+		returnList.add(new InternToken(secondParameter, secondParameterNumberValue));
 		returnList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
 
 		return returnList;
 
 	}
 
-	private List<InternToken> buildSingleParameterFunction(Functions function, String parameterNumberValue) {
+	private List<InternToken> buildSingleParameterFunction(Functions function, InternTokenType firstParameter,
+			String parameterNumberValue) {
 
 		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
 		returnList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-		returnList.add(new InternToken(InternTokenType.NUMBER, parameterNumberValue));
+		returnList.add(new InternToken(firstParameter, parameterNumberValue));
 		returnList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
 		return returnList;
 	}
@@ -262,6 +278,12 @@ public class InternFormulaKeyboardAdapter {
 
 		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
+		return returnList;
+	}
+
+	private List<InternToken> buildString(String myString) {
+		List<InternToken> returnList = new LinkedList<InternToken>();
+		returnList.add(new InternToken(InternTokenType.STRING, myString));
 		return returnList;
 	}
 

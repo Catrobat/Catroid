@@ -22,11 +22,14 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class IfLogicAction extends Action {
 
@@ -34,11 +37,23 @@ public class IfLogicAction extends Action {
 	private Action ifAction;
 	private Action elseAction;
 	private Formula ifCondition;
-	private boolean ifConditionValue;
+	private Boolean ifConditionValue;
 	private boolean isInitialized = false;
+	private boolean isInterpretedCorrectly;
 
 	protected void begin() {
-		ifConditionValue = ifCondition.interpretBoolean(sprite);
+		try {
+			if (ifCondition == null) {
+				isInterpretedCorrectly = false;
+				return;
+			}
+			Double interpretation = ifCondition.interpretDouble(sprite);
+			ifConditionValue = interpretation.intValue() != 0 ? true : false;
+			isInterpretedCorrectly = true;
+        } catch (InterpretationException interpretationException) {
+            isInterpretedCorrectly = false;
+            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+        }
 	}
 
 	@Override
@@ -48,12 +63,15 @@ public class IfLogicAction extends Action {
 			isInitialized = true;
 		}
 
+		if (!isInterpretedCorrectly) {
+			return true;
+		}
+
 		if (ifConditionValue) {
 			return ifAction.act(delta);
 		} else {
 			return elseAction.act(delta);
 		}
-
 	}
 
 	@Override

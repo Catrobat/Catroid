@@ -45,6 +45,7 @@ import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
+import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
@@ -54,6 +55,7 @@ import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
+import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
@@ -61,6 +63,7 @@ import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -158,12 +161,20 @@ public class BrickCloneTest extends AndroidTestCase {
 		brick = new WaitBrick(BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.TIME_TO_WAIT_IN_SECONDS);
 
+
 		brick = new PlaceAtBrick(BRICK_FORMULA_VALUE, BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.X_POSITION, Brick.BrickField.Y_POSITION);
 
 		brick = new GlideToBrick(BRICK_FORMULA_VALUE, BRICK_FORMULA_VALUE, BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.X_DESTINATION, Brick.BrickField.Y_DESTINATION,
 				Brick.BrickField.DURATION_IN_SECONDS);
+
+		brick = new NoteBrick(String.valueOf(BRICK_FORMULA_VALUE));
+		brickClone(brick, Brick.BrickField.NOTE);
+
+		brick = new SpeakBrick(String.valueOf(BRICK_FORMULA_VALUE));
+		brickClone(brick, Brick.BrickField.SPEAK);
+
 	}
 
 	public void testVariableReferencesSetVariableBrick() throws Exception {
@@ -221,7 +232,10 @@ public class BrickCloneTest extends AndroidTestCase {
 		} catch (CloneNotSupportedException exception) {
 			Log.e(TAG, Log.getStackTraceString(exception));
 			fail("cloning the brick failed");
+		} catch (InterpretationException interpretationException) {
+			Log.e(TAG, Log.getStackTraceString(interpretationException));
+			fail("Cloning of the brick failed: Formula interpretation failed.");
 		}
 	}
-
 }
+

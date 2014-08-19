@@ -25,33 +25,63 @@ package org.catrobat.catroid.test.content.actions;
 import android.test.InstrumentationTestCase;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ChangeVolumeByNAction;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
 
 public class ChangeVolumeByNActionTest extends InstrumentationTestCase {
+
+	private static final float INITIALIZED_VALUE = 70f;
+	private static final float CHANGE_VALUE = 12.3f;
+	private static final String NOT_NUMERICAL_STRING = "volume";
 	private final float louderValue = 10.6f;
 	private final float softerValue = -20.3f;
+	private Sprite sprite;
+
+	@Override
+	protected void setUp() throws Exception {
+		sprite = new Sprite("testSprite");
+		SoundManager.getInstance().setVolume(INITIALIZED_VALUE);
+		super.setUp();
+	}
 
 	public void testVolume() {
-		Sprite sprite = new Sprite("testSprite");
 		float expectedVolume = SoundManager.getInstance().getVolume();
 
 		expectedVolume += louderValue;
 		Formula louder = new Formula(louderValue);
 
-		ChangeVolumeByNAction changeVolumeByAction = ExtendedActions.changeVolumeByN(sprite, louder);
-		changeVolumeByAction.act(1.0f);
+		ExtendedActions.changeVolumeByN(sprite, louder).act(1.0f);
 		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", expectedVolume, SoundManager
 				.getInstance().getVolume());
 
 		expectedVolume += softerValue;
 		Formula softer = new Formula(softerValue);
 
-		changeVolumeByAction = ExtendedActions.changeVolumeByN(sprite, softer);
-		changeVolumeByAction.act(1.0f);
+		ExtendedActions.changeVolumeByN(sprite, softer).act(1.0f);
 		assertEquals("Incorrect sprite size value after ChangeVolumeByNBrick executed", expectedVolume, SoundManager
+				.getInstance().getVolume());
+	}
+
+	public void testBrickWithStringFormula() {
+		ExtendedActions.changeVolumeByN(sprite, new Formula(String.valueOf(CHANGE_VALUE))).act(1.0f);
+		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", INITIALIZED_VALUE + CHANGE_VALUE,
+				SoundManager.getInstance().getVolume());
+
+		ExtendedActions.changeVolumeByN(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
+		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", INITIALIZED_VALUE + CHANGE_VALUE,
+				SoundManager.getInstance().getVolume());
+	}
+
+	public void testNullFormula() {
+		ExtendedActions.changeVolumeByN(sprite, null).act(1.0f);
+		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", INITIALIZED_VALUE, SoundManager
+				.getInstance().getVolume());
+	}
+
+	public void testNotANumberFormula() {
+		ExtendedActions.changeVolumeByN(sprite, new Formula(Double.NaN)).act(1.0f);
+		assertEquals("Incorrect sprite volume after ChangeVolumeByNBrick executed", INITIALIZED_VALUE, SoundManager
 				.getInstance().getVolume());
 	}
 }

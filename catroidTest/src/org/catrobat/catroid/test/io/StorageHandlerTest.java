@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.io;
 
 import android.test.AndroidTestCase;
+import android.util.Log;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
@@ -42,6 +43,7 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
@@ -138,12 +140,12 @@ public class StorageHandlerTest extends AndroidTestCase {
 		Formula actualSize = ((FormulaBrick) postSpriteList.get(1).getScript(0).getBrickList().get(2))
 				.getFormulaWithBrickField(Brick.BrickField.SIZE);
 
-		assertEquals("Size was not deserialized right", size,
-				actualSize.interpretFloat(postSpriteList.get(1)));
+		assertEquals("Size was not deserialized right", size, interpretFormula(actualSize, null));
 		assertEquals("XPosition was not deserialized right", xPosition,
-				actualXPosition.interpretInteger(postSpriteList.get(2)));
+				interpretFormula(actualXPosition, null).intValue());
 		assertEquals("YPosition was not deserialized right", yPosition,
-				actualYPosition.interpretInteger(postSpriteList.get(2)));
+                interpretFormula(actualYPosition, null).intValue());
+
 
 		assertFalse("paused should not be set in script", preSpriteList.get(1).getScript(0).isPaused());
 
@@ -273,6 +275,16 @@ public class StorageHandlerTest extends AndroidTestCase {
 	}
 
 	// TODO: add XML header validation based on xsd
+
+    private Float interpretFormula(Formula formula, Sprite sprite) {
+        try {
+            return formula.interpretFloat(sprite);
+        } catch (InterpretationException interpretationException) {
+            Log.d(getClass().getSimpleName(), "Formula interpretation for Formula failed.", interpretationException);
+        }
+        return Float.NaN;
+    }
+
 	//	public void testAliasesAndXmlHeader() {
 	//
 	//		String projectName = "myProject";

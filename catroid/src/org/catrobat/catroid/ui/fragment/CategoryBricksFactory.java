@@ -107,7 +107,7 @@ public class CategoryBricksFactory {
 		} else if (category.equals(context.getString(R.string.category_motion))) {
 			return setupMotionCategoryList(sprite);
 		} else if (category.equals(context.getString(R.string.category_sound))) {
-			return setupSoundCategoryList(context);
+			return setupSoundCategoryList();
 		} else if (category.equals(context.getString(R.string.category_looks))) {
 			return setupLooksCategoryList();
 		} else if (category.equals(context.getString(R.string.category_variables))) {
@@ -168,7 +168,7 @@ public class CategoryBricksFactory {
 		return motionBrickList;
 	}
 
-	private List<Brick> setupSoundCategoryList(Context context) {
+	private List<Brick> setupSoundCategoryList() {
 		List<Brick> soundBrickList = new ArrayList<Brick>();
 		soundBrickList.add(new PlaySoundBrick());
 		soundBrickList.add(new StopAllSoundsBrick());
@@ -181,7 +181,7 @@ public class CategoryBricksFactory {
 						null));
 		soundBrickList.add(new ChangeVolumeByNBrick(new Formula(defaultValueChangeVolumeBy)));
 
-		soundBrickList.add(new SpeakBrick(context.getString(R.string.brick_speak_default_value)));
+		soundBrickList.add(new SpeakBrick(BrickValues.SPEAK));
 
 		return soundBrickList;
 	}

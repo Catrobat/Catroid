@@ -196,8 +196,8 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		assertEquals("Selection start index not as expected", 0, internFormula.getSelection().getStartIndex());
 		assertEquals("Selection end index not as expected", 9, internFormula.getSelection().getEndIndex());
 
-		internFormula
-				.handleKeyInput(R.id.formula_editor_keyboard_random, getInstrumentation().getTargetContext(), null);
+		internFormula.handleKeyInput(R.string.formula_editor_function_rand, getInstrumentation().getTargetContext(),
+				null);
 
 		assertEquals("Selection start index not as expected", 2, internFormula.getSelection().getStartIndex());
 		assertEquals("Selection end index not as expected", 8, internFormula.getSelection().getEndIndex());

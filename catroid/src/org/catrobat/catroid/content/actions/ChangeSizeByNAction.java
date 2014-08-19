@@ -22,10 +22,13 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class ChangeSizeByNAction extends TemporalAction {
 
@@ -34,7 +37,14 @@ public class ChangeSizeByNAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		sprite.look.changeSizeInUserInterfaceDimensionUnit(size.interpretFloat(sprite));
+		Float newSize;
+		try {
+			newSize = size == null ? Float.valueOf(0f) : size.interpretFloat(sprite);
+        } catch (InterpretationException interpretationException) {
+            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+            return;
+        }
+		sprite.look.changeSizeInUserInterfaceDimensionUnit(newSize);
 	}
 
 	public void setSprite(Sprite sprite) {

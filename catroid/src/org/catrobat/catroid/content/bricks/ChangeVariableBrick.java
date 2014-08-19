@@ -42,6 +42,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -61,6 +62,7 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 	private UserVariable userVariable;
 	private transient AdapterView<?> adapterView;
 
+
 	public ChangeVariableBrick() {
 		addAllowedBrickField(BrickField.VARIABLE_CHANGE);
 	}
@@ -70,6 +72,7 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 	}
 
 	public ChangeVariableBrick(Formula variableFormula, UserVariable userVariable) {
+
 		this.userVariable = userVariable;
 		initializeBrickFields(variableFormula);
 	}
@@ -190,9 +193,7 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 		setSpinnerSelection(variableSpinner, null);
 
 		TextView textChangeVariable = (TextView) prototypeView.findViewById(R.id.brick_change_variable_prototype_view);
-		textChangeVariable.setText(String
-				.valueOf(getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).interpretDouble(ProjectManager
-						.getInstance().getCurrentSprite())));
+        textChangeVariable.setText(String.valueOf(BrickValues.CHANGE_VARIABLE));
 		return prototypeView;
 	}
 

@@ -22,10 +22,13 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.io.SoundManager;
 
 public class SetVolumeToAction extends TemporalAction {
@@ -35,7 +38,14 @@ public class SetVolumeToAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		SoundManager.getInstance().setVolume(volume.interpretFloat(sprite));
+		Float newVolume;
+		try {
+			newVolume = volume == null ? Float.valueOf(0f) : volume.interpretFloat(sprite);
+        } catch (InterpretationException interpretationException) {
+            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+            return;
+        }
+		SoundManager.getInstance().setVolume(newVolume);
 	}
 
 	public void setSprite(Sprite sprite) {

@@ -32,10 +32,10 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
@@ -45,6 +45,7 @@ public class NoteBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 
 	private Project project;
 	private NoteBrick noteBrick;
+	private Sprite sprite;
 
 	public NoteBrickTest() {
 		super(ScriptActivity.class);
@@ -71,26 +72,32 @@ public class NoteBrickTest extends BaseActivityInstrumentationTestCase<ScriptAct
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
-
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_note)));
 
-		UiTestUtils.clickEnterClose(solo, 0, TEST_STRING + "");
+		UiTestUtils.testBrickWithFormulaEditor(sprite, solo, R.id.brick_note_edit_text, TEST_STRING, Brick.BrickField.NOTE, noteBrick);
+        try{
+            String note = ( noteBrick.getFormulaWithBrickField(Brick.BrickField.NOTE)).interpretString(sprite);
+            assertEquals("Wrong text in field.", TEST_STRING, note);
+        }catch (InterpretationException interpretationException){
+            fail("Wrong text in field.");
+        }
 
-		String note = Reflection.getPrivateField(noteBrick, "note").toString();
-		assertEquals("Wrong text in field.", TEST_STRING, note);
-
-		UiTestUtils.clickEnterClose(solo, 0, "");
-
-		note = Reflection.getPrivateField(noteBrick, "note").toString();
-		assertEquals("Wrong text in field.", "", note);
+		UiTestUtils.testBrickWithFormulaEditor(sprite, solo, R.id.brick_note_edit_text, "", Brick.BrickField.NOTE, noteBrick);
+        try{
+            String note = ( noteBrick.getFormulaWithBrickField(Brick.BrickField.NOTE)).interpretString(sprite);
+            assertEquals("Wrong text in field.", "", note);
+        }catch (InterpretationException interpretationException){
+            fail("Wrong text in field.");
+        }
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
-		Sprite sprite = new Sprite("cat");
+		sprite = new Sprite("cat");
 		Script script = new StartScript();
-		noteBrick = new NoteBrick();
+		noteBrick = new NoteBrick("");
+
 		script.addBrick(noteBrick);
 
 		sprite.addScript(script);

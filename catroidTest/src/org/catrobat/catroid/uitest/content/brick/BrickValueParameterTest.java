@@ -285,9 +285,9 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		solo.clickOnText(solo.getString(R.string.brick_speak));
 		solo.clickOnScreen(200, 200);
 
-		TextView speakEditText = (TextView) solo.getView(R.id.brick_speak_edit_text);
-		String speakEditTextValue = speakEditText.getText().toString();
-		assertEquals("Value in Selected Brick Speak is not correct", defaultSpeakValue, speakEditTextValue);
+		String speakEditTextValue = ((TextView) solo.getView(R.id.brick_speak_edit_text)).getText().toString();
+		assertEquals("Value in Selected Brick Speak is not correct", "\'" + defaultSpeakValue + "\'",
+				speakEditTextValue.substring(0, speakEditTextValue.length() - 1));
 
 		solo.sleep(500);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);

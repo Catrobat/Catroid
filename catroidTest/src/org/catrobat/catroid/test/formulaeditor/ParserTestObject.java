@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.formulaeditor;
 
 import android.test.AndroidTestCase;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -32,13 +33,14 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.TestUtils;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class LookSensorValuesInterpretationTest extends AndroidTestCase {
+public class ParserTestObject extends AndroidTestCase {
 
 	private static final float LOOK_ALPHA = 0.42f;
 	private static final float LOOK_Y_POSITION = 23.4f;
@@ -63,45 +65,35 @@ public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 		testSprite.look.setDirectionInUserInterfaceDimensionUnit(LOOK_ROTATION);
 	}
 
-	public Formula getFormulaBySensor(Sensors sensor) {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
-		internTokenList.add(new InternToken(InternTokenType.SENSOR, sensor.name()));
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
-
-		return new Formula(parseTree);
-
-	}
+    public Double interpretSensor(Sensors sensor) {
+        List<InternToken> internTokenList = new LinkedList<InternToken>();
+        internTokenList.add(new InternToken(InternTokenType.SENSOR, sensor.name()));
+        InternFormulaParser internParser = new InternFormulaParser(internTokenList);
+        FormulaElement parseTree = internParser.parseFormula();
+        Formula sensorFormula =  new Formula(parseTree);
+        try {
+            return sensorFormula.interpretDouble(testSprite);
+        } catch (InterpretationException interpretationException) {
+            Log.d(getClass().getSimpleName(), "Formula interpretation for Sensor failed.", interpretationException);
+        }
+        return Double.NaN;
+    }
 
 	public void testLookSensorValues() {
-
-		Formula lookXPositionFormula = getFormulaBySensor(Sensors.OBJECT_X);
 		assertEquals("Formula interpretation is not as expected (x-Position)", LOOK_X_POSITION,
-				lookXPositionFormula.interpretDouble(testSprite), DELTA);
-
-		Formula lookYPositionFormula = getFormulaBySensor(Sensors.OBJECT_Y);
+                interpretSensor(Sensors.OBJECT_X), DELTA);
 		assertEquals("Formula interpretation is not as expected (y-Position)", LOOK_Y_POSITION,
-				lookYPositionFormula.interpretDouble(testSprite), DELTA);
-
-		Formula lookAlphaValueFormula = getFormulaBySensor(Sensors.OBJECT_GHOSTEFFECT);
+                interpretSensor(Sensors.OBJECT_Y), DELTA);
 		assertEquals("Formula interpretation is not as expected (ghosteffect)", LOOK_ALPHA,
-				lookAlphaValueFormula.interpretDouble(testSprite), DELTA);
-
-		Formula lookBrightnessFormula = getFormulaBySensor(Sensors.OBJECT_BRIGHTNESS);
+                interpretSensor(Sensors.OBJECT_GHOSTEFFECT), DELTA);
 		assertEquals("Formula interpretation is not as expected (brightness)", LOOK_BRIGHTNESS,
-				lookBrightnessFormula.interpretDouble(testSprite), DELTA);
-
-		Formula lookScaleFormula = getFormulaBySensor(Sensors.OBJECT_SIZE);
+                interpretSensor(Sensors.OBJECT_BRIGHTNESS), DELTA);
 		assertEquals("Formula interpretation is not as expected (size)", LOOK_SCALE,
-				lookScaleFormula.interpretDouble(testSprite), DELTA);
-
-		Formula lookRotateFormula = getFormulaBySensor(Sensors.OBJECT_ROTATION);
+                interpretSensor(Sensors.OBJECT_SIZE), DELTA);
 		assertEquals("Formula interpretation is not as expected (rotation)", LOOK_ROTATION,
-				lookRotateFormula.interpretDouble(testSprite), DELTA);
-
-		Formula lookZPositionFormula = getFormulaBySensor(Sensors.OBJECT_LAYER);
+                interpretSensor(Sensors.OBJECT_ROTATION), DELTA);
 		assertEquals("Formula interpretation is not as expected (z-index)", testSprite.look.getZIndex(),
-				lookZPositionFormula.interpretInteger(testSprite));
+                interpretSensor(Sensors.OBJECT_LAYER).intValue());
 
 	}
 

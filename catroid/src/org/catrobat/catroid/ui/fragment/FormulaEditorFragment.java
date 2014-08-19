@@ -62,6 +62,7 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
+import org.catrobat.catroid.ui.dialogs.NewStringDialog;
 
 public class FormulaEditorFragment extends SherlockFragment implements OnKeyListener,
 		ViewTreeObserver.OnGlobalLayoutListener {
@@ -90,8 +91,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	private long[] confirmSwitchEditTextTimeStamp = { 0, 0 };
 	private int confirmSwitchEditTextCounter = 0;
 	private CharSequence previousActionBarTitle;
-
-	public boolean restoreInstance = false;
 	private View fragmentView;
 	private VariableDeletedReceiver variableDeletedReceiver;
 
@@ -263,9 +262,9 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 						case R.id.formula_editor_keyboard_redo:
 							formulaEditorEditText.redo();
 							return true;
-						case R.id.formula_editor_keyboard_math:
-							showFormulaEditorListFragment(FormulaEditorListFragment.MATH_TAG,
-									R.string.formula_editor_math);
+						case R.id.formula_editor_keyboard_function:
+							showFormulaEditorListFragment(FormulaEditorListFragment.FUNCTION_TAG,
+									R.string.formula_editor_function);
 							return true;
 						case R.id.formula_editor_keyboard_logic:
 							showFormulaEditorListFragment(FormulaEditorListFragment.LOGIC_TAG,
@@ -285,6 +284,19 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 							return true;
 						case R.id.formula_editor_keyboard_ok:
 							endFormulaEditor();
+							return true;
+						case R.id.formula_editor_keyboard_string:
+							FragmentManager fragmentManager = ((SherlockFragmentActivity) context)
+									.getSupportFragmentManager();
+							Fragment dialogFragment = fragmentManager
+									.findFragmentByTag(NewStringDialog.DIALOG_FRAGMENT_TAG);
+
+							if (dialogFragment == null) {
+								dialogFragment = NewStringDialog.newInstance();
+							}
+
+							((NewStringDialog) dialogFragment).show(fragmentManager,
+									NewStringDialog.DIALOG_FRAGMENT_TAG);
 							return true;
 						default:
 							formulaEditorEditText.handleKeyEvent(view.getId(), "");
@@ -536,6 +548,10 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 	public void addUserVariableToActiveFormula(String userVariableName) {
 		formulaEditorEditText.handleKeyEvent(0, userVariableName);
+	}
+
+	public void addStringToActiveFormula(String string) {
+		formulaEditorEditText.handleKeyEvent(R.id.formula_editor_keyboard_string, string);
 	}
 
 	private class VariableDeletedReceiver extends BroadcastReceiver {

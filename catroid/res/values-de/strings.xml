@@ -390,8 +390,6 @@
     <string name="brick_change_volume_by">Ändere Lautstärke um</string>
     <string name="brick_speak">Sprich</string>
     <string name="brick_speak_default_value">"Hallo!"</string>
-    <string name="dialog_edit_speak_title">Text bearbeiten</string>
-    <string name="dialog_edit_speak_text">Sprich:</string>
     <!--  -->
 
 
@@ -411,8 +409,6 @@
     <string name="brick_note">Notiz</string>
     <string name="brick_forever">Wiederhole fortlaufend</string>
     <string name="brick_repeat">Wiederhole</string>
-    <string name="dialog_edit_note_title">Notiz bearbeiten</string>
-    <string name="dialog_edit_note_text">Notiz:</string>
 
     <plurals name="time_plural">
         <item quantity="one">mal</item>
@@ -601,6 +597,29 @@
     <string name="formula_editor_function_min">min</string>
     <string name="formula_editor_function_true">WAHR</string>
     <string name="formula_editor_function_false">FALSCH</string>
+    <string name="formula_editor_function_length">länge</string>
+    <string name="formula_editor_function_letter">buchstabe</string>
+    <string name="formula_editor_function_join">verbinde</string>
+    <string name="formula_editor_function_sin_parameter">(0)</string>
+    <string name="formula_editor_function_cos_parameter">(0)</string>
+    <string name="formula_editor_function_tan_parameter">(0)</string>
+    <string name="formula_editor_function_ln_parameter">(0)</string>
+    <string name="formula_editor_function_log_parameter">(0)</string>
+    <string name="formula_editor_function_pi_parameter"></string>
+    <string name="formula_editor_function_sqrt_parameter">(0)</string>
+    <string name="formula_editor_function_rand_parameter">(0,1)</string>
+    <string name="formula_editor_function_abs_parameter">(0)</string>
+    <string name="formula_editor_function_round_parameter">(0)</string>
+    <string name="formula_editor_function_mod_parameter">(1,1)</string>
+    <string name="formula_editor_function_arcsin_parameter">(0)</string>
+    <string name="formula_editor_function_arccos_parameter">(0)</string>
+    <string name="formula_editor_function_arctan_parameter">(0)</string>
+    <string name="formula_editor_function_exp_parameter">(0)</string>
+    <string name="formula_editor_function_max_parameter">(0,1)</string>
+    <string name="formula_editor_function_min_parameter">(0,1)</string>
+    <string name="formula_editor_function_length_parameter">(\'hallo welt\')</string>
+    <string name="formula_editor_function_letter_parameter">(1,\'hallo welt\')</string>
+    <string name="formula_editor_function_join_parameter">(\'hallo\',\'welt\')</string>
     <string name="formula_editor_sensor_x_acceleration">Beschleunigung_x</string>
     <string name="formula_editor_sensor_y_acceleration">Beschleunigung_y</string>
     <string name="formula_editor_sensor_z_acceleration">Beschleunigung_z</string>
@@ -617,11 +636,11 @@
     <string name="formula_editor_object_layer">Ebene</string>
     <string name="formula_editor_compute">Berechnen</string>
     <string name="formula_editor_object">Objekt</string>
-    <string name="formula_editor_math">Funktionen</string>
+    <string name="formula_editor_function">Funktionen</string>
     <string name="formula_editor_logic">Logik</string>
     <string name="formula_editor_sensors">Sensoren</string>
     <string name="formula_editor_variables">Variablen</string>
-    <string name="formula_editor_random">Zufall</string>
+    <string name="formula_editor_string">Zeichenkette</string>
     <string name="formula_editor_logic_notequal">&#x2260;</string>
     <string name="formula_editor_logic_lesserthan">&lt;</string>
     <string name="formula_editor_logic_greaterthan">&gt;</string>
@@ -646,6 +665,8 @@
     <string name="formula_editor_discard_changes_dialog_message">Möchten Sie die Änderungen speichern?</string>
     <string name="formula_editor_discard_changes_dialog_title">Änderungen speichern?</string>
     <string name="variable_name">Variablenname:</string>
+    <string name="formula_editor_new_string_name">Neue Zeichenkette</string>
+    <string name="formula_editor_new_string_dialog_hint">Neue Zeichenkette hier eingeben!</string>
 
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable ausgewählt!</item>

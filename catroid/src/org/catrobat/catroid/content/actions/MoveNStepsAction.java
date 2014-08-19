@@ -22,10 +22,13 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class MoveNStepsAction extends TemporalAction {
 
@@ -34,12 +37,17 @@ public class MoveNStepsAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		double stepsValue = steps.interpretDouble(sprite);
-		double radians = Math.toRadians(sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		Double stepsValue;
+		try {
+			stepsValue = steps == null ? Double.valueOf(0d) : steps.interpretDouble(sprite);
+        } catch (InterpretationException interpretationException) {
+            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+            return;
+        }
 
+		double radians = Math.toRadians(sprite.look.getDirectionInUserInterfaceDimensionUnit());
 		sprite.look.changeXInUserInterfaceDimensionUnit((float) (stepsValue * Math.sin(radians)));
 		sprite.look.changeYInUserInterfaceDimensionUnit((float) (stepsValue * Math.cos(radians)));
-
 	}
 
 	public void setSprite(Sprite sprite) {

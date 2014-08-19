@@ -28,23 +28,23 @@ public class UserVariable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String name;
-	private transient double value;
+	private transient Object value;
 
 	public UserVariable(final String name) {
 		this.name = name;
-		this.value = 0.0;
+		this.value = Double.valueOf(0);
 	}
 
-	public UserVariable(final String name, final double value) {
+	public UserVariable(final String name, final Object value) {
 		this.name = name;
 		this.value = value;
 	}
 
-	public Double getValue() {
+	public Object getValue() {
 		return value;
 	}
 
-	public void setValue(double value) {
+	public void setValue(Object value) {
 		this.value = value;
 	}
 

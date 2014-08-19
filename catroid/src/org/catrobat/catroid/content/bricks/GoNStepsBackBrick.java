@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -35,9 +36,13 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+
+import org.catrobat.catroid.common.BrickValues;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
@@ -98,11 +103,15 @@ public class GoNStepsBackBrick extends FormulaBrick implements OnClickListener {
 		TextView times = (TextView) view.findViewById(R.id.brick_go_back_layers_text_view);
 
 		if (getFormulaWithBrickField(BrickField.STEPS).isSingleNumberFormula()) {
-			times.setText(view.getResources().getQuantityString(
-					R.plurals.brick_go_back_layer_plural,
-					Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(
-							ProjectManager.getInstance().getCurrentSprite()))
-			));
+            try{
+				times.setText(view.getResources().getQuantityString(
+						R.plurals.brick_go_back_layer_plural,
+						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(
+								ProjectManager.getInstance().getCurrentSprite()))
+				));
+            }catch(InterpretationException interpretationException){
+                Log.d(getClass().getSimpleName(), "Couldn't interpret Formula.", interpretationException);
+            }
 		} else {
 
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -121,12 +130,11 @@ public class GoNStepsBackBrick extends FormulaBrick implements OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_go_back, null);
 		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_go_back_prototype_text_view);
-		textSteps.setText(String.valueOf(getFormulaWithBrickField(BrickField.STEPS).interpretInteger(
-				ProjectManager.getInstance().getCurrentSprite())));
 		TextView times = (TextView) prototypeView.findViewById(R.id.brick_go_back_layers_text_view);
-		times.setText(context.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
-				Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(
-						ProjectManager.getInstance().getCurrentSprite()))));
+        textSteps.setText(String.valueOf(BrickValues.GO_BACK));
+        times.setText(context.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
+                    Utils.convertDoubleToPluralInteger(BrickValues.GO_BACK)));
+
 		return prototypeView;
 
 	}

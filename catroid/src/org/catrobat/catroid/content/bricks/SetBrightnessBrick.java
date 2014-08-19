@@ -33,8 +33,10 @@ import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+
+import org.catrobat.catroid.common.BrickValues;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -105,8 +107,7 @@ public class SetBrightnessBrick extends FormulaBrick implements OnClickListener 
 		prototypeView = View.inflate(context, R.layout.brick_set_brightness, null);
 		TextView textSetBrightness = (TextView) prototypeView
 				.findViewById(R.id.brick_set_brightness_prototype_text_view);
-		textSetBrightness.setText(String.valueOf(getFormulaWithBrickField(BrickField.BRIGHTNESS)
-				.interpretDouble(ProjectManager.getInstance().getCurrentSprite())));
+		textSetBrightness.setText(String.valueOf(BrickValues.SET_BRIGHTNESS_TO));
 		return prototypeView;
 	}
 

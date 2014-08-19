@@ -39,9 +39,19 @@ public class ChangeVariableAction extends Action {
 		if (userVariable == null) {
 			return true;
 		}
-		double originalValue = userVariable.getValue();
-		double value = changeVariable.interpretDouble(sprite);
-		userVariable.setValue(originalValue + value);
+		Object originalValue = userVariable.getValue();
+		Object value = changeVariable == null ? 0d : changeVariable.interpretObject(sprite);
+
+		if (originalValue instanceof String || value instanceof String) {
+			return true;
+		}
+
+		if (originalValue instanceof Double && value instanceof Double) {
+			originalValue = ((Double) originalValue).isNaN() ? 0d : originalValue;
+			value = ((Double) value).isNaN() ? 0d : value;
+			userVariable.setValue(((Double) originalValue) + ((Double) value));
+			return true;
+		}
 		return true;
 	}
 

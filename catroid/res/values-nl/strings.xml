@@ -491,11 +491,10 @@
     <string name="formula_editor_object_layer">"laag"</string>
     <string name="formula_editor_compute">"Berekenen"</string>
     <string name="formula_editor_object">"Object"</string>
-    <string name="formula_editor_math">"Wiskunde"</string>
+    <string name="formula_editor_function">"Wiskunde"</string>
     <string name="formula_editor_logic">"Logica"</string>
     <string name="formula_editor_sensors">"Sensoren"</string>
     <string name="formula_editor_variables">"Variabelen"</string>
-    <string name="formula_editor_random">"Willekeurig"</string>
     <string name="formula_editor_logic_notequal">"≠"</string>
     <string name="formula_editor_logic_lesserthan">"&lt;"</string>
     <string name="formula_editor_logic_greaterthan">"&gt;"</string>

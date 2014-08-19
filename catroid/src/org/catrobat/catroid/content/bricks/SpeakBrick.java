@@ -36,37 +36,37 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SpeakBrick extends BrickBaseType {
-	private static final long serialVersionUID = 1L;
-	private String text = "";
+public class SpeakBrick extends FormulaBrick implements OnClickListener {
 
+	private static final long serialVersionUID = 1L;
 	private transient View prototypeView;
 
-	public SpeakBrick(String text) {
-		this.text = text;
-	}
 
 	public SpeakBrick() {
+		addAllowedBrickField(BrickField.SPEAK);
+	}
+
+	public SpeakBrick(String speak) {
+		initializeBrickFields(new Formula(speak));
+	}
+
+	public SpeakBrick(Formula speak) {
+		initializeBrickFields(speak);
+	}
+
+	private void initializeBrickFields(Formula speak) {
+		addAllowedBrickField(BrickField.SPEAK);
+		setFormulaWithBrickField(BrickField.SPEAK, speak);
 	}
 
 	@Override
 	public int getRequiredResources() {
 		return TEXT_TO_SPEECH;
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		SpeakBrick copyBrick = (SpeakBrick) clone();
-		return copyBrick;
-	}
-
-	public String getText() {
-		return text;
 	}
 
 	@Override
@@ -90,42 +90,13 @@ public class SpeakBrick extends BrickBaseType {
 
 		TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_prototype_text_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_speak_edit_text);
-		textField.setText(text);
+		getFormulaWithBrickField(BrickField.SPEAK).setTextFieldId(R.id.brick_speak_edit_text);
+		getFormulaWithBrickField(BrickField.SPEAK).refreshTextField(view);
 
 		textHolder.setVisibility(View.GONE);
 		textField.setVisibility(View.VISIBLE);
 
-		textField.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				if (checkbox.getVisibility() == View.VISIBLE) {
-					return;
-				}
-				ScriptActivity activity = (ScriptActivity) context;
-
-				BrickTextDialog editDialog = new BrickTextDialog() {
-					@Override
-					protected void initialize() {
-						input.setText(text);
-						input.setSelectAllOnFocus(true);
-						inputTitle.setText(R.string.dialog_edit_speak_text);
-					}
-
-					@Override
-					protected boolean handleOkButton() {
-						text = (input.getText().toString()).trim();
-						return true;
-					}
-
-					@Override
-					protected String getTitle() {
-						return getString(R.string.dialog_edit_speak_title);
-					}
-				};
-
-				editDialog.show(activity.getSupportFragmentManager(), "dialog_speak_brick");
-			}
-		});
+		textField.setOnClickListener(this);
 		return view;
 	}
 
@@ -156,19 +127,32 @@ public class SpeakBrick extends BrickBaseType {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_speak, null);
 		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_speak_prototype_text_view);
-		textSpeak.setText(text);
+		textSpeak.setText(context.getString(R.string.brick_speak_default_value));
 		return prototypeView;
 	}
 
 	@Override
-	public Brick clone() {
-		return new SpeakBrick(this.text);
-	}
-
-	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.speak(text));
+		sequence.addAction(ExtendedActions.speak(sprite, getFormulaWithBrickField(BrickField.SPEAK)));
 		return null;
 	}
 
+	@Override
+	public Formula getFormula() {
+		return getFormulaWithBrickField(BrickField.SPEAK);
+	}
+
+	@Override
+	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
+		switch (view.getId()) {
+			case R.id.brick_speak_edit_text:
+				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.SPEAK));
+				break;
+			default:
+				break;
+		}
+	}
 }

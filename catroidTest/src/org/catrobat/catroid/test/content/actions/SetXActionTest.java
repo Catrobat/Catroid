@@ -31,17 +31,23 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 public class SetXActionTest extends AndroidTestCase {
 
-	private Formula xPosition = new Formula(100);
+    private static final float X_POSITION = 91.1f;
+	private Formula xPosition = new Formula(X_POSITION);
+	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
+    private Sprite sprite;
+
+    @Override
+    protected void setUp() throws Exception {
+        sprite = new Sprite("testSprite");
+        super.setUp();
+    }
 
 	public void testNormalBehavior() {
-		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
-		SetXAction action = ExtendedActions.setX(sprite, xPosition);
-		action.act(1.0f);
-
-		assertEquals("Incorrect sprite x position after SetXBrick executed", xPosition.interpretFloat(sprite),
+        ExtendedActions.setX(sprite, xPosition).act(1.0f);
+		assertEquals("Incorrect sprite x position after SetXBrick executed", X_POSITION,
 				sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
@@ -56,18 +62,34 @@ public class SetXActionTest extends AndroidTestCase {
 	}
 
 	public void testBoundaryPositions() {
-		Sprite sprite = new Sprite("testSprite");
-
-		SetXAction action = ExtendedActions.setX(sprite, new Formula(Integer.MAX_VALUE));
-		action.act(1.0f);
-
+		ExtendedActions.setX(sprite, new Formula(Integer.MAX_VALUE)).act(1.0f);
 		assertEquals("SetXBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
 				(int) sprite.look.getXInUserInterfaceDimensionUnit());
 
-		action = ExtendedActions.setX(sprite, new Formula(Integer.MIN_VALUE));
-		action.act(1.0f);
-
+		ExtendedActions.setX(sprite, new Formula(Integer.MIN_VALUE)).act(1.0f);
 		assertEquals("SetXBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
 				(int) sprite.look.getXInUserInterfaceDimensionUnit());
+	}
+
+	public void testBrickWithStringFormula() {
+		ExtendedActions.setX(sprite, new Formula(String.valueOf(X_POSITION))).act(1.0f);
+		assertEquals("Incorrect sprite x position after SetXBrick executed", X_POSITION,
+				sprite.look.getXInUserInterfaceDimensionUnit());
+
+		ExtendedActions.setX(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING))).act(1.0f);
+		assertEquals("Incorrect sprite x position after SetXBrick executed", X_POSITION,
+				sprite.look.getXInUserInterfaceDimensionUnit());
+	}
+
+	public void testNullFormula() {
+		ExtendedActions.setX(sprite, null).act(1.0f);
+		assertEquals("Incorrect sprite x position after SetXBrick executed", 0f,
+				sprite.look.getXInUserInterfaceDimensionUnit());
+	}
+
+	public void testNotANumbserFormula() {
+        ExtendedActions.setX(sprite, new Formula(Double.NaN)).act(1.0f);
+		assertEquals("Incorrect sprite x position after SetXBrick executed", 0f,
+				sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 }

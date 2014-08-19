@@ -49,6 +49,8 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 	private final String projectName = "testProject";
 	private File testImage;
 	private LookData lookData;
+	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
+	private static final float VALUE = 33;
 
 	@Override
 	public void setUp() throws Exception {
@@ -169,6 +171,39 @@ public class TurnLeftActionTest extends InstrumentationTestCase {
 		turnRightAction.act(1.0f);
 
 		assertEquals("Wrong direction!", 20f, sprite.look.getRotation(), 1e-3);
+		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+	}
+
+	public void testBrickWithStringFormula() {
+		Sprite sprite = new Sprite("test");
+		TurnLeftAction action = ExtendedActions.turnLeft(sprite, new Formula(String.valueOf(VALUE)));
+		action.act(1.0f);
+		assertEquals("Wrong direction!", VALUE, sprite.look.getRotation());
+		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+
+		action = ExtendedActions.turnLeft(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING)));
+		action.act(1.0f);
+		assertEquals("Wrong direction!", VALUE, sprite.look.getRotation());
+		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+	}
+
+	public void testNullFormula() {
+		Sprite sprite = new Sprite("test");
+		TurnLeftAction action = ExtendedActions.turnLeft(sprite, null);
+		action.act(1.0f);
+		assertEquals("Wrong direction!", 0f, sprite.look.getRotation());
+		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
+		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
+	}
+
+	public void testNotANumberFormula() {
+		Sprite sprite = new Sprite("test");
+		TurnLeftAction action = ExtendedActions.turnLeft(sprite, new Formula(Double.NaN));
+		action.act(1.0f);
+		assertEquals("Wrong direction!", 0f, sprite.look.getRotation());
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}

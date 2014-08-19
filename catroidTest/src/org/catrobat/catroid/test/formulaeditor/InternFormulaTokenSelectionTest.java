@@ -37,7 +37,13 @@ import java.util.ArrayList;
 
 public class InternFormulaTokenSelectionTest extends InstrumentationTestCase {
 
-	public void testReplaceFunctionByToken() {
+	private InternFormula internFormula;
+	private String externFormulaString;
+	private int doubleClickIndex;
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
 
 		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()));
@@ -45,13 +51,14 @@ public class InternFormulaTokenSelectionTest extends InstrumentationTestCase {
 		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
 
-		InternFormula internFormula = new InternFormula(internTokens);
+		internFormula = new InternFormula(internTokens);
 		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
-		String externFormulaString = internFormula.getExternFormulaString();
-		int doubleClickIndex = externFormulaString.length();
-
+		externFormulaString = internFormula.getExternFormulaString();
+		doubleClickIndex = externFormulaString.length();
 		internFormula.setCursorAndSelection(doubleClickIndex, true);
+	}
 
+	public void testReplaceFunctionByToken() {
 		assertEquals("Selection start index not as expected", 0, internFormula.getSelection().getStartIndex());
 		assertEquals("Selection end index not as expected", 3, internFormula.getSelection().getEndIndex());
 
@@ -76,39 +83,27 @@ public class InternFormulaTokenSelectionTest extends InstrumentationTestCase {
 	}
 
 	public void testHashCodeFunction() {
-
-		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
-
-		InternFormula internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
-		String externFormulaString = internFormula.getExternFormulaString();
-		int doubleClickIndex = externFormulaString.length();
-
-		internFormula.setCursorAndSelection(doubleClickIndex, true);
-
-
 		InternFormulaTokenSelection tokenSelection = internFormula.getSelection();
 		InternFormulaTokenSelection tokenSelectionDeepCopy = tokenSelection.deepCopy();
 
-		assertTrue("HashCode function not correct implemented", tokenSelection.hashCode() == tokenSelectionDeepCopy.hashCode());
+		assertTrue("HashCode function not correct implemented",
+				tokenSelection.hashCode() == tokenSelectionDeepCopy.hashCode());
 
 		Reflection.setPrivateField(tokenSelectionDeepCopy, "tokenSelectionType",
 				TokenSelectionType.PARSER_ERROR_SELECTION);
-		assertFalse("HashCode function not correct implemented", tokenSelectionDeepCopy.hashCode() ==tokenSelection.hashCode());
+		assertFalse("HashCode function not correct implemented",
+				tokenSelectionDeepCopy.hashCode() == tokenSelection.hashCode());
 
 		tokenSelectionDeepCopy = tokenSelection.deepCopy();
 		Reflection.setPrivateField(tokenSelectionDeepCopy, "internTokenSelectionStart", -1);
-		assertFalse("HashCode function not correct implemented", tokenSelectionDeepCopy.hashCode() == tokenSelection.hashCode());
+		assertFalse("HashCode function not correct implemented",
+				tokenSelectionDeepCopy.hashCode() == tokenSelection.hashCode());
 
 		tokenSelectionDeepCopy = tokenSelection.deepCopy();
 		Reflection.setPrivateField(tokenSelectionDeepCopy, "internTokenSelectionEnd", -1);
-		assertFalse("HashCode function not correct implemented", tokenSelectionDeepCopy.hashCode() == tokenSelection.hashCode());
+		assertFalse("HashCode function not correct implemented",
+				tokenSelectionDeepCopy.hashCode() == tokenSelection.hashCode());
 
 		assertFalse("HashCode function not correct implemented", tokenSelectionDeepCopy.hashCode() == 1);
 	}
-
 }
