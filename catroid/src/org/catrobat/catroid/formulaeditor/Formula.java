@@ -219,6 +219,10 @@ public class Formula implements Serializable {
 		return new Formula(0);
 	}
 
+	public int getRequiredResources() {
+		return formulaTree.getRequiredResources();
+	}
+
 	public String getResultForComputeDialog(Context context) {
 
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
