@@ -71,6 +71,10 @@
     <string name="preference_title">Einstellungen</string>
     <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorm Bausteine</string>
     <string name="preference_description_mindstorm_bricks">Erlaube Steuerung von Lego Mindstorm Robotern</string>
+    <string name="preference_title_use_face_detection">Gesichtserkennung</string>
+    <string name="preference_description_use_face_detection">Erlaube das Erkennen von Gesichtern</string>
+    <string name="preference_title_select_camera">Auswahl der Kamera</string>
+    <string name="preference_description_select_camera">Wähle die zu verwendende Kamera</string>
     <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 Bausteine</string>
     <string name="preference_description_quadcopter_bricks">Erlaubt dir, die ARDrone 2.0 zu steuern.</string>
     <!--  -->
@@ -627,6 +631,10 @@
     <string name="formula_editor_sensor_x_inclination">Neigung_x</string>
     <string name="formula_editor_sensor_y_inclination">Neigung_y</string>
     <string name="formula_editor_sensor_loudness">Umgebungslautstärke</string>
+    <string name="formula_editor_sensor_face_detected">Gesicht_erkannt</string>
+    <string name="formula_editor_sensor_face_size">Gesichtsgröße</string>
+    <string name="formula_editor_sensor_face_x_position">Gesichtsposition_x</string>
+    <string name="formula_editor_sensor_face_y_position">Gesichtsposition_y</string>
     <string name="formula_editor_object_x">Position_x</string>
     <string name="formula_editor_object_y">Position_y</string>
     <string name="formula_editor_object_ghosteffect">Transparenz</string>
@@ -674,4 +682,10 @@
     </plurals>
     <!--  -->
 
+
+    <!-- Camera Strings -->
+    <string name="camera_facing_front">Vordere Kamera</string>
+    <string name="camera_facing_back">Hintere Kamera</string>
+    <!--  -->
+    
 </resources>

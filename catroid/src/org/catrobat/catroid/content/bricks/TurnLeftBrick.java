@@ -69,7 +69,7 @@ public class TurnLeftBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return degrees.getRequiredResources();
 	}
 
 	@Override

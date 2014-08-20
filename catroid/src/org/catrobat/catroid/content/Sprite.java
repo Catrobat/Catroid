@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.content;
 
+import android.graphics.Point;
 import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -37,6 +38,8 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.facedetection.FaceDetectionHandler;
+import org.catrobat.catroid.facedetection.OnFaceDetectedListener;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 

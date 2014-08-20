@@ -68,7 +68,7 @@ public class ChangeBrightnessByNBrick extends FormulaBrick implements OnClickLis
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return changeBrightness.getRequiredResources();
 	}
 
 	@Override

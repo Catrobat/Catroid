@@ -69,7 +69,7 @@ public class ChangeVolumeByNBrick extends FormulaBrick implements OnClickListene
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return volume.getRequiredResources();
 	}
 
 	@Override

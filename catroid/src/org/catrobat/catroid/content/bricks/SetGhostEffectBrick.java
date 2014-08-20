@@ -68,7 +68,7 @@ public class SetGhostEffectBrick extends FormulaBrick implements OnClickListener
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return transparency.getRequiredResources();
 	}
 
 	@Override

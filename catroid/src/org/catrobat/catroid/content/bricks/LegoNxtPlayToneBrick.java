@@ -73,7 +73,7 @@ public class LegoNxtPlayToneBrick extends FormulaBrick implements OnClickListene
 
 	@Override
 	public int getRequiredResources() {
-		return BLUETOOTH_LEGO_NXT;
+		return BLUETOOTH_LEGO_NXT | frequency.getRequiredResources() | durationInSeconds.getRequiredResources();
 	}
 
 	@Override
