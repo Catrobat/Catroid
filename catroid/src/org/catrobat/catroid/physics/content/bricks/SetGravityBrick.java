@@ -34,8 +34,8 @@ import android.widget.TextView;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
@@ -123,19 +123,12 @@ public class SetGravityBrick extends FormulaBrick implements OnClickListener {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_physics_set_gravity, null);
-		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_prototype_text_view_x);
-		textX.setText(String.valueOf(getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_X).interpretInteger(
-				ProjectManager.getInstance().getCurrentSprite())));
-		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_prototype_text_view_y);
-		textY.setText(String.valueOf(getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_Y).interpretInteger(
-				ProjectManager.getInstance().getCurrentSprite())));
+		TextView textGravityX = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_prototype_text_view_x);
+		textGravityX.setText(String.valueOf(BrickValues.PHYSIC_GRAVITY));
+		TextView textGravityY = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_prototype_text_view_y);
+		textGravityY.setText(String.valueOf(BrickValues.PHYSIC_GRAVITY));
 		return prototypeView;
 	}
-
-	/*@Override
-	public Brick clone() {
-		return new SetGravityBrick(getSprite(), gravityX.clone(), gravityY.clone());
-	}*/
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {

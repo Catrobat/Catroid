@@ -30,7 +30,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
@@ -192,10 +191,13 @@ public class IfLogicActionTest extends AndroidTestCase {
 
 	public void testNullFormula() {
 		Object userVariableExpected = userVariable.getValue();
-		Action ifAction = ExtendedActions.setVariable(testSprite, new Formula(IF_TRUE_VALUE), userVariable);
-		Action elseAction = ExtendedActions.setVariable(testSprite, new Formula(IF_FALSE_VALUE), userVariable);
+		Action ifAction = testSprite.getActionFactory().createSetVariableAction(testSprite, new Formula(IF_TRUE_VALUE),
+				userVariable);
+		Action elseAction = testSprite.getActionFactory().createSetVariableAction(testSprite,
+				new Formula(IF_FALSE_VALUE), userVariable);
 
-		Action ifLogicAction = ExtendedActions.ifLogic(testSprite, null, ifAction, elseAction);
+		Action ifLogicAction = testSprite.getActionFactory().createIfLogicAction(testSprite, null, ifAction,
+				elseAction);
 		ifLogicAction.act(1.0f);
 		Object isInterpretedCorrectly = Reflection.getPrivateField(ifLogicAction, "isInterpretedCorrectly");
 		assertFalse("Null Formula should not have been possible to interpret!", (Boolean) isInterpretedCorrectly);

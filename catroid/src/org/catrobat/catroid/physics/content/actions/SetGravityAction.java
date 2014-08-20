@@ -22,10 +22,13 @@
  */
 package org.catrobat.catroid.physics.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.physics.PhysicsWorld;
 
 public class SetGravityAction extends TemporalAction {
@@ -37,7 +40,21 @@ public class SetGravityAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		physicsWorld.setGravity(gravityX.interpretFloat(sprite), gravityY.interpretFloat(sprite));
+		Float newGravityX;
+		try {
+			newGravityX = gravityX == null ? Float.valueOf(0f) : gravityX.interpretFloat(sprite);
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+			return;
+		}
+		Float newGravityY;
+		try {
+			newGravityY = gravityY == null ? Float.valueOf(0f) : gravityY.interpretFloat(sprite);
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+			return;
+		}
+		physicsWorld.setGravity(newGravityX, newGravityY);
 	}
 
 	public void setSprite(Sprite sprite) {

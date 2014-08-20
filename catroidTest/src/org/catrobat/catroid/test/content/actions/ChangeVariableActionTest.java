@@ -27,7 +27,6 @@ import android.test.AndroidTestCase;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
@@ -53,32 +52,32 @@ public class ChangeVariableActionTest extends AndroidTestCase {
 	}
 
 	public void testChangeUserVariableWithNumericalFormula() {
-        ExtendedActions.changeVariable(testSprite, new Formula(CHANGE_VARIABLE_VALUE), userVariable).act(1f);
+		testSprite.getActionFactory().createChangeVariableAction(testSprite, new Formula(CHANGE_VARIABLE_VALUE), userVariable).act(1f);
 		assertEquals("UserVariable did not change", CHANGE_VARIABLE_VALUE, userVariable.getValue());
 	}
 
 	public void testChangeUserVariableInvalidUserVariable() {
-        ExtendedActions.changeVariable(testSprite, new Formula(CHANGE_VARIABLE_VALUE), null).act(1f);
+		testSprite.getActionFactory().createChangeVariableAction(testSprite, new Formula(CHANGE_VARIABLE_VALUE), null).act(1f);
 		assertEquals("UserVariable changed, but should not!", INITIALIZED_VALUE, userVariable.getValue());
 	}
 
 	public void testChangeUserVariableWithNumericalStringFormula() {
-        ExtendedActions.changeVariable(testSprite, new Formula(String.valueOf(CHANGE_VARIABLE_VALUE)), userVariable).act(1f);
+		testSprite.getActionFactory().createChangeVariableAction(testSprite, new Formula(String.valueOf(CHANGE_VARIABLE_VALUE)), userVariable).act(1f);
         assertEquals("UserVariable did not change", CHANGE_VARIABLE_VALUE, userVariable.getValue());
 	}
 
 	public void testChangeUserVariableWithStringFormula() {
-        ExtendedActions.changeVariable(testSprite,  new Formula(NOT_NUMERICAL_STRING), userVariable).act(1f);
+		testSprite.getActionFactory().createChangeVariableAction(testSprite,  new Formula(NOT_NUMERICAL_STRING), userVariable).act(1f);
 		assertEquals("UserVariable should not have changed!", INITIALIZED_VALUE, userVariable.getValue());
 	}
 
 	public void testNullFormula() {
-        ExtendedActions.changeVariable(testSprite,  null, userVariable).act(1f);
+		testSprite.getActionFactory().createChangeVariableAction(testSprite,  null, userVariable).act(1f);
 		assertEquals("UserVariable should not have changed!", INITIALIZED_VALUE, userVariable.getValue());
 	}
 
 	public void testNotANumberFormula() {
-        ExtendedActions.changeVariable(testSprite,  new Formula(Double.NaN), userVariable).act(1f);
+		testSprite.getActionFactory().createChangeVariableAction(testSprite,  new Formula(Double.NaN), userVariable).act(1f);
 		assertEquals("UserVariable should not have changed!", INITIALIZED_VALUE, userVariable.getValue());
 	}
 }

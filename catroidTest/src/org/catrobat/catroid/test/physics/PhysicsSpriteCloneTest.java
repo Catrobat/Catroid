@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.physics;
 
 import android.test.InstrumentationTestCase;
+import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
 
@@ -38,6 +39,7 @@ import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
@@ -58,6 +60,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
+
+	private static final String TAG = PhysicsSpriteCloneTest.class.getSimpleName();
 
 	private Sprite sprite;
 	private Project project;
@@ -164,7 +168,13 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 
 		Formula clonedSetBounceBrickFormula = ((FormulaBrick) clonedSetBounceBrick)
 				.getFormulaWithBrickField(Brick.BrickField.PHYSICS_BOUNCE_FACTOR);
-		float clonedBounceFactorValue = clonedSetBounceBrickFormula.interpretFloat(clonedSprite);
+		float clonedBounceFactorValue = 0;
+		try {
+			clonedBounceFactorValue = clonedSetBounceBrickFormula.interpretFloat(clonedSprite);
+		} catch (InterpretationException interpretationException) {
+			Log.e(TAG, "InterpretationException thrown while interpreting.", interpretationException);
+			fail("InterpretationException thrown while interpreting.");
+		}
 		assertEquals("Cloned bounce factor value is not equal to origin value.", BOUNCE_TEST_VALUE, clonedBounceFactorValue);
 	}
 

@@ -28,20 +28,19 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.physics.content.ActionFactory;
 
 public class SetGhostEffectActionTest extends InstrumentationTestCase {
 
-    private static final float GHOST_EFFECT = 91f;
+	private static final float GHOST_EFFECT = 91f;
 	private Formula effect = new Formula(GHOST_EFFECT);
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
-    private Sprite sprite;
+	private Sprite sprite;
 
-    @Override
-    protected void setUp() throws Exception {
-        sprite = new Sprite("testSprite");
-        super.setUp();
-    }
+	@Override
+	protected void setUp() throws Exception {
+		sprite = new Sprite("testSprite");
+		super.setUp();
+	}
 
 	public void testGhostEffect() {
 		assertEquals("Unexpected initial sprite ghost effect value", 0f,
@@ -83,7 +82,7 @@ public class SetGhostEffectActionTest extends InstrumentationTestCase {
 	public void testNullFormula() {
 		sprite.getActionFactory().createSetGhostEffectAction(sprite, null).act(1.0f);
 		assertEquals("Incorrect sprite size value after SetGhostEffectBrick executed", 0f,
-                sprite.look.getTransparencyInUserInterfaceDimensionUnit());
+				sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 
 	}
 

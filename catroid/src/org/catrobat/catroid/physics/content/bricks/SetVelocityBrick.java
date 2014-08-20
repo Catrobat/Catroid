@@ -34,8 +34,8 @@ import android.widget.TextView;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
@@ -123,19 +123,12 @@ public class SetVelocityBrick extends FormulaBrick implements OnClickListener {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_physics_set_velocity, null);
-		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_set_velocity_prototype_text_view_x);
-		textX.setText(String.valueOf(getFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_X).interpretInteger(
-				ProjectManager.getInstance().getCurrentSprite())));
-		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_set_velocity_prototype_text_view_y);
-		textY.setText(String.valueOf(getFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_Y).interpretInteger(
-				ProjectManager.getInstance().getCurrentSprite())));
+		TextView textVelocityX = (TextView) prototypeView.findViewById(R.id.brick_set_velocity_prototype_text_view_x);
+		textVelocityX.setText(String.valueOf(BrickValues.PHYSIC_VELOCITY));
+		TextView textVelocityY = (TextView) prototypeView.findViewById(R.id.brick_set_velocity_prototype_text_view_y);
+		textVelocityY.setText(String.valueOf(BrickValues.PHYSIC_VELOCITY));
 		return prototypeView;
 	}
-
-	/*@Override
-	public Brick clone() {
-		return new SetVelocityBrick(getSprite(), velocityX.clone(), velocityY.clone());
-	}*/
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {

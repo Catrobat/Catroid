@@ -43,10 +43,8 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 
 	public void testNormalBehavior() {
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		int xPosition = (int) sprite.look.getXInUserInterfaceDimensionUnit();
-		xPosition += CHANGE_VALUE;
 		sprite.getActionFactory().createChangeXByNAction(sprite, new Formula(CHANGE_VALUE)).act(1.0f);
-		assertEquals("Incorrect sprite x position after ChangeXByNBrick executed", (float) xPosition,
+		assertEquals("Incorrect sprite x position after ChangeXByNBrick executed", CHANGE_VALUE,
 				sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 

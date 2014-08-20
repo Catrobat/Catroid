@@ -186,13 +186,15 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 
 	public void testBrickWithStringFormula() {
 		Sprite sprite = new Sprite("test");
-		TurnRightAction action = ExtendedActions.turnRight(sprite, new Formula(String.valueOf(VALUE)));
+		Action action = sprite.getActionFactory().createTurnRightAction(sprite,
+				new Formula(String.valueOf(VALUE)));
 		action.act(1.0f);
 		assertEquals("Wrong direction!", -VALUE, sprite.look.getRotation());
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Wrong Y-Position!", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
-		action = ExtendedActions.turnRight(sprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING)));
+		action = sprite.getActionFactory().createTurnRightAction(sprite,
+				new Formula(String.valueOf(NOT_NUMERICAL_STRING)));
 		action.act(1.0f);
 		assertEquals("Wrong direction!", -VALUE, sprite.look.getRotation());
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
@@ -201,7 +203,7 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 
 	public void testNullFormula() {
 		Sprite sprite = new Sprite("test");
-		TurnRightAction action = ExtendedActions.turnRight(sprite, null);
+		Action action = sprite.getActionFactory().createTurnRightAction(sprite, null);
 		action.act(1.0f);
 		assertEquals("Wrong direction!", 0f, sprite.look.getRotation());
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
@@ -210,7 +212,7 @@ public class TurnRightActionTest extends InstrumentationTestCase {
 
 	public void testNotANumberFormula() {
 		Sprite sprite = new Sprite("test");
-		TurnRightAction action = ExtendedActions.turnRight(sprite, new Formula(Double.NaN));
+		Action action = sprite.getActionFactory().createTurnRightAction(sprite, new Formula(Double.NaN));
 		action.act(1.0f);
 		assertEquals("Wrong direction!", 0f, sprite.look.getRotation());
 		assertEquals("Wrong X-Position!", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
