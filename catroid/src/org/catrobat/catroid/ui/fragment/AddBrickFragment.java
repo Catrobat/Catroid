@@ -34,10 +34,10 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -272,35 +272,16 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Brick brickToBeAdded = null;
 				try {
-					Brick brickToBeAdded = adapter.getItem(position).clone();
-					scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded);
-
-					if (brickToBeAdded instanceof UserBrick) {
-						clickedOnUserBrick(((UserBrick) brickToBeAdded), view);
-					} else if (brickToBeAdded instanceof ScriptBrick) {
-						Script script = ((ScriptBrick) brickToBeAdded).getScriptSafe();
-						ProjectManager.getInstance().setCurrentScript(script);
-					}
-
-					FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-					Fragment categoryFragment = getFragmentManager().findFragmentByTag(
-							BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
-					if (categoryFragment != null) {
-						fragmentTransaction.remove(categoryFragment);
-						getFragmentManager().popBackStack();
-					}
-					Fragment addBrickFragment = getFragmentManager().findFragmentByTag(
-							AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
-					if (addBrickFragment != null) {
-						fragmentTransaction.remove(addBrickFragment);
-						getFragmentManager().popBackStack();
-					}
-					fragmentTransaction.commit();
-				} catch (CloneNotSupportedException exception) {
-					Log.e(getTag(), "Adding a Brick was not possible because cloning it from the preview failed",
-							exception);
-					Toast.makeText(getActivity(), R.string.error_adding_brick, Toast.LENGTH_SHORT).show();
+					brickToBeAdded = adapter.getItem(position).clone();
+				} catch (CloneNotSupportedException cloneNotSupportedException) {
+					Log.e(getTag(), "CloneNotSupportedException!", cloneNotSupportedException);
+				}
+				if (brickToBeAdded instanceof UserBrick) {
+					clickedOnUserBrick(((UserBrick) brickToBeAdded), view);
+				} else {
+					addBrickToScript(brickToBeAdded);
 				}
 			}
 		});
@@ -350,29 +331,30 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 	public void addBrickToScript(Brick brickToBeAdded) {
 		try {
 			scriptFragment.updateAdapterAfterAddNewBrick(brickToBeAdded.clone());
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
 
-		if (brickToBeAdded instanceof ScriptBrick) {
-			Script script = ((ScriptBrick) brickToBeAdded).getScriptSafe();
-			ProjectManager.getInstance().setCurrentScript(script);
-		}
+			if (brickToBeAdded instanceof ScriptBrick) {
+				Script script = ((ScriptBrick) brickToBeAdded).getScriptSafe();
+				ProjectManager.getInstance().setCurrentScript(script);
+			}
 
-		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-		Fragment categoryFragment = getFragmentManager().findFragmentByTag(
-				BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
-		if (categoryFragment != null) {
-			fragmentTransaction.remove(categoryFragment);
-			getFragmentManager().popBackStack();
+			FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+			Fragment categoryFragment = getFragmentManager().findFragmentByTag(
+					BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+			if (categoryFragment != null) {
+				fragmentTransaction.remove(categoryFragment);
+				getFragmentManager().popBackStack();
+			}
+			Fragment addBrickFragment = getFragmentManager().findFragmentByTag(AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
+			if (addBrickFragment != null) {
+				fragmentTransaction.remove(addBrickFragment);
+				getFragmentManager().popBackStack();
+			}
+			fragmentTransaction.commit();
+		} catch (CloneNotSupportedException exception) {
+			Log.e(getTag(), "Adding a Brick was not possible because cloning it from the preview failed",
+					exception);
+			Toast.makeText(getActivity(), R.string.error_adding_brick, Toast.LENGTH_SHORT).show();
 		}
-		Fragment addBrickFragment = getFragmentManager().findFragmentByTag(AddBrickFragment.ADD_BRICK_FRAGMENT_TAG);
-		if (addBrickFragment != null) {
-			fragmentTransaction.remove(addBrickFragment);
-			getFragmentManager().popBackStack();
-		}
-		fragmentTransaction.commit();
-
 		BottomBar.showBottomBar(getActivity());
 	}
 

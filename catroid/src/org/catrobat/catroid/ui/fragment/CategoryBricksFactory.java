@@ -173,7 +173,7 @@ public class CategoryBricksFactory {
 				.getUserBrickListAtLeastOneBrick(defaultText, defaultVariable);
 		ArrayList<Brick> newList = new ArrayList<Brick>();
 
-		UserBrick userBrickWeAreAddingTo = ProjectManager.getInstance().getCurrentUserBrick();
+//		UserBrick userBrickWeAreAddingTo = ProjectManager.getInstance().getCurrentUserBrick();
 //		if (userBrickWeAreAddingTo != null) {
 //			// Maintain a Directed Acyclic Graph of UserBrick call order: Don't allow cycles.
 //			for (UserBrick brick : userBrickList) {

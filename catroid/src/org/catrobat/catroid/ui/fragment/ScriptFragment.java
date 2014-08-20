@@ -470,25 +470,17 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 
 		int newPosition = adapter.getCount();
-		try {
-			Brick copy = brick.clone();
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-
-		Script scriptList = null;
-		if (adapter.getUserBrick() != null) {
-			scriptList = ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().getUserScript();
-		}
-		else {
-			scriptList = ProjectManager.getInstance().getCurrentScript();
-		}
 
 		try {
 			Brick copiedBrick = brick.clone();
 
-			scriptList = ProjectManager.getInstance().getCurrentScript();
-
+			Script scriptList = null;
+			if (adapter.getUserBrick() != null) {
+				scriptList = ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().getUserScript();
+			}
+			else {
+				scriptList = ProjectManager.getInstance().getCurrentScript();
+			}
 			if (brick instanceof NestingBrick) {
 				NestingBrick nestingBrickCopy = (NestingBrick) copiedBrick;
 				nestingBrickCopy.initialize();

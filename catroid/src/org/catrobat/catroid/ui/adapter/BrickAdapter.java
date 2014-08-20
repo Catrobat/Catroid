@@ -1067,6 +1067,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	private void clickedEditFormula(Brick brick, View view) {
+
+		//TODO: use the function in onClick in this case: else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_formula_edit_brick)))
+		//edit the function in a way that MultiFormulaBrick is deleted
 		Formula formula = null;
 		if (brick instanceof FormulaBrick) {
 			formula = ((FormulaBrick) brick).getFormula();
@@ -1089,18 +1092,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			multiFormulaValid = ((MultiFormulaBrick) brick).getFormulas().size() > 0;
 		}
 		return (brick instanceof FormulaBrick || multiFormulaValid);
-	}
-
-	private void clickedAnimateBricks(View view) {
-		int itemPosition = calculateItemPositionAndTouchPointY(view);
-		Brick brick = brickList.get(itemPosition);
-		if (brick instanceof NestingBrick) {
-			List<NestingBrick> list = ((NestingBrick) brick).getAllNestingBrickParts(true);
-			for (NestingBrick tempBrick : list) {
-				animatedBricks.add((Brick)tempBrick);
-			}
-		}
-		notifyDataSetChanged();
 	}
 
 	public void launchAddBrickAndSelectBrickAt(Context context, int index) {

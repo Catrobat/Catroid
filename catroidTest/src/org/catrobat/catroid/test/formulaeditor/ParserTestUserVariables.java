@@ -67,29 +67,27 @@ public class ParserTestUserVariables extends AndroidTestCase {
 		project.addSprite(firstSprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-		UserBrick userBrick = new UserBrick(firstSprite, 0);
-
+		UserBrick userBrick = new UserBrick(0);
 		ProjectManager.getInstance().setCurrentUserBrick(userBrick);
-
 		UserVariablesContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()
 				.getUserVariables();
 		userVariableContainer.setCurrentUserBrickBeingEvaluated(userBrick.getId());
-		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE).setValue(USER_VARIABLE_VALUE);
 		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE).setValue(USER_VARIABLE_1_VALUE_TYPE_DOUBLE);
 		userVariableContainer.addSpriteUserVariableToSprite(firstSprite, SPRITE_USER_VARIABLE).setValue(
-				USER_VARIABLE_VALUE2);
+				USER_VARIABLE_2_VALUE_TYPE_DOUBLE);
+		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE_2).setValue(
+				USER_VARIABLE_3_VALUE_TYPE_STRING);
 		userVariableContainer.addUserBrickUserVariableToUserBrick(0, USER_BRICK_VARIABLE)
 				.setValue(USER_VARIABLE_VALUE3);
-                        USER_VARIABLE_2_VALUE_TYPE_DOUBLE);
-        userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE_2).setValue(
-				USER_VARIABLE_3_VALUE_TYPE_STRING);
 	}
 
 	public void testUserVariableInterpretation() {
 		assertEquals("Formula interpretation of ProjectUserVariable is not as expected",
 				USER_VARIABLE_1_VALUE_TYPE_DOUBLE, interpretUservariable(PROJECT_USER_VARIABLE));
 		assertEquals("Formula interpretation of SpriteUserVariable is not as expected",
-				USER_VARIABLE_VALUE2, interpretUservariable(SPRITE_USER_VARIABLE));
+				USER_VARIABLE_2_VALUE_TYPE_DOUBLE, interpretUservariable(SPRITE_USER_VARIABLE));
+		assertEquals("Formula interpretation of ProjectUserVariable2 is not as expected",
+				USER_VARIABLE_3_VALUE_TYPE_STRING, interpretUservariable(PROJECT_USER_VARIABLE_2));
 		assertEquals("Formula interpretation of UserBrickVariable is not as expected",
 				USER_VARIABLE_VALUE3, interpretUservariable(USER_BRICK_VARIABLE));
 	}

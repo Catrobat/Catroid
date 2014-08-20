@@ -131,7 +131,7 @@
             android:id="@+id/formula_editor_keyboard_function"
             style="@style/FormulaEditorButton"
             android:layout_weight="0.30"
-            android:text="@string/formula_editor_math" />
+            android:text="@string/formula_editor_function" />
     </LinearLayout>
 
     <LinearLayout

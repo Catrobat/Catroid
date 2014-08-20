@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -42,6 +43,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.UserBrickStageToken;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.ui.BrickLayout;
@@ -54,6 +56,7 @@ import java.util.List;
 
 public class UserBrick extends FormulaBrick implements OnClickListener, MultiFormulaBrick {
 	private static final long serialVersionUID = 1L;
+	private static final String TAG = UserBrick.class.getName();
 
 	private UserScriptDefinitionBrick definitionBrick;
 	private transient View prototypeView;
@@ -368,9 +371,13 @@ public class UserBrick extends FormulaBrick implements OnClickListener, MultiFor
 				if (prototype) {
 					currentTextView.setTextAppearance(context, R.style.BrickPrototypeTextView);
 //					currentTextView.setText(String.valueOf(component.variableFormula.interpretInteger(sprite)));
-					currentTextView.setText(String
-							.valueOf(getFormulaWithBrickField(BrickField.USER_BRICK).interpretInteger(ProjectManager
-									.getInstance().getCurrentSprite())));
+					try {
+						currentTextView.setText(String
+								.valueOf(getFormulaWithBrickField(BrickField.USER_BRICK).interpretInteger(ProjectManager
+										.getInstance().getCurrentSprite())));
+					} catch (InterpretationException interpretationException) {
+						Log.e(TAG, "InterpretationException!", interpretationException);
+					}
 
 				} else {
 					currentTextView.setId(id);
@@ -489,8 +496,12 @@ public class UserBrick extends FormulaBrick implements OnClickListener, MultiFor
 					if (variable == null) {
 						variable = variablesContainer.addUserBrickUserVariableToUserBrick(userBrickId, uiData.name);
 					}
-					variable.setValue(getFormulaWithBrickField(BrickField.USER_BRICK).interpretDouble(ProjectManager
-									.getInstance().getCurrentSprite()));
+					try {
+						variable.setValue(getFormulaWithBrickField(BrickField.USER_BRICK).interpretDouble(ProjectManager
+								.getInstance().getCurrentSprite()));
+					} catch (InterpretationException interpretationException) {
+						Log.e(TAG, "InterpretationException!", interpretationException);
+					}
 
 					theList.add(new UserBrickVariable(variable, uiComponent.variableFormula));
 				}

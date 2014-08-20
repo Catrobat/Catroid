@@ -23,7 +23,6 @@
 package org.catrobat.catroid.formulaeditor;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class UserVariable implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -36,7 +35,7 @@ public class UserVariable implements Serializable {
 		this.value = Double.valueOf(0);
 	}
 
-	public UserVariable(final String name, final double value) {
+	public UserVariable(final String name, final Object value) {
 		this.name = name;
 		this.value = value;
 	}
