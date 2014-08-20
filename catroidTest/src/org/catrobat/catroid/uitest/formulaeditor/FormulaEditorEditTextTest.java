@@ -634,6 +634,22 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_loudness));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_loudness));
 
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_face_detected));
+		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_face_detected));
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_face_size));
+		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_face_size));
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_face_x_position));
+		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_face_x_position));
+
+		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_sensors));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_sensor_face_y_position));
+		solo.clickOnText(getActivity().getString(R.string.formula_editor_sensor_face_y_position));
+
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
 		solo.waitForText(getActivity().getString(R.string.formula_editor_object_x));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_object_x));
