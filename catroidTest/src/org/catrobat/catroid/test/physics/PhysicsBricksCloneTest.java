@@ -31,6 +31,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
@@ -147,8 +148,13 @@ public class PhysicsBricksCloneTest extends AndroidTestCase {
 				Formula brickFormula = ((FormulaBrick) brick).getFormulaWithBrickField(brickField);
 				Formula cloneBrickFormula = ((FormulaBrick) cloneBrick).getFormulaWithBrickField(brickField);
 				cloneBrickFormula.setRoot(new FormulaElement(FormulaElement.ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
-				assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretInteger(sprite),
-						cloneBrickFormula.interpretInteger(sprite));
+				try {
+					assertNotSame("Error - brick.clone() not working properly", brickFormula.interpretInteger(sprite),
+							cloneBrickFormula.interpretInteger(sprite));
+				} catch (InterpretationException interpretationException) {
+					Log.e(TAG, "InterpretationException thrown while interpreting.", interpretationException);
+					fail("InterpretationException thrown while interpreting.");
+				}
 			}
 		} catch (CloneNotSupportedException exception) {
 			Log.e(TAG, Log.getStackTraceString(exception));

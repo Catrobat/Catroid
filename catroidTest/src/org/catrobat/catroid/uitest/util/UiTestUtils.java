@@ -476,7 +476,8 @@ public final class UiTestUtils {
 				"Text not updated within FormulaEditor",
 				newValue,
 				Double.parseDouble(((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString()
-						.replace(',', '.')));
+						.replace(',', '.').replace(" ", "")));
+
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
 		solo.sleep(200);
 

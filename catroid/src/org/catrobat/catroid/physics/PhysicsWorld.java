@@ -34,6 +34,7 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
 
 import java.util.ArrayList;
@@ -136,9 +137,12 @@ public class PhysicsWorld {
 		PhysicsObject physicsObject = getPhysicsObject(sprite);
 		physicsObject.setShape(physicsShapeBuilder.getShape(sprite.look.getLookData(),
 				sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f));
-
-		physicsObject.setX(new Formula(-sprite.look.getX()).interpretFloat(sprite));
-		physicsObject.setY(new Formula(sprite.look.getY()).interpretFloat(sprite));
+		try {
+			physicsObject.setX(new Formula(-sprite.look.getX()).interpretFloat(sprite));
+			physicsObject.setY(new Formula(sprite.look.getY()).interpretFloat(sprite));
+		} catch (InterpretationException e) {
+			Log.e(TAG, "Interpretation exception captured", e);
+		}
 		physicsObject.setDirection(sprite.look.getDirectionInUserInterfaceDimensionUnit());
 	}
 

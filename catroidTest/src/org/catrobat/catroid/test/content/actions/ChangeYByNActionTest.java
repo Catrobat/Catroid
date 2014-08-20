@@ -43,16 +43,13 @@ public class ChangeYByNActionTest extends AndroidTestCase {
 
 	public void testNormalBehavior() {
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		int yPosition = (int) sprite.look.getYInUserInterfaceDimensionUnit();
-		yPosition += CHANGE_VALUE;
 		sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(CHANGE_VALUE)).act(1.0f);
-		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", (float) yPosition,
+		assertEquals("Incorrect sprite y position after ChangeYByNBrick executed", CHANGE_VALUE,
 				sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	public void testNullSprite() {
 		Action action = sprite.getActionFactory().createChangeYByNAction(null, new Formula(CHANGE_VALUE));
-
 		try {
 			action.act(1.0f);
 			fail("Execution of ChangeYByNBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
