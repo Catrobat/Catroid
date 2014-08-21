@@ -59,11 +59,6 @@ public class Sprite implements Serializable, Cloneable {
 	private List<Script> scriptList;
 	private ArrayList<LookData> lookList;
 	private ArrayList<SoundInfo> soundList;
-
-	public void setUserBrickList(ArrayList<UserBrick> userBricks) {
-		this.userBricks = userBricks;
-	}
-
 	private ArrayList<UserBrick> userBricks;
 	private transient int newUserBrickNext = 1;
 
@@ -225,18 +220,13 @@ public class Sprite implements Serializable, Cloneable {
 			cloneSoundList.add(element.copySoundInfoForSprite(cloneSprite));
 		}
 		cloneSprite.soundList = cloneSoundList;
-
 		ArrayList<UserBrick> cloneUserBrickList = new ArrayList<UserBrick>();
-		for (UserBrick original : this.userBricks) {
-			int originalId = original.getUserBrickId();
 
+		for (UserBrick original : userBricks) {
+			int originalId = original.getUserBrickId();
 			UserBrick deepClone = new UserBrick(originalId);
 			deepClone.setUserScriptDefinitionBrickElements(original.getUserScriptDefinitionBrickElements().clone());
-			deepClone.updateUserBrickParameters();
-
-			UserScriptDefinitionBrick clonedDefinitionBrick = new UserScriptDefinitionBrick(deepClone);
-			deepClone.setDefinitionBrick(clonedDefinitionBrick);
-
+			deepClone.updateUserBrickParameters(original.getUserBrickParameters());
 			cloneUserBrickList.add(deepClone);
 		}
 
@@ -248,6 +238,7 @@ public class Sprite implements Serializable, Cloneable {
 
 			Script originalScript = original.getDefinitionBrick().getUserScript();
 			Script newScript = originalScript.copyScriptForSprite(cloneSprite, cloneUserBrickList);
+			newScript.setBrick(deepClone.getDefinitionBrick());
 			deepClone.getDefinitionBrick().setUserScript((StartScript) newScript);
 		}
 
@@ -262,11 +253,19 @@ public class Sprite implements Serializable, Cloneable {
 		// update the IDs to preserve the uniqueness of these ids (for example in the stage).
 		for (UserBrick cloneBrick : cloneUserBrickList) {
 			int newId = cloneBrick.getUserBrickId() + cloneUserBrickList.size();
+
+			List<UserVariable> originalUserBrickVariables = userVariables.getOrCreateVariableListForUserBrick(cloneBrick.getUserBrickId());
+			for (UserVariable userVariable : originalUserBrickVariables) {
+				userVariables.addUserBrickUserVariableToUserBrick(newId, userVariable.getName(), userVariable.getValue());
+			}
+
+			UserScriptDefinitionBrick userScriptDefinitionBrick = cloneBrick.getDefinitionBrick();
 			cloneBrick.setUserBrickId(newId);
-			UserScriptDefinitionBrick definitionBrick = cloneBrick.getDefinitionBrick();
-			definitionBrick.setUserBrickId(definitionBrick.getUserBrickId() + cloneUserBrickList.size());
+			cloneBrick.setDefinitionBrick(userScriptDefinitionBrick);
+			userScriptDefinitionBrick.setUserBrick(cloneBrick);
 		}
 		cloneSprite.userBricks = cloneUserBrickList;
+		cloneSprite.newUserBrickNext = this.newUserBrickNext;
 
 		cloneSprite.init();
 
@@ -283,7 +282,7 @@ public class Sprite implements Serializable, Cloneable {
 
 	protected UserBrick findBrickWithId(List<UserBrick> list, int id) {
 		for (UserBrick brick : list) {
-			if (brick.getDefinitionBrick().getUserBrickId() == id) {
+			if (brick.getUserBrickId() == id) {
 				return brick;
 			}
 		}

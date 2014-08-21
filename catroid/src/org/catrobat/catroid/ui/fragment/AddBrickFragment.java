@@ -182,13 +182,13 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 
 	public void handleAddButton() {
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		int newBrickId = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.getAndIncrementUserBrickId() + ProjectManager.getInstance().getCurrentSprite().getUserBrickList().size();
+		int newBrickId = ProjectManager.getInstance().getCurrentSprite().getUserBrickList().size();
 		UserBrick newBrick = new UserBrick(newBrickId);
+		ProjectManager.getInstance().setCurrentUserBrick(newBrick);
 		currentSprite.addUserBrick(newBrick);
 		newBrick.getDefinitionBrick().addUIText(scriptFragment.getString(R.string.new_user_brick) + " "
 				+ currentSprite.getNextNewUserBrickId());
-		newBrick.getDefinitionBrick().addUILocalizedVariable(getActivity(), R.string.new_user_brick_variable);
+		newBrick.getDefinitionBrick().addVariableWithId(getActivity(), R.string.new_user_brick_variable);
 
 		setupSelectedBrickCategory();
 
@@ -506,8 +506,9 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 
 	public void launchBrickScriptActivityOnBrick(Context context, Brick brick) {
 		Intent intent = new Intent(context, UserBrickScriptActivity.class);
-		UserBrickScriptActivity.setUserBrick(brick); // TODO USE BUNDLE INSTEAD!!?
-
+		UserBrickScriptActivity.setUserBrick(brick);
+		UserBrick userBrick = (UserBrick) brick;
+		userBrick.getDefinitionBrick().setUserBrick(userBrick);
 		context.startActivity(intent);
 	}
 

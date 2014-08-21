@@ -24,6 +24,7 @@ package org.catrobat.catroid.content;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
@@ -56,18 +57,19 @@ public abstract class Script implements Serializable {
 
 	public abstract Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks);
 
-	public void doCopy(Sprite copySprite, Script cloneScript, List<UserBrick> preCopiedUserBricks, boolean isUserScript) {
+	public void doCopy(Sprite copySprite, Script cloneScript, List<UserBrick> preCopiedUserBricks) {
 		ArrayList<Brick> cloneBrickList = cloneScript.getBrickList();
-
 		for (Brick brick : getBrickList()) {
 			Brick copiedBrick = null;
 			if (brick instanceof UserBrick) {
 				UserBrick original = ((UserBrick) brick);
 				UserBrick precopiedRootBrick = findBrickWithId(preCopiedUserBricks, original.getUserBrickId());
+				ProjectManager.getInstance().setCurrentUserBrick(precopiedRootBrick);
 				UserBrick copiedUserBrick = precopiedRootBrick.copyBrickForSprite(copySprite);
 				copiedUserBrick
 						.copyFormulasMatchingNames(original.getUserBrickParameters(), copiedUserBrick.getUserBrickParameters());
-				copiedBrick = copiedUserBrick;
+
+				copiedBrick = precopiedRootBrick;
 			}
 			else if (brick instanceof UserScriptDefinitionBrick) {
 					UserScriptDefinitionBrick preCopiedDefinitionBrick = findBrickWithId(preCopiedUserBricks,((UserScriptDefinitionBrick) brick).getUserBrickId()).getDefinitionBrick();
@@ -220,6 +222,10 @@ public abstract class Script implements Serializable {
 		}
 
 		return brickList.get(index);
+	}
+
+	public void setBrick(ScriptBrick brick) {
+		this.brick = brick;
 	}
 
 	protected void setIfBrickReferences(IfLogicEndBrick copiedIfEndBrick, IfLogicEndBrick originalIfEndBrick) {

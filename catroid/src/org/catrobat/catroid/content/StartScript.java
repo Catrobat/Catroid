@@ -60,10 +60,8 @@ public class StartScript extends Script {
 				brick = new WhenStartedBrick(this);
 			}
 			else {
-				//TODO: check if right
 				brick = ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick();
-				if(brick == null){
-					//int id = ProjectManager.getInstance().getCurrentProject().getUserVariables().getAndIncrementUserBrickId();
+				if (brick == null) {
 					brick = new UserScriptDefinitionBrick(ProjectManager.getInstance().getCurrentUserBrick());
 				}
 			}
@@ -77,7 +75,7 @@ public class StartScript extends Script {
 
 		Script cloneScript = new StartScript(isUserScript);
 
-		doCopy(copySprite, cloneScript, preCopiedUserBricks, isUserScript);
+		doCopy(copySprite, cloneScript, preCopiedUserBricks);
 		return cloneScript;
 	}
 

@@ -59,6 +59,7 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 	private static final long serialVersionUID = 1L;
 	private UserVariable userVariable;
 	private transient AdapterView<?> adapterView;
+	public boolean inUserBrick = false;
 
 	public SetVariableBrick() {
 		addAllowedBrickField(BrickField.VARIABLE);
@@ -124,7 +125,7 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.set_variable_spinner);
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
-		int userBrickId = (currentBrick == null ? -1 : currentBrick.getDefinitionBrick().getUserBrickId());
+		int userBrickId = (currentBrick == null ? -1 : currentBrick.getUserBrickId());
 
 		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.createUserVariableAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
@@ -293,4 +294,7 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 		setSpinnerSelection(spinnerToUpdate, newUserVariable);
 	}
 
+	public void setInUserBrick(boolean inUserBrick) {
+		this.inUserBrick = inUserBrick;
+	}
 }

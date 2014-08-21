@@ -37,8 +37,8 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
-import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
+import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
@@ -107,18 +107,18 @@ public class SpriteTest extends AndroidTestCase {
 		UserBrick outerBrick = new UserBrick(0);
 		numberOfBricks++;
 		outerBrick.getDefinitionBrick().addUIText("outerBrick");
-		outerBrick.updateUserBrickParameters();
+		outerBrick.updateUserBrickParameters(null);
 
 		UserBrick innerBrick = new UserBrick(1);
 		numberOfBricks++;
 		innerBrick.getDefinitionBrick().addUIText("innerBrick");
-		innerBrick.getDefinitionBrick().addUIVariable("innerBrickVariable");
+		innerBrick.getDefinitionBrick().addUILocalizedVariable("innerBrickVariable");
 
 		Script innerScript = TestUtils.addUserBrickToSpriteAndGetUserScript(innerBrick, sprite);
 
 		Formula innerFormula = new Formula(new FormulaElement(ElementType.USER_VARIABLE, "innerBrickVariable", null));
 		innerScript.addBrick(new ChangeXByNBrick(innerFormula));
-		innerBrick.updateUserBrickParameters();
+		innerBrick.updateUserBrickParameters(null);
 
 		Script outerScript = TestUtils.addUserBrickToSpriteAndGetUserScript(outerBrick, sprite);
 		UserBrick innerBrickCopyInOuterScript = innerBrick.copyBrickForSprite(sprite);
@@ -184,7 +184,7 @@ public class SpriteTest extends AndroidTestCase {
 		}
 
 		UserBrick clonedOuterBrick = (UserBrick) clonedSprite.getScript(0).getBrickList().get(0);
-		setOneFormula(clonedOuterBrick, ElementType.NUMBER, secondMoveValue.toString(), (float) secondMoveValue, 0);
+		setOneFormula(clonedOuterBrick, ElementType.NUMBER, secondMoveValue.toString(), (float) secondMoveValue, 1);
 
 		assertEquals("unexpected minimum Id:", 0, minId);
 		assertEquals("unexpected maximum Id:", (numberOfBricks * 2) - 1, maxId);

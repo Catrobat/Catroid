@@ -22,19 +22,14 @@
  */
 package org.catrobat.catroid.uitest.ui.fragment;
 
-import android.test.ActivityInstrumentationTestCase2;
-
-import com.jayway.android.robotium.solo.Solo;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.ui.fragment.ScriptFragment;
+import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-public class UserBrickDataEditorFragmentTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-	private Solo solo = null;
+public class UserBrickDataEditorFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	public UserBrickDataEditorFragmentTest() {
 		super(MainMenuActivity.class);
@@ -45,18 +40,7 @@ public class UserBrickDataEditorFragmentTest extends ActivityInstrumentationTest
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.createTestProjectWithNestedUserBrick();
-
-		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		UiTestUtils.goBackToHome(getInstrumentation());
-		solo.finishOpenedActivities();
-		UiTestUtils.clearAllUtilTestProjects();
-		super.tearDown();
-		solo = null;
 	}
 
 	public void testRenameVariableEditsFormulas() throws InterruptedException {
@@ -100,15 +84,6 @@ public class UserBrickDataEditorFragmentTest extends ActivityInstrumentationTest
 		solo.enterText(0, newVariableName);
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.ok));
-
-		solo.waitForDialogToClose(2000);
-
-		solo.goBack();
-
-		solo.waitForFragmentByTag(ScriptFragment.TAG);
-		solo.sleep(500);
-
-		assertTrue("'" + newVariableName + "' should have appeared", solo.waitForText(newVariableName, 0, 2000));
 
 	}
 

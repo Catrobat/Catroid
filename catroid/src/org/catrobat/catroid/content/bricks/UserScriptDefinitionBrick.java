@@ -72,11 +72,10 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 		return brick.getUserBrickId();
 	}
 
-	public void setUserBrickId(int newId) {
-		brick.setUserBrickId(newId);
+	public void setUserBrick(UserBrick brick) {
+		this.brick = brick;
 	}
-a
-	@Override
+
 	public int getRequiredResources() {
 		int resources = Brick.NO_RESOURCES;
 
@@ -103,7 +102,7 @@ a
 	}
 
 	public void renameVariablesInFormulas(String oldName, String newName, Context context) {
-		if(ProjectManager.getInstance().getCurrentScript() == null){
+		if (ProjectManager.getInstance().getCurrentScript() == null) {
 			return;
 		}
 		List<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
@@ -122,7 +121,7 @@ a
 	}
 
 	public void removeVariablesInFormulas(String name, Context context) {
-		if(ProjectManager.getInstance().getCurrentScript() == null){
+		if (ProjectManager.getInstance().getCurrentScript() == null) {
 			return;
 		}
 		List<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
@@ -254,8 +253,7 @@ a
 			return;
 		}
 
-		//UserBrickDataEditorFragment.showFragment(view, brick.getDefinitionBrick()); //, adapter.scriptFragment
-		UserBrickDataEditorFragment.showFragment(view, this); //, adapter.scriptFragment
+		UserBrickDataEditorFragment.showFragment(view, this);
 	}
 
 	@Override
@@ -314,19 +312,6 @@ a
 		return toReturn;
 	}
 
-	/*
-	public int addUILocalizedString(Context context, int id) {
-		UserScriptDefinitionBrickElement data = new UserScriptDefinitionBrickElement();
-		data.isVariable = false;
-		data.isEditModeLineBreak = false;
-		data.name = context.getResources().getString(id);
-		int toReturn = uiDataArray.size();
-		uiDataArray.add(data);
-		uiDataArray.version++;
-		return toReturn;
-	}
-	*/
-
 	public int addUIText(String text) {
 		UserScriptDefinitionBrickElement data = new UserScriptDefinitionBrickElement();
 		data.isVariable = false;
@@ -347,32 +332,25 @@ a
 		userScriptDefinitionBrickElements.incrementVersion();
 	}
 
-	public int addUILocalizedVariable(Context context, int id) {
-		UserScriptDefinitionBrickElement data = new UserScriptDefinitionBrickElement();
-		data.isVariable = true;
-		data.isEditModeLineBreak = false;
-		data.name = context.getResources().getString(id);
-
-		if (ProjectManager.getInstance().getCurrentProject() != null) {
-			UserVariablesContainer variablesContainer = ProjectManager.getInstance().getCurrentProject().getUserVariables();
-			variablesContainer.addUserBrickUserVariableToUserBrick(getUserBrickId(), data.name);
-		}
-
-		int toReturn = userScriptDefinitionBrickElements.getUserScriptDefinitionBrickElementList().size();
-		userScriptDefinitionBrickElements.getUserScriptDefinitionBrickElementList().add(data);
-		userScriptDefinitionBrickElements.incrementVersion();
-		return toReturn;
+	public int addVariableWithId(Context context, int id) {
+		String name = context.getResources().getString(id);
+		return addUILocalizedVariable(name);
 	}
 
-	public int addUIVariable(String id) {
+	public int addUILocalizedVariable(String name) {
 		UserScriptDefinitionBrickElement data = new UserScriptDefinitionBrickElement();
 		data.isVariable = true;
 		data.isEditModeLineBreak = false;
-		data.name = id;
+		data.name = name;
 
 		if (ProjectManager.getInstance().getCurrentProject() != null) {
 			UserVariablesContainer variablesContainer = ProjectManager.getInstance().getCurrentProject().getUserVariables();
-			variablesContainer.addUserBrickUserVariableToUserBrick(getUserBrickId(), data.name);
+			if (ProjectManager.getInstance().getCurrentUserBrick() != null) {
+				variablesContainer.addUserBrickUserVariableToUserBrick(ProjectManager.getInstance().getCurrentUserBrick().getUserBrickId(), data.name, Double.valueOf(0));
+			}
+			else {
+				variablesContainer.addUserBrickUserVariableToUserBrick(getUserBrickId(), data.name, Double.valueOf(0));
+			}
 		}
 
 		int toReturn = userScriptDefinitionBrickElements.getUserScriptDefinitionBrickElementList().size();
@@ -399,7 +377,7 @@ a
 		if (isVariable && ProjectManager.getInstance().getCurrentProject() != null) {
 			UserVariablesContainer variablesContainer = ProjectManager.getInstance().getCurrentProject().getUserVariables();
 			variablesContainer.deleteUserVariableFromUserBrick(getUserBrickId(), oldName);
-			variablesContainer.addUserBrickUserVariableToUserBrick(getUserBrickId(), newName);
+			variablesContainer.addUserBrickUserVariableToUserBrick(getUserBrickId(), newName, Double.valueOf(0));
 		}
 	}
 

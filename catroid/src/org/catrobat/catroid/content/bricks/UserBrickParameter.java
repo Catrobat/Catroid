@@ -35,10 +35,8 @@ public class UserBrickParameter extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	public int dataIndex;
-
+	public int parameterIndex;
 	public String variableName;
-	public Formula variableFormula;
 	public transient TextView textView;
 	public transient TextView prototypeView;
 
@@ -53,5 +51,4 @@ public class UserBrickParameter extends FormulaBrick {
 				ProjectManager.getInstance().getCurrentProject().getUserVariables().getUserVariable(variableName, sprite)));
 		return null;
 	}
-
-	}
+}

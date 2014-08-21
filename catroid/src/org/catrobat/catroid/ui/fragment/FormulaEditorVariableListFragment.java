@@ -69,7 +69,6 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		NewVariableDialogListener {
 
 	public static final String VARIABLE_TAG = "variableFragment";
-	public static final String EDIT_TEXT_BUNDLE_ARGUMENT = "formulaEditorEditText";
 	public static final String ACTION_BAR_TITLE_BUNDLE_ARGUMENT = "actionBarTitle";
 	public static final String FRAGMENT_TAG_BUNDLE_ARGUMENT = "fragmentTag";
 
@@ -265,7 +264,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	private void initializeUserVariableAdapter() {
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
-		int userBrickId = (currentBrick == null ? -1 : currentBrick.getDefinitionBrick().getUserBrickId());
+		int userBrickId = (currentBrick == null ? -1 : currentBrick.getUserBrickId());
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		UserVariablesContainer userVariableContainer = currentProject.getUserVariables();
 		adapter = userVariableContainer.createUserVariableAdapter(getSherlockActivity(), userBrickId, currentSprite, inUserBrick);

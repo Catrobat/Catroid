@@ -32,8 +32,7 @@ public class UserScriptDefinitionBrickElements implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@XStreamAlias("version")
-	private int version = 0;
+	private transient int version = 0;
 	@XStreamAlias("userBrickElements")
 	private List<UserScriptDefinitionBrickElement> userScriptDefinitionBrickElements = new ArrayList<UserScriptDefinitionBrickElement>();
 

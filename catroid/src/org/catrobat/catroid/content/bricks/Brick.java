@@ -79,8 +79,6 @@ public interface Brick extends Serializable, Cloneable {
 
 	void setBrickAdapter(BrickAdapter adapter);
 
-	void setInUserBrick(boolean inUserBrick);
-
 	CheckBox getCheckBox();
 
 	boolean isChecked();

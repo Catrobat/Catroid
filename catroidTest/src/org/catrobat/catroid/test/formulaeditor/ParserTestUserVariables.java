@@ -71,13 +71,12 @@ public class ParserTestUserVariables extends AndroidTestCase {
 		ProjectManager.getInstance().setCurrentUserBrick(userBrick);
 		UserVariablesContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()
 				.getUserVariables();
-		userVariableContainer.setCurrentUserBrickBeingEvaluated(userBrick.getId());
 		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE).setValue(USER_VARIABLE_1_VALUE_TYPE_DOUBLE);
 		userVariableContainer.addSpriteUserVariableToSprite(firstSprite, SPRITE_USER_VARIABLE).setValue(
 				USER_VARIABLE_2_VALUE_TYPE_DOUBLE);
 		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE_2).setValue(
 				USER_VARIABLE_3_VALUE_TYPE_STRING);
-		userVariableContainer.addUserBrickUserVariableToUserBrick(0, USER_BRICK_VARIABLE)
+		userVariableContainer.addUserBrickUserVariableToUserBrick(0, USER_BRICK_VARIABLE, Double.valueOf(0))
 				.setValue(USER_VARIABLE_VALUE3);
 	}
 

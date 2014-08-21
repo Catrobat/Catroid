@@ -40,7 +40,9 @@ import android.widget.EditText;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.fragment.UserBrickDataEditorFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +57,7 @@ public class UserBrickEditElementDialog extends SherlockDialogFragment {
 	private static int stringResourceOfHintText;
 	private static ArrayList<String> takenVariables;
 	private View fragmentView;
+	private UserBrickDataEditorFragment userBrickDataEditorFragment;
 
 	public UserBrickEditElementDialog(View fragmentView) {
 		super();
@@ -83,21 +86,22 @@ public class UserBrickEditElementDialog extends SherlockDialogFragment {
 		takenVariables = variables;
 	}
 
-	public static int getDefaultText() {
-		return stringResourceOfHintText;
-	}
-
 	public static void setEditMode(boolean mode) {
 		editMode = mode;
 	}
 
-	public static boolean getEditMode() {
-		return editMode;
+	public void setUserBrickDataEditorFragment(UserBrickDataEditorFragment userBrickDataEditorFragment) {
+		this.userBrickDataEditorFragment = userBrickDataEditorFragment;
 	}
 
 	@Override
 	public void onCancel(DialogInterface dialog) {
 		super.onCancel(dialog);
+		if (stringResourceOfTitle == R.string.add_variable) {
+			int numberOfElements = ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().size();
+			ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().removeDataAt(numberOfElements - 1, getActivity().getApplicationContext());
+			userBrickDataEditorFragment.decreaseIndexOfCurrentlyEditedElement();
+		}
 		finishDialog(null);
 	}
 
@@ -146,11 +150,11 @@ public class UserBrickEditElementDialog extends SherlockDialogFragment {
 	}
 
 	private void handleOkButton(View dialogView) {
-		EditText elementTextEditText = (EditText) dialogView
-				.findViewById(R.id.dialog_brick_editor_edit_element_edit_text);
+			EditText elementTextEditText = (EditText) dialogView
+					.findViewById(R.id.dialog_brick_editor_edit_element_edit_text);
 
-		CharSequence elementText = elementTextEditText.getText();
-		finishDialog(elementText);
+			CharSequence elementText = elementTextEditText.getText();
+			finishDialog(elementText);
 	}
 
 	private void handleOnShow(final Dialog dialogNewVariable) {

@@ -71,7 +71,7 @@ public class BroadcastScript extends Script implements BroadcastMessage {
 	public Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks) {
 		BroadcastScript cloneScript = new BroadcastScript(receivedMessage);
 
-		doCopy(copySprite, cloneScript, preCopiedUserBricks, false);
+		doCopy(copySprite, cloneScript, preCopiedUserBricks);
 		return cloneScript;
 	}
 }

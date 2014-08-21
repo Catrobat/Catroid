@@ -84,7 +84,7 @@ public class WhenScript extends Script {
 	@Override
 	public Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks) {
 		WhenScript cloneScript = new WhenScript();
-		doCopy(copySprite, cloneScript, preCopiedUserBricks, false);
+		doCopy(copySprite, cloneScript, preCopiedUserBricks);
 
 		return cloneScript;
 	}

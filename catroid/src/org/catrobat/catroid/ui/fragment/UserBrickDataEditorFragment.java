@@ -88,7 +88,7 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 	}
 
 	public static void showFragment(View view, UserScriptDefinitionBrick brick) {
-		SherlockFragmentActivity activity = null;
+		SherlockFragmentActivity activity;
 		activity = (SherlockFragmentActivity) view.getContext();
 
 		UserBrickDataEditorFragment dataEditorFragment = (UserBrickDataEditorFragment) activity
@@ -196,16 +196,14 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 	}
 
 	public void addVariableDialog() {
-		int indexOfNewText = currentBrick.addUIVariable("");
-		editElementDialog(indexOfNewText, "", false, R.string.add_variable, R.string.variable_hint);
-		indexOfCurrentlyEditedElement = indexOfNewText;
+		int indexOfNewVariableText = currentBrick.addVariableWithId(getActivity(), R.string.new_user_brick_variable);
+		editElementDialog(indexOfNewVariableText, "", false, R.string.add_variable, R.string.variable_hint);
+		indexOfCurrentlyEditedElement = indexOfNewVariableText;
 		updateBrickView();
 	}
 
 	public void editElementDialog(int id, CharSequence text, boolean editMode, int title, int defaultText) {
-		UserVariablesContainer variablesContainer = null;
-		variablesContainer = ProjectManager.getInstance().getCurrentProject().getUserVariables();
-
+		UserVariablesContainer variablesContainer = ProjectManager.getInstance().getCurrentProject().getUserVariables();
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		List<UserVariable> spriteVars = variablesContainer.getOrCreateVariableListForSprite(currentSprite);
 		List<UserVariable> globalVars = variablesContainer.getProjectVariables();
@@ -229,11 +227,13 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 		dialog.addDialogListener(this);
 		dialog.show(getActivity().getSupportFragmentManager(),
 				UserBrickEditElementDialog.DIALOG_FRAGMENT_TAG);
+
 		UserBrickEditElementDialog.setTakenVariables(takenVariables);
 		UserBrickEditElementDialog.setTitle(title);
 		UserBrickEditElementDialog.setText(text);
 		UserBrickEditElementDialog.setHintText(defaultText);
 		UserBrickEditElementDialog.setEditMode(editMode);
+		dialog.setUserBrickDataEditorFragment(this);
 	}
 
 	@Override
@@ -296,7 +296,7 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 		}
 
 		for (UserScriptDefinitionBrickElement uiData : currentBrick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList()) {
-			View dataView = null;
+			View dataView;
 			if (uiData.isEditModeLineBreak) {
 				dataView = View.inflate(context, R.layout.brick_user_data_line_break, null);
 			} else {
@@ -311,7 +311,6 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 
 			if (textView != null) {
 				textView.setText(uiData.name);
-				//				Log.e("UserBrickDataEditorFragment_updateBrickView", "special uiData.name: " + uiData.name);
 			}
 			Button button = (Button) dataView.findViewById(R.id.button);
 			button.setOnClickListener(new View.OnClickListener() {
@@ -330,8 +329,6 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 
 			layout.registerLineBreakListener(this);
 		}
-
-		//if(onTouchListener)
 	}
 
 	@Override
@@ -366,6 +363,10 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 				return true;
 		}
 		return false;
+	}
+
+	public void decreaseIndexOfCurrentlyEditedElement() {
+		indexOfCurrentlyEditedElement--;
 	}
 
 }

@@ -41,7 +41,6 @@ public class SetVariableAction extends TemporalAction {
 		}
 		Object value = changeVariable == null ? Double.valueOf(0d) : changeVariable.interpretObject(sprite);
 		userVariable.setValue(value);
-
 	}
 
 	public void setUserVariable(UserVariable userVariable) {

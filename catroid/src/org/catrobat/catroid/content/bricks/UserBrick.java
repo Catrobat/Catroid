@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -39,12 +40,9 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.UserBrickStageToken;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.ui.BrickLayout;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
@@ -64,22 +62,29 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	@XStreamAlias("userBrickParameters")
 	private ArrayList<UserBrickParameter> userBrickParameters;
 
+	@XStreamAlias("userBrickPositionToParameter")
+	private ArrayList<Pair<Integer,Integer>> userBrickPositionToParameter;
+
 	// belonging to stored brick
-	@XStreamAlias("lastDataVersion")
-	private int lastDataVersion = 0;
+	private transient int lastDataVersion = 0;
+
 	@XStreamAlias("userBrickId")
-	private int userBrickId; //TODO: is same as in def brick .. a bit redundant
+	private int userBrickId;
 
 	public UserBrick(int userBrickId) {
 		this.userBrickId = userBrickId;
 		this.definitionBrick = new UserScriptDefinitionBrick(this);
-		updateUserBrickParameters();
+		//first = first occurance of this Userbrick in script, second = parameterindex of this occurence of this Userbrick in script
+		userBrickPositionToParameter = new ArrayList<Pair<Integer, Integer>>();
+		updateUserBrickParameters(null);
 	}
 
-	public UserBrick(UserScriptDefinitionBrick definitionBrick) {
+	public UserBrick(UserScriptDefinitionBrick definitionBrick, Sprite sprite) {
 		this.definitionBrick = definitionBrick;
-		this.userBrickId = definitionBrick.getUserBrickId();
-		updateUserBrickParameters();
+		this.userBrickId = sprite.getUserBrickList().size() - 1;
+		definitionBrick.setUserBrick(this);
+		userBrickPositionToParameter = new ArrayList<Pair<Integer, Integer>>();
+		updateUserBrickParameters(null);
 	}
 
 	@Override
@@ -89,7 +94,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public UserBrick copyBrickForSprite(Sprite sprite) {
-		UserBrick copyBrick = clone();
+		UserBrick copyBrick = new UserBrick(definitionBrick, sprite);
 		return copyBrick;
 	}
 
@@ -101,14 +106,19 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		return userBrickParameters;
 	}
 
-	public void updateUserBrickParameters() {
+	public void updateUserBrickParameters(ArrayList<UserBrickParameter> userBrickParameterList) {
 		ArrayList<UserBrickParameter> newParameters = new ArrayList<UserBrickParameter>();
 
 		for (int elementPosition = 0; elementPosition < getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().size(); elementPosition++) {
 			UserBrickParameter parameter = new UserBrickParameter();
-			parameter.dataIndex = elementPosition;
+			parameter.parameterIndex = elementPosition;
 			if (getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(elementPosition).isVariable) {
-				parameter.setFormulaWithBrickField(BrickField.USER_BRICK, new Formula(0));
+				if (userBrickParameterList == null) {
+					parameter.setFormulaWithBrickField(BrickField.USER_BRICK, new Formula(0));
+				}
+				else {
+					parameter.setFormulaWithBrickField(BrickField.USER_BRICK, userBrickParameterList.get(elementPosition).getFormulaWithBrickField(BrickField.USER_BRICK));
+				}
 				parameter.variableName = getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(elementPosition).name;
 			}
 			newParameters.add(parameter);
@@ -135,12 +145,12 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	public void copyFormulasMatchingNames(ArrayList<UserBrickParameter> from, ArrayList<UserBrickParameter> to) {
 		for (UserBrickParameter fromElement : from) {
 			UserScriptDefinitionBrickElements elements = getUserScriptDefinitionBrickElements();
-			if (fromElement.dataIndex < elements.getUserScriptDefinitionBrickElementList().size()) {
-				UserScriptDefinitionBrickElement fromData = elements.getUserScriptDefinitionBrickElementList().get(fromElement.dataIndex);
+			if (fromElement.parameterIndex < elements.getUserScriptDefinitionBrickElementList().size()) {
+				UserScriptDefinitionBrickElement fromData = elements.getUserScriptDefinitionBrickElementList().get(fromElement.parameterIndex);
 				if (fromData.isVariable) {
 					for (UserBrickParameter toElement : to) {
-						if (toElement.dataIndex < elements.getUserScriptDefinitionBrickElementList().size()) {
-							UserScriptDefinitionBrickElement toData = elements.getUserScriptDefinitionBrickElementList().get(toElement.dataIndex);
+						if (toElement.parameterIndex < elements.getUserScriptDefinitionBrickElementList().size()) {
+							UserScriptDefinitionBrickElement toData = elements.getUserScriptDefinitionBrickElementList().get(toElement.parameterIndex);
 							if (fromData.name.equals(toData.name)) {
 								toElement.setFormulaWithBrickField(BrickField.USER_BRICK, fromElement.getFormulaWithBrickField(BrickField.USER_BRICK).clone());
 								toElement.variableName = toData.name;
@@ -191,7 +201,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 			return null;
 		}
 		if (lastDataVersion < getUserScriptDefinitionBrickElements().getVersion() || userBrickParameters == null) {
-			updateUserBrickParameters();
+			updateUserBrickParameters(null);
 			onLayoutChanged(view);
 		}
 
@@ -214,7 +224,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	public void onLayoutChanged(View currentView) {
 		if (lastDataVersion < getUserScriptDefinitionBrickElements().getVersion() || userBrickParameters == null) {
-			updateUserBrickParameters();
+			updateUserBrickParameters(null);
 		}
 
 		boolean prototype = (currentView == prototypeView);
@@ -229,7 +239,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		int id = 0;
 		for (UserBrickParameter parameter : userBrickParameters) {
 			TextView currentTextView;
-			UserScriptDefinitionBrickElement uiData = getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(parameter.dataIndex);
+			UserScriptDefinitionBrickElement uiData = getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(parameter.parameterIndex);
 			if (uiData.isEditModeLineBreak) {
 				continue;
 			}
@@ -293,18 +303,13 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	@Override
-	public UserBrick clone() {
-		return new UserBrick(definitionBrick);
-	}
-
-	@Override
 	public void onClick(View eventOrigin) {
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
 
 		for (UserBrickParameter userBrickParameter : userBrickParameters) {
-			UserScriptDefinitionBrickElement userBrickElement = getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(userBrickParameter.dataIndex);
+			UserScriptDefinitionBrickElement userBrickElement = getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(userBrickParameter.parameterIndex);
 
 			if (userBrickElement.isVariable && userBrickParameter.textView.getId() == eventOrigin.getId()) {
 				FormulaEditorFragment.showFragment(view, this, userBrickParameter.getFormulaWithBrickField(BrickField.USER_BRICK));
@@ -315,57 +320,16 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 
-		UserBrickStageToken stageToken = getStageToken();
 		ArrayList<SequenceAction> returnActionList = new ArrayList<SequenceAction>();
 
 		SequenceAction userSequence = ExtendedActions.sequence();
 		definitionBrick.getScriptSafe().run(sprite, userSequence);
 		returnActionList.add(userSequence);
-		sequence.addAction(ExtendedActions.userBrick(userSequence, stageToken));
+		sequence.addAction(ExtendedActions.userBrick(userSequence));
 		ProjectManager.getInstance().setCurrentUserBrick(this);
 
 		return returnActionList;
 	}
-
-	private UserBrickStageToken getStageToken() {
-		if (ProjectManager.getInstance().getCurrentProject() == null) {
-			return null;
-		}
-
-		LinkedList<UserBrickVariable> userBrickVariableList = new LinkedList<UserBrickVariable>();
-		UserVariablesContainer variablesContainer = ProjectManager.getInstance().getCurrentProject().getUserVariables();
-
-		UserScriptDefinitionBrickElements userScriptDefinitionBrick = getUserScriptDefinitionBrickElements();
-
-		for (UserBrickParameter parameter : userBrickParameters) {
-			if (parameter.getFormulaWithBrickField(BrickField.USER_BRICK) != null && parameter.dataIndex < userScriptDefinitionBrick.getUserScriptDefinitionBrickElementList().size()) {
-				UserScriptDefinitionBrickElement userBrickElement = userScriptDefinitionBrick.getUserScriptDefinitionBrickElementList().get(parameter.dataIndex);
-				if (userBrickElement.isVariable) {
-					List<UserVariable> variables = variablesContainer.getOrCreateVariableListForUserBrick(userBrickId);
-					UserVariable variable = variablesContainer.findUserVariable(userBrickElement.name, variables);
-
-					if (variable == null) {
-						variable = variablesContainer.addUserBrickUserVariableToUserBrick(userBrickId, userBrickElement.name);
-					}
-					try {
-						variable.setValue(parameter.getFormulaWithBrickField(BrickField.USER_BRICK).interpretDouble(ProjectManager.getInstance().getCurrentSprite()));
-					} catch (InterpretationException interpretationException) {
-						Log.e(TAG, "InterpretationException!", interpretationException);
-					}
-					userBrickVariableList.add(new UserBrickVariable(variable, parameter.getFormulaWithBrickField(BrickField.USER_BRICK)));
-				}
-			}
-		}
-		return new UserBrickStageToken(userBrickVariableList, userBrickId);
-	}
-
-	/*public int getId() {
-		return userBrickId;
-	}
-
-	public void setId(int newId) {
-		userBrickId = newId;
-	}*/
 
 	public UserScriptDefinitionBrick getDefinitionBrick() {
 		return definitionBrick;
@@ -389,6 +353,21 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	public void setUserBrickId(int userBrickId) {
 		this.userBrickId = userBrickId;
-		definitionBrick.setUserBrickId(userBrickId);
+	}
+
+	public ArrayList<Pair<Integer, Integer>> getUserBrickPositionToParameter() {
+		return userBrickPositionToParameter;
+	}
+
+	public void setUserBrickPositionToParameter(Pair<Integer, Integer> userBrickPositionToParameterPair, int index) {
+			userBrickPositionToParameter.set(index, userBrickPositionToParameterPair);
+	}
+
+	public void addUserBrickPositionToParameter(Pair<Integer, Integer> userBrickPositionToParameterPair) {
+			userBrickPositionToParameter.add(userBrickPositionToParameterPair);
+	}
+
+	public int getUserBrickIndexInScript(Pair<Integer, Integer> userBrickPositionToParameterPair) {
+		return userBrickPositionToParameter.indexOf(userBrickPositionToParameterPair);
 	}
 }

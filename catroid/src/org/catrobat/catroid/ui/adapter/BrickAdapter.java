@@ -29,6 +29,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -160,9 +161,14 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		script.getScriptBrick().setBrickAdapter(this);
 		for (Brick brick : script.getBrickList()) {
-			if (brick.getClass().equals(ChangeVariableBrick.class) || brick.getClass().equals(SetVariableBrick.class)) {
-					brick.setInUserBrick(true);
-				}
+			if (brick.getClass().equals(ChangeVariableBrick.class)) {
+				ChangeVariableBrick changeVariableBrick = (ChangeVariableBrick) brick;
+				changeVariableBrick.setInUserBrick(true);
+			}
+			else if (brick.getClass().equals(SetVariableBrick.class)) {
+				SetVariableBrick setVariableBrick = (SetVariableBrick) brick;
+				setVariableBrick.setInUserBrick(true);
+			}
 			brickList.add(brick);
 			brick.setBrickAdapter(this);
 		}
@@ -370,6 +376,37 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 				} else {
 					addBrickToPositionInProject(to, draggedBrick);
 				}
+			}
+
+			if (draggedBrick instanceof UserBrick) {
+				int positionOfUserbrickInScript = 0;
+				for (int index = 0; index <= to; index++) {
+					if (brickList.get(index) instanceof UserBrick && ((UserBrick)brickList.get(index)).getUserBrickId() == ((UserBrick) draggedBrick).getUserBrickId()) {
+						positionOfUserbrickInScript++;
+					}
+				}
+				for (int parameterIndex = 0; parameterIndex < ProjectManager.getInstance().getCurrentProject().getUserVariables().getOrCreateVariableListForUserBrick(((UserBrick) draggedBrick).getUserBrickId()).size(); parameterIndex++) {
+					((UserBrick) draggedBrick).addUserBrickPositionToParameter(Pair.create(positionOfUserbrickInScript, parameterIndex));
+				}
+
+				ArrayList<Pair<Integer,Integer>> userBrickPositionToParameterList = ((UserBrick) draggedBrick).getUserBrickPositionToParameter();
+
+				int numberOfUserBricksInScript = userBrickPositionToParameterList.size();
+				int frequencyOfEqualFirstParameters = 0;
+				for (int newIndex = 0; newIndex < userBrickPositionToParameterList.size(); newIndex++) {
+					if (userBrickPositionToParameterList.get(newIndex).first == userBrickPositionToParameterList.get(numberOfUserBricksInScript-1).first) {
+						frequencyOfEqualFirstParameters++;
+					}
+				}
+				if (frequencyOfEqualFirstParameters != ProjectManager.getInstance().getCurrentProject().getUserVariables().getOrCreateVariableListForUserBrick(((UserBrick) draggedBrick).getUserBrickId()).size()) {
+					for (int userBrickPosition = positionOfUserbrickInScript; userBrickPosition < numberOfUserBricksInScript; userBrickPosition++) {
+						Pair<Integer, Integer> userBrickPositionToParameter = ((UserBrick) draggedBrick).getUserBrickPositionToParameter().get(userBrickPosition);
+						if (userBrickPositionToParameter.first >= userBrickPosition) {
+							((UserBrick) draggedBrick).setUserBrickPositionToParameter(Pair.create(userBrickPositionToParameter.first + 1, userBrickPositionToParameter.second), ((UserBrick) draggedBrick).getUserBrickIndexInScript(userBrickPositionToParameter));
+						}
+					}
+				}
+				//TODO: test if everything gets updated if userbrick gets moved (should work) and delete arraylist entry when userbrick gets deleted, when new variable gets created update
 			}
 
 			addingNewBrick = false;
@@ -645,7 +682,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			brickList.add(position, brickToBeAdded);
 			scrollToPosition(position);
 
-		} else {
+		}
+		else {
 
 			position = getNewPositionIfEndingBrickIsThere(position, brickToBeAdded);
 			position = position <= 0 ? 1 : position;

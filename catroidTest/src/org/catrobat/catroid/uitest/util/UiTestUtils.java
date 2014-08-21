@@ -177,8 +177,8 @@ public final class UiTestUtils {
 	public static final String DEFAULT_TEST_PROJECT_NAME_MIXED_CASE = "TeStPROjeCt";
 	public static final String COPIED_PROJECT_NAME = "copiedProject";
 	public static final String JAPANESE_PROJECT_NAME = "これは例の説明です。";
-	public static final String TEST_USER_BRICK_NAME = "Test User Brick";
-	public static final String TEST_USER_BRICK_VARIABLE = "test";
+	public static final String TEST_USER_BRICK_NAME = "New Brick 1";
+	public static final String TEST_USER_BRICK_VARIABLE = "Variable 1";
 	public static final String NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME = "[Hey+, =lo_ok. I'm; -special! ?äöüß<>]";
 	public static final String NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2 = "../*T?E\"S/T:%22T<E>S?T\\T\\E|S%äö|üß";
 	public static final String JUST_SPECIAL_CHAR_PROJECT_NAME = "*\"/:<>?\\|";
@@ -434,11 +434,11 @@ public final class UiTestUtils {
 		solo.sleep(200);
 
 		Formula formula = theBrick.getFormulaWithBrickField(brickField);
-        try{
-            assertEquals("Wrong text in field", newValue, formula.interpretDouble(sprite), 0.01f);
-        }catch (InterpretationException interpretationException) {
-            fail("Wrong text in field.");
-        }
+		try{
+			assertEquals("Wrong text in field", newValue, formula.interpretDouble(sprite), 0.01f);
+		}catch (InterpretationException interpretationException) {
+			fail("Wrong text in field.");
+		}
 
 		assertEquals("Text not updated in the brick list", newValue,
 				Double.parseDouble(((TextView) solo.getView(editTextId)).getText().toString().replace(',', '.')), 0.01f);
@@ -459,11 +459,11 @@ public final class UiTestUtils {
 
 		Formula formula = (Formula) theBrick.getFormulaWithBrickField(brickField);
 		formulaEditorString = ((TextView) solo.getView(editTextId)).getText().toString();
-        try{
-            assertEquals("Wrong text in field", newValue, formula.interpretString(sprite));
-        }catch (InterpretationException interpretationException) {
-            fail("Wrong text in field.");
-        }
+		try{
+			assertEquals("Wrong text in field", newValue, formula.interpretString(sprite));
+		}catch (InterpretationException interpretationException) {
+			fail("Wrong text in field.");
+		}
 		assertEquals("Text not updated in the brick list", "\'" + newValue + "\'",
 				formulaEditorString.substring(0, formulaEditorString.length() - 1));
 	}
@@ -593,6 +593,10 @@ public final class UiTestUtils {
 			fail("add brick fragment should appear");
 		}
 
+		if (categoryStringId == R.string.category_user_bricks) {
+			solo.sleep(300);
+			clickOnBottomBar(solo, R.id.button_add);
+		}
 		solo.sleep(600);
 		boolean succeeded = clickOnBrickInAddBrickFragment(solo, brickName, false);
 		if (!succeeded) {
@@ -654,6 +658,9 @@ public final class UiTestUtils {
 
 		solo.sleep(1000);
 
+//		if (brickName.equals(UiTestUtils.TEST_USER_BRICK_NAME)) {
+//			clickOnBottomBar(solo, R.id.button_add);
+//		}
 		boolean clicked = UiTestUtils.clickOnBrickInAddBrickFragment(solo, brickName, false);
 		if (!clicked) {
 			fail("was unable to click on " + brickName + "!");
@@ -930,8 +937,9 @@ public final class UiTestUtils {
 		firstSprite.addScript(testScript);
 
 		UserBrick firstUserBrick = new UserBrick(0);
-		firstUserBrick.addUIText(TEST_USER_BRICK_NAME);
-		firstUserBrick.addUIVariable(TEST_USER_BRICK_VARIABLE);
+		firstSprite.addUserBrick(firstUserBrick);
+		firstUserBrick.getDefinitionBrick().addUIText(TEST_USER_BRICK_NAME);
+		firstUserBrick.getDefinitionBrick().addUILocalizedVariable(TEST_USER_BRICK_VARIABLE);
 		firstUserBrick.appendBrickToScript(new ChangeXByNBrick(BrickValues.CHANGE_X_BY));
 
 		testScript.addBrick(firstUserBrick);
@@ -955,19 +963,21 @@ public final class UiTestUtils {
 		projectManager.setCurrentScript(testScript);
 
 		UserBrick firstUserBrick = new UserBrick(0);
-		firstUserBrick.addUIText(TEST_USER_BRICK_NAME + "2");
-		firstUserBrick.addUIVariable(TEST_USER_BRICK_VARIABLE + "2");
+		firstUserBrick.getDefinitionBrick().addUIText(TEST_USER_BRICK_NAME + "2");
+		firstUserBrick.getDefinitionBrick().addUILocalizedVariable(TEST_USER_BRICK_VARIABLE + "2");
 		firstUserBrick.appendBrickToScript(new ChangeXByNBrick(BrickValues.CHANGE_X_BY));
+		firstSprite.addUserBrick(firstUserBrick);
 
 		UserBrick secondUserBrick = new UserBrick(1);
-		secondUserBrick.addUIText(TEST_USER_BRICK_NAME);
-		secondUserBrick.addUIVariable(TEST_USER_BRICK_VARIABLE);
+		secondUserBrick.getDefinitionBrick().addUIText(TEST_USER_BRICK_NAME);
+		secondUserBrick.getDefinitionBrick().addUILocalizedVariable(TEST_USER_BRICK_VARIABLE);
 		secondUserBrick.appendBrickToScript(firstUserBrick);
 		secondUserBrick.appendBrickToScript(new ChangeYByNBrick(BrickValues.CHANGE_Y_BY));
 
 		testScript.addBrick(secondUserBrick);
 		testScript.addBrick(new SetSizeToBrick(BrickValues.SET_SIZE_TO));
 		testScript.addBrick(new SetVariableBrick(BrickValues.SET_BRIGHTNESS_TO));
+		firstSprite.addUserBrick(secondUserBrick);
 
 		firstSprite.addScript(testScript);
 
