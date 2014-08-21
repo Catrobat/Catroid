@@ -29,7 +29,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.view.Menu;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -90,12 +89,6 @@ public class ProgramMenuActivity extends BaseActivity {
 			DroneInitializer.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
 			startActivity(intent);
 		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_program_activity, menu);
-		return super.onCreateOptionsMenu(menu);
 	}
 
 	public void handleScriptsButton(View view) {

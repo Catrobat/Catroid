@@ -22,17 +22,23 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
+import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 
 public class BaseActivity extends SherlockFragmentActivity {
 
@@ -64,6 +70,12 @@ public class BaseActivity extends SherlockFragmentActivity {
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.menu_main_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
@@ -86,8 +98,31 @@ public class BaseActivity extends SherlockFragmentActivity {
 				startActivity(settingsIntent);
 				break;
 
+			case R.id.menu_rate_app:
+				launchMarket();
+				return true;
+			case R.id.menu_terms_of_use:
+				TermsOfUseDialogFragment termsOfUseDialog = new TermsOfUseDialogFragment();
+				termsOfUseDialog.show(getSupportFragmentManager(), TermsOfUseDialogFragment.DIALOG_FRAGMENT_TAG);
+				return true;
+			case R.id.menu_about:
+				AboutDialogFragment aboutDialog = new AboutDialogFragment();
+				aboutDialog.show(getSupportFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
+				return true;
+
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	// Taken from http://stackoverflow.com/a/11270668
+	private void launchMarket() {
+		Uri uri = Uri.parse("market://details?id=" + getPackageName());
+		Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
+		try {
+			startActivity(myAppLinkToMarket);
+		} catch (ActivityNotFoundException e) {
+			Toast.makeText(this, R.string.main_menu_play_store_not_installed, Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	// Code from Stackoverflow to reduce memory problems
