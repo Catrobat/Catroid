@@ -22,59 +22,68 @@
  */
 package org.catrobat.catroid.test.physics.actions;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
+
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.PhysicsObject.Type;
-import org.catrobat.catroid.physics.content.actions.SetMassAction;
 import org.catrobat.catroid.test.physics.PhysicsBaseTest;
 
 public class SetMassActionTest extends PhysicsBaseTest {
 
+	private static final float MASS = 10f;
+
 	public void testNormalBehavior() {
-		Formula mass = new Formula(10);
-		SetMassAction setMassAction = new SetMassAction();
-		setMassAction.setSprite(sprite);
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		setMassAction.setPhysicsObject(physicsObject);
-		setMassAction.setMass(mass);
-
-		setMassAction.act(1.0f);
-		physicsWorld.step(1.0f);
-
-		assertEquals("Unexpected mass value", 10f, physicsObject.getMass());
+		initMassValue(MASS);
+		assertEquals("Unexpected mass value", MASS, physicsWorld.getPhysicsObject(sprite).getMass());
 	}
 
 	public void testNegativeValue() {
-		Formula mass = new Formula(-10);
-		SetMassAction setMassAction = new SetMassAction();
-		setMassAction.setSprite(sprite);
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		setMassAction.setPhysicsObject(physicsObject);
-		setMassAction.setMass(mass);
-
-		setMassAction.act(1.0f);
-		physicsWorld.step(1.0f);
-
-		assertEquals("Unexpected mass value", PhysicsObject.MIN_MASS, physicsObject.getMass());
+		float mass = -10f;
+		initMassValue(mass);
+		assertEquals("Unexpected mass value", PhysicsObject.MIN_MASS, physicsWorld.getPhysicsObject(sprite).getMass());
 	}
 
 	public void testZeroValue() {
-		Formula mass = new Formula(0);
+		float mass = 0f;
+		initMassValue(mass);
+		assertEquals("Unexpected mass value", 0.0f, physicsWorld.getPhysicsObject(sprite).getMass());
+	}
+
+	private void initMassValue(float mass) {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		SetMassAction setMassAction = new SetMassAction();
-		setMassAction.setSprite(sprite);
-		setMassAction.setPhysicsObject(physicsObject);
-		setMassAction.setMass(mass);
+		Action action = sprite.getActionFactory().createSetMassAction(sprite, new Formula(mass));
 
-		setMassAction.act(1.0f);
+		assertEquals("Unexpected mass value", PhysicsObject.DEFAULT_MASS, physicsObject.getMass());
+
+		action.act(1.0f);
 		physicsWorld.step(1.0f);
+	}
 
-		assertEquals("Unexpected mass value", 0.0f, physicsObject.getMass());
+	public void testBrickWithStringFormula() {
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
+		sprite.getActionFactory().createSetMassAction(sprite, new Formula(String.valueOf(MASS))).act(1.0f);
+		assertEquals("Unexpected mass value", MASS, physicsObject.getMass());
+
+		sprite.getActionFactory().createSetMassAction(sprite, new Formula(String.valueOf("not a numerical string")))
+				.act(1.0f);
+		assertEquals("Unexpected mass value", MASS, physicsObject.getMass());
+	}
+
+	public void testNullFormula() {
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
+		sprite.getActionFactory().createSetMassAction(sprite, null).act(1.0f);
+		assertEquals("Unexpected mass value", 0f, physicsObject.getMass());
+	}
+
+	public void testNotANumberFormula() {
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
+		sprite.getActionFactory().createSetMassAction(sprite, new Formula(Double.NaN)).act(1.0f);
+		assertEquals("Unexpected mass value", PhysicsObject.DEFAULT_MASS, physicsObject.getMass());
 	}
 
 	public void testMassAcceleration() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		physicsObject.setType(Type.DYNAMIC);
+		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
 		physicsObject.setMass(5.0f);
 
 		physicsWorld.step(0.10f);
