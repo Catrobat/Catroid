@@ -89,7 +89,7 @@ public class SetXActionTest extends AndroidTestCase {
 				sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
-	public void testNotANumbserFormula() {
+	public void testNotANumberFormula() {
 		sprite.getActionFactory().createSetXAction(sprite, new Formula(Double.NaN)).act(1.0f);
 		assertEquals("Incorrect sprite x position after SetXBrick executed", 0f,
 				sprite.look.getXInUserInterfaceDimensionUnit());
