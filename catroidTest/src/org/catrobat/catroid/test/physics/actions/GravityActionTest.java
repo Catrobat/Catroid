@@ -37,8 +37,8 @@ public class GravityActionTest extends PhysicsBaseTest {
 
 	private static final String TAG = GravityActionTest.class.getSimpleName();
 
-	private static final int TEST_STEP_COUNT = 5;
-	private static final float TEST_STEP_DELTA_TIME = 1.0f / 60.0f;
+	private static final int TEST_STEP_COUNT = 10;
+	private static final float TEST_STEP_DELTA_TIME = 0.1f;
 
 	PhysicsObject physicsObject;
 
@@ -79,7 +79,7 @@ public class GravityActionTest extends PhysicsBaseTest {
 	public void testPositiveYVelocity() {
 		assertEquals("Unexpected initial y-coordinate", 0, physicsObject.getY(), TestUtils.DELTA);
 
-		float startVelocityYValue = 10.0f;
+		float startVelocityYValue = 20.0f;
 		physicsObject.setVelocity(0.0f, startVelocityYValue);
 		assertEquals("Unexpected initial velocity Y value", startVelocityYValue, physicsObject.getVelocity().y, TestUtils.DELTA);
 

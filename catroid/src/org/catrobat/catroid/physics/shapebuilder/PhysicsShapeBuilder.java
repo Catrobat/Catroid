@@ -45,6 +45,8 @@ public class PhysicsShapeBuilder {
 	}
 
 	public Shape[] getShape(LookData lookData, float scaleFactor) {
+
+
 		Shape[] shapes = null;
 		float scaleLevel = getScaleLevel(scaleFactor);
 		String key = getKey(lookData, scaleLevel);
@@ -52,11 +54,14 @@ public class PhysicsShapeBuilder {
 		if (shapeMap.containsKey(key)) {
 			Log.d(TAG, "reuse");
 			shapes = shapeMap.get(key);
-		}else{
+		} else {
 			Pixmap pixmap = lookData.getPixmap();
-			Pixmap thumb = new Pixmap((int)(pixmap.getWidth() * scaleLevel), (int)(pixmap.getHeight() * scaleLevel), pixmap.getFormat());
+			if (pixmap == null) {
+				return null;
+			}
+			Pixmap thumb = new Pixmap((int) (pixmap.getWidth() * scaleLevel), (int) (pixmap.getHeight() * scaleLevel), pixmap.getFormat());
 			Pixmap.setFilter(Pixmap.Filter.NearestNeighbour);
-			thumb.drawPixmap(pixmap,0,0,pixmap.getWidth(),pixmap.getHeight(),0,0,thumb.getWidth(),thumb.getHeight());
+			thumb.drawPixmap(pixmap, 0, 0, pixmap.getWidth(), pixmap.getHeight(), 0, 0, thumb.getWidth(), thumb.getHeight());
 			shapes = strategy.build(thumb, scaleFactor);
 			thumb.dispose();
 			shapes = normalize(shapes, scaleLevel);
@@ -66,12 +71,12 @@ public class PhysicsShapeBuilder {
 	}
 
 	private Shape[] normalize(Shape[] shapes, float scaleLevel) {
-		return scaleShapes(shapes, 1/scaleLevel);
+		return scaleShapes(shapes, 1 / scaleLevel);
 	}
 
 	private float getScaleLevel(float scaleFactor) {
-		if(scaleFactor >= 0.25f) {
-			return  0.25f;
+		if (scaleFactor >= 0.25f) {
+			return 0.25f;
 		}
 		return 0.05f;
 	}

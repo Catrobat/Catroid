@@ -56,6 +56,7 @@ public class PhysicsWorldTest extends AndroidTestCase {
 		physicsWorld = new PhysicsWorld(1920, 1600);
 		world = (World) Reflection.getPrivateField(physicsWorld, "world");
 		physicsObjects = (Map<Sprite, PhysicsObject>) Reflection.getPrivateField(physicsWorld, "physicsObjects");
+		PhysicsBaseTest.stabilizePhysicsWorld(physicsWorld);
 	}
 
 	@Override
@@ -66,14 +67,14 @@ public class PhysicsWorldTest extends AndroidTestCase {
 	}
 
 	public void testDefaultSettings() {
-		assertEquals("Wrong configuration", 40.0f, PhysicsWorld.RATIO);
-		assertEquals("Wrong configuration", 8, PhysicsWorld.VELOCITY_ITERATIONS);
+		assertEquals("Wrong configuration", 10.0f, PhysicsWorld.RATIO);
+		assertEquals("Wrong configuration", 3, PhysicsWorld.VELOCITY_ITERATIONS);
 		assertEquals("Wrong configuration", 3, PhysicsWorld.POSITION_ITERATIONS);
 
 		assertEquals("Wrong configuration", new Vector2(0, -10), PhysicsWorld.DEFAULT_GRAVITY);
 		assertFalse("Wrong configuration", PhysicsWorld.IGNORE_SLEEPING_OBJECTS);
 
-		assertEquals("Wrong configuration", 6, PhysicsWorld.STABILIZING_STEPS);
+		assertEquals("Wrong configuration", 6, Reflection.getPrivateField(physicsWorld, "STABILIZING_STEPS"));
 
 		short expectedCategoryBoundaryBox= 0x0002;
 		short expectedCategoryPhysicsObject = 0x0004;
@@ -140,19 +141,6 @@ public class PhysicsWorldTest extends AndroidTestCase {
 		assertEquals("Physics objects are different", physicsObject, samePhysicsObject);
 	}
 
-	public void testStabilizingSteps() {
-		int stepPasses = PhysicsWorld.STABILIZING_STEPS + 10;
-
-		int stabilizingStep;
-		for (int pass = 0; pass < stepPasses; pass++) {
-			physicsWorld.step(100.0f);
-			stabilizingStep = (Integer) Reflection.getPrivateField(physicsWorld, "stabilizingSteCounter");
-			assertTrue("Stabilizing the project didn't work",
-					((stabilizingStep == (pass + 1)) && (stabilizingStep < PhysicsWorld.STABILIZING_STEPS))
-							|| (stabilizingStep == PhysicsWorld.STABILIZING_STEPS));
-		}
-	}
-
 	public void testSteps() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 		Sprite sprite = new Sprite("TestSprite");
@@ -163,8 +151,6 @@ public class PhysicsWorldTest extends AndroidTestCase {
 		Vector2 velocity = new Vector2(2.3f, 4.5f);
 		float rotationSpeed = 45.0f;
 		physicsWorld.setGravity(0.0f, 0.0f);
-		Reflection.setPrivateField(PhysicsWorld.class, physicsWorld, "stabilizingSteCounter",
-				PhysicsWorld.STABILIZING_STEPS);
 
 		assertEquals("Physics object has a wrong start position", new Vector2(), physicsObject.getPosition());
 

@@ -22,37 +22,45 @@
  */
 package org.catrobat.catroid.physics;
 
+import com.badlogic.gdx.math.Vector2;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
 
+import java.util.LinkedList;
+
 public class PhysicsLook extends Look {
 
 	private final transient PhysicsObject physicsObject;
+	private boolean isVisible;
+
+	private PhysicsObjectHangupState hangupState = new PhysicsObjectHangupState();
 
 	public PhysicsLook(Sprite sprite, PhysicsWorld physicsWorld) {
 		super(sprite);
+		isVisible = true;
 		physicsObject = physicsWorld.getPhysicsObject(sprite);
 	}
 
 	@Override
 	public void setVisible(boolean visible) {
-		physicsObject.setVisible(visible);
 		super.setVisible(visible);
+		isVisible = visible;
+		updateHangupState(true);
 	}
-
-	//	@Override
-	//	public void setTransparencyTo(boolean transparend) { // TODO[physics]
-	//		super.setTransparencyTo(transparend);
-	//		physicsObject.setTransparent(transparend);
-	//	}
 
 	@Override
 	public void setLookData(LookData lookData) {
 		super.setLookData(lookData);
 		PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentProject().getPhysicsWorld();
 		physicsWorld.changeLook(physicsObject, this);
+	}
+
+	@Override
+	public void setXInUserInterfaceDimensionUnit(float x) {
+		setX(x - getWidth() / 2f);
 	}
 
 	@Override
@@ -87,26 +95,14 @@ public class PhysicsLook extends Look {
 	@Override
 	public float getX() {
 		float x = physicsObject.getX() - getWidth() / 2.0f;
-		//float y = physicsObject.getY() - getHeight() / 2.0f;
-		physicsObject.updateHangupState(false);
-		/*if (Math.abs(x) > (ScreenValues.SCREEN_WIDTH / 2) * 3) {
-			physicsObject.hangup();
-		} else if (!(Math.abs(y) > ScreenValues.SCREEN_HEIGHT) && isVisible()) {
-			physicsObject.resume(false);
-		}*/
+		updateHangupState(false);
 		return x;
 	}
 
 	@Override
 	public float getY() {
-		//float x = physicsObject.getX() - getWidth() / 2.0f;
 		float y = physicsObject.getY() - getHeight() / 2.0f;
-		physicsObject.updateHangupState(false);
-		/*if (Math.abs(y) > ScreenValues.SCREEN_HEIGHT) {
-			physicsObject.hangup();
-		} else if (!(Math.abs(x) > (ScreenValues.SCREEN_WIDTH / 2) * 3) && isVisible()) {
-			physicsObject.resume(false);
-		}*/
+		updateHangupState(false);
 		return y;
 	}
 
@@ -130,6 +126,134 @@ public class PhysicsLook extends Look {
 		if (null != physicsObject) {
 			PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentProject().getPhysicsWorld();
 			physicsWorld.changeLook(physicsObject, this);
+		}
+	}
+
+	public void updateHangupState(boolean record) {
+		hangupState.update(record);
+	}
+
+	public void startGlide() {
+		hangupState.activateGlideToHangup();
+	}
+
+	public void stopGlide() {
+		hangupState.deactivateGlideToHangup();
+	}
+
+	private interface HangupCondition {
+		boolean isTrue();
+	}
+
+	public boolean isActive() {
+		updateHangupState(false);
+		return !hangupState.isHangedUp();
+	}
+
+	private class PhysicsObjectHangupState {
+		//private final String TAG = PhysicsObjectHangupState.class.getSimpleName();
+
+		private LinkedList<HangupCondition> hangupConditions = new LinkedList<HangupCondition>();
+
+		private HangupCondition positionCondition;
+		private HangupCondition visibleCondition;
+		private HangupCondition transparancyCondition;
+		private HangupCondition glideToCondition;
+
+		private boolean hangedUp = false;
+		private boolean glideToIsActive = false;
+
+		public PhysicsObjectHangupState() {
+			positionCondition = new HangupCondition() {
+				@Override
+				public boolean isTrue() {
+					Vector2 bbLowerEdge = new Vector2();
+					Vector2 bbUpperEdge = new Vector2();
+					physicsObject.getBoundaryBox(bbLowerEdge, bbUpperEdge);
+					float bbWidth = bbUpperEdge.x - bbLowerEdge.x;
+					float bbHeight = bbUpperEdge.y - bbLowerEdge.y;
+					float bbCenterX = bbLowerEdge.x + bbWidth / 2;
+					float bbCenterY = bbLowerEdge.y + bbHeight / 2;
+					//Log.d(TAG, "bbCenterX: " + bbCenterX);
+					//Log.d(TAG, "bbCenterY: " + bbCenterY);
+					//Log.d(TAG, "PhysicsWorld.activeArea.x: " + PhysicsWorld.activeArea.x);
+					//Log.d(TAG, "PhysicsWorld.activeArea.y: " + PhysicsWorld.activeArea.y);
+					boolean isXinActiveArea = !(Math.abs(bbCenterX) > PhysicsWorld.activeArea.x);
+					boolean isYinActiveArea = !(Math.abs(bbCenterY) > PhysicsWorld.activeArea.y);
+					if (isXinActiveArea && isYinActiveArea) {
+						//Log.d(TAG, "positionCondition: FALSE");
+						return false;
+					}
+					//Log.d(TAG, "positionCondition: TRUE");
+					return true;
+				}
+			};
+
+			visibleCondition = new HangupCondition() {
+				@Override
+				public boolean isTrue() {
+					//Log.d(TAG, "visibleCondition:"+!isVisible);
+					return !isVisible;
+				}
+			};
+
+			transparancyCondition = new HangupCondition() {
+				@Override
+				public boolean isTrue() {
+					//Log.d(TAG, "transparancyCondition:"+(alpha==0.0));
+					return alpha == 0.0;
+				}
+			};
+
+			glideToCondition = new HangupCondition() {
+				@Override
+				public boolean isTrue() {
+					//Log.d(TAG, "glideToCondition:"+glideToIsActive);
+					return glideToIsActive;
+				}
+			};
+
+			hangupConditions.add(transparancyCondition);
+			hangupConditions.add(positionCondition);
+			hangupConditions.add(visibleCondition);
+			hangupConditions.add(glideToCondition);
+		}
+
+
+		public void update(boolean record) {
+			boolean shouldBeHangedUp = false;
+			for (HangupCondition hangupCondition : hangupConditions) {
+				if (hangupCondition.isTrue()) {
+					shouldBeHangedUp = true;
+					break;
+				}
+			}
+			boolean resume = hangedUp && !shouldBeHangedUp;
+			boolean hangup = !hangedUp && shouldBeHangedUp;
+			if (resume) {
+				//Log.d(TAG, "HangupState.hangedUp = false; recoveryModeActive = " + String.valueOf(record));
+				physicsObject.resume(record);
+			} else if (hangup) {
+				//Log.d(TAG, "HangupState.hangedUp = true");
+				physicsObject.hangup();
+			}
+			hangedUp = shouldBeHangedUp;
+		}
+
+		public void activateGlideToHangup() {
+			if (!glideToIsActive) {
+				glideToIsActive = true;
+				updateHangupState(true);
+			}
+		}
+
+		public void deactivateGlideToHangup() {
+			glideToIsActive = false;
+			updateHangupState(true);
+		}
+
+		public boolean isHangedUp() {
+			return hangedUp;
 		}
 	}
 }

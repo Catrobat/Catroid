@@ -64,22 +64,23 @@ public class PhysicsWorld {
 
 	public static final Vector2 DEFAULT_GRAVITY = new Vector2(0.0f, -10.0f);
 	public static final boolean IGNORE_SLEEPING_OBJECTS = false;
+	public static Vector2 activeArea;
 
 	public static final int STABILIZING_STEPS = 6;
-
 	private final World world = new World(PhysicsWorld.DEFAULT_GRAVITY, PhysicsWorld.IGNORE_SLEEPING_OBJECTS);
 	private final Map<Sprite, PhysicsObject> physicsObjects = new HashMap<Sprite, PhysicsObject>();
 	private final ArrayList<Sprite> activeVerticalBounces = new ArrayList<Sprite>();
 	private final ArrayList<Sprite> activeHorizontalBounces = new ArrayList<Sprite>();
 	private Box2DDebugRenderer renderer;
 	private int stabilizingSteCounter = 0;
-	private PhysicsBoundaryBox box;
+	private PhysicsBoundaryBox boundaryBox;
 
 	private PhysicsShapeBuilder physicsShapeBuilder = new PhysicsShapeBuilder();
 
 	public PhysicsWorld(int width, int height) {
-		box = new PhysicsBoundaryBox(world);
-		box.create(width, height);
+		boundaryBox = new PhysicsBoundaryBox(world);
+		boundaryBox.create(width, height);
+		activeArea = new Vector2((width/2)*3, height);
 		world.setContactListener(new PhysicsCollision(this));
 	}
 
@@ -128,7 +129,6 @@ public class PhysicsWorld {
 	}
 
 	public void changeLook(PhysicsObject physicsObject, Look look) {
-
 		Shape[] shapes = null;
 		if (look.getLookData() != null && look.getLookData().getLookFileName() != null) {
 			shapes = physicsShapeBuilder.getShape(look.getLookData(),
@@ -188,5 +188,4 @@ public class PhysicsWorld {
 			Log.d(TAG, "resetActiveInOnEdgeBounce: BUT SPRITE NOT KNOWN");
 		}
 	}
-
 }
