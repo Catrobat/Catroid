@@ -78,7 +78,7 @@ public class PlaceAtBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.Y_POSITION).getRequiredResources()|getFormulaWithBrickField(BrickField.X_POSITION).getRequiredResources();
+		return NO_RESOURCES;
 	}
 
 	@Override

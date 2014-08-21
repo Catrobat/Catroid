@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.test.InstrumentationTestCase;
@@ -35,8 +34,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
-import org.catrobat.catroid.facedetection.FaceDetectionHandler;
-import org.catrobat.catroid.facedetection.FaceDetector;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
@@ -47,11 +44,9 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.SensorLoudness;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.test.utils.Reflection;
-import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import org.catrobat.catroid.test.utils.SimulatedSensorManager;
 import org.catrobat.catroid.test.utils.SimulatedSoundRecorder;
 
-import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -66,9 +61,6 @@ public class ParserTestSensors extends InstrumentationTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		createProject();
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 		//For initialization
 		SensorLoudness.getSensorLoudness();
 		SensorLoudness loudnessSensor = (SensorLoudness) Reflection.getPrivateField(SensorLoudness.class, "instance");
@@ -99,71 +91,10 @@ public class ParserTestSensors extends InstrumentationTestCase {
 		SensorHandler.stopSensorListeners();
 	}
 
-	public void testFaceDetection() {
-		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());
-		FaceDetector faceDetector = (FaceDetector) Reflection.getPrivateField(FaceDetectionHandler.class,
-				"faceDetector");
-
-		assertNotNull("SensorHandler was not registered as a listener at FaceDetectionHandler", faceDetector);
-
-		assertEquals("Face detection status initial value error", 0d,
-				SensorHandler.getSensorValue(Sensors.FACE_DETECTED));
-		assertEquals("Face detection size initial value error", 0d, SensorHandler.getSensorValue(Sensors.FACE_SIZE));
-
-		Method[] methods = faceDetector.getClass().getSuperclass().getDeclaredMethods();
-		for (Method method : methods) {
-			Log.e("SensorTest", method.getName());
-		}
-
-		ParameterList parameters = new ParameterList(Boolean.TRUE);
-		Reflection.invokeMethod(faceDetector.getClass().getSuperclass(), faceDetector, "onFaceDetected", parameters);
-
-		int expectedFaceSize = (int) (Math.random() * 100);
-		int exampleScreenWidth = 320;
-		int exampleScreenHeight = 480;
-		int expectedFaceXPosition = (int) (-exampleScreenWidth / 2 + (Math.random() * exampleScreenWidth));
-		int expectedFaceYPosition = (int) (-exampleScreenHeight / 2 + (Math.random() * exampleScreenHeight));
-
-		parameters = new ParameterList(new Point(expectedFaceXPosition, expectedFaceYPosition),
-				Integer.valueOf(expectedFaceSize));
-		Reflection.invokeMethod(faceDetector.getClass().getSuperclass(), faceDetector, "onFaceDetected", parameters);
-
-		Formula formula6 = createFormulaWithSensor(Sensors.FACE_DETECTED);
-		ChangeSizeByNBrick faceDetectionStatusBrick = new ChangeSizeByNBrick(formula6);
-		startScript1.addBrick(faceDetectionStatusBrick);
-
-		Formula formula7 = createFormulaWithSensor(Sensors.FACE_SIZE);
-		ChangeSizeByNBrick faceSizeBrick = new ChangeSizeByNBrick(formula7);
-		startScript1.addBrick(faceSizeBrick);
-
-		Formula formula8 = createFormulaWithSensor(Sensors.FACE_X_POSITION);
-		ChangeSizeByNBrick faceXPositionBrick = new ChangeSizeByNBrick(formula8);
-		startScript1.addBrick(faceXPositionBrick);
-
-		Formula formula9 = createFormulaWithSensor(Sensors.FACE_Y_POSITION);
-		ChangeSizeByNBrick faceYPositionBrick = new ChangeSizeByNBrick(formula9);
-		startScript1.addBrick(faceYPositionBrick);
-
-		assertEquals("Unexpected sensor value for face detection status (= 1 if face detected, 0 otherwise)", 1d,
-				interpretFormula(formula6));
-
-		assertEquals(
-				"Unexpected sensor value for face size (= width of the face (range: 0 to 100, where at 100 the face fills half the width of the cameras view)",
-				expectedFaceSize, interpretFormula(formula7), delta);
-
-		assertEquals(
-				"Unexpected sensor value for face x position (= in portrait mode, the central x coordinate of the face if the camera input is projected fullscreen to the display (range: 0 to screen width) )",
-				expectedFaceXPosition, interpretFormula(formula8), delta);
-
-		assertEquals(
-				"Unexpected sensor value for face y position (= in portrait mode, the central y coordinate of the face if the camera input is projected fullscreen to the display (range: 0 to screen height) )",
-				expectedFaceYPosition, interpretFormula(formula9), delta);
-
-		SensorHandler.stopSensorListeners();
-	}
-
 	public void testSensors() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
+
+		createProject();
 
 		Formula formula = createFormulaWithSensor(Sensors.X_ACCELERATION);
 		ChangeSizeByNBrick xAccelerationBrick = new ChangeSizeByNBrick(formula);
@@ -192,6 +123,9 @@ public class ParserTestSensors extends InstrumentationTestCase {
 		Formula formula6 = createFormulaWithSensor(Sensors.LOUDNESS);
 		ChangeSizeByNBrick loudnessBrick = new ChangeSizeByNBrick(formula6);
 		startScript1.addBrick(loudnessBrick);
+
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
 		//For initialization
 		SensorHandler.startSensorListener(getInstrumentation().getTargetContext());

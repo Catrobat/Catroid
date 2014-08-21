@@ -73,7 +73,7 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick, OnC
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.IF_CONDITION).getRequiredResources();
+		return NO_RESOURCES;
 	}
 
 	public IfLogicElseBrick getIfElseBrick() {

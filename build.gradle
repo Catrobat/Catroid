@@ -33,7 +33,7 @@ ext {
             "backpack"                          : false,
             "parrot_ar_drone"                   : false,
             "apk_generator"                     : false,
-            "computer_vision_enhancement"       : true,
+            "computer_vision_enhancement"       : false,
             "formula_editor_lists"              : false,
             "physics_engine_collision_filtering": false,
             "time_capsule"                      : false

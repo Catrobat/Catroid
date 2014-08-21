@@ -66,7 +66,6 @@ public class GoNStepsBackTest extends BaseActivityInstrumentationTestCase<Script
 	}
 
 	public void testGoNStepsBackBrick() {
-		solo.sleep(300);
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 

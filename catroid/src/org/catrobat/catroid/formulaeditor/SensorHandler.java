@@ -28,8 +28,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.util.Log;
 
-import org.catrobat.catroid.facedetection.FaceDetectionHandler;
-
 public final class SensorHandler implements SensorEventListener, SensorCustomEventListener {
 	private static final String TAG = SensorHandler.class.getSimpleName();
 	private static SensorHandler instance = null;
@@ -45,10 +43,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float linearAcceleartionZ = 0f;
 
 	private float loudness = 0f;
-	private float faceDetected = 0f;
-	private float faceSize = 0f;
-	private float facePositionX = 0f;
-	private float facePositionY = 0f;
 
 	private SensorHandler(Context context) {
 		sensorManager = new SensorManager(
@@ -69,8 +63,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		instance.sensorManager.registerListener(instance, instance.rotationVectorSensor,
 				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
 		instance.sensorManager.registerListener(instance, Sensors.LOUDNESS);
-		FaceDetectionHandler.registerOnFaceDetectedListener(instance);
-		FaceDetectionHandler.registerOnFaceDetectionStatusListener(instance);
 	}
 
 	public static void registerListener(SensorEventListener listener) {
@@ -96,9 +88,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		}
 		instance.sensorManager.unregisterListener((SensorEventListener) instance);
 		instance.sensorManager.unregisterListener((SensorCustomEventListener) instance);
-
-		FaceDetectionHandler.unregisterOnFaceDetectedListener(instance);
-		FaceDetectionHandler.unregisterOnFaceDetectionStatusListener(instance);
 	}
 
 	public static Double getSensorValue(Sensors sensor) {
@@ -155,14 +144,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 						return (double) -180f - uncorrectedYInclination;
 					}
 				}
-			case FACE_DETECTED:
-				return Double.valueOf(instance.faceDetected);
-			case FACE_SIZE:
-				return Double.valueOf(instance.faceSize);
-			case FACE_X_POSITION:
-				return Double.valueOf(instance.facePositionX);
-			case FACE_Y_POSITION:
-				return Double.valueOf(instance.facePositionY);
 
 			case LOUDNESS:
 				return Double.valueOf(instance.loudness);
@@ -198,30 +179,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case LOUDNESS:
 				instance.loudness = event.values[0];
 				break;
-			case FACE_DETECTED:
-				instance.faceDetected = event.values[0];
-				break;
-			case FACE_SIZE:
-				instance.faceSize = event.values[0];
-				break;
-			case FACE_X_POSITION:
-				instance.facePositionX = event.values[0];
-				break;
-			case FACE_Y_POSITION:
-				instance.facePositionY = event.values[0];
-				break;
 			default:
 				Log.v(TAG, "Unhandled sensor: " + event.sensor);
 		}
 	}
-
-	public static void clearFaceDetectionValues() {
-		if (instance != null) {
-			instance.faceDetected = 0f;
-			instance.faceSize = 0f;
-			instance.facePositionX = 0f;
-			instance.facePositionY = 0f;
-		}
-	}
-
 }

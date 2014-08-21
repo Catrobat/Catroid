@@ -72,7 +72,7 @@ public class GoNStepsBackBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.STEPS).getRequiredResources();
+		return NO_RESOURCES;
 	}
 
 	@Override

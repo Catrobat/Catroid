@@ -68,7 +68,7 @@ public class SetBrightnessBrick extends FormulaBrick implements OnClickListener 
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.BRIGHTNESS).getRequiredResources();
+		return NO_RESOURCES;
 	}
 
 	@Override

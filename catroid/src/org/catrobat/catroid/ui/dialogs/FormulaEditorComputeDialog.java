@@ -31,8 +31,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -64,16 +62,11 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 			SensorHandler.startSensorListener(context);
 			SensorHandler.registerListener(this);
 		}
-		int resources = formula.getRequiredResources();
-		if ((resources & Brick.FACE_DETECTION) > 0) {
-			FaceDetectionHandler.startFaceDetection(getContext());
-		}
 	}
 
 	@Override
 	protected void onStop() {
 		SensorHandler.unregisterListener(this);
-		FaceDetectionHandler.stopFaceDetection();
 		super.onStop();
 	}
 

@@ -61,7 +61,6 @@ public class TurnLeftBrickTest extends BaseActivityInstrumentationTestCase<Scrip
 	}
 
 	public void testTurnLeftBrickTest() {
-		solo.sleep(300);
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 

@@ -68,7 +68,7 @@ public class SetGhostEffectBrick extends FormulaBrick implements OnClickListener
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.TRANSPARENCY).getRequiredResources();
+		return NO_RESOURCES;
 	}
 
 	@Override

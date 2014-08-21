@@ -68,7 +68,7 @@ public class ChangeXByNBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.X_POSITION_CHANGE).getRequiredResources();
+		return NO_RESOURCES;
 	}
 
 	@Override

@@ -25,61 +25,18 @@ package org.catrobat.catroid.test.formulaeditor;
 
 import android.test.InstrumentationTestCase;
 
-import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
-import org.catrobat.catroid.formulaeditor.Sensors;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class FormulaTest extends InstrumentationTestCase {
-
-	public void testRequiredRessources() {
-		Formula formula0 = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.FACE_DETECTED.name(), null));
-		assertEquals("Required ressources for is_face_detected are not set to FACE_DETECTION",
-				formula0.getRequiredResources(), Brick.FACE_DETECTION);
-
-		Formula formula1 = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.FACE_SIZE.name(), null));
-		assertEquals("Required ressources for face_size are not set to FACE_DETECTION",
-				formula1.getRequiredResources(), Brick.FACE_DETECTION);
-
-		Formula formula2 = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.FACE_X_POSITION.name(), null));
-		assertEquals("Required ressources for face_x_position are not set to FACE_DETECTION",
-				formula2.getRequiredResources(), Brick.FACE_DETECTION);
-
-		Formula formula3 = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.FACE_Y_POSITION.name(), null));
-		assertEquals("Required ressources for face_y_position are not set to FACE_DETECTION",
-				formula3.getRequiredResources(), Brick.FACE_DETECTION);
-
-		Formula simpleFormula = new Formula(42.0d);
-		assertEquals("Simple formula requests resources", simpleFormula.getRequiredResources(), Brick.NO_RESOURCES);
-
-		Formula formulaWithRessourceLeft = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
-				null, new FormulaElement(ElementType.SENSOR, Sensors.FACE_Y_POSITION.name(), null), new FormulaElement(
-						ElementType.NUMBER, Double.toString(96d), null)));
-		assertEquals("Required ressources of left child are not calculated propperly",
-				formulaWithRessourceLeft.getRequiredResources(), Brick.FACE_DETECTION);
-
-		Formula formulaWithRessourceRight = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
-				null, new FormulaElement(ElementType.NUMBER, Double.toString(96d), null), new FormulaElement(
-						ElementType.SENSOR, Sensors.FACE_X_POSITION.name(), null)));
-		assertEquals("Required ressources of right child are not calculated propperly",
-				formulaWithRessourceRight.getRequiredResources(), Brick.FACE_DETECTION);
-
-		Formula formulaSameRessourceTwice = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
-				null, new FormulaElement(ElementType.SENSOR, Sensors.FACE_DETECTED.name(), null), new FormulaElement(
-						ElementType.SENSOR, Sensors.FACE_SIZE.name(), null)));
-		assertEquals("Required ressources of formula with several ressources are not calculated propperly",
-				formulaSameRessourceTwice.getRequiredResources(), Brick.FACE_DETECTION);
-
-	}
 
 	public void testIsSingleNumberFormula() {
 

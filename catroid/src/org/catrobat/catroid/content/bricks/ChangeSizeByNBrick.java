@@ -68,7 +68,7 @@ public class ChangeSizeByNBrick extends FormulaBrick implements OnClickListener 
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.SIZE_CHANGE).getRequiredResources();
+		return NO_RESOURCES;
 	}
 
 	@Override

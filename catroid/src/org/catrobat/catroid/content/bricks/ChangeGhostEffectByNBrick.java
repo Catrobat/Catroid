@@ -69,7 +69,7 @@ public class ChangeGhostEffectByNBrick extends FormulaBrick implements OnClickLi
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE).getRequiredResources();
+		return NO_RESOURCES;
 	}
 
 	@Override

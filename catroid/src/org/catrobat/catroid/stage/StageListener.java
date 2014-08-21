@@ -53,7 +53,6 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.BroadcastHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.LedUtil;
@@ -195,23 +194,11 @@ public class StageListener implements ApplicationListener {
 
 	}
 
-	void activityResume() {
-		if (!paused) {
-			FaceDetectionHandler.resumeFaceDetection();
-		}
-
-	}
-
-	void activityPause() {
-		FaceDetectionHandler.pauseFaceDetection();
-	}
-
 	void menuResume() {
 		if (reloadProject) {
 			return;
 		}
 		paused = false;
-		FaceDetectionHandler.resumeFaceDetection();
 		SoundManager.getInstance().resume();
 		for (Sprite sprite : sprites) {
 			sprite.resume();
@@ -223,7 +210,6 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		paused = true;
-		FaceDetectionHandler.pauseFaceDetection();
 		SoundManager.getInstance().pause();
 		for (Sprite sprite : sprites) {
 			sprite.pause();
@@ -246,7 +232,6 @@ public class StageListener implements ApplicationListener {
 	@Override
 	public void resume() {
 		if (!paused) {
-			FaceDetectionHandler.resumeFaceDetection();
 			SoundManager.getInstance().resume();
 			for (Sprite sprite : sprites) {
 				sprite.resume();
@@ -254,7 +239,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		for (Sprite sprite : sprites) {
-            sprite.look.refreshTextures();
+			sprite.look.refreshTextures();
 		}
 
 	}
@@ -265,7 +250,6 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		if (!paused) {
-			FaceDetectionHandler.pauseFaceDetection();
 			SoundManager.getInstance().pause();
 			for (Sprite sprite : sprites) {
 				sprite.pause();
