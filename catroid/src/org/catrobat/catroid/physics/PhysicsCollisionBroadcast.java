@@ -30,7 +30,7 @@ import org.catrobat.catroid.content.Sprite;
 import java.util.List;
 
 public class PhysicsCollisionBroadcast {
-	private static final String TAG = PhysicsCollisionBroadcast.class.getSimpleName();
+	//private static final String TAG = PhysicsCollisionBroadcast.class.getSimpleName();
 	private int contactCounter = 0;
 	private String objectName1;
 	private String objectName2;

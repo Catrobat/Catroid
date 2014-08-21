@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.physics;
 
-import android.util.Log;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -35,12 +33,10 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.Transform;
 
-import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Sprite;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 
 public class PhysicsObject {
 	private static final String TAG = PhysicsObject.class.getSimpleName();
@@ -59,8 +55,6 @@ public class PhysicsObject {
 	public static final float DEFAULT_MASS = 1.0f;
 	public static final float MIN_MASS = 0.000001f;
 
-	private PhysicsObjectHangupState hangupState = new PhysicsObjectHangupState();
-
 	private short collisionMaskRecord = 0;
 	private short categoryMaskRecord = PhysicsWorld.CATEGORY_PHYSICSOBJECT;
 
@@ -71,14 +65,16 @@ public class PhysicsObject {
 	private Type type;
 	private float mass;
 	private boolean ifOnEdgeBounce = false;
-	private boolean isVisible = true;
-	//	private boolean isTransparent = false;
 
 	private Vector2 bodyAABBlower;
 	private Vector2 bodyAABBupper;
 	private Vector2 fixtureAABBlower;
 	private Vector2 fixtureAABBupper;
 	private Vector2 tmpVertice;
+
+	private Vector2 velocity = new Vector2();
+	private float rotationSpeed = 0;
+	private float gravityScale = 0;
 
 	public PhysicsObject(Body b, Sprite sprite) {
 		body = b;
@@ -214,10 +210,6 @@ public class PhysicsObject {
 		return this.fixtureDef.restitution;
 	}
 
-	public Body getBody() {
-		return body;
-	}
-
 	public void setMass(float mass) {
 		this.mass = mass;
 
@@ -317,38 +309,37 @@ public class PhysicsObject {
 		}
 	}
 
-	public void setVisible(boolean visible) {
-		if (visible == isVisible) {
-			return;
-		}
-
-		isVisible = visible;
-
-		updateHangupState(true);
-/*
-		if (isVisible) {
-			resume(true);
-		} else if (!isVisible) {
-			hangedUp();
-		}*/
-	}
-
-	//	public void setTransparent(boolean transparend) {
-	//		if (!transparend && isVisible && isTransparent) {
-	//			resume(true);
-	//			isTransparent = transparend;
-	//		} else if (transparend && !isVisible && !isTransparent) {
-	//			hangedUp();
-	//			isTransparent = transparend;
-	//		}
-	//	}
-
 	public void getBoundaryBox(Vector2 lower, Vector2 upper) {
 		calcAABB();
 		lower.x = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBlower).x;
 		lower.y = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBlower).y;
 		upper.x = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBupper).x;
 		upper.y = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBupper).y;
+	}
+
+	public void resume(boolean record) {
+		if (record) {
+			setGravityScale(gravityScale);
+			setVelocity(velocity.x, velocity.y);
+			setRotationSpeed(rotationSpeed);
+		} else {
+			setGravityScale(1);
+		}
+		setCollisionBits(categoryMaskRecord, collisionMaskRecord);
+	}
+
+	public void hangup() {
+		recordState();
+		setGravityScale(0);
+		setVelocity(0, 0);
+		setRotationSpeed(0);
+		setCollisionBits(categoryMaskRecord, PhysicsWorld.NOCOLLISION_MASK);
+	}
+
+	private void recordState() {
+		velocity = new Vector2(getVelocity());
+		rotationSpeed = getRotationSpeed();
+		gravityScale = getGravityScale();
 	}
 
 	private void calcAABB() {
@@ -395,144 +386,6 @@ public class PhysicsObject {
 		bodyAABBlower.y = Math.min(fixtureAABBlower.y, bodyAABBlower.y);
 		bodyAABBupper.x = Math.max(fixtureAABBupper.x, bodyAABBupper.x);
 		bodyAABBupper.y = Math.max(fixtureAABBupper.y, bodyAABBupper.y);
-	}
-
-	public void updateHangupState(boolean recoveryModeActive) {
-		hangupState.updateHangupState(recoveryModeActive);
-	}
-
-	public void activateGlideToHangup() {
-		hangupState.activateGlideToHangup();
-	}
-
-	public void deactivateGlideToHangup() {
-		hangupState.deactivateGlideToHangup();
-	}
-
-	private interface HangupCondition {
-		boolean shouldHangupBeActive();
-	}
-
-	private class PhysicsObjectHangupState {
-
-		private final String TAG = PhysicsObjectHangupState.class.getSimpleName();
-
-		private LinkedList<HangupCondition> hangupConditions = new LinkedList<HangupCondition>();
-
-		private HangupCondition positionCondition;
-		private HangupCondition visibleCondition;
-		private HangupCondition glideToCondition;
-
-		private Vector2 velocity = new Vector2(6,6);
-		private float rotationSpeed = 6;
-		private float gravityScale = 0.6f;
-
-		private boolean hangedUp = false;
-
-		private boolean glideToActive = false;
-
-		public PhysicsObjectHangupState() {
-			positionCondition = new HangupCondition() {
-				@Override
-				public boolean shouldHangupBeActive() {
-					Vector2 bbLowerEdge = new Vector2();
-					Vector2 bbUpperEdge = new Vector2();
-					getBoundaryBox(bbLowerEdge, bbUpperEdge);
-					float bbWidth = bbUpperEdge.x - bbLowerEdge.x;
-					float bbHeight = bbUpperEdge.y - bbLowerEdge.y;
-					float bbCenterX = bbLowerEdge.x + bbWidth / 2;
-					float bbCenterY = bbLowerEdge.y + bbHeight / 2;
-					Log.d("phill_test", "bbCenterX: " + bbCenterX);
-					Log.d("phill_test", "bbCenterY: " + bbCenterY);
-					Log.d("phill_test", "ScreenValues.SCREEN_WIDTH: " + ScreenValues.SCREEN_WIDTH);
-					Log.d("phill_test", "ScreenValues.SCREEN_HEIGHT: " + ScreenValues.SCREEN_HEIGHT);
-					boolean isXinActiveArea = !(Math.abs(bbCenterX) > (ScreenValues.SCREEN_WIDTH / 2) * 3);
-					boolean isYinActiveArea = !(Math.abs(bbCenterY) > ScreenValues.SCREEN_HEIGHT);
-					if (isXinActiveArea && isYinActiveArea) {
-						return false;
-					}
-					return true;
-				}
-			};
-
-			visibleCondition = new HangupCondition() {
-				@Override
-				public boolean shouldHangupBeActive() {
-					return !isVisible;
-				}
-			};
-
-			glideToCondition = new HangupCondition() {
-				@Override
-				public boolean shouldHangupBeActive() {
-					return glideToActive;
-				}
-			};
-
-			hangupConditions.add(positionCondition);
-			hangupConditions.add(visibleCondition);
-			hangupConditions.add(glideToCondition);
-		}
-
-		private void recordData() {
-			velocity = new Vector2(getVelocity());
-			rotationSpeed = getRotationSpeed();
-			gravityScale = getGravityScale();
-		}
-
-
-		public void updateHangupState(boolean recoveryModeActive) {
-			boolean shouldBeHangedUp = false;
-			for (HangupCondition hangupCondition : hangupConditions) {
-				if (hangupCondition.shouldHangupBeActive()) {
-					shouldBeHangedUp = true;
-					break;
-				}
-			}
-			boolean resume = hangedUp && !shouldBeHangedUp;
-			boolean hangup = !hangedUp && shouldBeHangedUp;
-			if (resume) {
-				Log.d(TAG, "HangupState.hangedUp = false; recoveryModeActive = " + String.valueOf(recoveryModeActive));
-				if (recoveryModeActive) {
-					setGravityScale(gravityScale);
-					setVelocity(velocity.x, velocity.y);
-					setRotationSpeed(rotationSpeed);
-				} else {
-					setGravityScale(1);
-				}
-				setCollisionBits(categoryMaskRecord, collisionMaskRecord);
-			} else if (hangup) {
-				Log.d(TAG, "HangupState.hangedUp = true");
-				recordData();
-				setGravityScale(0);
-				setVelocity(0, 0);
-				setRotationSpeed(0);
-				setCollisionBits(categoryMaskRecord, PhysicsWorld.NOCOLLISION_MASK);
-			}
-			hangedUp = shouldBeHangedUp;
-		}
-
-		public void activateGlideToHangup() {
-			/*
-			if (!hangupConditions.contains(glideToCondition)) {
-				hangupConditions.add(glideToCondition);
-				updateHangupState(true);
-			}*/
-			if(!glideToActive) {
-				glideToActive = true;
-				updateHangupState(true);
-			}
-
-		}
-
-		public void deactivateGlideToHangup() {
-			/*
-			hangupConditions.remove(glideToCondition);
-			updateHangupState(true);
-			*/
-			glideToActive = false;
-			updateHangupState(true);
-		}
 	}
 
 }

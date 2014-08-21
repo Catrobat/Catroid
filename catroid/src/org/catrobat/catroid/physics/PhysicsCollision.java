@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PhysicsCollision implements ContactListener {
-	private static final String TAG = PhysicsCollision.class.getSimpleName();
+	//private static final String TAG = PhysicsCollision.class.getSimpleName();
 	private PhysicsWorld physicsWorld;
 
 	public PhysicsCollision(PhysicsWorld physicsWorld) {

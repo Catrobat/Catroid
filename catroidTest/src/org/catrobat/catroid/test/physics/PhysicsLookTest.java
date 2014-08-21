@@ -99,13 +99,6 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 	public void testShapeComputationOfLook() {
 		PhysicsShapeBuilder physicsShapeBuilder = new PhysicsShapeBuilder();
 
-		PhysicsLook physicsLook = new PhysicsLook(sprite, physicsWorld);
-
-		Shape[] shapes = physicsShapeBuilder.getShape(physicsLook.getLookData(),
-				sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
-
-		assertNull("Shapes are created out of no image", shapes);
-
 		LookData lookData = new LookData();
 		lookData.setLookFilename(testImage.getName());
 		lookData.setLookName(testImage.getName());
@@ -114,7 +107,7 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 		pixmap = Utils.getPixmapFromFile(testImage);
 		lookData.setPixmap(pixmap);
 
-		shapes = physicsShapeBuilder.getShape(lookData, sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
+		Shape[] shapes = physicsShapeBuilder.getShape(lookData, sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
 
 		assertTrue("shapes are 0", shapes.length > 0);
 

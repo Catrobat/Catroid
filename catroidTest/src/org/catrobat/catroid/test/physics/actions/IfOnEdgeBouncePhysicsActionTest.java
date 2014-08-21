@@ -111,13 +111,13 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
 
-		float setXValue = ScreenValues.SCREEN_WIDTH / 2 - 1; // So that nearly the half of the rectangle should be outside of the screen
+		float setXValue = ScreenValues.SCREEN_WIDTH / 2 - sprite.look.getLookData().getPixmap().getWidth() / 4;
 		sprite.look.setXInUserInterfaceDimensionUnit(setXValue);
-		float setYValue = ScreenValues.SCREEN_HEIGHT / 2 - 1; // So that nearly the half of the rectangle should be outside of the screen
+		float setYValue = ScreenValues.SCREEN_HEIGHT / 2 - sprite.look.getLookData().getPixmap().getHeight() / 4;
 		sprite.look.setYInUserInterfaceDimensionUnit(setYValue);
 
 		float setVelocityXValue = 400.0f;
-		float setVelocityYValue = 100.0f;
+		float setVelocityYValue = 400.0f;
 		physicsObject.setVelocity(setVelocityXValue, setVelocityYValue);
 
 		assertTrue("Unexpected X-value", sprite.look.getX() == setXValue);
@@ -135,8 +135,8 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 		float borderX = sprite.look.getXInUserInterfaceDimensionUnit();
 		float borderY = sprite.look.getYInUserInterfaceDimensionUnit();
 
-		assertTrue(borderX + " < " + setXValue, (sprite.look.getXInUserInterfaceDimensionUnit() < setXValue));
-		assertTrue(borderY + " < " + setYValue, (sprite.look.getYInUserInterfaceDimensionUnit() < setYValue));
+		assertTrue(borderX + " < " + setXValue, (borderX < setXValue));
+		assertTrue(borderY + " < " + setYValue, (borderY < setYValue));
 
 		assertEquals("Unexpected velocity-X-value (expected = " + setVelocityXValue + "; actual = " + physicsObject.getVelocity().x,
 				setVelocityXValue, physicsObject.getVelocity().x, TestUtils.DELTA);
@@ -161,5 +161,4 @@ public class IfOnEdgeBouncePhysicsActionTest extends PhysicsBaseTest {
 		assertTrue(sprite.look.getXInUserInterfaceDimensionUnit() + " < " + borderX + "(border value X)", (sprite.look.getXInUserInterfaceDimensionUnit() < setXValue));
 		assertTrue(sprite.look.getYInUserInterfaceDimensionUnit() + " < " + borderY + "(border value Y)", (sprite.look.getYInUserInterfaceDimensionUnit() < setYValue));
 	}
-
 }

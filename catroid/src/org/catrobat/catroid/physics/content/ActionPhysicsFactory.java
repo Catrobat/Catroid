@@ -27,11 +27,12 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.physics.content.actions.GlideToPhysicsAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsObject.Type;
 import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.physics.content.actions.GlideToPhysicsAction;
 import org.catrobat.catroid.physics.content.actions.IfOnEdgeBouncePhysicsAction;
 import org.catrobat.catroid.physics.content.actions.SetBounceFactorAction;
 import org.catrobat.catroid.physics.content.actions.SetFrictionAction;
@@ -68,7 +69,7 @@ public class ActionPhysicsFactory extends ActionFactory {
 		action.setPosition(x, y);
 		action.setDuration(duration);
 		action.setSprite(sprite);
-		action.setPhysicsObject(getPhysicsObject(sprite));
+		action.setPhysicsLook((PhysicsLook) sprite.look);
 		return action;
 	}
 
