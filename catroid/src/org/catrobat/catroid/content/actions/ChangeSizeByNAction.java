@@ -37,14 +37,12 @@ public class ChangeSizeByNAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		Float newSize;
 		try {
-			newSize = size == null ? Float.valueOf(0f) : size.interpretFloat(sprite);
+			Float newSize = size == null ? Float.valueOf(0f) : size.interpretFloat(sprite);
+			sprite.look.changeSizeInUserInterfaceDimensionUnit(newSize);
         } catch (InterpretationException interpretationException) {
             Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-            return;
         }
-		sprite.look.changeSizeInUserInterfaceDimensionUnit(newSize);
 	}
 
 	public void setSprite(Sprite sprite) {

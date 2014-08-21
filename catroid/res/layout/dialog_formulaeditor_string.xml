@@ -45,7 +45,7 @@
             android:layout_below="@+id/string_name" />
 
         <EditText
-            android:id="@+id/formula_editor_string_name_edittext"
+            android:id="@+id/formula_editor_string_name_edit_text"
             style="@style/DefaultDialog.EditText"
             android:layout_below="@+id/string_name_line"
             android:hint="@string/formula_editor_new_string_dialog_hint"

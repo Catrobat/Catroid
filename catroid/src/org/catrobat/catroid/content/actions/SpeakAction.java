@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.actions;
 
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
+import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
@@ -51,9 +52,10 @@ public class SpeakAction extends TemporalAction {
 
 	@Override
 	protected void begin() {
-        try{
+        try {
             interpretedText = text == null ? "" : text.interpretString(sprite);
-        }catch(InterpretationException interpretationException){
+        } catch(InterpretationException interpretationException){
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
             interpretedText = "";
         }
 

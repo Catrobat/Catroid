@@ -334,4 +334,10 @@
     <string name="number_to_small" >Valoarea este prea mică!</string >
     <string name="number_to_big" >Valoarea este prea mare!</string >
 
+    <!-- Formula Editor Strings -->
+    <string name="formula_editor_string" >Abc</string >
+    <string name="formula_editor_new_string_name" >text nou</string >
+    <string name="formula_editor_new_string_dialog_hint" >Tip nou text aici.</string >
+    <!--  -->
+
 </resources>
