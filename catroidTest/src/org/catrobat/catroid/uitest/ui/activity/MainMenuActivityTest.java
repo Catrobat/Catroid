@@ -544,6 +544,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(800);
 		assertTrue("The name of the current projectNameJustOneDot is not displayed on the continue button", solo
 				.getButton(0).getText().toString().endsWith(projectNameJustOneDot));
 
@@ -559,6 +560,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.sleep(800);
 		assertTrue("The name of the current projectNameJustTwoDots is not displayed on the continue button", solo
 				.getButton(0).getText().toString().endsWith(projectNameJustTwoDots));
 	}

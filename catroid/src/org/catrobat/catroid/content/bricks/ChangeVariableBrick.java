@@ -88,7 +88,7 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).getRequiredResources();
 	}
 
 	@Override

@@ -159,6 +159,7 @@ public class CategoryBricksFactory {
 		motionBrickList.add(new PointToBrick(null));
 		motionBrickList.add(new GlideToBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION,
 				BrickValues.GLIDE_SECONDS));
+		motionBrickList.add(new VibrationBrick(BrickValues.VIBRATE_MILLISECONDS));
 
 		if (!isBackground(sprite)) {
 			motionBrickList.add(new GoNStepsBackBrick(BrickValues.GO_BACK));
@@ -199,9 +200,8 @@ public class CategoryBricksFactory {
 		looksBrickList.add(new SetBrightnessBrick(BrickValues.SET_BRIGHTNESS_TO));
 		looksBrickList.add(new ChangeBrightnessByNBrick(BrickValues.CHANGE_BRITHNESS_BY));
 		looksBrickList.add(new ClearGraphicEffectBrick());
-		looksBrickList.add(new LedOffBrick());
 		looksBrickList.add(new LedOnBrick());
-		looksBrickList.add(new VibrationBrick(BrickValues.VIBRATE_MILLISECONDS));
+		looksBrickList.add(new LedOffBrick());
 
 		return looksBrickList;
 	}
