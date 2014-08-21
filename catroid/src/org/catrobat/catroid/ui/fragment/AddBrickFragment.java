@@ -183,8 +183,9 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 	public void handleAddButton() {
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		int newBrickId = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.getAndIncrementUserBrickId();
+				.getAndIncrementUserBrickId() + ProjectManager.getInstance().getCurrentSprite().getUserBrickList().size();
 		UserBrick newBrick = new UserBrick(newBrickId);
+		currentSprite.addUserBrick(newBrick);
 		newBrick.addUIText(scriptFragment.getString(R.string.new_user_brick) + " "
 				+ currentSprite.getNextNewUserBrickId());
 		newBrick.addUILocalizedVariable(getActivity(), R.string.new_user_brick_variable);
@@ -280,6 +281,7 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 				}
 				if (brickToBeAdded instanceof UserBrick) {
 					clickedOnUserBrick(((UserBrick) brickToBeAdded), view);
+					BottomBar.showBottomBar(getActivity());
 				} else {
 					addBrickToScript(brickToBeAdded);
 				}
@@ -355,7 +357,6 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 					exception);
 			Toast.makeText(getActivity(), R.string.error_adding_brick, Toast.LENGTH_SHORT).show();
 		}
-		BottomBar.showBottomBar(getActivity());
 	}
 
 	@Override

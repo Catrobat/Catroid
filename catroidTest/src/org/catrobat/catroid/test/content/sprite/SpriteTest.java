@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content.sprite;
 
 import android.test.AndroidTestCase;
+import android.util.Log;
 
 
 import org.catrobat.catroid.ProjectManager;
@@ -41,6 +42,7 @@ import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.TestUtils;
 
@@ -56,6 +58,8 @@ public class SpriteTest extends AndroidTestCase {
 
 	private static final String GLOBAL_VARIABLE_NAME = "test_global";
 	private static final double GLOBAL_VARIABLE_VALUE = 0xC0FFEE;
+
+	private static final String TAG = SpriteTest.class.getName();
 
 	private Sprite sprite;
 	private Project project;
@@ -100,12 +104,12 @@ public class SpriteTest extends AndroidTestCase {
 		Integer secondMoveValue = 4;
 		int numberOfBricks = 0;
 
-		UserBrick outerBrick = new UserBrick(sprite, 0);
+		UserBrick outerBrick = new UserBrick(0);
 		numberOfBricks++;
 		outerBrick.addUIText("outerBrick");
 		outerBrick.updateUIComponents(null);
 
-		UserBrick innerBrick = new UserBrick(sprite, 1);
+		UserBrick innerBrick = new UserBrick(1);
 		numberOfBricks++;
 		innerBrick.addUIText("innerBrick");
 		innerBrick.addUIVariable("innerBrickVariable");
@@ -113,18 +117,18 @@ public class SpriteTest extends AndroidTestCase {
 		Script innerScript = TestUtils.addUserBrickToSpriteAndGetUserScript(innerBrick, sprite);
 
 		Formula innerFormula = new Formula(new FormulaElement(ElementType.USER_VARIABLE, "innerBrickVariable", null));
-		innerScript.addBrick(new ChangeXByNBrick(sprite, innerFormula));
+		innerScript.addBrick(new ChangeXByNBrick(innerFormula));
 		innerBrick.updateUIComponents(null);
 
 		Script outerScript = TestUtils.addUserBrickToSpriteAndGetUserScript(outerBrick, sprite);
-		UserBrick innerBrickCopyInOuterScript = innerBrick.copyBrickForSprite(sprite, outerScript);
+		UserBrick innerBrickCopyInOuterScript = innerBrick.copyBrickForSprite(sprite);
 		setOneFormula(innerBrickCopyInOuterScript, ElementType.USER_VARIABLE, "outerBrickVariable", null, 1);
 		outerScript.addBrick(innerBrickCopyInOuterScript);
 
-		StartScript startScript = new StartScript(sprite);
+		StartScript startScript = new StartScript();
 		sprite.addScript(startScript);
 
-		UserBrick outerBrickCopy = outerBrick.copyBrickForSprite(sprite, startScript);
+		UserBrick outerBrickCopy = outerBrick.copyBrickForSprite(sprite);
 		setOneFormula(outerBrickCopy, ElementType.NUMBER, moveValue.toString(), (float) moveValue, 0);
 		startScript.addBrick(outerBrickCopy);
 
@@ -225,7 +229,11 @@ public class SpriteTest extends AndroidTestCase {
 		for (Formula formula : formulaList) {
 			formula.setRoot(new FormulaElement(elementType, value, null));
 			if (expectedValue != null) {
-				assertEquals("Unexpected value from interpretFloat: ", expectedValue, formula.interpretFloat(sprite));
+				try {
+					assertEquals("Unexpected value from interpretFloat: ", expectedValue, formula.interpretFloat(sprite));
+				} catch (InterpretationException interpretationException) {
+					Log.e(TAG, "InterpretationException!", interpretationException);
+				}
 			}
 		}
 	}

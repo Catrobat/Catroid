@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -55,8 +56,9 @@ public abstract class Script implements Serializable {
 
 	public abstract Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks);
 
-	public void doCopy(Sprite copySprite, Script cloneScript, List<UserBrick> preCopiedUserBricks) {
+	public void doCopy(Sprite copySprite, Script cloneScript, List<UserBrick> preCopiedUserBricks, boolean isUserScript) {
 		ArrayList<Brick> cloneBrickList = cloneScript.getBrickList();
+
 		for (Brick brick : getBrickList()) {
 			Brick copiedBrick = null;
 			if (brick instanceof UserBrick) {
@@ -66,7 +68,12 @@ public abstract class Script implements Serializable {
 				copiedUserBrick
 						.copyFormulasMatchingNames(original.getUIComponents(), copiedUserBrick.getUIComponents());
 				copiedBrick = copiedUserBrick;
-			} else {
+			}
+			else if (brick instanceof UserScriptDefinitionBrick) {
+					UserScriptDefinitionBrick preCopiedDefinitionBrick = findBrickWithId(preCopiedUserBricks,((UserScriptDefinitionBrick) brick).getUserBrickId()).getDefinitionBrick();
+					cloneScript.addBrick(preCopiedDefinitionBrick);
+			}
+			else {
 				copiedBrick = brick.copyBrickForSprite(copySprite);
 			}
 

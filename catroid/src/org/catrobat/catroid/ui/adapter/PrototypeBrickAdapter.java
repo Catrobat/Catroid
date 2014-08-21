@@ -80,14 +80,6 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 		return position;
 	}
 
-	@Override
-	public int getViewTypeCount() {
-		if (brickList.isEmpty() && (ProjectManager.getInstance().getCurrentScript() != null)) {
-			brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
-		}
-		return brickList.size();
-	}
-
 	public void setCheckboxVisibility(int visibility) {
 		for (Brick brick : brickList) {
 			brick.setCheckboxVisibility(visibility);

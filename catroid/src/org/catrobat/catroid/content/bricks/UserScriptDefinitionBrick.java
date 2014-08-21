@@ -38,11 +38,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.UserScript;
+import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.UserBrickDataEditorFragment;
@@ -51,14 +52,14 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.List;
 
 public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickListener {
-	private UserScript userScript; //TODO: member should be removed
+	private StartScript script;
 	private UserBrick brick;
 	private int userBrickId;
 	private static final long serialVersionUID = 1L;
 
 	public UserScriptDefinitionBrick(UserBrick brick, int userBrickId) {
 		this.userBrickId = userBrickId;
-		this.userScript = new UserScript(this);
+		this.script = new StartScript(true);
 		this.brick = brick;
 	}
 
@@ -72,21 +73,22 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 
 	@Override
 	public int getRequiredResources() {
-		return userScript.getRequiredResources();
+		int resources = Brick.NO_RESOURCES;
+
+		for (Brick brick : script.getBrickList()) {
+			if (brick instanceof UserBrick && ((UserBrick) brick).getDefinitionBrick() == this) {
+				continue;
+			}
+			resources |= brick.getRequiredResources();
+		}
+		return resources;
 	}
 
-	public void appendBrickToScript(Brick brick) { userScript.addBrick(brick);}
+	public void appendBrickToScript(Brick brick) { this.getScriptSafe().addBrick(brick);}
 
 	@Override
 	public CheckBox getCheckBox() {
 		return null;
-	}
-
-	public void copyScriptFrom(Sprite sprite, UserScriptDefinitionBrick other) {
-		userScript = new UserScript(this);
-		for (Brick brick : other.getUserScript().getBrickList()) {
-			userScript.addBrick(brick.copyBrickForSprite(sprite));
-		}
 	}
 
 	@Override
@@ -96,30 +98,26 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 	}
 
 	public void renameVariablesInFormulas(String oldName, String newName, Context context) {
-		List<Brick> brickList = userScript.getBrickList();
+		List<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 		for (Brick brick : brickList) {
-			if (brick instanceof MultiFormulaBrick) {
-				List<Formula> formulaList = ((MultiFormulaBrick) brick).getFormulas();
+			if (brick instanceof UserBrick) {
+				List<Formula> formulaList = ((UserBrick) brick).getFormulas();
 				for (Formula formula : formulaList) {
-					//					Log.e("UserScriptDefinitionBrick_renameVariablesInFormulas", "special oldName, newName: " + oldName
-					//							+ " " + newName);
 					formula.updateVariableReferences(oldName, newName, context);
 				}
 			}
 			if (brick instanceof FormulaBrick) {
 				Formula formula = ((FormulaBrick) brick).getFormula();
-				//				Log.e("UserScriptDefinitionBrick_renameVariablesInFormulas", "special FormulaBrick oldName, newName: "
-				//						+ oldName + " " + newName);
 				formula.updateVariableReferences(oldName, newName, context);
 			}
 		}
 	}
 
 	public void removeVariablesInFormulas(String name, Context context) {
-		List<Brick> brickList = userScript.getBrickList();
+		List<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 		for (Brick brick : brickList) {
-			if (brick instanceof MultiFormulaBrick) {
-				List<Formula> formulaList = ((MultiFormulaBrick) brick).getFormulas();
+			if (brick instanceof UserBrick) {
+				List<Formula> formulaList = ((UserBrick) brick).getFormulas();
 				for (Formula formula : formulaList) {
 					formula.removeVariableReferences(name, context);
 				}
@@ -256,18 +254,18 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 	@Override
 	public Script getScriptSafe() {
 		if (getUserScript() == null) {
-			setUserScript(new UserScript(this));
+			script.addBrick(this);
 		}
 
 		return getUserScript();
 	}
 
-	public UserScript getUserScript() {
-		return userScript;
+	public Script getUserScript() {
+		return script;
 	}
 
-	public void setUserScript(UserScript userScript) {
-		this.userScript = userScript;
+	public void setUserScript(StartScript script) {
+		this.script = script;
 	}
 
 	public Bitmap getWithBorder(int radius, Bitmap bitmap, int color) {

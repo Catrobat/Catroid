@@ -22,8 +22,10 @@
  */
 package org.catrobat.catroid.content;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 
 import java.util.List;
@@ -31,9 +33,14 @@ import java.util.List;
 public class StartScript extends Script {
 
 	private static final long serialVersionUID = 1L;
+	private boolean isUserScript;
 
 	public StartScript() {
 		super();
+	}
+
+	public StartScript(boolean isUserScript) {
+		this.isUserScript = isUserScript;
 	}
 
 	public StartScript(WhenStartedBrick brick) {
@@ -49,7 +56,13 @@ public class StartScript extends Script {
 	@Override
 	public ScriptBrick getScriptBrick() {
 		if (brick == null) {
-			brick = new WhenStartedBrick(this);
+			if (!isUserScript) {
+				brick = new WhenStartedBrick(this);
+			}
+			else {
+				brick = new UserScriptDefinitionBrick(ProjectManager.getInstance().getCurrentUserBrick(), ProjectManager.getInstance().getCurrentProject().getUserVariables()
+						.getAndIncrementUserBrickId());
+			}
 		}
 
 		return brick;
@@ -57,9 +70,10 @@ public class StartScript extends Script {
 
 	@Override
 	public Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks) {
-		Script cloneScript = new StartScript();
-		doCopy(copySprite, cloneScript, preCopiedUserBricks);
 
+		Script cloneScript = new StartScript(isUserScript);
+
+		doCopy(copySprite, cloneScript, preCopiedUserBricks, isUserScript);
 		return cloneScript;
 	}
 

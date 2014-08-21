@@ -78,6 +78,9 @@ public class UserVariablesContainer implements Serializable {
 		if (var == null) {
 			var = findUserVariable(userVariableName, projectVariables);
 		}
+		if (var == null && ProjectManager.getInstance().getCurrentUserBrick() != null) {
+			var = findUserVariable(userVariableName, getOrCreateVariableListForUserBrick(ProjectManager.getInstance().getCurrentUserBrick().getId()));
+		}
 		return var;
 	}
 

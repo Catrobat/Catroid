@@ -24,11 +24,14 @@ package org.catrobat.catroid.content.bricks;
 
 import android.widget.TextView;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-import java.io.Serializable;
-
-public class UserBrickUIComponent implements Serializable {
+public class UserBrickUIComponent extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -40,6 +43,15 @@ public class UserBrickUIComponent implements Serializable {
 	public transient TextView prototypeView;
 
 	public UserBrickUIComponent() {
-		variableFormula = new Formula(0);
+		addAllowedBrickField(BrickField.USER_BRICK);
+		setFormulaWithBrickField(BrickField.USER_BRICK, new Formula(0));
 	}
-}
+
+	@Override
+	public java.util.List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.setVariable(sprite, getFormulaWithBrickField(BrickField.VARIABLE),
+				ProjectManager.getInstance().getCurrentProject().getUserVariables().getUserVariable(variableName, sprite)));
+		return null;
+	}
+
+	}

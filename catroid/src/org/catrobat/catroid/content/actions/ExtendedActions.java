@@ -314,7 +314,6 @@ public class ExtendedActions extends Actions {
 	}
 
 	public static Action setVariable(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
-
 		SetVariableAction action = action(SetVariableAction.class);
 		action.setSprite(sprite);
 		action.setChangeVariable(variableFormula);
@@ -354,9 +353,9 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static UserBrickAction userBrick(Action repeatedAction, UserBrickStageToken stageToken) {
+	public static UserBrickAction userBrick(Action userBrickAction, UserBrickStageToken stageToken) {
 		UserBrickAction action = action(UserBrickAction.class);
-		action.setAction(repeatedAction);
+		action.setAction(userBrickAction);
 		action.setUserBrickStageToken(stageToken);
 		return action;
 	}

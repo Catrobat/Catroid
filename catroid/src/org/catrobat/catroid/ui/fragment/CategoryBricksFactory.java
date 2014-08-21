@@ -126,7 +126,7 @@ public class CategoryBricksFactory {
 		} else if (category.equals(context.getString(R.string.category_variables))) {
 			tempList = setupVariablesCategoryList();
 		} else if (category.equals(context.getString(R.string.category_user_bricks))) {
-			tempList = setupUserBricksCategoryList(context);
+			tempList = setupUserBricksCategoryList();
 		} else if (category.equals(context.getString(R.string.category_lego_nxt))) {
 			tempList = setupLegoNxtCategoryList();
 		} else if (category.equals(context.getString(R.string.category_drone))) {
@@ -166,11 +166,8 @@ public class CategoryBricksFactory {
 		return controlBrickList;
 	}
 
-	private List<Brick> setupUserBricksCategoryList(Context context) {
-		String defaultText = context.getString(R.string.example_user_brick);
-		String defaultVariable = context.getString(R.string.example_user_brick_variable);
-		List<UserBrick> userBrickList = ProjectManager.getInstance().getCurrentSprite()
-				.getUserBrickListAtLeastOneBrick(defaultText, defaultVariable);
+	private List<Brick> setupUserBricksCategoryList() {
+		List<UserBrick> userBrickList = ProjectManager.getInstance().getCurrentSprite().getUserBrickList();
 		ArrayList<Brick> newList = new ArrayList<Brick>();
 
 //		UserBrick userBrickWeAreAddingTo = ProjectManager.getInstance().getCurrentUserBrick();
@@ -183,8 +180,10 @@ public class CategoryBricksFactory {
 //				}
 //			}
 //		} else {
-		for (UserBrick brick : userBrickList) {
-			newList.add(brick);
+		if (userBrickList != null) {
+			for (UserBrick brick : userBrickList) {
+				newList.add(brick);
+			}
 		}
 //		}
 		return newList;

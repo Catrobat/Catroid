@@ -33,12 +33,10 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.UserBrickStageToken;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -54,7 +52,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UserBrick extends FormulaBrick implements OnClickListener, MultiFormulaBrick {
+public class UserBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = UserBrick.class.getName();
 
@@ -70,7 +68,6 @@ public class UserBrick extends FormulaBrick implements OnClickListener, MultiFor
 	private int userBrickId;
 
 	public UserBrick(int userBrickId) {
-		addAllowedBrickField(BrickField.USER_BRICK);
 		this.userBrickId = userBrickId;
 		uiDataArray = new UserBrickUIDataArray();
 		this.definitionBrick = new UserScriptDefinitionBrick(this, userBrickId);
@@ -78,7 +75,6 @@ public class UserBrick extends FormulaBrick implements OnClickListener, MultiFor
 	}
 
 	public UserBrick(UserBrickUIDataArray uiData, UserScriptDefinitionBrick definitionBrick) {
-		addAllowedBrickField(BrickField.USER_BRICK);
 		this.userBrickId = definitionBrick.getUserBrickId();
 		this.uiDataArray = uiData;
 		this.definitionBrick = definitionBrick;
@@ -215,7 +211,7 @@ public class UserBrick extends FormulaBrick implements OnClickListener, MultiFor
 			UserBrickUIComponent component = new UserBrickUIComponent();
 			component.dataIndex = i;
 			if (uiDataArray.get(i).isVariable) {
-				component.variableFormula = new Formula(0);
+				component.setFormulaWithBrickField(BrickField.USER_BRICK, new Formula(0));
 				component.variableName = uiDataArray.get(i).name;
 			}
 			newUIComponents.add(component);
@@ -229,12 +225,11 @@ public class UserBrick extends FormulaBrick implements OnClickListener, MultiFor
 		lastDataVersion = uiDataArray.version;
 	}
 
-	@Override
 	public List<Formula> getFormulas() {
 		List<Formula> list = new LinkedList<Formula>();
 		for (UserBrickUIComponent uiComponent : uiComponents) {
-			if (uiComponent.variableFormula != null && uiComponent.variableName != null) {
-				list.add(uiComponent.variableFormula);
+			if (uiComponent.getFormulaWithBrickField(BrickField.USER_BRICK) != null && uiComponent.variableName != null) {
+				list.add(uiComponent.getFormulaWithBrickField(BrickField.USER_BRICK));
 			}
 		}
 		return list;
@@ -250,7 +245,7 @@ public class UserBrick extends FormulaBrick implements OnClickListener, MultiFor
 						if (toElement.dataIndex < uiDataArray.size()) {
 							UserBrickUIData toData = uiDataArray.get(toElement.dataIndex);
 							if (fromData.name.equals(toData.name)) {
-								toElement.variableFormula = fromElement.variableFormula.clone();
+								toElement.setFormulaWithBrickField(BrickField.USER_BRICK, fromElement.getFormulaWithBrickField(BrickField.USER_BRICK).clone());
 								toElement.variableName = toData.name;
 							}
 						}
@@ -370,10 +365,9 @@ public class UserBrick extends FormulaBrick implements OnClickListener, MultiFor
 
 				if (prototype) {
 					currentTextView.setTextAppearance(context, R.style.BrickPrototypeTextView);
-//					currentTextView.setText(String.valueOf(component.variableFormula.interpretInteger(sprite)));
 					try {
 						currentTextView.setText(String
-								.valueOf(getFormulaWithBrickField(BrickField.USER_BRICK).interpretInteger(ProjectManager
+								.valueOf(component.getFormulaWithBrickField(BrickField.USER_BRICK).interpretInteger(ProjectManager
 										.getInstance().getCurrentSprite())));
 					} catch (InterpretationException interpretationException) {
 						Log.e(TAG, "InterpretationException!", interpretationException);
@@ -383,9 +377,9 @@ public class UserBrick extends FormulaBrick implements OnClickListener, MultiFor
 					currentTextView.setId(id);
 					currentTextView.setTextAppearance(context, R.style.BrickEditText);
 
-					component.variableFormula.setTextFieldId(currentTextView.getId());
-					String formulaString = component.variableFormula.getDisplayString(currentTextView.getContext());
-					component.variableFormula.refreshTextField(currentTextView, formulaString);
+					component.getFormulaWithBrickField(BrickField.USER_BRICK).setTextFieldId(currentTextView.getId());
+					String formulaString = component.getFormulaWithBrickField(BrickField.USER_BRICK).getDisplayString(currentTextView.getContext());
+					component.getFormulaWithBrickField(BrickField.USER_BRICK).refreshTextField(currentTextView, formulaString);
 
 					// This stuff isn't being included by the style when I use setTextAppearance.
 					currentTextView.setFocusable(false);
@@ -451,7 +445,7 @@ public class UserBrick extends FormulaBrick implements OnClickListener, MultiFor
 			UserBrickUIData d = uiDataArray.get(c.dataIndex);
 
 			if (d.isVariable && c.textView.getId() == eventOrigin.getId()) {
-				FormulaEditorFragment.showFragment(view, this, c.variableFormula);
+				FormulaEditorFragment.showFragment(view, this, c.getFormulaWithBrickField(BrickField.USER_BRICK));
 			}
 		}
 	}
@@ -464,13 +458,12 @@ public class UserBrick extends FormulaBrick implements OnClickListener, MultiFor
 		ArrayList<SequenceAction> returnActionList = new ArrayList<SequenceAction>();
 
 		SequenceAction userSequence = ExtendedActions.sequence();
-		Script userScript = definitionBrick.getScriptSafe();
-		userScript.run(sprite, userSequence);
+		definitionBrick.getScriptSafe().run(sprite, userSequence);
 
 		returnActionList.add(userSequence);
 
-		Action action = ExtendedActions.userBrick(userSequence, stageToken);
-		sequence.addAction(action);
+		sequence.addAction(ExtendedActions.userBrick(userSequence, stageToken));
+		ProjectManager.getInstance().setCurrentUserBrick(this);
 
 		return returnActionList;
 	}
@@ -487,7 +480,7 @@ public class UserBrick extends FormulaBrick implements OnClickListener, MultiFor
 
 		for (UserBrickUIComponent uiComponent : uiComponents) {
 
-			if (uiComponent.variableFormula != null && uiComponent.dataIndex < uiDataArray.size()) {
+			if (uiComponent.getFormulaWithBrickField(BrickField.USER_BRICK) != null && uiComponent.dataIndex < uiDataArray.size()) {
 				UserBrickUIData uiData = uiDataArray.get(uiComponent.dataIndex);
 				if (uiData.isVariable) {
 					List<UserVariable> variables = variablesContainer.getOrCreateVariableListForUserBrick(userBrickId);
@@ -497,13 +490,12 @@ public class UserBrick extends FormulaBrick implements OnClickListener, MultiFor
 						variable = variablesContainer.addUserBrickUserVariableToUserBrick(userBrickId, uiData.name);
 					}
 					try {
-						variable.setValue(getFormulaWithBrickField(BrickField.USER_BRICK).interpretDouble(ProjectManager
-								.getInstance().getCurrentSprite()));
+						variable.setValue(uiComponent.getFormulaWithBrickField(BrickField.USER_BRICK).interpretDouble(ProjectManager.getInstance().getCurrentSprite()));
 					} catch (InterpretationException interpretationException) {
 						Log.e(TAG, "InterpretationException!", interpretationException);
 					}
 
-					theList.add(new UserBrickVariable(variable, uiComponent.variableFormula));
+					theList.add(new UserBrickVariable(variable, uiComponent.getFormulaWithBrickField(BrickField.USER_BRICK)));
 				}
 			}
 		}

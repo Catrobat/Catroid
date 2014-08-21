@@ -701,10 +701,8 @@
 
     <!-- User Bricks strings  -->
     <string name="define">definiere</string>
-    <string name="example_user_brick">Beispiel</string>
-    <string name="example_user_brick_variable">Variable 1</string>
     <string name="new_user_brick">Neuer Baustein</string>
-    <string name="new_user_brick_variable">Variable 2</string>
+    <string name="new_user_brick_variable">Variable 1</string>
     <string name="recursive_user_brick_forbidden">Hinzufügen eines Userbricks in einem Userbrick ist noch nicht erlaubt!</string>
     <string name="brick_single">Baustein</string>
  	<string name="brick_multiple">Bausteine</string>

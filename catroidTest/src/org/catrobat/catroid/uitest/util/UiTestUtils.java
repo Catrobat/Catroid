@@ -929,7 +929,7 @@ public final class UiTestUtils {
 
 		firstSprite.addScript(testScript);
 
-		UserBrick firstUserBrick = new UserBrick(firstSprite, 0);
+		UserBrick firstUserBrick = new UserBrick(0);
 		firstUserBrick.addUIText(TEST_USER_BRICK_NAME);
 		firstUserBrick.addUIVariable(TEST_USER_BRICK_VARIABLE);
 		firstUserBrick.appendBrickToScript(new ChangeXByNBrick(BrickValues.CHANGE_X_BY));
@@ -954,12 +954,12 @@ public final class UiTestUtils {
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
 
-		UserBrick firstUserBrick = new UserBrick(firstSprite, 0);
+		UserBrick firstUserBrick = new UserBrick(0);
 		firstUserBrick.addUIText(TEST_USER_BRICK_NAME + "2");
 		firstUserBrick.addUIVariable(TEST_USER_BRICK_VARIABLE + "2");
 		firstUserBrick.appendBrickToScript(new ChangeXByNBrick(BrickValues.CHANGE_X_BY));
 
-		UserBrick secondUserBrick = new UserBrick(firstSprite, 1);
+		UserBrick secondUserBrick = new UserBrick(1);
 		secondUserBrick.addUIText(TEST_USER_BRICK_NAME);
 		secondUserBrick.addUIVariable(TEST_USER_BRICK_VARIABLE);
 		secondUserBrick.appendBrickToScript(firstUserBrick);

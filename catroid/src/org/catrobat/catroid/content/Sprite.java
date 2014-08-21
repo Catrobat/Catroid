@@ -59,8 +59,13 @@ public class Sprite implements Serializable, Cloneable {
 	private List<Script> scriptList;
 	private ArrayList<LookData> lookList;
 	private ArrayList<SoundInfo> soundList;
+
+	public void setUserBrickList(ArrayList<UserBrick> userBricks) {
+		this.userBricks = userBricks;
+	}
+
 	private ArrayList<UserBrick> userBricks;
-	private int newUserBrickNext = 1;
+	private transient int newUserBrickNext = 1;
 
 	public Sprite(String name) {
 		this.name = name;
@@ -141,26 +146,6 @@ public class Sprite implements Serializable, Cloneable {
 			userBricks = new ArrayList<UserBrick>();
 		}
 		return userBricks;
-	}
-
-	public List<UserBrick> getUserBrickListAtLeastOneBrick(String defaultText, String defaultVariable) {
-		if (userBricks == null || userBricks.size() == 0) {
-			int newBrickId = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-					.getAndIncrementUserBrickId();
-			initUserBrickList(defaultText, defaultVariable, newBrickId);
-		}
-		return userBricks;
-	}
-
-	void initUserBrickList(String defaultText, String defaultVariable, int nextUserBrickId) {
-		userBricks = new ArrayList<UserBrick>();
-
-		// the UserBrick constructor will insert the UserBrick into this Sprite's userBricks list.
-		UserBrick exampleBrick = new UserBrick(nextUserBrickId);
-		exampleBrick.addUIText(defaultText);
-		exampleBrick.addUIVariable(defaultVariable);
-
-		userBricks.add(exampleBrick);
 	}
 
 	public void createStartScriptActionSequenceAndPutToMap(Map<String, List<String>> scriptActions) {
@@ -262,9 +247,9 @@ public class Sprite implements Serializable, Cloneable {
 			UserBrick deepClone = (UserBrick) cloneBrick;
 			UserBrick original = findBrickWithId(userBricks, deepClone.getId());
 
-			UserScript originalScript = original.getDefinitionBrick().getUserScript();
-			UserScript newScript = originalScript.copyScriptForSprite(cloneSprite, cloneUserBrickList);
-			deepClone.getDefinitionBrick().setUserScript(newScript);
+			Script originalScript = original.getDefinitionBrick().getUserScript();
+			Script newScript = originalScript.copyScriptForSprite(cloneSprite, cloneUserBrickList);
+			deepClone.getDefinitionBrick().setUserScript((StartScript) newScript);
 		}
 
 		//The scripts have to be the last copied items

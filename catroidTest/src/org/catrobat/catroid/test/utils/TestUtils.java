@@ -294,6 +294,6 @@ public final class TestUtils {
 	public static Script addUserBrickToSpriteAndGetUserScript(UserBrick userBrick, Sprite sprite) {
 		 UserScriptDefinitionBrick definitionBrick = (UserScriptDefinitionBrick) Reflection.getPrivateField(userBrick,
 		 "definitionBrick");
-		 return definitionBrick.getScriptSafe(sprite);
+		 return definitionBrick.getScriptSafe();
 		 }	
 }

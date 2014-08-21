@@ -710,10 +710,8 @@
 
  	<!-- User Bricks strings -->
  	<string name="define">define</string>
- 	<string name="example_user_brick">Example</string>
- 	<string name="example_user_brick_variable">Variable 1</string>
  	<string name="new_user_brick">New Brick</string>
- 	<string name="new_user_brick_variable">Variable 2</string>
+ 	<string name="new_user_brick_variable">Variable 1</string>
     <string name="recursive_user_brick_forbidden">Adding UserBrick to UserBrick is not allowed yet!</string>
  	<string name="brick_single">Brick</string>
  	<string name="brick_multiple">Bricks</string>
