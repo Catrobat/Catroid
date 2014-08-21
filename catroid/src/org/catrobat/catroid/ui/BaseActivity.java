@@ -106,7 +106,8 @@ public class BaseActivity extends SherlockFragmentActivity {
 				AboutDialogFragment aboutDialog = new AboutDialogFragment();
 				aboutDialog.show(getSupportFragmentManager(), AboutDialogFragment.DIALOG_FRAGMENT_TAG);
 				return true;
-
+			default:
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
