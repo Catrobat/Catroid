@@ -28,6 +28,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -52,7 +53,6 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dialog_formulaeditor_compute);
-		setCanceledOnTouchOutside(true);
 		computeTextView = (TextView) findViewById(R.id.formula_editor_compute_dialog_textview);
 		showFormulaResult();
 	}
@@ -75,6 +75,12 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 		SensorHandler.unregisterListener(this);
 		FaceDetectionHandler.stopFaceDetection();
 		super.onStop();
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		dismiss();
+		return true;
 	}
 
 	private void showFormulaResult() {
