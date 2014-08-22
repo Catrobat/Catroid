@@ -224,4 +224,19 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 			}
 		}
 	}
+
+	public void testSetLookDataWithNullPixmap() {
+		LookData lookData = new LookData();
+		lookData.setLookFilename(testImage.getName());
+		lookData.setLookName(testImage.getName());
+
+		sprite.look = new PhysicsLook(sprite, physicsWorld);
+		try {
+			sprite.look.setLookData(lookData);
+		} catch (Exception exception) {
+			Log.e(TAG, "unexpected exception", exception);
+			fail("unexpected exception");
+		}
+
+	}
 }
