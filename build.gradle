@@ -135,6 +135,11 @@ android {
         println "VersionName is " + versionName
         buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
+
+        def available_build_types = ['debug', 'release', 'physics'] as String[]
+        for (build_type in available_build_types) {
+            buildConfigField "String", "BUILD_TYPE_${build_type.toUpperCase()}", "\"${build_type}\""
+        }
     }
     sourceSets {
         main {
