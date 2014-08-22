@@ -24,14 +24,19 @@ package org.catrobat.catroid.test.common;
 
 import android.test.AndroidTestCase;
 
+import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.common.standardprojectcreators.StandardProjectCreatorDefault;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageListener;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 
 import java.io.File;
@@ -55,6 +60,8 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 	@Override
 	public void setUp() {
 		TestUtils.clearProject(TEST_PROJECT_NAME);
+		StandardProjectHandler.getInstance().setStandardProjectCreator(StandardProjectHandler.
+				StandardProjectCreatorType.STANDARD_PROJECT_CREATOR_DEFAULT);
 	}
 
 	public void testCreateStandardProject() throws IOException {
@@ -98,7 +105,7 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 		//double scale = ((double) ScreenValues.SCREEN_WIDTH) / (double) BACKGROUNDIMAGE_WIDTH;
 		double scale = (ScreenValues.SCREEN_HEIGHT) / (double) BACKGROUNDIMAGE_HEIGHT;
 
-		Project testProject = StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME,getContext());
+		Project testProject = StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME, getContext());
 		testProject.setName(TEST_PROJECT_NAME);
 
 		int backgroundSpriteIndex = 0;
@@ -122,7 +129,7 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 	}
 
 	public void testDefaultProjectScreenshot() throws IOException {
-		Project defaultProject = StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME,getContext());
+		Project defaultProject = StandardProjectHandler.createAndSaveStandardProject(TEST_PROJECT_NAME, getContext());
 		defaultProject.setName(TEST_PROJECT_NAME);
 		String projectPath = Constants.DEFAULT_ROOT + "/" + TEST_PROJECT_NAME;
 
@@ -131,6 +138,43 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 
 		file = new File(projectPath + "/" + StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
 		assertTrue("Automatic screenshot should exist in default project", file.exists());
+	}
+
+	public void testCreateAllStandardProjects() throws IOException {
+		TestUtils.clearProject(getContext().getString(R.string.default_project_name));
+		TestUtils.clearProject(getContext().getString(R.string.default_drone_project_name));
+		TestUtils.clearProject(getContext().getString(R.string.default_project_name_physics));
+
+		Project defaultStandardProject = StandardProjectHandler.createAndSaveStandardProject(getContext());
+		StandardProjectHandler standardProjectHandler = StandardProjectHandler.getInstance();
+		assertEquals("default project name not as expected", getContext().getString(R.string.default_project_name),
+				defaultStandardProject.getName());
+		assertTrue("default project does not exist.", StorageHandler.getInstance().projectExists(defaultStandardProject
+				.getName()));
+
+		standardProjectHandler.setStandardProjectCreator(StandardProjectHandler.StandardProjectCreatorType.
+				STANDARD_PROJECT_CREATOR_DRONE);
+		if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED == true) {
+			Project droneStandardProject = StandardProjectHandler.createAndSaveStandardProject(getContext());
+			assertEquals("default drone project name not as expected", getContext().getString(
+					R.string.default_drone_project_name), droneStandardProject.getName());
+			assertTrue("default drone project does not exist.", StorageHandler.getInstance().projectExists(
+					droneStandardProject.getName()));
+		} else {
+			assertTrue("standard default project creator must be initialized", Reflection.getPrivateField(
+					standardProjectHandler, "standardProjectCreator") instanceof StandardProjectCreatorDefault);
+		}
+
+		standardProjectHandler.setStandardProjectCreator(StandardProjectHandler.StandardProjectCreatorType.
+				STANDARD_PROJECT_CREATOR_PHYSICS);
+		Project physicsStandardProject = StandardProjectHandler.createAndSaveStandardProject(getContext());
+		assertEquals("default physics project name not as expected", getContext().getString(
+				R.string.default_project_name_physics), physicsStandardProject.getName());
+		assertTrue("default physics project does not exist.", StorageHandler.getInstance().projectExists(
+				physicsStandardProject.getName()));
+
+		TestUtils.clearProject(getContext().getString(R.string.default_drone_project_name));
+		TestUtils.clearProject(getContext().getString(R.string.default_project_name_physics));
 	}
 
 }

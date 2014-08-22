@@ -369,6 +369,7 @@
     <!--  -->
 
 	<!-- Physics -->
+    <string name="default_project_name_physics">My first physics program</string>
     <string name="brick_set_physics_object_type">physical object</string>
     <string name="brick_set_mass">Set mass to</string>
     <string name="brick_set_mass_unit">kg</string>
@@ -474,6 +475,7 @@
     <!-- defaultDroneValues -->
     <string name="default_drone_project_name">My first Drone program</string>
     <string name="default_drone_project_sprites_takeoff">Take off</string>
+
 
     <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
     <string name="default_drone_project_srpites_land">Land</string>
