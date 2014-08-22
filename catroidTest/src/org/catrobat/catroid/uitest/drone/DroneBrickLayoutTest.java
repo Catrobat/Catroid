@@ -28,12 +28,12 @@ import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-import org.catrobat.catroid.utils.UtilFile;
 
 public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
@@ -59,10 +59,11 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		boolean droneEnabled = preferences.getBoolean(SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, false);
 		assertTrue("Drone Bricks must be anabled to pass this test, check the Constructor and setup.", droneEnabled);
 
-		UtilFile.loadExistingOrCreateStandardDroneProject(getActivity());
+		TestUtils.loadExistingOrCreateStandardDroneProject(getActivity());
 		assertEquals("Cannot create standard drone project",
 				getActivity().getString(R.string.default_drone_project_name), ProjectManager.getInstance()
-						.getCurrentProject().getName());
+						.getCurrentProject().getName()
+		);
 
 		solo.waitForActivity(MainMenuActivity.class);
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
