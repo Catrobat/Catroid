@@ -46,8 +46,8 @@ import com.actionbarsherlock.view.Menu;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.UserBrick;
-import org.catrobat.catroid.content.bricks.UserBrickUIData;
+import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
+import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.ui.BottomBar;
@@ -67,7 +67,7 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 	public static final String BRICK_DATA_EDITOR_FRAGMENT_TAG = "brick_data_editor_fragment";
 	private static final String BRICK_BUNDLE_ARGUMENT = "current_brick";
 	private Context context;
-	private UserBrick currentBrick;
+	private UserScriptDefinitionBrick currentBrick;
 	private int indexOfCurrentlyEditedElement;
 	private LinearLayout editorBrickSpace;
 	private View brickView;
@@ -84,10 +84,10 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 
 		getSherlockActivity().getSupportActionBar().setTitle(getString(R.string.brick_data_editor_title));
 
-		currentBrick = (UserBrick) getArguments().getSerializable(BRICK_BUNDLE_ARGUMENT);
+		currentBrick = (UserScriptDefinitionBrick) getArguments().getSerializable(BRICK_BUNDLE_ARGUMENT);
 	}
 
-	public static void showFragment(View view, UserBrick brick) {
+	public static void showFragment(View view, UserScriptDefinitionBrick brick) {
 		SherlockFragmentActivity activity = null;
 		activity = (SherlockFragmentActivity) view.getContext();
 
@@ -212,9 +212,9 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 
 		ArrayList<String> takenVariables = new ArrayList<String>();
 		int i = 0;
-		for (UserBrickUIData uiData : currentBrick.uiDataArray) {
-			if (i != id && uiData.isVariable) {
-				takenVariables.add(uiData.name);
+		for (UserScriptDefinitionBrickElement element : currentBrick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList()) {
+			if (i != id && element.isVariable) {
+				takenVariables.add(element.name);
 			}
 			i++;
 		}
@@ -227,7 +227,7 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 
 		UserBrickEditElementDialog dialog = new UserBrickEditElementDialog(fragmentView);
 		dialog.addDialogListener(this);
-		dialog.show(((SherlockFragmentActivity) getActivity()).getSupportFragmentManager(),
+		dialog.show(getActivity().getSupportFragmentManager(),
 				UserBrickEditElementDialog.DIALOG_FRAGMENT_TAG);
 		UserBrickEditElementDialog.setTakenVariables(takenVariables);
 		UserBrickEditElementDialog.setTitle(title);
@@ -238,15 +238,15 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 
 	@Override
 	public void onFinishDialog(CharSequence text, boolean editMode) {
-		UserBrickUIData uiData = currentBrick.uiDataArray.get(indexOfCurrentlyEditedElement);
-		if (uiData != null) {
-			String emptyString = ("").toString();
+		UserScriptDefinitionBrickElement element = currentBrick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(indexOfCurrentlyEditedElement);
+		if (element != null) {
+			String emptyString = ("").toString(); //TODO: change to "" ?
 			if (text != null) {
-				String oldString = uiData.name;
+				String oldString = element.name;
 				String newString = text.toString();
 				currentBrick.renameUIElement(oldString, newString, getActivity());
-			} else if (uiData.name.toString().equals(emptyString)) {
-				currentBrick.uiDataArray.remove(uiData);
+			} else if (element.name.toString().equals(emptyString)) {
+				currentBrick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().remove(element);
 			}
 		}
 		updateBrickView();
@@ -261,7 +261,7 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 
 	@Override
 	public void click(int id) {
-		UserBrickUIData uiData = currentBrick.uiDataArray.get(id);
+		UserScriptDefinitionBrickElement uiData = currentBrick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(id);
 		if (uiData != null && !uiData.isEditModeLineBreak) {
 			int title = uiData.isVariable ? R.string.edit_variable : R.string.edit_text;
 			int defaultText = uiData.isVariable ? R.string.variable_hint : R.string.text_hint;
@@ -295,7 +295,7 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 			layout.removeAllViews();
 		}
 
-		for (UserBrickUIData uiData : currentBrick.uiDataArray) {
+		for (UserScriptDefinitionBrickElement uiData : currentBrick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList()) {
 			View dataView = null;
 			if (uiData.isEditModeLineBreak) {
 				dataView = View.inflate(context, R.layout.brick_user_data_line_break, null);
@@ -336,11 +336,11 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 
 	@Override
 	public void setBreaks(List<Integer> breaks) {
-		for (UserBrickUIData data : currentBrick.uiDataArray) {
+		for (UserScriptDefinitionBrickElement data : currentBrick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList()) {
 			data.newLineHint = false;
 		}
 		for (int breakIndex : breaks) {
-			currentBrick.uiDataArray.get(breakIndex).newLineHint = true;
+			currentBrick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(breakIndex).newLineHint = true;
 		}
 	}
 

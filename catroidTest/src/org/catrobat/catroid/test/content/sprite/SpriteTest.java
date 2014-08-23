@@ -37,7 +37,7 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
-import org.catrobat.catroid.content.bricks.UserBrickUIData;
+import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -106,19 +106,19 @@ public class SpriteTest extends AndroidTestCase {
 
 		UserBrick outerBrick = new UserBrick(0);
 		numberOfBricks++;
-		outerBrick.addUIText("outerBrick");
-		outerBrick.updateUIComponents(null);
+		outerBrick.getDefinitionBrick().addUIText("outerBrick");
+		outerBrick.updateUserBrickParameters();
 
 		UserBrick innerBrick = new UserBrick(1);
 		numberOfBricks++;
-		innerBrick.addUIText("innerBrick");
-		innerBrick.addUIVariable("innerBrickVariable");
+		innerBrick.getDefinitionBrick().addUIText("innerBrick");
+		innerBrick.getDefinitionBrick().addUIVariable("innerBrickVariable");
 
 		Script innerScript = TestUtils.addUserBrickToSpriteAndGetUserScript(innerBrick, sprite);
 
 		Formula innerFormula = new Formula(new FormulaElement(ElementType.USER_VARIABLE, "innerBrickVariable", null));
 		innerScript.addBrick(new ChangeXByNBrick(innerFormula));
-		innerBrick.updateUIComponents(null);
+		innerBrick.updateUserBrickParameters();
 
 		Script outerScript = TestUtils.addUserBrickToSpriteAndGetUserScript(outerBrick, sprite);
 		UserBrick innerBrickCopyInOuterScript = innerBrick.copyBrickForSprite(sprite);
@@ -141,43 +141,43 @@ public class SpriteTest extends AndroidTestCase {
 			for (UserBrick brick : sprite.getUserBrickList()) {
 				assertNotSame("Cloned brick == original brick!", brick, clonedBrick);
 
-				if (minId > clonedBrick.getId()) {
-					minId = clonedBrick.getId();
+				if (minId > clonedBrick.getUserBrickId()) {
+					minId = clonedBrick.getUserBrickId();
 				}
-				if (minId > brick.getId()) {
-					minId = brick.getId();
+				if (minId > brick.getUserBrickId()) {
+					minId = brick.getUserBrickId();
 				}
-				if (maxId < clonedBrick.getId()) {
-					maxId = clonedBrick.getId();
+				if (maxId < clonedBrick.getUserBrickId()) {
+					maxId = clonedBrick.getUserBrickId();
 				}
-				if (maxId < brick.getId()) {
-					maxId = brick.getId();
+				if (maxId < brick.getUserBrickId()) {
+					maxId = brick.getUserBrickId();
 				}
 
-				if (clonedBrick.getId() - numberOfBricks == brick.getId()) {
+				if (clonedBrick.getUserBrickId() - numberOfBricks == brick.getUserBrickId()) {
 					UserScriptDefinitionBrick originalDefinitionBrick = brick.getDefinitionBrick();
 					UserScriptDefinitionBrick clonedDefinitionBrick = clonedBrick.getDefinitionBrick();
 
-					assertNotSame("Cloned definition brick == original definition brick! Id:" + brick.getId(),
+					assertNotSame("Cloned definition brick == original definition brick! Id:" + brick.getUserBrickId(),
 							originalDefinitionBrick, clonedDefinitionBrick);
 
-					assertNotSame("Cloned script == original script! Id:" + brick.getId(),
+					assertNotSame("Cloned script == original script! Id:" + brick.getUserBrickId(),
 							originalDefinitionBrick.getUserScript(), clonedDefinitionBrick.getUserScript());
 
-					assertNotSame("Cloned uiDataArray == original uiDataArray. Id:" + brick.getId(), brick.uiDataArray,
-							clonedBrick.uiDataArray);
+					assertNotSame("Cloned userBrickElements == original userBrickElements. Id:" + brick.getUserBrickId(), brick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList(),
+							clonedBrick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList());
 
-					assertEquals("Cloned uiDataArray size != original uiDataArray size. Id:" + brick.getId(),
-							brick.uiDataArray.size(), clonedBrick.uiDataArray.size());
+					assertEquals("Cloned userBrickElements size != original userBrickElements size. Id:" + brick.getUserBrickId(),
+							brick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().size(), clonedBrick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().size());
 
-					for (int i = 0; i < brick.uiDataArray.size(); i++) {
-						assertNotSame("Cloned uiDataArray element == original uiDataArray element. Id:" + brick.getId()
-								+ ". arrayId: " + i, brick.uiDataArray.get(i), clonedBrick.uiDataArray.get(i));
+					for (int i = 0; i < brick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().size(); i++) {
+						assertNotSame("Cloned userBrickElements element == original userBrickElements element. Id:" + brick.getUserBrickId()
+								+ ". arrayId: " + i, brick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(i), clonedBrick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(i));
 
-						boolean equivalent = checkArrayElementEquivalence(brick.uiDataArray.get(i),
-								clonedBrick.uiDataArray.get(i));
-						assertTrue("Cloned uiDataArray element not equivalent to original uiDataArray element. Id:"
-								+ brick.getId() + ". arrayId: " + i, equivalent);
+						boolean equivalent = checkArrayElementEquivalence(brick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(i),
+								clonedBrick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(i));
+						assertTrue("Cloned userBrickElements element not equivalent to original userBrickElements element. Id:"
+								+ brick.getUserBrickId() + ". arrayId: " + i, equivalent);
 					}
 				}
 			}
@@ -224,7 +224,7 @@ public class SpriteTest extends AndroidTestCase {
 
 	private void setOneFormula(UserBrick subject, ElementType elementType, String value, Float expectedValue, int expectedFormulaListSize) {
 		List<Formula> formulaList = subject.getFormulas();
-		assertEquals("formulaList.size() after innerBrick.updateUIComponents()" + formulaList.size(), expectedFormulaListSize,
+		assertEquals("formulaList.size() after innerBrick.updateUserBrickParameters()" + formulaList.size(), expectedFormulaListSize,
 				formulaList.size());
 		for (Formula formula : formulaList) {
 			formula.setRoot(new FormulaElement(elementType, value, null));
@@ -238,7 +238,7 @@ public class SpriteTest extends AndroidTestCase {
 		}
 	}
 
-	private boolean checkArrayElementEquivalence(UserBrickUIData leftHandSide, UserBrickUIData rightHandSide) {
+	private boolean checkArrayElementEquivalence(UserScriptDefinitionBrickElement leftHandSide, UserScriptDefinitionBrickElement rightHandSide) {
 		boolean foundProblem = false;
 
 		foundProblem = foundProblem || (leftHandSide.isEditModeLineBreak != rightHandSide.isEditModeLineBreak);

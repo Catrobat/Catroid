@@ -34,6 +34,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -48,7 +49,6 @@ import org.catrobat.catroid.ui.BrickLayout;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -56,29 +56,30 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = UserBrick.class.getName();
 
+	@XStreamAlias("definitionBrick")
 	private UserScriptDefinitionBrick definitionBrick;
 	private transient View prototypeView;
 
 	// belonging to brick instance
-	private ArrayList<UserBrickUIComponent> uiComponents;
+	@XStreamAlias("userBrickParameters")
+	private ArrayList<UserBrickParameter> userBrickParameters;
 
 	// belonging to stored brick
-	public UserBrickUIDataArray uiDataArray;
+	@XStreamAlias("lastDataVersion")
 	private int lastDataVersion = 0;
-	private int userBrickId;
+	@XStreamAlias("userBrickId")
+	private int userBrickId; //TODO: is same as in def brick .. a bit redundant
 
 	public UserBrick(int userBrickId) {
 		this.userBrickId = userBrickId;
-		uiDataArray = new UserBrickUIDataArray();
-		this.definitionBrick = new UserScriptDefinitionBrick(this, userBrickId);
-		updateUIComponents(null);
+		this.definitionBrick = new UserScriptDefinitionBrick(this);
+		updateUserBrickParameters();
 	}
 
-	public UserBrick(UserBrickUIDataArray uiData, UserScriptDefinitionBrick definitionBrick) {
-		this.userBrickId = definitionBrick.getUserBrickId();
-		this.uiDataArray = uiData;
+	public UserBrick(UserScriptDefinitionBrick definitionBrick) {
 		this.definitionBrick = definitionBrick;
-		updateUIComponents(null);
+		this.userBrickId = definitionBrick.getUserBrickId();
+		updateUserBrickParameters();
 	}
 
 	@Override
@@ -92,158 +93,54 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		return copyBrick;
 	}
 
-	public int addUILocalizedString(Context context, int id) {
-		UserBrickUIData data = new UserBrickUIData();
-		data.isVariable = false;
-		data.isEditModeLineBreak = false;
-		data.name = context.getResources().getString(id);
-		int toReturn = uiDataArray.size();
-		uiDataArray.add(data);
-		uiDataArray.version++;
-		return toReturn;
-	}
-
-	public int addUIText(String text) {
-		UserBrickUIData data = new UserBrickUIData();
-		data.isVariable = false;
-		data.isEditModeLineBreak = false;
-		data.name = text;
-		int toReturn = uiDataArray.size();
-		uiDataArray.add(data);
-		uiDataArray.version++;
-		return toReturn;
-	}
-
-	public void addUILineBreak() {
-		UserBrickUIData data = new UserBrickUIData();
-		data.isVariable = false;
-		data.isEditModeLineBreak = true;
-		data.name = "linebreak";
-		uiDataArray.add(data);
-		uiDataArray.version++;
-	}
-
-	public int addUILocalizedVariable(Context context, int id) {
-		UserBrickUIData data = new UserBrickUIData();
-		data.isVariable = true;
-		data.isEditModeLineBreak = false;
-		data.name = context.getResources().getString(id);
-
-		if (ProjectManager.getInstance().getCurrentProject() != null) {
-			UserVariablesContainer variablesContainer = null;
-			variablesContainer = ProjectManager.getInstance().getCurrentProject().getUserVariables();
-			variablesContainer.addUserBrickUserVariableToUserBrick(userBrickId, data.name);
-		}
-
-		int toReturn = uiDataArray.size();
-		uiDataArray.add(data);
-		uiDataArray.version++;
-		return toReturn;
-	}
-
-	public int addUIVariable(String id) {
-		UserBrickUIData data = new UserBrickUIData();
-		data.isVariable = true;
-		data.isEditModeLineBreak = false;
-		data.name = id;
-
-		if (ProjectManager.getInstance().getCurrentProject() != null) {
-			UserVariablesContainer variablesContainer = ProjectManager.getInstance().getCurrentProject().getUserVariables();
-			variablesContainer.addUserBrickUserVariableToUserBrick(userBrickId, data.name);
-		}
-
-		int toReturn = uiDataArray.size();
-		uiDataArray.add(data);
-		uiDataArray.version++;
-		return toReturn;
-	}
-
-	public void renameUIElement(String oldName, String newName, Context context) {
-		UserBrickUIData variable = null;
-		boolean isVariable = false;
-		for (UserBrickUIData data : uiDataArray) {
-			if (data.name.equals(oldName)) {
-				variable = data;
-				isVariable = data.isVariable;
-				break;
-			}
-		}
-
-		definitionBrick.renameVariablesInFormulas(oldName, newName, context);
-
-		variable.name = newName;
-
-		if (isVariable && ProjectManager.getInstance().getCurrentProject() != null) {
-			UserVariablesContainer variablesContainer = null;
-			variablesContainer = ProjectManager.getInstance().getCurrentProject().getUserVariables();
-			variablesContainer.deleteUserVariableFromUserBrick(userBrickId, oldName);
-			variablesContainer.addUserBrickUserVariableToUserBrick(userBrickId, newName);
-		}
-	}
-
-	public void removeDataAt(int id, Context context) {
-		definitionBrick.removeVariablesInFormulas(uiDataArray.get(id).name, context);
-		if (uiDataArray.get(id).isVariable && ProjectManager.getInstance().getCurrentProject() != null) {
-			UserVariablesContainer variablesContainer = null;
-			variablesContainer = ProjectManager.getInstance().getCurrentProject().getUserVariables();
-			variablesContainer.deleteUserVariableFromUserBrick(userBrickId, uiDataArray.get(id).name);
-		}
-		uiDataArray.remove(id);
-		uiDataArray.version++;
-	}
-
 	public boolean isInstanceOf(UserBrick other) {
-		return (other.uiDataArray == uiDataArray);
+		return (other.getUserScriptDefinitionBrickElements() == getUserScriptDefinitionBrickElements());
 	}
 
-	public Iterator<UserBrickUIComponent> getUIComponentIterator() {
-		return uiComponents.iterator();
+	public ArrayList<UserBrickParameter> getUserBrickParameters() {
+		return userBrickParameters;
 	}
 
-	public ArrayList<UserBrickUIComponent> getUIComponents() {
-		return uiComponents;
-	}
+	public void updateUserBrickParameters() {
+		ArrayList<UserBrickParameter> newParameters = new ArrayList<UserBrickParameter>();
 
-	public void updateUIComponents(Context context) {
-		ArrayList<UserBrickUIComponent> newUIComponents = new ArrayList<UserBrickUIComponent>();
-
-		for (int i = 0; i < uiDataArray.size(); i++) {
-			UserBrickUIComponent component = new UserBrickUIComponent();
-			component.dataIndex = i;
-			if (uiDataArray.get(i).isVariable) {
-				component.setFormulaWithBrickField(BrickField.USER_BRICK, new Formula(0));
-				component.variableName = uiDataArray.get(i).name;
+		for (int elementPosition = 0; elementPosition < getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().size(); elementPosition++) {
+			UserBrickParameter parameter = new UserBrickParameter();
+			parameter.dataIndex = elementPosition;
+			if (getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(elementPosition).isVariable) {
+				parameter.setFormulaWithBrickField(BrickField.USER_BRICK, new Formula(0));
+				parameter.variableName = getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(elementPosition).name;
 			}
-			newUIComponents.add(component);
+			newParameters.add(parameter);
 		}
 
-		if (uiComponents != null) {
-			copyFormulasMatchingNames(uiComponents, newUIComponents);
+		if (userBrickParameters != null) {
+			copyFormulasMatchingNames(userBrickParameters, newParameters);
 		}
 
-		uiComponents = newUIComponents;
-		lastDataVersion = uiDataArray.version;
+		userBrickParameters = newParameters;
+		lastDataVersion = getUserScriptDefinitionBrickElements().getVersion();
 	}
 
 	public List<Formula> getFormulas() {
-		List<Formula> list = new LinkedList<Formula>();
-		for (UserBrickUIComponent uiComponent : uiComponents) {
-			if (uiComponent.getFormulaWithBrickField(BrickField.USER_BRICK) != null && uiComponent.variableName != null) {
-				list.add(uiComponent.getFormulaWithBrickField(BrickField.USER_BRICK));
+		List<Formula> formulaList = new LinkedList<Formula>();
+		for (UserBrickParameter parameter : userBrickParameters) {
+			if (parameter.getFormulaWithBrickField(BrickField.USER_BRICK) != null && parameter.variableName != null) {
+				formulaList.add(parameter.getFormulaWithBrickField(BrickField.USER_BRICK));
 			}
 		}
-		return list;
+		return formulaList;
 	}
 
-	public void copyFormulasMatchingNames(ArrayList<UserBrickUIComponent> from, ArrayList<UserBrickUIComponent> to) {
-
-		for (UserBrickUIComponent fromElement : from) {
-			if (fromElement.dataIndex < uiDataArray.size()) {
-				UserBrickUIData fromData = uiDataArray.get(fromElement.dataIndex);
+	public void copyFormulasMatchingNames(ArrayList<UserBrickParameter> from, ArrayList<UserBrickParameter> to) {
+		for (UserBrickParameter fromElement : from) {
+			UserScriptDefinitionBrickElements elements = getUserScriptDefinitionBrickElements();
+			if (fromElement.dataIndex < elements.getUserScriptDefinitionBrickElementList().size()) {
+				UserScriptDefinitionBrickElement fromData = elements.getUserScriptDefinitionBrickElementList().get(fromElement.dataIndex);
 				if (fromData.isVariable) {
-					for (UserBrickUIComponent toElement : to) {
-						if (toElement.dataIndex < uiDataArray.size()) {
-							UserBrickUIData toData = uiDataArray.get(toElement.dataIndex);
+					for (UserBrickParameter toElement : to) {
+						if (toElement.dataIndex < elements.getUserScriptDefinitionBrickElementList().size()) {
+							UserScriptDefinitionBrickElement toData = elements.getUserScriptDefinitionBrickElementList().get(toElement.dataIndex);
 							if (fromData.name.equals(toData.name)) {
 								toElement.setFormulaWithBrickField(BrickField.USER_BRICK, fromElement.getFormulaWithBrickField(BrickField.USER_BRICK).clone());
 								toElement.variableName = toData.name;
@@ -253,25 +150,6 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Removes element at <b>from</b> and adds it after element at <b>to</b>
-	 */
-	public void reorderUIData(int from, int to) {
-
-		if (to == -1) {
-			UserBrickUIData d = uiDataArray.remove(from);
-			uiDataArray.add(0, d);
-		} else if (from <= to) {
-			UserBrickUIData d = uiDataArray.remove(from);
-			uiDataArray.add(to, d);
-		} else {
-			// from > to
-			UserBrickUIData d = uiDataArray.remove(from);
-			uiDataArray.add(to + 1, d);
-		}
-		uiDataArray.version++;
 	}
 
 	public void appendBrickToScript(Brick brick) {
@@ -288,16 +166,13 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_user_checkbox);
-		final Brick brickInstance = this;
-
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
+				adapter.handleCheck(UserBrick.this, isChecked);
 			}
 		});
-
 		onLayoutChanged(view);
 
 		return view;
@@ -306,9 +181,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	@Override
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_user, null);
-
 		onLayoutChanged(prototypeView);
-
 		return prototypeView;
 	}
 
@@ -317,8 +190,8 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		if (view == null) {
 			return null;
 		}
-		if (lastDataVersion < uiDataArray.version || uiComponents == null) {
-			updateUIComponents(view.getContext());
+		if (lastDataVersion < getUserScriptDefinitionBrickElements().getVersion() || userBrickParameters == null) {
+			updateUserBrickParameters();
 			onLayoutChanged(view);
 		}
 
@@ -326,7 +199,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
 
-		for (UserBrickUIComponent component : uiComponents) {
+		for (UserBrickParameter component : userBrickParameters) {
 			if (component != null && component.textView != null) {
 				component.textView.setTextColor(component.textView.getTextColors().withAlpha(alphaValue));
 				if (component.textView.getBackground() != null) {
@@ -340,8 +213,8 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	public void onLayoutChanged(View currentView) {
-		if (lastDataVersion < uiDataArray.version || uiComponents == null) {
-			updateUIComponents(currentView.getContext());
+		if (lastDataVersion < getUserScriptDefinitionBrickElements().getVersion() || userBrickParameters == null) {
+			updateUserBrickParameters();
 		}
 
 		boolean prototype = (currentView == prototypeView);
@@ -354,20 +227,20 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		}
 
 		int id = 0;
-		for (UserBrickUIComponent component : uiComponents) {
-			TextView currentTextView = null;
-			UserBrickUIData d = uiDataArray.get(component.dataIndex);
-			if (d.isEditModeLineBreak) {
+		for (UserBrickParameter parameter : userBrickParameters) {
+			TextView currentTextView;
+			UserScriptDefinitionBrickElement uiData = getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(parameter.dataIndex);
+			if (uiData.isEditModeLineBreak) {
 				continue;
 			}
-			if (d.isVariable) {
+			if (uiData.isVariable) {
 				currentTextView = new EditText(context);
 
 				if (prototype) {
 					currentTextView.setTextAppearance(context, R.style.BrickPrototypeTextView);
 					try {
 						currentTextView.setText(String
-								.valueOf(component.getFormulaWithBrickField(BrickField.USER_BRICK).interpretInteger(ProjectManager
+								.valueOf(parameter.getFormulaWithBrickField(BrickField.USER_BRICK).interpretInteger(ProjectManager
 										.getInstance().getCurrentSprite())));
 					} catch (InterpretationException interpretationException) {
 						Log.e(TAG, "InterpretationException!", interpretationException);
@@ -377,9 +250,9 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 					currentTextView.setId(id);
 					currentTextView.setTextAppearance(context, R.style.BrickEditText);
 
-					component.getFormulaWithBrickField(BrickField.USER_BRICK).setTextFieldId(currentTextView.getId());
-					String formulaString = component.getFormulaWithBrickField(BrickField.USER_BRICK).getDisplayString(currentTextView.getContext());
-					component.getFormulaWithBrickField(BrickField.USER_BRICK).refreshTextField(currentTextView, formulaString);
+					parameter.getFormulaWithBrickField(BrickField.USER_BRICK).setTextFieldId(currentTextView.getId());
+					String formulaString = parameter.getFormulaWithBrickField(BrickField.USER_BRICK).getDisplayString(currentTextView.getContext());
+					parameter.getFormulaWithBrickField(BrickField.USER_BRICK).refreshTextField(currentTextView, formulaString);
 
 					// This stuff isn't being included by the style when I use setTextAppearance.
 					currentTextView.setFocusable(false);
@@ -392,7 +265,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 				currentTextView = new TextView(context);
 				currentTextView.setTextAppearance(context, R.style.BrickText_Multiple);
 
-				currentTextView.setText(d.name);
+				currentTextView.setText(uiData.name);
 			}
 
 			// This stuff isn't being included by the style when I use setTextAppearance.
@@ -404,35 +277,24 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 			layout.addView(currentTextView);
 
-			if (d.newLineHint) {
+			if (uiData.newLineHint) {
 				BrickLayout.LayoutParams params = (BrickLayout.LayoutParams) currentTextView.getLayoutParams();
 				params.setNewLine(true);
 				currentTextView.setLayoutParams(params);
 			}
 
 			if (prototype) {
-				component.prototypeView = currentTextView;
+				parameter.prototypeView = currentTextView;
 			} else {
-				component.textView = currentTextView;
+				parameter.textView = currentTextView;
 			}
 			id++;
 		}
 	}
 
-	public CharSequence getName(Context context) {
-		CharSequence name = "";
-		for (UserBrickUIData data : uiDataArray) {
-			if (!data.isVariable) {
-				name = data.name;
-				break;
-			}
-		}
-		return name;
-	}
-
 	@Override
 	public UserBrick clone() {
-		return new UserBrick(uiDataArray, definitionBrick);
+		return new UserBrick(definitionBrick);
 	}
 
 	@Override
@@ -441,11 +303,11 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 			return;
 		}
 
-		for (UserBrickUIComponent c : uiComponents) {
-			UserBrickUIData d = uiDataArray.get(c.dataIndex);
+		for (UserBrickParameter userBrickParameter : userBrickParameters) {
+			UserScriptDefinitionBrickElement userBrickElement = getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(userBrickParameter.dataIndex);
 
-			if (d.isVariable && c.textView.getId() == eventOrigin.getId()) {
-				FormulaEditorFragment.showFragment(view, this, c.getFormulaWithBrickField(BrickField.USER_BRICK));
+			if (userBrickElement.isVariable && userBrickParameter.textView.getId() == eventOrigin.getId()) {
+				FormulaEditorFragment.showFragment(view, this, userBrickParameter.getFormulaWithBrickField(BrickField.USER_BRICK));
 			}
 		}
 	}
@@ -454,14 +316,11 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 
 		UserBrickStageToken stageToken = getStageToken();
-
 		ArrayList<SequenceAction> returnActionList = new ArrayList<SequenceAction>();
 
 		SequenceAction userSequence = ExtendedActions.sequence();
 		definitionBrick.getScriptSafe().run(sprite, userSequence);
-
 		returnActionList.add(userSequence);
-
 		sequence.addAction(ExtendedActions.userBrick(userSequence, stageToken));
 		ProjectManager.getInstance().setCurrentUserBrick(this);
 
@@ -469,46 +328,44 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	private UserBrickStageToken getStageToken() {
-		if (ProjectManager.getInstance() == null || ProjectManager.getInstance().getCurrentProject() == null) {
+		if (ProjectManager.getInstance().getCurrentProject() == null) {
 			return null;
 		}
 
-		LinkedList<UserBrickVariable> theList = new LinkedList<UserBrickVariable>();
+		LinkedList<UserBrickVariable> userBrickVariableList = new LinkedList<UserBrickVariable>();
+		UserVariablesContainer variablesContainer = ProjectManager.getInstance().getCurrentProject().getUserVariables();
 
-		UserVariablesContainer variablesContainer = null;
-		variablesContainer = ProjectManager.getInstance().getCurrentProject().getUserVariables();
+		UserScriptDefinitionBrickElements userScriptDefinitionBrick = getUserScriptDefinitionBrickElements();
 
-		for (UserBrickUIComponent uiComponent : uiComponents) {
-
-			if (uiComponent.getFormulaWithBrickField(BrickField.USER_BRICK) != null && uiComponent.dataIndex < uiDataArray.size()) {
-				UserBrickUIData uiData = uiDataArray.get(uiComponent.dataIndex);
-				if (uiData.isVariable) {
+		for (UserBrickParameter parameter : userBrickParameters) {
+			if (parameter.getFormulaWithBrickField(BrickField.USER_BRICK) != null && parameter.dataIndex < userScriptDefinitionBrick.getUserScriptDefinitionBrickElementList().size()) {
+				UserScriptDefinitionBrickElement userBrickElement = userScriptDefinitionBrick.getUserScriptDefinitionBrickElementList().get(parameter.dataIndex);
+				if (userBrickElement.isVariable) {
 					List<UserVariable> variables = variablesContainer.getOrCreateVariableListForUserBrick(userBrickId);
-					UserVariable variable = variablesContainer.findUserVariable(uiData.name, variables);
+					UserVariable variable = variablesContainer.findUserVariable(userBrickElement.name, variables);
 
 					if (variable == null) {
-						variable = variablesContainer.addUserBrickUserVariableToUserBrick(userBrickId, uiData.name);
+						variable = variablesContainer.addUserBrickUserVariableToUserBrick(userBrickId, userBrickElement.name);
 					}
 					try {
-						variable.setValue(uiComponent.getFormulaWithBrickField(BrickField.USER_BRICK).interpretDouble(ProjectManager.getInstance().getCurrentSprite()));
+						variable.setValue(parameter.getFormulaWithBrickField(BrickField.USER_BRICK).interpretDouble(ProjectManager.getInstance().getCurrentSprite()));
 					} catch (InterpretationException interpretationException) {
 						Log.e(TAG, "InterpretationException!", interpretationException);
 					}
-
-					theList.add(new UserBrickVariable(variable, uiComponent.getFormulaWithBrickField(BrickField.USER_BRICK)));
+					userBrickVariableList.add(new UserBrickVariable(variable, parameter.getFormulaWithBrickField(BrickField.USER_BRICK)));
 				}
 			}
 		}
-		return new UserBrickStageToken(theList, userBrickId);
+		return new UserBrickStageToken(userBrickVariableList, userBrickId);
 	}
 
-	public int getId() {
+	/*public int getId() {
 		return userBrickId;
 	}
 
 	public void setId(int newId) {
 		userBrickId = newId;
-	}
+	}*/
 
 	public UserScriptDefinitionBrick getDefinitionBrick() {
 		return definitionBrick;
@@ -516,5 +373,22 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	public void setDefinitionBrick(UserScriptDefinitionBrick definitionBrick) {
 		this.definitionBrick = definitionBrick;
+	}
+
+	public UserScriptDefinitionBrickElements getUserScriptDefinitionBrickElements(){
+		return definitionBrick.getUserScriptDefinitionBrickElements();
+	}
+
+	public void setUserScriptDefinitionBrickElements(UserScriptDefinitionBrickElements elements){
+		definitionBrick.setUserScriptDefinitionBrickElements(elements);
+	}
+
+	public int getUserBrickId() {
+		return userBrickId;
+	}
+
+	public void setUserBrickId(int userBrickId) {
+		this.userBrickId = userBrickId;
+		definitionBrick.setUserBrickId(userBrickId);
 	}
 }

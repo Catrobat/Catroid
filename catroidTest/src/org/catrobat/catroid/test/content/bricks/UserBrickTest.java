@@ -36,7 +36,7 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick.Motor;
 import org.catrobat.catroid.content.bricks.UserBrick;
-import org.catrobat.catroid.content.bricks.UserBrickUIDataArray;
+import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElements;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -89,8 +89,8 @@ public class UserBrickTest extends AndroidTestCase {
 
 	public void testSpriteHasOneUserBrickAfterAddingAUserBrick() {
 		UserBrick brick = new UserBrick(0);
-		brick.addUIText("test0");
-		brick.addUIVariable("test1");
+		brick.getDefinitionBrick().addUIText("test0");
+		brick.getDefinitionBrick().addUIVariable("test1");
 
 		Script userScript = TestUtils.addUserBrickToSpriteAndGetUserScript(brick, sprite);
 
@@ -106,8 +106,8 @@ public class UserBrickTest extends AndroidTestCase {
 		int moveValue = 6;
 
 		UserBrick brick = new UserBrick(0);
-		brick.addUIText("test0");
-		brick.addUIVariable("test1");
+		brick.getDefinitionBrick().addUIText("test0");
+		brick.getDefinitionBrick().addUIVariable("test1");
 
 		Script userScript = TestUtils.addUserBrickToSpriteAndGetUserScript(brick, sprite);
 
@@ -136,13 +136,13 @@ public class UserBrickTest extends AndroidTestCase {
 		Integer moveValue = 6;
 
 		UserBrick outerBrick = new UserBrick(0);
-		outerBrick.addUIText("test2");
-		outerBrick.addUIVariable("outerBrickVariable");
-		outerBrick.updateUIComponents(null);
+		outerBrick.getDefinitionBrick().addUIText("test2");
+		outerBrick.getDefinitionBrick().addUIVariable("outerBrickVariable");
+		outerBrick.updateUserBrickParameters();
 
 		UserBrick innerBrick = new UserBrick(1);
-		innerBrick.addUIText("test0");
-		innerBrick.addUIVariable("innerBrickVariable");
+		innerBrick.getDefinitionBrick().addUIText("test0");
+		innerBrick.getDefinitionBrick().addUIVariable("innerBrickVariable");
 
 		Script innerScript = TestUtils.addUserBrickToSpriteAndGetUserScript(innerBrick, sprite);
 
@@ -150,7 +150,7 @@ public class UserBrickTest extends AndroidTestCase {
 
 		innerScript.addBrick(new ChangeXByNBrick(innerFormula));
 
-		innerBrick.updateUIComponents(null);
+		innerBrick.updateUserBrickParameters();
 
 		Script outerScript = TestUtils.addUserBrickToSpriteAndGetUserScript(outerBrick, sprite);
 		UserBrick innerBrickCopyInOuterScript = innerBrick.copyBrickForSprite(sprite);
@@ -158,7 +158,7 @@ public class UserBrickTest extends AndroidTestCase {
 
 		List<Formula> formulaList = innerBrickCopyInOuterScript.getFormulas();
 
-		assertEquals("formulaList.size() after innerBrick.updateUIComponents()" + formulaList.size(), 1,
+		assertEquals("formulaList.size() after innerBrick.updateUserBrickParameters()" + formulaList.size(), 1,
 				formulaList.size());
 
 		for (Formula formula : formulaList) {
@@ -172,7 +172,7 @@ public class UserBrickTest extends AndroidTestCase {
 
 		formulaList = outerBrickCopy.getFormulas();
 
-		assertEquals("formulaList.size() after outerBrick.updateUIComponents()" + formulaList.size(), 1,
+		assertEquals("formulaList.size() after outerBrick.updateUserBrickParameters()" + formulaList.size(), 1,
 				formulaList.size());
 
 		for (Formula formula : formulaList) {
@@ -224,19 +224,19 @@ public class UserBrickTest extends AndroidTestCase {
 
 	public void testDeleteBrick() {
 		UserBrick outerBrick = new UserBrick(0);
-		outerBrick.addUIText("test2");
-		outerBrick.addUIVariable("outerBrickVariable");
-		outerBrick.updateUIComponents(null);
+		outerBrick.getDefinitionBrick().addUIText("test2");
+		outerBrick.getDefinitionBrick().addUIVariable("outerBrickVariable");
+		outerBrick.updateUserBrickParameters();
 
 		UserBrick innerBrick = new UserBrick(1);
-		innerBrick.addUIText("test0");
-		innerBrick.addUIVariable("innerBrickVariable");
+		innerBrick.getDefinitionBrick().addUIText("test0");
+		innerBrick.getDefinitionBrick().addUIVariable("innerBrickVariable");
 
 		Script innerScript = TestUtils.addUserBrickToSpriteAndGetUserScript(innerBrick, sprite);
 
 		Formula innerFormula = new Formula(new FormulaElement(ElementType.USER_VARIABLE, "innerBrickVariable", null));
 		innerScript.addBrick(new ChangeXByNBrick(innerFormula));
-		innerBrick.updateUIComponents(null);
+		innerBrick.updateUserBrickParameters();
 
 		Script outerScript = TestUtils.addUserBrickToSpriteAndGetUserScript(outerBrick, sprite);
 		Brick innerBrickCopyInOuterScript = innerBrick.copyBrickForSprite(sprite);
@@ -266,13 +266,13 @@ public class UserBrickTest extends AndroidTestCase {
 
 	public void testBrickCloneWithFormula() {
 		UserBrick brick = new UserBrick(0);
-		brick.addUIText("test0");
-		brick.addUIVariable("test1");
+		brick.getDefinitionBrick().addUIText("test0");
+		brick.getDefinitionBrick().addUIVariable("test1");
 
 		UserBrick cloneBrick = brick.clone();
-		UserBrickUIDataArray array = (UserBrickUIDataArray) Reflection.getPrivateField(brick, "uiDataArray");
-		UserBrickUIDataArray clonedArray = (UserBrickUIDataArray) Reflection.getPrivateField(cloneBrick, "uiDataArray");
-		assertTrue("The cloned brick has a different uiDataArray than the original brick", array == clonedArray);
+		UserScriptDefinitionBrickElements array = (UserScriptDefinitionBrickElements) Reflection.getPrivateField(brick, "userBrickElements");
+		UserScriptDefinitionBrickElements clonedArray = (UserScriptDefinitionBrickElements) Reflection.getPrivateField(cloneBrick, "userBrickElements");
+		assertTrue("The cloned brick has a different userBrickElements than the original brick", array == clonedArray);
 
 		UserScriptDefinitionBrick definition = (UserScriptDefinitionBrick) Reflection.getPrivateField(brick,
 				"definitionBrick");
@@ -283,7 +283,7 @@ public class UserBrickTest extends AndroidTestCase {
 
 		ArrayList<?> componentArray = (ArrayList<?>) Reflection.getPrivateField(brick, "uiComponents");
 		ArrayList<?> clonedComponentArray = (ArrayList<?>) Reflection.getPrivateField(cloneBrick, "uiComponents");
-		assertTrue("The cloned brick has a different uiDataArray than the original brick",
+		assertTrue("The cloned brick has a different userBrickElements than the original brick",
 				componentArray != clonedComponentArray);
 	}
 }

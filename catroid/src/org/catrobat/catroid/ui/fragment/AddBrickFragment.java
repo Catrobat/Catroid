@@ -186,9 +186,9 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 				.getAndIncrementUserBrickId() + ProjectManager.getInstance().getCurrentSprite().getUserBrickList().size();
 		UserBrick newBrick = new UserBrick(newBrickId);
 		currentSprite.addUserBrick(newBrick);
-		newBrick.addUIText(scriptFragment.getString(R.string.new_user_brick) + " "
+		newBrick.getDefinitionBrick().addUIText(scriptFragment.getString(R.string.new_user_brick) + " "
 				+ currentSprite.getNextNewUserBrickId());
-		newBrick.addUILocalizedVariable(getActivity(), R.string.new_user_brick_variable);
+		newBrick.getDefinitionBrick().addUILocalizedVariable(getActivity(), R.string.new_user_brick_variable);
 
 		setupSelectedBrickCategory();
 

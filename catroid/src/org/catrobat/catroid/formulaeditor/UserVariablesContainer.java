@@ -23,13 +23,13 @@
 package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
-import android.util.SparseArray;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElements;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
 
 import java.io.Serializable;
@@ -50,14 +50,14 @@ public class UserVariablesContainer implements Serializable {
 	private Map<Sprite, List<UserVariable>> spriteVariables;
 
 	@XStreamAlias("userBrickVariableList")
-	private SparseArray<List<UserVariable>> userBrickVariables;
-	private int nextUserBrickId = 0;
-	private int currentUserBrickId = 0;
+	private Map<Integer, List<UserVariable>> userBrickVariables;
+	private int nextUserBrickId = 0; //TODO: make transient?
+	private int currentUserBrickId = 0; //TODO: make transient?
 
 	public UserVariablesContainer() {
 		projectVariables = new ArrayList<UserVariable>();
 		spriteVariables = new HashMap<Sprite, List<UserVariable>>();
-		userBrickVariables = new SparseArray<List<UserVariable>>();
+		userBrickVariables = new HashMap<Integer, List<UserVariable>>();
 	}
 
 	public UserVariableAdapter createUserVariableAdapter(Context context, int userBrickId, Sprite sprite, boolean inUserBrick)
@@ -73,15 +73,16 @@ public class UserVariablesContainer implements Serializable {
 	}
 
 	public UserVariable getUserVariable(String userVariableName, Sprite sprite) {
-		UserVariable var;
-		var = findUserVariable(userVariableName, getOrCreateVariableListForSprite(sprite));
-		if (var == null) {
-			var = findUserVariable(userVariableName, projectVariables);
+		UserVariable userVariable;
+		userVariable = findUserVariable(userVariableName, getOrCreateVariableListForSprite(sprite));
+		if (userVariable == null) {
+			userVariable = findUserVariable(userVariableName, projectVariables);
 		}
-		if (var == null && ProjectManager.getInstance().getCurrentUserBrick() != null) {
-			var = findUserVariable(userVariableName, getOrCreateVariableListForUserBrick(ProjectManager.getInstance().getCurrentUserBrick().getId()));
+		if (userVariable == null && ProjectManager.getInstance().getCurrentUserBrick() != null) {
+			int id = ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().getUserBrickId();
+			userVariable = findUserVariable(userVariableName, getOrCreateVariableListForUserBrick(id));
 		}
-		return var;
+		return userVariable;
 	}
 
 	public List<UserVariable> getProjectVariables() {
@@ -142,12 +143,13 @@ public class UserVariablesContainer implements Serializable {
 			if (variableToDelete != null) {
 				context.remove(variableToDelete);
 				if (currentUserBrick != null) {
-					for (int id = 0; id < currentUserBrick.uiDataArray.size(); id++) {
-						if (currentUserBrick.uiDataArray.get(id).name.equals(userVariableName) && currentUserBrick.uiDataArray.get(id).isVariable) {
+					UserScriptDefinitionBrickElements currentElements = currentUserBrick.getUserScriptDefinitionBrickElements();
+					for (int id = 0; id < currentElements.getUserScriptDefinitionBrickElementList().size(); id++) {
+						if (currentElements.getUserScriptDefinitionBrickElementList().get(id).name.equals(userVariableName) && currentElements.getUserScriptDefinitionBrickElementList().get(id).isVariable) {
 							int alpha = currentUserBrick.getAlphaValue();
-							currentUserBrick.getDefinitionBrick().removeVariablesInFormulas(currentUserBrick.uiDataArray.get(id).name, currentUserBrick.getViewWithAlpha(alpha).getContext());
-							currentUserBrick.uiDataArray.remove(id);
-							currentUserBrick.uiDataArray.version++;
+							currentUserBrick.getDefinitionBrick().removeVariablesInFormulas(currentElements.getUserScriptDefinitionBrickElementList().get(id).name, currentUserBrick.getViewWithAlpha(alpha).getContext());
+							currentElements.getUserScriptDefinitionBrickElementList().remove(id);
+							currentElements.incrementVersion();
 						}
 					}
 				}
@@ -260,8 +262,7 @@ public class UserVariablesContainer implements Serializable {
 			Sprite currentSprite = spriteIterator.next();
 			resetUserVariables(spriteVariables.get(currentSprite));
 		}
-		for (int i = 0; i < userBrickVariables.size(); i++) {
-			int key = userBrickVariables.keyAt(i);
+		for(int key : userBrickVariables.keySet()){
 			resetUserVariables(userBrickVariables.get(key));
 		}
 	}

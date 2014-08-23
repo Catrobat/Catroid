@@ -227,15 +227,14 @@ public class Sprite implements Serializable, Cloneable {
 		cloneSprite.soundList = cloneSoundList;
 
 		ArrayList<UserBrick> cloneUserBrickList = new ArrayList<UserBrick>();
-		for (Brick brick : this.userBricks) {
-			UserBrick original = (UserBrick) brick;
+		for (UserBrick original : this.userBricks) {
+			int originalId = original.getUserBrickId();
 
-			UserBrick deepClone = new UserBrick(original.getId());
-			deepClone.uiDataArray = original.uiDataArray.clone();
-			deepClone.updateUIComponents(null);
+			UserBrick deepClone = new UserBrick(originalId);
+			deepClone.setUserScriptDefinitionBrickElements(original.getUserScriptDefinitionBrickElements().clone());
+			deepClone.updateUserBrickParameters();
 
-			UserScriptDefinitionBrick clonedDefinitionBrick = new UserScriptDefinitionBrick(deepClone,
-					original.getId());
+			UserScriptDefinitionBrick clonedDefinitionBrick = new UserScriptDefinitionBrick(deepClone);
 			deepClone.setDefinitionBrick(clonedDefinitionBrick);
 
 			cloneUserBrickList.add(deepClone);
@@ -245,7 +244,7 @@ public class Sprite implements Serializable, Cloneable {
 		// (preserve recursive references)
 		for (Brick cloneBrick : cloneUserBrickList) {
 			UserBrick deepClone = (UserBrick) cloneBrick;
-			UserBrick original = findBrickWithId(userBricks, deepClone.getId());
+			UserBrick original = findBrickWithId(userBricks, deepClone.getUserBrickId());
 
 			Script originalScript = original.getDefinitionBrick().getUserScript();
 			Script newScript = originalScript.copyScriptForSprite(cloneSprite, cloneUserBrickList);
@@ -262,7 +261,8 @@ public class Sprite implements Serializable, Cloneable {
 
 		// update the IDs to preserve the uniqueness of these ids (for example in the stage).
 		for (UserBrick cloneBrick : cloneUserBrickList) {
-			cloneBrick.setId(cloneBrick.getId() + cloneUserBrickList.size());
+			int newId = cloneBrick.getUserBrickId() + cloneUserBrickList.size();
+			cloneBrick.setUserBrickId(newId);
 			UserScriptDefinitionBrick definitionBrick = cloneBrick.getDefinitionBrick();
 			definitionBrick.setUserBrickId(definitionBrick.getUserBrickId() + cloneUserBrickList.size());
 		}
@@ -283,7 +283,7 @@ public class Sprite implements Serializable, Cloneable {
 
 	protected UserBrick findBrickWithId(List<UserBrick> list, int id) {
 		for (UserBrick brick : list) {
-			if (brick.getId() == id) {
+			if (brick.getDefinitionBrick().getUserBrickId() == id) {
 				return brick;
 			}
 		}

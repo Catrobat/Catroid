@@ -63,10 +63,10 @@ public abstract class Script implements Serializable {
 			Brick copiedBrick = null;
 			if (brick instanceof UserBrick) {
 				UserBrick original = ((UserBrick) brick);
-				UserBrick precopiedRootBrick = findBrickWithId(preCopiedUserBricks, original.getId());
+				UserBrick precopiedRootBrick = findBrickWithId(preCopiedUserBricks, original.getUserBrickId());
 				UserBrick copiedUserBrick = precopiedRootBrick.copyBrickForSprite(copySprite);
 				copiedUserBrick
-						.copyFormulasMatchingNames(original.getUIComponents(), copiedUserBrick.getUIComponents());
+						.copyFormulasMatchingNames(original.getUserBrickParameters(), copiedUserBrick.getUserBrickParameters());
 				copiedBrick = copiedUserBrick;
 			}
 			else if (brick instanceof UserScriptDefinitionBrick) {
@@ -88,7 +88,7 @@ public abstract class Script implements Serializable {
 
 	protected UserBrick findBrickWithId(List<UserBrick> list, int id) {
 		for (UserBrick brick : list) {
-			if (brick.getId() == id) {
+			if (brick.getUserBrickId() == id) {
 				return brick;
 			}
 		}

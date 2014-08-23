@@ -106,6 +106,11 @@ import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
+import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.content.bricks.UserBrickParameter;
+import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
+import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElement;
+import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElements;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
@@ -262,6 +267,8 @@ public final class StorageHandler {
 		xstream.alias("brick", StopAllSoundsBrick.class);
 		xstream.alias("brick", TurnLeftBrick.class);
 		xstream.alias("brick", TurnRightBrick.class);
+		xstream.alias("brick", UserBrick.class);
+		xstream.alias("brick", UserScriptDefinitionBrick.class);
 		xstream.alias("brick", VibrationBrick.class);
 		xstream.alias("brick", WaitBrick.class);
 		xstream.alias("brick", WhenBrick.class);
@@ -277,6 +284,10 @@ public final class StorageHandler {
 		xstream.alias("brick", DroneMoveDownBrick.class);
 		xstream.alias("brick", DroneMoveLeftBrick.class);
 		xstream.alias("brick", DroneMoveRightBrick.class);
+
+		xstream.alias("userBrickElements", UserScriptDefinitionBrickElements.class);
+		xstream.alias("userBrickElement", UserScriptDefinitionBrickElement.class);
+		xstream.alias("userBrickParameter", UserBrickParameter.class);
 
 		xstream.aliasField("formulaList", FormulaBrick.class, "formulaMap");
 		xstream.aliasField("object", BrickBaseType.class, "sprite");

@@ -22,28 +22,56 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
-public class UserBrickUIDataArray extends ArrayList<UserBrickUIData> implements Serializable {
+public class UserScriptDefinitionBrickElements implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public int version = 0;
+	@XStreamAlias("version")
+	private int version = 0;
+	@XStreamAlias("userBrickElements")
+	private List<UserScriptDefinitionBrickElement> userScriptDefinitionBrickElements = new ArrayList<UserScriptDefinitionBrickElement>();
 
 	@Override
-	public UserBrickUIDataArray clone() {
-		UserBrickUIDataArray result = new UserBrickUIDataArray();
-		for (UserBrickUIData original : this) {
-			UserBrickUIData clone = new UserBrickUIData();
+	public UserScriptDefinitionBrickElements clone() {
+		UserScriptDefinitionBrickElements result = new UserScriptDefinitionBrickElements();
+		List<UserScriptDefinitionBrickElement> cloneList = new ArrayList<UserScriptDefinitionBrickElement>();
+		for (UserScriptDefinitionBrickElement original : userScriptDefinitionBrickElements) {
+			UserScriptDefinitionBrickElement clone = new UserScriptDefinitionBrickElement();
 			clone.isEditModeLineBreak = original.isEditModeLineBreak;
 			clone.isVariable = original.isVariable;
 			clone.key = original.key;
 			clone.name = original.name;
 			clone.newLineHint = original.newLineHint;
-			result.add(clone);
+			cloneList.add(clone);
 		}
+		result.setUserScriptDefinitionBrickElements(cloneList);
 		result.version = 0;
 		return result;
+	}
+
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	public List<UserScriptDefinitionBrickElement> getUserScriptDefinitionBrickElementList() {
+		return userScriptDefinitionBrickElements;
+	}
+
+	public void setUserScriptDefinitionBrickElements(List<UserScriptDefinitionBrickElement> userScriptDefinitionBrickElements) {
+		this.userScriptDefinitionBrickElements = userScriptDefinitionBrickElements;
+	}
+
+	public void incrementVersion(){
+		version++;
 	}
 }

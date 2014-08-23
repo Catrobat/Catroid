@@ -60,8 +60,12 @@ public class StartScript extends Script {
 				brick = new WhenStartedBrick(this);
 			}
 			else {
-				brick = new UserScriptDefinitionBrick(ProjectManager.getInstance().getCurrentUserBrick(), ProjectManager.getInstance().getCurrentProject().getUserVariables()
-						.getAndIncrementUserBrickId());
+				//TODO: check if right
+				brick = ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick();
+				if(brick == null){
+					//int id = ProjectManager.getInstance().getCurrentProject().getUserVariables().getAndIncrementUserBrickId();
+					brick = new UserScriptDefinitionBrick(ProjectManager.getInstance().getCurrentUserBrick());
+				}
 			}
 		}
 
