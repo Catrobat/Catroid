@@ -87,7 +87,8 @@ public class GlideToBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return getFormulaWithBrickField(BrickField.X_DESTINATION).getRequiredResources() | getFormulaWithBrickField(BrickField.Y_DESTINATION).getRequiredResources()
+				| getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS).getRequiredResources();
 	}
 
 	@Override

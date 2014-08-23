@@ -60,6 +60,7 @@ public class SpeakBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 	}
 
 	public void testSpeakBrick() {
+		solo.sleep(200);	// mal schaun
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 

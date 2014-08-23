@@ -26,6 +26,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
 
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -730,6 +731,30 @@ public class FormulaElement implements Serializable {
 		FormulaElement leftChildClone = leftChild == null ? null : leftChild.clone();
 		FormulaElement rightChildClone = rightChild == null ? null : rightChild.clone();
 		return new FormulaElement(type, new String(value == null ? "" : value), null, leftChildClone, rightChildClone);
+	}
+
+	public int getRequiredResources() {
+		int ressources = Brick.NO_RESOURCES;
+		if (leftChild != null) {
+			ressources |= leftChild.getRequiredResources();
+		}
+		if (rightChild != null) {
+			ressources |= rightChild.getRequiredResources();
+		}
+		if (type == ElementType.SENSOR) {
+			Sensors sensor = Sensors.getSensorByValue(value);
+			switch (sensor) {
+				case FACE_DETECTED:
+				case FACE_SIZE:
+				case FACE_X_POSITION:
+				case FACE_Y_POSITION:
+					ressources |= Brick.FACE_DETECTION;
+					break;
+				default:
+
+			}
+		}
+		return ressources;
 	}
 
 }
