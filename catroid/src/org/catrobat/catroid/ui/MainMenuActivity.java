@@ -205,7 +205,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	}
 
-	private void startWebViewActivity(String url) {
+	public void startWebViewActivity(String url) {
 		// TODO just a quick fix for not properly working webview on old devices
 		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
 			final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
