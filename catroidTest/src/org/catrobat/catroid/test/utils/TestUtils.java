@@ -27,9 +27,13 @@ import android.content.Context;
 import android.util.Log;
 import android.util.SparseArray;
 
+import junit.framework.Assert;
+
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.common.standardprojectcreators.StandardProjectCreatorDrone;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -41,6 +45,7 @@ import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.conditional.HideBrick;
 import org.catrobat.catroid.content.bricks.conditional.ShowBrick;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.utils.NotificationData;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
@@ -289,5 +294,39 @@ public final class TestUtils {
 		}
 
 		notificationMap.clear();
+	}
+
+	public static void loadExistingOrCreateStandardDroneProject(Context context) {
+		String droneStandardProjectName = context.getString(R.string.default_drone_project_name);
+		try {
+			ProjectManager.getInstance().loadProject(droneStandardProjectName, context);
+		} catch (ProjectException cannotLoadDroneProjectException) {
+			Log.e(TAG, "Cannot load standard drone project", cannotLoadDroneProjectException);
+		}
+
+		String currentName = ProjectManager.getInstance().getCurrentProject().getName();
+		if (!currentName.equals(droneStandardProjectName)) {
+			try {
+				ProjectManager.getInstance().setProject(createAndSaveStandardDroneProject(
+						context));
+				return;
+			} catch (IOException ioException) {
+				Log.e(TAG, "Cannot initialize standard drone project.", ioException);
+				Assert.fail("Cannot initialize standard drone project.");
+			}
+		}
+		Assert.fail("Cannot initialize default standard drone project.");
+	}
+
+	public static Project createAndSaveStandardDroneProject(Context context) throws IOException {
+		Log.d(TAG, "createAndSaveStandardDroneProject");
+		String projectName = context.getString(R.string.default_drone_project_name);
+		return createAndSaveStandardDroneProject(projectName, context);
+	}
+
+	public static Project createAndSaveStandardDroneProject(String projectName, Context context) throws IOException,
+			IllegalArgumentException {
+		StandardProjectCreatorDrone standardProjectCreatorDrone = new StandardProjectCreatorDrone();
+		return standardProjectCreatorDrone.createStandardProject(projectName, context);
 	}
 }

@@ -55,9 +55,9 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		screen = getPreferenceScreen();
 
 		if (!BuildConfig.FEATURE_LEGO_NXT_ENABLED) {
-			CheckBoxPreference dronePreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_LEGO_NXT_BRICKS);
-			dronePreference.setEnabled(false);
-			screen.removePreference(dronePreference);
+			CheckBoxPreference legoNXTPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_LEGO_NXT_BRICKS);
+			legoNXTPreference.setEnabled(false);
+			screen.removePreference(legoNXTPreference);
 		}
 
 		if (!BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
