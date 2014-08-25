@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.physics;
 
-import android.util.Log;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.Sprite;
@@ -58,7 +56,7 @@ public class PhysicsCollisionBroadcast {
 
 	public boolean sendBroadcast() {
 		if (objectName1 != null && objectName2 != null && !objectName1.isEmpty() && !objectName2.isEmpty()) {
-			Log.d(TAG, "# COLLISION # :" + objectName1 + "<->" + objectName2);
+			//Log.d(TAG, "# COLLISION # :" + objectName1 + "<->" + objectName2);
 			fireEvent(objectName1 + "<->" + objectName2);
 			fireEvent(objectName2 + "<->" + objectName1);
 			fireEvent(objectName1 + "<->anybody");

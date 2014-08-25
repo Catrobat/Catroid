@@ -28,13 +28,12 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
 
 import java.util.ArrayList;
@@ -59,8 +58,8 @@ public class PhysicsWorld {
 	public static final short MASK_TOBOUNCE = -1; // collides with everything
 	public static final short MASK_NOCOLLISION = 0; // collides with NOBODY
 
-	public static final float RATIO = 40.0f;
-	public static final int VELOCITY_ITERATIONS = 8;
+	public static final float RATIO = 10.0f;
+	public static final int VELOCITY_ITERATIONS = 3;
 	public static final int POSITION_ITERATIONS = 3;
 
 	public static final Vector2 DEFAULT_GRAVITY = new Vector2(0.0f, -10.0f);
@@ -129,21 +128,13 @@ public class PhysicsWorld {
 	}
 
 	public void changeLook(PhysicsObject physicsObject, Look look) {
-		physicsObject.setShape(physicsShapeBuilder.getShape(look.getLookData(),
-				look.getSizeInUserInterfaceDimensionUnit() / 100f));
-	}
 
-	public void changeLook(Sprite sprite) {
-		PhysicsObject physicsObject = getPhysicsObject(sprite);
-		physicsObject.setShape(physicsShapeBuilder.getShape(sprite.look.getLookData(),
-				sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f));
-		try {
-			physicsObject.setX(new Formula(-sprite.look.getX()).interpretFloat(sprite));
-			physicsObject.setY(new Formula(sprite.look.getY()).interpretFloat(sprite));
-		} catch (InterpretationException e) {
-			Log.e(TAG, "Interpretation exception captured", e);
+		Shape[] shapes = null;
+		if (look.getLookData() != null && look.getLookData().getLookFileName() != null) {
+			shapes = physicsShapeBuilder.getShape(look.getLookData(),
+					look.getSizeInUserInterfaceDimensionUnit() / 100f);
 		}
-		physicsObject.setDirection(sprite.look.getDirectionInUserInterfaceDimensionUnit());
+		physicsObject.setShape(shapes);
 	}
 
 	public PhysicsObject getPhysicsObject(Sprite sprite) {
