@@ -333,43 +333,41 @@ public class FormulaElement implements Serializable {
 
 		switch (function) {
 			case SIN:
-				return left instanceof String ? 0d : java.lang.Math.sin(Math.toRadians((Double) left));
+				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.sin(Math.toRadians(doubleValueOfLeftChild));
 			case COS:
-				return left instanceof String ? 0d : java.lang.Math.cos(Math.toRadians((Double) left));
+				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.cos(Math.toRadians(doubleValueOfLeftChild));
 			case TAN:
-				return left instanceof String ? 0d : java.lang.Math.tan(Math.toRadians((Double) left));
+				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.tan(Math.toRadians(doubleValueOfLeftChild));
 			case LN:
-				return left instanceof String ? 0d : java.lang.Math.log((Double) left);
+				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.log(doubleValueOfLeftChild);
 			case LOG:
-				return left instanceof String ? 0d : java.lang.Math.log10((Double) left);
+				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.log10(doubleValueOfLeftChild);
 			case SQRT:
-				return left instanceof String ? 0d : java.lang.Math.sqrt((Double) left);
+				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.sqrt(doubleValueOfLeftChild);
 			case RAND:
 				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? 0d : interpretFunctionRand(doubleValueOfLeftChild, doubleValueOfRightChild);
 			case ABS:
-				return left instanceof String ? 0d : java.lang.Math.abs((Double) left);
+				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.abs(doubleValueOfLeftChild);
 			case ROUND:
-				return left instanceof String ? 0d : (double) java.lang.Math.round((Double) left);
+				return doubleValueOfLeftChild == null ? 0d : (double) java.lang.Math.round(doubleValueOfLeftChild);
 			case PI:
 				return java.lang.Math.PI;
 			case MOD:
 				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? 0d : interpretFunctionMod(doubleValueOfLeftChild, doubleValueOfRightChild);
 			case ARCSIN:
-				return left instanceof String ? 0d : java.lang.Math.toDegrees(Math.asin((Double) left));
+				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.toDegrees(Math.asin(doubleValueOfLeftChild));
 			case ARCCOS:
-				return left instanceof String ? 0d : java.lang.Math.toDegrees(Math.acos((Double) left));
+				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.toDegrees(Math.acos(doubleValueOfLeftChild));
 			case ARCTAN:
-				return left instanceof String ? 0d : java.lang.Math.toDegrees(Math.atan((Double) left));
+				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.toDegrees(Math.atan(doubleValueOfLeftChild));
 			case EXP:
-				return left instanceof String ? 0d : java.lang.Math.exp((Double) left);
+				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.exp(doubleValueOfLeftChild);
 			case MAX:
-				right = rightChild.interpretRecursive(sprite);
-				return (left instanceof String || right instanceof String) ? 0d : java.lang.Math.max((Double) left,
-						(Double) right);
+				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? 0d : java.lang.Math.max(doubleValueOfLeftChild,
+						doubleValueOfRightChild);
 			case MIN:
-				right = rightChild.interpretRecursive(sprite);
-				return (left instanceof String || right instanceof String) ? 0d : java.lang.Math.min((Double) left,
-						(Double) right);
+				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? 0d : java.lang.Math.min(doubleValueOfLeftChild,
+						doubleValueOfRightChild);
 			case TRUE:
 				return 1d;
 			case FALSE:
@@ -633,14 +631,19 @@ public class FormulaElement implements Serializable {
 			}
 
 		} else {//unary operators
-			Object right = rightChild.interpretRecursive(sprite);
+			Object rightObject;
+			try {
+				rightObject = rightChild.interpretRecursive(sprite);
+			} catch (NumberFormatException numberFormatException) {
+				rightObject = Double.valueOf(Double.NaN);
+			}
 
 			switch (operator) {
 				case MINUS:
-					Double result = (Double) right;
+					Double result = interpretOperator(rightObject);
 					return Double.valueOf(-result.doubleValue());
 				case LOGICAL_NOT:
-					return (Double) right == 0d ? 1d : 0d;
+					return (Double) interpretOperator(rightObject) == 0d ? 1d : 0d;
 			}
 		}
 		return 0d;
