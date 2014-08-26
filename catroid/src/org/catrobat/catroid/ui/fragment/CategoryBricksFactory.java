@@ -141,13 +141,14 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new BroadcastReceiverBrick(broadcastMessage));
 		controlBrickList.add(new BroadcastBrick(broadcastMessage));
 		controlBrickList.add(new BroadcastWaitBrick(broadcastMessage));
+
 		controlBrickList.add(new CollisionReceiverBrick("object"));
 
 		controlBrickList.add(new NoteBrick(context.getString(R.string.brick_note_default_value)));
 		controlBrickList.add(new ForeverBrick());
 		controlBrickList.add(new IfLogicBeginBrick(0));
 		controlBrickList.add(new RepeatBrick(BrickValues.REPEAT));
-
+		
 		return controlBrickList;
 	}
 
@@ -178,13 +179,13 @@ public class CategoryBricksFactory {
 
 		// TODO[physics]
 		motionBrickList.add(new SetPhysicsObjectTypeBrick(BrickValues.PHYSIC_TYPE));
-		motionBrickList.add(new SetMassBrick(BrickValues.PHYSIC_MASS));
-		motionBrickList.add(new SetBounceBrick(BrickValues.PHYSIC_BOUNCE_FACTOR * 100));
-		motionBrickList.add(new SetFrictionBrick(BrickValues.PHYSIC_FRICTION * 100));
-		motionBrickList.add(new SetGravityBrick(BrickValues.PHYSIC_GRAVITY));
 		motionBrickList.add(new SetVelocityBrick(BrickValues.PHYSIC_VELOCITY));
 		motionBrickList.add(new TurnLeftSpeedBrick(BrickValues.PHYSIC_TURN_DEGREES));
 		motionBrickList.add(new TurnRightSpeedBrick(BrickValues.PHYSIC_TURN_DEGREES));
+		motionBrickList.add(new SetGravityBrick(BrickValues.PHYSIC_GRAVITY));
+		motionBrickList.add(new SetMassBrick(BrickValues.PHYSIC_MASS));
+		motionBrickList.add(new SetBounceBrick(BrickValues.PHYSIC_BOUNCE_FACTOR * 100));
+		motionBrickList.add(new SetFrictionBrick(BrickValues.PHYSIC_FRICTION * 100));
 
 		return motionBrickList;
 	}
