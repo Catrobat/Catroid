@@ -238,7 +238,10 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		super.onActivityCreated(savedInstanceState);
 
 		listView = getListView();
-		registerForContextMenu(listView);
+		
+		if (listView != null) {
+			registerForContextMenu(listView);
+		}
 
 		if (savedInstanceState != null) {
 			selectedLookData = (LookData) savedInstanceState
@@ -250,7 +253,11 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				lookFromCameraUri = UtilCamera.getDefaultLookFromCameraUri(defLookName);
 			}
 		}
-		lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
+		try {
+			lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
+		} catch (NullPointerException e){
+			Log.e(TAG, e.getMessage());
+		}
 
 		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
 			TextView emptyViewHeading = (TextView) getActivity().findViewById(R.id.fragment_look_text_heading);
