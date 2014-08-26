@@ -137,12 +137,6 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		}
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_main_menu, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-
 	// needed because of android:onClick in activity_main_menu.xml
 	public void handleContinueButton(View view) {
 		handleContinueButton();
