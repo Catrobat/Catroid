@@ -26,6 +26,7 @@ import android.test.InstrumentationTestCase;
 import android.util.Log;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
@@ -181,11 +182,12 @@ public final class FormulaEditorUtil {
 		List<InternToken> internTokenList = FormulaEditorUtil.buildSingleParameterFunction(function,
 				firstInternTokenType, firstParameter);
 		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
+		Formula formula = new Formula(parseTree);
 
 		InstrumentationTestCase.assertNotNull("Formula is not parsed correctly: " + function + "(" + firstParameter
 				+ ")", parseTree);
 		InstrumentationTestCase.assertEquals("Formula interpretation is not as expected! " + function + "("
-				+ firstParameter + ")", expected, parseTree.interpretRecursive(testSprite));
+				+ firstParameter + ")", expected, formula.interpretObject(testSprite));
 	}
 
 	public static void testSingleToken(InternTokenType firstInternTokenType, String firstParameter, Object expected,
@@ -194,10 +196,11 @@ public final class FormulaEditorUtil {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 		internTokenList.add(new InternToken(firstInternTokenType, firstParameter));
 		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
+		Formula formula = new Formula(parseTree);
 
 		InstrumentationTestCase.assertNotNull("Formula is not parsed correctly: " + firstParameter, parseTree);
 		InstrumentationTestCase.assertEquals("Formula interpretation is not as expected! ", expected,
-				parseTree.interpretRecursive(testSprite));
+				formula.interpretObject(testSprite));
 	}
 
 	public static void testUnaryOperator(Operators operatorType, InternTokenType firstInternTokenType,
@@ -207,11 +210,12 @@ public final class FormulaEditorUtil {
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, operatorType.name()));
 		internTokenList.add(new InternToken(firstInternTokenType, firstParameter));
 		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
+		Formula formula = new Formula(parseTree);
 
 		InstrumentationTestCase.assertNotNull("Formula is not parsed correctly: " + operatorType + firstParameter,
 				parseTree);
 		InstrumentationTestCase.assertEquals("Formula interpretation is not as expected! ", expected,
-				parseTree.interpretRecursive(testSprite));
+				formula.interpretObject(testSprite));
 	}
 
 	public static void testNotANumberWithBinaryOperator(InternTokenType firstInternTokenType, String firstOperand,

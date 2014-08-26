@@ -61,7 +61,7 @@ public class ParserTestUserLists extends AndroidTestCase {
 		USER_LIST_VALUES_SINGLE_NUMBER_STRING.add("1");
 	}
 
-	private static final String USER_LIST_VALUES_MULTIPLE_NUMBER_STRING_INTERPRETATION_VALUE = "123";
+	private static final Double USER_LIST_VALUES_MULTIPLE_NUMBER_STRING_INTERPRETATION_VALUE = 123.0;
 	private static final List<Object> USER_LIST_VALUES_MULTIPLE_NUMBER_STRING = new ArrayList<Object>();
 
 	static {
@@ -70,7 +70,7 @@ public class ParserTestUserLists extends AndroidTestCase {
 		USER_LIST_VALUES_MULTIPLE_NUMBER_STRING.add("3");
 	}
 
-	private static final String USER_LIST_VALUES_MULTIPLE_NUMBERS_INTERPRETATION_VALUE = "123";
+	private static final Double USER_LIST_VALUES_MULTIPLE_NUMBERS_INTERPRETATION_VALUE = 123.0;
 	private static final List<Object> USER_LIST_VALUES_MULTIPLE_NUMBERS = new ArrayList<Object>();
 
 	static {
@@ -79,7 +79,7 @@ public class ParserTestUserLists extends AndroidTestCase {
 		USER_LIST_VALUES_MULTIPLE_NUMBERS.add(3.0);
 	}
 
-	private static final String USER_LIST_VALUES_MULTIPLE_NUMBERS_STRING_INTEGER_INTERPRETATION_VALUE = "1234";
+	private static final Double USER_LIST_VALUES_MULTIPLE_NUMBERS_STRING_INTEGER_INTERPRETATION_VALUE = 1234.0;
 	private static final List<Object> USER_LIST_VALUES_MULTIPLE_NUMBERS_STRING_INTEGER = new ArrayList<Object>();
 
 	static {

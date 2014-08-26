@@ -74,8 +74,8 @@ public class DeleteItemOfUserListBrick extends FormulaBrick implements OnClickLi
 	}
 
 	private void initializeBrickFields(Formula listAddItemFormula) {
-		addAllowedBrickField(BrickField.LIST_ADD_ITEM);
-		setFormulaWithBrickField(BrickField.LIST_ADD_ITEM, listAddItemFormula);
+		addAllowedBrickField(BrickField.LIST_DELETE_ITEM);
+		setFormulaWithBrickField(BrickField.LIST_DELETE_ITEM, listAddItemFormula);
 	}
 
 	@Override

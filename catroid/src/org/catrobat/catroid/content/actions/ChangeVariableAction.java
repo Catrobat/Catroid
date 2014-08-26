@@ -42,7 +42,7 @@ public class ChangeVariableAction extends Action {
 		Object originalValue = userVariable.getValue();
 		Object value = changeVariable == null ? 0d : changeVariable.interpretObject(sprite);
 
-		if (originalValue instanceof String || value instanceof String) {
+		if (originalValue instanceof String) {
 			return true;
 		}
 
