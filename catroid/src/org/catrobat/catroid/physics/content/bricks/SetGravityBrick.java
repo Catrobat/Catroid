@@ -124,9 +124,9 @@ public class SetGravityBrick extends FormulaBrick implements OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_physics_set_gravity, null);
 		TextView textGravityX = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_prototype_text_view_x);
-		textGravityX.setText(String.valueOf(BrickValues.PHYSIC_GRAVITY));
+		textGravityX.setText(String.valueOf(BrickValues.PHYSIC_GRAVITY.x));
 		TextView textGravityY = (TextView) prototypeView.findViewById(R.id.brick_set_gravity_prototype_text_view_y);
-		textGravityY.setText(String.valueOf(BrickValues.PHYSIC_GRAVITY));
+		textGravityY.setText(String.valueOf(BrickValues.PHYSIC_GRAVITY.y));
 		return prototypeView;
 	}
 
