@@ -268,6 +268,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("Default Project should not be overwritten", spriteList.size() == 6);
 	}
 
+	@Device
 	public void testDeleteStandardProject() {
 		//unzip = true;
 		//saveProjectsToZip();
@@ -621,6 +622,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		}
 	}
 
+	@Device
 	public void testDeleteAllProjects() {
 		//unzip = true;
 		//saveProjectsToZip();
@@ -683,6 +685,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 				.getCurrentProject().getName());
 	}
 
+	@Device
 	public void testDeleteManyProjects() {
 		for (int count = 0; count < 10; count++) {
 			UiTestUtils.createTestProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME + " " + count);
@@ -714,6 +717,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.default_project_name)));
 	}
 
+	@Device
 	public void testDeleteProjectsWithSpecialChars() {
 		createProjectsWithSpecialChars();
 
