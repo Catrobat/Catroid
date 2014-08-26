@@ -332,17 +332,16 @@ public class Look extends Image {
 	}
 
 	public void setTransparencyInUserInterfaceDimensionUnit(float percent) {
+
 		if (percent < 0f) {
 			percent = 0f;
 		} else if (percent >= 100f) {
 			percent = 100f;
-			//			setTransparencyTo(true);
-			setVisible(false);
+			super.setVisible(false);
 		}
 
 		if (percent < 100.0f) {
-			//			setTransparencyTo(false);
-			setVisible(true);
+			super.setVisible(true);
 		}
 
 		alpha = (100f - percent) / 100f;

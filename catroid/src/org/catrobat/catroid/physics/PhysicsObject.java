@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.physics;
 
-import android.util.Log;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -41,6 +39,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class PhysicsObject {
+	private static final String TAG = PhysicsObject.class.getSimpleName();
+
 	public enum Type {
 		DYNAMIC, FIXED, NONE;
 	}
@@ -57,9 +57,7 @@ public class PhysicsObject {
 
 	private short collisionMaskRecord = 0;
 	private short categoryMaskRecord = PhysicsWorld.CATEGORY_PHYSICSOBJECT;
-	private Vector2 velocity;
-	private float rotationSpeed;
-	private float gravityScale;
+
 
 	private final Body body;
 	private final FixtureDef fixtureDef = new FixtureDef();
@@ -67,15 +65,16 @@ public class PhysicsObject {
 	private Type type;
 	private float mass;
 	private boolean ifOnEdgeBounce = false;
-	private boolean hangup = false;
-	private boolean isVisible = true;
-	//	private boolean isTransparent = false;
 
 	private Vector2 bodyAABBlower;
 	private Vector2 bodyAABBupper;
 	private Vector2 fixtureAABBlower;
 	private Vector2 fixtureAABBupper;
 	private Vector2 tmpVertice;
+
+	private Vector2 velocity = new Vector2();
+	private float rotationSpeed = 0;
+	private float gravityScale = 0;
 
 	public PhysicsObject(Body b, Sprite sprite) {
 		body = b;
@@ -211,10 +210,6 @@ public class PhysicsObject {
 		return this.fixtureDef.restitution;
 	}
 
-	public Body getBody() {
-		return body;
-	}
-
 	public void setMass(float mass) {
 		this.mass = mass;
 
@@ -314,69 +309,37 @@ public class PhysicsObject {
 		}
 	}
 
-	public void setVisible(boolean visible) {
-		if (visible == isVisible) {
-			return;
-		}
-
-		isVisible = visible;
-
-		if (isVisible) {
-			resume(true);
-		} else if (!isVisible) {
-			hangup();
-		}
-	}
-
-	//	public void setTransparent(boolean transparend) {
-	//		if (!transparend && isVisible && isTransparent) {
-	//			resume(true);
-	//			isTransparent = transparend;
-	//		} else if (transparend && !isVisible && !isTransparent) {
-	//			hangup();
-	//			isTransparent = transparend;
-	//		}
-	//	}
-
-	public void hangup() {
-		if (!hangup) {
-			Log.d("PhysicsObject", "- - hangup - -");
-			recordData();
-			setGravityScale(0);
-			setVelocity(0, 0);
-			setRotationSpeed(0);
-			setCollisionBits(categoryMaskRecord, PhysicsWorld.NOCOLLISION_MASK);
-			hangup = true;
-		}
-	}
-
-	public void resume(boolean fromLastRecord) {
-		if (hangup) {
-			Log.d("PhysicsObject", "- - resume - -");
-			if (fromLastRecord) {
-				setGravityScale(gravityScale);
-				setVelocity(velocity.x, velocity.y);
-				setRotationSpeed(rotationSpeed);
-			} else {
-				setGravityScale(1);
-			}
-			setCollisionBits(categoryMaskRecord, collisionMaskRecord);
-			hangup = false;
-		}
-	}
-
-	private void recordData() {
-		velocity = new Vector2(getVelocity());
-		rotationSpeed = getRotationSpeed();
-		gravityScale = getGravityScale();
-	}
-
 	public void getBoundaryBox(Vector2 lower, Vector2 upper) {
 		calcAABB();
 		lower.x = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBlower).x;
 		lower.y = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBlower).y;
 		upper.x = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBupper).x;
 		upper.y = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBupper).y;
+	}
+
+	public void resume(boolean record) {
+		if (record) {
+			setGravityScale(gravityScale);
+			setVelocity(velocity.x, velocity.y);
+			setRotationSpeed(rotationSpeed);
+		} else {
+			setGravityScale(1);
+		}
+		setCollisionBits(categoryMaskRecord, collisionMaskRecord);
+	}
+
+	public void hangup() {
+		recordState();
+		setGravityScale(0);
+		setVelocity(0, 0);
+		setRotationSpeed(0);
+		setCollisionBits(categoryMaskRecord, PhysicsWorld.NOCOLLISION_MASK);
+	}
+
+	private void recordState() {
+		velocity = new Vector2(getVelocity());
+		rotationSpeed = getRotationSpeed();
+		gravityScale = getGravityScale();
 	}
 
 	private void calcAABB() {
@@ -424,4 +387,5 @@ public class PhysicsObject {
 		bodyAABBupper.x = Math.max(fixtureAABBupper.x, bodyAABBupper.x);
 		bodyAABBupper.y = Math.max(fixtureAABBupper.y, bodyAABBupper.y);
 	}
+
 }

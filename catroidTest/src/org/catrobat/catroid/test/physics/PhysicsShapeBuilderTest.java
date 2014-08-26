@@ -106,20 +106,6 @@ public class PhysicsShapeBuilderTest extends InstrumentationTestCase {
 		super.tearDown();
 	}
 
-	public void testShapingOfNoImage() {
-		Shape[] shapes = physicsShapeBuilder.getShape(physicsLook.getLookData(),
-				sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
-
-		assertNull("initial value is not null", shapes);
-
-		LookData lookData = PhysicsTestUtils.generateLookData();
-		sprite.getLookDataList().add(lookData);
-
-
-		shapes = physicsShapeBuilder.getShape(lookData, sprite.look.getSizeInUserInterfaceDimensionUnit() / 100f);
-		assertNull("value of no image shaping is not null",shapes);
-	}
-
 	public void testSimpleSingleConvexPolygon() {
 		LookData lookData = PhysicsTestUtils.generateLookData(simpleSingleConvexPolygonFile);
 		physicsLook.setLookData(lookData);
