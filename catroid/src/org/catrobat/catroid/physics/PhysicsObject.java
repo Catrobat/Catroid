@@ -75,6 +75,7 @@ public class PhysicsObject {
 	private Vector2 velocity = new Vector2();
 	private float rotationSpeed = 0;
 	private float gravityScale = 0;
+	private Type savedType = Type.NONE;
 
 	public PhysicsObject(Body b, Sprite sprite) {
 		body = b;
@@ -317,7 +318,17 @@ public class PhysicsObject {
 		upper.y = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBupper).y;
 	}
 
-	public void resume(boolean record) {
+	public void activateHangup() {
+		velocity = new Vector2(getVelocity());
+		rotationSpeed = getRotationSpeed();
+		gravityScale = getGravityScale();
+
+		setGravityScale(0);
+		setVelocity(0, 0);
+		setRotationSpeed(0);
+	}
+
+	public void deactivateHangup(boolean record) {
 		if (record) {
 			setGravityScale(gravityScale);
 			setVelocity(velocity.x, velocity.y);
@@ -325,21 +336,27 @@ public class PhysicsObject {
 		} else {
 			setGravityScale(1);
 		}
-		setCollisionBits(categoryMaskRecord, collisionMaskRecord);
 	}
 
-	public void hangup() {
-		recordState();
-		setGravityScale(0);
-		setVelocity(0, 0);
-		setRotationSpeed(0);
+	public void activateNonColliding() {
 		setCollisionBits(categoryMaskRecord, PhysicsWorld.NOCOLLISION_MASK);
 	}
 
-	private void recordState() {
-		velocity = new Vector2(getVelocity());
-		rotationSpeed = getRotationSpeed();
-		gravityScale = getGravityScale();
+	public void deactivateNonColliding(boolean record) {
+		if (record) {
+			setCollisionBits(categoryMaskRecord, collisionMaskRecord);
+		}
+	}
+
+	public void activateFixed() {
+		savedType = getType();
+		setType(Type.FIXED);
+	}
+
+	public void deactivateFixed(boolean record) {
+		if (record) {
+			setType(savedType);
+		}
 	}
 
 	private void calcAABB() {
