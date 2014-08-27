@@ -124,9 +124,9 @@ public class SetVelocityBrick extends FormulaBrick implements OnClickListener {
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_physics_set_velocity, null);
 		TextView textVelocityX = (TextView) prototypeView.findViewById(R.id.brick_set_velocity_prototype_text_view_x);
-		textVelocityX.setText(String.valueOf(BrickValues.PHYSIC_VELOCITY));
+		textVelocityX.setText(String.valueOf(BrickValues.PHYSIC_VELOCITY.x));
 		TextView textVelocityY = (TextView) prototypeView.findViewById(R.id.brick_set_velocity_prototype_text_view_y);
-		textVelocityY.setText(String.valueOf(BrickValues.PHYSIC_VELOCITY));
+		textVelocityY.setText(String.valueOf(BrickValues.PHYSIC_VELOCITY.y));
 		return prototypeView;
 	}
 
