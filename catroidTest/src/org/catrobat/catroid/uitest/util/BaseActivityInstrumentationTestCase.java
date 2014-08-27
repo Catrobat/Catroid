@@ -49,7 +49,6 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 	private static final String TAG = "BaseActivityInstrumentationTestCase";
 	private Class clazz;
 	private SystemAnimations systemAnimations;
-	private static final String ZIPFILE_NAME = "testzip";
 
 	public BaseActivityInstrumentationTestCase(Class<T> clazz) {
 		super(clazz);
@@ -90,7 +89,6 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 		edit.commit();
 
 		solo.finishOpenedActivities();
-
 		systemAnimations.enableAll();
 		solo = null;
 		Log.i(TAG, "tearDown end 1");
