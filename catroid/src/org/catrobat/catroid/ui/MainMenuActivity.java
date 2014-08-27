@@ -38,7 +38,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.view.Menu;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;

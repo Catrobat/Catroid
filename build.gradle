@@ -144,7 +144,7 @@ android {
 }
 
 
-if(project.hasProperty('jenkins')) {
+if (project.hasProperty('jenkins')) {
     project.android.dexOptions.preDexLibraries = false
 //    android.buildTypes.each { type ->
 //        if (type.name == "debug") {
@@ -152,6 +152,19 @@ if(project.hasProperty('jenkins')) {
 //            type.versionNameSuffix = "-jenkins-$type.name"
 //        }
 //    }
+} else {
+    //not a jenkins build, remove animation scale permission
+    android.applicationVariants.all { variant ->
+        println "Removing the SET_ANIMATION_SCALE permission for $variant.name"
+        variant.processManifest.doLast {
+            def generatedContent = manifestOutputFile.getText()
+            generatedContent = generatedContent.replace('<uses-permission android:name="android.permission.SET_ANIMATION_SCALE" />', '')
+            if (generatedContent.contains('SET_ANIMATION_SCALE')) {
+                throw new RuntimeException("Error in removing animation scale permission!")
+            }
+            manifestOutputFile.write(generatedContent)
+        }
+    }
 }
 
 task featuresToBuildconfig << {
