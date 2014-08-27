@@ -34,21 +34,24 @@ import java.util.LinkedList;
 public class PhysicsLook extends Look {
 
 	private final transient PhysicsObject physicsObject;
-	private boolean isVisible;
 
-	private PhysicsObjectHangupState hangupState = new PhysicsObjectHangupState();
+	private PhysicsObjectStateHandler physicsObjectStateHandler = new PhysicsObjectStateHandler();
 
 	public PhysicsLook(Sprite sprite, PhysicsWorld physicsWorld) {
 		super(sprite);
-		isVisible = true;
 		physicsObject = physicsWorld.getPhysicsObject(sprite);
 	}
 
 	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
-		isVisible = visible;
-		updateHangupState(true);
+		updatePhysicsObjectState(true);
+	}
+
+	@Override
+	public void setTransparencyInUserInterfaceDimensionUnit(float percent) {
+		super.setTransparencyInUserInterfaceDimensionUnit(percent);
+		updatePhysicsObjectState(true);
 	}
 
 	@Override
@@ -95,14 +98,14 @@ public class PhysicsLook extends Look {
 	@Override
 	public float getX() {
 		float x = physicsObject.getX() - getWidth() / 2.0f;
-		updateHangupState(false);
+		updatePhysicsObjectState(false);
 		return x;
 	}
 
 	@Override
 	public float getY() {
 		float y = physicsObject.getY() - getHeight() / 2.0f;
-		updateHangupState(false);
+		updatePhysicsObjectState(false);
 		return y;
 	}
 
@@ -129,42 +132,43 @@ public class PhysicsLook extends Look {
 		}
 	}
 
-	public void updateHangupState(boolean record) {
-		hangupState.update(record);
+	public void updatePhysicsObjectState(boolean record) {
+		physicsObjectStateHandler.update(record);
 	}
 
 	public void startGlide() {
-		hangupState.activateGlideToHangup();
+		physicsObjectStateHandler.activateGlideTo();
 	}
 
 	public void stopGlide() {
-		hangupState.deactivateGlideToHangup();
+		physicsObjectStateHandler.deactivateGlideTo();
 	}
 
-	private interface HangupCondition {
+	private interface PhysicsObjectStateCondition {
 		boolean isTrue();
 	}
 
-	public boolean isActive() {
-		updateHangupState(false);
-		return !hangupState.isHangedUp();
-	}
+	private class PhysicsObjectStateHandler {
+		//private final String TAG = PhysicsObjectStateHandler.class.getSimpleName();
 
-	private class PhysicsObjectHangupState {
-		//private final String TAG = PhysicsObjectHangupState.class.getSimpleName();
+		private LinkedList<PhysicsObjectStateCondition> hangupConditions =
+				new LinkedList<PhysicsObjectStateCondition>();
+		private LinkedList<PhysicsObjectStateCondition> nonCollidingConditions =
+				new LinkedList<PhysicsObjectStateCondition>();
+		private LinkedList<PhysicsObjectStateCondition> fixConditions = new LinkedList<PhysicsObjectStateCondition>();
 
-		private LinkedList<HangupCondition> hangupConditions = new LinkedList<HangupCondition>();
-
-		private HangupCondition positionCondition;
-		private HangupCondition visibleCondition;
-		private HangupCondition transparancyCondition;
-		private HangupCondition glideToCondition;
-
-		private boolean hangedUp = false;
+		private PhysicsObjectStateCondition positionCondition;
+		private PhysicsObjectStateCondition visibleCondition;
+		private PhysicsObjectStateCondition transparencyCondition;
+		private PhysicsObjectStateCondition glideToCondition;
 		private boolean glideToIsActive = false;
 
-		public PhysicsObjectHangupState() {
-			positionCondition = new HangupCondition() {
+		private boolean hangedUp = false;
+		private boolean fixed = false;
+		private boolean nonColliding = false;
+
+		public PhysicsObjectStateHandler() {
+			positionCondition = new PhysicsObjectStateCondition() {
 				@Override
 				public boolean isTrue() {
 					Vector2 bbLowerEdge = new Vector2();
@@ -189,23 +193,23 @@ public class PhysicsLook extends Look {
 				}
 			};
 
-			visibleCondition = new HangupCondition() {
+			visibleCondition = new PhysicsObjectStateCondition() {
 				@Override
 				public boolean isTrue() {
 					//Log.d(TAG, "visibleCondition:"+!isVisible);
-					return !isVisible;
+					return !visible;
 				}
 			};
 
-			transparancyCondition = new HangupCondition() {
+			transparencyCondition = new PhysicsObjectStateCondition() {
 				@Override
 				public boolean isTrue() {
-					//Log.d(TAG, "transparancyCondition:"+(alpha==0.0));
+					//Log.d(TAG, "transparencyCondition:"+(alpha==0.0));
 					return alpha == 0.0;
 				}
 			};
 
-			glideToCondition = new HangupCondition() {
+			glideToCondition = new PhysicsObjectStateCondition() {
 				@Override
 				public boolean isTrue() {
 					//Log.d(TAG, "glideToCondition:"+glideToIsActive);
@@ -213,43 +217,98 @@ public class PhysicsLook extends Look {
 				}
 			};
 
-			hangupConditions.add(transparancyCondition);
+			hangupConditions.add(transparencyCondition);
 			hangupConditions.add(positionCondition);
 			hangupConditions.add(visibleCondition);
 			hangupConditions.add(glideToCondition);
+
+			nonCollidingConditions.add(transparencyCondition);
+			nonCollidingConditions.add(positionCondition);
+			nonCollidingConditions.add(visibleCondition);
+
+			fixConditions.add(glideToCondition);
 		}
 
-
-		public void update(boolean record) {
+		private boolean checkHangup(boolean record) {
 			boolean shouldBeHangedUp = false;
-			for (HangupCondition hangupCondition : hangupConditions) {
+			for (PhysicsObjectStateCondition hangupCondition : hangupConditions) {
 				if (hangupCondition.isTrue()) {
 					shouldBeHangedUp = true;
 					break;
 				}
 			}
-			boolean resume = hangedUp && !shouldBeHangedUp;
-			boolean hangup = !hangedUp && shouldBeHangedUp;
-			if (resume) {
+			boolean deactivateHangup = hangedUp && !shouldBeHangedUp;
+			boolean activateHangup = !hangedUp && shouldBeHangedUp;
+			if (deactivateHangup) {
 				//Log.d(TAG, "HangupState.hangedUp = false; recoveryModeActive = " + String.valueOf(record));
-				physicsObject.resume(record);
-			} else if (hangup) {
+				physicsObject.deactivateHangup(record);
+			} else if (activateHangup) {
 				//Log.d(TAG, "HangupState.hangedUp = true");
-				physicsObject.hangup();
+				physicsObject.activateHangup();
 			}
 			hangedUp = shouldBeHangedUp;
+			return hangedUp;
 		}
 
-		public void activateGlideToHangup() {
+		private boolean checkNonColliding(boolean record) {
+			boolean shouldBeNonColliding = false;
+			for (PhysicsObjectStateCondition nonCollideCondition : nonCollidingConditions) {
+				if (nonCollideCondition.isTrue()) {
+					shouldBeNonColliding = true;
+					break;
+				}
+			}
+			boolean deactivateHangup = nonColliding && !shouldBeNonColliding;
+			boolean activateHangup = !nonColliding && shouldBeNonColliding;
+			if (deactivateHangup) {
+				//Log.d(TAG, "HangupState.hangedUp = false; recoveryModeActive = " + String.valueOf(record));
+				physicsObject.deactivateNonColliding(record);
+			} else if (activateHangup) {
+				//Log.d(TAG, "HangupState.hangedUp = true");
+				physicsObject.activateNonColliding();
+			}
+			nonColliding = shouldBeNonColliding;
+			return nonColliding;
+		}
+
+		private boolean checkFixed(boolean record) {
+			boolean shouldBeFixed = false;
+			for (PhysicsObjectStateCondition fixedCondition : fixConditions) {
+				if (fixedCondition.isTrue()) {
+					shouldBeFixed = true;
+					break;
+				}
+			}
+			boolean deactivateFix = fixed && !shouldBeFixed;
+			boolean activateFix = !fixed && shouldBeFixed;
+			if (deactivateFix) {
+				//Log.d(TAG, "HangupState.hangedUp = false; recoveryModeActive = " + String.valueOf(record));
+				physicsObject.deactivateFixed(record);
+			} else if (activateFix) {
+				//Log.d(TAG, "HangupState.hangedUp = true");
+				physicsObject.activateFixed();
+			}
+			fixed = shouldBeFixed;
+			return fixed;
+		}
+
+
+		public void update(boolean record) {
+			checkHangup(record);
+			checkNonColliding(record);
+			checkFixed(record);
+		}
+
+		public void activateGlideTo() {
 			if (!glideToIsActive) {
 				glideToIsActive = true;
-				updateHangupState(true);
+				updatePhysicsObjectState(true);
 			}
 		}
 
-		public void deactivateGlideToHangup() {
+		public void deactivateGlideTo() {
 			glideToIsActive = false;
-			updateHangupState(true);
+			updatePhysicsObjectState(true);
 		}
 
 		public boolean isHangedUp() {

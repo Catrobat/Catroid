@@ -54,7 +54,7 @@ public class StartResumeSpriteTest extends AndroidTestCase {
 			testSprite.look.act(1.0f);
 		}
 
-		assertFalse("Sprite is not hidden", testSprite.look.isVisible());
+		assertFalse("Sprite is not hidden", testSprite.look.visible);
 		assertEquals("the size is not as expected", (float) size / 100, testSprite.look.getScaleX());
 		assertEquals("the size is not as expected", (float) size / 100, testSprite.look.getScaleY());
 	}
@@ -77,13 +77,13 @@ public class StartResumeSpriteTest extends AndroidTestCase {
 		testSprite.look.act(1.0f);
 
 		testSprite.pause();
-		assertFalse("Sprite is not hidden", testSprite.look.isVisible());
+		assertFalse("Sprite is not hidden", testSprite.look.visible);
 		testSprite.resume();
 
 		testSprite.look.act(1.0f);
 		testSprite.look.act(1.0f);
 
-		assertTrue("Sprite is hidden", testSprite.look.isVisible());
+		assertTrue("Sprite is hidden", testSprite.look.visible);
 
 		testScript.getBrickList().clear();
 		testScript.addBrick(hideBrick);
