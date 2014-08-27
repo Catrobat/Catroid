@@ -50,6 +50,9 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
 
+    <!-- For testing purposes, this is automatically removed in live builds, but not in jenkins builds -->
+    <uses-permission android:name="android.permission.SET_ANIMATION_SCALE" />
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
