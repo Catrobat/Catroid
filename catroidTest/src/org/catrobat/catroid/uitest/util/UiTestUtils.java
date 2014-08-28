@@ -22,10 +22,6 @@
  */
 package org.catrobat.catroid.uitest.util;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -67,6 +63,9 @@ import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
 import com.robotium.solo.Condition;
 import com.robotium.solo.Solo;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 import junit.framework.AssertionFailedError;
 
 import org.catrobat.catroid.ProjectManager;
@@ -423,7 +422,7 @@ public final class UiTestUtils {
 
 		solo.clickOnView(solo.getView(R.id.button_add));
 		assertTrue("Add Data Dialog not shown",
-				solo.waitForText(solo.getString(R.string.formula_editor_variable_dialog_title)));
+				solo.waitForText(solo.getString(R.string.formula_editor_data_dialog_title)));
 		solo.waitForView(solo.getView(R.id.dialog_formula_editor_data_name_edit_text));
 		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_data_name_edit_text);
 		solo.enterText(editText, variableName);
