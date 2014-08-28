@@ -337,7 +337,6 @@ public class PreStageActivity extends BaseActivity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.i("bt", "requestcode " + requestCode + " result code" + resultCode);
-
 		switch (requestCode) {
 			case REQUEST_CONNECT_DEVICE:
 				switch (resultCode) {
