@@ -42,6 +42,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 	private static final String TAG = "BaseActivityInstrumentationTestCase";
 
 	private Class clazz;
+	private SystemAnimations systemAnimations;
 
 	public BaseActivityInstrumentationTestCase(Class<T> clazz) {
 		super(clazz);
@@ -52,6 +53,8 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 	protected void setUp() throws Exception {
 		Log.v(TAG, "setUp");
 		super.setUp();
+		systemAnimations = new SystemAnimations(getInstrumentation().getContext());
+		systemAnimations.disableAll();
 		UiTestUtils.clearAllUtilTestProjects();
 		if (clazz.getSimpleName().equalsIgnoreCase(MainMenuActivity.class.getSimpleName())) {
 			UiTestUtils.createEmptyProject();
@@ -72,6 +75,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 		solo.finishOpenedActivities();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+		systemAnimations.enableAll();
 		solo = null;
 	}
 
