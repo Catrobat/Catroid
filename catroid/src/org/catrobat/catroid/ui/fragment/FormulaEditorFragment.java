@@ -103,8 +103,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
-		setUpActionBar();
 		currentBrick = (Brick) getArguments().getSerializable(BRICK_BUNDLE_ARGUMENT);
 		currentFormula = (Formula) getArguments().getSerializable(FORMULA_BUNDLE_ARGUMENT);
 	}
@@ -220,6 +218,9 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		fragmentView.getViewTreeObserver().addOnGlobalLayoutListener(this);
 
 		setInputFormula(currentFormula, SET_FORMULA_ON_CREATE_VIEW);
+
+		setHasOptionsMenu(true);
+		setUpActionBar();
 
 		return fragmentView;
 	}
