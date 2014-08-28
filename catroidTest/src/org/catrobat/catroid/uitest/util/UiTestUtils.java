@@ -60,7 +60,7 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.internal.ActionBarSherlockCompat;
 import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
-import com.jayway.android.robotium.solo.Solo;
+import com.robotium.solo.Solo;
 
 import junit.framework.AssertionFailedError;
 

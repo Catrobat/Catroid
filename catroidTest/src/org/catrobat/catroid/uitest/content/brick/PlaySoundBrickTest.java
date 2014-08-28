@@ -24,7 +24,7 @@ package org.catrobat.catroid.uitest.content.brick;
 
 import android.media.MediaPlayer;
 
-import com.jayway.android.robotium.solo.Solo;
+import com.robotium.solo.Solo;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;

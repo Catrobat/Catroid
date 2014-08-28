@@ -51,6 +51,7 @@ dependencies {
     compile fileTree(include: '*.jar', dir: 'catroid/libs')
     compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
     pmd 'net.sourceforge.pmd:pmd:5.1.1'
 }
 

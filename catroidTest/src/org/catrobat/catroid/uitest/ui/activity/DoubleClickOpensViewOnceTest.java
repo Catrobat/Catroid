@@ -29,7 +29,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.jayway.android.robotium.solo.Solo;
+import com.robotium.solo.Solo;
 
 import junit.framework.TestSuite;
 
@@ -486,9 +486,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 				protected void execute() {
 					brickAdapter.onClick(brickView);
 				}
-			}, R.id.brick_hide_layout,
-					getActivity().getApplicationContext().getText(R.string.brick_context_dialog_delete_brick)
-							.toString());
+			}, R.id.brick_hide_layout, getActivity().getApplicationContext().getText(R.string.brick_context_dialog_delete_brick).toString());
 		}
 
 		public void testBrickCategoryFragmentOnItemClick() {
