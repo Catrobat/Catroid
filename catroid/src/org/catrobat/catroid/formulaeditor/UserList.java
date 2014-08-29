@@ -32,6 +32,10 @@ public class UserList implements Serializable {
 	private String name;
 	private transient List<Object> list;
 
+	public UserList() {
+		list = new ArrayList<Object>();
+	}
+
 	public UserList(final String name) {
 		this.name = name;
 		this.list = new ArrayList<Object>();

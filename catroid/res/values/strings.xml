@@ -73,7 +73,11 @@
     <string name="preference_description_mindstorm_bricks">Allow to control Lego Mindstorms robots</string>
 	<string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 bricks</string>
     <string name="preference_description_quadcopter_bricks">Allow to control the ARDrone 2.0 quadcopter</string>    
-    <!--  -->
+    <string name="preference_title_use_face_detection">Face Detection</string>
+    <string name="preference_description_use_face_detection">Allow to detect faces</string>
+    <string name="preference_title_select_camera">Choose Camera</string>
+    <string name="preference_description_select_camera">Select camera which is used for face detection</string>
+    <!-- -->
 
 
     <!-- New Object Dialog -->
@@ -237,6 +241,7 @@
     <string name="text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
     <string name="no_flash_led_available">No flash LED available</string>
     <string name="no_vibrator_available">Vibrator not available</string>
+    <string name="led_and_front_camera_warning">Led AND Front Camera are not supported</string>
     <!--  -->
 
 
@@ -434,7 +439,7 @@
     <string name="brick_insert_item_into_userlist_insert_into" >Insert</string >
     <string name="brick_insert_item_into_userlist_into_list" >into list</string >
     <string name="brick_insert_item_into_userlist_at_position" >at position</string >
-    <string name="brick_replace_item_in_userlist_replace_in_list" >Replace item in lis</string >
+    <string name="brick_replace_item_in_userlist_replace_in_list" >Replace item in list</string >
     <string name="brick_replace_item_in_userlist_item_at_index" >at position</string >
     <string name="brick_replace_item_in_userlist_with_value" >with</string >
     <!--  -->
@@ -584,7 +589,7 @@
 
 
     <!-- Formula Editor Strings -->
-    <string name="formula_editor_data" >Daten</string >
+    <string name="formula_editor_data" >Data</string >
     <string name="formula_editor_true">True</string>
     <string name="formula_editor_false">False</string>
     <string name="formula_editor_decimal_mark">.</string>
@@ -641,7 +646,7 @@
     <string name="formula_editor_function_join">join</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\'world\')</string>
     <string name="formula_editor_function_list_item">element</string>
-    <string name="formula_editor_function_list_item_parameter">(1,\'listen name\')</string>
+    <string name="formula_editor_function_list_item_parameter">(1,\'list name\')</string>
     <string name="formula_editor_function_contains">contains</string>
     <string name="formula_editor_function_contains_parameter">(\'list name\',1)</string>
     <string name="formula_editor_sensor_x_acceleration">acceleration_x</string>
@@ -682,7 +687,7 @@
     <string name="formula_editor_image_button_description_delete">delete</string>
     <string name="formula_editor_variable_dialog_title">New Variable</string>
     <string name="formula_editor_list_dialog_title" >New List</string >
-    <string name="formula_editor_dialog_for_all_sprites">For all Objects</string>
+    <string name="formula_editor_dialog_for_all_sprites">For all objects</string>
     <string name="formula_editor_dialog_for_this_sprite_only">For this object only</string>
     <string name="formula_editor_data_dialog_hint" >Enter name</string>
     <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
@@ -693,8 +698,13 @@
     <string name="formula_editor_data_dialog_title">New</string>
     <string name="formula_editor_existing_data_item" >Name already in use!</string>
     <string name="formula_editor_fragment_data_current_items" >current items</string >
-    <string name="formula_editor_data_dialog_is_list" >is List</string >
+    <string name="formula_editor_data_dialog_is_list" >Make it a List</string >
     <string name="formula_editor_lists" >Lists</string >
+    <string name="formula_editor_variable_dialog_for_this_brick">For this brick</string>
+    <string name="formula_editor_sensor_face_detected">is_face_detected</string>
+    <string name="formula_editor_sensor_face_size">face_size</string>
+    <string name="formula_editor_sensor_face_x_position">face_x_position</string>
+    <string name="formula_editor_sensor_face_y_position">face_y_position</string>
 
     <plurals name="formula_editor_data_fragment_context_action_item_selected" >
         <item quantity="one">Item selected!</item>

@@ -196,7 +196,7 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 		variableSpinner.setFocusableInTouchMode(false);
 		variableSpinner.setFocusable(false);
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
-				.createDataAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick));
+				.createDataAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
 
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				dataAdapter);

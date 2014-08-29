@@ -72,8 +72,8 @@ public class UserBrickScriptActivityTest extends BaseActivityInstrumentationTest
 	}
 
 	public void testUserBrickVariableScope() throws InterruptedException {
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().addProjectUserVariable("projectVar");
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().addSpriteUserVariable("spriteVar");
+		ProjectManager.getInstance().getCurrentProject().getDataContainer().addProjectUserVariable("projectVar");
+		ProjectManager.getInstance().getCurrentProject().getDataContainer().addSpriteUserVariable("spriteVar");
 
 		String textOnSetSizeToBrickTextField = "" + Math.round(BrickValues.SET_SIZE_TO);
 		checkVariableScope(textOnSetSizeToBrickTextField, 0, false);
@@ -114,17 +114,19 @@ public class UserBrickScriptActivityTest extends BaseActivityInstrumentationTest
 			fail("FormulaEditor should have appeared");
 		}
 
-		String stringOnVariablesButton = solo.getCurrentActivity().getString(R.string.formula_editor_variables);
+		String stringOnVariablesButton = solo.getCurrentActivity().getString(R.string.formula_editor_data);
 		solo.clickOnText(stringOnVariablesButton, depth);
 
-		String stringOnGlobalTag = "FOR ALL OBJECTS";
-		boolean gotIntoVariableList = solo.waitForText(stringOnGlobalTag, 0, 5000);
+		solo.sleep(100);
+
+		String stringOnGlobalTag = solo.getString(R.string.formula_editor_dialog_for_all_sprites).toUpperCase();
+		boolean gotIntoVariableList = solo.waitForText(stringOnGlobalTag, 1, 5000);
 		if (!gotIntoVariableList) {
 			fail("'" + stringOnGlobalTag + "' should have appeared");
 		}
 
 		String stringOnUserBrickVar = UiTestUtils.TEST_USER_BRICK_VARIABLE;
-		boolean hasBrickVariable = solo.waitForText(stringOnUserBrickVar, 0, 5000);
+		boolean hasBrickVariable = solo.waitForText(stringOnUserBrickVar, 1, 5000);
 		if (hasBrickVariable != expectedBrickVariable) {
 			fail("'" + stringOnUserBrickVar + "' appeared: " + (hasBrickVariable ? "true" : "false"));
 		}

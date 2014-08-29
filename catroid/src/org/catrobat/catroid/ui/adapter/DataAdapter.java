@@ -26,7 +26,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -46,6 +45,7 @@ import java.util.TreeSet;
 
 public class DataAdapter extends BaseAdapter implements ScriptActivityAdapterInterface {
 	private Context context;
+	private List<UserVariable> userBrickVariables;
 	private List<UserList> spriteLists;
 	private List<UserList> projectLists;
 	private List<UserVariable> spriteVariables;
@@ -64,7 +64,7 @@ public class DataAdapter extends BaseAdapter implements ScriptActivityAdapterInt
 	private int linearLayoutUserListAboveItemId;
 	private int linearLayoutUserVariablesId;
 	private int spinnerUserListValuesId;
-
+	private int linearLayoutUserBrickId;
 
 	private static class ViewHolder {
 		private CheckBox checkbox;
@@ -76,14 +76,16 @@ public class DataAdapter extends BaseAdapter implements ScriptActivityAdapterInt
 		private LinearLayout userListsHeadlineAboveItem;
 		private LinearLayout userVariablesHeadline;
 		private Spinner userListValuesSpinner;
+		private LinearLayout userbrickHeadline;
 	}
 
-	public DataAdapter(Context context, List<UserList> spriteLists, List<UserList> projectLists, List<UserVariable> spriteVariables, List<UserVariable> projectVariables) {
+	public DataAdapter(Context context, List<UserList> spriteLists, List<UserList> projectLists, List<UserVariable> spriteVariables, List<UserVariable> projectVariables, List<UserVariable> userBrickVariables) {
 		this.spriteLists = spriteLists;
 		this.projectLists = projectLists;
 		this.projectVariables = projectVariables;
 		this.spriteVariables = spriteVariables;
 		this.context = context;
+		this.userBrickVariables = userBrickVariables;
 		this.selectMode = ListView.CHOICE_MODE_NONE;
 		this.itemLayout = R.layout.fragment_formula_editor_data_list_item;
 		this.checkboxId = R.id.fragment_formula_editor_datalist_item_checkbox;
@@ -95,6 +97,7 @@ public class DataAdapter extends BaseAdapter implements ScriptActivityAdapterInt
 		this.linearLayoutUserVariablesId = R.id.data_user_variables_headline;
 		this.linearLayoutUserListAboveItemId = R.id.data_user_lists_headline_above_item;
 		this.spinnerUserListValuesId = R.id.fragment_formula_editor_data_list_item_spinner;
+		this.linearLayoutUserBrickId = R.id.variablelist_userbrick_headline;
 	}
 
 	public void setItemLayout(int itemLayout, int textViewId) {
@@ -120,19 +123,21 @@ public class DataAdapter extends BaseAdapter implements ScriptActivityAdapterInt
 	}
 
 	public int getUserVariablesCount() {
-		return spriteVariables.size() + projectVariables.size();
+		return spriteVariables.size() + projectVariables.size() + userBrickVariables.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		if (position < spriteVariables.size()) {
-			return spriteVariables.get(position);
-		} else if (position < spriteVariables.size() + projectVariables.size()) {
-			return projectVariables.get(position - spriteVariables.size());
-		} else if (position < spriteVariables.size() + projectVariables.size() + spriteLists.size()) {
-			return spriteLists.get(position - (spriteVariables.size() + projectVariables.size()));
-		} else if (position < spriteVariables.size() + projectVariables.size() + spriteLists.size() + projectLists.size()) {
-			return projectLists.get(position - (spriteVariables.size() + projectVariables.size() + spriteLists.size()));
+		if (position < userBrickVariables.size()) {
+			return userBrickVariables.get(position);
+		} else if (position < userBrickVariables.size() + spriteVariables.size()) {
+			return spriteVariables.get(position - userBrickVariables.size());
+		} else if (position < userBrickVariables.size() + spriteVariables.size() + projectVariables.size()) {
+			return projectVariables.get(position - (spriteVariables.size() + userBrickVariables.size()));
+		} else if (position < userBrickVariables.size() + spriteVariables.size() + projectVariables.size() + spriteLists.size()) {
+			return spriteLists.get(position - (spriteVariables.size() + projectVariables.size() + userBrickVariables.size()));
+		} else if (position < userBrickVariables.size() + spriteVariables.size() + projectVariables.size() + spriteLists.size() + projectLists.size()) {
+			return projectLists.get(position - (spriteVariables.size() + projectVariables.size() + spriteLists.size() + userBrickVariables.size()));
 		}
 		return null;
 	}
@@ -178,7 +183,7 @@ public class DataAdapter extends BaseAdapter implements ScriptActivityAdapterInt
 		View view = convertView;
 		ViewHolder holder;
 
-		if (spriteLists.size() + projectLists.size() + spriteVariables.size() + projectVariables.size() == 0) {
+		if (spriteLists.size() + projectLists.size() + spriteVariables.size() + projectVariables.size() + userBrickVariables.size() == 0) {
 			view = View.inflate(context, itemLayout, null);
 			holder = new ViewHolder();
 			holder.userListsHeadline = (LinearLayout) view.findViewById(linearLayoutUserListId);
@@ -210,6 +215,7 @@ public class DataAdapter extends BaseAdapter implements ScriptActivityAdapterInt
 			holder.userListsHeadlineAboveItem = (LinearLayout) view.findViewById(linearLayoutUserListAboveItemId);
 			holder.userVariablesHeadline = (LinearLayout) view.findViewById(linearLayoutUserVariablesId);
 			holder.userListValuesSpinner = (Spinner) view.findViewById(spinnerUserListValuesId);
+			holder.userbrickHeadline = (LinearLayout) view.findViewById(linearLayoutUserBrickId);
 			view.setTag(holder);
 		} else {
 			holder = (ViewHolder) view.getTag();
@@ -232,19 +238,19 @@ public class DataAdapter extends BaseAdapter implements ScriptActivityAdapterInt
 			}
 		}
 
-
 		if (holder.localHeadline != null && holder.globalHeadline != null && holder.userListsHeadline != null && holder.userVariablesHeadline != null) {
 			holder.localHeadline.setVisibility(View.GONE);
 			holder.globalHeadline.setVisibility(View.GONE);
 			holder.userListsHeadline.setVisibility(View.GONE);
 			holder.userVariablesHeadline.setVisibility(View.GONE);
 			holder.userListsHeadlineAboveItem.setVisibility(View.GONE);
+			holder.userbrickHeadline.setVisibility(View.GONE);
 
 			if (position == 0) {
 				holder.userVariablesHeadline.setVisibility(View.VISIBLE);
 			}
 
-			int sizeOfVariables = spriteVariables.size() + projectVariables.size();
+			int sizeOfVariables = spriteVariables.size() + projectVariables.size() + userBrickVariables.size();
 			if (sizeOfVariables == 0 && position == 0) {
 
 				holder.userListsHeadlineAboveItem.setVisibility(View.VISIBLE);
@@ -252,13 +258,15 @@ public class DataAdapter extends BaseAdapter implements ScriptActivityAdapterInt
 				holder.userListsHeadline.setVisibility(View.VISIBLE);
 			}
 
-			if (spriteVariables.size() != 0 && position == 0) {
+			if (userBrickVariables.size() != 0 && position == 0) {
+				holder.userbrickHeadline.setVisibility(View.VISIBLE);
+			} else if (spriteVariables.size() != 0 && position == userBrickVariables.size()) {
 				holder.localHeadline.setVisibility(View.VISIBLE);
-			} else if (projectVariables.size() != 0 && position == spriteVariables.size()) {
+			} else if (projectVariables.size() != 0 && position == userBrickVariables.size() + spriteVariables.size()) {
 				holder.globalHeadline.setVisibility(View.VISIBLE);
-			} else if (spriteLists.size() != 0 && position == spriteVariables.size() + projectVariables.size()) {
+			} else if (spriteLists.size() != 0 && position == userBrickVariables.size() + spriteVariables.size() + projectVariables.size()) {
 				holder.localHeadline.setVisibility(View.VISIBLE);
-			} else if (projectLists.size() != 0 && position == spriteVariables.size() + projectVariables.size() + spriteLists.size()) {
+			} else if (projectLists.size() != 0 && position == userBrickVariables.size() + spriteVariables.size() + projectVariables.size() + spriteLists.size()) {
 				holder.globalHeadline.setVisibility(View.VISIBLE);
 			}
 		}
@@ -268,11 +276,11 @@ public class DataAdapter extends BaseAdapter implements ScriptActivityAdapterInt
 				UserList userList = (UserList) currentDataItem;
 				holder.userListValuesSpinner.setVisibility(view.VISIBLE);
 				List<String> userListEntries = new ArrayList<String>();
-				userListEntries.add(view.getContext().getString(R.string.formula_editor_fragment_data_current_items));
 				for (Object userListItem : userList.getList()) {
 					userListEntries.add(userListItem.toString());
 				}
-				ArrayAdapter<String> userListValuesAdapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, userListEntries);
+
+				UserListValuesAdapter userListValuesAdapter = new UserListValuesAdapter(view.getContext(), userListEntries);
 
 				holder.userListValuesSpinner.setAdapter(userListValuesAdapter);
 			} else {

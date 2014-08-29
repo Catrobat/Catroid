@@ -21,11 +21,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:longClickable="true"
-              android:orientation="vertical" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:longClickable="true"
+    android:orientation="vertical" >
 
     <include layout="@layout/fragment_formula_editor_user_variables_headline" />
 
@@ -36,6 +36,7 @@
 
     <include layout="@layout/fragment_formula_editor_data_local_headline" />
 
+    <include layout="@layout/fragment_formula_editor_variablelist_userbrick_headline" />
 
     <LinearLayout
         android:id="@+id/fragment_formula_editor_data_list_item_layout"
@@ -96,11 +97,10 @@
 
             </LinearLayout >
 
-
         </LinearLayout >
         
     </LinearLayout >
 
-     <include layout="@layout/fragment_formula_editor_user_lists_headline" />
+    <include layout="@layout/fragment_formula_editor_user_lists_headline" />
 
 </LinearLayout >
