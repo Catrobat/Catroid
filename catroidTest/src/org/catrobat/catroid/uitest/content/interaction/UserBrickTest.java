@@ -64,12 +64,13 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		solo.clickOnCheckBox(0);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.waitForDialogToOpen();
+		solo.sleep(100);
 		solo.clickOnButton(solo.getString(R.string.yes));
 		solo.waitForDialogToClose();
 		assertEquals("The selected brick could not be deleted!", 3, ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().getUserScript().getBrickList().size());
 
 		//copy via context menu
-		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.brick_change_x_prototype_text_view));
+		solo.clickOnText(solo.getString(R.string.brick_change_x_by));
 		String stringOnCopy = solo.getCurrentActivity()
 				.getString(R.string.brick_context_dialog_copy_brick);
 		solo.waitForText(stringOnCopy);
@@ -80,20 +81,25 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		assertEquals("The selected brick could not be copied!", 4, ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().getUserScript().getBrickList().size());
 
 		//delete via context menu
-		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.brick_change_x_prototype_text_view));
+		solo.clickOnText(solo.getString(R.string.brick_change_x_by));
 		String stringOnDelete = solo.getCurrentActivity()
 				.getString(R.string.brick_context_dialog_delete_brick);
 		solo.waitForText(stringOnDelete);
 		solo.clickOnText(stringOnDelete);
 		solo.waitForDialogToOpen();
+		solo.sleep(100);
 		solo.clickOnButton(solo.getString(R.string.yes));
 		solo.waitForDialogToClose();
 		assertEquals("The selected brick could not be deleted!", 3, ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().getUserScript().getBrickList().size());
 
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, solo.getCurrentActivity());
+
+		solo.clickOnView(solo.getView(R.id.delete));
+		solo.sleep(100);
+//		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, solo.getCurrentActivity());
 		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.select_all));
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.waitForDialogToOpen();
+		solo.sleep(100);
 		solo.clickOnButton(solo.getString(R.string.yes));
 		solo.waitForDialogToClose();
 		assertEquals("Any of the bricks could not be deleted or the definition brick was deleted by mistake!", 0, ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().getUserScript().getBrickList().size());

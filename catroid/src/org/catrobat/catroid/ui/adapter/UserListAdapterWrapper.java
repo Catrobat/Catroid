@@ -73,7 +73,7 @@ public class UserListAdapterWrapper extends BaseAdapter {
 		TextView text1;
 		if (position == 0) {
 			if (view == null) {
-				view = View.inflate(context, dataAdapter.getItemLayout(), null);
+				view = View.inflate(context, android.R.layout.simple_spinner_dropdown_item, null);
 				text1 = (TextView) view.findViewById(android.R.id.text1);
 				view.setTag(text1);
 			} else {

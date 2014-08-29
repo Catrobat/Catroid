@@ -511,11 +511,13 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		assertTrue("Redo Button not inactive!", !redo.isEnabled());
 
 		solo.clickOnView(solo.getView(R.id.menu_undo));
+		solo.sleep(100);
 
 		assertTrue("Undo Button not active!", undo.isEnabled());
 		assertTrue("Redo Button not active!", redo.isEnabled());
 
 		solo.clickOnView(solo.getView(R.id.menu_undo));
+		solo.sleep(100);
 
 		assertTrue("Undo Button not inactive!", !undo.isEnabled());
 		assertTrue("Redo Button not active!", redo.isEnabled());
@@ -544,6 +546,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 
 		solo.clickOnView(solo.getView(R.id.menu_undo));
 		solo.clickOnView(solo.getView(R.id.menu_undo));
+		solo.sleep(200);
 		assertTrue("Delete Button not active!", delete.isEnabled());
 
 		solo.clickOnView(solo.getView(R.id.menu_redo));

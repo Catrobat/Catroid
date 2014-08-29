@@ -24,10 +24,10 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="horizontal" xmlns:tools="http://schemas.android.com/tools">
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:gravity="center_vertical"
+     android:orientation="horizontal" >
 
     <CheckBox
         android:id="@+id/brick_delete_item_of_userlist_checkbox"
@@ -50,22 +50,22 @@
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_delete_item_from_userlist_delete" />
         
-         <Spinner
+        <Spinner
             android:id="@+id/delete_item_of_userlist_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="false"
             android:focusable="false" />
          
-           <TextView
+        <TextView
             android:id="@+id/brick_delete_item_of_userlist_textview"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_delete_item_from_userlist" />
         
-         <TextView
+        <TextView
             android:id="@+id/brick_delete_item_of_userlist_prototype_view"
-            style="@style/BrickPrototypeTextView" 
-            android:layout_width="match_parent"/>
+            style="@style/BrickPrototypeTextView"
+            android:layout_width="match_parent" />
 
         <TextView
             android:id="@+id/brick_delete_item_of_userlist_edit_text"
@@ -73,7 +73,6 @@
             app:layout_inputType="number"
             app:layout_textField="true" />
         
-       
-    </org.catrobat.catroid.ui.BrickLayout>
+    </org.catrobat.catroid.ui.BrickLayout >
 
-</LinearLayout>
+</LinearLayout >

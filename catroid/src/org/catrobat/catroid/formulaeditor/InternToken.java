@@ -130,6 +130,13 @@ public class InternToken {
 		return false;
 	}
 
+	public boolean isUserVariable(String name) {
+		if (internTokenType == InternTokenType.USER_VARIABLE) {
+			return tokenStringValue.equals(name);
+		}
+		return false;
+	}
+
 	public boolean isUserList() {
 		if (internTokenType == InternTokenType.USER_LIST) {
 			return true;

@@ -197,7 +197,7 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		int userBrickId = (currentBrick == null ? -1 : currentBrick.getDefinitionBrick().getUserBrickId());
 
-		DataAdapter changeVariableSpinnerAdapter = ProjectManager.getInstance().getCurrentProject()
+		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject()
 				.getDataContainer().createDataAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
 
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
