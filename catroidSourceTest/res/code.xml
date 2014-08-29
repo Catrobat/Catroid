@@ -1,0 +1,2395 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!--
+    *  Catroid: An on-device visual programming system for Android devices
+    *  Copyright (C) 2010-2013 The Catrobat Team
+    *  (<http://developer.catrobat.org/credits>)
+    *
+    *  This program is free software: you can redistribute it and/or modify
+    *  it under the terms of the GNU Affero General Public License as
+    *  published by the Free Software Foundation, either version 3 of the
+    *  License, or (at your option) any later version.
+    *
+    *  An additional term exception under section 7 of the GNU Affero
+    *  General Public License, version 3, is available at
+    *  http://developer.catrobat.org/license_additional_term
+    *
+    *  This program is distributed in the hope that it will be useful,
+    *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+    *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    *  GNU Affero General Public License for more details.
+    *
+    *  You should have received a copy of the GNU Affero General Public License
+    *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    -->
+
+<program>
+  <header>
+    <applicationBuildName></applicationBuildName>
+    <applicationBuildNumber>0</applicationBuildNumber>
+    <applicationName>Catroid</applicationName>
+    <applicationVersion>0.7.0beta</applicationVersion>
+    <catrobatLanguageVersion>0.8</catrobatLanguageVersion>
+    <dateTimeUpload></dateTimeUpload>
+    <description>Control the ship by tilting the phone and shoot down as many enemies as possible.</description>
+    <deviceName>Nexus 4</deviceName>
+    <mediaLicense>http://developer.catrobat.org/ccbysa_v3</mediaLicense>
+    <platform>Android</platform>
+    <platformVersion>17</platformVersion>
+    <programLicense>http://developer.catrobat.org/agpl_v3</programLicense>
+    <programName>Galaxy War</programName>
+    <remixOf>https://pocketcode.org/details/719</remixOf>
+    <screenHeight>1184</screenHeight>
+    <screenWidth>768</screenWidth>
+    <tags></tags>
+    <url>http://pocketcode.org/details/719</url>
+    <userHandle>DavidR</userHandle>
+  </header>
+  <objectList>
+    <object>
+      <lookList>
+        <look>
+          <fileName>827829F8866ACCF1050373EC6DFBAD98_Space_Background_bigger.gif</fileName>
+          <name>Space_Background_bigger</name>
+        </look>
+      </lookList>
+      <name>Hintergrund</name>
+      <scriptList>
+        <startScript>
+          <brickList>
+            <setLookBrick>
+              <object reference="../../../../.."/>
+              <look reference="../../../../../lookList/look"/>
+            </setLookBrick>
+            <setSizeToBrick>
+              <object reference="../../../../.."/>
+              <size>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>500</value>
+                </formulaTree>
+              </size>
+            </setSizeToBrick>
+            <playSoundBrick>
+              <object reference="../../../../.."/>
+              <sound>
+                <fileName>34631984F52E51EDD974F0130D6F46A2_8-Bit Betty - Spooky Loop_cut.mp3</fileName>
+                <name>8-Bit Betty - Spooky Loop</name>
+              </sound>
+            </playSoundBrick>
+            <waitBrick>
+              <object reference="../../../../.."/>
+              <timeToWaitInSeconds>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>110</value>
+                </formulaTree>
+              </timeToWaitInSeconds>
+            </waitBrick>
+            <broadcastBrick>
+              <object reference="../../../../.."/>
+              <broadcastMessage>gameOver</broadcastMessage>
+            </broadcastBrick>
+            <ifLogicBeginBrick>
+              <object reference="../../../../.."/>
+              <ifCondition>
+                <formulaTree>
+                  <leftChild>
+                    <type>USER_VARIABLE</type>
+                    <value>killCount</value>
+                  </leftChild>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>55</value>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>GREATER_OR_EQUAL</value>
+                </formulaTree>
+              </ifCondition>
+              <ifElseBrick>
+                <object reference="../../../../../.."/>
+                <ifBeginBrick reference="../.."/>
+                <ifEndBrick>
+                  <object reference="../../../../../../.."/>
+                  <ifBeginBrick reference="../../.."/>
+                  <ifElseBrick reference="../.."/>
+                </ifEndBrick>
+              </ifElseBrick>
+              <ifEndBrick reference="../ifElseBrick/ifEndBrick"/>
+            </ifLogicBeginBrick>
+            <speakBrick>
+              <object reference="../../../../.."/>
+              <text>Congratulations, soldier! You saved the galaxy.</text>
+            </speakBrick>
+            <ifLogicElseBrick reference="../ifLogicBeginBrick/ifElseBrick"/>
+            <speakBrick>
+              <object reference="../../../../.."/>
+              <text>The enemy forces are overwhelming us. Mission failed!</text>
+            </speakBrick>
+            <ifLogicEndBrick reference="../ifLogicBeginBrick/ifElseBrick/ifEndBrick"/>
+          </brickList>
+          <object reference="../../.."/>
+        </startScript>
+        <startScript>
+          <brickList>
+            <foreverBrick>
+              <object reference="../../../../.."/>
+              <loopEndBrick class="loopEndlessBrick">
+                <object reference="../../../../../.."/>
+                <loopBeginBrick class="foreverBrick" reference="../.."/>
+              </loopEndBrick>
+            </foreverBrick>
+            <changeXByNBrick>
+              <object reference="../../../../.."/>
+              <xMovement>
+                <formulaTree>
+                  <leftChild>
+                    <type>SENSOR</type>
+                    <value>X_INCLINATION</value>
+                  </leftChild>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>5</value>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>DIVIDE</value>
+                </formulaTree>
+              </xMovement>
+            </changeXByNBrick>
+            <loopEndlessBrick reference="../foreverBrick/loopEndBrick"/>
+          </brickList>
+          <object reference="../../.."/>
+        </startScript>
+        <whenScript>
+          <brickList>
+            <ifLogicBeginBrick>
+              <object reference="../../../../.."/>
+              <ifCondition>
+                <formulaTree>
+                  <leftChild>
+                    <type>USER_VARIABLE</type>
+                    <value>beamReady</value>
+                  </leftChild>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>1</value>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>EQUAL</value>
+                </formulaTree>
+              </ifCondition>
+              <ifElseBrick>
+                <object reference="../../../../../.."/>
+                <ifBeginBrick reference="../.."/>
+                <ifEndBrick>
+                  <object reference="../../../../../../.."/>
+                  <ifBeginBrick reference="../../.."/>
+                  <ifElseBrick reference="../.."/>
+                </ifEndBrick>
+              </ifElseBrick>
+              <ifEndBrick reference="../ifElseBrick/ifEndBrick"/>
+            </ifLogicBeginBrick>
+            <broadcastWaitBrick>
+              <object reference="../../../../.."/>
+              <broadcastMessage>fire</broadcastMessage>
+            </broadcastWaitBrick>
+            <ifLogicElseBrick reference="../ifLogicBeginBrick/ifElseBrick"/>
+            <ifLogicEndBrick reference="../ifLogicBeginBrick/ifElseBrick/ifEndBrick"/>
+          </brickList>
+          <object reference="../../.."/>
+          <action>Tapped</action>
+        </whenScript>
+      </scriptList>
+      <soundList>
+        <sound reference="../../scriptList/startScript/brickList/playSoundBrick/sound"/>
+      </soundList>
+    </object>
+    <object>
+      <lookList>
+        <look>
+          <fileName>0ADBFB7858B144CBF268F64D807F60B3_ship_default.png</fileName>
+          <name>ship_default</name>
+        </look>
+        <look>
+          <fileName>5A95239B6A85E986B047C8FCE446F01E_ship_right.png</fileName>
+          <name>ship_right</name>
+        </look>
+        <look>
+          <fileName>4E3D93893ADD9E694D64221C2D0D6AD5_ship_left.png</fileName>
+          <name>ship_left</name>
+        </look>
+      </lookList>
+      <name>Spaceship</name>
+      <scriptList>
+        <startScript>
+          <brickList>
+            <setLookBrick>
+              <object reference="../../../../.."/>
+              <look reference="../../../../../lookList/look"/>
+            </setLookBrick>
+            <setSizeToBrick>
+              <object reference="../../../../.."/>
+              <size>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>150</value>
+                </formulaTree>
+              </size>
+            </setSizeToBrick>
+            <placeAtBrick>
+              <object reference="../../../../.."/>
+              <xPosition>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>0</value>
+                </formulaTree>
+              </xPosition>
+              <yPosition>
+                <formulaTree>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>500</value>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>MINUS</value>
+                </formulaTree>
+              </yPosition>
+            </placeAtBrick>
+          </brickList>
+          <object reference="../../.."/>
+        </startScript>
+        <startScript>
+          <brickList>
+            <foreverBrick>
+              <object reference="../../../../.."/>
+              <loopEndBrick class="loopEndlessBrick">
+                <object reference="../../../../../.."/>
+                <loopBeginBrick class="foreverBrick" reference="../.."/>
+              </loopEndBrick>
+            </foreverBrick>
+            <setVariableBrick>
+              <object reference="../../../../.."/>
+              <userVariable>
+                <name>ShipX</name>
+              </userVariable>
+              <variableFormula>
+                <formulaTree>
+                  <type>SENSOR</type>
+                  <value>OBJECT_X</value>
+                </formulaTree>
+              </variableFormula>
+            </setVariableBrick>
+            <loopEndlessBrick reference="../foreverBrick/loopEndBrick"/>
+          </brickList>
+          <object reference="../../.."/>
+        </startScript>
+        <startScript>
+          <brickList>
+            <foreverBrick>
+              <object reference="../../../../.."/>
+              <loopEndBrick class="loopEndlessBrick">
+                <object reference="../../../../../.."/>
+                <loopBeginBrick class="foreverBrick" reference="../.."/>
+              </loopEndBrick>
+            </foreverBrick>
+            <ifLogicBeginBrick>
+              <object reference="../../../../.."/>
+              <ifCondition>
+                <formulaTree>
+                  <leftChild>
+                    <type>SENSOR</type>
+                    <value>X_INCLINATION</value>
+                  </leftChild>
+                  <rightChild>
+                    <rightChild>
+                      <type>NUMBER</type>
+                      <value>5</value>
+                    </rightChild>
+                    <type>OPERATOR</type>
+                    <value>MINUS</value>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>SMALLER_THAN</value>
+                </formulaTree>
+              </ifCondition>
+              <ifElseBrick>
+                <object reference="../../../../../.."/>
+                <ifBeginBrick reference="../.."/>
+                <ifEndBrick>
+                  <object reference="../../../../../../.."/>
+                  <ifBeginBrick reference="../../.."/>
+                  <ifElseBrick reference="../.."/>
+                </ifEndBrick>
+              </ifElseBrick>
+              <ifEndBrick reference="../ifElseBrick/ifEndBrick"/>
+            </ifLogicBeginBrick>
+            <setLookBrick>
+              <object reference="../../../../.."/>
+              <look reference="../../../../../lookList/look[2]"/>
+            </setLookBrick>
+            <ifLogicElseBrick reference="../ifLogicBeginBrick/ifElseBrick"/>
+            <ifLogicEndBrick reference="../ifLogicBeginBrick/ifElseBrick/ifEndBrick"/>
+            <loopEndlessBrick reference="../foreverBrick/loopEndBrick"/>
+          </brickList>
+          <object reference="../../.."/>
+        </startScript>
+        <startScript>
+          <brickList>
+            <foreverBrick>
+              <object reference="../../../../.."/>
+              <loopEndBrick class="loopEndlessBrick">
+                <object reference="../../../../../.."/>
+                <loopBeginBrick class="foreverBrick" reference="../.."/>
+              </loopEndBrick>
+            </foreverBrick>
+            <ifLogicBeginBrick>
+              <object reference="../../../../.."/>
+              <ifCondition>
+                <formulaTree>
+                  <leftChild>
+                    <rightChild>
+                      <leftChild>
+                        <type>SENSOR</type>
+                        <value>X_INCLINATION</value>
+                      </leftChild>
+                      <rightChild>
+                        <rightChild>
+                          <type>NUMBER</type>
+                          <value>5</value>
+                        </rightChild>
+                        <type>OPERATOR</type>
+                        <value>MINUS</value>
+                      </rightChild>
+                      <type>OPERATOR</type>
+                      <value>GREATER_THAN</value>
+                    </rightChild>
+                    <type>BRACKET</type>
+                  </leftChild>
+                  <rightChild>
+                    <rightChild>
+                      <leftChild>
+                        <type>SENSOR</type>
+                        <value>X_INCLINATION</value>
+                      </leftChild>
+                      <rightChild>
+                        <type>NUMBER</type>
+                        <value>5</value>
+                      </rightChild>
+                      <type>OPERATOR</type>
+                      <value>SMALLER_THAN</value>
+                    </rightChild>
+                    <type>BRACKET</type>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>LOGICAL_AND</value>
+                </formulaTree>
+              </ifCondition>
+              <ifElseBrick>
+                <object reference="../../../../../.."/>
+                <ifBeginBrick reference="../.."/>
+                <ifEndBrick>
+                  <object reference="../../../../../../.."/>
+                  <ifBeginBrick reference="../../.."/>
+                  <ifElseBrick reference="../.."/>
+                </ifEndBrick>
+              </ifElseBrick>
+              <ifEndBrick reference="../ifElseBrick/ifEndBrick"/>
+            </ifLogicBeginBrick>
+            <setLookBrick>
+              <object reference="../../../../.."/>
+              <look reference="../../../../../lookList/look"/>
+            </setLookBrick>
+            <ifLogicElseBrick reference="../ifLogicBeginBrick/ifElseBrick"/>
+            <ifLogicEndBrick reference="../ifLogicBeginBrick/ifElseBrick/ifEndBrick"/>
+            <loopEndlessBrick reference="../foreverBrick/loopEndBrick"/>
+          </brickList>
+          <object reference="../../.."/>
+        </startScript>
+        <startScript>
+          <brickList>
+            <foreverBrick>
+              <object reference="../../../../.."/>
+              <loopEndBrick class="loopEndlessBrick">
+                <object reference="../../../../../.."/>
+                <loopBeginBrick class="foreverBrick" reference="../.."/>
+              </loopEndBrick>
+            </foreverBrick>
+            <ifLogicBeginBrick>
+              <object reference="../../../../.."/>
+              <ifCondition>
+                <formulaTree>
+                  <leftChild>
+                    <type>SENSOR</type>
+                    <value>X_INCLINATION</value>
+                  </leftChild>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>5</value>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>GREATER_THAN</value>
+                </formulaTree>
+              </ifCondition>
+              <ifElseBrick>
+                <object reference="../../../../../.."/>
+                <ifBeginBrick reference="../.."/>
+                <ifEndBrick>
+                  <object reference="../../../../../../.."/>
+                  <ifBeginBrick reference="../../.."/>
+                  <ifElseBrick reference="../.."/>
+                </ifEndBrick>
+              </ifElseBrick>
+              <ifEndBrick reference="../ifElseBrick/ifEndBrick"/>
+            </ifLogicBeginBrick>
+            <setLookBrick>
+              <object reference="../../../../.."/>
+              <look reference="../../../../../lookList/look[3]"/>
+            </setLookBrick>
+            <ifLogicElseBrick reference="../ifLogicBeginBrick/ifElseBrick"/>
+            <ifLogicEndBrick reference="../ifLogicBeginBrick/ifElseBrick/ifEndBrick"/>
+            <loopEndlessBrick reference="../foreverBrick/loopEndBrick"/>
+          </brickList>
+          <object reference="../../.."/>
+        </startScript>
+        <startScript>
+          <brickList>
+            <foreverBrick>
+              <object reference="../../../../.."/>
+              <loopEndBrick class="loopEndlessBrick">
+                <object reference="../../../../../.."/>
+                <loopBeginBrick class="foreverBrick" reference="../.."/>
+              </loopEndBrick>
+            </foreverBrick>
+            <changeXByNBrick>
+              <object reference="../../../../.."/>
+              <xMovement>
+                <formulaTree>
+                  <leftChild>
+                    <rightChild>
+                      <type>SENSOR</type>
+                      <value>X_INCLINATION</value>
+                    </rightChild>
+                    <type>OPERATOR</type>
+                    <value>MINUS</value>
+                  </leftChild>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>2</value>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>DIVIDE</value>
+                </formulaTree>
+              </xMovement>
+            </changeXByNBrick>
+            <ifLogicBeginBrick>
+              <object reference="../../../../.."/>
+              <ifCondition>
+                <formulaTree>
+                  <rightChild>
+                    <leftChild>
+                      <type>SENSOR</type>
+                      <value>OBJECT_X</value>
+                    </leftChild>
+                    <rightChild>
+                      <rightChild>
+                        <type>NUMBER</type>
+                        <value>384</value>
+                      </rightChild>
+                      <type>OPERATOR</type>
+                      <value>MINUS</value>
+                    </rightChild>
+                    <type>OPERATOR</type>
+                    <value>SMALLER_THAN</value>
+                  </rightChild>
+                  <type>BRACKET</type>
+                </formulaTree>
+              </ifCondition>
+              <ifElseBrick>
+                <object reference="../../../../../.."/>
+                <ifBeginBrick reference="../.."/>
+                <ifEndBrick>
+                  <object reference="../../../../../../.."/>
+                  <ifBeginBrick reference="../../.."/>
+                  <ifElseBrick reference="../.."/>
+                </ifEndBrick>
+              </ifElseBrick>
+              <ifEndBrick reference="../ifElseBrick/ifEndBrick"/>
+            </ifLogicBeginBrick>
+            <setXBrick>
+              <object reference="../../../../.."/>
+              <xPosition>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>384</value>
+                </formulaTree>
+              </xPosition>
+            </setXBrick>
+            <ifLogicElseBrick reference="../ifLogicBeginBrick/ifElseBrick"/>
+            <ifLogicEndBrick reference="../ifLogicBeginBrick/ifElseBrick/ifEndBrick"/>
+            <ifLogicBeginBrick>
+              <object reference="../../../../.."/>
+              <ifCondition>
+                <formulaTree>
+                  <leftChild>
+                    <type>SENSOR</type>
+                    <value>OBJECT_X</value>
+                  </leftChild>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>384</value>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>GREATER_THAN</value>
+                </formulaTree>
+              </ifCondition>
+              <ifElseBrick>
+                <object reference="../../../../../.."/>
+                <ifBeginBrick reference="../.."/>
+                <ifEndBrick>
+                  <object reference="../../../../../../.."/>
+                  <ifBeginBrick reference="../../.."/>
+                  <ifElseBrick reference="../.."/>
+                </ifEndBrick>
+              </ifElseBrick>
+              <ifEndBrick reference="../ifElseBrick/ifEndBrick"/>
+            </ifLogicBeginBrick>
+            <setXBrick>
+              <object reference="../../../../.."/>
+              <xPosition>
+                <formulaTree>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>384</value>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>MINUS</value>
+                </formulaTree>
+              </xPosition>
+            </setXBrick>
+            <ifLogicElseBrick reference="../ifLogicBeginBrick[2]/ifElseBrick"/>
+            <ifLogicEndBrick reference="../ifLogicBeginBrick[2]/ifElseBrick/ifEndBrick"/>
+            <loopEndlessBrick reference="../foreverBrick/loopEndBrick"/>
+          </brickList>
+          <object reference="../../.."/>
+        </startScript>
+      </scriptList>
+      <soundList/>
+    </object>
+    <object>
+      <lookList>
+        <look>
+          <fileName>0C4D13C8DF21C1A849972227C4743594_laser_beam.png</fileName>
+          <name>laser_beam</name>
+        </look>
+      </lookList>
+      <name>Laser beam</name>
+      <scriptList>
+        <startScript>
+          <brickList>
+            <hideBrick>
+              <object reference="../../../../.."/>
+            </hideBrick>
+            <setVariableBrick>
+              <object reference="../../../../.."/>
+              <userVariable>
+                <name>beamReady</name>
+              </userVariable>
+              <variableFormula>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>1</value>
+                </formulaTree>
+              </variableFormula>
+            </setVariableBrick>
+            <foreverBrick>
+              <object reference="../../../../.."/>
+              <loopEndBrick class="loopEndlessBrick">
+                <object reference="../../../../../.."/>
+                <loopBeginBrick class="foreverBrick" reference="../.."/>
+              </loopEndBrick>
+            </foreverBrick>
+            <setVariableBrick>
+              <object reference="../../../../.."/>
+              <userVariable>
+                <name>laserBeamX</name>
+              </userVariable>
+              <variableFormula>
+                <formulaTree>
+                  <type>SENSOR</type>
+                  <value>OBJECT_X</value>
+                </formulaTree>
+              </variableFormula>
+            </setVariableBrick>
+            <setVariableBrick>
+              <object reference="../../../../.."/>
+              <userVariable>
+                <name>laserBeamY</name>
+              </userVariable>
+              <variableFormula>
+                <formulaTree>
+                  <type>SENSOR</type>
+                  <value>OBJECT_Y</value>
+                </formulaTree>
+              </variableFormula>
+            </setVariableBrick>
+            <loopEndlessBrick reference="../foreverBrick/loopEndBrick"/>
+          </brickList>
+          <object reference="../../.."/>
+        </startScript>
+        <broadcastScript>
+          <brickList>
+            <setVariableBrick>
+              <object reference="../../../../.."/>
+              <userVariable reference="../../../../startScript/brickList/setVariableBrick/userVariable"/>
+              <variableFormula>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>0</value>
+                </formulaTree>
+              </variableFormula>
+            </setVariableBrick>
+            <setXBrick>
+              <object reference="../../../../.."/>
+              <xPosition>
+                <formulaTree>
+                  <type>USER_VARIABLE</type>
+                  <value>ShipX</value>
+                </formulaTree>
+              </xPosition>
+            </setXBrick>
+            <setYBrick>
+              <object reference="../../../../.."/>
+              <yPosition>
+                <formulaTree>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>450</value>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>MINUS</value>
+                </formulaTree>
+              </yPosition>
+            </setYBrick>
+            <showBrick>
+              <object reference="../../../../.."/>
+            </showBrick>
+            <setLookBrick>
+              <object reference="../../../../.."/>
+              <look reference="../../../../../lookList/look"/>
+            </setLookBrick>
+            <playSoundBrick>
+              <object reference="../../../../.."/>
+              <sound>
+                <fileName>B5C52D60568A416924CC601731F7EA74_zap.mp3</fileName>
+                <name>zap</name>
+              </sound>
+            </playSoundBrick>
+            <glideToBrick>
+              <object reference="../../../../.."/>
+              <durationInSeconds>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>0.5</value>
+                </formulaTree>
+              </durationInSeconds>
+              <xDestination>
+                <formulaTree>
+                  <type>USER_VARIABLE</type>
+                  <value>ShipX</value>
+                </formulaTree>
+              </xDestination>
+              <yDestination>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>600</value>
+                </formulaTree>
+              </yDestination>
+            </glideToBrick>
+            <hideBrick>
+              <object reference="../../../../.."/>
+            </hideBrick>
+            <setVariableBrick>
+              <object reference="../../../../.."/>
+              <userVariable reference="../../../../startScript/brickList/setVariableBrick/userVariable"/>
+              <variableFormula>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>1</value>
+                </formulaTree>
+              </variableFormula>
+            </setVariableBrick>
+          </brickList>
+          <object reference="../../.."/>
+          <receivedMessage>fire</receivedMessage>
+        </broadcastScript>
+        <broadcastScript>
+          <brickList>
+            <hideBrick>
+              <object reference="../../../../.."/>
+            </hideBrick>
+            <setVariableBrick>
+              <object reference="../../../../.."/>
+              <userVariable reference="../../../../startScript/brickList/setVariableBrick/userVariable"/>
+              <variableFormula>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>1</value>
+                </formulaTree>
+              </variableFormula>
+            </setVariableBrick>
+          </brickList>
+          <object reference="../../.."/>
+          <receivedMessage>dead</receivedMessage>
+        </broadcastScript>
+      </scriptList>
+      <soundList>
+        <sound reference="../../scriptList/broadcastScript/brickList/playSoundBrick/sound"/>
+      </soundList>
+    </object>
+    <object>
+      <lookList>
+        <look>
+          <fileName>6AE15615E84C6EA587EF1CCC8308F075_enemy1.png</fileName>
+          <name>enemy1</name>
+        </look>
+        <look>
+          <fileName>941E21431FE47DF1415B7B94AC175066_enemy2.png</fileName>
+          <name>enemy2</name>
+        </look>
+        <look>
+          <fileName>50BA1CBA05A9FBD20CFE55036CB4A969_explosion1.png</fileName>
+          <name>explosion1</name>
+        </look>
+        <look>
+          <fileName>5F3C4906D49694EC3ACE8D76AEA2EDBB_explosion2.png</fileName>
+          <name>explosion2</name>
+        </look>
+        <look>
+          <fileName>5E1E67C1512AFDEC1F1D8A3FEE7DED29_explosion3.png</fileName>
+          <name>explosion3</name>
+        </look>
+        <look>
+          <fileName>B614C1D375CEE4492337E182F521249A_explosion4.png</fileName>
+          <name>explosion4</name>
+        </look>
+        <look>
+          <fileName>4B64BEA67EFAD5943BC087D35C07B49A_explosion5.png</fileName>
+          <name>explosion5</name>
+        </look>
+        <look>
+          <fileName>A189888BA2005349801C9455CDC42E7B_explosion6.png</fileName>
+          <name>explosion6</name>
+        </look>
+        <look>
+          <fileName>79F752FC400F14D30BDF623ACC5EDD36_explosion7.png</fileName>
+          <name>explosion7</name>
+        </look>
+        <look>
+          <fileName>C7C93E1597712BCACD6E75DCCFD1931A_explosion8.png</fileName>
+          <name>explosion8</name>
+        </look>
+      </lookList>
+      <name>Enemy1</name>
+      <scriptList>
+        <startScript>
+          <brickList>
+            <hideBrick>
+              <object reference="../../../../.."/>
+            </hideBrick>
+            <setVariableBrick>
+              <object reference="../../../../.."/>
+              <userVariable>
+                <name>killCount</name>
+              </userVariable>
+              <variableFormula>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>0.0</value>
+                </formulaTree>
+              </variableFormula>
+            </setVariableBrick>
+            <foreverBrick>
+              <object reference="../../../../.."/>
+              <loopEndBrick class="loopEndlessBrick">
+                <object reference="../../../../../.."/>
+                <loopBeginBrick class="foreverBrick" reference="../.."/>
+              </loopEndBrick>
+            </foreverBrick>
+            <setLookBrick>
+              <object reference="../../../../.."/>
+              <look reference="../../../../../lookList/look"/>
+            </setLookBrick>
+            <showBrick>
+              <object reference="../../../../.."/>
+            </showBrick>
+            <placeAtBrick>
+              <object reference="../../../../.."/>
+              <xPosition>
+                <formulaTree>
+                  <leftChild>
+                    <rightChild>
+                      <type>NUMBER</type>
+                      <value>350</value>
+                    </rightChild>
+                    <type>OPERATOR</type>
+                    <value>MINUS</value>
+                  </leftChild>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>350</value>
+                  </rightChild>
+                  <type>FUNCTION</type>
+                  <value>RAND</value>
+                </formulaTree>
+              </xPosition>
+              <yPosition>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>550</value>
+                </formulaTree>
+              </yPosition>
+            </placeAtBrick>
+            <glideToBrick>
+              <object reference="../../../../.."/>
+              <durationInSeconds>
+                <formulaTree>
+                  <leftChild>
+                    <type>NUMBER</type>
+                    <value>2</value>
+                  </leftChild>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>5</value>
+                  </rightChild>
+                  <type>FUNCTION</type>
+                  <value>RAND</value>
+                </formulaTree>
+              </durationInSeconds>
+              <xDestination>
+                <formulaTree>
+                  <leftChild>
+                    <rightChild>
+                      <type>NUMBER</type>
+                      <value>350</value>
+                    </rightChild>
+                    <type>OPERATOR</type>
+                    <value>MINUS</value>
+                  </leftChild>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>350</value>
+                  </rightChild>
+                  <type>FUNCTION</type>
+                  <value>RAND</value>
+                </formulaTree>
+              </xDestination>
+              <yDestination>
+                <formulaTree>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>550</value>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>MINUS</value>
+                </formulaTree>
+              </yDestination>
+            </glideToBrick>
+            <hideBrick>
+              <object reference="../../../../.."/>
+            </hideBrick>
+            <waitBrick>
+              <object reference="../../../../.."/>
+              <timeToWaitInSeconds>
+                <formulaTree>
+                  <leftChild>
+                    <type>NUMBER</type>
+                    <value>0</value>
+                  </leftChild>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>3</value>
+                  </rightChild>
+                  <type>FUNCTION</type>
+                  <value>RAND</value>
+                </formulaTree>
+              </timeToWaitInSeconds>
+            </waitBrick>
+            <loopEndlessBrick reference="../foreverBrick/loopEndBrick"/>
+          </brickList>
+          <object reference="../../.."/>
+        </startScript>
+        <startScript>
+          <brickList>
+            <noteBrick>
+              <object reference="../../../../.."/>
+              <note>Check for laser beam hit</note>
+            </noteBrick>
+            <foreverBrick>
+              <object reference="../../../../.."/>
+              <loopEndBrick class="loopEndlessBrick">
+                <object reference="../../../../../.."/>
+                <loopBeginBrick class="foreverBrick" reference="../.."/>
+              </loopEndBrick>
+            </foreverBrick>
+            <ifLogicBeginBrick>
+              <object reference="../../../../.."/>
+              <ifCondition>
+                <formulaTree>
+                  <leftChild>
+                    <leftChild>
+                      <leftChild>
+                        <rightChild>
+                          <leftChild>
+                            <type>SENSOR</type>
+                            <value>OBJECT_X</value>
+                          </leftChild>
+                          <rightChild>
+                            <leftChild>
+                              <type>USER_VARIABLE</type>
+                              <value>laserBeamX</value>
+                            </leftChild>
+                            <rightChild>
+                              <type>NUMBER</type>
+                              <value>30</value>
+                            </rightChild>
+                            <type>OPERATOR</type>
+                            <value>MINUS</value>
+                          </rightChild>
+                          <type>OPERATOR</type>
+                          <value>GREATER_THAN</value>
+                        </rightChild>
+                        <type>BRACKET</type>
+                      </leftChild>
+                      <rightChild>
+                        <rightChild>
+                          <leftChild>
+                            <type>SENSOR</type>
+                            <value>OBJECT_X</value>
+                          </leftChild>
+                          <rightChild>
+                            <leftChild>
+                              <type>USER_VARIABLE</type>
+                              <value>laserBeamX</value>
+                            </leftChild>
+                            <rightChild>
+                              <type>NUMBER</type>
+                              <value>30</value>
+                            </rightChild>
+                            <type>OPERATOR</type>
+                            <value>PLUS</value>
+                          </rightChild>
+                          <type>OPERATOR</type>
+                          <value>SMALLER_THAN</value>
+                        </rightChild>
+                        <type>BRACKET</type>
+                      </rightChild>
+                      <type>OPERATOR</type>
+                      <value>LOGICAL_AND</value>
+                    </leftChild>
+                    <rightChild>
+                      <rightChild>
+                        <leftChild>
+                          <type>SENSOR</type>
+                          <value>OBJECT_Y</value>
+                        </leftChild>
+                        <rightChild>
+                          <leftChild>
+                            <type>USER_VARIABLE</type>
+                            <value>laserBeamY</value>
+                          </leftChild>
+                          <rightChild>
+                            <type>NUMBER</type>
+                            <value>30</value>
+                          </rightChild>
+                          <type>OPERATOR</type>
+                          <value>MINUS</value>
+                        </rightChild>
+                        <type>OPERATOR</type>
+                        <value>GREATER_THAN</value>
+                      </rightChild>
+                      <type>BRACKET</type>
+                    </rightChild>
+                    <type>OPERATOR</type>
+                    <value>LOGICAL_AND</value>
+                  </leftChild>
+                  <rightChild>
+                    <rightChild>
+                      <leftChild>
+                        <type>SENSOR</type>
+                        <value>OBJECT_Y</value>
+                      </leftChild>
+                      <rightChild>
+                        <leftChild>
+                          <type>USER_VARIABLE</type>
+                          <value>laserBeamY</value>
+                        </leftChild>
+                        <rightChild>
+                          <type>NUMBER</type>
+                          <value>30</value>
+                        </rightChild>
+                        <type>OPERATOR</type>
+                        <value>PLUS</value>
+                      </rightChild>
+                      <type>OPERATOR</type>
+                      <value>SMALLER_THAN</value>
+                    </rightChild>
+                    <type>BRACKET</type>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>LOGICAL_AND</value>
+                </formulaTree>
+              </ifCondition>
+              <ifElseBrick>
+                <object reference="../../../../../.."/>
+                <ifBeginBrick reference="../.."/>
+                <ifEndBrick>
+                  <object reference="../../../../../../.."/>
+                  <ifBeginBrick reference="../../.."/>
+                  <ifElseBrick reference="../.."/>
+                </ifEndBrick>
+              </ifElseBrick>
+              <ifEndBrick reference="../ifElseBrick/ifEndBrick"/>
+            </ifLogicBeginBrick>
+            <noteBrick>
+              <object reference="../../../../.."/>
+              <note>Place somewhere outside the screen so laserbeam can&apos;t hit again.</note>
+            </noteBrick>
+            <changeVariableBrick>
+              <object reference="../../../../.."/>
+              <userVariable reference="../../../../startScript/brickList/setVariableBrick/userVariable"/>
+              <variableFormula>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>1</value>
+                </formulaTree>
+              </variableFormula>
+            </changeVariableBrick>
+            <playSoundBrick>
+              <object reference="../../../../.."/>
+              <sound>
+                <fileName>E13E0F5F2E34969E8514F121BC45D645_explode4.mp3</fileName>
+                <name>explode4</name>
+              </sound>
+            </playSoundBrick>
+            <setLookBrick>
+              <object reference="../../../../.."/>
+              <look reference="../../../../../lookList/look[3]"/>
+            </setLookBrick>
+            <repeatBrick>
+              <object reference="../../../../.."/>
+              <loopEndBrick>
+                <object reference="../../../../../.."/>
+                <loopBeginBrick class="repeatBrick" reference="../.."/>
+              </loopEndBrick>
+              <timesToRepeat>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>7</value>
+                </formulaTree>
+              </timesToRepeat>
+            </repeatBrick>
+            <waitBrick>
+              <object reference="../../../../.."/>
+              <timeToWaitInSeconds>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>0.1</value>
+                </formulaTree>
+              </timeToWaitInSeconds>
+            </waitBrick>
+            <nextLookBrick>
+              <object reference="../../../../.."/>
+            </nextLookBrick>
+            <loopEndBrick reference="../repeatBrick/loopEndBrick"/>
+            <hideBrick>
+              <object reference="../../../../.."/>
+            </hideBrick>
+            <placeAtBrick>
+              <object reference="../../../../.."/>
+              <xPosition>
+                <formulaTree>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>1000</value>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>MINUS</value>
+                </formulaTree>
+              </xPosition>
+              <yPosition>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>1000</value>
+                </formulaTree>
+              </yPosition>
+            </placeAtBrick>
+            <broadcastBrick>
+              <object reference="../../../../.."/>
+              <broadcastMessage>dead</broadcastMessage>
+            </broadcastBrick>
+            <ifLogicElseBrick reference="../ifLogicBeginBrick/ifElseBrick"/>
+            <ifLogicEndBrick reference="../ifLogicBeginBrick/ifElseBrick/ifEndBrick"/>
+            <loopEndlessBrick reference="../foreverBrick/loopEndBrick"/>
+          </brickList>
+          <object reference="../../.."/>
+        </startScript>
+      </scriptList>
+      <soundList>
+        <sound reference="../../scriptList/startScript[2]/brickList/playSoundBrick/sound"/>
+      </soundList>
+    </object>
+    <object>
+      <lookList>
+        <look>
+          <fileName>6AE15615E84C6EA587EF1CCC8308F075_enemy1.png</fileName>
+          <name>enemy1</name>
+        </look>
+        <look>
+          <fileName>941E21431FE47DF1415B7B94AC175066_enemy2.png</fileName>
+          <name>enemy2</name>
+        </look>
+        <look>
+          <fileName>50BA1CBA05A9FBD20CFE55036CB4A969_explosion1.png</fileName>
+          <name>explosion1</name>
+        </look>
+        <look>
+          <fileName>5F3C4906D49694EC3ACE8D76AEA2EDBB_explosion2.png</fileName>
+          <name>explosion2</name>
+        </look>
+        <look>
+          <fileName>5E1E67C1512AFDEC1F1D8A3FEE7DED29_explosion3.png</fileName>
+          <name>explosion3</name>
+        </look>
+        <look>
+          <fileName>B614C1D375CEE4492337E182F521249A_explosion4.png</fileName>
+          <name>explosion4</name>
+        </look>
+        <look>
+          <fileName>4B64BEA67EFAD5943BC087D35C07B49A_explosion5.png</fileName>
+          <name>explosion5</name>
+        </look>
+        <look>
+          <fileName>A189888BA2005349801C9455CDC42E7B_explosion6.png</fileName>
+          <name>explosion6</name>
+        </look>
+        <look>
+          <fileName>79F752FC400F14D30BDF623ACC5EDD36_explosion7.png</fileName>
+          <name>explosion7</name>
+        </look>
+        <look>
+          <fileName>C7C93E1597712BCACD6E75DCCFD1931A_explosion8.png</fileName>
+          <name>explosion8</name>
+        </look>
+      </lookList>
+      <name>Enemy2</name>
+      <scriptList>
+        <startScript>
+          <brickList>
+            <hideBrick>
+              <object reference="../../../../.."/>
+            </hideBrick>
+            <setVariableBrick>
+              <object reference="../../../../.."/>
+              <userVariable reference="../../../../../../object[4]/scriptList/startScript/brickList/setVariableBrick/userVariable"/>
+              <variableFormula>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>0.0</value>
+                </formulaTree>
+              </variableFormula>
+            </setVariableBrick>
+            <foreverBrick>
+              <object reference="../../../../.."/>
+              <loopEndBrick class="loopEndlessBrick">
+                <object reference="../../../../../.."/>
+                <loopBeginBrick class="foreverBrick" reference="../.."/>
+              </loopEndBrick>
+            </foreverBrick>
+            <setLookBrick>
+              <object reference="../../../../.."/>
+              <look reference="../../../../../lookList/look"/>
+            </setLookBrick>
+            <showBrick>
+              <object reference="../../../../.."/>
+            </showBrick>
+            <placeAtBrick>
+              <object reference="../../../../.."/>
+              <xPosition>
+                <formulaTree>
+                  <leftChild>
+                    <rightChild>
+                      <type>NUMBER</type>
+                      <value>350</value>
+                    </rightChild>
+                    <type>OPERATOR</type>
+                    <value>MINUS</value>
+                  </leftChild>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>350</value>
+                  </rightChild>
+                  <type>FUNCTION</type>
+                  <value>RAND</value>
+                </formulaTree>
+              </xPosition>
+              <yPosition>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>550</value>
+                </formulaTree>
+              </yPosition>
+            </placeAtBrick>
+            <glideToBrick>
+              <object reference="../../../../.."/>
+              <durationInSeconds>
+                <formulaTree>
+                  <leftChild>
+                    <type>NUMBER</type>
+                    <value>2</value>
+                  </leftChild>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>5</value>
+                  </rightChild>
+                  <type>FUNCTION</type>
+                  <value>RAND</value>
+                </formulaTree>
+              </durationInSeconds>
+              <xDestination>
+                <formulaTree>
+                  <leftChild>
+                    <rightChild>
+                      <type>NUMBER</type>
+                      <value>350</value>
+                    </rightChild>
+                    <type>OPERATOR</type>
+                    <value>MINUS</value>
+                  </leftChild>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>350</value>
+                  </rightChild>
+                  <type>FUNCTION</type>
+                  <value>RAND</value>
+                </formulaTree>
+              </xDestination>
+              <yDestination>
+                <formulaTree>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>550</value>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>MINUS</value>
+                </formulaTree>
+              </yDestination>
+            </glideToBrick>
+            <hideBrick>
+              <object reference="../../../../.."/>
+            </hideBrick>
+            <waitBrick>
+              <object reference="../../../../.."/>
+              <timeToWaitInSeconds>
+                <formulaTree>
+                  <leftChild>
+                    <type>NUMBER</type>
+                    <value>0</value>
+                  </leftChild>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>3</value>
+                  </rightChild>
+                  <type>FUNCTION</type>
+                  <value>RAND</value>
+                </formulaTree>
+              </timeToWaitInSeconds>
+            </waitBrick>
+            <loopEndlessBrick reference="../foreverBrick/loopEndBrick"/>
+          </brickList>
+          <object reference="../../.."/>
+        </startScript>
+        <startScript>
+          <brickList>
+            <noteBrick>
+              <object reference="../../../../.."/>
+              <note>Check for laser beam hit</note>
+            </noteBrick>
+            <foreverBrick>
+              <object reference="../../../../.."/>
+              <loopEndBrick class="loopEndlessBrick">
+                <object reference="../../../../../.."/>
+                <loopBeginBrick class="foreverBrick" reference="../.."/>
+              </loopEndBrick>
+            </foreverBrick>
+            <ifLogicBeginBrick>
+              <object reference="../../../../.."/>
+              <ifCondition>
+                <formulaTree>
+                  <leftChild>
+                    <leftChild>
+                      <leftChild>
+                        <rightChild>
+                          <leftChild>
+                            <type>SENSOR</type>
+                            <value>OBJECT_X</value>
+                          </leftChild>
+                          <rightChild>
+                            <leftChild>
+                              <type>USER_VARIABLE</type>
+                              <value>laserBeamX</value>
+                            </leftChild>
+                            <rightChild>
+                              <type>NUMBER</type>
+                              <value>30</value>
+                            </rightChild>
+                            <type>OPERATOR</type>
+                            <value>MINUS</value>
+                          </rightChild>
+                          <type>OPERATOR</type>
+                          <value>GREATER_THAN</value>
+                        </rightChild>
+                        <type>BRACKET</type>
+                      </leftChild>
+                      <rightChild>
+                        <rightChild>
+                          <leftChild>
+                            <type>SENSOR</type>
+                            <value>OBJECT_X</value>
+                          </leftChild>
+                          <rightChild>
+                            <leftChild>
+                              <type>USER_VARIABLE</type>
+                              <value>laserBeamX</value>
+                            </leftChild>
+                            <rightChild>
+                              <type>NUMBER</type>
+                              <value>30</value>
+                            </rightChild>
+                            <type>OPERATOR</type>
+                            <value>PLUS</value>
+                          </rightChild>
+                          <type>OPERATOR</type>
+                          <value>SMALLER_THAN</value>
+                        </rightChild>
+                        <type>BRACKET</type>
+                      </rightChild>
+                      <type>OPERATOR</type>
+                      <value>LOGICAL_AND</value>
+                    </leftChild>
+                    <rightChild>
+                      <rightChild>
+                        <leftChild>
+                          <type>SENSOR</type>
+                          <value>OBJECT_Y</value>
+                        </leftChild>
+                        <rightChild>
+                          <leftChild>
+                            <type>USER_VARIABLE</type>
+                            <value>laserBeamY</value>
+                          </leftChild>
+                          <rightChild>
+                            <type>NUMBER</type>
+                            <value>30</value>
+                          </rightChild>
+                          <type>OPERATOR</type>
+                          <value>MINUS</value>
+                        </rightChild>
+                        <type>OPERATOR</type>
+                        <value>GREATER_THAN</value>
+                      </rightChild>
+                      <type>BRACKET</type>
+                    </rightChild>
+                    <type>OPERATOR</type>
+                    <value>LOGICAL_AND</value>
+                  </leftChild>
+                  <rightChild>
+                    <rightChild>
+                      <leftChild>
+                        <type>SENSOR</type>
+                        <value>OBJECT_Y</value>
+                      </leftChild>
+                      <rightChild>
+                        <leftChild>
+                          <type>USER_VARIABLE</type>
+                          <value>laserBeamY</value>
+                        </leftChild>
+                        <rightChild>
+                          <type>NUMBER</type>
+                          <value>30</value>
+                        </rightChild>
+                        <type>OPERATOR</type>
+                        <value>PLUS</value>
+                      </rightChild>
+                      <type>OPERATOR</type>
+                      <value>SMALLER_THAN</value>
+                    </rightChild>
+                    <type>BRACKET</type>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>LOGICAL_AND</value>
+                </formulaTree>
+              </ifCondition>
+              <ifElseBrick>
+                <object reference="../../../../../.."/>
+                <ifBeginBrick reference="../.."/>
+                <ifEndBrick>
+                  <object reference="../../../../../../.."/>
+                  <ifBeginBrick reference="../../.."/>
+                  <ifElseBrick reference="../.."/>
+                </ifEndBrick>
+              </ifElseBrick>
+              <ifEndBrick reference="../ifElseBrick/ifEndBrick"/>
+            </ifLogicBeginBrick>
+            <noteBrick>
+              <object reference="../../../../.."/>
+              <note>Place somewhere outside the screen so laserbeam can&apos;t hit again.</note>
+            </noteBrick>
+            <changeVariableBrick>
+              <object reference="../../../../.."/>
+              <userVariable reference="../../../../../../object[4]/scriptList/startScript/brickList/setVariableBrick/userVariable"/>
+              <variableFormula>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>1</value>
+                </formulaTree>
+              </variableFormula>
+            </changeVariableBrick>
+            <playSoundBrick>
+              <object reference="../../../../.."/>
+              <sound>
+                <fileName>E13E0F5F2E34969E8514F121BC45D645_explode4.mp3</fileName>
+                <name>explode4</name>
+              </sound>
+            </playSoundBrick>
+            <setLookBrick>
+              <object reference="../../../../.."/>
+              <look reference="../../../../../lookList/look[3]"/>
+            </setLookBrick>
+            <repeatBrick>
+              <object reference="../../../../.."/>
+              <loopEndBrick>
+                <object reference="../../../../../.."/>
+                <loopBeginBrick class="repeatBrick" reference="../.."/>
+              </loopEndBrick>
+              <timesToRepeat>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>7</value>
+                </formulaTree>
+              </timesToRepeat>
+            </repeatBrick>
+            <waitBrick>
+              <object reference="../../../../.."/>
+              <timeToWaitInSeconds>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>0.1</value>
+                </formulaTree>
+              </timeToWaitInSeconds>
+            </waitBrick>
+            <nextLookBrick>
+              <object reference="../../../../.."/>
+            </nextLookBrick>
+            <loopEndBrick reference="../repeatBrick/loopEndBrick"/>
+            <hideBrick>
+              <object reference="../../../../.."/>
+            </hideBrick>
+            <placeAtBrick>
+              <object reference="../../../../.."/>
+              <xPosition>
+                <formulaTree>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>1000</value>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>MINUS</value>
+                </formulaTree>
+              </xPosition>
+              <yPosition>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>1000</value>
+                </formulaTree>
+              </yPosition>
+            </placeAtBrick>
+            <broadcastBrick>
+              <object reference="../../../../.."/>
+              <broadcastMessage>dead</broadcastMessage>
+            </broadcastBrick>
+            <ifLogicElseBrick reference="../ifLogicBeginBrick/ifElseBrick"/>
+            <ifLogicEndBrick reference="../ifLogicBeginBrick/ifElseBrick/ifEndBrick"/>
+            <loopEndlessBrick reference="../foreverBrick/loopEndBrick"/>
+          </brickList>
+          <object reference="../../.."/>
+        </startScript>
+      </scriptList>
+      <soundList>
+        <sound reference="../../scriptList/startScript[2]/brickList/playSoundBrick/sound"/>
+      </soundList>
+    </object>
+    <object>
+      <lookList>
+        <look>
+          <fileName>6AE15615E84C6EA587EF1CCC8308F075_enemy1.png</fileName>
+          <name>enemy1</name>
+        </look>
+        <look>
+          <fileName>941E21431FE47DF1415B7B94AC175066_enemy2.png</fileName>
+          <name>enemy2</name>
+        </look>
+        <look>
+          <fileName>50BA1CBA05A9FBD20CFE55036CB4A969_explosion1.png</fileName>
+          <name>explosion1</name>
+        </look>
+        <look>
+          <fileName>5F3C4906D49694EC3ACE8D76AEA2EDBB_explosion2.png</fileName>
+          <name>explosion2</name>
+        </look>
+        <look>
+          <fileName>5E1E67C1512AFDEC1F1D8A3FEE7DED29_explosion3.png</fileName>
+          <name>explosion3</name>
+        </look>
+        <look>
+          <fileName>B614C1D375CEE4492337E182F521249A_explosion4.png</fileName>
+          <name>explosion4</name>
+        </look>
+        <look>
+          <fileName>4B64BEA67EFAD5943BC087D35C07B49A_explosion5.png</fileName>
+          <name>explosion5</name>
+        </look>
+        <look>
+          <fileName>A189888BA2005349801C9455CDC42E7B_explosion6.png</fileName>
+          <name>explosion6</name>
+        </look>
+        <look>
+          <fileName>79F752FC400F14D30BDF623ACC5EDD36_explosion7.png</fileName>
+          <name>explosion7</name>
+        </look>
+        <look>
+          <fileName>C7C93E1597712BCACD6E75DCCFD1931A_explosion8.png</fileName>
+          <name>explosion8</name>
+        </look>
+      </lookList>
+      <name>Enemy3</name>
+      <scriptList>
+        <startScript>
+          <brickList>
+            <hideBrick>
+              <object reference="../../../../.."/>
+            </hideBrick>
+            <setVariableBrick>
+              <object reference="../../../../.."/>
+              <userVariable reference="../../../../../../object[4]/scriptList/startScript/brickList/setVariableBrick/userVariable"/>
+              <variableFormula>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>0</value>
+                </formulaTree>
+              </variableFormula>
+            </setVariableBrick>
+            <foreverBrick>
+              <object reference="../../../../.."/>
+              <loopEndBrick class="loopEndlessBrick">
+                <object reference="../../../../../.."/>
+                <loopBeginBrick class="foreverBrick" reference="../.."/>
+              </loopEndBrick>
+            </foreverBrick>
+            <setLookBrick>
+              <object reference="../../../../.."/>
+              <look reference="../../../../../lookList/look"/>
+            </setLookBrick>
+            <showBrick>
+              <object reference="../../../../.."/>
+            </showBrick>
+            <placeAtBrick>
+              <object reference="../../../../.."/>
+              <xPosition>
+                <formulaTree>
+                  <leftChild>
+                    <rightChild>
+                      <type>NUMBER</type>
+                      <value>350</value>
+                    </rightChild>
+                    <type>OPERATOR</type>
+                    <value>MINUS</value>
+                  </leftChild>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>350</value>
+                  </rightChild>
+                  <type>FUNCTION</type>
+                  <value>RAND</value>
+                </formulaTree>
+              </xPosition>
+              <yPosition>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>550</value>
+                </formulaTree>
+              </yPosition>
+            </placeAtBrick>
+            <glideToBrick>
+              <object reference="../../../../.."/>
+              <durationInSeconds>
+                <formulaTree>
+                  <leftChild>
+                    <type>NUMBER</type>
+                    <value>2</value>
+                  </leftChild>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>5</value>
+                  </rightChild>
+                  <type>FUNCTION</type>
+                  <value>RAND</value>
+                </formulaTree>
+              </durationInSeconds>
+              <xDestination>
+                <formulaTree>
+                  <leftChild>
+                    <rightChild>
+                      <type>NUMBER</type>
+                      <value>350</value>
+                    </rightChild>
+                    <type>OPERATOR</type>
+                    <value>MINUS</value>
+                  </leftChild>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>350</value>
+                  </rightChild>
+                  <type>FUNCTION</type>
+                  <value>RAND</value>
+                </formulaTree>
+              </xDestination>
+              <yDestination>
+                <formulaTree>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>550</value>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>MINUS</value>
+                </formulaTree>
+              </yDestination>
+            </glideToBrick>
+            <hideBrick>
+              <object reference="../../../../.."/>
+            </hideBrick>
+            <waitBrick>
+              <object reference="../../../../.."/>
+              <timeToWaitInSeconds>
+                <formulaTree>
+                  <leftChild>
+                    <type>NUMBER</type>
+                    <value>0</value>
+                  </leftChild>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>3</value>
+                  </rightChild>
+                  <type>FUNCTION</type>
+                  <value>RAND</value>
+                </formulaTree>
+              </timeToWaitInSeconds>
+            </waitBrick>
+            <loopEndlessBrick reference="../foreverBrick/loopEndBrick"/>
+          </brickList>
+          <object reference="../../.."/>
+        </startScript>
+        <startScript>
+          <brickList>
+            <noteBrick>
+              <object reference="../../../../.."/>
+              <note>Check for laser beam hit</note>
+            </noteBrick>
+            <foreverBrick>
+              <object reference="../../../../.."/>
+              <loopEndBrick class="loopEndlessBrick">
+                <object reference="../../../../../.."/>
+                <loopBeginBrick class="foreverBrick" reference="../.."/>
+              </loopEndBrick>
+            </foreverBrick>
+            <ifLogicBeginBrick>
+              <object reference="../../../../.."/>
+              <ifCondition>
+                <formulaTree>
+                  <leftChild>
+                    <leftChild>
+                      <leftChild>
+                        <rightChild>
+                          <leftChild>
+                            <type>SENSOR</type>
+                            <value>OBJECT_X</value>
+                          </leftChild>
+                          <rightChild>
+                            <leftChild>
+                              <type>USER_VARIABLE</type>
+                              <value>laserBeamX</value>
+                            </leftChild>
+                            <rightChild>
+                              <type>NUMBER</type>
+                              <value>30</value>
+                            </rightChild>
+                            <type>OPERATOR</type>
+                            <value>MINUS</value>
+                          </rightChild>
+                          <type>OPERATOR</type>
+                          <value>GREATER_THAN</value>
+                        </rightChild>
+                        <type>BRACKET</type>
+                      </leftChild>
+                      <rightChild>
+                        <rightChild>
+                          <leftChild>
+                            <type>SENSOR</type>
+                            <value>OBJECT_X</value>
+                          </leftChild>
+                          <rightChild>
+                            <leftChild>
+                              <type>USER_VARIABLE</type>
+                              <value>laserBeamX</value>
+                            </leftChild>
+                            <rightChild>
+                              <type>NUMBER</type>
+                              <value>30</value>
+                            </rightChild>
+                            <type>OPERATOR</type>
+                            <value>PLUS</value>
+                          </rightChild>
+                          <type>OPERATOR</type>
+                          <value>SMALLER_THAN</value>
+                        </rightChild>
+                        <type>BRACKET</type>
+                      </rightChild>
+                      <type>OPERATOR</type>
+                      <value>LOGICAL_AND</value>
+                    </leftChild>
+                    <rightChild>
+                      <rightChild>
+                        <leftChild>
+                          <type>SENSOR</type>
+                          <value>OBJECT_Y</value>
+                        </leftChild>
+                        <rightChild>
+                          <leftChild>
+                            <type>USER_VARIABLE</type>
+                            <value>laserBeamY</value>
+                          </leftChild>
+                          <rightChild>
+                            <type>NUMBER</type>
+                            <value>30</value>
+                          </rightChild>
+                          <type>OPERATOR</type>
+                          <value>MINUS</value>
+                        </rightChild>
+                        <type>OPERATOR</type>
+                        <value>GREATER_THAN</value>
+                      </rightChild>
+                      <type>BRACKET</type>
+                    </rightChild>
+                    <type>OPERATOR</type>
+                    <value>LOGICAL_AND</value>
+                  </leftChild>
+                  <rightChild>
+                    <rightChild>
+                      <leftChild>
+                        <type>SENSOR</type>
+                        <value>OBJECT_Y</value>
+                      </leftChild>
+                      <rightChild>
+                        <leftChild>
+                          <type>USER_VARIABLE</type>
+                          <value>laserBeamY</value>
+                        </leftChild>
+                        <rightChild>
+                          <type>NUMBER</type>
+                          <value>30</value>
+                        </rightChild>
+                        <type>OPERATOR</type>
+                        <value>PLUS</value>
+                      </rightChild>
+                      <type>OPERATOR</type>
+                      <value>SMALLER_THAN</value>
+                    </rightChild>
+                    <type>BRACKET</type>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>LOGICAL_AND</value>
+                </formulaTree>
+              </ifCondition>
+              <ifElseBrick>
+                <object reference="../../../../../.."/>
+                <ifBeginBrick reference="../.."/>
+                <ifEndBrick>
+                  <object reference="../../../../../../.."/>
+                  <ifBeginBrick reference="../../.."/>
+                  <ifElseBrick reference="../.."/>
+                </ifEndBrick>
+              </ifElseBrick>
+              <ifEndBrick reference="../ifElseBrick/ifEndBrick"/>
+            </ifLogicBeginBrick>
+            <noteBrick>
+              <object reference="../../../../.."/>
+              <note>Place somewhere outside the screen so laserbeam can&apos;t hit again.</note>
+            </noteBrick>
+            <changeVariableBrick>
+              <object reference="../../../../.."/>
+              <userVariable reference="../../../../../../object[4]/scriptList/startScript/brickList/setVariableBrick/userVariable"/>
+              <variableFormula>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>1</value>
+                </formulaTree>
+              </variableFormula>
+            </changeVariableBrick>
+            <playSoundBrick>
+              <object reference="../../../../.."/>
+              <sound>
+                <fileName>E13E0F5F2E34969E8514F121BC45D645_explode4.mp3</fileName>
+                <name>explode4</name>
+              </sound>
+            </playSoundBrick>
+            <setLookBrick>
+              <object reference="../../../../.."/>
+              <look reference="../../../../../lookList/look[3]"/>
+            </setLookBrick>
+            <repeatBrick>
+              <object reference="../../../../.."/>
+              <loopEndBrick>
+                <object reference="../../../../../.."/>
+                <loopBeginBrick class="repeatBrick" reference="../.."/>
+              </loopEndBrick>
+              <timesToRepeat>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>7</value>
+                </formulaTree>
+              </timesToRepeat>
+            </repeatBrick>
+            <waitBrick>
+              <object reference="../../../../.."/>
+              <timeToWaitInSeconds>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>0.1</value>
+                </formulaTree>
+              </timeToWaitInSeconds>
+            </waitBrick>
+            <nextLookBrick>
+              <object reference="../../../../.."/>
+            </nextLookBrick>
+            <loopEndBrick reference="../repeatBrick/loopEndBrick"/>
+            <hideBrick>
+              <object reference="../../../../.."/>
+            </hideBrick>
+            <placeAtBrick>
+              <object reference="../../../../.."/>
+              <xPosition>
+                <formulaTree>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>1000</value>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>MINUS</value>
+                </formulaTree>
+              </xPosition>
+              <yPosition>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>1000</value>
+                </formulaTree>
+              </yPosition>
+            </placeAtBrick>
+            <broadcastBrick>
+              <object reference="../../../../.."/>
+              <broadcastMessage>dead</broadcastMessage>
+            </broadcastBrick>
+            <ifLogicElseBrick reference="../ifLogicBeginBrick/ifElseBrick"/>
+            <ifLogicEndBrick reference="../ifLogicBeginBrick/ifElseBrick/ifEndBrick"/>
+            <loopEndlessBrick reference="../foreverBrick/loopEndBrick"/>
+          </brickList>
+          <object reference="../../.."/>
+        </startScript>
+      </scriptList>
+      <soundList>
+        <sound reference="../../scriptList/startScript[2]/brickList/playSoundBrick/sound"/>
+      </soundList>
+    </object>
+    <object>
+      <lookList>
+        <look>
+          <fileName>6AE15615E84C6EA587EF1CCC8308F075_enemy1.png</fileName>
+          <name>enemy1</name>
+        </look>
+        <look>
+          <fileName>941E21431FE47DF1415B7B94AC175066_enemy2.png</fileName>
+          <name>enemy2</name>
+        </look>
+        <look>
+          <fileName>50BA1CBA05A9FBD20CFE55036CB4A969_explosion1.png</fileName>
+          <name>explosion1</name>
+        </look>
+        <look>
+          <fileName>5F3C4906D49694EC3ACE8D76AEA2EDBB_explosion2.png</fileName>
+          <name>explosion2</name>
+        </look>
+        <look>
+          <fileName>5E1E67C1512AFDEC1F1D8A3FEE7DED29_explosion3.png</fileName>
+          <name>explosion3</name>
+        </look>
+        <look>
+          <fileName>B614C1D375CEE4492337E182F521249A_explosion4.png</fileName>
+          <name>explosion4</name>
+        </look>
+        <look>
+          <fileName>4B64BEA67EFAD5943BC087D35C07B49A_explosion5.png</fileName>
+          <name>explosion5</name>
+        </look>
+        <look>
+          <fileName>A189888BA2005349801C9455CDC42E7B_explosion6.png</fileName>
+          <name>explosion6</name>
+        </look>
+        <look>
+          <fileName>79F752FC400F14D30BDF623ACC5EDD36_explosion7.png</fileName>
+          <name>explosion7</name>
+        </look>
+        <look>
+          <fileName>C7C93E1597712BCACD6E75DCCFD1931A_explosion8.png</fileName>
+          <name>explosion8</name>
+        </look>
+      </lookList>
+      <name>Enemy4</name>
+      <scriptList>
+        <startScript>
+          <brickList>
+            <hideBrick>
+              <object reference="../../../../.."/>
+            </hideBrick>
+            <setVariableBrick>
+              <object reference="../../../../.."/>
+              <userVariable reference="../../../../../../object[4]/scriptList/startScript/brickList/setVariableBrick/userVariable"/>
+              <variableFormula>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>0</value>
+                </formulaTree>
+              </variableFormula>
+            </setVariableBrick>
+            <foreverBrick>
+              <object reference="../../../../.."/>
+              <loopEndBrick class="loopEndlessBrick">
+                <object reference="../../../../../.."/>
+                <loopBeginBrick class="foreverBrick" reference="../.."/>
+              </loopEndBrick>
+            </foreverBrick>
+            <setLookBrick>
+              <object reference="../../../../.."/>
+              <look reference="../../../../../lookList/look"/>
+            </setLookBrick>
+            <showBrick>
+              <object reference="../../../../.."/>
+            </showBrick>
+            <placeAtBrick>
+              <object reference="../../../../.."/>
+              <xPosition>
+                <formulaTree>
+                  <leftChild>
+                    <rightChild>
+                      <type>NUMBER</type>
+                      <value>350</value>
+                    </rightChild>
+                    <type>OPERATOR</type>
+                    <value>MINUS</value>
+                  </leftChild>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>350</value>
+                  </rightChild>
+                  <type>FUNCTION</type>
+                  <value>RAND</value>
+                </formulaTree>
+              </xPosition>
+              <yPosition>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>550</value>
+                </formulaTree>
+              </yPosition>
+            </placeAtBrick>
+            <glideToBrick>
+              <object reference="../../../../.."/>
+              <durationInSeconds>
+                <formulaTree>
+                  <leftChild>
+                    <type>NUMBER</type>
+                    <value>2</value>
+                  </leftChild>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>5</value>
+                  </rightChild>
+                  <type>FUNCTION</type>
+                  <value>RAND</value>
+                </formulaTree>
+              </durationInSeconds>
+              <xDestination>
+                <formulaTree>
+                  <leftChild>
+                    <rightChild>
+                      <type>NUMBER</type>
+                      <value>350</value>
+                    </rightChild>
+                    <type>OPERATOR</type>
+                    <value>MINUS</value>
+                  </leftChild>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>350</value>
+                  </rightChild>
+                  <type>FUNCTION</type>
+                  <value>RAND</value>
+                </formulaTree>
+              </xDestination>
+              <yDestination>
+                <formulaTree>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>550</value>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>MINUS</value>
+                </formulaTree>
+              </yDestination>
+            </glideToBrick>
+            <hideBrick>
+              <object reference="../../../../.."/>
+            </hideBrick>
+            <waitBrick>
+              <object reference="../../../../.."/>
+              <timeToWaitInSeconds>
+                <formulaTree>
+                  <leftChild>
+                    <type>NUMBER</type>
+                    <value>0</value>
+                  </leftChild>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>3</value>
+                  </rightChild>
+                  <type>FUNCTION</type>
+                  <value>RAND</value>
+                </formulaTree>
+              </timeToWaitInSeconds>
+            </waitBrick>
+            <loopEndlessBrick reference="../foreverBrick/loopEndBrick"/>
+          </brickList>
+          <object reference="../../.."/>
+        </startScript>
+        <startScript>
+          <brickList>
+            <noteBrick>
+              <object reference="../../../../.."/>
+              <note>Check for laser beam hit</note>
+            </noteBrick>
+            <foreverBrick>
+              <object reference="../../../../.."/>
+              <loopEndBrick class="loopEndlessBrick">
+                <object reference="../../../../../.."/>
+                <loopBeginBrick class="foreverBrick" reference="../.."/>
+              </loopEndBrick>
+            </foreverBrick>
+            <ifLogicBeginBrick>
+              <object reference="../../../../.."/>
+              <ifCondition>
+                <formulaTree>
+                  <leftChild>
+                    <leftChild>
+                      <leftChild>
+                        <rightChild>
+                          <leftChild>
+                            <type>SENSOR</type>
+                            <value>OBJECT_X</value>
+                          </leftChild>
+                          <rightChild>
+                            <leftChild>
+                              <type>USER_VARIABLE</type>
+                              <value>laserBeamX</value>
+                            </leftChild>
+                            <rightChild>
+                              <type>NUMBER</type>
+                              <value>30</value>
+                            </rightChild>
+                            <type>OPERATOR</type>
+                            <value>MINUS</value>
+                          </rightChild>
+                          <type>OPERATOR</type>
+                          <value>GREATER_THAN</value>
+                        </rightChild>
+                        <type>BRACKET</type>
+                      </leftChild>
+                      <rightChild>
+                        <rightChild>
+                          <leftChild>
+                            <type>SENSOR</type>
+                            <value>OBJECT_X</value>
+                          </leftChild>
+                          <rightChild>
+                            <leftChild>
+                              <type>USER_VARIABLE</type>
+                              <value>laserBeamX</value>
+                            </leftChild>
+                            <rightChild>
+                              <type>NUMBER</type>
+                              <value>30</value>
+                            </rightChild>
+                            <type>OPERATOR</type>
+                            <value>PLUS</value>
+                          </rightChild>
+                          <type>OPERATOR</type>
+                          <value>SMALLER_THAN</value>
+                        </rightChild>
+                        <type>BRACKET</type>
+                      </rightChild>
+                      <type>OPERATOR</type>
+                      <value>LOGICAL_AND</value>
+                    </leftChild>
+                    <rightChild>
+                      <rightChild>
+                        <leftChild>
+                          <type>SENSOR</type>
+                          <value>OBJECT_Y</value>
+                        </leftChild>
+                        <rightChild>
+                          <leftChild>
+                            <type>USER_VARIABLE</type>
+                            <value>laserBeamY</value>
+                          </leftChild>
+                          <rightChild>
+                            <type>NUMBER</type>
+                            <value>30</value>
+                          </rightChild>
+                          <type>OPERATOR</type>
+                          <value>MINUS</value>
+                        </rightChild>
+                        <type>OPERATOR</type>
+                        <value>GREATER_THAN</value>
+                      </rightChild>
+                      <type>BRACKET</type>
+                    </rightChild>
+                    <type>OPERATOR</type>
+                    <value>LOGICAL_AND</value>
+                  </leftChild>
+                  <rightChild>
+                    <rightChild>
+                      <leftChild>
+                        <type>SENSOR</type>
+                        <value>OBJECT_Y</value>
+                      </leftChild>
+                      <rightChild>
+                        <leftChild>
+                          <type>USER_VARIABLE</type>
+                          <value>laserBeamY</value>
+                        </leftChild>
+                        <rightChild>
+                          <type>NUMBER</type>
+                          <value>30</value>
+                        </rightChild>
+                        <type>OPERATOR</type>
+                        <value>PLUS</value>
+                      </rightChild>
+                      <type>OPERATOR</type>
+                      <value>SMALLER_THAN</value>
+                    </rightChild>
+                    <type>BRACKET</type>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>LOGICAL_AND</value>
+                </formulaTree>
+              </ifCondition>
+              <ifElseBrick>
+                <object reference="../../../../../.."/>
+                <ifBeginBrick reference="../.."/>
+                <ifEndBrick>
+                  <object reference="../../../../../../.."/>
+                  <ifBeginBrick reference="../../.."/>
+                  <ifElseBrick reference="../.."/>
+                </ifEndBrick>
+              </ifElseBrick>
+              <ifEndBrick reference="../ifElseBrick/ifEndBrick"/>
+            </ifLogicBeginBrick>
+            <noteBrick>
+              <object reference="../../../../.."/>
+              <note>Place somewhere outside the screen so laserbeam can&apos;t hit again.</note>
+            </noteBrick>
+            <changeVariableBrick>
+              <object reference="../../../../.."/>
+              <userVariable reference="../../../../../../object[4]/scriptList/startScript/brickList/setVariableBrick/userVariable"/>
+              <variableFormula>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>1</value>
+                </formulaTree>
+              </variableFormula>
+            </changeVariableBrick>
+            <playSoundBrick>
+              <object reference="../../../../.."/>
+              <sound>
+                <fileName>E13E0F5F2E34969E8514F121BC45D645_explode4.mp3</fileName>
+                <name>explode4</name>
+              </sound>
+            </playSoundBrick>
+            <setLookBrick>
+              <object reference="../../../../.."/>
+              <look reference="../../../../../lookList/look[3]"/>
+            </setLookBrick>
+            <repeatBrick>
+              <object reference="../../../../.."/>
+              <loopEndBrick>
+                <object reference="../../../../../.."/>
+                <loopBeginBrick class="repeatBrick" reference="../.."/>
+              </loopEndBrick>
+              <timesToRepeat>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>7</value>
+                </formulaTree>
+              </timesToRepeat>
+            </repeatBrick>
+            <waitBrick>
+              <object reference="../../../../.."/>
+              <timeToWaitInSeconds>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>0.1</value>
+                </formulaTree>
+              </timeToWaitInSeconds>
+            </waitBrick>
+            <nextLookBrick>
+              <object reference="../../../../.."/>
+            </nextLookBrick>
+            <loopEndBrick reference="../repeatBrick/loopEndBrick"/>
+            <hideBrick>
+              <object reference="../../../../.."/>
+            </hideBrick>
+            <placeAtBrick>
+              <object reference="../../../../.."/>
+              <xPosition>
+                <formulaTree>
+                  <rightChild>
+                    <type>NUMBER</type>
+                    <value>1000</value>
+                  </rightChild>
+                  <type>OPERATOR</type>
+                  <value>MINUS</value>
+                </formulaTree>
+              </xPosition>
+              <yPosition>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>1000</value>
+                </formulaTree>
+              </yPosition>
+            </placeAtBrick>
+            <broadcastBrick>
+              <object reference="../../../../.."/>
+              <broadcastMessage>dead</broadcastMessage>
+            </broadcastBrick>
+            <ifLogicElseBrick reference="../ifLogicBeginBrick/ifElseBrick"/>
+            <ifLogicEndBrick reference="../ifLogicBeginBrick/ifElseBrick/ifEndBrick"/>
+            <loopEndlessBrick reference="../foreverBrick/loopEndBrick"/>
+          </brickList>
+          <object reference="../../.."/>
+        </startScript>
+      </scriptList>
+      <soundList>
+        <sound reference="../../scriptList/startScript[2]/brickList/playSoundBrick/sound"/>
+      </soundList>
+    </object>
+    <object>
+      <lookList>
+        <look>
+          <fileName>469817C6324C625001A140CAC36D1E4E_end_screen.png</fileName>
+          <name>end_screen</name>
+        </look>
+      </lookList>
+      <name>End screen</name>
+      <scriptList>
+        <broadcastScript>
+          <brickList>
+            <showBrick>
+              <object reference="../../../../.."/>
+            </showBrick>
+            <comeToFrontBrick>
+              <object reference="../../../../.."/>
+            </comeToFrontBrick>
+            <setLookBrick>
+              <object reference="../../../../.."/>
+              <look reference="../../../../../lookList/look"/>
+            </setLookBrick>
+            <setSizeToBrick>
+              <object reference="../../../../.."/>
+              <size>
+                <formulaTree>
+                  <type>NUMBER</type>
+                  <value>110</value>
+                </formulaTree>
+              </size>
+            </setSizeToBrick>
+          </brickList>
+          <object reference="../../.."/>
+          <receivedMessage>gameOver</receivedMessage>
+        </broadcastScript>
+        <startScript>
+          <brickList>
+            <hideBrick>
+              <object reference="../../../../.."/>
+            </hideBrick>
+          </brickList>
+          <object reference="../../.."/>
+        </startScript>
+      </scriptList>
+      <soundList/>
+    </object>
+  </objectList>
+  <variables>
+    <objectVariableList>
+      <entry>
+        <object reference="../../../../objectList/object[6]"/>
+        <list/>
+      </entry>
+      <entry>
+        <object reference="../../../../objectList/object"/>
+        <list/>
+      </entry>
+      <entry>
+        <object reference="../../../../objectList/object[5]"/>
+        <list/>
+      </entry>
+      <entry>
+        <object reference="../../../../objectList/object[4]"/>
+        <list/>
+      </entry>
+      <entry>
+        <object reference="../../../../objectList/object[2]"/>
+        <list/>
+      </entry>
+      <entry>
+        <object reference="../../../../objectList/object[7]"/>
+        <list/>
+      </entry>
+      <entry>
+        <object reference="../../../../objectList/object[3]"/>
+        <list/>
+      </entry>
+    </objectVariableList>
+    <programVariableList>
+      <userVariable reference="../../../objectList/object[2]/scriptList/startScript[2]/brickList/setVariableBrick/userVariable"/>
+      <userVariable reference="../../../objectList/object[3]/scriptList/startScript/brickList/setVariableBrick/userVariable"/>
+      <userVariable reference="../../../objectList/object[3]/scriptList/startScript/brickList/setVariableBrick[2]/userVariable"/>
+      <userVariable reference="../../../objectList/object[3]/scriptList/startScript/brickList/setVariableBrick[3]/userVariable"/>
+      <userVariable reference="../../../objectList/object[4]/scriptList/startScript/brickList/setVariableBrick/userVariable"/>
+    </programVariableList>
+  </variables>
+</program>

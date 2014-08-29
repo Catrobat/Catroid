@@ -3,16 +3,23 @@ repositories{
 }
 
 apply plugin: 'java'
+apply plugin: 'groovy'
 
 dependencies {
-    testCompile files( project(":").buildDir.getPath() + '/intermediates/classes/debug' )
     testCompile 'junit:junit:4.10'
+    testCompile 'org.codehaus.groovy:groovy:1.6.0'
+    testCompile files( project(":").buildDir.getPath() + '/intermediates/classes/debug' )
 }
 
 sourceSets {
     main {
         test {
-            java.srcDir 'src'
+            java {
+                srcDir 'src/test/java'
+            }
+            groovy {
+                srcDir 'src/test/groovy'
+            }
         }
         resources {
             srcDir 'res'
@@ -25,3 +32,4 @@ test {
         events "standardOut", "standardError", "failed", "passed", "skipped"
     }
 }
+
