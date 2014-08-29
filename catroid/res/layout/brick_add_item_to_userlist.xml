@@ -75,8 +75,7 @@
              android:layout_height="wrap_content"
              android:clickable="false"
              android:focusable="false" />
-        
-       
+
     </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

@@ -52,4 +52,4 @@
         android:layout_above="@id/bottom_bar"
         class="org.catrobat.catroid.ui.fragment.ProjectsListFragment" />
 
-</RelativeLayout>
+</RelativeLayout >

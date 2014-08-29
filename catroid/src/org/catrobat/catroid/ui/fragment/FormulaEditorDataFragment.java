@@ -296,7 +296,7 @@ public class FormulaEditorDataFragment extends SherlockListFragment implements D
 		int userBrickId = (currentBrick == null ? -1 : currentBrick.getUserBrickId());
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		DataContainer dataContainer = currentProject.getDataContainer();
-		adapter = dataContainer.createUserVariableAdapter(getSherlockActivity(), userBrickId, currentSprite, inUserBrick);
+		adapter = dataContainer.createDataAdapter(getSherlockActivity(), userBrickId, currentSprite, inUserBrick);
 		setListAdapter(adapter);
 		adapter.setOnCheckedChangeListener(this);
 		adapter.setOnListItemClickListener(this);

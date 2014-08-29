@@ -62,7 +62,6 @@ public class DataContainer implements Serializable {
 	public DataContainer() {
 		projectVariables = new ArrayList<UserVariable>();
 		spriteVariables = new HashMap<Sprite, List<UserVariable>>();
-		userBrickVariables = new HashMap<Integer, List<UserVariable>>();
 
 		projectLists = new ArrayList<UserList>();
 		spriteListOfLists = new HashMap<Sprite, List<UserList>>();
@@ -70,7 +69,10 @@ public class DataContainer implements Serializable {
 	}
 
 	public DataAdapter createDataAdapter(Context context, Sprite sprite) {
-		return new DataAdapter(context, getOrCreateUserListListForSprite(sprite), projectLists);
+		List<UserVariable> userBrickVariables = new LinkedList<UserVariable>();
+		List<UserVariable> spriteVariables = getOrCreateVariableListForSprite(sprite);
+		List<UserList> spriteUserList = getOrCreateUserListListForSprite(sprite);
+		return new DataAdapter(context, spriteUserList, projectLists, spriteVariables, projectVariables,userBrickVariables);
 	}
 
 	public DataAdapter createDataAdapter(Context context, int userBrickId, Sprite sprite, boolean inUserBrick) {
@@ -81,7 +83,8 @@ public class DataContainer implements Serializable {
 			userBrickVariables = getOrCreateVariableListForUserBrick(userBrickId);
 		}
 		List<UserVariable> spriteVariables = getOrCreateVariableListForSprite(sprite);
-		return new DataAdapter(context, userBrickVariables, spriteVariables, getOrCreateVariableListForSprite(sprite), projectVariables);
+		List<UserList> spriteUserList = getOrCreateUserListListForSprite(sprite);
+		return new DataAdapter(context, spriteUserList, projectLists, spriteVariables, projectVariables,userBrickVariables);
 	}
 
 	public UserVariable getUserVariable(String userVariableName, Sprite sprite) {

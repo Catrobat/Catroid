@@ -135,7 +135,7 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		assertTrue("Data Fragment not shown", solo.waitForText(solo.getString(R.string.formula_editor_data)));
 
 		ListView listView = getDataListListView();
-		assertTrue("UserList not added!", listView.getCount() == 2);
+		assertEquals("UserList not added!", 2, listView.getCount());
 	}
 
 	public void testModifyUserListValuesInStage() throws InterruptedException {
@@ -170,7 +170,7 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		ListView listView = getDataListListView();
 
 		UserList userList = (UserList) listView.getItemAtPosition(0);
-		assertEquals("Wrong size of User List after stage!", userList.getList().size(), 1);
+		assertEquals("Wrong size of User List after stage!", 1,userList.getList().size());
 		assertTrue("Value of UserList not saved after stage1!",
 				((Double) userList.getList().get(0)).compareTo(ADD_VALUE_TO_LIST) == 0);
 
@@ -383,6 +383,8 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		solo.goBack();
 		solo.goBack();
 
+		solo.sleep(200);
+
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo, 2);
 
 		solo.clickOnView(solo.getView(GLIDE_TO_EDIT_TEXT_RID));
@@ -533,16 +535,20 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
 		solo.clickOnText(selectAll);
+		solo.sleep(200);
 		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
 
 		solo.clickOnCheckBox(0);
+		solo.sleep(200);
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
 		solo.clickOnCheckBox(1);
+		solo.sleep(200);
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
 		solo.clickOnCheckBox(0);
 		solo.clickOnCheckBox(1);
+		solo.sleep(200);
 		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
 	}
 

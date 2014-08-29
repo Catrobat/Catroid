@@ -22,8 +22,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/data_user_lists_headline"
-              style="@style/headlineLinearLayout" >
+    android:id="@+id/data_user_lists_headline"
+    style="@style/headlineLinearLayout" >
 
     <View
         style="@style/headlineView"
@@ -35,6 +35,5 @@
         style="@style/headlineTextView"
         android:textSize="@dimen/text_size_xxlarge"
         android:text="@string/formula_editor_lists" />
-
 
 </LinearLayout >

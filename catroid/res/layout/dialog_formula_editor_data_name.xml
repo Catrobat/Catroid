@@ -67,9 +67,8 @@
         <CheckBox
             android:id="@+id/dialog_formula_editor_data_is_list_checkbox"
             style="@style/DefaultDialog.Item"
-            android:paddingTop="15dp"
+            android:layout_marginTop="15dp"
             android:paddingBottom="0dp"
-            android:textSize="@dimen/text_size_xxlarge"
             android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/formula_editor_data_dialog_is_list" />
     </LinearLayout>
 

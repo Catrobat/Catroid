@@ -48,7 +48,7 @@ public class UserBrickParameter extends FormulaBrick {
 	@Override
 	public java.util.List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.setVariable(sprite, getFormulaWithBrickField(BrickField.VARIABLE),
-				ProjectManager.getInstance().getCurrentProject().getUserVariables().getUserVariable(variableName, sprite)));
+				ProjectManager.getInstance().getCurrentProject().getDataContainer().getUserVariable(variableName, sprite)));
 		return null;
 	}
 }
