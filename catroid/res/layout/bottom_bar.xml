@@ -22,12 +22,12 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/bottom_bar"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/actionbar_height"
-    android:layout_alignParentBottom="true"
-    android:background="@drawable/bottom_bar_background"
-    android:orientation="horizontal" >
+              android:id="@+id/bottom_bar"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/actionbar_height"
+              android:layout_alignParentBottom="true"
+              android:background="@drawable/bottom_bar_background"
+              android:orientation="horizontal" >
 
     <ImageButton
         android:id="@+id/button_add"

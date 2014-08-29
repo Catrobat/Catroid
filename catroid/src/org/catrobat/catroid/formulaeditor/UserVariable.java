@@ -30,7 +30,7 @@ public class UserVariable implements Serializable {
 	private String name;
 	private transient Object value;
 
-	public UserVariable(final String name) {
+	public UserVariable(String name) {
 		this.name = name;
 		this.value = Double.valueOf(0);
 	}
@@ -50,6 +50,10 @@ public class UserVariable implements Serializable {
 
 	public String getName() {
 		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

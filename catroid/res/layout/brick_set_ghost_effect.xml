@@ -23,11 +23,11 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="horizontal" >
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_vertical"
+              android:orientation="horizontal" >
 
     <CheckBox
         android:id="@+id/brick_set_ghost_effect_checkbox"
@@ -50,19 +50,19 @@
             android:id="@+id/brick_set_ghost_effect_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_set_ghost_effect" >
-        </TextView>
+        </TextView >
 
         <TextView
             android:id="@+id/brick_set_ghost_effect_to"
             style="@style/BrickText.SingleLine"
             app:layout_newLine="true"
             android:text="@string/to_label" >
-        </TextView>
+        </TextView >
 
         <TextView
             android:id="@+id/brick_set_ghost_effect_to_prototype_text_view"
             style="@style/BrickPrototypeTextView" >
-        </TextView>
+        </TextView >
 
         <TextView
             android:id="@+id/brick_set_ghost_effect_to_edit_text"
@@ -70,13 +70,13 @@
             app:layout_inputType="number"
             app:layout_textField="true"
             android:maxEms="10" >
-        </TextView>
+        </TextView >
 
         <TextView
             android:id="@+id/brick_set_ghost_effect_percent"
             style="@style/BrickText.SingleLine"
             android:text="@string/percent_symbol" >
-        </TextView>
-    </org.catrobat.catroid.ui.BrickLayout>
+        </TextView >
+    </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

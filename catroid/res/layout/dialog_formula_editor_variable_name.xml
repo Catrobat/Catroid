@@ -22,8 +22,8 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/DefaultDialog"
-    android:paddingBottom="0dp" >
+            style="@style/DefaultDialog"
+            android:paddingBottom="0dp" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/formula_editor_variable_dialog_for_this_sprite_only"
                 android:textColor="@color/spritelist_details_text_color" />
-        </RadioGroup>
-    </LinearLayout>
+        </RadioGroup >
+    </LinearLayout >
 
 </ScrollView>

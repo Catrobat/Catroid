@@ -247,9 +247,12 @@
 
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Verschiebe Baustein</string>
+        <string name="brick_context_dialog_show_source">Zeige Quellbaustein</string>
     <string name="brick_context_dialog_delete_brick">Lösche Baustein</string>
     <string name="brick_context_dialog_copy_brick">Kopiere Baustein</string>
     <string name="brick_context_dialog_animate_bricks">Animiere Baustein-Teile</string>
+    <string name="brick_context_dialog_add_to_script">Zu Skript hinzufügen</string>
+    <string name="brick_context_dialog_edit_brick">Baustein Bearbeiten</string>
     <string name="brick_context_dialog_formula_edit_brick">Bearbeite Formel</string>
     <string name="brick_context_dialog_delete_script">Lösche Skript</string>
     <!--  -->
@@ -327,6 +330,7 @@
     <string name="category_sound">Klang</string>
     <string name="category_control">Steuerung</string>
     <string name="category_variables">Variablen</string>
+    <string name="category_user_bricks">Meine Bausteine</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_drone">ARDrone</string>
     <!--  -->
@@ -668,6 +672,7 @@
     <string name="formula_editor_image_button_description_delete">Löschen</string>
     <string name="formula_editor_variable_dialog_title">Neue Variable</string>
     <string name="formula_editor_variable_dialog_for_all_sprites">Für alle Objekte</string>
+    <string name="formula_editor_variable_dialog_for_this_brick">Für diesen Baustein</string>
     <string name="formula_editor_variable_dialog_for_this_sprite_only">Nur für dieses Objekt</string>
     <string name="formula_editor_variable_dialog_hint">Variablenname eingeben</string>
     <string name="formula_editor_discard_changes_dialog_message">Möchten Sie die Änderungen speichern?</string>
@@ -681,6 +686,27 @@
         <item quantity="other">Variablen ausgewählt!</item>
     </plurals>
     <!--  -->
+    
+    <!-- Brick Data Editor Strings -->
+    <string name="brick_data_editor_title">Bausteineditor</string>
+    <string name="separator">|</string>
+    <string name="add_text">Text hinzufügen</string>
+    <string name="edit_text">Text bearbeiten</string>
+    <string name="text_hint">Baustein Text</string>
+    <string name="add_variable">Variable hinzufügen</string>
+    <string name="add_line_break">Zeilenumbruch hinzufügen</string>
+    <string name="edit_variable">Variable bearbeiten</string>
+    <string name="variable_hint">Variablenname</string>
+    <!--  -->
+
+    <!-- User Bricks strings  -->
+    <string name="define">definiere</string>
+    <string name="new_user_brick">Neuer Baustein</string>
+    <string name="new_user_brick_variable">Variable 1</string>
+    <string name="recursive_user_brick_forbidden">Hinzufügen eines Userbricks in einem Userbrick ist noch nicht erlaubt!</string>
+    <string name="brick_single">Baustein</string>
+ 	<string name="brick_multiple">Bausteine</string>
+    <!--  -->    
 
 
     <!-- Camera Strings -->

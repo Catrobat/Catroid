@@ -58,7 +58,7 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 
 	public void testClickOnEmptySpace() {
 		solo.clickOnScreen(20, ScreenValues.SCREEN_HEIGHT - 150);
-		solo.sleep(200);
+		solo.sleep(2000);
 		assertFalse("Brickcategories should not be shown", solo.searchText(solo.getString(R.string.categories)));
 	}
 
@@ -72,9 +72,10 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 		assertEquals("Wrong number of Bricks", 2, adapter.getCount());
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-		solo.sleep(200);
+		solo.sleep(500);
 		assertFalse("Categories shouldn't be shown", solo.searchText(solo.getString(R.string.categories)));
-		solo.clickOnScreen(200, 200);
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+		solo.sleep(500);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_stop_all_sounds);
 		String currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
@@ -92,16 +93,18 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("Hovering brick should be instance of StopAllSoundsBrick",
 				adapter.getItem(1) instanceof StopAllSoundsBrick);
 
-		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 0);
-		solo.drag(10, 10, yPositionList.get(1), yPositionList.get(2) + 100, 30);
-		solo.sleep(200);
+		solo.sleep(500);
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+		solo.sleep(500);
 		assertEquals("Two Bricks should be in bricklist/project", 2, brickListToCheck.size());
 		assertTrue("First brick should be instance of SetXBrick", brickListToCheck.get(0) instanceof SetXBrick);
 		assertTrue("Second brick should be instance of StopAllSoundsBrick",
 				brickListToCheck.get(1) instanceof StopAllSoundsBrick);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_wait);
-		solo.clickOnScreen(200, 200);
+		solo.sleep(500);
+		UiTestUtils.dragFloatingBrickUpwards(solo, 2);
+		solo.sleep(500);
 
 		if (solo.searchText(solo.getString(R.string.brick_context_dialog_move_brick), true)) {
 			solo.goBack();
@@ -113,7 +116,7 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 			solo.clickOnText(currentSprite);
 		}
 
-		yPositionList = UiTestUtils.getListItemYPositions(solo, 0);
+		ArrayList<Integer> yPositionList = UiTestUtils.getListItemYPositions(solo, 0);
 
 		//just to gain focus
 		solo.clickOnScreen(20, yPositionList.get(0));
@@ -125,14 +128,14 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 		Utils.updateScreenWidthAndHeight(solo.getCurrentActivity());
 		int height = ScreenValues.SCREEN_HEIGHT;
 
-		solo.sleep(200);
+		solo.sleep(2000);
 		solo.drag(20, 20, 300, height - 20, 100);
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
 			// just to get focus and get the correct list
 			currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
 			solo.clickOnText(currentSprite);
 		}
-		solo.sleep(400);
+		solo.sleep(2000);
 		assertTrue("Last Brick should now be WaitBrick", adapter.getItem(3) instanceof WaitBrick);
 	}
 
@@ -145,8 +148,9 @@ public class BrickDragAndDropTest extends BaseActivityInstrumentationTestCase<Ma
 		categoryStringId = UiTestUtils.getBrickCategory(solo, R.string.brick_stop_all_sounds);
 		solo.clickOnText(solo.getString(categoryStringId));
 		solo.clickOnText(solo.getString(R.string.brick_stop_all_sounds));
-		solo.clickOnScreen(200, 200);
-		solo.sleep(200);
+		solo.sleep(500);
+		UiTestUtils.dragFloatingBrickDownwards(solo);
+		solo.sleep(500);
 
 		BrickAdapter adapter = (BrickAdapter) UiTestUtils.getScriptListView(solo).getAdapter();
 		assertEquals("Brick was not added.", 2, adapter.getCount());

@@ -22,9 +22,9 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/DefaultDialog"
-    android:orientation="vertical"
-    android:theme="@android:style/Theme.Light" >
+              style="@style/DefaultDialog"
+              android:orientation="vertical"
+              android:theme="@android:style/Theme.Light" >
 
     <TextView
         style="@style/DefaultDialog.Item"
@@ -46,6 +46,6 @@
             android:checked="false"
             android:text="@string/main_menu_web_dialog_dont_show"
             android:textColor="@color/spritelist_details_text_color" />
-    </LinearLayout>
+    </LinearLayout >
 
 </LinearLayout>

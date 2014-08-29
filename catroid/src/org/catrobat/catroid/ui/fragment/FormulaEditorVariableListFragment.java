@@ -54,6 +54,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.ui.BottomBar;
@@ -68,7 +69,6 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		NewVariableDialogListener {
 
 	public static final String VARIABLE_TAG = "variableFragment";
-	public static final String EDIT_TEXT_BUNDLE_ARGUMENT = "formulaEditorEditText";
 	public static final String ACTION_BAR_TITLE_BUNDLE_ARGUMENT = "actionBarTitle";
 	public static final String FRAGMENT_TAG_BUNDLE_ARGUMENT = "fragmentTag";
 
@@ -78,11 +78,13 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	private boolean inContextMode;
 	private int deleteIndex;
 	private UserVariableAdapter adapter;
+	private boolean inUserBrick;
 
-	public FormulaEditorVariableListFragment() {
+	public FormulaEditorVariableListFragment(boolean inUserBrick) {
 		contextActionMode = null;
 		deleteIndex = -1;
 		inContextMode = false;
+		this.inUserBrick = inUserBrick;
 	}
 
 	@Override
@@ -261,9 +263,11 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 
 	private void initializeUserVariableAdapter() {
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
+		int userBrickId = (currentBrick == null ? -1 : currentBrick.getUserBrickId());
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		UserVariablesContainer userVariableContainer = currentProject.getUserVariables();
-		adapter = userVariableContainer.createUserVariableAdapter(getSherlockActivity(), currentSprite);
+		adapter = userVariableContainer.createUserVariableAdapter(getSherlockActivity(), userBrickId, currentSprite, inUserBrick);
 		setListAdapter(adapter);
 		adapter.setOnCheckedChangeListener(this);
 		adapter.setOnListItemClickListener(this);
@@ -273,7 +277,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	public boolean onKey(DialogInterface d, int keyCode, KeyEvent event) {
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
-				getSherlockActivity().findViewById(R.id.bottom_bar).setVisibility(View.GONE);
+				BottomBar.hideBottomBar(getActivity());
 				((ScriptActivity) getSherlockActivity()).updateHandleAddButtonClickListener();
 
 				FragmentTransaction fragmentTransaction = getSherlockActivity().getSupportFragmentManager()
@@ -316,7 +320,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 			mode.setTitle("0 "
 					+ getActivity().getResources().getQuantityString(
 							R.plurals.formula_editor_variable_context_action_item_selected, 0));
-			getSherlockActivity().findViewById(R.id.bottom_bar).setVisibility(View.GONE);
+			BottomBar.hideBottomBar(getActivity());
 			addSelectAllActionModeButton(mode, menu);
 			return true;
 		}

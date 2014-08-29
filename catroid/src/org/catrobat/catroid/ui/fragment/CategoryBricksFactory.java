@@ -74,6 +74,7 @@ import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
@@ -87,6 +88,7 @@ import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
@@ -95,31 +97,55 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Operators;
+import org.catrobat.catroid.ui.UserBrickScriptActivity;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class CategoryBricksFactory {
 
 	public List<Brick> getBricks(String category, Sprite sprite, Context context) {
-		if (category.equals(context.getString(R.string.category_control))) {
-			return setupControlCategoryList(context);
-		} else if (category.equals(context.getString(R.string.category_motion))) {
-			return setupMotionCategoryList(sprite);
-		} else if (category.equals(context.getString(R.string.category_sound))) {
-			return setupSoundCategoryList();
-		} else if (category.equals(context.getString(R.string.category_looks))) {
-			return setupLooksCategoryList();
-		} else if (category.equals(context.getString(R.string.category_variables))) {
-			return setupVariablesCategoryList();
-		} else if (category.equals(context.getString(R.string.category_lego_nxt))) {
-			return setupLegoNxtCategoryList();
-		} else if (category.equals(context.getString(R.string.category_drone))) {
-			return setupDroneCategoryList();
+		UserBrickScriptActivity activity;
+		try {
+			activity = (UserBrickScriptActivity) context;
+		} catch (ClassCastException e) {
+			activity = null;
 		}
-
-		return new ArrayList<Brick>();
+		boolean isUserScriptMode = activity != null;
+		List<Brick> tempList = new LinkedList<Brick>();
+		List<Brick> toReturn = new ArrayList<Brick>();
+		if (category.equals(context.getString(R.string.category_control))) {
+			tempList = setupControlCategoryList(context);
+		} else if (category.equals(context.getString(R.string.category_motion))) {
+			tempList = setupMotionCategoryList(sprite);
+		} else if (category.equals(context.getString(R.string.category_sound))) {
+			tempList = setupSoundCategoryList();
+		} else if (category.equals(context.getString(R.string.category_looks))) {
+			tempList = setupLooksCategoryList();
+		} else if (category.equals(context.getString(R.string.category_variables))) {
+			tempList = setupVariablesCategoryList();
+		} else if (category.equals(context.getString(R.string.category_user_bricks))) {
+			tempList = setupUserBricksCategoryList();
+		} else if (category.equals(context.getString(R.string.category_lego_nxt))) {
+			tempList = setupLegoNxtCategoryList();
+		} else if (category.equals(context.getString(R.string.category_drone))) {
+			tempList = setupDroneCategoryList();
+		}
+		for (Brick brick : tempList) {
+			ScriptBrick brickAsScriptBrick;
+			try {
+				brickAsScriptBrick = (ScriptBrick) brick;
+			} catch (ClassCastException e) {
+				brickAsScriptBrick = null;
+			}
+			if (!isUserScriptMode || brickAsScriptBrick == null) {
+				toReturn.add(brick);
+			}
+		}
+		return toReturn;
 	}
+
 
 	private List<Brick> setupControlCategoryList(Context context) {
 		List<Brick> controlBrickList = new ArrayList<Brick>();
@@ -139,6 +165,43 @@ public class CategoryBricksFactory {
 
 		return controlBrickList;
 	}
+
+	private List<Brick> setupUserBricksCategoryList() {
+		List<UserBrick> userBrickList = ProjectManager.getInstance().getCurrentSprite().getUserBrickList();
+		ArrayList<Brick> newList = new ArrayList<Brick>();
+
+//		UserBrick userBrickWeAreAddingTo = ProjectManager.getInstance().getCurrentUserBrick();
+//		if (userBrickWeAreAddingTo != null) {
+//			// Maintain a Directed Acyclic Graph of UserBrick call order: Don't allow cycles.
+//			for (UserBrick brick : userBrickList) {
+//				if (!checkForCycle(brick, userBrickWeAreAddingTo)) {
+//					newList.add(brick);
+
+//				}
+//			}
+//		} else {
+		if (userBrickList != null) {
+			for (UserBrick brick : userBrickList) {
+				newList.add(brick);
+			}
+		}
+//		}
+		return newList;
+	}
+
+//	public boolean checkForCycle(UserBrick currentBrick, UserBrick parentBrick) {
+//		if (parentBrick.getId() == currentBrick.getId()) {
+//			return true;
+//		}
+//
+//		for (Brick childBrick : currentBrick.getDefinitionBrick().getUserScript().getBrickList()) {
+//			if (childBrick instanceof UserBrick && checkForCycle(((UserBrick) childBrick), parentBrick)) {
+//				return true;
+//			}
+//		}
+//
+//		return false;
+//	}
 
 	private List<Brick> setupMotionCategoryList(Sprite sprite) {
 		List<Brick> motionBrickList = new ArrayList<Brick>();

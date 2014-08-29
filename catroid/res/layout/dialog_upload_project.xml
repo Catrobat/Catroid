@@ -22,8 +22,8 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/DefaultDialog"
-    android:paddingBottom="0dp" >
+            style="@style/DefaultDialog"
+            android:paddingBottom="0dp" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:paddingBottom="@dimen/dialog_item_header_linepadding" />
-        </LinearLayout>
+        </LinearLayout >
 
         <View style="@style/DefaultDialog.Line" />
 
@@ -74,8 +74,8 @@
                 android:paddingBottom="@dimen/dialog_item_header_linepadding"
                 android:text="@string/project_rename"
                 android:textSize="12sp" >
-            </TextView>
-        </LinearLayout>
+            </TextView >
+        </LinearLayout >
 
         <View style="@style/DefaultDialog.Line" />
 
@@ -105,7 +105,7 @@
             android:scrollbarAlwaysDrawVerticalTrack="true"
             android:scrollbars="vertical"
             android:singleLine="false" >
-        </EditText>
-    </LinearLayout>
+        </EditText >
+    </LinearLayout >
 
 </ScrollView>

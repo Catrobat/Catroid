@@ -21,7 +21,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
     <item
         android:state_pressed="true"
         android:drawable="@drawable/new_object_dialog_selected" />
@@ -29,5 +29,6 @@
           android:drawable="@drawable/new_object_dialog" />
     <item android:state_hovered="true"
           android:drawable="@drawable/new_object_dialog" />
-    <item android:drawable="@drawable/new_object_dialog" /> <!-- default -->
+    <item android:drawable="@drawable/new_object_dialog" />
+    <!-- default -->
 </selector>

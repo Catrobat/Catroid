@@ -87,6 +87,12 @@ public class Formula implements Serializable {
 		}
 	}
 
+	public void updateVariableReferences(String oldName, String newName, Context context) {
+		internFormula.updateVariableReferences(oldName, newName, context);
+		formulaTree.updateVariableReferences(oldName, newName, context);
+		displayText = null;
+	}
+
 	public Formula(String value) {
 		formulaTree = new FormulaElement(ElementType.STRING, value, null);
 		internFormula = new InternFormula(formulaTree.getInternTokenList());
@@ -217,6 +223,11 @@ public class Formula implements Serializable {
 		}
 
 		return new Formula(0);
+	}
+
+	public void removeVariableReferences(String name, Context context) {
+		internFormula.removeVariableReferences(name, context);
+
 	}
 
 	public int getRequiredResources() {

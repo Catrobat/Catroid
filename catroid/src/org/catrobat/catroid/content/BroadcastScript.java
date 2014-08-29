@@ -23,13 +23,11 @@
 package org.catrobat.catroid.content;
 
 import org.catrobat.catroid.common.MessageContainer;
-import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
-import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
-import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.UserBrick;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class BroadcastScript extends Script implements BroadcastMessage {
 
@@ -70,20 +68,10 @@ public class BroadcastScript extends Script implements BroadcastMessage {
 	}
 
 	@Override
-	public Script copyScriptForSprite(Sprite sprite) {
+	public Script copyScriptForSprite(Sprite copySprite, List<UserBrick> preCopiedUserBricks) {
 		BroadcastScript cloneScript = new BroadcastScript(receivedMessage);
-		ArrayList<Brick> cloneBrickList = cloneScript.getBrickList();
 
-		for (Brick brick : getBrickList()) {
-			Brick copiedBrick = brick.copyBrickForSprite(sprite);
-			if (copiedBrick instanceof IfLogicEndBrick) {
-				setIfBrickReferences((IfLogicEndBrick) copiedBrick, (IfLogicEndBrick) brick);
-			} else if (copiedBrick instanceof LoopEndBrick) {
-				setLoopBrickReferences((LoopEndBrick) copiedBrick, (LoopEndBrick) brick);
-			}
-			cloneBrickList.add(copiedBrick);
-		}
-
+		doCopy(copySprite, cloneScript, preCopiedUserBricks);
 		return cloneScript;
 	}
 }

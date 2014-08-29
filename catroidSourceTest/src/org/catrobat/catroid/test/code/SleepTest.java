@@ -54,12 +54,7 @@ public class SleepTest extends TestCase {
 		while ((line = reader.readLine()) != null) {
 			if (regexMatcher.reset(line).matches()) {
 				errorFound = true;
-				errorMessageBuilder
-						.append("File ")
-						.append(file.getPath())
-						.append(':')
-						.append(lineCount)
-						.append('\n');
+				errorMessageBuilder.append("File ").append(file.getPath()).append(':').append(lineCount).append('\n');
 			}
 			++lineCount;
 		}

@@ -59,6 +59,7 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 	private static final long serialVersionUID = 1L;
 	private UserVariable userVariable;
 	private transient AdapterView<?> adapterView;
+	public boolean inUserBrick = false;
 
 	public SetVariableBrick() {
 		addAllowedBrickField(BrickField.VARIABLE);
@@ -122,8 +123,12 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 		textField.setOnClickListener(this);
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.set_variable_spinner);
+
+		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
+		int userBrickId = (currentBrick == null ? -1 : currentBrick.getUserBrickId());
+
 		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.createUserVariableAdapter(context, ProjectManager.getInstance().getCurrentSprite());
+				.createUserVariableAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				userVariableAdapter);
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
@@ -183,10 +188,13 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_set_variable, null);
 		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.set_variable_spinner);
+		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
+		int userBrickId = (currentBrick == null ? -1 : currentBrick.getDefinitionBrick().getUserBrickId());
+
 		variableSpinner.setFocusableInTouchMode(false);
 		variableSpinner.setFocusable(false);
 		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.createUserVariableAdapter(context, ProjectManager.getInstance().getCurrentSprite());
+				.createUserVariableAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
 
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				userVariableAdapter);
@@ -286,4 +294,7 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 		setSpinnerSelection(spinnerToUpdate, newUserVariable);
 	}
 
+	public void setInUserBrick(boolean inUserBrick) {
+		this.inUserBrick = inUserBrick;
+	}
 }

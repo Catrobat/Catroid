@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
@@ -45,6 +46,8 @@ public class ParserTestUserVariables extends AndroidTestCase {
 	private static final String PROJECT_USER_VARIABLE = "projectUserVariable";
 	private static final double USER_VARIABLE_2_VALUE_TYPE_DOUBLE = 3.141592d;
 	private static final String SPRITE_USER_VARIABLE = "spriteUserVariable";
+	private static final double USER_VARIABLE_VALUE3 = 1.68d;
+	private static final String USER_BRICK_VARIABLE = "userBrickVariable";
 	private static final double USER_VARIABLE_RESET = 0.0d;
 	private static final String USER_VARIABLE_3_VALUE_TYPE_STRING = "My Little User Variable";
 	private static final String PROJECT_USER_VARIABLE_2 = "projectUserVariable2";
@@ -64,14 +67,17 @@ public class ParserTestUserVariables extends AndroidTestCase {
 		project.addSprite(firstSprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-
+		UserBrick userBrick = new UserBrick(0);
+		ProjectManager.getInstance().setCurrentUserBrick(userBrick);
 		UserVariablesContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()
 				.getUserVariables();
 		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE).setValue(USER_VARIABLE_1_VALUE_TYPE_DOUBLE);
 		userVariableContainer.addSpriteUserVariableToSprite(firstSprite, SPRITE_USER_VARIABLE).setValue(
-                        USER_VARIABLE_2_VALUE_TYPE_DOUBLE);
-        userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE_2).setValue(
+				USER_VARIABLE_2_VALUE_TYPE_DOUBLE);
+		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE_2).setValue(
 				USER_VARIABLE_3_VALUE_TYPE_STRING);
+		userVariableContainer.addUserBrickUserVariableToUserBrick(0, USER_BRICK_VARIABLE, Double.valueOf(0))
+				.setValue(USER_VARIABLE_VALUE3);
 	}
 
 	public void testUserVariableInterpretation() {
@@ -81,6 +87,8 @@ public class ParserTestUserVariables extends AndroidTestCase {
 				USER_VARIABLE_2_VALUE_TYPE_DOUBLE, interpretUservariable(SPRITE_USER_VARIABLE));
 		assertEquals("Formula interpretation of ProjectUserVariable2 is not as expected",
 				USER_VARIABLE_3_VALUE_TYPE_STRING, interpretUservariable(PROJECT_USER_VARIABLE_2));
+		assertEquals("Formula interpretation of UserBrickVariable is not as expected",
+				USER_VARIABLE_VALUE3, interpretUservariable(USER_BRICK_VARIABLE));
 	}
 
 	public void testUserVariableReseting() {
@@ -92,6 +100,8 @@ public class ParserTestUserVariables extends AndroidTestCase {
                 interpretUservariable(SPRITE_USER_VARIABLE));
 		assertEquals("ProjectUserVariable2 did not reset", USER_VARIABLE_RESET,
                 interpretUservariable(PROJECT_USER_VARIABLE_2));
+		assertEquals("UserBrickVariable didnt reset", USER_VARIABLE_RESET,
+				interpretUservariable(USER_BRICK_VARIABLE));
 	}
 
 	public void testNotExistingUservariable() {

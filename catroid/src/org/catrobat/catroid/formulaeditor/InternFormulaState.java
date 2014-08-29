@@ -25,19 +25,18 @@ package org.catrobat.catroid.formulaeditor;
 import java.util.LinkedList;
 import java.util.List;
 
-
 public class InternFormulaState {
 
 	private List<InternToken> internTokenFormulaList;
 	private InternFormulaTokenSelection tokenSelection;
 	private int externCursorPosition;
 
-	public InternFormulaState(List<InternToken> internTokenFormulaList, InternFormulaTokenSelection tokenSelection, int externCursorPosition) {
+	public InternFormulaState(List<InternToken> internTokenFormulaList, InternFormulaTokenSelection tokenSelection,
+			int externCursorPosition) {
 		this.internTokenFormulaList = internTokenFormulaList;
 		this.tokenSelection = tokenSelection;
 		this.externCursorPosition = externCursorPosition;
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -69,8 +68,8 @@ public class InternFormulaState {
 			InternFormulaState stateToCompare = (InternFormulaState) objectToCompare;
 			if (externCursorPosition != stateToCompare.externCursorPosition
 					|| (tokenSelection == null && stateToCompare.tokenSelection != null)
-					|| (tokenSelection != null && !tokenSelection.equals(stateToCompare.tokenSelection)
-					|| (internTokenFormulaList.size() != stateToCompare.internTokenFormulaList.size()))) {
+					|| (tokenSelection != null && !tokenSelection.equals(stateToCompare.tokenSelection) || (internTokenFormulaList
+							.size() != stateToCompare.internTokenFormulaList.size()))) {
 				return false;
 			}
 

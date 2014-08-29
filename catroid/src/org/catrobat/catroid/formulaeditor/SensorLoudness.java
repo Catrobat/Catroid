@@ -108,5 +108,4 @@ public final class SensorLoudness {
 		}
 	}
 
-
 }

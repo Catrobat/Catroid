@@ -136,10 +136,11 @@ public class ProjectUploadService extends IntentService {
 	@Override
 	public void onDestroy() {
 		if (!result) {
-			Toast.makeText(this, getResources().getText(R.string.error_project_upload).toString() + " " + serverAnswer, Toast.LENGTH_SHORT).show();
-			StatusBarNotificationManager.getInstance().abortProgressNotificationWithMessage(notificationId, getResources().getString(R.string.notification_upload_rejected));
-		}
-		else {
+			Toast.makeText(this, getResources().getText(R.string.error_project_upload).toString() + " " + serverAnswer,
+					Toast.LENGTH_SHORT).show();
+			StatusBarNotificationManager.getInstance().abortProgressNotificationWithMessage(notificationId,
+					getResources().getString(R.string.notification_upload_rejected));
+		} else {
 			Toast.makeText(this, R.string.notification_upload_finished, Toast.LENGTH_SHORT).show();
 		}
 		super.onDestroy();

@@ -103,7 +103,7 @@ public class WhenStartedBrick extends ScriptBrick {
 	}
 
 	@Override
-	public Script initScript() {
+	public Script getScriptSafe() {
 		if (script == null) {
 			script = new StartScript();
 		}

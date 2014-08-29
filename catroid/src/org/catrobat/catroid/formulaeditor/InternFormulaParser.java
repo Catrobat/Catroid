@@ -26,6 +26,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.UserBrick;
 
 import java.util.ArrayList;
 import java.util.EmptyStackException;
@@ -248,9 +249,13 @@ public class InternFormulaParser {
 
 	private FormulaElement userVariable() throws InternFormulaParserException {
 		UserVariablesContainer userVariables = ProjectManager.getInstance().getCurrentProject().getUserVariables();
+
+		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
+		int userBrickId = currentBrick == null ? -1 : currentBrick.getDefinitionBrick().getUserBrickId();
+
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
-		if (userVariables.getUserVariable(currentToken.getTokenStringValue(), currentSprite) == null) {
+		if (userVariables.getUserVariable(currentToken.getTokenStringValue(), userBrickId, currentSprite) == null) {
 			throw new InternFormulaParserException("Parse Error");
 		}
 

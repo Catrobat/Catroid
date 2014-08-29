@@ -31,25 +31,24 @@
         android:title="@string/unpack" />
     <item
         android:id="@+id/context_menu_delete"
-        android:title="@string/delete"/>
+        android:title="@string/delete" />
     <item
         android:id="@+id/context_menu_copy"
-        android:title="@string/copy"/>
+        android:title="@string/copy" />
     <item
         android:id="@+id/context_menu_cut"
         android:title="@string/cut"
-        android:visible="false"/>
+        android:visible="false" />
     <item
         android:id="@+id/context_menu_insert_below"
         android:title="@string/insert_below"
-        android:visible="false"/>
+        android:visible="false" />
     <item
         android:id="@+id/context_menu_move"
         android:title="@string/move"
-        android:visible="false"/>
+        android:visible="false" />
     <item
         android:id="@+id/context_menu_rename"
-        android:title="@string/rename"/>
-
+        android:title="@string/rename" />
 
 </menu>

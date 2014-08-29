@@ -61,7 +61,7 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 	private static final long serialVersionUID = 1L;
 	private UserVariable userVariable;
 	private transient AdapterView<?> adapterView;
-
+	public boolean inUserBrick = false;
 
 	public ChangeVariableBrick() {
 		addAllowedBrickField(BrickField.VARIABLE_CHANGE);
@@ -72,13 +72,18 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 	}
 
 	public ChangeVariableBrick(Formula variableFormula, UserVariable userVariable) {
-
-		this.userVariable = userVariable;
 		initializeBrickFields(variableFormula);
+		this.userVariable = userVariable;
 	}
 
 	public ChangeVariableBrick(double value) {
 		initializeBrickFields(new Formula(value));
+	}
+
+	public ChangeVariableBrick(Formula variableFormula, UserVariable userVariable, boolean inUserBrick) {
+		initializeBrickFields(variableFormula);
+		this.userVariable = userVariable;
+		this.inUserBrick = inUserBrick;
 	}
 
 	private void initializeBrickFields(Formula variableFormula) {
@@ -119,13 +124,18 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 		textField.setOnClickListener(this);
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.change_variable_spinner);
+
+		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
+		int userBrickId = (currentBrick == null ? -1 : currentBrick.getUserBrickId());
+
 		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.createUserVariableAdapter(context, ProjectManager.getInstance().getCurrentSprite());
+				.createUserVariableAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				userVariableAdapter);
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
+
 
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			variableSpinner.setClickable(true);
@@ -183,8 +193,12 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.change_variable_spinner);
 		variableSpinner.setFocusableInTouchMode(false);
 		variableSpinner.setFocusable(false);
+
+		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
+		int userBrickId = (currentBrick == null ? -1 : currentBrick.getDefinitionBrick().getUserBrickId());
+
 		UserVariableAdapter changeVariableSpinnerAdapter = ProjectManager.getInstance().getCurrentProject()
-				.getUserVariables().createUserVariableAdapter(context, ProjectManager.getInstance().getCurrentSprite());
+				.getUserVariables().createUserVariableAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
 
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
 				changeVariableSpinnerAdapter);
@@ -230,7 +244,7 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 	@Override
 	public Brick clone() {
 		ChangeVariableBrick clonedBrick = new ChangeVariableBrick(getFormulaWithBrickField(
-				BrickField.VARIABLE_CHANGE).clone(), userVariable);
+				BrickField.VARIABLE_CHANGE).clone(), userVariable, inUserBrick);
 		return clonedBrick;
 	}
 
@@ -264,7 +278,6 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 	private void updateUserVariableIfDeleted(UserVariableAdapterWrapper userVariableAdapterWrapper) {
 		if (userVariable != null && userVariableAdapterWrapper.getPositionOfItem(userVariable) == 0) {
 			userVariable = null;
-
 		}
 	}
 
@@ -293,4 +306,7 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 		setSpinnerSelection(spinnerToUpdate, newUserVariable);
 	}
 
+	public void setInUserBrick(boolean inUserBrick) {
+		this.inUserBrick = inUserBrick;
+	}
 }

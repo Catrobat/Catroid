@@ -43,6 +43,7 @@ import java.util.TreeSet;
 
 public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAdapterInterface {
 	private Context context;
+	private List<UserVariable> brickVariables;
 	private List<UserVariable> spriteVariables;
 	private List<UserVariable> projectVariables;
 	private int selectMode;
@@ -55,16 +56,20 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 	private int textViewId2;
 	private int linearLayoutLocalId;
 	private int linearLayoutGlobalId;
+	private int linearLayoutUserBrickId;
 
 	private static class ViewHolder {
 		private CheckBox checkbox;
 		private TextView text1;
 		private TextView text2;
+		private LinearLayout userbrickHeadline;
 		private LinearLayout localHeadline;
 		private LinearLayout globalHeadline;
 	}
 
-	public UserVariableAdapter(Context context, List<UserVariable> spriteVariables, List<UserVariable> projectVariables) {
+	public UserVariableAdapter(Context context, List<UserVariable> brickVariables, List<UserVariable> spriteVariables,
+			List<UserVariable> projectVariables) {
+		this.brickVariables = brickVariables;
 		this.spriteVariables = spriteVariables;
 		this.projectVariables = projectVariables;
 		this.context = context;
@@ -75,6 +80,7 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 		this.textViewId2 = R.id.fragment_formula_editor_variablelist_item_value_text_view;
 		this.linearLayoutGlobalId = R.id.variablelist_global_headline;
 		this.linearLayoutLocalId = R.id.variablelist_local_headline;
+		this.linearLayoutUserBrickId = R.id.variablelist_userbrick_headline;
 	}
 
 	public void setItemLayout(int itemLayout, int textViewId) {
@@ -88,15 +94,17 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 
 	@Override
 	public int getCount() {
-		return spriteVariables.size() + projectVariables.size();
+		return brickVariables.size() + spriteVariables.size() + projectVariables.size();
 	}
 
 	@Override
 	public UserVariable getItem(int position) {
-		if (position < spriteVariables.size()) {
-			return spriteVariables.get(position);
+		if (position < brickVariables.size()) {
+			return brickVariables.get(position);
+		} else if (position < brickVariables.size() + spriteVariables.size()) {
+			return spriteVariables.get(position - brickVariables.size());
 		} else {
-			return projectVariables.get(position - spriteVariables.size());
+			return projectVariables.get(position - (brickVariables.size() + spriteVariables.size()));
 		}
 	}
 
@@ -133,6 +141,7 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 			holder.checkbox = (CheckBox) view.findViewById(checkboxId);
 			holder.text1 = (TextView) view.findViewById(textViewId);
 			holder.text2 = (TextView) view.findViewById(textViewId2);
+			holder.userbrickHeadline = (LinearLayout) view.findViewById(linearLayoutUserBrickId);
 			holder.localHeadline = (LinearLayout) view.findViewById(linearLayoutLocalId);
 			holder.globalHeadline = (LinearLayout) view.findViewById(linearLayoutGlobalId);
 			view.setTag(holder);
@@ -145,16 +154,23 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 			holder.text2.setText(String.valueOf(variable.getValue()));
 		}
 
-		if (holder.localHeadline != null && holder.globalHeadline != null) {
-			if (spriteVariables.size() != 0 && position == 0) {
+		if (holder.localHeadline != null && holder.userbrickHeadline != null && holder.globalHeadline != null) {
+			if (brickVariables.size() != 0 && position == 0) {
+				holder.localHeadline.setVisibility(View.GONE);
+				holder.globalHeadline.setVisibility(View.GONE);
+				holder.userbrickHeadline.setVisibility(View.VISIBLE);
+			} else if (spriteVariables.size() != 0 && position == brickVariables.size()) {
 				holder.localHeadline.setVisibility(View.VISIBLE);
 				holder.globalHeadline.setVisibility(View.GONE);
-			} else if (projectVariables.size() != 0 && position == spriteVariables.size()) {
+				holder.userbrickHeadline.setVisibility(View.GONE);
+			} else if (projectVariables.size() != 0 && position == brickVariables.size() + spriteVariables.size()) {
 				holder.localHeadline.setVisibility(View.GONE);
 				holder.globalHeadline.setVisibility(View.VISIBLE);
+				holder.userbrickHeadline.setVisibility(View.GONE);
 			} else {
 				holder.localHeadline.setVisibility(View.GONE);
 				holder.globalHeadline.setVisibility(View.GONE);
+				holder.userbrickHeadline.setVisibility(View.GONE);
 			}
 		}
 
@@ -260,11 +276,11 @@ public class UserVariableAdapter extends BaseAdapter implements ScriptActivityAd
 	}
 
 	public List<UserVariable> getCheckedUserVariables() {
-		List<UserVariable> vars = new ArrayList<UserVariable>();
+		List<UserVariable> variables = new ArrayList<UserVariable>();
 		for (int pos : getCheckedItems()) {
-			vars.add(getItem(pos));
+			variables.add(getItem(pos));
 		}
-		return vars;
+		return variables;
 	}
 
 	public void addCheckedItem(int position) {

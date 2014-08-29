@@ -22,11 +22,11 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/BrickCategory" >
+              style="@style/BrickCategory" >
 
     <TextView
         style="@style/BrickCategoryText.Drone"
         android:text="@string/category_drone" >
-    </TextView>
+    </TextView >
 
 </LinearLayout>

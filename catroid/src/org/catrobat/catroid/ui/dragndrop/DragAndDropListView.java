@@ -50,6 +50,7 @@ import org.catrobat.catroid.utils.Utils;
 public class DragAndDropListView extends ListView implements OnLongClickListener {
 
 	private static final int SCROLL_SPEED = 25;
+	public static final int WIDTH_OF_BRICK_PREVIEW_IMAGE = 400;
 	private static final int DRAG_BACKGROUND_COLOR = Color.TRANSPARENT;
 
 	private int maximumDragViewHeight;
@@ -223,8 +224,9 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 		view.setDrawingCacheEnabled(true);
 
-		view.measure(MeasureSpec.makeMeasureSpec(ScreenValues.SCREEN_WIDTH, MeasureSpec.EXACTLY),
-				MeasureSpec.makeMeasureSpec(Utils.getPhysicalPixels(400, getContext()), MeasureSpec.AT_MOST));
+		view.measure(MeasureSpec.makeMeasureSpec(ScreenValues.SCREEN_WIDTH, MeasureSpec.EXACTLY), MeasureSpec
+				.makeMeasureSpec(Utils.getPhysicalPixels(WIDTH_OF_BRICK_PREVIEW_IMAGE, getContext()),
+						MeasureSpec.AT_MOST));
 		view.layout(0, 0, ScreenValues.SCREEN_WIDTH, view.getMeasuredHeight());
 
 		view.setDrawingCacheBackgroundColor(Color.TRANSPARENT);

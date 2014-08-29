@@ -25,14 +25,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="0dp">
+            android:paddingBottom="0dp" >
 
     <LinearLayout
         android:id="@+id/dialog_new_look"
         style="@style/DefaultDialog.Item"
         android:layout_marginTop="8dp"
         android:baselineAligned="false"
-        android:weightSum="3">
+        android:weightSum="3" >
 
         <TextView
             android:id="@+id/dialog_new_look_paintroid"
@@ -43,7 +43,7 @@
             android:drawableTop="@drawable/ic_paintroid"
             android:gravity="center"
             android:text="@string/add_look_draw_new_image"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/dialog_new_look_gallery"
@@ -54,7 +54,7 @@
             android:drawableTop="@drawable/ic_gallery"
             android:gravity="center"
             android:text="@string/add_look_choose_image"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/dialog_new_look_camera"
@@ -65,6 +65,7 @@
             android:drawableTop="@drawable/ic_camera"
             android:gravity="center"
             android:text="@string/add_look_from_camera"
-            android:textSize="12sp"/>
-    </LinearLayout>
+            android:textSize="12sp" />
+    </LinearLayout >
+
 </ScrollView>

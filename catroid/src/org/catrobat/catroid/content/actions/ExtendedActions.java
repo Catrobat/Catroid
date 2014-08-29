@@ -313,7 +313,6 @@ public class ExtendedActions extends Actions {
 	}
 
 	public static Action setVariable(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
-
 		SetVariableAction action = action(SetVariableAction.class);
 		action.setSprite(sprite);
 		action.setChangeVariable(variableFormula);
@@ -350,6 +349,12 @@ public class ExtendedActions extends Actions {
 		action.setIsForeverRepeat(true);
 		action.setAction(foreverSequence);
 		action.setSprite(sprite);
+		return action;
+	}
+
+	public static UserBrickAction userBrick(Action userBrickAction) {
+		UserBrickAction action = action(UserBrickAction.class);
+		action.setAction(userBrickAction);
 		return action;
 	}
 

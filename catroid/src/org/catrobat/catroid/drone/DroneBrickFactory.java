@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.drone;
 
-
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;

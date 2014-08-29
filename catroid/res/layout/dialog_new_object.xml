@@ -22,11 +22,11 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="style/DefaultDialog"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingBottom="0dp" >
+            style="style/DefaultDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="0dp" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -72,7 +72,7 @@
                     android:gravity="center"
                     android:text="@string/dialog_new_object_camera"
                     android:textSize="12sp" />
-            </LinearLayout>
+            </LinearLayout >
 
 
         <LinearLayout
@@ -104,8 +104,8 @@
                 android:id="@+id/dialog_new_object_name_edit_text"
                 style="@style/DefaultDialog.EditText"
                 android:inputType="text" >
-            </EditText>
-        </LinearLayout>
-    </LinearLayout>
+            </EditText >
+        </LinearLayout >
+    </LinearLayout >
 
 </ScrollView>

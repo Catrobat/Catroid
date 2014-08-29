@@ -44,6 +44,9 @@ public class SetVariableAction extends TemporalAction {
 	}
 
 	public void setUserVariable(UserVariable userVariable) {
+		if (userVariable == null) {
+			return;
+		}
 		this.userVariable = userVariable;
 	}
 
