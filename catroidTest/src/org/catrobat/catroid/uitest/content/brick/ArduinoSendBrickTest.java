@@ -76,6 +76,7 @@ public class ArduinoSendBrickTest extends BaseActivityInstrumentationTestCase<Sc
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_arduino_select_value)));
 
 	}
+
 	/*
 		public void testArduinoSendBrickClickOnPinSpinner() {
 			String[] arduinoPins = getActivity().getResources().getStringArray(R.array.arduino_pin_chooser);
