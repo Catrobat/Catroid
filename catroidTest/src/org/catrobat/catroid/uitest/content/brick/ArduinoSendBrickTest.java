@@ -76,7 +76,7 @@ public class ArduinoSendBrickTest extends BaseActivityInstrumentationTestCase<Sc
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_arduino_select_value)));
 
 	}
-
+/*
 	public void testArduinoSendBrickClickOnPinSpinner() {
 		String[] arduinoPins = getActivity().getResources().getStringArray(R.array.arduino_pin_chooser);
 		assertTrue("Spinner items list too short!", arduinoPins.length == 11);
@@ -107,11 +107,8 @@ public class ArduinoSendBrickTest extends BaseActivityInstrumentationTestCase<Sc
 		solo.pressSpinnerItem(newPinSpinnerPosition, +1);
 		assertEquals("Wrong item in spinner!", arduinoPins[10], currentPinSpinner.getSelectedItem());
 	}
-
+*/
 	public void testSetPinToHighWithPinAndValueSpinner() {
-		//check if Bluetooth is enabled
-		assertTrue("Bluetooth not enabled!", BluetoothAdapter.getDefaultAdapter().isEnabled());
-
 		//check if the Spinner list element length is correct
 		String[] arduinoPins = getActivity().getResources().getStringArray(R.array.arduino_pin_chooser);
 		assertTrue("Spinner items list too short!", arduinoPins.length == 11);
@@ -126,28 +123,32 @@ public class ArduinoSendBrickTest extends BaseActivityInstrumentationTestCase<Sc
 
 		//press play
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-		solo.clickOnText("ARDUINO");
+		solo.sleep(300);
 
-		//press back
-		solo.sleep(3000);
-		solo.goBack();
-
-		//press return
-		solo.clickOnText("Back");
-		solo.sleep(3000);
-	}
-
-	public void testSetPinToLowWithPinAndValueSpinner() {
 		//check if Bluetooth is enabled
 		assertTrue("Bluetooth not enabled!", BluetoothAdapter.getDefaultAdapter().isEnabled());
 
-		//check if the Spinner list element length is correct
+		//select the Arduino Bluetooth board
+		solo.clickOnText("ARDUINOBT");
+		solo.sleep(5000);
+
+		//press back
+		solo.goBack();
+		solo.sleep(1000);
+
+		//press return
+		solo.clickOnText("Back");
+		solo.sleep(300);
+	}
+
+	public void testSetPinToLowWithPinAndValueSpinner() {
+//check if the Spinner list element length is correct
 		String[] arduinoPins = getActivity().getResources().getStringArray(R.array.arduino_pin_chooser);
 		assertTrue("Spinner items list too short!", arduinoPins.length == 11);
 		String[] arduinoValues = getActivity().getResources().getStringArray(R.array.arduino_value_chooser);
 		assertTrue("Spinner items list too short!", arduinoValues.length == 2);
 
-		//select Value from Spinner (H)
+		//select Value from Spinner (L)
 		solo.pressSpinnerItem(1, 0);
 		//Pin Spinner (Pin 13)
 		solo.pressSpinnerItem(0, 10);
@@ -155,15 +156,22 @@ public class ArduinoSendBrickTest extends BaseActivityInstrumentationTestCase<Sc
 
 		//press play
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-		solo.clickOnText("ARDUINO");
+		solo.sleep(300);
+
+		//check if Bluetooth is enabled
+		assertTrue("Bluetooth not enabled!", BluetoothAdapter.getDefaultAdapter().isEnabled());
+
+		//select the Arduino Bluetooth board
+		solo.clickOnText("ARDUINOBT");
+		solo.sleep(5000);
 
 		//press back
-		solo.sleep(3000);
 		solo.goBack();
+		solo.sleep(1000);
 
 		//press return
 		solo.clickOnText("Back");
-		solo.sleep(3000);
+		solo.sleep(300);
 	}
 
 	private void createProject() {
