@@ -175,7 +175,6 @@ public class ArduinoSendBrickTest extends BaseActivityInstrumentationTestCase<Sc
 	}
 
 	private void createProject() {
-
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("Arduino Brick");
 		Script script = new StartScript();
@@ -189,5 +188,4 @@ public class ArduinoSendBrickTest extends BaseActivityInstrumentationTestCase<Sc
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }
