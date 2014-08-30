@@ -189,5 +189,4 @@ public class ArduinoSendBrickTest extends BaseActivityInstrumentationTestCase<Sc
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }
