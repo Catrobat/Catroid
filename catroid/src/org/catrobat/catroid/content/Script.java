@@ -175,11 +175,16 @@ public abstract class Script implements Serializable {
 
 	public int getRequiredResources() {
 		int resources = Brick.NO_RESOURCES;
-
+	/*
 		for (Brick brick : brickList) {
 			if (brick instanceof UserBrick) {
 				resources |= brick.getRequiredResources();
 			}
+		}
+		return resources;
+		*/
+		for (Brick brick : brickList) {
+			resources |= brick.getRequiredResources();
 		}
 		return resources;
 	}
