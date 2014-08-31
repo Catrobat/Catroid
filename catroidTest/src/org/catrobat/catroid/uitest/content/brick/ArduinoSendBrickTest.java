@@ -142,7 +142,7 @@ public class ArduinoSendBrickTest extends BaseActivityInstrumentationTestCase<Sc
 	}
 
 	public void testSetPinToLowWithPinAndValueSpinner() {
-//check if the Spinner list element length is correct
+		//check if the Spinner list element length is correct
 		String[] arduinoPins = getActivity().getResources().getStringArray(R.array.arduino_pin_chooser);
 		assertTrue("Spinner items list too short!", arduinoPins.length == 11);
 		String[] arduinoValues = getActivity().getResources().getStringArray(R.array.arduino_value_chooser);
