@@ -587,6 +587,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 		IntentFilter filterVariableDeleted = new IntentFilter(ScriptActivity.ACTION_VARIABLE_DELETED);
 		getActivity().registerReceiver(variableDeletedReceiver, filterVariableDeleted);
+		BottomBar.hideBottomBar(getSherlockActivity());
 	}
 
 	public void updateButtonViewOnKeyboard() {
