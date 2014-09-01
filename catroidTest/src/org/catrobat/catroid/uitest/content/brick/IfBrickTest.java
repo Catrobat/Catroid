@@ -293,7 +293,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 	public void testSelectionActionMode() {
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
-		solo.clickOnCheckBox(1);
+		UiTestUtils.clickOnCheckBox(solo, 1);
 
 		CheckBox ifLogicBeginBrickCheckbox = (CheckBox) solo.getView(R.id.brick_if_begin_checkbox);
 		CheckBox ifLogicElseBrickCheckbox = (CheckBox) solo.getView(R.id.brick_if_else_checkbox);
@@ -307,7 +307,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
-		solo.clickOnCheckBox(1);
+		UiTestUtils.clickOnCheckBox(solo, 1);
 
 		ifLogicBeginBrickCheckbox = (CheckBox) solo.getView(R.id.brick_if_begin_checkbox);
 		ifLogicElseBrickCheckbox = (CheckBox) solo.getView(R.id.brick_if_else_checkbox);

@@ -252,7 +252,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		clickOnContextMenuItem(testLookName, solo.getString(R.string.delete));
 		solo.waitForText(deleteDialogTitle);
 		solo.clickOnButton(solo.getString(R.string.yes));
-		solo.sleep(50);
+		solo.sleep(200);
 
 		int newCount = adapter.getCount();
 
@@ -986,7 +986,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testDeleteSelectAll() {
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
-		solo.clickOnText(selectAll);
+		UiTestUtils.clickOnText(solo, selectAll);
 
 		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
 			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
@@ -996,7 +996,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		String yes = solo.getString(R.string.yes);
 		solo.waitForText(yes);
-		solo.clickOnText(yes);
+		UiTestUtils.clickOnText(solo, yes);
 
 		assertFalse("Look was not Deleted!", solo.waitForText(FIRST_TEST_LOOK_NAME, 1, 200));
 		assertFalse("Look was not Deleted!", solo.waitForText(SECOND_TEST_LOOK_NAME, 1, 200));
@@ -1207,7 +1207,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		int currentNumberOfLooks = lookDataList.size();
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
-		solo.clickOnText(selectAll);
+		UiTestUtils.clickOnText(solo, selectAll);
 
 		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
 			assertTrue("CheckBox is not Checked!", checkBox.isChecked());
@@ -1272,17 +1272,17 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
-		solo.clickOnText(selectAll);
+		UiTestUtils.clickOnText(solo,selectAll);
 		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
 
-		solo.clickOnCheckBox(0);
+		UiTestUtils.clickOnCheckBox(solo, 0);
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
-		solo.clickOnCheckBox(1);
+		UiTestUtils.clickOnCheckBox(solo, 1);
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
-		solo.clickOnCheckBox(0);
-		solo.clickOnCheckBox(1);
+		UiTestUtils.clickOnCheckBox(solo, 0);
+		UiTestUtils.clickOnCheckBox(solo, 1);
 		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
 
 		solo.goBack();
@@ -1290,17 +1290,17 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
-		solo.clickOnText(selectAll);
+		UiTestUtils.clickOnText(solo,selectAll);
 		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
 
-		solo.clickOnCheckBox(0);
+		UiTestUtils.clickOnCheckBox(solo, 0);
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
-		solo.clickOnCheckBox(1);
+		UiTestUtils.clickOnCheckBox(solo, 1);
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
-		solo.clickOnCheckBox(0);
-		solo.clickOnCheckBox(1);
+		UiTestUtils.clickOnCheckBox(solo, 0);
+		UiTestUtils.clickOnCheckBox(solo, 1);
 		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
 	}
 

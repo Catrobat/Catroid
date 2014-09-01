@@ -154,6 +154,7 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		solo.waitForText(stringOnShowAddButton);
 		solo.clickOnText(stringOnShowAddButton);
 		UiTestUtils.dragFloatingBrick(solo, -1);
+		solo.sleep(200);
 
 		ArrayList<Pair<Integer, Integer>> listUserBrickNewBrick1OneParameter = new ArrayList<Pair<Integer, Integer>>();
 		ArrayList<Pair<Integer, Integer>> listUserBrickNewBrick1TwoParameter = new ArrayList<Pair<Integer, Integer>>();

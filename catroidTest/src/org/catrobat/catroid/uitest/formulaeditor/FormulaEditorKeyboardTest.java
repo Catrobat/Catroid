@@ -160,6 +160,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_function));
 		solo.clickOnText(solo.getString(R.string.formula_editor_function_rand));
+		solo.waitForText(solo.getString(R.string.formula_editor_title));
 		assertEquals(
 				"Wrong button clicked",
 				solo.getString(R.string.formula_editor_function_rand) + "( 0 , 1 )",
