@@ -586,7 +586,7 @@ public final class UiTestUtils {
 
 	public static void addNewBrick(Solo solo, int categoryStringId, String brickName, int nThElement) {
 		clickOnBottomBar(solo, R.id.button_add);
-		solo.sleep(500);
+		solo.sleep(1000);
 		clickOnBrickCategory(solo, solo.getCurrentActivity().getString(categoryStringId));
 		boolean fragmentAppeared = solo.waitForFragmentByTag(AddBrickFragment.ADD_BRICK_FRAGMENT_TAG, 5000);
 		if (!fragmentAppeared) {
@@ -783,6 +783,7 @@ public final class UiTestUtils {
 		int destinationY = Math.round(originY + height * offsetY);
 
 		solo.drag(originX, destinationX, originY, destinationY, DRAG_FRAMES);
+		solo.sleep(1000);
 
 		location[0] = destinationX;
 		location[1] = destinationY;
@@ -1461,6 +1462,7 @@ public final class UiTestUtils {
 		int doneButtonId = Resources.getSystem().getIdentifier("action_mode_close_button", "id", "android");
 		View doneButton = solo.getView(doneButtonId);
 		solo.clickOnView(doneButton);
+		solo.sleep(200);
 	}
 
 	/**
@@ -2061,4 +2063,14 @@ public final class UiTestUtils {
 		return solo.searchText(regularExpressionForExactClick, onlyVisible);
 	}
 
+	public static void clickOnCheckBox(Solo solo, int checkBoxIndex){
+		solo.clickOnCheckBox(checkBoxIndex);
+		solo.sleep(100);
+	}
+
+	public static void clickOnText(Solo solo, String text){
+		solo.waitForText(text);
+		solo.clickOnText(text);
+		solo.sleep(100);
+	}
 }

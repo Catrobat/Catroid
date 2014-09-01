@@ -72,10 +72,9 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	}
 
 	public void testLocalVariablesWhenSpriteCopiedFromSpritesListFragment() {
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
-
+		UiTestUtils.clickOnText(solo, solo.getString(R.string.main_menu_continue));
 		solo.clickLongOnText(SPRITE_NAME);
-		solo.clickOnText(solo.getString(R.string.copy));
+		UiTestUtils.clickOnText(solo, solo.getString(R.string.copy));
 
 		String copiedSpriteName = SPRITE_NAME.concat(solo.getString(R.string.copy_sprite_name_suffix));
 
@@ -98,19 +97,19 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	}
 
 	public void testSelectAllActionModeButton() {
-		solo.clickOnText(solo.getString(R.string.main_menu_continue));
+		UiTestUtils.clickOnText(solo, solo.getString(R.string.main_menu_continue));
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
-		solo.clickOnText(selectAll);
+		UiTestUtils.clickOnText(solo, selectAll);
 		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
 
-		solo.clickOnCheckBox(0);
+		UiTestUtils.clickOnCheckBox(solo, 0);
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
-		solo.clickOnCheckBox(0);
+		UiTestUtils.clickOnCheckBox(solo, 0);
 		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
 
 		solo.goBack();
@@ -118,13 +117,13 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
-		solo.clickOnText(selectAll);
+		UiTestUtils.clickOnText(solo, selectAll);
 		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
 
-		solo.clickOnCheckBox(0);
+		UiTestUtils.clickOnCheckBox(solo, 0);
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
-		solo.clickOnCheckBox(0);
+		UiTestUtils.clickOnCheckBox(solo, 0);
 		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
 	}
 }

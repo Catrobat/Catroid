@@ -340,7 +340,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		int currentNumberOfSprites = getCurrentNumberOfSprites() - 1;
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
-		solo.clickOnText(selectAll);
+		UiTestUtils.clickOnText(solo, selectAll);
 
 		for (CheckBox checkBox : solo.getCurrentViews(CheckBox.class)) {
 			if (checkBox.isShown()) {

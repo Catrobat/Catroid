@@ -277,7 +277,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof LoopEndlessBrick);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
-		solo.clickOnCheckBox(1);
+		UiTestUtils.clickOnCheckBox(solo, 1);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
@@ -329,7 +329,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		UiTestUtils.dragFloatingBrickDownwards(solo, 0);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
-		solo.clickOnCheckBox(2);
+		UiTestUtils.clickOnCheckBox(solo, 2);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
@@ -368,7 +368,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 	public void testSelectionActionMode() {
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
-		solo.clickOnCheckBox(1);
+		UiTestUtils.clickOnCheckBox(solo, 1);
 
 		CheckBox repeatBrickCheckbox = (CheckBox) solo.getView(R.id.brick_repeat_checkbox);
 		CheckBox loopEndBrickCheckbox = (CheckBox) solo.getView(R.id.brick_loop_end_checkbox);
@@ -381,7 +381,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
-		solo.clickOnCheckBox(1);
+		UiTestUtils.clickOnCheckBox(solo, 1);
 
 		repeatBrickCheckbox = (CheckBox) solo.getView(R.id.brick_repeat_checkbox);
 		loopEndBrickCheckbox = (CheckBox) solo.getView(R.id.brick_loop_end_checkbox);
@@ -443,10 +443,8 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 	private void deleteAllBricks() {
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
-		solo.clickOnText(solo.getString(R.string.select_all).toUpperCase(Locale.getDefault()));
+		UiTestUtils.clickOnText(solo, solo.getString(R.string.select_all).toUpperCase(Locale.getDefault()));
 		UiTestUtils.acceptAndCloseActionMode(solo);
-		String yes = solo.getString(R.string.yes);
-		solo.waitForText(yes);
-		solo.clickOnText(yes);
+		UiTestUtils.clickOnText(solo, solo.getString(R.string.yes));
 	}
 }
