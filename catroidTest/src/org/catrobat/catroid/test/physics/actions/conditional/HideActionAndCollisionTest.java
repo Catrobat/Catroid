@@ -53,7 +53,7 @@ public class HideActionAndCollisionTest extends PhysicsCollisionBaseTest {
 	public void testHide() {
 		Action action = sprite.getActionFactory().createHideAction(sprite);
 		action.act(1.0f);
-		assertFalse("Sprite is still visible after HideBrick executed", sprite.look.isVisible());
+		assertFalse("Sprite is still visible after HideBrick executed", sprite.look.visible);
 	}
 
 	public void testNullSprite() {

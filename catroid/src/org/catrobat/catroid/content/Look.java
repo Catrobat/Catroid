@@ -44,6 +44,7 @@ import java.util.Iterator;
 public class Look extends Image {
 	private static final float DEGREE_UI_OFFSET = 90.0f;
 	private static ArrayList<Action> actionsToRestart = new ArrayList<Action>();
+	public boolean visible = true;
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
 	protected LookData lookData;
@@ -104,6 +105,7 @@ public class Look extends Image {
 
 		cloneLook.alpha = this.alpha;
 		cloneLook.brightness = this.brightness;
+		cloneLook.visible = this.visible;
 		cloneLook.whenParallelAction = null;
 		cloneLook.allActionsAreFinished = this.allActionsAreFinished;
 
@@ -114,7 +116,7 @@ public class Look extends Image {
 		if (sprite.isPaused) {
 			return true;
 		}
-		if (!this.isVisible()) {
+		if (!visible) {
 			return false;
 		}
 
@@ -144,11 +146,11 @@ public class Look extends Image {
 		checkImageChanged();
 		batch.setShader(shader);
 		if (alpha == 0.0f) {
-			setVisible(false);
+			super.setVisible(false);
 		} else {
-			setVisible(true);
+			super.setVisible(true);
 		}
-		if (this.isVisible() && this.getDrawable() != null) {
+		if (visible && this.getDrawable() != null) {
 			super.draw(batch, this.alpha);
 		}
 	}
@@ -332,7 +334,6 @@ public class Look extends Image {
 	}
 
 	public void setTransparencyInUserInterfaceDimensionUnit(float percent) {
-
 		if (percent < 0f) {
 			percent = 0f;
 		} else if (percent >= 100f) {
@@ -371,6 +372,10 @@ public class Look extends Image {
 		setBrightnessInUserInterfaceDimensionUnit(getBrightnessInUserInterfaceDimensionUnit() + changePercent);
 	}
 
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
 	private boolean isAngleInCatroidIntervall(float catroidAngle) {
 		return (catroidAngle > -180 && catroidAngle <= 180);
 	}
@@ -401,7 +406,6 @@ public class Look extends Image {
 
 	private void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
 		BroadcastHandler.doHandleBroadcastFromWaiterEvent(this, event, broadcastMessage);
-
 	}
 
 	private class BrightnessContrastShader extends ShaderProgram {
@@ -441,5 +445,4 @@ public class Look extends Image {
 			end();
 		}
 	}
-
 }
