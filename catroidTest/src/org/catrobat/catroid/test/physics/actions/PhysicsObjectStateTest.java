@@ -160,6 +160,7 @@ public class PhysicsObjectStateTest extends PhysicsBaseTest {
 	// HELPER ----------------------------------------------------------------------------------------------------------
 
 	private void allConditionsInactiveCheck() {
+		((PhysicsLook) sprite.look).updatePhysicsObjectState(true);
 		boolean hangedUp = (Boolean) Reflection.getPrivateField(physicsObjectStateHandler, "hangedUp");
 		assertFalse("Unexpected physicsObject-status: hangedUp should be inactive", hangedUp);
 
@@ -171,6 +172,7 @@ public class PhysicsObjectStateTest extends PhysicsBaseTest {
 	}
 
 	private void hangupNonCollidingActiveCheck() {
+		((PhysicsLook) sprite.look).updatePhysicsObjectState(true);
 		boolean hangedUp = (Boolean) Reflection.getPrivateField(physicsObjectStateHandler, "hangedUp");
 		assertTrue("Unexpected physicsObject-status: hangup should be active", hangedUp);
 
@@ -182,6 +184,7 @@ public class PhysicsObjectStateTest extends PhysicsBaseTest {
 	}
 
 	private void hangupFixedActiveCheck() {
+		((PhysicsLook) sprite.look).updatePhysicsObjectState(true);
 		boolean hangedUp = (Boolean) Reflection.getPrivateField(physicsObjectStateHandler, "hangedUp");
 		assertTrue("Unexpected physicsObject-status: hangup should be active", hangedUp);
 
@@ -193,6 +196,7 @@ public class PhysicsObjectStateTest extends PhysicsBaseTest {
 	}
 
 	private void hangupFixedNonCollidingActiveCheck() {
+		((PhysicsLook) sprite.look).updatePhysicsObjectState(true);
 		boolean hangedUp = (Boolean) Reflection.getPrivateField(physicsObjectStateHandler, "hangedUp");
 		assertTrue("Unexpected physicsObject-status: hangup should be active", hangedUp);
 
