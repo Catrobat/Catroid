@@ -22,46 +22,111 @@
  */
 package org.catrobat.catroid.test.physics.actions;
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.SetSizeToAction;
+
+import com.badlogic.gdx.math.Vector2;
+
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsLook;
-import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.test.physics.PhysicsBaseTest;
+import org.catrobat.catroid.test.utils.Reflection;
+import org.catrobat.catroid.test.utils.TestUtils;
+
 
 public class SetSizeToActionTest extends PhysicsBaseTest {
 
-	private class PhysicsLookMock extends PhysicsLook {
-		private float scale = Float.MIN_VALUE;
 
-		public PhysicsLookMock(Sprite sprite, PhysicsWorld physicsWorld) {
-			super(sprite, physicsWorld);
-		}
+	private PhysicsLook physicsLook;
+	private PhysicsObject physicsObject;
 
-		@Override
-		public void setScale(float scaleX, float scaleY) {
-			// scaleX and scaleY have same value if called via SetSizeToAction
-			scale = scaleX;
-		}
 
-		public float getScale() {
-			return this.scale;
-		}
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		this.physicsLook = (PhysicsLook) sprite.look;
+		this.physicsObject = (PhysicsObject) Reflection.getPrivateField(physicsLook, "physicsObject");
 	}
+
 
 	public void testSizeLarger() {
-		float targetSize = 150f;
-		Formula sizeFormula = new Formula(targetSize);
-		PhysicsLookMock mockLook = new PhysicsLookMock(sprite, physicsWorld);
+		Vector2 oldAABBDimensions = getAABBDimensions();
+		float oldCircumference = physicsObject.getCircumference();
+		float scaleFactor = 500.0f;
+		performSetSizeToAction(scaleFactor);
 
-		sprite.look = mockLook;
-		SetSizeToAction setSizeToAction = new SetSizeToAction();
-		setSizeToAction.setSprite(sprite);
-		setSizeToAction.setSize(sizeFormula);
-
-		setSizeToAction.act(1f);
-		float targetScale = targetSize/100f;
-		float floatThreshold = 0.05f;
-		assertTrue("Size is not being set to correct scale", (targetScale - mockLook.getScale()) < floatThreshold);
+		Vector2 newAABBDimensions = getAABBDimensions();
+		float newCircumference = physicsObject.getCircumference();
+		assertEquals("Size is not being set to correct scale", oldAABBDimensions.x * (scaleFactor / 100.0f), newAABBDimensions.x, TestUtils.DELTA);
+		assertEquals("Size is not being set to correct scale", oldAABBDimensions.y * (scaleFactor / 100.0f), newAABBDimensions.y, TestUtils.DELTA);
+		assertEquals("Circumference is not being updated", oldCircumference * (scaleFactor / 100.0f), newCircumference, TestUtils.DELTA);
 	}
+
+	public void testSizeSmaller() {
+		Vector2 oldAABBDimensions = getAABBDimensions();
+		float oldCircumference = physicsObject.getCircumference();
+		float scaleFactor = 25.0f;
+		performSetSizeToAction(scaleFactor);
+
+		Vector2 newAABBDimensions = getAABBDimensions();
+		float newCircumference = physicsObject.getCircumference();
+		assertEquals("Size is not being set to correct scale", oldAABBDimensions.x * (scaleFactor / 100.0f), newAABBDimensions.x, TestUtils.DELTA);
+		assertEquals("Size is not being set to correct scale", oldAABBDimensions.y * (scaleFactor / 100.0f), newAABBDimensions.y, TestUtils.DELTA);
+		assertEquals("Circumference is not being updated", oldCircumference * (scaleFactor / 100.0f), newCircumference, TestUtils.DELTA);
+	}
+
+	public void testSizeSame() {
+		Vector2 oldAABBDimensions = getAABBDimensions();
+		float oldCircumference = physicsObject.getCircumference();
+		float scaleFactor = 100.0f;
+		performSetSizeToAction(scaleFactor);
+
+		Vector2 newAABBDimensions = getAABBDimensions();
+		float newCircumference = physicsObject.getCircumference();
+		assertEquals("Size is not being set to correct scale", oldAABBDimensions.x * (scaleFactor / 100.0f), newAABBDimensions.x, TestUtils.DELTA);
+		assertEquals("Size is not being set to correct scale", oldAABBDimensions.y * (scaleFactor / 100.0f), newAABBDimensions.y, TestUtils.DELTA);
+		assertEquals("Circumference is not being updated", oldCircumference * (scaleFactor / 100.0f), newCircumference, TestUtils.DELTA);
+	}
+
+	public void testSizeSmallerAndOriginal() {
+		Vector2 oldAABBDimensions = getAABBDimensions();
+		float oldCircumference = physicsObject.getCircumference();
+		float scaleFactor = 25.0f;
+		performSetSizeToAction(scaleFactor);
+		scaleFactor = 100.0f;
+		performSetSizeToAction(scaleFactor);
+
+		Vector2 newAABBDimensions = getAABBDimensions();
+		float newCircumference = physicsObject.getCircumference();
+		assertEquals("Size is not being set to correct scale", oldAABBDimensions.x * (scaleFactor / 100.0f), newAABBDimensions.x, TestUtils.DELTA);
+		assertEquals("Size is not being set to correct scale", oldAABBDimensions.y * (scaleFactor / 100.0f), newAABBDimensions.y, TestUtils.DELTA);
+		assertEquals("Circumference is not being updated", oldCircumference * (scaleFactor / 100.0f), newCircumference, TestUtils.DELTA);
+	}
+
+	public void testSizeZero() {
+		Vector2 oldAABBDimensions = getAABBDimensions();
+		float oldCircumference = physicsObject.getCircumference();
+		float scaleFactor = 0.0f;
+		performSetSizeToAction(scaleFactor);
+
+		Vector2 newAABBDimensions = getAABBDimensions();
+		float newCircumference = physicsObject.getCircumference();
+		assertEquals("Size is not being set to correct scale", oldAABBDimensions.x * (scaleFactor / 100.0f), newAABBDimensions.x, TestUtils.DELTA);
+		assertEquals("Size is not being set to correct scale", oldAABBDimensions.y * (scaleFactor / 100.0f), newAABBDimensions.y, TestUtils.DELTA);
+		assertEquals("Circumference is not being updated", oldCircumference * (scaleFactor / 100.0f), newCircumference, TestUtils.DELTA);
+	}
+
+
+	private Vector2 getAABBDimensions() {
+		Vector2 lowerLeft = new Vector2();
+		Vector2 upperRight = new Vector2();
+		physicsObject.getBoundaryBox(lowerLeft, upperRight);
+		float aabbWidth = Math.abs(Math.round(upperRight.x - lowerLeft.x));
+		float aabbHeight = Math.abs(Math.round(upperRight.y - lowerLeft.y));
+		return new Vector2(aabbWidth, aabbHeight);
+	}
+
+	private void performSetSizeToAction(float scaleFactor) {
+		sprite.getActionFactory().createSetSizeToAction(sprite, new Formula(scaleFactor)).act(1.0f);
+	}
+
 }
