@@ -125,7 +125,6 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		assertFalse("Lego brick category is showing!", solo.searchText(categoryLegoNXTLabel));
 		solo.goBack();
-		solo.sleep(200);
 		UiTestUtils.clickOnHomeActionBarButton(solo);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
