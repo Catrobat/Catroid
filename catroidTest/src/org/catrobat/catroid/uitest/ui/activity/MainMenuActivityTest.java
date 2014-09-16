@@ -341,6 +341,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.sendKey(Solo.MENU);
 		assertTrue("App rating menu not found in overflow menu!",
 				solo.searchText(solo.getString(R.string.main_menu_rate_app)));
+		solo.goBack();
 	}
 
 	public void testShouldDisplayDialogIfVersionNumberTooLow() throws Throwable {

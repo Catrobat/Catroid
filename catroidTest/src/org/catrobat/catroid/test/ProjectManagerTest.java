@@ -25,7 +25,6 @@ package org.catrobat.catroid.test;
 import android.test.AndroidTestCase;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
@@ -111,7 +110,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 		TestUtils.deleteTestProjects(OLD_PROJECT, NEW_PROJECT);
 	}
 
-	public void testShouldLoadDefaultProjectIfCannotLoadAnotherProject() throws Exception {
+	public void testShouldLoadAnotherProjectIfCannotLoadSpecificProject() throws Exception {
 		assertNull("Current project not null.", projectManager.getCurrentProject());
 
 		try {
@@ -123,8 +122,6 @@ public class ProjectManagerTest extends AndroidTestCase {
 
 		Project currentProject = projectManager.getCurrentProject();
 
-		assertNotNull("Didn't create default project.", currentProject);
-		assertEquals("Didn't create default project.", getContext().getString(R.string.default_project_name),
-				currentProject.getName());
+		assertNotNull("Could not load any project.", currentProject);
 	}
 }
