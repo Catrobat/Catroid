@@ -707,6 +707,7 @@ public final class UiTestUtils {
 						highestUpThisTime = bottom;
 					}
 					if (candidate.getText().toString().equals(brickName)) {
+						solo.sleep(500);
 						solo.clickOnView(candidate);
 						success = true;
 						break;
