@@ -959,6 +959,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		UiTestUtils.clickOnActionBar(solo, R.id.delete);
 		solo.clickInList(2);
+		solo.sleep(200);
 
 		ArrayList<CheckBox> checkBoxList = solo.getCurrentViews(CheckBox.class);
 		assertTrue("CheckBox not checked", checkBoxList.get(1).isChecked());
