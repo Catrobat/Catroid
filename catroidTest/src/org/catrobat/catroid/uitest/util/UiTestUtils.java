@@ -1459,8 +1459,14 @@ public final class UiTestUtils {
 	}
 
 	public static void acceptAndCloseActionMode(Solo solo) {
-		int doneButtonId = Resources.getSystem().getIdentifier("action_mode_close_button", "id", "android");
-		View doneButton = solo.getView(doneButtonId);
+		View doneButton;
+
+		if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			doneButton = solo.getView(Resources.getSystem().getIdentifier("action_mode_close_button", "id", "android"));
+		} else {
+			doneButton = solo.getCurrentActivity().findViewById(R.id.abs__action_mode_close_button);
+		}
+
 		solo.clickOnView(doneButton);
 		solo.sleep(200);
 	}
