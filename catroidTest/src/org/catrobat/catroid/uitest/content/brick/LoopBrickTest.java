@@ -269,7 +269,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		deleteAllBricks();
 
 		UiTestUtils.addNewBrick(solo, R.string.category_control, R.string.brick_forever);
-		UiTestUtils.dragFloatingBrickDownwards(solo, 0);
+		UiTestUtils.tapFloatingBrick(solo);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 2, projectBrickList.size());
