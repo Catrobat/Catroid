@@ -35,26 +35,26 @@ import java.util.Stack;
 
 public final class PhysicsShapeBuilderStrategyFastHull implements PhysicsShapeBuilderStrategy {
 
-	private final Stack<Vector2> convexHull = new Stack<Vector2>();
+	public static int MINIMUM_PIXEL_ALPHA_VALUE = 1;
 
 	@Override
 	public Shape[] build(Pixmap pixmap, float scale) {
-
+		Stack<Vector2> convexHull = new Stack<Vector2>();
 		if (pixmap == null) {
 			return null;
 		}
 
 		int width = pixmap.getWidth();
 		int height = pixmap.getHeight();
+		float coordinateAdjustmentValue = 1.0f;
 		convexHull.clear();
 
 		Vector2 point = new Vector2(width, height);
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < point.x; x++) {
-				if ((pixmap.getPixel(x, y) & 0xff) > 0) {
+				if ((pixmap.getPixel(x, y) & 0xff) >= MINIMUM_PIXEL_ALPHA_VALUE) {
 					point = new Vector2(x, y);
 					addPoint(convexHull, point);
-					//Log.d("PhysicsShapeBuilderStrategyFastHull", "X:" + point.x + " Y:" + point.y);
 					break;
 				}
 			}
@@ -66,9 +66,9 @@ public final class PhysicsShapeBuilderStrategyFastHull implements PhysicsShapeBu
 
 		for (int x = (int) point.x; x < width; x++) {
 			for (int y = height - 1; y > point.y; y--) {
-				if ((pixmap.getPixel(x, y) & 0xff) > 0) {
+				if ((pixmap.getPixel(x, y) & 0xff) >= MINIMUM_PIXEL_ALPHA_VALUE) {
 					point = new Vector2(x, y);
-					addPoint(convexHull, point);
+					addPoint(convexHull, new Vector2(x, y + coordinateAdjustmentValue));
 					break;
 				}
 			}
@@ -77,9 +77,9 @@ public final class PhysicsShapeBuilderStrategyFastHull implements PhysicsShapeBu
 		Vector2 firstPoint = convexHull.firstElement();
 		for (int y = (int) point.y; y >= firstPoint.y; y--) {
 			for (int x = width - 1; x > point.x; x--) {
-				if ((pixmap.getPixel(x, y) & 0xff) > 0) {
+				if ((pixmap.getPixel(x, y) & 0xff) >= MINIMUM_PIXEL_ALPHA_VALUE) {
 					point = new Vector2(x, y);
-					addPoint(convexHull, point);
+					addPoint(convexHull, new Vector2(x + coordinateAdjustmentValue, y + coordinateAdjustmentValue));
 					break;
 				}
 			}
@@ -87,9 +87,9 @@ public final class PhysicsShapeBuilderStrategyFastHull implements PhysicsShapeBu
 
 		for (int x = (int) point.x; x > firstPoint.x; x--) {
 			for (int y = (int) firstPoint.y; y < point.y; y++) {
-				if ((pixmap.getPixel(x, y) & 0xff) > 0) {
+				if ((pixmap.getPixel(x, y) & 0xff) >= MINIMUM_PIXEL_ALPHA_VALUE) {
 					point = new Vector2(x, y);
-					addPoint(convexHull, point);
+					addPoint(convexHull, new Vector2(x + coordinateAdjustmentValue, y));
 					break;
 				}
 			}

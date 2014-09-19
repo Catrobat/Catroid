@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.actions;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.physics.PhysicsLook;
 
 public class HideAction extends TemporalAction {
 
@@ -32,7 +33,11 @@ public class HideAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		sprite.look.setVisible(false);
+		if (sprite.look instanceof PhysicsLook) {
+			((PhysicsLook) sprite.look).setHidden(true);
+		} else {
+			sprite.look.setVisible(false);
+		}
 	}
 
 	public void setSprite(Sprite sprite) {
