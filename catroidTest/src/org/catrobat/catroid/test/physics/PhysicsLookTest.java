@@ -209,8 +209,8 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 					for (int idx = 0; idx < vertexCount; idx++) {
 						Vector2 vertex = new Vector2();
 						((PolygonShape) shape).getVertex(idx, vertex);
-						assertEquals("vertex x-value is not the expected", vertexXQueue.poll() * 2.0f, vertex.x);
-						assertEquals("vertex x-value is not the expected", vertexYQueue.poll() * 2.0f, vertex.y);
+						assertEquals("vertex x-value is not the expected", PhysicsShapeBuilder.scaleCoordinate(vertexXQueue.poll(), 2.0f), vertex.x);
+						assertEquals("vertex x-value is not the expected", PhysicsShapeBuilder.scaleCoordinate(vertexYQueue.poll(), 2.0f), vertex.y);
 						Log.d(TAG, "x=" + vertex.x + ";y=" + vertex.y);
 					}
 					break;
