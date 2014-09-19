@@ -58,7 +58,6 @@ public class PhysicsObject {
 	private short collisionMaskRecord = 0;
 	private short categoryMaskRecord = PhysicsWorld.CATEGORY_PHYSICSOBJECT;
 
-
 	private final Body body;
 	private final FixtureDef fixtureDef = new FixtureDef();
 	private Shape[] shapes;
@@ -101,9 +100,9 @@ public class PhysicsObject {
 			this.shapes = null;
 		}
 
-		Array<Fixture> fixturesOld = body.getFixtureList();
-		for (Fixture fixture : fixturesOld) {
-			body.destroyFixture(fixture);
+		while (body.getFixtureList().size > 0) {
+			Fixture oldFixture = body.getFixtureList().first();
+			body.destroyFixture(oldFixture);
 		}
 
 		if (shapes != null) {
@@ -123,13 +122,7 @@ public class PhysicsObject {
 			circumference = 0;
 			return;
 		}
-
-		calculateAABB();
-		float max1 = Math.max(getMassCenter().dst(fixtureAABBUpperRight), getMassCenter().dst(fixtureAABBLowerLeft));
-		Vector2 aabbLowerRight = new Vector2(fixtureAABBUpperRight.x, fixtureAABBLowerLeft.y);
-		Vector2 aaabbUpperLeft = new Vector2(fixtureAABBLowerLeft.x, fixtureAABBUpperRight.y);
-		float max2 = Math.max(getMassCenter().dst(aabbLowerRight), getMassCenter().dst(aaabbUpperLeft));
-		circumference = Math.max(max1, max2);
+		circumference = PhysicsWorldConverter.convertNormalToBox2dCoordinate(getBoundaryBoxDimensions().len() / 2.0f);
 	}
 
 	public Type getType() {
@@ -159,8 +152,8 @@ public class PhysicsObject {
 				collisionMaskRecord = PhysicsWorld.NOCOLLISION_MASK;
 				break;
 		}
-		setCollisionBits(categoryMaskRecord, collisionMaskRecord);
 		calculateCircumference();
+		setCollisionBits(categoryMaskRecord, collisionMaskRecord);
 	}
 
 	public float getDirection() {
@@ -184,7 +177,7 @@ public class PhysicsObject {
 	}
 
 	public float getCircumference() {
-		return circumference;
+		return PhysicsWorldConverter.convertBox2dToNormalCoordinate(circumference);
 	}
 
 	public Vector2 getPosition() {
@@ -273,7 +266,6 @@ public class PhysicsObject {
 	}
 
 	public void setFriction(float friction) {
-
 		if (friction < MIN_FRICTION) {
 			friction = MIN_FRICTION;
 		}
@@ -288,7 +280,6 @@ public class PhysicsObject {
 	}
 
 	public void setBounceFactor(float bounceFactor) {
-
 		if (bounceFactor < MIN_BOUNCE_FACTOR) {
 			bounceFactor = MIN_BOUNCE_FACTOR;
 		}
@@ -324,6 +315,10 @@ public class PhysicsObject {
 	}
 
 	protected void setCollisionBits(short categoryBits, short maskBits) {
+		setCollisionBits(categoryBits, maskBits, true);
+	}
+
+	protected void setCollisionBits(short categoryBits, short maskBits, boolean updateState) {
 		fixtureDef.filter.categoryBits = categoryBits;
 		fixtureDef.filter.maskBits = maskBits;
 
@@ -333,6 +328,19 @@ public class PhysicsObject {
 			filter.maskBits = maskBits;
 			fixture.setFilterData(filter);
 		}
+
+		if (updateState) {
+			updateNonCollidingState();
+		}
+	}
+
+	private void updateNonCollidingState() {
+		if (body.getUserData() != null && body.getUserData() instanceof Sprite) {
+			Object look = ((Sprite) body.getUserData()).look;
+			if (look != null && look instanceof PhysicsLook) {
+				((PhysicsLook) look).setNonColliding(isNonColliding());
+			}
+		}
 	}
 
 	public void getBoundaryBox(Vector2 lowerLeft, Vector2 upperRight) {
@@ -341,6 +349,13 @@ public class PhysicsObject {
 		lowerLeft.y = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBLowerLeft).y;
 		upperRight.x = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBUpperRight).x;
 		upperRight.y = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBUpperRight).y;
+	}
+
+	public Vector2 getBoundaryBoxDimensions() {
+		calculateAABB();
+		float aabbWidth = PhysicsWorldConverter.convertBox2dToNormalCoordinate(Math.abs(bodyAABBUpperRight.x - bodyAABBLowerLeft.x)) + 1.0f;
+		float aabbHeight = PhysicsWorldConverter.convertBox2dToNormalCoordinate(Math.abs(bodyAABBUpperRight.y - bodyAABBLowerLeft.y)) + 1.0f;
+		return new Vector2(aabbWidth, aabbHeight);
 	}
 
 	public void activateHangup() {
@@ -363,13 +378,13 @@ public class PhysicsObject {
 		}
 	}
 
-	public void activateNonColliding() {
-		setCollisionBits(categoryMaskRecord, PhysicsWorld.NOCOLLISION_MASK);
+	public void activateNonColliding(boolean updateState) {
+		setCollisionBits(categoryMaskRecord, PhysicsWorld.NOCOLLISION_MASK, updateState);
 	}
 
-	public void deactivateNonColliding(boolean record) {
+	public void deactivateNonColliding(boolean record, boolean updateState) {
 		if (record) {
-			setCollisionBits(categoryMaskRecord, collisionMaskRecord);
+			setCollisionBits(categoryMaskRecord, collisionMaskRecord, updateState);
 		}
 	}
 
@@ -382,6 +397,10 @@ public class PhysicsObject {
 		if (record) {
 			setType(savedType);
 		}
+	}
+
+	public boolean isNonColliding() {
+		return collisionMaskRecord == PhysicsWorld.MASK_NOCOLLISION;
 	}
 
 	private void calculateAABB() {
