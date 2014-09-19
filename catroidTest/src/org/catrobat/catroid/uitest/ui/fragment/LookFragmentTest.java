@@ -985,6 +985,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	public void testDeleteSelectAll() {
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		solo.waitForActivity("ScriptActivity");
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
 
@@ -1004,10 +1005,12 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	public void testItemClick() {
 		UiTestUtils.openActionMode(solo, delete, R.id.delete, getActivity());
+		solo.waitForActivity("ScriptActivity");
 		solo.clickInList(2);
 
 		ArrayList<CheckBox> checkBoxList = solo.getCurrentViews(CheckBox.class);
 		assertTrue("CheckBox not checked", checkBoxList.get(1).isChecked());
+
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.yes)));
@@ -1206,6 +1209,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void testCopySelectAll() {
 		int currentNumberOfLooks = lookDataList.size();
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.waitForActivity("ScriptActivity");
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 		UiTestUtils.clickOnText(solo, selectAll);
 
@@ -1270,6 +1274,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		solo.waitForActivity("ScriptActivity");
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
 		UiTestUtils.clickOnText(solo,selectAll);
@@ -1288,6 +1293,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.goBack();
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
+		solo.waitForActivity("ScriptActivity");
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
 		UiTestUtils.clickOnText(solo,selectAll);

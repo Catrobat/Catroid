@@ -72,11 +72,13 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 	}
 
 	public void testLocalVariablesWhenSpriteCopiedFromSpritesListFragment() {
-		UiTestUtils.clickOnText(solo, solo.getString(R.string.main_menu_continue));
+		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.clickLongOnText(SPRITE_NAME);
-		UiTestUtils.clickOnText(solo, solo.getString(R.string.copy));
+		solo.clickOnText(solo.getString(R.string.copy));
 
-		String copiedSpriteName = SPRITE_NAME.concat(solo.getString(R.string.copy_sprite_name_suffix));
+		String copiedSpriteName = SPRITE_NAME + solo.getString(R.string.copy_sprite_name_suffix);
+		solo.waitForText(copiedSpriteName);
+		assertTrue(copiedSpriteName + " not found!", solo.searchText(copiedSpriteName));
 
 		Sprite clonedSprite = null;
 		for (Sprite tempSprite : project.getSpriteList()) {

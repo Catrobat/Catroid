@@ -33,7 +33,6 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -60,37 +59,37 @@ public class RenameSpriteDialogTest extends BaseActivityInstrumentationTestCase<
 
 	public void testRenameSpriteDialog() throws NameNotFoundException, IOException {
 		createTestProject(testProject);
-		solo.sleep(200);
+		solo.waitForActivity("MainMenuActivity");
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.sleep(1000);
-		assertTrue("Cannot click on project.", UiTestUtils.clickOnTextInList(solo, testProject));
-		solo.clickLongOnText(cat);
+		solo.waitForActivity("MyProjectsActivity");
+		solo.assertCurrentActivity("Expected MyProjectsActivity activity", "MyProjectsActivity");
+		assertTrue("Cannot find project", solo.searchText(testProject));
+		solo.clickOnText(testProject);
 
+		solo.clickLongOnText(cat);
 		solo.clickOnText(solo.getString(R.string.rename));
-		solo.sleep(100);
 		solo.clearEditText(0);
-		UiTestUtils.enterText(solo, 0, kat);
+		solo.enterText(0, kat);
 		solo.sendKey(Solo.ENTER);
-		solo.sleep(200);
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		String first = ((Sprite) spritesList.getItemAtPosition(1)).getName();
-
 		assertEquals("The first sprite is NOT rename!", first, kat);
 	}
 
 	public void testRenameSpriteDialogMixedCase() throws NameNotFoundException, IOException {
 		createTestProject(testProject);
+		solo.waitForActivity("MainMenuActivity");
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		solo.sleep(500);
-		assertTrue("Cannot click on project.", UiTestUtils.clickOnTextInList(solo, testProject));
-		solo.clickLongOnText(cat);
+		solo.waitForActivity("MyProjectsActivity");
+		solo.assertCurrentActivity("Expected MyProjectsActivity activity", "MyProjectsActivity");
+		assertTrue("Cannot find project", solo.searchText(testProject));
+		solo.clickOnText(testProject);
 
-		solo.sleep(1000);
+		solo.clickLongOnText(cat);
 		solo.clickOnText(solo.getString(R.string.rename));
 		solo.clearEditText(0);
-		UiTestUtils.enterText(solo, 0, catMixedCase);
+		solo.enterText(0, catMixedCase);
 		solo.sendKey(Solo.ENTER);
 
 		ListView spriteList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
