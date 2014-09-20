@@ -804,6 +804,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		UiTestUtils.clickOnActionBar(solo, R.id.delete);
 		solo.clickInList(0);
 
+		solo.waitForView(CheckBox.class);
 		ArrayList<CheckBox> checkBoxList = solo.getCurrentViews(CheckBox.class);
 		assertTrue("CheckBox not checked", checkBoxList.get(0).isChecked());
 

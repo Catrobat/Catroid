@@ -1008,9 +1008,9 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.waitForActivity("ScriptActivity");
 		solo.clickInList(2);
 
+		solo.waitForView(CheckBox.class);
 		ArrayList<CheckBox> checkBoxList = solo.getCurrentViews(CheckBox.class);
 		assertTrue("CheckBox not checked", checkBoxList.get(1).isChecked());
-
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		assertTrue("default project not visible", solo.searchText(solo.getString(R.string.yes)));
