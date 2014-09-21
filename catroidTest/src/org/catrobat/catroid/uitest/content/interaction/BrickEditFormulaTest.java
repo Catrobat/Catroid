@@ -63,7 +63,7 @@ public class BrickEditFormulaTest extends BaseActivityInstrumentationTestCase<Ma
 		checkBrick(R.string.brick_place_at);
 		checkBrick(R.string.brick_point_in_direction);
 		checkBrick(R.string.brick_set_brightness);
-		checkBrick(R.string.brick_set_ghost_effect);
+		checkBrick(R.string.brick_set_transparency);
 		checkBrick(R.string.brick_set_size_to);
 		checkBrick(R.string.brick_set_variable);
 		checkBrick(R.string.brick_set_volume_to);

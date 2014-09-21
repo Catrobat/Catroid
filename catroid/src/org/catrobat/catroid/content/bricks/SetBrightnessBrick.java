@@ -123,12 +123,12 @@ public class SetBrightnessBrick extends FormulaBrick implements OnClickListener 
 			TextView textBrightness = (TextView) view.findViewById(R.id.brick_set_brightness_label);
 			TextView textTo = (TextView) view.findViewById(R.id.brick_set_brightness_to_textview);
 			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_brightness_to_percent);
-			TextView editGhostEffect = (TextView) view.findViewById(R.id.brick_set_brightness_edit_text);
+			TextView editTransparency = (TextView) view.findViewById(R.id.brick_set_brightness_edit_text);
 			textBrightness.setTextColor(textBrightness.getTextColors().withAlpha(alphaValue));
 			textTo.setTextColor(textTo.getTextColors().withAlpha(alphaValue));
 			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
-			editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));
-			editGhostEffect.getBackground().setAlpha(alphaValue);
+			editTransparency.setTextColor(editTransparency.getTextColors().withAlpha(alphaValue));
+			editTransparency.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
 

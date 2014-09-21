@@ -74,10 +74,10 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static ChangeGhostEffectByNAction changeGhostEffectByN(Sprite sprite, Formula ghostEffect) {
-		ChangeGhostEffectByNAction action = action(ChangeGhostEffectByNAction.class);
+	public static ChangeTransparencyByNAction changeTransparencyByN(Sprite sprite, Formula transparency) {
+		ChangeTransparencyByNAction action = action(ChangeTransparencyByNAction.class);
 		action.setSprite(sprite);
-		action.setGhostEffect(ghostEffect);
+		action.setTransparency(transparency);
 		return action;
 	}
 
@@ -230,8 +230,8 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static SetGhostEffectAction setGhostEffect(Sprite sprite, Formula transparency) {
-		SetGhostEffectAction action = action(SetGhostEffectAction.class);
+	public static SetTransparencyAction setTransparency(Sprite sprite, Formula transparency) {
+		SetTransparencyAction action = action(SetTransparencyAction.class);
 		action.setSprite(sprite);
 		action.setTransparency(transparency);
 		return action;

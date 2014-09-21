@@ -56,7 +56,7 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 	public static final String[] TAGS = { OBJECT_TAG, FUNCTION_TAG, LOGIC_TAG, SENSOR_TAG };
 
 	private static final int[] OBJECT_ITEMS = { R.string.formula_editor_object_x, R.string.formula_editor_object_y,
-			R.string.formula_editor_object_ghosteffect, R.string.formula_editor_object_brightness,
+			R.string.formula_editor_object_transparency, R.string.formula_editor_object_brightness,
 			R.string.formula_editor_object_size, R.string.formula_editor_object_rotation,
 			R.string.formula_editor_object_layer };
 

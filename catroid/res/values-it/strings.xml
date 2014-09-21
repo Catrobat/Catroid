@@ -263,7 +263,7 @@
   <string name="brick_change_size_by">Cambia la dimensione di</string>
   <string name="brick_hide">Nascondi</string>
   <string name="brick_show">Mostra</string>
-  <string name="brick_set_ghost_effect">"Imposta trasparenza "</string>
+  <string name="brick_set_transparency">"Imposta trasparenza "</string>
   <string name="brick_change_ghost_effect">"Modifica trasparenza "</string>
   <string name="brick_set_brightness">"Imposta luminosità "</string>
   <string name="brick_change_brightness">"Modifica luminosità "</string>
@@ -487,7 +487,7 @@
   <string name="formula_editor_sensor_face_y_position">posizione_y_volto</string>
   <string name="formula_editor_object_x">posizione_x</string>
   <string name="formula_editor_object_y">posizione_y</string>
-  <string name="formula_editor_object_ghosteffect">trasparenza</string>
+  <string name="formula_editor_object_transparency">trasparenza</string>
   <string name="formula_editor_object_brightness">luminosita</string>
   <string name="formula_editor_object_size">dimensione</string>
   <string name="formula_editor_object_rotation">direzione</string>

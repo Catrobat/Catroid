@@ -30,14 +30,14 @@
               android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/brick_set_ghost_effect_checkbox"
+        android:id="@+id/brick_set_transparency_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_set_ghost_effect_layout"
+        android:id="@+id/brick_set_transparency_layout"
         style="@style/BrickContainer.Look.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,25 +47,25 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
-            android:id="@+id/brick_set_ghost_effect_label"
+            android:id="@+id/brick_set_transparency_label"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_set_ghost_effect" >
+            android:text="@string/brick_set_transparency" >
         </TextView >
 
         <TextView
-            android:id="@+id/brick_set_ghost_effect_to"
+            android:id="@+id/brick_set_transparency_to"
             style="@style/BrickText.SingleLine"
             app:layout_newLine="true"
             android:text="@string/to_label" >
         </TextView >
 
         <TextView
-            android:id="@+id/brick_set_ghost_effect_to_prototype_text_view"
+            android:id="@+id/brick_set_transparency_to_prototype_text_view"
             style="@style/BrickPrototypeTextView" >
         </TextView >
 
         <TextView
-            android:id="@+id/brick_set_ghost_effect_to_edit_text"
+            android:id="@+id/brick_set_transparency_to_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true"
@@ -73,7 +73,7 @@
         </TextView >
 
         <TextView
-            android:id="@+id/brick_set_ghost_effect_percent"
+            android:id="@+id/brick_set_transparency_percent"
             style="@style/BrickText.SingleLine"
             android:text="@string/percent_symbol" >
         </TextView >

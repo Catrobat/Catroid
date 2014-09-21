@@ -36,8 +36,8 @@ import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
-import org.catrobat.catroid.content.bricks.ChangeGhostEffectByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
@@ -79,9 +79,9 @@ import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
-import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
@@ -163,7 +163,7 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("changeBrightness", BrickField.BRIGHTNESS_CHANGE);
 		brickInfoMap.put("changeBrightnessByNBrick", brickInfo);
 
-		brickInfo = new BrickInfo(ChangeGhostEffectByNBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(ChangeTransparencyByNBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("changeGhostEffect", BrickField.TRANSPARENCY_CHANGE);
 		brickInfoMap.put("changeGhostEffectByNBrick", brickInfo);
 
@@ -284,11 +284,11 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("brightness", BrickField.BRIGHTNESS);
 		brickInfoMap.put("setBrightnessBrick", brickInfo);
 
-		brickInfo = new BrickInfo(SetGhostEffectBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(SetTransparencyBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("transparency", BrickField.TRANSPARENCY);
 		brickInfoMap.put("setGhostEffectBrick", brickInfo);
 
-		brickInfo = new BrickInfo(SetGhostEffectBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(SetTransparencyBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("transparency", BrickField.TRANSPARENCY);
 		brickInfoMap.put("setGhostEffectBrick", brickInfo);
 
