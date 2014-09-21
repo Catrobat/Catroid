@@ -31,7 +31,6 @@
         android:orientation="vertical"
         android:paddingBottom="@dimen/dialog_item_margin" >
 
-
         <EditText
             android:id="@+id/dialog_formula_editor_data_name_edit_text"
             style="@style/DefaultDialog.EditText"
