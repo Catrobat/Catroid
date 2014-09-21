@@ -50,8 +50,8 @@ import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
-import org.catrobat.catroid.content.bricks.ChangeGhostEffectByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
@@ -98,9 +98,9 @@ import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
-import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
@@ -159,7 +159,7 @@ public final class StorageHandler {
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private static final int JPG_COMPRESSION_SETTING = 95;
 
-	private XStreamToSupportCatrobatLanguageVersion094AndBefore xstream;
+	private XStreamToSupportCatrobatLanguageVersion095AndBefore xstream;
 
 	private File backPackSoundDirectory;
 	private FileInputStream fileInputStream;
@@ -177,7 +177,7 @@ public final class StorageHandler {
 	}
 
 	private StorageHandler() throws IOException {
-		xstream = new XStreamToSupportCatrobatLanguageVersion094AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
+		xstream = new XStreamToSupportCatrobatLanguageVersion095AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 		xstream.processAnnotations(Project.class);
 		xstream.processAnnotations(XmlHeader.class);
 		xstream.processAnnotations(DataContainer.class);
@@ -237,7 +237,7 @@ public final class StorageHandler {
 		xstream.alias("brick", BroadcastReceiverBrick.class);
 		xstream.alias("brick", BroadcastWaitBrick.class);
 		xstream.alias("brick", ChangeBrightnessByNBrick.class);
-		xstream.alias("brick", ChangeGhostEffectByNBrick.class);
+		xstream.alias("brick", ChangeTransparencyByNBrick.class);
 		xstream.alias("brick", ChangeSizeByNBrick.class);
 		xstream.alias("brick", ChangeVariableBrick.class);
 		xstream.alias("brick", ChangeVolumeByNBrick.class);
@@ -274,7 +274,7 @@ public final class StorageHandler {
 		xstream.alias("brick", RepeatBrick.class);
 		xstream.alias("brick", ReplaceItemInUserListBrick.class);
 		xstream.alias("brick", SetBrightnessBrick.class);
-		xstream.alias("brick", SetGhostEffectBrick.class);
+		xstream.alias("brick", SetTransparencyBrick.class);
 		xstream.alias("brick", SetLookBrick.class);
 		xstream.alias("brick", SetSizeToBrick.class);
 		xstream.alias("brick", SetVariableBrick.class);

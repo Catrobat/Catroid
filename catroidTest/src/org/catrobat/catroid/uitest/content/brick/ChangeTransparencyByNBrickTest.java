@@ -31,7 +31,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.ChangeGhostEffectByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -39,13 +39,13 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class ChangeGhostEffectByNBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
+public class ChangeTransparencyByNBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final double EFFECT_TO_CHANGE = 11.2;
 
 	private Project project;
-	private ChangeGhostEffectByNBrick changeGhostEffectByNBrick;
+	private ChangeTransparencyByNBrick changeTransparencyByNBrick;
 
-	public ChangeGhostEffectByNBrickTest() {
+	public ChangeTransparencyByNBrickTest() {
 		super(ScriptActivity.class);
 	}
 
@@ -58,7 +58,7 @@ public class ChangeGhostEffectByNBrickTest extends BaseActivityInstrumentationTe
 		super.setUp();
 	}
 
-	public void testChangeGhostEffectByNBrick() {
+	public void testTransparencyEffectByNBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
@@ -71,13 +71,13 @@ public class ChangeGhostEffectByNBrickTest extends BaseActivityInstrumentationTe
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeGhostEffectByNBrick);
-		assertTrue("Wrong Brick instance.", adapter.getChild(groupCount - 1, 0) instanceof ChangeGhostEffectByNBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeTransparencyByNBrick);
+		assertTrue("Wrong Brick instance.", adapter.getChild(groupCount - 1, 0) instanceof ChangeTransparencyByNBrick);
 		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_change_ghost_effect)));
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
 				R.id.brick_change_ghost_effect_edit_text, EFFECT_TO_CHANGE, Brick.BrickField.TRANSPARENCY_CHANGE,
-				changeGhostEffectByNBrick);
+				changeTransparencyByNBrick);
 
 	}
 
@@ -85,8 +85,8 @@ public class ChangeGhostEffectByNBrickTest extends BaseActivityInstrumentationTe
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript();
-		changeGhostEffectByNBrick = new ChangeGhostEffectByNBrick(30.5);
-		script.addBrick(changeGhostEffectByNBrick);
+		changeTransparencyByNBrick = new ChangeTransparencyByNBrick(30.5);
+		script.addBrick(changeTransparencyByNBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

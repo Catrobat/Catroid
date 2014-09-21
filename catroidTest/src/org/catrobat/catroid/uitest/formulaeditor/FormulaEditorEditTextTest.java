@@ -664,8 +664,8 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_object_y));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
-		solo.waitForText(getActivity().getString(R.string.formula_editor_object_ghosteffect));
-		solo.clickOnText(getActivity().getString(R.string.formula_editor_object_ghosteffect));
+		solo.waitForText(getActivity().getString(R.string.formula_editor_object_transparency));
+		solo.clickOnText(getActivity().getString(R.string.formula_editor_object_transparency));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
 		solo.waitForText(getActivity().getString(R.string.formula_editor_object_brightness));

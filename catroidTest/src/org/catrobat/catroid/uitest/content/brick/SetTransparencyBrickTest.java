@@ -31,7 +31,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
+import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -39,12 +39,12 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class SetGhostEffectBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
+public class SetTransparencyBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
 	private Project project;
-	private SetGhostEffectBrick setGhostEffectBrick;
+	private SetTransparencyBrick setTransparencyBrick;
 
-	public SetGhostEffectBrickTest() {
+	public SetTransparencyBrickTest() {
 		super(ScriptActivity.class);
 	}
 
@@ -57,7 +57,7 @@ public class SetGhostEffectBrickTest extends BaseActivityInstrumentationTestCase
 		super.setUp();
 	}
 
-	public void testSetGhostEffectBrick() {
+	public void testSetTransparencyBrick() {
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
@@ -71,20 +71,20 @@ public class SetGhostEffectBrickTest extends BaseActivityInstrumentationTestCase
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_set_ghost_effect)));
+		assertNotNull("TextView does not exist", solo.getText(solo.getString(R.string.brick_set_transparency)));
 
 		double newEffect = 65.9;
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
-				R.id.brick_set_ghost_effect_to_edit_text, newEffect, Brick.BrickField.TRANSPARENCY, setGhostEffectBrick);
+				R.id.brick_set_transparency_to_edit_text, newEffect, Brick.BrickField.TRANSPARENCY, setTransparencyBrick);
 	}
 
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript();
-		setGhostEffectBrick = new SetGhostEffectBrick(33.8);
-		script.addBrick(setGhostEffectBrick);
+		setTransparencyBrick = new SetTransparencyBrick(33.8);
+		script.addBrick(setTransparencyBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

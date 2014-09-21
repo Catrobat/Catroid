@@ -212,22 +212,22 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		assertEquals("Value in Brick ChangeSizeBy is not correct", (float) BrickValues.CHANGE_SIZE_BY,
 				changeSizeByPrototypeValue);
 
-		if (!solo.searchText(solo.getString(R.string.brick_set_ghost_effect))) {
+		if (!solo.searchText(solo.getString(R.string.brick_set_transparency))) {
 			solo.scrollDownList(fragmentListView);
 		}
-		TextView setGhostEffectTextView = (TextView) solo.getView(R.id.brick_set_ghost_effect_to_prototype_text_view);
-		float setGhostEffectPrototypeValue = Float.parseFloat(setGhostEffectTextView.getText().toString());
-		assertEquals("Value in Brick SetGhostEffect is not correct", (float) BrickValues.SET_GHOST_EFFECT,
-				setGhostEffectPrototypeValue);
+		TextView setTransparencyTextView = (TextView) solo.getView(R.id.brick_set_transparency_to_prototype_text_view);
+		float setTransparencyPrototypeValue = Float.parseFloat(setTransparencyTextView.getText().toString());
+		assertEquals("Value in Brick SetTransparency is not correct", (float) BrickValues.SET_TRANSPARENCY,
+				setTransparencyPrototypeValue);
 
 		if (!solo.searchText(solo.getString(R.string.brick_change_ghost_effect))) {
 			solo.scrollDownList(fragmentListView);
 		}
-		TextView changeGhostEffectTextView = (TextView) solo
-				.getView(R.id.brick_set_ghost_effect_to_prototype_text_view);
-		float changeGhostEffectPrototypeValue = Float.parseFloat(changeGhostEffectTextView.getText().toString());
-		assertEquals("Value in Brick SetGhostEffect is not correct", (float) BrickValues.SET_GHOST_EFFECT,
-				changeGhostEffectPrototypeValue);
+		TextView changeTransparencyTextView = (TextView) solo
+				.getView(R.id.brick_set_transparency_to_prototype_text_view);
+		float changeTransparencyPrototypeValue = Float.parseFloat(changeTransparencyTextView.getText().toString());
+		assertEquals("Value in Brick SetTransparency is not correct", (float) BrickValues.SET_TRANSPARENCY,
+				changeTransparencyPrototypeValue);
 
 		if (!solo.searchText(solo.getString(R.string.brick_set_brightness))) {
 			solo.scrollDownList(fragmentListView);

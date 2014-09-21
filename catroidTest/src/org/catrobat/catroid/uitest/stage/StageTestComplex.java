@@ -33,8 +33,8 @@ import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
-import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
@@ -195,8 +195,8 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		yellowSprite.addScript(yellowStartScript);
 
 		WhenScript yellowWhenScript = new WhenScript();
-		SetGhostEffectBrick yellowSetGhostEffectBrick = new SetGhostEffectBrick(100d);
-		yellowWhenScript.addBrick(yellowSetGhostEffectBrick);
+		SetTransparencyBrick yellowSetTransparencyBrick = new SetTransparencyBrick(100d);
+		yellowWhenScript.addBrick(yellowSetTransparencyBrick);
 
 		yellowSprite.addScript(yellowWhenScript);
 

@@ -36,7 +36,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class XStreamToSupportCatrobatLanguageVersion094AndBeforeTest extends InstrumentationTestCase {
+public class XStreamToSupportCatrobatLanguageVersion095AndBeforeTest extends InstrumentationTestCase {
 
 	private static final String TAG = "XStreamTest";
 
@@ -49,6 +49,7 @@ public class XStreamToSupportCatrobatLanguageVersion094AndBeforeTest extends Ins
 	private static final String ZIP_FILENAME_ALL_BRICKS = "All_Bricks.catrobat";
 	private static final String ZIP_FILENAME_NOTE_AND_SPEAK_BRICK = "Note_And_Speak_Brick.catrobat";
 	private static final String ZIP_FILENAME_EMPTY_PROJECT = "languageVersion.catrobat";
+	private static final String ZIP_FILENAME_GHOST_EFFECT_BRICKS = "Ghost_Effect_Bricks.catrobat";
 
 
 	private static final String PROJECT_NAME_FALLING_BALLS = "falling balls";
@@ -60,6 +61,7 @@ public class XStreamToSupportCatrobatLanguageVersion094AndBeforeTest extends Ins
 	private static final String PROJECT_NAME_ALL_BRICKS = "all bricks";
 	private static final String PROJECT_NAME_EMPTY_PROJECT = "languageVersion";
 	private static final String PROJECT_NAME_NOTE_AND_SPEAK_BRICK = "noteandspeakbrick";
+	private static final String PROJECT_NAME_GHOST_EFFECT_BRICKS = "ghosteffectbricks";
 
 
 	@Override
@@ -226,7 +228,6 @@ public class XStreamToSupportCatrobatLanguageVersion094AndBeforeTest extends Ins
 
 	public void testLoadingProjectsOfCatrobatLanguageVersion092() {
 		copyAssetProjectZipFile(ZIP_FILENAME_NOTE_AND_SPEAK_BRICK, Constants.TMP_PATH);
-
 		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_NOTE_AND_SPEAK_BRICK, Constants.DEFAULT_ROOT + "/"
 				+ PROJECT_NAME_NOTE_AND_SPEAK_BRICK);
 
@@ -235,7 +236,20 @@ public class XStreamToSupportCatrobatLanguageVersion094AndBeforeTest extends Ins
 		assertEquals("Wrong project loaded", PROJECT_NAME_NOTE_AND_SPEAK_BRICK, noteAndSpeakBrickProject.getName().toLowerCase());
 
 		deleteZipFile(ZIP_FILENAME_NOTE_AND_SPEAK_BRICK, Constants.TMP_PATH);
-
 		TestUtils.deleteTestProjects(PROJECT_NAME_NOTE_AND_SPEAK_BRICK);
 	}
+
+	public void testLoadingProjectsOfCatrobatLanguageVersion095() {
+		copyAssetProjectZipFile(ZIP_FILENAME_GHOST_EFFECT_BRICKS, Constants.TMP_PATH);
+		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_GHOST_EFFECT_BRICKS, Constants.DEFAULT_ROOT + "/"
+				+ PROJECT_NAME_GHOST_EFFECT_BRICKS);
+
+		Project ghostBricksProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_GHOST_EFFECT_BRICKS);
+		assertTrue("Cannot load " + PROJECT_NAME_GHOST_EFFECT_BRICKS + " project", ghostBricksProject != null);
+		assertEquals("Wrong project loaded", PROJECT_NAME_GHOST_EFFECT_BRICKS, ghostBricksProject.getName());
+
+		deleteZipFile(ZIP_FILENAME_GHOST_EFFECT_BRICKS, Constants.TMP_PATH);
+		TestUtils.deleteTestProjects(PROJECT_NAME_GHOST_EFFECT_BRICKS);
+	}
+
 }
