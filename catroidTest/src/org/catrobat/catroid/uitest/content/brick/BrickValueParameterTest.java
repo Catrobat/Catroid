@@ -478,7 +478,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 				((UserList) deleteItemInListSpinner.getSelectedItem()).getName());
 
 		TextView deleteItemInUserListIndexTextView = (TextView) solo.getView(R.id.brick_delete_item_of_userlist_prototype_view);
-		assertEquals("Value in Delete Item Of List is not correct", "1.0", deleteItemInUserListIndexTextView.getText().toString());
+		assertEquals("Value in Delete Item Of List is not correct", "1", deleteItemInUserListIndexTextView.getText().toString());
 
 		solo.scrollDownList(fragmentListView);
 
@@ -488,7 +488,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 				((UserList) insertItemInListSpinner.getSelectedItem()).getName());
 
 		TextView insertItemInUserListIndexTextView = (TextView) solo.getView(R.id.brick_insert_item_into_userlist_at_index_prototype_view);
-		assertEquals("Value in Insert Item In List is not correct", "1.0", insertItemInUserListIndexTextView.getText().toString());
+		assertEquals("Value in Insert Item In List is not correct", "1", insertItemInUserListIndexTextView.getText().toString());
 
 		TextView insertItemInUserListIndexTextValue = (TextView) solo.getView(R.id.brick_insert_item_into_userlist_value_prototype_view);
 		assertEquals("Value in insert item in userlist is not correct", "1.0", insertItemInUserListIndexTextValue.getText().toString());
@@ -500,7 +500,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 				((UserList) replaceItemInListSpinner.getSelectedItem()).getName());
 
 		TextView replaceItemInUserListIndexTextView = (TextView) solo.getView(R.id.brick_replace_item_in_userlist_at_index_prototype_view);
-		assertEquals("Value in replaceItemInList is not correct", "1.0", replaceItemInUserListIndexTextView.getText().toString());
+		assertEquals("Value in replaceItemInList is not correct", "1", replaceItemInUserListIndexTextView.getText().toString());
 
 		TextView replaceItemInUserListIndexTextValue = (TextView) solo.getView(R.id.brick_replace_item_in_userlist_value_prototype_view);
 		assertEquals("Value in replaceItemInList is not correct", "1.0", replaceItemInUserListIndexTextValue.getText().toString());

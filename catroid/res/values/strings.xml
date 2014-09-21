@@ -701,7 +701,7 @@
     <string name="formula_editor_data_dialog_title">New</string>
     <string name="formula_editor_existing_data_item" >Name already in use!</string>
     <string name="formula_editor_fragment_data_current_items" >current items</string >
-    <string name="formula_editor_data_dialog_is_list" >Make it a List</string >
+    <string name="formula_editor_data_dialog_is_list" >Make it a list</string >
     <string name="formula_editor_lists" >Lists</string >
     <string name="formula_editor_variable_dialog_for_this_brick">For this brick</string>
     <string name="formula_editor_sensor_face_detected">is_face_detected</string>

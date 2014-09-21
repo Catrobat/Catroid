@@ -433,15 +433,13 @@
 
 	</style >
 
-    <style name="FormulaEditorButton">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:background">@drawable/formula_editor_keyboard_button</item>
-        <item name="android:layout_height">@dimen/key_height</item>
-        <!-- <item name="android:layout_marginBottom">@dimen/key_margin</item> -->
-        <!-- <item name="android:layout_marginRight">@dimen/key_margin</item> -->
-        <item name="android:textColor">@color/formula_editor_keyboard_text_color</item>
-        <item name="android:lines">1</item>
-        <item name="android:ellipsize">end</item>
+    <style name="FormulaEditorButton" >
+        <item name="android:layout_width">0dp</item >
+        <item name="android:background">@drawable/formula_editor_keyboard_button</item >
+        <item name="android:layout_height">@dimen/key_height</item >
+        <item name="android:textColor">@color/formula_editor_keyboard_text_color</item >
+        <item name="android:lines">1</item >
+        <item name="android:ellipsize">end</item >
     </style>
 
     <style name="FormulaEditorImageButton" >
