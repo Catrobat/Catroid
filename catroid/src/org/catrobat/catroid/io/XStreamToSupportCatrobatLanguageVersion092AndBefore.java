@@ -164,8 +164,8 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 		brickInfoMap.put("changeBrightnessByNBrick", brickInfo);
 
 		brickInfo = new BrickInfo(ChangeTransparencyByNBrick.class.getSimpleName());
-		brickInfo.addBrickFieldToMap("changeGhostEffect", BrickField.TRANSPARENCY_CHANGE);
-		brickInfoMap.put("changeGhostEffectByNBrick", brickInfo);
+		brickInfo.addBrickFieldToMap("changeTransparency", BrickField.TRANSPARENCY_CHANGE);
+		brickInfoMap.put("changeTransparencyByNBrick", brickInfo);
 
 		brickInfo = new BrickInfo(ChangeSizeByNBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("size", BrickField.SIZE_CHANGE);
@@ -286,11 +286,7 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 
 		brickInfo = new BrickInfo(SetTransparencyBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("transparency", BrickField.TRANSPARENCY);
-		brickInfoMap.put("setGhostEffectBrick", brickInfo);
-
-		brickInfo = new BrickInfo(SetTransparencyBrick.class.getSimpleName());
-		brickInfo.addBrickFieldToMap("transparency", BrickField.TRANSPARENCY);
-		brickInfoMap.put("setGhostEffectBrick", brickInfo);
+		brickInfoMap.put("setTransparencyBrick", brickInfo);
 
 		brickInfo = new BrickInfo(SetLookBrick.class.getSimpleName());
 		brickInfoMap.put("setLookBrick", brickInfo);
@@ -559,6 +555,13 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 					Node brickNode = brickListChildNodes.item(j);
 					Element newBrickNode = originalDocument.createElement("brick");
 
+					if (brickNode.getNodeName().equals("setGhostEffectBrick")){
+						originalDocument.renameNode(brickNode, brickNode.getNamespaceURI(), "setTransparencyBrick");
+					}
+					if (brickNode.getNodeName().equals("changeGhostEffectByNBrick")){
+						originalDocument.renameNode(brickNode, brickNode.getNamespaceURI(), "changeTransparencyByNBrick");
+					}
+
 					BrickInfo brickInfo = brickInfoMap.get(brickNode.getNodeName());
 					if (brickInfo != null) {
 						newBrickNode.setAttribute("type", brickInfo.brickClassName);
@@ -568,6 +571,10 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 							NodeList brickChildNodes = brickNode.getChildNodes();
 							for (int k = 0; k < brickChildNodes.getLength(); k++) {
 								Element brickChild = (Element) brickChildNodes.item(k);
+
+								if (brickChild.getNodeName().equals("changeGhostEffect")){
+									originalDocument.renameNode(brickChild, brickChild.getNamespaceURI(), "changeTransparency");
+								}
 
 								if (brickInfo.getBrickFieldForOldFieldName(brickChild.getNodeName()) != null) {
 									handleFormulaNode(originalDocument, brickInfo, newBrickNode, brickChild);
