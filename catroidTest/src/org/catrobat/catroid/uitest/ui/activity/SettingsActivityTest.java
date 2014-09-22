@@ -138,9 +138,10 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.sleep(200);
 		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
 				solo.getCurrentViews(ListView.class).size() - 1);
-		solo.sleep(100);
+		solo.sleep(200);
 		solo.scrollListToBottom(fragmentListView);
 		solo.sleep(100);
 		assertTrue("Lego brick category is not showing!", solo.searchText(categoryLegoNXTLabel));
