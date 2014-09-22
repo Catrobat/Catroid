@@ -65,7 +65,7 @@ public class InsertItemIntoUserListBrick extends FormulaBrick implements OnClick
 		this.userList = userList;
 	}
 
-	public InsertItemIntoUserListBrick(double value, double indexToInsert) {
+	public InsertItemIntoUserListBrick(double value, Integer indexToInsert) {
 		initializeBrickFields(new Formula(value), new Formula(indexToInsert));
 	}
 
