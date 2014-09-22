@@ -63,10 +63,11 @@ import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
 import com.robotium.solo.Condition;
 import com.robotium.solo.Solo;
 
+import junit.framework.AssertionFailedError;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
-import junit.framework.AssertionFailedError;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;

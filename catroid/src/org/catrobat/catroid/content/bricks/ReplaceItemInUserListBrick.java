@@ -65,7 +65,7 @@ public class ReplaceItemInUserListBrick extends FormulaBrick implements OnClickL
 		this.userList = userList;
 	}
 
-	public ReplaceItemInUserListBrick(double value, double indexToReplace) {
+	public ReplaceItemInUserListBrick(double value, Integer indexToReplace) {
 		initializeBrickFields(new Formula(value), new Formula(indexToReplace));
 		this.userList = null;
 	}

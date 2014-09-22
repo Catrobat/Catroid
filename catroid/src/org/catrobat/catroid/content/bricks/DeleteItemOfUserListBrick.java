@@ -69,7 +69,7 @@ public class DeleteItemOfUserListBrick extends FormulaBrick implements OnClickLi
 		this.userList = userList;
 	}
 
-	public DeleteItemOfUserListBrick(double value) {
+	public DeleteItemOfUserListBrick(Integer value) {
 		initializeBrickFields(new Formula(value));
 	}
 
