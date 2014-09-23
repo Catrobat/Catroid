@@ -120,6 +120,8 @@ public class InternFormulaKeyboardAdapter {
 						InternTokenType.STRING, "hello world");
 			case R.string.formula_editor_function_length:
 				return buildSingleParameterFunction(Functions.LENGTH, InternTokenType.STRING, "hello world");
+			case R.string.formula_editor_function_number_of_items:
+				return buildSingleParameterFunction(Functions.NUMBER_OF_ITEMS, InternTokenType.USER_LIST, "list name");
 			case R.string.formula_editor_function_join:
 				return buildDoubleParameterFunction(Functions.JOIN, InternTokenType.STRING, "hello",
 						InternTokenType.STRING, " world");

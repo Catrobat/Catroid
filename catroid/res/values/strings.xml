@@ -705,6 +705,8 @@
     <string name="formula_editor_sensor_face_size">face_size</string>
     <string name="formula_editor_sensor_face_x_position">face_x_position</string>
     <string name="formula_editor_sensor_face_y_position">face_y_position</string>
+    <string name="formula_editor_function_number_of_items" >number_of_items</string>
+    <string name="formula_editor_function_number_of_items_parameter" >([list name])</string>
 
     <plurals name="formula_editor_data_fragment_context_action_item_selected" >
         <item quantity="one">Item selected!</item>
@@ -736,7 +738,7 @@
     <string name="recursive_user_brick_forbidden">Adding UserBrick to UserBrick is not allowed yet!</string>
  	<string name="brick_single">Brick</string>
  	<string name="brick_multiple">Bricks</string>
- 	
- 	<!-- -->    
+
+    <!-- -->
 
 </resources>
