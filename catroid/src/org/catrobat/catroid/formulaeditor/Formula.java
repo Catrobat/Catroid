@@ -155,16 +155,6 @@ public class Formula implements Serializable {
 
 	public Object interpretObject(Sprite sprite) {
 		Object interpretation = formulaTree.interpretRecursive(sprite);
-		if (interpretation instanceof String) {
-			try{
-				return Double.valueOf((String)interpretation);
-			}catch(ClassCastException classCastException){
-				return interpretation;
-			}
-			catch(NumberFormatException numberFormatException){
-				return interpretation;
-			}
-		}
 		return interpretation;
 	}
 
