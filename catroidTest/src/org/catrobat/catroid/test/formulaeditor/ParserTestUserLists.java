@@ -54,14 +54,14 @@ public class ParserTestUserLists extends AndroidTestCase {
 
 	private static final Double EMPTY_USER_LIST_INTERPRETATION_VALUE = 0d;
 
-	private static final Double USER_LIST_VALUES_SINGLE_NUMBER_STRING_INTERPRETATION_VALUE = 1.0;
+	private static final String USER_LIST_VALUES_SINGLE_NUMBER_STRING_INTERPRETATION_VALUE = "1";
 	private static final List<Object> USER_LIST_VALUES_SINGLE_NUMBER_STRING = new ArrayList<Object>();
 
 	static {
 		USER_LIST_VALUES_SINGLE_NUMBER_STRING.add("1");
 	}
 
-	private static final Double USER_LIST_VALUES_MULTIPLE_NUMBER_STRING_INTERPRETATION_VALUE = 123.0;
+	private static final String USER_LIST_VALUES_MULTIPLE_NUMBER_STRING_INTERPRETATION_VALUE = "123";
 	private static final List<Object> USER_LIST_VALUES_MULTIPLE_NUMBER_STRING = new ArrayList<Object>();
 
 	static {
@@ -70,7 +70,7 @@ public class ParserTestUserLists extends AndroidTestCase {
 		USER_LIST_VALUES_MULTIPLE_NUMBER_STRING.add("3");
 	}
 
-	private static final Double USER_LIST_VALUES_MULTIPLE_NUMBERS_INTERPRETATION_VALUE = 123.0;
+	private static final String USER_LIST_VALUES_MULTIPLE_NUMBERS_INTERPRETATION_VALUE = "123";
 	private static final List<Object> USER_LIST_VALUES_MULTIPLE_NUMBERS = new ArrayList<Object>();
 
 	static {
@@ -79,7 +79,7 @@ public class ParserTestUserLists extends AndroidTestCase {
 		USER_LIST_VALUES_MULTIPLE_NUMBERS.add(3.0);
 	}
 
-	private static final Double USER_LIST_VALUES_MULTIPLE_NUMBERS_STRING_INTEGER_INTERPRETATION_VALUE = 1234.0;
+	private static final String USER_LIST_VALUES_MULTIPLE_NUMBERS_STRING_INTEGER_INTERPRETATION_VALUE = "1234";
 	private static final List<Object> USER_LIST_VALUES_MULTIPLE_NUMBERS_STRING_INTEGER = new ArrayList<Object>();
 
 	static {
@@ -96,6 +96,15 @@ public class ParserTestUserLists extends AndroidTestCase {
 		USER_LIST_VALUES_STRINGS_AND_NUMBERS.add("Hello");
 		USER_LIST_VALUES_STRINGS_AND_NUMBERS.add(42.0);
 		USER_LIST_VALUES_STRINGS_AND_NUMBERS.add("WORLDS");
+	}
+
+	private static final int USER_LIST_VALUES_STRINGS_LENGTH_INTERPRETATION_VALUE = 15;
+	private static final List<Object> USER_LIST_VALUES_STRINGS = new ArrayList<Object>();
+
+	static {
+		USER_LIST_VALUES_STRINGS.add("Hello");
+		USER_LIST_VALUES_STRINGS.add("my");
+		USER_LIST_VALUES_STRINGS.add("worlds");
 	}
 
 	private static final String PROJECT_USER_VARIABLE = "projectUserVariable";
@@ -134,7 +143,7 @@ public class ParserTestUserLists extends AndroidTestCase {
 				USER_LIST_VALUES_SINGLE_NUMBER_STRING);
 		assertEquals("Formula interpretation of List is not as expected",
 				USER_LIST_VALUES_SINGLE_NUMBER_STRING_INTERPRETATION_VALUE,
-				(Double) interpretUserList(PROJECT_USER_LIST_NAME), DELTA);
+				 interpretUserList(PROJECT_USER_LIST_NAME));
 	}
 
 	public void testUserListInterpretationMultipleNumberString() {
@@ -259,13 +268,42 @@ public class ParserTestUserLists extends AndroidTestCase {
 
 	public void testFunctionLength() {
 		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
+		dataContainer.getUserList(PROJECT_USER_LIST_NAME, firstSprite).setList(new ArrayList<Object>());
 
 		FormulaEditorUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME,
 				(double) 0, firstSprite);
 
-		dataContainer.getUserList(PROJECT_USER_LIST_NAME, firstSprite).setList(USER_LIST_VALUES_MULTIPLE_NUMBERS);
+		dataContainer.getUserList(PROJECT_USER_LIST_NAME, firstSprite).setList(USER_LIST_VALUES_STRINGS);
 		FormulaEditorUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME,
-				(double) USER_LIST_VALUES_MULTIPLE_NUMBERS.size(), firstSprite);
+				(double) USER_LIST_VALUES_STRINGS_LENGTH_INTERPRETATION_VALUE, firstSprite);
+
+		ArrayList<Object> userList = new ArrayList<Object>();
+		userList.add("0");
+		dataContainer.getUserList(PROJECT_USER_LIST_NAME, firstSprite).setList(userList);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME,
+				(double)1, firstSprite);
+
+		userList.clear();
+		userList.add("0.0");
+		FormulaEditorUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME,
+				(double)3, firstSprite);
+
+		FormulaEditorUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.NUMBER, "0",
+				(double) 1, firstSprite);
+
+		FormulaEditorUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.NUMBER, "0.0",
+				(double) 3, firstSprite);
+	}
+
+	public void testFunctionNumberOfItems(){
+		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
+
+		FormulaEditorUtil.testSingleParameterFunction(Functions.NUMBER_OF_ITEMS, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME,
+				(double) 0, firstSprite);
+
+		dataContainer.getUserList(PROJECT_USER_LIST_NAME, firstSprite).setList(USER_LIST_VALUES_STRINGS);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME,
+				(double) USER_LIST_VALUES_STRINGS_LENGTH_INTERPRETATION_VALUE, firstSprite);
 	}
 
 	public void testFunctionContains() {

@@ -153,7 +153,7 @@ public class FormulaElement implements Serializable {
 			rightChild.updateVariableReferences(oldName, newName, context);
 		}
 		if (type == ElementType.USER_VARIABLE && value.equals(oldName)) {
-				value = newName;
+			value = newName;
 		}
 	}
 
@@ -166,7 +166,7 @@ public class FormulaElement implements Serializable {
 				returnValue = rightChild.interpretRecursive(sprite);
 				break;
 			case NUMBER:
-				returnValue = Double.parseDouble(value);
+				returnValue = value;
 				break;
 			case OPERATOR:
 				Operators operator = Operators.getOperatorByValue(value);
@@ -202,11 +202,11 @@ public class FormulaElement implements Serializable {
 		List<Object> userListValues = userList.getList();
 
 		if (userListValues.size() == 0) {
-			return Double.valueOf(0);
+			return 0d;
 		} else if (userListValues.size() == 1) {
 			Object userListValue = userListValues.get(0);
 			if (userListValue instanceof String) {
-				return interpretListString((String) userListValue);
+				return userListValue;
 
 			} else {
 				return userListValue;
@@ -262,16 +262,6 @@ public class FormulaElement implements Serializable {
 			}
 		}
 		return false;
-	}
-
-	private Object interpretListString(String userListValue) {
-		Double doubleValueOfListItem;
-		try {
-			doubleValueOfListItem = Double.valueOf(userListValue);
-		} catch (NumberFormatException numberFormatException) {
-			return userListValue;
-		}
-		return doubleValueOfListItem;
 	}
 
 	private Object interpretUserVariable(Sprite sprite) {
@@ -382,8 +372,17 @@ public class FormulaElement implements Serializable {
 				return interpretFunctionListItem(left, sprite);
 			case CONTAINS:
 				return interpretFunctionContains(right, sprite);
+			case NUMBER_OF_ITEMS:
+				return interpretFunctionNumberOfItems(left, sprite);
 		}
 		return 0d;
+	}
+
+	private Object interpretFunctionNumberOfItems(Object left, Sprite sprite) {
+		if (leftChild.type == ElementType.USER_LIST) {
+			return (double) handleNumberOfItemsOfUserListParameter(sprite);
+		}
+		return interpretFunctionLength(left, sprite);
 	}
 
 	private Object interpretFunctionContains(Object right, Sprite sprite) {
@@ -449,7 +448,7 @@ public class FormulaElement implements Serializable {
 		String parameterInterpretation = "";
 		if (child != null) {
 			if (child.getElementType() == ElementType.NUMBER) {
-				Double number = ((Double) child.interpretRecursive(sprite));
+				Double number = Double.valueOf((String) child.interpretRecursive(sprite));
 				if (number.isNaN()) {
 					parameterInterpretation = "";
 				} else {
@@ -482,7 +481,27 @@ public class FormulaElement implements Serializable {
 			return (double) handleLengthUserVariableParameter(sprite);
 		}
 		if (leftChild.type == ElementType.USER_LIST) {
-			return (double) handleLengthUserListParameter(sprite);
+			DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+			UserList userList = dataContainer.getUserList(leftChild.getValue(), sprite);
+			if (userList == null) {
+				return 0d;
+			}
+			if (userList.getList().size() == 0) {
+				return 0d;
+			}
+
+			Object interpretedList = leftChild.interpretRecursive(sprite);
+			if (interpretedList instanceof Double) {
+				Double interpretedListDoubleValue = (Double) interpretedList;
+				if (interpretedListDoubleValue.isNaN() || interpretedListDoubleValue.isInfinite()) {
+					return 0d;
+				}
+				return (double) (String.valueOf(interpretedListDoubleValue.intValue())).length();
+			}
+			if (interpretedList instanceof String) {
+				String interpretedListStringValue = (String) interpretedList;
+				return (double) interpretedListStringValue.length();
+			}
 		}
 		if (left instanceof Double && ((Double) left).isNaN()) {
 			return 0d;
@@ -492,7 +511,6 @@ public class FormulaElement implements Serializable {
 
 	private Object interpretFunctionLetter(Object right, Object left) {
 		int index = 0;
-		//((Double) left).intValue() - 1;
 		if (left instanceof String) {
 			try {
 				Double doubleValueOfLeftChild = Double.valueOf((String) left);
@@ -848,7 +866,7 @@ public class FormulaElement implements Serializable {
 
 	}
 
-	private int handleLengthUserListParameter(Sprite sprite) {
+	private int handleNumberOfItemsOfUserListParameter(Sprite sprite) {
 		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject()
 				.getDataContainer();
 		UserList userList = dataContainer.getUserList(leftChild.value, sprite);
