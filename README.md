@@ -16,7 +16,7 @@ For reporting issues use our [JIRA Bugtracking System](https://jira.catrob.at/se
 
 # Contributing #
 
-We are developing test-driven, so every pull request should include appropriate tests. To set up you working environment take a look at our [Wiki](https://github.com/Catrobat/Catroid/wiki/Setup-working-environment)
+We are developing test-driven, so every pull request should include appropriate tests. To set up your working environment take a look at our [Wiki](https://github.com/Catrobat/Catroid/wiki/Setup-working-environment)
 
 
 # Resources and links #
