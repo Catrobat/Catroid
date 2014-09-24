@@ -117,14 +117,14 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream {
+public class XStreamToSupportCatrobatLanguageVersion093AndBefore extends XStream {
 
-	private static final String TAG = XStreamToSupportCatrobatLanguageVersion092AndBefore.class.getSimpleName();
+	private static final String TAG = XStreamToSupportCatrobatLanguageVersion093AndBefore.class.getSimpleName();
 
 	private HashMap<String, BrickInfo> brickInfoMap;
 	private HashMap<String, String> scriptInfoMap;
 
-	public XStreamToSupportCatrobatLanguageVersion092AndBefore(PureJavaReflectionProvider reflectionProvider) {
+	public XStreamToSupportCatrobatLanguageVersion093AndBefore(PureJavaReflectionProvider reflectionProvider) {
 		super(reflectionProvider);
 	}
 
@@ -425,7 +425,7 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 		try {
 			Node variableNode = originalDocument.getElementsByTagName("variables").item(0);
 			String variableNodeNamespaceURI = variableNode.getNamespaceURI();
-			originalDocument.renameNode(variableNode, variableNodeNamespaceURI, "xdata");
+			originalDocument.renameNode(variableNode, variableNodeNamespaceURI, "data");
 		}catch(Exception exception){
 			Log.e(TAG, "Failed to modify variables tag", exception);
 		}
