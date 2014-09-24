@@ -50,7 +50,7 @@ public class Project implements Serializable {
 	private XmlHeader xmlHeader = new XmlHeader();
 	@XStreamAlias("objectList")
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
-	@XStreamAlias("xdata")
+	@XStreamAlias("data")
 	private DataContainer dataContainer = null;
 
 	public Project(Context context, String name) {
