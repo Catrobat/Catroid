@@ -25,8 +25,6 @@ package org.catrobat.catroid.uitest.ui.dialog;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.widget.ListView;
 
-import com.robotium.solo.Solo;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -70,7 +68,8 @@ public class RenameSpriteDialogTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnText(solo.getString(R.string.rename));
 		solo.clearEditText(0);
 		solo.enterText(0, kat);
-		solo.sendKey(Solo.ENTER);
+		solo.clickOnButton("OK");
+		solo.waitForText(kat, 0, 1000);
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		String first = ((Sprite) spritesList.getItemAtPosition(1)).getName();
@@ -90,7 +89,8 @@ public class RenameSpriteDialogTest extends BaseActivityInstrumentationTestCase<
 		solo.clickOnText(solo.getString(R.string.rename));
 		solo.clearEditText(0);
 		solo.enterText(0, catMixedCase);
-		solo.sendKey(Solo.ENTER);
+		solo.clickOnButton("OK");
+		solo.waitForText(catMixedCase, 0, 1000);
 
 		ListView spriteList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		String first = ((Sprite) spriteList.getItemAtPosition(1)).getName();
