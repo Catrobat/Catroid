@@ -34,9 +34,10 @@ import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
+import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.utils.Utils;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -197,12 +198,13 @@ public class Project implements Serializable {
 	}
 
 	public boolean manualScreenshotExists(String manualScreenshotName) {
+		return !(StorageHandler.getInstance().screenshotExists(getName(), manualScreenshotName));
 
-		String path = Utils.buildProjectPath(getName()) + "/" + manualScreenshotName;
-		File manualScreenShot = new File(path);
-		if (manualScreenShot.exists()) {
-			return false;
-		}
-		return true;
 	}
+
+	public boolean isProgramExecutedAtLeastOnce()
+	{
+		return StorageHandler.getInstance().screenshotExists(getName(), StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
+	}
+
 }

@@ -22,12 +22,12 @@
  */
 package org.catrobat.catroid.io;
 
-import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -42,18 +42,21 @@ import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
 public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 
+
 	private static final String TAG = LoadProjectTask.class.getSimpleName();
 
-	private Activity activity;
+	private FragmentActivity fragmentActivity;
+
 	private String projectName;
 	private boolean showErrorMessage;
 	private boolean startProjectActivity;
 	private LinearLayout linearLayoutProgressCircle;
 
+
 	private OnLoadProjectCompleteListener onLoadProjectCompleteListener;
 
-	public LoadProjectTask(Activity activity, String projectName, boolean showErrorMessage, boolean startProjectActivity) {
-		this.activity = activity;
+	public LoadProjectTask(FragmentActivity fragmentActivity, String projectName, boolean showErrorMessage, boolean startProjectActivity) {
+		this.fragmentActivity = fragmentActivity;
 		this.projectName = projectName;
 		this.showErrorMessage = showErrorMessage;
 		this.startProjectActivity = startProjectActivity;
@@ -66,10 +69,10 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		if (activity == null) {
+		if (fragmentActivity == null) {
 			return;
 		}
-		linearLayoutProgressCircle = (LinearLayout) activity.findViewById(R.id.progress_circle);
+		linearLayoutProgressCircle = (LinearLayout) fragmentActivity.findViewById(R.id.progress_circle);
 		linearLayoutProgressCircle.setVisibility(View.VISIBLE);
 		linearLayoutProgressCircle.bringToFront();
 	}
@@ -78,8 +81,9 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	protected Boolean doInBackground(Void... arg0) {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		if (currentProject == null || !currentProject.getName().equals(projectName)) {
+
 			try {
-				ProjectManager.getInstance().loadProject(projectName, activity);
+				ProjectManager.getInstance().loadProject(projectName, fragmentActivity);
 			} catch (LoadingProjectException loadingProjectException) {
 				Log.e(TAG, "Project cannot load", loadingProjectException);
 				return false;
@@ -90,6 +94,7 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 				Log.e(TAG, "Project is not compatible", compatibilityException);
 				return false;
 			}
+
 		}
 		return true;
 	}
@@ -102,7 +107,7 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 			if (!success && showErrorMessage) {
 				linearLayoutProgressCircle.setVisibility(View.GONE);
 
-				Builder builder = new CustomAlertDialogBuilder(activity);
+				Builder builder = new CustomAlertDialogBuilder(fragmentActivity);
 				builder.setTitle(R.string.error);
 				builder.setMessage(R.string.error_load_project);
 				builder.setNeutralButton(R.string.close, new OnClickListener() {
@@ -115,14 +120,14 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 				errorDialog.show();
 
 			} else {
-				onLoadProjectCompleteListener.onLoadProjectSuccess(startProjectActivity);
+				onLoadProjectCompleteListener.onLoadProjectSuccess(startProjectActivity, fragmentActivity);
 			}
 		}
 	}
 
 	public interface OnLoadProjectCompleteListener {
 
-		void onLoadProjectSuccess(boolean startProjectActivity);
+		void onLoadProjectSuccess(boolean startProjectActivity, FragmentActivity fragmentActivity);
 
 		void onLoadProjectFailure();
 

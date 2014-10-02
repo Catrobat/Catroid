@@ -30,6 +30,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
@@ -43,10 +44,13 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.stage.PreStageActivity;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.dialogs.ExecuteOnceDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
@@ -157,7 +161,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	}
 
 	@Override
-	public void onLoadProjectSuccess(boolean startProjectActivity) {
+	public void onLoadProjectSuccess(boolean startProjectActivity, FragmentActivity fragmentActivity) {
 		if (ProjectManager.getInstance().getCurrentProject() != null && startProjectActivity) {
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
@@ -293,5 +297,22 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	@Override
 	public void onLoadProjectFailure() {
 
+	}
+
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (resultCode == RESULT_OK) {
+			String startedFrom = data.getStringExtra(ExecuteOnceDialog.STARTED_FROM_DIALOG);
+			if (startedFrom != null && startedFrom.equals(ExecuteOnceDialog.DIALOG_FRAGMENT_TAG)) {
+					Intent intent = new Intent(this, StageActivity.class);
+					DroneInitializer.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
+					startActivity(intent);
+
+			}
+
+		}
 	}
 }

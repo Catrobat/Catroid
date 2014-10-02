@@ -31,6 +31,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -669,7 +670,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	}
 
 	@Override
-	public void onLoadProjectSuccess(boolean startProjectActivity) {
+	public void onLoadProjectSuccess(boolean startProjectActivity,FragmentActivity fragmentActivity) {
 		initListeners();
 		spriteAdapter.notifyDataSetChanged();
 		isLoading = false;

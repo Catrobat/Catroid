@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/libraryProjects/actionbarsherlock/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/catroid/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/catroidLegoNXTBTTest/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/catroidSourceTest/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/debug" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/catroidTest/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/libraryProjects/actionbarsherlock/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/catroidCucumberTest/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/r/debug" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
 </module>
 

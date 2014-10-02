@@ -41,6 +41,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
@@ -266,7 +267,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		UiTestUtils.createValidUser(getActivity());
 
-		uploadProjectFromProgrammList(testProject, newTestDescription);
+		uploadProjectFromProgramList(testProject, newTestDescription);
 		solo.sleep(5000);
 
 		checkProjectNameAndDescriptionBeforAndAfterDownload(testProject, newTestDescription);
@@ -280,7 +281,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		UiTestUtils.createValidUser(getActivity());
 
-		uploadProjectFromProgramm(testProject, newTestDescription);
+		uploadProjectFromProgram(testProject, newTestDescription);
 		solo.sleep(5000);
 
 		checkProjectNameAndDescriptionBeforAndAfterDownload(testProject, newTestDescription);
@@ -359,10 +360,12 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		setServerURLToTestUrl();
 		UiTestUtils.createValidUser(getActivity());
 
+		this.setExecutedOnce(true);
 		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
 
 		String uploadButtonText = solo.getString(R.string.upload_button);
 		assertTrue("Upload button not found within 5 secs!", solo.waitForText(uploadButtonText, 0, 5000));
+
 
 		solo.sleep(500);
 		solo.clickOnButton(uploadButtonText);
@@ -411,6 +414,8 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		solo.clickOnButton(solo.getString(R.string.yes));
 
 		UiTestUtils.clickOnHomeActionBarButton(solo);
+
+		this.setExecutedOnce(true);
 
 		solo.clickOnButton(solo.getString(R.string.main_menu_upload));
 		String uploadButtonText = solo.getString(R.string.upload_button);
@@ -496,17 +501,30 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		} catch (IOException exception) {
 			fail("Standard project not created");
 		}
+
+		ProjectManager.getInstance().setProject(standardProject);
+		StorageHandler.getInstance().saveProject(standardProject);
+
+	}
+
+
+	private void setExecutedOnce(boolean executedOnce) {
+		if (executedOnce) {
+			TestUtils.createAutomaticScreenshotDummy(ProjectManager.getInstance().getCurrentProject().getName());
+		}
+
 	}
 
 	private void uploadProjectFromMainMenu(String uploadProjectName, String uploadProjectDescription) {
 		preUploadProject();
 
+		this.setExecutedOnce(true);
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 
 		uploadProject(uploadProjectName, uploadProjectDescription);
 	}
 
-	private void uploadProjectFromProgrammList(String uploadProjectName, String uploadProjectDescription) {
+	private void uploadProjectFromProgramList(String uploadProjectName, String uploadProjectDescription) {
 		preUploadProject();
 
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
@@ -521,7 +539,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		solo.goBack();
 	}
 
-	private void uploadProjectFromProgramm(String uploadProjectName, String uploadProjectDescription) {
+	private void uploadProjectFromProgram(String uploadProjectName, String uploadProjectDescription) {
 		preUploadProject();
 
 		solo.clickOnText(solo.getString(R.string.main_menu_programs));
