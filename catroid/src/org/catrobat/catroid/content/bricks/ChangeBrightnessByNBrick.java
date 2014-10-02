@@ -68,7 +68,11 @@ public class ChangeBrightnessByNBrick extends FormulaBrick implements OnClickLis
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE).getRequiredResources();
+		if (getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE).containsArduinoSensors() == true) {
+			return BLUETOOTH_SENSORS_ARDUINO;
+		} else {
+			return NO_RESOURCES;
+		}
 	}
 
 	@Override

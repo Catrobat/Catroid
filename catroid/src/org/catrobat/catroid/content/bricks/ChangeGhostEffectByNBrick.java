@@ -69,7 +69,11 @@ public class ChangeGhostEffectByNBrick extends FormulaBrick implements OnClickLi
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE).getRequiredResources();
+		if (getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE).containsArduinoSensors() == true) {
+			return BLUETOOTH_SENSORS_ARDUINO;
+		} else {
+			return NO_RESOURCES;
+		}
 	}
 
 	@Override

@@ -54,10 +54,9 @@ public interface Brick extends Serializable, Cloneable {
 	int TEXT_TO_SPEECH = 0x2;
 	int BLUETOOTH_LEGO_NXT = 0x4;
 	int ARDRONE_SUPPORT = 0x20;
+	int BLUETOOTH_SENSORS_ARDUINO = 0x40;
 	int CAMERA_LED = 0x100;
 	int VIBRATOR = 0x200;
-
-	//	public static final int BLUETOOTH_ARDUINO = 0x8;
 	int FACE_DETECTION = 0x10;
 
 	List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);

@@ -30,6 +30,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -39,6 +40,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.catrobat.catroid.R;
 
@@ -50,6 +52,9 @@ public class DeviceListActivity extends Activity {
 	public static final String AUTO_CONNECT = "auto_connect";
 	public static final String DEVICE_NAME_AND_ADDRESS = "device_infos";
 	public static final String EXTRA_DEVICE_ADDRESS = "device_address";
+	public static final String BLUETOOTH_DEVICE = "bluetooth_device";
+	public static final int BLUETOOTH_ACTIVATION_CANCELED = -101;
+	public static final int BLUETOOTH_NOT_SUPPORTED = -100;
 	private static final int LENGTH_OF_FOO = 18; //TODO: figure out the meaning of the value
 
 	private OnItemClickListener deviceClickListener = new OnItemClickListener() {
@@ -69,6 +74,7 @@ public class DeviceListActivity extends Activity {
 			data.putString(EXTRA_DEVICE_ADDRESS, address);
 			data.putBoolean(PAIRING, av.getId() == R.id.new_devices);
 			data.putBoolean(AUTO_CONNECT, false);
+			data.putInt(BLUETOOTH_DEVICE, bluetoothDeviceConstant);
 			intent.putExtras(data);
 			setResult(RESULT_OK, intent);
 			finish();
@@ -98,17 +104,17 @@ public class DeviceListActivity extends Activity {
 	private BluetoothAdapter btAdapter;
 	private ArrayAdapter<String> pairedDevicesArrayAdapter;
 	private ArrayAdapter<String> newDevicesArrayAdapter;
+	private int bluetoothDeviceConstant;
 	private boolean autoConnect = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (autoConnectIDs.size() == 0) {
 
+		if (autoConnectIDs.size() == 0) {
 			autoConnectIDs.add(BtCommunicator.OUI_LEGO);
 		}
 		autoConnect = this.getIntent().getExtras().getBoolean(AUTO_CONNECT);
-		//Log.i("bto", autoConnect + "");
 		if (autoConnect) {
 			this.setVisible(false);
 		}
@@ -145,24 +151,26 @@ public class DeviceListActivity extends Activity {
 		filter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
 		this.registerReceiver(receiver, filter);
 
-		btAdapter = BluetoothAdapter.getDefaultAdapter();
+		bluetoothDeviceConstant = getIntent().getExtras().getInt(BLUETOOTH_DEVICE);
+		Log.d("DeviceListActivity", "bluetoothDeviceConstant = " + bluetoothDeviceConstant);
+		activateBluetooth();
+		listAndSelectDevices();
+	}
 
+	private void listAndSelectDevices() {
 		Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
 
-		BluetoothDevice legoNXT = null;
+		BluetoothDevice bluetoothDevice = null;
 		int possibleConnections = 0;
 		if (pairedDevices.size() > 0) {
 			findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);
 			for (BluetoothDevice device : pairedDevices) {
 				for (String item : autoConnectIDs) {
 					if (device.getAddress().startsWith(item)) {
-						legoNXT = device;
+						bluetoothDevice = device;
 						possibleConnections++;
-						//legoDevicesFound = true;
-						//legoDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
 					}
 				}
-
 				pairedDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
 			}
 		}
@@ -173,16 +181,12 @@ public class DeviceListActivity extends Activity {
 		}
 
 		if (autoConnect && possibleConnections == 1) {
-			//			String info = ((TextView) v).getText().toString();
-			//			if (info.lastIndexOf('-') != info.length() - 18) {
-			//				return;
-			//			}
-
 			btAdapter.cancelDiscovery();
 			Intent intent = new Intent();
 			Bundle data = new Bundle();
-			data.putString(DEVICE_NAME_AND_ADDRESS, legoNXT.getName() + "-" + legoNXT.getAddress());
-			data.putString(EXTRA_DEVICE_ADDRESS, legoNXT.getAddress());
+			data.putInt(BLUETOOTH_DEVICE, bluetoothDeviceConstant);
+			data.putString(DEVICE_NAME_AND_ADDRESS, bluetoothDevice.getName() + "-" + bluetoothDevice.getAddress());
+			data.putString(EXTRA_DEVICE_ADDRESS, bluetoothDevice.getAddress());
 			data.putBoolean(PAIRING, false);
 			data.putBoolean(AUTO_CONNECT, true);
 			intent.putExtras(data);
@@ -219,4 +223,38 @@ public class DeviceListActivity extends Activity {
 		btAdapter.startDiscovery();
 	}
 
+	private void activateBluetooth() {
+		btAdapter = BluetoothAdapter.getDefaultAdapter();
+		if (btAdapter == null) {
+			Bundle data = new Bundle();
+			data.putInt(BLUETOOTH_DEVICE, bluetoothDeviceConstant);
+			Intent intent = new Intent();
+			intent.putExtras(data);
+			setResult(BLUETOOTH_NOT_SUPPORTED, intent);
+			finish();
+		}
+		if (!btAdapter.isEnabled()) {
+			Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			startActivityForResult(enableBtIntent, 0);
+		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Log.i("bt", "Bluetooth activation activity returned");
+
+		switch (resultCode) {
+			case Activity.RESULT_OK:
+				listAndSelectDevices();
+				break;
+			case Activity.RESULT_CANCELED:
+				Bundle returnData = new Bundle();
+				returnData.putInt(BLUETOOTH_DEVICE, bluetoothDeviceConstant);
+				Intent intent = new Intent();
+				intent.putExtras(returnData);
+				setResult(BLUETOOTH_ACTIVATION_CANCELED, intent);
+				finish();
+				break;
+		}
+	}
 }

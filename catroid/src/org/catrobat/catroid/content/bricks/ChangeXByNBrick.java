@@ -68,7 +68,11 @@ public class ChangeXByNBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.X_POSITION_CHANGE).getRequiredResources();
+		if (getFormulaWithBrickField(BrickField.X_POSITION_CHANGE).containsArduinoSensors() == true) {
+			return BLUETOOTH_SENSORS_ARDUINO;
+		} else {
+			return NO_RESOURCES;
+		}
 	}
 
 	@Override

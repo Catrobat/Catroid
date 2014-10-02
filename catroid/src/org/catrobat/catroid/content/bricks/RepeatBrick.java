@@ -67,9 +67,13 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).getRequiredResources();
+		if (getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).containsArduinoSensors() == true) {
+			return BLUETOOTH_SENSORS_ARDUINO;
+		} else {
+			return NO_RESOURCES;
+		}
 	}
-	
+
 	public RepeatBrick(Formula timesToRepeat) {
 		initializeBrickFields(timesToRepeat);
 	}

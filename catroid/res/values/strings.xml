@@ -69,12 +69,15 @@
     <string name="preference_title">Settings</string>
     <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorms bricks</string>
     <string name="preference_description_mindstorm_bricks">Allow to control Lego Mindstorms robots</string>
+    <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
+    <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
     <string name="preference_title_use_face_detection">Face Detection</string>
     <string name="preference_description_use_face_detection">Allow to detect faces</string>
     <string name="preference_title_select_camera">Choose Camera</string>
     <string name="preference_description_select_camera">Select camera which is used for face detection</string>
 	<string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 bricks</string>
-    <string name="preference_description_quadcopter_bricks">Allow to control the ARDrone 2.0 quadcopter</string>    
+    <string name="preference_description_quadcopter_bricks">Allow to control the ARDrone 2.0 quadcopter</string>
+
     <!--  -->
 
 
@@ -330,6 +333,7 @@
     <string name="category_variables">Variables</string>
     <string name="category_user_bricks">My Bricks</string>
     <string name="category_lego_nxt">Lego NXT</string>
+    <string name="category_arduino">Arduino</string>
     <string name="category_drone">ARDrone</string>
     <!--  -->
 
@@ -431,6 +435,7 @@
     <string name="brick_variable_spinner_create_new_variable">New…</string>
     <string name="brick_note_default_value">"add comment here…"</string>
     <string name="brick_broadcast_default_value">"message 1"</string>
+    <string name="brick_arduino_send">Send to Arduino</string>
     <!--  -->
 
 
@@ -522,10 +527,11 @@
     <string name="title_paired_devices">Paired devices</string>
     <string name="title_other_devices">New devices</string>
     <string name="button_scan">Search Bluetooth devices</string>
-    <string name="select_device">Select your Lego Mindstorms NXT</string>
+    <string name="select_device">Select your Bluetooth device</string>
+    <string name="select_device_arduino">Select your Arduino Board</string>
     <string name="scanning">Scanning</string>
     <string name="connecting_please_wait">Connecting to your device.\nPlease wait…</string>
-    <!-- <string name="pairing_message">After pairing, connect.</string> -->
+    <string name="pairing_message">After pairing, connect.</string>
     <string name="problem_at_closing">Problem while closing the connection!</string>
     <string name="bt_connection_failed">Connection to device failed!</string>
     <string name="no_paired_nxt">No paired NXT found</string>
@@ -552,6 +558,25 @@
     <string name="nxt_motor_all">All</string>
     <!--  -->
 
+    <!-- Arduino Bricks -->
+    <string name="brick_arduino_select_value">Set Arduino Pin</string>
+    <!--  -->
+
+    <!-- Arduino Strings -->
+    <string name="digital_arduino_pin_1">1</string> <!-- serial Tx -->
+    <string name="digital_arduino_pin_3">3</string> <!-- PWM -->
+    <string name="digital_arduino_pin_4">4</string> <!-- digital I/O -->
+    <string name="digital_arduino_pin_5">5</string> <!-- PWM -->
+    <string name="digital_arduino_pin_6">6</string> <!-- PWM -->
+    <string name="digital_arduino_pin_8">8</string> <!-- digital I/O -->
+    <string name="digital_arduino_pin_9">9</string> <!-- PWM -->
+    <string name="digital_arduino_pin_10">10</string> <!-- PWM -->
+    <string name="digital_arduino_pin_11">11</string> <!-- PWM -->
+    <string name="digital_arduino_pin_12">12</string> <!-- digital I/O -->
+    <string name="digital_arduino_pin_13">13</string> <!-- built-in LED pin -->
+    <string name="arduino_pin_value_high">high</string>
+	<string name="arduino_pin_value_low">low</string>
+    <!--  -->
 
     <!-- Drone Bricks -->
     <string name="brick_drone_takeoff">Take off</string>
@@ -631,6 +656,8 @@
     <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
     <string name="formula_editor_function_join">join</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\'world\')</string>
+    <string name="formula_editor_function_arduino_read_pin_value_digital">Arduino_digital_pin</string>
+    <string name="formula_editor_function_arduino_read_pin_value_analog">Arduino_analog_pin</string>
     <string name="formula_editor_sensor_x_acceleration">acceleration_x</string>
     <string name="formula_editor_sensor_y_acceleration">acceleration_y</string>
     <string name="formula_editor_sensor_z_acceleration">acceleration_z</string>

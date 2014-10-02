@@ -44,6 +44,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.XmlHeader;
+import org.catrobat.catroid.content.bricks.ArduinoSendBrick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -291,6 +292,74 @@ public final class StorageHandler {
 
 		xstream.aliasField("formulaList", FormulaBrick.class, "formulaMap");
 		xstream.aliasField("object", BrickBaseType.class, "sprite");
+
+		xstream.alias("arduinoSendBrick", ArduinoSendBrick.class);
+
+		xstream.alias("broadcastBrick", BroadcastBrick.class);
+		xstream.alias("broadcastReceiverBrick", BroadcastReceiverBrick.class);
+		xstream.alias("broadcastWaitBrick", BroadcastWaitBrick.class);
+		xstream.alias("changeBrightnessByNBrick", ChangeBrightnessByNBrick.class);
+		xstream.alias("changeGhostEffectByNBrick", ChangeGhostEffectByNBrick.class);
+		xstream.alias("changeSizeByNBrick", ChangeSizeByNBrick.class);
+		xstream.alias("changeVariableBrick", ChangeVariableBrick.class);
+		xstream.alias("changeVolumeByNBrick", ChangeVolumeByNBrick.class);
+		xstream.alias("changeXByNBrick", ChangeXByNBrick.class);
+		xstream.alias("changeYByNBrick", ChangeYByNBrick.class);
+		xstream.alias("clearGraphicEffectBrick", ClearGraphicEffectBrick.class);
+		xstream.alias("comeToFrontBrick", ComeToFrontBrick.class);
+		xstream.alias("foreverBrick", ForeverBrick.class);
+		xstream.alias("glideToBrick", GlideToBrick.class);
+		xstream.alias("goNStepsBackBrick", GoNStepsBackBrick.class);
+		xstream.alias("hideBrick", HideBrick.class);
+		xstream.alias("ifLogicBeginBrick", IfLogicBeginBrick.class);
+		xstream.alias("ifLogicElseBrick", IfLogicElseBrick.class);
+		xstream.alias("ifLogicEndBrick", IfLogicEndBrick.class);
+		xstream.alias("ifOnEdgeBounceBrick", IfOnEdgeBounceBrick.class);
+		xstream.alias("LedOffBrick", LedOffBrick.class);
+		xstream.alias("LedOnBrick", LedOnBrick.class);
+		xstream.alias("legoNxtMotorActionBrick", LegoNxtMotorActionBrick.class);
+		xstream.alias("legoNxtMotorStopBrick", LegoNxtMotorStopBrick.class);
+		xstream.alias("legoNxtMotorTurnAngleBrick", LegoNxtMotorTurnAngleBrick.class);
+		xstream.alias("legoNxtPlayToneBrick", LegoNxtPlayToneBrick.class);
+		xstream.alias("loopBeginBrick", LoopBeginBrick.class);
+		xstream.alias("loopEndBrick", LoopEndBrick.class);
+		xstream.alias("loopEndlessBrick", LoopEndlessBrick.class);
+		xstream.alias("moveNStepsBrick", MoveNStepsBrick.class);
+		xstream.alias("nextLookBrick", NextLookBrick.class);
+		xstream.alias("noteBrick", NoteBrick.class);
+		xstream.alias("placeAtBrick", PlaceAtBrick.class);
+		xstream.alias("playSoundBrick", PlaySoundBrick.class);
+		xstream.alias("pointInDirectionBrick", PointInDirectionBrick.class);
+		xstream.alias("pointToBrick", PointToBrick.class);
+		xstream.alias("repeatBrick", RepeatBrick.class);
+		xstream.alias("setBrightnessBrick", SetBrightnessBrick.class);
+		xstream.alias("setGhostEffectBrick", SetGhostEffectBrick.class);
+		xstream.alias("setLookBrick", SetLookBrick.class);
+		xstream.alias("setSizeToBrick", SetSizeToBrick.class);
+		xstream.alias("setVariableBrick", SetVariableBrick.class);
+		xstream.alias("setVolumeToBrick", SetVolumeToBrick.class);
+		xstream.alias("setXBrick", SetXBrick.class);
+		xstream.alias("setYBrick", SetYBrick.class);
+		xstream.alias("showBrick", ShowBrick.class);
+		xstream.alias("speakBrick", SpeakBrick.class);
+		xstream.alias("stopAllSoundsBrick", StopAllSoundsBrick.class);
+		xstream.alias("turnLeftBrick", TurnLeftBrick.class);
+		xstream.alias("turnRightBrick", TurnRightBrick.class);
+		xstream.alias("VibrationBrick", VibrationBrick.class);
+		xstream.alias("waitBrick", WaitBrick.class);
+		xstream.alias("whenBrick", WhenBrick.class);
+		xstream.alias("whenStartedBrick", WhenStartedBrick.class);
+
+		xstream.alias("dronePlayLedAnimationBrick", DronePlayLedAnimationBrick.class);
+		xstream.alias("droneFlipBrick", DroneFlipBrick.class);
+		xstream.alias("droneTakeOffBrick", DroneTakeOffBrick.class);
+		xstream.alias("droneLandBrick", DroneLandBrick.class);
+		xstream.alias("droneMoveForwardBrick", DroneMoveForwardBrick.class);
+		xstream.alias("droneMoveBackwardBrick", DroneMoveBackwardBrick.class);
+		xstream.alias("droneMoveUpBrick", DroneMoveUpBrick.class);
+		xstream.alias("droneMoveDownBrick", DroneMoveDownBrick.class);
+		xstream.alias("droneMoveLeftBrick", DroneMoveLeftBrick.class);
+		xstream.alias("droneMoveRightBrick", DroneMoveRightBrick.class);
 	}
 
 	private void createCatroidRoot() {

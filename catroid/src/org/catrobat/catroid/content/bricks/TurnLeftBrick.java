@@ -69,7 +69,11 @@ public class TurnLeftBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES).getRequiredResources();
+		if (getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES).containsArduinoSensors() == true) {
+			return BLUETOOTH_SENSORS_ARDUINO;
+		} else {
+			return NO_RESOURCES;
+		}
 	}
 
 	@Override
