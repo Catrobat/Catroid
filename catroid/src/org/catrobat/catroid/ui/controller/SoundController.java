@@ -547,15 +547,6 @@ public final class SoundController {
 
 	}
 
-	public void handleAddButtonFromNew(SoundFragment soundFragment) {
-		ScriptActivity scriptActivity = (ScriptActivity) soundFragment.getActivity();
-		if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()
-				&& !scriptActivity.getIsSoundFragmentHandleAddButtonHandled()) {
-			scriptActivity.setIsSoundFragmentHandleAddButtonHandled(true);
-			soundFragment.handleAddButton();
-		}
-	}
-
 	public void switchToScriptFragment(SoundFragment soundFragment) {
 		ScriptActivity scriptActivity = (ScriptActivity) soundFragment.getActivity();
 		scriptActivity.setCurrentFragment(ScriptActivity.FRAGMENT_SCRIPTS);

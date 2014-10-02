@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2014 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="style/DefaultDialog"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="4dp" >
+
+    <LinearLayout
+        android:id="@+id/dialog_new_sound"
+        style="@style/DefaultDialog.Item"
+        android:layout_marginTop="8dp"
+        android:baselineAligned="false"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:weightSum="2"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/dialog_new_sound_record_sound"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/new_object_dialog_selector"
+            android:drawableTop="@drawable/icon_microphone"
+            android:text="@string/add_sound_record_new_sound"
+            android:textSize="12sp"
+            android:gravity="bottom|center_horizontal" />
+
+        <TextView
+            android:id="@+id/dialog_new_sound_open_chooser"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/new_object_dialog_selector"
+            android:drawableTop="@drawable/ic_program_menu_sounds"
+            android:text="@string/add_sound_choose_sound"
+            android:textSize="12sp"
+            android:gravity="bottom|center_horizontal" />
+
+
+    </LinearLayout >
+
+</ScrollView>
