@@ -154,6 +154,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			}
 //			insert further conversions here
 
+
 			checkNestingBrickReferences(true);
 			if (project.getCatrobatLanguageVersion() == Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
 				//project seems to be converted now and can be loaded
