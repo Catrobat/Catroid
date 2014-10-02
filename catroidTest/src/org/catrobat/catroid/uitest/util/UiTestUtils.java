@@ -60,6 +60,7 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.internal.ActionBarSherlockCompat;
 import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
+import com.robotium.solo.Condition;
 import com.robotium.solo.Solo;
 
 import junit.framework.AssertionFailedError;
@@ -1721,7 +1722,7 @@ public final class UiTestUtils {
 	}
 
 	public static void getIntoSpritesFromMainMenu(Solo solo) {
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		Log.d("UiTestUtils", "waitForMainMenuActivity: " + solo.waitForActivity(MainMenuActivity.class.getSimpleName()));
 		solo.sleep(300);
 
 		String continueString = solo.getString(R.string.main_menu_continue);
@@ -2079,5 +2080,21 @@ public final class UiTestUtils {
 		solo.waitForText(text);
 		solo.clickOnText(text);
 		solo.sleep(100);
+	}
+
+	// waits for a view to be in a specific state until a timeout occurs
+	public static boolean waitForShownState(Solo solo, final View view, final boolean wantedState) {
+		boolean result = solo.waitForCondition(
+				new Condition() {
+					public boolean isSatisfied() {
+						return view.isShown() == wantedState;
+					}
+				}, 500);
+
+		if (!result) {
+			fail("Condition is not satisfied before timeout. wantedState: " + Boolean.valueOf(wantedState));
+		}
+
+		return wantedState;
 	}
 }

@@ -103,29 +103,29 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		String selectAll = solo.getString(R.string.select_all).toUpperCase(Locale.getDefault());
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
-		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+		assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
 		UiTestUtils.clickOnText(solo, selectAll);
-		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+		assertFalse("Select All is still shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), false));
 
-		UiTestUtils.clickOnCheckBox(solo, 0);
-		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+		solo.clickOnCheckBox(0);
+		assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
-		UiTestUtils.clickOnCheckBox(solo, 0);
-		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+		solo.clickOnCheckBox(0);
+		assertFalse("Select All is still shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), false));
 
 		solo.goBack();
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
-		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+		assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
 		UiTestUtils.clickOnText(solo, selectAll);
-		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+		assertFalse("Select All is still shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), false));
 
-		UiTestUtils.clickOnCheckBox(solo, 0);
-		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+		solo.clickOnCheckBox(0);
+		assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
-		UiTestUtils.clickOnCheckBox(solo, 0);
-		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+		solo.clickOnCheckBox(0);
+		assertFalse("Select All is still shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), false));
 	}
 }

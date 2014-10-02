@@ -1119,55 +1119,55 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
 
 		UiTestUtils.clickOnText(solo, selectAll);
-		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+		assertFalse("Select All is still shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), false));
 
-		UiTestUtils.clickOnCheckBox(solo, 0);
-		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+		solo.clickOnCheckBox(0);
+		assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
-		UiTestUtils.clickOnCheckBox(solo, 1);
-		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+		solo.clickOnCheckBox(1);
+		assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
-		UiTestUtils.clickOnCheckBox(solo, 0);
-		UiTestUtils.clickOnCheckBox(solo, 1);
-		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+		assertFalse("Select All is still shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), false));
 
 		solo.goBack();
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
-		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+		assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
 		UiTestUtils.clickOnText(solo, selectAll);
-		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+		assertFalse("Select All is still shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), false));
 
-		UiTestUtils.clickOnCheckBox(solo, 0);
-		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+		solo.clickOnCheckBox(0);
+		assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
-		UiTestUtils.clickOnCheckBox(solo, 1);
-		assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+		solo.clickOnCheckBox(1);
+		assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
-		UiTestUtils.clickOnCheckBox(solo, 0);
-		UiTestUtils.clickOnCheckBox(solo, 1);
-		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+		solo.clickOnCheckBox(0);
+		solo.clickOnCheckBox(1);
+		assertFalse("Select All is still shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), false));
 
 		solo.goBack();
 
 		if (BuildConfig.FEATURE_BACKPACK_ENABLED) {
 
 			UiTestUtils.openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack, getActivity());
-			assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+			assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
 			UiTestUtils.clickOnText(solo, selectAll);
-			assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+			assertFalse("Select All is still shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), false));
 
-			UiTestUtils.clickOnCheckBox(solo, 0);
-			assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+			solo.clickOnCheckBox(0);
+			assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
-			UiTestUtils.clickOnCheckBox(solo, 1);
-			assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+			solo.clickOnCheckBox(1);
+			assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
-			UiTestUtils.clickOnCheckBox(solo, 0);
-			UiTestUtils.clickOnCheckBox(solo, 1);
-			assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+			solo.clickOnCheckBox(0);
+			solo.clickOnCheckBox(1);
+			assertFalse("Select All is still shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), false));
 
 			UiTestUtils.acceptAndCloseActionMode(solo);
 			solo.sleep(500);
@@ -1176,20 +1176,20 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 			UiTestUtils.openActionMode(solo, solo.getString(R.string.unpacking), R.id.unpacking, getActivity());
 			UiTestUtils.openActionMode(solo, solo.getString(R.string.unpacking), R.id.unpacking, getActivity());
 
-			assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+			assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
 			UiTestUtils.clickOnText(solo, selectAll);
-			assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+			assertFalse("Select All is still shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), false));
 
-			UiTestUtils.clickOnCheckBox(solo, 0);
-			assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+			solo.clickOnCheckBox(0);
+			assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
-			UiTestUtils.clickOnCheckBox(solo, 1);
-			assertTrue("Select All is not shown", solo.getView(R.id.select_all).isShown());
+			solo.clickOnCheckBox(1);
+			assertTrue("Select All is not shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), true));
 
-			UiTestUtils.clickOnCheckBox(solo, 0);
-			UiTestUtils.clickOnCheckBox(solo, 1);
-			assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
+			solo.clickOnCheckBox(0);
+			solo.clickOnCheckBox(1);
+			assertFalse("Select All is still shown", UiTestUtils.waitForShownState(solo, solo.getView(R.id.select_all), false));
 		}
 	}
 
