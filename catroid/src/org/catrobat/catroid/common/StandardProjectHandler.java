@@ -72,7 +72,15 @@ public final class StandardProjectHandler {
 
 	public static Project createAndSaveStandardProject(Context context) throws IOException {
 		String projectName = context.getString(R.string.default_project_name);
-		return createAndSaveStandardProject(projectName, context);
+		Project standardProject = null;
+
+		try {
+			standardProject = createAndSaveStandardProject(projectName, context);
+		} catch (IllegalArgumentException ilArgument) {
+			Log.e(TAG, "Could not create standard project!", ilArgument);
+		}
+
+		return standardProject;
 	}
 
 	public static Project createAndSaveStandardDroneProject(Context context) throws IOException {
