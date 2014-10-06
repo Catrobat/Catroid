@@ -60,6 +60,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
@@ -693,6 +694,9 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			startActivityForResult(intent, LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE);
 		} catch (IOException ioException) {
 			Log.e(TAG, Log.getStackTraceString(ioException));
+		} catch (NullPointerException nullPointerException) {
+			Log.e(TAG, Log.getStackTraceString(nullPointerException));
+			Toast.makeText(getActivity(), R.string.error_load_image, Toast.LENGTH_SHORT).show();
 		}
 
 	}
