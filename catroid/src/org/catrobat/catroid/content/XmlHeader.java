@@ -55,7 +55,7 @@ public class XmlHeader implements Serializable {
 	@SuppressWarnings("unused")
 	private String mediaLicense = "";
 	private String platform = "";
-	private int platformVersion = 0;
+	private double platformVersion = 0;
 	@SuppressWarnings("unused")
 	private String programLicense = "";
 	@SuppressWarnings("unused")
@@ -142,11 +142,11 @@ public class XmlHeader implements Serializable {
 		this.deviceName = deviceName;
 	}
 
-	int getPlatformVersion() {
+	double getPlatformVersion() {
 		return platformVersion;
 	}
 
-	void setPlatformVersion(int platformVersion) {
+	void setPlatformVersion(double platformVersion) {
 		this.platformVersion = platformVersion;
 	}
 
