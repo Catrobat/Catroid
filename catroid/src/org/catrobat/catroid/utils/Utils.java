@@ -298,6 +298,12 @@ public final class Utils {
 
 	public static String getCurrentProjectName(Context context) {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
+
+			if (UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT)).size() == 0) {
+				Log.i("Utils", "Somebody deleted all projects in the file-system");
+				ProjectManager.getInstance().initializeDefaultProject(context);
+			}
+
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
 			if (currentProjectName == null) {
