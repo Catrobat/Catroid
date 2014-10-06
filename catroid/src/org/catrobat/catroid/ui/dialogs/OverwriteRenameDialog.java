@@ -28,6 +28,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
 import android.content.DialogInterface.OnShowListener;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.KeyEvent;
@@ -60,6 +61,12 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 
 	public OverwriteRenameDialog() {
 		super();
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		outState.putString("WORKAROUND_FOR_BUG_19917_KEY", "WORKAROUND_FOR_BUG_19917_VALUE");
+		super.onSaveInstanceState(outState);
 	}
 
 	public void setProgramName(String programName) {
@@ -163,6 +170,7 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 		} else if (renameButton.isChecked()) {
 			String newProgramName = projectText.getText().toString();
 			if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(newProgramName)) {
+				projectText.setBackgroundColor(Color.RED);
 				return false;
 			}
 
