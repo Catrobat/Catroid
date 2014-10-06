@@ -82,7 +82,6 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Mai
 		enterNewTextIntoSpinner(broadcastReceiverSpinnerId, firstBroadcastMessage);
 		pressSpinnerItem(broadcastSpinnerId, firstBroadcastMessage);
 		pressSpinnerItem(broadcastWaitSpinnerId, firstBroadcastMessage);
-
 		enterNewTextIntoSpinner(broadcastSpinnerId, secondBroadcastMessage);
 		enterNewTextIntoSpinner(broadcastWaitSpinnerId, thirdBroadcastMessage);
 
@@ -145,11 +144,11 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Mai
 	private void checkCorrectSpinnerSelections() {
 		assertEquals("Wrong broadcast message in broadcast receiver.",
 				expectedSpinnerText.get(broadcastReceiverSpinnerId),
-				((Spinner) solo.getView(broadcastReceiverSpinnerId)).getSelectedItem().toString());
+				((Spinner) solo.getCurrentActivity().findViewById(broadcastReceiverSpinnerId)).getSelectedItem().toString());
 		assertEquals("Wrong broadcast message in broadcast.", expectedSpinnerText.get(broadcastSpinnerId),
-				((Spinner) solo.getView(broadcastSpinnerId)).getSelectedItem().toString());
+				((Spinner) solo.getCurrentActivity().findViewById(broadcastSpinnerId)).getSelectedItem().toString());
 		assertEquals("Wrong broadcast message in broadcastWait.", expectedSpinnerText.get(broadcastWaitSpinnerId),
-				((Spinner) solo.getView(broadcastWaitSpinnerId)).getSelectedItem().toString());
+				((Spinner) solo.getCurrentActivity().findViewById(broadcastWaitSpinnerId)).getSelectedItem().toString());
 	}
 
 	private void enterNewTextIntoSpinner(int spinnerId, String text) {
@@ -180,8 +179,7 @@ public class BroadcastBricksTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.clickInList(0);
 		solo.waitForView(EditText.class);
 		solo.goBack();
-		solo.goBack();
-		solo.waitForView(solo.getView(spinnerId));
+		solo.getCurrentActivity().findViewById(spinnerId);
 		checkCorrectSpinnerSelections();
 	}
 

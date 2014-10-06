@@ -57,7 +57,7 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 			editor.commit();
 		}
 		boolean droneEnabled = preferences.getBoolean(SettingsActivity.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, false);
-		assertTrue("Drone Bricks must be anabled to pass this test, check the Constructor and setup.", droneEnabled);
+		assertTrue("Drone Bricks must be enabled to pass this test, check the constructor and setup.", droneEnabled);
 
 		UtilFile.loadExistingOrCreateStandardDroneProject(getActivity());
 		assertEquals("Cannot create standard drone project",
@@ -71,6 +71,8 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.waitForText(solo.getString(R.string.scripts));
 		solo.clickOnText(solo.getString(R.string.scripts));
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+
+		solo.sleep(1000);
 
 		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
 				solo.getCurrentViews(ListView.class).size() - 1);
