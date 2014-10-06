@@ -466,12 +466,16 @@ public final class StorageHandler {
 	}
 
 	public void clearBackPackSoundDirectory() {
-		if (backPackSoundDirectory.listFiles().length > 1) {
-			for (File node : backPackSoundDirectory.listFiles()) {
-				if (!(node.getName().equals(".nomedia"))) {
-					node.delete();
+		try {
+			if (backPackSoundDirectory.listFiles().length > 1) {
+				for (File node : backPackSoundDirectory.listFiles()) {
+					if (!(node.getName().equals(".nomedia"))) {
+						node.delete();
+					}
 				}
 			}
+		} catch (NullPointerException nullPointerException) {
+			Log.e(TAG, Log.getStackTraceString(nullPointerException));
 		}
 	}
 
