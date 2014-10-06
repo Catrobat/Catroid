@@ -37,14 +37,12 @@ public class ChangeYByNAction extends TemporalAction {
 
 	@Override
 	protected void update(float arg0) {
-		Float newY;
 		try {
-			newY = yMovement == null ? Float.valueOf(0f) : yMovement.interpretFloat(sprite);
-        } catch (InterpretationException interpretationException) {
-            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-            return;
-        }
-		sprite.look.changeYInUserInterfaceDimensionUnit(newY);
+			Float newY = yMovement == null ? Float.valueOf(0f) : yMovement.interpretFloat(sprite);
+			sprite.look.changeYInUserInterfaceDimensionUnit(newY);
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
 	}
 
 	public void setSprite(Sprite sprite) {

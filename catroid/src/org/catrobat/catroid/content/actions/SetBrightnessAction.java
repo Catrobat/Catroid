@@ -37,14 +37,12 @@ public class SetBrightnessAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		Float newBrightness;
 		try {
-			newBrightness = brightness == null ? Float.valueOf(0f) : brightness.interpretFloat(sprite);
-        } catch (InterpretationException interpretationException) {
-            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-            return;
-        }
-		sprite.look.setBrightnessInUserInterfaceDimensionUnit(newBrightness);
+			Float newBrightness = brightness == null ? Float.valueOf(0f) : brightness.interpretFloat(sprite);
+			sprite.look.setBrightnessInUserInterfaceDimensionUnit(newBrightness);
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
 	}
 
 	public void setSprite(Sprite sprite) {

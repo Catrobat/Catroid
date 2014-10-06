@@ -37,17 +37,14 @@ public class MoveNStepsAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		Double stepsValue;
 		try {
-			stepsValue = steps == null ? Double.valueOf(0d) : steps.interpretDouble(sprite);
-        } catch (InterpretationException interpretationException) {
-            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-            return;
-        }
-
-		double radians = Math.toRadians(sprite.look.getDirectionInUserInterfaceDimensionUnit());
-		sprite.look.changeXInUserInterfaceDimensionUnit((float) (stepsValue * Math.sin(radians)));
-		sprite.look.changeYInUserInterfaceDimensionUnit((float) (stepsValue * Math.cos(radians)));
+			Double stepsValue = steps == null ? Double.valueOf(0d) : steps.interpretDouble(sprite);
+			double radians = Math.toRadians(sprite.look.getDirectionInUserInterfaceDimensionUnit());
+			sprite.look.changeXInUserInterfaceDimensionUnit((float) (stepsValue * Math.sin(radians)));
+			sprite.look.changeYInUserInterfaceDimensionUnit((float) (stepsValue * Math.cos(radians)));
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
 	}
 
 	public void setSprite(Sprite sprite) {

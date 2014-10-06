@@ -37,14 +37,12 @@ public class SetGhostEffectAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		Float newTransparency;
 		try {
-			newTransparency = transparency == null ? Float.valueOf(0f) : transparency.interpretFloat(sprite);
-        } catch (InterpretationException interpretationException) {
-            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-            return;
-        }
-		sprite.look.setTransparencyInUserInterfaceDimensionUnit(newTransparency);
+			Float newTransparency = transparency == null ? Float.valueOf(0f) : transparency.interpretFloat(sprite);
+			sprite.look.setTransparencyInUserInterfaceDimensionUnit(newTransparency);
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
 	}
 
 	public void setSprite(Sprite sprite) {

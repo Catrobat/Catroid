@@ -37,14 +37,12 @@ public class PointInDirectionAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		Float degreeInterpretation;
 		try {
-			degreeInterpretation = degrees == null ? Float.valueOf(0f) : degrees.interpretFloat(sprite);
-        } catch (InterpretationException interpretationException) {
-            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-            return;
-        }
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(degreeInterpretation);
+			Float degreeInterpretation = degrees == null ? Float.valueOf(0f) : degrees.interpretFloat(sprite);
+			sprite.look.setDirectionInUserInterfaceDimensionUnit(degreeInterpretation);
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
 	}
 
 	public void setSprite(Sprite sprite) {

@@ -43,7 +43,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 public class NewStringDialog extends SherlockDialogFragment {
 
-	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_string";
+	public static final String DIALOG_FRAGMENT_TAG = NewStringDialog.class.getSimpleName();
 	private EditText newStringEditText;
 	private Dialog newStringDialog;
 
@@ -73,7 +73,7 @@ public class NewStringDialog extends SherlockDialogFragment {
 						handleOkButton();
 					}
 				}).create();
-		newStringEditText = (EditText) dialogView.findViewById(R.id.formula_editor_string_name_edittext);
+		newStringEditText = (EditText) dialogView.findViewById(R.id.formula_editor_string_name_edit_text);
 		newStringDialog.setCanceledOnTouchOutside(true);
 		newStringDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
@@ -97,7 +97,5 @@ public class NewStringDialog extends SherlockDialogFragment {
 			formulaEditor.addStringToActiveFormula(stringName);
 			formulaEditor.updateButtonViewOnKeyboard();
 		}
-
 	}
-
 }

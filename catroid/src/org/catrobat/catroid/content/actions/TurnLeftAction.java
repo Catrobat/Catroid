@@ -37,14 +37,12 @@ public class TurnLeftAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		Float newDegrees;
 		try {
-			newDegrees = degrees == null ? Float.valueOf(0f) : -degrees.interpretFloat(sprite);
-        } catch (InterpretationException interpretationException) {
-            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-            return;
-        }
-		sprite.look.changeDirectionInUserInterfaceDimensionUnit(newDegrees);
+			Float newDegrees = degrees == null ? Float.valueOf(0f) : -degrees.interpretFloat(sprite);
+			sprite.look.changeDirectionInUserInterfaceDimensionUnit(newDegrees);
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
 	}
 
 	public void setSprite(Sprite sprite) {

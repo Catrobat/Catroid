@@ -333,5 +333,8 @@
     <string name="formula_editor_object_size" >"looks-size"</string >
     <string name="formula_editor_object_rotation" >"looks-rotation"</string >
     <string name="formula_editor_object_layer" >"looks-layer"</string >
+    <string name="formula_editor_string" >알파벳</string >
+    <string name="formula_editor_new_string_name" >새로운 텍스트</string >
+    <string name="formula_editor_new_string_dialog_hint" >여기에 새로운 텍스트를 입력.</string >
 
 </resources>

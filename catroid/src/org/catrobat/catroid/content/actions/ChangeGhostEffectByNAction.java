@@ -37,15 +37,13 @@ public class ChangeGhostEffectByNAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		Float newChangeGhostEffect;
 		try {
-			newChangeGhostEffect = changeGhostEffect == null ? Float.valueOf(0f) : changeGhostEffect
+			Float newChangeGhostEffect = changeGhostEffect == null ? Float.valueOf(0f) : changeGhostEffect
 					.interpretFloat(sprite);
+			sprite.look.changeTransparencyInUserInterfaceDimensionUnit(newChangeGhostEffect);
         } catch (InterpretationException interpretationException) {
             Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-            return;
         }
-		sprite.look.changeTransparencyInUserInterfaceDimensionUnit(newChangeGhostEffect);
 	}
 
 	public void setSprite(Sprite sprite) {
