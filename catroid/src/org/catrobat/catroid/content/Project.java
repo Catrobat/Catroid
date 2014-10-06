@@ -145,7 +145,7 @@ public class Project implements Serializable {
 	public void setDeviceData(Context context) {
 		// TODO add other header values
 		xmlHeader.setPlatform(Constants.PLATFORM_NAME);
-		xmlHeader.setPlatformVersion(Build.VERSION.SDK_INT);
+		xmlHeader.setPlatformVersion((double)Build.VERSION.SDK_INT);
 		xmlHeader.setDeviceName(Build.MODEL);
 
 		xmlHeader.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
