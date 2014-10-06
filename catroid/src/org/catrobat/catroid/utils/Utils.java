@@ -282,7 +282,7 @@ public final class Utils {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String projectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
 
-			if (projectName == null) {
+			if (projectName == null || !StorageHandler.getInstance().projectExists(projectName)) {
 				projectName = context.getString(R.string.default_project_name);
 			}
 
@@ -300,7 +300,7 @@ public final class Utils {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
-			if (currentProjectName == null) {
+			if (currentProjectName == null || !StorageHandler.getInstance().projectExists(currentProjectName)) {
 				currentProjectName = UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT)).get(0);
 			}
 			return currentProjectName;
