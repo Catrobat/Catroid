@@ -3,6 +3,7 @@ import java.util.regex.Pattern
 buildscript {
     repositories {
         mavenCentral()
+        mavenLocal()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.12.+'
@@ -15,6 +16,7 @@ repositories {
 }
 
 apply plugin: 'android-sdk-manager'
+apply plugin: 'android'
 apply plugin: 'com.android.application'
 //apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
@@ -28,6 +30,8 @@ check.dependsOn 'pmd'
 
 ext {
     projectVersion = "0.9"
+    gdxVersion = '1.2.0'
+    roboVMVersion = '0.0.14'
     featuresEnabled = [
             "lego_nxt"                          : true,
             "backpack"                          : false,
@@ -41,18 +45,31 @@ ext {
     ]
 }
 
+repositories {
+    mavenLocal()
+    mavenCentral()
+    //maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+    maven { url 'https://oss.sonatype.org/content/repositories/releases/' }
+}
+
 configurations {
+    natives
     compile.exclude group: 'xpp3' //compile problem with xstream
 }
 
 dependencies {
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
     compile 'com.android.support:support-v4:19.1.0'
+    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
     compile 'com.google.guava:guava:17.0'
-    compile fileTree(include: '*.jar', dir: 'catroid/libs')
-    compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
-    androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
+    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
+    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
+    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
+    compile fileTree(dir: 'catroid/libs', include: '*.jar')
+    compile fileTree(dir: 'catroid/libs-natives', include: '*.jar')
+    compile fileTree(dir: 'catroidTest/libs', include: '*.jar')
     pmd 'net.sourceforge.pmd:pmd:5.1.1'
 }
 
@@ -105,6 +122,7 @@ android {
         buildConfigField "String", "GIT_DESCRIBE", "\"${getGitDescribe()}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
     }
+
     sourceSets {
         main {
             manifest.srcFile 'catroid/AndroidManifest.xml'
@@ -126,6 +144,13 @@ android {
             if (file('testexclusions.txt').exists()) {
                 java.exclude file('testexclusions.txt').readLines()
             }
+
+
+            packagingOptions {
+                exclude 'lib/armeabi/libgdx.so'
+                exclude 'lib/armeabi-v7a/libgdx.so'
+                exclude 'lib/x86/libgdx.so'
+            }
         }
     }
     lintOptions {
@@ -143,6 +168,56 @@ android {
         htmlReport false
         xmlOutput file("build/reports/lint.xml")
     }
+}
+// needed to add JNI shared libraries to APK when compiling on CLI
+tasks.withType(com.android.build.gradle.tasks.PackageApplication) { pkgTask ->
+    pkgTask.jniFolders = new HashSet<File>()
+    pkgTask.jniFolders.add(new File(projectDir, 'libs'))
+}
+
+// called every time gradle gets executed, takes the native dependencies of
+// the natives configuration, and extracts them to the proper libs/ folders
+// so they get packed with the APK.
+task copyAndroidNatives() {
+    file("libs/armeabi/").mkdirs();
+    file("libs/armeabi-v7a/").mkdirs();
+    file("libs/x86/").mkdirs();
+
+    configurations.natives.files.each { jar ->
+        def outputDir = null
+        if(jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("libs/armeabi-v7a")
+        if(jar.name.endsWith("natives-armeabi.jar")) outputDir = file("libs/armeabi")
+        if(jar.name.endsWith("natives-x86.jar")) outputDir = file("libs/x86")
+        if(outputDir != null) {
+            copy {
+                from zipTree(jar)
+                into outputDir
+                include "*.so"
+            }
+        }
+    }
+}
+
+task run(type: Exec) {
+    def path
+    def localProperties = project.file("../local.properties")
+    if (localProperties.exists()) {
+        Properties properties = new Properties()
+        localProperties.withInputStream { instr ->
+            properties.load(instr)
+        }
+        def sdkDir = properties.getProperty('sdk.dir')
+        if (sdkDir) {
+            path = sdkDir
+        } else {
+            path = "$System.env.ANDROID_HOME"
+        }
+    } else {
+        path = "$System.env.ANDROID_HOME"
+    }
+
+    def adb = path + "/platform-tools/adb"
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'org.catrobat.catroid.android/org.catrobat.catroid.android.AndroidLauncher'
 }
 
 

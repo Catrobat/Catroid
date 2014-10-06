@@ -27,8 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.DelegateAction;
 public class UserBrickAction extends DelegateAction {
 
 	@Override
-	public boolean act(float delta) {
+	protected boolean delegate(float delta) {
 		return action.act(delta);
 	}
-
 }

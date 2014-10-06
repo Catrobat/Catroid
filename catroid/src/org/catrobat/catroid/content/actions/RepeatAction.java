@@ -41,7 +41,7 @@ public class RepeatAction extends com.badlogic.gdx.scenes.scene2d.actions.Repeat
 	private boolean isForeverRepeat = false;
 
 	@Override
-	public boolean act(float delta) {
+	public boolean delegate(float delta) {
 
 		if (!isRepeatActionInitialized) {
 			isRepeatActionInitialized = true;
