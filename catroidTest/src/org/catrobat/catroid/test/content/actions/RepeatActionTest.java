@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.content.actions;
 import android.test.InstrumentationTestCase;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Script;
@@ -192,6 +193,8 @@ public class RepeatActionTest extends InstrumentationTestCase {
 				ExtendedActions.sequence(ExtendedActions.changeYByN(testSprite, new Formula(decoyDeltaY))));
 		SequenceAction action = ExtendedActions.sequence(repeatAction,
 				ExtendedActions.changeYByN(testSprite, new Formula(expectedDeltaY)));
+		action.setActor(new Actor());
+
 		boolean wait = false;
 		while (!wait) {
 			wait = action.act(1.0f);

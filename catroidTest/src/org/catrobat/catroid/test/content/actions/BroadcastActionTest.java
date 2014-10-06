@@ -129,7 +129,8 @@ public class BroadcastActionTest extends AndroidTestCase {
 		project.addSprite(sprite);
 		ProjectManager.getInstance().setProject(project);
 
-		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
+		//if it is a test an actor must be added to BroadcastScript
+		sprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>(), true);
 
 		int loopCounter = 0;
 		while (!allActionsOfAllSpritesAreFinished() && loopCounter++ < 20) {
