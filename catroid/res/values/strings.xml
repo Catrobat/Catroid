@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2014 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
 <resources>
 
     <!-- General terms -->
@@ -69,7 +69,11 @@
     <string name="preference_title">Settings</string>
     <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorms bricks</string>
     <string name="preference_description_mindstorm_bricks">Allow to control Lego Mindstorms robots</string>
-    <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 bricks</string>
+    <string name="preference_title_use_face_detection">Face Detection</string>
+    <string name="preference_description_use_face_detection">Allow to detect faces</string>
+    <string name="preference_title_select_camera">Choose Camera</string>
+    <string name="preference_description_select_camera">Select camera which is used for face detection</string>
+	<string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 bricks</string>
     <string name="preference_description_quadcopter_bricks">Allow to control the ARDrone 2.0 quadcopter</string>
     <!--  -->
 
@@ -235,14 +239,18 @@
     <string name="text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to install it?</string>
     <string name="no_flash_led_available">No flash LED available</string>
     <string name="no_vibrator_available">Vibrator not available</string>
+    <string name="led_and_front_camera_warning">Led AND Front Camera are not supported</string>
     <!--  -->
 
 
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Move Brick</string>
+    <string name="brick_context_dialog_show_source">Show Source Brick</string>
     <string name="brick_context_dialog_delete_brick">Delete Brick</string>
     <string name="brick_context_dialog_copy_brick">Copy Brick</string>
     <string name="brick_context_dialog_animate_bricks">Animate Brick-Parts</string>
+    <string name="brick_context_dialog_add_to_script">Add To Script</string>
+	<string name="brick_context_dialog_edit_brick">Edit Brick</string>
     <string name="brick_context_dialog_formula_edit_brick">Edit Formula</string>
     <string name="brick_context_dialog_delete_script">Delete Script</string>
     <!--  -->
@@ -320,6 +328,7 @@
     <string name="category_sound">Sound</string>
     <string name="category_control">Control</string>
     <string name="category_variables">Variables</string>
+    <string name="category_user_bricks">My Bricks</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_drone">ARDrone</string>
     <!--  -->
@@ -374,9 +383,9 @@
     <string name="brick_clear_graphic_effect">Clear graphic effects</string>
     <string name="brick_next_look">Next look</string>
     <string name="brick_next_background">Next background</string>
-    <string name="brick_led_on">switch camera LED ON</string>
-    <string name="brick_led_off">switch camera LED OFF</string>
-    <string name="brick_vibration">vibrate for</string>
+    <string name="brick_led_on">Turn flashlight ON</string>
+    <string name="brick_led_off">Turn flashlight OFF</string>
+    <string name="brick_vibration">Vibrate for</string>
     <!--  -->
 
 
@@ -387,8 +396,6 @@
     <string name="brick_change_volume_by">Change volume by</string>
     <string name="brick_speak">Speak</string>
     <string name="brick_speak_default_value">"Hello!"</string>
-    <string name="dialog_edit_speak_title">Edit Text</string>
-    <string name="dialog_edit_speak_text">Speak:</string>
     <!--  -->
 
 
@@ -408,8 +415,6 @@
     <string name="brick_note">Note</string>
     <string name="brick_forever">Forever</string>
     <string name="brick_repeat">Repeat</string>
-    <string name="dialog_edit_note_title">Edit note</string>
-    <string name="dialog_edit_note_text">Note:</string>
 
     <plurals name="time_plural">
         <item quantity="one">time</item>
@@ -499,6 +504,8 @@
     <string name="error_copy_project">An error occurred while copying the program.</string>
     <string name="error_upload_project_with_default_name">You cannot upload a program with the name \'My first program\'. Please rename the program.</string>
     <string name="error_upload_default_project">You cannot upload this program because it is the same as \'My first program\'. Please modify it, and try again.</string>
+    <string name="error_adding_brick">An error occurred while adding this Brick</string>
+    <string name="error_copying_brick">An error occurred while copying this Brick</string>
     <string name="error_no_drone_connected_title">Cannot find ARDrone</string>
     <string name="error_no_drone_connected">Connect your wifi to the ARDrone and try again.</string>
     <string name="error_drone_low_battery_title">Drone battery low: %d%%</string>
@@ -507,7 +514,7 @@
     <string name="error_drone_wrong_platform">We can not run a ARDrone project on your device.</string>
 	<string name="error_rename_incompatible_project">Renaming an incompatible project isn\'t possible.</string>
     <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible project isn\'t possible.</string>
-	<!--  -->
+    <!--  -->
 
 
     <!-- Bluetooth Connection Strings -->
@@ -583,24 +590,47 @@
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
     <string name="formula_editor_function_sin">sin</string>
+    <string name="formula_editor_function_sin_parameter">(0)</string>
     <string name="formula_editor_function_cos">cos</string>
+    <string name="formula_editor_function_cos_parameter">(0)</string>
     <string name="formula_editor_function_tan">tan</string>
+    <string name="formula_editor_function_tan_parameter">(0)</string>
     <string name="formula_editor_function_ln">ln</string>
+    <string name="formula_editor_function_ln_parameter">(0)</string>
     <string name="formula_editor_function_log">log</string>
+    <string name="formula_editor_function_log_parameter">(0)</string>
     <string name="formula_editor_function_pi">pi</string>
+    <string name="formula_editor_function_pi_parameter"></string>
     <string name="formula_editor_function_sqrt">sqrt</string>
+    <string name="formula_editor_function_sqrt_parameter">(0)</string>
     <string name="formula_editor_function_rand">random</string>
+    <string name="formula_editor_function_rand_parameter">(0,1)</string>
     <string name="formula_editor_function_abs">abs</string>
+    <string name="formula_editor_function_abs_parameter">(0)</string>
     <string name="formula_editor_function_round">round</string>
+    <string name="formula_editor_function_round_parameter">(0)</string>
     <string name="formula_editor_function_mod">mod</string>
+    <string name="formula_editor_function_mod_parameter">(1,1)</string>
     <string name="formula_editor_function_arcsin">arcsin</string>
+    <string name="formula_editor_function_arcsin_parameter">(0)</string>
     <string name="formula_editor_function_arccos">arccos</string>
+    <string name="formula_editor_function_arccos_parameter">(0)</string>
     <string name="formula_editor_function_arctan">arctan</string>
+    <string name="formula_editor_function_arctan_parameter">(0)</string>
     <string name="formula_editor_function_exp">exp</string>
+    <string name="formula_editor_function_exp_parameter">(0)</string>
     <string name="formula_editor_function_max">max</string>
+    <string name="formula_editor_function_max_parameter">(0,1)</string>
     <string name="formula_editor_function_min">min</string>
+    <string name="formula_editor_function_min_parameter">(0,1)</string>
     <string name="formula_editor_function_true">TRUE</string>
     <string name="formula_editor_function_false">FALSE</string>
+    <string name="formula_editor_function_length">length</string>
+    <string name="formula_editor_function_length_parameter">(\'hello world\')</string>
+    <string name="formula_editor_function_letter">letter</string>
+    <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
+    <string name="formula_editor_function_join">join</string>
+    <string name="formula_editor_function_join_parameter">(\'hello\',\'world\')</string>
     <string name="formula_editor_sensor_x_acceleration">acceleration_x</string>
     <string name="formula_editor_sensor_y_acceleration">acceleration_y</string>
     <string name="formula_editor_sensor_z_acceleration">acceleration_z</string>
@@ -608,6 +638,10 @@
     <string name="formula_editor_sensor_x_inclination">inclination_x</string>
     <string name="formula_editor_sensor_y_inclination">inclination_y</string>
     <string name="formula_editor_sensor_loudness">loudness</string>
+    <string name="formula_editor_sensor_face_detected">is_face_detected</string>
+    <string name="formula_editor_sensor_face_size">face_size</string>
+    <string name="formula_editor_sensor_face_x_position">face_x_position</string>
+    <string name="formula_editor_sensor_face_y_position">face_y_position</string>
     <string name="formula_editor_object_x">position_x</string>
     <string name="formula_editor_object_y">position_y</string>
     <string name="formula_editor_object_ghosteffect">transparency</string>
@@ -617,11 +651,11 @@
     <string name="formula_editor_object_layer">layer</string>
     <string name="formula_editor_compute">Compute</string>
     <string name="formula_editor_object">Object</string>
-    <string name="formula_editor_math">Math</string>
+    <string name="formula_editor_function">Functions</string>
     <string name="formula_editor_logic">Logic</string>
     <string name="formula_editor_sensors">Sensors</string>
     <string name="formula_editor_variables">Variables</string>
-    <string name="formula_editor_random">Random</string>
+    <string name="formula_editor_string">Abc</string>
     <string name="formula_editor_logic_notequal">&#x2260;</string>
     <string name="formula_editor_logic_lesserthan">&lt;</string>
     <string name="formula_editor_logic_greaterthan">&gt;</string>
@@ -640,17 +674,48 @@
     <string name="formula_editor_image_button_description_redo">redo</string>
     <string name="formula_editor_image_button_description_delete">delete</string>
     <string name="formula_editor_variable_dialog_title">New Variable</string>
+    <string name="formula_editor_variable_dialog_for_this_brick">For this brick</string> 
     <string name="formula_editor_variable_dialog_for_all_sprites">For all objects</string>
     <string name="formula_editor_variable_dialog_for_this_sprite_only">For this object only</string>
     <string name="formula_editor_variable_dialog_hint">Enter variable name</string>
     <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
     <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
     <string name="variable_name">variable name:</string>
+    <string name="formula_editor_new_string_name">New text</string>
+    <string name="formula_editor_new_string_dialog_hint">Enter new text here.</string>
 
     <plurals name="formula_editor_variable_context_action_item_selected">
         <item quantity="one">Variable selected!</item>
         <item quantity="other">Variables selected!</item>
     </plurals>
     <!--  -->
+
+
+    <!-- Camera Strings -->
+    <string name="camera_facing_front">Front Camera</string>
+    <string name="camera_facing_back">Back Camera</string>
+    <!--  -->
+
+    <!-- Brick Data Editor Strings -->
+    <string name="brick_data_editor_title">Brick Editor</string>
+ 	<string name="separator">|</string>
+ 	<string name="add_text">Add Text</string>
+ 	<string name="edit_text">Edit Text</string>
+ 	<string name="text_hint">Brick Text</string>
+ 	<string name="add_variable">Add Variable</string>
+ 	<string name="add_line_break">Add Line Break</string>
+ 	<string name="edit_variable">Edit Variable</string>
+ 	<string name="variable_hint">Variable Name</string>
+    <!-- -->
+
+    <!-- User Bricks strings -->
+    <string name="define">define</string>
+ 	<string name="new_user_brick">New Brick</string>
+ 	<string name="new_user_brick_variable">Variable 1</string>
+    <string name="recursive_user_brick_forbidden">Adding UserBrick to UserBrick is not allowed yet!</string>
+ 	<string name="brick_single">Brick</string>
+ 	<string name="brick_multiple">Bricks</string>
+
+    <!-- -->
 
 </resources>
