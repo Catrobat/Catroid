@@ -148,7 +148,7 @@ public class Sprite implements Serializable, Cloneable {
 		createStartScriptActionSequenceAndPutToMap(scriptActions, false);
 	}
 
-	public void createStartScriptActionSequenceAndPutToMap(Map<String, List<String>> scriptActions, boolean test) {
+	public void createStartScriptActionSequenceAndPutToMap(Map<String, List<String>> scriptActions, boolean addextra) {
 		for (int scriptCounter = 0; scriptCounter < scriptList.size(); scriptCounter++) {
 			Script script = scriptList.get(scriptCounter);
 			if (script instanceof StartScript) {
@@ -170,7 +170,7 @@ public class Sprite implements Serializable, Cloneable {
 			if (script instanceof BroadcastScript) {
 				BroadcastScript broadcastScript = (BroadcastScript) script;
 				SequenceAction action = createActionSequence(broadcastScript);
-				if(test){
+				if(addextra){
 					look.addAction(action);
 				}
 				BroadcastHandler.getActionScriptMap().put(action, script);
