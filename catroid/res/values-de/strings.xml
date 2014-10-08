@@ -504,6 +504,7 @@
   <string name="formula_editor_object">Objekt</string>
   <string name="formula_editor_math">Math</string>
   <string name="formula_editor_function">Funktionen</string>
+    <string name="formula_editor_function_pi_parameter"></string>
   <string name="formula_editor_logic">Logik</string>
   <string name="formula_editor_sensors">Sensoren</string>
   <string name="formula_editor_variables">Variablen</string>
