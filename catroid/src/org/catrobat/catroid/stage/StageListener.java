@@ -219,7 +219,7 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
-	public void menuPause() {
+	void menuPause() {
 		if (finished || reloadProject) {
 			return;
 		}
@@ -231,7 +231,7 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
-	public void reloadProject(StageActivity stageActivity, StageDialog stageDialog) {
+	public void reloadProject(StageDialog stageDialog) {
 		if (reloadProject) {
 			return;
 		}
