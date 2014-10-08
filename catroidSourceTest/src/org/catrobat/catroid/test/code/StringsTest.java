@@ -146,6 +146,7 @@ public class StringsTest extends TestCase {
 		assertFalse("There are untranslated Strings:" + errorMessage, missingStrings);
 	}
 
+
 	private List<File> getLayoutXmlFiles() {
 		List<File> layoutFiles = new ArrayList<File>();
 
