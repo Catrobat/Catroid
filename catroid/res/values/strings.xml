@@ -396,8 +396,6 @@
     <string name="brick_change_volume_by">Change volume by</string>
     <string name="brick_speak">Speak</string>
     <string name="brick_speak_default_value">"Hello!"</string>
-    <string name="dialog_edit_speak_title">Edit Text</string>
-    <string name="dialog_edit_speak_text">Speak:</string>
     <!--  -->
 
 
@@ -417,8 +415,6 @@
     <string name="brick_note">Note</string>
     <string name="brick_forever">Forever</string>
     <string name="brick_repeat">Repeat</string>
-    <string name="dialog_edit_note_title">Edit note</string>
-    <string name="dialog_edit_note_text">Note:</string>
 
     <plurals name="time_plural">
         <item quantity="one">time</item>
