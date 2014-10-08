@@ -287,6 +287,8 @@
   <string name="brick_change_volume_by">Ändere Lautstärke um</string>
   <string name="brick_speak">Sprich</string>
   <string name="brick_speak_default_value">"Hallo!"</string>
+  <string name="dialog_edit_speak_title">Text bearbeiten</string>
+  <string name="dialog_edit_speak_text">Sprich:</string>
   <string name="brick_when_started">Wenn Programm gestartet</string>
   <string name="brick_when">Wenn angetippt</string>
   <string name="brick_wait">Warte</string>
@@ -300,6 +302,8 @@
   <string name="brick_note">Notiz</string>
   <string name="brick_forever">Wiederhole fortlaufend</string>
   <string name="brick_repeat">Wiederhole</string>
+  <string name="dialog_edit_note_title">Notiz bearbeiten</string>
+  <string name="dialog_edit_note_text">Notiz:</string>
   <plurals name="time_plural">
     <item quantity="one">mal</item>
     <item quantity="other">mal</item>
@@ -498,10 +502,13 @@
   <string name="formula_editor_object_layer">Ebene</string>
   <string name="formula_editor_compute">Berechnen</string>
   <string name="formula_editor_object">Objekt</string>
+  <string name="formula_editor_math">Funktionen</string>
   <string name="formula_editor_function">Funktionen</string>
+    <string name="formula_editor_function_pi_parameter"></string>
   <string name="formula_editor_logic">Logik</string>
   <string name="formula_editor_sensors">Sensoren</string>
   <string name="formula_editor_variables">Variablen</string>
+  <string name="formula_editor_random">Zufall</string>
   <string name="formula_editor_string">Abc</string>
   <string name="formula_editor_logic_notequal">≠</string>
   <string name="formula_editor_logic_lesserthan">&lt;</string>
