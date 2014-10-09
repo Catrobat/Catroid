@@ -88,6 +88,8 @@
     <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
     <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
     <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
+    <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
+    <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
     <!-- -->
 
 
@@ -218,6 +220,23 @@
     <string name="rename_sound_overwrite">Sound with same name already exists!</string>
     <!--  -->
 
+
+    <!-- NfcTags fragment -->
+    <string name="fragment_nfctag_text_description">Scan tags to add</string>
+    <string name="rename_nfctag_dialog">Rename nfctag</string>
+    <string name="nfctagname_invalid">This nfctag\'s name is invalid</string>
+    <string name="nfctag_scan">scan</string>
+    <string name="delete_nfctag_dialog">Delete nfctag?</string>
+    <string name="dialog_confirm_delete_nfctag_title">Delete this nfctag?</string>
+    <string name="dialog_confirm_delete_multiple_nfctags_title">Delete these nfctags?</string>
+    <string name="dialog_confirm_delete_nfctag_message">This can not be undone!</string>
+    <string name="nfctag_name">nfctag name:</string>
+    <string name="nfctag">NFC Tag</string>
+    <string name="nfctags">NFC Tags</string>
+    <string name="uid">ID</string>
+    <string name="default_tag_name">nfc_tag</string>
+    <!--  -->
+
     <plurals name="unpacking_items_plural">
         <item quantity="one">was unpacked!</item>
         <item quantity="other">were unpacked!</item>
@@ -253,6 +272,8 @@
     <string name="no_flash_led_available">No flash LED available</string>
     <string name="no_vibrator_available">Vibrator not available</string>
     <string name="led_and_front_camera_warning">Led AND Front Camera are not supported</string>
+    <string name="no_nfc_available">NFC not available</string>
+    <string name="nfc_not_activated">Please activate NFC and press Back to return to the application!</string>
     <!--  -->
 
 
@@ -354,6 +375,11 @@
     <string name="dialog_new_broadcast_message_name">message:</string>
     <!--  -->
 
+    <!-- NFC spinner -->
+    <string name="new_nfc_tag">New…</string>
+    <string name="brick_when_nfc_default_all">all</string>
+    <!-- -->
+
 
     <!-- Brick categories -->
     <string name="categories">Categories</string>
@@ -438,6 +464,7 @@
     <!-- Control bricks -->
     <string name="brick_when_started" >When program started</string >
     <string name="brick_when" >When tapped</string >
+    <string name="brick_when_nfc">When NFC</string>
     <string name="brick_wait" >Wait</string >
 
     <plurals name="second_plural" >

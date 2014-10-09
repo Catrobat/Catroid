@@ -23,13 +23,16 @@
 package org.catrobat.catroid.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.actionbarsherlock.app.ActionBar;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.drone.DroneInitializer;
@@ -80,6 +83,15 @@ public class ProgramMenuActivity extends BaseActivity {
 		} else {
 			((Button) findViewById(R.id.program_menu_button_looks)).setText(R.string.looks);
 		}
+
+        //Hide NFC if option is not set
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPreferences.getBoolean("setting_nfc_bricks", false) && BuildConfig.FEATURE_NFC_ENABLED) {
+            ((Button) findViewById(R.id.program_menu_button_nfctags)).setVisibility(View.VISIBLE);
+        } else {
+            ((Button) findViewById(R.id.program_menu_button_nfctags)).setVisibility(View.INVISIBLE);
+        }
+
 	}
 
 	@Override
@@ -111,6 +123,13 @@ public class ProgramMenuActivity extends BaseActivity {
 		}
 		startScriptActivity(ScriptActivity.FRAGMENT_SOUNDS);
 	}
+
+    public void handleNfcTagsButton(View view) {
+        if (!viewSwitchLock.tryLock()) {
+            return;
+        }
+        startScriptActivity(ScriptActivity.FRAGMENT_NFCTAGS);
+    }
 
 	public void handlePlayButton(View view) {
 		if (!viewSwitchLock.tryLock()) {

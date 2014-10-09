@@ -53,6 +53,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorListFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment;
+import org.catrobat.catroid.ui.fragment.NfcTagFragment;
 import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
@@ -64,6 +65,7 @@ public class ScriptActivity extends BaseActivity {
 	public static final int FRAGMENT_SCRIPTS = 0;
 	public static final int FRAGMENT_LOOKS = 1;
 	public static final int FRAGMENT_SOUNDS = 2;
+    public static final int FRAGMENT_NFCTAGS = 3;
 
 	public static final String EXTRA_FRAGMENT_POSITION = "org.catrobat.catroid.ui.fragmentPosition";
 
@@ -75,9 +77,13 @@ public class ScriptActivity extends BaseActivity {
 	public static final String ACTION_LOOK_RENAMED = "org.catrobat.catroid.LOOK_RENAMED";
 	public static final String ACTION_LOOKS_LIST_INIT = "org.catrobat.catroid.LOOKS_LIST_INIT";
 	public static final String ACTION_SOUND_DELETED = "org.catrobat.catroid.SOUND_DELETED";
-	public static final String ACTION_SOUND_COPIED = "org.catrobat.catroid.SOUND_COPIED";
-	public static final String ACTION_SOUND_RENAMED = "org.catrobat.catroid.SOUND_RENAMED";
-	public static final String ACTION_SOUNDS_LIST_INIT = "org.catrobat.catroid.SOUNDS_LIST_INIT";
+    public static final String ACTION_SOUND_COPIED = "org.catrobat.catroid.SOUND_COPIED";
+    public static final String ACTION_SOUND_RENAMED = "org.catrobat.catroid.SOUND_RENAMED";
+    public static final String ACTION_SOUNDS_LIST_INIT = "org.catrobat.catroid.SOUNDS_LIST_INIT";
+    public static final String ACTION_NFCTAG_DELETED = "org.catrobat.catroid.NFCTAG_DELETED";
+    public static final String ACTION_NFCTAG_COPIED = "org.catrobat.catroid.NFCTAG_COPIED";
+    public static final String ACTION_NFCTAG_RENAMED = "org.catrobat.catroid.NFCTAG_RENAMED";
+    public static final String ACTION_NFCTAGS_LIST_INIT = "org.catrobat.catroid.NFCTAGS_LIST_INIT";
 	public static final String ACTION_VARIABLE_DELETED = "org.catrobat.catroid.VARIABLE_DELETED";
 	public static final String ACTION_USERLIST_DELETED = "org.catrobat.catroid.USERLIST_DELETED";
 
@@ -87,6 +93,8 @@ public class ScriptActivity extends BaseActivity {
 	private ScriptFragment scriptFragment = null;
 	private LookFragment lookFragment = null;
 	private SoundFragment soundFragment = null;
+    private NfcTagFragment nfcTagFragment = null;
+
 	private ScriptActivityFragment currentFragment = null;
 	private DeleteModeListener deleteModeListener;
 	private String currentFragmentTag;
@@ -97,6 +105,8 @@ public class ScriptActivity extends BaseActivity {
 	private boolean isSoundFragmentHandleAddButtonHandled = false;
 	private boolean isLookFragmentFromSetLookBrickNew = false;
 	private boolean isLookFragmentHandleAddButtonHandled = false;
+    private boolean isNfcTagFragmentFromWhenNfcTagBrickNew = false;
+    private boolean isNfcTagFragmentHandleAddButtonHandled = false;
 
 	private ImageButton buttonAdd;
 	private boolean switchToScriptFragment;
@@ -160,7 +170,18 @@ public class ScriptActivity extends BaseActivity {
 		setupBottomBar();
 	}
 
-	public void updateHandleAddButtonClickListener() {
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        // needed for NFC
+        Log.d("ScriptActivity", "onNewIntent");
+        //setIntent(intent);
+        if (nfcTagFragment != null && currentFragment == nfcTagFragment) {
+			nfcTagFragment.onNewIntent(intent);
+		}
+    }
+
+    public void updateHandleAddButtonClickListener() {
 		if (buttonAdd == null) {
 			buttonAdd = (ImageButton) findViewById(R.id.button_add);
 		}
@@ -201,6 +222,14 @@ public class ScriptActivity extends BaseActivity {
 				}
 				currentFragment = soundFragment;
 				break;
+            case FRAGMENT_NFCTAGS:
+                if (nfcTagFragment == null) {
+                    nfcTagFragment = new NfcTagFragment();
+                    fragmentExists = false;
+                    currentFragmentTag = NfcTagFragment.TAG;
+                }
+                currentFragment = nfcTagFragment;
+                break;
 		}
 
 		updateHandleAddButtonClickListener();
@@ -344,11 +373,17 @@ public class ScriptActivity extends BaseActivity {
 			return true;
 		}
 
+        if (nfcTagFragment != null && nfcTagFragment.isVisible() && nfcTagFragment.onKey(null, keyCode, event)) {
+            return true;
+        }
+
 		int backStackEntryCount = fragmentManager.getBackStackEntryCount();
 		for (int i = backStackEntryCount; i > 0; --i) {
 			String backStackEntryName = fragmentManager.getBackStackEntryAt(i - 1).getName();
 			if (backStackEntryName != null
-					&& (backStackEntryName.equals(LookFragment.TAG) || backStackEntryName.equals(SoundFragment.TAG))) {
+					&& (backStackEntryName.equals(LookFragment.TAG)
+                        || backStackEntryName.equals(SoundFragment.TAG)
+                        || backStackEntryName.equals(NfcTagFragment.TAG))) {
 				fragmentManager.popBackStack();
 			} else {
 				break;
@@ -376,6 +411,10 @@ public class ScriptActivity extends BaseActivity {
 			if (soundFragment != null && soundFragment.isVisible()) {
 				sendBroadcast(new Intent(ScriptActivity.ACTION_SOUNDS_LIST_INIT));
 			}
+
+            if (nfcTagFragment != null && nfcTagFragment.isVisible()) {
+                sendBroadcast(new Intent(ScriptActivity.ACTION_NFCTAGS_LIST_INIT));
+            }
 
 			if (lookFragment != null && lookFragment.isVisible()) {
 				sendBroadcast(new Intent(ScriptActivity.ACTION_LOOKS_LIST_INIT));
@@ -470,6 +509,9 @@ public class ScriptActivity extends BaseActivity {
 			case FRAGMENT_SOUNDS:
 				fragment = soundFragment;
 				break;
+            case FRAGMENT_NFCTAGS:
+                fragment = nfcTagFragment;
+                break;
 		}
 		return fragment;
 	}
@@ -488,12 +530,35 @@ public class ScriptActivity extends BaseActivity {
 				currentFragmentTag = LookFragment.TAG;
 				break;
 			case FRAGMENT_SOUNDS:
-				currentFragment = soundFragment;
-				currentFragmentPosition = FRAGMENT_SOUNDS;
-				currentFragmentTag = SoundFragment.TAG;
-				break;
+                currentFragment = soundFragment;
+                currentFragmentPosition = FRAGMENT_SOUNDS;
+                currentFragmentTag = SoundFragment.TAG;
+                break;
+            case FRAGMENT_NFCTAGS:
+                currentFragment = nfcTagFragment;
+                currentFragmentPosition = FRAGMENT_NFCTAGS;
+                currentFragmentTag = NfcTagFragment.TAG;
+                break;
 		}
 	}
+
+    public boolean getIsNfcTagFragmentFromWhenNfcBrickNew() {
+        return this.isNfcTagFragmentFromWhenNfcTagBrickNew;
+    }
+
+    public void setIsNfcTagFragmentFromWhenNfcBrickNewFalse() {
+        this.isNfcTagFragmentFromWhenNfcTagBrickNew = false;
+        // TODO quickfix for issue #521 - refactor design (activity and fragment interaction)
+        updateHandleAddButtonClickListener();
+    }
+
+    public boolean getIsNfcTagFragmentHandleAddButtonHandled() {
+        return this.isNfcTagFragmentHandleAddButtonHandled;
+    }
+
+    public void setIsNfcTagFragmentHandleAddButtonHandled(boolean isNfcTagFragmentHandleAddButtonHandled) {
+        this.isNfcTagFragmentHandleAddButtonHandled = isNfcTagFragmentHandleAddButtonHandled;
+    }
 
 	public boolean getIsSoundFragmentFromPlaySoundBrickNew() {
 		return this.isSoundFragmentFromPlaySoundBrickNew;
@@ -583,6 +648,18 @@ public class ScriptActivity extends BaseActivity {
 				}
 				setCurrentFragment(FRAGMENT_SOUNDS);
 				break;
+            case FRAGMENT_NFCTAGS:
+                isNfcTagFragmentFromWhenNfcTagBrickNew = true;
+
+                fragmentTransaction.addToBackStack(NfcTagFragment.TAG);
+                if (nfcTagFragment == null) {
+                    nfcTagFragment = new NfcTagFragment();
+                    fragmentTransaction.add(R.id.script_fragment_container, nfcTagFragment, NfcTagFragment.TAG);
+                } else {
+                    fragmentTransaction.show(nfcTagFragment);
+                }
+                setCurrentFragment(FRAGMENT_NFCTAGS);
+                break;
 		}
 
 		updateHandleAddButtonClickListener();

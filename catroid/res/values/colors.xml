@@ -59,6 +59,10 @@
     <color name="sound_fragment_text_main_color" >#A8DFF4</color >
     <color name="sound_fragment_text_detail_color" >#BFD0D6</color >
 
+    <!-- NfcTag Fragment Colors -->
+    <color name="nfctag_fragment_text_main_color">#A8DFF4</color>
+    <color name="nfctag_fragment_text_detail_color">#BFD0D6</color>
+
     <!-- List View Item Colors -->
     <color name="list_view_item_title_text_color" >#A8DFF4</color >
     <color name="list_view_item_details_text_color" >@color/white</color >

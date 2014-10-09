@@ -50,6 +50,7 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		UiTestUtils.enableNfcBricks(getActivity().getApplicationContext());
 		UiTestUtils.createTestProject();
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
@@ -91,6 +92,11 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.waitForFragment(solo, R.id.fragment_sound);
 
 		checkMainMenuButton();
+
+        UiTestUtils.getIntoNfcTagsFromMainMenu(solo);
+        UiTestUtils.waitForFragment(solo, R.id.fragment_nfctags);
+
+        checkMainMenuButton();
 	}
 
 	public void testPlayProgramButton() {
@@ -110,6 +116,11 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
 
 		checkplayProgramButton();
+
+        UiTestUtils.switchToFragmentInScriptActivity(solo, UiTestUtils.NFCTAGS_INDEX);
+        assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
+
+        checkplayProgramButton();
 	}
 
 	public void testOverflowMenuItemSettings() {
@@ -135,6 +146,14 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
 
 		checkSettingsAndGoBack();
+
+        solo.goBack();
+        solo.waitForActivity(ProgramMenuActivity.class);
+        solo.clickOnText(solo.getString(R.string.nfctags));
+        UiTestUtils.waitForFragment(solo, R.id.fragment_nfctags);
+        assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
+
+        checkSettingsAndGoBack();
 	}
 
 	//regression test for issue#626; Android version < 4.2
@@ -160,11 +179,13 @@ public class ScriptActivityTest extends BaseActivityInstrumentationTestCase<Main
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.assertCurrentActivity("Not in StageActivity", StageActivity.class);
 
+        solo.sleep(500); //StageActivity doesn't seem to handle fast use of goBack
 		solo.goBack();
+        solo.sleep(500);
 		solo.goBack();
 
 		solo.waitForActivity(ScriptActivity.class.getSimpleName());
-		solo.assertCurrentActivity("Not in SoundActivity", ScriptActivity.class);
+		solo.assertCurrentActivity("Not in ScriptActivity", ScriptActivity.class);
 	}
 
 	private void checkMainMenuButton() {

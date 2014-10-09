@@ -47,6 +47,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
 	private static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
 	public static final String SETTINGS_SHOW_ARDUINO_BRICKS = "setting_arduino_bricks";
+	public static final String SETTINGS_SHOW_NFC_BRICKS = "setting_nfc_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
 	public static final String ARDUINO_SENSOR_ANALOG = "setting_arduino_sensor_analog";
 	public static final String ARDUINO_SENSOR_DIGITAL = "setting_arduino_sensor_digital";
@@ -113,6 +114,12 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 			phiroPreference.setEnabled(false);
 			screen.removePreference(phiroPreference);
 		}
+
+		if (!BuildConfig.FEATURE_NFC_ENABLED) {
+			CheckBoxPreference nfcPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_NFC_BRICKS);
+			nfcPreference.setEnabled(false);
+			screen.removePreference(nfcPreference);
+		}
 	}
 
 	private void setNXTSensors() {
@@ -166,7 +173,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		editor.putBoolean(SETTINGS_SHOW_PHIRO_BRICKS, value);
 		editor.commit();
 	}
-
+	
 	public static void setArduinoSharedPreferenceEnabled(Context context, boolean value) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean(SETTINGS_SHOW_ARDUINO_BRICKS, value);
@@ -175,6 +182,16 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
 	public static boolean isArduinoSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_ARDUINO_BRICKS, context);
+	}
+
+	public static boolean isNfcSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_NFC_BRICKS, context);
+	}
+
+	public static void setNfcSharedPreferenceEnabled(Context context, boolean value) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(SETTINGS_SHOW_NFC_BRICKS, value);
+		editor.commit();
 	}
 
 	private static void setBooleanSharedPreference(boolean value, String settingsString, Context context) {

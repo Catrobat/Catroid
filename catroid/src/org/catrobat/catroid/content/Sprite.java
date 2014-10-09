@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.BroadcastSequenceMap;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -59,6 +60,7 @@ public class Sprite implements Serializable, Cloneable {
 	private List<Script> scriptList;
 	private ArrayList<LookData> lookList;
 	private ArrayList<SoundInfo> soundList;
+    private ArrayList<NfcTagData> nfcTagList;
 	private ArrayList<UserBrick> userBricks;
 	private transient int newUserBrickNext = 1;
 
@@ -67,6 +69,7 @@ public class Sprite implements Serializable, Cloneable {
 		scriptList = new ArrayList<Script>();
 		lookList = new ArrayList<LookData>();
 		soundList = new ArrayList<SoundInfo>();
+        nfcTagList = new ArrayList<NfcTagData>();
 		init();
 	}
 
@@ -103,6 +106,9 @@ public class Sprite implements Serializable, Cloneable {
 		if (scriptList == null) {
 			scriptList = new ArrayList<Script>();
 		}
+        if (nfcTagList == null) {
+            nfcTagList = new ArrayList<NfcTagData>();
+        }
 		if (userBricks == null) {
 			userBricks = new ArrayList<UserBrick>();
 		}
@@ -165,6 +171,7 @@ public class Sprite implements Serializable, Cloneable {
 					BroadcastHandler.getStringActionMap().put(actionName, sequenceAction);
 				}
 			}
+
 			if (script instanceof BroadcastScript) {
 				BroadcastScript broadcastScript = (BroadcastScript) script;
 				SequenceAction action = createActionSequence(broadcastScript);
@@ -245,6 +252,12 @@ public class Sprite implements Serializable, Cloneable {
 			deepClone.getDefinitionBrick().setUserScript((StartScript) newScript);
 		}
 
+        ArrayList<NfcTagData> cloneNfcTagList = new ArrayList<NfcTagData>();
+        for (NfcTagData element : this.nfcTagList) {
+            cloneNfcTagList.add(element.clone());
+        }
+        cloneSprite.nfcTagList = cloneNfcTagList;
+
 		//The scripts have to be the last copied items
 		List<Script> cloneScriptList = new ArrayList<Script>();
 		for (Script element : this.scriptList) {
@@ -307,6 +320,24 @@ public class Sprite implements Serializable, Cloneable {
 		SequenceAction sequence = ExtendedActions.sequence();
 		s.run(this, sequence);
 		return sequence;
+	}
+
+	public void createWhenNfcScriptAction(String uid) {
+		ParallelAction whenParallelAction = ExtendedActions.parallel();
+		for (Script s : scriptList) {
+			if (s instanceof WhenNfcScript) {
+                WhenNfcScript whenNfcScript = (WhenNfcScript)s;
+                if (whenNfcScript.isMatchAll()
+                    || whenNfcScript.getNfcTag().getNfcTagUid().equals(uid))
+                {
+				    SequenceAction sequence = createActionSequence(s);
+				    whenParallelAction.addAction(sequence);
+                }
+			}
+		}
+        //TODO: quick fix for faulty behaviour - nfc action triggers again after touchevents
+		//look.setWhenParallelAction(whenParallelAction);
+		look.addAction(whenParallelAction);
 	}
 
 	public void pause() {
@@ -402,6 +433,14 @@ public class Sprite implements Serializable, Cloneable {
 		}
 		return resources;
 	}
+
+    public ArrayList<NfcTagData> getNfcTagList() {
+        return nfcTagList;
+    }
+
+    public void setNfcTagList(ArrayList<NfcTagData> list) {
+        nfcTagList = list;
+    }
 
 	public int getNextNewUserBrickId() {
 		return newUserBrickNext++;

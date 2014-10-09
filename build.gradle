@@ -41,6 +41,7 @@ android {
             buildConfigField "boolean", "FEATURE_PHYSICS_ENGINE_COLLISSION_FILTERING_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_TIME_CAPSULE_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
         }
         release {
             buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
@@ -55,6 +56,7 @@ android {
             buildConfigField "boolean", "FEATURE_PHYSICS_ENGINE_COLLISSION_FILTERING_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_TIME_CAPSULE_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
         }
     }
 }

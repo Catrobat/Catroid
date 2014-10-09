@@ -55,19 +55,20 @@ public interface Brick extends Serializable, Cloneable {
 		ARDUINO_ANALOG_PIN_VALUE, ARDUINO_ANALOG_PIN_NUMBER, ARDUINO_DIGITAL_PIN_VALUE, ARDUINO_DIGITAL_PIN_NUMBER
 	}
 
-	//use bitwise | for using multiple ressources in a brick
+	//use bitwise | for using multiple resources in a brick
 	int NO_RESOURCES = 0x0;
 	//	public static final int SOUND_MANAGER = 0x1;
 	int TEXT_TO_SPEECH = 0x2;
 	int BLUETOOTH_LEGO_NXT = 0x4;
-	int BLUETOOTH_SENSORS_ARDUINO = 0x40;
+	int FACE_DETECTION = 0x10;
 	int ARDRONE_SUPPORT = 0x20;
+	int BLUETOOTH_SENSORS_ARDUINO = 0x40;
+	int NFC_ADAPTER = 0x80;
 	int CAMERA_LED = 0x100;
 	int VIBRATOR = 0x200;
 	int BLUETOOTH_PHIRO = 0x400;
 
 	//	public static final int BLUETOOTH_ARDUINO = 0x8;
-	int FACE_DETECTION = 0x10;
 
 	List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
 

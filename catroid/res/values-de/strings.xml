@@ -77,6 +77,8 @@
   <string name="preference_description_select_camera">Wähle eine Kamera für die Gesichtserkennung</string>
   <string name="preference_title_enable_phiro_bricks">Phiro Bausteine</string>
   <string name="preference_description_phiro_bricks">Erlaubt die Steuerung eines Phiro Roboters</string>
+  <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
+  <string name="preference_description_nfc_bricks">Erlaubt Nutzung von NFC Tags</string>
   <string name="dialog_new_object_pocketpaint">Bild zeichnen</string>
   <string name="dialog_new_object_gallery">Bild auswählen</string>
   <string name="dialog_new_object_camera">Bild aufnehmen</string>
@@ -169,6 +171,19 @@
   <string name="sound_name">Name:</string>
   <string name="new_sound_name">Klang Name:</string>
   <string name="rename_sound_overwrite">Klang mit demselben Namen existiert bereits!</string>
+  <string name="fragment_nfctag_text_description">Scanne NFC-Tags zum Hinzufügen</string>
+  <string name="rename_nfctag_dialog">NFC-Tag umbenennen</string>
+  <string name="nfctagname_invalid">Dieser Name ist nicht zulässig</string>
+  <string name="nfctag_scan">scannen</string>
+  <string name="delete_nfctag_dialog">NFC-Tag löschen?</string>
+  <string name="dialog_confirm_delete_nfctag_title">Diesen NFC-Tag löschen?</string>
+  <string name="dialog_confirm_delete_multiple_nfctags_title">Diese NFC-Tags löschen?</string>
+  <string name="dialog_confirm_delete_nfctag_message">Kann nicht rückgängig gemacht werden!</string>
+  <string name="nfctag_name">NFC-Tag Name:</string>
+  <string name="nfctag">NFC-Tag</string>
+  <string name="nfctags">NFC-Tags</string>
+  <string name="uid">ID</string>
+  <string name="default_tag_name">nfc_tag</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">wurde entpackt!</item>
     <item quantity="other">wurden entpackt!</item>
@@ -194,6 +209,8 @@
   <string name="no_flash_led_available">Kein Blitzlicht gefunden</string>
   <string name="no_vibrator_available">Vibrationsfunktion nicht verfügbar</string>
   <string name="led_and_front_camera_warning">Led UND Front Kamera werden nicht unterstützt</string>
+  <string name="no_nfc_available">NFC nicht verfügbar</string>
+  <string name="nfc_not_activated">Bitte aktiviere NFC und drücke den Zurück-Button, um zur App zurückzukehren!</string>
   <string name="brick_context_dialog_move_brick">Baustein verschieben</string>
   <string name="brick_context_dialog_show_source">Zeige Quellbaustein</string>
   <string name="brick_context_dialog_delete_brick">Baustein löschen</string>
@@ -254,6 +271,8 @@
   <string name="new_broadcast_message">Neu&#8230;</string>
   <string name="dialog_new_broadcast_message_title">Neue Nachricht</string>
   <string name="dialog_new_broadcast_message_name">Nachricht:</string>
+  <string name="new_nfc_tag">Neu…</string>
+  <string name="brick_when_nfc_default_all">alle</string>
   <string name="categories">Kategorien</string>
   <string name="category_motion">Bewegung</string>
   <string name="category_looks">Aussehen</string>
@@ -315,6 +334,7 @@
   <string name="brick_speak_default_value">"Hallo!"</string>
   <string name="brick_when_started">Wenn Programm gestartet</string>
   <string name="brick_when">Wenn angetippt</string>
+  <string name="brick_when_nfc">Wenn NFC</string>
   <string name="brick_wait">Warte</string>
   <plurals name="second_plural">
     <item quantity="one">"Sekunde "</item>
