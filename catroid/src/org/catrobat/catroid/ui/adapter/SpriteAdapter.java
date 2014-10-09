@@ -78,6 +78,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		private TextView bricks;
 		private TextView looks;
 		private TextView sounds;
+        //TODO: adapt for nfc ?
 		private View details;
 		private ImageView arrow;
 	}

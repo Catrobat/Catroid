@@ -43,6 +43,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
 	public static final String SETTINGS_SHOW_LEGO_NXT_BRICKS = "setting_mindstorm_bricks";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
+	public static final String SETTINGS_SHOW_NFC_BRICKS = "setting_nfc_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
 	PreferenceScreen screen = null;
 
@@ -93,6 +94,12 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 			CheckBoxPreference dronePreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
 			dronePreference.setEnabled(false);
 			screen.removePreference(dronePreference);
+		}
+
+		if (!BuildConfig.FEATURE_NFC_ENABLED) {
+			CheckBoxPreference nfcPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_NFC_BRICKS);
+			nfcPreference.setEnabled(false);
+			screen.removePreference(nfcPreference);
 		}
 	}
 

@@ -22,7 +22,10 @@
  */
 package org.catrobat.catroid.stage;
 
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
@@ -37,6 +40,7 @@ import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
+import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.LedUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
@@ -47,6 +51,8 @@ public class StageActivity extends AndroidApplication {
 	private boolean resizePossible;
 	private StageDialog stageDialog;
 
+	private PendingIntent pendingIntent;
+	private NfcAdapter nfcAdapter;
 	private DroneConnection droneConnection = null;
 
 	public static final int STAGE_ACTIVITY_FINISH = 7777;
@@ -67,6 +73,17 @@ public class StageActivity extends AndroidApplication {
 		calculateScreenSizes();
 
 		initialize(stageListener, true);
+
+		pendingIntent = PendingIntent.getActivity(this, 0,
+				new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+
+		nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+		Log.d(TAG, "onCreate()");
+
+		if (nfcAdapter == null) {
+			Log.d(TAG, "could not get nfc adapter :(");
+		}
+
 		if (droneConnection != null) {
 			try {
 				droneConnection.initialise();
@@ -78,6 +95,13 @@ public class StageActivity extends AndroidApplication {
 		}
 
 		stageAudioFocus = new StageAudioFocus(this);
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		Log.d(TAG, "processIntent");
+		NfcHandler.processIntent(intent);
 	}
 
 	@Override
@@ -102,6 +126,11 @@ public class StageActivity extends AndroidApplication {
 		VibratorUtil.pauseVibrator();
 		super.onPause();
 
+		if (nfcAdapter != null) {
+			Log.d(TAG, "onPause()disableForegroundDispatch()");
+			nfcAdapter.disableForegroundDispatch(this);
+		}
+
 		if (droneConnection != null) {
 			droneConnection.pause();
 		}
@@ -116,6 +145,11 @@ public class StageActivity extends AndroidApplication {
 		VibratorUtil.resumeVibrator();
 		super.onResume();
 
+		if (nfcAdapter != null) {
+			Log.d(TAG, "onResume()enableForegroundDispatch()");
+			nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
+		}
+
 		if (droneConnection != null) {
 			droneConnection.start();
 		}
@@ -124,6 +158,12 @@ public class StageActivity extends AndroidApplication {
 	public void pause() {
 		SensorHandler.stopSensorListeners();
 		stageListener.menuPause();
+
+		if (nfcAdapter != null) {
+			Log.d(TAG, "onPause()disableForegroundDispatch()");
+			nfcAdapter.disableForegroundDispatch(this);
+		}
+
 		LedUtil.pauseLed();
 		VibratorUtil.pauseVibrator();
 		FaceDetectionHandler.pauseFaceDetection();
@@ -135,6 +175,10 @@ public class StageActivity extends AndroidApplication {
 		VibratorUtil.resumeVibrator();
 		SensorHandler.startSensorListener(this);
 		FaceDetectionHandler.startFaceDetection(this);
+		if (nfcAdapter != null) {
+			Log.d(TAG, "onResume()enableForegroundDispatch()");
+			nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
+		}
 	}
 
 	public boolean getResizePossible() {

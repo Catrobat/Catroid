@@ -35,12 +35,14 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
@@ -113,6 +115,7 @@ import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrickElements;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
+import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
@@ -212,6 +215,7 @@ public final class StorageHandler {
 	private void setXstreamAliases() {
 		xstream.alias("look", LookData.class);
 		xstream.alias("sound", SoundInfo.class);
+        xstream.alias("nfcTag", NfcTagData.class);
 		xstream.alias("userVariable", UserVariable.class);
 
 		xstream.alias("script", Script.class);
@@ -220,6 +224,8 @@ public final class StorageHandler {
 		xstream.alias("script", StartScript.class);
 		xstream.alias("script", WhenScript.class);
 		xstream.alias("script", BroadcastScript.class);
+
+		xstream.alias("script", WhenNfcScript.class);
 
 		xstream.alias("brick", BroadcastBrick.class);
 		xstream.alias("brick", BroadcastReceiverBrick.class);
@@ -277,6 +283,8 @@ public final class StorageHandler {
 		xstream.alias("brick", WaitBrick.class);
 		xstream.alias("brick", WhenBrick.class);
 		xstream.alias("brick", WhenStartedBrick.class);
+
+		xstream.alias("brick", WhenNfcBrick.class);
 
 		xstream.alias("brick", DronePlayLedAnimationBrick.class);
 		xstream.alias("brick", DroneFlipBrick.class);

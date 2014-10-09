@@ -113,6 +113,8 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 				fieldKeyOrder[8] = fieldKey;
 			} else if (fieldKey.getFieldName().equals("newUserBrickNext")) {
 				fieldKeyOrder[9] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("nfcTagList")) {
+				fieldKeyOrder[10] = fieldKey;
 			}
 		}
 		for (FieldKey fieldKey : fieldKeyOrder) {
