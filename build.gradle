@@ -92,11 +92,11 @@ android {
         applicationId 'org.catrobat.catroid'
         testApplicationId "org.catrobat.catroid.test"
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
-        versionCode getBuildNumberParameter()
+        versionCode 18
         println "VersionCode is " + versionCode
-        versionName generateVersionName(projectVersion, versionCode)
+        versionName "0.9.11"
         println "VersionName is " + versionName
-        buildConfigField "String", "GIT_DESCRIBE", "\"${getGitDescribe()}\""
+        buildConfigField "String", "GIT_DESCRIBE", "\"${"0.9.11"}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
     }
     sourceSets {
