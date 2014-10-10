@@ -502,15 +502,16 @@ public final class StorageHandler {
 		}
 	}
 
-	public void deleteProject(String projectName) throws IllegalArgumentException, IOException {
-		boolean success;
-		if (projectName == null || !projectExists(projectName)) {
-			throw new IllegalArgumentException("Project with name " + projectName + " does not exist");
+
+	public boolean deleteProject(String projectName) {
+		return UtilFile.deleteDirectory(new File(buildProjectPath(projectName)));
+	}
+
+	public boolean deleteProject(Project project) {
+		if (project != null) {
+			return deleteProject(project.getName());
 		}
-		success = UtilFile.deleteDirectory(new File(buildProjectPath(projectName)));
-		if (!success) {
-			throw new IOException("Error at deleting project " + projectName);
-		}
+		return false;
 	}
 
 	public boolean projectExists(String projectName) {

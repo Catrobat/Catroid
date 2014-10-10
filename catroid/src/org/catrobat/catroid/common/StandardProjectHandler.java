@@ -74,6 +74,10 @@ public final class StandardProjectHandler {
 		String projectName = context.getString(R.string.default_project_name);
 		Project standardProject = null;
 
+		if (StorageHandler.getInstance().projectExists(projectName)) {
+			StorageHandler.getInstance().deleteProject(projectName);
+		}
+
 		try {
 			standardProject = createAndSaveStandardProject(projectName, context);
 		} catch (IllegalArgumentException ilArgument) {
