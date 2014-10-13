@@ -644,9 +644,9 @@
     <string name="formula_editor_function_letter_parameter">(1,\'hallo welt\')</string>
     <string name="formula_editor_function_join_parameter">(\'hallo\',\'welt\')</string>
     <string name="formula_editor_function_list_item">element</string>
-    <string name="formula_editor_function_list_item_parameter">(1,[listen name])</string>
+    <string name="formula_editor_function_list_item_parameter">(1,*listen name*)</string>
     <string name="formula_editor_function_contains">enthält</string>
-    <string name="formula_editor_function_contains_parameter">([listen name],1)</string>
+    <string name="formula_editor_function_contains_parameter">(*listen name*,1)</string>
     <string name="formula_editor_sensor_x_acceleration">Beschleunigung_x</string>
     <string name="formula_editor_sensor_y_acceleration">Beschleunigung_y</string>
     <string name="formula_editor_sensor_z_acceleration">Beschleunigung_z</string>
@@ -699,7 +699,7 @@
     <string name="formula_editor_new_string_name">Neuer Text</string>
     <string name="formula_editor_new_string_dialog_hint">Neuen Text hier eingeben.</string>
     <string name="formula_editor_function_number_of_items" >anzahl_von_elementen</string>
-    <string name="formula_editor_function_number_of_items_parameter" >([listen name])</string>
+    <string name="formula_editor_function_number_of_items_parameter" >(*listen name*)</string>
 
     <string name="formula_editor_data_dialog_title">New</string>
     <string name="formula_editor_existing_data_item" >Name wird bereits verwendet!</string>

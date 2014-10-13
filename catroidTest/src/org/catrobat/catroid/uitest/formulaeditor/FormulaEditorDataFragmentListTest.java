@@ -67,8 +67,8 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 	private static final int ADD_ITEM_TO_USERLIST_EDIT_TEXT_RID = R.id.brick_add_item_to_userlist_edit_text;
 	private static final int GLIDE_TO_EDIT_TEXT_RID = R.id.brick_glide_to_edit_text_x;
 	private static final int ACTION_MODE_INDEX = 0;
-	private static final String LIST_SYMBOL_LEFT = "[";
-	private static final String LIST_SYMBOL_RIGHT = "]";
+	private static final String LIST_SYMBOL_LEFT = "*";
+	private static final String LIST_SYMBOL_RIGHT = "*";
 
 	public FormulaEditorDataFragmentListTest() {
 		super(MainMenuActivity.class);
