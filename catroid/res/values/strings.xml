@@ -648,9 +648,9 @@
     <string name="formula_editor_function_join">join</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\'world\')</string>
     <string name="formula_editor_function_list_item">element</string>
-    <string name="formula_editor_function_list_item_parameter">(1,[list name])</string>
+    <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
     <string name="formula_editor_function_contains">contains</string>
-    <string name="formula_editor_function_contains_parameter">([list name],1)</string>
+    <string name="formula_editor_function_contains_parameter">(*list name*,1)</string>
     <string name="formula_editor_sensor_x_acceleration">acceleration_x</string>
     <string name="formula_editor_sensor_y_acceleration">acceleration_y</string>
     <string name="formula_editor_sensor_z_acceleration">acceleration_z</string>
@@ -710,7 +710,7 @@
     <string name="formula_editor_sensor_face_x_position">face_x_position</string>
     <string name="formula_editor_sensor_face_y_position">face_y_position</string>
     <string name="formula_editor_function_number_of_items" >number_of_items</string>
-    <string name="formula_editor_function_number_of_items_parameter" >([list name])</string>
+    <string name="formula_editor_function_number_of_items_parameter" >(*list name*)</string>
 
     <plurals name="formula_editor_data_fragment_context_action_item_selected" >
         <item quantity="one">Item selected!</item>
