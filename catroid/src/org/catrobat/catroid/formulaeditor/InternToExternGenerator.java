@@ -204,7 +204,7 @@ public class InternToExternGenerator {
 			case USER_VARIABLE:
 				return "\"" + internToken.getTokenStringValue() + "\"";
 			case USER_LIST:
-				return "[" + internToken.getTokenStringValue() + "]";
+				return "*" + internToken.getTokenStringValue() + "*";
 			case STRING:
 				return "\'" + internToken.getTokenStringValue() + "\'";
 
