@@ -74,11 +74,7 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 	@Override
 	public void tearDown() throws Exception {
 		lookFile.delete();
-
-		// normally super.teardown should be called last
-		// but tests crashed with Nullpointer
 		super.tearDown();
-		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
 	public void testOrientation() throws NameNotFoundException {

@@ -77,11 +77,8 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 	public void tearDown() throws Exception {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		prefs.edit().putString(Constants.TOKEN, saveToken).commit();
-		// normally super.teardown should be called last
-		// but tests crashed with Nullpointer
-		super.tearDown();
-		ProjectManager.getInstance().deleteCurrentProject();
 		uploadProject = null;
+		super.tearDown();
 	}
 
 	private void setServerURLToTestURL() throws Throwable {

@@ -66,14 +66,6 @@ public class StageDialogTest extends BaseActivityInstrumentationTestCase<MainMen
 		UiTestUtils.prepareStageForTest();
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
-		// normally super.teardown should be called last
-		// but tests crashed with Nullpointer
-		super.tearDown();
-		ProjectManager.getInstance().deleteCurrentProject();
-	}
-
 	public void testBackButtonPressedTwice() {
 		Project project = createTestProject(testProject);
 		ProjectManager.getInstance().setProject(project);

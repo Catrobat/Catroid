@@ -27,7 +27,6 @@ import android.widget.ListView;
 
 import com.robotium.solo.Solo;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
@@ -47,14 +46,6 @@ public class RenameSpriteDialogTest extends BaseActivityInstrumentationTestCase<
 
 	public RenameSpriteDialogTest() {
 		super(MainMenuActivity.class);
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		// normally super.teardown should be called last
-		// but tests crashed with Nullpointer
-		super.tearDown();
-		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
 	public void testRenameSpriteDialog() throws NameNotFoundException, IOException {

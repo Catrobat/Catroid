@@ -96,26 +96,40 @@ public final class UtilFile {
 		return String.format(Locale.getDefault(), "%.1f %sB", bytes / Math.pow(unit, exponent), prefix);
 	}
 
-	public static boolean clearDirectory(File path) {
-		if (path.exists()) {
-			File[] filesInDirectory = path.listFiles();
-			if (filesInDirectory == null) {
+	public static boolean deleteDirectory(File fileOrDirectory) {
+		return deleteDirectory(fileOrDirectory, 0);
+	}
+
+	private static boolean deleteDirectory(File fileOrDirectory, int space) {
+		if (fileOrDirectory == null) {
+			return false;
+		}
+
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < space; i++) {
+			sb.append('-');
+		}
+
+		boolean success = true;
+		if (fileOrDirectory.exists() && fileOrDirectory.isDirectory()) {
+			// Please note: especially with MyProjectsActivityTest.testAddNewProjectMixedCase(), it happens that listFiles
+			// returns null (although fileOrDirectory exists and is a directory). This should definitely not happen
+			// and there is probably an I/O Error from the system. So we just check this manually and abort if so.
+			File[] files = fileOrDirectory.listFiles();
+			if (files == null) {
 				return false;
 			}
-			for (File file : filesInDirectory) {
-				if (file.isDirectory()) {
-					deleteDirectory(file);
-				} else {
-					file.delete();
+
+			for (File child : files) {
+				success = deleteDirectory(child, space + 1);
+				if (!success) {
+					return false;
 				}
 			}
 		}
-		return true;
-	}
 
-	public static boolean deleteDirectory(File path) {
-		clearDirectory(path);
-		return (path.delete());
+		Log.v(TAG, sb.toString() + "delete: " + fileOrDirectory.getName());
+		return fileOrDirectory.delete();
 	}
 
 	public static File saveFileToProject(String project, String name, int fileID, Context context, FileType type) {

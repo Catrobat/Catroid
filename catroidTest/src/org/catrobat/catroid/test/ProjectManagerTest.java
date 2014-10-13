@@ -32,6 +32,8 @@ import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Utils;
 
+import java.io.File;
+
 public class ProjectManagerTest extends AndroidTestCase {
 
 	private static final String OLD_PROJECT = "OLD_PROJECT";
@@ -54,6 +56,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 		super.tearDown();
 		projectManager.setProject(null);
 		TestUtils.deleteTestProjects(OLD_PROJECT, NEW_PROJECT);
+		TestUtils.removeFromPreferences(getContext(), Constants.PREF_PROJECTNAME_KEY);
 	}
 
 	public void testShouldReturnFalseIfCatrobatLanguageVersionNotSupported() {
@@ -123,5 +126,37 @@ public class ProjectManagerTest extends AndroidTestCase {
 		Project currentProject = projectManager.getCurrentProject();
 
 		assertNotNull("Could not load any project.", currentProject);
+	}
+
+	public void testSavingAProjectDuringDelete() {
+		TestUtils.createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(
+				Constants.CURRENT_CATROBAT_LANGUAGE_VERSION, TestUtils.DEFAULT_TEST_PROJECT_NAME);
+
+		try {
+			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext());
+		} catch (CompatibilityProjectException compatibilityException) {
+			fail("Incompatible project");
+		} catch (ProjectException projectException) {
+			fail("Failed to identify project");
+		}
+
+		Project currentProject = projectManager.getCurrentProject();
+		assertNotNull(String.format("Could not load %s project.", TestUtils.DEFAULT_TEST_PROJECT_NAME), currentProject);
+
+		File directory = new File(Constants.DEFAULT_ROOT + "/" + TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		assertTrue(String.format("Directory %s does not exist", directory.getPath()), directory.exists());
+
+		// simulate multiple saving trigger asynchronous (occurs in black box testing)
+		for (int i = 0; i < 3; i++) {
+			currentProject.setDescription(currentProject.getDescription() + i);
+			projectManager.saveProject();
+		}
+
+		// simulate deletion, saveProject asyncTask will be "automatically" cancelled (Please remark: there is still a chance
+		// of a race condition, because we rely on a "project" reference which gets used in a multithreaded environment)
+		projectManager.setProject(null);
+		TestUtils.deleteTestProjects();
+
+		assertFalse(String.format("Directory %s does still exist", directory.getPath()), directory.exists());
 	}
 }

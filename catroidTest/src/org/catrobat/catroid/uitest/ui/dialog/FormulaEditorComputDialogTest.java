@@ -55,14 +55,6 @@ public class FormulaEditorComputDialogTest extends BaseActivityInstrumentationTe
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
-		// normally super.teardown should be called last
-		// but tests crashed with Nullpointer
-		super.tearDown();
-		ProjectManager.getInstance().deleteCurrentProject();
-	}
-
 	public void testDialogCreation(){
 		assertTrue("Dialog not loaded!",
 				solo.searchText(testInteger + solo.getString(R.string.formula_editor_decimal_mark) + "0" , true));

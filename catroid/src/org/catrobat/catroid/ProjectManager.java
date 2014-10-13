@@ -248,9 +248,31 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		this.project = project;
 	}
 
-	public void deleteCurrentProject() {
-		StorageHandler.getInstance().deleteProject(project);
-		project = null;
+	@Deprecated
+	public void deleteCurrentProject(Context context) throws IllegalArgumentException, IOException {
+		deleteProject(project.getName(), context);
+	}
+
+
+	public void deleteProject(String projectName, Context context) throws IllegalArgumentException, IOException {
+		Log.d(TAG, "deleteProject " + projectName);
+		if (StorageHandler.getInstance().projectExists(projectName)) {
+			StorageHandler.getInstance().deleteProject(projectName);
+		}
+
+		if (project != null && project.getName().equals(projectName)) {
+			Log.d(TAG, "deleteProject(): project instance set to null");
+
+			project = null;
+
+			if (context != null) {
+				SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+				String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, "notFound");
+				if (!currentProjectName.equals("notFound")) {
+					Utils.removeFromPreferences(context, Constants.PREF_PROJECTNAME_KEY);
+				}
+			}
+		}
 	}
 
 	public boolean renameProject(String newProjectName, Context context) {
@@ -367,15 +389,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		this.fileChecksumContainer = fileChecksumContainer;
 	}
 
-	private class SaveProjectAsynchronousTask extends AsyncTask<Void, Void, Void> {
-
-		@Override
-		protected Void doInBackground(Void... params) {
-			StorageHandler.getInstance().saveProject(project);
-			return null;
-		}
-	}
-
 	@Override
 	public void onTokenNotValid(FragmentActivity fragmentActivity) {
 		showLoginRegisterDialog(fragmentActivity);
@@ -480,6 +493,15 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				((IfLogicEndBrick) currentBrick).setIfElseBrick(elseBrick);
 				ifBeginList.remove(ifBeginBrick);
 			}
+		}
+	}
+
+	private class SaveProjectAsynchronousTask extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			StorageHandler.getInstance().saveProject(project);
+			return null;
 		}
 	}
 }

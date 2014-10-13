@@ -89,10 +89,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameJustSpecialChars2)));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameJustOneDot)));
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(projectNameJustTwoDots)));
-		// normally super.teardown should be called last
-		// but tests crashed with Nullpointer
 		super.tearDown();
-		ProjectManager.getInstance().deleteCurrentProject();
 	}
 
 	public void testCreateNewProject() {

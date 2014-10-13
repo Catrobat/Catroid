@@ -83,7 +83,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	private static final int IMAGE_RESOURCE_3 = org.catrobat.catroid.test.R.drawable.background_black;
 	private static final int IMAGE_RESOURCE_4 = org.catrobat.catroid.test.R.drawable.background_green;
 	private static final int IMAGE_RESOURCE_5 = org.catrobat.catroid.test.R.drawable.background_red;
-	private static final String MY_PROJECTS_ACTIVITY_TEST_TAG = MyProjectsActivityTest.class.getSimpleName();
+	private static final String TAG = MyProjectsActivityTest.class.getSimpleName();
 	private static final String KEY_SHOW_DETAILS = "showDetailsMyProjects";
 	private static final String ZIPFILE_NAME = "testzip";
 	// temporarily removed - because of upcoming release, and bad performance of projectdescription
@@ -102,6 +102,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	@Override
 	public void setUp() throws Exception {
+		Log.v(TAG, "setUp");
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
 		lookFile = UiTestUtils.setUpLookFile(solo);
@@ -113,10 +114,12 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		}
 
 		unzip = false;
+		Log.v(TAG, "setUp end");
 	}
 
 	@Override
 	public void tearDown() throws Exception {
+		Log.v(TAG, "tearDown");
 		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronTask", true);
 
 		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME)));
@@ -138,13 +141,11 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 			deleteCacheProjects = false;
 		}
 
-		// normally super.teardown should be called last
-		// but tests crashed with Nullpointer
-		super.tearDown();
-		ProjectManager.getInstance().deleteCurrentProject();
 		if (unzip) {
 			unzipProjects();
 		}
+		super.tearDown();
+		Log.v(TAG, "tearDown end");
 	}
 
 	public void saveProjectsToZip() {
@@ -449,13 +450,13 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 					IMAGE_RESOURCE_2, getInstrumentation().getContext(), UiTestUtils.FileTypes.ROOT);
 		}
 
-		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "before sleep");
+		Log.v(TAG, "before sleep");
 		solo.sleep(100);
-		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "after sleep");
+		Log.v(TAG, "after sleep");
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
-		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "after intent");
+		Log.v(TAG, "after intent");
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "activity visible");
+		Log.v(TAG, "activity visible");
 
 		ArrayList<ListView> listViews = solo.getCurrentViews(ListView.class);
 		while (solo.getCurrentViews(ListView.class).size() == 0) {
@@ -506,9 +507,9 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 
 		solo.scrollToBottom();
-		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "scroll bottom");
+		Log.v(TAG, "scroll bottom");
 		solo.scrollToTop();
-		Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "scroll up");
+		Log.v(TAG, "scroll up");
 		solo.sleep(500);
 		int currentViewID;
 		int pixelColor;
@@ -818,7 +819,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	public void testDeleteProjectViaActionBar() {
 		String delete = solo.getString(R.string.delete);
 		createProjects();
-		solo.sleep(2000);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 		solo.waitForFragmentById(R.id.fragment_projects_list);
@@ -840,7 +840,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		solo.clickOnText(yes);
 
-		solo.sleep(1500);
+		assertTrue("Dialog did not close before timeout", solo.waitForDialogToClose(2000));
+
 		ProjectManager projectManager = ProjectManager.getInstance();
 		String currentProjectName = projectManager.getCurrentProject().getName();
 
@@ -1950,6 +1951,53 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
 	}
 
+	public void testDeletingProjectAndVerifySettings() {
+		try {
+			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail("Standard Project not created");
+		}
+
+		String defaultProgramName = getActivity().getString(R.string.default_project_name);
+
+		solo.sleep(200);
+		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
+		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
+		solo.waitForFragmentById(R.id.fragment_projects_list);
+		solo.waitForText(defaultProgramName);
+
+		assertTrue("longclick on project '" + defaultProgramName + "' in list not successful",
+				UiTestUtils.longClickOnTextInList(solo, defaultProgramName));
+		solo.clickOnText(solo.getString(R.string.delete));
+		String yes = solo.getString(R.string.yes);
+		solo.waitForText(yes);
+
+		assertTrue("Dialog title is wrong!",
+				solo.searchText(solo.getString(R.string.dialog_confirm_delete_program_title)));
+
+		solo.clickOnText(yes);
+		assertTrue("delete dialog not closed in time", solo.waitForDialogToClose());
+
+		assertFalse("project " + defaultProgramName + " is still visible",
+										solo.searchText(defaultProgramName, 1, true));
+		File rootDirectory = new File(Constants.DEFAULT_ROOT);
+		ArrayList<String> projectList = (ArrayList<String>) UtilFile.getProjectNames(rootDirectory);
+		boolean projectDeleted = true;
+		for (String project : projectList) {
+			if (project.equalsIgnoreCase(defaultProgramName)) {
+				projectDeleted = false;
+			}
+		}
+		assertTrue("project " + defaultProgramName + " not deleted", projectDeleted);
+
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
+		Log.i(TAG, "currentProjectName from settings: " + currentProjectName);
+
+		assertFalse(defaultProgramName + " was not deleted in the Preferences!", currentProjectName.equals(defaultProgramName));
+	}
+
 	private void createProjectWithBackgrounds() {
 
 		LookData backgroundGreen;
@@ -2159,7 +2207,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	private void createStandardProgramIfNeeded() {
 		File rootDirectory = new File(Constants.DEFAULT_ROOT);
 		if (UtilFile.getProjectNames(rootDirectory).isEmpty()) {
-			Log.v(MY_PROJECTS_ACTIVITY_TEST_TAG, "projectlist empty - creating standard project");
+			Log.v(TAG, "projectlist empty - creating standard project");
 			try {
 				StandardProjectHandler.createAndSaveStandardProject(getActivity());
 			} catch (IOException e) {

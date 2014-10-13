@@ -57,14 +57,6 @@ public class NewStringDialogTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_string));
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
-		// normally super.teardown should be called last
-		// but tests crashed with Nullpointer
-		super.tearDown();
-		ProjectManager.getInstance().deleteCurrentProject();
-	}
-
 	public void testDialogCreation(){
 		assertTrue(NewStringDialog.class.getSimpleName() + " did not load under 5 seconds!",
 				solo.waitForFragmentByTag(NewStringDialog.DIALOG_FRAGMENT_TAG, 5000));
