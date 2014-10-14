@@ -502,7 +502,6 @@ public final class StorageHandler {
 		}
 	}
 
-
 	public boolean deleteProject(String projectName) {
 		return UtilFile.deleteDirectory(new File(buildProjectPath(projectName)));
 	}
