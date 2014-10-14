@@ -86,16 +86,20 @@ public abstract class MultiLineTextDialog extends DialogFragment {
 		dialog.setOnShowListener(new OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialog) {
-				Button buttonPositive = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
-				buttonPositive.setEnabled(getPositiveButtonEnabled());
+				if (getDialog() == null) {
+					dismiss();
+				} else {
+					Button buttonPositive = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
+					buttonPositive.setEnabled(getPositiveButtonEnabled());
 
-				setPositiveButtonClickCustomListener();
+					setPositiveButtonClickCustomListener();
 
-				InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
-						Context.INPUT_METHOD_SERVICE);
-				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+					InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
+							Context.INPUT_METHOD_SERVICE);
+					inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
 
-				initTextChangedListener();
+					initTextChangedListener();
+				}
 			}
 		});
 
