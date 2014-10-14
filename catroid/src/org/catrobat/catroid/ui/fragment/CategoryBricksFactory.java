@@ -59,8 +59,6 @@ import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
-import org.catrobat.catroid.content.bricks.LedOffBrick;
-import org.catrobat.catroid.content.bricks.LedOnBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -87,7 +85,6 @@ import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
-import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
@@ -199,9 +196,6 @@ public class CategoryBricksFactory {
 		looksBrickList.add(new SetBrightnessBrick(sprite, BrickValues.SET_BRIGHTNESS_TO));
 		looksBrickList.add(new ChangeBrightnessByNBrick(sprite, BrickValues.CHANGE_BRITHNESS_BY));
 		looksBrickList.add(new ClearGraphicEffectBrick(sprite));
-		looksBrickList.add(new LedOffBrick(sprite));
-		looksBrickList.add(new LedOnBrick(sprite));
-		looksBrickList.add(new VibrationBrick(sprite, BrickValues.VIBRATE_MILLISECONDS));
 
 		return looksBrickList;
 	}
