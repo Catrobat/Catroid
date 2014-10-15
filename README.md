@@ -16,7 +16,11 @@ For reporting issues use our [JIRA Bugtracking System](https://jira.catrob.at/se
 
 # Contributing #
 
-We are developing test-driven, so every pull request should include appropriate tests. To set up your working environment take a look at our [Wiki](https://github.com/Catrobat/Catroid/wiki/Setup-working-environment)
+If you want to contribute we suggest that you start with forking our repository and browse the code. Then you can look at our [Issue-Tracker](https://jira.catrob.at/browse/CAT/) and start with fixing one or two bug. We are developing test-driven, so every pull request should include appropriate tests and must only contain one bugfix. After you've created a pull request we will review your code and do a full testrun (about 3 hours) on your branch.
+
+If you want to implement a new feature, please ask about the details in JIRA or our IRC channel (#catrobat or #catrobatdev) first.
+
+Let's start to set up the working environment using the instruction in our  [Wiki](https://github.com/Catrobat/Catroid/wiki/Setup-working-environment)!
 
 
 # Resources and links #
