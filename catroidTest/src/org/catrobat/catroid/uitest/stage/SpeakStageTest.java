@@ -22,54 +22,54 @@
  */
 package org.catrobat.catroid.uitest.stage;
 
-//import org.catrobat.catroid.ProjectManager;
-//import org.catrobat.catroid.R;
-//import org.catrobat.catroid.common.Constants;
-//import org.catrobat.catroid.content.Script;
-//import org.catrobat.catroid.content.Sprite;
-//import org.catrobat.catroid.content.StartScript;
-//import org.catrobat.catroid.content.bricks.SpeakBrick;
-//import org.catrobat.catroid.content.bricks.WaitBrick;
-//import org.catrobat.catroid.exceptions.ProjectException;
-//import org.catrobat.catroid.io.SoundManager;
-//import org.catrobat.catroid.stage.StageActivity;
-//import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-//import org.catrobat.catroid.uitest.annotation.Device;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
-//import org.catrobat.catroid.uitest.util.Reflection;
-//import org.catrobat.catroid.uitest.util.UiTestUtils;
-//import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.uitest.util.Reflection;
+import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.Utils;
 
-//import java.io.File;
-//import java.util.ArrayList;
-//import java.util.HashSet;
-//import java.util.Set;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SpeakStageTest extends BaseActivityInstrumentationTestCase<ProjectActivity> {
 
-//	private final String testText = "Test test.";
-//	private final long byteLengthOfTestText = 44076L;
-//	private final File speechFileTestText = new File(Constants.TEXT_TO_SPEECH_TMP_PATH, Utils.md5Checksum(testText)
-//			+ Constants.TEXT_TO_SPEECH_EXTENSION);
-//
-//	private final String helloWorldText = "Hello World!";
-//	private final long byteLengthOfHelloWorldText = 47532L;
-//	private final File speechFileHelloWorlText = new File(Constants.TEXT_TO_SPEECH_TMP_PATH,
-//			Utils.md5Checksum(helloWorldText) + Constants.TEXT_TO_SPEECH_EXTENSION);
-//
-//	private final String simultaneousText = "Speaking simultaneously";
-//	private final long byteLengthOfSimultaneousText = 65196L;
-//	private final File speechFileSimultaneousText = new File(Constants.TEXT_TO_SPEECH_TMP_PATH,
-//			Utils.md5Checksum(simultaneousText) + Constants.TEXT_TO_SPEECH_EXTENSION);
-//
-//	private final String longText = "This is very very long long test text.";
-//	private final long byteLengthOfLongText = 99628L;
-//	private final File speechFileLongText = new File(Constants.TEXT_TO_SPEECH_TMP_PATH, Utils.md5Checksum(longText)
-//			+ Constants.TEXT_TO_SPEECH_EXTENSION);
-//
-//	private SoundManagerMock soundManagerMock;
-//
+	private final String testText = "Test test.";
+	private final long byteLengthOfTestText = 44076L;
+	private final File speechFileTestText = new File(Constants.TEXT_TO_SPEECH_TMP_PATH, Utils.md5Checksum(testText)
+			+ Constants.TEXT_TO_SPEECH_EXTENSION);
+
+	private final String helloWorldText = "Hello World!";
+	private final long byteLengthOfHelloWorldText = 47532L;
+	private final File speechFileHelloWorlText = new File(Constants.TEXT_TO_SPEECH_TMP_PATH,
+			Utils.md5Checksum(helloWorldText) + Constants.TEXT_TO_SPEECH_EXTENSION);
+
+	private final String simultaneousText = "Speaking simultaneously";
+	private final long byteLengthOfSimultaneousText = 65196L;
+	private final File speechFileSimultaneousText = new File(Constants.TEXT_TO_SPEECH_TMP_PATH,
+			Utils.md5Checksum(simultaneousText) + Constants.TEXT_TO_SPEECH_EXTENSION);
+
+	private final String longText = "This is very very long long test text.";
+	private final long byteLengthOfLongText = 99628L;
+	private final File speechFileLongText = new File(Constants.TEXT_TO_SPEECH_TMP_PATH, Utils.md5Checksum(longText)
+			+ Constants.TEXT_TO_SPEECH_EXTENSION);
+
+	private SoundManagerMock soundManagerMock;
+
 	public SpeakStageTest() throws InterruptedException {
 		super(ProjectActivity.class);
 	}
@@ -77,30 +77,30 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<ProjectA
 	public void testThisTestmethodIsOnlyHereForPassingTheSourceTest(){
 		assertSame("Remove me!!", "Remove me!!", "Remove me!!");
 	}
-//
-//	@Override
-//	public void setUp() throws Exception {
-//		super.setUp();
-//		UiTestUtils.prepareStageForTest();
-//		deleteSpeechFiles();
-//		soundManagerMock = new SoundManagerMock();
-//		Reflection.setPrivateField(SoundManager.class, "INSTANCE", soundManagerMock);
-//	}
-//
-//	@Override
-//	public void tearDown() throws Exception {
-//		super.tearDown();
-//		deleteSpeechFiles();
-//	}
-//
-//	private void deleteSpeechFiles() {
-//		File pathToSpeechFiles = new File(Constants.TEXT_TO_SPEECH_TMP_PATH);
-//		pathToSpeechFiles.mkdirs();
-//		for (File file : pathToSpeechFiles.listFiles()) {
-//			file.delete();
-//		}
-//	}
-//
+
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		UiTestUtils.prepareStageForTest();
+		deleteSpeechFiles();
+		soundManagerMock = new SoundManagerMock();
+		Reflection.setPrivateField(SoundManager.class, "INSTANCE", soundManagerMock);
+	}
+
+	@Override
+	public void tearDown() throws Exception {
+		super.tearDown();
+		deleteSpeechFiles();
+	}
+
+	private void deleteSpeechFiles() {
+		File pathToSpeechFiles = new File(Constants.TEXT_TO_SPEECH_TMP_PATH);
+		pathToSpeechFiles.mkdirs();
+		for (File file : pathToSpeechFiles.listFiles()) {
+			file.delete();
+		}
+	}
+
 //	private void prepareStageForTesting(String projectName) {
 //		try {
 //			ProjectManager.getInstance().loadProject(projectName, getActivity().getApplicationContext());
@@ -206,13 +206,13 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<ProjectA
 //				.getApplicationContext());
 //	}
 //
-//	private class SoundManagerMock extends SoundManager {
-//
-//		private final Set<String> playedSoundFiles = new HashSet<String>();
-//
-//		@Override
-//		public synchronized void playSoundFile(String pathToSoundfile) {
-//			playedSoundFiles.add(pathToSoundfile);
-//		}
-//	}
+	private class SoundManagerMock extends SoundManager {
+
+		private final Set<String> playedSoundFiles = new HashSet<String>();
+
+		@Override
+		public synchronized void playSoundFile(String pathToSoundfile) {
+			playedSoundFiles.add(pathToSoundfile);
+		}
+	}
 }
