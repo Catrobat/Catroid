@@ -696,7 +696,6 @@
     <string name="formula_editor_data_dialog_hint" >Enter name</string>
     <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
     <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
-    <string name="variable_name">variable name:</string>
     <string name="formula_editor_new_string_name">New text</string>
     <string name="formula_editor_new_string_dialog_hint">Enter new text here.</string>
     <string name="formula_editor_data_dialog_title">New</string>
