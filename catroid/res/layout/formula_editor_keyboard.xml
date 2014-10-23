@@ -228,7 +228,7 @@
             android:id="@+id/formula_editor_keyboard_string"
             style="@style/FormulaEditorButton"
             android:layout_weight="0.35"
-            android:text="@string/formula_editor_word" />
+            android:text="@string/formula_editor_string" />
 
         <Button
             android:id="@+id/formula_editor_keyboard_ok"
