@@ -22,13 +22,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <lint >
-    <issue id="ExtraTranslation" >
-        <ignore path="catroid/res/values-ko/strings.xml" />
-        <ignore path="catroid/res/values-pt/strings.xml" />
-        <ignore path="catroid/res/values-ro/strings.xml" />
-        <ignore path="catroid/res/values-ru/strings.xml" />
-        <ignore path="catroid/res/values-nl/strings.xml" />
-    </issue >
     <issue id="IconDensities" >
         <ignore path="catroid/res/drawable-mdpi" />
         <ignore path="catroid/res/drawable-hdpi" />
@@ -47,18 +40,20 @@
     </issue >
     <issue id="MissingTranslation" severity="ignore" >
         <ignore path="catroid/res/values/strings-global.xml" />
-        <ignore path="catroid/res/values-ko/strings.xml" />
-        <ignore path="catroid/res/values-pt/strings.xml" />
-        <ignore path="catroid/res/values-ro/strings.xml" />
-        <ignore path="catroid/res/values-ru/strings.xml" />
-        <ignore path="catroid/res/values-nl/strings.xml" />
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
     </issue >
     <issue id="UnusedResources" >
-        <ignore path="catroid/res/values-ko/strings.xml" />
-        <ignore path="catroid/res/values-pt/strings.xml" />
-        <ignore path="catroid/res/values-ro/strings.xml" />
-        <ignore path="catroid/res/values-ru/strings.xml" />
-        <ignore path="catroid/res/values-nl/strings.xml" />
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
         <ignore path="catroid/res/drawable-nodpi/default_drone_project_orange_light_bulb.png" />
     </issue >
+    <issue id="UnusedQuantity" >
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
+    </issue >
+    <issue id="ImpliedQuantity" >
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
+    </issue >
+    <issue id="ExtraTranslation" >
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
+    </issue >
+
 </lint >
