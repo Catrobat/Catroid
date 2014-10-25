@@ -144,10 +144,11 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				project.setScreenMode(ScreenModes.STRETCH);
 				checkNestingBrickReferences();
 			}
-			if (project.getCatrobatLanguageVersion() == 0.92f || project.getCatrobatLanguageVersion() == 0.93f) {
-				//0.93 should be left out because it available unintentional for a day
-			}
-			//insert further convertions here
+//			if (project.getCatrobatLanguageVersion() == 0.92f || project.getCatrobatLanguageVersion() == 0.93f) {
+//				//0.93 should be left out because it available unintentional for a day
+//				//raise language version here to 0.94
+//			}
+			//insert further conversions here
 
 			if (project.getCatrobatLanguageVersion() == Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
 				//project seems to be converted now and can be loaded
