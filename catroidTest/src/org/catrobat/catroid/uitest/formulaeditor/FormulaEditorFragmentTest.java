@@ -326,19 +326,19 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		//Interpretation test
 
 		Formula formula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.X_POSITION);
-        try{
-            assertEquals("Wrong text in field", newXValue, formula.interpretInteger(sprite).intValue());
-        }catch (InterpretationException interpretationException){
-            fail("Wrong text in field.");
-        }
+		try {
+			assertEquals("Wrong text in field", newXValue, formula.interpretInteger(sprite).intValue());
+		} catch (InterpretationException interpretationException) {
+			fail("Wrong text in field.");
+		}
 
 		formula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.Y_POSITION);
-        try{
-            float newYValue = formula.interpretFloat(sprite);
-            assertTrue("Wrong text in field", newYValue >= -0.5f && newYValue <= 1f);
-        }catch (InterpretationException interpretationException){
-            fail("Wrong text in field.");
-        }
+		try {
+			float newYValue = formula.interpretFloat(sprite);
+			assertTrue("Wrong text in field", newYValue >= -0.5f && newYValue <= 1f);
+		} catch (InterpretationException interpretationException) {
+			fail("Wrong text in field.");
+		}
 	}
 
 	public void testRandomInterpretationWithFloatParameters() {
@@ -358,13 +358,13 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.sleep(300);
 
 		Formula formula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.X_POSITION);
-        try{
-            float value = formula.interpretFloat(sprite);
-            assertTrue("random() interpretation of float parameter is wrong: " + newXFormula + " value=" + value,
-                    1 <= value && value <= 9.9f && (Math.abs(value) - (int) Math.abs(value)) > 0);
-        }catch (InterpretationException interpretationException){
-            fail("Wrong text in field.");
-        }
+		try {
+			float value = formula.interpretFloat(sprite);
+			assertTrue("random() interpretation of float parameter is wrong: " + newXFormula + " value=" + value,
+					1 <= value && value <= 9.9f && (Math.abs(value) - (int) Math.abs(value)) > 0);
+		} catch (InterpretationException interpretationException) {
+			fail("Wrong text in field.");
+		}
 
 		String newYFormula = "random(7.0,1)";
 
@@ -385,7 +385,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		try {
 			float anotherValue = anotherFormula.interpretFloat(sprite);
 			assertTrue("random() interpretation of float parameter is wrong: " + newYFormula + " anotherValue="
-					+ anotherValue,
+							+ anotherValue,
 					1 <= anotherValue && anotherValue <= 7.0f
 							&& (Math.abs(anotherValue) - (int) Math.abs(anotherValue)) > 0);
 		} catch (InterpretationException interpretationException) {
@@ -435,15 +435,15 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		solo.sleep(300);
 
 		Formula anotherFormula = placeAtBrick.getFormulaWithBrickField(Brick.BrickField.Y_POSITION);
-        try{
-            float anotherValue = anotherFormula.interpretFloat(sprite);
-            assertTrue("random() interpretation of integer parameters is wrong: " + newYFormula + " anotherValue="
-                    + anotherValue, (anotherValue == 1 || anotherValue == 2 || anotherValue == 3 || anotherValue == 4));
-            assertEquals("random() interpretation of integer parameters is wrong: " + newYFormula + " anotherValue="
-                    + anotherValue, 0, Math.abs(anotherValue) - (int) Math.abs(anotherValue), 0);
-        }catch (InterpretationException interpretationException){
-            fail("Wrong text in field.");
-        }
+		try {
+			float anotherValue = anotherFormula.interpretFloat(sprite);
+			assertTrue("random() interpretation of integer parameters is wrong: " + newYFormula + " anotherValue="
+					+ anotherValue, (anotherValue == 1 || anotherValue == 2 || anotherValue == 3 || anotherValue == 4));
+			assertEquals("random() interpretation of integer parameters is wrong: " + newYFormula + " anotherValue="
+					+ anotherValue, 0, Math.abs(anotherValue) - (int) Math.abs(anotherValue), 0);
+		} catch (InterpretationException interpretationException) {
+			fail("Wrong text in field.");
+		}
 	}
 
 	public void testIfLandscapeOrientationIsDeactivated() {

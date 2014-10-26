@@ -170,9 +170,9 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		ListView listView = getDataListListView();
 
 		UserList userList = (UserList) listView.getItemAtPosition(0);
-		assertEquals("Wrong size of User List after stage!", 1,userList.getList().size());
-		assertTrue("Value of UserList not saved after stage1!",
-				((Double) userList.getList().get(0)).compareTo(ADD_VALUE_TO_LIST) == 0);
+		assertEquals("Wrong size of User List after stage!", 1, userList.getList().size());
+		assertEquals("Value of UserList not saved after stage1!", String.valueOf(ADD_VALUE_TO_LIST),
+				userList.getList().get(0));
 
 		solo.goBack();
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
@@ -197,8 +197,8 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		listView = getDataListListView();
 
 		userList = (UserList) listView.getItemAtPosition(0);
-		assertTrue("Value of UserList not added after stage2!",
-				((Double) userList.getList().get(0)).compareTo(ADD_VALUE_TO_LIST) == 0);
+		assertEquals("Value of UserList not saved after stage2!", String.valueOf(ADD_VALUE_TO_LIST),
+				userList.getList().get(0));
 
 		solo.goBack();
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
@@ -229,8 +229,8 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		listView = getDataListListView();
 
 		userList = (UserList) listView.getItemAtPosition(0);
-		assertTrue("Value of UserList not saved after stage3!",
-				((Double) userList.getList().get(0)).compareTo(ADD_VALUE_TO_LIST) == 0);
+		assertEquals("Value of UserList not saved after stage3!", String.valueOf(ADD_VALUE_TO_LIST),
+				userList.getList().get(0));
 
 	}
 
@@ -383,7 +383,7 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		solo.goBack();
 		solo.goBack();
 
-		solo.sleep(200);
+		solo.sleep(400);
 
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo, 2);
 
