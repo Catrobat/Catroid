@@ -64,7 +64,7 @@ public class AddItemToUserListActionTest extends AndroidTestCase {
 		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
 
 		assertEquals("UserList size not changed!", 4, userList.getList().size());
-		assertEquals("UserList not changed!", DOUBLE_VALUE_ITEM_TO_ADD, lastItemOfUserList);
+		assertEquals("UserList not changed!", "3.0", lastItemOfUserList);
 	}
 
 	public void testAddItemWithInvalidUserList() {
@@ -81,6 +81,6 @@ public class AddItemToUserListActionTest extends AndroidTestCase {
 	public void testNotANumberFormula() {
 		ExtendedActions.addItemToUserList(testSprite, new Formula(Double.NaN), userList).act(1f);
 		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
-		assertEquals("String UserVariable not changed!", Double.NaN, lastItemOfUserList);
+		assertEquals("String UserVariable not changed!", String.valueOf(Double.NaN), lastItemOfUserList);
 	}
 }

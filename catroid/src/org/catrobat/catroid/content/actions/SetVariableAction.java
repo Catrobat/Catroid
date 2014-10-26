@@ -22,10 +22,13 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
 public class SetVariableAction extends TemporalAction {
@@ -40,6 +43,19 @@ public class SetVariableAction extends TemporalAction {
 			return;
 		}
 		Object value = changeVariable == null ? Double.valueOf(0d) : changeVariable.interpretObject(sprite);
+
+		boolean isFirstLevelStringTree = false;
+		if (changeVariable != null && changeVariable.getRoot().getElementType() == FormulaElement.ElementType.STRING) {
+			isFirstLevelStringTree = true;
+		}
+
+		try {
+			if (!isFirstLevelStringTree && value instanceof String) {
+				value = Double.valueOf((String) value);
+			}
+		} catch (NumberFormatException numberFormatException) {
+			Log.d(getClass().getSimpleName(), "Couldn't parse String", numberFormatException);
+		}
 
 		userVariable.setValue(value);
 	}
