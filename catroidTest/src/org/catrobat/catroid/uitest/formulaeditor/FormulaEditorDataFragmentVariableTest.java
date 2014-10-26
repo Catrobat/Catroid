@@ -162,8 +162,8 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 		ListView listView = getVariableListView();
 
 		UserVariable userVariable = (UserVariable) listView.getItemAtPosition(0);
-		assertTrue("Value of UserVariable not saved after stage1!",
-				((Double) userVariable.getValue()).compareTo(SET_USERVARIABLE_TO_BRICK_VALUE) == 0);
+		assertEquals("Value of UserVariable not saved after stage1!", SET_USERVARIABLE_TO_BRICK_VALUE,
+				userVariable.getValue());
 
 		solo.goBack();
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
@@ -370,6 +370,8 @@ public class FormulaEditorDataFragmentVariableTest extends BaseActivityInstrumen
 		solo.goBack();
 		solo.goBack();
 		solo.goBack();
+
+		solo.sleep(400);
 
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo, 2);
 

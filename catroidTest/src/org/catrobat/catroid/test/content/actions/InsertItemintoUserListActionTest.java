@@ -64,7 +64,7 @@ public class InsertItemintoUserListActionTest extends AndroidTestCase {
 		Object firstItemOfUserList = userList.getList().get(0);
 
 		assertEquals("UserList size not changed!", 3, userList.getList().size());
-		assertEquals("UserList not changed!", DOUBLE_VALUE_ITEM_TO_ADD, firstItemOfUserList);
+		assertEquals("UserList not changed!", String.valueOf(DOUBLE_VALUE_ITEM_TO_ADD), firstItemOfUserList);
 	}
 
 	public void testInsertNumericalValueToUserListAtLastPosition() {
@@ -72,7 +72,7 @@ public class InsertItemintoUserListActionTest extends AndroidTestCase {
 		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
 
 		assertEquals("UserList size not changed!", 3, userList.getList().size());
-		assertEquals("UserList not changed!", DOUBLE_VALUE_ITEM_TO_ADD, lastItemOfUserList);
+		assertEquals("UserList not changed!", String.valueOf(DOUBLE_VALUE_ITEM_TO_ADD), lastItemOfUserList);
 	}
 
 	public void testInsertItemWithInvalidUserList() {
@@ -91,6 +91,6 @@ public class InsertItemintoUserListActionTest extends AndroidTestCase {
 	public void testNotANumberFormula() {
 		ExtendedActions.insertItemIntoUserList(testSprite, new Formula(1), new Formula(Double.NaN), userList).act(1f);
 		Object firstItemOfUserList = userList.getList().get(0);
-		assertEquals("UserList not changed!", Double.NaN, firstItemOfUserList);
+		assertEquals("UserList not changed!", String.valueOf(Double.NaN), firstItemOfUserList);
 	}
 }

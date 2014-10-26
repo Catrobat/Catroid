@@ -429,22 +429,22 @@
     <string name="brick_if_begin" >If</string >
     <string name="brick_if_begin_second_part" >is true then</string >
     <string name="brick_if_else" >Else</string >
-    <string name="brick_if_end" >End If</string >
+    <string name="brick_if_end">End If</string>
     <string name="brick_set_variable" >Set variable</string >
     <string name="brick_change_variable" >Change variable</string >
     <string name="brick_variable_spinner_create_new_variable" >New…</string >
     <string name="brick_note_default_value" >"add comment here…"</string >
     <string name="brick_broadcast_default_value" >"message 1"</string >
-    <string name="brick_add_item_to_userlist_add" >Add to list</string >
-    <string name="brick_add_item_to_userlist" >the value</string >
-    <string name="brick_delete_item_from_userlist_delete" >Delete item of list</string >
-    <string name="brick_delete_item_from_userlist" >with index</string >
-    <string name="brick_insert_item_into_userlist_insert_into" >Insert into list</string >
-    <string name="brick_insert_item_into_userlist_the_value" >the value</string >
-    <string name="brick_insert_item_into_userlist_at_index" >at index</string >
-    <string name="brick_replace_item_in_userlist_replace_in_list" >Replace in list</string >
-    <string name="brick_replace_item_in_userlist_item_at_index" >at index</string >
-    <string name="brick_replace_item_in_userlist_with_value" >with value</string >
+    <string name="brick_add_item_to_userlist_add" >Add</string >
+    <string name="brick_add_item_to_userlist" >to list</string >
+    <string name="brick_delete_item_from_userlist_delete" >Delete item from list</string >
+    <string name="brick_delete_item_from_userlist" >at position</string >
+    <string name="brick_insert_item_into_userlist_insert_into" >Insert</string >
+    <string name="brick_insert_item_into_userlist_into_list" >into list</string >
+    <string name="brick_insert_item_into_userlist_at_position" >at position</string >
+    <string name="brick_replace_item_in_userlist_replace_in_list" >Replace item in list</string >
+    <string name="brick_replace_item_in_userlist_item_at_index" >at position</string >
+    <string name="brick_replace_item_in_userlist_with_value" >with</string >
     <!--  -->
 
 

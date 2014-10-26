@@ -119,7 +119,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		userVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
-		assertEquals("IfBrick not executed as expected", IF_TRUE_VALUE, ((Double) userVariable.getValue()).intValue());
+		assertEquals("IfBrick not executed as expected", Double.valueOf(IF_TRUE_VALUE), userVariable.getValue());
 	}
 
 	public void testIfBrick() throws InterruptedException {
@@ -149,7 +149,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		userVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
-		assertEquals("IfBrick not executed as expected", IF_TRUE_VALUE, ((Double) userVariable.getValue()).intValue());
+		assertEquals("IfBrick not executed as expected", Double.valueOf(IF_TRUE_VALUE), userVariable.getValue());
 	}
 
 	public void testIfElseBrick() throws InterruptedException {
@@ -179,11 +179,11 @@ public class IfLogicActionTest extends AndroidTestCase {
 		userVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
-		assertEquals("IfBrick not executed as expected", IF_FALSE_VALUE, ((Double) userVariable.getValue()).intValue());
+		assertEquals("IfBrick not executed as expected", Double.valueOf(IF_FALSE_VALUE), userVariable.getValue());
 	}
 
 	public void testBrickWithValidStringFormula() {
-		testFormula(new Formula(String.valueOf(TRUE)), Integer.valueOf(IF_TRUE_VALUE).doubleValue());
+		testFormula(new Formula(String.valueOf(TRUE)), Double.valueOf(IF_TRUE_VALUE));
 	}
 
 	public void testBrickWithInValidStringFormula() {
@@ -214,7 +214,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 
 		testScript = new StartScript();
 		ifLogicBeginBrick = new IfLogicBeginBrick(formula);
-		ifLogicElseBrick = new IfLogicElseBrick( ifLogicBeginBrick);
+		ifLogicElseBrick = new IfLogicElseBrick(ifLogicBeginBrick);
 		ifLogicEndBrick = new IfLogicEndBrick(ifLogicElseBrick, ifLogicBeginBrick);
 		testScript.addBrick(ifLogicBeginBrick);
 		testScript.addBrick(setVariableBrickIfTrue);
