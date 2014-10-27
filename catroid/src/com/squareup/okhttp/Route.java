@@ -1,0 +1,135 @@
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * Copyright (C) 2013 Square, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.squareup.okhttp;
+
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+
+/**
+ * The concrete route used by a connection to reach an abstract origin server.
+ * When creating a connection the client has many options:
+ * <ul>
+ *   <li><strong>HTTP proxy:</strong> a proxy server may be explicitly
+ *       configured for the client. Otherwise the {@linkplain java.net.ProxySelector
+ *       proxy selector} is used. It may return multiple proxies to attempt.
+ *   <li><strong>IP address:</strong> whether connecting directly to an origin
+ *       server or a proxy, opening a socket requires an IP address. The DNS
+ *       server may return multiple IP addresses to attempt.
+ *   <li><strong>TLS configuration:</strong> which cipher suites and TLS
+ *       versions to attempt with the HTTPS connection.
+ * </ul>
+ * Each route is a specific selection of these options.
+ */
+public final class Route {
+  final Address address;
+  final Proxy proxy;
+  final InetSocketAddress inetSocketAddress;
+  final ConnectionConfiguration connectionConfiguration;
+
+  public Route(Address address, Proxy proxy, InetSocketAddress inetSocketAddress,
+      ConnectionConfiguration connectionConfiguration) {
+    if (address == null) {
+      throw new NullPointerException("address == null");
+    }
+    if (proxy == null) {
+      throw new NullPointerException("proxy == null");
+    }
+    if (inetSocketAddress == null) {
+      throw new NullPointerException("inetSocketAddress == null");
+    }
+    if (connectionConfiguration == null) {
+      throw new NullPointerException("connectionConfiguration == null");
+    }
+    this.address = address;
+    this.proxy = proxy;
+    this.inetSocketAddress = inetSocketAddress;
+    this.connectionConfiguration = connectionConfiguration;
+  }
+
+  public Address getAddress() {
+    return address;
+  }
+
+  /**
+   * Returns the {@link java.net.Proxy} of this route.
+   *
+   * <strong>Warning:</strong> This may disagree with {@link com.squareup.okhttp.Address#getProxy}
+   * when it is null. When the address's proxy is null, the proxy selector is
+   * used.
+   */
+  public Proxy getProxy() {
+    return proxy;
+  }
+
+  public InetSocketAddress getSocketAddress() {
+    return inetSocketAddress;
+  }
+
+  public ConnectionConfiguration getConnectionConfiguration() {
+    return connectionConfiguration;
+  }
+
+  /**
+   * Returns true if this route tunnels HTTPS through an HTTP proxy. See <a
+   * href="http://www.ietf.org/rfc/rfc2817.txt">RFC 2817, Section 5.2</a>.
+   */
+  public boolean requiresTunnel() {
+    return address.sslSocketFactory != null && proxy.type() == Proxy.Type.HTTP;
+  }
+
+  @Override public boolean equals(Object obj) {
+    if (obj instanceof Route) {
+      Route other = (Route) obj;
+      return address.equals(other.address)
+          && proxy.equals(other.proxy)
+          && inetSocketAddress.equals(other.inetSocketAddress)
+          && connectionConfiguration.equals(other.connectionConfiguration);
+    }
+    return false;
+  }
+
+  @Override public int hashCode() {
+    int result = 17;
+    result = 31 * result + address.hashCode();
+    result = 31 * result + proxy.hashCode();
+    result = 31 * result + inetSocketAddress.hashCode();
+    result = 31 * result + connectionConfiguration.hashCode();
+    return result;
+  }
+}
