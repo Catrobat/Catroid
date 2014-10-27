@@ -1211,9 +1211,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	public void setCheckboxVisibility(int visibility) {
 		int index = 0;
 
-		if (ProjectManager.getInstance().getCurrentUserBrick() != null && brickList.get(0).equals(ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick())) {
-			index = 1;
-		}
+		//TODO remove comment if UserBricks work again, otherwise delete
+//		if (ProjectManager.getInstance().getCurrentUserBrick() != null && brickList.get(0).equals(ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick())) {
+//			index = 1;
+//		}
 		for (; index < brickList.size(); index++)
 		{
 			brickList.get(index).setCheckboxVisibility(visibility);

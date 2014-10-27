@@ -74,10 +74,6 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<ProjectA
 		super(ProjectActivity.class);
 	}
 
-	public void testThisTestmethodIsOnlyHereForPassingTheSourceTest(){
-		assertSame("Remove me!!", "Remove me!!", "Remove me!!");
-	}
-
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
@@ -101,111 +97,111 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<ProjectA
 		}
 	}
 
-//	private void prepareStageForTesting(String projectName) {
-//		try {
-//			ProjectManager.getInstance().loadProject(projectName, getActivity().getApplicationContext());
-//			assertTrue("Load project worked correctly", true);
-//		} catch (ProjectException projectException) {
-//			fail("Could not load project.");
-//		}
-//		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-//		solo.waitForActivity(StageActivity.class);
-//		solo.sleep(1500);
-//	}
-//
-//	@Device
-//	public void testNormalBehaviour() {
-//		createNormalBehaviourProject();
-//		prepareStageForTesting(UiTestUtils.PROJECTNAME1);
-//
-//		assertTrue("speechFileTestText does not exist", speechFileTestText.exists());
-//		assertFalse("speechFileHelloWorlText already created", speechFileHelloWorlText.exists());
-//		assertEquals("Length of speechFileTestText is different from original", byteLengthOfTestText,
-//				speechFileTestText.length());
-//
-//		assertEquals("Wrong amount of soundfiles played", 1, soundManagerMock.playedSoundFiles.size());
-//		assertTrue("Wrong soundfile played",
-//				soundManagerMock.playedSoundFiles.contains(speechFileTestText.getAbsolutePath()));
-//
-//		solo.sleep(1200);
-//
-//		assertTrue("speechFileHelloWorlText does not exist", speechFileHelloWorlText.exists());
-//		assertEquals("Length of speechFileHelloWorlText is different from original", byteLengthOfHelloWorldText,
-//				speechFileHelloWorlText.length());
-//
-//		assertEquals("Wrong amount of soundfiles played", 2, soundManagerMock.playedSoundFiles.size());
-//		assertTrue("Wrong soundfile played",
-//				soundManagerMock.playedSoundFiles.contains(speechFileHelloWorlText.getAbsolutePath()));
-//	}
-//
-//	@Device
-//	public void testMultiSpeech() {
-//		createMultiSpeechesProject();
-//		prepareStageForTesting(UiTestUtils.PROJECTNAME3);
-//		solo.sleep(1000);
-//
-//		assertTrue("speechFileLongText does not exist", speechFileLongText.exists());
-//		assertTrue("speechFileSimultaneousText does not exist", speechFileSimultaneousText.exists());
-//
-//		assertEquals("Length of speechFileLongText is different from original", byteLengthOfLongText,
-//				speechFileLongText.length());
-//		assertEquals("Length of speechFileSimultaneousText is different from original", byteLengthOfSimultaneousText,
-//				speechFileSimultaneousText.length());
-//
-//		assertEquals("Wrong amount of soundfiles played", 2, soundManagerMock.playedSoundFiles.size());
-//		assertTrue("Wrong soundfile played",
-//				soundManagerMock.playedSoundFiles.contains(speechFileLongText.getAbsolutePath()));
-//		assertTrue("Wrong soundfile played",
-//				soundManagerMock.playedSoundFiles.contains(speechFileSimultaneousText.getAbsolutePath()));
-//	}
-//
-//	@Device
-//	public void testDeleteSpeechFiles() {
-//		createMultiSpeechesProject();
-//		prepareStageForTesting(UiTestUtils.PROJECTNAME3);
-//		solo.sleep(2000);
-//
-//		assertTrue("speechFileLongText does not exist", speechFileLongText.exists());
-//		assertTrue("speechFileSimultaneousText does not exist", speechFileSimultaneousText.exists());
-//
-//		UiTestUtils.goToHomeActivity(getActivity());
-//		solo.waitForActivity(MainMenuActivity.class);
-//
-//		assertEquals("TextToSpeech folder is not empty", 0,
-//				new File(Constants.TEXT_TO_SPEECH_TMP_PATH).listFiles().length);
-//	}
-//
-//	private void createNormalBehaviourProject() {
-//		Sprite spriteNormal = new Sprite("testNormalBehaviour");
-//
-//		Script startScriptNormal = new StartScript();
-//		startScriptNormal.addBrick(new SpeakBrick(testText));
-//		startScriptNormal.addBrick(new WaitBrick(1500));
-//		startScriptNormal.addBrick(new SpeakBrick(helloWorldText));
-//
-//		spriteNormal.addScript(startScriptNormal);
-//
-//		ArrayList<Sprite> spriteListNormal = new ArrayList<Sprite>();
-//		spriteListNormal.add(spriteNormal);
-//
-//		UiTestUtils.createProject(UiTestUtils.PROJECTNAME1, spriteListNormal, getActivity().getApplicationContext());
-//	}
-//
-//	private void createMultiSpeechesProject() {
-//		Sprite spriteMultiSpeech = new Sprite("testMultiSpeech");
-//		Script startScriptMultiSpeech = new StartScript();
-//		startScriptMultiSpeech.addBrick(new SpeakBrick(longText));
-//		startScriptMultiSpeech.addBrick(new SpeakBrick(simultaneousText));
-//
-//		spriteMultiSpeech.addScript(startScriptMultiSpeech);
-//
-//		ArrayList<Sprite> spriteListMultiSpeech = new ArrayList<Sprite>();
-//		spriteListMultiSpeech.add(spriteMultiSpeech);
-//
-//		UiTestUtils.createProject(UiTestUtils.PROJECTNAME3, spriteListMultiSpeech, getActivity()
-//				.getApplicationContext());
-//	}
-//
+	private void prepareStageForTesting(String projectName) {
+		try {
+			ProjectManager.getInstance().loadProject(projectName, getActivity().getApplicationContext());
+			assertTrue("Load project worked correctly", true);
+		} catch (ProjectException projectException) {
+			fail("Could not load project.");
+		}
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.waitForActivity(StageActivity.class);
+		solo.sleep(1500);
+	}
+
+	@Device
+	public void testNormalBehaviour() {
+		createNormalBehaviourProject();
+		prepareStageForTesting(UiTestUtils.PROJECTNAME1);
+
+		assertTrue("speechFileTestText does not exist", speechFileTestText.exists());
+		assertFalse("speechFileHelloWorlText already created", speechFileHelloWorlText.exists());
+		assertEquals("Length of speechFileTestText is different from original", byteLengthOfTestText,
+				speechFileTestText.length());
+
+		assertEquals("Wrong amount of soundfiles played", 1, soundManagerMock.playedSoundFiles.size());
+		assertTrue("Wrong soundfile played",
+				soundManagerMock.playedSoundFiles.contains(speechFileTestText.getAbsolutePath()));
+
+		solo.sleep(1200);
+
+		assertTrue("speechFileHelloWorlText does not exist", speechFileHelloWorlText.exists());
+		assertEquals("Length of speechFileHelloWorlText is different from original", byteLengthOfHelloWorldText,
+				speechFileHelloWorlText.length());
+
+		assertEquals("Wrong amount of soundfiles played", 2, soundManagerMock.playedSoundFiles.size());
+		assertTrue("Wrong soundfile played",
+				soundManagerMock.playedSoundFiles.contains(speechFileHelloWorlText.getAbsolutePath()));
+	}
+
+	@Device
+	public void testMultiSpeech() {
+		createMultiSpeechesProject();
+		prepareStageForTesting(UiTestUtils.PROJECTNAME3);
+		solo.sleep(1000);
+
+		assertTrue("speechFileLongText does not exist", speechFileLongText.exists());
+		assertTrue("speechFileSimultaneousText does not exist", speechFileSimultaneousText.exists());
+
+		assertEquals("Length of speechFileLongText is different from original", byteLengthOfLongText,
+				speechFileLongText.length());
+		assertEquals("Length of speechFileSimultaneousText is different from original", byteLengthOfSimultaneousText,
+				speechFileSimultaneousText.length());
+
+		assertEquals("Wrong amount of soundfiles played", 2, soundManagerMock.playedSoundFiles.size());
+		assertTrue("Wrong soundfile played",
+				soundManagerMock.playedSoundFiles.contains(speechFileLongText.getAbsolutePath()));
+		assertTrue("Wrong soundfile played",
+				soundManagerMock.playedSoundFiles.contains(speechFileSimultaneousText.getAbsolutePath()));
+	}
+
+	@Device
+	public void testDeleteSpeechFiles() {
+		createMultiSpeechesProject();
+		prepareStageForTesting(UiTestUtils.PROJECTNAME3);
+		solo.sleep(2000);
+
+		assertTrue("speechFileLongText does not exist", speechFileLongText.exists());
+		assertTrue("speechFileSimultaneousText does not exist", speechFileSimultaneousText.exists());
+
+		UiTestUtils.goToHomeActivity(getActivity());
+		solo.waitForActivity(MainMenuActivity.class);
+
+		assertEquals("TextToSpeech folder is not empty", 0,
+				new File(Constants.TEXT_TO_SPEECH_TMP_PATH).listFiles().length);
+	}
+
+	private void createNormalBehaviourProject() {
+		Sprite spriteNormal = new Sprite("testNormalBehaviour");
+
+		Script startScriptNormal = new StartScript();
+		startScriptNormal.addBrick(new SpeakBrick(testText));
+		startScriptNormal.addBrick(new WaitBrick(1500));
+		startScriptNormal.addBrick(new SpeakBrick(helloWorldText));
+
+		spriteNormal.addScript(startScriptNormal);
+
+		ArrayList<Sprite> spriteListNormal = new ArrayList<Sprite>();
+		spriteListNormal.add(spriteNormal);
+
+		UiTestUtils.createProject(UiTestUtils.PROJECTNAME1, spriteListNormal, getActivity().getApplicationContext());
+	}
+
+	private void createMultiSpeechesProject() {
+		Sprite spriteMultiSpeech = new Sprite("testMultiSpeech");
+		Script startScriptMultiSpeech = new StartScript();
+		startScriptMultiSpeech.addBrick(new SpeakBrick(longText));
+		startScriptMultiSpeech.addBrick(new SpeakBrick(simultaneousText));
+
+		spriteMultiSpeech.addScript(startScriptMultiSpeech);
+
+		ArrayList<Sprite> spriteListMultiSpeech = new ArrayList<Sprite>();
+		spriteListMultiSpeech.add(spriteMultiSpeech);
+
+		UiTestUtils.createProject(UiTestUtils.PROJECTNAME3, spriteListMultiSpeech, getActivity()
+				.getApplicationContext());
+	}
+
 	private class SoundManagerMock extends SoundManager {
 
 		private final Set<String> playedSoundFiles = new HashSet<String>();
