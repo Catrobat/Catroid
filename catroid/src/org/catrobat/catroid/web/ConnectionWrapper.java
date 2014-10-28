@@ -142,8 +142,6 @@ public class ConnectionWrapper {
 	 * enable.
 	 */
 	private static class OkConnectionFactory implements HttpRequest.ConnectionFactory {
-		private final OkHttpClient client;
-
 		private final OkUrlFactory factory;
 
 		public OkConnectionFactory() {
@@ -160,10 +158,9 @@ public class ConnectionWrapper {
 				sslContext.init(null, null, null);
 				SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 				client.setSslSocketFactory(sslSocketFactory);
-			} catch (GeneralSecurityException e) {
-				e.printStackTrace();
+			} catch (GeneralSecurityException exception) {
+				Log.e(TAG, "Could not create secure Socket", exception);
 			}
-			this.client = client;
 			factory = new OkUrlFactory(client);
 		}
 
