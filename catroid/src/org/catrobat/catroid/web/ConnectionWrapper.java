@@ -77,6 +77,7 @@ public class ConnectionWrapper {
 				}
 				File file = new File(filePath);
 				uploadRequest.part(fileTag, fileName, file);
+
 				int responseCode = uploadRequest.code();
 				if (!(responseCode == 200 || responseCode == 201)) {
 					throw new WebconnectionException(responseCode, "Error response code should be 200 or 201!");
