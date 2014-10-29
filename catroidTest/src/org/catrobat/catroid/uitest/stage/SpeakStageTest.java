@@ -54,7 +54,7 @@ public class SpeakStageTest extends BaseActivityInstrumentationTestCase<ProjectA
 			+ Constants.TEXT_TO_SPEECH_EXTENSION);
 
 	private final String helloWorldText = "Hello World!";
-	private final long byteLengthOfHelloWorldText = 47532L;
+	private final long byteLengthOfHelloWorldText = 23564L;
 	private final File speechFileHelloWorlText = new File(Constants.TEXT_TO_SPEECH_TMP_PATH,
 			Utils.md5Checksum(helloWorldText) + Constants.TEXT_TO_SPEECH_EXTENSION);
 
