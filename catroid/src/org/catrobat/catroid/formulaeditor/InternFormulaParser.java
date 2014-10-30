@@ -237,29 +237,50 @@ public class InternFormulaParser {
 				currentElement.replaceElement(userVariable());
 				break;
 
+			case USER_LIST:
+				currentElement.replaceElement(userList());
+				break;
+
 			case STRING:
 				currentElement.replaceElement(FormulaElement.ElementType.STRING, string());
 				break;
 
 			default:
 				throw new InternFormulaParserException("Parse Error");
+
 		}
+
 		return termTree;
 	}
 
 	private FormulaElement userVariable() throws InternFormulaParserException {
-		UserVariablesContainer userVariables = ProjectManager.getInstance().getCurrentProject().getUserVariables();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		int userBrickId = currentBrick == null ? -1 : currentBrick.getDefinitionBrick().getUserBrickId();
 
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
-		if (userVariables.getUserVariable(currentToken.getTokenStringValue(), userBrickId, currentSprite) == null) {
+		if (dataContainer.getUserVariable(currentToken.getTokenStringValue(), userBrickId, currentSprite) == null) {
 			throw new InternFormulaParserException("Parse Error");
 		}
 
 		FormulaElement lookTree = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE,
+				currentToken.getTokenStringValue(), null);
+
+		getNextToken();
+		return lookTree;
+	}
+
+	private FormulaElement userList() throws InternFormulaParserException {
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+
+		if (dataContainer.getUserList(currentToken.getTokenStringValue(), currentSprite) == null) {
+			throw new InternFormulaParserException("Parse Error");
+		}
+
+		FormulaElement lookTree = new FormulaElement(FormulaElement.ElementType.USER_LIST,
 				currentToken.getTokenStringValue(), null);
 
 		getNextToken();

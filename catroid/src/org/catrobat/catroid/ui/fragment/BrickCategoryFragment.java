@@ -151,13 +151,12 @@ public class BrickCategoryFragment extends SherlockListFragment {
 		categories.add(inflater.inflate(R.layout.brick_category_motion, null));
 		categories.add(inflater.inflate(R.layout.brick_category_sound, null));
 		categories.add(inflater.inflate(R.layout.brick_category_looks, null));
+		categories.add(inflater.inflate(R.layout.brick_category_data, null));
 
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		if (sharedPreferences.getBoolean("setting_mindstorm_bricks", false)) {
 			categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null));
 		}
-
-		categories.add(inflater.inflate(R.layout.brick_category_uservariables, null));
 
 		if (BuildConfig.FEATURE_USERBRICKS_ENABLED && brickAdapter.getUserBrick() == null) {
 			categories.add(inflater.inflate(R.layout.brick_category_userbricks, null));

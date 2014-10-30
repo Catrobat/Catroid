@@ -220,7 +220,6 @@
   <string name="category_looks">Aspetto</string>
   <string name="category_sound">Suono</string>
   <string name="category_control">Controllo</string>
-  <string name="category_variables">Variabili</string>
   <string name="category_lego_nxt">Lego NXT</string>
   <string name="category_drone">ARDrone</string>
   <string name="brick_place_at">"Posiziona a "</string>
@@ -475,21 +474,11 @@
   <string name="formula_editor_operator_minus">-</string>
   <string name="formula_editor_operator_divide">÷</string>
   <string name="formula_editor_operator_power">^</string>
-  <string name="formula_editor_image_button_description_undo">annulla</string>
-  <string name="formula_editor_image_button_description_redo">ripeti</string>
   <string name="formula_editor_image_button_description_delete">elimina</string>
   <string name="formula_editor_variable_dialog_title">Nuova variabile</string>
-  <string name="formula_editor_variable_dialog_for_all_sprites">Per tutti gli oggetti</string>
-  <string name="formula_editor_variable_dialog_for_this_sprite_only">Per questo oggetto solo</string>
-  <string name="formula_editor_variable_dialog_hint">Immettere il nome della variabile</string>
   <string name="formula_editor_discard_changes_dialog_message">Si desidera salvare le modifiche?</string>
   <string name="formula_editor_discard_changes_dialog_title">Salvare le modifiche?</string>
-  <string name="variable_name">nome della variabile:</string>
   <string name="formula_editor_new_string_name">Testo nuovo</string>
   <string name="formula_editor_new_string_dialog_hint">Digitare il nuovo testo qui.</string>
 
-  <plurals name="formula_editor_variable_context_action_item_selected">
-    <item quantity="one">Variabile selezionata!</item>
-    <item quantity="other">Variabili selezionate!</item>
-  </plurals>
 </resources>

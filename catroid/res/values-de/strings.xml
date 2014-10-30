@@ -45,6 +45,8 @@
     <string name="stage">Bühne</string>
     <string name="ok">OK</string>
     <string name="settings">Einstellungen</string>
+    <string name="redo">Wiederherstellen</string>
+    <string name="undo">Rückgängig</string>
     <!--  -->
 
 
@@ -329,8 +331,8 @@
     <string name="category_looks">Aussehen</string>
     <string name="category_sound">Klang</string>
     <string name="category_control">Steuerung</string>
-    <string name="category_variables">Variablen</string>
     <string name="category_user_bricks">Meine Bausteine</string>
+    <string name="category_data">Daten</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_drone">ARDrone</string>
     <!--  -->
@@ -433,6 +435,16 @@
     <string name="brick_variable_spinner_create_new_variable">Neu…</string>
     <string name="brick_note_default_value">"Anmerkung hier hinzufügen…" </string>
     <string name="brick_broadcast_default_value">"Nachricht 1"</string>
+    <string name="brick_add_item_to_userlist_add">Füge</string>
+    <string name="brick_add_item_to_userlist">zur Liste</string>
+    <string name="brick_delete_item_from_userlist_delete">Lösche Element von Liste</string>
+    <string name="brick_delete_item_from_userlist">an der Stelle</string>
+    <string name="brick_insert_item_into_userlist_insert_into" >Füge</string >
+    <string name="brick_insert_item_into_userlist_into_list" >in die Liste</string >
+    <string name="brick_insert_item_into_userlist_at_position" >an der Stelle</string >
+    <string name="brick_replace_item_in_userlist_replace_in_list" >Ersetze Element in der Liste</string >
+    <string name="brick_replace_item_in_userlist_item_at_index" >an der Stelle</string >
+    <string name="brick_replace_item_in_userlist_with_value" >mit</string >
     <!--  -->
 
 
@@ -575,6 +587,7 @@
     <!--  -->
 
     <!-- Formula Editor Strings -->
+    <string name="formula_editor_data" >Daten</string >
     <string name="formula_editor_true">Wahr</string>
     <string name="formula_editor_false">Falsch</string>
     <string name="formula_editor_decimal_mark">,</string>
@@ -630,6 +643,10 @@
     <string name="formula_editor_function_length_parameter">(\'hallo welt\')</string>
     <string name="formula_editor_function_letter_parameter">(1,\'hallo welt\')</string>
     <string name="formula_editor_function_join_parameter">(\'hallo\',\'welt\')</string>
+    <string name="formula_editor_function_list_item">element</string>
+    <string name="formula_editor_function_list_item_parameter">(1,*listen name*)</string>
+    <string name="formula_editor_function_contains">enthält</string>
+    <string name="formula_editor_function_contains_parameter">(*listen name*,1)</string>
     <string name="formula_editor_sensor_x_acceleration">Beschleunigung_x</string>
     <string name="formula_editor_sensor_y_acceleration">Beschleunigung_y</string>
     <string name="formula_editor_sensor_z_acceleration">Beschleunigung_z</string>
@@ -650,7 +667,7 @@
     <string name="formula_editor_object_layer">Ebene</string>
     <string name="formula_editor_compute">Berechnen</string>
     <string name="formula_editor_object">Objekt</string>
-    <string name="formula_editor_function">Funktionen</string>
+    <string name="formula_editor_math" >Mathe</string>
     <string name="formula_editor_logic">Logik</string>
     <string name="formula_editor_sensors">Sensoren</string>
     <string name="formula_editor_variables">Variablen</string>
@@ -669,23 +686,28 @@
     <string name="formula_editor_operator_minus">-</string>
     <string name="formula_editor_operator_divide">÷</string>
     <string name="formula_editor_operator_power">^</string>
-    <string name="formula_editor_image_button_description_undo">Rückgängig</string>
-    <string name="formula_editor_image_button_description_redo">Wiederherstellen</string>
     <string name="formula_editor_image_button_description_delete">Löschen</string>
     <string name="formula_editor_variable_dialog_title">Neue Variable</string>
-    <string name="formula_editor_variable_dialog_for_all_sprites">Für alle Objekte</string>
     <string name="formula_editor_variable_dialog_for_this_brick">Für diesen Baustein</string>
-    <string name="formula_editor_variable_dialog_for_this_sprite_only">Nur für dieses Objekt</string>
-    <string name="formula_editor_variable_dialog_hint">Variablenname eingeben</string>
+    <string name="formula_editor_list_dialog_title" >Neue Liste</string >
+    <string name="formula_editor_dialog_for_all_sprites">Für alle Objekte</string>
+    <string name="formula_editor_dialog_for_this_sprite_only">Nur für dieses Objekt</string>
+     <string name="formula_editor_data_dialog_hint" >Name eingeben</string>
     <string name="formula_editor_discard_changes_dialog_message">Möchten Sie die Änderungen speichern?</string>
     <string name="formula_editor_discard_changes_dialog_title">Änderungen speichern?</string>
-    <string name="variable_name">Variablenname:</string>
     <string name="formula_editor_new_string_name">Neuer Text</string>
     <string name="formula_editor_new_string_dialog_hint">Neuen Text hier eingeben.</string>
+    <string name="formula_editor_function_number_of_items" >anzahl_von_elementen</string>
+    <string name="formula_editor_function_number_of_items_parameter" >(*listen name*)</string>
 
-    <plurals name="formula_editor_variable_context_action_item_selected">
-        <item quantity="one">Variable ausgewählt!</item>
-        <item quantity="other">Variablen ausgewählt!</item>
+    <string name="formula_editor_data_dialog_title">New</string>
+    <string name="formula_editor_existing_data_item" >Name wird bereits verwendet!</string>
+    <string name="formula_editor_fragment_data_current_items" >Aktuelle Items</string >
+    <string name="formula_editor_data_dialog_is_list" >Als Liste erstellen</string >
+    <string name="formula_editor_lists" >Listen</string >
+    <plurals name="formula_editor_data_fragment_context_action_item_selected" >
+        <item quantity="one">Element ausgewähl!</item>
+        <item quantity="other">Elemente ausgewählt!</item>
     </plurals>
     <!--  -->
     
