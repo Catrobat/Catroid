@@ -45,8 +45,6 @@
     <string name="stage">Stage</string>
     <string name="ok">OK</string>
     <string name="settings">Settings</string>
-    <string name="redo">Redo</string>
-    <string name="undo">Undo</string>
     <!--  -->
 
 
@@ -71,13 +69,13 @@
     <string name="preference_title">Settings</string>
     <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorms bricks</string>
     <string name="preference_description_mindstorm_bricks">Allow to control Lego Mindstorms robots</string>
-	<string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 bricks</string>
-    <string name="preference_description_quadcopter_bricks">Allow to control the ARDrone 2.0 quadcopter</string>    
     <string name="preference_title_use_face_detection">Face Detection</string>
     <string name="preference_description_use_face_detection">Allow to detect faces</string>
     <string name="preference_title_select_camera">Choose Camera</string>
     <string name="preference_description_select_camera">Select camera which is used for face detection</string>
-    <!-- -->
+	<string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 bricks</string>
+    <string name="preference_description_quadcopter_bricks">Allow to control the ARDrone 2.0 quadcopter</string>    
+    <!--  -->
 
 
     <!-- New Object Dialog -->
@@ -329,11 +327,12 @@
     <string name="category_looks">Looks</string>
     <string name="category_sound">Sound</string>
     <string name="category_control">Control</string>
+    <string name="category_variables">Variables</string>
     <string name="category_user_bricks">My Bricks</string>
-    <string name="category_data">Data</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_drone">ARDrone</string>
     <!--  -->
+
 
     <!-- Motion bricks -->
     <string name="brick_place_at">"Place at "</string>
@@ -432,16 +431,6 @@
     <string name="brick_variable_spinner_create_new_variable">New…</string>
     <string name="brick_note_default_value">"add comment here…"</string>
     <string name="brick_broadcast_default_value">"message 1"</string>
-    <string name="brick_add_item_to_userlist_add">Add</string>
-    <string name="brick_add_item_to_userlist">to list</string>
-    <string name="brick_delete_item_from_userlist_delete">Delete item from list</string>
-    <string name="brick_delete_item_from_userlist">at position</string>
-    <string name="brick_insert_item_into_userlist_insert_into" >Insert</string >
-    <string name="brick_insert_item_into_userlist_into_list" >into list</string >
-    <string name="brick_insert_item_into_userlist_at_position" >at position</string >
-    <string name="brick_replace_item_in_userlist_replace_in_list" >Replace item in list</string >
-    <string name="brick_replace_item_in_userlist_item_at_index" >at position</string >
-    <string name="brick_replace_item_in_userlist_with_value" >with</string >
     <!--  -->
 
 
@@ -589,7 +578,6 @@
 
 
     <!-- Formula Editor Strings -->
-    <string name="formula_editor_data" >Data</string >
     <string name="formula_editor_true">True</string>
     <string name="formula_editor_false">False</string>
     <string name="formula_editor_decimal_mark">.</string>
@@ -645,10 +633,6 @@
     <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
     <string name="formula_editor_function_join">join</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\'world\')</string>
-    <string name="formula_editor_function_list_item">element</string>
-    <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
-    <string name="formula_editor_function_contains">contains</string>
-    <string name="formula_editor_function_contains_parameter">(*list name*,1)</string>
     <string name="formula_editor_sensor_x_acceleration">acceleration_x</string>
     <string name="formula_editor_sensor_y_acceleration">acceleration_y</string>
     <string name="formula_editor_sensor_z_acceleration">acceleration_z</string>
@@ -656,6 +640,10 @@
     <string name="formula_editor_sensor_x_inclination">inclination_x</string>
     <string name="formula_editor_sensor_y_inclination">inclination_y</string>
     <string name="formula_editor_sensor_loudness">loudness</string>
+    <string name="formula_editor_sensor_face_detected">is_face_detected</string>
+    <string name="formula_editor_sensor_face_size">face_size</string>
+    <string name="formula_editor_sensor_face_x_position">face_x_position</string>
+    <string name="formula_editor_sensor_face_y_position">face_y_position</string>
     <string name="formula_editor_object_x">position_x</string>
     <string name="formula_editor_object_y">position_y</string>
     <string name="formula_editor_object_ghosteffect">transparency</string>
@@ -665,7 +653,7 @@
     <string name="formula_editor_object_layer">layer</string>
     <string name="formula_editor_compute">Compute</string>
     <string name="formula_editor_object">Object</string>
-    <string name="formula_editor_math" >Math</string>
+    <string name="formula_editor_function">Functions</string>
     <string name="formula_editor_logic">Logic</string>
     <string name="formula_editor_sensors">Sensors</string>
     <string name="formula_editor_variables">Variables</string>
@@ -684,40 +672,32 @@
     <string name="formula_editor_operator_minus">-</string>
     <string name="formula_editor_operator_divide">÷</string>
     <string name="formula_editor_operator_power">^</string>
+    <string name="formula_editor_image_button_description_undo">undo</string>
+    <string name="formula_editor_image_button_description_redo">redo</string>
     <string name="formula_editor_image_button_description_delete">delete</string>
     <string name="formula_editor_variable_dialog_title">New Variable</string>
-    <string name="formula_editor_list_dialog_title" >New List</string >
-    <string name="formula_editor_dialog_for_all_sprites">For all objects</string>
-    <string name="formula_editor_dialog_for_this_sprite_only">For this object only</string>
-    <string name="formula_editor_data_dialog_hint" >Enter name</string>
+    <string name="formula_editor_variable_dialog_for_this_brick">For this brick</string> 
+    <string name="formula_editor_variable_dialog_for_all_sprites">For all objects</string>
+    <string name="formula_editor_variable_dialog_for_this_sprite_only">For this object only</string>
+    <string name="formula_editor_variable_dialog_hint">Enter variable name</string>
     <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
     <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
+    <string name="variable_name">variable name:</string>
     <string name="formula_editor_new_string_name">New text</string>
     <string name="formula_editor_new_string_dialog_hint">Enter new text here.</string>
-    <string name="formula_editor_data_dialog_title">New</string>
-    <string name="formula_editor_existing_data_item" >Name already in use!</string>
-    <string name="formula_editor_fragment_data_current_items" >current items</string >
-    <string name="formula_editor_data_dialog_is_list" >Make it a list</string >
-    <string name="formula_editor_lists" >Lists</string >
-    <string name="formula_editor_variable_dialog_for_this_brick">For this brick</string>
-    <string name="formula_editor_sensor_face_detected">is_face_detected</string>
-    <string name="formula_editor_sensor_face_size">face_size</string>
-    <string name="formula_editor_sensor_face_x_position">face_x_position</string>
-    <string name="formula_editor_sensor_face_y_position">face_y_position</string>
-    <string name="formula_editor_function_number_of_items" >number_of_items</string>
-    <string name="formula_editor_function_number_of_items_parameter" >(*list name*)</string>
 
-    <plurals name="formula_editor_data_fragment_context_action_item_selected" >
-        <item quantity="one">Item selected!</item>
-        <item quantity="other">Items selected!</item>
+    <plurals name="formula_editor_variable_context_action_item_selected">
+        <item quantity="one">Variable selected!</item>
+        <item quantity="other">Variables selected!</item>
     </plurals>
     <!--  -->
     
+
     <!-- Camera Strings -->
     <string name="camera_facing_front">Front Camera</string>
     <string name="camera_facing_back">Back Camera</string>
     <!--  -->
-
+    
  	<!-- Brick Data Editor Strings -->
  	<string name="brick_data_editor_title">Brick Editor</string>
  	<string name="separator">|</string>
@@ -737,7 +717,7 @@
     <string name="recursive_user_brick_forbidden">Adding UserBrick to UserBrick is not allowed yet!</string>
  	<string name="brick_single">Brick</string>
  	<string name="brick_multiple">Bricks</string>
-
-    <!-- -->
+ 	
+ 	<!-- -->    
 
 </resources>

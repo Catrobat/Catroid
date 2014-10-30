@@ -46,8 +46,8 @@ public class ChangeVariableActionTest extends AndroidTestCase {
 		testSprite = new Sprite("testSprite");
         project = new Project(null, "testProject");
         ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
-		userVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().addProjectUserVariable(TEST_USERVARIABLE);
+		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
 				.getUserVariable(TEST_USERVARIABLE, null);
         super.setUp();
 	}

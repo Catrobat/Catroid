@@ -55,7 +55,7 @@ public class UserBrickDataEditorFragmentTest extends BaseActivityInstrumentation
 
 		assertTrue("FormulaEditor should have appeared", gotIntoFormulaEditor);
 
-		String stringOnVariablesButton = solo.getCurrentActivity().getString(R.string.formula_editor_data);
+		String stringOnVariablesButton = solo.getCurrentActivity().getString(R.string.formula_editor_variables);
 		solo.clickOnText(stringOnVariablesButton);
 
 		String stringOnUserBrickVar = UiTestUtils.TEST_USER_BRICK_VARIABLE;

@@ -68,7 +68,7 @@ public class ParserTest extends AndroidTestCase {
 		FormulaElement parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: 1.0", parseTree);
-		assertEquals("Formula interpretation is not as expected", "1.0", parseTree.interpretRecursive(testSprite));
+		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
@@ -77,7 +77,7 @@ public class ParserTest extends AndroidTestCase {
 		parseTree = internParser.parseFormula();
 
 		assertNotNull("Formula is not parsed correctly: 1", parseTree);
-		assertEquals("Formula interpretation is not as expected", "1", parseTree.interpretRecursive(testSprite));
+		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(testSprite));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, ""));
@@ -109,11 +109,11 @@ public class ParserTest extends AndroidTestCase {
 	}
 
 	public void testStrings() {
-		FormulaEditorUtil.testSingleToken(InternTokenType.STRING, "1.0", "1.0", testSprite);
-		FormulaEditorUtil.testSingleToken(InternTokenType.STRING, "1", "1", testSprite);
+		FormulaEditorUtil.testSingleToken(InternTokenType.STRING, "1.0", 1d, testSprite);
+		FormulaEditorUtil.testSingleToken(InternTokenType.STRING, "1", 1d, testSprite);
 		FormulaEditorUtil.testSingleToken(InternTokenType.STRING, "", "", testSprite);
 		FormulaEditorUtil.testSingleToken(InternTokenType.STRING, ".", ".", testSprite);
-		FormulaEditorUtil.testSingleToken(InternTokenType.STRING, ".1", ".1", testSprite);
+		FormulaEditorUtil.testSingleToken(InternTokenType.STRING, ".1", 0.1d, testSprite);
 		FormulaEditorUtil.testSingleToken(InternTokenType.STRING, "1.1.1", "1.1.1", testSprite);
 		FormulaEditorUtil.testSingleToken(InternTokenType.STRING, "\"o.o\"", "\"o.o\"", testSprite);
 		FormulaEditorUtil.testSingleToken(InternTokenType.STRING, "\'^_^\'", "\'^_^\'", testSprite);

@@ -36,7 +36,6 @@ import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
 public class ExtendedActions extends Actions {
@@ -318,40 +317,6 @@ public class ExtendedActions extends Actions {
 		action.setSprite(sprite);
 		action.setChangeVariable(variableFormula);
 		action.setUserVariable(userVariable);
-		return action;
-	}
-
-	public static Action deleteItemOfUserList(Sprite sprite, Formula userListFormula, UserList userList) {
-		DeleteItemOfUserListAction action = action(DeleteItemOfUserListAction.class);
-		action.setSprite(sprite);
-		action.setFormulaIndexToDelete(userListFormula);
-		action.setUserList(userList);
-		return action;
-	}
-
-	public static Action addItemToUserList(Sprite sprite, Formula userListFormula, UserList userList) {
-		AddItemToUserListAction action = action(AddItemToUserListAction.class);
-		action.setSprite(sprite);
-		action.setFormulaItemToAdd(userListFormula);
-		action.setUserList(userList);
-		return action;
-	}
-
-	public static Action insertItemIntoUserList(Sprite sprite, Formula userListFormulaIndexToInsert, Formula userListFormulaItemToInsert, UserList userList) {
-		InsertItemIntoUserListAction action = action(InsertItemIntoUserListAction.class);
-		action.setSprite(sprite);
-		action.setFormulaIndexToInsert(userListFormulaIndexToInsert);
-		action.setFormulaItemToInsert(userListFormulaItemToInsert);
-		action.setUserList(userList);
-		return action;
-	}
-
-	public static Action replaceItemInUserList(Sprite sprite, Formula userListFormulaIndexToReplace, Formula userListFormulaItemToInsert, UserList userList) {
-		ReplaceItemInUserListAction action = action(ReplaceItemInUserListAction.class);
-		action.setSprite(sprite);
-		action.setFormulaIndexToReplace(userListFormulaIndexToReplace);
-		action.setFormulaItemToInsert(userListFormulaItemToInsert);
-		action.setUserList(userList);
 		return action;
 	}
 
