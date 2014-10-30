@@ -122,7 +122,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 				history.updateCurrentCursor(absoluteCursorPosition);
 
 				formulaEditorFragment.refreshFormulaPreviewString();
-				formulaEditorFragment.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+				formulaEditorFragment.updateButtonViewOnKeyboard();
 			}
 			return true;
 

@@ -33,7 +33,7 @@ import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.formulaeditor.DataContainer;
+import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -50,8 +50,8 @@ public class Project implements Serializable {
 	private XmlHeader xmlHeader = new XmlHeader();
 	@XStreamAlias("objectList")
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
-	@XStreamAlias("data")
-	private DataContainer dataContainer = null;
+	@XStreamAlias("variables")
+	private UserVariablesContainer userVariables = null;
 
 	public Project(Context context, String name) {
 		xmlHeader.setProgramName(name);
@@ -67,7 +67,7 @@ public class Project implements Serializable {
 
 		MessageContainer.clear();
 
-		dataContainer = new DataContainer();
+		userVariables = new UserVariablesContainer();
 
 		if (context == null) {
 			return;
@@ -165,8 +165,8 @@ public class Project implements Serializable {
 	public Project() {
 	}
 
-	public DataContainer getDataContainer() {
-		return dataContainer;
+	public UserVariablesContainer getUserVariables() {
+		return userVariables;
 	}
 
 	public void removeUnusedBroadcastMessages() {

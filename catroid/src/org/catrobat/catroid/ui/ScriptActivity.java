@@ -47,9 +47,9 @@ import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.adapter.ScriptActivityAdapterInterface;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
-import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.FormulaEditorListFragment;
+import org.catrobat.catroid.ui.fragment.FormulaEditorVariableListFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.ScriptActivityFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -77,7 +77,6 @@ public class ScriptActivity extends BaseActivity {
 	public static final String ACTION_SOUND_RENAMED = "org.catrobat.catroid.SOUND_RENAMED";
 	public static final String ACTION_SOUNDS_LIST_INIT = "org.catrobat.catroid.SOUNDS_LIST_INIT";
 	public static final String ACTION_VARIABLE_DELETED = "org.catrobat.catroid.VARIABLE_DELETED";
-	public static final String ACTION_USERLIST_DELETED = "org.catrobat.catroid.USERLIST_DELETED";
 	private static int currentFragmentPosition;
 	private FragmentManager fragmentManager = getSupportFragmentManager();
 	private ScriptFragment scriptFragment = null;
@@ -226,10 +225,10 @@ public class ScriptActivity extends BaseActivity {
 			return super.onOptionsItemSelected(item);
 		}
 
-		FormulaEditorDataFragment formulaEditorDataFragment = (FormulaEditorDataFragment) getSupportFragmentManager()
-				.findFragmentByTag(FormulaEditorDataFragment.USER_DATA_TAG);
+		FormulaEditorVariableListFragment formulaEditorVariableListFragment = (FormulaEditorVariableListFragment) getSupportFragmentManager()
+				.findFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG);
 
-		if (formulaEditorDataFragment != null && formulaEditorDataFragment.isVisible()) {
+		if (formulaEditorVariableListFragment != null && formulaEditorVariableListFragment.isVisible()) {
 			return super.onOptionsItemSelected(item);
 		}
 
@@ -309,11 +308,11 @@ public class ScriptActivity extends BaseActivity {
 				return fragment.onKey(null, keyCode, event);
 		}
 
-		FormulaEditorDataFragment formulaEditorDataFragment = (FormulaEditorDataFragment) getSupportFragmentManager()
-				.findFragmentByTag(FormulaEditorDataFragment.USER_DATA_TAG);
+		FormulaEditorVariableListFragment formulaEditorVariableListFragment = (FormulaEditorVariableListFragment) getSupportFragmentManager()
+				.findFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG);
 
-		if (formulaEditorDataFragment != null && formulaEditorDataFragment.isVisible()) {
-			return formulaEditorDataFragment.onKey(null, keyCode, event);
+		if (formulaEditorVariableListFragment != null && formulaEditorVariableListFragment.isVisible()) {
+			return formulaEditorVariableListFragment.onKey(null, keyCode, event);
 		}
 
 		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getSupportFragmentManager().findFragmentByTag(
@@ -397,7 +396,7 @@ public class ScriptActivity extends BaseActivity {
 			if (!viewSwitchLock.tryLock()) {
 				return;
 			}
-			ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
+			ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
 			Intent intent = new Intent(this, PreStageActivity.class);
 			startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 		}
@@ -407,11 +406,11 @@ public class ScriptActivity extends BaseActivity {
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		//Dismiss ActionMode without effecting checked items
 
-		FormulaEditorDataFragment formulaEditorDataFragment = (FormulaEditorDataFragment) getSupportFragmentManager()
-				.findFragmentByTag(FormulaEditorDataFragment.USER_DATA_TAG);
+		FormulaEditorVariableListFragment formulaEditorVariableListFragment = (FormulaEditorVariableListFragment) getSupportFragmentManager()
+				.findFragmentByTag(FormulaEditorVariableListFragment.VARIABLE_TAG);
 
-		if (formulaEditorDataFragment != null && formulaEditorDataFragment.isVisible()) {
-			ListAdapter adapter = formulaEditorDataFragment.getListAdapter();
+		if (formulaEditorVariableListFragment != null && formulaEditorVariableListFragment.isVisible()) {
+			ListAdapter adapter = formulaEditorVariableListFragment.getListAdapter();
 			((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
 			return super.dispatchKeyEvent(event);
 		}

@@ -137,13 +137,6 @@ public class InternToken {
 		return false;
 	}
 
-	public boolean isUserList() {
-		if (internTokenType == InternTokenType.USER_LIST) {
-			return true;
-		}
-		return false;
-	}
-
 	public boolean isString() {
 		if (internTokenType == InternTokenType.STRING) {
 			return true;
@@ -172,5 +165,4 @@ public class InternToken {
 	public InternToken deepCopy() {
 		return new InternToken(internTokenType, tokenStringValue);
 	}
-
 }

@@ -21,14 +21,10 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/data_global_headline"
-    style="@style/headlineLinearLayout" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <org.catrobat.catroid.ui.CapitalizedTextView
-        style="@style/headlineTextView"
-        android:text="@string/formula_editor_dialog_for_all_sprites" />
+    <item
+        android:id="@+id/menu_delete"
+        android:title="@string/delete"/>
 
-    <View style="@style/headlineView" />
-
-</LinearLayout>
+</menu>

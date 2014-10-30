@@ -22,34 +22,17 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/progress_circle"
+    <ListView
+        android:id="@android:id/list"
+        style="@style/ListViewShadowed"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="1"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone" >
-
-        <ProgressBar
-            android:id="@+id/progress_bar_header"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout >
-
-    <include
-        android:id="@+id/bottom_bar"
-        layout="@layout/bottom_bar" />
-
-    <fragment
-        android:id="@+id/fragment_projects_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottom_bar"
-        class="org.catrobat.catroid.ui.fragment.ProjectsListFragment" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:cacheColorHint="#00000000"
+        android:divider="@android:color/transparent" />
 
 </RelativeLayout>

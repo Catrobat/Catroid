@@ -44,8 +44,8 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.UserBrickDataEditorFragment;
 import org.catrobat.catroid.utils.Utils;
@@ -344,12 +344,12 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 		data.name = name;
 
 		if (ProjectManager.getInstance().getCurrentProject() != null) {
-			DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+			UserVariablesContainer variablesContainer = ProjectManager.getInstance().getCurrentProject().getUserVariables();
 			if (ProjectManager.getInstance().getCurrentUserBrick() != null) {
-				dataContainer.addUserBrickUserVariableToUserBrick(ProjectManager.getInstance().getCurrentUserBrick().getUserBrickId(), data.name, Double.valueOf(0));
+				variablesContainer.addUserBrickUserVariableToUserBrick(ProjectManager.getInstance().getCurrentUserBrick().getUserBrickId(), data.name, Double.valueOf(0));
 			}
 			else {
-				dataContainer.addUserBrickUserVariableToUserBrick(getUserBrickId(), data.name, Double.valueOf(0));
+				variablesContainer.addUserBrickUserVariableToUserBrick(getUserBrickId(), data.name, Double.valueOf(0));
 			}
 		}
 
@@ -375,17 +375,17 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 		variable.name = newName;
 
 		if (isVariable && ProjectManager.getInstance().getCurrentProject() != null) {
-			DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
-			dataContainer.deleteUserVariableFromUserBrick(getUserBrickId(), oldName);
-			dataContainer.addUserBrickUserVariableToUserBrick(getUserBrickId(), newName, Double.valueOf(0));
+			UserVariablesContainer variablesContainer = ProjectManager.getInstance().getCurrentProject().getUserVariables();
+			variablesContainer.deleteUserVariableFromUserBrick(getUserBrickId(), oldName);
+			variablesContainer.addUserBrickUserVariableToUserBrick(getUserBrickId(), newName, Double.valueOf(0));
 		}
 	}
 
 	public void removeDataAt(int id, Context context) {
 		removeVariablesInFormulas(userScriptDefinitionBrickElements.getUserScriptDefinitionBrickElementList().get(id).name, context);
 		if (userScriptDefinitionBrickElements.getUserScriptDefinitionBrickElementList().get(id).isVariable && ProjectManager.getInstance().getCurrentProject() != null) {
-			DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
-			dataContainer.deleteUserVariableFromUserBrick(getUserBrickId(), userScriptDefinitionBrickElements.getUserScriptDefinitionBrickElementList().get(id).name);
+			UserVariablesContainer variablesContainer = ProjectManager.getInstance().getCurrentProject().getUserVariables();
+			variablesContainer.deleteUserVariableFromUserBrick(getUserBrickId(), userScriptDefinitionBrickElements.getUserScriptDefinitionBrickElementList().get(id).name);
 		}
 		userScriptDefinitionBrickElements.getUserScriptDefinitionBrickElementList().remove(id);
 		userScriptDefinitionBrickElements.incrementVersion();

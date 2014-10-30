@@ -93,7 +93,7 @@ public class XMLValidatingTest extends AndroidTestCase {
 		Context context = getContext();
 		String[] categories = { context.getString(R.string.category_control),
 				context.getString(R.string.category_motion), context.getString(R.string.category_sound),
-				context.getString(R.string.category_looks), context.getString(R.string.category_data),
+				context.getString(R.string.category_looks), context.getString(R.string.category_variables),
 				context.getString(R.string.category_lego_nxt) };
 
 		CategoryBricksFactory brickFactory = new CategoryBricksFactory();

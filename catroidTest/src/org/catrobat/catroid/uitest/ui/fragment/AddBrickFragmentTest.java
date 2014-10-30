@@ -64,7 +64,7 @@ public class AddBrickFragmentTest extends BaseActivityInstrumentationTestCase<Ma
 		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
 				solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollDownList(fragmentListView);
-		checkActionBarInACategory(solo.getString(R.string.category_data), "data");
+		checkActionBarInACategory(solo.getString(R.string.category_variables), "variables");
 		checkActionBarInACategory(solo.getString(R.string.category_lego_nxt), "lego nxt");
 	}
 
