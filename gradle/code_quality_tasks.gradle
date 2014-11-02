@@ -36,7 +36,7 @@ task pmd(type: Pmd) {
                 'config/pmd_strings.xml', 'config/pmd_unnecessary.xml']
     source '.'
     include '**/*.java'
-    exclude '**/gen/**', '**/build/**', '**/res/**', 'libraryProjects/**', '**/catroidCucumberTest/**'
+    exclude '**/gen/**', '**/build/**', '**/res/**', 'libraryProjects/**', '**/catroidCucumberTest/**', '**/src/com/squareup/**'
 
     ignoreFailures false
 

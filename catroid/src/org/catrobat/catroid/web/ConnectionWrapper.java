@@ -26,8 +26,9 @@ import android.os.ResultReceiver;
 import android.util.Log;
 
 import com.github.kevinsawicki.http.HttpRequest;
-import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
 import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.OkUrlFactory;
+import com.squareup.okhttp.Protocol;
 
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 
@@ -63,7 +64,7 @@ public class ConnectionWrapper {
 
 		if (filePath != null) {
 			OkHttpClient okHttpClient = new OkHttpClient();
-			okHttpClient.setTransports(Arrays.asList("http/1.1"));
+			okHttpClient.setProtocols(Arrays.asList(Protocol.HTTP_1_1));
 			HttpRequest.setConnectionFactory(new OkConnectionFactory(okHttpClient));
 			HttpRequest uploadRequest = HttpRequest.post(urlString).chunk(0);
 
@@ -97,6 +98,9 @@ public class ConnectionWrapper {
 
 	public void doHttpPostFileDownload(String urlString, HashMap<String, String> postValues, String filePath,
 			ResultReceiver receiver, Integer notificationId) throws IOException {
+		OkHttpClient okHttpClient = new OkHttpClient();
+		okHttpClient.setProtocols(Arrays.asList(Protocol.HTTP_1_1));
+		HttpRequest.setConnectionFactory(new OkConnectionFactory(okHttpClient));
 		HttpRequest request = HttpRequest.post(urlString);
 		File file = new File(filePath);
 		if (!(file.getParentFile().mkdirs() || file.getParentFile().isDirectory())) {
@@ -113,8 +117,11 @@ public class ConnectionWrapper {
 
 	public String doHttpPost(String urlString, HashMap<String, String> postValues) throws WebconnectionException {
 		try {
+			OkHttpClient okHttpClient = new OkHttpClient();
+			okHttpClient.setProtocols(Arrays.asList(Protocol.HTTP_1_1));
+			HttpRequest.setConnectionFactory(new OkConnectionFactory(okHttpClient));
 			return HttpRequest.post(urlString).form(postValues).body();
-		} catch (HttpRequestException httpRequestException) {
+		} catch (HttpRequest.HttpRequestException httpRequestException) {
 			Log.e(TAG, Log.getStackTraceString(httpRequestException));
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
 					"Connection could not be established!");
@@ -145,7 +152,8 @@ public class ConnectionWrapper {
 
 		@Override
 		public HttpURLConnection create(URL url) throws IOException {
-			return client.open(url);
+			OkUrlFactory okUrlFactory = new OkUrlFactory(client);
+			return okUrlFactory.open(url);
 		}
 
 		@Override
