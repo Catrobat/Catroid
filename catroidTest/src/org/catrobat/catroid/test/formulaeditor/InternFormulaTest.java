@@ -130,6 +130,20 @@ public class InternFormulaTest extends InstrumentationTestCase {
 		assertTrue("Prepend decimal mark error", internTokens.get(0).getTokenStringValue().compareTo("0.") == 0);
 	}
 
+	public void testInsertOperatorInNumberToken() {
+		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		internTokens.add(new InternToken(InternTokenType.NUMBER, "1234"));
+		InternFormula internFormula = new InternFormula(internTokens);
+		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
+		internFormula.setCursorAndSelection(2, false);
+		internFormula.handleKeyInput(R.id.formula_editor_keyboard_mult,
+				getInstrumentation().getTargetContext(), null);
+
+		assertTrue("Insert operator in number token error", internTokens.get(0).getTokenStringValue().compareTo("12") == 0);
+		assertTrue("Insert operator in number token error", internTokens.get(1).getTokenStringValue().compareTo("MULT") == 0);
+		assertTrue("Insert operator in number token error", internTokens.get(2).getTokenStringValue().compareTo("34") == 0);
+	}
+
 	public void testReplaceFunctionByToken() {
 
 		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
