@@ -452,6 +452,24 @@ public final class InternFormulaUtils {
 
 		return internTokensToReplaceWith;
 	}
+	
+	public static List<InternToken> insertOperatorToNumberToken(InternToken numberTokenToBeModified,int externNumberOffset,InternToken operatorToInsert){
+		List<InternToken> replaceTokenList = new LinkedList<InternToken>();
+		String numberString = numberTokenToBeModified.getTokenStringValue();
+		String leftPart = numberString.substring(0, externNumberOffset);
+		String rightPart = numberString.substring(externNumberOffset);
+
+		InternToken leftNumber = new InternToken(InternTokenType.NUMBER,leftPart);
+		replaceTokenList.add(leftNumber);
+
+		replaceTokenList.add(operatorToInsert);
+
+		InternToken rightNumber = new InternToken(InternTokenType.NUMBER,rightPart);
+		replaceTokenList.add(rightNumber);
+
+		return replaceTokenList;
+
+	}
 
 	public static InternToken insertIntoNumberToken(InternToken numberTokenToBeModified, int externNumberOffset,
 			String numberToInsert) {
