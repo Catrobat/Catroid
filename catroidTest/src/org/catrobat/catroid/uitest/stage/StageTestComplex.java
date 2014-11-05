@@ -42,12 +42,13 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
+import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 
 public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
-	private static final int SCREEN_WIDTH = 480;
-	private static final int SCREEN_HEIGHT = 800;
+	private static final int PROJECT_WIDTH = 480;
+	private static final int PROJECT_HEIGHT = 800;
 
 	private static final byte[] RED_PIXEL = { (byte) 237, 28, 36, (byte) 255 };
 	private static final byte[] RED_BRIGHTNESS_PIXEL = { (byte) 109, 0, 0, (byte) 255 };
@@ -58,7 +59,8 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 	private static final byte[] BLACK_PIXEL = { (byte) 0, (byte) 0, (byte) 0, (byte) 255 };
 	private static final byte[] BLACK_BRIGHTNESS_PIXEL = { (byte) -124, (byte) -124, (byte) -124, (byte) 255 };
 
-	private Project project;
+	private float screenScaleFactorX = 1.0F;
+	private float screenScaleFactorY = 1.0F;
 
 	public StageTestComplex() {
 		super(MainMenuActivity.class);
@@ -67,6 +69,8 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		screenScaleFactorX = ((float) ScreenValues.SCREEN_WIDTH) / ((float) PROJECT_WIDTH);
+		screenScaleFactorY = ((float) ScreenValues.SCREEN_HEIGHT) / ((float) PROJECT_HEIGHT);
 		createProject();
 		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
@@ -77,94 +81,73 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 	public void testShowTexture() {
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1400);
-		byte[] screenArray = StageActivity.stageListener.getPixels(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+		byte[] screenArray = StageActivity.stageListener.getPixels(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
 
-		UiTestUtils.comparePixelArrayWithPixelScreenArrayWithTolerance(WHITE_PIXEL, screenArray, 0, 0, SCREEN_WIDTH,
-				SCREEN_HEIGHT, 0);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinatesWithTolerance(screenArray, WHITE_PIXEL, 0, 0, 0);
 
-		UiTestUtils
-				.comparePixelArrayWithPixelScreenArray(RED_PIXEL, screenArray, -41, -41, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(RED_PIXEL, screenArray, -41, -2, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(RED_PIXEL, screenArray, -2, -41, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(RED_PIXEL, screenArray, -2, -2, SCREEN_WIDTH, SCREEN_HEIGHT);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, RED_PIXEL, -41, -41);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, RED_PIXEL, -41, -2);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, RED_PIXEL, -2, -41);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, RED_PIXEL, -2, -2);
 
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(GREEN_PIXEL, screenArray, 1, -2, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils
-				.comparePixelArrayWithPixelScreenArray(GREEN_PIXEL, screenArray, 40, -2, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils
-				.comparePixelArrayWithPixelScreenArray(GREEN_PIXEL, screenArray, 1, -41, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(GREEN_PIXEL, screenArray, 40, -41, SCREEN_WIDTH,
-				SCREEN_HEIGHT);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, GREEN_PIXEL, 1, -2);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, GREEN_PIXEL, 40, -2);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, GREEN_PIXEL, 1, -41);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, GREEN_PIXEL, 40, -41
+		);
 
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(YELLOW_PIXEL, screenArray, -21, 21, SCREEN_WIDTH,
-				SCREEN_HEIGHT);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, YELLOW_PIXEL, -21, 21);
 
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(WHITE_PIXEL, screenArray, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, WHITE_PIXEL, 0, 0);
 
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(BLACK_PIXEL, screenArray, -54, 55, SCREEN_WIDTH,
-				SCREEN_HEIGHT);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, BLACK_PIXEL, -54, 55);
 
-		solo.clickOnScreen((SCREEN_WIDTH / 2) + 21, (SCREEN_HEIGHT / 2) - 21);
+		clickOnProjectCoordinate(21, -21);
 		solo.sleep(300);
-		screenArray = StageActivity.stageListener.getPixels(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(BLUE_PIXEL, screenArray, 21, 21, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(BLUE_PIXEL, screenArray, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(BLUE_PIXEL, screenArray, 21 - 40, 21 - 40, SCREEN_WIDTH,
-				SCREEN_HEIGHT);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(RED_PIXEL, screenArray, 21 - 41, 21 - 41, SCREEN_WIDTH,
-				SCREEN_HEIGHT);
+		screenArray = StageActivity.stageListener.getPixels(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, BLUE_PIXEL, 21, 21);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, BLUE_PIXEL, 0, 0);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, BLUE_PIXEL, 21 - 40, 21 - 40);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, RED_PIXEL, 21 - 41, 21 - 41);
 
-		solo.clickOnScreen((SCREEN_WIDTH / 2) - 21, (SCREEN_HEIGHT / 2) - 21);
+		clickOnProjectCoordinate(-21, -21);
 		solo.sleep(300);
-		screenArray = StageActivity.stageListener.getPixels(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(WHITE_PIXEL, screenArray, -31, 21, SCREEN_WIDTH,
-				SCREEN_HEIGHT);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(BLUE_PIXEL, screenArray, 21, 21, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils
-				.comparePixelArrayWithPixelScreenArray(RED_PIXEL, screenArray, -41, -41, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(GREEN_PIXEL, screenArray, 40, -41, SCREEN_WIDTH,
-				SCREEN_HEIGHT);
+		screenArray = StageActivity.stageListener.getPixels(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, WHITE_PIXEL, -31, 21);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, BLUE_PIXEL, 21, 21);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, RED_PIXEL, -41, -41);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, GREEN_PIXEL, 40, -41);
 
-		solo.clickOnScreen((SCREEN_WIDTH / 2) + 21, (SCREEN_HEIGHT / 2) + 21);
+		clickOnProjectCoordinate(21, 21);
 		solo.sleep(300);
-		screenArray = StageActivity.stageListener.getPixels(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(GREEN_PIXEL, screenArray, 1, -2, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils
-				.comparePixelArrayWithPixelScreenArray(GREEN_PIXEL, screenArray, 40, -2, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils
-				.comparePixelArrayWithPixelScreenArray(GREEN_PIXEL, screenArray, 1, -41, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(GREEN_PIXEL, screenArray, 40, -41, SCREEN_WIDTH,
-				SCREEN_HEIGHT);
+		screenArray = StageActivity.stageListener.getPixels(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, GREEN_PIXEL, 1, -2);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, GREEN_PIXEL, 40, -2);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, GREEN_PIXEL, 1, -41);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, GREEN_PIXEL, 40, -41);
 
-		solo.clickOnScreen((SCREEN_WIDTH / 2) - 21, (SCREEN_HEIGHT / 2) + 21);
+		clickOnProjectCoordinate(-21, 21);
 		solo.sleep(300);
-		screenArray = StageActivity.stageListener.getPixels(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(RED_BRIGHTNESS_PIXEL, screenArray, -21, -21, SCREEN_WIDTH,
-				SCREEN_HEIGHT);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(RED_BRIGHTNESS_PIXEL, screenArray, -21, -21 + 27,
-				SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(GREEN_PIXEL, screenArray, 1, -2, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils
-				.comparePixelArrayWithPixelScreenArray(GREEN_PIXEL, screenArray, 40, -2, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils
-				.comparePixelArrayWithPixelScreenArray(GREEN_PIXEL, screenArray, 1, -41, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(GREEN_PIXEL, screenArray, 40, -41, SCREEN_WIDTH,
-				SCREEN_HEIGHT);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(BLUE_PIXEL, screenArray, 21, 21, SCREEN_WIDTH, SCREEN_HEIGHT);
+		screenArray = StageActivity.stageListener.getPixels(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, RED_BRIGHTNESS_PIXEL, -21, -21);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, RED_BRIGHTNESS_PIXEL, -21, -21 + 27);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, GREEN_PIXEL, 1, -2);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, GREEN_PIXEL, 40, -2);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, GREEN_PIXEL, 1, -41);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, GREEN_PIXEL, 40, -41);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, BLUE_PIXEL, 21, 21);
 
-		solo.clickOnScreen((SCREEN_WIDTH / 2) - 50, (SCREEN_HEIGHT / 2) - 50);
+		clickOnProjectCoordinate(-50, -50);
 		solo.sleep(300);
-		screenArray = StageActivity.stageListener.getPixels(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(BLACK_BRIGHTNESS_PIXEL, screenArray, -54, 55, SCREEN_WIDTH,
-				SCREEN_HEIGHT);
-
+		screenArray = StageActivity.stageListener.getPixels(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, BLACK_BRIGHTNESS_PIXEL, -54, 55);
 	}
 
 	public void testBehaviourWithoutBricks() {
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		assertNotNull("current project was null", project);
 
-		Sprite blueSprite = project.getSpriteList().get(4);
+		Sprite blueSprite = project.getSpriteList().get(5);
 		while (blueSprite.getNumberOfScripts() > 0) {
 			blueSprite.removeScript(blueSprite.getScript(0));
 		}
@@ -176,24 +159,26 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(1400);
 
-		byte[] screenArray = StageActivity.stageListener.getPixels(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(BLUE_PIXEL, screenArray, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(BLUE_PIXEL, screenArray, -19, -19, SCREEN_WIDTH,
-				SCREEN_HEIGHT);
-		UiTestUtils
-				.comparePixelArrayWithPixelScreenArray(BLUE_PIXEL, screenArray, -19, 19, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils
-				.comparePixelArrayWithPixelScreenArray(BLUE_PIXEL, screenArray, 19, -19, SCREEN_WIDTH, SCREEN_HEIGHT);
-		UiTestUtils.comparePixelArrayWithPixelScreenArray(BLUE_PIXEL, screenArray, 19, 19, SCREEN_WIDTH, SCREEN_HEIGHT);
+		byte[] screenArray = StageActivity.stageListener.getPixels(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, BLUE_PIXEL, 0, 0);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, BLUE_PIXEL, -19, -19
+		);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, BLUE_PIXEL, -19, 19);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, BLUE_PIXEL, 19, -19);
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinates(screenArray, BLUE_PIXEL, 19, 19);
 
 		solo.sleep(2000);
 	}
 
-	private void createProject() {
-		ScreenValues.SCREEN_HEIGHT = SCREEN_HEIGHT;
-		ScreenValues.SCREEN_WIDTH = SCREEN_WIDTH;
+	private void clickOnProjectCoordinate(int x, int y) {
+		solo.clickOnScreen((ScreenValues.SCREEN_WIDTH / 2) + (x * screenScaleFactorX), (ScreenValues.SCREEN_HEIGHT / 2) + (y * screenScaleFactorY));
+	}
 
-		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+	private void createProject() {
+		ScreenValues.SCREEN_HEIGHT = PROJECT_HEIGHT;
+		ScreenValues.SCREEN_WIDTH = PROJECT_WIDTH;
+
+		Project project = new Project(getActivity(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		// yellow Sprite
 		Sprite yellowSprite = new Sprite("yellowSprite");
@@ -332,5 +317,27 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
+		Utils.updateScreenWidthAndHeight(getActivity());
+	}
+
+
+	private void comparePixelColorArrayWithScreenArrayAtProjectCoordinates(byte[] screenArray, byte[] pixelArray, int x, int y) {
+		comparePixelColorArrayWithScreenArrayAtProjectCoordinatesWithTolerance(screenArray, pixelArray, x, y, 10);
+	}
+
+	private void comparePixelColorArrayWithScreenArrayAtProjectCoordinatesWithTolerance(byte[] screenArray, byte[] pixelArray, int x,
+			int y, int tolerance) {
+		assertEquals("Length of pixel array not 4", 4, pixelArray.length);
+		int convertedX = (int) Math.ceil((x * screenScaleFactorX) + (ScreenValues.SCREEN_WIDTH / 2));
+		int convertedY = (int) Math.ceil((y * screenScaleFactorY) + (ScreenValues.SCREEN_HEIGHT / 2));
+
+		byte[] screenPixel = new byte[4];
+		for (int i = 0; i < 4; i++) {
+			screenPixel[i] = screenArray[((convertedX * 3) + convertedX + (convertedY * ScreenValues.SCREEN_WIDTH * 4)) + i];
+		}
+		assertEquals("Pixels don't have same content. x:" + x + "->" + convertedX + " y:" + y + "->" + convertedY, pixelArray[0] & 0xFF, screenPixel[0] & 0xFF, tolerance);
+		assertEquals("Pixels don't have same content. x:" + x + "->" + convertedX + " y:" + y + "->" + convertedY, pixelArray[1] & 0xFF, screenPixel[1] & 0xFF, tolerance);
+		assertEquals("Pixels don't have same content. x:" + x + "->" + convertedX + " y:" + y + "->" + convertedY, pixelArray[2] & 0xFF, screenPixel[2] & 0xFF, tolerance);
+		assertEquals("Pixels don't have same content. x:" + x + "->" + convertedX + " y:" + y + "->" + convertedY, pixelArray[3] & 0xFF, screenPixel[3] & 0xFF, tolerance);
 	}
 }

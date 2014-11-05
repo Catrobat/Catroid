@@ -68,6 +68,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -1349,26 +1350,6 @@ public final class UiTestUtils {
 			}
 		}
 		return true;
-	}
-
-	public static void comparePixelArrayWithPixelScreenArray(byte[] pixelArray, byte[] screenArray, int x, int y,
-			int screenWidth, int screenHeight) {
-		comparePixelArrayWithPixelScreenArrayWithTolerance(pixelArray, screenArray, x, y, screenWidth, screenHeight, 10);
-	}
-
-	public static void comparePixelArrayWithPixelScreenArrayWithTolerance(byte[] pixelArray, byte[] screenArray, int x,
-			int y, int screenWidth, int screenHeight, int tolerance) {
-		assertEquals("Length of pixel array not 4", 4, pixelArray.length);
-		int convertedX = x + (screenWidth / 2);
-		int convertedY = y + (screenHeight / 2);
-		byte[] screenPixel = new byte[4];
-		for (int i = 0; i < 4; i++) {
-			screenPixel[i] = screenArray[(convertedX * 3 + convertedX + convertedY * screenWidth * 4) + i];
-		}
-		assertEquals("Pixels don't have same content.", pixelArray[0] & 0xFF, screenPixel[0] & 0xFF, tolerance);
-		assertEquals("Pixels don't have same content.", pixelArray[1] & 0xFF, screenPixel[1] & 0xFF, tolerance);
-		assertEquals("Pixels don't have same content.", pixelArray[2] & 0xFF, screenPixel[2] & 0xFF, tolerance);
-		assertEquals("Pixels don't have same content.", pixelArray[3] & 0xFF, screenPixel[3] & 0xFF, tolerance);
 	}
 
 	/**
