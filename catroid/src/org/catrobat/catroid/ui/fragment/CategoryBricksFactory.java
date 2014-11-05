@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui.fragment;
 
 import android.content.Context;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
@@ -222,11 +223,13 @@ public class CategoryBricksFactory {
 		motionBrickList.add(new PointToBrick(null));
 		motionBrickList.add(new GlideToBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION,
 				BrickValues.GLIDE_SECONDS));
-		motionBrickList.add(new VibrationBrick(BrickValues.VIBRATE_MILLISECONDS));
 
 		if (!isBackground(sprite)) {
 			motionBrickList.add(new GoNStepsBackBrick(BrickValues.GO_BACK));
 			motionBrickList.add(new ComeToFrontBrick());
+		}
+		if (BuildConfig.FEATURE_VIBRATION_BRICK_ENABLED) {
+			motionBrickList.add(new VibrationBrick(BrickValues.VIBRATE_MILLISECONDS));
 		}
 
 		return motionBrickList;
@@ -263,8 +266,10 @@ public class CategoryBricksFactory {
 		looksBrickList.add(new SetBrightnessBrick(BrickValues.SET_BRIGHTNESS_TO));
 		looksBrickList.add(new ChangeBrightnessByNBrick(BrickValues.CHANGE_BRITHNESS_BY));
 		looksBrickList.add(new ClearGraphicEffectBrick());
-		looksBrickList.add(new LedOnBrick());
-		looksBrickList.add(new LedOffBrick());
+		if (BuildConfig.FEATURE_LED_BRICK_ENABLED) {
+			looksBrickList.add(new LedOffBrick());
+			looksBrickList.add(new LedOnBrick());
+		}
 
 		return looksBrickList;
 	}

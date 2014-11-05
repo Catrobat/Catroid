@@ -30,6 +30,8 @@ ext {
     projectVersion = "0.9"
     featuresEnabled = [
             "lego_nxt"                          : true,
+            "led_brick"                         : false,
+            "vibration_brick"                   : false,
             "backpack"                          : false,
             "parrot_ar_drone"                   : false,
             "apk_generator"                     : false,
