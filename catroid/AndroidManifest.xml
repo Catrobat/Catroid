@@ -23,8 +23,7 @@
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.catrobat.catroid"
-    android:installLocation="auto"
-    android:versionCode="-1" >
+    android:installLocation="auto" >
 
     <supports-screens
         android:largeScreens="true"
@@ -39,13 +38,13 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    
-    <!-- drone -->
-    <uses-feature android:name="android.hardware.wifi" android:required="false" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <!--<uses-feature android:name="android.hardware.camera" android:required="false" />-->
+    <!--<uses-permission android:name="android.permission.CAMERA" />-->
+    <!---->
+    <!--&lt;!&ndash; drone &ndash;&gt;-->
+    <!--<uses-feature android:name="android.hardware.wifi" android:required="false" />-->
+    <!--<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>-->
+    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>-->
 
     <uses-feature android:name="android.hardware.bluetooth" android:required="false" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
