@@ -26,6 +26,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -222,11 +223,15 @@ public class StageListener implements ApplicationListener {
 		if (finished || reloadProject) {
 			return;
 		}
-		paused = true;
-		FaceDetectionHandler.pauseFaceDetection();
-		SoundManager.getInstance().pause();
-		for (Sprite sprite : sprites) {
-			sprite.pause();
+
+		try {
+			paused = true;
+			SoundManager.getInstance().pause();
+			for (Sprite sprite : sprites) {
+				sprite.pause();
+			}
+		} catch (Exception e) {
+			Log.e("StageListener", e.getMessage());
 		}
 	}
 

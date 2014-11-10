@@ -20,12 +20,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * Copyright for original "String buildPath" held by:
- * 	Copyright (C) 2008 Rob Manning
- * 	manningr@users.sourceforge.net
- * Source: http://www.java2s.com/Code/Java/File-Input-Output/Autilityclassformanipulatingpaths.htm
- */
+
+
 
 package org.catrobat.catroid.utils;
 
@@ -310,6 +306,12 @@ public final class Utils {
 
 	public static String getCurrentProjectName(Context context) {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
+
+			if (UtilFile.getProjectNames(new File(Constants.DEFAULT_ROOT)).size() == 0) {
+				Log.i("Utils", "Somebody deleted all projects in the file-system");
+				ProjectManager.getInstance().initializeDefaultProject(context);
+			}
+
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
 			if (currentProjectName == null || !StorageHandler.getInstance().projectExists(currentProjectName)) {
