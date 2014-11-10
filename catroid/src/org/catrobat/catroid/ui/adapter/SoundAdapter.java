@@ -24,11 +24,10 @@ package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.ActionMode;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
-import com.actionbarsherlock.view.ActionMode;
 
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.BackPackActivity;

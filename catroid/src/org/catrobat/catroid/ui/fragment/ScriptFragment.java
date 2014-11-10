@@ -31,19 +31,19 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.view.ActionMode;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -225,7 +225,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			return;
 		}
 
-		getSherlockActivity().findViewById(R.id.button_add).setOnClickListener(new OnClickListener() {
+		getActivity().findViewById(R.id.button_add).setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View view) {
@@ -296,7 +296,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	private void startActionMode(ActionMode.Callback actionModeCallback) {
-		actionMode = getSherlockActivity().startActionMode(actionModeCallback);
+		actionMode = getSupportActivity().startSupportActionMode(actionModeCallback);
 
 		for (int i = adapter.listItemCount; i < adapter.getBrickList().size(); i++) {
 			adapter.getView(i, null, getListView());
@@ -399,7 +399,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -433,7 +433,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 

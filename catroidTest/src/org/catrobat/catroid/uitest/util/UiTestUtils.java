@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.uitest.util;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.app.NotificationManager;
@@ -48,7 +47,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewParent;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -57,9 +55,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.internal.ActionBarSherlockCompat;
-import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
 import com.robotium.solo.Condition;
 import com.robotium.solo.Solo;
 
@@ -1508,13 +1503,7 @@ public final class UiTestUtils {
 	}
 
 	public static void acceptAndCloseActionMode(Solo solo) {
-		View doneButton;
-
-		if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			doneButton = solo.getView(Resources.getSystem().getIdentifier("action_mode_close_button", "id", "android"));
-		} else {
-			doneButton = solo.getCurrentActivity().findViewById(R.id.abs__action_mode_close_button);
-		}
+		View doneButton = solo.getView(Resources.getSystem().getIdentifier("action_mode_close_button", "id", "android"));
 
 		solo.clickOnView(doneButton);
 		solo.sleep(200);
@@ -1733,18 +1722,8 @@ public final class UiTestUtils {
 		activity.startActivity(intent);
 	}
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public static void clickOnHomeActionBarButton(Solo solo) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			Activity activity = solo.getCurrentActivity();
-
-			ActionMenuItem logoNavItem = new ActionMenuItem(activity, 0, android.R.id.home, 0, 0, "");
-			ActionBarSherlockCompat actionBarSherlockCompat = (ActionBarSherlockCompat) Reflection.invokeMethod(
-					SherlockFragmentActivity.class, activity, "getSherlock");
-			actionBarSherlockCompat.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
-		} else {
-			solo.clickOnActionBarHomeButton();
-		}
+		solo.clickOnActionBarHomeButton();
 	}
 
 	public static void getIntoSpritesFromMainMenu(Solo solo) {

@@ -34,11 +34,16 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.support.v7.view.ActionMode;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -47,12 +52,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -71,7 +70,7 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddBrickFragment extends SherlockListFragment implements DeleteModeListener, PrototypeBrickAdapter.OnBrickCheckedListener {
+public class AddBrickFragment extends BaseListFragment implements DeleteModeListener, PrototypeBrickAdapter.OnBrickCheckedListener {
 
 	private static final String BUNDLE_ARGUMENTS_SELECTED_CATEGORY = "selected_category";
 	public static final String ADD_BRICK_FRAGMENT_TAG = "add_brick_fragment";
@@ -201,14 +200,14 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 	}
 
 	private void setUpActionBar() {
-		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(true);
 		previousActionBarTitle = actionBar.getTitle();
 		actionBar.setTitle(this.getArguments().getString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY));
 	}
 
 	private void resetActionBar() {
-		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+		ActionBar actionBar = getSupportActionBar();
 		actionBar.setTitle(previousActionBarTitle);
 	}
 
@@ -358,7 +357,7 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 	@Override
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+			actionMode = getSupportActivity().startSupportActionMode(deleteModeCallBack);
 
 			unregisterForContextMenu(this.getListView());
 			BottomBar.hideBottomBar(getActivity());
@@ -388,7 +387,7 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 

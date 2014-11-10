@@ -41,6 +41,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v7.view.ActionMode;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -50,6 +51,8 @@ import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -62,10 +65,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -473,7 +472,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		menu.setHeaderTitle(selectedLookData.getLookName());
 		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
 
-		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
+		getActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
 		menu.findItem(R.id.context_menu_backpack).setVisible(false);
 		menu.findItem(R.id.context_menu_unpacking).setVisible(false);
 		menu.findItem(R.id.context_menu_move_up).setVisible(true);
@@ -620,7 +619,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	@Override
 	public void startCopyActionMode() {
 		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
+			actionMode = getSupportActivity().startSupportActionMode(copyModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(activity);
 			isRenameActionMode = false;
@@ -630,7 +629,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	@Override
 	public void startRenameActionMode() {
 		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
+			actionMode = getSupportActivity().startSupportActionMode(renameModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(activity);
 			isRenameActionMode = true;
@@ -640,7 +639,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	@Override
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+			actionMode = getSupportActivity().startSupportActionMode(deleteModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(activity);
 			isRenameActionMode = false;

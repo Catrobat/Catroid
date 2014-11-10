@@ -20,39 +20,21 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.ui.fragment;
 
-public abstract class ScriptActivityFragment extends BaseListFragment {
+import android.support.v4.app.ListFragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 
-	protected boolean actionModeActive = false;
+public class BaseListFragment extends ListFragment {
 
-	public boolean getActionModeActive() {
-		return actionModeActive;
+	protected AppCompatActivity getSupportActivity() {
+		return (AppCompatActivity) getActivity();
 	}
 
-	public void setActionModeActive(boolean actionModeActive) {
-		this.actionModeActive = actionModeActive;
+	protected ActionBar getSupportActionBar() {
+		return getSupportActivity().getSupportActionBar();
 	}
-
-	public abstract boolean getShowDetails();
-
-	public abstract void setShowDetails(boolean showDetails);
-
-	public abstract void setSelectMode(int selectMode);
-
-	public abstract int getSelectMode();
-
-	public abstract void startCopyActionMode();
-
-	public abstract void startRenameActionMode();
-
-	public abstract void startDeleteActionMode();
-
-	public abstract void startBackPackActionMode();
-
-	public abstract void handleAddButton();
-
-	protected abstract void showRenameDialog();
-
-	protected abstract void showDeleteDialog();
 }
+
