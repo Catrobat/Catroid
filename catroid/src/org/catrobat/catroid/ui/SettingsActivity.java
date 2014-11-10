@@ -94,7 +94,7 @@ public class SettingsActivity extends PreferenceActivity {
 		}
 	}
 
-	@SuppressLint("NewApi")
+	@SuppressLint({"NewApi", "AppCompatMethod"})
 	private void updateActionBar() {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			//No ActionBar for v10
