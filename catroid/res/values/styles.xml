@@ -20,26 +20,22 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" >
+<resources xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <!-- NewApi lint warnings can be ignored - functionality is handled by ActionBarSherlock -->
-    <style name="Theme.Catroid" parent="Theme.Sherlock" >
+    <style name="Theme.Catroid" parent="Theme.AppCompat" >
         <item name="actionBarStyle" >@style/Widget.Catroid.ActionBar</item >
-        <item name="android:actionBarStyle" tools:ignore="NewApi" >@style/Widget.Catroid.ActionBar</item >
         <item name="android:windowBackground" >@color/application_background_color</item >
     </style >
 
-    <style name="Widget.Catroid.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse" >
+    <style name="Widget.Catroid.ActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse" >
         <item name="background" >@drawable/actionbar_background</item >
-        <item name="android:background" >@drawable/actionbar_background</item >
         <item name="homeAsUpIndicator" >@drawable/ic_actionbar_back</item >
-        <item name="android:homeAsUpIndicator" tools:ignore="NewApi" >@drawable/ic_actionbar_back</item >
         <item name="titleTextStyle" >@style/Widget.Catroid.ActionBar.Title</item >
-        <item name="android:titleTextStyle" tools:ignore="NewApi" >@style/Widget.Catroid.ActionBar.Title</item >
         <item name="height" >@dimen/actionbar_height</item >
     </style >
 
-    <style name="Widget.Catroid.ActionBar.Title" parent="TextAppearance.Sherlock.Widget.ActionBar.Title" >
+    <style name="Widget.Catroid.ActionBar.Title" parent="TextAppearance.AppCompat.Widget.ActionBar.Title" >
         <item name="android:textColor" >@color/actionbar_title_color</item >
     </style >
 
@@ -517,7 +513,7 @@
  	</style >
 
     <style name="ScriptActivitySpinnerItemTextAppearance" >
-        <item name="android:textColor" >@color/abs__background_holo_light</item >
+        <item name="android:textColor" >?android:attr/textColorPrimaryInverse</item >
         <item name="android:typeface" >normal</item >
         <item name="android:textSize" >@dimen/text_size_medium</item >
     </style >

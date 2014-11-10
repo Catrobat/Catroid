@@ -29,6 +29,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -41,8 +42,6 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockDialogFragment;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -50,7 +49,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewVariableDialog extends SherlockDialogFragment {
+public class NewVariableDialog extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_variable_catroid";
 	Spinner spinnerToUpdate;
@@ -152,7 +151,7 @@ public class NewVariableDialog extends SherlockDialogFragment {
 		EditText dialogEditText = (EditText) dialogNewVariable
 				.findViewById(R.id.dialog_formula_editor_variable_name_edit_text);
 
-		InputMethodManager inputMethodManager = (InputMethodManager) getSherlockActivity().getSystemService(
+		InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(
 				Context.INPUT_METHOD_SERVICE);
 		inputMethodManager.showSoftInput(dialogEditText, InputMethodManager.SHOW_IMPLICIT);
 

@@ -38,6 +38,8 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.internal.view.menu.ActionMenuItem;
 import android.test.ActivityInstrumentationTestCase2;
 import android.text.InputType;
 import android.util.Log;
@@ -57,9 +59,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.internal.ActionBarSherlockCompat;
-import com.actionbarsherlock.internal.view.menu.ActionMenuItem;
 import com.robotium.solo.Condition;
 import com.robotium.solo.Solo;
 
@@ -1463,13 +1462,7 @@ public final class UiTestUtils {
 	}
 
 	public static void acceptAndCloseActionMode(Solo solo) {
-		View doneButton;
-
-		if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			doneButton = solo.getView(Resources.getSystem().getIdentifier("action_mode_close_button", "id", "android"));
-		} else {
-			doneButton = solo.getCurrentActivity().findViewById(R.id.abs__action_mode_close_button);
-		}
+		View doneButton = solo.getView(Resources.getSystem().getIdentifier("action_mode_close_button", "id", "android"));
 
 		solo.clickOnView(doneButton);
 		solo.sleep(200);
@@ -1689,18 +1682,8 @@ public final class UiTestUtils {
 		activity.startActivity(intent);
 	}
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public static void clickOnHomeActionBarButton(Solo solo) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-			Activity activity = solo.getCurrentActivity();
-
-			ActionMenuItem logoNavItem = new ActionMenuItem(activity, 0, android.R.id.home, 0, 0, "");
-			ActionBarSherlockCompat actionBarSherlockCompat = (ActionBarSherlockCompat) Reflection.invokeMethod(
-					SherlockFragmentActivity.class, activity, "getSherlock");
-			actionBarSherlockCompat.onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, logoNavItem);
-		} else {
-			solo.clickOnActionBarHomeButton();
-		}
+		solo.clickOnActionBarHomeButton();
 	}
 
 	public static void getIntoSpritesFromMainMenu(Solo solo) {

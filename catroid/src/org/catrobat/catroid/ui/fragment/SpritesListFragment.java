@@ -31,6 +31,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.view.ActionMode;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -38,6 +39,7 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,10 +48,6 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -75,7 +73,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
-public class SpritesListFragment extends SherlockListFragment implements OnSpriteEditListener,
+public class SpritesListFragment extends BaseListFragment implements OnSpriteEditListener,
 		OnLoadProjectCompleteListener {
 
 	private static final String BUNDLE_ARGUMENTS_SPRITE_TO_EDIT = "sprite_to_edit";
@@ -146,7 +144,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (programName != null
 				&& ((projectManager.getCurrentProject() != null && !projectManager.getCurrentProject().getName()
-						.equals(programName)) || projectManager.getCurrentProject() == null)) {
+				.equals(programName)) || projectManager.getCurrentProject() == null)) {
 
 			getActivity().findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
 			getActivity().findViewById(R.id.progress_circle).bringToFront();
@@ -154,7 +152,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			getActivity().findViewById(R.id.bottom_bar).setVisibility(View.GONE);
 
 			isLoading = true;
-			this.getSherlockActivity().supportInvalidateOptionsMenu();
+			this.getActivity().supportInvalidateOptionsMenu();
 
 			loadProjectTask = new LoadProjectTask(getActivity(), programName, true, true);
 			loadProjectTask.setOnLoadProjectCompleteListener(this);
@@ -252,7 +250,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		menu.setHeaderTitle(spriteToEdit.getName());
 
-		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
+		getActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
 		menu.findItem(R.id.context_menu_copy).setVisible(true);
 		if (!BuildConfig.FEATURE_BACKPACK_ENABLED) {
 			menu.findItem(R.id.context_menu_backpack).setVisible(false);
@@ -335,7 +333,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	public void startRenameActionMode() {
 		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
+			actionMode = getSupportActivity().startSupportActionMode(renameModeCallBack);
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = true;
 		}
@@ -343,7 +341,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+			actionMode = getSupportActivity().startSupportActionMode(deleteModeCallBack);
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
@@ -351,7 +349,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	public void startCopyActionMode() {
 		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
+			actionMode = getSupportActivity().startSupportActionMode(copyModeCallBack);
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
@@ -560,7 +558,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -592,7 +590,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -632,7 +630,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -673,7 +671,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		initListeners();
 		spriteAdapter.notifyDataSetChanged();
 		isLoading = false;
-		this.getSherlockActivity().supportInvalidateOptionsMenu();
+		this.getActivity().supportInvalidateOptionsMenu();
 		getActivity().findViewById(R.id.progress_circle).setVisibility(View.GONE);
 		getActivity().findViewById(R.id.fragment_sprites_list).setVisibility(View.VISIBLE);
 		getActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);

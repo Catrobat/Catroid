@@ -41,6 +41,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v7.view.ActionMode;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -49,6 +50,7 @@ import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -62,9 +64,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -127,7 +126,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	}
 
 	private void setHandleAddbutton() {
-		ImageButton addButton = (ImageButton) getSherlockActivity().findViewById(R.id.button_add);
+		ImageButton addButton = (ImageButton) getActivity().findViewById(R.id.button_add);
 		addButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -315,7 +314,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void startCopyActionMode() {
 		if (actionMode == null) {
 			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
-			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
+			actionMode = getSupportActivity().startSupportActionMode(copyModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
@@ -328,7 +327,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		Log.d("TAG", "startBackPackActionMode");
 		if (actionMode == null) {
 			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
-			actionMode = getSherlockActivity().startActionMode(backPackModeCallBack);
+			actionMode = getSupportActivity().startSupportActionMode(backPackModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
@@ -340,7 +339,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void startRenameActionMode() {
 		if (actionMode == null) {
 			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
-			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
+			actionMode = getSupportActivity().startSupportActionMode(renameModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = true;
@@ -351,7 +350,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
 			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer, soundInfoList, adapter);
-			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+			actionMode = getSupportActivity().startSupportActionMode(deleteModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
@@ -474,7 +473,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		menu.setHeaderTitle(selectedSoundInfo.getTitle());
 		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
 
-		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
+		getActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
 		menu.findItem(R.id.context_menu_copy).setVisible(true);
 		menu.findItem(R.id.context_menu_unpacking).setVisible(false);
 	}
@@ -668,7 +667,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -702,7 +701,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -739,7 +738,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -775,7 +774,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 

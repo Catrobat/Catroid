@@ -22,24 +22,25 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.util.Log;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockPreferenceActivity;
-
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 
-public class SettingsActivity extends SherlockPreferenceActivity {
+public class SettingsActivity extends PreferenceActivity {
 
 	public static final String SETTINGS_SHOW_LEGO_NXT_BRICKS = "setting_mindstorm_bricks";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
@@ -76,10 +77,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		listPreference.setEntries(entries);
 		listPreference.setEntryValues(entryValues);
 
-		ActionBar actionBar = getSupportActionBar();
-
-		actionBar.setTitle(R.string.preference_title);
-		actionBar.setHomeButtonEnabled(true);
+		updateActionBar();
 
 		screen = getPreferenceScreen();
 
@@ -93,6 +91,19 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 			CheckBoxPreference dronePreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
 			dronePreference.setEnabled(false);
 			screen.removePreference(dronePreference);
+		}
+	}
+
+	@SuppressLint("NewApi")
+	private void updateActionBar() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+			//Wir nehmen in kauf, dass am Geräten mit version < 4.0 kein ActionBar gibt in Preferences.
+			 ActionBar actionBar = getActionBar();
+
+			if (actionBar != null) {
+				actionBar.setTitle(R.string.preference_title);
+				actionBar.setHomeButtonEnabled(true);
+			}
 		}
 	}
 
