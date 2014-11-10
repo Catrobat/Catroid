@@ -1108,8 +1108,6 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertTrue("Bottombar is not visible", solo.getView(R.id.button_play).getVisibility() == VISIBLE);
 		assertTrue("Add button is not visible", solo.getView(R.id.button_add).getVisibility() == VISIBLE);
 		assertTrue("Play button is not visible", solo.getView(R.id.button_play).getVisibility() == VISIBLE);
-		assertTrue("Bottombar separator is not visible",
-				solo.getView(R.id.bottom_bar_separator).getVisibility() == VISIBLE);
 	}
 
 	public void testSelectAllActionModeButton() {
