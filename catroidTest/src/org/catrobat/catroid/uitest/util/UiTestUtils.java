@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.uitest.util;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.app.NotificationManager;
@@ -38,8 +37,6 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.internal.view.menu.ActionMenuItem;
 import android.test.ActivityInstrumentationTestCase2;
 import android.text.InputType;
 import android.util.Log;
@@ -50,7 +47,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewParent;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;

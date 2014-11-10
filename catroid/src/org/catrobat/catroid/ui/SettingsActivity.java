@@ -97,8 +97,8 @@ public class SettingsActivity extends PreferenceActivity {
 	@SuppressLint("NewApi")
 	private void updateActionBar() {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-			//Wir nehmen in kauf, dass am Geräten mit version < 4.0 kein ActionBar gibt in Preferences.
-			 ActionBar actionBar = getActionBar();
+			//No ActionBar for v10
+			ActionBar actionBar = getActionBar();
 
 			if (actionBar != null) {
 				actionBar.setTitle(R.string.preference_title);
