@@ -21,13 +21,16 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/bottom_bar"
+<LinearLayout android:id="@+id/bottom_bar"
+              xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="@dimen/actionbar_height"
               android:layout_alignParentBottom="true"
               android:background="@drawable/bottom_bar_background"
-              android:orientation="horizontal" >
+              android:divider="@drawable/bottombar_separator"
+              android:orientation="horizontal"
+              android:showDividers="middle"
+              android:dividerPadding="5dp" >
 
     <ImageButton
         android:id="@+id/button_add"
@@ -38,15 +41,6 @@
         android:background="@drawable/bottom_bar_background_selector"
         android:onClick="handleAddButton"
         android:src="@drawable/ic_plus" />
-
-    <ImageView
-        android:id="@+id/bottom_bar_separator"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/actionbar_height"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/bottombar_separator" />
 
     <ImageButton
         android:id="@+id/button_play"
