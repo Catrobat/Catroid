@@ -34,6 +34,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 
 import java.util.LinkedList;
@@ -47,18 +48,15 @@ public class UserVariablesInterpretationTest extends AndroidTestCase {
 	private static final String SPRITE_USER_VARIABLE = "spriteUserVariable";
 	private static final double USER_VARIABLE_RESET = 0.0d;
 	private Sprite testSprite;
-	private Project project;
 	private Sprite firstSprite;
-	private StartScript startScript;
-	private ChangeSizeByNBrick changeBrick;
 
 	@Override
 	protected void setUp() {
 		testSprite = new Sprite("testSprite");
-		this.project = new Project(null, "testProject");
+		Project project = new Project(null, "testProject");
 		firstSprite = new Sprite("firstSprite");
-		startScript = new StartScript(firstSprite);
-		changeBrick = new ChangeSizeByNBrick(firstSprite, 10);
+		StartScript startScript = new StartScript();
+		ChangeSizeByNBrick changeBrick = new ChangeSizeByNBrick(10);
 		firstSprite.addScript(startScript);
 		startScript.addBrick(changeBrick);
 		project.addSprite(firstSprite);
@@ -72,7 +70,7 @@ public class UserVariablesInterpretationTest extends AndroidTestCase {
 				USER_VARIABLE_VALUE2);
 	}
 
-	public void testUserVariableInterpretation() {
+	public void testUserVariableInterpretation() throws InterpretationException {
 		Formula userVariable = getUservariableByName(PROJECT_USER_VARIABLE);
 		assertEquals("Formula interpretation of ProjectUserVariable is not as expected", USER_VARIABLE_VALUE,
 				userVariable.interpretDouble(testSprite));
@@ -82,7 +80,7 @@ public class UserVariablesInterpretationTest extends AndroidTestCase {
 				userVariable.interpretDouble(firstSprite));
 	}
 
-	public void testUserVariableReseting() {
+	public void testUserVariableReseting() throws InterpretationException {
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
 		Formula userVariable = getUservariableByName(PROJECT_USER_VARIABLE);
 		assertEquals("ProjectUserVariable didnt reset", USER_VARIABLE_RESET, userVariable.interpretDouble(testSprite));
