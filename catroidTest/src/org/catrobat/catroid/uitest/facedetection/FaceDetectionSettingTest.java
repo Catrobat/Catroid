@@ -183,6 +183,7 @@ public class FaceDetectionSettingTest extends BaseActivityInstrumentationTestCas
 
 	}
 
+	@Device
 	public void testReadCameraSettings() {
 		assertTrue("Device must have at least 2 cameras for this test", Camera.getNumberOfCameras() >= 2);
 

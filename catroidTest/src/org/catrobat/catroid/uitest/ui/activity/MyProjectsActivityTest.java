@@ -1951,6 +1951,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertFalse("Select All is still shown", solo.getView(R.id.select_all).isShown());
 	}
 
+	@Device
 	public void testDeletingProjectAndVerifySettings() {
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
