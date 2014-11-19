@@ -197,14 +197,9 @@ public class StageListener implements ApplicationListener {
 	}
 
 	void activityResume() {
-		if (!paused) {
-			FaceDetectionHandler.resumeFaceDetection();
-		}
-
 	}
 
 	void activityPause() {
-		FaceDetectionHandler.pauseFaceDetection();
 	}
 
 	void menuResume() {
@@ -212,7 +207,6 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		paused = false;
-		FaceDetectionHandler.resumeFaceDetection();
 		SoundManager.getInstance().resume();
 		for (Sprite sprite : sprites) {
 			sprite.resume();
@@ -251,7 +245,6 @@ public class StageListener implements ApplicationListener {
 	@Override
 	public void resume() {
 		if (!paused) {
-			FaceDetectionHandler.resumeFaceDetection();
 			SoundManager.getInstance().resume();
 			for (Sprite sprite : sprites) {
 				sprite.resume();
@@ -270,7 +263,6 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		if (!paused) {
-			FaceDetectionHandler.pauseFaceDetection();
 			SoundManager.getInstance().pause();
 			for (Sprite sprite : sprites) {
 				sprite.pause();
