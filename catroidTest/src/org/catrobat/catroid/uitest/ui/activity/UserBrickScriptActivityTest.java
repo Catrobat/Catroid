@@ -28,6 +28,7 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.UserBrickDataEditorFragment;
+import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -71,6 +72,7 @@ public class UserBrickScriptActivityTest extends BaseActivityInstrumentationTest
 		assertTrue("Did not find '" + UiTestUtils.TEST_USER_BRICK_NAME + "'", foundText);
 	}
 
+	@Device
 	public void testUserBrickVariableScope() throws InterruptedException {
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().addProjectUserVariable("projectVar");
 		ProjectManager.getInstance().getCurrentProject().getUserVariables().addSpriteUserVariable("spriteVar");
