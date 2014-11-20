@@ -444,7 +444,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		ProjectManager.getInstance().setCurrentScript(startingScript);
 		StorageHandler.getInstance().saveProject(standardProject);
 
-		UiTestUtils.goBackToHome(getInstrumentation());
+		solo.goBack();
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		solo.sleep(300);
 		SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getInstrumentation()
