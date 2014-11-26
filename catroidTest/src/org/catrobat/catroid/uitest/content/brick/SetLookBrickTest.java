@@ -174,6 +174,8 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		String lookPath = ProjectManager.getInstance().getCurrentSprite().getLookDataList().get(0).getAbsolutePath();
 		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", look1ImagePath, lookPath);
+
+		solo.sleep(800);
 		solo.goBack();
 		solo.goBack();
 
