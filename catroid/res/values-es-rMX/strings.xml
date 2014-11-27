@@ -117,8 +117,7 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="dialog_confirm_delete_multiple_bricks_title">¿Desea borrar estos bloques?</string>
   <string name="dialog_confirm_delete_brick_message">Esta operación no se puede deshacer!</string>
   <plurals name="number_of_bricks_to_delete">
-    <item quantity="one">Eliminar 1 bloque
-</item>
+    <item quantity="one">Eliminar 1 bloque</item>
     <item quantity="other">Eliminar %d bloques</item>
   </plurals>
   <plurals name="number_of_bricks_to_copy">
@@ -156,7 +155,7 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="sound_name">nombre del sonido:</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">ha sido descomprimido!</item>
-    <item quantity="other">han sido descomprimidos!</item>
+    <item quantity="other">ha sido descomprimido!</item>
   </plurals>
   <string name="last_used">Último acceso:</string>
   <string name="description">Descripción:</string>
@@ -244,14 +243,14 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="brick_go_back">Retroceder</string>
   <plurals name="brick_go_back_layer_plural">
     <item quantity="one">capa</item>
-    <item quantity="other">capas</item>
+    <item quantity="other">capa</item>
   </plurals>
   <string name="brick_come_to_front">Ir al frente</string>
   <string name="brick_if_on_edge_bounce">Si en el borde, rebote</string>
   <string name="brick_move">Mover</string>
   <plurals name="brick_move_n_step_plural">
     <item quantity="one">paso</item>
-    <item quantity="other">pasos</item>
+    <item quantity="other">paso</item>
   </plurals>
   <string name="brick_turn_left">Girar a la izquierda</string>
   <string name="brick_turn_right">Girar a la derecha</string>
@@ -288,7 +287,7 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="brick_wait">Espere</string>
   <plurals name="second_plural">
     <item quantity="one">"segundo"</item>
-    <item quantity="other">"segundos"</item>
+    <item quantity="other">"segundo"</item>
   </plurals>
   <string name="brick_broadcast_receive">Cuando recibo</string>
   <string name="brick_broadcast">Difundir</string>
@@ -298,7 +297,7 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="brick_repeat">Repetir</string>
   <plurals name="time_plural">
     <item quantity="one">vez</item>
-    <item quantity="other">veces</item>
+    <item quantity="other">vez</item>
   </plurals>
   <string name="brick_loop_end">Fin del bucle</string>
   <string name="brick_if_begin">Si</string>
@@ -353,7 +352,7 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="error_no_writiable_external_storage_available">Pocket Code requiere almacenamiento externo de escritura, por ejemplo una tarjeta SD para ejecutar, pero no se encontró ninguno. \nYou puede arreglar esto haciendo el almacenamiento externo escribible o insertando una tarjeta SD, inténtelo de nuevo.</string>
   <string name="error_no_name_entered">Por favor, introduce la traducción aquí</string>
   <string name="error_project_exists">Un programa con el mismo nombre ya existe. \nPlease elegir un nombre diferente.</string>
-  <string name="error_delete_project">An error while deleting the program occurred</string>
+  <string name="error_delete_project">Un error ha ocurrido durante el proceso de carga</string>
   <string name="error_unknown_project">No existe un programa con ese nombre.</string>
   <string name="error_project_upload">Un error ha ocurrido durante el proceso de carga</string>
   <string name="error_project_download">Un error ha ocurrido durante el proceso de descarga.</string>
@@ -530,7 +529,7 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="formula_editor_new_string_dialog_hint">Introduzca aquí el texto nuevo.</string>
   <plurals name="formula_editor_variable_context_action_item_selected">
     <item quantity="one">Variable seleccionada!</item>
-    <item quantity="other">Variables seleccionadas!</item>
+    <item quantity="other">Variable seleccionada!</item>
   </plurals>
   <string name="camera_facing_front">Cámara frontal</string>
   <string name="camera_facing_back">Cámara trasera</string>

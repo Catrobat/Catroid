@@ -51,7 +51,7 @@
   <string name="main_menu_web">Découvrir</string>
   <string name="main_menu_upload">Envoyer</string>
   <string name="main_menu_about_pocketcode">A propos de Pocket Code</string>
-  <string name="main_menu_terms_of_use">Conditions d\'utilisation</string>
+  <string name="main_menu_terms_of_use">Terms of use</string>
   <string name="main_menu_rate_app">Évaluez nous!</string>
   <string name="main_menu_play_store_not_installed">Play Store introuvable</string>
   <string name="main_menu_web_dialog_title">Attention!</string>
@@ -73,15 +73,15 @@
   <string name="dialog_new_object_name">Nom de l\'objet</string>
   <string name="dialog_new_object_switch_title">Nouvel objet créé</string>
   <string name="dialog_new_object_switch_message">Utiliser le nouvel objet ?</string>
-  <string name="dialog_terms_of_use_title">Conditions d\'utilisation</string>
+  <string name="dialog_terms_of_use_title">Terms of Use</string>
   <string name="dialog_terms_of_use_info">Pour pouvoir utiliser Pocket Code et d\'autres logiciels mise à disposition par le projet Catrobat,
 il faut
     accepter les conditions d\'utilisation et les reconnaître en utilisant Pocket Code et les     autres logiciels. Cliquer sur le lien ci-dessous pour afficher les conditions d\'utilisation.\n</string>
-  <string name="dialog_terms_of_use_link_text">Conditions d\'utilisation</string>
+  <string name="dialog_terms_of_use_link_text">Terms of Use</string>
   <string name="dialog_terms_of_use_agree_permanent">Je suis d\'accord - Ne pas me redemander. J\'assume l\'entière responsabilité en cas d\'utilisation de mon appareil par une tierce personne.</string>
   <string name="dialog_terms_of_use_agree">J\'accepte</string>
   <string name="dialog_terms_of_use_do_not_agree">Je n’accepte pas</string>
-  <string name="dialog_about_title">À propos de Pocket Code</string>
+  <string name="dialog_about_title">A propos de Pocket Code</string>
   <string name="dialog_about_license_info">Pocket Code est 
         un environnement de programmation et un interpréteur du langage de programmation visuel pour des appareils Android.\n\n
         La licence GNU AGPL v3 s\'applique au code source de Pocket Code.
@@ -139,7 +139,7 @@ il faut
   <string name="look_measure">Mesure:</string>
   <string name="dialog_confirm_delete_look_title">Supprimer ce visuel?</string>
   <string name="dialog_confirm_delete_multiple_looks_title">Supprimer ces visuels ?</string>
-  <string name="dialog_confirm_delete_look_message">Cette action ne peut pas être annulée !</string>
+  <string name="dialog_confirm_delete_look_message">Cette action ne peut pas être annulée!</string>
   <string name="lookname">nom du visuel:</string>
   <string name="fragment_sound_text_description">Appuyer sur « + » pour ajouter des sons</string>
   <string name="rename_sound_dialog">Renommer son</string>
@@ -153,7 +153,7 @@ il faut
   <string name="length">Longueur :</string>
   <string name="dialog_confirm_delete_sound_title">Supprimer le son ?</string>
   <string name="dialog_confirm_delete_multiple_sounds_title">Supprimer les sons ?</string>
-  <string name="dialog_confirm_delete_sound_message">Cette action ne peut pas être annulée !</string>
+  <string name="dialog_confirm_delete_sound_message">Cette action ne peut pas être annulée!</string>
   <string name="sound_name">nom du son :</string>
   <plurals name="unpacking_items_plural">
     <item quantity="one">was unpacked!</item>
@@ -168,7 +168,7 @@ il faut
   <string name="programs">Programmes</string>
   <string name="dialog_confirm_delete_program_title">Supprimer l\'appli ?</string>
   <string name="dialog_confirm_delete_multiple_programs_title">Supprimer les applis ?</string>
-  <string name="dialog_confirm_delete_program_message">Cette action ne peut pas être annulée !</string>
+  <string name="dialog_confirm_delete_program_message">Cette action ne peut pas être annulée!</string>
   <string name="details_date_today">Aujourd\'hui</string>
   <string name="details_date_yesterday">Hier</string>
   <string name="dialog_copy_project_title">Copier l\'appli</string>
@@ -192,7 +192,7 @@ il faut
   <string name="new_look_dialog_title">Add Look</string>
   <string name="add_look_from_camera">Prendre une photo</string>
   <string name="add_look_draw_new_image">Dessiner une image</string>
-  <string name="add_look_choose_image">Sélectionner une image</string>
+  <string name="add_look_choose_image">Sélectionnez une image</string>
   <string name="new_project_dialog_title">Nouvelle appliappli</string>
   <string name="new_project_dialog_hint">Mon appli</string>
   <string name="new_project_description_dialog_hint">Ma description</string>
