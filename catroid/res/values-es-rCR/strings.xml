@@ -51,7 +51,7 @@
   <string name="main_menu_web">Explorar</string>
   <string name="main_menu_upload">Subir</string>
   <string name="main_menu_about_pocketcode">Acerca de Pocket Code</string>
-  <string name="main_menu_terms_of_use">Condiciones de Uso</string>
+  <string name="main_menu_terms_of_use">Términos de uso</string>
   <string name="main_menu_rate_app">Valóranos!</string>
   <string name="main_menu_play_store_not_installed">No se encontró la aplicación de la Tienda</string>
   <string name="main_menu_web_dialog_title">Precaución!</string>
@@ -73,7 +73,7 @@
   <string name="dialog_new_object_name">Nombre del objeto</string>
   <string name="dialog_new_object_switch_title">Ha creado un nuevo objeto</string>
   <string name="dialog_new_object_switch_message">¿Cambia al nuevo objeto?</string>
-  <string name="dialog_terms_of_use_title">Términos de uso</string>
+  <string name="dialog_terms_of_use_title">Términos de Uso</string>
   <string name="dialog_terms_of_use_info">Para poder utilizar Pocket Code y otros ejecutables ofrecidos por el proyecto Catrobat, debes de estar de acuerdo con nuestros Términos de Uso y seguirlos estrictamente cuando utilizas Pocket Code y nuestros otros ejecutables. Por favor vea el siguiente enlace para tener una formulación más precisa. \n
 </string>
   <string name="dialog_terms_of_use_link_text">Términos de Uso</string>
@@ -115,7 +115,7 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="dialog_confirm_delete_brick_title">¿Desea eliminar este Bloque?</string>
   <string name="dialog_confirm_delete_script_title">¿Desea eliminar este comando?</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">¿Desea borrar estos bloques?</string>
-  <string name="dialog_confirm_delete_brick_message">Esta operación no se puede deshacer!</string>
+  <string name="dialog_confirm_delete_brick_message">Esto no se puede deshacer!</string>
   <plurals name="number_of_bricks_to_delete">
     <item quantity="one">Eliminar 1 bloque
 </item>
@@ -167,7 +167,7 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="programs">Programas</string>
   <string name="dialog_confirm_delete_program_title">¿Desea eliminar este programa?</string>
   <string name="dialog_confirm_delete_multiple_programs_title">¿Desea eliminar estos programas?</string>
-  <string name="dialog_confirm_delete_program_message">Esta operación no se puede deshacer!</string>
+  <string name="dialog_confirm_delete_program_message">Esto no se puede deshacer!</string>
   <string name="details_date_today">Hoy</string>
   <string name="details_date_yesterday">Ayer</string>
   <string name="dialog_copy_project_title">Programa de copia</string>
@@ -243,8 +243,8 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="brick_change_y_by">"Cambiar Y por "</string>
   <string name="brick_go_back">Retroceder</string>
   <plurals name="brick_go_back_layer_plural">
-    <item quantity="one">capa</item>
-    <item quantity="other">capas</item>
+    <item quantity="one">layer</item>
+    <item quantity="other">layer</item>
   </plurals>
   <string name="brick_come_to_front">Ir al frente</string>
   <string name="brick_if_on_edge_bounce">Si en el borde, rebote</string>
@@ -415,7 +415,7 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="brick_drone_move_backward">Retroceder</string>
   <string name="brick_drone_move_up">Mover hacia arriba</string>
   <string name="brick_drone_move_down">Mover hacia abajo</string>
-  <string name="brick_drone_flip">Voltear</string>
+  <string name="brick_drone_flip">Invertir</string>
   <string name="brick_drone_power">Potencia</string>
   <string name="brick_drone_turn_right">Girar a la derecha</string>
   <string name="brick_drone_turn_left">Girar a la izquierda</string>
