@@ -244,6 +244,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			ProjectManager.getInstance().setCurrentScript(((ScriptBrick) adapter.getItem(0)).getScriptSafe());
 		}
 
+		//FIXME: IllyaBoyko: Method registerForContextMenu calls setOnCreateContextMenuListener explicitly.
 		listView.setOnCreateContextMenuListener(this);
 		listView.setOnDragAndDropListener(adapter);
 		listView.setAdapter(adapter);
@@ -301,6 +302,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		actionMode = getSherlockActivity().startActionMode(actionModeCallback);
 
 		for (int i = adapter.listItemCount; i < adapter.getBrickList().size(); i++) {
+			//FIXME: IllyaBoyko: Why do we call this
 			adapter.getView(i, null, getListView());
 		}
 
