@@ -57,9 +57,10 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.brick_loop_endless, null);
 			view = getViewWithAlpha(alphaValue);
-			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_endless_checkbox);
+			//TODO :
+//			checkbox = (CheckBox) view.findViewById(R.id.checkbox);
 
-			setCheckboxView(R.id.brick_loop_endless_checkbox);
+			setCheckboxView(R.id.checkbox);
 			final Brick brickInstance = this;
 
 			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -109,7 +110,7 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.brick_loop_endless_no_puzzle, null);
 			view = getViewWithAlpha(alphaValue);
-			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_endless_no_puzzle_checkbox);
+			checkbox = (CheckBox) view.findViewById(R.id.checkbox);
 
 			final Brick brickInstance = this;
 

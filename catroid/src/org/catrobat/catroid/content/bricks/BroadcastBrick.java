@@ -95,7 +95,7 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 		}
 		view = View.inflate(context, R.layout.brick_broadcast, null);
 		view = getViewWithAlpha(alphaValue);
-		setCheckboxView(R.id.brick_broadcast_checkbox);
+		setCheckboxView(R.id.checkbox);
 
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 

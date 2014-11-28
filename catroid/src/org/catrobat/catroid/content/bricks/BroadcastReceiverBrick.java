@@ -99,7 +99,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 
 		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
 		view = getViewWithAlpha(alphaValue);
-		setCheckboxView(R.id.brick_broadcast_receive_checkbox);
+		setCheckboxView(R.id.checkbox);
 
 		// XXX method moved to to DragAndDropListView since it is not working on 2.x
 		//		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {

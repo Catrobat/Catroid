@@ -97,7 +97,7 @@ public class LegoNxtPlayToneBrick extends FormulaBrick implements OnClickListene
 		view = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_nxt_play_tone_checkbox);
+		setCheckboxView(R.id.checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {

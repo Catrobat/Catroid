@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2014 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -22,29 +21,12 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+<CheckBox
+    android:id="@+id/checkbox"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal" >
-
-    <include layout="@layout/include_brick_checkbox" />
-
-    <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_drone_play_led_animation"
-        style="@style/BrickContainer.Drone.Small"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
-
-        <TextView
-            android:id="@+id/ValueTextView"
-            style="@style/BrickText.SingleLine"
-            android:text="@string/brick_drone_play_led_animation" >
-        </TextView>
-    </org.catrobat.catroid.ui.BrickLayout>
-
-</LinearLayout>
+    android:visibility="gone"
+    tools:visibility="visible" />

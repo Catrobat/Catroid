@@ -130,7 +130,7 @@ public class LegoNxtMotorActionBrick extends FormulaBrick implements OnClickList
 
 		view = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 		view = getViewWithAlpha(alphaValue);
-		setCheckboxView(R.id.brick_nxt_motor_action_checkbox);
+		setCheckboxView(R.id.checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {

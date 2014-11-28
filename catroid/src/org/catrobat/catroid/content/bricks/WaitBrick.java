@@ -92,7 +92,7 @@ public class WaitBrick extends FormulaBrick implements OnClickListener {
 		view = View.inflate(context, R.layout.brick_wait, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_wait_checkbox);
+		setCheckboxView(R.id.checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {

@@ -98,7 +98,7 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		view = View.inflate(context, R.layout.brick_set_look, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_set_look_checkbox);
+		setCheckboxView(R.id.checkbox);
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override

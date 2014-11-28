@@ -88,9 +88,10 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.brick_loop_end, null);
 			view = getViewWithAlpha(alphaValue);
-			checkbox = (CheckBox) view.findViewById(R.id.brick_loop_end_checkbox);
+			//TODO :
+//			checkbox = (CheckBox) view.findViewById(R.id.checkbox);
 
-			setCheckboxView(R.id.brick_loop_end_checkbox);
+			setCheckboxView(R.id.checkbox);
 			final Brick brickInstance = this;
 
 			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {

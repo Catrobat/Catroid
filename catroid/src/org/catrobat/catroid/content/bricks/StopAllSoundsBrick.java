@@ -57,7 +57,7 @@ public class StopAllSoundsBrick extends BrickBaseType {
 		}
 		view = View.inflate(context, R.layout.brick_stop_all_sounds, null);
 		view = getViewWithAlpha(alphaValue);
-		setCheckboxView(R.id.brick_stop_all_sounds_checkbox);
+		setCheckboxView(R.id.checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {

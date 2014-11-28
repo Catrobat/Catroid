@@ -73,7 +73,7 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_drone_play_led_animation, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_drone_play_led_animation_checkbox);
+		setCheckboxView(R.id.checkbox);
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override

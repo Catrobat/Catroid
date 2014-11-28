@@ -73,7 +73,7 @@ public class BroadcastWaitBrick extends BroadcastBrick implements BroadcastMessa
 		}
 		view = View.inflate(context, R.layout.brick_broadcast_wait, null);
 		view = getViewWithAlpha(alphaValue);
-		setCheckboxView(R.id.brick_broadcast_wait_checkbox);
+		setCheckboxView(R.id.checkbox);
 
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 

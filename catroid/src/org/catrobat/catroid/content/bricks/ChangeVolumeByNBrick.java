@@ -81,7 +81,7 @@ public class ChangeVolumeByNBrick extends FormulaBrick implements OnClickListene
 		view = View.inflate(context, R.layout.brick_change_volume_by, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_change_volume_by_checkbox);
+		setCheckboxView(R.id.checkbox);
 		final Brick brickInstance = this;
 
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {

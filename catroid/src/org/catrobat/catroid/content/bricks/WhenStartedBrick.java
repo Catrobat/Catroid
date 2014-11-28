@@ -69,7 +69,7 @@ public class WhenStartedBrick extends ScriptBrick {
 		}
 		view = View.inflate(context, R.layout.brick_when_started, null);
 
-		setCheckboxView(R.id.brick_when_started_checkbox);
+		setCheckboxView(R.id.checkbox);
 
 		//method moved to to DragAndDropListView since it is not working on 2.x
 		/*

@@ -80,7 +80,7 @@ public class TurnLeftBrick extends FormulaBrick implements OnClickListener {
 		view = View.inflate(context, R.layout.brick_turn_left, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_turn_left_checkbox);
+		setCheckboxView(R.id.checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {

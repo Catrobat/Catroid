@@ -29,13 +29,7 @@
     android:gravity="center_vertical"
     android:orientation="horizontal" xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <CheckBox
-        android:id="@+id/brick_user_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:visibility="gone" >
-    </CheckBox>
+    <include layout="@layout/include_brick_checkbox" />
 
  	<org.catrobat.catroid.ui.BrickLayout
  	    android:id="@+id/brick_user_flow_layout"

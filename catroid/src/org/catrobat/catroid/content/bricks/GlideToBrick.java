@@ -99,7 +99,7 @@ public class GlideToBrick extends FormulaBrick implements OnClickListener {
 		view = View.inflate(context, R.layout.brick_glide_to, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_glide_to_checkbox);
+		setCheckboxView(R.id.checkbox);
 		final Brick brickInstance = this;
 
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {

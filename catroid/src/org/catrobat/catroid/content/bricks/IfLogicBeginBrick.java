@@ -113,7 +113,7 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick, OnC
 		view = View.inflate(context, R.layout.brick_if_begin_if, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_if_begin_checkbox);
+		setCheckboxView(R.id.checkbox);
 		final Brick brickInstance = this;
 
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {

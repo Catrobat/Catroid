@@ -96,7 +96,7 @@ public class PointInDirectionBrick extends FormulaBrick implements View.OnClickL
 		}
 		view = View.inflate(context, R.layout.brick_point_in_direction, null);
 		view = getViewWithAlpha(alphaValue);
-		setCheckboxView(R.id.brick_point_in_direction_checkbox);
+		setCheckboxView(R.id.checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {

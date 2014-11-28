@@ -81,7 +81,7 @@ public class ChangeGhostEffectByNBrick extends FormulaBrick implements OnClickLi
 		view = View.inflate(context, R.layout.brick_change_ghost_effect, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_change_ghost_effect_checkbox);
+		setCheckboxView(R.id.checkbox);
 		final Brick brickInstance = this;
 
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {

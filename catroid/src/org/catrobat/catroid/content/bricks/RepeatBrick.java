@@ -93,7 +93,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 		view = View.inflate(context, R.layout.brick_repeat, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_repeat_checkbox);
+		setCheckboxView(R.id.checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnClickListener(new OnClickListener() {

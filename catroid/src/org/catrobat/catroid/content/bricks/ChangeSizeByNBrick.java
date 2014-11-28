@@ -80,7 +80,7 @@ public class ChangeSizeByNBrick extends FormulaBrick implements OnClickListener 
 		view = View.inflate(context, R.layout.brick_change_size_by_n, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_change_size_by_checkbox);
+		setCheckboxView(R.id.checkbox);
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override

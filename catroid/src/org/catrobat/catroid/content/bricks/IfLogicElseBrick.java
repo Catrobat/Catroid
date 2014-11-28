@@ -77,7 +77,7 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 		view = inflater.inflate(R.layout.brick_if_else, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_if_else_checkbox);
+		setCheckboxView(R.id.checkbox);
 		final Brick brickInstance = this;
 
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {

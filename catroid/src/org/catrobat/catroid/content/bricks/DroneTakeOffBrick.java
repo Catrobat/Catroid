@@ -73,7 +73,7 @@ public class DroneTakeOffBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_drone_takeoff, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_drone_takeoff_checkbox);
+		setCheckboxView(R.id.checkbox);
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override

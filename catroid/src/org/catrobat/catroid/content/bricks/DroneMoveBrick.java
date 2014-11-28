@@ -94,7 +94,7 @@ public abstract class DroneMoveBrick extends FormulaBrick implements OnClickList
 		view = View.inflate(context, R.layout.brick_drone_move, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_drone_move_checkbox);
+		setCheckboxView(R.id.checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {

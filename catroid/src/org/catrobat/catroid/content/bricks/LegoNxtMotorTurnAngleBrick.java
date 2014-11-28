@@ -131,7 +131,7 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickL
 		view = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_nxt_motor_turn_checkbox);
+		setCheckboxView(R.id.checkbox);
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override

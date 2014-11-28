@@ -90,7 +90,7 @@ public class PlaceAtBrick extends FormulaBrick implements OnClickListener {
 		view = View.inflate(context, R.layout.brick_place_at, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_place_at_checkbox);
+		setCheckboxView(R.id.checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {

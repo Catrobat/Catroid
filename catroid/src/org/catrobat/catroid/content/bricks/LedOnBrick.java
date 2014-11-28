@@ -59,7 +59,7 @@ public class LedOnBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_led_on, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_led_on_checkbox);
+		setCheckboxView(R.id.checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {

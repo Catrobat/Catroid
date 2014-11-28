@@ -98,7 +98,7 @@ public class PointToBrick extends BrickBaseType {
 		view = inflater.inflate(R.layout.brick_point_to, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_point_to_checkbox);
+		setCheckboxView(R.id.checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
