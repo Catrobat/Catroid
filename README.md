@@ -20,7 +20,7 @@ If you want to contribute we suggest that you start with forking our repository 
 
 If you want to implement a new feature, please ask about the details in JIRA or our IRC channel (#catrobat or #catrobatdev) first.
 
-Let's start to set up the working environment using the instruction in our  [Wiki](https://github.com/Catrobat/Catroid/wiki/Setup-working-environment)!
+Let's start to set up the working environment using the instructions in our  [Wiki](https://github.com/Catrobat/Catroid/wiki/Setup-working-environment)!
 
 
 # Resources and links #
@@ -32,7 +32,7 @@ Let's start to set up the working environment using the instruction in our  [Wik
 * [Credits](http://developer.catrobat.org/credits)
 * [Statistics on Ohloh](https://www.ohloh.net/p/catrobat/)
 * [Twitter](http://twitter.com/Catroid)
-* Visit us on IRC: [#catroid](http://webchat.freenode.net/?channels=catroid&uio=d4) on [freenode](http://freenode.net/)
+* Visit us on IRC: #catrobat or #catrobatdev on [freenode](http://freenode.net/)
 * [Our Google group](https://groups.google.com/forum/?fromgroups#!forum/catrobat)
 * [Catroid project blog](http://blog.catroid.org/)
 
