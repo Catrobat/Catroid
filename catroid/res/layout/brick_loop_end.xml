@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2014 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -21,17 +20,17 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<org.catrobat.catroid.ui.BrickView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
 
     <include layout="@layout/include_brick_checkbox" />
 
     <LinearLayout
         android:id="@+id/brick_loop_end_layout"
-        style="@style/BrickContainer.Control.Small" >
+        style="@style/BrickContainer.Control.Small">
 
         <TextView
             android:id="@+id/brick_loop_end_label"
@@ -39,4 +38,4 @@
             android:text="@string/brick_loop_end" />
     </LinearLayout>
 
-</LinearLayout>
+</org.catrobat.catroid.ui.BrickView>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2014 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -22,12 +21,12 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:orientation="horizontal" >
+<org.catrobat.catroid.ui.BrickView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
     <include layout="@layout/include_brick_checkbox" />
 
@@ -39,39 +38,39 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
 
         <TextView
             android:id="@+id/brick_set_brightness_label"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_set_brightness" >
-        </TextView >
+            android:text="@string/brick_set_brightness">
+        </TextView>
 
         <TextView
             android:id="@+id/brick_set_brightness_to_textview"
             style="@style/BrickText.SingleLine"
-            app:layout_newLine="true"
-            android:text="@string/to_label" >
-        </TextView >
+            android:text="@string/to_label"
+            app:layout_newLine="true">
+        </TextView>
 
         <TextView
             android:id="@+id/brick_set_brightness_prototype_text_view"
-            style="@style/BrickPrototypeTextView" >
-        </TextView >
+            style="@style/BrickPrototypeTextView">
+        </TextView>
 
         <TextView
             android:id="@+id/brick_set_brightness_edit_text"
             style="@style/BrickEditText"
+            android:maxEms="10"
             app:layout_inputType="number"
-            app:layout_textField="true"
-            android:maxEms="10" >
-        </TextView >
+            app:layout_textField="true">
+        </TextView>
 
         <TextView
             android:id="@+id/brick_set_brightness_to_percent"
             style="@style/BrickText.SingleLine"
-            android:text="@string/percent_symbol" >
-        </TextView >
-    </org.catrobat.catroid.ui.BrickLayout >
+            android:text="@string/percent_symbol">
+        </TextView>
+    </org.catrobat.catroid.ui.BrickLayout>
 
-</LinearLayout>
+</org.catrobat.catroid.ui.BrickView>

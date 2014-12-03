@@ -21,7 +21,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<org.catrobat.catroid.ui.BrickView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -29,6 +29,7 @@
 
     <include layout="@layout/include_brick_checkbox" />
 
+    <!-- TODO: NOT a BrickLayout -->
     <LinearLayout
         android:id="@+id/brick_loop_endless_nopuzzle_layout"
         style="@style/BrickContainer.Control.Small"
@@ -40,4 +41,4 @@
             android:text="@string/brick_loop_end" />
     </LinearLayout>
 
-</LinearLayout>
+</org.catrobat.catroid.ui.BrickView>

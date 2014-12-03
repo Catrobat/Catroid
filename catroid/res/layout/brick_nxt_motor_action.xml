@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2014 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -22,12 +21,12 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:orientation="horizontal" >
+<org.catrobat.catroid.ui.BrickView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
     <include layout="@layout/include_brick_checkbox" />
 
@@ -39,48 +38,48 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
 
         <TextView
             android:id="@+id/lego_motor_action_label"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_motor_action" >
-        </TextView >
+            android:text="@string/brick_motor_action">
+        </TextView>
 
         <Spinner
             android:id="@+id/lego_motor_action_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="false"
-            android:focusable="false" >
+            android:focusable="false">
 
             <!-- do not add spinner items here! -->
-        </Spinner >
+        </Spinner>
 
         <TextView
             android:id="@+id/lego_motor_action_speed"
             style="@style/BrickText.SingleLine"
-            android:text="@string/motor_speed" >
-        </TextView >
+            android:text="@string/motor_speed">
+        </TextView>
 
         <TextView
             android:id="@+id/motor_action_speed_text_view"
-            style="@style/BrickText.SingleLine" >
-        </TextView >
+            style="@style/BrickText.SingleLine">
+        </TextView>
 
         <TextView
             android:id="@+id/motor_action_speed_edit_text"
             style="@style/BrickEditText"
+            android:clickable="false"
             app:layout_inputType="number"
-            app:layout_textField="true"
-            android:clickable="false" >
-        </TextView >
+            app:layout_textField="true">
+        </TextView>
 
         <TextView
             android:id="@+id/lego_motor_action_percent"
             style="@style/BrickText"
-            android:text="@string/percent_symbol" >
-        </TextView >
-    </org.catrobat.catroid.ui.BrickLayout >
+            android:text="@string/percent_symbol">
+        </TextView>
+    </org.catrobat.catroid.ui.BrickLayout>
 
-</LinearLayout>
+</org.catrobat.catroid.ui.BrickView>

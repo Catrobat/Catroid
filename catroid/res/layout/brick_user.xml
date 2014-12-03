@@ -22,7 +22,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<org.catrobat.catroid.ui.BrickView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/brick_user_main_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -39,4 +39,4 @@
  	    app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 	</org.catrobat.catroid.ui.BrickLayout>
  	
-</LinearLayout>
+</org.catrobat.catroid.ui.BrickView>
