@@ -92,7 +92,13 @@ public class BrickView extends LinearLayout implements Checkable {
 
 	public class Mode {
 		public static final int DEFAULT = 0;
+		/**
+		 * Prototype View Mode means user cannot edit child elements like Formula fields.
+		 */
 		public static final int PROTOTYPE = 2;
+		/**
+		 * Selection View Mode means that this view is in selection state.
+		 */
 		public static final int SELECTION = 4;
 	}
 }

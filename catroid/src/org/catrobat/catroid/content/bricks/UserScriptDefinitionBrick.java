@@ -249,6 +249,9 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 
 	@Override
 	public void onClick(View eventOrigin) {
+		if (!clickAllowed()) {
+			return;
+		}
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}

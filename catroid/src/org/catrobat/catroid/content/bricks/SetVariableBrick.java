@@ -47,6 +47,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.ui.BrickView;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewVariableDialog;
@@ -244,6 +245,9 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 
 	@Override
 	public void onClick(View view) {
+		if (!clickAllowed()) {
+			return;
+		}
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}

@@ -133,6 +133,9 @@ public class ChangeYByNBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public void onClick(View view) {
+		if (!clickAllowed()) {
+			return;
+		}
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}

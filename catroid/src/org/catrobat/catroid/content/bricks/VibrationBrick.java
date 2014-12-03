@@ -157,6 +157,9 @@ public class VibrationBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		if (!clickAllowed()) {
+			return;
+		}
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}

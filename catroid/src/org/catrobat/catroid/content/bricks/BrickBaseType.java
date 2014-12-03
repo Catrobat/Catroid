@@ -31,6 +31,7 @@ import android.widget.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.ui.BrickView;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
@@ -150,6 +151,16 @@ public class BrickBaseType implements Brick {
 	@Override
 	public void setAlpha(int newAlpha) {
 		alphaValue = newAlpha;
+	}
+
+	protected boolean clickAllowed() {
+		if (this.view instanceof BrickView) {
+			BrickView brickView = (BrickView) this.view;
+			if (brickView.hasMode(BrickView.Mode.PROTOTYPE) || brickView.hasMode(BrickView.Mode.SELECTION)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

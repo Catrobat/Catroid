@@ -172,6 +172,9 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick, OnC
 
 	@Override
 	public void onClick(View view) {
+		if (!clickAllowed()) {
+			return;
+		}
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}

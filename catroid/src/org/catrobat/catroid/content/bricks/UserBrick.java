@@ -304,6 +304,9 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	@Override
 	public void onClick(View eventOrigin) {
+		if (!clickAllowed()) {
+			return;
+		}
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}

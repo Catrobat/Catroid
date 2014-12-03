@@ -38,6 +38,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.ui.BrickView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -167,26 +168,10 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 
 		final Brick brick = brickList.get(position);
-
-		ViewGroup parentView = (ViewGroup) brick.getPrototypeView(context);
-		convertView = parentView;
-
-		CheckBox checkbox = null;
-		for (int i = 0; i < parentView.getChildCount(); i++) {
-			if (parentView.getChildAt(i) instanceof CheckBox) {
-				checkbox = (CheckBox) parentView.getChildAt(i);
-			}
+		View view = brick.getView(context, position, this);
+		if (view instanceof BrickView) {
+			((BrickView) view).setMode(BrickView.Mode.PROTOTYPE);
 		}
-		if (checkbox != null) {
-			brick.setCheckboxView(checkbox.getId(), convertView);
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					PrototypeBrickAdapter.this.handleCheck(brick, isChecked);
-				}
-			});
-		}
-
-		return convertView;
+		return view;
 	}
 }
