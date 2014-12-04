@@ -88,7 +88,9 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 		return resources;
 	}
 
-	public void appendBrickToScript(Brick brick) { this.getScriptSafe().addBrick(brick);}
+	public void appendBrickToScript(Brick brick) {
+		this.getScriptSafe().addBrick(brick);
+	}
 
 	@Override
 	public CheckBox getCheckBox() {
@@ -164,7 +166,7 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 			layout.removeAllViews();
 		}
 
-		View prototype = brick.getPrototypeView(context);
+		View prototype = brick.getView(context, 0, null);
 		Bitmap brickImage = getBrickImage(prototype);
 
 		ImageView preview = getBorderedPreview(brickImage);
@@ -242,10 +244,10 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		return getView(context, 0, null);
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		return getView(context, 0, null);
+//	}
 
 	@Override
 	public void onClick(View eventOrigin) {
@@ -350,8 +352,7 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 			UserVariablesContainer variablesContainer = ProjectManager.getInstance().getCurrentProject().getUserVariables();
 			if (ProjectManager.getInstance().getCurrentUserBrick() != null) {
 				variablesContainer.addUserBrickUserVariableToUserBrick(ProjectManager.getInstance().getCurrentUserBrick().getUserBrickId(), data.name, Double.valueOf(0));
-			}
-			else {
+			} else {
 				variablesContainer.addUserBrickUserVariableToUserBrick(getUserBrickId(), data.name, Double.valueOf(0));
 			}
 		}

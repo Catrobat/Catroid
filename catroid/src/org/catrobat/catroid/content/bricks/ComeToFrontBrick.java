@@ -101,10 +101,10 @@ public class ComeToFrontBrick extends BrickBaseType {
 		return new ComeToFrontBrick();
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_go_to_front, null);
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		return View.inflate(context, R.layout.brick_go_to_front, null);
+//	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {

@@ -37,8 +37,8 @@ import org.catrobat.catroid.content.WhenScript;
 import java.util.List;
 
 public class WhenBrick extends ScriptBrick {
-	protected WhenScript whenScript;
 	private static final long serialVersionUID = 1L;
+	protected WhenScript whenScript;
 
 	public WhenBrick(WhenScript whenScript) {
 		this.whenScript = whenScript;
@@ -144,10 +144,10 @@ public class WhenBrick extends ScriptBrick {
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		return getView(context, 0, null);
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		return getView(context, 0, null);
+//	}
 
 	@Override
 	public Brick clone() {

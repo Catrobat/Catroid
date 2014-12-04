@@ -67,7 +67,7 @@ public interface Brick extends Serializable, Cloneable {
 
 	View getView(Context context, int brickId, BaseAdapter adapter);
 
-	View getPrototypeView(Context context);
+//	View getPrototypeView(Context context);
 
 	Brick clone() throws CloneNotSupportedException;
 

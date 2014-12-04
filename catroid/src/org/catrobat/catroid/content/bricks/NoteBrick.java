@@ -40,9 +40,9 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class NoteBrick extends FormulaBrick implements OnClickListener{
+public class NoteBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-	private transient View prototypeView;
+//	private transient View prototypeView;
 
 	public NoteBrick() {
 		addAllowedBrickField(BrickField.NOTE);
@@ -81,13 +81,13 @@ public class NoteBrick extends FormulaBrick implements OnClickListener{
 			}
 		});
 
-		TextView textHolder = (TextView) view.findViewById(R.id.brick_note_prototype_text_view);
+//		TextView textHolder = (TextView) view.findViewById(R.id.brick_note_prototype_text_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_note_edit_text);
 		getFormulaWithBrickField(BrickField.NOTE).setTextFieldId(R.id.brick_note_edit_text);
 		getFormulaWithBrickField(BrickField.NOTE).refreshTextField(view);
 
-		textHolder.setVisibility(View.GONE);
-		textField.setVisibility(View.VISIBLE);
+//		textHolder.setVisibility(View.GONE);
+//		textField.setVisibility(View.VISIBLE);
 		textField.setOnClickListener(this);
 
 		return view;
@@ -115,13 +115,13 @@ public class NoteBrick extends FormulaBrick implements OnClickListener{
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_note, null);
-		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_note_prototype_text_view);
-		textSpeak.setText(context.getString(R.string.brick_note_default_value));
-		return prototypeView;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		prototypeView = View.inflate(context, R.layout.brick_note, null);
+//		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_note_prototype_text_view);
+//		textSpeak.setText(context.getString(R.string.brick_note_default_value));
+//		return prototypeView;
+//	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {

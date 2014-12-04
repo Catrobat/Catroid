@@ -53,10 +53,10 @@
             app:layout_newLine="true">
         </TextView>
 
-        <TextView
-            android:id="@+id/brick_set_brightness_prototype_text_view"
-            style="@style/BrickPrototypeTextView">
-        </TextView>
+        <!--<TextView-->
+        <!--android:id="@+id/brick_set_brightness_prototype_text_view"-->
+        <!--style="@style/BrickPrototypeTextView">-->
+        <!--</TextView>-->
 
         <TextView
             android:id="@+id/brick_set_brightness_edit_text"

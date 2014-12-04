@@ -45,10 +45,10 @@
             android:text="@string/brick_change_y_by">
         </TextView>
 
-        <TextView
-            android:id="@+id/brick_change_y_prototype_text_view"
-            style="@style/BrickPrototypeTextView">
-        </TextView>
+        <!--<TextView-->
+        <!--android:id="@+id/brick_change_y_prototype_text_view"-->
+        <!--style="@style/BrickPrototypeTextView">-->
+        <!--</TextView>-->
 
         <TextView
             android:id="@+id/brick_change_y_edit_text"

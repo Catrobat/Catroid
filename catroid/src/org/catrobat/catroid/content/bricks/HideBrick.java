@@ -99,10 +99,10 @@ public class HideBrick extends BrickBaseType {
 		return new HideBrick();
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_hide, null);
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		return View.inflate(context, R.layout.brick_hide, null);
+//	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {

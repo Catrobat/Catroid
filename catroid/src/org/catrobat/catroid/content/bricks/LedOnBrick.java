@@ -40,7 +40,7 @@ import java.util.List;
 public class LedOnBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
+//	private transient View prototypeView;
 
 	public LedOnBrick() {
 
@@ -74,12 +74,12 @@ public class LedOnBrick extends BrickBaseType {
 	}
 
 	@Override
-	public View getViewWithAlpha( int alphaValue ) {
+	public View getViewWithAlpha(int alphaValue) {
 		if (view != null) {
 
 			View layout = view.findViewById(R.id.brick_led_on_layout);
 			Drawable background = layout.getBackground();
-			background.setAlpha( alphaValue );
+			background.setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
 		}
@@ -93,11 +93,11 @@ public class LedOnBrick extends BrickBaseType {
 		return null;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_led_on, null);
-		return prototypeView;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		prototypeView = View.inflate(context, R.layout.brick_led_on, null);
+//		return prototypeView;
+//	}
 
 	@Override
 	public int getRequiredResources() {

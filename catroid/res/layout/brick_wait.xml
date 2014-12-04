@@ -45,9 +45,9 @@
             android:text="@string/brick_wait">
         </TextView>
 
-        <TextView
-            android:id="@+id/brick_wait_prototype_text_view"
-            style="@style/BrickPrototypeTextView" />
+        <!--<TextView-->
+        <!--android:id="@+id/brick_wait_prototype_text_view"-->
+        <!--style="@style/BrickPrototypeTextView" />-->
 
         <TextView
             android:id="@+id/brick_wait_edit_text"

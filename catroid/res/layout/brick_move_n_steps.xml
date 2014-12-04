@@ -45,10 +45,10 @@
             android:text="@string/brick_move">
         </TextView>
 
-        <TextView
-            android:id="@+id/brick_move_n_steps_prototype_text_view"
-            style="@style/BrickPrototypeTextView">
-        </TextView>
+        <!--<TextView-->
+        <!--android:id="@+id/brick_move_n_steps_prototype_text_view"-->
+        <!--style="@style/BrickPrototypeTextView">-->
+        <!--</TextView>-->
 
         <TextView
             android:id="@+id/brick_move_n_steps_edit_text"

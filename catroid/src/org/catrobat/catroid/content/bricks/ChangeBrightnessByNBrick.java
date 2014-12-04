@@ -34,9 +34,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-
-import org.catrobat.catroid.common.BrickValues;
-
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -47,7 +44,7 @@ import java.util.List;
 public class ChangeBrightnessByNBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
+//	private transient View prototypeView;
 
 	public ChangeBrightnessByNBrick() {
 		addAllowedBrickField(BrickField.BRIGHTNESS_CHANGE);
@@ -90,26 +87,26 @@ public class ChangeBrightnessByNBrick extends FormulaBrick implements OnClickLis
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
-		TextView textX = (TextView) view.findViewById(R.id.brick_change_brightness_prototype_text_view);
+//		TextView textX = (TextView) view.findViewById(R.id.brick_change_brightness_prototype_text_view);
 		TextView editX = (TextView) view.findViewById(R.id.brick_change_brightness_edit_text);
 		getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE).setTextFieldId(R.id.brick_change_brightness_edit_text);
 		getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE).refreshTextField(view);
 
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
+//		textX.setVisibility(View.GONE);
+//		editX.setVisibility(View.VISIBLE);
 
 		editX.setOnClickListener(this);
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_change_brightness, null);
-		TextView textChangeBrightness = (TextView) prototypeView
-				.findViewById(R.id.brick_change_brightness_prototype_text_view);
-        textChangeBrightness.setText(String.valueOf(BrickValues.CHANGE_BRITHNESS_BY));
-		return prototypeView;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		prototypeView = View.inflate(context, R.layout.brick_change_brightness, null);
+//		TextView textChangeBrightness = (TextView) prototypeView
+//				.findViewById(R.id.brick_change_brightness_prototype_text_view);
+//        textChangeBrightness.setText(String.valueOf(BrickValues.CHANGE_BRITHNESS_BY));
+//		return prototypeView;
+//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {

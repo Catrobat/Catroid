@@ -31,7 +31,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -150,17 +149,17 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_broadcast_receive, null);
-		Spinner broadcastReceiverSpinner = (Spinner) prototypeView.findViewById(R.id.brick_broadcast_receive_spinner);
-		broadcastReceiverSpinner.setFocusableInTouchMode(false);
-		broadcastReceiverSpinner.setFocusable(false);
-		SpinnerAdapter broadcastReceiverSpinnerAdapter = MessageContainer.getMessageAdapter(context);
-		broadcastReceiverSpinner.setAdapter(broadcastReceiverSpinnerAdapter);
-		setSpinnerSelection(broadcastReceiverSpinner);
-		return prototypeView;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		View prototypeView = View.inflate(context, R.layout.brick_broadcast_receive, null);
+//		Spinner broadcastReceiverSpinner = (Spinner) prototypeView.findViewById(R.id.brick_broadcast_receive_spinner);
+//		broadcastReceiverSpinner.setFocusableInTouchMode(false);
+//		broadcastReceiverSpinner.setFocusable(false);
+//		SpinnerAdapter broadcastReceiverSpinnerAdapter = MessageContainer.getMessageAdapter(context);
+//		broadcastReceiverSpinner.setAdapter(broadcastReceiverSpinnerAdapter);
+//		setSpinnerSelection(broadcastReceiverSpinner);
+//		return prototypeView;
+//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
@@ -186,7 +185,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 		spinner.setSelection(position, true);
 	}
 
-    // TODO: BroadcastBrick and BroadcastReceiverBrick contain this identical method.
+	// TODO: BroadcastBrick and BroadcastReceiverBrick contain this identical method.
 	private void showNewMessageDialog(final Spinner spinner) {
 		final Context context = spinner.getContext();
 		BrickTextDialog editDialog = new BrickTextDialog() {

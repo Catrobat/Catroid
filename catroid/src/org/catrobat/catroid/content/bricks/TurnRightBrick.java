@@ -34,9 +34,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-
-import org.catrobat.catroid.common.BrickValues;
-
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -47,7 +44,7 @@ import java.util.List;
 public class TurnRightBrick extends FormulaBrick implements OnClickListener {
 
 	private static final long serialVersionUID = 1L;
-	private transient View prototypeView;
+//	private transient View prototypeView;
 
 	public TurnRightBrick() {
 		addAllowedBrickField(BrickField.TURN_RIGHT_DEGREES);
@@ -90,24 +87,24 @@ public class TurnRightBrick extends FormulaBrick implements OnClickListener {
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
-		TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_right_prototype_text_view);
+//		TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_right_prototype_text_view);
 		TextView editDegrees = (TextView) view.findViewById(R.id.brick_turn_right_edit_text);
 		getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES).setTextFieldId(R.id.brick_turn_right_edit_text);
 		getFormulaWithBrickField(BrickField.TURN_RIGHT_DEGREES).refreshTextField(view);
 
-		textDegrees.setVisibility(View.GONE);
-		editDegrees.setVisibility(View.VISIBLE);
+//		textDegrees.setVisibility(View.GONE);
+//		editDegrees.setVisibility(View.VISIBLE);
 		editDegrees.setOnClickListener(this);
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_turn_right, null);
-		TextView textDegrees = (TextView) prototypeView.findViewById(R.id.brick_turn_right_prototype_text_view);
-        textDegrees.setText(String.valueOf(BrickValues.TURN_DEGREES));
-		return prototypeView;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		prototypeView = View.inflate(context, R.layout.brick_turn_right, null);
+//		TextView textDegrees = (TextView) prototypeView.findViewById(R.id.brick_turn_right_prototype_text_view);
+//        textDegrees.setText(String.valueOf(BrickValues.TURN_DEGREES));
+//		return prototypeView;
+//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
@@ -119,12 +116,12 @@ public class TurnRightBrick extends FormulaBrick implements OnClickListener {
 			background.setAlpha(alphaValue);
 
 			TextView turnRightLabel = (TextView) view.findViewById(R.id.brick_turn_right_label);
-			TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_right_prototype_text_view);
+//			TextView textDegrees = (TextView) view.findViewById(R.id.brick_turn_right_prototype_text_view);
 			TextView degreeSymbol = (TextView) view.findViewById(R.id.brick_turn_right_degree_text_view);
 			TextView editDegrees = (TextView) view.findViewById(R.id.brick_turn_right_edit_text);
 
 			turnRightLabel.setTextColor(turnRightLabel.getTextColors().withAlpha(alphaValue));
-			textDegrees.setTextColor(textDegrees.getTextColors().withAlpha(alphaValue));
+//			textDegrees.setTextColor(textDegrees.getTextColors().withAlpha(alphaValue));
 			degreeSymbol.setTextColor(degreeSymbol.getTextColors().withAlpha(alphaValue));
 			editDegrees.setTextColor(editDegrees.getTextColors().withAlpha(alphaValue));
 			editDegrees.getBackground().setAlpha(alphaValue);

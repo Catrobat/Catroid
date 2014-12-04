@@ -34,9 +34,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-
-import org.catrobat.catroid.common.BrickValues;
-
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -47,7 +44,7 @@ import java.util.List;
 public class ChangeSizeByNBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
+//	private transient View prototypeView;
 
 	public ChangeSizeByNBrick() {
 		addAllowedBrickField(BrickField.SIZE_CHANGE);
@@ -89,26 +86,26 @@ public class ChangeSizeByNBrick extends FormulaBrick implements OnClickListener 
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
-		TextView text = (TextView) view.findViewById(R.id.brick_change_size_by_prototype_text_view);
+//		TextView text = (TextView) view.findViewById(R.id.brick_change_size_by_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_change_size_by_edit_text);
 		getFormulaWithBrickField(BrickField.SIZE_CHANGE).setTextFieldId(R.id.brick_change_size_by_edit_text);
 		getFormulaWithBrickField(BrickField.SIZE_CHANGE).refreshTextField(view);
 
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
+//		text.setVisibility(View.GONE);
+//		edit.setVisibility(View.VISIBLE);
 
 		edit.setOnClickListener(this);
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_change_size_by_n, null);
-		TextView textChangeSizeBy = (TextView) prototypeView
-				.findViewById(R.id.brick_change_size_by_prototype_text_view);
-            textChangeSizeBy.setText(String.valueOf(BrickValues.CHANGE_SIZE_BY));
-		return prototypeView;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		prototypeView = View.inflate(context, R.layout.brick_change_size_by_n, null);
+//		TextView textChangeSizeBy = (TextView) prototypeView
+//				.findViewById(R.id.brick_change_size_by_prototype_text_view);
+//            textChangeSizeBy.setText(String.valueOf(BrickValues.CHANGE_SIZE_BY));
+//		return prototypeView;
+//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {

@@ -36,7 +36,6 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -47,9 +46,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick, OnClickListener {
+	public static final int EXECUTE_ELSE_PART = -1;
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = IfLogicBeginBrick.class.getSimpleName();
-	public static final int EXECUTE_ELSE_PART = -1;
 	protected transient IfLogicElseBrick ifElseBrick;
 	protected transient IfLogicEndBrick ifEndBrick;
 	private transient IfLogicBeginBrick copy;
@@ -80,20 +79,20 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick, OnC
 		return ifElseBrick;
 	}
 
-	public IfLogicEndBrick getIfEndBrick() {
-		return ifEndBrick;
-	}
-
-	public IfLogicBeginBrick getCopy() {
-		return copy;
-	}
-
 	public void setIfElseBrick(IfLogicElseBrick elseBrick) {
 		this.ifElseBrick = elseBrick;
 	}
 
+	public IfLogicEndBrick getIfEndBrick() {
+		return ifEndBrick;
+	}
+
 	public void setIfEndBrick(IfLogicEndBrick ifEndBrick) {
 		this.ifEndBrick = ifEndBrick;
+	}
+
+	public IfLogicBeginBrick getCopy() {
+		return copy;
 	}
 
 	@Override
@@ -124,14 +123,14 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick, OnC
 			}
 		});
 
-		TextView prototypeTextView = (TextView) view.findViewById(R.id.brick_if_begin_prototype_text_view);
+//		TextView prototypeTextView = (TextView) view.findViewById(R.id.brick_if_begin_prototype_text_view);
 		TextView ifBeginTextView = (TextView) view.findViewById(R.id.brick_if_begin_edit_text);
 
 		getFormulaWithBrickField(BrickField.IF_CONDITION).setTextFieldId(R.id.brick_if_begin_edit_text);
 		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
 
-		prototypeTextView.setVisibility(View.GONE);
-		ifBeginTextView.setVisibility(View.VISIBLE);
+//		prototypeTextView.setVisibility(View.GONE);
+//		ifBeginTextView.setVisibility(View.VISIBLE);
 
 		ifBeginTextView.setOnClickListener(this);
 
@@ -162,13 +161,13 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick, OnC
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_if_begin_if, null);
-		TextView textIfBegin = (TextView) prototypeView.findViewById(R.id.brick_if_begin_prototype_text_view);
-		textIfBegin.setText(String.valueOf(BrickValues.IF_CONDITION));
-		return prototypeView;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		View prototypeView = View.inflate(context, R.layout.brick_if_begin_if, null);
+//		TextView textIfBegin = (TextView) prototypeView.findViewById(R.id.brick_if_begin_prototype_text_view);
+//		textIfBegin.setText(String.valueOf(BrickValues.IF_CONDITION));
+//		return prototypeView;
+//	}
 
 	@Override
 	public void onClick(View view) {

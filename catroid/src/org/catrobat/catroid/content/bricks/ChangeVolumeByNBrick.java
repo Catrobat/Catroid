@@ -34,9 +34,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-
-import org.catrobat.catroid.common.BrickValues;
-
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -48,7 +45,7 @@ public class ChangeVolumeByNBrick extends FormulaBrick implements OnClickListene
 
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
+//	private transient View prototypeView;
 
 	public ChangeVolumeByNBrick() {
 		addAllowedBrickField(BrickField.VOLUME_CHANGE);
@@ -91,26 +88,26 @@ public class ChangeVolumeByNBrick extends FormulaBrick implements OnClickListene
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
-		TextView text = (TextView) view.findViewById(R.id.brick_change_volume_by_prototype_text_view);
+//		TextView text = (TextView) view.findViewById(R.id.brick_change_volume_by_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_change_volume_by_edit_text);
 		getFormulaWithBrickField(BrickField.VOLUME_CHANGE).setTextFieldId(R.id.brick_change_volume_by_edit_text);
 		getFormulaWithBrickField(BrickField.VOLUME_CHANGE).refreshTextField(view);
 
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
+//		text.setVisibility(View.GONE);
+//		edit.setVisibility(View.VISIBLE);
 
 		edit.setOnClickListener(this);
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_change_volume_by, null);
-		TextView textSetVolumenTo = (TextView) prototypeView
-				.findViewById(R.id.brick_change_volume_by_prototype_text_view);
-        textSetVolumenTo.setText(String.valueOf(BrickValues.CHANGE_VOLUME_BY));
-		return prototypeView;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		prototypeView = View.inflate(context, R.layout.brick_change_volume_by, null);
+//		TextView textSetVolumenTo = (TextView) prototypeView
+//				.findViewById(R.id.brick_change_volume_by_prototype_text_view);
+//        textSetVolumenTo.setText(String.valueOf(BrickValues.CHANGE_VOLUME_BY));
+//		return prototypeView;
+//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {

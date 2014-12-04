@@ -53,10 +53,10 @@
             app:layout_newLine="true">
         </TextView>
 
-        <TextView
-            android:id="@+id/nxt_tone_duration_text_view"
-            style="@style/BrickText.SingleLine">
-        </TextView>
+        <!--<TextView-->
+        <!--android:id="@+id/nxt_tone_duration_text_view"-->
+        <!--style="@style/BrickText.SingleLine">-->
+        <!--</TextView>-->
 
         <TextView
             android:id="@+id/nxt_tone_duration_edit_text"
@@ -82,10 +82,10 @@
             app:layout_newLine="true">
         </TextView>
 
-        <TextView
-            android:id="@+id/nxt_tone_freq_text_view"
-            style="@style/BrickText.SingleLine">
-        </TextView>
+        <!--<TextView-->
+        <!--android:id="@+id/nxt_tone_freq_text_view"-->
+        <!--style="@style/BrickText.SingleLine">-->
+        <!--</TextView>-->
 
         <TextView
             android:id="@+id/nxt_tone_freq_edit_text"

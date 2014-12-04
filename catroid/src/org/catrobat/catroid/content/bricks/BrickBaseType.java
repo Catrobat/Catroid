@@ -127,10 +127,10 @@ public class BrickBaseType implements Brick {
 		return null;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		return null;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		return null;
+//	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {

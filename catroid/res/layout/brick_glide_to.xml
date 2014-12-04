@@ -23,11 +23,11 @@
   -->
 
 <org.catrobat.catroid.ui.BrickView xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:orientation="horizontal" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
     <include layout="@layout/include_brick_checkbox" />
 
@@ -38,69 +38,69 @@
         android:paddingBottom="0dp"
         android:paddingTop="0dp"
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
 
         <TextView
             android:id="@+id/brick_glide_to_label"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_glide" >
-        </TextView >
+            android:text="@string/brick_glide">
+        </TextView>
 
-        <TextView
-            android:id="@+id/brick_glide_to_prototype_text_view_duration"
-            style="@style/BrickPrototypeTextView"
-            android:layout_width="match_parent" >
-        </TextView >
+        <!--<TextView-->
+        <!--android:id="@+id/brick_glide_to_prototype_text_view_duration"-->
+        <!--style="@style/BrickPrototypeTextView"-->
+        <!--android:layout_width="match_parent" >-->
+        <!--</TextView >-->
 
         <TextView
             android:id="@+id/brick_glide_to_edit_text_duration"
             style="@style/BrickEditText"
             android:layout_width="match_parent"
             app:layout_inputType="number"
-            app:layout_textField="true" >
-        </TextView >
+            app:layout_textField="true">
+        </TextView>
 
         <TextView
             android:id="@+id/brick_glide_to_seconds_text_view"
-            style="@style/BrickText.SingleLine" >
-        </TextView >
+            style="@style/BrickText.SingleLine">
+        </TextView>
 
         <TextView
             android:id="@+id/brick_glide_to_x"
             style="@style/BrickText.SingleLine"
-            app:layout_newLine="true"
-            android:text="@string/brick_glide_to_x" >
-        </TextView >
+            android:text="@string/brick_glide_to_x"
+            app:layout_newLine="true">
+        </TextView>
 
-        <TextView
-            android:id="@+id/brick_glide_to_prototype_text_view_x"
-            style="@style/BrickPrototypeTextView" >
-        </TextView >
+        <!--<TextView-->
+        <!--android:id="@+id/brick_glide_to_prototype_text_view_x"-->
+        <!--style="@style/BrickPrototypeTextView" >-->
+        <!--</TextView >-->
 
         <TextView
             android:id="@+id/brick_glide_to_edit_text_x"
             style="@style/BrickEditText"
             app:layout_inputType="number"
-            app:layout_textField="true" >
-        </TextView >
+            app:layout_textField="true">
+        </TextView>
 
         <TextView
             android:id="@+id/brick_glide_to_y"
             style="@style/BrickText.SingleLine"
-            android:text="@string/y_label" >
-        </TextView >
+            android:text="@string/y_label">
+        </TextView>
 
-        <TextView
-            android:id="@+id/brick_glide_to_prototype_text_view_y"
-            style="@style/BrickPrototypeTextView" >
-        </TextView >
+        <!--<TextView-->
+        <!--android:id="@+id/brick_glide_to_prototype_text_view_y"-->
+        <!--style="@style/BrickPrototypeTextView" >-->
+        <!--</TextView >-->
 
         <TextView
             android:id="@+id/brick_glide_to_edit_text_y"
             style="@style/BrickEditText"
             app:layout_inputType="number"
-            app:layout_textField="true" >
-        </TextView >
-    </org.catrobat.catroid.ui.BrickLayout >
+            app:layout_textField="true">
+        </TextView>
+    </org.catrobat.catroid.ui.BrickLayout>
 
 </org.catrobat.catroid.ui.BrickView>

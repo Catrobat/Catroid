@@ -35,7 +35,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -50,7 +49,7 @@ import java.util.List;
 public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
+//	private transient View prototypeView;
 
 	protected transient LoopEndBrick loopEndBrick;
 	private transient long beginLoopTime;
@@ -65,13 +64,13 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 		initializeBrickFields(new Formula(timesToRepeatValue));
 	}
 
+	public RepeatBrick(Formula timesToRepeat) {
+		initializeBrickFields(timesToRepeat);
+	}
+
 	@Override
 	public int getRequiredResources() {
 		return getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).getRequiredResources();
-	}
-	
-	public RepeatBrick(Formula timesToRepeat) {
-		initializeBrickFields(timesToRepeat);
 	}
 
 	private void initializeBrickFields(Formula timesToRepeat) {
@@ -80,7 +79,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 	}
 
 	@Override
-	public Brick clone()  {
+	public Brick clone() {
 		return new RepeatBrick(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).clone());
 	}
 
@@ -109,7 +108,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 			}
 		});
 
-		TextView text = (TextView) view.findViewById(R.id.brick_repeat_prototype_text_view);
+//		TextView text = (TextView) view.findViewById(R.id.brick_repeat_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_repeat_edit_text);
 		getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).setTextFieldId(R.id.brick_repeat_edit_text);
 		getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).refreshTextField(view);
@@ -117,15 +116,15 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 		TextView times = (TextView) view.findViewById(R.id.brick_repeat_time_text_view);
 
 		if (getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).isSingleNumberFormula()) {
-            try{
+			try {
 				times.setText(view.getResources().getQuantityString(
 						R.plurals.time_plural,
 						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT)
 								.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))
 				));
-            }catch(InterpretationException interpretationException){
-                Log.d(getClass().getSimpleName(), "Couldn't interpret Formula", interpretationException);
-            }
+			} catch (InterpretationException interpretationException) {
+				Log.d(getClass().getSimpleName(), "Couldn't interpret Formula", interpretationException);
+			}
 		} else {
 
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -134,23 +133,23 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
 
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
+//		text.setVisibility(View.GONE);
+//		edit.setVisibility(View.VISIBLE);
 
 		edit.setOnClickListener(this);
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_repeat, null);
-		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_prototype_text_view);
-		TextView times = (TextView) prototypeView.findViewById(R.id.brick_repeat_time_text_view);
-        textRepeat.setText(String.valueOf(BrickValues.REPEAT));
-        times.setText(context.getResources().getQuantityString(R.plurals.time_plural,
-                    Utils.convertDoubleToPluralInteger(BrickValues.REPEAT)));
-		return prototypeView;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		prototypeView = View.inflate(context, R.layout.brick_repeat, null);
+//		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_prototype_text_view);
+//		TextView times = (TextView) prototypeView.findViewById(R.id.brick_repeat_time_text_view);
+//        textRepeat.setText(String.valueOf(BrickValues.REPEAT));
+//        times.setText(context.getResources().getQuantityString(R.plurals.time_plural,
+//                    Utils.convertDoubleToPluralInteger(BrickValues.REPEAT)));
+//		return prototypeView;
+//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {

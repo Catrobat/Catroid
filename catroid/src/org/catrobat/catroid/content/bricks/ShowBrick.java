@@ -94,10 +94,10 @@ public class ShowBrick extends BrickBaseType {
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_show, null);
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		return View.inflate(context, R.layout.brick_show, null);
+//	}
 
 	@Override
 	public Brick clone() {

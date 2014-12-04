@@ -99,10 +99,10 @@ public class StopAllSoundsBrick extends BrickBaseType {
 		return new StopAllSoundsBrick();
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_stop_all_sounds, null);
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		return View.inflate(context, R.layout.brick_stop_all_sounds, null);
+//	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {

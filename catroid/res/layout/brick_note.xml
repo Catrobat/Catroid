@@ -44,12 +44,12 @@
             android:text="@string/brick_note">
         </TextView>
 
-        <TextView
-            android:id="@+id/brick_note_prototype_text_view"
-            style="@style/BrickPrototypeTextView"
-            android:layout_width="match_parent"
-            android:gravity="left">
-        </TextView>
+        <!--<TextView-->
+        <!--android:id="@+id/brick_note_prototype_text_view"-->
+        <!--style="@style/BrickPrototypeTextView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:gravity="left">-->
+        <!--</TextView>-->
 
         <EditText
             android:id="@+id/brick_note_edit_text"

@@ -62,10 +62,10 @@
             android:text="@string/motor_speed">
         </TextView>
 
-        <TextView
-            android:id="@+id/motor_action_speed_text_view"
-            style="@style/BrickText.SingleLine">
-        </TextView>
+        <!--<TextView-->
+        <!--android:id="@+id/motor_action_speed_text_view"-->
+        <!--style="@style/BrickText.SingleLine">-->
+        <!--</TextView>-->
 
         <TextView
             android:id="@+id/motor_action_speed_edit_text"

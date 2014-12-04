@@ -115,25 +115,25 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 		return new IfLogicElseBrick(ifBeginBrick);
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_if_else, null);
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		return View.inflate(context, R.layout.brick_if_else, null);
+//	}
 
-	public void setIfEndBrick(IfLogicEndBrick ifEndBrick) {
-		this.ifEndBrick = ifEndBrick;
+	public IfLogicBeginBrick getIfBeginBrick() {
+		return ifBeginBrick;
 	}
 
 	public void setIfBeginBrick(IfLogicBeginBrick ifBeginBrick) {
 		this.ifBeginBrick = ifBeginBrick;
 	}
 
-	public IfLogicBeginBrick getIfBeginBrick() {
-		return ifBeginBrick;
-	}
-
 	public IfLogicEndBrick getIfEndBrick() {
 		return ifEndBrick;
+	}
+
+	public void setIfEndBrick(IfLogicEndBrick ifEndBrick) {
+		this.ifEndBrick = ifEndBrick;
 	}
 
 	@Override

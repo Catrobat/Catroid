@@ -34,7 +34,6 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -140,17 +139,17 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_broadcast, null);
-		Spinner broadcastSpinner = (Spinner) prototypeView.findViewById(R.id.brick_broadcast_spinner);
-		broadcastSpinner.setFocusableInTouchMode(false);
-		broadcastSpinner.setFocusable(false);
-		SpinnerAdapter broadcastSpinnerAdapter = MessageContainer.getMessageAdapter(context);
-		broadcastSpinner.setAdapter(broadcastSpinnerAdapter);
-		setSpinnerSelection(broadcastSpinner);
-		return prototypeView;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		View prototypeView = View.inflate(context, R.layout.brick_broadcast, null);
+//		Spinner broadcastSpinner = (Spinner) prototypeView.findViewById(R.id.brick_broadcast_spinner);
+//		broadcastSpinner.setFocusableInTouchMode(false);
+//		broadcastSpinner.setFocusable(false);
+//		SpinnerAdapter broadcastSpinnerAdapter = MessageContainer.getMessageAdapter(context);
+//		broadcastSpinner.setAdapter(broadcastSpinnerAdapter);
+//		setSpinnerSelection(broadcastSpinner);
+//		return prototypeView;
+//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {

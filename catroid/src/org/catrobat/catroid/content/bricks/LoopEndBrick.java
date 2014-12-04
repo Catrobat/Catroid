@@ -28,7 +28,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
@@ -135,10 +134,10 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 		return new LoopEndBrick(getLoopBeginBrick());
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_loop_end, null);
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		return View.inflate(context, R.layout.brick_loop_end, null);
+//	}
 
 	@Override
 	public boolean isDraggableOver(Brick brick) {

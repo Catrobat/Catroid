@@ -166,17 +166,17 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 		return arrayAdapter;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_play_sound, null);
-		Spinner playSoundSpinner = (Spinner) prototypeView.findViewById(R.id.playsound_spinner);
-		playSoundSpinner.setFocusableInTouchMode(false);
-		playSoundSpinner.setFocusable(false);
-		SpinnerAdapter playSoundSpinnerAdapter = createSoundAdapter(context);
-		playSoundSpinner.setAdapter(playSoundSpinnerAdapter);
-		setSpinnerSelection(playSoundSpinner);
-		return prototypeView;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		View prototypeView = View.inflate(context, R.layout.brick_play_sound, null);
+//		Spinner playSoundSpinner = (Spinner) prototypeView.findViewById(R.id.playsound_spinner);
+//		playSoundSpinner.setFocusableInTouchMode(false);
+//		playSoundSpinner.setFocusable(false);
+//		SpinnerAdapter playSoundSpinnerAdapter = createSoundAdapter(context);
+//		playSoundSpinner.setAdapter(playSoundSpinnerAdapter);
+//		setSpinnerSelection(playSoundSpinner);
+//		return prototypeView;
+//	}
 
 	@Override
 	public Brick clone() {

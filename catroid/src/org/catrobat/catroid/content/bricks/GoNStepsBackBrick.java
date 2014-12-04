@@ -36,9 +36,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-
-import org.catrobat.catroid.common.BrickValues;
-
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -51,7 +48,7 @@ import java.util.List;
 public class GoNStepsBackBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
+//	private transient View prototypeView;
 
 	public GoNStepsBackBrick() {
 		addAllowedBrickField(BrickField.STEPS);
@@ -94,7 +91,7 @@ public class GoNStepsBackBrick extends FormulaBrick implements OnClickListener {
 			}
 		});
 
-		TextView text = (TextView) view.findViewById(R.id.brick_go_back_prototype_text_view);
+//		TextView text = (TextView) view.findViewById(R.id.brick_go_back_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_go_back_edit_text);
 
 		getFormulaWithBrickField(BrickField.STEPS).setTextFieldId(R.id.brick_go_back_edit_text);
@@ -103,15 +100,15 @@ public class GoNStepsBackBrick extends FormulaBrick implements OnClickListener {
 		TextView times = (TextView) view.findViewById(R.id.brick_go_back_layers_text_view);
 
 		if (getFormulaWithBrickField(BrickField.STEPS).isSingleNumberFormula()) {
-            try{
+			try {
 				times.setText(view.getResources().getQuantityString(
 						R.plurals.brick_go_back_layer_plural,
 						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(
 								ProjectManager.getInstance().getCurrentSprite()))
 				));
-            }catch(InterpretationException interpretationException){
-                Log.d(getClass().getSimpleName(), "Couldn't interpret Formula.", interpretationException);
-            }
+			} catch (InterpretationException interpretationException) {
+				Log.d(getClass().getSimpleName(), "Couldn't interpret Formula.", interpretationException);
+			}
 		} else {
 
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -120,24 +117,24 @@ public class GoNStepsBackBrick extends FormulaBrick implements OnClickListener {
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
 
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
+//		text.setVisibility(View.GONE);
+//		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_go_back, null);
-		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_go_back_prototype_text_view);
-		TextView times = (TextView) prototypeView.findViewById(R.id.brick_go_back_layers_text_view);
-        textSteps.setText(String.valueOf(BrickValues.GO_BACK));
-        times.setText(context.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
-                    Utils.convertDoubleToPluralInteger(BrickValues.GO_BACK)));
-
-		return prototypeView;
-
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		prototypeView = View.inflate(context, R.layout.brick_go_back, null);
+//		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_go_back_prototype_text_view);
+//		TextView times = (TextView) prototypeView.findViewById(R.id.brick_go_back_layers_text_view);
+//        textSteps.setText(String.valueOf(BrickValues.GO_BACK));
+//        times.setText(context.getResources().getQuantityString(R.plurals.brick_go_back_layer_plural,
+//                    Utils.convertDoubleToPluralInteger(BrickValues.GO_BACK)));
+//
+//		return prototypeView;
+//
+//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {

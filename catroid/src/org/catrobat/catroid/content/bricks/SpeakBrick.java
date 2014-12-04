@@ -44,7 +44,7 @@ import java.util.List;
 public class SpeakBrick extends FormulaBrick implements OnClickListener {
 
 	private static final long serialVersionUID = 1L;
-	private transient View prototypeView;
+//	private transient View prototypeView;
 
 
 	public SpeakBrick() {
@@ -88,13 +88,13 @@ public class SpeakBrick extends FormulaBrick implements OnClickListener {
 			}
 		});
 
-		TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_prototype_text_view);
+//		TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_prototype_text_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_speak_edit_text);
 		getFormulaWithBrickField(BrickField.SPEAK).setTextFieldId(R.id.brick_speak_edit_text);
 		getFormulaWithBrickField(BrickField.SPEAK).refreshTextField(view);
 
-		textHolder.setVisibility(View.GONE);
-		textField.setVisibility(View.VISIBLE);
+//		textHolder.setVisibility(View.GONE);
+//		textField.setVisibility(View.VISIBLE);
 
 		textField.setOnClickListener(this);
 		return view;
@@ -123,13 +123,13 @@ public class SpeakBrick extends FormulaBrick implements OnClickListener {
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_speak, null);
-		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_speak_prototype_text_view);
-		textSpeak.setText(context.getString(R.string.brick_speak_default_value));
-		return prototypeView;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		prototypeView = View.inflate(context, R.layout.brick_speak, null);
+//		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_speak_prototype_text_view);
+//		textSpeak.setText(context.getString(R.string.brick_speak_default_value));
+//		return prototypeView;
+//	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {

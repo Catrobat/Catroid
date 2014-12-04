@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -37,9 +36,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-
-import org.catrobat.catroid.common.BrickValues;
-
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -53,7 +49,7 @@ public class MoveNStepsBrick extends FormulaBrick implements OnClickListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
+//	private transient View prototypeView;
 
 	public MoveNStepsBrick() {
 		addAllowedBrickField(BrickField.STEPS);
@@ -96,7 +92,7 @@ public class MoveNStepsBrick extends FormulaBrick implements OnClickListener {
 			}
 		});
 
-		TextView text = (TextView) view.findViewById(R.id.brick_move_n_steps_prototype_text_view);
+//		TextView text = (TextView) view.findViewById(R.id.brick_move_n_steps_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_move_n_steps_edit_text);
 
 		getFormulaWithBrickField(BrickField.STEPS).setTextFieldId(R.id.brick_move_n_steps_edit_text);
@@ -122,23 +118,23 @@ public class MoveNStepsBrick extends FormulaBrick implements OnClickListener {
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
 
-		text.setVisibility(View.GONE);
-		edit.setVisibility(View.VISIBLE);
+//		text.setVisibility(View.GONE);
+//		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		prototypeView = inflater.inflate(R.layout.brick_move_n_steps, null);
-		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_prototype_text_view);
-		textSteps.setText(String.valueOf(BrickValues.MOVE_STEPS));
-		TextView times = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_step_text_view);
-        times.setText(context.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
-                Utils.convertDoubleToPluralInteger(BrickValues.MOVE_STEPS)));
-		return prototypeView;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//		prototypeView = inflater.inflate(R.layout.brick_move_n_steps, null);
+//		TextView textSteps = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_prototype_text_view);
+//		textSteps.setText(String.valueOf(BrickValues.MOVE_STEPS));
+//		TextView times = (TextView) prototypeView.findViewById(R.id.brick_move_n_steps_step_text_view);
+//        times.setText(context.getResources().getQuantityString(R.plurals.brick_move_n_step_plural,
+//                Utils.convertDoubleToPluralInteger(BrickValues.MOVE_STEPS)));
+//		return prototypeView;
+//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {

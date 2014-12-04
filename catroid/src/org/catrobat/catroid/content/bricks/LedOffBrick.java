@@ -40,7 +40,7 @@ import java.util.List;
 public class LedOffBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
+//	private transient View prototypeView;
 
 	public LedOffBrick() {
 
@@ -93,11 +93,11 @@ public class LedOffBrick extends BrickBaseType {
 		return null;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_led_off, null);
-		return prototypeView;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		prototypeView = View.inflate(context, R.layout.brick_led_off, null);
+//		return prototypeView;
+//	}
 
 	@Override
 	public int getRequiredResources() {

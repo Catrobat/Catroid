@@ -73,11 +73,11 @@ public class DroneTurnLeftMagnetoBrick extends DroneMoveBrick {
 		return brickView;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textView = (TextView) prototypeView.findViewById(R.id.brick_drone_move_text_view_power);
-		textView.setText(R.string.brick_drone_angle);
-		return prototypeView;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		prototypeView = super.getPrototypeView(context);
+//		TextView textView = (TextView) prototypeView.findViewById(R.id.brick_drone_move_text_view_power);
+//		textView.setText(R.string.brick_drone_angle);
+//		return prototypeView;
+//	}
 }

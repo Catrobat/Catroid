@@ -55,12 +55,12 @@ public class DroneFlipBrick extends BrickBaseType {
 		return copyBrick;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_drone_flip, null);
-
-		return prototypeView;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		View prototypeView = View.inflate(context, R.layout.brick_drone_flip, null);
+//
+//		return prototypeView;
+//	}
 
 	@Override
 	public Brick clone() {

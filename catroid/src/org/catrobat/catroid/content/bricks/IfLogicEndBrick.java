@@ -128,10 +128,10 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 		return new IfLogicEndBrick(ifElseBrick, ifBeginBrick);
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_if_end_if, null);
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		return View.inflate(context, R.layout.brick_if_end_if, null);
+//	}
 
 	@Override
 	public boolean isDraggableOver(Brick brick) {

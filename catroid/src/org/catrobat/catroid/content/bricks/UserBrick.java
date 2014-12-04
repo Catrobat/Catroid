@@ -44,6 +44,7 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.BrickLayout;
+import org.catrobat.catroid.ui.BrickView;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.ArrayList;
@@ -56,14 +57,14 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	@XStreamAlias("definitionBrick")
 	private UserScriptDefinitionBrick definitionBrick;
-	private transient View prototypeView;
+//	private transient View prototypeView;
 
 	// belonging to brick instance
 	@XStreamAlias("userBrickParameters")
 	private ArrayList<UserBrickParameter> userBrickParameters;
 
 	@XStreamAlias("userBrickPositionToParameter")
-	private ArrayList<Pair<Integer,Integer>> userBrickPositionToParameter;
+	private ArrayList<Pair<Integer, Integer>> userBrickPositionToParameter;
 
 	// belonging to stored brick
 	private transient int lastDataVersion = 0;
@@ -115,8 +116,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 			if (getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(elementPosition).isVariable) {
 				if (userBrickParameterList == null) {
 					parameter.setFormulaWithBrickField(BrickField.USER_BRICK, new Formula(0));
-				}
-				else {
+				} else {
 					parameter.setFormulaWithBrickField(BrickField.USER_BRICK, userBrickParameterList.get(elementPosition).getFormulaWithBrickField(BrickField.USER_BRICK));
 				}
 				parameter.variableName = getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(elementPosition).name;
@@ -188,12 +188,12 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_user, null);
-		onLayoutChanged(prototypeView);
-		return prototypeView;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		prototypeView = View.inflate(context, R.layout.brick_user, null);
+//		onLayoutChanged(prototypeView);
+//		return prototypeView;
+//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
@@ -227,7 +227,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 			updateUserBrickParameters(null);
 		}
 
-		boolean prototype = (currentView == prototypeView);
+		boolean prototype = currentView instanceof BrickView && ((BrickView) currentView).hasMode(BrickView.Mode.PROTOTYPE);
 
 		Context context = currentView.getContext();
 
@@ -246,8 +246,8 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 			if (uiData.isVariable) {
 				currentTextView = new EditText(context);
 
+				currentTextView.setTextAppearance(context, R.style.BrickEditText);
 				if (prototype) {
-					currentTextView.setTextAppearance(context, R.style.BrickPrototypeTextView);
 					try {
 						currentTextView.setText(String
 								.valueOf(parameter.getFormulaWithBrickField(BrickField.USER_BRICK).interpretInteger(ProjectManager
@@ -255,10 +255,8 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 					} catch (InterpretationException interpretationException) {
 						Log.e(TAG, "InterpretationException!", interpretationException);
 					}
-
 				} else {
 					currentTextView.setId(id);
-					currentTextView.setTextAppearance(context, R.style.BrickEditText);
 
 					parameter.getFormulaWithBrickField(BrickField.USER_BRICK).setTextFieldId(currentTextView.getId());
 					String formulaString = parameter.getFormulaWithBrickField(BrickField.USER_BRICK).getDisplayString(currentTextView.getContext());
@@ -342,11 +340,11 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		this.definitionBrick = definitionBrick;
 	}
 
-	public UserScriptDefinitionBrickElements getUserScriptDefinitionBrickElements(){
+	public UserScriptDefinitionBrickElements getUserScriptDefinitionBrickElements() {
 		return definitionBrick.getUserScriptDefinitionBrickElements();
 	}
 
-	public void setUserScriptDefinitionBrickElements(UserScriptDefinitionBrickElements elements){
+	public void setUserScriptDefinitionBrickElements(UserScriptDefinitionBrickElements elements) {
 		definitionBrick.setUserScriptDefinitionBrickElements(elements);
 	}
 
@@ -363,11 +361,11 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	public void setUserBrickPositionToParameter(Pair<Integer, Integer> userBrickPositionToParameterPair, int index) {
-			userBrickPositionToParameter.set(index, userBrickPositionToParameterPair);
+		userBrickPositionToParameter.set(index, userBrickPositionToParameterPair);
 	}
 
 	public void addUserBrickPositionToParameter(Pair<Integer, Integer> userBrickPositionToParameterPair) {
-			userBrickPositionToParameter.add(userBrickPositionToParameterPair);
+		userBrickPositionToParameter.add(userBrickPositionToParameterPair);
 	}
 
 	public int getUserBrickIndexInScript(Pair<Integer, Integer> userBrickPositionToParameterPair) {

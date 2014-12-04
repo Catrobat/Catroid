@@ -42,7 +42,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
@@ -59,9 +58,9 @@ import java.util.List;
 public class ChangeVariableBrick extends FormulaBrick implements OnClickListener, NewVariableDialogListener {
 
 	private static final long serialVersionUID = 1L;
+	public boolean inUserBrick = false;
 	private UserVariable userVariable;
 	private transient AdapterView<?> adapterView;
-	public boolean inUserBrick = false;
 
 	public ChangeVariableBrick() {
 		addAllowedBrickField(BrickField.VARIABLE_CHANGE);
@@ -115,12 +114,12 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 			}
 		});
 
-		TextView prototypeText = (TextView) view.findViewById(R.id.brick_change_variable_prototype_view);
+//		TextView prototypeText = (TextView) view.findViewById(R.id.brick_change_variable_prototype_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_change_variable_edit_text);
-		prototypeText.setVisibility(View.GONE);
+//		prototypeText.setVisibility(View.GONE);
 		getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).setTextFieldId(R.id.brick_change_variable_edit_text);
 		getFormulaWithBrickField(BrickField.VARIABLE_CHANGE).refreshTextField(view);
-		textField.setVisibility(View.VISIBLE);
+//		textField.setVisibility(View.VISIBLE);
 		textField.setOnClickListener(this);
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.change_variable_spinner);
@@ -187,29 +186,29 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_change_variable_by, null);
-		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.change_variable_spinner);
-		variableSpinner.setFocusableInTouchMode(false);
-		variableSpinner.setFocusable(false);
-
-		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
-		int userBrickId = (currentBrick == null ? -1 : currentBrick.getDefinitionBrick().getUserBrickId());
-
-		UserVariableAdapter changeVariableSpinnerAdapter = ProjectManager.getInstance().getCurrentProject()
-				.getUserVariables().createUserVariableAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
-
-		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
-				changeVariableSpinnerAdapter);
-		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
-		variableSpinner.setAdapter(userVariableAdapterWrapper);
-		setSpinnerSelection(variableSpinner, null);
-
-		TextView textChangeVariable = (TextView) prototypeView.findViewById(R.id.brick_change_variable_prototype_view);
-        textChangeVariable.setText(String.valueOf(BrickValues.CHANGE_VARIABLE));
-		return prototypeView;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		View prototypeView = View.inflate(context, R.layout.brick_change_variable_by, null);
+//		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.change_variable_spinner);
+//		variableSpinner.setFocusableInTouchMode(false);
+//		variableSpinner.setFocusable(false);
+//
+//		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
+//		int userBrickId = (currentBrick == null ? -1 : currentBrick.getDefinitionBrick().getUserBrickId());
+//
+//		UserVariableAdapter changeVariableSpinnerAdapter = ProjectManager.getInstance().getCurrentProject()
+//				.getUserVariables().createUserVariableAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
+//
+//		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
+//				changeVariableSpinnerAdapter);
+//		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
+//		variableSpinner.setAdapter(userVariableAdapterWrapper);
+//		setSpinnerSelection(variableSpinner, null);
+//
+//		TextView textChangeVariable = (TextView) prototypeView.findViewById(R.id.brick_change_variable_prototype_view);
+//        textChangeVariable.setText(String.valueOf(BrickValues.CHANGE_VARIABLE));
+//		return prototypeView;
+//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {

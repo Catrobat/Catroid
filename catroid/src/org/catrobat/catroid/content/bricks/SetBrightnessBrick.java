@@ -34,9 +34,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-
-import org.catrobat.catroid.common.BrickValues;
-
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -47,7 +44,7 @@ import java.util.List;
 public class SetBrightnessBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
+//	private transient View prototypeView;
 
 	public SetBrightnessBrick() {
 		addAllowedBrickField(BrickField.BRIGHTNESS);
@@ -91,25 +88,25 @@ public class SetBrightnessBrick extends FormulaBrick implements OnClickListener 
 			}
 		});
 
-		TextView textX = (TextView) view.findViewById(R.id.brick_set_brightness_prototype_text_view);
+//		TextView textX = (TextView) view.findViewById(R.id.brick_set_brightness_prototype_text_view);
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_brightness_edit_text);
 		getFormulaWithBrickField(BrickField.BRIGHTNESS).setTextFieldId(R.id.brick_set_brightness_edit_text);
 		getFormulaWithBrickField(BrickField.BRIGHTNESS).refreshTextField(view);
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
+//		textX.setVisibility(View.GONE);
+//		editX.setVisibility(View.VISIBLE);
 
 		editX.setOnClickListener(this);
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_set_brightness, null);
-		TextView textSetBrightness = (TextView) prototypeView
-				.findViewById(R.id.brick_set_brightness_prototype_text_view);
-		textSetBrightness.setText(String.valueOf(BrickValues.SET_BRIGHTNESS_TO));
-		return prototypeView;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		prototypeView = View.inflate(context, R.layout.brick_set_brightness, null);
+//		TextView textSetBrightness = (TextView) prototypeView
+//				.findViewById(R.id.brick_set_brightness_prototype_text_view);
+//		textSetBrightness.setText(String.valueOf(BrickValues.SET_BRIGHTNESS_TO));
+//		return prototypeView;
+//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {

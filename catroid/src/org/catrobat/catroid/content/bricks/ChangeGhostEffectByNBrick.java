@@ -34,9 +34,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-
-import org.catrobat.catroid.common.BrickValues;
-
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -48,7 +45,7 @@ public class ChangeGhostEffectByNBrick extends FormulaBrick implements OnClickLi
 
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
+//	private transient View prototypeView;
 
 	public ChangeGhostEffectByNBrick() {
 		addAllowedBrickField(BrickField.TRANSPARENCY_CHANGE);
@@ -91,26 +88,26 @@ public class ChangeGhostEffectByNBrick extends FormulaBrick implements OnClickLi
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
-		TextView textX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
+//		TextView textX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
 		TextView editX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
 		getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE)
 				.setTextFieldId(R.id.brick_change_ghost_effect_edit_text);
 		getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE).refreshTextField(view);
 
-		textX.setVisibility(View.GONE);
-		editX.setVisibility(View.VISIBLE);
+//		textX.setVisibility(View.GONE);
+//		editX.setVisibility(View.VISIBLE);
 		editX.setOnClickListener(this);
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_change_ghost_effect, null);
-		TextView textChangeGhostEffect = (TextView) prototypeView
-				.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
-        textChangeGhostEffect.setText(String.valueOf(BrickValues.CHANGE_GHOST_EFFECT));
-		return prototypeView;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		prototypeView = View.inflate(context, R.layout.brick_change_ghost_effect, null);
+//		TextView textChangeGhostEffect = (TextView) prototypeView
+//				.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
+//        textChangeGhostEffect.setText(String.valueOf(BrickValues.CHANGE_GHOST_EFFECT));
+//		return prototypeView;
+//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {

@@ -41,13 +41,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.ui.BrickView;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewVariableDialog;
@@ -58,9 +56,9 @@ import java.util.List;
 
 public class SetVariableBrick extends FormulaBrick implements OnClickListener, NewVariableDialogListener {
 	private static final long serialVersionUID = 1L;
+	public boolean inUserBrick = false;
 	private UserVariable userVariable;
 	private transient AdapterView<?> adapterView;
-	public boolean inUserBrick = false;
 
 	public SetVariableBrick() {
 		addAllowedBrickField(BrickField.VARIABLE);
@@ -115,12 +113,12 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 			}
 		});
 
-		TextView prototypeText = (TextView) view.findViewById(R.id.brick_set_variable_prototype_view);
+//		TextView prototypeText = (TextView) view.findViewById(R.id.brick_set_variable_prototype_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_set_variable_edit_text);
-		prototypeText.setVisibility(View.GONE);
+//		prototypeText.setVisibility(View.GONE);
 		getFormulaWithBrickField(BrickField.VARIABLE).setTextFieldId(R.id.brick_set_variable_edit_text);
 		getFormulaWithBrickField(BrickField.VARIABLE).refreshTextField(view);
-		textField.setVisibility(View.VISIBLE);
+//		textField.setVisibility(View.VISIBLE);
 		textField.setOnClickListener(this);
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.set_variable_spinner);
@@ -185,29 +183,29 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_set_variable, null);
-		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.set_variable_spinner);
-		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
-		int userBrickId = (currentBrick == null ? -1 : currentBrick.getDefinitionBrick().getUserBrickId());
-
-		variableSpinner.setFocusableInTouchMode(false);
-		variableSpinner.setFocusable(false);
-		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.createUserVariableAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
-
-		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
-				userVariableAdapter);
-
-		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
-		variableSpinner.setAdapter(userVariableAdapterWrapper);
-		setSpinnerSelection(variableSpinner, null);
-
-		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_set_variable_prototype_view);
-		textSetVariable.setText(String.valueOf(BrickValues.SET_VARIABLE));
-		return prototypeView;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		View prototypeView = View.inflate(context, R.layout.brick_set_variable, null);
+//		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.set_variable_spinner);
+//		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
+//		int userBrickId = (currentBrick == null ? -1 : currentBrick.getDefinitionBrick().getUserBrickId());
+//
+//		variableSpinner.setFocusableInTouchMode(false);
+//		variableSpinner.setFocusable(false);
+//		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+//				.createUserVariableAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
+//
+//		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
+//				userVariableAdapter);
+//
+//		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
+//		variableSpinner.setAdapter(userVariableAdapterWrapper);
+//		setSpinnerSelection(variableSpinner, null);
+//
+//		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_set_variable_prototype_view);
+//		textSetVariable.setText(String.valueOf(BrickValues.SET_VARIABLE));
+//		return prototypeView;
+//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {

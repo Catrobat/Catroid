@@ -34,9 +34,6 @@ import android.widget.TextView;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-
-import org.catrobat.catroid.common.BrickValues;
-
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -47,7 +44,7 @@ import java.util.List;
 public class ChangeYByNBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
-	private transient View prototypeView;
+//	private transient View prototypeView;
 
 	public ChangeYByNBrick() {
 		addAllowedBrickField(BrickField.Y_POSITION_CHANGE);
@@ -90,24 +87,24 @@ public class ChangeYByNBrick extends FormulaBrick implements OnClickListener {
 			}
 		});
 
-		TextView textY = (TextView) view.findViewById(R.id.brick_change_y_prototype_text_view);
+//		TextView textY = (TextView) view.findViewById(R.id.brick_change_y_prototype_text_view);
 		TextView editY = (TextView) view.findViewById(R.id.brick_change_y_edit_text);
 		getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE).setTextFieldId(R.id.brick_change_y_edit_text);
 		getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE).refreshTextField(view);
 
-		textY.setVisibility(View.GONE);
-		editY.setVisibility(View.VISIBLE);
+//		textY.setVisibility(View.GONE);
+//		editY.setVisibility(View.VISIBLE);
 		editY.setOnClickListener(this);
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_change_y, null);
-		TextView textYMovement = (TextView) prototypeView.findViewById(R.id.brick_change_y_prototype_text_view);
-        textYMovement.setText(String.valueOf(BrickValues.CHANGE_Y_BY));
-		return prototypeView;
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		prototypeView = View.inflate(context, R.layout.brick_change_y, null);
+//		TextView textYMovement = (TextView) prototypeView.findViewById(R.id.brick_change_y_prototype_text_view);
+//        textYMovement.setText(String.valueOf(BrickValues.CHANGE_Y_BY));
+//		return prototypeView;
+//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {

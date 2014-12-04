@@ -92,10 +92,10 @@ public class WhenStartedBrick extends ScriptBrick {
 		return view;
 	}
 
-	@Override
-	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_when_started, null);
-	}
+//	@Override
+//	public View getPrototypeView(Context context) {
+//		return View.inflate(context, R.layout.brick_when_started, null);
+//	}
 
 	@Override
 	public Brick clone() {
