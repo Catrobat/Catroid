@@ -134,12 +134,14 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
 
+		variableSpinner.setFocusableInTouchMode(false);
+		variableSpinner.setFocusable(false);
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			variableSpinner.setClickable(true);
 			variableSpinner.setEnabled(true);
 		} else {
 			variableSpinner.setClickable(false);
-			variableSpinner.setFocusable(false);
+			variableSpinner.setEnabled(false);
 		}
 
 		setSpinnerSelection(variableSpinner, null);

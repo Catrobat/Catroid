@@ -153,6 +153,8 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickL
 
 		Spinner motorSpinner = (Spinner) view.findViewById(R.id.lego_motor_turn_angle_spinner);
 
+		motorSpinner.setFocusableInTouchMode(false);
+		motorSpinner.setFocusable(false);
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			motorSpinner.setClickable(true);
 			motorSpinner.setEnabled(true);

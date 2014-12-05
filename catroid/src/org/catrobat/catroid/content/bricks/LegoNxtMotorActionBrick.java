@@ -152,6 +152,8 @@ public class LegoNxtMotorActionBrick extends FormulaBrick implements OnClickList
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		Spinner motorSpinner = (Spinner) view.findViewById(R.id.lego_motor_action_spinner);
 
+		motorSpinner.setFocusableInTouchMode(false);
+		motorSpinner.setFocusable(false);
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			motorSpinner.setClickable(true);
 			motorSpinner.setEnabled(true);

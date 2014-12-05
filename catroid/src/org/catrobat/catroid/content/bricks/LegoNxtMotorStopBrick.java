@@ -125,6 +125,8 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 		Spinner motorSpinner = (Spinner) view.findViewById(R.id.stop_motor_spinner);
 		motorSpinner.setOnItemSelectedListener(this);
 
+		motorSpinner.setFocusableInTouchMode(false);
+		motorSpinner.setFocusable(false);
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			motorSpinner.setClickable(true);
 			motorSpinner.setEnabled(true);
