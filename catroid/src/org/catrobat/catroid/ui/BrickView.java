@@ -27,13 +27,19 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.Checkable;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 /**
- * Created by illya on 02/12/14.
+ * Brick View.
+ * Provides Checkable support and can be used in listView with selection.
+ * <p/>
+ * Created by Illya Boyko &lt;illya.boyko@gmail.com> on 02/12/14.
  */
 public class BrickView extends LinearLayout implements Checkable {
 
@@ -78,16 +84,49 @@ public class BrickView extends LinearLayout implements Checkable {
 		checkbox.setChecked(!isChecked());
 	}
 
-	public void setMode(int mode) {
-		this.mode = mode;
+	public void addMode(int mask) {
+		int oldMode = this.mode;
+		this.mode |= mask;
+		onModeChanged(oldMode, mode);
 	}
 
-	public Object getMode() {
+	public void removeMode(int mask) {
+		int oldMode = this.mode;
+		this.mode &= ~mask;
+		onModeChanged(oldMode, mode);
+	}
+
+	public int getMode() {
 		return mode;
 	}
 
-	public boolean hasMode(int mode) {
-		return (this.mode & mode) != 0;
+	public boolean hasMode(int mask) {
+		return (this.mode & mask) == mask;
+	}
+
+
+	private void onModeChanged(int oldMode, int newMode) {
+		if (oldMode == newMode) {
+			return;
+		}
+		applyModeChanged(brickLayout, oldMode, newMode);
+	}
+
+	private void applyModeChanged(ViewGroup viewGroup, int oldMode, int newMode) {
+		if (viewGroup != null) {
+			for (int i = 0; i < viewGroup.getChildCount(); i++) {
+				View child = viewGroup.getChildAt(i);
+				if (child instanceof ViewGroup && !(child instanceof Spinner)) {
+					applyModeChanged((ViewGroup) child, oldMode, newMode);
+				} else {
+					child.setClickable(newMode == Mode.DEFAULT);
+					if (child instanceof Spinner) {
+						//TODO: provide extra style for spinner in prototype View
+						child.setEnabled(newMode == Mode.DEFAULT);
+					}
+				}
+			}
+		}
 	}
 
 	public class Mode {

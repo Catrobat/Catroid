@@ -32,8 +32,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -170,7 +168,7 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 		final Brick brick = brickList.get(position);
 		View view = brick.getView(context, position, this);
 		if (view instanceof BrickView) {
-			((BrickView) view).setMode(BrickView.Mode.PROTOTYPE);
+			((BrickView) view).addMode(BrickView.Mode.PROTOTYPE);
 		}
 		return view;
 	}
