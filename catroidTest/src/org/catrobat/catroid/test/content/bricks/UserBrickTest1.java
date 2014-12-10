@@ -25,28 +25,27 @@ package org.catrobat.catroid.test.content.bricks;
 
 import android.test.AndroidTestCase;
 
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+//import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Script;
+//import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
-import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
-import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick.Motor;
-import org.catrobat.catroid.content.bricks.UserBrick;
-import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
+//import org.catrobat.catroid.content.StartScript;
+//import org.catrobat.catroid.content.bricks.Brick;
+//import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
+//import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
+//import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick.Motor;
+//import org.catrobat.catroid.content.bricks.UserBrick;
+//import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
+//import org.catrobat.catroid.formulaeditor.Formula;
+//import org.catrobat.catroid.formulaeditor.FormulaElement;
+//import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
+//import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.test.utils.Reflection;
-import org.catrobat.catroid.test.utils.TestUtils;
-
-import java.util.ArrayList;
-import java.util.List;
+//import org.catrobat.catroid.test.utils.TestUtils;
+//import java.util.ArrayList;
+//import java.util.List;
 
 //TODO refactor the class name properly (was quickfix for being able to build the project)
 public class UserBrickTest1 extends AndroidTestCase {

@@ -23,19 +23,16 @@
 
 package org.catrobat.catroid.uitest.content.interaction;
 
-import android.util.Pair;
-
-
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.bricks.UserBrick;
+//import android.util.Pair;
+//import org.catrobat.catroid.ProjectManager;
+//import org.catrobat.catroid.R;
+//import org.catrobat.catroid.content.Script;
+//import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.ui.fragment.AddBrickFragment;
+//import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-
-import java.util.ArrayList;
+//import java.util.ArrayList;
 
 public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
