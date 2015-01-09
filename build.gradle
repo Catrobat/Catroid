@@ -19,6 +19,7 @@ apply plugin: 'com.android.application'
 //apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
+apply from: 'buildAPK.gradle'
 apply from: 'gradle/adb_tasks.gradle'
 apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/intellij_config_tasks.gradle'
@@ -29,13 +30,13 @@ check.dependsOn 'pmd'
 ext {
     projectVersion = "0.9"
     featuresEnabled = [
-            "lego_nxt"                          : true,
+            "lego_nxt"                          : false,
             "led_brick"                         : false,
             "vibration_brick"                   : false,
             "backpack"                          : false,
             "parrot_ar_drone"                   : false,
-            "apk_generator"                     : false,
-            "computer_vision_enhancement"       : true,
+            "apk_generator"                     : true,
+            "computer_vision_enhancement"       : false,
             "formula_editor_lists"              : false,
             "physics_engine_collision_filtering": false,
             "time_capsule"                      : false,
@@ -54,6 +55,9 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.1.0-RC1'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.1.0-RC1'
     compile 'com.github.kevinsawicki:http-request:5.6'
+    compile('org.rauschig:jarchivelib:0.6.0') {
+        exclude group: 'org.apache.commons', module: 'commons-compress'
+    }
     compile fileTree(include: '*.jar', dir: 'catroid/libs')
     compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')
@@ -197,7 +201,7 @@ task featuresToBuildconfig << {
 
 task testManifestHack << {
     def origManifest = file('catroidTest/AndroidManifest.xml')
-    def generatedManifest = file("build/intermediates/manifests/test/debug/AndroidManifest.xml")
+    def generatedManifest = file("build/intermediates/manifests/test/catroid/AndroidManifest.xml")
     def origContent = origManifest.getText()
     def generatedContent = generatedManifest.getText()
     def pattern = Pattern.compile("<application.*?>.*?</application>", Pattern.DOTALL)
@@ -209,7 +213,7 @@ task testManifestHack << {
 }
 
 gradle.projectsEvaluated {
-    generateDebugTestBuildConfig.dependsOn testManifestHack
+    generateCatroidDebugTestBuildConfig.dependsOn testManifestHack
 }
 
 preBuild.dependsOn featuresToBuildconfig

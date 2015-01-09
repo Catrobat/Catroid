@@ -43,6 +43,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.XmlHeader;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -140,6 +141,7 @@ import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.NO_MEDIA_FILE;
 import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME;
 import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME_TMP;
+import static org.catrobat.catroid.common.Constants.PROJECTPERMISSIONS_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY;
 import static org.catrobat.catroid.utils.Utils.buildPath;
 import static org.catrobat.catroid.utils.Utils.buildProjectPath;
@@ -393,6 +395,9 @@ public final class StorageHandler {
 			writer = new BufferedWriter(new FileWriter(tmpCodeFile), Constants.BUFFER_8K);
 			writer.write(projectXml);
 			writer.flush();
+
+			writePermissionFile(project);
+
 			return true;
 		} catch (Exception exception) {
 			Log.e(TAG, "Saving project " + project.getName() + " failed.", exception);
@@ -416,6 +421,37 @@ public final class StorageHandler {
 			}
 
 			loadSaveLock.unlock();
+		}
+	}
+
+	private void writePermissionFile(Project project) throws IOException {
+
+		int ressources = project.getRequiredResources();
+		BufferedWriter writer = null;
+		String permissionFileContent = "";
+		File permissionFile = new File(buildProjectPath(project.getName()), PROJECTPERMISSIONS_NAME);
+
+
+		if ((ressources & Brick.TEXT_TO_SPEECH) > 0) {
+			permissionFileContent += "TEXT_TO_SPEECH\n";
+		}
+		if ((ressources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
+			permissionFileContent += "BLUETOOTH_LEGO_NXT\n";
+		}
+		if ((ressources & Brick.ARDRONE_SUPPORT) > 0) {
+			permissionFileContent += "ARDRONE_SUPPORT\n";
+		}
+		if ((ressources & Brick.CAMERA_LED) > 0) {
+			permissionFileContent += "CAMERA_LED\n";
+		}
+		if ((ressources & Brick.VIBRATOR) > 0) {
+			permissionFileContent += "VIBRATOR\n";
+		}
+
+		if (permissionFileContent != null) {
+			writer = new BufferedWriter(new FileWriter(permissionFile), Constants.BUFFER_8K);
+			writer.write(permissionFileContent);
+			writer.flush();
 		}
 	}
 

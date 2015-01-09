@@ -26,6 +26,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,19 +34,24 @@ import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
+import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 
 import com.actionbarsherlock.app.ActionBar;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.stage.PreStageActivity;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.utils.DownloadUtil;
@@ -53,10 +59,21 @@ import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
+import org.rauschig.jarchivelib.Archiver;
+import org.rauschig.jarchivelib.ArchiverFactory;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.concurrent.locks.Lock;
 
 public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompleteListener {
+
+	private static final String START_PROJECT = BuildConfig.START_PROJECT;
+	private static final Boolean STANDALONE_MODE = BuildConfig.FEATURE_APK_GENERATOR_ENABLED;
+	private static final String ZIP_FILE_NAME = START_PROJECT + ".zip";
 
 	public static final String SHARED_PREFERENCES_SHOW_BROWSER_WARNING = "shared_preferences_browser_warning";
 
@@ -73,31 +90,131 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		}
 		Utils.updateScreenWidthAndHeight(this);
 
-		setContentView(R.layout.activity_main_menu);
+		if (STANDALONE_MODE) {
+			requestWindowFeature(Window.FEATURE_NO_TITLE);
+			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+			setContentView(R.layout.activity_main_menu_splashscreen);
+			unzipProgramme();
+		} else {
 
-		final ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayUseLogoEnabled(true);
-		actionBar.setTitle(R.string.app_name);
 
-		findViewById(R.id.main_menu_button_continue).setEnabled(false);
+			setContentView(R.layout.activity_main_menu);
 
-		// Load external project from URL or local file system.
-		Uri loadExternalProjectUri = getIntent().getData();
-		getIntent().setData(null);
+			final ActionBar actionBar = getSupportActionBar();
+			actionBar.setDisplayUseLogoEnabled(true);
+			actionBar.setTitle(R.string.app_name);
 
-		if (loadExternalProjectUri != null) {
-			loadProgramFromExternalSource(loadExternalProjectUri);
+			findViewById(R.id.main_menu_button_continue).setEnabled(false);
+
+			// Load external project from URL or local file system.
+			Uri loadExternalProjectUri = getIntent().getData();
+			getIntent().setData(null);
+
+			if (loadExternalProjectUri != null) {
+				loadProgramFromExternalSource(loadExternalProjectUri);
+			}
+
+			if (!BackPackListManager.isBackpackFlag()) {
+				BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
+			}
+
+			//TODO Drone do not create project for now
+			//if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED && DroneUtils.isDroneSharedPreferenceEnabled(getApplication(), false)) {
+			//	UtilFile.loadExistingOrCreateStandardDroneProject(this);
+			//}
+			//SettingsActivity.setTermsOfServiceAgreedPermanently(this, false);
+		}
+	}
+
+	private void unzipProgramme() {
+
+		String zipFileString = Constants.DEFAULT_ROOT + "/" + ZIP_FILE_NAME;
+		copyProgramZip();
+		Log.d("STANDALONE", "default root " + Constants.DEFAULT_ROOT);
+		Archiver archiver = ArchiverFactory.createArchiver("zip");
+		try {
+			archiver.extract(new File(zipFileString), new File(Constants.DEFAULT_ROOT + "/" + START_PROJECT));
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
-		if (!BackPackListManager.isBackpackFlag()) {
-			BackPackListManager.getInstance().setSoundInfoArrayListEmpty();
-		}
+		loadStageProject(START_PROJECT);
 
-		//TODO Drone do not create project for now
-		//if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED && DroneUtils.isDroneSharedPreferenceEnabled(getApplication(), false)) {
-		//	UtilFile.loadExistingOrCreateStandardDroneProject(this);
-		//}
-		//SettingsActivity.setTermsOfServiceAgreedPermanently(this, false);
+		File zipFile = new File(zipFileString);
+		if (zipFile.exists()) {
+			zipFile.delete();
+		}
+	}
+
+	private void copyProgramZip() {
+		AssetManager assetManager = getResources().getAssets();
+		String[] files = null;
+		try {
+			files = assetManager.list("");
+		} catch (IOException e) {
+			Log.e("STANDALONE", "Failed to get asset file list.", e);
+		}
+		for (String filename : files) {
+			if (filename.contains(ZIP_FILE_NAME)) {
+				InputStream in = null;
+				OutputStream out = null;
+				try {
+					in = assetManager.open(filename);
+					File outFile = new File(Constants.DEFAULT_ROOT, filename);
+					out = new FileOutputStream(outFile);
+					copyFile(in, out);
+					out.flush();
+					out.close();
+					in.close();
+					in = null;
+					out = null;
+				} catch (IOException e) {
+					Log.e("STANDALONE", "Failed to copy asset file: " + filename, e);
+				}
+			}
+		}
+	}
+
+	private void copyFile(InputStream in, OutputStream out) throws IOException {
+		byte[] buffer = new byte[1024];
+		int read;
+		while ((read = in.read(buffer)) != -1) {
+			out.write(buffer, 0, read);
+		}
+	}
+
+	private void loadStageProject(String projectName) {
+		LoadProjectTask loadProjectTask = new LoadProjectTask(this, projectName, false, false);
+		loadProjectTask.setOnLoadProjectCompleteListener(this);
+		Log.e("STANDALONE", "going to execute standalone project");
+		loadProjectTask.execute();
+	}
+
+	private void startStageProject() {
+		ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
+		Intent intent = new Intent(this, PreStageActivity.class);
+		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
+			SensorHandler.startSensorListener(this);
+
+			Intent intent = new Intent(MainMenuActivity.this, StageActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+				intent.addFlags(0x8000); // equal to Intent.FLAG_ACTIVITY_CLEAR_TASK which is only available from API level 11
+			}
+			startActivityForResult(intent, StageActivity.STAGE_ACTIVITY_FINISH);
+		}
+		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
+			if (!STANDALONE_MODE) {
+				SensorHandler.stopSensorListeners();
+			}
+			finish();
+		}
 	}
 
 	@Override
@@ -113,6 +230,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		UtilFile.createStandardProjectIfRootDirectoryIsEmpty(this);
 
 		PreStageActivity.shutdownPersistentResources();
+		if (!STANDALONE_MODE) {
+			setMainMenuButtonContinueText();
+			findViewById(R.id.main_menu_button_continue).setEnabled(true);
+		}
 		setMainMenuButtonContinueText();
 		findViewById(R.id.main_menu_button_continue).setEnabled(true);
 		String projectName = getIntent().getStringExtra(StatusBarNotificationManager.EXTRA_PROJECT_NAME);
@@ -158,7 +279,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	@Override
 	public void onLoadProjectSuccess(boolean startProjectActivity) {
-		if (ProjectManager.getInstance().getCurrentProject() != null && startProjectActivity) {
+		if (STANDALONE_MODE) {
+			Log.d("STANDALONE", "onLoadProjectSucess -> startStage");
+			startStageProject();
+		} else if (ProjectManager.getInstance().getCurrentProject() != null && startProjectActivity) {
 			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 			startActivity(intent);
 		}
