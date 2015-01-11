@@ -29,8 +29,6 @@ import android.util.Pair;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -57,7 +55,6 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	@XStreamAlias("definitionBrick")
 	private UserScriptDefinitionBrick definitionBrick;
-//	private transient View prototypeView;
 
 	// belonging to brick instance
 	@XStreamAlias("userBrickParameters")
@@ -175,25 +172,10 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		view = View.inflate(context, R.layout.brick_user, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_user_checkbox);
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(UserBrick.this, isChecked);
-			}
-		});
 		onLayoutChanged(view);
 
 		return view;
 	}
-
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		prototypeView = View.inflate(context, R.layout.brick_user, null);
-//		onLayoutChanged(prototypeView);
-//		return prototypeView;
-//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
@@ -303,9 +285,6 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	@Override
 	public void onClick(View eventOrigin) {
 		if (!clickAllowed()) {
-			return;
-		}
-		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
 

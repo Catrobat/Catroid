@@ -31,7 +31,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -48,6 +47,7 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 
 	private OnBrickCheckedListener addBrickFragment;
 	private List<Brick> checkedBricks = new ArrayList<Brick>();
+	private boolean useSelection;
 
 	public PrototypeBrickAdapter(Context context, List<Brick> brickList) {
 		this.context = context;
@@ -79,11 +79,6 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 		return position;
 	}
 
-	public void setCheckboxVisibility(int visibility) {
-		for (Brick brick : brickList) {
-			brick.setCheckboxVisibility(visibility);
-		}
-	}
 
 	public int getAmountOfCheckedItems() {
 		return getCheckedBricks().size();
@@ -105,6 +100,12 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
+	public void enableSelection(boolean enableSelection) {
+		useSelection = enableSelection;
+		notifyDataSetChanged();
+
+	}
+
 	public interface OnBrickCheckedListener {
 		void onBrickChecked();
 	}
@@ -113,19 +114,19 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 		addBrickFragment = listener;
 	}
 
-	public void handleCheck(Brick brick, boolean isChecked) {
-		if (brick != null && brick.getCheckBox() != null) {
-			brick.getCheckBox().setChecked(isChecked);
-			if (isChecked) {
-				checkedBricks.add(brick);
-			} else {
-				checkedBricks.remove(brick);
-			}
-		}
-		if (addBrickFragment != null) {
-			addBrickFragment.onBrickChecked();
-		}
-	}
+//	public void handleCheck(Brick brick, boolean isChecked) {
+//		if (brick != null && brick.getCheckBox() != null) {
+//			brick.getCheckBox().setChecked(isChecked);
+//			if (isChecked) {
+//				checkedBricks.add(brick);
+//			} else {
+//				checkedBricks.remove(brick);
+//			}
+//		}
+//		if (addBrickFragment != null) {
+//			addBrickFragment.onBrickChecked();
+//		}
+//	}
 
 	public List<Brick> getReversedCheckedBrickList() {
 		List<Brick> reverseCheckedList = new ArrayList<Brick>();
@@ -137,30 +138,31 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 
 	public void clearCheckedItems() {
 		checkedBricks.clear();
-		setCheckboxVisibility(View.GONE);
-		uncheckAllItems();
-		enableAllBricks();
-		notifyDataSetChanged();
+//		setCheckboxVisibility(View.GONE);
+//		uncheckAllItems();
+//		enableAllBricks();
+		enableSelection(false);
+//		notifyDataSetChanged();
 	}
 
-	private void enableAllBricks() {
-		for (Brick brick : brickList) {
-			if (brick.getCheckBox() != null) {
-				brick.getCheckBox().setEnabled(true);
-			}
-			brick.getViewWithAlpha(BrickAdapter.ALPHA_FULL);
-		}
-		notifyDataSetChanged();
-	}
+//	private void enableAllBricks() {
+//		for (Brick brick : brickList) {
+//			if (brick.getCheckBox() != null) {
+//				brick.getCheckBox().setEnabled(true);
+//			}
+//			brick.getViewWithAlpha(BrickAdapter.ALPHA_FULL);
+//		}
+//		notifyDataSetChanged();
+//	}
 
-	private void uncheckAllItems() {
-		for (Brick brick : brickList) {
-			CheckBox checkbox = brick.getCheckBox();
-			if (checkbox != null) {
-				checkbox.setChecked(false);
-			}
-		}
-	}
+//	private void uncheckAllItems() {
+//		for (Brick brick : brickList) {
+//			CheckBox checkbox = brick.getCheckBox();
+//			if (checkbox != null) {
+//				checkbox.setChecked(false);
+//			}
+//		}
+//	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -168,6 +170,11 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 		final Brick brick = brickList.get(position);
 		View view = brick.getView(context, position, this);
 		if (view instanceof BrickView) {
+			if (useSelection) {
+				((BrickView) view).addMode(BrickView.Mode.SELECTION);
+			} else {
+				((BrickView) view).removeMode(BrickView.Mode.SELECTION);
+			}
 			((BrickView) view).addMode(BrickView.Mode.PROTOTYPE);
 		}
 		return view;

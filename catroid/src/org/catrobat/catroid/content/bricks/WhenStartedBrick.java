@@ -68,9 +68,12 @@ public class WhenStartedBrick extends ScriptBrick {
 
 		}
 		view = View.inflate(context, R.layout.brick_when_started, null);
+		//TODO: IllyaBoyko: This View does not Need ALPHA!!! -> no selector for background
+		//		setCheckboxView(R.id.checkbox);
+		//TODO: IllyaBoyko: Comment below is wrong and have no sense!!! This is a wrapper Brick and it should check/uncheck other bricks.
+		//		setOnCheckedChangeListener(view);
 
-		setCheckboxView(R.id.checkbox);
-
+		//
 		//method moved to to DragAndDropListView since it is not working on 2.x
 		/*
 		 * checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -91,11 +94,6 @@ public class WhenStartedBrick extends ScriptBrick {
 
 		return view;
 	}
-
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		return View.inflate(context, R.layout.brick_when_started, null);
-//	}
 
 	@Override
 	public Brick clone() {

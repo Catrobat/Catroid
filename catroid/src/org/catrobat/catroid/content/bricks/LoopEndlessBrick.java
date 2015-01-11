@@ -27,9 +27,6 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -57,19 +54,6 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.brick_loop_endless, null);
 			view = getViewWithAlpha(alphaValue);
-			//TODO :
-//			checkbox = (CheckBox) view.findViewById(R.id.checkbox);
-
-			setCheckboxView(R.id.checkbox);
-			final Brick brickInstance = this;
-
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					checked = isChecked;
-					adapter.handleCheck(brickInstance, isChecked);
-				}
-			});
 		}
 		return view;
 	}
@@ -103,6 +87,7 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 		return new LoopEndlessBrick(getLoopBeginBrick());
 	}
 
+	//TODO: IllyaBoyko: What is puzzle View? How to use it.
 	@Override
 	public View getNoPuzzleView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (view == null || isPuzzleView) {
@@ -110,17 +95,6 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.brick_loop_endless_no_puzzle, null);
 			view = getViewWithAlpha(alphaValue);
-			checkbox = (CheckBox) view.findViewById(R.id.checkbox);
-
-			final Brick brickInstance = this;
-
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					checked = isChecked;
-					adapter.handleCheck(brickInstance, isChecked);
-				}
-			});
 		}
 		return view;
 	}

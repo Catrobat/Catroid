@@ -26,8 +26,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -71,22 +69,6 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 		view = View.inflate(context, R.layout.brick_forever, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.checkbox);
-		final Brick brickInstance = this;
-
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				if (!checked) {
-					for (Brick currentBrick : adapter.getCheckedBricks()) {
-						currentBrick.setCheckedBoolean(false);
-					}
-				}
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		return view;
 	}
 
@@ -108,11 +90,6 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 
 		return view;
 	}
-
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		return View.inflate(context, R.layout.brick_forever, null);
-//	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {

@@ -26,8 +26,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -58,16 +56,6 @@ public class IfOnEdgeBounceBrick extends BrickBaseType {
 		}
 		view = View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
 		view = getViewWithAlpha(alphaValue);
-
-		setCheckboxView(R.id.checkbox);
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
 
 		return view;
 	}
@@ -100,11 +88,6 @@ public class IfOnEdgeBounceBrick extends BrickBaseType {
 	public Brick clone() {
 		return new IfOnEdgeBounceBrick();
 	}
-
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		return View.inflate(context, R.layout.brick_if_on_edge_bounce, null);
-//	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {

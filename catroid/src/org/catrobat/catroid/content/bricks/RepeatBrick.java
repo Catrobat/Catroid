@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -92,23 +93,6 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 		view = View.inflate(context, R.layout.brick_repeat, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				checked = !checked;
-				if (!checked) {
-					for (Brick currentBrick : adapter.getCheckedBricks()) {
-						currentBrick.setCheckedBoolean(false);
-					}
-				}
-				adapter.handleCheck(brickInstance, checked);
-			}
-		});
-
-//		TextView text = (TextView) view.findViewById(R.id.brick_repeat_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_repeat_edit_text);
 		getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).setTextFieldId(R.id.brick_repeat_edit_text);
 		getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).refreshTextField(view);
@@ -133,23 +117,10 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
 
-//		text.setVisibility(View.GONE);
-//		edit.setVisibility(View.VISIBLE);
-
 		edit.setOnClickListener(this);
 		return view;
 	}
 
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		prototypeView = View.inflate(context, R.layout.brick_repeat, null);
-//		TextView textRepeat = (TextView) prototypeView.findViewById(R.id.brick_repeat_prototype_text_view);
-//		TextView times = (TextView) prototypeView.findViewById(R.id.brick_repeat_time_text_view);
-//        textRepeat.setText(String.valueOf(BrickValues.REPEAT));
-//        times.setText(context.getResources().getQuantityString(R.plurals.time_plural,
-//                    Utils.convertDoubleToPluralInteger(BrickValues.REPEAT)));
-//		return prototypeView;
-//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
@@ -178,9 +149,6 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 	@Override
 	public void onClick(View view) {
 		if (!clickAllowed()) {
-			return;
-		}
-		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
 		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT));

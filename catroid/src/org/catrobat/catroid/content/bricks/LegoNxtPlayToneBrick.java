@@ -27,8 +27,6 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -43,8 +41,6 @@ import java.util.List;
 
 public class LegoNxtPlayToneBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-
-//	private transient View prototypeView;
 
 	public LegoNxtPlayToneBrick() {
 		addAllowedBrickField(BrickField.LEGO_NXT_FREQUENCY);
@@ -71,16 +67,6 @@ public class LegoNxtPlayToneBrick extends FormulaBrick implements OnClickListene
 		return BLUETOOTH_LEGO_NXT | getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY).getRequiredResources() | getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS).getRequiredResources();
 	}
 
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		prototypeView = View.inflate(context, R.layout.brick_nxt_play_tone, null);
-//		TextView textDuration = (TextView) prototypeView.findViewById(R.id.nxt_tone_duration_text_view);
-//		textDuration.setText(String.valueOf(BrickValues.LEGO_DURATION));
-//		TextView textFreq = (TextView) prototypeView.findViewById(R.id.nxt_tone_freq_text_view);
-//		textFreq.setText(String.valueOf(BrickValues.LEGO_FREQUENCY));
-//		return prototypeView;
-//	}
-
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {
@@ -92,35 +78,16 @@ public class LegoNxtPlayToneBrick extends FormulaBrick implements OnClickListene
 		view = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-//		TextView textDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_text_view);
 		TextView editDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS)
 				.setTextFieldId(R.id.nxt_tone_duration_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS).refreshTextField(view);
 
-//		textDuration.setVisibility(View.GONE);
-//		editDuration.setVisibility(View.VISIBLE);
-
 		editDuration.setOnClickListener(this);
 
-//		TextView textFreq = (TextView) view.findViewById(R.id.nxt_tone_freq_text_view);
 		TextView editFreq = (TextView) view.findViewById(R.id.nxt_tone_freq_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY).setTextFieldId(R.id.nxt_tone_freq_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY).refreshTextField(view);
-
-//		textFreq.setVisibility(View.GONE);
-//		editFreq.setVisibility(View.VISIBLE);
 
 		editFreq.setOnClickListener(this);
 
@@ -132,9 +99,9 @@ public class LegoNxtPlayToneBrick extends FormulaBrick implements OnClickListene
 		if (!clickAllowed()) {
 			return;
 		}
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
+//		if (checkbox.getVisibility() == View.VISIBLE) {
+//			return;
+//		}
 		switch (view.getId()) {
 			case R.id.nxt_tone_freq_edit_text:
 				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY));
@@ -157,7 +124,6 @@ public class LegoNxtPlayToneBrick extends FormulaBrick implements OnClickListene
 
 			TextView textLegoPlayToneLabel = (TextView) view.findViewById(R.id.brick_nxt_play_tone_label);
 			TextView textLegoPlayToneDuration = (TextView) view.findViewById(R.id.brick_nxt_play_tone_duration);
-//			TextView textLegoPlayToneDurationTextView = (TextView) view.findViewById(R.id.nxt_tone_duration_text_view);
 			TextView textLegoPlayToneSeconds = (TextView) view.findViewById(R.id.brick_nxt_play_tone_seconds);
 			TextView textLegoPlayToneFrequency = (TextView) view.findViewById(R.id.brick_nxt_play_tone_frequency);
 			TextView textLegoPlayToneOz = (TextView) view.findViewById(R.id.brick_nxt_play_tone_hundred_hz);
@@ -166,8 +132,6 @@ public class LegoNxtPlayToneBrick extends FormulaBrick implements OnClickListene
 			TextView editLegoFrequency = (TextView) view.findViewById(R.id.nxt_tone_freq_edit_text);
 			textLegoPlayToneLabel.setTextColor(textLegoPlayToneLabel.getTextColors().withAlpha(alphaValue));
 			textLegoPlayToneDuration.setTextColor(textLegoPlayToneDuration.getTextColors().withAlpha(alphaValue));
-//			textLegoPlayToneDurationTextView.setTextColor(textLegoPlayToneDurationTextView.getTextColors().withAlpha(
-//					alphaValue));
 			textLegoPlayToneSeconds.setTextColor(textLegoPlayToneSeconds.getTextColors().withAlpha(alphaValue));
 			textLegoPlayToneFrequency.setTextColor(textLegoPlayToneFrequency.getTextColors().withAlpha(alphaValue));
 			textLegoPlayToneOz.setTextColor(textLegoPlayToneOz.getTextColors().withAlpha(alphaValue));

@@ -27,8 +27,6 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -43,8 +41,6 @@ import java.util.List;
 
 public class PlaceAtBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-
-//	private transient View prototypeView;
 
 	public PlaceAtBrick() {
 		addAllowedBrickField(BrickField.X_POSITION);
@@ -88,45 +84,19 @@ public class PlaceAtBrick extends FormulaBrick implements OnClickListener {
 		view = View.inflate(context, R.layout.brick_place_at, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-//		TextView textX = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_x);
 		TextView editX = (TextView) view.findViewById(R.id.brick_place_at_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_POSITION).setTextFieldId(R.id.brick_place_at_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_POSITION).refreshTextField(view);
 
-//		textX.setVisibility(View.GONE);
-//		editX.setVisibility(View.VISIBLE);
 		editX.setOnClickListener(this);
 
-//		TextView textY = (TextView) view.findViewById(R.id.brick_place_at_prototype_text_view_y);
 		TextView editY = (TextView) view.findViewById(R.id.brick_place_at_edit_text_y);
 		getFormulaWithBrickField(BrickField.Y_POSITION).setTextFieldId(R.id.brick_place_at_edit_text_y);
 		getFormulaWithBrickField(BrickField.Y_POSITION).refreshTextField(view);
-//		textY.setVisibility(View.GONE);
-//		editY.setVisibility(View.VISIBLE);
+
 		editY.setOnClickListener(this);
 		return view;
 	}
-
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		prototypeView = View.inflate(context, R.layout.brick_place_at, null);
-//		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_place_at_prototype_text_view_x);
-//		textX.setText(String.valueOf(BrickValues.X_POSITION));
-//		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_place_at_prototype_text_view_y);
-//		textY.setText(String.valueOf(BrickValues.Y_POSITION));
-//		return prototypeView;
-//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
@@ -160,9 +130,6 @@ public class PlaceAtBrick extends FormulaBrick implements OnClickListener {
 	@Override
 	public void onClick(View view) {
 		if (!clickAllowed()) {
-			return;
-		}
-		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
 		switch (view.getId()) {

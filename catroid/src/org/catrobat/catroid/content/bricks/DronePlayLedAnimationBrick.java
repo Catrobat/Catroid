@@ -26,8 +26,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -50,13 +48,6 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 		return copyBrick;
 	}
 
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		View prototypeView = View.inflate(context, R.layout.brick_drone_play_led_animation, null);
-//
-//		return prototypeView;
-//	}
-
 	@Override
 	public Brick clone() {
 		return new DronePlayLedAnimationBrick();
@@ -72,16 +63,6 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 		}
 		view = View.inflate(context, R.layout.brick_drone_play_led_animation, null);
 		view = getViewWithAlpha(alphaValue);
-
-		setCheckboxView(R.id.checkbox);
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
 
 		return view;
 	}

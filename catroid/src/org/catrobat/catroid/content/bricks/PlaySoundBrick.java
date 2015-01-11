@@ -34,8 +34,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -90,32 +88,11 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 		view = View.inflate(context, R.layout.brick_play_sound, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		final Spinner soundbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
 
 		soundbrickSpinner.setFocusableInTouchMode(false);
 		soundbrickSpinner.setFocusable(false);
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			soundbrickSpinner.setClickable(true);
-			soundbrickSpinner.setEnabled(true);
-		} else {
-			soundbrickSpinner.setClickable(false);
-			soundbrickSpinner.setEnabled(false);
-		}
-
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			soundbrickSpinner.setOnItemSelectedListener(this);
-		}
+		soundbrickSpinner.setOnItemSelectedListener(this);
 
 		final ArrayAdapter<SoundInfo> spinnerAdapter = createSoundAdapter(context);
 
@@ -167,18 +144,6 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 		}
 		return arrayAdapter;
 	}
-
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		View prototypeView = View.inflate(context, R.layout.brick_play_sound, null);
-//		Spinner playSoundSpinner = (Spinner) prototypeView.findViewById(R.id.playsound_spinner);
-//		playSoundSpinner.setFocusableInTouchMode(false);
-//		playSoundSpinner.setFocusable(false);
-//		SpinnerAdapter playSoundSpinnerAdapter = createSoundAdapter(context);
-//		playSoundSpinner.setAdapter(playSoundSpinnerAdapter);
-//		setSpinnerSelection(playSoundSpinner);
-//		return prototypeView;
-//	}
 
 	@Override
 	public Brick clone() {

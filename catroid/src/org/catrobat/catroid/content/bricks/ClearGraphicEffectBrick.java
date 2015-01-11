@@ -26,8 +26,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -58,16 +56,6 @@ public class ClearGraphicEffectBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_clear_graphic_effect, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.checkbox);
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		return view;
 	}
 
@@ -95,12 +83,6 @@ public class ClearGraphicEffectBrick extends BrickBaseType {
 
 		return view;
 	}
-
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//		return inflater.inflate(R.layout.brick_clear_graphic_effect, null);
-//	}
 
 	@Override
 	public Brick clone() {

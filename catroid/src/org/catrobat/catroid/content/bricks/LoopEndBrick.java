@@ -28,8 +28,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -87,19 +85,6 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.brick_loop_end, null);
 			view = getViewWithAlpha(alphaValue);
-			//TODO :
-//			checkbox = (CheckBox) view.findViewById(R.id.checkbox);
-
-			setCheckboxView(R.id.checkbox);
-			final Brick brickInstance = this;
-
-			checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					checked = isChecked;
-					adapter.handleCheck(brickInstance, isChecked);
-				}
-			});
 		}
 
 		return view;
@@ -133,11 +118,6 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 	public Brick clone() {
 		return new LoopEndBrick(getLoopBeginBrick());
 	}
-
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		return View.inflate(context, R.layout.brick_loop_end, null);
-//	}
 
 	@Override
 	public boolean isDraggableOver(Brick brick) {

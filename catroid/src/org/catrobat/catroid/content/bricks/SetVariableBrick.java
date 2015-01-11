@@ -31,8 +31,6 @@ import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -102,23 +100,10 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 
 		view = View.inflate(context, R.layout.brick_set_variable, null);
 		view = getViewWithAlpha(alphaValue);
-		setCheckboxView(R.id.checkbox);
 
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-//		TextView prototypeText = (TextView) view.findViewById(R.id.brick_set_variable_prototype_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_set_variable_edit_text);
-//		prototypeText.setVisibility(View.GONE);
 		getFormulaWithBrickField(BrickField.VARIABLE).setTextFieldId(R.id.brick_set_variable_edit_text);
 		getFormulaWithBrickField(BrickField.VARIABLE).refreshTextField(view);
-//		textField.setVisibility(View.VISIBLE);
 		textField.setOnClickListener(this);
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.set_variable_spinner);
@@ -136,13 +121,6 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 
 		variableSpinner.setFocusableInTouchMode(false);
 		variableSpinner.setFocusable(false);
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			variableSpinner.setClickable(true);
-			variableSpinner.setEnabled(true);
-		} else {
-			variableSpinner.setClickable(false);
-			variableSpinner.setEnabled(false);
-		}
 
 		setSpinnerSelection(variableSpinner, null);
 
@@ -185,30 +163,6 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 		return view;
 	}
 
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		View prototypeView = View.inflate(context, R.layout.brick_set_variable, null);
-//		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.set_variable_spinner);
-//		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
-//		int userBrickId = (currentBrick == null ? -1 : currentBrick.getDefinitionBrick().getUserBrickId());
-//
-//		variableSpinner.setFocusableInTouchMode(false);
-//		variableSpinner.setFocusable(false);
-//		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-//				.createUserVariableAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
-//
-//		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
-//				userVariableAdapter);
-//
-//		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
-//		variableSpinner.setAdapter(userVariableAdapterWrapper);
-//		setSpinnerSelection(variableSpinner, null);
-//
-//		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_set_variable_prototype_view);
-//		textSetVariable.setText(String.valueOf(BrickValues.SET_VARIABLE));
-//		return prototypeView;
-//	}
-
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
 
@@ -246,9 +200,6 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 	@Override
 	public void onClick(View view) {
 		if (!clickAllowed()) {
-			return;
-		}
-		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
 		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.VARIABLE));

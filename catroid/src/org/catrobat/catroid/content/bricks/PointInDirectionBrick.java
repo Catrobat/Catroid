@@ -26,8 +26,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -43,8 +41,6 @@ import java.util.List;
 public class PointInDirectionBrick extends FormulaBrick implements View.OnClickListener {
 
 	private static final long serialVersionUID = 1L;
-
-//	private transient View prototypeView;
 
 	public static enum Direction {
 		RIGHT(90), LEFT(-90), UP(0), DOWN(180);
@@ -93,25 +89,11 @@ public class PointInDirectionBrick extends FormulaBrick implements View.OnClickL
 		}
 		view = View.inflate(context, R.layout.brick_point_in_direction, null);
 		view = getViewWithAlpha(alphaValue);
-		setCheckboxView(R.id.checkbox);
 
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-//		TextView setAngleTextView = (TextView) view.findViewById(R.id.brick_point_in_direction_prototype_text_view);
 		TextView setAngleTextField = (TextView) view.findViewById(R.id.brick_point_in_direction_edit_text);
 
 		getFormulaWithBrickField(BrickField.DEGREES).setTextFieldId(R.id.brick_point_in_direction_edit_text);
 		getFormulaWithBrickField(BrickField.DEGREES).refreshTextField(view);
-
-//		setAngleTextView.setVisibility(View.GONE);
-//		setAngleTextField.setVisibility(View.VISIBLE);
 
 		setAngleTextField.setOnClickListener(this);
 		return view;
@@ -153,9 +135,6 @@ public class PointInDirectionBrick extends FormulaBrick implements View.OnClickL
 	@Override
 	public void onClick(View view) {
 		if (!clickAllowed()) {
-			return;
-		}
-		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
 		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.DEGREES));

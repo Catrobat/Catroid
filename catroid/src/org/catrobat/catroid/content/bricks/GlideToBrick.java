@@ -28,8 +28,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -47,8 +45,6 @@ import java.util.List;
 
 public class GlideToBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-
-//	private transient View prototypeView;
 
 	public GlideToBrick() {
 		addAllowedBrickField(BrickField.X_DESTINATION);
@@ -96,30 +92,16 @@ public class GlideToBrick extends FormulaBrick implements OnClickListener {
 		view = View.inflate(context, R.layout.brick_glide_to, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.checkbox);
-		final Brick brickInstance = this;
-
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-//		TextView textX = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_x);
 		TextView editX = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_DESTINATION).setTextFieldId(R.id.brick_glide_to_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_DESTINATION).refreshTextField(view);
 		editX.setOnClickListener(this);
 
-//		TextView textY = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_y);
 		TextView editY = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_y);
 		getFormulaWithBrickField(BrickField.Y_DESTINATION).setTextFieldId(R.id.brick_glide_to_edit_text_y);
 		getFormulaWithBrickField(BrickField.Y_DESTINATION).refreshTextField(view);
 		editY.setOnClickListener(this);
 
-//		TextView textDuration = (TextView) view.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
 		TextView editDuration = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_duration);
 		getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS).setTextFieldId(R.id.brick_glide_to_edit_text_duration);
 		getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS).refreshTextField(view);
@@ -144,31 +126,9 @@ public class GlideToBrick extends FormulaBrick implements OnClickListener {
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
 
-//		textDuration.setVisibility(View.GONE);
-//		editDuration.setVisibility(View.VISIBLE);
-//		textX.setVisibility(View.GONE);
-//		editX.setVisibility(View.VISIBLE);
-//		textY.setVisibility(View.GONE);
-//		editY.setVisibility(View.VISIBLE);
-
 		editDuration.setOnClickListener(this);
 		return view;
 	}
-
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		prototypeView = View.inflate(context, R.layout.brick_glide_to, null);
-//		TextView textX = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_x);
-//		TextView textY = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_y);
-//		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_glide_to_prototype_text_view_duration);
-//		TextView times = (TextView) prototypeView.findViewById(R.id.brick_glide_to_seconds_text_view);
-//        textX.setText(String.valueOf(BrickValues.X_POSITION));
-//        textY.setText(String.valueOf(BrickValues.Y_POSITION));
-//        textDuration.setText(String.valueOf(BrickValues.DURATION));
-//        times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
-//                    Utils.convertDoubleToPluralInteger(BrickValues.DURATION)));
-//		return prototypeView;
-//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
@@ -208,9 +168,6 @@ public class GlideToBrick extends FormulaBrick implements OnClickListener {
 	@Override
 	public void onClick(View view) {
 		if (!clickAllowed()) {
-			return;
-		}
-		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
 		switch (view.getId()) {

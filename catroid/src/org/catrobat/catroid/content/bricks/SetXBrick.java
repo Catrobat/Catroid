@@ -27,8 +27,6 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -43,8 +41,6 @@ import java.util.List;
 
 public class SetXBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-
-//	private transient View prototypeView;
 
 	public SetXBrick() {
 		addAllowedBrickField(BrickField.X_POSITION);
@@ -77,24 +73,11 @@ public class SetXBrick extends FormulaBrick implements OnClickListener {
 		view = View.inflate(context, R.layout.brick_set_x, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-//		TextView textX = (TextView) view.findViewById(R.id.brick_set_x_prototype_text_view);
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_x_edit_text);
 
 		getFormulaWithBrickField(BrickField.X_POSITION).setTextFieldId(R.id.brick_set_x_edit_text);
 		getFormulaWithBrickField(BrickField.X_POSITION).refreshTextField(view);
 
-//		textX.setVisibility(View.GONE);
-//		editX.setVisibility(View.VISIBLE);
 		editX.setOnClickListener(this);
 
 		return view;
@@ -122,20 +105,9 @@ public class SetXBrick extends FormulaBrick implements OnClickListener {
 		return view;
 	}
 
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		prototypeView = View.inflate(context, R.layout.brick_set_x, null);
-//		TextView textXPosition = (TextView) prototypeView.findViewById(R.id.brick_set_x_prototype_text_view);
-//		textXPosition.setText(String.valueOf(BrickValues.X_POSITION));
-//		return prototypeView;
-//	}
-
 	@Override
 	public void onClick(View view) {
 		if (!clickAllowed()) {
-			return;
-		}
-		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
 		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.X_POSITION));

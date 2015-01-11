@@ -364,9 +364,10 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 
+			getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 			unregisterForContextMenu(this.getListView());
 			BottomBar.hideBottomBar(getActivity());
-			adapter.setCheckboxVisibility(View.VISIBLE);
+			adapter.enableSelection(true);
 		}
 	}
 

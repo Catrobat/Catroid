@@ -27,8 +27,6 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -44,8 +42,6 @@ import java.util.List;
 public class SpeakBrick extends FormulaBrick implements OnClickListener {
 
 	private static final long serialVersionUID = 1L;
-//	private transient View prototypeView;
-
 
 	public SpeakBrick() {
 		addAllowedBrickField(BrickField.SPEAK);
@@ -77,24 +73,9 @@ public class SpeakBrick extends FormulaBrick implements OnClickListener {
 		view = View.inflate(context, R.layout.brick_speak, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-//		TextView textHolder = (TextView) view.findViewById(R.id.brick_speak_prototype_text_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_speak_edit_text);
 		getFormulaWithBrickField(BrickField.SPEAK).setTextFieldId(R.id.brick_speak_edit_text);
 		getFormulaWithBrickField(BrickField.SPEAK).refreshTextField(view);
-
-//		textHolder.setVisibility(View.GONE);
-//		textField.setVisibility(View.VISIBLE);
 
 		textField.setOnClickListener(this);
 		return view;
@@ -123,14 +104,6 @@ public class SpeakBrick extends FormulaBrick implements OnClickListener {
 		return view;
 	}
 
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		prototypeView = View.inflate(context, R.layout.brick_speak, null);
-//		TextView textSpeak = (TextView) prototypeView.findViewById(R.id.brick_speak_prototype_text_view);
-//		textSpeak.setText(context.getString(R.string.brick_speak_default_value));
-//		return prototypeView;
-//	}
-
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.speak(sprite, getFormulaWithBrickField(BrickField.SPEAK)));
@@ -145,9 +118,6 @@ public class SpeakBrick extends FormulaBrick implements OnClickListener {
 	@Override
 	public void onClick(View view) {
 		if (!clickAllowed()) {
-			return;
-		}
-		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
 		switch (view.getId()) {

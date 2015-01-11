@@ -98,7 +98,6 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 
 		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
 		view = getViewWithAlpha(alphaValue);
-		setCheckboxView(R.id.checkbox);
 
 		// XXX method moved to to DragAndDropListView since it is not working on 2.x
 		//		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -118,13 +117,6 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_receive_spinner);
 		broadcastSpinner.setFocusableInTouchMode(false);
 		broadcastSpinner.setFocusable(false);
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			broadcastSpinner.setClickable(true);
-			broadcastSpinner.setEnabled(true);
-		} else {
-			broadcastSpinner.setClickable(false);
-			broadcastSpinner.setEnabled(false);
-		}
 
 		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {

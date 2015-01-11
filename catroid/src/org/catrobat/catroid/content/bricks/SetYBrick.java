@@ -27,8 +27,6 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -43,8 +41,6 @@ import java.util.List;
 
 public class SetYBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-
-//	private transient View prototypeView;
 
 	public SetYBrick() {
 		addAllowedBrickField(BrickField.Y_POSITION);
@@ -76,34 +72,12 @@ public class SetYBrick extends FormulaBrick implements OnClickListener {
 		view = View.inflate(context, R.layout.brick_set_y, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-//		TextView textY = (TextView) view.findViewById(R.id.brick_set_y_prototype_text_view);
 		TextView editY = (TextView) view.findViewById(R.id.brick_set_y_edit_text);
 		getFormulaWithBrickField(BrickField.Y_POSITION).setTextFieldId(R.id.brick_set_y_edit_text);
 		getFormulaWithBrickField(BrickField.Y_POSITION).refreshTextField(view);
-//		textY.setVisibility(View.GONE);
-//		editY.setVisibility(View.VISIBLE);
 		editY.setOnClickListener(this);
 		return view;
 	}
-
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		prototypeView = View.inflate(context, R.layout.brick_set_y, null);
-//		TextView textYPosition = (TextView) prototypeView.findViewById(R.id.brick_set_y_prototype_text_view);
-//		textYPosition.setText(String.valueOf(BrickValues.Y_POSITION));
-//		return prototypeView;
-//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
@@ -132,10 +106,6 @@ public class SetYBrick extends FormulaBrick implements OnClickListener {
 		if (!clickAllowed()) {
 			return;
 		}
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-
 		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.Y_POSITION));
 	}
 

@@ -2,21 +2,21 @@
  *  Catroid: An on-device visual programming system for Android devices
  *  Copyright (C) 2010-2014 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- *  
+ *
  *  An additional term exception under section 7 of the GNU Affero
  *  General Public License, version 3, is available at
  *  http://developer.catrobat.org/license_additional_term
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Affero General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -33,7 +33,6 @@ import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -92,10 +91,6 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 		this.getScriptSafe().addBrick(brick);
 	}
 
-	@Override
-	public CheckBox getCheckBox() {
-		return null;
-	}
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
@@ -148,8 +143,6 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 		}
 
 		view = View.inflate(context, R.layout.brick_user_definition, null);
-
-		setCheckboxView(R.id.brick_user_definition_checkbox);
 
 		onLayoutChanged(view);
 
@@ -244,17 +237,9 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 		return view;
 	}
 
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		return getView(context, 0, null);
-//	}
-
 	@Override
 	public void onClick(View eventOrigin) {
 		if (!clickAllowed()) {
-			return;
-		}
-		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
 

@@ -34,8 +34,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -56,7 +54,6 @@ import java.util.List;
 public class SetLookBrick extends BrickBaseType implements OnLookDataListChangedAfterNewListener {
 	private static final long serialVersionUID = 1L;
 	private LookData look;
-	//	private transient View prototypeView;
 	private transient LookData oldSelectedLook;
 	private transient AdapterView<?> adapterView;
 
@@ -94,30 +91,12 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		if (animationState) {
 			return view;
 		}
-		final Brick brickInstance = this;
 		view = View.inflate(context, R.layout.brick_set_look, null);
 		view = getViewWithAlpha(alphaValue);
-
-		setCheckboxView(R.id.checkbox);
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
 
 		final Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.brick_set_look_spinner);
 		lookbrickSpinner.setFocusableInTouchMode(false);
 		lookbrickSpinner.setFocusable(false);
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			lookbrickSpinner.setClickable(true);
-			lookbrickSpinner.setEnabled(true);
-		} else {
-			lookbrickSpinner.setClickable(false);
-			lookbrickSpinner.setEnabled(false);
-		}
 
 		final ArrayAdapter<LookData> spinnerAdapter = createLookAdapter(context);
 
@@ -190,22 +169,6 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		}
 		return arrayAdapter;
 	}
-
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		prototypeView = View.inflate(context, R.layout.brick_set_look, null);
-//		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(context.getString(R.string.background))) {
-//			TextView textField = (TextView) prototypeView.findViewById(R.id.brick_set_look_prototype_text_view);
-//			textField.setText(R.string.brick_set_background);
-//		}
-//		Spinner setLookSpinner = (Spinner) prototypeView.findViewById(R.id.brick_set_look_spinner);
-//		setLookSpinner.setFocusableInTouchMode(false);
-//		setLookSpinner.setFocusable(false);
-//		SpinnerAdapter setLookSpinnerAdapter = createLookAdapter(context);
-//		setLookSpinner.setAdapter(setLookSpinnerAdapter);
-//		setSpinnerSelection(setLookSpinner);
-//		return prototypeView;
-//	}
 
 	@Override
 	public Brick clone() {

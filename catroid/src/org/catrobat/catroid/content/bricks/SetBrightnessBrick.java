@@ -27,8 +27,6 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -43,8 +41,6 @@ import java.util.List;
 
 public class SetBrightnessBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-
-//	private transient View prototypeView;
 
 	public SetBrightnessBrick() {
 		addAllowedBrickField(BrickField.BRIGHTNESS);
@@ -77,36 +73,13 @@ public class SetBrightnessBrick extends FormulaBrick implements OnClickListener 
 		view = View.inflate(context, R.layout.brick_set_brightness, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-//		TextView textX = (TextView) view.findViewById(R.id.brick_set_brightness_prototype_text_view);
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_brightness_edit_text);
 		getFormulaWithBrickField(BrickField.BRIGHTNESS).setTextFieldId(R.id.brick_set_brightness_edit_text);
 		getFormulaWithBrickField(BrickField.BRIGHTNESS).refreshTextField(view);
-//		textX.setVisibility(View.GONE);
-//		editX.setVisibility(View.VISIBLE);
 
 		editX.setOnClickListener(this);
 		return view;
 	}
-
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		prototypeView = View.inflate(context, R.layout.brick_set_brightness, null);
-//		TextView textSetBrightness = (TextView) prototypeView
-//				.findViewById(R.id.brick_set_brightness_prototype_text_view);
-//		textSetBrightness.setText(String.valueOf(BrickValues.SET_BRIGHTNESS_TO));
-//		return prototypeView;
-//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
@@ -137,9 +110,6 @@ public class SetBrightnessBrick extends FormulaBrick implements OnClickListener 
 	@Override
 	public void onClick(View view) {
 		if (!clickAllowed()) {
-			return;
-		}
-		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
 		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.BRIGHTNESS));

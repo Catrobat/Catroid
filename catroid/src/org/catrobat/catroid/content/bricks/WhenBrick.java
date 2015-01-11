@@ -67,8 +67,7 @@ public class WhenBrick extends ScriptBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_when, null);
-
-		setCheckboxView(R.id.checkbox);
+		view = getViewWithAlpha(alphaValue); //TODO: IllyaBoyko: It was not present here, do we need it.
 
 		//method moved to to DragAndDropListView since it is not working on 2.x
 		/*
@@ -143,11 +142,6 @@ public class WhenBrick extends ScriptBrick {
 
 		return view;
 	}
-
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		return getView(context, 0, null);
-//	}
 
 	@Override
 	public Brick clone() {

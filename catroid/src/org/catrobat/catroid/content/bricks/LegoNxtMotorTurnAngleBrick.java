@@ -31,8 +31,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -49,7 +47,6 @@ import java.util.List;
 public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
-	//	private transient View prototypeView;
 	private String motor;
 	private transient Motor motorEnum;
 	private transient AdapterView<?> adapterView;
@@ -97,25 +94,6 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickL
 				getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).clone());
 	}
 
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		prototypeView = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
-//		TextView textX = (TextView) prototypeView.findViewById(R.id.motor_turn_angle_text_view);
-//		textX.setText(String.valueOf(BrickValues.LEGO_ANGLE));
-//
-//		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.lego_motor_turn_angle_spinner);
-//		legoSpinner.setFocusableInTouchMode(false);
-//		legoSpinner.setFocusable(false);
-//
-//		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
-//				android.R.layout.simple_spinner_item);
-//		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//
-//		legoSpinner.setAdapter(motorAdapter);
-//		legoSpinner.setSelection(motorEnum.ordinal());
-//		return prototypeView;
-//	}
-
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {
@@ -127,23 +105,9 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickL
 		view = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.checkbox);
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-//		TextView textSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_text_view);
 		TextView editSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).setTextFieldId(R.id.motor_turn_angle_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).refreshTextField(view);
-
-//		textSpeed.setVisibility(View.GONE);
-//		editSpeed.setVisibility(View.VISIBLE);
 
 		editSpeed.setOnClickListener(this);
 
@@ -155,13 +119,6 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickL
 
 		motorSpinner.setFocusableInTouchMode(false);
 		motorSpinner.setFocusable(false);
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			motorSpinner.setClickable(true);
-			motorSpinner.setEnabled(true);
-		} else {
-			motorSpinner.setClickable(false);
-			motorSpinner.setEnabled(false);
-		}
 
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -189,9 +146,6 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickL
 		if (!clickAllowed()) {
 			return;
 		}
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
 		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES));
 	}
 
@@ -206,13 +160,11 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickL
 
 			TextView textLegoTurnAngleLabel = (TextView) view.findViewById(R.id.brick_nxt_motor_turn_label);
 			TextView textLegoTurnAngleTextView = (TextView) view.findViewById(R.id.brick_nxt_motor_turn_angle);
-//			TextView textLegoTurnAngleView = (TextView) view.findViewById(R.id.motor_turn_angle_text_view);
 			TextView textLegoTurnAngleDegree = (TextView) view.findViewById(R.id.brick_nxt_motor_turn_degree);
 			TextView editLegoSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_edit_text);
 
 			textLegoTurnAngleLabel.setTextColor(textLegoTurnAngleLabel.getTextColors().withAlpha(alphaValue));
 			textLegoTurnAngleTextView.setTextColor(textLegoTurnAngleTextView.getTextColors().withAlpha(alphaValue));
-//			textLegoTurnAngleView.setTextColor(textLegoTurnAngleView.getTextColors().withAlpha(alphaValue));
 			textLegoTurnAngleDegree.setTextColor(textLegoTurnAngleDegree.getTextColors().withAlpha(alphaValue));
 			Spinner motorSpinner = (Spinner) view.findViewById(R.id.lego_motor_turn_angle_spinner);
 			ColorStateList color = textLegoTurnAngleDegree.getTextColors().withAlpha(alphaValue);

@@ -27,8 +27,6 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -44,8 +42,6 @@ import java.util.List;
 public class ChangeGhostEffectByNBrick extends FormulaBrick implements OnClickListener {
 
 	private static final long serialVersionUID = 1L;
-
-//	private transient View prototypeView;
 
 	public ChangeGhostEffectByNBrick() {
 		addAllowedBrickField(BrickField.TRANSPARENCY_CHANGE);
@@ -78,36 +74,14 @@ public class ChangeGhostEffectByNBrick extends FormulaBrick implements OnClickLi
 		view = View.inflate(context, R.layout.brick_change_ghost_effect, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.checkbox);
-		final Brick brickInstance = this;
-
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-//		TextView textX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
 		TextView editX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
 		getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE)
 				.setTextFieldId(R.id.brick_change_ghost_effect_edit_text);
 		getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE).refreshTextField(view);
 
-//		textX.setVisibility(View.GONE);
-//		editX.setVisibility(View.VISIBLE);
 		editX.setOnClickListener(this);
 		return view;
 	}
-
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		prototypeView = View.inflate(context, R.layout.brick_change_ghost_effect, null);
-//		TextView textChangeGhostEffect = (TextView) prototypeView
-//				.findViewById(R.id.brick_change_ghost_effect_prototype_text_view);
-//        textChangeGhostEffect.setText(String.valueOf(BrickValues.CHANGE_GHOST_EFFECT));
-//		return prototypeView;
-//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
@@ -136,9 +110,6 @@ public class ChangeGhostEffectByNBrick extends FormulaBrick implements OnClickLi
 	@Override
 	public void onClick(View view) {
 		if (!clickAllowed()) {
-			return;
-		}
-		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
 		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE));

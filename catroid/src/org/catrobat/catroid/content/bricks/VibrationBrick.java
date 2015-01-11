@@ -28,7 +28,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -46,8 +45,6 @@ import java.util.List;
 
 public class VibrationBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-
-//	private transient View prototypeView;
 
 	private VibrationBrick() {
 		addAllowedBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS);
@@ -80,19 +77,6 @@ public class VibrationBrick extends FormulaBrick implements OnClickListener {
 		view = View.inflate(context, R.layout.brick_vibration, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
-//		TextView textSeconds = (TextView) view.findViewById(R.id.brick_vibration_prototype_text_view_seconds);
-		TextView editSeconds = (TextView) view.findViewById(R.id.brick_vibration_edit_seconds_text);
 		getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS)
 				.setTextFieldId(R.id.brick_vibration_edit_seconds_text);
 		getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS).refreshTextField(view);
@@ -113,22 +97,8 @@ public class VibrationBrick extends FormulaBrick implements OnClickListener {
 					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
 		}
 
-//		textSeconds.setVisibility(View.GONE);
-//		editSeconds.setVisibility(View.VISIBLE);
-
 		return view;
 	}
-
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		prototypeView = View.inflate(context, R.layout.brick_vibration, null);
-//		TextView textSeconds = (TextView) prototypeView.findViewById(R.id.brick_vibration_prototype_text_view_seconds);
-//		textSeconds.setText(String.valueOf(BrickValues.VIBRATE_MILLISECONDS));
-//		TextView times = (TextView) prototypeView.findViewById(R.id.brick_vibration_second_text_view);
-//		times.setText(context.getResources().getQuantityString(R.plurals.second_plural,
-//				Utils.convertDoubleToPluralInteger(BrickValues.VIBRATE_MILLISECONDS)));
-//		return prototypeView;
-//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
@@ -155,9 +125,6 @@ public class VibrationBrick extends FormulaBrick implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		if (!clickAllowed()) {
-			return;
-		}
-		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
 		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS));

@@ -28,26 +28,22 @@ import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Paint.Style;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.utils.Utils;
 
-public class DragAndDropListView extends ListView implements OnLongClickListener {
+public class DragAndDropListView extends ListView {
 
 	private static final int SCROLL_SPEED = 25;
 	public static final int WIDTH_OF_BRICK_PREVIEW_IMAGE = 400;
@@ -101,45 +97,47 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		newView = true;
 	}
 
-	@Override
-	public boolean onInterceptTouchEvent(MotionEvent event) {
-		//hack: on Android 2.x getView() is not always called when checkbox is checked.
-		//Therefore the action is catched here and does exactly the same as otherwise the
-		//onCheckedChangeListener would do
-		if (event.getAction() == MotionEvent.ACTION_UP) {
-			int x = (int) event.getX();
-			int y = (int) event.getY();
-			if (y < 0) {
-				y = 0;
-			} else if (y > getHeight()) {
-				y = getHeight();
-			}
-			BrickAdapter adapter = ((BrickAdapter) dragAndDropListener);
-			int itemPosition = pointToPosition(x, y);
-			itemPosition = itemPosition < 0 ? adapter.getCount() - 1 : itemPosition;
-			final Brick brick = (Brick) adapter.getItem(itemPosition);
-			if (adapter.isActionMode() && brick instanceof ScriptBrick) {
-				boolean checked = !brick.isChecked();
-				brick.setCheckedBoolean(checked);
-				brick.getCheckBox().setChecked(checked);
-
-				if (!checked) {
-					for (Brick currentBrick : adapter.getCheckedBricksFromScriptBrick((ScriptBrick) brick)) {
-						currentBrick.setCheckedBoolean(false);
-					}
-				}
-				adapter.handleCheck(brick, checked);
-				brick.getView(adapter.getContext(), itemPosition, adapter);
-				return true;
-			}
-		}
-
-		if (dragAndDropListener != null && dragView != null) {
-			onTouchEvent(event);
-		}
-
-		return super.onInterceptTouchEvent(event);
-	}
+//	@Override
+//	public boolean onInterceptTouchEvent(MotionEvent event) {
+//		TODO: IllyaBoyko: Removing hack. List selection mode is used and not checkbox checking.
+//		//hack: on Android 2.x getView() is not always called when checkbox is checked.
+//		//Therefore the action is catched here and does exactly the same as otherwise the
+//		//onCheckedChangeListener would do
+//		if (event.getAction() == MotionEvent.ACTION_UP) {
+//			int x = (int) event.getX();
+//			int y = (int) event.getY();
+//			if (y < 0) {
+//				y = 0;
+//			} else if (y > getHeight()) {
+//				y = getHeight();
+//			}
+//			BrickAdapter adapter = ((BrickAdapter) dragAndDropListener);
+//			int itemPosition = pointToPosition(x, y);
+//			itemPosition = itemPosition < 0 ? adapter.getCount() - 1 : itemPosition;
+//			final Brick brick = (Brick) adapter.getItem(itemPosition);
+//			if (adapter.isActionMode() && brick instanceof ScriptBrick) {
+//				//TODO: IllyaBoyko: how do we need to implement it. Same disable logik in Forever and Repeat Bricks.
+////				boolean checked = !brick.isChecked();
+////				brick.setCheckedBoolean(checked);
+////				brick.getCheckBox().setChecked(checked);
+////
+////				if (!checked) {
+////					for (Brick currentBrick : adapter.getCheckedBricksFromScriptBrick((ScriptBrick) brick)) {
+////						currentBrick.setCheckedBoolean(false);
+////					}
+////				}
+////				adapter.handleCheck(brick, checked);
+//				brick.getView(adapter.getContext(), itemPosition, adapter);
+//				return true;
+//			}
+//		}
+//
+//		if (dragAndDropListener != null && dragView != null) {
+//			onTouchEvent(event);
+//		}
+//
+//		return super.onInterceptTouchEvent(event);
+//	}
 
 	@Override
 	public void draw(Canvas canvas) {
@@ -149,7 +147,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 			Rect rect = new Rect(0, 0, canvas.getWidth(), canvas.getHeight());
 			Paint paint = new Paint();
 			paint.setColor(Color.BLACK);
-			paint.setStyle(Style.FILL);
+			paint.setStyle(Paint.Style.FILL);
 			paint.setAlpha(128);
 
 			canvas.drawRect(rect, paint);
@@ -216,9 +214,8 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		maximumDragViewHeight = height / 2;
 	}
 
-	@Override
-	public boolean onLongClick(View view) {
-		int itemPosition = calculateItemPositionAndTouchPointY(view);
+	public boolean performDragging(View view, int position) {
+		int itemPosition = calculateItemPositionAndTouchPointY(position);
 
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
 
@@ -354,8 +351,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		return (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
 	}
 
-	private int calculateItemPositionAndTouchPointY(View view) {
-		int itemPosition = -1;
+	private int calculateItemPositionAndTouchPointY(int itemPosition) {
 		int[] location = new int[2];
 
 		if (newView) {
@@ -368,7 +364,6 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 			newView = false;
 
 		} else {
-			itemPosition = pointToPosition(view.getLeft(), view.getTop());
 			int visiblePosition = itemPosition - getFirstVisiblePosition();
 			(getChildAt(visiblePosition)).getLocationOnScreen(location);
 			touchPointY = location[1] + (getChildAt(visiblePosition)).getHeight() / 2;

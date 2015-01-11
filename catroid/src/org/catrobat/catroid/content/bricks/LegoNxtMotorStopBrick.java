@@ -30,8 +30,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -81,22 +79,6 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 		return new LegoNxtMotorStopBrick(motorEnum);
 	}
 
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		View prototypeView = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
-//		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.stop_motor_spinner);
-//		legoSpinner.setFocusableInTouchMode(false);
-//		legoSpinner.setFocusable(false);
-//
-//		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
-//				R.array.nxt_stop_motor_chooser, android.R.layout.simple_spinner_item);
-//		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//
-//		legoSpinner.setAdapter(motorAdapter);
-//		legoSpinner.setSelection(motorEnum.ordinal());
-//		return prototypeView;
-//	}
-
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {
@@ -108,16 +90,6 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 		view = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.checkbox);
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
 				R.array.nxt_stop_motor_chooser, android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -127,13 +99,6 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 
 		motorSpinner.setFocusableInTouchMode(false);
 		motorSpinner.setFocusable(false);
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			motorSpinner.setClickable(true);
-			motorSpinner.setEnabled(true);
-		} else {
-			motorSpinner.setClickable(false);
-			motorSpinner.setEnabled(false);
-		}
 
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setSelection(motorEnum.ordinal());

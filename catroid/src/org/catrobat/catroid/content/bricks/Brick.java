@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -73,21 +72,15 @@ public interface Brick extends Serializable, Cloneable {
 
 	int getRequiredResources();
 
-	void setCheckboxVisibility(int visibility);
 
 	int getAlphaValue();
 
 	void setBrickAdapter(BrickAdapter adapter);
 
-	CheckBox getCheckBox();
 
-	boolean isChecked();
 
-	void setCheckedBoolean(boolean newValue);
 
-	void setCheckboxView(int id);
 
-	void setCheckboxView(int id, View view);
 
 	View getViewWithAlpha(int alphaValue);
 

@@ -23,81 +23,58 @@
 
 package org.catrobat.catroid.ui;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.Checkable;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 /**
  * Brick View.
- * Provides Checkable support and can be used in listView with selection.
+ * <p/>
+ * Provides Checkable support and can be used in listView in multiple selection mode.
+ * Checkable implementation is taken from here - https://chris.banes.me/2013/03/22/checkable-views/
  * <p/>
  * Created by Illya Boyko &lt;illya.boyko@gmail.com> on 02/12/14.
  */
-public class BrickView extends LinearLayout implements Checkable {
+public class BrickView extends CheckableLinearLayout {
 
+	public static final String TAG = BrickView.class.getSimpleName();
 
-	private CheckBox checkbox;
+	private View checkbox;
 	private ViewGroup brickLayout;
 	private int mode = Mode.DEFAULT;
 
+
 	public BrickView(Context context) {
-		super(context);
+		this(context, null);
 	}
 
 	public BrickView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	public BrickView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-	}
-
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		checkbox = (CheckBox) getChildAt(0);
-		brickLayout = (ViewGroup) getChildAt(1);
-	}
-
-
-	@Override
-	public void setChecked(boolean checked) {
-		checkbox.setChecked(checked);
-	}
-
-	@Override
-	public boolean isChecked() {
-		return checkbox.isChecked();
-	}
-
-	@Override
-	public void toggle() {
-		checkbox.setChecked(!isChecked());
+		this.checkbox = getChildAt(0);
+		this.brickLayout = (ViewGroup) getChildAt(1);
 	}
 
 	public void addMode(int mask) {
 		int oldMode = this.mode;
 		this.mode |= mask;
-		onModeChanged(oldMode, mode);
+		onModeChanged(oldMode, this.mode);
 	}
 
 	public void removeMode(int mask) {
 		int oldMode = this.mode;
 		this.mode &= ~mask;
-		onModeChanged(oldMode, mode);
+		onModeChanged(oldMode, this.mode);
 	}
 
 	public int getMode() {
-		return mode;
+		return this.mode;
 	}
 
 	public boolean hasMode(int mask) {
@@ -109,7 +86,18 @@ public class BrickView extends LinearLayout implements Checkable {
 		if (oldMode == newMode) {
 			return;
 		}
-		applyModeChanged(brickLayout, oldMode, newMode);
+
+		boolean isSelectable = hasMode(Mode.SELECTION);
+		this.brickLayout.setDuplicateParentStateEnabled(isSelectable);
+		setCheckboxVisibility(isSelectable ? VISIBLE : GONE);
+
+		applyModeChanged(this.brickLayout, oldMode, newMode);
+	}
+
+	private void setCheckboxVisibility(int visibility) {
+		if (this.checkbox.getVisibility() != visibility) {
+			this.checkbox.setVisibility(visibility);
+		}
 	}
 
 	private void applyModeChanged(ViewGroup viewGroup, int oldMode, int newMode) {
@@ -121,15 +109,16 @@ public class BrickView extends LinearLayout implements Checkable {
 				} else {
 					child.setClickable(newMode == Mode.DEFAULT);
 					if (child instanceof Spinner) {
-						//TODO: provide extra style for spinner in prototype View
+						//FIXME: IllyaBoyko: provide extra style for spinner in prototype View
 						child.setEnabled(newMode == Mode.DEFAULT);
+						child.setClickable(newMode == Mode.DEFAULT);
 					}
 				}
 			}
 		}
 	}
 
-	public class Mode {
+	public final class Mode {
 		public static final int DEFAULT = 0;
 		/**
 		 * Prototype View Mode means user cannot edit child elements like Formula fields.
@@ -139,5 +128,8 @@ public class BrickView extends LinearLayout implements Checkable {
 		 * Selection View Mode means that this view is in selection state.
 		 */
 		public static final int SELECTION = 4;
+
+		private Mode() {
+		}
 	}
 }

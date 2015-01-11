@@ -23,13 +23,9 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -43,8 +39,6 @@ import java.util.List;
 public class DroneLandBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
-	private transient AdapterView<?> adapterView;
-
 	public DroneLandBrick() {
 
 	}
@@ -55,12 +49,6 @@ public class DroneLandBrick extends BrickBaseType {
 		return copyBrick;
 	}
 
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		View prototypeView = View.inflate(context, R.layout.brick_drone_land, null);
-//
-//		return prototypeView;
-//	}
 
 	@Override
 	public Brick clone() {
@@ -78,15 +66,6 @@ public class DroneLandBrick extends BrickBaseType {
 		view = View.inflate(context, R.layout.brick_drone_land, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.checkbox);
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
 
 		return view;
 	}
@@ -100,10 +79,6 @@ public class DroneLandBrick extends BrickBaseType {
 
 			TextView textLegoMotorStopLabel = (TextView) view.findViewById(R.id.ValueTextView);
 			textLegoMotorStopLabel.setTextColor(textLegoMotorStopLabel.getTextColors().withAlpha(alphaValue));
-			ColorStateList color = textLegoMotorStopLabel.getTextColors().withAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
 			this.alphaValue = (alphaValue);
 		}
 		return view;

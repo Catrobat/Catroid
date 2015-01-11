@@ -27,8 +27,6 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -43,8 +41,6 @@ import java.util.List;
 
 public class SetSizeToBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
-
-//	private transient View prototypeView;
 
 	public SetSizeToBrick() {
 		addAllowedBrickField(BrickField.SIZE);
@@ -77,33 +73,12 @@ public class SetSizeToBrick extends FormulaBrick implements OnClickListener {
 		view = View.inflate(context, R.layout.brick_set_size_to, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.checkbox);
-
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
-//		TextView text = (TextView) view.findViewById(R.id.brick_set_size_to_prototype_text_view);
 		TextView edit = (TextView) view.findViewById(R.id.brick_set_size_to_edit_text);
 		getFormulaWithBrickField(BrickField.SIZE).setTextFieldId(R.id.brick_set_size_to_edit_text);
 		getFormulaWithBrickField(BrickField.SIZE).refreshTextField(view);
-//		text.setVisibility(View.GONE);
-//		edit.setVisibility(View.VISIBLE);
 		edit.setOnClickListener(this);
 		return view;
 	}
-
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		prototypeView = View.inflate(context, R.layout.brick_set_size_to, null);
-//		TextView textSetSizeTo = (TextView) prototypeView.findViewById(R.id.brick_set_size_to_prototype_text_view);
-//		textSetSizeTo.setText(String.valueOf(BrickValues.SET_SIZE_TO));
-//		return prototypeView;
-//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
@@ -132,9 +107,6 @@ public class SetSizeToBrick extends FormulaBrick implements OnClickListener {
 	@Override
 	public void onClick(View view) {
 		if (!clickAllowed()) {
-			return;
-		}
-		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
 		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.SIZE));

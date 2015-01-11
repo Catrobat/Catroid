@@ -33,7 +33,6 @@
         style="@style/ListViewShadowed"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clickable="false"
         android:divider="@android:color/transparent"
         android:dividerHeight="-5dip" >
     </org.catrobat.catroid.ui.dragndrop.DragAndDropListView>

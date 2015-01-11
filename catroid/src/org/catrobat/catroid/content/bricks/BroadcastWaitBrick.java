@@ -29,8 +29,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -72,27 +70,10 @@ public class BroadcastWaitBrick extends BroadcastBrick implements BroadcastMessa
 		}
 		view = View.inflate(context, R.layout.brick_broadcast_wait, null);
 		view = getViewWithAlpha(alphaValue);
-		setCheckboxView(R.id.checkbox);
-
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(BroadcastWaitBrick.this, isChecked);
-			}
-		});
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_wait_spinner);
 		broadcastSpinner.setFocusableInTouchMode(false);
 		broadcastSpinner.setFocusable(false);
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			broadcastSpinner.setClickable(true);
-			broadcastSpinner.setEnabled(true);
-		} else {
-			broadcastSpinner.setClickable(false);
-			broadcastSpinner.setEnabled(false);
-		}
 
 		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -116,18 +97,6 @@ public class BroadcastWaitBrick extends BroadcastBrick implements BroadcastMessa
 		setSpinnerSelection(broadcastSpinner);
 		return view;
 	}
-
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		View prototypeView = View.inflate(context, R.layout.brick_broadcast_wait, null);
-//		Spinner broadcastWaitSpinner = (Spinner) prototypeView.findViewById(R.id.brick_broadcast_wait_spinner);
-//		broadcastWaitSpinner.setFocusableInTouchMode(false);
-//		broadcastWaitSpinner.setFocusable(false);
-//		SpinnerAdapter broadcastWaitSpinnerAdapter = MessageContainer.getMessageAdapter(context);
-//		broadcastWaitSpinner.setAdapter(broadcastWaitSpinnerAdapter);
-//		setSpinnerSelection(broadcastWaitSpinner);
-//		return prototypeView;
-//	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {

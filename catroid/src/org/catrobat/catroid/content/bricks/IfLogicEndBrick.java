@@ -28,8 +28,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -91,16 +89,6 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 		view = inflater.inflate(R.layout.brick_if_end_if, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.checkbox);
-		final Brick brickInstance = this;
-
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
 		return view;
 	}
 
@@ -127,11 +115,6 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 	public Brick clone() {
 		return new IfLogicEndBrick(ifElseBrick, ifBeginBrick);
 	}
-
-//	@Override
-//	public View getPrototypeView(Context context) {
-//		return View.inflate(context, R.layout.brick_if_end_if, null);
-//	}
 
 	@Override
 	public boolean isDraggableOver(Brick brick) {
