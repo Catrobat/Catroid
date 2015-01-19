@@ -451,9 +451,10 @@ public final class UiTestUtils {
 			FormulaBrick theBrick) {
 
 		solo.clickOnView(solo.getView(editTextId));
+		solo.sleep(200);
 		insertStringIntoEditText(solo, newValue);
 		String formulaEditorString = ((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString();
-
+		solo.sleep(200);
 		assertEquals("Text not updated within FormulaEditor", "\'" + newValue + "\'",
 				formulaEditorString.substring(0, formulaEditorString.length() - 1));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
@@ -1444,6 +1445,8 @@ public final class UiTestUtils {
 	 * @param overflowMenuItemName Name of the overflow menu item
 	 */
 	public static void openActionMode(Solo solo, String overflowMenuItemName, int menuItemId, Activity activity) {
+
+		//TODO: CAT-1236
 
 		if (overflowMenuItemName != null && menuItemId != 0) {
 			ArrayList<View> views = solo.getCurrentViews();

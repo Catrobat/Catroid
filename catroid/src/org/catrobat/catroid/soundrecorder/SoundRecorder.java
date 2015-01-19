@@ -24,6 +24,7 @@ package org.catrobat.catroid.soundrecorder;
 
 import android.media.MediaRecorder;
 import android.net.Uri;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +34,8 @@ public class SoundRecorder {
 	public static final String RECORDING_EXTENSION = ".m4a";
 	private MediaRecorder recorder;
 	private boolean isRecording;
+
+	public static final String TAG = SoundRecorder.class.getSimpleName();
 
 	private String path;
 
@@ -62,7 +65,17 @@ public class SoundRecorder {
 	}
 
 	public void stop() throws IOException {
-        recorder.stop();
+		try {
+			recorder.stop();
+		} catch (RuntimeException e) {
+			Log.d(TAG, "Note that a RuntimeException is intentionally " +
+					"thrown to the application, if no valid audio/video data " +
+					"has been received when stop() is called. This happens if stop() " +
+					"is called immediately after start(). The failure lets the application " +
+					"take action accordingly to clean up the output file " +
+					"(delete the output file, for instance), since the output file " +
+					"is not properly constructed when this happens.");
+		}
         recorder.reset();
         recorder.release();
 		isRecording = false;

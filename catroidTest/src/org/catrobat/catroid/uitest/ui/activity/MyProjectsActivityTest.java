@@ -1954,6 +1954,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	public void testDeletingProjectAndVerifySettings() {
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+			StandardProjectHandler.createAndSaveStandardProject("test",getActivity());
 		} catch (IOException e) {
 			e.printStackTrace();
 			fail("Standard Project not created");
@@ -2039,6 +2040,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	private void playTheProject(boolean switchGreenToRed, boolean switchRedToGreen, boolean makeScreenshot) {
 		String scriptsText = solo.getString(R.string.scripts);
+		solo.waitForText("cat");
 		solo.clickOnText("cat");
 		solo.clickOnText(scriptsText);
 		if (switchGreenToRed) {

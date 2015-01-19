@@ -94,4 +94,13 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 		Log.v(TAG, "tearDown end");
 	}
 
+	@Override
+	public void runBare() throws Throwable {
+		try {
+			setUp();
+			runTest();
+		} finally {
+			tearDown();
+		}
+	}
 }
