@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.uitest.content.interaction;
 
-import android.util.Pair;
-
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -33,8 +30,6 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-
-import java.util.ArrayList;
 
 public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
@@ -104,89 +99,90 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		assertEquals("Any of the bricks could not be deleted or the definition brick was deleted by mistake!", 0, ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().getUserScript().getBrickList().size());
 	}
 
-	public void testSetParameterOfUserbricksInScript() {
-		UiTestUtils.showSourceAndEditBrick(UiTestUtils.TEST_USER_BRICK_NAME, solo);
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.define));
-		solo.clickOnText(solo.getString(R.string.add_variable));
-		solo.waitForDialogToOpen(2000);
-		String newVariableName = "testVariable";
-		solo.clearEditText(0);
-		solo.enterText(0, newVariableName);
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.ok));
-		solo.waitForDialogToClose(2000);
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-
-		solo.clickOnText(UiTestUtils.TEST_USER_BRICK_NAME);
-		solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_brick));
-		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
-		solo.clickOnText(solo.getString(R.string.yes));
-
-		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.button_add));
-		UiTestUtils.clickOnBrickCategory(solo, solo.getCurrentActivity().getString(R.string.category_user_bricks));
-		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.button_add));
-		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.button_add));
-		solo.clickInList(1);
-
-		solo.clickOnText(UiTestUtils.TEST_USER_BRICK_NAME);
-		String stringOnShowAddButton = solo.getCurrentActivity()
-				.getString(R.string.brick_context_dialog_add_to_script);
-		solo.waitForText(stringOnShowAddButton);
-		solo.clickOnText(stringOnShowAddButton);
-		UiTestUtils.dragFloatingBrick(solo, -1);
-		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.button_add));
-		UiTestUtils.clickOnBrickCategory(solo, solo.getCurrentActivity().getString(R.string.category_user_bricks));
-		solo.clickInList(2);
-		solo.waitForText(stringOnShowAddButton);
-		solo.clickOnText(stringOnShowAddButton);
-		UiTestUtils.dragFloatingBrick(solo, -1);
-		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.button_add));
-		UiTestUtils.clickOnBrickCategory(solo, solo.getCurrentActivity().getString(R.string.category_user_bricks));
-		solo.waitForText("New Brick 2");
-		solo.clickOnText("New Brick 2");
-		solo.waitForText(stringOnShowAddButton);
-		solo.clickOnText(stringOnShowAddButton);
-		UiTestUtils.dragFloatingBrick(solo, -1);
-		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.button_add));
-		UiTestUtils.clickOnBrickCategory(solo, solo.getCurrentActivity().getString(R.string.category_user_bricks));
-		solo.clickInList(2);
-		solo.waitForText(stringOnShowAddButton);
-		solo.clickOnText(stringOnShowAddButton);
-		UiTestUtils.dragFloatingBrick(solo, -1);
-		solo.sleep(200);
-
-		ArrayList<Pair<Integer, Integer>> listUserBrickNewBrick1OneParameter = new ArrayList<Pair<Integer, Integer>>();
-		ArrayList<Pair<Integer, Integer>> listUserBrickNewBrick1TwoParameter = new ArrayList<Pair<Integer, Integer>>();
-		ArrayList<Pair<Integer, Integer>> listUserBrickNewBrick2OneParameter = new ArrayList<Pair<Integer, Integer>>();
-		Pair<Integer, Integer> userbrickNewBrick1WithOneParameterFirstParameterPos1 = new Pair<Integer, Integer>(2, 0);
-		Pair<Integer, Integer> userbrickNewBrick1WithOneParameterFirstParameterPos2 = new Pair<Integer, Integer>(1, 0);
-		Pair<Integer, Integer> userbrickNewBrick1WithTwoParametersFirstParameterPos1 = new Pair<Integer, Integer>(1, 0);
-		Pair<Integer, Integer> userbrickNewBrick1WithTwoParametersSecondParameterPos1 = new Pair<Integer, Integer>(1, 1);
-		Pair<Integer, Integer> userbrickNewBrick2WithOneParameterFirstParameter = new Pair<Integer, Integer>(1, 0);
-		listUserBrickNewBrick1OneParameter.add(userbrickNewBrick1WithOneParameterFirstParameterPos1);
-		listUserBrickNewBrick1OneParameter.add(userbrickNewBrick1WithOneParameterFirstParameterPos2);
-		listUserBrickNewBrick1TwoParameter.add(userbrickNewBrick1WithTwoParametersFirstParameterPos1);
-		listUserBrickNewBrick1TwoParameter.add(userbrickNewBrick1WithTwoParametersSecondParameterPos1);
-		listUserBrickNewBrick2OneParameter.add(userbrickNewBrick2WithOneParameterFirstParameter);
-
-		UserBrick userBrickNewBrick1OneParameter = (UserBrick) ProjectManager.getInstance().getCurrentScript().getBrickList().get(0);
-		UserBrick userBrickNewBrick1TwoParameters = (UserBrick) ProjectManager.getInstance().getCurrentScript().getBrickList().get(3);
-		UserBrick userBrickNewBrick2OneParameter = (UserBrick) ProjectManager.getInstance().getCurrentScript().getBrickList().get(1);
-
-		assertTrue("Parameterlist for Userbrick \"New Brick 1\" with one parameter not correct: " +
-				userBrickNewBrick1OneParameter.getUserBrickPositionToParameter().get(0).first + userBrickNewBrick1OneParameter.getUserBrickPositionToParameter().get(0).second +
-				userBrickNewBrick1OneParameter.getUserBrickPositionToParameter().get(1).first + userBrickNewBrick1OneParameter.getUserBrickPositionToParameter().get(1).second, userBrickNewBrick1OneParameter.getUserBrickPositionToParameter().equals(listUserBrickNewBrick1OneParameter));
-		assertTrue("Parameterlist for Userbrick \"New Brick 1\" with two parameters not correct: " +
-				userBrickNewBrick1TwoParameters.getUserBrickPositionToParameter().get(0).first + userBrickNewBrick1TwoParameters.getUserBrickPositionToParameter().get(0).second +
-				userBrickNewBrick1TwoParameters.getUserBrickPositionToParameter().get(1).first + userBrickNewBrick1TwoParameters.getUserBrickPositionToParameter().get(1).second, userBrickNewBrick1TwoParameters.getUserBrickPositionToParameter().equals(listUserBrickNewBrick1TwoParameter));
-		assertTrue("Parameterlist for Userbrick \"New Brick 2\" with one parameter not correct: " +
-				userBrickNewBrick2OneParameter.getUserBrickPositionToParameter().get(0).first + userBrickNewBrick1TwoParameters.getUserBrickPositionToParameter().get(0).second, userBrickNewBrick2OneParameter.getUserBrickPositionToParameter().equals(listUserBrickNewBrick2OneParameter));
-	}
+//	public void testSetParameterOfUserbricksInScript() {
+//
+//		UiTestUtils.showSourceAndEditBrick(UiTestUtils.TEST_USER_BRICK_NAME, solo);
+//		solo.clickOnText(solo.getCurrentActivity().getString(R.string.define));
+//		solo.clickOnText(solo.getString(R.string.add_variable));
+//		solo.waitForDialogToOpen(2000);
+//		String newVariableName = "testVariable";
+//		solo.clearEditText(0);
+//		solo.enterText(0, newVariableName);
+//		solo.clickOnText(solo.getCurrentActivity().getString(R.string.ok));
+//		solo.waitForDialogToClose(2000);
+//		solo.goBack();
+//		solo.goBack();
+//		solo.goBack();
+//
+//		solo.clickOnText(UiTestUtils.TEST_USER_BRICK_NAME);
+//		solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_brick));
+//		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
+//		solo.clickOnText(solo.getString(R.string.yes));
+//
+//		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.button_add));
+//		UiTestUtils.clickOnBrickCategory(solo, solo.getCurrentActivity().getString(R.string.category_user_bricks));
+//		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.button_add));
+//		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.button_add));
+//		solo.clickInList(1);
+//
+//		solo.clickOnText(UiTestUtils.TEST_USER_BRICK_NAME);
+//		String stringOnShowAddButton = solo.getCurrentActivity()
+//				.getString(R.string.brick_context_dialog_add_to_script);
+//		solo.waitForText(stringOnShowAddButton);
+//		solo.clickOnText(stringOnShowAddButton);
+//		UiTestUtils.dragFloatingBrick(solo, -1);
+//		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.button_add));
+//		UiTestUtils.clickOnBrickCategory(solo, solo.getCurrentActivity().getString(R.string.category_user_bricks));
+//		solo.clickInList(2);
+//		solo.waitForText(stringOnShowAddButton);
+//		solo.clickOnText(stringOnShowAddButton);
+//		UiTestUtils.dragFloatingBrick(solo, -1);
+//		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.button_add));
+//		UiTestUtils.clickOnBrickCategory(solo, solo.getCurrentActivity().getString(R.string.category_user_bricks));
+//		solo.waitForText("New Brick 2");
+//		solo.clickOnText("New Brick 2");
+//		solo.waitForText(stringOnShowAddButton);
+//		solo.clickOnText(stringOnShowAddButton);
+//		UiTestUtils.dragFloatingBrick(solo, -1);
+//		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.button_add));
+//		UiTestUtils.clickOnBrickCategory(solo, solo.getCurrentActivity().getString(R.string.category_user_bricks));
+//		solo.clickInList(2);
+//		solo.waitForText(stringOnShowAddButton);
+//		solo.clickOnText(stringOnShowAddButton);
+//		UiTestUtils.dragFloatingBrick(solo, -1);
+//		solo.sleep(200);
+//
+//		ArrayList<Pair<Integer, Integer>> listUserBrickNewBrick1OneParameter = new ArrayList<Pair<Integer, Integer>>();
+//		ArrayList<Pair<Integer, Integer>> listUserBrickNewBrick1TwoParameter = new ArrayList<Pair<Integer, Integer>>();
+//		ArrayList<Pair<Integer, Integer>> listUserBrickNewBrick2OneParameter = new ArrayList<Pair<Integer, Integer>>();
+//		Pair<Integer, Integer> userbrickNewBrick1WithOneParameterFirstParameterPos1 = new Pair<Integer, Integer>(2, 0);
+//		Pair<Integer, Integer> userbrickNewBrick1WithOneParameterFirstParameterPos2 = new Pair<Integer, Integer>(1, 0);
+//		Pair<Integer, Integer> userbrickNewBrick1WithTwoParametersFirstParameterPos1 = new Pair<Integer, Integer>(1, 0);
+//		Pair<Integer, Integer> userbrickNewBrick1WithTwoParametersSecondParameterPos1 = new Pair<Integer, Integer>(1, 1);
+//		Pair<Integer, Integer> userbrickNewBrick2WithOneParameterFirstParameter = new Pair<Integer, Integer>(1, 0);
+//		listUserBrickNewBrick1OneParameter.add(userbrickNewBrick1WithOneParameterFirstParameterPos1);
+//		listUserBrickNewBrick1OneParameter.add(userbrickNewBrick1WithOneParameterFirstParameterPos2);
+//		listUserBrickNewBrick1TwoParameter.add(userbrickNewBrick1WithTwoParametersFirstParameterPos1);
+//		listUserBrickNewBrick1TwoParameter.add(userbrickNewBrick1WithTwoParametersSecondParameterPos1);
+//		listUserBrickNewBrick2OneParameter.add(userbrickNewBrick2WithOneParameterFirstParameter);
+//
+//		UserBrick userBrickNewBrick1OneParameter = (UserBrick) ProjectManager.getInstance().getCurrentScript().getBrickList().get(0);
+//		UserBrick userBrickNewBrick1TwoParameters = (UserBrick) ProjectManager.getInstance().getCurrentScript().getBrickList().get(3);
+//		UserBrick userBrickNewBrick2OneParameter = (UserBrick) ProjectManager.getInstance().getCurrentScript().getBrickList().get(1);
+//
+//		assertTrue("Parameterlist for Userbrick \"New Brick 1\" with one parameter not correct: " +
+//				userBrickNewBrick1OneParameter.getUserBrickPositionToParameter().get(0).first + userBrickNewBrick1OneParameter.getUserBrickPositionToParameter().get(0).second +
+//				userBrickNewBrick1OneParameter.getUserBrickPositionToParameter().get(1).first + userBrickNewBrick1OneParameter.getUserBrickPositionToParameter().get(1).second, userBrickNewBrick1OneParameter.getUserBrickPositionToParameter().equals(listUserBrickNewBrick1OneParameter));
+//		assertTrue("Parameterlist for Userbrick \"New Brick 1\" with two parameters not correct: " +
+//				userBrickNewBrick1TwoParameters.getUserBrickPositionToParameter().get(0).first + userBrickNewBrick1TwoParameters.getUserBrickPositionToParameter().get(0).second +
+//				userBrickNewBrick1TwoParameters.getUserBrickPositionToParameter().get(1).first + userBrickNewBrick1TwoParameters.getUserBrickPositionToParameter().get(1).second, userBrickNewBrick1TwoParameters.getUserBrickPositionToParameter().equals(listUserBrickNewBrick1TwoParameter));
+//		assertTrue("Parameterlist for Userbrick \"New Brick 2\" with one parameter not correct: " +
+//				userBrickNewBrick2OneParameter.getUserBrickPositionToParameter().get(0).first + userBrickNewBrick1TwoParameters.getUserBrickPositionToParameter().get(0).second, userBrickNewBrick2OneParameter.getUserBrickPositionToParameter().equals(listUserBrickNewBrick2OneParameter));
+//	}
 
 //	public void testUseUserBrickVariableInFormulaAndDeleteVariableInFormulaEditor()
 //	{
-		//use userbrickvariable in formula
+//		//use userbrickvariable in formula
 //		UiTestUtils.showSourceAndEditBrick(UiTestUtils.TEST_USER_BRICK_NAME, solo);
 //		UiTestUtils.addNewBrick(solo, R.string.category_variables, R.string.brick_set_variable, 0);
 //		UiTestUtils.dragFloatingBrick(solo, 1);
@@ -198,8 +194,8 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 //		solo.clickOnText(solo.getString(R.string.ok));
 //
 //		assertTrue("'" + "\"Variable 1\" - 0" + "' should have appeared", solo.waitForText("\"Variable 1\" - 0", 1, 1000));
-
-		//delete userbrickvariable in variablesview of formulaeditor
+//
+//		//delete userbrickvariable in variablesview of formulaeditor
 //		solo.clickOnText("\"Variable 1\" - 0");
 //		solo.clickOnText(solo.getString(R.string.formula_editor_variables));
 //		solo.clickLongOnView(solo.getCurrentActivity().findViewById(R.id.fragment_formula_editor_variablelist_item_value_text_view));
@@ -207,9 +203,9 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 //		solo.clickOnText(solo.getString(R.string.delete));
 //		solo.goBack();
 //		solo.goBack();
-
+//
 //		assertFalse("'" + "Variable 1:" + "' should have disappeared in dropdown menu of set variable", solo.waitForText("Variable 1:", 1, 1000));
-
+//
 //		String defineString = solo.getCurrentActivity().getString(R.string.define);
 //
 //		assertTrue("'" + defineString + "' should have appeared", solo.waitForText(defineString, 0, 1000));

@@ -221,7 +221,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		clickOnContextMenuItem(SECOND_TEST_SOUND_NAME, solo.getString(R.string.delete));
 		solo.waitForText(deleteDialogTitle);
 		solo.clickOnButton(solo.getString(R.string.yes));
-		solo.sleep(50);
+		solo.waitForDialogToClose();
 
 		int newCount = adapter.getCount();
 
