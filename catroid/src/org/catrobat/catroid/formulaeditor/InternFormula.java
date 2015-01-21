@@ -173,6 +173,11 @@ public class InternFormula {
 			if (leftCursorPositionTokenIndex != ExternInternRepresentationMapping.MAPPING_NOT_FOUND
 					&& cursorPositionTokenIndex == leftCursorPositionTokenIndex) {
 				cursorTokenPosition = CursorTokenPosition.MIDDLE;
+				Log.i("TestInfo", "leftCursorPositionTokenIndex: "+String.valueOf(leftCursorPositionTokenIndex));
+				Log.i("TestInfo", "externTokenStartIndex: "+String.valueOf(
+						externInternRepresentationMapping.getExternTokenStartIndex(cursorPositionTokenIndex)));
+				Log.i("TestInfo", "externTokenEndIndex: "+String.valueOf(
+						externInternRepresentationMapping.getExternTokenEndIndex(cursorPositionTokenIndex)));
 			} else {
 				cursorTokenPosition = CursorTokenPosition.LEFT;
 			}
@@ -266,11 +271,31 @@ public class InternFormula {
 	private void replaceInternTokens(List<InternToken> tokenListToInsert, int replaceIndexStart, int replaceIndexEnd) {
 
 		List<InternToken> tokenListToRemove = new LinkedList<InternToken>();
-		for (int tokensToRemove = replaceIndexEnd - replaceIndexStart; tokensToRemove >= 0; tokensToRemove--) {
-			tokenListToRemove.add(internTokenFormulaList.remove(replaceIndexStart));
-		}
+		Log.i("TestInfo","Replacement start index: "+String.valueOf(replaceIndexStart)+" Replacement end index: "+String.valueOf(replaceIndexEnd));
 
-		internTokenFormulaList.addAll(replaceIndexStart, tokenListToInsert);
+		int externTokenStartIndex = externInternRepresentationMapping.getExternTokenStartIndex(replaceIndexStart);
+		int externTokenEndIndex = externInternRepresentationMapping.getExternTokenEndIndex(replaceIndexStart);
+
+		Log.i("TestInfo", "externTokenStartIndex: "+String.valueOf(
+				externInternRepresentationMapping.getExternTokenStartIndex(replaceIndexStart)));
+		Log.i("TestInfo", "externTokenEndIndex: "+String.valueOf(
+				externInternRepresentationMapping.getExternTokenEndIndex(replaceIndexEnd)));
+		Log.i("TestInfo", "externCursorPosition: "+String.valueOf(externCursorPosition));
+
+		if(tokenListToInsert!=null && tokenListToInsert.size()>0 &&tokenListToInsert.get(0).isOperator() && internTokenFormulaList.get(replaceIndexStart).isNumber()){
+			InternToken tokenToBeRemoved = internTokenFormulaList.remove(replaceIndexEnd);
+			tokenListToRemove.add(tokenToBeRemoved);
+			InternToken operatorToken = tokenListToInsert.get(0);
+
+			InternToken newToken = InternFormulaUtils.insertIntoNumberToken(tokenToBeRemoved,externCursorPosition-externTokenStartIndex,operatorToken.getTokenStringValue());
+			internTokenFormulaList.add(replaceIndexStart,newToken);
+		} else {
+			for (int tokensToRemove = replaceIndexEnd - replaceIndexStart; tokensToRemove >= 0; tokensToRemove--) {
+				tokenListToRemove.add(internTokenFormulaList.remove(replaceIndexStart));
+				internTokenFormulaList.addAll(replaceIndexStart, tokenListToInsert);
+
+			}
+		}
 
 	}
 

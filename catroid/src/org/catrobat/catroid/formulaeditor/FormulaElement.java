@@ -253,6 +253,10 @@ public class FormulaElement implements Serializable {
 				return left instanceof String ? 0d : java.lang.Math.toDegrees(Math.atan((Double) left));
 			case EXP:
 				return left instanceof String ? 0d : java.lang.Math.exp((Double) left);
+			case FLOOR:
+				return left instanceof String ? 0d : java.lang.Math.floor((Double) left);
+			case CEIL:
+				return left instanceof String ? 0d : java.lang.Math.ceil((Double) left);
 			case MAX:
 				right = rightChild.interpretRecursive(sprite);
 				return (left instanceof String || right instanceof String) ? 0d : java.lang.Math.max((Double) left,
