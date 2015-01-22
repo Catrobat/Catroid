@@ -16,7 +16,7 @@ For reporting issues use our [JIRA Bugtracking System](https://jira.catrob.at/se
 
 # Contributing #
 
-If you want to contribute we suggest that you start with forking our repository and browse the code. Then you can look at our [Issue-Tracker](https://jira.catrob.at/browse/CAT/) and start with fixing one or two bug. We are developing test-driven, so every pull request should include appropriate tests and must only contain one bugfix. After you've created a pull request we will review your code and do a full testrun (about 3 hours) on your branch.
+If you want to contribute we suggest that you start with [forking](https://help.github.com/articles/fork-a-repo/) our repository and browse the code. Then you can look at our [Issue-Tracker](https://jira.catrob.at/browse/CAT/) and start with fixing one or two bug. We are developing test-driven, so every pull request should include appropriate tests and must only contain one bugfix. After you've created a pull request we will review your code and do a full testrun (about 3 hours) on your branch.
 
 If you want to implement a new feature, please ask about the details in JIRA or our IRC channel (#catrobat or #catrobatdev) first.
 
