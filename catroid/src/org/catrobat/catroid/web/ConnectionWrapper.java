@@ -28,6 +28,8 @@ import android.util.Log;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
 import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.OkUrlFactory;
+import com.squareup.okhttp.Protocol;
 
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 
@@ -38,8 +40,12 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URL;
+import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.HashMap;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
 
 //web status codes are on: https://github.com/Catrobat/Catroweb/blob/master/statusCodes.php
 
@@ -62,24 +68,21 @@ public class ConnectionWrapper {
 		String fileName = postValues.get(TAG_PROJECT_TITLE);
 
 		if (filePath != null) {
-			OkHttpClient okHttpClient = new OkHttpClient();
-			okHttpClient.setTransports(Arrays.asList("http/1.1"));
-			HttpRequest.setConnectionFactory(new OkConnectionFactory(okHttpClient));
-			HttpRequest uploadRequest = HttpRequest.post(urlString).chunk(0);
-
-			for (HashMap.Entry<String, String> entry : postValues.entrySet()) {
-				uploadRequest.part(entry.getKey(), entry.getValue());
-			}
-			File file = new File(filePath);
-			uploadRequest.part(fileTag, fileName, file);
-
 			try {
+				HttpRequest.setConnectionFactory(new OkConnectionFactory());
+				HttpRequest uploadRequest = HttpRequest.post(urlString).chunk(0);
+
+				for (HashMap.Entry<String, String> entry : postValues.entrySet()) {
+					uploadRequest.part(entry.getKey(), entry.getValue());
+				}
+				File file = new File(filePath);
+				uploadRequest.part(fileTag, fileName, file);
 				int responseCode = uploadRequest.code();
 				if (!(responseCode == 200 || responseCode == 201)) {
 					throw new WebconnectionException(responseCode, "Error response code should be 200 or 201!");
 				}
 				if (!uploadRequest.ok()) {
-					Log.v(TAG, "Upload not successful");
+					Log.v(TAG, "Upload not succesful");
 					StatusBarNotificationManager.getInstance().cancelNotification(notificationId);
 				} else {
 					StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId, 100);
@@ -87,32 +90,41 @@ public class ConnectionWrapper {
 
 				answer = uploadRequest.body();
 				Log.v(TAG, "Upload response is: " + answer);
-			} catch (HttpRequest.HttpRequestException exception) {
-				Log.e(TAG, "OkHttpError", exception);
-				throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "OkHttp threw an exception");
+			} catch (HttpRequestException httpRequestException) {
+				Log.e(TAG, Log.getStackTraceString(httpRequestException));
+				throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
+						"Connection could not be established!");
 			}
 		}
 		return answer;
 	}
 
 	public void doHttpPostFileDownload(String urlString, HashMap<String, String> postValues, String filePath,
-			ResultReceiver receiver, Integer notificationId) throws IOException {
-		HttpRequest request = HttpRequest.post(urlString);
-		File file = new File(filePath);
-		if (!(file.getParentFile().mkdirs() || file.getParentFile().isDirectory())) {
-			throw (new IOException("Folder not created"));
-		}
+			ResultReceiver receiver, Integer notificationId) throws IOException, WebconnectionException {
+		try {
+			HttpRequest.setConnectionFactory(new OkConnectionFactory());
+			HttpRequest request = HttpRequest.post(urlString);
+			File file = new File(filePath);
+			if (!(file.getParentFile().mkdirs() || file.getParentFile().isDirectory())) {
+				throw (new IOException("Folder not created"));
+			}
 
-		request = request.form(postValues).acceptGzipEncoding();
-		long fileSize = request.contentLength();
-		OutputStream stream = new ProgressBufferedOutputStream(new FileOutputStream(file), request.bufferSize(),
-				fileSize, receiver, notificationId);
-		request.receive(stream);
-		stream.close();
+			request = request.form(postValues).acceptGzipEncoding();
+			long fileSize = request.contentLength();
+			OutputStream stream = new ProgressBufferedOutputStream(new FileOutputStream(file), request.bufferSize(),
+					fileSize, receiver, notificationId);
+			request.receive(stream);
+			stream.close();
+		} catch (HttpRequestException httpRequestException) {
+			Log.e(TAG, Log.getStackTraceString(httpRequestException));
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
+					"Connection could not be established!");
+		}
 	}
 
 	public String doHttpPost(String urlString, HashMap<String, String> postValues) throws WebconnectionException {
 		try {
+			HttpRequest.setConnectionFactory(new OkConnectionFactory());
 			return HttpRequest.post(urlString).form(postValues).body();
 		} catch (HttpRequestException httpRequestException) {
 			Log.e(TAG, Log.getStackTraceString(httpRequestException));
@@ -129,9 +141,8 @@ public class ConnectionWrapper {
 	 * enable.
 	 */
 	private static class OkConnectionFactory implements HttpRequest.ConnectionFactory {
-		private final OkHttpClient client;
+		private final OkUrlFactory factory;
 
-		@SuppressWarnings("unused")
 		public OkConnectionFactory() {
 			this(new OkHttpClient());
 		}
@@ -140,12 +151,21 @@ public class ConnectionWrapper {
 			if (client == null) {
 				throw new NullPointerException("Client must not be null.");
 			}
-			this.client = client;
+			client.setProtocols((Arrays.asList(Protocol.HTTP_1_1)));
+			try {
+				SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
+				sslContext.init(null, null, null);
+				SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+				client.setSslSocketFactory(sslSocketFactory);
+			} catch (GeneralSecurityException exception) {
+				Log.e(TAG, "Could not create secure Socket", exception);
+			}
+			factory = new OkUrlFactory(client);
 		}
 
 		@Override
 		public HttpURLConnection create(URL url) throws IOException {
-			return client.open(url);
+			return factory.open(url);
 		}
 
 		@Override
