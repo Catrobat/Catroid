@@ -44,7 +44,7 @@ public class SoundRecorder {
 		this.path = path;
 	}
 
-	public void start() throws IOException, IllegalStateException {
+	public void start() throws IOException, RuntimeException {
 		File soundFile = new File(path);
 		if (soundFile.exists()) {
 			soundFile.delete();
@@ -54,14 +54,21 @@ public class SoundRecorder {
 			throw new IOException("Path to file could not be created.");
 		}
 
-		recorder.reset();
-		recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-		recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-		recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-		recorder.setOutputFile(path);
-		recorder.prepare();
-		recorder.start();
-		isRecording = true;
+		try {
+			recorder.reset();
+			recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+			recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+			recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+			recorder.setOutputFile(path);
+			recorder.prepare();
+			recorder.start();
+			isRecording = true;
+		} catch (IllegalStateException e) {
+			throw e;
+		} catch (RuntimeException e) {
+			throw e;
+		}
+
 	}
 
 	public void stop() throws IOException {

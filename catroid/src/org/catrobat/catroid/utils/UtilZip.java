@@ -142,7 +142,7 @@ public final class UtilZip {
 				FileOutputStream fileOutputStream = new FileOutputStream(entryFile);
 				int count;
 				destinationOutputStream = new BufferedOutputStream(fileOutputStream, Constants.BUFFER_8K);
-				while ((count = zipInputStream.read(data, 0, Constants.BUFFER_8K)) != -1) {
+				while ((count = zipInputStream.read(data, 0, Constants.BUFFER_8K)) > 0) {
 					destinationOutputStream.write(data, 0, count);
 				}
 				destinationOutputStream.flush();

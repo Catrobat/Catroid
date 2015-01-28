@@ -50,6 +50,7 @@ import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import org.catrobat.catroid.test.utils.SimulatedSensorManager;
 import org.catrobat.catroid.test.utils.SimulatedSoundRecorder;
+import org.catrobat.catroid.uitest.annotation.Device;
 
 import java.lang.reflect.Method;
 import java.util.LinkedList;
@@ -162,6 +163,7 @@ public class ParserTestSensors extends InstrumentationTestCase {
 		SensorHandler.stopSensorListeners();
 	}
 
+	@Device
 	public void testSensors() throws SecurityException, IllegalArgumentException, NoSuchFieldException,
 			IllegalAccessException {
 

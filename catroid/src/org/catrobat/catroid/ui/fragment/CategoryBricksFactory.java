@@ -272,10 +272,6 @@ public class CategoryBricksFactory {
 			looksBrickList.add(new LedOnBrick());
 		}
 
-		if (BuildConfig.FEATURE_VIBRATION_BRICK_ENABLED) {
-			looksBrickList.add(new VibrationBrick(BrickValues.VIBRATE_MILLISECONDS));
-		}
-
 		return looksBrickList;
 	}
 

@@ -672,6 +672,19 @@ public final class StorageHandler {
 		}
 	}
 
+	public void deleteAllFile(String filepath) {
+
+		File toDelete = new File(filepath);
+
+		if (toDelete.isDirectory()) {
+			Log.d(TAG, "file is directory" + filepath);
+			for (String file : toDelete.list()) {
+				deleteAllFile(file);
+			}
+		}
+		toDelete.delete();
+	}
+
 	public void fillChecksumContainer() {
 		//FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 		//if (container == null) {

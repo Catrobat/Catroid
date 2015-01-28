@@ -70,7 +70,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
-import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -454,8 +453,10 @@ public final class UiTestUtils {
 		solo.clickOnView(solo.getView(editTextId));
 		solo.sleep(200);
 		insertStringIntoEditText(solo, newValue);
-		String formulaEditorString = ((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString();
+
 		solo.sleep(200);
+		String formulaEditorString = ((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString();
+
 		assertEquals("Text not updated within FormulaEditor", "\'" + newValue + "\'",
 				formulaEditorString.substring(0, formulaEditorString.length() - 1));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
@@ -1447,22 +1448,25 @@ public final class UiTestUtils {
 	 */
 	public static void openActionMode(Solo solo, String overflowMenuItemName, int menuItemId, Activity activity) {
 
-		//TODO: CAT-1236
+		solo.sleep(1000);
+		ArrayList<View> views = solo.getCurrentViews();
+		ArrayList<Integer> ids = new ArrayList<Integer>();
+		for (View view : views) {
+			ids.add(view.getId());
+		}
 
-		if (overflowMenuItemName != null && menuItemId != 0) {
-			ArrayList<View> views = solo.getCurrentViews();
-			ArrayList<Integer> ids = new ArrayList<Integer>();
-			for (View view : views) {
-				ids.add(view.getId());
-			}
-			if (!ids.contains(menuItemId)) {
-				solo.clickOnMenuItem(overflowMenuItemName, true);
-			} else {
-				UiTestUtils.clickOnActionBar(solo, menuItemId);
-			}
-		} else { // From overflow menu
+		if (ids.contains(menuItemId)) {
+			solo.waitForView(menuItemId, 0, 20000, false);
+			UiTestUtils.clickOnActionBar(solo, menuItemId);
+		} else if (overflowMenuItemName != null) {
+			solo.waitForText(overflowMenuItemName, 0, 20000, false);
 			solo.clickOnMenuItem(overflowMenuItemName, true);
 		}
+		else {
+			fail("Cannot click on element with menuItemid " + menuItemId +
+					" or overflowMenuItemName " + overflowMenuItemName);
+		}
+
 		solo.sleep(400);
 	}
 
