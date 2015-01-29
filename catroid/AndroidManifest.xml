@@ -67,7 +67,8 @@
         <activity
             android:name=".ui.MainMenuActivity"
             android:launchMode="standard"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

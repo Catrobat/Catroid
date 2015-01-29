@@ -94,7 +94,8 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 		if (STANDALONE_MODE) {
 			requestWindowFeature(Window.FEATURE_NO_TITLE);
-			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			setContentView(R.layout.activity_main_menu_splashscreen);
 			unzipProgramme();
 		} else {
