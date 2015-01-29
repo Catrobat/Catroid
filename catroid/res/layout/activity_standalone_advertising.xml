@@ -42,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
+        android:text="@string/marketing_created_with"
         android:id="@+id/description"
         android:layout_marginTop="35dp"
         android:layout_below="@+id/title"
@@ -60,7 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
+        android:text="@string/marketing_app_details"
         android:id="@+id/website_link"
         android:layout_below="@+id/pocket_code_image"
         android:layout_centerHorizontal="true"
@@ -70,11 +70,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
+        android:text="@string/marketing_more_on_google_play"
         android:id="@+id/playStore_link"
         android:layout_marginTop="35dp"
         android:layout_below="@+id/website_link"
-        android:layout_alignRight="@+id/description"
-        android:layout_alignEnd="@+id/description" />
+        android:layout_centerHorizontal="true" />
 
     </RelativeLayout >

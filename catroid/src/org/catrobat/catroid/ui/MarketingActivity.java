@@ -55,7 +55,8 @@ public class MarketingActivity extends Activity {
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.activity_standalone_advertising);
+		setContentView(R.layout.
+				activity_standalone_advertising);
 
 		TextView app_name = (TextView) findViewById(R.id.title);
 		app_name.setText(BuildConfig.START_PROJECT);
