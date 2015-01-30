@@ -31,6 +31,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.view.ActionMode;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -38,6 +39,7 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -45,10 +47,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -82,7 +80,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class ProjectsListFragment extends SherlockListFragment implements OnProjectRenameListener,
+public class ProjectsListFragment extends BaseListFragment implements OnProjectRenameListener,
 		OnUpdateProjectDescriptionListener, OnCopyProjectListener, OnProjectEditListener {
 
 	private static final String BUNDLE_ARGUMENTS_PROJECT_DATA = "project_data";
@@ -127,7 +125,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -158,7 +156,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -192,7 +190,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 		}
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			return false;
 		}
 
@@ -370,7 +368,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 		menu.setHeaderTitle(projectToEdit.projectName);
 
-		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_my_projects, menu);
+		getActivity().getMenuInflater().inflate(R.menu.context_menu_my_projects, menu);
 	}
 
 	@Override
@@ -448,21 +446,21 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 	public void startRenameActionMode() {
 		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(renameModeCallBack);
+			actionMode = getSupportActivity().startSupportActionMode(renameModeCallBack);
 			BottomBar.hideBottomBar(getActivity());
 		}
 	}
 
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
+			actionMode = getSupportActivity().startSupportActionMode(deleteModeCallBack);
 			BottomBar.hideBottomBar(getActivity());
 		}
 	}
 
 	public void startCopyActionMode() {
 		if (actionMode == null) {
-			actionMode = getSherlockActivity().startActionMode(copyModeCallBack);
+			actionMode = getSupportActivity().startSupportActionMode(copyModeCallBack);
 			BottomBar.hideBottomBar(getActivity());
 		}
 	}

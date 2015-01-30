@@ -28,13 +28,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.view.ActionMode;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -43,12 +47,6 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -64,7 +62,7 @@ import org.catrobat.catroid.ui.dialogs.NewVariableDialog;
 import org.catrobat.catroid.ui.dialogs.NewVariableDialog.NewVariableDialogListener;
 import org.catrobat.catroid.utils.Utils;
 
-public class FormulaEditorVariableListFragment extends SherlockListFragment implements Dialog.OnKeyListener,
+public class FormulaEditorVariableListFragment extends BaseListFragment implements Dialog.OnKeyListener,
 		UserVariableAdapter.OnCheckedChangeListener, UserVariableAdapter.OnListItemClickListener,
 		NewVariableDialogListener {
 
@@ -113,7 +111,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
 		if (!inContextMode) {
 			super.onCreateContextMenu(menu, view, menuInfo);
-			getSherlockActivity().getMenuInflater().inflate(R.menu.menu_formulaeditor_variablelist, menu);
+			getActivity().getMenuInflater().inflate(R.menu.menu_formulaeditor_variablelist, menu);
 		}
 	}
 
@@ -124,9 +122,9 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		}
 		menu.findItem(R.id.delete).setVisible(true);
 
-		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
-		getSherlockActivity().getSupportActionBar().setTitle(actionBarTitle);
-		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		getSupportActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
+		getSupportActivity().getSupportActionBar().setTitle(actionBarTitle);
+		getSupportActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -135,7 +133,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	public void onListItemClick(int position) {
 		Log.d("catroid", "onListItemClick");
 		if (!inContextMode) {
-			FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getSherlockActivity()
+			FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getActivity()
 					.getSupportFragmentManager().findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 			if (formulaEditor != null) {
 				formulaEditor.addUserVariableToActiveFormula(adapter.getItem(position).getName());
@@ -180,28 +178,28 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 			public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long id) {
 				if (!inContextMode) {
 					deleteIndex = position;
-					getSherlockActivity().openContextMenu(getListView());
+					getActivity().openContextMenu(getListView());
 					return true;
 				}
 				return false;
 			}
 		});
 
-		setAddButtonListener(getSherlockActivity());
+		setAddButtonListener(getActivity());
 
 		adapter.notifyDataSetChanged();
 
 		super.onStart();
 	}
 
-	public void setAddButtonListener(SherlockFragmentActivity sherlockActivity) {
-		ImageButton buttonAdd = (ImageButton) sherlockActivity.findViewById(R.id.button_add);
+	public void setAddButtonListener(final FragmentActivity fragmentActivity) {
+		ImageButton buttonAdd = (ImageButton) fragmentActivity.findViewById(R.id.button_add);
 		buttonAdd.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				NewVariableDialog dialog = new NewVariableDialog();
 				dialog.addVariableDialogListener(FormulaEditorVariableListFragment.this);
-				dialog.show(getSherlockActivity().getSupportFragmentManager(), NewVariableDialog.DIALOG_FRAGMENT_TAG);
+				dialog.show(fragmentActivity.getSupportFragmentManager(), NewVariableDialog.DIALOG_FRAGMENT_TAG);
 			}
 		});
 	}
@@ -211,7 +209,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		switch (item.getItemId()) {
 			case R.id.delete:
 				inContextMode = true;
-				contextActionMode = getSherlockActivity().startActionMode(contextModeCallback);
+				contextActionMode = getSupportActivity().startSupportActionMode(contextModeCallback);
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -242,7 +240,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 	}
 
 	public void showFragment(Context context) {
-		SherlockFragmentActivity activity = (SherlockFragmentActivity) context;
+		FragmentActivity activity = (FragmentActivity) context;
 		FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
 
@@ -267,7 +265,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		int userBrickId = (currentBrick == null ? -1 : currentBrick.getUserBrickId());
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		UserVariablesContainer userVariableContainer = currentProject.getUserVariables();
-		adapter = userVariableContainer.createUserVariableAdapter(getSherlockActivity(), userBrickId, currentSprite, inUserBrick);
+		adapter = userVariableContainer.createUserVariableAdapter(getActivity(), userBrickId, currentSprite, inUserBrick);
 		setListAdapter(adapter);
 		adapter.setOnCheckedChangeListener(this);
 		adapter.setOnListItemClickListener(this);
@@ -278,12 +276,12 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
 				BottomBar.hideBottomBar(getActivity());
-				((ScriptActivity) getSherlockActivity()).updateHandleAddButtonClickListener();
+				((ScriptActivity) getActivity()).updateHandleAddButtonClickListener();
 
-				FragmentTransaction fragmentTransaction = getSherlockActivity().getSupportFragmentManager()
+				FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager()
 						.beginTransaction();
 				fragmentTransaction.hide(this);
-				FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) getSherlockActivity()
+				FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) getActivity()
 						.getSupportFragmentManager().findFragmentByTag(
 								FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 				formulaEditorFragment.updateBrickView();
@@ -350,7 +348,7 @@ public class FormulaEditorVariableListFragment extends SherlockListFragment impl
 			adapter.setSelectMode(ListView.CHOICE_MODE_NONE);
 			contextActionMode = null;
 			inContextMode = false;
-			getSherlockActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
+			getActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
 		}
 	};
 }

@@ -29,6 +29,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,12 +37,10 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import com.actionbarsherlock.app.SherlockDialogFragment;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
-public class NewStringDialog extends SherlockDialogFragment {
+public class NewStringDialog extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = NewStringDialog.class.getSimpleName();
 	private EditText newStringEditText;
@@ -56,7 +55,7 @@ public class NewStringDialog extends SherlockDialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
-		final ViewGroup root = (ViewGroup) getSherlockActivity().getSupportFragmentManager().findFragmentByTag(
+		final ViewGroup root = (ViewGroup) getActivity().getSupportFragmentManager().findFragmentByTag(
 				FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG).getView().getRootView();
 		final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_formulaeditor_string, root, false);
 
@@ -91,7 +90,7 @@ public class NewStringDialog extends SherlockDialogFragment {
 	private void handleOkButton() {
 		String stringName = newStringEditText.getText().toString();
 
-		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getSherlockActivity().getSupportFragmentManager()
+		FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getActivity().getSupportFragmentManager()
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		if (formulaEditor != null) {
 			formulaEditor.addStringToActiveFormula(stringName);

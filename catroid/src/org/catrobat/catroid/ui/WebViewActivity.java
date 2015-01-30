@@ -27,14 +27,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.KeyEvent;
 import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-
-import com.actionbarsherlock.app.ActionBar;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
