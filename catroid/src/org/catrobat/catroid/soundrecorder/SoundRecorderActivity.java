@@ -86,6 +86,9 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 			return;
 		}
 		try {
+			if (soundRecorder != null) {
+				soundRecorder.stop();
+			}
 			String recordPath = Utils.buildPath(Constants.TMP_PATH, getString(R.string.soundrecorder_recorded_filename)
 					+ SoundRecorder.RECORDING_EXTENSION);
 			soundRecorder = new SoundRecorder(recordPath);
