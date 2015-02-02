@@ -436,7 +436,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	public void testImageCache() {
 		deleteCacheProjects = true;
 
-		//create first cache test project and set it as current project 
+		//create first cache test project and set it as current project
 		Project firstCacheTestProject = new Project(getActivity(), "cachetestProject" + 0);
 		StorageHandler.getInstance().saveProject(firstCacheTestProject);
 		UiTestUtils.saveFileToProject(cacheProjectName + 0, StageListener.SCREENSHOT_MANUAL_FILE_NAME,
@@ -500,7 +500,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		StorageHandler.getInstance().saveProject(firstCacheTestProject);
 		ProjectManager.getInstance().setProject(firstCacheTestProject);
 
-		//leave and reenter MyProjectsActivity 
+		//leave and reenter MyProjectsActivity
 		solo.goBack();
 		solo.sleep(500);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
@@ -803,7 +803,9 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
 		UiTestUtils.clickOnActionBar(solo, R.id.delete);
-		solo.clickInList(0);
+
+		solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		solo.clickOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		solo.waitForView(CheckBox.class);
 		ArrayList<CheckBox> checkBoxList = solo.getCurrentViews(CheckBox.class);
@@ -828,7 +830,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
-		solo.clickOnCheckBox(1);
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
+		solo.clickOnText(UiTestUtils.PROJECTNAME1);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
@@ -1863,8 +1866,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 
-		assertTrue("Projectnames not cropped", solo.searchText(".+\\W+", true));
-
 		UiTestUtils.openOptionsMenu(solo);
 
 		solo.waitForText(solo.getString(R.string.show_details));
@@ -1981,7 +1982,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("delete dialog not closed in time", solo.waitForDialogToClose());
 
 		assertFalse("project " + defaultProgramName + " is still visible",
-										solo.searchText(defaultProgramName, 1, true));
+				solo.searchText(defaultProgramName, 1, true));
 		File rootDirectory = new File(Constants.DEFAULT_ROOT);
 		ArrayList<String> projectList = (ArrayList<String>) UtilFile.getProjectNames(rootDirectory);
 		boolean projectDeleted = true;
