@@ -63,6 +63,9 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 		}
 		solo = new Solo(getInstrumentation(), getActivity());
 		Reflection.setPrivateField(StageListener.class, "checkIfAutomaticScreenshotShouldBeTaken", false);
+
+		solo.unlockScreen();
+		Log.v(TAG, "setUp end");
 	}
 
 	@Override
@@ -75,10 +78,22 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 		edit.commit();
 
 		solo.finishOpenedActivities();
+
+		try {
+			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			if (currentProject != null) {
+				ProjectManager.getInstance().deleteProject(currentProject.getName(), null);
+			}
+		} catch (IOException e) {
+			Log.d(TAG, "deleteCurrentProject exception", e);
+		}
+
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 		systemAnimations.enableAll();
 		solo = null;
+
+		Log.v(TAG, "tearDown end");
 	}
 
 	@Override
