@@ -34,6 +34,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.drone.DroneInitializer;
+import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
@@ -125,6 +126,7 @@ public class StageActivity extends AndroidApplication {
 		stageListener.menuPause();
 		LedUtil.pauseLed();
 		VibratorUtil.pauseVibrator();
+		FaceDetectionHandler.pauseFaceDetection();
 	}
 
 	public void resume() {
@@ -132,6 +134,7 @@ public class StageActivity extends AndroidApplication {
 		LedUtil.resumeLed();
 		VibratorUtil.resumeVibrator();
 		SensorHandler.startSensorListener(this);
+		FaceDetectionHandler.startFaceDetection(this);
 	}
 
 	public boolean getResizePossible() {
