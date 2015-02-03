@@ -345,6 +345,7 @@ public class Sprite implements Serializable, Cloneable {
 
 	public Script getScript(int index) {
 		if (index < 0 || index >= scriptList.size()) {
+			Log.e(TAG, "getScript() Index out of Scope! scriptList size: " + scriptList.size());
 			return null;
 		}
 		return scriptList.get(index);

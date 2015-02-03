@@ -489,24 +489,29 @@ public final class StorageHandler {
 	}
 
 	public void clearBackPackSoundDirectory() {
-		if (backPackSoundDirectory.listFiles().length > 1) {
-			for (File node : backPackSoundDirectory.listFiles()) {
-				if (!(node.getName().equals(".nomedia"))) {
-					node.delete();
+		try {
+			if (backPackSoundDirectory.listFiles().length > 1) {
+				for (File node : backPackSoundDirectory.listFiles()) {
+					if (!(node.getName().equals(".nomedia"))) {
+						node.delete();
+					}
 				}
 			}
+		} catch (NullPointerException nullPointerException) {
+			Log.e(TAG, Log.getStackTraceString(nullPointerException));
 		}
 	}
 
-	public void deleteProject(String projectName) throws IllegalArgumentException, IOException {
-		boolean success;
-		if (projectName == null || !projectExists(projectName)) {
-			throw new IllegalArgumentException("Project with name " + projectName + " does not exist");
+
+	public boolean deleteProject(String projectName) {
+		return UtilFile.deleteDirectory(new File(buildProjectPath(projectName)));
+	}
+
+	public boolean deleteProject(Project project) {
+		if (project != null) {
+			return deleteProject(project.getName());
 		}
-		success = UtilFile.deleteDirectory(new File(buildProjectPath(projectName)));
-		if (!success) {
-			throw new IOException("Error at deleting project " + projectName);
-		}
+		return false;
 	}
 
 	public boolean projectExists(String projectName) {

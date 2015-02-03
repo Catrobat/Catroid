@@ -59,7 +59,7 @@ public class UserBrickDataEditorFragmentTest extends BaseActivityInstrumentation
 		solo.clickOnText(stringOnVariablesButton);
 
 		String stringOnUserBrickVar = UiTestUtils.TEST_USER_BRICK_VARIABLE;
-		boolean hasBrickVariable = solo.waitForText(stringOnUserBrickVar, 0, 100);
+		boolean hasBrickVariable = solo.waitForText(stringOnUserBrickVar, 0, 5000);
 
 		assertTrue("'" + stringOnUserBrickVar + "' didn't appear", hasBrickVariable);
 		solo.clickOnText(stringOnUserBrickVar);

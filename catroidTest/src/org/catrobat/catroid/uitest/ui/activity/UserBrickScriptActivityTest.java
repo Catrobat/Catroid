@@ -78,6 +78,7 @@ public class UserBrickScriptActivityTest extends BaseActivityInstrumentationTest
 		String textOnSetSizeToBrickTextField = "" + Math.round(BrickValues.SET_SIZE_TO);
 		checkVariableScope(textOnSetSizeToBrickTextField, 0, false);
 
+		solo.waitForText(UiTestUtils.TEST_USER_BRICK_NAME, 1, 5000);
 		UiTestUtils.showSourceAndEditBrick(UiTestUtils.TEST_USER_BRICK_NAME, solo);
 
 		String textOnChangeXBrickTextField = "" + Math.round(BrickValues.CHANGE_X_BY);

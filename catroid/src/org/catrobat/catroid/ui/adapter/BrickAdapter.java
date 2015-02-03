@@ -925,15 +925,24 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		if (index >= 0 && index < brickList.size() && brickList.get(index) instanceof ScriptBrick
 				&& draggedBrick == null) {
 			int scriptIndex = getScriptIndexFromProject(index);
+			if (scriptIndex == -1) {
+				Log.e(TAG, "setTouchedScript() Could not get ScriptIndex. index was " + index);
+				return;
+			}
 			ProjectManager.getInstance().setCurrentScript(sprite.getScript(scriptIndex));
 		}
 	}
 
 	private int getScriptIndexFromProject(int index) {
 		int scriptIndex = 0;
-		for (int i = 0; i < index; ) {
-
-			i += sprite.getScript(scriptIndex).getBrickList().size() + 1;
+		Script temporaryScript = null;
+		for (int i = 0; i < index;) {
+			temporaryScript = sprite.getScript(scriptIndex);
+			if (temporaryScript == null) {
+				Log.e(TAG, "getScriptIndexFromProject() tmpScript was null. Index was " + index + " scriptIndex was " + scriptIndex);
+				return -1;
+			}
+			i += temporaryScript.getBrickList().size() + 1;
 			if (i <= index) {
 				scriptIndex++;
 			}
@@ -1211,7 +1220,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	public void setCheckboxVisibility(int visibility) {
 		int index = 0;
 
-		if (ProjectManager.getInstance().getCurrentUserBrick() != null && brickList.get(0).equals(ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick())) {
+		if (ProjectManager.getInstance().getCurrentUserBrick() != null &&
+				brickList.size() > 0 &&
+				brickList.get(0).equals(ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick())) {
 			index = 1;
 		}
 		for (; index < brickList.size(); index++)

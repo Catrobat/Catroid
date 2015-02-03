@@ -255,6 +255,7 @@ public class CategoryBricksFactory {
 
 	private List<Brick> setupLooksCategoryList() {
 		List<Brick> looksBrickList = new ArrayList<Brick>();
+
 		looksBrickList.add(new SetLookBrick());
 		looksBrickList.add(new NextLookBrick());
 		looksBrickList.add(new SetSizeToBrick(BrickValues.SET_SIZE_TO));
@@ -269,6 +270,10 @@ public class CategoryBricksFactory {
 		if (BuildConfig.FEATURE_LED_BRICK_ENABLED) {
 			looksBrickList.add(new LedOffBrick());
 			looksBrickList.add(new LedOnBrick());
+		}
+
+		if (BuildConfig.FEATURE_VIBRATION_BRICK_ENABLED) {
+			looksBrickList.add(new VibrationBrick(BrickValues.VIBRATE_MILLISECONDS));
 		}
 
 		return looksBrickList;

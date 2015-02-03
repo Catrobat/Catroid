@@ -51,6 +51,9 @@ dependencies {
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
     compile 'com.android.support:support-v4:19.1.0'
     compile 'com.google.guava:guava:17.0'
+    compile 'com.squareup.okhttp:okhttp:2.1.0-RC1'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.1.0-RC1'
+    compile 'com.github.kevinsawicki:http-request:5.6'
     compile fileTree(include: '*.jar', dir: 'catroid/libs')
     compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')
@@ -100,11 +103,11 @@ android {
         applicationId 'org.catrobat.catroid'
         testApplicationId "org.catrobat.catroid.test"
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
-        versionCode getBuildNumberParameter()
+        versionCode 21
         println "VersionCode is " + versionCode
-        versionName generateVersionName(projectVersion, versionCode)
+        versionName "0.9.14"
         println "VersionName is " + versionName
-        buildConfigField "String", "GIT_DESCRIBE", "\"${getGitDescribe()}\""
+        buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
     }
     sourceSets {

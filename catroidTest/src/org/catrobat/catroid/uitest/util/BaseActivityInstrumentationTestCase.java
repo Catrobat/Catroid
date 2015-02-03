@@ -57,24 +57,26 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 		super.setUp();
 		systemAnimations = new SystemAnimations(getInstrumentation().getContext());
 		systemAnimations.disableAll();
-		solo = new Solo(getInstrumentation(), getActivity());
 		UiTestUtils.clearAllUtilTestProjects();
 		if (clazz.getSimpleName().equalsIgnoreCase(MainMenuActivity.class.getSimpleName())) {
 			UiTestUtils.createEmptyProject();
 		}
-
+		solo = new Solo(getInstrumentation(), getActivity());
 		Reflection.setPrivateField(StageListener.class, "checkIfAutomaticScreenshotShouldBeTaken", false);
+
 		solo.unlockScreen();
 		Log.v(TAG, "setUp end");
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		Log.v(TAG, "tearDown - remove Projectname from SharedPreferences");
+		Log.v(TAG, "tearDown");
+		Log.v(TAG, "remove Projectname from SharedPreferences");
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		SharedPreferences.Editor edit = preferences.edit();
 		edit.remove(Constants.PREF_PROJECTNAME_KEY);
 		edit.commit();
+
 		solo.finishOpenedActivities();
 
 		try {
@@ -87,11 +89,20 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 		}
 
 		UiTestUtils.clearAllUtilTestProjects();
-
 		super.tearDown();
 		systemAnimations.enableAll();
 		solo = null;
+
 		Log.v(TAG, "tearDown end");
 	}
 
+	@Override
+	public void runBare() throws Throwable {
+		try {
+			setUp();
+			runTest();
+		} finally {
+			tearDown();
+		}
+	}
 }

@@ -68,9 +68,6 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 		} catch (Throwable e) {
 			throw new Exception();
 		}
-		solo.sleep(200);
-		UiTestUtils.createValidUser(getActivity());
-		solo.sleep(200);
 	}
 
 	@Override
@@ -90,6 +87,7 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testUploadDialog() throws Throwable {
+		UiTestUtils.createValidUser(getActivity());
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		solo.waitForText(uploadDialogTitle);
 
@@ -115,6 +113,7 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 	}
 
 	public void testUploadingProjectDescriptionDefaultValue() throws Throwable {
+		UiTestUtils.createValidUser(getActivity());
 		String testDescription = "Test description";
 		String actionSetDescriptionText = solo.getString(R.string.set_description);
 
@@ -149,6 +148,7 @@ public class UploadDialogTest extends BaseActivityInstrumentationTestCase<MainMe
 	// Not testable with Android 2.3, because solo is not able to enter new lines
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	public void testProjectDescriptionUploadProject() throws Throwable {
+		UiTestUtils.createValidUser(getActivity());
 		solo.clickOnText(solo.getString(R.string.main_menu_upload));
 		boolean uploadDialogShown = solo.waitForText(uploadDialogTitle);
 

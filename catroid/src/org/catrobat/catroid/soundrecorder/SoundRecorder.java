@@ -24,6 +24,7 @@ package org.catrobat.catroid.soundrecorder;
 
 import android.media.MediaRecorder;
 import android.net.Uri;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +35,8 @@ public class SoundRecorder {
 	private MediaRecorder recorder;
 	private boolean isRecording;
 
+	public static final String TAG = SoundRecorder.class.getSimpleName();
+
 	private String path;
 
 	public SoundRecorder(String path) {
@@ -41,7 +44,7 @@ public class SoundRecorder {
 		this.path = path;
 	}
 
-	public void start() throws IOException, IllegalStateException {
+	public void start() throws IOException, RuntimeException {
 		File soundFile = new File(path);
 		if (soundFile.exists()) {
 			soundFile.delete();
@@ -51,18 +54,35 @@ public class SoundRecorder {
 			throw new IOException("Path to file could not be created.");
 		}
 
-		recorder.reset();
-		recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-		recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-		recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-		recorder.setOutputFile(path);
-		recorder.prepare();
-		recorder.start();
-		isRecording = true;
+		try {
+			recorder.reset();
+			recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+			recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+			recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+			recorder.setOutputFile(path);
+			recorder.prepare();
+			recorder.start();
+			isRecording = true;
+		} catch (IllegalStateException e) {
+			throw e;
+		} catch (RuntimeException e) {
+			throw e;
+		}
+
 	}
 
 	public void stop() throws IOException {
-        recorder.stop();
+		try {
+			recorder.stop();
+		} catch (RuntimeException e) {
+			Log.d(TAG, "Note that a RuntimeException is intentionally " +
+					"thrown to the application, if no valid audio/video data " +
+					"has been received when stop() is called. This happens if stop() " +
+					"is called immediately after start(). The failure lets the application " +
+					"take action accordingly to clean up the output file " +
+					"(delete the output file, for instance), since the output file " +
+					"is not properly constructed when this happens.");
+		}
         recorder.reset();
         recorder.release();
 		isRecording = false;

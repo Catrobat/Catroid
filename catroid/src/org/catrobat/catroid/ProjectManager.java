@@ -125,8 +125,13 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			}
 			throw new LoadingProjectException(context.getString(R.string.error_load_project));
 		} else if (project.getCatrobatLanguageVersion() > Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
-			project = oldProject;
-			throw new OutdatedVersionProjectException(context.getString(R.string.error_outdated_pocketcode_version));
+			if (project.getCatrobatLanguageVersion() == 0.93f) {
+				// this was done because of insufficient error message in older program versions
+				project.setCatrobatLanguageVersion(0.92f);
+			} else {
+				project = oldProject;
+				throw new OutdatedVersionProjectException(context.getString(R.string.error_outdated_pocketcode_version));
+			}
 		} else {
 			if (project.getCatrobatLanguageVersion() == 0.8f) {
 				//TODO insert in every "When project starts" script list a "show" brick
@@ -141,10 +146,11 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				project.setScreenMode(ScreenModes.STRETCH);
 				checkNestingBrickReferences(false);
 			}
-			if (project.getCatrobatLanguageVersion() == 0.92f) {
-				project.setCatrobatLanguageVersion(0.93f);
-			}
 
+//			if (project.getCatrobatLanguageVersion() == 0.92f || project.getCatrobatLanguageVersion() == 0.93f) {
+//				//0.93 should be left out because it available unintentional for a day
+//				//raise language version here to 0.94
+//			}
 			//insert further conversions here
 
 			checkNestingBrickReferences(true);

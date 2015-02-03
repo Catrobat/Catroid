@@ -1,34 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2014 The Catrobat Team
-  ~ (<http://developer.catrobat.org/credits>)
-  ~
-  ~ This program is free software: you can redistribute it and/or modify
-  ~ it under the terms of the GNU Affero General Public License as
-  ~ published by the Free Software Foundation, either version 3 of the
-  ~ License, or (at your option) any later version.
-  ~
-  ~ An additional term exception under section 7 of the GNU Affero
-  ~ General Public License, version 3, is available at
-  ~ http://developer.catrobat.org/license_additional_term
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  ~ GNU Affero General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU Affero General Public License
-  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  -->
+ *  Catroid: An on-device visual programming system for Android devices
+ *  Copyright (C) 2010-2013 The Catrobat Team
+ *  (<http://developer.catrobat.org/credits>)
+ *  
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://developer.catrobat.org/license_additional_term
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU Affero General Public License for more details.
+ *  
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <lint >
-    <issue id="ExtraTranslation" >
-        <ignore path="catroid/res/values-ko/strings.xml" />
-        <ignore path="catroid/res/values-pt/strings.xml" />
-        <ignore path="catroid/res/values-ro/strings.xml" />
-        <ignore path="catroid/res/values-ru/strings.xml" />
-        <ignore path="catroid/res/values-nl/strings.xml" />
-    </issue >
     <issue id="IconDensities" >
         <ignore path="catroid/res/drawable-mdpi" />
         <ignore path="catroid/res/drawable-hdpi" />
@@ -47,18 +40,38 @@
     </issue >
     <issue id="MissingTranslation" severity="ignore" >
         <ignore path="catroid/res/values/strings-global.xml" />
-        <ignore path="catroid/res/values-ko/strings.xml" />
-        <ignore path="catroid/res/values-pt/strings.xml" />
-        <ignore path="catroid/res/values-ro/strings.xml" />
-        <ignore path="catroid/res/values-ru/strings.xml" />
-        <ignore path="catroid/res/values-nl/strings.xml" />
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
     </issue >
     <issue id="UnusedResources" >
-        <ignore path="catroid/res/values-ko/strings.xml" />
-        <ignore path="catroid/res/values-pt/strings.xml" />
-        <ignore path="catroid/res/values-ro/strings.xml" />
-        <ignore path="catroid/res/values-ru/strings.xml" />
-        <ignore path="catroid/res/values-nl/strings.xml" />
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
         <ignore path="catroid/res/drawable-nodpi/default_drone_project_orange_light_bulb.png" />
     </issue >
+    <issue id="UnusedQuantity" >
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
+    </issue >
+    <issue id="ImpliedQuantity" >
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
+    </issue >
+    <issue id="ExtraTranslation" >
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
+    </issue >
+
+    <!--Only temporary until the end of October 2014-->
+    <issue id="TypographyEllipsis" >
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
+    </issue >
+    <issue id="TypographyDashes" >
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
+    </issue >
+    <issue id="MissingQuantity" >
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
+    </issue >
+    <issue id="Typos" >
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
+    </issue >
+    <issue id="UnusedResources" >
+        <ignore path="catroid/res/values/strings.xml" />
+        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
+    </issue >
+
 </lint >
