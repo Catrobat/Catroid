@@ -3,6 +3,7 @@ import java.util.regex.Pattern
 buildscript {
     repositories {
         mavenCentral()
+        mavenLocal()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.12.+'
@@ -16,7 +17,6 @@ repositories {
 
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
-//apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
 apply from: 'gradle/adb_tasks.gradle'
@@ -28,6 +28,8 @@ check.dependsOn 'pmd'
 
 ext {
     projectVersion = "0.9"
+    gdxVersion = '1.2.0'
+    roboVMVersion = '0.0.14'
     featuresEnabled = [
             "lego_nxt"                          : true,
             "led_brick"                         : false,
@@ -43,21 +45,37 @@ ext {
     ]
 }
 
+repositories {
+    mavenLocal()
+    mavenCentral()
+    //maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+    maven { url 'https://oss.sonatype.org/content/repositories/releases/' }
+}
+
 configurations {
+    natives
     compile.exclude group: 'xpp3' //compile problem with xstream
 }
+
 
 dependencies {
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
     compile 'com.android.support:support-v4:19.1.0'
+    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
     compile 'com.google.guava:guava:17.0'
-    compile fileTree(include: '*.jar', dir: 'catroid/libs')
-    compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
-    androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')
+    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
+    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
+    natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
+    compile fileTree(dir: 'catroid/libs', include: '*.jar')
+    compile fileTree(dir: 'catroid/libs-natives', include: '*.jar')
+    compile fileTree(dir: 'catroidTest/libs', include: '*.jar')
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
     pmd 'net.sourceforge.pmd:pmd:5.1.1'
 }
 
+// workarround ndk support for libgdx1.2.0
+apply from: 'gradle/copy_natives_tasks.gradle'
 
 def getBuildNumberParameter = { ->
     def code = project.hasProperty('versionCode') ? versionCode.toInteger() : -1
@@ -128,6 +146,13 @@ android {
             if (file('testexclusions.txt').exists()) {
                 java.exclude file('testexclusions.txt').readLines()
             }
+
+
+            packagingOptions {
+                exclude 'lib/armeabi/libgdx.so'
+                exclude 'lib/armeabi-v7a/libgdx.so'
+                exclude 'lib/x86/libgdx.so'
+            }
         }
     }
     lintOptions {
@@ -147,6 +172,11 @@ android {
     }
 }
 
+// needed to add JNI shared libraries to APK when compiling on CLI (needed for libgdx)
+tasks.withType(com.android.build.gradle.tasks.PackageApplication) { pkgTask ->
+    pkgTask.jniFolders = new HashSet<File>()
+    pkgTask.jniFolders.add(new File(projectDir, 'libs'))
+}
 
 if (project.hasProperty('jenkins')) {
     project.android.dexOptions.preDexLibraries = false

@@ -167,8 +167,12 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
                 interpretSensor(Sensors.OBJECT_SIZE),DELTA);
 		assertEquals("Variable shows false direction after Stage", SPRITE_DIRECTION,
                 interpretSensor(Sensors.OBJECT_ROTATION), DELTA);
-		assertEquals("Variable shows false z index after Stage", NUMBER_OF_SPRITES - SPRITE_LAYER_CHANGE,
+		/*assertEquals("Variable shows false z index after Stage", NUMBER_OF_SPRITES - SPRITE_LAYER_CHANGE,
                 interpretSensor(Sensors.OBJECT_LAYER), DELTA);
+         		Stage clears Actors and Groups after termination with libgdx 1.2.0
+         */
+		assertEquals("Variable shows false z index after Stage", NUMBER_OF_SPRITES_INITIAL,
+				interpretSensor(Sensors.OBJECT_LAYER), DELTA);
 	}
 
 	private void createProject() {

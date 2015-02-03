@@ -23,7 +23,7 @@
 package org.catrobat.catroid.content;
 
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -53,7 +53,7 @@ public class Look extends Image {
 	protected float brightness = 1f;
 	protected Pixmap pixmap;
 	private ParallelAction whenParallelAction;
-	private boolean allActionsAreFinished = false;
+	private boolean allActionAreFinished = false;
 	private BrightnessContrastShader shader;
 
 	public Look(Sprite sprite) {
@@ -107,7 +107,7 @@ public class Look extends Image {
 		cloneLook.brightness = this.brightness;
 		cloneLook.visible = this.visible;
 		cloneLook.whenParallelAction = null;
-		cloneLook.allActionsAreFinished = this.allActionsAreFinished;
+		cloneLook.allActionAreFinished = this.allActionAreFinished;
 
 		return cloneLook;
 	}
@@ -142,7 +142,7 @@ public class Look extends Image {
 	}
 
 	@Override
-	public void draw(SpriteBatch batch, float parentAlpha) {
+	public void draw(Batch batch, float parentAlpha) {
 		checkImageChanged();
 		batch.setShader(shader);
 		if (alpha == 0.0f) {
@@ -158,7 +158,7 @@ public class Look extends Image {
 	@Override
 	public void act(float delta) {
 		Array<Action> actions = getActions();
-		allActionsAreFinished = false;
+		allActionAreFinished = false;
 		int finishedCount = 0;
 
 		for (Iterator<Action> iterator = Look.actionsToRestart.iterator(); iterator.hasNext();) {
@@ -167,21 +167,21 @@ public class Look extends Image {
 			iterator.remove();
 		}
 
-		for (int i = 0, n = actions.size; i < n; i++) {
+		for (int i = 0; i < actions.size ; i++) {
 			Action action = actions.get(i);
 			if (action.act(delta)) {
 				finishedCount++;
 			}
 		}
 		if (finishedCount == actions.size) {
-			allActionsAreFinished = true;
+			allActionAreFinished = true;
 		}
 	}
 
 	@Override
 	public void addAction(Action action) {
 		super.addAction(action);
-		allActionsAreFinished = false;
+		allActionAreFinished = false;
 	}
 
 	protected void checkImageChanged() {
@@ -228,7 +228,7 @@ public class Look extends Image {
 	}
 
 	public boolean getAllActionsAreFinished() {
-		return allActionsAreFinished;
+		return allActionAreFinished;
 	}
 
 	public String getImagePath() {
