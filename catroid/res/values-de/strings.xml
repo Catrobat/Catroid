@@ -84,13 +84,18 @@
     vom Catrobat Projekt angeboten werden, nutzen zu dürfen, musst Du mit unseren 
     Nutzungsbedingungen einverstanden sein und sie während Deiner Benutzung genau 
     einhalten. Die exakte Formulierung unserer Nutzungsbedingungen steht unter 
-    dem folgenden \"Terms of Use\" Link zur Verfügung.\n</string>
-  <string name="dialog_terms_of_use_link_text">Nutzungsbedingungen</string>
-  <string name="dialog_terms_of_use_agree_permanent">Ich stimme immer zu – frage mich nicht noch einmal. Ich übernehme auch die Verantworung, wenn jemand anderer mein Gerät verwendet.</string>
-  <string name="dialog_terms_of_use_agree">Ich stimme zu</string>
-  <string name="dialog_terms_of_use_do_not_agree">Ich stimme nicht zu</string>
-  <string name="dialog_about_title">Über Pocket Code</string>
-  <string name="dialog_about_license_info">Pocket Code ist eine Programmierumgebung 
+    dem folgenden "Terms of Use" Link zur Verfügung.\n</string>
+    <string name="dialog_terms_of_use_link_text">Terms of Use</string>
+
+    <string name="dialog_terms_of_use_link_text_parrot_reminder">Catrobat\'s Terms of Use</string>
+    <string name="dialog_terms_of_use_parrot_reminder_text">You attempt to use Pocket Code together with Parrot\'s AR.Drone. We strongly remind you that you must abide to Parrot\'s Terms of Use for the drone and to Catrobat\'s Terms of Use for Pocket Code, otherwise you are not allowed to use Pocket Code.</string>
+    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Erinnere mich nicht mehr.</string>
+    <!--  -->
+
+
+    <!-- About Dialog -->
+    <string name="dialog_about_title">Über Pocket Code</string>
+    <string name="dialog_about_license_info">Pocket Code ist eine Programmierumgebung 
         für Android-Geräte für die visuelle Programmiersprache Catrobat.\n\n
         Der Quellode von Pocket Code steht großteils unter der GNU AGPL v3 Lizenz.
         Für nähere Informationen zur Lizenz siehe untenstehenden Link.\n</string>
