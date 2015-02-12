@@ -47,29 +47,24 @@ public class CatroidApplication extends Application {
 		return settings;
 	}
 
-	public static synchronized boolean parrotNativeLibsAlreadyLoadedOrLoadingWasSucessful() {
-		if (parrotLibrariesLoaded) {
+	public static synchronized boolean parrotNativeLibsAlreadyLoadedOrLoadingWasSuccessful() {
+		if (parrotLibrariesLoaded == true) {
 			return parrotLibrariesLoaded;
 		}
 
-		if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED && !parrotLibrariesLoaded) { //Drone is deactivated in release builds for now 04.2014
-			Log.d(TAG, "Current platform = \"" + OS_ARCH + "\"");
-			if (OS_ARCH.startsWith("arm")) {
-				Log.d(TAG, "We are on an arm platform load parrot native libs");
-				try {
-					System.loadLibrary("avutil");
-					System.loadLibrary("swscale");
-					System.loadLibrary("avcodec");
-					System.loadLibrary("avfilter");
-					System.loadLibrary("avformat");
-					System.loadLibrary("avdevice");
-					System.loadLibrary("adfreeflight");
-				} catch (UnsatisfiedLinkError e) {
-					Log.e(TAG, Log.getStackTraceString(e));
-					return parrotLibrariesLoaded;
-				}
-				parrotLibrariesLoaded = true;
-			} else {
+		//Drone is deactivated in release builds for now 04.2014
+		if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED && parrotLibrariesLoaded == false && OS_ARCH.startsWith("arm")) {
+			try {
+				System.loadLibrary("avutil");
+				System.loadLibrary("swscale");
+				System.loadLibrary("avcodec");
+				System.loadLibrary("avfilter");
+				System.loadLibrary("avformat");
+				System.loadLibrary("avdevice");
+				System.loadLibrary("adfreeflight");
+			} catch (UnsatisfiedLinkError e) {
+				Log.e(TAG, Log.getStackTraceString(e));
+				return parrotLibrariesLoaded;
 			}
 			parrotLibrariesLoaded = true;
 		}
