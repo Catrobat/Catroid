@@ -94,7 +94,7 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 
 	public void initialise() {
 		if (SettingsActivity.areTermsOfServiceAgreedPermanently(prestageStageActivity.getApplicationContext())) {
-			returnToActivityIntent.putExtra(INIT_DRONE_STRING_EXTRA, true);
+
 			if (checkRequirements()) {
 				checkDroneConnectivity();
 			}
@@ -235,6 +235,9 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 
 	@SuppressLint("NewApi")
 	public void checkDroneConnectivity() {
+
+		returnToActivityIntent.putExtra(INIT_DRONE_STRING_EXTRA, true);
+
 		if (checkDroneConnectionTask != null && checkDroneConnectionTask.getStatus() != Status.FINISHED) {
 			checkDroneConnectionTask.cancel(true);
 		}
