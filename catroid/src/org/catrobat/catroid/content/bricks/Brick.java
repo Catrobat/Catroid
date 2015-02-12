@@ -53,7 +53,7 @@ public interface Brick extends Serializable, Cloneable {
 	}
 
 	//use bitwise | for using multiple ressources in a brick
-	int NO_RESOURCES = 0x0;
+	final int NO_RESOURCES = 0x0;
 	//	public static final int SOUND_MANAGER = 0x1;
 	int TEXT_TO_SPEECH = 0x2;
 	int BLUETOOTH_LEGO_NXT = 0x4;
@@ -63,7 +63,7 @@ public interface Brick extends Serializable, Cloneable {
 	int BLUETOOTH_PHIRO = 0x400;
 
 	//	public static final int BLUETOOTH_ARDUINO = 0x8;
-	int FACE_DETECTION = 0x10;
+	final int FACE_DETECTION = 0x10;
 
 	List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
 

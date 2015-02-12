@@ -104,7 +104,13 @@ public abstract class DroneMoveAction extends TemporalAction {
 	}
 
 	protected void setCommandAndYawEnabled(boolean enable) {
-		getDroneService().setProgressiveCommandEnabled(enable);
-		getDroneService().setProgressiveCommandCombinedYawEnabled(enable);
+		if(getDroneService() == null){
+			Log.d(getClass().getName(), "drone service is null!");
+		}
+		else{
+			Log.d(getClass().getName(), "drone service is not null!");
+			getDroneService().setProgressiveCommandEnabled(enable);
+			getDroneService().setProgressiveCommandCombinedYawEnabled(enable);
+		}
 	}
 }

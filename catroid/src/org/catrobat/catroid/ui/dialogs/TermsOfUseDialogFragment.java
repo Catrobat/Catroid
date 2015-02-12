@@ -79,9 +79,9 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 							&& checkboxTermsOfUseAcceptedPermanently.isChecked()) {
 						SettingsActivity.setTermsOfServiceAgreedPermanently(getActivity(), true);
 					}
-					DroneInitializer droneInitializer = ((PreStageActivity) getActivity()).getDroneInitializer();
-					if (droneInitializer != null) {
-						droneInitializer.initialiseDrone();
+					DroneInitializer droneInitializer = ((PreStageActivity) getActivity()).getdroneInitialiser();
+					if (droneInitializer != null && droneInitializer.checkRequirements()) {
+							droneInitializer.checkDroneConnectivity();
 					}
 				}
 
