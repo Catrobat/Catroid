@@ -175,6 +175,10 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 					prestageStageActivity.getString(R.string.error_drone_low_battery));
 			return;
 		}
+
+		DroneConfigManager.setDefaultConfig(droneControlService);
+		droneControlService.flatTrim();
+
 		prestageStageActivity.resourceInitialized();
 	}
 
