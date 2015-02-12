@@ -3,22 +3,22 @@
  * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
  *
- * An additional term exception under section 7 of the GNU Affero
- * General Public License, version 3, is available at
- * http://developer.catrobat.org/license_additional_term
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://developer.catrobat.org/license_additional_term
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid;
 
@@ -52,26 +52,21 @@ public class CatroidApplication extends Application {
 			return parrotLibrariesLoaded;
 		}
 
-		if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED && parrotLibrariesLoaded == false) { //Drone is deactivated in release builds for now 04.2014
-			Log.d(TAG, "Current platform = \"" + OS_ARCH + "\"");
-			if (OS_ARCH.startsWith("arm")) {
-				Log.d(TAG, "We are on an arm platform load parrot native libs");
-				try {
-					System.loadLibrary("avutil");
-					System.loadLibrary("swscale");
-					System.loadLibrary("avcodec");
-					System.loadLibrary("avfilter");
-					System.loadLibrary("avformat");
-					System.loadLibrary("avdevice");
-					System.loadLibrary("adfreeflight");
-				} catch (UnsatisfiedLinkError e) {
-					Log.e(TAG, Log.getStackTraceString(e));
-					return parrotLibrariesLoaded;
-				}
-				parrotLibrariesLoaded = true;
-			} else {
-				Log.d(TAG, "We are not on an arm based device, dont load libs");
+		//Drone is deactivated in release builds for now 04.2014
+		if (BuildConfig.DEBUG && parrotLibrariesLoaded == false && OS_ARCH.startsWith("arm")) {
+			try {
+				System.loadLibrary("avutil");
+				System.loadLibrary("swscale");
+				System.loadLibrary("avcodec");
+				System.loadLibrary("avfilter");
+				System.loadLibrary("avformat");
+				System.loadLibrary("avdevice");
+				System.loadLibrary("adfreeflight");
+			} catch (UnsatisfiedLinkError e) {
+				Log.e(TAG, Log.getStackTraceString(e));
+				return parrotLibrariesLoaded;
 			}
+			parrotLibrariesLoaded = true;
 		}
 		return parrotLibrariesLoaded;
 	}
