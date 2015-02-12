@@ -47,13 +47,13 @@ public class CatroidApplication extends Application {
 		return settings;
 	}
 
-	public static synchronized boolean parrotNativeLibsAlreadyLoadedOrLoadingWasSucessful() {
+	public static synchronized boolean parrotNativeLibsAlreadyLoadedOrLoadingWasSuccessful() {
 		if (parrotLibrariesLoaded == true) {
 			return parrotLibrariesLoaded;
 		}
 
 		//Drone is deactivated in release builds for now 04.2014
-		if (BuildConfig.DEBUG && parrotLibrariesLoaded == false && OS_ARCH.startsWith("arm")) {
+		if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED && parrotLibrariesLoaded == false && OS_ARCH.startsWith("arm")) {
 			try {
 				System.loadLibrary("avutil");
 				System.loadLibrary("swscale");

@@ -52,7 +52,6 @@ import com.parrot.freeflight.service.DroneControlService;
 import com.parrot.freeflight.service.intents.DroneStateManager;
 import com.parrot.freeflight.tasks.CheckDroneNetworkAvailabilityTask;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.PreStageActivity;
@@ -106,14 +105,14 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 
 	public boolean checkRequirements() {
 		if (!CatroidApplication.OS_ARCH.startsWith("arm")) {
-			showUncancellableErrorDialog(prestageStageActivity,
+			showUnCancellableErrorDialog(prestageStageActivity,
 					prestageStageActivity.getString(R.string.error_drone_wrong_platform_title),
 					prestageStageActivity.getString(R.string.error_drone_wrong_platform));
 			return false;
 		}
 
-		if (!CatroidApplication.parrotNativeLibsAlreadyLoadedOrLoadingWasSucessful()) {
-			showUncancellableErrorDialog(prestageStageActivity,
+		if (!CatroidApplication.parrotNativeLibsAlreadyLoadedOrLoadingWasSuccessful()) {
+			showUnCancellableErrorDialog(prestageStageActivity,
 					prestageStageActivity.getString(R.string.error_drone_wrong_platform_title),
 					prestageStageActivity.getString(R.string.error_drone_wrong_platform));
 			return false;
@@ -122,7 +121,7 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 		return true;
 	}
 
-	public static void showUncancellableErrorDialog(final PreStageActivity context, String title, String message) {
+	public static void showUnCancellableErrorDialog(final PreStageActivity context, String title, String message) {
 		Builder builder = new CustomAlertDialogBuilder(context);
 
 		builder.setTitle(title);
@@ -172,7 +171,7 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 		if (droneBatteryCharge < DRONE_BATTERY_THRESHOLD) {
 			String dialogTitle = String.format(prestageStageActivity.getString(R.string.error_drone_low_battery_title),
 					droneBatteryCharge);
-			showUncancellableErrorDialog(prestageStageActivity, dialogTitle,
+			showUnCancellableErrorDialog(prestageStageActivity, dialogTitle,
 					prestageStageActivity.getString(R.string.error_drone_low_battery));
 			return;
 		}
@@ -198,7 +197,7 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 			prestageStageActivity.bindService(new Intent(prestageStageActivity, DroneControlService.class),
 					this.droneServiceConnection, Context.BIND_AUTO_CREATE);
 		} else {
-			showUncancellableErrorDialog(prestageStageActivity,
+			showUnCancellableErrorDialog(prestageStageActivity,
 					prestageStageActivity.getString(R.string.error_no_drone_connected_title),
 					prestageStageActivity.getString(R.string.error_no_drone_connected));
 		}
@@ -217,7 +216,7 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 	}
 
 	public void onPrestageActivityResume() {
-		if (BuildConfig.DEBUG) {
+
 			droneReadyReceiver = new DroneReadyReceiver(this);
 			droneStateReceiver = new DroneAvailabilityReceiver(this);
 			droneBatteryReceiver = new DroneBatteryChangedReceiver(this);
@@ -231,7 +230,7 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 			manager.registerReceiver(droneConnectionChangeReceiver, new IntentFilter(
 					DroneControlService.DRONE_CONNECTION_CHANGED_ACTION));
 			manager.registerReceiver(droneStateReceiver, new IntentFilter(DroneStateManager.ACTION_DRONE_STATE_CHANGED));
-		}
+
 	}
 
 	@SuppressLint("NewApi")
@@ -256,7 +255,7 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 	}
 
 	public void onPrestageActivityPause() {
-		if (BuildConfig.DEBUG) {
+
 			if (droneControlService != null) {
 				droneControlService.pause();
 			}
@@ -271,10 +270,9 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 			if (taskRunning(checkDroneConnectionTask)) {
 				checkDroneConnectionTask.cancelAnyFtpOperation();
 			}
-		}
 	}
 
 	private boolean taskRunning(AsyncTask<?, ?, ?> checkMediaTask2) {
-		return checkMediaTask2 == null || checkMediaTask2.getStatus() == Status.FINISHED;
+		return !(checkMediaTask2 == null || checkMediaTask2.getStatus() == Status.FINISHED);
 	}
 }
