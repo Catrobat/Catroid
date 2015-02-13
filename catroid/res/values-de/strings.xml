@@ -461,10 +461,13 @@
   <string name="nxt_port_4">Port 4</string>
   <string name="lego_nxt_sensor_config_dont_show_again">Diese Nachricht nicht mehr anzeigen.</string>
   <string name="brick_drone_takeoff">Hebe ab</string>
+    <string name="brick_drone_play_led_animation">Spiele LED-Animation</string>
   <string name="brick_drone_land">Lande</string>
   <string name="brick_drone_play_led_animation">Spiele LED-Animation</string>
   <string name="brick_drone_move_left">Fliege nach links</string>
   <string name="brick_drone_move_right">Fliege nach rechts</string>
+    <string name="brick_drone_move_up">Fliege nach oben</string>
+    <string name="brick_drone_move_down">Fliege nach unten</string>
   <string name="brick_drone_move_forward">Fliege nach vorne</string>
   <string name="brick_drone_move_backward">Fliege nach hinten</string>
   <string name="brick_drone_move_up">Fliege nach oben</string>
@@ -473,6 +476,7 @@
   <string name="brick_drone_power">Power</string>
   <string name="brick_drone_turn_right">Drehe nach rechts</string>
   <string name="brick_drone_turn_left">Drehe nach links</string>
+    <string name="brick_drone_turn_right">Drehe nach rechts</string>
   <string name="brick_drone_turn_left_magneto">Drehe nach links</string>
   <string name="brick_drone_turn_right_magneto">Drehe nach rechts</string>
   <string name="brick_drone_angle">Winkel</string>
@@ -572,10 +576,20 @@
   <string name="formula_editor_function_letter_parameter">(1,\'hallo welt\')</string>
   <string name="formula_editor_function_join">verbinde</string>
   <string name="formula_editor_function_join_parameter">(\'hallo\',\'welt\')</string>
+    <string name="formula_editor_sensor_drone_battery_status">Drohne: Batteriestatus</string>
+    <string name="formula_editor_sensor_drone_emergency_state">Drohne: in Notlauf</string>
+    <string name="formula_editor_sensor_drone_flying">Drohne: fliegt</string>
+    <string name="formula_editor_sensor_drone_initialized">Drohne: initialisiert</string>
+    <string name="formula_editor_sensor_drone_usb_active">Drohne: USB bereit</string>
   <string name="formula_editor_function_list_item">Element</string>
   <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
   <string name="formula_editor_function_contains">enthält</string>
   <string name="formula_editor_function_contains_parameter">(*list name*,1)</string>
+    <string name="formula_editor_sensor_drone_usb_remaining_time">Drohne: verbleibende USB zeit</string>
+    <string name="formula_editor_sensor_drone_camera_ready">Drohne: Kamera bereit</string>
+    <string name="formula_editor_sensor_drone_record_ready">Drohne: Aufnahme bereit</string>
+    <string name="formula_editor_sensor_drone_recording">Drohne: nimmt Video auf</string>
+    <string name="formula_editor_sensor_drone_num_frames">Drohne: Frame anzahl</string>
   <string name="formula_editor_sensor_x_acceleration">Beschleunigung_x</string>
   <string name="formula_editor_sensor_y_acceleration">Beschleunigung_y</string>
   <string name="formula_editor_sensor_z_acceleration">Beschleunigung_z</string>
@@ -647,6 +661,9 @@
     <item quantity="one">Element ausgewählt!</item>
     <item quantity="other">Elemente ausgewählt!</item>
   </plurals>
+    <!--  -->
+    
+    <!-- Brick Data Editor Strings -->
   <string name="camera_facing_front">Vordere Kamera</string>
   <string name="camera_facing_back">Hintere Kamera</string>
   <string name="brick_data_editor_title">Bausteineditor</string>
@@ -658,6 +675,9 @@
   <string name="add_line_break">Zeilenumbruch hinzufügen</string>
   <string name="edit_variable">Variable bearbeiten</string>
   <string name="variable_hint">Variablenname</string>
+    <!--  -->
+
+    <!-- User Bricks strings  -->
   <string name="define">definiere</string>
   <string name="new_user_brick">Neuer Baustein</string>
   <string name="new_user_brick_variable">Variable 1</string>
