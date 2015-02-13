@@ -33,7 +33,6 @@ import com.parrot.freeflight.service.DroneControlService;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
-import org.catrobat.catroid.content.bricks.DroneLandBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
@@ -41,7 +40,7 @@ import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
-import org.catrobat.catroid.content.bricks.DroneTakeOffBrick;
+import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
@@ -97,12 +96,12 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 	}
 
 	public void testTakeOff() {
-		addActionToSequenceAndAct(new DroneTakeOffBrick());
+		addActionToSequenceAndAct(new DroneTakeOffLandBrick());
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).triggerTakeOff();
 	}
 
 	public void testLand() {
-		addActionToSequenceAndAct(new DroneLandBrick());
+		addActionToSequenceAndAct(new DroneTakeOffLandBrick());
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).triggerTakeOff();
 	}
 

@@ -30,14 +30,14 @@
     android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/brick_drone_takeoff_checkbox"
+        android:id="@+id/brick_drone_takeoff_land_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_drone_takeoff"
+        android:id="@+id/brick_drone_takeoff_land"
         style="@style/BrickContainer.Drone.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
         <TextView
             android:id="@+id/ValueTextView"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_drone_takeoff" >
+            android:text="@string/brick_drone_takeoff_land" >
         </TextView>
     </org.catrobat.catroid.ui.BrickLayout>
 
