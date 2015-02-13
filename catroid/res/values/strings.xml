@@ -625,8 +625,7 @@
 
 
     <!-- Drone Bricks -->
-    <string name="brick_drone_takeoff">Take off</string>
-    <string name="brick_drone_land">Land</string>
+    <string name="brick_drone_takeoff_land">Take off / Land</string>
     <string name="brick_drone_play_led_animation">Play LED animation</string>
     <string name="brick_drone_move_left">Move left</string>
     <string name="brick_drone_move_right">Move right</string>

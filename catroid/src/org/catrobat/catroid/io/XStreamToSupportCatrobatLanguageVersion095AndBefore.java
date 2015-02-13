@@ -45,7 +45,6 @@ import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
-import org.catrobat.catroid.content.bricks.DroneLandBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
@@ -53,7 +52,7 @@ import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
-import org.catrobat.catroid.content.bricks.DroneTakeOffBrick;
+import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
@@ -382,10 +381,7 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfo = new BrickInfo(DroneFlipBrick.class.getSimpleName());
 		brickInfoMap.put("droneFlipBrick", brickInfo);
 
-		brickInfo = new BrickInfo(DroneTakeOffBrick.class.getSimpleName());
-		brickInfoMap.put("droneTakeOffBrick", brickInfo);
-
-		brickInfo = new BrickInfo(DroneLandBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(DroneTakeOffLandBrick.class.getSimpleName());
 		brickInfoMap.put("droneTakeOffBrick", brickInfo);
 
 		brickInfo = new BrickInfo(DroneMoveForwardBrick.class.getSimpleName());
