@@ -144,7 +144,7 @@ public final class StandardProjectHandler {
 				-260, -200, takeOffArrowFile));
 
 		//rotate Sprite start
-		String rotateSpriteName = context.getString(R.string.default_drone_project_srpites_rotate);
+		String rotateSpriteName = context.getString(R.string.default_drone_project_sprites_rotate);
 
 		File rotateFile = UtilFile.copyImageFromResourceIntoProject(projectName, rotateSpriteName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_rotate, context, true,

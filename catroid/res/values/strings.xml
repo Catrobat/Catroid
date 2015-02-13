@@ -488,11 +488,10 @@
 
     <!-- defaultDroneValues -->
     <string name="default_drone_project_name">My first Drone program</string>
-    <string name="default_drone_project_sprites_takeoff">Take off</string>
+    <string name="default_drone_project_sprites_takeoff">Take off / Land</string>
 
     <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
-    <string name="default_drone_project_srpites_land">Land</string>
-    <string name="default_drone_project_srpites_rotate">Rotate</string>
+    <string name="default_drone_project_sprites_rotate">Rotate</string>
     <string name="default_drone_project_sprites_up">Up</string>
     <string name="default_drone_project_sprites_down">Down</string>n
     <string name="default_drone_project_sprites_left">Left</string>
