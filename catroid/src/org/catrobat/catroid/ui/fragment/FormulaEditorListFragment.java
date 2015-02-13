@@ -40,6 +40,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.SettingsActivity;
 
@@ -99,9 +100,12 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			R.string.formula_editor_sensor_compass_direction, R.string.formula_editor_sensor_x_inclination,
 			R.string.formula_editor_sensor_y_inclination, R.string.formula_editor_sensor_loudness};
 
-	private static final int[] NXT_SENSOR_ITEMS = {R.string.formula_editor_sensor_lego_nxt_1,
-			R.string.formula_editor_sensor_lego_nxt_2, R.string.formula_editor_sensor_lego_nxt_3,
-			R.string.formula_editor_sensor_lego_nxt_4};
+	private static final int[] SENSOR_ITEMS_DRONE = {R.string.formula_editor_sensor_drone_battery_status,
+			R.string.formula_editor_sensor_drone_emergency_state, R.string.formula_editor_sensor_drone_flying,
+			R.string.formula_editor_sensor_drone_initialized, R.string.formula_editor_sensor_drone_usb_active,
+			R.string.formula_editor_sensor_drone_usb_remaining_time, R.string.formula_editor_sensor_drone_camera_ready,
+			R.string.formula_editor_sensor_drone_record_ready , R.string.formula_editor_sensor_drone_recording,
+			R.string.formula_editor_sensor_drone_num_frames	};
 
 	private static final int[] PHIRO_SENSOR_ITEMS = {R.string.formula_editor_phiro_sensor_front_left,
 			R.string.formula_editor_phiro_sensor_front_right, R.string.formula_editor_phiro_sensor_side_left,
@@ -166,6 +170,18 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 
 			if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 				itemsIds = concatAll(itemsIds, PHIRO_SENSOR_ITEMS);
+			}
+			
+			//drone specified data: merge copy here
+			// TODO: check if correct behaviour is established
+			// What is SENSOR_TAG? Can we choose another word for drone condition?
+			if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), false)) {
+				int[] array1and2 = new int[SENSOR_ITEMS.length + SENSOR_ITEMS_DRONE.length];
+				System.arraycopy(SENSOR_ITEMS, 0, array1and2, 0, SENSOR_ITEMS.length);
+				System.arraycopy(SENSOR_ITEMS_DRONE, 0, array1and2, SENSOR_ITEMS.length, SENSOR_ITEMS_DRONE.length);
+				itemsIds = array1and2;
+			} else {
+				itemsIds = SENSOR_ITEMS;
 			}
 		}
 
