@@ -446,11 +446,10 @@
 
     <!-- defaultdroneValues -->
     <string name="default_drone_project_name">Mein erstes Drohnen-Programm</string>  
-    <string name="default_drone_project_sprites_takeoff">Abheben</string>
+    <string name="default_drone_project_sprites_takeoff">Abheben / Landen</string>
     
     <!-- <string name="default_drone_project_sprites_blink_led">LED blinken</string> -->
-    <string name="default_drone_project_srpites_land">Landen</string>
-    <string name="default_drone_project_srpites_rotate">Flip</string>
+    <string name="default_drone_project_sprites_rotate">Flip</string>
     <string name="default_drone_project_sprites_up">Fliege hoch</string>
     <string name="default_drone_project_sprites_down">Fliege runter</string>
     <string name="default_drone_project_sprites_left">Fliege links</string>
@@ -563,9 +562,8 @@
     <!--  -->
     
     <!-- Drone Bricks -->
-    <string name="brick_drone_takeoff">Hebe ab</string>
+    <string name="brick_drone_takeoff_land">Hebe ab / Lande</string>
     <string name="brick_drone_play_led_animation">Spiele LED-Animation</string>
-    <string name="brick_drone_land">Lande</string>
     <string name="brick_drone_move_left">Fliege nach links</string>
     <string name="brick_drone_move_right">Fliege nach rechts</string>
     <string name="brick_drone_move_up">Fliege nach oben</string>

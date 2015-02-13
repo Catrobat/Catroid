@@ -52,7 +52,7 @@ public class DroneTakeOffLandBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_drone_takeoff, null);
+		View prototypeView = View.inflate(context, R.layout.brick_drone_takeoff_and_land, null);
 
 		return prototypeView;
 	}
@@ -70,7 +70,7 @@ public class DroneTakeOffLandBrick extends BrickBaseType {
 		if (view == null) {
 			alphaValue = 255;
 		}
-		view = View.inflate(context, R.layout.brick_drone_takeoff, null);
+		view = View.inflate(context, R.layout.brick_drone_takeoff_and_land, null);
 		view = getViewWithAlpha(alphaValue);
 
 		setCheckboxView(R.id.brick_drone_takeoff_land_checkbox);

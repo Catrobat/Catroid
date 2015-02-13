@@ -452,11 +452,11 @@ public class ExtendedActions extends Actions {
 	}
 
 	public static TemporalAction droneTakeOff() {
-		return action(DroneTakeoffAction.class);
+		return action(DroneTakeoffAndLandAction.class);
 	}
 
 	public static TemporalAction droneLand() {
-		return action(DroneTakeoffAction.class);
+		return action(DroneTakeoffAndLandAction.class);
 	}
 
 	public static TemporalAction droneMoveUp(Sprite sprite, Formula seconds, Formula powerInPercent) {

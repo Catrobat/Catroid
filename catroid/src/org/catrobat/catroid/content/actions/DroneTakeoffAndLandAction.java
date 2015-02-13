@@ -26,7 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 
-public class DroneTakeoffAction extends TemporalAction {
+public class DroneTakeoffAndLandAction extends TemporalAction {
 
 	@Override
 	protected void begin() {
