@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.uitest.drone;
 
-import android.widget.EditText;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -32,8 +30,6 @@ import org.catrobat.catroid.test.drone.DroneTestUtils;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
-
-import static junit.framework.Assert.assertEquals;
 
 public class FormulaEditorFragmentTestDrone extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
@@ -62,17 +58,11 @@ public class FormulaEditorFragmentTestDrone extends BaseActivityInstrumentationT
 	public void testChangeFormula() {
 		//makeSingleBrickTest();
 
-
-		FormulaBrick brickTest = (FormulaBrick) ProjectManager.getInstance().getCurrentScript().getBrick(0);
-
+		ProjectManager.getInstance().getCurrentScript().getBrick(0);
 		assertNotNull("TextView does not exist.", solo.getView(R.id.brick_drone_move_text_view_second));
-
-
-
-
 	}
 
-	private void makeSingleBrickTest() {
+	public void makeSingleBrickTest() {
 		FormulaBrick brickTest = (FormulaBrick) ProjectManager.getInstance().getCurrentScript().getBrick(0);
 
 		assertNotNull("TextView does not exist.", solo.getView(R.id.brick_drone_move_text_view_second));
