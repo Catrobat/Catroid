@@ -168,6 +168,7 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 	@Override
 	public void onDroneReady() {
 		Log.d(TAG, "onDroneReady -> check battery -> go to stage");
+		droneBatteryCharge = droneControlService.getDroneNavData().batteryStatus;
 		if (droneBatteryCharge < DRONE_BATTERY_THRESHOLD) {
 			String dialogTitle = String.format(prestageStageActivity.getString(R.string.error_drone_low_battery_title),
 					droneBatteryCharge);
