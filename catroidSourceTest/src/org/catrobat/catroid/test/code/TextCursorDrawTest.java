@@ -37,8 +37,8 @@ public class TextCursorDrawTest extends TestCase {
 	private static final String[] EXPECTED_DRAW_CODE = { "int line = layout.getLineForOffset(absoluteCursorPosition);",
 			"int baseline = layout.getLineBaseline(line);", "int ascent = layout.getLineAscent(line)",
 			"float xCoordinate = layout.getPrimaryHorizontal(absoluteCursorPosition)",
-			"float startYCoordinate = baseline + ascent;", "float endYCoordinate = baseline + ascent + lineHeight",
-			"canvas.drawLine(xCoordinate, startYCoordinate, xCoordinate, endYCoordinate, getPaint());" };
+			"float startYCoordinate = baseline + ascent - 3;", "float endYCoordinate = baseline + ascent + lineHeight + 7",
+			"canvas.drawLine(xCoordinate, startYCoordinate, xCoordinate, endYCoordinate, paint);" };
 
 	public void testTextCursorCode() throws IOException {
 		BufferedReader reader;
