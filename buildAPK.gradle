@@ -144,10 +144,10 @@ def managePermissions(String manifestText) {
     if(!permissionsText.contains("VIBRATOR")){
         manifestText = manifestText.replaceAll("<uses-.+vibrate.+?/>\\n", "")
     }
-
+    def manifestFile = new File("catroid/AndroidManifest.xml");
     manifestFile.write(manifestText)
-
 }
+
 
 task buildStandalone(dependsOn: ':downloadProject') << {
     def manifestFile = new File("catroid/AndroidManifest.xml");
@@ -163,7 +163,7 @@ task buildStandalone(dependsOn: ':downloadProject') << {
 }
 
 task downloadProject() << {
-    def id = 825; //TODO temorary placeholder for the projectID. remove later on
+    def id = 1683; //TODO temorary placeholder for the projectID. remove later on
     if (project.hasProperty("projectID")) {
         id = project["projectID"]
     }

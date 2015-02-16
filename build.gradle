@@ -102,7 +102,7 @@ android {
     compileSdkVersion 19
     buildToolsVersion '19.1.0'
     defaultConfig {
-        minSdkVersion 10
+        minSdkVersion 11
         targetSdkVersion 19
         applicationId 'org.catrobat.catroid'
         testApplicationId "org.catrobat.catroid.test"
