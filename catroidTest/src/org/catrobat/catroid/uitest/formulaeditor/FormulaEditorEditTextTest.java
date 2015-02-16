@@ -134,10 +134,10 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 	}
 
 	public  void testHighlightColor(){
-		BackgroundColorSpan colorSpan=new BackgroundColorSpan(0xff33b5e5);
-		BackgroundColorSpan colorSpan1=(BackgroundColorSpan) Reflection.getPrivateField(
+		BackgroundColorSpan editTextColorSpan_actual = new BackgroundColorSpan(0xff33b5e5);
+		BackgroundColorSpan editTextColorSpan_present = (BackgroundColorSpan) Reflection.getPrivateField(
 				new FormulaEditorEditText(getActivity()),"COLOR_HIGHLIGHT");
-		assertTrue("Highlight color is wrong",colorSpan.getBackgroundColor()==colorSpan1.getBackgroundColor());
+		assertTrue("Highlight color is wrong",editTextColorSpan_actual.getBackgroundColor() == editTextColorSpan_present.getBackgroundColor());
 
 	}
 
