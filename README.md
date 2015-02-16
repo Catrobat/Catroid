@@ -16,7 +16,7 @@ For reporting issues use our [JIRA Bugtracking System](https://jira.catrob.at/se
 
 # Contributing #
 
-If you want to contribute we suggest that you start with [forking](https://help.github.com/articles/fork-a-repo/) our repository and browse the code. Then you can look at our [Issue-Tracker](https://jira.catrob.at/browse/CAT/) and start with fixing one ticket. We strictly use [Test-Driven Development](http://c2.com/cgi/wiki?TestDrivenDevelopment) and [Clean Code](https://www.ufm.edu/images/0/04/Clean_Code.pdf), so first read everything you can about these development methods. Code developed in a different style will not be accepted. 
+If you want to contribute we suggest that you start with [forking](https://help.github.com/articles/fork-a-repo/) our repository and browse the code. Then you can look at our [Issue-Tracker](https://jira.catrob.at/secure/RapidBoard.jspa?rapidView=60) and start with fixing one ticket. We strictly use [Test-Driven Development](http://c2.com/cgi/wiki?TestDrivenDevelopment) and [Clean Code](http://www.planetgeek.ch/wp-content/uploads/2013/06/Clean-Code-V2.2.pdf), so first read everything you can about these development methods. Code developed in a different style will not be accepted. 
 After you've created a pull request we will review your code and do a full testrun on your branch.
 
 If you want to implement a new feature, please ask about the details in JIRA or our IRC channel (#catrobat or #catrobatdev) first.
@@ -29,13 +29,13 @@ Let's start to set up the working environment using the instructions in our  [Wi
 * [Community website with sample programs](https://pocketcode.org/)
 * [Installation Instructions](https://github.com/Catrobat/Catroid/wiki/Installation-Instructions)
 * [Frequently Asked Questions](https://github.com/Catrobat/Catroid/wiki/Frequently-Asked-Questions)
-* [Release history](https://github.com/Catrobat/Catroid/wiki/Release-History) (including links to videos of older versions of the programs)
 * [Credits](http://developer.catrobat.org/credits)
 * [Statistics on OpenHub](https://www.openhub.net/p/catrobat/)
 * [Twitter](http://twitter.com/Catroid)
-* Visit us on IRC: #catrobat or #catrobatdev on [freenode](http://freenode.net/)
+* [Google+](https://plus.google.com/u/0/+CatrobatOrgAdmin/posts)
+* [Facebook](https://www.facebook.com/CatrobatPocketCode?fref=ts)
 * [Our Google group](https://groups.google.com/forum/?fromgroups#!forum/catrobat)
-* [Catroid project blog](http://blog.catroid.org/)
+* Visit us on IRC: #catrobat or #catrobatdev on [freenode](http://freenode.net/)
 
 # License #
 [License](http://developer.catrobat.org/licenses) of our project (mainly AGPL v3).
