@@ -547,6 +547,15 @@ public class ExtendedActions extends Actions {
 		return action(DroneFlipAction.class);
 	}
 
+	public static TemporalAction  setText(Sprite sprite, Formula x, Formula y, Formula text) {
+		SetTextAction action = action(SetTextAction.class);
+
+		action.setPosition(x, y);
+		action.setText(text);
+		action.setSprite(sprite);
+		return action;
+	}
+
 	public static LedAction lights(boolean ledValue) {
 		LedAction action = action(LedAction.class);
 		action.setLedValue(ledValue);

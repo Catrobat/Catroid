@@ -473,6 +473,8 @@
     <string name="default_drone_project_sprites_back">Back</string>
     <string name="default_drone_project_sprites_turn_left">Turn left</string>
     <string name="default_drone_project_sprites_turn_right">Turn right</string>
+    <string name="drone_brick_set_text">Text</string>
+    <string name="drone_brick_set_x">X:</string>
     <!--  -->
 
 
