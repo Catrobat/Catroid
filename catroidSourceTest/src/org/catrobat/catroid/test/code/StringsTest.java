@@ -52,8 +52,8 @@ import javax.xml.parsers.ParserConfigurationException;
  * 
  */
 public class StringsTest extends TestCase {
-	private static final String[] LANGUAGES = { "English", "German" }; //, "Russian", "Romanian" };
-	private static final String[] LANGUAGE_SUFFIXES = { "", "-de" }; //, "-ru", "-ro" };
+	private static final String[] LANGUAGES = { "English" };
+	private static final String[] LANGUAGE_SUFFIXES = { "" };
 	private static final String SOURCE_DIRECTORY = "../catroid/src";
 	private static final String RESOURCES_DIRECTORY = "../catroid/res";
 	private static final String ANDROID_MANIFEST = "../catroid/AndroidManifest.xml";
