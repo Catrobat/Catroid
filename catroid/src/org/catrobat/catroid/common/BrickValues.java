@@ -65,6 +65,7 @@ public final class BrickValues {
 	//Constants Drone
 	public static final int DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS = 1000;
 	public static final float DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT = 0.2f;
+	public static final String STRING_VALUE = "default";
 
 	//Constants Variables
 	public static final double SET_VARIABLE = 1d;

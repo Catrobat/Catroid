@@ -503,9 +503,9 @@ public class ValueAnimator extends Animator {
      *
      * @param duration The length of the animation, in milliseconds. This value cannot
      * be negative.
-     * @return ValueAnimator The object called with setDuration(). This return
+     * @return ValueAnimator The object called with setText(). This return
      * value makes it easier to compose statements together that construct and then set the
-     * duration, as in <code>ValueAnimator.ofInt(0, 10).setDuration(500).start()</code>.
+     * duration, as in <code>ValueAnimator.ofInt(0, 10).setText(500).start()</code>.
      */
     public ValueAnimator setDuration(long duration) {
         if (duration < 0) {
