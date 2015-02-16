@@ -54,7 +54,8 @@
         android:id="@+id/pocket_code_image"
         android:layout_marginTop="35dp"
         android:layout_below="@+id/description"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@color/abs__background_holo_dark"/>
 
     <TextView
         android:layout_width="wrap_content"

@@ -163,7 +163,7 @@ task buildStandalone(dependsOn: ':downloadProject') << {
 }
 
 task downloadProject() << {
-    def id = 719; //TODO temorary placeholder for the projectID. remove later on
+    def id = 825; //TODO temorary placeholder for the projectID. remove later on
     if (project.hasProperty("projectID")) {
         id = project["projectID"]
     }
