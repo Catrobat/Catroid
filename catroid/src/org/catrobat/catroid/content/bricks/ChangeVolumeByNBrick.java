@@ -69,7 +69,11 @@ public class ChangeVolumeByNBrick extends FormulaBrick implements OnClickListene
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.VOLUME).getRequiredResources();
+		if (getFormulaWithBrickField(BrickField.VOLUME).containsArduinoSensors() == true) {
+			return BLUETOOTH_SENSORS_ARDUINO;
+		} else {
+			return NO_RESOURCES;
+		}
 	}
 
 	@Override
