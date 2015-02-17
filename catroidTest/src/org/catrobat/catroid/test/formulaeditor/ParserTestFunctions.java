@@ -192,6 +192,36 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorUtil.testSingleParameterFunction(Functions.ROUND, firstParameterList, 0d, testSprite);
 	}
 
+	public void testFloor() {
+		FormulaEditorUtil.testSingleParameterFunction(Functions.FLOOR, InternTokenType.NUMBER, "1.33333",
+				Math.floor(1.33333), testSprite);
+
+		FormulaEditorUtil.testSingleParameterFunction(Functions.FLOOR, InternTokenType.STRING, "45.55555",
+				Math.floor(45.55555), testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.FLOOR, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.FLOOR, InternTokenType.STRING, NOT_NUMERICAL_STRING,
+				0d, testSprite);
+
+		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.FLOOR, firstParameterList, Double.NaN, testSprite);
+	}
+
+	public void testCeil() {
+		FormulaEditorUtil.testSingleParameterFunction(Functions.CEIL, InternTokenType.NUMBER, "1.33333",
+				Math.ceil(1.33333), testSprite);
+
+		FormulaEditorUtil.testSingleParameterFunction(Functions.CEIL, InternTokenType.STRING, "45.55555",
+				Math.ceil(45.55555), testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.CEIL, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.CEIL, InternTokenType.STRING, NOT_NUMERICAL_STRING,
+				0d, testSprite);
+
+		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
+		FormulaEditorUtil.testSingleParameterFunction(Functions.CEIL, firstParameterList, Double.NaN, testSprite);
+	}
+
 	public void testMod() {
 
 		for (int offset = 0; offset < 10; offset += 1) {
