@@ -60,16 +60,15 @@ import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 
 public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnectionChangeReceiverDelegate,
-		DroneAvailabilityDelegate, DroneBatteryChangedReceiverDelegate {
+		DroneAvailabilityDelegate {
 
 	public static final String INIT_DRONE_STRING_EXTRA = "STRING_EXTRA_INIT_DRONE";
-	private static final int DRONE_BATTERY_THRESHOLD = 5;
+	public static final int DRONE_BATTERY_THRESHOLD = 10;
+
 
 	public static DroneControlService droneControlService = null;
 	private BroadcastReceiver droneReadyReceiver = null;
 	private BroadcastReceiver droneStateReceiver = null;
-	private int droneBatteryCharge = 0;
-	private DroneBatteryChangedReceiver droneBatteryReceiver;
 	private CheckDroneNetworkAvailabilityTask checkDroneConnectionTask;
 	private DroneConnectionChangedReceiver droneConnectionChangeReceiver;
 
@@ -168,7 +167,7 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 	@Override
 	public void onDroneReady() {
 		Log.d(TAG, "onDroneReady -> check battery -> go to stage");
-		droneBatteryCharge = droneControlService.getDroneNavData().batteryStatus;
+		int droneBatteryCharge = droneControlService.getDroneNavData().batteryStatus;
 		if (droneBatteryCharge < DRONE_BATTERY_THRESHOLD) {
 			String dialogTitle = String.format(prestageStageActivity.getString(R.string.error_drone_low_battery_title),
 					droneBatteryCharge);
@@ -222,11 +221,6 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 		}
 	}
 
-	@Override
-	public void onDroneBatteryChanged(int value) {
-		Log.d(TAG, "Drone Battery Status =" + Integer.toString(value));
-		droneBatteryCharge = value;
-	}
 
 	public void onPrestageActivityDestroy() {
 		if (droneControlService != null) {
@@ -238,13 +232,10 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 
 			droneReadyReceiver = new DroneReadyReceiver(this);
 			droneStateReceiver = new DroneAvailabilityReceiver(this);
-			droneBatteryReceiver = new DroneBatteryChangedReceiver(this);
 			droneConnectionChangeReceiver = new DroneConnectionChangedReceiver(this);
 
 			LocalBroadcastManager manager = LocalBroadcastManager.getInstance(prestageStageActivity
 					.getApplicationContext());
-			manager.registerReceiver(droneBatteryReceiver, new IntentFilter(
-					DroneControlService.DRONE_BATTERY_CHANGED_ACTION));
 			manager.registerReceiver(droneReadyReceiver, new IntentFilter(DroneControlService.DRONE_STATE_READY_ACTION));
 			manager.registerReceiver(droneConnectionChangeReceiver, new IntentFilter(
 					DroneControlService.DRONE_CONNECTION_CHANGED_ACTION));
@@ -287,7 +278,6 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 			manager.unregisterReceiver(droneReadyReceiver);
 			manager.unregisterReceiver(droneConnectionChangeReceiver);
 			manager.unregisterReceiver(droneStateReceiver);
-			manager.unregisterReceiver(droneBatteryReceiver);
 
 			if (taskRunning(checkDroneConnectionTask)) {
 				checkDroneConnectionTask.cancelAnyFtpOperation();

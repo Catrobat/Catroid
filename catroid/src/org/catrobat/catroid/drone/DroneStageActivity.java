@@ -24,9 +24,13 @@
 package org.catrobat.catroid.drone;
 
 import android.content.Context;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.parrot.freeflight.receivers.DroneBatteryChangedReceiver;
 import com.parrot.freeflight.receivers.DroneBatteryChangedReceiverDelegate;
 import com.parrot.freeflight.service.DroneControlService;
 
@@ -39,6 +43,7 @@ import org.catrobat.catroid.stage.StageActivity;
 public class DroneStageActivity extends StageActivity implements DroneBatteryChangedReceiverDelegate {
 
 	private DroneConnection droneConnection = null;
+	private DroneBatteryChangedReceiver droneBatteryReceiver;
 	private boolean DroneBatteryMessageShown = false;
 
 	@Override
@@ -49,7 +54,6 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 			droneConnection = new DroneConnection(this);
 		}
 
-		initialize(stageListener, true);
 		if (droneConnection != null) {
 			try {
 				droneConnection.initialise();
@@ -65,35 +69,46 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 	public void onPause()
 	{
 		super.onPause();
+		droneConnection.pause();
 
-		if (droneConnection != null) {
-			droneConnection.pause();
-		}
+		unregisterReceivers();
 	}
 
 	@Override
 	public void onResume()
 	{
 		super.onResume();
+		droneConnection.start();
 
-		if (droneConnection != null) {
-			droneConnection.start();
-		}
+		registerReceivers();
+
 	}
 
 	@Override
 	protected void onDestroy()
 	{
-		if (droneConnection != null) {
-			droneConnection.destroy();
-			DroneBatteryMessageShown = false;
-		}
-
+		droneConnection.destroy();
+		DroneBatteryMessageShown = false;
 		super.onDestroy();
+	}
+
+	private void registerReceivers()
+	{
+		droneBatteryReceiver = new DroneBatteryChangedReceiver(this);
+		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this.getApplicationContext());
+		manager.registerReceiver(droneBatteryReceiver, new IntentFilter(DroneControlService.DRONE_BATTERY_CHANGED_ACTION));
+	}
+
+	private void unregisterReceivers()
+	{
+		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this.getApplicationContext());
+		manager.unregisterReceiver(droneBatteryReceiver);
 	}
 
 	@Override
 	public void onDroneBatteryChanged(int value) {
+
+		Log.d("asdf", "Battery Status = " + Integer.toString(value));
 
 		if (value < DroneInitializer.DRONE_BATTERY_THRESHOLD && DroneInitializer.droneControlService.getDroneNavData().flying && !DroneBatteryMessageShown)
 		{

@@ -48,14 +48,11 @@ import org.catrobat.catroid.utils.VibratorUtil;
 public class StageActivity extends AndroidApplication {
 	public static final String TAG = StageActivity.class.getSimpleName();
 	public static StageListener stageListener;
-	private boolean resizePossible;
-	private StageDialog stageDialog;
-
-	private DroneConnection droneConnection = null;
-
 	public static final int STAGE_ACTIVITY_FINISH = 7777;
 
 	private StageAudioFocus stageAudioFocus;
+	private StageDialog stageDialog;
+	private	boolean resizePossible;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,23 +60,11 @@ public class StageActivity extends AndroidApplication {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-		if (getIntent().getBooleanExtra(DroneInitializer.INIT_DRONE_STRING_EXTRA, false)) {
-			droneConnection = new DroneConnection(this);
-		}
+
 		stageListener = new StageListener();
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
-
-		initialize(stageListener, new AndroidApplicationConfiguration());
-		if (droneConnection != null) {
-			try {
-				droneConnection.initialise();
-			} catch (RuntimeException runtimeException) {
-				Log.e(TAG, "Failure during drone service startup", runtimeException);
-				ToastUtil.showError(this, R.string.error_no_drone_connected);
-				this.finish();
-			}
-		}
+		initialize(stageListener, true);
 
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
 

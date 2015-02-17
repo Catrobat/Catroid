@@ -120,6 +120,12 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" />
         <activity
+            android:name=".drone.DroneStageActivity"
+            android:configChanges="orientation"
+            android:label="@string/stage"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" />
+        <activity
             android:name=".stage.PreStageActivity"
             android:screenOrientation="portrait" />
         <activity
