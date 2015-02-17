@@ -37,7 +37,9 @@ import com.actionbarsherlock.view.MenuItem;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.drone.DroneInitializer;
+import org.catrobat.catroid.drone.DroneStageActivity;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.PreStageActivity;
@@ -141,9 +143,19 @@ public class ProjectActivity extends BaseActivity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
+		Intent intent = null;
+		int requiredResources = data.getIntExtra("Resources", Brick.NO_RESOURCES);
+
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
-			Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
-			DroneInitializer.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
+
+			if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
+				intent = new Intent(ProjectActivity.this, DroneStageActivity.class);
+				DroneInitializer.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
+			}
+			else {
+				intent = new Intent(ProjectActivity.this, StageActivity.class);
+			}
+
 			startActivity(intent);
 		}
 		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {

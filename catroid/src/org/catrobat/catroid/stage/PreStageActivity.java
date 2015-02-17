@@ -287,6 +287,7 @@ public class PreStageActivity extends BaseActivity {
 	}
 
 	public void startStage() {
+
 		setResult(RESULT_OK, returnToActivityIntent);
 		finish();
 	}
