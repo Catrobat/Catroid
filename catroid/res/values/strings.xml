@@ -494,6 +494,7 @@
     <string name="notification_download_pending">Download in progress</string>
     <string name="notification_download_finished">Download successful</string>
     <string name="notification_title_open">"Open "</string>
+    <string name="notification_low_battery">Attention. Battery is low. Current Status =</string>
     <string name="project_rename">(Your program will be renamed.)</string>
     <string name="size_of_project">Size:</string>
     <string name="upload_button">Upload</string>
