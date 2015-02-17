@@ -138,7 +138,6 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		BackgroundColorSpan editTextColorSpanPresent = (BackgroundColorSpan) Reflection.getPrivateField(
 				new FormulaEditorEditText(getActivity()), "COLOR_HIGHLIGHT");
 		assertTrue("Highlight color is wrong", editTextColorSpanActual.getBackgroundColor() == editTextColorSpanPresent.getBackgroundColor());
-
 	}
 
 	public void testDoubleTapSelection() {
