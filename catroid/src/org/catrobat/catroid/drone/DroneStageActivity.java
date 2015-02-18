@@ -123,7 +123,7 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 	@Override
 	public void onDroneBatteryChanged(int value) {
 
-		Log.d("asdf", "Battery Status = " + Integer.toString(value));
+		Log.d("battery", "Battery Status = " + Integer.toString(value));
 
 		if (value < DroneInitializer.DRONE_BATTERY_THRESHOLD && DroneInitializer.droneControlService.getDroneNavData().flying && !DroneBatteryMessageShown)
 		{
