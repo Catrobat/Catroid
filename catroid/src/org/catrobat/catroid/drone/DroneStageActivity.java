@@ -139,7 +139,7 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 	public void onDroneEmergencyChanged(int code)
 	{
 		Log.d(getClass().getSimpleName(), "message code integer value: " + Integer.toString(code));
-		if (code == NavData.ERROR_STATE_NONE)
+		if (code == NavData.ERROR_STATE_NONE || code == NavData.ERROR_STATE_START_NOT_RECEIVED)
 			return;
 		
 		int messageId;
