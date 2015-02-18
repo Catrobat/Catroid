@@ -22,10 +22,6 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import android.util.Log;
-
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
@@ -40,21 +36,12 @@ public class SetTextAction extends TemporalAction {
 
 	@Override
 	protected void begin() {
+		// von hier müssten wir igrendwie auf den StageListener zugreifen können, aber wie?
+		//Über Look?
 	}
 
 	@Override
 	protected void update(float percent) {
-		Log.d(getClass().getSimpleName(), "Zeichne ...");
-		BitmapFont font = new BitmapFont();
-		SpriteBatch spriteBatch = new SpriteBatch();
-		font.setColor(0.0f, 0.0f, 1.0f, 1.0f); // tint font blue
-		spriteBatch.begin();
-		font.draw(spriteBatch, "Hello !!!", 25, 160);
-		spriteBatch.end();
-
-		final String message = "hello";
-
-
 	}
 
 	public void setDuration(Formula duration) {

@@ -56,6 +56,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.common.collect.Multimap;
 import com.parrot.freeflight.ui.gl.GLBGVideoSprite;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -427,6 +428,14 @@ public class StageListener implements ApplicationListener {
 			makeTestPixels = false;
 		}
 
+		if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
+			int width = Gdx.graphics.getWidth();
+			int height = Gdx.graphics.getHeight();
+			drawText("Surface: " + width + " : " + height, -width / 2, height / 2, 2);
+			drawText("   ARDRONE", width / 6, height / 2-20, 1.5f);
+			drawText("SUPPORTED", width / 6, height / 2-50, 1.5f);
+		}
+
 		//drawVideoOpenGL();
 		//drawBitmapVideo();
 	}
@@ -489,6 +498,7 @@ public class StageListener implements ApplicationListener {
 		batch.end();
 
 	}
+	
 
 	private List<String> reconstructNotifyActions(Map<String, List<String>> actions) {
 		List<String> broadcastWaitNotifyActions = new ArrayList<String>();
@@ -722,5 +732,15 @@ public class StageListener implements ApplicationListener {
 	public void addActor (Look look)
 	{
 		stage.addActor(look);
+	}
+
+	private void drawText(String text, int posX, int posY, float scale){
+		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		font.setScale(scale);
+
+		SpriteBatch batch = stage.getSpriteBatch();
+		batch.begin();
+		font.draw(batch, text, posX, posY);
+		batch.end();
 	}
 }
