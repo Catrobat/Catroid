@@ -189,8 +189,7 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialogInterface, int id) {
-						Intent intent = new Intent(DroneStageActivity.this, ProjectActivity.class);
-						startActivity(intent);
+						
 					}
 				})
 				.setCancelable(false)
