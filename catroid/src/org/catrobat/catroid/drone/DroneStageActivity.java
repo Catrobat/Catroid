@@ -134,6 +134,9 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 	@Override
 	public void onDroneEmergencyChanged(int code)
 	{
+		if (code == NavData.ERROR_STATE_NONE)
+			return;
+		
 		int messageId;
 
 		switch (code) {
