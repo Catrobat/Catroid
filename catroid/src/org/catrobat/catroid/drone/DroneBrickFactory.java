@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
+import org.catrobat.catroid.content.bricks.DroneSetConfig;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
@@ -42,7 +43,7 @@ public final class DroneBrickFactory {
 	}
 
 	public static enum DroneBricks {
-		DRONE_TAKE_OFF_LAND_BRICK, DRONE_PLAY_LED_ANIMATION_BRICK, DRONE_FLIP_BRICK, DRONE_MOVE_DOWN_BRICK, DRONE_MOVE_UP_BRICK, DRONE_MOVE_LEFT_BRICK, DRONE_MOVE_RIGHT_BRICK, DRONE_MOVE_BACKWARD_BRICK, DRONE_MOVE_FORWARD_BRICK, DRONE_TURN_RIGHT_BRICK, DRONE_TURN_LEFT_BRICK,
+		DRONE_TAKE_OFF_LAND_BRICK, DRONE_PLAY_LED_ANIMATION_BRICK, DRONE_FLIP_BRICK, DRONE_MOVE_DOWN_BRICK, DRONE_MOVE_UP_BRICK, DRONE_MOVE_LEFT_BRICK, DRONE_MOVE_RIGHT_BRICK, DRONE_MOVE_BACKWARD_BRICK, DRONE_MOVE_FORWARD_BRICK, DRONE_TURN_RIGHT_BRICK, DRONE_TURN_LEFT_BRICK, DRONE_SET_CONFIG_BRICK
 	}
 
 	public static BrickBaseType getInstanceOfDroneBrick(DroneBricks brick, Sprite sprite, int timeInMilliseconds,
@@ -81,6 +82,9 @@ public final class DroneBrickFactory {
 
 			case DRONE_TURN_RIGHT_BRICK:
 				return new DroneTurnRightBrick(timeInMilliseconds, powerInPercent);
+
+			case DRONE_SET_CONFIG_BRICK:
+				return new DroneSetConfig();
 
 			default:
 				return null;
