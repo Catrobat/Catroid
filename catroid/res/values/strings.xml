@@ -510,7 +510,7 @@
     <string name="drone_alert_battery_low">Battery is too low to take-off again.</string>
     <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone altitude.</string>
     <string name="drone_alert_vision">No speed estimation from bottom facing camera.</string>
-
+    <string name="drone_emergency_title">Emergency</string>
     <!--  -->
 
 
