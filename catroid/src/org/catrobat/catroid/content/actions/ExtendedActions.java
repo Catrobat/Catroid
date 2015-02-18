@@ -554,6 +554,11 @@ public class ExtendedActions extends Actions {
 		return action(DroneFlipAction.class);
 	}
 
+	public static TemporalAction droneSetConfig(){
+		TemporalAction action = action(DroneSetConfigAction.class);
+		return action;
+	}
+
 	public static TemporalAction  setText(Sprite sprite, Formula x, Formula y, Formula text) {
 		SetTextAction action = action(SetTextAction.class);
 

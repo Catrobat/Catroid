@@ -23,11 +23,8 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -43,12 +40,9 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
-import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.drone.DroneConfigManager;
 import org.catrobat.catroid.drone.DroneInitializer;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import java.util.List;
 
@@ -57,6 +51,7 @@ public class DroneSetConfig extends BrickBaseType{
 
 	protected String broadcastMessage;
 	protected transient AdapterView<?> adapterView;
+	private String selectedMessage;
 
 /*	protected Object readResolve() {
 		MessageContainer.addMessage(broadcastMessage);
@@ -129,8 +124,7 @@ public class DroneSetConfig extends BrickBaseType{
 		setConfigSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				String selectedMessage = setConfigSpinner.getSelectedItem().toString();
-
+				selectedMessage = setConfigSpinner.getSelectedItem().toString();
 
 				if (selectedMessage.compareTo(context.getString(R.string.drone_config_default)) == 0 && DroneInitializer.droneControlService != null){
 					DroneConfigManager.getInstance().setDefaultConfig();
@@ -237,7 +231,16 @@ public class DroneSetConfig extends BrickBaseType{
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.broadcast(sprite, broadcastMessage));
+	/*	if (selectedMessage.compareTo(getClass().getResource().getString(R.string.drone_config_default)) == 0 && DroneInitializer.droneControlService != null){
+			//DroneConfigManager.getInstance().setDefaultConfig();
+			sequence.addAction(ExtendedActions.droneSetConfig());
+		} else if (selectedMessage.compareTo(getClass().getResource().getString(R.string.drone_config_indoor)) == 0 && DroneInitializer.droneControlService != null){
+			//DroneConfigManager.getInstance().setIndoorConfig();
+		} else if (selectedMessage.compareTo(getClass().getResource().getString(R.string.drone_config_outdoor)) == 0 && DroneInitializer.droneControlService != null){
+			//DroneConfigManager.getInstance().setOutdoorConfig();
+		}*/
+
+		//sequence.addAction(ExtendedActions.broadcast(sprite, broadcastMessage));
 		return null;
 	}
 }
