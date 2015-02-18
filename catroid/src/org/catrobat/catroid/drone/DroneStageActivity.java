@@ -138,6 +138,7 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 	@Override
 	public void onDroneEmergencyChanged(int code)
 	{
+		Log.d(getClass().getSimpleName(), "message code integer value: " + Integer.toString(code));
 		if (code == NavData.ERROR_STATE_NONE)
 			return;
 		
@@ -189,7 +190,7 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialogInterface, int id) {
-						
+
 					}
 				})
 				.setCancelable(false)
