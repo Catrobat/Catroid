@@ -23,27 +23,34 @@
 
 package org.catrobat.catroid.drone;
 
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.parrot.freeflight.drone.NavData;
 import com.parrot.freeflight.receivers.DroneBatteryChangedReceiver;
 import com.parrot.freeflight.receivers.DroneBatteryChangedReceiverDelegate;
+import com.parrot.freeflight.receivers.DroneEmergencyChangeReceiver;
+import com.parrot.freeflight.receivers.DroneEmergencyChangeReceiverDelegate;
 import com.parrot.freeflight.service.DroneControlService;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.ProjectActivity;
 
 /**
  * Created by Lukas on 16.02.2015.
  */
-public class DroneStageActivity extends StageActivity implements DroneBatteryChangedReceiverDelegate {
+public class DroneStageActivity extends StageActivity implements DroneBatteryChangedReceiverDelegate, DroneEmergencyChangeReceiverDelegate {
 
 	private DroneConnection droneConnection = null;
 	private DroneBatteryChangedReceiver droneBatteryReceiver;
+	private DroneEmergencyChangeReceiver droneEmergencyReceiver;
 	private boolean DroneBatteryMessageShown = false;
 
 	@Override
@@ -57,6 +64,8 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 		if (droneConnection != null) {
 			try {
 				droneConnection.initialise();
+				droneBatteryReceiver = new DroneBatteryChangedReceiver(this);
+				droneEmergencyReceiver = new DroneEmergencyChangeReceiver(this);
 			} catch (RuntimeException runtimeException) {
 				Log.e(TAG, "Failure during drone service startup", runtimeException);
 				Toast.makeText(this, R.string.error_no_drone_connected, Toast.LENGTH_LONG).show();
@@ -69,7 +78,10 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 	public void onPause()
 	{
 		super.onPause();
-		droneConnection.pause();
+
+		if (droneConnection != null) {
+			droneConnection.pause();
+		}
 
 		unregisterReceivers();
 	}
@@ -78,7 +90,9 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 	public void onResume()
 	{
 		super.onResume();
-		droneConnection.start();
+		if (droneConnection != null) {
+			droneConnection.start();
+		}
 
 		registerReceivers();
 
@@ -87,34 +101,100 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 	@Override
 	protected void onDestroy()
 	{
-		droneConnection.destroy();
+		if (droneConnection != null) {
+			droneConnection.destroy();
+		}
+
 		DroneBatteryMessageShown = false;
 		super.onDestroy();
 	}
 
 	private void registerReceivers()
 	{
-		droneBatteryReceiver = new DroneBatteryChangedReceiver(this);
 		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this.getApplicationContext());
 		manager.registerReceiver(droneBatteryReceiver, new IntentFilter(DroneControlService.DRONE_BATTERY_CHANGED_ACTION));
+		manager.registerReceiver(droneEmergencyReceiver, new IntentFilter(DroneControlService.DRONE_EMERGENCY_STATE_CHANGED_ACTION));
 	}
 
 	private void unregisterReceivers()
 	{
 		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this.getApplicationContext());
 		manager.unregisterReceiver(droneBatteryReceiver);
+		manager.unregisterReceiver(droneEmergencyReceiver);
 	}
 
 	@Override
 	public void onDroneBatteryChanged(int value) {
 
-		Log.d("asdf", "Battery Status = " + Integer.toString(value));
+		Log.d("battery", "Battery Status = " + Integer.toString(value));
 
 		if (value < DroneInitializer.DRONE_BATTERY_THRESHOLD && DroneInitializer.droneControlService.getDroneNavData().flying && !DroneBatteryMessageShown)
 		{
 			Toast.makeText(this, R.string.notification_low_battery + " " + Integer.toString(value) , Toast.LENGTH_LONG).show();
 			DroneBatteryMessageShown = true;
 		}
+	}
+
+	@Override
+	public void onDroneEmergencyChanged(int code)
+	{
+		if (code == NavData.ERROR_STATE_NONE)
+			return;
+		
+		int messageId;
+
+		switch (code) {
+			case NavData.ERROR_STATE_EMERGENCY_VBAT_LOW:
+				messageId = R.string.drone_emergency_battery_low;
+				Log.d(getClass().getSimpleName(), "message code: "+R.string.drone_emergency_battery_low);
+				break;
+			case NavData.ERROR_STATE_ALERT_VBAT_LOW:
+				messageId = R.string.drone_alert_battery_low;
+				Log.d(getClass().getSimpleName(), "message code: "+R.string.drone_alert_battery_low);
+				break;
+			case NavData.ERROR_STATE_ALERT_CAMERA:
+			case NavData.ERROR_STATE_EMERGENCY_CAMERA:
+				messageId = R.string.drone_emergency_camera;
+				Log.d(getClass().getSimpleName(), "message code: "+R.string.drone_emergency_camera);
+				break;
+			case NavData.ERROR_STATE_EMERGENCY_ULTRASOUND:
+				messageId = R.string.drone_emergency_ultrasound;
+				Log.d(getClass().getSimpleName(), "message code: "+R.string.drone_emergency_ultrasound);
+				break;
+			case NavData.ERROR_STATE_ALERT_ULTRASOUND:
+				messageId = R.string.drone_alert_ultrasound;
+				Log.d(getClass().getSimpleName(), "message code: "+R.string.drone_alert_ultrasound);
+				break;
+			case NavData.ERROR_STATE_ALERT_VISION:
+				messageId = R.string.drone_alert_vision;
+				Log.d(getClass().getSimpleName(), "message code: "+R.string.drone_alert_vision);
+				break;
+			case NavData.ERROR_STATE_EMERGENCY_ANGLE_OUT_OF_RANGE:
+				messageId = R.string.drone_emergency_angle;
+				Log.d(getClass().getSimpleName(), "message code: "+R.string.drone_emergency_angle);
+				break;
+			case NavData.ERROR_STATE_EMERGENCY_CUTOUT:
+				messageId = R.string.drone_emergency_cutout;
+				Log.d(getClass().getSimpleName(), "message code: "+R.string.drone_emergency_cutout);
+				break;
+			default: {
+				messageId = R.string.drone_emergency_default;
+				Log.d(getClass().getSimpleName(), "default message code: "+R.string.drone_emergency_default);
+			}
+		}
+
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.drone_emergency_title)
+				.setMessage(messageId)
+				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialogInterface, int id) {
+						
+					}
+				})
+				.setCancelable(false)
+				.show();
+
 	}
 
 }
