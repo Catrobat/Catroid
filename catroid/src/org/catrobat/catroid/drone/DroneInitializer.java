@@ -177,20 +177,20 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 		}
 
 		// test navdata getter
-		Log.d("asdf", String.format("BatterieStatus = %d", droneControlService.getDroneNavData().batteryStatus));
-		Log.d("asdf", "Flying = " + Boolean.toString(droneControlService.getDroneNavData().flying));
-		Log.d("asdf", "Recording = " + Boolean.toString(droneControlService.getDroneNavData().recording));
-		Log.d("asdf", "Camera ready = " + Boolean.toString(droneControlService.getDroneNavData().cameraReady));
-		Log.d("asdf", "initialized = " + Boolean.toString(droneControlService.getDroneNavData().initialized));
-		Log.d("asdf", String.format("emergency state = %d", droneControlService.getDroneNavData().emergencyState));
-		Log.d("asdf", "recording ready = " + Boolean.toString(droneControlService.getDroneNavData().recordReady));
-		Log.d("asdf", "Camera ready = " + Boolean.toString(droneControlService.getDroneNavData().usbActive));
-		Log.d("asdf", String.format("usb remaining = %d", droneControlService.getDroneNavData().usbRemainingTime));
-		Log.d("asdf", "recording = " + Boolean.toString(droneControlService.getDroneNavData().recording));
-		Log.d("asdf", String.format("num frames = %d", droneControlService.getDroneNavData().numFrames));
+		Log.d("navdata", String.format("BatterieStatus = %d", droneControlService.getDroneNavData().batteryStatus));
+		Log.d("navdata", "Flying = " + Boolean.toString(droneControlService.getDroneNavData().flying));
+		Log.d("navdata", "Recording = " + Boolean.toString(droneControlService.getDroneNavData().recording));
+		Log.d("navdata", "Camera ready = " + Boolean.toString(droneControlService.getDroneNavData().cameraReady));
+		Log.d("navdata", "initialized = " + Boolean.toString(droneControlService.getDroneNavData().initialized));
+		Log.d("navdata", String.format("emergency state = %d", droneControlService.getDroneNavData().emergencyState));
+		Log.d("navdata", "recording ready = " + Boolean.toString(droneControlService.getDroneNavData().recordReady));
+		Log.d("navdata", "Camera ready = " + Boolean.toString(droneControlService.getDroneNavData().usbActive));
+		Log.d("navdata", String.format("usb remaining = %d", droneControlService.getDroneNavData().usbRemainingTime));
+		Log.d("navdata", "recording = " + Boolean.toString(droneControlService.getDroneNavData().recording));
+		Log.d("navdata", String.format("num frames = %d", droneControlService.getDroneNavData().numFrames));
 
 
-		DroneConfigManager.setDefaultConfig(droneControlService);
+		DroneConfigManager.getInstance().setDefaultConfig();
 		droneControlService.flatTrim();
 
 		prestageStageActivity.resourceInitialized();
