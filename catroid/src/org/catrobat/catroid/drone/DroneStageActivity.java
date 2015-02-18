@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.drone;
 
-import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
@@ -33,8 +32,8 @@ import android.widget.Toast;
 import com.parrot.freeflight.drone.NavData;
 import com.parrot.freeflight.receivers.DroneBatteryChangedReceiver;
 import com.parrot.freeflight.receivers.DroneBatteryChangedReceiverDelegate;
-import com.parrot.freeflight.receivers.DroneEmergencyChangeReceiverDelegate;
 import com.parrot.freeflight.receivers.DroneEmergencyChangeReceiver;
+import com.parrot.freeflight.receivers.DroneEmergencyChangeReceiverDelegate;
 import com.parrot.freeflight.service.DroneControlService;
 
 import org.catrobat.catroid.R;
