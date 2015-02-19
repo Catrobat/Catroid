@@ -145,20 +145,20 @@ public class ProjectActivity extends BaseActivity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		Intent intent = null;
-		int requiredResources = data.getIntExtra("Resources", Brick.NO_RESOURCES);
-
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 
-			if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
-				intent = new Intent(ProjectActivity.this, DroneStageActivity.class);
-				DroneInitializer.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
-			}
-			else {
-				intent = new Intent(ProjectActivity.this, StageActivity.class);
-			}
+			Intent intent = null;
+			if (data != null) {
+				int requiredResources = data.getIntExtra("Resources", Brick.NO_RESOURCES);
 
-			startActivity(intent);
+				if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
+					intent = new Intent(ProjectActivity.this, DroneStageActivity.class);
+					DroneInitializer.addDroneSupportExtraToNewIntentIfPresentInOldIntent(data, intent);
+				} else {
+					intent = new Intent(ProjectActivity.this, StageActivity.class);
+				}
+				startActivity(intent);
+			}
 		}
 		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
 			SensorHandler.stopSensorListeners();

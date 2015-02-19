@@ -42,8 +42,6 @@ import android.util.Log;
 
 import com.parrot.freeflight.receivers.DroneAvailabilityDelegate;
 import com.parrot.freeflight.receivers.DroneAvailabilityReceiver;
-import com.parrot.freeflight.receivers.DroneBatteryChangedReceiver;
-import com.parrot.freeflight.receivers.DroneBatteryChangedReceiverDelegate;
 import com.parrot.freeflight.receivers.DroneConnectionChangeReceiverDelegate;
 import com.parrot.freeflight.receivers.DroneConnectionChangedReceiver;
 import com.parrot.freeflight.receivers.DroneReadyReceiver;
@@ -198,11 +196,13 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 
 	@Override
 	public void onDroneConnected() {
+		Log.d(getClass().getSimpleName(), "onDroneConnected()");
 		droneControlService.requestConfigUpdate();
 	}
 
 	@Override
 	public void onDroneDisconnected() {
+		Log.d(getClass().getSimpleName(), "onDroneDisconnected()");
 	}
 
 	@Override
@@ -225,6 +225,7 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 	public void onPrestageActivityDestroy() {
 		if (droneControlService != null) {
 			prestageStageActivity.unbindService(this.droneServiceConnection);
+			droneControlService = null;
 		}
 	}
 
