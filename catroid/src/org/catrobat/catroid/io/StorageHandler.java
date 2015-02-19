@@ -360,9 +360,9 @@ public final class StorageHandler {
 			Project project = (Project) xstream.getProjectFromXML(projectCodeFile);
 			return project;
 		} catch (Exception exception) {
-			//Log.e(TAG, "Loading project " + projectName + " failed.", exception);
-			//delete Project
+			Log.e(TAG, "Loading project " + projectName + " failed.", exception);
 			try {
+				Log.e(TAG, "delete project " + projectName, exception);
 				deleteProject(projectName);
 			} catch (IOException e) {
 				e.printStackTrace();
