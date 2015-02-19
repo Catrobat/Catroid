@@ -32,7 +32,7 @@ import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
-import org.catrobat.catroid.content.bricks.DroneSetConfig;
+import org.catrobat.catroid.content.bricks.DroneSetConfigBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
@@ -84,7 +84,7 @@ public final class DroneBrickFactory {
 				return new DroneTurnRightBrick(timeInMilliseconds, powerInPercent);
 
 			case DRONE_SET_CONFIG_BRICK:
-				return new DroneSetConfig();
+				return new DroneSetConfigBrick();
 
 			default:
 				return null;

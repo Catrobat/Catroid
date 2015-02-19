@@ -554,8 +554,9 @@ public class ExtendedActions extends Actions {
 		return action(DroneFlipAction.class);
 	}
 
-	public static TemporalAction droneSetConfig(){
-		TemporalAction action = action(DroneSetConfigAction.class);
+	public static TemporalAction droneSetConfig(int ressourceID){
+		DroneSetConfigAction action = action(DroneSetConfigAction.class);
+		action.setRessourceID(ressourceID);
 		return action;
 	}
 

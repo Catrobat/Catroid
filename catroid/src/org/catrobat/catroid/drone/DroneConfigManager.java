@@ -23,8 +23,7 @@
 
 package org.catrobat.catroid.drone;
 
-import com.parrot.freeflight.service.DroneControlService;
-
+import android.util.Log;
 
 public class DroneConfigManager {
 
@@ -41,16 +40,22 @@ public class DroneConfigManager {
 
 	public void setDefaultConfig(){
 		DroneInitializer.droneControlService.resetConfigToDefaults();
+		Log.d("DroneConfigManager", "Set Config = default" );
 	}
 
 	//TODO: find the perfect settings for each profile
 	public void setOutdoorConfig(){
 		DroneInitializer.droneControlService.getDroneConfig().setOutdoorFlight(true);
+		Log.d("DroneConfigManager", "Set Config = outdoor" );
+
 		//TODO: set other config params for outdoor flight
 	}
 
 	public void setIndoorConfig(){
-		//TODO: create more configs
+		DroneInitializer.droneControlService.getDroneConfig().setOutdoorFlight(false);
+		Log.d("DroneConfigManager", "Set Config = indoor" );
+
+		//TODO: set other config params for indoor flight
 	}
 
 }
