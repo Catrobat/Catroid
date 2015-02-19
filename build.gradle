@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.+'
+        classpath 'com.android.tools.build:gradle:1.0.0'
         classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.+'
     }
 }
@@ -160,13 +160,16 @@ if (project.hasProperty('jenkins')) {
     //not a jenkins build, remove animation scale permission
     android.applicationVariants.all { variant ->
         println "Removing the SET_ANIMATION_SCALE permission for $variant.name"
-        variant.processManifest.doLast {
-            def generatedContent = manifestOutputFile.getText()
-            generatedContent = generatedContent.replace('<uses-permission android:name="android.permission.SET_ANIMATION_SCALE" />', '')
-            if (generatedContent.contains('SET_ANIMATION_SCALE')) {
-                throw new RuntimeException("Error in removing animation scale permission!")
+        variant.outputs.each { output ->
+            output.processManifest.doLast {
+                def generatedContent = manifestOutputFile.getText()
+                generatedContent = generatedContent.replace('<uses-permission android:name="android.permission.SET_ANIMATION_SCALE" />', '')
+                if (generatedContent.contains('SET_ANIMATION_SCALE')) {
+                    throw new RuntimeException("Error in removing animation scale permission!")
+                }
+                manifestOutputFile.write(generatedContent)
             }
-            manifestOutputFile.write(generatedContent)
+
         }
     }
 }
