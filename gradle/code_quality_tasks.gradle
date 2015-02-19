@@ -28,7 +28,7 @@ task checkstyle(type: Checkstyle) {
 task pmd(type: Pmd) {
     // current plugin has pmd 4.3 as default
     // gradle 2.0 should support pmd 5.1.1 out of the box; deprecated toolVersion property should be removed then
-    toolVersion = '5.1.1'
+    // toolVersion = '5.1.1'
 
     // complete rulesets can be used with the abbrevation
     // rulesets with specific excludes are moved to a config file containing just a single ruleset with exclude(s)
