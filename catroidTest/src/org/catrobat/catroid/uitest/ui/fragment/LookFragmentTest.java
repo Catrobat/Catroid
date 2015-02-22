@@ -1350,6 +1350,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 	private void checkVisibilityOfViews(int imageVisibility, int lookNameVisibility, int lookDetailsVisibility,
 			int checkBoxVisibility) {
+		solo.sleep(200);
 		assertTrue("Look image " + getAssertMessageAffix(imageVisibility),
 				solo.getView(R.id.fragment_look_item_image_view).getVisibility() == imageVisibility);
 		assertTrue("Look name " + getAssertMessageAffix(lookNameVisibility),

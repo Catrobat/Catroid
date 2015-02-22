@@ -24,7 +24,6 @@ package org.catrobat.catroid.test.code;
 
 import junit.framework.TestCase;
 
-import org.catrobat.catroid.test.utils.Utils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -41,7 +40,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -53,10 +51,7 @@ import javax.xml.parsers.ParserConfigurationException;
  */
 public class StringsTest extends TestCase {
 	private static final String[] LANGUAGES = { "English", "German" }; //, "Russian", "Romanian" };
-	private static final String[] LANGUAGE_SUFFIXES = { "", "-de" }; //, "-ru", "-ro" };
-	private static final String SOURCE_DIRECTORY = "../catroid/src";
-	private static final String RESOURCES_DIRECTORY = "../catroid/res";
-	private static final String ANDROID_MANIFEST = "../catroid/AndroidManifest.xml";
+	private static final String[] LANGUAGE_SUFFIXES = { "", "-de-rDE" }; //, "-ru", "-ro" };
 	private static final String XML_STRING_PREFIX = "@string/";
 
 	private List<File> getStringFiles() throws IOException {
@@ -149,73 +144,6 @@ public class StringsTest extends TestCase {
 		}
 
 		assertFalse("There are untranslated Strings:" + errorMessage, missingStrings);
-	}
-
-	public void testUnusedStrings() throws SAXException, IOException, ParserConfigurationException {
-		boolean unusedStringsFound = false;
-
-		StringBuilder javaSourceCodeBuilder = new StringBuilder();
-		File directory = new File(SOURCE_DIRECTORY);
-		assertTrue("Couldn't find directory: " + SOURCE_DIRECTORY, directory.exists() && directory.isDirectory());
-		assertTrue("Couldn't read directory: " + SOURCE_DIRECTORY, directory.canRead());
-
-		List<File> filesToCheck = Utils.getFilesFromDirectoryByExtension(directory, ".java");
-		for (File file : filesToCheck) {
-			BufferedReader reader = new BufferedReader(new FileReader(file));
-
-			String currentLine;
-			while ((currentLine = reader.readLine()) != null) {
-				javaSourceCodeBuilder.append(currentLine).append('\n');
-			}
-			reader.close();
-		}
-		String javaSourceCode = javaSourceCodeBuilder.toString();
-
-		StringBuilder xmlSourceCodeBuilder = new StringBuilder();
-		directory = new File(RESOURCES_DIRECTORY);
-		assertTrue("Couldn't find directory: " + RESOURCES_DIRECTORY, directory.exists() && directory.isDirectory());
-		assertTrue("Couldn't read directory: " + RESOURCES_DIRECTORY, directory.canRead());
-
-		filesToCheck = Utils.getFilesFromDirectoryByExtension(directory, ".xml");
-		filesToCheck.add(new File(ANDROID_MANIFEST));
-		for (File file : filesToCheck) {
-			if (!file.getName().equals("strings.xml")) {
-				BufferedReader reader = new BufferedReader(new FileReader(file));
-
-				String currentLine;
-				while ((currentLine = reader.readLine()) != null) {
-					xmlSourceCodeBuilder.append(currentLine).append('\n');
-				}
-				reader.close();
-			}
-		}
-		String xmlSourceCode = xmlSourceCodeBuilder.toString();
-
-		List<String> allStringNames = getAllStringNames(); // Using a List instead of a set to preserve order
-		Map<String, List<String>> languageStrings = getStringNamesPerLanguage();
-
-		StringBuilder errorMessage = new StringBuilder();
-		for (String string : allStringNames) {
-			Pattern javaReferencePattern = Pattern.compile("R\\.string\\." + string + "[^\\w]");
-			Pattern xmlReferencePattern = Pattern.compile("@string/" + string + "[^\\w]");
-
-			if (!javaReferencePattern.matcher(javaSourceCode).find()
-					&& !xmlReferencePattern.matcher(xmlSourceCode).find()) {
-				unusedStringsFound = true;
-
-				errorMessage.append("\nString with name ").append(string).append(" is unused (found in ");
-
-				for (String language : LANGUAGES) {
-					List<String> languageStringNames = languageStrings.get(language);
-					if (languageStringNames.contains(string)) {
-						errorMessage.append(language).append(", ");
-					}
-				}
-				errorMessage.replace(errorMessage.length() - 2, errorMessage.length(), ").");
-			}
-		}
-
-		assertFalse("Unused string resources were found:" + errorMessage, unusedStringsFound);
 	}
 
 	private List<File> getLayoutXmlFiles() {

@@ -74,7 +74,7 @@
     <string name="preference_title_select_camera">Choose Camera</string>
     <string name="preference_description_select_camera">Select camera which is used for face detection</string>
 	<string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 bricks</string>
-    <string name="preference_description_quadcopter_bricks">Allow to control the ARDrone 2.0 quadcopter</string>    
+    <string name="preference_description_quadcopter_bricks">Allow to control the ARDrone 2.0 quadcopter</string>
     <!--  -->
 
 
@@ -396,6 +396,8 @@
     <string name="brick_change_volume_by">Change volume by</string>
     <string name="brick_speak">Speak</string>
     <string name="brick_speak_default_value">"Hello!"</string>
+    <string name="dialog_edit_speak_title">Edit Text</string>
+    <string name="dialog_edit_speak_text">Speak:</string>
     <!--  -->
 
 
@@ -415,6 +417,8 @@
     <string name="brick_note">Note</string>
     <string name="brick_forever">Forever</string>
     <string name="brick_repeat">Repeat</string>
+    <string name="dialog_edit_note_title">Edit note</string>
+    <string name="dialog_edit_note_text">Note:</string>
 
     <plurals name="time_plural">
         <item quantity="one">time</item>
@@ -490,8 +494,6 @@
     <string name="error_no_writiable_external_storage_available">Pocket Code requires writable external storage like an SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting an SD card, then try again.</string>
     <string name="error_no_name_entered">Please enter a name.</string>
     <string name="error_project_exists">A program with the same name already exists.\nPlease choose a different name.</string>
-    <string name="error_delete_project">An error while deleting the program occurred</string>
-    <string name="error_unknown_project">A program with that name does not exist.</string>
     <string name="error_project_upload">An error occurred while uploading the program.</string>
     <string name="error_project_download">An error occurred while downloading the program.</string>
     <string name="error_new_project">An error occurred while creating a new program.</string>
@@ -516,7 +518,7 @@
     <string name="error_drone_wrong_platform">We can not run a ARDrone project on your device.</string>
 	<string name="error_rename_incompatible_project">Renaming an incompatible project isn\'t possible.</string>
     <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible project isn\'t possible.</string>
-	<!--  -->
+    <!--  -->
 
 
     <!-- Bluetooth Connection Strings -->
@@ -653,10 +655,12 @@
     <string name="formula_editor_object_layer">layer</string>
     <string name="formula_editor_compute">Compute</string>
     <string name="formula_editor_object">Object</string>
+    <string name="formula_editor_math">Math</string>
     <string name="formula_editor_function">Functions</string>
     <string name="formula_editor_logic">Logic</string>
     <string name="formula_editor_sensors">Sensors</string>
     <string name="formula_editor_variables">Variables</string>
+    <string name="formula_editor_random">Random</string>
     <string name="formula_editor_string">Abc</string>
     <string name="formula_editor_logic_notequal">&#x2260;</string>
     <string name="formula_editor_logic_lesserthan">&lt;</string>
@@ -691,15 +695,15 @@
         <item quantity="other">Variables selected!</item>
     </plurals>
     <!--  -->
-    
+
 
     <!-- Camera Strings -->
     <string name="camera_facing_front">Front Camera</string>
     <string name="camera_facing_back">Back Camera</string>
     <!--  -->
-    
- 	<!-- Brick Data Editor Strings -->
- 	<string name="brick_data_editor_title">Brick Editor</string>
+
+    <!-- Brick Data Editor Strings -->
+    <string name="brick_data_editor_title">Brick Editor</string>
  	<string name="separator">|</string>
  	<string name="add_text">Add Text</string>
  	<string name="edit_text">Edit Text</string>
@@ -708,16 +712,16 @@
  	<string name="add_line_break">Add Line Break</string>
  	<string name="edit_variable">Edit Variable</string>
  	<string name="variable_hint">Variable Name</string>
- 	<!-- -->
+    <!-- -->
 
- 	<!-- User Bricks strings -->
- 	<string name="define">define</string>
+    <!-- User Bricks strings -->
+    <string name="define">define</string>
  	<string name="new_user_brick">New Brick</string>
  	<string name="new_user_brick_variable">Variable 1</string>
     <string name="recursive_user_brick_forbidden">Adding UserBrick to UserBrick is not allowed yet!</string>
  	<string name="brick_single">Brick</string>
  	<string name="brick_multiple">Bricks</string>
- 	
- 	<!-- -->    
+
+    <!-- -->
 
 </resources>

@@ -160,7 +160,12 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			selectedSoundInfo = (SoundInfo) savedInstanceState
 					.getSerializable(SoundController.BUNDLE_ARGUMENTS_SELECTED_SOUND);
 		}
-		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		try {
+			soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		} catch (NullPointerException nullPointerException) {
+			Log.e(TAG, Log.getStackTraceString(nullPointerException));
+			soundInfoList = new ArrayList<SoundInfo>();
+		}
 
 		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item,
 				R.id.fragment_sound_item_title_text_view, soundInfoList, false);

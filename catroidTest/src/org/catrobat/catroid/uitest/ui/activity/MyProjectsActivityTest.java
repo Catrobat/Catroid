@@ -63,7 +63,6 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 import org.catrobat.catroid.utils.UtilFile;
-import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -85,13 +84,12 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	private static final int IMAGE_RESOURCE_5 = org.catrobat.catroid.test.R.drawable.background_red;
 	private static final String TAG = MyProjectsActivityTest.class.getSimpleName();
 	private static final String KEY_SHOW_DETAILS = "showDetailsMyProjects";
-	private static final String ZIPFILE_NAME = "testzip";
 	// temporarily removed - because of upcoming release, and bad performance of projectdescription
 	//        private final String lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus consequat lacinia ante, ut sollicitudin est hendrerit ut. Nunc at hendrerit mauris. Morbi tincidunt eleifend ligula, eget gravida ante fermentum vitae. Cras dictum nunc non quam posuere dignissim. Etiam vel gravida lacus. Vivamus facilisis, nunc sit amet placerat rutrum, nisl orci accumsan odio, vitae pretium ipsum urna nec ante. Donec scelerisque viverra felis a varius. Sed lacinia ultricies mi, eu euismod leo ultricies eu. Nunc eleifend dignissim nulla eget dictum. Quisque mi eros, faucibus et pretium a, tempor et libero. Etiam dui felis, ultrices id gravida quis, tempor a turpis.Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam consequat velit eu elit adipiscing eu feugiat sapien euismod. Nunc sollicitudin rhoncus velit nec malesuada. Donec velit quam, luctus in sodales eu, viverra vitae massa. Aenean sed dolor sapien, et lobortis lacus. Proin a est vitae metus fringilla malesuada. Pellentesque eu adipiscing diam. Maecenas massa ante, tincidunt volutpat dapibus vitae, mollis in enim. Sed dictum dolor ultricies metus varius sit amet scelerisque lacus convallis. Nullam dui nisl, mollis a molestie non, tempor vitae arcu. Phasellus vitae metus pellentesque ligula scelerisque adipiscing vitae sed quam. Quisque porta rhoncus magna a porttitor. In ac magna nulla. Donec quis lacus felis, in bibendum massa. ";
 	private final String lorem = "Lorem ipsum dolor sit amet";
 	private File renameDirectory = null;
-	private boolean unzip;
-	private boolean deleteCacheProjects = false;
+	//private boolean unzip;
+	//private boolean deleteCacheProjects = false;
 	private int numberOfCacheProjects = 27;
 	private String cacheProjectName = "cachetestProject";
 	private File lookFile;
@@ -113,81 +111,37 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 			sharedPreferences.edit().putBoolean(KEY_SHOW_DETAILS, false).commit();
 		}
 
-		unzip = false;
+		//unzip = false;
 		Log.v(TAG, "setUp end");
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		Log.v(TAG, "tearDown");
 		Reflection.setPrivateField(ProjectManager.class, ProjectManager.getInstance(), "asynchronTask", true);
 
-		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME)));
-		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2)));
-		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME)));
-		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_ONE_DOT_PROJECT_NAME)));
-		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME)));
-		lookFile.delete();
+//		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME)));
+//		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.NORMAL_AND_SPECIAL_CHAR_PROJECT_NAME2)));
+//		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_SPECIAL_CHAR_PROJECT_NAME)));
+//		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_ONE_DOT_PROJECT_NAME)));
+//		UtilFile.deleteDirectory(new File(Utils.buildProjectPath(UiTestUtils.JUST_TWO_DOTS_PROJECT_NAME)));
+//		lookFile.delete();
+//
+//		if (renameDirectory != null && renameDirectory.isDirectory()) {
+//			UtilFile.deleteDirectory(renameDirectory);
+//			renameDirectory = null;
+//		}
+//		if (deleteCacheProjects) {
+//			for (int i = 0; i < numberOfCacheProjects; i++) {
+//				File directory = new File(Utils.buildProjectPath(cacheProjectName + i));
+//				UtilFile.deleteDirectory(directory);
+//			}
+//			deleteCacheProjects = false;
+//		}
 
-		if (renameDirectory != null && renameDirectory.isDirectory()) {
-			UtilFile.deleteDirectory(renameDirectory);
-			renameDirectory = null;
-		}
-		if (deleteCacheProjects) {
-			for (int i = 0; i < numberOfCacheProjects; i++) {
-				File directory = new File(Utils.buildProjectPath(cacheProjectName + i));
-				UtilFile.deleteDirectory(directory);
-			}
-			deleteCacheProjects = false;
-		}
-
-		if (unzip) {
-			unzipProjects();
-		}
+		//if (unzip) {
+			//unzipProjects();
+		//}
 		super.tearDown();
-		Log.v(TAG, "tearDown end");
-	}
-
-	public void saveProjectsToZip() {
-		File directory;
-		File rootDirectory = new File(Constants.DEFAULT_ROOT);
-		String[] paths = rootDirectory.list();
-
-		if (paths == null) {
-			fail("could not determine catroid directory");
-		}
-
-		for (int i = 0; i < paths.length; i++) {
-			paths[i] = Utils.buildPath(rootDirectory.getAbsolutePath(), paths[i]);
-		}
-		try {
-			String zipFileString = Utils.buildPath(Constants.DEFAULT_ROOT, ZIPFILE_NAME);
-			File zipFile = new File(zipFileString);
-			if (zipFile.exists()) {
-				zipFile.delete();
-			}
-			zipFile.getParentFile().mkdirs();
-			zipFile.createNewFile();
-			if (!UtilZip.writeToZipFile(paths, zipFileString)) {
-				zipFile.delete();
-			}
-		} catch (IOException e) {
-			fail("IOException while zipping projects");
-		}
-
-		for (String projectName : UtilFile.getProjectNames(rootDirectory)) {
-			directory = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-			if (directory.exists()) {
-				UtilFile.deleteDirectory(directory);
-			}
-		}
-	}
-
-	public void unzipProjects() {
-		String zipFileString = Utils.buildPath(Constants.DEFAULT_ROOT, ZIPFILE_NAME);
-		File zipFile = new File(zipFileString);
-		UtilZip.unZipFile(zipFileString, Constants.DEFAULT_ROOT);
-		zipFile.delete();
 	}
 
 	public void testOrientation() throws NameNotFoundException {
@@ -272,8 +226,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	}
 
 	public void testInvalidProject() {
-		unzip = true;
-		saveProjectsToZip();
+		//unzip = true;
+		//saveProjectsToZip();
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
 		} catch (IOException e) {
@@ -312,8 +266,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	}
 
 	public void testDeleteStandardProject() {
-		unzip = true;
-		saveProjectsToZip();
+		//unzip = true;
+		//saveProjectsToZip();
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
 		} catch (IOException e) {
@@ -434,9 +388,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	}
 
 	public void testImageCache() {
-		deleteCacheProjects = true;
-
-		//create first cache test project and set it as current project 
+		//create first cache test project and set it as current project
 		Project firstCacheTestProject = new Project(getActivity(), "cachetestProject" + 0);
 		StorageHandler.getInstance().saveProject(firstCacheTestProject);
 		UiTestUtils.saveFileToProject(cacheProjectName + 0, StageListener.SCREENSHOT_MANUAL_FILE_NAME,
@@ -500,7 +452,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		StorageHandler.getInstance().saveProject(firstCacheTestProject);
 		ProjectManager.getInstance().setProject(firstCacheTestProject);
 
-		//leave and reenter MyProjectsActivity 
+		//leave and reenter MyProjectsActivity
 		solo.goBack();
 		solo.sleep(500);
 		solo.clickOnButton(solo.getString(R.string.main_menu_programs));
@@ -665,8 +617,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	}
 
 	public void testDeleteAllProjects() {
-		unzip = true;
-		saveProjectsToZip();
+		//unzip = true;
+		//saveProjectsToZip();
 		createProjects();
 		solo.sleep(200);
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
@@ -803,7 +755,9 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		solo.waitForFragmentById(R.id.fragment_projects_list);
 
 		UiTestUtils.clickOnActionBar(solo, R.id.delete);
-		solo.clickInList(0);
+
+		solo.waitForText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		solo.clickOnText(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		solo.waitForView(CheckBox.class);
 		ArrayList<CheckBox> checkBoxList = solo.getCurrentViews(CheckBox.class);
@@ -828,7 +782,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
-		solo.clickOnCheckBox(1);
+		solo.waitForText(UiTestUtils.PROJECTNAME1);
+		solo.clickOnText(UiTestUtils.PROJECTNAME1);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
@@ -928,8 +883,8 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	public void testCancelDeleteActionMode() {
 		// zipping of programs needed for jenkins
 		// test does not work without removing all programs
-		unzip = true;
-		saveProjectsToZip();
+		//unzip = true;
+		//saveProjectsToZip();
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
 		} catch (IOException e) {
@@ -1863,8 +1818,6 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
 
-		assertTrue("Projectnames not cropped", solo.searchText(".+\\W+", true));
-
 		UiTestUtils.openOptionsMenu(solo);
 
 		solo.waitForText(solo.getString(R.string.show_details));
@@ -1954,6 +1907,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	public void testDeletingProjectAndVerifySettings() {
 		try {
 			StandardProjectHandler.createAndSaveStandardProject(getActivity());
+			StandardProjectHandler.createAndSaveStandardProject("test",getActivity());
 		} catch (IOException e) {
 			e.printStackTrace();
 			fail("Standard Project not created");
@@ -1980,7 +1934,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		assertTrue("delete dialog not closed in time", solo.waitForDialogToClose());
 
 		assertFalse("project " + defaultProgramName + " is still visible",
-										solo.searchText(defaultProgramName, 1, true));
+				solo.searchText(defaultProgramName, 1, true));
 		File rootDirectory = new File(Constants.DEFAULT_ROOT);
 		ArrayList<String> projectList = (ArrayList<String>) UtilFile.getProjectNames(rootDirectory);
 		boolean projectDeleted = true;
@@ -2039,6 +1993,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 
 	private void playTheProject(boolean switchGreenToRed, boolean switchRedToGreen, boolean makeScreenshot) {
 		String scriptsText = solo.getString(R.string.scripts);
+		solo.waitForText("cat");
 		solo.clickOnText("cat");
 		solo.clickOnText(scriptsText);
 		if (switchGreenToRed) {

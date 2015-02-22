@@ -451,7 +451,10 @@ public final class UiTestUtils {
 			FormulaBrick theBrick) {
 
 		solo.clickOnView(solo.getView(editTextId));
+		solo.sleep(200);
 		insertStringIntoEditText(solo, newValue);
+
+		solo.sleep(200);
 		String formulaEditorString = ((EditText) solo.getView(R.id.formula_editor_edit_field)).getText().toString();
 
 		assertEquals("Text not updated within FormulaEditor", "\'" + newValue + "\'",
@@ -508,7 +511,7 @@ public final class UiTestUtils {
 	private static void initBrickCategoryMap() {
 		brickCategoryMap = new SparseIntArray();
 
-		brickCategoryMap.put(R.string.brick_place_at_x, R.string.category_motion);
+		//brickCategoryMap.put(R.string.brick_place_at_x, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_set_x, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_set_y, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_change_x_by, R.string.category_motion);
@@ -516,7 +519,7 @@ public final class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_go_back, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_come_to_front, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_if_on_edge_bounce, R.string.category_motion);
-		brickCategoryMap.put(R.string.brick_move_n_steps, R.string.category_motion);
+		//brickCategoryMap.put(R.string.brick_move_n_steps, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_turn_left, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_turn_right, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_point_in_direction, R.string.category_motion);
@@ -532,8 +535,8 @@ public final class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_set_brightness, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_change_brightness, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_clear_graphic_effect, R.string.category_looks);
-		brickCategoryMap.put(R.string.brick_say, R.string.category_looks);
-		brickCategoryMap.put(R.string.brick_think, R.string.category_looks);
+		//brickCategoryMap.put(R.string.brick_say, R.string.category_looks);
+		//brickCategoryMap.put(R.string.brick_think, R.string.category_looks);
 
 		brickCategoryMap.put(R.string.brick_play_sound, R.string.category_sound);
 		brickCategoryMap.put(R.string.brick_stop_all_sounds, R.string.category_sound);
@@ -1445,20 +1448,25 @@ public final class UiTestUtils {
 	 */
 	public static void openActionMode(Solo solo, String overflowMenuItemName, int menuItemId, Activity activity) {
 
-		if (overflowMenuItemName != null && menuItemId != 0) {
-			ArrayList<View> views = solo.getCurrentViews();
-			ArrayList<Integer> ids = new ArrayList<Integer>();
-			for (View view : views) {
-				ids.add(view.getId());
-			}
-			if (!ids.contains(menuItemId)) {
-				solo.clickOnMenuItem(overflowMenuItemName, true);
-			} else {
-				UiTestUtils.clickOnActionBar(solo, menuItemId);
-			}
-		} else { // From overflow menu
+		solo.sleep(1000);
+		ArrayList<View> views = solo.getCurrentViews();
+		ArrayList<Integer> ids = new ArrayList<Integer>();
+		for (View view : views) {
+			ids.add(view.getId());
+		}
+
+		if (ids.contains(menuItemId)) {
+			solo.waitForView(menuItemId, 0, 20000, false);
+			UiTestUtils.clickOnActionBar(solo, menuItemId);
+		} else if (overflowMenuItemName != null) {
+			solo.waitForText(overflowMenuItemName, 0, 20000, false);
 			solo.clickOnMenuItem(overflowMenuItemName, true);
 		}
+		else {
+			fail("Cannot click on element with menuItemid " + menuItemId +
+					" or overflowMenuItemName " + overflowMenuItemName);
+		}
+
 		solo.sleep(400);
 	}
 
