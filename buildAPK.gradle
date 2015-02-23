@@ -63,6 +63,7 @@ def getStartingProjectName() {
     def file = new File('catroid/assets/standalone/code.xml')
     if (file.exists()) {
         def program = new XmlParser().parseText(file.text)
+        println "REMOVING unzipped project folder..."
         delete 'catroid/assets/standalone'
         return program.header.programName.text()
     } else {
@@ -92,19 +93,23 @@ def renameZipFile() {
 }
 
 def copyAndRename() {
+    def screenshot = new File('catroid/assets/standalone/manual_screenshot.png')
+    if(!screenshot.exists()){
+        screenshot = new File('catroid/assets/standalone/automatic_screenshot.png')
+    }
     copy {
-        from 'catroid/assets/standalone/automatic_screenshot.png'
+        from screenshot.getPath()
         into 'catroid/res/drawable'
         rename { String fileName ->
-            fileName.replace('automatic_screenshot', 'icon')
+            fileName.replace(screenshot.getName(), 'icon.png')
         }
     }
 
     copy {
-        from 'catroid/assets/standalone/automatic_screenshot.png'
+        from screenshot.getPath();
         into 'catroid/res/drawable'
         rename { String fileName ->
-            fileName.replace('automatic_screenshot', 'splash_screen')
+            fileName.replace(screenshot.getName(), 'splash_screen.png')
         }
     }
 }
