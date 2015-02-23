@@ -1654,11 +1654,10 @@ public final class UiTestUtils {
 						MotionEvent.ACTION_UP, xTo, yTo, 0);
 				activity.dispatchTouchEvent(upEvent);
 				upEvent.recycle();
-				Log.d("Robotium - waitForLogMessage", "longClickAndDrag finished: " + (int) yTo);
 			}
 		});
 
-		solo.sleep(1000);
+		solo.sleep(2000);
 	}
 
 	private static class ProjectWithCatrobatLanguageVersion extends Project {

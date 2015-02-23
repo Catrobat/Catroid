@@ -96,17 +96,12 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		int dragAndDropSteps = 100;
 		ArrayList<Integer> yPosition;
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+
 		Log.d(TAG, "Before drag item 1 to item 4 + 20");
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-
-		int oldYto = yPosition.get(4) + 20;
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, oldYto, dragAndDropSteps);
-
-		boolean result = solo.waitForLogMessage("longClickAndDrag finished: " + oldYto, 1000);
-		assertTrue("Timeout during longClickAndDrag on item 1! y-Coordinate: " + oldYto, result);
-
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, yPosition.get(4) + 20, dragAndDropSteps);
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(1) instanceof IfLogicBeginBrick));
 
@@ -114,12 +109,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		oldYto = yPosition.get(0);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(2), 10, oldYto, dragAndDropSteps);
-
-		result = solo.waitForLogMessage("longClickAndDrag finished: " + oldYto, 1000);
-		assertTrue("Timeout during longClickAndDrag on item 2! y-Coordinate: " + oldYto, result);
-
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(2), 10, yPosition.get(0), dragAndDropSteps);
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 		assertTrue("Wrong Brick instance.", (projectBrickList.get(0) instanceof IfLogicBeginBrick));
 
@@ -127,17 +117,11 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		oldYto = yPosition.get(0);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(3), 10, oldYto, dragAndDropSteps);
-
-		result = solo.waitForLogMessage("longClickAndDrag finished: " + oldYto, 1000);
-		assertTrue("Timeout during longClickAndDrag on item 3! y-Coordinate: " + oldYto, result);
-
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(3), 10, yPosition.get(0), dragAndDropSteps);
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 		assertTrue("Wrong Brick instance - expected IfElseBrick but was "
 				+ projectBrickList.get(1).getClass().getSimpleName(),
 				projectBrickList.get(1) instanceof IfLogicElseBrick);
-
 		assertTrue("Wrong Brick instance - expected ChangeYByNBrick but was "
 						+ projectBrickList.get(2).getClass().getSimpleName(),
 				projectBrickList.get(2) instanceof ChangeYByNBrick
@@ -147,22 +131,13 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		logBrickListForJenkins(projectBrickList);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		oldYto = yPosition.get(0);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4) - 10, 10, oldYto, dragAndDropSteps);
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4) - 10, 10, yPosition.get(0), dragAndDropSteps);
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
-
-		result = solo.waitForLogMessage("longClickAndDrag finished: " + oldYto, 1000);
-		assertTrue("Timeout during longClickAndDrag on item 4! y-Coordinate: " + oldYto, result);
-
-		Log.d(TAG, "After drag item 4 to item 0");
-		logBrickListForJenkins(projectBrickList);
-
 		assertTrue("Wrong Brick instance, expected IfLogicEndBrick but was "
 				+ projectBrickList.get(2).getClass().getSimpleName(),
 				projectBrickList.get(2) instanceof IfLogicEndBrick);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
-		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
 
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		assertEquals("Incorrect number of Scripts.", 2, sprite.getNumberOfScripts());
@@ -177,12 +152,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeYByNBrick);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		oldYto = yPosition.get(2) + 20;
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, oldYto, dragAndDropSteps);
-
-		result = solo.waitForLogMessage("longClickAndDrag finished: " + oldYto, 1000);
-		assertTrue("Timeout during longClickAndDrag! y-Coordinate: " + oldYto, result);
-
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, yPosition.get(2) + 20, dragAndDropSteps);
 		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());
 		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
 
@@ -200,12 +170,8 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		solo.drag(20, 20, addedYPosition, yPosition.get(5) + 20, dragAndDropSteps);
 
 		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		oldYto = yPosition.get(5) + 20;
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, oldYto, dragAndDropSteps);
+		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, yPosition.get(5) + 20, dragAndDropSteps);
 		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
-
-		result = solo.waitForLogMessage("longClickAndDrag finished: " + oldYto, 1000);
-		assertTrue("Timeout during longClickAndDrag! y-Coordinate: " + oldYto, result);
 
 		Log.d(TAG, "Final order of bricks");
 		logBrickListForJenkins(projectBrickList);
