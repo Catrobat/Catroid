@@ -24,6 +24,7 @@ package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.style.BackgroundColorSpan;
@@ -48,6 +49,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	private InternFormula internFormula;
 	private Spannable highlightSpan = null;
 	private Context context;
+	private Paint paint = new Paint();
 	final GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
 		@Override
 		public boolean onDoubleTap(MotionEvent event) {
@@ -147,6 +149,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		this.setLongClickable(false);
 		this.setSelectAllOnFocus(false);
 		this.setCursorVisible(false);
+		cursorAnimation.run();
 
 	}
 
@@ -167,12 +170,22 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		}
 	}
 
+	private Runnable cursorAnimation = new Runnable() {
+		@Override
+		public void run() {
+			paint.setColor((paint.getColor() == 0x00000000) ? 0xff000000 : 0x00000000);
+			invalidate();
+			postDelayed(cursorAnimation, 500);
+		}
+	};
+
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 
 		absoluteCursorPosition = absoluteCursorPosition > length() ? length() : absoluteCursorPosition;
 
+		paint.setStrokeWidth(3);
 		Layout layout = getLayout();
 		if (layout != null) {
 			float lineHeight = getTextSize();
@@ -189,10 +202,10 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 			int ascent = layout.getLineAscent(line) + paddingYOffset;
 
 			float xCoordinate = layout.getPrimaryHorizontal(absoluteCursorPosition) + getPaddingLeft();
-			float startYCoordinate = baseline + ascent;
-			float endYCoordinate = baseline + ascent + lineHeight + 5;
+			float startYCoordinate = baseline + ascent - 3;
+			float endYCoordinate = baseline + ascent + lineHeight + 7;
 
-			canvas.drawLine(xCoordinate, startYCoordinate, xCoordinate, endYCoordinate, getPaint());
+			canvas.drawLine(xCoordinate, startYCoordinate, xCoordinate, endYCoordinate, paint);
 		}
 	}
 
