@@ -74,6 +74,7 @@ def getStartingProjectName() {
 }
 
 def getPackageNameSuffix() {
+    println ':getPackageNameSuffix'
     if (project.hasProperty("suffix")) {
         return project["suffix"]
     } else {
