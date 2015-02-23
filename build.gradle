@@ -54,9 +54,9 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.1.0-RC1'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.1.0-RC1'
     compile 'com.github.kevinsawicki:http-request:5.6'
-    compile fileTree(include: '*.jar', dir: 'catroid/libs')
-    compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
-    androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')
+    compile fileTree(dir: 'catroid/libs', include: '*.jar')
+    compile fileTree(dir: 'catroid/libs-natives', include: '*.jar')
+    androidTestCompile fileTree(dir: 'catroidTest/libs', include: '*.jar')
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
     pmd 'net.sourceforge.pmd:pmd:5.1.1'
 }
@@ -98,7 +98,7 @@ android {
     compileSdkVersion 19
     buildToolsVersion '19.1.0'
     defaultConfig {
-        minSdkVersion 10
+        minSdkVersion 16
         targetSdkVersion 19
         applicationId 'org.catrobat.catroid'
         testApplicationId "org.catrobat.catroid.test"
@@ -147,6 +147,8 @@ android {
         xmlReport true
         htmlReport false
         xmlOutput file("build/reports/lint.xml")
+    }
+    productFlavors {
     }
 }
 
