@@ -48,16 +48,65 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBeforeTest extends Ins
 	private static final String ZIP_FILENAME_XRAY_PHONE = "X-Ray_phone.catrobat";
 	private static final String ZIP_FILENAME_ALL_BRICKS = "All_Bricks.catrobat";
 	private static final String ZIP_FILENAME_NOTE_AND_SPEAK_BRICK = "Note_And_Speak_Brick.catrobat";
+	private static final String ZIP_FILENAME_EMPTY_PROJECT = "languageVersion.catrobat";
 
 
-	private static final String PROJECT_NAME_FALLING_BALLS = "Falling balls";
-	private static final String PROJECT_NAME_COLOR_LEANER_BALLOONS = "Color Learner - Balloons";
-	private static final String PROJECT_NAME_PONG_STARTER = "Pong Starter";
-	private static final String PROJECT_NAME_WHIP = "Whip";
-	private static final String PROJECT_NAME_AIR_FIGHT = "Air fight 0.5";
-	private static final String PROJECT_NAME_XRAY_PHONE = "X-Ray phone";
-	private static final String PROJECT_NAME_ALL_BRICKS = "All Bricks";
-	private static final String PROJECT_NAME_NOTE_AND_SPEAK_BRICK = "NoteAndSpeakBrick";
+	private static final String PROJECT_NAME_FALLING_BALLS = "falling balls";
+	private static final String PROJECT_NAME_COLOR_LEANER_BALLOONS = "color learner - balloons";
+	private static final String PROJECT_NAME_PONG_STARTER = "pong starter";
+	private static final String PROJECT_NAME_WHIP = "whip";
+	private static final String PROJECT_NAME_AIR_FIGHT = "air fight 0.5";
+	private static final String PROJECT_NAME_XRAY_PHONE = "x-ray phone";
+	private static final String PROJECT_NAME_ALL_BRICKS = "all bricks";
+	private static final String PROJECT_NAME_EMPTY_PROJECT = "languageVersion";
+	private static final String PROJECT_NAME_NOTE_AND_SPEAK_BRICK = "noteandspeakbrick";
+
+
+	@Override
+	public void setUp() {
+		copyAssetProjectZipFile(ZIP_FILENAME_FALLING_BALLS, Constants.TMP_PATH);
+		copyAssetProjectZipFile(ZIP_FILENAME_COLOR_LEANER_BALLOONS, Constants.TMP_PATH);
+		copyAssetProjectZipFile(ZIP_FILENAME_PONG_STARTER, Constants.TMP_PATH);
+		copyAssetProjectZipFile(ZIP_FILENAME_WHIP, Constants.TMP_PATH);
+		copyAssetProjectZipFile(ZIP_FILENAME_AIR_FIGHT, Constants.TMP_PATH);
+		copyAssetProjectZipFile(ZIP_FILENAME_XRAY_PHONE, Constants.TMP_PATH);
+		copyAssetProjectZipFile(ZIP_FILENAME_ALL_BRICKS, Constants.TMP_PATH);
+		copyAssetProjectZipFile(ZIP_FILENAME_EMPTY_PROJECT, Constants.TMP_PATH);
+
+		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_FALLING_BALLS, Constants.DEFAULT_ROOT + "/"
+				+ PROJECT_NAME_FALLING_BALLS);
+		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_COLOR_LEANER_BALLOONS, Constants.DEFAULT_ROOT + "/"
+				+ PROJECT_NAME_COLOR_LEANER_BALLOONS);
+		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_PONG_STARTER, Constants.DEFAULT_ROOT + "/"
+				+ PROJECT_NAME_PONG_STARTER);
+		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_WHIP, Constants.DEFAULT_ROOT + "/"
+				+ PROJECT_NAME_WHIP);
+		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_AIR_FIGHT, Constants.DEFAULT_ROOT + "/"
+				+ PROJECT_NAME_AIR_FIGHT);
+		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_XRAY_PHONE, Constants.DEFAULT_ROOT + "/"
+				+ PROJECT_NAME_XRAY_PHONE);
+		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_ALL_BRICKS, Constants.DEFAULT_ROOT + "/"
+				+ PROJECT_NAME_ALL_BRICKS);
+		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_EMPTY_PROJECT, Constants.DEFAULT_ROOT + "/"
+				+ PROJECT_NAME_EMPTY_PROJECT);
+	}
+
+	@Override
+	public void tearDown() throws Exception {
+		deleteZipFile(ZIP_FILENAME_FALLING_BALLS, Constants.TMP_PATH);
+		deleteZipFile(ZIP_FILENAME_COLOR_LEANER_BALLOONS, Constants.TMP_PATH);
+		deleteZipFile(ZIP_FILENAME_PONG_STARTER, Constants.TMP_PATH);
+		deleteZipFile(ZIP_FILENAME_WHIP, Constants.TMP_PATH);
+		deleteZipFile(ZIP_FILENAME_AIR_FIGHT, Constants.TMP_PATH);
+		deleteZipFile(ZIP_FILENAME_XRAY_PHONE, Constants.TMP_PATH);
+		deleteZipFile(ZIP_FILENAME_ALL_BRICKS, Constants.TMP_PATH);
+		deleteZipFile(ZIP_FILENAME_EMPTY_PROJECT, Constants.TMP_PATH);
+
+		TestUtils.deleteTestProjects(new String[] { PROJECT_NAME_FALLING_BALLS, PROJECT_NAME_COLOR_LEANER_BALLOONS,
+				PROJECT_NAME_PONG_STARTER, PROJECT_NAME_WHIP, PROJECT_NAME_AIR_FIGHT, PROJECT_NAME_XRAY_PHONE,
+				PROJECT_NAME_ALL_BRICKS, PROJECT_NAME_EMPTY_PROJECT});
+		super.tearDown();
+	}
 
 	private void copyAssetProjectZipFile(String fileName, String destinationFolder) {
 		File dstFolder = new File(destinationFolder);
@@ -108,12 +157,12 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBeforeTest extends Ins
 
 		Project fallingBallsProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_FALLING_BALLS);
 		assertTrue("Cannot load falling balls project", fallingBallsProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_FALLING_BALLS, fallingBallsProject.getName());
+		assertEquals("Wrong project loaded", PROJECT_NAME_FALLING_BALLS, fallingBallsProject.getName().toLowerCase());
 
 		Project colorLeanerBalloonsProject = StorageHandler.getInstance().loadProject(
 				PROJECT_NAME_COLOR_LEANER_BALLOONS);
 		assertTrue("Cannot load color leaner balloons project", colorLeanerBalloonsProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_COLOR_LEANER_BALLOONS, colorLeanerBalloonsProject.getName());
+		assertEquals("Wrong project loaded", PROJECT_NAME_COLOR_LEANER_BALLOONS, colorLeanerBalloonsProject.getName().toLowerCase());
 
 		deleteZipFile(ZIP_FILENAME_FALLING_BALLS, Constants.TMP_PATH);
 		deleteZipFile(ZIP_FILENAME_COLOR_LEANER_BALLOONS, Constants.TMP_PATH);
@@ -132,11 +181,11 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBeforeTest extends Ins
 
 		Project pongStarterProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_PONG_STARTER);
 		assertTrue("Cannot load pong starter project", pongStarterProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_PONG_STARTER, pongStarterProject.getName());
+		assertEquals("Wrong project loaded", PROJECT_NAME_PONG_STARTER, pongStarterProject.getName().toLowerCase());
 
 		Project whipProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_WHIP);
 		assertTrue("Cannot load whip project", whipProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_WHIP, whipProject.getName());
+		assertEquals("Wrong project loaded", PROJECT_NAME_WHIP, whipProject.getName().toLowerCase());
 
 		deleteZipFile(ZIP_FILENAME_PONG_STARTER, Constants.TMP_PATH);
 		deleteZipFile(ZIP_FILENAME_WHIP, Constants.TMP_PATH);
@@ -158,15 +207,15 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBeforeTest extends Ins
 
 		Project airFightProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_AIR_FIGHT);
 		assertTrue("Cannot load air fight project", airFightProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_AIR_FIGHT, airFightProject.getName());
+		assertEquals("Wrong project loaded", PROJECT_NAME_AIR_FIGHT, airFightProject.getName().toLowerCase());
 
 		Project xRayPhoneProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_XRAY_PHONE);
 		assertTrue("Cannot load X-Ray phone project", xRayPhoneProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_XRAY_PHONE, xRayPhoneProject.getName());
+		assertEquals("Wrong project loaded", PROJECT_NAME_XRAY_PHONE, xRayPhoneProject.getName().toLowerCase());
 
 		Project allBricksProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_ALL_BRICKS);
 		assertTrue("Cannot load All Bricks project", allBricksProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_ALL_BRICKS, allBricksProject.getName());
+		assertEquals("Wrong project loaded", PROJECT_NAME_ALL_BRICKS, allBricksProject.getName().toLowerCase());
 
 		deleteZipFile(ZIP_FILENAME_AIR_FIGHT, Constants.TMP_PATH);
 		deleteZipFile(ZIP_FILENAME_XRAY_PHONE, Constants.TMP_PATH);
@@ -183,7 +232,7 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBeforeTest extends Ins
 
 		Project noteAndSpeakBrickProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_NOTE_AND_SPEAK_BRICK);
 		assertTrue("Cannot load " + PROJECT_NAME_NOTE_AND_SPEAK_BRICK + " project", noteAndSpeakBrickProject != null);
-		assertEquals("Wrong project loaded", PROJECT_NAME_NOTE_AND_SPEAK_BRICK, noteAndSpeakBrickProject.getName());
+		assertEquals("Wrong project loaded", PROJECT_NAME_NOTE_AND_SPEAK_BRICK, noteAndSpeakBrickProject.getName().toLowerCase());
 
 		deleteZipFile(ZIP_FILENAME_NOTE_AND_SPEAK_BRICK, Constants.TMP_PATH);
 
