@@ -38,7 +38,7 @@ import java.io.File;
 
 public class PhysicsActiveStageAreaTest extends PhysicsBaseTest {
 
-	private static final int EXPECTED_CIRCUMFERENCE_125X125 = Math.round(new Float(Math.sqrt(2 * Math.pow(125 / 2, 2))));
+	private static final float EXPECTED_CIRCUMFERENCE_125X125 = (float) Math.sqrt(2 * Math.pow(125/2f, 2));
 	private PhysicsObject physicsObject;
 	private PhysicsLook physicsLook;
 
@@ -52,7 +52,7 @@ public class PhysicsActiveStageAreaTest extends PhysicsBaseTest {
 
 	public void testCircumferenceCalculation() {
 		assertTrue("calculated rectangle circumference not equal to expected value",
-				Math.abs(Math.round(physicsObject.getCircumference() * PhysicsWorld.RATIO) - EXPECTED_CIRCUMFERENCE_125X125) <= 1);
+				Math.abs(physicsObject.getCircumference() - EXPECTED_CIRCUMFERENCE_125X125) <= 1);
 	}
 
 	public void testCenteredObjectIsActive() {
