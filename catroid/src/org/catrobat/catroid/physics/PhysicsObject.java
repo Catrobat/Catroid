@@ -124,9 +124,9 @@ public class PhysicsObject {
 		}
 
 		Vector2 dimensions = getBoundaryBoxDimensions();
-		float a = dimensions.x / 2;
-		float b = dimensions.y / 2;
-		circumference = PhysicsWorldConverter.convertNormalToBox2dCoordinate((float) Math.sqrt(a * a + b * b));
+		float w = dimensions.x / 2;
+		float h = dimensions.y / 2;
+		circumference = PhysicsWorldConverter.convertNormalToBox2dCoordinate((float) Math.sqrt(w * w + h * h));
 	}
 
 	public Type getType() {
@@ -342,8 +342,8 @@ public class PhysicsObject {
 
 	public Vector2 getBoundaryBoxDimensions() {
 		calculateAABB();
-		float aabbWidth = PhysicsWorldConverter.convertBox2dToNormalCoordinate(Math.abs(bodyAABBUpperRight.x - bodyAABBLowerLeft.x)) + 1;
-		float aabbHeight = PhysicsWorldConverter.convertBox2dToNormalCoordinate(Math.abs(bodyAABBUpperRight.y - bodyAABBLowerLeft.y)) + 1;
+		float aabbWidth = PhysicsWorldConverter.convertBox2dToNormalCoordinate(Math.abs(bodyAABBUpperRight.x - bodyAABBLowerLeft.x)) + 1.0f;
+		float aabbHeight = PhysicsWorldConverter.convertBox2dToNormalCoordinate(Math.abs(bodyAABBUpperRight.y - bodyAABBLowerLeft.y)) + 1.0f;
 		return new Vector2(aabbWidth, aabbHeight);
 	}
 

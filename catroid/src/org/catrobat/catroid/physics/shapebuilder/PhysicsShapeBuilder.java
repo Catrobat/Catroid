@@ -115,21 +115,24 @@ public class PhysicsShapeBuilder {
 			vertex = vertex.mul(scaleFactor);
 		} else if (Math.abs(scaleFactor - 1.0f) > 0.001f) {
 			Vector2 offset = new Vector2();
-			offset.x = vertex.x < -0.001f ? -OFFSET_VALUE : vertex.x > 0.001f ? OFFSET_VALUE : 0.0f;
-			offset.y = vertex.y < -0.001f ? -OFFSET_VALUE : vertex.y > 0.001f ? OFFSET_VALUE : 0.0f;
+			offset.x = getCoordinateScalingOffset(vertex.x);
+			offset.y = getCoordinateScalingOffset(vertex.y);
 			vertex = vertex.add(offset).mul(scaleFactor).sub(offset);
 		}
 		return vertex;
 	}
 
-	public static float scaleCoordinate (float coord, float factor) {
+	public static float scaleCoordinate(float coord, float factor) {
 		if (Math.abs(factor) < 0.001f) {
-			coord = coord*factor;
+			coord = coord * factor;
 		} else if (Math.abs(factor - 1.0f) > 0.001f) {
-			float offset;
-			offset = coord < -0.001f ? -OFFSET_VALUE : coord > 0.001f ? OFFSET_VALUE : 0.0f;
+			float offset = getCoordinateScalingOffset(coord);
 			coord = (((coord + offset) * factor) - offset);
 		}
 		return coord;
+	}
+
+	private static float getCoordinateScalingOffset(float coord) {
+		return coord < -0.001f ? -OFFSET_VALUE : coord > 0.001f ? OFFSET_VALUE : 0.0f;
 	}
 }
