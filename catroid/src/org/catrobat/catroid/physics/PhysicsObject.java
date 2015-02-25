@@ -122,13 +122,7 @@ public class PhysicsObject {
 		if (body.getFixtureList().size() == 0) {
 			return;
 		}
-
-		calculateAABB();
-		float max1 = Math.max(getMassCenter().dst(fixtureAABBUpperRight), getMassCenter().dst(fixtureAABBLowerLeft));
-		Vector2 aabbLowerRight = new Vector2(fixtureAABBUpperRight.x, fixtureAABBLowerLeft.y);
-		Vector2 aaabbUpperLeft = new Vector2(fixtureAABBLowerLeft.x, fixtureAABBUpperRight.y);
-		float max2 = Math.max(getMassCenter().dst(aabbLowerRight), getMassCenter().dst(aaabbUpperLeft));
-		circumference = Math.max(max1, max2);
+		circumference = getBoundaryBoxDimensions().len() / 2.0f;
 	}
 
 	public Type getType() {
@@ -183,7 +177,7 @@ public class PhysicsObject {
 	}
 
 	public float getCircumference() {
-		return circumference;
+		return PhysicsWorldConverter.convertBox2dToNormalCoordinate(circumference);
 	}
 
 	public Vector2 getPosition() {
@@ -341,6 +335,14 @@ public class PhysicsObject {
 		upperRight.x = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBUpperRight).x;
 		upperRight.y = PhysicsWorldConverter.convertBox2dToNormalVector(bodyAABBUpperRight).y;
 	}
+
+	public Vector2 getBoundaryBoxDimensions() {
+		calculateAABB();
+		float aabbWidth = PhysicsWorldConverter.convertBox2dToNormalCoordinate(Math.abs(bodyAABBUpperRight.x - bodyAABBLowerLeft.x)) + 1.0f;
+		float aabbHeight = PhysicsWorldConverter.convertBox2dToNormalCoordinate(Math.abs(bodyAABBUpperRight.y - bodyAABBLowerLeft.y)) + 1.0f;
+		return new Vector2(aabbWidth, aabbHeight);
+	}
+
 
 	public void activateHangup() {
 		velocity = new Vector2(getVelocity());
