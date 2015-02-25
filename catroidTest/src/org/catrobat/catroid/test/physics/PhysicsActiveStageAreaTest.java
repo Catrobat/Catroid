@@ -51,8 +51,8 @@ public class PhysicsActiveStageAreaTest extends PhysicsBaseTest {
 	}
 
 	public void testCircumferenceCalculation() {
-		assertTrue("calculated rectangle circumference not equal to expected value",
-				Math.abs(physicsObject.getCircumference() - EXPECTED_CIRCUMFERENCE_125X125) <= 1);
+		assertEquals("calculated rectangle circumference not equal to expected value",
+				Math.abs(physicsObject.getCircumference() - EXPECTED_CIRCUMFERENCE_125X125), TestUtils.DELTA);
 	}
 
 	public void testCenteredObjectIsActive() {

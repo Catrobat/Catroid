@@ -64,7 +64,8 @@ public class PhysicsShapeBuilder {
 			Pixmap thumb = new Pixmap((int) (pixmap.getWidth() * scaleLevel), (int) (pixmap.getHeight() * scaleLevel), pixmap.getFormat());
 			Pixmap.setFilter(Pixmap.Filter.NearestNeighbour);
 			thumb.drawPixmap(pixmap, 0, 0, pixmap.getWidth(), pixmap.getHeight(), 0, 0, thumb.getWidth(), thumb.getHeight());
-			shapes = strategy.build(pixmap, scaleFactor);
+			//shapes = strategy.build(pixmap, scaleFactor);
+			shapes = strategy.build(thumb, scaleFactor);
 			thumb.dispose();
 			//shapes = normalize(shapes, scaleLevel);
 			shapeMap.put(key, shapes);
