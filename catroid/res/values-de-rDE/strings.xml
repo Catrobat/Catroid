@@ -558,4 +558,10 @@
   <string name="recursive_user_brick_forbidden">Hinzufügen eines Userbricks in einem Userbrick ist noch nicht erlaubt!</string>
   <string name="brick_single">Baustein</string>
   <string name="brick_multiple">Bausteine</string>
+
+  <!-- New sound dialog -->
+  <string name="new_sound_dialog_title">Klang hinzufügen</string>
+  <string name="add_sound_record_new_sound">Klang aufzeichnen</string>
+  <string name="add_sound_choose_sound">Klang auswählen</string>
+  <!--  -->
 </resources>

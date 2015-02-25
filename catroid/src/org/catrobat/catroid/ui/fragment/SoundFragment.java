@@ -28,6 +28,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -72,22 +73,26 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SoundViewHolder;
+import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.SoundAdapter;
 import org.catrobat.catroid.ui.adapter.SoundBaseAdapter;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
+import org.catrobat.catroid.ui.dialogs.NewSoundDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.locks.Lock;
 
 public class SoundFragment extends ScriptActivityFragment implements SoundBaseAdapter.OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
@@ -121,6 +126,8 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	private boolean isResultHandled = false;
 
 	private OnSoundInfoListChangedAfterNewListener soundInfoListChangedAfterNewListener;
+
+	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	public void setOnSoundInfoListChangedAfterNewListener(OnSoundInfoListChangedAfterNewListener listener) {
 		soundInfoListChangedAfterNewListener = listener;
@@ -261,14 +268,15 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 		setShowDetails(settings.getBoolean(SoundController.SHARED_PREFERENCE_NAME, false));
 
-		SoundController.getInstance().handleAddButtonFromNew(this);
+		handleAddButtonFromNew();
+
 	}
 
 	@Override
 	public void onHiddenChanged(boolean hidden) {
 		super.onHiddenChanged(hidden);
 		if (!hidden) {
-			SoundController.getInstance().handleAddButtonFromNew(this);
+			handleAddButtonFromNew();
 		}
 	}
 
@@ -314,6 +322,31 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		mediaPlayer.reset();
 		mediaPlayer.release();
 		mediaPlayer = null;
+	}
+
+	public void addSoundRecordNewSound(){
+		final Intent intent = new Intent(getActivity(), SoundRecorderActivity.class);
+		startActivityForResult(intent,0);
+	}
+
+	public void addSoundSelectSound(){
+		final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+		intent.setType("audio/*");
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)	{
+			disableGoogleDrive(intent);
+		}
+		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
+				SoundController.REQUEST_SELECT_MUSIC);
+
+	}
+
+	public void handleAddButtonFromNew() {
+		ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+		if (scriptActivity.getIsSoundFragmentFromPlaySoundBrickNew()
+				&& !scriptActivity.getIsSoundFragmentHandleAddButtonHandled()) {
+			scriptActivity.setIsSoundFragmentHandleAddButtonHandled(true);
+			handleAddButton();
+		}
 	}
 
 	@Override
@@ -578,13 +611,11 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public void handleAddButton() {
-		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-		intent.setType("audio/*");
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)	{
-			disableGoogleDrive(intent);
+		if (!viewSwitchLock.tryLock()) {
+			return;
 		}
-		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
-				SoundController.REQUEST_SELECT_MUSIC);
+		NewSoundDialog dialog = NewSoundDialog.newInstance();
+		dialog.showDialog(this);
 	}
 
 	@TargetApi(19)
@@ -985,4 +1016,5 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			}
 		}
 	}
+
 }
