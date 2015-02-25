@@ -40,7 +40,7 @@ import java.util.Map;
 public class PhysicsShapeBuilder {
 
 	private static final String TAG = PhysicsShapeBuilder.class.getSimpleName();
-	private static final float OFFSET_VALUE = 1 / (2 * PhysicsWorld.RATIO);
+	private static final float SCALING_OFFSET = 1 / (2 * PhysicsWorld.RATIO);
 	private final Map<String, Shape[]> shapeMap = new HashMap<String, Shape[]>();
 	private PhysicsShapeBuilderStrategy strategy = new PhysicsShapeBuilderStrategyFastHull();
 
@@ -67,15 +67,15 @@ public class PhysicsShapeBuilder {
 			//shapes = strategy.build(pixmap, scaleFactor);
 			shapes = strategy.build(thumb, scaleFactor);
 			thumb.dispose();
-			//shapes = normalize(shapes, scaleLevel);
+			shapes = normalize(shapes, scaleLevel);
 			shapeMap.put(key, shapes);
 		}
 		return scaleShapes(shapes, scaleFactor);
 	}
 
-	//private Shape[] normalize(Shape[] shapes, float scaleLevel) {
-	//	return scaleShapes(shapes, 1 / scaleLevel);
-	//}
+	private Shape[] normalize(Shape[] shapes, float scaleLevel) {
+		return scaleShapes(shapes, 1 / scaleLevel);
+	}
 
 	private float getScaleLevel(float scaleFactor) {
 		if (scaleFactor >= 0.25f) {
@@ -134,6 +134,6 @@ public class PhysicsShapeBuilder {
 	}
 
 	private static float getCoordinateScalingOffset(float coord) {
-		return coord < -0.001f ? -OFFSET_VALUE : coord > 0.001f ? OFFSET_VALUE : 0.0f;
+		return coord < -0.001f ? -SCALING_OFFSET : coord > 0.001f ? SCALING_OFFSET : 0.0f;
 	}
 }

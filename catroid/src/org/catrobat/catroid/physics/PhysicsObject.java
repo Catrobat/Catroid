@@ -122,11 +122,7 @@ public class PhysicsObject {
 		if (body.getFixtureList().size() == 0) {
 			return;
 		}
-
-		Vector2 dimensions = getBoundaryBoxDimensions();
-		float w = dimensions.x / 2;
-		float h = dimensions.y / 2;
-		circumference = PhysicsWorldConverter.convertNormalToBox2dCoordinate((float) Math.sqrt(w * w + h * h));
+		circumference = getBoundaryBoxDimensions().len() / 2.0f;
 	}
 
 	public Type getType() {
