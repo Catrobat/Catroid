@@ -306,7 +306,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		initListeners();
 	}
 
 	@Override
@@ -331,7 +330,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	public void onStart() {
 		super.onStart();
 		BottomBar.showBottomBar(getActivity());
-		initListeners();
 	}
 
 	@Override
