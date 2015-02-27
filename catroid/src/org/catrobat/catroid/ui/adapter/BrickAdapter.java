@@ -31,7 +31,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
@@ -151,12 +150,17 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 
 	@Override
 	public int getViewTypeCount() {
-		return viewTypes == null ? 0 : viewTypes.size();
+		/*Can't have a viewTypeCount < 1*/
+		//TODO: IllyaBoyko display empty view in this case
+		return viewTypes == null || viewTypes.isEmpty() ? 1 : viewTypes.size();
 	}
 
 	@Override
 	public int getItemViewType(int position) {
-		return viewTypes.indexOf(brickList.get(position).getClass());
+		Brick brick = brickList.get(position);
+		Class<? extends Brick> brickClass = brick.getClass();
+		int index = viewTypes.indexOf(brickClass);
+		return index;
 	}
 
 	private void initBrickListUserScript() {
