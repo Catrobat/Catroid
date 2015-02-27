@@ -37,6 +37,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -171,7 +172,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 							|| clickedItemText.equals(getText(R.string.brick_context_dialog_delete_script))) {
 						showConfirmDeleteDialog(itemPosition, brick);
 					} else if (clickedItemText.equals(getText(R.string.brick_context_dialog_animate_bricks))) {
-						//TODO: Is not this the same brick?
+						//TODO: Illya Boyko: Is not this the same brick?
 //						int itemPosition = calculateItemPositionAndTouchPointY(view);
 //						Brick brick = brickList.get(itemPosition);
 						if (brick instanceof NestingBrick) {
@@ -526,16 +527,16 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void setSelectMode(int selectMode) {
-		boolean selectionMode = selectMode != ListView.CHOICE_MODE_NONE;
+		boolean isActionMode = selectMode != ListView.CHOICE_MODE_NONE;
 
-		listView.setItemsCanFocus(!selectionMode);
+		listView.setItemsCanFocus(!isActionMode);
 		listView.setChoiceMode(selectMode);
 		//!!! HACK
 		//!!! After setChoiceMode executed, we can set OnItemClickListener to list view.
 		//Listener is needed only when selection is enable.
 		// TODO: When the Application minSdk will be >= 11. Then it can be replaces with multi_choice_modal mode and
 		// MultiChoiceActionMode!
-		if (selectionMode) {
+		if (isActionMode) {
 			//No Dragging in selection mode.
 			listView.setOnItemLongClickListener(null);
 			listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -543,23 +544,18 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					if (adapter.isActionMode()) {
 						// In action mode
-						Brick item = (Brick) adapter.getItem(position);
-						if (listView.isItemChecked(position)) {
-							adapter.getCheckedBricks().add(item);
-						} else {
-							adapter.getCheckedBricks().remove(item);
-						}
-						onBrickChecked();
+						adapter.handleCheck(position, listView.isItemChecked(position));
 					}
 				}
 			});
 		} else {
 			listView.setOnItemClickListener(defaultOnItemClickListener);
 			listView.setOnItemLongClickListener(defaultOnItemLongClickListener);
+			listView.clearChoices();
 		}
-		setActionModeActive(selectionMode);
+		setActionModeActive(isActionMode);
 		adapter.setSelectMode(selectMode);
-		adapter.setActionMode(selectionMode);
+		adapter.setActionMode(isActionMode);
 		adapter.notifyDataSetChanged();
 	}
 
@@ -568,6 +564,15 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(selectedBrickPosition);
 		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	/**
+	 * Called when back is pressed and action mode is active.
+	 */
+	public void beforeCancelActionMode() {
+		if(listView.getChoiceMode() != ListView.CHOICE_MODE_NONE) {
+			listView.clearChoices();
+		}
 	}
 
 	private class BrickListChangedReceiver extends BroadcastReceiver {
@@ -615,7 +620,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 
-			if (adapter.getAmountOfCheckedItems() == 0) {
+			if (listView.getCheckedItemCount() == 0) {
 				clearCheckedBricksAndEnableButtons();
 			} else {
 				showConfirmDeleteDialog(false);
@@ -647,12 +652,14 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			List<Brick> checkedBricks = adapter.getCheckedBricks();
-
-			for (Brick brick : checkedBricks) {
-				copyBrick(brick);
-				if (brick instanceof ScriptBrick) {
-					break;
+			SparseBooleanArray checkedItemPositions = listView.getCheckedItemPositions();
+			for (int i = 0; i < checkedItemPositions.size(); i++) {
+				if (checkedItemPositions.valueAt(i)) {
+					Brick brick = (Brick) listView.getAdapter().getItem(checkedItemPositions.keyAt(i));
+					copyBrick(brick);
+					if (brick instanceof ScriptBrick) {
+						break;
+					}
 				}
 			}
 
@@ -744,10 +751,13 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	private void deleteCheckedBricks() {
-		List<Brick> checkedBricks = adapter.getReversedCheckedBrickList();
-
-		for (Brick brick : checkedBricks) {
-			deleteBrick(brick);
+		if (listView.getCheckedItemCount() > 0) {
+			SparseBooleanArray checkedItemPositions = listView.getCheckedItemPositions();
+			for (int i = checkedItemPositions.size() - 1; i >= 0; i--) {
+				if (checkedItemPositions.valueAt(i)) {
+					deleteBrick((Brick) listView.getAdapter().getItem(checkedItemPositions.keyAt(i)));
+				}
+			}
 		}
 	}
 
@@ -755,7 +765,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		this.deleteScriptFromContextMenu = fromContextMenu;
 		int titleId;
 		if ((deleteScriptFromContextMenu && scriptToEdit.getBrickList().size() == 0)
-				|| adapter.getAmountOfCheckedItems() == 1) {
+				|| listView.getCheckedItemCount() == 1) {
 			titleId = R.string.dialog_confirm_delete_brick_title;
 		} else {
 			titleId = R.string.dialog_confirm_delete_multiple_bricks_title;
@@ -799,7 +809,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	private void clearCheckedBricksAndEnableButtons() {
 		setSelectMode(ListView.CHOICE_MODE_NONE);
-		adapter.clearCheckedItems();
 
 		registerForContextMenu(listView);
 		BottomBar.showBottomBar(getActivity());
@@ -809,11 +818,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	public void onBrickChecked() {
 		updateActionModeTitle();
 		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
-				adapter.getCount() > 0 && adapter.getAmountOfCheckedItems() != adapter.getCount());
+				adapter.getCount() > 0 && listView.getCheckedItemCount() != adapter.getCount());
 	}
 
 	private void updateActionModeTitle() {
-		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
+		int numberOfSelectedItems = listView.getCheckedItemCount();
 
 		String completeTitle;
 		switch ((Integer) actionMode.getTag()) {

@@ -417,13 +417,13 @@ public class ScriptActivity extends BaseActivity {
 
 		if (currentFragment != null && currentFragment.getActionModeActive()
 				&& event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-			ListAdapter adapter = null;
-			if (currentFragment instanceof ScriptFragment) {
-				adapter = ((ScriptFragment) currentFragment).getAdapter();
-			} else {
-				adapter = currentFragment.getListAdapter();
+
+			if (!(currentFragment instanceof ScriptFragment)) {
+				((ScriptActivityAdapterInterface) currentFragment.getListAdapter()).clearCheckedItems();
+			}else{
+				//ScriptFragment manages clear items itself.
+				((ScriptFragment)currentFragment).beforeCancelActionMode();
 			}
-			((ScriptActivityAdapterInterface) adapter).clearCheckedItems();
 		}
 
 		return super.dispatchKeyEvent(event);

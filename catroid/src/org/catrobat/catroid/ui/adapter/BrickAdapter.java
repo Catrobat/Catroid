@@ -91,8 +91,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 
 	private List<Brick> brickList;
 
+	//TODO: change to positions!!! or View
 	private List<Brick> animatedBricks;
-	private List<Brick> checkedBricks = new ArrayList<Brick>();
 
 	private int selectMode;
 	private OnBrickCheckedListener scriptFragment;
@@ -196,7 +196,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 
 	public void setActionMode(boolean actionMode) {
 		this.actionMode = actionMode;
-		notifyDataSetChanged();
 	}
 
 	public List<Brick> getBrickList() {
@@ -704,7 +703,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 			currentSprite.addScript(script);
 			brickList.add(0, script.getScriptBrick());
 			ProjectManager.getInstance().setCurrentScript(script);
-			clearCheckedItems();
 			positionOfInsertedBrick = 1;
 		}
 
@@ -867,12 +865,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 		if (actionMode) {
 			currentBrickView.addMode(BrickView.Mode.SELECTION);
 		} else {
+			// Remove selection mode
 			currentBrickView.removeMode(BrickView.Mode.SELECTION);
-		}
-
-		if (parent instanceof AbsListView) {
-			//NEED: to reset view
-			currentBrickView.setChecked(checkedBricks.contains(item));
 		}
 
 		if (position == positionOfInsertedBrick && initInsertedBrick && (selectMode == ListView.CHOICE_MODE_NONE)) {
@@ -886,10 +880,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 			return insertionView;
 		}
 
-		if (animatedBricks.contains(brickList.get(position))) {
+		if (item != null && animatedBricks.contains(item)) {
 			Animation animation = AnimationUtils.loadAnimation(context, R.anim.blink);
 			convertView.startAnimation(animation);
-			animatedBricks.remove(brickList.get(position));
+			animatedBricks.remove(item);
 		}
 		return convertView;
 	}
@@ -957,7 +951,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 
 	@Override
 	public int getAmountOfCheckedItems() {
-		return getCheckedBricks().size();
+		throw new UnsupportedOperationException("ListView Api should be used!");
+	}
+
+	@Override
+	public void clearCheckedItems() {
+		throw new UnsupportedOperationException("ListView Api should be used!");
 	}
 
 	@Override
@@ -965,22 +964,16 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 		return null;
 	}
 
-	@Override
-	public void clearCheckedItems() {
-		checkedBricks.clear();
-		notifyDataSetChanged();
-	}
-
 	public void checkAllItems() {
+		boolean selectionChanged = false;
 		for (Brick brick : brickList) {
 			if (brick instanceof ScriptBrick) {
-				//TODO: IllyaBoyko: here we check all items.
-//				if (brick.getCheckBox() != null) {
-//					brick.getCheckBox().setChecked(true);
-//					brick.setCheckedBoolean(true);
-//				}
-				smartBrickSelection(brick, true);
+				selectionChanged |= smartBrickSelection(brickList.indexOf(brick), true);
 			}
+		}
+		if (selectionChanged) {
+			animateSelectedBricks();
+			notifyDataSetChanged();
 		}
 	}
 
@@ -996,31 +989,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 		scriptFragment = listener;
 	}
 
-	public void handleCheck(Brick brick, boolean isChecked) {
-		if (brick == null) {
-			return;
-		}
-		if (isChecked) {
-			if (selectMode == ListView.CHOICE_MODE_SINGLE) {
-				clearCheckedItems();
-			}
-			//TODO: IllyaBoyko: selection to rewrite?
-//			if (brick.getCheckBox() != null && smartBrickSelection(brick, isChecked)) {
-//				return;
-//			}
-			addElementToCheckedBricks(brick);
-		} else {
-			//TODO: IllyaBoyko: selection to rewrite?
-//			if (brick.getCheckBox() != null && smartBrickSelection(brick, isChecked)) {
-//				return;
-//			}
-			checkedBricks.remove(brick);
-		}
-		notifyDataSetChanged();
-
-		if (scriptFragment != null) {
-			scriptFragment.onBrickChecked();
-		}
+	public void handleCheck(int position, boolean checked) {
+		smartBrickSelection(position, checked);
 	}
 
 	private void handleBrickEnabledState(Brick brick, boolean enableState) {
@@ -1029,75 +999,82 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 		} else {
 			brick.getViewWithAlpha(ALPHA_GREYED);
 		}
-		notifyDataSetChanged();
 	}
 
-	private boolean smartBrickSelection(Brick brick, boolean checked) {
+	/**
+	 * @param position
+	 * @param checked
+	 * @return true when smart selection applied
+	 */
+	private boolean smartBrickSelection(int position, boolean checked) {
+		boolean smartSelection = false;
+		Brick checkedBrick = (Brick) getItem(position);
 
-		if (brick instanceof ScriptBrick) {
+		//Current checkedBrick is normally already checked by listView, and only animation is needed.
+		// But checking from code should also work correctly.
+		setBrickChecked(checked, position, checkedBrick);
 
-			if (checked) {
-				addElementToCheckedBricks(brick);
-				animatedBricks.add(brick);
-			} else {
-				checkedBricks.remove(brick);
-			}
+		if (checkedBrick instanceof ScriptBrick) {
 
-			int brickPosition = brickList.indexOf(brick) + 1;
+			int brickPosition = brickList.indexOf(checkedBrick) + 1;
 			while ((brickPosition < brickList.size()) && !(brickList.get(brickPosition) instanceof ScriptBrick)) {
 				Brick currentBrick = brickList.get(brickPosition);
 				if (currentBrick == null) {
 					break;
+				} else if (currentBrick == checkedBrick) {
+					/*already selected when same.*/
+					continue;
 				}
-				if (checked) {
-					addElementToCheckedBricks(currentBrick);
-					animatedBricks.add(currentBrick);
-				} else {
-					checkedBricks.remove(currentBrick);
-				}
-				//TODO: IllyaBoyko: here we check/uncheck the current brick.
-//				if (currentBrick.getCheckBox() != null) {
-//					currentBrick.getCheckBox().setChecked(checked);
-//					currentBrick.setCheckedBoolean(checked);
-//				}
+
+				setBrickChecked(checked, brickPosition, currentBrick);
+
 				handleBrickEnabledState(currentBrick, !checked);
 				brickPosition++;
 			}
 
-			animateSelectedBricks();
 
-			if (scriptFragment != null) {
-				scriptFragment.onBrickChecked();
-			}
-			notifyDataSetChanged();
-			return true;
-		} else if (brick instanceof NestingBrick) {
-			for (NestingBrick currentBrick : ((NestingBrick) brick).getAllNestingBrickParts(true)) {
-				if (currentBrick == null) {
+			smartSelection = true;
+		} else if (checkedBrick instanceof NestingBrick) {
+			for (NestingBrick currentNestingBrick : ((NestingBrick) checkedBrick).getAllNestingBrickParts(true)) {
+				if (currentNestingBrick == null) {
 					break;
+				} else if (currentNestingBrick == checkedBrick) {
+					/*already selected when same.*/
+					continue;
 				}
-				if (checked) {
-					animatedBricks.add((Brick) currentBrick);
-					addElementToCheckedBricks((Brick) currentBrick);
-				} else {
-					checkedBricks.remove(currentBrick);
-				}
-
-				//TODO: IllyaBoyko: here we check/uncheck the current brick.
-//				if (((Brick) currentBrick).getCheckBox() != null) {
-//					((Brick) currentBrick).getCheckBox().setChecked(checked);
-//				}
+				Brick currentBrick = (Brick) currentNestingBrick;
+				setBrickChecked(checked, brickList.indexOf(currentBrick), currentBrick);
 			}
 
-			animateSelectedBricks();
-
-			if (scriptFragment != null) {
-				scriptFragment.onBrickChecked();
-			}
-			notifyDataSetChanged();
-			return true;
+			smartSelection = true;
 		}
-		return false;
+
+		if (scriptFragment != null) {
+			scriptFragment.onBrickChecked();
+		}
+
+		animateSelectedBricks();
+		if (smartSelection) {
+			// when smart selection applied refresh view.
+			notifyDataSetChanged();
+		}
+
+		return smartSelection;
+	}
+
+	/**
+	 * @param checked true when checked
+	 * @param brick   brick
+	 */
+	private void setBrickChecked(boolean checked, int position, Brick brick) {
+		if (checked) {
+			animatedBricks.add(brick);
+		}
+		if (!UserScriptDefinitionBrick.class.equals(brick.getClass())) {
+			Log.v(TAG, "Selecting Item position '" + position + "' for Brick '" + brick.getClass().getSimpleName() + "'");
+			dragAndDropListView.setItemChecked(position, checked);
+		}
+
 	}
 
 	private void animateSelectedBricks() {
@@ -1123,35 +1100,16 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 						animationBrick.setAnimationState(false);
 					}
 				});
-				int position = animatedBricks.indexOf(animationBrick);
-				animationBrick.setAnimationState(true);
-				View view = animationBrick.getView(context, position, this);
+				int position = brickList.indexOf(animationBrick);
 
-				if (view.hasWindowFocus()) {
+				animationBrick.setAnimationState(true);
+				View view = dragAndDropListView.getChildAt(position);
+				if (view != null && view.hasWindowFocus()) {
 					view.startAnimation(animation);
 				}
 			}
-
+			animatedBricks.clear();
 		}
-		animatedBricks.clear();
-	}
-
-	private void addElementToCheckedBricks(Brick brick) {
-		if (!(checkedBricks.contains(brick)) && !brick.getClass().equals(UserScriptDefinitionBrick.class)) {
-			checkedBricks.add(brick);
-		}
-	}
-
-	public List<Brick> getCheckedBricks() {
-		return checkedBricks;
-	}
-
-	public List<Brick> getReversedCheckedBrickList() {
-		List<Brick> reverseCheckedList = new ArrayList<Brick>();
-		for (int counter = checkedBricks.size() - 1; counter >= 0; counter--) {
-			reverseCheckedList.add(checkedBricks.get(counter));
-		}
-		return reverseCheckedList;
 	}
 
 	public UserBrick getUserBrick() {
