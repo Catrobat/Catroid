@@ -24,10 +24,15 @@
 package org.catrobat.catroid.ui;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 /**
  * Brick View.
@@ -115,6 +120,47 @@ public class BrickView extends CheckableLinearLayout {
 					}
 				}
 			}
+		}
+	}
+
+	public void applyAlpha(int newAlpha) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			float newOpacity = newAlpha / (float) BrickAdapter.ALPHA_FULL;
+			if (newOpacity != this.brickLayout.getAlpha()) {
+				this.brickLayout.setAlpha(newOpacity);
+			}
+		} else {
+			//pre HONEYCOMB
+			applyAlphaChanged(this.brickLayout, newAlpha);
+		}
+	}
+
+	private void applyAlphaChanged(ViewGroup viewGroup, int newAlpha) {
+		Drawable background = viewGroup.getBackground();
+		if (background != null) {
+			background.setAlpha(newAlpha);
+		}
+
+		for (int i = 0; i < viewGroup.getChildCount(); i++) {
+			View child = viewGroup.getChildAt(i);
+			if (child instanceof TextView) {
+				TextView textView = (TextView) child;
+				textView.setTextColor(textView.getTextColors().withAlpha(newAlpha));
+			} else if (child instanceof Spinner) {
+				Spinner spinner = (Spinner) child;
+				spinner.getBackground().setAlpha(newAlpha);
+				View selectedView = spinner.getSelectedView();
+				if (selectedView instanceof ViewGroup) {
+					View expectTextView = ((ViewGroup) selectedView).getChildAt(0);
+					if (expectTextView instanceof TextView) {
+						TextView textView = ((TextView) expectTextView);
+						textView.setTextColor(textView.getTextColors().withAlpha(newAlpha));
+					}
+				}
+			} else if (child instanceof ViewGroup) {
+				applyAlphaChanged((ViewGroup) child, newAlpha);
+			}
+			//add other components when needed
 		}
 	}
 

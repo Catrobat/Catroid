@@ -73,12 +73,9 @@ public interface Brick extends Serializable, Cloneable {
 
 	int getRequiredResources();
 
-
 	int getAlphaValue();
 
 	void setBrickAdapter(BrickAdapter adapter);
-
-	View getViewWithAlpha(int alphaValue);
 
 	void setAnimationState(boolean animationState);
 

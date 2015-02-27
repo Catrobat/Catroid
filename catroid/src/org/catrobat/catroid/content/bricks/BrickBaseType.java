@@ -64,7 +64,11 @@ public class BrickBaseType implements Brick {
 		return NO_RESOURCES;
 	}
 
-	@Override
+	/**
+	 * @deprecated Alpha is applied in BrickView.
+	 * @param alphaValue
+	 * @return
+	 */
 	public View getViewWithAlpha(int alphaValue) {
 		return null;
 	}

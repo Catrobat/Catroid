@@ -866,12 +866,18 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 			convertView = currentBrickView;
 		}
 
+		int alpha = ALPHA_FULL;
 		if (actionMode) {
 			currentBrickView.addMode(BrickView.Mode.SELECTION);
+			if (dragAndDropListView.isItemChecked(position)) {
+				alpha = ALPHA_GREYED;
+			}
 		} else {
 			// Remove selection mode
 			currentBrickView.removeMode(BrickView.Mode.SELECTION);
 		}
+		currentBrickView.applyAlpha(alpha);
+
 
 		if (position == positionOfInsertedBrick && initInsertedBrick && (selectMode == ListView.CHOICE_MODE_NONE)) {
 			initInsertedBrick = false;
@@ -997,14 +1003,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 		smartBrickSelection(position, checked);
 	}
 
-	private void handleBrickEnabledState(Brick brick, boolean enableState) {
-		if (enableState) {
-			brick.getViewWithAlpha(ALPHA_FULL);
-		} else {
-			brick.getViewWithAlpha(ALPHA_GREYED);
-		}
-	}
-
 	/**
 	 * @param position
 	 * @param checked
@@ -1032,7 +1030,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 
 				setBrickChecked(checked, brickPosition, currentBrick);
 
-				handleBrickEnabledState(currentBrick, !checked);
 				brickPosition++;
 			}
 
