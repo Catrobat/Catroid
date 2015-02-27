@@ -305,7 +305,7 @@ public class ScriptActivity extends BaseActivity {
 		String tag1 = UserBrickDataEditorFragment.BRICK_DATA_EDITOR_FRAGMENT_TAG;
 		UserBrickDataEditorFragment fragment = (UserBrickDataEditorFragment) fragmentManager.findFragmentByTag(tag1);
 		if (fragment != null && fragment.isVisible()) {
-				return fragment.onKey(null, keyCode, event);
+			return fragment.onKey(null, keyCode, event);
 		}
 
 		FormulaEditorVariableListFragment formulaEditorVariableListFragment = (FormulaEditorVariableListFragment) getSupportFragmentManager()
