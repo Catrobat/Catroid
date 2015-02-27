@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -71,39 +70,12 @@ public class SetBrightnessBrick extends FormulaBrick implements OnClickListener 
 		}
 
 		view = View.inflate(context, R.layout.brick_set_brightness, null);
-		view = getViewWithAlpha(alphaValue);
 
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_brightness_edit_text);
 		getFormulaWithBrickField(BrickField.BRIGHTNESS).setTextFieldId(R.id.brick_set_brightness_edit_text);
 		getFormulaWithBrickField(BrickField.BRIGHTNESS).refreshTextField(view);
 
 		editX.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_set_brightness_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textBrightness = (TextView) view.findViewById(R.id.brick_set_brightness_label);
-			TextView textTo = (TextView) view.findViewById(R.id.brick_set_brightness_to_textview);
-			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_brightness_to_percent);
-			TextView editGhostEffect = (TextView) view.findViewById(R.id.brick_set_brightness_edit_text);
-			textBrightness.setTextColor(textBrightness.getTextColors().withAlpha(alphaValue));
-			textTo.setTextColor(textTo.getTextColors().withAlpha(alphaValue));
-			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
-			editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));
-			editGhostEffect.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = (alphaValue);
-
-		}
-
 		return view;
 	}
 

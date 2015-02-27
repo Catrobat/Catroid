@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -71,36 +70,11 @@ public class SetSizeToBrick extends FormulaBrick implements OnClickListener {
 		}
 
 		view = View.inflate(context, R.layout.brick_set_size_to, null);
-		view = getViewWithAlpha(alphaValue);
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_set_size_to_edit_text);
 		getFormulaWithBrickField(BrickField.SIZE).setTextFieldId(R.id.brick_set_size_to_edit_text);
 		getFormulaWithBrickField(BrickField.SIZE).refreshTextField(view);
 		edit.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_set_size_to_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textSize = (TextView) view.findViewById(R.id.brick_set_size_to_label);
-			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_size_to_percent);
-			TextView editSize = (TextView) view.findViewById(R.id.brick_set_size_to_edit_text);
-			textSize.setTextColor(textSize.getTextColors().withAlpha(alphaValue));
-			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
-			editSize.setTextColor(editSize.getTextColors().withAlpha(alphaValue));
-			editSize.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = (alphaValue);
-
-		}
-
 		return view;
 	}
 

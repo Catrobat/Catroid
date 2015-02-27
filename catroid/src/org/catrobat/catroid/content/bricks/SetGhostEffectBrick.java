@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -71,39 +70,12 @@ public class SetGhostEffectBrick extends FormulaBrick implements OnClickListener
 		}
 
 		view = View.inflate(context, R.layout.brick_set_ghost_effect, null);
-		view = getViewWithAlpha(alphaValue);
 
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to_edit_text);
 		getFormulaWithBrickField(BrickField.TRANSPARENCY).setTextFieldId(R.id.brick_set_ghost_effect_to_edit_text);
 		getFormulaWithBrickField(BrickField.TRANSPARENCY).refreshTextField(view);
 
 		editX.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_set_ghost_effect_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textGhostLabel = (TextView) view.findViewById(R.id.brick_set_ghost_effect_label);
-			TextView textGhostTo = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to);
-			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_ghost_effect_percent);
-			TextView editGhostEffect = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to_edit_text);
-			textGhostLabel.setTextColor(textGhostLabel.getTextColors().withAlpha(alphaValue));
-			textGhostTo.setTextColor(textGhostTo.getTextColors().withAlpha(alphaValue));
-			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
-			editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));
-			editGhostEffect.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = (alphaValue);
-
-		}
-
 		return view;
 	}
 

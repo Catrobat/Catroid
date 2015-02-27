@@ -23,8 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -47,7 +45,6 @@ import java.util.List;
 public class LegoNxtMotorActionBrick extends FormulaBrick implements OnClickListener {
 	private static final long serialVersionUID = 1L;
 
-	private transient AdapterView<?> adapterView;
 	private String motor;
 	private transient Motor motorEnum;
 
@@ -98,12 +95,8 @@ public class LegoNxtMotorActionBrick extends FormulaBrick implements OnClickList
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 
 		view = View.inflate(context, R.layout.brick_nxt_motor_action, null);
-		view = getViewWithAlpha(alphaValue);
 
 		TextView editSpeed = (TextView) view.findViewById(R.id.motor_action_speed_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED).setTextFieldId(R.id.motor_action_speed_edit_text);
@@ -126,7 +119,6 @@ public class LegoNxtMotorActionBrick extends FormulaBrick implements OnClickList
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				motorEnum = Motor.values()[position];
 				motor = motorEnum.name();
-				adapterView = arg0;
 			}
 
 			@Override
@@ -148,39 +140,6 @@ public class LegoNxtMotorActionBrick extends FormulaBrick implements OnClickList
 			return;
 		}
 		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED));
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_nxt_motor_action_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textLegoMotorActionLabel = (TextView) view.findViewById(R.id.lego_motor_action_label);
-			TextView textLegoMotorActionSpeed = (TextView) view.findViewById(R.id.lego_motor_action_speed);
-			TextView textLegoMotorActionPercent = (TextView) view.findViewById(R.id.lego_motor_action_percent);
-			TextView editSpeed = (TextView) view.findViewById(R.id.motor_action_speed_edit_text);
-
-			ColorStateList color;
-			textLegoMotorActionLabel.setTextColor(color = textLegoMotorActionLabel.getTextColors().withAlpha(alphaValue));
-			textLegoMotorActionSpeed.setTextColor(textLegoMotorActionSpeed.getTextColors().withAlpha(alphaValue));
-			textLegoMotorActionPercent.setTextColor(textLegoMotorActionPercent.getTextColors().withAlpha(alphaValue));
-			Spinner motorSpinner = (Spinner) view.findViewById(R.id.lego_motor_action_spinner);
-			motorSpinner.getBackground().setAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-			editSpeed.setTextColor(editSpeed.getTextColors().withAlpha(alphaValue));
-			editSpeed.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = (alphaValue);
-
-		}
-
-		return view;
 	}
 
 	@Override

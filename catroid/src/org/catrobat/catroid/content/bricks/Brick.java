@@ -73,11 +73,8 @@ public interface Brick extends Serializable, Cloneable {
 
 	int getRequiredResources();
 
-	int getAlphaValue();
-
 	void setBrickAdapter(BrickAdapter adapter);
 
 	void setAnimationState(boolean animationState);
 
-	void setAlpha(int alphaFull);
 }

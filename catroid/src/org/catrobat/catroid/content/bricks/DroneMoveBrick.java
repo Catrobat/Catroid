@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -86,7 +85,6 @@ public abstract class DroneMoveBrick extends FormulaBrick implements OnClickList
 		}
 
 		view = View.inflate(context, R.layout.brick_drone_move, null);
-		view = getViewWithAlpha(alphaValue);
 
 		TextView editTime = (TextView) view.findViewById(R.id.brick_drone_move_edit_text_second);
 		getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
@@ -124,39 +122,6 @@ public abstract class DroneMoveBrick extends FormulaBrick implements OnClickList
 
 		editPower.setOnClickListener(this);
 
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_drone_move_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textTimeLabel = (TextView) view.findViewById(R.id.brick_drone_move_label);
-			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_power_to_percent);
-
-			TextView textTimeSeconds = (TextView) view.findViewById(R.id.brick_drone_move_text_view_second);
-			TextView editTime = (TextView) view.findViewById(R.id.brick_drone_move_edit_text_second);
-
-			TextView textPower = (TextView) view.findViewById(R.id.brick_drone_move_text_view_power);
-			TextView editPower = (TextView) view.findViewById(R.id.brick_drone_move_edit_text_power);
-
-			textTimeLabel.setTextColor(textTimeLabel.getTextColors().withAlpha(alphaValue));
-
-			textTimeSeconds.setTextColor(textTimeSeconds.getTextColors().withAlpha(alphaValue));
-			editTime.setTextColor(editTime.getTextColors().withAlpha(alphaValue));
-			editTime.getBackground().setAlpha(alphaValue);
-
-			textPower.setTextColor(textPower.getTextColors().withAlpha(alphaValue));
-			editPower.setTextColor(editPower.getTextColors().withAlpha(alphaValue));
-
-			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
-			editPower.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = (alphaValue);
-		}
 		return view;
 	}
 

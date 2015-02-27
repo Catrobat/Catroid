@@ -351,7 +351,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		BottomBar.showPlayButton(getActivity());
 		BottomBar.showAddButton(getActivity());
 		initListeners();
-		adapter.resetAlphas();
 	}
 
 	@Override

@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -74,8 +73,8 @@ public class MoveNStepsBrick extends FormulaBrick implements OnClickListener {
 		if (animationState) {
 			return view;
 		}
+
 		view = View.inflate(context, R.layout.brick_move_n_steps, null);
-		view = getViewWithAlpha(alphaValue);
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_move_n_steps_edit_text);
 
@@ -102,31 +101,6 @@ public class MoveNStepsBrick extends FormulaBrick implements OnClickListener {
 		}
 
 		edit.setOnClickListener(this);
-		return view;
-	}
-
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_move_n_steps_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView moveNStepsLabel = (TextView) view.findViewById(R.id.brick_move_n_steps_label);
-			TextView times = (TextView) view.findViewById(R.id.brick_move_n_steps_step_text_view);
-			TextView moveNStepsEdit = (TextView) view.findViewById(R.id.brick_move_n_steps_edit_text);
-			moveNStepsLabel.setTextColor(moveNStepsLabel.getTextColors().withAlpha(alphaValue));
-			times.setTextColor(times.getTextColors().withAlpha(alphaValue));
-			moveNStepsEdit.setTextColor(moveNStepsEdit.getTextColors().withAlpha(alphaValue));
-			moveNStepsEdit.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = (alphaValue);
-
-		}
-
 		return view;
 	}
 

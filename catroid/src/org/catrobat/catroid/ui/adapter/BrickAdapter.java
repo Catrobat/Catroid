@@ -48,6 +48,7 @@ import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
+import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.ui.BrickView;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
@@ -180,13 +181,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 			brickList.add(brick);
 			brick.setBrickAdapter(this);
 		}
-	}
-
-	public void resetAlphas() {
-		for (Brick brick : brickList) {
-			brick.setAlpha(ALPHA_FULL);
-		}
-		notifyDataSetChanged();
 	}
 
 	private Script getUserScript() {
@@ -869,7 +863,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 		int alpha = ALPHA_FULL;
 		if (actionMode) {
 			currentBrickView.addMode(BrickView.Mode.SELECTION);
-			if (dragAndDropListView.isItemChecked(position)) {
+			if (dragAndDropListView.isItemChecked(position) && !(item instanceof WhenStartedBrick)) {
 				alpha = ALPHA_GREYED;
 			}
 		} else {

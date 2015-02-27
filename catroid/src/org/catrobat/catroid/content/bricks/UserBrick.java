@@ -69,6 +69,11 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	@XStreamAlias("userBrickId")
 	private int userBrickId;
 
+	/**
+	 * FIXME: Illya Boyko: alphaValue is still present in user brick logic
+	 */
+	protected transient int alphaValue = 255;
+
 	public UserBrick(int userBrickId) {
 		this.userBrickId = userBrickId;
 		this.definitionBrick = new UserScriptDefinitionBrick(this);
@@ -170,14 +175,34 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		}
 
 		view = View.inflate(context, R.layout.brick_user, null);
-		view = getViewWithAlpha(alphaValue);
 
 		onLayoutChanged(view);
 
 		return view;
 	}
 
-	@Override
+	/**
+	 * FIXME: Illya Boyko: getAlphaValue is still present in user brick logic
+	 * @return
+	 */
+	public int getAlphaValue() {
+		return alphaValue;
+	}
+
+	/**
+	 * FIXME: Illya Boyko: setAlpha is still present in user brick logic
+	 * @param newAlpha
+	 */
+	public void setAlpha(int newAlpha) {
+		alphaValue = newAlpha;
+	}
+
+
+	/**
+	 * FIXME: Illya Boyko: getViewWithAlpha is still present in user brick logic
+	 * @param alphaValue
+	 * @return
+	 */
 	public View getViewWithAlpha(int alphaValue) {
 		if (view == null) {
 			return null;
@@ -200,7 +225,6 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 			}
 		}
 
-		this.alphaValue = (alphaValue);
 		return view;
 	}
 

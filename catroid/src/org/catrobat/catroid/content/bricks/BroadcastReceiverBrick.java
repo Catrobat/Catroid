@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -88,16 +87,12 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 		if (receiveScript == null) {
 			receiveScript = new BroadcastScript(broadcastMessage);
 			MessageContainer.addMessage(getBroadcastMessage());
 		}
 
 		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
-		view = getViewWithAlpha(alphaValue);
 
 		// XXX method moved to to DragAndDropListView since it is not working on 2.x
 		//		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -152,20 +147,6 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 //		setSpinnerSelection(broadcastReceiverSpinner);
 //		return prototypeView;
 //	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_broadcast_receive_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
-
-		}
-		return view;
-	}
 
 	@Override
 	public Script getScriptSafe() {

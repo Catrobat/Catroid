@@ -24,15 +24,12 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -49,7 +46,6 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 	private static final long serialVersionUID = 1L;
 
 	protected String broadcastMessage;
-	protected transient AdapterView<?> adapterView;
 
 	protected Object readResolve() {
 		MessageContainer.addMessage(broadcastMessage);
@@ -87,11 +83,7 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 		view = View.inflate(context, R.layout.brick_broadcast, null);
-		view = getViewWithAlpha(alphaValue);
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_spinner);
 		broadcastSpinner.setFocusableInTouchMode(false);
@@ -107,7 +99,6 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 					showNewMessageDialog(broadcastSpinner);
 				} else {
 					broadcastMessage = selectedMessage;
-					adapterView = parent;
 				}
 			}
 
@@ -120,30 +111,6 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 		return view;
 	}
 
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_broadcast_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textBroadcastLabel = (TextView) view.findViewById(R.id.brick_broadcast_label);
-			textBroadcastLabel.setTextColor(textBroadcastLabel.getTextColors().withAlpha(alphaValue));
-			Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_spinner);
-			ColorStateList color = textBroadcastLabel.getTextColors().withAlpha(alphaValue);
-			broadcastSpinner.getBackground().setAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-
-			this.alphaValue = (alphaValue);
-
-		}
-
-		return view;
-	}
 
 	protected void setSpinnerSelection(Spinner spinner) {
 		int position = MessageContainer.getPositionOfMessageInAdapter(spinner.getContext(), broadcastMessage);

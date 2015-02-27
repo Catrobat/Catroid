@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -72,7 +71,6 @@ public class ChangeGhostEffectByNBrick extends FormulaBrick implements OnClickLi
 		}
 
 		view = View.inflate(context, R.layout.brick_change_ghost_effect, null);
-		view = getViewWithAlpha(alphaValue);
 
 		TextView editX = (TextView) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
 		getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE)
@@ -80,30 +78,6 @@ public class ChangeGhostEffectByNBrick extends FormulaBrick implements OnClickLi
 		getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE).refreshTextField(view);
 
 		editX.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_change_ghost_effect_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textGhost = (TextView) view.findViewById(R.id.brick_change_ghost_effect_label);
-			TextView textGhostBy = (TextView) view.findViewById(R.id.brick_change_ghost_effect_by);
-			TextView editGhostEffect = (TextView) view.findViewById(R.id.brick_change_ghost_effect_edit_text);
-			textGhost.setTextColor(textGhost.getTextColors().withAlpha(alphaValue));
-			textGhostBy.setTextColor(textGhostBy.getTextColors().withAlpha(alphaValue));
-			editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));
-			editGhostEffect.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = (alphaValue);
-
-		}
-
 		return view;
 	}
 

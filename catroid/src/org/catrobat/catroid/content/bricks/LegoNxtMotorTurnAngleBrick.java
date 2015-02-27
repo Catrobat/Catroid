@@ -23,8 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -49,7 +47,6 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickL
 
 	private String motor;
 	private transient Motor motorEnum;
-	private transient AdapterView<?> adapterView;
 
 	public static enum Motor {
 		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C
@@ -99,11 +96,8 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickL
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
+
 		view = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
-		view = getViewWithAlpha(alphaValue);
 
 		TextView editSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES).setTextFieldId(R.id.motor_turn_angle_edit_text);
@@ -127,7 +121,6 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickL
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				motorEnum = Motor.values()[position];
 				motor = motorEnum.name();
-				adapterView = arg0;
 			}
 
 			@Override
@@ -147,39 +140,6 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickL
 			return;
 		}
 		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES));
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_nxt_motor_turn_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textLegoTurnAngleLabel = (TextView) view.findViewById(R.id.brick_nxt_motor_turn_label);
-			TextView textLegoTurnAngleTextView = (TextView) view.findViewById(R.id.brick_nxt_motor_turn_angle);
-			TextView textLegoTurnAngleDegree = (TextView) view.findViewById(R.id.brick_nxt_motor_turn_degree);
-			TextView editLegoSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_edit_text);
-
-			textLegoTurnAngleLabel.setTextColor(textLegoTurnAngleLabel.getTextColors().withAlpha(alphaValue));
-			textLegoTurnAngleTextView.setTextColor(textLegoTurnAngleTextView.getTextColors().withAlpha(alphaValue));
-			textLegoTurnAngleDegree.setTextColor(textLegoTurnAngleDegree.getTextColors().withAlpha(alphaValue));
-			Spinner motorSpinner = (Spinner) view.findViewById(R.id.lego_motor_turn_angle_spinner);
-			ColorStateList color = textLegoTurnAngleDegree.getTextColors().withAlpha(alphaValue);
-			motorSpinner.getBackground().setAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-			editLegoSpeed.setTextColor(editLegoSpeed.getTextColors().withAlpha(alphaValue));
-			editLegoSpeed.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = (alphaValue);
-
-		}
-
-		return view;
 	}
 
 	@Override

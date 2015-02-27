@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -82,7 +81,6 @@ public class PlaceAtBrick extends FormulaBrick implements OnClickListener {
 		}
 
 		view = View.inflate(context, R.layout.brick_place_at, null);
-		view = getViewWithAlpha(alphaValue);
 
 		TextView editX = (TextView) view.findViewById(R.id.brick_place_at_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_POSITION).setTextFieldId(R.id.brick_place_at_edit_text_x);
@@ -98,34 +96,6 @@ public class PlaceAtBrick extends FormulaBrick implements OnClickListener {
 		return view;
 	}
 
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_place_at_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView placeAtLabel = (TextView) view.findViewById(R.id.brick_place_at_label);
-			TextView placeAtX = (TextView) view.findViewById(R.id.brick_place_at_x_textview);
-			TextView placeAtY = (TextView) view.findViewById(R.id.brick_place_at_y_textview);
-			TextView editX = (TextView) view.findViewById(R.id.brick_place_at_edit_text_x);
-			TextView editY = (TextView) view.findViewById(R.id.brick_place_at_edit_text_y);
-			placeAtLabel.setTextColor(placeAtLabel.getTextColors().withAlpha(alphaValue));
-			placeAtX.setTextColor(placeAtX.getTextColors().withAlpha(alphaValue));
-			placeAtY.setTextColor(placeAtY.getTextColors().withAlpha(alphaValue));
-			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
-			editX.getBackground().setAlpha(alphaValue);
-			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
-			editY.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = (alphaValue);
-
-		}
-
-		return view;
-	}
 
 	@Override
 	public void onClick(View view) {

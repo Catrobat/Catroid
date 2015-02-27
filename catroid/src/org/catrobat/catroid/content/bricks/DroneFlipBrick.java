@@ -23,10 +23,8 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -58,26 +56,8 @@ public class DroneFlipBrick extends BrickBaseType {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 		view = View.inflate(context, R.layout.brick_drone_flip, null);
-		view = getViewWithAlpha(alphaValue);
 
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_drone_flip);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textLegoMotorStopLabel = (TextView) view.findViewById(R.id.ValueTextView);
-			textLegoMotorStopLabel.setTextColor(textLegoMotorStopLabel.getTextColors().withAlpha(alphaValue));
-			this.alphaValue = (alphaValue);
-		}
 		return view;
 	}
 

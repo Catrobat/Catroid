@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 
@@ -59,23 +58,8 @@ public class DroneTakeOffBrick extends BrickBaseType {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 		view = View.inflate(context, R.layout.brick_drone_takeoff, null);
-		view = getViewWithAlpha(alphaValue);
 
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_drone_takeoff);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
-		}
 		return view;
 	}
 

@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -71,37 +70,12 @@ public class ChangeBrightnessByNBrick extends FormulaBrick implements OnClickLis
 		}
 
 		view = View.inflate(context, R.layout.brick_change_brightness, null);
-		view = getViewWithAlpha(alphaValue);
 
 		TextView editX = (TextView) view.findViewById(R.id.brick_change_brightness_edit_text);
 		getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE).setTextFieldId(R.id.brick_change_brightness_edit_text);
 		getFormulaWithBrickField(BrickField.BRIGHTNESS_CHANGE).refreshTextField(view);
 
 		editX.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_change_brightness_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textBrightness = (TextView) view.findViewById(R.id.brick_change_brightness_label);
-			TextView textBy = (TextView) view.findViewById(R.id.brick_change_brightness_by_textview);
-			TextView editBrightness = (TextView) view.findViewById(R.id.brick_change_brightness_edit_text);
-			textBrightness.setTextColor(textBrightness.getTextColors().withAlpha(alphaValue));
-			textBy.setTextColor(textBy.getTextColors().withAlpha(alphaValue));
-			editBrightness.setTextColor(editBrightness.getTextColors().withAlpha(alphaValue));
-			editBrightness.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = (alphaValue);
-
-		}
-
 		return view;
 	}
 

@@ -23,9 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.database.DataSetObserver;
-import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -55,7 +53,6 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 	private static final long serialVersionUID = 1L;
 	private LookData look;
 	private transient LookData oldSelectedLook;
-	private transient AdapterView<?> adapterView;
 
 	public SetLookBrick() {
 
@@ -92,7 +89,6 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_set_look, null);
-		view = getViewWithAlpha(alphaValue);
 
 		final Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.brick_set_look_spinner);
 		lookbrickSpinner.setFocusableInTouchMode(false);
@@ -113,7 +109,6 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 				} else {
 					look = (LookData) parent.getItemAtPosition(position);
 					oldSelectedLook = look;
-					adapterView = parent;
 				}
 			}
 
@@ -127,32 +122,6 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(context.getString(R.string.background))) {
 			TextView textField = (TextView) view.findViewById(R.id.brick_set_look_label);
 			textField.setText(R.string.brick_set_background);
-		}
-
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_set_look_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			Spinner lookBrickSpinner = (Spinner) view.findViewById(R.id.brick_set_look_spinner);
-			TextView lookBrickTextView = (TextView) view.findViewById(R.id.brick_set_look_label);
-
-			ColorStateList color = lookBrickTextView.getTextColors().withAlpha(alphaValue);
-			lookBrickTextView.setTextColor(color);
-			lookBrickSpinner.getBackground().setAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-
-			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

@@ -23,12 +23,10 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -81,32 +79,9 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		view = inflater.inflate(R.layout.brick_if_end_if, null);
-		view = getViewWithAlpha(alphaValue);
-
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_if_end_if_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView ifEndLabel = (TextView) view.findViewById(R.id.brick_if_end_if_label);
-			ifEndLabel.setTextColor(ifEndLabel.getTextColors().withAlpha(alphaValue));
-
-			this.alphaValue = (alphaValue);
-
-		}
 
 		return view;
 	}

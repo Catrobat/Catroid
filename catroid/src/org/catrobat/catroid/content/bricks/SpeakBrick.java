@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -71,36 +70,12 @@ public class SpeakBrick extends FormulaBrick implements OnClickListener {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_speak, null);
-		view = getViewWithAlpha(alphaValue);
 
 		TextView textField = (TextView) view.findViewById(R.id.brick_speak_edit_text);
 		getFormulaWithBrickField(BrickField.SPEAK).setTextFieldId(R.id.brick_speak_edit_text);
 		getFormulaWithBrickField(BrickField.SPEAK).refreshTextField(view);
 
 		textField.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_speak_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textSpeak = (TextView) view.findViewById(R.id.brick_speak_label);
-			TextView editDegrees = (TextView) view.findViewById(R.id.brick_speak_edit_text);
-
-			textSpeak.setTextColor(textSpeak.getTextColors().withAlpha(alphaValue));
-			editDegrees.setTextColor(editDegrees.getTextColors().withAlpha(alphaValue));
-			editDegrees.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = (alphaValue);
-
-		}
-
 		return view;
 	}
 

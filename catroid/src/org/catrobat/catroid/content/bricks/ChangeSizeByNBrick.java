@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -71,35 +70,12 @@ public class ChangeSizeByNBrick extends FormulaBrick implements OnClickListener 
 		}
 
 		view = View.inflate(context, R.layout.brick_change_size_by_n, null);
-		view = getViewWithAlpha(alphaValue);
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_change_size_by_edit_text);
 		getFormulaWithBrickField(BrickField.SIZE_CHANGE).setTextFieldId(R.id.brick_change_size_by_edit_text);
 		getFormulaWithBrickField(BrickField.SIZE_CHANGE).refreshTextField(view);
 
 		edit.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_change_size_by_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView changeSizeBy = (TextView) view.findViewById(R.id.brick_change_size_by_label);
-			TextView editChangeSize = (TextView) view.findViewById(R.id.brick_change_size_by_edit_text);
-			changeSizeBy.setTextColor(changeSizeBy.getTextColors().withAlpha(alphaValue));
-			editChangeSize.setTextColor(editChangeSize.getTextColors().withAlpha(alphaValue));
-			editChangeSize.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = (alphaValue);
-
-		}
-
 		return view;
 	}
 

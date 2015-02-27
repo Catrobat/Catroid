@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -71,38 +70,12 @@ public class TurnLeftBrick extends FormulaBrick implements OnClickListener {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_turn_left, null);
-		view = getViewWithAlpha(alphaValue);
 
 		TextView editDegrees = (TextView) view.findViewById(R.id.brick_turn_left_edit_text);
 		getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES).setTextFieldId(R.id.brick_turn_left_edit_text);
 		getFormulaWithBrickField(BrickField.TURN_LEFT_DEGREES).refreshTextField(view);
 
 		editDegrees.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_turn_left_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView turnLeftLabel = (TextView) view.findViewById(R.id.brick_turn_left_label);
-			TextView times = (TextView) view.findViewById(R.id.brick_turn_left_degree_text_view);
-			TextView editDegrees = (TextView) view.findViewById(R.id.brick_turn_left_edit_text);
-
-			turnLeftLabel.setTextColor(turnLeftLabel.getTextColors().withAlpha(alphaValue));
-			times.setTextColor(times.getTextColors().withAlpha(alphaValue));
-			editDegrees.setTextColor(editDegrees.getTextColors().withAlpha(alphaValue));
-			editDegrees.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = (alphaValue);
-
-		}
-
 		return view;
 	}
 

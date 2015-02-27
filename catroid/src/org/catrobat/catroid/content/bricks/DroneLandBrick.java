@@ -60,27 +60,9 @@ public class DroneLandBrick extends BrickBaseType {
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 		view = View.inflate(context, R.layout.brick_drone_land, null);
-		view = getViewWithAlpha(alphaValue);
 
 
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_drone_land);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textLegoMotorStopLabel = (TextView) view.findViewById(R.id.ValueTextView);
-			textLegoMotorStopLabel.setTextColor(textLegoMotorStopLabel.getTextColors().withAlpha(alphaValue));
-			this.alphaValue = (alphaValue);
-		}
 		return view;
 	}
 

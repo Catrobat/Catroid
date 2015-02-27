@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -76,7 +75,6 @@ public class GoNStepsBackBrick extends FormulaBrick implements OnClickListener {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_go_back, null);
-		view = getViewWithAlpha(alphaValue);
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_go_back_edit_text);
 
@@ -104,29 +102,6 @@ public class GoNStepsBackBrick extends FormulaBrick implements OnClickListener {
 		}
 
 		edit.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_go_back_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
-
-			TextView hideLabel = (TextView) view.findViewById(R.id.brick_go_back_label);
-			TextView hideLayers = (TextView) view.findViewById(R.id.brick_go_back_layers_text_view);
-			TextView editGoBack = (TextView) view.findViewById(R.id.brick_go_back_edit_text);
-			hideLabel.setTextColor(hideLabel.getTextColors().withAlpha(alphaValue));
-			hideLayers.setTextColor(hideLayers.getTextColors().withAlpha(alphaValue));
-			editGoBack.setTextColor(editGoBack.getTextColors().withAlpha(alphaValue));
-			editGoBack.getBackground().setAlpha(alphaValue);
-
-		}
-
 		return view;
 	}
 

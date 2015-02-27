@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -90,7 +89,6 @@ public class GlideToBrick extends FormulaBrick implements OnClickListener {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_glide_to, null);
-		view = getViewWithAlpha(alphaValue);
 
 		TextView editX = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_DESTINATION).setTextFieldId(R.id.brick_glide_to_edit_text_x);
@@ -127,41 +125,6 @@ public class GlideToBrick extends FormulaBrick implements OnClickListener {
 		}
 
 		editDuration.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_glide_to_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView glideToLabel = (TextView) view.findViewById(R.id.brick_glide_to_label);
-			TextView glideToSeconds = (TextView) view.findViewById(R.id.brick_glide_to_seconds_text_view);
-			TextView glideToXTextView = (TextView) view.findViewById(R.id.brick_glide_to_x);
-			TextView glideToYTextView = (TextView) view.findViewById(R.id.brick_glide_to_y);
-			TextView editDuration = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_duration);
-			TextView editX = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_x);
-			TextView editY = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_y);
-
-			glideToLabel.setTextColor(glideToLabel.getTextColors().withAlpha(alphaValue));
-			glideToSeconds.setTextColor(glideToSeconds.getTextColors().withAlpha(alphaValue));
-			glideToXTextView.setTextColor(glideToXTextView.getTextColors().withAlpha(alphaValue));
-			glideToYTextView.setTextColor(glideToYTextView.getTextColors().withAlpha(alphaValue));
-			editDuration.setTextColor(editDuration.getTextColors().withAlpha(alphaValue));
-			editDuration.getBackground().setAlpha(alphaValue);
-			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
-			editX.getBackground().setAlpha(alphaValue);
-			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
-			editY.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = (alphaValue);
-
-		}
-
 		return view;
 	}
 

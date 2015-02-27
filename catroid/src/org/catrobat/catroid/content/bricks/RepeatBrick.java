@@ -23,12 +23,10 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -91,7 +89,6 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 		}
 
 		view = View.inflate(context, R.layout.brick_repeat, null);
-		view = getViewWithAlpha(alphaValue);
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_repeat_edit_text);
 		getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).setTextFieldId(R.id.brick_repeat_edit_text);
@@ -121,30 +118,6 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 		return view;
 	}
 
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_repeat_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView repeatLabel = (TextView) view.findViewById(R.id.brick_repeat_label);
-			TextView editRepeat = (TextView) view.findViewById(R.id.brick_repeat_edit_text);
-			TextView times = (TextView) view.findViewById(R.id.brick_repeat_time_text_view);
-			repeatLabel.setTextColor(repeatLabel.getTextColors().withAlpha(alphaValue));
-			times.setTextColor(times.getTextColors().withAlpha(alphaValue));
-			editRepeat.setTextColor(editRepeat.getTextColors().withAlpha(alphaValue));
-			editRepeat.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = (alphaValue);
-
-		}
-
-		return view;
-	}
 
 	@Override
 	public void onClick(View view) {

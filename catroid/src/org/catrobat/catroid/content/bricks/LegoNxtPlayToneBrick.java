@@ -72,11 +72,7 @@ public class LegoNxtPlayToneBrick extends FormulaBrick implements OnClickListene
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 		view = View.inflate(context, R.layout.brick_nxt_play_tone, null);
-		view = getViewWithAlpha(alphaValue);
 
 		TextView editDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_edit_text);
 		getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS)
@@ -111,41 +107,6 @@ public class LegoNxtPlayToneBrick extends FormulaBrick implements OnClickListene
 						getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS));
 				break;
 		}
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_nxt_play_tone_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textLegoPlayToneLabel = (TextView) view.findViewById(R.id.brick_nxt_play_tone_label);
-			TextView textLegoPlayToneDuration = (TextView) view.findViewById(R.id.brick_nxt_play_tone_duration);
-			TextView textLegoPlayToneSeconds = (TextView) view.findViewById(R.id.brick_nxt_play_tone_seconds);
-			TextView textLegoPlayToneFrequency = (TextView) view.findViewById(R.id.brick_nxt_play_tone_frequency);
-			TextView textLegoPlayToneOz = (TextView) view.findViewById(R.id.brick_nxt_play_tone_hundred_hz);
-
-			TextView editLegoDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_edit_text);
-			TextView editLegoFrequency = (TextView) view.findViewById(R.id.nxt_tone_freq_edit_text);
-			textLegoPlayToneLabel.setTextColor(textLegoPlayToneLabel.getTextColors().withAlpha(alphaValue));
-			textLegoPlayToneDuration.setTextColor(textLegoPlayToneDuration.getTextColors().withAlpha(alphaValue));
-			textLegoPlayToneSeconds.setTextColor(textLegoPlayToneSeconds.getTextColors().withAlpha(alphaValue));
-			textLegoPlayToneFrequency.setTextColor(textLegoPlayToneFrequency.getTextColors().withAlpha(alphaValue));
-			textLegoPlayToneOz.setTextColor(textLegoPlayToneOz.getTextColors().withAlpha(alphaValue));
-
-			editLegoFrequency.setTextColor(editLegoFrequency.getTextColors().withAlpha(alphaValue));
-			editLegoFrequency.getBackground().setAlpha(alphaValue);
-			editLegoDuration.setTextColor(editLegoDuration.getTextColors().withAlpha(alphaValue));
-			editLegoDuration.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = (alphaValue);
-
-		}
-
-		return view;
 	}
 
 	@Override

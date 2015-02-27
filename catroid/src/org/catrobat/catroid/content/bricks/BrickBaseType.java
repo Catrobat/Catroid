@@ -41,17 +41,11 @@ public class BrickBaseType implements Brick {
 	protected transient View view;
 	protected transient boolean checked = false;
 	protected transient BrickAdapter adapter;
-	protected transient int alphaValue = 255;
 	public transient boolean animationState = false;
 
 	@Override
 	public void setAnimationState(boolean animationState) {
 		this.animationState = animationState;
-	}
-
-	@Override
-	public int getAlphaValue() {
-		return alphaValue;
 	}
 
 	@Override
@@ -62,15 +56,6 @@ public class BrickBaseType implements Brick {
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	/**
-	 * @deprecated Alpha is applied in BrickView.
-	 * @param alphaValue
-	 * @return
-	 */
-	public View getViewWithAlpha(int alphaValue) {
-		return null;
 	}
 
 	@Override
@@ -97,11 +82,6 @@ public class BrickBaseType implements Brick {
 			Log.e(TAG, Log.getStackTraceString(exception));
 		}
 		return copyBrick;
-	}
-
-	@Override
-	public void setAlpha(int newAlpha) {
-		alphaValue = newAlpha;
 	}
 
 	protected boolean clickAllowed() {

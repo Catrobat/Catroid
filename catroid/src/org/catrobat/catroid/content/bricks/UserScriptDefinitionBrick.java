@@ -228,12 +228,15 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 		return imageView;
 	}
 
-	@Override
+	/**
+	 * FIXME: Illya Boyko: getViewWithAlpha is still present in user brick logic
+	 * @param alphaValue
+	 * @return
+	 */
 	public View getViewWithAlpha(int alphaValue) {
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_user_definition_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
-		this.alphaValue = (alphaValue);
 		return view;
 	}
 

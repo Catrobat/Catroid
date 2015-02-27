@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -70,34 +69,11 @@ public class SetYBrick extends FormulaBrick implements OnClickListener {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_set_y, null);
-		view = getViewWithAlpha(alphaValue);
 
 		TextView editY = (TextView) view.findViewById(R.id.brick_set_y_edit_text);
 		getFormulaWithBrickField(BrickField.Y_POSITION).setTextFieldId(R.id.brick_set_y_edit_text);
 		getFormulaWithBrickField(BrickField.Y_POSITION).refreshTextField(view);
 		editY.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_set_y_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textY = (TextView) view.findViewById(R.id.brick_set_y_textview);
-			TextView editY = (TextView) view.findViewById(R.id.brick_set_y_edit_text);
-			textY.setTextColor(textY.getTextColors().withAlpha(alphaValue));
-			editY.setTextColor(editY.getTextColors().withAlpha(alphaValue));
-			editY.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = (alphaValue);
-
-		}
-
 		return view;
 	}
 

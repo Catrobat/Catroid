@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
@@ -62,30 +61,10 @@ public class NextLookBrick extends BrickBaseType {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_next_look, null);
-		view = getViewWithAlpha(alphaValue);
 
 		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(context.getString(R.string.background))) {
 			TextView textField = (TextView) view.findViewById(R.id.brick_next_look_text_view);
 			textField.setText(R.string.brick_next_background);
-		}
-
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_next_look_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView nextLookLabel = (TextView) view.findViewById(R.id.brick_next_look_text_view);
-			nextLookLabel.setTextColor(nextLookLabel.getTextColors().withAlpha(alphaValue));
-
-			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

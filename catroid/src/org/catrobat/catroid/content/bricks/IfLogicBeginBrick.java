@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -103,12 +102,8 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick, OnC
 		if (animationState) {
 			return view;
 		}
-		if (view == null) {
-			alphaValue = 255;
-		}
 
 		view = View.inflate(context, R.layout.brick_if_begin_if, null);
-		view = getViewWithAlpha(alphaValue);
 
 		TextView ifBeginTextView = (TextView) view.findViewById(R.id.brick_if_begin_edit_text);
 
@@ -116,30 +111,6 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick, OnC
 		getFormulaWithBrickField(BrickField.IF_CONDITION).refreshTextField(view);
 
 		ifBeginTextView.setOnClickListener(this);
-
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_if_begin_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView ifLabel = (TextView) view.findViewById(R.id.if_label);
-			TextView ifLabelEnd = (TextView) view.findViewById(R.id.if_label_second_part);
-			TextView editX = (TextView) view.findViewById(R.id.brick_if_begin_edit_text);
-			ifLabel.setTextColor(ifLabel.getTextColors().withAlpha(alphaValue));
-			ifLabelEnd.setTextColor(ifLabelEnd.getTextColors().withAlpha(alphaValue));
-			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
-			editX.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = (alphaValue);
-
-		}
 
 		return view;
 	}

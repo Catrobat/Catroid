@@ -23,11 +23,9 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 
@@ -53,32 +51,7 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 			isPuzzleView = true;
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.brick_loop_endless, null);
-			view = getViewWithAlpha(alphaValue);
 		}
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = null;
-			if (isPuzzleView) {
-				layout = view.findViewById(R.id.brick_loop_endless_layout);
-				TextView endlessLabel = (TextView) view.findViewById(R.id.brick_loop_endless_label);
-				endlessLabel.setTextColor(endlessLabel.getTextColors().withAlpha(alphaValue));
-			} else {
-				layout = view.findViewById(R.id.brick_loop_endless_nopuzzle_layout);
-				TextView endlessLabel = (TextView) view.findViewById(R.id.brick_loop_endless_nopuzzle_label);
-				endlessLabel.setTextColor(endlessLabel.getTextColors().withAlpha(alphaValue));
-			}
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
-
-		}
-
 		return view;
 	}
 
@@ -94,7 +67,6 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 			isPuzzleView = false;
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.brick_loop_endless_no_puzzle, null);
-			view = getViewWithAlpha(alphaValue);
 		}
 		return view;
 	}

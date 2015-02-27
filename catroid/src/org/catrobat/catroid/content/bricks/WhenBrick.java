@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 
@@ -67,7 +66,8 @@ public class WhenBrick extends ScriptBrick {
 		}
 
 		view = View.inflate(context, R.layout.brick_when, null);
-		view = getViewWithAlpha(alphaValue); //TODO: IllyaBoyko: It was not present here, do we need it.
+
+		//TODO: IllyaBoyko: It was not present here, do we need it.
 
 		//method moved to to DragAndDropListView since it is not working on 2.x
 		/*
@@ -125,21 +125,6 @@ public class WhenBrick extends ScriptBrick {
 		//			public void onNothingSelected(AdapterView<?> parent) {
 		//			}
 		//		});
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_when_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
-
-		}
-
 		return view;
 	}
 

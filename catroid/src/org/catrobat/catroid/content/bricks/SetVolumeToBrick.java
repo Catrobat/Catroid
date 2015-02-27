@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -70,37 +69,12 @@ public class SetVolumeToBrick extends FormulaBrick implements OnClickListener {
 			return view;
 		}
 		view = View.inflate(context, R.layout.brick_set_volume_to, null);
-		view = getViewWithAlpha(alphaValue);
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_set_volume_to_edit_text);
 		getFormulaWithBrickField(BrickField.VOLUME).setTextFieldId(R.id.brick_set_volume_to_edit_text);
 		getFormulaWithBrickField(BrickField.VOLUME).refreshTextField(view);
 
 		edit.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-
-		if (view != null) {
-
-			View layout = view.findViewById(R.id.brick_set_volume_to_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-
-			TextView textVolume = (TextView) view.findViewById(R.id.brick_set_volume_to_text_view);
-			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_volume_to_percent);
-			TextView editVolume = (TextView) view.findViewById(R.id.brick_set_volume_to_edit_text);
-			textVolume.setTextColor(textVolume.getTextColors().withAlpha(alphaValue));
-			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
-			editVolume.setTextColor(editVolume.getTextColors().withAlpha(alphaValue));
-			editVolume.getBackground().setAlpha(alphaValue);
-
-			this.alphaValue = (alphaValue);
-
-		}
-
 		return view;
 	}
 
