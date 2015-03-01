@@ -1003,12 +1003,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 			if (nestingBrickPart instanceof Brick) {
 				int position = brickList.indexOf((Brick) nestingBrickPart);
 				if (position > -1) {
-					toAnimatePositions.add(position);
+					//Start animation not from getView method.
+					// Animation is started from dialog when list view has no focus.
+					startBlinkAnimation(context, dragAndDropListView.getChildAt(position), true);
 				}
 			}
 		}
-		// Invalidate list view. It will request layout and start animation on items.
-		notifyDataSetChanged();
 	}
 
 	public interface OnBrickCheckedListener {

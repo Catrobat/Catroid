@@ -32,16 +32,28 @@ import android.view.animation.AnimationUtils;
 import org.catrobat.catroid.R;
 
 /**
- * Created by illya on 01/03/15.
+ * UI Utilities.
+ * Created by illya.boyko@gmail.com on 01/03/15.
  */
 public class UiUtils {
 	/**
-	 * Start Blink animation.
+	 * Start Blink animation. Animation is started also when view has no window focus.
 	 *
 	 * @param view view to animate
 	 */
 	public static void startBlinkAnimation(final Context context, final View view) {
-		if (view == null || context == null) {
+		startBlinkAnimation(context, view, false);
+	}
+
+	/**
+	 * Start Blink animation.
+	 *
+	 * @param context           context
+	 * @param view              view to animate
+	 * @param ignoreWindowFocus when true - Animation is started also when view has no window focus.
+	 */
+	public static void startBlinkAnimation(Context context, View view, boolean ignoreWindowFocus) {
+		if (context == null || view == null || (!view.hasWindowFocus() && !ignoreWindowFocus)) {
 			return;
 		}
 		startAnimation(view, AnimationUtils.loadAnimation(context, R.anim.blink));
@@ -49,15 +61,16 @@ public class UiUtils {
 
 	/**
 	 * Start animation. Set View Transient state during animation to false.
+	 * Animation is started also when view has no window focus.
 	 *
 	 * @param view      view to animate
 	 * @param animation animation.
 	 */
 	public static void startAnimation(final View view, Animation animation) {
-		if (animation == null || view == null || !view.hasWindowFocus()) {
+		if (animation == null || view == null) {
 			return;
 		}
-		
+
 		animation.setAnimationListener(new Animation.AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
