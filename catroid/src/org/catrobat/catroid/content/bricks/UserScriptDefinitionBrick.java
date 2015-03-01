@@ -138,9 +138,6 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 
 	@Override
 	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 
 		view = View.inflate(context, R.layout.brick_user_definition, null);
 

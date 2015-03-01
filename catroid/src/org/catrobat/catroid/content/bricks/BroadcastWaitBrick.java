@@ -59,9 +59,6 @@ public class BroadcastWaitBrick extends BroadcastBrick implements BroadcastMessa
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 		view = View.inflate(context, R.layout.brick_broadcast_wait, null);
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_wait_spinner);

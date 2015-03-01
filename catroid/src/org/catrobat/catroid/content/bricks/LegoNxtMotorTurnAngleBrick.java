@@ -93,9 +93,6 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickL
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 
 		view = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 

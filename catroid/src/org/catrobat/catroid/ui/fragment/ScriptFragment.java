@@ -112,8 +112,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 				return;
 			}
 
-			adapter.getAnimatedBricks().clear();
-//			animatedBricks.clear();
+			adapter.clearToAnimatePositions();
+
 			final int itemPosition = position;//calculateItemPositionAndTouchPointY(view);
 			final List<CharSequence> items = new ArrayList<CharSequence>();
 
@@ -176,12 +176,8 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 //						int itemPosition = calculateItemPositionAndTouchPointY(view);
 //						Brick brick = brickList.get(itemPosition);
 						if (brick instanceof NestingBrick) {
-							List<NestingBrick> list = ((NestingBrick) brick).getAllNestingBrickParts(true);
-							for (NestingBrick tempBrick : list) {
-								adapter.getAnimatedBricks().add((Brick) tempBrick);
-							}
+							adapter.animateBricks(((NestingBrick) brick).getAllNestingBrickParts(true));
 						}
-						adapter.notifyDataSetChanged();
 					} else if (clickedItemText.equals(getText(R.string.brick_context_dialog_formula_edit_brick))) {
 						clickedEditFormula(brick, view);
 					}

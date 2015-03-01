@@ -67,14 +67,10 @@ public interface Brick extends Serializable, Cloneable {
 	//TODO: Illya Boyko: Remove brickId and adapter
 	View getView(Context context, int brickId, BaseAdapter adapter);
 
-//	View getPrototypeView(Context context);
-
 	Brick clone() throws CloneNotSupportedException;
 
 	int getRequiredResources();
 
 	void setBrickAdapter(BrickAdapter adapter);
-
-	void setAnimationState(boolean animationState);
 
 }

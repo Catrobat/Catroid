@@ -28,9 +28,7 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.AnimationUtils;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
@@ -56,8 +54,12 @@ import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.Lock;
+
+import static org.catrobat.catroid.utils.UiUtils.startBlinkAnimation;
 
 public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 		ScriptActivityAdapterInterface {
@@ -91,8 +93,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 
 	private List<Brick> brickList;
 
-	//TODO: change to positions!!! or View
-	private List<Brick> animatedBricks;
+	private Queue<Integer> toAnimatePositions;
 
 	private int selectMode;
 	private OnBrickCheckedListener scriptFragment;
@@ -110,12 +111,26 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 		this.context = context;
 		this.sprite = sprite;
 		dragAndDropListView = listView;
+		toAnimatePositions = new LinkedBlockingQueue<Integer>();
+		dragAndDropListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				//Clear to animate brick positions before scroll.
+				Log.v(TAG, "onScrollStateChanged clear positions: " + toAnimatePositions.size() + "; " + toAnimatePositions);
+				toAnimatePositions.clear();
+			}
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+			}
+		});
 		insertionView = View.inflate(context, R.layout.brick_insert, null);
 		initInsertedBrick = false;
 		addingNewBrick = false;
 		firstDrag = true;
 		retryScriptDragging = false;
-		animatedBricks = new ArrayList<Brick>();
+
 		this.selectMode = ListView.CHOICE_MODE_NONE;
 		initBrickList();
 	}
@@ -261,7 +276,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 			toEndDrag = toOriginal;
 		}
 
-		animatedBricks.clear();
+		toAnimatePositions.clear();
 
 		notifyDataSetChanged();
 	}
@@ -884,10 +899,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 			return insertionView;
 		}
 
-		if (item != null && animatedBricks.contains(item)) {
-			Animation animation = AnimationUtils.loadAnimation(context, R.anim.blink);
-			convertView.startAnimation(animation);
-			animatedBricks.remove(item);
+		Log.v(TAG, "getView '" + position + "' animate positions: " + toAnimatePositions.size() + "; " + toAnimatePositions);
+		if (item != null && toAnimatePositions.contains(position)) {
+			startBlinkAnimation(context, convertView);
+			toAnimatePositions.remove(position);
 		}
 		return convertView;
 	}
@@ -969,20 +984,31 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 	}
 
 	public void checkAllItems() {
-		boolean selectionChanged = false;
 		for (Brick brick : brickList) {
 			if (brick instanceof ScriptBrick) {
-				selectionChanged |= smartBrickSelection(brickList.indexOf(brick), true);
+				smartBrickSelection(brickList.indexOf(brick), true);
 			}
-		}
-		if (selectionChanged) {
-			animateSelectedBricks();
-			notifyDataSetChanged();
 		}
 	}
 
-	public List<Brick> getAnimatedBricks() {
-		return animatedBricks;
+	public void clearToAnimatePositions() {
+		toAnimatePositions.clear();
+	}
+
+	public void animateBricks(List<NestingBrick> nestingBrickParts) {
+		if (nestingBrickParts == null || nestingBrickParts.isEmpty()) {
+			return;
+		}
+		for (NestingBrick nestingBrickPart : nestingBrickParts) {
+			if (nestingBrickPart instanceof Brick) {
+				int position = brickList.indexOf((Brick) nestingBrickPart);
+				if (position > -1) {
+					toAnimatePositions.add(position);
+				}
+			}
+		}
+		// Invalidate list view. It will request layout and start animation on items.
+		notifyDataSetChanged();
 	}
 
 	public interface OnBrickCheckedListener {
@@ -994,12 +1020,18 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 	}
 
 	public void handleCheck(int position, boolean checked) {
+		// Method is called by list view in item check.
+		// lisView requests layouting by itself.
+		// no notify datadet needed.
 		smartBrickSelection(position, checked);
 	}
 
 	/**
-	 * @param position
-	 * @param checked
+	 * Smart selection is applied to position. Method invalidated ListView.
+	 * It will request layout by itself.
+	 *
+	 * @param position position to check.
+	 * @param checked  true when item should be checked.
 	 * @return true when smart selection applied
 	 */
 	private boolean smartBrickSelection(int position, boolean checked) {
@@ -1027,7 +1059,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 				brickPosition++;
 			}
 
-
 			smartSelection = true;
 		} else if (checkedBrick instanceof NestingBrick) {
 			for (NestingBrick currentNestingBrick : ((NestingBrick) checkedBrick).getAllNestingBrickParts(true)) {
@@ -1048,12 +1079,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 			scriptFragment.onBrickChecked();
 		}
 
-		animateSelectedBricks();
-		if (smartSelection) {
-			// when smart selection applied refresh view.
-			notifyDataSetChanged();
-		}
-
 		return smartSelection;
 	}
 
@@ -1063,48 +1088,13 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 	 */
 	private void setBrickChecked(boolean checked, int position, Brick brick) {
 		if (checked) {
-			animatedBricks.add(brick);
+			toAnimatePositions.add(position);
 		}
 		if (!UserScriptDefinitionBrick.class.equals(brick.getClass())) {
 			Log.v(TAG, "Selecting Item position '" + position + "' for Brick '" + brick.getClass().getSimpleName() + "'");
 			dragAndDropListView.setItemChecked(position, checked);
 		}
 
-	}
-
-	private void animateSelectedBricks() {
-		if (!animatedBricks.isEmpty()) {
-
-			for (final Brick animationBrick : animatedBricks) {
-				Animation animation = AnimationUtils.loadAnimation(context, R.anim.blink);
-
-				animation.setAnimationListener(new AnimationListener() {
-
-					@Override
-					public void onAnimationStart(Animation animation) {
-						animationBrick.setAnimationState(true);
-					}
-
-					@Override
-					public void onAnimationRepeat(Animation animation) {
-
-					}
-
-					@Override
-					public void onAnimationEnd(Animation animation) {
-						animationBrick.setAnimationState(false);
-					}
-				});
-				int position = brickList.indexOf(animationBrick);
-
-				animationBrick.setAnimationState(true);
-				View view = dragAndDropListView.getChildAt(position);
-				if (view != null && view.hasWindowFocus()) {
-					view.startAnimation(animation);
-				}
-			}
-			animatedBricks.clear();
-		}
 	}
 
 	public UserBrick getUserBrick() {

@@ -60,9 +60,6 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 
 		view = View.inflate(context, R.layout.brick_note, null);
 

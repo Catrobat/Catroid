@@ -80,9 +80,6 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 		view = View.inflate(context, R.layout.brick_broadcast, null);
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_spinner);

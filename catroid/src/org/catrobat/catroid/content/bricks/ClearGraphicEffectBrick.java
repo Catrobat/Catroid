@@ -48,12 +48,7 @@ public class ClearGraphicEffectBrick extends BrickBaseType {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		view = View.inflate(context, R.layout.brick_clear_graphic_effect, null);
-
-		return view;
+		return view = View.inflate(context, R.layout.brick_clear_graphic_effect, null);
 	}
 
 	@Override

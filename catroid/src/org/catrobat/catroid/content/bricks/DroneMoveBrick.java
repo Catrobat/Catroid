@@ -80,9 +80,6 @@ public abstract class DroneMoveBrick extends FormulaBrick implements OnClickList
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 
 		view = View.inflate(context, R.layout.brick_drone_move, null);
 

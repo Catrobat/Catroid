@@ -85,9 +85,6 @@ public class GlideToBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 		view = View.inflate(context, R.layout.brick_glide_to, null);
 
 		TextView editX = (TextView) view.findViewById(R.id.brick_glide_to_edit_text_x);

@@ -77,10 +77,6 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-
 		view = View.inflate(context, R.layout.brick_play_sound, null);
 
 		final Spinner soundbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);

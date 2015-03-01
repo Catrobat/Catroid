@@ -66,9 +66,6 @@ public class ChangeGhostEffectByNBrick extends FormulaBrick implements OnClickLi
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 
 		view = View.inflate(context, R.layout.brick_change_ghost_effect, null);
 

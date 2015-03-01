@@ -41,9 +41,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -70,6 +67,8 @@ import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.catrobat.catroid.utils.UiUtils.startBlinkAnimation;
 
 public class AddBrickFragment extends SherlockListFragment implements DeleteModeListener, PrototypeBrickAdapter.OnBrickCheckedListener {
 
@@ -139,7 +138,7 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 					if (brickToFocus.isInstanceOf(userBrick)) {
 
 						listIndexToFocus = i;
-						animateBrick(userBrick, adapter);
+						startBlinkAnimation(context, userBrick.getView(context, 0, adapter));
 
 						brickToFocus = null;
 						break;
@@ -151,33 +150,6 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 			BottomBar.showBottomBar(getActivity());
 			BottomBar.hidePlayButton(getActivity());
 		}
-	}
-
-	private void animateBrick(final Brick brick, PrototypeBrickAdapter adapter) {
-		Context context = getActivity();
-		Animation animation = AnimationUtils.loadAnimation(context, R.anim.blink);
-
-		animation.setAnimationListener(new AnimationListener() {
-
-			@Override
-			public void onAnimationStart(Animation animation) {
-				brick.setAnimationState(true);
-			}
-
-			@Override
-			public void onAnimationRepeat(Animation animation) {
-
-			}
-
-			@Override
-			public void onAnimationEnd(Animation animation) {
-				brick.setAnimationState(false);
-			}
-		});
-
-		View view = brick.getView(context, 0, adapter);
-
-		view.startAnimation(animation);
 	}
 
 	public void handleAddButton() {

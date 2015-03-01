@@ -41,12 +41,6 @@ public class BrickBaseType implements Brick {
 	protected transient View view;
 	protected transient boolean checked = false;
 	protected transient BrickAdapter adapter;
-	public transient boolean animationState = false;
-
-	@Override
-	public void setAnimationState(boolean animationState) {
-		this.animationState = animationState;
-	}
 
 	@Override
 	public void setBrickAdapter(BrickAdapter adapter) {

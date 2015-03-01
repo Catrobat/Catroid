@@ -65,9 +65,6 @@ public class ChangeSizeByNBrick extends FormulaBrick implements OnClickListener 
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 
 		view = View.inflate(context, R.layout.brick_change_size_by_n, null);
 

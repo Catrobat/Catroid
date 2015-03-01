@@ -84,9 +84,6 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 		if (receiveScript == null) {
 			receiveScript = new BroadcastScript(broadcastMessage);
 			MessageContainer.addMessage(getBroadcastMessage());

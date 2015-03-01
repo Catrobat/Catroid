@@ -65,9 +65,6 @@ public class SetYBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
 		view = View.inflate(context, R.layout.brick_set_y, null);
 
 		TextView editY = (TextView) view.findViewById(R.id.brick_set_y_edit_text);

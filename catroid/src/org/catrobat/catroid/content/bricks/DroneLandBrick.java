@@ -57,13 +57,7 @@ public class DroneLandBrick extends BrickBaseType {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		view = View.inflate(context, R.layout.brick_drone_land, null);
-
-
-		return view;
+		return view = View.inflate(context, R.layout.brick_drone_land, null);
 	}
 
 	@Override
