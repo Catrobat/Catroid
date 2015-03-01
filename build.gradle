@@ -130,6 +130,13 @@ android {
             }
         }
     }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+        }
+    }
+
     lintOptions {
         // define ignores like a specific res-folder in our lint.xml file
         lintConfig file('config/lint.xml')
