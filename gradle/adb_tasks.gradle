@@ -44,7 +44,7 @@ def executeShellCommand(command) {
 
 def createAdbInstallTask(variant) {
     task ("commandlineAdbInstall${variant.name.capitalize()}") << {
-        def command = [getAdb(), '-s', getAndroidDevice(), 'install', variant.packageApplication.outputFile.path]
+        def command = [getAdb(), '-s', getAndroidDevice(), 'install', variant.outputs[0].outputFile.path]
         executeShellCommand(command)
     }
 }
