@@ -5,8 +5,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.1'
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
+        classpath 'com.android.tools.build:gradle:0.12.+'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.+'
     }
 }
 
@@ -140,15 +140,8 @@ android {
         // all general ignores should be added in this place
         // CommitPrefEdits should be reviewed, if using apply instead of commit is working with our tests
         // OldTargetApi should be reviewed - consider updating target API to 20
-        // RtlSymmetry/RtlHardcoded should be reviewed
-        // GradleDynamicVersion ignored - e.g. according to sdkmanager:gradle-plugin it should be imported this way
-        // IconMissingDensityFolder - currently no xxxhdpi icons available
-        // TODO ticket for HandlerLeak
-        // TODO don't know if WrongRegion warning is a false-positive one
         ignore 'ContentDescription', 'InvalidPackage', 'ValidFragment', 'GradleDependency',
-                'ClickableViewAccessibility', 'UnusedAttribute', 'CommitPrefEdits', 'OldTargetApi',
-                'RtlSymmetry', 'GradleDynamicVersion', 'RtlHardcoded', 'HandlerLeak', 'IconMissingDensityFolder',
-                'WrongRegion', 'RelativeOverlap'
+                'ClickableViewAccessibility', 'UnusedAttribute', 'CommitPrefEdits', 'OldTargetApi'
 
         textReport true
         xmlReport true
@@ -170,16 +163,13 @@ if (project.hasProperty('jenkins')) {
     //not a jenkins build, remove animation scale permission
     android.applicationVariants.all { variant ->
         println "Removing the SET_ANIMATION_SCALE permission for $variant.name"
-        variant.outputs.each { output ->
-            output.processManifest.doLast {
-                def generatedContent = manifestOutputFile.getText()
-                generatedContent = generatedContent.replace('<uses-permission android:name="android.permission.SET_ANIMATION_SCALE" />', '')
-                if (generatedContent.contains('SET_ANIMATION_SCALE')) {
-                    throw new RuntimeException("Error in removing animation scale permission!")
-                }
-                manifestOutputFile.write(generatedContent)
+        variant.processManifest.doLast {
+            def generatedContent = manifestOutputFile.getText()
+            generatedContent = generatedContent.replace('<uses-permission android:name="android.permission.SET_ANIMATION_SCALE" />', '')
+            if (generatedContent.contains('SET_ANIMATION_SCALE')) {
+                throw new RuntimeException("Error in removing animation scale permission!")
             }
-
+            manifestOutputFile.write(generatedContent)
         }
     }
 }
