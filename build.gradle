@@ -6,7 +6,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.12.+'
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.+'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
     }
 }
 
@@ -27,7 +27,7 @@ check.dependsOn 'checkstyle'
 check.dependsOn 'pmd'
 
 ext {
-    projectVersion = "0.9"
+    projectVersion = "0.9.8"
     featuresEnabled = [
             "lego_nxt"                          : true,
             "led_brick"                         : false,
@@ -71,8 +71,13 @@ def generateVersionName(version, buildNumber) {
     def versionName
     if (buildNumber == -1) {
         versionName = getGitDescribe() + " " + getCurrentGitBranch()
+        // remove the 'v' from versionName: e.g. v0.9.8-96-g082c2c5 master
+        // otherwise upload to web (production and testserver) would not be possible
+        versionName = versionName.substring(1, versionName.length())
     } else {
-        versionName = version + "." + buildNumber
+        // local builds and jenkins builds are consistent now (0.9.8-...)
+        // could be refactored to major.minor.buildnumber in an upcoming release
+        versionName = version + "-" + buildNumber
     }
     return versionName
 }
