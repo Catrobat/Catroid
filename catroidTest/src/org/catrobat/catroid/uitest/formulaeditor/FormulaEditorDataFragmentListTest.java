@@ -59,9 +59,6 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 	private static final String USER_LIST_NAME = "_userList1";
 	private Project project;
 	private Sprite firstSprite;
-	private Sprite secondSprite;
-	private Brick changeBrick;
-	private Brick glideToBrick;
 
 	private static final int CHANGE_SIZE_EDIT_TEXT_RID = R.id.brick_change_size_by_edit_text;
 	private static final int ADD_ITEM_TO_USERLIST_EDIT_TEXT_RID = R.id.brick_add_item_to_userlist_edit_text;
@@ -555,7 +552,7 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 	private void createProject(String projectName) throws InterruptedException {
 		project = new Project(null, projectName);
 		firstSprite = new Sprite("firstSprite");
-		secondSprite = new Sprite("secondSprite");
+		Sprite secondSprite = new Sprite("secondSprite");
 
 		project.addSprite(firstSprite);
 		project.addSprite(secondSprite);
@@ -565,8 +562,8 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 
 		Script startScript1 = new StartScript();
 		Script startScript2 = new StartScript();
-		changeBrick = new ChangeSizeByNBrick(0);
-		glideToBrick = new GlideToBrick(0, 0, 0);
+		Brick changeBrick = new ChangeSizeByNBrick(0);
+		Brick glideToBrick = new GlideToBrick(0, 0, 0);
 
 		firstSprite.addScript(startScript1);
 		secondSprite.addScript(startScript2);

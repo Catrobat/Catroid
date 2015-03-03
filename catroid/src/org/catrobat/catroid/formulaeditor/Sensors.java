@@ -33,7 +33,7 @@ public enum Sensors {
 	public static final String TAG = Sensors.class.getSimpleName();
 
 	Sensors(boolean isObjectSensor) {
-		this.isObjectSensor = true;
+		this.isObjectSensor = isObjectSensor;
 	}
 
 	Sensors() {
@@ -41,10 +41,7 @@ public enum Sensors {
 	}
 
 	public static boolean isSensor(String value) {
-		if (getSensorByValue(value) == null) {
-			return false;
-		}
-		return true;
+		return getSensorByValue(value) != null;
 	}
 
 	public static Sensors getSensorByValue(String value) {

@@ -70,7 +70,6 @@ public class FormulaEditorDataFragment extends SherlockListFragment implements D
 		DataAdapter.OnCheckedChangeListener, DataAdapter.OnListItemClickListener, NewUserListDialogListener, NewDataDialog.NewVariableDialogListener {
 
 	public static final String USER_DATA_TAG = "userDataFragment";
-	public static final String EDIT_TEXT_BUNDLE_ARGUMENT = "formulaEditorEditText";
 	public static final String ACTION_BAR_TITLE_BUNDLE_ARGUMENT = "actionBarTitle";
 	public static final String FRAGMENT_TAG_BUNDLE_ARGUMENT = "fragmentTag";
 
@@ -107,8 +106,7 @@ public class FormulaEditorDataFragment extends SherlockListFragment implements D
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View fragmentView = inflater.inflate(R.layout.fragment_formula_editor_data_list, container, false);
-		return fragmentView;
+		return inflater.inflate(R.layout.fragment_formula_editor_data_list, container, false);
 	}
 
 	@Override
@@ -142,7 +140,6 @@ public class FormulaEditorDataFragment extends SherlockListFragment implements D
 
 	@Override
 	public void onListItemClick(int position) {
-		Log.d("catroid", "onListItemClick");
 		if (!inContextMode) {
 			FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getSherlockActivity()
 					.getSupportFragmentManager().findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
@@ -397,6 +394,5 @@ public class FormulaEditorDataFragment extends SherlockListFragment implements D
 
 		return null;
 	}
-
 
 }

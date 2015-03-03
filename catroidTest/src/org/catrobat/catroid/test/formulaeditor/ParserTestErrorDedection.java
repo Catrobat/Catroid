@@ -65,15 +65,6 @@ public class ParserTestErrorDedection extends AndroidTestCase {
 		assertEquals("Error Token Index is not as expected", 1, errorTokenIndex);
 
 		internTokenList = new LinkedList<InternToken>();
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MULT.name()));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "42.53"));
-		internParser = new InternFormulaParser(internTokenList);
-		parseTree = internParser.parseFormula();
-		assertNull("Invalid formula parsed:  * 42.53", parseTree);
-		errorTokenIndex = internParser.getErrorTokenIndex();
-		assertEquals("Error Token Index is not as expected", 0, errorTokenIndex);
-
-		internTokenList = new LinkedList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "42.42"));
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));

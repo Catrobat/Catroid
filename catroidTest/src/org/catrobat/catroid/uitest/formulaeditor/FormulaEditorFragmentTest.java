@@ -47,7 +47,6 @@ import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
-	private Project project;
 	private PlaceAtBrick placeAtBrick;
 	private static final int INITIAL_X = 8;
 	private static final int INITIAL_Y = 7;
@@ -69,7 +68,7 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 	}
 
 	private void createProject() {
-		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		sprite = new Sprite("cat");
 		Script script = new StartScript();
 		placeAtBrick = new PlaceAtBrick(INITIAL_X, INITIAL_Y);

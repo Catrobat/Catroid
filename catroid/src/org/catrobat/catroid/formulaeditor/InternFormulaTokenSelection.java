@@ -61,7 +61,6 @@ public class InternFormulaTokenSelection {
 			}
 			return true;
 		}
-
 		return super.equals(objectToCompare);
 	}
 

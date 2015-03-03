@@ -32,7 +32,7 @@ public class UserVariable implements Serializable {
 
 	public UserVariable(String name) {
 		this.name = name;
-		this.value = Double.valueOf(0);
+		this.value = 0d;
 	}
 
 	public UserVariable(final String name, final Object value) {
@@ -55,5 +55,4 @@ public class UserVariable implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
 }

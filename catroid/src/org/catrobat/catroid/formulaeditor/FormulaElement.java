@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import android.content.Context;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
@@ -145,12 +144,12 @@ public class FormulaElement implements Serializable {
 		return root;
 	}
 
-	public void updateVariableReferences(String oldName, String newName, Context context) {
+	public void updateVariableReferences(String oldName, String newName) {
 		if (leftChild != null) {
-			leftChild.updateVariableReferences(oldName, newName, context);
+			leftChild.updateVariableReferences(oldName, newName);
 		}
 		if (rightChild != null) {
-			rightChild.updateVariableReferences(oldName, newName, context);
+			rightChild.updateVariableReferences(oldName, newName);
 		}
 		if (type == ElementType.USER_VARIABLE && value.equals(oldName)) {
 			value = newName;
@@ -273,7 +272,7 @@ public class FormulaElement implements Serializable {
 
 		Object userVariableValue = userVariable.getValue();
 		if (userVariableValue instanceof String) {
-			return (String) userVariableValue;
+			return userVariableValue;
 		} else {
 			return userVariableValue;
 		}
@@ -460,7 +459,7 @@ public class FormulaElement implements Serializable {
 				}
 			} else if (child.getElementType() == ElementType.STRING) {
 				parameterInterpretation = child.value;
-			} else if (child.getElementType() != ElementType.STRING) {
+			} else {
 				parameterInterpretation += child.interpretRecursive(sprite);
 			}
 		}
@@ -555,7 +554,6 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretFunctionRand(Object right, Object left) {
-
 		Double minimum = java.lang.Math.min((Double) left, (Double) right);
 		Double maximum = java.lang.Math.max((Double) left, (Double) right);
 
@@ -564,14 +562,11 @@ public class FormulaElement implements Serializable {
 		if (isInteger(minimum) && isInteger(maximum)
 				&& !(rightChild.type == ElementType.NUMBER && rightChild.value.contains("."))
 				&& !(leftChild.type == ElementType.NUMBER && leftChild.value.contains("."))) {
-			Log.i("info", "randomDouble: " + randomDouble);
-
 			if ((Math.abs(randomDouble) - (int) Math.abs(randomDouble)) >= 0.5) {
-				return Double.valueOf(randomDouble.intValue()) + 1;
+				return (double) randomDouble.intValue() + 1;
 			} else {
-				return Double.valueOf(randomDouble.intValue());
+				return (double) randomDouble.intValue();
 			}
-
 		} else {
 			return randomDouble;
 		}
@@ -585,13 +580,13 @@ public class FormulaElement implements Serializable {
 			try {
 				leftObject = leftChild.interpretRecursive(sprite);
 			} catch (NumberFormatException numberFormatException) {
-				leftObject = Double.valueOf(Double.NaN);
+				leftObject = Double.NaN;
 			}
 
 			try {
 				rightObject = rightChild.interpretRecursive(sprite);
 			} catch (NumberFormatException numberFormatException) {
-				rightObject = Double.valueOf(Double.NaN);
+				rightObject = Double.NaN;
 			}
 
 			Double left;
@@ -653,15 +648,15 @@ public class FormulaElement implements Serializable {
 			try {
 				rightObject = rightChild.interpretRecursive(sprite);
 			} catch (NumberFormatException numberFormatException) {
-				rightObject = Double.valueOf(Double.NaN);
+				rightObject = Double.NaN;
 			}
 
 			switch (operator) {
 				case MINUS:
 					Double result = interpretOperator(rightObject);
-					return Double.valueOf(-result.doubleValue());
+					return -result;
 				case LOGICAL_NOT:
-					return (Double) interpretOperator(rightObject) == 0d ? 1d : 0d;
+					return interpretOperator(rightObject) == 0d ? 1d : 0d;
 			}
 		}
 		return 0d;
@@ -755,10 +750,10 @@ public class FormulaElement implements Serializable {
 			return 0.0;
 		}
 
-		if (((Double) valueToCheck).doubleValue() == Double.NEGATIVE_INFINITY) {
+		if ((Double) valueToCheck == Double.NEGATIVE_INFINITY) {
 			return -Double.MAX_VALUE;
 		}
-		if (((Double) valueToCheck).doubleValue() == Double.POSITIVE_INFINITY) {
+		if ((Double) valueToCheck == Double.POSITIVE_INFINITY) {
 			return Double.MAX_VALUE;
 		}
 
@@ -808,19 +803,11 @@ public class FormulaElement implements Serializable {
 	}
 
 	private boolean isInteger(double value) {
-
-		if ((Math.abs(value) - (int) Math.abs(value) < Double.MIN_VALUE)) {
-			return true;
-		}
-
-		return false;
+		return ((Math.abs(value) - (int) Math.abs(value)) < Double.MIN_VALUE);
 	}
 
 	public boolean isLogicalOperator() {
-		if (type == ElementType.OPERATOR) {
-			return Operators.getOperatorByValue(value).isLogicalOperator;
-		}
-		return false;
+		return (type == ElementType.OPERATOR) && Operators.getOperatorByValue(value).isLogicalOperator;
 	}
 
 	public boolean containsElement(ElementType elementType) {
@@ -837,13 +824,8 @@ public class FormulaElement implements Serializable {
 			DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()
 					.getDataContainer();
 			UserVariable userVariable = userVariableContainer.getUserVariable(value, sprite);
-
 			Object userVariableValue = userVariable.getValue();
-			if (userVariableValue instanceof String) {
-				return true;
-			} else {
-				return false;
-			}
+			return userVariableValue instanceof String;
 		}
 		return false;
 	}
@@ -876,16 +858,12 @@ public class FormulaElement implements Serializable {
 		}
 
 		return userList.getList().size();
-
 	}
 
 	public boolean isSingleNumberFormula() {
 		if (type == ElementType.OPERATOR) {
 			Operators operator = Operators.getOperatorByValue(value);
-			if (operator == Operators.MINUS && leftChild == null) {
-				return rightChild.isSingleNumberFormula();
-			}
-			return false;
+			return (operator == Operators.MINUS) && (leftChild == null) && rightChild.isSingleNumberFormula();
 		} else if (type == ElementType.NUMBER) {
 			return true;
 		}
@@ -896,7 +874,7 @@ public class FormulaElement implements Serializable {
 	public FormulaElement clone() {
 		FormulaElement leftChildClone = leftChild == null ? null : leftChild.clone();
 		FormulaElement rightChildClone = rightChild == null ? null : rightChild.clone();
-		return new FormulaElement(type, new String(value == null ? "" : value), null, leftChildClone, rightChildClone);
+		return new FormulaElement(type, value == null ? "" : value, null, leftChildClone, rightChildClone);
 	}
 
 	public int getRequiredResources() {

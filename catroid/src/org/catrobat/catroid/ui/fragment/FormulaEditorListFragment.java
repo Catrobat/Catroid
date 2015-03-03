@@ -29,7 +29,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,8 +98,6 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			R.string.formula_editor_sensor_face_detected, R.string.formula_editor_sensor_face_size,
 			R.string.formula_editor_sensor_face_x_position, R.string.formula_editor_sensor_face_y_position };
 
-	private String tag;
-	private String[] items;
 	private String actionBarTitle;
 	private int[] itemsIds;
 
@@ -125,24 +122,24 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 		setHasOptionsMenu(true);
 
 		this.actionBarTitle = getArguments().getString(ACTION_BAR_TITLE_BUNDLE_ARGUMENT);
-		this.tag = getArguments().getString(FRAGMENT_TAG_BUNDLE_ARGUMENT);
+		String tag = getArguments().getString(FRAGMENT_TAG_BUNDLE_ARGUMENT);
 
 		itemsIds = new int[]{};
 
-		if (tag == OBJECT_TAG) {
+		if (tag.equals(OBJECT_TAG)) {
 			itemsIds = OBJECT_ITEMS;
-		} else if (tag == FUNCTION_TAG) {
+		} else if (tag.equals(FUNCTION_TAG)) {
 			itemsIds = FUNCTIONS_ITEMS;
-		} else if (tag == LOGIC_TAG) {
+		} else if (tag.equals(LOGIC_TAG)) {
 			itemsIds = LOGIC_ITEMS;
-		} else if (tag == SENSOR_TAG) {
+		} else if (tag.equals(SENSOR_TAG)) {
 			itemsIds = SENSOR_ITEMS;
 		}
 
-		items = new String[itemsIds.length];
+		String[] items = new String[itemsIds.length];
 
 		for (int index = 0; index < items.length; index++) {
-			items[index] = tag == FUNCTION_TAG ? getString(itemsIds[index]) + getString(FUNCTIONS_PARAMETERS[index])
+			items[index] = tag.equals(FUNCTION_TAG) ? getString(itemsIds[index]) + getString(FUNCTIONS_PARAMETERS[index])
 					: getString(itemsIds[index]);
 		}
 
@@ -166,8 +163,7 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View fragmentView = inflater.inflate(R.layout.fragment_formula_editor_list, container, false);
-		return fragmentView;
+		return inflater.inflate(R.layout.fragment_formula_editor_list, container, false);
 	}
 
 	public void showFragment(Context context) {
@@ -183,22 +179,17 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 	}
 
 	@Override
-	public boolean onKey(DialogInterface d, int keyCode, KeyEvent event) {
-		Log.i("info", "onKey() in FE-ListFragment! keyCode: " + keyCode);
-		boolean returnValue = false;
-		switch (keyCode) {
-			case KeyEvent.KEYCODE_BACK:
-				Log.i("info", "KEYCODE_BACK pressed in FE-ListFragment!");
+	public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
 				FragmentTransaction fragTransaction = getSherlockActivity().getSupportFragmentManager()
 						.beginTransaction();
 				fragTransaction.hide(this);
 				fragTransaction.show(getSherlockActivity().getSupportFragmentManager().findFragmentByTag(
 						FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
 				fragTransaction.commit();
-				returnValue = true;
-				break;
+				return true;
 		}
-		return returnValue;
+		return false;
 	}
 
 }

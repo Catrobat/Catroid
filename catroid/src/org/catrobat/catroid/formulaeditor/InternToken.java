@@ -53,102 +53,55 @@ public class InternToken {
 	}
 
 	public boolean isNumber() {
-		if (internTokenType == InternTokenType.NUMBER) {
-			return true;
-		}
-		return false;
+		return internTokenType == InternTokenType.NUMBER;
 	}
 
 	public boolean isOperator() {
-
-		if (internTokenType == InternTokenType.OPERATOR && Operators.isOperator(tokenStringValue)) {
-			return true;
-		}
-		return false;
-	}
-
-	public boolean isBracketOpen() {
-		if (internTokenType == InternTokenType.BRACKET_OPEN) {
-			return true;
-		}
-		return false;
+		return internTokenType == InternTokenType.OPERATOR && Operators.isOperator(tokenStringValue);
 	}
 
 	public boolean isBracketClose() {
-		if (internTokenType == InternTokenType.BRACKET_CLOSE) {
-			return true;
-		}
-		return false;
+		return internTokenType == InternTokenType.BRACKET_CLOSE;
 	}
 
 	public boolean isFunctionParameterBracketOpen() {
-		if (internTokenType == InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN) {
-			return true;
-		}
-		return false;
+		return internTokenType == InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN;
 	}
 
 	public boolean isFunctionParameterBracketClose() {
-		if (internTokenType == InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE) {
-			return true;
-		}
-		return false;
+		return internTokenType == InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE;
 	}
 
 	public boolean isFunctionParameterDelimiter() {
-		if (internTokenType == InternTokenType.FUNCTION_PARAMETER_DELIMITER) {
-			return true;
-		}
-		return false;
+		return internTokenType == InternTokenType.FUNCTION_PARAMETER_DELIMITER;
 	}
 
 	public boolean isFunctionName() {
-		if (internTokenType == InternTokenType.FUNCTION_NAME) {
-			return true;
-		}
-		return false;
+		return internTokenType == InternTokenType.FUNCTION_NAME;
 	}
 
 	public boolean isSensor() {
-		if (internTokenType == InternTokenType.SENSOR) {
-			return true;
-		}
-		return false;
+		return internTokenType == InternTokenType.SENSOR;
 	}
 
 	public boolean isEndOfFileToken() {
-		if (internTokenType == InternTokenType.PARSER_END_OF_FILE) {
-			return true;
-		}
-		return false;
+		return internTokenType == InternTokenType.PARSER_END_OF_FILE;
 	}
 
 	public boolean isUserVariable() {
-		if (internTokenType == InternTokenType.USER_VARIABLE) {
-			return true;
-		}
-		return false;
+		return internTokenType == InternTokenType.USER_VARIABLE;
 	}
 
 	public boolean isUserVariable(String name) {
-		if (internTokenType == InternTokenType.USER_VARIABLE) {
-			return tokenStringValue.equals(name);
-		}
-		return false;
+		return internTokenType == InternTokenType.USER_VARIABLE && tokenStringValue.equals(name);
 	}
 
 	public boolean isUserList() {
-		if (internTokenType == InternTokenType.USER_LIST) {
-			return true;
-		}
-		return false;
+		return internTokenType == InternTokenType.USER_LIST;
 	}
 
 	public boolean isString() {
-		if (internTokenType == InternTokenType.STRING) {
-			return true;
-		}
-		return false;
+		return internTokenType == InternTokenType.STRING;
 	}
 
 	public void appendToTokenStringValue(String stringToAppend) {
@@ -163,10 +116,6 @@ public class InternToken {
 
 	public InternTokenType getInternTokenType() {
 		return this.internTokenType;
-	}
-
-	public void setInternTokenType(InternTokenType newInternTokenType) {
-		this.internTokenType = newInternTokenType;
 	}
 
 	public InternToken deepCopy() {

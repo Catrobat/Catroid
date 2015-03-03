@@ -143,7 +143,7 @@ public class InternToExternGenerator {
 
 		int internTokenListIndex = 0;
 
-		while (internTokenList.isEmpty() == false) {
+		while (!internTokenList.isEmpty()) {
 			if (appendWhiteSpace(currentToken, nextToken)) {
 				generatedExternFormulaString += " ";
 			}
@@ -245,4 +245,5 @@ public class InternToExternGenerator {
 		}
 		return context.getString(stringResourceID);
 	}
+
 }

@@ -45,9 +45,9 @@ public class InternFormulaParser {
 
 	public static final int PARSER_OK = -1;
 	public static final int PARSER_STACK_OVERFLOW = -2;
-	public static final int PARSER_INPUT_SYNTAX_ERROR = -3;
 	public static final int PARSER_NO_INPUT = -4;
 	private static final int MAXIMUM_TOKENS_TO_PARSE = 1000;
+	private static final String TAG = InternFormulaParser.class.getSimpleName();
 
 	private List<InternToken> internTokensToParse;
 	private int currentTokenParseIndex;
@@ -145,12 +145,11 @@ public class InternFormulaParser {
 		try {
 			List<InternToken> copyIternTokensToParse = new ArrayList<InternToken>(internTokensToParse);
 			if (InternFormulaUtils.applyBracketCorrection(copyIternTokensToParse)) {
-				Log.i("info", "applyBracketCorrection-> TRUE");
 				internTokensToParse.clear();
 				internTokensToParse.addAll(copyIternTokensToParse);
 			}
 		} catch (EmptyStackException emptyStackException) {
-			Log.i("info", "emptyStackException-> TRUE");
+			Log.d(TAG, "Bracket correction failed.", emptyStackException);
 		}
 
 		addEndOfFileToken();
@@ -299,13 +298,11 @@ public class InternFormulaParser {
 	}
 
 	private FormulaElement function() throws InternFormulaParserException {
-		FormulaElement functionTree = new FormulaElement(FormulaElement.ElementType.FUNCTION, null, null);
-
 		if (!Functions.isFunction(currentToken.getTokenStringValue())) {
 			throw new InternFormulaParserException("Parse Error");
 		}
 
-		functionTree = new FormulaElement(FormulaElement.ElementType.FUNCTION, currentToken.getTokenStringValue(), null);
+		FormulaElement functionTree = new FormulaElement(FormulaElement.ElementType.FUNCTION, currentToken.getTokenStringValue(), null);
 		getNextToken();
 
 		if (currentToken.isFunctionParameterBracketOpen()) {
@@ -339,4 +336,5 @@ public class InternFormulaParser {
 		getNextToken();
 		return currentStringValue;
 	}
+
 }

@@ -67,38 +67,29 @@ public class FormulaElementTest extends InstrumentationTestCase {
 									.compareTo(internTokenList.get(index).getTokenStringValue()) == 0);
 
 		}
-
-		internTokenList.clear();
-
 	}
 
 	public void testInterpretNonExistingUserVariable() {
-
 		Project project = new Project(getInstrumentation().getTargetContext(), "testProject");
 		ProjectManager.getInstance().setProject(project);
 		FormulaElement formulaElement = new FormulaElement(ElementType.USER_VARIABLE, "notExistingUserVariable", null);
 		assertEquals("Not existing UserVariable misinterpretation",
 				FormulaElement.NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE, formulaElement.interpretRecursive(null));
-
 	}
 
 	public void testInterpretNonExistingUserList() {
-
 		Project project = new Project(getInstrumentation().getTargetContext(), "testProject");
 		ProjectManager.getInstance().setProject(project);
 		FormulaElement formulaElement = new FormulaElement(ElementType.USER_LIST, "notExistingUserList", null);
 		assertEquals("Not existing UserList misinterpretation",
 				FormulaElement.NOT_EXISTING_USER_LIST_INTERPRETATION_VALUE, formulaElement.interpretRecursive(null));
-
 	}
 
 	public void testInterpretNotExisitingUnaryOperator() {
-
 		FormulaElement formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(), null, null,
 				new FormulaElement(ElementType.NUMBER, "1.0", null));
 
 		assertEquals("Not existing unary operator misinterpretation", 0d, formulaElement.interpretRecursive(null));
-
 	}
 
 	public void testCheckDegeneratedDoubleValues() {
@@ -137,7 +128,6 @@ public class FormulaElementTest extends InstrumentationTestCase {
 
 		assertTrue("ContainsElement: Operator \" + \" should not have been found!",
 				!formulaElement.containsElement(ElementType.NUMBER));
-
 	}
 
 	public void testClone() {

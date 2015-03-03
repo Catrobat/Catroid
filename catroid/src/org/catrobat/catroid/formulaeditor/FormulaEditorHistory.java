@@ -88,10 +88,6 @@ public class FormulaEditorHistory {
 		hasUnsavedChanges = false;
 	}
 
-	public InternFormulaState getCurrentState() {
-		return current;
-	}
-
 	public void updateCurrentCursor(int cursorPosition) {
 		current.setExternCursorPosition(cursorPosition);
 	}

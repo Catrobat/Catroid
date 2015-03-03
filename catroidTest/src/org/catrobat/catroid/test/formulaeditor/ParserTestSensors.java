@@ -60,7 +60,6 @@ public class ParserTestSensors extends InstrumentationTestCase {
 
 	private Project project;
 	private Sprite firstSprite;
-	private Brick changeBrick;
 	Script startScript1;
 	private float delta = 0.001f;
 
@@ -126,7 +125,7 @@ public class ParserTestSensors extends InstrumentationTestCase {
 		int expectedFaceYPosition = (int) (-exampleScreenHeight / 2 + (Math.random() * exampleScreenHeight));
 
 		parameters = new ParameterList(new Point(expectedFaceXPosition, expectedFaceYPosition),
-				Integer.valueOf(expectedFaceSize));
+				expectedFaceSize);
 		Reflection.invokeMethod(faceDetector.getClass().getSuperclass(), faceDetector, "onFaceDetected", parameters);
 
 		Formula formula6 = createFormulaWithSensor(Sensors.FACE_DETECTED);
@@ -211,7 +210,7 @@ public class ParserTestSensors extends InstrumentationTestCase {
 
 		while (simulatedSensorManager.getLatestSensorEvent(accelerometerSensor) == null
 				|| simulatedSensorManager.getLatestSensorEvent(rotationVectorSensor) == null
-				|| checkValidRotationValues(simulatedSensorManager.getLatestSensorEvent(rotationVectorSensor)) == false
+				|| !checkValidRotationValues(simulatedSensorManager.getLatestSensorEvent(rotationVectorSensor))
 				|| simulatedSensorManager.getLatestCustomSensorEvent(Sensors.LOUDNESS) == null) {
 
 			simulatedSensorManager.sendGeneratedSensorValues();
@@ -234,13 +233,13 @@ public class ParserTestSensors extends InstrumentationTestCase {
 		android.hardware.SensorManager.getRotationMatrixFromVector(rotationMatrix, rotationVector);
 		android.hardware.SensorManager.getOrientation(rotationMatrix, orientations);
 
-		double expectedCompassDirection = Double.valueOf(orientations[0]) * SensorHandler.RADIAN_TO_DEGREE_CONST * -1f;
-		double expectedXInclination = Double.valueOf(orientations[2]) * SensorHandler.RADIAN_TO_DEGREE_CONST * -1f;
+		double expectedCompassDirection = (double) orientations[0] * SensorHandler.RADIAN_TO_DEGREE_CONST * -1f;
+		double expectedXInclination = (double) orientations[2] * SensorHandler.RADIAN_TO_DEGREE_CONST * -1f;
 		double expectedYInclination;
 
 		float xInclinationUsedToExtendRangeOfRoll = orientations[2] * SensorHandler.RADIAN_TO_DEGREE_CONST * -1f;
 
-		Double sensorValue = Double.valueOf(orientations[1]);
+		Double sensorValue = (double) orientations[1];
 
 		if (Math.abs(xInclinationUsedToExtendRangeOfRoll) <= 90f) {
 			expectedYInclination = sensorValue * SensorHandler.RADIAN_TO_DEGREE_CONST * -1f;
@@ -312,21 +311,18 @@ public class ParserTestSensors extends InstrumentationTestCase {
 	}
 
 	private Formula createFormulaWithSensor(Sensors sensor) {
-
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.SENSOR, sensor.name()));
 		InternFormulaParser internFormulaParser = new InternFormulaParser(internTokenList);
 		FormulaElement root = internFormulaParser.parseFormula();
-		Formula formula = new Formula(root);
-
-		return formula;
+		return new Formula(root);
 	}
 
 	private void createProject() {
 		this.project = new Project(null, "testProject");
 		firstSprite = new Sprite("zwoosh");
 		startScript1 = new StartScript();
-		changeBrick = new ChangeSizeByNBrick(10);
+		Brick changeBrick = new ChangeSizeByNBrick(10);
 		firstSprite.addScript(startScript1);
 		startScript1.addBrick(changeBrick);
 		project.addSprite(firstSprite);
