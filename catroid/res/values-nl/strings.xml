@@ -79,7 +79,7 @@
     must agree to our Terms of Use and strictly follow them when you use Pocket 
     Code and our other executables. Please see the link below for their precise formulation.\n</string>
   <string name="dialog_terms_of_use_link_text">Gebruiksvoorwaarden</string>
-  <string name="dialog_terms_of_use_agree_permanent">I ga hier definitief mee akkoord - vraag het met niet nogmaals. Ik ben verantwoordelijk als iemand anders mijn apparaat gebruikt.</string>
+  <string name="dialog_terms_of_use_agree_permanent">Ik ga hier definitief mee akkoord - vraag het me niet nogmaals. Ik ben verantwoordelijk als iemand anders mijn apparaat gebruikt.</string>
   <string name="dialog_terms_of_use_agree">Ik ga akkoord</string>
   <string name="dialog_terms_of_use_do_not_agree">Ik ga niet akkoord</string>
   <string name="dialog_about_title">Over Pocket Code</string>
@@ -150,7 +150,7 @@
   <string name="delete_sound_dialog">Geluid verwijderen?</string>
   <string name="length">Lengte:</string>
   <string name="dialog_confirm_delete_sound_title">Verwijder dit geluid?</string>
-  <string name="dialog_confirm_delete_multiple_sounds_title">Verwijder deze geluiden?</string>
+  <string name="dialog_confirm_delete_multiple_sounds_title">Verwijder deze geluiden?</string>
   <string name="dialog_confirm_delete_sound_message">Dit kan niet ongedaan worden gemaakt!</string>
   <string name="sound_name">naam van geluid:</string>
   <plurals name="unpacking_items_plural">
@@ -174,7 +174,7 @@
   <string name="soundrecorder_error">Geluidsopname mislukt</string>
   <string name="soundrecorder_recorded_filename">opnemen</string>
   <string name="soundrecorder_text_view">Tik op het pictogram hierboven om het opnemen te starten en te stoppen.</string>
-  <string name="text_to_speech_engine_not_installed">Text-to-Speech engine is niet geïnstalleerd!\nWil je het installeren?</string>
+  <string name="text_to_speech_engine_not_installed">Spraaksynthese is niet geïnstalleerd!\nWil je het installeren?</string>
   <string name="no_flash_led_available">Geen flitser beschikbaar</string>
   <string name="no_vibrator_available">Trilfunctie niet beschikbaar</string>
   <string name="led_and_front_camera_warning">Led AND Front Camera are not supported</string>
@@ -184,12 +184,12 @@
   <string name="brick_context_dialog_copy_brick">Kopieer steen</string>
   <string name="brick_context_dialog_animate_bricks">Steendelen animeren</string>
   <string name="brick_context_dialog_add_to_script">Add To Script</string>
-  <string name="brick_context_dialog_edit_brick">Edit Brick</string>
+  <string name="brick_context_dialog_edit_brick">Steen bewerken</string>
   <string name="brick_context_dialog_formula_edit_brick">Formule bewerken</string>
   <string name="brick_context_dialog_delete_script">Verwijder script</string>
   <string name="new_look_dialog_title">Uiterlijk toevoegen</string>
   <string name="add_look_from_camera">Van camera</string>
-  <string name="add_look_draw_new_image">Teken een nieuwe afbeelding</string>
+  <string name="add_look_draw_new_image">Teken een nieuwe afbeelding</string>
   <string name="add_look_choose_image">Kies afbeelding</string>
   <string name="new_project_dialog_title">Nieuw programma</string>
   <string name="new_project_dialog_hint">Mijn programma</string>
@@ -209,7 +209,7 @@
   <string name="password_forgotten">Wachtwoord vergeten</string>
   <string name="new_user_registered">Nieuw account aangemaakt</string>
   <string name="register_error">Er is iets fout gegaan</string>
-  <string name="register_terms">Door je te registreren, ga je akkoord met onze</string>
+  <string name="register_terms">Door je te registreren, ga je akkoord met onze</string>
   <string name="register_pocketcode_terms_of_use_text">gebruikersvoorwaarden</string>
   <string name="overwrite_text">Er bestaat al een programma met deze naam!</string>
   <string name="overwrite_replace">Bestaand programma overschrijven</string>
@@ -230,7 +230,7 @@
   <string name="category_sound">Geluid</string>
   <string name="category_control">Besturen</string>
   <string name="category_variables">Variabelen</string>
-  <string name="category_user_bricks">My Bricks</string>
+  <string name="category_user_bricks">Mijn stenen</string>
   <string name="category_lego_nxt">Lego NXT</string>
   <string name="category_drone">ARDrone</string>
   <string name="brick_place_at">"Plaats op:"</string>
@@ -266,7 +266,7 @@
   <string name="brick_show">Verschijn</string>
   <string name="brick_set_ghost_effect">"Stel doorzichtigheid"</string>
   <string name="brick_change_ghost_effect">"Verander doorzichtigheid"</string>
-  <string name="brick_set_brightness">"Stel helderheid"</string>
+  <string name="brick_set_brightness">"Stel helderheid"</string>
   <string name="brick_change_brightness">"Verander helderheid"</string>
   <string name="by_label">met</string>
   <string name="to_label">in op</string>
@@ -372,7 +372,7 @@
   <string name="error_copying_brick">Er is een fout opgetreden tijdens het kopiëren van dit blok</string>
   <string name="error_no_drone_connected_title">Kan ARDrone niet vinden</string>
   <string name="error_no_drone_connected">Maak via Wifi verbinding met de ARDrone en probeer het opnieuw.</string>
-  <string name="error_drone_low_battery_title">Drone batterij laag: %d%%</string>
+  <string name="error_drone_low_battery_title">Drone-batterij laag: %d%%</string>
   <string name="error_drone_low_battery">Plaats een opgeladen accu en probeer het opnieuw.</string>
   <string name="error_drone_wrong_platform_title">Geen ARDrone-ondersteuning</string>
   <string name="error_drone_wrong_platform">Het is niet mogelijk een ARDrone-project te starten op je apparaat.</string>
