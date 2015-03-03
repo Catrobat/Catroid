@@ -306,8 +306,6 @@
   <string name="brick_note">Notiz</string>
   <string name="brick_forever">Wiederhole fortlaufend</string>
   <string name="brick_repeat">Wiederhole</string>
-  <string name="dialog_edit_note_title">Edit note</string>
-  <string name="dialog_edit_note_text">Note:</string>
   <plurals name="time_plural">
     <item quantity="one">time</item>
     <item quantity="other">times</item>
