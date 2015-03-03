@@ -39,6 +39,7 @@ ext {
             "formula_editor_lists"              : false,
             "physics_engine_collision_filtering": false,
             "time_capsule"                      : false,
+            "nfc"                               : true,
             "userbricks"                        : false
     ]
 }

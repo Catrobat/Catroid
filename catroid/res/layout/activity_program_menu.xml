@@ -66,6 +66,14 @@
         android:onClick="handleSoundsButton"
         android:text="@string/sounds" />
 
+    <Button
+        android:id="@+id/program_menu_button_nfctags"
+        style="@style/ProgramMenuButton"
+        android:layout_below="@id/program_menu_button_sounds"
+        android:drawableLeft="@drawable/ic_program_menu_nfc"
+        android:onClick="handleNfcTagsButton"
+        android:text="@string/nfctags" />
+
     <include layout="@layout/bottom_bar" />
 
 </RelativeLayout>

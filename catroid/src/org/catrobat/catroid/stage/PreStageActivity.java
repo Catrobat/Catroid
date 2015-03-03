@@ -30,10 +30,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.nfc.NfcAdapter;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
+import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
@@ -67,6 +70,7 @@ import java.util.Locale;
 public class PreStageActivity extends BaseActivity {
 
 	private static final String TAG = PreStageActivity.class.getSimpleName();
+	//public static final int REQUEST_NFC_ADAPTER = 10000;
 	private static final int REQUEST_ENABLE_BLUETOOTH = 2000;
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 	public static final int REQUEST_RESOURCES_INIT = 101;
@@ -164,6 +168,25 @@ public class PreStageActivity extends BaseActivity {
 				Toast.makeText(PreStageActivity.this, R.string.no_vibrator_available, Toast.LENGTH_LONG).show();
 				resourceFailed();
 			}
+		}
+
+		if ((requiredResources & Brick.NFC_ADAPTER) > 0) {
+			NfcAdapter adapter = NfcAdapter.getDefaultAdapter(getApplicationContext());
+			if (adapter != null && !adapter.isEnabled())
+			{
+				Toast.makeText(PreStageActivity.this, R.string.nfc_not_activated, Toast.LENGTH_LONG).show();
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+					Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
+					startActivity(intent);
+				} else {
+					Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+					startActivity(intent);
+				}
+			} else if (adapter == null) {
+				Toast.makeText(PreStageActivity.this, R.string.no_nfc_available, Toast.LENGTH_LONG).show();
+				// TODO: resourceFailed() & startActivityForResult(), if behaviour needed
+			}
+			resourceInitialized();
 		}
 
 		if (requiredResourceCounter == Brick.NO_RESOURCES) {
