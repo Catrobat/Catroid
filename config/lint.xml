@@ -26,7 +26,6 @@
         <ignore path="catroid/res/drawable-mdpi" />
         <ignore path="catroid/res/drawable-hdpi" />
         <ignore path="catroid/res/drawable-xhdpi" />
-        <ignore path="catroid/res/drawable-xxhdpi" />
     </issue >
     <issue id="InflateParams" >
         <ignore path="catroid/src/org/catrobat/catroid/content/bricks/**" />
