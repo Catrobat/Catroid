@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,62 +20,46 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks;
+
+package org.catrobat.catroid.ui.bricks;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.BaseAdapter;
 import android.widget.Spinner;
-
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
-import org.catrobat.catroid.content.BroadcastMessage;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
+import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 
-import java.util.List;
-
-public class BroadcastWaitBrick extends BroadcastBrick implements BroadcastMessage {
-	private static final long serialVersionUID = 1L;
-
-	public BroadcastWaitBrick(String broadcastMessage) {
-		super(broadcastMessage);
+/**
+ * Create View for {@code BroadcastWaitBrick}.
+ * Created by illya on 04/03/15.
+ */
+public class BroadcastWaitBrickViewFactory extends BroadcastBrickViewFactory {
+	public BroadcastWaitBrickViewFactory(Context context, LayoutInflater inflater) {
+		super(context, inflater);
 	}
 
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		BroadcastWaitBrick copyBrick = (BroadcastWaitBrick) clone();
-		return copyBrick;
-	}
-
-	@Override
-	public Brick clone() {
-		return new BroadcastWaitBrick(broadcastMessage);
-	}
-
-	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		//OK
-		view = View.inflate(context, R.layout.brick_broadcast_wait, null);
+	public View createBroadcastWaitBrickView(final BroadcastWaitBrick brick, ViewGroup parent) {
+		View view = createSimpleBrickView(parent, R.layout.brick_broadcast_wait);
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_wait_spinner);
 		broadcastSpinner.setFocusableInTouchMode(false);
 		broadcastSpinner.setFocusable(false);
 
 		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
-		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		broadcastSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				String selectedMessage = broadcastSpinner.getSelectedItem().toString();
 				if (selectedMessage.equals(context.getString(R.string.new_broadcast_message))) {
-					showNewMessageDialog(broadcastSpinner);
+					showNewMessageDialog(brick, broadcastSpinner);
 				} else {
-					broadcastMessage = selectedMessage;
+					brick.setBroadcastMessage(selectedMessage);
 				}
 			}
 
@@ -84,14 +68,9 @@ public class BroadcastWaitBrick extends BroadcastBrick implements BroadcastMessa
 			}
 		});
 
-		setSpinnerSelection(broadcastSpinner);
+		setSpinnerSelection(brick, broadcastSpinner);
 		return view;
 	}
 
 
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.broadcastFromWaiter(sprite, broadcastMessage));
-		return null;
-	}
 }

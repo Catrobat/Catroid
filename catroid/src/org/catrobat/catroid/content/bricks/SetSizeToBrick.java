@@ -65,7 +65,7 @@ public class SetSizeToBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-
+//OK
 		view = View.inflate(context, R.layout.brick_set_size_to, null);
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_set_size_to_edit_text);

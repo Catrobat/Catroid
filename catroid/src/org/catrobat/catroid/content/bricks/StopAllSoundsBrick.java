@@ -48,6 +48,7 @@ public class StopAllSoundsBrick extends BrickBaseType {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		//OK
 		view = View.inflate(context, R.layout.brick_stop_all_sounds, null);
 		return view;
 	}

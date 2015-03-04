@@ -66,6 +66,7 @@ public class SpeakBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
+		//OK
 		view = View.inflate(context, R.layout.brick_speak, null);
 
 		TextView textField = (TextView) view.findViewById(R.id.brick_speak_edit_text);

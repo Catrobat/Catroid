@@ -48,6 +48,7 @@ import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.ui.BrickView;
+import org.catrobat.catroid.ui.bricks.BrickViewFactory;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
@@ -92,8 +93,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 	private boolean showDetails = false;
 
 	private List<Brick> brickList;
-
 	private Queue<Integer> toAnimatePositions;
+	private BrickViewFactory brickViewFactory;
 
 	private int selectMode;
 	private OnBrickCheckedListener scriptFragment;
@@ -110,6 +111,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
 		this.context = context;
 		this.sprite = sprite;
+		brickViewFactory = new BrickViewFactory(context);
 		dragAndDropListView = listView;
 		toAnimatePositions = new LinkedBlockingQueue<Integer>();
 		dragAndDropListView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -153,13 +155,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 				viewTypes.add(scriptBrick.getClass());
 			}
 			brickList.add(scriptBrick);
-			script.getScriptBrick().setBrickAdapter(this);
 			for (Brick brick : script.getBrickList()) {
 				brickList.add(brick);
 				if (!viewTypes.contains(brick.getClass())) {
 					viewTypes.add(brick.getClass());
 				}
-				brick.setBrickAdapter(this);
 			}
 		}
 	}
@@ -184,7 +184,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 		brickList = new ArrayList<Brick>();
 		brickList.add(script.getScriptBrick());
 
-		script.getScriptBrick().setBrickAdapter(this);
 		for (Brick brick : script.getBrickList()) {
 			if (brick.getClass().equals(ChangeVariableBrick.class)) {
 				ChangeVariableBrick changeVariableBrick = (ChangeVariableBrick) brick;
@@ -194,7 +193,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 				setVariableBrick.setInUserBrick(true);
 			}
 			brickList.add(brick);
-			brick.setBrickAdapter(this);
 		}
 	}
 
@@ -870,7 +868,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 			if (item instanceof AllowedAfterDeadEndBrick && brickList.get(position == 0 ? position : (position - 1)) instanceof DeadEndBrick) {
 				currentBrickView = (BrickView) ((AllowedAfterDeadEndBrick) item).getNoPuzzleView(context, position, this);
 			} else {
-				currentBrickView = (BrickView) item.getView(context, position, this);
+				currentBrickView = brickViewFactory.createView(item, parent);
 			}
 			convertView = currentBrickView;
 		}

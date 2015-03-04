@@ -215,4 +215,16 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 	public void setInUserBrick(boolean inUserBrick) {
 		this.inUserBrick = inUserBrick;
 	}
+
+	public boolean isInUserBrick() {
+		return inUserBrick;
+	}
+
+	public void setUserVariable(UserVariable userVariable) {
+		this.userVariable = userVariable;
+	}
+
+	public UserVariable getUserVariable() {
+		return userVariable;
+	}
 }

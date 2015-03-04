@@ -60,7 +60,7 @@ public class NoteBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-
+//OK
 		view = View.inflate(context, R.layout.brick_note, null);
 
 		TextView textField = (TextView) view.findViewById(R.id.brick_note_edit_text);

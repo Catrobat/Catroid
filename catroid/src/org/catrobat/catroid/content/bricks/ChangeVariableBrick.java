@@ -92,7 +92,7 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-
+//ok
 		view = View.inflate(context, R.layout.brick_change_variable_by, null);
 
 		TextView textField = (TextView) view.findViewById(R.id.brick_change_variable_edit_text);
@@ -214,6 +214,7 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 		}
 	}
 
+	//FIXME: No implementation.
 	@Override
 	public void onFinishNewVariableDialog(Spinner spinnerToUpdate, UserVariable newUserVariable) {
 		UserVariableAdapterWrapper userVariableAdapterWrapper = ((UserVariableAdapterWrapper) spinnerToUpdate
@@ -222,7 +223,19 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 		setSpinnerSelection(spinnerToUpdate, newUserVariable);
 	}
 
+	public boolean isInUserBrick() {
+		return inUserBrick;
+	}
+
 	public void setInUserBrick(boolean inUserBrick) {
 		this.inUserBrick = inUserBrick;
+	}
+
+	public void setUserVariable(UserVariable userVariable) {
+		this.userVariable = userVariable;
+	}
+
+	public UserVariable getUserVariable() {
+		return userVariable;
 	}
 }

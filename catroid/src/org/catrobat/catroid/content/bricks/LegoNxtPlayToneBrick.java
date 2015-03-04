@@ -69,6 +69,7 @@ public class LegoNxtPlayToneBrick extends FormulaBrick implements OnClickListene
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		//OK
 		view = View.inflate(context, R.layout.brick_nxt_play_tone, null);
 
 		TextView editDuration = (TextView) view.findViewById(R.id.nxt_tone_duration_edit_text);

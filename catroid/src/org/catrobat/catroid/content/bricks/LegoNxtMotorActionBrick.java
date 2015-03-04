@@ -68,6 +68,15 @@ public class LegoNxtMotorActionBrick extends FormulaBrick implements OnClickList
 		initializeBrickFields(speedFormula);
 	}
 
+	public void setMotorValue(Motor motorEnum) {
+		this.motorEnum = motorEnum;
+		motor = motorEnum.name();
+	}
+
+	public Motor getMotorEnum() {
+		return motorEnum;
+	}
+
 	protected Object readResolve() {
 		if (motor != null) {
 			motorEnum = Motor.valueOf(motor);
@@ -92,7 +101,7 @@ public class LegoNxtMotorActionBrick extends FormulaBrick implements OnClickList
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-
+//OK
 		view = View.inflate(context, R.layout.brick_nxt_motor_action, null);
 
 		TextView editSpeed = (TextView) view.findViewById(R.id.motor_action_speed_edit_text);

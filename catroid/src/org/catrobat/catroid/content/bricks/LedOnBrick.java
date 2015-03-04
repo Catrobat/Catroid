@@ -43,7 +43,7 @@ public class LedOnBrick extends BrickBaseType {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-
+//OK
 		view = View.inflate(context, R.layout.brick_led_on, null);
 
 		return view;

@@ -64,13 +64,7 @@ public interface Brick extends Serializable, Cloneable {
 	//needed for the Sprite#clone()-Method
 	Brick copyBrickForSprite(Sprite sprite);
 
-	//TODO: Illya Boyko: Remove brickId and adapter
-	View getView(Context context, int brickId, BaseAdapter adapter);
-
 	Brick clone() throws CloneNotSupportedException;
 
 	int getRequiredResources();
-
-	void setBrickAdapter(BrickAdapter adapter);
-
 }

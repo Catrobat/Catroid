@@ -83,6 +83,7 @@ public class PointInDirectionBrick extends FormulaBrick implements View.OnClickL
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+		//OK
 		view = View.inflate(context, R.layout.brick_point_in_direction, null);
 
 		TextView setAngleTextField = (TextView) view.findViewById(R.id.brick_point_in_direction_edit_text);

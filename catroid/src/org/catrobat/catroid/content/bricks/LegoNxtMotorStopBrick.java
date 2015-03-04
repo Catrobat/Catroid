@@ -52,6 +52,15 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 		this.motor = motorEnum.name();
 	}
 
+	public void setMotorValue(Motor motorEnum) {
+		this.motorEnum = motorEnum;
+		motor = motorEnum.name();
+	}
+
+	public Motor getMotorEnum() {
+		return motorEnum;
+	}
+
 	protected Object readResolve() {
 		if (motor != null) {
 			motorEnum = Motor.valueOf(motor);
@@ -77,6 +86,7 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		//OK
 		view = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,

@@ -76,7 +76,7 @@ public class PlaceAtBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-
+//OK
 		view = View.inflate(context, R.layout.brick_place_at, null);
 
 		TextView editX = (TextView) view.findViewById(R.id.brick_place_at_edit_text_x);

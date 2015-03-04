@@ -61,7 +61,7 @@ public class WhenBrick extends ScriptBrick {
 
 	@Override
 	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
-
+//OK
 		view = View.inflate(context, R.layout.brick_when, null);
 
 		//TODO: IllyaBoyko: It was not present here, do we need it.

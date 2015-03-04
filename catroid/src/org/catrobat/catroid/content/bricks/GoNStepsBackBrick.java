@@ -71,6 +71,7 @@ public class GoNStepsBackBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		//OK
 		view = View.inflate(context, R.layout.brick_go_back, null);
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_go_back_edit_text);

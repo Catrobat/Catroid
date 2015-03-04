@@ -49,6 +49,7 @@ public class DroneMoveDownBrick extends DroneMoveBrick {
 		super();
 	}
 
+	//OK
 	@Override
 	protected String getBrickLabel(View view) {
 		return view.getResources().getString(R.string.brick_drone_move_down);

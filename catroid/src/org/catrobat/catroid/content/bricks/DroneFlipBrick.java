@@ -53,6 +53,7 @@ public class DroneFlipBrick extends BrickBaseType {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		//OK
 		return view = View.inflate(context, R.layout.brick_drone_flip, null);
 	}
 

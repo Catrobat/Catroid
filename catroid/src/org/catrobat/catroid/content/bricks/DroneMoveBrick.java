@@ -80,7 +80,7 @@ public abstract class DroneMoveBrick extends FormulaBrick implements OnClickList
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-
+//OK
 		view = View.inflate(context, R.layout.brick_drone_move, null);
 
 		TextView editTime = (TextView) view.findViewById(R.id.brick_drone_move_edit_text_second);

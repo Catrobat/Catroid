@@ -66,7 +66,7 @@ public class TurnRightBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-
+//OK
 		view = View.inflate(context, R.layout.brick_turn_right, null);
 
 		TextView editDegrees = (TextView) view.findViewById(R.id.brick_turn_right_edit_text);

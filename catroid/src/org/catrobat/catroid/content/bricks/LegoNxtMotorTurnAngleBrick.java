@@ -68,6 +68,15 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickL
 		initializeBrickFields(degreesFormula);
 	}
 
+	public void setMotorValue(Motor motorEnum) {
+		this.motorEnum = motorEnum;
+		motor = motorEnum.name();
+	}
+
+	public Motor getMotorEnum() {
+		return motorEnum;
+	}
+
 	protected Object readResolve() {
 		if (motor != null) {
 			motorEnum = Motor.valueOf(motor);
@@ -93,7 +102,7 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick implements OnClickL
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-
+//OK
 		view = View.inflate(context, R.layout.brick_nxt_motor_turn_angle, null);
 
 		TextView editSpeed = (TextView) view.findViewById(R.id.motor_turn_angle_edit_text);

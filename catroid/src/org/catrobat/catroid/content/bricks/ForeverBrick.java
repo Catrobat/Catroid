@@ -61,6 +61,7 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		//OK
 		return view = View.inflate(context, R.layout.brick_forever, null);
 	}
 

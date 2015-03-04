@@ -48,6 +48,7 @@ public class ComeToFrontBrick extends BrickBaseType {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+		//OK
 		return	view = View.inflate(context, R.layout.brick_go_to_front, null);
 	}
 

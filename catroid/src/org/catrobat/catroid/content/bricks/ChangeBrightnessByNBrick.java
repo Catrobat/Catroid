@@ -65,7 +65,7 @@ public class ChangeBrightnessByNBrick extends FormulaBrick implements OnClickLis
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-
+//OK
 		view = View.inflate(context, R.layout.brick_change_brightness, null);
 
 		TextView editX = (TextView) view.findViewById(R.id.brick_change_brightness_edit_text);

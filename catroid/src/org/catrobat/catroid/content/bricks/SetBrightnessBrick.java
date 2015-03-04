@@ -65,7 +65,7 @@ public class SetBrightnessBrick extends FormulaBrick implements OnClickListener 
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-
+//OK
 		view = View.inflate(context, R.layout.brick_set_brightness, null);
 
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_brightness_edit_text);

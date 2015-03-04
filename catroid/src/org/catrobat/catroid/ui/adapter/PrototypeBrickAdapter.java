@@ -36,6 +36,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.ui.BrickView;
+import org.catrobat.catroid.ui.bricks.BrickViewFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,11 +48,13 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 
 	private OnBrickCheckedListener addBrickFragment;
 	private List<Brick> checkedBricks = new ArrayList<Brick>();
+	private BrickViewFactory brickViewFactory;
 	private boolean useSelection;
 
 	public PrototypeBrickAdapter(Context context, List<Brick> brickList) {
 		this.context = context;
 		this.brickList = brickList;
+		brickViewFactory = new BrickViewFactory(context);
 	}
 
 	public void addBrickToList(Brick brick) {
@@ -168,14 +171,12 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 
 		final Brick brick = brickList.get(position);
-		View view = brick.getView(context, position, this);
-		if (view instanceof BrickView) {
-			if (useSelection) {
-				((BrickView) view).addMode(BrickView.Mode.SELECTION);
-			} else {
-				((BrickView) view).removeMode(BrickView.Mode.SELECTION);
-			}
-			((BrickView) view).addMode(BrickView.Mode.PROTOTYPE);
+		BrickView view = brickViewFactory.createView(brick, parent);
+		view.addMode(BrickView.Mode.PROTOTYPE);
+		if (useSelection) {
+			view.addMode(BrickView.Mode.SELECTION);
+		} else {
+			view.removeMode(BrickView.Mode.SELECTION);
 		}
 		return view;
 	}

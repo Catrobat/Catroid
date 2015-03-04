@@ -77,7 +77,7 @@ public class WaitBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-
+//OK
 		view = View.inflate(context, R.layout.brick_wait, null);
 
 		TextView edit = (TextView) view.findViewById(R.id.brick_wait_edit_text);

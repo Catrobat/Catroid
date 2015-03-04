@@ -39,13 +39,6 @@ public class BrickBaseType implements Brick {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = BrickBaseType.class.getSimpleName();
 	protected transient View view;
-	protected transient boolean checked = false;
-	protected transient BrickAdapter adapter;
-
-	@Override
-	public void setBrickAdapter(BrickAdapter adapter) {
-		this.adapter = adapter;
-	}
 
 	@Override
 	public int getRequiredResources() {
@@ -57,7 +50,6 @@ public class BrickBaseType implements Brick {
 		return (Brick) super.clone();
 	}
 
-	@Override
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		return null;
 	}

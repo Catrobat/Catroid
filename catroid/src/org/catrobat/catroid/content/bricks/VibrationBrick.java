@@ -69,7 +69,7 @@ public class VibrationBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-
+//OK
 		view = View.inflate(context, R.layout.brick_vibration, null);
 
 		getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS)

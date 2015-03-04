@@ -51,6 +51,8 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 
 	public BroadcastReceiverBrick(String broadcastMessage) {
 		this.broadcastMessage = broadcastMessage;
+		receiveScript = new BroadcastScript(broadcastMessage);
+		MessageContainer.addMessage(getBroadcastMessage());
 	}
 
 	public BroadcastReceiverBrick(BroadcastScript receiveScript) {
@@ -84,10 +86,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		if (receiveScript == null) {
-			receiveScript = new BroadcastScript(broadcastMessage);
-			MessageContainer.addMessage(getBroadcastMessage());
-		}
+//OK
 
 		view = View.inflate(context, R.layout.brick_broadcast_receive, null);
 
@@ -198,5 +197,10 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		return null;
+	}
+
+	public void setNewBroadcastMessage(String newBroadcastMessage) {
+		receiveScript.setBroadcastMessage(newBroadcastMessage);
+		broadcastMessage = newBroadcastMessage;
 	}
 }

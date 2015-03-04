@@ -65,7 +65,7 @@ public class SetXBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-
+//OK
 		view = View.inflate(context, R.layout.brick_set_x, null);
 
 		TextView editX = (TextView) view.findViewById(R.id.brick_set_x_edit_text);
