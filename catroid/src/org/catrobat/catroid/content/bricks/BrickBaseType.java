@@ -31,7 +31,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.BrickView;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
 

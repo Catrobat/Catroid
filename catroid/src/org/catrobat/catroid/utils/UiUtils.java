@@ -36,6 +36,10 @@ import org.catrobat.catroid.R;
  * Created by illya.boyko@gmail.com on 01/03/15.
  */
 public class UiUtils {
+
+	private UiUtils() {
+	}
+
 	/**
 	 * Start Blink animation. Animation is started also when view has no window focus.
 	 *

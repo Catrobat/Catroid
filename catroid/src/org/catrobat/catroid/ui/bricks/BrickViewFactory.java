@@ -159,12 +159,6 @@ public class BrickViewFactory {
 
 	public BrickView createView(final Brick brick, ViewGroup parent) {
 		View view = null;
-//		if (brick instanceof BroadcastBrick) {
-//			view = createBroadcastBrickView((BroadcastBrick) brick, parent);
-//		} else if (brick instanceof BroadcastReceiverBrick) {
-//			view = createBroadcastReceiverBrickView((BroadcastReceiverBrick) brick, parent);
-//		} else
-
 
 		//TODO: Illya Boyko: Implementation Needed
 		if (brick instanceof PointToBrick) {
@@ -222,6 +216,7 @@ public class BrickViewFactory {
 				((TextView) view.findViewById(R.id.brick_next_look_text_view)).setText(R.string.brick_next_background);
 			}
 		}
+
 		//Single Formula Text
 		else if (brick instanceof ChangeBrightnessByNBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_change_brightness,
@@ -278,6 +273,8 @@ public class BrickViewFactory {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_turn_right,
 					R.id.brick_turn_right_edit_text, BrickField.TURN_RIGHT_DEGREES);
 		}
+
+
 		//Single Formula Text with plural text
 		else if (brick instanceof MoveNStepsBrick) {
 			view = createSingleFormulaBrickViewWithPluralText((FormulaBrick) brick, parent, R.layout.brick_move_n_steps,
@@ -300,6 +297,8 @@ public class BrickViewFactory {
 					R.id.brick_wait_edit_text, BrickField.TIME_TO_WAIT_IN_SECONDS,
 					R.id.brick_wait_second_text_view, R.plurals.second_plural);
 		}
+
+
 		//Double Formula Text
 		else if (brick instanceof LegoNxtPlayToneBrick) {
 			view = createDoubleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_nxt_play_tone,
