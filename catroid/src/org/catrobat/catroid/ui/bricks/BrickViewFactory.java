@@ -179,7 +179,6 @@ public class BrickViewFactory {
 			view = ((UserBrick) brick).getView(context, 0, null);
 		}
 
-
 		//Plain View
 		if (brick instanceof ClearGraphicEffectBrick) {
 			view = createSimpleBrickView(parent, R.layout.brick_clear_graphic_effect);
@@ -192,8 +191,7 @@ public class BrickViewFactory {
 		} else if (brick instanceof DronePlayLedAnimationBrick) {
 			view = createSimpleBrickView(parent, R.layout.brick_drone_play_led_animation);
 		} else if (brick instanceof DroneTakeOffBrick) {
-			//TODO: how to implement
-			view = null;
+			view = createSimpleBrickView(parent, R.layout.brick_drone_takeoff);
 		} else if (brick instanceof ForeverBrick) {
 			view = createSimpleBrickView(parent, R.layout.brick_forever);
 		} else if (brick instanceof HideBrick) {
