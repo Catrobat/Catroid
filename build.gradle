@@ -5,8 +5,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.0'
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.+'
+        classpath 'com.android.tools.build:gradle:1.0.1'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
     }
 }
 
@@ -30,12 +30,12 @@ check.dependsOn 'pmd'
 ext {
     projectVersion = "0.9"
     featuresEnabled = [
-            "lego_nxt"                          : false,
-            "led_brick"                         : false,
-            "vibration_brick"                   : false,
+            "lego_nxt"                          : true,
+            "led_brick"                         : true,
+            "vibration_brick"                   : true,
             "backpack"                          : false,
-            "parrot_ar_drone"                   : false,
-            "apk_generator"                     : true,
+            "parrot_ar_drone"                   : true,
+            "apk_generator"                     : false,
             "computer_vision_enhancement"       : false,
             "formula_editor_lists"              : false,
             "physics_engine_collision_filtering": false,
@@ -103,7 +103,7 @@ android {
     buildToolsVersion '19.1.0'
     defaultConfig {
         minSdkVersion 11
-        targetSdkVersion 19
+        targetSdkVersion 21
         applicationId 'org.catrobat.catroid'
         testApplicationId "org.catrobat.catroid.test"
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
@@ -145,7 +145,9 @@ android {
         // CommitPrefEdits should be reviewed, if using apply instead of commit is working with our tests
         // OldTargetApi should be reviewed - consider updating target API to 20
         ignore 'ContentDescription', 'InvalidPackage', 'ValidFragment', 'GradleDependency',
-                'ClickableViewAccessibility', 'UnusedAttribute', 'CommitPrefEdits', 'OldTargetApi'
+                'ClickableViewAccessibility', 'UnusedAttribute', 'CommitPrefEdits', 'OldTargetApi',
+                'RtlSymmetry', 'GradleDynamicVersion', 'RtlHardcoded', 'HandlerLeak', 'IconMissingDensityFolder',
+                'WrongRegion', 'RelativeOverlap'
 
         textReport true
         xmlReport true
@@ -167,14 +169,16 @@ if (project.hasProperty('jenkins')) {
     //not a jenkins build, remove animation scale permission
     android.applicationVariants.all { variant ->
         println "Removing the SET_ANIMATION_SCALE permission for $variant.name"
-       /* variant.processManifest.doLast {
-            def generatedContent = manifestOutputFile.getText()
-            generatedContent = generatedContent.replace('<uses-permission android:name="android.permission.SET_ANIMATION_SCALE" />', '')
-            if (generatedContent.contains('SET_ANIMATION_SCALE')) {
-                throw new RuntimeException("Error in removing animation scale permission!")
+        variant.outputs.each { output ->
+            output.processManifest.doLast {
+                def generatedContent = manifestOutputFile.getText()
+                generatedContent = generatedContent.replace('<uses-permission android:name="android.permission.SET_ANIMATION_SCALE" />', '')
+                if (generatedContent.contains('SET_ANIMATION_SCALE')) {
+                    throw new RuntimeException("Error in removing animation scale permission!")
+                }
+                manifestOutputFile.write(generatedContent)
             }
-            manifestOutputFile.write(generatedContent)
-        }*/
+        }
     }
 }
 
