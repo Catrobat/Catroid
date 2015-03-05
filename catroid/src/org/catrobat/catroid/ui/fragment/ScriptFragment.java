@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -30,6 +31,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -563,7 +565,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	 * Called when back is pressed and action mode is active.
 	 */
 	public void beforeCancelActionMode() {
-		if(listView.getChoiceMode() != ListView.CHOICE_MODE_NONE) {
+		if (listView.getChoiceMode() != ListView.CHOICE_MODE_NONE) {
 			listView.clearChoices();
 		}
 	}
@@ -613,13 +615,29 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 
-			if (listView.getCheckedItemCount() == 0) {
+			if (getCheckedItemCount() == 0) {
 				clearCheckedBricksAndEnableButtons();
 			} else {
 				showConfirmDeleteDialog(false);
 			}
 		}
 	};
+
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private int getCheckedItemCount() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			return listView.getCheckedItemCount();
+		}
+
+		int count = 0;
+		SparseBooleanArray checkedItemPositions = listView.getCheckedItemPositions();
+		for (int i = 0, ei = checkedItemPositions.size(); i < ei; i++) {
+			if (checkedItemPositions.valueAt(i)) {
+				count++;
+			}
+		}
+		return count;
+	}
 
 	private ActionMode.Callback copyModeCallBack = new ActionMode.Callback() {
 
@@ -744,7 +762,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	private void deleteCheckedBricks() {
-		if (listView.getCheckedItemCount() > 0) {
+		if (getCheckedItemCount() > 0) {
 			SparseBooleanArray checkedItemPositions = listView.getCheckedItemPositions();
 			for (int i = checkedItemPositions.size() - 1; i >= 0; i--) {
 				if (checkedItemPositions.valueAt(i)) {
@@ -758,7 +776,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		this.deleteScriptFromContextMenu = fromContextMenu;
 		int titleId;
 		if ((deleteScriptFromContextMenu && scriptToEdit.getBrickList().size() == 0)
-				|| listView.getCheckedItemCount() == 1) {
+				|| getCheckedItemCount() == 1) {
 			titleId = R.string.dialog_confirm_delete_brick_title;
 		} else {
 			titleId = R.string.dialog_confirm_delete_multiple_bricks_title;
@@ -811,11 +829,11 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	public void onBrickChecked() {
 		updateActionModeTitle();
 		Utils.setSelectAllActionModeButtonVisibility(selectAllActionModeButton,
-				adapter.getCount() > 0 && listView.getCheckedItemCount() != adapter.getCount());
+				adapter.getCount() > 0 && getCheckedItemCount() != adapter.getCount());
 	}
 
 	private void updateActionModeTitle() {
-		int numberOfSelectedItems = listView.getCheckedItemCount();
+		int numberOfSelectedItems = getCheckedItemCount();
 
 		String completeTitle;
 		switch ((Integer) actionMode.getTag()) {

@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -123,6 +124,7 @@ public class BrickView extends CheckableLinearLayout {
 		}
 	}
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public void applyAlpha(int newAlpha) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			float newOpacity = newAlpha / (float) BrickAdapter.ALPHA_FULL;
