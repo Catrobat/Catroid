@@ -294,6 +294,11 @@ public final class LookController {
 			originalImagePath = bundle.getString(Constants.EXTRA_PICTURE_PATH_POCKET_PAINT);
 		}
 
+		Uri imageUri = intent.getData();
+		if (imageUri != null) {
+			originalImagePath = imageUri.getPath();
+		}
+
 		if (originalImagePath == null || originalImagePath.equals("")) {
 			Bundle arguments = new Bundle();
 			arguments.putParcelable(LOADER_ARGUMENTS_IMAGE_URI, intent.getData());

@@ -60,6 +60,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
@@ -253,10 +254,12 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				lookFromCameraUri = UtilCamera.getDefaultLookFromCameraUri(defLookName);
 			}
 		}
+
 		try {
 			lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
-		} catch (NullPointerException e){
-			Log.e(TAG, e.getMessage());
+		} catch (NullPointerException nullPointerException) {
+			Log.e(TAG, Log.getStackTraceString(nullPointerException));
+			lookDataList = new ArrayList<LookData>();
 		}
 
 		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
@@ -694,9 +697,9 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			startActivityForResult(intent, LookController.REQUEST_POCKET_PAINT_EDIT_IMAGE);
 		} catch (IOException ioException) {
 			Log.e(TAG, Log.getStackTraceString(ioException));
-		}
-		catch (NullPointerException e) {
-			Log.e(TAG, e.getMessage());
+		} catch (NullPointerException nullPointerException) {
+			Log.e(TAG, Log.getStackTraceString(nullPointerException));
+			Toast.makeText(getActivity(), R.string.error_load_image, Toast.LENGTH_SHORT).show();
 		}
 
 	}

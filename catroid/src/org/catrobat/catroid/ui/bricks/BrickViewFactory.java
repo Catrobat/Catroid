@@ -120,6 +120,7 @@ import static org.catrobat.catroid.content.bricks.Brick.BrickField;
  * Created by illya.boyko@gmail.com on 02/03/15.
  */
 public class BrickViewFactory {
+	private static final String TAG = "BrickViewFactory";
 	protected Context context;
 	protected LayoutInflater inflater;
 	protected BrickViewOnClickDispatcher onClickDispatcher;
@@ -395,12 +396,12 @@ public class BrickViewFactory {
 
 		Formula formula = initFormulaEditView(brick, view, fieldResId, brickField);
 
-		setPluralText(view, formula, textResId, pluralStringId);
+		setPluralText(brick, view, formula, textResId, pluralStringId);
 
 		return view;
 	}
 
-	private void setPluralText(View view, Formula formula, int textResId, int pluralStringId) {
+	private void setPluralText(Brick brick, View view, Formula formula, int textResId, int pluralStringId) {
 		TextView textView = (TextView) view.findViewById(textResId);
 
 		if (formula.isSingleNumberFormula()) {
@@ -409,7 +410,7 @@ public class BrickViewFactory {
 						Utils.convertDoubleToPluralInteger(formula.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))
 				));
 			} catch (InterpretationException interpretationException) {
-				Log.d(getClass().getSimpleName(), "Couldn't interpret Formula.", interpretationException);
+				Log.d(TAG, "Formula interpretation for this specific Brick " + brick.getClass().getSimpleName() + " failed.", interpretationException);
 			}
 		} else {
 			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
@@ -453,7 +454,7 @@ public class BrickViewFactory {
 
 		Formula durationInSecondsFormula = initFormulaEditView(brick, view, R.id.brick_glide_to_edit_text_duration, BrickField.DURATION_IN_SECONDS);
 
-		setPluralText(view, durationInSecondsFormula, R.id.brick_glide_to_seconds_text_view, R.plurals.second_plural);
+		setPluralText(brick, view, durationInSecondsFormula, R.id.brick_glide_to_seconds_text_view, R.plurals.second_plural);
 
 		return view;
 	}

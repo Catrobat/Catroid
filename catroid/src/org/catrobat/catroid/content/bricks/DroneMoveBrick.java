@@ -96,7 +96,7 @@ public abstract class DroneMoveBrick extends FormulaBrick implements OnClickList
 						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS)
 								.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))));
 			} catch (InterpretationException interpretationException) {
-				Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+				Log.d("DroneMoveBrick", "Formula interpretation for this specific Brick failed.", interpretationException);
 			}
 
 

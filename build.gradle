@@ -6,7 +6,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.0.1'
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.+'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
     }
 }
 
@@ -51,6 +51,9 @@ dependencies {
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
     compile 'com.android.support:support-v4:19.1.0'
     compile 'com.google.guava:guava:17.0'
+    compile 'com.squareup.okhttp:okhttp:2.1.0-RC1'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.1.0-RC1'
+    compile 'com.github.kevinsawicki:http-request:5.6'
     compile fileTree(include: '*.jar', dir: 'catroid/libs')
     compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')
@@ -100,11 +103,11 @@ android {
         applicationId 'org.catrobat.catroid'
         testApplicationId "org.catrobat.catroid.test"
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
-        versionCode getBuildNumberParameter()
+        versionCode 21
         println "VersionCode is " + versionCode
-        versionName generateVersionName(projectVersion, versionCode)
+        versionName "0.9.14"
         println "VersionName is " + versionName
-        buildConfigField "String", "GIT_DESCRIBE", "\"${getGitDescribe()}\""
+        buildConfigField "String", "GIT_DESCRIBE", "\"${versionName}\""
         buildConfigField "String", "GIT_CURRENT_BRANCH", "\"${getCurrentGitBranch()}\""
     }
     sourceSets {
@@ -144,8 +147,15 @@ android {
         // all general ignores should be added in this place
         // CommitPrefEdits should be reviewed, if using apply instead of commit is working with our tests
         // OldTargetApi should be reviewed - consider updating target API to 20
+        // RtlSymmetry/RtlHardcoded should be reviewed
+        // GradleDynamicVersion ignored - e.g. according to sdkmanager:gradle-plugin it should be imported this way
+        // IconMissingDensityFolder - currently no xxxhdpi icons available
+        // TODO ticket for HandlerLeak
+        // TODO don't know if WrongRegion warning is a false-positive one
         ignore 'ContentDescription', 'InvalidPackage', 'ValidFragment', 'GradleDependency',
-                'ClickableViewAccessibility', 'UnusedAttribute', 'CommitPrefEdits', 'OldTargetApi'
+                'ClickableViewAccessibility', 'UnusedAttribute', 'CommitPrefEdits', 'OldTargetApi',
+                'RtlSymmetry', 'GradleDynamicVersion', 'RtlHardcoded', 'HandlerLeak', 'IconMissingDensityFolder',
+                'WrongRegion', 'RelativeOverlap'
 
         textReport true
         xmlReport true
@@ -167,14 +177,17 @@ if (project.hasProperty('jenkins')) {
     //not a jenkins build, remove animation scale permission
     android.applicationVariants.all { variant ->
         println "Removing the SET_ANIMATION_SCALE permission for $variant.name"
-//        variant.processManifest.doLast {
-//            def generatedContent = manifestOutputFile.getText()
-//            generatedContent = generatedContent.replace('<uses-permission android:name="android.permission.SET_ANIMATION_SCALE" />', '')
-//            if (generatedContent.contains('SET_ANIMATION_SCALE')) {
-//                throw new RuntimeException("Error in removing animation scale permission!")
-//            }
-//            manifestOutputFile.write(generatedContent)
-//        }
+        variant.outputs.each { output ->
+            output.processManifest.doLast {
+                def generatedContent = manifestOutputFile.getText()
+                generatedContent = generatedContent.replace('<uses-permission android:name="android.permission.SET_ANIMATION_SCALE" />', '')
+                if (generatedContent.contains('SET_ANIMATION_SCALE')) {
+                    throw new RuntimeException("Error in removing animation scale permission!")
+                }
+                manifestOutputFile.write(generatedContent)
+            }
+
+        }
     }
 }
 

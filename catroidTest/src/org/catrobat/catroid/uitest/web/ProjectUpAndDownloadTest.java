@@ -422,7 +422,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		solo.clickOnButton(uploadButtonText);
 
 		assertTrue("Upload of the modified standard project should be possible, but did not succeed",
-				solo.waitForText(solo.getString(R.string.notification_upload_finished), 0, 10000));
+				solo.waitForText(solo.getString(R.string.notification_upload_finished), 0, 15000));
 	}
 
 	public void testDownloadProjectAfterModification() throws Throwable {

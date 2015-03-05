@@ -86,6 +86,9 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 			return;
 		}
 		try {
+			if (soundRecorder != null) {
+				soundRecorder.stop();
+			}
 			String recordPath = Utils.buildPath(Constants.TMP_PATH, getString(R.string.soundrecorder_recorded_filename)
 					+ SoundRecorder.RECORDING_EXTENSION);
 			soundRecorder = new SoundRecorder(recordPath);
@@ -97,6 +100,10 @@ public class SoundRecorderActivity extends BaseActivity implements OnClickListen
 		} catch (IllegalStateException e) {
 			// app would crash if other app uses mic, catch IllegalStateException and display Toast
 			Log.e(TAG, "Error recording sound (Other recorder running?).", e);
+			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
+		} catch (RuntimeException e) {
+			// device does not support audio or video format
+			Log.e(TAG, "Device does not support audio or video format.", e);
 			Toast.makeText(this, R.string.soundrecorder_error, Toast.LENGTH_SHORT).show();
 		}
 	}

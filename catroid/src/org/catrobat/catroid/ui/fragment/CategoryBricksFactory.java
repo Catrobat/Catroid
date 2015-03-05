@@ -255,6 +255,7 @@ public class CategoryBricksFactory {
 
 	private List<Brick> setupLooksCategoryList() {
 		List<Brick> looksBrickList = new ArrayList<Brick>();
+
 		looksBrickList.add(new SetLookBrick());
 		looksBrickList.add(new NextLookBrick());
 		looksBrickList.add(new SetSizeToBrick(BrickValues.SET_SIZE_TO));

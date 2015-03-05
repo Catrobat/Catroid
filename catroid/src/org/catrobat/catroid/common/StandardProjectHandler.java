@@ -72,7 +72,19 @@ public final class StandardProjectHandler {
 
 	public static Project createAndSaveStandardProject(Context context) throws IOException {
 		String projectName = context.getString(R.string.default_project_name);
-		return createAndSaveStandardProject(projectName, context);
+		Project standardProject = null;
+
+		if (StorageHandler.getInstance().projectExists(projectName)) {
+			StorageHandler.getInstance().deleteProject(projectName);
+		}
+
+		try {
+			standardProject = createAndSaveStandardProject(projectName, context);
+		} catch (IllegalArgumentException ilArgument) {
+			Log.e(TAG, "Could not create standard project!", ilArgument);
+		}
+
+		return standardProject;
 	}
 
 	public static Project createAndSaveStandardDroneProject(Context context) throws IOException {
@@ -361,6 +373,8 @@ public final class StandardProjectHandler {
 			soundInfo.setTitle(soundName);
 			soundInfo.setSoundFileName(soundFile1.getName());
 
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
+
 			UserVariablesContainer userVariables = defaultProject.getUserVariables();
 			Sprite backgroundSprite = defaultProject.getSpriteList().get(0);
 
@@ -435,6 +449,13 @@ public final class StandardProjectHandler {
 			setLookBrick.setLook(diggedOutMoleLookData);
 			mole1StartScript.addBrick(setLookBrick);
 
+			//add filechecksums
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(movingMoleLookData.getChecksum(), movingMoleLookData.getAbsolutePath());
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(diggedOutMoleLookData.getChecksum(), diggedOutMoleLookData.getAbsolutePath());
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(whackedMoleLookData.getChecksum(), whackedMoleLookData.getAbsolutePath());
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(backgroundLookData.getChecksum(), backgroundLookData.getAbsolutePath());
+
+
 			waitBrick = new WaitBrick(randomWait.clone());
 			mole1StartScript.addBrick(waitBrick);
 
@@ -471,6 +492,9 @@ public final class StandardProjectHandler {
 			// Mole 2 sprite
 			Sprite mole2Sprite = mole1Sprite.clone();
 			mole2Sprite.getSoundList().get(0).setSoundFileName(soundFile2.getName());
+
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundFile2.getName(), soundFile2.getAbsolutePath());
+
 			mole2Sprite.setName(mole2Name);
 			defaultProject.addSprite(mole2Sprite);
 
@@ -486,6 +510,9 @@ public final class StandardProjectHandler {
 			// Mole 3 sprite
 			Sprite mole3Sprite = mole1Sprite.clone();
 			mole3Sprite.getSoundList().get(0).setSoundFileName(soundFile3.getName());
+
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundFile3.getName(), soundFile3.getAbsolutePath());
+
 			mole3Sprite.setName(mole3Name);
 			defaultProject.addSprite(mole3Sprite);
 
@@ -501,6 +528,9 @@ public final class StandardProjectHandler {
 			// Mole 4 sprite
 			Sprite mole4Sprite = mole1Sprite.clone();
 			mole4Sprite.getSoundList().get(0).setSoundFileName(soundFile4.getName());
+
+			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(soundFile4.getName(), soundFile4.getAbsolutePath());
+
 			mole4Sprite.setName(mole4Name);
 			defaultProject.addSprite(mole4Sprite);
 

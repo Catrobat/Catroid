@@ -94,6 +94,11 @@ public class NewProjectDialog extends DialogFragment {
 		newProjectDialog.setOnShowListener(new OnShowListener() {
 			@Override
 			public void onShow(DialogInterface dialog) {
+				if (getActivity() == null) {
+					Log.e(TAG, "onShow() Activity was null!");
+					return;
+				}
+
 				InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(
 						Context.INPUT_METHOD_SERVICE);
 				inputManager.showSoftInput(newProjectEditText, InputMethodManager.SHOW_IMPLICIT);
@@ -142,6 +147,10 @@ public class NewProjectDialog extends DialogFragment {
 	protected void handleOkButtonClick() {
 		String projectName = newProjectEditText.getText().toString().trim();
 		boolean shouldBeEmpty = emptyProjectCheckBox.isChecked();
+		if (getActivity() == null) {
+			Log.e(TAG, "handleOkButtonClick() Activity was null!");
+			return;
+		}
 
 		if (projectName.isEmpty()) {
 			Utils.showErrorDialog(getActivity(), R.string.error_no_name_entered);
