@@ -43,24 +43,22 @@ import java.util.List;
 
 public class PrototypeBrickAdapter extends BaseAdapter {
 
-	private Context context;
 	private List<Brick> brickList;
 
-	private OnBrickCheckedListener addBrickFragment;
+//	private OnBrickCheckedListener addBrickFragment;
 	private List<Brick> checkedBricks = new ArrayList<Brick>();
 	private BrickViewFactory brickViewFactory;
 	private boolean useSelection;
 
 	public PrototypeBrickAdapter(Context context, List<Brick> brickList) {
-		this.context = context;
 		this.brickList = brickList;
 		brickViewFactory = new BrickViewFactory(context);
 	}
 
-	public void addBrickToList(Brick brick) {
-		brickList.add(brick);
-		notifyDataSetChanged();
-	}
+//	public void addBrickToList(Brick brick) {
+//		brickList.add(brick);
+//		notifyDataSetChanged();
+//	}
 
 	@Override
 	public int getCount() {
@@ -114,7 +112,7 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 	}
 
 	public void setOnBrickCheckedListener(OnBrickCheckedListener listener) {
-		addBrickFragment = listener;
+//		addBrickFragment = listener;
 	}
 
 //	public void handleCheck(Brick brick, boolean isChecked) {

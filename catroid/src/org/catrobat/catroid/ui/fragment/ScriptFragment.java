@@ -302,11 +302,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-	}
-
-	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 
 		menu.findItem(R.id.show_details).setVisible(false);

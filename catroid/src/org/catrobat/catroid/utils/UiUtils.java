@@ -35,7 +35,7 @@ import org.catrobat.catroid.R;
  * UI Utilities.
  * Created by illya.boyko@gmail.com on 01/03/15.
  */
-public class UiUtils {
+public final class UiUtils {
 
 	private UiUtils() {
 	}

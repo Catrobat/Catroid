@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
 import android.util.Pair;
@@ -48,7 +47,6 @@ import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.ui.BrickView;
-import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.bricks.BrickViewFactory;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
@@ -58,7 +56,6 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.locks.Lock;
 
 import static org.catrobat.catroid.utils.UiUtils.startBlinkAnimation;
 
@@ -100,13 +97,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 	private OnBrickCheckedListener scriptFragment;
 	private boolean actionMode = false;
 
-	private Lock viewSwitchLock = new ViewSwitchLock();
-
 	public int listItemCount = 0;
-
-	private int clickItemPosition = 0;
-
-	private AlertDialog alertDialog = null;
 
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
 		this.context = context;
