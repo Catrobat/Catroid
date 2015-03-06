@@ -294,11 +294,16 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_script, container, false);
-
 		listView = (DragAndDropListView) rootView.findViewById(android.R.id.list);
+		return rootView;
+	}
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		//OnClick and on LongClick listeners cannot be set in onCreateView
 		listView.setOnItemClickListener(defaultOnItemClickListener);
 		listView.setOnItemLongClickListener(defaultOnItemLongClickListener);
-		return rootView;
 	}
 
 	@Override
