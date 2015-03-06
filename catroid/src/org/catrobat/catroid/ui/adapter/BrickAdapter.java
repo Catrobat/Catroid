@@ -856,16 +856,17 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 		// dirty HACK
 		// without the footer, position can be 0, and list.get(-1) caused an Indexoutofboundsexception
 		// no clean solution was found
-		if (convertView != null) {
-			currentBrickView = (BrickView) convertView;
-		} else {
+//		if (convertView != null) {
+		//FIXME: Illya Boyko: No view refresh for now. Implement Refresh view from brick.
+//			currentBrickView = (BrickView) convertView;
+//		} else {
 			if (item instanceof AllowedAfterDeadEndBrick && brickList.get(position == 0 ? position : (position - 1)) instanceof DeadEndBrick) {
 				currentBrickView = (BrickView) ((AllowedAfterDeadEndBrick) item).getNoPuzzleView(context, position, this);
 			} else {
 				currentBrickView = brickViewFactory.createView(item, parent);
 			}
 			convertView = currentBrickView;
-		}
+//		}
 
 		int alpha = ALPHA_FULL;
 		if (actionMode) {
