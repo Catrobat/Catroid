@@ -66,11 +66,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 	public static final int ALPHA_FULL = 255;
 	private static final int ALPHA_GREYED = 100;
 	private Context context;
-	private List<Class<? extends Brick>> viewTypes;
-
-	public Context getContext() {
-		return context;
-	}
 
 	private Sprite sprite;
 	private UserBrick userBrick;
@@ -89,6 +84,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 	private boolean retryScriptDragging;
 	private boolean showDetails = false;
 
+	private List<Class<? extends Brick>> viewTypes;
 	private List<Brick> brickList;
 	private Queue<Integer> toAnimatePositions;
 	private BrickViewFactory brickViewFactory;
@@ -102,6 +98,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
 		this.context = context;
 		this.sprite = sprite;
+		brickList = new ArrayList<Brick>();
+		viewTypes = new ArrayList<Class<? extends Brick>>();
 		brickViewFactory = new BrickViewFactory(context);
 		dragAndDropListView = listView;
 		toAnimatePositions = new LinkedBlockingQueue<Integer>();
@@ -129,7 +127,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 	}
 
 	public void initBrickList() {
-		brickList = new ArrayList<Brick>();
+		brickList.clear();
 
 		if (userBrick != null) {
 			initBrickListUserScript();
@@ -138,7 +136,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 
 		int numberOfScripts = sprite.getNumberOfScripts();
-		viewTypes = new ArrayList<Class<? extends Brick>>();
+		viewTypes.clear();
 		for (int scriptPosition = 0; scriptPosition < numberOfScripts; scriptPosition++) {
 			Script script = sprite.getScript(scriptPosition);
 			ScriptBrick scriptBrick = script.getScriptBrick();
@@ -190,6 +188,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 	private Script getUserScript() {
 		UserScriptDefinitionBrick defBrick = userBrick.getDefinitionBrick();
 		return defBrick.getScriptSafe();
+	}
+
+
+	public Context getContext() {
+		return context;
 	}
 
 	public boolean isActionMode() {
@@ -917,7 +920,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 	public int getScriptIndexFromProject(int index) {
 		int scriptIndex = 0;
 		Script temporaryScript = null;
-		for (int i = 0; i < index;) {
+		for (int i = 0; i < index; ) {
 			temporaryScript = sprite.getScript(scriptIndex);
 			if (temporaryScript == null) {
 				Log.e(TAG, "getScriptIndexFromProject() tmpScript was null. Index was " + index + " scriptIndex was " + scriptIndex);
