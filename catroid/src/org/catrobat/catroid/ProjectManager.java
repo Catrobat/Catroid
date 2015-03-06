@@ -100,6 +100,14 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		}
 	}
 
+	public void mergeProject(String projectName) {
+		Log.d(TAG, "projectName: " + projectName);
+		if (getCurrentProject() == null || !getCurrentProject().getName().equals(projectName)) {
+
+		}
+	}
+
+
 	public void loadProject(String projectName, Context context) throws LoadingProjectException,
 			OutdatedVersionProjectException, CompatibilityProjectException {
 		fileChecksumContainer = new FileChecksumContainer();

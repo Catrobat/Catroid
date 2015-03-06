@@ -45,6 +45,7 @@
     <string name="stage">Stage</string>
     <string name="ok">OK</string>
     <string name="settings">Settings</string>
+     <string name="merge_button">Merge into current project</string>
     <!--  -->
 
 
@@ -721,7 +722,6 @@
     <string name="recursive_user_brick_forbidden">Adding UserBrick to UserBrick is not allowed yet!</string>
  	<string name="brick_single">Brick</string>
  	<string name="brick_multiple">Bricks</string>
-
     <!-- -->
 
 </resources>

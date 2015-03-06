@@ -38,5 +38,8 @@
     <item
         android:id="@+id/context_menu_upload"
         android:title="@string/upload_button" />
+    <item
+        android:id="@+id/context_menu_merge"
+        android:title="Merge into current project" />
 
 </menu>

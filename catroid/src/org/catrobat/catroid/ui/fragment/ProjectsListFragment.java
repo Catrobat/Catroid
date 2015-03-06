@@ -396,6 +396,10 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 				ProjectManager.getInstance().uploadProject(projectToEdit.projectName, this.getActivity());
 				break;
 
+			case R.id.context_menu_merge:
+				ProjectManager.getInstance().mergeProject(projectToEdit.projectName);
+				break;
+
 		}
 		return super.onContextItemSelected(item);
 	}
