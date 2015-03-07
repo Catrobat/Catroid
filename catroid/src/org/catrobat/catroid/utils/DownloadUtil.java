@@ -33,7 +33,7 @@ import android.util.Log;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.ProjectDownloadService;
 import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
-import org.catrobat.catroid.web.ProgressBufferedOutputStream;
+import org.catrobat.catroid.web.ProgressResponseBody;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -111,9 +111,9 @@ public final class DownloadUtil {
 		protected void onReceiveResult(int resultCode, Bundle resultData) {
 			super.onReceiveResult(resultCode, resultData);
 			if (resultCode == Constants.UPDATE_DOWNLOAD_PROGRESS) {
-				long progress = resultData.getLong(ProgressBufferedOutputStream.TAG_PROGRESS);
-				boolean endOfFileReached = resultData.getBoolean(ProgressBufferedOutputStream.TAG_ENDOFFILE);
-				Integer notificationId = resultData.getInt(ProgressBufferedOutputStream.TAG_NOTIFICATION_ID);
+				long progress = resultData.getLong(ProgressResponseBody.TAG_PROGRESS);
+				boolean endOfFileReached = resultData.getBoolean(ProgressResponseBody.TAG_ENDOFFILE);
+				Integer notificationId = resultData.getInt(ProgressResponseBody.TAG_NOTIFICATION_ID);
 				if (endOfFileReached) {
 					progress = 100;
 				}

@@ -24,56 +24,68 @@ package org.catrobat.catroid.web;
 
 import android.os.Bundle;
 import android.os.ResultReceiver;
-import android.util.Log;
+
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.ResponseBody;
 
 import org.catrobat.catroid.common.Constants;
 
-import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 
-public class ProgressBufferedOutputStream extends BufferedOutputStream {
+import okio.Buffer;
+import okio.BufferedSource;
+import okio.ForwardingSource;
+import okio.Okio;
+import okio.Source;
+
+public class ProgressResponseBody extends ResponseBody {
 
 	public static final String TAG_PROGRESS = "currentDownloadProgress";
 	public static final String TAG_ENDOFFILE = "endOfFileReached";
 	public static final String TAG_NOTIFICATION_ID = "notificationId";
 
-	private static final String TAG = ProgressBufferedOutputStream.class.getSimpleName();
+	private final ResponseBody responseBody;
+	private final ResultReceiver receiver;
+	private final int notificationId;
 
-	private long fileSize;
-	private long currentFileStatus;
-	private ResultReceiver receiver;
-	private Integer notificationId;
+	private BufferedSource bufferedSource;
 
-	public ProgressBufferedOutputStream(OutputStream out, int size, long fileSize, ResultReceiver receiver,
-			Integer notificationId) throws IOException {
-		super(out, size);
-
-		this.fileSize = fileSize;
+	public ProgressResponseBody(ResponseBody responseBody, ResultReceiver receiver, int notificationId) throws IOException {
+		this.responseBody = responseBody;
 		this.receiver = receiver;
 		this.notificationId = notificationId;
-		currentFileStatus = 0;
 	}
 
 	@Override
-	public void write(int b) {
-		Log.wtf(TAG, "this write method isn't supported");
+	public MediaType contentType() {
+		responseBody.contentType();
 	}
 
 	@Override
-	public void write(byte[] b, int off, int len) throws IOException {
-		super.write(b, off, len);
-
-		currentFileStatus += len;
-		Log.v(TAG, "download status: " + currentFileStatus + "/" + fileSize);
-		sendUpdateIntent((100 * currentFileStatus) / fileSize, false);
+	public long contentLength() throws IOException {
+		return responseBody.contentLength();
 	}
 
 	@Override
-	public void close() throws IOException {
-		super.close();
+	public BufferedSource source() throws IOException {
+		if (bufferedSource == null) {
+			bufferedSource = Okio.buffer(source(responseBody.source()));
+		}
+		return bufferedSource;
+	}
 
-		sendUpdateIntent(100, true);
+	private Source source(Source source) {
+		return new ForwardingSource(source) {
+			long totalBytesRead = 0L;
+
+			@Override
+			public long read(Buffer sink, long byteCount) throws IOException {
+				long bytesRead = super.read(sink, byteCount);
+				totalBytesRead += bytesRead != -1 ? bytesRead : 0;
+				sendUpdateIntent((100 * totalBytesRead) / contentLength(), bytesRead == -1);
+				return bytesRead;
+			}
+		};
 	}
 
 	private void sendUpdateIntent(long progress, boolean endOfFileReached) {
@@ -83,5 +95,4 @@ public class ProgressBufferedOutputStream extends BufferedOutputStream {
 		progressBundle.putInt(TAG_NOTIFICATION_ID, notificationId);
 		receiver.send(Constants.UPDATE_DOWNLOAD_PROGRESS, progressBundle);
 	}
-
 }
