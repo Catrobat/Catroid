@@ -28,21 +28,40 @@ import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.google.common.base.Preconditions;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.squareup.okhttp.ConnectionSpec;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.Interceptor;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.MultipartBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.transfers.ProjectUploadService;
+import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
+
+import okio.BufferedSink;
+import okio.Okio;
 
 //web status codes are on: https://github.com/Catrobat/Catroweb/blob/master/statusCodes.php
 
 public final class ServerCalls {
 
-	private static final String TAG = ServerCalls.class.getCanonicalName();
+	private static final String TAG = ServerCalls.class.getSimpleName();
 
 	private static final String REGISTRATION_USERNAME_KEY = "registrationUsername";
 	private static final String REGISTRATION_PASSWORD_KEY = "registrationPassword";
@@ -56,6 +75,8 @@ public final class ServerCalls {
 	private static final String PROJECT_CHECKSUM_TAG = "fileChecksum";
 	private static final String USER_EMAIL = "userEmail";
 	private static final String DEVICE_LANGUAGE = "deviceLanguage";
+
+	private static final MediaType MEDIA_TYPE_ZIPFILE = MediaType.parse("application/zip");
 
 	private static final int SERVER_RESPONSE_TOKEN_OK = 200;
 	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
@@ -82,102 +103,165 @@ public final class ServerCalls {
 
 	public static boolean useTestUrl = false;
 	private String resultString;
-	private ConnectionWrapper connection;
 	private String emailForUiTests;
-	private int uploadStatusCode;
+	private final OkHttpClient okHttpClient;
+	private final Gson gson;
 
 	private ServerCalls() {
-		connection = new ConnectionWrapper();
+		okHttpClient = new OkHttpClient();
+		okHttpClient.setConnectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS));
+		gson = new Gson();
 	}
 
 	public static ServerCalls getInstance() {
 		return INSTANCE;
 	}
 
-	// used for mock object testing
-	public void setConnectionToUse(ConnectionWrapper connection) {
-		this.connection = connection;
-	}
-
 	public void uploadProject(String projectName, String projectDescription, String zipFileString, String userEmail,
-			String language, String token, String username, ResultReceiver receiver, Integer notificationId,
-			Context context) throws WebconnectionException {
-		if (emailForUiTests != null) {
-			userEmail = emailForUiTests;
-		}
+							  String language, String token, String username, ResultReceiver receiver, Integer notificationId,
+							  Context context) throws WebconnectionException {
+
+		Preconditions.checkNotNull(context, "Context cannot be null!");
+
+		userEmail = emailForUiTests == null ? userEmail : emailForUiTests;
+		userEmail = userEmail == null ? "" : userEmail;
 
 		try {
 			String md5Checksum = Utils.md5Checksum(new File(zipFileString));
 
-			HashMap<String, String> postValues = new HashMap<String, String>();
-			postValues.put(PROJECT_NAME_TAG, projectName);
-			postValues.put(PROJECT_DESCRIPTION_TAG, projectDescription);
-			postValues.put(USER_EMAIL, userEmail == null ? "" : userEmail);
-			postValues.put(PROJECT_CHECKSUM_TAG, md5Checksum);
-			postValues.put(Constants.TOKEN, token);
-			postValues.put(Constants.USERNAME, username);
+			final String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL;
 
-			if (language != null) {
-				postValues.put(DEVICE_LANGUAGE, language);
+			Log.v(TAG, "Url to upload: " + serverUrl);
+
+			File file = new File(zipFileString);
+
+			RequestBody requestBody = new MultipartBuilder()
+					.type(MultipartBuilder.FORM)
+					.addFormDataPart(
+							FILE_UPLOAD_TAG,
+							ProjectUploadService.UPLOAD_FILE_NAME,
+							RequestBody.create(MEDIA_TYPE_ZIPFILE, file))
+					.addFormDataPart(
+							PROJECT_NAME_TAG,
+							projectName)
+					.addFormDataPart(
+							PROJECT_DESCRIPTION_TAG,
+							projectDescription)
+					.addFormDataPart(
+							USER_EMAIL,
+							userEmail)
+					.addFormDataPart(
+							PROJECT_CHECKSUM_TAG,
+							md5Checksum)
+					.addFormDataPart(
+							Constants.TOKEN,
+							token)
+					.addFormDataPart(
+							Constants.USERNAME,
+							username)
+					.addFormDataPart(
+							DEVICE_LANGUAGE,
+							language)
+					.build();
+
+			Request request = new Request.Builder()
+					.url(serverUrl)
+					.post(requestBody)
+					.build();
+
+			Response response = okHttpClient.newCall(request).execute();
+
+			if (response.isSuccessful()) {
+				Log.v(TAG, "Upload successful");
+				StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId, 100);
+			} else {
+				Log.v(TAG, "Upload not successful");
+				StatusBarNotificationManager.getInstance().cancelNotification(notificationId);
+				throw new WebconnectionException(response.code(), "Upload failed! HTTP Status code was " + response.code());
 			}
 
-			String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL_HTTP : FILE_UPLOAD_URL;
+			UploadResponse uploadResponse = gson.fromJson(response.body().string(), UploadResponse.class);
 
-			Log.v(TAG, "url to upload: " + serverUrl);
+			String newToken = uploadResponse.token;
+			String answer = uploadResponse.answer;
+			int status = uploadResponse.statusCode;
 
-			String answer = connection.doHttpsPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString,
-					receiver, notificationId);
-			if (answer != null && !answer.isEmpty()) {
-				// check statusCode from Webserver
-				JSONObject jsonObject = null;
-				Log.v(TAG, "result string: " + answer);
-
-				// needed cause of a beautiful test case which gets resultString through reflection :)
-				resultString = answer;
-
-				jsonObject = new JSONObject(answer);
-				uploadStatusCode = jsonObject.getInt(JSON_STATUS_CODE);
-				String serverAnswer = jsonObject.optString(JSON_ANSWER);
-				String tokenReceived = "";
-
-				if (uploadStatusCode == SERVER_RESPONSE_TOKEN_OK) {
-					tokenReceived = jsonObject.getString(JSON_TOKEN);
-					if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived.equals("")
-							|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
-						throw new WebconnectionException(uploadStatusCode, serverAnswer);
-					}
-					if (context != null) {
-						SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-						sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
-						sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
-					}
-				} else {
-					throw new WebconnectionException(uploadStatusCode, serverAnswer);
-				}
+			if (status != SERVER_RESPONSE_TOKEN_OK) {
+				throw new WebconnectionException(status, "Upload failed! JSON Response was " + status);
 			}
-		} catch (JSONException jsonException) {
-			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Exception");
+
+			if (token.length() != TOKEN_LENGTH || token.isEmpty() || token.equals(TOKEN_CODE_INVALID)) {
+				throw new WebconnectionException(status, answer);
+			}
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+			sharedPreferences.edit().putString(Constants.TOKEN, newToken).commit();
+			sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
+		} catch (JsonSyntaxException jsonSyntaxException) {
+			Log.e(TAG, Log.getStackTraceString(jsonSyntaxException));
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JsonSyntaxException");
 		} catch (IOException ioException) {
 			Log.e(TAG, Log.getStackTraceString(ioException));
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "IO-Exception");
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "I/O Exception");
 		}
 	}
 
-	public void downloadProject(String downloadUrl, String zipFileString, ResultReceiver receiver,
-			Integer notificationId) throws WebconnectionException {
+	public void downloadProject(String url, String filePath, final ResultReceiver receiver,
+								final int notificationId) throws IOException, WebconnectionException {
 
-		try {
-			connection.doHttpPostFileDownload(downloadUrl, new HashMap<String, String>(), zipFileString, receiver,
-					notificationId);
-		} catch (MalformedURLException malformedURLException) {
-			Log.e(TAG, Log.getStackTraceString(malformedURLException));
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Malformed URL");
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "IO-Exception");
+		File file = new File(filePath);
+		if (!(file.getParentFile().mkdirs() || file.getParentFile().isDirectory())) {
+			throw new IOException("Directory not created");
 		}
 
+		Request request = new Request.Builder()
+				.url(url)
+				.build();
+
+		okHttpClient.networkInterceptors().add(new Interceptor() {
+			@Override
+			public Response intercept(Chain chain) throws IOException {
+				Response originalResponse = chain.proceed(chain.request());
+				return originalResponse.newBuilder()
+						.body(new ProgressResponseBody(
+								originalResponse.body(),
+								receiver,
+								notificationId))
+						.build();
+			}
+		});
+
+		try {
+			Response response = okHttpClient.newCall(request).execute();
+			BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
+			bufferedSink.writeAll(response.body().source());
+			bufferedSink.close();
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
+					"Connection could not be established!");
+		}
+	}
+
+	public String httpFormUpload(String url, Map<String, String> postValues) throws WebconnectionException {
+		FormEncodingBuilder formEncodingBuilder = new FormEncodingBuilder();
+
+		for (Map.Entry<String, String> entry : postValues.entrySet()) {
+			formEncodingBuilder.add(entry.getKey(), entry.getValue());
+		}
+
+		Request request = new Request.Builder()
+				.url(url)
+				.post(formEncodingBuilder.build())
+				.build();
+
+		try {
+			Response response = okHttpClient.newCall(request).execute();
+			return response.body().string();
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK,
+					"Connection could not be established!");
+		}
 	}
 
 	public boolean checkToken(String token, String username) throws WebconnectionException {
@@ -190,15 +274,12 @@ public final class ServerCalls {
 
 			Log.v(TAG, "post values - token:" + token + "user: " + username);
 			Log.v(TAG, "url to upload: " + serverUrl);
-			resultString = connection.doHttpPost(serverUrl, postValues);
-
-			JSONObject jsonObject = null;
-			int statusCode = 0;
+			resultString = httpFormUpload(serverUrl, postValues);
 
 			Log.v(TAG, "result string: " + resultString);
 
-			jsonObject = new JSONObject(resultString);
-			statusCode = jsonObject.getInt(JSON_STATUS_CODE);
+			JSONObject jsonObject = new JSONObject(resultString);
+			int statusCode = jsonObject.getInt(JSON_STATUS_CODE);
 			String serverAnswer = jsonObject.optString(JSON_ANSWER);
 
 			if (statusCode == SERVER_RESPONSE_TOKEN_OK) {
@@ -213,16 +294,20 @@ public final class ServerCalls {
 	}
 
 	public boolean registerOrCheckToken(String username, String password, String userEmail, String language,
-			String country, String token, Context context) throws WebconnectionException {
+										String country, String token, Context context) throws WebconnectionException {
+
+		Preconditions.checkNotNull(context, "Context cannot be null!");
+
 		if (emailForUiTests != null) {
 			userEmail = emailForUiTests;
 		}
+
 		try {
 			HashMap<String, String> postValues = new HashMap<String, String>();
 			postValues.put(REGISTRATION_USERNAME_KEY, username);
 			postValues.put(REGISTRATION_PASSWORD_KEY, password);
 			postValues.put(REGISTRATION_EMAIL_KEY, userEmail);
-			if (token != Constants.NO_TOKEN) {
+			if (token.equals(Constants.NO_TOKEN)) {
 				postValues.put(Constants.TOKEN, token);
 			}
 
@@ -234,30 +319,24 @@ public final class ServerCalls {
 			}
 			String serverUrl = useTestUrl ? TEST_REGISTRATION_URL : REGISTRATION_URL;
 
-			Log.v(TAG, "url to use: " + serverUrl);
-			resultString = connection.doHttpPost(serverUrl, postValues);
+			Log.v(TAG, "URL to use: " + serverUrl);
+			resultString = httpFormUpload(serverUrl, postValues);
 
-			JSONObject jsonObject = null;
-			int statusCode = 0;
-			String tokenReceived = "";
+			Log.v(TAG, "Result string: " + resultString);
 
-			Log.v(TAG, "result string: " + resultString);
-
-			jsonObject = new JSONObject(resultString);
-			statusCode = jsonObject.getInt(JSON_STATUS_CODE);
+			JSONObject jsonObject = new JSONObject(resultString);
+			int statusCode = jsonObject.getInt(JSON_STATUS_CODE);
 			String serverAnswer = jsonObject.optString(JSON_ANSWER);
 
 			if (statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK) {
-				tokenReceived = jsonObject.getString(JSON_TOKEN);
+				String tokenReceived = jsonObject.getString(JSON_TOKEN);
 				if (tokenReceived.length() != TOKEN_LENGTH || tokenReceived.equals("")
 						|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
 					throw new WebconnectionException(statusCode, serverAnswer);
 				}
-				if (context != null) {
-					SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-					sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
-					sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
-				}
+				SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+				sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
+				sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
 			}
 
 			boolean registered;
@@ -273,5 +352,13 @@ public final class ServerCalls {
 			Log.e(TAG, Log.getStackTraceString(jsonException));
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "JSON-Error");
 		}
+	}
+
+	static class UploadResponse {
+		//		int projectId;
+		int statusCode;
+		String answer;
+		String token;
+		//		String preHeaderMessages;
 	}
 }
