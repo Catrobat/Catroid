@@ -81,8 +81,8 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			}
 
 			String email = UtilDeviceInfo.getUserEmail(context);
-			String language = UtilDeviceInfo.getUserLanguageCode(context);
-			String country = UtilDeviceInfo.getUserCountryCode(context);
+			String language = UtilDeviceInfo.getUserLanguageCode();
+			String country = UtilDeviceInfo.getUserCountryCode();
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 
