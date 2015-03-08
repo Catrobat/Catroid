@@ -38,15 +38,16 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.BrickView;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.MyProjectsActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
+import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
@@ -476,15 +477,16 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 		}
 
 		public void testBrickAdapterOnItemClick() {
-			final View brickView = solo.getView(R.id.brick_hide_layout);
-			ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
-			ScriptFragment scriptFragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
-			final BrickAdapter brickAdapter = scriptFragment.getAdapter();
+			final BrickView brickView = UiTestUtils.getBrickViewByLayoutId(solo, R.id.brick_hide_layout);
+			final ScriptActivity activity = (ScriptActivity) solo.getCurrentActivity();
+			final ScriptFragment scriptFragment = (ScriptFragment) activity.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
+			final DragAndDropListView listView = scriptFragment.getListView();
+			final int pos = listView.getPositionForView(brickView);
 
 			checkDoubleClickOpensViewOnce(new OnClickCommand() {
 				@Override
 				protected void execute() {
-					brickAdapter.onClick(brickView);
+					listView.performItemClick(brickView, pos, pos);
 				}
 			}, R.id.brick_hide_layout, getActivity().getApplicationContext().getText(R.string.brick_context_dialog_delete_brick).toString());
 		}

@@ -131,6 +131,7 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageListener;
+import org.catrobat.catroid.ui.BrickView;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
@@ -322,6 +323,24 @@ public final class UiTestUtils {
 		return setVariableBrick;
 	}
 
+	public static BrickView getBrickViewByLayoutId(Solo solo, int layoutResId) {
+		return getBrickViewByLayoutId(solo, layoutResId, 0);
+	}
+
+	public static BrickView getBrickViewByLayoutId(Solo solo, int layoutResId, int index) {
+		return (BrickView) solo.getView(layoutResId, index).getParent();
+	}
+
+	public static void clickOnBrickView(Solo solo, int index) {
+		BrickView brickView = solo.getCurrentViews(BrickView.class).get(index);
+		solo.clickOnView(brickView);
+	}
+
+	public static void clickOnBrickView(Solo solo, int layoutResId, int index) {
+		BrickView brickView = getBrickViewByLayoutId(solo, layoutResId, index);
+		solo.clickOnView(brickView);
+	}
+
 	public static enum FileTypes {
 		IMAGE, SOUND, ROOT
 	}
@@ -352,7 +371,7 @@ public final class UiTestUtils {
 	/**
 	 * Clicks on the EditText given by editTextId, inserts the integer value and closes the Dialog
 	 *
-	 * @param value      The value you want to put into the EditText
+	 * @param value The value you want to put into the EditText
 	 */
 	public static void insertIntegerIntoEditText(Solo solo, int value) {
 		insertValue(solo, value + "");
@@ -361,7 +380,7 @@ public final class UiTestUtils {
 	/**
 	 * Clicks on the EditText given by editTextId, inserts the double value and closes the Dialog
 	 *
-	 * @param value      The value you want to put into the EditText
+	 * @param value The value you want to put into the EditText
 	 */
 	public static void insertDoubleIntoEditText(Solo solo, double value) {
 		insertValue(solo, value + "");
@@ -436,9 +455,9 @@ public final class UiTestUtils {
 		solo.sleep(200);
 
 		Formula formula = theBrick.getFormulaWithBrickField(brickField);
-		try{
+		try {
 			assertEquals("Wrong text in field", newValue, formula.interpretDouble(sprite), 0.01f);
-		}catch (InterpretationException interpretationException) {
+		} catch (InterpretationException interpretationException) {
 			fail("Wrong text in field.");
 		}
 
@@ -464,9 +483,9 @@ public final class UiTestUtils {
 
 		Formula formula = (Formula) theBrick.getFormulaWithBrickField(brickField);
 		formulaEditorString = ((TextView) solo.getView(editTextId)).getText().toString();
-		try{
+		try {
 			assertEquals("Wrong text in field", newValue, formula.interpretString(sprite));
-		}catch (InterpretationException interpretationException) {
+		} catch (InterpretationException interpretationException) {
 			fail("Wrong text in field.");
 		}
 		assertEquals("Text not updated in the brick list", "\'" + newValue + "\'",
@@ -619,8 +638,7 @@ public final class UiTestUtils {
 		solo.sleep(600);
 	}
 
-	public static void deleteFirstUserBrick(Solo solo, String brickName)
-	{
+	public static void deleteFirstUserBrick(Solo solo, String brickName) {
 		boolean fragmentAppeared = solo.waitForFragmentByTag(AddBrickFragment.ADD_BRICK_FRAGMENT_TAG, 5000);
 		if (!fragmentAppeared) {
 			fail("add brick fragment should appear");
@@ -629,7 +647,7 @@ public final class UiTestUtils {
 		solo.sleep(600);
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, solo.getCurrentActivity());
 
-		solo.clickOnCheckBox(1);
+		clickOnBrickView(solo, 1);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.clickOnButton(solo.getString(R.string.yes));
@@ -2061,12 +2079,17 @@ public final class UiTestUtils {
 		return solo.searchText(regularExpressionForExactClick, onlyVisible);
 	}
 
-	public static void clickOnCheckBox(Solo solo, int checkBoxIndex){
+	public static void clickOnCheckBox(Solo solo, int checkBoxIndex) {
 		solo.clickOnCheckBox(checkBoxIndex);
 		solo.sleep(100);
 	}
 
-	public static void clickOnText(Solo solo, String text){
+	public static void clickOnView(Solo solo, View view) {
+		solo.clickOnView(view);
+		solo.sleep(100);
+	}
+
+	public static void clickOnText(Solo solo, String text) {
 		solo.waitForText(text);
 		solo.clickOnText(text);
 		solo.sleep(100);

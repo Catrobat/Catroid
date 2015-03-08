@@ -49,7 +49,9 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 	{
 		UiTestUtils.showSourceAndEditBrick(UiTestUtils.TEST_USER_BRICK_NAME, solo);
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, solo.getCurrentActivity());
-		solo.clickOnCheckBox(0);
+
+		UiTestUtils.clickOnBrickView(solo, 0);
+
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.sleep(300);
 		assertEquals("The selected brick could not be copied!", 2, ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().getUserScript().getBrickList().size());
@@ -69,7 +71,7 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		assertEquals("The selected brick could not be deleted!", 3, ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().getUserScript().getBrickList().size());
 
 		//copy via context menu
-		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.brick_change_x_prototype_text_view));
+		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.brick_change_x_edit_text));
 		String stringOnCopy = solo.getCurrentActivity()
 				.getString(R.string.brick_context_dialog_copy_brick);
 		solo.waitForText(stringOnCopy);
@@ -80,7 +82,7 @@ public class UserBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		assertEquals("The selected brick could not be copied!", 4, ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().getUserScript().getBrickList().size());
 
 		//delete via context menu
-		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.brick_change_x_prototype_text_view));
+		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.brick_change_x_edit_text));
 		String stringOnDelete = solo.getCurrentActivity()
 				.getString(R.string.brick_context_dialog_delete_brick);
 		solo.waitForText(stringOnDelete);

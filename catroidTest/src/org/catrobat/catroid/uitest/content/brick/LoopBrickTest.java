@@ -43,11 +43,13 @@ import org.catrobat.catroid.content.bricks.LoopEndlessBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.ui.BrickView;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
@@ -171,7 +173,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 		assertEquals("Incorrect number of bricks.", 8, projectBrickList.size());
 		assertTrue("Wrong Brick instance. expected 4=ChangeBrightnessByNBrick, bricklist: " +
-						projectBrickList.toString(), projectBrickList.get(4) instanceof ChangeBrightnessByNBrick);
+				projectBrickList.toString(), projectBrickList.get(4) instanceof ChangeBrightnessByNBrick);
 
 	}
 
@@ -289,10 +291,14 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 		boolean isCheckBoxVisible = false;
 
-		for (View currentView : solo.getViews()) {
-			if (currentView.getId() == R.id.brick_loop_end_checkbox) {
-				isCheckBoxVisible = currentView.getVisibility() == View.VISIBLE;
-				break;
+		for (View currentView : solo.getCurrentViews(BrickView.class)) {
+			if (currentView instanceof BrickView) {
+				BrickView brickView = (BrickView) currentView;
+				View childAt = brickView.getChildAt(1);
+				if (childAt.getId() == R.id.brick_loop_end_layout) {
+					isCheckBoxVisible = brickView.getChildAt(0).getVisibility() == View.VISIBLE;
+					break;
+				}
 			}
 		}
 
@@ -304,10 +310,14 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 		isCheckBoxVisible = false;
 
-		for (View currentView : solo.getViews()) {
-			if (currentView.getId() == R.id.brick_loop_end_checkbox) {
-				isCheckBoxVisible = currentView.getVisibility() == View.VISIBLE;
-				break;
+		for (View currentView : solo.getCurrentViews(BrickView.class)) {
+			if (currentView instanceof BrickView) {
+				BrickView brickView = (BrickView) currentView;
+				View childAt = brickView.getChildAt(1);
+				if (childAt.getId() == R.id.brick_loop_end_layout) {
+					isCheckBoxVisible = brickView.getChildAt(0).getVisibility() == View.VISIBLE;
+					break;
+				}
 			}
 		}
 
@@ -339,49 +349,47 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 		UiTestUtils.addNewBrick(solo, R.string.category_control, R.string.brick_repeat);
 		UiTestUtils.dragFloatingBrickDownwards(solo, 0);
 
+		BrickView firstRepeatBrickView = UiTestUtils.getBrickViewByLayoutId(solo, R.id.brick_repeat_layout, 0);
+		BrickView secondRepeatBrickView = UiTestUtils.getBrickViewByLayoutId(solo, R.id.brick_repeat_layout, 1);
+		BrickView firstLoopEndBrickView = UiTestUtils.getBrickViewByLayoutId(solo, R.id.brick_loop_end_layout, 0);
+		BrickView secondLoopEndBrickView = UiTestUtils.getBrickViewByLayoutId(solo, R.id.brick_loop_end_layout, 1);
+
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
-		solo.clickOnCheckBox(1);
+		solo.clickOnView(firstRepeatBrickView);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
-		solo.clickOnCheckBox(3);
+		solo.clickOnView(secondLoopEndBrickView);
 
-		CheckBox firstRepeatBrickCheckBox = (CheckBox) solo.getView(R.id.brick_repeat_checkbox, 0);
-		CheckBox secondRepeatBrickCheckBox = (CheckBox) solo.getView(R.id.brick_repeat_checkbox, 1);
-		CheckBox firstLoopEndBrickCheckBox = (CheckBox) solo.getView(R.id.brick_loop_end_checkbox, 0);
-		CheckBox secondLoopEndBrickCheckBox = (CheckBox) solo.getView(R.id.brick_loop_end_checkbox, 1);
 
-		assertFalse("CheckBox is checked but shouldn't be.", firstRepeatBrickCheckBox.isChecked());
-		assertTrue("CheckBox is not checked but should be.", secondRepeatBrickCheckBox.isChecked());
-		assertFalse("CheckBox is checked but shouldn't be.", firstLoopEndBrickCheckBox.isChecked());
-		assertTrue("CheckBox is not checked but should be.", secondLoopEndBrickCheckBox.isChecked());
+		assertFalse("CheckBox is checked but shouldn't be.", firstRepeatBrickView.isChecked());
+		assertTrue("CheckBox is not checked but should be.", secondRepeatBrickView.isChecked());
+		assertFalse("CheckBox is checked but shouldn't be.", firstLoopEndBrickView.isChecked());
+		assertTrue("CheckBox is not checked but should be.", secondLoopEndBrickView.isChecked());
 	}
 
 	public void testSelectionActionMode() {
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
-		UiTestUtils.clickOnCheckBox(solo, 1);
 
-		CheckBox repeatBrickCheckbox = (CheckBox) solo.getView(R.id.brick_repeat_checkbox);
-		CheckBox loopEndBrickCheckbox = (CheckBox) solo.getView(R.id.brick_loop_end_checkbox);
-		CheckBox changeYByNBrickCheckbox = (CheckBox) solo.getView(R.id.brick_change_y_checkbox);
+		BrickView repeatBrickView = UiTestUtils.getBrickViewByLayoutId(solo, R.id.brick_repeat_layout);
+		BrickView loopEndBrickView = UiTestUtils.getBrickViewByLayoutId(solo, R.id.brick_loop_end_layout);
+		BrickView changeYByNBrickView = UiTestUtils.getBrickViewByLayoutId(solo, R.id.brick_change_y_layout);
+
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
+		UiTestUtils.clickOnView(solo, repeatBrickView);
 
 		assertTrue("CheckBox is not checked but should be.",
-				repeatBrickCheckbox.isChecked() && loopEndBrickCheckbox.isChecked());
-		assertFalse("CheckBox is checked but shouldn't be.", changeYByNBrickCheckbox.isChecked());
+				repeatBrickView.isChecked() && loopEndBrickView.isChecked());
+		assertFalse("CheckBox is checked but shouldn't be.", changeYByNBrickView.isChecked());
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
-		UiTestUtils.clickOnCheckBox(solo, 1);
-
-		repeatBrickCheckbox = (CheckBox) solo.getView(R.id.brick_repeat_checkbox);
-		loopEndBrickCheckbox = (CheckBox) solo.getView(R.id.brick_loop_end_checkbox);
-		changeYByNBrickCheckbox = (CheckBox) solo.getView(R.id.brick_change_y_checkbox);
+		UiTestUtils.clickOnView(solo, repeatBrickView);
 
 		assertTrue("CheckBox is not checked but should be.",
-				repeatBrickCheckbox.isChecked() && loopEndBrickCheckbox.isChecked());
-		assertFalse("CheckBox is checked but shouldn't be.", changeYByNBrickCheckbox.isChecked());
+				repeatBrickView.isChecked() && loopEndBrickView.isChecked());
+		assertFalse("CheckBox is checked but shouldn't be.", changeYByNBrickView.isChecked());
 	}
 
 	private void createProject() {

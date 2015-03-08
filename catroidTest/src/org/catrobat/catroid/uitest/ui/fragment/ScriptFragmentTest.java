@@ -22,7 +22,9 @@
  */
 package org.catrobat.catroid.uitest.ui.fragment;
 
+import android.annotation.TargetApi;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
@@ -45,6 +47,8 @@ import org.catrobat.catroid.content.bricks.LoopEndBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.BrickLayout;
+import org.catrobat.catroid.ui.BrickView;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -84,7 +88,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
-		solo.clickOnCheckBox(0);
+		//TODO: select all
+		UiTestUtils.clickOnBrickView(solo, 0);
 
 		String expectedTitle = getActivity().getResources().getQuantityString(R.plurals.number_of_bricks_to_copy,
 				brickList.size() + 1, brickList.size() + 1);
@@ -107,8 +112,8 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
-		solo.clickOnCheckBox(1);
-		solo.clickOnCheckBox(2);
+		UiTestUtils.clickOnBrickView(solo, 1);
+		UiTestUtils.clickOnBrickView(solo, 2);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
@@ -132,7 +137,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		String expectedTitle = getActivity().getResources().getQuantityString(R.plurals.number_of_bricks_to_copy, 0, 0);
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, 300, false, true));
 
-		solo.clickOnCheckBox(1);
+		UiTestUtils.clickOnBrickView(solo, 1);
 
 		expectedTitle = getActivity().getResources().getQuantityString(R.plurals.number_of_bricks_to_copy, 1, 1);
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, 300, false, true));
@@ -153,7 +158,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
-		solo.clickOnCheckBox(0);
+		UiTestUtils.clickOnBrickView(solo, 0);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.clickOnButton(solo.getString(R.string.yes));
@@ -164,7 +169,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.sleep(500);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
-		solo.clickOnCheckBox(1);
+		UiTestUtils.clickOnBrickView(solo, 1);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
@@ -215,7 +220,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		solo.sleep(500);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
-		solo.clickOnCheckBox(1);
+		UiTestUtils.clickOnBrickView(solo, 1);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
@@ -225,7 +230,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("No brick has been copied!", 2, numberOfBricks);
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
-		solo.clickOnCheckBox(2);
+		UiTestUtils.clickOnBrickView(solo, 2);
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
 		numberOfBricks = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getNumberOfBricks();
@@ -470,22 +475,32 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		assertEquals("No Brick should have been deleted!", brickListToCheck.size(), numberOfBricks);
 	}
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public void testDeleteActionModeAllBricks() {
 		UiTestUtils.createTestProjectWithEveryBrick();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-
-		List<Brick> brickList = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getScript(0)
-				.getBrickList();
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
-		solo.clickOnCheckBox(0);
+		ArrayList<BrickView> brickViews = solo.getCurrentViews(BrickView.class);
 
-		for (int position = 1; position < brickList.size(); position++) {
-			assertEquals("AlphaValue of " + brickList.get(position).toString() + " is not 100", 100,
-					brickList.get(position).getAlphaValue());
+		//Click on when start brick.
+		solo.clickOnView(brickViews.get(0));
+		for (int position = 0; position < brickViews.size(); position++) {
+			BrickView brickView = brickViews.get(position);
+			assertTrue("View is not checked", brickView.isChecked());
+			for (View child : solo.getViews(brickView)) {
+				if (child instanceof BrickLayout) {
+					if (position > 0) {
+						assertEquals("View Alpha should be 1.0 for WhenStartBrick", 1.0f, child.getAlpha());
+					} else {
+						assertTrue("AlphaValue of View at position " + position + " is not less 1.0", 1.0f > brickView.getAlpha());
+					}
+					break;
+				}
+			}
 		}
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
@@ -506,11 +521,11 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
-		solo.clickOnCheckBox(1);
-		solo.clickOnCheckBox(2);
+		UiTestUtils.clickOnBrickView(solo, 1);
+		UiTestUtils.clickOnBrickView(solo, 2);
 
-		solo.clickOnCheckBox(4);
-		solo.clickOnCheckBox(5);
+		UiTestUtils.clickOnBrickView(solo, 4);
+		UiTestUtils.clickOnBrickView(solo, 5);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 		solo.clickOnButton(solo.getString(R.string.yes));
@@ -587,20 +602,20 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
-		solo.clickOnCheckBox(2);
-		solo.clickOnCheckBox(5);
+		UiTestUtils.clickOnBrickView(solo, 2);
+		UiTestUtils.clickOnBrickView(solo, 5);
 		String expectedTitle = getActivity().getResources().getQuantityString(R.plurals.number_of_bricks_to_delete, 4,
 				4);
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, 300, false, true));
 
 		solo.sleep(500);
-		solo.clickOnCheckBox(5);
-		solo.clickOnCheckBox(2);
+		UiTestUtils.clickOnBrickView(solo, 5);
+		UiTestUtils.clickOnBrickView(solo, 2);
 		expectedTitle = getActivity().getResources().getQuantityString(R.plurals.number_of_bricks_to_delete, 0, 0);
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, 300, false, true));
 
 		solo.sleep(300);
-		solo.clickOnCheckBox(3);
+		UiTestUtils.clickOnBrickView(solo, 3);
 		expectedTitle = getActivity().getResources().getQuantityString(R.plurals.number_of_bricks_to_delete, 3, 3);
 		assertTrue("Title not as expected", solo.waitForText(expectedTitle, 0, 300, false, true));
 

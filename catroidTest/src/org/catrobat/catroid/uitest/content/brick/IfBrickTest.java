@@ -23,7 +23,6 @@
 package org.catrobat.catroid.uitest.content.brick;
 
 import android.util.Log;
-import android.widget.CheckBox;
 import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
@@ -38,12 +37,14 @@ import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.ui.BrickView;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final String TAG = IfBrickTest.class.getSimpleName();
@@ -135,7 +136,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 		assertTrue("Wrong Brick instance - expected IfElseBrick but was "
-				+ projectBrickList.get(1).getClass().getSimpleName(),
+						+ projectBrickList.get(1).getClass().getSimpleName(),
 				projectBrickList.get(1) instanceof IfLogicElseBrick);
 
 		assertTrue("Wrong Brick instance - expected ChangeYByNBrick but was "
@@ -158,7 +159,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		logBrickListForJenkins(projectBrickList);
 
 		assertTrue("Wrong Brick instance, expected IfLogicEndBrick but was "
-				+ projectBrickList.get(2).getClass().getSimpleName(),
+						+ projectBrickList.get(2).getClass().getSimpleName(),
 				projectBrickList.get(2) instanceof IfLogicEndBrick);
 
 		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
@@ -219,7 +220,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 	public void testCopyIfLogicBeginBrickActionMode() {
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
-		solo.clickOnCheckBox(1);
+		solo.clickOnView(UiTestUtils.getBrickViewByLayoutId(solo, R.id.brick_if_begin_layout));
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -235,7 +236,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 	public void testCopyIfLogicElseBrickActionMode() {
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
-		solo.clickOnCheckBox(3);
+		solo.clickOnView(UiTestUtils.getBrickViewByLayoutId(solo, R.id.brick_if_else_layout));
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -251,7 +252,7 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 	public void testCopyIfLogicEndBrickActionMode() {
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
-		solo.clickOnCheckBox(4);
+		solo.clickOnView(UiTestUtils.getBrickViewByLayoutId(solo, R.id.brick_if_end_if_layout));
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
@@ -266,62 +267,73 @@ public class IfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 	}
 
 	public void testSelectionAfterCopyActionMode() {
+
+		BrickView firstIfLogicBeginBrickView = UiTestUtils.getBrickViewByLayoutId(solo, R.id.brick_if_begin_layout, 0);
+		BrickView firstIfLogicElseBrickView = UiTestUtils.getBrickViewByLayoutId(solo, R.id.brick_if_else_layout, 0);
+		BrickView firstIfLogicEndBrickView = UiTestUtils.getBrickViewByLayoutId(solo, R.id.brick_if_end_if_layout, 0);
+
+		assertNotNull("firstIfLogicBeginBrickView not present", firstIfLogicBeginBrickView);
+		assertNotNull("firstIfLogicElseBrickView not present", firstIfLogicElseBrickView);
+		assertNotNull("firstIfLogicEndBrickView not present", firstIfLogicEndBrickView);
+
+		//Do Test
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
-		solo.clickOnCheckBox(1);
+		solo.clickOnView(firstIfLogicBeginBrickView);
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
+		BrickView secondIfLogicBeginBrickView = UiTestUtils.getBrickViewByLayoutId(solo, R.id.brick_if_begin_layout, 1);
+		BrickView secondIfLogicElseBrickView = UiTestUtils.getBrickViewByLayoutId(solo, R.id.brick_if_else_layout, 1);
+		BrickView secondIfLogicEndBrickView = UiTestUtils.getBrickViewByLayoutId(solo, R.id.brick_if_end_if_layout, 1);
+		assertNotNull("secondIfLogicBeginBrickView not present", secondIfLogicBeginBrickView);
+		assertNotNull("secondIfLogicElseBrickView not present", secondIfLogicElseBrickView);
+		assertNotNull("secondIfLogicEndBrickView not present", secondIfLogicEndBrickView);
+
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
-		solo.clickOnCheckBox(6);
+		solo.clickOnView(secondIfLogicEndBrickView);
 
-		CheckBox firstIfLogicBeginBrickCheckBox = (CheckBox) solo.getView(R.id.brick_if_begin_checkbox, 0);
-		CheckBox secondIfLogicBeginBrickCheckBox = (CheckBox) solo.getView(R.id.brick_if_begin_checkbox, 1);
-		CheckBox firstIfLogicElseBrickCheckBox = (CheckBox) solo.getView(R.id.brick_if_else_checkbox, 0);
-		CheckBox secondIfLogicElseBrickCheckBox = (CheckBox) solo.getView(R.id.brick_if_else_checkbox, 1);
-		// Solo doesn't scroll automatically to get those views
-		solo.scrollToBottom();
-		CheckBox firstIfLogicEndBrickCheckBox = (CheckBox) solo.getView(R.id.brick_if_end_if_checkbox, 0);
-		CheckBox secondIfLogicEndBrickCheckBox = (CheckBox) solo.getView(R.id.brick_if_end_if_checkbox, 1);
-
-		assertFalse("CheckBox is checked but shouldn't be.", firstIfLogicBeginBrickCheckBox.isChecked());
-		assertTrue("CheckBox is not checked but should be.", secondIfLogicBeginBrickCheckBox.isChecked());
-		assertFalse("CheckBox is checked but shouldn't be.", firstIfLogicElseBrickCheckBox.isChecked());
-		assertTrue("CheckBox is not checked but should be.", secondIfLogicElseBrickCheckBox.isChecked());
-		assertFalse("CheckBox is checked but shouldn't be.", firstIfLogicEndBrickCheckBox.isChecked());
-		assertTrue("CheckBox is not checked but should be.", secondIfLogicEndBrickCheckBox.isChecked());
+		assertFalse("CheckBox is checked but shouldn't be.", firstIfLogicBeginBrickView.isChecked());
+		assertTrue("CheckBox is not checked but should be.", secondIfLogicBeginBrickView.isChecked());
+		assertFalse("CheckBox is checked but shouldn't be.", firstIfLogicElseBrickView.isChecked());
+		assertTrue("CheckBox is not checked but should be.", secondIfLogicElseBrickView.isChecked());
+		assertFalse("CheckBox is checked but shouldn't be.", firstIfLogicEndBrickView.isChecked());
+		assertTrue("CheckBox is not checked but should be.", secondIfLogicEndBrickView.isChecked());
 	}
 
 	public void testSelectionActionMode() {
+
+		// Prepare test
+		BrickView ifLogicBeginBrickView = UiTestUtils.getBrickViewByLayoutId(solo, R.id.brick_if_begin_layout);
+		BrickView ifLogicElseBrickView = UiTestUtils.getBrickViewByLayoutId(solo, R.id.brick_if_else_layout);
+		BrickView ifLogicEndBrickView = UiTestUtils.getBrickViewByLayoutId(solo, R.id.brick_if_end_if_layout);
+		BrickView changeYByNBrickView = UiTestUtils.getBrickViewByLayoutId(solo, R.id.brick_change_y_layout);
+
+		assertNotNull("ifLogicBeginBrickView not present", ifLogicBeginBrickView);
+		assertNotNull("ifLogicElseBrickView not present", ifLogicElseBrickView);
+		assertNotNull("ifLogicEndBrickView not present", ifLogicEndBrickView);
+		assertNotNull("changeYByNBrickView not present", changeYByNBrickView);
+
+		// Do Test 1
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
-		UiTestUtils.clickOnCheckBox(solo, 1);
-
-		CheckBox ifLogicBeginBrickCheckbox = (CheckBox) solo.getView(R.id.brick_if_begin_checkbox);
-		CheckBox ifLogicElseBrickCheckbox = (CheckBox) solo.getView(R.id.brick_if_else_checkbox);
-		CheckBox ifLogicEndBrickCheckbox = (CheckBox) solo.getView(R.id.brick_if_end_if_checkbox);
-		CheckBox changeYByNBrickCheckbox = (CheckBox) solo.getView(R.id.brick_change_y_checkbox);
-
-		assertTrue("CheckBox is not checked but shouldn be.", ifLogicBeginBrickCheckbox.isChecked()
-				&& ifLogicElseBrickCheckbox.isChecked() && ifLogicEndBrickCheckbox.isChecked());
-		assertFalse("CheckBox is checked but shouldn't be.", changeYByNBrickCheckbox.isChecked());
+		UiTestUtils.clickOnView(solo, ifLogicBeginBrickView);
+		assertTrue("CheckBox is not checked but should be.", ifLogicBeginBrickView.isChecked()
+				&& ifLogicElseBrickView.isChecked() && ifLogicEndBrickView.isChecked());
+		assertFalse("CheckBox is checked but shouldn't be.", changeYByNBrickView.isChecked());
 
 		UiTestUtils.acceptAndCloseActionMode(solo);
 
+		// Do Test 2
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
-		UiTestUtils.clickOnCheckBox(solo, 1);
+		UiTestUtils.clickOnView(solo, ifLogicBeginBrickView);
 
-		ifLogicBeginBrickCheckbox = (CheckBox) solo.getView(R.id.brick_if_begin_checkbox);
-		ifLogicElseBrickCheckbox = (CheckBox) solo.getView(R.id.brick_if_else_checkbox);
-		ifLogicEndBrickCheckbox = (CheckBox) solo.getView(R.id.brick_if_end_if_checkbox);
-		changeYByNBrickCheckbox = (CheckBox) solo.getView(R.id.brick_change_y_checkbox);
-
-		assertTrue("CheckBox is not checked but shouldn be.", ifLogicBeginBrickCheckbox.isChecked()
-				&& ifLogicElseBrickCheckbox.isChecked() && ifLogicEndBrickCheckbox.isChecked());
-		assertFalse("CheckBox is checked but shouldn't be.", changeYByNBrickCheckbox.isChecked());
+		assertTrue("CheckBox is not checked but should be.", ifLogicBeginBrickView.isChecked()
+				&& ifLogicElseBrickView.isChecked() && ifLogicEndBrickView.isChecked());
+		assertFalse("CheckBox is checked but shouldn't be.", changeYByNBrickView.isChecked());
 	}
 
 	private void logBrickListForJenkins(ArrayList<Brick> projectBrickList) {
 		for (Brick brick : projectBrickList) {
-			Log.d(TAG, "Brick at Positon " + projectBrickList.indexOf(brick) + ": " + brick.getClass().getSimpleName());
+			Log.d(TAG, "Brick at Position " + projectBrickList.indexOf(brick) + ": " + brick.getClass().getSimpleName());
 		}
 	}
 
