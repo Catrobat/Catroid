@@ -530,28 +530,29 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		assertTrue("Formula Editor Fragment not shown!",
 				solo.waitForText(solo.getString(R.string.formula_editor_title)));
 
-		ImageButton delete = (ImageButton) solo.getView(R.id.formula_editor_edit_field_clear);
-		assertTrue("Delete Button not active!", delete.isEnabled());
+		ImageButton deleteEditField = (ImageButton) solo.getView(R.id.formula_editor_edit_field_clear);
+		ImageButton deleteKeyboard = (ImageButton) solo.getView(R.id.formula_editor_keyboard_delete);
+		assertTrue("Delete Button not active!", areDeleteButtonsEnabled(deleteEditField, deleteKeyboard));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
-		assertTrue("Delete Button not inactive!", !delete.isEnabled());
+		assertTrue("Delete Button not inactive!", !areDeleteButtonsEnabled(deleteEditField, deleteKeyboard));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_function));
 		solo.clickOnText(solo.getString(R.string.formula_editor_function_rand));
 		solo.waitForText(solo.getString(R.string.formula_editor_title));
-		assertTrue("Delete Button not active!", delete.isEnabled());
+		assertTrue("Delete Button not active!", areDeleteButtonsEnabled(deleteEditField, deleteKeyboard));
 
 		setAbsoluteCursorPosition(0);
-		assertTrue("Delete Button not inactive!", !delete.isEnabled());
+		assertTrue("Delete Button not inactive!", !areDeleteButtonsEnabled(deleteEditField, deleteKeyboard));
 
 		solo.clickOnView(solo.getView(R.id.menu_undo));
 		solo.clickOnView(solo.getView(R.id.menu_undo));
 		solo.sleep(200);
-		assertTrue("Delete Button not active!", delete.isEnabled());
+		assertTrue("Delete Button not active!", areDeleteButtonsEnabled(deleteEditField, deleteKeyboard));
 
 		solo.clickOnView(solo.getView(R.id.menu_redo));
 		solo.clickOnView(solo.getView(R.id.menu_redo));
-		assertTrue("Delete Button not inactive!", !delete.isEnabled());
+		assertTrue("Delete Button not inactive!", !areDeleteButtonsEnabled(deleteEditField, deleteKeyboard));
 	}
 
 	private void setAbsoluteCursorPosition(int position) {
@@ -565,5 +566,9 @@ public class FormulaEditorFragmentTest extends BaseActivityInstrumentationTestCa
 		Rect globalVisibleRect = new Rect();
 		solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getGlobalVisibleRect(globalVisibleRect);
 		solo.clickOnScreen(30, globalVisibleRect.top + 10);
+	}
+
+	private boolean areDeleteButtonsEnabled(ImageButton deleteEditField, ImageButton deleteKeyboard){
+		return deleteEditField.isEnabled() && deleteKeyboard.isEnabled();
 	}
 }
