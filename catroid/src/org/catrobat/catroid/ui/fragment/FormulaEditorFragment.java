@@ -642,13 +642,18 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 		getSherlockActivity().invalidateOptionsMenu();
 
-		ImageButton backspace = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_edit_field_clear);
+		ImageButton backspaceEditText = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_edit_field_clear);
+		ImageButton backspaceOnKeyboard = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_delete);
 		if (!formulaEditorEditText.isThereSomethingToDelete()) {
-			backspace.setImageResource(R.drawable.icon_backspace_disabled);
-			backspace.setEnabled(false);
+			backspaceEditText.setImageResource(R.drawable.icon_backspace_disabled);
+			backspaceEditText.setEnabled(false);
+			backspaceOnKeyboard.setAlpha(255 / 3);
+			backspaceOnKeyboard.setEnabled(false);
 		} else {
-			backspace.setImageResource(R.drawable.icon_backspace);
-			backspace.setEnabled(true);
+			backspaceEditText.setImageResource(R.drawable.icon_backspace);
+			backspaceEditText.setEnabled(true);
+			backspaceOnKeyboard.setAlpha(255);
+			backspaceOnKeyboard.setEnabled(true);
 		}
 
 	}
