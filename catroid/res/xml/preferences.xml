@@ -23,11 +23,44 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="setting_mindstorm_bricks"
-        android:summary="@string/preference_description_mindstorm_bricks"
-        android:title="@string/preference_title_enable_mindstorm_bricks" />
+    <PreferenceScreen
+        android:key="setting_mindstorms_nxt_bricks"
+        android:summary="@string/preference_description_mindstorms_nxt_bricks"
+        android:title="@string/preference_title_enable_mindstorms_nxt_bricks" >
+
+        <CheckBoxPreference android:key="settings_mindstorms_nxt_bricks_enabled"
+            android:defaultValue="false"
+            android:summary="@string/preference_description_mindstorms_nxt_bricks"
+            android:title="@string/preference_title_enable_mindstorms_nxt_bricks" />
+
+        <PreferenceCategory android:title="@string/preference_title_mindstorms_nxt_sensors">
+            <ListPreference android:key="setting_mindstorms_nxt_sensor_1"
+                android:title="@string/nxt_choose_sensor_1"
+                android:entryValues="@array/setting_mindstorms_nxt_sensor"
+                android:entries="@array/nxt_sensor_chooser"
+                android:defaultValue="@string/nxt_sensor_touch"
+                android:summary="%s"/>
+            <ListPreference android:key="setting_mindstorms_nxt_sensor_2"
+                android:title="@string/nxt_choose_sensor_2"
+                android:entryValues="@array/setting_mindstorms_nxt_sensor"
+                android:entries="@array/nxt_sensor_chooser"
+                android:defaultValue="@string/nxt_sensor_sound"
+                android:summary="%s"/>
+            <ListPreference android:key="setting_mindstorms_nxt_sensor_3"
+                android:title="@string/nxt_choose_sensor_3"
+                android:entryValues="@array/setting_mindstorms_nxt_sensor"
+                android:entries="@array/nxt_sensor_chooser"
+                android:defaultValue="@string/nxt_sensor_light"
+                android:summary="%s"/>
+            <ListPreference android:key="setting_mindstorms_nxt_sensor_4"
+                android:title="@string/nxt_choose_sensor_4"
+                android:entryValues="@array/setting_mindstorms_nxt_sensor"
+                android:entries="@array/nxt_sensor_chooser"
+                android:defaultValue="@string/nxt_sensor_ultrasonic"
+                android:summary="%s"/>
+        </PreferenceCategory>
+
+    </PreferenceScreen>
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="setting_parrot_ar_drone_bricks"

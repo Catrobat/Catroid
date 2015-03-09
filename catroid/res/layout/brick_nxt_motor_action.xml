@@ -49,7 +49,7 @@
         <TextView
             android:id="@+id/lego_motor_action_label"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_motor_action" >
+            android:text="@string/nxt_brick_motor_move" >
         </TextView >
 
         <Spinner
@@ -65,7 +65,7 @@
         <TextView
             android:id="@+id/lego_motor_action_speed"
             style="@style/BrickText.SingleLine"
-            android:text="@string/motor_speed" >
+            android:text="@string/nxt_motor_speed" >
         </TextView >
 
         <TextView

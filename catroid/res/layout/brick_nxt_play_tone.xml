@@ -56,7 +56,7 @@
             android:id="@+id/brick_nxt_play_tone_duration"
             style="@style/BrickText.SingleLine"
             app:layout_newLine="true"
-            android:text="@string/tone_duration" >
+            android:text="@string/nxt_tone_duration" >
         </TextView >
 
         <TextView
@@ -78,7 +78,7 @@
         <TextView
             android:id="@+id/brick_nxt_play_tone_seconds"
             style="@style/BrickText.SingleLine"
-            android:text="@string/seconds" >
+            android:text="@string/nxt_seconds" >
         </TextView >
 
         <TextView

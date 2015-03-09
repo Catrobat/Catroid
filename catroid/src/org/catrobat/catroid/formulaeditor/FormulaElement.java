@@ -916,6 +916,12 @@ public class FormulaElement implements Serializable {
 				case FACE_Y_POSITION:
 					ressources |= Brick.FACE_DETECTION;
 					break;
+				case NXT_SENSOR_1:
+				case NXT_SENSOR_2:
+				case NXT_SENSOR_3:
+				case NXT_SENSOR_4:
+					ressources |= Brick.BLUETOOTH_LEGO_NXT;
+					break;
 				default:
 
 			}

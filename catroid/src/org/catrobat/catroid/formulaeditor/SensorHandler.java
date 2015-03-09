@@ -28,6 +28,11 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.util.Log;
 
+import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
+import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
+import org.catrobat.catroid.common.CatroidService;
+import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 
 public final class SensorHandler implements SensorEventListener, SensorCustomEventListener {
@@ -49,6 +54,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float faceSize = 0f;
 	private float facePositionX = 0f;
 	private float facePositionY = 0f;
+
+	private static BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 
 	private SensorHandler(Context context) {
 		sensorManager = new SensorManager(
@@ -166,6 +173,16 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 			case LOUDNESS:
 				return Double.valueOf(instance.loudness);
+
+			case NXT_SENSOR_1:
+			case NXT_SENSOR_2:
+			case NXT_SENSOR_3:
+			case NXT_SENSOR_4:
+
+				LegoNXT nxt = btService.getDevice(BluetoothDevice.LEGO_NXT);
+				if (nxt != null) {
+					return Double.valueOf(nxt.getSensorValue(sensor));
+				}
 		}
 		return 0d;
 	}

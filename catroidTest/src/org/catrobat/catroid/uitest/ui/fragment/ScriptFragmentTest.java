@@ -59,7 +59,6 @@ import java.util.Locale;
 
 public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-	private static final String KEY_SETTINGS_MINDSTORM_BRICKS = "setting_mindstorm_bricks";
 	private static final String SCRIPT_FRAGMENT_TEST_TAG = ScriptFragmentTest.class.getSimpleName();
 
 	public ScriptFragmentTest() {
@@ -68,10 +67,10 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 
 	@Override
 	public void tearDown() throws Exception {
-		// disable mindstorm bricks, if enabled in test
+		// disable mindstorms bricks, if enabled in test
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		if (sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
-			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
+		if (sharedPreferences.getBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false)) {
+			sharedPreferences.edit().putBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false).commit();
 		}
 		super.tearDown();
 	}
@@ -256,9 +255,9 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-		// enable mindstorm bricks, if disabled
-		if (!sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
-			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, true).commit();
+		// enable mindstorms bricks, if disabled
+		if (!sharedPreferences.getBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false)) {
+			sharedPreferences.edit().putBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true).commit();
 		}
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 		String categorySoundLabel = solo.getString(R.string.category_sound);
@@ -286,7 +285,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		String brickSetLook = solo.getString(R.string.brick_set_look);
 		String brickPlaySound = solo.getString(R.string.brick_play_sound);
 		String brickWhenStarted = solo.getString(R.string.brick_when_started);
-		String brickLegoStopMotor = solo.getString(R.string.motor_stop);
+		String brickLegoStopMotor = solo.getString(R.string.nxt_motor_stop);
 		String brickSetVariable = solo.getString(R.string.brick_set_variable);
 
 		solo.scrollListToTop(fragmentListView);
@@ -767,17 +766,17 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 				solo.getView(R.id.bottom_bar_separator).getVisibility() == View.VISIBLE);
 	}
 
-	public void testOptionsEnableLegoMindstormBricks() {
+	public void testOptionsEnableLegoMindstormsBricks() {
 		UiTestUtils.createTestProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
 		String settings = solo.getString(R.string.preference_title);
-		String mindstormsPreferenceString = solo.getString(R.string.preference_title_enable_mindstorm_bricks);
+		String mindstormsPreferenceString = solo.getString(R.string.preference_title_enable_mindstorms_nxt_bricks);
 		String categoryLegoNXTLabel = solo.getString(R.string.category_lego_nxt);
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-		if (sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
-			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
+		if (sharedPreferences.getBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false)) {
+			sharedPreferences.edit().putBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false).commit();
 		}
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);

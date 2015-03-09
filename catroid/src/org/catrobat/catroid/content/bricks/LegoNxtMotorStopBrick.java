@@ -50,7 +50,7 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 	private transient AdapterView<?> adapterView;
 
 	public static enum Motor {
-		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C, ALL_MOTORS
+		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_B_C, ALL_MOTORS
 	}
 
 	public LegoNxtMotorStopBrick(Motor motor) {

@@ -107,14 +107,14 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		assertTrue("Drone brick category is not showing!", solo.searchText(categoryDroneLabel));
 	}
 
-	public void testToggleMindstormBricks() {
+	public void testToggleMindstormsNXTBricks() {
 		DroneTestUtils.disableARDroneBricks(getActivity());
-		String mindstormsPreferenceString = solo.getString(R.string.preference_title_enable_mindstorm_bricks);
+		String mindstormsPreferenceString = solo.getString(R.string.preference_title_enable_mindstorms_nxt_bricks);
 		String categoryLegoNXTLabel = solo.getString(R.string.category_lego_nxt);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-		//disable mindstorm bricks, if enabled at start
-		if (preferences.getBoolean("setting_mindstorm_bricks", false)) {
+		//disable mindstorms bricks, if enabled at start
+		if (preferences.getBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false)) {
 			solo.clickOnMenuItem(settings);
 			solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
 			solo.clickOnText(mindstormsPreferenceString);
