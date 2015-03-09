@@ -191,7 +191,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 				//copy the project before it should be merged
 
-				Project mergedProject = appendProjects(project, projectToMerge, outputName);
+				Project mergedProject = appendProjects(project, projectToMerge, outputName, context);
 
 				project = mergedProject;
 
@@ -204,26 +204,39 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			Log.e(TAG, "OutdatedVersionProjectException" + e.getMessage());
 		} catch (CompatibilityProjectException e) {
 			Log.e(TAG, "CompatibilityProjectException" + e.getMessage());
+		} catch (IOException e) {
+			Log.e(TAG, "IOException" + e.getMessage());
 		} catch (Exception e) {
 			Log.e(TAG, "Exception" + e.getMessage());
 		}
 
 	}
 
-	private Project appendProjects(Project currentProject, Project projectToMerge, String newProjectName) {
+	private Project appendProjects(Project currentProject, Project projectToMerge, String newProjectName, Context context) throws IOException {
+		//TODO: refactore this method anyways
 		Project mergedProject = currentProject;
 
 		mergedProject.setName(newProjectName);
 
+		//Background for projectToMerge should not be copied
 		mergedProject.getSpriteList().addAll(projectToMerge.getSpriteList().subList(1, projectToMerge.getSpriteList().size()));
 
+		//TODO: here you should copy all Pictures and Sounds !!!!!!!!!!!!!
+		//copy files and set correct reference
 		for (Sprite sprite : mergedProject.getSpriteList()) {
-			for (int i = 0; i < sprite.getLookDataList().size(); i++) {
-				LookData lookData = sprite.getLookDataList().get(i);
-				Log.d("MERGE", "oldLookDataPath: " + lookData.getAbsolutePath());
-				lookData = lookData.clone();
-				Log.d("MERGE", "oldLookDataPath: " + lookData.getAbsolutePath());
-				sprite.getLookDataList().set(i, lookData);
+			for (LookData look : sprite.getLookDataList()) {
+
+				String lookName = look.getLookName();
+
+				File newLookFile = StorageHandler.getInstance().copyImage(mergedProject.getName(), look.getLookFileName(), look.getLookName());
+
+				String imageFileName = newLookFile.getName();
+				Utils.rewriteImageFileForStage(context, newLookFile);
+
+				look = new LookData();
+				look.setLookFilename(imageFileName);
+				look.setLookName(lookName);
+
 			}
 		}
 
@@ -254,6 +267,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	private boolean checkMergeConflicts(Project featureA, Project featureB) {
+
+		//TODO: check again if everything makes sense and nothing was forgotten
 
 		Log.d("MERGE", "check Spritenames");
 		//check SpriteNames (Objects) - Background will always be chosen from currentProject
