@@ -31,6 +31,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.StandardProjectHandler;
@@ -56,6 +57,7 @@ import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
+import org.catrobat.catroid.utils.CopyProjectTask;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
 
@@ -186,7 +188,14 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				Log.d("MERGE", "mergeConflicts");
 			} else {
 				Log.d("MERGE", "no mergeConflicts");
-				//projectToMerge = appendProjects(project, projectToMerge, outputName);
+
+				//copy the project before it should be merged
+
+				Project mergedProject = appendProjects(project, projectToMerge, outputName);
+
+				project = mergedProject;
+
+				saveProject();
 			}
 
 		} catch (LoadingProjectException e) {
@@ -202,8 +211,25 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	private Project appendProjects(Project currentProject, Project projectToMerge, String newProjectName) {
-		Project mergedProject = null;
+		Project mergedProject = currentProject;
 
+		mergedProject.setName(newProjectName);
+
+		mergedProject.getSpriteList().addAll(projectToMerge.getSpriteList().subList(1, projectToMerge.getSpriteList().size()));
+
+		for (Sprite sprite : mergedProject.getSpriteList()) {
+			for (int i = 0; i < sprite.getLookDataList().size(); i++) {
+				LookData lookData = sprite.getLookDataList().get(i);
+				Log.d("MERGE", "oldLookDataPath: " + lookData.getAbsolutePath());
+				lookData = lookData.clone();
+				Log.d("MERGE", "oldLookDataPath: " + lookData.getAbsolutePath());
+				sprite.getLookDataList().set(i, lookData);
+			}
+		}
+
+		for (UserVariable var : projectToMerge.getUserVariables().getProjectVariables()) {
+			currentProject.getUserVariables().addProjectUserVariable(var.getName());
+		}
 
 		return mergedProject;
 	}
