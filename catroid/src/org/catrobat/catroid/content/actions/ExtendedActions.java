@@ -32,7 +32,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -158,9 +158,9 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static LegoNxtMotorActionAction legoNxtMotorAction(Sprite sprite, LegoNxtMotorActionBrick.Motor motorEnum,
+	public static LegoNxtMotorMoveAction legoNxtMotorAction(Sprite sprite, LegoNxtMotorMoveBrick.Motor motorEnum,
 			Formula speed) {
-		LegoNxtMotorActionAction action = action(LegoNxtMotorActionAction.class);
+		LegoNxtMotorMoveAction action = action(LegoNxtMotorMoveAction.class);
 		action.setMotorEnum(motorEnum);
 		action.setSprite(sprite);
 		action.setSpeed(speed);

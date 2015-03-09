@@ -41,10 +41,15 @@ import org.catrobat.catroid.R;
 
 public class SettingsActivity extends SherlockPreferenceActivity {
 
-	public static final String SETTINGS_SHOW_LEGO_NXT_BRICKS = "setting_mindstorm_bricks";
+	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "settings_mindstorms_nxt_bricks_enabled";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
 	PreferenceScreen screen = null;
+
+	public static final String NXT_SENSOR_1 = "setting_mindstorms_nxt_sensor_1";
+	public static final String NXT_SENSOR_2 = "setting_mindstorms_nxt_sensor_2";
+	public static final String NXT_SENSOR_3 = "setting_mindstorms_nxt_sensor_3";
+	public static final String NXT_SENSOR_4 = "setting_mindstorms_nxt_sensor_4";
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -84,7 +89,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		screen = getPreferenceScreen();
 
 		if (!BuildConfig.FEATURE_LEGO_NXT_ENABLED) {
-			CheckBoxPreference dronePreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_LEGO_NXT_BRICKS);
+			CheckBoxPreference dronePreference = (CheckBoxPreference) findPreference(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED);
 			dronePreference.setEnabled(false);
 			screen.removePreference(dronePreference);
 		}
@@ -103,6 +108,10 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
 	public static boolean isDroneSharedPreferenceEnabled(Context context, boolean defaultValue) {
 		return getBooleanSharedPreference(defaultValue, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, context);
+	}
+
+	public static boolean isMindstormsNXTSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, context);
 	}
 
 	public static boolean areTermsOfServiceAgreedPermanently(Context context) {

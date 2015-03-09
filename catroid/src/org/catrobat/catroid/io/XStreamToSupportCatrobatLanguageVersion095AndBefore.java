@@ -64,7 +64,7 @@ import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.LedOffBrick;
 import org.catrobat.catroid.content.bricks.LedOnBrick;
-import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
@@ -228,9 +228,9 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfo = new BrickInfo(LedOnBrick.class.getSimpleName());
 		brickInfoMap.put("ledOnBrick", brickInfo);
 
-		brickInfo = new BrickInfo(LegoNxtMotorActionBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(LegoNxtMotorMoveBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("speed", BrickField.LEGO_NXT_SPEED);
-		brickInfoMap.put("legoNxtMotorActionBrick", brickInfo);
+		brickInfoMap.put("legoNxtMotorMoveBrick", brickInfo);
 
 		brickInfo = new BrickInfo(LegoNxtMotorStopBrick.class.getSimpleName());
 		brickInfoMap.put("legoNxtMotorStopBrick", brickInfo);

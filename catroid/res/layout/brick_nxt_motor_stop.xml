@@ -48,7 +48,7 @@
         <TextView
             android:id="@+id/ValueTextView"
             style="@style/BrickText.SingleLine"
-            android:text="@string/motor_stop" >
+            android:text="@string/nxt_motor_stop" >
         </TextView >
 
         <Spinner

@@ -20,13 +20,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.bluetooth;
+package org.catrobat.catroid.devices.mindstorms;
 
-public interface BTConnectable {
+public interface MindstormsMotor {
 
-	/**
-	 * @return true, when currently pairing
-	 */
-	boolean isPairing();
-
+	void stop();
+	void move(int speed);
+	void move(int speed, int degrees);
+	void move(int speed, int degrees, boolean reply);
 }

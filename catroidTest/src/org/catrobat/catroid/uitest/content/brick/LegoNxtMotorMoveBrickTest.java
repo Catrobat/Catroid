@@ -32,7 +32,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
@@ -40,14 +40,14 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class LegoNxtMotorActionBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
+public class LegoNxtMotorMoveBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final int SET_SPEED = 30;
 	private static final int SET_SPEED_INITIALLY = -70;
 
 	private Project project;
-	private LegoNxtMotorActionBrick motorBrick;
+	private LegoNxtMotorMoveBrick motorBrick;
 
-	public LegoNxtMotorActionBrickTest() {
+	public LegoNxtMotorMoveBrickTest() {
 		super(ScriptActivity.class);
 	}
 
@@ -74,8 +74,8 @@ public class LegoNxtMotorActionBrickTest extends BaseActivityInstrumentationTest
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.brick_motor_action)));
-		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.motor_speed)));
+		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.nxt_brick_motor_move)));
+		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.nxt_motor_speed)));
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
 				R.id.motor_action_speed_edit_text, SET_SPEED, Brick.BrickField.LEGO_NXT_SPEED, motorBrick);
@@ -105,7 +105,7 @@ public class LegoNxtMotorActionBrickTest extends BaseActivityInstrumentationTest
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript();
 
-		motorBrick = new LegoNxtMotorActionBrick(LegoNxtMotorActionBrick.Motor.MOTOR_A, SET_SPEED_INITIALLY);
+		motorBrick = new LegoNxtMotorMoveBrick(LegoNxtMotorMoveBrick.Motor.MOTOR_A, SET_SPEED_INITIALLY);
 
 		script.addBrick(motorBrick);
 

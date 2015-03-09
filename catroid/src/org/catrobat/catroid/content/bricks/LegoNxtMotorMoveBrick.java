@@ -48,7 +48,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class LegoNxtMotorActionBrick extends FormulaBrick {
+public class LegoNxtMotorMoveBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -58,20 +58,20 @@ public class LegoNxtMotorActionBrick extends FormulaBrick {
 	private transient TextView editSpeed;
 
 	public static enum Motor {
-		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C
+		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_B_C
 	}
 
-	public LegoNxtMotorActionBrick() {
+	public LegoNxtMotorMoveBrick() {
 		addAllowedBrickField(BrickField.LEGO_NXT_SPEED);
 	}
 
-	public LegoNxtMotorActionBrick(Motor motor, int speedValue) {
+	public LegoNxtMotorMoveBrick(Motor motor, int speedValue) {
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
 		initializeBrickFields(new Formula(speedValue));
 	}
 
-	public LegoNxtMotorActionBrick(Motor motor, Formula speedFormula) {
+	public LegoNxtMotorMoveBrick(Motor motor, Formula speedFormula) {
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
 		initializeBrickFields(speedFormula);
@@ -115,7 +115,7 @@ public class LegoNxtMotorActionBrick extends FormulaBrick {
 
 	@Override
 	public Brick clone() {
-		return new LegoNxtMotorActionBrick(motorEnum, getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED).clone());
+		return new LegoNxtMotorMoveBrick(motorEnum, getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED).clone());
 	}
 
 	@Override

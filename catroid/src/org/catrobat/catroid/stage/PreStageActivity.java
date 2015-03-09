@@ -22,17 +22,13 @@
  */
 package org.catrobat.catroid.stage;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
@@ -41,15 +37,15 @@ import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.bluetooth.BluetoothManager;
-import org.catrobat.catroid.bluetooth.DeviceListActivity;
+import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
+import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.drone.DroneInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
-import org.catrobat.catroid.legonxt.LegoNXT;
-import org.catrobat.catroid.legonxt.LegoNXTBtCommunicator;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.utils.LedUtil;
@@ -65,16 +61,12 @@ import java.util.Locale;
 public class PreStageActivity extends BaseActivity {
 
 	private static final String TAG = PreStageActivity.class.getSimpleName();
-	private static final int REQUEST_ENABLE_BLUETOOTH = 2000;
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 	public static final int REQUEST_RESOURCES_INIT = 101;
 	public static final int REQUEST_TEXT_TO_SPEECH = 10;
 
 	private int requiredResourceCounter;
 
-	private static LegoNXT legoNXT;
-	private boolean autoConnect = false;
-	private ProgressDialog connectingProgressDialog;
 	private static TextToSpeech textToSpeech;
 	private static OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer;
 
@@ -103,20 +95,7 @@ public class PreStageActivity extends BaseActivity {
 		}
 
 		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
-			BluetoothManager bluetoothManager = new BluetoothManager(this);
-
-			int bluetoothState = bluetoothManager.activateBluetooth();
-			if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED) {
-
-				ToastUtil.showError(PreStageActivity.this, R.string.notification_blueth_err);
-				resourceFailed();
-			} else if (bluetoothState == BluetoothManager.BLUETOOTH_ALREADY_ON) {
-				if (legoNXT == null) {
-					startBluetoothCommunication(true);
-				} else {
-					resourceInitialized();
-				}
-			}
+			connectBTDevice(BluetoothDevice.LEGO_NXT, false);
 		}
 
 		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
@@ -168,6 +147,15 @@ public class PreStageActivity extends BaseActivity {
 		}
 	}
 
+	private void connectBTDevice(Class<? extends BluetoothDevice> service, boolean autoConnect) {
+		BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
+
+		if (btService.connectDevice(service, this, REQUEST_CONNECT_DEVICE, autoConnect)
+				== BluetoothDeviceService.ConnectDeviceResult.ALREADY_CONNECTED) {
+			resourceInitialized();
+		}
+	}
+
 	public DroneInitializer getDroneInitializer() {
 		if (droneInitializer == null) {
 			droneInitializer = new DroneInitializer(this, returnToActivityIntent);
@@ -190,7 +178,7 @@ public class PreStageActivity extends BaseActivity {
 				camera = CameraManager.getInstance().getCamera();
 			}
 		} catch (Exception exception) {
-			Log.e(TAG, "failed to open Camera", exception);
+			Log.e(getString(R.string.app_name), "failed to open Camera", exception);
 		}
 
 		if (camera == null) {
@@ -248,20 +236,19 @@ public class PreStageActivity extends BaseActivity {
 			textToSpeech.stop();
 			textToSpeech.shutdown();
 		}
-		if (legoNXT != null) {
-			legoNXT.pauseCommunicator();
+
+		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).pause();
+
+		if (FaceDetectionHandler.isFaceDetectionRunning()) {
+			FaceDetectionHandler.stopFaceDetection();
 		}
-        if (FaceDetectionHandler.isFaceDetectionRunning()) {
-            FaceDetectionHandler.stopFaceDetection();
-        }
 	}
 
 	//all resources that should not have to be reinitialized every stage start
 	public static void shutdownPersistentResources() {
-		if (legoNXT != null) {
-			legoNXT.destroyCommunicator();
-			legoNXT = null;
-		}
+
+		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).disconnectDevices();
+
 		deleteSpeechFiles();
 		if (LedUtil.isActive()) {
 			LedUtil.destroy();
@@ -299,45 +286,19 @@ public class PreStageActivity extends BaseActivity {
 		finish();
 	}
 
-	private void startBluetoothCommunication(boolean autoConnect) {
-		connectingProgressDialog = ProgressDialog.show(this, "",
-				getResources().getString(R.string.connecting_please_wait), true);
-		Intent serverIntent = new Intent(this, DeviceListActivity.class);
-		serverIntent.putExtra(DeviceListActivity.AUTO_CONNECT, autoConnect);
-		this.startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
-	}
-
-
-
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.i("bt", "requestcode " + requestCode + " result code" + resultCode);
 
 		switch (requestCode) {
-			case REQUEST_ENABLE_BLUETOOTH:
-				switch (resultCode) {
-					case Activity.RESULT_OK:
-						startBluetoothCommunication(true);
-						break;
-					case Activity.RESULT_CANCELED:
-						ToastUtil.showError(PreStageActivity.this, R.string.notification_blueth_err);
-						resourceFailed();
-						break;
-				}
-				break;
 
 			case REQUEST_CONNECT_DEVICE:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
-						legoNXT = new LegoNXT(this, recieveHandler);
-						String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
-						autoConnect = data.getExtras().getBoolean(DeviceListActivity.AUTO_CONNECT);
-						legoNXT.startBTCommunicator(address);
+						resourceInitialized();
 						break;
 
 					case Activity.RESULT_CANCELED:
-						connectingProgressDialog.dismiss();
-						ToastUtil.showError(PreStageActivity.this, R.string.bt_connection_failed);
 						resourceFailed();
 						break;
 				}
@@ -405,37 +366,6 @@ public class PreStageActivity extends BaseActivity {
 			}
 		}
 	}
-
-	//messages from Lego NXT device can be handled here
-	// TODO should be fixed - could lead to problems
-	@SuppressLint("HandlerLeak")
-	final Handler recieveHandler = new Handler() {
-		@Override
-		public void handleMessage(Message myMessage) {
-
-			Log.i("bt", "message" + myMessage.getData().getInt("message"));
-			switch (myMessage.getData().getInt("message")) {
-				case LegoNXTBtCommunicator.STATE_CONNECTED:
-					//autoConnect = false;
-					connectingProgressDialog.dismiss();
-					resourceInitialized();
-					break;
-				case LegoNXTBtCommunicator.STATE_CONNECTERROR:
-					ToastUtil.showError(PreStageActivity.this, R.string.bt_connection_failed);
-					connectingProgressDialog.dismiss();
-					legoNXT.destroyCommunicator();
-					legoNXT = null;
-					if (autoConnect) {
-						startBluetoothCommunication(false);
-					} else {
-						resourceFailed();
-					}
-					break;
-				default:
-					return;
-			}
-		}
-	};
 
 	private void ledInitialize() {
 		if ( hasFlash() ) {

@@ -146,9 +146,6 @@
             android:name=".ui.SettingsActivity"
             android:noHistory="true"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".bluetooth.DeviceListActivity"
-            android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".bluetooth.ConnectBluetoothDeviceActivity"
             android:theme="@android:style/Theme.Dialog" />
         <activity

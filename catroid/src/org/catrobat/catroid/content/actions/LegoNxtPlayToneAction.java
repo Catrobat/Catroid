@@ -26,16 +26,23 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
+import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
+import org.catrobat.catroid.common.CatroidService;
+import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.legonxt.LegoNXT;
 
 public class LegoNxtPlayToneAction extends TemporalAction {
 
 	private Formula hertz;
 	private Formula durationInSeconds;
 	private Sprite sprite;
+
+	private BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
+
 
 	@Override
 	protected void update(float percent) {
@@ -56,7 +63,12 @@ public class LegoNxtPlayToneAction extends TemporalAction {
             Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
         }
 
-		LegoNXT.sendBTCPlayToneMessage(hertzInterpretation, durationInterpretation);
+		LegoNXT nxt = btService.getDevice(BluetoothDevice.LEGO_NXT);
+		if (nxt == null) {
+			return;
+		}
+
+		nxt.playTone(hertzInterpretation, durationInterpretation);
 	}
 
 	public void setHertz(Formula hertz) {

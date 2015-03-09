@@ -20,19 +20,48 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.bluetooth;
+package org.catrobat.catroid.devices.mindstorms.nxt;
 
-import android.os.Handler;
+import org.catrobat.catroid.devices.mindstorms.MindstormsReply;
 
-// TODO Not needed for LegoNXT anymore, functionality now in LegoNXTBtCommunicator! Maybe refactor similary for arduino or move to arduino package...
-public interface BtCommunicator {
+public class NXTReply extends MindstormsReply {
 
-	// this is the only OUI registered by LEGO, see http://standards.ieee.org/regauth/oui/index.shtml
-	String OUI_LEGO = "00:16:53";
+	public static final byte NO_ERROR = 0X0;
+	public static final int MIN_REPLY_MESSAGE_LENGTH = 3;
 
-	void setMACAddress(String mMACaddress);
+	public static final String TAG = NXTReply.class.getSimpleName();
 
-	boolean isConnected();
+	@Override
+	public boolean hasError() {
+		if (getStatusByte() == NO_ERROR) {
+			return false;
+		}
+		return true;
+	}
+	@Override
+	public byte getStatusByte() {
+		return data[2];
+	}
 
-	Handler getHandler();
+	@Override
+	public byte getCommandByte() {
+		return data[1];
+	}
+
+
+	public NXTReply(byte[] data) {
+		super(data);
+
+		if (data.length < MIN_REPLY_MESSAGE_LENGTH) {
+			throw new NXTException("Invalid NXT Reply");
+		}
+
+		if (!CommandByte.isMember(data[1])) {
+			throw new NXTException("Invalid NXT Reply");
+		}
+
+		if (data[0] != CommandType.REPLY_COMMAND.getByte()) {
+			throw new NXTException("Invalid NXT Reply");
+		}
+	}
 }
