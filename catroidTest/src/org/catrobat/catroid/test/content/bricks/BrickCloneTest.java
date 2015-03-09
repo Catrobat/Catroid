@@ -41,7 +41,7 @@ import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
-import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
@@ -114,7 +114,7 @@ public class BrickCloneTest extends AndroidTestCase {
 		brick = new IfLogicBeginBrick(10);
 		brickClone(brick, Brick.BrickField.IF_CONDITION);
 
-		brick = new LegoNxtMotorActionBrick(LegoNxtMotorActionBrick.Motor.MOTOR_A, BRICK_FORMULA_VALUE);
+		brick = new LegoNxtMotorMoveBrick(LegoNxtMotorMoveBrick.Motor.MOTOR_A, BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.LEGO_NXT_SPEED);
 
 		brick = new LegoNxtMotorTurnAngleBrick(LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, BRICK_FORMULA_VALUE);

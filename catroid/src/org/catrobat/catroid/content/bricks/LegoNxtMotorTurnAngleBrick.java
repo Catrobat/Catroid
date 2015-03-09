@@ -58,7 +58,7 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 	private transient AdapterView<?> adapterView;
 
 	public static enum Motor {
-		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C
+		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_B_C
 	}
 
 	public LegoNxtMotorTurnAngleBrick() {

@@ -65,7 +65,7 @@ import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.LedOffBrick;
 import org.catrobat.catroid.content.bricks.LedOnBrick;
-import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
@@ -297,7 +297,7 @@ public class CategoryBricksFactory {
 		legoNXTBrickList.add(new LegoNxtMotorTurnAngleBrick(LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A,
 				BrickValues.LEGO_ANGLE));
 		legoNXTBrickList.add(new LegoNxtMotorStopBrick(LegoNxtMotorStopBrick.Motor.MOTOR_A));
-		legoNXTBrickList.add(new LegoNxtMotorActionBrick(LegoNxtMotorActionBrick.Motor.MOTOR_A,
+		legoNXTBrickList.add(new LegoNxtMotorMoveBrick(LegoNxtMotorMoveBrick.Motor.MOTOR_A,
 				BrickValues.LEGO_SPEED));
 		legoNXTBrickList.add(new LegoNxtPlayToneBrick(BrickValues.LEGO_FREQUENCY, BrickValues.LEGO_DURATION));
 

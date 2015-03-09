@@ -86,7 +86,7 @@ public class PointInDirectionBrick extends FormulaBrick {
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return getFormulaWithBrickField(BrickField.DEGREES).getRequiredResources();
 	}
 
 	@Override

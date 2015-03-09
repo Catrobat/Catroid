@@ -39,7 +39,7 @@ public class BluetoothDeviceServiceImpl implements BluetoothDeviceService {
 
 
 	@Override
-	public synchronized ConnectDeviceResult connectDevice(Class<? extends BluetoothDevice> deviceToConnect,
+	public ConnectDeviceResult connectDevice(Class<? extends BluetoothDevice> deviceToConnect,
 			Activity activity, int requestCode, boolean autoConnect) {
 
 		if (isDeviceConnectedAndAlive(deviceToConnect)) {
@@ -53,7 +53,7 @@ public class BluetoothDeviceServiceImpl implements BluetoothDeviceService {
 	}
 
 	@Override
-	public synchronized ConnectDeviceResult connectDevice(Class<? extends BluetoothDevice> deviceToConnect,
+	public ConnectDeviceResult connectDevice(Class<? extends BluetoothDevice> deviceToConnect,
 			Context context, boolean autoConnect) {
 
 		if (isDeviceConnectedAndAlive(deviceToConnect)) {
@@ -66,7 +66,7 @@ public class BluetoothDeviceServiceImpl implements BluetoothDeviceService {
 		return ConnectDeviceResult.CONNECTION_REQUESTED;
 	}
 
-	private boolean isDeviceConnectedAndAlive(Class<? extends BluetoothDevice> deviceToConnect) {
+	private synchronized boolean isDeviceConnectedAndAlive(Class<? extends BluetoothDevice> deviceToConnect) {
 		BluetoothDevice device = connectedDevices.get(deviceToConnect);
 
 		if (device != null) {

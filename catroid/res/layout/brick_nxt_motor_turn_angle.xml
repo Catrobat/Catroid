@@ -49,7 +49,7 @@
         <TextView
             android:id="@+id/brick_nxt_motor_turn_label"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_motor_turn_angle" >
+            android:text="@string/nxt_brick_motor_turn_angle" >
         </TextView >
 
         <Spinner
@@ -63,7 +63,7 @@
         <TextView
             android:id="@+id/brick_nxt_motor_turn_angle"
             style="@style/BrickText.SingleLine"
-            android:text="@string/motor_angle" >
+            android:text="@string/nxt_motor_angle" >
         </TextView >
 
         <TextView

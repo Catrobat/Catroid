@@ -41,7 +41,7 @@ import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
-import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
@@ -396,7 +396,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		HideBrick hideBrick = new HideBrick();
 		ShowBrick showBrick = new ShowBrick();
 		SpeakBrick speakBrick = new SpeakBrick("");
-		LegoNxtMotorActionBrick motorBrick = new LegoNxtMotorActionBrick(LegoNxtMotorActionBrick.Motor.MOTOR_A, SET_SPEED_INITIALLY);
+		LegoNxtMotorMoveBrick motorBrick = new LegoNxtMotorMoveBrick(LegoNxtMotorMoveBrick.Motor.MOTOR_A, SET_SPEED_INITIALLY);
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR,
 				Sensors.FACE_SIZE.name(), null)));
 		BrickBaseType moveBrick = DroneBrickFactory.getInstanceOfDroneBrick(DroneBrickFactory.DroneBricks.DRONE_TAKE_OFF_BRICK, firstSprite,
