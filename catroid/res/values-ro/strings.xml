@@ -386,7 +386,6 @@
   <string name="title_paired_devices">Dispozitive îmeprecheate</string>
   <string name="title_other_devices">Dispozitive noi</string>
   <string name="button_scan">Căutarea dispozitivelor bluetooth</string>
-  <string name="select_device">Selectați Mindstorms NXT vostru</string>
   <string name="scanning">Scanare</string>
   <string name="connecting_please_wait">Conecare la dispozitivul vostru.\nVă rugăm să așteptați&#8230;</string>
   <string name="problem_at_closing">Problemă la închiderea conexiunii!</string>

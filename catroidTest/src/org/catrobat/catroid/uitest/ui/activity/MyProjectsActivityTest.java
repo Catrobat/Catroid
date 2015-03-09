@@ -2071,10 +2071,12 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 	}
 
 	private void createProjects() {
+		solo.sleep(1000);
+
 		Project project2 = new Project(getActivity(), UiTestUtils.PROJECTNAME1);
 		StorageHandler.getInstance().saveProject(project2);
 
-		solo.sleep(2000);
+		solo.sleep(1000);
 
 		Project project1 = new Project(getActivity(), UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		StorageHandler.getInstance().saveProject(project1);

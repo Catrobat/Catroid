@@ -27,17 +27,19 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
+import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
+
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
-public class BluetoothConnection {
+public class BluetoothConnectionImpl implements BluetoothConnection {
 
-	// don't use this UUID in Production, NXT uses it, check other Projects (Albert, Arduino..) and use similar UUID
-	private static final UUID SERIAL_PORT_SERVICE_CLASS_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	private static final String REFLECTION_METHOD_NAME = "createRfcommSocket";
-	private static final String TAG = BluetoothConnection.class.getSimpleName();
+	private static final String TAG = BluetoothConnectionImpl.class.getSimpleName();
 
 	private final String macAddress;
 	private final UUID uuid;
@@ -46,11 +48,7 @@ public class BluetoothConnection {
 	private BluetoothSocket bluetoothSocket;
 	private State state;
 
-	public BluetoothConnection(String macAddress) {
-		this(macAddress, SERIAL_PORT_SERVICE_CLASS_UUID);
-	}
-
-	public BluetoothConnection(String macAddress, UUID uuid) {
+	public BluetoothConnectionImpl(String macAddress, UUID uuid) {
 		this.macAddress = macAddress;
 		this.uuid = uuid;
 		state = State.NOT_CONNECTED;
@@ -152,15 +150,15 @@ public class BluetoothConnection {
 		return bluetoothDevice;
 	}
 
-	public BluetoothSocket getBluetoothSocket() {
-		return bluetoothSocket;
+	public InputStream getInputStream() throws IOException {
+		return bluetoothSocket.getInputStream();
+	}
+
+	public OutputStream getOutputStream() throws IOException {
+		return bluetoothSocket.getOutputStream();
 	}
 
 	public State getState() {
 		return state;
-	}
-
-	public static enum State {
-		CONNECTED, NOT_CONNECTED, ERROR_BLUETOOTH_NOT_SUPPORTED, ERROR_BLUETOOTH_NOT_ON, ERROR_ADAPTER, ERROR_DEVICE, ERROR_SOCKET, ERROR_STILL_BONDING, ERROR_NOT_BONDED, ERROR_CLOSING
 	}
 }

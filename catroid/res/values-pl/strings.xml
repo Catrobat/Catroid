@@ -386,7 +386,6 @@
   <string name="title_paired_devices">Urządzenia sparowane</string>
   <string name="title_other_devices">Nowe urządzenia</string>
   <string name="button_scan">Wyszukiwanie urządzeń Bluetooth</string>
-  <string name="select_device">Wybierz twój Lego Mindstorms NXT</string>
   <string name="scanning">Skanowanie</string>
   <string name="connecting_please_wait">Łączenie z Twoim urządzeniem. \nProszę, czekaj&#8230;</string>
   <string name="problem_at_closing">Problem podczas zamykania połączenia!</string>

@@ -40,7 +40,7 @@ public class SystemOutTest extends TestCase {
 
 	private static final String[] SYSTEM_OUT_DIRECTORIES = Utils.SOURCE_FILE_DIRECTORIES;
 	private static final String[] STACK_TRACE_DIRECTORIES = Utils.PRINT_STACK_TRACE_TEST_DIRECTORIES;
-	private static final String[] IGNORED_FILES = { "SystemOutTest.java" };
+	private static final String[] IGNORED_FILES = { "SystemOutTest.java", "BTServer.java" };
 	private static final String SYSTEM_OUT = "System.out";
 	private static final String PRINT_STACK_TRACE = ".printStackTrace()";
 

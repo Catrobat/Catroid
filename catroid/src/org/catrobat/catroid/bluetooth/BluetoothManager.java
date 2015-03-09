@@ -28,7 +28,7 @@ import android.content.Intent;
 
 public class BluetoothManager {
 
-	private static final int REQUEST_ENABLE_BT = 2000;
+	public static final int REQUEST_ENABLE_BT = 2000;
 	public static final int BLUETOOTH_NOT_SUPPORTED = -1;
 	public static final int BLUETOOTH_ALREADY_ON = 1;
 	public static final int BLUETOOTH_ACTIVATING = 0;
@@ -41,7 +41,10 @@ public class BluetoothManager {
 	}
 
 	public int activateBluetooth() {
-		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		if (bluetoothAdapter == null) {
+			bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		}
+
 		if (bluetoothAdapter == null) {
 			return BLUETOOTH_NOT_SUPPORTED;
 		}
@@ -52,5 +55,9 @@ public class BluetoothManager {
 		} else {
 			return BLUETOOTH_ALREADY_ON;
 		}
+	}
+
+	public BluetoothAdapter getBluetoothAdapter() {
+		return bluetoothAdapter;
 	}
 }
