@@ -136,6 +136,15 @@ public class Project implements Serializable {
 		return this.xmlHeader;
 	}
 
+	public int getRequiredResources() {
+		int resources = Brick.NO_RESOURCES;
+
+		for (Sprite sprite : spriteList) {
+			resources |= sprite.getRequiredResources();
+		}
+		return resources;
+	}
+
 	// this method should be removed by the nex refactoring
 	// (used only in tests)
 	public void setCatrobatLanguageVersion(float catrobatLanguageVersion) {
