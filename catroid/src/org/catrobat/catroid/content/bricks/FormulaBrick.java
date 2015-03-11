@@ -22,11 +22,13 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.view.View;
+
 import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.Iterator;
 
-public abstract class FormulaBrick extends BrickBaseType {
+public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener {
 
 	private ConcurrentFormulaHashMap formulaMap;
 
@@ -73,4 +75,14 @@ public abstract class FormulaBrick extends BrickBaseType {
 		}
 	}
 
+	@Override
+	public void onClick(View view) {
+		if (checkbox.getVisibility() == View.VISIBLE) {
+			return;
+		}
+		showFormulaEditorToEditFormula(view);
+	}
+
+	public abstract void showFormulaEditorToEditFormula(View view);
+	
 }

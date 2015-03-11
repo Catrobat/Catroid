@@ -26,7 +26,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -47,7 +46,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
-public abstract class DroneMoveBrick extends FormulaBrick implements OnClickListener {
+public abstract class DroneMoveBrick extends FormulaBrick {
 
 	protected transient View prototypeView;
 	private static final long serialVersionUID = 1L;
@@ -204,16 +203,13 @@ public abstract class DroneMoveBrick extends FormulaBrick implements OnClickList
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-
 		switch (view.getId()) {
 			case R.id.brick_drone_move_edit_text_second:
-				FormulaEditorFragment.showFragment(view, this,
-						getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS));
+				FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
 				break;
 
 			case R.id.brick_drone_move_edit_text_power:
-				FormulaEditorFragment.showFragment(view, this,
-						getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT));
+				FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_POWER_IN_PERCENT);
 				break;
 
 			default:
@@ -224,5 +220,10 @@ public abstract class DroneMoveBrick extends FormulaBrick implements OnClickList
 	@Override
 	public int getRequiredResources() {
 		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
+	}
+
+	@Override
+	public void showFormulaEditorToEditFormula(View view) {
+		FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
 	}
 }
