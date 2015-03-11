@@ -257,9 +257,15 @@ public class ScriptActivity extends BaseActivity {
 				break;
 
 			case R.id.unpacking:
-				Intent intent = new Intent(currentFragment.getActivity(), BackPackActivity.class);
-				intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_SOUNDS);
-				startActivity(intent);
+				if (currentFragment == lookFragment) {
+					Intent intent = new Intent(currentFragment.getActivity(), BackPackActivity.class);
+					intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_LOOKS);
+					startActivity(intent);
+				} else if (currentFragment == soundFragment) {
+					Intent intent = new Intent(currentFragment.getActivity(), BackPackActivity.class);
+					intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_SOUNDS);
+					startActivity(intent);
+				}
 				break;
 
 			case R.id.insert_below:

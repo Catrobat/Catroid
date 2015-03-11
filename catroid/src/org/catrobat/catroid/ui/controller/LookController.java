@@ -22,6 +22,13 @@
  */
 package org.catrobat.catroid.ui.controller;
 
+import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.DEFAULT_ROOT;
+import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY;
+import static org.catrobat.catroid.utils.Utils.buildPath;
+import static org.catrobat.catroid.utils.Utils.buildProjectPath;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -52,8 +59,10 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.LookViewHolder;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.adapter.BackPackLookAdapter;
 import org.catrobat.catroid.ui.adapter.LookBaseAdapter;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.ui.fragment.BackPackLookFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.ImageEditing;
@@ -214,6 +223,18 @@ public final class LookController {
 			return;
 		}
 		copyImageToCatroid(originalImagePath, activity, lookDataList, fragment);
+	}
+
+	public LookData updateLookAdapterBackPack(String name, String fileName, ArrayList<LookData> lookDataList,
+			BackPackLookFragment fragment, BackPackLookAdapter lookAdapter) {
+		name = Utils.getUniqueLookName(name);
+
+		LookData lookData = new LookData();
+		lookData.setLookFilename(fileName);
+		lookData.setLookName(name);
+		lookDataList.add(lookData);
+		fragment.updateLookAdapterBackPack(lookData);
+		return lookData;
 	}
 
 	private void updateLookAdapter(String name, String fileName, ArrayList<LookData> lookDataList, LookFragment fragment) {
@@ -411,6 +432,56 @@ public final class LookController {
 		}
 	}
 
+	public void copyLookUnpacking(LookData currentlookData, ArrayList<LookData> lookDataList,
+			ArrayList<LookData> lookDataListFragment, final Activity activity, LookFragment fragment,
+			BackPackLookAdapter lookAdapter) {
+
+		try {
+			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+
+			String imageName = currentlookData.getLookName() + "_" + activity.getString(R.string.unpacking_addition);
+
+			File imageDirectory = new File(buildPath(buildProjectPath(projectName), IMAGE_DIRECTORY));
+
+			StorageHandler.getInstance().copyImagePacking(projectName, currentlookData.getAbsolutePath(), imageName,
+					imageDirectory);
+
+			String imageFileName = currentlookData.getLookFileName();
+
+			updateLookAdapter(imageName, imageFileName, lookDataListFragment, fragment);
+		} catch (IOException e) {
+			Utils.showErrorDialog(activity, R.string.error_load_image);
+			e.printStackTrace();
+		}
+		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+
+	}
+
+	public void copyLookBackPack(LookData currentlookData, ArrayList<LookData> lookDataList, final Activity activity,
+			BackPackLookFragment fragment, BackPackLookAdapter lookAdapter) {
+
+		try {
+			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+
+			String imageName = currentlookData.getLookName() + "_" + projectName;
+
+			File imageDirectory = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_IMAGE_DIRECTORY));
+
+			StorageHandler.getInstance().copyImagePacking(projectName, currentlookData.getAbsolutePath(), imageName,
+					imageDirectory);
+
+			String imageFileName = currentlookData.getLookFileName();
+
+			updateLookAdapterBackPack(imageName, imageFileName, BackPackListManager.getInstance()
+					.getLookDataArrayList(), fragment, lookAdapter);
+		} catch (IOException e) {
+			Utils.showErrorDialog(activity, R.string.error_load_image);
+			e.printStackTrace();
+		}
+		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+
+	}
+
 	public void copyLook(int position, ArrayList<LookData> lookDataList, final Activity activity, LookFragment fragment) {
 		LookData lookData = lookDataList.get(position);
 
@@ -418,7 +489,6 @@ public final class LookController {
 			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
 
 			StorageHandler.getInstance().copyImage(projectName, lookData.getAbsolutePath(), null);
-
 			String imageName = lookData.getLookName() + "_" + activity.getString(R.string.copy_addition);
 			String imageFileName = lookData.getLookFileName();
 
