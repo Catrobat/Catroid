@@ -28,7 +28,9 @@ import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
+import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -66,7 +68,10 @@ public class StageActivity extends AndroidApplication {
 		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		calculateScreenSizes();
 
-		initialize(stageListener, true);
+		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+		config.useGLSurfaceView20API18 = true; //TODO check if we need this config
+
+		initialize(stageListener, config);
 		if (droneConnection != null) {
 			try {
 				droneConnection.initialise();
@@ -195,4 +200,18 @@ public class StageActivity extends AndroidApplication {
 		super.onDestroy();
 	}
 
+	@Override
+	public ApplicationListener getApplicationListener() {
+		return stageListener;
+	}
+
+	@Override
+	public void log(String tag, String message, Throwable exception) {
+		Log.d(tag, message, exception);
+	}
+
+	@Override
+	public int getLogLevel() {
+		return 0;
+	}
 }

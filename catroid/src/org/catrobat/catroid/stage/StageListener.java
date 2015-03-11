@@ -39,11 +39,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.google.common.collect.Multimap;
 
 import org.catrobat.catroid.ProjectManager;
@@ -110,7 +111,7 @@ public class StageListener implements ApplicationListener {
 	private Project project;
 
 	private OrthographicCamera camera;
-	private SpriteBatch batch;
+	private Batch batch;
 	private BitmapFont font;
 	private Passepartout passepartout;
 
@@ -159,8 +160,10 @@ public class StageListener implements ApplicationListener {
 		virtualWidthHalf = virtualWidth / 2;
 		virtualHeightHalf = virtualHeight / 2;
 
-		stage = new Stage(virtualWidth, virtualHeight, true);
-		batch = stage.getSpriteBatch();
+		ScreenViewport screenViewPort = new ScreenViewport();
+		screenViewPort.update((int) virtualWidth, (int) virtualHeight, true);
+		stage = new Stage(screenViewPort);
+		batch = stage.getBatch();
 
 		Gdx.gl.glViewport(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
 		initScreenMode();
@@ -584,9 +587,13 @@ public class StageListener implements ApplicationListener {
 	}
 
 	private void initScreenMode() {
+
+		ScreenViewport screenViewPort = new ScreenViewport();
+
 		switch (project.getScreenMode()) {
 			case STRETCH:
-				stage.setViewport(virtualWidth, virtualHeight, false);
+				screenViewPort.update((int)virtualWidth, (int)virtualHeight, false);
+				stage.setViewport(screenViewPort);
 				screenshotWidth = ScreenValues.SCREEN_WIDTH;
 				screenshotHeight = ScreenValues.SCREEN_HEIGHT;
 				screenshotX = 0;
@@ -594,7 +601,8 @@ public class StageListener implements ApplicationListener {
 				break;
 
 			case MAXIMIZE:
-				stage.setViewport(virtualWidth, virtualHeight, true);
+				screenViewPort.update((int)virtualWidth, (int)virtualHeight, true);
+				stage.setViewport(screenViewPort);
 				screenshotWidth = maximizeViewPortWidth;
 				screenshotHeight = maximizeViewPortHeight;
 				screenshotX = maximizeViewPortX;
