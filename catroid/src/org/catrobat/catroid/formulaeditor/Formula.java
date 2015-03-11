@@ -113,15 +113,29 @@ public class Formula implements Serializable {
 	}
 
 	public Double interpretDouble(Sprite sprite) throws InterpretationException {
-        try{
-            Double returnValue = (Double) formulaTree.interpretRecursive(sprite);
-            if (returnValue.isNaN()) {
-                throw new InterpretationException("NaN in interpretDouble()");
-            }
-            return returnValue;
-        }catch(ClassCastException classCastException){
-            throw new InterpretationException("Couldn't interpret Formula.", classCastException);
-        }
+		try{
+			Object returnValue = formulaTree.interpretRecursive(sprite);
+			Double doubleReturnValue = null;
+			if (returnValue instanceof String) {
+				doubleReturnValue = Double.valueOf((String)returnValue);
+				if (doubleReturnValue.isNaN()) {
+					throw new InterpretationException("NaN in interpretDouble()");
+				}
+				return doubleReturnValue;
+			}
+			else{
+				doubleReturnValue = (Double)returnValue;
+				if (doubleReturnValue.isNaN()) {
+					throw new InterpretationException("NaN in interpretDouble()");
+				}
+				return (Double)returnValue;
+			}
+		}catch(ClassCastException classCastException){
+			throw new InterpretationException("Couldn't interpret Formula.", classCastException);
+		}
+		catch(NumberFormatException numberFormatException){
+			throw new InterpretationException("Couldn't interpret Formula.", numberFormatException);
+		}
 	}
 
 	public Float interpretFloat(Sprite sprite) throws InterpretationException{
@@ -140,7 +154,8 @@ public class Formula implements Serializable {
 	}
 
 	public Object interpretObject(Sprite sprite) {
-		return formulaTree.interpretRecursive(sprite);
+		Object interpretation = formulaTree.interpretRecursive(sprite);
+		return interpretation;
 	}
 
 	public void setRoot(FormulaElement formula) {
@@ -247,14 +262,14 @@ public class Formula implements Serializable {
             }
 			int logicalFormulaResultIdentifier = result ? R.string.formula_editor_true : R.string.formula_editor_false;
 			return context.getString(logicalFormulaResultIdentifier);
-		} else if (formulaTree.hasFunctionStringReturnType() || formulaTree.getElementType() == ElementType.STRING) {
+		} else if (formulaTree.getElementType() == ElementType.STRING) {
 			try{
                 return interpretString(sprite);
             }catch (InterpretationException interpretationException){
                 return "ERROR";
             }
 		} else if (formulaTree.isUserVariableWithTypeString(sprite)) {
-			UserVariablesContainer userVariables = ProjectManager.getInstance().getCurrentProject().getUserVariables();
+			DataContainer userVariables = ProjectManager.getInstance().getCurrentProject().getDataContainer();
 			UserVariable userVariable = userVariables.getUserVariable(formulaTree.getValue(), sprite);
 			return (String) userVariable.getValue();
 		} else {

@@ -513,8 +513,6 @@
   <string name="formula_editor_operator_minus">-</string>
   <string name="formula_editor_operator_divide">÷</string>
   <string name="formula_editor_operator_power">^</string>
-  <string name="formula_editor_image_button_description_undo">annulla</string>
-  <string name="formula_editor_image_button_description_redo">ripeti</string>
   <string name="formula_editor_image_button_description_delete">elimina</string>
   <string name="formula_editor_variable_dialog_title">Nuova variabile</string>
   <string name="formula_editor_variable_dialog_for_this_brick">Per questo mattoncino</string>

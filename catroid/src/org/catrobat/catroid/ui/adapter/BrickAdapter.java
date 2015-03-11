@@ -385,7 +385,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 						positionOfUserbrickInScript++;
 					}
 				}
-				for (int parameterIndex = 0; parameterIndex < ProjectManager.getInstance().getCurrentProject().getUserVariables().getOrCreateVariableListForUserBrick(((UserBrick) draggedBrick).getUserBrickId()).size(); parameterIndex++) {
+				for (int parameterIndex = 0; parameterIndex < ProjectManager.getInstance().getCurrentProject().getDataContainer().getOrCreateVariableListForUserBrick(((UserBrick) draggedBrick).getUserBrickId()).size(); parameterIndex++) {
 					((UserBrick) draggedBrick).addUserBrickPositionToParameter(Pair.create(positionOfUserbrickInScript, parameterIndex));
 				}
 
@@ -398,7 +398,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 						frequencyOfEqualFirstParameters++;
 					}
 				}
-				if (frequencyOfEqualFirstParameters != ProjectManager.getInstance().getCurrentProject().getUserVariables().getOrCreateVariableListForUserBrick(((UserBrick) draggedBrick).getUserBrickId()).size()) {
+				if (frequencyOfEqualFirstParameters != ProjectManager.getInstance().getCurrentProject().getDataContainer().getOrCreateVariableListForUserBrick(((UserBrick) draggedBrick).getUserBrickId()).size()) {
 					for (int userBrickPosition = positionOfUserbrickInScript; userBrickPosition < numberOfUserBricksInScript; userBrickPosition++) {
 						Pair<Integer, Integer> userBrickPositionToParameter = ((UserBrick) draggedBrick).getUserBrickPositionToParameter().get(userBrickPosition);
 						if (userBrickPositionToParameter.first >= userBrickPosition) {

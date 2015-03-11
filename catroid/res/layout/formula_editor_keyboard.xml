@@ -30,46 +30,52 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
-        <ImageButton
-            android:id="@+id/formula_editor_keyboard_undo"
-            style="@style/FormulaEditorImageButton"
-            android:layout_marginLeft="@dimen/key_margin"
-            android:layout_marginTop="@dimen/key_margin"
-            android:layout_weight="0.175"
-            android:contentDescription="@string/formula_editor_image_button_description_undo"
-            android:src="@drawable/icon_undo" />
-
-        <ImageButton
-            android:id="@+id/formula_editor_keyboard_redo"
-            style="@style/FormulaEditorImageButton"
-            android:layout_marginTop="@dimen/key_margin"
-            android:layout_weight="0.175"
-            android:contentDescription="@string/formula_editor_image_button_description_redo"
-            android:src="@drawable/icon_redo" />
-
         <Button
             android:id="@+id/formula_editor_keyboard_compute"
             style="@style/FormulaEditorButton"
             android:layout_marginTop="@dimen/key_margin"
-            android:layout_weight="0.35"
+            android:layout_marginLeft="@dimen/key_margin"
+            android:layout_weight="0.3"
             android:text="@string/formula_editor_compute" />
 
         <Button
-            android:id="@+id/formula_editor_keyboard_ok"
+            android:id="@+id/formula_editor_keyboard_bracket_open"
             style="@style/FormulaEditorButton"
             android:layout_marginTop="@dimen/key_margin"
-            android:layout_weight="0.30"
-            android:text="@string/ok" />
-    </LinearLayout>
+            android:layout_weight="0.175"
+            android:text="@string/formula_editor_bracket_open" />
+
+        <Button
+            android:id="@+id/formula_editor_keyboard_bracket_close"
+            style="@style/FormulaEditorButton"
+            android:layout_marginTop="@dimen/key_margin"
+            android:layout_weight="0.175"
+            android:text="@string/formula_editor_bracket_close" />
+
+        <ImageButton
+            android:id="@+id/formula_editor_keyboard_delete"
+            style="@style/FormulaEditorButton"
+            android:layout_marginTop="@dimen/key_margin"
+            android:layout_weight="0.35"
+            android:contentDescription="@string/formula_editor_image_button_description_delete"
+            android:src="@android:drawable/ic_input_delete" />
+
+    </LinearLayout >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/formula_editor_keyboard_7"
+            android:id="@+id/formula_editor_keyboard_object"
             style="@style/FormulaEditorButton"
             android:layout_marginLeft="@dimen/key_margin"
+            android:layout_weight="0.30"
+            android:text="@string/formula_editor_object" />
+
+        <Button
+            android:id="@+id/formula_editor_keyboard_7"
+            style="@style/FormulaEditorButton"
             android:layout_weight="0.175"
             android:text="@string/number_7" />
 
@@ -91,21 +97,23 @@
             android:layout_weight="0.175"
             android:text="@string/formula_editor_operator_divide" />
 
-        <Button
-            android:id="@+id/formula_editor_keyboard_object"
-            style="@style/FormulaEditorButton"
-            android:layout_weight="0.30"
-            android:text="@string/formula_editor_object" />
-    </LinearLayout>
+
+    </LinearLayout >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/formula_editor_keyboard_4"
+            android:id="@+id/formula_editor_keyboard_function"
             style="@style/FormulaEditorButton"
             android:layout_marginLeft="@dimen/key_margin"
+            android:layout_weight="0.30"
+            android:text="@string/formula_editor_math" />
+
+        <Button
+            android:id="@+id/formula_editor_keyboard_4"
+            style="@style/FormulaEditorButton"
             android:layout_weight="0.175"
             android:text="@string/number_4" />
 
@@ -127,21 +135,23 @@
             android:layout_weight="0.175"
             android:text="@string/formula_editor_operator_mult" />
 
-        <Button
-            android:id="@+id/formula_editor_keyboard_function"
-            style="@style/FormulaEditorButton"
-            android:layout_weight="0.30"
-            android:text="@string/formula_editor_function" />
-    </LinearLayout>
+
+    </LinearLayout >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
         <Button
+            android:id="@+id/formula_editor_keyboard_logic"
+            style="@style/FormulaEditorButton"
+            android:layout_weight="0.30"
+            android:layout_marginLeft="@dimen/key_margin"
+            android:text="@string/formula_editor_logic" />
+
+        <Button
             android:id="@+id/formula_editor_keyboard_1"
             style="@style/FormulaEditorButton"
-            android:layout_marginLeft="@dimen/key_margin"
             android:layout_weight="0.175"
             android:text="@string/number_1" />
 
@@ -163,21 +173,23 @@
             android:layout_weight="0.175"
             android:text="@string/formula_editor_operator_minus" />
 
-        <Button
-            android:id="@+id/formula_editor_keyboard_logic"
-            style="@style/FormulaEditorButton"
-            android:layout_weight="0.30"
-            android:text="@string/formula_editor_logic" />
-    </LinearLayout>
+
+    </LinearLayout >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
         <Button
+            android:id="@+id/formula_editor_keyboard_sensors"
+            style="@style/FormulaEditorButton"
+            android:layout_weight="0.30"
+            android:layout_marginLeft="@dimen/key_margin"
+            android:text="@string/formula_editor_sensors" />
+
+        <Button
             android:id="@+id/formula_editor_keyboard_decimal_mark"
             style="@style/FormulaEditorButton"
-            android:layout_marginLeft="@dimen/key_margin"
             android:layout_weight="0.175"
             android:text="@string/formula_editor_decimal_mark" />
 
@@ -199,30 +211,19 @@
             android:layout_weight="0.175"
             android:text="@string/formula_editor_operator_plus" />
 
-        <Button
-            android:id="@+id/formula_editor_keyboard_sensors"
-            style="@style/FormulaEditorButton"
-            android:layout_weight="0.30"
-            android:text="@string/formula_editor_sensors" />
-    </LinearLayout>
+    </LinearLayout >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/formula_editor_keyboard_bracket_open"
+            android:id="@+id/formula_editor_keyboard_data"
             style="@style/FormulaEditorButton"
             android:layout_marginLeft="@dimen/key_margin"
-            android:layout_weight="0.175"
-            android:text="@string/formula_editor_bracket_open" />
-
-        <Button
-            android:id="@+id/formula_editor_keyboard_bracket_close"
-            style="@style/FormulaEditorButton"
-            android:layout_weight="0.175"
-            android:text="@string/formula_editor_bracket_close" />
-
+            android:layout_weight="0.30"
+            android:text="@string/formula_editor_data" />
+        
         <Button
             android:id="@+id/formula_editor_keyboard_string"
             style="@style/FormulaEditorButton"
@@ -230,10 +231,10 @@
             android:text="@string/formula_editor_string" />
 
         <Button
-            android:id="@+id/formula_editor_keyboard_variables"
+            android:id="@+id/formula_editor_keyboard_ok"
             style="@style/FormulaEditorButton"
-            android:layout_weight="0.3"
-            android:text="@string/formula_editor_variables" />
-    </LinearLayout>
+            android:layout_weight="0.35"
+            android:text="@string/ok" />
+    </LinearLayout >
 
 </LinearLayout>
