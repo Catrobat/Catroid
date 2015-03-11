@@ -45,7 +45,7 @@ import org.catrobat.catroid.ui.dialogs.NewVariableDialog;
 
 /**
  * FIXME: Same as SetVariableBrickViewFactory
- * Created by illya.boyko@gmail.com on 03/03/15.
+ * Created by Illya Boyko on 03/03/15.
  */
 public class ChangeVariableBrickViewFactory extends BrickViewFactory {
 	public ChangeVariableBrickViewFactory(Context context, LayoutInflater inflater) {

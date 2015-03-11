@@ -39,7 +39,7 @@ import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 /**
  * Create View for {@code BroadcastReceiverBrick}.
- * Created by illya.boyko@gmail.com on 04/03/15.
+ * Created by Illya Boyko on 04/03/15.
  */
 public class BroadcastReceiverBrickViewFactory extends BrickViewFactory {
 	public BroadcastReceiverBrickViewFactory(Context context, LayoutInflater inflater) {

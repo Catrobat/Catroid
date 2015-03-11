@@ -41,7 +41,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
  * Provides Checkable support and can be used in listView in multiple selection mode.
  * Checkable implementation is taken from here - https://chris.banes.me/2013/03/22/checkable-views/
  * <p/>
- * Created by Illya Boyko &lt;illya.boyko@gmail.com> on 02/12/14.
+ * Created by Illya Boyko on 02/12/14.
  */
 public class BrickView extends CheckableLinearLayout {
 

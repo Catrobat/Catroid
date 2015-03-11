@@ -117,7 +117,7 @@ import static org.catrobat.catroid.content.bricks.Brick.BrickField;
 
 /**
  * View factory.
- * Created by illya.boyko@gmail.com on 02/03/15.
+ * Created by Illya Boyko on 02/03/15.
  */
 public class BrickViewFactory {
 	private static final String TAG = "BrickViewFactory";
