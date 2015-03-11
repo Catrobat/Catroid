@@ -744,6 +744,17 @@ public class InternFormula {
 
 		Log.i("info", "replaceCursorPositionInternTokenByTokenList:enter");
 
+		if (cursorPositionInternToken.isNumber() && internTokensToReplaceWith.size() == 1
+				&& internTokensToReplaceWith.get(0).isOperator()){
+
+			int externNumberOffset = externInternRepresentationMapping.getExternTokenStartOffset(externCursorPosition,
+					cursorPositionInternTokenIndex);
+			List<InternToken> replaceList = InternFormulaUtils.insertOperatorToNumberToken(cursorPositionInternToken,externNumberOffset,internTokensToReplaceWith.get(0));
+			replaceInternTokens(replaceList,cursorPositionInternTokenIndex,cursorPositionInternTokenIndex);
+
+			return setCursorPositionAndSelectionAfterInput(cursorPositionInternTokenIndex);
+		}
+
 		if (cursorPositionInternToken.isNumber() && InternFormulaUtils.isNumberToken(internTokensToReplaceWith)) {
 
 			InternToken numberTokenToInsert = internTokensToReplaceWith.get(0);
