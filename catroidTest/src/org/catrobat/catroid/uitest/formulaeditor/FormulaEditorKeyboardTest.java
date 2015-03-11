@@ -228,7 +228,7 @@ public class FormulaEditorKeyboardTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_object));
-		itemString = solo.getString(R.string.formula_editor_object_ghosteffect);
+		itemString = solo.getString(R.string.formula_editor_object_transparency);
 		solo.clickOnText(itemString);
 		solo.waitForView(solo.getView(R.id.formula_editor_edit_field));
 		assertEquals("Wrong button clicked", itemString, text.getText().toString().substring(0, itemString.length()));

@@ -79,7 +79,7 @@ public class LookSensorValuesInterpretationTest extends AndroidTestCase {
 			assertEquals("Formula interpretation is not as expected (y-Position)", LOOK_Y_POSITION,
 					lookYPositionFormula.interpretDouble(testSprite), DELTA);
 
-			Formula lookAlphaValueFormula = getFormulaBySensor(Sensors.OBJECT_GHOSTEFFECT);
+			Formula lookAlphaValueFormula = getFormulaBySensor(Sensors.OBJECT_TRANSPARENCY);
 			assertEquals("Formula interpretation is not as expected (ghosteffect)", LOOK_ALPHA,
 					lookAlphaValueFormula.interpretDouble(testSprite), DELTA);
 

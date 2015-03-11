@@ -477,7 +477,7 @@ public class FormulaElement implements Serializable {
 			case OBJECT_BRIGHTNESS:
 				returnValue = (double) sprite.look.getBrightnessInUserInterfaceDimensionUnit();
 				break;
-			case OBJECT_GHOSTEFFECT:
+			case OBJECT_TRANSPARENCY:
 				returnValue = (double) sprite.look.getTransparencyInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_LAYER:
