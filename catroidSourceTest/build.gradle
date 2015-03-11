@@ -6,7 +6,7 @@ apply plugin: 'java'
 
 dependencies {
     testCompile files( project(":").buildDir.getPath() + '/intermediates/classes/debug' )
-    testCompile 'junit:junit:4.10'
+    testCompile 'junit:junit:4.12'
 }
 
 sourceSets {
