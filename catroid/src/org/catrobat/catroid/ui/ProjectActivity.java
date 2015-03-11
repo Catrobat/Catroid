@@ -92,6 +92,8 @@ public class ProjectActivity extends BaseActivity {
 		if (spritesListFragment != null && spritesListFragment.isLoading == false) {
 			handleShowDetails(spritesListFragment.getShowDetails(), menu.findItem(R.id.show_details));
 		}
+		spritesListFragment.parentMenu = menu;
+		spritesListFragment.updateTopActionBar();
 		return super.onPrepareOptionsMenu(menu);
 	}
 
