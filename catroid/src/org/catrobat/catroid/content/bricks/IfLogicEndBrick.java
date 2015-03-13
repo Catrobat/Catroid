@@ -129,7 +129,6 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 		return nestingBrickList;
 	}
 
-	@Override
 	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		return inflater.inflate(R.layout.brick_if_end_if, null);

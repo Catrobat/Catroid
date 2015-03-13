@@ -22,49 +22,15 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.BaseAdapter;
-
-import org.catrobat.catroid.R;
-
 public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 
 	private static final long serialVersionUID = 1L;
-	private transient boolean isPuzzleView = true;
 
 	public LoopEndlessBrick() {
-
 	}
 
 	public LoopEndlessBrick(LoopBeginBrick loopStartingBrick) {
 		super(loopStartingBrick);
 	}
 
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (view == null || !isPuzzleView) {
-			isPuzzleView = true;
-			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			view = inflater.inflate(R.layout.brick_loop_endless, null);
-		}
-		return view;
-	}
-
-	@Override
-	public Brick clone() {
-		return new LoopEndlessBrick(getLoopBeginBrick());
-	}
-
-	//TODO: IllyaBoyko: What is puzzle View? How to use it.
-	@Override
-	public View getNoPuzzleView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (view == null || isPuzzleView) {
-			isPuzzleView = false;
-			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			view = inflater.inflate(R.layout.brick_loop_endless_no_puzzle, null);
-		}
-		return view;
-	}
 }

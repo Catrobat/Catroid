@@ -101,6 +101,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 		brickList = new ArrayList<Brick>();
 		viewTypes = new ArrayList<Class<? extends Brick>>();
 		brickViewFactory = new BrickViewFactory(context);
+		brickViewFactory.setNoPuzzleViewEnabled(true);
 		dragAndDropListView = listView;
 		toAnimatePositions = new LinkedBlockingQueue<Integer>();
 		dragAndDropListView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -857,15 +858,16 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 		// without the footer, position can be 0, and list.get(-1) caused an Indexoutofboundsexception
 		// no clean solution was found
 //		if (convertView != null) {
-		//FIXME: Illya Boyko: No view refresh for now. Implement Refresh view from brick.
+		//TODO: Illya Boyko: No view refresh for now. Implement Refresh view from brick.
 //			currentBrickView = (BrickView) convertView;
 //		} else {
-			if (item instanceof AllowedAfterDeadEndBrick && brickList.get(position == 0 ? position : (position - 1)) instanceof DeadEndBrick) {
-				currentBrickView = (BrickView) ((AllowedAfterDeadEndBrick) item).getNoPuzzleView(context, position, this);
-			} else {
-				currentBrickView = brickViewFactory.createView(item, parent);
-			}
-			convertView = currentBrickView;
+		if (item instanceof AllowedAfterDeadEndBrick && brickList.get(position == 0 ? position : (position - 1)) instanceof DeadEndBrick) {
+			//FIXME: in case of LoopEndlessBrick view toogle is needed!!!!
+			currentBrickView = brickViewFactory.createNoPuzzleView((AllowedAfterDeadEndBrick) item, parent);
+		} else {
+			currentBrickView = brickViewFactory.createView(item, parent);
+		}
+		convertView = currentBrickView;
 //		}
 
 		int alpha = ALPHA_FULL;

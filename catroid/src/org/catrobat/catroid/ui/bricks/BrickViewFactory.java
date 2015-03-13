@@ -36,6 +36,7 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.bricks.AllowedAfterDeadEndBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -125,6 +126,8 @@ public class BrickViewFactory {
 	protected Context context;
 	protected LayoutInflater inflater;
 	protected BrickViewOnClickDispatcher onClickDispatcher;
+	private boolean noPuzzleViewEnabled;
+	private boolean nextViewForLoopEndlessIsPuzzleView;
 
 	public BrickViewFactory(Context context) {
 		this(context, (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
@@ -134,6 +137,10 @@ public class BrickViewFactory {
 		this.context = context;
 		this.inflater = inflater;
 		onClickDispatcher = new BrickViewOnClickDispatcher();
+	}
+
+	public void setNoPuzzleViewEnabled(boolean noPuzzleViewEnabled) {
+		this.noPuzzleViewEnabled = noPuzzleViewEnabled;
 	}
 
 	private static class BrickViewOnClickDispatcher {
@@ -157,6 +164,22 @@ public class BrickViewFactory {
 		return inflater.inflate(layoutId, parent, false);
 	}
 
+	public BrickView createNoPuzzleView(final AllowedAfterDeadEndBrick brick, ViewGroup parent) {
+		View view = null;
+
+		if (noPuzzleViewEnabled) {
+			if (brick instanceof LoopEndlessBrick) {
+				view = createLoopEndlessBrickView(parent);
+			} else if (brick instanceof LoopEndBrick) {
+				view = createSimpleBrickView(parent, R.layout.brick_loop_end_no_puzzle);
+			}
+		}
+
+		if (view == null) {
+			view = createView(brick, parent);
+		}
+		return (BrickView) view;
+	}
 
 	public BrickView createView(final Brick brick, ViewGroup parent) {
 		View view = null;
@@ -170,7 +193,7 @@ public class BrickViewFactory {
 
 		//Plain View
 		if (brick instanceof LoopEndlessBrick) {
-			view = createSimpleBrickView(parent, R.layout.brick_loop_endless);
+			view = createLoopEndlessBrickView(parent);
 		} else if (brick instanceof ClearGraphicEffectBrick) {
 			view = createSimpleBrickView(parent, R.layout.brick_clear_graphic_effect);
 		} else if (brick instanceof ComeToFrontBrick) {
@@ -359,6 +382,18 @@ public class BrickViewFactory {
 
 
 		return (BrickView) view;
+	}
+
+	private View createLoopEndlessBrickView(ViewGroup parent) {
+		int layout;
+		if (nextViewForLoopEndlessIsPuzzleView) {
+			nextViewForLoopEndlessIsPuzzleView = false;
+			layout = R.layout.brick_loop_endless_no_puzzle;
+		} else {
+			nextViewForLoopEndlessIsPuzzleView = true;
+			layout = R.layout.brick_loop_endless;
+		}
+		return createSimpleBrickView(parent, layout);
 	}
 
 	private View createDroneMoveBrickView(DroneMoveBrick brick, ViewGroup parent, int moveLabelResId) {
