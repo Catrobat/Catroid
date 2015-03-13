@@ -862,7 +862,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	public interface OnLookDataListChangedAfterNewListener {
 
-		void onLookDataListChangedAfterNew(LookData soundInfo);
+		void onLookDataListChangedAfterNew(LookData lookData);
 
 	}
 

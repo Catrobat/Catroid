@@ -26,6 +26,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -38,16 +39,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SpinnerAdapter;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.PointToBrick.SpinnerAdapterWrapper;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -376,4 +378,13 @@ public class NewSpriteDialog extends DialogFragment {
 		STEP_1, STEP_2;
 		static final String KEY = "step";
 	}
+
+	public static abstract class SpinnerAdapterWrapper implements SpinnerAdapter {
+		public abstract void updateSpinner();
+
+		public abstract void refreshSpinnerAfterNewSprite(final Context context, final String newSpriteName);
+
+		public abstract ArrayAdapter<String> getAdapter();
+	}
+
 }

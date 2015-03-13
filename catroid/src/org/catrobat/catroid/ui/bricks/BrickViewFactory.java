@@ -103,6 +103,7 @@ import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBrick;
@@ -161,20 +162,16 @@ public class BrickViewFactory {
 		View view = null;
 
 		//TODO: Illya Boyko: Implementation Needed
-		if (brick instanceof PointToBrick) {
-			view = ((PointToBrick) brick).getView(context, 0, null);
-		} else if (brick instanceof PlaySoundBrick) {
-			view = ((PlaySoundBrick) brick).getView(context, 0, null);
-		} else if (brick instanceof SetLookBrick) {
-			view = ((SetLookBrick) brick).getView(context, 0, null);
-		} else if (brick instanceof LoopEndlessBrick) {
-			view = ((LoopEndlessBrick) brick).getView(context, 0, null);
-		} else if (brick instanceof UserBrick) {
+		if (brick instanceof UserBrick) {
 			view = ((UserBrick) brick).getView(context, 0, null);
+		} else if (brick instanceof UserScriptDefinitionBrick) {
+			view = ((UserScriptDefinitionBrick) brick).getView(context, 0, null);
 		}
 
 		//Plain View
-		if (brick instanceof ClearGraphicEffectBrick) {
+		if (brick instanceof LoopEndlessBrick) {
+			view = createSimpleBrickView(parent, R.layout.brick_loop_endless);
+		} else if (brick instanceof ClearGraphicEffectBrick) {
 			view = createSimpleBrickView(parent, R.layout.brick_clear_graphic_effect);
 		} else if (brick instanceof ComeToFrontBrick) {
 			view = createSimpleBrickView(parent, R.layout.brick_go_to_front);
@@ -352,6 +349,12 @@ public class BrickViewFactory {
 			view = new BroadcastBrickViewFactory(context, inflater).createBroadcastBrickView((BroadcastBrick) brick, parent);
 		} else if (brick instanceof BroadcastReceiverBrick) {
 			view = new BroadcastReceiverBrickViewFactory(context, inflater).createBroadcastReceiverBrickView((BroadcastReceiverBrick) brick, parent);
+		} else if (brick instanceof PlaySoundBrick) {
+			view = new PlaySoundBrickViewFactory(context, inflater).createPlaySoundBrickView((PlaySoundBrick) brick, parent);
+		} else if (brick instanceof PointToBrick) {
+			view = new PointToBrickViewFactory(context, inflater).createPointToBrickView((PointToBrick) brick, parent);
+		} else if (brick instanceof SetLookBrick) {
+			view = new SetLookBrickViewFactory(context, inflater).createSetLookBrickView((SetLookBrick) brick, parent);
 		}
 
 
