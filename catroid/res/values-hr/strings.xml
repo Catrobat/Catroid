@@ -369,8 +369,8 @@ su otpakovani!</item>
   <string name="error_no_writiable_external_storage_available">Pocket Code requires writable external storage like an SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting an SD card, then try again.</string>
   <string name="error_no_name_entered">Molim Vas unesite naziv.</string>
   <string name="error_project_exists">Program s istim nazivom već postoji.\nMolim Vas odaberite drugi naziv.</string>
-  <string name="error_delete_project">Došlo je do pogreške tijekom brisanja programa</string>
-  <string name="error_unknown_project">Program s tim nazivom ne postoji.</string>
+  <string name="error_delete_project">An error while deleting the program occurred</string>
+  <string name="error_unknown_project">A program with that name does not exist.</string>
   <string name="error_project_upload">An error occurred while uploading the program.</string>
   <string name="error_project_download">Došlo je do pogreške tijekom preuzimanja programa.</string>
   <string name="error_new_project">Došlo je do pogreške pri stvaranju novog programa.</string>

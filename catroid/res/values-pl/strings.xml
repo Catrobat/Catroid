@@ -356,8 +356,8 @@
   <string name="error_no_writiable_external_storage_available">Aby działać, Pocket Code potrzebuje zewnętrznej pamięci do zapisu, np. karty SD, ale nie została ona znaleziona.\nMożesz rozwiązać ten problem poprzez zapis w zewnętrznej pamięci lub włożyć kartę SD i spróbować ponownie.</string>
   <string name="error_no_name_entered">Proszę, wprowadź nazwę.</string>
   <string name="error_project_exists">Program o tej samej nazwie już istnieje. \nProszę wybierz inną nazwę.</string>
-  <string name="error_delete_project">Wystąpił błąd podczas usuwania programu</string>
-  <string name="error_unknown_project">Program o tej nazwie nie istnieje.</string>
+  <string name="error_delete_project">An error while deleting the program occurred</string>
+  <string name="error_unknown_project">A program with that name does not exist.</string>
   <string name="error_project_upload">Podczas wysyłania programu wystąpił błąd.</string>
   <string name="error_project_download">Podczas pobierania programu wystąpił błąd.</string>
   <string name="error_new_project">Podczas tworzenia nowego programu wystąpił błąd.</string>

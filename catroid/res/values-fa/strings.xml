@@ -243,7 +243,7 @@
   <string name="brick_change_y_by">"Change Y by "</string>
   <string name="brick_go_back">Go back</string>
   <plurals name="brick_go_back_layer_plural">
-    <item quantity="other">layer</item>
+    <item quantity="other">layers</item>
   </plurals>
   <string name="brick_come_to_front">Go to front</string>
   <string name="brick_if_on_edge_bounce">If on edge, bounce</string>
@@ -317,7 +317,7 @@
   <string name="default_drone_project_name">My first Drone program</string>
   <string name="default_drone_project_sprites_takeoff">Take off</string>
   <string name="default_drone_project_srpites_land">Land</string>
-  <string name="default_drone_project_srpites_rotate">Rotate</string>
+  <string name="default_drone_project_srpites_rotate">چرخش</string>
   <string name="default_drone_project_sprites_up">Up</string>
   <string name="default_drone_project_sprites_down">Down</string>
   <string name="default_drone_project_sprites_left">Left</string>
@@ -411,7 +411,7 @@
   <string name="brick_drone_move_backward">Move backward</string>
   <string name="brick_drone_move_up">Move up</string>
   <string name="brick_drone_move_down">Move down</string>
-  <string name="brick_drone_flip">Flip</string>
+  <string name="brick_drone_flip">تلنگر</string>
   <string name="brick_drone_power">Power</string>
   <string name="brick_drone_turn_right">Turn right</string>
   <string name="brick_drone_turn_left">Turn left</string>

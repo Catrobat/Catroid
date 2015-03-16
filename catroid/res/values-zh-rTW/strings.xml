@@ -243,7 +243,7 @@
   <string name="brick_change_y_by">"Change Y by "</string>
   <string name="brick_go_back">Go back</string>
   <plurals name="brick_go_back_layer_plural">
-    <item quantity="other">layer</item>
+    <item quantity="other">layers</item>
   </plurals>
   <string name="brick_come_to_front">Go to front</string>
   <string name="brick_if_on_edge_bounce">If on edge, bounce</string>

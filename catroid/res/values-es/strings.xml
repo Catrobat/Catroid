@@ -117,12 +117,11 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="dialog_confirm_delete_multiple_bricks_title">¿Desea borrar estos bloques?</string>
   <string name="dialog_confirm_delete_brick_message">Esta operación no se puede deshacer!</string>
   <plurals name="number_of_bricks_to_delete">
-    <item quantity="one">Eliminar 1 bloque
-</item>
+    <item quantity="one">Eliminar %d bloque</item>
     <item quantity="other">Eliminar %d bloques</item>
   </plurals>
   <plurals name="number_of_bricks_to_copy">
-    <item quantity="one">Copia 1 bloque</item>
+    <item quantity="one">Copia %d bloque</item>
     <item quantity="other">Copia %d bloques</item>
   </plurals>
   <string name="fragment_look_text_description">Pulse \"+\" para añadir diferentes apariencias</string>
@@ -354,7 +353,7 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="error_no_name_entered">Por favor, introduce la traducción aquí</string>
   <string name="error_project_exists">Un programa con el mismo nombre ya existe. \nPlease elegir un nombre diferente.</string>
   <string name="error_delete_project">An error while deleting the program occurred</string>
-  <string name="error_unknown_project">No existe un programa con ese nombre.</string>
+  <string name="error_unknown_project">A program with that name does not exist.</string>
   <string name="error_project_upload">Un error ha ocurrido durante el proceso de carga</string>
   <string name="error_project_download">Un error ha ocurrido durante el proceso de descarga.</string>
   <string name="error_new_project">Un error ha ocurrido al crear un nuevo programa.</string>

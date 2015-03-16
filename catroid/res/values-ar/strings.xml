@@ -379,8 +379,8 @@
   <string name="error_no_writiable_external_storage_available">يتطلب النص البرمجي لجهاز الجيب ذاكرة خارجية قابلة للكتابة مثل (SD) حتى يعمل، ولكنها غير موجودة.  بإمكانك حل المشكلة بجعل الذاكرة الخارجية قابلة للكتابة أو إضافة كرت (SD) ، ثم قم بالمحاولة مرة أخرى.</string>
   <string name="error_no_name_entered">الرجاء إدخال اسم.</string>
   <string name="error_project_exists">برنامج بنفس الاسم موجود مسبقاً. \n الرجاء اختيار إسماً مختلفاً.</string>
-  <string name="error_delete_project">حدث خطأ أثناء حذف البرنامج</string>
-  <string name="error_unknown_project">لا يوجد برنامج بهذا الاسم.</string>
+  <string name="error_delete_project">An error while deleting the program occurred</string>
+  <string name="error_unknown_project">A program with that name does not exist.</string>
   <string name="error_project_upload">حدث خطأ أثناء تحميل البرنامج.</string>
   <string name="error_project_download">حدث خطأ أثناء تنزيل البرنامج.</string>
   <string name="error_new_project">حدث خطأ أثناء إنشاء برنامج جديد.</string>

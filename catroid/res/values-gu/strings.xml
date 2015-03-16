@@ -121,11 +121,11 @@
   <string name="dialog_confirm_delete_multiple_bricks_title">Delete these bricks?</string>
   <string name="dialog_confirm_delete_brick_message">This can not be undone!</string>
   <plurals name="number_of_bricks_to_delete">
-    <item quantity="one">Delete 1 Brick</item>
+    <item quantity="one">Delete %d Brick</item>
     <item quantity="other">Delete %d Bricks</item>
   </plurals>
   <plurals name="number_of_bricks_to_copy">
-    <item quantity="one">Copy 1 Brick</item>
+    <item quantity="one">Copy %d Brick</item>
     <item quantity="other">Copy %d Bricks</item>
   </plurals>
   <string name="fragment_look_text_description">Tap \"+\" to add Looks</string>
@@ -247,7 +247,7 @@
   <string name="brick_go_back">Go back</string>
   <plurals name="brick_go_back_layer_plural">
     <item quantity="one">layer</item>
-    <item quantity="other">layer</item>
+    <item quantity="other">layers</item>
   </plurals>
   <string name="brick_come_to_front">Go to front</string>
   <string name="brick_if_on_edge_bounce">If on edge, bounce</string>

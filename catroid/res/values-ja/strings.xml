@@ -66,8 +66,8 @@
   <string name="preference_description_select_camera">Select camera which is used for face detection</string>
   <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 bricks</string>
   <string name="preference_description_quadcopter_bricks">Allow to control the ARDrone 2.0 quadcopter</string>
-  <string name="dialog_new_object_pocketpaint">Draw Image</string>
-  <string name="dialog_new_object_gallery">Select Image</string>
+  <string name="dialog_new_object_pocketpaint">絵を描く</string>
+  <string name="dialog_new_object_gallery">イメージを選ぶ</string>
   <string name="dialog_new_object_camera">カメラから</string>
   <string name="dialog_new_object_look_preview">外見のプレビュー</string>
   <string name="dialog_new_object_name">オブジェクト名</string>

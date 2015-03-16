@@ -74,10 +74,7 @@
   <string name="dialog_new_object_switch_title">Nieuw object gemaakt</string>
   <string name="dialog_new_object_switch_message">Overschakelen naar nieuw object?</string>
   <string name="dialog_terms_of_use_title">Gebruiksvoorwaarden</string>
-  <string name="dialog_terms_of_use_info">In order to 
-    be allowed to use Pocket Code and other executables offered by the Catrobat project, you 
-    must agree to our Terms of Use and strictly follow them when you use Pocket 
-    Code and our other executables. Please see the link below for their precise formulation.\n</string>
+  <string name="dialog_terms_of_use_info">Om Pocket Code en andere uitvoerbare bestanden van het Catrobat-project te mogen gebruiken, moet u akkoord gaan met de gebruiksvoorwaarden en deze voorwaarden strikt naleven bij het gebruik van Pocket Code en onze andere uitvoerbare bestanden. Zie de link hieronder voor de precieze formulering van de gebruiksvoorwaarden.\n</string>
   <string name="dialog_terms_of_use_link_text">Gebruiksvoorwaarden</string>
   <string name="dialog_terms_of_use_agree_permanent">I ga hier definitief mee akkoord - vraag het met niet nogmaals. Ik ben verantwoordelijk als iemand anders mijn apparaat gebruikt.</string>
   <string name="dialog_terms_of_use_agree">Ik ga akkoord</string>
@@ -184,7 +181,7 @@
   <string name="brick_context_dialog_copy_brick">Kopieer steen</string>
   <string name="brick_context_dialog_animate_bricks">Steendelen animeren</string>
   <string name="brick_context_dialog_add_to_script">Add To Script</string>
-  <string name="brick_context_dialog_edit_brick">Edit Brick</string>
+  <string name="brick_context_dialog_edit_brick">Steen bewerken</string>
   <string name="brick_context_dialog_formula_edit_brick">Formule bewerken</string>
   <string name="brick_context_dialog_delete_script">Verwijder script</string>
   <string name="new_look_dialog_title">Uiterlijk toevoegen</string>
@@ -230,7 +227,7 @@
   <string name="category_sound">Geluid</string>
   <string name="category_control">Besturen</string>
   <string name="category_variables">Variabelen</string>
-  <string name="category_user_bricks">My Bricks</string>
+  <string name="category_user_bricks">Mijn stenen</string>
   <string name="category_lego_nxt">Lego NXT</string>
   <string name="category_drone">ARDrone</string>
   <string name="brick_place_at">"Plaats op:"</string>
@@ -352,8 +349,8 @@
   <string name="error_no_writiable_external_storage_available">Pocket Code vereist beschrijfbare, externe opslag, zoals een SD-kaart. Deze werd niet gevonden.\nJe kunt dit oplossen door de externe opslag beschrijfbaar te maken of een SD-kaart aan te sluiten. Probeer het daarna opnieuw.</string>
   <string name="error_no_name_entered">Voer een naam in.</string>
   <string name="error_project_exists">Een programma met deze naam bestaat.\nKies een andere naam.</string>
-  <string name="error_delete_project">An error while deleting the program occurred</string>
-  <string name="error_unknown_project">A program with that name does not exist.</string>
+  <string name="error_delete_project">Er is een fout opgetreden tijdens het verwijderen van het programma</string>
+  <string name="error_unknown_project">Er bestaat geen programma met deze naam.</string>
   <string name="error_project_upload">Er is een fout opgetreden tijdens het uploaden van het programma.</string>
   <string name="error_project_download">Er is een fout opgetreden tijdens het downloaden van het programma.</string>
   <string name="error_new_project">Er is een fout opgetreden tijdens het maken van een nieuw programma.</string>
@@ -518,34 +515,34 @@
   <string name="formula_editor_image_button_description_redo">opnieuw</string>
   <string name="formula_editor_image_button_description_delete">verwijderen</string>
   <string name="formula_editor_variable_dialog_title">Nieuwe variabele</string>
-  <string name="formula_editor_variable_dialog_for_this_brick">For this brick</string>
+  <string name="formula_editor_variable_dialog_for_this_brick">Voor deze steen</string>
   <string name="formula_editor_variable_dialog_for_all_sprites">Voor alle objecten</string>
   <string name="formula_editor_variable_dialog_for_this_sprite_only">Alleen voor dit object</string>
   <string name="formula_editor_variable_dialog_hint">Voer variabelenaam in</string>
   <string name="formula_editor_discard_changes_dialog_message">Wil je de wijzigingen opslaan?</string>
   <string name="formula_editor_discard_changes_dialog_title">Wijzigingen opslaan?</string>
   <string name="variable_name">Naam variabele:</string>
-  <string name="formula_editor_new_string_name">New text</string>
+  <string name="formula_editor_new_string_name">Nieuwe tekst</string>
   <string name="formula_editor_new_string_dialog_hint">Enter new text here.</string>
   <plurals name="formula_editor_variable_context_action_item_selected">
     <item quantity="one">Variabele geselecteerd!</item>
     <item quantity="other">Variabelen geselecteerd!</item>
   </plurals>
-  <string name="camera_facing_front">Front Camera</string>
-  <string name="camera_facing_back">Back Camera</string>
+  <string name="camera_facing_front">Camera aan voorzijde</string>
+  <string name="camera_facing_back">Camera aan achterzijde</string>
   <string name="brick_data_editor_title">Brick Editor</string>
   <string name="separator">|</string>
-  <string name="add_text">Add Text</string>
-  <string name="edit_text">Edit Text</string>
+  <string name="add_text">Tekst toevoegen</string>
+  <string name="edit_text">Tekst bewerken</string>
   <string name="text_hint">Brick Text</string>
-  <string name="add_variable">Add Variable</string>
+  <string name="add_variable">Variabele toevoegen</string>
   <string name="add_line_break">Add Line Break</string>
-  <string name="edit_variable">Edit Variable</string>
-  <string name="variable_hint">Variable Name</string>
+  <string name="edit_variable">Variabele bewerken</string>
+  <string name="variable_hint">Naam van de variabele</string>
   <string name="define">define</string>
-  <string name="new_user_brick">New Brick</string>
-  <string name="new_user_brick_variable">Variable 1</string>
+  <string name="new_user_brick">Nieuwe steen</string>
+  <string name="new_user_brick_variable">Variabele 1</string>
   <string name="recursive_user_brick_forbidden">Adding UserBrick to UserBrick is not allowed yet!</string>
-  <string name="brick_single">Brick</string>
-  <string name="brick_multiple">Bricks</string>
+  <string name="brick_single">Steen</string>
+  <string name="brick_multiple">Stenen</string>
 </resources>

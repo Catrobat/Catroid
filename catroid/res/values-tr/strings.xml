@@ -117,9 +117,11 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="dialog_confirm_delete_multiple_bricks_title">Bu tuğlalar silinsinmi?</string>
   <string name="dialog_confirm_delete_brick_message">Bu geriye alınamaz!</string>
   <plurals name="number_of_bricks_to_delete">
+    <item quantity="one">%d tuğlayı sil</item>
     <item quantity="other">%d tuğlayı sil</item>
   </plurals>
   <plurals name="number_of_bricks_to_copy">
+    <item quantity="one">%d tuğlayı kopyala</item>
     <item quantity="other">%d tuğlayı kopyala</item>
   </plurals>
   <string name="fragment_look_text_description">Görüntü eklemek icin buraya \"+\" dokun</string>
@@ -152,6 +154,7 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="dialog_confirm_delete_sound_message">Bu geriye alınamaz!</string>
   <string name="sound_name">ses adı:</string>
   <plurals name="unpacking_items_plural">
+    <item quantity="one">Bunlar açılmıştı!</item>
     <item quantity="other">Bunlar açılmıştı!</item>
   </plurals>
   <string name="last_used">Son giriş :</string>
@@ -239,12 +242,14 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="brick_change_y_by">"Y'nin degerini değiştir"</string>
   <string name="brick_go_back">Geri git</string>
   <plurals name="brick_go_back_layer_plural">
+    <item quantity="one">Katmanlar</item>
     <item quantity="other">Katmanlar</item>
   </plurals>
   <string name="brick_come_to_front">Ön tarafa git</string>
   <string name="brick_if_on_edge_bounce">Kenar\'a geldiğinde zıpla</string>
   <string name="brick_move">Taşı</string>
   <plurals name="brick_move_n_step_plural">
+    <item quantity="one">adımlar</item>
     <item quantity="other">adımlar</item>
   </plurals>
   <string name="brick_turn_left">Sola dön</string>
@@ -281,6 +286,7 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="brick_when">Dokunduğunuz zaman</string>
   <string name="brick_wait">Bekle</string>
   <plurals name="second_plural">
+    <item quantity="one">"saniyeler\""</item>
     <item quantity="other">"saniyeler\""</item>
   </plurals>
   <string name="brick_broadcast_receive">Aldığımda</string>
@@ -290,6 +296,7 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="brick_forever">Daima</string>
   <string name="brick_repeat">Yinele</string>
   <plurals name="time_plural">
+    <item quantity="one">zamanlar</item>
     <item quantity="other">zamanlar</item>
   </plurals>
   <string name="brick_loop_end">Döngünün sonu</string>
@@ -345,8 +352,8 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="error_no_writiable_external_storage_available">Cep kodu\'nun çalışması için SD kart gibi yazılabilir harici dış bellek gereklidir, ancak herhangi bir dış bellek bulunamadı. \n Bunu düzeltmek icin dış bellegi yazılabilir yapin yada bir SD kartı ekledikten sonra yeniden deneyin.</string>
   <string name="error_no_name_entered">Lütfen bir ad girin.</string>
   <string name="error_project_exists">Aynı ada sahip bir program mevcut. \nLütfen farklı bir ad seçin.</string>
-  <string name="error_delete_project">Program silinirken hata oluştu</string>
-  <string name="error_unknown_project">Bu ada sahip bir program yok.</string>
+  <string name="error_delete_project">An error while deleting the program occurred</string>
+  <string name="error_unknown_project">A program with that name does not exist.</string>
   <string name="error_project_upload">Programı yüklerken bir hata oluştu.</string>
   <string name="error_project_download">Programı yüklerken bir hata oluştu.</string>
   <string name="error_new_project">Yeni program oluşturulurken bir hata oluştu.</string>
@@ -521,6 +528,8 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="formula_editor_new_string_name">Yeni metin</string>
   <string name="formula_editor_new_string_dialog_hint">Yeni metni buraya girin.</string>
   <plurals name="formula_editor_variable_context_action_item_selected">
+    <item quantity="one">Değişken seçildi!
+Değişkenler seçildi!</item>
     <item quantity="other">Değişken seçildi!
 Değişkenler seçildi!</item>
   </plurals>
