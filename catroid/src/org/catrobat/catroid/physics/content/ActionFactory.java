@@ -84,6 +84,7 @@ import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
 import org.catrobat.catroid.content.actions.TurnLeftAction;
 import org.catrobat.catroid.content.actions.TurnRightAction;
+import org.catrobat.catroid.content.actions.UserBrickAction;
 import org.catrobat.catroid.content.actions.VibrateAction;
 import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
@@ -420,6 +421,12 @@ public class ActionFactory extends Actions {
 		action.setIsForeverRepeat(true);
 		action.setAction(foreverSequence);
 		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action  createUserBrickAction(Action userBrickAction) {
+		UserBrickAction action = action(UserBrickAction.class);
+		action.setAction(userBrickAction);
 		return action;
 	}
 

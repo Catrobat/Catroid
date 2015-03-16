@@ -100,7 +100,7 @@ public class LookData implements Serializable, Cloneable {
 				}
 			} catch (NullPointerException nullPointerException) {
 				Log.d(TAG, "gdx.files throws nullpointer");
-				pixmap = new Pixmap(1, 1, Pixmap.Format.Alpha);
+				pixmap = null;
 			}
 		}
 		return pixmap;

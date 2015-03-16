@@ -27,7 +27,7 @@ import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
 
 import com.badlogic.gdx.math.Vector2;
-import com.jayway.android.robotium.solo.Solo;
+import com.robotium.solo.Solo;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;

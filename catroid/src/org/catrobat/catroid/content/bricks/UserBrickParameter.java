@@ -31,7 +31,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
@@ -46,44 +45,15 @@ public class UserBrickParameter extends FormulaBrick {
 
 	private transient UserBrick parent;
 
-	public UserBrickParameter(UserBrick parent) {
-		this.parent = parent;
+	public UserBrickParameter() {
 		addAllowedBrickField(BrickField.USER_BRICK);
 		setFormulaWithBrickField(BrickField.USER_BRICK, new Formula(0));
 	}
 
-	public UserBrickParameter(Formula parameter) {
-		addAllowedBrickField(BrickField.USER_BRICK);
-		setFormulaWithBrickField(BrickField.USER_BRICK, parameter);
-	}
-
-	@Override
-	public UserBrickParameter clone() {
-		UserBrickParameter clonedBrick = new UserBrickParameter(getFormulaWithBrickField(
-				BrickField.USER_BRICK).clone());
-		clonedBrick.getFormulaWithBrickField(BrickField.USER_BRICK).setTextFieldId(textView.getId());
-		clonedBrick.parent = parent;
-		clonedBrick.parameterIndex = parameterIndex;
-		clonedBrick.variableName = variableName;
-		clonedBrick.textView = textView;
-		clonedBrick.prototypeView = prototypeView;
-		return clonedBrick;
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		return parent.getView(context, brickId, adapter);
-	}
-
 	@Override
 	public java.util.List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setVariable(sprite, getFormulaWithBrickField(BrickField.VARIABLE),
+		sequence.addAction(sprite.getActionFactory().createSetVariableAction(sprite, getFormulaWithBrickField(BrickField.VARIABLE),
 				ProjectManager.getInstance().getCurrentProject().getDataContainer().getUserVariable(variableName, sprite)));
 		return null;
-	}
-
-	@Override
-	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.USER_BRICK);
 	}
 }

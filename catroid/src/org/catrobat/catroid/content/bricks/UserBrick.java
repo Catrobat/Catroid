@@ -40,9 +40,9 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.physics.content.ActionFactory;
 import org.catrobat.catroid.ui.BrickLayout;
 
 import java.util.ArrayList;
@@ -322,10 +322,11 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 		ArrayList<SequenceAction> returnActionList = new ArrayList<SequenceAction>();
 
-		SequenceAction userSequence = ExtendedActions.sequence();
+		ActionFactory actionFactory = sprite.getActionFactory();
+		SequenceAction userSequence = actionFactory.createSequence();
 		definitionBrick.getScriptSafe().run(sprite, userSequence);
 		returnActionList.add(userSequence);
-		sequence.addAction(ExtendedActions.userBrick(userSequence));
+		sequence.addAction(actionFactory.createUserBrickAction(userSequence));
 		ProjectManager.getInstance().setCurrentUserBrick(this);
 
 		return returnActionList;
