@@ -352,7 +352,7 @@
   <string name="error_no_name_entered">Inserisci un nome.</string>
   <string name="error_project_exists">Un programma con lo stesso nome esiste già. \nScegliere un nome diverso.</string>
   <string name="error_delete_project">Si è verificato un errore durante la cancellazione del programma</string>
-  <string name="error_unknown_project">Non esiste un programma con il nome specificato.</string>
+  <string name="error_unknown_project">Non esiste un programma con quel nome.</string>
   <string name="error_project_upload">Errore durante il caricamento del programma.</string>
   <string name="error_project_download">Errore durante il download del programma.</string>
   <string name="error_new_project">Errore durante la creazione di un nuovo programma.</string>

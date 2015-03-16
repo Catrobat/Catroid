@@ -356,8 +356,8 @@
   <string name="error_no_writiable_external_storage_available">Pocket Code requires writable external storage like an SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting an SD card, then try again.</string>
   <string name="error_no_name_entered">Please enter a name.</string>
   <string name="error_project_exists">A program with the same name already exists.\nPlease choose a different name.</string>
-  <string name="error_delete_project">An error while deleting the program occurred</string>
-  <string name="error_unknown_project">A program with that name does not exist.</string>
+  <string name="error_delete_project">An error occurred while deleting the program</string>
+  <string name="error_unknown_project">A program with this name does not exist.</string>
   <string name="error_project_upload">An error occurred while uploading the program.</string>
   <string name="error_project_download">An error occurred while downloading the program.</string>
   <string name="error_new_project">An error occurred while creating a new program.</string>

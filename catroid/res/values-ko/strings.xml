@@ -243,7 +243,7 @@
   <string name="brick_change_y_by">"Y좌표 바꾸기 :"</string>
   <string name="brick_go_back">돌아가기</string>
   <plurals name="brick_go_back_layer_plural">
-    <item quantity="other">layer</item>
+    <item quantity="other">layers</item>
   </plurals>
   <string name="brick_come_to_front">앞쪽으로 이동</string>
   <string name="brick_if_on_edge_bounce">벽에 닿으면 튕기기</string>

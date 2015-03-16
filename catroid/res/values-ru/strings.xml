@@ -243,8 +243,8 @@
   <string name="brick_go_back">Назад на</string>
   <plurals name="brick_go_back_layer_plural">
     <item quantity="one">layer</item>
-    <item quantity="few">layer</item>
-    <item quantity="other">layer</item>
+    <item quantity="few">layers</item>
+    <item quantity="other">layers</item>
   </plurals>
   <string name="brick_come_to_front">Прийти на перед</string>
   <string name="brick_if_on_edge_bounce">Отскочить если на краю</string>
