@@ -56,7 +56,6 @@ public class UserScriptDefinitionBrickViewFactory extends BrickViewFactory {
 	public View createUserScriptDefinitionBrickView(final UserScriptDefinitionBrick brick, ViewGroup parent) {
 		final View view = createSimpleBrickView(parent, R.layout.brick_user_definition);
 
-
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_user_definition_layout);
 		layout.setFocusable(false);
 		layout.setFocusableInTouchMode(false);
@@ -74,8 +73,7 @@ public class UserScriptDefinitionBrickViewFactory extends BrickViewFactory {
 		layout.addView(define);
 		((LinearLayout.LayoutParams) define.getLayoutParams()).gravity = Gravity.CENTER_VERTICAL;
 
-		BrickView prototype = createView(brick.getBrick(), layout);
-		prototype.addMode(BrickView.Mode.PROTOTYPE);
+		BrickView prototype = createView(brick.getBrick(), layout, true);
 		Bitmap brickImage = getBrickImage(prototype);
 
 		ImageView preview = getBorderedPreview(brickImage);

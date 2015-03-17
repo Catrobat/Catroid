@@ -51,7 +51,6 @@ public class BrickView extends CheckableLinearLayout {
 	private ViewGroup brickLayout;
 	private int mode = Mode.DEFAULT;
 
-
 	public BrickView(Context context) {
 		this(context, null);
 	}
@@ -169,13 +168,9 @@ public class BrickView extends CheckableLinearLayout {
 	public final class Mode {
 		public static final int DEFAULT = 0;
 		/**
-		 * Prototype View Mode means user cannot edit child elements like Formula fields.
-		 */
-		public static final int PROTOTYPE = 2;
-		/**
 		 * Selection View Mode means that this view is in selection state.
 		 */
-		public static final int SELECTION = 4;
+		public static final int SELECTION = 2;
 
 		private Mode() {
 		}

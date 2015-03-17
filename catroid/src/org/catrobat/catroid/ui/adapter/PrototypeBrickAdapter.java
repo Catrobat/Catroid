@@ -53,6 +53,7 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 	public PrototypeBrickAdapter(Context context, List<Brick> brickList) {
 		this.brickList = brickList;
 		brickViewFactory = new BrickViewFactory(context);
+		brickViewFactory.setPrototypeLayout(true);
 	}
 
 //	public void addBrickToList(Brick brick) {
@@ -170,7 +171,6 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 
 		final Brick brick = brickList.get(position);
 		BrickView view = brickViewFactory.createView(brick, parent);
-		view.addMode(BrickView.Mode.PROTOTYPE);
 		if (useSelection) {
 			view.addMode(BrickView.Mode.SELECTION);
 		} else {

@@ -199,6 +199,10 @@ public class BrickViewFactory {
 	}
 
 	public BrickView createView(final Brick brick, ViewGroup parent) {
+		return createView(brick, parent, prototypeLayout);
+	}
+
+	public BrickView createView(final Brick brick, ViewGroup parent, boolean prototype) {
 		View view = null;
 
 		//Plain View
@@ -373,25 +377,45 @@ public class BrickViewFactory {
 		} else if (brick instanceof LegoNxtMotorStopBrick) {
 			view = createLegoNxtMotorStopBrickView((LegoNxtMotorStopBrick) brick, parent);
 		} else if (brick instanceof ChangeVariableBrick) {
-			view = new ChangeVariableBrickViewFactory(context, inflater).createChangeVariableBrickView((ChangeVariableBrick) brick, parent);
+			ChangeVariableBrickViewFactory factory = new ChangeVariableBrickViewFactory(context, inflater);
+			factory.setPrototypeLayout(prototypeLayout);
+			view = factory.createChangeVariableBrickView((ChangeVariableBrick) brick, parent);
 		} else if (brick instanceof SetVariableBrick) {
-			view = new SetVariableBrickViewFactory(context, inflater).createSetVariableBrickView((SetVariableBrick) brick, parent);
+			SetVariableBrickViewFactory factory = new SetVariableBrickViewFactory(context, inflater);
+			factory.setPrototypeLayout(prototypeLayout);
+			view = factory.createSetVariableBrickView((SetVariableBrick) brick, parent);
 		} else if (brick instanceof BroadcastWaitBrick) {
-			view = new BroadcastWaitBrickViewFactory(context, inflater).createBroadcastWaitBrickView((BroadcastWaitBrick) brick, parent);
+			BroadcastWaitBrickViewFactory factory = new BroadcastWaitBrickViewFactory(context, inflater);
+			factory.setPrototypeLayout(prototypeLayout);
+			view = factory.createBroadcastWaitBrickView((BroadcastWaitBrick) brick, parent);
 		} else if (brick instanceof BroadcastBrick) {
-			view = new BroadcastBrickViewFactory(context, inflater).createBroadcastBrickView((BroadcastBrick) brick, parent);
+			BroadcastBrickViewFactory factory = new BroadcastBrickViewFactory(context, inflater);
+			factory.setPrototypeLayout(prototypeLayout);
+			view = factory.createBroadcastBrickView((BroadcastBrick) brick, parent);
 		} else if (brick instanceof BroadcastReceiverBrick) {
-			view = new BroadcastReceiverBrickViewFactory(context, inflater).createBroadcastReceiverBrickView((BroadcastReceiverBrick) brick, parent);
+			BroadcastReceiverBrickViewFactory factory = new BroadcastReceiverBrickViewFactory(context, inflater);
+			factory.setPrototypeLayout(prototypeLayout);
+			view = factory.createBroadcastReceiverBrickView((BroadcastReceiverBrick) brick, parent);
 		} else if (brick instanceof PlaySoundBrick) {
-			view = new PlaySoundBrickViewFactory(context, inflater).createPlaySoundBrickView((PlaySoundBrick) brick, parent);
+			PlaySoundBrickViewFactory factory = new PlaySoundBrickViewFactory(context, inflater);
+			factory.setPrototypeLayout(prototypeLayout);
+			view = factory.createPlaySoundBrickView((PlaySoundBrick) brick, parent);
 		} else if (brick instanceof PointToBrick) {
-			view = new PointToBrickViewFactory(context, inflater).createPointToBrickView((PointToBrick) brick, parent);
+			PointToBrickViewFactory factory = new PointToBrickViewFactory(context, inflater);
+			factory.setPrototypeLayout(prototypeLayout);
+			view = factory.createPointToBrickView((PointToBrick) brick, parent);
 		} else if (brick instanceof SetLookBrick) {
-			view = new SetLookBrickViewFactory(context, inflater).createSetLookBrickView((SetLookBrick) brick, parent);
+			SetLookBrickViewFactory factory = new SetLookBrickViewFactory(context, inflater);
+			factory.setPrototypeLayout(prototypeLayout);
+			view = factory.createSetLookBrickView((SetLookBrick) brick, parent);
 		} else if (brick instanceof UserBrick) {
-			view = new UserBrickViewFactory(context, inflater).createUserBrickView((UserBrick) brick, parent);
+			UserBrickViewFactory factory = new UserBrickViewFactory(context, inflater);
+			factory.setPrototypeLayout(prototypeLayout);
+			view = factory.createUserBrickView((UserBrick) brick, parent);
 		} else if (brick instanceof UserScriptDefinitionBrick) {
-			view = new UserScriptDefinitionBrickViewFactory(context, inflater).createUserScriptDefinitionBrickView((UserScriptDefinitionBrick) brick, parent);
+			UserScriptDefinitionBrickViewFactory factory = new UserScriptDefinitionBrickViewFactory(context, inflater);
+			factory.setPrototypeLayout(prototypeLayout);
+			view = factory.createUserScriptDefinitionBrickView((UserScriptDefinitionBrick) brick, parent);
 		}
 
 
