@@ -22,15 +22,10 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.BaseAdapter;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 
 import java.util.ArrayList;
@@ -58,15 +53,6 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 
 	public IfLogicElseBrick getCopy() {
 		return copy;
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-//OK
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		view = inflater.inflate(R.layout.brick_if_else, null);
-
-		return view;
 	}
 
 	@Override
@@ -130,11 +116,6 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 		}
 
 		return nestingBrickList;
-	}
-
-	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.brick_if_else, null);
 	}
 
 	@Override

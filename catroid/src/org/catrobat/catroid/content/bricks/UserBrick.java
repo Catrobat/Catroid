@@ -1,24 +1,24 @@
 /**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2014 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ * <p/>
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ * <p/>
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ * <p/>
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ * <p/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.content.bricks;
 
@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UserBrick extends BrickBaseType  {
+public class UserBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
 	@XStreamAlias("definitionBrick")
@@ -148,156 +148,6 @@ public class UserBrick extends BrickBaseType  {
 	public void appendBrickToScript(Brick brick) {
 		definitionBrick.appendBrickToScript(brick);
 	}
-//
-//	@Override
-//	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-//
-//		view = View.inflate(context, R.layout.brick_user, null);
-//
-//		onLayoutChanged(view);
-//
-//		return view;
-//	}
-
-//	/**
-//	 * FIXME: Illya Boyko: getAlphaValue is still present in user brick logic
-//	 * @return
-//	 */
-//	public int getAlphaValue() {
-//		return alphaValue;
-//	}
-//
-//	/**
-//	 * FIXME: Illya Boyko: setAlpha is still present in user brick logic
-//	 * @param newAlpha
-//	 */
-//	public void setAlpha(int newAlpha) {
-//		alphaValue = newAlpha;
-//	}
-//
-
-//	/**
-//	 * FIXME: Illya Boyko: getViewWithAlpha is still present in user brick logic
-//	 * @param alphaValue
-//	 * @return
-//	 */
-//	public View getViewWithAlpha(int alphaValue) {
-//		if (view == null) {
-//			return null;
-//		}
-//		if (lastDataVersion < getUserScriptDefinitionBrickElements().getVersion() || userBrickParameters == null) {
-//			updateUserBrickParameters(null);
-//			onLayoutChanged(view);
-//		}
-//
-//		BrickLayout layout = (BrickLayout) view.findViewById(R.id.brick_user_flow_layout);
-//		Drawable background = layout.getBackground();
-//		background.setAlpha(alphaValue);
-//
-//		for (UserBrickParameter component : userBrickParameters) {
-//			if (component != null && component.textView != null) {
-//				component.textView.setTextColor(component.textView.getTextColors().withAlpha(alphaValue));
-//				if (component.textView.getBackground() != null) {
-//					component.textView.getBackground().setAlpha(alphaValue);
-//				}
-//			}
-//		}
-//
-//		return view;
-//	}
-
-//	public void onLayoutChanged(View currentView) {
-//		if (lastDataVersion < getUserScriptDefinitionBrickElements().getVersion() || userBrickParameters == null) {
-//			updateUserBrickParameters(null);
-//		}
-//
-//		boolean prototype = currentView instanceof BrickView && ((BrickView) currentView).hasMode(BrickView.Mode.PROTOTYPE);
-//
-//		Context context = currentView.getContext();
-//
-//		BrickLayout layout = (BrickLayout) currentView.findViewById(R.id.brick_user_flow_layout);
-//		if (layout.getChildCount() > 0) {
-//			layout.removeAllViews();
-//		}
-//
-//		int id = 0;
-//		for (UserBrickParameter parameter : userBrickParameters) {
-//			TextView currentTextView;
-//			UserScriptDefinitionBrickElement uiData = getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(parameter.parameterIndex);
-//			if (uiData.isEditModeLineBreak) {
-//				continue;
-//			}
-//			if (uiData.isVariable) {
-//				currentTextView = new EditText(context);
-//
-//				currentTextView.setTextAppearance(context, R.style.BrickEditText);
-//				if (prototype) {
-//					try {
-//						currentTextView.setText(String
-//								.valueOf(parameter.getFormulaWithBrickField(BrickField.USER_BRICK).interpretInteger(ProjectManager
-//										.getInstance().getCurrentSprite())));
-//					} catch (InterpretationException interpretationException) {
-//						Log.e(TAG, "InterpretationException!", interpretationException);
-//					}
-//				} else {
-//					currentTextView.setId(id);
-//
-//					parameter.getFormulaWithBrickField(BrickField.USER_BRICK).setTextFieldId(currentTextView.getId());
-//					String formulaString = parameter.getFormulaWithBrickField(BrickField.USER_BRICK).getDisplayString(currentTextView.getContext());
-//					parameter.getFormulaWithBrickField(BrickField.USER_BRICK).refreshTextField(currentTextView, formulaString);
-//
-//					// This stuff isn't being included by the style when I use setTextAppearance.
-//					currentTextView.setFocusable(false);
-//					currentTextView.setFocusableInTouchMode(false);
-//
-//					currentTextView.setOnClickListener(this);
-//				}
-//				currentTextView.setVisibility(View.VISIBLE);
-//			} else {
-//				currentTextView = new TextView(context);
-//				currentTextView.setTextAppearance(context, R.style.BrickText_Multiple);
-//
-//				currentTextView.setText(uiData.name);
-//			}
-//
-//			// This stuff isn't being included by the style when I use setTextAppearance.
-//			if (prototype) {
-//				currentTextView.setFocusable(false);
-//				currentTextView.setFocusableInTouchMode(false);
-//				currentTextView.setClickable(false);
-//			}
-//
-//			layout.addView(currentTextView);
-//
-//			if (uiData.newLineHint) {
-//				BrickLayout.LayoutParams params = (BrickLayout.LayoutParams) currentTextView.getLayoutParams();
-//				params.setNewLine(true);
-//				currentTextView.setLayoutParams(params);
-//			}
-//
-//			if (prototype) {
-//				parameter.prototypeView = currentTextView;
-//			} else {
-//				parameter.textView = currentTextView;
-//			}
-//			id++;
-//		}
-//	}
-
-//	@Override
-//	public void onClick(View eventOrigin) {
-//		if (!clickAllowed()) {
-//			return;
-//		}
-//
-//		for (UserBrickParameter userBrickParameter : userBrickParameters) {
-//			UserScriptDefinitionBrickElement userBrickElement = getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(userBrickParameter.parameterIndex);
-//
-//			if (userBrickElement.isVariable && userBrickParameter.textView.getId() == eventOrigin.getId()) {
-//				FormulaEditorFragment.showFragment(view, this, userBrickParameter.getFormulaWithBrickField(BrickField.USER_BRICK));
-//			}
-//		}
-//	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {

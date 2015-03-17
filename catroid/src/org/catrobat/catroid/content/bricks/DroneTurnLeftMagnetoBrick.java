@@ -52,12 +52,6 @@ public class DroneTurnLeftMagnetoBrick extends DroneMoveBrick {
 		super();
 	}
 
-	//OK
-	@Override
-	protected String getBrickLabel(View view) {
-		return view.getResources().getString(R.string.brick_drone_turn_left_magneto);
-	}
-
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.droneTurnLeftMagneto(sprite,

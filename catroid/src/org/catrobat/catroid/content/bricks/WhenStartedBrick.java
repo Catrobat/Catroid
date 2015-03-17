@@ -22,13 +22,8 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
-
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -58,13 +53,6 @@ public class WhenStartedBrick extends ScriptBrick {
 		WhenStartedBrick copyBrick = (WhenStartedBrick) clone();
 		copyBrick.script = script;
 		return copyBrick;
-	}
-
-	@Override
-	public View getView(Context context, int brickId, final BaseAdapter baseAdapter) {
-		//OK
-		view = View.inflate(context, R.layout.brick_when_started, null);
-		return view;
 	}
 
 	@Override

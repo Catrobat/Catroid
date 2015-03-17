@@ -22,13 +22,8 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
-
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
@@ -38,7 +33,6 @@ public class DroneFlipBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
 	public DroneFlipBrick() {
-
 	}
 
 	@Override
@@ -46,15 +40,10 @@ public class DroneFlipBrick extends BrickBaseType {
 		DroneFlipBrick copyBrick = (DroneFlipBrick) clone();
 		return copyBrick;
 	}
+
 	@Override
 	public Brick clone() {
 		return new DroneFlipBrick();
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		//OK
-		return view = View.inflate(context, R.layout.brick_drone_flip, null);
 	}
 
 	@Override

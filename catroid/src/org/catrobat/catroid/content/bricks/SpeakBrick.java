@@ -22,23 +22,15 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
-
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SpeakBrick extends FormulaBrick implements OnClickListener {
+public class SpeakBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -64,18 +56,6 @@ public class SpeakBrick extends FormulaBrick implements OnClickListener {
 		return TEXT_TO_SPEECH;
 	}
 
-	@Override
-	public View getView(final Context context, int brickId, final BaseAdapter baseAdapter) {
-		//OK
-		view = View.inflate(context, R.layout.brick_speak, null);
-
-		TextView textField = (TextView) view.findViewById(R.id.brick_speak_edit_text);
-		getFormulaWithBrickField(BrickField.SPEAK).setTextFieldId(R.id.brick_speak_edit_text);
-		getFormulaWithBrickField(BrickField.SPEAK).refreshTextField(view);
-
-		textField.setOnClickListener(this);
-		return view;
-	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
@@ -88,17 +68,4 @@ public class SpeakBrick extends FormulaBrick implements OnClickListener {
 		return getFormulaWithBrickField(BrickField.SPEAK);
 	}
 
-	@Override
-	public void onClick(View view) {
-		if (!clickAllowed()) {
-			return;
-		}
-		switch (view.getId()) {
-			case R.id.brick_speak_edit_text:
-				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.SPEAK));
-				break;
-			default:
-				break;
-		}
-	}
 }

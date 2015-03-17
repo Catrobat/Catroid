@@ -22,23 +22,15 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
-
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class PlaceAtBrick extends FormulaBrick implements OnClickListener {
+public class PlaceAtBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public PlaceAtBrick() {
@@ -74,41 +66,6 @@ public class PlaceAtBrick extends FormulaBrick implements OnClickListener {
 		return getFormulaWithBrickField(BrickField.Y_POSITION).getRequiredResources() | getFormulaWithBrickField(BrickField.X_POSITION).getRequiredResources();
 	}
 
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-//OK
-		view = View.inflate(context, R.layout.brick_place_at, null);
-
-		TextView editX = (TextView) view.findViewById(R.id.brick_place_at_edit_text_x);
-		getFormulaWithBrickField(BrickField.X_POSITION).setTextFieldId(R.id.brick_place_at_edit_text_x);
-		getFormulaWithBrickField(BrickField.X_POSITION).refreshTextField(view);
-
-		editX.setOnClickListener(this);
-
-		TextView editY = (TextView) view.findViewById(R.id.brick_place_at_edit_text_y);
-		getFormulaWithBrickField(BrickField.Y_POSITION).setTextFieldId(R.id.brick_place_at_edit_text_y);
-		getFormulaWithBrickField(BrickField.Y_POSITION).refreshTextField(view);
-
-		editY.setOnClickListener(this);
-		return view;
-	}
-
-
-	@Override
-	public void onClick(View view) {
-		if (!clickAllowed()) {
-			return;
-		}
-		switch (view.getId()) {
-			case R.id.brick_place_at_edit_text_x:
-				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.X_POSITION));
-				break;
-
-			case R.id.brick_place_at_edit_text_y:
-				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.Y_POSITION));
-				break;
-		}
-	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {

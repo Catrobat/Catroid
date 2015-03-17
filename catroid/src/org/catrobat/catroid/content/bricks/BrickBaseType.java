@@ -37,7 +37,6 @@ import java.util.List;
 public class BrickBaseType implements Brick {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = BrickBaseType.class.getSimpleName();
-	protected transient View view;
 
 	@Override
 	public int getRequiredResources() {
@@ -68,15 +67,4 @@ public class BrickBaseType implements Brick {
 		}
 		return copyBrick;
 	}
-
-	protected boolean clickAllowed() {
-		if (this.view instanceof BrickView) {
-			BrickView brickView = (BrickView) this.view;
-			if (brickView.getMode() != BrickView.Mode.DEFAULT) {
-				return false;
-			}
-		}
-		return true;
-	}
-
 }

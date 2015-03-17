@@ -22,10 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
-
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Sprite;
@@ -50,12 +46,6 @@ public class DroneTakeOffBrick extends BrickBaseType {
 	@Override
 	public Brick clone() {
 		return new DroneTakeOffBrick();
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		//OK
-		return view;
 	}
 
 	@Override

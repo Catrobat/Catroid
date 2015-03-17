@@ -22,33 +22,19 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClickListener {
+public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 	private static final long serialVersionUID = 1L;
-
-//	private transient View prototypeView;
 
 	protected transient LoopEndBrick loopEndBrick;
 	private transient long beginLoopTime;
@@ -80,48 +66,6 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 	@Override
 	public Brick clone() {
 		return new RepeatBrick(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).clone());
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-//OK
-		view = View.inflate(context, R.layout.brick_repeat, null);
-
-		TextView edit = (TextView) view.findViewById(R.id.brick_repeat_edit_text);
-		getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).setTextFieldId(R.id.brick_repeat_edit_text);
-		getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).refreshTextField(view);
-
-		TextView times = (TextView) view.findViewById(R.id.brick_repeat_time_text_view);
-
-		if (getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).isSingleNumberFormula()) {
-			try {
-				times.setText(view.getResources().getQuantityString(
-						R.plurals.time_plural,
-						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT)
-								.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))
-				));
-			} catch (InterpretationException interpretationException) {
-				Log.d(getClass().getSimpleName(), "Couldn't interpret Formula", interpretationException);
-			}
-		} else {
-
-			// Random Number to get into the "other" keyword for values like 0.99 or 2.001 seconds or degrees
-			// in hopefully all possible languages
-			times.setText(view.getResources().getQuantityString(R.plurals.time_plural,
-					Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
-		}
-
-		edit.setOnClickListener(this);
-		return view;
-	}
-
-
-	@Override
-	public void onClick(View view) {
-		if (!clickAllowed()) {
-			return;
-		}
-		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT));
 	}
 
 	@Override

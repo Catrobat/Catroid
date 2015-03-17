@@ -22,15 +22,10 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.BaseAdapter;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 
 import java.util.ArrayList;
@@ -74,17 +69,6 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 	}
 
 	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-//OK
-		if (view == null) {
-			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			view = inflater.inflate(R.layout.brick_loop_end, null);
-		}
-
-		return view;
-	}
-
-	@Override
 	public Brick clone() {
 		return new LoopEndBrick(getLoopBeginBrick());
 	}
@@ -116,11 +100,6 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 			nestingBrickList.add(loopBeginBrick);
 		}
 		return nestingBrickList;
-	}
-
-	public View getNoPuzzleView(Context context, int brickId, BaseAdapter baseAdapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.brick_loop_end_no_puzzle, null);
 	}
 
 	@Override

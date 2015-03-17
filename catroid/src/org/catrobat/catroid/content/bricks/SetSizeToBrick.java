@@ -22,23 +22,15 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
-
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SetSizeToBrick extends FormulaBrick implements OnClickListener {
+public class SetSizeToBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public SetSizeToBrick() {
@@ -61,26 +53,6 @@ public class SetSizeToBrick extends FormulaBrick implements OnClickListener {
 	@Override
 	public int getRequiredResources() {
 		return getFormulaWithBrickField(BrickField.SIZE).getRequiredResources();
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-//OK
-		view = View.inflate(context, R.layout.brick_set_size_to, null);
-
-		TextView edit = (TextView) view.findViewById(R.id.brick_set_size_to_edit_text);
-		getFormulaWithBrickField(BrickField.SIZE).setTextFieldId(R.id.brick_set_size_to_edit_text);
-		getFormulaWithBrickField(BrickField.SIZE).refreshTextField(view);
-		edit.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public void onClick(View view) {
-		if (!clickAllowed()) {
-			return;
-		}
-		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.SIZE));
 	}
 
 	@Override

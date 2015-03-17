@@ -22,22 +22,15 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
-
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class PointInDirectionBrick extends FormulaBrick implements View.OnClickListener {
+public class PointInDirectionBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -79,28 +72,6 @@ public class PointInDirectionBrick extends FormulaBrick implements View.OnClickL
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
-	}
-
-	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		//OK
-		view = View.inflate(context, R.layout.brick_point_in_direction, null);
-
-		TextView setAngleTextField = (TextView) view.findViewById(R.id.brick_point_in_direction_edit_text);
-
-		getFormulaWithBrickField(BrickField.DEGREES).setTextFieldId(R.id.brick_point_in_direction_edit_text);
-		getFormulaWithBrickField(BrickField.DEGREES).refreshTextField(view);
-
-		setAngleTextField.setOnClickListener(this);
-		return view;
-	}
-
-	@Override
-	public void onClick(View view) {
-		if (!clickAllowed()) {
-			return;
-		}
-		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.DEGREES));
 	}
 
 	@Override

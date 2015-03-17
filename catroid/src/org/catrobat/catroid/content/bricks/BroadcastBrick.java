@@ -22,23 +22,12 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.content.DialogInterface;
-import android.support.v4.app.FragmentActivity;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.BaseAdapter;
-import android.widget.Spinner;
-
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 import java.util.List;
 
@@ -78,84 +67,8 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 		return broadcastMessage;
 	}
 
-	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
-		//OK
-		view = View.inflate(context, R.layout.brick_broadcast, null);
-
-		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_spinner);
-		broadcastSpinner.setFocusableInTouchMode(false);
-		broadcastSpinner.setFocusable(false);
-
-		broadcastSpinner.setAdapter(MessageContainer.getMessageAdapter(context));
-		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				String selectedMessage = broadcastSpinner.getSelectedItem().toString();
-				if (selectedMessage.equals(context.getString(R.string.new_broadcast_message))) {
-					showNewMessageDialog(broadcastSpinner);
-				} else {
-					broadcastMessage = selectedMessage;
-				}
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-			}
-		});
-
-		setSpinnerSelection(broadcastSpinner);
-		return view;
-	}
-
 	public void setBroadcastMessage(String broadcastMessage) {
 		this.broadcastMessage = broadcastMessage;
-	}
-
-	protected void setSpinnerSelection(Spinner spinner) {
-		int position = MessageContainer.getPositionOfMessageInAdapter(spinner.getContext(), broadcastMessage);
-		spinner.setSelection(position, true);
-	}
-
-	// TODO: BroadcastBrick and BroadcastReceiverBrick contain this identical method.
-	protected void showNewMessageDialog(final Spinner spinner) {
-		final Context context = spinner.getContext();
-		BrickTextDialog editDialog = new BrickTextDialog() {
-
-			@Override
-			protected void initialize() {
-				inputTitle.setText(R.string.dialog_new_broadcast_message_name);
-			}
-
-			@Override
-			protected boolean handleOkButton() {
-				String newMessage = (input.getText().toString()).trim();
-				if (newMessage.isEmpty() || newMessage.equals(context.getString(R.string.new_broadcast_message))) {
-					dismiss();
-					return false;
-				}
-
-				broadcastMessage = newMessage;
-				MessageContainer.addMessage(broadcastMessage);
-				setSpinnerSelection(spinner);
-				return true;
-			}
-
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				setSpinnerSelection(spinner);
-				super.onDismiss(dialog);
-			}
-
-			@Override
-			protected String getTitle() {
-				return getString(R.string.dialog_new_broadcast_message_title);
-			}
-
-		};
-
-		editDialog.show(((FragmentActivity) context).getSupportFragmentManager(), "dialog_broadcast_brick");
 	}
 
 	@Override

@@ -22,23 +22,14 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.Spinner;
-
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.List;
 
-public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelectedListener {
+public class LegoNxtMotorStopBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 	private transient Motor motorEnum;
 	private String motor;
@@ -82,36 +73,6 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 	@Override
 	public Brick clone() {
 		return new LegoNxtMotorStopBrick(motorEnum);
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		//OK
-		view = View.inflate(context, R.layout.brick_nxt_motor_stop, null);
-
-		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
-				R.array.nxt_stop_motor_chooser, android.R.layout.simple_spinner_item);
-		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		Spinner motorSpinner = (Spinner) view.findViewById(R.id.stop_motor_spinner);
-		motorSpinner.setOnItemSelectedListener(this);
-
-		motorSpinner.setFocusableInTouchMode(false);
-		motorSpinner.setFocusable(false);
-
-		motorSpinner.setAdapter(motorAdapter);
-		motorSpinner.setSelection(motorEnum.ordinal());
-		return view;
-	}
-
-	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		motorEnum = Motor.values()[position];
-		motor = motorEnum.name();
-	}
-
-	@Override
-	public void onNothingSelected(AdapterView<?> arg0) {
 	}
 
 	@Override
