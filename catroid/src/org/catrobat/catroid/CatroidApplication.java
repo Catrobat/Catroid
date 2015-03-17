@@ -23,6 +23,7 @@
 package org.catrobat.catroid;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import com.parrot.freeflight.settings.ApplicationSettings;
@@ -36,11 +37,15 @@ public class CatroidApplication extends Application {
 
 	private static boolean parrotLibrariesLoaded = false;
 
+	private static CatroidApplication application;
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		application = this;
 		Log.d(TAG, "CatroidApplication onCreate");
 		settings = new ApplicationSettings(this);
+
 	}
 
 	public ApplicationSettings getParrotApplicationSettings() {
@@ -74,5 +79,9 @@ public class CatroidApplication extends Application {
 			}
 		}
 		return parrotLibrariesLoaded;
+	}
+
+	public static Context get() {
+		return application;
 	}
 }

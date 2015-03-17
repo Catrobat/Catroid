@@ -37,8 +37,6 @@ public class UserBrickParameter extends FormulaBrick {
 
 	public int parameterIndex;
 	public String variableName;
-	public transient TextView textView;
-	public transient TextView prototypeView;
 
 	public UserBrickParameter() {
 		addAllowedBrickField(BrickField.USER_BRICK);

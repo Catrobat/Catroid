@@ -49,7 +49,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class UserBrick extends BrickBaseType implements OnClickListener {
+public class UserBrick extends BrickBaseType  {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = UserBrick.class.getName();
 
@@ -167,156 +167,156 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	public void appendBrickToScript(Brick brick) {
 		definitionBrick.appendBrickToScript(brick);
 	}
+//
+//	@Override
+//	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+//
+//		view = View.inflate(context, R.layout.brick_user, null);
+//
+//		onLayoutChanged(view);
+//
+//		return view;
+//	}
 
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+//	/**
+//	 * FIXME: Illya Boyko: getAlphaValue is still present in user brick logic
+//	 * @return
+//	 */
+//	public int getAlphaValue() {
+//		return alphaValue;
+//	}
+//
+//	/**
+//	 * FIXME: Illya Boyko: setAlpha is still present in user brick logic
+//	 * @param newAlpha
+//	 */
+//	public void setAlpha(int newAlpha) {
+//		alphaValue = newAlpha;
+//	}
+//
 
-		view = View.inflate(context, R.layout.brick_user, null);
+//	/**
+//	 * FIXME: Illya Boyko: getViewWithAlpha is still present in user brick logic
+//	 * @param alphaValue
+//	 * @return
+//	 */
+//	public View getViewWithAlpha(int alphaValue) {
+//		if (view == null) {
+//			return null;
+//		}
+//		if (lastDataVersion < getUserScriptDefinitionBrickElements().getVersion() || userBrickParameters == null) {
+//			updateUserBrickParameters(null);
+//			onLayoutChanged(view);
+//		}
+//
+//		BrickLayout layout = (BrickLayout) view.findViewById(R.id.brick_user_flow_layout);
+//		Drawable background = layout.getBackground();
+//		background.setAlpha(alphaValue);
+//
+//		for (UserBrickParameter component : userBrickParameters) {
+//			if (component != null && component.textView != null) {
+//				component.textView.setTextColor(component.textView.getTextColors().withAlpha(alphaValue));
+//				if (component.textView.getBackground() != null) {
+//					component.textView.getBackground().setAlpha(alphaValue);
+//				}
+//			}
+//		}
+//
+//		return view;
+//	}
 
-		onLayoutChanged(view);
+//	public void onLayoutChanged(View currentView) {
+//		if (lastDataVersion < getUserScriptDefinitionBrickElements().getVersion() || userBrickParameters == null) {
+//			updateUserBrickParameters(null);
+//		}
+//
+//		boolean prototype = currentView instanceof BrickView && ((BrickView) currentView).hasMode(BrickView.Mode.PROTOTYPE);
+//
+//		Context context = currentView.getContext();
+//
+//		BrickLayout layout = (BrickLayout) currentView.findViewById(R.id.brick_user_flow_layout);
+//		if (layout.getChildCount() > 0) {
+//			layout.removeAllViews();
+//		}
+//
+//		int id = 0;
+//		for (UserBrickParameter parameter : userBrickParameters) {
+//			TextView currentTextView;
+//			UserScriptDefinitionBrickElement uiData = getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(parameter.parameterIndex);
+//			if (uiData.isEditModeLineBreak) {
+//				continue;
+//			}
+//			if (uiData.isVariable) {
+//				currentTextView = new EditText(context);
+//
+//				currentTextView.setTextAppearance(context, R.style.BrickEditText);
+//				if (prototype) {
+//					try {
+//						currentTextView.setText(String
+//								.valueOf(parameter.getFormulaWithBrickField(BrickField.USER_BRICK).interpretInteger(ProjectManager
+//										.getInstance().getCurrentSprite())));
+//					} catch (InterpretationException interpretationException) {
+//						Log.e(TAG, "InterpretationException!", interpretationException);
+//					}
+//				} else {
+//					currentTextView.setId(id);
+//
+//					parameter.getFormulaWithBrickField(BrickField.USER_BRICK).setTextFieldId(currentTextView.getId());
+//					String formulaString = parameter.getFormulaWithBrickField(BrickField.USER_BRICK).getDisplayString(currentTextView.getContext());
+//					parameter.getFormulaWithBrickField(BrickField.USER_BRICK).refreshTextField(currentTextView, formulaString);
+//
+//					// This stuff isn't being included by the style when I use setTextAppearance.
+//					currentTextView.setFocusable(false);
+//					currentTextView.setFocusableInTouchMode(false);
+//
+//					currentTextView.setOnClickListener(this);
+//				}
+//				currentTextView.setVisibility(View.VISIBLE);
+//			} else {
+//				currentTextView = new TextView(context);
+//				currentTextView.setTextAppearance(context, R.style.BrickText_Multiple);
+//
+//				currentTextView.setText(uiData.name);
+//			}
+//
+//			// This stuff isn't being included by the style when I use setTextAppearance.
+//			if (prototype) {
+//				currentTextView.setFocusable(false);
+//				currentTextView.setFocusableInTouchMode(false);
+//				currentTextView.setClickable(false);
+//			}
+//
+//			layout.addView(currentTextView);
+//
+//			if (uiData.newLineHint) {
+//				BrickLayout.LayoutParams params = (BrickLayout.LayoutParams) currentTextView.getLayoutParams();
+//				params.setNewLine(true);
+//				currentTextView.setLayoutParams(params);
+//			}
+//
+//			if (prototype) {
+//				parameter.prototypeView = currentTextView;
+//			} else {
+//				parameter.textView = currentTextView;
+//			}
+//			id++;
+//		}
+//	}
 
-		return view;
-	}
-
-	/**
-	 * FIXME: Illya Boyko: getAlphaValue is still present in user brick logic
-	 * @return
-	 */
-	public int getAlphaValue() {
-		return alphaValue;
-	}
-
-	/**
-	 * FIXME: Illya Boyko: setAlpha is still present in user brick logic
-	 * @param newAlpha
-	 */
-	public void setAlpha(int newAlpha) {
-		alphaValue = newAlpha;
-	}
-
-
-	/**
-	 * FIXME: Illya Boyko: getViewWithAlpha is still present in user brick logic
-	 * @param alphaValue
-	 * @return
-	 */
-	public View getViewWithAlpha(int alphaValue) {
-		if (view == null) {
-			return null;
-		}
-		if (lastDataVersion < getUserScriptDefinitionBrickElements().getVersion() || userBrickParameters == null) {
-			updateUserBrickParameters(null);
-			onLayoutChanged(view);
-		}
-
-		BrickLayout layout = (BrickLayout) view.findViewById(R.id.brick_user_flow_layout);
-		Drawable background = layout.getBackground();
-		background.setAlpha(alphaValue);
-
-		for (UserBrickParameter component : userBrickParameters) {
-			if (component != null && component.textView != null) {
-				component.textView.setTextColor(component.textView.getTextColors().withAlpha(alphaValue));
-				if (component.textView.getBackground() != null) {
-					component.textView.getBackground().setAlpha(alphaValue);
-				}
-			}
-		}
-
-		return view;
-	}
-
-	public void onLayoutChanged(View currentView) {
-		if (lastDataVersion < getUserScriptDefinitionBrickElements().getVersion() || userBrickParameters == null) {
-			updateUserBrickParameters(null);
-		}
-
-		boolean prototype = currentView instanceof BrickView && ((BrickView) currentView).hasMode(BrickView.Mode.PROTOTYPE);
-
-		Context context = currentView.getContext();
-
-		BrickLayout layout = (BrickLayout) currentView.findViewById(R.id.brick_user_flow_layout);
-		if (layout.getChildCount() > 0) {
-			layout.removeAllViews();
-		}
-
-		int id = 0;
-		for (UserBrickParameter parameter : userBrickParameters) {
-			TextView currentTextView;
-			UserScriptDefinitionBrickElement uiData = getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(parameter.parameterIndex);
-			if (uiData.isEditModeLineBreak) {
-				continue;
-			}
-			if (uiData.isVariable) {
-				currentTextView = new EditText(context);
-
-				currentTextView.setTextAppearance(context, R.style.BrickEditText);
-				if (prototype) {
-					try {
-						currentTextView.setText(String
-								.valueOf(parameter.getFormulaWithBrickField(BrickField.USER_BRICK).interpretInteger(ProjectManager
-										.getInstance().getCurrentSprite())));
-					} catch (InterpretationException interpretationException) {
-						Log.e(TAG, "InterpretationException!", interpretationException);
-					}
-				} else {
-					currentTextView.setId(id);
-
-					parameter.getFormulaWithBrickField(BrickField.USER_BRICK).setTextFieldId(currentTextView.getId());
-					String formulaString = parameter.getFormulaWithBrickField(BrickField.USER_BRICK).getDisplayString(currentTextView.getContext());
-					parameter.getFormulaWithBrickField(BrickField.USER_BRICK).refreshTextField(currentTextView, formulaString);
-
-					// This stuff isn't being included by the style when I use setTextAppearance.
-					currentTextView.setFocusable(false);
-					currentTextView.setFocusableInTouchMode(false);
-
-					currentTextView.setOnClickListener(this);
-				}
-				currentTextView.setVisibility(View.VISIBLE);
-			} else {
-				currentTextView = new TextView(context);
-				currentTextView.setTextAppearance(context, R.style.BrickText_Multiple);
-
-				currentTextView.setText(uiData.name);
-			}
-
-			// This stuff isn't being included by the style when I use setTextAppearance.
-			if (prototype) {
-				currentTextView.setFocusable(false);
-				currentTextView.setFocusableInTouchMode(false);
-				currentTextView.setClickable(false);
-			}
-
-			layout.addView(currentTextView);
-
-			if (uiData.newLineHint) {
-				BrickLayout.LayoutParams params = (BrickLayout.LayoutParams) currentTextView.getLayoutParams();
-				params.setNewLine(true);
-				currentTextView.setLayoutParams(params);
-			}
-
-			if (prototype) {
-				parameter.prototypeView = currentTextView;
-			} else {
-				parameter.textView = currentTextView;
-			}
-			id++;
-		}
-	}
-
-	@Override
-	public void onClick(View eventOrigin) {
-		if (!clickAllowed()) {
-			return;
-		}
-
-		for (UserBrickParameter userBrickParameter : userBrickParameters) {
-			UserScriptDefinitionBrickElement userBrickElement = getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(userBrickParameter.parameterIndex);
-
-			if (userBrickElement.isVariable && userBrickParameter.textView.getId() == eventOrigin.getId()) {
-				FormulaEditorFragment.showFragment(view, this, userBrickParameter.getFormulaWithBrickField(BrickField.USER_BRICK));
-			}
-		}
-	}
+//	@Override
+//	public void onClick(View eventOrigin) {
+//		if (!clickAllowed()) {
+//			return;
+//		}
+//
+//		for (UserBrickParameter userBrickParameter : userBrickParameters) {
+//			UserScriptDefinitionBrickElement userBrickElement = getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(userBrickParameter.parameterIndex);
+//
+//			if (userBrickElement.isVariable && userBrickParameter.textView.getId() == eventOrigin.getId()) {
+//				FormulaEditorFragment.showFragment(view, this, userBrickParameter.getFormulaWithBrickField(BrickField.USER_BRICK));
+//			}
+//		}
+//	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
@@ -370,5 +370,9 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 
 	public int getUserBrickIndexInScript(Pair<Integer, Integer> userBrickPositionToParameterPair) {
 		return userBrickPositionToParameter.indexOf(userBrickPositionToParameterPair);
+	}
+
+	public int getLastDataVersion() {
+		return lastDataVersion;
 	}
 }

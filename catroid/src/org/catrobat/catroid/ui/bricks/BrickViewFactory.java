@@ -122,12 +122,13 @@ import static org.catrobat.catroid.content.bricks.Brick.BrickField;
  * Created by Illya Boyko on 02/03/15.
  */
 public class BrickViewFactory {
-	private static final String TAG = "BrickViewFactory";
+	protected static final String TAG = "BrickViewFactory";
 	protected Context context;
 	protected LayoutInflater inflater;
 	protected BrickViewOnClickDispatcher onClickDispatcher;
 	private boolean noPuzzleViewEnabled;
 	private boolean nextViewForLoopEndlessIsPuzzleView;
+	private boolean prototypeLayout = false;
 
 	public BrickViewFactory(Context context) {
 		this(context, (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
@@ -139,17 +140,33 @@ public class BrickViewFactory {
 		onClickDispatcher = new BrickViewOnClickDispatcher();
 	}
 
+	public void setPrototypeLayout(boolean prototypeLayout) {
+		this.prototypeLayout = prototypeLayout;
+	}
+
+	public boolean isPrototypeLayout() {
+		return prototypeLayout;
+	}
+
 	public void setNoPuzzleViewEnabled(boolean noPuzzleViewEnabled) {
 		this.noPuzzleViewEnabled = noPuzzleViewEnabled;
 	}
 
-	private static class BrickViewOnClickDispatcher {
+	public boolean isNoPuzzleViewEnabled() {
+		return noPuzzleViewEnabled;
+	}
+
+	protected static class BrickViewOnClickDispatcher {
 		public void dispatch(FormulaBrick brick, View source, BrickField brickField) {
-			FormulaEditorFragment.showFragment(source, brick, brick.getFormulaWithBrickField(brickField));
+			dispatch(brick, source, brick.getFormulaWithBrickField(brickField));
+		}
+
+		public void dispatch(Brick brick, View source, Formula formula) {
+			FormulaEditorFragment.showFragment(source, brick, formula);
 		}
 	}
 
-	protected boolean clickAllowed(View view) {
+	protected static boolean clickAllowed(View view) {
 		if (view instanceof BrickView) {
 			BrickView brickView = (BrickView) view;
 			if (brickView.getMode() != BrickView.Mode.DEFAULT) {
@@ -183,13 +200,6 @@ public class BrickViewFactory {
 
 	public BrickView createView(final Brick brick, ViewGroup parent) {
 		View view = null;
-
-		//TODO: Illya Boyko: Implementation Needed
-		if (brick instanceof UserBrick) {
-			view = ((UserBrick) brick).getView(context, 0, null);
-		} else if (brick instanceof UserScriptDefinitionBrick) {
-			view = ((UserScriptDefinitionBrick) brick).getView(context, 0, null);
-		}
 
 		//Plain View
 		if (brick instanceof LoopEndlessBrick) {
@@ -378,6 +388,10 @@ public class BrickViewFactory {
 			view = new PointToBrickViewFactory(context, inflater).createPointToBrickView((PointToBrick) brick, parent);
 		} else if (brick instanceof SetLookBrick) {
 			view = new SetLookBrickViewFactory(context, inflater).createSetLookBrickView((SetLookBrick) brick, parent);
+		} else if (brick instanceof UserBrick) {
+			view = new UserBrickViewFactory(context, inflater).createUserBrickView((UserBrick) brick, parent);
+		} else if (brick instanceof UserScriptDefinitionBrick) {
+			view = new UserScriptDefinitionBrickViewFactory(context, inflater).createUserScriptDefinitionBrickView((UserScriptDefinitionBrick) brick, parent);
 		}
 
 
@@ -461,7 +475,7 @@ public class BrickViewFactory {
 		return view;
 	}
 
-	private Formula initFormulaEditView(final FormulaBrick brick, final View view, int fieldResId, final BrickField brickField) {
+	protected Formula initFormulaEditView(final FormulaBrick brick, final View view, int fieldResId, final BrickField brickField) {
 		TextView editView = (TextView) view.findViewById(fieldResId);
 		Formula formula = brick.getFormulaWithBrickField(brickField);
 		formula.setTextFieldId(fieldResId);

@@ -27,6 +27,7 @@ import android.content.Context;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserBrick;
@@ -136,9 +137,7 @@ public class UserVariablesContainer implements Serializable {
 					UserScriptDefinitionBrickElements currentElements = currentUserBrick.getUserScriptDefinitionBrickElements();
 					for (int id = 0; id < currentElements.getUserScriptDefinitionBrickElementList().size(); id++) {
 						if (currentElements.getUserScriptDefinitionBrickElementList().get(id).name.equals(userVariableName) && currentElements.getUserScriptDefinitionBrickElementList().get(id).isVariable) {
-							int alpha = currentUserBrick.getAlphaValue();
-//							Context context
-							currentUserBrick.getDefinitionBrick().removeVariablesInFormulas(currentElements.getUserScriptDefinitionBrickElementList().get(id).name, currentUserBrick.getDefinitionBrick().getViewWithAlpha(alpha).getContext());
+							currentUserBrick.getDefinitionBrick().removeVariablesInFormulas(currentElements.getUserScriptDefinitionBrickElementList().get(id).name, CatroidApplication.get());
 							currentElements.getUserScriptDefinitionBrickElementList().remove(id);
 							currentElements.incrementVersion();
 						}
