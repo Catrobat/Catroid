@@ -107,7 +107,6 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.content.bricks.PointToBrick;
-import org.catrobat.catroid.content.bricks.PointToBrick.SpinnerAdapterWrapper;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
@@ -1994,12 +1993,12 @@ public final class UiTestUtils {
 	}
 
 	public static void showAndFilloutNewSpriteDialogWithoutClickingOk(Solo solo, String spriteName, File file,
-			ActionAfterFinished actionToPerform, SpinnerAdapterWrapper spinner) {
+			ActionAfterFinished actionToPerform, NewSpriteDialog.SpinnerAdapterWrapper spinner) {
 		showAndFilloutNewSpriteDialogWithoutClickingOk(solo, spriteName, Uri.fromFile(file), actionToPerform, spinner);
 	}
 
 	public static void showAndFilloutNewSpriteDialogWithoutClickingOk(Solo solo, String spriteName, Uri uri,
-			ActionAfterFinished actionToPerform, SpinnerAdapterWrapper spinner) {
+			ActionAfterFinished actionToPerform, NewSpriteDialog.SpinnerAdapterWrapper spinner) {
 		if (!(solo.getCurrentActivity() instanceof FragmentActivity)) {
 			fail("Current activity is not a FragmentActivity");
 		}
@@ -2012,7 +2011,7 @@ public final class UiTestUtils {
 		try {
 			Constructor<NewSpriteDialog> constructor = NewSpriteDialog.class.getDeclaredConstructor(
 					DialogWizardStep.class, Uri.class, String.class, ActionAfterFinished.class,
-					SpinnerAdapterWrapper.class);
+					NewSpriteDialog.SpinnerAdapterWrapper.class);
 			constructor.setAccessible(true);
 			dialog = constructor.newInstance(DialogWizardStep.STEP_2, uri, spriteName, actionToPerform, spinner);
 		} catch (Exception exception) {
