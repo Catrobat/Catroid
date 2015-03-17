@@ -157,16 +157,14 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 	@Override
 	public int getViewTypeCount() {
 		/*Can't have a viewTypeCount < 1*/
-		//TODO: IllyaBoyko display empty view in this case
-		return viewTypes == null || viewTypes.isEmpty() ? 1 : viewTypes.size();
+		return viewTypes == null || viewTypes.isEmpty() ? /*display empty view in this case*/ 1 : viewTypes.size();
 	}
 
 	@Override
 	public int getItemViewType(int position) {
 		Brick brick = brickList.get(position);
 		Class<? extends Brick> brickClass = brick.getClass();
-		int index = viewTypes.indexOf(brickClass);
-		return index;
+		return viewTypes.indexOf(brickClass);
 	}
 
 	private void initBrickListUserScript() {

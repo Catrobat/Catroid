@@ -24,7 +24,6 @@ package org.catrobat.catroid.ui.adapter;
 
 /**
  * @author DENISE, DANIEL
- *
  */
 
 import android.content.Context;
@@ -36,30 +35,43 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.ui.BrickView;
+import org.catrobat.catroid.ui.CheckableLinearLayout;
 import org.catrobat.catroid.ui.bricks.BrickViewFactory;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
-public class PrototypeBrickAdapter extends BaseAdapter {
 
-	private List<Brick> brickList;
+public class PrototypeBrickAdapter extends BaseAdapter implements CheckableLinearLayout.OnCheckedChangeListener {
 
-//	private OnBrickCheckedListener addBrickFragment;
-	private List<Brick> checkedBricks = new ArrayList<Brick>();
+	private List<Brick> brickList = new ArrayList<Brick>();
+	private LinkedHashSet<Class<? extends Brick>> viewTypes = new LinkedHashSet<Class<? extends Brick>>();
+	private OnBrickCheckedListener onBrickCheckedListener;
 	private BrickViewFactory brickViewFactory;
 	private boolean useSelection;
 
 	public PrototypeBrickAdapter(Context context, List<Brick> brickList) {
-		this.brickList = brickList;
+		this.brickList.clear();
+		this.brickList.addAll(brickList);
+
+		viewTypes.clear();
+		for (Brick brick : brickList) {
+			if (!viewTypes.contains(brick.getClass())) {
+				viewTypes.add(brick.getClass());
+			}
+		}
 		brickViewFactory = new BrickViewFactory(context);
 		brickViewFactory.setPrototypeLayout(true);
 	}
 
-//	public void addBrickToList(Brick brick) {
-//		brickList.add(brick);
-//		notifyDataSetChanged();
-//	}
+	public void addBrickToList(Brick brick) {
+		brickList.add(brick);
+		if (!viewTypes.contains(brick.getClass())) {
+			viewTypes.add(brick.getClass());
+		}
+		notifyDataSetChanged();
+	}
 
 	@Override
 	public int getCount() {
@@ -77,18 +89,17 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 	}
 
 	@Override
+	public int getViewTypeCount() {
+		/*Can't have a viewTypeCount < 1*/
+		return viewTypes == null || viewTypes.isEmpty() ? /*display empty view in this case*/ 1 : viewTypes.size();
+	}
+
+
+	@Override
 	public int getItemViewType(int position) {
-		return position;
+		return brickList.get(position).getClass().hashCode();
 	}
 
-
-	public int getAmountOfCheckedItems() {
-		return getCheckedBricks().size();
-	}
-
-	public List<Brick> getCheckedBricks() {
-		return checkedBricks;
-	}
 
 	public List<Brick> getBrickList() {
 		return brickList;
@@ -104,67 +115,18 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 
 	public void enableSelection(boolean enableSelection) {
 		useSelection = enableSelection;
-		notifyDataSetChanged();
-
 	}
 
-	public interface OnBrickCheckedListener {
-		void onBrickChecked();
+	@Override
+	public void onCheckedChanged(View checkableView, boolean isChecked) {
+		if (onBrickCheckedListener != null) {
+			onBrickCheckedListener.onBrickChecked();
+		}
 	}
 
 	public void setOnBrickCheckedListener(OnBrickCheckedListener listener) {
-//		addBrickFragment = listener;
+		onBrickCheckedListener = listener;
 	}
-
-//	public void handleCheck(Brick brick, boolean isChecked) {
-//		if (brick != null && brick.getCheckBox() != null) {
-//			brick.getCheckBox().setChecked(isChecked);
-//			if (isChecked) {
-//				checkedBricks.add(brick);
-//			} else {
-//				checkedBricks.remove(brick);
-//			}
-//		}
-//		if (addBrickFragment != null) {
-//			addBrickFragment.onBrickChecked();
-//		}
-//	}
-
-	public List<Brick> getReversedCheckedBrickList() {
-		List<Brick> reverseCheckedList = new ArrayList<Brick>();
-		for (int counter = checkedBricks.size() - 1; counter >= 0; counter--) {
-			reverseCheckedList.add(checkedBricks.get(counter));
-		}
-		return reverseCheckedList;
-	}
-
-	public void clearCheckedItems() {
-		checkedBricks.clear();
-//		setCheckboxVisibility(View.GONE);
-//		uncheckAllItems();
-//		enableAllBricks();
-		enableSelection(false);
-//		notifyDataSetChanged();
-	}
-
-//	private void enableAllBricks() {
-//		for (Brick brick : brickList) {
-//			if (brick.getCheckBox() != null) {
-//				brick.getCheckBox().setEnabled(true);
-//			}
-//			brick.getViewWithAlpha(BrickAdapter.ALPHA_FULL);
-//		}
-//		notifyDataSetChanged();
-//	}
-
-//	private void uncheckAllItems() {
-//		for (Brick brick : brickList) {
-//			CheckBox checkbox = brick.getCheckBox();
-//			if (checkbox != null) {
-//				checkbox.setChecked(false);
-//			}
-//		}
-//	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -173,9 +135,14 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 		BrickView view = brickViewFactory.createView(brick, parent);
 		if (useSelection) {
 			view.addMode(BrickView.Mode.SELECTION);
+			view.setOnCheckedChangeListener(this);
 		} else {
 			view.removeMode(BrickView.Mode.SELECTION);
 		}
 		return view;
+	}
+
+	public interface OnBrickCheckedListener {
+		void onBrickChecked();
 	}
 }

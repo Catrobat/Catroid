@@ -38,6 +38,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,7 @@ import org.catrobat.catroid.ui.DeleteModeListener;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.UserBrickScriptActivity;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
+import org.catrobat.catroid.utils.UiUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -335,11 +337,6 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 	public void startDeleteActionMode() {
 		if (actionMode == null) {
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
-
-			getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-			unregisterForContextMenu(this.getListView());
-			BottomBar.hideBottomBar(getActivity());
-			adapter.enableSelection(true);
 		}
 	}
 
@@ -371,8 +368,7 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-
-			if (adapter.getAmountOfCheckedItems() == 0) {
+			if (UiUtils.getCheckedItemCount(getListView()) == 0) {
 				clearCheckedBricksAndEnableButtons();
 			} else {
 				showConfirmDeleteDialog();
@@ -381,7 +377,20 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 	};
 
 	public void setSelectMode(int selectMode) {
-		adapter.notifyDataSetChanged();
+		boolean isActionMode = selectMode != ListView.CHOICE_MODE_NONE;
+		getListView().setItemsCanFocus(!isActionMode);
+		getListView().setChoiceMode(selectMode);
+
+		if (isActionMode) {
+			BottomBar.hideBottomBar(getActivity());
+			unregisterForContextMenu(this.getListView());
+		} else {
+			registerForContextMenu(getListView());
+			BottomBar.showBottomBar(getActivity());
+			getListView().clearChoices();
+		}
+		adapter.enableSelection(isActionMode);
+		getListView().invalidate();
 	}
 
 	private void deleteBrick(Brick brick) {
@@ -395,22 +404,23 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 	}
 
 	private void deleteCheckedBricks() {
-		List<Brick> checkedBricks = adapter.getReversedCheckedBrickList();
-
-		for (Brick brick : checkedBricks) {
-			deleteBrick(brick);
+		if (UiUtils.getCheckedItemCount(getListView()) > 0) {
+			//ReversedCheckedBrickList
+			SparseBooleanArray checkedItemPositions = getListView().getCheckedItemPositions();
+			for (int i = checkedItemPositions.size() - 1; i >= 0; i--) {
+				if (checkedItemPositions.valueAt(i)) {
+					deleteBrick((Brick) getListView().getAdapter().getItem(checkedItemPositions.keyAt(i)));
+				}
+			}
 		}
 	}
 
 	private void showConfirmDeleteDialog() {
 		String yes = getActivity().getString(R.string.yes);
 		String no = getActivity().getString(R.string.no);
-		String title = "";
-		if (adapter.getAmountOfCheckedItems() == 1) {
-			title = getActivity().getString(R.string.dialog_confirm_delete_brick_title);
-		} else {
-			title = getActivity().getString(R.string.dialog_confirm_delete_multiple_bricks_title);
-		}
+		String title = getActivity().getString(UiUtils.getCheckedItemCount(getListView()) == 1
+						? R.string.dialog_confirm_delete_brick_title
+						: R.string.dialog_confirm_delete_multiple_bricks_title);
 
 		String message = getActivity().getString(R.string.dialog_confirm_delete_brick_message);
 
@@ -437,14 +447,9 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 	}
 
 	private void clearCheckedBricksAndEnableButtons() {
-		setSelectMode(ListView.CHOICE_MODE_NONE);
-		adapter.clearCheckedItems();
-
 		actionMode = null;
 		actionModeActive = false;
-
-		registerForContextMenu(getListView());
-		BottomBar.showBottomBar(getActivity());
+		setSelectMode(ListView.CHOICE_MODE_NONE);
 	}
 
 	public void onBrickChecked() {
@@ -452,7 +457,7 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 			return;
 		}
 
-		int numberOfSelectedItems = adapter.getAmountOfCheckedItems();
+		int numberOfSelectedItems = UiUtils.getCheckedItemCount(getListView());
 
 		if (numberOfSelectedItems == 0) {
 			actionMode.setTitle(actionModeTitle);
