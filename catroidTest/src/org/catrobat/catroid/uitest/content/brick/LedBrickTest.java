@@ -22,27 +22,13 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import android.content.pm.PackageManager;
-import android.hardware.Camera;
 import android.util.Log;
 
 import junit.framework.Assert;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.WhenScript;
-import org.catrobat.catroid.content.bricks.LedOffBrick;
-import org.catrobat.catroid.content.bricks.LedOnBrick;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
-import org.catrobat.catroid.uitest.util.SensorTestServerConnection;
-import org.catrobat.catroid.uitest.util.UiTestUtils;
-
-import java.util.List;
 
 public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
@@ -51,20 +37,20 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 	//private static final int LED_DELAY_MS = 8000;
 	//private static final int WLAN_DELAY_MS = 700;
 
-	private LedOffBrick ledOffBrick;
-	private LedOnBrick ledOnBrick;
-	private Project project;
+	//private LedOffBrick ledOffBrick;
+	//private LedOnBrick ledOnBrick;
+	//private Project project;
 
 
 	public LedBrickTest() {
 		super(ScriptActivity.class);
 	}
 
-	@Override
+/*	@Override
 	protected void setUp() throws Exception {
 		createProject();
 		if (hasLedSystemFeature()) {
-			super.setUp();
+		super.setUp();
 			SensorTestServerConnection.connectToArduinoServer();
 			setActivityInitialTouchMode(false);
 			SensorTestServerConnection.closeConnection();
@@ -78,7 +64,7 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 		SensorTestServerConnection.closeConnection();
 		setActivityInitialTouchMode(true);
 		super.tearDown();
-	}
+	}*/
 
 	@Device
 	public void testLedBricks() {
@@ -157,7 +143,7 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 		Log.d(TAG, "testLedBrick() finished");
 	}
 
-	private void createProject() {
+	/*private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script startScript = new StartScript();
@@ -219,6 +205,6 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 		camera = null;
 
 		return true;
-	}
+	}*/
 
 }
