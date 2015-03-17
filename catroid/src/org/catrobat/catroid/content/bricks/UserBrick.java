@@ -22,28 +22,15 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.util.Pair;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.ui.BrickLayout;
-import org.catrobat.catroid.ui.BrickView;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -51,7 +38,6 @@ import java.util.List;
 
 public class UserBrick extends BrickBaseType  {
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = UserBrick.class.getName();
 
 	@XStreamAlias("definitionBrick")
 	private UserScriptDefinitionBrick definitionBrick;
@@ -68,11 +54,6 @@ public class UserBrick extends BrickBaseType  {
 
 	@XStreamAlias("userBrickId")
 	private int userBrickId;
-
-	/**
-	 * FIXME: Illya Boyko: alphaValue is still present in user brick logic
-	 */
-	protected transient int alphaValue = 255;
 
 	public UserBrick(int userBrickId) {
 		this.userBrickId = userBrickId;

@@ -23,31 +23,13 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
-import android.view.Gravity;
-import android.view.View;
-import android.view.View.MeasureSpec;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
-import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
-import org.catrobat.catroid.ui.fragment.UserBrickDataEditorFragment;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 

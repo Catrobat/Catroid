@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2014 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,7 @@ import org.catrobat.catroid.ui.BrickLayout;
 
 /**
  * UseBrick View Factory.
- * Created by illya on 16/03/15.
+ * Created by Illya Boyko on 16/03/15.
  */
 public class UserBrickViewFactory extends BrickViewFactory {
 	public UserBrickViewFactory(Context context, LayoutInflater inflater) {
