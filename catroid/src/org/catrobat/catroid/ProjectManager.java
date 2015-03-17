@@ -213,7 +213,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	private Project appendProjects(Project currentProject, Project projectToMerge, String newProjectName, Context context) throws IOException {
-		//TODO: refactore this method anyways
+		//TODO: refactor this method anyways
 		Project mergedProject = currentProject;
 
 		mergedProject.setName(newProjectName);
@@ -227,9 +227,10 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			for (LookData look : sprite.getLookDataList()) {
 
 				String lookName = look.getLookName();
+				String imagePath = "../" + projectToMerge.getName() + "/images/" + look.getLookFileName();
 
-				File newLookFile = StorageHandler.getInstance().copyImage(mergedProject.getName(), look.getLookFileName(), look.getLookName());
-
+				File newLookFile = StorageHandler.getInstance().copyImage(mergedProject.getName(), imagePath, look.getLookName());
+				Log.d(TAG, "it worked!! " + imagePath);
 				String imageFileName = newLookFile.getName();
 				Utils.rewriteImageFileForStage(context, newLookFile);
 
