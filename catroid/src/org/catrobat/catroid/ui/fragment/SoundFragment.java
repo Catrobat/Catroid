@@ -909,6 +909,30 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	}
 
+	public SoundDeletedReceiver getSoundDeletedReceiver() {
+		return soundDeletedReceiver;
+	}
+
+	public void setSoundDeletedReceiver(SoundDeletedReceiver soundDeletedReceiver) {
+		this.soundDeletedReceiver = soundDeletedReceiver;
+	}
+
+	public SoundRenamedReceiver getSoundRenamedReceiver() {
+		return soundRenamedReceiver;
+	}
+
+	public void setSoundRenamedReceiver(SoundRenamedReceiver soundRenamedReceiver) {
+		this.soundRenamedReceiver = soundRenamedReceiver;
+	}
+
+	public SoundCopiedReceiver getSoundCopiedReceiver() {
+		return soundCopiedReceiver;
+	}
+
+	public void setSoundCopiedReceiver(SoundCopiedReceiver soundCopiedReceiver) {
+		this.soundCopiedReceiver = soundCopiedReceiver;
+	}
+
 	public class CopyAudioFilesTask extends AsyncTask<String, Void, File> {
 		private ProgressDialog progressDialog = new ProgressDialog(getActivity());
 
