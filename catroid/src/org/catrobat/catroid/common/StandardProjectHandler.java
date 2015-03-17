@@ -23,6 +23,7 @@
 package org.catrobat.catroid.common;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -36,6 +37,8 @@ import org.catrobat.catroid.io.StorageHandler;
 import java.io.IOException;
 
 public final class StandardProjectHandler {
+
+	private static final String TAG = StandardProjectHandler.class.getSimpleName();
 
 	public enum StandardProjectCreatorType {
 		STANDARD_PROJECT_CREATOR_DEFAULT, STANDARD_PROJECT_CREATOR_DRONE, STANDARD_PROJECT_CREATOR_PHYSICS
@@ -61,7 +64,19 @@ public final class StandardProjectHandler {
 
 	public static Project createAndSaveStandardProject(Context context) throws IOException {
 		String projectName = context.getString(getInstance().standardProjectCreator.getStandardProjectNameID());
-		return createAndSaveStandardProject(projectName, context);
+		Project standardProject = null;
+
+		if (StorageHandler.getInstance().projectExists(projectName)) {
+			StorageHandler.getInstance().deleteProject(projectName);
+		}
+
+		try {
+			standardProject = createAndSaveStandardProject(projectName, context);
+		} catch (IllegalArgumentException ilArgument) {
+			Log.e(TAG, "Could not create standard project!", ilArgument);
+		}
+
+		return standardProject;
 	}
 
 	public static Project createAndSaveStandardProject(String projectName, Context context) throws IOException,
