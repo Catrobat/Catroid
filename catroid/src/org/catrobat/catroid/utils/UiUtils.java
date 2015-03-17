@@ -23,11 +23,15 @@
 
 package org.catrobat.catroid.utils;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.support.v4.view.ViewCompat;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ListView;
 
 import org.catrobat.catroid.R;
 
@@ -92,5 +96,21 @@ public final class UiUtils {
 			}
 		});
 		view.startAnimation(animation);
+	}
+
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	public static int getCheckedItemCount(ListView listView) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			return listView.getCheckedItemCount();
+		}
+
+		int count = 0;
+		SparseBooleanArray checkedItemPositions = listView.getCheckedItemPositions();
+		for (int i = 0, ei = checkedItemPositions.size(); i < ei; i++) {
+			if (checkedItemPositions.valueAt(i)) {
+				count++;
+			}
+		}
+		return count;
 	}
 }
