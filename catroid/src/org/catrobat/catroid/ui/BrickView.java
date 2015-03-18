@@ -30,6 +30,8 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -63,7 +65,8 @@ public class BrickView extends CheckableLinearLayout {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		this.checkbox = getChildAt(0);
-		this.brickLayout = (ViewGroup) getChildAt(1);
+		// Init Children on first view creation
+		applyModeChanged(this.brickLayout = (ViewGroup) getChildAt(1), mode, mode);
 	}
 
 	public void addMode(int mask) {
@@ -107,6 +110,7 @@ public class BrickView extends CheckableLinearLayout {
 
 	private void applyModeChanged(ViewGroup viewGroup, int oldMode, int newMode) {
 		if (viewGroup != null) {
+			ViewParent brickViewParent = getParent();
 			for (int i = 0; i < viewGroup.getChildCount(); i++) {
 				View child = viewGroup.getChildAt(i);
 				if (child instanceof ViewGroup && !(child instanceof Spinner)) {
@@ -116,7 +120,12 @@ public class BrickView extends CheckableLinearLayout {
 					if (child instanceof Spinner) {
 						//FIXME: IllyaBoyko: provide extra style for spinner in prototype View
 						child.setEnabled(newMode == Mode.DEFAULT);
-						child.setClickable(newMode == Mode.DEFAULT);
+
+						if (brickViewParent == null || ListView.class.isAssignableFrom(brickViewParent.getClass())) {
+							//Change Spinner Clickable Property according to mode in ListView or then parent is unknown,
+							// to avoid showing ListItem context menu when it is clicked on spinner.
+							child.setClickable(newMode == Mode.DEFAULT);
+						}
 					}
 				}
 			}
