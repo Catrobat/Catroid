@@ -47,7 +47,7 @@ import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.ui.BrickView;
-import org.catrobat.catroid.ui.bricks.BrickViewFactory;
+import org.catrobat.catroid.ui.bricks.BrickViewProvider;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 
@@ -87,7 +87,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 	private List<Class<? extends Brick>> viewTypes;
 	private List<Brick> brickList;
 	private Queue<Integer> toAnimatePositions;
-	private BrickViewFactory brickViewFactory;
+	private BrickViewProvider brickViewProvider;
 
 	private int selectMode;
 	private OnBrickCheckedListener scriptFragment;
@@ -100,8 +100,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 		this.sprite = sprite;
 		brickList = new ArrayList<Brick>();
 		viewTypes = new ArrayList<Class<? extends Brick>>();
-		brickViewFactory = new BrickViewFactory(context);
-		brickViewFactory.setNoPuzzleViewEnabled(true);
+		brickViewProvider = new BrickViewProvider(context);
+		brickViewProvider.setNoPuzzleViewEnabled(true);
 		dragAndDropListView = listView;
 		toAnimatePositions = new LinkedBlockingQueue<Integer>();
 		dragAndDropListView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -861,9 +861,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 //		} else {
 		if (item instanceof AllowedAfterDeadEndBrick && brickList.get(position == 0 ? position : (position - 1)) instanceof DeadEndBrick) {
 			//FIXME: in case of LoopEndlessBrick view toogle is needed!!!!
-			currentBrickView = brickViewFactory.createNoPuzzleView((AllowedAfterDeadEndBrick) item, parent);
+			currentBrickView = brickViewProvider.createNoPuzzleView((AllowedAfterDeadEndBrick) item, parent);
 		} else {
-			currentBrickView = brickViewFactory.createView(item, parent);
+			currentBrickView = brickViewProvider.createView(item, parent);
 		}
 		convertView = currentBrickView;
 //		}

@@ -34,38 +34,22 @@ import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
-import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
+import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.ui.dialogs.BrickTextDialog;
 
 /**
- * Create View for {@code BroadcastReceiverBrick}.
+ * Create View for {@code BroadcastBrick}.
  * Created by Illya Boyko on 04/03/15.
  */
-public class BroadcastReceiverBrickViewFactory extends BrickViewFactory {
-	public BroadcastReceiverBrickViewFactory(Context context, LayoutInflater inflater) {
+public class BroadcastBrickViewProvider extends BrickViewProvider {
+	public BroadcastBrickViewProvider(Context context, LayoutInflater inflater) {
 		super(context, inflater);
 	}
 
-	View createBroadcastReceiverBrickView(final BroadcastReceiverBrick brick, ViewGroup parent) {
+	View createBroadcastBrickView(final BroadcastBrick brick, ViewGroup parent) {
+		View view = createSimpleBrickView(parent, R.layout.brick_broadcast);
 
-		View view = createSimpleBrickView(parent, R.layout.brick_broadcast_receive);
-
-		// XXX method moved to to DragAndDropListView since it is not working on 2.x
-		//		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-		//
-		//			@Override
-		//			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		//				checked = isChecked;
-		//				if (!checked) {
-		//					for (Brick currentBrick : adapter.getCheckedBricks()) {
-		//						currentBrick.setCheckedBoolean(false);
-		//					}
-		//				}
-		//				adapter.handleCheck(brickInstance, checked);
-		//			}
-		//		});
-
-		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_receive_spinner);
+		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_spinner);
 		broadcastSpinner.setFocusableInTouchMode(false);
 		broadcastSpinner.setFocusable(false);
 
@@ -78,13 +62,12 @@ public class BroadcastReceiverBrickViewFactory extends BrickViewFactory {
 				if (selectedMessage.equals(context.getString(R.string.new_broadcast_message))) {
 					showNewMessageDialog(brick, broadcastSpinner);
 				} else {
-					brick.setNewBroadcastMessage(selectedMessage);
-
+					brick.setBroadcastMessage(selectedMessage);
 				}
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
+			public void onNothingSelected(AdapterView<?> parent) {
 			}
 		});
 
@@ -93,7 +76,7 @@ public class BroadcastReceiverBrickViewFactory extends BrickViewFactory {
 	}
 
 	// TODO: BroadcastBrick and BroadcastReceiverBrick contain this identical method.
-	private void showNewMessageDialog(final BroadcastReceiverBrick brick, final Spinner spinner) {
+	protected void showNewMessageDialog(final BroadcastBrick brick, final Spinner spinner) {
 		final Context context = spinner.getContext();
 		BrickTextDialog editDialog = new BrickTextDialog() {
 
@@ -110,7 +93,7 @@ public class BroadcastReceiverBrickViewFactory extends BrickViewFactory {
 					return false;
 				}
 
-				brick.setNewBroadcastMessage(newMessage);
+				brick.setBroadcastMessage(newMessage);
 				MessageContainer.addMessage(newMessage);
 				setSpinnerSelection(brick, spinner);
 				return true;
@@ -126,12 +109,14 @@ public class BroadcastReceiverBrickViewFactory extends BrickViewFactory {
 			protected String getTitle() {
 				return getString(R.string.dialog_new_broadcast_message_title);
 			}
+
 		};
 
 		editDialog.show(((FragmentActivity) context).getSupportFragmentManager(), "dialog_broadcast_brick");
 	}
 
-	private void setSpinnerSelection(BroadcastReceiverBrick brick, Spinner spinner) {
+
+	protected void setSpinnerSelection(BroadcastBrick brick, Spinner spinner) {
 		int position = MessageContainer.getPositionOfMessageInAdapter(spinner.getContext(), brick.getBroadcastMessage());
 		spinner.setSelection(position, true);
 	}

@@ -46,8 +46,8 @@ import org.catrobat.catroid.ui.fragment.LookFragment;
  * Brick View Factory for SetLookBrick.
  * Created by IllyaBoyko on 12/03/15.
  */
-public class SetLookBrickViewFactory extends BrickViewFactory {
-	public SetLookBrickViewFactory(Context context, LayoutInflater inflater) {
+public class SetLookBrickViewProvider extends BrickViewProvider {
+	public SetLookBrickViewProvider(Context context, LayoutInflater inflater) {
 		super(context, inflater);
 	}
 

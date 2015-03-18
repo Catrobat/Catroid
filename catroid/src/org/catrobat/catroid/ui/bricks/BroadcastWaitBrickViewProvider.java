@@ -38,8 +38,8 @@ import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
  * Create View for {@code BroadcastWaitBrick}.
  * Created by illya on 04/03/15.
  */
-public class BroadcastWaitBrickViewFactory extends BroadcastBrickViewFactory {
-	public BroadcastWaitBrickViewFactory(Context context, LayoutInflater inflater) {
+public class BroadcastWaitBrickViewProvider extends BroadcastBrickViewProvider {
+	public BroadcastWaitBrickViewProvider(Context context, LayoutInflater inflater) {
 		super(context, inflater);
 	}
 

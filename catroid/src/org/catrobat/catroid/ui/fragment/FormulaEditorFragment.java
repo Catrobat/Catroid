@@ -60,7 +60,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.bricks.BrickViewFactory;
+import org.catrobat.catroid.ui.bricks.BrickViewProvider;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 import org.catrobat.catroid.ui.dialogs.NewStringDialog;
@@ -159,8 +159,8 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	private void updateBrickView(Brick newBrick) {
 		currentBrick = newBrick;
 		formulaEditorBrick.removeAllViews();
-		BrickViewFactory brickViewFactory = new BrickViewFactory(context);
-		View newBrickView = brickViewFactory.createView(newBrick, null);
+		BrickViewProvider brickViewProvider = new BrickViewProvider(context);
+		View newBrickView = brickViewProvider.createView(newBrick, null);
 		formulaEditorBrick.addView(newBrickView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
 				LinearLayout.LayoutParams.MATCH_PARENT));
 		brickView = newBrickView;
@@ -204,8 +204,8 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		formularEditorFieldDeleteButton = (ImageButton) fragmentView.findViewById(R.id.formula_editor_edit_field_clear);
 
 		context = getActivity();
-		BrickViewFactory brickViewFactory = new BrickViewFactory(context);
-		brickView = brickViewFactory.createView(currentBrick, null);
+		BrickViewProvider brickViewProvider = new BrickViewProvider(context);
+		brickView = brickViewProvider.createView(currentBrick, null);
 
 		formulaEditorBrick = (LinearLayout) fragmentView.findViewById(R.id.formula_editor_brick_space);
 

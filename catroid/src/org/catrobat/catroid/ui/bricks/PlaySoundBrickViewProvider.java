@@ -45,8 +45,8 @@ import org.catrobat.catroid.ui.fragment.SoundFragment;
  * Brick View Factory for PlaySoundBrick.
  * Created by Illya Boyko on 11/03/15.
  */
-public class PlaySoundBrickViewFactory extends BrickViewFactory {
-	public PlaySoundBrickViewFactory(Context context, LayoutInflater inflater) {
+public class PlaySoundBrickViewProvider extends BrickViewProvider {
+	public PlaySoundBrickViewProvider(Context context, LayoutInflater inflater) {
 		super(context, inflater);
 	}
 

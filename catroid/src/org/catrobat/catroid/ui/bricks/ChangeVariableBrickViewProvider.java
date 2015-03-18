@@ -36,7 +36,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.SetVariableBrick;
+import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
@@ -44,19 +44,19 @@ import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewVariableDialog;
 
 /**
- * FIXME: Same as ChangeVariableBrickViewFactory
+ * FIXME: Same as SetVariableBrickViewFactory
  * Created by Illya Boyko on 03/03/15.
  */
-public class SetVariableBrickViewFactory extends BrickViewFactory {
-	public SetVariableBrickViewFactory(Context context, LayoutInflater inflater) {
+public class ChangeVariableBrickViewProvider extends BrickViewProvider {
+	public ChangeVariableBrickViewProvider(Context context, LayoutInflater inflater) {
 		super(context, inflater);
 	}
 
-    View createSetVariableBrickView(final SetVariableBrick brick, ViewGroup parent) {
-		View view = createSingleFormulaBrickView(brick, parent, R.layout.brick_set_variable,
-				R.id.brick_set_variable_edit_text, Brick.BrickField.VARIABLE);
+	View createChangeVariableBrickView(final ChangeVariableBrick brick, ViewGroup parent) {
+		View view = createSingleFormulaBrickView(brick, parent, R.layout.brick_change_variable_by,
+				R.id.brick_change_variable_edit_text, Brick.BrickField.VARIABLE_CHANGE);
 
-		Spinner variableSpinner = (Spinner) view.findViewById(R.id.set_variable_spinner);
+		Spinner variableSpinner = (Spinner) view.findViewById(R.id.change_variable_spinner);
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		int userBrickId = (currentBrick == null ? -1 : currentBrick.getUserBrickId());
@@ -82,23 +82,23 @@ public class SetVariableBrickViewFactory extends BrickViewFactory {
 				setSpinnerSelection(brick, spinnerToUpdate, newUserVariable);
 			}
 		};
-
 		variableSpinner.setOnTouchListener(new View.OnTouchListener() {
 
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_UP
-						&& (((Spinner) view).getSelectedItemPosition() == 0 && ((Spinner) view).getAdapter().getCount() == 1)) {
+				if (event.getAction() == MotionEvent.ACTION_UP && ((Spinner) view).getSelectedItemPosition() == 0
+						&& ((Spinner) view).getAdapter().getCount() == 1) {
 					NewVariableDialog dialog = new NewVariableDialog((Spinner) view);
 					dialog.addVariableDialogListener(newVariableDialogListener);
 					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
 							NewVariableDialog.DIALOG_FRAGMENT_TAG);
 					return true;
-				}
 
+				}
 				return false;
 			}
 		});
+
 		variableSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -121,7 +121,7 @@ public class SetVariableBrickViewFactory extends BrickViewFactory {
 		return view;
 	}
 
-	private void setSpinnerSelection(SetVariableBrick brick, Spinner variableSpinner, UserVariable newUserVariable) {
+	private void setSpinnerSelection(ChangeVariableBrick brick, Spinner variableSpinner, UserVariable newUserVariable) {
 		UserVariableAdapterWrapper userVariableAdapterWrapper = (UserVariableAdapterWrapper) variableSpinner
 				.getAdapter();
 
@@ -138,7 +138,7 @@ public class SetVariableBrickViewFactory extends BrickViewFactory {
 		}
 	}
 
-	private void updateUserVariableIfDeleted(SetVariableBrick brick, UserVariableAdapterWrapper userVariableAdapterWrapper) {
+	private void updateUserVariableIfDeleted(ChangeVariableBrick brick, UserVariableAdapterWrapper userVariableAdapterWrapper) {
 		if (brick.getUserVariable() != null && userVariableAdapterWrapper.getPositionOfItem(brick.getUserVariable()) == 0) {
 			brick.setUserVariable(null);
 		}

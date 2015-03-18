@@ -48,8 +48,8 @@ import org.catrobat.catroid.utils.Utils;
  * UserScriptDefinitionBrick View Factory.
  * Created by Illya Boyko on 16/03/15.
  */
-public class UserScriptDefinitionBrickViewFactory extends BrickViewFactory {
-	public UserScriptDefinitionBrickViewFactory(Context context, LayoutInflater inflater) {
+public class UserScriptDefinitionBrickViewProvider extends BrickViewProvider {
+	public UserScriptDefinitionBrickViewProvider(Context context, LayoutInflater inflater) {
 		super(context, inflater);
 	}
 

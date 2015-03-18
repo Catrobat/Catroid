@@ -44,8 +44,8 @@ import org.catrobat.catroid.ui.BrickLayout;
  * UseBrick View Factory.
  * Created by Illya Boyko on 16/03/15.
  */
-public class UserBrickViewFactory extends BrickViewFactory {
-	public UserBrickViewFactory(Context context, LayoutInflater inflater) {
+public class UserBrickViewProvider extends BrickViewProvider {
+	public UserBrickViewProvider(Context context, LayoutInflater inflater) {
 		super(context, inflater);
 	}
 

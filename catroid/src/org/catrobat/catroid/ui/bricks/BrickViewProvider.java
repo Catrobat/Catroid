@@ -121,7 +121,7 @@ import static org.catrobat.catroid.content.bricks.Brick.BrickField;
  * View factory.
  * Created by Illya Boyko on 02/03/15.
  */
-public class BrickViewFactory {
+public class BrickViewProvider {
 	protected static final String TAG = "BrickViewFactory";
 	protected Context context;
 	protected LayoutInflater inflater;
@@ -130,11 +130,11 @@ public class BrickViewFactory {
 	private boolean nextViewForLoopEndlessIsPuzzleView;
 	private boolean prototypeLayout = false;
 
-	public BrickViewFactory(Context context) {
+	public BrickViewProvider(Context context) {
 		this(context, (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
 	}
 
-	protected BrickViewFactory(Context context, LayoutInflater inflater) {
+	protected BrickViewProvider(Context context, LayoutInflater inflater) {
 		this.context = context;
 		this.inflater = inflater;
 		onClickDispatcher = new BrickViewOnClickDispatcher();
@@ -377,43 +377,43 @@ public class BrickViewFactory {
 		} else if (brick instanceof LegoNxtMotorStopBrick) {
 			view = createLegoNxtMotorStopBrickView((LegoNxtMotorStopBrick) brick, parent);
 		} else if (brick instanceof ChangeVariableBrick) {
-			ChangeVariableBrickViewFactory factory = new ChangeVariableBrickViewFactory(context, inflater);
+			ChangeVariableBrickViewProvider factory = new ChangeVariableBrickViewProvider(context, inflater);
 			factory.setPrototypeLayout(prototypeLayout);
 			view = factory.createChangeVariableBrickView((ChangeVariableBrick) brick, parent);
 		} else if (brick instanceof SetVariableBrick) {
-			SetVariableBrickViewFactory factory = new SetVariableBrickViewFactory(context, inflater);
+			SetVariableBrickViewProvider factory = new SetVariableBrickViewProvider(context, inflater);
 			factory.setPrototypeLayout(prototypeLayout);
 			view = factory.createSetVariableBrickView((SetVariableBrick) brick, parent);
 		} else if (brick instanceof BroadcastWaitBrick) {
-			BroadcastWaitBrickViewFactory factory = new BroadcastWaitBrickViewFactory(context, inflater);
+			BroadcastWaitBrickViewProvider factory = new BroadcastWaitBrickViewProvider(context, inflater);
 			factory.setPrototypeLayout(prototypeLayout);
 			view = factory.createBroadcastWaitBrickView((BroadcastWaitBrick) brick, parent);
 		} else if (brick instanceof BroadcastBrick) {
-			BroadcastBrickViewFactory factory = new BroadcastBrickViewFactory(context, inflater);
+			BroadcastBrickViewProvider factory = new BroadcastBrickViewProvider(context, inflater);
 			factory.setPrototypeLayout(prototypeLayout);
 			view = factory.createBroadcastBrickView((BroadcastBrick) brick, parent);
 		} else if (brick instanceof BroadcastReceiverBrick) {
-			BroadcastReceiverBrickViewFactory factory = new BroadcastReceiverBrickViewFactory(context, inflater);
+			BroadcastReceiverBrickViewProvider factory = new BroadcastReceiverBrickViewProvider(context, inflater);
 			factory.setPrototypeLayout(prototypeLayout);
 			view = factory.createBroadcastReceiverBrickView((BroadcastReceiverBrick) brick, parent);
 		} else if (brick instanceof PlaySoundBrick) {
-			PlaySoundBrickViewFactory factory = new PlaySoundBrickViewFactory(context, inflater);
+			PlaySoundBrickViewProvider factory = new PlaySoundBrickViewProvider(context, inflater);
 			factory.setPrototypeLayout(prototypeLayout);
 			view = factory.createPlaySoundBrickView((PlaySoundBrick) brick, parent);
 		} else if (brick instanceof PointToBrick) {
-			PointToBrickViewFactory factory = new PointToBrickViewFactory(context, inflater);
+			PointToBrickViewProvider factory = new PointToBrickViewProvider(context, inflater);
 			factory.setPrototypeLayout(prototypeLayout);
 			view = factory.createPointToBrickView((PointToBrick) brick, parent);
 		} else if (brick instanceof SetLookBrick) {
-			SetLookBrickViewFactory factory = new SetLookBrickViewFactory(context, inflater);
+			SetLookBrickViewProvider factory = new SetLookBrickViewProvider(context, inflater);
 			factory.setPrototypeLayout(prototypeLayout);
 			view = factory.createSetLookBrickView((SetLookBrick) brick, parent);
 		} else if (brick instanceof UserBrick) {
-			UserBrickViewFactory factory = new UserBrickViewFactory(context, inflater);
+			UserBrickViewProvider factory = new UserBrickViewProvider(context, inflater);
 			factory.setPrototypeLayout(prototypeLayout);
 			view = factory.createUserBrickView((UserBrick) brick, parent);
 		} else if (brick instanceof UserScriptDefinitionBrick) {
-			UserScriptDefinitionBrickViewFactory factory = new UserScriptDefinitionBrickViewFactory(context, inflater);
+			UserScriptDefinitionBrickViewProvider factory = new UserScriptDefinitionBrickViewProvider(context, inflater);
 			factory.setPrototypeLayout(prototypeLayout);
 			view = factory.createUserScriptDefinitionBrickView((UserScriptDefinitionBrick) brick, parent);
 		}

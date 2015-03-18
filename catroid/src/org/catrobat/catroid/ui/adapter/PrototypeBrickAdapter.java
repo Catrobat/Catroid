@@ -36,7 +36,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.ui.BrickView;
 import org.catrobat.catroid.ui.CheckableLinearLayout;
-import org.catrobat.catroid.ui.bricks.BrickViewFactory;
+import org.catrobat.catroid.ui.bricks.BrickViewProvider;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -48,7 +48,7 @@ public class PrototypeBrickAdapter extends BaseAdapter implements CheckableLinea
 	private List<Brick> brickList = new ArrayList<Brick>();
 	private LinkedHashSet<Class<? extends Brick>> viewTypes = new LinkedHashSet<Class<? extends Brick>>();
 	private OnBrickCheckedListener onBrickCheckedListener;
-	private BrickViewFactory brickViewFactory;
+	private BrickViewProvider brickViewProvider;
 	private boolean useSelection;
 
 	public PrototypeBrickAdapter(Context context, List<Brick> brickList) {
@@ -61,8 +61,8 @@ public class PrototypeBrickAdapter extends BaseAdapter implements CheckableLinea
 				viewTypes.add(brick.getClass());
 			}
 		}
-		brickViewFactory = new BrickViewFactory(context);
-		brickViewFactory.setPrototypeLayout(true);
+		brickViewProvider = new BrickViewProvider(context);
+		brickViewProvider.setPrototypeLayout(true);
 	}
 
 	public void addBrickToList(Brick brick) {
@@ -132,7 +132,7 @@ public class PrototypeBrickAdapter extends BaseAdapter implements CheckableLinea
 	public View getView(int position, View convertView, ViewGroup parent) {
 
 		final Brick brick = brickList.get(position);
-		BrickView view = brickViewFactory.createView(brick, parent);
+		BrickView view = brickViewProvider.createView(brick, parent);
 		if (useSelection) {
 			view.addMode(BrickView.Mode.SELECTION);
 			view.setOnCheckedChangeListener(this);

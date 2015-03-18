@@ -54,8 +54,8 @@ import static org.catrobat.catroid.ui.dialogs.NewSpriteDialog.SpinnerAdapterWrap
  * Brick View Factory for PointToBrick.
  * Created by IllyaBoyko on 12/03/15.
  */
-public class PointToBrickViewFactory extends BrickViewFactory {
-	public PointToBrickViewFactory(Context context, LayoutInflater inflater) {
+public class PointToBrickViewProvider extends BrickViewProvider {
+	public PointToBrickViewProvider(Context context, LayoutInflater inflater) {
 		super(context, inflater);
 	}
 
