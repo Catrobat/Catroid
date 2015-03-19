@@ -571,7 +571,7 @@ public final class StorageHandler {
 		if (!inputFile.exists() || !inputFile.canRead()) {
 			return null;
 		}
-
+		Log.d("MERGE_ST_H", "The inputfile is: " + inputFile);
 		int[] imageDimensions = new int[2];
 		imageDimensions = ImageEditing.getImageDimensions(inputFilePath);
 		FileChecksumContainer checksumCont = ProjectManager.getInstance().getFileChecksumContainer();

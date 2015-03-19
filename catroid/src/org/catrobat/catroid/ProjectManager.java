@@ -171,7 +171,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	}
 
-	public void mergeProjectInCurrentProject(String outputName, String projectName, Context context) {
+	public void mergeProjectInCurrentProject(String projectName, Context context) {
 
 		try {
 			Project projectToMerge = loadProjectContent(projectName, context);
@@ -189,11 +189,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			} else {
 				Log.d("MERGE", "no mergeConflicts");
 
-				//copy the project before it should be merged
-
-				Project mergedProject = appendProjects(project, projectToMerge, outputName, context);
-
-				project = mergedProject;
+				project = appendProjects(project, projectToMerge, context);
 
 				saveProject();
 			}
@@ -212,11 +208,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	}
 
-	private Project appendProjects(Project currentProject, Project projectToMerge, String newProjectName, Context context) throws IOException {
+	private Project appendProjects(Project currentProject, Project projectToMerge, Context context) throws IOException {
 		//TODO: refactor this method anyways
 		Project mergedProject = currentProject;
-
-		mergedProject.setName(newProjectName);
 
 		//Background for projectToMerge should not be copied
 		mergedProject.getSpriteList().addAll(projectToMerge.getSpriteList().subList(1, projectToMerge.getSpriteList().size()));
@@ -228,9 +222,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 				String lookName = look.getLookName();
 				String imagePath = "../" + projectToMerge.getName() + "/images/" + look.getLookFileName();
-
-				File newLookFile = StorageHandler.getInstance().copyImage(mergedProject.getName(), imagePath, look.getLookName());
-				Log.d(TAG, "it worked!! " + imagePath);
+				Log.d("MERGE_PR_M", "current project: " + currentProject.getName());
+				Log.d("MERGE_PR_M", "image path: " + imagePath);
+				File newLookFile = StorageHandler.getInstance().copyImage(mergedProject.getName(), imagePath, lookName);
 				String imageFileName = newLookFile.getName();
 				Utils.rewriteImageFileForStage(context, newLookFile);
 
@@ -317,8 +311,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				}
 			}
 		}
-
-
 
 		//check Looks and Sound - they should be copied
 		//Probably not necessary - needs to be investigated

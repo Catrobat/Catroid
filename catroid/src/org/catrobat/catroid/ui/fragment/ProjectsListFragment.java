@@ -397,7 +397,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 				break;
 
 			case R.id.context_menu_merge:
-				ProjectManager.getInstance().mergeProjectInCurrentProject("MergedProjectName", projectToEdit.projectName, this.getActivity().getApplicationContext());
+				ProjectManager.getInstance().mergeProjectInCurrentProject(projectToEdit.projectName, this.getActivity().getApplicationContext());
 				break;
 
 		}
