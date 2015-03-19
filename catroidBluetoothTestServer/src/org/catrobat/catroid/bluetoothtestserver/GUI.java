@@ -1,7 +1,7 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2014 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -24,6 +24,8 @@ package org.catrobat.catroid.bluetoothtestserver;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -36,9 +38,6 @@ public class GUI extends javax.swing.JFrame{
 	private static final long serialVersionUID = 1L;
 	private static GUI instance = null;
 	static JTextArea textArea;
-	//private JPanel jPanel1;
-	//private JScrollPane jScrollPane1;
-	//JTextArea _resultArea = new JTextArea(6, 20);
 
 	public static void startGUI() {
 
@@ -48,11 +47,15 @@ public class GUI extends javax.swing.JFrame{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Container content = frame.getContentPane();
 
-		//JTextField textField = new JTextField();
 		textArea = new JTextArea();
 		JScrollPane scrollPane = new JScrollPane(textArea);
+		
+		scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
+		    public void adjustmentValueChanged(AdjustmentEvent e) {  
+		        e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
+		    }
+		});
 
-		//content.add(textField, BorderLayout.NORTH);
 		content.add(scrollPane, BorderLayout.CENTER);
 
 
@@ -77,11 +80,8 @@ public class GUI extends javax.swing.JFrame{
 			}
 		});
 		panel.add(button3);
-//	    JButton pasteButton = new JButton("");
-//	    pasteButton.setText("Paste");
-//	    panel.add(pasteButton);
 
-		frame.setSize(480, 360);
+		frame.setSize(700, 400);
 		frame.setVisible(true);
 
 	}
