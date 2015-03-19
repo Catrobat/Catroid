@@ -29,6 +29,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
@@ -36,29 +37,44 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
+import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.drone.DroneBrickFactory;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.UtilFile;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME;
 import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME_TMP;
+import static org.catrobat.catroid.common.Constants.PROJECTPERMISSIONS_NAME;
 import static org.catrobat.catroid.utils.Utils.buildProjectPath;
 
 public class StorageHandlerTest extends AndroidTestCase {
 	private final StorageHandler storageHandler;
+	private Project currentProject;
 	private final String projectName = TestUtils.DEFAULT_TEST_PROJECT_NAME;
+	private static final int SET_SPEED_INITIALLY = -70;
+	private static final int DEFAULT_MOVE_TIME_IN_MILLISECONDS = 2000;
+	private static final int DEFAULT_MOVE_POWER_IN_PERCENT = 20;
 
 	public StorageHandlerTest() throws IOException {
 		storageHandler = StorageHandler.getInstance();
@@ -67,10 +83,12 @@ public class StorageHandlerTest extends AndroidTestCase {
 	@Override
 	public void setUp() {
 		TestUtils.deleteTestProjects();
+		currentProject = ProjectManager.getInstance().getCurrentProject();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
+		ProjectManager.getInstance().setProject(currentProject);
 		TestUtils.deleteTestProjects();
 		super.tearDown();
 	}
@@ -285,6 +303,36 @@ public class StorageHandlerTest extends AndroidTestCase {
         return Float.NaN;
     }
 
+	public void testGetRequiredResources() {
+		int resources = generateMultiplePermissionsProject().getRequiredResources();
+		assertEquals("Sum over required resources not matching", Brick.ARDRONE_SUPPORT
+				| Brick.FACE_DETECTION
+				| Brick.BLUETOOTH_LEGO_NXT
+				| Brick.TEXT_TO_SPEECH, resources);
+	}
+
+	public void testWritePermissionFile() throws IOException {
+		Project project = generateMultiplePermissionsProject();
+		ProjectManager.getInstance().setProject(project);
+		StorageHandler.getInstance().saveProject(project);
+
+		File permissionsFile = new File(buildProjectPath(project.getName()), PROJECTPERMISSIONS_NAME);
+		assertTrue("File containing the permissions could not be written", permissionsFile.exists());
+
+		//only for assertions. Add future permission; Vibration and LED not activated
+		Set<String> permissions = new HashSet<String>();
+		permissions.add(Constants.ARDRONE_SUPPORT);
+		permissions.add(Constants.BLUETOOTH_LEGO_NXT);
+		permissions.add(Constants.TEXT_TO_SPEECH);
+		permissions.add(Constants.FACE_DETECTION);
+
+		BufferedReader reader = new BufferedReader(new FileReader(permissionsFile));
+		String line;
+		while ((line = reader.readLine()) != null) {
+			assertTrue("Wrong permission in File found", permissions.contains(line));
+		}
+	}
+
 	//	public void testAliasesAndXmlHeader() {
 	//
 	//		String projectName = "myProject";
@@ -338,4 +386,35 @@ public class StorageHandlerTest extends AndroidTestCase {
 	//			UtilFile.deleteDirectory(projectFile);
 	//		}
 	//	}
+
+	private Project generateMultiplePermissionsProject() {
+		final Project project = new Project(getContext(), projectName);
+		Sprite firstSprite = new Sprite("first");
+		Sprite secondSprite = new Sprite("second");
+		Script testScript = new StartScript();
+		Script otherScript = new StartScript();
+		HideBrick hideBrick = new HideBrick();
+		ShowBrick showBrick = new ShowBrick();
+		SpeakBrick speakBrick = new SpeakBrick("");
+		LegoNxtMotorActionBrick motorBrick = new LegoNxtMotorActionBrick(LegoNxtMotorActionBrick.Motor.MOTOR_A, SET_SPEED_INITIALLY);
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR,
+				Sensors.FACE_SIZE.name(), null)));
+		BrickBaseType moveBrick = DroneBrickFactory.getInstanceOfDroneBrick(DroneBrickFactory.DroneBricks.DRONE_TAKE_OFF_BRICK, firstSprite,
+				DEFAULT_MOVE_TIME_IN_MILLISECONDS, DEFAULT_MOVE_POWER_IN_PERCENT);
+
+		testScript.addBrick(hideBrick);
+		testScript.addBrick(showBrick);
+		testScript.addBrick(speakBrick);
+		testScript.addBrick(motorBrick);
+		otherScript.addBrick(setSizeToBrick);
+		otherScript.addBrick(moveBrick);
+
+		firstSprite.addScript(testScript);
+		secondSprite.addScript(otherScript);
+
+		project.addSprite(firstSprite);
+		project.addSprite(secondSprite);
+
+		return project;
+	}
 }

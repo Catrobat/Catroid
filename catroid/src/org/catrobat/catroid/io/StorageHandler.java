@@ -43,6 +43,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.XmlHeader;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -127,8 +128,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -140,6 +143,7 @@ import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.NO_MEDIA_FILE;
 import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME;
 import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME_TMP;
+import static org.catrobat.catroid.common.Constants.PROJECTPERMISSIONS_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY;
 import static org.catrobat.catroid.utils.Utils.buildPath;
 import static org.catrobat.catroid.utils.Utils.buildProjectPath;
@@ -393,6 +397,16 @@ public final class StorageHandler {
 			writer = new BufferedWriter(new FileWriter(tmpCodeFile), Constants.BUFFER_8K);
 			writer.write(projectXml);
 			writer.flush();
+
+			File permissionFile = new File(buildProjectPath(project.getName()), PROJECTPERMISSIONS_NAME);
+			writer = new BufferedWriter(new FileWriter(permissionFile), Constants.BUFFER_8K);
+
+			for (String resource : generatePermissionsSetFromResource(project.getRequiredResources())) {
+				writer.write(resource);
+				writer.newLine();
+			}
+			writer.flush();
+
 			return true;
 		} catch (Exception exception) {
 			Log.e(TAG, "Saving project " + project.getName() + " failed.", exception);
@@ -730,4 +744,27 @@ public final class StorageHandler {
 		fileChecksumContainer.addChecksum(checksumSource, destinationFile.getAbsolutePath());
 	}
 
+	private Set<String> generatePermissionsSetFromResource(int resources) {
+		Set<String> permissionsSet = new HashSet<String>();
+
+		if ((resources & Brick.TEXT_TO_SPEECH) > 0) {
+			permissionsSet.add(Constants.TEXT_TO_SPEECH);
+		}
+		if ((resources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
+			permissionsSet.add(Constants.BLUETOOTH_LEGO_NXT);
+		}
+		if ((resources & Brick.ARDRONE_SUPPORT) > 0) {
+			permissionsSet.add(Constants.ARDRONE_SUPPORT);
+		}
+		if ((resources & Brick.CAMERA_LED) > 0) {
+			permissionsSet.add(Constants.CAMERA_LED);
+		}
+		if ((resources & Brick.VIBRATOR) > 0) {
+			permissionsSet.add(Constants.VIBRATOR);
+		}
+		if ((resources & Brick.FACE_DETECTION) > 0) {
+			permissionsSet.add(Constants.FACE_DETECTION);
+		}
+		return permissionsSet;
+	}
 }
