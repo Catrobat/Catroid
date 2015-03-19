@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
@@ -48,7 +49,7 @@ public class BroadcastReceiverBrickViewProvider extends BrickViewProvider {
 
 	View createBroadcastReceiverBrickView(final BroadcastReceiverBrick brick, ViewGroup parent) {
 
-		View view = createSimpleBrickView(parent, R.layout.brick_broadcast_receive);
+		View view = inflateBrickView(parent, R.layout.brick_broadcast_receive);
 
 		// XXX method moved to to DragAndDropListView since it is not working on 2.x
 		//		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {

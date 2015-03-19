@@ -35,6 +35,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -61,7 +62,7 @@ public class PointToBrickViewProvider extends BrickViewProvider {
 
 	public View createPointToBrickView(final PointToBrick brick, ViewGroup parent) {
 
-		View view = createSimpleBrickView(parent, R.layout.brick_point_to);
+		View view = inflateBrickView(parent, R.layout.brick_point_to);
 
 		final Spinner spinner = (Spinner) view.findViewById(R.id.brick_point_to_spinner);
 		spinner.setFocusableInTouchMode(false);

@@ -54,7 +54,7 @@ public class UserScriptDefinitionBrickViewProvider extends BrickViewProvider {
 	}
 
 	public View createUserScriptDefinitionBrickView(final UserScriptDefinitionBrick brick, ViewGroup parent) {
-		final View view = createSimpleBrickView(parent, R.layout.brick_user_definition);
+		final View view = inflateBrickView(parent, R.layout.brick_user_definition);
 
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_user_definition_layout);
 		layout.setFocusable(false);

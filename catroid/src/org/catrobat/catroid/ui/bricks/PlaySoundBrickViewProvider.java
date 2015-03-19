@@ -33,6 +33,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -51,7 +52,7 @@ public class PlaySoundBrickViewProvider extends BrickViewProvider {
 	}
 
 	public View createPlaySoundBrickView(final PlaySoundBrick brick, ViewGroup parent) {
-		View view = createSimpleBrickView(parent, R.layout.brick_play_sound);
+		View view = inflateBrickView(parent, R.layout.brick_play_sound);
 
 		final Spinner soundbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
 

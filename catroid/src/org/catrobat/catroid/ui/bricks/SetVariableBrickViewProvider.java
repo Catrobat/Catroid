@@ -30,6 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
@@ -52,9 +53,10 @@ public class SetVariableBrickViewProvider extends BrickViewProvider {
 		super(context, inflater);
 	}
 
-    View createSetVariableBrickView(final SetVariableBrick brick, ViewGroup parent) {
-		View view = createSingleFormulaBrickView(brick, parent, R.layout.brick_set_variable,
-				R.id.brick_set_variable_edit_text, Brick.BrickField.VARIABLE);
+	View createSetVariableBrickView(final SetVariableBrick brick, ViewGroup parent) {
+		final View view = inflateBrickView(parent, R.layout.brick_set_variable);
+
+		initFormulaEditView(brick, view, Brick.BrickField.VARIABLE, R.id.brick_set_variable_edit_text);
 
 		Spinner variableSpinner = (Spinner) view.findViewById(R.id.set_variable_spinner);
 

@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.MessageContainer;
@@ -44,7 +45,7 @@ public class BroadcastWaitBrickViewProvider extends BroadcastBrickViewProvider {
 	}
 
 	public View createBroadcastWaitBrickView(final BroadcastWaitBrick brick, ViewGroup parent) {
-		View view = createSimpleBrickView(parent, R.layout.brick_broadcast_wait);
+		View view = inflateBrickView(parent, R.layout.brick_broadcast_wait);
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_broadcast_wait_spinner);
 		broadcastSpinner.setFocusableInTouchMode(false);

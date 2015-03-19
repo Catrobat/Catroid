@@ -52,7 +52,7 @@ public class SetLookBrickViewProvider extends BrickViewProvider {
 	}
 
 	public View createSetLookBrickView(final SetLookBrick brick, ViewGroup parent) {
-		View view = createSimpleBrickView(parent, R.layout.brick_set_look);
+		View view = inflateBrickView(parent, R.layout.brick_set_look);
 
 		final Spinner lookbrickSpinner = (Spinner) view.findViewById(R.id.brick_set_look_spinner);
 		lookbrickSpinner.setFocusableInTouchMode(false);
@@ -170,8 +170,7 @@ public class SetLookBrickViewProvider extends BrickViewProvider {
 		setSpinnerSelection(lookbrickSpinner, brick);
 
 		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(context.getString(R.string.background))) {
-			TextView textField = (TextView) view.findViewById(R.id.brick_set_look_label);
-			textField.setText(R.string.brick_set_background);
+			((TextView) view.findViewById(R.id.brick_set_look_label)).setText(R.string.brick_set_background);
 		}
 
 		return view;

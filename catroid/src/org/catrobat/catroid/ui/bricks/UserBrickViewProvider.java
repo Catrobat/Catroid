@@ -49,24 +49,19 @@ public class UserBrickViewProvider extends BrickViewProvider {
 		super(context, inflater);
 	}
 
-	public View createUserBrickView(UserBrick brick, ViewGroup parent) {
+	public View createUserBrickView(final UserBrick brick, ViewGroup parent) {
 
-		View view = createSimpleBrickView(parent, R.layout.brick_user);
+		final View view = inflateBrickView(parent, R.layout.brick_user);
 
-		onLayoutChanged(brick, view);
 
-		return view;
-	}
-
-	public void onLayoutChanged(final UserBrick brick, final View userBrickView) {
 		if (brick.getLastDataVersion() < brick.getUserScriptDefinitionBrickElements().getVersion() || brick.getUserBrickParameters() == null) {
 			brick.updateUserBrickParameters(null);
 		}
 		boolean prototype = isPrototypeLayout();
 
-		Context context = userBrickView.getContext();
+		Context context = view.getContext();
 
-		BrickLayout layout = (BrickLayout) userBrickView.findViewById(R.id.brick_user_flow_layout);
+		BrickLayout layout = (BrickLayout) view.findViewById(R.id.brick_user_flow_layout);
 		if (layout.getChildCount() > 0) {
 			layout.removeAllViews();
 		}
@@ -101,14 +96,14 @@ public class UserBrickViewProvider extends BrickViewProvider {
 					currentTextView.setOnClickListener(new View.OnClickListener() {
 						@Override
 						public void onClick(View eventSource) {
-							if (clickAllowed(userBrickView)) {
+							if (clickAllowed(view)) {
 
 //								for (UserBrickParameter userBrickParameter : brick.getUserBrickParameters()) {
 //									UserScriptDefinitionBrickElement userBrickElement = getUserScriptDefinitionBrickElement(brick, userBrickParameter);
 //
 //									if (userBrickElement.isVariable && userBrickParameter.textView.getId() == eventSource.getId()) {
 
-								onClickDispatcher.dispatch(brick, userBrickView, parameter.getFormulaWithBrickField(Brick.BrickField.USER_BRICK));
+								onClickDispatcher.dispatch(brick, view, parameter.getFormulaWithBrickField(Brick.BrickField.USER_BRICK));
 //									}
 //								}
 							}
@@ -140,6 +135,8 @@ public class UserBrickViewProvider extends BrickViewProvider {
 
 			id++;
 		}
+
+		return view;
 	}
 
 	private static UserScriptDefinitionBrickElement getUserScriptDefinitionBrickElement(UserBrick brick, UserBrickParameter parameter) {

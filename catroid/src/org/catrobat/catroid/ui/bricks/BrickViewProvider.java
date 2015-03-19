@@ -177,10 +177,6 @@ public class BrickViewProvider {
 	}
 
 
-	private View inflate(int layoutId, ViewGroup parent) {
-		return inflater.inflate(layoutId, parent, false);
-	}
-
 	public BrickView createNoPuzzleView(final AllowedAfterDeadEndBrick brick, ViewGroup parent) {
 		View view = null;
 
@@ -254,81 +250,82 @@ public class BrickViewProvider {
 		//Single Formula Text
 		else if (brick instanceof ChangeBrightnessByNBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_change_brightness,
-					R.id.brick_change_brightness_edit_text, BrickField.BRIGHTNESS_CHANGE);
+					BrickField.BRIGHTNESS_CHANGE, R.id.brick_change_brightness_edit_text);
 		} else if (brick instanceof ChangeGhostEffectByNBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_change_ghost_effect,
-					R.id.brick_change_ghost_effect_edit_text, BrickField.TRANSPARENCY_CHANGE);
+					BrickField.TRANSPARENCY_CHANGE, R.id.brick_change_ghost_effect_edit_text);
+			//
 		} else if (brick instanceof ChangeSizeByNBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_change_size_by_n,
-					R.id.brick_change_size_by_edit_text, BrickField.SIZE_CHANGE);
+					BrickField.SIZE_CHANGE, R.id.brick_change_size_by_edit_text);
 		} else if (brick instanceof ChangeVolumeByNBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_change_volume_by,
-					R.id.brick_change_volume_by_edit_text, BrickField.VOLUME_CHANGE);
+					BrickField.VOLUME_CHANGE, R.id.brick_change_volume_by_edit_text);
 		} else if (brick instanceof ChangeXByNBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_change_x,
-					R.id.brick_change_x_edit_text, BrickField.X_POSITION_CHANGE);
+					BrickField.X_POSITION_CHANGE, R.id.brick_change_x_edit_text);
 		} else if (brick instanceof ChangeYByNBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_change_y,
-					R.id.brick_change_y_edit_text, BrickField.Y_POSITION_CHANGE);
+					BrickField.Y_POSITION_CHANGE, R.id.brick_change_y_edit_text);
 		} else if (brick instanceof IfLogicBeginBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_if_begin_if,
-					R.id.brick_if_begin_edit_text, BrickField.IF_CONDITION);
+					BrickField.IF_CONDITION, R.id.brick_if_begin_edit_text);
 		} else if (brick instanceof NoteBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_note,
-					R.id.brick_note_edit_text, BrickField.NOTE);
+					BrickField.NOTE, R.id.brick_note_edit_text);
 		} else if (brick instanceof PointInDirectionBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_point_in_direction,
-					R.id.brick_point_in_direction_edit_text, BrickField.DEGREES);
+					BrickField.DEGREES, R.id.brick_point_in_direction_edit_text);
 		} else if (brick instanceof SetBrightnessBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_set_brightness,
-					R.id.brick_set_brightness_edit_text, BrickField.BRIGHTNESS);
+					BrickField.BRIGHTNESS, R.id.brick_set_brightness_edit_text);
 		} else if (brick instanceof SetGhostEffectBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_set_ghost_effect,
-					R.id.brick_set_ghost_effect_to_edit_text, BrickField.TRANSPARENCY);
+					BrickField.TRANSPARENCY, R.id.brick_set_ghost_effect_to_edit_text);
 		} else if (brick instanceof SetSizeToBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_set_size_to,
-					R.id.brick_set_size_to_edit_text, BrickField.SIZE);
+					BrickField.SIZE, R.id.brick_set_size_to_edit_text);
 		} else if (brick instanceof SetVolumeToBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_set_volume_to,
-					R.id.brick_set_volume_to_edit_text, BrickField.VOLUME);
+					BrickField.VOLUME, R.id.brick_set_volume_to_edit_text);
 		} else if (brick instanceof SetXBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_set_x,
-					R.id.brick_set_x_edit_text, BrickField.X_POSITION);
+					BrickField.X_POSITION, R.id.brick_set_x_edit_text);
 		} else if (brick instanceof SetYBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_set_y,
-					R.id.brick_set_y_edit_text, BrickField.Y_POSITION);
+					BrickField.Y_POSITION, R.id.brick_set_y_edit_text);
 		} else if (brick instanceof SpeakBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_speak,
-					R.id.brick_speak_edit_text, BrickField.SPEAK);
+					BrickField.SPEAK, R.id.brick_speak_edit_text);
 		} else if (brick instanceof TurnLeftBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_turn_left,
-					R.id.brick_turn_left_edit_text, BrickField.TURN_LEFT_DEGREES);
+					BrickField.TURN_LEFT_DEGREES, R.id.brick_turn_left_edit_text);
 		} else if (brick instanceof TurnRightBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_turn_right,
-					R.id.brick_turn_right_edit_text, BrickField.TURN_RIGHT_DEGREES);
+					BrickField.TURN_RIGHT_DEGREES, R.id.brick_turn_right_edit_text);
 		}
 
 
 		//Single Formula Text with plural text
 		else if (brick instanceof MoveNStepsBrick) {
 			view = createSingleFormulaBrickViewWithPluralText((FormulaBrick) brick, parent, R.layout.brick_move_n_steps,
-					R.id.brick_move_n_steps_edit_text, BrickField.STEPS,
+					BrickField.STEPS, R.id.brick_move_n_steps_edit_text,
 					R.id.brick_move_n_steps_step_text_view, R.plurals.brick_move_n_step_plural);
 		} else if (brick instanceof GoNStepsBackBrick) {
 			view = createSingleFormulaBrickViewWithPluralText((FormulaBrick) brick, parent, R.layout.brick_go_back,
-					R.id.brick_go_back_edit_text, BrickField.STEPS,
+					BrickField.STEPS, R.id.brick_go_back_edit_text,
 					R.id.brick_go_back_layers_text_view, R.plurals.brick_go_back_layer_plural);
 		} else if (brick instanceof RepeatBrick) {
 			view = createSingleFormulaBrickViewWithPluralText((FormulaBrick) brick, parent, R.layout.brick_repeat,
-					R.id.brick_repeat_edit_text, BrickField.TIMES_TO_REPEAT,
+					BrickField.TIMES_TO_REPEAT, R.id.brick_repeat_edit_text,
 					R.id.brick_repeat_time_text_view, R.plurals.time_plural);
 		} else if (brick instanceof VibrationBrick) {
 			view = createSingleFormulaBrickViewWithPluralText((FormulaBrick) brick, parent, R.layout.brick_vibration,
-					R.id.brick_vibration_edit_seconds_text, BrickField.VIBRATE_DURATION_IN_SECONDS,
+					BrickField.VIBRATE_DURATION_IN_SECONDS, R.id.brick_vibration_edit_seconds_text,
 					R.id.brick_vibration_second_text_view, R.plurals.second_plural);
 		} else if (brick instanceof WaitBrick) {
 			view = createSingleFormulaBrickViewWithPluralText((FormulaBrick) brick, parent, R.layout.brick_wait,
-					R.id.brick_wait_edit_text, BrickField.TIME_TO_WAIT_IN_SECONDS,
+					BrickField.TIME_TO_WAIT_IN_SECONDS, R.id.brick_wait_edit_text,
 					R.id.brick_wait_second_text_view, R.plurals.second_plural);
 		}
 
@@ -336,12 +333,12 @@ public class BrickViewProvider {
 		//Double Formula Text
 		else if (brick instanceof LegoNxtPlayToneBrick) {
 			view = createDoubleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_nxt_play_tone,
-					R.id.nxt_tone_duration_edit_text, BrickField.LEGO_NXT_DURATION_IN_SECONDS,
-					R.id.nxt_tone_freq_edit_text, BrickField.LEGO_NXT_FREQUENCY);
+					BrickField.LEGO_NXT_DURATION_IN_SECONDS, BrickField.LEGO_NXT_FREQUENCY, R.id.nxt_tone_duration_edit_text,
+					R.id.nxt_tone_freq_edit_text);
 		} else if (brick instanceof PlaceAtBrick) {
 			view = createDoubleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_place_at,
-					R.id.brick_place_at_edit_text_x, BrickField.X_POSITION,
-					R.id.brick_place_at_edit_text_y, BrickField.Y_POSITION);
+					BrickField.X_POSITION, BrickField.Y_POSITION, R.id.brick_place_at_edit_text_x,
+					R.id.brick_place_at_edit_text_y);
 		}
 
 		//DroneBrick Views
@@ -424,6 +421,8 @@ public class BrickViewProvider {
 
 	private View createLoopEndlessBrickView(ViewGroup parent) {
 		int layout;
+		//TODO: It is possible that the same label id should be used to make view updatable.
+		//TODO: It is possible that the same layout should be used to make view updateble. Only background should be changed.
 		if (nextViewForLoopEndlessIsPuzzleView) {
 			nextViewForLoopEndlessIsPuzzleView = false;
 			layout = R.layout.brick_loop_endless_no_puzzle;
@@ -434,42 +433,48 @@ public class BrickViewProvider {
 		return createSimpleBrickView(parent, layout);
 	}
 
-	private View createDroneMoveBrickView(DroneMoveBrick brick, ViewGroup parent, int moveLabelResId) {
-		View view = createSingleFormulaBrickViewWithPluralText(brick, parent, R.layout.brick_drone_move,
-				R.id.brick_drone_move_edit_text_second, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS,
-				R.id.brick_drone_move_text_view_second, R.plurals.second_plural);
-
-		((TextView) view.findViewById(R.id.brick_drone_move_label)).setText(getResources().getString(moveLabelResId));
-
-		initFormulaEditView(brick, view, R.id.brick_drone_move_edit_text_power, BrickField.DRONE_POWER_IN_PERCENT);
-
-		return view;
-	}
 
 	private Resources getResources() {
 		return context.getResources();
 	}
 
 	protected View createSimpleBrickView(final ViewGroup parent, int layoutResId) {
-		return inflate(layoutResId, parent);
+		return inflateBrickView(parent, layoutResId);
+	}
+
+
+	protected View inflateBrickView(final ViewGroup parent, int layoutResId) {
+		return inflater.inflate(layoutResId, parent, false);
 	}
 
 	protected View createSingleFormulaBrickView(final FormulaBrick brick, final ViewGroup parent,
-			int layoutResId, int fieldResId, final BrickField brickField) {
-		final View view = createSimpleBrickView(parent, layoutResId);
-
-		initFormulaEditView(brick, view, fieldResId, brickField);
+			int layoutResId, final BrickField brickField, int formula1ViewId) {
+		final View view = inflateBrickView(parent, layoutResId);
+		initFormulaEditView(brick, view, brickField, formula1ViewId);
 		return view;
 	}
 
+	private View createDroneMoveBrickView(DroneMoveBrick brick, ViewGroup parent, int labelStringId) {
+		final View view = inflateBrickView(parent, R.layout.brick_drone_move);
+
+		((TextView) view.findViewById(R.id.brick_drone_move_label)).setText(getResources().getString(labelStringId));
+		initFormulaEditView(brick, view, BrickField.DRONE_POWER_IN_PERCENT, R.id.brick_drone_move_edit_text_power);
+
+		Formula formula = initFormulaEditView(brick, view, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS, R.id.brick_drone_move_edit_text_second);
+		setPluralText(brick, view, formula, R.id.brick_drone_move_text_view_second, R.plurals.second_plural);
+
+
+		return view;
+	}
 
 	private View createSingleFormulaBrickViewWithPluralText(final FormulaBrick brick, final ViewGroup parent,
-			int layoutResId, int fieldResId, final BrickField brickField, int textResId, int pluralStringId) {
-		final View view = inflate(layoutResId, parent);
+			int layoutResId, final BrickField brickField, int formula1ViewId, int text1ViewId, int pluralStringId) {
+		final View view = inflateBrickView(parent, layoutResId);
 
-		Formula formula = initFormulaEditView(brick, view, fieldResId, brickField);
+		Formula formula = initFormulaEditView(brick, view, brickField, formula1ViewId);
 
-		setPluralText(brick, view, formula, textResId, pluralStringId);
+		setPluralText(brick, view, formula, text1ViewId, pluralStringId);
+
 
 		return view;
 	}
@@ -493,13 +498,16 @@ public class BrickViewProvider {
 	}
 
 	private View createDoubleFormulaBrickView(final FormulaBrick brick, final ViewGroup parent,
-			int layoutResId, int fieldResId1, final BrickField brickField1, int fieldResId2, final BrickField brickField2) {
-		final View view = createSingleFormulaBrickView(brick, parent, layoutResId, fieldResId1, brickField1);
-		initFormulaEditView(brick, view, fieldResId2, brickField2);
+			int layoutResId, final BrickField brickField1, final BrickField brickField2, int formula1ViewId, int formula2ViewId) {
+		final View view = inflateBrickView(parent, layoutResId);
+
+		initFormulaEditView(brick, view, brickField1, formula1ViewId);
+		initFormulaEditView(brick, view, brickField2, formula2ViewId);
+
 		return view;
 	}
 
-	protected Formula initFormulaEditView(final FormulaBrick brick, final View view, int fieldResId, final BrickField brickField) {
+	protected Formula initFormulaEditView(final FormulaBrick brick, final View view, final BrickField brickField, int fieldResId) {
 		TextView editView = (TextView) view.findViewById(fieldResId);
 		Formula formula = brick.getFormulaWithBrickField(brickField);
 		formula.setTextFieldId(fieldResId);
@@ -520,12 +528,12 @@ public class BrickViewProvider {
 
 
 	private View createGlideToBrick(final GlideToBrick brick, ViewGroup parent) {
-		final View view = createSimpleBrickView(parent, R.layout.brick_glide_to);
+		final View view = inflateBrickView(parent, R.layout.brick_glide_to);
 
-		initFormulaEditView(brick, view, R.id.brick_glide_to_edit_text_x, BrickField.X_DESTINATION);
-		initFormulaEditView(brick, view, R.id.brick_glide_to_edit_text_y, BrickField.Y_DESTINATION);
+		initFormulaEditView(brick, view, BrickField.X_DESTINATION, R.id.brick_glide_to_edit_text_x);
+		initFormulaEditView(brick, view, BrickField.Y_DESTINATION, R.id.brick_glide_to_edit_text_y);
 
-		Formula durationInSecondsFormula = initFormulaEditView(brick, view, R.id.brick_glide_to_edit_text_duration, BrickField.DURATION_IN_SECONDS);
+		Formula durationInSecondsFormula = initFormulaEditView(brick, view, BrickField.DURATION_IN_SECONDS, R.id.brick_glide_to_edit_text_duration);
 
 		setPluralText(brick, view, durationInSecondsFormula, R.id.brick_glide_to_seconds_text_view, R.plurals.second_plural);
 
@@ -534,8 +542,8 @@ public class BrickViewProvider {
 
 
 	private View createLegoNxtMotorTurnAngleBrickView(final LegoNxtMotorTurnAngleBrick brick, ViewGroup parent) {
-		View view = createSingleFormulaBrickView(brick, parent, R.layout.brick_nxt_motor_turn_angle,
-				R.id.motor_turn_angle_edit_text, BrickField.LEGO_NXT_DEGREES);
+		final View view = inflateBrickView(parent, R.layout.brick_nxt_motor_turn_angle);
+		initFormulaEditView(brick, view, BrickField.LEGO_NXT_DEGREES, R.id.motor_turn_angle_edit_text);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
 				android.R.layout.simple_spinner_item);
@@ -561,12 +569,14 @@ public class BrickViewProvider {
 		});
 
 		motorSpinner.setSelection(brick.getMotorEnum().ordinal());
+
 		return view;
 	}
 
 	private View createLegoNxtMotorActionBrickView(final LegoNxtMotorActionBrick brick, ViewGroup parent) {
-		View view = createSingleFormulaBrickView(brick, parent, R.layout.brick_nxt_motor_action,
-				R.id.motor_action_speed_edit_text, BrickField.LEGO_NXT_SPEED);
+		final View view = inflateBrickView(parent, R.layout.brick_nxt_motor_action);
+
+		initFormulaEditView(brick, view, BrickField.LEGO_NXT_SPEED, R.id.motor_action_speed_edit_text);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context, R.array.nxt_motor_chooser,
 				android.R.layout.simple_spinner_item);
@@ -597,7 +607,7 @@ public class BrickViewProvider {
 	}
 
 	private View createLegoNxtMotorStopBrickView(final LegoNxtMotorStopBrick brick, ViewGroup parent) {
-		View view = createSimpleBrickView(parent, R.layout.brick_nxt_motor_stop);
+		View view = inflateBrickView(parent, R.layout.brick_nxt_motor_stop);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
 				R.array.nxt_stop_motor_chooser, android.R.layout.simple_spinner_item);
@@ -621,6 +631,7 @@ public class BrickViewProvider {
 
 		motorSpinner.setAdapter(motorAdapter);
 		motorSpinner.setSelection(brick.getMotorEnum().ordinal());
+
 		return view;
 
 	}
