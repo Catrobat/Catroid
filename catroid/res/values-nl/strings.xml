@@ -382,7 +382,6 @@
   <string name="title_paired_devices">Gekoppelde apparaten</string>
   <string name="title_other_devices">Nieuwe apparaten</string>
   <string name="button_scan">Zoeken naar Bluetooth-apparaten</string>
-  <string name="select_device">Selecteer je Lego Mindstorms NXT</string>
   <string name="scanning">Scannen</string>
   <string name="connecting_please_wait">Verbinding maken met je apparaat.\nEven wachten&#8230;</string>
   <string name="problem_at_closing">Er is een fout opgetreden tijdens het verbreken van de verbinding!</string>

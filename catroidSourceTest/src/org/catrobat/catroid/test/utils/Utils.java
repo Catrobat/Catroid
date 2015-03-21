@@ -34,14 +34,14 @@ import java.util.List;
 public final class Utils {
 
 	public static final String[] ALL_DIRECTORIES = { ".", "../catroidTest", "../catroid", "../catroidCucumberTest",
-			"../catroidLegoNXTBTTest" };
+			"../catroidBluetoothTestServer" };
 	public static final String[] SOURCE_FILE_DIRECTORIES = { "src", "../catroid/src", "../catroidTest/src",
-			"../catroidCucumberTest/src", "../catroidLegoNXTBTTest/src" };
+			"../catroidCucumberTest/src", "../catroidBluetoothTestServer/src" };
 	public static final String[] SOURCE_AND_RESOURCE_DIRECTORIES = { "src", "res", "../catroid/src", "../catroid/res",
-			"../catroidTest/src", "../catroidTest/res", "../catroidCucumberTest/src", "../catroidLegoNXTBTTest/src" };
+			"../catroidTest/src", "../catroidTest/res", "../catroidCucumberTest/src", "../catroidBluetoothTestServer/src" };
 	public static final String[] TEST_FILE_DIRECTORIES = { "src", "../catroidTest/src", "../catroidCucumberTest/src" };
 	public static final String[] PRINT_STACK_TRACE_TEST_DIRECTORIES = { "src", "../catroid/src",
-			"../catroidCucumberTest/src", "../catroidLegoNXTBTTest/src" };
+			"../catroidCucumberTest/src", "../catroidBluetoothTestServer/src" };
 	public static final String[] VERSION_NAME_AND_CODE_TEST_DIRECTORIES = { "../catroid", "../catroidTest",
 			"../catroidCucumberTest" };
 	public static final String[] SLEEP_TEST_DIRECTORIES = { "../catroidCucumberTest/src" };

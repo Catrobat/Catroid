@@ -400,7 +400,6 @@
   <string name="title_paired_devices">Paired devices</string>
   <string name="title_other_devices">New devices</string>
   <string name="button_scan">Search Bluetooth devices</string>
-  <string name="select_device">Select your Lego Mindstorms NXT</string>
   <string name="scanning">Scanning</string>
   <string name="connecting_please_wait">Connecting to your device.\nPlease wait&#8230;</string>
   <string name="problem_at_closing">Problem while closing the connection!</string>
