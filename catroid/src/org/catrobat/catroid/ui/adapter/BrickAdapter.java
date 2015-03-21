@@ -31,6 +31,8 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import com.google.common.collect.Maps;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -53,9 +55,8 @@ import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ConcurrentMap;
 
 import static org.catrobat.catroid.utils.UiUtils.startBlinkAnimation;
 
@@ -65,8 +66,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 	private static final String TAG = BrickAdapter.class.getSimpleName();
 	public static final int ALPHA_FULL = 255;
 	private static final int ALPHA_GREYED = 100;
-	private Context context;
+	private final int maxBlinkAnimationDuration;
 
+	private Context context;
 	private Sprite sprite;
 	private UserBrick userBrick;
 	private Script script;
@@ -84,10 +86,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 	private boolean retryScriptDragging;
 	private boolean showDetails = false;
 
-	private List<Class<? extends Brick>> viewTypes;
-	private List<Brick> brickList;
-	private Queue<Integer> toAnimatePositions;
-	private BrickViewProvider brickViewProvider;
+	private final List<Class<? extends Brick>> viewTypes;
+	private final List<Brick> brickList;
+
+	private final ConcurrentMap<Integer, Long> toAnimatePositions;
+	private final BrickViewProvider brickViewProvider;
 
 	private int selectMode;
 	private OnBrickCheckedListener scriptFragment;
@@ -103,7 +106,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 		brickViewProvider = new BrickViewProvider(context);
 		brickViewProvider.setNoPuzzleViewEnabled(true);
 		dragAndDropListView = listView;
-		toAnimatePositions = new LinkedBlockingQueue<Integer>();
+		toAnimatePositions = Maps.newConcurrentMap();
 		dragAndDropListView.setOnScrollListener(new AbsListView.OnScrollListener() {
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -124,6 +127,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 		retryScriptDragging = false;
 
 		this.selectMode = ListView.CHOICE_MODE_NONE;
+
+
+		int animationBlinkDuration = context.getResources().getInteger(R.integer.animation_blink_duration);
+		int animationBlinkRepeatCount = context.getResources().getInteger(R.integer.animation_blink_repeatCount);
+		this.maxBlinkAnimationDuration = animationBlinkDuration * animationBlinkRepeatCount;
 		initBrickList();
 	}
 
@@ -157,7 +165,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 	@Override
 	public int getViewTypeCount() {
 		/*Can't have a viewTypeCount < 1*/
-		return viewTypes == null || viewTypes.isEmpty() ? /*display empty view in this case*/ 1 : viewTypes.size();
+		return viewTypes.isEmpty() ? /*display empty view in this case*/ 1 : viewTypes.size();
 	}
 
 	@Override
@@ -169,7 +177,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 
 	private void initBrickListUserScript() {
 		script = getUserScript();
-		brickList = new ArrayList<Brick>();
+		brickList.clear();
 		brickList.add(script.getScriptBrick());
 
 		for (Brick brick : script.getBrickList()) {
@@ -204,10 +212,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 
 	public List<Brick> getBrickList() {
 		return brickList;
-	}
-
-	public void setBrickList(List<Brick> brickList) {
-		this.brickList = brickList;
 	}
 
 	@Override
@@ -855,18 +859,18 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 		// dirty HACK
 		// without the footer, position can be 0, and list.get(-1) caused an Indexoutofboundsexception
 		// no clean solution was found
-//		if (convertView != null) {
-		//TODO: Illya Boyko: No view refresh for now. Implement Refresh view from brick.
-//			currentBrickView = (BrickView) convertView;
-//		} else {
-		if (item instanceof AllowedAfterDeadEndBrick && brickList.get(position == 0 ? position : (position - 1)) instanceof DeadEndBrick) {
-			//FIXME: in case of LoopEndlessBrick view toogle is needed!!!!
-			currentBrickView = brickViewProvider.createNoPuzzleView((AllowedAfterDeadEndBrick) item, parent);
+		if (convertView != null && needToAnimatePosition(position)) {
+			//No view refresh for now. Implement Refresh view from brick.
+			//Do not recreate view only when it should be animated.
+			currentBrickView = (BrickView) convertView;
 		} else {
-			currentBrickView = brickViewProvider.createView(item, parent);
+			if (item instanceof AllowedAfterDeadEndBrick && brickList.get(position == 0 ? position : (position - 1)) instanceof DeadEndBrick) {
+				currentBrickView = brickViewProvider.createNoPuzzleView((AllowedAfterDeadEndBrick) item, parent);
+			} else {
+				currentBrickView = brickViewProvider.createView(item, parent);
+			}
+			convertView = currentBrickView;
 		}
-		convertView = currentBrickView;
-//		}
 
 		int alpha = ALPHA_FULL;
 		if (actionMode) {
@@ -893,11 +897,27 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 		}
 
 		Log.v(TAG, "getView '" + position + "' animate positions: " + toAnimatePositions.size() + "; " + toAnimatePositions);
-		if (item != null && toAnimatePositions.contains(position)) {
-			startBlinkAnimation(context, convertView);
+		if (toAnimatePositions.containsKey(position)) {
+			if (item != null && needToAnimatePosition(position)) {
+				// Animate only whem it is needed.
+				startBlinkAnimation(context, convertView);
+			}
+			//remove position wheit is present
 			toAnimatePositions.remove(position);
 		}
 		return convertView;
+	}
+
+	/**
+	 * Check view at position should be animated.
+	 *
+	 * @param position position to check.
+	 * @return <code>true</code> only when #toAnimatePositions contains position and request millis + max Animation duration
+	 * is acceptable - in future, otherwise <code>false</code>.
+	 */
+	private boolean needToAnimatePosition(int position) {
+		Long toAnimateRequestMillis = toAnimatePositions.get(position);
+		return toAnimateRequestMillis != null && toAnimateRequestMillis + maxBlinkAnimationDuration > System.currentTimeMillis();
 	}
 
 	public void updateProjectBrickList() {
@@ -1090,7 +1110,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 	 */
 	private void setBrickChecked(boolean checked, int position, Brick brick) {
 		if (checked) {
-			toAnimatePositions.add(position);
+			toAnimatePositions.putIfAbsent(position, System.currentTimeMillis());
 		}
 		if (!UserScriptDefinitionBrick.class.equals(brick.getClass())) {
 			Log.v(TAG, "Selecting Item position '" + position + "' for Brick '" + brick.getClass().getSimpleName() + "'");

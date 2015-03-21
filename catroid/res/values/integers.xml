@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2014 The Catrobat Team
+  ~ Copyright (C) 2010-2015 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,9 +20,8 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<alpha xmlns:android="http://schemas.android.com/apk/res/android"
-    android:duration="@integer/animation_blink_duration"
-    android:fromAlpha="0.0"
-    android:repeatCount="@integer/animation_blink_repeatCount"
-    android:repeatMode="reverse"
-    android:toAlpha="1.0" />
+
+<resources>
+  <integer name="animation_blink_duration">200</integer>
+  <integer name="animation_blink_repeatCount">4</integer>
+</resources>
