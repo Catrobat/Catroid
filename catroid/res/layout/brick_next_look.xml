@@ -40,7 +40,7 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
 
         <TextView
-            android:id="@+id/brick_next_look_text_view"
+            android:id="@+id/brick_next_look_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_next_look" />
     </org.catrobat.catroid.ui.BrickLayout>

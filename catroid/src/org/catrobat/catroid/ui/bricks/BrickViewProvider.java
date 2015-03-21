@@ -243,7 +243,7 @@ public class BrickViewProvider {
 		} else if (brick instanceof NextLookBrick) {
 			view = createSimpleBrickView(parent, R.layout.brick_next_look);
 			if (ProjectManager.getInstance().getCurrentSprite().getName().equals(context.getString(R.string.background))) {
-				((TextView) view.findViewById(R.id.brick_next_look_text_view)).setText(R.string.brick_next_background);
+				((TextView) view.findViewById(R.id.brick_next_look_label)).setText(R.string.brick_next_background);
 			}
 		}
 

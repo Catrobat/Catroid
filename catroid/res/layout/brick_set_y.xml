@@ -40,7 +40,7 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
 
         <TextView
-            android:id="@+id/brick_set_y_textview"
+            android:id="@+id/brick_set_y_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_set_y">
         </TextView>
