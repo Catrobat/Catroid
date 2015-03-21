@@ -45,10 +45,6 @@
             android:text="@string/brick_point_in_direction">
         </TextView>
 
-        <!--<TextView-->
-        <!--android:id="@+id/brick_point_in_direction_prototype_text_view"-->
-        <!--style="@style/BrickPrototypeTextView" />-->
-
         <TextView
             android:id="@+id/brick_point_in_direction_edit_text"
             style="@style/BrickEditText"

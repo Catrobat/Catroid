@@ -45,11 +45,6 @@
             android:text="@string/brick_set_y">
         </TextView>
 
-        <!--<TextView-->
-        <!--android:id="@+id/brick_set_y_prototype_text_view"-->
-        <!--style="@style/BrickPrototypeTextView">-->
-        <!--</TextView>-->
-
         <TextView
             android:id="@+id/brick_set_y_edit_text"
             style="@style/BrickEditText"

@@ -46,12 +46,6 @@
             android:text="@string/brick_vibration">
         </TextView>
 
-        <!--<TextView-->
-        <!--android:id="@+id/brick_vibration_prototype_text_view_seconds"-->
-        <!--style="@style/BrickPrototypeTextView"-->
-        <!--android:layout_width="match_parent" >-->
-        <!--</TextView>-->
-
         <TextView
             android:id="@+id/brick_vibration_edit_seconds_text"
             style="@style/BrickEditText"

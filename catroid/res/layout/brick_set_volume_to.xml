@@ -46,11 +46,6 @@
             android:text="@string/brick_set_volume_to">
         </TextView>
 
-        <!--<TextView-->
-        <!--android:id="@+id/brick_set_volume_to_prototype_text_view"-->
-        <!--style="@style/BrickPrototypeTextView" >-->
-        <!--</TextView >-->
-
         <TextView
             android:id="@+id/brick_set_volume_to_edit_text"
             style="@style/BrickEditText"

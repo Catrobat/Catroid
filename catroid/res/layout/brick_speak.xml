@@ -46,13 +46,6 @@
             android:text="@string/brick_speak">
         </TextView>
 
-        <!--<TextView-->
-        <!--android:id="@+id/brick_speak_prototype_text_view"-->
-        <!--style="@style/BrickPrototypeTextView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:gravity="left">-->
-        <!--</TextView>-->
-
         <TextView
             android:id="@+id/brick_speak_edit_text"
             style="@style/BrickEditText"

@@ -44,11 +44,6 @@
             android:text="@string/brick_repeat">
         </TextView>
 
-        <!--<TextView-->
-        <!--android:id="@+id/brick_repeat_prototype_text_view"-->
-        <!--style="@style/BrickPrototypeTextView">-->
-        <!--</TextView>-->
-
         <TextView
             android:id="@+id/brick_repeat_edit_text"
             style="@style/BrickEditText"

@@ -52,10 +52,6 @@
             app:layout_inputType="number"
             app:layout_textField="true" />
 
-        <!--<TextView-->
-        <!--android:id="@+id/brick_if_begin_prototype_text_view"-->
-        <!--style="@style/BrickPrototypeTextView" />-->
-
         <TextView
             android:id="@+id/if_label_second_part"
             style="@style/BrickText.Multiple"

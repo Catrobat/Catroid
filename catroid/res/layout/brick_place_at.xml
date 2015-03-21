@@ -53,10 +53,6 @@
             app:layout_newLine="true">
         </TextView>
 
-        <!--<TextView-->
-        <!--android:id="@+id/brick_place_at_prototype_text_view_x"-->
-        <!--style="@style/BrickPrototypeTextView" />-->
-
         <TextView
             android:id="@+id/brick_place_at_edit_text_x"
             style="@style/BrickEditText"
@@ -69,10 +65,6 @@
             style="@style/BrickText.SingleLine"
             android:text="@string/y_label">
         </TextView>
-
-        <!--<TextView-->
-        <!--android:id="@+id/brick_place_at_prototype_text_view_y"-->
-        <!--style="@style/BrickPrototypeTextView" />-->
 
         <TextView
             android:id="@+id/brick_place_at_edit_text_y"
