@@ -581,12 +581,12 @@ public final class StorageHandler {
 	public File copyImage(String currentProjectName, String inputFilePath, String newName) throws IOException {
 		String newFilePath;
 		File imageDirectory = new File(buildPath(buildProjectPath(currentProjectName), IMAGE_DIRECTORY));
-		Log.d("MERGE_ST_H", "current project: " + currentProjectName);
+
 		File inputFile = new File(inputFilePath);
 		if (!inputFile.exists() || !inputFile.canRead()) {
 			return null;
 		}
-		Log.d("MERGE_ST_H", "The inputfile is: " + inputFile);
+
 		int[] imageDimensions = new int[2];
 		imageDimensions = ImageEditing.getImageDimensions(inputFilePath);
 		FileChecksumContainer checksumCont = ProjectManager.getInstance().getFileChecksumContainer();

@@ -211,49 +211,31 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	}
 
 	private Project appendProjects(Project currentProject, Project projectToMerge, Context context) throws IOException {
-		//TODO: refactor this method anyways
-		Project mergedProject = currentProject;
+		Project mergeIntoProject = currentProject;
 
-		//Background for projectToMerge should not be copied
-		mergedProject.getSpriteList().addAll(projectToMerge.getSpriteList().subList(1, projectToMerge.getSpriteList().size()));
-
-		//TODO: here you should copy all Pictures and Sounds !!!!!!!!!!!!!
-		//copy files and set correct reference
-		for (Sprite sprite : mergedProject.getSpriteList()) {
+		//copy images from projectToMerge/images/ to mergeIntoProject/images
+		for (Sprite sprite : mergeIntoProject.getSpriteList()) {
 			for (LookData look : sprite.getLookDataList()) {
 
-				String lookName = look.getLookName();
-				String imagePath = "../" + projectToMerge.getName() + "/images/" + lookName;
-				Log.d("MERGE_PR_M", "image path: " + imagePath);
+				String imagePath = look.getAbsolutePath();
+				Log.d("MERGE", "image path: " + imagePath);
+				File copiedLookFile = StorageHandler.getInstance().copyImage(mergeIntoProject.getName(), imagePath, null);
+				String imageFileName = copiedLookFile.getName();
+				Utils.rewriteImageFileForStage(context, copiedLookFile);
 
-				File newLookFile = StorageHandler.getInstance().copyImage(mergedProject.getName(), imagePath, lookName);
-				String imageFileName = newLookFile.getName();
-				Utils.rewriteImageFileForStage(context, newLookFile);
-
-				look = new LookData();
-				look.setLookFilename(imageFileName);
-				look.setLookName(lookName);
 			}
 			for (SoundInfo sound : sprite.getSoundList()) {
 				//copy all sound files
-				String soundName = sound.getTitle();
-				String soundPath = "../" + projectToMerge.getName() + "/sounds" + soundName;
-				Log.d("MERGE_PR_M", "sound path: " + soundPath);
-
-				File newSoundFile = StorageHandler.getInstance().copySoundFile(soundPath);
-				String soundFileName = newSoundFile.getName();
-
-				sound = new SoundInfo();
-				sound.setSoundFileName(soundFileName);
-				sound.setTitle(soundName);
 			}
 		}
 
 		for (UserVariable var : projectToMerge.getUserVariables().getProjectVariables()) {
 			currentProject.getUserVariables().addProjectUserVariable(var.getName());
 		}
+		//Background for projectToMerge should not be copied
+		mergeIntoProject.getSpriteList().addAll(projectToMerge.getSpriteList().subList(1, projectToMerge.getSpriteList().size()));
 
-		return mergedProject;
+		return mergeIntoProject;
 	}
 
 
