@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
+import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.Project;
@@ -57,6 +58,7 @@ import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
+import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.utils.CopyProjectTask;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
@@ -221,9 +223,9 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			for (LookData look : sprite.getLookDataList()) {
 
 				String lookName = look.getLookName();
-				String imagePath = "../" + projectToMerge.getName() + "/images/" + look.getLookFileName();
-				Log.d("MERGE_PR_M", "current project: " + currentProject.getName());
+				String imagePath = "../" + projectToMerge.getName() + "/images/" + lookName;
 				Log.d("MERGE_PR_M", "image path: " + imagePath);
+
 				File newLookFile = StorageHandler.getInstance().copyImage(mergedProject.getName(), imagePath, lookName);
 				String imageFileName = newLookFile.getName();
 				Utils.rewriteImageFileForStage(context, newLookFile);
@@ -231,7 +233,19 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				look = new LookData();
 				look.setLookFilename(imageFileName);
 				look.setLookName(lookName);
+			}
+			for (SoundInfo sound : sprite.getSoundList()) {
+				//copy all sound files
+				String soundName = sound.getTitle();
+				String soundPath = "../" + projectToMerge.getName() + "/sounds" + soundName;
+				Log.d("MERGE_PR_M", "sound path: " + soundPath);
 
+				File newSoundFile = StorageHandler.getInstance().copySoundFile(soundPath);
+				String soundFileName = newSoundFile.getName();
+
+				sound = new SoundInfo();
+				sound.setSoundFileName(soundFileName);
+				sound.setTitle(soundName);
 			}
 		}
 
