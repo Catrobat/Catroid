@@ -389,11 +389,11 @@
   <string name="title_paired_devices">Verbundene Geräte</string>
   <string name="title_other_devices">Neue Geräte</string>
   <string name="button_scan">Bluetooth Geräte suchen</string>
-  <string name="select_device">Deinen Lego Mindstorms NXT auswählen</string>
   <string name="scanning">Suche</string>
   <string name="connecting_please_wait">Verbinde zum Gerät.\nBitte warten&#8230;</string>
   <string name="problem_at_closing">Problem beim Schließen der Verbindung!</string>
   <string name="bt_connection_failed">Verbindung zum Gerät fehlgeschlagen!</string>
+  <string name="bt_auto_connection_failed">Die automaische Verbindung zum Gerät ist fehlgeschlagen!</string>
   <string name="no_paired_nxt">Kein verbundener NXT gefunden</string>
   <string name="none_found">Keine nicht verbundenen Geräte gefunden</string>
   <string name="none_paired">Keine verbundenen Geräte gefunden</string>
@@ -557,4 +557,5 @@
   <string name="recursive_user_brick_forbidden">Hinzufügen eines Userbricks in einem Userbrick ist noch nicht erlaubt!</string>
   <string name="brick_single">Baustein</string>
   <string name="brick_multiple">Bausteine</string>
+  <string name="select_device">Wähle Gerät: </string>
 </resources>

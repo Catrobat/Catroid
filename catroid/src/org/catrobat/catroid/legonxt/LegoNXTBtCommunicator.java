@@ -22,13 +22,12 @@
  */
 package org.catrobat.catroid.legonxt;
 
-import android.bluetooth.BluetoothSocket;
 import android.content.res.Resources;
 import android.os.Handler;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.bluetooth.BluetoothConnection;
+import org.catrobat.catroid.bluetooth.BluetoothConnectionImpl;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,9 +46,10 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 	private static final UUID SERIAL_PORT_SERVICE_CLASS_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	// this is the only OUI registered by LEGO, see http://standards.ieee.org/regauth/oui/index.shtml
 
-	private BluetoothSocket bluetoothSocket = null;
 	private OutputStream nxtOutputStream = null;
 	private InputStream nxtInputStream = null;
+
+	private BluetoothConnectionImpl bluetoothConnection = null;
 
 	private String macAddress;
 
@@ -103,8 +103,8 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 	 */
 	@Override
 	public void createNXTconnection() throws IOException {
-		BluetoothConnection bluetoothConnection = new BluetoothConnection(macAddress, SERIAL_PORT_SERVICE_CLASS_UUID);
-		BluetoothConnection.State state = bluetoothConnection.connect();
+		bluetoothConnection = new BluetoothConnectionImpl(macAddress, SERIAL_PORT_SERVICE_CLASS_UUID);
+		BluetoothConnectionImpl.State state = bluetoothConnection.connect();
 
 		switch (state) {
 			case CONNECTED:
@@ -117,9 +117,8 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 				throw new IOException("Bluetooth connecting error " + state.name());
 		}
 
-		bluetoothSocket = bluetoothConnection.getBluetoothSocket();
-		nxtInputStream = bluetoothSocket.getInputStream();
-		nxtOutputStream = bluetoothSocket.getOutputStream();
+		nxtInputStream = bluetoothConnection.getInputStream();
+		nxtOutputStream = bluetoothConnection.getOutputStream();
 		connected = true;
 		sendState(STATE_CONNECTED);
 	}
@@ -130,24 +129,17 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 	 */
 	@Override
 	public void destroyNXTconnection() throws IOException {
+
 		if (connected) {
 			stopAllNXTMovement();
 		}
 
-		try {
-			if (bluetoothSocket != null) {
-				connected = false;
-				bluetoothSocket.close();
-				bluetoothSocket = null;
-			}
+		connected = false;
+		bluetoothConnection.disconnect();
+		bluetoothConnection = null;
 
-			nxtInputStream = null;
-			nxtOutputStream = null;
-
-		} catch (IOException ioException) {
-			sendToast(resources.getString(R.string.problem_at_closing));
-			Log.e(TAG, Log.getStackTraceString(ioException));
-		}
+		nxtInputStream = null;
+		nxtOutputStream = null;
 	}
 
 	@Override

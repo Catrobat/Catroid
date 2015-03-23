@@ -149,6 +149,8 @@
         <activity
             android:name=".bluetooth.DeviceListActivity"
             android:theme="@android:style/Theme.Dialog" />
+        <activity android:name=".bluetooth.ConnectBluetoothDeviceActivity"
+            android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".soundrecorder.SoundRecorderActivity"
             android:exported="true"
