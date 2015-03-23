@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,9 +31,12 @@ import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
+import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.content.BroadcastMessage;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -47,6 +50,7 @@ import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
@@ -60,6 +64,7 @@ import org.catrobat.catroid.web.ServerCalls;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public final class ProjectManager implements OnLoadProjectCompleteListener, OnCheckTokenCompleteListener {
 	private static final ProjectManager INSTANCE = new ProjectManager();
@@ -164,6 +169,147 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			}
 		}
 
+	}
+
+	public void mergeProjectInCurrentProject(String projectName, Context context) {
+
+		try {
+			Project projectToMerge = loadProjectContent(projectName, context);
+
+			Log.d("MERGE", "currentProjectName: " + project.getName());
+			Log.d("MERGE", "toBeMergedProjectName: " + projectToMerge.getName());
+
+			Log.d("MERGE", "currentProjectSprites" + project.getSpriteList().toString());
+			Log.d("MERGE", "toBeMergedProjectName: " + projectToMerge.getSpriteList().toString());
+
+			boolean hasMergeConflicts = checkMergeConflicts(project, projectToMerge);
+
+			if (hasMergeConflicts) {
+				Log.d("MERGE", "mergeConflicts");
+			} else {
+				Log.d("MERGE", "no mergeConflicts");
+
+				project = appendProjects(project, projectToMerge, context);
+
+				saveProject();
+			}
+
+		} catch (LoadingProjectException e) {
+			Log.e(TAG, "LoadingProjectException" + e.getMessage());
+		} catch (OutdatedVersionProjectException e) {
+			Log.e(TAG, "OutdatedVersionProjectException" + e.getMessage());
+		} catch (CompatibilityProjectException e) {
+			Log.e(TAG, "CompatibilityProjectException" + e.getMessage());
+		} catch (IOException e) {
+			Log.e(TAG, "IOException" + e.getMessage());
+		} catch (Exception e) {
+			Log.e(TAG, "Exception" + e.getMessage());
+		}
+
+	}
+
+	private Project appendProjects(Project currentProject, Project projectToMerge, Context context) throws IOException {
+		Project mergeIntoProject = currentProject;
+
+		//copy images from projectToMerge/images/ to mergeIntoProject/images
+		for (Sprite sprite : mergeIntoProject.getSpriteList()) {
+			for (LookData look : sprite.getLookDataList()) {
+
+				String imagePath = look.getAbsolutePath();
+				Log.d("MERGE", "image path: " + imagePath);
+				File copiedLookFile = StorageHandler.getInstance().copyImage(mergeIntoProject.getName(), imagePath, null);
+				String imageFileName = copiedLookFile.getName();
+				Utils.rewriteImageFileForStage(context, copiedLookFile);
+
+			}
+			for (SoundInfo sound : sprite.getSoundList()) {
+				//copy all sound files
+			}
+		}
+
+		for (UserVariable var : projectToMerge.getUserVariables().getProjectVariables()) {
+			currentProject.getUserVariables().addProjectUserVariable(var.getName());
+		}
+		//Background for projectToMerge should not be copied
+		mergeIntoProject.getSpriteList().addAll(projectToMerge.getSpriteList().subList(1, projectToMerge.getSpriteList().size()));
+
+		return mergeIntoProject;
+	}
+
+
+	private Project loadProjectContent(String projectName, Context context) throws LoadingProjectException,
+	OutdatedVersionProjectException, CompatibilityProjectException {
+
+		if (project.getName().equals(projectName)) {
+			throw new LoadingProjectException(context.getString(R.string.error_load_project));
+		}
+
+		Project savedOldProject = project;
+		Project newProject = null;
+
+		loadProject(projectName, context);
+
+		newProject = project;
+		project = savedOldProject;
+
+		return newProject;
+	}
+
+	private boolean checkMergeConflicts(Project featureA, Project featureB) {
+
+		//TODO: check again if everything makes sense and nothing was forgotten
+
+		Log.d("MERGE", "check Spritenames");
+		//check SpriteNames (Objects) - Background will always be chosen from currentProject
+		for (Sprite spriteA : featureA.getSpriteList().subList(1, featureA.getSpriteList().size())) {
+			Log.d("MERGE", "SpriteName: " + spriteA.getName());
+			for (Sprite spriteB : featureB.getSpriteList().subList(1, featureB.getSpriteList().size())) {
+				if (spriteA.getName().equalsIgnoreCase(spriteB.getName())) {
+					Log.d("MERGE", "same SpriteName: " + spriteA.getName());
+					return true;
+				}
+			}
+		}
+
+		Log.d("MERGE", "check broadcastMessages");
+		List<BroadcastMessage> broadcastBricks = new ArrayList<BroadcastMessage>();
+		//check broadcastmessages
+		for (Sprite spriteA : featureA.getSpriteList().subList(1, featureA.getSpriteList().size())) {
+			for (UserBrick brickA : spriteA.getUserBrickList()) {
+				if (brickA instanceof BroadcastMessage) {
+					broadcastBricks.add((BroadcastMessage) brickA);
+				}
+			}
+		}
+		if (!broadcastBricks.isEmpty()) {
+			for (Sprite spriteB : featureB.getSpriteList().subList(1, featureB.getSpriteList().size())) {
+				for (UserBrick brickB : spriteB.getUserBrickList()) {
+					if (brickB instanceof BroadcastMessage) {
+						for (BroadcastMessage message : broadcastBricks) {
+							if (message.getBroadcastMessage().equalsIgnoreCase(((BroadcastMessage) brickB).getBroadcastMessage())) {
+								return true;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		Log.d("MERGE", "check userVariable");
+		//check Uservariables - there should be no variable in both projects with the same name
+		for (UserVariable variableA : featureA.getUserVariables().getProjectVariables()) {
+			for (UserVariable variableB : featureB.getUserVariables().getProjectVariables()) {
+				if (variableA.getName().equalsIgnoreCase(variableB.getName())) {
+					Log.d("MERGE", "same VariableName: " + variableA.getName());
+					return true;
+				}
+			}
+		}
+
+		//check Looks and Sound - they should be copied
+		//Probably not necessary - needs to be investigated
+
+		return false;
 	}
 
 	private void localizeBackgroundSprite(Context context) {
