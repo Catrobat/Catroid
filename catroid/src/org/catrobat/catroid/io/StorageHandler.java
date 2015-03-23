@@ -147,7 +147,6 @@ import static org.catrobat.catroid.common.Constants.PROJECTPERMISSIONS_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY;
 import static org.catrobat.catroid.utils.Utils.buildPath;
 import static org.catrobat.catroid.utils.Utils.buildProjectPath;
-import static org.catrobat.catroid.utils.Utils.getCurrentProjectName;
 
 public final class StorageHandler {
 	private static final StorageHandler INSTANCE;
