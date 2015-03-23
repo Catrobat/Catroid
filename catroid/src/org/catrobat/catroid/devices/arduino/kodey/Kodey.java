@@ -20,28 +20,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.bluetooth.base;
 
-import org.catrobat.catroid.devices.arduino.kodey.Kodey;
-import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
-import org.catrobat.catroid.stage.StageResourceInterface;
+package org.catrobat.catroid.devices.arduino.kodey;
 
-import java.util.UUID;
+import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 
-public interface BluetoothDevice extends StageResourceInterface {
+public interface Kodey extends BluetoothDevice {
 
-	Class<LegoNXT> LEGO_NXT = LegoNXT.class;
-	Class<Kodey> KODEY = Kodey.class;
+	void playTone(int selected_tone, int duration);
 
-//	Class<Arduino> ARDUINO = Arduino.class;
-//	Class<Albert> ALBERT = Albert.class;
+	void moveLeftMotorForward(int speed);
+	void moveLeftMotorBackward(int speed);
 
-	String getName();
-	Class<? extends BluetoothDevice> getDeviceType();
-	void setConnection(BluetoothConnection connection);
-	void disconnect();
+	void moveRightMotorForward(int speed);
+	void moveRightMotorBackward(int speed);
 
-	boolean isAlive();
+	void stopLeftMotor();
+	void stopRightMotor();
+	void stopAllMovements();
 
-	UUID getBluetoothDeviceUUID();
+	void setLeftRGBLightColor(int red, int green, int blue);
+	void setRightRGBLightColor(int red, int green, int blue);
+
+	void reportFirmwareVersion();
+
 }

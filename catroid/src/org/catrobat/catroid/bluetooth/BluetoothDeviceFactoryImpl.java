@@ -26,6 +26,7 @@ import android.content.Context;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceFactory;
+import org.catrobat.catroid.devices.arduino.kodey.KodeyImpl;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXTImpl;
 
 public class BluetoothDeviceFactoryImpl implements BluetoothDeviceFactory {
@@ -37,13 +38,17 @@ public class BluetoothDeviceFactoryImpl implements BluetoothDeviceFactory {
 			return new LegoNXTImpl(applicationContext);
 		}
 
-//        if (service == BTDeviceService.ALBERT) {
-//            return new Albert();
-//        }
+		if (service == BluetoothDevice.KODEY) {
+			return new KodeyImpl();
+		}
 
-//        if (service == BTDeviceService.ARDUINO) {
-//            return new Arduino();
-//        }
+//		if (service == BTDeviceService.ALBERT) {
+//			return new Albert();
+//		}
+//
+//		if (service == BTDeviceService.ARDUINO) {
+//			return new Arduino();
+//		}
 
 		return null; // may throw exception
 	}
