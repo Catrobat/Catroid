@@ -154,6 +154,18 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.FACE_X_POSITION);
 			case R.string.formula_editor_sensor_face_y_position:
 				return buildSensor(Sensors.FACE_Y_POSITION);
+			case R.string.formula_editor_kodey_sensor_front_left:
+				return buildSensor(Sensors.KODEY_FRONT_LEFT);
+			case R.string.formula_editor_kodey_sensor_front_right:
+				return buildSensor(Sensors.KODEY_FRONT_RIGHT);
+			case R.string.formula_editor_kodey_sensor_side_left:
+				return buildSensor(Sensors.KODEY_SIDE_LEFT);
+			case R.string.formula_editor_kodey_sensor_side_right:
+				return buildSensor(Sensors.KODEY_SIDE_RIGHT);
+			case R.string.formula_editor_kodey_sensor_bottom_left:
+				return buildSensor(Sensors.KODEY_BOTTOM_LEFT);
+			case R.string.formula_editor_kodey_sensor_bottom_right:
+				return buildSensor(Sensors.KODEY_BOTTOM_RIGHT);
 
 			case R.string.formula_editor_sensor_lego_nxt_1:
 				return buildSensor(Sensors.NXT_SENSOR_1);

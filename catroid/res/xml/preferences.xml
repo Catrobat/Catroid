@@ -68,6 +68,12 @@
 
     <CheckBoxPreference
         android:defaultValue="true"
+        android:key="setting_enable_kodey_bricks"
+        android:summary="@string/preference_description_kodey_bricks"
+        android:title="@string/preference_title_enable_kodey_bricks" />
+
+    <CheckBoxPreference
+        android:defaultValue="true"
         android:key="@string/preference_key_use_face_detection"
         android:summary="@string/preference_description_use_face_detection"
         android:title="@string/preference_title_use_face_detection" />

@@ -82,8 +82,15 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	private static final int TIME_WINDOW = 2000;
 
 	public static final String FORMULA_EDITOR_FRAGMENT_TAG = FormulaEditorFragment.class.getSimpleName();
+	public static final String FORMULA_EDITOR_MULTIPLE_SEEKBAR_FRAGMENT_TAG = "phiro_pro_editor_multiple_seekbar_fragment";
 	public static final String FORMULA_BRICK_BUNDLE_ARGUMENT = "formula_brick";
 	public static final String BRICKFIELD_BUNDLE_ARGUMENT = "brick_field";
+	public static final String BRICKFIELD_BUNDLE_ARGUMENT_RED = "brick_field_red";
+	public static final String BRICKFIELD_BUNDLE_ARGUMENT_GREEN = "brick_field_green";
+	public static final String BRICKFIELD_BUNDLE_ARGUMENT_BLUE = "brick_field_blue";
+	public static final String PHIRO_PRO_LIGHT_BRICK_FRAGMENT_TAG = "phiro_pro_light_brick";
+	public static final String PHIRO_PRO_MOTOR_FORWARD_BRICK_FRAGMENT_TAG = "phiro_pro_motor_forward_brick";
+	public static final String PHIRO_PRO_MOTOR_BACKWARD_BRICK_FRAGMENT_TAG = "phiro_pro_motor_backward_brick";
 
 	private Context context;
 	private FormulaEditorEditText formulaEditorEditText;
@@ -97,6 +104,9 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	private FormulaBrick clonedFormulaBrick;
 	private Brick.BrickField currentBrickField;
 	private Formula currentFormula;
+	private Formula currentFormulaRed;
+	private Formula currentFormulaGreen;
+	private Formula currentFormulaBlue;
 
 	private long[] confirmSwitchEditTextTimeStamp = { 0, 0 };
 	private int confirmSwitchEditTextCounter = 0;
@@ -112,9 +122,25 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 				.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
 
 		formulaBrick = (FormulaBrick) getArguments().getSerializable(FORMULA_BRICK_BUNDLE_ARGUMENT);
-		currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICKFIELD_BUNDLE_ARGUMENT));
-		cloneFormulaBrick(formulaBrick);
-		currentFormula = clonedFormulaBrick.getFormulaWithBrickField(currentBrickField);
+
+		//ToDo: Causes Nullpointer because PHIRO_PRO_LIGHT_BRICK_FRAGMENT_TAG not available
+		if(savedInstanceState.containsKey(PHIRO_PRO_LIGHT_BRICK_FRAGMENT_TAG)) {
+			currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICKFIELD_BUNDLE_ARGUMENT_RED));
+			currentFormulaRed = clonedFormulaBrick.getFormulaWithBrickField(currentBrickField);
+
+			currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICKFIELD_BUNDLE_ARGUMENT_GREEN));
+			currentFormulaRed = clonedFormulaBrick.getFormulaWithBrickField(currentBrickField);
+
+			currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICKFIELD_BUNDLE_ARGUMENT_BLUE));
+			currentFormulaRed = clonedFormulaBrick.getFormulaWithBrickField(currentBrickField);
+		}
+		else {
+			currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICKFIELD_BUNDLE_ARGUMENT));
+			cloneFormulaBrick(formulaBrick);
+
+			currentFormula = clonedFormulaBrick.getFormulaWithBrickField(currentBrickField);
+		}
+
 		setHasOptionsMenu(true);
 	}
 
@@ -171,6 +197,45 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		fragTransaction.commit();
 	}
 
+	public static void showRGBSeekbarFragment(View view, FormulaBrick formulaBrick, Brick.BrickField red, Brick.BrickField green, Brick.BrickField blue) {
+
+		SherlockFragmentActivity activity = (SherlockFragmentActivity) view.getContext();
+
+		FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) activity.getSupportFragmentManager()
+				.findFragmentByTag(FORMULA_EDITOR_MULTIPLE_SEEKBAR_FRAGMENT_TAG);
+
+		FragmentManager fragmentManager = activity.getSupportFragmentManager();
+		FragmentTransaction fragTransaction = fragmentManager.beginTransaction();
+
+		if (formulaEditorFragment == null) {
+			formulaEditorFragment = new FormulaEditorFragment();
+			Bundle bundle = new Bundle();
+			bundle.putSerializable(FORMULA_BRICK_BUNDLE_ARGUMENT, formulaBrick);
+			bundle.putString(BRICKFIELD_BUNDLE_ARGUMENT_RED, red.name());
+			bundle.putString(BRICKFIELD_BUNDLE_ARGUMENT_GREEN, green.name());
+			bundle.putString(BRICKFIELD_BUNDLE_ARGUMENT_BLUE, blue.name());
+			bundle.putString(PHIRO_PRO_LIGHT_BRICK_FRAGMENT_TAG, "Multiple_Seekbar");
+			formulaEditorFragment.setArguments(bundle);
+
+			fragTransaction.add(R.id.script_fragment_container, formulaEditorFragment, FORMULA_EDITOR_MULTIPLE_SEEKBAR_FRAGMENT_TAG);
+			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
+			fragTransaction.show(formulaEditorFragment);
+			BottomBar.hideBottomBar(activity);
+		} else if (formulaEditorFragment.isHidden()) {
+			formulaEditorFragment.updateBrickViewAndFormula(formulaBrick, red);
+			formulaEditorFragment.updateBrickViewAndFormula(formulaBrick, green);
+			formulaEditorFragment.updateBrickViewAndFormula(formulaBrick, blue);
+			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
+			fragTransaction.show(formulaEditorFragment); //ToDo: Multiple Seekbar thing
+			BottomBar.hideBottomBar(activity);
+		} else {
+			formulaEditorFragment.setInputFormula(red, SET_FORMULA_ON_SWITCH_EDIT_TEXT);
+			formulaEditorFragment.setInputFormula(green, SET_FORMULA_ON_SWITCH_EDIT_TEXT);
+			formulaEditorFragment.setInputFormula(blue, SET_FORMULA_ON_SWITCH_EDIT_TEXT);
+		}
+		fragTransaction.commit();
+	}
+
 	public void updateBrickView() {
 		formulaEditorBrick.removeAllViews();
 		View newBrickView = clonedFormulaBrick.getView(context, 0, null);
@@ -212,7 +277,20 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		fragmentView = inflater.inflate(R.layout.fragment_formula_editor, container, false);
+		if(savedInstanceState.containsKey(PHIRO_PRO_LIGHT_BRICK_FRAGMENT_TAG)) {
+			fragmentView = inflater.inflate(R.layout.fragment_kodey_rgb_color_chooser, container, false);
+			fragmentView.getViewTreeObserver().addOnGlobalLayoutListener(this);
+
+			setInputFormula(currentBrickField, SET_FORMULA_ON_CREATE_VIEW);
+
+			setHasOptionsMenu(true);
+			setUpActionBar();
+
+			return fragmentView;
+		}
+		else {
+			fragmentView = inflater.inflate(R.layout.fragment_formula_editor, container, false);
+		}
 		fragmentView.setFocusableInTouchMode(true);
 		fragmentView.requestFocus();
 
@@ -486,13 +564,13 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 								}
 							}).setPositiveButton(R.string.yes, new OnClickListener() {
 
-								@Override
-								public void onClick(DialogInterface dialog, int which) {
-									if (saveFormulaIfPossible()) {
-										onUserDismiss();
-									}
-								}
-							}).create().show();
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							if (saveFormulaIfPossible()) {
+								onUserDismiss();
+							}
+						}
+					}).create().show();
 
 				} else {
 					onUserDismiss();
@@ -656,5 +734,4 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			backspaceOnKeyboard.setEnabled(true);
 		}
 	}
-
 }

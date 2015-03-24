@@ -24,6 +24,7 @@ package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.hardware.Sensor;
 import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Formula implements Serializable {
 
@@ -279,5 +281,19 @@ public class Formula implements Serializable {
 			return String.valueOf(interpretationResult);
 		}
 	}
-	
+
+	public boolean containsKodeySensors() {
+		List<InternToken> internTokenList = formulaTree.getInternTokenList();
+		for (InternToken internToken : internTokenList) {
+			if ((internToken.getTokenStringValue() == Sensors.KODEY_FRONT_LEFT.toString()) ||
+					(internToken.getTokenStringValue() == Sensors.KODEY_FRONT_RIGHT.toString()) ||
+					(internToken.getTokenStringValue() == Sensors.KODEY_SIDE_LEFT.toString()) ||
+					(internToken.getTokenStringValue() == Sensors.KODEY_SIDE_RIGHT.toString()) ||
+					(internToken.getTokenStringValue() == Sensors.KODEY_BOTTOM_LEFT.toString()) ||
+					(internToken.getTokenStringValue() == Sensors.KODEY_BOTTOM_RIGHT.toString())) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
