@@ -40,11 +40,18 @@
 
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <!---->
-    <!--&lt;!&ndash; drone &ndash;&gt;-->
-    <!--<uses-feature android:name="android.hardware.wifi" android:required="false" />-->
-    <!--<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>-->
-    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>-->
+    
+    <!-- drone permissions -->
+    <uses-feature android:name="android.hardware.wifi" android:required="false" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- drone permissions end -->
 
     <uses-feature android:name="android.hardware.bluetooth" android:required="false" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
