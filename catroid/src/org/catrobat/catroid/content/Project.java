@@ -270,4 +270,13 @@ public class Project implements Serializable {
 			}
 		}
 	}
+
+	public boolean checkIfKodeyProject() {
+		return xmlHeader.isKodeyProject();
+	}
+
+	public void setIsKodeyProject(boolean isKodeyProject) {
+		xmlHeader.setKodeyProject(isKodeyProject);
+
+	}
 }

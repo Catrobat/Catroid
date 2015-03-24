@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2014 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,28 +20,16 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.catrobat.catroid.devices.arduino.kodey;
 
-import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
+public interface KodeySensor {
+	public int getValue();
 
-public interface Kodey extends BluetoothDevice {
+	public int getUpdateInterval();
+	public void updateLastSensorValue();
+	public int getLastSensorValue();
 
-	public void playTone(int selected_tone, int duration);
+	public String getName();
 
-	public void moveLeftMotorForward(int speed);
-	public void moveLeftMotorBackward(int speed);
-
-	public void moveRightMotorForward(int speed);
-	public void moveRightMotorBackward(int speed);
-
-	public void stopLeftMotor();
-	public void stopRightMotor();
-	public void stopAllMovements();
-
-	public void setLeftRGBLightColor(int red, int green, int blue);
-	public void setRightRGBLightColor(int red, int green, int blue);
-
-	public void reportFirmwareVersion();
-
+	public int getConnectedPort();
 }

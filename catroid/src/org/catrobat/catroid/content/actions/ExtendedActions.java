@@ -32,6 +32,11 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.KodeyMotorBackwardActionBrick;
+import org.catrobat.catroid.content.bricks.KodeyMotorForwardActionBrick;
+import org.catrobat.catroid.content.bricks.KodeyMotorStopBrick;
+import org.catrobat.catroid.content.bricks.KodeyPlayMusicBrick;
+import org.catrobat.catroid.content.bricks.KodeyRGBLightBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
@@ -187,6 +192,57 @@ public class ExtendedActions extends Actions {
 		action.setHertz(hertz);
 		action.setSprite(sprite);
 		action.setDurationInSeconds(durationInSeconds);
+		return action;
+	}
+
+	public static KodeyPlayToneAction kodeyPlayToneAction(Sprite sprite, KodeyPlayMusicBrick.Tone toneEnum,
+			Formula duration) {
+		KodeyPlayToneAction action = action(KodeyPlayToneAction.class);
+		action.setSelectedTone(toneEnum);
+		action.setSprite(sprite);
+		action.setDurationInSeconds(duration);
+		return action;
+	}
+
+	public static KodeyMotorForwardActionAction kodeyMotorForwardActionAction(Sprite sprite, KodeyMotorForwardActionBrick.Motor motorEnum,
+			Formula speed) {
+		KodeyMotorForwardActionAction action = action(KodeyMotorForwardActionAction.class);
+		action.setMotorEnum(motorEnum);
+		action.setSprite(sprite);
+		action.setSpeed(speed);
+		return action;
+	}
+
+	public static KodeyMotorBackwardActionAction kodeyMotorBackwardActionAction(Sprite sprite, KodeyMotorBackwardActionBrick.Motor motorEnum,
+			Formula speed) {
+		KodeyMotorBackwardActionAction action = action(KodeyMotorBackwardActionAction.class);
+		action.setMotorEnum(motorEnum);
+		action.setSprite(sprite);
+		action.setSpeed(speed);
+		return action;
+	}
+
+	public static KodeyRGBLightAction kodeyRgbLedEyeAction(Sprite sprite, KodeyRGBLightBrick.Eye eye,
+			Formula red, Formula green, Formula blue) {
+		KodeyRGBLightAction action = action(KodeyRGBLightAction.class);
+		action.setSprite(sprite);
+		action.setEyeEnum(eye);
+		action.setRed(red);
+		action.setGreen(green);
+		action.setBlue(blue);
+		return action;
+	}
+
+	public static KodeySensorAction kodeySendSelectedSensor(Sprite sprite, int sensorNumber) {
+		KodeySensorAction action = action(KodeySensorAction.class);
+		action.setSprite(sprite);
+		action.setSensor(sensorNumber);
+		return action;
+	}
+
+	public static KodeyMotorStopAction kodeyMotorStopAction(KodeyMotorStopBrick.Motor motorEnum) {
+		KodeyMotorStopAction action = action(KodeyMotorStopAction.class);
+		action.setMotorEnum(motorEnum);
 		return action;
 	}
 

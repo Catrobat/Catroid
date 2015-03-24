@@ -899,6 +899,13 @@ public class FormulaElement implements Serializable {
 				case NXT_SENSOR_3:
 				case NXT_SENSOR_4:
 					ressources |= Brick.BLUETOOTH_LEGO_NXT;
+				case KODEY_FRONT_LEFT:
+				case KODEY_FRONT_RIGHT:
+				case KODEY_SIDE_LEFT:
+				case KODEY_SIDE_RIGHT:
+				case KODEY_BOTTOM_LEFT:
+				case KODEY_BOTTOM_RIGHT:
+					ressources |= Brick.BLUETOOTH_KODEY;
 					break;
 				default:
 

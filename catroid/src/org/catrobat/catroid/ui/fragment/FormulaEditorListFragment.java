@@ -105,6 +105,11 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			R.string.formula_editor_sensor_lego_nxt_2, R.string.formula_editor_sensor_lego_nxt_3,
 			R.string.formula_editor_sensor_lego_nxt_4};
 
+	private static final int[] PHIRO_SENSOR_ITEMS = {R.string.formula_editor_kodey_sensor_front_left,
+			R.string.formula_editor_kodey_sensor_front_right, R.string.formula_editor_kodey_sensor_side_left,
+			R.string.formula_editor_kodey_sensor_side_right, R.string.formula_editor_kodey_sensor_bottom_left,
+			R.string.formula_editor_kodey_sensor_bottom_right};
+
 	private String actionBarTitle;
 	private int[] itemsIds;
 
@@ -151,6 +156,9 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 				itemsIds = concatAll(itemsIds, NXT_SENSOR_ITEMS);
 			}
 
+			if (SettingsActivity.isKodeySharedPreferenceEnabled(this.getActivity().getApplicationContext(), false)) {
+				itemsIds = concatAll(itemsIds, PHIRO_SENSOR_ITEMS);
+			}
 		}
 
 		String[] items = new String[itemsIds.length];
