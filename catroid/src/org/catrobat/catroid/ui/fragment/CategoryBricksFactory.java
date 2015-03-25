@@ -63,13 +63,13 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
-import org.catrobat.catroid.content.bricks.KodeyMotorBackwardActionBrick;
-import org.catrobat.catroid.content.bricks.KodeyMotorForwardActionBrick;
-import org.catrobat.catroid.content.bricks.KodeyMotorStopBrick;
-import org.catrobat.catroid.content.bricks.KodeyPlayMusicBrick;
-import org.catrobat.catroid.content.bricks.KodeyRGBLightBrick;
-import org.catrobat.catroid.content.bricks.KodeySensorBrick;
-import org.catrobat.catroid.content.bricks.KodeySetVariableBrick;
+import org.catrobat.catroid.content.bricks.PhiroProMotorMoveBackwardBrick;
+import org.catrobat.catroid.content.bricks.PhiroProMotorMoveForwardBrick;
+import org.catrobat.catroid.content.bricks.PhiroProMotorStopBrick;
+import org.catrobat.catroid.content.bricks.PhiroProPlayToneBrick;
+import org.catrobat.catroid.content.bricks.PhiroProRGBLightBrick;
+import org.catrobat.catroid.content.bricks.PhiroProSensorBrick;
+import org.catrobat.catroid.content.bricks.PhiroProSetVariableBrick;
 import org.catrobat.catroid.content.bricks.LedOffBrick;
 import org.catrobat.catroid.content.bricks.LedOnBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
@@ -144,8 +144,8 @@ public class CategoryBricksFactory {
 			tempList = setupLegoNxtCategoryList();
 		} else if (category.equals(context.getString(R.string.category_drone))) {
 			tempList = setupDroneCategoryList();
-		} else if (category.equals(context.getString(R.string.category_kodey))) {
-			tempList = setupKodeyCategoryList();
+		} else if (category.equals(context.getString(R.string.category_phiro_pro))) {
+			tempList = setupPhiroProCategoryList();
 		}
 
 		for (Brick brick : tempList) {
@@ -179,8 +179,8 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new IfLogicBeginBrick(0));
 		controlBrickList.add(new RepeatBrick(BrickValues.REPEAT));
 
-		if (BuildConfig.FEATURE_KODEY_PRO_ENABLED) {
-			controlBrickList.add(new KodeySensorBrick());
+		if (BuildConfig.FEATURE_PHIRO_PRO_ENABLED) {
+			controlBrickList.add(new PhiroProSensorBrick());
 		}
 
 		return controlBrickList;
@@ -251,12 +251,12 @@ public class CategoryBricksFactory {
 			motionBrickList.add(new VibrationBrick(BrickValues.VIBRATE_MILLISECONDS));
 		}
 
-		if (BuildConfig.FEATURE_KODEY_PRO_ENABLED) {
-			motionBrickList.add(new KodeyMotorForwardActionBrick(KodeyMotorForwardActionBrick.Motor.MOTOR_A,
-					BrickValues.KODEY_SPEED));
-			motionBrickList.add(new KodeyMotorBackwardActionBrick(KodeyMotorBackwardActionBrick.Motor.MOTOR_A,
-					BrickValues.KODEY_SPEED));
-			motionBrickList.add(new KodeyMotorStopBrick(KodeyMotorStopBrick.Motor.ALL_MOTORS));
+		if (BuildConfig.FEATURE_PHIRO_PRO_ENABLED) {
+			motionBrickList.add(new PhiroProMotorMoveForwardBrick(PhiroProMotorMoveForwardBrick.Motor.MOTOR_A,
+					BrickValues.PHIRO_PRO_SPEED));
+			motionBrickList.add(new PhiroProMotorMoveBackwardBrick(PhiroProMotorMoveBackwardBrick.Motor.MOTOR_A,
+					BrickValues.PHIRO_PRO_SPEED));
+			motionBrickList.add(new PhiroProMotorStopBrick(PhiroProMotorStopBrick.Motor.ALL_MOTORS));
 		}
 
 		return motionBrickList;
@@ -278,9 +278,9 @@ public class CategoryBricksFactory {
 
 		soundBrickList.add(new SpeakBrick(BrickValues.SPEAK));
 
-		if (BuildConfig.FEATURE_KODEY_PRO_ENABLED) {
-			soundBrickList.add(new KodeyPlayMusicBrick(KodeyPlayMusicBrick.Tone.DO,
-					BrickValues.KODEY_DURATION));
+		if (BuildConfig.FEATURE_PHIRO_PRO_ENABLED) {
+			soundBrickList.add(new PhiroProPlayToneBrick(PhiroProPlayToneBrick.Tone.DO,
+					BrickValues.PHIRO_PRO_DURATION));
 		}
 
 		return soundBrickList;
@@ -305,8 +305,8 @@ public class CategoryBricksFactory {
 			looksBrickList.add(new LedOnBrick());
 		}
 
-		if (BuildConfig.FEATURE_KODEY_PRO_ENABLED) {
-			looksBrickList.add(new KodeyRGBLightBrick(KodeyRGBLightBrick.Eye.Both, BrickValues.KODEY_VALUE_RED, BrickValues.KODEY_VALUE_GREEN, BrickValues.KODEY_VALUE_BLUE));
+		if (BuildConfig.FEATURE_PHIRO_PRO_ENABLED) {
+			looksBrickList.add(new PhiroProRGBLightBrick(PhiroProRGBLightBrick.Eye.Both, BrickValues.PHIRO_PRO_VALUE_RED, BrickValues.PHIRO_PRO_VALUE_GREEN, BrickValues.PHIRO_PRO_VALUE_BLUE));
 		}
 
 		return looksBrickList;
@@ -354,25 +354,25 @@ public class CategoryBricksFactory {
 		return droneBrickList;
 	}
 
-	private List<Brick> setupKodeyCategoryList() {
-		List<Brick> kodeyBrickList = new ArrayList<Brick>();
-		kodeyBrickList.add(new KodeyMotorForwardActionBrick(KodeyMotorForwardActionBrick.Motor.MOTOR_A,
-				BrickValues.KODEY_SPEED));
-		kodeyBrickList.add(new KodeyMotorBackwardActionBrick(KodeyMotorBackwardActionBrick.Motor.MOTOR_A,
-				BrickValues.KODEY_SPEED));
-		kodeyBrickList.add(new KodeyMotorStopBrick(KodeyMotorStopBrick.Motor.ALL_MOTORS));
-		kodeyBrickList.add(new KodeyPlayMusicBrick(KodeyPlayMusicBrick.Tone.DO,
-				BrickValues.KODEY_DURATION));
-		kodeyBrickList.add(new KodeyRGBLightBrick(KodeyRGBLightBrick.Eye.Both, BrickValues.KODEY_VALUE_RED, BrickValues.KODEY_VALUE_GREEN,BrickValues.KODEY_VALUE_BLUE));
-		kodeyBrickList.add(new KodeySensorBrick());
-		kodeyBrickList.add(new KodeySetVariableBrick(Sensors.KODEY_FRONT_LEFT.toString()));
-		kodeyBrickList.add(new KodeySetVariableBrick(Sensors.KODEY_FRONT_RIGHT.toString()));
-		kodeyBrickList.add(new KodeySetVariableBrick(Sensors.KODEY_SIDE_LEFT.toString()));
-		kodeyBrickList.add(new KodeySetVariableBrick(Sensors.KODEY_SIDE_RIGHT.toString()));
-		kodeyBrickList.add(new KodeySetVariableBrick(Sensors.KODEY_BOTTOM_LEFT.toString()));
-		kodeyBrickList.add(new KodeySetVariableBrick(Sensors.KODEY_BOTTOM_RIGHT.toString()));
+	private List<Brick> setupPhiroProCategoryList() {
+		List<Brick> phiroProBrickList = new ArrayList<Brick>();
+		phiroProBrickList.add(new PhiroProMotorMoveForwardBrick(PhiroProMotorMoveForwardBrick.Motor.MOTOR_A,
+				BrickValues.PHIRO_PRO_SPEED));
+		phiroProBrickList.add(new PhiroProMotorMoveBackwardBrick(PhiroProMotorMoveBackwardBrick.Motor.MOTOR_A,
+				BrickValues.PHIRO_PRO_SPEED));
+		phiroProBrickList.add(new PhiroProMotorStopBrick(PhiroProMotorStopBrick.Motor.ALL_MOTORS));
+		phiroProBrickList.add(new PhiroProPlayToneBrick(PhiroProPlayToneBrick.Tone.DO,
+				BrickValues.PHIRO_PRO_DURATION));
+		phiroProBrickList.add(new PhiroProRGBLightBrick(PhiroProRGBLightBrick.Eye.Both, BrickValues.PHIRO_PRO_VALUE_RED, BrickValues.PHIRO_PRO_VALUE_GREEN, BrickValues.PHIRO_PRO_VALUE_BLUE));
+		phiroProBrickList.add(new PhiroProSensorBrick());
+		phiroProBrickList.add(new PhiroProSetVariableBrick(Sensors.PHIRO_PRO_FRONT_LEFT.toString()));
+		phiroProBrickList.add(new PhiroProSetVariableBrick(Sensors.PHIRO_PRO_FRONT_RIGHT.toString()));
+		phiroProBrickList.add(new PhiroProSetVariableBrick(Sensors.PHIRO_PRO_SIDE_LEFT.toString()));
+		phiroProBrickList.add(new PhiroProSetVariableBrick(Sensors.PHIRO_PRO_SIDE_RIGHT.toString()));
+		phiroProBrickList.add(new PhiroProSetVariableBrick(Sensors.PHIRO_PRO_BOTTOM_LEFT.toString()));
+		phiroProBrickList.add(new PhiroProSetVariableBrick(Sensors.PHIRO_PRO_BOTTOM_RIGHT.toString()));
 
-		return kodeyBrickList;
+		return phiroProBrickList;
 	}
 
 

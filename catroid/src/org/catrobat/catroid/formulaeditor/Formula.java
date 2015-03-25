@@ -24,7 +24,6 @@ package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.hardware.Sensor;
 import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
@@ -282,15 +281,15 @@ public class Formula implements Serializable {
 		}
 	}
 
-	public boolean containsKodeySensors() {
+	public boolean containsPhiroProSensors() {
 		List<InternToken> internTokenList = formulaTree.getInternTokenList();
 		for (InternToken internToken : internTokenList) {
-			if ((internToken.getTokenStringValue() == Sensors.KODEY_FRONT_LEFT.toString()) ||
-					(internToken.getTokenStringValue() == Sensors.KODEY_FRONT_RIGHT.toString()) ||
-					(internToken.getTokenStringValue() == Sensors.KODEY_SIDE_LEFT.toString()) ||
-					(internToken.getTokenStringValue() == Sensors.KODEY_SIDE_RIGHT.toString()) ||
-					(internToken.getTokenStringValue() == Sensors.KODEY_BOTTOM_LEFT.toString()) ||
-					(internToken.getTokenStringValue() == Sensors.KODEY_BOTTOM_RIGHT.toString())) {
+			if ((internToken.getTokenStringValue() == Sensors.PHIRO_PRO_FRONT_LEFT.toString()) ||
+					(internToken.getTokenStringValue() == Sensors.PHIRO_PRO_FRONT_RIGHT.toString()) ||
+					(internToken.getTokenStringValue() == Sensors.PHIRO_PRO_SIDE_LEFT.toString()) ||
+					(internToken.getTokenStringValue() == Sensors.PHIRO_PRO_SIDE_RIGHT.toString()) ||
+					(internToken.getTokenStringValue() == Sensors.PHIRO_PRO_BOTTOM_LEFT.toString()) ||
+					(internToken.getTokenStringValue() == Sensors.PHIRO_PRO_BOTTOM_RIGHT.toString())) {
 				return true;
 			}
 		}

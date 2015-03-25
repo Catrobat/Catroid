@@ -352,15 +352,15 @@ public class ScriptActivity extends BaseActivity {
 				KodeyMotorBackwardSingleSeekbarFragment.FORMULA_EDITOR_MOTOR_BACKWARD_SINGLE_SEEKBAR_FRAGMENT_TAG);
 		if (kodeyFragment != null && kodeyFragment.isVisible()) {
 			scriptFragment.getAdapter().updateProjectBrickList();
-			return kodeyFragment.onKey(null, keyCode, event);
+			return phiroProFragment.onKey(null, keyCode, event);
 		}
-		if (kodeyMotorForwardFragment != null && kodeyMotorForwardFragment.isVisible()) {
+		if (phiroProMotorForwardFragment != null && phiroProMotorForwardFragment.isVisible()) {
 			scriptFragment.getAdapter().updateProjectBrickList();
-			return kodeyMotorForwardFragment.onKey(null, keyCode, event);
+			return phiroProMotorForwardFragment.onKey(null, keyCode, event);
 		}
-		if (kodeyMotorBackwardFragment != null && kodeyMotorBackwardFragment.isVisible()) {
+		if (phiroProMotorBackwardFragment != null && phiroProMotorBackwardFragment.isVisible()) {
 			scriptFragment.getAdapter().updateProjectBrickList();
-			return kodeyMotorBackwardFragment.onKey(null, keyCode, event);
+			return phiroProMotorBackwardFragment.onKey(null, keyCode, event);
 		}
 		*/
 		if (soundFragment != null && soundFragment.isVisible() && soundFragment.onKey(null, keyCode, event)) {

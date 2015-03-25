@@ -21,7 +21,6 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
@@ -30,15 +29,15 @@
               android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/brick_kodey_motor_stop_checkbox"
+        android:id="@+id/brick_phiro_pro_sensor_else_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_kodey_motor_stop_layout"
-        style="@style/BrickContainer.Kodey.Small"
+        android:id="@+id/brick_phiro_pro_sensor_else_layout"
+        style="@style/BrickContainer.Control.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -46,17 +45,9 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
-            android:id="@+id/ValueTextView"
-            style="@style/BrickText.SingleLine"
-            android:text="@string/kodey_motor_stop" >
-        </TextView >
-
-        <Spinner
-            android:id="@+id/brick_kodey_stop_motor_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:focusable="false" />
+            android:id="@+id/brick_phiro_pro_sensor_else_label"
+            style="@style/BrickText"
+            android:text="@string/brick_if_else" />
     </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

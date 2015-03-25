@@ -165,8 +165,8 @@ public class BrickCategoryFragment extends SherlockListFragment {
 			categories.add(inflater.inflate(R.layout.brick_category_drone, null));
 		}
 
-		if (SettingsActivity.isKodeySharedPreferenceEnabled(getActivity(), false)) {
-			categories.add(inflater.inflate(R.layout.brick_category_kodey, null));
+		if (SettingsActivity.isPhiroProSharedPreferenceEnabled(getActivity(), false)) {
+			categories.add(inflater.inflate(R.layout.brick_category_phiro_pro, null));
 		}
 
 		adapter = new BrickCategoryAdapter(categories);

@@ -39,50 +39,49 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.devices.arduino.kodey.KodeySensor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class KodeySensorBrick extends FormulaBrick implements NestingBrick, OnItemSelectedListener {
+public class PhiroProSensorBrick extends FormulaBrick implements NestingBrick, OnItemSelectedListener {
 
 	private static final long serialVersionUID = 1l;
 	private transient View prototypeView;
 	private transient AdapterView<?> adapterView;
 	private int sensorSpinnerPosition = 0;
-	protected transient KodeySensorElseBrick kodeySensorElseBrick;
-	protected transient KodeySensorEndBrick kodeySensorEndBrick;
-	private transient KodeySensorBrick copy;
-	private static final String TAG = KodeySensor.class.getSimpleName();
+	protected transient PhiroProSensorElseBrick phiroProSensorElseBrick;
+	protected transient PhiroProSensorEndBrick phiroProSensorEndBrick;
+	private transient PhiroProSensorBrick copy;
+	private static final String TAG = PhiroProSensorBrick.class.getSimpleName();
 
-	public KodeySensorBrick() {
+	public PhiroProSensorBrick() {
 	}
 
 	@Override
 	public int getRequiredResources() {
-		return BLUETOOTH_KODEY;
+		return BLUETOOTH_PHIRO_PRO;
 	}
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
-		KodeySensorBrick copyBrick = (KodeySensorBrick) clone();
+		PhiroProSensorBrick copyBrick = (PhiroProSensorBrick) clone();
 		return copyBrick;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_kodey_if_sensor, null);
+		prototypeView = View.inflate(context, R.layout.brick_phiro_pro_if_sensor, null);
 
-		Spinner kodeySensorSpinner = (Spinner) prototypeView.findViewById(R.id.brick_kodey_sensor_action_spinner);
-		kodeySensorSpinner.setFocusableInTouchMode(false);
-		kodeySensorSpinner.setFocusable(false);
+		Spinner phiroProSensorSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_pro_sensor_action_spinner);
+		phiroProSensorSpinner.setFocusableInTouchMode(false);
+		phiroProSensorSpinner.setFocusable(false);
 
-		ArrayAdapter<CharSequence> kodeySensorSpinnerAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_kodey_select_sensor_spinner, android.R.layout.simple_spinner_item);
-		kodeySensorSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		ArrayAdapter<CharSequence> phiroProSensorSpinnerAdapter = ArrayAdapter.createFromResource(context,
+				R.array.brick_phiro_pro_select_sensor_spinner, android.R.layout.simple_spinner_item);
+		phiroProSensorSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		kodeySensorSpinner.setAdapter(kodeySensorSpinnerAdapter);
-		kodeySensorSpinner.setSelection(sensorSpinnerPosition);
+		phiroProSensorSpinner.setAdapter(phiroProSensorSpinnerAdapter);
+		phiroProSensorSpinner.setSelection(sensorSpinnerPosition);
 
 		return prototypeView;
 
@@ -91,7 +90,7 @@ public class KodeySensorBrick extends FormulaBrick implements NestingBrick, OnIt
 
 	@Override
 	public boolean isInitialized() {
-		if (kodeySensorElseBrick == null) {
+		if (phiroProSensorElseBrick == null) {
 			return false;
 		} else {
 			return true;
@@ -100,8 +99,8 @@ public class KodeySensorBrick extends FormulaBrick implements NestingBrick, OnIt
 
 	@Override
 	public void initialize() {
-		kodeySensorElseBrick = new KodeySensorElseBrick(this);
-		kodeySensorEndBrick = new KodeySensorEndBrick(kodeySensorElseBrick, this);
+		phiroProSensorElseBrick = new PhiroProSensorElseBrick(this);
+		phiroProSensorEndBrick = new PhiroProSensorEndBrick(phiroProSensorElseBrick, this);
 		Log.w(TAG, "Creating if logic stuff");
 	}
 
@@ -111,11 +110,11 @@ public class KodeySensorBrick extends FormulaBrick implements NestingBrick, OnIt
 		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
 		if (sorted) {
 			nestingBrickList.add(this);
-			nestingBrickList.add(kodeySensorElseBrick);
-			nestingBrickList.add(kodeySensorEndBrick);
+			nestingBrickList.add(phiroProSensorElseBrick);
+			nestingBrickList.add(phiroProSensorEndBrick);
 		} else {
 			nestingBrickList.add(this);
-			nestingBrickList.add(kodeySensorEndBrick);
+			nestingBrickList.add(phiroProSensorEndBrick);
 		}
 
 		return nestingBrickList;
@@ -123,36 +122,36 @@ public class KodeySensorBrick extends FormulaBrick implements NestingBrick, OnIt
 
 	@Override
 	public boolean isDraggableOver(Brick brick) {
-		if (brick == kodeySensorElseBrick) {
+		if (brick == phiroProSensorElseBrick) {
 			return false;
 		} else {
 			return true;
 		}
 	}
 
-	public KodeySensorElseBrick getKodeySensorElseBrick() {
-		return kodeySensorElseBrick;
+	public PhiroProSensorElseBrick getPhiroProSensorElseBrick() {
+		return phiroProSensorElseBrick;
 	}
 
-	public KodeySensorEndBrick getKodeySensorEndBrick() {
-		return kodeySensorEndBrick;
+	public PhiroProSensorEndBrick getPhiroProSensorEndBrick() {
+		return phiroProSensorEndBrick;
 	}
 
-	public KodeySensorBrick getCopy() {
+	public PhiroProSensorBrick getCopy() {
 		return copy;
 	}
 
-	public void setKodeySensorElseBrick(KodeySensorElseBrick kodeySensorElseBrick) {
-		this.kodeySensorElseBrick = kodeySensorElseBrick;
+	public void setPhiroProSensorElseBrick(PhiroProSensorElseBrick phiroProSensorElseBrick) {
+		this.phiroProSensorElseBrick = phiroProSensorElseBrick;
 	}
 
-	public void setKodeySensorEndBrick(KodeySensorEndBrick kodeySensorEndBrick) {
-		this.kodeySensorEndBrick = kodeySensorEndBrick;
+	public void setPhiroProSensorEndBrick(PhiroProSensorEndBrick phiroProSensorEndBrick) {
+		this.phiroProSensorEndBrick = phiroProSensorEndBrick;
 	}
 
 	@Override
 	public Brick clone() {
-		return new KodeySensorBrick();
+		return new PhiroProSensorBrick();
 	}
 
 	@Override
@@ -169,10 +168,10 @@ public class KodeySensorBrick extends FormulaBrick implements NestingBrick, OnIt
 			alphaValue = 255;
 		}
 
-		view = View.inflate(context, R.layout.brick_kodey_if_sensor, null);
+		view = View.inflate(context, R.layout.brick_phiro_pro_if_sensor, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_kodey_sensor_checkbox);
+		setCheckboxView(R.id.brick_phiro_pro_sensor_checkbox);
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
@@ -182,25 +181,25 @@ public class KodeySensorBrick extends FormulaBrick implements NestingBrick, OnIt
 			}
 		});
 
-		Spinner kodeySensorSpinner = (Spinner) view.findViewById(R.id.brick_kodey_sensor_action_spinner);
+		Spinner phiroProSensorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_pro_sensor_action_spinner);
 
-		ArrayAdapter<CharSequence> kodeySensorAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_kodey_select_sensor_spinner, android.R.layout.simple_spinner_item);
-		kodeySensorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		ArrayAdapter<CharSequence> phiroProSensorAdapter = ArrayAdapter.createFromResource(context,
+				R.array.brick_phiro_pro_select_sensor_spinner, android.R.layout.simple_spinner_item);
+		phiroProSensorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		if (checkbox.getVisibility() == View.VISIBLE) {
-			kodeySensorSpinner.setClickable(false);
-			kodeySensorSpinner.setEnabled(false);
+			phiroProSensorSpinner.setClickable(false);
+			phiroProSensorSpinner.setEnabled(false);
 		} else {
-			kodeySensorSpinner.setClickable(true);
-			kodeySensorSpinner.setEnabled(true);
-			kodeySensorSpinner.setOnItemSelectedListener(this);
+			phiroProSensorSpinner.setClickable(true);
+			phiroProSensorSpinner.setEnabled(true);
+			phiroProSensorSpinner.setOnItemSelectedListener(this);
 		}
 
-		kodeySensorSpinner.setAdapter(kodeySensorAdapter);
-		kodeySensorSpinner.setSelection(sensorSpinnerPosition);
+		phiroProSensorSpinner.setAdapter(phiroProSensorAdapter);
+		phiroProSensorSpinner.setSelection(sensorSpinnerPosition);
 
-		kodeySensorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		phiroProSensorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -219,12 +218,12 @@ public class KodeySensorBrick extends FormulaBrick implements NestingBrick, OnIt
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
 		if (view != null) {
-			View layout = view.findViewById(R.id.brick_kodey_sensor_layout);
+			View layout = view.findViewById(R.id.brick_phiro_pro_sensor_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			Spinner kodeySensorSpinner = (Spinner) view.findViewById(R.id.brick_kodey_sensor_action_spinner);
-			kodeySensorSpinner.getBackground().setAlpha(alphaValue);
+			Spinner phiroProSensorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_pro_sensor_action_spinner);
+			phiroProSensorSpinner.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
 		}
@@ -242,7 +241,7 @@ public class KodeySensorBrick extends FormulaBrick implements NestingBrick, OnIt
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.kodeySendSelectedSensor(sprite, sensorSpinnerPosition));
+		sequence.addAction(ExtendedActions.phiroProSendSelectedSensor(sprite, sensorSpinnerPosition));
 		return null;
 	}
 }

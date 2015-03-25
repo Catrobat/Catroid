@@ -93,12 +93,12 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NXT_SENSOR_2.name(), R.string.formula_editor_sensor_lego_nxt_2);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NXT_SENSOR_3.name(), R.string.formula_editor_sensor_lego_nxt_3);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NXT_SENSOR_4.name(), R.string.formula_editor_sensor_lego_nxt_4);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.KODEY_FRONT_LEFT.name(), R.string.formula_editor_kodey_sensor_front_left);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.KODEY_FRONT_RIGHT.name(), R.string.formula_editor_kodey_sensor_front_right);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.KODEY_SIDE_LEFT.name(), R.string.formula_editor_kodey_sensor_side_left);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.KODEY_SIDE_RIGHT.name(), R.string.formula_editor_kodey_sensor_side_right);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.KODEY_BOTTOM_LEFT.name(), R.string.formula_editor_kodey_sensor_bottom_left);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.KODEY_BOTTOM_RIGHT.name(), R.string.formula_editor_kodey_sensor_bottom_right);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PHIRO_PRO_FRONT_LEFT.name(), R.string.formula_editor_phiro_pro_sensor_front_left);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PHIRO_PRO_FRONT_RIGHT.name(), R.string.formula_editor_phiro_pro_sensor_front_right);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PHIRO_PRO_SIDE_LEFT.name(), R.string.formula_editor_phiro_pro_sensor_side_left);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PHIRO_PRO_SIDE_RIGHT.name(), R.string.formula_editor_phiro_pro_sensor_side_right);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PHIRO_PRO_BOTTOM_LEFT.name(), R.string.formula_editor_phiro_pro_sensor_bottom_left);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PHIRO_PRO_BOTTOM_RIGHT.name(), R.string.formula_editor_phiro_pro_sensor_bottom_right);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.LOUDNESS.name(), R.string.formula_editor_sensor_loudness);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_X.name(), R.string.formula_editor_object_x);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_Y.name(), R.string.formula_editor_object_y);

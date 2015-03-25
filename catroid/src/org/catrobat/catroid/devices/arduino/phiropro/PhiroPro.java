@@ -21,11 +21,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.devices.arduino.kodey;
+package org.catrobat.catroid.devices.arduino.phiropro;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 
-public interface Kodey extends BluetoothDevice {
+public interface PhiroPro extends BluetoothDevice {
 
 	public void playTone(int selected_tone, int duration);
 

@@ -34,7 +34,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.common.ServiceProvider;
 
-public class KodeySensorAction extends Action {
+public class PhiroProSensorAction extends Action {
 
 	private int sensorNumber;
 	private Sprite sprite;
@@ -106,17 +106,17 @@ public class KodeySensorAction extends Action {
 
 	public void setSensor(int sensorNumber)
 	{
-		//Kodey kodey = ServiceProvider.getService(CatrobatService.KODEY);
+		//PhiroPro phiroPro = ServiceProvider.getService(CatrobatService.PHIRO_PRO);
 
-//		if(kodey != null)
-//			kodey.setSensor(sensorNumber);
+//		if(phiroPro != null)
+//			phiroPro.setSensor(sensorNumber);
 	}
 	/*
 	@Override
 	protected void update(float percent) {
-		Kodey kodey = ServiceProvider.getService(CatrobatService.KODEY);
-		if(kodey != null)
-			kodey.setSensor(sensorNumber);
+		PhiroPro phiroPro = ServiceProvider.getService(CatrobatService.PHIRO_PRO);
+		if(phiroPro != null)
+			phiroPro.setSensor(sensorNumber);
 	}
 	*/
 

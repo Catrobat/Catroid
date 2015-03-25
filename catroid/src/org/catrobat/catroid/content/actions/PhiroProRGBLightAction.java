@@ -31,12 +31,12 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.KodeyRGBLightBrick.Eye;
-import org.catrobat.catroid.devices.arduino.kodey.Kodey;
+import org.catrobat.catroid.content.bricks.PhiroProRGBLightBrick.Eye;
+import org.catrobat.catroid.devices.arduino.phiropro.PhiroPro;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
-public class KodeyRGBLightAction extends TemporalAction {
+public class PhiroProRGBLightAction extends TemporalAction {
 	private static final int MIN_VALUE = 0;
 	private static final int MAX_VALUE = 255;
 
@@ -97,17 +97,17 @@ public class KodeyRGBLightAction extends TemporalAction {
 			blueValue = MAX_VALUE;
 		}
 
-		Kodey kodey = btService.getDevice(BluetoothDevice.KODEY);
+		PhiroPro phiroPro = btService.getDevice(BluetoothDevice.PHIRO_PRO);
 
 		if (eyeEnum.equals(Eye.Left)) {
-			kodey.setLeftRGBLightColor(redValue, greenValue, blueValue);
+			phiroPro.setLeftRGBLightColor(redValue, greenValue, blueValue);
 		} else if (eyeEnum.equals(Eye.Right)) {
-			kodey.setRightRGBLightColor(redValue, greenValue, blueValue);
+			phiroPro.setRightRGBLightColor(redValue, greenValue, blueValue);
 		} else if (eyeEnum.equals(Eye.Both)) {
-			kodey.setLeftRGBLightColor(redValue, greenValue, blueValue);
-			kodey.setRightRGBLightColor(redValue, greenValue, blueValue);
+			phiroPro.setLeftRGBLightColor(redValue, greenValue, blueValue);
+			phiroPro.setRightRGBLightColor(redValue, greenValue, blueValue);
 		} else {
-			Log.d("Kodey", "Error: EyeEnum:" + eyeEnum);
+			Log.d("PhiroPro", "Error: EyeEnum:" + eyeEnum);
 		}
 	}
 

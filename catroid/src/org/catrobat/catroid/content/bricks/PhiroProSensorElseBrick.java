@@ -41,20 +41,18 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class KodeySensorEndBrick extends BrickBaseType implements NestingBrick, AllowedAfterDeadEndBrick {
+public class PhiroProSensorElseBrick extends BrickBaseType implements NestingBrick, AllowedAfterDeadEndBrick {
 
-	static final int FOREVER = -1;
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = KodeySensorEndBrick.class.getSimpleName();
-	private transient KodeySensorElseBrick kodeyElseBrick;
+	private static final String TAG = PhiroProSensorElseBrick.class.getSimpleName();
+	private transient PhiroProSensorBrick phiroProSensorBeginBrick;
+	private transient PhiroProSensorEndBrick phiroProSensorEndBrick;
 
-	private transient KodeySensorBrick kodeyBeginBrick;
+	private transient PhiroProSensorElseBrick copy;
 
-	public KodeySensorEndBrick(KodeySensorElseBrick elseBrick, KodeySensorBrick beginBrick) {
-		this.kodeyElseBrick = elseBrick;
-		this.kodeyBeginBrick = beginBrick;
-		beginBrick.setKodeySensorEndBrick(this);
-		elseBrick.setKodeySensorEndBrick(this);
+	public PhiroProSensorElseBrick(PhiroProSensorBrick ifPhiroProSensorBeginBrick) {
+		this.phiroProSensorBeginBrick = ifPhiroProSensorBeginBrick;
+		ifPhiroProSensorBeginBrick.setPhiroProSensorElseBrick(this);
 	}
 
 	@Override
@@ -62,20 +60,8 @@ public class KodeySensorEndBrick extends BrickBaseType implements NestingBrick, 
 		return NO_RESOURCES;
 	}
 
-	public KodeySensorElseBrick getKodeyElseBrick() {
-		return kodeyElseBrick;
-	}
-
-	public KodeySensorBrick getKodeyBeginBrick() {
-		return kodeyBeginBrick;
-	}
-
-	public void setKodeyElseBrick(KodeySensorElseBrick elseBrick) {
-		this.kodeyElseBrick = elseBrick;
-	}
-
-	public void setKodeyBeginBrick(KodeySensorBrick beginBrick) {
-		this.kodeyBeginBrick = beginBrick;
+	public PhiroProSensorElseBrick getCopy() {
+		return copy;
 	}
 
 	@Override
@@ -88,10 +74,10 @@ public class KodeySensorEndBrick extends BrickBaseType implements NestingBrick, 
 		}
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		view = inflater.inflate(R.layout.brick_kodey_if_sensor_end_if, null);
+		view = inflater.inflate(R.layout.brick_phiro_pro_if_sensor_else, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_kodey_sensor_end_if_checkbox);
+		setCheckboxView(R.id.brick_phiro_pro_sensor_else_checkbox);
 		final Brick brickInstance = this;
 
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -101,6 +87,7 @@ public class KodeySensorEndBrick extends BrickBaseType implements NestingBrick, 
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
+
 		return view;
 	}
 
@@ -109,12 +96,12 @@ public class KodeySensorEndBrick extends BrickBaseType implements NestingBrick, 
 
 		if (view != null) {
 
-			View layout = view.findViewById(R.id.brick_kodey_sensor_end_if_layout);
+			View layout = view.findViewById(R.id.brick_phiro_pro_sensor_else_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView ifEndLabel = (TextView) view.findViewById(R.id.brick_kodey_sensor_end_if_label);
-			ifEndLabel.setTextColor(ifEndLabel.getTextColors().withAlpha(alphaValue));
+			TextView ifElseLabel = (TextView) view.findViewById(R.id.brick_phiro_pro_sensor_else_label);
+			ifElseLabel.setTextColor(ifElseLabel.getTextColors().withAlpha(alphaValue));
 
 			this.alphaValue = (alphaValue);
 
@@ -125,17 +112,33 @@ public class KodeySensorEndBrick extends BrickBaseType implements NestingBrick, 
 
 	@Override
 	public Brick clone() {
-		return new KodeySensorEndBrick(kodeyElseBrick, kodeyBeginBrick);
+		return new PhiroProSensorElseBrick(phiroProSensorBeginBrick);
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_kodey_if_sensor_end_if, null);
+		return View.inflate(context, R.layout.brick_phiro_pro_if_sensor_else, null);
+	}
+
+	public void setPhiroProSensorEndBrick(PhiroProSensorEndBrick phiroProEndBrick) {
+		this.phiroProSensorEndBrick = phiroProEndBrick;
+	}
+
+	public void setPhiroProSensorBeginBrick(PhiroProSensorBrick phiroProBeginBrick) {
+		this.phiroProSensorBeginBrick = phiroProBeginBrick;
+	}
+
+	public PhiroProSensorBrick getPhiroProSensorBeginBrick() {
+		return phiroProSensorBeginBrick;
+	}
+
+	public PhiroProSensorEndBrick getPhiroProSensorEndBrick() {
+		return phiroProSensorEndBrick;
 	}
 
 	@Override
 	public boolean isDraggableOver(Brick brick) {
-		if (brick == kodeyElseBrick) {
+		if (brick == phiroProSensorBeginBrick || brick == phiroProSensorEndBrick) {
 			return false;
 		} else {
 			return true;
@@ -144,7 +147,7 @@ public class KodeySensorEndBrick extends BrickBaseType implements NestingBrick, 
 
 	@Override
 	public boolean isInitialized() {
-		if (kodeyElseBrick == null) {
+		if (phiroProSensorBeginBrick == null || phiroProSensorEndBrick == null) {
 			return false;
 		} else {
 			return true;
@@ -153,7 +156,8 @@ public class KodeySensorEndBrick extends BrickBaseType implements NestingBrick, 
 
 	@Override
 	public void initialize() {
-		//ifElseBrick = new IfLogicElseBrick(sprite);
+		//ifBeginBrick = new IfLogicBeginBrick(sprite, 0);
+		//ifEndBrick = new IfLogicEndBrick(sprite, this);
 		Log.w(TAG, "Cannot create the IfLogic Bricks from here!");
 	}
 
@@ -162,13 +166,13 @@ public class KodeySensorEndBrick extends BrickBaseType implements NestingBrick, 
 		//TODO: handle sorting
 		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
 		if (sorted) {
-			nestingBrickList.add(kodeyBeginBrick);
-			nestingBrickList.add(kodeyElseBrick);
+			nestingBrickList.add(phiroProSensorBeginBrick);
 			nestingBrickList.add(this);
+			nestingBrickList.add(phiroProSensorEndBrick);
 		} else {
-			nestingBrickList.add(this);
-			nestingBrickList.add(kodeyBeginBrick);
-			//nestingBrickList.add(ifElseBrick);
+			//nestingBrickList.add(this);
+			nestingBrickList.add(phiroProSensorBeginBrick);
+			nestingBrickList.add(phiroProSensorEndBrick);
 		}
 
 		return nestingBrickList;
@@ -177,7 +181,7 @@ public class KodeySensorEndBrick extends BrickBaseType implements NestingBrick, 
 	@Override
 	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.brick_kodey_if_sensor_end_if, null);
+		return inflater.inflate(R.layout.brick_phiro_pro_if_sensor_else, null);
 	}
 
 	@Override
@@ -189,12 +193,14 @@ public class KodeySensorEndBrick extends BrickBaseType implements NestingBrick, 
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
-		KodeySensorEndBrick copyBrick = (KodeySensorEndBrick) clone(); //Using the clone method because of its flexibility if new fields are added
-		kodeyBeginBrick.setKodeySensorEndBrick(this);
-		kodeyElseBrick.setKodeySensorEndBrick(this);
+		//ifEndBrick and ifBeginBrick will be set in the copyBrickForSprite method of IfLogicEndBrick
+		PhiroProSensorElseBrick copyBrick = (PhiroProSensorElseBrick) clone(); //Using the clone method because of its flexibility if new fields are added
+		phiroProSensorBeginBrick.setPhiroProSensorElseBrick(this);
+		phiroProSensorEndBrick.setPhiroProElseBrick(this);
 
-		copyBrick.kodeyBeginBrick = null;
-		copyBrick.kodeyElseBrick = null;
+		copyBrick.phiroProSensorBeginBrick = null;
+		copyBrick.phiroProSensorEndBrick = null;
+		this.copy = copyBrick;
 		return copyBrick;
 	}
 

@@ -30,62 +30,33 @@
               android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/brick_kodey_motor_forward_action_checkbox"
+        android:id="@+id/brick_phiro_pro_motor_stop_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_kodey_motor_forward_action_layout"
-        style="@style/BrickContainer.Kodey.Big"
+        android:id="@+id/brick_phiro_pro_motor_stop_layout"
+        style="@style/BrickContainer.PhiroPro.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:orientation="horizontal"
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
-            android:id="@+id/brick_kodey_motor_forward_action_label"
+            android:id="@+id/ValueTextView"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_kodey_motor_forward_action" >
+            android:text="@string/phiro_pro_motor_stop" >
         </TextView >
 
         <Spinner
-            android:id="@+id/brick_kodey_motor_forward_action_spinner"
+            android:id="@+id/brick_phiro_pro_stop_motor_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="false"
-            android:focusable="false" >
-
-            <!-- do not add spinner items here! -->
-        </Spinner >
-
-        <TextView
-            android:id="@+id/brick_kodey_motor_forward_action_speed"
-            style="@style/BrickText.SingleLine"
-            android:text="@string/kodey_motor_speed" >
-        </TextView >
-
-        <TextView
-            android:id="@+id/brick_kodey_motor_forward_action_speed_text_view"
-            style="@style/BrickPrototypeTextView" >
-        </TextView >
-
-        <TextView
-            android:id="@+id/brick_kodey_motor_forward_action_speed_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true"
-            android:clickable="false" >
-        </TextView >
-
-        <TextView
-            android:id="@+id/brick_kodey_motor_forward_action_percent"
-            style="@style/BrickText"
-            android:text="@string/percent_symbol" >
-        </TextView >
+            android:focusable="false" />
     </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

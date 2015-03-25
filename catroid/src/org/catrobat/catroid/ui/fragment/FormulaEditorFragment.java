@@ -57,6 +57,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.commands.OnFormulaChangedListener;
+import org.catrobat.catroid.content.bricks.PhiroProRGBLightBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -92,6 +93,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	public static final String PHIRO_PRO_MOTOR_FORWARD_BRICK_FRAGMENT_TAG = "phiro_pro_motor_forward_brick";
 	public static final String PHIRO_PRO_MOTOR_BACKWARD_BRICK_FRAGMENT_TAG = "phiro_pro_motor_backward_brick";
 
+
 	private Context context;
 	private FormulaEditorEditText formulaEditorEditText;
 	private LinearLayout formulaEditorKeyboard;
@@ -123,6 +125,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 		formulaBrick = (FormulaBrick) getArguments().getSerializable(FORMULA_BRICK_BUNDLE_ARGUMENT);
 
+		/*
 		//ToDo: Causes Nullpointer because PHIRO_PRO_LIGHT_BRICK_FRAGMENT_TAG not available
 		if(savedInstanceState.containsKey(PHIRO_PRO_LIGHT_BRICK_FRAGMENT_TAG)) {
 			currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICKFIELD_BUNDLE_ARGUMENT_RED));
@@ -134,13 +137,11 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICKFIELD_BUNDLE_ARGUMENT_BLUE));
 			currentFormulaRed = clonedFormulaBrick.getFormulaWithBrickField(currentBrickField);
 		}
-		else {
-			currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICKFIELD_BUNDLE_ARGUMENT));
-			cloneFormulaBrick(formulaBrick);
+		*/
+		currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICKFIELD_BUNDLE_ARGUMENT));
+		cloneFormulaBrick(formulaBrick);
 
-			currentFormula = clonedFormulaBrick.getFormulaWithBrickField(currentBrickField);
-		}
-
+		currentFormula = clonedFormulaBrick.getFormulaWithBrickField(currentBrickField);
 		setHasOptionsMenu(true);
 	}
 
@@ -278,7 +279,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		if(savedInstanceState.containsKey(PHIRO_PRO_LIGHT_BRICK_FRAGMENT_TAG)) {
-			fragmentView = inflater.inflate(R.layout.fragment_kodey_rgb_color_chooser, container, false);
+			fragmentView = inflater.inflate(R.layout.fragment_phiro_pro_rgb_color_chooser, container, false);
 			fragmentView.getViewTreeObserver().addOnGlobalLayoutListener(this);
 
 			setInputFormula(currentBrickField, SET_FORMULA_ON_CREATE_VIEW);
