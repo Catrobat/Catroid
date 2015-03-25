@@ -41,7 +41,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
@@ -49,6 +48,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -177,9 +177,7 @@ public class NewDataDialog extends SherlockDialogFragment {
 		UserList newUserList = null;
 		if (global.isChecked()) {
 			if (!isListNameValid(name)) {
-
-				Toast.makeText(getActivity(), R.string.formula_editor_existing_data_item, Toast.LENGTH_LONG).show();
-
+				ToastUtil.showError(getActivity(), R.string.formula_editor_existing_data_item);
 			} else {
 				newUserList = ProjectManager.getInstance().getCurrentProject().getDataContainer()
 						.addProjectUserList(name);
@@ -194,9 +192,7 @@ public class NewDataDialog extends SherlockDialogFragment {
 		UserVariable newUserVariable = null;
 		if (global.isChecked()) {
 			if (!isVariableNameValid(name)) {
-
-				Toast.makeText(getActivity(), R.string.formula_editor_existing_variable, Toast.LENGTH_LONG).show();
-
+				ToastUtil.showError(getActivity(), R.string.formula_editor_existing_variable);
 			} else {
 				newUserVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer()
 						.addProjectUserVariable(name);
@@ -268,14 +264,14 @@ public class NewDataDialog extends SherlockDialogFragment {
 					if (isListNameValid(name)) {
 						positiveButton.setEnabled(true);
 					} else {
-						Toast.makeText(getActivity(), R.string.formula_editor_existing_data_item, Toast.LENGTH_SHORT).show();
+						ToastUtil.showError(getActivity(), R.string.formula_editor_existing_data_item);
 						positiveButton.setEnabled(false);
 					}
 				} else {
 					if (isVariableNameValid(name)) {
 						positiveButton.setEnabled(true);
 					} else {
-						Toast.makeText(getActivity(), R.string.formula_editor_existing_variable, Toast.LENGTH_SHORT).show();
+						ToastUtil.showError(getActivity(), R.string.formula_editor_existing_variable);
 						positiveButton.setEnabled(false);
 					}
 				}
@@ -284,7 +280,7 @@ public class NewDataDialog extends SherlockDialogFragment {
 				if (isListNameValid(name)) {
 					positiveButton.setEnabled(true);
 				} else {
-					Toast.makeText(getActivity(), R.string.formula_editor_existing_data_item, Toast.LENGTH_SHORT).show();
+					ToastUtil.showError(getActivity(), R.string.formula_editor_existing_data_item);
 					positiveButton.setEnabled(false);
 				}
 				break;
@@ -292,7 +288,7 @@ public class NewDataDialog extends SherlockDialogFragment {
 				if (isVariableNameValid(name)) {
 					positiveButton.setEnabled(true);
 				} else {
-					Toast.makeText(getActivity(), R.string.formula_editor_existing_variable, Toast.LENGTH_SHORT).show();
+					ToastUtil.showError(getActivity(), R.string.formula_editor_existing_variable);
 					positiveButton.setEnabled(false);
 				}
 				break;

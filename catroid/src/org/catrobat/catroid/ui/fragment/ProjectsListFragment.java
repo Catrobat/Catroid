@@ -44,7 +44,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.ActionMode;
@@ -70,6 +69,7 @@ import org.catrobat.catroid.ui.dialogs.RenameProjectDialog;
 import org.catrobat.catroid.ui.dialogs.RenameProjectDialog.OnProjectRenameListener;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog.OnUpdateProjectDescriptionListener;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
@@ -529,10 +529,10 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			projectList.remove(project);
 		} catch (IOException exception) {
 			Log.e(TAG, "Project could not be deleted", exception);
-			Toast.makeText(getActivity(), R.string.error_delete_project, Toast.LENGTH_SHORT).show();
+			ToastUtil.showError(getActivity(), R.string.error_delete_project);
 		} catch (IllegalArgumentException exception) {
 			Log.e(TAG, "Project does not exist!", exception);
-			Toast.makeText(getActivity(), R.string.error_unknown_project, Toast.LENGTH_SHORT).show();
+			ToastUtil.showError(getActivity(), R.string.error_unknown_project);
 		}
 	}
 

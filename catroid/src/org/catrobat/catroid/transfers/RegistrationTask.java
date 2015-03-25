@@ -28,11 +28,11 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
@@ -117,7 +117,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 		}
 
 		if (userRegistered) {
-			Toast.makeText(context, R.string.new_user_registered, Toast.LENGTH_SHORT).show();
+			ToastUtil.showSuccess(context, R.string.new_user_registered);
 		}
 
 		if (onRegistrationCompleteListener != null) {

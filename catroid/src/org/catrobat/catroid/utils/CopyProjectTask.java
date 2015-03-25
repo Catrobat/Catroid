@@ -24,7 +24,6 @@ package org.catrobat.catroid.utils;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -88,10 +87,9 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 			return;
 		}
 
-		Toast.makeText(
-				parentFragment.getActivity(),
+		ToastUtil.showSuccess(parentFragment.getActivity(),
 				parentFragment.getString(R.string.project_name) + " " + newName + " "
-						+ parentFragment.getString(R.string.copy_project_finished), Toast.LENGTH_SHORT).show();
+						+ parentFragment.getString(R.string.copy_project_finished));
 		parentFragment.onCopyProject();
 	}
 
