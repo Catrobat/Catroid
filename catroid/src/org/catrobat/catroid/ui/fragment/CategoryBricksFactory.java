@@ -179,7 +179,9 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new IfLogicBeginBrick(0));
 		controlBrickList.add(new RepeatBrick(BrickValues.REPEAT));
 
-		controlBrickList.add(new KodeySensorBrick());
+		if (BuildConfig.FEATURE_KODEY_PRO_ENABLED) {
+			controlBrickList.add(new KodeySensorBrick());
+		}
 
 		return controlBrickList;
 	}
@@ -249,6 +251,14 @@ public class CategoryBricksFactory {
 			motionBrickList.add(new VibrationBrick(BrickValues.VIBRATE_MILLISECONDS));
 		}
 
+		if (BuildConfig.FEATURE_KODEY_PRO_ENABLED) {
+			motionBrickList.add(new KodeyMotorForwardActionBrick(KodeyMotorForwardActionBrick.Motor.MOTOR_A,
+					BrickValues.KODEY_SPEED));
+			motionBrickList.add(new KodeyMotorBackwardActionBrick(KodeyMotorBackwardActionBrick.Motor.MOTOR_A,
+					BrickValues.KODEY_SPEED));
+			motionBrickList.add(new KodeyMotorStopBrick(KodeyMotorStopBrick.Motor.ALL_MOTORS));
+		}
+
 		return motionBrickList;
 	}
 
@@ -268,8 +278,10 @@ public class CategoryBricksFactory {
 
 		soundBrickList.add(new SpeakBrick(BrickValues.SPEAK));
 
-		soundBrickList.add(new KodeyPlayMusicBrick(KodeyPlayMusicBrick.Tone.DO,
-				BrickValues.KODEY_DURATION));
+		if (BuildConfig.FEATURE_KODEY_PRO_ENABLED) {
+			soundBrickList.add(new KodeyPlayMusicBrick(KodeyPlayMusicBrick.Tone.DO,
+					BrickValues.KODEY_DURATION));
+		}
 
 		return soundBrickList;
 	}
@@ -293,7 +305,9 @@ public class CategoryBricksFactory {
 			looksBrickList.add(new LedOnBrick());
 		}
 
-		looksBrickList.add(new KodeyRGBLightBrick(KodeyRGBLightBrick.Eye.Both, BrickValues.KODEY_VALUE_RED, BrickValues.KODEY_VALUE_GREEN,BrickValues.KODEY_VALUE_BLUE));
+		if (BuildConfig.FEATURE_KODEY_PRO_ENABLED) {
+			looksBrickList.add(new KodeyRGBLightBrick(KodeyRGBLightBrick.Eye.Both, BrickValues.KODEY_VALUE_RED, BrickValues.KODEY_VALUE_GREEN, BrickValues.KODEY_VALUE_BLUE));
+		}
 
 		return looksBrickList;
 	}
