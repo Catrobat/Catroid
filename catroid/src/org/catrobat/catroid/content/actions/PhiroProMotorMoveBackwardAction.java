@@ -31,12 +31,12 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.KodeyMotorForwardActionBrick.Motor;
+import org.catrobat.catroid.content.bricks.PhiroProMotorMoveBackwardBrick.Motor;
+import org.catrobat.catroid.devices.arduino.phiropro.PhiroPro;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.devices.arduino.kodey.Kodey;
 
-public class KodeyMotorForwardActionAction extends TemporalAction {
+public class PhiroProMotorMoveBackwardAction extends TemporalAction {
 	private static final int MIN_SPEED = -100;
 	private static final int MAX_SPEED = 100;
 
@@ -62,21 +62,21 @@ public class KodeyMotorForwardActionAction extends TemporalAction {
 			speedValue = MAX_SPEED;
 		}
 
-		Kodey kodey = btService.getDevice(BluetoothDevice.KODEY);
-		if (kodey == null) {
+		PhiroPro phiroPro = btService.getDevice(BluetoothDevice.PHIRO_PRO);
+		if (phiroPro == null) {
 			return;
 		}
 
 		switch (motorEnum) {
 			case MOTOR_A:
-				kodey.moveRightMotorForward(speedValue);
+				phiroPro.moveRightMotorBackward(speedValue);
 				break;
 			case MOTOR_B:
-				kodey.moveLeftMotorForward(speedValue);
+				phiroPro.moveLeftMotorBackward(speedValue);
 				break;
 			case MOTOR_A_B:
-				kodey.moveRightMotorForward(speedValue);
-				kodey.moveLeftMotorForward(speedValue);
+				phiroPro.moveRightMotorBackward(speedValue);
+				phiroPro.moveRightMotorBackward(speedValue);
 				break;
 		}
 	}

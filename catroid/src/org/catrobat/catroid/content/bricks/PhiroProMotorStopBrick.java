@@ -43,7 +43,7 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.List;
 
-public class KodeyMotorStopBrick extends BrickBaseType implements OnItemSelectedListener {
+public class PhiroProMotorStopBrick extends BrickBaseType implements OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
 	private transient Motor motorEnum;
 	private String motor;
@@ -53,7 +53,7 @@ public class KodeyMotorStopBrick extends BrickBaseType implements OnItemSelected
 		MOTOR_A, MOTOR_B, ALL_MOTORS
 	}
 
-	public KodeyMotorStopBrick(Motor motor) {
+	public PhiroProMotorStopBrick(Motor motor) {
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
 	}
@@ -67,34 +67,34 @@ public class KodeyMotorStopBrick extends BrickBaseType implements OnItemSelected
 
 	@Override
 	public int getRequiredResources() {
-		return BLUETOOTH_KODEY;
+		return BLUETOOTH_PHIRO_PRO;
 	}
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
-		KodeyMotorStopBrick copyBrick = (KodeyMotorStopBrick) clone();
+		PhiroProMotorStopBrick copyBrick = (PhiroProMotorStopBrick) clone();
 		return copyBrick;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_kodey_motor_stop, null);
-		Spinner kodeySpinner = (Spinner) prototypeView.findViewById(R.id.brick_kodey_stop_motor_spinner);
-		kodeySpinner.setFocusableInTouchMode(false);
-		kodeySpinner.setFocusable(false);
+		View prototypeView = View.inflate(context, R.layout.brick_phiro_pro_motor_stop, null);
+		Spinner phiroProSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_pro_stop_motor_spinner);
+		phiroProSpinner.setFocusableInTouchMode(false);
+		phiroProSpinner.setFocusable(false);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_kodey_stop_motor_spinner, android.R.layout.simple_spinner_item);
+				R.array.brick_phiro_pro_stop_motor_spinner, android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		kodeySpinner.setAdapter(motorAdapter);
-		kodeySpinner.setSelection(motorEnum.ordinal());
+		phiroProSpinner.setAdapter(motorAdapter);
+		phiroProSpinner.setSelection(motorEnum.ordinal());
 		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new KodeyMotorStopBrick(motorEnum);
+		return new PhiroProMotorStopBrick(motorEnum);
 	}
 
 	@Override
@@ -105,10 +105,10 @@ public class KodeyMotorStopBrick extends BrickBaseType implements OnItemSelected
 		if (view == null) {
 			alphaValue = 255;
 		}
-		view = View.inflate(context, R.layout.brick_kodey_motor_stop, null);
+		view = View.inflate(context, R.layout.brick_phiro_pro_motor_stop, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_kodey_motor_stop_checkbox);
+		setCheckboxView(R.id.brick_phiro_pro_motor_stop_checkbox);
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
@@ -119,10 +119,10 @@ public class KodeyMotorStopBrick extends BrickBaseType implements OnItemSelected
 		});
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_kodey_stop_motor_spinner, android.R.layout.simple_spinner_item);
+				R.array.brick_phiro_pro_stop_motor_spinner, android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		Spinner motorSpinner = (Spinner) view.findViewById(R.id.brick_kodey_stop_motor_spinner);
+		Spinner motorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_pro_stop_motor_spinner);
 		motorSpinner.setOnItemSelectedListener(this);
 
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
@@ -154,14 +154,14 @@ public class KodeyMotorStopBrick extends BrickBaseType implements OnItemSelected
 
 		if (view != null) {
 
-			View layout = view.findViewById(R.id.brick_kodey_motor_stop_layout);
+			View layout = view.findViewById(R.id.brick_phiro_pro_motor_stop_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView textKodeyMotorStopLabel = (TextView) view.findViewById(R.id.ValueTextView);
-			textKodeyMotorStopLabel.setTextColor(textKodeyMotorStopLabel.getTextColors().withAlpha(alphaValue));
-			Spinner motorSpinner = (Spinner) view.findViewById(R.id.brick_kodey_stop_motor_spinner);
-			ColorStateList color = textKodeyMotorStopLabel.getTextColors().withAlpha(alphaValue);
+			TextView textPhiroProMotorStopLabel = (TextView) view.findViewById(R.id.ValueTextView);
+			textPhiroProMotorStopLabel.setTextColor(textPhiroProMotorStopLabel.getTextColors().withAlpha(alphaValue));
+			Spinner motorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_pro_stop_motor_spinner);
+			ColorStateList color = textPhiroProMotorStopLabel.getTextColors().withAlpha(alphaValue);
 			motorSpinner.getBackground().setAlpha(alphaValue);
 			if (adapterView != null) {
 				((TextView) adapterView.getChildAt(0)).setTextColor(color);
@@ -176,7 +176,7 @@ public class KodeyMotorStopBrick extends BrickBaseType implements OnItemSelected
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.kodeyMotorStopAction(motorEnum));
+		sequence.addAction(ExtendedActions.phiroProMotorStopAction(motorEnum));
 		return null;
 	}
 

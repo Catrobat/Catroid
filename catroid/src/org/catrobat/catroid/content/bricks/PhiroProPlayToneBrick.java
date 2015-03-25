@@ -47,7 +47,8 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class KodeyPlayMusicBrick extends FormulaBrick {
+public class PhiroProPlayToneBrick extends FormulaBrick implements OnClickListener {
+
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -60,17 +61,17 @@ public class KodeyPlayMusicBrick extends FormulaBrick {
 		DO, RE, MI, FA, SO, LA, TI
 	}
 
-	public KodeyPlayMusicBrick() {
-		addAllowedBrickField(BrickField.KODEY_DURATION_IN_SECONDS);
+	public PhiroProPlayToneBrick() {
+		addAllowedBrickField(BrickField.PHIRO_PRO_DURATION_IN_SECONDS);
 	}
 
-	public KodeyPlayMusicBrick(Tone tone, int durationValue) {
+	public PhiroProPlayToneBrick(Tone tone, int durationValue) {
 		this.toneEnum = tone;
 		this.tone = toneEnum.name();
 		initializeBrickFields(new Formula(durationValue));
 	}
 
-	public KodeyPlayMusicBrick(Tone tone, Formula durationFormula) {
+	public PhiroProPlayToneBrick(Tone tone, Formula durationFormula) {
 		this.toneEnum = tone;
 		this.tone = toneEnum.name();
 		initializeBrickFields(durationFormula);
@@ -84,38 +85,38 @@ public class KodeyPlayMusicBrick extends FormulaBrick {
 	}
 
 	private void initializeBrickFields(Formula duration) {
-		addAllowedBrickField(BrickField.KODEY_DURATION_IN_SECONDS);
-		setFormulaWithBrickField(BrickField.KODEY_DURATION_IN_SECONDS, duration);
+		addAllowedBrickField(BrickField.PHIRO_PRO_DURATION_IN_SECONDS);
+		setFormulaWithBrickField(BrickField.PHIRO_PRO_DURATION_IN_SECONDS, duration);
 	}
 
 	@Override
 	public int getRequiredResources() {
-		return BLUETOOTH_KODEY;
+		return BLUETOOTH_PHIRO_PRO;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_kodey_play_tone, null);
-		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_kodey_play_tone_duration_text_view);
-		textDuration.setText(String.valueOf(BrickValues.KODEY_DURATION));
+		prototypeView = View.inflate(context, R.layout.brick_phiro_pro_play_tone, null);
+		TextView textDuration = (TextView) prototypeView.findViewById(R.id.brick_phiro_pro_play_tone_duration_text_view);
+		textDuration.setText(String.valueOf(BrickValues.PHIRO_PRO_DURATION));
 
-		Spinner kodeyToneSpinner = (Spinner) prototypeView.findViewById(R.id.brick_kodey_select_tone_spinner);
-		kodeyToneSpinner.setFocusableInTouchMode(false);
-		kodeyToneSpinner.setFocusable(false);
+		Spinner phiroProToneSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_pro_select_tone_spinner);
+		phiroProToneSpinner.setFocusableInTouchMode(false);
+		phiroProToneSpinner.setFocusable(false);
 
-		ArrayAdapter<CharSequence> toneAdapter = ArrayAdapter.createFromResource(context, R.array.brick_kodey_select_tone_spinner,
+		ArrayAdapter<CharSequence> toneAdapter = ArrayAdapter.createFromResource(context, R.array.brick_phiro_pro_select_tone_spinner,
 				android.R.layout.simple_spinner_item);
 		toneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		kodeyToneSpinner.setAdapter(toneAdapter);
-		kodeyToneSpinner.setSelection(toneEnum.ordinal());
+		phiroProToneSpinner.setAdapter(toneAdapter);
+		phiroProToneSpinner.setSelection(toneEnum.ordinal());
 		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new KodeyPlayMusicBrick(toneEnum,
-				getFormulaWithBrickField(BrickField.KODEY_DURATION_IN_SECONDS).clone());
+		return new PhiroProPlayToneBrick(toneEnum,
+				getFormulaWithBrickField(BrickField.PHIRO_PRO_DURATION_IN_SECONDS).clone());
 	}
 
 	@Override
@@ -127,9 +128,9 @@ public class KodeyPlayMusicBrick extends FormulaBrick {
 			alphaValue = 255;
 		}
 
-		view = View.inflate(context, R.layout.brick_kodey_play_tone, null);
+		view = View.inflate(context, R.layout.brick_phiro_pro_play_tone, null);
 		view = getViewWithAlpha(alphaValue);
-		setCheckboxView(R.id.brick_kodey_play_tone_checkbox);
+		setCheckboxView(R.id.brick_phiro_pro_play_tone_checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -140,20 +141,20 @@ public class KodeyPlayMusicBrick extends FormulaBrick {
 			}
 		});
 
-		TextView textDuration = (TextView) view.findViewById(R.id.brick_kodey_play_tone_duration_text_view);
-		editDuration = (TextView) view.findViewById(R.id.brick_kodey_play_tone_duration_edit_text);
-		getFormulaWithBrickField(BrickField.KODEY_DURATION_IN_SECONDS).setTextFieldId(R.id.brick_kodey_play_tone_duration_edit_text);
-		getFormulaWithBrickField(BrickField.KODEY_DURATION_IN_SECONDS).refreshTextField(view);
+		TextView textDuration = (TextView) view.findViewById(R.id.brick_phiro_pro_play_tone_duration_text_view);
+		editDuration = (TextView) view.findViewById(R.id.brick_phiro_pro_play_tone_duration_edit_text);
+		getFormulaWithBrickField(BrickField.PHIRO_PRO_DURATION_IN_SECONDS).setTextFieldId(R.id.brick_phiro_pro_play_tone_duration_edit_text);
+		getFormulaWithBrickField(BrickField.PHIRO_PRO_DURATION_IN_SECONDS).refreshTextField(view);
 
 		textDuration.setVisibility(View.GONE);
 		editDuration.setVisibility(View.VISIBLE);
 
 		editDuration.setOnClickListener(this);
 
-		ArrayAdapter<CharSequence> toneAdapter = ArrayAdapter.createFromResource(context, R.array.brick_kodey_select_tone_spinner,
+		ArrayAdapter<CharSequence> toneAdapter = ArrayAdapter.createFromResource(context, R.array.brick_phiro_pro_select_tone_spinner,
 				android.R.layout.simple_spinner_item);
 		toneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		Spinner toneSpinner = (Spinner) view.findViewById(R.id.brick_kodey_select_tone_spinner);
+		Spinner toneSpinner = (Spinner) view.findViewById(R.id.brick_phiro_pro_select_tone_spinner);
 
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			toneSpinner.setClickable(true);
@@ -188,7 +189,7 @@ public class KodeyPlayMusicBrick extends FormulaBrick {
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.KODEY_DURATION_IN_SECONDS);
+		FormulaEditorFragment.showFragment(view, this, BrickField.PHIRO_PRO_SPEED);
 	}
 
 	@Override
@@ -196,24 +197,24 @@ public class KodeyPlayMusicBrick extends FormulaBrick {
 
 		if (view != null) {
 
-			View layout = view.findViewById(R.id.brick_kodey_play_tone_layout);
+			View layout = view.findViewById(R.id.brick_phiro_pro_play_tone_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView textKodeyToneActionLabel = (TextView) view.findViewById(R.id.brick_kodey_play_tone_label);
-			TextView textKodeyToneActionSelectTone = (TextView) view.findViewById(R.id.brick_kodey_select_tone_text_view);
-			TextView textLKodeyToneActionDuraction = (TextView) view.findViewById(R.id.brick_kodey_play_tone_duration);
-			TextView textKodeyToneActionLabelDuration = (TextView) view
-					.findViewById(R.id.brick_kodey_play_tone_duration_text_view);
-			TextView editDuration = (TextView) view.findViewById(R.id.brick_kodey_play_tone_duration_edit_text);
+			TextView textPhiroProToneActionLabel = (TextView) view.findViewById(R.id.brick_phiro_pro_play_tone_label);
+			TextView textPhiroProToneActionSelectTone = (TextView) view.findViewById(R.id.brick_phiro_pro_select_tone_text_view);
+			TextView textPhiroProToneActionDuraction = (TextView) view.findViewById(R.id.brick_phiro_pro_play_tone_duration);
+			TextView textPhiroProToneActionLabelDuration = (TextView) view
+					.findViewById(R.id.brick_phiro_pro_play_tone_duration_text_view);
+			TextView editDuration = (TextView) view.findViewById(R.id.brick_phiro_pro_play_tone_duration_edit_text);
 
-			textKodeyToneActionLabel.setTextColor(textKodeyToneActionLabel.getTextColors().withAlpha(alphaValue));
-			textKodeyToneActionSelectTone.setTextColor(textKodeyToneActionSelectTone.getTextColors().withAlpha(alphaValue));
-			textLKodeyToneActionDuraction.setTextColor(textLKodeyToneActionDuraction.getTextColors().withAlpha(alphaValue));
-			textKodeyToneActionLabelDuration.setTextColor(textKodeyToneActionLabelDuration.getTextColors().withAlpha(
+			textPhiroProToneActionLabel.setTextColor(textPhiroProToneActionLabel.getTextColors().withAlpha(alphaValue));
+			textPhiroProToneActionSelectTone.setTextColor(textPhiroProToneActionSelectTone.getTextColors().withAlpha(alphaValue));
+			textPhiroProToneActionDuraction.setTextColor(textPhiroProToneActionDuraction.getTextColors().withAlpha(alphaValue));
+			textPhiroProToneActionLabelDuration.setTextColor(textPhiroProToneActionLabelDuration.getTextColors().withAlpha(
 					alphaValue));
-			Spinner toneSpinner = (Spinner) view.findViewById(R.id.brick_kodey_select_tone_spinner);
-			ColorStateList color = textKodeyToneActionLabelDuration.getTextColors().withAlpha(alphaValue);
+			Spinner toneSpinner = (Spinner) view.findViewById(R.id.brick_phiro_pro_select_tone_spinner);
+			ColorStateList color = textPhiroProToneActionLabelDuration.getTextColors().withAlpha(alphaValue);
 			toneSpinner.getBackground().setAlpha(alphaValue);
 			if (adapterView != null) {
 				((TextView) adapterView.getChildAt(0)).setTextColor(color);
@@ -230,8 +231,8 @@ public class KodeyPlayMusicBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.kodeyPlayToneAction(sprite, toneEnum,
-				getFormulaWithBrickField(BrickField.KODEY_DURATION_IN_SECONDS)));
+		sequence.addAction(ExtendedActions.phiroProPlayToneAction(sprite, toneEnum,
+				getFormulaWithBrickField(BrickField.PHIRO_PRO_DURATION_IN_SECONDS)));
 		return null;
 	}
 

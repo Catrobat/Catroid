@@ -359,24 +359,24 @@
         <item name="android:background" >@drawable/brick_olive_3h</item >
     </style >
 
-    <style name="BrickContainer.Kodey" ></style >
+    <style name="BrickContainer.PhiroPro" ></style >
 
-    <style name="BrickContainer.Kodey.Small" >
+    <style name="BrickContainer.PhiroPro.Small" >
         <item name="android:minHeight" >@dimen/brick_height_small</item >
         <item name="android:background" >@drawable/brick_cyan_1h</item >
     </style >
 
-    <style name="BrickContainer.Kodey.Medium" >
+    <style name="BrickContainer.PhiroPro.Medium" >
         <item name="android:minHeight" >@dimen/brick_height_medium</item >
         <item name="android:background" >@drawable/brick_cyan_2h</item >
     </style >
 
-    <style name="BrickContainer.Kodey.Big" >
+    <style name="BrickContainer.PhiroPro.Big" >
         <item name="android:minHeight" >@dimen/brick_height_big</item >
         <item name="android:background" >@drawable/brick_cyan_3h</item >
     </style >
 
-    <style name="BrickContainer.Kodey.Light" >
+    <style name="BrickContainer.PhiroPro.Light" >
         <item name="android:minHeight" >@dimen/brick_height_big</item >
         <item name="android:background" >@drawable/brick_phiro_green_3h</item >
     </style >
@@ -555,9 +555,9 @@
         <item name="android:drawableRight" >@drawable/main_menu_button_arrow_lego</item >
     </style >
 
-        <style name="BrickCategoryText.Kodey" >
-        <item name="android:background" >@drawable/brick_selection_background_kodey</item >
-        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_kodey</item >
+        <style name="BrickCategoryText.PhiroPro" >
+        <item name="android:background" >@drawable/brick_selection_background_phiro_pro</item >
+        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_phiro_pro</item >
     </style >
     
     <style name="userBrickDataTextBackground" >

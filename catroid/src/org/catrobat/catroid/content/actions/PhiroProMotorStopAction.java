@@ -28,10 +28,10 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
-import org.catrobat.catroid.content.bricks.KodeyMotorStopBrick.Motor;
-import org.catrobat.catroid.devices.arduino.kodey.Kodey;
+import org.catrobat.catroid.content.bricks.PhiroProMotorStopBrick.Motor;
+import org.catrobat.catroid.devices.arduino.phiropro.PhiroPro;
 
-public class KodeyMotorStopAction extends TemporalAction {
+public class PhiroProMotorStopAction extends TemporalAction {
 
 	private Motor motorEnum;
 
@@ -40,20 +40,20 @@ public class KodeyMotorStopAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 
-		Kodey kodey = btService.getDevice(BluetoothDevice.KODEY);
-		if (kodey == null) {
+		PhiroPro phiroPro = btService.getDevice(BluetoothDevice.PHIRO_PRO);
+		if (phiroPro == null) {
 			return;
 		}
 
 		switch (motorEnum) {
 			case MOTOR_A:
-				kodey.stopLeftMotor();
+				phiroPro.stopLeftMotor();
 				break;
 			case MOTOR_B:
-				kodey.stopRightMotor();
+				phiroPro.stopRightMotor();
 				break;
 			case ALL_MOTORS:
-				kodey.stopAllMovements();
+				phiroPro.stopAllMovements();
 				break;
 		}
 	}

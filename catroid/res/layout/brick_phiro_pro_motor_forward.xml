@@ -30,48 +30,61 @@
               android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/brick_kodey_sensor_checkbox"
+        android:id="@+id/brick_phiro_pro_motor_forward_action_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_kodey_sensor_layout"
-        style="@style/BrickContainer.Control.Big"
+        android:id="@+id/brick_phiro_pro_motor_forward_action_layout"
+        style="@style/BrickContainer.PhiroPro.Big"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
-           android:id="@+id/brick_kodey_sensor_label"
-           style="@style/BrickText.SingleLine"
-           android:text="@string/brick_kodey_sensor_begin" >
+            android:id="@+id/brick_phiro_pro_motor_forward_action_label"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_phiro_pro_motor_forward_action" >
         </TextView >
 
-        <TextView
-           android:id="@+id/brick_kodey_sensor_action_label"
-           style="@style/BrickText.SingleLine"
-           android:text="@string/brick_kodey_sensor_action" >
-        </TextView>
-
         <Spinner
-            android:id="@+id/brick_kodey_sensor_action_spinner"
+            android:id="@+id/brick_phiro_pro_motor_forward_action_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="false"
             android:focusable="false" >
 
-        <!-- do not add spinner items here! -->
+            <!-- do not add spinner items here! -->
         </Spinner >
 
         <TextView
-            android:id="@+id/kodey_sensor_label_second_part"
+            android:id="@+id/brick_phiro_pro_motor_forward_action_speed"
             style="@style/BrickText.SingleLine"
-            android:paddingLeft="5dip"
-            android:text="@string/brick_kodey_sensor_second_part" >
+            android:text="@string/phiro_pro_motor_speed" >
+        </TextView >
+
+        <TextView
+            android:id="@+id/brick_phiro_pro_motor_forward_action_speed_text_view"
+            style="@style/BrickPrototypeTextView" >
+        </TextView >
+
+        <TextView
+            android:id="@+id/brick_phiro_pro_motor_forward_action_speed_edit_text"
+            style="@style/BrickEditText"
+            app:layout_inputType="number"
+            app:layout_textField="true"
+            android:clickable="false" >
+        </TextView >
+
+        <TextView
+            android:id="@+id/brick_phiro_pro_motor_forward_action_percent"
+            style="@style/BrickText"
+            android:text="@string/percent_symbol" >
         </TextView >
     </org.catrobat.catroid.ui.BrickLayout >
 

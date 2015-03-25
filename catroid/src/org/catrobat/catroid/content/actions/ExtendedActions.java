@@ -32,14 +32,14 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.KodeyMotorBackwardActionBrick;
-import org.catrobat.catroid.content.bricks.KodeyMotorForwardActionBrick;
-import org.catrobat.catroid.content.bricks.KodeyMotorStopBrick;
-import org.catrobat.catroid.content.bricks.KodeyPlayMusicBrick;
-import org.catrobat.catroid.content.bricks.KodeyRGBLightBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
+import org.catrobat.catroid.content.bricks.PhiroProMotorMoveBackwardBrick;
+import org.catrobat.catroid.content.bricks.PhiroProMotorMoveForwardBrick;
+import org.catrobat.catroid.content.bricks.PhiroProMotorStopBrick;
+import org.catrobat.catroid.content.bricks.PhiroProPlayToneBrick;
+import org.catrobat.catroid.content.bricks.PhiroProRGBLightBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -195,36 +195,36 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static KodeyPlayToneAction kodeyPlayToneAction(Sprite sprite, KodeyPlayMusicBrick.Tone toneEnum,
+	public static PhiroProPlayToneAction phiroProPlayToneAction(Sprite sprite, PhiroProPlayToneBrick.Tone toneEnum,
 			Formula duration) {
-		KodeyPlayToneAction action = action(KodeyPlayToneAction.class);
+		PhiroProPlayToneAction action = action(PhiroProPlayToneAction.class);
 		action.setSelectedTone(toneEnum);
 		action.setSprite(sprite);
 		action.setDurationInSeconds(duration);
 		return action;
 	}
 
-	public static KodeyMotorForwardActionAction kodeyMotorForwardActionAction(Sprite sprite, KodeyMotorForwardActionBrick.Motor motorEnum,
+	public static PhiroProMotorMoveForwardAction phiroProMotorMoveForwardAction(Sprite sprite, PhiroProMotorMoveForwardBrick.Motor motorEnum,
 			Formula speed) {
-		KodeyMotorForwardActionAction action = action(KodeyMotorForwardActionAction.class);
+		PhiroProMotorMoveForwardAction action = action(PhiroProMotorMoveForwardAction.class);
 		action.setMotorEnum(motorEnum);
 		action.setSprite(sprite);
 		action.setSpeed(speed);
 		return action;
 	}
 
-	public static KodeyMotorBackwardActionAction kodeyMotorBackwardActionAction(Sprite sprite, KodeyMotorBackwardActionBrick.Motor motorEnum,
+	public static PhiroProMotorMoveBackwardAction phiroProMotorMoveBackwardAction(Sprite sprite, PhiroProMotorMoveBackwardBrick.Motor motorEnum,
 			Formula speed) {
-		KodeyMotorBackwardActionAction action = action(KodeyMotorBackwardActionAction.class);
+		PhiroProMotorMoveBackwardAction action = action(PhiroProMotorMoveBackwardAction.class);
 		action.setMotorEnum(motorEnum);
 		action.setSprite(sprite);
 		action.setSpeed(speed);
 		return action;
 	}
 
-	public static KodeyRGBLightAction kodeyRgbLedEyeAction(Sprite sprite, KodeyRGBLightBrick.Eye eye,
+	public static PhiroProRGBLightAction phiroProRgbLedEyeAction(Sprite sprite, PhiroProRGBLightBrick.Eye eye,
 			Formula red, Formula green, Formula blue) {
-		KodeyRGBLightAction action = action(KodeyRGBLightAction.class);
+		PhiroProRGBLightAction action = action(PhiroProRGBLightAction.class);
 		action.setSprite(sprite);
 		action.setEyeEnum(eye);
 		action.setRed(red);
@@ -233,15 +233,15 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static KodeySensorAction kodeySendSelectedSensor(Sprite sprite, int sensorNumber) {
-		KodeySensorAction action = action(KodeySensorAction.class);
+	public static PhiroProSensorAction phiroProSendSelectedSensor(Sprite sprite, int sensorNumber) {
+		PhiroProSensorAction action = action(PhiroProSensorAction.class);
 		action.setSprite(sprite);
 		action.setSensor(sensorNumber);
 		return action;
 	}
 
-	public static KodeyMotorStopAction kodeyMotorStopAction(KodeyMotorStopBrick.Motor motorEnum) {
-		KodeyMotorStopAction action = action(KodeyMotorStopAction.class);
+	public static PhiroProMotorStopAction phiroProMotorStopAction(PhiroProMotorStopBrick.Motor motorEnum) {
+		PhiroProMotorStopAction action = action(PhiroProMotorStopAction.class);
 		action.setMotorEnum(motorEnum);
 		return action;
 	}

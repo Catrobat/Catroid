@@ -54,46 +54,46 @@
  		<item >@string/close</item >
  	</string-array >
 
-    <!-- Kodey tone spinner -->
-    <string-array name="brick_kodey_select_tone_spinner">
-        <item>@string/kodey_tone_do</item>
-        <item>@string/kodey_tone_re</item>
-        <item>@string/kodey_tone_mi</item>
-        <item>@string/kodey_tone_fa</item>
-        <item>@string/kodey_tone_so</item>
-        <item>@string/kodey_tone_la</item>
-        <item>@string/kodey_tone_ti</item>
+    <!-- PhiroPro tone spinner -->
+    <string-array name="brick_phiro_pro_select_tone_spinner">
+        <item>@string/phiro_pro_tone_do</item>
+        <item>@string/phiro_pro_tone_re</item>
+        <item>@string/phiro_pro_tone_mi</item>
+        <item>@string/phiro_pro_tone_fa</item>
+        <item>@string/phiro_pro_tone_so</item>
+        <item>@string/phiro_pro_tone_la</item>
+        <item>@string/phiro_pro_tone_ti</item>
     </string-array>
 
-    <!-- Kodey motor spinner -->
-    <string-array name="brick_kodey_select_motor_spinner">
-        <item>@string/kodey_motor_left</item>
-        <item>@string/kodey_motor_right</item>
-        <item>@string/kodey_motor_both</item>
+    <!-- PhiroPro motor spinner -->
+    <string-array name="brick_phiro_pro_select_motor_spinner">
+        <item>@string/phiro_pro_motor_left</item>
+        <item>@string/phiro_pro_motor_right</item>
+        <item>@string/phiro_pro_motor_both</item>
     </string-array>
 
-    <!-- Kodey stop motor spinner -->
-    <string-array name="brick_kodey_stop_motor_spinner">
-        <item>@string/kodey_motor_left</item>
-        <item>@string/kodey_motor_right</item>
-        <item>@string/kodey_motor_both</item>
+    <!-- PhiroPro stop motor spinner -->
+    <string-array name="brick_phiro_pro_stop_motor_spinner">
+        <item>@string/phiro_pro_motor_left</item>
+        <item>@string/phiro_pro_motor_right</item>
+        <item>@string/phiro_pro_motor_both</item>
     </string-array>
 
-    <!-- Kodey light spinner -->
-    <string-array name="brick_kodey_select_light_spinner">
-        <item>@string/kodey_light_left</item>
-        <item>@string/kodey_light_right</item>
-        <item>@string/kodey_light_both</item>
+    <!-- PhiroPro light spinner -->
+    <string-array name="brick_phiro_pro_select_light_spinner">
+        <item>@string/phiro_pro_light_left</item>
+        <item>@string/phiro_pro_light_right</item>
+        <item>@string/phiro_pro_light_both</item>
     </string-array>
 
-    <!-- Kodey sensor spinner -->
-    <string-array name="brick_kodey_select_sensor_spinner">
-        <item>@string/kodey_sensor_front_left</item>
-        <item>@string/kodey_sensor_front_right</item>
-        <item>@string/kodey_sensor_side_left</item>
-        <item>@string/kodey_sensor_side_right</item>
-        <item>@string/kodey_sensor_bottom_left</item>
-        <item>@string/kodey_sensor_bottom_right</item>
+    <!-- PhiroPro sensor spinner -->
+    <string-array name="brick_phiro_pro_select_sensor_spinner">
+        <item>@string/phiro_pro_sensor_front_left</item>
+        <item>@string/phiro_pro_sensor_front_right</item>
+        <item>@string/phiro_pro_sensor_side_left</item>
+        <item>@string/phiro_pro_sensor_side_right</item>
+        <item>@string/phiro_pro_sensor_bottom_left</item>
+        <item>@string/phiro_pro_sensor_bottom_right</item>
     </string-array>
 
     <!-- colors for presets in color picker -->

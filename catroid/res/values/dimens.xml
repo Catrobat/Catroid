@@ -48,7 +48,7 @@
     <dimen name="brick_data_edit_cursor_size" >58dp</dimen >
     <!-- -->
 
-    <!-- KodeyColorChooserFragment -->
+    <!-- PhiroProColorChooserFragment -->
     <dimen name="fragment_color_chooser_edit_text_and_prototype_text_view_minimum_width" >10px</dimen >
     <!-- -->
 

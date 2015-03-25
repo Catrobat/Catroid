@@ -60,16 +60,16 @@
             android:weightSum="100" >
 
             <TextView
-                android:id="@+id/kodey_motor_speed_textview"
+                android:id="@+id/phiro_pro_motor_speed_textview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:paddingRight="5dp"
-                android:text="@string/kodey_motor_speed"
+                android:text="@string/phiro_pro_motor_speed"
                 android:textColor="@color/white" />
 
             <TextView
-                android:id="@+id/kodey_motor_speed_start_value"
+                android:id="@+id/phiro_pro_motor_speed_start_value"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
@@ -79,7 +79,7 @@
                 tools:ignore="HardcodedText" />
 
             <SeekBar
-                android:id="@+id/kodey_motor_speed_seekbar"
+                android:id="@+id/phiro_pro_motor_speed_seekbar"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="60"
@@ -87,7 +87,7 @@
                 android:max="100" />
 
             <TextView
-                android:id="@+id/kodey_motor_speed_end_value"
+                android:id="@+id/phiro_pro_motor_speed_end_value"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="10"
@@ -97,7 +97,7 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
-                android:id="@+id/kodey_motor_speed_value"
+                android:id="@+id/phiro_pro_motor_speed_value"
                 style="@style/FragmentSeekbarChooserTextView"
                 android:layout_width="5px"
                 android:layout_height="match_parent"

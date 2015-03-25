@@ -55,7 +55,8 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class KodeySetVariableBrick extends UserVariableBrick {
+public class PhiroProSetVariableBrick extends UserVariableBrick {
+
 	private static final long serialVersionUID = 1L;
 	private UserVariable userVariable;
 	private Formula variableFormula;
@@ -65,17 +66,17 @@ public class KodeySetVariableBrick extends UserVariableBrick {
 	public boolean inUserBrick = false;
 	private String stringInPrototype;
 
-	public KodeySetVariableBrick(Formula variableFormula, UserVariable userVariable) {
+	public PhiroProSetVariableBrick(Formula variableFormula, UserVariable userVariable) {
 		this.variableFormula = variableFormula;
 		this.userVariable = userVariable;
 	}
 
-	public KodeySetVariableBrick(double value) {
+	public PhiroProSetVariableBrick(double value) {
 		this.variableFormula = new Formula(value);
 		this.userVariable = null;
 	}
 
-	public KodeySetVariableBrick(String value) {
+	public PhiroProSetVariableBrick(String value) {
 		this.isStringInPrototype = true;
 		this.stringInPrototype = value;
 		this.variableFormula = new Formula(value);
@@ -89,7 +90,7 @@ public class KodeySetVariableBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public int getRequiredResources() { return BLUETOOTH_KODEY;	}
+	public int getRequiredResources() { return BLUETOOTH_PHIRO_PRO;	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
@@ -158,7 +159,7 @@ public class KodeySetVariableBrick extends UserVariableBrick {
 					if (((Spinner) view).getSelectedItemPosition() == 0
 							&& ((Spinner) view).getAdapter().getCount() == 1) {
 						NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_VARIABLE);
-						dialog.addVariableDialogListener(KodeySetVariableBrick.this);
+						dialog.addVariableDialogListener(PhiroProSetVariableBrick.this);
 						dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
 								NewDataDialog.DIALOG_FRAGMENT_TAG);
 						return true;
@@ -172,7 +173,7 @@ public class KodeySetVariableBrick extends UserVariableBrick {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (position == 0 && ((UserVariableAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) parent, NewDataDialog.DialogType.USER_VARIABLE);
-					dialog.addVariableDialogListener(KodeySetVariableBrick.this);
+					dialog.addVariableDialogListener(PhiroProSetVariableBrick.this);
 					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
 							NewDataDialog.DIALOG_FRAGMENT_TAG);
 				}
@@ -211,28 +212,28 @@ public class KodeySetVariableBrick extends UserVariableBrick {
 
 		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_set_variable_prototype_view);
 		if (isStringInPrototype == false) {
-			//ToDo: #Kodey check if correct
+			//ToDo: #PhiroPro check if correct
 			//textSetVariable.setText(String.valueOf(variableFormula.interpretDouble(sprite)));
 			textSetVariable.setText(String.valueOf(BrickValues.SET_VARIABLE));
 		} else {
-			if (stringInPrototype.equalsIgnoreCase(Sensors.KODEY_FRONT_LEFT.toString())) {
+			if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_FRONT_LEFT.toString())) {
 				textSetVariable.setText(context.getResources().getString(
-						R.string.formula_editor_kodey_sensor_front_left));
-			} else if (stringInPrototype.equalsIgnoreCase(Sensors.KODEY_FRONT_RIGHT.toString())) {
+						R.string.formula_editor_phiro_pro_sensor_front_left));
+			} else if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_FRONT_RIGHT.toString())) {
 				textSetVariable.setText(context.getResources().getString(
-						R.string.formula_editor_kodey_sensor_front_right));
-			} else if (stringInPrototype.equalsIgnoreCase(Sensors.KODEY_SIDE_LEFT.toString())) {
+						R.string.formula_editor_phiro_pro_sensor_front_right));
+			} else if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_SIDE_LEFT.toString())) {
 				textSetVariable.setText(context.getResources().getString(
-						R.string.formula_editor_kodey_sensor_side_left));
-			} else if (stringInPrototype.equalsIgnoreCase(Sensors.KODEY_SIDE_RIGHT.toString())) {
+						R.string.formula_editor_phiro_pro_sensor_side_left));
+			} else if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_SIDE_RIGHT.toString())) {
 				textSetVariable.setText(context.getResources().getString(
-						R.string.formula_editor_kodey_sensor_side_right));
-			} else if (stringInPrototype.equalsIgnoreCase(Sensors.KODEY_BOTTOM_LEFT.toString())) {
+						R.string.formula_editor_phiro_pro_sensor_side_right));
+			} else if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_BOTTOM_LEFT.toString())) {
 				textSetVariable.setText(context.getResources().getString(
-						R.string.formula_editor_kodey_sensor_bottom_left));
-			} else if (stringInPrototype.equalsIgnoreCase(Sensors.KODEY_BOTTOM_RIGHT.toString())) {
+						R.string.formula_editor_phiro_pro_sensor_bottom_left));
+			} else if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_BOTTOM_RIGHT.toString())) {
 				textSetVariable.setText(context.getResources().getString(
-						R.string.formula_editor_kodey_sensor_bottom_right));
+						R.string.formula_editor_phiro_pro_sensor_bottom_right));
 			} else {
 				textSetVariable.setText(stringInPrototype);
 			}

@@ -62,14 +62,14 @@ import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
-import org.catrobat.catroid.content.bricks.KodeyMotorBackwardActionBrick;
-import org.catrobat.catroid.content.bricks.KodeyMotorForwardActionBrick;
-import org.catrobat.catroid.content.bricks.KodeyMotorStopBrick;
-import org.catrobat.catroid.content.bricks.KodeyPlayMusicBrick;
-import org.catrobat.catroid.content.bricks.KodeyRGBLightBrick;
-import org.catrobat.catroid.content.bricks.KodeySensorBrick;
-import org.catrobat.catroid.content.bricks.KodeySensorElseBrick;
-import org.catrobat.catroid.content.bricks.KodeySensorEndBrick;
+import org.catrobat.catroid.content.bricks.PhiroProMotorMoveBackwardBrick;
+import org.catrobat.catroid.content.bricks.PhiroProMotorMoveForwardBrick;
+import org.catrobat.catroid.content.bricks.PhiroProMotorStopBrick;
+import org.catrobat.catroid.content.bricks.PhiroProPlayToneBrick;
+import org.catrobat.catroid.content.bricks.PhiroProRGBLightBrick;
+import org.catrobat.catroid.content.bricks.PhiroProSensorBrick;
+import org.catrobat.catroid.content.bricks.PhiroProSensorElseBrick;
+import org.catrobat.catroid.content.bricks.PhiroProSensorEndBrick;
 import org.catrobat.catroid.content.bricks.LedOffBrick;
 import org.catrobat.catroid.content.bricks.LedOnBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
@@ -252,36 +252,36 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.LEGO_NXT_DURATION_IN_SECONDS);
 		brickInfoMap.put("legoNxtPlayToneBrick", brickInfo);
 
-		brickInfo = new BrickInfo(KodeyMotorForwardActionBrick.class.getSimpleName());
-		brickInfo.addBrickFieldToMap("speed", BrickField.KODEY_SPEED);
-		brickInfoMap.put("kodeyMotorForwardActionBrick", brickInfo);
+		brickInfo = new BrickInfo(PhiroProMotorMoveForwardBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("speed", BrickField.PHIRO_PRO_SPEED);
+		brickInfoMap.put("phiroProMotorMoveForwardBrick", brickInfo);
 
-		brickInfo = new BrickInfo(KodeyMotorBackwardActionBrick.class.getSimpleName());
-		brickInfo.addBrickFieldToMap("speed", BrickField.KODEY_SPEED);
-		brickInfoMap.put("kodeyMotorBackwardActionBrick", brickInfo);
+		brickInfo = new BrickInfo(PhiroProMotorMoveBackwardBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("speed", BrickField.PHIRO_PRO_SPEED);
+		brickInfoMap.put("phiroProMotorMoveBackwardBrick", brickInfo);
 
-		brickInfo = new BrickInfo(KodeyMotorStopBrick.class.getSimpleName());
-		brickInfoMap.put("kodeyMotorStopBrick", brickInfo);
+		brickInfo = new BrickInfo(PhiroProMotorStopBrick.class.getSimpleName());
+		brickInfoMap.put("phiroProMotorStopBrick", brickInfo);
 
-		brickInfo = new BrickInfo(KodeyPlayMusicBrick.class.getSimpleName());
-		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.KODEY_DURATION_IN_SECONDS);
-		brickInfoMap.put("kodeyPlayMusicBrick", brickInfo);
+		brickInfo = new BrickInfo(PhiroProPlayToneBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.PHIRO_PRO_DURATION_IN_SECONDS);
+		brickInfoMap.put("phiroProPlayToneBrick", brickInfo);
 
-		brickInfo = new BrickInfo(KodeyRGBLightBrick.class.getSimpleName());
-		brickInfo.addBrickFieldToMap("light", BrickField.KODEY_LIGHT_RED);
-		brickInfo.addBrickFieldToMap("light", BrickField.KODEY_LIGHT_GREEN);
-		brickInfo.addBrickFieldToMap("light", BrickField.KODEY_LIGHT_BLUE);
-		brickInfoMap.put("kodeyRGBLightBrick", brickInfo);
+		brickInfo = new BrickInfo(PhiroProRGBLightBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("light", BrickField.PHIRO_PRO_LIGHT_RED);
+		brickInfo.addBrickFieldToMap("light", BrickField.PHIRO_PRO_LIGHT_GREEN);
+		brickInfo.addBrickFieldToMap("light", BrickField.PHIRO_PRO_LIGHT_BLUE);
+		brickInfoMap.put("phiroProRGBLightBrick", brickInfo);
 
-		brickInfo = new BrickInfo(KodeySensorBrick.class.getSimpleName());
-		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.IF_KODEY_SENSOR_CONDITION);
-		brickInfoMap.put("kodeySensorBrick", brickInfo);
+		brickInfo = new BrickInfo(PhiroProSensorBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.IF_PHIRO_PRO_SENSOR_CONDITION);
+		brickInfoMap.put("phiroProSensorBrick", brickInfo);
 
-		brickInfo = new BrickInfo(KodeySensorElseBrick.class.getSimpleName());
-		brickInfoMap.put("kodeySensorElseBrick", brickInfo);
+		brickInfo = new BrickInfo(PhiroProSensorElseBrick.class.getSimpleName());
+		brickInfoMap.put("phiroProSensorElseBrick", brickInfo);
 
-		brickInfo = new BrickInfo(KodeySensorEndBrick.class.getSimpleName());
-		brickInfoMap.put("kodeySensorEndBrick", brickInfo);
+		brickInfo = new BrickInfo(PhiroProSensorEndBrick.class.getSimpleName());
+		brickInfoMap.put("phiroProSensorEndBrick", brickInfo);
 
 		brickInfo = new BrickInfo(LoopEndBrick.class.getSimpleName());
 		brickInfoMap.put("loopEndBrick", brickInfo);

@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.devices.arduino.kodey;
+package org.catrobat.catroid.devices.arduino.phiropro;
 
 import android.util.Log;
 
@@ -40,10 +40,10 @@ import org.catrobat.catroid.devices.arduino.common.firmata.serial.StreamingSeria
 import java.io.IOException;
 import java.util.UUID;
 
-public class KodeyImpl implements Kodey {
+public class PhiroProImpl implements PhiroPro {
 
-	private static final UUID KODEY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-	private static final String TAG = KodeyImpl.class.getSimpleName();
+	private static final UUID PHIRO_PRO_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+	private static final String TAG = PhiroProImpl.class.getSimpleName();
 
 	private static final int PIN_SPEAKER_OUT = 3;
 
@@ -68,7 +68,7 @@ public class KodeyImpl implements Kodey {
 	private Firmata firmata;
 	private boolean isInitialized = false;
 
-	private KodeyListener kodeyListener;
+	private PhiroProListener phiroProListener;
 
 
 	@Override
@@ -151,12 +151,12 @@ public class KodeyImpl implements Kodey {
 
 	@Override
 	public String getName() {
-		return "Kodey";
+		return "PhiroPro";
 	}
 
 	@Override
 	public Class<? extends BluetoothDevice> getDeviceType() {
-		return BluetoothDevice.KODEY;
+		return BluetoothDevice.PHIRO_PRO;
 	}
 
 	@Override
@@ -174,7 +174,7 @@ public class KodeyImpl implements Kodey {
 				firmata = null;
 			}
 		} catch (SerialException e) {
-			Log.d(TAG, "Error stop kodey serial");
+			Log.d(TAG, "Error stop phiro pro serial");
 		}
 	}
 
@@ -198,7 +198,7 @@ public class KodeyImpl implements Kodey {
 
 	@Override
 	public UUID getBluetoothDeviceUUID() {
-		return KODEY_UUID;
+		return PHIRO_PRO_UUID;
 	}
 
 	@Override
@@ -221,8 +221,8 @@ public class KodeyImpl implements Kodey {
 
 		firmata = new Firmata(serial);
 
-		kodeyListener = new KodeyListener();
-		firmata.addListener(kodeyListener);
+		phiroProListener = new PhiroProListener();
+		firmata.addListener(phiroProListener);
 
 		firmata.getSerial().start();
 

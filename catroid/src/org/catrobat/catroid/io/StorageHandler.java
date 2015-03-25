@@ -777,8 +777,8 @@ public final class StorageHandler {
 		if ((resources & Brick.ARDRONE_SUPPORT) > 0) {
 			permissionsSet.add(Constants.ARDRONE_SUPPORT);
 		}
-		if ((resources & Brick.BLUETOOTH_KODEY) > 0) {
-			permissionsSet.add(Constants.BLUETOOTH_KODEY);
+		if ((resources & Brick.BLUETOOTH_PHIRO_PRO) > 0) {
+			permissionsSet.add(Constants.BLUETOOTH_PHIRO_PRO);
 		}
 		if ((resources & Brick.CAMERA_LED) > 0) {
 			permissionsSet.add(Constants.CAMERA_LED);

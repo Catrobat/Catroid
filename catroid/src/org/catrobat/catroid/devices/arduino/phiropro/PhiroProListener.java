@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.devices.arduino.kodey;
+package org.catrobat.catroid.devices.arduino.phiropro;
 
 
 import android.util.Log;
@@ -35,9 +35,9 @@ import org.catrobat.catroid.devices.arduino.common.firmata.message.ProtocolVersi
 import org.catrobat.catroid.devices.arduino.common.firmata.message.StringSysexMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.SysexMessage;
 
-class KodeyListener implements IFirmata.Listener {
+class PhiroProListener implements IFirmata.Listener {
 
-	private static final String TAG = KodeyListener.class.getSimpleName();
+	private static final String TAG = PhiroProListener.class.getSimpleName();
 
 	private short frontLeftSensor;
 	private short frontRightSensor;
