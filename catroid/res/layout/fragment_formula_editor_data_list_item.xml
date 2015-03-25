@@ -1,0 +1,106 @@
+<!--
+ *  Catroid: An on-device visual programming system for Android devices
+ *  Copyright (C) 2010-2015 The Catrobat Team
+ *  (<http://developer.catrobat.org/credits>)
+ *  
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://developer.catrobat.org/license_additional_term
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU Affero General Public License for more details.
+ *  
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:longClickable="true"
+    android:orientation="vertical" >
+
+    <include layout="@layout/fragment_formula_editor_user_variables_headline" />
+
+    <include layout="@layout/fragment_formula_editor_user_lists_headline"
+             android:id="@+id/data_user_lists_headline_above_item" />
+
+    <include layout="@layout/fragment_formula_editor_data_global_headline" />
+
+    <include layout="@layout/fragment_formula_editor_data_local_headline" />
+
+    <include layout="@layout/fragment_formula_editor_variablelist_userbrick_headline" />
+
+    <LinearLayout
+        android:id="@+id/fragment_formula_editor_data_list_item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <CheckBox
+            android:id="@+id/fragment_formula_editor_datalist_item_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background_selector"
+            android:orientation="vertical" >
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/fragment_formula_editor_datalist_item_name_text_view"
+                    style="@style/fragment_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="6dp"
+                    android:gravity="center_vertical"
+                    android:minHeight="?android:attr/listPreferredItemHeight"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/sound_fragment_text_main_color" />
+
+            <TextView
+                android:id="@+id/fragment_formula_editor_data_list_item_value_text_view"
+                style="@style/fragment_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:minHeight="?android:attr/listPreferredItemHeight"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/white" />
+            </LinearLayout >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <Spinner
+                    app:layout_newLine="true"
+                    android:id="@+id/fragment_formula_editor_data_list_item_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/white" />
+
+            </LinearLayout >
+
+        </LinearLayout >
+        
+    </LinearLayout >
+
+    <include layout="@layout/fragment_formula_editor_user_lists_headline" />
+
+</LinearLayout >

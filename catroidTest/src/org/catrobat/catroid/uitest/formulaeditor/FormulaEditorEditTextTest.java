@@ -445,7 +445,8 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		Rect editfieldRect = new Rect();
 		editField.getGlobalVisibleRect(editfieldRect);
 
-		for (int index = 1; index < 20; index++) {
+
+		for (int index = 10; index < 20; index++) {
 			solo.clickOnScreen(100f, editfieldRect.bottom - index);
 
 		}

@@ -117,14 +117,14 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream {
+public class XStreamToSupportCatrobatLanguageVersion094AndBefore extends XStream {
 
-	private static final String TAG = XStreamToSupportCatrobatLanguageVersion092AndBefore.class.getSimpleName();
+	private static final String TAG = XStreamToSupportCatrobatLanguageVersion094AndBefore.class.getSimpleName();
 
 	private HashMap<String, BrickInfo> brickInfoMap;
 	private HashMap<String, String> scriptInfoMap;
 
-	public XStreamToSupportCatrobatLanguageVersion092AndBefore(PureJavaReflectionProvider reflectionProvider) {
+	public XStreamToSupportCatrobatLanguageVersion094AndBefore(PureJavaReflectionProvider reflectionProvider) {
 		super(reflectionProvider);
 	}
 
@@ -414,14 +414,26 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 
 			modifyScriptLists(originalDocument);
 			modifyBrickLists(originalDocument);
+			modifyVariables(originalDocument);
 			checkReferences(originalDocument.getDocumentElement());
 			saveDocument(originalDocument, file);
 		}
 	}
 
+	private void modifyVariables(Document originalDocument) {
+
+		try {
+			Node variableNode = originalDocument.getElementsByTagName("variables").item(0);
+			String variableNodeNamespaceURI = variableNode.getNamespaceURI();
+			originalDocument.renameNode(variableNode, variableNodeNamespaceURI, "data");
+		}catch(Exception exception){
+			Log.e(TAG, "Failed to modify variables tag", exception);
+		}
+	}
+
 	private Document getDocument(File file) {
 		try {
-			Transformer serializer= TransformerFactory.newInstance().newTransformer();
+			Transformer serializer = TransformerFactory.newInstance().newTransformer();
 			serializer.setOutputProperty(OutputKeys.INDENT, "yes");
 			serializer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 
@@ -438,7 +450,7 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 
 	private void saveDocument(Document doc, File file) {
 		try {
-			Transformer serializer= TransformerFactory.newInstance().newTransformer();
+			Transformer serializer = TransformerFactory.newInstance().newTransformer();
 			serializer.setOutputProperty(OutputKeys.INDENT, "yes");
 			serializer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 
@@ -495,7 +507,7 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 
 	private void copyAttributesIfNeeded(Node sourceNode, Element destinationNode) {
 		if (sourceNode.getNodeName().equals("loopEndlessBrick") || sourceNode.getNodeName().equals("loopEndBrick") ||
-			sourceNode.getNodeName().equals("ifLogicElseBrick") || sourceNode.getNodeName().equals("ifLogicEndBrick")) {
+				sourceNode.getNodeName().equals("ifLogicElseBrick") || sourceNode.getNodeName().equals("ifLogicEndBrick")) {
 			return;
 		}
 		NamedNodeMap namedNodeMap = sourceNode.getAttributes();
@@ -510,7 +522,7 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node node = nodeList.item(i);
 			Node childNode = findNodeByName(node, childNodeName);
-			if (childNode != null && node instanceof  Element) {
+			if (childNode != null && node instanceof Element) {
 				Element elem = (Element) node;
 				elem.setAttribute(childNodeName, childNode.getTextContent());
 				node.removeChild(childNode);
@@ -577,8 +589,7 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 										brickChild.getNodeName().equals("ifElseBrick") ||
 										brickChild.getNodeName().equals("ifEndBrick")) {
 									continue;
-								}
-								else {
+								} else {
 									newBrickNode.appendChild(brickChild);
 								}
 							}
@@ -677,7 +688,7 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 					} else if (childNode.getNodeName().equals("script") && childNode.getAttribute("type")
 							.equals(scriptInfoMap.get(nodeName))) {
 						if (occurrence == position) {
-							parts[i] = "script[" + (j+1) + "]";
+							parts[i] = "script[" + (j + 1) + "]";
 							node = childNode;
 							break;
 						} else {
@@ -686,7 +697,7 @@ public class XStreamToSupportCatrobatLanguageVersion092AndBefore extends XStream
 					} else if (childNode.getNodeName().equals("brick") && childNode.getAttribute("type")
 							.equals(brickInfoMap.get(nodeName).getBrickClassName())) {
 						if (occurrence == position) {
-							parts[i] = "brick[" + (j+1) + "]";
+							parts[i] = "brick[" + (j + 1) + "]";
 							node = childNode;
 							break;
 						} else {

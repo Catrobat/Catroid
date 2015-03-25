@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.Sprite;
@@ -42,8 +44,16 @@ public class ChangeVariableAction extends Action {
 		Object originalValue = userVariable.getValue();
 		Object value = changeVariable == null ? 0d : changeVariable.interpretObject(sprite);
 
-		if (originalValue instanceof String || value instanceof String) {
+		if (originalValue instanceof String) {
 			return true;
+		}
+
+		try {
+			if (value instanceof String) {
+				value = Double.valueOf((String) value);
+			}
+		} catch (NumberFormatException numberFormatException) {
+			Log.d(getClass().getSimpleName(), "Couldn't parse String", numberFormatException);
 		}
 
 		if (originalValue instanceof Double && value instanceof Double) {

@@ -147,11 +147,13 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 				checkNestingBrickReferences(false);
 			}
 
-//			if (project.getCatrobatLanguageVersion() == 0.92f || project.getCatrobatLanguageVersion() == 0.93f) {
-//				//0.93 should be left out because it available unintentional for a day
-//				//raise language version here to 0.94
-//			}
-			//insert further conversions here
+			if (project.getCatrobatLanguageVersion() == 0.92f || project.getCatrobatLanguageVersion() == 0.93f) {
+				//0.93 should be left out because it available unintentional for a day
+				//raise language version here to 0.94
+				project.setCatrobatLanguageVersion(0.94f);
+			}
+//			insert further conversions here
+
 
 			checkNestingBrickReferences(true);
 			if (project.getCatrobatLanguageVersion() == Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {

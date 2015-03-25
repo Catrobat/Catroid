@@ -27,13 +27,13 @@ import android.test.AndroidTestCase;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
-import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.LinkedList;
@@ -55,8 +55,8 @@ public class ParserTestStringFunctions extends AndroidTestCase {
 		project.addSprite(testSprite);
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
-		UserVariablesContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()
-				.getUserVariables();
+		DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()
+				.getDataContainer();
 		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE_NAME).setValue(
 				USER_VARIABLE_1_VALUE_TYPE_DOUBLE);
 		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE_NAME2).setValue(

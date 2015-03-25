@@ -39,8 +39,8 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -202,7 +202,7 @@ public class Sprite implements Serializable, Cloneable {
 		if (currentProject == null || !currentProject.getSpriteList().contains(this)) {
 			throw new RuntimeException("The sprite must be in the current project before cloning it.");
 		}
-		UserVariablesContainer userVariables = currentProject.getUserVariables();
+		DataContainer userVariables = currentProject.getDataContainer();
 		List<UserVariable> originalSpriteVariables = userVariables.getOrCreateVariableListForSprite(this);
 		List<UserVariable> clonedSpriteVariables = userVariables.getOrCreateVariableListForSprite(cloneSprite);
 		for (UserVariable variable : originalSpriteVariables) {

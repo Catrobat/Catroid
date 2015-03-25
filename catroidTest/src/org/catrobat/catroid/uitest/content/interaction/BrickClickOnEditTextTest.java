@@ -92,8 +92,9 @@ public class BrickClickOnEditTextTest extends BaseActivityInstrumentationTestCas
 		editTextFieldVisibility(solo.getString(R.string.category_motion));
 		editTextFieldVisibility(solo.getString(R.string.category_sound));
 		editTextFieldVisibility(solo.getString(R.string.category_looks));
+
 		solo.drag(40, 40, 300, 40, UiTestUtils.DRAG_FRAMES);
-		editTextFieldVisibility(solo.getString(R.string.category_variables));
+		editTextFieldVisibility(solo.getString(R.string.category_data));
 		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
 				solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollDownList(fragmentListView);
