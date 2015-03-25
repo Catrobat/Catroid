@@ -32,7 +32,6 @@ import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 
@@ -74,8 +73,6 @@ public class WebViewActivity extends BaseActivity {
 			public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype,
 					long contentLength) {
 				DownloadUtil.getInstance().prepareDownloadAndStartIfPossible(WebViewActivity.this, url);
-				Toast.makeText(WebViewActivity.this, getText(R.string.notification_download_pending), Toast.LENGTH_LONG)
-						.show();
 			}
 		});
 	}

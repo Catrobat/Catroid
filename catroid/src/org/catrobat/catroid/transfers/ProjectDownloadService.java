@@ -23,17 +23,15 @@
 package org.catrobat.catroid.transfers;
 
 import android.app.IntentService;
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.DownloadUtil;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ConnectionWrapper;
@@ -54,8 +52,6 @@ public class ProjectDownloadService extends IntentService {
 	private String projectName;
 	private String zipFileString;
 	private String url;
-	Notification downloadNotification;
-	PendingIntent pendingDownload;
 	private Integer notificationId;
 	public ResultReceiver receiver;
 	private Handler handler;
@@ -96,19 +92,31 @@ public class ProjectDownloadService extends IntentService {
 		}
 
 		if (!result) {
-			showToast(R.string.error_project_download);
+			showToast(R.string.error_project_download, true);
 			return;
 		}
 
-		showToast(R.string.notification_download_finished);
+		showToast(R.string.notification_download_finished, false);
 	}
 
-	private void showToast(final int messageId) {
-		handler.post(new Runnable() {
-			@Override
-			public void run() {
-				Toast.makeText(getApplicationContext(), messageId, Toast.LENGTH_SHORT).show();
-			}
-		});
+	private void showToast(final int messageId, boolean error) {
+
+		if (error) {
+			handler.post(new Runnable() {
+
+				@Override
+				public void run() {
+					ToastUtil.showError(getApplicationContext(), messageId);
+				}
+			});
+		} else {
+			handler.post(new Runnable() {
+
+				@Override
+				public void run() {
+					ToastUtil.showSuccess(getApplicationContext(), messageId);
+				}
+			});
+		}
 	}
 }

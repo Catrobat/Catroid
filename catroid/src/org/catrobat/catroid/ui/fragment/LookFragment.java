@@ -60,7 +60,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
@@ -84,6 +83,7 @@ import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.ui.dialogs.NewLookDialog;
 import org.catrobat.catroid.ui.dialogs.RenameLookDialog;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilCamera;
 import org.catrobat.catroid.utils.Utils;
 
@@ -699,7 +699,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			Log.e(TAG, Log.getStackTraceString(ioException));
 		} catch (NullPointerException nullPointerException) {
 			Log.e(TAG, Log.getStackTraceString(nullPointerException));
-			Toast.makeText(getActivity(), R.string.error_load_image, Toast.LENGTH_SHORT).show();
+			ToastUtil.showError(getActivity(), R.string.error_load_image);
 		}
 
 	}
