@@ -39,19 +39,44 @@ class PhiroProListener implements IFirmata.Listener {
 
 	private static final String TAG = PhiroProListener.class.getSimpleName();
 
-	private short frontLeftSensor;
-	private short frontRightSensor;
-	private short sideLeftSensor;
-	private short sideRightSensor;
-	private short bottomLeftSensor;
-	private short bottomRightSensor;
+	private int frontLeftSensor = 0;
+	private int frontRightSensor = 0;
+	private int sideLeftSensor = 0;
+	private int sideRightSensor = 0;
+	private int bottomLeftSensor = 0;
+	private int bottomRightSensor = 0;
 
 	@Override
 	public void onAnalogMessageReceived(AnalogMessage message) {
-		// TODO: if sensor ports are known, set private fields with values
 
-		Log.d(TAG, String.format("Received Analog Message: pin: %d, value: %d",
-				message.getPin(), message.getValue()));
+		if (message.getValue() > 1024 || message.getValue() <= 0) {
+			return;
+		}
+
+		switch (message.getPin()) {
+			case PhiroProImpl.PIN_SENSOR_SIDE_RIGHT:
+				sideRightSensor = message.getValue();
+				break;
+			case PhiroProImpl.PIN_SENSOR_FRONT_RIGHT:
+				frontRightSensor = message.getValue();
+				break;
+			case PhiroProImpl.PIN_SENSOR_BOTTOM_RIGHT:
+				bottomRightSensor = message.getValue();
+				break;
+			case PhiroProImpl.PIN_SENSOR_BOTTOM_LEFT:
+				bottomLeftSensor = message.getValue();
+				break;
+			case PhiroProImpl.PIN_SENSOR_FRONT_LEFT:
+				frontLeftSensor = message.getValue();
+				break;
+			case PhiroProImpl.PIN_SENSOR_SIDE_LEFT:
+				sideLeftSensor = message.getValue();
+				break;
+
+		}
+
+//		Log.d(TAG, String.format("Received Analog Message: pin: %d, value: %d",
+//				message.getPin(), message.getValue()));
 	}
 
 	@Override
@@ -89,6 +114,30 @@ class PhiroProListener implements IFirmata.Listener {
 
 	@Override
 	public void onUnknownByteReceived(int byteValue) {
-		Log.d(TAG, "Unkown Byte received. Byte value: " + byteValue);
+		//Log.d(TAG, "Unkown Byte received. Byte value: " + byteValue);
+	}
+
+	public int getFrontLeftSensor() {
+		return frontLeftSensor;
+	}
+
+	public int getFrontRightSensor() {
+		return frontRightSensor;
+	}
+
+	public int getSideLeftSensor() {
+		return sideLeftSensor;
+	}
+
+	public int getSideRightSensor() {
+		return sideRightSensor;
+	}
+
+	public int getBottomLeftSensor() {
+		return bottomLeftSensor;
+	}
+
+	public int getBottomRightSensor() {
+		return bottomRightSensor;
 	}
 }

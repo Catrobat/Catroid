@@ -85,8 +85,9 @@ public class PhiroProMotorMoveBackwardBrick extends FormulaBrick {
 
 	public void setSpeedTextValue(int speed)
 	{
-		editSpeed.setText(String.valueOf(speed));
-		this.speed.setDisplayText(String.valueOf(speed));
+//		editSpeed.setText(String.valueOf(speed));
+//		this.speed.setDisplayText(String.valueOf(speed));
+		this.speed = new Formula(speed);
 	}
 
 	protected Object readResolve() {

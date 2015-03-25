@@ -24,6 +24,7 @@
 package org.catrobat.catroid.devices.arduino.phiropro;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
+import org.catrobat.catroid.formulaeditor.Sensors;
 
 public interface PhiroPro extends BluetoothDevice {
 
@@ -43,5 +44,7 @@ public interface PhiroPro extends BluetoothDevice {
 	public void setRightRGBLightColor(int red, int green, int blue);
 
 	public void reportFirmwareVersion();
+
+	public int getSensorValue(Sensors sensor);
 
 }
