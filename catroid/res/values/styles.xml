@@ -376,6 +376,11 @@
         <item name="android:background" >@drawable/brick_cyan_3h</item >
     </style >
 
+    <style name="BrickContainer.Kodey.Light" >
+        <item name="android:minHeight" >@dimen/brick_height_big</item >
+        <item name="android:background" >@drawable/brick_phiro_green_3h</item >
+    </style >
+
     <style name="BrickContainer.Lego" ></style >
 
     <style name="BrickContainer.Lego.Small" >
