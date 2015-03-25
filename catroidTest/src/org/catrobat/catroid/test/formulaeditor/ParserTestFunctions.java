@@ -46,78 +46,78 @@ public class ParserTestFunctions extends AndroidTestCase {
 	}
 
 	public void testSin() {
-		FormulaEditorUtil.testSingleParameterFunction(Functions.SIN, InternTokenType.NUMBER, "90",
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.SIN, InternTokenType.NUMBER, "90",
 				Math.sin(Math.toRadians(90d)), testSprite);
 
-		FormulaEditorUtil.testSingleParameterFunction(Functions.SIN, InternTokenType.STRING, "45.0",
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.SIN, InternTokenType.STRING, "45.0",
 				Math.sin(Math.toRadians(45d)), testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.SIN, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.SIN, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.SIN, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.SIN, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
 				testSprite);
 
-		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
 				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.SIN, firstParameterList, Double.NaN, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.SIN, firstParameterList, Double.NaN, testSprite);
 	}
 
 	public void testCos() {
-		FormulaEditorUtil.testSingleParameterFunction(Functions.COS, InternTokenType.NUMBER, "180",
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.COS, InternTokenType.NUMBER, "180",
 				Math.cos(Math.toRadians(180d)), testSprite);
 
-		FormulaEditorUtil.testSingleParameterFunction(Functions.COS, InternTokenType.STRING, "45.0",
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.COS, InternTokenType.STRING, "45.0",
 				Math.cos(Math.toRadians(45d)), testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.COS, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.COS, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.COS, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.COS, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
 				testSprite);
 
-		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
 				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.COS, firstParameterList, Double.NaN, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.COS, firstParameterList, Double.NaN, testSprite);
 	}
 
 	public void testTan() {
-		FormulaEditorUtil.testSingleParameterFunction(Functions.TAN, InternTokenType.NUMBER, "180",
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.TAN, InternTokenType.NUMBER, "180",
 				Math.tan(Math.toRadians(180d)), testSprite);
 
-		FormulaEditorUtil.testSingleParameterFunction(Functions.TAN, InternTokenType.STRING, "45.0",
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.TAN, InternTokenType.STRING, "45.0",
 				Math.tan(Math.toRadians(45d)), testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.TAN, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.TAN, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.TAN, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.TAN, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
 				testSprite);
 
-		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
 				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.TAN, firstParameterList, Double.NaN, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.TAN, firstParameterList, Double.NaN, testSprite);
 	}
 
 	public void testLn() {
-		FormulaEditorUtil.testSingleParameterFunction(Functions.LN, InternTokenType.NUMBER, "2.7182818",
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LN, InternTokenType.NUMBER, "2.7182818",
 				Math.log(2.7182818), testSprite);
 
-		FormulaEditorUtil.testSingleParameterFunction(Functions.LN, InternTokenType.STRING, "45.0", Math.log(45d),
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LN, InternTokenType.STRING, "45.0", Math.log(45d),
 				testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.LN, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.LN, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LN, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LN, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
 				testSprite);
 
-		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
 				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.LN, firstParameterList, Double.NaN, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LN, firstParameterList, Double.NaN, testSprite);
 	}
 
 	public void testLog() {
-		FormulaEditorUtil.testSingleParameterFunction(Functions.LOG, InternTokenType.NUMBER, "10", Math.log10(10),
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LOG, InternTokenType.NUMBER, "10", Math.log10(10),
 				testSprite);
 
-		FormulaEditorUtil.testSingleParameterFunction(Functions.LOG, InternTokenType.STRING, "45.0", Math.log10(45),
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LOG, InternTokenType.STRING, "45.0", Math.log10(45),
 				testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.LOG, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.LOG, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LOG, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LOG, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
 				testSprite);
 
-		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
 				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.LOG, firstParameterList, Double.NaN, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LOG, firstParameterList, Double.NaN, testSprite);
 	}
 
 	public void testPi() {
@@ -130,18 +130,18 @@ public class ParserTestFunctions extends AndroidTestCase {
 	}
 
 	public void testSqrt() {
-		FormulaEditorUtil.testSingleParameterFunction(Functions.SQRT, InternTokenType.NUMBER, "100", Math.sqrt(100),
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.SQRT, InternTokenType.NUMBER, "100", Math.sqrt(100),
 				testSprite);
 
-		FormulaEditorUtil.testSingleParameterFunction(Functions.SQRT, InternTokenType.STRING, "45.0", Math.sqrt(45),
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.SQRT, InternTokenType.STRING, "45.0", Math.sqrt(45),
 				testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.SQRT, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.SQRT, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.SQRT, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.SQRT, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
 				testSprite);
 
-		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
 				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.SQRT, firstParameterList, Double.NaN, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.SQRT, firstParameterList, Double.NaN, testSprite);
 	}
 
 	public void testRandomNaturalNumbers() {
@@ -158,106 +158,102 @@ public class ParserTestFunctions extends AndroidTestCase {
 		Double result = (Double) parseTree.interpretRecursive(testSprite);
 		assertTrue("Formula interpretation is not as expected", result == 0d || result == 1d);
 
-		FormulaEditorUtil.testDoubleParameterFunction(Functions.RAND, InternTokenType.STRING, "1",
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.RAND, InternTokenType.STRING, "1",
 				InternTokenType.STRING, "1", 1d, testSprite);
-		FormulaEditorUtil.testDoubleParameterFunction(Functions.RAND, InternTokenType.STRING, "",
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.RAND, InternTokenType.STRING, "",
 				InternTokenType.STRING, "3", 0d, testSprite);
-		FormulaEditorUtil.testDoubleParameterFunction(Functions.RAND, InternTokenType.STRING, "5",
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.RAND, InternTokenType.STRING, "5",
 				InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testDoubleParameterFunction(Functions.RAND, InternTokenType.STRING, "5",
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.RAND, InternTokenType.STRING, "5",
 				InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d, testSprite);
 
-		List<InternToken> firstParameterList = new LinkedList<InternToken>();
-		List<InternToken> secondParameterList = new LinkedList<InternToken>();
-		firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
+		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
 				InternTokenType.STRING, "datString");
-		secondParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.MULT,
+		List<InternToken> secondParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.MULT,
 				InternTokenType.STRING, "anotherString");
-		FormulaEditorUtil.testDoubleParameterFunction(Functions.RAND, firstParameterList, secondParameterList,
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.RAND, firstParameterList, secondParameterList,
 				Double.NaN, testSprite);
 	}
 
 	public void testRound() {
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ROUND, InternTokenType.NUMBER, "1.33333",
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ROUND, InternTokenType.NUMBER, "1.33333",
 				((Long) Math.round(1.33333)).doubleValue(), testSprite);
 
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ROUND, InternTokenType.STRING, "45.55555",
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ROUND, InternTokenType.STRING, "45.55555",
 				((Long) Math.round(45.55555)).doubleValue(), testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ROUND, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ROUND, InternTokenType.STRING, NOT_NUMERICAL_STRING,
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ROUND, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ROUND, InternTokenType.STRING, NOT_NUMERICAL_STRING,
 				0d, testSprite);
 
-		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
 				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ROUND, firstParameterList, 0d, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ROUND, firstParameterList, 0d, testSprite);
 	}
 
 	public void testMod() {
 
 		for (int offset = 0; offset < 10; offset += 1) {
-			Integer dividend = Integer.valueOf(1 + offset);
-			Integer divisor = Integer.valueOf(1 + offset);
+			Integer dividend = 1 + offset;
+			Integer divisor = 1 + offset;
 
-			FormulaEditorUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.NUMBER, dividend.toString(),
+			FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.NUMBER, dividend.toString(),
 					InternTokenType.NUMBER, divisor.toString(), 0d, testSprite);
 		}
 
 		for (int offset = 0; offset < 100; offset += 2) {
-			Integer dividend = Integer.valueOf(3 + offset);
-			Integer divisor = Integer.valueOf(2 + offset);
+			Integer dividend = 3 + offset;
+			Integer divisor = 2 + offset;
 
-			FormulaEditorUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.NUMBER, dividend.toString(),
+			FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.NUMBER, dividend.toString(),
 					InternTokenType.NUMBER, divisor.toString(), 1d, testSprite);
 		}
 
 		for (int offset = 0; offset < 10; offset += 1) {
-			Integer dividend = Integer.valueOf(3 + offset);
-			Integer divisor = Integer.valueOf(5 + offset);
+			Integer dividend = 3 + offset;
+			Integer divisor = 5 + offset;
 
-			FormulaEditorUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.NUMBER, dividend.toString(),
+			FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.NUMBER, dividend.toString(),
 					InternTokenType.NUMBER, divisor.toString(), dividend.doubleValue(), testSprite);
 		}
 
 		for (int offset = 0; offset < 10; offset += 1) {
-			Integer dividend = Integer.valueOf(-3 - offset);
-			Integer divisor = Integer.valueOf(2 + offset);
+			Integer dividend = -3 - offset;
+			Integer divisor = 2 + offset;
 
-			FormulaEditorUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.NUMBER, dividend.toString(),
+			FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.NUMBER, dividend.toString(),
 					InternTokenType.NUMBER, divisor.toString(), 1d + offset, testSprite);
 		}
 
-		FormulaEditorUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.STRING, "5",
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.STRING, "5",
 				InternTokenType.STRING, "3", 2d, testSprite);
-		FormulaEditorUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.STRING, "",
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.STRING, "",
 				InternTokenType.STRING, "3", 0d, testSprite);
-		FormulaEditorUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.STRING, "5",
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.STRING, "5",
 				InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.STRING, "5",
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MOD, InternTokenType.STRING, "5",
 				InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d, testSprite);
 
-		List<InternToken> firstParameterList = new LinkedList<InternToken>();
-		List<InternToken> secondParameterList = new LinkedList<InternToken>();
-		firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
+		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
 				InternTokenType.STRING, "datString");
-		secondParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.MULT,
+		List<InternToken> secondParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.MULT,
 				InternTokenType.STRING, "anotherString");
-		FormulaEditorUtil.testDoubleParameterFunction(Functions.MOD, firstParameterList, secondParameterList,
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MOD, firstParameterList, secondParameterList,
 				Double.NaN, testSprite);
 	}
 
 	public void testAbs() {
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ABS, InternTokenType.NUMBER, "-1.1", Math.abs(-1.1),
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ABS, InternTokenType.NUMBER, "-1.1", Math.abs(-1.1),
 				testSprite);
 
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ABS, InternTokenType.STRING, "45.666",
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ABS, InternTokenType.STRING, "45.666",
 				Math.abs(45.666), testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ABS, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ABS, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ABS, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ABS, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
 				testSprite);
 
-		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
 				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ABS, firstParameterList, Double.NaN, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ABS, firstParameterList, Double.NaN, testSprite);
 	}
 
 	public void testInvalidFunction() {
@@ -292,109 +288,105 @@ public class ParserTestFunctions extends AndroidTestCase {
 	}
 
 	public void testArcsin() {
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCSIN, InternTokenType.NUMBER, "1",
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ARCSIN, InternTokenType.NUMBER, "1",
 				Math.toDegrees(Math.asin(1)), testSprite);
 
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCSIN, InternTokenType.STRING, "0.666",
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ARCSIN, InternTokenType.STRING, "0.666",
 				Math.toDegrees(Math.asin(0.666)), testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCSIN, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCSIN, InternTokenType.STRING, NOT_NUMERICAL_STRING,
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ARCSIN, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ARCSIN, InternTokenType.STRING, NOT_NUMERICAL_STRING,
 				0d, testSprite);
 
-		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
 				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCSIN, firstParameterList, Double.NaN, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ARCSIN, firstParameterList, Double.NaN, testSprite);
 	}
 
 	public void testArccos() {
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCCOS, InternTokenType.NUMBER, "0",
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ARCCOS, InternTokenType.NUMBER, "0",
 				Math.toDegrees(Math.acos(0)), testSprite);
 
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCCOS, InternTokenType.STRING, "0.666",
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ARCCOS, InternTokenType.STRING, "0.666",
 				Math.toDegrees(Math.acos(0.666)), testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCCOS, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCCOS, InternTokenType.STRING, NOT_NUMERICAL_STRING,
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ARCCOS, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ARCCOS, InternTokenType.STRING, NOT_NUMERICAL_STRING,
 				0d, testSprite);
 
-		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
 				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCCOS, firstParameterList, Double.NaN, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ARCCOS, firstParameterList, Double.NaN, testSprite);
 	}
 
 	public void testArctan() {
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCTAN, InternTokenType.NUMBER, "1",
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ARCTAN, InternTokenType.NUMBER, "1",
 				Math.toDegrees(Math.atan(1)), testSprite);
 
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCTAN, InternTokenType.STRING, "45.666",
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ARCTAN, InternTokenType.STRING, "45.666",
 				Math.toDegrees(Math.atan(45.666)), testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCTAN, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCTAN, InternTokenType.STRING, NOT_NUMERICAL_STRING,
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ARCTAN, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ARCTAN, InternTokenType.STRING, NOT_NUMERICAL_STRING,
 				0d, testSprite);
 
-		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
 				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.ARCTAN, firstParameterList, Double.NaN, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.ARCTAN, firstParameterList, Double.NaN, testSprite);
 	}
 
 	public void testExp() {
-		FormulaEditorUtil.testSingleParameterFunction(Functions.EXP, InternTokenType.NUMBER, "2", Math.exp(2),
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.EXP, InternTokenType.NUMBER, "2", Math.exp(2),
 				testSprite);
 
-		FormulaEditorUtil.testSingleParameterFunction(Functions.EXP, InternTokenType.STRING, "45.666",
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.EXP, InternTokenType.STRING, "45.666",
 				Math.exp(45.666), testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.EXP, InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.EXP, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.EXP, InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.EXP, InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d,
 				testSprite);
 
-		List<InternToken> firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
+		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "15.0",
 				Operators.PLUS, InternTokenType.STRING, NOT_NUMERICAL_STRING);
-		FormulaEditorUtil.testSingleParameterFunction(Functions.EXP, firstParameterList, Double.NaN, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.EXP, firstParameterList, Double.NaN, testSprite);
 	}
 
 	public void testMax() {
-		FormulaEditorUtil.testDoubleParameterFunction(Functions.MAX, InternTokenType.NUMBER, "3",
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MAX, InternTokenType.NUMBER, "3",
 				InternTokenType.STRING, "4", 4d, testSprite);
 
-		FormulaEditorUtil.testDoubleParameterFunction(Functions.MAX, InternTokenType.STRING, "33.22",
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MAX, InternTokenType.STRING, "33.22",
 				InternTokenType.STRING, "22.33", 33.22, testSprite);
-		FormulaEditorUtil.testDoubleParameterFunction(Functions.MAX, InternTokenType.STRING, "",
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MAX, InternTokenType.STRING, "",
 				InternTokenType.STRING, "22.33", 0d, testSprite);
-		FormulaEditorUtil.testDoubleParameterFunction(Functions.MAX, InternTokenType.STRING, "",
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MAX, InternTokenType.STRING, "",
 				InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testDoubleParameterFunction(Functions.MAX, InternTokenType.STRING, "33.22",
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MAX, InternTokenType.STRING, "33.22",
 				InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d, testSprite);
 
-		List<InternToken> firstParameterList = new LinkedList<InternToken>();
-		List<InternToken> secondParameterList = new LinkedList<InternToken>();
-		firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
+		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
 				InternTokenType.STRING, "datString");
-		secondParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.MULT,
+		List<InternToken> secondParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.MULT,
 				InternTokenType.STRING, "anotherString");
-		FormulaEditorUtil.testDoubleParameterFunction(Functions.MAX, firstParameterList, secondParameterList,
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MAX, firstParameterList, secondParameterList,
 				Double.NaN, testSprite);
 
 	}
 
 	public void testMin() {
-		FormulaEditorUtil.testDoubleParameterFunction(Functions.MIN, InternTokenType.NUMBER, "3",
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MIN, InternTokenType.NUMBER, "3",
 				InternTokenType.STRING, "4", 3d, testSprite);
 
-		FormulaEditorUtil.testDoubleParameterFunction(Functions.MIN, InternTokenType.STRING, "33.22",
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MIN, InternTokenType.STRING, "33.22",
 				InternTokenType.STRING, "22.33", 22.33, testSprite);
-		FormulaEditorUtil.testDoubleParameterFunction(Functions.MIN, InternTokenType.STRING, "",
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MIN, InternTokenType.STRING, "",
 				InternTokenType.STRING, "22.33", 0d, testSprite);
-		FormulaEditorUtil.testDoubleParameterFunction(Functions.MIN, InternTokenType.STRING, "",
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MIN, InternTokenType.STRING, "",
 				InternTokenType.STRING, "", 0d, testSprite);
-		FormulaEditorUtil.testDoubleParameterFunction(Functions.MIN, InternTokenType.STRING, "33.22",
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MIN, InternTokenType.STRING, "33.22",
 				InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d, testSprite);
 
-		List<InternToken> firstParameterList = new LinkedList<InternToken>();
-		List<InternToken> secondParameterList = new LinkedList<InternToken>();
-		firstParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
+		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
 				InternTokenType.STRING, "datString");
-		secondParameterList = FormulaEditorUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.MULT,
+		List<InternToken> secondParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.MULT,
 				InternTokenType.STRING, "anotherString");
-		FormulaEditorUtil.testDoubleParameterFunction(Functions.MIN, firstParameterList, secondParameterList,
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MIN, firstParameterList, secondParameterList,
 				Double.NaN, testSprite);
 	}
 

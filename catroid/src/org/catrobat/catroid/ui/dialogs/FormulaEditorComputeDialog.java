@@ -90,7 +90,6 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 
 		String result = formulaToCompute.getResultForComputeDialog(context);
 		setDialogTextView(result);
-
 	}
 
 	@Override

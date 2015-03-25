@@ -89,7 +89,7 @@ public class Formula implements Serializable {
 
 	public void updateVariableReferences(String oldName, String newName, Context context) {
 		internFormula.updateVariableReferences(oldName, newName, context);
-		formulaTree.updateVariableReferences(oldName, newName, context);
+		formulaTree.updateVariableReferences(oldName, newName);
 		displayText = null;
 	}
 
@@ -104,7 +104,7 @@ public class Formula implements Serializable {
 
 	public Boolean interpretBoolean(Sprite sprite) throws InterpretationException{
 		int result = interpretDouble(sprite).intValue();
-		return result != 0 ? true : false;
+		return result != 0;
 	}
 
 	public Integer interpretInteger(Sprite sprite) throws InterpretationException {
@@ -115,7 +115,7 @@ public class Formula implements Serializable {
 	public Double interpretDouble(Sprite sprite) throws InterpretationException {
 		try{
 			Object returnValue = formulaTree.interpretRecursive(sprite);
-			Double doubleReturnValue = null;
+			Double doubleReturnValue;
 			if (returnValue instanceof String) {
 				doubleReturnValue = Double.valueOf((String)returnValue);
 				if (doubleReturnValue.isNaN()) {
@@ -154,8 +154,7 @@ public class Formula implements Serializable {
 	}
 
 	public Object interpretObject(Sprite sprite) {
-		Object interpretation = formulaTree.interpretRecursive(sprite);
-		return interpretation;
+		return formulaTree.interpretRecursive(sprite);
 	}
 
 	public void setRoot(FormulaElement formula) {
@@ -198,8 +197,8 @@ public class Formula implements Serializable {
 	}
 
 	@SuppressWarnings("deprecation")
-	public void highlightTextField(View brickView, int orientation) {
-		Drawable highlightBackground = null;
+	public void highlightTextField(View brickView) {
+		Drawable highlightBackground;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			highlightBackground = brickView.getResources().getDrawable(R.drawable.textfield_pressed_android4);
 		} else {
@@ -220,11 +219,7 @@ public class Formula implements Serializable {
 	}
 
 	public boolean containsElement(FormulaElement.ElementType elementType) {
-		if (formulaTree.containsElement(elementType)) {
-			return true;
-		}
-
-		return false;
+		return formulaTree.containsElement(elementType);
 	}
 
 	public boolean isSingleNumberFormula() {
@@ -242,7 +237,6 @@ public class Formula implements Serializable {
 
 	public void removeVariableReferences(String name, Context context) {
 		internFormula.removeVariableReferences(name, context);
-
 	}
 
 	public int getRequiredResources() {
@@ -250,7 +244,6 @@ public class Formula implements Serializable {
 	}
 
 	public String getResultForComputeDialog(Context context) {
-
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 
 		if (formulaTree.isLogicalOperator()) {
@@ -284,4 +277,5 @@ public class Formula implements Serializable {
 			return String.valueOf(interpretationResult);
 		}
 	}
+	
 }

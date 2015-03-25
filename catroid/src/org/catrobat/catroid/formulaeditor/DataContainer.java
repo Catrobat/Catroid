@@ -36,7 +36,6 @@ import org.catrobat.catroid.ui.adapter.DataAdapter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -183,14 +182,6 @@ public class DataContainer implements Serializable {
 		return variables;
 	}
 
-	public void cleanVariableListForUserBrick(int userBrickId) {
-		List<UserVariable> variables = userBrickVariables.get(userBrickId);
-		if (variables != null) {
-			variables.clear();
-		}
-		userBrickVariables.remove(userBrickId);
-	}
-
 	public List<UserVariable> getOrCreateVariableListForSprite(Sprite sprite) {
 		List<UserVariable> variables = spriteVariables.get(sprite);
 
@@ -264,9 +255,7 @@ public class DataContainer implements Serializable {
 	private void resetAllUserVariables() {
 		resetUserVariables(projectVariables);
 
-		Iterator<Sprite> spriteIterator = spriteVariables.keySet().iterator();
-		while (spriteIterator.hasNext()) {
-			Sprite currentSprite = spriteIterator.next();
+		for (Sprite currentSprite : spriteVariables.keySet()) {
 			resetUserVariables(spriteVariables.get(currentSprite));
 		}
 		for (int key : userBrickVariables.keySet()) {
@@ -352,12 +341,9 @@ public class DataContainer implements Serializable {
 	}
 
 	private void resetAllUserLists() {
-
 		resetUserLists(projectLists);
 
-		Iterator<Sprite> spriteIterator = spriteListOfLists.keySet().iterator();
-		while (spriteIterator.hasNext()) {
-			Sprite currentSprite = spriteIterator.next();
+		for (Sprite currentSprite : spriteListOfLists.keySet()) {
 			resetUserLists(spriteListOfLists.get(currentSprite));
 		}
 	}
@@ -369,14 +355,11 @@ public class DataContainer implements Serializable {
 	}
 
 	public UserList getUserList() {
-
 		if (projectLists.size() > 0) {
 			return projectLists.get(0);
 		}
 
-		Iterator<Sprite> spriteIterator = spriteListOfLists.keySet().iterator();
-		while (spriteIterator.hasNext()) {
-			Sprite currentSprite = spriteIterator.next();
+		for (Sprite currentSprite : spriteListOfLists.keySet()) {
 			if (spriteListOfLists.get(currentSprite).size() > 0) {
 				return spriteListOfLists.get(currentSprite).get(0);
 			}

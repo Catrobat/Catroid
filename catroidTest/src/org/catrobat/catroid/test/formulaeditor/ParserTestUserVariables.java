@@ -51,17 +51,14 @@ public class ParserTestUserVariables extends AndroidTestCase {
 	private static final double USER_VARIABLE_RESET = 0.0d;
 	private static final String USER_VARIABLE_3_VALUE_TYPE_STRING = "My Little User Variable";
 	private static final String PROJECT_USER_VARIABLE_2 = "projectUserVariable2";
-	private Project project;
 	private Sprite firstSprite;
-	private StartScript startScript;
-	private ChangeSizeByNBrick changeBrick;
 
 	@Override
 	protected void setUp() {
-		this.project = new Project(null, "testProject");
+		Project project = new Project(null, "testProject");
 		firstSprite = new Sprite("firstSprite");
-		startScript = new StartScript();
-		changeBrick = new ChangeSizeByNBrick(10);
+		StartScript startScript = new StartScript();
+		ChangeSizeByNBrick changeBrick = new ChangeSizeByNBrick(10);
 		firstSprite.addScript(startScript);
 		startScript.addBrick(changeBrick);
 		project.addSprite(firstSprite);
@@ -76,7 +73,7 @@ public class ParserTestUserVariables extends AndroidTestCase {
 				USER_VARIABLE_2_VALUE_TYPE_DOUBLE);
 		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE_2).setValue(
 				USER_VARIABLE_3_VALUE_TYPE_STRING);
-		userVariableContainer.addUserBrickUserVariableToUserBrick(0, USER_BRICK_VARIABLE, Double.valueOf(0))
+		userVariableContainer.addUserBrickUserVariableToUserBrick(0, USER_BRICK_VARIABLE, 0d)
 				.setValue(USER_VARIABLE_VALUE3);
 	}
 
@@ -105,14 +102,7 @@ public class ParserTestUserVariables extends AndroidTestCase {
 	}
 
 	public void testNotExistingUservariable() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
-		internTokenList.add(new InternToken(InternTokenType.USER_VARIABLE, "NOT_EXISTING_USER_VARIABLE"));
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
-
-		assertNull("Invalid user variable parsed:   NOT_EXISTING_USER_VARIABLE)", parseTree);
-		int errorTokenIndex = internParser.getErrorTokenIndex();
-		assertEquals("Error Token Index is not as expected", 0, errorTokenIndex);
+		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.USER_VARIABLE, "NOT_EXISTING_USER_VARIABLE", 0);
 	}
 
 	private Object interpretUservariable(String userVariableName) {

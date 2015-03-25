@@ -38,8 +38,6 @@ import java.util.ArrayList;
 public class InternFormulaTokenSelectionTest extends InstrumentationTestCase {
 
 	private InternFormula internFormula;
-	private String externFormulaString;
-	private int doubleClickIndex;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -53,8 +51,7 @@ public class InternFormulaTokenSelectionTest extends InstrumentationTestCase {
 
 		internFormula = new InternFormula(internTokens);
 		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
-		externFormulaString = internFormula.getExternFormulaString();
-		doubleClickIndex = externFormulaString.length();
+		int doubleClickIndex = internFormula.getExternFormulaString().length();
 		internFormula.setCursorAndSelection(doubleClickIndex, true);
 	}
 

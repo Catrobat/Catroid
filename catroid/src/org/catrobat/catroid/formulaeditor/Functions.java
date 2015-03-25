@@ -27,16 +27,13 @@ import android.util.Log;
 
 public enum Functions {
 
-	SIN, COS, TAN, LN, LOG, SQRT, RAND, ROUND, ABS, PI, MOD, ARCSIN, ARCCOS, ARCTAN, EXP, MAX, MIN, TRUE, FALSE, LENGTH, LETTER, JOIN, LIST_ITEM, CONTAINS, NUMBER_OF_ITEMS;
-
+	SIN, COS, TAN, LN, LOG, SQRT, RAND, ROUND, ABS, PI, MOD, ARCSIN, ARCCOS, ARCTAN, EXP, MAX, MIN, TRUE, FALSE, LENGTH,
+	LETTER, JOIN, LIST_ITEM, CONTAINS, NUMBER_OF_ITEMS;
 
 	private static final String TAG = Functions.class.getSimpleName();
 
 	public static boolean isFunction(String value) {
-		if (getFunctionByValue(value) == null) {
-			return false;
-		}
-		return true;
+		return getFunctionByValue(value) != null;
 	}
 
 	public static Functions getFunctionByValue(String value) {

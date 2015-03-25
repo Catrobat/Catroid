@@ -98,15 +98,8 @@ public class ParserTestObject extends AndroidTestCase {
 	}
 
 	public void testNotExistingLookSensorValues() {
-
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
-		internTokenList.add(new InternToken(InternTokenType.SENSOR, ""));
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
-
-		assertNull("Invalid sensor parsed:   NOT_EXISTING_SENSOR)", parseTree);
-		int errorTokenIndex = internParser.getErrorTokenIndex();
-		assertEquals("Error Token Index is not as expected", 0, errorTokenIndex);
+		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.SENSOR, "", 0);
+		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.SENSOR, "notExistingSensor O_O", 0);
 
 	}
 }

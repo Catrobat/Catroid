@@ -33,7 +33,6 @@ public class InternFormulaKeyboardAdapter {
 	public static final int FORMULA_EDITOR_USER_VARIABLE_RESOURCE_ID = 0;
 
 	public List<InternToken> createInternTokenListByResourceId(int resource, String name) {
-
 		//USER VARIABLES
 		if ((resource == FORMULA_EDITOR_USER_VARIABLE_RESOURCE_ID) && !name.isEmpty()) {
 			return buildUserVariable(name);
@@ -218,9 +217,7 @@ public class InternFormulaKeyboardAdapter {
 				return buildObject(Sensors.OBJECT_LAYER);
 
 		}
-
 		return null;
-
 	}
 
 	private List<InternToken> buildBracketOpen() {
@@ -279,7 +276,6 @@ public class InternFormulaKeyboardAdapter {
 
 	private List<InternToken> buildDoubleParameterFunction(Functions function, InternTokenType firstParameter,
 			String firstParameterNumberValue, InternTokenType secondParameter, String secondParameterNumberValue) {
-
 		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
 		returnList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
@@ -287,14 +283,11 @@ public class InternFormulaKeyboardAdapter {
 		returnList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
 		returnList.add(new InternToken(secondParameter, secondParameterNumberValue));
 		returnList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
-
 		return returnList;
-
 	}
 
 	private List<InternToken> buildSingleParameterFunction(Functions function, InternTokenType firstParameter,
 			String parameterNumberValue) {
-
 		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
 		returnList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
@@ -304,7 +297,6 @@ public class InternFormulaKeyboardAdapter {
 	}
 
 	private List<InternToken> buildFunctionWithoutParametersAndBrackets(Functions function) {
-
 		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
 		return returnList;

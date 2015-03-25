@@ -40,10 +40,7 @@ public class DataContainerTest extends AndroidTestCase {
 	private static final String PROJECT_USER_LIST_NAME_2 = "project_user_list_2";
 	private static final String PROJECT_USER_LIST_NAME = "project_user_list";
 	private static final String SPRITE_USER_LIST_NAME = "sprite_user_list";
-	private Project project;
 	private Sprite firstSprite;
-	private StartScript startScript;
-	private ChangeSizeByNBrick changeBrick;
 
 	private static final List<Object> USER_LIST_VALUES_SINGLE_NUMBER_STRING = new ArrayList<Object>();
 
@@ -87,10 +84,10 @@ public class DataContainerTest extends AndroidTestCase {
 
 	@Override
 	protected void setUp() {
-		this.project = new Project(null, "testProject");
+		Project project = new Project(null, "testProject");
 		firstSprite = new Sprite("firstSprite");
-		startScript = new StartScript();
-		changeBrick = new ChangeSizeByNBrick(10);
+		StartScript startScript = new StartScript();
+		ChangeSizeByNBrick changeBrick = new ChangeSizeByNBrick(10);
 		firstSprite.addScript(startScript);
 		startScript.addBrick(changeBrick);
 		project.addSprite(firstSprite);
@@ -101,7 +98,6 @@ public class DataContainerTest extends AndroidTestCase {
 		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME);
 		dataContainer.addSpriteUserListToSprite(firstSprite, SPRITE_USER_LIST_NAME);
 		dataContainer.addProjectUserList(PROJECT_USER_LIST_NAME_2);
-
 	}
 
 	public void testGetUserList() {
