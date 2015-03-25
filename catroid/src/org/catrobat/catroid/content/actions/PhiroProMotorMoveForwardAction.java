@@ -37,7 +37,7 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.devices.arduino.phiropro.PhiroPro;
 
 public class PhiroProMotorMoveForwardAction extends TemporalAction {
-	private static final int MIN_SPEED = -100;
+	private static final int MIN_SPEED = 0;
 	private static final int MAX_SPEED = 100;
 
 	private Motor motorEnum;

@@ -30,12 +30,15 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.devices.arduino.common.firmata.BytesHelper;
 import org.catrobat.catroid.devices.arduino.common.firmata.Firmata;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.AnalogMessage;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.I2cRequestMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.Message;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.ReportAnalogPinMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.ReportFirmwareVersionMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.SetPinModeMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.serial.ISerial;
 import org.catrobat.catroid.devices.arduino.common.firmata.serial.SerialException;
 import org.catrobat.catroid.devices.arduino.common.firmata.serial.StreamingSerialAdapter;
+import org.catrobat.catroid.formulaeditor.Sensors;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -64,6 +67,16 @@ public class PhiroProImpl implements PhiroPro {
 	private static final int MIN_PWM_PIN = 3;
 	private static final int MAX_PWM_PIN = 13;
 
+	public static final int PIN_SENSOR_SIDE_RIGHT = 0;
+	public static final int PIN_SENSOR_FRONT_RIGHT = 1;
+	public static final int PIN_SENSOR_BOTTOM_RIGHT = 2;
+	public static final int PIN_SENSOR_BOTTOM_LEFT = 3;
+	public static final int PIN_SENSOR_FRONT_LEFT = 4;
+	public static final int PIN_SENSOR_SIDE_LEFT = 5;
+
+	private static final int MIN_SENSOR_PIN = 0;
+	private static final int MAX_SENSOR_PIN = 5;
+
 	private BluetoothConnection btConnection;
 	private Firmata firmata;
 	private boolean isInitialized = false;
@@ -78,23 +91,23 @@ public class PhiroProImpl implements PhiroPro {
 	}
 
 	@Override
-	public void moveLeftMotorForward(int speed) {
-		sendAnalogFirmataMessage(PIN_LEFT_MOTOR_FORWARD, speed);
+	public void moveLeftMotorForward(int speedInPercent) {
+		sendAnalogFirmataMessage(PIN_LEFT_MOTOR_FORWARD, percentToSpeed(speedInPercent));
 	}
 
 	@Override
-	public void moveLeftMotorBackward(int speed) {
-		sendAnalogFirmataMessage(PIN_LEFT_MOTOR_BACKWARD, speed);
+	public void moveLeftMotorBackward(int speedInPercent) {
+		sendAnalogFirmataMessage(PIN_LEFT_MOTOR_BACKWARD, percentToSpeed(speedInPercent));
 	}
 
 	@Override
-	public void moveRightMotorForward(int speed) {
-		sendAnalogFirmataMessage(PIN_RIGHT_MOTOR_FORWARD, speed);
+	public void moveRightMotorForward(int speedInPercent) {
+		sendAnalogFirmataMessage(PIN_RIGHT_MOTOR_FORWARD, percentToSpeed(speedInPercent));
 	}
 
 	@Override
-	public void moveRightMotorBackward(int speed) {
-		sendAnalogFirmataMessage(PIN_RIGHT_MOTOR_BACKWARD, speed);
+	public void moveRightMotorBackward(int speedInPercent) {
+		sendAnalogFirmataMessage(PIN_RIGHT_MOTOR_BACKWARD, percentToSpeed(speedInPercent));
 	}
 
 	@Override
@@ -137,6 +150,17 @@ public class PhiroProImpl implements PhiroPro {
 		sendFirmataMessage(new AnalogMessage(PIN_RGB_BLUE_RIGHT, blue));
 	}
 
+	private int percentToSpeed(int percent) {
+		if (percent <= 0) {
+			return 0;
+		}
+		if (percent >= 100) {
+			return 255;
+		}
+
+		return (int)(percent * 2.55);
+	}
+
 	private int checkRBGValue(int rgbValue) {
 		if (rgbValue > 255) {
 			return 255;
@@ -169,8 +193,9 @@ public class PhiroProImpl implements PhiroPro {
 		try {
 			if (firmata != null) {
 				this.stopAllMovements();
-				firmata.getSerial().stop();
+				//this.reportSensorValues(false);
 				firmata.clearListeners();
+				firmata.getSerial().stop();
 				firmata = null;
 			}
 		} catch (SerialException e) {
@@ -194,6 +219,26 @@ public class PhiroProImpl implements PhiroPro {
 		} catch (SerialException e) {
 			Log.d(TAG, "Firmata Serial error, cannot send message.");
 		}
+	}
+
+	@Override
+	public int getSensorValue(Sensors sensor) {
+		switch (sensor) {
+			case PHIRO_PRO_BOTTOM_LEFT:
+				return phiroProListener.getBottomLeftSensor();
+			case PHIRO_PRO_BOTTOM_RIGHT:
+				return phiroProListener.getBottomRightSensor();
+			case PHIRO_PRO_FRONT_LEFT:
+				return phiroProListener.getFrontLeftSensor();
+			case PHIRO_PRO_FRONT_RIGHT:
+				return phiroProListener.getFrontRightSensor();
+			case PHIRO_PRO_SIDE_LEFT:
+				return phiroProListener.getSideLeftSensor();
+			case PHIRO_PRO_SIDE_RIGHT:
+				return phiroProListener.getSideRightSensor();
+		}
+
+		return 0;
 	}
 
 	@Override
@@ -228,6 +273,14 @@ public class PhiroProImpl implements PhiroPro {
 
 		for (int pin = MIN_PWM_PIN; pin <= MAX_PWM_PIN; ++pin) {
 			sendFirmataMessage(new SetPinModeMessage(pin, SetPinModeMessage.PIN_MODE.PWM.getMode()));
+		}
+		//reportSensorValues(true);
+	}
+
+	private void reportSensorValues(boolean enable) {
+		for (int pin = MIN_SENSOR_PIN; pin <= MAX_SENSOR_PIN; ++pin) {
+			sendFirmataMessage(new SetPinModeMessage(pin, SetPinModeMessage.PIN_MODE.ANALOG.getMode()));
+			sendFirmataMessage(new ReportAnalogPinMessage(pin, enable));
 		}
 	}
 
