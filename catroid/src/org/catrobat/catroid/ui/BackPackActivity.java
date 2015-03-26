@@ -34,16 +34,16 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.adapter.ScriptActivityAdapterInterface;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
+import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.BackPackActivityFragment;
 import org.catrobat.catroid.ui.fragment.BackPackLookFragment;
 import org.catrobat.catroid.ui.fragment.BackPackScriptFragment;
 import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
-
-import java.util.Iterator;
 
 public class BackPackActivity extends BaseActivity {
 	public static final int FRAGMENT_BACKPACK_SCRIPTS = 0;
@@ -86,7 +86,6 @@ public class BackPackActivity extends BaseActivity {
 		setCurrentFragment(currentFragmentPosition);
 		fragmentTransaction.commit();
 		fragmentTransaction.add(R.id.script_fragment_container, currentFragment, currentFragmentTag);
-
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
@@ -96,17 +95,25 @@ public class BackPackActivity extends BaseActivity {
 	protected void onResume() {
 		super.onResume();
 		if (backpackItem) {
-			Iterator<SoundInfo> iterator = BackPackListManager.getActionBarSoundInfoArrayList().iterator();
-
-			while (iterator.hasNext()) {
-				SoundInfo soundInfo = iterator.next();
-				BackPackListManager.setCurrentSoundInfo(soundInfo);
-				SoundController.getInstance().backPackSound(BackPackListManager.getCurrentSoundInfo(),
-						backPackSoundFragment, BackPackListManager.getInstance().getSoundInfoArrayList(),
-						backPackSoundFragment.getAdapter());
+			if (currentFragmentPosition == 1) {
+				for (LookData currentLookData : BackPackListManager.getActionBarLookDataArrayList()) {
+					BackPackListManager.setCurrentLookData(currentLookData);
+					LookController.getInstance().copyLookBackPack(BackPackListManager.getCurrentLookData(),
+							BackPackListManager.getInstance().getLookDataArrayList(), this, backPackLookFragment,
+							backPackLookFragment.getAdapter());
+				}
+				BackPackListManager.getActionBarLookDataArrayList().clear();
+				backpackItem = false;
+			} else if (currentFragmentPosition == 2) {
+				for (SoundInfo currentSoundInfo : BackPackListManager.getActionBarSoundInfoArrayList()) {
+					BackPackListManager.setCurrentSoundInfo(currentSoundInfo);
+					SoundController.getInstance().backPackSound(BackPackListManager.getCurrentSoundInfo(),
+							backPackSoundFragment, BackPackListManager.getInstance().getSoundInfoArrayList(),
+							backPackSoundFragment.getAdapter());
+				}
+				BackPackListManager.getActionBarSoundInfoArrayList().clear();
+				backpackItem = false;
 			}
-			BackPackListManager.getActionBarSoundInfoArrayList().clear();
-			backpackItem = false;
 		}
 	}
 
@@ -124,6 +131,8 @@ public class BackPackActivity extends BaseActivity {
 			menu.findItem(R.id.backpack).setVisible(false);
 			menu.findItem(R.id.cut).setVisible(false);
 			menu.findItem(R.id.rename).setVisible(false);
+			menu.findItem(R.id.copy).setVisible(false);
+
 		}
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -203,6 +212,9 @@ public class BackPackActivity extends BaseActivity {
 				currentFragmentTag = BackPackScriptFragment.TAG;
 				break;
 			case FRAGMENT_BACKPACK_LOOKS:
+				if (backPackLookFragment == null) {
+					backPackLookFragment = new BackPackLookFragment();
+				}
 				currentFragment = backPackLookFragment;
 				currentFragmentPosition = FRAGMENT_BACKPACK_LOOKS;
 				currentFragmentTag = BackPackLookFragment.TAG;

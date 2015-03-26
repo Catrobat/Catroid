@@ -70,10 +70,20 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	private static final int ACTION_MODE_RENAME = 2;
 
 	private static final int TIME_TO_WAIT = 50;
+	private static final int TIME_TO_WAIT_BACKPACK = 1000;
 
 	private static final String FIRST_TEST_LOOK_NAME = "lookNameTest";
 	private static final String SECOND_TEST_LOOK_NAME = "lookNameTest2";
 	private static final String THIRD_TEST_LOOK_NAME = "lookNameTest3";
+
+	private static String firstTestLookNamePacked;
+	private static String secondTestLookNamePacked;
+
+	private static String firstTestLookNameUnpacked;
+	private static String secondTestLookNameUnpacked;
+
+	private static final String SPRITE_NAME = "cat";
+	private static final String SECOND_SPRITE_NAME = "second_sprite";
 
 	private String copy;
 	private String rename;
@@ -108,6 +118,15 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		UiTestUtils.prepareStageForTest();
 
 		projectManager = ProjectManager.getInstance();
+
+		firstTestLookNamePacked = FIRST_TEST_LOOK_NAME + "_" + projectManager.getCurrentProject().getName();
+		secondTestLookNamePacked = SECOND_TEST_LOOK_NAME + "_" + projectManager.getCurrentProject().getName();
+
+		firstTestLookNameUnpacked = FIRST_TEST_LOOK_NAME + "_" + projectManager.getCurrentProject().getName() + "_"
+				+ solo.getString(R.string.unpacking_addition);
+		secondTestLookNameUnpacked = SECOND_TEST_LOOK_NAME + "_" + projectManager.getCurrentProject().getName()
+				+ "_" + solo.getString(R.string.unpacking_addition);
+
 		lookDataList = projectManager.getCurrentSprite().getLookDataList();
 
 		imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
@@ -234,6 +253,143 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		} else {
 			fail("Copy look didn't work");
 		}
+	}
+
+	public void testBackpackLookContext() {
+		LookAdapter adapter = getLookAdapter();
+		assertNotNull("Could not get Adapter", adapter);
+
+		clickOnContextMenuItem(SECOND_TEST_LOOK_NAME, solo.getString(R.string.backpack));
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+
+		assertTrue("BackPack title didn't show up",
+				solo.waitForText(solo.getString(R.string.backpack_title), 0, TIME_TO_WAIT_BACKPACK));
+		assertTrue("Look wasn't packed!", solo.waitForText(secondTestLookNamePacked, 0, TIME_TO_WAIT));
+	}
+
+	public void testBackpackLookDoubleContext() {
+		LookAdapter adapter = getLookAdapter();
+		assertNotNull("Could not get Adapter", adapter);
+		clickOnContextMenuItem(SECOND_TEST_LOOK_NAME, solo.getString(R.string.backpack));
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+		solo.goBack();
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, solo.getString(R.string.backpack));
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+
+		assertTrue("BackPack title didn't show up",
+				solo.waitForText(solo.getString(R.string.backpack_title), 0, TIME_TO_WAIT_BACKPACK));
+		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
+		assertTrue("Look wasn't unpacked!", solo.waitForText(secondTestLookNamePacked, 0, TIME_TO_WAIT));
+	}
+
+	public void testSimpleUnpacking() {
+		LookAdapter adapter = getLookAdapter();
+		assertNotNull("Could not get Adapter", adapter);
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, solo.getString(R.string.backpack));
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		clickOnContextMenuItem(firstTestLookNamePacked, solo.getString(R.string.unpack));
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+		solo.goBack();
+
+		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNameUnpacked, 0, TIME_TO_WAIT));
+	}
+
+	public void testSimpleUnpackingAndDelete() {
+		LookAdapter adapter = getLookAdapter();
+		int oldCount = adapter.getCount();
+
+		assertNotNull("Could not get Adapter", adapter);
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, solo.getString(R.string.backpack));
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		solo.goBack();
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, solo.getString(R.string.delete));
+		solo.waitForText(deleteDialogTitle);
+		solo.clickOnButton(solo.getString(R.string.yes));
+		solo.sleep(50);
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.unpacking), R.id.unpacking, getActivity());
+		clickOnContextMenuItem(firstTestLookNamePacked, solo.getString(R.string.unpack));
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+		solo.goBack();
+
+		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNameUnpacked, 0, TIME_TO_WAIT));
+
+		int newCount = adapter.getCount();
+		assertEquals("Counts have to be equal", oldCount, newCount);
+	}
+
+	public void testMultipleUnpacking() {
+		LookAdapter adapter = getLookAdapter();
+		int oldCount = adapter.getCount();
+
+		assertNotNull("Could not get Adapter", adapter);
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, solo.getString(R.string.backpack));
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		clickOnContextMenuItem(firstTestLookNamePacked, solo.getString(R.string.unpack));
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+		solo.goBack();
+
+		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNameUnpacked, 0, TIME_TO_WAIT));
+		clickOnContextMenuItem(SECOND_TEST_LOOK_NAME, solo.getString(R.string.backpack));
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		clickOnContextMenuItem(secondTestLookNamePacked, solo.getString(R.string.unpack));
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+		solo.goBack();
+
+		assertTrue("Look wasn't unpacked!", solo.waitForText(secondTestLookNameUnpacked, 0, TIME_TO_WAIT));
+		int newCount = adapter.getCount();
+		assertEquals("There are looks missing", oldCount + 2, newCount);
+	}
+
+	public void testBackPackAndUnPackFromDifferentProgrammes() {
+		UiTestUtils.createTestProject(UiTestUtils.PROJECTNAME1);
+		LookAdapter adapter = getLookAdapter();
+
+		assertNotNull("Could not get Adapter", adapter);
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, solo.getString(R.string.backpack));
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		UiTestUtils.clickOnHomeActionBarButton(solo);
+		solo.clickOnText(solo.getString(R.string.programs));
+		UiTestUtils.clickOnTextInList(solo, solo.getString(R.string.programs));
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		UiTestUtils.clickOnTextInList(solo, UiTestUtils.PROJECTNAME1);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		UiTestUtils.clickOnTextInList(solo, SPRITE_NAME);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		solo.clickOnText(solo.getString(R.string.backgrounds));
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.unpacking), R.id.unpacking, getActivity());
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME + "_" + projectManager.getCurrentProject().getName(),
+				solo.getString(R.string.unpack));
+		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
+		solo.goBack();
+
+		assertTrue(
+				"Look wasn't unpacked!",
+				solo.waitForText(
+						FIRST_TEST_LOOK_NAME + "_" + projectManager.getCurrentProject().getName() + "_"
+								+ solo.getString(R.string.unpacking_addition), 0, TIME_TO_WAIT));
+	}
+
+	public void testBackPackAndUnPackFromDifferentSprites() {
+		UiTestUtils.createTestProjectWithTwoSprites(UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		LookAdapter adapter = getLookAdapter();
+
+		assertNotNull("Could not get Adapter", adapter);
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME, solo.getString(R.string.backpack));
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		solo.goBack();
+		solo.goBack();
+		solo.goBack();
+		solo.clickOnText(SECOND_SPRITE_NAME);
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		solo.clickOnText(solo.getString(R.string.look));
+		UiTestUtils.openActionMode(solo, solo.getString(R.string.unpacking), R.id.unpacking, getActivity());
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		clickOnContextMenuItem(firstTestLookNamePacked, solo.getString(R.string.unpack));
+		solo.waitForDialogToClose(1000);
+		solo.goBack();
+
+		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNameUnpacked, 0, TIME_TO_WAIT));
 	}
 
 	public void testDeleteLookContextMenu() {

@@ -57,4 +57,5 @@ public abstract class ScriptActivityFragment extends SherlockListFragment {
 	protected abstract void showRenameDialog();
 
 	protected abstract void showDeleteDialog();
+
 }

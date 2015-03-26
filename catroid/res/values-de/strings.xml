@@ -36,6 +36,7 @@
   <string name="unpacking">Auspacken</string>
   <string name="unpack">Pack es aus</string>
   <string name="copy_addition">Kopie</string>
+  <string name="unpacking_addition">entpackt</string>
   <string name="close">Schließen</string>
   <string name="error">Fehler</string>
   <string name="please_wait">Bitte warten</string>
@@ -69,8 +70,6 @@
   <string name="preference_description_use_face_detection">Erlaube das Erkennen von Gesichtern</string>
   <string name="preference_title_select_camera">Auswahl der Kamera</string>
   <string name="preference_description_select_camera">Wähle eine Kamera für die Gesichtserkennung</string>
-  <string name="preference_title_enable_phiro_bricks">Phiro Bausteine</string>
-  <string name="preference_description_phiro_bricks">Erlaubt die Steuerung eines Phiro Roboters</string>
   <string name="dialog_new_object_pocketpaint">Bild zeichnen</string>
   <string name="dialog_new_object_gallery">Bild auswählen</string>
   <string name="dialog_new_object_camera">Bild aufnehmen</string>

@@ -184,7 +184,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.copy).setVisible(true);
-
 		boolean visibility = false;
 		if (BuildConfig.FEATURE_BACKPACK_ENABLED) {
 			visibility = true;

@@ -172,6 +172,7 @@ public final class StorageHandler {
 
 	private File backPackSoundDirectory;
 	private FileInputStream fileInputStream;
+	private File backPackImageDirectory;
 
 	private Lock loadSaveLock = new ReentrantLock();
 	// TODO: Since the StorageHandler constructor throws an exception, the member INSTANCE couldn't be assigned
@@ -523,7 +524,7 @@ public final class StorageHandler {
 		noMediaFile = new File(backPackSoundDirectory, NO_MEDIA_FILE);
 		noMediaFile.createNewFile();
 
-		File backPackImageDirectory = new File(backPackDirectory, BACKPACK_IMAGE_DIRECTORY);
+		backPackImageDirectory = new File(backPackDirectory, BACKPACK_IMAGE_DIRECTORY);
 		backPackImageDirectory.mkdir();
 
 		noMediaFile = new File(backPackImageDirectory, NO_MEDIA_FILE);
@@ -602,6 +603,34 @@ public final class StorageHandler {
 				+ "_" + selectedSoundInfo.getTitle() + "_" + inputFileChecksum));
 
 		return copyFileAddCheckSum(outputFile, inputFile);
+	}
+
+	public File copyImagePacking(String currentProjectName, String inputFilePath, String newName)
+			throws IOException {
+
+		String newFilePath;
+		File imageDirectory = new File(buildPath(buildProjectPath(currentProjectName), IMAGE_DIRECTORY));
+
+		File inputFile = new File(inputFilePath);
+		if (!inputFile.exists() || !inputFile.canRead()) {
+			return null;
+		}
+
+		int[] imageDimensions = new int[2];
+		imageDimensions = ImageEditing.getImageDimensions(inputFilePath);
+
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		if ((imageDimensions[0] <= project.getXmlHeader().virtualScreenWidth)
+				&& (imageDimensions[1] <= project.getXmlHeader().virtualScreenHeight)) {
+			String checksumSource = Utils.md5Checksum(inputFile);
+
+			newFilePath = buildPath(imageDirectory.getAbsolutePath(), checksumSource + "_" + newName);
+			File outputFile = new File(newFilePath);
+			return copyFileAddCheckSum(outputFile, inputFile);
+		} else {
+			File outputFile = new File(buildPath(imageDirectory.getAbsolutePath(), inputFile.getName()));
+			return copyAndResizeImage(outputFile, inputFile, imageDirectory);
+		}
 	}
 
 	public File copyImage(String currentProjectName, String inputFilePath, String newName) throws IOException {
@@ -769,6 +798,17 @@ public final class StorageHandler {
 		String checksumSource = Utils.md5Checksum(sourceFile);
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
 		fileChecksumContainer.addChecksum(checksumSource, destinationFile.getAbsolutePath());
+	}
+
+	public void clearBackPackLookDirectory() {
+		if (backPackImageDirectory.listFiles().length > 1) {
+			for (File node : backPackImageDirectory.listFiles()) {
+				if (!(node.getName().equals(".nomedia"))) {
+					node.delete();
+				}
+			}
+		}
+
 	}
 
 	private Set<String> generatePermissionsSetFromResource(int resources) {
