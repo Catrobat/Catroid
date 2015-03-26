@@ -26,22 +26,31 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.stage.StageActivity;
 
 public class SetTextAction extends TemporalAction {
 
 	private Formula endX;
 	private Formula endY;
-	private Sprite sprite;
 	private Formula duration;
+	private Formula text;
+
+	private Sprite sprite;
 
 	@Override
 	protected void begin() {
-		// von hier müssten wir igrendwie auf den StageListener zugreifen können, aber wie?
-		//Über Look?
+		try {
+			String str = text.interpretString(sprite);
+			StageActivity.stageListener.setdrawText = str;
+		} catch (InterpretationException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	protected void update(float percent) {
+
 	}
 
 	public void setDuration(Formula duration) {
@@ -54,7 +63,7 @@ public class SetTextAction extends TemporalAction {
 	}
 
 	public void setText(Formula text) {
-		// this.text = text;
+		this.text = text;
 	}
 
 	public void setSprite(Sprite sprite) {
