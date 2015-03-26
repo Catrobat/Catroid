@@ -109,7 +109,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		ArrayList<UserBrickParameter> newParameters = new ArrayList<UserBrickParameter>();
 
 		for (int elementPosition = 0; elementPosition < getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().size(); elementPosition++) {
-			UserBrickParameter parameter = new UserBrickParameter();
+			UserBrickParameter parameter = new UserBrickParameter(this);
 			parameter.parameterIndex = elementPosition;
 			if (getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(elementPosition).isVariable) {
 				if (userBrickParameterList == null) {

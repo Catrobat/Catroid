@@ -252,13 +252,17 @@ public class InsertItemIntoUserListBrick extends FormulaBrick implements OnClick
 		}
 		switch (view.getId()) {
 			case R.id.brick_insert_item_into_userlist_at_index_edit_text:
-				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX));
+				FormulaEditorFragment.showFragment(view, this, BrickField.INSERT_ITEM_INTO_USERLIST_INDEX);
 				break;
 			case R.id.brick_insert_item_into_userlist_value_edit_text:
-				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE));
+				FormulaEditorFragment.showFragment(view, this, BrickField.INSERT_ITEM_INTO_USERLIST_VALUE);
 				break;
 		}
+	}
 
+	@Override
+	public void showFormulaEditorToEditFormula(View view) {
+		FormulaEditorFragment.showFragment(view, this, BrickField.INSERT_ITEM_INTO_USERLIST_INDEX);
 	}
 
 	@Override

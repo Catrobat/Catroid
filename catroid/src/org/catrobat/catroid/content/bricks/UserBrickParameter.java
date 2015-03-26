@@ -22,7 +22,9 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.content.Context;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -42,9 +44,35 @@ public class UserBrickParameter extends FormulaBrick {
 	public transient TextView textView;
 	public transient TextView prototypeView;
 
-	public UserBrickParameter() {
+	private transient UserBrick parent;
+
+	public UserBrickParameter(UserBrick parent) {
+		this.parent = parent;
 		addAllowedBrickField(BrickField.USER_BRICK);
 		setFormulaWithBrickField(BrickField.USER_BRICK, new Formula(0));
+	}
+
+	public UserBrickParameter(Formula parameter) {
+		addAllowedBrickField(BrickField.USER_BRICK);
+		setFormulaWithBrickField(BrickField.USER_BRICK, parameter);
+	}
+
+	@Override
+	public UserBrickParameter clone() {
+		UserBrickParameter clonedBrick = new UserBrickParameter(getFormulaWithBrickField(
+				BrickField.USER_BRICK).clone());
+		clonedBrick.getFormulaWithBrickField(BrickField.USER_BRICK).setTextFieldId(textView.getId());
+		clonedBrick.parent = parent;
+		clonedBrick.parameterIndex = parameterIndex;
+		clonedBrick.variableName = variableName;
+		clonedBrick.textView = textView;
+		clonedBrick.prototypeView = prototypeView;
+		return clonedBrick;
+	}
+
+	@Override
+	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		return parent.getView(context, brickId, adapter);
 	}
 
 	@Override
