@@ -41,7 +41,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -49,14 +48,13 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
-import org.catrobat.catroid.ui.dialogs.NewDataDialog.NewUserListDialogListener;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class AddItemToUserListBrick extends FormulaBrick implements NewUserListDialogListener {
+public class AddItemToUserListBrick extends UserListBrick {
+
 	private static final long serialVersionUID = 1L;
-	private UserList userList;
 	private transient AdapterView<?> adapterView;
 
 	public AddItemToUserListBrick(){
@@ -70,11 +68,6 @@ public class AddItemToUserListBrick extends FormulaBrick implements NewUserListD
 
 	public AddItemToUserListBrick( double value) {
 		initializeBrickFields(new Formula(value));
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
 	}
 
 	@Override
@@ -228,47 +221,6 @@ public class AddItemToUserListBrick extends FormulaBrick implements NewUserListD
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.LIST_ADD_ITEM);
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		if (currentProject == null) {
-			throw new RuntimeException("The current project must be set before cloning it");
-		}
-
-		AddItemToUserListBrick copyBrick = (AddItemToUserListBrick) clone();
-		copyBrick.userList = currentProject.getDataContainer().getUserList(userList.getName(), sprite);
-		return copyBrick;
-	}
-
-	private void updateUserListIfDeleted(UserListAdapterWrapper userListAdapterWrapper) {
-		if (userList != null && (userListAdapterWrapper.getPositionOfItem(userList) == 0)) {
-			userList = null;
-		}
-	}
-
-	private void setSpinnerSelection(Spinner userListSpinner, UserList newUserList) {
-		UserListAdapterWrapper userListAdapterWrapper = (UserListAdapterWrapper) userListSpinner.getAdapter();
-
-		updateUserListIfDeleted(userListAdapterWrapper);
-
-		if (userList != null) {
-			userListSpinner.setSelection(userListAdapterWrapper.getPositionOfItem(userList), true);
-		} else if (newUserList != null) {
-			userListSpinner.setSelection(userListAdapterWrapper.getPositionOfItem(newUserList), true);
-			userList = newUserList;
-		} else {
-			userListSpinner.setSelection(userListAdapterWrapper.getCount() - 1, true);
-			userList = userListAdapterWrapper.getItem(userListAdapterWrapper.getCount() - 1);
-		}
-	}
-
-	@Override
-	public void onFinishNewUserListDialog(Spinner spinnerToUpdate, UserList newUserList) {
-		UserListAdapterWrapper userListAdapterWrapper = ((UserListAdapterWrapper) spinnerToUpdate.getAdapter());
-		userListAdapterWrapper.notifyDataSetChanged();
-		setSpinnerSelection(spinnerToUpdate, newUserList);
 	}
 
 	private void initializeBrickFields(Formula listAddItemFormula) {

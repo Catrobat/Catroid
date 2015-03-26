@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
+import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.test.utils.Reflection;
@@ -172,7 +173,7 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(3000);
 
-		UserVariable userVariable = (UserVariable) Reflection.getPrivateField(setVariableBrick, "userVariable");
+		UserVariable userVariable = (UserVariable) Reflection.getPrivateField(UserVariableBrick.class, setVariableBrick, "userVariable");
 		assertNotNull("UserVariable is null", userVariable);
 
 		double expectedValue = 2111.0f;
@@ -217,7 +218,7 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(3000);
 
-		UserVariable userVariable = (UserVariable) Reflection.getPrivateField(setVariableBrick, "userVariable");
+		UserVariable userVariable = (UserVariable) Reflection.getPrivateField(UserVariableBrick.class, setVariableBrick, "userVariable");
 		assertNotNull("UserVariable is null", userVariable);
 
 		double expectedValue = 20.0f;
