@@ -81,6 +81,7 @@ public class Firmata implements IFirmata, ISerialListener {
         writers.put(I2cRequestMessage.class, new I2cRequestMessageWriter());
         writers.put(I2cReadRequestMessage.class, new I2cRequestMessageWriter());
         writers.put(I2cConfigMessage.class, new I2cConfigMessageWriter());
+		writers.put(ReportAnalogCapabilityMessage.class, sysexMessageWriter);
     }
 
     private static List<IMessageReader> readers;
@@ -98,6 +99,7 @@ public class Firmata implements IFirmata, ISerialListener {
         readers.add(new SysexMessageReader());
         readers.add(new StringSysexMessageReader());
         readers.add(new I2cReplyMessageReader());
+		readers.add(new AnalogCapabilityMessageReader());
     }
 
     /**
@@ -171,7 +173,6 @@ public class Firmata implements IFirmata, ISerialListener {
             activeReader.read(buffer, bufferLength);
 
             if (activeReader.finishedReading()) {
-                Log.i(TAG, "Received {}" +  activeReader.getMessage());
                 // message is ready
                 for (IFirmata.Listener eachListener : listeners)
                     activeReader.fireEvent(eachListener);
@@ -207,7 +208,6 @@ public class Firmata implements IFirmata, ISerialListener {
             case 1:
                 activeReader = potentialReaders.get(0);
                 activeReader.startReading();
-                Log.i(TAG, "Started reading with {} ... " + activeReader.getClass().getSimpleName());
                 break;
 
             // default:

@@ -120,21 +120,21 @@ public class PhiroProRGBLightBrick extends FormulaBrick implements OnClickListen
 	{
 		//editRedValue.setText(String.valueOf(red));
 		//this.red.setDisplayText(String.valueOf(red));
-		this.red = new Formula(red);
+		this.red.setRoot(new Formula(red).getRoot());
 	}
 
 	public void setGreenTextValues(int green)
 	{
 //		editBlueValue.setText(String.valueOf(green));
 //		this.green.setDisplayText(String.valueOf(green));
-		this.green = new Formula(green);
+		this.green.setRoot(new Formula(green).getRoot());
 	}
 
 	public void setBlueTextValues(int blue)
 	{
 //		editBlueValue.setText(String.valueOf(blue));
 //		this.blue.setDisplayText(String.valueOf(blue));
-		this.blue = new Formula(blue);
+		this.blue.setRoot(new Formula(blue).getRoot());
 	}
 
 	@Override

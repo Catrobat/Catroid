@@ -31,6 +31,7 @@ import org.catrobat.catroid.devices.arduino.common.firmata.message.AnalogMessage
 import org.catrobat.catroid.devices.arduino.common.firmata.message.DigitalMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.FirmwareVersionMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.I2cReplyMessage;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.Message;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.ProtocolVersionMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.StringSysexMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.SysexMessage;
@@ -39,44 +40,62 @@ class PhiroProListener implements IFirmata.Listener {
 
 	private static final String TAG = PhiroProListener.class.getSimpleName();
 
-	private int frontLeftSensor = 0;
-	private int frontRightSensor = 0;
-	private int sideLeftSensor = 0;
-	private int sideRightSensor = 0;
-	private int bottomLeftSensor = 0;
-	private int bottomRightSensor = 0;
+	private static final int frontLeftSensor = 0;
+	private static final int frontRightSensor = 1;
+	private static final int sideLeftSensor = 2;
+	private static final int sideRightSensor = 3;
+	private static final int bottomLeftSensor = 4;
+	private static final int bottomRightSensor = 5;
+
+	private int[] counter = {0, 0, 0, 0, 0, 0};
+	private int[] values = {0, 0, 0, 0, 0, 0};
+
+	private int[] avg_sensor_values = {0, 0, 0, 0, 0, 0};
+
+	private static final int AVG_INTERVAL = 10;
 
 	@Override
 	public void onAnalogMessageReceived(AnalogMessage message) {
 
-		if (message.getValue() > 1024 || message.getValue() <= 0) {
+		if (message.getValue() > 1023 || message.getValue() < 0) {
 			return;
 		}
 
 		switch (message.getPin()) {
 			case PhiroProImpl.PIN_SENSOR_SIDE_RIGHT:
-				sideRightSensor = message.getValue();
+				updateAnalogSensorValue(sideRightSensor, message);
 				break;
 			case PhiroProImpl.PIN_SENSOR_FRONT_RIGHT:
-				frontRightSensor = message.getValue();
+				updateAnalogSensorValue(frontRightSensor, message);
 				break;
 			case PhiroProImpl.PIN_SENSOR_BOTTOM_RIGHT:
-				bottomRightSensor = message.getValue();
+				updateAnalogSensorValue(bottomRightSensor, message);
 				break;
 			case PhiroProImpl.PIN_SENSOR_BOTTOM_LEFT:
-				bottomLeftSensor = message.getValue();
+				updateAnalogSensorValue(bottomLeftSensor, message);
 				break;
 			case PhiroProImpl.PIN_SENSOR_FRONT_LEFT:
-				frontLeftSensor = message.getValue();
+				updateAnalogSensorValue(frontLeftSensor, message);
 				break;
 			case PhiroProImpl.PIN_SENSOR_SIDE_LEFT:
-				sideLeftSensor = message.getValue();
+				updateAnalogSensorValue(sideLeftSensor, message);
 				break;
 
 		}
 
 //		Log.d(TAG, String.format("Received Analog Message: pin: %d, value: %d",
 //				message.getPin(), message.getValue()));
+	}
+
+	private synchronized void updateAnalogSensorValue(int sensor, AnalogMessage message) {
+		values[sensor] += message.getValue();
+		counter[sensor]++;
+
+		if (counter[sensor] >= AVG_INTERVAL) {
+			avg_sensor_values[sensor] = values[sensor] / AVG_INTERVAL;
+			values[sensor] = 0;
+			counter[sensor] = 0;
+		}
 	}
 
 	@Override
@@ -118,26 +137,26 @@ class PhiroProListener implements IFirmata.Listener {
 	}
 
 	public int getFrontLeftSensor() {
-		return frontLeftSensor;
+		return avg_sensor_values[frontLeftSensor];
 	}
 
 	public int getFrontRightSensor() {
-		return frontRightSensor;
+		return avg_sensor_values[frontRightSensor];
 	}
 
 	public int getSideLeftSensor() {
-		return sideLeftSensor;
+		return avg_sensor_values[sideLeftSensor];
 	}
 
 	public int getSideRightSensor() {
-		return sideRightSensor;
+		return avg_sensor_values[sideRightSensor];
 	}
 
 	public int getBottomLeftSensor() {
-		return bottomLeftSensor;
+		return avg_sensor_values[bottomLeftSensor];
 	}
 
 	public int getBottomRightSensor() {
-		return bottomRightSensor;
+		return avg_sensor_values[bottomRightSensor];
 	}
 }

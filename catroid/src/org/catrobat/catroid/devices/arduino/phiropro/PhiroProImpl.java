@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2014 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ import org.catrobat.catroid.devices.arduino.common.firmata.Firmata;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.AnalogMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.I2cRequestMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.Message;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.ReportAnalogCapabilityMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.ReportAnalogPinMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.ReportFirmwareVersionMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.SetPinModeMessage;
@@ -74,12 +75,16 @@ public class PhiroProImpl implements PhiroPro {
 	public static final int PIN_SENSOR_FRONT_LEFT = 4;
 	public static final int PIN_SENSOR_SIDE_LEFT = 5;
 
-	private static final int MIN_SENSOR_PIN = 0;
-	private static final int MAX_SENSOR_PIN = 5;
+	private static final int MIN_SENSOR_PIN = 14;
+	private static final int MAX_SENSOR_PIN = 19;
 
 	private BluetoothConnection btConnection;
 	private Firmata firmata;
 	private boolean isInitialized = false;
+
+	public PhiroProListener getPhiroProListener() {
+		return phiroProListener;
+	}
 
 	private PhiroProListener phiroProListener;
 
@@ -193,7 +198,6 @@ public class PhiroProImpl implements PhiroPro {
 		try {
 			if (firmata != null) {
 				this.stopAllMovements();
-				//this.reportSensorValues(false);
 				firmata.clearListeners();
 				firmata.getSerial().stop();
 				firmata = null;
@@ -254,6 +258,7 @@ public class PhiroProImpl implements PhiroPro {
 
 		try {
 			tryInitialize();
+			isInitialized = true;
 		} catch (SerialException e) {
 			Log.d(TAG, "Error starting firmata serials");
 		} catch (IOException e) {
@@ -274,13 +279,12 @@ public class PhiroProImpl implements PhiroPro {
 		for (int pin = MIN_PWM_PIN; pin <= MAX_PWM_PIN; ++pin) {
 			sendFirmataMessage(new SetPinModeMessage(pin, SetPinModeMessage.PIN_MODE.PWM.getMode()));
 		}
-		//reportSensorValues(true);
-	}
 
-	private void reportSensorValues(boolean enable) {
-		for (int pin = MIN_SENSOR_PIN; pin <= MAX_SENSOR_PIN; ++pin) {
-			sendFirmataMessage(new SetPinModeMessage(pin, SetPinModeMessage.PIN_MODE.ANALOG.getMode()));
-			sendFirmataMessage(new ReportAnalogPinMessage(pin, enable));
+		//sendFirmataMessage(new ReportAnalogCapabilityMessage());
+
+		for (int pin = 0; pin <= 5; ++pin) {
+			//sendFirmataMessage(new SetPinModeMessage(MIN_SENSOR_PIN, SetPinModeMessage.PIN_MODE.ANALOG.getMode()));
+			sendFirmataMessage(new ReportAnalogPinMessage(pin, true));
 		}
 	}
 

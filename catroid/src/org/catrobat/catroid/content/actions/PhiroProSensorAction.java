@@ -27,12 +27,15 @@ import android.util.Log;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.devices.arduino.phiropro.PhiroPro;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.formulaeditor.Sensors;
 
 public class PhiroProSensorAction extends Action {
 
@@ -106,19 +109,17 @@ public class PhiroProSensorAction extends Action {
 
 	public void setSensor(int sensorNumber)
 	{
-		//PhiroPro phiroPro = ServiceProvider.getService(CatrobatService.PHIRO_PRO);
+		this.sensorNumber =sensorNumber;
+	}
 
-//		if(phiroPro != null)
-//			phiroPro.setSensor(sensorNumber);
-	}
-	/*
-	@Override
-	protected void update(float percent) {
-		PhiroPro phiroPro = ServiceProvider.getService(CatrobatService.PHIRO_PRO);
-		if(phiroPro != null)
-			phiroPro.setSensor(sensorNumber);
-	}
-	*/
+//	@Override
+//	protected void update(float percent) {
+//		PhiroPro phiroPro = btService.getDevice(BluetoothDevice.PHIRO_PRO);
+//		if(phiroPro != null) {
+//			phiroPro.getSensorValue(Sensors.PHIRO_PRO_BOTTOM_LEFT);
+//		}
+//	}
+
 
 	@Override
 	public void setActor(Actor actor) {
