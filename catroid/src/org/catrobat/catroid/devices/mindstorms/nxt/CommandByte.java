@@ -32,7 +32,9 @@ public enum CommandByte {
 	RESET_INPUT_SCALED_VALUE(0x08),
 	LS_WRITE(0x0F),
 	LS_GET_STATUS(0x0E),
-	LS_READ(0x10);
+	LS_READ(0x10),
+	GET_BATTERY_LEVEL(0x0B),
+	KEEP_ALIVE(0x0D);
 
 	private int commandByteValue;
 	private static final SparseArray<CommandByte> LOOKUP = new SparseArray<CommandByte>();
@@ -72,9 +74,5 @@ public enum CommandByte {
 	GetBatteryLevel = 0x0b, StopSoundPlayback = 0x0c, KeepAlive = 0x0d,
 	LsGetStatus = 0x0e, LsWrite = 0x0f, LsRead = 0x10,GetCurrentProgramName = 0x11,
 	MessageRead = 0x13*/
-
-
-
-
 
 }
