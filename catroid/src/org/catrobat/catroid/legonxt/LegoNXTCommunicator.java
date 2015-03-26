@@ -39,6 +39,8 @@ import java.util.ArrayList;
  * by the owners, i.e. calling the send/recive methods by themselves.
  */
 public abstract class LegoNXTCommunicator extends Thread {
+	private static final String TAG = LegoNXTCommunicator.class.getSimpleName();
+
 	public static final int MOTOR_A = 0;
 	public static final int MOTOR_B = 1;
 	public static final int MOTOR_C = 2;
@@ -291,6 +293,7 @@ public abstract class LegoNXTCommunicator extends Thread {
 			Thread.sleep(millis);
 
 		} catch (InterruptedException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
 		}
 	}
 

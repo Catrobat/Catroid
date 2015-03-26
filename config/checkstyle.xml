@@ -106,6 +106,7 @@
     <module name="EmptyForInitializerPad" />
     <module name="TypecastParenPad" />
     <module name="EmptyBlock" />
+    <module name="FallThrough" />
   </module>
   
   <!-- For each spacing -->
