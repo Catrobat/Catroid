@@ -44,6 +44,7 @@
     <module name="DefaultComesLast" />
     <module name="EmptyStatement" />
     <module name="EqualsHashCode" />
+    <module name="FallThrough" />
     <module name="IllegalInstantiation" />
     <module name="MultipleVariableDeclarations" />
     <module name="NoFinalizer" />
