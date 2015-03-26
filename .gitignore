@@ -56,3 +56,7 @@ Thumbs.db
 # Gradle
 .gradle/
 build/
+.idea/codeStyleSettings.xml
+.idea/misc.xml
+Catroid.iml
+catroidSourceTest/catroidSourceTest.iml

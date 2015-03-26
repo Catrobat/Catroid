@@ -63,6 +63,12 @@ public class Look extends Image {
 		setScale(1f, 1f);
 		setRotation(0f);
 		setTouchable(Touchable.enabled);
+		addListeners();
+
+	}
+
+	protected void addListeners()
+	{
 		this.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -359,11 +365,11 @@ public class Look extends Image {
 		setBrightnessInUserInterfaceDimensionUnit(getBrightnessInUserInterfaceDimensionUnit() + changePercent);
 	}
 
-	private void doHandleBroadcastEvent(String broadcastMessage) {
+	protected void doHandleBroadcastEvent(String broadcastMessage) {
 		BroadcastHandler.doHandleBroadcastEvent(this, broadcastMessage);
 	}
 
-	private void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
+	protected void doHandleBroadcastFromWaiterEvent(BroadcastEvent event, String broadcastMessage) {
 		BroadcastHandler.doHandleBroadcastFromWaiterEvent(this, event, broadcastMessage);
 	}
 

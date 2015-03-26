@@ -25,6 +25,9 @@ package org.catrobat.catroid.stage;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.opengl.GLES20;
+import android.opengl.GLSurfaceView;
+import android.opengl.GLUtils;
 import android.os.SystemClock;
 import android.util.Log;
 
@@ -43,6 +46,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -50,13 +54,16 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.common.collect.Multimap;
+import com.parrot.freeflight.ui.gl.GLBGVideoSprite;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.BroadcastHandler;
+import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
@@ -419,6 +426,68 @@ public class StageListener implements ApplicationListener {
 			testPixels = ScreenUtils.getFrameBufferPixels(testX, testY, testWidth, testHeight, false);
 			makeTestPixels = false;
 		}
+
+		//drawVideoOpenGL();
+		//drawBitmapVideo();
+	}
+
+	private boolean firstVideoStart = true;
+	private GLBGVideoSprite videotexture;
+	Bitmap video;
+	private float videoSize[]  = {1280,720, 0,0}; //imagewidth, imageheight
+	private Object videoFrameLock;
+	private Texture test;
+
+
+	private void drawVideoOpenGL() {
+		//version 1
+		if (firstVideoStart) {
+			videotexture = new GLBGVideoSprite();
+			video = Bitmap.createBitmap((int) videoSize[0], (int) videoSize[1], Bitmap.Config.RGB_565);
+			videotexture.imageWidth = (int) videoSize[0];
+			videotexture.imageHeight = (int) videoSize[1];
+			videotexture.onSurfaceChanged(320, 240);
+			test = new Texture(videotexture.imageWidth, videotexture.imageHeight, Format.RGB888);
+			firstVideoStart = false;
+			return;
+		}
+
+		Gdx.gl20.glBindTexture(GL20.GL_TEXTURE_2D, test.getTextureObjectHandle());
+		videotexture.onUpdateVideoTexture();
+		batch.begin();
+		batch.draw(test, 0, 0, 320, 240);
+		batch.end();
+	}
+
+	private void drawBitmapVideo() {
+
+		//version 2
+		if (firstVideoStart)
+		{
+			videotexture = new GLBGVideoSprite();
+			video = Bitmap.createBitmap((int)videoSize[0], (int)videoSize[1], Bitmap.Config.RGB_565);
+			videotexture.imageWidth = (int)videoSize[0];
+			videotexture.imageHeight = (int)videoSize[1];
+			videotexture.onSurfaceChanged(1280,720);
+			test = new Texture(videotexture.imageWidth, videotexture.imageHeight, Format.RGB888);
+			Gdx.gl20.glBindTexture(GL20.GL_TEXTURE_2D, test.getTextureObjectHandle());
+			videotexture.onUpdateVideoTexture();
+			firstVideoStart = false;
+			return;
+		}
+
+		videoSize[0] = videotexture.imageWidth;
+		videoSize[1] = videotexture.imageHeight;
+
+		Gdx.gl20.glBindTexture(GL20.GL_TEXTURE_2D, test.getTextureObjectHandle());
+		boolean myresult = videotexture.getVideoFrame(video, videoSize);
+		GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, video, 0);
+
+
+		batch.begin();
+		batch.draw(test, 0, 0, 320, 240);
+		batch.end();
+
 	}
 
 	private List<String> reconstructNotifyActions(Map<String, List<String>> actions) {
@@ -650,4 +719,8 @@ public class StageListener implements ApplicationListener {
 		batch.dispose();
 	}
 
+	public void addActor (Look look)
+	{
+		stage.addActor(look);
+	}
 }
