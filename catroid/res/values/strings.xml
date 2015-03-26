@@ -657,6 +657,10 @@
     <string name="brick_drone_turn_right_magneto">Turn right [angle]</string>
     <string name="brick_drone_angle">Angle</string>
     <string name="brick_drone_set_cofig">Set config</string>
+    <string name="brick_drone_start_video">Start video</string>
+    <string name="brick_drone_camera">Camera</string>
+    <string name="drone_front_facing_camera">Front facing camera</string>
+    <string name="drone_bottom_facing_camera">Bottom facing camera</string>
 
     <!-- <string name="brick_drone_land">Drone: land</string> -->
     <!--  -->

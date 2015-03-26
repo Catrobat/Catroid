@@ -246,6 +246,10 @@ public final class StandardProjectHandler {
 		defaultDroneProject.addSprite(createDroneSprite(turnRightSpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_TURN_RIGHT_BRICK, 260, -200, turnrightFile, 2000));
 
+		//Video Sprite
+		String showVideoSpriteName = "Show video";
+
+
 		StorageHandler.getInstance().saveProject(defaultDroneProject);
 		return defaultDroneProject;
 	}
@@ -258,6 +262,25 @@ public final class StandardProjectHandler {
 	private static Sprite createDroneSprite(String spriteName, DroneBrickFactory.DroneBricks brickName, int xPostition,
 			int yPosition, File lookFile, int timeInMilliseconds) {
 		return createDroneSprite(spriteName, brickName, xPostition, yPosition, lookFile, timeInMilliseconds, 20);
+	}
+
+	private static Sprite createDroneVideoSprite (String spriteName, int xPosition, int yPosition, int height, int width)
+	{
+		Sprite sprite = new Sprite(spriteName);
+
+
+
+		Script whenProjectStartsScript = new StartScript();
+		PlaceAtBrick placeAtBrick = new PlaceAtBrick(calculateValueRelativeToScaledBackground(xPosition), calculateValueRelativeToScaledBackground(yPosition));
+
+		//Currently only percentage, should be width and height
+		SetSizeToBrick setSizeBrick = new SetSizeToBrick(20.0);
+
+		whenProjectStartsScript.addBrick(placeAtBrick);
+		whenProjectStartsScript.addBrick(setSizeBrick);
+
+		sprite.addScript(whenProjectStartsScript);
+		return sprite;
 	}
 
 	private static Sprite createDroneSprite(String spriteName, DroneBrickFactory.DroneBricks brickName, int xPostition,

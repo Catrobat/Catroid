@@ -538,6 +538,14 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
+	public static TemporalAction droneStartVideo(Sprite sprite, int cameraId)
+	{
+		DroneStartVideoAction action = action(DroneStartVideoAction.class);
+		action.setCameraId(cameraId);
+		action.setSprite(sprite);
+		return action;
+	}
+
 	public static TemporalAction dronePlayLedAnimation() {
 		return action(DronePlayLedAnimationAction.class);
 	}

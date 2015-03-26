@@ -180,7 +180,7 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 				break;
 			default: {
 				messageId = R.string.drone_emergency_default;
-				Log.d(getClass().getSimpleName(), "default message code: "+getResources().getString(R.string.drone_emergency_default));
+				Log.d(getClass().getSimpleName(), "message code (number): "+ code);
 			}
 		}
 
