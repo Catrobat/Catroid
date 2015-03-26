@@ -24,7 +24,7 @@ package org.catrobat.catroid.ui.adapter;
 
 import java.util.Set;
 
-public interface ScriptActivityAdapterInterface {
+public interface ActionModeActivityAdapterInterface {
 	void setSelectMode(int mode);
 
 	int getSelectMode();

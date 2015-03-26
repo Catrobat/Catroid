@@ -59,6 +59,7 @@ public final class Constants {
 
 	public static final String BACKPACK_SOUND_DIRECTORY = "backpack_sound";
 	public static final String BACKPACK_IMAGE_DIRECTORY = "backpack_image";
+	public static final String NUMBER_OF_BRICKS_INSERTED_FROM_BACKPACK = "NUMBER_OF_BRICKS_INSERTED";
 	public static final String FILENAME_SEPARATOR = "_";
 
 	public static final String NO_MEDIA_FILE = ".nomedia";

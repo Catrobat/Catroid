@@ -161,7 +161,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 			bundle.putString(BRICKFIELD_BUNDLE_ARGUMENT, brickField.name());
 			formulaEditorFragment.setArguments(bundle);
 
-			fragTransaction.add(R.id.script_fragment_container, formulaEditorFragment, FORMULA_EDITOR_FRAGMENT_TAG);
+			fragTransaction.add(R.id.fragment_container, formulaEditorFragment, FORMULA_EDITOR_FRAGMENT_TAG);
 			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
 			fragTransaction.show(formulaEditorFragment);
 			BottomBar.hideBottomBar(activity);
@@ -614,7 +614,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 					context.getString(actionbarResId));
 			bundle.putString(FormulaEditorListFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
 			fragment.setArguments(bundle);
-			fragmentManager.beginTransaction().add(R.id.script_fragment_container, fragment, tag).commit();
+			fragmentManager.beginTransaction().add(R.id.fragment_container, fragment, tag).commit();
 		}
 		((FormulaEditorListFragment) fragment).showFragment(context);
 	}
@@ -648,7 +648,7 @@ public class FormulaEditorFragment extends Fragment implements OnKeyListener,
 					context.getString(actionbarResId));
 			bundle.putString(FormulaEditorDataFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
 			fragment.setArguments(bundle);
-			fragmentManager.beginTransaction().add(R.id.script_fragment_container, fragment, tag).commit();
+			fragmentManager.beginTransaction().add(R.id.fragment_container, fragment, tag).commit();
 		}
 		((FormulaEditorDataFragment) fragment).setAddButtonListener(getActivity());
 		((FormulaEditorDataFragment) fragment).showFragment(context);

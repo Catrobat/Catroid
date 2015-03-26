@@ -29,6 +29,7 @@ import android.text.TextWatcher;
 import android.widget.Button;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.utils.Utils;
 
@@ -65,8 +66,10 @@ public class RenameLookDialog extends TextDialog {
 			dismiss();
 		}
 
-		if (newLookName != null && !newLookName.equalsIgnoreCase("")) {
-			newLookName = Utils.getUniqueLookName(newLookName);
+		if (!newLookName.equalsIgnoreCase("")) {
+			LookData lookData = new LookData();
+			lookData.setLookName(newLookName);
+			newLookName = Utils.getUniqueLookName(lookData, false);
 		} else {
 			Utils.showErrorDialog(getActivity(), R.string.lookname_invalid);
 			dismiss();

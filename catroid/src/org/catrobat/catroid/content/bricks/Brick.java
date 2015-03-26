@@ -103,4 +103,6 @@ public interface Brick extends Serializable, Cloneable {
 	void setAnimationState(boolean animationState);
 
 	void setAlpha(int alphaFull);
+
+	void enableAllViews(View view, boolean enable);
 }

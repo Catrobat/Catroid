@@ -55,7 +55,7 @@ import org.catrobat.catroid.ui.fragment.SoundFragment;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 public class DoubleClickOpensViewOnceTest extends TestSuite {
 	private static final int SOLO_WAIT_FOR_VIEW_TIMEOUT = 3000;
@@ -241,7 +241,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 				public void execute() {
 					activity.handleContinueButton();
 				}
-			}, R.id.main_menu_button_continue, R.id.fragment_sprites_list);
+			}, R.id.main_menu_button_continue, R.id.fragment_container);
 		}
 
 		public void testMainMenuButtonNew() {
@@ -472,7 +472,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 				public void execute() {
 					fragment.handleAddButton();
 				}
-			}, R.id.script_fragment_container, ScriptFragment.TAG);
+			}, R.id.fragment_container, ScriptFragment.TAG);
 		}
 
 		public void testBrickAdapterOnItemClick() {
@@ -528,7 +528,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 			File imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
 					"catroid_sunglasses.png", RESOURCE_IMAGE, getActivity(), UiTestUtils.FileTypes.IMAGE);
 
-			ArrayList<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
+			List<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
 			LookData lookData = new LookData();
 			lookData.setLookFilename(imageFile.getName());
 			lookData.setLookName(FIRST_TEST_LOOK_NAME);
@@ -552,7 +552,7 @@ public class DoubleClickOpensViewOnceTest extends TestSuite {
 				public void execute() {
 					fragment.handleAddButton();
 				}
-			}, R.id.script_fragment_container, LookFragment.TAG);
+			}, R.id.fragment_container, LookFragment.TAG);
 		}
 	}
 }

@@ -59,8 +59,10 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
 import java.io.File;
@@ -68,7 +70,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -366,28 +367,61 @@ public final class Utils {
 		return newName;
 	}
 
-	public static String getUniqueLookName(String name) {
-		return searchForNonExistingLookName(name, 0);
+	public static String getUniqueLookName(LookData lookData, boolean forBackPack) {
+		return searchForNonExistingLookName(lookData, 0, forBackPack);
 	}
 
-	private static String searchForNonExistingLookName(String name, int nextNumber) {
+	private static String searchForNonExistingLookName(LookData originalLookData, int nextNumber, boolean
+			forBackPack) {
 		String newName;
-		ArrayList<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
-		if (nextNumber == 0) {
-			newName = name;
+		List<LookData> lookDataList;
+		if (forBackPack) {
+			lookDataList = BackPackListManager.getInstance().getAllBackPackedLooks();
 		} else {
-			newName = name + nextNumber;
+			lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
+		}
+
+		if (nextNumber == 0) {
+			newName = originalLookData.getLookName();
+		} else {
+			newName = originalLookData.getLookName() + nextNumber;
 		}
 		for (LookData lookData : lookDataList) {
 			if (lookData.getLookName().equals(newName)) {
-				return searchForNonExistingLookName(name, ++nextNumber);
+				return searchForNonExistingLookName(originalLookData, ++nextNumber, forBackPack);
 			}
 		}
 		return newName;
 	}
 
-	public static String getUniqueSoundName(String title) {
-		return searchForNonExistingSoundTitle(title, 0);
+	public static String getUniqueSpriteName(Sprite sprite) {
+		return searchForNonExistingSpriteName(sprite, 0);
+	}
+
+	private static String searchForNonExistingSpriteName(Sprite sprite, int nextNumber) {
+		String newName;
+		List<Sprite> spriteList;
+		if (!sprite.isBackpackLookData) {
+			spriteList = BackPackListManager.getInstance().getAllBackPackedSprites();
+		} else {
+			spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		}
+
+		if (nextNumber == 0) {
+			newName = sprite.getName();
+		} else {
+			newName = sprite.getName() + nextNumber;
+		}
+		for (Sprite spriteListItem : spriteList) {
+			if (spriteListItem.getName().equals(newName)) {
+				return searchForNonExistingSpriteName(sprite, ++nextNumber);
+			}
+		}
+		return newName;
+	}
+
+	public static String getUniqueSoundName(SoundInfo soundInfo, boolean forBackPack) {
+		return searchForNonExistingSoundTitle(soundInfo, 0, forBackPack);
 	}
 
 	public static Project findValidProject() {
@@ -403,18 +437,28 @@ public final class Utils {
 		return loadableProject;
 	}
 
-	private static String searchForNonExistingSoundTitle(String title, int nextNumber) {
+	private static String searchForNonExistingSoundTitle(SoundInfo soundInfo, int nextNumber, boolean forBackPack) {
 		// search for sounds with the same title
-		String newTitle;
-		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		if (nextNumber == 0) {
-			newTitle = title;
+		String newTitle = "";
+		List<SoundInfo> soundInfoList;
+		if (forBackPack) {
+			soundInfoList = BackPackListManager.getInstance().getAllBackPackedSounds();
 		} else {
-			newTitle = title + nextNumber;
+			soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		}
-		for (SoundInfo soundInfo : soundInfoList) {
-			if (soundInfo.getTitle().equals(newTitle)) {
-				return searchForNonExistingSoundTitle(title, ++nextNumber);
+
+		if (nextNumber == 0) {
+			if (soundInfo != null) {
+				newTitle = soundInfo.getTitle();
+			}
+		} else {
+			if (soundInfo != null) {
+				newTitle = soundInfo.getTitle() + nextNumber;
+			}
+		}
+		for (SoundInfo soundInfoFromList : soundInfoList) {
+			if (soundInfoFromList.getTitle().equals(newTitle)) {
+				return searchForNonExistingSoundTitle(soundInfo, ++nextNumber, forBackPack);
 			}
 		}
 		return newTitle;
@@ -445,8 +489,7 @@ public final class Utils {
 
 			if (pixmap == null) {
 				Utils.showErrorDialog(context, R.string.error_load_image);
-				StorageHandler.getInstance().deleteFile(lookFile.getAbsolutePath());
-				Log.d("testitest", "path: " + lookFile.getAbsolutePath());
+				StorageHandler.getInstance().deleteFile(lookFile.getAbsolutePath(), false);
 				throw new IOException("Pixmap could not be fixed");
 			}
 		}

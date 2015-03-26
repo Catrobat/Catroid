@@ -37,11 +37,14 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
 import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
+import java.io.DataOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,13 +56,13 @@ public class Sprite implements Serializable, Cloneable {
 
 	public transient Look look = new Look(this);
 	public transient boolean isPaused;
-
+	public transient boolean isBackpackLookData = false;
 	@XStreamAsAttribute
 	private String name;
 	private List<Script> scriptList = new ArrayList<>();
-	private ArrayList<LookData> lookList = new ArrayList<>();
-	private ArrayList<SoundInfo> soundList = new ArrayList<>();
-	private ArrayList<UserBrick> userBricks = new ArrayList<>();
+	private List<LookData> lookList = new ArrayList<>();
+	private List<SoundInfo> soundList = new ArrayList<>();
+	private List<UserBrick> userBricks = new ArrayList<>();
 	private transient int newUserBrickNext = 1;
 
 	public Sprite(String name) {
@@ -87,6 +90,45 @@ public class Sprite implements Serializable, Cloneable {
 		return scriptList;
 	}
 
+	public List<Brick> getListWithAllBricks() {
+		List<Brick> allBricks = new ArrayList<>();
+		for (Script script : scriptList) {
+			allBricks.add(script.getScriptBrick());
+			allBricks.addAll(script.getBrickList());
+		}
+		return allBricks;
+	}
+
+	public List<Brick> getAllBricks() {
+		List<Brick> result = new ArrayList<>();
+		for (Script script : scriptList) {
+			for (Brick brick : script.getBrickList()) {
+				result.add(brick);
+			}
+		}
+		return result;
+	}
+
+	public List<SetLookBrick> getSetLookBricks() {
+		List<SetLookBrick> result = new ArrayList<>();
+		for (Brick brick : getAllBricks()) {
+			if (brick instanceof SetLookBrick) {
+				result.add((SetLookBrick) brick);
+			}
+		}
+		return result;
+	}
+
+	public List<PlaySoundBrick> getPlaySoundBricks() {
+		List<PlaySoundBrick> result = new ArrayList<>();
+		for (Brick brick : getAllBricks()) {
+			if (brick instanceof PlaySoundBrick) {
+				result.add((PlaySoundBrick) brick);
+			}
+		}
+		return result;
+	}
+
 	public void resetSprite() {
 		look = new Look(this);
 		for (LookData lookData : lookList) {
@@ -108,7 +150,7 @@ public class Sprite implements Serializable, Cloneable {
 
 	public UserBrick addUserBrick(UserBrick brick) {
 		if (userBricks == null) {
-			userBricks = new ArrayList<UserBrick>();
+			userBricks = new ArrayList<>();
 		}
 		userBricks.add(brick);
 		return brick;
@@ -116,7 +158,7 @@ public class Sprite implements Serializable, Cloneable {
 
 	public List<UserBrick> getUserBrickList() {
 		if (userBricks == null) {
-			userBricks = new ArrayList<UserBrick>();
+			userBricks = new ArrayList<>();
 		}
 		return userBricks;
 	}
@@ -175,6 +217,7 @@ public class Sprite implements Serializable, Cloneable {
 	public Sprite clone() {
 		final Sprite cloneSprite = new Sprite();
 		cloneSprite.setName(this.getName());
+		cloneSprite.isBackpackLookData = false;
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		if (currentProject == null || !currentProject.getSpriteList().contains(this)) {
@@ -198,7 +241,7 @@ public class Sprite implements Serializable, Cloneable {
 			cloneSoundList.add(element.copySoundInfoForSprite(cloneSprite));
 		}
 		cloneSprite.soundList = cloneSoundList;
-		ArrayList<UserBrick> cloneUserBrickList = new ArrayList<UserBrick>();
+		ArrayList<UserBrick> cloneUserBrickList = new ArrayList<>();
 
 		for (UserBrick original : userBricks) {
 			int originalId = original.getUserBrickId();
@@ -252,6 +295,13 @@ public class Sprite implements Serializable, Cloneable {
 			Log.e(TAG, Log.getStackTraceString(indexOutOfBoundsException));
 		}
 
+		return cloneSprite;
+	}
+
+	public Sprite cloneForBackPack() {
+		//TODO: userbricks currently not supported
+		final Sprite cloneSprite = new Sprite();
+		cloneSprite.setName(this.getName());
 		return cloneSprite;
 	}
 
@@ -351,19 +401,15 @@ public class Sprite implements Serializable, Cloneable {
 		return scriptList.remove(script);
 	}
 
-	public ArrayList<LookData> getLookDataList() {
+	public List<LookData> getLookDataList() {
 		return lookList;
 	}
 
-	public void setLookDataList(ArrayList<LookData> list) {
+	public void setLookDataList(List<LookData> list) {
 		lookList = list;
 	}
 
-	public ArrayList<SoundInfo> getSoundList() {
-		return soundList;
-	}
-
-	public void setSoundList(ArrayList<SoundInfo> list) {
+	public void setSoundList(List<SoundInfo> list) {
 		soundList = list;
 	}
 
@@ -383,5 +429,9 @@ public class Sprite implements Serializable, Cloneable {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public List<SoundInfo> getSoundList() {
+		return soundList;
 	}
 }

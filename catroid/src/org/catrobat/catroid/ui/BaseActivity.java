@@ -82,12 +82,12 @@ public class BaseActivity extends Activity {
 				if (returnToProjectsList) {
 					Intent intent = new Intent(this, MyProjectsActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					BackPackListManager.setBackPackFlag(true);
+					BackPackListManager.getInstance().setBackPackFlag(true);
 					startActivity(intent);
 				} else {
 					Intent intent = new Intent(this, MainMenuActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					BackPackListManager.setBackPackFlag(true);
+					BackPackListManager.getInstance().setBackPackFlag(true);
 					startActivity(intent);
 				}
 				break;

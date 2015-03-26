@@ -35,5 +35,6 @@ public class LookViewHolder {
 	public LinearLayout lookDetailsLinearLayout;
 	public TextView lookFileSizeTextView;
 	public TextView lookMeasureTextView;
+	public ImageView lookArrowView;
 	public RelativeLayout lookElement;
 }

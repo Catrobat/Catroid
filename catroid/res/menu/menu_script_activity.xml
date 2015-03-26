@@ -25,11 +25,18 @@
 
     <item
         android:id="@+id/backpack"
-        android:showAsAction="never"
+        android:icon="@drawable/backpack"
+        android:showAsAction="ifRoom"
         android:visible="false"
         android:title="@string/backpack" />
-  
-     <item
+
+    <item
+        android:id="@+id/unpacking_keep"
+        android:showAsAction="never"
+        android:visible="false"
+        android:title="@string/unpack_keep" />
+
+    <item
         android:id="@+id/unpacking"
         android:showAsAction="never"
         android:visible="false"

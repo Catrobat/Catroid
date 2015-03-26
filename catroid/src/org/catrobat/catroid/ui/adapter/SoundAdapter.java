@@ -31,18 +31,18 @@ import android.widget.ListView;
 
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.BackPackActivity;
-import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.fragment.SoundFragment;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
-public class SoundAdapter extends SoundBaseAdapter implements ScriptActivityAdapterInterface {
+public class SoundAdapter extends SoundBaseAdapter implements ActionModeActivityAdapterInterface {
 
 	private SoundFragment soundFragment;
 
-	public SoundAdapter(final Context context, int resource, int textViewResourceId, ArrayList<SoundInfo> items,
+	public SoundAdapter(final Context context, int resource, int textViewResourceId, List<SoundInfo> items,
 			boolean showDetails) {
 		super(context, resource, textViewResourceId, items, showDetails);
 	}
@@ -68,6 +68,7 @@ public class SoundAdapter extends SoundBaseAdapter implements ScriptActivityAdap
 
 	public void onDestroyActionModeCopy(ActionMode mode) {
 		Iterator<Integer> iterator = checkedSounds.iterator();
+		List<SoundInfo> soundInfos = new ArrayList<>();
 
 		while (iterator.hasNext()) {
 			int position = iterator.next();
@@ -76,17 +77,16 @@ public class SoundAdapter extends SoundBaseAdapter implements ScriptActivityAdap
 		soundFragment.clearCheckedSoundsAndEnableButtons();
 	}
 
-	public void onDestroyActionModeBackPack(ActionMode mode) {
+	public void onDestroyActionModeBackPack() {
 		Iterator<Integer> iterator = checkedSounds.iterator();
 		while (iterator.hasNext()) {
 			int position = iterator.next();
-			BackPackListManager.getInstance().addSoundToActionBarSoundInfoArrayList(soundInfoItems.get(position));
+			SoundController.getInstance().backPackSound(soundInfoItems.get(position), false);
 		}
 
 		if (!checkedSounds.isEmpty()) {
 			Intent intent = new Intent(soundFragment.getActivity(), BackPackActivity.class);
-			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, 2);
-			intent.putExtra(BackPackActivity.BACKPACK_ITEM, true);
+			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, BackPackActivity.FRAGMENT_BACKPACK_SOUNDS);
 			soundFragment.getActivity().startActivity(intent);
 		}
 
@@ -98,7 +98,7 @@ public class SoundAdapter extends SoundBaseAdapter implements ScriptActivityAdap
 	}
 
 	@Override
-	public ArrayList<SoundInfo> getSoundInfoItems() {
+	public List<SoundInfo> getSoundInfoItems() {
 		return soundInfoItems;
 	}
 }

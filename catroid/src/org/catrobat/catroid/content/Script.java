@@ -51,7 +51,7 @@ public abstract class Script implements Serializable {
 	private transient volatile boolean paused;
 
 	public Script() {
-		brickList = new ArrayList<Brick>();
+		brickList = new ArrayList<>();
 		init();
 	}
 

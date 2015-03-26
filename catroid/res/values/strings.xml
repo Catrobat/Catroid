@@ -38,8 +38,9 @@
     <string name="cut">Cut</string>
     <string name="move">Move</string>
     <string name="backpack">Backpack</string>
-    <string name="unpacking">Unpacking</string>
-    <string name="unpack">Unpack it</string>
+    <string name="packing">Pack</string>
+    <string name="unpacking">Unpack</string>
+    <string name="unpack_keep">Unpack and keep</string>
     <string name="copy_addition">copy</string>
     <string name="close">Close</string>
     <string name="error">Error</string>
@@ -53,6 +54,15 @@
     <string name="undo">Undo</string>
     <string name="name_exists">Name already exists</string>
     <string name="no_name">No name</string>
+    <string name="is_empty">is empty</string>
+    <string name="new_group">New Group</string>
+    <string name="my_group">My Group</string>
+    <string name="name">Name:</string>
+    <string name="nothing_to_copy">Nothing to copy</string>
+  <string name="nothing_to_backpack_and_unpack">Nothing to backpack and unpack</string>
+  <string name="nothing_to_unpack">Nothing to unpack</string>
+  <string name="nothing_to_delete">Nothing to delete</string>
+  <string name="nothing_to_rename">Nothing to rename</string>
     <!--  -->
 
 
@@ -160,6 +170,9 @@
     <string name="sounds">Sounds</string>
     <string name="backgrounds">Backgrounds</string>
     <string name="size">Size:</string>
+    <string name="script_group">Script Group</string>
+    <string name="script_groups">Script Groups</string>
+    <string name="script_group_name_given">Script Group name already given. Please choose a different one.</string>
     <!--  -->
 
 
@@ -168,6 +181,8 @@
     <string name="dialog_confirm_delete_brick_title">Delete this brick?</string>
     <string name="dialog_confirm_delete_script_title">Delete this script?</string>
     <string name="dialog_confirm_delete_multiple_bricks_title">Delete these bricks?</string>
+    <string name="dialog_confirm_delete_script_group_title">Delete this group?</string>
+    <string name="dialog_confirm_delete_multiple_script_groups_title">Delete these groups?</string>
     <string name="dialog_confirm_delete_brick_message">This can not be undone!</string>
 
     <plurals name="number_of_bricks_to_delete">
@@ -178,8 +193,11 @@
         <item quantity="one">Copy 1 Brick</item>
         <item quantity="other">Copy %d Bricks</item>
     </plurals>
+    <plurals name="number_of_bricks_to_backpack">
+        <item quantity="one">Backpack 1 Brick</item>
+        <item quantity="other">Backpack %d Bricks</item>
+    </plurals>
     <!--  -->
-
 
     <!-- Look fragment -->
     <string name="fragment_look_text_description">Tap \"+\" to add Looks</string>
@@ -203,7 +221,7 @@
     <!-- Sound fragment -->
     <string name="fragment_sound_text_description">Tap \"+\" to add Sounds</string>
     <string name="rename_sound_dialog">Rename Sound</string>
-    <string name="backpack_title">BackPack</string>
+    <string name="backpack_title">Your Backpack</string>
     <string name="soundname_invalid">This sound\'s name is invalid</string>
     <string name="sound_play">play</string>
     <string name="sound_stop">stop</string>
@@ -222,6 +240,16 @@
     <plurals name="unpacking_items_plural">
         <item quantity="one">was unpacked!</item>
         <item quantity="other">were unpacked!</item>
+    </plurals>
+
+    <plurals name="packing_items_plural">
+        <item quantity="one">was backpacked!</item>
+        <item quantity="other">were backpacked!</item>
+    </plurals>
+
+    <plurals name="scripts_plural">
+        <item quantity="one">Script</item>
+        <item quantity="other">Scripts</item>
     </plurals>
 
     <!-- My Projects activity -->

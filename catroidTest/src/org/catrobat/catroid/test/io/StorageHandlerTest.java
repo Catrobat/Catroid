@@ -69,6 +69,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME;
@@ -198,7 +199,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 		//test if images are existing:
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		ArrayList<LookData> backgroundLookList = currentProject.getSpriteList().get(0).getLookDataList();
+		List<LookData> backgroundLookList = currentProject.getSpriteList().get(0).getLookDataList();
 		assertEquals("no background picture or too many pictures in background sprite", 1, backgroundLookList.size());
 
 		String imagePath = backgroundLookList.get(0).getAbsolutePath();
@@ -213,7 +214,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 					.getSpriteList().get(i + 1).getScript(1).getBrickList().size());
 
 			//test if images are existing:
-			ArrayList<LookData> catroidLookList = currentProject.getSpriteList().get(i + 1).getLookDataList();
+			List<LookData> catroidLookList = currentProject.getSpriteList().get(i + 1).getLookDataList();
 			assertEquals("wrong number of pictures in catroid sprite", 3, catroidLookList.size());
 
 			imagePath = catroidLookList.get(0).getAbsolutePath();

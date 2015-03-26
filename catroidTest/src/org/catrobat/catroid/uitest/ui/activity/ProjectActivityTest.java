@@ -369,7 +369,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 		solo.clickOnButton(solo.getString(R.string.ok));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		String spriteBackgroundLabel = solo.getString(R.string.background);
 		assertTrue("Wrong name for background sprite!", solo.searchText(spriteBackgroundLabel));
@@ -429,7 +429,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		/// Method 1: Assert it is currently in portrait mode.
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 		assertEquals("ProjectActivity not in Portrait mode!", Configuration.ORIENTATION_PORTRAIT, solo
 				.getCurrentActivity().getResources().getConfiguration().orientation);
 
@@ -704,7 +704,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 		solo.goBack();
 
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
-		solo.waitForFragmentById(R.id.fragment_sprites_list);
+		solo.waitForFragmentById(R.id.fragment_container);
 
 		checkVisibilityOfViews(detailsView, true);
 
@@ -1264,12 +1264,12 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 
 	private int checkNumberOfElements(Sprite firstSprite, Sprite copiedSprite) {
 
-		ArrayList<SoundInfo> copiedSoundList = copiedSprite.getSoundList();
-		ArrayList<SoundInfo> firstSoundList = firstSprite.getSoundList();
+		List<SoundInfo> copiedSoundList = copiedSprite.getSoundList();
+		List<SoundInfo> firstSoundList = firstSprite.getSoundList();
 		assertEquals("The number of sounds differs!", firstSoundList.size(), copiedSoundList.size());
 
-		ArrayList<LookData> copiedCustomeList = copiedSprite.getLookDataList();
-		ArrayList<LookData> firstCustomeList = firstSprite.getLookDataList();
+		List<LookData> copiedCustomeList = copiedSprite.getLookDataList();
+		List<LookData> firstCustomeList = firstSprite.getLookDataList();
 		assertEquals("The number of customes differs!", firstCustomeList.size(), copiedCustomeList.size());
 
 		assertEquals("The first sprite is NOT copied!", copiedSprite.getName(),

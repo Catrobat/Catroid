@@ -41,7 +41,10 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 	private String fileName;
 	public transient boolean isPlaying;
 
+	public transient boolean isBackpackSoundInfo;
+
 	public SoundInfo() {
+		isBackpackSoundInfo = false;
 	}
 
 	@Override
@@ -50,6 +53,7 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 
 		cloneSoundInfo.name = this.name;
 		cloneSoundInfo.fileName = this.fileName;
+		cloneSoundInfo.isBackpackSoundInfo = false;
 
 		return cloneSoundInfo;
 	}
@@ -75,23 +79,11 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 
 	public String getAbsolutePath() {
 		if (fileName != null) {
-			return Utils.buildPath(getPathToSoundDirectory(), fileName);
-		} else {
-			return null;
-		}
-	}
-
-	public String getAbsolutePathBackPack() {
-		if (fileName != null) {
-			return Utils.buildPath(getPathToBackPackDirectory(), fileName);
-		} else {
-			return null;
-		}
-	}
-
-	public String getAbsolutePathBackPackSound() {
-		if (fileName != null) {
-			return Utils.buildPath(getPathToBackPackSoundDirectory(), fileName);
+			if (isBackpackSoundInfo) {
+				return Utils.buildPath(getPathToBackPackSoundDirectory(), fileName);
+			} else {
+				return Utils.buildPath(getPathToSoundDirectory(), fileName);
+			}
 		} else {
 			return null;
 		}
@@ -125,16 +117,9 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 				Constants.SOUND_DIRECTORY);
 	}
 
-	private String getPathToBackPackDirectory() {
-		Log.d("TAG", "getPathToBackPackDirectory() called!");
-		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
-				Constants.BACKPACK_DIRECTORY);
-	}
-
 	private String getPathToBackPackSoundDirectory() {
-		Log.d("TAG", "getPathToBackPackSoundDirectory() called!");
-		return Utils.buildPath(Utils.buildProjectPath(Constants.DEFAULT_ROOT + "/" + Constants.BACKPACK_DIRECTORY + "/"
-				+ Constants.BACKPACK_SOUND_DIRECTORY));
+		return Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
+				Constants.BACKPACK_SOUND_DIRECTORY);
 	}
 
 	@Override
@@ -145,5 +130,9 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public boolean isBackpackSoundInfo() {
+		return isBackpackSoundInfo;
 	}
 }
