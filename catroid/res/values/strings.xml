@@ -79,7 +79,7 @@
     <string name="preference_title_select_camera">Choose Camera</string>
     <string name="preference_description_select_camera">Select camera which is used for face detection</string>
     <string name="preference_title_enable_phiro_pro_bricks">Phiro Pro bricks</string>
-    <string name="preference_description_phiro_pro_bricks">Allow to control Phiro Pro bricks</string>
+    <string name="preference_description_phiro_pro_bricks">Allow to control a Phiro Pro robot</string>
 
     <!--  -->
 
