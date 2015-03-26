@@ -46,5 +46,6 @@ public final class DroneServiceWrapper {
 
 	public DroneControlService getDroneService() {
 		return droneControlService;
+
 	}
 }
