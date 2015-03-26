@@ -126,7 +126,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 				false, this);
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
-
 	}
 
 	@Override
@@ -468,7 +467,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 
 	@Override
 	public void startDeleteActionMode() {
-
 		if (actionMode == null) {
 			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer,
 					BackPackListManager.getInstance().getSoundInfoArrayList(), adapter);

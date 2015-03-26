@@ -71,13 +71,14 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.LookViewHolder;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.LookAdapter;
 import org.catrobat.catroid.ui.adapter.LookBaseAdapter;
-import org.catrobat.catroid.ui.adapter.LookBaseAdapter.OnLookEditListener;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
@@ -94,7 +95,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
 
-public class LookFragment extends ScriptActivityFragment implements OnLookEditListener,
+public class LookFragment extends ScriptActivityFragment implements LookBaseAdapter.OnLookEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
 
 	public static final String TAG = LookFragment.class.getSimpleName();
@@ -224,6 +225,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			}
 		}
 	};
+	protected String singleItemAppendixDeleteActionMode;
+	protected String multipleItemAppendixDeleteActionMode;
 
 	public void setOnLookDataListChangedAfterNewListener(OnLookDataListChangedAfterNewListener listener) {
 		lookDataListChangedAfterNewListener = listener;
@@ -277,11 +280,15 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		((LookAdapter) adapter).setLookFragment(this);
 
 		Utils.loadProjectIfNeeded(getActivity());
+
+		// set adapter and lookDataList for ev. unpacking
+		BackPackListManager.getInstance().setCurrentLookDataArrayList(lookDataList);
+		BackPackListManager.getInstance().setCurrentLookAdapter(adapter);
+		BackPackListManager.getInstance().setCurrentLookFragment(this);
 	}
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-
 		menu.findItem(R.id.copy).setVisible(true);
 		menu.findItem(R.id.cut).setVisible(true);
 		menu.findItem(R.id.rename).setVisible(true);
@@ -290,11 +297,21 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 		if (!BuildConfig.FEATURE_BACKPACK_ENABLED) {
 			menu.findItem(R.id.backpack).setVisible(false);
-			menu.findItem(R.id.unpacking).setVisible(false);
+			if (BackPackListManager.getInstance().getLookDataArrayList().size() > 0) {
+				menu.findItem(R.id.unpacking).setVisible(true);
+			} else {
+				menu.findItem(R.id.unpacking).setVisible(false);
+
+				StorageHandler.getInstance().clearBackPackLookDirectory();
+			}
 		}
-
-
 		super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
 	}
 
 	@Override
@@ -440,9 +457,56 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
-		menu.findItem(R.id.context_menu_backpack).setVisible(false);
-		menu.findItem(R.id.context_menu_unpacking).setVisible(false);
+
+		if (!BuildConfig.FEATURE_BACKPACK_ENABLED) {
+			menu.findItem(R.id.context_menu_backpack).setVisible(false);
+			menu.findItem(R.id.context_menu_unpacking).setVisible(false);
+		}
 	}
+
+	@Override
+	public void startBackPackActionMode() {
+		if (actionMode == null) {
+			actionMode = getSherlockActivity().startActionMode(backPackModeCallBack);
+			unregisterForContextMenu(listView);
+			BottomBar.hideBottomBar(getActivity());
+			isRenameActionMode = false;
+		}
+	}
+
+	private ActionMode.Callback backPackModeCallBack = new ActionMode.Callback() {
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+
+			setSelectMode(ListView.CHOICE_MODE_MULTIPLE);
+			setActionModeActive(true);
+
+			actionModeTitle = getString(R.string.backpack);
+			singleItemAppendixDeleteActionMode = getString(R.string.category_looks);
+			multipleItemAppendixDeleteActionMode = getString(R.string.looks);
+
+			mode.setTitle(actionModeTitle);
+
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, com.actionbarsherlock.view.MenuItem item) {
+			return false;
+		}
+
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			((LookAdapter) adapter).onDestroyActionModeBackPack();
+		}
+
+	};
 
 	@Override
 	public boolean onContextItemSelected(android.view.MenuItem item) {
@@ -451,6 +515,16 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			case R.id.context_menu_copy:
 				LookController.getInstance().copyLook(selectedLookPosition, lookDataList, getActivity(),
 						LookFragment.this);
+				break;
+
+			case R.id.context_menu_backpack:
+				Intent intent = new Intent(getActivity(), BackPackActivity.class);
+				intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, 1);
+				intent.putExtra(BackPackActivity.BACKPACK_ITEM, true);
+				BackPackListManager.getInstance().addLookToActionBarLookDataArrayList(
+						lookDataList.get(selectedLookPosition));
+
+				startActivity(intent);
 				break;
 
 			case R.id.context_menu_cut:
@@ -757,7 +831,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		alertDialog.show();
 	}
 
-	private void clearCheckedLooksAndEnableButtons() {
+	public void clearCheckedLooksAndEnableButtons() {
 		setSelectMode(ListView.CHOICE_MODE_NONE);
 		adapter.clearCheckedItems();
 
@@ -794,10 +868,6 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 				break;
 		}
 		return false;
-	}
-
-	@Override
-	public void startBackPackActionMode() {
 	}
 
 	public View getView(int position, View convertView) {
@@ -898,4 +968,9 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 			}
 		}
 	}
+
+	public ArrayList<LookData> getLookDataList() {
+		return lookDataList;
+	}
+
 }

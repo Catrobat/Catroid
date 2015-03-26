@@ -52,8 +52,10 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.LookViewHolder;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.adapter.BackPackLookAdapter;
 import org.catrobat.catroid.ui.adapter.LookBaseAdapter;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.ui.fragment.BackPackLookFragment;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.ImageEditing;
@@ -185,7 +187,7 @@ public final class LookController {
 		if (arguments != null) {
 			imageUri = (Uri) arguments.get(LOADER_ARGUMENTS_IMAGE_URI);
 		}
-		String[] projection = { MediaStore.MediaColumns.DATA };
+		String[] projection = {MediaStore.MediaColumns.DATA};
 		return new CursorLoader(activity, imageUri, projection, null, null, null);
 	}
 
@@ -214,6 +216,18 @@ public final class LookController {
 			return;
 		}
 		copyImageToCatroid(originalImagePath, activity, lookDataList, fragment);
+	}
+
+	public LookData updateLookAdapterBackPack(String name, String fileName, ArrayList<LookData> lookDataList,
+			BackPackLookFragment fragment, BackPackLookAdapter lookAdapter) {
+		name = Utils.getUniqueLookName(name);
+
+		LookData lookData = new LookData();
+		lookData.setLookFilename(fileName);
+		lookData.setLookName(name);
+		lookDataList.add(lookData);
+		fragment.updateLookAdapterBackPack(lookData);
+		return lookData;
 	}
 
 	private void updateLookAdapter(String name, String fileName, ArrayList<LookData> lookDataList, LookFragment fragment) {
@@ -275,8 +289,7 @@ public final class LookController {
 			updateLookAdapter(imageName, imageFileName, lookDataList, fragment);
 		} catch (IOException e) {
 			Utils.showErrorDialog(activity, R.string.error_load_image);
-		}
-		catch (NullPointerException e) {
+		} catch (NullPointerException e) {
 			Log.e("NullPointerException", "probably originalImagePath null; message: " + e.getMessage());
 			Utils.showErrorDialog(activity, R.string.error_load_image);
 		}
@@ -382,11 +395,11 @@ public final class LookController {
 							activity.startActivity(downloadPocketPaintIntent);
 						}
 					}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
+				@Override
+				public void onClick(DialogInterface dialog, int id) {
+					dialog.cancel();
+				}
+			});
 			AlertDialog alert = builder.create();
 			alert.show();
 			return false;
@@ -411,6 +424,50 @@ public final class LookController {
 		}
 	}
 
+	public void copyLookUnpacking(LookData currentlookData, ArrayList<LookData> lookDataList,
+			ArrayList<LookData> lookDataListFragment, final Activity activity, LookFragment fragment,
+			BackPackLookAdapter lookAdapter) {
+
+		try {
+			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+
+			String imageName = currentlookData.getLookName() + "_" + activity.getString(R.string.unpacking_addition);
+
+			StorageHandler.getInstance().copyImagePacking(projectName, currentlookData.getAbsolutePath(), imageName);
+
+			String imageFileName = currentlookData.getLookFileName();
+
+			updateLookAdapter(imageName, imageFileName, lookDataListFragment, fragment);
+		} catch (IOException e) {
+			Utils.showErrorDialog(activity, R.string.error_load_image);
+			Log.e(TAG, Log.getStackTraceString(e));
+		}
+		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+
+	}
+
+	public void copyLookBackPack(LookData currentlookData, ArrayList<LookData> lookDataList, final Activity activity,
+			BackPackLookFragment fragment, BackPackLookAdapter lookAdapter) {
+
+		try {
+			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+
+			String imageName = currentlookData.getLookName() + "_" + projectName;
+
+			StorageHandler.getInstance().copyImagePacking(projectName, currentlookData.getAbsolutePath(), imageName);
+
+			String imageFileName = currentlookData.getLookFileName();
+
+			updateLookAdapterBackPack(imageName, imageFileName, BackPackListManager.getInstance()
+					.getLookDataArrayList(), fragment, lookAdapter);
+		} catch (IOException e) {
+			Utils.showErrorDialog(activity, R.string.error_load_image);
+			Log.e(TAG, Log.getStackTraceString(e));
+		}
+		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+
+	}
+
 	public void copyLook(int position, ArrayList<LookData> lookDataList, final Activity activity, LookFragment fragment) {
 		LookData lookData = lookDataList.get(position);
 
@@ -418,7 +475,6 @@ public final class LookController {
 			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
 
 			StorageHandler.getInstance().copyImage(projectName, lookData.getAbsolutePath(), null);
-
 			String imageName = lookData.getLookName() + "_" + activity.getString(R.string.copy_addition);
 			String imageFileName = lookData.getLookFileName();
 
