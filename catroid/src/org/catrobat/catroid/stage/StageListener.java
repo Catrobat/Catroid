@@ -730,6 +730,11 @@ public class StageListener implements ApplicationListener {
 		stage.addActor(look);
 	}
 
+	public void removeActor (Look look)
+	{
+		look.remove();
+	}
+
 	private void drawText(String text, int posX, int posY, float scale){
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		font.setScale(scale);

@@ -45,24 +45,24 @@ import java.util.List;
 
 
 
-public class DroneVideoBrick extends BrickBaseType {
+public class DroneStartVideoBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 	private transient AdapterView<?> adapterView;
 	private int cameraId = 0;
 
-	public DroneVideoBrick() {
+	public DroneStartVideoBrick() {
 
 	}
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
-		DroneVideoBrick copyBrick = (DroneVideoBrick) clone();
+		DroneStartVideoBrick copyBrick = (DroneStartVideoBrick) clone();
 		return copyBrick;
 	}
 
 	@Override
 	public Brick clone() {
-		return new DroneVideoBrick();
+		return new DroneStartVideoBrick();
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class DroneVideoBrick extends BrickBaseType {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				checked = isChecked;
-				adapter.handleCheck(DroneVideoBrick.this, isChecked);
+				adapter.handleCheck(DroneStartVideoBrick.this, isChecked);
 			}
 		});
 

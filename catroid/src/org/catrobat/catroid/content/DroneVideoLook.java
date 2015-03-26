@@ -68,7 +68,6 @@ public class DroneVideoLook extends Look {
 
 		Gdx.gl20.glBindTexture(GL20.GL_TEXTURE_2D, texture.getTextureObjectHandle());
 		videoTexture.onUpdateVideoTexture();
-
 		batch.draw(textureRegion, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
 	}
 
@@ -78,19 +77,15 @@ public class DroneVideoLook extends Look {
 		videoSize[1] = videoTexture.imageHeight;
 		videoTexture.onSurfaceChanged(videoSize[0], videoSize[1]);
 
-		//float newX = getX() - (videoSize[0] - getWidth()) /2f;
-		//float newY = getY() - (videoSize[1] - getHeight()) /2f;
+		float newX = getY() - (Gdx.graphics.getHeight() - getHeight()) /2f;
+		float newY = getX() - (Gdx.graphics.getWidth() - getWidth()) /2f;
 
-		float newX = getX() - (Gdx.graphics.getHeight() - getWidth()) /2f;
-		float newY = getY() - (Gdx.graphics.getWidth() - getHeight()) /2f;
-
-		setPosition(newX, newY); //center
-		//setSize(videoSize[0], videoSize[1]);
-		//setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		//inverted because of rotation
+		setPosition(newX, newY);
 		setSize(Gdx.graphics.getHeight(), Gdx.graphics.getWidth());
-		setOrigin(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2); //0,0 is in the center
+		setOrigin(getWidth() / 2f, getHeight() / 2f);
 		setScale(1f,1f);
-		setRotation(270f);
+		setRotation(90f);
 
 	}
 

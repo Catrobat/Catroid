@@ -27,16 +27,24 @@ import android.util.Log;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.parrot.freeflight.drone.DroneProxy.ARDRONE_LED_ANIMATION;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.DroneVideoLook;
+import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.stage.StageListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DroneStartVideoAction extends TemporalAction {
 
 	private static final String TAG = DroneStartVideoAction.class.getSimpleName();
 	private Sprite sprite;
 	private int oldCameraId = 0;
+	private Look originalBackgroundLook;
 
 	public void setCameraId (int cameraId)
 	{
@@ -55,11 +63,25 @@ public class DroneStartVideoAction extends TemporalAction {
 	protected void begin() {
 
 
-		sprite.look = new DroneVideoLook(sprite);
-		StageActivity.stageListener.addActor(sprite.look);
+		Sprite bgSprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
+
+		if (bgSprite.look instanceof DroneVideoLook )
+		{
+			StageActivity.stageListener.addActor(originalBackgroundLook);
+			StageActivity.stageListener.removeActor(bgSprite.look);
+			bgSprite.look = originalBackgroundLook;
+		}
+		else
+		{
+			originalBackgroundLook = bgSprite.look;
+			Look droneVideoLook = new DroneVideoLook(bgSprite);
+			StageActivity.stageListener.removeActor(originalBackgroundLook);
+			bgSprite.look = droneVideoLook;
+			StageActivity.stageListener.addActor(droneVideoLook);
+		}
 
 		super.begin();
-
+		bgSprite.look.setZIndex(0);
 	}
 
 	@Override
