@@ -50,6 +50,7 @@ configurations {
 }
 
 dependencies {
+
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
     compile 'com.android.support:support-v4:19.1.0'
     compile 'com.google.guava:guava:18.0'
@@ -67,6 +68,7 @@ dependencies {
     androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
     pmd 'net.sourceforge.pmd:pmd:5.1.1'
+
 }
 
 task copyAndroidNatives() {
