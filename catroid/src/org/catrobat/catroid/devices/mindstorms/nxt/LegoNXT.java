@@ -39,6 +39,10 @@ public interface LegoNXT extends Mindstorms, BluetoothDevice {
 
 	int getSensorValue(Sensors sensor);
 
+	int getkeepAliveTime();
+	int getBatteryLevel();
+
+
 	MindstormsSensor getSensor1();
 	MindstormsSensor getSensor2();
 	MindstormsSensor getSensor3();

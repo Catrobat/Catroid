@@ -94,26 +94,11 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 	@Override
 	public boolean isAlive() {
 		try {
-			sendKeepAlive();
+			getkeepAliveTime();
 			return true;
 		} catch (MindstormsException e) {
 			return false;
 		}
-	}
-
-	private void sendKeepAlive() throws MindstormsException {
-		// TODO: Implement Keep alive command which throws a MindstormsException if sending fails.
-
-		int frequencyInHz = 200;
-		int durationInMs = 1;
-
-		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.PLAY_TONE, false);
-		command.append((byte)(frequencyInHz & 0x00FF));
-		command.append((byte)((frequencyInHz & 0xFF00) >> 8));
-		command.append((byte) (durationInMs & 0x00FF));
-		command.append((byte) ((durationInMs & 0xFF00) >> 8));
-
-		mindstormsConnection.send(command);
 	}
 
 	@Override
@@ -143,6 +128,46 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 			Log.e(TAG, e.getMessage());
 		}
 	}
+
+	@Override
+	public int getkeepAliveTime() {
+
+		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.KEEP_ALIVE, true);
+
+		byte[] alive = mindstormsConnection.sendAndReceive(command);
+
+		NXTReply reply = new NXTReply(mindstormsConnection.sendAndReceive(command));
+		NXTError.checkForError(reply, 7);
+
+		byte[] aliveTimeToInt = new byte[4];
+		aliveTimeToInt[0] = alive[3];
+		aliveTimeToInt[1] = alive[4];
+		aliveTimeToInt[2] = alive[5];
+		aliveTimeToInt[3] = alive[6];
+
+		int aliveTime = java.nio.ByteBuffer.wrap(aliveTimeToInt).order(java.nio.ByteOrder.LITTLE_ENDIAN).getInt();
+		return aliveTime;
+	}
+
+	@Override
+	public int getBatteryLevel() {
+
+		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.GET_BATTERY_LEVEL, true);
+
+		NXTReply reply = new NXTReply(mindstormsConnection.sendAndReceive(command));
+		NXTError.checkForError(reply, 5);
+
+		byte[] batByte = mindstormsConnection.sendAndReceive(command);
+		byte[] batValues = new byte[2];
+		batValues[0] = batByte[3];
+		batValues[1] = batByte[4];
+
+		int millivolt = java.nio.ByteBuffer.wrap(batValues).order(java.nio.ByteOrder.LITTLE_ENDIAN).getShort();
+		int voltage = millivolt;
+
+		return voltage;
+	}
+
 
 	@Override
 	public NXTMotor getMotorA() {
