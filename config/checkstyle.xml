@@ -36,6 +36,7 @@
 
     <!-- Blocks -->
     <module name="AvoidNestedBlocks" />
+    <module name="EmptyBlock" />
     <module name="NeedBraces" />
 
     <!-- Coding -->
