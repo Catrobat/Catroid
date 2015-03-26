@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -98,15 +98,8 @@ public class ParserTestObject extends AndroidTestCase {
 	}
 
 	public void testNotExistingLookSensorValues() {
-
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
-		internTokenList.add(new InternToken(InternTokenType.SENSOR, ""));
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
-
-		assertNull("Invalid sensor parsed:   NOT_EXISTING_SENSOR)", parseTree);
-		int errorTokenIndex = internParser.getErrorTokenIndex();
-		assertEquals("Error Token Index is not as expected", 0, errorTokenIndex);
+		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.SENSOR, "", 0);
+		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.SENSOR, "notExistingSensor O_O", 0);
 
 	}
 }

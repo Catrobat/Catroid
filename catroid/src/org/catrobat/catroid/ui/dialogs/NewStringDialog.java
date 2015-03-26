@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,7 +45,6 @@ public class NewStringDialog extends SherlockDialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = NewStringDialog.class.getSimpleName();
 	private EditText newStringEditText;
-	private Dialog newStringDialog;
 
 	public NewStringDialog() {
 	}
@@ -60,7 +59,7 @@ public class NewStringDialog extends SherlockDialogFragment {
 				FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG).getView().getRootView();
 		final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_formulaeditor_string, root, false);
 
-		newStringDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
+		Dialog newStringDialog = new AlertDialog.Builder(getActivity()).setView(dialogView)
 				.setTitle(R.string.formula_editor_new_string_name)
 				.setNegativeButton(R.string.cancel_button, new OnClickListener() {
 					@Override
@@ -95,7 +94,7 @@ public class NewStringDialog extends SherlockDialogFragment {
 				.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		if (formulaEditor != null) {
 			formulaEditor.addStringToActiveFormula(stringName);
-			formulaEditor.updateButtonViewOnKeyboard();
+			formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 		}
 	}
 }

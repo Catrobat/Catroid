@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2014 The Catrobat Team
+  ~ Copyright (C) 2010-2015 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -22,13 +22,11 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/variablelist_local_headline"
-              style="@style/headlineLinearLayout" >
+    style="@style/BrickCategory" >
 
-    <org.catrobat.catroid.ui.CapitalizedTextView
-        style="@style/headlineTextView"
-        android:text="@string/formula_editor_variable_dialog_for_this_sprite_only" />
-
-    <View style="@style/headlineView" />
+    <TextView
+        style="@style/BrickCategoryText.Data"
+        android:text="@string/category_data" >
+    </TextView>
 
 </LinearLayout>

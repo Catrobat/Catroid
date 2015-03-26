@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -62,11 +62,11 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 		project = ProjectManager.getInstance().getCurrentProject();
 		sprite = new Sprite(SPRITE_NAME);
 		project.addSprite(sprite);
-		project.getUserVariables().addSpriteUserVariableToSprite(sprite, LOCAL_VARIABLE_NAME);
-		project.getUserVariables().getUserVariable(LOCAL_VARIABLE_NAME, sprite).setValue(LOCAL_VARIABLE_VALUE);
+		project.getDataContainer().addSpriteUserVariableToSprite(sprite, LOCAL_VARIABLE_NAME);
+		project.getDataContainer().getUserVariable(LOCAL_VARIABLE_NAME, sprite).setValue(LOCAL_VARIABLE_VALUE);
 
-		project.getUserVariables().addProjectUserVariable(GLOBAL_VARIABLE_NAME);
-		project.getUserVariables().getUserVariable(GLOBAL_VARIABLE_NAME, null).setValue(GLOBAL_VARIABLE_VALUE);
+		project.getDataContainer().addProjectUserVariable(GLOBAL_VARIABLE_NAME);
+		project.getDataContainer().getUserVariable(GLOBAL_VARIABLE_NAME, null).setValue(GLOBAL_VARIABLE_VALUE);
 
 		ProjectManager.getInstance().setProject(project);
 	}
@@ -91,7 +91,7 @@ public class SpritesListFragmentTest extends BaseActivityInstrumentationTestCase
 			fail("no cloned sprite in project");
 		}
 
-		List<UserVariable> userVariableList = project.getUserVariables().getOrCreateVariableListForSprite(clonedSprite);
+		List<UserVariable> userVariableList = project.getDataContainer().getOrCreateVariableListForSprite(clonedSprite);
 		Set<String> hashSet = new HashSet<String>();
 		for (UserVariable userVariable : userVariableList) {
 			assertTrue("Variable already exists", hashSet.add(userVariable.getName()));

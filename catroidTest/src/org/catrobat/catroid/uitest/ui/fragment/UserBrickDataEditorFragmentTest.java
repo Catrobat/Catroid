@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -55,7 +55,7 @@ public class UserBrickDataEditorFragmentTest extends BaseActivityInstrumentation
 
 		assertTrue("FormulaEditor should have appeared", gotIntoFormulaEditor);
 
-		String stringOnVariablesButton = solo.getCurrentActivity().getString(R.string.formula_editor_variables);
+		String stringOnVariablesButton = solo.getCurrentActivity().getString(R.string.formula_editor_data);
 		solo.clickOnText(stringOnVariablesButton);
 
 		String stringOnUserBrickVar = UiTestUtils.TEST_USER_BRICK_VARIABLE;

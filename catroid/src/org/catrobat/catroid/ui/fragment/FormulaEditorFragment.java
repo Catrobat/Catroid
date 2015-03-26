@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -44,12 +43,13 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -57,6 +57,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.InternFormulaKeyboardAdapter;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -64,6 +65,7 @@ import org.catrobat.catroid.ui.bricks.BrickViewProvider;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 import org.catrobat.catroid.ui.dialogs.NewStringDialog;
+import org.catrobat.catroid.utils.ToastUtil;
 
 public class FormulaEditorFragment extends SherlockFragment implements OnKeyListener,
 		ViewTreeObserver.OnGlobalLayoutListener {
@@ -87,13 +89,12 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	private LinearLayout formulaEditorKeyboard;
 	private ImageButton formularEditorFieldDeleteButton;
 	private LinearLayout formulaEditorBrick;
-	private Toast toast;
 	private View brickView;
 	private long[] confirmSwitchEditTextTimeStamp = {0, 0};
 	private int confirmSwitchEditTextCounter = 0;
 	private CharSequence previousActionBarTitle;
 	private View fragmentView;
-	private VariableDeletedReceiver variableDeletedReceiver;
+	private VariableOrUserListDeletedReceiver variableOrUserListDeletedReceiver;
 
 	public FormulaEditorFragment() {
 	}
@@ -101,8 +102,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
-		setUpActionBar();
 		currentBrick = (Brick) getArguments().getSerializable(BRICK_BUNDLE_ARGUMENT);
 		currentFormula = (Formula) getArguments().getSerializable(FORMULA_BUNDLE_ARGUMENT);
 	}
@@ -120,9 +119,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	}
 
 	public static void showFragment(View view, Brick brick, Formula formula) {
-
-		SherlockFragmentActivity activity = null;
-		activity = (SherlockFragmentActivity) view.getContext();
+		SherlockFragmentActivity activity = (SherlockFragmentActivity) view.getContext();
 
 		FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) activity.getSupportFragmentManager()
 				.findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG);
@@ -173,7 +170,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		currentFormula = newFormula;
 		setInputFormula(newFormula, SET_FORMULA_ON_CREATE_VIEW);
 		fragmentView.getViewTreeObserver().addOnGlobalLayoutListener(this);
-		updateButtonViewOnKeyboard();
+		updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 	}
 
 	private void onUserDismiss() {
@@ -221,6 +218,9 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 		setInputFormula(currentFormula, SET_FORMULA_ON_CREATE_VIEW);
 
+		setHasOptionsMenu(true);
+		setUpActionBar();
+
 		return fragmentView;
 	}
 
@@ -233,9 +233,8 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		View.OnTouchListener touchListener = new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
-				Log.i("info", "viewId: " + view.getId());
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					updateButtonViewOnKeyboard();
+					updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 					view.setPressed(false);
 					return true;
 				}
@@ -259,15 +258,9 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 							computeDialog.setFormula(formulaToCompute);
 							computeDialog.show();
 							return true;
-						case R.id.formula_editor_keyboard_undo:
-							formulaEditorEditText.undo();
-							return true;
-						case R.id.formula_editor_keyboard_redo:
-							formulaEditorEditText.redo();
-							return true;
 						case R.id.formula_editor_keyboard_function:
 							showFormulaEditorListFragment(FormulaEditorListFragment.FUNCTION_TAG,
-									R.string.formula_editor_function);
+									R.string.formula_editor_math);
 							return true;
 						case R.id.formula_editor_keyboard_logic:
 							showFormulaEditorListFragment(FormulaEditorListFragment.LOGIC_TAG,
@@ -281,9 +274,9 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 							showFormulaEditorListFragment(FormulaEditorListFragment.SENSOR_TAG,
 									R.string.formula_editor_sensors);
 							return true;
-						case R.id.formula_editor_keyboard_variables:
-							showFormulaEditorVariableListFragment(FormulaEditorVariableListFragment.VARIABLE_TAG,
-									R.string.formula_editor_variables);
+						case R.id.formula_editor_keyboard_data:
+							showFormulaEditorDataFragment(FormulaEditorDataFragment.USER_DATA_TAG,
+									R.string.formula_editor_data);
 							return true;
 						case R.id.formula_editor_keyboard_ok:
 							endFormulaEditor();
@@ -320,7 +313,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		}
 		formularEditorFieldDeleteButton.setOnTouchListener(touchListener);
 
-		updateButtonViewOnKeyboard();
+		updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 
 		super.onStart();
 	}
@@ -331,20 +324,44 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			menu.getItem(index).setVisible(false);
 		}
 
+		MenuItem undo = menu.findItem(R.id.menu_undo);
+		if (!formulaEditorEditText.getHistory().undoIsPossible()) {
+			undo.setIcon(R.drawable.icon_undo_disabled);
+			undo.setEnabled(false);
+		} else {
+			undo.setIcon(R.drawable.icon_undo);
+			undo.setEnabled(true);
+		}
+
+		MenuItem redo = menu.findItem(R.id.menu_redo);
+		if (!formulaEditorEditText.getHistory().redoIsPossible()) {
+			redo.setIcon(R.drawable.icon_redo_disabled);
+			redo.setEnabled(false);
+		} else {
+			redo.setIcon(R.drawable.icon_redo);
+			redo.setEnabled(true);
+		}
+
+		menu.findItem(R.id.menu_undo).setVisible(true);
+		menu.findItem(R.id.menu_redo).setVisible(true);
 		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
 		getSherlockActivity().getSupportActionBar().setTitle(getString(R.string.formula_editor_title));
 
 		super.onPrepareOptionsMenu(menu);
 	}
 
-	private void setInputFormula(Formula newFormula, int mode) {
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.menu_formulaeditor, menu);
+		super.onCreateOptionsMenu(menu, inflater);
+	}
 
-		int orientation = getResources().getConfiguration().orientation;
+	private void setInputFormula(Formula newFormula, int mode) {
 
 		switch (mode) {
 			case SET_FORMULA_ON_CREATE_VIEW:
 				formulaEditorEditText.enterNewFormula(currentFormula.getInternFormulaState());
-				currentFormula.highlightTextField(brickView, orientation);
+				currentFormula.highlightTextField(brickView);
 				refreshFormulaPreviewString();
 				break;
 			case SET_FORMULA_ON_SWITCH_EDIT_TEXT:
@@ -363,12 +380,9 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 				}
 
 				formulaEditorEditText.endEdit();
-
 				currentFormula = newFormula;
 				formulaEditorEditText.enterNewFormula(newFormula.getInternFormulaState());
-
 				refreshFormulaPreviewString();
-
 				break;
 			default:
 				break;
@@ -378,15 +392,15 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	public boolean saveFormulaIfPossible() {
 		InternFormulaParser formulaToParse = formulaEditorEditText.getFormulaParser();
 		FormulaElement formulaParseTree = formulaToParse.parseFormula();
-		int err = formulaToParse.getErrorTokenIndex();
-		switch (err) {
+
+		switch (formulaToParse.getErrorTokenIndex()) {
 			case PARSER_OK:
 				currentFormula.setRoot(formulaParseTree);
 				if (formulaEditorBrick != null) {
 					currentFormula.refreshTextField(brickView);
 				}
 				formulaEditorEditText.formulaSaved();
-				showToast(R.string.formula_editor_changes_saved);
+				showToast(R.string.formula_editor_changes_saved, false);
 				return true;
 			case PARSER_STACK_OVERFLOW:
 				return checkReturnWithoutSaving(PARSER_STACK_OVERFLOW);
@@ -397,25 +411,21 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	}
 
 	private boolean checkReturnWithoutSaving(int errorType) {
-		Log.i("info",
-				"confirmSwitchEditTextCounter=" + confirmSwitchEditTextCounter + " "
-						+ (System.currentTimeMillis() <= confirmSwitchEditTextTimeStamp[0] + TIME_WINDOW));
-
 		if ((System.currentTimeMillis() <= confirmSwitchEditTextTimeStamp[0] + TIME_WINDOW)
 				&& (confirmSwitchEditTextCounter > 1)) {
 			confirmSwitchEditTextTimeStamp[0] = 0;
 			confirmSwitchEditTextTimeStamp[1] = 0;
 			confirmSwitchEditTextCounter = 0;
 			currentFormula.setDisplayText(null);
-			showToast(R.string.formula_editor_changes_discarded);
+			showToast(R.string.formula_editor_changes_discarded, false);
 			return true;
 		} else {
 			switch (errorType) {
 				case PARSER_INPUT_SYNTAX_ERROR:
-					showToast(R.string.formula_editor_parse_fail);
+					showToast(R.string.formula_editor_parse_fail, true);
 					break;
 				case PARSER_STACK_OVERFLOW:
-					showToast(R.string.formula_editor_parse_fail_formula_too_long);
+					showToast(R.string.formula_editor_parse_fail_formula_too_long, true);
 					break;
 			}
 			return false;
@@ -427,18 +437,16 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	 * TODO Remove Toasts from this class and replace them with something useful
 	 * This is a hack more than anything else. We shouldn't use Toasts if we're going to change the message all the time
 	 */
-	private void showToast(int resourceId) {
-		if (toast == null || toast.getView().getWindowVisibility() != View.VISIBLE) {
-			toast = Toast.makeText(getActivity().getApplicationContext(), resourceId, Toast.LENGTH_SHORT);
+	private void showToast(int resourceId, boolean error) {
+		if (error) {
+			ToastUtil.showError(getActivity().getApplicationContext(), resourceId);
 		} else {
-			toast.setText(resourceId);
+			ToastUtil.showSuccess(getActivity().getApplicationContext(), resourceId);
 		}
-		toast.show();
 	}
 
 	@Override
 	public boolean onKey(View view, int keyCode, KeyEvent event) {
-		Log.i("info", "onKey() in FE-Fragment! keyCode: " + keyCode);
 		switch (keyCode) {
 			case KeyEvent.KEYCODE_BACK:
 				if (formulaEditorEditText.hasChanges()) {
@@ -450,7 +458,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
 
-									showToast(R.string.formula_editor_changes_discarded);
+									showToast(R.string.formula_editor_changes_discarded, false);
 									currentFormula.setDisplayText(null);
 									onUserDismiss();
 								}
@@ -467,7 +475,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 				} else {
 					onUserDismiss();
 				}
-
 				return true;
 		}
 		return false;
@@ -489,13 +496,9 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 	public void refreshFormulaPreviewString(String newString) {
 		currentFormula.setDisplayText(newString);
-
 		updateBrickView();
-
 		currentFormula.refreshTextField(brickView, newString);
-
-		int orientation = getResources().getConfiguration().orientation;
-		currentFormula.highlightTextField(brickView, orientation);
+		currentFormula.highlightTextField(brickView);
 	}
 
 	private void showFormulaEditorListFragment(String tag, int actionbarResId) {
@@ -514,57 +517,77 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		((FormulaEditorListFragment) fragment).showFragment(context);
 	}
 
-	private void showFormulaEditorVariableListFragment(String tag, int actionbarResId) {
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.menu_undo:
+				formulaEditorEditText.undo();
+				break;
+			case R.id.menu_redo:
+				formulaEditorEditText.redo();
+				break;
+		}
+		updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+		return super.onOptionsItemSelected(item);
+	}
+
+	private void showFormulaEditorDataFragment(String tag, int actionbarResId) {
 		FragmentManager fragmentManager = ((SherlockFragmentActivity) context).getSupportFragmentManager();
 		Fragment fragment = fragmentManager.findFragmentByTag(tag);
 
 		if (fragment == null) {
 			if (getActivity().getClass().equals(ScriptActivity.class)) {
-				fragment = new FormulaEditorVariableListFragment(false);
-			} else {
-				fragment = new FormulaEditorVariableListFragment(true);
+				fragment = new FormulaEditorDataFragment(false);
+			}
+			else {
+				fragment = new FormulaEditorDataFragment(true);
 			}
 			Bundle bundle = new Bundle();
-			bundle.putString(FormulaEditorVariableListFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
+			bundle.putString(FormulaEditorDataFragment.ACTION_BAR_TITLE_BUNDLE_ARGUMENT,
 					context.getString(actionbarResId));
-			bundle.putString(FormulaEditorVariableListFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
+			bundle.putString(FormulaEditorDataFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
 			fragment.setArguments(bundle);
 			fragmentManager.beginTransaction().add(R.id.script_fragment_container, fragment, tag).commit();
 		}
-		((FormulaEditorVariableListFragment) fragment).setAddButtonListener(getSherlockActivity());
-		((FormulaEditorVariableListFragment) fragment).showFragment(context);
+		((FormulaEditorDataFragment) fragment).setAddButtonListener(getSherlockActivity());
+		((FormulaEditorDataFragment) fragment).showFragment(context);
 	}
+
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onGlobalLayout() {
 		fragmentView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-
 		Rect brickRect = new Rect();
 		Rect keyboardRec = new Rect();
 		formulaEditorBrick.getGlobalVisibleRect(brickRect);
 		formulaEditorKeyboard.getGlobalVisibleRect(keyboardRec);
-
 		formulaEditorEditText.setMaxHeight(keyboardRec.top - brickRect.bottom);
-
 	}
 
 	public void addResourceToActiveFormula(int resource) {
 		formulaEditorEditText.handleKeyEvent(resource, "");
 	}
 
+	public void addUserListToActiveFormula(String userListName) {
+		formulaEditorEditText.handleKeyEvent(InternFormulaKeyboardAdapter.FORMULA_EDITOR_USER_LIST_RESOURCE_ID,
+				userListName);
+	}
+
 	public void addUserVariableToActiveFormula(String userVariableName) {
-		formulaEditorEditText.handleKeyEvent(0, userVariableName);
+		formulaEditorEditText.handleKeyEvent(InternFormulaKeyboardAdapter.FORMULA_EDITOR_USER_VARIABLE_RESOURCE_ID,
+				userVariableName);
 	}
 
 	public void addStringToActiveFormula(String string) {
 		formulaEditorEditText.handleKeyEvent(R.id.formula_editor_keyboard_string, string);
 	}
 
-	private class VariableDeletedReceiver extends BroadcastReceiver {
+	private class VariableOrUserListDeletedReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(ScriptActivity.ACTION_VARIABLE_DELETED)) {
+			if (intent.getAction().equals(ScriptActivity.ACTION_VARIABLE_DELETED)
+					|| intent.getAction().equals(ScriptActivity.ACTION_USERLIST_DELETED)) {
 				updateBrickView(currentBrick);
 			}
 		}
@@ -574,8 +597,8 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	public void onPause() {
 		super.onPause();
 
-		if (variableDeletedReceiver != null) {
-			getActivity().unregisterReceiver(variableDeletedReceiver);
+		if (variableOrUserListDeletedReceiver != null) {
+			getActivity().unregisterReceiver(variableOrUserListDeletedReceiver);
 		}
 	}
 
@@ -583,43 +606,32 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	public void onResume() {
 		super.onResume();
 
-		if (variableDeletedReceiver == null) {
-			variableDeletedReceiver = new VariableDeletedReceiver();
+		if (variableOrUserListDeletedReceiver == null) {
+			variableOrUserListDeletedReceiver = new VariableOrUserListDeletedReceiver();
 		}
 
 		IntentFilter filterVariableDeleted = new IntentFilter(ScriptActivity.ACTION_VARIABLE_DELETED);
-		getActivity().registerReceiver(variableDeletedReceiver, filterVariableDeleted);
 		BottomBar.hideBottomBar(getSherlockActivity());
+		filterVariableDeleted.addAction(ScriptActivity.ACTION_USERLIST_DELETED);
+		getActivity().registerReceiver(variableOrUserListDeletedReceiver, filterVariableDeleted);
 	}
 
-	public void updateButtonViewOnKeyboard() {
+	public void updateButtonsOnKeyboardAndInvalidateOptionsMenu() {
+		getSherlockActivity().invalidateOptionsMenu();
 
-		ImageButton undo = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_undo);
-		if (!formulaEditorEditText.getHistory().undoIsPossible()) {
-			undo.setImageResource(R.drawable.icon_undo_disabled);
-			undo.setEnabled(false);
-		} else {
-			undo.setImageResource(R.drawable.icon_undo);
-			undo.setEnabled(true);
-		}
-
-		ImageButton redo = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_redo);
-		if (!formulaEditorEditText.getHistory().redoIsPossible()) {
-			redo.setImageResource(R.drawable.icon_redo_disabled);
-			redo.setEnabled(false);
-		} else {
-			redo.setImageResource(R.drawable.icon_redo);
-			redo.setEnabled(true);
-		}
-
-		ImageButton backspace = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_edit_field_clear);
+		ImageButton backspaceEditText = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_edit_field_clear);
+		ImageButton backspaceOnKeyboard = (ImageButton) getSherlockActivity().findViewById(R.id.formula_editor_keyboard_delete);
 		if (!formulaEditorEditText.isThereSomethingToDelete()) {
-			backspace.setImageResource(R.drawable.icon_backspace_disabled);
-			backspace.setEnabled(false);
+			backspaceEditText.setImageResource(R.drawable.icon_backspace_disabled);
+			backspaceEditText.setEnabled(false);
+			backspaceOnKeyboard.setAlpha(255 / 3);
+			backspaceOnKeyboard.setEnabled(false);
 		} else {
-			backspace.setImageResource(R.drawable.icon_backspace);
-			backspace.setEnabled(true);
+			backspaceEditText.setImageResource(R.drawable.icon_backspace);
+			backspaceEditText.setEnabled(true);
+			backspaceOnKeyboard.setAlpha(255);
+			backspaceOnKeyboard.setEnabled(true);
 		}
-
 	}
+
 }

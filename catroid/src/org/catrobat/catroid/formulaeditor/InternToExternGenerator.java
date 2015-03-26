@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -65,8 +65,11 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.TRUE.name(), R.string.formula_editor_function_true);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.FALSE.name(), R.string.formula_editor_function_false);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.LENGTH.name(), R.string.formula_editor_function_length);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.NUMBER_OF_ITEMS.name(), R.string.formula_editor_function_number_of_items);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.LETTER.name(), R.string.formula_editor_function_letter);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.JOIN.name(), R.string.formula_editor_function_join);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.LIST_ITEM.name(), R.string.formula_editor_function_list_item);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.CONTAINS.name(), R.string.formula_editor_function_contains);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.X_ACCELERATION.name(),
 				R.string.formula_editor_sensor_x_acceleration);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.Y_ACCELERATION.name(),
@@ -140,7 +143,7 @@ public class InternToExternGenerator {
 
 		int internTokenListIndex = 0;
 
-		while (internTokenList.isEmpty() == false) {
+		while (!internTokenList.isEmpty()) {
 			if (appendWhiteSpace(currentToken, nextToken)) {
 				generatedExternFormulaString += " ";
 			}
@@ -200,6 +203,8 @@ public class InternToExternGenerator {
 				return ",";
 			case USER_VARIABLE:
 				return "\"" + internToken.getTokenStringValue() + "\"";
+			case USER_LIST:
+				return "*" + internToken.getTokenStringValue() + "*";
 			case STRING:
 				return "\'" + internToken.getTokenStringValue() + "\'";
 
@@ -240,4 +245,5 @@ public class InternToExternGenerator {
 		}
 		return context.getString(stringResourceID);
 	}
+
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,21 +20,45 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.formulaeditor;
 
-package org.catrobat.catroid.test.formulaeditor;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-import android.test.InstrumentationTestCase;
+public class UserList implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-import org.catrobat.catroid.formulaeditor.InternTokenType;
+	private String name;
+	private transient List<Object> list;
 
-public class InternTokenTypeTest extends InstrumentationTestCase {
+	public UserList() {
+		list = new ArrayList<Object>();
+	}
 
-	public void internTokenTypeTest() {
+	public UserList(final String name) {
+		this.name = name;
+		this.list = new ArrayList<Object>();
+	}
 
-		for (InternTokenType internTokenType : InternTokenType.values()) {
-			assertEquals("InternTokenType valueOf error", internTokenType,
-					InternTokenType.valueOf(internTokenType.name()));
-		}
+	public UserList(final String name, final List<Object> value) {
+		this.name = name;
+		this.list = value;
+	}
 
+	public List<Object> getList() {
+		return list;
+	}
+
+	public void addListItem(Object listItem) {
+		this.list.add(listItem);
+	}
+
+	public void setList(List<Object> list) {
+		this.list = list;
+	}
+
+	public String getName() {
+		return name;
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,7 @@ public enum Sensors {
 	public static final String TAG = Sensors.class.getSimpleName();
 
 	Sensors(boolean isObjectSensor) {
-		this.isObjectSensor = true;
+		this.isObjectSensor = isObjectSensor;
 	}
 
 	Sensors() {
@@ -41,10 +41,7 @@ public enum Sensors {
 	}
 
 	public static boolean isSensor(String value) {
-		if (getSensorByValue(value) == null) {
-			return false;
-		}
-		return true;
+		return getSensorByValue(value) != null;
 	}
 
 	public static Sensors getSensorByValue(String value) {

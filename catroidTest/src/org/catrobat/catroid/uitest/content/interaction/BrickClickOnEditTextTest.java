@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -92,8 +92,9 @@ public class BrickClickOnEditTextTest extends BaseActivityInstrumentationTestCas
 		editTextFieldVisibility(solo.getString(R.string.category_motion));
 		editTextFieldVisibility(solo.getString(R.string.category_sound));
 		editTextFieldVisibility(solo.getString(R.string.category_looks));
+
 		solo.drag(40, 40, 300, 40, UiTestUtils.DRAG_FRAMES);
-		editTextFieldVisibility(solo.getString(R.string.category_variables));
+		editTextFieldVisibility(solo.getString(R.string.category_data));
 		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
 				solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollDownList(fragmentListView);

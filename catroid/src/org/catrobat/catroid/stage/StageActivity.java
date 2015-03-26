@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,6 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 
@@ -39,6 +38,7 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.utils.LedUtil;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 public class StageActivity extends AndroidApplication {
@@ -72,7 +72,7 @@ public class StageActivity extends AndroidApplication {
 				droneConnection.initialise();
 			} catch (RuntimeException runtimeException) {
 				Log.e(TAG, "Failure during drone service startup", runtimeException);
-				Toast.makeText(this, R.string.error_no_drone_connected, Toast.LENGTH_LONG).show();
+				ToastUtil.showError(this, R.string.error_no_drone_connected);
 				this.finish();
 			}
 		}

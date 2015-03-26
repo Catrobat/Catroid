@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -138,9 +138,12 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.sleep(200);
 		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
 				solo.getCurrentViews(ListView.class).size() - 1);
+		solo.sleep(200);
 		solo.scrollListToBottom(fragmentListView);
+		solo.sleep(100);
 		assertTrue("Lego brick category is not showing!", solo.searchText(categoryLegoNXTLabel));
 	}
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -94,7 +94,8 @@ public class ChangeVariableBrick extends FormulaBrick {
 		}
 
 		ChangeVariableBrick copyBrick = (ChangeVariableBrick) clone();
-		copyBrick.userVariable = currentProject.getUserVariables().getUserVariable(userVariable.getName(), cloneSprite);
+		copyBrick.userVariable = currentProject.getDataContainer().getUserVariable(userVariable.getName(), cloneSprite);
+
 		return copyBrick;
 	}
 

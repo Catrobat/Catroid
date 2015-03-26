@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,46 +41,46 @@ public class SetVariableActionTest extends AndroidTestCase {
 	private UserVariable userVariable;
 
 	@Override
-    protected void setUp() throws Exception {
-        testSprite = new Sprite("testSprite");
-        project = new Project(null, "testProject");
-        ProjectManager.getInstance().setProject(project);
-        ProjectManager.getInstance().getCurrentProject().getUserVariables().addProjectUserVariable(TEST_USERVARIABLE);
-        userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-                .getUserVariable(TEST_USERVARIABLE, null);
-        super.setUp();
-    }
+	protected void setUp() throws Exception {
+		testSprite = new Sprite("testSprite");
+		project = new Project(null, "testProject");
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().getCurrentProject().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
+		userVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+				.getUserVariable(TEST_USERVARIABLE, null);
+		super.setUp();
+	}
 
 	public void testSetVariableWithNumericalFormula() {
-        ExtendedActions.setVariable(testSprite,new Formula(SET_VARIABLE_VALUE), userVariable).act(1f);
+		ExtendedActions.setVariable(testSprite, new Formula(SET_VARIABLE_VALUE), userVariable).act(1f);
 		assertEquals("Variable not changed", SET_VARIABLE_VALUE, userVariable.getValue());
 	}
 
 	public void testSetVariableWithInvalidUserVariable() {
-        ExtendedActions.setVariable(testSprite,new Formula(SET_VARIABLE_VALUE), null).act(1f);
+		ExtendedActions.setVariable(testSprite, new Formula(SET_VARIABLE_VALUE), null).act(1f);
 		assertEquals("Variable changed, but should not!", INITIALIZED_VALUE, userVariable.getValue());
 	}
 
 	public void testSetVariableWithNumericalStringFormula() {
 
-        String myString = "155";
-        ExtendedActions.setVariable(testSprite,new Formula(myString), userVariable).act(1f);
-		assertEquals("String UserVariable not changed!", Double.valueOf(myString), userVariable.getValue());
+		String myString = "155";
+		ExtendedActions.setVariable(testSprite, new Formula(myString), userVariable).act(1f);
+		assertEquals("String UserVariable not changed!", myString, userVariable.getValue());
 	}
 
 	public void testSetVariableWithStringFormula() {
 		String myString = "myString";
-        ExtendedActions.setVariable(testSprite,new Formula(myString), userVariable).act(1f);
+		ExtendedActions.setVariable(testSprite, new Formula(myString), userVariable).act(1f);
 		assertEquals("String UserVariable not changed!", myString, (String) userVariable.getValue());
 	}
 
 	public void testNullFormula() {
-        ExtendedActions.setVariable(testSprite, null, userVariable).act(1f);
+		ExtendedActions.setVariable(testSprite, null, userVariable).act(1f);
 		assertEquals("String UserVariable not changed!", 0d, userVariable.getValue());
 	}
 
 	public void testNotANumberFormula() {
-        ExtendedActions.setVariable(testSprite,new Formula(Double.NaN), userVariable).act(1f);
+		ExtendedActions.setVariable(testSprite, new Formula(Double.NaN), userVariable).act(1f);
 		assertEquals("String UserVariable not changed!", Double.NaN, userVariable.getValue());
 	}
 }

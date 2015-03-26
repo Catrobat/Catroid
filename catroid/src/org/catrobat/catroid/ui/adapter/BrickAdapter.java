@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -397,7 +397,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 						positionOfUserbrickInScript++;
 					}
 				}
-				for (int parameterIndex = 0; parameterIndex < ProjectManager.getInstance().getCurrentProject().getUserVariables().getOrCreateVariableListForUserBrick(((UserBrick) draggedBrick).getUserBrickId()).size(); parameterIndex++) {
+				for (int parameterIndex = 0; parameterIndex < ProjectManager.getInstance().getCurrentProject().getDataContainer().getOrCreateVariableListForUserBrick(((UserBrick) draggedBrick).getUserBrickId()).size(); parameterIndex++) {
 					((UserBrick) draggedBrick).addUserBrickPositionToParameter(Pair.create(positionOfUserbrickInScript, parameterIndex));
 				}
 
@@ -410,7 +410,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener,
 						frequencyOfEqualFirstParameters++;
 					}
 				}
-				if (frequencyOfEqualFirstParameters != ProjectManager.getInstance().getCurrentProject().getUserVariables().getOrCreateVariableListForUserBrick(((UserBrick) draggedBrick).getUserBrickId()).size()) {
+				if (frequencyOfEqualFirstParameters != ProjectManager.getInstance().getCurrentProject().getDataContainer().getOrCreateVariableListForUserBrick(((UserBrick) draggedBrick).getUserBrickId()).size()) {
 					for (int userBrickPosition = positionOfUserbrickInScript; userBrickPosition < numberOfUserBricksInScript; userBrickPosition++) {
 						Pair<Integer, Integer> userBrickPositionToParameter = ((UserBrick) draggedBrick).getUserBrickPositionToParameter().get(userBrickPosition);
 						if (userBrickPositionToParameter.first >= userBrickPosition) {

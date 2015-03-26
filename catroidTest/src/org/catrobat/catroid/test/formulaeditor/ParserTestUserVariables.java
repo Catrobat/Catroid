@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,12 +30,12 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
-import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -51,17 +51,14 @@ public class ParserTestUserVariables extends AndroidTestCase {
 	private static final double USER_VARIABLE_RESET = 0.0d;
 	private static final String USER_VARIABLE_3_VALUE_TYPE_STRING = "My Little User Variable";
 	private static final String PROJECT_USER_VARIABLE_2 = "projectUserVariable2";
-	private Project project;
 	private Sprite firstSprite;
-	private StartScript startScript;
-	private ChangeSizeByNBrick changeBrick;
 
 	@Override
 	protected void setUp() {
-		this.project = new Project(null, "testProject");
+		Project project = new Project(null, "testProject");
 		firstSprite = new Sprite("firstSprite");
-		startScript = new StartScript();
-		changeBrick = new ChangeSizeByNBrick(10);
+		StartScript startScript = new StartScript();
+		ChangeSizeByNBrick changeBrick = new ChangeSizeByNBrick(10);
 		firstSprite.addScript(startScript);
 		startScript.addBrick(changeBrick);
 		project.addSprite(firstSprite);
@@ -69,14 +66,14 @@ public class ParserTestUserVariables extends AndroidTestCase {
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 		UserBrick userBrick = new UserBrick(0);
 		ProjectManager.getInstance().setCurrentUserBrick(userBrick);
-		UserVariablesContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()
-				.getUserVariables();
+		DataContainer userVariableContainer = ProjectManager.getInstance().getCurrentProject()
+				.getDataContainer();
 		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE).setValue(USER_VARIABLE_1_VALUE_TYPE_DOUBLE);
 		userVariableContainer.addSpriteUserVariableToSprite(firstSprite, SPRITE_USER_VARIABLE).setValue(
 				USER_VARIABLE_2_VALUE_TYPE_DOUBLE);
 		userVariableContainer.addProjectUserVariable(PROJECT_USER_VARIABLE_2).setValue(
 				USER_VARIABLE_3_VALUE_TYPE_STRING);
-		userVariableContainer.addUserBrickUserVariableToUserBrick(0, USER_BRICK_VARIABLE, Double.valueOf(0))
+		userVariableContainer.addUserBrickUserVariableToUserBrick(0, USER_BRICK_VARIABLE, 0d)
 				.setValue(USER_VARIABLE_VALUE3);
 	}
 
@@ -92,7 +89,7 @@ public class ParserTestUserVariables extends AndroidTestCase {
 	}
 
 	public void testUserVariableReseting() {
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().resetAllUserVariables();
+		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
 
 		assertEquals("ProjectUserVariable did not reset", USER_VARIABLE_RESET,
                 interpretUservariable(PROJECT_USER_VARIABLE));
@@ -105,14 +102,7 @@ public class ParserTestUserVariables extends AndroidTestCase {
 	}
 
 	public void testNotExistingUservariable() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
-		internTokenList.add(new InternToken(InternTokenType.USER_VARIABLE, "NOT_EXISTING_USER_VARIABLE"));
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
-
-		assertNull("Invalid user variable parsed:   NOT_EXISTING_USER_VARIABLE)", parseTree);
-		int errorTokenIndex = internParser.getErrorTokenIndex();
-		assertEquals("Error Token Index is not as expected", 0, errorTokenIndex);
+		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.USER_VARIABLE, "NOT_EXISTING_USER_VARIABLE", 0);
 	}
 
 	private Object interpretUservariable(String userVariableName) {

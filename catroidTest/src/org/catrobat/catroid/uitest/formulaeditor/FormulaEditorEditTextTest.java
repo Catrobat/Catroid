@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,8 @@ import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import com.github.johnpersano.supertoasts.SuperToast;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -415,13 +417,15 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
-
 		assertTrue("Toast not found", solo.searchText(solo.getString(R.string.formula_editor_parse_fail)));
+
+		solo.sleep(SuperToast.Duration.SHORT);
+		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_ok));
-
-		solo.sleep(50);
 		assertTrue("Toast not found", solo.searchText(solo.getString(R.string.formula_editor_parse_fail)));
+
+		solo.sleep(SuperToast.Duration.SHORT);
 		solo.clickOnView(solo.getView(R.id.formula_editor_edit_field_clear));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_1));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_plus));
@@ -445,7 +449,8 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		Rect editfieldRect = new Rect();
 		editField.getGlobalVisibleRect(editfieldRect);
 
-		for (int index = 1; index < 20; index++) {
+
+		for (int index = 10; index < 20; index++) {
 			solo.clickOnScreen(100f, editfieldRect.bottom - index);
 
 		}

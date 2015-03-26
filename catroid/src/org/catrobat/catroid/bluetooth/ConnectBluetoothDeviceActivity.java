@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,7 +41,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
@@ -51,6 +50,7 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDeviceFactory;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -198,13 +198,13 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 			}
 			else if (autoConnect) {
 				Log.i(TAG, "auto connect wasn't successful, show available devices instead.");
-				Toast.makeText(ConnectBluetoothDeviceActivity.this, R.string.bt_auto_connection_failed, Toast.LENGTH_SHORT).show();
+				ToastUtil.showError(ConnectBluetoothDeviceActivity.this, R.string.bt_auto_connection_failed);
 				ConnectBluetoothDeviceActivity.this.setVisible(true);
 				autoConnect = false;
 				return;
 			}
 			else {
-				Toast.makeText(ConnectBluetoothDeviceActivity.this, R.string.bt_connection_failed, Toast.LENGTH_SHORT).show();
+				ToastUtil.showError(ConnectBluetoothDeviceActivity.this, R.string.bt_connection_failed);
 			}
 
 			setResult(result);
@@ -334,7 +334,7 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 
 		int bluetoothState = btManager.activateBluetooth();
 		if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED) {
-			Toast.makeText(this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
+			ToastUtil.showError(this, R.string.notification_blueth_err);
 			setResult(Activity.RESULT_CANCELED);
 			finish();
 		}
@@ -351,7 +351,7 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 				listAndSelectDevices();
 				break;
 			case Activity.RESULT_CANCELED:
-				Toast.makeText(this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
+				ToastUtil.showError(this, R.string.notification_blueth_err);
 				setResult(Activity.RESULT_CANCELED);
 				finish();
 				break;

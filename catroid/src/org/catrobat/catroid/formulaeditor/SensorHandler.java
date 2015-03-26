@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -105,24 +105,24 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		if (instance.sensorManager == null) {
 			return 0d;
 		}
-		Double sensorValue = 0.0;
+		Double sensorValue;
 		switch (sensor) {
 
 			case X_ACCELERATION:
-				return Double.valueOf(instance.linearAcceleartionX);
+				return (double) instance.linearAcceleartionX;
 
 			case Y_ACCELERATION:
-				return Double.valueOf(instance.linearAcceleartionY);
+				return (double) instance.linearAcceleartionY;
 
 			case Z_ACCELERATION:
-				return Double.valueOf(instance.linearAcceleartionZ);
+				return (double) instance.linearAcceleartionZ;
 
 			case COMPASS_DIRECTION:
 				float[] orientations = new float[3];
 				android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
 						instance.rotationVector);
 				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
-				sensorValue = Double.valueOf(orientations[0]);
+				sensorValue = (double) orientations[0];
 				return sensorValue * RADIAN_TO_DEGREE_CONST * -1f;
 
 			case X_INCLINATION:
@@ -131,7 +131,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
 						instance.rotationVector);
 				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
-				sensorValue = Double.valueOf(orientations[2]);
+				sensorValue = (double) orientations[2];
 				return sensorValue * RADIAN_TO_DEGREE_CONST * -1f;
 
 			case Y_INCLINATION:
@@ -142,7 +142,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 				float xInclinationUsedToExtendRangeOfRoll = orientations[2] * RADIAN_TO_DEGREE_CONST * -1f;
 
-				sensorValue = Double.valueOf(orientations[1]);
+				sensorValue = (double) orientations[1];
 
 				if (Math.abs(xInclinationUsedToExtendRangeOfRoll) <= 90f) {
 					return sensorValue * RADIAN_TO_DEGREE_CONST * -1f;
@@ -156,16 +156,16 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					}
 				}
 			case FACE_DETECTED:
-				return Double.valueOf(instance.faceDetected);
+				return (double) instance.faceDetected;
 			case FACE_SIZE:
-				return Double.valueOf(instance.faceSize);
+				return (double) instance.faceSize;
 			case FACE_X_POSITION:
-				return Double.valueOf(instance.facePositionX);
+				return (double) instance.facePositionX;
 			case FACE_Y_POSITION:
-				return Double.valueOf(instance.facePositionY);
+				return (double) instance.facePositionY;
 
 			case LOUDNESS:
-				return Double.valueOf(instance.loudness);
+				return (double) instance.loudness;
 		}
 		return 0d;
 	}

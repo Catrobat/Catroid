@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,8 @@ public final class Constants {
 
 	// Reflection in testcases needed
 	// http://stackoverflow.com/questions/1615163/modifying-final-fields-in-java?answertab=votes#tab-top
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.92f);
+
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = Float.valueOf(0.94f);
 
 	public static final String PLATFORM_NAME = "Android";
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build

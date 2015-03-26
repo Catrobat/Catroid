@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -192,8 +192,8 @@ public class BrickCloneTest extends AndroidTestCase {
 		project.addSprite(sprite);
 		StartScript script = new StartScript();
 		sprite.addScript(script);
-		project.getUserVariables().addSpriteUserVariableToSprite(sprite, VARIABLE_NAME);
-		UserVariable spriteVariable = project.getUserVariables().getUserVariable(VARIABLE_NAME, sprite);
+		project.getDataContainer().addSpriteUserVariableToSprite(sprite, VARIABLE_NAME);
+		UserVariable spriteVariable = project.getDataContainer().getUserVariable(VARIABLE_NAME, sprite);
 		Formula formula = new Formula(new FormulaElement(ElementType.USER_VARIABLE, VARIABLE_NAME, null));
 
 		// create brick - expects:
@@ -209,7 +209,7 @@ public class BrickCloneTest extends AndroidTestCase {
 		Sprite clonedSprite = sprite.clone();
 		@SuppressWarnings("unchecked")
 		T clonedBrick = (T) clonedSprite.getScript(0).getBrick(0);
-		UserVariable clonedVariable = project.getUserVariables().getUserVariable(VARIABLE_NAME, clonedSprite);
+		UserVariable clonedVariable = project.getDataContainer().getUserVariable(VARIABLE_NAME, clonedSprite);
 		UserVariable clonedVariableFromBrick = (UserVariable) Reflection.getPrivateField(clonedBrick, "userVariable");
 
 		// check them

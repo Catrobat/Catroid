@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,7 +45,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.ActionMode;
@@ -58,7 +57,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
@@ -373,12 +372,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		projectManager.setCurrentSprite(copiedSprite);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_CHANGED));
-
-		Toast.makeText(
-				getActivity(),
-				this.getString(R.string.copy_sprite_prefix).concat(" ").concat(spriteToEdit.getName()).concat(" ")
-						.concat(this.getString(R.string.copy_sprite_finished)), Toast.LENGTH_LONG).show();
-
 		Log.d("Sprite copied", copiedSprite.toString());
 	}
 
@@ -434,10 +427,12 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	public void deleteSprite() {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		UserVariablesContainer userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
+		DataContainer dataContainer = projectManager.getCurrentProject().getDataContainer();
 
 		deleteSpriteFiles();
-		userVariablesContainer.cleanVariableListForSprite(spriteToEdit);
+		dataContainer.cleanVariableListForSprite(spriteToEdit);
+		dataContainer.cleanUserListForSprite(spriteToEdit);
+
 
 		if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
 			projectManager.setCurrentSprite(null);

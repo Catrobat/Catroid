@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -63,15 +63,6 @@ public class ParserTestErrorDedection extends AndroidTestCase {
 		assertNull("Invalid formula parsed: + -", parseTree);
 		errorTokenIndex = internParser.getErrorTokenIndex();
 		assertEquals("Error Token Index is not as expected", 1, errorTokenIndex);
-
-		internTokenList = new LinkedList<InternToken>();
-		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MULT.name()));
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "42.53"));
-		internParser = new InternFormulaParser(internTokenList);
-		parseTree = internParser.parseFormula();
-		assertNull("Invalid formula parsed:  * 42.53", parseTree);
-		errorTokenIndex = internParser.getErrorTokenIndex();
-		assertEquals("Error Token Index is not as expected", 0, errorTokenIndex);
 
 		internTokenList = new LinkedList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,7 +45,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
@@ -74,6 +73,7 @@ import org.catrobat.catroid.ui.dialogs.DeleteLookDialog;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
 import org.catrobat.catroid.utils.UiUtils;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
@@ -393,13 +393,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		//TODO: allow recursive userbricks if its possible
 		if (adapter.getUserBrick() != null && brickToBeAdded instanceof UserBrick) {// && ((UserBrick) brickToBeAdded).getDefinitionBrick().equals(ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick())) {
-			Toast toast = null;
-			if (toast == null || toast.getView().getWindowVisibility() != View.VISIBLE) {
-				toast = Toast.makeText(getActivity().getApplicationContext(), R.string.recursive_user_brick_forbidden, Toast.LENGTH_LONG);
-			} else {
-				toast.setText(R.string.recursive_user_brick_forbidden);
-			}
-			toast.show();
+			ToastUtil.showError(getActivity().getApplicationContext(), R.string.recursive_user_brick_forbidden);
 		} else {
 			adapter.addNewBrick(position, brickToBeAdded, true);
 			adapter.notifyDataSetChanged();
@@ -714,7 +708,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			adapter.notifyDataSetChanged();
 		} catch (CloneNotSupportedException exception) {
 			Log.e(getTag(), "Copying a Brick failed", exception);
-			Toast.makeText(getActivity(), R.string.error_copying_brick, Toast.LENGTH_SHORT).show();
+			ToastUtil.showError(getActivity(), R.string.error_copying_brick);
 		}
 	}
 

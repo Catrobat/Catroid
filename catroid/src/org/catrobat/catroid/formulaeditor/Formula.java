@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -89,7 +89,7 @@ public class Formula implements Serializable {
 
 	public void updateVariableReferences(String oldName, String newName, Context context) {
 		internFormula.updateVariableReferences(oldName, newName, context);
-		formulaTree.updateVariableReferences(oldName, newName, context);
+		formulaTree.updateVariableReferences(oldName, newName);
 		displayText = null;
 	}
 
@@ -104,7 +104,7 @@ public class Formula implements Serializable {
 
 	public Boolean interpretBoolean(Sprite sprite) throws InterpretationException{
 		int result = interpretDouble(sprite).intValue();
-		return result != 0 ? true : false;
+		return result != 0;
 	}
 
 	public Integer interpretInteger(Sprite sprite) throws InterpretationException {
@@ -113,15 +113,29 @@ public class Formula implements Serializable {
 	}
 
 	public Double interpretDouble(Sprite sprite) throws InterpretationException {
-        try{
-            Double returnValue = (Double) formulaTree.interpretRecursive(sprite);
-            if (returnValue.isNaN()) {
-                throw new InterpretationException("NaN in interpretDouble()");
-            }
-            return returnValue;
-        }catch(ClassCastException classCastException){
-            throw new InterpretationException("Couldn't interpret Formula.", classCastException);
-        }
+		try{
+			Object returnValue = formulaTree.interpretRecursive(sprite);
+			Double doubleReturnValue;
+			if (returnValue instanceof String) {
+				doubleReturnValue = Double.valueOf((String)returnValue);
+				if (doubleReturnValue.isNaN()) {
+					throw new InterpretationException("NaN in interpretDouble()");
+				}
+				return doubleReturnValue;
+			}
+			else{
+				doubleReturnValue = (Double)returnValue;
+				if (doubleReturnValue.isNaN()) {
+					throw new InterpretationException("NaN in interpretDouble()");
+				}
+				return (Double)returnValue;
+			}
+		}catch(ClassCastException classCastException){
+			throw new InterpretationException("Couldn't interpret Formula.", classCastException);
+		}
+		catch(NumberFormatException numberFormatException){
+			throw new InterpretationException("Couldn't interpret Formula.", numberFormatException);
+		}
 	}
 
 	public Float interpretFloat(Sprite sprite) throws InterpretationException{
@@ -183,8 +197,8 @@ public class Formula implements Serializable {
 	}
 
 	@SuppressWarnings("deprecation")
-	public void highlightTextField(View brickView, int orientation) {
-		Drawable highlightBackground = null;
+	public void highlightTextField(View brickView) {
+		Drawable highlightBackground;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			highlightBackground = brickView.getResources().getDrawable(R.drawable.textfield_pressed_android4);
 		} else {
@@ -205,11 +219,7 @@ public class Formula implements Serializable {
 	}
 
 	public boolean containsElement(FormulaElement.ElementType elementType) {
-		if (formulaTree.containsElement(elementType)) {
-			return true;
-		}
-
-		return false;
+		return formulaTree.containsElement(elementType);
 	}
 
 	public boolean isSingleNumberFormula() {
@@ -227,7 +237,6 @@ public class Formula implements Serializable {
 
 	public void removeVariableReferences(String name, Context context) {
 		internFormula.removeVariableReferences(name, context);
-
 	}
 
 	public int getRequiredResources() {
@@ -235,7 +244,6 @@ public class Formula implements Serializable {
 	}
 
 	public String getResultForComputeDialog(Context context) {
-
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 
 		if (formulaTree.isLogicalOperator()) {
@@ -247,14 +255,14 @@ public class Formula implements Serializable {
             }
 			int logicalFormulaResultIdentifier = result ? R.string.formula_editor_true : R.string.formula_editor_false;
 			return context.getString(logicalFormulaResultIdentifier);
-		} else if (formulaTree.hasFunctionStringReturnType() || formulaTree.getElementType() == ElementType.STRING) {
+		} else if (formulaTree.getElementType() == ElementType.STRING) {
 			try{
                 return interpretString(sprite);
             }catch (InterpretationException interpretationException){
                 return "ERROR";
             }
 		} else if (formulaTree.isUserVariableWithTypeString(sprite)) {
-			UserVariablesContainer userVariables = ProjectManager.getInstance().getCurrentProject().getUserVariables();
+			DataContainer userVariables = ProjectManager.getInstance().getCurrentProject().getDataContainer();
 			UserVariable userVariable = userVariables.getUserVariable(formulaTree.getValue(), sprite);
 			return (String) userVariable.getValue();
 		} else {
@@ -269,4 +277,5 @@ public class Formula implements Serializable {
 			return String.valueOf(interpretationResult);
 		}
 	}
+	
 }
