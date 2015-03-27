@@ -33,6 +33,7 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.devices.arduino.phiropro.PhiroPro;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.formulaeditor.Sensors;
@@ -110,6 +111,26 @@ public class PhiroProSensorAction extends Action {
 	public void setSensor(int sensorNumber)
 	{
 		this.sensorNumber =sensorNumber;
+		this.setIfCondition(new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR, getPhiroProSensorByNumber().name(), null )));
+	}
+
+	private Sensors getPhiroProSensorByNumber() {
+		switch (this.sensorNumber) {
+			case 0:
+				return Sensors.PHIRO_PRO_SIDE_RIGHT;
+			case 1:
+				return Sensors.PHIRO_PRO_FRONT_RIGHT;
+			case 2:
+				return Sensors.PHIRO_PRO_BOTTOM_RIGHT;
+			case 3:
+				return Sensors.PHIRO_PRO_BOTTOM_LEFT;
+			case 4:
+				return Sensors.PHIRO_PRO_FRONT_LEFT;
+			case 5:
+				return Sensors.PHIRO_PRO_SIDE_LEFT;
+		}
+
+		return Sensors.PHIRO_PRO_SIDE_RIGHT;
 	}
 
 //	@Override

@@ -41,6 +41,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class PhiroProSensorBrick extends FormulaBrick implements NestingBrick, OnItemSelectedListener {
@@ -241,7 +242,15 @@ public class PhiroProSensorBrick extends FormulaBrick implements NestingBrick, O
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.phiroProSendSelectedSensor(sprite, sensorSpinnerPosition));
-		return null;
+		SequenceAction ifAction = ExtendedActions.sequence();
+		SequenceAction elseAction = ExtendedActions.sequence();
+
+		sequence.addAction(ExtendedActions.phiroProSendSelectedSensor(sprite, sensorSpinnerPosition, ifAction, elseAction));
+
+		List<SequenceAction> returnActionList = new LinkedList<SequenceAction>();
+		returnActionList.add(elseAction);
+		returnActionList.add(ifAction);
+
+		return returnActionList;
 	}
 }

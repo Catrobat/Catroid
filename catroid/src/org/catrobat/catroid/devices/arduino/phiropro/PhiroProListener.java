@@ -40,19 +40,19 @@ class PhiroProListener implements IFirmata.Listener {
 
 	private static final String TAG = PhiroProListener.class.getSimpleName();
 
-	private static final int frontLeftSensor = 0;
-	private static final int frontRightSensor = 1;
-	private static final int sideLeftSensor = 2;
-	private static final int sideRightSensor = 3;
-	private static final int bottomLeftSensor = 4;
-	private static final int bottomRightSensor = 5;
+	private int frontLeftSensor = 0;
+	private int frontRightSensor = 0;
+	private int sideLeftSensor = 0;
+	private int sideRightSensor = 0;
+	private int bottomLeftSensor = 0;
+	private int bottomRightSensor = 0;
 
-	private int[] counter = {0, 0, 0, 0, 0, 0};
-	private int[] values = {0, 0, 0, 0, 0, 0};
+//	private int[] counter = {0, 0, 0, 0, 0, 0};
+//	private int[] values = {0, 0, 0, 0, 0, 0};
+//
+//	private int[] avg_sensor_values = {0, 0, 0, 0, 0, 0};
 
-	private int[] avg_sensor_values = {0, 0, 0, 0, 0, 0};
-
-	private static final int AVG_INTERVAL = 10;
+//	private static final int AVG_INTERVAL = 10;
 
 	@Override
 	public void onAnalogMessageReceived(AnalogMessage message) {
@@ -61,42 +61,48 @@ class PhiroProListener implements IFirmata.Listener {
 			return;
 		}
 
+//		Log.d(TAG, String.format("Pin: %d | Value: %d", message.getPin() ,message.getValue()));
+
 		switch (message.getPin()) {
 			case PhiroProImpl.PIN_SENSOR_SIDE_RIGHT:
-				updateAnalogSensorValue(sideRightSensor, message);
+				sideRightSensor = message.getValue();
+				//updateAnalogSensorValue(sideRightSensor, message);
 				break;
 			case PhiroProImpl.PIN_SENSOR_FRONT_RIGHT:
-				updateAnalogSensorValue(frontRightSensor, message);
+				frontRightSensor = message.getValue();
+				//updateAnalogSensorValue(frontRightSensor, message);
 				break;
 			case PhiroProImpl.PIN_SENSOR_BOTTOM_RIGHT:
-				updateAnalogSensorValue(bottomRightSensor, message);
+				bottomRightSensor = message.getValue();
+//				updateAnalogSensorValue(bottomRightSensor, message);
 				break;
 			case PhiroProImpl.PIN_SENSOR_BOTTOM_LEFT:
-				updateAnalogSensorValue(bottomLeftSensor, message);
+				bottomLeftSensor = message.getValue();
+				//updateAnalogSensorValue(bottomLeftSensor, message);
 				break;
 			case PhiroProImpl.PIN_SENSOR_FRONT_LEFT:
-				updateAnalogSensorValue(frontLeftSensor, message);
+				frontLeftSensor = message.getValue();
+				//updateAnalogSensorValue(frontLeftSensor, message);
 				break;
 			case PhiroProImpl.PIN_SENSOR_SIDE_LEFT:
-				updateAnalogSensorValue(sideLeftSensor, message);
+				sideLeftSensor = message.getValue();
+				//updateAnalogSensorValue(sideLeftSensor, message);
 				break;
 
 		}
 
-//		Log.d(TAG, String.format("Received Analog Message: pin: %d, value: %d",
-//				message.getPin(), message.getValue()));
 	}
 
-	private synchronized void updateAnalogSensorValue(int sensor, AnalogMessage message) {
-		values[sensor] += message.getValue();
-		counter[sensor]++;
-
-		if (counter[sensor] >= AVG_INTERVAL) {
-			avg_sensor_values[sensor] = values[sensor] / AVG_INTERVAL;
-			values[sensor] = 0;
-			counter[sensor] = 0;
-		}
-	}
+//	private synchronized void updateAnalogSensorValue(int sensor, AnalogMessage message) {
+//		values[sensor] += message.getValue();
+//		counter[sensor]++;
+//
+//		if (counter[sensor] >= AVG_INTERVAL) {
+//			avg_sensor_values[sensor] = values[sensor] / AVG_INTERVAL;
+//			values[sensor] = 0;
+//			counter[sensor] = 0;
+//		}
+//	}
 
 	@Override
 	public void onDigitalMessageReceived(DigitalMessage message) {
@@ -137,26 +143,32 @@ class PhiroProListener implements IFirmata.Listener {
 	}
 
 	public int getFrontLeftSensor() {
-		return avg_sensor_values[frontLeftSensor];
+		//return avg_sensor_values[frontLeftSensor];
+		return frontLeftSensor;
 	}
 
 	public int getFrontRightSensor() {
-		return avg_sensor_values[frontRightSensor];
+		//return avg_sensor_values[frontRightSensor];
+		return frontRightSensor;
 	}
 
 	public int getSideLeftSensor() {
-		return avg_sensor_values[sideLeftSensor];
+//		return avg_sensor_values[sideLeftSensor];
+		return sideLeftSensor;
 	}
 
 	public int getSideRightSensor() {
-		return avg_sensor_values[sideRightSensor];
+		//return avg_sensor_values[sideRightSensor];
+		return sideRightSensor;
 	}
 
 	public int getBottomLeftSensor() {
-		return avg_sensor_values[bottomLeftSensor];
+//		return avg_sensor_values[bottomLeftSensor];
+		return bottomLeftSensor;
 	}
 
 	public int getBottomRightSensor() {
-		return avg_sensor_values[bottomRightSensor];
+//		return avg_sensor_values[bottomRightSensor];
+		return bottomRightSensor;
 	}
 }

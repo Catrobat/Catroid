@@ -233,10 +233,12 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static PhiroProSensorAction phiroProSendSelectedSensor(Sprite sprite, int sensorNumber) {
+	public static PhiroProSensorAction phiroProSendSelectedSensor(Sprite sprite, int sensorNumber, Action ifAction, Action elseAction) {
 		PhiroProSensorAction action = action(PhiroProSensorAction.class);
 		action.setSprite(sprite);
 		action.setSensor(sensorNumber);
+		action.setIfAction(ifAction);
+		action.setElseAction(elseAction);
 		return action;
 	}
 

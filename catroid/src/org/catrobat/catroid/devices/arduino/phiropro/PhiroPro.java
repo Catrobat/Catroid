@@ -28,23 +28,24 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 
 public interface PhiroPro extends BluetoothDevice {
 
-	public void playTone(int selected_tone, int duration);
+	void playTone(int toneFrequency, int duration);
 
-	public void moveLeftMotorForward(int speed);
-	public void moveLeftMotorBackward(int speed);
+	void moveLeftMotorForward(int speed);
+	void moveLeftMotorBackward(int speed);
 
-	public void moveRightMotorForward(int speed);
-	public void moveRightMotorBackward(int speed);
+	void moveRightMotorForward(int speed);
+	void moveRightMotorBackward(int speed);
 
-	public void stopLeftMotor();
-	public void stopRightMotor();
-	public void stopAllMovements();
+	void stopLeftMotor();
+	void stopRightMotor();
+	void stopAllMovements();
 
-	public void setLeftRGBLightColor(int red, int green, int blue);
-	public void setRightRGBLightColor(int red, int green, int blue);
+	void setLeftRGBLightColor(int red, int green, int blue);
+	void setRightRGBLightColor(int red, int green, int blue);
 
-	public void reportFirmwareVersion();
+	void reportFirmwareVersion();
 
-	public int getSensorValue(Sensors sensor);
+	int getSensorValue(Sensors sensor);
+	int getSensorValue(int numberFromBrick);
 
 }
