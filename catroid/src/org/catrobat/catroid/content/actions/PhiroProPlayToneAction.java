@@ -62,25 +62,25 @@ public class PhiroProPlayToneAction extends TemporalAction {
 
 		switch (toneEnum) {
 			case DO:
-				phiroPro.playTone(0, durationInterpretation);
+				phiroPro.playTone(262, durationInterpretation);
 				break;
 			case RE:
-				phiroPro.playTone(1, durationInterpretation);
+				phiroPro.playTone(294, durationInterpretation);
 				break;
 			case MI:
-				phiroPro.playTone(2, durationInterpretation);
+				phiroPro.playTone(330, durationInterpretation);
 				break;
 			case FA:
-				phiroPro.playTone(3, durationInterpretation);
+				phiroPro.playTone(349, durationInterpretation);
 				break;
 			case SO:
-				phiroPro.playTone(4, durationInterpretation);
+				phiroPro.playTone(392, durationInterpretation);
 				break;
 			case LA:
-				phiroPro.playTone(5, durationInterpretation);
+				phiroPro.playTone(440, durationInterpretation);
 				break;
 			case TI:
-				phiroPro.playTone(6, durationInterpretation);
+				phiroPro.playTone(494, durationInterpretation);
 				break;
 		}
 	}

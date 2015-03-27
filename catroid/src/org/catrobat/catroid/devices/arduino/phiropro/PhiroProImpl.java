@@ -42,6 +42,8 @@ import org.catrobat.catroid.devices.arduino.common.firmata.serial.StreamingSeria
 import org.catrobat.catroid.formulaeditor.Sensors;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 public class PhiroProImpl implements PhiroPro {
@@ -75,24 +77,35 @@ public class PhiroProImpl implements PhiroPro {
 	public static final int PIN_SENSOR_FRONT_LEFT = 4;
 	public static final int PIN_SENSOR_SIDE_LEFT = 5;
 
-	private static final int MIN_SENSOR_PIN = 14;
-	private static final int MAX_SENSOR_PIN = 19;
+	private static final int MIN_SENSOR_PIN = 0;
+	private static final int MAX_SENSOR_PIN = 5;
 
 	private BluetoothConnection btConnection;
 	private Firmata firmata;
 	private boolean isInitialized = false;
-
-	public PhiroProListener getPhiroProListener() {
-		return phiroProListener;
-	}
+	private boolean isReportingSensorData = false;
 
 	private PhiroProListener phiroProListener;
 
 
 	@Override
-	public void playTone(int selected_tone, int duration) {
-		sendAnalogFirmataMessage(PIN_SPEAKER_OUT,
-				BytesHelper.DECODE_BYTE(BytesHelper.LSB(selected_tone), BytesHelper.LSB(duration)) );
+	public synchronized void playTone(int selectedTone, int durationInSeconds) {
+		sendAnalogFirmataMessage(PIN_SPEAKER_OUT, selectedTone);
+
+		if (currentStopPlayToneTask != null) {
+			currentStopPlayToneTask.cancel();
+		}
+		currentStopPlayToneTask = new StopPlayToneTask();
+		timer.schedule(currentStopPlayToneTask, durationInSeconds * 1000);
+	}
+
+	Timer timer = new Timer();
+	TimerTask currentStopPlayToneTask = null;
+	private class StopPlayToneTask extends TimerTask {
+		@Override
+		public void run() {
+			sendAnalogFirmataMessage(PIN_SPEAKER_OUT, 0);
+		}
 	}
 
 	@Override
@@ -197,7 +210,8 @@ public class PhiroProImpl implements PhiroPro {
 	public void disconnect() {
 		try {
 			if (firmata != null) {
-				this.stopAllMovements();
+				resetPins();
+				this.reportSensorData(false);
 				firmata.clearListeners();
 				firmata.getSerial().stop();
 				firmata = null;
@@ -245,6 +259,25 @@ public class PhiroProImpl implements PhiroPro {
 		return 0;
 	}
 
+	public int getSensorValue(int numberFromBrick) {
+		switch (numberFromBrick) {
+			case 0:
+				return phiroProListener.getSideRightSensor();
+			case 1:
+				return phiroProListener.getFrontRightSensor();
+			case 2:
+				return phiroProListener.getBottomRightSensor();
+			case 3:
+				return phiroProListener.getBottomLeftSensor();
+			case 4:
+				return phiroProListener.getFrontLeftSensor();
+			case 5:
+				return phiroProListener.getSideRightSensor();
+		}
+
+		return 0;
+	}
+
 	@Override
 	public UUID getBluetoothDeviceUUID() {
 		return PHIRO_PRO_UUID;
@@ -280,12 +313,27 @@ public class PhiroProImpl implements PhiroPro {
 			sendFirmataMessage(new SetPinModeMessage(pin, SetPinModeMessage.PIN_MODE.PWM.getMode()));
 		}
 
-		//sendFirmataMessage(new ReportAnalogCapabilityMessage());
+		reportSensorData(true);
+	}
 
-		for (int pin = 0; pin <= 5; ++pin) {
-			//sendFirmataMessage(new SetPinModeMessage(MIN_SENSOR_PIN, SetPinModeMessage.PIN_MODE.ANALOG.getMode()));
-			sendFirmataMessage(new ReportAnalogPinMessage(pin, true));
+	private void reportSensorData(boolean report) {
+		if (isReportingSensorData == report) {
+			return;
 		}
+
+		isReportingSensorData = report;
+
+		for (int pin = MIN_SENSOR_PIN; pin <= MAX_SENSOR_PIN; ++pin) {
+			// sendFirmataMessage(new SetPinModeMessage(? maybe 54 ?, SetPinModeMessage.PIN_MODE.ANALOG.getMode())); // --> not needed
+			sendFirmataMessage(new ReportAnalogPinMessage(pin, report));
+		}
+	}
+
+	private void resetPins() {
+		stopAllMovements();
+		setLeftRGBLightColor(0, 0, 0);
+		setRightRGBLightColor(0, 0, 0);
+		playTone(0, 0);
 	}
 
 	@Override
@@ -293,16 +341,19 @@ public class PhiroProImpl implements PhiroPro {
 		if (isInitialized == false) {
 			initialise();
 		}
+
+		reportSensorData(true);
 	}
 
 	@Override
 	public void pause() {
 		stopAllMovements();
+		reportSensorData(false);
 	}
 
 	@Override
 	public void destroy() {
-
+		resetPins();
 	}
 
 	private void sendAnalogFirmataMessage(int pin, int value) {
