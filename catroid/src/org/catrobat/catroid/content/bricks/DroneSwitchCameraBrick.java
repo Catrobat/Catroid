@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2014 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,55 +20,46 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.catrobat.catroid.content.bricks;
+
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
+
 import java.util.List;
 
-/**
- * Created by Lukas on 24.03.2015.
- */
-
-
-
-public class DroneStartVideoBrick extends BrickBaseType {
+public class DroneSwitchCameraBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
-	public DroneStartVideoBrick() {
+	public DroneSwitchCameraBrick() {
 
 	}
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
-		DroneStartVideoBrick copyBrick = (DroneStartVideoBrick) clone();
+		DroneSwitchCameraBrick copyBrick = (DroneSwitchCameraBrick) clone();
 		return copyBrick;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_drone_start_video, null);
+		View prototypeView = View.inflate(context, R.layout.brick_drone_switch_camera, null);
 
 		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new DroneStartVideoBrick();
+		return new DroneSwitchCameraBrick();
 	}
 
 	@Override
@@ -79,12 +70,12 @@ public class DroneStartVideoBrick extends BrickBaseType {
 		if (view == null) {
 			alphaValue = 255;
 		}
-		view = View.inflate(context, R.layout.brick_drone_start_video, null);
+		view = View.inflate(context, R.layout.brick_drone_switch_camera, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_drone_start_video_checkbox);
+		setCheckboxView(R.id.brick_drone_switch_camera_checkbox);
 		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				checked = isChecked;
@@ -98,7 +89,7 @@ public class DroneStartVideoBrick extends BrickBaseType {
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
 		if (view != null) {
-			View layout = view.findViewById(R.id.brick_drone_start_video);
+			View layout = view.findViewById(R.id.brick_drone_switch_camera);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 			this.alphaValue = (alphaValue);
@@ -106,18 +97,14 @@ public class DroneStartVideoBrick extends BrickBaseType {
 		return view;
 	}
 
+	@Override
+	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		sequence.addAction(ExtendedActions.droneSwitchCamera());
+		return null;
+	}
 
 	@Override
 	public int getRequiredResources() {
 		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
 	}
-
-
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.droneStartVideo(sprite));
-		return null;
-	}
-
 }
-
