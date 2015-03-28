@@ -131,4 +131,7 @@
   <!-- NewLine at the end of File -->
   <module name="NewlineAtEndOfFile"/>
 
+  <!-- Checks properties files for duplicated properties -->
+  <module name="UniqueProperties" />
+
 </module>
