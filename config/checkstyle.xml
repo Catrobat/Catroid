@@ -127,6 +127,7 @@
     <property name="fileExtensions" value="java" />
     <property name="lineSeparator" value="lf" />
   </module>
+  <module name="UniqueProperties" />
 
   <!-- For each spacing -->
   <module name="RegexpSingleline">
