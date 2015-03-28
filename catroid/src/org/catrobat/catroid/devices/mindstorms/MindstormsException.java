@@ -24,10 +24,10 @@ package org.catrobat.catroid.devices.mindstorms;
 
 public class MindstormsException extends RuntimeException {
 
-	private Exception innerException;
+	private final Exception innerException;
 
 	public MindstormsException(String message) {
-		super(message);
+		this(null, message);
 	}
 
 	public MindstormsException(Exception innerException, String message) {
@@ -35,8 +35,6 @@ public class MindstormsException extends RuntimeException {
 
 		this.innerException = innerException;
 	}
-
-	public MindstormsException() {}
 
 	public Exception getInnerException()
 	{
