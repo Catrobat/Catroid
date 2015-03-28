@@ -107,6 +107,7 @@
     <module name="TypecastParenPad" />
     <module name="EmptyBlock" />
     <module name="FallThrough" />
+    <module name="MutableException" />
   </module>
   
   <!-- For each spacing -->
