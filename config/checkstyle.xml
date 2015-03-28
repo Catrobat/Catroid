@@ -128,4 +128,7 @@
     <property name="influenceFormat" value="$2"/>
   </module>
 
+  <!-- NewLine at the end of File -->
+  <module name="NewlineAtEndOfFile"/>
+
 </module>
