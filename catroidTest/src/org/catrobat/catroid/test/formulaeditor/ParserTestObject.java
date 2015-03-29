@@ -84,8 +84,8 @@ public class ParserTestObject extends AndroidTestCase {
                 interpretSensor(Sensors.OBJECT_X), DELTA);
 		assertEquals("Formula interpretation is not as expected (y-Position)", LOOK_Y_POSITION,
                 interpretSensor(Sensors.OBJECT_Y), DELTA);
-		assertEquals("Formula interpretation is not as expected (ghosteffect)", LOOK_ALPHA,
-                interpretSensor(Sensors.OBJECT_GHOSTEFFECT), DELTA);
+		assertEquals("Formula interpretation is not as expected (transparency)", LOOK_ALPHA,
+                interpretSensor(Sensors.OBJECT_TRANSPARENCY), DELTA);
 		assertEquals("Formula interpretation is not as expected (brightness)", LOOK_BRIGHTNESS,
                 interpretSensor(Sensors.OBJECT_BRIGHTNESS), DELTA);
 		assertEquals("Formula interpretation is not as expected (size)", LOOK_SCALE,

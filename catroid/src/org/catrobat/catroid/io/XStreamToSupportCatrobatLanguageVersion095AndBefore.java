@@ -36,8 +36,8 @@ import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
-import org.catrobat.catroid.content.bricks.ChangeGhostEffectByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
@@ -79,9 +79,9 @@ import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
-import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
@@ -117,14 +117,14 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-public class XStreamToSupportCatrobatLanguageVersion094AndBefore extends XStream {
+public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream {
 
-	private static final String TAG = XStreamToSupportCatrobatLanguageVersion094AndBefore.class.getSimpleName();
+	private static final String TAG = XStreamToSupportCatrobatLanguageVersion095AndBefore.class.getSimpleName();
 
 	private HashMap<String, BrickInfo> brickInfoMap;
 	private HashMap<String, String> scriptInfoMap;
 
-	public XStreamToSupportCatrobatLanguageVersion094AndBefore(PureJavaReflectionProvider reflectionProvider) {
+	public XStreamToSupportCatrobatLanguageVersion095AndBefore(PureJavaReflectionProvider reflectionProvider) {
 		super(reflectionProvider);
 	}
 
@@ -163,9 +163,9 @@ public class XStreamToSupportCatrobatLanguageVersion094AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("changeBrightness", BrickField.BRIGHTNESS_CHANGE);
 		brickInfoMap.put("changeBrightnessByNBrick", brickInfo);
 
-		brickInfo = new BrickInfo(ChangeGhostEffectByNBrick.class.getSimpleName());
-		brickInfo.addBrickFieldToMap("changeGhostEffect", BrickField.TRANSPARENCY_CHANGE);
-		brickInfoMap.put("changeGhostEffectByNBrick", brickInfo);
+		brickInfo = new BrickInfo(ChangeTransparencyByNBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("changeTransparency", BrickField.TRANSPARENCY_CHANGE);
+		brickInfoMap.put("changeTransparencyByNBrick", brickInfo);
 
 		brickInfo = new BrickInfo(ChangeSizeByNBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("size", BrickField.SIZE_CHANGE);
@@ -284,13 +284,9 @@ public class XStreamToSupportCatrobatLanguageVersion094AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("brightness", BrickField.BRIGHTNESS);
 		brickInfoMap.put("setBrightnessBrick", brickInfo);
 
-		brickInfo = new BrickInfo(SetGhostEffectBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(SetTransparencyBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("transparency", BrickField.TRANSPARENCY);
-		brickInfoMap.put("setGhostEffectBrick", brickInfo);
-
-		brickInfo = new BrickInfo(SetGhostEffectBrick.class.getSimpleName());
-		brickInfo.addBrickFieldToMap("transparency", BrickField.TRANSPARENCY);
-		brickInfoMap.put("setGhostEffectBrick", brickInfo);
+		brickInfoMap.put("setTransparencyBrick", brickInfo);
 
 		brickInfo = new BrickInfo(SetLookBrick.class.getSimpleName());
 		brickInfoMap.put("setLookBrick", brickInfo);
@@ -570,6 +566,13 @@ public class XStreamToSupportCatrobatLanguageVersion094AndBefore extends XStream
 				for (int j = 0; j < brickListChildNodes.getLength(); j++) {
 					Node brickNode = brickListChildNodes.item(j);
 					Element newBrickNode = originalDocument.createElement("brick");
+
+					if (brickNode.getNodeName().equals("setGhostEffectBrick")){
+						originalDocument.renameNode(brickNode, brickNode.getNamespaceURI(), "setTransparencyBrick");
+					}
+					if (brickNode.getNodeName().equals("changeGhostEffectByNBrick")){
+						originalDocument.renameNode(brickNode, brickNode.getNamespaceURI(), "changeTransparencyByNBrick");
+					}
 
 					BrickInfo brickInfo = brickInfoMap.get(brickNode.getNodeName());
 					if (brickInfo != null) {
