@@ -28,7 +28,7 @@ import android.content.Intent;
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.test.utils.BaseActivityUnitTestCase;
-import org.catrobat.catroid.uitest.util.Reflection;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 public class StageActivityAudioFocusTest extends BaseActivityUnitTestCase<StageActivity> {
@@ -47,7 +47,7 @@ public class StageActivityAudioFocusTest extends BaseActivityUnitTestCase<StageA
 
 		StageActivity activity = startActivity(new Intent(Intent.ACTION_MAIN), null, null);
 		Instrumentation instrumentation = getInstrumentation();
-		StageAudioFocus stageAudioFocus = (StageAudioFocus)Reflection.getPrivateField(StageActivity.class, activity, "stageAudioFocus");
+		StageAudioFocus stageAudioFocus = (StageAudioFocus) Reflection.getPrivateField(StageActivity.class, activity, "stageAudioFocus");
 
 		Thread.sleep(400);
 		instrumentation.callActivityOnStart(activity);
