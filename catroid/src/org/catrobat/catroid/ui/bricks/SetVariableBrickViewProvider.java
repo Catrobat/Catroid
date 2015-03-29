@@ -24,14 +24,13 @@
 package org.catrobat.catroid.ui.bricks;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -97,7 +96,7 @@ public class SetVariableBrickViewProvider extends BrickViewProvider {
 					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_VARIABLE);
 
 					dialog.addVariableDialogListener(listener);
-					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
+					dialog.show(((FragmentActivity) view.getContext()).getSupportFragmentManager(),
 							NewDataDialog.DIALOG_FRAGMENT_TAG);
 					return true;
 				}
@@ -111,7 +110,7 @@ public class SetVariableBrickViewProvider extends BrickViewProvider {
 				if (position == 0 && ((UserVariableAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) parent, NewDataDialog.DialogType.USER_VARIABLE);
 					dialog.addVariableDialogListener(listener);
-					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
+					dialog.show(((FragmentActivity) view.getContext()).getSupportFragmentManager(),
 							NewDataDialog.DIALOG_FRAGMENT_TAG);
 				}
 				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
