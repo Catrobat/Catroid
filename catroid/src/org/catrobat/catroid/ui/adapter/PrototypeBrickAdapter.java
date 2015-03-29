@@ -39,14 +39,13 @@ import org.catrobat.catroid.ui.CheckableLinearLayout;
 import org.catrobat.catroid.ui.bricks.BrickViewProvider;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 
 public class PrototypeBrickAdapter extends BaseAdapter implements CheckableLinearLayout.OnCheckedChangeListener {
 
-	private List<Brick> brickList = new ArrayList<Brick>();
-	private LinkedHashSet<Class<? extends Brick>> viewTypes = new LinkedHashSet<Class<? extends Brick>>();
+	private final List<Brick> brickList = new ArrayList<Brick>();
+	private final List<Class<? extends Brick>> viewTypes = new ArrayList<Class<? extends Brick>>();
 	private OnBrickCheckedListener onBrickCheckedListener;
 	private BrickViewProvider brickViewProvider;
 	private boolean useSelection;
@@ -55,7 +54,6 @@ public class PrototypeBrickAdapter extends BaseAdapter implements CheckableLinea
 		this.brickList.clear();
 		this.brickList.addAll(brickList);
 
-		viewTypes.clear();
 		for (Brick brick : brickList) {
 			if (!viewTypes.contains(brick.getClass())) {
 				viewTypes.add(brick.getClass());
@@ -91,15 +89,15 @@ public class PrototypeBrickAdapter extends BaseAdapter implements CheckableLinea
 	@Override
 	public int getViewTypeCount() {
 		/*Can't have a viewTypeCount < 1*/
-		return viewTypes == null || viewTypes.isEmpty() ? /*display empty view in this case*/ 1 : viewTypes.size();
+		return viewTypes.isEmpty() ? /*display empty view in this case*/ 1 : viewTypes.size();
 	}
-
 
 	@Override
 	public int getItemViewType(int position) {
-		return brickList.get(position).getClass().hashCode();
+		Brick brick = brickList.get(position);
+		Class<? extends Brick> brickClass = brick.getClass();
+		return viewTypes.indexOf(brickClass);
 	}
-
 
 	public List<Brick> getBrickList() {
 		return brickList;
