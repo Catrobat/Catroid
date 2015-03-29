@@ -64,11 +64,6 @@
             android:text="@string/brick_replace_item_in_userlist_item_at_index" />
 
         <TextView
-            android:id="@+id/brick_replace_item_in_userlist_at_index_prototype_view"
-            style="@style/BrickPrototypeTextView"
-            android:layout_width="match_parent" />
-
-        <TextView
             android:id="@+id/brick_replace_item_in_userlist_at_index_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"
@@ -78,11 +73,6 @@
             android:id="@+id/brick_replace_item_in_userlist_with_value_textview"
             style="@style/BrickText.SingleLine"
             android:text="@string/brick_replace_item_in_userlist_with_value" />
-
-        <TextView
-            android:id="@+id/brick_replace_item_in_userlist_value_prototype_view"
-            style="@style/BrickPrototypeTextView"
-            android:layout_width="match_parent" />
 
         <TextView
             android:id="@+id/brick_replace_item_in_userlist_value_edit_text"

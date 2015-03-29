@@ -36,6 +36,7 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.AllowedAfterDeadEndBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
@@ -50,6 +51,7 @@ import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
 import org.catrobat.catroid.content.bricks.DroneLandBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
@@ -74,6 +76,7 @@ import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
+import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.LedOffBrick;
 import org.catrobat.catroid.content.bricks.LedOnBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
@@ -90,6 +93,7 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
@@ -373,6 +377,22 @@ public class BrickViewProvider {
 			view = createLegoNxtMotorActionBrickView((LegoNxtMotorActionBrick) brick, parent);
 		} else if (brick instanceof LegoNxtMotorStopBrick) {
 			view = createLegoNxtMotorStopBrickView((LegoNxtMotorStopBrick) brick, parent);
+		} else if (brick instanceof AddItemToUserListBrick) {
+			AddItemToUserListBrickViewProvider factory = new AddItemToUserListBrickViewProvider(context, inflater);
+			factory.setPrototypeLayout(prototypeLayout);
+			view = factory.createAddItemToUserListBrickView((AddItemToUserListBrick) brick, parent);
+		} else if (brick instanceof DeleteItemOfUserListBrick) {
+			DeleteItemOfUserListBrickViewProvider factory = new DeleteItemOfUserListBrickViewProvider(context, inflater);
+			factory.setPrototypeLayout(prototypeLayout);
+			view = factory.createDeleteItemToUserListBrickView((DeleteItemOfUserListBrick) brick, parent);
+		} else if (brick instanceof InsertItemIntoUserListBrick) {
+			InsertItemIntoUserListBrickViewProvider factory = new InsertItemIntoUserListBrickViewProvider(context, inflater);
+			factory.setPrototypeLayout(prototypeLayout);
+			view = factory.createInsertItemIntoUserListBrickView((InsertItemIntoUserListBrick) brick, parent);
+		} else if (brick instanceof ReplaceItemInUserListBrick) {
+			ReplaceItemInUserListBrickViewProvider factory = new ReplaceItemInUserListBrickViewProvider(context, inflater);
+			factory.setPrototypeLayout(prototypeLayout);
+			view = factory.createReplaceItemInUserListBrickView((ReplaceItemInUserListBrick) brick, parent);
 		} else if (brick instanceof ChangeVariableBrick) {
 			ChangeVariableBrickViewProvider factory = new ChangeVariableBrickViewProvider(context, inflater);
 			factory.setPrototypeLayout(prototypeLayout);
