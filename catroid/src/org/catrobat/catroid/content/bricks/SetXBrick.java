@@ -49,14 +49,17 @@ public class SetXBrick extends FormulaBrick {
 	private transient View prototypeView;
 
 	public SetXBrick() {
+		super();
 		addAllowedBrickField(BrickField.X_POSITION);
 	}
 
 	public SetXBrick(int xPositionValue) {
+		super();
 		initializeBrickFields(new Formula(xPositionValue));
 	}
 
 	public SetXBrick(Formula xPosition) {
+		super();
 		initializeBrickFields(xPosition);
 	}
 
@@ -117,7 +120,7 @@ public class SetXBrick extends FormulaBrick {
 			editX.setTextColor(editX.getTextColors().withAlpha(alphaValue));
 			editX.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

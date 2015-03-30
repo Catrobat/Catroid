@@ -49,7 +49,7 @@ public class FaceDetectionStartStopTest extends BaseActivityInstrumentationTestC
 	private static final int SLEEP_TIME = 1200;
 
 	private Project projectFaceDetection;
-	Sprite sprite;
+	private Sprite sprite;
 
 	public FaceDetectionStartStopTest() {
 		super(MainMenuActivity.class);

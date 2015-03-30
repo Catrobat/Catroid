@@ -46,9 +46,6 @@ public class NewStringDialog extends SherlockDialogFragment {
 	public static final String DIALOG_FRAGMENT_TAG = NewStringDialog.class.getSimpleName();
 	private EditText newStringEditText;
 
-	public NewStringDialog() {
-	}
-
 	public static NewStringDialog newInstance(){
 		return new NewStringDialog();
 	}

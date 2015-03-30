@@ -55,6 +55,7 @@ public class XMLValidatingTest extends AndroidTestCase {
 	private String testProjectName = "xmlTestProjectName";
 
 	public XMLValidatingTest() throws IOException {
+		super();
 	}
 
 	@Override

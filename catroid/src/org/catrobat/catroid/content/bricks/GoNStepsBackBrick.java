@@ -53,14 +53,17 @@ public class GoNStepsBackBrick extends FormulaBrick {
 	private transient View prototypeView;
 
 	public GoNStepsBackBrick() {
+		super();
 		addAllowedBrickField(BrickField.STEPS);
 	}
 
 	public GoNStepsBackBrick(int stepsValue) {
+		super();
 		initializeBrickFields(new Formula(stepsValue));
 	}
 
 	public GoNStepsBackBrick(Formula steps) {
+		super();
 		initializeBrickFields(steps);
 	}
 
@@ -146,7 +149,7 @@ public class GoNStepsBackBrick extends FormulaBrick {
 			View layout = view.findViewById(R.id.brick_go_back_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 			TextView hideLabel = (TextView) view.findViewById(R.id.brick_go_back_label);
 			TextView hideLayers = (TextView) view.findViewById(R.id.brick_go_back_layers_text_view);

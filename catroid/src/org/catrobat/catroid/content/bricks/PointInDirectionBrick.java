@@ -64,18 +64,22 @@ public class PointInDirectionBrick extends FormulaBrick {
 	}
 
 	public PointInDirectionBrick() {
+		super();
 		addAllowedBrickField(BrickField.DEGREES);
 	}
 
 	public PointInDirectionBrick(Direction direction) {
+		super();
 		initializeBrickFields(new Formula(direction.getDegrees()));
 	}
 
 	public PointInDirectionBrick(Formula direction) {
+		super();
 		initializeBrickFields(direction);
 	}
 
 	public PointInDirectionBrick(double direction) {
+		super();
 		initializeBrickFields(new Formula(direction));
 	}
 
@@ -146,7 +150,7 @@ public class PointInDirectionBrick extends FormulaBrick {
 			setAngleTextView.setTextColor(setAngleTextView.getTextColors().withAlpha(alphaValue));
 			setAngleTextView.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

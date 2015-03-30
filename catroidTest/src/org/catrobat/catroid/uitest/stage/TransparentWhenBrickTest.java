@@ -49,7 +49,7 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 	private final int screenHeight = 800;
 	private final String catFilename = "catroid_sunglasses.png";
 	private final String fishFilename = "fish.jpg";
-	SetTransparencyBrick setTransparencyBrick;
+	private SetTransparencyBrick setTransparencyBrick;
 	private int catXPosition = 60;
 	private int catYPosition = 150;
 	private int fishXPosition = -60;

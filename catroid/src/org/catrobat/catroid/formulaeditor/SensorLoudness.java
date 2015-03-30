@@ -44,11 +44,12 @@ public final class SensorLoudness {
 	private float lastValue = 0f;
 
 	private SensorLoudness() {
+		super();
 		handler = new Handler();
 		recorder = new SoundRecorder("/dev/null");
 	}
 
-    Runnable statusChecker = new Runnable() {
+    private Runnable statusChecker = new Runnable() {
         @Override
         public void run() {
             float[] loudness = new float[1];

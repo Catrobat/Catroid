@@ -37,9 +37,9 @@ public class GlideToActionTest extends AndroidTestCase {
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private static final String NOT_NUMERICAL_STRING2 = "NOT_NUMERICAL_STRING2";
 	private static final String NOT_NUMERICAL_STRING3 = "NOT_NUMERICAL_STRING3";
-	Formula xPosition = new Formula(X_POSITION);
-	Formula yPosition = new Formula(Y_POSITION);
-	Formula duration = new Formula(DURATION);
+	private Formula xPosition = new Formula(X_POSITION);
+	private Formula yPosition = new Formula(Y_POSITION);
+	private Formula duration = new Formula(DURATION);
     private Sprite sprite;
 
     @Override

@@ -837,7 +837,7 @@ public class FormulaElement implements Serializable {
 
 		Object userVariableValue = userVariable.getValue();
 		if (userVariableValue instanceof String) {
-			return (String.valueOf(userVariableValue)).length();
+			return String.valueOf(userVariableValue).length();
 		} else {
 			if (isInteger((Double) userVariableValue)) {
 				return Integer.toString(((Double) userVariableValue).intValue()).length();

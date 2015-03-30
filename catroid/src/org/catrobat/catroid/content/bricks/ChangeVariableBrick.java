@@ -63,23 +63,28 @@ public class ChangeVariableBrick extends FormulaBrick implements NewVariableDial
 	public boolean inUserBrick = false;
 
 	public ChangeVariableBrick() {
+		super();
 		addAllowedBrickField(BrickField.VARIABLE_CHANGE);
 	}
 
 	public ChangeVariableBrick(Formula variableFormula) {
+		super();
 		initializeBrickFields(variableFormula);
 	}
 
 	public ChangeVariableBrick(Formula variableFormula, UserVariable userVariable) {
+		super();
 		initializeBrickFields(variableFormula);
 		this.userVariable = userVariable;
 	}
 
 	public ChangeVariableBrick(double value) {
+		super();
 		initializeBrickFields(new Formula(value));
 	}
 
 	public ChangeVariableBrick(Formula variableFormula, UserVariable userVariable, boolean inUserBrick) {
+		super();
 		initializeBrickFields(variableFormula);
 		this.userVariable = userVariable;
 		this.inUserBrick = inUserBrick;
@@ -234,7 +239,7 @@ public class ChangeVariableBrick extends FormulaBrick implements NewVariableDial
 			editVariable.setTextColor(editVariable.getTextColors().withAlpha(alphaValue));
 			editVariable.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 		return view;

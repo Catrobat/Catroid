@@ -46,6 +46,7 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 	private OnCheckTokenCompleteListener onCheckTokenCompleteListener;
 
 	public CheckTokenTask(FragmentActivity fragmentActivity, String token, String username) {
+		super();
 		this.fragmentActivity = fragmentActivity;
 		this.token = token;
 		this.username = username;

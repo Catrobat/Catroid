@@ -41,10 +41,6 @@ import java.util.List;
 public class StopAllSoundsBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
-	public StopAllSoundsBrick() {
-
-	}
-
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
@@ -84,7 +80,7 @@ public class StopAllSoundsBrick extends BrickBaseType {
 			View layout = view.findViewById(R.id.brick_stop_all_sounds_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 			TextView textStop = (TextView) view.findViewById(R.id.brick_stop_all_sounds_label);
 			textStop.setTextColor(textStop.getTextColors().withAlpha(alphaValue));

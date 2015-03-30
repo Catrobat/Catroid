@@ -58,33 +58,33 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 		}
 	};
 
-	List<Pair<SensorEventListener, Sensor>> listeners;
-	List<Pair<SensorCustomEventListener, Sensors>> customListeners;
-	Thread simulationThread;
-	boolean simulationThreadRunning;
-	int timeOutInMilliSeconds = 100;
+	private List<Pair<SensorEventListener, Sensor>> listeners;
+	private List<Pair<SensorCustomEventListener, Sensors>> customListeners;
+	private Thread simulationThread;
+	private boolean simulationThreadRunning;
+	private int timeOutInMilliSeconds = 100;
 
 	// units of m/s^2
-	float linearAccelationMinimumX = -10;
-	float linearAccelerationMaximumX = 10;
+	private float linearAccelationMinimumX = -10;
+	private float linearAccelerationMaximumX = 10;
 
-	float linearAccelationMinimumY = -10;
-	float linearAccelerationMaximumY = 10;
+	private float linearAccelationMinimumY = -10;
+	private float linearAccelerationMaximumY = 10;
 
-	float linearAccelationMinimumZ = -10;
-	float linearAccelerationMaximumZ = 10;
+	private float linearAccelationMinimumZ = -10;
+	private float linearAccelerationMaximumZ = 10;
 
-	float rotationMinimumX = (float) -Math.PI * 0.5f;
-	float rotationMaximumX = (float) Math.PI * 0.5f;
+	private float rotationMinimumX = (float) -Math.PI * 0.5f;
+	private float rotationMaximumX = (float) Math.PI * 0.5f;
 
-	float rotationMinimumY = (float) -Math.PI * 0.5f;
-	float rotationMaximumY = (float) Math.PI * 0.5f;
+	private float rotationMinimumY = (float) -Math.PI * 0.5f;
+	private float rotationMaximumY = (float) Math.PI * 0.5f;
 
-	float rotationMinimumZ = (float) -Math.PI * 0.5f;
-	float rotationMaximumZ = (float) Math.PI * 0.5f;
+	private float rotationMinimumZ = (float) -Math.PI * 0.5f;
+	private float rotationMaximumZ = (float) Math.PI * 0.5f;
 
-	float rotationAngleMinimum = 0;
-	float rotationAngleMaximum = (float) (2 * Math.PI);
+	private float rotationAngleMinimum = 0;
+	private float rotationAngleMaximum = (float) (2 * Math.PI);
 
 	private List<SensorEvent> sentSensorEvents;
 	private List<SensorCustomEvent> sentSensorCustomEvents;

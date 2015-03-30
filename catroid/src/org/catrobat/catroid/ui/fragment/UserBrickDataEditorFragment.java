@@ -74,9 +74,6 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 
 	private View fragmentView;
 
-	public UserBrickDataEditorFragment() {
-	}
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -240,7 +237,7 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 	public void onFinishDialog(CharSequence text, boolean editMode) {
 		UserScriptDefinitionBrickElement element = currentBrick.getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(indexOfCurrentlyEditedElement);
 		if (element != null) {
-			String emptyString = ("").toString(); //TODO: change to "" ?
+			String emptyString = "";
 			if (text != null) {
 				String oldString = element.name;
 				String newString = text.toString();

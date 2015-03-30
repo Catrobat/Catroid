@@ -42,11 +42,8 @@ public class WhenStartedBrick extends ScriptBrick {
 	private Script script;
 
 	public WhenStartedBrick(Script script) {
+		super();
 		this.script = script;
-	}
-
-	public WhenStartedBrick() {
-
 	}
 
 	@Override
@@ -119,7 +116,7 @@ public class WhenStartedBrick extends ScriptBrick {
 			View layout = view.findViewById(R.id.brick_when_started_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

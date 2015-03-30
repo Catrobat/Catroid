@@ -41,10 +41,6 @@ import java.util.List;
 public class ComeToFrontBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
-	public ComeToFrontBrick() {
-
-	}
-
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
@@ -86,7 +82,7 @@ public class ComeToFrontBrick extends BrickBaseType {
 			View layout = view.findViewById(R.id.brick_go_to_front_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 			TextView goFrontLabel = (TextView) view.findViewById(R.id.brick_go_to_front_label);
 			goFrontLabel.setTextColor(goFrontLabel.getTextColors().withAlpha(alphaValue));

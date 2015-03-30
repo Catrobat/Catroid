@@ -50,14 +50,17 @@ public class TurnLeftBrick extends FormulaBrick {
 	private transient View prototypeView;
 
 	public TurnLeftBrick() {
+		super();
 		addAllowedBrickField(BrickField.TURN_LEFT_DEGREES);
 	}
 
 	public TurnLeftBrick(double degreesValue) {
+		super();
 		initializeBrickFields(new Formula(degreesValue));
 	}
 
 	public TurnLeftBrick(Formula degrees) {
+		super();
 		initializeBrickFields(degrees);
 	}
 
@@ -129,7 +132,7 @@ public class TurnLeftBrick extends FormulaBrick {
 			editDegrees.setTextColor(editDegrees.getTextColors().withAlpha(alphaValue));
 			editDegrees.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

@@ -93,7 +93,7 @@ public class ProjectActivityTest extends BaseActivityInstrumentationTestCase<Mai
 	private String rename;
 	private String renameDialogTitle;
 	private String delete;
-	String defaultSpriteName;
+	private String defaultSpriteName;
 
 	private CheckBox firstCheckBox;
 	private CheckBox secondCheckBox;

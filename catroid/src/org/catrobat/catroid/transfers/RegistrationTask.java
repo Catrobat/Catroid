@@ -53,6 +53,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 	private OnRegistrationCompleteListener onRegistrationCompleteListener;
 
 	public RegistrationTask(Context activity, String username, String password) {
+		super();
 		this.context = activity;
 		this.username = username;
 		this.password = password;

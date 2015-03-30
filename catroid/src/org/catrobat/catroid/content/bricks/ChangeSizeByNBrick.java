@@ -49,14 +49,17 @@ public class ChangeSizeByNBrick extends FormulaBrick {
 	private transient View prototypeView;
 
 	public ChangeSizeByNBrick() {
+		super();
 		addAllowedBrickField(BrickField.SIZE_CHANGE);
 	}
 
 	public ChangeSizeByNBrick(double sizeValue) {
+		super();
 		initializeBrickFields(new Formula(sizeValue));
 	}
 
 	public ChangeSizeByNBrick(Formula size) {
+		super();
 		initializeBrickFields(size);
 	}
 
@@ -124,7 +127,7 @@ public class ChangeSizeByNBrick extends FormulaBrick {
 			editChangeSize.setTextColor(editChangeSize.getTextColors().withAlpha(alphaValue));
 			editChangeSize.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

@@ -62,16 +62,19 @@ public class LegoNxtMotorActionBrick extends FormulaBrick {
 	}
 
 	public LegoNxtMotorActionBrick() {
+		super();
 		addAllowedBrickField(BrickField.LEGO_NXT_SPEED);
 	}
 
 	public LegoNxtMotorActionBrick(Motor motor, int speedValue) {
+		super();
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
 		initializeBrickFields(new Formula(speedValue));
 	}
 
 	public LegoNxtMotorActionBrick(Motor motor, Formula speedFormula) {
+		super();
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
 		initializeBrickFields(speedFormula);
@@ -221,7 +224,7 @@ public class LegoNxtMotorActionBrick extends FormulaBrick {
 			editSpeed.setTextColor(editSpeed.getTextColors().withAlpha(alphaValue));
 			editSpeed.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 
