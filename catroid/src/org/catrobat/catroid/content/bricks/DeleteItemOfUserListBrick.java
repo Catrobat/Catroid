@@ -232,11 +232,8 @@ public class DeleteItemOfUserListBrick extends FormulaBrick implements OnClickLi
 	}
 
 	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM));
+	public void showFormulaEditorToEditFormula(View view) {
+		FormulaEditorFragment.showFragment(view, this, BrickField.LIST_DELETE_ITEM);
 	}
 
 	@Override

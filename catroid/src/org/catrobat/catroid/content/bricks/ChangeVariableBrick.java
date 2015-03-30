@@ -27,7 +27,6 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -56,7 +55,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class ChangeVariableBrick extends FormulaBrick implements OnClickListener, NewVariableDialogListener {
+public class ChangeVariableBrick extends FormulaBrick implements NewVariableDialogListener {
 
 	private static final long serialVersionUID = 1L;
 	private UserVariable userVariable;
@@ -249,18 +248,14 @@ public class ChangeVariableBrick extends FormulaBrick implements OnClickListener
 	}
 
 	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.VARIABLE_CHANGE));
-	}
-
-	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.changeVariable(sprite, getFormulaWithBrickField(BrickField.VARIABLE_CHANGE),
 				userVariable));
 		return null;
+	}
+
+	public void showFormulaEditorToEditFormula(View view) {
+		FormulaEditorFragment.showFragment(view, this, BrickField.VARIABLE_CHANGE);
 	}
 
 	@Override

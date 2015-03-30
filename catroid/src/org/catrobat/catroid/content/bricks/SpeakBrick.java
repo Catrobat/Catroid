@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -41,7 +40,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SpeakBrick extends FormulaBrick implements OnClickListener {
+public class SpeakBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 	private transient View prototypeView;
@@ -138,21 +137,7 @@ public class SpeakBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
-	public Formula getFormula() {
-		return getFormulaWithBrickField(BrickField.SPEAK);
-	}
-
-	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-		switch (view.getId()) {
-			case R.id.brick_speak_edit_text:
-				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.SPEAK));
-				break;
-			default:
-				break;
-		}
+	public void showFormulaEditorToEditFormula(View view) {
+		FormulaEditorFragment.showFragment(view, this, BrickField.SPEAK);
 	}
 }

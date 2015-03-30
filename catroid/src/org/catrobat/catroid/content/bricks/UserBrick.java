@@ -44,7 +44,6 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.BrickLayout;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -110,7 +109,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		ArrayList<UserBrickParameter> newParameters = new ArrayList<UserBrickParameter>();
 
 		for (int elementPosition = 0; elementPosition < getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().size(); elementPosition++) {
-			UserBrickParameter parameter = new UserBrickParameter();
+			UserBrickParameter parameter = new UserBrickParameter(this);
 			parameter.parameterIndex = elementPosition;
 			if (getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(elementPosition).isVariable) {
 				if (userBrickParameterList == null) {
@@ -309,10 +308,11 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 		}
 
 		for (UserBrickParameter userBrickParameter : userBrickParameters) {
-			UserScriptDefinitionBrickElement userBrickElement = getUserScriptDefinitionBrickElements().getUserScriptDefinitionBrickElementList().get(userBrickParameter.parameterIndex);
+			UserScriptDefinitionBrickElement userBrickElement = getUserScriptDefinitionBrickElements()
+					.getUserScriptDefinitionBrickElementList().get(userBrickParameter.parameterIndex);
 
 			if (userBrickElement.isVariable && userBrickParameter.textView.getId() == eventOrigin.getId()) {
-				FormulaEditorFragment.showFragment(view, this, userBrickParameter.getFormulaWithBrickField(BrickField.USER_BRICK));
+				userBrickParameter.showFormulaEditorToEditFormula(view);
 			}
 		}
 	}

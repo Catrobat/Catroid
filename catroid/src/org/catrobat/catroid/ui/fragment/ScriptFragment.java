@@ -53,9 +53,14 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.AllowedAfterDeadEndBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.DeadEndBrick;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.content.commands.ChangeFormulaCommand;
+import org.catrobat.catroid.content.commands.CommandFactory;
+import org.catrobat.catroid.content.commands.OnFormulaChangedListener;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
@@ -72,7 +77,7 @@ import java.util.List;
 import java.util.concurrent.locks.Lock;
 
 public class ScriptFragment extends ScriptActivityFragment implements OnCategorySelectedListener,
-		OnBrickCheckedListener {
+		OnBrickCheckedListener, OnFormulaChangedListener {
 
 	public static final String TAG = ScriptFragment.class.getSimpleName();
 
@@ -346,6 +351,14 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(selectedBrickPosition);
 		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	@Override
+	public void onFormulaChanged(FormulaBrick formulaBrick, Brick.BrickField brickField, Formula newFormula) {
+		ChangeFormulaCommand changeFormulaCommand = CommandFactory.makeChangeFormulaCommand(formulaBrick, brickField,
+				newFormula);
+		changeFormulaCommand.execute();
+		adapter.notifyDataSetChanged();
 	}
 
 	private class BrickListChangedReceiver extends BroadcastReceiver {

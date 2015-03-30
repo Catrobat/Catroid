@@ -43,7 +43,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class PointInDirectionBrick extends FormulaBrick implements View.OnClickListener {
+public class PointInDirectionBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -154,16 +154,13 @@ public class PointInDirectionBrick extends FormulaBrick implements View.OnClickL
 	}
 
 	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.DEGREES));
-	}
-
-	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.pointInDirection(sprite, getFormulaWithBrickField(BrickField.DEGREES)));
 		return null;
+	}
+
+	@Override
+	public void showFormulaEditorToEditFormula(View view) {
+		FormulaEditorFragment.showFragment(view, this, BrickField.DEGREES);
 	}
 }

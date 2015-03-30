@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClickListener {
+public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -82,6 +82,11 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 	@Override
 	public Brick clone()  {
 		return new RepeatBrick(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).clone());
+	}
+
+	@Override
+	public void showFormulaEditorToEditFormula(View view) {
+		FormulaEditorFragment.showFragment(view, this, BrickField.TIMES_TO_REPEAT);
 	}
 
 	@Override
@@ -174,14 +179,6 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick, OnClick
 		}
 
 		return view;
-	}
-
-	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT));
 	}
 
 	@Override

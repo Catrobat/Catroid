@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -44,7 +43,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class LegoNxtPlayToneBrick extends FormulaBrick implements OnClickListener {
+public class LegoNxtPlayToneBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -137,15 +136,20 @@ public class LegoNxtPlayToneBrick extends FormulaBrick implements OnClickListene
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
+
 		switch (view.getId()) {
 			case R.id.nxt_tone_freq_edit_text:
-				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY));
+				FormulaEditorFragment.showFragment(view, this, BrickField.LEGO_NXT_FREQUENCY);
 				break;
 			case R.id.nxt_tone_duration_edit_text:
-				FormulaEditorFragment.showFragment(view, this,
-						getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS));
+				FormulaEditorFragment.showFragment(view, this, BrickField.LEGO_NXT_DURATION_IN_SECONDS);
 				break;
 		}
+	}
+
+	@Override
+	public void showFormulaEditorToEditFormula(View view) {
+		FormulaEditorFragment.showFragment(view, this, BrickField.LEGO_NXT_FREQUENCY);
 	}
 
 	@Override

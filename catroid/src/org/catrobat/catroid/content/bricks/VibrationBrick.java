@@ -26,7 +26,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -47,7 +46,7 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 
-public class VibrationBrick extends FormulaBrick implements OnClickListener {
+public class VibrationBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -156,17 +155,14 @@ public class VibrationBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
-	public void onClick(View v) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS));
-	}
-
-	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.vibrate(sprite,
 				getFormulaWithBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS)));
 		return null;
+	}
+
+	@Override
+	public void showFormulaEditorToEditFormula(View view) {
+		FormulaEditorFragment.showFragment(view, this, BrickField.VIBRATE_DURATION_IN_SECONDS);
 	}
 }

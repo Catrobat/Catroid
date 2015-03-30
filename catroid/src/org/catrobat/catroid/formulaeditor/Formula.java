@@ -207,7 +207,9 @@ public class Formula implements Serializable {
 
 		TextView formulaTextField = (TextView) brickView.findViewById(formulaTextFieldId);
 
-		formulaTextField.setBackgroundDrawable(highlightBackground);
+		if (formulaTextField != null) {
+			formulaTextField.setBackgroundDrawable(highlightBackground);
+		}
 	}
 
 	public void prepareToRemove() {

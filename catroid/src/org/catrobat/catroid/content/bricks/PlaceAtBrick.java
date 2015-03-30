@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -43,7 +42,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class PlaceAtBrick extends FormulaBrick implements OnClickListener {
+public class PlaceAtBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -164,13 +163,14 @@ public class PlaceAtBrick extends FormulaBrick implements OnClickListener {
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
+
 		switch (view.getId()) {
 			case R.id.brick_place_at_edit_text_x:
-				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.X_POSITION));
+				FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
 				break;
 
 			case R.id.brick_place_at_edit_text_y:
-				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.Y_POSITION));
+				FormulaEditorFragment.showFragment(view, this, BrickField.Y_POSITION);
 				break;
 		}
 	}
@@ -180,5 +180,9 @@ public class PlaceAtBrick extends FormulaBrick implements OnClickListener {
 		sequence.addAction(ExtendedActions.placeAt(sprite, getFormulaWithBrickField(BrickField.X_POSITION),
 				getFormulaWithBrickField(BrickField.Y_POSITION)));
 		return null;
+	}
+
+	public void showFormulaEditorToEditFormula(View view) {
+		FormulaEditorFragment.showFragment(view, this, BrickField.X_POSITION);
 	}
 }

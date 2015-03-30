@@ -26,7 +26,6 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -55,7 +54,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class AddItemToUserListBrick extends FormulaBrick implements OnClickListener, NewUserListDialogListener {
+public class AddItemToUserListBrick extends FormulaBrick implements NewUserListDialogListener {
 	private static final long serialVersionUID = 1L;
 	private UserList userList;
 	private transient AdapterView<?> adapterView;
@@ -227,11 +226,8 @@ public class AddItemToUserListBrick extends FormulaBrick implements OnClickListe
 	}
 
 	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.LIST_ADD_ITEM));
+	public void showFormulaEditorToEditFormula(View view) {
+		FormulaEditorFragment.showFragment(view, this, BrickField.LIST_ADD_ITEM);
 	}
 
 	@Override
