@@ -92,8 +92,8 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.LOUDNESS.name(), R.string.formula_editor_sensor_loudness);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_X.name(), R.string.formula_editor_object_x);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_Y.name(), R.string.formula_editor_object_y);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_GHOSTEFFECT.name(),
-				R.string.formula_editor_object_ghosteffect);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_TRANSPARENCY.name(),
+				R.string.formula_editor_object_transparency);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_BRIGHTNESS.name(),
 				R.string.formula_editor_object_brightness);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_SIZE.name(), R.string.formula_editor_object_size);

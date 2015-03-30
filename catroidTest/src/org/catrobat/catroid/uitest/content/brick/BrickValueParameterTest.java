@@ -212,21 +212,21 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 		assertEquals("Value in Brick ChangeSizeBy is not correct", (float) BrickValues.CHANGE_SIZE_BY,
 				changeSizeByPrototypeValue);
 
-		if (!solo.searchText(solo.getString(R.string.brick_set_ghost_effect))) {
+		if (!solo.searchText(solo.getString(R.string.brick_set_transparency))) {
 			solo.scrollDownList(fragmentListView);
 		}
-		TextView setGhostEffectTextView = (TextView) solo.getView(R.id.brick_set_ghost_effect_to_edit_text);
+		TextView setGhostEffectTextView = (TextView) solo.getView(R.id.brick_set_brightness_edit_text);
 		float setGhostEffectPrototypeValue = Float.parseFloat(setGhostEffectTextView.getText().toString());
-		assertEquals("Value in Brick SetGhostEffect is not correct", (float) BrickValues.SET_GHOST_EFFECT,
+		assertEquals("Value in Brick SetGhostEffect is not correct", (float) BrickValues.SET_TRANSPARENCY,
 				setGhostEffectPrototypeValue);
 
 		if (!solo.searchText(solo.getString(R.string.brick_change_ghost_effect))) {
 			solo.scrollDownList(fragmentListView);
 		}
 		TextView changeGhostEffectTextView = (TextView) solo
-				.getView(R.id.brick_set_ghost_effect_to_edit_text);
+				.getView(R.id.brick_set_transparency_to_edit_text);
 		float changeGhostEffectPrototypeValue = Float.parseFloat(changeGhostEffectTextView.getText().toString());
-		assertEquals("Value in Brick SetGhostEffect is not correct", (float) BrickValues.SET_GHOST_EFFECT,
+		assertEquals("Value in Brick SetGhostEffect is not correct", (float) BrickValues.SET_TRANSPARENCY,
 				changeGhostEffectPrototypeValue);
 
 		if (!solo.searchText(solo.getString(R.string.brick_set_brightness))) {

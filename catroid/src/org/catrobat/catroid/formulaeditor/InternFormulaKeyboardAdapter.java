@@ -205,8 +205,8 @@ public class InternFormulaKeyboardAdapter {
 				return buildObject(Sensors.OBJECT_X);
 			case R.string.formula_editor_object_y:
 				return buildObject(Sensors.OBJECT_Y);
-			case R.string.formula_editor_object_ghosteffect:
-				return buildObject(Sensors.OBJECT_GHOSTEFFECT);
+			case R.string.formula_editor_object_transparency:
+				return buildObject(Sensors.OBJECT_TRANSPARENCY);
 			case R.string.formula_editor_object_brightness:
 				return buildObject(Sensors.OBJECT_BRIGHTNESS);
 			case R.string.formula_editor_object_size:

@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.view.View;
+
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Sprite;
@@ -30,25 +32,25 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.List;
 
-public class ChangeGhostEffectByNBrick extends FormulaBrick {
+public class ChangeTransparencyByNBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	public ChangeGhostEffectByNBrick() {
+	public ChangeTransparencyByNBrick() {
 		addAllowedBrickField(BrickField.TRANSPARENCY_CHANGE);
 	}
 
-	public ChangeGhostEffectByNBrick(double changeGhostEffectValue) {
-		initializeBrickFields(new Formula(changeGhostEffectValue));
+	public ChangeTransparencyByNBrick(double changeTransparencyValue) {
+		initializeBrickFields(new Formula(changeTransparencyValue));
 	}
 
-	public ChangeGhostEffectByNBrick(Formula changeGhostEffect) {
-		initializeBrickFields(changeGhostEffect);
+	public ChangeTransparencyByNBrick(Formula changeTransparency) {
+		initializeBrickFields(changeTransparency);
 	}
 
-	private void initializeBrickFields(Formula changeGhostEffect) {
+	private void initializeBrickFields(Formula changeTransparency) {
 		addAllowedBrickField(BrickField.TRANSPARENCY_CHANGE);
-		setFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE, changeGhostEffect);
+		setFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE, changeTransparency);
 	}
 
 	@Override
@@ -58,7 +60,7 @@ public class ChangeGhostEffectByNBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.changeGhostEffectByN(sprite,
+		sequence.addAction(ExtendedActions.changeTransparencyByN(sprite,
 				getFormulaWithBrickField(BrickField.TRANSPARENCY_CHANGE)));
 		return null;
 	}

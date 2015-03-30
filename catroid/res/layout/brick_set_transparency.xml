@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2015 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -31,7 +32,7 @@
     <include layout="@layout/include_brick_checkbox" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_set_ghost_effect_layout"
+        android:id="@+id/brick_set_transparency_layout"
         style="@style/BrickContainer.Look.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,20 +42,20 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
 
         <TextView
-            android:id="@+id/brick_set_ghost_effect_label"
+            android:id="@+id/brick_set_transparency_label"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_set_ghost_effect">
-        </TextView>
+            android:text="@string/brick_set_transparency" >
+        </TextView >
 
         <TextView
-            android:id="@+id/brick_set_ghost_effect_to"
+            android:id="@+id/brick_set_transparency_to"
             style="@style/BrickText.SingleLine"
             android:text="@string/to_label"
             app:layout_newLine="true">
         </TextView>
 
         <TextView
-            android:id="@+id/brick_set_ghost_effect_to_edit_text"
+            android:id="@+id/brick_set_transparency_to_edit_text"
             style="@style/BrickEditText"
             android:maxEms="10"
             app:layout_inputType="number"
@@ -62,7 +63,7 @@
         </TextView>
 
         <TextView
-            android:id="@+id/brick_set_ghost_effect_percent"
+            android:id="@+id/brick_set_transparency_percent"
             style="@style/BrickText.SingleLine"
             android:text="@string/percent_symbol">
         </TextView>

@@ -43,8 +43,8 @@ import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
-import org.catrobat.catroid.content.bricks.ChangeGhostEffectByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
@@ -95,9 +95,9 @@ import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
-import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
@@ -255,7 +255,7 @@ public class BrickViewProvider {
 		else if (brick instanceof ChangeBrightnessByNBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_change_brightness,
 					BrickField.BRIGHTNESS_CHANGE, R.id.brick_change_brightness_edit_text);
-		} else if (brick instanceof ChangeGhostEffectByNBrick) {
+		} else if (brick instanceof ChangeTransparencyByNBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_change_ghost_effect,
 					BrickField.TRANSPARENCY_CHANGE, R.id.brick_change_ghost_effect_edit_text);
 			//
@@ -283,9 +283,9 @@ public class BrickViewProvider {
 		} else if (brick instanceof SetBrightnessBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_set_brightness,
 					BrickField.BRIGHTNESS, R.id.brick_set_brightness_edit_text);
-		} else if (brick instanceof SetGhostEffectBrick) {
-			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_set_ghost_effect,
-					BrickField.TRANSPARENCY, R.id.brick_set_ghost_effect_to_edit_text);
+		} else if (brick instanceof SetTransparencyBrick) {
+			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_set_transparency,
+					BrickField.TRANSPARENCY, R.id.brick_set_transparency_to_edit_text);
 		} else if (brick instanceof SetSizeToBrick) {
 			view = createSingleFormulaBrickView((FormulaBrick) brick, parent, R.layout.brick_set_size_to,
 					BrickField.SIZE, R.id.brick_set_size_to_edit_text);

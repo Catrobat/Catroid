@@ -30,18 +30,18 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.List;
 
-public class SetGhostEffectBrick extends FormulaBrick {
+public class SetTransparencyBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
-
-	public SetGhostEffectBrick() {
+	
+	public SetTransparencyBrick() {
 		addAllowedBrickField(BrickField.TRANSPARENCY);
 	}
 
-	public SetGhostEffectBrick(double ghostEffectValue) {
-		initializeBrickFields(new Formula(ghostEffectValue));
+	public SetTransparencyBrick(double transparencyValue) {
+		initializeBrickFields(new Formula(transparencyValue));
 	}
 
-	public SetGhostEffectBrick(Formula transparency) {
+	public SetTransparencyBrick(Formula transparency) {
 		initializeBrickFields(transparency);
 	}
 
@@ -57,7 +57,7 @@ public class SetGhostEffectBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setGhostEffect(sprite, getFormulaWithBrickField(BrickField.TRANSPARENCY)));
+		sequence.addAction(ExtendedActions.setTransparency(sprite, getFormulaWithBrickField(BrickField.TRANSPARENCY)));
 		return null;
 	}
 }
