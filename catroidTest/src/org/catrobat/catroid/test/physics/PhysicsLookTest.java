@@ -144,8 +144,7 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 		lookData.setLookFilename(testImage.getName());
 		lookData.setLookName(testImageFilename);
 		sprite.getLookDataList().add(lookData);
-		Pixmap pixmap = null;
-		pixmap = Utils.getPixmapFromFile(testImage);
+		Pixmap pixmap = Utils.getPixmapFromFile(testImage);
 		lookData.setPixmap(pixmap);
 
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
@@ -187,7 +186,18 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 			}
 		}
 
-		physicsLook.setScale(2.0f, 2.0f);
+		float testScaleFactor = 1.1f;
+		if (PhysicsShapeBuilder.ACCURACY_LEVELS.length > 1) {
+			for (int i = 0; i < PhysicsShapeBuilder.ACCURACY_LEVELS.length - 1; i++) {
+				if (Math.abs(PhysicsShapeBuilder.ACCURACY_LEVELS[i] - 1.0f) < 0.05) {
+					testScaleFactor = (PhysicsShapeBuilder.ACCURACY_LEVELS[i] + PhysicsShapeBuilder.ACCURACY_LEVELS[i + 1]);
+					testScaleFactor /= 2.0f;
+					testScaleFactor -= 0.025f;
+				}
+			}
+		}
+
+		physicsLook.setScale(testScaleFactor, testScaleFactor);
 		shapes = (Shape[]) Reflection.getPrivateField(physicsObject, "shapes");
 		assertNotNull("shapes is null", shapes);
 		assertTrue("shapes length not > 0", shapes.length > 0);
@@ -209,8 +219,8 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 					for (int idx = 0; idx < vertexCount; idx++) {
 						Vector2 vertex = new Vector2();
 						((PolygonShape) shape).getVertex(idx, vertex);
-						assertEquals("vertex x-value is not the expected", vertexXQueue.poll() * 2.0f, vertex.x);
-						assertEquals("vertex x-value is not the expected", vertexYQueue.poll() * 2.0f, vertex.y);
+						assertEquals("vertex x-value is not the expected", PhysicsShapeBuilder.scaleCoordinate(vertexXQueue.poll(), testScaleFactor), vertex.x);
+						assertEquals("vertex x-value is not the expected", PhysicsShapeBuilder.scaleCoordinate(vertexYQueue.poll(), testScaleFactor), vertex.y);
 						Log.d(TAG, "x=" + vertex.x + ";y=" + vertex.y);
 					}
 					break;

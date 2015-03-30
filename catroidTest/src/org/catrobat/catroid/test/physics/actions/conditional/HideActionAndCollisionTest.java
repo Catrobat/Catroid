@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.physics.actions.conditional;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.content.ActionFactory;
 import org.catrobat.catroid.test.physics.PhysicsCollisionBaseTest;
@@ -38,14 +39,14 @@ public class HideActionAndCollisionTest extends PhysicsCollisionBaseTest {
 	}
 
 	public void testNoCollisionAfterHide() {
-		sprite.look.setVisible(false);
+		((PhysicsLook)sprite.look).setHidden(true);
 		simulateFullCollision();
 		assertFalse("PhysicObjects shouldn't collide because sprite2 is invisible", collisionDetected());
 	}
 
 	public void testCollisionAfterHide() {
-		sprite.look.setVisible(false);
-		sprite.look.setVisible(true);
+		((PhysicsLook)sprite.look).setHidden(true);
+		((PhysicsLook)sprite.look).setHidden(false);
 		simulateFullCollision();
 		assertTrue("PhysicObjects should collide because sprite2 is visible", collisionDetected());
 	}
@@ -53,7 +54,7 @@ public class HideActionAndCollisionTest extends PhysicsCollisionBaseTest {
 	public void testHide() {
 		Action action = sprite.getActionFactory().createHideAction(sprite);
 		action.act(1.0f);
-		assertFalse("Sprite is still visible after HideBrick executed", sprite.look.visible);
+		assertFalse("Sprite is still visible after HideBrick executed", sprite.look.isVisible());
 	}
 
 	public void testNullSprite() {
