@@ -57,6 +57,7 @@ public class Look extends Image {
 	private BrightnessContrastShader shader;
 
 	public Look(Sprite sprite) {
+		super();
 		this.sprite = sprite;
 		setBounds(0f, 0f, 0f, 0f);
 		setOrigin(0f, 0f);
@@ -167,7 +168,8 @@ public class Look extends Image {
 			iterator.remove();
 		}
 
-		for (int i = 0, n = actions.size; i < n; i++) {
+		int n = actions.size;
+		for (int i = 0; i < n; i++) {
 			Action action = actions.get(i);
 			if (action.act(delta)) {
 				finishedCount++;

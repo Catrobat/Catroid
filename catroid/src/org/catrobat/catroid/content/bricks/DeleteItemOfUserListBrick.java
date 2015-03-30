@@ -61,15 +61,18 @@ public class DeleteItemOfUserListBrick extends FormulaBrick implements OnClickLi
 	private transient AdapterView<?> adapterView;
 
 	public DeleteItemOfUserListBrick() {
+		super();
 		addAllowedBrickField(BrickField.LIST_DELETE_ITEM);
 	}
 
 	public DeleteItemOfUserListBrick(Formula userListFormula, UserList userList) {
+		super();
 		initializeBrickFields(userListFormula);
 		this.userList = userList;
 	}
 
 	public DeleteItemOfUserListBrick(Integer value) {
+		super();
 		initializeBrickFields(new Formula(value));
 	}
 
@@ -218,7 +221,7 @@ public class DeleteItemOfUserListBrick extends FormulaBrick implements OnClickLi
 			editVariable.setTextColor(editVariable.getTextColors().withAlpha(alphaValue));
 			editVariable.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

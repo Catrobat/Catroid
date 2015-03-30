@@ -45,14 +45,17 @@ public class NoteBrick extends FormulaBrick implements OnClickListener{
 	private transient View prototypeView;
 
 	public NoteBrick() {
+		super();
 		addAllowedBrickField(BrickField.NOTE);
 	}
 
 	public NoteBrick(String note) {
+		super();
 		initializeBrickFields(new Formula(note));
 	}
 
 	public NoteBrick(Formula note) {
+		super();
 		initializeBrickFields(note);
 	}
 
@@ -108,7 +111,7 @@ public class NoteBrick extends FormulaBrick implements OnClickListener{
 			noteTextView.setTextColor(noteTextView.getTextColors().withAlpha(alphaValue));
 			noteTextView.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

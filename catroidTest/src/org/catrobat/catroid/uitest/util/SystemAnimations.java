@@ -43,14 +43,14 @@ class SystemAnimations {
 		this.context = context;
 	}
 
-	void disableAll() {
+	public void disableAll() {
 		int permStatus = context.checkCallingOrSelfPermission(ANIMATION_PERMISSION);
 		if (permStatus == PackageManager.PERMISSION_GRANTED) {
 			setSystemAnimationsScale(DISABLED);
 		}
 	}
 
-	void enableAll() {
+	public void enableAll() {
 		int permStatus = context.checkCallingOrSelfPermission(ANIMATION_PERMISSION);
 		if (permStatus == PackageManager.PERMISSION_GRANTED) {
 			setSystemAnimationsScale(DEFAULT);

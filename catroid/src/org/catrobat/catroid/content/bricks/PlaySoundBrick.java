@@ -61,10 +61,6 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 	private transient SoundInfo oldSelectedSound;
 	private transient AdapterView<?> adapterView;
 
-	public PlaySoundBrick() {
-
-	}
-
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
@@ -146,7 +142,7 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 				((TextView) adapterView.getChildAt(0)).setTextColor(color);
 			}
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

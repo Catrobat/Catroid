@@ -49,14 +49,17 @@ public class ChangeBrightnessByNBrick extends FormulaBrick {
 	private transient View prototypeView;
 
 	public ChangeBrightnessByNBrick() {
+		super();
 		addAllowedBrickField(BrickField.BRIGHTNESS_CHANGE);
 	}
 
 	public ChangeBrightnessByNBrick(double changeBrightnessValue) {
+		super();
 		initializeBrickFields(new Formula(changeBrightnessValue));
 	}
 
 	public ChangeBrightnessByNBrick(Formula changeBrightness) {
+		super();
 		initializeBrickFields(changeBrightness);
 	}
 
@@ -127,7 +130,7 @@ public class ChangeBrightnessByNBrick extends FormulaBrick {
 			editBrightness.setTextColor(editBrightness.getTextColors().withAlpha(alphaValue));
 			editBrightness.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

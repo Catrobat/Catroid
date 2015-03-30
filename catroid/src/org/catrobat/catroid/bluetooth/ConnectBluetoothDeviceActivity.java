@@ -161,7 +161,7 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 
 	private class ConnectDeviceTask extends AsyncTask<String, Void, BluetoothConnection.State> {
 
-		BluetoothConnection btConnection;
+		private BluetoothConnection btConnection;
 		private ProgressDialog connectingProgressDialog;
 
 		@Override

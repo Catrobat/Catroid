@@ -50,7 +50,7 @@ public class ComputeDialogTest extends BaseActivityInstrumentationTestCase<MainM
 	private static final int SLEEP_TIME = 500;
 
 	private Project projectFaceDetection;
-	Sprite sprite;
+	private Sprite sprite;
 
 	public ComputeDialogTest() {
 		super(MainMenuActivity.class);

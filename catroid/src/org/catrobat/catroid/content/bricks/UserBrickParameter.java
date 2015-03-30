@@ -47,12 +47,14 @@ public class UserBrickParameter extends FormulaBrick {
 	private transient UserBrick parent;
 
 	public UserBrickParameter(UserBrick parent) {
+		super();
 		this.parent = parent;
 		addAllowedBrickField(BrickField.USER_BRICK);
 		setFormulaWithBrickField(BrickField.USER_BRICK, new Formula(0));
 	}
 
 	public UserBrickParameter(Formula parameter) {
+		super();
 		addAllowedBrickField(BrickField.USER_BRICK);
 		setFormulaWithBrickField(BrickField.USER_BRICK, parameter);
 	}

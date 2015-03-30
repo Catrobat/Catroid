@@ -86,6 +86,7 @@ public class AssertionErrorMessageTest extends TestCase {
 	private boolean errorFound;
 
 	public AssertionErrorMessageTest() {
+		super();
 		/*
 		 * All JUnit assert commands, along with the number of parameters IF an error message is included,
 		 * taken from http://www.junit.org/apidocs/org/junit/Assert.html and

@@ -50,14 +50,17 @@ public class SetTransparencyBrick extends FormulaBrick {
 	private transient View prototypeView;
 
 	public SetTransparencyBrick() {
+		super();
 		addAllowedBrickField(BrickField.TRANSPARENCY);
 	}
 
 	public SetTransparencyBrick(double transparencyValue) {
+		super();
 		initializeBrickFields(new Formula(transparencyValue));
 	}
 
 	public SetTransparencyBrick(Formula transparency) {
+		super();
 		initializeBrickFields(transparency);
 	}
 
@@ -130,7 +133,7 @@ public class SetTransparencyBrick extends FormulaBrick {
 			editTransparency.setTextColor(editTransparency.getTextColors().withAlpha(alphaValue));
 			editTransparency.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

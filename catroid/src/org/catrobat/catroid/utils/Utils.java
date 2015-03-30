@@ -234,7 +234,9 @@ public final class Utils {
 		final char[] hexChars = "0123456789ABCDEF".toCharArray();
 
 		char[] hexBuffer = new char[messageDigest.length * 2];
-		for (int i = 0, j = 0; i < messageDigest.length; i++) {
+		int i = 0;
+		int j = 0;
+		for (; i < messageDigest.length; i++) {
 			hexBuffer[j++] = hexChars[(messageDigest[i] & 0xF0) >> 4];
 			hexBuffer[j++] = hexChars[messageDigest[i] & 0x0F];
 		}

@@ -492,7 +492,7 @@ public final class InternFormulaUtils {
 
 	}
 
-	static int getFunctionParameterCount(List<InternToken> functionInternTokenList) {
+	public static int getFunctionParameterCount(List<InternToken> functionInternTokenList) {
 
 		if (functionInternTokenList == null
 				|| functionInternTokenList.size() < 4

@@ -53,14 +53,17 @@ public class WaitBrick extends FormulaBrick {
 	private transient View prototypeView;
 
 	public WaitBrick() {
+		super();
 		addAllowedBrickField(BrickField.TIME_TO_WAIT_IN_SECONDS);
 	}
 
 	public WaitBrick(int timeToWaitInMillisecondsValue) {
+		super();
 		initializeBrickFields(new Formula(timeToWaitInMillisecondsValue / 1000.0));
 	}
 
 	public WaitBrick(Formula timeToWaitInSecondsFormula) {
+		super();
 		initializeBrickFields(timeToWaitInSecondsFormula);
 	}
 
@@ -162,7 +165,7 @@ public class WaitBrick extends FormulaBrick {
 			editWait.setTextColor(editWait.getTextColors().withAlpha(alphaValue));
 			editWait.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

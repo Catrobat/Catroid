@@ -60,15 +60,18 @@ public class AddItemToUserListBrick extends FormulaBrick implements NewUserListD
 	private transient AdapterView<?> adapterView;
 
 	public AddItemToUserListBrick(){
+		super();
 		addAllowedBrickField(BrickField.LIST_ADD_ITEM);
 	}
 
 	public AddItemToUserListBrick(Formula userListFormula, UserList userList) {
+		super();
 		initializeBrickFields(userListFormula);
 		this.userList = userList;
 	}
 
 	public AddItemToUserListBrick( double value) {
+		super();
 		initializeBrickFields(new Formula(value));
 	}
 
@@ -212,7 +215,7 @@ public class AddItemToUserListBrick extends FormulaBrick implements NewUserListD
 			editVariable.setTextColor(editVariable.getTextColors().withAlpha(alphaValue));
 			editVariable.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

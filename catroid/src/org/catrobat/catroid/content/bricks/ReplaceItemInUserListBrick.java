@@ -61,11 +61,13 @@ public class ReplaceItemInUserListBrick extends FormulaBrick implements OnClickL
 	private transient AdapterView<?> adapterView;
 
 	public ReplaceItemInUserListBrick(Formula userListFormulaValueToInsert, Formula userListFormulaIndexToReplace, UserList userList) {
+		super();
 		initializeBrickFields(userListFormulaValueToInsert, userListFormulaIndexToReplace);
 		this.userList = userList;
 	}
 
 	public ReplaceItemInUserListBrick(double value, Integer indexToReplace) {
+		super();
 		initializeBrickFields(new Formula(value), new Formula(indexToReplace));
 		this.userList = null;
 	}
@@ -233,7 +235,7 @@ public class ReplaceItemInUserListBrick extends FormulaBrick implements OnClickL
 			editTheValue.setTextColor(editTheValue.getTextColors().withAlpha(alphaValue));
 			editTheValue.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

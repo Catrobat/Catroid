@@ -39,10 +39,6 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 	private static final long serialVersionUID = 1L;
 	private transient boolean isPuzzleView = true;
 
-	public LoopEndlessBrick() {
-
-	}
-
 	public LoopEndlessBrick(LoopBeginBrick loopStartingBrick) {
 		super(loopStartingBrick);
 	}
@@ -90,7 +86,7 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 			}
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

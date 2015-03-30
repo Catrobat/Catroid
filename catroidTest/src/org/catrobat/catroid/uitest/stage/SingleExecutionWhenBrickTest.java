@@ -50,11 +50,11 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 	private static final int SCREEN_HEIGHT = 800;
 
 	private Project projectWhenBrick;
-	Sprite yellowSprite;
-	Sprite greenSprite;
-	WhenScript yellowWhenScript;
-	BroadcastScript greenBroadcastScript;
-	String broadcastMessage = "broadcastMessage";
+	private Sprite yellowSprite;
+	private Sprite greenSprite;
+	private WhenScript yellowWhenScript;
+	private BroadcastScript greenBroadcastScript;
+	private String broadcastMessage = "broadcastMessage";
 
 	public SingleExecutionWhenBrickTest() {
 		super(MainMenuActivity.class);

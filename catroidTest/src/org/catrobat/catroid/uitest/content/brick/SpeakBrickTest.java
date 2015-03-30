@@ -78,7 +78,7 @@ public class SpeakBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 
 		UiTestUtils.testBrickWithFormulaEditor(sprite, solo, R.id.brick_speak_edit_text, testString, Brick.BrickField.SPEAK, speakBrick);
         try{
-            String brickText = ( speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK)).interpretString(sprite);
+            String brickText = speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK).interpretString(sprite);
             assertEquals("Wrong text in field.", testString, brickText);
         }catch (InterpretationException interpretationException){
             fail("Wrong text in field.");
@@ -87,7 +87,7 @@ public class SpeakBrickTest extends BaseActivityInstrumentationTestCase<MainMenu
 		UiTestUtils.testBrickWithFormulaEditor(sprite, solo, R.id.brick_speak_edit_text, "", Brick.BrickField.SPEAK, speakBrick);
 
         try{
-            String brickText = ( speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK)).interpretString(sprite);
+            String brickText = speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK).interpretString(sprite);
             assertEquals("Wrong text in field.", "", brickText);
         }catch (InterpretationException interpretationException){
             fail("Wrong text in field.");

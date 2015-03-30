@@ -52,14 +52,17 @@ public class VibrationBrick extends FormulaBrick {
 	private transient View prototypeView;
 
 	private VibrationBrick() {
+		super();
 		addAllowedBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS);
 	}
 
 	public VibrationBrick(Formula vibrateDurationInSecondsFormula) {
+		super();
 		initializeBrickFields(vibrateDurationInSecondsFormula);
 	}
 
 	public VibrationBrick(int vibrationDurationInMilliseconds) {
+		super();
 		initializeBrickFields(new Formula(vibrationDurationInMilliseconds / 1000.0));
 	}
 
@@ -144,12 +147,12 @@ public class VibrationBrick extends FormulaBrick {
 			TextView editSeconds = (TextView) view.findViewById(R.id.brick_vibration_edit_seconds_text);
 
 			textVibrationLabel.setTextColor(textVibrationLabel.getTextColors().withAlpha(alphaValue));
-			textVibrationSeconds.setTextColor(textVibrationSeconds.getTextColors().withAlpha((alphaValue)));
+			textVibrationSeconds.setTextColor(textVibrationSeconds.getTextColors().withAlpha(alphaValue));
 
 			editSeconds.setTextColor(editSeconds.getTextColors().withAlpha(alphaValue));
 			editSeconds.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 		return view;
 	}

@@ -30,6 +30,7 @@ class ObservedInputStream extends InputStream{
 	private final InputStream inputStream;
 
 	ObservedInputStream(InputStream inputStream, Logger logger) {
+		super();
 		this.inputStream = inputStream;
 		this.logger = logger;
 	}

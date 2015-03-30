@@ -148,7 +148,7 @@ public class BroadcastWaitBrick extends BroadcastBrick implements BroadcastMessa
 				((TextView) adapterView.getChildAt(0)).setTextColor(color);
 			}
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

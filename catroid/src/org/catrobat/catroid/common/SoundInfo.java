@@ -41,10 +41,6 @@ public class SoundInfo implements Serializable, Comparable<SoundInfo>, Cloneable
 	private String fileName;
 	public transient boolean isPlaying;
 
-	public SoundInfo() {
-
-	}
-
 	@Override
 	public SoundInfo clone() {
 		SoundInfo cloneSoundInfo = new SoundInfo();

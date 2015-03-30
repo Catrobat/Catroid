@@ -60,7 +60,7 @@ public class ParserTestSensors extends InstrumentationTestCase {
 
 	private Project project;
 	private Sprite firstSprite;
-	Script startScript1;
+	private Script startScript1;
 	private float delta = 0.001f;
 
 	@Override

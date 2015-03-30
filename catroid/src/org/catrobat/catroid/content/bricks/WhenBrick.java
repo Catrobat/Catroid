@@ -41,11 +41,8 @@ public class WhenBrick extends ScriptBrick {
 	private static final long serialVersionUID = 1L;
 
 	public WhenBrick(WhenScript whenScript) {
+		super();
 		this.whenScript = whenScript;
-	}
-
-	public WhenBrick() {
-
 	}
 
 	@Override
@@ -137,7 +134,7 @@ public class WhenBrick extends ScriptBrick {
 			View layout = view.findViewById(R.id.brick_when_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

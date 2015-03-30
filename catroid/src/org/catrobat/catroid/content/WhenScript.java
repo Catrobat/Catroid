@@ -50,6 +50,7 @@ public class WhenScript extends Script {
 	}
 
 	public WhenScript(WhenBrick brick) {
+		super();
 		this.brick = brick;
 	}
 
