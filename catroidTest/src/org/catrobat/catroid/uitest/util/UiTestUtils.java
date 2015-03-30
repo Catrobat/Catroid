@@ -376,7 +376,7 @@ public final class UiTestUtils {
 
 	private static void insertValue(Solo solo, String value) {
 
-		for (char item : (value.toCharArray())) {
+		for (char item : value.toCharArray()) {
 			switch (item) {
 				case '-':
 					solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_minus));
@@ -1582,7 +1582,7 @@ public final class UiTestUtils {
 			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
 					"de", "at", token, context);
 
-			assert (userRegistered);
+			assert userRegistered;
 
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
@@ -1707,7 +1707,7 @@ public final class UiTestUtils {
 	}
 
 	private static class ProjectWithCatrobatLanguageVersion extends Project {
-		static final long serialVersionUID = 1L;
+		public static final long serialVersionUID = 1L;
 		private final float catrobatLanguageVersion;
 
 		public ProjectWithCatrobatLanguageVersion(String name, float catrobatLanguageVersion) {

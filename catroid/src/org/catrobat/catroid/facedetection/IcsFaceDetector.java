@@ -37,9 +37,6 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 
 	private boolean running = false;
 
-	public IcsFaceDetector() {
-	}
-
 	@Override
 	public boolean startFaceDetection() {
 		if (running) {

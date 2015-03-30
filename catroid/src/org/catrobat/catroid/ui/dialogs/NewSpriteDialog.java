@@ -75,11 +75,13 @@ public class NewSpriteDialog extends DialogFragment {
 	private SpinnerAdapterWrapper spinnerAdapter;
 
 	public NewSpriteDialog() {
+		super();
 		this.requestedAction = ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT;
 		this.wizardStep = DialogWizardStep.STEP_1;
 	}
 
 	public NewSpriteDialog(SpinnerAdapterWrapper spinnerAdapter) {
+		super();
 		this.requestedAction = ActionAfterFinished.ACTION_UPDATE_SPINNER;
 		this.spinnerAdapter = spinnerAdapter;
 		this.wizardStep = DialogWizardStep.STEP_1;
@@ -87,21 +89,12 @@ public class NewSpriteDialog extends DialogFragment {
 
 	private NewSpriteDialog(DialogWizardStep wizardStep, Uri lookUri, String newObjectName,
 			ActionAfterFinished requestedAction, SpinnerAdapterWrapper spinnerAdapter) {
+		super();
 		this.requestedAction = requestedAction;
 		this.wizardStep = wizardStep;
 		this.lookUri = lookUri;
 		this.newObjectName = newObjectName;
 		this.spinnerAdapter = spinnerAdapter;
-	}
-
-	static NewSpriteDialog newInstance() {
-		NewSpriteDialog newSpriteDialog = new NewSpriteDialog();
-
-		Bundle arguments = new Bundle();
-		arguments.putInt(ActionAfterFinished.KEY, ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT.ordinal());
-		arguments.putInt(DialogWizardStep.KEY, DialogWizardStep.STEP_1.ordinal());
-		newSpriteDialog.setArguments(arguments);
-		return newSpriteDialog;
 	}
 
 	@Override

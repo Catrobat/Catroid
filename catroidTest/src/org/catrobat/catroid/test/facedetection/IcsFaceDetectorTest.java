@@ -78,7 +78,7 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		try {
 			camera = Camera.open();
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-				possibleFaces = (camera.getParameters()).getMaxNumDetectedFaces();
+				possibleFaces = camera.getParameters().getMaxNumDetectedFaces();
 			}
 			camera.release();
 		} catch (Exception exc) {
@@ -141,7 +141,7 @@ public class IcsFaceDetectorTest extends InstrumentationTestCase {
 		}
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-			int faces = (camera.getParameters()).getMaxNumDetectedFaces();
+			int faces = camera.getParameters().getMaxNumDetectedFaces();
 			camera.release();
 			camera = null;
 

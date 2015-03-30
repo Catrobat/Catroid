@@ -58,10 +58,6 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 
 	public static final String DIALOG_FRAGMENT_TAG = "overwrite_rename_look";
 
-	public OverwriteRenameDialog() {
-		super();
-	}
-
 	public void setProgramName(String programName) {
 		this.programName = programName;
 	}

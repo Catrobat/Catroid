@@ -115,9 +115,6 @@ public class LookData implements Serializable, Cloneable {
 
 	}
 
-	public LookData() {
-	}
-
 	public String getAbsolutePath() {
 		if (fileName != null) {
 			return Utils.buildPath(getPathToImageDirectory(), fileName);

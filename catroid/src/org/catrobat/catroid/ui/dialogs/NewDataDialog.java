@@ -56,8 +56,8 @@ import java.util.List;
 public class NewDataDialog extends SherlockDialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_new_data_catroid";
-	Spinner spinnerToUpdate;
-	DialogType dialogType = DialogType.SHOW_LIST_CHECKBOX;
+	private Spinner spinnerToUpdate;
+	private DialogType dialogType = DialogType.SHOW_LIST_CHECKBOX;
 
 	public static enum DialogType {
 		SHOW_LIST_CHECKBOX, USER_LIST, USER_VARIABLE

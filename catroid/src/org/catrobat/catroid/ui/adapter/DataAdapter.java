@@ -80,6 +80,7 @@ public class DataAdapter extends BaseAdapter implements ScriptActivityAdapterInt
 	}
 
 	public DataAdapter(Context context, List<UserList> spriteLists, List<UserList> projectLists, List<UserVariable> spriteVariables, List<UserVariable> projectVariables, List<UserVariable> userBrickVariables) {
+		super();
 		this.spriteLists = spriteLists;
 		this.projectLists = projectLists;
 		this.projectVariables = projectVariables;

@@ -82,6 +82,7 @@ public class FormulaEditorDataFragment extends SherlockListFragment implements D
 	private boolean inUserBrick;
 
 	public FormulaEditorDataFragment(boolean inUserBrick) {
+		super();
 		contextActionMode = null;
 		deleteIndex = -1;
 		inContextMode = false;

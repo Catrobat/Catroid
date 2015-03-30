@@ -50,14 +50,17 @@ public class ChangeVolumeByNBrick extends FormulaBrick {
 	private transient View prototypeView;
 
 	public ChangeVolumeByNBrick() {
+		super();
 		addAllowedBrickField(BrickField.VOLUME_CHANGE);
 	}
 
 	public ChangeVolumeByNBrick(double changeVolumeValue) {
+		super();
 		initializeBrickFields(new Formula(changeVolumeValue));
 	}
 
 	public ChangeVolumeByNBrick(Formula volume) {
+		super();
 		initializeBrickFields(volume);
 	}
 
@@ -126,7 +129,7 @@ public class ChangeVolumeByNBrick extends FormulaBrick {
 			editVolume.setTextColor(editVolume.getTextColors().withAlpha(alphaValue));
 			editVolume.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 		return view;

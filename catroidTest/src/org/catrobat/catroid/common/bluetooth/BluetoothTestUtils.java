@@ -42,11 +42,11 @@ public final class BluetoothTestUtils {
 
 	private BluetoothTestUtils() {}
 
-	static byte[] intToByteArray(int i) {
+	public static byte[] intToByteArray(int i) {
 		return ByteBuffer.allocate(4).putInt(i).array();
 	}
 
-	static byte[] getSubArray(byte[] buffer, int offset) {
+	public static byte[] getSubArray(byte[] buffer, int offset) {
 		if (buffer == null) {
 			return null;
 		}
@@ -54,7 +54,7 @@ public final class BluetoothTestUtils {
 		return Arrays.copyOfRange(buffer, offset, buffer.length);
 	}
 
-	static byte[] getSubArray(byte[] buffer, int offset, int count) {
+	public static byte[] getSubArray(byte[] buffer, int offset, int count) {
 		if (buffer == null) {
 			return null;
 		}
@@ -65,7 +65,7 @@ public final class BluetoothTestUtils {
 		return Arrays.copyOfRange(buffer, offset, offset + count);
 	}
 
-	static void hookInConnection(final BluetoothConnection connectionProxy) {
+	public static void hookInConnection(final BluetoothConnection connectionProxy) {
 		ConnectBluetoothDeviceActivity.setConnectionFactory(new BluetoothConnectionFactory() {
 			@Override
 			public <T extends BluetoothDevice> BluetoothConnection
@@ -75,7 +75,7 @@ public final class BluetoothTestUtils {
 		});
 	}
 
-	static void hookInConnectionFactoryWithBluetoothConnectionProxy(final Logger logger) {
+	public static void hookInConnectionFactoryWithBluetoothConnectionProxy(final Logger logger) {
 		ConnectBluetoothDeviceActivity.setConnectionFactory(new BluetoothConnectionFactory() {
 			@Override
 			public <T extends BluetoothDevice> BluetoothConnection createBTConnectionForDevice(Class<T> device, String address, UUID deviceUUID, Context applicationContext) {
@@ -84,7 +84,7 @@ public final class BluetoothTestUtils {
 		});
 	}
 
-	static void hookInTestDevice(final BluetoothDevice testDevice) {
+	public static void hookInTestDevice(final BluetoothDevice testDevice) {
 		ConnectBluetoothDeviceActivity.setDeviceFactory(new BluetoothDeviceFactory() {
 			@Override
 			public <T extends BluetoothDevice> BluetoothDevice createDevice(Class<T> service, Context applicationContext) {

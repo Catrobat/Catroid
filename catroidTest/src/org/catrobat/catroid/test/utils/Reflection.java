@@ -127,8 +127,6 @@ public final class Reflection {
 				objectClass = int.class;
 			} else if (objectClass == Long.class) {
 				objectClass = long.class;
-			} else if (objectClass == Short.class) {
-				objectClass = short.class;
 			}
 
 			return objectClass;

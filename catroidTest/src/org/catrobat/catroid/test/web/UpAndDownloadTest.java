@@ -30,12 +30,6 @@ import org.catrobat.catroid.utils.Utils;
 
 public class UpAndDownloadTest extends AndroidTestCase {
 
-	//private File projectZipOnMockServer;
-
-	public UpAndDownloadTest() {
-		super();
-	}
-
 	@Override
 	protected void tearDown() throws Exception {
 		TestUtils.clearProject("uploadtestProject");

@@ -49,10 +49,6 @@ public class ServerCallsTest extends AndroidTestCase {
 	public static final int STATUS_CODE_USER_EMAIL_INVALID = 765;
 	public static final int STATUS_CODE_AUTHENTICATION_FAILED = 601;
 
-	public ServerCallsTest() {
-		super();
-	}
-
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();

@@ -36,11 +36,12 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 
 public class UserVariableAdapterWrapper extends BaseAdapter {
 
-	DataAdapter dataAdapter;
-	Context context;
+	private DataAdapter dataAdapter;
+	private Context context;
 	private boolean isTouchInDropDownView;
 
 	public UserVariableAdapterWrapper(Context context, DataAdapter dataAdapter) {
+		super();
 		this.context = context;
 		this.dataAdapter = dataAdapter;
 	}

@@ -74,7 +74,7 @@ public abstract class LegoNXTCommunicator extends Thread {
 	// receive messages from the UI
 	// TODO should be fixed - could lead to problems
 	@SuppressLint("HandlerLeak")
-	final Handler myHandler = new Handler() {
+	public final Handler myHandler = new Handler() {
 		@Override
 		public void handleMessage(Message myMessage) {
 
@@ -106,6 +106,7 @@ public abstract class LegoNXTCommunicator extends Thread {
 	protected Resources resources;
 
 	public LegoNXTCommunicator(Handler uiHandler, Resources resources) {
+		super();
 		this.uiHandler = uiHandler;
 		this.resources = resources;
 	}

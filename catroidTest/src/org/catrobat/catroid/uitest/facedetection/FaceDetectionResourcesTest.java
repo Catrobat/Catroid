@@ -50,7 +50,7 @@ public class FaceDetectionResourcesTest extends BaseActivityInstrumentationTestC
 	private static final int SLEEP_TIME = 300;
 
 	private Project project;
-	Sprite sprite;
+	private Sprite sprite;
 
 	public FaceDetectionResourcesTest() {
 		super(MainMenuActivity.class);

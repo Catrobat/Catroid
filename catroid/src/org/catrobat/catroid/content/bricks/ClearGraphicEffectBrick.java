@@ -42,10 +42,6 @@ import java.util.List;
 public class ClearGraphicEffectBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
-	public ClearGraphicEffectBrick() {
-
-	}
-
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
@@ -90,7 +86,7 @@ public class ClearGraphicEffectBrick extends BrickBaseType {
 			TextView clearGraphicEffectLabel = (TextView) view.findViewById(R.id.brick_clear_graphic_effect_label);
 			clearGraphicEffectLabel.setTextColor(clearGraphicEffectLabel.getTextColors().withAlpha(alphaValue));
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

@@ -69,12 +69,9 @@ public class PointToBrick extends BrickBaseType {
 	private transient SpinnerAdapterWrapper spinnerAdapterWrapper;
 
 	public PointToBrick(Sprite pointedSprite) {
+		super();
 		this.pointedObject = pointedSprite;
 		this.oldSelectedObject = "";
-	}
-
-	public PointToBrick() {
-
 	}
 
 	@Override

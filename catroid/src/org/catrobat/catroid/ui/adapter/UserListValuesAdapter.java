@@ -44,6 +44,7 @@ public class UserListValuesAdapter extends BaseAdapter implements View.OnClickLi
 	}
 
 	public UserListValuesAdapter(Context context, List<String> userListValuesList) {
+		super();
 		this.context = context;
 		this.userListValuesList = userListValuesList;
 	}

@@ -77,6 +77,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 	private static final int DEFAULT_MOVE_POWER_IN_PERCENT = 20;
 
 	public StorageHandlerTest() throws IOException {
+		super();
 		storageHandler = StorageHandler.getInstance();
 	}
 

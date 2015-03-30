@@ -91,8 +91,8 @@ public class ProjectScreenshotLoader {
 		}
 	}
 
-	class ScreenshotLoader implements Runnable {
-		ScreenshotData projectScreenshotData;
+	private class ScreenshotLoader implements Runnable {
+		private ScreenshotData projectScreenshotData;
 
 		ScreenshotLoader(ScreenshotData screenshotData) {
 			this.projectScreenshotData = screenshotData;
@@ -147,7 +147,7 @@ public class ProjectScreenshotLoader {
 		}
 	}
 
-	boolean imageViewReused(ScreenshotData projectScreenshotData) {
+	private boolean imageViewReused(ScreenshotData projectScreenshotData) {
 		String tag = imageViews.get(projectScreenshotData.imageView);
 		if (tag == null || !tag.equals(projectScreenshotData.projectName)) {
 			return true;

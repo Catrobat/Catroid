@@ -51,6 +51,7 @@ public class PrototypeBrickAdapter extends BaseAdapter {
 	private List<Brick> checkedBricks = new ArrayList<Brick>();
 
 	public PrototypeBrickAdapter(Context context, List<Brick> brickList) {
+		super();
 		this.context = context;
 		this.brickList = brickList;
 	}

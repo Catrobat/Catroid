@@ -54,7 +54,7 @@ public class FaceDetectionSettingTest extends BaseActivityInstrumentationTestCas
 	private static final int SCREEN_HEIGHT = 800;
 
 	private Project project;
-	Sprite sprite;
+	private Sprite sprite;
 
 	public FaceDetectionSettingTest() {
 		super(MainMenuActivity.class);

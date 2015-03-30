@@ -71,6 +71,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	private int userBrickId;
 
 	public UserBrick(int userBrickId) {
+		super();
 		this.userBrickId = userBrickId;
 		this.definitionBrick = new UserScriptDefinitionBrick(this);
 		//first = first occurance of this Userbrick in script, second = parameterindex of this occurence of this Userbrick in script
@@ -79,6 +80,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 	}
 
 	public UserBrick(UserScriptDefinitionBrick definitionBrick, Sprite sprite) {
+		super();
 		this.definitionBrick = definitionBrick;
 		this.userBrickId = sprite.getUserBrickList().size() - 1;
 		definitionBrick.setUserBrick(this);
@@ -217,7 +219,7 @@ public class UserBrick extends BrickBaseType implements OnClickListener {
 			}
 		}
 
-		this.alphaValue = (alphaValue);
+		this.alphaValue = alphaValue;
 		return view;
 	}
 

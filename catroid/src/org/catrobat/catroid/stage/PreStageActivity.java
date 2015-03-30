@@ -409,7 +409,7 @@ public class PreStageActivity extends BaseActivity {
 	//messages from Lego NXT device can be handled here
 	// TODO should be fixed - could lead to problems
 	@SuppressLint("HandlerLeak")
-	final Handler recieveHandler = new Handler() {
+	private final Handler recieveHandler = new Handler() {
 		@Override
 		public void handleMessage(Message myMessage) {
 

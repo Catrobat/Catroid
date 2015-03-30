@@ -40,10 +40,12 @@ public class StartScript extends Script {
 	}
 
 	public StartScript(boolean isUserScript) {
+		super();
 		this.isUserScript = isUserScript;
 	}
 
 	public StartScript(WhenStartedBrick brick) {
+		super();
 		this.brick = brick;
 	}
 

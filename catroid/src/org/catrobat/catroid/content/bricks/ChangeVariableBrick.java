@@ -59,23 +59,28 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	private transient AdapterView<?> adapterView;
 
 	public ChangeVariableBrick() {
+		super();
 		addAllowedBrickField(BrickField.VARIABLE_CHANGE);
 	}
 
 	public ChangeVariableBrick(Formula variableFormula) {
+		super();
 		initializeBrickFields(variableFormula);
 	}
 
 	public ChangeVariableBrick(Formula variableFormula, UserVariable userVariable) {
+		super();
 		initializeBrickFields(variableFormula);
 		this.userVariable = userVariable;
 	}
 
 	public ChangeVariableBrick(double value) {
+		super();
 		initializeBrickFields(new Formula(value));
 	}
 
 	public ChangeVariableBrick(Formula variableFormula, UserVariable userVariable, boolean inUserBrick) {
+		super();
 		initializeBrickFields(variableFormula);
 		this.userVariable = userVariable;
 		this.inUserBrick = inUserBrick;
@@ -230,7 +235,7 @@ public class ChangeVariableBrick extends UserVariableBrick {
 			editVariable.setTextColor(editVariable.getTextColors().withAlpha(alphaValue));
 			editVariable.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 		return view;

@@ -58,15 +58,18 @@ public class SetVariableBrick extends UserVariableBrick {
 	private transient AdapterView<?> adapterView;
 
 	public SetVariableBrick() {
+		super();
 		addAllowedBrickField(BrickField.VARIABLE);
 	}
 
 	public SetVariableBrick(Formula variableFormula, UserVariable userVariable) {
+		super();
 		this.userVariable = userVariable;
 		initializeBrickFields(variableFormula);
 	}
 
 	public SetVariableBrick(double value) {
+		super();
 		this.userVariable = null;
 		initializeBrickFields(new Formula(value));
 	}
@@ -225,7 +228,7 @@ public class SetVariableBrick extends UserVariableBrick {
 			editVariable.setTextColor(editVariable.getTextColors().withAlpha(alphaValue));
 			editVariable.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 
