@@ -108,8 +108,9 @@
     <module name="EmptyBlock" />
     <module name="FallThrough" />
     <module name="MutableException" />
+    <module name="RedundantModifier" />
   </module>
-  
+
   <!-- For each spacing -->
   <module name="RegexpSingleline">
     <property name="format" value="^\s*for \(.*?([^ ]:|:[^ ])"/>
@@ -133,5 +134,11 @@
 
   <!-- Checks properties files for duplicated properties -->
   <module name="UniqueProperties" />
+
+  <module name="RegexpHeader">
+  <property name="headerFile" value="catroidSourceTest/res/agpl_license_text.txt"/>
+  <property name="fileExtensions" value="java,xml"/>
+  <property name="multiLines" value="1"/>
+</module>
 
 </module>
