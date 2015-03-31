@@ -80,6 +80,9 @@
       <property name="ordered" value="true"/>
       <property name="separated" value="true"/>
     </module>
+    <module name="AvoidStarImport">
+      <property name="excludes" value="junit.framework.Assert"/>
+    </module>
     <module name="UnusedImports"/>
     <module name="RedundantImport"/>
     <module name="GenericWhitespace"/>
