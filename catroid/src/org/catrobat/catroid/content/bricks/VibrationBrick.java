@@ -164,6 +164,3 @@ public class VibrationBrick extends FormulaBrick {
 		FormulaEditorFragment.showFragment(view, this, BrickField.VIBRATE_DURATION_IN_SECONDS);
 	}
 }
-
-}
-
