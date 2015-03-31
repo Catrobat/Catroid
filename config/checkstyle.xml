@@ -108,6 +108,9 @@
     </module>
 
     <!-- Package and Imports -->
+    <module name="AvoidStarImport">
+      <property name="excludes" value="junit.framework.Assert" />
+    </module>
     <module name="ImportOrder">
       <property name="option" value="bottom" />
       <property name="groups" value="android,com,cucumber,edu,junit,net,org,java,javax" />
