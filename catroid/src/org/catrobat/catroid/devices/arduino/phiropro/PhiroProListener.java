@@ -31,7 +31,6 @@ import org.catrobat.catroid.devices.arduino.common.firmata.message.AnalogMessage
 import org.catrobat.catroid.devices.arduino.common.firmata.message.DigitalMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.FirmwareVersionMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.I2cReplyMessage;
-import org.catrobat.catroid.devices.arduino.common.firmata.message.Message;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.ProtocolVersionMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.StringSysexMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.SysexMessage;

@@ -82,6 +82,7 @@ public class Firmata implements IFirmata, ISerialListener {
         writers.put(I2cReadRequestMessage.class, new I2cRequestMessageWriter());
         writers.put(I2cConfigMessage.class, new I2cConfigMessageWriter());
 		writers.put(ReportAnalogCapabilityMessage.class, sysexMessageWriter);
+		writers.put(SysexByteMessage.class, new SysexByteMessageWriter());
     }
 
     private static List<IMessageReader> readers;
