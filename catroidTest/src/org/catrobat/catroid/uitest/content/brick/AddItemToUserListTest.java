@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.UserListBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -91,7 +92,7 @@ public class AddItemToUserListTest extends BaseActivityInstrumentationTestCase<M
 		assertTrue("ScriptFragment not visible", solo.waitForText(solo.getString(R.string.brick_add_item_to_userlist)));
 		assertTrue("Created List not set in spinner", solo.searchText(userListName));
 
-		UserList userList = (UserList) Reflection.getPrivateField(addItemToUserListBrick, "userList");
+		UserList userList = (UserList) Reflection.getPrivateField(UserListBrick.class, addItemToUserListBrick, "userList");
 		assertNotNull("UserList is null", userList);
 
 		solo.clickOnView(solo.getView(R.id.add_item_to_userlist_spinner));
@@ -108,7 +109,7 @@ public class AddItemToUserListTest extends BaseActivityInstrumentationTestCase<M
 		assertTrue("ScriptFragment not visible", solo.waitForText(solo.getString(R.string.brick_add_item_to_userlist)));
 		assertTrue("Created UserList not set in spinner", solo.searchText(secondUserListName));
 
-		userList = (UserList) Reflection.getPrivateField(addItemToUserListBrick, "userList");
+		userList = (UserList) Reflection.getPrivateField(UserListBrick.class, addItemToUserListBrick, "userList");
 		assertNotNull("UserList is null", userList);
 		assertTrue("UserList Name not as expected", userList.getName().equals(secondUserListName));
 
@@ -134,7 +135,7 @@ public class AddItemToUserListTest extends BaseActivityInstrumentationTestCase<M
 		assertTrue("UserList not set in spinner after deletion", solo.searchText(userListName));
 		userListSpinner = (Spinner) solo.getView(R.id.add_item_to_userlist_spinner);
 		assertEquals("UserList count not as expected in spinner", 2, userListSpinner.getAdapter().getCount());
-		userList = (UserList) Reflection.getPrivateField(addItemToUserListBrick, "userList");
+		userList = (UserList) Reflection.getPrivateField(UserListBrick.class, addItemToUserListBrick, "userList");
 		assertNotNull("UserList is null", userList);
 		assertTrue("UserList Name not as expected", userList.getName().equals(userListName));
 	}
@@ -162,7 +163,7 @@ public class AddItemToUserListTest extends BaseActivityInstrumentationTestCase<M
 		assertTrue("UserList not set in spinner after deletion", solo.searchText(userListName));
 		userListSpinner = (Spinner) solo.getView(R.id.add_item_to_userlist_spinner);
 		assertEquals("UserList count not as expected in spinner", 2, userListSpinner.getAdapter().getCount());
-		UserList userList = (UserList) Reflection.getPrivateField(addItemToUserListBrick, "userList");
+		UserList userList = (UserList) Reflection.getPrivateField(UserListBrick.class, addItemToUserListBrick, "userList");
 		assertNotNull("UserList is null", userList);
 		assertTrue("UserList Name not as expected", userList.getName().equals(userListName));
 	}

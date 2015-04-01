@@ -26,7 +26,6 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -50,14 +49,13 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserListAdapterWrapper;
 import org.catrobat.catroid.ui.dialogs.NewDataDialog;
-import org.catrobat.catroid.ui.dialogs.NewDataDialog.NewUserListDialogListener;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class InsertItemIntoUserListBrick extends FormulaBrick implements OnClickListener, NewUserListDialogListener {
+public class InsertItemIntoUserListBrick extends UserListBrick {
+
 	private static final long serialVersionUID = 1L;
-	private UserList userList;
 	private transient AdapterView<?> adapterView;
 
 	public InsertItemIntoUserListBrick(Formula userListFormulaValueToInsert, Formula userListFormulaIndexToInsert, UserList userList) {
@@ -74,11 +72,6 @@ public class InsertItemIntoUserListBrick extends FormulaBrick implements OnClick
 		addAllowedBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX);
 		setFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE, userListFormulaValueToInsert);
 		setFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX, userListFormulaIndexToInsert);
-	}
-
-	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
 	}
 
 	@Override
@@ -275,35 +268,6 @@ public class InsertItemIntoUserListBrick extends FormulaBrick implements OnClick
 		InsertItemIntoUserListBrick copyBrick = (InsertItemIntoUserListBrick) clone();
 		copyBrick.userList = currentProject.getDataContainer().getUserList(userList.getName(), sprite);
 		return copyBrick;
-	}
-
-	private void updateUserListIfDeleted(UserListAdapterWrapper userListAdapterWrapper) {
-		if (userList != null && (userListAdapterWrapper.getPositionOfItem(userList) == 0)) {
-			userList = null;
-		}
-	}
-
-	private void setSpinnerSelection(Spinner userListSpinner, UserList newUserList) {
-		UserListAdapterWrapper userListAdapterWrapper = (UserListAdapterWrapper) userListSpinner.getAdapter();
-
-		updateUserListIfDeleted(userListAdapterWrapper);
-
-		if (userList != null) {
-			userListSpinner.setSelection(userListAdapterWrapper.getPositionOfItem(userList), true);
-		} else if (newUserList != null) {
-			userListSpinner.setSelection(userListAdapterWrapper.getPositionOfItem(newUserList), true);
-			userList = newUserList;
-		} else {
-			userListSpinner.setSelection(userListAdapterWrapper.getCount() - 1, true);
-			userList = userListAdapterWrapper.getItem(userListAdapterWrapper.getCount() - 1);
-		}
-	}
-
-	@Override
-	public void onFinishNewUserListDialog(Spinner spinnerToUpdate, UserList newUserList) {
-		UserListAdapterWrapper userListAdapterWrapper = ((UserListAdapterWrapper) spinnerToUpdate.getAdapter());
-		userListAdapterWrapper.notifyDataSetChanged();
-		setSpinnerSelection(spinnerToUpdate, newUserList);
 	}
 
 }
