@@ -237,9 +237,7 @@ public final class LookController {
 
 		lookData.setLookFilename(fileName);
 		lookData.setLookName(name);
-		lookData.setLookDataType(lookDataType);
 		lookDataList.add(lookData);
-
 		fragment.updateLookAdapter(lookData);
 	}
 

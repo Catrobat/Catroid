@@ -34,6 +34,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.utils.ImageEditing;
 import org.catrobat.catroid.utils.Utils;
 
@@ -55,7 +56,6 @@ public class LookData implements Serializable, Cloneable {
 	protected transient Pixmap pixmap = null;
 	protected transient Pixmap originalPixmap = null;
 	protected transient TextureRegion region = null;
-	protected LookDataType lookDataType;
 
 	public static enum LookDataType {
 
@@ -69,7 +69,6 @@ public class LookData implements Serializable, Cloneable {
 
 		cloneLookData.name = this.name;
 		cloneLookData.fileName = this.fileName;
-		cloneLookData.lookDataType = this.lookDataType;
 		String filePath = getPathToImageDirectory() + "/" + fileName;
 		try {
 			ProjectManager.getInstance().getFileChecksumContainer().incrementUsage(filePath);
@@ -125,7 +124,6 @@ public class LookData implements Serializable, Cloneable {
 
 	public LookData() {
 
-		lookDataType = LookDataType.IMAGE;
 	}
 
 	public String getAbsolutePath() {
@@ -146,11 +144,6 @@ public class LookData implements Serializable, Cloneable {
 
 	public void setLookFilename(String fileName) {
 		this.fileName = fileName;
-	}
-
-	public void setLookDataType (LookDataType lookDataType)
-	{
-		this.lookDataType = lookDataType;
 	}
 
 	public String getLookFileName() {
@@ -199,5 +192,10 @@ public class LookData implements Serializable, Cloneable {
 	public void onDraw()
 	{
 		//Nothing to do here
+	}
+
+	public int getRequiredResources()
+	{
+		return Brick.NO_RESOURCES;
 	}
 }

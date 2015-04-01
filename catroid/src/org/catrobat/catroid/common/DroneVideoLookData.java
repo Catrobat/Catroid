@@ -31,6 +31,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.parrot.freeflight.ui.gl.GLBGVideoSprite;
 
+import org.catrobat.catroid.content.bricks.Brick;
+
 import java.io.Serializable;
 
 public class DroneVideoLookData extends LookData implements Serializable, Cloneable {
@@ -43,7 +45,6 @@ public class DroneVideoLookData extends LookData implements Serializable, Clonea
 	private int[] defaultVideoTextureSize = {320,240};
 
 	public DroneVideoLookData () {
-		lookDataType = LookDataType.DRONE_VIDEO;
 		firstStart = true;
 	}
 
@@ -97,5 +98,9 @@ public class DroneVideoLookData extends LookData implements Serializable, Clonea
 
 	}
 
-
+	@Override
+	public int getRequiredResources()
+	{
+		return Brick.ARDRONE_SUPPORT;
+	}
 }
