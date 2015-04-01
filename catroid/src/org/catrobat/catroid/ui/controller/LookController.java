@@ -30,6 +30,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -48,6 +50,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.LookViewHolder;
@@ -78,6 +81,7 @@ public final class LookController {
 
 	private static final String TAG = LookController.class.getSimpleName();
 	private static final LookController INSTANCE = new LookController();
+
 
 	private LookController() {
 	}
@@ -217,15 +221,51 @@ public final class LookController {
 		copyImageToCatroid(originalImagePath, activity, lookDataList, fragment);
 	}
 
-	private void updateLookAdapter(String name, String fileName, ArrayList<LookData> lookDataList, LookFragment fragment) {
+	private void updateLookAdapter(String name, String fileName, ArrayList<LookData> lookDataList, LookFragment fragment, LookData.LookDataType lookDataType)
+	{
 		name = Utils.getUniqueLookName(name);
+		LookData lookData;
 
-		LookData lookData = new LookData();
+		switch(lookDataType)
+		{
+			case DRONE_VIDEO:
+				lookData = new DroneVideoLookData();
+				break;
+			default:
+				lookData = new LookData();
+				break;
+		}
+
 		lookData.setLookFilename(fileName);
 		lookData.setLookName(name);
+		lookData.setLookDataType(lookDataType);
 		lookDataList.add(lookData);
 
 		fragment.updateLookAdapter(lookData);
+	}
+
+
+	private void updateLookAdapter(String name, String fileName, ArrayList<LookData> lookDataList, LookFragment fragment) {
+
+		updateLookAdapter(name, fileName, lookDataList, fragment, LookData.LookDataType.IMAGE);
+	}
+
+	public void loadDroneVideoImageToProject(String defaultImageName, int imageId, Activity activity, ArrayList<LookData> lookDataList, LookFragment fragment)
+	{
+		try {
+			Bitmap newImage = BitmapFactory.decodeResource(activity.getApplicationContext().getResources(), imageId);
+			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+			File imageFile = StorageHandler.getInstance().createImageFromBitmap(projectName, newImage, defaultImageName);
+
+			updateLookAdapter(defaultImageName, imageFile.getName(), lookDataList, fragment, LookData.LookDataType.DRONE_VIDEO);
+		}
+		catch (IOException e)
+		{
+			Utils.showErrorDialog(activity, R.string.error_load_image);
+		}
+
+		fragment.destroyLoader();
+		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 	}
 
 	private void copyImageToCatroid(String originalImagePath, Activity activity, ArrayList<LookData> lookDataList,

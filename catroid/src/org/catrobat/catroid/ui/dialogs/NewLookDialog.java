@@ -35,8 +35,13 @@ import android.view.View;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.controller.LookController;
 import org.catrobat.catroid.ui.fragment.LookFragment;
+
+import java.util.ArrayList;
 
 public class NewLookDialog extends DialogFragment {
 
@@ -64,6 +69,11 @@ public class NewLookDialog extends DialogFragment {
 		setupGalleryButton(dialogView);
 		setupCameraButton(dialogView);
 		setupMediaLibraryButton(dialogView);
+
+		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), false))
+		{
+			setupDroneVideoButton(dialogView);
+		}
 
 		AlertDialog dialog;
 		AlertDialog.Builder dialogBuilder = new CustomAlertDialogBuilder(getActivity()).setView(dialogView).setTitle(
@@ -144,5 +154,21 @@ public class NewLookDialog extends DialogFragment {
 				NewLookDialog.this.dismiss();
 			}
 		});
+	}
+
+	private void setupDroneVideoButton(View parentView) {
+		View droneVideoButton = parentView.findViewById(R.id.dialog_new_look_droneVideoStream);
+		View linearLayout2ndRow = parentView.findViewById(R.id.dialog_new_drone_video);
+		linearLayout2ndRow.setVisibility(View.VISIBLE);
+
+		droneVideoButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View view) {
+				fragment.addLookDroneVideo();
+				NewLookDialog.this.dismiss();
+			}
+		});
+
 	}
 }

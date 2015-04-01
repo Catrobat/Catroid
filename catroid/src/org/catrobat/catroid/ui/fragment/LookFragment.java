@@ -574,6 +574,12 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		startActivityForResult(intent, LookController.REQUEST_MEDIA_LIBRARY);
 	}
 
+	public void addLookDroneVideo() {
+
+		LookController.getInstance().loadDroneVideoImageToProject("drone video", R.drawable.ic_video, this.getActivity(), lookDataList, this);
+
+	}
+
 	@Override
 	public boolean getShowDetails() {
 		// TODO CHANGE THIS!!! (was just a quick fix)

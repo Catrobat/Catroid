@@ -277,6 +277,7 @@
     <string name="add_look_media_library">Media Library</string>
     <string name="new_look_name">Look Name:</string>
     <string name="look_rename_overwrite">Look Name already exists !</string>
+    <string name="add_look_drone_video">Drone video</string>
     <!--  -->
 
     <!-- New Sound dialog -->

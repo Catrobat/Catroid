@@ -77,10 +77,14 @@ public class DroneVideoLook extends Look {
 		videoSize[1] = videoTexture.imageHeight;
 		videoTexture.onSurfaceChanged(videoSize[0], videoSize[1]);
 
+		setVideoTextureToFullScreen();
+	}
+
+	private void setVideoTextureToFullScreen()
+	{
+		//inverted because of rotation
 		float newX = getY() - (Gdx.graphics.getHeight() - getHeight()) /2f;
 		float newY = getX() - (Gdx.graphics.getWidth() - getWidth()) /2f;
-
-		//inverted because of rotation
 		setPosition(newX, newY);
 		setSize(Gdx.graphics.getHeight(), Gdx.graphics.getWidth());
 		setOrigin(getWidth() / 2f, getHeight() / 2f);
