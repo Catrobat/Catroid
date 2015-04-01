@@ -36,6 +36,8 @@ import org.catrobat.catroid.devices.arduino.common.firmata.message.ReportAnalogC
 import org.catrobat.catroid.devices.arduino.common.firmata.message.ReportAnalogPinMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.ReportFirmwareVersionMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.SetPinModeMessage;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.SysexByteMessage;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.SysexMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.serial.ISerial;
 import org.catrobat.catroid.devices.arduino.common.firmata.serial.SerialException;
 import org.catrobat.catroid.devices.arduino.common.firmata.serial.StreamingSerialAdapter;
@@ -94,7 +96,17 @@ public class PhiroProImpl implements PhiroPro {
 	@Override
 	public synchronized void playTone(int selectedTone, int durationInSeconds) {
 		sendAnalogFirmataMessage(PIN_SPEAKER_OUT, selectedTone);
-
+		/*
+		byte[] data  = {
+				(byte)0x0,
+				(byte)0x3,
+				(byte)(selectedTone & 0x7F),
+				(byte)(selectedTone >> 7),
+				(byte)(durationInSeconds & 0x7F),
+				(byte)(durationInSeconds >> 7)};
+		Message message = new SysexByteMessage(0x5F, data);
+		sendFirmataMessage(message);
+		*/
 		if (currentStopPlayToneTask != null) {
 			currentStopPlayToneTask.cancel();
 		}
