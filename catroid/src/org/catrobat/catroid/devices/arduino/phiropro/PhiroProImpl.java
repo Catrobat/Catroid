@@ -61,8 +61,11 @@ public class PhiroProImpl implements PhiroPro {
 	private static final int PIN_RGB_GREEN_RIGHT = 8;
 	private static final int PIN_RGB_BLUE_RIGHT = 9;
 
-	private static final int PIN_LEFT_MOTOR_BACKWARD = 10;
-	private static final int PIN_LEFT_MOTOR_FORWARD = 11;
+	//private static final int PIN_LEFT_MOTOR_BACKWARD = 10;
+	//private static final int PIN_LEFT_MOTOR_FORWARD = 11;
+
+	private static final int PIN_LEFT_MOTOR_BACKWARD = 11;
+	private static final int PIN_LEFT_MOTOR_FORWARD = 10;
 
 	private static final int PIN_RIGHT_MOTOR_FORWARD = 12;
 	private static final int PIN_RIGHT_MOTOR_BACKWARD = 13;

@@ -46,13 +46,13 @@ public class PhiroProMotorStopAction extends TemporalAction {
 		}
 
 		switch (motorEnum) {
-			case MOTOR_A:
+			case MOTOR_LEFT:
 				phiroPro.stopLeftMotor();
 				break;
-			case MOTOR_B:
+			case MOTOR_RIGHT:
 				phiroPro.stopRightMotor();
 				break;
-			case ALL_MOTORS:
+			case MOTOR_BOTH:
 				phiroPro.stopAllMovements();
 				break;
 		}

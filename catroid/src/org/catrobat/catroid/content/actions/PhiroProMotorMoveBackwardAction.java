@@ -68,15 +68,15 @@ public class PhiroProMotorMoveBackwardAction extends TemporalAction {
 		}
 
 		switch (motorEnum) {
-			case MOTOR_A:
-				phiroPro.moveRightMotorBackward(speedValue);
-				break;
-			case MOTOR_B:
+			case MOTOR_LEFT:
 				phiroPro.moveLeftMotorBackward(speedValue);
 				break;
-			case MOTOR_A_B:
+			case MOTOR_RIGHT:
 				phiroPro.moveRightMotorBackward(speedValue);
+				break;
+			case MOTOR_BOTH:
 				phiroPro.moveRightMotorBackward(speedValue);
+				phiroPro.moveLeftMotorBackward(speedValue);
 				break;
 		}
 	}
