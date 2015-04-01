@@ -143,7 +143,7 @@ public final class StandardProjectHandler {
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(takeOffSpriteName, DroneBrickFactory.DroneBricks.DRONE_TAKE_OFF_LAND_BRICK,
-				-260, 0, takeOffArrowFile));
+				200, -500, takeOffArrowFile));
 
 		//rotate Sprite start
 		String rotateSpriteName = context.getString(R.string.default_drone_project_sprites_rotate);
@@ -199,13 +199,13 @@ public final class StandardProjectHandler {
 				DroneBrickFactory.DroneBricks.DRONE_MOVE_FORWARD_BRICK, 100, 300, forwardFile, 2000));
 
 		//Backward Sprite
-		String backwardpriteName = context.getString(R.string.default_drone_project_sprites_back);
+		String backwardSpriteName = context.getString(R.string.default_drone_project_sprites_back);
 
 		File backwardFile = UtilFile.copyImageFromResourceIntoProject(projectName, downSpriteName
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_back, context, true,
 				backgroundImageScaleFactor);
 
-		defaultDroneProject.addSprite(createDroneSprite(backwardpriteName,
+		defaultDroneProject.addSprite(createDroneSprite(backwardSpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_MOVE_BACKWARD_BRICK, 100, -300, backwardFile, 2000));
 
 		//Left Sprite
@@ -248,7 +248,7 @@ public final class StandardProjectHandler {
 		defaultDroneProject.addSprite(createDroneSprite(turnRightSpriteName,
 				DroneBrickFactory.DroneBricks.DRONE_TURN_RIGHT_BRICK, 200, 100, turnrightFile, 2000));
 
-		//Video Sprite
+		//Video Sprite (toggle Background Brick)
 		String showVideoSpriteName = "Toggle video";
 
 		File showVideoFile = UtilFile.copyImageFromResourceIntoProject(projectName, showVideoSpriteName
@@ -256,6 +256,15 @@ public final class StandardProjectHandler {
 						true, backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(showVideoSpriteName, DroneBrickFactory.DroneBricks.DRONE_START_VIDEO_BRICK,-260,500, showVideoFile));
+
+		//Video Sprite 2 (with Look) + switch camera on tapped
+		String videoSpriteName = "drone video";
+		File videoFile = UtilFile.copyImageFromResourceIntoProject(projectName, videoSpriteName
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.ic_video, context,
+				true, backgroundImageScaleFactor);
+
+
+		defaultDroneProject.addSprite(createDroneVideoLookSprite(videoSpriteName, -200, 0, videoFile));
 
 
 		//Led Sprite
@@ -286,8 +295,36 @@ public final class StandardProjectHandler {
 		return createDroneSprite(spriteName, brickName, xPostition, yPosition, lookFile, timeInMilliseconds, 20);
 	}
 
+	private static Sprite createDroneVideoLookSprite(String spriteName, int xPosition, int yPosition, File lookFile)
+	{
+		Sprite sprite = new Sprite(spriteName);
 
-	private static Sprite createDroneSprite(String spriteName, DroneBrickFactory.DroneBricks brickName, int xPostition,
+		Script whenSpriteTappedScript = new WhenScript();
+		BrickBaseType brick = DroneBrickFactory.getInstanceOfDroneBrick(DroneBrickFactory.DroneBricks.DRONE_SWITCH_CAMERA_BRICK, sprite, 0, 0);
+		whenSpriteTappedScript.addBrick(brick);
+
+		Script whenProjectStartsScript = new StartScript();
+		PlaceAtBrick placeAtBrick = new PlaceAtBrick(calculateValueRelativeToScaledBackground(xPosition),
+				calculateValueRelativeToScaledBackground(yPosition));
+
+		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(90f);
+
+		whenProjectStartsScript.addBrick(placeAtBrick);
+		whenProjectStartsScript.addBrick(turnLeftBrick);
+
+		LookData lookData = new DroneVideoLookData();
+		lookData.setLookName("drone video");
+		lookData.setLookFilename(lookFile.getName());
+		sprite.getLookDataList().add(lookData);
+
+		sprite.addScript(whenSpriteTappedScript);
+		sprite.addScript(whenProjectStartsScript);
+
+		return sprite;
+	}
+
+
+	private static Sprite createDroneSprite(String spriteName, DroneBrickFactory.DroneBricks brickName, int xPosition,
 			int yPosition, File lookFile, int timeInMilliseconds, int powerInPercent) {
 		//
 		Sprite sprite = new Sprite(spriteName);
@@ -298,7 +335,7 @@ public final class StandardProjectHandler {
 		whenSpriteTappedScript.addBrick(brick);
 
 		Script whenProjectStartsScript = new StartScript();
-		PlaceAtBrick placeAtBrick = new PlaceAtBrick(calculateValueRelativeToScaledBackground(xPostition),
+		PlaceAtBrick placeAtBrick = new PlaceAtBrick(calculateValueRelativeToScaledBackground(xPosition),
 				calculateValueRelativeToScaledBackground(yPosition));
 		SetSizeToBrick setSizeBrick = new SetSizeToBrick(50.0);
 
