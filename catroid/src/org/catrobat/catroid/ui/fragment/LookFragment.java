@@ -531,6 +531,12 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		startActivityForResult(chooser, LookController.REQUEST_SELECT_OR_DRAW_IMAGE);
 	}
 
+	public void addLookDroneVideo() {
+
+		LookController.getInstance().loadDroneVideoImageToProject("drone video", R.drawable.ic_video, this.getActivity(), lookDataList, this);
+
+	}
+
 	@Override
 	public boolean getShowDetails() {
 		// TODO CHANGE THIS!!! (was just a quick fix)

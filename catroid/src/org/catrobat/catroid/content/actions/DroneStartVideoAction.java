@@ -41,14 +41,8 @@ import java.util.List;
 
 public class DroneStartVideoAction extends TemporalAction {
 
-	private static final String TAG = DroneStartVideoAction.class.getSimpleName();
-	private Sprite sprite;
-	private Look originalBackgroundLook;
-
-	public void setSprite (Sprite sprite)
-	{
-		this.sprite = sprite;
-	}
+	private Look videoBackgroundLook;
+	private boolean videoIsShown = false;
 
 	@Override
 	protected void begin() {
@@ -56,23 +50,26 @@ public class DroneStartVideoAction extends TemporalAction {
 
 		Sprite bgSprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
 
-		if (bgSprite.look instanceof DroneVideoLook )
+		if (videoBackgroundLook == null)
+			videoBackgroundLook = new DroneVideoLook(bgSprite);
+
+		if (videoIsShown )
 		{
-			StageActivity.stageListener.addActor(originalBackgroundLook);
-			StageActivity.stageListener.removeActor(bgSprite.look);
-			bgSprite.look = originalBackgroundLook;
+			StageActivity.stageListener.addActor(bgSprite.look);
+			StageActivity.stageListener.removeActor(videoBackgroundLook);
+			bgSprite.look.setZIndex(0);
+			videoIsShown = false;
 		}
+
 		else
 		{
-			originalBackgroundLook = bgSprite.look;
-			Look droneVideoLook = new DroneVideoLook(bgSprite);
-			StageActivity.stageListener.removeActor(originalBackgroundLook);
-			bgSprite.look = droneVideoLook;
-			StageActivity.stageListener.addActor(droneVideoLook);
+			StageActivity.stageListener.removeActor(bgSprite.look);
+			StageActivity.stageListener.addActor(videoBackgroundLook);
+			videoBackgroundLook.setZIndex(0);
+			videoIsShown = true;
 		}
 
 		super.begin();
-		bgSprite.look.setZIndex(0);
 	}
 
 	@Override

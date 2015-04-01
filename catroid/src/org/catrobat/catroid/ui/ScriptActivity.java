@@ -371,7 +371,6 @@ public class ScriptActivity extends BaseActivity {
 		if (hasFocus) {
 			if (soundFragment != null && soundFragment.isVisible()) {
 				sendBroadcast(new Intent(ScriptActivity.ACTION_SOUNDS_LIST_INIT));
-
 			}
 
 			if (lookFragment != null && lookFragment.isVisible()) {

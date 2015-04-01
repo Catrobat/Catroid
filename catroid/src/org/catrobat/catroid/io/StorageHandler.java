@@ -24,6 +24,7 @@ package org.catrobat.catroid.io;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.google.common.base.Charsets;
@@ -619,6 +620,22 @@ public final class StorageHandler {
 		return copyFileAddCheckSum(outputFile, inputFile);
 	}
 
+	public File createImageFromBitmap(String currentProjectName, Bitmap inputImage, String newName) throws IOException
+	{
+
+		File imageDirectory = new File(buildPath(buildProjectPath(currentProjectName), IMAGE_DIRECTORY));
+
+		File outputFileDirectory = new File(imageDirectory.getAbsolutePath());
+
+		if (outputFileDirectory.exists() == false) {
+			outputFileDirectory.mkdirs();
+		}
+
+		File outputFile = new File(buildPath(imageDirectory.getAbsolutePath(), newName));
+
+		return createFileFromBitmap(outputFile, inputImage, imageDirectory);
+	}
+
 	public File copyImage(String currentProjectName, String inputFilePath, String newName) throws IOException {
 		String newFilePath;
 		File imageDirectory = new File(buildPath(buildProjectPath(currentProjectName), IMAGE_DIRECTORY));
@@ -688,11 +705,32 @@ public final class StorageHandler {
 		}
 	}
 
+	private File createFileFromBitmap(File outputFile, Bitmap inputImage, File imageDirectory) throws IOException
+	{
+		saveBitmapToImageFile(outputFile, inputImage);
+
+		String checksumCompressedFile = Utils.md5Checksum(outputFile);
+		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
+		String newFilePath = buildPath(imageDirectory.getAbsolutePath(),
+				checksumCompressedFile + "_" + outputFile.getName());
+
+		if (!fileChecksumContainer.addChecksum(checksumCompressedFile, newFilePath)) {
+
+			return new File(fileChecksumContainer.getPath(checksumCompressedFile));
+		}
+
+		File compressedFile = new File(newFilePath);
+		outputFile.renameTo(compressedFile);
+
+		return compressedFile;
+	}
+
 	private File copyAndResizeImage(File outputFile, File inputFile, File imageDirectory) throws IOException {
 		Project project = ProjectManager.getInstance().getCurrentProject();
 		Bitmap bitmap = ImageEditing.getScaledBitmapFromPath(inputFile.getAbsolutePath(),
 				project.getXmlHeader().virtualScreenWidth, project.getXmlHeader().virtualScreenHeight,
 				ImageEditing.ResizeType.FILL_RECTANGLE_WITH_SAME_ASPECT_RATIO, true);
+
 
 		saveBitmapToImageFile(outputFile, bitmap);
 

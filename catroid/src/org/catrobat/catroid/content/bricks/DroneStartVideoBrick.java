@@ -115,7 +115,7 @@ public class DroneStartVideoBrick extends BrickBaseType {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.droneStartVideo(sprite));
+		sequence.addAction(ExtendedActions.droneStartVideo());
 		return null;
 	}
 
