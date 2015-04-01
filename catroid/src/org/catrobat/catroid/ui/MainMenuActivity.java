@@ -36,6 +36,7 @@ import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -54,8 +55,6 @@ import org.catrobat.catroid.stage.PreStageActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.NewProjectDialog;
-import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
-import org.catrobat.catroid.ui.dialogs.AboutDialogFragment;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilFile;
@@ -104,8 +103,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			setContentView(R.layout.activity_main_menu);
 
 			final ActionBar actionBar = getSupportActionBar();
-			actionBar.setDisplayUseLogoEnabled(true);
-			actionBar.setTitle(R.string.app_name);
+			if (actionBar != null) {
+				actionBar.setDisplayUseLogoEnabled(true);
+				actionBar.setTitle(R.string.app_name);
+			}
 
 			findViewById(R.id.main_menu_button_continue).setEnabled(false);
 

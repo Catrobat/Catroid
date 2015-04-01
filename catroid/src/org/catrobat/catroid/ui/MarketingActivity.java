@@ -58,8 +58,8 @@ public class MarketingActivity extends Activity {
 		setContentView(R.layout.
 				activity_standalone_advertising);
 
-		TextView app_name = (TextView) findViewById(R.id.title);
-		app_name.setText(BuildConfig.START_PROJECT);
+		TextView appName = (TextView) findViewById(R.id.title);
+		appName.setText(BuildConfig.START_PROJECT);
 
 		Bitmap bitmap = scaleDrawable2Bitmap();
 
@@ -78,9 +78,8 @@ public class MarketingActivity extends Activity {
 			}
 		});
 
-		TextView playstore, website;
-		website = (TextView) findViewById(R.id.website_link);
-		playstore = (TextView) findViewById(R.id.playStore_link);
+		TextView website = (TextView) findViewById(R.id.website_link);
+		TextView playstore = (TextView) findViewById(R.id.playStore_link);
 
 		website.setOnClickListener(new View.OnClickListener() {
 			@Override
