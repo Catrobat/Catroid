@@ -50,7 +50,7 @@ public class PhiroProMotorStopBrick extends BrickBaseType implements OnItemSelec
 	private transient AdapterView<?> adapterView;
 
 	public static enum Motor {
-		MOTOR_A, MOTOR_B, ALL_MOTORS
+		MOTOR_LEFT, MOTOR_RIGHT, MOTOR_BOTH
 	}
 
 	public PhiroProMotorStopBrick(Motor motor) {

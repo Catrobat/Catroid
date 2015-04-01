@@ -252,11 +252,11 @@ public class CategoryBricksFactory {
 		}
 
 		if (BuildConfig.FEATURE_PHIRO_PRO_ENABLED) {
-			motionBrickList.add(new PhiroProMotorMoveForwardBrick(PhiroProMotorMoveForwardBrick.Motor.MOTOR_A,
+			motionBrickList.add(new PhiroProMotorMoveForwardBrick(PhiroProMotorMoveForwardBrick.Motor.MOTOR_LEFT,
 					BrickValues.PHIRO_PRO_SPEED));
-			motionBrickList.add(new PhiroProMotorMoveBackwardBrick(PhiroProMotorMoveBackwardBrick.Motor.MOTOR_A,
+			motionBrickList.add(new PhiroProMotorMoveBackwardBrick(PhiroProMotorMoveBackwardBrick.Motor.MOTOR_LEFT,
 					BrickValues.PHIRO_PRO_SPEED));
-			motionBrickList.add(new PhiroProMotorStopBrick(PhiroProMotorStopBrick.Motor.ALL_MOTORS));
+			motionBrickList.add(new PhiroProMotorStopBrick(PhiroProMotorStopBrick.Motor.MOTOR_BOTH));
 		}
 
 		return motionBrickList;
@@ -356,11 +356,11 @@ public class CategoryBricksFactory {
 
 	private List<Brick> setupPhiroProCategoryList() {
 		List<Brick> phiroProBrickList = new ArrayList<Brick>();
-		phiroProBrickList.add(new PhiroProMotorMoveForwardBrick(PhiroProMotorMoveForwardBrick.Motor.MOTOR_A,
+		phiroProBrickList.add(new PhiroProMotorMoveForwardBrick(PhiroProMotorMoveForwardBrick.Motor.MOTOR_LEFT,
 				BrickValues.PHIRO_PRO_SPEED));
-		phiroProBrickList.add(new PhiroProMotorMoveBackwardBrick(PhiroProMotorMoveBackwardBrick.Motor.MOTOR_A,
+		phiroProBrickList.add(new PhiroProMotorMoveBackwardBrick(PhiroProMotorMoveBackwardBrick.Motor.MOTOR_LEFT,
 				BrickValues.PHIRO_PRO_SPEED));
-		phiroProBrickList.add(new PhiroProMotorStopBrick(PhiroProMotorStopBrick.Motor.ALL_MOTORS));
+		phiroProBrickList.add(new PhiroProMotorStopBrick(PhiroProMotorStopBrick.Motor.MOTOR_BOTH));
 		phiroProBrickList.add(new PhiroProPlayToneBrick(PhiroProPlayToneBrick.Tone.DO,
 				BrickValues.PHIRO_PRO_DURATION));
 		phiroProBrickList.add(new PhiroProRGBLightBrick(PhiroProRGBLightBrick.Eye.Both, BrickValues.PHIRO_PRO_VALUE_RED, BrickValues.PHIRO_PRO_VALUE_GREEN, BrickValues.PHIRO_PRO_VALUE_BLUE));
