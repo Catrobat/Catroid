@@ -21,7 +21,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 import org.rauschig.jarchivelib.ArchiverFactory
+
 import static org.rauschig.jarchivelib.ArchiveFormat.ZIP
 
 buildscript {
@@ -35,6 +37,7 @@ buildscript {
 
 ext {
     projectName = "WHACK A MOLE"
+    id = "1"
 }
 
 apply plugin: 'com.android.application'
@@ -53,7 +56,7 @@ android {
             applicationId 'org.catrobat.catroid.' + getPackageNameSuffix()
             versionCode 1
             versionName '1.0-standalone'
-            buildConfigField "String", "START_PROJECT", "\"${getStartingProjectName()}\""
+            buildConfigField "String", "START_PROJECT", "\"${getPackageNameSuffix()}\""
         }
     }
 }
@@ -85,12 +88,14 @@ def getPackageNameSuffix() {
 def getProjectName(String xml) {
     def program = new XmlSlurper().parseText(xml)
     project.ext.projectName = program.header.programName.text()
+    println project.ext.projectName
     return project.ext.projectName
 }
 
 def renameZipFile() {
     def zipFile = new File('catroid/assets/project.zip')
-    zipFile.renameTo 'catroid/assets/' + project.ext.projectName + '.zip'  //TODO remove illegal characters
+    def id = project.ext.id
+    zipFile.renameTo 'catroid/assets/' + project.ext.id + '.zip'  //TODO remove illegal characters
 }
 
 def copyAndRename() {
@@ -156,6 +161,7 @@ def managePermissions(String manifestText) {
 
 
 task buildStandalone(dependsOn: ':downloadProject') << {
+    println "buildStandalone task triggered"
     def manifestFile = new File("catroid/AndroidManifest.xml");
     def manifest = manifestFile.text;
     manifest = manifest.replaceAll("@string/app_name", (String) getProjectName(new File('catroid/assets/standalone/code.xml').text));
@@ -169,12 +175,15 @@ task buildStandalone(dependsOn: ':downloadProject') << {
 }
 
 task downloadProject() << {
-    def id = 1683; //TODO temorary placeholder for the projectID. remove later on
-    if (project.hasProperty("projectID")) {
-        id = project["projectID"]
+    def id = 3172; //debugging purpose only
+    def url = "";
+    if (project.hasProperty("download")) {
+        url = project["download"]
+        project.ext.id = project["suffix"]
+    } else {
+        url = "https://pocketcode.org/download/" + id + ".catrobat"
     }
-    println "Downloading project with id: " + id
-    def url = "https://pocketcode.org/download/" + id + ".catrobat"
+    println "downloading.... " + url
     File temp = new File("catroid/assets/", 'project.zip')
     temp.withOutputStream {
         it << new URL(url).content
