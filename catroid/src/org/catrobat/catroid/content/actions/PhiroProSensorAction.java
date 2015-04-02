@@ -58,7 +58,7 @@ public class PhiroProSensorAction extends Action {
 				return;
 			}
 			Double interpretation = ifCondition.interpretDouble(sprite);
-			ifConditionValue = interpretation.intValue() != 0 ? true : false;
+			ifConditionValue = interpretation.intValue() <= 750 ? true : false;
 			isInterpretedCorrectly = true;
 		} catch (InterpretationException interpretationException) {
 			isInterpretedCorrectly = false;
