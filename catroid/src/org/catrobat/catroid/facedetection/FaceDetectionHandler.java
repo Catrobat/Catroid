@@ -37,7 +37,7 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 
 public final class FaceDetectionHandler {
 
-
+	private static final String TAG = FaceDetectionHandler.class.getSimpleName();
 	private static FaceDetector faceDetector;
 	private static boolean running = false;
 	private static boolean paused = false;
@@ -157,7 +157,7 @@ public final class FaceDetectionHandler {
 			Camera camera = CameraManager.getInstance().getCamera();
 			possibleFaces = getNumberOfCameras(camera);
 		} catch (Exception exception) {
-            Log.e("Camera", "Camera unaccessable!", exception);
+            Log.e(TAG, "Camera unaccessable!", exception);
 		}
 		return possibleFaces > 0;
 	}

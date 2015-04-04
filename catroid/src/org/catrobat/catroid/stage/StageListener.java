@@ -76,6 +76,7 @@ import java.util.Map;
 
 public class StageListener implements ApplicationListener {
 
+	private static final String TAG = StageListener.class.getSimpleName();
 	private static final int AXIS_WIDTH = 4;
 	private static final float DELTA_ACTIONS_DIVIDER_MAXIMUM = 50f;
 	private static final int ACTIONS_COMPUTATION_TIME_MAXIMUM = 8;
@@ -236,8 +237,8 @@ public class StageListener implements ApplicationListener {
 			for (Sprite sprite : sprites) {
 				sprite.pause();
 			}
-		} catch (Exception e) {
-			Log.e("StageListener", e.getMessage());
+		} catch (Exception exception) {
+			Log.e(TAG, "Pausing menu failed!", exception);
 		}
 	}
 
