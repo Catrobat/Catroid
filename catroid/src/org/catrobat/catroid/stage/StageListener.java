@@ -39,11 +39,16 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.common.collect.Multimap;
 
 import org.catrobat.catroid.ProjectManager;
@@ -110,9 +115,10 @@ public class StageListener implements ApplicationListener {
 	private Project project;
 
 	private OrthographicCamera camera;
-	private SpriteBatch batch;
+	private Batch batch;
 	private BitmapFont font;
 	private Passepartout passepartout;
+	private Viewport viewPort;
 
 	private List<Sprite> sprites;
 
@@ -159,10 +165,10 @@ public class StageListener implements ApplicationListener {
 		virtualWidthHalf = virtualWidth / 2;
 		virtualHeightHalf = virtualHeight / 2;
 
-		stage = new Stage(virtualWidth, virtualHeight, true);
-		batch = stage.getSpriteBatch();
-
-		Gdx.gl.glViewport(0, 0, ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+		camera = new OrthographicCamera();
+		viewPort = new ExtendViewport(virtualWidth, virtualHeight, camera);
+		batch = new SpriteBatch();
+		stage = new Stage(viewPort, batch);
 		initScreenMode();
 
 		sprites = project.getSpriteList();
@@ -501,7 +507,7 @@ public class StageListener implements ApplicationListener {
 		if (!finished) {
 			this.finish();
 		}
-		stage.dispose();
+		disposeStageButKeepActors();
 		font.dispose();
 		axes.dispose();
 		disposeTextures();
@@ -590,26 +596,26 @@ public class StageListener implements ApplicationListener {
 	private void initScreenMode() {
 		switch (project.getScreenMode()) {
 			case STRETCH:
-				stage.setViewport(virtualWidth, virtualHeight, false);
 				screenshotWidth = ScreenValues.SCREEN_WIDTH;
 				screenshotHeight = ScreenValues.SCREEN_HEIGHT;
 				screenshotX = 0;
 				screenshotY = 0;
+				viewPort = new ScalingViewport(Scaling.stretch, virtualWidth, virtualHeight, camera);
 				break;
 
 			case MAXIMIZE:
-				stage.setViewport(virtualWidth, virtualHeight, true);
 				screenshotWidth = maximizeViewPortWidth;
 				screenshotHeight = maximizeViewPortHeight;
 				screenshotX = maximizeViewPortX;
 				screenshotY = maximizeViewPortY;
+				viewPort = new ExtendViewport(virtualWidth, virtualHeight, camera);
 				break;
 
 			default:
 				break;
 
 		}
-		camera = (OrthographicCamera) stage.getCamera();
+		viewPort.update(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT, false);
 		camera.position.set(0, 0, 0);
 		camera.update();
 	}
@@ -637,4 +643,10 @@ public class StageListener implements ApplicationListener {
 			}
 		}
 	}
+
+	private void disposeStageButKeepActors(){
+		stage.unfocusAll();
+		batch.dispose();
+	}
+
 }
