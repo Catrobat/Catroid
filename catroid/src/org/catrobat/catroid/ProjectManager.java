@@ -256,7 +256,7 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		this.project = project;
 	}
 
-	@Deprecated
+	//@Deprecated
 	public void deleteCurrentProject(Context context) throws IllegalArgumentException, IOException {
 		deleteProject(project.getName(), context);
 	}
