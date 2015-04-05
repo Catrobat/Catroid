@@ -190,7 +190,7 @@ public class PreStageActivity extends BaseActivity {
 				camera = CameraManager.getInstance().getCamera();
 			}
 		} catch (Exception exception) {
-			Log.e(getString(R.string.app_name), "failed to open Camera", exception);
+			Log.e(TAG, "failed to open Camera", exception);
 		}
 
 		if (camera == null) {

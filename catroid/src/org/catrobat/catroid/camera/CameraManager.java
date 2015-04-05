@@ -45,6 +45,7 @@ import java.util.List;
 public final class CameraManager implements Camera.PreviewCallback {
 
 	public static final int TEXTURE_NAME = 1;
+	private static final String TAG = CameraManager.class.getSimpleName();
 	private static CameraManager instance;
 	private Camera camera;
 	private SurfaceTexture texture;
@@ -110,8 +111,8 @@ public final class CameraManager implements Camera.PreviewCallback {
 		}
 		try {
 			camera = Camera.open(cameraID);
-		} catch (RuntimeException exception) {
-			Log.e("Camera", exception.getMessage());
+		} catch (RuntimeException runtimeException) {
+			Log.e(TAG, "Creating camera failed!", runtimeException);
 			return false;
 		}
 		camera.setPreviewCallbackWithBuffer(this);
@@ -119,8 +120,8 @@ public final class CameraManager implements Camera.PreviewCallback {
 		if (useTexture && texture != null) {
             try {
                 setTexture();
-            } catch (IOException e) {
-                Log.e("CameraManager", Log.getStackTraceString(e));
+            } catch (IOException iOException) {
+                Log.e(TAG, "Setting preview texture failed!", iOException);
                 return false;
             }
 		}
