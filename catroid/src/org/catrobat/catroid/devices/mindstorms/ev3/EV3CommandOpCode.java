@@ -20,30 +20,42 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.bluetooth.base;
 
-import org.catrobat.catroid.devices.arduino.phiro.Phiro;
-import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
-import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
-import org.catrobat.catroid.stage.StageResourceInterface;
+package org.catrobat.catroid.devices.mindstorms.ev3;
 
-import java.util.UUID;
+import android.util.SparseArray;
 
-public interface BluetoothDevice extends StageResourceInterface {
+public enum EV3CommandOpCode {
+	OP_UI_READ(0x81), OP_UI_WRITE(0x82),
 
-	Class<LegoNXT> LEGO_NXT = LegoNXT.class;
-	Class<Phiro> PHIRO = Phiro.class;
-	Class<LegoEV3> LEGO_EV3 = LegoEV3.class;
+	OP_SOUND(0x94), OP_SOUND_TEST(0x95),
 
-//	Class<Arduino> ARDUINO = Arduino.class;
-//	Class<Albert> ALBERT = Albert.class;
+	OP_OUTPUT_STEP_SPEED(0xAE), OP_OUTPUT_STEP_POWER(0xAC), OP_OUTPUT_TIME_SPEED(0xAF), OP_OUTPUT_TIME_POWER(0xAD),
 
-	String getName();
-	Class<? extends BluetoothDevice> getDeviceType();
-	void setConnection(BluetoothConnection connection);
-	void disconnect();
+	OP_OUTPUT_STOP(0xA3);
 
-	boolean isAlive();
+	private int commandByteValue;
+	private static final SparseArray<EV3CommandOpCode> LOOKUP = new SparseArray<EV3CommandOpCode>();
 
-	UUID getBluetoothDeviceUUID();
+	static {
+		for (EV3CommandOpCode c : EV3CommandOpCode.values()) {
+			LOOKUP.put(c.commandByteValue, c);
+		}
+	}
+
+	private EV3CommandOpCode(int commandByteValue) {
+		this.commandByteValue = commandByteValue;
+	}
+
+	public byte getByte() {
+		return (byte) commandByteValue;
+	}
+
+	public static boolean isMember(byte memberToTest) {
+		return LOOKUP.get(memberToTest & 0xFF) != null;
+	}
+
+	public static EV3CommandOpCode getTypeByValue(byte value) {
+		return LOOKUP.get(value & 0xFF);
+	}
 }

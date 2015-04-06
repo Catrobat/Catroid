@@ -71,6 +71,9 @@
   <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT Bausteine</string>
   <string name="preference_description_mindstorms_nxt_bricks">Erlaube Steuerung von Lego Mindstorms NXT Robotern</string>
   <string name="preference_title_mindstorms_nxt_sensors">Lego NXT Sensoren</string>
+  <string name="preference_title_enable_mindstorms_ev3_bricks">Lego Mindstorms EV3 Bausteine</string>
+  <string name="preference_description_mindstorms_ev3_bricks">Erlaube Steuerung von Lego Mindstorms EV3 Robotern</string>
+  <string name="preference_title_mindstorms_ev3_sensors">Lego EV3 Sensoren</string>
   <string name="preference_title_use_face_detection">Gesichtserkennung</string>
   <string name="preference_description_use_face_detection">Erlaube das Erkennen von Gesichtern</string>
   <string name="preference_title_select_camera">Auswahl der Kamera</string>

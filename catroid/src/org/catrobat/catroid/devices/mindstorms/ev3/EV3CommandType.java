@@ -20,30 +20,23 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.bluetooth.base;
 
-import org.catrobat.catroid.devices.arduino.phiro.Phiro;
-import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
-import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
-import org.catrobat.catroid.stage.StageResourceInterface;
+package org.catrobat.catroid.devices.mindstorms.ev3;
 
-import java.util.UUID;
+public enum EV3CommandType {
+	DIRECT_COMMAND_REPLY(0x00),
+	DIRECT_COMMAND_NO_REPLY(0x80),
+	SYSTEM_COMMAND_REPLY(0x01),
+	SYSTEM_COMMAND_NO_REPLY(0x81);
 
-public interface BluetoothDevice extends StageResourceInterface {
+	private int commandTypeValue;
 
-	Class<LegoNXT> LEGO_NXT = LegoNXT.class;
-	Class<Phiro> PHIRO = Phiro.class;
-	Class<LegoEV3> LEGO_EV3 = LegoEV3.class;
+	private EV3CommandType(int commandTypeValue) {
+		this.commandTypeValue = commandTypeValue;
+	}
 
-//	Class<Arduino> ARDUINO = Arduino.class;
-//	Class<Albert> ALBERT = Albert.class;
-
-	String getName();
-	Class<? extends BluetoothDevice> getDeviceType();
-	void setConnection(BluetoothConnection connection);
-	void disconnect();
-
-	boolean isAlive();
-
-	UUID getBluetoothDeviceUUID();
+	public byte getByte() {
+		return (byte) commandTypeValue;
+	}
 }
+

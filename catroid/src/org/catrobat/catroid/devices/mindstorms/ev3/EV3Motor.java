@@ -20,33 +20,55 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.bluetooth;
 
-import android.content.Context;
+package org.catrobat.catroid.devices.mindstorms.ev3;
 
-import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
-import org.catrobat.catroid.bluetooth.base.BluetoothDeviceFactory;
-import org.catrobat.catroid.devices.arduino.phiro.PhiroImpl;
-import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3Impl;
-import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXTImpl;
+import org.catrobat.catroid.devices.mindstorms.MindstormsMotor;
 
-public class BluetoothDeviceFactoryImpl implements BluetoothDeviceFactory {
+public class EV3Motor implements MindstormsMotor {
+
+	//private static final String TAG = EV3Motor.class.getSimpleName();
+
+	//private int port;
+	private byte outputField;
+
+	public EV3Motor(int port) {
+		//this.port = port;
+
+		switch (port) {
+			case 0:
+				this.outputField = EV3MotorOutputByteCode.MOTOR_A_OUT.getByte();
+				break;
+			case 1:
+				this.outputField = EV3MotorOutputByteCode.MOTOR_B_OUT.getByte();
+				break;
+			case 2:
+				this.outputField = EV3MotorOutputByteCode.MOTOR_C_OUT.getByte();
+				break;
+			case 3:
+				this.outputField = EV3MotorOutputByteCode.MOTOR_D_OUT.getByte();
+				break;
+		}
+	}
 
 	@Override
-	public <T extends BluetoothDevice> BluetoothDevice createDevice(Class<T> service, Context applicationContext) {
+	public void stop() {
+	}
 
-		if (service == BluetoothDevice.LEGO_NXT) {
-			return new LegoNXTImpl(applicationContext);
-		}
+	@Override
+	public void move(int speed) {
+		move(speed, 0, false);
+	}
 
-		if (service == BluetoothDevice.PHIRO) {
-			return new PhiroImpl();
-		}
+	@Override
+	public void move(int speed, int degrees) {
+	}
 
-		if (service == BluetoothDevice.LEGO_EV3) {
-			return new LegoEV3Impl(applicationContext);
-		}
+	@Override
+	public void move(int speed, int degrees, boolean reply) {
+	}
 
-		return null; // may throw exception
+	public byte getOutputField() {
+		return outputField;
 	}
 }

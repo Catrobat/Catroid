@@ -20,30 +20,34 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.bluetooth.base;
 
-import org.catrobat.catroid.devices.arduino.phiro.Phiro;
-import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
-import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
-import org.catrobat.catroid.stage.StageResourceInterface;
+package org.catrobat.catroid.devices.mindstorms.ev3;
 
-import java.util.UUID;
+import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
+import org.catrobat.catroid.devices.mindstorms.Mindstorms;
 
-public interface BluetoothDevice extends StageResourceInterface {
-
-	Class<LegoNXT> LEGO_NXT = LegoNXT.class;
-	Class<Phiro> PHIRO = Phiro.class;
-	Class<LegoEV3> LEGO_EV3 = LegoEV3.class;
-
-//	Class<Arduino> ARDUINO = Arduino.class;
-//	Class<Albert> ALBERT = Albert.class;
-
-	String getName();
-	Class<? extends BluetoothDevice> getDeviceType();
-	void setConnection(BluetoothConnection connection);
-	void disconnect();
+public interface LegoEV3 extends Mindstorms, BluetoothDevice {
 
 	boolean isAlive();
 
-	UUID getBluetoothDeviceUUID();
+	void playTone(int frequency, int duration, int volumeInPercent);
+
+	EV3Motor getMotorA();
+	EV3Motor getMotorB();
+	EV3Motor getMotorC();
+	EV3Motor getMotorD();
+
+	void stopAllMovements();
+
+	void moveMotorTime(byte outputField, int chainLayer, int power, int step1TimeInMs, int step2TimeInMs, int step3TimeInMs, boolean brake);
+	void stopMotor(byte outputField, int chainLayer, boolean brake);
+
+	void setLed(int ledStatus);
+
+	//int getSensorValue(Sensors sensor);
+
+	//MindstormsSensor getSensor1();
+	//MindstormsSensor getSensor2();
+	//MindstormsSensor getSensor3();
+	//MindstormsSensor getSensor4();
 }

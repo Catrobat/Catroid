@@ -20,30 +20,19 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.bluetooth.base;
 
-import org.catrobat.catroid.devices.arduino.phiro.Phiro;
-import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
-import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
-import org.catrobat.catroid.stage.StageResourceInterface;
+package org.catrobat.catroid.devices.mindstorms.ev3;
 
-import java.util.UUID;
+public enum EV3MotorOutputByteCode {
+	MOTOR_A_OUT(0x01), MOTOR_B_OUT(0x02), MOTOR_C_OUT(0x04), MOTOR_D_OUT(0x08);
 
-public interface BluetoothDevice extends StageResourceInterface {
+	private int ev3MotorOutputValue;
 
-	Class<LegoNXT> LEGO_NXT = LegoNXT.class;
-	Class<Phiro> PHIRO = Phiro.class;
-	Class<LegoEV3> LEGO_EV3 = LegoEV3.class;
+	private EV3MotorOutputByteCode(int ev3MotorOutputValue) {
+		this.ev3MotorOutputValue = ev3MotorOutputValue;
+	}
 
-//	Class<Arduino> ARDUINO = Arduino.class;
-//	Class<Albert> ALBERT = Albert.class;
-
-	String getName();
-	Class<? extends BluetoothDevice> getDeviceType();
-	void setConnection(BluetoothConnection connection);
-	void disconnect();
-
-	boolean isAlive();
-
-	UUID getBluetoothDeviceUUID();
+	public byte getByte() {
+		return (byte) ev3MotorOutputValue;
+	}
 }
