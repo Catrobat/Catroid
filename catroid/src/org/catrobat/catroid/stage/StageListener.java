@@ -153,8 +153,6 @@ public class StageListener implements ApplicationListener {
 
 	private byte[] thumbnail;
 
-	public static String setdrawText = "";
-
 	StageListener() {
 	}
 

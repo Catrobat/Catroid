@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.actions;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.SetTextLook;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.stage.StageActivity;
@@ -37,12 +38,26 @@ public class SetTextAction extends TemporalAction {
 	private Formula text;
 
 	private Sprite sprite;
+	private SetTextLook look;
 
 	@Override
 	protected void begin() {
 		try {
 			String str = text.interpretString(sprite);
-			StageActivity.stageListener.setdrawText = str;
+			int posX = endX.interpretInteger(sprite);
+			int posY = endY.interpretInteger(sprite);
+
+			if (sprite.look instanceof SetTextLook == false)
+			{
+				look = new SetTextLook(sprite, str, posX, posY);
+				sprite.look = look;
+				StageActivity.stageListener.addActor(sprite.look);
+			}
+			else
+			{
+				look.setText(str);
+			}
+
 		} catch (InterpretationException e) {
 			e.printStackTrace();
 		}
@@ -50,7 +65,20 @@ public class SetTextAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
+		/*try {
+			String str = text.interpretString(sprite);
+			int posX = endX.interpretInteger(sprite);
+			int posY = endY.interpretInteger(sprite);
 
+			Log.d(getClass().getSimpleName(), "str: "+str);
+
+		    look.setText(str);
+			look.setPosX(posX);
+			look.setPosY(posY);
+		} catch (InterpretationException e) {
+			e.printStackTrace();
+		}
+*/
 	}
 
 	public void setDuration(Formula duration) {
