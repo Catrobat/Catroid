@@ -53,16 +53,6 @@ public class DroneSetConfigBrick extends BrickBaseType{
 	private String selectedMessage;
 	private Context context;
 
-/*	protected Object readResolve() {
-		MessageContainer.addMessage(broadcastMessage);
-		return this;
-	}*/
-
-	public DroneSetConfigBrick() {//String droneConfig) {
-//		this.broadcastMessage = droneConfig;
-//		MessageContainer.addMessage(droneConfig);
-	}
-
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
 		DroneSetConfigBrick copyBrick = (DroneSetConfigBrick) clone();
@@ -71,12 +61,12 @@ public class DroneSetConfigBrick extends BrickBaseType{
 
 	@Override
 	public Brick clone() {
-		return new DroneSetConfigBrick();//broadcastMessage);
+		return new DroneSetConfigBrick();
 	}
 
 	@Override
 	public int getRequiredResources() {
-		return NO_RESOURCES;
+		return ARDRONE_SUPPORT;
 	}
 
 	@Override
@@ -142,12 +132,12 @@ public class DroneSetConfigBrick extends BrickBaseType{
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_set_config, null);
-		Spinner broadcastSpinner = (Spinner) prototypeView.findViewById(R.id.brick_set_config_spinner);
-		broadcastSpinner.setFocusableInTouchMode(false);
-		broadcastSpinner.setFocusable(false);
+		Spinner DroneConfigSpinner = (Spinner) prototypeView.findViewById(R.id.brick_set_config_spinner);
+		DroneConfigSpinner.setFocusableInTouchMode(false);
+		DroneConfigSpinner.setFocusable(false);
 		SpinnerAdapter broadcastSpinnerAdapter = MessageContainer.getMessageAdapter(context);
-		broadcastSpinner.setAdapter(broadcastSpinnerAdapter);
-		setSpinnerSelection(broadcastSpinner);
+		DroneConfigSpinner.setAdapter(broadcastSpinnerAdapter);
+		setSpinnerSelection(DroneConfigSpinner);
 		return prototypeView;
 	}
 
@@ -160,11 +150,11 @@ public class DroneSetConfigBrick extends BrickBaseType{
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView textBroadcastLabel = (TextView) view.findViewById(R.id.brick_set_config_label);
-			textBroadcastLabel.setTextColor(textBroadcastLabel.getTextColors().withAlpha(alphaValue));
-			Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.brick_set_config_spinner);
-			ColorStateList color = textBroadcastLabel.getTextColors().withAlpha(alphaValue);
-			broadcastSpinner.getBackground().setAlpha(alphaValue);
+			TextView textDroneConfigLabel = (TextView) view.findViewById(R.id.brick_set_config_label);
+			textDroneConfigLabel.setTextColor(textDroneConfigLabel.getTextColors().withAlpha(alphaValue));
+			Spinner droneConfigSpinner = (Spinner) view.findViewById(R.id.brick_set_config_spinner);
+			ColorStateList color = textDroneConfigLabel.getTextColors().withAlpha(alphaValue);
+			droneConfigSpinner.getBackground().setAlpha(alphaValue);
 			if (adapterView != null) {
 				((TextView) adapterView.getChildAt(0)).setTextColor(color);
 			}
@@ -185,16 +175,12 @@ public class DroneSetConfigBrick extends BrickBaseType{
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 
-		if(this.context == null || DroneInitializer.droneControlService == null){
-			return null;
-		}
-
 		if (selectedMessage.compareTo(this.context.getString(R.string.drone_config_default)) == 0 ){
-			sequence.addAction(ExtendedActions.droneSetConfig(R.string.drone_config_default ));
+			sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_default ));
 		} else if (selectedMessage.compareTo(this.context.getString(R.string.drone_config_indoor)) == 0 ) {
-			sequence.addAction(ExtendedActions.droneSetConfig(R.string.drone_config_indoor ));
+			sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_indoor ));
 		} else if (selectedMessage.compareTo(this.context.getString(R.string.drone_config_outdoor)) == 0 ) {
-			sequence.addAction(ExtendedActions.droneSetConfig(R.string.drone_config_outdoor ));
+			sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_outdoor ));
 		}
 
 		return null;
