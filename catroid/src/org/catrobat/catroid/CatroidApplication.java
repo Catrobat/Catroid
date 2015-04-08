@@ -23,6 +23,7 @@
 package org.catrobat.catroid;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import com.parrot.freeflight.settings.ApplicationSettings;
@@ -32,28 +33,31 @@ public class CatroidApplication extends Application {
 	private static final String TAG = CatroidApplication.class.getSimpleName();
 
 	private ApplicationSettings settings;
+	private static Context context;
+
 	public static final String OS_ARCH = System.getProperty("os.arch");
 
-	private static boolean parrotLibrariesLoaded = false;
+	public static boolean parrotLibrariesLoaded = false;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		Log.d(TAG, "CatroidApplication onCreate");
 		settings = new ApplicationSettings(this);
+		CatroidApplication.context = getApplicationContext();
 	}
 
 	public ApplicationSettings getParrotApplicationSettings() {
 		return settings;
 	}
 
-	public static synchronized boolean parrotNativeLibsAlreadyLoadedOrLoadingWasSuccessful() {
+	public static synchronized boolean loadNativeLibs() {
 		if (parrotLibrariesLoaded == true) {
-			return parrotLibrariesLoaded;
+			return true;
 		}
 
 		//Drone is deactivated in release builds for now 04.2014
-		if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED && parrotLibrariesLoaded == false && OS_ARCH.startsWith("arm")) {
+		if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
 			try {
 				System.loadLibrary("avutil");
 				System.loadLibrary("swscale");
@@ -64,10 +68,14 @@ public class CatroidApplication extends Application {
 				System.loadLibrary("adfreeflight");
 			} catch (UnsatisfiedLinkError e) {
 				Log.e(TAG, Log.getStackTraceString(e));
-				return parrotLibrariesLoaded;
+				parrotLibrariesLoaded = false;
+				return false;
 			}
 			parrotLibrariesLoaded = true;
 		}
-		return parrotLibrariesLoaded;
+		return true;
 	}
-}
+
+	public static Context getAppContext() {
+		return CatroidApplication.context;
+	}

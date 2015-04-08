@@ -25,7 +25,7 @@ package org.catrobat.catroid.content.actions;
 import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-import com.parrot.freeflight.drone.DroneProxy.ARDRONE_LED_ANIMATION;
+import com.parrot.freeflight.service.DroneControlService;
 
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 
@@ -37,7 +37,9 @@ public class DroneSwitchCameraAction extends TemporalAction {
 	protected void begin() {
 		super.begin();
 		Log.d(TAG, "begin!");
-		DroneServiceWrapper.getInstance().getDroneService().switchCamera();
+		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
+		//if(dcs != null) {
+		dcs.switchCamera();
 	}
 
 	@Override

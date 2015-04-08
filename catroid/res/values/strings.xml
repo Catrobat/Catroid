@@ -541,7 +541,6 @@
     <string name="drone_emergency_angle">AR.Drone euler angles went too high. Motors shutdown to prevent bad behaviors.</string>
     <string name="drone_emergency_cutout">One or more motor(s) was stopped by environment.</string>
     <string name="drone_emergency_motors">One or more motor(s) is not responding.</string>
-    <string name="drone_emergency_default">AR.Drone sent an emergency signal.</string>
     <string name="drone_alert_battery_low">Battery is too low to take-off again.</string>
     <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone altitude.</string>
     <string name="drone_alert_vision">No speed estimation from bottom facing camera.</string>

@@ -103,10 +103,6 @@ public class SettingsActivity extends SherlockPreferenceActivity {
             CheckBoxPreference dronePreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
 			dronePreference.setEnabled(false);
 			screen.removePreference(dronePreference);
-		}else{
-			dronePreference.setEnabled(true);
-			dronePreference.setChecked(true);
-			screen.addPreference(dronePreference);
 		}
 
 		if (!BuildConfig.FEATURE_PHIRO_ENABLED) {

@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.drone;
 
+import android.util.Log;
+
 import com.parrot.freeflight.service.DroneControlService;
 
 public final class DroneServiceWrapper {
@@ -45,6 +47,14 @@ public final class DroneServiceWrapper {
 	}
 
 	public DroneControlService getDroneService() {
+		while(droneControlService == null){
+			try {
+				Thread.sleep(100);
+				Log.d(getClass().getSimpleName(), "dcs is null!");
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		return droneControlService;
 
 	}

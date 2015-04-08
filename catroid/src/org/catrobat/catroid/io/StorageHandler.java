@@ -22,10 +22,11 @@
  */
 package org.catrobat.catroid.io;
 
-import android.app.Activity;
+import android.annotation.TargetApi;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
-import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.util.Log;
 
 import com.google.common.base.Charsets;
@@ -33,6 +34,7 @@ import com.google.common.io.Files;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
@@ -72,7 +74,6 @@ import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
 import org.catrobat.catroid.content.bricks.DroneSetConfigBrick;
-import org.catrobat.catroid.content.bricks.DroneSetTextBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
@@ -112,6 +113,7 @@ import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
+import org.catrobat.catroid.content.bricks.SetTextBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
@@ -315,7 +317,7 @@ public final class StorageHandler {
 		xstream.alias("brick", DroneMoveLeftBrick.class);
 		xstream.alias("brick", DroneMoveRightBrick.class);
 		xstream.alias("brick", DroneSetConfigBrick.class);
-		xstream.alias("brick", DroneSetTextBrick.class);
+		xstream.alias("brick", SetTextBrick.class);
 
 		xstream.alias("brick", PhiroMotorMoveBackwardBrick.class);
 		xstream.alias("brick", PhiroMotorMoveForwardBrick.class);
@@ -347,6 +349,7 @@ public final class StorageHandler {
 		return backPackSoundDirectory;
 	}
 
+	@TargetApi(Build.VERSION_CODES.KITKAT)
 	public Project loadProject(String projectName) {
 		codeFileSanityCheck(projectName);
 
@@ -362,7 +365,7 @@ public final class StorageHandler {
 		} catch (Exception exception) {
 			Log.e(TAG, "Loading project " + projectName + " failed.", exception);
 			try {
-				Log.e(TAG, "delete project " + projectName, exception);
+				Log.e(TAG, "delete project .. " + projectName, exception);
 				deleteProject(projectName);
 			} catch (IOException e) {
 				e.printStackTrace();

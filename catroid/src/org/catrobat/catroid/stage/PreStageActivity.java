@@ -25,13 +25,10 @@ package org.catrobat.catroid.stage;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
@@ -39,7 +36,7 @@ import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
 
-import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
@@ -119,11 +116,11 @@ public class PreStageActivity extends BaseActivity {
 //			}
 //			Log.d("wifi after", Boolean.toString(mainWifiObj.isWifiEnabled()));
 
-
-
-
-			droneInitializer = getDroneInitializer();
-			droneInitializer.initialise();
+			CatroidApplication.loadNativeLibs();
+			if(CatroidApplication.parrotLibrariesLoaded){
+				droneInitializer = getDroneInitializer();
+				droneInitializer.initialise();
+			}
 		}
 
 		FaceDetectionHandler.resetFaceDedection();
