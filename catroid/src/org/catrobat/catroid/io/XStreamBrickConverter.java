@@ -59,17 +59,17 @@ public class XStreamBrickConverter extends ReflectionConverter {
 	@Override
 	public Object doUnmarshal(Object result, HierarchicalStreamReader reader, UnmarshallingContext context) {
 
+		String type = reader.getAttribute(TYPE);
 		for (int index = 0; index < BRICKS_PACKAGE_NAMES.length; index++) {
-			String type = reader.getAttribute(TYPE);
 			try {
 				Class cls = Class.forName(BRICKS_PACKAGE_NAMES[index] + "." + type);
 				Brick brick = (Brick) reflectionProvider.newInstance(cls);
 				return super.doUnmarshal(brick, reader, context);
 			} catch (ClassNotFoundException exception) {
-				Log.i(TAG, "Brick " + type + " not found in " + BRICKS_PACKAGE_NAMES[index]);
+				Log.d(TAG, "Brick " + type + " not found in " + BRICKS_PACKAGE_NAMES[index]);
 			}
 		}
-		Log.i(TAG, "Brick not found in packages");
+		Log.i(TAG, "Brick " + type + " not found in packages");
 		return super.doUnmarshal(result, reader, context);
 	}
 
