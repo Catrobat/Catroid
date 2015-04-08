@@ -108,7 +108,7 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 			return false;
 		}
 
-		if (!CatroidApplication.parrotNativeLibsAlreadyLoadedOrLoadingWasSuccessful()) {
+		if (!CatroidApplication.loadNativeLibs()) {
 			showUnCancellableErrorDialog(prestageStageActivity,
 					prestageStageActivity.getString(R.string.error_drone_wrong_platform_title),
 					prestageStageActivity.getString(R.string.error_drone_wrong_platform));
