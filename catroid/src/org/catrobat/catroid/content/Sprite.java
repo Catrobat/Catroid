@@ -109,6 +109,10 @@ public class Sprite implements Serializable, Cloneable {
 		}
 	}
 
+	public List<Script> getScriptList() {
+		return scriptList;
+	}
+
 	public void resetSprite() {
 		look = new Look(this);
 		for (LookData lookData : lookList) {
