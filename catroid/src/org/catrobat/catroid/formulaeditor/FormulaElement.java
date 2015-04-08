@@ -911,6 +911,25 @@ public class FormulaElement implements Serializable {
 				default:
 			}
 		}
-		return resources;
+		if (type == ElementType.SENSOR) {
+			Sensors sensor = Sensors.getSensorByValue(value);
+			switch (sensor) {
+				case DRONE_BATTERY_STATUS:
+				case DRONE_CAMERA_READY:
+				case DRONE_EMERGENCY_STATE:
+				case DRONE_FLYING:
+				case DRONE_INITIALIZED:
+				case DRONE_NUM_FRAMES:
+				case DRONE_RECORD_READY:
+				case DRONE_RECORDING:
+				case DRONE_USB_ACTIVE:
+				case DRONE_USB_REMAINING_TIME:
+					ressources |= Brick.ARDRONE_SUPPORT;
+					break;
+				default:
+
+			}
+		}
+		return ressources;
 	}
 }
