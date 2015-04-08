@@ -20,9 +20,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-
-
 package org.catrobat.catroid.utils;
 
 import android.app.Activity;
@@ -164,6 +161,19 @@ public final class Utils {
 		Builder builder = new CustomAlertDialogBuilder(context);
 		builder.setTitle(R.string.error);
 		builder.setMessage(errorMessageId);
+		builder.setNeutralButton(R.string.close, new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		});
+		Dialog errorDialog = builder.create();
+		errorDialog.show();
+	}
+
+	public static void showErrorDialog(Context context, String msg, int errorTitleId) {
+		Builder builder = new CustomAlertDialogBuilder(context);
+		builder.setTitle(errorTitleId);
+		builder.setMessage(msg);
 		builder.setNeutralButton(R.string.close, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
