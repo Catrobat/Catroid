@@ -30,6 +30,7 @@ import com.badlogic.gdx.math.Vector2;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.CollisionScript;
+import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -208,7 +209,7 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 
 		Sprite clonedSprite = sprite.clone();
 
-		assertTrue("Look of cloned sprite is no physics look.", clonedSprite.look instanceof PhysicsLook);
+		assertTrue("Look of cloned sprite is no look.", clonedSprite.look instanceof Look);
 
 		PhysicsObject clonedPhysicsObject = physicsWorld.getPhysicsObject(clonedSprite);
 		assertEquals("Cloned Physics Object must be equal.", physicsObject.getType(), clonedPhysicsObject.getType());

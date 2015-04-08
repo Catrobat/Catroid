@@ -86,10 +86,15 @@ public class PhysicsShapeBuilder {
 	}
 
 	private Shape[] scaleShapes(Shape[] shapes, float scaleFactor) {
-		List<Shape> scaledShapes = new ArrayList<Shape>();
+		List<Shape> scaledShapes = new ArrayList<>();
+		if(scaleFactor == 0.0f)
+		{
+			//Log.d(TAG, "scaleFactor is 0 so return no shapes");
+			return null;
+		}
 
 		for (Shape shape : shapes) {
-			List<Vector2> vertices = new ArrayList<Vector2>();
+			List<Vector2> vertices = new ArrayList<>();
 
 			PolygonShape polygon = (PolygonShape) shape;
 			for (int index = 0; index < polygon.getVertexCount(); index++) {

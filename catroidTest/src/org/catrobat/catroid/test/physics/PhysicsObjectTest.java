@@ -347,7 +347,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 			physicsObject.setMass(mass);
 			float actualDensity = body.getMass() / (rectangleSize * rectangleSize);
 			assertEquals("Wrong density calculation when mass changes",
-					PhysicsTestUtils.getFixtureDef(physicsObject).density, actualDensity);
+					PhysicsTestUtils.getFixtureDef(physicsObject).density, actualDensity, TestUtils.DELTA);
 		}
 	}
 
@@ -443,7 +443,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 		if (type != PhysicsObject.Type.DYNAMIC) {
 			expectedBodyMass = 0.0f;
 		}
-		assertEquals("Wrong mass for " + type.toString().toLowerCase(), expectedBodyMass, body.getMass());
+		assertEquals("Wrong mass for " + type.toString().toLowerCase(), expectedBodyMass, body.getMass(), TestUtils.DELTA);
 	}
 
 	public void testMassWithNoShapeArea() {

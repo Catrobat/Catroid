@@ -68,6 +68,13 @@ public class PhysicsLook extends Look {
 	}
 
 	@Override
+	public void setPosition (float x, float y) {
+		setX(x);
+		setY(y);
+		super.setPosition(x, y);
+	}
+
+	@Override
 	public void setX(float x) {
 		if (null != physicsObject) {
 			physicsObject.setX(x + getWidth() / 2.0f);

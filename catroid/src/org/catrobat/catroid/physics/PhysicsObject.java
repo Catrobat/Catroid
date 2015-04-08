@@ -103,6 +103,9 @@ public class PhysicsObject {
 		}
 
 		Array<Fixture> fixturesOld = body.getFixtureList();
+		for (Fixture fixture : fixturesOld) {
+			body.destroyFixture(fixture);
+		}
 
 		if (shapes != null) {
 			for (Shape tempShape : shapes) {
@@ -111,16 +114,14 @@ public class PhysicsObject {
 			}
 		}
 
-		for (Fixture fixture : fixturesOld) {
-			body.destroyFixture(fixture);
-		}
-
 		setMass(mass);
 		calculateCircumference();
 	}
 
 	private void calculateCircumference() {
 		if (body.getFixtureList().size == 0) {
+			//Log.d(TAG, "No fixtures, so reset circumference to zero");
+			circumference = 0;
 			return;
 		}
 
@@ -390,6 +391,14 @@ public class PhysicsObject {
 		Transform transform = body.getTransform();
 		int len = body.getFixtureList().size;
 		Array<Fixture> fixtures = body.getFixtureList();
+		if(fixtures.size == 0)
+		{
+			//Log.d(TAG, "No fixtures, so reset all to zero");
+			bodyAABBLowerLeft.x = 0;
+			bodyAABBLowerLeft.y = 0;
+			bodyAABBUpperRight.x = 0;
+			bodyAABBUpperRight.y = 0;
+		}
 		for (int i = 0; i < len; i++) {
 			Fixture fixture = fixtures.get(i);
 			calculateAABB(fixture, transform);
