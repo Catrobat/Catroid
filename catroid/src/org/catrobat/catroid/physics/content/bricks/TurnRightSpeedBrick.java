@@ -25,7 +25,6 @@ package org.catrobat.catroid.physics.content.bricks;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;

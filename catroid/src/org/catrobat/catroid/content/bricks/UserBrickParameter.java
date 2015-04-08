@@ -79,7 +79,7 @@ public class UserBrickParameter extends FormulaBrick {
 		//sequence.addAction(ExtendedActions.setVariable(sprite, getFormulaWithBrickField(BrickField.VARIABLE),
 		//		ProjectManager.getInstance().getCurrentProject().getDataContainer().getUserVariable(variableName, sprite)));
 		sequence.addAction(sprite.getActionFactory().createSetVariableAction(sprite, getFormulaWithBrickField(BrickField.VARIABLE),
-				ProjectManager.getInstance().getCurrentProject().getDataContainer().getUserVariable(variableName, sprite)));; // TODO[physics]
+				ProjectManager.getInstance().getCurrentProject().getDataContainer().getUserVariable(variableName, sprite))); // TODO[physics]
 		return null;
 	}
 

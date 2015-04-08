@@ -87,9 +87,7 @@ public class PhysicsShapeBuilder {
 
 	private Shape[] scaleShapes(Shape[] shapes, float scaleFactor) {
 		List<Shape> scaledShapes = new ArrayList<>();
-		if(scaleFactor == 0.0f)
-		{
-			//Log.d(TAG, "scaleFactor is 0 so return no shapes");
+		if(scaleFactor == 0.0f) {
 			return null;
 		}
 

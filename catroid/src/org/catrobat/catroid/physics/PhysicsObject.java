@@ -36,7 +36,6 @@ import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.content.Sprite;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class PhysicsObject {
@@ -391,9 +390,7 @@ public class PhysicsObject {
 		Transform transform = body.getTransform();
 		int len = body.getFixtureList().size;
 		Array<Fixture> fixtures = body.getFixtureList();
-		if(fixtures.size == 0)
-		{
-			//Log.d(TAG, "No fixtures, so reset all to zero");
+		if(fixtures.size == 0) {
 			bodyAABBLowerLeft.x = 0;
 			bodyAABBLowerLeft.y = 0;
 			bodyAABBUpperRight.x = 0;

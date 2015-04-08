@@ -65,10 +65,6 @@ import com.robotium.solo.Solo;
 
 import junit.framework.AssertionFailedError;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
@@ -103,11 +99,9 @@ import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
-import org.catrobat.catroid.content.bricks.conditional.SetTransparencyBrick;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.content.bricks.conditional.ChangeBrightnessByNBrick;
-import org.catrobat.catroid.content.bricks.conditional.ChangeTransparencyByNBrick;
 import org.catrobat.catroid.content.bricks.conditional.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.conditional.ChangeTransparencyByNBrick;
 import org.catrobat.catroid.content.bricks.conditional.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.conditional.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.conditional.ClearGraphicEffectBrick;
@@ -124,11 +118,13 @@ import org.catrobat.catroid.content.bricks.conditional.PointToBrick.SpinnerAdapt
 import org.catrobat.catroid.content.bricks.conditional.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetLookBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.conditional.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetXBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetYBrick;
 import org.catrobat.catroid.content.bricks.conditional.ShowBrick;
 import org.catrobat.catroid.content.bricks.conditional.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.conditional.TurnRightBrick;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternToken;
@@ -165,6 +161,10 @@ import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
 public final class UiTestUtils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();

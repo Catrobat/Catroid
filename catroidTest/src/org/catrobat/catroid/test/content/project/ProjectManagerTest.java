@@ -30,7 +30,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
-
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -40,17 +39,15 @@ import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
-import org.catrobat.catroid.exceptions.ProjectException;
-import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.content.bricks.conditional.HideBrick;
 import org.catrobat.catroid.content.bricks.conditional.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetLookBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.conditional.ShowBrick;
-
+import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageHandler;
-
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.Utils;

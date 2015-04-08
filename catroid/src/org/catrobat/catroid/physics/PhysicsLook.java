@@ -23,7 +23,6 @@
 package org.catrobat.catroid.physics;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;

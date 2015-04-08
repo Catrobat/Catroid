@@ -29,7 +29,6 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
-
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
@@ -50,7 +49,6 @@ import org.catrobat.catroid.content.bricks.conditional.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetXBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetYBrick;
 import org.catrobat.catroid.content.bricks.conditional.ShowBrick;
-
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.TestUtils;

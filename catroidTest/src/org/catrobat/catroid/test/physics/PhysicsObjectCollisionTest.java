@@ -28,7 +28,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.test.utils.Reflection;

@@ -35,9 +35,6 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 import org.catrobat.catroid.physics.PhysicsBoundaryBox;
 import org.catrobat.catroid.physics.PhysicsWorld;
 
-import java.util.Iterator;
-import java.util.List;
-
 public class PhysicsBoundaryBoxTest extends AndroidTestCase {
 	static {
 		GdxNativesLoader.load();

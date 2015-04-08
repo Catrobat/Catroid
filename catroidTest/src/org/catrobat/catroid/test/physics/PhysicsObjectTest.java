@@ -45,9 +45,6 @@ import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.ParameterList;
 import org.catrobat.catroid.test.utils.TestUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class PhysicsObjectTest extends AndroidTestCase {
 	static {
 		GdxNativesLoader.load();
