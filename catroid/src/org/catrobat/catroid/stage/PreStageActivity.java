@@ -24,10 +24,14 @@ package org.catrobat.catroid.stage;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
@@ -103,7 +107,21 @@ public class PreStageActivity extends BaseActivity {
 			connectBTDevice(BluetoothDevice.PHIRO);
 		}
 
-		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
+		if ((resources & Brick.ARDRONE_SUPPORT) > 0) {
+
+//			WifiManager mainWifiObj;
+//			mainWifiObj = (WifiManager) getSystemService(getBaseContext().WIFI_SERVICE);
+//
+//			Log.d("wifi before", Boolean.toString(mainWifiObj.isWifiEnabled()));
+//			if (!mainWifiObj.isWifiEnabled())
+//			{
+//				mainWifiObj.setWifiEnabled(true);
+//			}
+//			Log.d("wifi after", Boolean.toString(mainWifiObj.isWifiEnabled()));
+
+
+
+
 			droneInitializer = getDroneInitializer();
 			droneInitializer.initialise();
 		}

@@ -99,7 +99,7 @@ public class DroneTakeOffLandBrick extends BrickBaseType {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.droneTakeOff());
+		sequence.addAction(ExtendedActions.droneTakeOffAndLand());
 		return null;
 	}
 
