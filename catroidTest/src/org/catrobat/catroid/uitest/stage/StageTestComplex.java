@@ -33,7 +33,7 @@ import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.conditional.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetBrightnessBrick;
-import org.catrobat.catroid.content.bricks.conditional.SetGhostEffectBrick;
+import org.catrobat.catroid.content.bricks.conditional.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.conditional.TurnLeftBrick;
 import org.catrobat.catroid.io.StorageHandler;

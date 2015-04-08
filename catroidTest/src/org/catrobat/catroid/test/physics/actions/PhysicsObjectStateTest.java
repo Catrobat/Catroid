@@ -26,7 +26,7 @@ package org.catrobat.catroid.test.physics.actions;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.actions.HideAction;
-import org.catrobat.catroid.content.actions.SetGhostEffectAction;
+import org.catrobat.catroid.content.actions.SetTransparencyAction;
 import org.catrobat.catroid.content.actions.SetXAction;
 import org.catrobat.catroid.content.actions.SetYAction;
 import org.catrobat.catroid.content.actions.ShowAction;
@@ -58,33 +58,33 @@ public class PhysicsObjectStateTest extends PhysicsBaseTest {
 
 	public void testVisibility() {
 		allConditionsInactiveCheck();
-		gostEffect(100);
+		transparency(100);
 		hangupNonCollidingActiveCheck();
-		gostEffect(0);
+		transparency(0);
 		allConditionsInactiveCheck();
 		hide();
 		hangupNonCollidingActiveCheck();
 		show();
 		allConditionsInactiveCheck();
 
-		gostEffect(100);
+		transparency(100);
 		hangupNonCollidingActiveCheck();
 		show();
 		hangupNonCollidingActiveCheck();
 		hide();
 		hangupNonCollidingActiveCheck();
-		gostEffect(0);
+		transparency(0);
 		hangupNonCollidingActiveCheck();
 		show();
 		allConditionsInactiveCheck();
 
 		hide();
 		hangupNonCollidingActiveCheck();
-		gostEffect(100);
+		transparency(100);
 		hangupNonCollidingActiveCheck();
 		show();
 		hangupNonCollidingActiveCheck();
-		gostEffect(0);
+		transparency(0);
 		allConditionsInactiveCheck();
 	}
 
@@ -223,8 +223,8 @@ public class PhysicsObjectStateTest extends PhysicsBaseTest {
 		sprite.look.getY();
 	}
 
-	private void gostEffect(int percent) {
-		SetGhostEffectAction ghostEffectAction = new SetGhostEffectAction();
+	private void transparency(int percent) {
+		SetTransparencyAction ghostEffectAction = new SetTransparencyAction();
 		ghostEffectAction.setSprite(sprite);
 		ghostEffectAction.setTransparency(new Formula(percent));
 		ghostEffectAction.act(1.0f);

@@ -43,7 +43,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SetMassBrick extends FormulaBrick implements OnClickListener {
+public class SetMassBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -69,13 +69,6 @@ public class SetMassBrick extends FormulaBrick implements OnClickListener {
 	public int getRequiredResources() {
 		return PHYSIC;
 	}
-
-	/*@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		SetMassBrick copyBrick = (SetMassBrick) clone();
-		copyBrick.sprite = sprite;
-		return copyBrick;
-	}*/
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
@@ -140,11 +133,11 @@ public class SetMassBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
-	public void onClick(final View view) {
+	public void showFormulaEditorToEditFormula(View view) {
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
-		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.PHYSICS_MASS));
+		FormulaEditorFragment.showFragment(view, this, BrickField.PHYSICS_MASS);
 	}
 
 	@Override

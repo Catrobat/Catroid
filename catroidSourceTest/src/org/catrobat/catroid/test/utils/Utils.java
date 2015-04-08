@@ -35,7 +35,7 @@ public final class Utils {
 
 	private static final char SEPARATOR_CHAR = File.separatorChar;
 	public static final String[] ALL_DIRECTORIES = { ".", "../catroidTest", "../catroid", "../catroidCucumberTest",
-			"../catroidLegoNXTBTTest" };
+			"../catroidBluetoothTestServer" };
 	public static final String[] SOURCE_FILE_DIRECTORIES = { "src", ".."+SEPARATOR_CHAR+"catroid"+SEPARATOR_CHAR+"src", ".."+SEPARATOR_CHAR+"catroidTest"+SEPARATOR_CHAR+"src",
 			"../catroidCucumberTest/src", "../catroidBluetoothTestServer/src" };
 	public static final String[] SOURCE_AND_RESOURCE_DIRECTORIES = { "src", "res", "../catroid/src", "../catroid/res",

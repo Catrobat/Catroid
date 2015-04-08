@@ -42,7 +42,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
@@ -75,7 +74,10 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.replaceItemInUserList(sprite, getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX), getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE), userList));
+		//sequence.addAction(ExtendedActions.replaceItemInUserList(sprite, getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX), getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE), userList));
+		sequence.addAction(sprite.getActionFactory().createReplaceItemInUserListAction(sprite,
+				getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_INDEX),
+				getFormulaWithBrickField(BrickField.REPLACE_ITEM_IN_USERLIST_VALUE), userList)); // TODO[physics]
 		return null;
 	}
 

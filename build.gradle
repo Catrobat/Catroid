@@ -62,6 +62,10 @@ dependencies {
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-x86'
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-armeabi'
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-armeabi-v7a'
+    compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi"
+    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
+    natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
     compile fileTree(include: '*.jar', dir: 'catroid/libs')
     compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
     androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')

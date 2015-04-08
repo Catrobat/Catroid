@@ -45,15 +45,47 @@ public class UserBrickParameter extends FormulaBrick {
 
 	private transient UserBrick parent;
 
-	public UserBrickParameter() {
+	public UserBrickParameter(UserBrick parent) {
+		this.parent = parent;
 		addAllowedBrickField(BrickField.USER_BRICK);
 		setFormulaWithBrickField(BrickField.USER_BRICK, new Formula(0));
 	}
 
+	public UserBrickParameter(Formula parameter) {
+		addAllowedBrickField(BrickField.USER_BRICK);
+		setFormulaWithBrickField(BrickField.USER_BRICK, parameter);
+	}
+
+	@Override
+	public UserBrickParameter clone() {
+		UserBrickParameter clonedBrick = new UserBrickParameter(getFormulaWithBrickField(
+				BrickField.USER_BRICK).clone());
+		clonedBrick.getFormulaWithBrickField(BrickField.USER_BRICK).setTextFieldId(textView.getId());
+		clonedBrick.parent = parent;
+		clonedBrick.parameterIndex = parameterIndex;
+		clonedBrick.variableName = variableName;
+		clonedBrick.textView = textView;
+		clonedBrick.prototypeView = prototypeView;
+		return clonedBrick;
+	}
+
+	@Override
+	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		return parent.getView(context, brickId, adapter);
+	}
+
 	@Override
 	public java.util.List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+		//sequence.addAction(ExtendedActions.setVariable(sprite, getFormulaWithBrickField(BrickField.VARIABLE),
+		//		ProjectManager.getInstance().getCurrentProject().getDataContainer().getUserVariable(variableName, sprite)));
 		sequence.addAction(sprite.getActionFactory().createSetVariableAction(sprite, getFormulaWithBrickField(BrickField.VARIABLE),
-				ProjectManager.getInstance().getCurrentProject().getDataContainer().getUserVariable(variableName, sprite)));
+				ProjectManager.getInstance().getCurrentProject().getDataContainer().getUserVariable(variableName, sprite)));; // TODO[physics]
 		return null;
 	}
+
+	@Override
+	public void showFormulaEditorToEditFormula(View view) {
+		FormulaEditorFragment.showFragment(view, this, BrickField.USER_BRICK);
+	}
 }
+

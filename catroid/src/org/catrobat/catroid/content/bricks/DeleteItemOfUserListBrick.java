@@ -42,7 +42,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
@@ -77,7 +76,9 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.deleteItemOfUserList(sprite, getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM), userList));
+		//sequence.addAction(ExtendedActions.deleteItemOfUserList(sprite, getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM), userList));
+		sequence.addAction(sprite.getActionFactory().createDeleteItemOfUserListAction(sprite,
+				getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM), userList)); // TODO[physics]
 		return null;
 	}
 

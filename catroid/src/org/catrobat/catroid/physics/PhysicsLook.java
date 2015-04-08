@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.physics;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import org.catrobat.catroid.ProjectManager;
@@ -149,7 +150,7 @@ public class PhysicsLook extends Look {
 	}
 
 	@Override
-	public void draw(SpriteBatch batch, float parentAlpha) {
+	public void draw(Batch batch, float parentAlpha) {
 		physicsObjectStateHandler.checkHangup(true);
 		super.draw(batch, parentAlpha);
 	}

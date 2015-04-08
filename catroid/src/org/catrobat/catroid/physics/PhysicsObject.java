@@ -32,6 +32,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.Transform;
+import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.content.Sprite;
 
@@ -101,7 +102,7 @@ public class PhysicsObject {
 			this.shapes = null;
 		}
 
-		ArrayList<Fixture> fixturesOld = new ArrayList<Fixture>(body.getFixtureList());
+		Array<Fixture> fixturesOld = body.getFixtureList();
 
 		if (shapes != null) {
 			for (Shape tempShape : shapes) {
@@ -119,7 +120,7 @@ public class PhysicsObject {
 	}
 
 	private void calculateCircumference() {
-		if (body.getFixtureList().size() == 0) {
+		if (body.getFixtureList().size == 0) {
 			return;
 		}
 
@@ -387,8 +388,8 @@ public class PhysicsObject {
 		bodyAABBLowerLeft = new Vector2(Integer.MAX_VALUE, Integer.MAX_VALUE);
 		bodyAABBUpperRight = new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE);
 		Transform transform = body.getTransform();
-		int len = body.getFixtureList().size();
-		ArrayList<Fixture> fixtures = body.getFixtureList();
+		int len = body.getFixtureList().size;
+		Array<Fixture> fixtures = body.getFixtureList();
 		for (int i = 0; i < len; i++) {
 			Fixture fixture = fixtures.get(i);
 			calculateAABB(fixture, transform);

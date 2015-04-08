@@ -43,7 +43,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.adapter.DataAdapter;
@@ -76,7 +75,11 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.insertItemIntoUserList(sprite, getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX), getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE), userList));
+		//sequence.addAction(ExtendedActions.insertItemIntoUserList(sprite, getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX), getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE), userList));
+		sequence.addAction(sprite.getActionFactory().createInsertItemIntoUserListAction(sprite,
+				getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_INDEX),
+				getFormulaWithBrickField(BrickField.INSERT_ITEM_INTO_USERLIST_VALUE), userList)); // TODO[physics]
+
 		return null;
 	}
 

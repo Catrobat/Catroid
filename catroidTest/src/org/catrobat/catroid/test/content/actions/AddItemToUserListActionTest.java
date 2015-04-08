@@ -27,9 +27,9 @@ import android.test.AndroidTestCase;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.physics.content.ActionFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +47,11 @@ public class AddItemToUserListActionTest extends AndroidTestCase {
 	private Project project;
 	private UserList userList;
 
+	private ActionFactory actionFactory;
+
 	@Override
 	protected void setUp() throws Exception {
+		actionFactory = new ActionFactory();
 		testSprite = new Sprite("testSprite");
 		project = new Project(null, "testProject");
 		ProjectManager.getInstance().setProject(project);
@@ -60,7 +63,7 @@ public class AddItemToUserListActionTest extends AndroidTestCase {
 	}
 
 	public void testAddNumericalValueToUserList() {
-		ExtendedActions.addItemToUserList(testSprite, new Formula(DOUBLE_VALUE_ITEM_TO_ADD), userList).act(1f);
+		actionFactory.createAddItemToUserListAction(testSprite, new Formula(DOUBLE_VALUE_ITEM_TO_ADD), userList).act(1f);
 		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
 
 		assertEquals("UserList size not changed!", 4, userList.getList().size());
@@ -68,18 +71,18 @@ public class AddItemToUserListActionTest extends AndroidTestCase {
 	}
 
 	public void testAddItemWithInvalidUserList() {
-		ExtendedActions.addItemToUserList(testSprite, new Formula(DOUBLE_VALUE_ITEM_TO_ADD), null).act(1f);
+		actionFactory.createAddItemToUserListAction(testSprite, new Formula(DOUBLE_VALUE_ITEM_TO_ADD), null).act(1f);
 		assertEquals("UserList changed, but should not!", 2, userList.getList().size());
 	}
 
 	public void testAddNullFormula() {
-		ExtendedActions.addItemToUserList(testSprite, null, userList).act(1f);
+		actionFactory.createAddItemToUserListAction(testSprite, null, userList).act(1f);
 		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
 		assertEquals("UserList not changed!", 0d, lastItemOfUserList);
 	}
 
 	public void testNotANumberFormula() {
-		ExtendedActions.addItemToUserList(testSprite, new Formula(Double.NaN), userList).act(1f);
+		actionFactory.createAddItemToUserListAction(testSprite, new Formula(Double.NaN), userList).act(1f);
 		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
 		assertEquals("String UserVariable not changed!", String.valueOf(Double.NaN), lastItemOfUserList);
 	}

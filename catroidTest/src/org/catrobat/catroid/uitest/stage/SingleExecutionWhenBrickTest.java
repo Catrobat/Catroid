@@ -34,7 +34,7 @@ import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.conditional.PlaceAtBrick;
-import org.catrobat.catroid.content.bricks.conditional.SetGhostEffectBrick;
+import org.catrobat.catroid.content.bricks.conditional.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetLookBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetSizeToBrick;
 import org.catrobat.catroid.io.StorageHandler;

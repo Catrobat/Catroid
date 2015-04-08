@@ -33,6 +33,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.content.Sprite;
@@ -99,7 +100,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 		assertEquals("Wrong initialization", PhysicsObject.DEFAULT_MASS, PhysicsTestUtils.getMass(physicsObject));
 
 		Body body = PhysicsTestUtils.getBody(physicsObject);
-		assertTrue("Body already contains fixtures", body.getFixtureList().isEmpty());
+		assertTrue("Body already contains fixtures", body.getFixtureList().size == 0);
 
 		FixtureDef fixtureDef = PhysicsTestUtils.getFixtureDef(physicsObject);
 		assertEquals("Wrong initialization", PhysicsObject.DEFAULT_DENSITY, fixtureDef.density);
@@ -142,11 +143,11 @@ public class PhysicsObjectTest extends AndroidTestCase {
 
 		Shape[] rectangle = new Shape[]{PhysicsTestUtils.createRectanglePolygonShape(5.0f, 5.0f)};
 		physicsObject.setShape(rectangle);
-		assertFalse("No shape has been set", body.getFixtureList().isEmpty());
+		assertFalse("No shape has been set", body.getFixtureList().size == 0);
 
-		List<Fixture> fixturesBeforeReset = new ArrayList<Fixture>(body.getFixtureList());
+		Array<Fixture> fixturesBeforeReset = body.getFixtureList();
 		physicsObject.setShape(rectangle);
-		List<Fixture> fixturesAfterReset = new ArrayList<Fixture>(body.getFixtureList());
+		Array<Fixture> fixturesAfterReset = body.getFixtureList();
 
 		assertEquals("Fixture has changed after setiting the same shape again", fixturesBeforeReset, fixturesAfterReset);
 	}
@@ -156,11 +157,11 @@ public class PhysicsObjectTest extends AndroidTestCase {
 		Body body = PhysicsTestUtils.getBody(physicsObject);
 
 		physicsObject.setShape(new Shape[]{PhysicsTestUtils.createRectanglePolygonShape(5.0f, 5.0f)});
-		assertFalse("No shape has been set", body.getFixtureList().isEmpty());
+		assertFalse("No shape has been set", body.getFixtureList().size == 0);
 
 		physicsObject.setShape(null);
 		assertNull("Physics shape isn't null", PhysicsTestUtils.getShapes(physicsObject));
-		assertTrue("Fixture hasn't been removed", body.getFixtureList().isEmpty());
+		assertTrue("Fixture hasn't been removed", body.getFixtureList().size == 0);
 	}
 
 	public void testSetShapeUpdatesDensityButNotMass() {
@@ -293,7 +294,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 
 			float[] densityValues = {0.123f, -0.765f, 24.32f};
 			assertFalse("Without any fixtures the correctness won't be tested.", PhysicsTestUtils
-					.getBody(physicsObject).getFixtureList().isEmpty());
+					.getBody(physicsObject).getFixtureList().size == 0);
 
 			for (float density : densityValues) {
 				Object[] values = {density};
@@ -357,7 +358,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 			float[] frictionValues = {0.123f, -0.765f, 0.32f};
 
 			assertFalse("Without any fixtures the correctness won't be tested.", PhysicsTestUtils
-					.getBody(physicsObject).getFixtureList().isEmpty());
+					.getBody(physicsObject).getFixtureList().size == 0);
 
 			for (float friction : frictionValues) {
 				physicsObject.setFriction(friction);
@@ -385,7 +386,7 @@ public class PhysicsObjectTest extends AndroidTestCase {
 			float[] bounceFactors = {0.123f, -0.765f, 0.32f};
 
 			assertFalse("Without any fixtures the correctness won't be tested.", PhysicsTestUtils
-					.getBody(physicsObject).getFixtureList().isEmpty());
+					.getBody(physicsObject).getFixtureList().size == 0);
 
 			for (float value : bounceFactors) {
 				physicsObject.setBounceFactor(value);
@@ -519,10 +520,10 @@ public class PhysicsObjectTest extends AndroidTestCase {
 	}
 
 	private void checkIfShapesAreTheSameAsInPhysicsObject(PolygonShape[] shapes, Body body) {
-		List<Fixture> fixtures = body.getFixtureList();
-		assertEquals("Number of shapes and fixtures are not the same", shapes.length, fixtures.size());
+		Array<Fixture> fixtures = body.getFixtureList();
+		assertEquals("Number of shapes and fixtures are not the same", shapes.length, fixtures.size);
 
-		if (body.getFixtureList().isEmpty()) {
+		if (body.getFixtureList().size == 0) {
 			return;
 		}
 

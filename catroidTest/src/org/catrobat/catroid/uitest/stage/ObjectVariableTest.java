@@ -32,7 +32,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.conditional.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetBrightnessBrick;
-import org.catrobat.catroid.content.bricks.conditional.SetGhostEffectBrick;
+import org.catrobat.catroid.content.bricks.conditional.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetXBrick;
 import org.catrobat.catroid.content.bricks.conditional.SetYBrick;

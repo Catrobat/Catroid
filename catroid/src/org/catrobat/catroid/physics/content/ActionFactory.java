@@ -33,17 +33,19 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.AddItemToUserListAction;
 import org.catrobat.catroid.content.actions.BroadcastAction;
 import org.catrobat.catroid.content.actions.BroadcastNotifyAction;
 import org.catrobat.catroid.content.actions.ChangeBrightnessByNAction;
-import org.catrobat.catroid.content.actions.ChangeGhostEffectByNAction;
 import org.catrobat.catroid.content.actions.ChangeSizeByNAction;
+import org.catrobat.catroid.content.actions.ChangeTransparencyByNAction;
 import org.catrobat.catroid.content.actions.ChangeVariableAction;
 import org.catrobat.catroid.content.actions.ChangeVolumeByNAction;
 import org.catrobat.catroid.content.actions.ChangeXByNAction;
 import org.catrobat.catroid.content.actions.ChangeYByNAction;
 import org.catrobat.catroid.content.actions.ClearGraphicEffectAction;
 import org.catrobat.catroid.content.actions.ComeToFrontAction;
+import org.catrobat.catroid.content.actions.DeleteItemOfUserListAction;
 import org.catrobat.catroid.content.actions.DroneFlipAction;
 import org.catrobat.catroid.content.actions.DroneMoveBackwardAction;
 import org.catrobat.catroid.content.actions.DroneMoveDownAction;
@@ -60,6 +62,7 @@ import org.catrobat.catroid.content.actions.DroneTurnRightWithMagnetometerAction
 import org.catrobat.catroid.content.actions.GoNStepsBackAction;
 import org.catrobat.catroid.content.actions.HideAction;
 import org.catrobat.catroid.content.actions.IfLogicAction;
+import org.catrobat.catroid.content.actions.InsertItemIntoUserListAction;
 import org.catrobat.catroid.content.actions.LedAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorActionAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorStopAction;
@@ -71,10 +74,11 @@ import org.catrobat.catroid.content.actions.PlaySoundAction;
 import org.catrobat.catroid.content.actions.PointInDirectionAction;
 import org.catrobat.catroid.content.actions.PointToAction;
 import org.catrobat.catroid.content.actions.RepeatAction;
+import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
-import org.catrobat.catroid.content.actions.SetGhostEffectAction;
 import org.catrobat.catroid.content.actions.SetLookAction;
 import org.catrobat.catroid.content.actions.SetSizeToAction;
+import org.catrobat.catroid.content.actions.SetTransparencyAction;
 import org.catrobat.catroid.content.actions.SetVariableAction;
 import org.catrobat.catroid.content.actions.SetVolumeToAction;
 import org.catrobat.catroid.content.actions.SetXAction;
@@ -93,6 +97,7 @@ import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick.Motor;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.PhysicsObject;
 
@@ -139,10 +144,10 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createChangeGhostEffectByNAction(Sprite sprite, Formula ghostEffect) {
-		ChangeGhostEffectByNAction action = Actions.action(ChangeGhostEffectByNAction.class);
+	public Action createChangeTransparencyByNAction(Sprite sprite, Formula transparency) {
+		ChangeTransparencyByNAction action = Actions.action(ChangeTransparencyByNAction.class);
 		action.setSprite(sprite);
-		action.setGhostEffect(ghostEffect);
+		action.setTransparency(transparency);
 		return action;
 	}
 
@@ -303,8 +308,8 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createSetGhostEffectAction(Sprite sprite, Formula transparency) {
-		SetGhostEffectAction action = Actions.action(SetGhostEffectAction.class);
+	public Action createSetTransparencyAction(Sprite sprite, Formula transparency) {
+		SetTransparencyAction action = Actions.action(SetTransparencyAction.class);
 		action.setSprite(sprite);
 		action.setTransparency(transparency);
 		return action;
@@ -391,6 +396,43 @@ public class ActionFactory extends Actions {
 		action.setUserVariable(userVariable);
 		return action;
 	}
+
+	public Action createDeleteItemOfUserListAction(Sprite sprite, Formula userListFormula, UserList userList) {
+		DeleteItemOfUserListAction action = action(DeleteItemOfUserListAction.class);
+		action.setSprite(sprite);
+		action.setFormulaIndexToDelete(userListFormula);
+		action.setUserList(userList);
+		return action;
+	}
+
+	public Action createAddItemToUserListAction(Sprite sprite, Formula userListFormula, UserList userList) {
+		AddItemToUserListAction action = action(AddItemToUserListAction.class);
+		action.setSprite(sprite);
+		action.setFormulaItemToAdd(userListFormula);
+		action.setUserList(userList);
+		return action;
+	}
+
+	public Action createInsertItemIntoUserListAction(Sprite sprite, Formula userListFormulaIndexToInsert,
+			Formula userListFormulaItemToInsert, UserList userList) {
+		InsertItemIntoUserListAction action = action(InsertItemIntoUserListAction.class);
+		action.setSprite(sprite);
+		action.setFormulaIndexToInsert(userListFormulaIndexToInsert);
+		action.setFormulaItemToInsert(userListFormulaItemToInsert);
+		action.setUserList(userList);
+		return action;
+	}
+
+	public Action createReplaceItemInUserListAction(Sprite sprite, Formula userListFormulaIndexToReplace,
+			Formula userListFormulaItemToInsert, UserList userList) {
+		ReplaceItemInUserListAction action = action(ReplaceItemInUserListAction.class);
+		action.setSprite(sprite);
+		action.setFormulaIndexToReplace(userListFormulaIndexToReplace);
+		action.setFormulaItemToInsert(userListFormulaItemToInsert);
+		action.setUserList(userList);
+		return action;
+	}
+
 
 	public Action createIfLogicAction(Sprite sprite, Formula condition, Action ifAction, Action elseAction) {
 		IfLogicAction action = Actions.action(IfLogicAction.class);

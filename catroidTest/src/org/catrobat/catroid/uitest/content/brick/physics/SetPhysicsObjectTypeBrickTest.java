@@ -38,9 +38,9 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;

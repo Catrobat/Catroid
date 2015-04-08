@@ -44,7 +44,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SetVelocityBrick extends FormulaBrick implements OnClickListener {
+public class SetVelocityBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -73,13 +73,6 @@ public class SetVelocityBrick extends FormulaBrick implements OnClickListener {
 	public int getRequiredResources() {
 		return PHYSIC;
 	}
-
-	/*@Override
-	public Brick copyBrickForSprite(Sprite sprite, Script script) {
-		SetVelocityBrick copyBrick = (SetVelocityBrick) clone();
-		copyBrick.sprite = sprite;
-		return copyBrick;
-	}*/
 
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
@@ -162,17 +155,17 @@ public class SetVelocityBrick extends FormulaBrick implements OnClickListener {
 	}
 
 	@Override
-	public void onClick(View view) {
+	public void showFormulaEditorToEditFormula(View view) {
 		if (checkbox.getVisibility() == View.VISIBLE) {
 			return;
 		}
 		switch (view.getId()) {
 			case R.id.brick_set_velocity_edit_text_x:
-				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_X));
+				FormulaEditorFragment.showFragment(view, this, BrickField.PHYSICS_VELOCITY_X);
 				break;
 
 			case R.id.brick_set_velocity_edit_text_y:
-				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_Y));
+				FormulaEditorFragment.showFragment(view, this, BrickField.PHYSICS_VELOCITY_Y);
 				break;
 			default:
 				// nothing to do

@@ -25,7 +25,6 @@ package org.catrobat.catroid.content.bricks.conditional;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -45,21 +44,21 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SetGhostEffectBrick extends FormulaBrick {
+public class SetTransparencyBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
 
-	public SetGhostEffectBrick() {
+	public SetTransparencyBrick() {
 		addAllowedBrickField(BrickField.TRANSPARENCY);
 	}
 
-	public SetGhostEffectBrick(double ghostEffectValue) {
-		initializeBrickFields(new Formula(ghostEffectValue));
+	public SetTransparencyBrick(double transparencyEffectValue) {
+		initializeBrickFields(new Formula(transparencyEffectValue));
 	}
 
-	public SetGhostEffectBrick(Formula transparency) {
+	public SetTransparencyBrick(Formula transparency) {
 		initializeBrickFields(transparency);
 	}
 
@@ -79,10 +78,10 @@ public class SetGhostEffectBrick extends FormulaBrick {
 			return view;
 		}
 
-		view = View.inflate(context, R.layout.brick_set_ghost_effect, null);
+		view = View.inflate(context, R.layout.brick_set_transparency, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_set_ghost_effect_checkbox);
+		setCheckboxView(R.id.brick_set_transparency_checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -93,9 +92,9 @@ public class SetGhostEffectBrick extends FormulaBrick {
 			}
 		});
 
-		TextView textX = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to_prototype_text_view);
-		TextView editX = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to_edit_text);
-		getFormulaWithBrickField(BrickField.TRANSPARENCY).setTextFieldId(R.id.brick_set_ghost_effect_to_edit_text);
+		TextView textX = (TextView) view.findViewById(R.id.brick_set_transparency_to_prototype_text_view);
+		TextView editX = (TextView) view.findViewById(R.id.brick_set_transparency_to_edit_text);
+		getFormulaWithBrickField(BrickField.TRANSPARENCY).setTextFieldId(R.id.brick_set_transparency_to_edit_text);
 		getFormulaWithBrickField(BrickField.TRANSPARENCY).refreshTextField(view);
 		textX.setVisibility(View.GONE);
 		editX.setVisibility(View.VISIBLE);
@@ -106,10 +105,10 @@ public class SetGhostEffectBrick extends FormulaBrick {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_set_ghost_effect, null);
-		TextView textSetGhostEffect = (TextView) prototypeView
-				.findViewById(R.id.brick_set_ghost_effect_to_prototype_text_view);
-        textSetGhostEffect.setText(String.valueOf(BrickValues.SET_GHOST_EFFECT));
+		prototypeView = View.inflate(context, R.layout.brick_set_transparency, null);
+		TextView textSetTransparency = (TextView) prototypeView
+				.findViewById(R.id.brick_set_transparency_to_prototype_text_view);
+        textSetTransparency.setText(String.valueOf(BrickValues.SET_TRANSPARENCY));
 		return prototypeView;
 	}
 
@@ -118,19 +117,19 @@ public class SetGhostEffectBrick extends FormulaBrick {
 
 		if (view != null) {
 
-			View layout = view.findViewById(R.id.brick_set_ghost_effect_layout);
+			View layout = view.findViewById(R.id.brick_set_transparency_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView textGhostLabel = (TextView) view.findViewById(R.id.brick_set_ghost_effect_label);
-			TextView textGhostTo = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to);
-			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_ghost_effect_percent);
-			TextView editGhostEffect = (TextView) view.findViewById(R.id.brick_set_ghost_effect_to_edit_text);
-			textGhostLabel.setTextColor(textGhostLabel.getTextColors().withAlpha(alphaValue));
-			textGhostTo.setTextColor(textGhostTo.getTextColors().withAlpha(alphaValue));
+			TextView textTransparencyLabel = (TextView) view.findViewById(R.id.brick_set_transparency_label);
+			TextView textTransparencyTo = (TextView) view.findViewById(R.id.brick_set_transparency_to);
+			TextView textPercent = (TextView) view.findViewById(R.id.brick_set_transparency_percent);
+			TextView editTransparency = (TextView) view.findViewById(R.id.brick_set_transparency_to_edit_text);
+			textTransparencyLabel.setTextColor(textTransparencyLabel.getTextColors().withAlpha(alphaValue));
+			textTransparencyTo.setTextColor(textTransparencyTo.getTextColors().withAlpha(alphaValue));
 			textPercent.setTextColor(textPercent.getTextColors().withAlpha(alphaValue));
-			editGhostEffect.setTextColor(editGhostEffect.getTextColors().withAlpha(alphaValue));
-			editGhostEffect.getBackground().setAlpha(alphaValue);
+			editTransparency.setTextColor(editTransparency.getTextColors().withAlpha(alphaValue));
+			editTransparency.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
 
@@ -142,7 +141,7 @@ public class SetGhostEffectBrick extends FormulaBrick {
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		//sequence.addAction(ExtendedActions.setGhostEffect(sprite, transparency));
-		sequence.addAction(sprite.getActionFactory().createSetGhostEffectAction(sprite,
+		sequence.addAction(sprite.getActionFactory().createSetTransparencyAction(sprite,
 				getFormulaWithBrickField(BrickField.TRANSPARENCY))); // TODO[physics]
 		return null;
 	}

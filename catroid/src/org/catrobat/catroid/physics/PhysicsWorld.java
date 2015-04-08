@@ -123,7 +123,8 @@ public class PhysicsWorld {
 		if (renderer == null) {
 			renderer = new Box2DDebugRenderer(PhysicsDebugSettings.Render.RENDER_BODIES,
 					PhysicsDebugSettings.Render.RENDER_JOINTS, PhysicsDebugSettings.Render.RENDER_AABB,
-					PhysicsDebugSettings.Render.RENDER_INACTIVE_BODIES, PhysicsDebugSettings.Render.RENDER_VELOCITIES);
+					PhysicsDebugSettings.Render.RENDER_INACTIVE_BODIES, PhysicsDebugSettings.Render.RENDER_VELOCITIES,
+					PhysicsDebugSettings.Render.RENDER_CONTACTS);
 		}
 		renderer.render(world, perspectiveMatrix.scl(PhysicsWorld.RATIO));
 	}

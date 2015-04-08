@@ -29,6 +29,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.physics.PhysicsBoundaryBox;
@@ -63,16 +64,17 @@ public class PhysicsBoundaryBoxTest extends AndroidTestCase {
 		new PhysicsBoundaryBox(world).create(40, 40);
 		assertEquals("World contains wrong number of boundary box sides", 4, world.getBodyCount());
 
-		Iterator<Body> bodyIterator = world.getBodies();
-		while (bodyIterator.hasNext()) {
-			Body body = bodyIterator.next();
+		Array<Body> bodies = new Array<Body>();
+		world.getBodies(bodies);
+		assertEquals("bodies contains wrong number", 4, bodies.size);
+		for (Body body : bodies) {
 			assertEquals("BodyType of boundary box side isn't static", BodyType.StaticBody, body.getType());
 
 			//TODO [Physics] need this line -> expected behaviour is what???
 			//assertTrue("Body isn't allowed to sleep", body.isSleepingAllowed());
 
-			List<Fixture> fixtures = body.getFixtureList();
-			assertEquals("Body should contain only one shape (side)", 1, fixtures.size());
+			Array<Fixture> fixtures = body.getFixtureList();
+			assertEquals("Body should contain only one shape (side)", 1, fixtures.size);
 			for (Fixture fixture : fixtures) {
 				Filter filter = fixture.getFilterData();
 				assertEquals("Wrong bit mask for collision", PhysicsWorld.MASK_BOUNDARYBOX, filter.maskBits);
@@ -83,7 +85,7 @@ public class PhysicsBoundaryBoxTest extends AndroidTestCase {
 	}
 
 	/**
-	 * TODO: Refactor me!
+	 * //TODO [Physics] Refactor me!
 	 */
 	public void testPositionAndSize() {
 		//		Values.SCREEN_WIDTH = 800;

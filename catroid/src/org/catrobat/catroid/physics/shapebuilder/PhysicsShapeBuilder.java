@@ -95,7 +95,8 @@ public class PhysicsShapeBuilder {
 			for (int index = 0; index < polygon.getVertexCount(); index++) {
 				Vector2 vertex = new Vector2();
 				polygon.getVertex(index, vertex);
-				vertex = vertex.mul(scaleFactor);
+				vertex.x = vertex.x * scaleFactor;
+				vertex.y = vertex.y * scaleFactor;
 				vertices.add(vertex);
 			}
 

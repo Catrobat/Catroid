@@ -55,7 +55,7 @@ public final class BrickValues {
 	public static final Float SET_SIZE_TO = 60f;
 	public static final Float CHANGE_SIZE_BY = 10f;
 	public static final Float SET_TRANSPARENCY = 50f;
-	public static final Float CHANGE_GHOST_EFFECT = 25f;
+	public static final Float CHANGE_TRANSPARENCY_EFFECT = 25f;
 	public static final Float SET_BRIGHTNESS_TO = 50f;
 	public static final Float CHANGE_BRITHNESS_BY = 25f;
 	public static final int VIBRATE_MILLISECONDS = 1000;

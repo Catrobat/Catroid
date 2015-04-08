@@ -27,9 +27,9 @@ import android.test.AndroidTestCase;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.physics.content.ActionFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +43,11 @@ public class DeleteItemOfUserListActionTest extends AndroidTestCase {
 	private Project project;
 	private UserList userList;
 
+	private ActionFactory actionFactory;
+
 	@Override
 	protected void setUp() throws Exception {
+		actionFactory = new ActionFactory();
 		testSprite = new Sprite("testSprite");
 		project = new Project(null, "testProject");
 		ProjectManager.getInstance().setProject(project);
@@ -60,7 +63,7 @@ public class DeleteItemOfUserListActionTest extends AndroidTestCase {
 	}
 
 	public void testDeleteItemOfUserList() {
-		ExtendedActions.deleteItemOfUserList(testSprite, new Formula(1d), userList).act(1f);
+		actionFactory.createDeleteItemOfUserListAction(testSprite, new Formula(1d), userList).act(1f);
 		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
 		Object firstItemOfUserList = userList.getList().get(0);
 
@@ -70,12 +73,12 @@ public class DeleteItemOfUserListActionTest extends AndroidTestCase {
 	}
 
 	public void testDeleteItemWithInvalidUserList() {
-		ExtendedActions.addItemToUserList(testSprite, new Formula(1d), null).act(1f);
+		actionFactory.createAddItemToUserListAction(testSprite, new Formula(1d), null).act(1f);
 		assertEquals("UserList changed, but should not!", 3, userList.getList().size());
 	}
 
 	public void testDeleteNullFormula() {
-		ExtendedActions.deleteItemOfUserList(testSprite, null, userList).act(1f);
+		actionFactory.createDeleteItemOfUserListAction(testSprite, null, userList).act(1f);
 
 		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
 		Object firstItemOfUserList = userList.getList().get(0);
@@ -86,7 +89,7 @@ public class DeleteItemOfUserListActionTest extends AndroidTestCase {
 	}
 
 	public void testNotANumberFormula() {
-		ExtendedActions.deleteItemOfUserList(testSprite, new Formula(Double.NaN), userList).act(1f);
+		actionFactory.createDeleteItemOfUserListAction(testSprite, new Formula(Double.NaN), userList).act(1f);
 
 		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
 		Object firstItemOfUserList = userList.getList().get(0);
