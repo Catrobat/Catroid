@@ -77,6 +77,14 @@ public class SetVariableBrick extends UserVariableBrick {
 		setFormulaWithBrickField(BrickField.VARIABLE, variableFormula);
 	}
 
+	public void setUserVariable(UserVariable userVariable) {
+		this.userVariable = userVariable;
+	}
+
+	public UserVariable getUserVariable() {
+		return userVariable;
+	}
+
 	@Override
 	public int getRequiredResources() {
 		return getFormulaWithBrickField(BrickField.VARIABLE).getRequiredResources();
