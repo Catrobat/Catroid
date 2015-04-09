@@ -28,7 +28,7 @@ import android.util.Log;
 public enum Functions {
 
 	SIN, COS, TAN, LN, LOG, SQRT, RAND, ROUND, ABS, PI, MOD, ARCSIN, ARCCOS, ARCTAN, EXP, MAX, MIN, TRUE, FALSE, LENGTH,
-	LETTER, JOIN, LIST_ITEM, CONTAINS, NUMBER_OF_ITEMS;
+	LETTER, JOIN, LIST_ITEM, CONTAINS, NUMBER_OF_ITEMS,ARDUINOANALOG, ARDUINODIGITAL;
 
 	private static final String TAG = Functions.class.getSimpleName();
 

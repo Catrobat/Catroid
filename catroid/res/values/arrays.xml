@@ -47,4 +47,28 @@
  	</string-array >
 
 
+    <!-- Arduino pins spinner -->
+   <string-array name="arduino_pin_chooser">
+        <!--  <item>@string/pin_0</item> -->
+        <item>@string/digital_arduino_pin_1</item>
+        <!-- <item>@string/pin_2</item> -->
+        <item>@string/digital_arduino_pin_3</item>
+        <item>@string/digital_arduino_pin_4</item>
+        <item>@string/digital_arduino_pin_5</item>
+        <item>@string/digital_arduino_pin_6</item>
+        <!-- <item>@string/pin_7</item> -->
+        <item>@string/digital_arduino_pin_8</item>
+        <item>@string/digital_arduino_pin_9</item>
+        <item>@string/digital_arduino_pin_10</item>
+        <item>@string/digital_arduino_pin_11</item>
+        <item>@string/digital_arduino_pin_12</item>
+        <item>@string/digital_arduino_pin_13</item>
+    </string-array>
+
+     <!-- Arduino values spinner -->
+     <string-array name="arduino_value_chooser">
+        <item>@string/arduino_pin_value_low</item>
+        <item>@string/arduino_pin_value_high</item>
+   </string-array>
+
 </resources>

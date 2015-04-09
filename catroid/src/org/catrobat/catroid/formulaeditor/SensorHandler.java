@@ -28,6 +28,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.util.Log;
 
+import org.catrobat.catroid.devices.arduino.Arduino;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 
 public final class SensorHandler implements SensorEventListener, SensorCustomEventListener {
@@ -157,6 +158,10 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				}
 			case FACE_DETECTED:
 				return (double) instance.faceDetected;
+			case ARDUINOANALOG:
+				return instance.
+			case ARDUINODIGITAL:
+				return
 			case FACE_SIZE:
 				return (double) instance.faceSize;
 			case FACE_X_POSITION:

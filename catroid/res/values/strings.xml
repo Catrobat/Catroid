@@ -69,6 +69,7 @@
 
     <!-- Settings activity -->
     <string name="preference_title">Settings</string>
+
     <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorms bricks</string>
     <string name="preference_description_mindstorm_bricks">Allow to control Lego Mindstorms robots</string>
 	<string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 bricks</string>
@@ -77,6 +78,9 @@
     <string name="preference_description_use_face_detection">Allow to detect faces</string>
     <string name="preference_title_select_camera">Choose Camera</string>
     <string name="preference_description_select_camera">Select camera which is used for face detection</string>
+    <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
+    <string name="preference_description_arduino_bricks">Allow to control Arduino bricks</string>
+
     <!-- -->
 
 
@@ -334,6 +338,7 @@
     <string name="category_data">Data</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_drone">ARDrone</string>
+    <string name="category_arduino">Arduino</string>
     <!--  -->
 
     <!-- Motion bricks -->
@@ -445,6 +450,8 @@
     <string name="brick_replace_item_in_userlist_replace_in_list" >Replace item in list</string >
     <string name="brick_replace_item_in_userlist_item_at_index" >at position</string >
     <string name="brick_replace_item_in_userlist_with_value" >with</string >
+    <string name="brick_arduino_send">Send to Arduino</string>
+
     <!--  -->
 
 
@@ -546,8 +553,33 @@
     <string name="no_paired_nxt">No paired NXT found</string>
     <string name="none_found">No unpaired devices found</string>
     <string name="none_paired">No paired devices found</string>
+    <string name="select_device_arduino">Select your Arduino Board</string>
     <!--  -->
 
+
+    <!-- Arduino Bricks -->
+    <string name="brick_arduino_select_value">Set Arduino Pin</string>
+    <string name="brick_arduino_ir">command</string>
+    <string name="brick_arduino_ir_default_value">"add command here"</string>
+    <string name="dialog_edit_arduino_ir_text">send command to arduino</string>
+    <string name="dialog_edit_arduino_ir_title">Enter IR command</string>
+     <!--  -->
+
+    <!-- Arduino Strings -->
+    <string name="digital_arduino_pin_1">1</string> <!-- serial Tx -->
+    <string name="digital_arduino_pin_3">3</string> <!-- PWM -->
+    <string name="digital_arduino_pin_4">4</string> <!-- digital I/O -->
+    <string name="digital_arduino_pin_5">5</string> <!-- PWM -->
+    <string name="digital_arduino_pin_6">6</string> <!-- PWM -->
+    <string name="digital_arduino_pin_8">8</string> <!-- digital I/O -->
+    <string name="digital_arduino_pin_9">9</string> <!-- PWM -->
+    <string name="digital_arduino_pin_10">10</string> <!-- PWM -->
+    <string name="digital_arduino_pin_11">11</string> <!-- PWM -->
+    <string name="digital_arduino_pin_12">12</string> <!-- digital I/O -->
+    <string name="digital_arduino_pin_13">13</string> <!-- built-in LED pin -->
+    <string name="arduino_pin_value_high">high</string>
+    <string name="arduino_pin_value_low">low</string>
+    <!--  -->
 
     <!-- Lego Mindstorms Strings -->
     <string name="brick_motor_action">NXT move motor</string>
@@ -647,6 +679,8 @@
     <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
     <string name="formula_editor_function_join">join</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\'world\')</string>
+    <string name="formula_editor_function_arduino_read_pin_value_digital">Arduino_digital_pin</string>
+    <string name="formula_editor_function_arduino_read_pin_value_analog">Arduino_analog_pin</string>
     <string name="formula_editor_function_list_item">element</string>
     <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
     <string name="formula_editor_function_contains">contains</string>

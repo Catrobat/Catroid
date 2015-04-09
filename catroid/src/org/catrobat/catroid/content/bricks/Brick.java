@@ -53,6 +53,7 @@ public interface Brick extends Serializable, Cloneable {
 	//	public static final int SOUND_MANAGER = 0x1;
 	int TEXT_TO_SPEECH = 0x2;
 	int BLUETOOTH_LEGO_NXT = 0x4;
+	int BLUETOOTH_SENSORS_ARDUINO = 0x40;
 	int ARDRONE_SUPPORT = 0x20;
 	int CAMERA_LED = 0x100;
 	int VIBRATOR = 0x200;

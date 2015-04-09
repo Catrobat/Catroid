@@ -190,6 +190,22 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
+	public static ArduinoSendAction sendArduinoValues(Sprite sprite, String pinNumber, int pinValue) {
+		ArduinoSendAction action = action(ArduinoSendAction.class);
+		action.setSprite(sprite);
+		action.setPinNumber(pinNumber);
+		action.setPinValue(pinValue);
+		return action;
+	}
+
+	public static ArduinoIrCommandAction sendArduinoIrCommand(Sprite sprite, String command) {
+		ArduinoIrCommandAction action = action(ArduinoIrCommandAction.class);
+		action.setSprite(sprite);
+		action.setCommand(command);
+		return action;
+	}
+
+
 	public static MoveNStepsAction moveNSteps(Sprite sprite, Formula steps) {
 		MoveNStepsAction action = action(MoveNStepsAction.class);
 		action.setSprite(sprite);
