@@ -30,14 +30,14 @@
     android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/drone_brick_set_text_checkbox"
+        android:id="@+id/brick_set_text_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/drone_brick_set_text_layout"
+        android:id="@+id/brick_set_text_layout"
         style="@style/BrickContainer.Motion.Big"
         android:orientation="horizontal"
         android:paddingBottom="0dp"
@@ -46,19 +46,19 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
-            android:id="@+id/drone_brick_set_text_label"
+            android:id="@+id/brick_set_text_label"
             style="@style/BrickText.SingleLine"
             android:text="@string/drone_brick_set_text" >
         </TextView >
 
         <TextView
-            android:id="@+id/drone_brick_set_text_prototype_view"
+            android:id="@+id/brick_set_text_prototype_view"
             style="@style/BrickPrototypeTextView"
             android:layout_width="match_parent" >
         </TextView >
 
         <TextView
-            android:id="@+id/drone_brick_set_text_edit_text"
+            android:id="@+id/brick_set_text_edit_text"
             style="@style/BrickEditText"
             android:layout_width="match_parent"
             app:layout_inputType="text"
@@ -66,42 +66,42 @@
         </TextView >
 
         <TextView
-            android:id="@+id/drone_brick_set_text_seconds_text_view"
+            android:id="@+id/brick_set_text_seconds_text_view"
             style="@style/BrickText.SingleLine" >
         </TextView >
 
         <TextView
-            android:id="@+id/drone_brick_set_text_x"
+            android:id="@+id/brick_set_text_x"
             style="@style/BrickText.SingleLine"
             app:layout_newLine="true"
             android:text="@string/drone_brick_set_x" >
         </TextView >
 
         <TextView
-            android:id="@+id/drone_brick_set_text_prototype_text_view_x"
+            android:id="@+id/brick_set_text_prototype_text_view_x"
             style="@style/BrickPrototypeTextView" >
         </TextView >
 
         <TextView
-            android:id="@+id/drone_brick_set_text_edit_text_x"
+            android:id="@+id/brick_set_text_edit_text_x"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true" >
         </TextView >
 
         <TextView
-            android:id="@+id/drone_brick_set_text_y"
+            android:id="@+id/brick_set_text_y"
             style="@style/BrickText.SingleLine"
             android:text="@string/y_label" >
         </TextView >
 
         <TextView
-            android:id="@+id/drone_brick_set_text_prototype_text_view_y"
+            android:id="@+id/brick_set_text_prototype_text_view_y"
             style="@style/BrickPrototypeTextView" >
         </TextView >
 
         <TextView
-            android:id="@+id/drone_brick_set_text_edit_text_y"
+            android:id="@+id/brick_set_text_edit_text_y"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true" >

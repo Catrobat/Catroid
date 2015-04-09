@@ -41,22 +41,22 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class DroneSetTextBrick extends FormulaBrick implements View.OnClickListener {
+public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
 
-	public DroneSetTextBrick() {
+	public SetTextBrick() {
 		addAllowedBrickField(BrickField.X_DESTINATION);
 		addAllowedBrickField(BrickField.Y_DESTINATION);
 		addAllowedBrickField(BrickField.STRING);
 	}
 
-	public DroneSetTextBrick(int xDestinationValue, int yDestinationValue, String text) {
+	public SetTextBrick(int xDestinationValue, int yDestinationValue, String text) {
 		initializeBrickFields(new Formula(xDestinationValue), new Formula(yDestinationValue), new Formula(text));
 	}
 
-	public DroneSetTextBrick(Formula xDestination, Formula yDestination, Formula text) {
+	public SetTextBrick(Formula xDestination, Formula yDestination, Formula text) {
 		initializeBrickFields(xDestination, yDestination, text);
 	}
 
@@ -97,7 +97,7 @@ public class DroneSetTextBrick extends FormulaBrick implements View.OnClickListe
 		view = View.inflate(context, R.layout.brick_drone_set_text, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.drone_brick_set_text_checkbox);
+		setCheckboxView(R.id.brick_set_text_checkbox);
 		final Brick brickInstance = this;
 
 		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -108,24 +108,24 @@ public class DroneSetTextBrick extends FormulaBrick implements View.OnClickListe
 			}
 		});
 
-		TextView textX = (TextView) view.findViewById(R.id.drone_brick_set_text_prototype_text_view_x);
-		TextView textY = (TextView) view.findViewById(R.id.drone_brick_set_text_prototype_text_view_y);
+		TextView textX = (TextView) view.findViewById(R.id.brick_set_text_prototype_text_view_x);
+		TextView textY = (TextView) view.findViewById(R.id.brick_set_text_prototype_text_view_y);
 
-		TextView editX = (TextView) view.findViewById(R.id.drone_brick_set_text_edit_text_x);
-		TextView editY = (TextView) view.findViewById(R.id.drone_brick_set_text_edit_text_y);
+		TextView editX = (TextView) view.findViewById(R.id.brick_set_text_edit_text_x);
+		TextView editY = (TextView) view.findViewById(R.id.brick_set_text_edit_text_y);
 
-		getFormulaWithBrickField(BrickField.X_DESTINATION).setTextFieldId(R.id.drone_brick_set_text_edit_text_x);
+		getFormulaWithBrickField(BrickField.X_DESTINATION).setTextFieldId(R.id.brick_set_text_edit_text_x);
 		getFormulaWithBrickField(BrickField.X_DESTINATION).refreshTextField(view);
 		editX.setOnClickListener(this);
 
-		getFormulaWithBrickField(BrickField.Y_DESTINATION).setTextFieldId(R.id.drone_brick_set_text_edit_text_y);
+		getFormulaWithBrickField(BrickField.Y_DESTINATION).setTextFieldId(R.id.brick_set_text_edit_text_y);
 		getFormulaWithBrickField(BrickField.Y_DESTINATION).refreshTextField(view);
 		editY.setOnClickListener(this);
 
-		TextView text = (TextView) view.findViewById(R.id.drone_brick_set_text_prototype_view);
-		TextView editText = (TextView) view.findViewById(R.id.drone_brick_set_text_edit_text);
+		TextView text = (TextView) view.findViewById(R.id.brick_set_text_prototype_view);
+		TextView editText = (TextView) view.findViewById(R.id.brick_set_text_edit_text);
 
-		getFormulaWithBrickField(BrickField.STRING).setTextFieldId(R.id.drone_brick_set_text_edit_text);
+		getFormulaWithBrickField(BrickField.STRING).setTextFieldId(R.id.brick_set_text_edit_text);
 		getFormulaWithBrickField(BrickField.STRING).refreshTextField(view);
 
 		text.setVisibility(View.GONE);
@@ -143,11 +143,11 @@ public class DroneSetTextBrick extends FormulaBrick implements View.OnClickListe
 	public View getPrototypeView(Context context) {
 		prototypeView = View.inflate(context, R.layout.brick_drone_set_text, null);
 
-		TextView posX = (TextView) prototypeView.findViewById(R.id.drone_brick_set_text_prototype_text_view_x);
-		TextView posY = (TextView) prototypeView.findViewById(R.id.drone_brick_set_text_prototype_text_view_y);
+		TextView posX = (TextView) prototypeView.findViewById(R.id.brick_set_text_prototype_text_view_x);
+		TextView posY = (TextView) prototypeView.findViewById(R.id.brick_set_text_prototype_text_view_y);
 
-		TextView text = (TextView) prototypeView.findViewById(R.id.drone_brick_set_text_prototype_view);
-		TextView second_text = (TextView) prototypeView.findViewById(R.id.drone_brick_set_text_seconds_text_view);
+		TextView text = (TextView) prototypeView.findViewById(R.id.brick_set_text_prototype_view);
+		TextView second_text = (TextView) prototypeView.findViewById(R.id.brick_set_text_seconds_text_view);
 
 		posX.setText(String.valueOf(BrickValues.X_POSITION));
 		posY.setText(String.valueOf(BrickValues.Y_POSITION));
@@ -162,18 +162,18 @@ public class DroneSetTextBrick extends FormulaBrick implements View.OnClickListe
 
 		if (view != null) {
 
-			View layout = view.findViewById(R.id.drone_brick_set_text_layout);
+			View layout = view.findViewById(R.id.brick_set_text_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView glideToLabel = (TextView) view.findViewById(R.id.drone_brick_set_text_label);
-			TextView glideToSeconds = (TextView) view.findViewById(R.id.drone_brick_set_text_seconds_text_view);
-			TextView glideToXTextView = (TextView) view.findViewById(R.id.drone_brick_set_text_x);
-			TextView glideToYTextView = (TextView) view.findViewById(R.id.drone_brick_set_text_y);
-			TextView editDuration = (TextView) view.findViewById(R.id.drone_brick_set_text_edit_text);
+			TextView glideToLabel = (TextView) view.findViewById(R.id.brick_set_text_label);
+			TextView glideToSeconds = (TextView) view.findViewById(R.id.brick_set_text_seconds_text_view);
+			TextView glideToXTextView = (TextView) view.findViewById(R.id.brick_set_text_x);
+			TextView glideToYTextView = (TextView) view.findViewById(R.id.brick_set_text_y);
+			TextView editDuration = (TextView) view.findViewById(R.id.brick_set_text_edit_text);
 
-			TextView editX = (TextView) view.findViewById(R.id.drone_brick_set_text_edit_text_x);
-			TextView editY = (TextView) view.findViewById(R.id.drone_brick_set_text_edit_text_y);
+			TextView editX = (TextView) view.findViewById(R.id.brick_set_text_edit_text_x);
+			TextView editY = (TextView) view.findViewById(R.id.brick_set_text_edit_text_y);
 
 			glideToLabel.setTextColor(glideToLabel.getTextColors().withAlpha(alphaValue));
 			glideToSeconds.setTextColor(glideToSeconds.getTextColors().withAlpha(alphaValue));
@@ -200,15 +200,15 @@ public class DroneSetTextBrick extends FormulaBrick implements View.OnClickListe
 			return;
 		}
 		switch (view.getId()) {
-			case R.id.drone_brick_set_text_edit_text_x:
+			case R.id.brick_set_text_edit_text_x:
 				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.X_DESTINATION));
 				break;
 
-			case R.id.drone_brick_set_text_edit_text_y:
+			case R.id.brick_set_text_edit_text_y:
 				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.Y_DESTINATION));
 				break;
 
-			case R.id.drone_brick_set_text_edit_text:
+			case R.id.brick_set_text_edit_text:
 				FormulaEditorFragment
 						.showFragment(view, this, getFormulaWithBrickField(BrickField.STRING));
 				break;

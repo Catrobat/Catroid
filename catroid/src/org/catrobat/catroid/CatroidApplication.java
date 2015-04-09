@@ -34,7 +34,7 @@ public class CatroidApplication extends Application {
 	private ApplicationSettings settings;
 	public static final String OS_ARCH = System.getProperty("os.arch");;
 
-	private static boolean parrotLibrariesLoaded = false;
+	public static boolean parrotLibrariesLoaded = false;
 
 	@Override
 	public void onCreate() {
@@ -64,6 +64,7 @@ public class CatroidApplication extends Application {
 				System.loadLibrary("adfreeflight");
 			} catch (UnsatisfiedLinkError e) {
 				Log.e(TAG, Log.getStackTraceString(e));
+				parrotLibrariesLoaded = false;
 				return false;
 			}
 			parrotLibrariesLoaded = true;
