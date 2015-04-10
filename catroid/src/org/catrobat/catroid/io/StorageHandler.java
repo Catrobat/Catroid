@@ -22,11 +22,9 @@
  */
 package org.catrobat.catroid.io;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
-import android.os.Build;
 import android.util.Log;
 
 import com.google.common.base.Charsets;
@@ -349,7 +347,6 @@ public final class StorageHandler {
 		return backPackSoundDirectory;
 	}
 
-	@TargetApi(Build.VERSION_CODES.KITKAT)
 	public Project loadProject(String projectName) {
 		codeFileSanityCheck(projectName);
 
