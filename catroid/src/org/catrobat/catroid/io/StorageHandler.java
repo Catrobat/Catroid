@@ -71,7 +71,6 @@ import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
 import org.catrobat.catroid.content.bricks.DroneSetConfigBrick;
-import org.catrobat.catroid.content.bricks.SetTextBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
@@ -111,6 +110,7 @@ import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
+import org.catrobat.catroid.content.bricks.SetTextBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
@@ -363,8 +363,9 @@ public final class StorageHandler {
 		} catch (Exception exception) {
 			Log.e(TAG, "Loading project " + projectName + " failed.", exception);
 			try {
-				Log.e(TAG, "delete project " + projectName, exception);
+				Log.e(TAG, "delete project .. " + projectName, exception);
 				deleteProject(projectName);
+				// Log.e(TAG, "... and delete app data" + projectName, exception);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

@@ -61,6 +61,14 @@ public class DroneConnection implements StageResourceInterface, DroneReadyReceiv
 		prepareDroneResources();
 	}
 
+	private void prepareDroneResources() throws RuntimeException {
+		Log.d(TAG, "prepareResources()");
+		droneReadyReceiver = new DroneReadyReceiver(this);
+		droneConnectionChangeReceiver = new DroneConnectionChangedReceiver(this);
+
+		helpBindDroneService();
+	}
+
 	@Override
 	public void start() {
 		if (droneControlService != null) {
@@ -88,14 +96,6 @@ public class DroneConnection implements StageResourceInterface, DroneReadyReceiv
 	@Override
 	public void destroy() {
 		helpUnbindDroneService();
-	}
-
-	private void prepareDroneResources() throws RuntimeException {
-		Log.d(TAG, "prepareResources()");
-		droneReadyReceiver = new DroneReadyReceiver(this);
-		droneConnectionChangeReceiver = new DroneConnectionChangedReceiver(this);
-
-		helpBindDroneService();
 	}
 
 	private void onDroneServiceConnected(IBinder service) {

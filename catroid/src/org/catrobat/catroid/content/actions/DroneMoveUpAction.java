@@ -22,16 +22,22 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import com.parrot.freeflight.service.DroneControlService;
+
 public class DroneMoveUpAction extends DroneMoveAction {
 
 	@Override
 	protected void move() {
-		super.getDroneService().moveUp(super.getPowerNormalized());
+		DroneControlService dcs = super.getDroneService();
+		if(dcs != null)
+			dcs.moveUp(super.getPowerNormalized());
 	}
 
 	@Override
 	protected void moveEnd() {
-		super.getDroneService().moveUp(DRONE_MOVE_SPEED_STOP);
+		DroneControlService dcs = super.getDroneService();
+		if(dcs != null)
+			dcs.moveUp(DRONE_MOVE_SPEED_STOP);
 	}
 
 }

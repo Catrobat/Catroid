@@ -179,8 +179,8 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 				Log.d(getClass().getSimpleName(), "message code: "+getResources().getString(R.string.drone_emergency_cutout));
 				break;
 			default: {
-				messageId = R.string.drone_emergency_default;
 				Log.d(getClass().getSimpleName(), "message code (number): "+ code);
+				return;
 			}
 		}
 
@@ -190,7 +190,6 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialogInterface, int id) {
-
 					}
 				})
 				.setCancelable(false)
