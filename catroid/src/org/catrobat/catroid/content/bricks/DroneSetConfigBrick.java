@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -46,12 +47,13 @@ import org.catrobat.catroid.drone.DroneInitializer;
 
 import java.util.List;
 
-public class DroneSetConfigBrick extends BrickBaseType{
+public class DroneSetConfigBrick extends BrickBaseType implements OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
 
 	protected transient AdapterView<?> adapterView;
 	private String selectedMessage;
 	private Context context;
+	private int DroneConfigSpinnerPosition = 0;
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
@@ -81,8 +83,8 @@ public class DroneSetConfigBrick extends BrickBaseType{
 
 		view = View.inflate(context, R.layout.brick_set_config, null);
 		view = getViewWithAlpha(alphaValue);
-		setCheckboxView(R.id.brick_set_config_checkbox);
 
+		setCheckboxView(R.id.brick_set_config_checkbox);
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
@@ -103,41 +105,50 @@ public class DroneSetConfigBrick extends BrickBaseType{
 
 		setConfigSpinner.setAdapter(droneSetConfigAdapter);
 
-		if (!(checkbox.getVisibility() == View.VISIBLE)) {
-			setConfigSpinner.setClickable(true);
-			setConfigSpinner.setEnabled(true);
-		} else {
+		if (checkbox.getVisibility() == View.VISIBLE) {
 			setConfigSpinner.setClickable(false);
 			setConfigSpinner.setEnabled(false);
+		} else {
+			setConfigSpinner.setClickable(true);
+			setConfigSpinner.setEnabled(true);
 		}
 
-
+		setConfigSpinner.setAdapter(droneSetConfigAdapter);
+		setConfigSpinner.setSelection(DroneConfigSpinnerPosition);
 
 		setConfigSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				selectedMessage = setConfigSpinner.getSelectedItem().toString();
+				selectedMessage = parent.getItemAtPosition(position).toString(); //setConfigSpinner.getSelectedItem().toString();
+
+				Log.d("DroneSetConfigBrick", "selected meassage = " + selectedMessage );
+				DroneConfigSpinnerPosition = position;
 				adapterView = parent;
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
+			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
 
-		setSpinnerSelection(setConfigSpinner);
 		return view;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
 		View prototypeView = View.inflate(context, R.layout.brick_set_config, null);
+
 		Spinner DroneConfigSpinner = (Spinner) prototypeView.findViewById(R.id.brick_set_config_spinner);
 		DroneConfigSpinner.setFocusableInTouchMode(false);
 		DroneConfigSpinner.setFocusable(false);
-		SpinnerAdapter broadcastSpinnerAdapter = MessageContainer.getMessageAdapter(context);
-		DroneConfigSpinner.setAdapter(broadcastSpinnerAdapter);
+
+		ArrayAdapter<CharSequence> DroneConfigSpinnerAdapter = ArrayAdapter.createFromResource(context,
+				R.array.drone_config_spinner, android.R.layout.simple_spinner_item);
+		DroneConfigSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		DroneConfigSpinner.setAdapter(DroneConfigSpinnerAdapter);
 		setSpinnerSelection(DroneConfigSpinner);
+
 		return prototypeView;
 	}
 
@@ -150,14 +161,15 @@ public class DroneSetConfigBrick extends BrickBaseType{
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView textDroneConfigLabel = (TextView) view.findViewById(R.id.brick_set_config_label);
-			textDroneConfigLabel.setTextColor(textDroneConfigLabel.getTextColors().withAlpha(alphaValue));
+			//TextView textDroneConfigLabel = (TextView) view.findViewById(R.id.brick_set_config_label);
+			//textDroneConfigLabel.setTextColor(textDroneConfigLabel.getTextColors().withAlpha(alphaValue));
+
 			Spinner droneConfigSpinner = (Spinner) view.findViewById(R.id.brick_set_config_spinner);
-			ColorStateList color = textDroneConfigLabel.getTextColors().withAlpha(alphaValue);
+			//ColorStateList color = textDroneConfigLabel.getTextColors().withAlpha(alphaValue);
 			droneConfigSpinner.getBackground().setAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
+//			if (adapterView != null) {
+//				((TextView) adapterView.getChildAt(0)).setTextColor(color);
+//			}
 
 			this.alphaValue = (alphaValue);
 
@@ -169,6 +181,15 @@ public class DroneSetConfigBrick extends BrickBaseType{
 	protected void setSpinnerSelection(Spinner spinner) {
 		int position = MessageContainer.getPositionOfMessageInAdapter(spinner.getContext(), selectedMessage);
 		spinner.setSelection(position, true);
+	}
+
+	@Override
+	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+		adapterView = parent;
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> arg0) {
 	}
 
 

@@ -31,7 +31,7 @@ public class DroneConfigManager {
 
 	private DroneConfigManager () {}
 
-	public static synchronized DroneConfigManager getInstance () {
+	public static DroneConfigManager getInstance () {
 		if (DroneConfigManager.instance == null) {
 			DroneConfigManager.instance = new DroneConfigManager ();
 		}
