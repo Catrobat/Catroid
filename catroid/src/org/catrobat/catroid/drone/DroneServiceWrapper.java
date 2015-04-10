@@ -23,8 +23,12 @@
 package org.catrobat.catroid.drone;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.parrot.freeflight.service.DroneControlService;
+
+import org.catrobat.catroid.CatroidApplication;
+import org.catrobat.catroid.R;
 
 public final class DroneServiceWrapper {
 
@@ -46,11 +50,26 @@ public final class DroneServiceWrapper {
 		droneControlService = service;
 	}
 
+	// first try to reconnect to drone and then check if droneControlService is not null
+	// if connection is successful droneControlService should not be null!
 	public DroneControlService getDroneService() {
+		if(droneControlService == null){
+		    DroneConnection droneConnection = new DroneConnection(CatroidApplication.getAppContext());
+
+			if (droneConnection != null) {
+				try {
+					droneConnection.initialise();
+				} catch (RuntimeException runtimeException) {
+					Toast.makeText(CatroidApplication.getAppContext(), R.string.error_no_drone_connected, Toast.LENGTH_LONG).show();
+					Log.e(getClass().getSimpleName(), "drone connection initialization was not successful!");
+				}
+			}
+		}
+
+		// polling: waiting for droneControlService
 		while(droneControlService == null){
 			try {
 				Thread.sleep(100);
-				Log.d(getClass().getSimpleName(), "dcs is null!");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

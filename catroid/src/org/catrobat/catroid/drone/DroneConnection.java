@@ -43,7 +43,7 @@ import org.catrobat.catroid.stage.StageResourceInterface;
 public class DroneConnection implements StageResourceInterface, DroneReadyReceiverDelegate,
 		DroneConnectionChangeReceiverDelegate {
 
-	private Context stageActivityContext = null;
+	private Context context = null;
 
 	private static final String TAG = DroneConnection.class.getSimpleName();
 
@@ -51,8 +51,8 @@ public class DroneConnection implements StageResourceInterface, DroneReadyReceiv
 	private BroadcastReceiver droneReadyReceiver = null;
 	private DroneConnectionChangedReceiver droneConnectionChangeReceiver = null;
 
-	public DroneConnection(Context stageActivityContext) {
-		this.stageActivityContext = stageActivityContext;
+	public DroneConnection(Context context) {
+		this.context = context;
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class DroneConnection implements StageResourceInterface, DroneReadyReceiv
 			droneControlService.resume();
 			DroneServiceWrapper.getInstance().setDroneService(droneControlService);
 		}
-		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(stageActivityContext);
+		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context);
 		manager.registerReceiver(droneReadyReceiver, new IntentFilter(DroneControlService.DRONE_STATE_READY_ACTION));
 		manager.registerReceiver(droneConnectionChangeReceiver, new IntentFilter(
 				DroneControlService.DRONE_CONNECTION_CHANGED_ACTION));
@@ -88,7 +88,7 @@ public class DroneConnection implements StageResourceInterface, DroneReadyReceiv
 			droneControlService.pause();
 			DroneServiceWrapper.getInstance().setDroneService(null);
 		}
-		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(stageActivityContext);
+		LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context);
 		manager.unregisterReceiver(droneReadyReceiver);
 		manager.unregisterReceiver(droneConnectionChangeReceiver);
 	}
@@ -127,7 +127,7 @@ public class DroneConnection implements StageResourceInterface, DroneReadyReceiv
 
 	private void helpUnbindDroneService() {
 		if (droneControlService != null) {
-			stageActivityContext.unbindService(droneServiceConnection);
+			context.unbindService(droneServiceConnection);
 			droneServiceConnection = null;
 			droneControlService = null;
 		}
@@ -135,7 +135,7 @@ public class DroneConnection implements StageResourceInterface, DroneReadyReceiv
 
 	private void helpBindDroneService() throws RuntimeException {
 		if (droneControlService == null
-				&& !stageActivityContext.bindService(new Intent(stageActivityContext, DroneControlService.class),
+				&& !context.bindService(new Intent(context, DroneControlService.class),
 						this.droneServiceConnection, Context.BIND_AUTO_CREATE)) {
 			throw new RuntimeException("Connection to the drone not successful");
 		}
