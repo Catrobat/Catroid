@@ -217,7 +217,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			bundle.putString(BRICKFIELD_BUNDLE_ARGUMENT_BLUE, blue.name());
 			bundle.putString(PHIRO_PRO_LIGHT_BRICK_FRAGMENT_TAG, "Multiple_Seekbar");
 			formulaEditorFragment.setArguments(bundle);
-
 			fragTransaction.add(R.id.script_fragment_container, formulaEditorFragment, FORMULA_EDITOR_MULTIPLE_SEEKBAR_FRAGMENT_TAG);
 			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
 			fragTransaction.show(formulaEditorFragment);

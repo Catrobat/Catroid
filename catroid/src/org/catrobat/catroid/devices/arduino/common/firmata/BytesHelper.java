@@ -1,3 +1,26 @@
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package org.catrobat.catroid.devices.arduino.common.firmata;
 
 import java.nio.ByteBuffer;
@@ -5,13 +28,15 @@ import java.nio.ByteBuffer;
 /**
  * Helps to prepare bytes data
  */
-public class BytesHelper {
+public final class BytesHelper {
+
+	private BytesHelper() {}
 
     /**
      * @param channel command channel
      * @return command channel mask
      */
-    public static int ENCODE_CHANNEL(int channel) {
+    public static int encodeChannel(int channel) {
         return channel & 0x0F;
     }
 
@@ -21,7 +46,7 @@ public class BytesHelper {
      * @param incomingByte
      * @return
      */
-    public static int DECODE_COMMAND(int incomingByte) {
+    public static int decodeCommand(int incomingByte) {
         return incomingByte < 0xF0
                 ? incomingByte & 0xF0
                 : incomingByte;
@@ -33,7 +58,7 @@ public class BytesHelper {
      * @param incomingByte
      * @return
      */
-    public static int DECODE_CHANNEL(int incomingByte) {
+    public static int decodeChannel(int incomingByte) {
         return incomingByte & 0x0F;
     }
 
@@ -43,7 +68,7 @@ public class BytesHelper {
      * @param value value
      * @return less significant byte
      */
-    public static int LSB(int value) {
+    public static int lsb(int value) {
         return value & 0x7F;
     }
 
@@ -53,107 +78,107 @@ public class BytesHelper {
      * @param value value
      * @return most significant byte
      */
-    public static int MSB(int value) {
+    public static int msb(int value) {
         return (value >> 7) & 0x7F;
     }
 
     /**
-     * Return byte from LSB and MSB
+     * Return byte from lsb and msb
      *
      * @param lsb less significant byte
      * @param msb most significant byte
      * @return byte
      */
-    public static int DECODE_BYTE(int lsb, int msb) {
+    public static int decodeByte(int lsb, int msb) {
         return (msb << 7) + lsb;
     }
 
     /**
-     * Decode string that was encoded using LSB(byte), MSB(byte)
+     * Decode string that was encoded using lsb(byte), msb(byte)
      *
      * @param buffer  buffer
      * @param startIndex start index
      * @param endIndex end index
      * @return decoded string
      */
-    public static String DECODE_STRING(byte[] buffer, int startIndex, int endIndex) {
+    public static String decodeString(byte[] buffer, int startIndex, int endIndex) {
         StringBuilder sb = new StringBuilder();
         int offset = startIndex;
         int length = (endIndex - startIndex + 1) / 2;
-        for (int i=0; i<length; i++) {
-            sb.append((char)DECODE_BYTE(buffer[offset++], buffer[offset++]));
+        for (int i=0; i < length; i++) {
+            sb.append((char) decodeByte(buffer[offset++], buffer[offset++]));
         }
         return sb.toString();
     }
 
     /**
-     * Decode integer array that was encoded using LSB(byte), MSB(byte)
+     * Decode integer array that was encoded using lsb(byte), msb(byte)
      *
      * @param buffer  buffer
      * @param startIndex start index
      * @param endIndex end index
      * @return decoded string
      */
-    public static int[] DECODE_INT_ARRAY(byte[] buffer, int startIndex, int endIndex) {
+    public static int[] decodeIntArray(byte[] buffer, int startIndex, int endIndex) {
         int offset = startIndex;
         int length = (endIndex - startIndex + 1) / 2;
         int[] intBuffer = new int[length];
-        for (int i=0; i<length; i++) {
-            intBuffer[i] = DECODE_BYTE(buffer[offset++], buffer[offset++]);
+        for (int i=0; i < length; i++) {
+            intBuffer[i] = decodeByte(buffer[offset++], buffer[offset++]);
         }
         return intBuffer;
     }
 
     /**
-     * Encode string - every byte goes to LSB(byte), MSB(byte)
+     * Encode string - every byte goes to lsb(byte), msb(byte)
      *
      * @param data string data
      * @return encoded bytes array
      */
-    public static byte[] ENCODE_STRING(String data) {
-        byte[] original_data = data.getBytes();
-        byte[] encoded_data = new byte[original_data.length * 2];
-        ENCODE_STRING(original_data, ByteBuffer.wrap(encoded_data), 0);
-        return encoded_data;
+    public static byte[] encodeString(String data) {
+        byte[] originalData = data.getBytes();
+        byte[] encodedData = new byte[originalData.length * 2];
+        encodeString(originalData, ByteBuffer.wrap(encodedData), 0);
+        return encodedData;
     }
 
     /**
-     * Encode string - every byte goes to LSB(byte), MSB(byte)
+     * Encode string - every byte goes to lsb(byte), msb(byte)
      *
      * @param data int array data
      * @return encoded bytes array
      */
-    public static byte[] ENCODE_INT_ARRAY(int[] data) {
-        byte[] encoded_data = new byte[data.length * 2];
-        ENCODE_STRING(data, ByteBuffer.wrap(encoded_data), 0);
-        return encoded_data;
+    public static byte[] encodeIntArray(int[] data) {
+        byte[] encodedData = new byte[data.length * 2];
+        encodeString(data, ByteBuffer.wrap(encodedData), 0);
+        return encodedData;
     }
 
     /**
-     * Encode string to existing buffer - every byte goes to LSB(byte), MSB(byte)
+     * Encode string to existing buffer - every byte goes to lsb(byte), msb(byte)
      *
-     * @param original_data string data
+     * @param originalData string data
      * @param buffer existing buffer
      * @param offset offset in buffer
      */
-    public static void ENCODE_STRING(byte[] original_data, ByteBuffer buffer, int offset) {
-        for (int i=0; i<original_data.length; i++) {
-            buffer.put(offset++, (byte)LSB(original_data[i]));
-            buffer.put(offset++, (byte)MSB(original_data[i]));
+    public static void encodeString(byte[] originalData, ByteBuffer buffer, int offset) {
+        for (int i=0; i < originalData.length; i++) {
+            buffer.put(offset++, (byte) lsb(originalData[i]));
+            buffer.put(offset++, (byte) msb(originalData[i]));
         }
     }
 
     /**
-     * Encode string to existing buffer - every byte goes to LSB(byte), MSB(byte)
+     * Encode string to existing buffer - every byte goes to lsb(byte), msb(byte)
      *
-     * @param original_data string data
+     * @param originalData string data
      * @param buffer existing buffer
      * @param offset offset in buffer
      */
-    public static void ENCODE_STRING(int[] original_data, ByteBuffer buffer, int offset) {
-        for (int i=0; i<original_data.length; i++) {
-            buffer.put(offset++, (byte)LSB(original_data[i]));
-            buffer.put(offset++, (byte)MSB(original_data[i]));
+    public static void encodeString(int[] originalData, ByteBuffer buffer, int offset) {
+        for (int i=0; i < originalData.length; i++) {
+            buffer.put(offset++, (byte) lsb(originalData[i]));
+            buffer.put(offset++, (byte) msb(originalData[i]));
         }
     }
 
@@ -189,8 +214,9 @@ public class BytesHelper {
         int mask = 0;
         for (int eachBit = BITS_IN_BYTE-1; eachBit >= 0; eachBit--) {
             mask |= (eachBit == bit ? 0 : 1);
-            if (eachBit > 0)
-                mask <<= 1;
+            if (eachBit > 0) {
+				mask <<= 1;
+			}
         }
         return mask;
     }

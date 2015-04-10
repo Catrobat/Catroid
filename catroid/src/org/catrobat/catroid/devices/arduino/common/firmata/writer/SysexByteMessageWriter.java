@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2014 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,11 +24,8 @@
 package org.catrobat.catroid.devices.arduino.common.firmata.writer;
 
 import org.catrobat.catroid.devices.arduino.common.firmata.message.SysexByteMessage;
-import org.catrobat.catroid.devices.arduino.common.firmata.message.SysexMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.serial.ISerial;
 import org.catrobat.catroid.devices.arduino.common.firmata.serial.SerialException;
-
-import static org.catrobat.catroid.devices.arduino.common.firmata.BytesHelper.ENCODE_STRING;
 
 /**
  * MessageWriter for SysexMessage and inheritors

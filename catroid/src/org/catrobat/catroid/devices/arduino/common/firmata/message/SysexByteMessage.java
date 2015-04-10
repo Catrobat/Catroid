@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2014 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -60,17 +60,18 @@ public class SysexByteMessage extends Message {
     private byte[] data;
 
     public byte[] getData() {
-        return data;
+        return data.clone();
     }
 
     public void setData(byte[] data) {
-        this.data = data;
+        this.data = data.clone();
     }
 
-    @Override
+	@Override
     public boolean equals(Object obj) {
-        if (!super.equals(obj))
-            return false;
+        if (!super.equals(obj)) {
+			return false;
+		}
 
         SysexByteMessage message = (SysexByteMessage)obj;
         return message != null &&

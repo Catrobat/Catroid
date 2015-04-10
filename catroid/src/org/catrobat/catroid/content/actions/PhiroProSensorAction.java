@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2014 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,15 +27,10 @@ import android.util.Log;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
-import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
-import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.devices.arduino.phiropro.PhiroPro;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.formulaeditor.Sensors;
 
 public class PhiroProSensorAction extends Action {
@@ -48,8 +43,6 @@ public class PhiroProSensorAction extends Action {
 	private Boolean ifConditionValue;
 	private boolean isInitialized = false;
 	private boolean isInterpretedCorrectly;
-
-	private BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 
 	protected void begin() {
 		try {
@@ -132,15 +125,6 @@ public class PhiroProSensorAction extends Action {
 
 		return Sensors.PHIRO_PRO_SIDE_RIGHT;
 	}
-
-//	@Override
-//	protected void update(float percent) {
-//		PhiroPro phiroPro = btService.getDevice(BluetoothDevice.PHIRO_PRO);
-//		if(phiroPro != null) {
-//			phiroPro.getSensorValue(Sensors.PHIRO_PRO_BOTTOM_LEFT);
-//		}
-//	}
-
 
 	@Override
 	public void setActor(Actor actor) {

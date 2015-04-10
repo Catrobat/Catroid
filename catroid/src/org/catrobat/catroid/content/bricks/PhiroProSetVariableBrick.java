@@ -282,10 +282,11 @@ public class PhiroProSetVariableBrick extends UserVariableBrick {
 	}
 
 	private void updateUserVariableIfDeleted(UserVariableAdapterWrapper userVariableAdapterWrapper) {
-		if (userVariable != null) {
-			if (userVariableAdapterWrapper.getPositionOfItem(userVariable) == 0) {
-				userVariable = null;
-			}
+		if (userVariable == null) {
+			return;
+		}
+		if (userVariableAdapterWrapper.getPositionOfItem(userVariable) == 0) {
+			userVariable = null;
 		}
 	}
 
