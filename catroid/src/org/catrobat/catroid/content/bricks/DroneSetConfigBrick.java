@@ -55,6 +55,9 @@ public class DroneSetConfigBrick extends BrickBaseType implements OnItemSelected
 	private Context context;
 	private int DroneConfigSpinnerPosition = 0;
 
+	public DroneSetConfigBrick() {
+	}
+
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
 		DroneSetConfigBrick copyBrick = (DroneSetConfigBrick) clone();
