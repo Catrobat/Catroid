@@ -27,17 +27,12 @@ import android.util.Log;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
-import org.catrobat.catroid.devices.arduino.common.firmata.BytesHelper;
 import org.catrobat.catroid.devices.arduino.common.firmata.Firmata;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.AnalogMessage;
-import org.catrobat.catroid.devices.arduino.common.firmata.message.I2cRequestMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.Message;
-import org.catrobat.catroid.devices.arduino.common.firmata.message.ReportAnalogCapabilityMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.ReportAnalogPinMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.ReportFirmwareVersionMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.SetPinModeMessage;
-import org.catrobat.catroid.devices.arduino.common.firmata.message.SysexByteMessage;
-import org.catrobat.catroid.devices.arduino.common.firmata.message.SysexMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.serial.ISerial;
 import org.catrobat.catroid.devices.arduino.common.firmata.serial.SerialException;
 import org.catrobat.catroid.devices.arduino.common.firmata.serial.StreamingSerialAdapter;
@@ -63,11 +58,8 @@ public class PhiroProImpl implements PhiroPro {
 	private static final int PIN_RGB_GREEN_RIGHT = 8;
 	private static final int PIN_RGB_BLUE_RIGHT = 9;
 
-	//private static final int PIN_LEFT_MOTOR_BACKWARD = 10;
-	//private static final int PIN_LEFT_MOTOR_FORWARD = 11;
-
-	private static final int PIN_LEFT_MOTOR_BACKWARD = 11;
-	private static final int PIN_LEFT_MOTOR_FORWARD = 10;
+	private static final int PIN_LEFT_MOTOR_BACKWARD = 10;
+	private static final int PIN_LEFT_MOTOR_FORWARD = 11;
 
 	private static final int PIN_RIGHT_MOTOR_FORWARD = 12;
 	private static final int PIN_RIGHT_MOTOR_BACKWARD = 13;
@@ -223,14 +215,18 @@ public class PhiroProImpl implements PhiroPro {
 
 	@Override
 	public void disconnect() {
+
+		if (firmata == null) {
+			return;
+		}
+
 		try {
-			if (firmata != null) {
-				resetPins();
-				this.reportSensorData(false);
-				firmata.clearListeners();
-				firmata.getSerial().stop();
-				firmata = null;
-			}
+			resetPins();
+			this.reportSensorData(false);
+			firmata.clearListeners();
+			firmata.getSerial().stop();
+			isInitialized = false;
+			firmata = null;
 		} catch (SerialException e) {
 			Log.d(TAG, "Error stop phiro pro serial");
 		}
@@ -238,6 +234,10 @@ public class PhiroProImpl implements PhiroPro {
 
 	@Override
 	public boolean isAlive() {
+		if (firmata == null) {
+			return false;
+		}
+
 		try {
 			firmata.send(new ReportFirmwareVersionMessage());
 			return true;
@@ -247,6 +247,10 @@ public class PhiroProImpl implements PhiroPro {
 	}
 
 	public void reportFirmwareVersion() {
+		if (firmata == null) {
+			return;
+		}
+
 		try {
 			firmata.send(new ReportFirmwareVersionMessage());
 		} catch (SerialException e) {
@@ -376,6 +380,10 @@ public class PhiroProImpl implements PhiroPro {
 	}
 
 	private void sendFirmataMessage(Message message) {
+		if (firmata == null) {
+			return;
+		}
+
 		try {
 			firmata.send(message);
 		} catch (SerialException e) {
