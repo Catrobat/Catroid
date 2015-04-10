@@ -1,20 +1,81 @@
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package org.catrobat.catroid.devices.arduino.common.firmata;
 
 import android.util.Log;
 
-import org.catrobat.catroid.devices.arduino.common.firmata.message.*;
-import org.catrobat.catroid.devices.arduino.common.firmata.writer.*;
-import org.catrobat.catroid.devices.arduino.common.firmata.reader.*;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.AnalogMessage;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.DigitalMessage;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.I2cConfigMessage;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.I2cReadRequestMessage;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.I2cRequestMessage;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.Message;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.ReportAnalogCapabilityMessage;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.ReportAnalogPinMessage;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.ReportDigitalPortMessage;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.ReportFirmwareVersionMessage;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.ReportProtocolVersionMessage;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.SamplingIntervalMessage;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.ServoConfigMessage;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.SetPinModeMessage;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.StringSysexMessage;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.SysexByteMessage;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.SysexMessage;
+import org.catrobat.catroid.devices.arduino.common.firmata.message.SystemResetMessage;
+import org.catrobat.catroid.devices.arduino.common.firmata.reader.AnalogCapabilityMessageReader;
+import org.catrobat.catroid.devices.arduino.common.firmata.reader.AnalogMessageReader;
+import org.catrobat.catroid.devices.arduino.common.firmata.reader.DigitalMessageReader;
+import org.catrobat.catroid.devices.arduino.common.firmata.reader.FirmwareVersionMessageReader;
+import org.catrobat.catroid.devices.arduino.common.firmata.reader.I2cReplyMessageReader;
+import org.catrobat.catroid.devices.arduino.common.firmata.reader.IMessageReader;
+import org.catrobat.catroid.devices.arduino.common.firmata.reader.ProtocolVersionMessageReader;
+import org.catrobat.catroid.devices.arduino.common.firmata.reader.StringSysexMessageReader;
+import org.catrobat.catroid.devices.arduino.common.firmata.reader.SysexMessageReader;
 import org.catrobat.catroid.devices.arduino.common.firmata.serial.ISerial;
 import org.catrobat.catroid.devices.arduino.common.firmata.serial.ISerialListener;
 import org.catrobat.catroid.devices.arduino.common.firmata.serial.SerialException;
+import org.catrobat.catroid.devices.arduino.common.firmata.writer.AnalogMessageWriter;
+import org.catrobat.catroid.devices.arduino.common.firmata.writer.DigitalMessageWriter;
+import org.catrobat.catroid.devices.arduino.common.firmata.writer.I2cConfigMessageWriter;
+import org.catrobat.catroid.devices.arduino.common.firmata.writer.I2cRequestMessageWriter;
+import org.catrobat.catroid.devices.arduino.common.firmata.writer.IMessageWriter;
+import org.catrobat.catroid.devices.arduino.common.firmata.writer.ReportAnalogPinMessageWriter;
+import org.catrobat.catroid.devices.arduino.common.firmata.writer.ReportDigitalPortMessageWriter;
+import org.catrobat.catroid.devices.arduino.common.firmata.writer.ReportProtocolVersionMessageWriter;
+import org.catrobat.catroid.devices.arduino.common.firmata.writer.SamplingIntervalMessageWriter;
+import org.catrobat.catroid.devices.arduino.common.firmata.writer.ServoConfigMessageWriter;
+import org.catrobat.catroid.devices.arduino.common.firmata.writer.SetPinModeMessageWriter;
+import org.catrobat.catroid.devices.arduino.common.firmata.writer.SysexByteMessageWriter;
+import org.catrobat.catroid.devices.arduino.common.firmata.writer.SysexMessageWriter;
+import org.catrobat.catroid.devices.arduino.common.firmata.writer.SystemResetMessageWriter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.catrobat.catroid.devices.arduino.common.firmata.BytesHelper.DECODE_COMMAND;
+import static org.catrobat.catroid.devices.arduino.common.firmata.BytesHelper.decodeCommand;
 
 /**
  * Plain Java Firmata impl
@@ -120,8 +181,9 @@ public class Firmata implements IFirmata, ISerialListener {
      */
     public void send(Message message) throws SerialException {
         IMessageWriter writer = writers.get(message.getClass());
-        if (writer == null)
-            throw new RuntimeException("Unknown message type: " + message.getClass());
+        if (writer == null) {
+			throw new RuntimeException("Unknown message type: " + message.getClass());
+		}
 
         writer.write(message, serial);
     }
@@ -136,8 +198,9 @@ public class Firmata implements IFirmata, ISerialListener {
         try {
             if (serial.available() > 0) {
                 int incomingByte = serial.read();
-                if (incomingByte >= 0)
-                    onDataReceived(incomingByte);
+                if (incomingByte >= 0) {
+					onDataReceived(incomingByte);
+				}
             }
         } catch (SerialException e) {
             Log.e(TAG, "Failed to read received data", e);
@@ -156,7 +219,7 @@ public class Firmata implements IFirmata, ISerialListener {
 
         if (activeReader == null) {
             // new message byte is received
-            int command = DECODE_COMMAND(incomingByte);
+            int command = decodeCommand(incomingByte);
 
             if (potentialReaders.size() == 0) {
                 // first byte check
@@ -175,8 +238,9 @@ public class Firmata implements IFirmata, ISerialListener {
 
             if (activeReader.finishedReading()) {
                 // message is ready
-                for (IFirmata.Listener eachListener : listeners)
-                    activeReader.fireEvent(eachListener);
+                for (IFirmata.Listener eachListener : listeners) {
+					activeReader.fireEvent(eachListener);
+				}
                 reinitBuffer();
             }
         }
@@ -186,9 +250,11 @@ public class Firmata implements IFirmata, ISerialListener {
     private void filterPotentialReaders(int command) {
         List<IMessageReader> newPotentialReaders = new ArrayList<IMessageReader>();
 
-        for (IMessageReader eachPotentialReader : potentialReaders)
-            if (eachPotentialReader.canRead(buffer, bufferLength, command))
-                newPotentialReaders.add(eachPotentialReader);
+        for (IMessageReader eachPotentialReader : potentialReaders) {
+			if (eachPotentialReader.canRead(buffer, bufferLength, command)) {
+				newPotentialReaders.add(eachPotentialReader);
+			}
+		}
 
         potentialReaders = newPotentialReaders;
     }
@@ -199,9 +265,11 @@ public class Firmata implements IFirmata, ISerialListener {
 
             // unknown byte
             case 0:
-                for (int i=0; i<bufferLength; i++)
-                    for (IFirmata.Listener eachListener : listeners)
-                        eachListener.onUnknownByteReceived(buffer[i]);
+                for (int i=0; i<bufferLength; i++) {
+					for (Listener eachListener : listeners) {
+						eachListener.onUnknownByteReceived(buffer[i]);
+					}
+				}
                 reinitBuffer();
                 break;
 

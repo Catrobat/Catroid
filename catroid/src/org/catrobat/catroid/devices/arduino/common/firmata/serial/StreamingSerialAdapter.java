@@ -1,4 +1,29 @@
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2014 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package org.catrobat.catroid.devices.arduino.common.firmata.serial;
+
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,6 +36,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Adapts InputStream and OutputStream to be used as ISerial
  */
 public class StreamingSerialAdapter implements ISerial {
+
+	private static final String TAG = ReadingThread.class.getSimpleName();
 
     private transient InputStream inStream;
     private transient OutputStream outStream;
@@ -69,18 +96,22 @@ public class StreamingSerialAdapter implements ISerial {
         }
 
         private void handleException(Throwable e) {
-            if (!shouldStop.get())
-                for (ISerialListener eachListener : listeners)
-                    eachListener.onException(e);
+            if (!shouldStop.get()) {
+				for (ISerialListener eachListener : listeners) {
+					eachListener.onException(e);
+				}
+			}
         }
 
         @Override
         public void run() {
             while (!shouldStop.get()) {
                 try {
-                    if (inStream.available() > 0)
-                        for (ISerialListener eachListener : listeners)
-                            eachListener.onDataReceived(StreamingSerialAdapter.this);
+                    if (inStream.available() > 0) {
+						for (ISerialListener eachListener : listeners) {
+							eachListener.onDataReceived(StreamingSerialAdapter.this);
+						}
+					}
                 } catch (IOException e) {
                     handleException(e);
                     break;
@@ -89,13 +120,16 @@ public class StreamingSerialAdapter implements ISerial {
 
             try {
                 inStream.close();
-            } catch (IOException e) {}
+            } catch (IOException e) {
+				Log.d(TAG, "Error while closing input stream, maybe closed already.");
+			}
         }
     }
     
     public void start() throws SerialException {
-        if (thread != null)
-            return;
+        if (thread != null) {
+			return;
+		}
 
         thread = new ReadingThread();
         shouldStop.set(false);
@@ -103,14 +137,17 @@ public class StreamingSerialAdapter implements ISerial {
     }
 
     public void stop() throws SerialException {
-        if (thread == null)
-            return;
+        if (thread == null) {
+			return;
+		}
 
         setStopReading();
         thread = null;
         try {
             outStream.close();
-        } catch (IOException e) {}
+        } catch (IOException e) {
+			Log.d(TAG, "Error while closing output stream, maybe closed already.");
+		}
     }
 
     protected void setStopReading() {

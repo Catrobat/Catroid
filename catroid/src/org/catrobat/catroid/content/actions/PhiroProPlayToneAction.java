@@ -31,10 +31,10 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.PhiroProPlayToneBrick.Tone;
 import org.catrobat.catroid.devices.arduino.phiropro.PhiroPro;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.content.bricks.PhiroProPlayToneBrick.Tone;
 
 public class PhiroProPlayToneAction extends TemporalAction {
 

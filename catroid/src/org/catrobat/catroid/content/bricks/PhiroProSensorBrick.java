@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2015 The Catrobat Team
+ * Copyright (C) 2010-2014 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,9 +46,8 @@ import java.util.List;
 
 public class PhiroProSensorBrick extends FormulaBrick implements NestingBrick, OnItemSelectedListener {
 
-	private static final long serialVersionUID = 1l;
+	private static final long serialVersionUID = 1L;
 	private transient View prototypeView;
-	private transient AdapterView<?> adapterView;
 	private int sensorSpinnerPosition = 0;
 	protected transient PhiroProSensorElseBrick phiroProSensorElseBrick;
 	protected transient PhiroProSensorEndBrick phiroProSensorEndBrick;
@@ -205,7 +204,6 @@ public class PhiroProSensorBrick extends FormulaBrick implements NestingBrick, O
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				sensorSpinnerPosition = position;
-				adapterView = parent;
 			}
 
 			@Override
@@ -233,7 +231,6 @@ public class PhiroProSensorBrick extends FormulaBrick implements NestingBrick, O
 
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		adapterView = parent;
 	}
 
 	@Override

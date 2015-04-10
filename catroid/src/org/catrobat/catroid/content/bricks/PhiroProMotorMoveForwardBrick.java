@@ -201,6 +201,7 @@ public class PhiroProMotorMoveForwardBrick extends FormulaBrick implements OnCli
 		return view;
 	}
 
+
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
 

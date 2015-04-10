@@ -32,9 +32,9 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.PhiroProMotorMoveForwardBrick.Motor;
+import org.catrobat.catroid.devices.arduino.phiropro.PhiroPro;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.devices.arduino.phiropro.PhiroPro;
 
 public class PhiroProMotorMoveForwardAction extends TemporalAction {
 	private static final int MIN_SPEED = 0;
