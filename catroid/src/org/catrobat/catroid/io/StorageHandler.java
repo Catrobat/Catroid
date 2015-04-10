@@ -22,9 +22,11 @@
  */
 package org.catrobat.catroid.io;
 
-import android.app.Activity;
+import android.annotation.TargetApi;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.os.Build;
 import android.util.Log;
 
 import com.google.common.base.Charsets;
@@ -32,6 +34,7 @@ import com.google.common.io.Files;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FileChecksumContainer;
@@ -177,11 +180,14 @@ public final class StorageHandler {
 
 	private Lock loadSaveLock = new ReentrantLock();
 
+	private static final Context context;
+
 	// TODO: Since the StorageHandler constructor throws an exception, the member INSTANCE couldn't be assigned
 	// directly and therefore we need this static block. Should be refactored and removed in the future.
 	static {
 		try {
 			INSTANCE = new StorageHandler();
+			context = CatroidApplication.getAppContext();
 		} catch (IOException ioException) {
 			throw new RuntimeException("Initialize StorageHandler failed");
 		}
@@ -348,6 +354,7 @@ public final class StorageHandler {
 		return backPackSoundDirectory;
 	}
 
+	@TargetApi(Build.VERSION_CODES.KITKAT)
 	public Project loadProject(String projectName) {
 		codeFileSanityCheck(projectName);
 
@@ -365,7 +372,6 @@ public final class StorageHandler {
 			try {
 				Log.e(TAG, "delete project .. " + projectName, exception);
 				deleteProject(projectName);
-				// Log.e(TAG, "... and delete app data" + projectName, exception);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
