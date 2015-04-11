@@ -48,6 +48,7 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 /*	@Override
 	protected void setUp() throws Exception {
 		createProject();
+		//TODO: check if UiTestUtils.prepareStageForTest() is needed!
 		SensorTestServerConnection.connectToArduinoServer();
 		setActivityInitialTouchMode(false);
 		SensorTestServerConnection.closeConnection();

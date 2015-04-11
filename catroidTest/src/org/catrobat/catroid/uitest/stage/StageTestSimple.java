@@ -43,10 +43,16 @@ public class StageTestSimple extends BaseActivityInstrumentationTestCase<MainMen
 		UiTestUtils.createEmptyProject();
 		ScreenValues.SCREEN_HEIGHT = 20;
 		ScreenValues.SCREEN_WIDTH = 20;
-
+		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoSpritesFromMainMenu(solo);
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());
+	}
+
+	@Override
+	public void tearDown() throws Exception{
+		UiTestUtils.leaveStageSafeButSlow(solo);
+		super.tearDown();
 	}
 
 	public void testSimple() {
@@ -61,7 +67,6 @@ public class StageTestSimple extends BaseActivityInstrumentationTestCase<MainMen
 
 	public void testScreenAlwaysOn() {
 		final int windowFlags = solo.getCurrentActivity().getWindow().getAttributes().flags;
-
 		assertTrue("Window flags do not contain FLAG_KEEP_SCREEN_ON!",
 				(windowFlags & WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON) != 0);
 	}

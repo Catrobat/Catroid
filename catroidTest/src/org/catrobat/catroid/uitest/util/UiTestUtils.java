@@ -134,6 +134,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -2132,4 +2133,12 @@ public final class UiTestUtils {
 
 		return wantedState;
 	}
+
+	public static void leaveStageSafeButSlow(Solo solo) {
+		if (solo.getCurrentActivity().getClass() == StageActivity.class) {
+			solo.goBack();
+			solo.goBack();
+		}
+	}
+
 }

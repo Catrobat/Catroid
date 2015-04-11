@@ -85,6 +85,7 @@ public class PrestageActivityDroneTest extends BaseActivityInstrumentationTestCa
 //		stageActivityIntent = null;
 //		DroneTestUtils.setDroneTermsOfUseAcceptedPermanently(getActivity());
 //		DroneTestUtils.createDroneProjectWithScriptAndAllDroneMoveBricks();
+//		//TODO: check if UiTestUtils.prepareStageForTest() is needed!
 //		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 //	}
 //

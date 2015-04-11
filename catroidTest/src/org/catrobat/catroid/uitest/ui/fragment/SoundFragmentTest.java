@@ -785,6 +785,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 	}
 
 	public void testBottomBarAndContextMenuOnActionModes() {
+		UiTestUtils.prepareStageForTest();
 		LinearLayout bottomBarLayout = (LinearLayout) solo.getView(R.id.bottom_bar);
 		ImageButton addButton = (ImageButton) bottomBarLayout.findViewById(R.id.button_add);
 		ImageButton playButton = (ImageButton) bottomBarLayout.findViewById(R.id.button_play);
