@@ -131,7 +131,6 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	public void onPause() {
-		super.onPause();
 		SensorHandler.stopSensorListeners();
 		stageListener.activityPause();
 		stageAudioFocus.releaseAudioFocus();
@@ -142,6 +141,8 @@ public class StageActivity extends AndroidApplication {
 			Log.d(TAG, "onPause()disableForegroundDispatch()");
 			nfcAdapter.disableForegroundDispatch(this);
 		}
+
+		super.onPause();
 
 		if (droneConnection != null) {
 			droneConnection.pause();
