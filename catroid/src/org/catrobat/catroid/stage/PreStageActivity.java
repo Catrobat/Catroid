@@ -234,11 +234,11 @@ public class PreStageActivity extends BaseActivity {
 
 	@Override
 	public void onResume() {
+		super.onResume();
 		if (droneInitializer != null) {
 			droneInitializer.onPrestageActivityResume();
 		}
 
-		super.onResume();
 		if (requiredResourceCounter == 0) {
 			finish();
 		}
@@ -246,11 +246,10 @@ public class PreStageActivity extends BaseActivity {
 
 	@Override
 	protected void onPause() {
+		super.onPause();
 		if (droneInitializer != null) {
 			droneInitializer.onPrestageActivityPause();
 		}
-
-		super.onPause();
 	}
 
 	@Override
