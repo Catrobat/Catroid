@@ -62,8 +62,8 @@
   <string name="preference_title">Settings</string>
   <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorms bricks</string>
   <string name="preference_description_mindstorm_bricks">Allow to control Lego Mindstorms robots</string>
-  <string name="preference_title_enable_quadcopter_bricks">AR.Drone 2.0 bricks</string>
-  <string name="preference_description_quadcopter_bricks">Allow to control the AR.Drone 2.0 quadcopter</string>
+  <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 bricks</string>
+  <string name="preference_description_quadcopter_bricks">Allow to control the ARDrone 2.0 quadcopter</string>
   <string name="preference_title_use_face_detection">Face Detection</string>
   <string name="preference_description_use_face_detection">Allow to detect faces</string>
   <string name="preference_title_select_camera">Choose Camera</string>
@@ -123,11 +123,9 @@
   <string name="dialog_confirm_delete_multiple_bricks_title">Delete these bricks?</string>
   <string name="dialog_confirm_delete_brick_message">This can not be undone!</string>
   <plurals name="number_of_bricks_to_delete">
-    <item quantity="one">Delete 1 Brick</item>
     <item quantity="other">Delete %d Bricks</item>
   </plurals>
   <plurals name="number_of_bricks_to_copy">
-    <item quantity="one">Copy 1 Brick</item>
     <item quantity="other">Copy %d Bricks</item>
   </plurals>
   <string name="fragment_look_text_description">Tap \"+\" to add Looks</string>
@@ -160,7 +158,6 @@
   <string name="dialog_confirm_delete_sound_message">This can not be undone!</string>
   <string name="sound_name">sound name:</string>
   <plurals name="unpacking_items_plural">
-    <item quantity="one">was unpacked!</item>
     <item quantity="other">were unpacked!</item>
   </plurals>
   <string name="last_used">Last access:</string>
@@ -239,7 +236,7 @@
   <string name="category_user_bricks">My Bricks</string>
   <string name="category_data">Data</string>
   <string name="category_lego_nxt">Lego NXT</string>
-  <string name="category_drone">AR.Drone</string>
+  <string name="category_drone">ARDrone</string>
   <string name="brick_place_at">"Place at "</string>
   <string name="x_label">"X: "</string>
   <string name="y_label">"Y: "</string>
@@ -249,14 +246,12 @@
   <string name="brick_change_y_by">"Change Y by "</string>
   <string name="brick_go_back">Go back</string>
   <plurals name="brick_go_back_layer_plural">
-    <item quantity="one">layer</item>
     <item quantity="other">layers</item>
   </plurals>
   <string name="brick_come_to_front">Go to front</string>
   <string name="brick_if_on_edge_bounce">If on edge, bounce</string>
   <string name="brick_move">Move</string>
   <plurals name="brick_move_n_step_plural">
-    <item quantity="one">step</item>
     <item quantity="other">steps</item>
   </plurals>
   <string name="brick_turn_left">Turn left</string>
@@ -295,7 +290,6 @@
   <string name="brick_when">When tapped</string>
   <string name="brick_wait">Wait</string>
   <plurals name="second_plural">
-    <item quantity="one">"second "</item>
     <item quantity="other">"seconds "</item>
   </plurals>
   <string name="brick_broadcast_receive">When I receive</string>
@@ -305,7 +299,6 @@
   <string name="brick_forever">Forever</string>
   <string name="brick_repeat">Repeat</string>
   <plurals name="time_plural">
-    <item quantity="one">time</item>
     <item quantity="other">times</item>
   </plurals>
   <string name="brick_loop_end">End of loop</string>
@@ -350,7 +343,7 @@
   <string name="default_drone_project_sprites_turn_right">Turn right</string>
   <string name="notification_invalid_text_entered">Please enter a value</string>
   <string name="notification_screenshot_ok">Screenshot saved</string>
-  <string name="notification_download_project_cancel">Cancelled downloading program</string>
+  <string name="notification_download_project_cancel">Canceled downloading program</string>
   <string name="notification_copy_title_pending">"Copying "</string>
   <string name="notification_copy_pending">Copy in progress</string>
   <string name="notification_copy_finished">Copy completed</string>
@@ -389,19 +382,19 @@
   <string name="error_upload_default_project">You cannot upload this program because it is the same as \'My first program\'. Please modify it, and try again.</string>
   <string name="error_adding_brick">An error occurred while adding this Brick</string>
   <string name="error_copying_brick">An error occurred while copying this Brick</string>
-  <string name="error_no_drone_connected_title">Cannot find AR.Drone</string>
-  <string name="error_no_drone_connected">Connect your wifi to the AR.Drone and try again.</string>
+  <string name="error_no_drone_connected_title">Cannot find ARDrone</string>
+  <string name="error_no_drone_connected">Connect your wifi to the ARDrone and try again.</string>
   <string name="error_drone_low_battery_title">Drone battery low: %d%%</string>
   <string name="error_drone_low_battery">Insert a charged battery and try again.</string>
-  <string name="error_drone_wrong_platform_title">No AR.Drone support</string>
-  <string name="error_drone_wrong_platform">We can not run an AR.Drone project on your device.</string>
+  <string name="error_drone_wrong_platform_title">No ARDrone support</string>
+  <string name="error_drone_wrong_platform">We can not run a ARDrone project on your device.</string>
   <string name="error_rename_incompatible_project">Renaming an incompatible project isn\'t possible.</string>
   <string name="error_changing_description_of_incompatible_project">Changing the description of an incompatible project isn\'t possible.</string>
   <string name="notification_blueth_err">Bluetooth could not be enabled, closing stage</string>
   <string name="title_paired_devices">Paired devices</string>
   <string name="title_other_devices">New devices</string>
   <string name="button_scan">Search Bluetooth devices</string>
-  <string name="select_device">Select your Lego Mindstorms NXT</string>
+  <string name="select_device">Select Device: </string>
   <string name="scanning">Scanning</string>
   <string name="connecting_please_wait">Connecting to your device.\nPlease wait&#8230;</string>
   <string name="problem_at_closing">Problem while closing the connection!</string>
@@ -561,7 +554,6 @@
   <string name="formula_editor_function_number_of_items">number_of_items</string>
   <string name="formula_editor_function_number_of_items_parameter">(*list name*)</string>
   <plurals name="formula_editor_data_fragment_context_action_item_selected">
-    <item quantity="one">Item selected!</item>
     <item quantity="other">Items selected!</item>
   </plurals>
   <string name="camera_facing_front">Front Camera</string>
