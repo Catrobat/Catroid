@@ -155,13 +155,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		boolean uploadErrorOccurred = solo.waitForText(solo.getString(R.string.error_project_upload));
 
-		int statusCode = 0;
-		int statusCodeWrongLanguageVersion = 518;
-		statusCode = (Integer) Reflection.getPrivateField(ServerCalls.getInstance(), "uploadStatusCode");
-		Log.v("statusCode=", "" + statusCode);
-
 		assertTrue("Upload did work, but error toastmessage should have been displayed", uploadErrorOccurred);
-		assertEquals("Wrong status code from Web", statusCodeWrongLanguageVersion, statusCode);
 		UiTestUtils.clearAllUtilTestProjects();
 	}
 
@@ -193,14 +187,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		boolean uploadErrorOccurred = solo.waitForText(solo.getString(R.string.error_project_upload));
 
-		int statusCode = 0;
-		int statusCodeOffensiveLanguage = 511;
-		statusCode = (Integer) Reflection.getPrivateField(ServerCalls.getInstance(), "uploadStatusCode");
-		Log.v("statusCode=", "" + statusCode);
-
 		assertTrue("Upload did work, but error toastmessage should have been displayed", uploadErrorOccurred);
-		assertEquals("Wrong status code from Web should be 511 for offensive language", statusCodeOffensiveLanguage,
-				statusCode);
 		UiTestUtils.clearAllUtilTestProjects();
 	}
 
@@ -587,7 +574,7 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 			Log.v("serverID=", "" + serverProjectId);
 
 		} catch (JSONException e) {
-			fail("JSON exception orrured");
+			fail("JSON exception occurred");
 		}
 	}
 
