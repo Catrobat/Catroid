@@ -98,13 +98,7 @@ public class Sprite implements Serializable, Cloneable {
 
 	private void init() {
 		// maybe there is no ScriptList at this time ? ?
-		if ((getRequiredResources() & Brick.PHYSIC) > 0) {
-			//PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentProject().getPhysicsWorld();
-			//look = new PhysicsLook(this, physicsWorld);
-			look = new Look(this);
-		} else {
-			look = new Look(this);
-		}
+		look = new Look(this);
 		isPaused = false;
 		if (soundList == null) {
 			soundList = new ArrayList<SoundInfo>();
@@ -121,7 +115,7 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public void resetSprite() {
-		if ((getRequiredResources() & Brick.PHYSIC) > 0) {
+		if ((getRequiredResources() & Brick.PHYSIC) > 0) {  //TODO[physics]: add condition
 			PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentProject().getPhysicsWorld();
 			look = new PhysicsLook(this, physicsWorld);
 		} else {
