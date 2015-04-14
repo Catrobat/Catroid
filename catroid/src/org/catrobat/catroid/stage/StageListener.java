@@ -45,6 +45,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -665,8 +666,7 @@ public class StageListener implements ApplicationListener {
 
 	public void addActor (Look look)
 	{
-		stage.addActor(look);
-
+		stage.addActor(actor);
 	}
 
 	public Stage getStage() {
