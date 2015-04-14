@@ -119,16 +119,20 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 
 		float x = 1.2f;
 		physicsLook.setX(x);
-		assertEquals("Wrong x position", x, physicsObject.getX());
+		assertEquals("Wrong x position in PhysicsObject", x, physicsObject.getX());
+		assertEquals("Wrong x position in PhysicsLook", x, physicsLook.getX());
 
 		float y = -3.4f;
 		physicsLook.setY(y);
-		assertEquals("Wrong y position", y, physicsObject.getY());
+		assertEquals("Wrong y position in PhysicsObject", y, physicsObject.getY());
+		assertEquals("Wrong y position in PhysicsLook", y, physicsLook.getY());
 
 		x = 5.6f;
 		y = 7.8f;
 		physicsLook.setPosition(x, y);
 		assertEquals("Wrong position", new Vector2(x, y), physicsObject.getPosition());
+		assertEquals("Wrong x position in PhysicsLook (due to set/getPosition)", x, physicsLook.getX());
+		assertEquals("Wrong y position in PhysicsLook (due to set/getPosition)", y, physicsLook.getY());
 
 		float rotation = 9.0f;
 		physicsLook.setRotation(rotation);
@@ -230,6 +234,5 @@ public class PhysicsLookTest extends InstrumentationTestCase {
 			Log.e(TAG, "unexpected exception", exception);
 			fail("unexpected exception");
 		}
-
 	}
 }

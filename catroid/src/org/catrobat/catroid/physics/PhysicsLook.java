@@ -67,14 +67,17 @@ public class PhysicsLook extends Look {
 	}
 
 	@Override
-	public void setPosition (float x, float y) {
-		setX(x);
-		setY(y);
+	public void setPosition(float x, float y) {
 		super.setPosition(x, y);
+		if (null != physicsObject) {
+			physicsObject.setX(x + getWidth() / 2.0f);
+			physicsObject.setY(y + getHeight() / 2.0f);
+		}
 	}
 
 	@Override
 	public void setX(float x) {
+		super.setX(x);
 		if (null != physicsObject) {
 			physicsObject.setX(x + getWidth() / 2.0f);
 		}
@@ -82,6 +85,7 @@ public class PhysicsLook extends Look {
 
 	@Override
 	public void setY(float y) {
+		super.setY(y);
 		if (null != physicsObject) {
 			physicsObject.setY(y + getHeight() / 2.0f);
 		}
@@ -104,12 +108,16 @@ public class PhysicsLook extends Look {
 
 	@Override
 	public float getX() {
-		return physicsObject.getX() - getWidth() / 2.0f;
+		float x = physicsObject.getX() - getWidth() / 2.0f;
+		super.setX(x);
+		return x;
 	}
 
 	@Override
 	public float getY() {
-		return physicsObject.getY() - getHeight() / 2.0f;
+		float y = physicsObject.getY() - getHeight() / 2.0f;
+		super.setY(y);
+		return y;
 	}
 
 	@Override
