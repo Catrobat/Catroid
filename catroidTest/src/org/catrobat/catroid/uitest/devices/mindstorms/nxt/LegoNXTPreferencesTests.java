@@ -88,11 +88,10 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 
 		solo.sleep(300);
-
 		if (enableNXTBricks) {
-			assertTrue("NXT category brick shown!",solo.searchText(solo.getString(R.string.category_lego_nxt)));
+			assertTrue("NXT category brick not shown!",solo.searchText(solo.getString(R.string.category_lego_nxt)));
 		} else {
-			assertFalse("NXT category brick not shown!", solo.searchText(solo.getString(R.string.category_lego_nxt)));
+			assertFalse("NXT category brick shown!", solo.searchText(solo.getString(R.string.category_lego_nxt)));
 		}
 
 		solo.clickOnActionBarItem(R.id.settings);
@@ -109,11 +108,10 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 		assertTrue("SecondCheck: NXT category brick ON/OFF not changed!", nxtBricksEnabledStart == enableNXTBricks);
 
 		solo.sleep(300);
-
 		if (enableNXTBricks) {
-			assertTrue("SecondCheck: NXT category brick shown!", solo.searchText(solo.getString(R.string.category_lego_nxt)));
+			assertTrue("SecondCheck: NXT category brick not shown!", solo.searchText(solo.getString(R.string.category_lego_nxt)));
 		} else {
-			assertFalse("SecondCheck: NXT category brick not shown!", solo.searchText(solo.getString(R.string.category_lego_nxt)));
+			assertFalse("SecondCheck: NXT category brick shown!", solo.searchText(solo.getString(R.string.category_lego_nxt)));
 		}
 	}
 
