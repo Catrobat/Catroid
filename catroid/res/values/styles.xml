@@ -247,6 +247,27 @@
         <item name="android:background" >@drawable/brick_blue_3h</item >
     </style >
 
+    <style name="BrickContainer.Arduino"></style>
+
+    <style name="BrickContainer.Arduino.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_cyan_1h</item>
+    </style>
+
+    <style name="BrickContainer.Arduino.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_cyan_2h</item>
+    </style>
+
+    <style name="BrickContainer.Arduino.Big">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
+        <item name="android:background">@drawable/brick_cyan_3h</item>
+    </style>
+
+     <style name="BrickCategoryText.Arduino">
+        <item name="android:background">@drawable/brick_selection_background_arduino</item>
+        <item name="android:drawableRight">@drawable/main_menu_button_arrow_arduino</item>
+     </style>
     <style name="BrickContainer.Sound" ></style >
 
     <style name="BrickContainer.Sound.Small" >

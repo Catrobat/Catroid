@@ -214,4 +214,34 @@ public class Project implements Serializable {
 		}
 		return true;
 	}
+
+
+	public boolean checkIfArduinoProject() {
+		return xmlHeader.isArduinoProject();
+	}
+
+	public void setIsArduinoProject(boolean isArduinoProject) {
+		xmlHeader.setArduinoProject(isArduinoProject);
+	}
+
+	/*public boolean checkIfLegoProject() {
+		return xmlHeader.isLegoProject();
+	}
+
+	public void setIsLegoProject(boolean isLegoProject) {
+		xmlHeader.setLegoProject(isLegoProject);
+	}
+*/
+	public boolean containsArduinoBricks() {
+		boolean isArduinoProject = false;
+		for (Sprite currentSprite : spriteList) {
+			for (int scriptIndex = 0; scriptIndex < currentSprite.getNumberOfScripts(); scriptIndex++) {
+				Script currentScript = currentSprite.getScript(scriptIndex);
+				if (currentScript.containsBluetoothArduinoBrick()) {
+					isArduinoProject = true;
+				}
+			}
+		}
+	return isArduinoProject;
+	}
 }

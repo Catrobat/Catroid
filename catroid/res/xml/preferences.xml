@@ -33,7 +33,11 @@
         android:key="setting_parrot_ar_drone_bricks"
         android:summary="@string/preference_description_quadcopter_bricks"
         android:title="@string/preference_title_enable_quadcopter_bricks" />
-
+     <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="setting_arduino_bricks"
+        android:summary="@string/preference_description_arduino_bricks"
+        android:title="@string/preference_title_enable_arduino_bricks" />
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="@string/preference_key_use_face_detection"

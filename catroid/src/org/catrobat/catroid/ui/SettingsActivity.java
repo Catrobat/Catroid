@@ -44,6 +44,8 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 	public static final String SETTINGS_SHOW_LEGO_NXT_BRICKS = "setting_mindstorm_bricks";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
+	public static final String ARDUINO_SENSOR_ANALOG = "setting_arduino_sensor_analog";
+	public static final String ARDUINO_SENSOR_DIGITAL = "setting_arduino_sensor_digital";
 	PreferenceScreen screen = null;
 
 	@SuppressWarnings("deprecation")

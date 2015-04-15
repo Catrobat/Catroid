@@ -20,15 +20,26 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.common;
+package org.catrobat.catroid.devices.arduino;
 
-import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
-import org.catrobat.catroid.devices.arduino.Arduino;
+public class ArduinoException extends RuntimeException {
 
+	private Exception innerException;
 
-// CHECKSTYLE DISABLE InterfaceIsType FOR 1 LINES
-public interface CatroidService {
+	public ArduinoException(String message) {
+		super(message);
+	}
 
-	// Common services - gets created by ServiceProvider if needed
-	Class<BluetoothDeviceService> BLUETOOTH_DEVICE_SERVICE = BluetoothDeviceService.class;
+	public ArduinoException(Exception innerException, String message) {
+		super(message);
+
+		this.innerException = innerException;
+	}
+
+	public ArduinoException() {}
+
+	public Exception getInnerException()
+	{
+		return innerException;
+	}
 }

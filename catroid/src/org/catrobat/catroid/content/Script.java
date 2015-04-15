@@ -25,6 +25,7 @@ package org.catrobat.catroid.content;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.bricks.ArduinoSendBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
@@ -213,6 +214,15 @@ public abstract class Script implements Serializable {
 	//		}
 	//		return false;
 	//	}
+
+	public boolean containsBluetoothArduinoBrick() {
+		for (Brick brick : brickList) {
+		if (brick instanceof ArduinoSendBrick) {
+			return true;
+		}
+	}
+	return false;
+}
 
 	public Brick getBrick(int index) {
 		if (index < 0 || index >= brickList.size()) {

@@ -20,15 +20,18 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.common;
-
-import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
-import org.catrobat.catroid.devices.arduino.Arduino;
+package org.catrobat.catroid.devices.arduino;
 
 
-// CHECKSTYLE DISABLE InterfaceIsType FOR 1 LINES
-public interface CatroidService {
+import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
+import org.catrobat.catroid.common.CatroidService;
+public interface Arduino extends BluetoothDevice {
 
-	// Common services - gets created by ServiceProvider if needed
-	Class<BluetoothDeviceService> BLUETOOTH_DEVICE_SERVICE = BluetoothDeviceService.class;
+	public void setDigitalArduinoPin(String digitalPinNumber, char pinValue);
+
+	public void sendArduinoMessage(String message);
+
+	public double getDigitalArduinoPin(String digitalPinNumber);
+
+	public double getAnalogArduinoPin(String analogPinNumber);
 }
