@@ -99,6 +99,7 @@
     <string name="dialog_new_object_name">Object name</string>
     <string name="dialog_new_object_switch_title">New Object created</string>
     <string name="dialog_new_object_switch_message">Switch to new Object?</string>
+    <string name="dialog_new_object_drone_video">Drone Video</string>
     <!--  -->
 
 

@@ -308,9 +308,11 @@ public final class StandardProjectHandler {
 				calculateValueRelativeToScaledBackground(yPosition));
 
 		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(90f);
+		SetSizeToBrick setSizeBrick = new SetSizeToBrick(50.0);
 
 		whenProjectStartsScript.addBrick(placeAtBrick);
 		whenProjectStartsScript.addBrick(turnLeftBrick);
+		whenProjectStartsScript.addBrick(setSizeBrick);
 
 		LookData lookData = new DroneVideoLookData();
 		lookData.setLookName("drone video");

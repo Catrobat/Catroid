@@ -251,10 +251,8 @@ public final class LookController {
 	public void loadDroneVideoImageToProject(String defaultImageName, int imageId, Activity activity, ArrayList<LookData> lookDataList, LookFragment fragment)
 	{
 		try {
-			Bitmap newImage = BitmapFactory.decodeResource(activity.getApplicationContext().getResources(), imageId);
-			String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-			File imageFile = StorageHandler.getInstance().createImageFromBitmap(projectName, newImage, defaultImageName);
 
+			File imageFile = StorageHandler.getInstance().copyImageFromResourceToCatroid(activity, imageId, defaultImageName);
 			updateLookAdapter(defaultImageName, imageFile.getName(), lookDataList, fragment, LookData.LookDataType.DRONE_VIDEO);
 		}
 		catch (IOException e)
@@ -265,6 +263,7 @@ public final class LookController {
 		fragment.destroyLoader();
 		activity.sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
 	}
+
 
 	private void copyImageToCatroid(String originalImagePath, Activity activity, ArrayList<LookData> lookDataList,
 			LookFragment fragment) {

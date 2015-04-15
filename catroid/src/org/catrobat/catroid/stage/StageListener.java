@@ -430,68 +430,6 @@ public class StageListener implements ApplicationListener {
 			drawText("   ARDRONE", width / 6, height / 2-20, 1.5f);
 			drawText("SUPPORTED", width / 6, height / 2-50, 1.5f);
 		}
-
-		//drawVideoOpenGL();
-		//drawBitmapVideo();
-	}
-
-	private boolean firstVideoStart = true;
-	private GLBGVideoSprite videotexture;
-	Bitmap video;
-	private float videoSize[]  = {1280,720, 0,0}; //imagewidth, imageheight
-	private Object videoFrameLock;
-	private Texture test;
-
-
-	private void drawVideoOpenGL() {
-		//version 1
-		if (firstVideoStart) {
-			videotexture = new GLBGVideoSprite();
-			video = Bitmap.createBitmap((int) videoSize[0], (int) videoSize[1], Bitmap.Config.RGB_565);
-			videotexture.imageWidth = (int) videoSize[0];
-			videotexture.imageHeight = (int) videoSize[1];
-			videotexture.onSurfaceChanged(320, 240);
-			test = new Texture(videotexture.imageWidth, videotexture.imageHeight, Format.RGB888);
-			firstVideoStart = false;
-			return;
-		}
-
-		Gdx.gl20.glBindTexture(GL20.GL_TEXTURE_2D, test.getTextureObjectHandle());
-		videotexture.onUpdateVideoTexture();
-		batch.begin();
-		batch.draw(test, 0, 0, 320, 240);
-		batch.end();
-	}
-
-	private void drawBitmapVideo() {
-
-		//version 2
-		if (firstVideoStart)
-		{
-			videotexture = new GLBGVideoSprite();
-			video = Bitmap.createBitmap((int)videoSize[0], (int)videoSize[1], Bitmap.Config.RGB_565);
-			videotexture.imageWidth = (int)videoSize[0];
-			videotexture.imageHeight = (int)videoSize[1];
-			videotexture.onSurfaceChanged(1280,720);
-			test = new Texture(videotexture.imageWidth, videotexture.imageHeight, Format.RGB888);
-			Gdx.gl20.glBindTexture(GL20.GL_TEXTURE_2D, test.getTextureObjectHandle());
-			videotexture.onUpdateVideoTexture();
-			firstVideoStart = false;
-			return;
-		}
-
-		videoSize[0] = videotexture.imageWidth;
-		videoSize[1] = videotexture.imageHeight;
-
-		Gdx.gl20.glBindTexture(GL20.GL_TEXTURE_2D, test.getTextureObjectHandle());
-		boolean myresult = videotexture.getVideoFrame(video, videoSize);
-		GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, video, 0);
-
-
-		batch.begin();
-		batch.draw(test, 0, 0, 320, 240);
-		batch.end();
-
 	}
 	
 
