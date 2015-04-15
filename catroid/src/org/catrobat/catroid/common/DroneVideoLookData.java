@@ -31,6 +31,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.parrot.freeflight.ui.gl.GLBGVideoSprite;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.Brick;
 
 import java.io.Serializable;
@@ -42,12 +43,23 @@ public class DroneVideoLookData extends LookData implements Serializable, Clonea
 	private GLBGVideoSprite videoTexture;
 
 	private int[] videoSize = {0, 0};
-	private int[] defaultVideoTextureSize = {320,240};
+	private final int[] defaultVideoTextureSize;
 
 	public DroneVideoLookData () {
+
 		firstStart = true;
+		defaultVideoTextureSize = fitToScreenWidth();
 	}
 
+	private int[] fitToScreenWidth()
+	{
+		float virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
+		float videoRatio = 64f/36f; //fixed ratio of the droneVideo -> see developer guide
+		float videoHeight = virtualScreenWidth / videoRatio;
+
+		return new int[] {(int)virtualScreenWidth, (int)videoHeight};
+
+	}
 	@Override
 	public int[] getMeasure() {
 

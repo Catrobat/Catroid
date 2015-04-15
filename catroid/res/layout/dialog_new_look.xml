@@ -77,7 +77,7 @@
     </LinearLayout>
 
                <LinearLayout
-                   android:id="@+id/dialog_new_drone_video"
+                   android:id="@+id/dialog_new_look_row_2"
                    style="@style/DefaultDialog.Item"
                    android:layout_marginTop="8dp"
                    android:baselineAligned="false"
@@ -85,7 +85,7 @@
                    android:visibility="gone">
 
                            <TextView
-                               android:id="@+id/dialog_new_look_droneVideoStream"
+                               android:id="@+id/dialog_new_look_drone_video"
                                android:layout_width="0dp"
                                android:layout_height="match_parent"
                                android:layout_weight="1"

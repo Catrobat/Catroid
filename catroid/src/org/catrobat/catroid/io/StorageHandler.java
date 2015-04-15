@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.io;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
@@ -618,6 +619,12 @@ public final class StorageHandler {
 				+ "_" + selectedSoundInfo.getTitle() + "_" + inputFileChecksum));
 
 		return copyFileAddCheckSum(outputFile, inputFile);
+	}
+
+	public File copyImageFromResourceToCatroid(Activity activity, int imageId, String defaultImageName) throws IOException {
+		Bitmap newImage = BitmapFactory.decodeResource(activity.getApplicationContext().getResources(), imageId);
+		String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+		return createImageFromBitmap(projectName, newImage, defaultImageName);
 	}
 
 	public File createImageFromBitmap(String currentProjectName, Bitmap inputImage, String newName) throws IOException

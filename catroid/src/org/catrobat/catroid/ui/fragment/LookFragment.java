@@ -533,7 +533,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 	public void addLookDroneVideo() {
 
-		LookController.getInstance().loadDroneVideoImageToProject("drone video", R.drawable.ic_video, this.getActivity(), lookDataList, this);
+		LookController.getInstance().loadDroneVideoImageToProject(getString(R.string.add_look_drone_video), R.drawable.ic_video, this.getActivity(), lookDataList, this);
 
 	}
 
