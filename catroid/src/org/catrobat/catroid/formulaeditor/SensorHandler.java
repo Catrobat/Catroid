@@ -158,10 +158,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				}
 			case FACE_DETECTED:
 				return (double) instance.faceDetected;
-			case ARDUINOANALOG:
-				return instance.
-			case ARDUINODIGITAL:
-				return
 			case FACE_SIZE:
 				return (double) instance.faceSize;
 			case FACE_X_POSITION:

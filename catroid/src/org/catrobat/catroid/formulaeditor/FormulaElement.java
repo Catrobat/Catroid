@@ -375,10 +375,9 @@ public class FormulaElement implements Serializable {
 				Arduino arduinoDigital = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).getDevice(BluetoothDevice.ARDUINO);
 				return arduinoDigital.getDigitalArduinoPin(left.toString());
 			case ARDUINOANALOG:
+				Arduino arduinoAnalog = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).getDevice(BluetoothDevice.ARDUINO);
 				return arduinoAnalog.getAnalogArduinoPin(left.toString());
-		}
-
-		case LIST_ITEM:
+			case LIST_ITEM:
 				return interpretFunctionListItem(left, sprite);
 			case CONTAINS:
 				return interpretFunctionContains(right, sprite);
