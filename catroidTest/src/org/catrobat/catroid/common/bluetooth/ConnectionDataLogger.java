@@ -22,18 +22,23 @@
  */
 package org.catrobat.catroid.common.bluetooth;
 
+import com.google.common.base.Stopwatch;
+
 import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.common.bluetooth.models.DeviceModel;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 public final class ConnectionDataLogger {
 
-	private Queue<byte[]> sentMessages = new LinkedList<byte[]>();
-	private Queue<byte[]> receivedMessages = new LinkedList<byte[]>();
+	private BlockingQueue<byte[]> sentMessages = new LinkedBlockingQueue<byte[]>();
+	private BlockingQueue<byte[]> receivedMessages = new LinkedBlockingQueue<byte[]>();
+
+	private static final int TIMEOUT_SECONDS = 15;
 
 
 	public byte[] getNextSentMessage() {
@@ -49,13 +54,12 @@ public final class ConnectionDataLogger {
 	}
 
 
-
-	public ArrayList<byte[]> getSentMessages() {
-		return getSentMessages(0, true);
+	public ArrayList<byte[]> getSentMessages(int messageCountToWaitFor) {
+		return getSentMessages(0, messageCountToWaitFor);
 	}
 
-	public ArrayList<byte[]> getSentMessages(int messageByteOffset, boolean clearMessageQueue) {
-		return getMessages(sentMessages, messageByteOffset, clearMessageQueue);
+	public ArrayList<byte[]> getSentMessages(int messageByteOffset, int messageCountToWaitFor) {
+		return getMessages(sentMessages, messageByteOffset, messageCountToWaitFor);
 	}
 
 
@@ -73,42 +77,81 @@ public final class ConnectionDataLogger {
 	}
 
 
-
-	public ArrayList<byte[]> getReceivedMessages() {
-		return getReceivedMessages(0, true);
+	public ArrayList<byte[]> getReceivedMessages(int messageCountToWaitFor) {
+		return getReceivedMessages(0, messageCountToWaitFor);
 	}
 
-	public ArrayList<byte[]> getReceivedMessages(int messageByteOffset, boolean clearMessageQueue) {
-		return getMessages(receivedMessages, messageByteOffset, clearMessageQueue);
+	public ArrayList<byte[]> getReceivedMessages(int messageByteOffset, int messageCountToWaitFor) {
+		return getMessages(receivedMessages, messageByteOffset, messageCountToWaitFor);
 	}
 
 
 
-	private static byte[] getNextMessage(Queue<byte[]> messages, int messageOffset, int messageByteOffset) {
-		synchronized (messages) {
-			for (int i = 0; i < messageOffset; i++) {
-				messages.poll();
+	private static byte[] getNextMessage(BlockingQueue<byte[]> messages, int messageOffset, int messageByteOffset) {
+
+		Stopwatch stopWatch = Stopwatch.createStarted();
+
+		for (int i = 0; i < messageOffset; i++) {
+			byte[] message = pollMessage(messages, TIMEOUT_SECONDS - (int)stopWatch.elapsed(TimeUnit.SECONDS));
+			if (message == null) {
+				return null;
 			}
-			return BluetoothTestUtils.getSubArray(messages.poll(), messageByteOffset);
 		}
+
+		byte[] message = pollMessage(messages, TIMEOUT_SECONDS - (int)stopWatch.elapsed(TimeUnit.SECONDS));
+		if (message == null) {
+			return null;
+		}
+
+		return BluetoothTestUtils.getSubArray(message, messageByteOffset);
 	}
 
-	private static ArrayList<byte[]> getMessages(Queue<byte[]> messages, int messageByteOffset, boolean clearMessageQueue) {
+	private static ArrayList<byte[]> getMessages(BlockingQueue<byte[]> messages, int messageByteOffset, int messageCountToWaitFor) {
+
+		if (messageCountToWaitFor == 0) {
+			return getMessages(messages, messageByteOffset);
+		}
+
+		return waitForMessages(messages, messageByteOffset, messageCountToWaitFor);
+	}
+
+	private static ArrayList<byte[]> waitForMessages(BlockingQueue<byte[]> messages, int messageByteOffset, int messageCountToWaitFor) {
 
 		ArrayList<byte[]> m = new ArrayList<byte[]>();
-		synchronized (messages) {
-			for (byte[] message : messages) {
-				m.add(BluetoothTestUtils.getSubArray(message, messageByteOffset));
-			}
+		Stopwatch stopWatch = Stopwatch.createStarted();
 
-			if (clearMessageQueue) {
-				messages.clear();
+		do {
+			byte[] message = pollMessage(messages, TIMEOUT_SECONDS - (int)stopWatch.elapsed(TimeUnit.SECONDS));
+			if (message == null) {
+				return m;
 			}
+			m.add(BluetoothTestUtils.getSubArray(message, messageByteOffset));
+
+		} while (m.size() < messageCountToWaitFor && stopWatch.elapsed(TimeUnit.SECONDS) < TIMEOUT_SECONDS);
+
+		return m;
+	}
+
+	private static ArrayList<byte[]> getMessages(BlockingQueue<byte[]> messages, int messageByteOffset) {
+
+		ArrayList<byte[]> m = new ArrayList<byte[]>();
+
+		byte[] message = null;
+		while ((message = messages.poll()) != null) {
+			m.add(BluetoothTestUtils.getSubArray(message, messageByteOffset));
 		}
 
 		return m;
 	}
 
+	private static byte[] pollMessage(BlockingQueue<byte[]> messages, int timeoutSeconds) {
+
+		try {
+			return messages.poll(timeoutSeconds, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			return null;
+		}
+	}
 
 
 	private BluetoothConnection connectionProxy;
@@ -117,16 +160,12 @@ public final class ConnectionDataLogger {
 
 		@Override
 		public void logSentData(byte[] b) {
-			synchronized (sentMessages) {
-				sentMessages.add(b);
-			}
+			sentMessages.add(b);
 		}
 
 		@Override
 		public void logReceivedData(byte[] b) {
-			synchronized (receivedMessages) {
-				receivedMessages.add(b);
-			}
+			receivedMessages.add(b);
 		}
 
 		@Override
@@ -177,10 +216,12 @@ public final class ConnectionDataLogger {
 		return new ConnectionDataLogger(false);
 	}
 
-	public void disconnect() {
+	public void disconnectAndDestroy() {
 		if (connectionProxy != null) {
 			connectionProxy.disconnect();
 		}
+
+		BluetoothTestUtils.resetConnectionHooks();
 	}
 
 	public BluetoothConnection getConnectionProxy() {

@@ -60,6 +60,7 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 		sensorFactory = new NXTSensorFactory(context, connection);
 
         sensorScheduler = new PausableScheduledThreadPoolExecutor(SENSOR_UPDATER_THREAD_COUNT);
+		sensorScheduler.pause();
 	}
 
 	public void pauseSensorUpdate() {

@@ -766,52 +766,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 				solo.getView(R.id.bottom_bar_separator).getVisibility() == View.VISIBLE);
 	}
 
-	public void testOptionsEnableLegoMindstormsBricks() {
-		UiTestUtils.createTestProject();
-		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
-
-		String settings = solo.getString(R.string.preference_title);
-		String mindstormsPreferenceString = solo.getString(R.string.preference_title_enable_mindstorms_nxt_bricks);
-		String categoryLegoNXTLabel = solo.getString(R.string.category_lego_nxt);
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-		if (sharedPreferences.getBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false)) {
-			sharedPreferences.edit().putBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false).commit();
-		}
-
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-
-		assertFalse("Lego brick category is showing!", solo.searchText(categoryLegoNXTLabel));
-
-		solo.sleep(300);
-		solo.goBack();
-		String currentSprite = ProjectManager.getInstance().getCurrentSprite().getName();
-		assertEquals("Current sprite name is not shown as actionbar title or is wrong", "cat", currentSprite);
-
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-
-		UiTestUtils.openOptionsMenu(solo);
-
-		solo.clickOnText(settings);
-		solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
-		solo.clickOnText(mindstormsPreferenceString);
-		solo.goBack();
-
-		solo.sleep(500);
-		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
-				solo.getCurrentViews(ListView.class).size() - 1);
-		solo.scrollListToBottom(fragmentListView);
-		assertTrue("Lego brick category is not showing!", solo.searchText(categoryLegoNXTLabel));
-
-		UiTestUtils.openOptionsMenu(solo);
-		solo.clickOnText(settings);
-		solo.assertCurrentActivity("Wrong Activity", SettingsActivity.class);
-		solo.clickOnText(mindstormsPreferenceString);
-		solo.goBack();
-
-		assertFalse("Lego brick category is showing!", solo.searchText(categoryLegoNXTLabel));
-	}
-
 	@SuppressWarnings("deprecation")
 	public void testReturnFromStageAfterInvokingFormulaEditor() {
 		if (Settings.System.getInt(getActivity().getContentResolver(), Settings.System.ALWAYS_FINISH_ACTIVITIES, 0) == 0) {
