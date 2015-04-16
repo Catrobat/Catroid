@@ -58,11 +58,10 @@ public class DroneVideoLookData extends LookData implements Serializable, Clonea
 		float videoHeight = virtualScreenWidth / videoRatio;
 
 		return new int[] {(int)virtualScreenWidth, (int)videoHeight};
-
 	}
+
 	@Override
 	public int[] getMeasure() {
-
 		return defaultVideoTextureSize;
 	}
 

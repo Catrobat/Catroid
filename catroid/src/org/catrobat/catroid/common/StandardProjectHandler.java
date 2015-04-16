@@ -226,7 +226,7 @@ public final class StandardProjectHandler {
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(rightSpriteName, DroneBrickFactory.DroneBricks.DRONE_MOVE_RIGHT_BRICK,
-				200, -100, rightFile, 2000));
+				0, 100, rightFile, 2000));
 
 		//Turn Left Sprite
 		String turnLeftSpriteName = context.getString(R.string.default_drone_project_sprites_turn_left);
@@ -236,7 +236,7 @@ public final class StandardProjectHandler {
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(turnLeftSpriteName,
-				DroneBrickFactory.DroneBricks.DRONE_TURN_LEFT_BRICK, 0, 100, turnLeftFile, 2000));
+				DroneBrickFactory.DroneBricks.DRONE_TURN_LEFT_BRICK, 200, -100, turnLeftFile, 2000));
 
 		//Turn Right Sprite
 		String turnRightSpriteName = context.getString(R.string.default_drone_project_sprites_turn_right);
