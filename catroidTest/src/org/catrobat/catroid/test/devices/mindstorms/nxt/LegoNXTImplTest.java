@@ -37,6 +37,8 @@ import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSoundSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTTouchSensor;
 import org.catrobat.catroid.ui.SettingsActivity;
 
+import java.util.ArrayList;
+
 public class LegoNXTImplTest extends AndroidTestCase {
 
 	private Context applicationContext;
@@ -57,6 +59,13 @@ public class LegoNXTImplTest extends AndroidTestCase {
 		nxt = new LegoNXTImpl(this.applicationContext);
 		logger = ConnectionDataLogger.createLocalConnectionLogger();
 		nxt.setConnection(logger.getConnectionProxy());
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		nxt.disconnect();
+		logger.disconnectAndDestroy();
+		super.tearDown();
 	}
 
 	private void setSensor(SharedPreferences.Editor editor, String sensor, int sensorType) {
@@ -158,7 +167,7 @@ public class LegoNXTImplTest extends AndroidTestCase {
 		assertEquals("Expected Hz over maximum Value (max. Value = 14000)", (byte)(expectedHz >> 8), setOutputState[3]);
 	}
 
-	public void testcheckDurationOfTone() {
+	public void testCheckDurationOfTone() {
 
 		int inputHz = 13000;
 		int inputDurationInMs = 6000;
@@ -181,8 +190,8 @@ public class LegoNXTImplTest extends AndroidTestCase {
 		nxt.initialise();
 		nxt.playTone(inputHz, inputDurationInMs);
 
-		byte[] command = logger.getNextSentMessage(0, 2);
+		ArrayList<byte[]> commands = logger.getSentMessages(2, 0);
 
-		assertEquals("LastSentCommand Should be NULL", null, command);
+		assertEquals("No commands should be sent", 0, commands.size());
 	}
 }

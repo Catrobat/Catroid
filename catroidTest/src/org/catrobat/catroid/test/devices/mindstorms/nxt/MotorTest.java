@@ -48,6 +48,12 @@ public class MotorTest extends AndroidTestCase {
 		this.motor = new NXTMotor(USED_PORT, mindstormsConnection);
 	}
 
+	@Override
+	protected void tearDown() throws Exception {
+		logger.disconnectAndDestroy();
+		super.tearDown();
+	}
+
 	public void testSimpleMotorTest() {
 		int inputSpeed = 70;
 		int degrees = 360;

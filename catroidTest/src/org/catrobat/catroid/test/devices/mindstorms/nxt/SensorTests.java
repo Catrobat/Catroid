@@ -52,12 +52,14 @@ public class SensorTests extends AndroidTestCase {
 
 	private ConnectionDataLogger logger;
 	private MindstormsConnection mindstormsConnection;
+	private MindstormsNXTTestModel nxtModel;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		this.logger = ConnectionDataLogger.createLocalConnectionLoggerWithDeviceModel(new MindstormsNXTTestModel());
+		nxtModel = new MindstormsNXTTestModel();
+		this.logger = ConnectionDataLogger.createLocalConnectionLoggerWithDeviceModel(nxtModel);
 
 		this.mindstormsConnection = new MindstormsConnectionImpl(logger.getConnectionProxy());
 		mindstormsConnection.init();
@@ -66,303 +68,150 @@ public class SensorTests extends AndroidTestCase {
 	@Override
 	protected void tearDown() throws Exception {
 		mindstormsConnection.disconnect();
-		logger.disconnect();
+		logger.disconnectAndDestroy();
 
 		super.tearDown();
 	}
 
-	public void testSetSensorModeTouch() {
+	public void testTouchSensor() {
+
+		final int expectedSensorValue = 1;
+
+		nxtModel.setSensorValue(expectedSensorValue);
 		NXTSensor sensor = new NXTTouchSensor(PORT_NR_0, mindstormsConnection);
+		int sensorValue = sensor.getValue();
 
-		sensor.getValue();
-
-		byte[] command = logger.getNextSentMessage(0, 2);
-		assertNotNull("No command", command);
-
-		assertEquals("Incorrect Header", DIRECT_COMMAND_WITH_REPLY, command[0]);
-		assertEquals("Wrong CommandByte", CommandByte.SET_INPUT_MODE.getByte(), command[1]);
-		assertEquals("Wrong Port", PORT_NR_0, command[2]);
-		assertEquals("Wrong sensor type", NXTSensorType.TOUCH.getByte(), command[3]);
-		assertEquals("Wrong sensor mode", NXTSensorMode.BOOL.getByte(), command[4]);
-		assertEquals("Wrong command length", 5, command.length);
+		testInitializationOfSensor(PORT_NR_0, NXTSensorType.TOUCH, NXTSensorMode.BOOL);
+		testGetInputValuesMessage(PORT_NR_0);
+		assertEquals("Received wrong touch sensor value", expectedSensorValue, sensorValue);
 	}
 
-	public void testSetSensorModeSound() {
+	public void testSoundSensor() {
+		final int expectedSensorValue = 42;
+		nxtModel.setSensorValue(expectedSensorValue);
+
 		NXTSensor sensor = new NXTSoundSensor(PORT_NR_1, mindstormsConnection);
+		int sensorValue = sensor.getValue();
 
-		sensor.getValue();
-
-		byte[] command = logger.getNextSentMessage(0, 2);
-		assertNotNull("No command", command);
-
-		assertEquals("Incorrect Header", DIRECT_COMMAND_WITH_REPLY, command[0]);
-		assertEquals("Wrong CommandByte", CommandByte.SET_INPUT_MODE.getByte(), command[1]);
-		assertEquals("Wrong port", PORT_NR_1, command[2]);
-		assertEquals("Wrong sensor Type", NXTSensorType.SOUND_DBA.getByte(), command[3]);
-		assertEquals("Wrong sensor mode", NXTSensorMode.Percent.getByte(), command[4]);
-		assertEquals("Wrong command length", 5, command.length);
+		testInitializationOfSensor(PORT_NR_1, NXTSensorType.SOUND_DBA, NXTSensorMode.Percent);
+		testGetInputValuesMessage(PORT_NR_1);
+		assertEquals("Received wrong sound sensor value", expectedSensorValue, sensorValue);
 	}
 
-	public void testSetSensorModeLight() {
+	public void testLightSensor() {
+		final int expectedSensorValue = 24;
+
+		nxtModel.setSensorValue(expectedSensorValue);
 		NXTSensor sensor = new NXTLightSensor(PORT_NR_2, mindstormsConnection);
+		int sensorValue = sensor.getValue();
 
-		sensor.getValue();
-
-		byte[] command = logger.getNextSentMessage(0, 2);
-		assertNotNull("No command", command);
-
-		assertEquals("Incorrect Header", DIRECT_COMMAND_WITH_REPLY, command[0]);
-		assertEquals("Wrong CommandByte", CommandByte.SET_INPUT_MODE.getByte(), command[1]);
-		assertEquals("Wrong port", PORT_NR_2, command[2]);
-		assertEquals("Wrong sensor type", NXTSensorType.LIGHT_INACTIVE.getByte(), command[3]);
-		assertEquals("Wrong sensor mode", NXTSensorMode.Percent.getByte(), command[4]);
-		assertEquals("Wrong command length", 5, command.length);
+		testInitializationOfSensor(PORT_NR_2, NXTSensorType.LIGHT_INACTIVE, NXTSensorMode.Percent);
+		testGetInputValuesMessage(PORT_NR_2);
+		assertEquals("Received wrong light sensor value", expectedSensorValue, sensorValue);
 	}
 
-	public void testGetSimpleSensorValue() {
-		NXTSensor sensor = new NXTTouchSensor(PORT_NR_0, mindstormsConnection);
+	public void testI2CUltrasonicSensor() {
+		final int expectedSensorValue = 142;
+		nxtModel.setSensorValue(expectedSensorValue);
 
-		sensor.getValue();
-		byte[] command = null;
-		byte[] firstCommand = logger.getNextSentMessage(0, 2);
-		while(firstCommand != null) {
-			command = firstCommand;
-			firstCommand = logger.getNextSentMessage(0, 2);
-		}
-
-		assertNotNull("No command", command);
-
-		assertEquals("Incorrect Header", DIRECT_COMMAND_WITH_REPLY, command[0]);
-		assertEquals("Wrong Command Byte", CommandByte.GET_INPUT_VALUES.getByte(), command[1]);
-		assertEquals("Wrong port", PORT_NR_0, command[2]);
-		assertEquals("Wrong command length", 3, command.length);
-	}
-
-	public void testGetSimpleSensorValueFullCommunication() {
-		NXTSensor sensor = new NXTTouchSensor(PORT_NR_0, mindstormsConnection);
-
-		sensor.getValue();
-
-		byte[] command = logger.getNextSentMessage(0, 2);
-		assertNotNull("No command1", command);
-
-		assertEquals("Incorrect Header", DIRECT_COMMAND_WITH_REPLY, command[0]);
-		assertEquals("Wrong CommandByte", CommandByte.SET_INPUT_MODE.getByte(), command[1]);
-		assertEquals("Wrong Port", PORT_NR_0, command[2]);
-		assertEquals("Wrong sensor type", NXTSensorType.TOUCH.getByte(), command[3]);
-		assertEquals("Wrong sensor mode", NXTSensorMode.BOOL.getByte(), command[4]);
-		assertEquals("Wrong command length", 5, command.length);
-
-		command = logger.getNextSentMessage(0, 2);
-		assertNotNull("No command2", command);
-
-		assertEquals("Incorrect Header2", DIRECT_COMMAND_WITHOUT_REPLY, command[0]);
-		assertEquals("Wrong CommandByte2", CommandByte.RESET_INPUT_SCALED_VALUE.getByte(), command[1]);
-		assertEquals("Wrong Port2", PORT_NR_0, command[2]);
-		assertEquals("Wrong command length2", 3, command.length);
-
-		command = logger.getNextSentMessage(0, 2);
-		assertNotNull("No command3", command);
-
-		assertEquals("Incorrect Header3", DIRECT_COMMAND_WITH_REPLY, command[0]);
-		assertEquals("Wrong CommandByte3", CommandByte.SET_INPUT_MODE.getByte(), command[1]);
-		assertEquals("Wrong Port3", PORT_NR_0, command[2]);
-		assertEquals("Wrong sensor type3", NXTSensorType.TOUCH.getByte(), command[3]);
-		assertEquals("Wrong sensor mode3", NXTSensorMode.BOOL.getByte(), command[4]);
-		assertEquals("Wrong command length3", 5, command.length);
-
-		command = logger.getNextSentMessage(0, 2);
-		assertNotNull("No command4", command);
-
-		assertEquals("Incorrect Header4", DIRECT_COMMAND_WITH_REPLY, command[0]);
-		assertEquals("Wrong Command Byte4", CommandByte.GET_INPUT_VALUES.getByte(), command[1]);
-		assertEquals("Wrong port4", PORT_NR_0, command[2]);
-		assertEquals("Wrong command length4", 3, command.length);
-	}
-
-	public void testSetSensorModeUltraSonic() {
 		NXTI2CUltraSonicSensor sensor = new NXTI2CUltraSonicSensor(mindstormsConnection);
 
-		sensor.getValue();
+		int sensorValue = sensor.getValue();
 
-		byte[] command = logger.getNextSentMessage(0, 2);
-		assertNotNull("No command1", command);
+		testInitializationOfI2CSensor(PORT_NR_3, NXTSensorType.LOW_SPEED_9V, NXTSensorMode.RAW);
 
-		assertEquals("Incorrect Header", DIRECT_COMMAND_WITH_REPLY, command[0]);
-		assertEquals("Wrong command byte", CommandByte.SET_INPUT_MODE.getByte(), command[1]);
-		assertEquals("Wrong port", PORT_NR_3, command[2]);
-		assertEquals("Wrong sensor type", NXTSensorType.LOW_SPEED_9V.getByte(), command[3]);
-		assertEquals("Wrong sensor mode", NXTSensorMode.RAW.getByte(), command[4]);
-		assertEquals("Wrong command length", 5, command.length);
+		testLsWriteMessage(SENSOR_REGISTER_RESULT1, PORT_NR_3);
+		testLsReadMessage(PORT_NR_3);
+
+		assertEquals("Received wrong ultrasonic sensor value", expectedSensorValue, sensorValue);
 	}
 
-	public void testGetI2CSensorValueLSReadOnly() {
-		NXTI2CUltraSonicSensor sensor = new NXTI2CUltraSonicSensor(mindstormsConnection);
 
-		sensor.getValue();
-		byte[] command = null;
-		byte[] firstCommand = logger.getNextSentMessage(0, 2);
-		while(firstCommand != null) {
-			command = firstCommand;
-			firstCommand = logger.getNextSentMessage(0, 2);
-		}
 
-		assertNotNull("No command", command);
-
-		assertEquals("Incorrect Header", DIRECT_COMMAND_WITH_REPLY, command[0]);
-		assertEquals("Wrong command byte", CommandByte.LS_READ.getByte(), command[1]);
-		assertEquals("Wrong port", PORT_NR_3, command[2]);
-		assertEquals("Wrong command length", 3, command.length);
+	private void testInitializationOfSensor(int port, NXTSensorType sensorType, NXTSensorMode sensorMode) {
+		testSetInputModeMessage(port, sensorType, sensorMode);
+		testResetInputScaledValueMessage(port);
+		testSetInputModeMessage(port, sensorType, sensorMode);
 	}
 
-	public void testGetI2CSensorValue() {
-		NXTI2CUltraSonicSensor sensor = new NXTI2CUltraSonicSensor(mindstormsConnection);
-
-		sensor.getValue();
-		byte[] command = logger.getNextSentMessage(0, 2);
-		assertNotNull("No command1a", command);
-
-		while( (command[1] != CommandByte.LS_WRITE.getByte()) && (command != null) ) {
-			command = logger.getNextSentMessage(0, 2);
-			assertNotNull("No command1b", command);
-		}
-
-		command = logger.getNextSentMessage(0, 2);
-		assertNotNull("No command1c", command);
-
-		while( (command[1] != CommandByte.LS_WRITE.getByte()) && (command != null) ) {
-			command = logger.getNextSentMessage(0, 2);
-			assertNotNull("No command1d", command);
-		}
-
-		assertEquals("Incorrect Header", DIRECT_COMMAND_WITHOUT_REPLY, command[0]);
-		assertEquals("Wrong command byte", CommandByte.LS_WRITE.getByte(), command[1]);
-		assertEquals("Wrong port", PORT_NR_3, command[2]);
-		assertEquals("Wrong Tx data length", 2, command[3]);
-		assertEquals("Wrong Rx data length", 1, command[4]);
-		assertEquals("Wrong Tx address", ULTRASONIC_ADDRESS, command[5]);
-		assertEquals("Wrong Tx register", SENSOR_REGISTER_RESULT1, command[6]);
-		assertEquals("Wrong command length", 7, command.length);
-
-		command = logger.getNextSentMessage(0, 2);
-		assertNotNull("No command2", command);
-
-		assertEquals("Incorrect Header2", DIRECT_COMMAND_WITH_REPLY, command[0]);
-		assertEquals("Wrong command byte2", CommandByte.LS_GET_STATUS.getByte(), command[1]);
-		assertEquals("Wrong port2", PORT_NR_3, command[2]);
-		assertEquals("Wrong command length2", 3, command.length);
-
-		command = logger.getNextSentMessage(0, 2);
-		assertNotNull("No command3a", command);
-
-		while(command[1] == CommandByte.LS_GET_STATUS.getByte()) {
-			command = logger.getNextSentMessage(0, 2);
-			assertNotNull("No command3b", command);
-		}
-
-		assertEquals("Incorrect Header3", DIRECT_COMMAND_WITH_REPLY, command[0]);
-		assertEquals("Wrong command byte3", CommandByte.LS_READ.getByte(), command[1]);
-		assertEquals("Wrong port3", PORT_NR_3, command[2]);
-		assertEquals("Wrong command length3", 3, command.length);
+	private void testInitializationOfI2CSensor(byte port, NXTSensorType sensorType, NXTSensorMode sensorMode) {
+		testInitializationOfSensor(port, sensorType, sensorMode);
+		testLsWriteMessage((byte)0x0, port);
+		testLsReadMessage(port);
 	}
 
-	public void testGetI2CSensorValueFullCommunication() {
-		NXTI2CUltraSonicSensor sensor = new NXTI2CUltraSonicSensor(mindstormsConnection);
+	private void testSetInputModeMessage(int port, NXTSensorType sensorType, NXTSensorMode sensorMode) {
+		byte[] setInputModeMsg = logger.getNextSentMessage(0, 2);
+		assertNotNull("No set input mode message.", setInputModeMsg);
+		assertEquals("Wrong command length", 5, setInputModeMsg.length);
 
-		sensor.getValue();
+		assertEquals("Incorrect CommandType", DIRECT_COMMAND_WITH_REPLY, setInputModeMsg[0]);
+		assertEquals("Incorrect CommandByte, should be SetInputMode", CommandByte.SET_INPUT_MODE.getByte(), setInputModeMsg[1]);
+		assertEquals("Wrong Port", port, setInputModeMsg[2]);
+		assertEquals("Wrong sensor type", sensorType.getByte(), setInputModeMsg[3]);
+		assertEquals("Wrong sensor mode", sensorMode.getByte(), setInputModeMsg[4]);
+	}
 
-		byte[] command = logger.getNextSentMessage(0, 2);
-		assertNotNull("No command", command);
+	private void testResetInputScaledValueMessage(int port) {
+		byte[] resetScaledValueMsg = logger.getNextSentMessage(0, 2);
+		assertNotNull("No reset scaled value message", resetScaledValueMsg);
+		assertEquals("Wrong command length", 3, resetScaledValueMsg.length);
 
-		assertEquals("Incorrect Header", DIRECT_COMMAND_WITH_REPLY, command[0]);
-		assertEquals("Wrong command byte", CommandByte.SET_INPUT_MODE.getByte(), command[1]);
-		assertEquals("Wrong port", PORT_NR_3, command[2]);
-		assertEquals("Wrong sensor type", NXTSensorType.LOW_SPEED_9V.getByte(), command[3]);
-		assertEquals("Wrong sensor mode", NXTSensorMode.RAW.getByte(), command[4]);
-		assertEquals("Wrong command length", 5, command.length);
+		assertEquals("Incorrect CommandType", DIRECT_COMMAND_WITHOUT_REPLY, resetScaledValueMsg[0]);
+		assertEquals("Incorrect CommandByte, should be ResetInputScaledValue", CommandByte.RESET_INPUT_SCALED_VALUE.getByte(), resetScaledValueMsg[1]);
+		assertEquals("Wrong Port", port, resetScaledValueMsg[2]);
+	}
 
-		command = logger.getNextSentMessage(0, 2);
-		assertNotNull("No command2", command);
+	private void testGetInputValuesMessage(int port) {
+		byte[] getInputValuesMsg = logger.getNextSentMessage(0, 2);
 
-		assertEquals("Incorrect Header2", DIRECT_COMMAND_WITHOUT_REPLY, command[0]);
-		assertEquals("Wrong CommandByte2", CommandByte.RESET_INPUT_SCALED_VALUE.getByte(), command[1]);
-		assertEquals("Wrong Port2", PORT_NR_3, command[2]);
-		assertEquals("Wrong command length2", 3, command.length);
+		assertNotNull("No get input value message", getInputValuesMsg);
+		assertEquals("Wrong command length", 3, getInputValuesMsg.length);
 
-		command = logger.getNextSentMessage(0, 2);
-		assertNotNull("No command3", command);
+		assertEquals("Incorrect CommandType", DIRECT_COMMAND_WITH_REPLY, getInputValuesMsg[0]);
+		assertEquals("Wrong CommandByte, should be getInputValues", CommandByte.GET_INPUT_VALUES.getByte(), getInputValuesMsg[1]);
+		assertEquals("Wrong port", port, getInputValuesMsg[2]);
+	}
 
-		assertEquals("Incorrect Header3", DIRECT_COMMAND_WITH_REPLY, command[0]);
-		assertEquals("Wrong command byte3", CommandByte.SET_INPUT_MODE.getByte(), command[1]);
-		assertEquals("Wrong port3", PORT_NR_3, command[2]);
-		assertEquals("Wrong sensor type3", NXTSensorType.LOW_SPEED_9V.getByte(), command[3]);
-		assertEquals("Wrong sensor mode3", NXTSensorMode.RAW.getByte(), command[4]);
-		assertEquals("Wrong command length3", 5, command.length);
+	private void testLsReadMessage(byte port) {
 
-		command = logger.getNextSentMessage(0, 2);
-		assertNotNull("No command4", command);
+		byte[] currentMessage = logger.getNextSentMessage(0, 2);
+		assertNotNull("No ls get status message", currentMessage);
 
-		assertEquals("Incorrect Header4", DIRECT_COMMAND_WITHOUT_REPLY, command[0]);
-		assertEquals("Wrong command byte4", CommandByte.LS_WRITE.getByte(), command[1]);
-		assertEquals("Wrong port4", PORT_NR_3, command[2]);
-		assertEquals("Wrong Tx data length4", 2, command[3]);
-		assertEquals("Wrong Rx data length4", 1, command[4]);
-		assertEquals("Wrong Tx address4", ULTRASONIC_ADDRESS, command[5]);
-		assertEquals("Wrong Tx register4", 0x00, command[6]);
-		assertEquals("Wrong command length4", 7, command.length);
+		do {
+			byte[] lsGetStatusMsg = currentMessage;
 
-		command = logger.getNextSentMessage(0, 2);
-		assertNotNull("No command5", command);
+			assertNotNull("No ls get status message", currentMessage);
+			assertEquals("Wrong command length", 3, lsGetStatusMsg.length);
 
-		assertEquals("Incorrect Header5", DIRECT_COMMAND_WITH_REPLY, command[0]);
-		assertEquals("Wrong command byte5", CommandByte.LS_GET_STATUS.getByte(), command[1]);
-		assertEquals("Wrong port5", PORT_NR_3, command[2]);
-		assertEquals("Wrong command length5", 3, command.length);
+			assertEquals("Incorrect CommandType", DIRECT_COMMAND_WITH_REPLY, lsGetStatusMsg[0]);
+			assertEquals("Wrong CommandByte, should be LsGetStatus", CommandByte.LS_GET_STATUS.getByte(), lsGetStatusMsg[1]);
+			assertEquals("Wrong port", port, lsGetStatusMsg[2]);
 
-		command = logger.getNextSentMessage(0, 2);
-		assertNotNull("No command6a", command);
+			currentMessage = logger.getNextSentMessage(0, 2);
+		} while(currentMessage[1] == CommandByte.LS_GET_STATUS.getByte());
 
-		while(command[1] == CommandByte.LS_GET_STATUS.getByte()) {
-			command = logger.getNextSentMessage(0, 2);
-			assertNotNull("No command6b", command);
-		}
+		byte[] lsReadMsg = currentMessage;
 
-		assertEquals("Incorrect Header6", DIRECT_COMMAND_WITH_REPLY, command[0]);
-		assertEquals("Wrong command byte6", CommandByte.LS_READ.getByte(), command[1]);
-		assertEquals("Wrong port6", PORT_NR_3, command[2]);
-		assertEquals("Wrong command length6", 3, command.length);
+		assertNotNull("No ls read message", lsReadMsg);
+		assertEquals("Wrong command length", 3, lsReadMsg.length);
 
-		command = logger.getNextSentMessage(0, 2);
-		assertNotNull("No command7", command);
+		assertEquals("Incorrect CommandType", DIRECT_COMMAND_WITH_REPLY, lsReadMsg[0]);
+		assertEquals("Wrong CommandByte, should be LS Read", CommandByte.LS_READ.getByte(), lsReadMsg[1]);
+		assertEquals("Wrong port", port, lsReadMsg[2]);
+	}
 
-		assertEquals("Incorrect Header7", DIRECT_COMMAND_WITHOUT_REPLY, command[0]);
-		assertEquals("Wrong command byte7", CommandByte.LS_WRITE.getByte(), command[1]);
-		assertEquals("Wrong port7", PORT_NR_3, command[2]);
-		assertEquals("Wrong Tx data length7", 2, command[3]);
-		assertEquals("Wrong Rx data length7", 1, command[4]);
-		assertEquals("Wrong Tx address7", ULTRASONIC_ADDRESS, command[5]);
-		assertEquals("Wrong Tx register7", SENSOR_REGISTER_RESULT1, command[6]);
-		assertEquals("Wrong command length7", 7, command.length);
+	private void testLsWriteMessage(byte register, byte port) {
+		byte[] lsWriteMsg = logger.getNextSentMessage(0, 2);
+		assertNotNull("No ls write message", lsWriteMsg);
+		assertEquals("Wrong command length", 7, lsWriteMsg.length);
 
-		command = logger.getNextSentMessage(0, 2);
-		assertNotNull("No command8", command);
-
-		assertEquals("Incorrect Header8", DIRECT_COMMAND_WITH_REPLY, command[0]);
-		assertEquals("Wrong command byte8", CommandByte.LS_GET_STATUS.getByte(), command[1]);
-		assertEquals("Wrong port8", PORT_NR_3, command[2]);
-		assertEquals("Wrong command length8", 3, command.length);
-
-		command = logger.getNextSentMessage(0, 2);
-		assertNotNull("No command9a", command);
-
-		while(command[1] == CommandByte.LS_GET_STATUS.getByte()) {
-			command = logger.getNextSentMessage(0, 2);
-			assertNotNull("No command9b", command);
-		}
-
-		assertEquals("Incorrect Header9", DIRECT_COMMAND_WITH_REPLY, command[0]);
-		assertEquals("Wrong command byte9", CommandByte.LS_READ.getByte(), command[1]);
-		assertEquals("Wrong port9", PORT_NR_3, command[2]);
-		assertEquals("Wrong command length9", 3, command.length);
+		assertEquals("Incorrect CommandType", DIRECT_COMMAND_WITHOUT_REPLY, lsWriteMsg[0]);
+		assertEquals("Wrong CommandByte, should be LsWrite", CommandByte.LS_WRITE.getByte(), lsWriteMsg[1]);
+		assertEquals("Wrong port", port, lsWriteMsg[2]);
+		assertEquals("Wrong Tx data length", 2, lsWriteMsg[3]);
+		assertEquals("Wrong Rx data length", 1, lsWriteMsg[4]);
+		assertEquals("Wrong Tx address", ULTRASONIC_ADDRESS, lsWriteMsg[5]);
+		assertEquals("Wrong Tx register", register, lsWriteMsg[6]);
 	}
 }
