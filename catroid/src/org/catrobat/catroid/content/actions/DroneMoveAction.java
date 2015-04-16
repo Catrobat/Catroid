@@ -85,7 +85,6 @@ public abstract class DroneMoveAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		//Log.d(TAG, "update!");
 		this.move();
 	}
 
@@ -93,7 +92,6 @@ public abstract class DroneMoveAction extends TemporalAction {
 	@Override
 	public boolean act(float delta) {
 		Boolean superReturn = super.act(delta);
-		//Log.d(TAG, "Do Drone Stuff once, superReturn = " + superReturn.toString());
 		return superReturn;
 	}
 
@@ -104,11 +102,7 @@ public abstract class DroneMoveAction extends TemporalAction {
 	}
 
 	protected void setCommandAndYawEnabled(boolean enable) {
-		if(getDroneService() == null){
-			Log.d(getClass().getName(), "drone service is null!");
-		}
-		else{
-			Log.d(getClass().getName(), "drone service is not null!");
+		if(getDroneService() != null){
 			getDroneService().setProgressiveCommandEnabled(enable);
 			getDroneService().setProgressiveCommandCombinedYawEnabled(enable);
 		}

@@ -38,12 +38,12 @@ public class DroneSwitchCameraAction extends TemporalAction {
 		super.begin();
 		Log.d(TAG, "begin!");
 		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
-		//if(dcs != null) {
-		dcs.switchCamera();
+		if(dcs != null) {
+			dcs.switchCamera();
+		}
 	}
 
 	@Override
 	protected void update(float percent) {
-		//Nothing to do
 	}
 }

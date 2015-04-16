@@ -48,7 +48,6 @@ public class DroneSetConfigBrick extends BrickBaseType implements OnItemSelected
 	protected transient AdapterView<?> adapterView;
 	private String selectedMessage;
 	private int spinnerPosition = 0;
-	private Context context;
 
 	public DroneSetConfigBrick() {
 	}
@@ -118,7 +117,7 @@ public class DroneSetConfigBrick extends BrickBaseType implements OnItemSelected
 				selectedMessage = parent.getItemAtPosition(position).toString();
 				spinnerPosition = position;
 				adapterView = parent;
-				Log.d("DroneSetConfigBrick", "selected message = " + selectedMessage);
+				Log.d("DroneSetConfigBrick", "selected message = " + selectedMessage + " an der Position: "+spinnerPosition);
 			}
 
 			@Override
@@ -171,13 +170,15 @@ public class DroneSetConfigBrick extends BrickBaseType implements OnItemSelected
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-
-		if (selectedMessage.compareTo(context.getString(R.string.drone_config_default)) == 0 ){
-			sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_default ));
-		} else if (selectedMessage.compareTo(context.getString(R.string.drone_config_indoor)) == 0 ) {
-			sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_indoor ));
-		} else if (selectedMessage.compareTo(context.getString(R.string.drone_config_outdoor)) == 0 ) {
-			sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_outdoor ));
+		if (spinnerPosition == 0) {
+			sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_default));
+			Log.d(getClass().getSimpleName(), "default ausgewählt");
+		} else if (spinnerPosition == 1) {
+			sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_outdoor));
+			Log.d(getClass().getSimpleName(), "outdoor ausgewählt");
+		} else {
+			sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_indoor));
+			Log.d(getClass().getSimpleName(), "indoor ausgewählt");
 		}
 		return null;
 	}

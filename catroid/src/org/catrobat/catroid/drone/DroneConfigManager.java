@@ -30,34 +30,42 @@ import com.parrot.freeflight.service.DroneControlService;
 public class DroneConfigManager {
 
 	private static DroneConfigManager instance;
-	private static DroneControlService droneControlService = null;
+	private static DroneControlService droneControlService;
 
 	private DroneConfigManager () {}
 
 	public static DroneConfigManager getInstance () {
 		if (DroneConfigManager.instance == null) {
 			DroneConfigManager.instance = new DroneConfigManager ();
-			instance.droneControlService = DroneInitializer.droneControlService;
 		}
 		return DroneConfigManager.instance;
 	}
 
 	public void setDefaultConfig(){
-		droneControlService.resetConfigToDefaults();
-		Log.d("DroneConfigManager", "Set Config = default" );
+		droneControlService = DroneServiceWrapper.getInstance().getDroneService();
+		if(droneControlService != null) {
+			droneControlService.resetConfigToDefaults();
+			Log.d("DroneConfigManager", "Set Config = default");
+		}
 	}
 
 	//TODO: find the perfect settings for each profile
 	public void setOutdoorConfig(){
-		droneControlService.getDroneConfig().setOutdoorFlight(true);
-		Log.d("DroneConfigManager", "Set Config = outdoor" );
+		droneControlService = DroneServiceWrapper.getInstance().getDroneService();
+		if(droneControlService != null) {
+			droneControlService.getDroneConfig().setOutdoorFlight(true);
+			Log.d("DroneConfigManager", "Set Config = outdoor");
+		}
 
 		//TODO: set other config params for outdoor flight
 	}
 
 	public void setIndoorConfig(){
-		droneControlService.getDroneConfig().setOutdoorFlight(false);
-		Log.d("DroneConfigManager", "Set Config = indoor" );
+		droneControlService = DroneServiceWrapper.getInstance().getDroneService();
+		if(droneControlService != null) {
+			droneControlService.getDroneConfig().setOutdoorFlight(false);
+			Log.d("DroneConfigManager", "Set Config = indoor");
+		}
 
 		//TODO: set other config params for indoor flight
 	}

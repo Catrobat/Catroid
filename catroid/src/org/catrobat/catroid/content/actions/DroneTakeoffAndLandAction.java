@@ -23,6 +23,7 @@
 package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.parrot.freeflight.service.DroneControlService;
 
 import org.catrobat.catroid.drone.DroneServiceWrapper;
 
@@ -31,7 +32,10 @@ public class DroneTakeoffAndLandAction extends TemporalAction {
 	@Override
 	protected void begin() {
 		super.begin();
-		DroneServiceWrapper.getInstance().getDroneService().triggerTakeOff();
+		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
+		if(dcs != null){
+			dcs.triggerTakeOff();
+		}
 	}
 
 	@Override
