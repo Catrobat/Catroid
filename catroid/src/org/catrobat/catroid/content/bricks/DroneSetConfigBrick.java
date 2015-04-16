@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
@@ -34,16 +33,12 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.drone.DroneInitializer;
 
 import java.util.List;
 
@@ -52,8 +47,8 @@ public class DroneSetConfigBrick extends BrickBaseType implements OnItemSelected
 
 	protected transient AdapterView<?> adapterView;
 	private String selectedMessage;
+	private int spinnerPosition = 0;
 	private Context context;
-	private int DroneConfigSpinnerPosition = 0;
 
 	public DroneSetConfigBrick() {
 	}
@@ -76,17 +71,15 @@ public class DroneSetConfigBrick extends BrickBaseType implements OnItemSelected
 
 	@Override
 	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+
 		if (animationState) {
 			return view;
 		}
 		if (view == null) {
 			alphaValue = 255;
 		}
-		this.context = context;
 
 		view = View.inflate(context, R.layout.brick_set_config, null);
-		view = getViewWithAlpha(alphaValue);
-
 		setCheckboxView(R.id.brick_set_config_checkbox);
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -97,36 +90,35 @@ public class DroneSetConfigBrick extends BrickBaseType implements OnItemSelected
 			}
 		});
 
-		final Spinner setConfigSpinner = (Spinner) view.findViewById(R.id.brick_set_config_spinner);
-		setConfigSpinner.setFocusableInTouchMode(false);
-		setConfigSpinner.setFocusable(false);
+		Spinner spinner = (Spinner) view.findViewById(R.id.brick_set_config_spinner);
+		spinner.setFocusableInTouchMode(false);
+		spinner.setFocusable(false);
 
 
 		ArrayAdapter<CharSequence> droneSetConfigAdapter = ArrayAdapter.createFromResource(context,
 				R.array.drone_config_spinner, android.R.layout.simple_spinner_item);
 		droneSetConfigAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		setConfigSpinner.setAdapter(droneSetConfigAdapter);
+		spinner.setAdapter(droneSetConfigAdapter);
 
 		if (checkbox.getVisibility() == View.VISIBLE) {
-			setConfigSpinner.setClickable(false);
-			setConfigSpinner.setEnabled(false);
+			spinner.setClickable(false);
+			spinner.setEnabled(false);
 		} else {
-			setConfigSpinner.setClickable(true);
-			setConfigSpinner.setEnabled(true);
+			spinner.setClickable(true);
+			spinner.setEnabled(true);
 		}
 
-		setConfigSpinner.setAdapter(droneSetConfigAdapter);
-		setConfigSpinner.setSelection(DroneConfigSpinnerPosition);
+		spinner.setAdapter(droneSetConfigAdapter);
+		spinner.setSelection(spinnerPosition);
 
-		setConfigSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				selectedMessage = parent.getItemAtPosition(position).toString(); //setConfigSpinner.getSelectedItem().toString();
-
-				Log.d("DroneSetConfigBrick", "selected meassage = " + selectedMessage );
-				DroneConfigSpinnerPosition = position;
+				selectedMessage = parent.getItemAtPosition(position).toString();
+				spinnerPosition = position;
 				adapterView = parent;
+				Log.d("DroneSetConfigBrick", "selected message = " + selectedMessage);
 			}
 
 			@Override
@@ -150,7 +142,7 @@ public class DroneSetConfigBrick extends BrickBaseType implements OnItemSelected
 		DroneConfigSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		DroneConfigSpinner.setAdapter(DroneConfigSpinnerAdapter);
-		setSpinnerSelection(DroneConfigSpinner);
+		DroneConfigSpinner.setSelection(spinnerPosition);
 
 		return prototypeView;
 	}
@@ -163,27 +155,9 @@ public class DroneSetConfigBrick extends BrickBaseType implements OnItemSelected
 			View layout = view.findViewById(R.id.brick_set_config_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
-
-			//TextView textDroneConfigLabel = (TextView) view.findViewById(R.id.brick_set_config_label);
-			//textDroneConfigLabel.setTextColor(textDroneConfigLabel.getTextColors().withAlpha(alphaValue));
-
-			Spinner droneConfigSpinner = (Spinner) view.findViewById(R.id.brick_set_config_spinner);
-			//ColorStateList color = textDroneConfigLabel.getTextColors().withAlpha(alphaValue);
-			droneConfigSpinner.getBackground().setAlpha(alphaValue);
-//			if (adapterView != null) {
-//				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-//			}
-
 			this.alphaValue = (alphaValue);
-
 		}
-
 		return view;
-	}
-
-	protected void setSpinnerSelection(Spinner spinner) {
-		int position = MessageContainer.getPositionOfMessageInAdapter(spinner.getContext(), selectedMessage);
-		spinner.setSelection(position, true);
 	}
 
 	@Override
@@ -195,18 +169,16 @@ public class DroneSetConfigBrick extends BrickBaseType implements OnItemSelected
 	public void onNothingSelected(AdapterView<?> arg0) {
 	}
 
-
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 
-		if (selectedMessage.compareTo(this.context.getString(R.string.drone_config_default)) == 0 ){
+		if (selectedMessage.compareTo(context.getString(R.string.drone_config_default)) == 0 ){
 			sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_default ));
-		} else if (selectedMessage.compareTo(this.context.getString(R.string.drone_config_indoor)) == 0 ) {
+		} else if (selectedMessage.compareTo(context.getString(R.string.drone_config_indoor)) == 0 ) {
 			sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_indoor ));
-		} else if (selectedMessage.compareTo(this.context.getString(R.string.drone_config_outdoor)) == 0 ) {
+		} else if (selectedMessage.compareTo(context.getString(R.string.drone_config_outdoor)) == 0 ) {
 			sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_outdoor ));
 		}
-
 		return null;
 	}
 }
