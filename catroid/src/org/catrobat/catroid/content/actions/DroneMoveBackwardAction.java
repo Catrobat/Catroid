@@ -26,14 +26,18 @@ public class DroneMoveBackwardAction extends DroneMoveAction {
 
 	@Override
 	protected void move() {
-		super.setCommandAndYawEnabled(true);
-		super.getDroneService().moveBackward(super.getPowerNormalized());
+		if(getDroneService() != null) {
+			super.setCommandAndYawEnabled(true);
+			super.getDroneService().moveBackward(super.getPowerNormalized());
+		}
 	}
 
 	@Override
 	protected void moveEnd() {
-		super.setCommandAndYawEnabled(false);
-		super.getDroneService().moveBackward(DRONE_MOVE_SPEED_STOP);
+		if(getDroneService() != null) {
+			super.setCommandAndYawEnabled(false);
+			super.getDroneService().moveBackward(DRONE_MOVE_SPEED_STOP);
+		}
 	}
 
 }

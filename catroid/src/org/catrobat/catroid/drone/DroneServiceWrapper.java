@@ -22,13 +22,7 @@
  */
 package org.catrobat.catroid.drone;
 
-import android.util.Log;
-import android.widget.Toast;
-
 import com.parrot.freeflight.service.DroneControlService;
-
-import org.catrobat.catroid.CatroidApplication;
-import org.catrobat.catroid.R;
 
 public final class DroneServiceWrapper {
 
@@ -55,7 +49,7 @@ public final class DroneServiceWrapper {
 	   if connection is successful droneControlService should not be null!
 	*/
 	public DroneControlService getDroneService() {
-		if(droneControlService == null){
+		/*if(droneControlService == null){
 
 			// polling: waiting for autonomous reconnecting
 			int counter = 0;
@@ -81,14 +75,13 @@ public final class DroneServiceWrapper {
 			}
 		}
 
-		// polling: waiting for droneControlService
 		while(droneControlService == null){
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 		return droneControlService;
 
 	}

@@ -26,12 +26,16 @@ public class DroneMoveDownAction extends DroneMoveAction {
 
 	@Override
 	protected void move() {
-		super.getDroneService().moveDown(super.getPowerNormalized());
+		if(getDroneService() != null) {
+			getDroneService().moveDown(super.getPowerNormalized());
+		}
 	}
 
 	@Override
 	protected void moveEnd() {
-		super.getDroneService().moveDown(DRONE_MOVE_SPEED_STOP);
+		if(getDroneService() != null) {
+			getDroneService().moveDown(DRONE_MOVE_SPEED_STOP);
+		}
 	}
 
 }

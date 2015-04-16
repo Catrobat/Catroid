@@ -64,7 +64,7 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 	public static final int DRONE_BATTERY_THRESHOLD = 10;
 
 
-	public static DroneControlService droneControlService = null;
+	private static DroneControlService droneControlService = null;
 	private BroadcastReceiver droneReadyReceiver = null;
 	private BroadcastReceiver droneStateReceiver = null;
 	private CheckDroneNetworkAvailabilityTask checkDroneConnectionTask;
@@ -136,6 +136,7 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 	private void onDroneServiceConnected(IBinder service) {
 		Log.d(TAG, "onDroneServiceConnected");
 		droneControlService = ((DroneControlService.LocalBinder) service).getService();
+		DroneServiceWrapper.getInstance().setDroneService(droneControlService);
 		droneControlService.resume();
 		droneControlService.requestDroneStatus();
 	}
@@ -150,6 +151,7 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
 			droneControlService = null;
+			DroneServiceWrapper.getInstance().setDroneService(droneControlService);
 		}
 	};
 
@@ -166,32 +168,34 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 	public void onDroneReady() {
 		Log.d(TAG, "onDroneReady -> check battery -> go to stage");
 		int droneBatteryCharge = droneControlService.getDroneNavData().batteryStatus;
-		if (droneBatteryCharge < DRONE_BATTERY_THRESHOLD) {
-			String dialogTitle = String.format(prestageStageActivity.getString(R.string.error_drone_low_battery_title),
-					droneBatteryCharge);
-			showUnCancellableErrorDialog(prestageStageActivity, dialogTitle,
-					prestageStageActivity.getString(R.string.error_drone_low_battery));
-			return;
+		if(droneControlService != null) {
+			if (droneBatteryCharge < DRONE_BATTERY_THRESHOLD) {
+				String dialogTitle = String.format(prestageStageActivity.getString(R.string.error_drone_low_battery_title),
+						droneBatteryCharge);
+				showUnCancellableErrorDialog(prestageStageActivity, dialogTitle,
+						prestageStageActivity.getString(R.string.error_drone_low_battery));
+				return;
+			}
+
+			// test navdata getter
+			Log.d("navdata", String.format("BatterieStatus = %d", droneControlService.getDroneNavData().batteryStatus));
+			Log.d("navdata", "Flying = " + Boolean.toString(droneControlService.getDroneNavData().flying));
+			Log.d("navdata", "Recording = " + Boolean.toString(droneControlService.getDroneNavData().recording));
+			Log.d("navdata", "Camera ready = " + Boolean.toString(droneControlService.getDroneNavData().cameraReady));
+			Log.d("navdata", "initialized = " + Boolean.toString(droneControlService.getDroneNavData().initialized));
+			Log.d("navdata", String.format("emergency state = %d", droneControlService.getDroneNavData().emergencyState));
+			Log.d("navdata", "recording ready = " + Boolean.toString(droneControlService.getDroneNavData().recordReady));
+			Log.d("navdata", "Camera ready = " + Boolean.toString(droneControlService.getDroneNavData().usbActive));
+			Log.d("navdata", String.format("usb remaining = %d", droneControlService.getDroneNavData().usbRemainingTime));
+			Log.d("navdata", "recording = " + Boolean.toString(droneControlService.getDroneNavData().recording));
+			Log.d("navdata", String.format("num frames = %d", droneControlService.getDroneNavData().numFrames));
+
+
+			DroneConfigManager.getInstance().setDefaultConfig();
+			droneControlService.flatTrim();
+
+			prestageStageActivity.resourceInitialized();
 		}
-
-		// test navdata getter
-		Log.d("navdata", String.format("BatterieStatus = %d", droneControlService.getDroneNavData().batteryStatus));
-		Log.d("navdata", "Flying = " + Boolean.toString(droneControlService.getDroneNavData().flying));
-		Log.d("navdata", "Recording = " + Boolean.toString(droneControlService.getDroneNavData().recording));
-		Log.d("navdata", "Camera ready = " + Boolean.toString(droneControlService.getDroneNavData().cameraReady));
-		Log.d("navdata", "initialized = " + Boolean.toString(droneControlService.getDroneNavData().initialized));
-		Log.d("navdata", String.format("emergency state = %d", droneControlService.getDroneNavData().emergencyState));
-		Log.d("navdata", "recording ready = " + Boolean.toString(droneControlService.getDroneNavData().recordReady));
-		Log.d("navdata", "Camera ready = " + Boolean.toString(droneControlService.getDroneNavData().usbActive));
-		Log.d("navdata", String.format("usb remaining = %d", droneControlService.getDroneNavData().usbRemainingTime));
-		Log.d("navdata", "recording = " + Boolean.toString(droneControlService.getDroneNavData().recording));
-		Log.d("navdata", String.format("num frames = %d", droneControlService.getDroneNavData().numFrames));
-
-
-		DroneConfigManager.getInstance().setDefaultConfig();
-		droneControlService.flatTrim();
-
-		prestageStageActivity.resourceInitialized();
 	}
 
 	@Override

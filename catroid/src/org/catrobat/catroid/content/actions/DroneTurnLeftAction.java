@@ -26,14 +26,18 @@ public class DroneTurnLeftAction extends DroneMoveAction {
 
 	@Override
 	protected void move() {
-		super.setCommandAndYawEnabled(true);
-		super.getDroneService().turnLeft(super.getPowerNormalized());
+		if(getDroneService() != null) {
+			super.setCommandAndYawEnabled(true);
+			super.getDroneService().turnLeft(super.getPowerNormalized());
+		}
 	}
 
 	@Override
 	protected void moveEnd() {
-		super.setCommandAndYawEnabled(false);
-		super.getDroneService().turnLeft(DRONE_MOVE_SPEED_STOP);
+		if(getDroneService() != null) {
+			super.setCommandAndYawEnabled(false);
+			super.getDroneService().turnLeft(DRONE_MOVE_SPEED_STOP);
+		}
 	}
 
 }
