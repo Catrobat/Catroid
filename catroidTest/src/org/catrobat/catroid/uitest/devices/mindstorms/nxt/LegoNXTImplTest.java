@@ -56,23 +56,19 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import java.io.File;
 import java.util.ArrayList;
 
-public class LegoNXTTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
+public class LegoNXTImplTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final int IMAGE_FILE_ID = org.catrobat.catroid.test.R.raw.icon;
 	private static final int MOTOR_ACTION = 0;
 	private static final int MOTOR_STOP = 1;
 	private static final int MOTOR_TURN = 2;
 	private static final int PLAY_TONE = 3;
 
-	private static final String LOCAL_BLUETOOTH_TEST_DEVICE = "dummy_device";
+	private static final String LOCAL_BLUETOOTH_TEST_DUMMY_DEVICE_NAME = "dummy_device";
 
 	private final String projectName = UiTestUtils.PROJECTNAME1;
 	private final String spriteName = "testSprite";
 
-	ArrayList<int[]> commands = new ArrayList<int[]>();
-
-	ConnectionDataLogger logger;
-
-	public LegoNXTTest() {
+	public LegoNXTImplTest() {
 		super(MainMenuActivity.class);
 	}
 
@@ -89,7 +85,7 @@ public class LegoNXTTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 	@Device
 	public void testNXTFunctionality() {
-		createTestproject(projectName);
+		ArrayList<int[]> commands = createTestproject(projectName);
 
 		BluetoothTestUtils.enableBluetooth();
 
@@ -97,7 +93,7 @@ public class LegoNXTTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		autoConnectIDs.add("IM_NOT_A_MAC_ADDRESS");
 		Reflection.setPrivateField(ConnectBluetoothDeviceActivity.class, "autoConnectIDs", autoConnectIDs);
 
-		logger = ConnectionDataLogger.createLocalConnectionLogger();
+		ConnectionDataLogger logger = ConnectionDataLogger.createLocalConnectionLogger();
 
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
@@ -107,7 +103,7 @@ public class LegoNXTTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		solo.assertCurrentActivity("Not in BTConnectDeviceActivity", ConnectBluetoothDeviceActivity.class);
 
 		// use this only, if ConnectionDataLogger is in local mode (localProxy)
-		BluetoothTestUtils.addPairedDevice(LOCAL_BLUETOOTH_TEST_DEVICE,
+		BluetoothTestUtils.addPairedDevice(LOCAL_BLUETOOTH_TEST_DUMMY_DEVICE_NAME,
 				(ConnectBluetoothDeviceActivity)solo.getCurrentActivity(), getInstrumentation());
 
 
@@ -115,7 +111,7 @@ public class LegoNXTTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		String connectedDeviceName = null;
 		for (int i = 0; i < deviceList.getCount(); i++) {
 			String deviceName = (String) deviceList.getItemAtPosition(i);
-			if (deviceName.startsWith(LOCAL_BLUETOOTH_TEST_DEVICE)) {
+			if (deviceName.startsWith(LOCAL_BLUETOOTH_TEST_DUMMY_DEVICE_NAME)) {
 				connectedDeviceName = deviceName;
 				break;
 			}
@@ -126,11 +122,13 @@ public class LegoNXTTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		solo.assertCurrentActivity("Not in stage - connection to bluetooth-device failed", StageActivity.class);
 
 		solo.clickOnScreen(ScreenValues.SCREEN_WIDTH / 2, ScreenValues.SCREEN_HEIGHT / 2);
-		solo.sleep(2000);
 
-		ArrayList<byte[]> executedCommands = logger.getSentMessages(2, true);
+		ArrayList<byte[]> executedCommands = logger.getSentMessages(2, commands.size());
 		assertEquals("Commands seem to have not been executed! Connected to correct device??", commands.size(),
 				executedCommands.size());
+
+		solo.goBack();
+		solo.goBack();
 
 		int i = 0;
 		for (int[] item : commands) {
@@ -170,6 +168,8 @@ public class LegoNXTTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 			}
 			i++;
 		}
+
+		logger.disconnectAndDestroy();
 	}
 
 	@Device
@@ -196,7 +196,9 @@ public class LegoNXTTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 
 	}
 
-	private void createTestproject(String projectName) {
+	private ArrayList<int[]> createTestproject(String projectName) {
+		ArrayList<int[]> commands = new ArrayList<int[]>();
+
 		Sprite firstSprite = new Sprite(spriteName);
 		Script startScript = new StartScript();
 		Script whenScript = new WhenScript();
@@ -250,5 +252,7 @@ public class LegoNXTTest extends BaseActivityInstrumentationTestCase<MainMenuAct
 		firstSprite.getLookDataList().add(lookData);
 
 		StorageHandler.getInstance().saveProject(project);
+
+		return commands;
 	}
 }

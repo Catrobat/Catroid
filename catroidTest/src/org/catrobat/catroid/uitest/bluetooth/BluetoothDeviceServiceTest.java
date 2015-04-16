@@ -79,6 +79,7 @@ public class BluetoothDeviceServiceTest extends BaseActivityInstrumentationTestC
 	protected void tearDown() throws Exception {
 
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).disconnectDevices();
+		logger.disconnectAndDestroy();
 		BluetoothTestUtils.disableBluetooth();
 
 		super.tearDown();

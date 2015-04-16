@@ -25,6 +25,7 @@ package org.catrobat.catroid.uitest.devices.mindstorms.nxt;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.widget.ListView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
@@ -59,62 +60,6 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 		preferences.edit().apply();
 	}
 
-	public void testNXTBricksEnabled() throws InterruptedException {
-		boolean nxtBricksEnabledStart = SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(applicationContext);
-
-		solo.clickOnActionBarItem(R.id.settings);
-
-		String preferenceTitle = solo.getString(R.string.preference_title_enable_mindstorms_nxt_bricks);
-		solo.waitForText(preferenceTitle);
-		solo.clickOnText(preferenceTitle);
-		solo.waitForText(solo.getString(R.string.preference_title_mindstorms_nxt_sensors));
-		solo.clickOnText(preferenceTitle);
-
-		solo.goBack();
-		solo.goBack();
-
-		boolean enableNXTBricks = SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(applicationContext);
-		assertTrue("NXT category brick ON/OFF not changed!", nxtBricksEnabledStart != enableNXTBricks);
-
-		solo.waitForText(solo.getString(R.string.main_menu_new));
-		solo.clickOnText(solo.getString(R.string.main_menu_new));
-		solo.enterText(0, "testNXTBricksEnabled");
-		solo.waitForText(solo.getString(R.string.ok));
-		solo.clickOnText(solo.getString(R.string.ok));
-		solo.waitForText(solo.getString(R.string.background));
-		solo.clickOnText(solo.getString(R.string.background));
-		solo.waitForText(solo.getString(R.string.scripts));
-		solo.clickOnText(solo.getString(R.string.scripts));
-		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
-
-		solo.sleep(300);
-		if (enableNXTBricks) {
-			assertTrue("NXT category brick not shown!",solo.searchText(solo.getString(R.string.category_lego_nxt)));
-		} else {
-			assertFalse("NXT category brick shown!", solo.searchText(solo.getString(R.string.category_lego_nxt)));
-		}
-
-		solo.clickOnActionBarItem(R.id.settings);
-
-		solo.waitForText(preferenceTitle);
-		solo.clickOnText(preferenceTitle);
-		solo.waitForText(solo.getString(R.string.preference_title_mindstorms_nxt_sensors));
-		solo.clickOnText(preferenceTitle);
-
-		solo.goBack();
-		solo.goBack();
-
-		enableNXTBricks = SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(applicationContext);
-		assertTrue("SecondCheck: NXT category brick ON/OFF not changed!", nxtBricksEnabledStart == enableNXTBricks);
-
-		solo.sleep(300);
-		if (enableNXTBricks) {
-			assertTrue("SecondCheck: NXT category brick not shown!", solo.searchText(solo.getString(R.string.category_lego_nxt)));
-		} else {
-			assertFalse("SecondCheck: NXT category brick shown!", solo.searchText(solo.getString(R.string.category_lego_nxt)));
-		}
-	}
-
 	public void testNXTAllBricksAvailable() throws InterruptedException {
 		boolean nxtBricksEnabledStart = SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(applicationContext);
 
@@ -141,6 +86,11 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 		solo.waitForText(solo.getString(R.string.scripts));
 		solo.clickOnText(solo.getString(R.string.scripts));
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.sleep(200);
+		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
+				solo.getCurrentViews(ListView.class).size() - 1);
+		solo.sleep(200);
+		solo.scrollListToBottom(fragmentListView);
 		solo.waitForText(solo.getString(R.string.category_lego_nxt));
 		solo.clickOnText(solo.getString(R.string.category_lego_nxt));
 
@@ -242,8 +192,6 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 		sensor = preferences.getString("setting_mindstorms_nxt_sensor_4", solo.getString(R.string.nxt_no_sensor));
 		assertEquals("NXT sensor 4 not set correctly!", sensor, solo.getString(R.string.nxt_sensor_ultrasonic));
 
-		nxt.initialise();
-
 		assertNotNull("Sensor 1 not reinitialized correctly", nxt.getSensor1());
 		assertTrue("Sensor 1 is of wrong instance now, SensorFactory may has an error",
 				nxt.getSensor1() instanceof NXTTouchSensor);
@@ -259,6 +207,9 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 		assertNotNull("Sensor 4 not reinitialized correctly", nxt.getSensor4());
 		assertTrue("Sensor 4 is of wrong instance now, SensorFactory may has an error",
 				nxt.getSensor4() instanceof NXTI2CUltraSonicSensor);
+
+		nxt.disconnect();
+		logger.disconnectAndDestroy();
 	}
 
 	public void testNXTSensorsAvailable() throws InterruptedException {
@@ -301,6 +252,11 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 		solo.waitForText(solo.getString(R.string.scripts));
 		solo.clickOnText(solo.getString(R.string.scripts));
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.sleep(200);
+		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
+				solo.getCurrentViews(ListView.class).size() - 1);
+		solo.sleep(200);
+		solo.scrollListToBottom(fragmentListView);
 		solo.waitForText(solo.getString(R.string.category_lego_nxt));
 		solo.clickOnText(solo.getString(R.string.category_lego_nxt));
 		solo.waitForText(solo.getString(R.string.nxt_play_tone));
