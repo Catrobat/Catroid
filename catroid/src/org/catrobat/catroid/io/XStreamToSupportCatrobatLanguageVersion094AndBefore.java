@@ -406,6 +406,8 @@ public class XStreamToSupportCatrobatLanguageVersion094AndBefore extends XStream
 		initializeBrickInfoMap();
 		Document originalDocument = getDocument(file);
 		if (originalDocument != null) {
+			updateLegoNXTFields(originalDocument);
+
 			convertChildNodeToAttribute(originalDocument, "lookList", "name");
 			convertChildNodeToAttribute(originalDocument, "object", "name");
 
@@ -416,7 +418,32 @@ public class XStreamToSupportCatrobatLanguageVersion094AndBefore extends XStream
 			modifyBrickLists(originalDocument);
 			modifyVariables(originalDocument);
 			checkReferences(originalDocument.getDocumentElement());
+
 			saveDocument(originalDocument, file);
+		}
+	}
+
+	private void updateLegoNXTFields(Document originalDocument) {
+
+		final String oldDriveMotors = "MOTOR_A_C";
+		final String newDriveMotors = "MOTOR_B_C";
+
+		final String oldMotorMoveBrickName = "legoNxtMotorActionBrick";
+		final String newMotorMoveBrickName = "legoNxtMotorMoveBrick";
+
+		NodeList motors = originalDocument.getElementsByTagName("motor");
+		for (int i = 0; i < motors.getLength(); i++) {
+			Node motor = motors.item(i);
+			if (motor.getTextContent().equals(oldDriveMotors)) {
+				motor.setTextContent(newDriveMotors);
+			}
+		}
+
+		NodeList motorMoveBricks = originalDocument.getElementsByTagName(oldMotorMoveBrickName);
+		for (int i = 0; i < motorMoveBricks.getLength(); i++) {
+			Node motorMoveBrick = motorMoveBricks.item(i);
+			originalDocument.renameNode(motorMoveBrick, motorMoveBrick.getNamespaceURI(), newMotorMoveBrickName);
+			Log.d("test", motorMoveBrick.getNodeName());
 		}
 	}
 
