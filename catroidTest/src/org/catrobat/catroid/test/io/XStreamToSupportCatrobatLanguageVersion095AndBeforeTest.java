@@ -50,6 +50,7 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBeforeTest extends Ins
 	private static final String ZIP_FILENAME_EMPTY_PROJECT = "languageVersion.catrobat";
 	private static final String ZIP_FILENAME_NOTE_AND_SPEAK_BRICK = "Note_And_Speak_Brick.catrobat";
 	private static final String ZIP_FILENAME_GHOST_EFFECT_BRICKS = "Ghost_Effect_Bricks.catrobat";
+	private static final String ZIP_FILENAME_LEGO_NXT = "old-lego-nxt.catrobat";
 
 	private static final String PROJECT_NAME_FALLING_BALLS = "falling balls";
 	private static final String PROJECT_NAME_COLOR_LEANER_BALLOONS = "color learner - balloons";
@@ -61,7 +62,8 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBeforeTest extends Ins
 	private static final String PROJECT_NAME_EMPTY_PROJECT = "languageVersion";
 	private static final String PROJECT_NAME_NOTE_AND_SPEAK_BRICK = "noteandspeakbrick";
 	private static final String PROJECT_NAME_GHOST_EFFECT_BRICKS = "ghosteffectbricks";
-
+	private static final String PROJECT_NAME_LEGO_NXT = "oldlegonxt";
+	
 	private void copyAssetProjectZipFile(String fileName, String destinationFolder) {
 		File dstFolder = new File(destinationFolder);
 		dstFolder.mkdirs();
@@ -213,4 +215,16 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBeforeTest extends Ins
 		TestUtils.deleteTestProjects(PROJECT_NAME_GHOST_EFFECT_BRICKS);
 	}
 
+	public void testLoadingLegoNxtProjectsOfCatrobatLanguageVersion092() {
+		copyAssetProjectZipFile(ZIP_FILENAME_LEGO_NXT, Constants.TMP_PATH);
+		UtilZip.unZipFile(Constants.TMP_PATH + "/" + ZIP_FILENAME_LEGO_NXT, Constants.DEFAULT_ROOT + "/"
+				+ PROJECT_NAME_LEGO_NXT);
+
+		Project legoProject = StorageHandler.getInstance().loadProject(PROJECT_NAME_LEGO_NXT);
+		assertTrue("Cannot load " + PROJECT_NAME_LEGO_NXT + " project", legoProject != null);
+		assertEquals("Wrong project loaded", PROJECT_NAME_LEGO_NXT, legoProject.getName().toLowerCase());
+
+		deleteZipFile(ZIP_FILENAME_LEGO_NXT, Constants.TMP_PATH);
+		TestUtils.deleteTestProjects(PROJECT_NAME_LEGO_NXT);
+	}
 }
