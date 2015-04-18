@@ -733,21 +733,21 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 			this.brickClassName = brickClassName;
 		}
 
-		void addBrickFieldToMap(String oldFiledName, BrickField brickField) {
+		public void addBrickFieldToMap(String oldFiledName, BrickField brickField) {
 			if (brickFieldMap == null) {
 				brickFieldMap = new HashMap<String, BrickField>();
 			}
 			brickFieldMap.put(oldFiledName, brickField);
 		}
 
-		BrickField getBrickFieldForOldFieldName(String oldFiledName) {
+		public BrickField getBrickFieldForOldFieldName(String oldFiledName) {
 			if (brickFieldMap != null) {
 				return brickFieldMap.get(oldFiledName);
 			}
 			return null;
 		}
 
-		String getBrickClassName() {
+		public String getBrickClassName() {
 			return brickClassName;
 		}
 	}

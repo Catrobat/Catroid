@@ -106,7 +106,7 @@ public class ConnectionWrapper {
 			HttpRequest request = HttpRequest.post(urlString);
 			File file = new File(filePath);
 			if (!(file.getParentFile().mkdirs() || file.getParentFile().isDirectory())) {
-				throw (new IOException("Folder not created"));
+				throw new IOException("Folder not created");
 			}
 
 			request = request.form(postValues).acceptGzipEncoding();
@@ -151,7 +151,7 @@ public class ConnectionWrapper {
 			if (client == null) {
 				throw new NullPointerException("Client must not be null.");
 			}
-			client.setProtocols((Arrays.asList(Protocol.HTTP_1_1)));
+			client.setProtocols(Arrays.asList(Protocol.HTTP_1_1));
 			try {
 				SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
 				sslContext.init(null, null, null);

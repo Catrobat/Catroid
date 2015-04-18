@@ -48,7 +48,7 @@ public final class SensorLoudness {
 		recorder = new SoundRecorder("/dev/null");
 	}
 
-    Runnable statusChecker = new Runnable() {
+    private Runnable statusChecker = new Runnable() {
         @Override
         public void run() {
             float[] loudness = new float[1];

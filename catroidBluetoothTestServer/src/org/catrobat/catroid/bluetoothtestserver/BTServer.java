@@ -41,7 +41,7 @@ import javax.microedition.io.StreamConnectionNotifier;
 public final class BTServer {
 	private static final String TAG = BTServer.class.getSimpleName();
 
-	static BTServer btServer;
+	private static BTServer btServer;
 	private static boolean gui = false;
 	private static Writer out = null;
 	private boolean run = true;

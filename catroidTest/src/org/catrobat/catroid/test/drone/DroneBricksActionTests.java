@@ -52,8 +52,8 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 
 	public DroneControlService droneControlService;
 	public TemporalAction action;
-	Sprite sprite;
-	SequenceAction sequenceAction;
+	private Sprite sprite;
+	private SequenceAction sequenceAction;
 	private Formula powerInPercent;
 	private Formula durationInSeconds;
 

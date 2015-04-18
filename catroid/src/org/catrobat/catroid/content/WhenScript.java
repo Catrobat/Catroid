@@ -44,7 +44,6 @@ public class WhenScript extends Script {
 	private transient int position;
 
 	public WhenScript() {
-		super();
 		this.position = 0;
 		this.action = TAPPED;
 	}

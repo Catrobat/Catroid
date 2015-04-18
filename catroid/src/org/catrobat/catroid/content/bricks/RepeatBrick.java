@@ -65,13 +65,13 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 		initializeBrickFields(new Formula(timesToRepeatValue));
 	}
 
+	public RepeatBrick(Formula timesToRepeat) {
+		initializeBrickFields(timesToRepeat);
+	}
+
 	@Override
 	public int getRequiredResources() {
 		return getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).getRequiredResources();
-	}
-	
-	public RepeatBrick(Formula timesToRepeat) {
-		initializeBrickFields(timesToRepeat);
 	}
 
 	private void initializeBrickFields(Formula timesToRepeat) {
@@ -174,7 +174,7 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 			editRepeat.setTextColor(editRepeat.getTextColors().withAlpha(alphaValue));
 			editRepeat.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

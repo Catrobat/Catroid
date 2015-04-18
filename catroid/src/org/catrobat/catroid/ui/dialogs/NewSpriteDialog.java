@@ -94,16 +94,6 @@ public class NewSpriteDialog extends DialogFragment {
 		this.spinnerAdapter = spinnerAdapter;
 	}
 
-	static NewSpriteDialog newInstance() {
-		NewSpriteDialog newSpriteDialog = new NewSpriteDialog();
-
-		Bundle arguments = new Bundle();
-		arguments.putInt(ActionAfterFinished.KEY, ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT.ordinal());
-		arguments.putInt(DialogWizardStep.KEY, DialogWizardStep.STEP_1.ordinal());
-		newSpriteDialog.setArguments(arguments);
-		return newSpriteDialog;
-	}
-
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_object, null);

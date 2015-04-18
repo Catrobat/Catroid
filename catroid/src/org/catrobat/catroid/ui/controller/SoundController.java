@@ -218,7 +218,7 @@ public final class SoundController {
 
 	private void setClickListener(final SoundBaseAdapter soundAdapter, final SoundViewHolder holder,
 			final SoundInfo soundInfo) {
-		OnClickListener listItemOnClickListener = (new OnClickListener() {
+		OnClickListener listItemOnClickListener = new OnClickListener() {
 
 			@Override
 			public void onClick(View view) {
@@ -226,7 +226,7 @@ public final class SoundController {
 					holder.checkbox.setChecked(!holder.checkbox.isChecked());
 				}
 			}
-		});
+		};
 
 		if (soundAdapter.getSelectMode() != ListView.CHOICE_MODE_NONE) {
 			holder.playAndStopButton.setOnClickListener(listItemOnClickListener);

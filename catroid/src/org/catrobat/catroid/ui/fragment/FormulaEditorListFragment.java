@@ -113,9 +113,6 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 		onKey(null, keyEvent.getKeyCode(), keyEvent);
 	}
 
-	public FormulaEditorListFragment() {
-	}
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

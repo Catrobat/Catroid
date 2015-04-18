@@ -33,10 +33,6 @@ import java.io.IOException;
 
 public class ZipTest extends AndroidTestCase {
 
-	public ZipTest() {
-		super();
-	}
-
 	public void testZipUnzip() throws IOException {
 
 		String pathToTest = Constants.TMP_PATH + "/test1/";

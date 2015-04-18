@@ -217,12 +217,11 @@ public class ReflectionTest extends AndroidTestCase {
 
 	public void testConvertObjectsIntoPrimitives() {
 		ParameterList parameterList = new ParameterList(Boolean.TRUE, Byte.valueOf((byte) 1),
-				Character.valueOf('c'), Double.valueOf(1.0), Float.valueOf(1.0f), Integer.valueOf(1), Long.valueOf(1L),
-				Short.valueOf((short) 1));
+				Character.valueOf('c'), Double.valueOf(1.0), Float.valueOf(1.0f), Integer.valueOf(1), Long.valueOf(1L));
 
 		Class<?>[] primitiveObjectsClass = (Class<?>[]) Reflection.getPrivateField(parameterList, "types");
 		Class<?>[] expectedPrimitiveObjectsClasses = new Class<?>[]{boolean.class, byte.class, char.class,
-				double.class, float.class, int.class, long.class, short.class};
+				double.class, float.class, int.class, long.class};
 		assertTrue("Not all object classes are converted into primitve classes",
 				Arrays.deepEquals(expectedPrimitiveObjectsClasses, primitiveObjectsClass));
 	}

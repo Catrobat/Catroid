@@ -44,6 +44,7 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 	private static final int BACKGROUNDIMAGE_HEIGHT = 1134;
 
 	public StandardProjectHandlerTest() throws IOException {
+
 	}
 
 	@Override

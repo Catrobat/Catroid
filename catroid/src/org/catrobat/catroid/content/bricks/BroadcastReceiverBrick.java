@@ -170,7 +170,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 			View layout = view.findViewById(R.id.brick_broadcast_receive_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 		return view;
@@ -198,7 +198,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 
 			@Override
 			protected boolean handleOkButton() {
-				String newMessage = (input.getText().toString()).trim();
+				String newMessage = input.getText().toString().trim();
 				if (newMessage.isEmpty() || newMessage.equals(context.getString(R.string.new_broadcast_message))) {
 					dismiss();
 					return false;

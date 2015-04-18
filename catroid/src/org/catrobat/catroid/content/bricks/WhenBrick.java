@@ -44,10 +44,6 @@ public class WhenBrick extends ScriptBrick {
 		this.whenScript = whenScript;
 	}
 
-	public WhenBrick() {
-
-	}
-
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
@@ -137,7 +133,7 @@ public class WhenBrick extends ScriptBrick {
 			View layout = view.findViewById(R.id.brick_when_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

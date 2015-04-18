@@ -124,7 +124,7 @@ public class SetSizeToBrick extends FormulaBrick {
 			editSize.setTextColor(editSize.getTextColors().withAlpha(alphaValue));
 			editSize.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

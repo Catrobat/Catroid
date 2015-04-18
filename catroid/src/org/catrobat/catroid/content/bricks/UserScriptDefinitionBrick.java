@@ -238,7 +238,7 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 		LinearLayout layout = (LinearLayout) view.findViewById(R.id.brick_user_definition_layout);
 		Drawable background = layout.getBackground();
 		background.setAlpha(alphaValue);
-		this.alphaValue = (alphaValue);
+		this.alphaValue = alphaValue;
 		return view;
 	}
 

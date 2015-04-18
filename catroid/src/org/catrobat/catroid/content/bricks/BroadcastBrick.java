@@ -170,7 +170,7 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 				((TextView) adapterView.getChildAt(0)).setTextColor(color);
 			}
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 
@@ -194,7 +194,7 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 
 			@Override
 			protected boolean handleOkButton() {
-				String newMessage = (input.getText().toString()).trim();
+				String newMessage = input.getText().toString().trim();
 				if (newMessage.isEmpty() || newMessage.equals(context.getString(R.string.new_broadcast_message))) {
 					dismiss();
 					return false;

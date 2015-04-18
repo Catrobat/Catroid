@@ -40,7 +40,6 @@ public class Passepartout extends Actor {
 
 	Passepartout(int screenWidth, int screenHeight, int screenViewPortWidth, int screenViewPortHeight,
 			float virtualScreenWidth, float virtualScreenHeight) {
-
 		this.virtualScreenWidth = virtualScreenWidth;
 		this.virtualScreenHeight = virtualScreenHeight;
 

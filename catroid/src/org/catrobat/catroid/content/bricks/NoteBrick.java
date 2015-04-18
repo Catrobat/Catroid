@@ -108,7 +108,7 @@ public class NoteBrick extends FormulaBrick implements OnClickListener{
 			noteTextView.setTextColor(noteTextView.getTextColors().withAlpha(alphaValue));
 			noteTextView.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

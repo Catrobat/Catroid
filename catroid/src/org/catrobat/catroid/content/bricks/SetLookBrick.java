@@ -60,10 +60,6 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 	private transient LookData oldSelectedLook;
 	private transient AdapterView<?> adapterView;
 
-	public SetLookBrick() {
-
-	}
-
 	public void setLook(LookData lookData) {
 		this.look = lookData;
 	}
@@ -171,7 +167,7 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 				((TextView) adapterView.getChildAt(0)).setTextColor(color);
 			}
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

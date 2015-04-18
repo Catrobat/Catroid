@@ -40,10 +40,6 @@ import java.util.List;
 public class DronePlayLedAnimationBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
-	public DronePlayLedAnimationBrick() {
-
-	}
-
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
 		DronePlayLedAnimationBrick copyBrick = (DronePlayLedAnimationBrick) clone();
@@ -92,7 +88,7 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 			View layout = view.findViewById(R.id.brick_drone_play_led_animation);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 		return view;
 	}

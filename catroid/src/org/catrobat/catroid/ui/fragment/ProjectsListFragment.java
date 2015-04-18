@@ -440,7 +440,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 	@Override
 	public void onProjectEdit(int position) {
 		Intent intent = new Intent(getActivity(), ProjectActivity.class);
-		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, (adapter.getItem(position)).projectName);
+		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, adapter.getItem(position).projectName);
 		intent.putExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST, true);
 
 		getActivity().startActivity(intent);

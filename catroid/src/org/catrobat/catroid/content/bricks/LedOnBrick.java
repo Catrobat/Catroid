@@ -42,10 +42,6 @@ public class LedOnBrick extends BrickBaseType {
 
 	private transient View prototypeView;
 
-	public LedOnBrick() {
-
-	}
-
 	@Override
 	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
 		if (animationState) {
@@ -81,7 +77,7 @@ public class LedOnBrick extends BrickBaseType {
 			Drawable background = layout.getBackground();
 			background.setAlpha( alphaValue );
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 		}
 
 		return view;

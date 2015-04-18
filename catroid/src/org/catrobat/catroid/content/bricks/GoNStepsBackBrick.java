@@ -146,7 +146,7 @@ public class GoNStepsBackBrick extends FormulaBrick {
 			View layout = view.findViewById(R.id.brick_go_back_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 			TextView hideLabel = (TextView) view.findViewById(R.id.brick_go_back_label);
 			TextView hideLayers = (TextView) view.findViewById(R.id.brick_go_back_layers_text_view);

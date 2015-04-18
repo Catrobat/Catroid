@@ -43,7 +43,6 @@ import java.util.List;
 
 public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, AllowedAfterDeadEndBrick {
 
-	static final int FOREVER = -1;
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = IfLogicEndBrick.class.getSimpleName();
 	private transient IfLogicElseBrick ifElseBrick;
@@ -116,7 +115,7 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 			TextView ifEndLabel = (TextView) view.findViewById(R.id.brick_if_end_if_label);
 			ifEndLabel.setTextColor(ifEndLabel.getTextColors().withAlpha(alphaValue));
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

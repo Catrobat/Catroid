@@ -36,7 +36,7 @@ public class StartScript extends Script {
 	private boolean isUserScript;
 
 	public StartScript() {
-		super();
+
 	}
 
 	public StartScript(boolean isUserScript) {

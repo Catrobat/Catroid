@@ -37,7 +37,7 @@ public class GUI extends javax.swing.JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private static GUI instance = null;
-	static JTextArea textArea;
+	private static JTextArea textArea;
 
 	public static void startGUI() {
 
@@ -88,14 +88,6 @@ public class GUI extends javax.swing.JFrame{
 
 	public static void writeMessage(String message){
 		textArea.append(message);
-	}
-
-	/**
-	 *  Standard constructor
-	 */
-	public GUI() {
-		super();
-
 	}
 
 	public static GUI getGui(){

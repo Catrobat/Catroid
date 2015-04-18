@@ -73,10 +73,6 @@ public class PointToBrick extends BrickBaseType {
 		this.oldSelectedObject = "";
 	}
 
-	public PointToBrick() {
-
-	}
-
 	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;

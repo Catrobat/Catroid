@@ -42,11 +42,11 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	private static final BackgroundColorSpan COLOR_ERROR = new BackgroundColorSpan(0xFFF00000);
 	private static final BackgroundColorSpan COLOR_HIGHLIGHT = new BackgroundColorSpan(0xFFFFFF00);
 	private static FormulaEditorHistory history = null;
-	FormulaEditorFragment formulaEditorFragment = null;
+	private FormulaEditorFragment formulaEditorFragment = null;
 	private int absoluteCursorPosition = 0;
 	private InternFormula internFormula;
 	private Context context;
-	final GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+	private final GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
 		@Override
 		public boolean onDoubleTap(MotionEvent event) {
 

@@ -103,7 +103,7 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 			TextView ifElseLabel = (TextView) view.findViewById(R.id.brick_if_else_label);
 			ifElseLabel.setTextColor(ifElseLabel.getTextColors().withAlpha(alphaValue));
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

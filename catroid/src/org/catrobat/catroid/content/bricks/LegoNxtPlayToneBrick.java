@@ -51,6 +51,7 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 	private transient TextView editFreq;
 
 	public LegoNxtPlayToneBrick() {
+		super();
 		addAllowedBrickField(BrickField.LEGO_NXT_FREQUENCY);
 		addAllowedBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS);
 	}
@@ -183,7 +184,7 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 			editLegoDuration.setTextColor(editLegoDuration.getTextColors().withAlpha(alphaValue));
 			editLegoDuration.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

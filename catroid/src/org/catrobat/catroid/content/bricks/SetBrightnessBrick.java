@@ -129,7 +129,7 @@ public class SetBrightnessBrick extends FormulaBrick {
 			editTransparency.setTextColor(editTransparency.getTextColors().withAlpha(alphaValue));
 			editTransparency.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

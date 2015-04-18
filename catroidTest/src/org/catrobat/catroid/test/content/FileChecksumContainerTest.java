@@ -50,6 +50,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 	private String currentProjectName = "testCopyFile2";
 
 	public FileChecksumContainerTest() throws IOException {
+
 	}
 
 	@Override

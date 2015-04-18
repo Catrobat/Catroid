@@ -115,7 +115,7 @@ public class SpeakBrick extends FormulaBrick {
 			editDegrees.setTextColor(editDegrees.getTextColors().withAlpha(alphaValue));
 			editDegrees.getBackground().setAlpha(alphaValue);
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

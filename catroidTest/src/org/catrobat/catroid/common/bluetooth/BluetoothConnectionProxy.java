@@ -34,12 +34,12 @@ import java.util.UUID;
 
 class BluetoothConnectionProxy implements BluetoothConnection {
 
-	Logger logger;
+	private Logger logger;
 
-	BluetoothConnection btConnection;
+	private BluetoothConnection btConnection;
 
-	ObservedInputStream observedInputStream;
-	ObservedOutputStream observedOutputStream;
+	private ObservedInputStream observedInputStream;
+	private ObservedOutputStream observedOutputStream;
 
 	BluetoothConnectionProxy(String macAddress, UUID uuid, Logger logger) {
 

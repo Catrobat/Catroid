@@ -39,7 +39,7 @@ public class ChangeVariableActionTest extends AndroidTestCase {
 	private static final double INITIALIZED_VALUE = 0.0;
 	private Sprite testSprite;
 	private UserVariable userVariable;
-    Project project;
+    private Project project;
 
 	@Override
 	protected void setUp() throws Exception {

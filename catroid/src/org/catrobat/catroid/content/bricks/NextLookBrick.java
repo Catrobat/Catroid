@@ -44,10 +44,6 @@ public class NextLookBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 
-	public NextLookBrick() {
-
-	}
-
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
 		NextLookBrick copyBrick = (NextLookBrick) clone();
@@ -110,7 +106,7 @@ public class NextLookBrick extends BrickBaseType {
 			TextView nextLookLabel = (TextView) view.findViewById(R.id.brick_next_look_text_view);
 			nextLookLabel.setTextColor(nextLookLabel.getTextColors().withAlpha(alphaValue));
 
-			this.alphaValue = (alphaValue);
+			this.alphaValue = alphaValue;
 
 		}
 

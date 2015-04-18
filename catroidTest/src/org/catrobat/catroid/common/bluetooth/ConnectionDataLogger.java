@@ -187,7 +187,7 @@ public final class ConnectionDataLogger {
 		return connectionProxy;
 	}
 
-	Logger getLogger() {
+	public Logger getLogger() {
 		return logger;
 	}
 }
