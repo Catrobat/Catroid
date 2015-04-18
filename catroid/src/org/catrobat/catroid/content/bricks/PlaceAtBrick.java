@@ -48,18 +48,15 @@ public class PlaceAtBrick extends FormulaBrick {
 	private transient View prototypeView;
 
 	public PlaceAtBrick() {
-		super();
 		addAllowedBrickField(BrickField.X_POSITION);
 		addAllowedBrickField(BrickField.Y_POSITION);
 	}
 
 	public PlaceAtBrick(int xPositionValue, int yPositionValue) {
-		super();
 		initializeBrickFields(new Formula(xPositionValue), new Formula(yPositionValue));
 	}
 
 	public PlaceAtBrick(Formula xPosition, Formula yPosition) {
-		super();
 		initializeBrickFields(xPosition, yPosition);
 	}
 

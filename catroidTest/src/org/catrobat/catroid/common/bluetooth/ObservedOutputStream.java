@@ -31,7 +31,6 @@ class ObservedOutputStream extends OutputStream {
 	private final Logger logger;
 
 	ObservedOutputStream(OutputStream outputStream, Logger logger) {
-		super();
 		this.outputStream = outputStream;
 		this.logger = logger;
 	}

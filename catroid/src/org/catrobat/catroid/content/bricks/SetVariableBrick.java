@@ -58,18 +58,15 @@ public class SetVariableBrick extends UserVariableBrick {
 	private transient AdapterView<?> adapterView;
 
 	public SetVariableBrick() {
-		super();
 		addAllowedBrickField(BrickField.VARIABLE);
 	}
 
 	public SetVariableBrick(Formula variableFormula, UserVariable userVariable) {
-		super();
 		this.userVariable = userVariable;
 		initializeBrickFields(variableFormula);
 	}
 
 	public SetVariableBrick(double value) {
-		super();
 		this.userVariable = null;
 		initializeBrickFields(new Formula(value));
 	}

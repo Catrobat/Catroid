@@ -52,18 +52,15 @@ public abstract class DroneMoveBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public DroneMoveBrick() {
-		super();
 		addAllowedBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
 		addAllowedBrickField(BrickField.DRONE_POWER_IN_PERCENT);
 	}
 
 	public DroneMoveBrick(int durationInMilliseconds, int powerInPercent) {
-		super();
 		initializeBrickFields(new Formula(durationInMilliseconds / 1000.0), new Formula(powerInPercent));
 	}
 
 	public DroneMoveBrick(Formula durationInSeconds, Formula powerInPercent) {
-		super();
 		initializeBrickFields(durationInSeconds, powerInPercent);
 	}
 

@@ -50,7 +50,6 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 	private transient IfLogicBeginBrick ifBeginBrick;
 
 	public IfLogicEndBrick(IfLogicElseBrick elseBrick, IfLogicBeginBrick beginBrick) {
-		super();
 		this.ifElseBrick = elseBrick;
 		this.ifBeginBrick = beginBrick;
 		beginBrick.setIfEndBrick(this);

@@ -50,17 +50,14 @@ public class SetTransparencyBrick extends FormulaBrick {
 	private transient View prototypeView;
 
 	public SetTransparencyBrick() {
-		super();
 		addAllowedBrickField(BrickField.TRANSPARENCY);
 	}
 
 	public SetTransparencyBrick(double transparencyValue) {
-		super();
 		initializeBrickFields(new Formula(transparencyValue));
 	}
 
 	public SetTransparencyBrick(Formula transparency) {
-		super();
 		initializeBrickFields(transparency);
 	}
 

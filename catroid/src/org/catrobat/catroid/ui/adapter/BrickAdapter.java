@@ -119,7 +119,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	private AlertDialog alertDialog = null;
 
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
-		super();
 		this.context = context;
 		this.sprite = sprite;
 		dragAndDropListView = listView;

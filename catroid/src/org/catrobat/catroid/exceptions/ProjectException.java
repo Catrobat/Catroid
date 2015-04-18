@@ -29,7 +29,7 @@ public abstract class ProjectException extends Exception {
 	private String uiErrorMessage = "";
 
 	public ProjectException() {
-		super();
+
 	}
 
 	public ProjectException(String message) {

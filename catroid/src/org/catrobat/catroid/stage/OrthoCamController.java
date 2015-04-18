@@ -33,7 +33,6 @@ public class OrthoCamController extends InputAdapter {
 	private final Vector3 delta = new Vector3();
 
 	public OrthoCamController(OrthographicCamera camera) {
-		super();
 		this.camera = camera;
 	}
 

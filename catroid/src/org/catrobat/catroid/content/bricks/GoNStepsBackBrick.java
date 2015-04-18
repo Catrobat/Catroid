@@ -53,17 +53,14 @@ public class GoNStepsBackBrick extends FormulaBrick {
 	private transient View prototypeView;
 
 	public GoNStepsBackBrick() {
-		super();
 		addAllowedBrickField(BrickField.STEPS);
 	}
 
 	public GoNStepsBackBrick(int stepsValue) {
-		super();
 		initializeBrickFields(new Formula(stepsValue));
 	}
 
 	public GoNStepsBackBrick(Formula steps) {
-		super();
 		initializeBrickFields(steps);
 	}
 

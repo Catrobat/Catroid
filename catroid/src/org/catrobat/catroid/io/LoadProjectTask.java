@@ -52,7 +52,6 @@ public class LoadProjectTask extends AsyncTask<Void, Void, Boolean> {
 	private OnLoadProjectCompleteListener onLoadProjectCompleteListener;
 
 	public LoadProjectTask(Activity activity, String projectName, boolean showErrorMessage, boolean startProjectActivity) {
-		super();
 		this.activity = activity;
 		this.projectName = projectName;
 		this.showErrorMessage = showErrorMessage;

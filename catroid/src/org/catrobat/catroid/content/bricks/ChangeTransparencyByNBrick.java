@@ -50,17 +50,14 @@ public class ChangeTransparencyByNBrick extends FormulaBrick {
 	private transient View prototypeView;
 
 	public ChangeTransparencyByNBrick() {
-		super();
 		addAllowedBrickField(BrickField.TRANSPARENCY_CHANGE);
 	}
 
 	public ChangeTransparencyByNBrick(double changeTransparencyValue) {
-		super();
 		initializeBrickFields(new Formula(changeTransparencyValue));
 	}
 
 	public ChangeTransparencyByNBrick(Formula changeTransparency) {
-		super();
 		initializeBrickFields(changeTransparency);
 	}
 

@@ -42,7 +42,6 @@ public class WhenStartedBrick extends ScriptBrick {
 	private Script script;
 
 	public WhenStartedBrick(Script script) {
-		super();
 		this.script = script;
 	}
 

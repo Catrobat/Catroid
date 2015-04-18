@@ -53,20 +53,17 @@ public class GlideToBrick extends FormulaBrick {
 	private transient View prototypeView;
 
 	public GlideToBrick() {
-		super();
 		addAllowedBrickField(BrickField.X_DESTINATION);
 		addAllowedBrickField(BrickField.Y_DESTINATION);
 		addAllowedBrickField(BrickField.DURATION_IN_SECONDS);
 	}
 
 	public GlideToBrick(int xDestinationValue, int yDestinationValue, int durationInMilliSecondsValue) {
-		super();
 		initializeBrickFields(new Formula(xDestinationValue), new Formula(yDestinationValue), new Formula(
 				durationInMilliSecondsValue / 1000.0));
 	}
 
 	public GlideToBrick(Formula xDestination, Formula yDestination, Formula durationInSeconds) {
-		super();
 		initializeBrickFields(xDestination, yDestination, durationInSeconds);
 	}
 

@@ -54,17 +54,14 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 	private transient IfLogicBeginBrick copy;
 
 	public IfLogicBeginBrick() {
-		super();
 		addAllowedBrickField(BrickField.IF_CONDITION);
 	}
 
 	public IfLogicBeginBrick(int condition) {
-		super();
 		initializeBrickFields(new Formula(condition));
 	}
 
 	public IfLogicBeginBrick(Formula condition) {
-		super();
 		initializeBrickFields(condition);
 	}
 

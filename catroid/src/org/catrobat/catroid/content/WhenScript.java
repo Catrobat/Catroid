@@ -44,13 +44,11 @@ public class WhenScript extends Script {
 	private transient int position;
 
 	public WhenScript() {
-		super();
 		this.position = 0;
 		this.action = TAPPED;
 	}
 
 	public WhenScript(WhenBrick brick) {
-		super();
 		this.brick = brick;
 	}
 

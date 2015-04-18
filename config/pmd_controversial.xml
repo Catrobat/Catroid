@@ -34,6 +34,7 @@
         <exclude name="AvoidPrefixingMethodParameters" />
         <exclude name="AvoidLiteralsInIfCondition" />
         <exclude name="BooleanInversion" />
+        <exclude name="CallSuperInConstructor" />
         <exclude name="DataflowAnomalyAnalysis" />
         <exclude name="NullAssignment" />
         <exclude name="OnlyOneReturn" />

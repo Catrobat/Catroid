@@ -52,17 +52,14 @@ public class VibrationBrick extends FormulaBrick {
 	private transient View prototypeView;
 
 	private VibrationBrick() {
-		super();
 		addAllowedBrickField(BrickField.VIBRATE_DURATION_IN_SECONDS);
 	}
 
 	public VibrationBrick(Formula vibrateDurationInSecondsFormula) {
-		super();
 		initializeBrickFields(vibrateDurationInSecondsFormula);
 	}
 
 	public VibrationBrick(int vibrationDurationInMilliseconds) {
-		super();
 		initializeBrickFields(new Formula(vibrationDurationInMilliseconds / 1000.0));
 	}
 

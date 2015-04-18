@@ -58,7 +58,6 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 	private Formula durationInSeconds;
 
 	public DroneBricksActionTests() {
-		super();
 		powerInPercent = new Formula(0.2 * 100);
 		durationInSeconds = new Formula(2);
 	}

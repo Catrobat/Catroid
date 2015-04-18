@@ -64,22 +64,18 @@ public class PointInDirectionBrick extends FormulaBrick {
 	}
 
 	public PointInDirectionBrick() {
-		super();
 		addAllowedBrickField(BrickField.DEGREES);
 	}
 
 	public PointInDirectionBrick(Direction direction) {
-		super();
 		initializeBrickFields(new Formula(direction.getDegrees()));
 	}
 
 	public PointInDirectionBrick(Formula direction) {
-		super();
 		initializeBrickFields(direction);
 	}
 
 	public PointInDirectionBrick(double direction) {
-		super();
 		initializeBrickFields(new Formula(direction));
 	}
 

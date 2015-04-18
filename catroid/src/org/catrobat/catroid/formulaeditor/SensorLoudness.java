@@ -44,7 +44,6 @@ public final class SensorLoudness {
 	private float lastValue = 0f;
 
 	private SensorLoudness() {
-		super();
 		handler = new Handler();
 		recorder = new SoundRecorder("/dev/null");
 	}

@@ -49,17 +49,14 @@ public class ChangeXByNBrick extends FormulaBrick {
 	private transient View prototypeView;
 
 	public ChangeXByNBrick() {
-		super();
 		addAllowedBrickField(BrickField.X_POSITION_CHANGE);
 	}
 
 	public ChangeXByNBrick(int xMovementValue) {
-		super();
 		initializeBrickFields(new Formula(xMovementValue));
 	}
 
 	public ChangeXByNBrick(Formula xMovement) {
-		super();
 		initializeBrickFields(xMovement);
 	}
 

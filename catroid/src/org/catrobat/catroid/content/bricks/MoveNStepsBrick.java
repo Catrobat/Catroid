@@ -55,17 +55,14 @@ public class MoveNStepsBrick extends FormulaBrick {
 	private transient View prototypeView;
 
 	public MoveNStepsBrick() {
-		super();
 		addAllowedBrickField(BrickField.STEPS);
 	}
 
 	public MoveNStepsBrick(double stepsValue) {
-		super();
 		initializeBrickFields(new Formula(stepsValue));
 	}
 
 	public MoveNStepsBrick(Formula steps) {
-		super();
 		initializeBrickFields(steps);
 	}
 

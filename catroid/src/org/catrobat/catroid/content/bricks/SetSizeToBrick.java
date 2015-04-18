@@ -49,17 +49,14 @@ public class SetSizeToBrick extends FormulaBrick {
 	private transient View prototypeView;
 
 	public SetSizeToBrick() {
-		super();
 		addAllowedBrickField(BrickField.SIZE);
 	}
 
 	public SetSizeToBrick(double sizeValue) {
-		super();
 		initializeBrickFields(new Formula(sizeValue));
 	}
 
 	public SetSizeToBrick(Formula size) {
-		super();
 		initializeBrickFields(size);
 	}
 

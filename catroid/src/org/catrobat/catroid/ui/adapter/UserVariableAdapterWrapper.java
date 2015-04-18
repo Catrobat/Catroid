@@ -41,7 +41,6 @@ public class UserVariableAdapterWrapper extends BaseAdapter {
 	private boolean isTouchInDropDownView;
 
 	public UserVariableAdapterWrapper(Context context, DataAdapter dataAdapter) {
-		super();
 		this.context = context;
 		this.dataAdapter = dataAdapter;
 	}

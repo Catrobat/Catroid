@@ -62,19 +62,16 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 	}
 
 	public LegoNxtMotorTurnAngleBrick() {
-		super();
 		addAllowedBrickField(BrickField.LEGO_NXT_DEGREES);
 	}
 
 	public LegoNxtMotorTurnAngleBrick(Motor motor, int degrees) {
-		super();
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
 		initializeBrickFields(new Formula(degrees));
 	}
 
 	public LegoNxtMotorTurnAngleBrick(Motor motor, Formula degreesFormula) {
-		super();
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
 		initializeBrickFields(degreesFormula);

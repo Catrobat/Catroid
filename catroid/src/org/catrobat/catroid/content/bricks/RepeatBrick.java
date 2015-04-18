@@ -58,17 +58,14 @@ public class RepeatBrick extends FormulaBrick implements LoopBeginBrick {
 	private transient LoopBeginBrick copy;
 
 	public RepeatBrick() {
-		super();
 		addAllowedBrickField(BrickField.TIMES_TO_REPEAT);
 	}
 
 	public RepeatBrick(int timesToRepeatValue) {
-		super();
 		initializeBrickFields(new Formula(timesToRepeatValue));
 	}
 
 	public RepeatBrick(Formula timesToRepeat) {
-		super();
 		initializeBrickFields(timesToRepeat);
 	}
 

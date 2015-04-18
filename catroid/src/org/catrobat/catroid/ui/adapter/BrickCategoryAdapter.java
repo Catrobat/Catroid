@@ -34,7 +34,6 @@ public class BrickCategoryAdapter extends BaseAdapter {
 	private List<View> categories;
 
 	public BrickCategoryAdapter(List<View> categories) {
-		super();
 		this.categories = categories;
 	}
 

@@ -60,7 +60,6 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 	}
 
 	public BroadcastBrick(String broadcastMessage) {
-		super();
 		this.broadcastMessage = broadcastMessage;
 		MessageContainer.addMessage(broadcastMessage);
 	}

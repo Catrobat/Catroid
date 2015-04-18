@@ -39,7 +39,6 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 	private String newName;
 
 	public CopyProjectTask(ProjectsListFragment parentActivity) {
-		super();
 		this.parentFragment = parentActivity;
 	}
 

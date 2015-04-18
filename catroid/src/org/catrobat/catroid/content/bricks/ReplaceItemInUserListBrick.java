@@ -58,13 +58,11 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 	private transient AdapterView<?> adapterView;
 
 	public ReplaceItemInUserListBrick(Formula userListFormulaValueToInsert, Formula userListFormulaIndexToReplace, UserList userList) {
-		super();
 		initializeBrickFields(userListFormulaValueToInsert, userListFormulaIndexToReplace);
 		this.userList = userList;
 	}
 
 	public ReplaceItemInUserListBrick(double value, Integer indexToReplace) {
-		super();
 		initializeBrickFields(new Formula(value), new Formula(indexToReplace));
 	}
 

@@ -47,17 +47,14 @@ public class SpeakBrick extends FormulaBrick {
 
 
 	public SpeakBrick() {
-		super();
 		addAllowedBrickField(BrickField.SPEAK);
 	}
 
 	public SpeakBrick(String speak) {
-		super();
 		initializeBrickFields(new Formula(speak));
 	}
 
 	public SpeakBrick(Formula speak) {
-		super();
 		initializeBrickFields(speak);
 	}
 

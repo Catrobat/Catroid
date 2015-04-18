@@ -49,17 +49,14 @@ public class SetBrightnessBrick extends FormulaBrick {
 	private transient View prototypeView;
 
 	public SetBrightnessBrick() {
-		super();
 		addAllowedBrickField(BrickField.BRIGHTNESS);
 	}
 
 	public SetBrightnessBrick(double brightnessValue) {
-		super();
 		initializeBrickFields(new Formula(brightnessValue));
 	}
 
 	public SetBrightnessBrick(Formula brightness) {
-		super();
 		initializeBrickFields(brightness);
 	}
 

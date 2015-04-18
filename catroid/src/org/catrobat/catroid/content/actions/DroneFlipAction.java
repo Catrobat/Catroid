@@ -34,7 +34,6 @@ public class DroneFlipAction extends TemporalAction {
 	private DroneServiceWrapper service;
 
 	public DroneFlipAction() {
-		super();
 		service = DroneServiceWrapper.getInstance();
 	}
 

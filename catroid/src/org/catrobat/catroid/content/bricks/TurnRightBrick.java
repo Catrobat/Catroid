@@ -49,17 +49,14 @@ public class TurnRightBrick extends FormulaBrick {
 	private transient View prototypeView;
 
 	public TurnRightBrick() {
-		super();
 		addAllowedBrickField(BrickField.TURN_RIGHT_DEGREES);
 	}
 
 	public TurnRightBrick(double degreesValue) {
-		super();
 		initializeBrickFields(new Formula(degreesValue));
 	}
 
 	public TurnRightBrick(Formula degreesFormula) {
-		super();
 		initializeBrickFields(degreesFormula);
 	}
 

@@ -63,7 +63,6 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 	private transient UserBrick brick; //TODO: remove this when bitmap is loaded differently (double reference)
 
 	public UserScriptDefinitionBrick(UserBrick brick) {
-		super();
 		this.script = new StartScript(true);
 		this.brick = brick;
 		this.userScriptDefinitionBrickElements = new UserScriptDefinitionBrickElements();

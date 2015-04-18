@@ -75,13 +75,11 @@ public class NewSpriteDialog extends DialogFragment {
 	private SpinnerAdapterWrapper spinnerAdapter;
 
 	public NewSpriteDialog() {
-		super();
 		this.requestedAction = ActionAfterFinished.ACTION_FORWARD_TO_NEW_OBJECT;
 		this.wizardStep = DialogWizardStep.STEP_1;
 	}
 
 	public NewSpriteDialog(SpinnerAdapterWrapper spinnerAdapter) {
-		super();
 		this.requestedAction = ActionAfterFinished.ACTION_UPDATE_SPINNER;
 		this.spinnerAdapter = spinnerAdapter;
 		this.wizardStep = DialogWizardStep.STEP_1;
@@ -89,7 +87,6 @@ public class NewSpriteDialog extends DialogFragment {
 
 	private NewSpriteDialog(DialogWizardStep wizardStep, Uri lookUri, String newObjectName,
 			ActionAfterFinished requestedAction, SpinnerAdapterWrapper spinnerAdapter) {
-		super();
 		this.requestedAction = requestedAction;
 		this.wizardStep = wizardStep;
 		this.lookUri = lookUri;

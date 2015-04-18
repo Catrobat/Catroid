@@ -41,7 +41,6 @@ public class WhenBrick extends ScriptBrick {
 	private static final long serialVersionUID = 1L;
 
 	public WhenBrick(WhenScript whenScript) {
-		super();
 		this.whenScript = whenScript;
 	}
 

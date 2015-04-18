@@ -57,7 +57,6 @@ public class Look extends Image {
 	private BrightnessContrastShader shader;
 
 	public Look(Sprite sprite) {
-		super();
 		this.sprite = sprite;
 		setBounds(0f, 0f, 0f, 0f);
 		setOrigin(0f, 0f);

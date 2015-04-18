@@ -36,16 +36,14 @@ public class StartScript extends Script {
 	private boolean isUserScript;
 
 	public StartScript() {
-		super();
+
 	}
 
 	public StartScript(boolean isUserScript) {
-		super();
 		this.isUserScript = isUserScript;
 	}
 
 	public StartScript(WhenStartedBrick brick) {
-		super();
 		this.brick = brick;
 	}
 

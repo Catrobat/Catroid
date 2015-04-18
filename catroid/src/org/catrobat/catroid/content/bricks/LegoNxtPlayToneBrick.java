@@ -57,12 +57,10 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 	}
 
 	public LegoNxtPlayToneBrick(int frequencyValue, int durationValue) {
-		super();
 		initializeBrickFields(new Formula(frequencyValue), new Formula(durationValue));
 	}
 
 	public LegoNxtPlayToneBrick(Formula frequencyFormula, Formula durationFormula) {
-		super();
 		initializeBrickFields(frequencyFormula, durationFormula);
 	}
 

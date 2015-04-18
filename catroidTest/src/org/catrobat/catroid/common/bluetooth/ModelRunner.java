@@ -40,7 +40,6 @@ class ModelRunner extends Thread {
 	private DeviceModel model;
 
 	ModelRunner(DeviceModel model, InputStream inStream, OutputStream outStream) {
-		super();
 		this.model = model;
 
 		this.inStream = new DataInputStream(inStream);

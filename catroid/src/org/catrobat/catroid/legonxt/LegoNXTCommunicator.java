@@ -106,7 +106,6 @@ public abstract class LegoNXTCommunicator extends Thread {
 	protected Resources resources;
 
 	public LegoNXTCommunicator(Handler uiHandler, Resources resources) {
-		super();
 		this.uiHandler = uiHandler;
 		this.resources = resources;
 	}

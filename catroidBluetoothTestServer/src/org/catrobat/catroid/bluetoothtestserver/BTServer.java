@@ -133,7 +133,6 @@ public final class BTServer {
 		private Client client;
 
 		public InputConnectionHandler(Client client) {
-			super();
 			this.client = client;
 		}
 

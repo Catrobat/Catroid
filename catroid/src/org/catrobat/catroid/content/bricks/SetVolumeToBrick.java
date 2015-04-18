@@ -49,17 +49,14 @@ public class SetVolumeToBrick extends FormulaBrick {
 	private transient View prototypeView;
 
 	public SetVolumeToBrick() {
-		super();
 		addAllowedBrickField(BrickField.VOLUME);
 	}
 
 	public SetVolumeToBrick(float volumeValue) {
-		super();
 		initializeBrickFields(new Formula(volumeValue));
 	}
 
 	public SetVolumeToBrick(Formula volume) {
-		super();
 		initializeBrickFields(volume);
 	}
 

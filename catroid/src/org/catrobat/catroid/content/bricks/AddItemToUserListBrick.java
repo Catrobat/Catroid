@@ -58,18 +58,15 @@ public class AddItemToUserListBrick extends UserListBrick {
 	private transient AdapterView<?> adapterView;
 
 	public AddItemToUserListBrick(){
-		super();
 		addAllowedBrickField(BrickField.LIST_ADD_ITEM);
 	}
 
 	public AddItemToUserListBrick(Formula userListFormula, UserList userList) {
-		super();
 		initializeBrickFields(userListFormula);
 		this.userList = userList;
 	}
 
 	public AddItemToUserListBrick( double value) {
-		super();
 		initializeBrickFields(new Formula(value));
 	}
 

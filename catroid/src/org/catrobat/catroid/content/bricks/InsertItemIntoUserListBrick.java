@@ -59,13 +59,11 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 	private transient AdapterView<?> adapterView;
 
 	public InsertItemIntoUserListBrick(Formula userListFormulaValueToInsert, Formula userListFormulaIndexToInsert, UserList userList) {
-		super();
 		initializeBrickFields(userListFormulaValueToInsert, userListFormulaIndexToInsert);
 		this.userList = userList;
 	}
 
 	public InsertItemIntoUserListBrick(double value, Integer indexToInsert) {
-		super();
 		initializeBrickFields(new Formula(value), new Formula(indexToInsert));
 	}
 
