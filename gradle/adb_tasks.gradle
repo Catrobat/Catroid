@@ -79,7 +79,6 @@ task commandlineAdbRunTests << {
     def adbPath = project.getBuildDir().getPath()+"/adb"
     def adbTestPath = adbPath+"/test"
     def adbScreenshotsPath = adbPath+"/robotium_screenshots"
-    file(adbPath).deleteDir()
     file(adbTestPath).mkdirs()
     file(adbScreenshotsPath).mkdirs()
 
