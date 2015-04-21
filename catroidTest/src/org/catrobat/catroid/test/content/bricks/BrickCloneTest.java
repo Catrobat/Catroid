@@ -58,6 +58,7 @@ import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
+import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -210,7 +211,7 @@ public class BrickCloneTest extends AndroidTestCase {
 		@SuppressWarnings("unchecked")
 		T clonedBrick = (T) clonedSprite.getScript(0).getBrick(0);
 		UserVariable clonedVariable = project.getDataContainer().getUserVariable(VARIABLE_NAME, clonedSprite);
-		UserVariable clonedVariableFromBrick = (UserVariable) Reflection.getPrivateField(clonedBrick, "userVariable");
+		UserVariable clonedVariableFromBrick = (UserVariable) Reflection.getPrivateField(UserVariableBrick.class, clonedBrick, "userVariable");
 
 		// check them
 		assertNotNull("variable should be in container", clonedVariable);
