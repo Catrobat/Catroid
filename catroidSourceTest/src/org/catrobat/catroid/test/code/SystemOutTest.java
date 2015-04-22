@@ -33,7 +33,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.ListIterator;
 
-public class SystemOutTest extends TestCase {
+public class lSystemOutTest extends TestCase {
 
 	private String errorMessages;
 	private boolean errorFound;
