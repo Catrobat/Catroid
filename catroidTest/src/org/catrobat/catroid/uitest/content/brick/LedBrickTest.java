@@ -34,19 +34,19 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 
 	private static final String TAG = LedBrickTest.class.getSimpleName();
 
-	//private static final int LED_DELAY_MS = 8000;
-	//private static final int WLAN_DELAY_MS = 700;
+	private static final int LED_DELAY_MS = 8000;
+	private static final int WLAN_DELAY_MS = 700;
 
-	//private LedOffBrick ledOffBrick;
-	//private LedOnBrick ledOnBrick;
-	//private Project project;
+	private LedOffBrick ledOffBrick;
+	private LedOnBrick ledOnBrick;
+	private Project project;
 
 
 	public LedBrickTest() {
 		super(ScriptActivity.class);
 	}
 
-/*	@Override
+	@Override
 	protected void setUp() throws Exception {
 		createProject();
 		if (hasLedSystemFeature()) {
@@ -64,15 +64,10 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 		SensorTestServerConnection.closeConnection();
 		setActivityInitialTouchMode(true);
 		super.tearDown();
-	}*/
+	}
 
 	@Device
 	public void testLedBricks() {
-
-
-		Assert.assertTrue("fix this test", true);
-		//TODO: fix this test
-		/*
 		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
 		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
 
@@ -138,12 +133,11 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 		solo.sleep(WLAN_DELAY_MS);
 		SensorTestServerConnection.checkLightSensorValue(SensorTestServerConnection.SET_LED_ON_VALUE);
 		solo.sleep(WLAN_DELAY_MS);
-		*/
 
 		Log.d(TAG, "testLedBrick() finished");
 	}
 
-	/*private void createProject() {
+	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script startScript = new StartScript();
@@ -205,6 +199,6 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 		camera = null;
 
 		return true;
-	}*/
+	}
 
 }
