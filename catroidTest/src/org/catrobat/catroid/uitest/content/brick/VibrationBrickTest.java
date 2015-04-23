@@ -23,29 +23,43 @@
 package org.catrobat.catroid.uitest.content.brick;
 
 import android.util.Log;
+import android.widget.ListView;
 
-import junit.framework.Assert;
-
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.WhenScript;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.VibrationBrick;
+import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
+import org.catrobat.catroid.uitest.util.SensorTestServerConnection;
+import org.catrobat.catroid.uitest.util.UiTestUtils;
+
+import java.util.ArrayList;
 
 public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
 	private static final String TAG = VibrationBrickTest.class.getSimpleName();
 
-	//private static final int WLAN_DELAY_MS = 500;
+	private static final int WLAN_DELAY_MS = 500;
 
-	//private VibrationBrick vibrationBrick5Seconds;
-	//private VibrationBrick vibrationBrick15Seconds;
-	//private Project project;
+	private VibrationBrick vibrationBrick5Seconds;
+	private VibrationBrick vibrationBrick15Seconds;
+	private Project project;
 
 
 	public VibrationBrickTest() {
 		super(ScriptActivity.class);
 	}
 
-/*	@Override
+	@Override
 	protected void setUp() throws Exception {
 		createProject();
 		SensorTestServerConnection.connectToArduinoServer();
@@ -59,74 +73,65 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 		SensorTestServerConnection.closeConnection();
 		setActivityInitialTouchMode(true);
 		super.tearDown();
-	}*/
+	}
 
 	@Device
 	public void testVibrationBrick() {
-//		SensorTestServerConnection.calibrateVibrationSensor();
-//
-//		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
-//		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
-//
-//		int childrenCount = adapter.getChildCountFromLastGroup();
-//
-//		assertEquals( "Incorrect number of bricks.", 4, dragDropListView.getChildCount() );
-//		assertEquals( "Incorrect number of bricks.", 1, childrenCount );
-//
-//		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
-//		assertEquals( "Incorrect number of bricks", 1, projectBrickList.size() );
-//
-//		Log.d(TAG, "checking vibration sensor value");
-//		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_OFF_VALUE);
-//		solo.sleep(WLAN_DELAY_MS);
-//		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_OFF_VALUE);
-//		solo.sleep(WLAN_DELAY_MS);
-//
-//		Log.d(TAG, "Vibration starts after pressing play");
-//		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
-//		solo.waitForActivity(StageActivity.class.getSimpleName());
-//
-//		solo.sleep(WLAN_DELAY_MS);
-//		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_ON_VALUE);
-//		solo.sleep(WLAN_DELAY_MS);
-//
-//		Log.d(TAG, "sleep four seconds. the phone should have stopped vibrating");
-//
-//		solo.sleep(4000);
-//		Log.d(TAG, "checking vibration sensor value");
-//		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_OFF_VALUE);
-//		solo.sleep(WLAN_DELAY_MS);
-//
-//		Log.d(TAG, "tapping the screen should turn on the vibrator");
-//		UiTestUtils.clickOnStageCoordinates(solo, 100, 200, 480, 800);
-//
-//		solo.sleep(4000);
-//		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_ON_VALUE);
-//		solo.sleep(WLAN_DELAY_MS);
-//
-//		Log.d(TAG, "pause StageActivity - this should turn off the vibrator");
-//		solo.goBack();
-//
-//		Log.d(TAG, "checking vibration sensor value");
-//		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_OFF_VALUE);
-//		solo.sleep(WLAN_DELAY_MS);
-//		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_OFF_VALUE);
-//		solo.sleep(WLAN_DELAY_MS);
-//
-//		Log.d(TAG, "resume StageActivity - this should turn the vibrator on again");
-//		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
-//
-//		solo.sleep(5000);
-//		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_ON_VALUE);
-//		solo.sleep(WLAN_DELAY_MS);
-//
-//		Log.d(TAG, "test finished");
+		SensorTestServerConnection.calibrateVibrationSensor();
 
-		Assert.assertTrue("This is only here, because device vibrates to weak", true);
-		Log.d(TAG, "testLedBrick() finished");
+		ListView dragDropListView = UiTestUtils.getScriptListView(solo);
+		BrickAdapter adapter = (BrickAdapter) dragDropListView.getAdapter();
+
+		int childrenCount = adapter.getChildCountFromLastGroup();
+
+		assertEquals( "Incorrect number of bricks.", 4, dragDropListView.getChildCount() );
+		assertEquals( "Incorrect number of bricks.", 1, childrenCount );
+
+		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
+		assertEquals( "Incorrect number of bricks", 1, projectBrickList.size() );
+
+		Log.d(TAG, "checking vibration sensor value");
+		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_OFF_VALUE);
+		solo.sleep(WLAN_DELAY_MS);
+
+		Log.d(TAG, "Vibration starts after pressing play");
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
+		solo.waitForActivity(StageActivity.class.getSimpleName());
+
+		solo.sleep(WLAN_DELAY_MS);
+		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_ON_VALUE);
+
+		Log.d(TAG, "sleep five seconds. the phone should have stopped vibrating");
+		solo.sleep(5000);
+		Log.d(TAG, "checking vibration sensor value");
+		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_OFF_VALUE);
+		solo.sleep(WLAN_DELAY_MS);
+
+		Log.d(TAG, "tapping the screen should turn on the vibrator");
+		UiTestUtils.clickOnStageCoordinates(solo, 100, 200, 480, 800);
+
+		solo.sleep(1000);
+		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_ON_VALUE);
+		solo.sleep(WLAN_DELAY_MS);
+
+		Log.d(TAG, "pause StageActivity - this should turn off the vibrator");
+		solo.goBack();
+
+		Log.d(TAG, "checking vibration sensor value");
+		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_OFF_VALUE);
+		solo.sleep(WLAN_DELAY_MS);
+
+		Log.d(TAG, "resume StageActivity - this should turn the vibrator on again");
+		solo.clickOnButton(solo.getString(R.string.stage_dialog_resume));
+
+		solo.sleep(5000);
+		SensorTestServerConnection.checkVibrationSensorValue(SensorTestServerConnection.SET_VIBRATION_ON_VALUE);
+		solo.sleep(WLAN_DELAY_MS);
+
+		Log.d(TAG, "test finished");
 	}
 
-/*	private void createProject () {
+	private void createProject () {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script startScript = new StartScript();
@@ -144,5 +149,6 @@ public class VibrationBrickTest extends BaseActivityInstrumentationTestCase<Scri
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(startScript);
-	}*/
+	}
 }
+

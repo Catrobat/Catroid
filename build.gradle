@@ -31,7 +31,7 @@ ext {
     featuresEnabled = [
             "lego_nxt"                          : true,
             "led_brick"                         : false,
-            "vibration_brick"                   : false,
+            "vibration_brick"                   : true,
             "backpack"                          : false,
             "parrot_ar_drone"                   : false,
             "apk_generator"                     : false,
