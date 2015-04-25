@@ -41,6 +41,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -233,9 +234,17 @@ public class SetVariableBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public Brick clone() {
+	public SetVariableBrick copyBrickForSprite(Sprite sprite) {
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		SetVariableBrick copyBrick = clone();
+		copyBrick.userVariable = currentProject.getDataContainer().getUserVariable(userVariable.getName(), sprite);
+		return copyBrick;
+	}
+
+	@Override
+	public SetVariableBrick clone() {
 		SetVariableBrick clonedBrick = new SetVariableBrick(getFormulaWithBrickField(BrickField.VARIABLE)
-				.clone(), userVariable);
+				.clone(), null);
 		return clonedBrick;
 	}
 
