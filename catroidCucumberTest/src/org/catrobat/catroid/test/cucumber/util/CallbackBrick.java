@@ -44,6 +44,6 @@ public final class CallbackBrick extends ShowBrick {
 	}
 
 	public interface BrickCallback {
-		public void onCallback();
+		void onCallback();
 	}
 }

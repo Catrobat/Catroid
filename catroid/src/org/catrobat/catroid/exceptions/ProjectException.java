@@ -26,10 +26,11 @@ public abstract class ProjectException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	String uiErrorMessage = "";
+	private final String uiErrorMessage;
 
 	public ProjectException() {
 		super();
+		uiErrorMessage = "";
 	}
 
 	public ProjectException(String message) {

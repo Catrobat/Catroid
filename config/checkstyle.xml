@@ -80,6 +80,9 @@
       <property name="ordered" value="true"/>
       <property name="separated" value="true"/>
     </module>
+    <module name="AvoidStarImport">
+      <property name="excludes" value="junit.framework.Assert"/>
+    </module>
     <module name="UnusedImports"/>
     <module name="RedundantImport"/>
     <module name="GenericWhitespace"/>
@@ -105,8 +108,12 @@
     <module name="SuppressWarnings" />
     <module name="EmptyForInitializerPad" />
     <module name="TypecastParenPad" />
+    <module name="EmptyBlock" />
+    <module name="FallThrough" />
+    <module name="MutableException" />
+    <module name="RedundantModifier" />
   </module>
-  
+
   <!-- For each spacing -->
   <module name="RegexpSingleline">
     <property name="format" value="^\s*for \(.*?([^ ]:|:[^ ])"/>
@@ -124,5 +131,17 @@
     <property name="checkFormat" value="$1"/>
     <property name="influenceFormat" value="$2"/>
   </module>
+
+  <!-- NewLine at the end of File -->
+  <module name="NewlineAtEndOfFile"/>
+
+  <!-- Checks properties files for duplicated properties -->
+  <module name="UniqueProperties" />
+
+  <module name="RegexpHeader">
+  <property name="headerFile" value="catroidSourceTest/res/agpl_license_text.txt"/>
+  <property name="fileExtensions" value="java,xml"/>
+  <property name="multiLines" value="1"/>
+</module>
 
 </module>

@@ -112,6 +112,7 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 			case ERROR_NOT_BONDED:
 			case ERROR_STILL_BONDING:
 				sendToast(resources.getString(R.string.no_paired_nxt));
+				// @checkstyle falls through
 			default:
 				sendState(STATE_CONNECTERROR);
 				throw new IOException("Bluetooth connecting error " + state.name());
