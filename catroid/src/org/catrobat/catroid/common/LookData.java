@@ -55,6 +55,7 @@ public class LookData implements Serializable, Cloneable {
 	private transient Pixmap pixmap = null;
 	private transient Pixmap originalPixmap = null;
 	private transient TextureRegion region = null;
+	public boolean isBackpackLookData = false;
 
 	@Override
 	public LookData clone() {
@@ -63,6 +64,7 @@ public class LookData implements Serializable, Cloneable {
 		cloneLookData.name = this.name;
 		cloneLookData.fileName = this.fileName;
 		String filePath = getPathToImageDirectory() + "/" + fileName;
+		cloneLookData.isBackpackLookData = false;
 		try {
 			ProjectManager.getInstance().getFileChecksumContainer().incrementUsage(filePath);
 		} catch (FileNotFoundException fileNotFoundexception) {
@@ -120,7 +122,11 @@ public class LookData implements Serializable, Cloneable {
 
 	public String getAbsolutePath() {
 		if (fileName != null) {
-			return Utils.buildPath(getPathToImageDirectory(), fileName);
+			if (isBackpackLookData) {
+				return Utils.buildPath(getPathToBackPackImageDirectory(), fileName);
+			} else {
+				return Utils.buildPath(getPathToImageDirectory(), fileName);
+			}
 		} else {
 			return null;
 		}
@@ -152,6 +158,11 @@ public class LookData implements Serializable, Cloneable {
 	private String getPathToImageDirectory() {
 		return Utils.buildPath(Utils.buildProjectPath(ProjectManager.getInstance().getCurrentProject().getName()),
 				Constants.IMAGE_DIRECTORY);
+	}
+
+	private String getPathToBackPackImageDirectory() {
+		return Utils.buildPath(Constants.DEFAULT_ROOT, Constants.BACKPACK_DIRECTORY,
+				Constants.BACKPACK_IMAGE_DIRECTORY);
 	}
 
 	public Bitmap getThumbnailBitmap() {

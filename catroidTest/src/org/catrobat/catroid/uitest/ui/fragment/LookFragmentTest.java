@@ -78,9 +78,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	private static String firstTestLookNamePacked;
 	private static String secondTestLookNamePacked;
 
-	private static String firstTestLookNameUnpacked;
-	private static String secondTestLookNameUnpacked;
-
 	private static final String SPRITE_NAME = "cat";
 	private static final String SECOND_SPRITE_NAME = "second_sprite";
 
@@ -113,18 +110,14 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		UiTestUtils.createTestProject(UiTestUtils.PROJECTNAME1);
 		UiTestUtils.createTestProject();
 		UiTestUtils.prepareStageForTest();
 
 		projectManager = ProjectManager.getInstance();
 
-		firstTestLookNamePacked = FIRST_TEST_LOOK_NAME + "_" + projectManager.getCurrentProject().getName();
-		secondTestLookNamePacked = SECOND_TEST_LOOK_NAME + "_" + projectManager.getCurrentProject().getName();
-
-		firstTestLookNameUnpacked = FIRST_TEST_LOOK_NAME + "_" + projectManager.getCurrentProject().getName() + "_"
-				+ solo.getString(R.string.unpacking_addition);
-		secondTestLookNameUnpacked = SECOND_TEST_LOOK_NAME + "_" + projectManager.getCurrentProject().getName()
-				+ "_" + solo.getString(R.string.unpacking_addition);
+		firstTestLookNamePacked = FIRST_TEST_LOOK_NAME + "1";
+		secondTestLookNamePacked = SECOND_TEST_LOOK_NAME + "1";
 
 		lookDataList = projectManager.getCurrentSprite().getLookDataList();
 
@@ -290,7 +283,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
 
-		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNameUnpacked, 0, TIME_TO_WAIT));
+		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
 	}
 
 	public void testSimpleUnpackingAndDelete() {
@@ -310,7 +303,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
 
-		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNameUnpacked, 0, TIME_TO_WAIT));
+		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
 
 		int newCount = adapter.getCount();
 		assertEquals("Counts have to be equal", oldCount, newCount);
@@ -327,20 +320,19 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
 
-		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNameUnpacked, 0, TIME_TO_WAIT));
+		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
 		clickOnContextMenuItem(SECOND_TEST_LOOK_NAME, solo.getString(R.string.backpack));
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		clickOnContextMenuItem(secondTestLookNamePacked, solo.getString(R.string.unpack));
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
 
-		assertTrue("Look wasn't unpacked!", solo.waitForText(secondTestLookNameUnpacked, 0, TIME_TO_WAIT));
+		assertTrue("Look wasn't unpacked!", solo.waitForText(secondTestLookNamePacked, 0, TIME_TO_WAIT));
 		int newCount = adapter.getCount();
 		assertEquals("There are looks missing", oldCount + 2, newCount);
 	}
 
 	public void testBackPackAndUnPackFromDifferentProgrammes() {
-		UiTestUtils.createTestProject(UiTestUtils.PROJECTNAME1);
 		LookAdapter adapter = getLookAdapter();
 
 		assertNotNull("Could not get Adapter", adapter);
@@ -354,19 +346,21 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		UiTestUtils.clickOnTextInList(solo, SPRITE_NAME);
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
+		solo.clickOnText(solo.getString(R.string.background));
+		solo.sleep(TIME_TO_WAIT_BACKPACK);
 		solo.clickOnText(solo.getString(R.string.backgrounds));
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.unpacking), R.id.unpacking, getActivity());
 		solo.sleep(TIME_TO_WAIT_BACKPACK);
-		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME + "_" + projectManager.getCurrentProject().getName(),
+		clickOnContextMenuItem(FIRST_TEST_LOOK_NAME + '1',
 				solo.getString(R.string.unpack));
 		solo.waitForDialogToClose(TIME_TO_WAIT_BACKPACK);
 		solo.goBack();
 
+		String textToWaitFor = FIRST_TEST_LOOK_NAME + '1';
 		assertTrue(
-				"Look wasn't unpacked!",
+				"Look wasn't unpacked!" + textToWaitFor,
 				solo.waitForText(
-						FIRST_TEST_LOOK_NAME + "_" + projectManager.getCurrentProject().getName() + "_"
-								+ solo.getString(R.string.unpacking_addition), 0, TIME_TO_WAIT));
+						textToWaitFor, 1, 3000));
 	}
 
 	public void testBackPackAndUnPackFromDifferentSprites() {
@@ -388,7 +382,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		solo.waitForDialogToClose(1000);
 		solo.goBack();
 
-		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNameUnpacked, 0, TIME_TO_WAIT));
+		assertTrue("Look wasn't unpacked!", solo.waitForText(firstTestLookNamePacked, 0, TIME_TO_WAIT));
 	}
 
 	public void testDeleteLookContextMenu() {

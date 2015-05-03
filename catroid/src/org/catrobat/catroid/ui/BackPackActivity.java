@@ -98,8 +98,8 @@ public class BackPackActivity extends BaseActivity {
 			if (currentFragmentPosition == 1) {
 				for (LookData currentLookData : BackPackListManager.getActionBarLookDataArrayList()) {
 					BackPackListManager.setCurrentLookData(currentLookData);
-					LookController.getInstance().copyLookBackPack(BackPackListManager.getCurrentLookData(),
-							BackPackListManager.getInstance().getLookDataArrayList(), this, backPackLookFragment,
+					LookController.getInstance().backPackLook(BackPackListManager.getCurrentLookData(),
+							BackPackListManager.getInstance().getLookDataArrayList(), this,
 							backPackLookFragment.getAdapter());
 				}
 				BackPackListManager.getActionBarLookDataArrayList().clear();
@@ -107,8 +107,8 @@ public class BackPackActivity extends BaseActivity {
 			} else if (currentFragmentPosition == 2) {
 				for (SoundInfo currentSoundInfo : BackPackListManager.getActionBarSoundInfoArrayList()) {
 					BackPackListManager.setCurrentSoundInfo(currentSoundInfo);
-					SoundController.getInstance().backPackSound(BackPackListManager.getCurrentSoundInfo(),
-							backPackSoundFragment, BackPackListManager.getInstance().getSoundInfoArrayList(),
+					SoundController.getInstance().backPackSound(currentSoundInfo,
+							BackPackListManager.getInstance().getSoundInfoArrayList(),
 							backPackSoundFragment.getAdapter());
 				}
 				BackPackListManager.getActionBarSoundInfoArrayList().clear();
@@ -168,7 +168,7 @@ public class BackPackActivity extends BaseActivity {
 
 		if (currentFragment != null && currentFragment.getActionModeActive()
 				&& event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-			ListAdapter adapter = null;
+			ListAdapter adapter;
 			if (currentFragment instanceof BackPackScriptFragment) {
 				adapter = ((BackPackScriptFragment) currentFragment).getAdapter();
 			} else {

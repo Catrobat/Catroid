@@ -281,27 +281,18 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 
 		Utils.loadProjectIfNeeded(getActivity());
 
-		// set adapter and lookDataList for ev. unpacking
 		BackPackListManager.getInstance().setCurrentLookDataArrayList(lookDataList);
 		BackPackListManager.getInstance().setCurrentLookAdapter(adapter);
-		BackPackListManager.getInstance().setCurrentLookFragment(this);
 	}
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.copy).setVisible(true);
-		menu.findItem(R.id.cut).setVisible(true);
-		menu.findItem(R.id.rename).setVisible(true);
-		menu.findItem(R.id.show_details).setVisible(true);
-		menu.findItem(R.id.settings).setVisible(true);
-
-		if (!BuildConfig.FEATURE_BACKPACK_ENABLED) {
-			menu.findItem(R.id.backpack).setVisible(false);
-			if (BackPackListManager.getInstance().getLookDataArrayList().size() > 0) {
+		if (BuildConfig.FEATURE_BACKPACK_ENABLED) {
+			menu.findItem(R.id.backpack).setVisible(true);
+			if (!BackPackListManager.getInstance().getLookDataArrayList().isEmpty()) {
 				menu.findItem(R.id.unpacking).setVisible(true);
 			} else {
-				menu.findItem(R.id.unpacking).setVisible(false);
-
 				StorageHandler.getInstance().clearBackPackLookDirectory();
 			}
 		}
@@ -457,11 +448,8 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
-
-		if (!BuildConfig.FEATURE_BACKPACK_ENABLED) {
-			menu.findItem(R.id.context_menu_backpack).setVisible(false);
-			menu.findItem(R.id.context_menu_unpacking).setVisible(false);
-		}
+		menu.findItem(R.id.context_menu_copy).setVisible(true);
+		menu.findItem(R.id.context_menu_unpacking).setVisible(false);
 	}
 
 	@Override
@@ -521,9 +509,8 @@ public class LookFragment extends ScriptActivityFragment implements LookBaseAdap
 				Intent intent = new Intent(getActivity(), BackPackActivity.class);
 				intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, 1);
 				intent.putExtra(BackPackActivity.BACKPACK_ITEM, true);
-				BackPackListManager.getInstance().addLookToActionBarLookDataArrayList(
-						lookDataList.get(selectedLookPosition));
-
+				BackPackListManager.setCurrentLookData(selectedLookData);
+				BackPackListManager.getInstance().addLookToActionBarLookDataArrayList(selectedLookData);
 				startActivity(intent);
 				break;
 

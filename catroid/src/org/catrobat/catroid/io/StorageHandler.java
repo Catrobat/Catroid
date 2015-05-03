@@ -571,50 +571,65 @@ public final class StorageHandler {
 		return copyFileAddCheckSum(outputFile, inputFile);
 	}
 
-	public File copySoundFileBackPack(SoundInfo selectedSoundInfo) throws IOException, IllegalArgumentException {
+	public File copySoundFileBackPack(SoundInfo selectedSoundInfo, String newTitle, boolean copyFromBackpack) throws IOException, IllegalArgumentException {
 
-		String path = selectedSoundInfo.getAbsolutePath();
-
-		File inputFile = new File(path);
-		if (!inputFile.exists() || !inputFile.canRead()) {
-			throw new IllegalArgumentException("file " + path + " doesn`t exist or can`t be read");
-		}
-		String inputFileChecksum = Utils.md5Checksum(inputFile);
-
-		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
-
-		File outputFile = new File(buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_SOUND_DIRECTORY, currentProject
-				+ "_" + selectedSoundInfo.getTitle() + "_" + inputFileChecksum));
-
-		return copyFileAddCheckSum(outputFile, inputFile);
-	}
-
-	public File copyImagePacking(String currentProjectName, String inputFilePath, String newName)
-			throws IOException {
-
-		String newFilePath;
-		File imageDirectory = new File(buildPath(buildProjectPath(currentProjectName), IMAGE_DIRECTORY));
+		String inputFilePath = selectedSoundInfo.getAbsolutePath();
 
 		File inputFile = new File(inputFilePath);
 		if (!inputFile.exists() || !inputFile.canRead()) {
-			return null;
+			throw new IllegalArgumentException("file " + inputFilePath + " doesn`t exist or can`t be read");
 		}
+		String inputFileChecksum = Utils.md5Checksum(inputFile);
 
-		int[] imageDimensions = new int[2];
-		imageDimensions = ImageEditing.getImageDimensions(inputFilePath);
-
-		Project project = ProjectManager.getInstance().getCurrentProject();
-		if ((imageDimensions[0] <= project.getXmlHeader().virtualScreenWidth)
-				&& (imageDimensions[1] <= project.getXmlHeader().virtualScreenHeight)) {
-			String checksumSource = Utils.md5Checksum(inputFile);
-
-			newFilePath = buildPath(imageDirectory.getAbsolutePath(), checksumSource + "_" + newName);
-			File outputFile = new File(newFilePath);
-			return copyFileAddCheckSum(outputFile, inputFile);
+		String fileFormat = inputFilePath.substring(inputFilePath.lastIndexOf('.'), inputFilePath.length());
+		String outputFilePath;
+		if (copyFromBackpack) {
+			String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
+			outputFilePath = buildPath(buildProjectPath(currentProject), SOUND_DIRECTORY,
+					inputFileChecksum + "_" + newTitle + fileFormat);
 		} else {
-			File outputFile = new File(buildPath(imageDirectory.getAbsolutePath(), inputFile.getName()));
-			return copyAndResizeImage(outputFile, inputFile, imageDirectory);
+			outputFilePath = buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_SOUND_DIRECTORY,
+					inputFileChecksum + "_" + newTitle + fileFormat);
+			FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
+			if (fileChecksumContainer.containsChecksumBackPack(inputFileChecksum)) {
+				fileChecksumContainer.addChecksumBackPack(inputFileChecksum, outputFilePath);
+			}
 		}
+
+
+
+		File outputFile = new File(outputFilePath);
+		return copyFileAddCheckSum(outputFile, inputFile);
+	}
+
+	public File copyImageBackPack(LookData selectedLookData, String newName, boolean copyFromBackpack)
+			throws IOException {
+
+		String inputFilePath = selectedLookData.getAbsolutePath();
+
+		File inputFile = new File(inputFilePath);
+		if (!inputFile.exists() || !inputFile.canRead()) {
+			throw new IllegalArgumentException("file " + inputFilePath + " doesn`t exist or can`t be read");
+		}
+		String inputFileChecksum = Utils.md5Checksum(inputFile);
+
+		String fileFormat = inputFilePath.substring(inputFilePath.lastIndexOf('.'), inputFilePath.length());
+		String outputFilePath;
+		if (copyFromBackpack) {
+			String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
+			outputFilePath = buildPath(buildProjectPath(currentProject), IMAGE_DIRECTORY,
+					inputFileChecksum + "_" + newName + fileFormat);
+		} else {
+			outputFilePath = buildPath(DEFAULT_ROOT, BACKPACK_DIRECTORY, BACKPACK_IMAGE_DIRECTORY,
+					inputFileChecksum + "_" + newName + fileFormat);
+			FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getFileChecksumContainer();
+			if (fileChecksumContainer.containsChecksumBackPack(inputFileChecksum)) {
+				fileChecksumContainer.addChecksumBackPack(inputFileChecksum, outputFilePath);
+			}
+		}
+
+		File outputFile = new File(outputFilePath);
+		return copyFileAddCheckSum(outputFile, inputFile);
 	}
 
 	public File copyImage(String currentProjectName, String inputFilePath, String newName) throws IOException {
@@ -626,8 +641,7 @@ public final class StorageHandler {
 			return null;
 		}
 
-		int[] imageDimensions = new int[2];
-		imageDimensions = ImageEditing.getImageDimensions(inputFilePath);
+		int[] imageDimensions = ImageEditing.getImageDimensions(inputFilePath);
 		FileChecksumContainer checksumCont = ProjectManager.getInstance().getFileChecksumContainer();
 
 		File outputFileDirectory = new File(imageDirectory.getAbsolutePath());
@@ -713,10 +727,14 @@ public final class StorageHandler {
 		return compressedFile;
 	}
 
-	public void deleteFile(String filepath) {
+	public void deleteFile(String filepath, boolean isBackPackFile) {
 		FileChecksumContainer container = ProjectManager.getInstance().getFileChecksumContainer();
 		try {
-			if (container.decrementUsage(filepath)) {
+			if (isBackPackFile) {
+				File toDelete = new File(filepath);
+				toDelete.delete();
+			}
+			else if (!isBackPackFile && container.decrementUsage(filepath)) {
 				File toDelete = new File(filepath);
 				toDelete.delete();
 			}
