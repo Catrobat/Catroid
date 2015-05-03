@@ -155,14 +155,14 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		//wait to get a different timestamp on next file
 		Thread.sleep(2000);
 
-		storageHandler.deleteFile(newTestImage1.getAbsolutePath());
+		storageHandler.deleteFile(newTestImage1.getAbsolutePath(), false);
 		File imageDirectory = new File(Constants.DEFAULT_ROOT + "/" + currentProjectName + "/"
 				+ Constants.IMAGE_DIRECTORY);
 		File[] filesImage = imageDirectory.listFiles();
 		assertEquals("Wrong amount of files in folder", 1, filesImage.length);
 
 		File newTestSound = storageHandler.copySoundFile(testSound.getAbsolutePath());
-		storageHandler.deleteFile(newTestSound.getAbsolutePath());
+		storageHandler.deleteFile(newTestSound.getAbsolutePath(), false);
 
 		File soundDirectory = new File(Constants.DEFAULT_ROOT + "/" + currentProjectName + "/"
 				+ Constants.SOUND_DIRECTORY);

@@ -36,7 +36,12 @@ public class FileChecksumContainer implements Serializable {
 		private String path;
 	}
 
-	private Map<String, FileInfo> checksumFileInfoMap = new HashMap<String, FileInfo>();
+	private class BackPackFileInfo {
+		private String path;
+	}
+
+	private Map<String, FileInfo> checksumFileInfoMap = new HashMap<>();
+	private Map<String, BackPackFileInfo> backPackChecksumFileInfoMap = new HashMap<>();
 
 	public boolean addChecksum(String checksum, String path) {
 		if (checksumFileInfoMap.containsKey(checksum)) {
@@ -52,12 +57,31 @@ public class FileChecksumContainer implements Serializable {
 		}
 	}
 
+	public boolean addChecksumBackPack(String checksum, String path) {
+		if (backPackChecksumFileInfoMap.containsKey(checksum)) {
+			return false;
+		} else {
+			BackPackFileInfo fileInfo = new BackPackFileInfo();
+			fileInfo.path = path;
+			backPackChecksumFileInfoMap.put(checksum, fileInfo);
+			return true;
+		}
+	}
+
 	public boolean containsChecksum(String checksum) {
 		return checksumFileInfoMap.containsKey(checksum);
 	}
 
+	public boolean containsChecksumBackPack(String checksum) {
+		return backPackChecksumFileInfoMap.containsKey(checksum);
+	}
+
 	public String getPath(String checksum) {
 		return checksumFileInfoMap.get(checksum).path;
+	}
+
+	public String getPathBackPack(String checksum) {
+		return backPackChecksumFileInfoMap.get(checksum).path;
 	}
 
 	public int getUsage(String checksum) {

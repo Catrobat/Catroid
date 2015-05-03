@@ -61,6 +61,7 @@ import org.catrobat.catroid.common.StandardProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 
 import java.io.File;
@@ -352,28 +353,34 @@ public final class Utils {
 		return newName;
 	}
 
-	public static String getUniqueLookName(String name) {
-		return searchForNonExistingLookName(name, 0);
+	public static String getUniqueLookName(LookData lookData) {
+		return searchForNonExistingLookName(lookData, 0);
 	}
 
-	private static String searchForNonExistingLookName(String name, int nextNumber) {
+	private static String searchForNonExistingLookName(LookData originalLookData, int nextNumber) {
 		String newName;
-		ArrayList<LookData> lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
-		if (nextNumber == 0) {
-			newName = name;
+		ArrayList<LookData> lookDataList;
+		if (originalLookData.isBackpackLookData) {
+			lookDataList = BackPackListManager.getInstance().getLookDataArrayList();
 		} else {
-			newName = name + nextNumber;
+			lookDataList = ProjectManager.getInstance().getCurrentSprite().getLookDataList();
+		}
+
+		if (nextNumber == 0) {
+			newName = originalLookData.getLookName();
+		} else {
+			newName = originalLookData.getLookName() + nextNumber;
 		}
 		for (LookData lookData : lookDataList) {
 			if (lookData.getLookName().equals(newName)) {
-				return searchForNonExistingLookName(name, ++nextNumber);
+				return searchForNonExistingLookName(originalLookData, ++nextNumber);
 			}
 		}
 		return newName;
 	}
 
-	public static String getUniqueSoundName(String title) {
-		return searchForNonExistingSoundTitle(title, 0);
+	public static String getUniqueSoundName(SoundInfo soundInfo) {
+		return searchForNonExistingSoundTitle(soundInfo, 0);
 	}
 
 	public static Project findValidProject() {
@@ -389,18 +396,24 @@ public final class Utils {
 		return loadableProject;
 	}
 
-	private static String searchForNonExistingSoundTitle(String title, int nextNumber) {
+	private static String searchForNonExistingSoundTitle(SoundInfo soundInfo, int nextNumber) {
 		// search for sounds with the same title
 		String newTitle;
-		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		if (nextNumber == 0) {
-			newTitle = title;
+		ArrayList<SoundInfo> soundInfoList;
+		if (soundInfo.isBackpackSoundInfo) {
+			soundInfoList = BackPackListManager.getInstance().getSoundInfoArrayList();
 		} else {
-			newTitle = title + nextNumber;
+			soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		}
-		for (SoundInfo soundInfo : soundInfoList) {
-			if (soundInfo.getTitle().equals(newTitle)) {
-				return searchForNonExistingSoundTitle(title, ++nextNumber);
+
+		if (nextNumber == 0) {
+			newTitle = soundInfo.getTitle();
+		} else {
+			newTitle = soundInfo.getTitle() + nextNumber;
+		}
+		for (SoundInfo soundInfoFromList : soundInfoList) {
+			if (soundInfoFromList.getTitle().equals(newTitle)) {
+				return searchForNonExistingSoundTitle(soundInfo, ++nextNumber);
 			}
 		}
 		return newTitle;
@@ -431,7 +444,7 @@ public final class Utils {
 
 			if (pixmap == null) {
 				Utils.showErrorDialog(context, R.string.error_load_image);
-				StorageHandler.getInstance().deleteFile(lookFile.getAbsolutePath());
+				StorageHandler.getInstance().deleteFile(lookFile.getAbsolutePath(), false);
 				throw new IOException("Pixmap could not be fixed");
 			}
 		}

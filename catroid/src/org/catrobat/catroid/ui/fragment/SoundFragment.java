@@ -163,7 +163,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		} catch (NullPointerException nullPointerException) {
 			Log.e(TAG, Log.getStackTraceString(nullPointerException));
-			soundInfoList = new ArrayList<SoundInfo>();
+			soundInfoList = new ArrayList<>();
 		}
 
 		adapter = new SoundAdapter(getActivity(), R.layout.fragment_sound_soundlist_item,
@@ -184,21 +184,14 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.copy).setVisible(true);
-		boolean visibility = false;
 		if (BuildConfig.FEATURE_BACKPACK_ENABLED) {
-			visibility = true;
+			menu.findItem(R.id.backpack).setVisible(true);
+			if (!BackPackListManager.getInstance().getSoundInfoArrayList().isEmpty()) {
+				menu.findItem(R.id.unpacking).setVisible(true);
+			} else {
+				StorageHandler.getInstance().clearBackPackSoundDirectory();
+			}
 		}
-		menu.findItem(R.id.backpack).setVisible(visibility);
-		menu.findItem(R.id.cut).setVisible(false);
-
-		if (BuildConfig.FEATURE_BACKPACK_ENABLED && BackPackListManager.getInstance().getSoundInfoArrayList().size() > 0) {
-			menu.findItem(R.id.unpacking).setVisible(true);
-		} else {
-			menu.findItem(R.id.unpacking).setVisible(false);
-
-			StorageHandler.getInstance().clearBackPackSoundDirectory();
-		}
-
 		super.onPrepareOptionsMenu(menu);
 	}
 
@@ -921,8 +914,10 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			if (file != null) {
 				String fileName = file.getName();
 				String soundTitle = fileName.substring(fileName.indexOf('_') + 1, fileName.lastIndexOf('.'));
-				SoundInfo newSoundInfo = SoundController.getInstance().updateSoundAdapter(soundTitle, fileName,
-						soundInfoList, adapter);
+				SoundInfo soundInfo = new SoundInfo();
+				soundInfo.setSoundFileName(fileName);
+				SoundInfo newSoundInfo = SoundController.getInstance().updateSoundAdapter(soundInfo, soundInfoList,
+						adapter, soundTitle);
 
 				if (soundInfoListChangedAfterNewListener != null) {
 					soundInfoListChangedAfterNewListener.onSoundInfoListChangedAfterNew(newSoundInfo);

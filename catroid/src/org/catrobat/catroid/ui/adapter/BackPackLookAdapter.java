@@ -41,8 +41,9 @@ public class BackPackLookAdapter extends LookBaseAdapter implements ScriptActivi
 	private FragmentActivity currentFragmentActivity;
 
 	public BackPackLookAdapter(final Context context, int resource, int textViewResourceId, ArrayList<LookData> items,
-			boolean showDetails) {
+			boolean showDetails, BackPackLookFragment backPackLookFragment) {
 		super(context, resource, textViewResourceId, items, showDetails);
+		this.backpackLookFragment = backPackLookFragment;
 	}
 
 	@Override
@@ -54,28 +55,16 @@ public class BackPackLookAdapter extends LookBaseAdapter implements ScriptActivi
 		return this.backpackLookFragment.getView(position, convertView);
 	}
 
-	public void setBackpackLookFragment(BackPackLookFragment backpackLookFragment) {
-		this.backpackLookFragment = backpackLookFragment;
-	}
-
 	public void onDestroyActionModeUnpacking() {
 		Iterator<Integer> iterator = checkedLooks.iterator();
 		while (iterator.hasNext()) {
 			int position = iterator.next();
-
-			LookData currentlookData = lookDataItems.get(position);
-
-			LookController.getInstance().copyLookUnpacking(currentlookData,
-					BackPackListManager.getCurrentLookDataArrayList(),
-					BackPackListManager.getInstance().getCurrentLookFragment().getLookDataList(),
-					currentFragmentActivity, BackPackListManager.getInstance().getCurrentLookFragment(), this);
-
+			LookController.getInstance().copyLook(position, BackPackListManager.getCurrentLookDataArrayList(), currentFragmentActivity, BackPackListManager.getInstance().getCurrentLookFragment());
 		}
 		backpackLookFragment.clearCheckedLooksAndEnableButtons();
 	}
 
 	public void setCurrentActivity(FragmentActivity activity) {
 		this.currentFragmentActivity = activity;
-
 	}
 }

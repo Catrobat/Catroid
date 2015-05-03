@@ -32,7 +32,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -110,25 +109,17 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 					.getSerializable(LookController.BUNDLE_ARGUMENTS_SELECTED_LOOK));
 		}
 
-		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
-			TextView emptyViewHeading = (TextView) getActivity().findViewById(R.id.fragment_look_text_heading);
-			emptyViewHeading.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60.0f);
-			emptyViewHeading.setText(R.string.backgrounds);
-			TextView emptyViewDescription = (TextView) getActivity().findViewById(R.id.fragment_look_text_description);
-			emptyViewDescription.setText(R.string.fragment_background_text_description);
-		}
 		adapter = new BackPackLookAdapter(getActivity(), R.layout.fragment_look_looklist_item,
-				R.id.fragment_look_item_name_text_view, BackPackListManager.getInstance().getLookDataArrayList(), false);
+				R.id.fragment_look_item_name_text_view, BackPackListManager.getInstance().getLookDataArrayList(), false, this);
 		adapter.setOnLookEditListener(this);
 		setListAdapter(adapter);
-		adapter.setBackpackLookFragment(this);
 		adapter.setCurrentActivity(getActivity());
-		Utils.loadProjectIfNeeded(getActivity());
 	}
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		if (BackPackListManager.getInstance().getLookDataArrayList().size() > 0) {
+		menu.findItem(R.id.copy).setVisible(false);
+		if (!BackPackListManager.getInstance().getLookDataArrayList().isEmpty()) {
 			menu.findItem(R.id.unpacking).setVisible(true);
 		}
 		BottomBar.hideBottomBar(getActivity());
@@ -144,8 +135,6 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 		adapter.addCheckedItem(((AdapterContextMenuInfo) menuInfo).position);
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_unpacking, menu);
-
-		menu.findItem(R.id.context_menu_unpacking).setVisible(true);
 	}
 
 	@Override
@@ -153,12 +142,12 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 		switch (item.getItemId()) {
 
 			case R.id.context_menu_unpacking:
+				String newLookDataName = Utils.getUniqueLookName(selectedLookDataBackPack);
 
-				LookController.getInstance().copyLookUnpacking(selectedLookDataBackPack,
-						BackPackListManager.getCurrentLookDataArrayList(),
-						BackPackListManager.getInstance().getCurrentLookFragment().getLookDataList(), getActivity(),
-						BackPackListManager.getInstance().getCurrentLookFragment(), adapter);
-
+				LookController.getInstance().copyLookBackPack(selectedLookDataBackPack,
+						newLookDataName, true);
+				LookController.getInstance().updateLookAdapterBackPack(selectedLookDataBackPack, BackPackListManager.getCurrentLookDataArrayList(),
+						BackPackListManager.getCurrentLookAdapter(), newLookDataName);
 				String textForUnPacking = getResources().getQuantityString(R.plurals.unpacking_items_plural, 1);
 				ToastUtil.showSuccess(getActivity(), selectedLookDataBackPack.getLookName() + " " + textForUnPacking);
 				break;
@@ -266,7 +255,6 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 			unregisterForContextMenu(listView);
 			BottomBar.hideBottomBar(getActivity());
-
 		}
 	}
 
@@ -321,7 +309,6 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 						view.setVisibility(View.GONE);
 						onLookChecked();
 					}
-
 				});
 	}
 
@@ -468,7 +455,6 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 				.getApplicationContext());
 
 		setShowDetails(settings.getBoolean(LookController.SHARED_PREFERENCE_NAME, false));
-
 	}
 
 	@Override
@@ -477,7 +463,7 @@ public class BackPackLookFragment extends BackPackActivityFragment implements Di
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject();
+			projectManager.saveProject(getActivity().getApplicationContext());
 		}
 
 		if (lookDeletedReceiver != null) {

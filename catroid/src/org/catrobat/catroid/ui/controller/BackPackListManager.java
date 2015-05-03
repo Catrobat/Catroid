@@ -39,7 +39,7 @@ public final class BackPackListManager {
 	private static ArrayList<SoundInfo> currentSoundInfoArrayList;
 	private static ArrayList<LookData> currentLookDataArrayList;
 
-	private static SoundBaseAdapter currentAdapter;
+	private static SoundBaseAdapter currentSoundAdapter;
 	private static LookBaseAdapter currentLookAdapter;
 
 	private static final ArrayList<LookData> LOOK_DATA_ARRAY_LIST = new ArrayList<LookData>();
@@ -117,7 +117,7 @@ public final class BackPackListManager {
 	}
 
 	public void setCurrentSoundAdapter(SoundBaseAdapter adapter) {
-		currentAdapter = adapter;
+		currentSoundAdapter = adapter;
 	}
 
 	public static ArrayList<SoundInfo> getCurrentSoundInfoArrayList() {
@@ -132,8 +132,8 @@ public final class BackPackListManager {
 		BackPackListManager.currentLookDataArrayList = currentLookDataArrayList;
 	}
 
-	public static SoundBaseAdapter getCurrentAdapter() {
-		return currentAdapter;
+	public static SoundBaseAdapter getCurrentSoundAdapter() {
+		return currentSoundAdapter;
 	}
 
 	public static LookBaseAdapter getCurrentLookAdapter() {
