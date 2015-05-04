@@ -86,7 +86,11 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 	public void disconnect() {
 		if (mindstormsConnection.isConnected()) {
 			this.stopAllMovements();
-			sensorService.destroy();
+
+			if (sensorService != null) {
+				sensorService.deactivateAllSensors(mindstormsConnection);
+				sensorService.destroy();
+			}
 			mindstormsConnection.disconnect();
 		}
 	}
@@ -94,7 +98,7 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 	@Override
 	public boolean isAlive() {
 		try {
-			getkeepAliveTime();
+			getKeepAliveTime();
 			return true;
 		} catch (MindstormsException e) {
 			return false;
@@ -130,7 +134,7 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 	}
 
 	@Override
-	public int getkeepAliveTime() {
+	public int getKeepAliveTime() {
 
 		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.KEEP_ALIVE, true);
 
@@ -163,9 +167,9 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 		batValues[1] = batByte[4];
 
 		int millivolt = java.nio.ByteBuffer.wrap(batValues).order(java.nio.ByteOrder.LITTLE_ENDIAN).getShort();
-		int voltage = millivolt;
 
-		return voltage;
+
+		return millivolt;
 	}
 
 
@@ -284,6 +288,9 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 	@Override
 	public void start() {
 		initialise();
+
+		assignSensorsToPorts();
+
 		sensorService.resumeSensorUpdate();
 	}
 
@@ -295,5 +302,6 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 
 	@Override
 	public void destroy() {
+		sensorService.deactivateAllSensors(mindstormsConnection);
 	}
 }

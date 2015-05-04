@@ -424,6 +424,16 @@
   <string name="nxt_motor_c">C</string>
   <string name="nxt_motor_b_and_c">B+C</string>
   <string name="nxt_motor_all">Alle</string>
+  <string name="nxt_choose_sensor_1">An Port 1 verbundener Sensor</string>
+  <string name="nxt_choose_sensor_2">An Port 2 verbundener Sensor</string>
+  <string name="nxt_choose_sensor_3">An Port 3 verbundener Sensor</string>
+  <string name="nxt_choose_sensor_4">An Port 4 verbundener Sensor</string>
+  <string name="nxt_no_sensor">Keiner</string>
+  <string name="nxt_sensor_touch">NXT Tastensensor</string>
+  <string name="nxt_sensor_sound">NXT Schallsensor</string>
+  <string name="nxt_sensor_light">NXT Lichtsensor</string>
+  <string name="nxt_sensor_light_active">NXT Lichtsensor LED aktiv</string>
+  <string name="nxt_sensor_ultrasonic">NXT Ultraschallsensor</string>
   <string name="brick_drone_takeoff">Abheben</string>
   <string name="brick_drone_land">Landen</string>
   <string name="brick_drone_play_led_animation">Spiele LED-Animation</string>

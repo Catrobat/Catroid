@@ -47,7 +47,7 @@ public class LegoNxtPlayToneAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 		int hertzInterpretation;
-		int durationInterpretation;
+		float durationInterpretation;
 
 		try {
 			hertzInterpretation = hertz.interpretInteger(sprite);
@@ -57,7 +57,7 @@ public class LegoNxtPlayToneAction extends TemporalAction {
         }
 
 		try {
-			durationInterpretation = durationInSeconds.interpretInteger(sprite);
+			durationInterpretation = durationInSeconds.interpretFloat(sprite);
         } catch (InterpretationException interpretationException) {
             durationInterpretation = 0;
             Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
@@ -68,7 +68,9 @@ public class LegoNxtPlayToneAction extends TemporalAction {
 			return;
 		}
 
-		nxt.playTone(hertzInterpretation, durationInterpretation);
+		int durationInMs = (int) (durationInterpretation * 1000);
+
+		nxt.playTone(hertzInterpretation * 100, durationInMs);
 	}
 
 	public void setHertz(Formula hertz) {

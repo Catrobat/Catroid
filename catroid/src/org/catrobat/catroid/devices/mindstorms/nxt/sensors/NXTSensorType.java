@@ -23,7 +23,7 @@
 package org.catrobat.catroid.devices.mindstorms.nxt.sensors;
 
 public enum NXTSensorType {
-	TOUCH(0x01), TEMPERATURE(0x02),
+	NO_SENSOR(0x00), TOUCH(0x01), TEMPERATURE(0x02),
 	LIGHT_ACTIVE(0x05), LIGHT_INACTIVE(0x06),
 	SOUND_DB(0x07), SOUND_DBA(0x08),
 	LOW_SPEED(0x0A), LOW_SPEED_9V(0x0B);

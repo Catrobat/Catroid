@@ -31,6 +31,7 @@ import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnectionImpl;
 import org.catrobat.catroid.devices.mindstorms.nxt.CommandByte;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTI2CUltraSonicSensor;
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTLightSensorActive;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTLightSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensorMode;
@@ -110,6 +111,18 @@ public class SensorTests extends AndroidTestCase {
 		assertEquals("Received wrong light sensor value", expectedSensorValue, sensorValue);
 	}
 
+	public void testLightSensorActive() {
+		final int expectedSensorValue = 33;
+
+		nxtModel.setSensorValue(expectedSensorValue);
+		NXTSensor sensor = new NXTLightSensorActive(PORT_NR_2, mindstormsConnection);
+		int sensorValue = sensor.getValue();
+
+		testInitializationOfSensor(PORT_NR_2, NXTSensorType.LIGHT_ACTIVE, NXTSensorMode.Percent);
+		testGetInputValuesMessage(PORT_NR_2);
+		assertEquals("Received wrong active light sensor value", expectedSensorValue, sensorValue);
+	}
+
 	public void testI2CUltrasonicSensor() {
 		final int expectedSensorValue = 142;
 		nxtModel.setSensorValue(expectedSensorValue);
@@ -125,8 +138,6 @@ public class SensorTests extends AndroidTestCase {
 
 		assertEquals("Received wrong ultrasonic sensor value", expectedSensorValue, sensorValue);
 	}
-
-
 
 	private void testInitializationOfSensor(int port, NXTSensorType sensorType, NXTSensorMode sensorMode) {
 		testSetInputModeMessage(port, sensorType, sensorMode);

@@ -384,12 +384,10 @@ public class MindstormsNXTTestModel implements DeviceModel {
 		sensorValue[1] = (byte)((value >> 8) & 0xff);
 	}
 
-	public void setBatteryValue(int batteryvalue) {
+	public void setBatteryValue(int batteryValue) {
 
-		batteryValue[0] = (byte)(batteryvalue & 0xff);
-		batteryValue[1] = (byte)((batteryvalue >> 8) & 0xff);
-
-		//logger.disconnectAndDestroy
+		this.batteryValue[0] = (byte)(batteryValue & 0xff);
+		this.batteryValue[1] = (byte)((batteryValue >> 8) & 0xff);
 	}
 
 	public void setKeepAliveTime(int keepAliveTimeValue) {
