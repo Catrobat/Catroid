@@ -40,6 +40,7 @@
         <exclude name="OnlyOneReturn" />
         <exclude name="UseConcurrentHashMap" />
         <exclude name="UseObjectForClearerAPI" />
+        <exclude name="AvoidUsingShortType" />
         <exclude name="DoNotCallGarbageCollectionExplicitly">
             <exclude-pattern>.*src\org\catrobat\catroid\ui\BaseActivity.java</exclude-pattern>
         </exclude>
