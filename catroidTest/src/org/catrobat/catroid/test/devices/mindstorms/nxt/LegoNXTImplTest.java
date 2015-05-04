@@ -138,12 +138,12 @@ public class LegoNXTImplTest extends AndroidTestCase {
 
 	public void testSimplePlayToneTest() {
 
-		int inputHz = 10000;
+		int inputHz = 100;
 		int expectedHz = 10000;
 		int durationInMs = 3000;
 
 		nxt.initialise();
-		nxt.playTone(inputHz, durationInMs);
+		nxt.playTone(inputHz * 100, durationInMs);
 
 		byte[] setOutputState = logger.getNextSentMessage(0, 2);
 
@@ -154,12 +154,12 @@ public class LegoNXTImplTest extends AndroidTestCase {
 	public void testPlayToneHzOverMaxValue() {
 
 		// MaxHz = 14000;
-		int inputHz = 16000;
+		int inputHz = 160;
 		int expectedHz = 14000;
 		int durationInMs = 5000;
 
 		nxt.initialise();
-		nxt.playTone(inputHz, durationInMs);
+		nxt.playTone(inputHz * 100, durationInMs);
 
 		byte[] setOutputState = logger.getNextSentMessage(0, 2);
 
@@ -169,16 +169,16 @@ public class LegoNXTImplTest extends AndroidTestCase {
 
 	public void testCheckDurationOfTone() {
 
-		int inputHz = 13000;
-		int inputDurationInMs = 6000;
-		int expectedDurationInMs = 6000;
+		int inputHz = 130;
+		float inputDurationInS = 5.5f;
+		int expectedDurationInMs = 5500;
 
 		nxt.initialise();
-		nxt.playTone(inputHz, inputDurationInMs);
+		nxt.playTone(inputHz * 100, (int) inputDurationInS * 1000);
 
 		byte[] setOutputState = logger.getNextSentMessage(0, 2);
 
-		assertEquals("Expected Duration not same as Input Duration", (byte)expectedDurationInMs, setOutputState[4]);
+		assertEquals("Expected Duration not same as Input Duration", (byte) expectedDurationInMs, setOutputState[4]);
 		assertEquals("Expected Duration not same as Input Duration", (byte)(expectedDurationInMs >> 8), setOutputState[5]);
 	}
 

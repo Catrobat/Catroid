@@ -52,6 +52,10 @@ public class NXTSensorFactory {
 			return new NXTLightSensor(port, connection);
 		}
 
+		if (equals(sensorTypeName, R.string.nxt_sensor_light_active)) {
+			return new NXTLightSensorActive(port, connection);
+		}
+
 		if (equals(sensorTypeName, R.string.nxt_sensor_ultrasonic)) {
 			return new NXTI2CUltraSonicSensor(connection);
 		}

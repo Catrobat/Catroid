@@ -55,7 +55,7 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 		addAllowedBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS);
 	}
 
-	public LegoNxtPlayToneBrick(int frequencyValue, int durationValue) {
+	public LegoNxtPlayToneBrick(int frequencyValue, float durationValue) {
 		initializeBrickFields(new Formula(frequencyValue), new Formula(durationValue));
 	}
 

@@ -221,9 +221,9 @@ public class LegoNXTImplTest extends BaseActivityInstrumentationTestCase<MainMen
 		commands.add(new int[] { MOTOR_TURN, 2, 515 });
 
 		WaitBrick thirdWaitBrick = new WaitBrick(500);
-		LegoNxtPlayToneBrick legoPlayToneBrick = new LegoNxtPlayToneBrick(5000, 1000);
+		LegoNxtPlayToneBrick legoPlayToneBrick = new LegoNxtPlayToneBrick(50, 1.5f);
 		//Tone does not return a command
-		commands.add(new int[] { PLAY_TONE, 5000, 1000 });
+		commands.add(new int[] { PLAY_TONE, 5000, 1500 });
 
 		whenScript.addBrick(legoMotorActionBrick);
 		whenScript.addBrick(firstWaitBrick);
