@@ -70,6 +70,6 @@ public class LegoNXTImplTestWithModel extends AndroidTestCase {
 		int expectedKeepAliveTime = 3600;
 		nxtTestModel.setKeepAliveTime(expectedKeepAliveTime);
 		nxt.initialise();
-		assertEquals("Expected keep alive time not the same as received vom LegoNXT", expectedKeepAliveTime, nxt.getkeepAliveTime());
+		assertEquals("Expected keep alive time not the same as received vom LegoNXT", expectedKeepAliveTime, nxt.getKeepAliveTime());
 	}
 }

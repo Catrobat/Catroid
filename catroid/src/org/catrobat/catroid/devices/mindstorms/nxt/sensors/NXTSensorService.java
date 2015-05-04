@@ -30,6 +30,9 @@ import android.util.SparseArray;
 
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
+import org.catrobat.catroid.devices.mindstorms.nxt.Command;
+import org.catrobat.catroid.devices.mindstorms.nxt.CommandByte;
+import org.catrobat.catroid.devices.mindstorms.nxt.CommandType;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.PausableScheduledThreadPoolExecutor;
 import org.catrobat.catroid.utils.Stopwatch;
@@ -109,6 +112,18 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
         return sensor;
 	}
 
+	public void deactivateAllSensors(MindstormsConnection connection) {
+
+		for (int port = 0; port < 4; port++) {
+
+			Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.SET_INPUT_MODE, false);
+			command.append((byte) port);
+			command.append(NXTSensorType.NO_SENSOR.getByte());
+			command.append(NXTSensorMode.RAW.getByte());
+
+			connection.send(command);
+		}
+	}
 
 
 	List<OnSensorChangedListener> sensorChangedListeners = new LinkedList<OnSensorChangedListener>();

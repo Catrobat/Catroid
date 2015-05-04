@@ -20,31 +20,22 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.devices.mindstorms.nxt;
+package org.catrobat.catroid.devices.mindstorms.nxt.sensors;
 
-import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
-import org.catrobat.catroid.devices.mindstorms.Mindstorms;
-import org.catrobat.catroid.devices.mindstorms.MindstormsSensor;
-import org.catrobat.catroid.formulaeditor.Sensors;
+import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
 
-public interface LegoNXT extends Mindstorms, BluetoothDevice {
+public class NXTLightSensorActive extends NXTSensor {
 
-	void playTone(int frequency, int duration);
+	public static final String TAG = NXTLightSensorActive.class.getSimpleName();
+	private static final int DEFAULT_VALUE = 50;
 
-	NXTMotor getMotorA();
-	NXTMotor getMotorB();
-	NXTMotor getMotorC();
+	public NXTLightSensorActive(int port, MindstormsConnection connection) {
+		super(port, NXTSensorType.LIGHT_ACTIVE, NXTSensorMode.Percent, connection);
+		lastValidValue = DEFAULT_VALUE;
+	}
 
-	void stopAllMovements();
-
-	int getSensorValue(Sensors sensor);
-
-	int getKeepAliveTime();
-	int getBatteryLevel();
-
-
-	MindstormsSensor getSensor1();
-	MindstormsSensor getSensor2();
-	MindstormsSensor getSensor3();
-	MindstormsSensor getSensor4();
+	@Override
+	public int getValue() {
+		return getScaledValue();
+	}
 }

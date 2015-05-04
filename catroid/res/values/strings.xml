@@ -573,6 +573,7 @@
     <string name="nxt_sensor_touch">NXT touch sensor</string>
     <string name="nxt_sensor_sound">NXT sound sensor</string>
     <string name="nxt_sensor_light">NXT light sensor</string>
+    <string name="nxt_sensor_light_active">NXT light sensor active</string>
     <string name="nxt_sensor_ultrasonic">NXT ultrasonic sensor</string>
     <!--  -->
 
