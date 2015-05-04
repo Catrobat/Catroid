@@ -39,11 +39,17 @@ public class MindstormsNXTTestModel implements DeviceModel {
 	private static final byte SHOULD_REPLY = 0x0;
 	private static final byte NO_ERROR = 0x0;
 	private Random random = new Random(System.currentTimeMillis());
+	private byte[] batteryValue = {getRandomByte(256), getRandomByte(256)};
+	private byte[] keepAliveTime = {getRandomByte(256), getRandomByte(256), getRandomByte(256), getRandomByte(256)};
+
+
 
 	byte[] portSensorType = {0, 0, 0, 0};
 	byte[] portSensorMode = {0, 0, 0, 0};
 
 	byte[] sensorValue = {getRandomByte(256), getRandomByte(256)};
+
+
 
 	byte ultrasonicSensorBytesReady = 0;
 
@@ -69,6 +75,12 @@ public class MindstormsNXTTestModel implements DeviceModel {
 
 			case LS_READ:
 				return handleLsReadMessage(message, commandType);
+
+			case KEEP_ALIVE:
+				return handleKeepAlive(message, commandType);
+
+			case GET_BATTERY_LEVEL:
+				return handleGetBatteryLevel(message, commandType);
 
 			default:
 				return handleUnknownMessage(commandType, commandByte);
@@ -216,6 +228,41 @@ public class MindstormsNXTTestModel implements DeviceModel {
 		return reply;
 	}
 
+	private byte[] handleKeepAlive(byte[] message, byte commandType) {
+		byte[] reply = null;
+		byte status = checkMessageLength(message, 2);
+
+		if (commandType == SHOULD_REPLY) {
+			reply = new byte[7];
+			reply[0] = CommandType.REPLY_COMMAND.getByte();
+			reply[1] = CommandByte.KEEP_ALIVE.getByte();
+			reply[2] = status;
+			reply[3] = keepAliveTime[0];
+			reply[4] = keepAliveTime[1];
+			reply[5] = keepAliveTime[2];
+			reply[6] = keepAliveTime[3];
+		}
+
+		return reply;
+	}
+
+	private byte[] handleGetBatteryLevel(byte[] message, byte commandType) {
+
+		byte[] reply = null;
+		byte status = checkMessageLength(message, 2);
+
+		if (commandType == SHOULD_REPLY) {
+			reply = new byte[5];
+			reply[0] = CommandType.REPLY_COMMAND.getByte();
+			reply[1] = CommandByte.GET_BATTERY_LEVEL.getByte();
+			reply[2] = status;
+			reply[3] = batteryValue[0];
+			reply[4] = batteryValue[1];
+		}
+
+		return reply;
+	}
+
 	private byte[] handleUnknownMessage(byte commandType, byte commandByte) {
 		byte[] reply = null;
 		if (commandType == SHOULD_REPLY) {
@@ -227,9 +274,6 @@ public class MindstormsNXTTestModel implements DeviceModel {
 
 		return reply;
 	}
-
-
-
 
 	private byte checkMessagePort(byte port) {
 
@@ -292,7 +336,6 @@ public class MindstormsNXTTestModel implements DeviceModel {
 		}
 	}
 
-
 	@Override
 	public void start(DataInputStream inStream, OutputStream outStream) throws IOException {
 		byte[] messageLengthBuffer = new byte[2];
@@ -339,6 +382,21 @@ public class MindstormsNXTTestModel implements DeviceModel {
 	public void setSensorValue(int value) {
 		sensorValue[0] = (byte)(value & 0xff);
 		sensorValue[1] = (byte)((value >> 8) & 0xff);
+	}
+
+	public void setBatteryValue(int batteryvalue) {
+
+		batteryValue[0] = (byte)(batteryvalue & 0xff);
+		batteryValue[1] = (byte)((batteryvalue >> 8) & 0xff);
+
+		//logger.disconnectAndDestroy
+	}
+
+	public void setKeepAliveTime(int keepAliveTimeValue) {
+		keepAliveTime[0] = (byte)(keepAliveTimeValue & 0xff);
+		keepAliveTime[1] = (byte)((keepAliveTimeValue >> 8) & 0xff);
+		keepAliveTime[2] = (byte)((keepAliveTimeValue >> 16) & 0xff);
+		keepAliveTime[3] = (byte)((keepAliveTimeValue >> 24) & 0xff);
 	}
 
 	public byte getRandomByte(int maxExclusive) {
