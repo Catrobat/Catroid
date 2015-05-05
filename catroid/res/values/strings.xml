@@ -330,6 +330,7 @@
     <string name="category_looks">Looks</string>
     <string name="category_sound">Sound</string>
     <string name="category_control">Control</string>
+    <string name="category_variables">Variables</string>
     <string name="category_user_bricks">My Bricks</string>
     <string name="category_data">Data</string>
     <string name="category_lego_nxt">Lego NXT</string>
@@ -504,6 +505,8 @@
     <string name="error_no_writiable_external_storage_available">Pocket Code requires writable external storage like an SD card in order to run, but none was found.\nYou can fix this by making the external storage writable or inserting an SD card, then try again.</string>
     <string name="error_no_name_entered">Please enter a name.</string>
     <string name="error_project_exists">A program with the same name already exists.\nPlease choose a different name.</string>
+    <string name="error_delete_project">An error while deleting the program occurred</string>
+    <string name="error_unknown_project">A program with that name does not exist.</string>
     <string name="error_project_upload">An error occurred while uploading the program.</string>
     <string name="error_project_download">An error occurred while downloading the program.</string>
     <string name="error_new_project">An error occurred while creating a new program.</string>
@@ -696,7 +699,7 @@
     <string name="formula_editor_data_dialog_hint" >Enter name</string>
     <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
     <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
-    <string name="formula_editor_new_string_name">New text</string>
+    <string name="variable_name">variable name:</string><string name="formula_editor_new_string_name">New text</string>
     <string name="formula_editor_new_string_dialog_hint">Enter new text here.</string>
     <string name="formula_editor_data_dialog_title">New</string>
     <string name="formula_editor_existing_data_item" >Name already in use!</string>

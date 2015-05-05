@@ -34,9 +34,10 @@ import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.web.ConnectionWrapper;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
+
+import java.io.IOException;
 
 public class ProjectDownloadService extends IntentService {
 
@@ -49,17 +50,8 @@ public class ProjectDownloadService extends IntentService {
 
 	private static final String DOWNLOAD_FILE_NAME = "down" + Constants.CATROBAT_EXTENSION;
 
-	private String projectName;
-	private String zipFileString;
-	private String url;
-	private Integer notificationId;
 	public ResultReceiver receiver;
 	private Handler handler;
-
-	// mock object testing
-	protected ConnectionWrapper createConnection() {
-		return new ConnectionWrapper();
-	}
 
 	public ProjectDownloadService() {
 		super(ProjectDownloadService.class.getSimpleName());
@@ -75,16 +67,18 @@ public class ProjectDownloadService extends IntentService {
 	protected void onHandleIntent(Intent intent) {
 		boolean result = false;
 
-		this.projectName = intent.getStringExtra(DOWNLOAD_NAME_TAG);
-		this.zipFileString = Utils.buildPath(Constants.TMP_PATH, DOWNLOAD_FILE_NAME);
-		this.url = intent.getStringExtra(URL_TAG);
-		this.notificationId = intent.getIntExtra(ID_TAG, -1);
+		String projectName = intent.getStringExtra(DOWNLOAD_NAME_TAG);
+		String zipFileString = Utils.buildPath(Constants.TMP_PATH, DOWNLOAD_FILE_NAME);
+		String url = intent.getStringExtra(URL_TAG);
+		Integer notificationId = intent.getIntExtra(ID_TAG, -1);
 
-		receiver = (ResultReceiver) intent.getParcelableExtra(RECEIVER_TAG);
+		receiver = intent.getParcelableExtra(RECEIVER_TAG);
 		try {
 			ServerCalls.getInstance().downloadProject(url, zipFileString, receiver, notificationId);
 			result = UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
 			Log.v(TAG, "url: " + url + ", zip-file: " + zipFileString + ", notificationId: " + notificationId);
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
 		} finally {
