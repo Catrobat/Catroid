@@ -79,7 +79,7 @@
 
             <TextView
                 android:id="@+id/rgb_red_start_value"
-                android:layout_width="0px"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:layout_marginTop="10dp"
@@ -97,7 +97,7 @@
 
             <TextView
                 android:id="@+id/rgb_red_end_value"
-                android:layout_width="0px"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="10"
                 android:layout_marginTop="10dp"
@@ -108,7 +108,7 @@
             <TextView
                 android:id="@+id/rgb_red_value"
                 style="@style/FragmentSeekbarChooserTextView"
-                android:layout_width="0px"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="20"
                 android:text="255"
@@ -136,7 +136,7 @@
 
             <TextView
                 android:id="@+id/rgb_green_start_value"
-                android:layout_width="0px"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:layout_marginTop="10dp"
@@ -146,7 +146,7 @@
 
             <SeekBar
                 android:id="@+id/color_rgb_seekbar_green"
-                android:layout_width="0px"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="60"
                 android:maxHeight="60dp"
@@ -154,7 +154,7 @@
 
             <TextView
                 android:id="@+id/rgb_green_end_value"
-                android:layout_width="0px"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="10"
                 android:layout_marginTop="10dp"
@@ -165,7 +165,7 @@
             <TextView
                 android:id="@+id/rgb_green_value"
                 style="@style/FragmentSeekbarChooserTextView"
-                android:layout_width="0px"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="20"
                 android:text="255"
@@ -193,7 +193,7 @@
 
             <TextView
                 android:id="@+id/rgb_blue_start_value"
-                android:layout_width="0px"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:layout_marginTop="10dp"
@@ -211,7 +211,7 @@
 
             <TextView
                 android:id="@+id/rgb_blue_end_value"
-                android:layout_width="0px"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="10"
                 android:layout_marginTop="10dp"
@@ -222,7 +222,7 @@
             <TextView
                 android:id="@+id/rgb_blue_value"
                 style="@style/FragmentSeekbarChooserTextView"
-                android:layout_width="0px"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="20"
                 android:text="255"
