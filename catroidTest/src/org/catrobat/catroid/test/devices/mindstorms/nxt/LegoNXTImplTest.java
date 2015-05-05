@@ -171,10 +171,12 @@ public class LegoNXTImplTest extends AndroidTestCase {
 
 		int inputHz = 130;
 		float inputDurationInS = 5.5f;
+		int inputDurationInMs = (int)(inputDurationInS * 1000);
+
 		int expectedDurationInMs = 5500;
 
 		nxt.initialise();
-		nxt.playTone(inputHz * 100, (int) inputDurationInS * 1000);
+		nxt.playTone(inputHz * 100, inputDurationInMs);
 
 		byte[] setOutputState = logger.getNextSentMessage(0, 2);
 
