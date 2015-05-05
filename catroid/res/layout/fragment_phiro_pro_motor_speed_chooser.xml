@@ -51,7 +51,7 @@
 
             <TextView
                 android:id="@+id/phiro_pro_motor_speed_start_value"
-                android:layout_width="0px"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:layout_marginTop="10dp"
@@ -61,7 +61,7 @@
 
             <SeekBar
                 android:id="@+id/phiro_pro_motor_speed_seekbar"
-                android:layout_width="0px"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="60"
                 android:maxHeight="60dp"
@@ -80,7 +80,7 @@
             <TextView
                 android:id="@+id/phiro_pro_motor_speed_value"
                 style="@style/FragmentSeekbarChooserTextView"
-                android:layout_width="5px"
+                android:layout_width="5dp"
                 android:layout_height="match_parent"
                 android:layout_weight="20"
                 android:text="100"
