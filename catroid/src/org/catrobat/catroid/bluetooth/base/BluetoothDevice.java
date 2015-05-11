@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.bluetooth.base;
 
+import org.catrobat.catroid.devices.albert.Albert;
 import org.catrobat.catroid.stage.StageResourceInterface;
 
 import java.util.UUID;
@@ -30,7 +31,7 @@ public interface BluetoothDevice extends StageResourceInterface {
 
 //	Class<LegoNXT> LEGO_NXT = LegoNXT.class;
 //	Class<Arduino> ARDUINO = Arduino.class;
-//	Class<Albert> ALBERT = Albert.class;
+	Class<Albert> ALBERT = Albert.class;
 //	Class<Albert> KODEY = Albert.class;
 
 	String getName();

@@ -354,6 +354,22 @@
         <item name="android:background" >@drawable/brick_cyan_3h</item >
     </style >
 
+     <style name="BrickContainer.Albert"></style>
+
+    <style name="BrickContainer.Albert.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_cyan_1h</item>
+    </style>
+
+    <style name="BrickContainer.Albert.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_cyan_2h</item>
+    </style>
+    <style name="BrickContainer.Albert.Big">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
+        <item name="android:background">@drawable/brick_cyan_3h</item>
+    </style>
+
     <style name="BrickContainer.Control" ></style >
 
     <style name="BrickContainer.Control.Small" >

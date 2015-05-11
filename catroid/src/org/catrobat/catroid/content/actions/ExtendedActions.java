@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
+import org.catrobat.catroid.content.bricks.RobotAlbertMotorBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -189,6 +190,65 @@ public class ExtendedActions extends Actions {
 		action.setDurationInSeconds(durationInSeconds);
 		return action;
 	}
+
+	public static RobotAlbertMotorAction robotAlbertMotor(Sprite sprite,
+			RobotAlbertMotorBrick.Motor motorEnum, Formula speed) {
+		RobotAlbertMotorAction action = action(RobotAlbertMotorAction.class);
+		action.setMotorEnum(motorEnum);
+		action.setSprite(sprite);
+		action.setSpeed(speed);
+		return action;
+	}
+
+	public static RobotAlbertBuzzerAction robotAlbertBuzzer(Sprite sprite, Formula value) {
+		RobotAlbertBuzzerAction action = action(RobotAlbertBuzzerAction.class);
+		action.setValue(value);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public static RobotAlbertFrontLedAction robotAlbertFrontLedAction(Sprite sprite, Formula value) {
+		RobotAlbertFrontLedAction action = action(RobotAlbertFrontLedAction.class);
+		action.setValue(value);
+		return action;
+	}
+
+	public static RobotAlbertBodyLedAction robotAlbertBodyLedAction( Formula value) {
+		RobotAlbertBodyLedAction action = action(RobotAlbertBodyLedAction.class);
+		action.setValue(value);
+		return action;
+	}
+
+
+	public static RobotAlbertRgbLedEyeAction robotAlbertRgbLedEye(Sprite sprite, String eye,
+			org.catrobat.catroid.content.bricks.RobotAlbertRgbLedEyeBrick.Eye eyeEnum, Formula red,
+			Formula green, Formula blue) {
+		RobotAlbertRgbLedEyeAction action = action(RobotAlbertRgbLedEyeAction.class);
+		action.setEyeEnum(eyeEnum);
+		action.setSprite(sprite);
+		action.setRed(red);
+		action.setGreen(green);
+		action.setBlue(blue);
+		return action;
+	}
+
+	public static RobotAlbertDistanceSensorLeftAction robotAlbertDistanceSensorLeft(Sprite sprite,
+			UserVariable userVariable) {
+
+		RobotAlbertDistanceSensorLeftAction action = action(RobotAlbertDistanceSensorLeftAction.class);
+		action.setSprite(sprite);
+		action.setUserVariable(userVariable);
+		return action;
+	}
+
+	public static RobotAlbertDistanceSensorRightAction robotAlbertDistanceSensorRight(Sprite sprite,
+			UserVariable userVariable) {
+		RobotAlbertDistanceSensorRightAction action = action(RobotAlbertDistanceSensorRightAction.class);
+		action.setSprite(sprite);
+		action.setUserVariable(userVariable);
+		return action;
+	}
+
 
 	public static MoveNStepsAction moveNSteps(Sprite sprite, Formula steps) {
 		MoveNStepsAction action = action(MoveNStepsAction.class);

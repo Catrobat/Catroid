@@ -26,6 +26,7 @@ import android.content.Context;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceFactory;
+import org.catrobat.catroid.devices.albert.AlbertImpl;
 
 public class BluetoothDeviceFactoryImpl implements BluetoothDeviceFactory {
 
@@ -36,9 +37,9 @@ public class BluetoothDeviceFactoryImpl implements BluetoothDeviceFactory {
 //			return new LegoNXTImpl(applicationContext);
 //		}
 
-//        if (service == BTDeviceService.ALBERT) {
-//            return new Albert();
-//        }
+        if (service == BluetoothDevice.ALBERT) {
+            return new AlbertImpl();
+        }
 
 //        if (service == BTDeviceService.ARDUINO) {
 //            return new Arduino();

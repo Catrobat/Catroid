@@ -878,12 +878,12 @@ public class FormulaElement implements Serializable {
 	}
 
 	public int getRequiredResources() {
-		int ressources = Brick.NO_RESOURCES;
+		int resources = Brick.NO_RESOURCES;
 		if (leftChild != null) {
-			ressources |= leftChild.getRequiredResources();
+			resources |= leftChild.getRequiredResources();
 		}
 		if (rightChild != null) {
-			ressources |= rightChild.getRequiredResources();
+			resources |= rightChild.getRequiredResources();
 		}
 		if (type == ElementType.SENSOR) {
 			Sensors sensor = Sensors.getSensorByValue(value);
@@ -892,13 +892,16 @@ public class FormulaElement implements Serializable {
 				case FACE_SIZE:
 				case FACE_X_POSITION:
 				case FACE_Y_POSITION:
-					ressources |= Brick.FACE_DETECTION;
+					resources |= Brick.FACE_DETECTION;
 					break;
+				case ALBERT_ROBOT_DISTANCE_LEFT :
+				case ALBERT_ROBOT_DISTANCE_RIGHT:
+					resources |= Brick.BLUETOOTH_ROBOT_ALBERT;
 				default:
 
 			}
 		}
-		return ressources;
+		return resources;
 	}
 
 }

@@ -38,6 +38,21 @@
         <item >@string/nxt_motor_all</item >
     </string-array >
 
+
+    <!-- Robot Albert motors spinner -->
+    <string-array name="robot_albert_motor_chooser">
+        <item>@string/robot_albert_motor_left</item>
+        <item>@string/robot_albert_motor_right</item>
+        <item>@string/robot_albert_motor_both</item>
+    </string-array>
+
+    <!-- Robot Albert eye spinner -->
+    <string-array name="robot_albert_eye_chooser">
+        <item>@string/robot_albert_eye_left</item>
+        <item>@string/robot_albert_eye_right</item>
+        <item>@string/robot_albert_eye_both</item>
+    </string-array>
+
     <!-- User Brick UI Data Editor Fragment -->
     <string-array name="data_editor_buttons" >
  		<item >@string/add_text</item >
