@@ -108,8 +108,6 @@
   <string name="dialog_confirm_delete_multiple_objects_title">Obrisati ove objekte?</string>
   <string name="dialog_confirm_delete_object_message">Ovo se ne može poništiti!</string>
   <string name="select_all">Označi sve</string>
-  <string name="copy_sprite_finished">kopirano.</string>
-  <string name="copy_sprite_prefix">Objekat:</string>
   <string name="copy_sprite_name_suffix">_Copy</string>
   <string name="scripts">Skripte</string>
   <string name="look">Izgled</string>
@@ -238,7 +236,6 @@
   <string name="category_looks">Izgledi</string>
   <string name="category_sound">Zvuk</string>
   <string name="category_control">Kontrola</string>
-  <string name="category_variables">Varijable</string>
   <string name="category_user_bricks">Moji blokovi</string>
   <string name="category_data">Data</string>
   <string name="category_lego_nxt">Lego NXT</string>
@@ -294,8 +291,6 @@
   <string name="brick_change_volume_by">Promjeni glasnoću za</string>
   <string name="brick_speak">Speak</string>
   <string name="brick_speak_default_value">"Zdravo!"</string>
-  <string name="dialog_edit_speak_title">Uredi tekst</string>
-  <string name="dialog_edit_speak_text">Speak:</string>
   <string name="brick_when_started">Kad program počne</string>
   <string name="brick_when">Kada je pritisnuto</string>
   <string name="brick_wait">Čekaj</string>
@@ -411,7 +406,6 @@
   <string name="select_device">Select Device: </string>
   <string name="scanning">Skeniranje</string>
   <string name="connecting_please_wait">Povezivanje sa uređajem.\nMolimo sačekaj&#8230;</string>
-  <string name="problem_at_closing">Došlo je do problema prilikom zatvaranja veze!</string>
   <string name="bt_connection_failed">Povezivanje sa uređajem nije uspjelo!</string>
   <string name="bt_auto_connection_failed">Auto connection failed!</string>
   <string name="no_paired_nxt">No paired NXT found</string>
@@ -524,11 +518,9 @@
   <string name="formula_editor_compute">Izračunaj</string>
   <string name="formula_editor_object">Objekat</string>
   <string name="formula_editor_math">Math</string>
-  <string name="formula_editor_function">Funkcije</string>
   <string name="formula_editor_logic">Logika</string>
   <string name="formula_editor_sensors">Senzori</string>
   <string name="formula_editor_variables">Varijable</string>
-  <string name="formula_editor_random">Random</string>
   <string name="formula_editor_string">Abc</string>
   <string name="formula_editor_logic_notequal">≠</string>
   <string name="formula_editor_logic_lesserthan">&lt;</string>
@@ -552,7 +544,6 @@
   <string name="formula_editor_data_dialog_hint">Enter name</string>
   <string name="formula_editor_discard_changes_dialog_message">Da li želiš sačuvati promjene?</string>
   <string name="formula_editor_discard_changes_dialog_title">Sačuvaj promjene?</string>
-  <string name="variable_name">variable name:</string>
   <string name="formula_editor_new_string_name">Novi tekst</string>
   <string name="formula_editor_new_string_dialog_hint">Unesi novi tekst ovdje.</string>
   <string name="formula_editor_data_dialog_title">Novi</string>
