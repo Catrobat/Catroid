@@ -23,11 +23,14 @@
 package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
+import org.catrobat.catroid.devices.albert.SensorRobotAlbert;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 
 public final class SensorHandler implements SensorEventListener, SensorCustomEventListener {
@@ -43,6 +46,9 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float linearAcceleartionX = 0f;
 	private float linearAcceleartionY = 0f;
 	private float linearAcceleartionZ = 0f;
+
+	private float albertRobotDistanceLeft = 0f;
+	private float albertRobotDistanceRight = 0f;
 
 	private float loudness = 0f;
 	private float faceDetected = 0f;
@@ -71,6 +77,16 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		instance.sensorManager.registerListener(instance, Sensors.LOUDNESS);
 		FaceDetectionHandler.registerOnFaceDetectedListener(instance);
 		FaceDetectionHandler.registerOnFaceDetectionStatusListener(instance);
+		//TODO: albert Tobi fragen was sharedPref. macht
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		SensorRobotAlbert sensor = SensorRobotAlbert.getSensorRobotAlbertInstance();
+		if ((sharedPreferences.getBoolean(SensorRobotAlbert.KEY_SETTINGS_ROBOT_ALBERT_BRICKS, false))) {
+			instance.sensorManager.registerListener(instance, Sensors.ALBERT_ROBOT_DISTANCE_LEFT);
+			instance.sensorManager.registerListener(instance, Sensors.ALBERT_ROBOT_DISTANCE_RIGHT);
+		} else if (sensor.getBooleanAlbertBricksUsed()) {
+			instance.sensorManager.registerListener(instance, Sensors.ALBERT_ROBOT_DISTANCE_LEFT);
+			instance.sensorManager.registerListener(instance, Sensors.ALBERT_ROBOT_DISTANCE_RIGHT);
+		}
 	}
 
 	public static void registerListener(SensorEventListener listener) {
@@ -166,6 +182,11 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 			case LOUDNESS:
 				return (double) instance.loudness;
+
+			case ALBERT_ROBOT_DISTANCE_LEFT:
+				return Double.valueOf(instance.albertRobotDistanceLeft);
+			case ALBERT_ROBOT_DISTANCE_RIGHT:
+				return Double.valueOf(instance.albertRobotDistanceRight);
 		}
 		return 0d;
 	}
@@ -209,6 +230,12 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				break;
 			case FACE_Y_POSITION:
 				instance.facePositionY = event.values[0];
+				break;
+			case ALBERT_ROBOT_DISTANCE_LEFT:
+				instance.albertRobotDistanceLeft = event.values[0];
+				break;
+			case ALBERT_ROBOT_DISTANCE_RIGHT:
+				instance.albertRobotDistanceRight = event.values[1];
 				break;
 			default:
 				Log.v(TAG, "Unhandled sensor: " + event.sensor);

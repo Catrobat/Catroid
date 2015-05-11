@@ -78,6 +78,11 @@ import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick.Direction;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.bricks.RobotAlbertBodyLedBrick;
+import org.catrobat.catroid.content.bricks.RobotAlbertBuzzerBrick;
+import org.catrobat.catroid.content.bricks.RobotAlbertFrontLedBrick;
+import org.catrobat.catroid.content.bricks.RobotAlbertMotorBrick;
+import org.catrobat.catroid.content.bricks.RobotAlbertRgbLedEyeBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
@@ -103,6 +108,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.ui.UserBrickScriptActivity;
+import org.catrobat.catroid.formulaeditor.Sensors;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -136,6 +142,8 @@ public class CategoryBricksFactory {
 			tempList = setupLegoNxtCategoryList();
 		} else if (category.equals(context.getString(R.string.category_drone))) {
 			tempList = setupDroneCategoryList();
+		} else if (category.equals(context.getString(R.string.category_robot_albert))) {
+			tempList = setupRobotAlbertCategoryList();
 		}
 		for (Brick brick : tempList) {
 			ScriptBrick brickAsScriptBrick;
@@ -320,6 +328,23 @@ public class CategoryBricksFactory {
 		droneBrickList.add(new DroneTurnRightBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS, (int) (BrickValues.DRONE_MOVE_BRICK_DEFAULT_MOVE_POWER_PERCENT * 100)));
 
 		return droneBrickList;
+	}
+
+	private List<Brick> setupRobotAlbertCategoryList() {
+		List<Brick> robotAlbertBrickList = new ArrayList<Brick>();
+		robotAlbertBrickList.add(new RobotAlbertMotorBrick( RobotAlbertMotorBrick.Motor.Left,
+				BrickValues.ROBOT_ALBERT_SPEED));
+		robotAlbertBrickList.add(new RobotAlbertBuzzerBrick( BrickValues.ROBOT_ALBERT_BUZZER));
+		robotAlbertBrickList.add(new RobotAlbertRgbLedEyeBrick(RobotAlbertRgbLedEyeBrick.Eye.Both,
+				BrickValues.ROBOT_ALBERT_RGB_LED_EYE_RED, BrickValues.ROBOT_ALBERT_RGB_LED_EYE_GREEN,
+				BrickValues.ROBOT_ALBERT_RGB_LED_EYE_BLUE));
+		robotAlbertBrickList.add(new RobotAlbertFrontLedBrick( BrickValues.ROBOT_ALBERT_FRONT_LED));
+		robotAlbertBrickList.add(new RobotAlbertBodyLedBrick( BrickValues.ROBOT_ALBERT_BODY_LED));
+		//TODO: albert
+		robotAlbertBrickList.add(new SetVariableBrick( Sensors.ALBERT_ROBOT_DISTANCE_LEFT.toString()));
+		robotAlbertBrickList.add(new SetVariableBrick( Sensors.ALBERT_ROBOT_DISTANCE_RIGHT.toString()));
+
+		return robotAlbertBrickList;
 	}
 
 	private boolean isBackground(Sprite sprite) {

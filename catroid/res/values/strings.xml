@@ -77,7 +77,9 @@
     <string name="preference_description_use_face_detection">Allow to detect faces</string>
     <string name="preference_title_select_camera">Choose Camera</string>
     <string name="preference_description_select_camera">Select camera which is used for face detection</string>
-    <!-- -->
+    <string name="preference_title_enable_robot_albert_bricks">Robot Albert bricks</string>
+    <string name="preference_description_robot_albert_bricks">Allow to control robot Albert</string>
+    <!--  -->
 
 
 
@@ -335,6 +337,7 @@
     <string name="category_data">Data</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_drone">ARDrone</string>
+    <string name="category_robot_albert">Robot Albert</string>
     <!--  -->
 
     <!-- Motion bricks -->
@@ -570,6 +573,34 @@
     <string name="nxt_motor_all">All</string>
     <!--  -->
 
+    <!-- Robot Albert Strings -->
+    <string name="brick_robot_albert_motor_action">Albert move motor</string>
+    <string name="robot_albert_motor_speed">Speed</string>
+    <string name="brick_robot_albert_buzzer_action">Albert use buzzer</string>
+    <string name="robot_albert_buzzer_frequency">Frequency</string>
+    <string name="brick_robot_albert_rgb_led_action">Albert illuminate eye</string>
+    <string name="robot_albert_rgb_led_red">Red</string>
+    <string name="robot_albert_rgb_led_green">Green</string>
+    <string name="robot_albert_rgb_led_blue">Blue</string>
+    <string name="brick_robot_albert_body_led_action">Albert use body LED</string>
+    <string name="robot_albert_body_led_status">Status</string>
+    <string name="robot_albert_body_led_status_info">value: [0,255]</string>
+    <string name="brick_robot_albert_front_led_action">Albert use front LED</string>
+    <string name="robot_albert_front_led_status">Status</string>
+    <string name="robot_albert_front_led_status_info">value: 0=off else=on</string>
+    <string name="brick_robot_albert_distance_sensor_left">Set left distance sensor to</string>
+    <string name="brick_robot_albert_distance_sensor_right">Set right distance sensor to</string>
+    <string name="robot_albert_motor_both">Both</string>
+    <string name="robot_albert_motor_left">Left</string>
+    <string name="robot_albert_motor_right">Right</string>
+    <string name="robot_albert_eye_both">Both</string>
+    <string name="robot_albert_eye_left">Left</string>
+    <string name="robot_albert_eye_right">Right</string>
+    <string name="formula_editor_sensor_albert_robot_distance_left">Albert_robot_left_distance</string>
+    <string name="formula_editor_sensor_albert_robot_distance_right">Albert_robot_right_distance</string>
+    <string name="category_error_message_already_albert_bricks_in_use">Your project already contains Albert-bricks, you cannot use nxt-bricks in the same project</string>
+    <string name="category_error_message_already_nxt_bricks_in_use">Your project already contains nxt-bricks, you cannot use Albert-bricks in the same project</string>
+    <!--  -->
 
     <!-- Drone Bricks -->
     <string name="brick_drone_takeoff">Take off</string>

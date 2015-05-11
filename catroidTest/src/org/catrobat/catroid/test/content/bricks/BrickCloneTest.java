@@ -48,6 +48,11 @@ import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.bricks.RobotAlbertBodyLedBrick;
+import org.catrobat.catroid.content.bricks.RobotAlbertBuzzerBrick;
+import org.catrobat.catroid.content.bricks.RobotAlbertFrontLedBrick;
+import org.catrobat.catroid.content.bricks.RobotAlbertMotorBrick;
+import org.catrobat.catroid.content.bricks.RobotAlbertRgbLedEyeBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
@@ -175,6 +180,28 @@ public class BrickCloneTest extends AndroidTestCase {
 		brick = new SpeakBrick(String.valueOf(BRICK_FORMULA_VALUE));
 		brickClone(brick, Brick.BrickField.SPEAK);
 
+		brick = new RobotAlbertMotorBrick(RobotAlbertMotorBrick.Motor.Left, BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.ROBOT_ALBERT_SPEED);
+
+		brick = new RobotAlbertMotorBrick(RobotAlbertMotorBrick.Motor.Right, BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.ROBOT_ALBERT_SPEED);
+
+		brick = new RobotAlbertMotorBrick(RobotAlbertMotorBrick.Motor.Both, BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.ROBOT_ALBERT_SPEED);
+
+		brick = new RobotAlbertBuzzerBrick(BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.ROBOT_ALBERT_BUZZER);
+
+		brick = new RobotAlbertFrontLedBrick(BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.ROBOT_ALBERT_FRONT_LED);
+
+		brick = new RobotAlbertBodyLedBrick(BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.ROBOT_ALBERT_BODY_LED);
+
+		brick = new RobotAlbertRgbLedEyeBrick(RobotAlbertRgbLedEyeBrick.Eye.Left, BRICK_FORMULA_VALUE,
+				BRICK_FORMULA_VALUE, BRICK_FORMULA_VALUE);
+		brickClone(brick, Brick.BrickField.ROBOT_ALBERT_RGB_BLUE, Brick.BrickField.ROBOT_ALBERT_RGB_RED,
+				Brick.BrickField.ROBOT_ALBERT_RGB_GREEN);
 	}
 
 	public void testVariableReferencesSetVariableBrick() throws Exception {

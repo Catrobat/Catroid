@@ -25,7 +25,9 @@ package org.catrobat.catroid.ui.fragment;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -41,6 +43,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.devices.albert.SensorRobotAlbert;
 
 public class FormulaEditorListFragment extends SherlockListFragment implements Dialog.OnKeyListener {
 
@@ -98,6 +101,15 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			R.string.formula_editor_sensor_face_detected, R.string.formula_editor_sensor_face_size,
 			R.string.formula_editor_sensor_face_x_position, R.string.formula_editor_sensor_face_y_position };
 
+	private static final int[] SENSOR_ITEMS_WITH_ALBERT = { R.string.formula_editor_sensor_x_acceleration,
+			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration,
+			R.string.formula_editor_sensor_compass_direction, R.string.formula_editor_sensor_x_inclination,
+			R.string.formula_editor_sensor_y_inclination, R.string.formula_editor_sensor_loudness,
+			R.string.formula_editor_sensor_face_detected, R.string.formula_editor_sensor_face_size,
+			R.string.formula_editor_sensor_face_x_position, R.string.formula_editor_sensor_face_y_position,
+			R.string.formula_editor_sensor_albert_robot_distance_left,
+			R.string.formula_editor_sensor_albert_robot_distance_right};
+
 	private String actionBarTitle;
 	private int[] itemsIds;
 
@@ -133,7 +145,14 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 		} else if (tag.equals(LOGIC_TAG)) {
 			itemsIds = LOGIC_ITEMS;
 		} else if (tag.equals(SENSOR_TAG)) {
-			itemsIds = SENSOR_ITEMS;
+			//TODO ALbert:
+			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+			if ((sharedPreferences.getBoolean(SensorRobotAlbert.KEY_SETTINGS_ROBOT_ALBERT_BRICKS, false))) {
+				itemsIds = SENSOR_ITEMS_WITH_ALBERT;
+			} else {
+				//if the option "Robot Albert bricks" is not selected, than use the standard SENSOR_ITEMS
+				itemsIds = SENSOR_ITEMS;
+			}
 		}
 
 		String[] items = new String[itemsIds.length];
