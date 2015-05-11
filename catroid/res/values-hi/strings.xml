@@ -108,8 +108,6 @@
   <string name="dialog_confirm_delete_multiple_objects_title">इन वस्तुओ को हटाएँ?</string>
   <string name="dialog_confirm_delete_object_message">इसे पूर्ववत् नहीं किया जा सकता!</string>
   <string name="select_all">सभी का चयन करें</string>
-  <string name="copy_sprite_finished">प्रतिलिपि बनाई गई हैं।</string>
-  <string name="copy_sprite_prefix">वस्तु:</string>
   <string name="copy_sprite_name_suffix">_प्रतिलिपि</string>
   <string name="scripts">लिपिया:</string>
   <string name="look">देखो</string>
@@ -235,7 +233,6 @@
   <string name="category_looks">नज़ारे:</string>
   <string name="category_sound">Sound</string>
   <string name="category_control">Control</string>
-  <string name="category_variables">चर</string>
   <string name="category_user_bricks">My Bricks</string>
   <string name="category_data">Data</string>
   <string name="category_lego_nxt">Lego NXT</string>
@@ -289,8 +286,6 @@
   <string name="brick_change_volume_by">ध्वनि के परिमाण को बढाए</string>
   <string name="brick_speak">बोलिए</string>
   <string name="brick_speak_default_value">"नमस्कार!"</string>
-  <string name="dialog_edit_speak_title">पाठ संपादित करें</string>
-  <string name="dialog_edit_speak_text">Speak:</string>
   <string name="brick_when_started">जब प्रोग्राम शुरू हुआ था</string>
   <string name="brick_when">जब दबाया गया</string>
   <string name="brick_wait">प्रतीक्षा करें</string>
@@ -408,7 +403,6 @@
   <string name="select_device">अपने लीगो माइन्द्स्तोर्म एन एक्स टी का चयन करें</string>
   <string name="scanning">अवलोकन कर रहें हैं</string>
   <string name="connecting_please_wait">उपकरण को संपर्क कर रहें हैं।\nप्रतीक्षा करे...</string>
-  <string name="problem_at_closing">संपर्क बंद करने में समस्या आ रही हैं!</string>
   <string name="bt_connection_failed">उपकरण से संपर्क नहीं हो पा रहा हैं!</string>
   <string name="bt_auto_connection_failed">Auto connection failed!</string>
   <string name="no_paired_nxt">कोई युग्मित एन एक्स टी नहीं पाया गया</string>
@@ -521,11 +515,9 @@
   <string name="formula_editor_compute">गणना करें</string>
   <string name="formula_editor_object">वस्तु</string>
   <string name="formula_editor_math">Math</string>
-  <string name="formula_editor_function">फलन</string>
   <string name="formula_editor_logic">तर्क</string>
   <string name="formula_editor_sensors">ज्ञानेन्द्रियाँ</string>
   <string name="formula_editor_variables">चर</string>
-  <string name="formula_editor_random">Random</string>
   <string name="formula_editor_string">ए बी सी</string>
   <string name="formula_editor_logic_notequal">≠</string>
   <string name="formula_editor_logic_lesserthan">&lt;</string>
@@ -549,7 +541,6 @@
   <string name="formula_editor_data_dialog_hint">Enter name</string>
   <string name="formula_editor_discard_changes_dialog_message">क्या आप अपने परिवर्तनों को सहेजना चाहते हैं?</string>
   <string name="formula_editor_discard_changes_dialog_title">परिवर्तन सहेजें?</string>
-  <string name="variable_name">variable name:</string>
   <string name="formula_editor_new_string_name">नया पाठ</string>
   <string name="formula_editor_new_string_dialog_hint">नया पाठ यहाँ दर्ज करें।</string>
   <string name="formula_editor_data_dialog_title">नवीन</string>

@@ -101,8 +101,6 @@
   <string name="dialog_confirm_delete_multiple_objects_title">Usunąć te obiekty?</string>
   <string name="dialog_confirm_delete_object_message">Tego nie można cofnąć!</string>
   <string name="select_all">Zaznacz wszystko</string>
-  <string name="copy_sprite_finished">skopiowane.</string>
-  <string name="copy_sprite_prefix">Obiekt:</string>
   <string name="copy_sprite_name_suffix">_Kopia</string>
   <string name="scripts">Skrypty</string>
   <string name="look">Wygląd</string>
@@ -231,7 +229,6 @@
   <string name="category_looks">Wygląd</string>
   <string name="category_sound">Dźwięk</string>
   <string name="category_control">Kontrola</string>
-  <string name="category_variables">Wybrano zmienną</string>
   <string name="category_user_bricks">Moje bloki</string>
   <string name="category_data">Dane</string>
   <string name="category_lego_nxt">Lego NXT</string>
@@ -287,8 +284,6 @@
   <string name="brick_change_volume_by">Zmień głośność o</string>
   <string name="brick_speak">Powiedz</string>
   <string name="brick_speak_default_value">"Cześć!"</string>
-  <string name="dialog_edit_speak_title">Edytuj tekst</string>
-  <string name="dialog_edit_speak_text">Powiedz:</string>
   <string name="brick_when_started">Kiedy program startuje</string>
   <string name="brick_when">Kiedy naciśnięto</string>
   <string name="brick_wait">Czekaj</string>
@@ -404,7 +399,6 @@
   <string name="select_device">Wybierz twój Lego Mindstorms NXT</string>
   <string name="scanning">Skanowanie</string>
   <string name="connecting_please_wait">Łączenie z Twoim urządzeniem. \nProszę, czekaj&#8230;</string>
-  <string name="problem_at_closing">Problem podczas zamykania połączenia!</string>
   <string name="bt_connection_failed">Podłączenie urządzenia nie powiodło się!</string>
   <string name="bt_auto_connection_failed">Automatyczne połączenie nie powiodło się!</string>
   <string name="no_paired_nxt">Nie znaleziono sparowanego NXT</string>
@@ -517,11 +511,9 @@
   <string name="formula_editor_compute">Oblicz</string>
   <string name="formula_editor_object">Obiekt</string>
   <string name="formula_editor_math">Matematyka</string>
-  <string name="formula_editor_function">Funcje</string>
   <string name="formula_editor_logic">Logika</string>
   <string name="formula_editor_sensors">Czujniki</string>
   <string name="formula_editor_variables">Wybrano zmienną</string>
-  <string name="formula_editor_random">Losowa</string>
   <string name="formula_editor_string">Abc</string>
   <string name="formula_editor_logic_notequal">≠</string>
   <string name="formula_editor_logic_lesserthan">&lt;</string>
@@ -545,7 +537,6 @@
   <string name="formula_editor_data_dialog_hint">Wprowadź nazwę</string>
   <string name="formula_editor_discard_changes_dialog_message">Czy chcesz zapisać zmiany?</string>
   <string name="formula_editor_discard_changes_dialog_title">Zapisać zmiany?</string>
-  <string name="variable_name">variable name:</string>
   <string name="formula_editor_new_string_name">Nowy tekst</string>
   <string name="formula_editor_new_string_dialog_hint">Wpisz nowy tekst tutaj.</string>
   <string name="formula_editor_data_dialog_title">Nowy</string>

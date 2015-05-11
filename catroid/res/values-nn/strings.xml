@@ -108,8 +108,6 @@
   <string name="dialog_confirm_delete_multiple_objects_title">Delete these objects?</string>
   <string name="dialog_confirm_delete_object_message">This can not be undone!</string>
   <string name="select_all">Select all</string>
-  <string name="copy_sprite_finished">copied.</string>
-  <string name="copy_sprite_prefix">Object:</string>
   <string name="copy_sprite_name_suffix">_Copy</string>
   <string name="scripts">Scripts</string>
   <string name="look">Look</string>
@@ -235,7 +233,6 @@
   <string name="category_looks">Looks</string>
   <string name="category_sound">Sound</string>
   <string name="category_control">Control</string>
-  <string name="category_variables">Variables</string>
   <string name="category_user_bricks">My Bricks</string>
   <string name="category_lego_nxt">Lego NXT</string>
   <string name="category_drone">ARDrone</string>
@@ -270,7 +267,6 @@
   <string name="brick_change_size_by">Change size by</string>
   <string name="brick_hide">Hide</string>
   <string name="brick_show">Show</string>
-  <string name="brick_set_ghost_effect">"Set transparency "</string>
   <string name="brick_change_ghost_effect">"Change transparency "</string>
   <string name="brick_set_brightness">"Set brightness "</string>
   <string name="brick_change_brightness">"Change brightness "</string>
@@ -390,7 +386,6 @@
   <string name="button_scan">Search Bluetooth devices</string>
   <string name="scanning">Scanning</string>
   <string name="connecting_please_wait">Connecting to your device.\nPlease wait&#8230;</string>
-  <string name="problem_at_closing">Problem while closing the connection!</string>
   <string name="bt_connection_failed">Connection to device failed!</string>
   <string name="no_paired_nxt">No paired NXT found</string>
   <string name="none_found">No unpaired devices found</string>
@@ -493,14 +488,12 @@
   <string name="formula_editor_sensor_face_y_position">face_y_position</string>
   <string name="formula_editor_object_x">position_x</string>
   <string name="formula_editor_object_y">position_y</string>
-  <string name="formula_editor_object_ghosteffect">transparency</string>
   <string name="formula_editor_object_brightness">brightness</string>
   <string name="formula_editor_object_size">size</string>
   <string name="formula_editor_object_rotation">direction</string>
   <string name="formula_editor_object_layer">layer</string>
   <string name="formula_editor_compute">Compute</string>
   <string name="formula_editor_object">Object</string>
-  <string name="formula_editor_function">Functions</string>
   <string name="formula_editor_logic">Logic</string>
   <string name="formula_editor_sensors">Sensors</string>
   <string name="formula_editor_variables">Variables</string>
@@ -519,17 +512,11 @@
   <string name="formula_editor_operator_minus">-</string>
   <string name="formula_editor_operator_divide">÷</string>
   <string name="formula_editor_operator_power">^</string>
-  <string name="formula_editor_image_button_description_undo">undo</string>
-  <string name="formula_editor_image_button_description_redo">redo</string>
   <string name="formula_editor_image_button_description_delete">delete</string>
   <string name="formula_editor_variable_dialog_title">New Variable</string>
   <string name="formula_editor_variable_dialog_for_this_brick">For this brick</string>
-  <string name="formula_editor_variable_dialog_for_all_sprites">For all objects</string>
-  <string name="formula_editor_variable_dialog_for_this_sprite_only">For this object only</string>
-  <string name="formula_editor_variable_dialog_hint">Enter variable name</string>
   <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
   <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
-  <string name="variable_name">variable name:</string>
   <string name="formula_editor_new_string_name">New text</string>
   <string name="formula_editor_new_string_dialog_hint">Enter new text here.</string>
   <plurals name="formula_editor_variable_context_action_item_selected">

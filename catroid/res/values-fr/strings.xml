@@ -106,8 +106,6 @@ il faut
   <string name="dialog_confirm_delete_multiple_objects_title">Supprimer ces objets ?</string>
   <string name="dialog_confirm_delete_object_message">Cette action ne peut pas être annulée!</string>
   <string name="select_all">Tout sélectionner</string>
-  <string name="copy_sprite_finished">copié.</string>
-  <string name="copy_sprite_prefix">Objet:</string>
   <string name="copy_sprite_name_suffix">_Copier</string>
   <string name="scripts">Scripts</string>
   <string name="look">Graphisme</string>
@@ -233,7 +231,6 @@ il faut
   <string name="category_looks">Looks</string>
   <string name="category_sound">Sons</string>
   <string name="category_control">Contrôle</string>
-  <string name="category_variables">Variables</string>
   <string name="category_user_bricks">Mes éléments</string>
   <string name="category_data">Data</string>
   <string name="category_lego_nxt">Lego NXT</string>
@@ -287,8 +284,6 @@ il faut
   <string name="brick_change_volume_by">Changer le volume à</string>
   <string name="brick_speak">Parler</string>
   <string name="brick_speak_default_value">"Salut !"</string>
-  <string name="dialog_edit_speak_title">Modifier le texte</string>
-  <string name="dialog_edit_speak_text">Speak:</string>
   <string name="brick_when_started">Quand l\'application a démarrée</string>
   <string name="brick_when">Lorsque appuyé</string>
   <string name="brick_wait">Attendre</string>
@@ -402,7 +397,6 @@ il faut
   <string name="select_device">Sélectionnez votre Lego Mindstorms NXT</string>
   <string name="scanning">Scan en cours</string>
   <string name="connecting_please_wait">Connexion à votre périphérique.\nPatientez&#8230;</string>
-  <string name="problem_at_closing">Un problème est survenu en fermant la connexion.</string>
   <string name="bt_connection_failed">Échec de la connexion au périphérique !</string>
   <string name="bt_auto_connection_failed">Auto connection failed!</string>
   <string name="no_paired_nxt">Aucun NXT lié trouvé</string>
@@ -515,11 +509,9 @@ il faut
   <string name="formula_editor_compute">Calculer</string>
   <string name="formula_editor_object">Objet</string>
   <string name="formula_editor_math">Math</string>
-  <string name="formula_editor_function">Fonctions</string>
   <string name="formula_editor_logic">Logique</string>
   <string name="formula_editor_sensors">Capteurs</string>
   <string name="formula_editor_variables">Variables</string>
-  <string name="formula_editor_random">Random</string>
   <string name="formula_editor_string">Abc</string>
   <string name="formula_editor_logic_notequal">≠</string>
   <string name="formula_editor_logic_lesserthan">&lt;</string>
@@ -543,7 +535,6 @@ il faut
   <string name="formula_editor_data_dialog_hint">Enter name</string>
   <string name="formula_editor_discard_changes_dialog_message">Voulez-vous enregistrer vos modifications?</string>
   <string name="formula_editor_discard_changes_dialog_title">Enregistrer changements?</string>
-  <string name="variable_name">variable name:</string>
   <string name="formula_editor_new_string_name">Nouveau texte</string>
   <string name="formula_editor_new_string_dialog_hint">Entrez le nouveau texte ici.</string>
   <string name="formula_editor_data_dialog_title">Nouveau</string>
