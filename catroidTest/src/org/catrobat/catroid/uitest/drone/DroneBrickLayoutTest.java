@@ -88,15 +88,19 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.getText(solo.getString(R.string.brick_drone_move_up));
 		solo.getText(solo.getString(R.string.brick_drone_move_down));
 		solo.getText(solo.getString(R.string.brick_drone_move_left));
+		solo.getText(solo.getString(R.string.brick_drone_move_right));
 		fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollDownList(fragmentListView);
-		solo.getText(solo.getString(R.string.brick_drone_move_right));
 		solo.getText(solo.getString(R.string.brick_drone_move_forward));
 		solo.getText(solo.getString(R.string.brick_drone_move_backward));
 		solo.getText(solo.getString(R.string.brick_drone_turn_left));
+		solo.getText(solo.getString(R.string.brick_drone_turn_right));
+		solo.getText(solo.getString(R.string.brick_drone_set_cofig));
 		fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollDownList(fragmentListView);
-		solo.getText(solo.getString(R.string.brick_drone_turn_right));
+
+		solo.getText(solo.getString(R.string.brick_drone_toggle_video));
+		solo.getText(solo.getString(R.string.brick_drone_switch_camera));
 
 		solo.goBack();
 		solo.scrollUpList(fragmentListView);

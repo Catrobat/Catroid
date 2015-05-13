@@ -540,7 +540,6 @@
     <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
     <string name="drone_emergency_angle">AR.Drone euler angles went too high. Motors shutdown to prevent bad behaviors.</string>
     <string name="drone_emergency_cutout">One or more motor(s) was stopped by environment.</string>
-    <string name="drone_emergency_motors">One or more motor(s) is not responding.</string>
     <string name="drone_alert_battery_low">Battery is too low to take-off again.</string>
     <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone altitude.</string>
     <string name="drone_alert_vision">No speed estimation from bottom facing camera.</string>
@@ -658,7 +657,7 @@
     <string name="brick_drone_turn_right_magneto">Turn right [angle]</string>
     <string name="brick_drone_angle">Angle</string>
     <string name="brick_drone_set_cofig">Set config</string>
-    <string name="brick_drone_start_video">Toggle video</string>
+    <string name="brick_drone_toggle_video">Toggle video</string>
     <string name="brick_drone_switch_camera">Switch camera</string>
 
     <!-- <string name="brick_drone_land">Drone: land</string> -->

@@ -23,17 +23,11 @@
 
 package org.catrobat.catroid.content.bricks;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.TextView;
+
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
@@ -46,29 +40,29 @@ import java.util.List;
 
 
 
-public class DroneStartVideoBrick extends BrickBaseType {
+public class DroneToggleVideoBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
-	public DroneStartVideoBrick() {
+	public DroneToggleVideoBrick() {
 
 	}
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
-		DroneStartVideoBrick copyBrick = (DroneStartVideoBrick) clone();
+		DroneToggleVideoBrick copyBrick = (DroneToggleVideoBrick) clone();
 		return copyBrick;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_drone_start_video, null);
+		View prototypeView = View.inflate(context, R.layout.brick_drone_toggle_video, null);
 
 		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new DroneStartVideoBrick();
+		return new DroneToggleVideoBrick();
 	}
 
 	@Override
@@ -79,10 +73,10 @@ public class DroneStartVideoBrick extends BrickBaseType {
 		if (view == null) {
 			alphaValue = 255;
 		}
-		view = View.inflate(context, R.layout.brick_drone_start_video, null);
+		view = View.inflate(context, R.layout.brick_drone_toggle_video, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_drone_start_video_checkbox);
+		setCheckboxView(R.id.brick_drone_toggle_video_checkbox);
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
@@ -98,7 +92,7 @@ public class DroneStartVideoBrick extends BrickBaseType {
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
 		if (view != null) {
-			View layout = view.findViewById(R.id.brick_drone_start_video);
+			View layout = view.findViewById(R.id.brick_drone_toggle_video);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 			this.alphaValue = (alphaValue);

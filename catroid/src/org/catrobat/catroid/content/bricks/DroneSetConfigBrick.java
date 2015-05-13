@@ -49,6 +49,10 @@ public class DroneSetConfigBrick extends BrickBaseType implements OnItemSelected
 	private String selectedMessage;
 	private int spinnerPosition = 0;
 
+	public static final int DEFAULT = 0;
+	public static final int INDOOR = 1;
+	public static final int OUTDOOR = 2;
+
 	public DroneSetConfigBrick() {
 	}
 
@@ -170,16 +174,21 @@ public class DroneSetConfigBrick extends BrickBaseType implements OnItemSelected
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		if (spinnerPosition == 0) {
-			sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_default));
-			Log.d(getClass().getSimpleName(), "default ausgewählt");
-		} else if (spinnerPosition == 1) {
-			sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_outdoor));
-			Log.d(getClass().getSimpleName(), "outdoor ausgewählt");
-		} else {
-			sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_indoor));
-			Log.d(getClass().getSimpleName(), "indoor ausgewählt");
+		switch(spinnerPosition){
+			case DEFAULT:
+				sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_default));
+				break;
+			case INDOOR:
+				sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_indoor));
+				break;
+			case OUTDOOR:
+				sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_outdoor));
+				break;
 		}
 		return null;
+	}
+
+	public void setSpinnerPosition(int spinnerPosition) {
+		this.spinnerPosition = spinnerPosition;
 	}
 }

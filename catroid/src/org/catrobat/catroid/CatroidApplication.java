@@ -67,7 +67,7 @@ public class CatroidApplication extends Application {
 				System.loadLibrary("avdevice");
 				System.loadLibrary("adfreeflight");
 			} catch (UnsatisfiedLinkError e) {
-				Log.e(TAG, Log.getStackTraceString(e));
+				// Log.e(TAG, Log.getStackTraceString(e));
 				parrotLibrariesLoaded = false;
 				return false;
 			}
