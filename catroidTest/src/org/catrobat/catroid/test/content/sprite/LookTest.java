@@ -64,6 +64,7 @@ public class LookTest extends InstrumentationTestCase {
 		assertEquals("Wrong initialization!", 1f, look.getScaleY());
 		assertEquals("Wrong initialization!", 0f, look.getTransparencyInUserInterfaceDimensionUnit());
 		assertEquals("Wrong initialization!", 100f, look.getBrightnessInUserInterfaceDimensionUnit());
+		assertEquals("Wrong initialization!", 255, look.getColorInUserInterfaceDimensionUnit());
 		assertEquals("Wrong initialization!", 100f, look.getSizeInUserInterfaceDimensionUnit());
 		assertEquals("Wrong initialization!", 0, look.getZIndex());
 		assertEquals("Wrong initialization!", true, look.visible);
@@ -195,6 +196,17 @@ public class LookTest extends InstrumentationTestCase {
 		look.setBrightnessInUserInterfaceDimensionUnit(-10);
 		assertEquals("Wrong brightness value!", 0f, look.getBrightnessInUserInterfaceDimensionUnit());
 		assertEquals("Wrong brightness value!", 0f, Reflection.getPrivateField(look, "brightness"));
+	}
+
+	public void testColor() {
+
+		int red = 0xE0, green = 0x1C;
+
+		look.setColorInUserInterfaceDimensionUnit(red);
+		assertEquals("Wrong color value!", red, look.getColorInUserInterfaceDimensionUnit());
+
+		look.changeColorInUserInterfaceDimensionUnit(green);
+		assertEquals("Wrong brightness value!", (red + green), look.getColorInUserInterfaceDimensionUnit());
 	}
 
 }

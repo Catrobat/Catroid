@@ -50,6 +50,8 @@ public class BrickEditFormulaTest extends BaseActivityInstrumentationTestCase<Ma
 
 	@Device
 	public void testClickOnBrickItemEditFormula() {
+		checkBrick(R.string.brick_set_color);
+		checkBrick(R.string.brick_change_color);
 		checkBrick(R.string.brick_change_brightness);
 		checkBrick(R.string.brick_change_ghost_effect);
 		checkBrick(R.string.brick_change_size_by);

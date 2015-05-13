@@ -20,37 +20,43 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.formulaeditor;
+
+package org.catrobat.catroid.content.actions;
 
 import android.util.Log;
 
-public enum Sensors {
-	X_ACCELERATION, Y_ACCELERATION, Z_ACCELERATION, COMPASS_DIRECTION, X_INCLINATION, Y_INCLINATION, LOUDNESS, FACE_DETECTED, FACE_SIZE, FACE_X_POSITION, FACE_Y_POSITION, OBJECT_X(
-			true), OBJECT_Y(true), OBJECT_TRANSPARENCY(true), OBJECT_BRIGHTNESS(true), OBJECT_COLOR(true), OBJECT_SIZE(true), OBJECT_ROTATION(
-			true), OBJECT_LAYER(true);
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-	public final boolean isObjectSensor;
-	public static final String TAG = Sensors.class.getSimpleName();
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 
-	Sensors(boolean isObjectSensor) {
-		this.isObjectSensor = isObjectSensor;
-	}
+public class SetColorToAction  extends TemporalAction {
 
-	Sensors() {
-		this.isObjectSensor = false;
-	}
+	private Sprite sprite;
+	private Formula color;
 
-	public static boolean isSensor(String value) {
-		return getSensorByValue(value) != null;
-	}
+	public static int RED = 0xE0;
+	public static int GREEN = 0x1C;
+	public static int BLUE = 0x03;
+	public static int BLACK = 0x00;
+	public static int WHITE = 0xFF;
 
-	public static Sensors getSensorByValue(String value) {
+	protected void update(float delta) {
 		try {
-			return valueOf(value);
-		} catch (IllegalArgumentException illegalArgumentException) {
-			Log.e(TAG, Log.getStackTraceString(illegalArgumentException));
+			Integer eightBitColor = color == null ? -1 : color.interpretInteger(sprite);
+ 			sprite.look.setColorInUserInterfaceDimensionUnit(eightBitColor);
+
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
-		return null;
 	}
 
+	public void setColor(Formula c) {
+		color = c;
+	}
+	public void setSprite(Sprite s) {
+		sprite = s;
+	}
 }

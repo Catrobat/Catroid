@@ -342,7 +342,6 @@ public class Look extends Image {
 	public float getBrightnessInUserInterfaceDimensionUnit() {
 		return brightness * 100f;
 	}
-
 	public void setBrightnessInUserInterfaceDimensionUnit(float percent) {
 		if (percent < 0f) {
 			percent = 0f;
@@ -354,9 +353,40 @@ public class Look extends Image {
 		brightnessChanged = true;
 		imageChanged = true;
 	}
-
 	public void changeBrightnessInUserInterfaceDimensionUnit(float changePercent) {
 		setBrightnessInUserInterfaceDimensionUnit(getBrightnessInUserInterfaceDimensionUnit() + changePercent);
+	}
+
+	public int getColorInUserInterfaceDimensionUnit()
+	{
+		int color = getColor().toIntBits();
+
+		float blue =  ((float) ((color & 0x00FF0000) >>> 16)) /255f;
+		float green = ((float) ((color & 0x0000FF00) >>> 8))  /255f;
+		float red =   ((float) ((color & 0x000000FF)))        / 255f;
+
+		int r = (int) ((red * 7) + 0.5) << 5;
+		int g = (int) ((green * 7) + 0.5) << 2;
+		int b = (int) ((blue * 3) + 0.5);
+
+		int ret = r | g | b;
+		return ret;
+		// return colorInUserInterfaceDimension;
+	}
+	public void setColorInUserInterfaceDimensionUnit(int val)
+	{
+		// colorInUserInterfaceDimension = val;
+
+		float red = ((float) ((val & 0xE0) >>> 5)) / 7;
+		float green = ((float) ((val & 0x1C) >>> 2)) / 7;
+		float blue = ((float) (val & 0x03)) / 3;
+		setColor(red, green, blue, alpha);
+	}
+	public void changeColorInUserInterfaceDimensionUnit(int val)
+	{
+		int color = getColorInUserInterfaceDimensionUnit();
+		color = (color + val) % 256;
+		setColorInUserInterfaceDimensionUnit(color);
 	}
 
 	private void doHandleBroadcastEvent(String broadcastMessage) {

@@ -46,6 +46,7 @@ public class ParserTestObject extends AndroidTestCase {
 	private static final float LOOK_Y_POSITION = 23.4f;
 	private static final float LOOK_X_POSITION = 5.6f;
 	private static final float LOOK_BRIGHTNESS = 0.7f;
+	private static final int LOOK_COLOR = 255;
 	private static final float LOOK_SCALE = 90.3f;
 	private static final float LOOK_ROTATION = 30.7f;
 	private static final float DELTA = 0.01f;
@@ -61,6 +62,7 @@ public class ParserTestObject extends AndroidTestCase {
 		testSprite.look.setYInUserInterfaceDimensionUnit(LOOK_Y_POSITION);
 		testSprite.look.setTransparencyInUserInterfaceDimensionUnit(LOOK_ALPHA);
 		testSprite.look.setBrightnessInUserInterfaceDimensionUnit(LOOK_BRIGHTNESS);
+		testSprite.look.setColorInUserInterfaceDimensionUnit(LOOK_COLOR);
 		testSprite.look.setSizeInUserInterfaceDimensionUnit(LOOK_SCALE);
 		testSprite.look.setDirectionInUserInterfaceDimensionUnit(LOOK_ROTATION);
 	}
@@ -88,6 +90,8 @@ public class ParserTestObject extends AndroidTestCase {
                 interpretSensor(Sensors.OBJECT_TRANSPARENCY), DELTA);
 		assertEquals("Formula interpretation is not as expected (brightness)", LOOK_BRIGHTNESS,
                 interpretSensor(Sensors.OBJECT_BRIGHTNESS), DELTA);
+		assertEquals("Formula interpretation is not as expected (color)", LOOK_COLOR,
+				interpretSensor(Sensors.OBJECT_COLOR), DELTA);
 		assertEquals("Formula interpretation is not as expected (size)", LOOK_SCALE,
                 interpretSensor(Sensors.OBJECT_SIZE), DELTA);
 		assertEquals("Formula interpretation is not as expected (rotation)", LOOK_ROTATION,

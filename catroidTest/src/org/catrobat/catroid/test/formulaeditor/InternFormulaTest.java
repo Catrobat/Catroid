@@ -688,10 +688,13 @@ public class InternFormulaTest extends InstrumentationTestCase {
 				method.invoke(internFormula, arguments));
 
 		internTokens = new ArrayList<InternToken>();
-		internTokens.add(new InternToken(InternTokenType.SENSOR, Sensors.OBJECT_BRIGHTNESS.name()));
+		internTokens.add(new InternToken(InternTokenType.SENSOR, Sensors.OBJECT_COLOR.name()));
 		internFormula = new InternFormula(internTokens);
 		internFormula.generateExternFormulaStringAndInternExternMapping(getInstrumentation().getTargetContext());
 		internFormula.setCursorAndSelection(1, false);
+
+		assertEquals("Do not modify on error", CursorTokenPropertiesAfterModification.RIGHT,
+				method.invoke(internFormula, arguments));
 
 		tokensToReplaceWith = new ArrayList<InternToken>();
 		tokensToReplaceWith.add(new InternToken(InternTokenType.FUNCTION_NAME));
