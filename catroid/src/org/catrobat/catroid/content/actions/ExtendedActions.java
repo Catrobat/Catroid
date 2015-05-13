@@ -82,6 +82,13 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
+	public static ChangeColorByNAction changeColorByN(Sprite sprite, Formula color) {
+		ChangeColorByNAction action = action(ChangeColorByNAction.class);
+		action.setSprite(sprite);
+		action.setColor(color);
+		return action;
+	}
+
 	public static ChangeSizeByNAction changeSizeByN(Sprite sprite, Formula size) {
 		ChangeSizeByNAction action = action(ChangeSizeByNAction.class);
 		action.setSprite(sprite);
@@ -235,6 +242,13 @@ public class ExtendedActions extends Actions {
 		SetTransparencyAction action = action(SetTransparencyAction.class);
 		action.setSprite(sprite);
 		action.setTransparency(transparency);
+		return action;
+	}
+
+	public static SetColorToAction setColorTo(Sprite sprite, Formula color) {
+		SetColorToAction action = action(SetColorToAction.class);
+		action.setSprite(sprite);
+		action.setColor(color);
 		return action;
 	}
 
