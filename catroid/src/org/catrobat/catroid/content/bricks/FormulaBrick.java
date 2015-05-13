@@ -22,7 +22,9 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import android.content.Context;
 import android.view.View;
+import android.widget.BaseAdapter;
 
 import org.catrobat.catroid.formulaeditor.Formula;
 
@@ -81,6 +83,10 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 			return;
 		}
 		showFormulaEditorToEditFormula(view);
+	}
+
+	public View getCustomView(Context context, int brickId, BaseAdapter baseAdapter) {
+		return null;
 	}
 
 	public abstract void showFormulaEditorToEditFormula(View view);

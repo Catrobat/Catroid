@@ -47,7 +47,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class PhiroProPlayToneBrick extends FormulaBrick implements OnClickListener {
+public class PhiroProPlayToneBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -189,7 +189,7 @@ public class PhiroProPlayToneBrick extends FormulaBrick implements OnClickListen
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.PHIRO_PRO_SPEED);
+		FormulaEditorFragment.showFragment(view, this, BrickField.PHIRO_PRO_DURATION_IN_SECONDS);
 	}
 
 	@Override

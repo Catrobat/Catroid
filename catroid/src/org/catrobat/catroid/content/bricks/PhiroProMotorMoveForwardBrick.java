@@ -26,7 +26,6 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -40,14 +39,16 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.ui.fragment.SingleSeekbar;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class PhiroProMotorMoveForwardBrick extends FormulaBrick implements OnClickListener {
+public class PhiroProMotorMoveForwardBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -56,14 +57,11 @@ public class PhiroProMotorMoveForwardBrick extends FormulaBrick implements OnCli
 	private String motor;
 	private transient Motor motorEnum;
 	private transient TextView editSpeed;
-	private Formula speed;
-	private Boolean isFormulaEditorPreview = false;
 
-	public void setIsFormulaEditorPreview(Boolean isFormulaEditorPreview) {
-		this.isFormulaEditorPreview = isFormulaEditorPreview;
-	}
+	private transient SingleSeekbar speedSeekbar =
+			new SingleSeekbar(this, BrickField.PHIRO_PRO_SPEED, R.string.phiro_pro_motor_speed);
 
-	public static enum Motor {
+	public enum Motor {
 		MOTOR_LEFT, MOTOR_RIGHT, MOTOR_BOTH
 	}
 
@@ -75,21 +73,19 @@ public class PhiroProMotorMoveForwardBrick extends FormulaBrick implements OnCli
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
 
-		this.speed = new Formula(speedValue);
+		initializeBrickFields(new Formula(speedValue));
 	}
 
 	public PhiroProMotorMoveForwardBrick(Motor motor, Formula speedFormula) {
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
 
-		this.speed = speedFormula;
+		initializeBrickFields(speedFormula);
 	}
 
-	public void setSpeedTextValue(int speed)
-	{
-//		editSpeed.setText(String.valueOf(speed));
-//		this.speed.setDisplayText(String.valueOf(speed));
-		this.speed.setRoot(new Formula(speed).getRoot());
+	private void initializeBrickFields(Formula speed) {
+		addAllowedBrickField(BrickField.PHIRO_PRO_SPEED);
+		setFormulaWithBrickField(BrickField.PHIRO_PRO_SPEED, speed);
 	}
 
 	protected Object readResolve() {
@@ -120,17 +116,28 @@ public class PhiroProMotorMoveForwardBrick extends FormulaBrick implements OnCli
 
 		phiroProMotorSpinner.setAdapter(motorAdapter);
 		phiroProMotorSpinner.setSelection(motorEnum.ordinal());
+
 		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new PhiroProMotorMoveForwardBrick(motorEnum, speed.clone());
+		return new PhiroProMotorMoveForwardBrick(motorEnum,
+				getFormulaWithBrickField(BrickField.PHIRO_PRO_SPEED).clone());
 	}
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		FormulaEditorFragment.showFragment(view, this, BrickField.PHIRO_PRO_SPEED);
+		if (isSpeedOnlyANumber()) {
+			FormulaEditorFragment.showCustomFragment(view, this, BrickField.PHIRO_PRO_SPEED);
+		} else {
+			FormulaEditorFragment.showFragment(view, this, BrickField.PHIRO_PRO_SPEED);
+		}
+	}
+
+	private boolean isSpeedOnlyANumber() {
+		return getFormulaWithBrickField(BrickField.PHIRO_PRO_SPEED).getRoot().getElementType()
+				== FormulaElement.ElementType.NUMBER;
 	}
 
 	@Override
@@ -157,8 +164,8 @@ public class PhiroProMotorMoveForwardBrick extends FormulaBrick implements OnCli
 
 		TextView textSpeed = (TextView) view.findViewById(R.id.brick_phiro_pro_motor_forward_action_speed_text_view);
 		editSpeed = (TextView) view.findViewById(R.id.brick_phiro_pro_motor_forward_action_speed_edit_text);
-		speed.setTextFieldId(R.id.brick_phiro_pro_motor_forward_action_speed_edit_text);
-		speed.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.PHIRO_PRO_SPEED).setTextFieldId(R.id.brick_phiro_pro_motor_forward_action_speed_edit_text);
+		getFormulaWithBrickField(BrickField.PHIRO_PRO_SPEED).refreshTextField(view);
 
 		textSpeed.setVisibility(View.GONE);
 		editSpeed.setVisibility(View.VISIBLE);
@@ -201,6 +208,10 @@ public class PhiroProMotorMoveForwardBrick extends FormulaBrick implements OnCli
 		return view;
 	}
 
+	@Override
+	public View getCustomView(Context context, int brickId, BaseAdapter baseAdapter) {
+		return speedSeekbar.getView(context);
+	}
 
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
@@ -242,7 +253,7 @@ public class PhiroProMotorMoveForwardBrick extends FormulaBrick implements OnCli
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.phiroProMotorMoveForwardAction(sprite, motorEnum,
-				speed));
+				getFormulaWithBrickField(BrickField.PHIRO_PRO_SPEED)));
 		return null;
 	}
 

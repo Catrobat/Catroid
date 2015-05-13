@@ -164,6 +164,22 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		}
 	}
 
+	public void overwriteCurrentFormula(InternFormulaState internFormulaState) {
+
+		internFormula = internFormulaState.createInternFormulaFromState();
+		internFormula.generateExternFormulaStringAndInternExternMapping(context);
+
+		updateTextAndCursorFromInternFormula();
+
+		internFormula.selectWholeFormula();
+		highlightSelection();
+
+		history.push(internFormula.getInternFormulaState());
+		String resultingText = updateTextAndCursorFromInternFormula();
+		setSelection(absoluteCursorPosition);
+		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
+	}
+
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);

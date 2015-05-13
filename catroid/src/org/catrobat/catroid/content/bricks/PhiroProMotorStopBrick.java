@@ -49,7 +49,7 @@ public class PhiroProMotorStopBrick extends BrickBaseType implements OnItemSelec
 	private String motor;
 	private transient AdapterView<?> adapterView;
 
-	public static enum Motor {
+	public enum Motor {
 		MOTOR_LEFT, MOTOR_RIGHT, MOTOR_BOTH
 	}
 
