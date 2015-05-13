@@ -30,7 +30,7 @@ import com.parrot.freeflight.settings.ApplicationSettings;
 
 public class CatroidApplication extends Application {
 
-	private static final String TAG = CatroidApplication.class.getSimpleName();;
+	private static final String TAG = CatroidApplication.class.getSimpleName();
 
 	private ApplicationSettings settings;
 	private static Context context;
@@ -67,7 +67,7 @@ public class CatroidApplication extends Application {
 				System.loadLibrary("avdevice");
 				System.loadLibrary("adfreeflight");
 			} catch (UnsatisfiedLinkError e) {
-				Log.e(TAG, Log.getStackTraceString(e));
+				// Log.e(TAG, Log.getStackTraceString(e));
 				parrotLibrariesLoaded = false;
 				return false;
 			}

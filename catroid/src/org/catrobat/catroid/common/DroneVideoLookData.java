@@ -22,43 +22,26 @@
  */
 package org.catrobat.catroid.common;
 
-import android.graphics.Color;
-
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.parrot.freeflight.ui.gl.GLBGVideoSprite;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.Brick;
 
-import java.io.Serializable;
+public class DroneVideoLookData extends LookData{
 
-public class DroneVideoLookData extends LookData implements Serializable, Cloneable {
-	private static final long serialVersionUID = 1L;
-	private static final String TAG = DroneVideoLookData.class.getSimpleName();
-	private boolean firstStart;
-	private GLBGVideoSprite videoTexture;
+	private transient boolean firstStart = true;
+	private transient GLBGVideoSprite videoTexture;
+	private transient int[] videoSize = {0, 0};
+	private transient int[] defaultVideoTextureSize;
 
-	private int[] videoSize = {0, 0};
-	private final int[] defaultVideoTextureSize;
-
-	public DroneVideoLookData () {
-
-		firstStart = true;
-		defaultVideoTextureSize = fitToScreenWidth();
-	}
-
-	private int[] fitToScreenWidth()
-	{
-		float virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
-		float videoRatio = 64f/36f; //fixed ratio of the droneVideo -> see developer guide
-		float videoHeight = virtualScreenWidth / videoRatio;
-
-		return new int[] {(int)virtualScreenWidth, (int)videoHeight};
-	}
+	private transient double virtualScreenWidth;
+	private transient double videoRatio;
+	private transient double videoHeight;
 
 	@Override
 	public int[] getMeasure() {
@@ -67,6 +50,12 @@ public class DroneVideoLookData extends LookData implements Serializable, Clonea
 
 	@Override
 	public Pixmap getPixmap() {
+
+		virtualScreenWidth = Gdx.graphics.getHeight();
+		videoRatio = 64f/36f; //fixed ratio of the droneVideo -> see developer guide
+		videoHeight = virtualScreenWidth / videoRatio;
+		defaultVideoTextureSize = new int[] {(int)virtualScreenWidth, (int)videoHeight};
+
 		if (pixmap == null) {
 			pixmap = new Pixmap(defaultVideoTextureSize[0], defaultVideoTextureSize[1], Pixmap.Format.RGB888);
 			pixmap.setColor(Color.BLUE);

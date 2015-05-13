@@ -73,7 +73,11 @@ import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
 import org.catrobat.catroid.content.bricks.DroneSetConfigBrick;
+import org.catrobat.catroid.content.bricks.DroneStartVideoBrick;
+import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
+import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
+import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
@@ -322,6 +326,10 @@ public final class StorageHandler {
 		xstream.alias("brick", DroneMoveRightBrick.class);
 		xstream.alias("brick", DroneSetConfigBrick.class);
 		xstream.alias("brick", SetTextBrick.class);
+		xstream.alias("brick", DroneTurnLeftBrick.class);
+		xstream.alias("brick", DroneTurnRightBrick.class);
+		xstream.alias("brick", DroneSwitchCameraBrick.class);
+		xstream.alias("brick", DroneStartVideoBrick.class);
 
 		xstream.alias("brick", PhiroMotorMoveBackwardBrick.class);
 		xstream.alias("brick", PhiroMotorMoveForwardBrick.class);
