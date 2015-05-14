@@ -33,6 +33,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
+import org.catrobat.catroid.content.bricks.DroneSetConfigBrick;
+import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
@@ -276,9 +278,9 @@ public final class StandardProjectHandler {
 		return defaultDroneProject;
 	}
 
-	private static Sprite createDroneSprite(String spriteName, DroneBrickFactory.DroneBricks brickName, int xPosition,
+	private static Sprite createDroneSprite(String spriteName, DroneBrickFactory.DroneBricks droneBrick, int xPosition,
 			int yPosition, File lookFile) {
-		return createDroneSprite(spriteName, brickName, xPosition, yPosition, lookFile, 0, 0);
+		return createDroneSprite(spriteName, droneBrick, xPosition, yPosition, lookFile, 0, 0);
 
 	}
 
@@ -319,15 +321,22 @@ public final class StandardProjectHandler {
 	}
 
 
-	private static Sprite createDroneSprite(String spriteName, DroneBrickFactory.DroneBricks brickName, int xPosition,
+	private static Sprite createDroneSprite(String spriteName, DroneBrickFactory.DroneBricks droneBrick, int xPosition,
 			int yPosition, File lookFile, int timeInMilliseconds, int powerInPercent) {
-		//
+
 		Sprite sprite = new Sprite(spriteName);
-		//defaultDroneProject.addSprite(takeOffSprite);
 
 		Script whenSpriteTappedScript = new WhenScript();
-		BrickBaseType brick = DroneBrickFactory.getInstanceOfDroneBrick(brickName, sprite, timeInMilliseconds, powerInPercent);
+
+		BrickBaseType brick = DroneBrickFactory.getInstanceOfDroneBrick(droneBrick, sprite, timeInMilliseconds, powerInPercent);
+		if(brick instanceof DroneTakeOffLandBrick){
+			DroneSetConfigBrick setConfigBrick = new DroneSetConfigBrick();
+			setConfigBrick.setSpinnerPosition(DroneSetConfigBrick.INDOOR);
+			whenSpriteTappedScript.addBrick(setConfigBrick);
+		}
+
 		whenSpriteTappedScript.addBrick(brick);
+
 
 		Script whenProjectStartsScript = new StartScript();
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(calculateValueRelativeToScaledBackground(xPosition),
