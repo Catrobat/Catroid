@@ -24,6 +24,7 @@
 <!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.3//EN" "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
 
 <module name="Checker">
+  <property name="charset" value="UTF-8" />
   <property name="severity" value="warning" />
 
   <module name="TreeWalker">
@@ -151,6 +152,11 @@
   <module name="RegexpSingleline">
     <property name="format" value="^\s*(for\(|if\()" />
     <property name="message" value="Space needed before opening parenthesis." />
+  </module>
+
+  <module name="RegexpSingleline">
+    <property name="format" value="(\uFFFC|\uFFFD|\uFFFF)" />
+    <property name="message" value="Remove illegal block character FFFC, FFFD or FFFF." />
   </module>
 
   <module name="SuppressWithNearbyCommentFilter">
