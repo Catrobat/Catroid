@@ -64,18 +64,20 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		
-		droneConnection = new DroneConnection(this);
 
-		if (droneConnection != null) {
-			try {
-				droneConnection.initialise();
-				droneBatteryReceiver = new DroneBatteryChangedReceiver(this);
-				droneEmergencyReceiver = new DroneEmergencyChangeReceiver(this);
-			} catch (RuntimeException runtimeException) {
-				Log.e(TAG, "Failure during drone service startup", runtimeException);
-				Toast.makeText(this, R.string.error_no_drone_connected, Toast.LENGTH_LONG).show();
-				this.finish();
+		if(droneConnection == null){
+			droneConnection = new DroneConnection(this);
+
+			if (droneConnection != null) {
+				try {
+					droneConnection.initialise();
+					droneBatteryReceiver = new DroneBatteryChangedReceiver(this);
+					droneEmergencyReceiver = new DroneEmergencyChangeReceiver(this);
+				} catch (RuntimeException runtimeException) {
+					Log.e(TAG, "Failure during drone service startup", runtimeException);
+					Toast.makeText(this, R.string.error_no_drone_connected, Toast.LENGTH_LONG).show();
+					this.finish();
+				}
 			}
 		}
 	}
@@ -107,6 +109,7 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 	@Override
 	protected void onDestroy()
 	{
+		Log.d(getClass().getSimpleName(), "DroneStageActivity: onDestroy() wurde aufgerufen");
 		if (droneConnection != null) {
 			droneConnection.destroy();
 		}
