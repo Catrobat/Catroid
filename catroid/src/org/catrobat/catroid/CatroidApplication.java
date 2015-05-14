@@ -56,24 +56,20 @@ public class CatroidApplication extends Application {
 			return true;
 		}
 
-		//Drone is deactivated in release builds for now 04.2014
-		if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
-			try {
-				System.loadLibrary("avutil");
-				System.loadLibrary("swscale");
-				System.loadLibrary("avcodec");
-				System.loadLibrary("avfilter");
-				System.loadLibrary("avformat");
-				System.loadLibrary("avdevice");
-				System.loadLibrary("adfreeflight");
-			} catch (UnsatisfiedLinkError e) {
-				// Log.e(TAG, Log.getStackTraceString(e));
-				parrotLibrariesLoaded = false;
-				return false;
-			}
+		try {
+			System.loadLibrary("avutil");
+			System.loadLibrary("swscale");
+			System.loadLibrary("avcodec");
+			System.loadLibrary("avfilter");
+			System.loadLibrary("avformat");
+			System.loadLibrary("avdevice");
+			System.loadLibrary("adfreeflight");
 			parrotLibrariesLoaded = true;
+		} catch (UnsatisfiedLinkError e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+			parrotLibrariesLoaded = false;
 		}
-		return true;
+		return parrotLibrariesLoaded;
 	}
 
 	public static Context getAppContext() {

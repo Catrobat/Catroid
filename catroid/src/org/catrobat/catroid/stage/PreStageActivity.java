@@ -36,6 +36,7 @@ import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -100,11 +101,12 @@ public class PreStageActivity extends BaseActivity {
 			connectBTDevice(BluetoothDevice.LEGO_NXT);
 		}
 
+		
 		if ((requiredResources & Brick.BLUETOOTH_PHIRO) > 0) {
 			connectBTDevice(BluetoothDevice.PHIRO);
 		}
 
-		if ((resources & Brick.ARDRONE_SUPPORT) > 0) {
+		if ((resources & Brick.ARDRONE_SUPPORT ) > 0 && BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
 
 //			WifiManager mainWifiObj;
 //			mainWifiObj = (WifiManager) getSystemService(getBaseContext().WIFI_SERVICE);

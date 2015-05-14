@@ -60,7 +60,6 @@ import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnectionChangeReceiverDelegate,
 		DroneAvailabilityDelegate {
 
-	public static final String INIT_DRONE_STRING_EXTRA = "STRING_EXTRA_INIT_DRONE";
 	public static final int DRONE_BATTERY_THRESHOLD = 10;
 
 
@@ -155,15 +154,6 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 		}
 	};
 
-	public static void addDroneSupportExtraToNewIntentIfPresentInOldIntent(Intent oldIntent, Intent newIntent) {
-		if (newIntent == null || oldIntent == null) {
-			return;
-		}
-
-		Boolean isDroneRequired = oldIntent.getBooleanExtra(INIT_DRONE_STRING_EXTRA, false);
-		newIntent.putExtra(INIT_DRONE_STRING_EXTRA, isDroneRequired);
-	}
-
 	@Override
 	public void onDroneReady() {
 		Log.d(TAG, "onDroneReady -> check battery -> go to stage");
@@ -250,8 +240,6 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 
 	@SuppressLint("NewApi")
 	public void checkDroneConnectivity() {
-
-		returnToActivityIntent.putExtra(INIT_DRONE_STRING_EXTRA, true);
 
 		if (checkDroneConnectionTask != null && checkDroneConnectionTask.getStatus() != Status.FINISHED) {
 			checkDroneConnectionTask.cancel(true);

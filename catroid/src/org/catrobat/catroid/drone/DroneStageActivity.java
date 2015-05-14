@@ -64,9 +64,8 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		if (getIntent().getBooleanExtra(DroneInitializer.INIT_DRONE_STRING_EXTRA, false)) {
-			droneConnection = new DroneConnection(this);
-		}
+		
+		droneConnection = new DroneConnection(this);
 
 		if (droneConnection != null) {
 			try {
