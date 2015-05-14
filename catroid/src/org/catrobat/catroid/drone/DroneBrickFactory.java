@@ -33,7 +33,7 @@ import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
 import org.catrobat.catroid.content.bricks.DroneSetConfigBrick;
-import org.catrobat.catroid.content.bricks.DroneStartVideoBrick;
+import org.catrobat.catroid.content.bricks.DroneToggleVideoBrick;
 import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
@@ -57,7 +57,7 @@ public final class DroneBrickFactory {
 		DRONE_TURN_RIGHT_BRICK,
 		DRONE_TURN_LEFT_BRICK,
 		DRONE_SET_CONFIG_BRICK,
-		DRONE_START_VIDEO_BRICK,
+		DRONE_TOGGLE_VIDEO_BRICK,
 		DRONE_SWITCH_CAMERA_BRICK
 	}
 
@@ -101,8 +101,8 @@ public final class DroneBrickFactory {
 			case DRONE_SET_CONFIG_BRICK:
 				return new DroneSetConfigBrick();
 
-			case DRONE_START_VIDEO_BRICK:
-				return new DroneStartVideoBrick();
+			case DRONE_TOGGLE_VIDEO_BRICK:
+				return new DroneToggleVideoBrick();
 
 			case DRONE_SWITCH_CAMERA_BRICK:
 				return new DroneSwitchCameraBrick();

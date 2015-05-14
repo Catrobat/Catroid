@@ -250,7 +250,7 @@ public final class StandardProjectHandler {
 						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_light_bulb, context,
 						true, backgroundImageScaleFactor);
 
-		defaultDroneProject.addSprite(createDroneSprite(showVideoSpriteName, DroneBrickFactory.DroneBricks.DRONE_START_VIDEO_BRICK,-260,500, showVideoFile));
+		defaultDroneProject.addSprite(createDroneSprite(showVideoSpriteName, DroneBrickFactory.DroneBricks.DRONE_TOGGLE_VIDEO_BRICK,-260,500, showVideoFile));
 
 		//Video Sprite 2 (with Look) + switch camera on tapped
 		String videoSpriteName = "drone video";

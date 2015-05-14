@@ -30,14 +30,14 @@
     android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/brick_drone_start_video_checkbox"
+        android:id="@+id/brick_drone_toggle_video_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_drone_start_video"
+        android:id="@+id/brick_drone_toggle_video"
         style="@style/BrickContainer.Drone.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
