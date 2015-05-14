@@ -24,7 +24,6 @@
 package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-import com.parrot.freeflight.drone.DroneConfig;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.drone.DroneConfigManager;
@@ -34,34 +33,34 @@ import org.catrobat.catroid.drone.DroneConfigManager;
  */
 public class DroneSetConfigAction extends TemporalAction {
 
-	private int ressourceID;
+    private int ressourceID;
 
-	@Override
-	protected void update(float percent) {
+    @Override
+    protected void update(float percent) {
 
-	}
+    }
 
-	@Override
-	protected void begin(){
+    @Override
+    protected void begin() {
 
-		switch (getRessourceID()){
-			case R.string.drone_config_default:
-				DroneConfigManager.getInstance().setDefaultConfig();
-				break;
-			case R.string.drone_config_outdoor:
-				DroneConfigManager.getInstance().setOutdoorConfig();
-				break;
-			case R.string.drone_config_indoor:
-				DroneConfigManager.getInstance().setIndoorConfig();
-				break;
-		}
-	}
+        switch (getRessourceID()) {
+            case R.string.drone_config_default:
+                DroneConfigManager.getInstance().setDefaultConfig();
+                break;
+            case R.string.drone_config_indoor:
+                DroneConfigManager.getInstance().setIndoorConfig();
+                break;
+            case R.string.drone_config_outdoor:
+                DroneConfigManager.getInstance().setOutdoorConfig();
+                break;
+        }
+    }
 
-	public int getRessourceID() {
-		return ressourceID;
-	}
+    public int getRessourceID() {
+        return ressourceID;
+    }
 
-	public void setRessourceID(int ressourceID) {
-		this.ressourceID = ressourceID;
-	}
+    public void setRessourceID(int ressourceID) {
+        this.ressourceID = ressourceID;
+    }
 }

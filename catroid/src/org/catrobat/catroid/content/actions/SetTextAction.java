@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,69 +22,65 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.stage.DrawTextActor;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.stage.TextActor;
 
 public class SetTextAction extends TemporalAction {
 
-	private Formula endX;
-	private Formula endY;
-	private Formula duration;
-	private Formula text;
+    private Formula endX;
+    private Formula endY;
+    private Formula text;
+    private Sprite sprite;
+    private TextActor actor;
 
-	private Sprite sprite;
-	private DrawTextActor actor;
+    @Override
+    protected void begin() {
+        try {
+            String string = text.interpretString(sprite);
+            int posX = endX.interpretInteger(sprite);
+            int posY = endY.interpretInteger(sprite);
 
-	@Override
-	protected void begin() {
-		try {
-			String string = text.interpretString(sprite);
-			int posX = endX.interpretInteger(sprite);
-			int posY = endY.interpretInteger(sprite);
+            actor = new TextActor(string, posX, posY);
+            StageActivity.stageListener.addActor(actor);
+        } catch (InterpretationException exception) {
+            Log.e(getClass().getSimpleName(), Log.getStackTraceString(exception));
+        }
+    }
 
-			actor = new DrawTextActor(string, posX, posY);
-			StageActivity.stageListener.addActor(actor);
-		} catch (InterpretationException e) {
-			e.printStackTrace();
-		}
-	}
+    @Override
+    protected void update(float percent) {
+        try {
+            String str = text.interpretString(sprite);
+            int posX = endX.interpretInteger(sprite);
+            int posY = endY.interpretInteger(sprite);
 
-	@Override
-	protected void update(float percent) {
-		try {
-			String str = text.interpretString(sprite);
-			int posX = endX.interpretInteger(sprite);
-			int posY = endY.interpretInteger(sprite);
+            actor.setText(str);
+            actor.setPosX(posX);
+            actor.setPosY(posY);
+        } catch (InterpretationException exception) {
+            Log.e(getClass().getSimpleName(), Log.getStackTraceString(exception));
+        }
+    }
 
-		    actor.setText(str);
-			actor.setPosX(posX);
-			actor.setPosY(posY);
-		} catch (InterpretationException e) {
-			e.printStackTrace();
-		}
-	}
+    public void setPosition(Formula x, Formula y) {
+        endX = x;
+        endY = y;
+    }
 
-	public void setDuration(Formula duration) {
-		this.duration = duration;
-	}
+    public void setText(Formula text) {
+        this.text = text;
+    }
 
-	public void setPosition(Formula x, Formula y) {
-		endX = x;
-		endY = y;
-	}
-
-	public void setText(Formula text) {
-		this.text = text;
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
+    }
 
 
 }

@@ -36,8 +36,7 @@ public class DroneBrickTest extends InstrumentationTestCase {
 
 	public void testAllBrickResources() {
 		for (DroneBricks brick : DroneBrickFactory.DroneBricks.values()) {
-			System.out.println("Brick...");
-			BrickBaseType brickFromFactory = DroneBrickFactory.getInstanceOfDroneBrick(brick, null, 0, 0);
+			BrickBaseType brickFromFactory = DroneBrickFactory.getInstanceOfDroneBrick(brick, 0, 0);
 			String brickName = brickFromFactory.getClass().getSimpleName();
 			Log.d(TAG, "brickName: " + brickName);
 			assertEquals("Resource is wrong for brick: " + brickName, DRONE_RESOURCE,

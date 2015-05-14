@@ -147,12 +147,12 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 		TextView posY = (TextView) prototypeView.findViewById(R.id.brick_set_text_prototype_text_view_y);
 
 		TextView text = (TextView) prototypeView.findViewById(R.id.brick_set_text_prototype_view);
-		TextView second_text = (TextView) prototypeView.findViewById(R.id.brick_set_text_seconds_text_view);
+		TextView secondText = (TextView) prototypeView.findViewById(R.id.brick_set_text_seconds_text_view);
 
 		posX.setText(String.valueOf(BrickValues.X_POSITION));
 		posY.setText(String.valueOf(BrickValues.Y_POSITION));
 		text.setText(BrickValues.STRING_VALUE);
-		second_text.setText(BrickValues.STRING_VALUE);
+		secondText.setText(BrickValues.STRING_VALUE);
 
 		return prototypeView;
 	}
@@ -201,19 +201,23 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 		}
 		switch (view.getId()) {
 			case R.id.brick_set_text_edit_text_x:
-				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.X_DESTINATION));
+				FormulaEditorFragment.showFragment(view, this, BrickField.X_DESTINATION);
 				break;
 
 			case R.id.brick_set_text_edit_text_y:
-				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.Y_DESTINATION));
+				FormulaEditorFragment.showFragment(view, this, BrickField.Y_DESTINATION);
 				break;
 
 			case R.id.brick_set_text_edit_text:
-				FormulaEditorFragment
-						.showFragment(view, this, getFormulaWithBrickField(BrickField.STRING));
+				FormulaEditorFragment.showFragment(view, this, BrickField.STRING);
 				break;
 		}
 
+	}
+
+	@Override
+	public void showFormulaEditorToEditFormula(View view) {
+		FormulaEditorFragment.showFragment(view, this, BrickField.X_DESTINATION);
 	}
 
 	@Override

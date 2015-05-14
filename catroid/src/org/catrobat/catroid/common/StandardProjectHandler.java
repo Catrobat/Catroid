@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.DroneSetConfigBrick;
+import org.catrobat.catroid.content.bricks.DroneSpinnerBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
@@ -299,7 +300,7 @@ public final class StandardProjectHandler {
 		Sprite sprite = new Sprite(spriteName);
 
 		Script whenSpriteTappedScript = new WhenScript();
-		BrickBaseType brick = DroneBrickFactory.getInstanceOfDroneBrick(DroneBrickFactory.DroneBricks.DRONE_SWITCH_CAMERA_BRICK, sprite, 0, 0);
+		BrickBaseType brick = DroneBrickFactory.getInstanceOfDroneBrick(DroneBrickFactory.DroneBricks.DRONE_SWITCH_CAMERA_BRICK, 0, 0);
 		whenSpriteTappedScript.addBrick(brick);
 
 		Script whenProjectStartsScript = new StartScript();
@@ -332,8 +333,8 @@ public final class StandardProjectHandler {
 
 		Script whenSpriteTappedScript = new WhenScript();
 
-		BrickBaseType brick = DroneBrickFactory.getInstanceOfDroneBrick(droneBrick, sprite, timeInMilliseconds, powerInPercent);
-		if(brick instanceof DroneTakeOffLandBrick){
+		BrickBaseType brick = DroneBrickFactory.getInstanceOfDroneBrick(droneBrick, timeInMilliseconds, powerInPercent);
+		if (brick instanceof DroneTakeOffLandBrick) {
 			DroneSetConfigBrick setConfigBrick = new DroneSetConfigBrick();
 			setConfigBrick.setSpinnerPosition(DroneSetConfigBrick.INDOOR);
 			whenSpriteTappedScript.addBrick(setConfigBrick);

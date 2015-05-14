@@ -489,7 +489,7 @@
     <string name="default_project_var_random_to">random to</string>
 
     <!-- defaultDroneValues -->
-    <string name="default_drone_project_name">My first Drone program</string>
+    <string name="default_drone_project_name">My first drone program</string>
     <string name="default_drone_project_sprites_takeoff">Take off / Land</string>
 
     <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->
@@ -656,11 +656,9 @@
     <string name="brick_drone_turn_left_magneto">Turn left [angle]</string>
     <string name="brick_drone_turn_right_magneto">Turn right [angle]</string>
     <string name="brick_drone_angle">Angle</string>
-    <string name="brick_drone_set_cofig">Set config</string>
+    <string name="brick_drone_set_config">Set config</string>
     <string name="brick_drone_toggle_video">Toggle video</string>
     <string name="brick_drone_switch_camera">Switch camera</string>
-
-    <!-- <string name="brick_drone_land">Drone: land</string> -->
     <!--  -->
 
     <!-- Phiro bricks -->
@@ -797,10 +795,6 @@
     <string name="formula_editor_sensor_x_inclination">inclination_x</string>
     <string name="formula_editor_sensor_y_inclination">inclination_y</string>
     <string name="formula_editor_sensor_loudness">loudness</string>
-    <string name="formula_editor_sensor_face_detected">is_face_detected</string>
-    <string name="formula_editor_sensor_face_size">face_size</string>
-    <string name="formula_editor_sensor_face_x_position">face_x_position</string>
-    <string name="formula_editor_sensor_face_y_position">face_y_position</string>
     <string name="formula_editor_sensor_drone_battery_status">drone_battery_status</string>
     <string name="formula_editor_sensor_drone_emergency_state">drone_emergency_state</string>
     <string name="formula_editor_sensor_drone_flying">drone_flying</string>

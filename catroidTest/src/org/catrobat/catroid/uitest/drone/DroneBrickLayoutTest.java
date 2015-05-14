@@ -72,7 +72,7 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.clickOnText(solo.getString(R.string.scripts));
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
 
-		solo.sleep(1000);
+		solo.waitForText(solo.getString(R.string.category_control));
 
 		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
 				solo.getCurrentViews(ListView.class).size() - 1);
@@ -95,7 +95,7 @@ public class DroneBrickLayoutTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.getText(solo.getString(R.string.brick_drone_move_backward));
 		solo.getText(solo.getString(R.string.brick_drone_turn_left));
 		solo.getText(solo.getString(R.string.brick_drone_turn_right));
-		solo.getText(solo.getString(R.string.brick_drone_set_cofig));
+		solo.getText(solo.getString(R.string.brick_drone_set_config));
 		fragmentListView = solo.getCurrentViews(ListView.class).get(solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollDownList(fragmentListView);
 

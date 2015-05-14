@@ -25,8 +25,6 @@ package org.catrobat.catroid.stage;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
-import android.opengl.GLES20;
-import android.opengl.GLUtils;
 import android.os.SystemClock;
 import android.util.Log;
 
@@ -53,7 +51,6 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.common.collect.Multimap;
-import com.parrot.freeflight.ui.gl.GLBGVideoSprite;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -661,7 +658,7 @@ public class StageListener implements ApplicationListener {
 		batch.dispose();
 	}
 
-	public void addActor (Look look)
+	public void addActor (Actor actor)
 	{
 		stage.addActor(actor);
 	}
@@ -679,7 +676,7 @@ public class StageListener implements ApplicationListener {
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		font.setScale(scale);
 
-		SpriteBatch batch = stage.getSpriteBatch();
+		Batch batch = stage.getBatch();
 		batch.begin();
 		font.draw(batch, text, posX, posY);
 		batch.end();

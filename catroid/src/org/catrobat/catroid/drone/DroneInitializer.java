@@ -58,238 +58,224 @@ import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 
 public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnectionChangeReceiverDelegate,
-		DroneAvailabilityDelegate {
+        DroneAvailabilityDelegate {
 
-	public static final String INIT_DRONE_STRING_EXTRA = "STRING_EXTRA_INIT_DRONE";
-	public static final int DRONE_BATTERY_THRESHOLD = 10;
-
-
-	private static DroneControlService droneControlService = null;
-	private BroadcastReceiver droneReadyReceiver = null;
-	private BroadcastReceiver droneStateReceiver = null;
-	private CheckDroneNetworkAvailabilityTask checkDroneConnectionTask;
-	private DroneConnectionChangedReceiver droneConnectionChangeReceiver;
-
-	private static final String TAG = DroneInitializer.class.getSimpleName();
-
-	private PreStageActivity prestageStageActivity;
-	private Intent returnToActivityIntent = null;
-
-	public DroneInitializer(PreStageActivity prestageStageActivity, Intent returnToActivityIntent) {
-		this.prestageStageActivity = prestageStageActivity;
-		this.returnToActivityIntent = returnToActivityIntent;
-	}
-
-	private void showTermsOfUseDialog() {
-		Bundle args = new Bundle();
-		args.putBoolean(TermsOfUseDialogFragment.DIALOG_ARGUMENT_TERMS_OF_USE_ACCEPT, true);
-		TermsOfUseDialogFragment termsOfUseDialog = new TermsOfUseDialogFragment();
-		termsOfUseDialog.setArguments(args);
-		termsOfUseDialog.show(prestageStageActivity.getSupportFragmentManager(),
-				TermsOfUseDialogFragment.DIALOG_FRAGMENT_TAG);
-	}
-
-	public void initialise() {
-		if (SettingsActivity.areTermsOfServiceAgreedPermanently(prestageStageActivity.getApplicationContext())) {
-
-			if (checkRequirements()) {
-				checkDroneConnectivity();
-			}
-		} else {
-			showTermsOfUseDialog();
-		}
-	}
-
-	public boolean checkRequirements() {
-		if (!CatroidApplication.OS_ARCH.startsWith("arm")) {
-			showUnCancellableErrorDialog(prestageStageActivity,
-					prestageStageActivity.getString(R.string.error_drone_wrong_platform_title),
-					prestageStageActivity.getString(R.string.error_drone_wrong_platform));
-			return false;
-		}
-
-		if (!CatroidApplication.loadNativeLibs()) {
-			showUnCancellableErrorDialog(prestageStageActivity,
-					prestageStageActivity.getString(R.string.error_drone_wrong_platform_title),
-					prestageStageActivity.getString(R.string.error_drone_wrong_platform));
-			return false;
-		}
-
-		return true;
-	}
-
-	public static void showUnCancellableErrorDialog(final PreStageActivity context, String title, String message) {
-		Builder builder = new CustomAlertDialogBuilder(context);
-
-		builder.setTitle(title);
-		builder.setCancelable(false);
-		builder.setMessage(message);
-		builder.setNeutralButton(R.string.close, new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				context.resourceFailed();
-			}
-		});
-		builder.show();
-	}
-
-	private void onDroneServiceConnected(IBinder service) {
-		Log.d(TAG, "onDroneServiceConnected");
-		droneControlService = ((DroneControlService.LocalBinder) service).getService();
-		DroneServiceWrapper.getInstance().setDroneService(droneControlService);
-		droneControlService.resume();
-		droneControlService.requestDroneStatus();
-	}
-
-	private ServiceConnection droneServiceConnection = new ServiceConnection() {
-
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			onDroneServiceConnected(service);
-		}
-
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-			droneControlService = null;
-			DroneServiceWrapper.getInstance().setDroneService(droneControlService);
-		}
-	};
-
-	public static void addDroneSupportExtraToNewIntentIfPresentInOldIntent(Intent oldIntent, Intent newIntent) {
-		if (newIntent == null || oldIntent == null) {
-			return;
-		}
-
-		Boolean isDroneRequired = oldIntent.getBooleanExtra(INIT_DRONE_STRING_EXTRA, false);
-		newIntent.putExtra(INIT_DRONE_STRING_EXTRA, isDroneRequired);
-	}
-
-	@Override
-	public void onDroneReady() {
-		Log.d(TAG, "onDroneReady -> check battery -> go to stage");
-		int droneBatteryCharge = droneControlService.getDroneNavData().batteryStatus;
-		if(droneControlService != null) {
-			if (droneBatteryCharge < DRONE_BATTERY_THRESHOLD) {
-				String dialogTitle = String.format(prestageStageActivity.getString(R.string.error_drone_low_battery_title),
-						droneBatteryCharge);
-				showUnCancellableErrorDialog(prestageStageActivity, dialogTitle,
-						prestageStageActivity.getString(R.string.error_drone_low_battery));
-				return;
-			}
-
-			// test navdata getter
-			Log.d("navdata", String.format("BatterieStatus = %d", droneControlService.getDroneNavData().batteryStatus));
-			Log.d("navdata", "Flying = " + Boolean.toString(droneControlService.getDroneNavData().flying));
-			Log.d("navdata", "Recording = " + Boolean.toString(droneControlService.getDroneNavData().recording));
-			Log.d("navdata", "Camera ready = " + Boolean.toString(droneControlService.getDroneNavData().cameraReady));
-			Log.d("navdata", "initialized = " + Boolean.toString(droneControlService.getDroneNavData().initialized));
-			Log.d("navdata", String.format("emergency state = %d", droneControlService.getDroneNavData().emergencyState));
-			Log.d("navdata", "recording ready = " + Boolean.toString(droneControlService.getDroneNavData().recordReady));
-			Log.d("navdata", "Camera ready = " + Boolean.toString(droneControlService.getDroneNavData().usbActive));
-			Log.d("navdata", String.format("usb remaining = %d", droneControlService.getDroneNavData().usbRemainingTime));
-			Log.d("navdata", "recording = " + Boolean.toString(droneControlService.getDroneNavData().recording));
-			Log.d("navdata", String.format("num frames = %d", droneControlService.getDroneNavData().numFrames));
+    public static final int DRONE_BATTERY_THRESHOLD = 10;
 
 
-			DroneConfigManager.getInstance().setDefaultConfig();
-			droneControlService.flatTrim();
+    private static DroneControlService droneControlService = null;
+    private BroadcastReceiver droneReadyReceiver = null;
+    private BroadcastReceiver droneStateReceiver = null;
+    private CheckDroneNetworkAvailabilityTask checkDroneConnectionTask;
+    private DroneConnectionChangedReceiver droneConnectionChangeReceiver;
 
-			prestageStageActivity.resourceInitialized();
-		}
-	}
+    private static final String TAG = DroneInitializer.class.getSimpleName();
 
-	@Override
-	public void onDroneConnected() {
-		Log.d(getClass().getSimpleName(), "onDroneConnected()");
-		droneControlService.requestConfigUpdate();
-	}
+    private PreStageActivity prestageStageActivity;
 
-	@Override
-	public void onDroneDisconnected() {
-		Log.d(getClass().getSimpleName(), "onDroneDisconnected()");
-	}
+    public DroneInitializer(PreStageActivity prestageStageActivity) {
+        this.prestageStageActivity = prestageStageActivity;
+    }
 
-	@Override
-	public void onDroneAvailabilityChanged(boolean isDroneOnNetwork) {
-		// Here we know that the drone is on the network
-		if (isDroneOnNetwork) {
-			Intent startService = new Intent(prestageStageActivity, DroneControlService.class);
-			prestageStageActivity.startService(startService);
+    private void showTermsOfUseDialog() {
+        Bundle args = new Bundle();
+        args.putBoolean(TermsOfUseDialogFragment.DIALOG_ARGUMENT_TERMS_OF_USE_ACCEPT, true);
+        TermsOfUseDialogFragment termsOfUseDialog = new TermsOfUseDialogFragment();
+        termsOfUseDialog.setArguments(args);
+        termsOfUseDialog.show(prestageStageActivity.getSupportFragmentManager(),
+                TermsOfUseDialogFragment.DIALOG_FRAGMENT_TAG);
+    }
 
-			prestageStageActivity.bindService(new Intent(prestageStageActivity, DroneControlService.class),
-					this.droneServiceConnection, Context.BIND_AUTO_CREATE);
-		} else {
-			showUnCancellableErrorDialog(prestageStageActivity,
-					prestageStageActivity.getString(R.string.error_no_drone_connected_title),
-					prestageStageActivity.getString(R.string.error_no_drone_connected));
-		}
-	}
+    public void initialise() {
+        if (SettingsActivity.areTermsOfServiceAgreedPermanently(prestageStageActivity.getApplicationContext())) {
+
+            if (checkRequirements()) {
+                checkDroneConnectivity();
+            }
+        } else {
+            showTermsOfUseDialog();
+        }
+    }
+
+    public boolean checkRequirements() {
+        if (!CatroidApplication.OS_ARCH.startsWith("arm")) {
+            showUnCancellableErrorDialog(prestageStageActivity,
+                    prestageStageActivity.getString(R.string.error_drone_wrong_platform_title),
+                    prestageStageActivity.getString(R.string.error_drone_wrong_platform));
+            return false;
+        }
+
+        if (!CatroidApplication.loadNativeLibs()) {
+            showUnCancellableErrorDialog(prestageStageActivity,
+                    prestageStageActivity.getString(R.string.error_drone_wrong_platform_title),
+                    prestageStageActivity.getString(R.string.error_drone_wrong_platform));
+            return false;
+        }
+
+        return true;
+    }
+
+    public static void showUnCancellableErrorDialog(final PreStageActivity context, String title, String message) {
+        Builder builder = new CustomAlertDialogBuilder(context);
+
+        builder.setTitle(title);
+        builder.setCancelable(false);
+        builder.setMessage(message);
+        builder.setNeutralButton(R.string.close, new OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                context.resourceFailed();
+            }
+        });
+        builder.show();
+    }
+
+    private void onDroneServiceConnected(IBinder service) {
+        Log.d(TAG, "onDroneServiceConnected");
+        droneControlService = ((DroneControlService.LocalBinder) service).getService();
+        DroneServiceWrapper.getInstance().setDroneService(droneControlService);
+        droneControlService.resume();
+        droneControlService.requestDroneStatus();
+    }
+
+    private ServiceConnection droneServiceConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            onDroneServiceConnected(service);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            droneControlService = null;
+            DroneServiceWrapper.getInstance().setDroneService(droneControlService);
+        }
+    };
+
+    @Override
+    public void onDroneReady() {
+        Log.d(TAG, "onDroneReady -> check battery -> go to stage");
+        int droneBatteryCharge = droneControlService.getDroneNavData().batteryStatus;
+        if (droneControlService != null) {
+            if (droneBatteryCharge < DRONE_BATTERY_THRESHOLD) {
+                String dialogTitle = String.format(prestageStageActivity.getString(R.string.error_drone_low_battery_title),
+                        droneBatteryCharge);
+                showUnCancellableErrorDialog(prestageStageActivity, dialogTitle,
+                        prestageStageActivity.getString(R.string.error_drone_low_battery));
+                return;
+            }
+
+            // test navdata getter
+            Log.d("navdata", String.format("BatterieStatus = %d", droneControlService.getDroneNavData().batteryStatus));
+            Log.d("navdata", "Flying = " + Boolean.toString(droneControlService.getDroneNavData().flying));
+            Log.d("navdata", "Recording = " + Boolean.toString(droneControlService.getDroneNavData().recording));
+            Log.d("navdata", "Camera ready = " + Boolean.toString(droneControlService.getDroneNavData().cameraReady));
+            Log.d("navdata", "initialized = " + Boolean.toString(droneControlService.getDroneNavData().initialized));
+            Log.d("navdata", String.format("emergency state = %d", droneControlService.getDroneNavData().emergencyState));
+            Log.d("navdata", "recording ready = " + Boolean.toString(droneControlService.getDroneNavData().recordReady));
+            Log.d("navdata", "Camera ready = " + Boolean.toString(droneControlService.getDroneNavData().usbActive));
+            Log.d("navdata", String.format("usb remaining = %d", droneControlService.getDroneNavData().usbRemainingTime));
+            Log.d("navdata", "recording = " + Boolean.toString(droneControlService.getDroneNavData().recording));
+            Log.d("navdata", String.format("num frames = %d", droneControlService.getDroneNavData().numFrames));
 
 
-	public void onPrestageActivityDestroy() {
-		if (droneControlService != null) {
-			prestageStageActivity.unbindService(this.droneServiceConnection);
-			droneControlService = null;
-		}
-	}
+            DroneConfigManager.getInstance().setDefaultConfig();
+            droneControlService.flatTrim();
 
-	public void onPrestageActivityResume() {
+            prestageStageActivity.resourceInitialized();
+        }
+    }
 
-			droneReadyReceiver = new DroneReadyReceiver(this);
-			droneStateReceiver = new DroneAvailabilityReceiver(this);
-			droneConnectionChangeReceiver = new DroneConnectionChangedReceiver(this);
+    @Override
+    public void onDroneConnected() {
+        Log.d(getClass().getSimpleName(), "onDroneConnected()");
+        droneControlService.requestConfigUpdate();
+    }
 
-			LocalBroadcastManager manager = LocalBroadcastManager.getInstance(prestageStageActivity
-					.getApplicationContext());
-			manager.registerReceiver(droneReadyReceiver, new IntentFilter(DroneControlService.DRONE_STATE_READY_ACTION));
-			manager.registerReceiver(droneConnectionChangeReceiver, new IntentFilter(
-					DroneControlService.DRONE_CONNECTION_CHANGED_ACTION));
-			manager.registerReceiver(droneStateReceiver, new IntentFilter(DroneStateManager.ACTION_DRONE_STATE_CHANGED));
+    @Override
+    public void onDroneDisconnected() {
+        Log.d(getClass().getSimpleName(), "onDroneDisconnected()");
+    }
 
-	}
+    @Override
+    public void onDroneAvailabilityChanged(boolean isDroneOnNetwork) {
+        // Here we know that the drone is on the network
+        if (isDroneOnNetwork) {
+            Intent startService = new Intent(prestageStageActivity, DroneControlService.class);
+            prestageStageActivity.startService(startService);
 
-	@SuppressLint("NewApi")
-	public void checkDroneConnectivity() {
+            prestageStageActivity.bindService(new Intent(prestageStageActivity, DroneControlService.class),
+                    this.droneServiceConnection, Context.BIND_AUTO_CREATE);
+        } else {
+            showUnCancellableErrorDialog(prestageStageActivity,
+                    prestageStageActivity.getString(R.string.error_no_drone_connected_title),
+                    prestageStageActivity.getString(R.string.error_no_drone_connected));
+        }
+    }
 
-		returnToActivityIntent.putExtra(INIT_DRONE_STRING_EXTRA, true);
 
-		if (checkDroneConnectionTask != null && checkDroneConnectionTask.getStatus() != Status.FINISHED) {
-			checkDroneConnectionTask.cancel(true);
-		}
+    public void onPrestageActivityDestroy() {
+        if (droneControlService != null) {
+            prestageStageActivity.unbindService(this.droneServiceConnection);
+            droneControlService = null;
+        }
+    }
 
-		checkDroneConnectionTask = new CheckDroneNetworkAvailabilityTask() {
-			@Override
-			protected void onPostExecute(Boolean result) {
-				onDroneAvailabilityChanged(result);
-			}
-		};
+    public void onPrestageActivityResume() {
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			checkDroneConnectionTask.executeOnExecutor(CheckDroneNetworkAvailabilityTask.THREAD_POOL_EXECUTOR,
-					prestageStageActivity);
-		} else {
-			checkDroneConnectionTask.execute(prestageStageActivity);
-		}
-	}
+        droneReadyReceiver = new DroneReadyReceiver(this);
+        droneStateReceiver = new DroneAvailabilityReceiver(this);
+        droneConnectionChangeReceiver = new DroneConnectionChangedReceiver(this);
 
-	public void onPrestageActivityPause() {
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(prestageStageActivity
+                .getApplicationContext());
+        manager.registerReceiver(droneReadyReceiver, new IntentFilter(DroneControlService.DRONE_STATE_READY_ACTION));
+        manager.registerReceiver(droneConnectionChangeReceiver, new IntentFilter(
+                DroneControlService.DRONE_CONNECTION_CHANGED_ACTION));
+        manager.registerReceiver(droneStateReceiver, new IntentFilter(DroneStateManager.ACTION_DRONE_STATE_CHANGED));
 
-			if (droneControlService != null) {
-				droneControlService.pause();
-			}
+    }
 
-			LocalBroadcastManager manager = LocalBroadcastManager.getInstance(prestageStageActivity
-					.getApplicationContext());
-			manager.unregisterReceiver(droneReadyReceiver);
-			manager.unregisterReceiver(droneConnectionChangeReceiver);
-			manager.unregisterReceiver(droneStateReceiver);
+    @SuppressLint("NewApi")
+    public void checkDroneConnectivity() {
 
-			if (taskRunning(checkDroneConnectionTask)) {
-				checkDroneConnectionTask.cancelAnyFtpOperation();
-			}
-	}
+        if (checkDroneConnectionTask != null && checkDroneConnectionTask.getStatus() != Status.FINISHED) {
+            checkDroneConnectionTask.cancel(true);
+        }
 
-	private boolean taskRunning(AsyncTask<?, ?, ?> checkMediaTask2) {
-		return !(checkMediaTask2 == null || checkMediaTask2.getStatus() == Status.FINISHED);
-	}
+        checkDroneConnectionTask = new CheckDroneNetworkAvailabilityTask() {
+            @Override
+            protected void onPostExecute(Boolean result) {
+                onDroneAvailabilityChanged(result);
+            }
+        };
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            checkDroneConnectionTask.executeOnExecutor(CheckDroneNetworkAvailabilityTask.THREAD_POOL_EXECUTOR,
+                    prestageStageActivity);
+        } else {
+            checkDroneConnectionTask.execute(prestageStageActivity);
+        }
+    }
+
+    public void onPrestageActivityPause() {
+
+        if (droneControlService != null) {
+            droneControlService.pause();
+        }
+
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(prestageStageActivity
+                .getApplicationContext());
+        manager.unregisterReceiver(droneReadyReceiver);
+        manager.unregisterReceiver(droneConnectionChangeReceiver);
+        manager.unregisterReceiver(droneStateReceiver);
+
+        if (taskRunning(checkDroneConnectionTask)) {
+            checkDroneConnectionTask.cancelAnyFtpOperation();
+        }
+    }
+
+    private boolean taskRunning(AsyncTask<?, ?, ?> checkMediaTask2) {
+        return !(checkMediaTask2 == null || checkMediaTask2.getStatus() == Status.FINISHED);
+    }
 }

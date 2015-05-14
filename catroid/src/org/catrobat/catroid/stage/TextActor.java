@@ -20,24 +20,47 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.stage;
 
-public class DroneMoveBackwardAction extends DroneMoveAction {
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
-    @Override
-    protected void move() {
-        if (getDroneService() != null) {
-            super.setCommandAndYawEnabled(true);
-            super.getDroneService().moveBackward(super.getPowerNormalized());
-        }
-    }
+public class TextActor extends Actor{
 
-    @Override
-    protected void moveEnd() {
-        if (getDroneService() != null) {
-            super.setCommandAndYawEnabled(false);
-            super.getDroneService().moveBackward(DRONE_MOVE_SPEED_STOP);
-        }
-    }
+	private int posX;
+	private int posY;
+	private String text;
+	private float scale = 2f;
+	private BitmapFont font;
 
+	public TextActor(String text, int posX, int posY) {
+		this.text = text;
+		this.posX = posX;
+		this.posY = posY;
+		init();
+	}
+
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		font.draw(batch, text, posX, posY);
+	}
+
+	private void init(){
+		font = new BitmapFont();
+		font.setColor(1.0f, 0.0f, 0.0f, 1.0f);
+		font.setScale(scale);
+	}
+
+	public void setPosX(int posX) {
+		this.posX = posX;
+	}
+
+	public void setPosY(int posY) {
+		this.posY = posY;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
 }

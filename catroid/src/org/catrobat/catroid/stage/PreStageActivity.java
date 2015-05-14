@@ -36,6 +36,7 @@ import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -47,6 +48,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.drone.DroneInitializer;
+import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
@@ -67,28 +69,28 @@ public class PreStageActivity extends BaseActivity {
 	public static final int REQUEST_RESOURCES_INIT = 101;
 	public static final int REQUEST_TEXT_TO_SPEECH = 10;
 
-	private int requiredResourceCounter;
+    private int requiredResourceCounter;
 
 	private static TextToSpeech textToSpeech;
 	private static OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer;
 
-	private DroneInitializer droneInitializer = null;
+    private DroneInitializer droneInitializer = null;
 
-	private Intent returnToActivityIntent = null;
+    private Intent returnToActivityIntent = null;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		returnToActivityIntent = new Intent();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        returnToActivityIntent = new Intent();
 
-		if (isFinishing()) {
-			return;
-		}
+        if (isFinishing()) {
+            return;
+        }
 
-		setContentView(R.layout.activity_prestage);
+        setContentView(R.layout.activity_prestage);
 
-		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
-		requiredResourceCounter = Integer.bitCount(requiredResources);
+        int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
+        requiredResourceCounter = Integer.bitCount(requiredResources);
 
 		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
 			Intent checkIntent = new Intent();
@@ -98,13 +100,13 @@ public class PreStageActivity extends BaseActivity {
 
 		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
 			connectBTDevice(BluetoothDevice.LEGO_NXT);
-		}
+        }
 
 		if ((requiredResources & Brick.BLUETOOTH_PHIRO) > 0) {
 			connectBTDevice(BluetoothDevice.PHIRO);
 		}
 
-		if ((resources & Brick.ARDRONE_SUPPORT) > 0) {
+		if (DroneServiceWrapper.checkARDroneAvailability()) {
 
 //			WifiManager mainWifiObj;
 //			mainWifiObj = (WifiManager) getSystemService(getBaseContext().WIFI_SERVICE);
@@ -118,7 +120,7 @@ public class PreStageActivity extends BaseActivity {
 
 			CatroidApplication.loadNativeLibs();
 			if(CatroidApplication.parrotLibrariesLoaded){
-				droneInitializer = getDroneInitializer();
+				droneInitializer = getDroneInitialiser();
 				droneInitializer.initialise();
 			}
 		}

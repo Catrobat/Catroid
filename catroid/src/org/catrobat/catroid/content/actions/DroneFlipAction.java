@@ -30,30 +30,32 @@ import org.catrobat.catroid.drone.DroneServiceWrapper;
 
 public class DroneFlipAction extends TemporalAction {
 
-	private static final String TAG = DroneFlipAction.class.getSimpleName();
-	private DroneServiceWrapper service;
+    private static final String TAG = DroneFlipAction.class.getSimpleName();
+    private DroneServiceWrapper service;
 
-	public DroneFlipAction() {
-		service = DroneServiceWrapper.getInstance();
-	}
+    public DroneFlipAction() {
+        service = DroneServiceWrapper.getInstance();
+    }
 
-	@Override
-	protected void begin() {
-		super.begin();
-		if(service.getDroneService() != null) {
-			service.getDroneService().doLeftFlip();
-		}
-	}
+    @Override
+    protected void begin() {
+        super.begin();
 
-	@Override
-	protected void update(float percent) {
-		Log.d(TAG, "update!");
-	}
+        if (service.getDroneService() != null) {
+            service.getDroneService().doLeftFlip();
+        }
+    }
 
-	// TODO: complete the method
-	@Override
-	public boolean act(float delta) {
-		Boolean superReturn = super.act(delta);
-		return superReturn;
-	}
+    @Override
+    protected void update(float percent) {
+        Log.d(TAG, "update!");
+    }
+
+    // TODO: complete the method
+    @Override
+    public boolean act(float delta) {
+        Boolean superReturn = super.act(delta);
+        return superReturn;
+    }
+
 }

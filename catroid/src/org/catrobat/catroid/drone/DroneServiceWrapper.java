@@ -24,65 +24,37 @@ package org.catrobat.catroid.drone;
 
 import com.parrot.freeflight.service.DroneControlService;
 
+import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.bricks.Brick;
+
 public final class DroneServiceWrapper {
 
-	private static DroneServiceWrapper instance = null;
-	private static DroneControlService droneControlService = null;
+    private static DroneServiceWrapper instance = null;
+    private static DroneControlService droneControlService = null;
 
-	private DroneServiceWrapper() {
-	}
+    private DroneServiceWrapper() {
+    }
 
-	public static DroneServiceWrapper getInstance() {
-		if (instance == null) {
-			instance = new DroneServiceWrapper();
-		}
+    public static DroneServiceWrapper getInstance() {
+        if (instance == null) {
+            instance = new DroneServiceWrapper();
+        }
 
-		return instance;
-	}
+        return instance;
+    }
 
-	public void setDroneService(DroneControlService service) {
-		droneControlService = service;
-	}
+    public void setDroneService(DroneControlService service) {
+        droneControlService = service;
+    }
 
-	/* first we wait for autonomous reconnecting otherwise we try to reconnect to drone and then check if
-	 * droneControlService is not null.
-	   if connection is successful droneControlService should not be null!
-	*/
-	public DroneControlService getDroneService() {
-		/*if(droneControlService == null){
+    public DroneControlService getDroneService() {
+        return droneControlService;
 
-			// polling: waiting for autonomous reconnecting
-			int counter = 0;
-			while(droneControlService == null && counter <= 15){
-				try {
-					Thread.sleep(100);
-					counter++;
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			if(droneControlService == null) {
-				DroneConnection droneConnection = new DroneConnection(CatroidApplication.getAppContext());
+    }
 
-				if (droneConnection != null) {
-					try {
-						droneConnection.initialise();
-					} catch (RuntimeException runtimeException) {
-						Toast.makeText(CatroidApplication.getAppContext(), R.string.error_no_drone_connected, Toast.LENGTH_LONG).show();
-						Log.e(getClass().getSimpleName(), "drone connection initialization was not successful!");
-					}
-				}
-			}
-		}
-
-		while(droneControlService == null){
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}*/
-		return droneControlService;
-
-	}
+    public static boolean checkARDroneAvailability(){
+        int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
+        return (((requiredResources & Brick.ARDRONE_SUPPORT ) > 0) && BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED);
+    }
 }
