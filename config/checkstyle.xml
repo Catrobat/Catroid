@@ -63,6 +63,7 @@
 
     <!-- Miscellaneous -->
     <module name="ArrayTypeStyle" />
+    <module name="AvoidEscapedUnicodeCharacters" />
     <module name="OuterTypeFilename" />
     <module name="UpperEll" />
 

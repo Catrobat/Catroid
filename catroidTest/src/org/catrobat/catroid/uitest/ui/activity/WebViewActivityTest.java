@@ -36,7 +36,6 @@ import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.web.ServerCalls;
 
 public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
-	private static final String COPYRIGHT_CHARACTER = "\u00A9";
 	private boolean containsSetting;
 	private boolean showWarning;
 	private SharedPreferences preferences;
@@ -84,7 +83,7 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				}
 			});
 
-			assertTrue("website hasn't been loaded properly", solo.searchText(COPYRIGHT_CHARACTER + " Catrobat"));
+			assertTrue("website hasn't been loaded properly", solo.searchText("© Catrobat"));
 
 		} else {
 			applyWebViewOnOldDevices(webButtonText);
@@ -110,7 +109,7 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				}
 			});
 
-			assertTrue("website hasn't been loaded properly", solo.searchText(COPYRIGHT_CHARACTER + " Catrobat"));
+			assertTrue("website hasn't been loaded properly", solo.searchText("© Catrobat"));
 
 		} else {
 			applyWebViewOnOldDevices(helpButtonText);
@@ -142,7 +141,7 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 				}
 			});
 
-			assertTrue("website hasn't been loaded properly", solo.searchText(COPYRIGHT_CHARACTER + " Catrobat"));
+			assertTrue("website hasn't been loaded properly", solo.searchText("© Catrobat"));
 
 		} else {
 			applyWebViewOnOldDevices(passwordForgottenButtonText);
