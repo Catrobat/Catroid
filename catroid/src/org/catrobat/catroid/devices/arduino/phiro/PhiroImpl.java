@@ -329,7 +329,7 @@ public class PhiroImpl implements Phiro {
 
 	@Override
 	public void start() {
-		if (isInitialized == false) {
+		if (!isInitialized) {
 			initialise();
 		}
 

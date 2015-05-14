@@ -135,20 +135,12 @@ public class IfLogicEndBrick extends BrickBaseType implements NestingBrick, Allo
 
 	@Override
 	public boolean isDraggableOver(Brick brick) {
-		if (brick == ifElseBrick) {
-			return false;
-		} else {
-			return true;
-		}
+		return brick != ifElseBrick;
 	}
 
 	@Override
 	public boolean isInitialized() {
-		if (ifElseBrick == null) {
-			return false;
-		} else {
-			return true;
-		}
+		return ifElseBrick != null;
 	}
 
 	@Override

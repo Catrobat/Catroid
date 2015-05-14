@@ -116,7 +116,7 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 	}
 
 	public synchronized void startSimulation() {
-		if (simulationThreadRunning == false && !simulationThread.isAlive()) {
+		if (!simulationThreadRunning && !simulationThread.isAlive()) {
 			simulationThreadRunning = true;
 			simulationThread.start();
 		}

@@ -58,7 +58,7 @@ public final class BTServer {
 	}
 
 	public static void writeMessage(String arg) {
-		if (gui == false) {
+		if (!gui) {
 			try {
 				out.write(arg);
 				out.flush();

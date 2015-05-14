@@ -49,6 +49,8 @@
     <module name="MultipleVariableDeclarations" />
     <module name="NoFinalizer" />
     <module name="OneStatementPerLine" />
+    <module name="SimplifyBooleanExpression" />
+    <module name="SimplifyBooleanReturn" />
     <module name="StringLiteralEquality" />
     <module name="SuperFinalize" />
 

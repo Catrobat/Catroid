@@ -89,7 +89,7 @@ public class ProjectActivity extends BaseActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		if (spritesListFragment != null && spritesListFragment.isLoading == false) {
+		if (spritesListFragment != null && !spritesListFragment.isLoading) {
 			handleShowDetails(spritesListFragment.getShowDetails(), menu.findItem(R.id.show_details));
 		}
 		return super.onPrepareOptionsMenu(menu);
@@ -97,7 +97,7 @@ public class ProjectActivity extends BaseActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		if (spritesListFragment != null && spritesListFragment.isLoading == false) {
+		if (spritesListFragment != null && !spritesListFragment.isLoading) {
 			getSupportMenuInflater().inflate(R.menu.menu_current_project, menu);
 		}
 		return super.onCreateOptionsMenu(menu);

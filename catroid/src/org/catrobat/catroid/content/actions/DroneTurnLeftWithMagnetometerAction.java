@@ -32,7 +32,7 @@ public class DroneTurnLeftWithMagnetometerAction extends DroneMoveAction {
 	protected void begin() {
 		super.begin();
 		super.setCommandAndYawEnabled(true);
-		if (isCalled == false) {
+		if (!isCalled) {
 			//			super.getDroneService().setMagnetoEnabled(true);
 			//			super.getDroneService().calibrateMagneto();
 			Log.d(getClass().getSimpleName(), "isCalled");

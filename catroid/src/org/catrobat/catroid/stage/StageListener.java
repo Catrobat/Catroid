@@ -367,7 +367,7 @@ public class StageListener implements ApplicationListener {
 			 * Can be removed, when EMMA is replaced by an other code coverage tool, or when a
 			 * future EMMA - update will fix the bugs.
 			 */
-			if (DYNAMIC_SAMPLING_RATE_FOR_ACTIONS == false) {
+			if (!DYNAMIC_SAMPLING_RATE_FOR_ACTIONS) {
 				stage.act(deltaTime);
 			} else {
 				float optimizedDeltaTime = deltaTime / deltaActionTimeDivisor;
