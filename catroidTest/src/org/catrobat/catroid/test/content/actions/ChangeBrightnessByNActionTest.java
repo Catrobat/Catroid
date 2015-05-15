@@ -63,7 +63,6 @@ public class ChangeBrightnessByNActionTest extends AndroidTestCase {
 			action.act(1.0f);
 			fail("Execution of ChangeBrightnessByNBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException expected) {
-			assertTrue("Exception thrown correctly",true);
 		}
 	}
 

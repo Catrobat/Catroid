@@ -144,8 +144,8 @@ public abstract class NXTI2CSensor extends NXTSensor {
 	protected void wait(int millis) {
 		try {
 			Thread.sleep(millis);
-		} catch (InterruptedException e) {
-			// can not be interrupted
+		} catch (InterruptedException interruptedException) {
+			Log.w(TAG, "Shouldn't be interrupted", interruptedException);
 		}
 	}
 }

@@ -65,8 +65,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 		try {
 			projectManager.loadProject(TestUtils.DEFAULT_TEST_PROJECT_NAME, getContext());
 			fail("Project shouldn't be compatible");
-		} catch (CompatibilityProjectException compatibilityException) {
-			assertTrue("Incompatible project correctly identified", true);
+		} catch (CompatibilityProjectException expected) {
 		} catch (ProjectException projectException) {
 			fail("Failed to identify incompatible project");
 		}
@@ -101,8 +100,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 		try {
 			projectManager.loadProject(NEW_PROJECT, getContext());
 			fail("Load project didn't failed to load project");
-		} catch (ProjectException projectException) {
-			assertTrue("Failure test of loading project is successful", true);
+		} catch (ProjectException expected) {
 		}
 
 		Project currentProject = projectManager.getCurrentProject();
@@ -119,8 +117,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 		try {
 			projectManager.loadProject(DOES_NOT_EXIST, getContext());
 			fail("Load project didn't failed to load project");
-		} catch (ProjectException projectException) {
-			assertTrue("Failure test of loading project is successful", true);
+		} catch (ProjectException expected) {
 		}
 
 		Project currentProject = projectManager.getCurrentProject();

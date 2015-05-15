@@ -38,6 +38,10 @@
     <!-- Blocks -->
     <module name="AvoidNestedBlocks" />
     <module name="EmptyBlock" />
+    <module name="EmptyCatchBlock">
+      <property name="commentFormat" value="This is expected" />
+      <property name="exceptionVariableName" value="expected|ignore|ok" />
+    </module>
     <module name="NeedBraces" />
 
     <!-- Coding -->

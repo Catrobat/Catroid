@@ -265,7 +265,6 @@ public class MediaPathTest extends InstrumentationTestCase {
 		assertTrue("SoundList not in project", projectString.contains("soundList"));
 		try {
 			ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext());
-			assertTrue("Load project worked correctly", true);
 		} catch (ProjectException projectException) {
 			fail("Project is not loaded successfully");
 		}

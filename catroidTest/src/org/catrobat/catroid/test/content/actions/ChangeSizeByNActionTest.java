@@ -61,8 +61,7 @@ public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 		try {
 			action.act(1.0f);
 			fail("Execution of ChangeSizeByNBrick with null Sprite did not cause a NullPointerException to be thrown");
-		} catch (NullPointerException nullPointerException) {
-			assertTrue("Exception thrown as expected", true);
+		} catch (NullPointerException expected) {
 		}
 	}
 

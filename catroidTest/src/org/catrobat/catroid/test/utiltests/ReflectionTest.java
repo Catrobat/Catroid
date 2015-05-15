@@ -75,8 +75,7 @@ public class ReflectionTest extends AndroidTestCase {
 		try {
 			Reflection.getPrivateField(nullObject, "nullObjectsDontHaveFields");
 			fail("Getting private field of null object didn't cause an IllegalArgumentException");
-		} catch (IllegalArgumentException illegalArgumentException) {
-			assertTrue("Exception thrown as expected", true);
+		} catch (IllegalArgumentException expected) {
 		}
 
 		try {
@@ -89,8 +88,7 @@ public class ReflectionTest extends AndroidTestCase {
 		try {
 			Reflection.setPrivateField(nullObject, "nullObjectsDontHaveFields", null);
 			fail("Setting private field of null object didn't cause an IllegalArgumentException");
-		} catch (IllegalArgumentException illegalArgumentException) {
-			assertTrue("Exception thrown as expected", true);
+		} catch (IllegalArgumentException expected) {
 		}
 
 		try {
@@ -232,15 +230,13 @@ public class ReflectionTest extends AndroidTestCase {
 		try {
 			Reflection.invokeMethod(nullObject, "nullObjectsDontHaveMethods");
 			fail("Invoking method of a null object didn't cause an IllegalArgumentException");
-		} catch (IllegalArgumentException illegalArgumentException) {
-			assertTrue("Exception thrown as expected", true);
+		} catch (IllegalArgumentException expected) {
 		}
 
 		try {
 			Reflection.invokeMethod(nullObject, "nullObjectsDontHaveMethods", new ParameterList("text"));
 			fail("Invoking method of a null object didn't cause an IllegalArgumentException");
-		} catch (IllegalArgumentException illegalArgumentException) {
-			assertTrue("Exception thrown as expected", true);
+		} catch (IllegalArgumentException expected) {
 		}
 
 		try {
@@ -269,8 +265,7 @@ public class ReflectionTest extends AndroidTestCase {
 			Reflection.invokeMethod(invokeMethodObject, "methodWithParameters", new ParameterList(parameter1,
 					parameter2));
 			fail("Found not existing method signature");
-		} catch (RuntimeException runtimeException) {
-			assertTrue("Exception thrown as expected", true);
+		} catch (RuntimeException expected) {
 		}
 	}
 
