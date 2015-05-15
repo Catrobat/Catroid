@@ -62,7 +62,6 @@ import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternFormulaKeyboardAdapter;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
-import org.catrobat.catroid.formulaeditor.InternFormulaState;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;

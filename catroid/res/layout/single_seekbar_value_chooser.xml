@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2014 The Catrobat Team
+  ~ Copyright (C) 2010-2015 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,73 +21,67 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/motor_base_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:stretchColumns="1">
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:stretchColumns="1" >
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingBottom="30dp"
+        android:paddingTop="40dp"
+        android:weightSum="100" >
 
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:paddingBottom="30dp"
-            android:paddingTop="40dp"
-            android:weightSum="100" >
+        <TextView
+            android:id="@+id/single_seekbar_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:paddingRight="5dp"
+            android:textColor="@color/white" />
 
-            <TextView
-                android:id="@+id/single_seekbar_title"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="5"
-                android:paddingRight="5dp"
-                android:textColor="@color/white" />
+        <TextView
+            android:id="@+id/single_seekbar_start_value"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:layout_marginTop="10dp"
+            android:text="0"
+            android:textColor="@color/holo_blue_bright"
+            tools:ignore="HardcodedText" />
 
-            <TextView
-                android:id="@+id/single_seekbar_start_value"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5"
-                android:layout_marginTop="10dp"
-                android:text="0"
-                android:textColor="@color/holo_blue_bright"
-                tools:ignore="HardcodedText" />
+        <SeekBar
+            android:id="@+id/single_seekbar_seekbar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="60"
+            android:maxHeight="60dp"
+            android:max="100" />
 
-            <SeekBar
-                android:id="@+id/single_seekbar_seekbar"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="60"
-                android:maxHeight="60dp"
-                android:max="100" />
+        <TextView
+            android:id="@+id/single_seekbar_end_value"
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:layout_marginTop="10dp"
+            android:text="100"
+            android:textColor="@color/holo_blue_bright"
+            tools:ignore="HardcodedText" />
 
-            <TextView
-                android:id="@+id/single_seekbar_end_value"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="10"
-                android:layout_marginTop="10dp"
-                android:text="100"
-                android:textColor="@color/holo_blue_bright"
-                tools:ignore="HardcodedText" />
+        <TextView
+            android:id="@+id/single_seekbar_value"
+            style="@style/FragmentSeekbarChooserTextView"
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:text="100"
+            android:textColor="@color/white"
+            tools:ignore="HardcodedText" />
 
-            <TextView
-                android:id="@+id/single_seekbar_value"
-                style="@style/FragmentSeekbarChooserTextView"
-                android:layout_width="5dp"
-                android:layout_height="match_parent"
-                android:layout_weight="20"
-                android:text="100"
-                android:textColor="@color/white"
-                tools:ignore="HardcodedText" />
+    </TableRow>
 
-        </TableRow>
-
-     </TableLayout>
-
-</LinearLayout>
+</TableLayout>

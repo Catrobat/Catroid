@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,6 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -42,7 +41,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -155,15 +153,13 @@ public class PhiroProSetVariableBrick extends UserVariableBrick {
 
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_UP) {
-					if (((Spinner) view).getSelectedItemPosition() == 0
-							&& ((Spinner) view).getAdapter().getCount() == 1) {
-						NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_VARIABLE);
-						dialog.addVariableDialogListener(PhiroProSetVariableBrick.this);
-						dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
-								NewDataDialog.DIALOG_FRAGMENT_TAG);
-						return true;
-					}
+				if (event.getAction() == MotionEvent.ACTION_UP && ((Spinner) view).getSelectedItemPosition() == 0
+						&& ((Spinner) view).getAdapter().getCount() == 1) {
+					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_VARIABLE);
+					dialog.addVariableDialogListener(PhiroProSetVariableBrick.this);
+					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
+							NewDataDialog.DIALOG_FRAGMENT_TAG);
+					return true;
 				}
 				return false;
 			}
