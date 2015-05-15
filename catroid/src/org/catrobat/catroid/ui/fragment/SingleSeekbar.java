@@ -24,8 +24,8 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -33,8 +33,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
-
-import android.view.View.OnClickListener;
 
 public class SingleSeekbar {
 
