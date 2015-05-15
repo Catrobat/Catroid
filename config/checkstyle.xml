@@ -129,6 +129,12 @@
   </module>
   <module name="UniqueProperties" />
 
+  <module name="RegexpHeader">
+    <property name="headerFile" value="catroidSourceTest/res/agpl_license_text.txt" />
+    <property name="fileExtensions" value="java,xml" />
+    <property name="multiLines" value="1,2" />
+  </module>
+
   <!-- For each spacing -->
   <module name="RegexpSingleline">
     <property name="format" value="^\s*for \(.*?([^ ]:|:[^ ])" />
