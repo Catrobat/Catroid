@@ -67,6 +67,7 @@
     <module name="ModifierOrder">
       <message key="mod.order" value="{0}'' modifier out of order with the JLS suggestions" />
     </module>
+    <module name="RedundantModifier" />
 
     <!-- Naming -->
     <module name="ClassTypeParameterName">
