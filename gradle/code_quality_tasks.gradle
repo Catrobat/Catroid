@@ -12,7 +12,7 @@ task checkstyle(type: Checkstyle) {
     configFile file('config/checkstyle.xml')
     source '.'
     include '**/*.java'
-    exclude '**/gen/**', '**/build/**', '**/res/**', 'libraryProjects/**'
+	exclude '**/gen/**', '**/build/**', '**/res/**', 'libraryProjects/**', 'catroidCucumberTest/**'
 
     classpath = files()
 
