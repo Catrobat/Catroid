@@ -48,7 +48,7 @@
 
         <TextView
             android:id="@+id/lego_motor_action_label"
-            style="@style/BrickText.SingleLine"
+            style="@style/BrickText.Multiple"
             android:text="@string/nxt_brick_motor_move" >
         </TextView >
 
@@ -64,14 +64,13 @@
 
         <TextView
             android:id="@+id/lego_motor_action_speed"
-            style="@style/BrickText.SingleLine"
+            style="@style/BrickText.Multiple"
             android:text="@string/nxt_motor_speed" >
         </TextView >
 
         <TextView
             android:id="@+id/motor_action_speed_text_view"
-            style="@style/BrickText.SingleLine" >
-        </TextView >
+            style="@style/BrickPrototypeTextView" />
 
         <TextView
             android:id="@+id/motor_action_speed_edit_text"
