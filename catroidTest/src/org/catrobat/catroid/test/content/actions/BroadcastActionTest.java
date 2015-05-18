@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
+import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -110,6 +111,8 @@ public class BroadcastActionTest extends AndroidTestCase {
 		Script script = new StartScript();
 
 		String message = "simpleTest";
+		RepeatBrick repeatBrick = new RepeatBrick(3);
+		script.addBrick(repeatBrick);
 		BroadcastBrick broadcastBrick = new BroadcastBrick(message);
 		script.addBrick(broadcastBrick);
 		sprite.addScript(script);
@@ -139,7 +142,7 @@ public class BroadcastActionTest extends AndroidTestCase {
 		}
 
 		assertTrue("When script does not restart itself!",
-				(int) sprite.look.getXInUserInterfaceDimensionUnit() > xMovement);
+				(int) sprite.look.getXInUserInterfaceDimensionUnit() == 3 * xMovement);
 	}
 
 	public void testRestartingOfWhenScriptWithBroadcastWaitBrick() {
