@@ -48,7 +48,7 @@
 
         <TextView
             android:id="@+id/brick_nxt_motor_turn_label"
-            style="@style/BrickText.SingleLine"
+            style="@style/BrickText.Multiple"
             android:text="@string/nxt_brick_motor_turn_angle" >
         </TextView >
 
@@ -62,13 +62,13 @@
 
         <TextView
             android:id="@+id/brick_nxt_motor_turn_angle"
-            style="@style/BrickText.SingleLine"
+            style="@style/BrickText.Multiple"
             android:text="@string/nxt_motor_angle" >
         </TextView >
 
         <TextView
             android:id="@+id/motor_turn_angle_text_view"
-            style="@style/BrickText.SingleLine" />
+            style="@style/BrickPrototypeTextView" />
 
         <TextView
             android:id="@+id/motor_turn_angle_edit_text"
@@ -85,15 +85,6 @@
             android:text="@string/degree_symbol" >
         </TextView >
 
-        <!--
-                     <Button
-                    android:id="@+id/directions_btn"
-                    android:layout_width="50dip"
-                    android:layout_height="wrap_content"
-                    android:background="@android:drawable/btn_dropdown"
-                    android:clickable="false"
-                    android:focusable="false" />
-        -->
     </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>
