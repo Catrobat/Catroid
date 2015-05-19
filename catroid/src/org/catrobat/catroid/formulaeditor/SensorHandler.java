@@ -34,16 +34,18 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private static final String TAG = SensorHandler.class.getSimpleName();
 	private static SensorHandler instance = null;
 	private SensorManagerInterface sensorManager = null;
-	private Sensor accelerometerSensor = null;
+	private Sensor linearAccelerationSensor = null;
 	private Sensor rotationVectorSensor = null;
 	private float[] rotationMatrix = new float[16];
 	private float[] rotationVector = new float[3];
 	public static final float RADIAN_TO_DEGREE_CONST = 180f / (float) Math.PI;
 
-	private float linearAcceleartionX = 0f;
-	private float linearAcceleartionY = 0f;
-	private float linearAcceleartionZ = 0f;
-
+	private float linearAccelerationX = 0f;
+	private float linearAccelerationY = 0f;
+	private float linearAccelerationZ = 0f;
+	private Sensor accelerometerSensor = null;
+	private float[] accelerationXYZ = new float [3];
+	private float signAccelerationZ = 0f;
 	private float loudness = 0f;
 	private float faceDetected = 0f;
 	private float faceSize = 0f;
@@ -53,7 +55,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private SensorHandler(Context context) {
 		sensorManager = new SensorManager(
 				(android.hardware.SensorManager) context.getSystemService(Context.SENSOR_SERVICE));
-		accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+		linearAccelerationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+		accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		rotationVectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
 	}
 
@@ -64,9 +67,11 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		}
 		instance.sensorManager.unregisterListener((SensorEventListener) instance);
 		instance.sensorManager.unregisterListener((SensorCustomEventListener) instance);
-		instance.sensorManager.registerListener(instance, instance.accelerometerSensor,
+		instance.sensorManager.registerListener(instance, instance.linearAccelerationSensor,
 				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
 		instance.sensorManager.registerListener(instance, instance.rotationVectorSensor,
+				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
+		instance.sensorManager.registerListener(instance, instance.accelerometerSensor,
 				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
 		instance.sensorManager.registerListener(instance, Sensors.LOUDNESS);
 		FaceDetectionHandler.registerOnFaceDetectedListener(instance);
@@ -77,9 +82,11 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		if (instance == null) {
 			return;
 		}
-		instance.sensorManager.registerListener(listener, instance.accelerometerSensor,
+		instance.sensorManager.registerListener(listener, instance.linearAccelerationSensor,
 				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
 		instance.sensorManager.registerListener(listener, instance.rotationVectorSensor,
+				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
+		instance.sensorManager.registerListener(listener, instance.accelerometerSensor,
 				android.hardware.SensorManager.SENSOR_DELAY_NORMAL);
 	}
 
@@ -109,13 +116,13 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		switch (sensor) {
 
 			case X_ACCELERATION:
-				return (double) instance.linearAcceleartionX;
+				return (double) instance.linearAccelerationX;
 
 			case Y_ACCELERATION:
-				return (double) instance.linearAcceleartionY;
+				return (double) instance.linearAccelerationY;
 
 			case Z_ACCELERATION:
-				return (double) instance.linearAcceleartionZ;
+				return (double) instance.linearAccelerationZ;
 
 			case COMPASS_DIRECTION:
 				float[] orientations = new float[3];
@@ -127,34 +134,47 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 			case X_INCLINATION:
 
-				orientations = new float[3];
-				android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
-						instance.rotationVector);
-				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
-				sensorValue = (double) orientations[2];
-				return sensorValue * RADIAN_TO_DEGREE_CONST * -1f;
+				float rawInclinationX = (float) Math.toDegrees(Math.acos(instance.accelerationXYZ[0]));
+				float correctedInclinationX = 0;
+
+				// X-inclination: turn right direction
+				if (rawInclinationX >= 90 && rawInclinationX <= 180) {
+					// positive
+					if (instance.signAccelerationZ > 0) {
+						correctedInclinationX = -(rawInclinationX - 90);
+					} else {
+						correctedInclinationX = -(180 + (90 - rawInclinationX));
+					}
+				} else
+					// turn left
+					if (rawInclinationX >= 0 && rawInclinationX < 90) {
+						// positive
+						if (instance.signAccelerationZ > 0) {
+							correctedInclinationX = (90 - rawInclinationX);
+						} else {
+							correctedInclinationX = (90 + rawInclinationX);
+						}
+					}
+				return Double.valueOf(correctedInclinationX);
 
 			case Y_INCLINATION:
-				orientations = new float[3];
-				android.hardware.SensorManager.getRotationMatrixFromVector(instance.rotationMatrix,
-						instance.rotationVector);
-				android.hardware.SensorManager.getOrientation(instance.rotationMatrix, orientations);
-
-				float xInclinationUsedToExtendRangeOfRoll = orientations[2] * RADIAN_TO_DEGREE_CONST * -1f;
-
-				sensorValue = (double) orientations[1];
-
-				if (Math.abs(xInclinationUsedToExtendRangeOfRoll) <= 90f) {
-					return sensorValue * RADIAN_TO_DEGREE_CONST * -1f;
-				} else {
-					float uncorrectedYInclination = sensorValue.floatValue() * RADIAN_TO_DEGREE_CONST * -1f;
-
-					if (uncorrectedYInclination > 0f) {
-						return (double) 180f - uncorrectedYInclination;
+				float rawInclinationY = (float) Math.toDegrees(Math.acos(instance.accelerationXYZ[1]));
+				float correctedInclinationY = 0;
+				if (rawInclinationY >= 90 && rawInclinationY <= 180) {
+					if (instance.signAccelerationZ > 0) {
+						correctedInclinationY = -(rawInclinationY - 90);
 					} else {
-						return (double) -180f - uncorrectedYInclination;
+						correctedInclinationY = -(180 + (90 - rawInclinationY));
+					}
+				} else
+				if (rawInclinationY >= 0 && rawInclinationY < 90) {
+					if (instance.signAccelerationZ > 0) {
+						correctedInclinationY = (90 - rawInclinationY);
+					} else {
+						correctedInclinationY = (90 + rawInclinationY);
 					}
 				}
+				return Double.valueOf(correctedInclinationY);
 			case FACE_DETECTED:
 				return (double) instance.faceDetected;
 			case FACE_SIZE:
@@ -177,10 +197,20 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	@Override
 	public void onSensorChanged(SensorEvent event) {
 		switch (event.sensor.getType()) {
+			case Sensor.TYPE_ACCELEROMETER:
+				accelerationXYZ = event.values.clone();
+				double normOfG = Math.sqrt(accelerationXYZ[0] * accelerationXYZ[0]
+						+ accelerationXYZ[1] * accelerationXYZ[1]
+						+ accelerationXYZ[2] * accelerationXYZ[2]);
+				accelerationXYZ[0] = (float) (accelerationXYZ[0] / normOfG);
+				accelerationXYZ[1] = (float) (accelerationXYZ[1] / normOfG);
+				accelerationXYZ[2] = (float) (accelerationXYZ[2] / normOfG);
+				signAccelerationZ = Math.signum(event.values[2]);
+				break;
 			case Sensor.TYPE_LINEAR_ACCELERATION:
-				linearAcceleartionX = event.values[0];
-				linearAcceleartionY = event.values[1];
-				linearAcceleartionZ = event.values[2];
+				linearAccelerationX = event.values[0];
+				linearAccelerationY = event.values[1];
+				linearAccelerationZ = event.values[2];
 				break;
 			case Sensor.TYPE_ROTATION_VECTOR:
 				rotationVector[0] = event.values[0];
