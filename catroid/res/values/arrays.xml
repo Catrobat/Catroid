@@ -54,46 +54,46 @@
  		<item >@string/close</item >
  	</string-array >
 
-    <!-- PhiroPro tone spinner -->
-    <string-array name="brick_phiro_pro_select_tone_spinner">
-        <item>@string/phiro_pro_tone_do</item>
-        <item>@string/phiro_pro_tone_re</item>
-        <item>@string/phiro_pro_tone_mi</item>
-        <item>@string/phiro_pro_tone_fa</item>
-        <item>@string/phiro_pro_tone_so</item>
-        <item>@string/phiro_pro_tone_la</item>
-        <item>@string/phiro_pro_tone_ti</item>
+    <!-- Phiro tone spinner -->
+    <string-array name="brick_phiro_select_tone_spinner">
+        <item>@string/phiro_tone_do</item>
+        <item>@string/phiro_tone_re</item>
+        <item>@string/phiro_tone_mi</item>
+        <item>@string/phiro_tone_fa</item>
+        <item>@string/phiro_tone_so</item>
+        <item>@string/phiro_tone_la</item>
+        <item>@string/phiro_tone_ti</item>
     </string-array>
 
-    <!-- PhiroPro motor spinner -->
-    <string-array name="brick_phiro_pro_select_motor_spinner">
-        <item>@string/phiro_pro_motor_left</item>
-        <item>@string/phiro_pro_motor_right</item>
-        <item>@string/phiro_pro_motor_both</item>
+    <!-- Phiro motor spinner -->
+    <string-array name="brick_phiro_select_motor_spinner">
+        <item>@string/phiro_motor_left</item>
+        <item>@string/phiro_motor_right</item>
+        <item>@string/phiro_motor_both</item>
     </string-array>
 
-    <!-- PhiroPro stop motor spinner -->
-    <string-array name="brick_phiro_pro_stop_motor_spinner">
-        <item>@string/phiro_pro_motor_left</item>
-        <item>@string/phiro_pro_motor_right</item>
-        <item>@string/phiro_pro_motor_both</item>
+    <!-- Phiro stop motor spinner -->
+    <string-array name="brick_phiro_stop_motor_spinner">
+        <item>@string/phiro_motor_left</item>
+        <item>@string/phiro_motor_right</item>
+        <item>@string/phiro_motor_both</item>
     </string-array>
 
-    <!-- PhiroPro light spinner -->
-    <string-array name="brick_phiro_pro_select_light_spinner">
-        <item>@string/phiro_pro_light_left</item>
-        <item>@string/phiro_pro_light_right</item>
-        <item>@string/phiro_pro_light_both</item>
+    <!-- Phiro light spinner -->
+    <string-array name="brick_phiro_select_light_spinner">
+        <item>@string/phiro_light_left</item>
+        <item>@string/phiro_light_right</item>
+        <item>@string/phiro_light_both</item>
     </string-array>
 
-    <!-- PhiroPro sensor spinner -->
-    <string-array name="brick_phiro_pro_select_sensor_spinner">
-        <item>@string/phiro_pro_sensor_front_left</item>
-        <item>@string/phiro_pro_sensor_front_right</item>
-        <item>@string/phiro_pro_sensor_side_left</item>
-        <item>@string/phiro_pro_sensor_side_right</item>
-        <item>@string/phiro_pro_sensor_bottom_left</item>
-        <item>@string/phiro_pro_sensor_bottom_right</item>
+    <!-- Phiro sensor spinner -->
+    <string-array name="brick_phiro_select_sensor_spinner">
+        <item>@string/phiro_sensor_front_left</item>
+        <item>@string/phiro_sensor_front_right</item>
+        <item>@string/phiro_sensor_side_left</item>
+        <item>@string/phiro_sensor_side_right</item>
+        <item>@string/phiro_sensor_bottom_left</item>
+        <item>@string/phiro_sensor_bottom_right</item>
     </string-array>
 
 </resources>

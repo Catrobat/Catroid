@@ -44,40 +44,41 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PhiroProSensorBrick extends FormulaBrick implements NestingBrick, OnItemSelectedListener {
+public class PhiroSensorBrick extends FormulaBrick implements NestingBrick, OnItemSelectedListener {
 
 	private static final long serialVersionUID = 1L;
 	private transient View prototypeView;
 	private int sensorSpinnerPosition = 0;
-	protected transient PhiroProSensorElseBrick phiroProSensorElseBrick;
-	protected transient PhiroProSensorEndBrick phiroProSensorEndBrick;
-	private transient PhiroProSensorBrick copy;
-	private static final String TAG = PhiroProSensorBrick.class.getSimpleName();
+	protected transient PhiroSensorElseBrick phiroSensorElseBrick;
+	protected transient PhiroSensorEndBrick phiroSensorEndBrick;
+	private transient PhiroSensorBrick copy;
+	private static final String TAG = PhiroSensorBrick.class.getSimpleName();
 
-	public PhiroProSensorBrick() {
+	public PhiroSensorBrick()  {
+		addAllowedBrickField(BrickField.IF_PHIRO_SENSOR_CONDITION);
 	}
 
 	@Override
 	public int getRequiredResources() {
-		return BLUETOOTH_PHIRO_PRO;
+		return BLUETOOTH_PHIRO;
 	}
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
-		PhiroProSensorBrick copyBrick = (PhiroProSensorBrick) clone();
+		PhiroSensorBrick copyBrick = (PhiroSensorBrick) clone();
 		return copyBrick;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_phiro_pro_if_sensor, null);
+		prototypeView = View.inflate(context, R.layout.brick_phiro_if_sensor, null);
 
-		Spinner phiroProSensorSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_pro_sensor_action_spinner);
+		Spinner phiroProSensorSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_sensor_action_spinner);
 		phiroProSensorSpinner.setFocusableInTouchMode(false);
 		phiroProSensorSpinner.setFocusable(false);
 
 		ArrayAdapter<CharSequence> phiroProSensorSpinnerAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_phiro_pro_select_sensor_spinner, android.R.layout.simple_spinner_item);
+				R.array.brick_phiro_select_sensor_spinner, android.R.layout.simple_spinner_item);
 		phiroProSensorSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		phiroProSensorSpinner.setAdapter(phiroProSensorSpinnerAdapter);
@@ -90,7 +91,7 @@ public class PhiroProSensorBrick extends FormulaBrick implements NestingBrick, O
 
 	@Override
 	public boolean isInitialized() {
-		if (phiroProSensorElseBrick == null) {
+		if (phiroSensorElseBrick == null) {
 			return false;
 		} else {
 			return true;
@@ -99,8 +100,8 @@ public class PhiroProSensorBrick extends FormulaBrick implements NestingBrick, O
 
 	@Override
 	public void initialize() {
-		phiroProSensorElseBrick = new PhiroProSensorElseBrick(this);
-		phiroProSensorEndBrick = new PhiroProSensorEndBrick(phiroProSensorElseBrick, this);
+		phiroSensorElseBrick = new PhiroSensorElseBrick(this);
+		phiroSensorEndBrick = new PhiroSensorEndBrick(phiroSensorElseBrick, this);
 		Log.w(TAG, "Creating if logic stuff");
 	}
 
@@ -110,11 +111,11 @@ public class PhiroProSensorBrick extends FormulaBrick implements NestingBrick, O
 		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
 		if (sorted) {
 			nestingBrickList.add(this);
-			nestingBrickList.add(phiroProSensorElseBrick);
-			nestingBrickList.add(phiroProSensorEndBrick);
+			nestingBrickList.add(phiroSensorElseBrick);
+			nestingBrickList.add(phiroSensorEndBrick);
 		} else {
 			nestingBrickList.add(this);
-			nestingBrickList.add(phiroProSensorEndBrick);
+			nestingBrickList.add(phiroSensorEndBrick);
 		}
 
 		return nestingBrickList;
@@ -122,36 +123,36 @@ public class PhiroProSensorBrick extends FormulaBrick implements NestingBrick, O
 
 	@Override
 	public boolean isDraggableOver(Brick brick) {
-		if (brick == phiroProSensorElseBrick) {
+		if (brick == phiroSensorElseBrick) {
 			return false;
 		} else {
 			return true;
 		}
 	}
 
-	public PhiroProSensorElseBrick getPhiroProSensorElseBrick() {
-		return phiroProSensorElseBrick;
+	public PhiroSensorElseBrick getPhiroSensorElseBrick() {
+		return phiroSensorElseBrick;
 	}
 
-	public PhiroProSensorEndBrick getPhiroProSensorEndBrick() {
-		return phiroProSensorEndBrick;
+	public PhiroSensorEndBrick getPhiroSensorEndBrick() {
+		return phiroSensorEndBrick;
 	}
 
-	public PhiroProSensorBrick getCopy() {
+	public PhiroSensorBrick getCopy() {
 		return copy;
 	}
 
-	public void setPhiroProSensorElseBrick(PhiroProSensorElseBrick phiroProSensorElseBrick) {
-		this.phiroProSensorElseBrick = phiroProSensorElseBrick;
+	public void setPhiroSensorElseBrick(PhiroSensorElseBrick phiroSensorElseBrick) {
+		this.phiroSensorElseBrick = phiroSensorElseBrick;
 	}
 
-	public void setPhiroProSensorEndBrick(PhiroProSensorEndBrick phiroProSensorEndBrick) {
-		this.phiroProSensorEndBrick = phiroProSensorEndBrick;
+	public void setPhiroSensorEndBrick(PhiroSensorEndBrick phiroSensorEndBrick) {
+		this.phiroSensorEndBrick = phiroSensorEndBrick;
 	}
 
 	@Override
 	public Brick clone() {
-		return new PhiroProSensorBrick();
+		return new PhiroSensorBrick();
 	}
 
 	@Override
@@ -168,10 +169,10 @@ public class PhiroProSensorBrick extends FormulaBrick implements NestingBrick, O
 			alphaValue = 255;
 		}
 
-		view = View.inflate(context, R.layout.brick_phiro_pro_if_sensor, null);
+		view = View.inflate(context, R.layout.brick_phiro_if_sensor, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_phiro_pro_sensor_checkbox);
+		setCheckboxView(R.id.brick_phiro_sensor_checkbox);
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
@@ -181,10 +182,10 @@ public class PhiroProSensorBrick extends FormulaBrick implements NestingBrick, O
 			}
 		});
 
-		Spinner phiroProSensorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_pro_sensor_action_spinner);
+		Spinner phiroProSensorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_sensor_action_spinner);
 
 		ArrayAdapter<CharSequence> phiroProSensorAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_phiro_pro_select_sensor_spinner, android.R.layout.simple_spinner_item);
+				R.array.brick_phiro_select_sensor_spinner, android.R.layout.simple_spinner_item);
 		phiroProSensorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		if (checkbox.getVisibility() == View.VISIBLE) {
@@ -217,11 +218,11 @@ public class PhiroProSensorBrick extends FormulaBrick implements NestingBrick, O
 	@Override
 	public View getViewWithAlpha(int alphaValue) {
 		if (view != null) {
-			View layout = view.findViewById(R.id.brick_phiro_pro_sensor_layout);
+			View layout = view.findViewById(R.id.brick_phiro_sensor_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			Spinner phiroProSensorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_pro_sensor_action_spinner);
+			Spinner phiroProSensorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_sensor_action_spinner);
 			phiroProSensorSpinner.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);

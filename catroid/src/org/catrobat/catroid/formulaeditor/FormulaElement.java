@@ -908,7 +908,7 @@ public class FormulaElement implements Serializable {
 				case PHIRO_PRO_SIDE_RIGHT:
 				case PHIRO_PRO_BOTTOM_LEFT:
 				case PHIRO_PRO_BOTTOM_RIGHT:
-					ressources |= Brick.BLUETOOTH_PHIRO_PRO;
+					ressources |= Brick.BLUETOOTH_PHIRO;
 					break;
 				default:
 

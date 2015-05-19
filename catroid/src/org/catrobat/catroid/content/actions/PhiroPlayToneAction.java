@@ -31,62 +31,66 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.PhiroProMotorMoveBackwardBrick.Motor;
-import org.catrobat.catroid.devices.arduino.phiropro.PhiroPro;
+import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick.Tone;
+import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
-public class PhiroProMotorMoveBackwardAction extends TemporalAction {
-	private static final int MIN_SPEED = 0;
-	private static final int MAX_SPEED = 100;
+public class PhiroPlayToneAction extends TemporalAction {
 
-	private Motor motorEnum;
-	private Formula speed;
+	private Tone toneEnum;
+	private Formula durationInSeconds;
 	private Sprite sprite;
 
 	private BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 
 	@Override
 	protected void update(float percent) {
-		int speedValue;
+		int durationInterpretation;
+
 		try {
-			speedValue = speed.interpretInteger(sprite);
+			durationInterpretation = durationInSeconds.interpretInteger(sprite);
         } catch (InterpretationException interpretationException) {
-            speedValue = 0;
+            durationInterpretation = 0;
             Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
         }
 
-		if (speedValue < MIN_SPEED) {
-			speedValue = MIN_SPEED;
-		} else if (speedValue > MAX_SPEED) {
-			speedValue = MAX_SPEED;
-		}
-
-		PhiroPro phiroPro = btService.getDevice(BluetoothDevice.PHIRO_PRO);
-		if (phiroPro == null) {
+		Phiro Phiro = btService.getDevice(BluetoothDevice.PHIRO);
+		if (Phiro == null) {
 			return;
 		}
 
-		switch (motorEnum) {
-			case MOTOR_LEFT:
-				phiroPro.moveLeftMotorBackward(speedValue);
+		switch (toneEnum) {
+			case DO:
+				Phiro.playTone(262, durationInterpretation);
 				break;
-			case MOTOR_RIGHT:
-				phiroPro.moveRightMotorBackward(speedValue);
+			case RE:
+				Phiro.playTone(294, durationInterpretation);
 				break;
-			case MOTOR_BOTH:
-				phiroPro.moveRightMotorBackward(speedValue);
-				phiroPro.moveLeftMotorBackward(speedValue);
+			case MI:
+				Phiro.playTone(330, durationInterpretation);
+				break;
+			case FA:
+				Phiro.playTone(349, durationInterpretation);
+				break;
+			case SO:
+				Phiro.playTone(392, durationInterpretation);
+				break;
+			case LA:
+				Phiro.playTone(440, durationInterpretation);
+				break;
+			case TI:
+				Phiro.playTone(494, durationInterpretation);
 				break;
 		}
 	}
 
-	public void setMotorEnum(Motor motorEnum) {
-		this.motorEnum = motorEnum;
+	public void setSelectedTone(Tone toneEnum) {
+		this.toneEnum = toneEnum;
 	}
 
-	public void setSpeed(Formula speed) {
-		this.speed = speed;
+	public void setDurationInSeconds(Formula durationInSeconds) {
+		this.durationInSeconds = durationInSeconds;
 	}
 
 	public void setSprite(Sprite sprite) {

@@ -35,11 +35,11 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
-import org.catrobat.catroid.content.bricks.PhiroProMotorMoveBackwardBrick;
-import org.catrobat.catroid.content.bricks.PhiroProMotorMoveForwardBrick;
-import org.catrobat.catroid.content.bricks.PhiroProMotorStopBrick;
-import org.catrobat.catroid.content.bricks.PhiroProPlayToneBrick;
-import org.catrobat.catroid.content.bricks.PhiroProRGBLightBrick;
+import org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick;
+import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
+import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
+import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
+import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -195,36 +195,36 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static PhiroProPlayToneAction phiroProPlayToneAction(Sprite sprite, PhiroProPlayToneBrick.Tone toneEnum,
+	public static PhiroPlayToneAction phiroProPlayToneAction(Sprite sprite, PhiroPlayToneBrick.Tone toneEnum,
 			Formula duration) {
-		PhiroProPlayToneAction action = action(PhiroProPlayToneAction.class);
+		PhiroPlayToneAction action = action(PhiroPlayToneAction.class);
 		action.setSelectedTone(toneEnum);
 		action.setSprite(sprite);
 		action.setDurationInSeconds(duration);
 		return action;
 	}
 
-	public static PhiroProMotorMoveForwardAction phiroProMotorMoveForwardAction(Sprite sprite, PhiroProMotorMoveForwardBrick.Motor motorEnum,
+	public static PhiroMotorMoveForwardAction phiroProMotorMoveForwardAction(Sprite sprite, PhiroMotorMoveForwardBrick.Motor motorEnum,
 			Formula speed) {
-		PhiroProMotorMoveForwardAction action = action(PhiroProMotorMoveForwardAction.class);
+		PhiroMotorMoveForwardAction action = action(PhiroMotorMoveForwardAction.class);
 		action.setMotorEnum(motorEnum);
 		action.setSprite(sprite);
 		action.setSpeed(speed);
 		return action;
 	}
 
-	public static PhiroProMotorMoveBackwardAction phiroProMotorMoveBackwardAction(Sprite sprite, PhiroProMotorMoveBackwardBrick.Motor motorEnum,
+	public static PhiroMotorMoveBackwardAction phiroProMotorMoveBackwardAction(Sprite sprite, PhiroMotorMoveBackwardBrick.Motor motorEnum,
 			Formula speed) {
-		PhiroProMotorMoveBackwardAction action = action(PhiroProMotorMoveBackwardAction.class);
+		PhiroMotorMoveBackwardAction action = action(PhiroMotorMoveBackwardAction.class);
 		action.setMotorEnum(motorEnum);
 		action.setSprite(sprite);
 		action.setSpeed(speed);
 		return action;
 	}
 
-	public static PhiroProRGBLightAction phiroProRgbLedEyeAction(Sprite sprite, PhiroProRGBLightBrick.Eye eye,
+	public static PhiroRGBLightAction phiroProRgbLedEyeAction(Sprite sprite, PhiroRGBLightBrick.Eye eye,
 			Formula red, Formula green, Formula blue) {
-		PhiroProRGBLightAction action = action(PhiroProRGBLightAction.class);
+		PhiroRGBLightAction action = action(PhiroRGBLightAction.class);
 		action.setSprite(sprite);
 		action.setEyeEnum(eye);
 		action.setRed(red);
@@ -242,8 +242,8 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static PhiroProMotorStopAction phiroProMotorStopAction(PhiroProMotorStopBrick.Motor motorEnum) {
-		PhiroProMotorStopAction action = action(PhiroProMotorStopAction.class);
+	public static PhiroMotorStopAction phiroProMotorStopAction(PhiroMotorStopBrick.Motor motorEnum) {
+		PhiroMotorStopAction action = action(PhiroMotorStopAction.class);
 		action.setMotorEnum(motorEnum);
 		return action;
 	}

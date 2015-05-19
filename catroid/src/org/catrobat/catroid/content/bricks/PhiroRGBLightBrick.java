@@ -48,7 +48,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class PhiroProRGBLightBrick extends FormulaBrick {
+public class PhiroRGBLightBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -64,8 +64,8 @@ public class PhiroProRGBLightBrick extends FormulaBrick {
 	private transient TextView editGreenValue;
 	private transient TextView editBlueValue;
 
-	private transient ColorSeekbar colorSeekbar = new ColorSeekbar(this, BrickField.PHIRO_PRO_LIGHT_RED,
-			BrickField.PHIRO_PRO_LIGHT_GREEN, BrickField.PHIRO_PRO_LIGHT_BLUE);
+	private transient ColorSeekbar colorSeekbar = new ColorSeekbar(this, BrickField.PHIRO_LIGHT_RED,
+			BrickField.PHIRO_LIGHT_GREEN, BrickField.PHIRO_LIGHT_BLUE);
 
 	protected Object readResolve() {
 		if (eye != null) {
@@ -74,20 +74,20 @@ public class PhiroProRGBLightBrick extends FormulaBrick {
 		return this;
 	}
 
-	public PhiroProRGBLightBrick() {
-		addAllowedBrickField(BrickField.PHIRO_PRO_LIGHT_RED);
-		addAllowedBrickField(BrickField.PHIRO_PRO_LIGHT_GREEN);
-		addAllowedBrickField(BrickField.PHIRO_PRO_LIGHT_BLUE);
+	public PhiroRGBLightBrick() {
+		addAllowedBrickField(BrickField.PHIRO_LIGHT_RED);
+		addAllowedBrickField(BrickField.PHIRO_LIGHT_GREEN);
+		addAllowedBrickField(BrickField.PHIRO_LIGHT_BLUE);
 	}
 
-	public PhiroProRGBLightBrick(Eye eye, int red, int green, int blue) {
+	public PhiroRGBLightBrick(Eye eye, int red, int green, int blue) {
 		this.eyeEnum = eye;
 		this.eye = eyeEnum.name();
 
 		initializeBrickFields(new Formula(red), new Formula(green), new Formula(blue));
 	}
 
-	public PhiroProRGBLightBrick(Eye eye, Formula red, Formula green, Formula blue) {
+	public PhiroRGBLightBrick(Eye eye, Formula red, Formula green, Formula blue) {
 		this.eyeEnum = eye;
 		this.eye = eyeEnum.name();
 
@@ -95,37 +95,37 @@ public class PhiroProRGBLightBrick extends FormulaBrick {
 	}
 
 	private void initializeBrickFields(Formula red, Formula green, Formula blue) {
-		addAllowedBrickField(BrickField.PHIRO_PRO_LIGHT_RED);
-		addAllowedBrickField(BrickField.PHIRO_PRO_LIGHT_GREEN);
-		addAllowedBrickField(BrickField.PHIRO_PRO_LIGHT_BLUE);
-		setFormulaWithBrickField(BrickField.PHIRO_PRO_LIGHT_RED, red);
-		setFormulaWithBrickField(BrickField.PHIRO_PRO_LIGHT_GREEN, green);
-		setFormulaWithBrickField(BrickField.PHIRO_PRO_LIGHT_BLUE, blue);
+		addAllowedBrickField(BrickField.PHIRO_LIGHT_RED);
+		addAllowedBrickField(BrickField.PHIRO_LIGHT_GREEN);
+		addAllowedBrickField(BrickField.PHIRO_LIGHT_BLUE);
+		setFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED, red);
+		setFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN, green);
+		setFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE, blue);
 	}
 
 	@Override
-	public int getRequiredResources() { return BLUETOOTH_PHIRO_PRO;	}
+	public int getRequiredResources() { return BLUETOOTH_PHIRO;	}
 
 
 	@Override
 	public View getPrototypeView(Context context) {
-		prototypeView = View.inflate(context, R.layout.brick_phiro_pro_rgb_light, null);
+		prototypeView = View.inflate(context, R.layout.brick_phiro_rgb_light, null);
 
-		TextView textValueRed = (TextView) prototypeView.findViewById(R.id.brick_phiro_pro_rgb_led_red_prototype_text_view);
-		textValueRed.setText(String.valueOf(BrickValues.PHIRO_PRO_VALUE_RED));
+		TextView textValueRed = (TextView) prototypeView.findViewById(R.id.brick_phiro_rgb_led_red_prototype_text_view);
+		textValueRed.setText(String.valueOf(BrickValues.PHIRO_VALUE_RED));
 
-		TextView textValueGreen = (TextView) prototypeView.findViewById(R.id.brick_phiro_pro_rgb_led_green_prototype_text_view);
-		textValueGreen.setText(String.valueOf(BrickValues.PHIRO_PRO_VALUE_GREEN));
+		TextView textValueGreen = (TextView) prototypeView.findViewById(R.id.brick_phiro_rgb_led_green_prototype_text_view);
+		textValueGreen.setText(String.valueOf(BrickValues.PHIRO_VALUE_GREEN));
 
-		TextView textValueBlue = (TextView) prototypeView.findViewById(R.id.brick_phiro_pro_rgb_led_blue_prototype_text_view);
-		textValueBlue.setText(String.valueOf(BrickValues.PHIRO_PRO_VALUE_BLUE));
+		TextView textValueBlue = (TextView) prototypeView.findViewById(R.id.brick_phiro_rgb_led_blue_prototype_text_view);
+		textValueBlue.setText(String.valueOf(BrickValues.PHIRO_VALUE_BLUE));
 
-		Spinner eyeSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_pro_rgb_light_spinner);
+		Spinner eyeSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_rgb_light_spinner);
 		eyeSpinner.setFocusableInTouchMode(false);
 		eyeSpinner.setFocusable(false);
 
 		ArrayAdapter<CharSequence> eyeAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_phiro_pro_select_light_spinner, android.R.layout.simple_spinner_item);
+				R.array.brick_phiro_select_light_spinner, android.R.layout.simple_spinner_item);
 		eyeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		eyeSpinner.setAdapter(eyeAdapter);
@@ -136,10 +136,10 @@ public class PhiroProRGBLightBrick extends FormulaBrick {
 
 	@Override
 	public Brick clone() {
-		return new PhiroProRGBLightBrick(eyeEnum,
-				getFormulaWithBrickField(BrickField.PHIRO_PRO_LIGHT_RED).clone(),
-				getFormulaWithBrickField(BrickField.PHIRO_PRO_LIGHT_GREEN).clone(),
-				getFormulaWithBrickField(BrickField.PHIRO_PRO_LIGHT_BLUE).clone());
+		return new PhiroRGBLightBrick(eyeEnum,
+				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).clone(),
+				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).clone(),
+				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE).clone());
 	}
 
 	@Override
@@ -157,8 +157,8 @@ public class PhiroProRGBLightBrick extends FormulaBrick {
 			alphaValue = 255;
 		}
 
-		view = View.inflate(context, R.layout.brick_phiro_pro_rgb_light, null);
-		setCheckboxView(R.id.brick_phiro_pro_rgb_led_action_checkbox);
+		view = View.inflate(context, R.layout.brick_phiro_rgb_light, null);
+		setCheckboxView(R.id.brick_phiro_rgb_led_action_checkbox);
 
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -169,30 +169,30 @@ public class PhiroProRGBLightBrick extends FormulaBrick {
 			}
 		});
 
-		TextView textRed = (TextView) view.findViewById(R.id.brick_phiro_pro_rgb_led_red_prototype_text_view);
-		editRedValue = (TextView) view.findViewById(R.id.brick_phiro_pro_rgb_led_action_red_edit_text);
-		getFormulaWithBrickField(BrickField.PHIRO_PRO_LIGHT_RED).setTextFieldId(R.id.brick_phiro_pro_rgb_led_action_red_edit_text);
-		getFormulaWithBrickField(BrickField.PHIRO_PRO_LIGHT_RED).refreshTextField(view);
+		TextView textRed = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_red_prototype_text_view);
+		editRedValue = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_action_red_edit_text);
+		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).setTextFieldId(R.id.brick_phiro_rgb_led_action_red_edit_text);
+		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).refreshTextField(view);
 
 		textRed.setVisibility(View.GONE);
 		editRedValue.setVisibility(View.VISIBLE);
 
 		editRedValue.setOnClickListener(this);
 
-		TextView textGreen = (TextView) view.findViewById(R.id.brick_phiro_pro_rgb_led_green_prototype_text_view);
-		editGreenValue = (TextView) view.findViewById(R.id.brick_phiro_pro_rgb_led_action_green_edit_text);
-		getFormulaWithBrickField(BrickField.PHIRO_PRO_LIGHT_GREEN).setTextFieldId(R.id.brick_phiro_pro_rgb_led_action_green_edit_text);
-		getFormulaWithBrickField(BrickField.PHIRO_PRO_LIGHT_GREEN).refreshTextField(view);
+		TextView textGreen = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_green_prototype_text_view);
+		editGreenValue = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_action_green_edit_text);
+		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).setTextFieldId(R.id.brick_phiro_rgb_led_action_green_edit_text);
+		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).refreshTextField(view);
 
 		textGreen.setVisibility(View.GONE);
 		editGreenValue.setVisibility(View.VISIBLE);
 
 		editGreenValue.setOnClickListener(this);
 
-		TextView textBlue = (TextView) view.findViewById(R.id.brick_phiro_pro_rgb_led_blue_prototype_text_view);
-		editBlueValue = (TextView) view.findViewById(R.id.brick_phiro_pro_rgb_led_action_blue_edit_text);
-		getFormulaWithBrickField(BrickField.PHIRO_PRO_LIGHT_BLUE).setTextFieldId(R.id.brick_phiro_pro_rgb_led_action_blue_edit_text);
-		getFormulaWithBrickField(BrickField.PHIRO_PRO_LIGHT_BLUE).refreshTextField(view);
+		TextView textBlue = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_blue_prototype_text_view);
+		editBlueValue = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_action_blue_edit_text);
+		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE).setTextFieldId(R.id.brick_phiro_rgb_led_action_blue_edit_text);
+		getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE).refreshTextField(view);
 
 		textBlue.setVisibility(View.GONE);
 		editBlueValue.setVisibility(View.VISIBLE);
@@ -200,9 +200,9 @@ public class PhiroProRGBLightBrick extends FormulaBrick {
 		editBlueValue.setOnClickListener(this);
 
 		ArrayAdapter<CharSequence> eyeAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_phiro_pro_select_light_spinner, android.R.layout.simple_spinner_item);
+				R.array.brick_phiro_select_light_spinner, android.R.layout.simple_spinner_item);
 		eyeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		Spinner eyeSpinner = (Spinner) view.findViewById(R.id.brick_phiro_pro_rgb_light_spinner);
+		Spinner eyeSpinner = (Spinner) view.findViewById(R.id.brick_phiro_rgb_light_spinner);
 
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			eyeSpinner.setClickable(true);
@@ -250,19 +250,19 @@ public class PhiroProRGBLightBrick extends FormulaBrick {
 	}
 
 	private boolean areAllBrickFieldsNumbers() {
-		return (getFormulaWithBrickField(BrickField.PHIRO_PRO_LIGHT_RED).getRoot().getElementType() == FormulaElement.ElementType.NUMBER) &&
-				(getFormulaWithBrickField(BrickField.PHIRO_PRO_LIGHT_GREEN).getRoot().getElementType() == FormulaElement.ElementType.NUMBER) &&
-				(getFormulaWithBrickField(BrickField.PHIRO_PRO_LIGHT_BLUE).getRoot().getElementType() == FormulaElement.ElementType.NUMBER);
+		return (getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).getRoot().getElementType() == FormulaElement.ElementType.NUMBER) &&
+				(getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).getRoot().getElementType() == FormulaElement.ElementType.NUMBER) &&
+				(getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE).getRoot().getElementType() == FormulaElement.ElementType.NUMBER);
 	}
 
 	private BrickField getClickedBrickField(View view) {
 		switch (view.getId()) {
-			case R.id.brick_phiro_pro_rgb_led_action_red_edit_text:
-				return BrickField.PHIRO_PRO_LIGHT_RED;
-			case R.id.brick_phiro_pro_rgb_led_action_green_edit_text:
-				return BrickField.PHIRO_PRO_LIGHT_GREEN;
-			case R.id.brick_phiro_pro_rgb_led_action_blue_edit_text:
-				return BrickField.PHIRO_PRO_LIGHT_BLUE;
+			case R.id.brick_phiro_rgb_led_action_red_edit_text:
+				return BrickField.PHIRO_LIGHT_RED;
+			case R.id.brick_phiro_rgb_led_action_green_edit_text:
+				return BrickField.PHIRO_LIGHT_GREEN;
+			case R.id.brick_phiro_rgb_led_action_blue_edit_text:
+				return BrickField.PHIRO_LIGHT_BLUE;
 		}
 
 		return BrickField.UNKNOWN;
@@ -273,19 +273,19 @@ public class PhiroProRGBLightBrick extends FormulaBrick {
 
 		if (view != null) {
 
-			View layout = view.findViewById(R.id.brick_phiro_pro_rgb_led_layout);
+			View layout = view.findViewById(R.id.brick_phiro_rgb_led_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView textPhiroProLabel = (TextView) view.findViewById(R.id.brick_phiro_pro_rgb_led_action_label);
-			TextView textPhiroProEyeRed = (TextView) view.findViewById(R.id.brick_phiro_pro_rgb_led_red_text_view);
-			TextView editRed = (TextView) view.findViewById(R.id.brick_phiro_pro_rgb_led_action_red_edit_text);
+			TextView textPhiroProLabel = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_action_label);
+			TextView textPhiroProEyeRed = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_red_text_view);
+			TextView editRed = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_action_red_edit_text);
 
 			//red
-			TextView textPhiroProEyeRedView = (TextView) view.findViewById(R.id.brick_phiro_pro_rgb_led_red_text_view);
+			TextView textPhiroProEyeRedView = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_red_text_view);
 			textPhiroProLabel.setTextColor(textPhiroProLabel.getTextColors().withAlpha(alphaValue));
 			textPhiroProEyeRed.setTextColor(textPhiroProEyeRed.getTextColors().withAlpha(alphaValue));
-			Spinner eyeSpinner = (Spinner) view.findViewById(R.id.brick_phiro_pro_rgb_light_spinner);
+			Spinner eyeSpinner = (Spinner) view.findViewById(R.id.brick_phiro_rgb_light_spinner);
 			ColorStateList color = textPhiroProEyeRedView.getTextColors().withAlpha(alphaValue);
 			eyeSpinner.getBackground().setAlpha(alphaValue);
 			if (adapterView != null) {
@@ -295,9 +295,9 @@ public class PhiroProRGBLightBrick extends FormulaBrick {
 			editRed.getBackground().setAlpha(alphaValue);
 
 			//green
-			TextView textPhiroProEyeGreen = (TextView) view.findViewById(R.id.brick_phiro_pro_rgb_led_green_text_view);
-			TextView editGreen = (TextView) view.findViewById(R.id.brick_phiro_pro_rgb_led_action_green_edit_text);
-			TextView textPhiroProEyeGreenView = (TextView) view.findViewById(R.id.brick_phiro_pro_rgb_led_green_text_view);
+			TextView textPhiroProEyeGreen = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_green_text_view);
+			TextView editGreen = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_action_green_edit_text);
+			TextView textPhiroProEyeGreenView = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_green_text_view);
 			editGreen.setTextColor(editGreen.getTextColors().withAlpha(alphaValue));
 			editGreen.getBackground().setAlpha(alphaValue);
 			ColorStateList color2 = textPhiroProEyeGreenView.getTextColors().withAlpha(alphaValue);
@@ -307,9 +307,9 @@ public class PhiroProRGBLightBrick extends FormulaBrick {
 			textPhiroProEyeGreen.setTextColor(textPhiroProEyeGreen.getTextColors().withAlpha(alphaValue));
 
 			//blue
-			TextView textPhiroProEyeBlue = (TextView) view.findViewById(R.id.brick_phiro_pro_rgb_led_blue_text_view);
-			TextView editBlue = (TextView) view.findViewById(R.id.brick_phiro_pro_rgb_led_action_blue_edit_text);
-			TextView textPhiroProEyeBlueView = (TextView) view.findViewById(R.id.brick_phiro_pro_rgb_led_action_blue_edit_text);
+			TextView textPhiroProEyeBlue = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_blue_text_view);
+			TextView editBlue = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_action_blue_edit_text);
+			TextView textPhiroProEyeBlueView = (TextView) view.findViewById(R.id.brick_phiro_rgb_led_action_blue_edit_text);
 			editBlue.setTextColor(editGreen.getTextColors().withAlpha(alphaValue));
 			editBlue.getBackground().setAlpha(alphaValue);
 			ColorStateList color3 = textPhiroProEyeBlueView.getTextColors().withAlpha(alphaValue);
@@ -327,9 +327,9 @@ public class PhiroProRGBLightBrick extends FormulaBrick {
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		sequence.addAction(ExtendedActions.phiroProRgbLedEyeAction(sprite, eyeEnum,
-				getFormulaWithBrickField(BrickField.PHIRO_PRO_LIGHT_RED),
-				getFormulaWithBrickField(BrickField.PHIRO_PRO_LIGHT_GREEN),
-				getFormulaWithBrickField(BrickField.PHIRO_PRO_LIGHT_BLUE)));
+				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED),
+				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN),
+				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE)));
 		return null;
 	}
 }

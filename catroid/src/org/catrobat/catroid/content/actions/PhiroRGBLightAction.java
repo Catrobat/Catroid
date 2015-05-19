@@ -31,12 +31,12 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.PhiroProRGBLightBrick.Eye;
-import org.catrobat.catroid.devices.arduino.phiropro.PhiroPro;
+import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick.Eye;
+import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
-public class PhiroProRGBLightAction extends TemporalAction {
+public class PhiroRGBLightAction extends TemporalAction {
 	private static final int MIN_VALUE = 0;
 	private static final int MAX_VALUE = 255;
 
@@ -94,17 +94,17 @@ public class PhiroProRGBLightAction extends TemporalAction {
 			blueValue = MAX_VALUE;
 		}
 
-		PhiroPro phiroPro = btService.getDevice(BluetoothDevice.PHIRO_PRO);
+		Phiro Phiro = btService.getDevice(BluetoothDevice.PHIRO);
 
 		if (eyeEnum.equals(Eye.Left)) {
-			phiroPro.setLeftRGBLightColor(redValue, greenValue, blueValue);
+			Phiro.setLeftRGBLightColor(redValue, greenValue, blueValue);
 		} else if (eyeEnum.equals(Eye.Right)) {
-			phiroPro.setRightRGBLightColor(redValue, greenValue, blueValue);
+			Phiro.setRightRGBLightColor(redValue, greenValue, blueValue);
 		} else if (eyeEnum.equals(Eye.Both)) {
-			phiroPro.setLeftRGBLightColor(redValue, greenValue, blueValue);
-			phiroPro.setRightRGBLightColor(redValue, greenValue, blueValue);
+			Phiro.setLeftRGBLightColor(redValue, greenValue, blueValue);
+			Phiro.setRightRGBLightColor(redValue, greenValue, blueValue);
 		} else {
-			Log.d("PhiroPro", "Error: EyeEnum:" + eyeEnum);
+			Log.d("Phiro", "Error: EyeEnum:" + eyeEnum);
 		}
 	}
 

@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.devices.arduino.phiropro;
+package org.catrobat.catroid.devices.arduino.phiro;
 
 
 import android.util.Log;
@@ -34,9 +34,9 @@ import org.catrobat.catroid.devices.arduino.common.firmata.message.ProtocolVersi
 import org.catrobat.catroid.devices.arduino.common.firmata.message.StringSysexMessage;
 import org.catrobat.catroid.devices.arduino.common.firmata.message.SysexMessage;
 
-class PhiroProListener implements IFirmata.Listener {
+class PhiroListener implements IFirmata.Listener {
 
-	private static final String TAG = PhiroProListener.class.getSimpleName();
+	private static final String TAG = PhiroListener.class.getSimpleName();
 
 	private int frontLeftSensor = 0;
 	private int frontRightSensor = 0;
@@ -55,22 +55,22 @@ class PhiroProListener implements IFirmata.Listener {
 //		Log.d(TAG, String.format("Pin: %d | Value: %d", message.getPin() ,message.getValue()));
 
 		switch (message.getPin()) {
-			case PhiroProImpl.PIN_SENSOR_SIDE_RIGHT:
+			case PhiroImpl.PIN_SENSOR_SIDE_RIGHT:
 				sideRightSensor = message.getValue();
 				break;
-			case PhiroProImpl.PIN_SENSOR_FRONT_RIGHT:
+			case PhiroImpl.PIN_SENSOR_FRONT_RIGHT:
 				frontRightSensor = message.getValue();
 				break;
-			case PhiroProImpl.PIN_SENSOR_BOTTOM_RIGHT:
+			case PhiroImpl.PIN_SENSOR_BOTTOM_RIGHT:
 				bottomRightSensor = message.getValue();
 				break;
-			case PhiroProImpl.PIN_SENSOR_BOTTOM_LEFT:
+			case PhiroImpl.PIN_SENSOR_BOTTOM_LEFT:
 				bottomLeftSensor = message.getValue();
 				break;
-			case PhiroProImpl.PIN_SENSOR_FRONT_LEFT:
+			case PhiroImpl.PIN_SENSOR_FRONT_LEFT:
 				frontLeftSensor = message.getValue();
 				break;
-			case PhiroProImpl.PIN_SENSOR_SIDE_LEFT:
+			case PhiroImpl.PIN_SENSOR_SIDE_LEFT:
 				sideLeftSensor = message.getValue();
 				break;
 

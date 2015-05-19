@@ -30,15 +30,15 @@
               android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/brick_phiro_pro_sensor_checkbox"
+        android:id="@+id/brick_phiro_motor_stop_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_phiro_pro_sensor_layout"
-        style="@style/BrickContainer.Control.Big"
+        android:id="@+id/brick_phiro_motor_stop_layout"
+        style="@style/BrickContainer.Phiro.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -46,33 +46,17 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
-           android:id="@+id/brick_phiro_pro_sensor_label"
-           style="@style/BrickText.SingleLine"
-           android:text="@string/brick_phiro_pro_sensor_begin" >
+            android:id="@+id/ValueTextView"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/phiro_motor_stop" >
         </TextView >
 
-        <TextView
-           android:id="@+id/brick_phiro_pro_sensor_action_label"
-           style="@style/BrickText.SingleLine"
-           android:text="@string/brick_phiro_pro_sensor_action" >
-        </TextView>
-
         <Spinner
-            android:id="@+id/brick_phiro_pro_sensor_action_spinner"
+            android:id="@+id/brick_phiro_stop_motor_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="false"
-            android:focusable="false" >
-
-        <!-- do not add spinner items here! -->
-        </Spinner >
-
-        <TextView
-            android:id="@+id/phiro_pro_sensor_label_second_part"
-            style="@style/BrickText.SingleLine"
-            android:paddingLeft="5dip"
-            android:text="@string/brick_phiro_pro_sensor_second_part" >
-        </TextView >
+            android:focusable="false" />
     </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

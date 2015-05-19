@@ -43,7 +43,7 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 
 import java.util.List;
 
-public class PhiroProMotorStopBrick extends BrickBaseType implements OnItemSelectedListener {
+public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
 	private transient Motor motorEnum;
 	private String motor;
@@ -53,7 +53,7 @@ public class PhiroProMotorStopBrick extends BrickBaseType implements OnItemSelec
 		MOTOR_LEFT, MOTOR_RIGHT, MOTOR_BOTH
 	}
 
-	public PhiroProMotorStopBrick(Motor motor) {
+	public PhiroMotorStopBrick(Motor motor) {
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
 	}
@@ -67,24 +67,24 @@ public class PhiroProMotorStopBrick extends BrickBaseType implements OnItemSelec
 
 	@Override
 	public int getRequiredResources() {
-		return BLUETOOTH_PHIRO_PRO;
+		return BLUETOOTH_PHIRO;
 	}
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
-		PhiroProMotorStopBrick copyBrick = (PhiroProMotorStopBrick) clone();
+		PhiroMotorStopBrick copyBrick = (PhiroMotorStopBrick) clone();
 		return copyBrick;
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_phiro_pro_motor_stop, null);
-		Spinner phiroProSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_pro_stop_motor_spinner);
+		View prototypeView = View.inflate(context, R.layout.brick_phiro_motor_stop, null);
+		Spinner phiroProSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_stop_motor_spinner);
 		phiroProSpinner.setFocusableInTouchMode(false);
 		phiroProSpinner.setFocusable(false);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_phiro_pro_stop_motor_spinner, android.R.layout.simple_spinner_item);
+				R.array.brick_phiro_stop_motor_spinner, android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		phiroProSpinner.setAdapter(motorAdapter);
@@ -94,7 +94,7 @@ public class PhiroProMotorStopBrick extends BrickBaseType implements OnItemSelec
 
 	@Override
 	public Brick clone() {
-		return new PhiroProMotorStopBrick(motorEnum);
+		return new PhiroMotorStopBrick(motorEnum);
 	}
 
 	@Override
@@ -105,10 +105,10 @@ public class PhiroProMotorStopBrick extends BrickBaseType implements OnItemSelec
 		if (view == null) {
 			alphaValue = 255;
 		}
-		view = View.inflate(context, R.layout.brick_phiro_pro_motor_stop, null);
+		view = View.inflate(context, R.layout.brick_phiro_motor_stop, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_phiro_pro_motor_stop_checkbox);
+		setCheckboxView(R.id.brick_phiro_motor_stop_checkbox);
 		final Brick brickInstance = this;
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
@@ -119,10 +119,10 @@ public class PhiroProMotorStopBrick extends BrickBaseType implements OnItemSelec
 		});
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_phiro_pro_stop_motor_spinner, android.R.layout.simple_spinner_item);
+				R.array.brick_phiro_stop_motor_spinner, android.R.layout.simple_spinner_item);
 		motorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		Spinner motorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_pro_stop_motor_spinner);
+		Spinner motorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_stop_motor_spinner);
 		motorSpinner.setOnItemSelectedListener(this);
 
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
@@ -154,13 +154,13 @@ public class PhiroProMotorStopBrick extends BrickBaseType implements OnItemSelec
 
 		if (view != null) {
 
-			View layout = view.findViewById(R.id.brick_phiro_pro_motor_stop_layout);
+			View layout = view.findViewById(R.id.brick_phiro_motor_stop_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
 			TextView textPhiroProMotorStopLabel = (TextView) view.findViewById(R.id.ValueTextView);
 			textPhiroProMotorStopLabel.setTextColor(textPhiroProMotorStopLabel.getTextColors().withAlpha(alphaValue));
-			Spinner motorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_pro_stop_motor_spinner);
+			Spinner motorSpinner = (Spinner) view.findViewById(R.id.brick_phiro_stop_motor_spinner);
 			ColorStateList color = textPhiroProMotorStopLabel.getTextColors().withAlpha(alphaValue);
 			motorSpinner.getBackground().setAlpha(alphaValue);
 			if (adapterView != null) {

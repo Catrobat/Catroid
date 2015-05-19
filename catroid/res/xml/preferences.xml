@@ -68,9 +68,9 @@
 
     <CheckBoxPreference
         android:defaultValue="true"
-        android:key="setting_enable_phiro_pro_bricks"
-        android:summary="@string/preference_description_phiro_pro_bricks"
-        android:title="@string/preference_title_enable_phiro_pro_bricks" />
+        android:key="setting_enable_phiro_bricks"
+        android:summary="@string/preference_description_phiro_bricks"
+        android:title="@string/preference_title_enable_phiro_bricks" />
 
     <CheckBoxPreference
         android:defaultValue="true"

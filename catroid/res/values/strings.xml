@@ -78,8 +78,8 @@
     <string name="preference_description_use_face_detection">Allow to detect faces</string>
     <string name="preference_title_select_camera">Choose Camera</string>
     <string name="preference_description_select_camera">Select camera which is used for face detection</string>
-    <string name="preference_title_enable_phiro_pro_bricks">Phiro Pro bricks</string>
-    <string name="preference_description_phiro_pro_bricks">Allow to control a Phiro Pro robot</string>
+    <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
+    <string name="preference_description_phiro_bricks">Allow to control a Phiro robot</string>
 
     <!--  -->
 
@@ -336,7 +336,7 @@
     <string name="category_data">Data</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_drone">ARDrone</string>
-    <string name="category_phiro_pro">Phiro Pro</string>
+    <string name="category_phiro">Phiro</string>
     <!--  -->
 
     <!-- Motion bricks -->
@@ -614,69 +614,69 @@
     <!-- <string name="brick_drone_land">Drone: land</string> -->
     <!--  -->
 
-    <!-- PhiroPro bricks -->
+    <!-- Phiro bricks -->
     <!-- motor -->
-    <string name="phiro_pro_motor_stop">Phiro Pro stop motor</string>
-    <string name="brick_phiro_pro_motor_forward_action">Phiro Pro move motor forward</string>
-    <string name="brick_phiro_pro_motor_backward_action">Phiro Pro move motor backward</string>
-    <string name="phiro_pro_motor_speed">Speed</string>
+    <string name="phiro_motor_stop">Phiro stop motor</string>
+    <string name="brick_phiro_motor_forward_action">Phiro move motor forward</string>
+    <string name="brick_phiro_motor_backward_action">Phiro move motor backward</string>
+    <string name="phiro_motor_speed">Speed</string>
 
     <!-- sensor -->
-    <string name="brick_phiro_pro_sensor_action">Phiro Pro</string>
-    <string name="brick_phiro_pro_sensor_begin">If \n</string>
-    <string name="brick_phiro_pro_sensor_second_part">is activated</string>
-    <string name="brick_phiro_pro_sensor_else">Else</string>
-    <string name="brick_phiro_pro_sensor_end">End If</string>
+    <string name="brick_phiro_sensor_action">Phiro</string>
+    <string name="brick_phiro_sensor_begin">If \n</string>
+    <string name="brick_phiro_sensor_second_part">is activated</string>
+    <string name="brick_phiro_sensor_else">Else</string>
+    <string name="brick_phiro_sensor_end">End If</string>
 
     <!-- tone -->
-    <string name="phiro_pro_play_tone">Phiro Pro music\n</string>
-    <string name="phiro_pro_tone_duration">Duration</string>
-    <string name="brick_phiro_pro_select_tone">tone</string>
+    <string name="phiro_play_tone">Phiro music\n</string>
+    <string name="phiro_tone_duration">Duration</string>
+    <string name="brick_phiro_select_tone">tone</string>
     <string name="phiro_seconds">seconds</string>
 
     <!-- light -->
-    <string name="brick_phiro_pro_rgb_led_action">Phiro Pro light</string>
-    <string name="phiro_pro_rgb_led_red">Red</string>
-    <string name="phiro_pro_rgb_led_green">Green</string>
-    <string name="phiro_pro_rgb_led_blue">Blue</string>
+    <string name="brick_phiro_rgb_led_action">Phiro light</string>
+    <string name="phiro_rgb_led_red">Red</string>
+    <string name="phiro_rgb_led_green">Green</string>
+    <string name="phiro_rgb_led_blue">Blue</string>
     <!--  -->
 
-    <string name="phiro_pro_color_chooser_title">Phiro Pro color chooser</string>
-    <string name="phiro_pro_motor_forward_title">Phiro Pro move motor forward chooser</string>
-    <string name="phiro_pro_motor_backward_title">Phiro Pro move motor backward chooser</string>
+    <string name="phiro_color_chooser_title">Phiro color chooser</string>
+    <string name="phiro_motor_forward_title">Phiro move motor forward chooser</string>
+    <string name="phiro_motor_backward_title">Phiro move motor backward chooser</string>
 
-    <!-- PhiroPro tone strings -->
-    <string name="phiro_pro_tone_do">Do</string>
-    <string name="phiro_pro_tone_re">Re</string>
-    <string name="phiro_pro_tone_mi">Mi</string>
-    <string name="phiro_pro_tone_fa">Fa</string>
-    <string name="phiro_pro_tone_so">So</string>
-    <string name="phiro_pro_tone_la">La</string>
-    <string name="phiro_pro_tone_ti">Ti</string>
+    <!-- Phiro tone strings -->
+    <string name="phiro_tone_do">Do</string>
+    <string name="phiro_tone_re">Re</string>
+    <string name="phiro_tone_mi">Mi</string>
+    <string name="phiro_tone_fa">Fa</string>
+    <string name="phiro_tone_so">So</string>
+    <string name="phiro_tone_la">La</string>
+    <string name="phiro_tone_ti">Ti</string>
     <!--  -->
 
-    <!-- PhiroPro motor strings -->
-    <string name="phiro_pro_motor_left">Left</string>
-    <string name="phiro_pro_motor_right">Right</string>
-    <string name="phiro_pro_motor_both">Both</string>
+    <!-- Phiro motor strings -->
+    <string name="phiro_motor_left">Left</string>
+    <string name="phiro_motor_right">Right</string>
+    <string name="phiro_motor_both">Both</string>
     <!--  -->
 
-    <!-- PhiroPro light strings -->
-    <string name="phiro_pro_light_left">Left</string>
-    <string name="phiro_pro_light_right">Right</string>
-    <string name="phiro_pro_light_both">Both</string>
+    <!-- Phiro light strings -->
+    <string name="phiro_light_left">Left</string>
+    <string name="phiro_light_right">Right</string>
+    <string name="phiro_light_both">Both</string>
     <!--  -->
 
-    <!-- PhiroPro sensor strings -->
-    <string name="phiro_pro_sensor_front_left">Front Left Sensor</string>
-    <string name="phiro_pro_sensor_front_right">Front Right Sensor</string>
-    <string name="phiro_pro_sensor_side_left">Side Left Sensor</string>
-    <string name="phiro_pro_sensor_side_right">Side Right Sensor</string>
-    <string name="phiro_pro_sensor_bottom_left">Bottom Left Sensor</string>
-    <string name="phiro_pro_sensor_bottom_right">Bottom Right Sensor</string>
+    <!-- Phiro sensor strings -->
+    <string name="phiro_sensor_front_left">Front Left Sensor</string>
+    <string name="phiro_sensor_front_right">Front Right Sensor</string>
+    <string name="phiro_sensor_side_left">Side Left Sensor</string>
+    <string name="phiro_sensor_side_right">Side Right Sensor</string>
+    <string name="phiro_sensor_bottom_left">Bottom Left Sensor</string>
+    <string name="phiro_sensor_bottom_right">Bottom Right Sensor</string>
     <!--  -->
 
-    <!-- PhiroPro RGBColor Chooser strings -->
+    <!-- Phiro RGBColor Chooser strings -->
     <string name="color_red">Red</string>
     <string name="color_green">Green</string>
     <string name="color_blue">Blue</string>
@@ -760,12 +760,12 @@
     <string name="formula_editor_sensor_lego_nxt_2">NXT_sensor_2</string>
     <string name="formula_editor_sensor_lego_nxt_3">NXT_sensor_3</string>
     <string name="formula_editor_sensor_lego_nxt_4">NXT_sensor_4</string>
-    <string name="formula_editor_phiro_pro_sensor_front_left">phiro_pro_front_left_sensor</string>
-    <string name="formula_editor_phiro_pro_sensor_front_right">phiro_pro_front_right_sensor</string>
-    <string name="formula_editor_phiro_pro_sensor_side_left">phiro_pro_side_left_sensor</string>
-    <string name="formula_editor_phiro_pro_sensor_side_right">phiro_pro_side_right_sensor</string>
-    <string name="formula_editor_phiro_pro_sensor_bottom_left">phiro_pro_bottom_left_sensor</string>
-    <string name="formula_editor_phiro_pro_sensor_bottom_right">phiro_pro_bottom_right_sensor</string>
+    <string name="formula_editor_phiro_sensor_front_left">phiro_front_left_sensor</string>
+    <string name="formula_editor_phiro_sensor_front_right">phiro_front_right_sensor</string>
+    <string name="formula_editor_phiro_sensor_side_left">phiro_side_left_sensor</string>
+    <string name="formula_editor_phiro_sensor_side_right">phiro_side_right_sensor</string>
+    <string name="formula_editor_phiro_sensor_bottom_left">phiro_bottom_left_sensor</string>
+    <string name="formula_editor_phiro_sensor_bottom_right">phiro_bottom_right_sensor</string>
     <string name="formula_editor_object_x">position_x</string>
     <string name="formula_editor_object_y">position_y</string>
     <string name="formula_editor_object_transparency">transparency</string>

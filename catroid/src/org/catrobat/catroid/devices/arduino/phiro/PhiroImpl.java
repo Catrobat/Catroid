@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.devices.arduino.phiropro;
+package org.catrobat.catroid.devices.arduino.phiro;
 
 import android.util.Log;
 
@@ -43,10 +43,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
-public class PhiroProImpl implements PhiroPro {
+public class PhiroImpl implements Phiro {
 
 	private static final UUID PHIRO_PRO_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-	private static final String TAG = PhiroProImpl.class.getSimpleName();
+	private static final String TAG = PhiroImpl.class.getSimpleName();
 
 	private static final int PIN_SPEAKER_OUT = 3;
 
@@ -82,23 +82,13 @@ public class PhiroProImpl implements PhiroPro {
 	private boolean isInitialized = false;
 	private boolean isReportingSensorData = false;
 
-	private PhiroProListener phiroProListener;
+	private PhiroListener phiroListener;
 
 
 	@Override
 	public synchronized void playTone(int selectedTone, int durationInSeconds) {
 		sendAnalogFirmataMessage(PIN_SPEAKER_OUT, selectedTone);
-		/*
-		byte[] data  = {
-				(byte)0x0,
-				(byte)0x3,
-				(byte)(selectedTone & 0x7F),
-				(byte)(selectedTone >> 7),
-				(byte)(durationInSeconds & 0x7F),
-				(byte)(durationInSeconds >> 7)};
-		Message message = new SysexByteMessage(0x5F, data);
-		sendFirmataMessage(message);
-		*/
+
 		if (currentStopPlayToneTask != null) {
 			currentStopPlayToneTask.cancel();
 		}
@@ -200,12 +190,12 @@ public class PhiroProImpl implements PhiroPro {
 
 	@Override
 	public String getName() {
-		return "PhiroPro";
+		return "Phiro";
 	}
 
 	@Override
 	public Class<? extends BluetoothDevice> getDeviceType() {
-		return BluetoothDevice.PHIRO_PRO;
+		return PHIRO;
 	}
 
 	@Override
@@ -262,17 +252,17 @@ public class PhiroProImpl implements PhiroPro {
 	public int getSensorValue(Sensors sensor) {
 		switch (sensor) {
 			case PHIRO_PRO_BOTTOM_LEFT:
-				return phiroProListener.getBottomLeftSensor();
+				return phiroListener.getBottomLeftSensor();
 			case PHIRO_PRO_BOTTOM_RIGHT:
-				return phiroProListener.getBottomRightSensor();
+				return phiroListener.getBottomRightSensor();
 			case PHIRO_PRO_FRONT_LEFT:
-				return phiroProListener.getFrontLeftSensor();
+				return phiroListener.getFrontLeftSensor();
 			case PHIRO_PRO_FRONT_RIGHT:
-				return phiroProListener.getFrontRightSensor();
+				return phiroListener.getFrontRightSensor();
 			case PHIRO_PRO_SIDE_LEFT:
-				return phiroProListener.getSideLeftSensor();
+				return phiroListener.getSideLeftSensor();
 			case PHIRO_PRO_SIDE_RIGHT:
-				return phiroProListener.getSideRightSensor();
+				return phiroListener.getSideRightSensor();
 		}
 
 		return 0;
@@ -281,17 +271,17 @@ public class PhiroProImpl implements PhiroPro {
 	public int getSensorValue(int numberFromBrick) {
 		switch (numberFromBrick) {
 			case 0:
-				return phiroProListener.getSideRightSensor();
+				return phiroListener.getSideRightSensor();
 			case 1:
-				return phiroProListener.getFrontRightSensor();
+				return phiroListener.getFrontRightSensor();
 			case 2:
-				return phiroProListener.getBottomRightSensor();
+				return phiroListener.getBottomRightSensor();
 			case 3:
-				return phiroProListener.getBottomLeftSensor();
+				return phiroListener.getBottomLeftSensor();
 			case 4:
-				return phiroProListener.getFrontLeftSensor();
+				return phiroListener.getFrontLeftSensor();
 			case 5:
-				return phiroProListener.getSideRightSensor();
+				return phiroListener.getSideRightSensor();
 		}
 
 		return 0;
@@ -323,8 +313,8 @@ public class PhiroProImpl implements PhiroPro {
 
 		firmata = new Firmata(serial);
 
-		phiroProListener = new PhiroProListener();
-		firmata.addListener(phiroProListener);
+		phiroListener = new PhiroListener();
+		firmata.addListener(phiroListener);
 
 		firmata.getSerial().start();
 
