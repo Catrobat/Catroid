@@ -57,7 +57,7 @@ public abstract class DroneTestUtils {
 		for (DroneBricks brick : DroneBrickFactory.DroneBricks.values()) {
 			String brickName = brick.name().toLowerCase(Locale.getDefault());
 			if (brickName.contains("move") || brickName.contains("turn")) {
-				BrickBaseType moveBrick = DroneBrickFactory.getInstanceOfDroneBrick(brick, sprite,
+				BrickBaseType moveBrick = DroneBrickFactory.getInstanceOfDroneBrick(brick,
 						DEFAULT_MOVE_TIME_IN_MILLISECONDS, DEFAULT_MOVE_POWER_IN_PERCENT);
 				script.addBrick(moveBrick);
 				sprite.addScript(script);

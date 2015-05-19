@@ -28,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.utils.Array;
+import com.parrot.freeflight.drone.DroneConfig;
 import com.parrot.freeflight.service.DroneControlService;
 
 import org.catrobat.catroid.content.Sprite;
@@ -40,6 +41,8 @@ import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
+import org.catrobat.catroid.content.bricks.DroneSetConfigBrick;
+import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
@@ -47,9 +50,13 @@ import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.mockito.Mockito;
 
+import static org.mockito.Mockito.when;
+
 public class DroneBricksActionTests extends InstrumentationTestCase {
 
 	public DroneControlService droneControlService;
+	public DroneConfig droneConfig;
+
 	public TemporalAction action;
 	Sprite sprite;
 	SequenceAction sequenceAction;
@@ -69,6 +76,9 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 
 		droneControlService = Mockito.mock(DroneControlService.class);
+		droneConfig = Mockito.mock(DroneConfig.class);
+		when(droneControlService.getDroneConfig()).thenReturn(droneConfig);
+
 		DroneServiceWrapper.getInstance().setDroneService(droneControlService);
 		sprite = new Sprite(getName());
 		sequenceAction = new SequenceAction();
@@ -174,4 +184,30 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).turnRight(0);
 	}
 
+	public void testConfigBrickSpinnerPosition_0() {
+		DroneSetConfigBrick configBrick = new DroneSetConfigBrick();
+		configBrick.setSpinnerPosition(0);
+		addActionToSequenceAndAct(configBrick);
+		Mockito.verify(droneControlService, Mockito.atLeast(1)).resetConfigToDefaults();
+	}
+
+	public void testConfigBrickSpinnerPosition_1() {
+		DroneSetConfigBrick configBrick = new DroneSetConfigBrick();
+		configBrick.setSpinnerPosition(1);
+		addActionToSequenceAndAct(configBrick);
+		Mockito.verify(droneConfig, Mockito.atLeast(1)).setOutdoorFlight(false);
+	}
+
+	public void testConfigBrickSpinnerPosition_2() {
+		DroneSetConfigBrick configBrick = new DroneSetConfigBrick();
+		configBrick.setSpinnerPosition(2);
+		addActionToSequenceAndAct(configBrick);
+		Mockito.verify(droneConfig, Mockito.atLeast(1)).setOutdoorFlight(true);
+	}
+
+	public void testSwitch(){
+		DroneSwitchCameraBrick switchBrick = new DroneSwitchCameraBrick();
+		addActionToSequenceAndAct(switchBrick);
+		Mockito.verify(droneControlService, Mockito.atLeast(1)).switchCamera();
+	}
 }

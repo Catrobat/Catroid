@@ -24,7 +24,6 @@
 package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-import com.parrot.freeflight.drone.DroneConfig;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.drone.DroneConfigManager;
@@ -48,11 +47,11 @@ public class DroneSetConfigAction extends TemporalAction {
 			case R.string.drone_config_default:
 				DroneConfigManager.getInstance().setDefaultConfig();
 				break;
-			case R.string.drone_config_outdoor:
-				DroneConfigManager.getInstance().setOutdoorConfig();
-				break;
 			case R.string.drone_config_indoor:
 				DroneConfigManager.getInstance().setIndoorConfig();
+				break;
+			case R.string.drone_config_outdoor:
+				DroneConfigManager.getInstance().setOutdoorConfig();
 				break;
 		}
 	}
