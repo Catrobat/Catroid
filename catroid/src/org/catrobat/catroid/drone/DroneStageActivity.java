@@ -39,6 +39,7 @@ import com.parrot.freeflight.receivers.DroneEmergencyChangeReceiver;
 import com.parrot.freeflight.receivers.DroneEmergencyChangeReceiverDelegate;
 import com.parrot.freeflight.service.DroneControlService;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
@@ -65,7 +66,7 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 	{
 		super.onCreate(savedInstanceState);
 
-		if(droneConnection == null){
+		if(droneConnection == null && BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED){
 			droneConnection = new DroneConnection(this);
 
 			if (droneConnection != null) {

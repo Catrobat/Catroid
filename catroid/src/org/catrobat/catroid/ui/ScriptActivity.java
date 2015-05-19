@@ -39,6 +39,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastHandler;
@@ -296,7 +297,7 @@ public class ScriptActivity extends BaseActivity {
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			Intent intent;
-			if (Brick.ARDRONE_SUPPORT > 0) {
+			if (Brick.ARDRONE_SUPPORT > 0 && BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
 				intent = new Intent(ScriptActivity.this, DroneStageActivity.class);
 			} else {
 				intent = new Intent(ScriptActivity.this, StageActivity.class);

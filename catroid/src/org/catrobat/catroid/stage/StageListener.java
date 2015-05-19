@@ -664,7 +664,7 @@ public class StageListener implements ApplicationListener {
 		batch.dispose();
 	}
 
-	public void addActor (Look look)
+	public void addActor (Actor actor)
 	{
 		stage.addActor(actor);
 	}
@@ -682,7 +682,7 @@ public class StageListener implements ApplicationListener {
 		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		font.setScale(scale);
 
-		SpriteBatch batch = stage.getSpriteBatch();
+		Batch batch = stage.getBatch();
 		batch.begin();
 		font.draw(batch, text, posX, posY);
 		batch.end();

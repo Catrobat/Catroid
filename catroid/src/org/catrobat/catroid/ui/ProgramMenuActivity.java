@@ -66,6 +66,13 @@ public class ProgramMenuActivity extends BaseActivity {
 		//The try-catch block is a fix for this bug: https://github.com/Catrobat/Catroid/issues/618
 		try {
 			String title = ProjectManager.getInstance().getCurrentSprite().getName();
+			if (title == null) {
+				Log.d(getClass().getSimpleName(), "title is null");
+			}
+			System.out.println("title = " + title);
+			if(actionBar  == null){
+				Log.d(getClass().getSimpleName(), "actionBar is null");
+			}
 			actionBar.setTitle(title);
 			actionBar.setHomeButtonEnabled(true);
 		} catch (NullPointerException nullPointerException) {

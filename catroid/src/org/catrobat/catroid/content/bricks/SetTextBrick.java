@@ -201,19 +201,23 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 		}
 		switch (view.getId()) {
 			case R.id.brick_set_text_edit_text_x:
-				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.X_DESTINATION));
+				FormulaEditorFragment.showFragment(view, this, BrickField.X_DESTINATION);
 				break;
 
 			case R.id.brick_set_text_edit_text_y:
-				FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.Y_DESTINATION));
+				FormulaEditorFragment.showFragment(view, this, BrickField.Y_DESTINATION);
 				break;
 
 			case R.id.brick_set_text_edit_text:
-				FormulaEditorFragment
-						.showFragment(view, this, getFormulaWithBrickField(BrickField.STRING));
+				FormulaEditorFragment.showFragment(view, this, BrickField.STRING);
 				break;
 		}
 
+	}
+
+	@Override
+	public void showFormulaEditorToEditFormula(View view) {
+		FormulaEditorFragment.showFragment(view, this, BrickField.X_DESTINATION);
 	}
 
 	@Override

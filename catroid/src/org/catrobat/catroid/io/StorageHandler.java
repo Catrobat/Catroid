@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.io;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -375,12 +376,8 @@ public final class StorageHandler {
 			return project;
 		} catch (Exception exception) {
 			Log.e(TAG, "Loading project " + projectName + " failed.", exception);
-			try {
-				Log.e(TAG, "delete project .. " + projectName, exception);
-				deleteProject(projectName);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			Log.e(TAG, "delete project .. " + projectName, exception);
+			deleteProject(projectName);
 			return null;
 		} finally {
 			if (fileInputStream != null) {

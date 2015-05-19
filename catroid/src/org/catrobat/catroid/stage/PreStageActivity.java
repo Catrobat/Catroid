@@ -101,12 +101,11 @@ public class PreStageActivity extends BaseActivity {
 			connectBTDevice(BluetoothDevice.LEGO_NXT);
 		}
 
-		
 		if ((requiredResources & Brick.BLUETOOTH_PHIRO) > 0) {
 			connectBTDevice(BluetoothDevice.PHIRO);
 		}
 
-		if ((resources & Brick.ARDRONE_SUPPORT ) > 0 && BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
+		if ((requiredResources & Brick.ARDRONE_SUPPORT ) > 0 && BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
 
 //			WifiManager mainWifiObj;
 //			mainWifiObj = (WifiManager) getSystemService(getBaseContext().WIFI_SERVICE);
@@ -120,13 +119,13 @@ public class PreStageActivity extends BaseActivity {
 
 			CatroidApplication.loadNativeLibs();
 			if(CatroidApplication.parrotLibrariesLoaded){
-				droneInitializer = getDroneInitializer();
+				droneInitializer = getDroneInitialiser();
 				droneInitializer.initialise();
 			}
 		}
 
 		FaceDetectionHandler.resetFaceDedection();
-		if ((resources & Brick.FACE_DETECTION) > 0) {
+		if ((requiredResources & Brick.FACE_DETECTION) > 0) {
 			boolean success = FaceDetectionHandler.startFaceDetection(this);
 			if (success) {
 				resourceInitialized();
@@ -135,7 +134,7 @@ public class PreStageActivity extends BaseActivity {
 			}
 		}
 
-		if ((resources & Brick.CAMERA_LED ) > 0) {
+		if ((requiredResources & Brick.CAMERA_LED ) > 0) {
 			if (!CameraManager.getInstance().isFacingBack()) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setMessage(getString(R.string.led_and_front_camera_warning)).setCancelable(false)
@@ -152,7 +151,7 @@ public class PreStageActivity extends BaseActivity {
 			}
 		}
 
-		if ((resources & Brick.VIBRATOR) > 0) {
+		if ((requiredResources & Brick.VIBRATOR) > 0) {
 			Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 			if (vibrator != null) {
 				requiredResourceCounter--;

@@ -75,3 +75,4 @@ public class CatroidApplication extends Application {
 	public static Context getAppContext() {
 		return CatroidApplication.context;
 	}
+}
