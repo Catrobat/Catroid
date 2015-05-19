@@ -22,44 +22,75 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
-import org.catrobat.catroid.content.bricks.PhiroProMotorStopBrick.Motor;
-import org.catrobat.catroid.devices.arduino.phiropro.PhiroPro;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick.Motor;
+import org.catrobat.catroid.devices.arduino.phiro.Phiro;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 
-public class PhiroProMotorStopAction extends TemporalAction {
+public class PhiroMotorMoveForwardAction extends TemporalAction {
+	private static final int MIN_SPEED = 0;
+	private static final int MAX_SPEED = 100;
 
 	private Motor motorEnum;
+	private Formula speed;
+	private Sprite sprite;
 
 	private BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 
 	@Override
 	protected void update(float percent) {
+		int speedValue;
+		try {
+			speedValue = speed.interpretInteger(sprite);
+        } catch (InterpretationException interpretationException) {
+            speedValue = 0;
+            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+        }
 
-		PhiroPro phiroPro = btService.getDevice(BluetoothDevice.PHIRO_PRO);
-		if (phiroPro == null) {
+		if (speedValue < MIN_SPEED) {
+			speedValue = MIN_SPEED;
+		} else if (speedValue > MAX_SPEED) {
+			speedValue = MAX_SPEED;
+		}
+
+		Phiro Phiro = btService.getDevice(BluetoothDevice.PHIRO);
+		if (Phiro == null) {
 			return;
 		}
 
 		switch (motorEnum) {
 			case MOTOR_LEFT:
-				phiroPro.stopLeftMotor();
+				Phiro.moveLeftMotorForward(speedValue);
 				break;
 			case MOTOR_RIGHT:
-				phiroPro.stopRightMotor();
+				Phiro.moveRightMotorForward(speedValue);
 				break;
 			case MOTOR_BOTH:
-				phiroPro.stopAllMovements();
+				Phiro.moveRightMotorForward(speedValue);
+				Phiro.moveLeftMotorForward(speedValue);
 				break;
 		}
 	}
 
 	public void setMotorEnum(Motor motorEnum) {
 		this.motorEnum = motorEnum;
+	}
+
+	public void setSpeed(Formula speed) {
+		this.speed = speed;
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
 	}
 
 }

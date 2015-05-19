@@ -41,18 +41,20 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PhiroProSensorElseBrick extends BrickBaseType implements NestingBrick, AllowedAfterDeadEndBrick {
+public class PhiroSensorEndBrick extends BrickBaseType implements NestingBrick, AllowedAfterDeadEndBrick {
 
+	static final int FOREVER = -1;
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = PhiroProSensorElseBrick.class.getSimpleName();
-	private transient PhiroProSensorBrick phiroProSensorBeginBrick;
-	private transient PhiroProSensorEndBrick phiroProSensorEndBrick;
+	private static final String TAG = PhiroSensorEndBrick.class.getSimpleName();
+	private transient PhiroSensorElseBrick phiroProElseBrick;
 
-	private transient PhiroProSensorElseBrick copy;
+	private transient PhiroSensorBrick phiroProBeginBrick;
 
-	public PhiroProSensorElseBrick(PhiroProSensorBrick ifPhiroProSensorBeginBrick) {
-		this.phiroProSensorBeginBrick = ifPhiroProSensorBeginBrick;
-		ifPhiroProSensorBeginBrick.setPhiroProSensorElseBrick(this);
+	public PhiroSensorEndBrick(PhiroSensorElseBrick elseBrick, PhiroSensorBrick beginBrick) {
+		this.phiroProElseBrick = elseBrick;
+		this.phiroProBeginBrick = beginBrick;
+		beginBrick.setPhiroSensorEndBrick(this);
+		elseBrick.setPhiroSensorEndBrick(this);
 	}
 
 	@Override
@@ -60,8 +62,20 @@ public class PhiroProSensorElseBrick extends BrickBaseType implements NestingBri
 		return NO_RESOURCES;
 	}
 
-	public PhiroProSensorElseBrick getCopy() {
-		return copy;
+	public PhiroSensorElseBrick getPhiroProElseBrick() {
+		return phiroProElseBrick;
+	}
+
+	public PhiroSensorBrick getPhiroProBeginBrick() {
+		return phiroProBeginBrick;
+	}
+
+	public void setPhiroProElseBrick(PhiroSensorElseBrick elseBrick) {
+		this.phiroProElseBrick = elseBrick;
+	}
+
+	public void setPhiroProBeginBrick(PhiroSensorBrick beginBrick) {
+		this.phiroProBeginBrick = beginBrick;
 	}
 
 	@Override
@@ -74,10 +88,10 @@ public class PhiroProSensorElseBrick extends BrickBaseType implements NestingBri
 		}
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		view = inflater.inflate(R.layout.brick_phiro_pro_if_sensor_else, null);
+		view = inflater.inflate(R.layout.brick_phiro_if_sensor_end_if, null);
 		view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_phiro_pro_sensor_else_checkbox);
+		setCheckboxView(R.id.brick_phiro_sensor_end_if_checkbox);
 		final Brick brickInstance = this;
 
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -87,7 +101,6 @@ public class PhiroProSensorElseBrick extends BrickBaseType implements NestingBri
 				adapter.handleCheck(brickInstance, isChecked);
 			}
 		});
-
 		return view;
 	}
 
@@ -96,12 +109,12 @@ public class PhiroProSensorElseBrick extends BrickBaseType implements NestingBri
 
 		if (view != null) {
 
-			View layout = view.findViewById(R.id.brick_phiro_pro_sensor_else_layout);
+			View layout = view.findViewById(R.id.brick_phiro_sensor_end_if_layout);
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView ifElseLabel = (TextView) view.findViewById(R.id.brick_phiro_pro_sensor_else_label);
-			ifElseLabel.setTextColor(ifElseLabel.getTextColors().withAlpha(alphaValue));
+			TextView ifEndLabel = (TextView) view.findViewById(R.id.brick_phiro_sensor_end_if_label);
+			ifEndLabel.setTextColor(ifEndLabel.getTextColors().withAlpha(alphaValue));
 
 			this.alphaValue = (alphaValue);
 
@@ -112,33 +125,17 @@ public class PhiroProSensorElseBrick extends BrickBaseType implements NestingBri
 
 	@Override
 	public Brick clone() {
-		return new PhiroProSensorElseBrick(phiroProSensorBeginBrick);
+		return new PhiroSensorEndBrick(phiroProElseBrick, phiroProBeginBrick);
 	}
 
 	@Override
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_phiro_pro_if_sensor_else, null);
-	}
-
-	public void setPhiroProSensorEndBrick(PhiroProSensorEndBrick phiroProEndBrick) {
-		this.phiroProSensorEndBrick = phiroProEndBrick;
-	}
-
-	public void setPhiroProSensorBeginBrick(PhiroProSensorBrick phiroProBeginBrick) {
-		this.phiroProSensorBeginBrick = phiroProBeginBrick;
-	}
-
-	public PhiroProSensorBrick getPhiroProSensorBeginBrick() {
-		return phiroProSensorBeginBrick;
-	}
-
-	public PhiroProSensorEndBrick getPhiroProSensorEndBrick() {
-		return phiroProSensorEndBrick;
+		return View.inflate(context, R.layout.brick_phiro_if_sensor_end_if, null);
 	}
 
 	@Override
 	public boolean isDraggableOver(Brick brick) {
-		if (brick == phiroProSensorBeginBrick || brick == phiroProSensorEndBrick) {
+		if (brick == phiroProElseBrick) {
 			return false;
 		} else {
 			return true;
@@ -147,7 +144,7 @@ public class PhiroProSensorElseBrick extends BrickBaseType implements NestingBri
 
 	@Override
 	public boolean isInitialized() {
-		if (phiroProSensorBeginBrick == null || phiroProSensorEndBrick == null) {
+		if (phiroProElseBrick == null) {
 			return false;
 		} else {
 			return true;
@@ -156,8 +153,7 @@ public class PhiroProSensorElseBrick extends BrickBaseType implements NestingBri
 
 	@Override
 	public void initialize() {
-		//ifBeginBrick = new IfLogicBeginBrick(sprite, 0);
-		//ifEndBrick = new IfLogicEndBrick(sprite, this);
+		//ifElseBrick = new IfLogicElseBrick(sprite);
 		Log.w(TAG, "Cannot create the IfLogic Bricks from here!");
 	}
 
@@ -166,13 +162,13 @@ public class PhiroProSensorElseBrick extends BrickBaseType implements NestingBri
 		//TODO: handle sorting
 		List<NestingBrick> nestingBrickList = new ArrayList<NestingBrick>();
 		if (sorted) {
-			nestingBrickList.add(phiroProSensorBeginBrick);
+			nestingBrickList.add(phiroProBeginBrick);
+			nestingBrickList.add(phiroProElseBrick);
 			nestingBrickList.add(this);
-			nestingBrickList.add(phiroProSensorEndBrick);
 		} else {
-			//nestingBrickList.add(this);
-			nestingBrickList.add(phiroProSensorBeginBrick);
-			nestingBrickList.add(phiroProSensorEndBrick);
+			nestingBrickList.add(this);
+			nestingBrickList.add(phiroProBeginBrick);
+			//nestingBrickList.add(ifElseBrick);
 		}
 
 		return nestingBrickList;
@@ -181,7 +177,7 @@ public class PhiroProSensorElseBrick extends BrickBaseType implements NestingBri
 	@Override
 	public View getNoPuzzleView(Context context, int brickId, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.brick_phiro_pro_if_sensor_else, null);
+		return inflater.inflate(R.layout.brick_phiro_if_sensor_end_if, null);
 	}
 
 	@Override
@@ -193,14 +189,12 @@ public class PhiroProSensorElseBrick extends BrickBaseType implements NestingBri
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
-		//ifEndBrick and ifBeginBrick will be set in the copyBrickForSprite method of IfLogicEndBrick
-		PhiroProSensorElseBrick copyBrick = (PhiroProSensorElseBrick) clone(); //Using the clone method because of its flexibility if new fields are added
-		phiroProSensorBeginBrick.setPhiroProSensorElseBrick(this);
-		phiroProSensorEndBrick.setPhiroProElseBrick(this);
+		PhiroSensorEndBrick copyBrick = (PhiroSensorEndBrick) clone(); //Using the clone method because of its flexibility if new fields are added
+		phiroProBeginBrick.setPhiroSensorEndBrick(this);
+		phiroProElseBrick.setPhiroSensorEndBrick(this);
 
-		copyBrick.phiroProSensorBeginBrick = null;
-		copyBrick.phiroProSensorEndBrick = null;
-		this.copy = copyBrick;
+		copyBrick.phiroProBeginBrick = null;
+		copyBrick.phiroProElseBrick = null;
 		return copyBrick;
 	}
 

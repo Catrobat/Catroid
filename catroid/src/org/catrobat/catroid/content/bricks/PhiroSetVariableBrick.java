@@ -53,46 +53,50 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class PhiroProSetVariableBrick extends UserVariableBrick {
+public class PhiroSetVariableBrick extends UserVariableBrick {
 
 	private static final long serialVersionUID = 1L;
-	private UserVariable userVariable;
 	private Formula variableFormula;
 	private transient AdapterView<?> adapterView;
+
 	//this is used if there should be a sensor selected by default
 	private boolean isStringInPrototype = false;
-	public boolean inUserBrick = false;
 	private String stringInPrototype;
 
-	public PhiroProSetVariableBrick(Formula variableFormula, UserVariable userVariable) {
-		this.variableFormula = variableFormula;
+	public PhiroSetVariableBrick() {
+		addAllowedBrickField(BrickField.VARIABLE);
+	}
+
+	public PhiroSetVariableBrick(Formula variableFormula, UserVariable userVariable) {
 		this.userVariable = userVariable;
+		initializeBrickFields(variableFormula);
 	}
 
-	public PhiroProSetVariableBrick(double value) {
-		this.variableFormula = new Formula(value);
+	public PhiroSetVariableBrick(double value) {
 		this.userVariable = null;
+		initializeBrickFields(new Formula(value));
 	}
 
-	public PhiroProSetVariableBrick(String value) {
+	private void initializeBrickFields(Formula variableFormula) {
+		addAllowedBrickField(BrickField.VARIABLE);
+		setFormulaWithBrickField(BrickField.VARIABLE, variableFormula);
+	}
+
+	public PhiroSetVariableBrick(String value) {
 		this.isStringInPrototype = true;
 		this.stringInPrototype = value;
+		initializeBrickFields(new Formula(value));
 		this.variableFormula = new Formula(value);
 		this.userVariable = null;
-
 	}
 
 	@Override
-	public Formula getFormula() {
-		return variableFormula;
-	}
-
-	@Override
-	public int getRequiredResources() { return BLUETOOTH_PHIRO_PRO;	}
+	public int getRequiredResources() { return getFormulaWithBrickField(BrickField.VARIABLE).getRequiredResources();	}
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.setVariable(sprite, variableFormula, userVariable));
+		sequence.addAction(ExtendedActions.setVariable(sprite, getFormulaWithBrickField(BrickField.VARIABLE),
+				userVariable));
 		return null;
 	}
 
@@ -121,8 +125,8 @@ public class PhiroProSetVariableBrick extends UserVariableBrick {
 		TextView prototypeText = (TextView) view.findViewById(R.id.brick_set_variable_prototype_view);
 		TextView textField = (TextView) view.findViewById(R.id.brick_set_variable_edit_text);
 		prototypeText.setVisibility(View.GONE);
-		variableFormula.setTextFieldId(R.id.brick_set_variable_edit_text);
-		variableFormula.refreshTextField(view);
+		getFormulaWithBrickField(BrickField.VARIABLE).setTextFieldId(R.id.brick_set_variable_edit_text);
+		getFormulaWithBrickField(BrickField.VARIABLE).refreshTextField(view);
 		textField.setVisibility(View.VISIBLE);
 		textField.setOnClickListener(this);
 
@@ -153,14 +157,16 @@ public class PhiroProSetVariableBrick extends UserVariableBrick {
 
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_UP && ((Spinner) view).getSelectedItemPosition() == 0
-						&& ((Spinner) view).getAdapter().getCount() == 1) {
+				if (event.getAction() == MotionEvent.ACTION_UP
+						&& (((Spinner) view).getSelectedItemPosition() == 0
+						&& ((Spinner) view).getAdapter().getCount() == 1)) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_VARIABLE);
-					dialog.addVariableDialogListener(PhiroProSetVariableBrick.this);
+					dialog.addVariableDialogListener(PhiroSetVariableBrick.this);
 					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
 							NewDataDialog.DIALOG_FRAGMENT_TAG);
 					return true;
 				}
+
 				return false;
 			}
 		});
@@ -169,7 +175,7 @@ public class PhiroProSetVariableBrick extends UserVariableBrick {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (position == 0 && ((UserVariableAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
 					NewDataDialog dialog = new NewDataDialog((Spinner) parent, NewDataDialog.DialogType.USER_VARIABLE);
-					dialog.addVariableDialogListener(PhiroProSetVariableBrick.this);
+					dialog.addVariableDialogListener(PhiroSetVariableBrick.this);
 					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
 							NewDataDialog.DIALOG_FRAGMENT_TAG);
 				}
@@ -192,7 +198,7 @@ public class PhiroProSetVariableBrick extends UserVariableBrick {
 		View prototypeView = View.inflate(context, R.layout.brick_set_variable, null);
 		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.set_variable_spinner);
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
-		int userBrickId = (currentBrick == null ? -1 : currentBrick.getUserBrickId());
+		int userBrickId = (currentBrick == null ? -1 : currentBrick.getDefinitionBrick().getUserBrickId());
 
 		variableSpinner.setFocusableInTouchMode(false);
 		variableSpinner.setFocusable(false);
@@ -207,33 +213,29 @@ public class PhiroProSetVariableBrick extends UserVariableBrick {
 		setSpinnerSelection(variableSpinner, null);
 
 		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_set_variable_prototype_view);
-		if (isStringInPrototype == false) {
-			//ToDo: #PhiroPro check if correct
-			//textSetVariable.setText(String.valueOf(variableFormula.interpretDouble(sprite)));
-			textSetVariable.setText(String.valueOf(BrickValues.SET_VARIABLE));
+
+		if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_FRONT_LEFT.toString())) {
+			textSetVariable.setText(context.getResources().getString(
+					R.string.formula_editor_phiro_sensor_front_left));
+		} else if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_FRONT_RIGHT.toString())) {
+			textSetVariable.setText(context.getResources().getString(
+					R.string.formula_editor_phiro_sensor_front_right));
+		} else if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_SIDE_LEFT.toString())) {
+			textSetVariable.setText(context.getResources().getString(
+					R.string.formula_editor_phiro_sensor_side_left));
+		} else if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_SIDE_RIGHT.toString())) {
+			textSetVariable.setText(context.getResources().getString(
+					R.string.formula_editor_phiro_sensor_side_right));
+		} else if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_BOTTOM_LEFT.toString())) {
+			textSetVariable.setText(context.getResources().getString(
+					R.string.formula_editor_phiro_sensor_bottom_left));
+		} else if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_BOTTOM_RIGHT.toString())) {
+			textSetVariable.setText(context.getResources().getString(
+					R.string.formula_editor_phiro_sensor_bottom_right));
 		} else {
-			if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_FRONT_LEFT.toString())) {
-				textSetVariable.setText(context.getResources().getString(
-						R.string.formula_editor_phiro_pro_sensor_front_left));
-			} else if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_FRONT_RIGHT.toString())) {
-				textSetVariable.setText(context.getResources().getString(
-						R.string.formula_editor_phiro_pro_sensor_front_right));
-			} else if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_SIDE_LEFT.toString())) {
-				textSetVariable.setText(context.getResources().getString(
-						R.string.formula_editor_phiro_pro_sensor_side_left));
-			} else if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_SIDE_RIGHT.toString())) {
-				textSetVariable.setText(context.getResources().getString(
-						R.string.formula_editor_phiro_pro_sensor_side_right));
-			} else if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_BOTTOM_LEFT.toString())) {
-				textSetVariable.setText(context.getResources().getString(
-						R.string.formula_editor_phiro_pro_sensor_bottom_left));
-			} else if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_BOTTOM_RIGHT.toString())) {
-				textSetVariable.setText(context.getResources().getString(
-						R.string.formula_editor_phiro_pro_sensor_bottom_right));
-			} else {
-				textSetVariable.setText(stringInPrototype);
-			}
+			textSetVariable.setText(String.valueOf(BrickValues.SET_VARIABLE));
 		}
+
 		return prototypeView;
 	}
 
@@ -266,7 +268,7 @@ public class PhiroProSetVariableBrick extends UserVariableBrick {
 
 	@Override
 	public Brick clone() {
-		SetVariableBrick clonedBrick = new SetVariableBrick(getFormulaWithBrickField(BrickField.VARIABLE)
+		PhiroSetVariableBrick clonedBrick = new PhiroSetVariableBrick(getFormulaWithBrickField(BrickField.VARIABLE)
 				.clone(), userVariable);
 		return clonedBrick;
 	}
@@ -275,40 +277,6 @@ public class PhiroProSetVariableBrick extends UserVariableBrick {
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.VARIABLE);
-	}
-
-	private void updateUserVariableIfDeleted(UserVariableAdapterWrapper userVariableAdapterWrapper) {
-		if (userVariable == null) {
-			return;
-		}
-		if (userVariableAdapterWrapper.getPositionOfItem(userVariable) == 0) {
-			userVariable = null;
-		}
-	}
-
-	protected void setSpinnerSelection(Spinner variableSpinner, UserVariable newUserVariable) {
-		UserVariableAdapterWrapper userVariableAdapterWrapper = (UserVariableAdapterWrapper) variableSpinner
-				.getAdapter();
-
-		updateUserVariableIfDeleted(userVariableAdapterWrapper);
-
-		if (userVariable != null) {
-			variableSpinner.setSelection(userVariableAdapterWrapper.getPositionOfItem(userVariable), true);
-		} else if (newUserVariable != null) {
-			variableSpinner.setSelection(userVariableAdapterWrapper.getPositionOfItem(newUserVariable), true);
-			userVariable = newUserVariable;
-		} else {
-			variableSpinner.setSelection(userVariableAdapterWrapper.getCount() - 1, true);
-			userVariable = userVariableAdapterWrapper.getItem(userVariableAdapterWrapper.getCount() - 1);
-		}
-	}
-
-	@Override
-	public void onFinishNewVariableDialog(Spinner spinnerToUpdate, UserVariable newUserVariable) {
-		UserVariableAdapterWrapper userVariableAdapterWrapper = ((UserVariableAdapterWrapper) spinnerToUpdate
-				.getAdapter());
-		userVariableAdapterWrapper.notifyDataSetChanged();
-		setSpinnerSelection(spinnerToUpdate, newUserVariable);
 	}
 
 }

@@ -25,8 +25,8 @@
     style="@style/BrickCategory" >
 
     <TextView
-        style="@style/BrickCategoryText.PhiroPro"
-        android:text="@string/category_phiro_pro" >
+        style="@style/BrickCategoryText.Phiro"
+        android:text="@string/category_phiro" >
     </TextView>
 
 </LinearLayout>

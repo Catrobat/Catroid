@@ -359,24 +359,24 @@
         <item name="android:background" >@drawable/brick_olive_3h</item >
     </style >
 
-    <style name="BrickContainer.PhiroPro" ></style >
+    <style name="BrickContainer.Phiro" ></style >
 
-    <style name="BrickContainer.PhiroPro.Small" >
+    <style name="BrickContainer.Phiro.Small" >
         <item name="android:minHeight" >@dimen/brick_height_small</item >
         <item name="android:background" >@drawable/brick_cyan_1h</item >
     </style >
 
-    <style name="BrickContainer.PhiroPro.Medium" >
+    <style name="BrickContainer.Phiro.Medium" >
         <item name="android:minHeight" >@dimen/brick_height_medium</item >
         <item name="android:background" >@drawable/brick_cyan_2h</item >
     </style >
 
-    <style name="BrickContainer.PhiroPro.Big" >
+    <style name="BrickContainer.Phiro.Big" >
         <item name="android:minHeight" >@dimen/brick_height_big</item >
         <item name="android:background" >@drawable/brick_cyan_3h</item >
     </style >
 
-    <style name="BrickContainer.PhiroPro.Light" >
+    <style name="BrickContainer.Phiro.Light" >
         <item name="android:minHeight" >@dimen/brick_height_big</item >
         <item name="android:background" >@drawable/brick_phiro_green_3h</item >
     </style >
@@ -555,7 +555,7 @@
         <item name="android:drawableRight" >@drawable/main_menu_button_arrow_phiro_pro</item >
     </style >
 
-    <style name="BrickCategoryText.PhiroPro" >
+    <style name="BrickCategoryText.Phiro" >
         <item name="android:background" >@drawable/brick_selection_background_phiro_pro</item >
         <item name="android:drawableRight" >@drawable/main_menu_button_arrow_phiro_pro</item >
     </style >

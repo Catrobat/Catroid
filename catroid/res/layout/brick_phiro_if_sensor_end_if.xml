@@ -29,14 +29,14 @@
               android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/brick_phiro_pro_sensor_end_if_checkbox"
+        android:id="@+id/brick_phiro_sensor_end_if_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_phiro_pro_sensor_end_if_layout"
+        android:id="@+id/brick_phiro_sensor_end_if_layout"
         style="@style/BrickContainer.Control.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
-            android:id="@+id/brick_phiro_pro_sensor_end_if_label"
+            android:id="@+id/brick_phiro_sensor_end_if_label"
             style="@style/BrickText"
             android:text="@string/brick_if_end" />
     </org.catrobat.catroid.ui.BrickLayout >

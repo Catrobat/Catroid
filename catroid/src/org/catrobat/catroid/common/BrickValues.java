@@ -78,13 +78,13 @@ public final class BrickValues {
 	public static final int REPLACE_ITEM_IN_USERLIST_INDEX = 1;
 	public static final double REPLACE_ITEM_IN_USERLIST_VALUE = 1d;
 
-	//Constants PhiroPro
-	public static final int PHIRO_PRO_SPEED = 100;
-	public static final int PHIRO_PRO_DURATION = 1;
-	public static final int PHIRO_PRO_VALUE_RED = 0;
-	public static final int PHIRO_PRO_VALUE_GREEN = 255;
-	public static final int PHIRO_PRO_VALUE_BLUE = 255;
-	public static final String PHIRO_PRO_IF_SENSOR_DEFAULT_VALUE = "Front Left Sensor";
+	//Constants Phiro
+	public static final int PHIRO_SPEED = 100;
+	public static final int PHIRO_DURATION = 1;
+	public static final int PHIRO_VALUE_RED = 0;
+	public static final int PHIRO_VALUE_GREEN = 255;
+	public static final int PHIRO_VALUE_BLUE = 255;
+	public static final String PHIRO_IF_SENSOR_DEFAULT_VALUE = "Front Left Sensor";
 
 	// Suppress default constructor for noninstantiability
 	private BrickValues() {

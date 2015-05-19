@@ -74,17 +74,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
+                android:layout_marginTop="10dp"
                 android:paddingRight="5dp"
                 android:text="@string/color_red"
-                android:textColor="@color/color_chooser_rgb_red"
-                android:layout_marginTop="20dp" />
+                android:textColor="@color/color_chooser_rgb_red"/>
 
             <TextView
                 android:id="@+id/rgb_red_start_value"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="0"
                 android:textColor="@color/holo_blue_bright"
                 tools:ignore="HardcodedText" />
@@ -95,15 +95,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="50"
                 android:maxHeight="60dp"
-                android:max="255"
-                android:layout_marginTop="10dp" />
+                android:max="255" />
 
             <TextView
                 android:id="@+id/rgb_red_end_value"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="10"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="255"
                 android:textColor="@color/holo_blue_bright"
                 tools:ignore="HardcodedText" />
@@ -113,7 +112,7 @@
                 style="@style/FragmentSeekbarChooserTextView"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="30"
+                android:layout_weight="27"
                 android:text="255"
                 android:textColor="@color/white"
                 tools:ignore="HardcodedText" />
@@ -132,7 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:paddingRight="5dp"
                 android:text="@string/color_green"
                 android:textColor="@color/color_chooser_rgb_green" />
@@ -142,7 +141,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="0"
                 android:textColor="@color/holo_blue_bright"
                 tools:ignore="HardcodedText" />
@@ -153,16 +152,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="50"
                 android:maxHeight="60dp"
-                android:max="255"
-                android:layout_marginTop="10dp"
-                android:indeterminate="false" />
+                android:max="255" />
 
             <TextView
                 android:id="@+id/rgb_green_end_value"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="10"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="255"
                 android:textColor="@color/holo_blue_bright"
                 tools:ignore="HardcodedText" />
@@ -172,7 +169,7 @@
                 style="@style/FragmentSeekbarChooserTextView"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="30"
+                android:layout_weight="27"
                 android:text="255"
                 android:textColor="@color/white"
                 tools:ignore="HardcodedText" />
@@ -191,7 +188,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:paddingRight="5dp"
                 android:text="@string/color_blue"
                 android:textColor="@color/color_chooser_rgb_blue" />
@@ -201,7 +198,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="0"
                 android:textColor="@color/holo_blue_bright"
                 tools:ignore="HardcodedText" />
@@ -212,15 +209,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="50"
                 android:maxHeight="60dp"
-                android:max="255"
-                android:layout_marginTop="10dp" />
+                android:max="255" />
 
             <TextView
                 android:id="@+id/rgb_blue_end_value"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="10"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="255"
                 android:textColor="@color/holo_blue_bright"
                 tools:ignore="HardcodedText" />
@@ -230,7 +226,7 @@
                 style="@style/FragmentSeekbarChooserTextView"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="30"
+                android:layout_weight="27"
                 android:text="255"
                 android:textColor="@color/white"
                 tools:ignore="HardcodedText" />

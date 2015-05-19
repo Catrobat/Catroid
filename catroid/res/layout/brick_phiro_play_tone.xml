@@ -30,33 +30,69 @@
               android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/brick_phiro_pro_motor_stop_checkbox"
+        android:id="@+id/brick_phiro_play_tone_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_phiro_pro_motor_stop_layout"
-        style="@style/BrickContainer.PhiroPro.Small"
+        android:id="@+id/brick_phiro_play_tone_layout"
+        style="@style/BrickContainer.Sound.Big"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
-            android:id="@+id/ValueTextView"
+            android:id="@+id/brick_phiro_play_tone_label"
             style="@style/BrickText.SingleLine"
-            android:text="@string/phiro_pro_motor_stop" >
+            android:text="@string/phiro_play_tone" >
         </TextView >
 
+         <TextView
+             android:id="@+id/brick_phiro_select_tone_text_view"
+             style="@style/BrickText.SingleLine"
+             android:text="@string/brick_phiro_select_tone" />
         <Spinner
-            android:id="@+id/brick_phiro_pro_stop_motor_spinner"
+            android:id="@+id/brick_phiro_select_tone_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="false"
             android:focusable="false" />
+        <!-- do not add spinner items here! -->
+
+        <TextView
+            android:id="@+id/brick_phiro_play_tone_duration"
+            style="@style/BrickText.SingleLine"
+            app:layout_newLine="true"
+            android:text="@string/phiro_play_tone" >
+        </TextView >
+
+        <TextView
+            android:id="@+id/brick_phiro_play_tone_duration_text_view"
+            style="@style/BrickPrototypeTextView" >
+        </TextView >
+
+        <TextView
+            android:id="@+id/brick_phiro_play_tone_duration_edit_text"
+            style="@style/BrickEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_inputType="number"
+            app:layout_textField="true"
+            android:clickable="false"
+            android:maxEms="5" >
+        </TextView >
+
+        <TextView
+            android:id="@+id/brick_phiro_play_tone_seconds_text_view"
+            style="@style/BrickText.SingleLine"
+            android:text="@string/phiro_seconds" >
+        </TextView >
+
     </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

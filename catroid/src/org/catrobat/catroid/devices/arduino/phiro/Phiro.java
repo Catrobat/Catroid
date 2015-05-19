@@ -20,12 +20,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.devices.arduino.phiropro;
+package org.catrobat.catroid.devices.arduino.phiro;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.formulaeditor.Sensors;
 
-public interface PhiroPro extends BluetoothDevice {
+public interface Phiro extends BluetoothDevice {
 
 	void playTone(int toneFrequency, int duration);
 

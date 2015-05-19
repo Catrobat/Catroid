@@ -30,15 +30,15 @@
               android:orientation="horizontal" >
 
    <CheckBox
-       android:id="@+id/brick_phiro_pro_rgb_led_action_checkbox"
+       android:id="@+id/brick_phiro_rgb_led_action_checkbox"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        android:gravity="center_vertical"
        android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_phiro_pro_rgb_led_layout"
-        style="@style/BrickContainer.PhiroPro.Light"
+        android:id="@+id/brick_phiro_rgb_led_layout"
+        style="@style/BrickContainer.Look.Big"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -46,13 +46,13 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
     <TextView
-        android:id="@+id/brick_phiro_pro_rgb_led_action_label"
+        android:id="@+id/brick_phiro_rgb_led_action_label"
         style="@style/BrickText.SingleLine"
-        android:text="@string/brick_phiro_pro_rgb_led_action" >
+        android:text="@string/brick_phiro_rgb_led_action" >
     </TextView>
 
     <Spinner
-        android:id="@+id/brick_phiro_pro_rgb_light_spinner"
+        android:id="@+id/brick_phiro_rgb_light_spinner"
         style="@style/BrickText.SingleLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,43 +62,43 @@
     </Spinner>
 
     <TextView
-        android:id="@+id/brick_phiro_pro_rgb_led_red_text_view"
+        android:id="@+id/brick_phiro_rgb_led_red_text_view"
         style="@style/BrickText"
-        android:text="@string/phiro_pro_rgb_led_red" >
+        android:text="@string/phiro_rgb_led_red" >
     </TextView>
     <TextView
-        android:id="@+id/brick_phiro_pro_rgb_led_red_prototype_text_view"
+        android:id="@+id/brick_phiro_rgb_led_red_prototype_text_view"
         style="@style/BrickPrototypeTextView" />
     <TextView
-        android:id="@+id/brick_phiro_pro_rgb_led_action_red_edit_text"
+        android:id="@+id/brick_phiro_rgb_led_action_red_edit_text"
         style="@style/BrickEditText"
         app:layout_inputType="number"
         app:layout_textField="true" >
     </TextView>
     <TextView
-        android:id="@+id/brick_phiro_pro_rgb_led_green_text_view"
+        android:id="@+id/brick_phiro_rgb_led_green_text_view"
         style="@style/BrickText"
-        android:text="@string/phiro_pro_rgb_led_green" >
+        android:text="@string/phiro_rgb_led_green" >
     </TextView>
     <TextView
-        android:id="@+id/brick_phiro_pro_rgb_led_green_prototype_text_view"
+        android:id="@+id/brick_phiro_rgb_led_green_prototype_text_view"
         style="@style/BrickPrototypeTextView" />
     <TextView
-        android:id="@+id/brick_phiro_pro_rgb_led_action_green_edit_text"
+        android:id="@+id/brick_phiro_rgb_led_action_green_edit_text"
         style="@style/BrickEditText"
         app:layout_inputType="number"
         app:layout_textField="true" >
     </TextView>
     <TextView
-        android:id="@+id/brick_phiro_pro_rgb_led_blue_text_view"
+        android:id="@+id/brick_phiro_rgb_led_blue_text_view"
         style="@style/BrickText"
-        android:text="@string/phiro_pro_rgb_led_blue" >
+        android:text="@string/phiro_rgb_led_blue" >
     </TextView>
     <TextView
-        android:id="@+id/brick_phiro_pro_rgb_led_blue_prototype_text_view"
+        android:id="@+id/brick_phiro_rgb_led_blue_prototype_text_view"
         style="@style/BrickPrototypeTextView" />
     <TextView
-        android:id="@+id/brick_phiro_pro_rgb_led_action_blue_edit_text"
+        android:id="@+id/brick_phiro_rgb_led_action_blue_edit_text"
         style="@style/BrickEditText"
         app:layout_inputType="number"
         app:layout_textField="true" >

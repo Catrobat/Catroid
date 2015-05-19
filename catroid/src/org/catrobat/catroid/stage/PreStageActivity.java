@@ -98,8 +98,8 @@ public class PreStageActivity extends BaseActivity {
 			connectBTDevice(BluetoothDevice.LEGO_NXT);
 		}
 
-		if ((requiredResources & Brick.BLUETOOTH_PHIRO_PRO) > 0) {
-			connectBTDevice(BluetoothDevice.PHIRO_PRO);
+		if ((requiredResources & Brick.BLUETOOTH_PHIRO) > 0) {
+			connectBTDevice(BluetoothDevice.PHIRO);
 		}
 
 		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
