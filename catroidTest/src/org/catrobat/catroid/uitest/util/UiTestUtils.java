@@ -2013,7 +2013,7 @@ public final class UiTestUtils {
 
 	public static File setUpLookFile(Solo solo) throws IOException {
 		File lookFile = UiTestUtils.createTestMediaFile(Constants.DEFAULT_ROOT + "/testFile.png",
-				R.drawable.default_project_mole_whacked, solo.getCurrentActivity());
+				R.drawable.default_project_bird_wing_up, solo.getCurrentActivity());
 
 		return lookFile;
 	}
