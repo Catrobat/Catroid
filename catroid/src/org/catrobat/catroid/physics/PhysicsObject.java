@@ -390,7 +390,7 @@ public class PhysicsObject {
 		Transform transform = body.getTransform();
 		int len = body.getFixtureList().size;
 		Array<Fixture> fixtures = body.getFixtureList();
-		if(fixtures.size == 0) {
+		if (fixtures.size == 0) {
 			bodyAABBLowerLeft.x = 0;
 			bodyAABBLowerLeft.y = 0;
 			bodyAABBUpperRight.x = 0;

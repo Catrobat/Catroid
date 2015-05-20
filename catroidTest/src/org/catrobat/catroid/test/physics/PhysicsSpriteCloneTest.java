@@ -42,7 +42,6 @@ import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.io.StorageHandler;
-import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.content.bricks.CollisionReceiverBrick;
@@ -188,7 +187,7 @@ public class PhysicsSpriteCloneTest extends InstrumentationTestCase {
 		sprite.addScript(startScript);
 
 		PhysicsWorld physicsWorld = project.getPhysicsWorld();
-		sprite.look = new PhysicsLook(sprite, physicsWorld);
+		sprite.look = new Look(sprite);
 
 		String rectangle125x125FileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("rectangle_125x125.png");
 		File rectangle125x125File = null;
