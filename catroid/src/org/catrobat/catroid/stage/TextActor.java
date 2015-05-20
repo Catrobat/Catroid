@@ -20,30 +20,47 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.stage;
 
-import android.util.Log;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-import com.parrot.freeflight.service.DroneControlService;
+public class TextActor extends Actor{
 
-import org.catrobat.catroid.drone.DroneServiceWrapper;
+	private int posX;
+	private int posY;
+	private String text;
+	private float scale = 2f;
+	private BitmapFont font;
 
-public class DroneSwitchCameraAction extends TemporalAction {
-
-	private static final String TAG = DroneSwitchCameraAction.class.getSimpleName();
-
-	@Override
-	protected void begin() {
-		super.begin();
-		Log.d(TAG, "begin!");
-		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
-		if(dcs != null) {
-			dcs.switchCamera();
-		}
+	public TextActor(String text, int posX, int posY) {
+		this.text = text;
+		this.posX = posX;
+		this.posY = posY;
+		init();
 	}
 
 	@Override
-	protected void update(float percent) {
+	public void draw(Batch batch, float parentAlpha) {
+		font.draw(batch, text, posX, posY);
+	}
+
+	private void init(){
+		font = new BitmapFont();
+		font.setColor(1.0f, 0.0f, 0.0f, 1.0f);
+		font.setScale(scale);
+	}
+
+	public void setPosX(int posX) {
+		this.posX = posX;
+	}
+
+	public void setPosY(int posY) {
+		this.posY = posY;
+	}
+
+	public void setText(String text) {
+		this.text = text;
 	}
 }

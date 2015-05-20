@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,13 +22,15 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.stage.DrawTextActor;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.stage.TextActor;
 
 public class SetTextAction extends TemporalAction {
 
@@ -38,7 +40,7 @@ public class SetTextAction extends TemporalAction {
 	private Formula text;
 
 	private Sprite sprite;
-	private DrawTextActor actor;
+	private TextActor actor;
 
 	@Override
 	protected void begin() {
@@ -47,10 +49,10 @@ public class SetTextAction extends TemporalAction {
 			int posX = endX.interpretInteger(sprite);
 			int posY = endY.interpretInteger(sprite);
 
-			actor = new DrawTextActor(string, posX, posY);
+			actor = new TextActor(string, posX, posY);
 			StageActivity.stageListener.addActor(actor);
-		} catch (InterpretationException e) {
-			e.printStackTrace();
+		} catch (InterpretationException exception) {
+			Log.e(getClass().getSimpleName(), Log.getStackTraceString(exception));
 		}
 	}
 
@@ -64,8 +66,8 @@ public class SetTextAction extends TemporalAction {
 		    actor.setText(str);
 			actor.setPosX(posX);
 			actor.setPosY(posY);
-		} catch (InterpretationException e) {
-			e.printStackTrace();
+		} catch (InterpretationException exception) {
+			Log.e(getClass().getSimpleName(), Log.getStackTraceString(exception));
 		}
 	}
 

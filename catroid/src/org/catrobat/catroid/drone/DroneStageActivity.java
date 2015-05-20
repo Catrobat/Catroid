@@ -25,12 +25,10 @@ package org.catrobat.catroid.drone;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.parrot.freeflight.drone.NavData;
 import com.parrot.freeflight.receivers.DroneBatteryChangedReceiver;
@@ -42,11 +40,8 @@ import com.parrot.freeflight.service.DroneControlService;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.utils.ToastUtil;
 
-/**
- * Created by Lukas on 16.02.2015.
- */
 public class DroneStageActivity extends StageActivity implements DroneBatteryChangedReceiverDelegate, DroneEmergencyChangeReceiverDelegate {
 
 	private DroneConnection droneConnection = null;
@@ -76,7 +71,7 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 					droneEmergencyReceiver = new DroneEmergencyChangeReceiver(this);
 				} catch (RuntimeException runtimeException) {
 					Log.e(TAG, "Failure during drone service startup", runtimeException);
-					Toast.makeText(this, R.string.error_no_drone_connected, Toast.LENGTH_LONG).show();
+					ToastUtil.showError(this, R.string.error_no_drone_connected);
 					this.finish();
 				}
 			}
@@ -141,7 +136,7 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
 		if(dcs != null) {
 			if (value < DroneInitializer.DRONE_BATTERY_THRESHOLD && dcs.getDroneNavData().flying && !DroneBatteryMessageShown) {
-				Toast.makeText(this, R.string.notification_low_battery + " " + Integer.toString(value), Toast.LENGTH_LONG).show();
+				ToastUtil.showError(this, R.string.notification_low_battery + " " + Integer.toString(value));
 				DroneBatteryMessageShown = true;
 			}
 		}
@@ -156,47 +151,47 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 		if (code == NavData.ERROR_STATE_NONE || code == NavData.ERROR_STATE_START_NOT_RECEIVED)
 			return;
 		
-		int messageId;
+		int messageID;
 
 		switch (code) {
 			case NavData.ERROR_STATE_EMERGENCY_VBAT_LOW:
-				messageId = R.string.drone_emergency_battery_low;
+				messageID = R.string.drone_emergency_battery_low;
 				method = emergencyMethod.ALERT;
 				Log.d(getClass().getSimpleName(), "message code: "+getResources().getString(R.string.drone_emergency_battery_low));
 				break;
 			case NavData.ERROR_STATE_ALERT_VBAT_LOW:
-				messageId = R.string.drone_alert_battery_low;
+				messageID = R.string.drone_alert_battery_low;
 				method = emergencyMethod.TOAST;
 				Log.d(getClass().getSimpleName(), "message code: "+getResources().getString(R.string.drone_alert_battery_low));
 				break;
 			case NavData.ERROR_STATE_ALERT_CAMERA:
 			case NavData.ERROR_STATE_EMERGENCY_CAMERA:
-				messageId = R.string.drone_emergency_camera;
+				messageID = R.string.drone_emergency_camera;
 				method = emergencyMethod.TOAST;
 				Log.d(getClass().getSimpleName(), "message code: "+getResources().getString(R.string.drone_emergency_camera));
 				break;
 			case NavData.ERROR_STATE_EMERGENCY_ULTRASOUND:
-				messageId = R.string.drone_emergency_ultrasound;
+				messageID = R.string.drone_emergency_ultrasound;
 				method = emergencyMethod.ALERT;
 				Log.d(getClass().getSimpleName(), "message code: "+getResources().getString(R.string.drone_emergency_ultrasound));
 				break;
 			case NavData.ERROR_STATE_ALERT_ULTRASOUND:
-				messageId = R.string.drone_alert_ultrasound;
+				messageID = R.string.drone_alert_ultrasound;
 				method = emergencyMethod.NOTHING;
 				Log.d(getClass().getSimpleName(), "message code: "+getResources().getString(R.string.drone_alert_ultrasound));
 				break;
 			case NavData.ERROR_STATE_ALERT_VISION:
-				messageId = R.string.drone_alert_vision;
+				messageID = R.string.drone_alert_vision;
 				method = emergencyMethod.TOAST;
 				Log.d(getClass().getSimpleName(), "message code: "+getResources().getString(R.string.drone_alert_vision));
 				break;
 			case NavData.ERROR_STATE_EMERGENCY_ANGLE_OUT_OF_RANGE:
-				messageId = R.string.drone_emergency_angle;
+				messageID = R.string.drone_emergency_angle;
 				method = emergencyMethod.ALERT;
 				Log.d(getClass().getSimpleName(), "message code: "+getResources().getString(R.string.drone_emergency_angle));
 				break;
 			case NavData.ERROR_STATE_EMERGENCY_CUTOUT:
-				messageId = R.string.drone_emergency_cutout;
+				messageID = R.string.drone_emergency_cutout;
 				method = emergencyMethod.ALERT;
 				Log.d(getClass().getSimpleName(), "message code: "+getResources().getString(R.string.drone_emergency_cutout));
 				break;
@@ -211,7 +206,7 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 			case ALERT:
 				new AlertDialog.Builder(this)
 						.setTitle(R.string.drone_emergency_title)
-						.setMessage(messageId)
+						.setMessage(messageID)
 						.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialogInterface, int id) {
@@ -222,7 +217,7 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
 				break;
 
 			case TOAST:
-				Toast.makeText(this, messageId, Toast.LENGTH_LONG).show();
+				ToastUtil.showError(this, messageID);
 				break;
 
 		}

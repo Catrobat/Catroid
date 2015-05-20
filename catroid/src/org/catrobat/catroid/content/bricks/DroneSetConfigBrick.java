@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -82,7 +82,7 @@ public class DroneSetConfigBrick extends BrickBaseType implements OnItemSelected
 			alphaValue = 255;
 		}
 
-		view = View.inflate(context, R.layout.brick_set_config, null);
+		view = View.inflate(context, R.layout.brick_drone_set_config, null);
 		setCheckboxView(R.id.brick_set_config_checkbox);
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -134,7 +134,7 @@ public class DroneSetConfigBrick extends BrickBaseType implements OnItemSelected
 
 	@Override
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_set_config, null);
+		View prototypeView = View.inflate(context, R.layout.brick_drone_set_config, null);
 
 		Spinner DroneConfigSpinner = (Spinner) prototypeView.findViewById(R.id.brick_set_config_spinner);
 		DroneConfigSpinner.setFocusableInTouchMode(false);

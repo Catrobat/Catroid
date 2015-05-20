@@ -44,44 +44,7 @@ public final class DroneServiceWrapper {
 		droneControlService = service;
 	}
 
-	/* first we wait for autonomous reconnecting otherwise we try to reconnect to drone and then check if
-	 * droneControlService is not null.
-	   if connection is successful droneControlService should not be null!
-	*/
 	public DroneControlService getDroneService() {
-		/*if(droneControlService == null){
-
-			// polling: waiting for autonomous reconnecting
-			int counter = 0;
-			while(droneControlService == null && counter <= 15){
-				try {
-					Thread.sleep(100);
-					counter++;
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			if(droneControlService == null) {
-				DroneConnection droneConnection = new DroneConnection(CatroidApplication.getAppContext());
-
-				if (droneConnection != null) {
-					try {
-						droneConnection.initialise();
-					} catch (RuntimeException runtimeException) {
-						Toast.makeText(CatroidApplication.getAppContext(), R.string.error_no_drone_connected, Toast.LENGTH_LONG).show();
-						Log.e(getClass().getSimpleName(), "drone connection initialization was not successful!");
-					}
-				}
-			}
-		}
-
-		while(droneControlService == null){
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}*/
 		return droneControlService;
 
 	}

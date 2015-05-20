@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.content;
+package org.catrobat.catroid.drone;
 
 import android.graphics.Bitmap;
 
@@ -30,17 +30,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.parrot.freeflight.ui.gl.GLBGVideoSprite;
 
-/**
- * Created by Lukas on 25.03.2015.
- */
+import org.catrobat.catroid.content.Look;
+import org.catrobat.catroid.content.Sprite;
+
 public class DroneVideoLook extends Look {
 
 	private boolean firstStart = true;
@@ -63,7 +58,6 @@ public class DroneVideoLook extends Look {
 
 		if (videoSize[0] != videoTexture.imageWidth || videoSize[1] != videoTexture.imageHeight)
 		{
-
 			onSurfaceChanged();
 		}
 
