@@ -56,7 +56,7 @@
             android:contentDescription="@string/look"
             android:cropToPadding="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/default_project_mole_whacked" />
+            android:src="@drawable/default_project_bird_wing_up" />
 
         <LinearLayout
             android:layout_width="match_parent"
