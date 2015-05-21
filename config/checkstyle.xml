@@ -64,6 +64,7 @@
     <module name="HideUtilityClassConstructor" />
     <module name="InterfaceIsType" />
     <module name="MutableException" />
+    <module name="OneTopLevelClass" />
 
     <!-- Miscellaneous -->
     <module name="ArrayTypeStyle" />
