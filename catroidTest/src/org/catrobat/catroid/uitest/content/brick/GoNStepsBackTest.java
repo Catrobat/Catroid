@@ -43,9 +43,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-/**
- * @author Daniel Burtscher
- */
 public class GoNStepsBackTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final int STEPS_TO_GO_BACK = 17;
 

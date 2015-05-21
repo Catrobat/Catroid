@@ -22,11 +22,6 @@
  */
 package org.catrobat.catroid.ui.adapter;
 
-/**
- * @author DENISE, DANIEL
- *
- */
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;

@@ -45,10 +45,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-/**
- * @author pete
- * 
- */
 public class StringsTest extends TestCase {
 	private static final String[] LANGUAGES = { "English" }; //, "Russian", "Romanian" };
 	private static final String[] LANGUAGE_SUFFIXES = { ""}; //, "-ru", "-ro" };

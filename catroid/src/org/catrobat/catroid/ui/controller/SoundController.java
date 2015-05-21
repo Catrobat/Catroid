@@ -95,8 +95,6 @@ public final class SoundController {
 	 * solution according to:
 	 * http://stackoverflow.com/questions/19834842/android-gallery-on-kitkat-returns-different-uri
 	 * -for-intent-action-get-content
-	 * 
-	 * @author paulburke
 	 */
 	@TargetApi(19)
 	private static String getPathForVersionAboveEqualsVersion19(final Context context, final Uri uri) {
