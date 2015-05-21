@@ -23,106 +23,119 @@
   -->
 <!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.3//EN" "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
 
-<!--
-    This configuration file was written by the eclipse-cs plugin configuration editor
--->
-<!--
-    Checkstyle-Configuration: Catroid Checkstyle
-    Description: none
--->
 <module name="Checker">
-  <property name="severity" value="warning"/>
+  <property name="severity" value="warning" />
+
   <module name="TreeWalker">
-    <module name="FileContentsHolder"/>
-    <module name="ClassTypeParameterName">
-      <message key="name.invalidPattern" value="Class type parameter not following naming convention - Name ''{0}'' must match pattern ''{1}''."/>
-    </module>
-    <module name="TypeName">
-      <message key="name.invalidPattern" value="Class name not following naming convention - Name ''{0}'' must match pattern ''{1}''."/>
-    </module>
-    <module name="PackageName">
-      <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
-      <message key="name.invalidPattern" value="Package name not following naming convention - Name ''{0}'' must match pattern ''{1}''."/>
-    </module>
-    <module name="ParameterName">
-      <message key="name.invalidPattern" value="Parameter name not following naming convention - Name ''{0}'' must match pattern ''{1}''."/>
-    </module>
-    <module name="StaticVariableName">
-      <property name="format" value="^(([a-z]{2})|([x-z][A-Z]))[a-zA-Z0-9]*$"/>
-      <message key="name.invalidPattern" value="Static member variable not following naming convention - Name ''{0}'' must match pattern ''{1}''."/>
-    </module>
-    <module name="MethodTypeParameterName">
-      <message key="name.invalidPattern" value="Method type parameter not following naming convention - Name ''{0}'' must match pattern ''{1}''."/>
-    </module>
-    <module name="MethodName">
-      <message key="name.invalidPattern" value="Method name not following naming convention - Name ''{0}'' must match pattern ''{1}''."/>
-    </module>
-    <module name="MemberName">
-      <property name="format" value="^(([a-z]{2})|([x-z][A-Z]))[a-zA-Z0-9]*$"/>
-      <message key="name.invalidPattern" value="Member name not following naming convention - Name ''{0}'' must match pattern ''{1}''."/>
-    </module>
-    <module name="LocalVariableName">
-      <message key="name.invalidPattern" value="Local variable name not following naming convention - Name ''{0}'' must match pattern ''{1}''."/>
-    </module>
-    <module name="LocalFinalVariableName">
-      <message key="name.invalidPattern" value="Local final variable name not following naming convention - Name ''{0}'' must match pattern ''{1}''."/>
-    </module>
-    <module name="ConstantName">
-      <message key="name.invalidPattern" value="Constant name not following naming convention - Name ''{0}'' must match pattern ''{1}''."/>
-    </module>
-    <module name="ModifierOrder">
-      <message key="mod.order" value="{0}'' modifier out of order with the JLS suggestions"/>
-    </module>
-    <module name="PackageDeclaration"/>
-    <module name="ImportOrder">
-      <property name="option" value="bottom"/>
-      <property name="groups" value="android,com,cucumber,edu,junit,net,org,java,javax"/>
-      <property name="ordered" value="true"/>
-      <property name="separated" value="true"/>
-    </module>
-    <module name="UnusedImports"/>
-    <module name="RedundantImport"/>
-    <module name="GenericWhitespace"/>
-    <module name="AvoidNestedBlocks"/>
-    <module name="NeedBraces"/>
-    <module name="ArrayTypeStyle"/>
-    <module name="UpperEll"/>
-    <module name="OuterTypeFilename"/>
-    <module name="HideUtilityClassConstructor"/>
-    <module name="InterfaceIsType"/>
-    <module name="FinalClass"/>
-    <module name="OneStatementPerLine"/>
-    <module name="SuperFinalize"/>
-    <module name="NoFinalizer"/>
-    <module name="MultipleVariableDeclarations"/>
-    <module name="DefaultComesLast"/>
-    <module name="EmptyStatement"/>
-    <module name="CovariantEquals" />
-    <module name="EqualsHashCode" />
-    <module name="IllegalInstantiation" />
-    <module name="StringLiteralEquality" />
+    <!-- To enable SuppressWithNearbyCommentFilter -->
+    <module name="FileContentsHolder" />
+
+    <!-- Annotations -->
     <module name="MissingOverride" />
     <module name="SuppressWarnings" />
+
+    <!-- Blocks -->
+    <module name="AvoidNestedBlocks" />
+    <module name="NeedBraces" />
+
+    <!-- Coding -->
+    <module name="CovariantEquals" />
+    <module name="DefaultComesLast" />
+    <module name="EmptyStatement" />
+    <module name="EqualsHashCode" />
+    <module name="IllegalInstantiation" />
+    <module name="MultipleVariableDeclarations" />
+    <module name="NoFinalizer" />
+    <module name="OneStatementPerLine" />
+    <module name="StringLiteralEquality" />
+    <module name="SuperFinalize" />
+
+    <!-- Design -->
+    <module name="FinalClass" />
+    <module name="HideUtilityClassConstructor" />
+    <module name="InterfaceIsType" />
+
+    <!-- Miscellaneous -->
+    <module name="ArrayTypeStyle" />
+    <module name="OuterTypeFilename" />
+    <module name="UpperEll" />
+
+    <!-- Modifiers -->
+    <module name="ModifierOrder">
+      <message key="mod.order" value="{0}'' modifier out of order with the JLS suggestions" />
+    </module>
+
+    <!-- Naming -->
+    <module name="ClassTypeParameterName">
+      <message key="name.invalidPattern" value="Class type parameter not following naming convention - Name ''{0}'' must match pattern ''{1}''." />
+    </module>
+    <module name="TypeName">
+      <message key="name.invalidPattern" value="Class name not following naming convention - Name ''{0}'' must match pattern ''{1}''." />
+    </module>
+    <module name="PackageName">
+      <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$" />
+      <message key="name.invalidPattern" value="Package name not following naming convention - Name ''{0}'' must match pattern ''{1}''." />
+    </module>
+    <module name="ParameterName">
+      <message key="name.invalidPattern" value="Parameter name not following naming convention - Name ''{0}'' must match pattern ''{1}''." />
+    </module>
+    <module name="StaticVariableName">
+      <property name="format" value="^(([a-z]{2})|([x-z][A-Z]))[a-zA-Z0-9]*$" />
+      <message key="name.invalidPattern" value="Static member variable not following naming convention - Name ''{0}'' must match pattern ''{1}''." />
+    </module>
+    <module name="MethodTypeParameterName">
+      <message key="name.invalidPattern" value="Method type parameter not following naming convention - Name ''{0}'' must match pattern ''{1}''." />
+    </module>
+    <module name="MethodName">
+      <message key="name.invalidPattern" value="Method name not following naming convention - Name ''{0}'' must match pattern ''{1}''." />
+    </module>
+    <module name="MemberName">
+      <property name="format" value="^(([a-z]{2})|([x-z][A-Z]))[a-zA-Z0-9]*$" />
+      <message key="name.invalidPattern" value="Member name not following naming convention - Name ''{0}'' must match pattern ''{1}''." />
+    </module>
+    <module name="LocalVariableName">
+      <message key="name.invalidPattern" value="Local variable name not following naming convention - Name ''{0}'' must match pattern ''{1}''." />
+    </module>
+    <module name="LocalFinalVariableName">
+      <message key="name.invalidPattern" value="Local final variable name not following naming convention - Name ''{0}'' must match pattern ''{1}''." />
+    </module>
+    <module name="ConstantName">
+      <message key="name.invalidPattern" value="Constant name not following naming convention - Name ''{0}'' must match pattern ''{1}''." />
+    </module>
+
+    <!-- Package and Imports -->
+    <module name="ImportOrder">
+      <property name="option" value="bottom" />
+      <property name="groups" value="android,com,cucumber,edu,junit,net,org,java,javax" />
+      <property name="ordered" value="true" />
+      <property name="separated" value="true" />
+    </module>
+    <module name="RedundantImport" />
+    <module name="PackageDeclaration" />
+    <module name="UnusedImports" />
+
+    <!-- Whitespace -->
     <module name="EmptyForInitializerPad" />
+    <module name="GenericWhitespace" />
     <module name="TypecastParenPad" />
   </module>
-  
+
   <!-- For each spacing -->
   <module name="RegexpSingleline">
-    <property name="format" value="^\s*for \(.*?([^ ]:|:[^ ])"/>
-    <property name="message" value="Space needed around ':' character."/>
+    <property name="format" value="^\s*for \(.*?([^ ]:|:[^ ])" />
+    <property name="message" value="Space needed around ':' character." />
   </module>
-  
+
   <!-- Space after 'for' and 'if' -->
   <module name="RegexpSingleline">
-    <property name="format" value="^\s*(for\(|if\()"/>
-    <property name="message" value="Space needed before opening parenthesis."/>
+    <property name="format" value="^\s*(for\(|if\()" />
+    <property name="message" value="Space needed before opening parenthesis." />
   </module>
-  
+
   <module name="SuppressWithNearbyCommentFilter">
-    <property name="commentFormat" value="CHECKSTYLE DISABLE ([\w\|]+) FOR (-?\d+) LINES"/>
-    <property name="checkFormat" value="$1"/>
-    <property name="influenceFormat" value="$2"/>
+    <property name="commentFormat" value="CHECKSTYLE DISABLE ([\w\|]+) FOR (-?\d+) LINES" />
+    <property name="checkFormat" value="$1" />
+    <property name="influenceFormat" value="$2" />
   </module>
 
 </module>
