@@ -152,7 +152,7 @@ public class ProjectActivity extends BaseActivity {
 			if (data != null) {
 				int requiredResources = data.getIntExtra("Resources", Brick.NO_RESOURCES);
 
-				if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0 && BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
+				if ((Brick.ARDRONE_SUPPORT > 0) && BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
 					intent = new Intent(ProjectActivity.this, DroneStageActivity.class);
 				} else {
 					intent = new Intent(ProjectActivity.this, StageActivity.class);

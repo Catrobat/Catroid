@@ -30,6 +30,7 @@ import android.widget.Button;
 
 import com.actionbarsherlock.app.ActionBar;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -89,7 +90,7 @@ public class ProgramMenuActivity extends BaseActivity {
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 
 			Intent intent;
-			if (Brick.ARDRONE_SUPPORT > 0) {
+			if ((Brick.ARDRONE_SUPPORT > 0) && BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
 				intent = new Intent(ProgramMenuActivity.this, DroneStageActivity.class);
 			} else {
 				intent = new Intent(ProgramMenuActivity.this, StageActivity.class);

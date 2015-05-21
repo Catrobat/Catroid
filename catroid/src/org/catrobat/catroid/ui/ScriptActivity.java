@@ -297,7 +297,7 @@ public class ScriptActivity extends BaseActivity {
 
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			Intent intent;
-			if (Brick.ARDRONE_SUPPORT > 0 && BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
+			if ((Brick.ARDRONE_SUPPORT > 0) && BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED){
 				intent = new Intent(ScriptActivity.this, DroneStageActivity.class);
 			} else {
 				intent = new Intent(ScriptActivity.this, StageActivity.class);
