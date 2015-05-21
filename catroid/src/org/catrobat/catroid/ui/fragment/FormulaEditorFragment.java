@@ -40,6 +40,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
@@ -109,6 +110,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(!ViewConfiguration.get(getActivity()).hasPermanentMenuKey());
 		setUpActionBar();
 		onFormulaChangedListener = (OnFormulaChangedListener) ((ScriptActivity) getActivity())
 				.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
@@ -117,7 +119,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICKFIELD_BUNDLE_ARGUMENT));
 		cloneFormulaBrick(formulaBrick);
 		currentFormula = clonedFormulaBrick.getFormulaWithBrickField(currentBrickField);
-		setHasOptionsMenu(true);
 	}
 
 	private void setUpActionBar() {

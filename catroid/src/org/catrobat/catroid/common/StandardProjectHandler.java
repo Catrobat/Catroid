@@ -329,7 +329,7 @@ public final class StandardProjectHandler {
 		Script whenSpriteTappedScript = new WhenScript();
 
 		BrickBaseType brick = DroneBrickFactory.getInstanceOfDroneBrick(droneBrick, timeInMilliseconds, powerInPercent);
-		if(brick instanceof DroneTakeOffLandBrick){
+		if (brick instanceof DroneTakeOffLandBrick) {
 			DroneSetConfigBrick setConfigBrick = new DroneSetConfigBrick();
 			setConfigBrick.setSpinnerPosition(DroneSetConfigBrick.INDOOR);
 			whenSpriteTappedScript.addBrick(setConfigBrick);

@@ -49,7 +49,7 @@
         <TextView
             android:id="@+id/brick_set_config_label"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_drone_set_cofig" />
+            android:text="@string/brick_drone_set_config" />
 
         <Spinner
             android:id="@+id/brick_set_config_spinner"

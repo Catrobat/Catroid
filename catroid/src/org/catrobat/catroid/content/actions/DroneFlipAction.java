@@ -40,7 +40,8 @@ public class DroneFlipAction extends TemporalAction {
 	@Override
 	protected void begin() {
 		super.begin();
-		if(service.getDroneService() != null) {
+
+		if (service.getDroneService() != null) {
 			service.getDroneService().doLeftFlip();
 		}
 	}
