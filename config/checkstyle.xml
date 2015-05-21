@@ -133,6 +133,7 @@
     <!-- Whitespace -->
     <module name="EmptyForInitializerPad" />
     <module name="GenericWhitespace" />
+    <module name="NoLineWrap" />
     <module name="TypecastParenPad" />
   </module>
 
