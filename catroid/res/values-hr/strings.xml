@@ -409,7 +409,7 @@ su otpakovani!</item>
   <string name="title_paired_devices">Upareni uređaji</string>
   <string name="title_other_devices">Novi uređaji</string>
   <string name="button_scan">Pretraga Bluetooth uređaja</string>
-  <string name="select_device">Select Device: </string>
+  <string name="select_device">Select Device:</string>
   <string name="scanning">Skeniranje</string>
   <string name="connecting_please_wait">Povzivanje s Vašim uređajem.\nMolim Vas pričekajte&#8230;</string>
   <string name="bt_connection_failed">Povezivanje s uređajem nije uspjelo!</string>

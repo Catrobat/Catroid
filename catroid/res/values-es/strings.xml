@@ -392,7 +392,7 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="title_paired_devices">Dispositivos emparejados</string>
   <string name="title_other_devices">Nuevos dispositivos</string>
   <string name="button_scan">Búsqueda de dispositivos Bluetooth</string>
-  <string name="select_device">Seleccione su Lego Mindstorms NXT</string>
+  <string name="select_device">Select Device:</string>
   <string name="scanning">Escanear</string>
   <string name="connecting_please_wait">Conexión a la espera del dispositivo. \nPlease...</string>
   <string name="bt_connection_failed">Error en la conexión al dispositivo.</string>

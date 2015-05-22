@@ -391,7 +391,7 @@
   <string name="title_paired_devices">Dispositivi accoppiati</string>
   <string name="title_other_devices">Nuovi dispositivi</string>
   <string name="button_scan">Ricerca dispositivi Bluetooth</string>
-  <string name="select_device">Seleziona il tuo Lego Mindstorms NXT</string>
+  <string name="select_device">Select Device:</string>
   <string name="scanning">Scansione in corso</string>
   <string name="connecting_please_wait">Connessione al tuo dispositivo. \nAttendere&#8230;</string>
   <string name="bt_connection_failed">Connessione al dispositivo non riuscita!</string>

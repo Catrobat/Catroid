@@ -380,7 +380,7 @@
   <string name="title_paired_devices">อุปกรณ์ที่จับคู่ไว้</string>
   <string name="title_other_devices">อุปกรณ์ใหม่</string>
   <string name="button_scan">ค้นหาอุปกรณ์ Bluetooth</string>
-  <string name="select_device">เลือกอุปกรณ์: </string>
+  <string name="select_device">Select Device:</string>
   <string name="scanning">กำลังสแกน</string>
   <string name="connecting_please_wait">กำลังเชื่อมต่อกับอุปกรณ์ \nกรุณารอ...</string>
   <string name="bt_connection_failed">เชื่อมต่อกับอุปกรณ์ล้มเหลว!</string>

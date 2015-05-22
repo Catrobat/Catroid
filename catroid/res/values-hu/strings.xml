@@ -391,7 +391,7 @@
   <string name="title_paired_devices">Párosított eszközök</string>
   <string name="title_other_devices">Új eszközök</string>
   <string name="button_scan">Bluetooth-eszközök keresése</string>
-  <string name="select_device">Válaszd ki Lego Mindstorms NXT eszközödet</string>
+  <string name="select_device">Select Device:</string>
   <string name="scanning">Keresés</string>
   <string name="connecting_please_wait">Kapcsolódás az eszközhöz.\nKérlek, várj&#8230;</string>
   <string name="bt_connection_failed">Sikertelen kapcsolódás.</string>
