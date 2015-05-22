@@ -389,7 +389,7 @@
   <string name="title_paired_devices">デバイスの組み合わせ</string>
   <string name="title_other_devices">新しいデバイス</string>
   <string name="button_scan">Bluetoothデバイスを検索</string>
-  <string name="select_device">あなたのレゴマインドストームNXTを選択してください</string>
+  <string name="select_device">Select Device:</string>
   <string name="scanning">スキャン中</string>
   <string name="connecting_please_wait">お使いのデバイスに接続しています\nしばらく待つ&#8230;</string>
   <string name="bt_connection_failed">デバイスへの接続に失敗しました！</string>

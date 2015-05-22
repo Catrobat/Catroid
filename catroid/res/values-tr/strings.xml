@@ -392,7 +392,7 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="title_paired_devices">Eşleşmiş cihazlar</string>
   <string name="title_other_devices">Yeni aygıtlar</string>
   <string name="button_scan">Bluetooth aygıtlarını arayın</string>
-  <string name="select_device">Lego Mindstorms NXT seçin</string>
+  <string name="select_device">Select Device:</string>
   <string name="scanning">Taranıyor</string>
   <string name="connecting_please_wait">Cihazınıza bağlanıyor.\nLütfen bekleyin ...</string>
   <string name="bt_connection_failed">Aygıt bağlantısı başarısız oldu!</string>

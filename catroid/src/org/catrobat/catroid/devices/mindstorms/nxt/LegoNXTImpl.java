@@ -64,7 +64,7 @@ public class LegoNXTImpl implements LegoNXT, NXTSensorService.OnSensorChangedLis
 
 	@Override
 	public String getName() {
-		return "Lego Mindstorms NXT";
+		return "Lego NXT";
 	}
 
 	@Override

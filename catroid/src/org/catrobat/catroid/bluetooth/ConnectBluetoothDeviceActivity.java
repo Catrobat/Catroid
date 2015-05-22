@@ -34,7 +34,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -221,9 +220,11 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 			this.setVisible(false);
 		}
 
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		createAndSetDeviceService();
+
+		//requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.device_list);
-		setTitle(R.string.select_device);
+		setTitle(getString(R.string.select_device) + " " + btDevice.getName());
 
 		setResult(Activity.RESULT_CANCELED);
 
@@ -260,8 +261,6 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 	}
 
 	private void listAndSelectDevices() {
-
-		createAndSetDeviceService();
 
 		Set<android.bluetooth.BluetoothDevice> pairedDevices = btManager.getBluetoothAdapter().getBondedDevices();
 
@@ -317,7 +316,6 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 	private void doDiscovery() {
 
 		setProgressBarIndeterminateVisibility(true);
-		setTitle(R.string.scanning);
 
 		findViewById(R.id.title_new_devices).setVisibility(View.VISIBLE);
 

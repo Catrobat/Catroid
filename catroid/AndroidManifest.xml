@@ -147,7 +147,7 @@
             android:noHistory="true"
             android:screenOrientation="portrait" />
         <activity android:name=".bluetooth.ConnectBluetoothDeviceActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@android:style/Theme.Holo.Dialog" />
         <activity
             android:name=".soundrecorder.SoundRecorderActivity"
             android:exported="true"
