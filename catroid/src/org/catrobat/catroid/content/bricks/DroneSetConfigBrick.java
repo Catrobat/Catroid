@@ -43,152 +43,152 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import java.util.List;
 
 public class DroneSetConfigBrick extends BrickBaseType implements OnItemSelectedListener {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected transient AdapterView<?> adapterView;
-	private String selectedMessage;
-	private int spinnerPosition = 0;
+    protected transient AdapterView<?> adapterView;
+    private String selectedMessage;
+    private int spinnerPosition = 0;
 
-	public static final int DEFAULT = 0;
-	public static final int INDOOR = 1;
-	public static final int OUTDOOR = 2;
+    public static final int DEFAULT = 0;
+    public static final int INDOOR = 1;
+    public static final int OUTDOOR = 2;
 
-	public DroneSetConfigBrick() {
-	}
+    public DroneSetConfigBrick() {
+    }
 
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		DroneSetConfigBrick copyBrick = (DroneSetConfigBrick) clone();
-		return copyBrick;
-	}
+    @Override
+    public Brick copyBrickForSprite(Sprite sprite) {
+        DroneSetConfigBrick copyBrick = (DroneSetConfigBrick) clone();
+        return copyBrick;
+    }
 
-	@Override
-	public Brick clone() {
-		return new DroneSetConfigBrick();
-	}
+    @Override
+    public Brick clone() {
+        return new DroneSetConfigBrick();
+    }
 
-	@Override
-	public int getRequiredResources() {
-		return ARDRONE_SUPPORT;
-	}
+    @Override
+    public int getRequiredResources() {
+        return ARDRONE_SUPPORT;
+    }
 
-	@Override
-	public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
+    @Override
+    public View getView(final Context context, int brickId, BaseAdapter baseAdapter) {
 
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
+        if (animationState) {
+            return view;
+        }
+        if (view == null) {
+            alphaValue = 255;
+        }
 
-		view = View.inflate(context, R.layout.brick_drone_set_config, null);
-		setCheckboxView(R.id.brick_set_config_checkbox);
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        view = View.inflate(context, R.layout.brick_drone_set_config, null);
+        setCheckboxView(R.id.brick_set_config_checkbox);
+        checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(DroneSetConfigBrick.this, isChecked);
-			}
-		});
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                checked = isChecked;
+                adapter.handleCheck(DroneSetConfigBrick.this, isChecked);
+            }
+        });
 
-		Spinner spinner = (Spinner) view.findViewById(R.id.brick_set_config_spinner);
-		spinner.setFocusableInTouchMode(false);
-		spinner.setFocusable(false);
+        Spinner spinner = (Spinner) view.findViewById(R.id.brick_set_config_spinner);
+        spinner.setFocusableInTouchMode(false);
+        spinner.setFocusable(false);
 
 
-		ArrayAdapter<CharSequence> droneSetConfigAdapter = ArrayAdapter.createFromResource(context,
-				R.array.drone_config_spinner, android.R.layout.simple_spinner_item);
-		droneSetConfigAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> droneSetConfigAdapter = ArrayAdapter.createFromResource(context,
+                R.array.drone_config_spinner, android.R.layout.simple_spinner_item);
+        droneSetConfigAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		spinner.setAdapter(droneSetConfigAdapter);
+        spinner.setAdapter(droneSetConfigAdapter);
 
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			spinner.setClickable(false);
-			spinner.setEnabled(false);
-		} else {
-			spinner.setClickable(true);
-			spinner.setEnabled(true);
-		}
+        if (checkbox.getVisibility() == View.VISIBLE) {
+            spinner.setClickable(false);
+            spinner.setEnabled(false);
+        } else {
+            spinner.setClickable(true);
+            spinner.setEnabled(true);
+        }
 
-		spinner.setAdapter(droneSetConfigAdapter);
-		spinner.setSelection(spinnerPosition);
+        spinner.setAdapter(droneSetConfigAdapter);
+        spinner.setSelection(spinnerPosition);
 
-		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				selectedMessage = parent.getItemAtPosition(position).toString();
-				spinnerPosition = position;
-				adapterView = parent;
-				Log.d("DroneSetConfigBrick", "selected message = " + selectedMessage + " an der Position: "+spinnerPosition);
-			}
+        spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedMessage = parent.getItemAtPosition(position).toString();
+                spinnerPosition = position;
+                adapterView = parent;
+                Log.d("DroneSetConfigBrick", "selected message = " + selectedMessage + " an der Position: " + spinnerPosition);
+            }
 
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
-		});
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
 
-		return view;
-	}
+        return view;
+    }
 
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_drone_set_config, null);
+    @Override
+    public View getPrototypeView(Context context) {
+        View prototypeView = View.inflate(context, R.layout.brick_drone_set_config, null);
 
-		Spinner DroneConfigSpinner = (Spinner) prototypeView.findViewById(R.id.brick_set_config_spinner);
-		DroneConfigSpinner.setFocusableInTouchMode(false);
-		DroneConfigSpinner.setFocusable(false);
+        Spinner spinner = (Spinner) prototypeView.findViewById(R.id.brick_set_config_spinner);
+        spinner.setFocusableInTouchMode(false);
+        spinner.setFocusable(false);
 
-		ArrayAdapter<CharSequence> DroneConfigSpinnerAdapter = ArrayAdapter.createFromResource(context,
-				R.array.drone_config_spinner, android.R.layout.simple_spinner_item);
-		DroneConfigSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(context,
+                R.array.drone_config_spinner, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		DroneConfigSpinner.setAdapter(DroneConfigSpinnerAdapter);
-		DroneConfigSpinner.setSelection(spinnerPosition);
+        spinner.setAdapter(spinnerAdapter);
+        spinner.setSelection(spinnerPosition);
 
-		return prototypeView;
-	}
+        return prototypeView;
+    }
 
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
+    @Override
+    public View getViewWithAlpha(int alphaValue) {
 
-		if (view != null) {
+        if (view != null) {
 
-			View layout = view.findViewById(R.id.brick_set_config_layout);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
-		}
-		return view;
-	}
+            View layout = view.findViewById(R.id.brick_set_config_layout);
+            Drawable background = layout.getBackground();
+            background.setAlpha(alphaValue);
+            this.alphaValue = (alphaValue);
+        }
+        return view;
+    }
 
-	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		adapterView = parent;
-	}
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        adapterView = parent;
+    }
 
-	@Override
-	public void onNothingSelected(AdapterView<?> arg0) {
-	}
+    @Override
+    public void onNothingSelected(AdapterView<?> arg0) {
+    }
 
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		switch(spinnerPosition){
-			case DEFAULT:
-				sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_default));
-				break;
-			case INDOOR:
-				sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_indoor));
-				break;
-			case OUTDOOR:
-				sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_outdoor));
-				break;
-		}
-		return null;
-	}
+    @Override
+    public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+        switch (spinnerPosition) {
+            case DEFAULT:
+                sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_default));
+                break;
+            case INDOOR:
+                sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_indoor));
+                break;
+            case OUTDOOR:
+                sequence.addAction(ExtendedActions.droneSetConfigAction(R.string.drone_config_outdoor));
+                break;
+        }
+        return null;
+    }
 
-	public void setSpinnerPosition(int spinnerPosition) {
-		this.spinnerPosition = spinnerPosition;
-	}
+    public void setSpinnerPosition(int spinnerPosition) {
+        this.spinnerPosition = spinnerPosition;
+    }
 }

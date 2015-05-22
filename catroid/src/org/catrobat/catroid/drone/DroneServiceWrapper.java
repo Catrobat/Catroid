@@ -26,26 +26,26 @@ import com.parrot.freeflight.service.DroneControlService;
 
 public final class DroneServiceWrapper {
 
-	private static DroneServiceWrapper instance = null;
-	private static DroneControlService droneControlService = null;
+    private static DroneServiceWrapper instance = null;
+    private static DroneControlService droneControlService = null;
 
-	private DroneServiceWrapper() {
-	}
+    private DroneServiceWrapper() {
+    }
 
-	public static DroneServiceWrapper getInstance() {
-		if (instance == null) {
-			instance = new DroneServiceWrapper();
-		}
+    public static DroneServiceWrapper getInstance() {
+        if (instance == null) {
+            instance = new DroneServiceWrapper();
+        }
 
-		return instance;
-	}
+        return instance;
+    }
 
-	public void setDroneService(DroneControlService service) {
-		droneControlService = service;
-	}
+    public void setDroneService(DroneControlService service) {
+        droneControlService = service;
+    }
 
-	public DroneControlService getDroneService() {
-		return droneControlService;
+    public DroneControlService getDroneService() {
+        return droneControlService;
 
-	}
+    }
 }

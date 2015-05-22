@@ -38,46 +38,46 @@ import java.util.List;
 
 public class DroneTurnLeftMagnetoBrick extends DroneMoveBrick {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public DroneTurnLeftMagnetoBrick(int durationInMilliseconds, int powerInPercent) {
-		super(durationInMilliseconds, powerInPercent);
-	}
+    public DroneTurnLeftMagnetoBrick(int durationInMilliseconds, int powerInPercent) {
+        super(durationInMilliseconds, powerInPercent);
+    }
 
-	public DroneTurnLeftMagnetoBrick(Formula durationInMilliseconds, Formula powerInPercent) {
-		super(durationInMilliseconds, powerInPercent);
-	}
+    public DroneTurnLeftMagnetoBrick(Formula durationInMilliseconds, Formula powerInPercent) {
+        super(durationInMilliseconds, powerInPercent);
+    }
 
-	public DroneTurnLeftMagnetoBrick() {
-		super();
-	}
+    public DroneTurnLeftMagnetoBrick() {
+        super();
+    }
 
-	@Override
-	protected String getBrickLabel(View view) {
-		return view.getResources().getString(R.string.brick_drone_turn_left_magneto);
-	}
+    @Override
+    protected String getBrickLabel(View view) {
+        return view.getResources().getString(R.string.brick_drone_turn_left_magneto);
+    }
 
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.droneTurnLeftMagneto(sprite,
-				getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS),
-				getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)));
-		return null;
-	}
+    @Override
+    public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+        sequence.addAction(ExtendedActions.droneTurnLeftMagneto(sprite,
+                getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS),
+                getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)));
+        return null;
+    }
 
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		View brickView = super.getView(context, brickId, baseAdapter);
-		TextView editTextView = (TextView) brickView.findViewById(R.id.brick_drone_move_text_view_power);
-		editTextView.setText(R.string.brick_drone_angle);
-		return brickView;
-	}
+    @Override
+    public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+        View brickView = super.getView(context, brickId, baseAdapter);
+        TextView editTextView = (TextView) brickView.findViewById(R.id.brick_drone_move_text_view_power);
+        editTextView.setText(R.string.brick_drone_angle);
+        return brickView;
+    }
 
-	@Override
-	public View getPrototypeView(Context context) {
-		prototypeView = super.getPrototypeView(context);
-		TextView textView = (TextView) prototypeView.findViewById(R.id.brick_drone_move_text_view_power);
-		textView.setText(R.string.brick_drone_angle);
-		return prototypeView;
-	}
+    @Override
+    public View getPrototypeView(Context context) {
+        prototypeView = super.getPrototypeView(context);
+        TextView textView = (TextView) prototypeView.findViewById(R.id.brick_drone_move_text_view_power);
+        textView.setText(R.string.brick_drone_angle);
+        return prototypeView;
+    }
 }

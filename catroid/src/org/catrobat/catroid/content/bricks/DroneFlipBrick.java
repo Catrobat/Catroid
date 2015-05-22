@@ -41,82 +41,82 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import java.util.List;
 
 public class DroneFlipBrick extends BrickBaseType {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private transient AdapterView<?> adapterView;
+    private transient AdapterView<?> adapterView;
 
-	public DroneFlipBrick() {
+    public DroneFlipBrick() {
 
-	}
+    }
 
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		DroneFlipBrick copyBrick = (DroneFlipBrick) clone();
-		return copyBrick;
-	}
+    @Override
+    public Brick copyBrickForSprite(Sprite sprite) {
+        DroneFlipBrick copyBrick = (DroneFlipBrick) clone();
+        return copyBrick;
+    }
 
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_drone_flip, null);
+    @Override
+    public View getPrototypeView(Context context) {
+        View prototypeView = View.inflate(context, R.layout.brick_drone_flip, null);
 
-		return prototypeView;
-	}
+        return prototypeView;
+    }
 
-	@Override
-	public Brick clone() {
-		return new DroneFlipBrick();
-	}
+    @Override
+    public Brick clone() {
+        return new DroneFlipBrick();
+    }
 
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-		view = View.inflate(context, R.layout.brick_drone_flip, null);
-		view = getViewWithAlpha(alphaValue);
+    @Override
+    public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+        if (animationState) {
+            return view;
+        }
+        if (view == null) {
+            alphaValue = 255;
+        }
+        view = View.inflate(context, R.layout.brick_drone_flip, null);
+        view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_drone_flip_checkbox);
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
+        setCheckboxView(R.id.brick_drone_flip_checkbox);
+        final Brick brickInstance = this;
+        checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                checked = isChecked;
+                adapter.handleCheck(brickInstance, isChecked);
+            }
+        });
 
-		return view;
-	}
+        return view;
+    }
 
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_drone_flip);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
+    @Override
+    public View getViewWithAlpha(int alphaValue) {
+        if (view != null) {
+            View layout = view.findViewById(R.id.brick_drone_flip);
+            Drawable background = layout.getBackground();
+            background.setAlpha(alphaValue);
 
-			TextView textLegoMotorStopLabel = (TextView) view.findViewById(R.id.ValueTextView);
-			textLegoMotorStopLabel.setTextColor(textLegoMotorStopLabel.getTextColors().withAlpha(alphaValue));
-			ColorStateList color = textLegoMotorStopLabel.getTextColors().withAlpha(alphaValue);
-			if (adapterView != null) {
-				((TextView) adapterView.getChildAt(0)).setTextColor(color);
-			}
-			this.alphaValue = (alphaValue);
-		}
-		return view;
-	}
+            TextView textLegoMotorStopLabel = (TextView) view.findViewById(R.id.ValueTextView);
+            textLegoMotorStopLabel.setTextColor(textLegoMotorStopLabel.getTextColors().withAlpha(alphaValue));
+            ColorStateList color = textLegoMotorStopLabel.getTextColors().withAlpha(alphaValue);
+            if (adapterView != null) {
+                ((TextView) adapterView.getChildAt(0)).setTextColor(color);
+            }
+            this.alphaValue = (alphaValue);
+        }
+        return view;
+    }
 
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.droneFlip());
-		return null;
-	}
+    @Override
+    public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+        sequence.addAction(ExtendedActions.droneFlip());
+        return null;
+    }
 
-	@Override
-	public int getRequiredResources() {
-		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
-	}
+    @Override
+    public int getRequiredResources() {
+        return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
+    }
 }

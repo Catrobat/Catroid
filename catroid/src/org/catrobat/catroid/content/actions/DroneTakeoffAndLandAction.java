@@ -29,17 +29,17 @@ import org.catrobat.catroid.drone.DroneServiceWrapper;
 
 public class DroneTakeoffAndLandAction extends TemporalAction {
 
-	@Override
-	protected void begin() {
-		super.begin();
-		DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
-		if(dcs != null){
-			dcs.triggerTakeOff();
-		}
-	}
+    @Override
+    protected void begin() {
+        super.begin();
+        DroneControlService dcs = DroneServiceWrapper.getInstance().getDroneService();
+        if (dcs != null) {
+            dcs.triggerTakeOff();
+        }
+    }
 
-	@Override
-	protected void update(float percent) {
-		//Nothing to do
-	}
+    @Override
+    protected void update(float percent) {
+        //Nothing to do
+    }
 }

@@ -38,73 +38,73 @@ import org.catrobat.catroid.content.actions.ExtendedActions;
 import java.util.List;
 
 public class DroneSwitchCameraBrick extends BrickBaseType {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public DroneSwitchCameraBrick() {
+    public DroneSwitchCameraBrick() {
 
-	}
+    }
 
-	@Override
-	public Brick copyBrickForSprite(Sprite sprite) {
-		DroneSwitchCameraBrick copyBrick = (DroneSwitchCameraBrick) clone();
-		return copyBrick;
-	}
+    @Override
+    public Brick copyBrickForSprite(Sprite sprite) {
+        DroneSwitchCameraBrick copyBrick = (DroneSwitchCameraBrick) clone();
+        return copyBrick;
+    }
 
-	@Override
-	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.brick_drone_switch_camera, null);
+    @Override
+    public View getPrototypeView(Context context) {
+        View prototypeView = View.inflate(context, R.layout.brick_drone_switch_camera, null);
 
-		return prototypeView;
-	}
+        return prototypeView;
+    }
 
-	@Override
-	public Brick clone() {
-		return new DroneSwitchCameraBrick();
-	}
+    @Override
+    public Brick clone() {
+        return new DroneSwitchCameraBrick();
+    }
 
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
-		if (animationState) {
-			return view;
-		}
-		if (view == null) {
-			alphaValue = 255;
-		}
-		view = View.inflate(context, R.layout.brick_drone_switch_camera, null);
-		view = getViewWithAlpha(alphaValue);
+    @Override
+    public View getView(Context context, int brickId, BaseAdapter baseAdapter) {
+        if (animationState) {
+            return view;
+        }
+        if (view == null) {
+            alphaValue = 255;
+        }
+        view = View.inflate(context, R.layout.brick_drone_switch_camera, null);
+        view = getViewWithAlpha(alphaValue);
 
-		setCheckboxView(R.id.brick_drone_switch_camera_checkbox);
-		final Brick brickInstance = this;
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				checked = isChecked;
-				adapter.handleCheck(brickInstance, isChecked);
-			}
-		});
+        setCheckboxView(R.id.brick_drone_switch_camera_checkbox);
+        final Brick brickInstance = this;
+        checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                checked = isChecked;
+                adapter.handleCheck(brickInstance, isChecked);
+            }
+        });
 
-		return view;
-	}
+        return view;
+    }
 
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		if (view != null) {
-			View layout = view.findViewById(R.id.brick_drone_switch_camera);
-			Drawable background = layout.getBackground();
-			background.setAlpha(alphaValue);
-			this.alphaValue = (alphaValue);
-		}
-		return view;
-	}
+    @Override
+    public View getViewWithAlpha(int alphaValue) {
+        if (view != null) {
+            View layout = view.findViewById(R.id.brick_drone_switch_camera);
+            Drawable background = layout.getBackground();
+            background.setAlpha(alphaValue);
+            this.alphaValue = (alphaValue);
+        }
+        return view;
+    }
 
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.droneSwitchCamera());
-		return null;
-	}
+    @Override
+    public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+        sequence.addAction(ExtendedActions.droneSwitchCamera());
+        return null;
+    }
 
-	@Override
-	public int getRequiredResources() {
-		return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
-	}
+    @Override
+    public int getRequiredResources() {
+        return super.getRequiredResources() | Brick.ARDRONE_SUPPORT;
+    }
 }

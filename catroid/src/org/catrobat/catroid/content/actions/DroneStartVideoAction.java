@@ -25,46 +25,43 @@ package org.catrobat.catroid.content.actions;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.drone.DroneVideoLook;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.drone.DroneVideoLook;
 import org.catrobat.catroid.stage.StageActivity;
 
 public class DroneStartVideoAction extends TemporalAction {
 
-	private Look videoBackgroundLook;
-	private boolean videoIsShown = false;
+    private Look videoBackgroundLook;
+    private boolean videoIsShown = false;
 
-	@Override
-	protected void begin() {
+    @Override
+    protected void begin() {
 
 
-		Sprite bgSprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
+        Sprite bgSprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0);
 
-		if (videoBackgroundLook == null)
-			videoBackgroundLook = new DroneVideoLook(bgSprite);
+        if (videoBackgroundLook == null) {
+            videoBackgroundLook = new DroneVideoLook(bgSprite);
+        }
 
-		if (videoIsShown )
-		{
-			StageActivity.stageListener.addActor(bgSprite.look);
-			StageActivity.stageListener.removeActor(videoBackgroundLook);
-			bgSprite.look.setZIndex(0);
-			videoIsShown = false;
-		}
+        if (videoIsShown) {
+            StageActivity.stageListener.addActor(bgSprite.look);
+            StageActivity.stageListener.removeActor(videoBackgroundLook);
+            bgSprite.look.setZIndex(0);
+            videoIsShown = false;
+        } else {
+            StageActivity.stageListener.removeActor(bgSprite.look);
+            StageActivity.stageListener.addActor(videoBackgroundLook);
+            videoBackgroundLook.setZIndex(0);
+            videoIsShown = true;
+        }
 
-		else
-		{
-			StageActivity.stageListener.removeActor(bgSprite.look);
-			StageActivity.stageListener.addActor(videoBackgroundLook);
-			videoBackgroundLook.setZIndex(0);
-			videoIsShown = true;
-		}
+        super.begin();
+    }
 
-		super.begin();
-	}
-
-	@Override
-	protected void update(float percent) {
-		//Nothing to do
-	}
+    @Override
+    protected void update(float percent) {
+        //Nothing to do
+    }
 }

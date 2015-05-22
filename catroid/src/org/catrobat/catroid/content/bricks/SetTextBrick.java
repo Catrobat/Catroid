@@ -147,12 +147,12 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 		TextView posY = (TextView) prototypeView.findViewById(R.id.brick_set_text_prototype_text_view_y);
 
 		TextView text = (TextView) prototypeView.findViewById(R.id.brick_set_text_prototype_view);
-		TextView second_text = (TextView) prototypeView.findViewById(R.id.brick_set_text_seconds_text_view);
+		TextView secondText = (TextView) prototypeView.findViewById(R.id.brick_set_text_seconds_text_view);
 
 		posX.setText(String.valueOf(BrickValues.X_POSITION));
 		posY.setText(String.valueOf(BrickValues.Y_POSITION));
 		text.setText(BrickValues.STRING_VALUE);
-		second_text.setText(BrickValues.STRING_VALUE);
+		secondText.setText(BrickValues.STRING_VALUE);
 
 		return prototypeView;
 	}

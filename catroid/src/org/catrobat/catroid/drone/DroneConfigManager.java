@@ -27,47 +27,48 @@ import android.util.Log;
 
 import com.parrot.freeflight.service.DroneControlService;
 
-public class DroneConfigManager {
+public final class DroneConfigManager {
 
-	private static DroneConfigManager instance;
-	private static DroneControlService droneControlService;
+    private static DroneConfigManager instance;
+    private static DroneControlService droneControlService;
 
-	private DroneConfigManager () {}
+    private DroneConfigManager() {
+    }
 
-	public static DroneConfigManager getInstance () {
-		if (DroneConfigManager.instance == null) {
-			DroneConfigManager.instance = new DroneConfigManager ();
-		}
-		return DroneConfigManager.instance;
-	}
+    public static DroneConfigManager getInstance() {
+        if (DroneConfigManager.instance == null) {
+            DroneConfigManager.instance = new DroneConfigManager();
+        }
+        return DroneConfigManager.instance;
+    }
 
-	public void setDefaultConfig(){
-		droneControlService = DroneServiceWrapper.getInstance().getDroneService();
-		if(droneControlService != null) {
-			droneControlService.resetConfigToDefaults();
-			Log.d("DroneConfigManager", "Set Config = default");
-		}
-	}
+    public void setDefaultConfig() {
+        droneControlService = DroneServiceWrapper.getInstance().getDroneService();
+        if (droneControlService != null) {
+            droneControlService.resetConfigToDefaults();
+            Log.d("DroneConfigManager", "Set Config = default");
+        }
+    }
 
-	//TODO: find the perfect settings for each profile
-	public void setOutdoorConfig(){
-		droneControlService = DroneServiceWrapper.getInstance().getDroneService();
-		if(droneControlService != null) {
-			droneControlService.getDroneConfig().setOutdoorFlight(true);
-			Log.d("DroneConfigManager", "Set Config = outdoor");
-		}
+    //TODO: find the perfect settings for each profile
+    public void setOutdoorConfig() {
+        droneControlService = DroneServiceWrapper.getInstance().getDroneService();
+        if (droneControlService != null) {
+            droneControlService.getDroneConfig().setOutdoorFlight(true);
+            Log.d("DroneConfigManager", "Set Config = outdoor");
+        }
 
-		//TODO: set other config params for outdoor flight
-	}
+        //TODO: set other config params for outdoor flight
+    }
 
-	public void setIndoorConfig(){
-		droneControlService = DroneServiceWrapper.getInstance().getDroneService();
-		if(droneControlService != null) {
-			droneControlService.getDroneConfig().setOutdoorFlight(false);
-			Log.d("DroneConfigManager", "Set Config = indoor");
-		}
+    public void setIndoorConfig() {
+        droneControlService = DroneServiceWrapper.getInstance().getDroneService();
+        if (droneControlService != null) {
+            droneControlService.getDroneConfig().setOutdoorFlight(false);
+            Log.d("DroneConfigManager", "Set Config = indoor");
+        }
 
-		//TODO: set other config params for indoor flight
-	}
+        //TODO: set other config params for indoor flight
+    }
 
 }

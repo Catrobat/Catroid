@@ -35,30 +35,30 @@ import java.util.List;
 
 public class DroneMoveBackwardBrick extends DroneMoveBrick {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public DroneMoveBackwardBrick(int durationInMilliseconds, int powerInPercent) {
-		super(durationInMilliseconds, powerInPercent);
-	}
+    public DroneMoveBackwardBrick(int durationInMilliseconds, int powerInPercent) {
+        super(durationInMilliseconds, powerInPercent);
+    }
 
-	public DroneMoveBackwardBrick(Formula durationInMilliseconds, Formula powerInPercent) {
-		super(durationInMilliseconds, powerInPercent);
-	}
+    public DroneMoveBackwardBrick(Formula durationInMilliseconds, Formula powerInPercent) {
+        super(durationInMilliseconds, powerInPercent);
+    }
 
-	public DroneMoveBackwardBrick() {
-		super();
-	}
+    public DroneMoveBackwardBrick() {
+        super();
+    }
 
-	@Override
-	protected String getBrickLabel(View view) {
-		return view.getResources().getString(R.string.brick_drone_move_backward);
-	}
+    @Override
+    protected String getBrickLabel(View view) {
+        return view.getResources().getString(R.string.brick_drone_move_backward);
+    }
 
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.droneMoveBackward(sprite,
-				getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS),
-				getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)));
-		return null;
-	}
+    @Override
+    public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
+        sequence.addAction(ExtendedActions.droneMoveBackward(sprite,
+                getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS),
+                getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)));
+        return null;
+    }
 }
