@@ -24,6 +24,10 @@ package org.catrobat.catroid.drone;
 
 import com.parrot.freeflight.service.DroneControlService;
 
+import org.catrobat.catroid.BuildConfig;
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.bricks.Brick;
+
 public final class DroneServiceWrapper {
 
     private static DroneServiceWrapper instance = null;
@@ -47,5 +51,10 @@ public final class DroneServiceWrapper {
     public DroneControlService getDroneService() {
         return droneControlService;
 
+    }
+
+    public static boolean checkARDroneAvailability(){
+        int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
+        return (((requiredResources & Brick.ARDRONE_SUPPORT ) > 0) && BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED);
     }
 }

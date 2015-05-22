@@ -48,6 +48,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.drone.DroneInitializer;
+import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.ui.BaseActivity;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
@@ -105,7 +106,7 @@ public class PreStageActivity extends BaseActivity {
 			connectBTDevice(BluetoothDevice.PHIRO);
 		}
 
-		if ((requiredResources & Brick.ARDRONE_SUPPORT ) > 0 && BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
+		if (DroneServiceWrapper.checkARDroneAvailability()) {
 
 //			WifiManager mainWifiObj;
 //			mainWifiObj = (WifiManager) getSystemService(getBaseContext().WIFI_SERVICE);

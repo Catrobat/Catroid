@@ -23,7 +23,6 @@
 package org.catrobat.catroid.ui;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -35,11 +34,10 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.drone.DroneServiceWrapper;
 import org.catrobat.catroid.drone.DroneStageActivity;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -150,9 +148,7 @@ public class ProjectActivity extends BaseActivity {
 
 			Intent intent = null;
 			if (data != null) {
-				int requiredResources = data.getIntExtra("Resources", Brick.NO_RESOURCES);
-
-				if ((Brick.ARDRONE_SUPPORT > 0) && BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
+				if (DroneServiceWrapper.checkARDroneAvailability()) {
 					intent = new Intent(ProjectActivity.this, DroneStageActivity.class);
 				} else {
 					intent = new Intent(ProjectActivity.this, StageActivity.class);
