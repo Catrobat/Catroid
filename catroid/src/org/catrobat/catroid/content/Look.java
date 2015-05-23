@@ -44,7 +44,6 @@ import java.util.Iterator;
 public class Look extends Image {
 	private static final float DEGREE_UI_OFFSET = 90.0f;
 	private static ArrayList<Action> actionsToRestart = new ArrayList<Action>();
-	public boolean visible = true;
 	protected boolean imageChanged = false;
 	protected boolean brightnessChanged = false;
 	protected LookData lookData;
@@ -105,7 +104,7 @@ public class Look extends Image {
 
 		cloneLook.alpha = this.alpha;
 		cloneLook.brightness = this.brightness;
-		cloneLook.visible = this.visible;
+		cloneLook.setVisible(isVisible());
 		cloneLook.whenParallelAction = null;
 		cloneLook.allActionsAreFinished = this.allActionsAreFinished;
 
@@ -116,7 +115,7 @@ public class Look extends Image {
 		if (sprite.isPaused) {
 			return true;
 		}
-		if (!visible) {
+		if (!isVisible()) {
 			return false;
 		}
 
@@ -150,7 +149,7 @@ public class Look extends Image {
 		} else {
 			super.setVisible(true);
 		}
-		if (visible && this.getDrawable() != null) {
+		if (isVisible() && this.getDrawable() != null) {
 			super.draw(batch, this.alpha);
 		}
 	}
@@ -334,15 +333,20 @@ public class Look extends Image {
 	}
 
 	public void setTransparencyInUserInterfaceDimensionUnit(float percent) {
+		updateTransparency(percent, true);
+	}
+
+	protected void updateTransparency(float percent, boolean updateVisibility) {
 		if (percent < 0f) {
 			percent = 0f;
+			if (updateVisibility) {
+				setVisible(true);
+			}
 		} else if (percent >= 100f) {
 			percent = 100f;
-			super.setVisible(false);
-		}
-
-		if (percent < 100.0f) {
-			super.setVisible(true);
+			if (updateVisibility) {
+				setVisible(false);
+			}
 		}
 
 		alpha = (100f - percent) / 100f;
@@ -370,10 +374,6 @@ public class Look extends Image {
 
 	public void changeBrightnessInUserInterfaceDimensionUnit(float changePercent) {
 		setBrightnessInUserInterfaceDimensionUnit(getBrightnessInUserInterfaceDimensionUnit() + changePercent);
-	}
-
-	public void setVisible(boolean visible) {
-		this.visible = visible;
 	}
 
 	private boolean isAngleInCatroidIntervall(float catroidAngle) {
