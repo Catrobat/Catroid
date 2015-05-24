@@ -38,6 +38,7 @@ import com.actionbarsherlock.app.SherlockPreferenceActivity;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 
 public class SettingsActivity extends SherlockPreferenceActivity {
 
@@ -50,6 +51,8 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 	public static final String NXT_SENSOR_2 = "setting_mindstorms_nxt_sensor_2";
 	public static final String NXT_SENSOR_3 = "setting_mindstorms_nxt_sensor_3";
 	public static final String NXT_SENSOR_4 = "setting_mindstorms_nxt_sensor_4";
+
+
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -81,6 +84,8 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		listPreference.setEntries(entries);
 		listPreference.setEntryValues(entryValues);
 
+		setNXTSensors();
+
 		ActionBar actionBar = getSupportActionBar();
 
 		actionBar.setTitle(R.string.preference_title);
@@ -89,15 +94,24 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		screen = getPreferenceScreen();
 
 		if (!BuildConfig.FEATURE_LEGO_NXT_ENABLED) {
-			CheckBoxPreference dronePreference = (CheckBoxPreference) findPreference(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED);
-			dronePreference.setEnabled(false);
-			screen.removePreference(dronePreference);
+			CheckBoxPreference legoNxtPreference = (CheckBoxPreference) findPreference(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED);
+			legoNxtPreference.setEnabled(false);
+			screen.removePreference(legoNxtPreference);
 		}
 
 		if (!BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
 			CheckBoxPreference dronePreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
 			dronePreference.setEnabled(false);
 			screen.removePreference(dronePreference);
+		}
+	}
+
+	private void setNXTSensors() {
+		final String[] sensorPreferences = new String[] {NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4};
+		for (int i = 0; i < sensorPreferences.length; ++i) {
+			ListPreference listPreference = (ListPreference) findPreference(sensorPreferences[i]);
+			listPreference.setEntryValues(NXTSensor.Sensor.getSensorCodes());
+			listPreference.setEntries(R.array.nxt_sensor_chooser);
 		}
 	}
 
@@ -130,5 +144,41 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
 	private static SharedPreferences getSharedPreferences(Context context) {
 		return PreferenceManager.getDefaultSharedPreferences(context);
+	}
+
+	public static NXTSensor.Sensor[] getLegoMindstormsNXTSensorMapping(Context context) {
+
+		final String[] sensorPreferences =
+				new String[] {NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4};
+
+		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[4];
+		for (int i = 0; i < 4; i++) {
+			String sensor = getSharedPreferences(context).getString(sensorPreferences[i], null);
+			sensorMapping[i] = NXTSensor.Sensor.getSensorFromSensorCode(sensor);
+		}
+
+		return sensorMapping;
+	}
+
+	public static NXTSensor.Sensor getLegoMindstormsNXTSensorMapping(Context context, String sensorSetting) {
+			String sensor = getSharedPreferences(context).getString(sensorSetting, null);
+			return NXTSensor.Sensor.getSensorFromSensorCode(sensor);
+	}
+
+	public static void setLegoMindstormsNXTSensorMapping(Context context, NXTSensor.Sensor[] sensorMapping) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+
+		editor.putString(NXT_SENSOR_1, sensorMapping[0].getSensorCode());
+		editor.putString(NXT_SENSOR_2, sensorMapping[1].getSensorCode());
+		editor.putString(NXT_SENSOR_3, sensorMapping[2].getSensorCode());
+		editor.putString(NXT_SENSOR_4, sensorMapping[3].getSensorCode());
+
+		editor.commit();
+	}
+
+	public static void setLegoMindstormsNXTSensorMapping(Context context, NXTSensor.Sensor sensor, String sensorSetting) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putString(sensorSetting, sensor.getSensorCode());
+		editor.commit();
 	}
 }

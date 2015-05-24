@@ -45,14 +45,6 @@
         <item>@string/nxt_sensor_light_active</item>
         <item>@string/nxt_sensor_ultrasonic</item>
     </string-array>
-    <string-array name="setting_mindstorms_nxt_sensor">
-        <item>@string/nxt_no_sensor</item>
-        <item>@string/nxt_sensor_touch</item>
-        <item>@string/nxt_sensor_sound</item>
-        <item>@string/nxt_sensor_light</item>
-        <item>@string/nxt_sensor_light_active</item>
-        <item>@string/nxt_sensor_ultrasonic</item>
-    </string-array>
 
     <!-- User Brick UI Data Editor Fragment -->
     <string-array name="data_editor_buttons" >

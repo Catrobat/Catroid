@@ -23,16 +23,14 @@
 package org.catrobat.catroid.test.devices.mindstorms.nxt;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.test.AndroidTestCase;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXTImpl;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTI2CUltraSonicSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTLightSensor;
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSoundSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTTouchSensor;
 import org.catrobat.catroid.ui.SettingsActivity;
@@ -42,19 +40,17 @@ import java.util.ArrayList;
 public class LegoNXTImplTest extends AndroidTestCase {
 
 	private Context applicationContext;
-	private SharedPreferences preferences;
 
 	private LegoNXT nxt;
 	ConnectionDataLogger logger;
 
-	private static final int PREFERENCES_SAVE_DELAY = 50;
+	private static final int PREFERENCES_SAVE_BROADCAST_DELAY = 50;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
 		applicationContext = this.getContext().getApplicationContext();
-		preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
 
 		nxt = new LegoNXTImpl(this.applicationContext);
 		logger = ConnectionDataLogger.createLocalConnectionLogger();
@@ -68,21 +64,11 @@ public class LegoNXTImplTest extends AndroidTestCase {
 		super.tearDown();
 	}
 
-	private void setSensor(SharedPreferences.Editor editor, String sensor, int sensorType) {
-		editor.putString(sensor, applicationContext.getString(sensorType));
-	}
-
 	public void testSensorAssignment() throws InterruptedException {
-		SharedPreferences.Editor editor = preferences.edit();
-		editor.clear();
 
-		setSensor(editor, SettingsActivity.NXT_SENSOR_1, R.string.nxt_sensor_light);
-		setSensor(editor, SettingsActivity.NXT_SENSOR_2, R.string.nxt_sensor_sound);
-		setSensor(editor, SettingsActivity.NXT_SENSOR_3, R.string.nxt_sensor_touch);
-		setSensor(editor, SettingsActivity.NXT_SENSOR_4, R.string.nxt_sensor_ultrasonic);
-
-		editor.apply();
-		Thread.sleep(PREFERENCES_SAVE_DELAY); // Preferences need some time to get saved
+		SettingsActivity.setLegoMindstormsNXTSensorMapping(applicationContext,
+				new NXTSensor.Sensor[] { NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.SOUND,
+						NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.ULTRASONIC});
 
 		nxt.initialise();
 
@@ -107,29 +93,29 @@ public class LegoNXTImplTest extends AndroidTestCase {
 				nxt.getSensor4() instanceof NXTI2CUltraSonicSensor);
 	}
 
-	public void testSensorAssignmentChange() throws InterruptedException {
-		SharedPreferences.Editor editor = preferences.edit();
-		editor.clear();
-		editor.apply();
-		Thread.sleep(PREFERENCES_SAVE_DELAY); // Preferences need some time to get saved
+	private void resetSensorMappingToDefault() throws InterruptedException {
+		SettingsActivity.setLegoMindstormsNXTSensorMapping(this.getContext(),
+				new NXTSensor.Sensor[]{NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.SOUND,
+						NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.ULTRASONIC});
+	}
 
+	public void testSensorAssignmentChange() throws InterruptedException {
+		resetSensorMappingToDefault();
 		nxt.initialise();
 
-		assertNull("Sensor 1 should not be initialized", nxt.getSensor1());
+		SettingsActivity.setLegoMindstormsNXTSensorMapping(applicationContext,
+				NXTSensor.Sensor.LIGHT_INACTIVE, SettingsActivity.NXT_SENSOR_1);
 
-		editor = preferences.edit();
-		setSensor(editor, SettingsActivity.NXT_SENSOR_1, R.string.nxt_sensor_light);
-		editor.apply();
-		Thread.sleep(PREFERENCES_SAVE_DELAY); // Preferences need some time to get saved
+		Thread.sleep(PREFERENCES_SAVE_BROADCAST_DELAY);
 
 		assertNotNull("Sensor 1 not initialized correctly", nxt.getSensor1());
 		assertTrue("Sensor 1 is of wrong instance, SensorFactory may has an error",
 				nxt.getSensor1() instanceof NXTLightSensor);
 
-		editor = preferences.edit();
-		setSensor(editor, SettingsActivity.NXT_SENSOR_1, R.string.nxt_sensor_touch);
-		editor.apply();
-		Thread.sleep(PREFERENCES_SAVE_DELAY); // Preferences need some time to get saved
+		SettingsActivity.setLegoMindstormsNXTSensorMapping(applicationContext,
+				NXTSensor.Sensor.TOUCH, SettingsActivity.NXT_SENSOR_1);
+
+		Thread.sleep(PREFERENCES_SAVE_BROADCAST_DELAY);
 
 		assertNotNull("Sensor 1 not reinitialized correctly", nxt.getSensor1());
 		assertTrue("Sensor 1 is of wrong instance now, SensorFactory may has an error",

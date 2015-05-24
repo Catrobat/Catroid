@@ -71,6 +71,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
 			return;
 		}
+		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		Utils.updateScreenWidthAndHeight(this);
 
 		setContentView(R.layout.activity_main_menu);

@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.uitest.devices.mindstorms.nxt;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.widget.ListView;
 
 import org.catrobat.catroid.R;
@@ -44,11 +41,13 @@ import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -76,11 +75,12 @@ public class LegoNXTImplTest extends BaseActivityInstrumentationTestCase<MainMen
 	public void setUp() throws Exception {
 		super.setUp();
 		UiTestUtils.prepareStageForTest();
+		disableSensors();
+	}
 
-		Context applicationContext = getInstrumentation().getTargetContext().getApplicationContext();
-		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(applicationContext).edit();
-		editor.clear();
-		editor.apply();
+	private void disableSensors() {
+		SettingsActivity.setLegoMindstormsNXTSensorMapping(this.getInstrumentation().getTargetContext(),
+				new NXTSensor.Sensor[] {NXTSensor.Sensor.NO_SENSOR, NXTSensor.Sensor.NO_SENSOR, NXTSensor.Sensor.NO_SENSOR, NXTSensor.Sensor.NO_SENSOR});
 	}
 
 	@Device

@@ -22,56 +22,37 @@
  */
 package org.catrobat.catroid.devices.mindstorms.nxt.sensors;
 
-import android.content.Context;
-
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 
 public class NXTSensorFactory {
 
-	private Context context;
 	private MindstormsConnection connection;
 
-	public NXTSensorFactory(Context context, MindstormsConnection connection) {
-		this.context = context;
+	public NXTSensorFactory(MindstormsConnection connection) {
 		this.connection = connection;
 	}
 
-	public NXTSensor create(String sensorTypeName, int port) {
+	public NXTSensor create(NXTSensor.Sensor sensorType, int port) {
 
-		if (equals(sensorTypeName, R.string.nxt_sensor_touch)) {
-			return new NXTTouchSensor(port, connection);
+		switch (sensorType) {
+			case TOUCH:
+				return new NXTTouchSensor(port, connection);
+
+			case SOUND:
+				return new NXTSoundSensor(port, connection);
+
+			case LIGHT_INACTIVE:
+				return new NXTLightSensor(port, connection);
+
+			case LIGHT_ACTIVE:
+				return new NXTLightSensorActive(port, connection);
+
+			case ULTRASONIC:
+				return new NXTI2CUltraSonicSensor(connection);
+
+			default:
+				throw new MindstormsException("No valid sensor found!"); // Should never occur
 		}
-
-		if (equals(sensorTypeName, R.string.nxt_sensor_sound)) {
-			return new NXTSoundSensor(port, connection);
-		}
-
-		if (equals(sensorTypeName, R.string.nxt_sensor_light)) {
-			return new NXTLightSensor(port, connection);
-		}
-
-		if (equals(sensorTypeName, R.string.nxt_sensor_light_active)) {
-			return new NXTLightSensorActive(port, connection);
-		}
-
-		if (equals(sensorTypeName, R.string.nxt_sensor_ultrasonic)) {
-			return new NXTI2CUltraSonicSensor(connection);
-		}
-
-		throw new MindstormsException("No valid sensor found!"); // Should never occur
 	}
-
-	public boolean isSensorAssigned(String sensorTypeName) {
-			return !( equals(sensorTypeName, R.string.nxt_no_sensor)
-					  || sensorTypeName == null
-					  || sensorTypeName.isEmpty()
-			);
-	}
-
-	private boolean equals(String sensorTypeName, int sensorType) {
-		return sensorTypeName.equals(context.getString(sensorType));
-	}
-
 }
