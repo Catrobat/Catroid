@@ -398,9 +398,9 @@
   <string name="none_found">Nem találhatók párosítatlan eszközök</string>
   <string name="none_paired">Nem találhatók párosított eszközök</string>
   <string name="nxt_brick_motor_move">NXT motor mozgatása</string>
-  <string name="nxt_motor_speed">Sebesség</string>
+  <string name="nxt_motor_speed_to">Sebesség</string>
   <string name="nxt_brick_motor_turn_angle">NXT motor forgatása</string>
-  <string name="nxt_motor_angle">Szög</string>
+  <string name="nxt_motor_move_by">Szög</string>
   <string name="nxt_motor_stop">NXT motor leállítása</string>
   <string name="nxt_play_tone">NXT hang lejátszása</string>
   <string name="nxt_tone_duration">Időtartam</string>

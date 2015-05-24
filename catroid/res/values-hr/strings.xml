@@ -416,9 +416,9 @@ su otpakovani!</item>
   <string name="none_found">No unpaired devices found</string>
   <string name="none_paired">Upareni uređaji nisu pronađeni</string>
   <string name="nxt_brick_motor_move">NXT move motor</string>
-  <string name="nxt_motor_speed">Brzina</string>
+  <string name="nxt_motor_speed_to">Brzina</string>
   <string name="nxt_brick_motor_turn_angle">NXT turn motor</string>
-  <string name="nxt_motor_angle">Kut</string>
+  <string name="nxt_motor_move_by">Kut</string>
   <string name="nxt_motor_stop">NXT stop motor</string>
   <string name="nxt_play_tone">NXT play tone</string>
   <string name="nxt_tone_duration">Trajanje</string>

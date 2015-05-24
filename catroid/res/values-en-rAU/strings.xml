@@ -403,9 +403,9 @@
   <string name="none_found">No unpaired devices found</string>
   <string name="none_paired">No paired devices found</string>
   <string name="nxt_brick_motor_move">NXT move motor</string>
-  <string name="nxt_motor_speed">Speed</string>
+  <string name="nxt_motor_speed_to">Speed</string>
   <string name="nxt_brick_motor_turn_angle">NXT turn motor</string>
-  <string name="nxt_motor_angle">Angle</string>
+  <string name="nxt_motor_move_by">Angle</string>
   <string name="nxt_motor_stop">NXT stop motor</string>
   <string name="nxt_play_tone">NXT play tone</string>
   <string name="nxt_tone_duration">Duration</string>

@@ -403,9 +403,9 @@
   <string name="none_found">Nu au fost găsite dispozitive neîmperecheate</string>
   <string name="none_paired">Nu au fost găsite dispozitive împerecheate</string>
   <string name="nxt_brick_motor_move">Motorul de deplasare NXT</string>
-  <string name="nxt_motor_speed">Viteza</string>
+  <string name="nxt_motor_speed_to">Viteza</string>
   <string name="nxt_brick_motor_turn_angle">Motorul de întoarcere NXT</string>
-  <string name="nxt_motor_angle">Unghiul</string>
+  <string name="nxt_motor_move_by">Unghiul</string>
   <string name="nxt_motor_stop">Motorul de stop NXT</string>
   <string name="nxt_play_tone">Tonul de redare NXT</string>
   <string name="nxt_tone_duration">Durația</string>

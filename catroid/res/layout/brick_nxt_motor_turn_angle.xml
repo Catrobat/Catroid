@@ -63,7 +63,7 @@
         <TextView
             android:id="@+id/brick_nxt_motor_turn_angle"
             style="@style/BrickText.Multiple"
-            android:text="@string/nxt_motor_angle" >
+            android:text="@string/nxt_motor_move_by" >
         </TextView >
 
         <TextView

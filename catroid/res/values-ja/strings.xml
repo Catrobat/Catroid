@@ -397,9 +397,9 @@
   <string name="none_found">見つかりませんでした。ペアになっていないデバイスがありません</string>
   <string name="none_paired">見つかったペアのデバイスがありません</string>
   <string name="nxt_brick_motor_move">NXTモーターの動き</string>
-  <string name="nxt_motor_speed">スピード</string>
+  <string name="nxt_motor_speed_to">スピード</string>
   <string name="nxt_brick_motor_turn_angle">NXTターンモーター</string>
-  <string name="nxt_motor_angle">角度</string>
+  <string name="nxt_motor_move_by">角度</string>
   <string name="nxt_motor_stop">NXTモーターを停止</string>
   <string name="nxt_play_tone">NXTの再生音</string>
   <string name="nxt_tone_duration">時間</string>

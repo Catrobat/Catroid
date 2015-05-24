@@ -401,9 +401,9 @@ il faut
   <string name="none_found">Aucun périphérique non liés trouvés</string>
   <string name="none_paired">Aucun périphérique non liés trouvés</string>
   <string name="nxt_brick_motor_move">bouger le moteur du NXT</string>
-  <string name="nxt_motor_speed">Vitesse</string>
+  <string name="nxt_motor_speed_to">Vitesse</string>
   <string name="nxt_brick_motor_turn_angle">tourner le moteur du NXT</string>
-  <string name="nxt_motor_angle">Angle</string>
+  <string name="nxt_motor_move_by">Angle</string>
   <string name="nxt_motor_stop">Stopper le moteur du NXT</string>
   <string name="nxt_play_tone">Jouer un son du NXT</string>
   <string name="nxt_tone_duration">Durée</string>

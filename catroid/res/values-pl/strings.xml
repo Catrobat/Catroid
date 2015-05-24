@@ -403,9 +403,9 @@
   <string name="none_found">Nie znaleziono niesparowanych urządzeń</string>
   <string name="none_paired">Nie znaleziono sparowanych urządzeń</string>
   <string name="nxt_brick_motor_move">NXT silnik ruchu</string>
-  <string name="nxt_motor_speed">Szybkość</string>
+  <string name="nxt_motor_speed_to">Szybkość</string>
   <string name="nxt_brick_motor_turn_angle">NXT silnik obrotu</string>
-  <string name="nxt_motor_angle">Kąt</string>
+  <string name="nxt_motor_move_by">Kąt</string>
   <string name="nxt_motor_stop">NXT zatrzymaj silnik</string>
   <string name="nxt_play_tone">NXT zagraj dźwięk</string>
   <string name="nxt_tone_duration">Czas trwania</string>

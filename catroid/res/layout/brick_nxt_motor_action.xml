@@ -65,7 +65,7 @@
         <TextView
             android:id="@+id/lego_motor_action_speed"
             style="@style/BrickText.Multiple"
-            android:text="@string/nxt_motor_speed" >
+            android:text="@string/nxt_motor_speed_to" >
         </TextView >
 
         <TextView

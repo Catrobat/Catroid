@@ -404,9 +404,9 @@
   <string name="none_found">Нет найдено непарных устройств</string>
   <string name="none_paired">Нет найдено парных устройств</string>
   <string name="nxt_brick_motor_move">мотор движения NXT</string>
-  <string name="nxt_motor_speed">Скорость</string>
+  <string name="nxt_motor_speed_to">Скорость</string>
   <string name="nxt_brick_motor_turn_angle">моторо поворота NXT</string>
-  <string name="nxt_motor_angle">Угол</string>
+  <string name="nxt_motor_move_by">Угол</string>
   <string name="nxt_motor_stop">мотор стопа NXT</string>
   <string name="nxt_play_tone">тон проигрывания NXT</string>
   <string name="nxt_tone_duration">Продолжительность</string>

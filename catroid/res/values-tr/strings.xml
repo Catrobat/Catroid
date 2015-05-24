@@ -399,9 +399,9 @@ Lisans\'ın kesin detayları icin aşağıdaki linke bakın.\n</string>
   <string name="none_found">Eşleştirilmemiş aygıt bulunamadı</string>
   <string name="none_paired">Eşleştirilmemiş aygıt bulunamadı</string>
   <string name="nxt_brick_motor_move">NXT motoru hareket ettir</string>
-  <string name="nxt_motor_speed">Hız</string>
+  <string name="nxt_motor_speed_to">Hız</string>
   <string name="nxt_brick_motor_turn_angle">NXT motoru döndür</string>
-  <string name="nxt_motor_angle">Açı</string>
+  <string name="nxt_motor_move_by">Açı</string>
   <string name="nxt_motor_stop">NXT motoru durdur</string>
   <string name="nxt_play_tone">NXT sesi çal</string>
   <string name="nxt_tone_duration">Süre</string>

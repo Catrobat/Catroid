@@ -396,9 +396,9 @@
   <string name="none_found">패어링 안된 장치를 찾을 수 없습니다.</string>
   <string name="none_paired">페어링 된 장치를 찾을 수 없습니다</string>
   <string name="nxt_brick_motor_move">NXT 이동 모터</string>
-  <string name="nxt_motor_speed">속도</string>
+  <string name="nxt_motor_speed_to">속도</string>
   <string name="nxt_brick_motor_turn_angle">NXT 모터 회전</string>
-  <string name="nxt_motor_angle">각도</string>
+  <string name="nxt_motor_move_by">각도</string>
   <string name="nxt_motor_stop">NXT 모터 정지</string>
   <string name="nxt_play_tone">NXT 톤 재생</string>
   <string name="nxt_tone_duration">동안:</string>
