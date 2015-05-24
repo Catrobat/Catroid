@@ -65,6 +65,10 @@ public abstract class NXTSensor implements MindstormsSensor {
 		}
 
 		public static NXTSensor.Sensor getSensorFromSensorCode(String sensorCode) {
+			if (sensorCode == null) {
+				return Sensor.NO_SENSOR;
+			}
+			
 			try {
 				return valueOf(sensorCode);
 			} catch (IllegalArgumentException e) {
