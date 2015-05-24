@@ -106,6 +106,8 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 				fieldKeyOrder[2] = fieldKey;
 			} else if (fieldKey.getFieldName().equals("serialVersionUID")) {
 				fieldKeyOrder[3] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("settings")) {
+				fieldKeyOrder[4] = fieldKey;
 			}
 		}
 		for (FieldKey fieldKey : fieldKeyOrder) {

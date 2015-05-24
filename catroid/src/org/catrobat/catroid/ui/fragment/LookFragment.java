@@ -371,7 +371,7 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject();
+			projectManager.saveProject(getActivity().getApplicationContext());
 		}
 
 		if (lookDeletedReceiver != null) {

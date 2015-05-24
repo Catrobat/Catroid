@@ -37,8 +37,10 @@ import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.LegoNxtSetting;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
@@ -182,6 +184,9 @@ public final class StorageHandler {
 		xstream.processAnnotations(Project.class);
 		xstream.processAnnotations(XmlHeader.class);
 		xstream.processAnnotations(DataContainer.class);
+		xstream.processAnnotations(Setting.class);
+		xstream.processAnnotations(LegoNxtSetting.class);
+		xstream.processAnnotations(LegoNxtSetting.Port.class);
 		xstream.registerConverter(new XStreamConcurrentFormulaHashMapConverter());
 		xstream.registerConverter(new XStreamUserVariableConverter());
 		xstream.registerConverter(new XStreamBrickConverter(xstream.getMapper(), xstream.getReflectionProvider()));
@@ -334,7 +339,8 @@ public final class StorageHandler {
 			File projectCodeFile = new File(buildProjectPath(projectName), PROJECTCODE_NAME);
 			Log.d(TAG, "path: " + projectCodeFile.getAbsolutePath());
 			fileInputStream = new FileInputStream(projectCodeFile);
-			return (Project) xstream.getProjectFromXML(projectCodeFile);
+			Project project = (Project) xstream.getProjectFromXML(projectCodeFile);
+			return project;
 		} catch (Exception exception) {
 			Log.e(TAG, "Loading project " + projectName + " failed.", exception);
 			return null;
