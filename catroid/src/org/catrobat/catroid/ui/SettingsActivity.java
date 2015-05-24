@@ -181,4 +181,10 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		editor.putString(sensorSetting, sensor.getSensorCode());
 		editor.commit();
 	}
+
+	public static void enableLegoMindstormsNXTBricks(Context context) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true);
+		editor.commit();
+	}
 }

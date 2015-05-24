@@ -213,7 +213,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject();
+			projectManager.saveProject(getActivity().getApplicationContext());
 		}
 
 		if (spriteRenamedReceiver != null) {

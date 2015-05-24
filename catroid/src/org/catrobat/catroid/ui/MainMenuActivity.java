@@ -132,7 +132,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		if (currentProject != null) {
-			ProjectManager.getInstance().saveProject();
+			ProjectManager.getInstance().saveProject(getApplicationContext());
 			Utils.saveToPreferences(this, Constants.PREF_PROJECTNAME_KEY, currentProject.getName());
 		}
 	}

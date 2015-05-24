@@ -460,7 +460,7 @@ public final class Utils {
 			ProjectManager.getInstance().deleteCurrentProject(null);
 
 			ProjectManager.getInstance().setProject(projectToCheck);
-			ProjectManager.getInstance().saveProject();
+			ProjectManager.getInstance().saveProject(context);
 
 			String projectToCheckXMLString = StorageHandler.getInstance().getXMLStringOfAProject(projectToCheck);
 			start = projectToCheckXMLString.indexOf("<objectList>");
