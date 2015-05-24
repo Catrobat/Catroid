@@ -388,9 +388,9 @@
   <string name="none_found">ไม่พบอุปกรณ์ที่ยังไม่ได้จับคู่</string>
   <string name="none_paired">ไม่พบอุปกรณ์ที่จับคู่ไว้</string>
   <string name="nxt_brick_motor_move">NXT ขยับมอเตอร์</string>
-  <string name="nxt_motor_speed">ความเร็ว</string>
+  <string name="nxt_motor_speed_to">ความเร็ว</string>
   <string name="nxt_brick_motor_turn_angle">NXT เปิดมอเตอร์</string>
-  <string name="nxt_motor_angle">มุม</string>
+  <string name="nxt_motor_move_by">มุม</string>
   <string name="nxt_motor_stop">NXT หยุดมอเตอร์</string>
   <string name="nxt_play_tone">NXT เล่นเสียง</string>
   <string name="nxt_tone_duration">ระยะเวลา</string>

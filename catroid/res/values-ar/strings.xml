@@ -426,9 +426,9 @@
   <string name="none_found">لم يتم العثور على أجهزة غير مقترن </string>
   <string name="none_paired">لم يتم العثور على أجهزة غير مقترن</string>
   <string name="nxt_brick_motor_move">حرك الماتور NXT</string>
-  <string name="nxt_motor_speed">السرعة</string>
+  <string name="nxt_motor_speed_to">السرعة</string>
   <string name="nxt_brick_motor_turn_angle">حول المحرك NXT </string>
-  <string name="nxt_motor_angle">الزاوية</string>
+  <string name="nxt_motor_move_by">الزاوية</string>
   <string name="nxt_motor_stop">توقف المحرك NXT </string>
   <string name="nxt_play_tone">قم بعزف اللحن NXT </string>
   <string name="nxt_tone_duration">المدة</string>

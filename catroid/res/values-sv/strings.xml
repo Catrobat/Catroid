@@ -396,9 +396,9 @@
   <string name="none_found">Inga oparade enheter finns</string>
   <string name="none_paired">Inga parade enheter finns</string>
   <string name="nxt_brick_motor_move">NXT flytta motor</string>
-  <string name="nxt_motor_speed">Fart</string>
+  <string name="nxt_motor_speed_to">Fart</string>
   <string name="nxt_brick_motor_turn_angle">NXT sväng motor</string>
-  <string name="nxt_motor_angle">Vinkel</string>
+  <string name="nxt_motor_move_by">Vinkel</string>
   <string name="nxt_motor_stop">NXT stopp motor</string>
   <string name="nxt_play_tone">NXT spela tonen</string>
   <string name="nxt_tone_duration">Tidsperiod</string>

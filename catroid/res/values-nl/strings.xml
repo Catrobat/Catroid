@@ -396,9 +396,9 @@
   <string name="none_found">Geen niet-gekoppelde apparaten gevonden</string>
   <string name="none_paired">Geen gekoppelde apparaten gevonden</string>
   <string name="nxt_brick_motor_move">NXT beweeg motor</string>
-  <string name="nxt_motor_speed">Snelheid</string>
+  <string name="nxt_motor_speed_to">Snelheid</string>
   <string name="nxt_brick_motor_turn_angle">NXT draai motor</string>
-  <string name="nxt_motor_angle">Hoek</string>
+  <string name="nxt_motor_move_by">Hoek</string>
   <string name="nxt_motor_stop">NXT stop motor</string>
   <string name="nxt_play_tone">NXT speel toon</string>
   <string name="nxt_tone_duration">Duur</string>

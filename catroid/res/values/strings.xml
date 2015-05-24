@@ -547,12 +547,12 @@
 
 
     <!-- Lego Mindstorms Strings -->
-    <string name="nxt_brick_motor_move">NXT move motor</string>
-    <string name="nxt_motor_speed">Speed</string>
-    <string name="nxt_brick_motor_turn_angle">NXT turn motor</string>
-    <string name="nxt_motor_angle">Angle</string>
-    <string name="nxt_motor_stop">NXT stop motor</string>
-    <string name="nxt_play_tone">NXT play tone</string>
+    <string name="nxt_brick_motor_move">Set NXT motor speed</string>
+    <string name="nxt_motor_speed_to">to</string>
+    <string name="nxt_brick_motor_turn_angle">Turn NXT motor</string>
+    <string name="nxt_motor_move_by">by</string>
+    <string name="nxt_motor_stop">Stop NXT motor</string>
+    <string name="nxt_play_tone">Play NXT tone</string>
     <string name="nxt_tone_duration">Duration</string>
     <string name="nxt_tone_frequency">Frequency</string>
     <string name="nxt_tone_hundred_hz">x100Hz</string>

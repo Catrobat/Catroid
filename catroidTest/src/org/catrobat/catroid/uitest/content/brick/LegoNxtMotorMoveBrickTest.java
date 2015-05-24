@@ -75,7 +75,7 @@ public class LegoNxtMotorMoveBrickTest extends BaseActivityInstrumentationTestCa
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.nxt_brick_motor_move)));
-		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.nxt_motor_speed)));
+		assertNotNull("TextView does not exist.", solo.getText(solo.getString(R.string.nxt_motor_speed_to)));
 
 		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
 				R.id.motor_action_speed_edit_text, SET_SPEED, Brick.BrickField.LEGO_NXT_SPEED, motorBrick);

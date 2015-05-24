@@ -399,9 +399,9 @@ El código fuente de Pocket Code generalmente utiliza la licencia Pública Gener
   <string name="none_found">No hay dispositivos emparejados</string>
   <string name="none_paired">No hay dispositivos emparejados</string>
   <string name="nxt_brick_motor_move">NXT motor de movimiento</string>
-  <string name="nxt_motor_speed">Velocidad</string>
+  <string name="nxt_motor_speed_to">Velocidad</string>
   <string name="nxt_brick_motor_turn_angle">Motor NXT de giro</string>
-  <string name="nxt_motor_angle">Angulo</string>
+  <string name="nxt_motor_move_by">Angulo</string>
   <string name="nxt_motor_stop">Parada de motor NXT</string>
   <string name="nxt_play_tone">Reproducir el tono NXT</string>
   <string name="nxt_tone_duration">Duración</string>

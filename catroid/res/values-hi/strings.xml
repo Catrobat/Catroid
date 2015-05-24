@@ -406,9 +406,9 @@
   <string name="none_found">ऐसा कोई उपकरण नहीं मिला जो युग्मित ना हों</string>
   <string name="none_paired">ऐसा कोई उपकरण नहीं मिला जो युग्मित ना हों</string>
   <string name="nxt_brick_motor_move">एन एक्स टी चाल मोटर</string>
-  <string name="nxt_motor_speed">गति</string>
+  <string name="nxt_motor_speed_to">गति</string>
   <string name="nxt_brick_motor_turn_angle">एन एक्स टी मोटर घुमाए</string>
-  <string name="nxt_motor_angle">कोण</string>
+  <string name="nxt_motor_move_by">कोण</string>
   <string name="nxt_motor_stop">एन एक्स टी मोटर रोकें</string>
   <string name="nxt_play_tone">एन एक्स टी ध्वनि चलाये</string>
   <string name="nxt_tone_duration">अवधि</string>

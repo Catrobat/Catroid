@@ -397,9 +397,9 @@
   <string name="none_found">Ingen uparrede enheder fundet</string>
   <string name="none_paired">Ingen parrede enheder fundet</string>
   <string name="nxt_brick_motor_move">NXT flyt motor</string>
-  <string name="nxt_motor_speed">Hastighed</string>
+  <string name="nxt_motor_speed_to">Hastighed</string>
   <string name="nxt_brick_motor_turn_angle">NXT drej motor</string>
-  <string name="nxt_motor_angle">Vinkel</string>
+  <string name="nxt_motor_move_by">Vinkel</string>
   <string name="nxt_motor_stop">NXT stop motor</string>
   <string name="nxt_play_tone">NXT afspil tone</string>
   <string name="nxt_tone_duration">Varighed</string>

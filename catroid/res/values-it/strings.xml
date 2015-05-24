@@ -398,9 +398,9 @@
   <string name="none_found">Nessun dispositivo spaiato trovato</string>
   <string name="none_paired">Nessun dispositivo accoppiato trovato</string>
   <string name="nxt_brick_motor_move">Muovi motore NXT</string>
-  <string name="nxt_motor_speed">Velocità</string>
+  <string name="nxt_motor_speed_to">Velocità</string>
   <string name="nxt_brick_motor_turn_angle">Ruota motore NXT</string>
-  <string name="nxt_motor_angle">Angolo</string>
+  <string name="nxt_motor_move_by">Angolo</string>
   <string name="nxt_motor_stop">Ferma motore NXT</string>
   <string name="nxt_play_tone">Suona tono NXT</string>
   <string name="nxt_tone_duration">Durata</string>
