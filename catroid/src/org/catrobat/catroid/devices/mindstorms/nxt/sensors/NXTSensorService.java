@@ -50,17 +50,20 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 	private NXTSensorFactory sensorFactory;
 
 	private SharedPreferences preferences;
+	private Context context;
 
 	private PausableScheduledThreadPoolExecutor sensorScheduler;
 
 	private static final int SENSOR_UPDATER_THREAD_COUNT = 2;
 
 	public NXTSensorService(Context context, MindstormsConnection connection) {
+		this.context = context;
+
 		preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		preferences.registerOnSharedPreferenceChangeListener(this);
 
 		sensorRegistry = new SensorRegistry();
-		sensorFactory = new NXTSensorFactory(context, connection);
+		sensorFactory = new NXTSensorFactory(connection);
 
         sensorScheduler = new PausableScheduledThreadPoolExecutor(SENSOR_UPDATER_THREAD_COUNT);
 		sensorScheduler.pause();
@@ -80,33 +83,32 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 	}
 
 	public NXTSensor createSensor1() {
-		String sensorTypeName = preferences.getString(SettingsActivity.NXT_SENSOR_1, "");
-        return  createSensor(sensorTypeName, 0);
+		NXTSensor.Sensor sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(context, SettingsActivity.NXT_SENSOR_1);
+        return  createSensor(sensor, 0);
 	}
 
 	public NXTSensor createSensor2() {
-		String sensorTypeName = preferences.getString(SettingsActivity.NXT_SENSOR_2, "");
-        return  createSensor(sensorTypeName, 1);
+		NXTSensor.Sensor sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(context, SettingsActivity.NXT_SENSOR_2);
+		return  createSensor(sensor, 1);
 	}
 
 	public NXTSensor createSensor3() {
-		String sensorTypeName = preferences.getString(SettingsActivity.NXT_SENSOR_3, "");
-        return  createSensor(sensorTypeName, 2);
+		NXTSensor.Sensor sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(context, SettingsActivity.NXT_SENSOR_3);
+		return  createSensor(sensor, 2);
 	}
 
 	public NXTSensor createSensor4() {
-		String sensorTypeName = preferences.getString(SettingsActivity.NXT_SENSOR_4, "");
-        return  createSensor(sensorTypeName, 3);
+		NXTSensor.Sensor sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(context, SettingsActivity.NXT_SENSOR_4);
+		return  createSensor(sensor, 3);
 	}
 
-	private NXTSensor createSensor(String sensorTypeName, int port) {
-
-		if (sensorFactory.isSensorAssigned(sensorTypeName) == false) {
+	private NXTSensor createSensor(NXTSensor.Sensor sensorType, int port) {
+		if (sensorType == NXTSensor.Sensor.NO_SENSOR) {
 			sensorRegistry.remove(port);
 			return null;
 		}
 
-		NXTSensor sensor = sensorFactory.create(sensorTypeName, port);
+		NXTSensor sensor = sensorFactory.create(sensorType, port);
 		sensorRegistry.add(sensor);
 
         return sensor;

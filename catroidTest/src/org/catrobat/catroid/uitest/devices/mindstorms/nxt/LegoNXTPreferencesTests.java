@@ -23,8 +23,6 @@
 package org.catrobat.catroid.uitest.devices.mindstorms.nxt;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.widget.ListView;
 
 import org.catrobat.catroid.R;
@@ -33,6 +31,7 @@ import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXTImpl;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTI2CUltraSonicSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTLightSensor;
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSoundSensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTTouchSensor;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -42,7 +41,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
-	private SharedPreferences preferences;
 	private Context applicationContext;
 
 	public LegoNXTPreferencesTests() {
@@ -55,9 +53,6 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 		UiTestUtils.prepareStageForTest();
 
 		applicationContext = getInstrumentation().getTargetContext().getApplicationContext();
-		preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
-		preferences.edit().clear();
-		preferences.edit().apply();
 	}
 
 	public void testNXTAllBricksAvailable() throws InterruptedException {
@@ -136,14 +131,14 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 		solo.goBack();
 		solo.goBack();
 
-		String sensor = preferences.getString("setting_mindstorms_nxt_sensor_1", solo.getString(R.string.nxt_no_sensor));
-		assertEquals("NXT sensor 1 not set correctly!", sensor, solo.getString(R.string.nxt_sensor_light));
-		sensor = preferences.getString("setting_mindstorms_nxt_sensor_2", solo.getString(R.string.nxt_no_sensor));
-		assertEquals("NXT sensor 2 not set correctly!", sensor, solo.getString(R.string.nxt_sensor_touch));
-		sensor = preferences.getString("setting_mindstorms_nxt_sensor_3", solo.getString(R.string.nxt_no_sensor));
-		assertEquals("NXT sensor 3 not set correctly!", sensor, solo.getString(R.string.nxt_sensor_touch));
-		sensor = preferences.getString("setting_mindstorms_nxt_sensor_4", solo.getString(R.string.nxt_no_sensor));
-		assertEquals("NXT sensor 4 not set correctly!", sensor, solo.getString(R.string.nxt_sensor_ultrasonic));
+		NXTSensor.Sensor sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_1);
+		assertEquals("NXT sensor 1 not set correctly!", NXTSensor.Sensor.LIGHT_INACTIVE, sensor);
+		sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_2);
+		assertEquals("NXT sensor 2 not set correctly!", NXTSensor.Sensor.TOUCH, sensor);
+		sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_3);
+		assertEquals("NXT sensor 3 not set correctly!", NXTSensor.Sensor.TOUCH, sensor);
+		sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_4);
+		assertEquals("NXT sensor 4 not set correctly!", NXTSensor.Sensor.ULTRASONIC, sensor);
 
 		nxt.initialise();
 
@@ -183,14 +178,16 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 		solo.goBack();
 		solo.goBack();
 
-		sensor = preferences.getString("setting_mindstorms_nxt_sensor_1", solo.getString(R.string.nxt_no_sensor));
-		assertEquals("NXT sensor 1 not set correctly!", sensor, solo.getString(R.string.nxt_sensor_touch));
-		sensor = preferences.getString("setting_mindstorms_nxt_sensor_2", solo.getString(R.string.nxt_no_sensor));
-		assertEquals("NXT sensor 2 not set correctly!", sensor, solo.getString(R.string.nxt_sensor_sound));
-		sensor = preferences.getString("setting_mindstorms_nxt_sensor_3", solo.getString(R.string.nxt_no_sensor));
-		assertEquals("NXT sensor 3 not set correctly!", sensor, solo.getString(R.string.nxt_sensor_light));
-		sensor = preferences.getString("setting_mindstorms_nxt_sensor_4", solo.getString(R.string.nxt_no_sensor));
-		assertEquals("NXT sensor 4 not set correctly!", sensor, solo.getString(R.string.nxt_sensor_ultrasonic));
+		solo.sleep(500);
+
+		sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_1);
+		assertEquals("NXT sensor 1 not set correctly!", NXTSensor.Sensor.TOUCH, sensor);
+		sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_2);
+		assertEquals("NXT sensor 2 not set correctly!", NXTSensor.Sensor.SOUND, sensor);
+		sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_3);
+		assertEquals("NXT sensor 3 not set correctly!", NXTSensor.Sensor.LIGHT_INACTIVE, sensor);
+		sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_4);
+		assertEquals("NXT sensor 4 not set correctly!", NXTSensor.Sensor.ULTRASONIC, sensor);
 
 		assertNotNull("Sensor 1 not reinitialized correctly", nxt.getSensor1());
 		assertTrue("Sensor 1 is of wrong instance now, SensorFactory may has an error",

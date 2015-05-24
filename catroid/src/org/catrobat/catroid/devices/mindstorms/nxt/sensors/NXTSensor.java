@@ -38,6 +38,42 @@ import java.util.Locale;
 
 public abstract class NXTSensor implements MindstormsSensor {
 
+	public enum Sensor {
+		NO_SENSOR,
+		TOUCH,
+		SOUND,
+		LIGHT_INACTIVE,
+		LIGHT_ACTIVE,
+		ULTRASONIC;
+
+		public static String[] getSensorCodes() {
+			String[] valueStrings = new String[values().length];
+
+			for (int i = 0; i < values().length; ++i) {
+				valueStrings[i] = values()[i].name();
+			}
+
+			return valueStrings;
+		}
+
+		public String getSensorCode() {
+			return getSensorCode(this);
+		}
+
+		public static String getSensorCode(NXTSensor.Sensor sensor) {
+			return sensor.name();
+		}
+
+		public static NXTSensor.Sensor getSensorFromSensorCode(String sensorCode) {
+			try {
+				return valueOf(sensorCode);
+			} catch (IllegalArgumentException e) {
+				return Sensor.NO_SENSOR;
+			}
+
+		}
+	}
+
 	protected final int port;
 	protected final NXTSensorType sensorType;
 	protected final NXTSensorMode sensorMode;
