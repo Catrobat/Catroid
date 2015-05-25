@@ -94,15 +94,15 @@ public class PhiroRGBLightAction extends TemporalAction {
 			blueValue = MAX_VALUE;
 		}
 
-		Phiro Phiro = btService.getDevice(BluetoothDevice.PHIRO);
+		Phiro phiro = btService.getDevice(BluetoothDevice.PHIRO);
 
 		if (eyeEnum.equals(Eye.Left)) {
-			Phiro.setLeftRGBLightColor(redValue, greenValue, blueValue);
+			phiro.setLeftRGBLightColor(redValue, greenValue, blueValue);
 		} else if (eyeEnum.equals(Eye.Right)) {
-			Phiro.setRightRGBLightColor(redValue, greenValue, blueValue);
+			phiro.setRightRGBLightColor(redValue, greenValue, blueValue);
 		} else if (eyeEnum.equals(Eye.Both)) {
-			Phiro.setLeftRGBLightColor(redValue, greenValue, blueValue);
-			Phiro.setRightRGBLightColor(redValue, greenValue, blueValue);
+			phiro.setLeftRGBLightColor(redValue, greenValue, blueValue);
+			phiro.setRightRGBLightColor(redValue, greenValue, blueValue);
 		} else {
 			Log.d("Phiro", "Error: EyeEnum:" + eyeEnum);
 		}

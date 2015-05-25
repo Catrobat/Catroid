@@ -28,12 +28,13 @@ import android.test.AndroidTestCase;
 import com.google.common.base.Stopwatch;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
-import org.catrobat.catroid.devices.arduino.common.firmata.BytesHelper;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.devices.arduino.phiro.PhiroImpl;
 
 import java.nio.ByteBuffer;
 import java.util.concurrent.TimeUnit;
+
+import name.antonsmirnov.firmata.BytesHelper;
 
 public class PhiroImplTest extends AndroidTestCase {
 
@@ -185,9 +186,9 @@ public class PhiroImplTest extends AndroidTestCase {
 		phiro.playTone(tone, durationInSeconds);
 
 		assertEquals("Wrong command, ANALOG_MESSAGE command on speaker pin expected",
-				ANALOG_MESSAGE_COMMAND | BytesHelper.encodeChannel(PIN_SPEAKER_OUT), getNextMessage());
-		assertEquals("Wrong lsb speed", BytesHelper.lsb(tone), getNextMessage());
-		assertEquals("Wrong msb speed", BytesHelper.msb(tone), getNextMessage());
+				ANALOG_MESSAGE_COMMAND | BytesHelper.ENCODE_CHANNEL(PIN_SPEAKER_OUT), getNextMessage());
+		assertEquals("Wrong lsb speed", BytesHelper.LSB(tone), getNextMessage());
+		assertEquals("Wrong msb speed", BytesHelper.MSB(tone), getNextMessage());
 
 		Stopwatch stopwatch = Stopwatch.createStarted();
 		while (stopwatch.elapsed(TimeUnit.SECONDS) < durationInSeconds) {
@@ -196,7 +197,7 @@ public class PhiroImplTest extends AndroidTestCase {
 		}
 
 		assertEquals("Wrong command, ANALOG_MESSAGE command on speaker pin expected",
-				ANALOG_MESSAGE_COMMAND | BytesHelper.encodeChannel(PIN_SPEAKER_OUT), getNextMessage());
+				ANALOG_MESSAGE_COMMAND | BytesHelper.ENCODE_CHANNEL(PIN_SPEAKER_OUT), getNextMessage());
 		assertEquals("Wrong lsb speed", 0, getNextMessage());
 		assertEquals("Wrong msb speed", 0, getNextMessage());
 	}
@@ -214,7 +215,7 @@ public class PhiroImplTest extends AndroidTestCase {
 	private void testReportAnalogPin(boolean enable) {
 		for (int i = MIN_SENSOR_PIN; i <= MAX_SENSOR_PIN; ++i) {
 			assertEquals("Wrong Command, REPORT_ANALOG_PIN command expected",
-					REPORT_ANALOG_PIN_COMMAND | BytesHelper.encodeChannel(i), getNextMessage());
+					REPORT_ANALOG_PIN_COMMAND | BytesHelper.ENCODE_CHANNEL(i), getNextMessage());
 			assertEquals("Wrong pin mode is used", enable ? 1 : 0, getNextMessage());
 		}
 	}
@@ -226,19 +227,19 @@ public class PhiroImplTest extends AndroidTestCase {
 		return bb.getInt();
 	}
 
-	private void testSpeed(int speed_in_percent, int pin) {
-		int speed = percentToSpeed(speed_in_percent);
+	private void testSpeed(int speedInPercent, int pin) {
+		int speed = percentToSpeed(speedInPercent);
 		assertEquals("Wrong command, ANALOG_MESSAGE command expected",
-				ANALOG_MESSAGE_COMMAND | BytesHelper.encodeChannel(pin), getNextMessage());
-		assertEquals("Wrong lsb speed", BytesHelper.lsb(speed), getNextMessage());
-		assertEquals("Wrong msb speed", BytesHelper.msb(speed), getNextMessage());
+				ANALOG_MESSAGE_COMMAND | BytesHelper.ENCODE_CHANNEL(pin), getNextMessage());
+		assertEquals("Wrong lsb speed", BytesHelper.LSB(speed), getNextMessage());
+		assertEquals("Wrong msb speed", BytesHelper.MSB(speed), getNextMessage());
 	}
 
 	private void testLight(int color, int pin) {
 		assertEquals("Wrong command, ANALOG_MESSAGE command expected",
-				ANALOG_MESSAGE_COMMAND | BytesHelper.encodeChannel(pin), getNextMessage());
-		assertEquals("Wrong lsb color", BytesHelper.lsb(color), getNextMessage());
-		assertEquals("Wrong msb color", BytesHelper.msb(color), getNextMessage());
+				ANALOG_MESSAGE_COMMAND | BytesHelper.ENCODE_CHANNEL(pin), getNextMessage());
+		assertEquals("Wrong lsb color", BytesHelper.LSB(color), getNextMessage());
+		assertEquals("Wrong msb color", BytesHelper.MSB(color), getNextMessage());
 	}
 
 	private int percentToSpeed(int percent) {

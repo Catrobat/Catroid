@@ -56,11 +56,8 @@ import java.util.List;
 public class PhiroSetVariableBrick extends UserVariableBrick {
 
 	private static final long serialVersionUID = 1L;
-	private Formula variableFormula;
 	private transient AdapterView<?> adapterView;
 
-	//this is used if there should be a sensor selected by default
-	private boolean isStringInPrototype = false;
 	private String stringInPrototype;
 
 	public PhiroSetVariableBrick() {
@@ -83,10 +80,8 @@ public class PhiroSetVariableBrick extends UserVariableBrick {
 	}
 
 	public PhiroSetVariableBrick(String value) {
-		this.isStringInPrototype = true;
 		this.stringInPrototype = value;
 		initializeBrickFields(new Formula(value));
-		this.variableFormula = new Formula(value);
 		this.userVariable = null;
 	}
 

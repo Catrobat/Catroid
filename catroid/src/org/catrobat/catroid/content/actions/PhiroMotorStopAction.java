@@ -40,20 +40,20 @@ public class PhiroMotorStopAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 
-		Phiro Phiro = btService.getDevice(BluetoothDevice.PHIRO);
-		if (Phiro == null) {
+		Phiro phiro = btService.getDevice(BluetoothDevice.PHIRO);
+		if (phiro == null) {
 			return;
 		}
 
 		switch (motorEnum) {
 			case MOTOR_LEFT:
-				Phiro.stopLeftMotor();
+				phiro.stopLeftMotor();
 				break;
 			case MOTOR_RIGHT:
-				Phiro.stopRightMotor();
+				phiro.stopRightMotor();
 				break;
 			case MOTOR_BOTH:
-				Phiro.stopAllMovements();
+				phiro.stopAllMovements();
 				break;
 		}
 	}
