@@ -252,7 +252,7 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.phiroProMotorMoveForwardAction(sprite, motorEnum,
+		sequence.addAction(ExtendedActions.phiroMotorMoveForwardAction(sprite, motorEnum,
 				getFormulaWithBrickField(BrickField.PHIRO_SPEED)));
 		return null;
 	}

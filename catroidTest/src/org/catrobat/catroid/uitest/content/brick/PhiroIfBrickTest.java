@@ -35,12 +35,9 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
-import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
-import org.catrobat.catroid.content.bricks.PhiroSensorBrick;
-import org.catrobat.catroid.content.bricks.PhiroSensorElseBrick;
-import org.catrobat.catroid.content.bricks.PhiroSensorEndBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -53,7 +50,7 @@ import java.util.ArrayList;
 public class PhiroIfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 	private static final String TAG = PhiroIfBrickTest.class.getSimpleName();
 	private Project project;
-	private PhiroSensorBrick ifBrick;
+	private PhiroIfLogicBeginBrick ifBrick;
 
 	public PhiroIfBrickTest() {
 		super(MainMenuActivity.class);
@@ -107,7 +104,7 @@ public class PhiroIfBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 
-		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof PhiroSensorBrick);
+		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof PhiroIfLogicBeginBrick);
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_phiro_sensor_begin)));
 	}
 
@@ -121,233 +118,6 @@ public class PhiroIfBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("String: " + getActivity().getString(R.string.brick_phiro_sensor_begin) + " not found!", isFound);
 	}
 
-	public void testIfBrickParts() {
-		int dragAndDropSteps = 100;
-		ArrayList<Integer> yPosition;
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
-		Log.d(TAG, "Before drag item 1 to item 4 + 20");
-		logBrickListForJenkins(projectBrickList);
-
-		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-
-		int oldYto = yPosition.get(4) + 20;
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, oldYto, dragAndDropSteps);
-
-		boolean result = solo.waitForLogMessage("longClickAndDrag finished: " + oldYto, 1000);
-		assertTrue("Timeout during longClickAndDrag on item 1! y-Coordinate: " + oldYto, result);
-
-		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
-		assertTrue("Wrong Brick instance.", (projectBrickList.get(1) instanceof PhiroSensorBrick));
-
-		Log.d(TAG, "Before drag item 2 to item 0");
-		logBrickListForJenkins(projectBrickList);
-
-		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		oldYto = yPosition.get(0);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(2), 10, oldYto, dragAndDropSteps);
-
-		result = solo.waitForLogMessage("longClickAndDrag finished: " + oldYto, 1000);
-		assertTrue("Timeout during longClickAndDrag on item 2! y-Coordinate: " + oldYto, result);
-
-		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
-		assertTrue("Wrong Brick instance.", (projectBrickList.get(0) instanceof PhiroSensorBrick));
-
-		Log.d(TAG, "Before drag item 3 to item 0");
-		logBrickListForJenkins(projectBrickList);
-
-		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		oldYto = yPosition.get(0);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(3), 10, oldYto, dragAndDropSteps);
-
-		result = solo.waitForLogMessage("longClickAndDrag finished: " + oldYto, 1000);
-		assertTrue("Timeout during longClickAndDrag on item 3! y-Coordinate: " + oldYto, result);
-
-		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
-		assertTrue("Wrong Brick instance - expected IfElseBrick but was "
-				+ projectBrickList.get(1).getClass().getSimpleName(),
-				projectBrickList.get(1) instanceof PhiroSensorElseBrick);
-
-		assertTrue("Wrong Brick instance - expected ChangeYByNBrick but was "
-						+ projectBrickList.get(2).getClass().getSimpleName(),
-				projectBrickList.get(2) instanceof ChangeYByNBrick
-		);
-
-		Log.d(TAG, "Before drag item 4 to item 0");
-		logBrickListForJenkins(projectBrickList);
-
-		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		oldYto = yPosition.get(0);
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4) - 10, 10, oldYto, dragAndDropSteps);
-		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
-
-		result = solo.waitForLogMessage("longClickAndDrag finished: " + oldYto, 1000);
-		assertTrue("Timeout during longClickAndDrag on item 4! y-Coordinate: " + oldYto, result);
-
-		Log.d(TAG, "After drag item 4 to item 0");
-		logBrickListForJenkins(projectBrickList);
-
-		assertTrue("Wrong Brick instance, expected IfLogicEndBrick but was "
-				+ projectBrickList.get(2).getClass().getSimpleName(),
-				projectBrickList.get(2) instanceof PhiroSensorEndBrick);
-
-		UiTestUtils.addNewBrick(solo, R.string.brick_broadcast_receive);
-		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
-		assertEquals("Incorrect number of Scripts.", 2, sprite.getNumberOfScripts());
-
-		solo.goBack();
-
-		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		solo.clickOnScreen(20, yPosition.get(3));
-		clickOnDeleteInDialog();
-
-		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
-		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeYByNBrick);
-
-		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		oldYto = yPosition.get(2) + 20;
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(1), 10, oldYto, dragAndDropSteps);
-
-		result = solo.waitForLogMessage("longClickAndDrag finished: " + oldYto, 1000);
-		assertTrue("Timeout during longClickAndDrag! y-Coordinate: " + oldYto, result);
-
-		assertEquals("Incorrect number of bricks.", 0, projectBrickList.size());
-		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
-
-		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
-		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeYByNBrick);
-
-		UiTestUtils.addNewBrick(solo, R.string.brick_if_begin);
-		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		int addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
-		solo.drag(20, 20, addedYPosition, yPosition.get(3) + 20, dragAndDropSteps);
-
-		UiTestUtils.addNewBrick(solo, R.string.brick_set_look);
-		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		addedYPosition = UiTestUtils.getAddedListItemYPosition(solo);
-		solo.drag(20, 20, addedYPosition, yPosition.get(5) + 20, dragAndDropSteps);
-
-		yPosition = UiTestUtils.getListItemYPositions(solo, 0);
-		oldYto = yPosition.get(5) + 20;
-		UiTestUtils.longClickAndDrag(solo, 10, yPosition.get(4), 10, oldYto, dragAndDropSteps);
-		projectBrickList = project.getSpriteList().get(0).getScript(1).getBrickList();
-
-		result = solo.waitForLogMessage("longClickAndDrag finished: " + oldYto, 1000);
-		assertTrue("Timeout during longClickAndDrag! y-Coordinate: " + oldYto, result);
-
-		Log.d(TAG, "Final order of bricks");
-		logBrickListForJenkins(projectBrickList);
-
-		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof ChangeYByNBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof IfLogicBeginBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof SetLookBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(3) instanceof IfLogicElseBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(4) instanceof IfLogicEndBrick);
-	}
-
-	public void testCopyIfLogicBeginBrickActionMode() {
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
-		solo.clickOnCheckBox(1);
-		UiTestUtils.acceptAndCloseActionMode(solo);
-
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
-		assertEquals("Incorrect number of bricks.", 7, projectBrickList.size());
-		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof PhiroSensorBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof ChangeYByNBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof PhiroSensorElseBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(3) instanceof PhiroSensorEndBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(4) instanceof PhiroSensorBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(5) instanceof PhiroSensorElseBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(6) instanceof PhiroSensorEndBrick);
-	}
-
-	public void testCopyIfLogicElseBrickActionMode() {
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
-		solo.clickOnCheckBox(3);
-		UiTestUtils.acceptAndCloseActionMode(solo);
-
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
-		assertEquals("Incorrect number of bricks.", 7, projectBrickList.size());
-		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof PhiroSensorBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof ChangeYByNBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof PhiroSensorElseBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(3) instanceof PhiroSensorEndBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(4) instanceof PhiroSensorBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(5) instanceof PhiroSensorElseBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(6) instanceof PhiroSensorEndBrick);
-	}
-
-	public void testCopyIfLogicEndBrickActionMode() {
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
-		solo.clickOnCheckBox(3);
-		UiTestUtils.acceptAndCloseActionMode(solo);
-
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
-		assertEquals("Incorrect number of bricks.", 7, projectBrickList.size());
-		assertTrue("Wrong Brick instance.", projectBrickList.get(0) instanceof PhiroSensorBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(1) instanceof ChangeYByNBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(2) instanceof PhiroSensorElseBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(3) instanceof PhiroSensorEndBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(4) instanceof PhiroSensorBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(5) instanceof PhiroSensorElseBrick);
-		assertTrue("Wrong Brick instance.", projectBrickList.get(6) instanceof PhiroSensorEndBrick);
-	}
-
-	public void testSelectionAfterCopyActionMode() {
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
-		solo.clickOnCheckBox(1);
-
-		UiTestUtils.acceptAndCloseActionMode(solo);
-
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
-		solo.clickOnCheckBox(3);
-
-		CheckBox firstIfLogicBeginBrickCheckBox = (CheckBox) solo.getView(R.id.brick_phiro_sensor_checkbox, 0);
-		CheckBox secondIfLogicBeginBrickCheckBox = (CheckBox) solo.getView(R.id.brick_phiro_sensor_checkbox, 1);
-		CheckBox firstIfLogicElseBrickCheckBox = (CheckBox) solo.getView(R.id.brick_phiro_sensor_else_checkbox, 0);
-		CheckBox secondIfLogicElseBrickCheckBox = (CheckBox) solo.getView(R.id.brick_phiro_sensor_else_checkbox, 1);
-		// Solo doesn't scroll automatically to get those views
-		solo.scrollToBottom();
-		CheckBox firstIfLogicEndBrickCheckBox = (CheckBox) solo.getView(R.id.brick_phiro_sensor_end_if_checkbox, 0);
-		CheckBox secondIfLogicEndBrickCheckBox = (CheckBox) solo.getView(R.id.brick_phiro_sensor_end_if_checkbox, 1);
-
-		assertFalse("CheckBox is checked but shouldn't be.", firstIfLogicBeginBrickCheckBox.isChecked());
-		assertTrue("CheckBox is not checked but should be.", secondIfLogicBeginBrickCheckBox.isChecked());
-		assertFalse("CheckBox is checked but shouldn't be.", firstIfLogicElseBrickCheckBox.isChecked());
-		assertTrue("CheckBox is not checked but should be.", secondIfLogicElseBrickCheckBox.isChecked());
-		assertFalse("CheckBox is checked but shouldn't be.", firstIfLogicEndBrickCheckBox.isChecked());
-		assertTrue("CheckBox is not checked but should be.", secondIfLogicEndBrickCheckBox.isChecked());
-	}
-
-	public void testSelectionActionMode() {
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.copy), R.id.copy, getActivity());
-		UiTestUtils.clickOnCheckBox(solo, 1);
-
-		CheckBox ifLogicBeginBrickCheckbox = (CheckBox) solo.getView(R.id.brick_phiro_sensor_checkbox);
-		CheckBox ifLogicElseBrickCheckbox = (CheckBox) solo.getView(R.id.brick_phiro_sensor_else_checkbox);
-		CheckBox ifLogicEndBrickCheckbox = (CheckBox) solo.getView(R.id.brick_phiro_sensor_end_if_checkbox);
-		CheckBox changeYByNBrickCheckbox = (CheckBox) solo.getView(R.id.brick_change_y_checkbox);
-
-		assertTrue("CheckBox is not checked but shouldn be.", ifLogicBeginBrickCheckbox.isChecked()
-				&& ifLogicElseBrickCheckbox.isChecked() && ifLogicEndBrickCheckbox.isChecked());
-		assertFalse("CheckBox is checked but shouldn't be.", changeYByNBrickCheckbox.isChecked());
-
-		UiTestUtils.acceptAndCloseActionMode(solo);
-
-		UiTestUtils.openActionMode(solo, solo.getString(R.string.delete), R.id.delete, getActivity());
-		UiTestUtils.clickOnCheckBox(solo, 4);
-
-		ifLogicBeginBrickCheckbox = (CheckBox) solo.getView(R.id.brick_phiro_sensor_checkbox);
-		ifLogicElseBrickCheckbox = (CheckBox) solo.getView(R.id.brick_phiro_sensor_else_checkbox);
-		ifLogicEndBrickCheckbox = (CheckBox) solo.getView(R.id.brick_phiro_sensor_end_if_checkbox);
-		changeYByNBrickCheckbox = (CheckBox) solo.getView(R.id.brick_change_y_checkbox);
-
-		assertFalse("CheckBox is not checked but shouldn be.", ifLogicBeginBrickCheckbox.isChecked()
-				&& ifLogicElseBrickCheckbox.isChecked() && ifLogicEndBrickCheckbox.isChecked());
-		assertFalse("CheckBox is checked but shouldn't be.", changeYByNBrickCheckbox.isChecked());
-	}
-
 	private void logBrickListForJenkins(ArrayList<Brick> projectBrickList) {
 		for (Brick brick : projectBrickList) {
 			Log.d(TAG, "Brick at Positon " + projectBrickList.indexOf(brick) + ": " + brick.getClass().getSimpleName());
@@ -358,11 +128,11 @@ public class PhiroIfBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript();
-		ifBrick = new PhiroSensorBrick();
-		PhiroSensorElseBrick ifElseBrick = new PhiroSensorElseBrick(ifBrick);
-		PhiroSensorEndBrick ifEndBrick = new PhiroSensorEndBrick(ifElseBrick, ifBrick);
-		ifBrick.setPhiroSensorElseBrick(ifElseBrick);
-		ifBrick.setPhiroSensorEndBrick(ifEndBrick);
+		ifBrick = new PhiroIfLogicBeginBrick();
+		IfLogicElseBrick ifElseBrick = new IfLogicElseBrick(ifBrick);
+		IfLogicEndBrick ifEndBrick = new IfLogicEndBrick(ifElseBrick, ifBrick);
+		ifBrick.setIfElseBrick(ifElseBrick);
+		ifBrick.setIfEndBrick(ifEndBrick);
 
 		script.addBrick(ifBrick);
 		script.addBrick(new ChangeYByNBrick(-10));

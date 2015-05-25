@@ -73,14 +73,12 @@ import org.catrobat.catroid.content.bricks.LoopEndlessBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
-import org.catrobat.catroid.content.bricks.PhiroSensorBrick;
-import org.catrobat.catroid.content.bricks.PhiroSensorElseBrick;
-import org.catrobat.catroid.content.bricks.PhiroSensorEndBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
@@ -273,14 +271,14 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("light", BrickField.PHIRO_LIGHT_BLUE);
 		brickInfoMap.put("phiroProRGBLightBrick", brickInfo);
 
-		brickInfo = new BrickInfo(PhiroSensorBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(PhiroIfLogicBeginBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.IF_PHIRO_SENSOR_CONDITION);
 		brickInfoMap.put("phiroProSensorBrick", brickInfo);
 
-		brickInfo = new BrickInfo(PhiroSensorElseBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(IfLogicElseBrick.class.getSimpleName());
 		brickInfoMap.put("phiroProSensorElseBrick", brickInfo);
 
-		brickInfo = new BrickInfo(PhiroSensorEndBrick.class.getSimpleName());
+		brickInfo = new BrickInfo(IfLogicEndBrick.class.getSimpleName());
 		brickInfoMap.put("phiroProSensorEndBrick", brickInfo);
 
 		brickInfo = new BrickInfo(LoopEndBrick.class.getSimpleName());

@@ -51,11 +51,13 @@
            android:text="@string/brick_phiro_sensor_begin" >
         </TextView >
 
+        <!--
         <TextView
            android:id="@+id/brick_phiro_sensor_action_label"
            style="@style/BrickText.SingleLine"
            android:text="@string/brick_phiro_sensor_action" >
         </TextView>
+        -->
 
         <Spinner
             android:id="@+id/brick_phiro_sensor_action_spinner"

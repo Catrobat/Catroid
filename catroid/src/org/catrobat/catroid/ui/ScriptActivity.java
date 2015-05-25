@@ -331,38 +331,7 @@ public class ScriptActivity extends BaseActivity {
 		if (formulaEditor != null && formulaEditor.isVisible()) {
 			scriptFragment.getAdapter().updateProjectBrickList();
 			return formulaEditor.onKey(null, keyCode, event);
-
-		/*
-		FormulaEditorFragment phiroProFormulaEditor = (FormulaEditorFragment) getSupportFragmentManager().findFragmentByTag(
-				FormulaEditorFragment.PHIRO_PRO_LIGHT_BRICK_FRAGMENT_TAG);
-
-		if (phiroProFormulaEditor != null && phiroProFormulaEditor.isVisible()) {
-			scriptFragment.getAdapter().updateProjectBrickList();
-			return phiroProFormulaEditor.onKey(null, keyCode, event);
-	    */
 		}
-
-		/*
-		//ToDo: #Kodey check if we are allowed to do this
-		KodeyMultipleSeekbarFragment kodeyFragment = (KodeyMultipleSeekbarFragment) getSupportFragmentManager().findFragmentByTag(
-				KodeyMultipleSeekbarFragment.FORMULA_EDITOR_MULTIPLE_SEEKBAR_FRAGMENT_TAG);
-		KodeyMotorForwardSingleSeekbarFragment kodeyMotorForwardFragment = (KodeyMotorForwardSingleSeekbarFragment) getSupportFragmentManager().findFragmentByTag(
-				KodeyMotorForwardSingleSeekbarFragment.FORMULA_EDITOR_MOTOR_FORWARD_SINGLE_SEEKBAR_FRAGMENT_TAG);
-		KodeyMotorBackwardSingleSeekbarFragment kodeyMotorBackwardFragment = (KodeyMotorBackwardSingleSeekbarFragment) getSupportFragmentManager().findFragmentByTag(
-				KodeyMotorBackwardSingleSeekbarFragment.FORMULA_EDITOR_MOTOR_BACKWARD_SINGLE_SEEKBAR_FRAGMENT_TAG);
-		if (kodeyFragment != null && kodeyFragment.isVisible()) {
-			scriptFragment.getAdapter().updateProjectBrickList();
-			return phiroProFragment.onKey(null, keyCode, event);
-		}
-		if (phiroProMotorForwardFragment != null && phiroProMotorForwardFragment.isVisible()) {
-			scriptFragment.getAdapter().updateProjectBrickList();
-			return phiroProMotorForwardFragment.onKey(null, keyCode, event);
-		}
-		if (phiroProMotorBackwardFragment != null && phiroProMotorBackwardFragment.isVisible()) {
-			scriptFragment.getAdapter().updateProjectBrickList();
-			return phiroProMotorBackwardFragment.onKey(null, keyCode, event);
-		}
-		*/
 		if (soundFragment != null && soundFragment.isVisible() && soundFragment.onKey(null, keyCode, event)) {
 			return true;
 		}

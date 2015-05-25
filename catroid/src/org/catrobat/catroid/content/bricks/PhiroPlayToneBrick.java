@@ -230,7 +230,7 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		sequence.addAction(ExtendedActions.phiroProPlayToneAction(sprite, toneEnum,
+		sequence.addAction(ExtendedActions.phiroPlayToneAction(sprite, toneEnum,
 				getFormulaWithBrickField(BrickField.PHIRO_DURATION_IN_SECONDS)));
 		return null;
 	}
