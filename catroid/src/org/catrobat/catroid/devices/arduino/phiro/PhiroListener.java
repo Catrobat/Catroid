@@ -25,14 +25,15 @@ package org.catrobat.catroid.devices.arduino.phiro;
 
 import android.util.Log;
 
-import org.catrobat.catroid.devices.arduino.common.firmata.IFirmata;
-import org.catrobat.catroid.devices.arduino.common.firmata.message.AnalogMessage;
-import org.catrobat.catroid.devices.arduino.common.firmata.message.DigitalMessage;
-import org.catrobat.catroid.devices.arduino.common.firmata.message.FirmwareVersionMessage;
-import org.catrobat.catroid.devices.arduino.common.firmata.message.I2cReplyMessage;
-import org.catrobat.catroid.devices.arduino.common.firmata.message.ProtocolVersionMessage;
-import org.catrobat.catroid.devices.arduino.common.firmata.message.StringSysexMessage;
-import org.catrobat.catroid.devices.arduino.common.firmata.message.SysexMessage;
+import name.antonsmirnov.firmata.IFirmata;
+import name.antonsmirnov.firmata.message.AnalogMessage;
+import name.antonsmirnov.firmata.message.DigitalMessage;
+import name.antonsmirnov.firmata.message.FirmwareVersionMessage;
+import name.antonsmirnov.firmata.message.I2cReplyMessage;
+import name.antonsmirnov.firmata.message.ProtocolVersionMessage;
+import name.antonsmirnov.firmata.message.StringSysexMessage;
+import name.antonsmirnov.firmata.message.SysexMessage;
+
 
 class PhiroListener implements IFirmata.Listener {
 
@@ -47,7 +48,6 @@ class PhiroListener implements IFirmata.Listener {
 
 	@Override
 	public void onAnalogMessageReceived(AnalogMessage message) {
-
 		if (message.getValue() > 1023 || message.getValue() < 0) {
 			return;
 		}

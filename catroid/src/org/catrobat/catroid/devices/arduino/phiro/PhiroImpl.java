@@ -27,21 +27,22 @@ import android.util.Log;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
-import org.catrobat.catroid.devices.arduino.common.firmata.Firmata;
-import org.catrobat.catroid.devices.arduino.common.firmata.message.AnalogMessage;
-import org.catrobat.catroid.devices.arduino.common.firmata.message.Message;
-import org.catrobat.catroid.devices.arduino.common.firmata.message.ReportAnalogPinMessage;
-import org.catrobat.catroid.devices.arduino.common.firmata.message.ReportFirmwareVersionMessage;
-import org.catrobat.catroid.devices.arduino.common.firmata.message.SetPinModeMessage;
-import org.catrobat.catroid.devices.arduino.common.firmata.serial.ISerial;
-import org.catrobat.catroid.devices.arduino.common.firmata.serial.SerialException;
-import org.catrobat.catroid.devices.arduino.common.firmata.serial.StreamingSerialAdapter;
 import org.catrobat.catroid.formulaeditor.Sensors;
 
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
+
+import name.antonsmirnov.firmata.Firmata;
+import name.antonsmirnov.firmata.message.AnalogMessage;
+import name.antonsmirnov.firmata.message.Message;
+import name.antonsmirnov.firmata.message.ReportAnalogPinMessage;
+import name.antonsmirnov.firmata.message.ReportFirmwareVersionMessage;
+import name.antonsmirnov.firmata.message.SetPinModeMessage;
+import name.antonsmirnov.firmata.serial.ISerial;
+import name.antonsmirnov.firmata.serial.SerialException;
+import name.antonsmirnov.firmata.serial.StreamingSerialAdapter;
 
 public class PhiroImpl implements Phiro {
 

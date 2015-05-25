@@ -55,32 +55,32 @@ public class PhiroPlayToneAction extends TemporalAction {
             Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
         }
 
-		Phiro Phiro = btService.getDevice(BluetoothDevice.PHIRO);
-		if (Phiro == null) {
+		Phiro phiro = btService.getDevice(BluetoothDevice.PHIRO);
+		if (phiro == null) {
 			return;
 		}
 
 		switch (toneEnum) {
 			case DO:
-				Phiro.playTone(262, durationInterpretation);
+				phiro.playTone(262, durationInterpretation);
 				break;
 			case RE:
-				Phiro.playTone(294, durationInterpretation);
+				phiro.playTone(294, durationInterpretation);
 				break;
 			case MI:
-				Phiro.playTone(330, durationInterpretation);
+				phiro.playTone(330, durationInterpretation);
 				break;
 			case FA:
-				Phiro.playTone(349, durationInterpretation);
+				phiro.playTone(349, durationInterpretation);
 				break;
 			case SO:
-				Phiro.playTone(392, durationInterpretation);
+				phiro.playTone(392, durationInterpretation);
 				break;
 			case LA:
-				Phiro.playTone(440, durationInterpretation);
+				phiro.playTone(440, durationInterpretation);
 				break;
 			case TI:
-				Phiro.playTone(494, durationInterpretation);
+				phiro.playTone(494, durationInterpretation);
 				break;
 		}
 	}

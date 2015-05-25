@@ -62,21 +62,21 @@ public class PhiroMotorMoveForwardAction extends TemporalAction {
 			speedValue = MAX_SPEED;
 		}
 
-		Phiro Phiro = btService.getDevice(BluetoothDevice.PHIRO);
-		if (Phiro == null) {
+		Phiro phiro = btService.getDevice(BluetoothDevice.PHIRO);
+		if (phiro == null) {
 			return;
 		}
 
 		switch (motorEnum) {
 			case MOTOR_LEFT:
-				Phiro.moveLeftMotorForward(speedValue);
+				phiro.moveLeftMotorForward(speedValue);
 				break;
 			case MOTOR_RIGHT:
-				Phiro.moveRightMotorForward(speedValue);
+				phiro.moveRightMotorForward(speedValue);
 				break;
 			case MOTOR_BOTH:
-				Phiro.moveRightMotorForward(speedValue);
-				Phiro.moveLeftMotorForward(speedValue);
+				phiro.moveRightMotorForward(speedValue);
+				phiro.moveLeftMotorForward(speedValue);
 				break;
 		}
 	}
