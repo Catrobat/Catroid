@@ -616,17 +616,14 @@
 
     <!-- Phiro bricks -->
     <!-- motor -->
-    <string name="phiro_motor_stop">Phiro stop motor</string>
-    <string name="brick_phiro_motor_forward_action">Phiro move motor forward</string>
-    <string name="brick_phiro_motor_backward_action">Phiro move motor backward</string>
+    <string name="phiro_motor_stop">Stop Phiro motor</string>
+    <string name="brick_phiro_motor_forward_action">Move Phiro motor forward</string>
+    <string name="brick_phiro_motor_backward_action">Move Phiro motor backward</string>
     <string name="phiro_motor_speed">Speed</string>
 
     <!-- sensor -->
-    <string name="brick_phiro_sensor_action">Phiro</string>
-    <string name="brick_phiro_sensor_begin">If \n</string>
+    <string name="brick_phiro_sensor_begin">If Phiro</string>
     <string name="brick_phiro_sensor_second_part">is activated</string>
-    <string name="brick_phiro_sensor_else">Else</string>
-    <string name="brick_phiro_sensor_end">End If</string>
 
     <!-- tone -->
     <string name="phiro_play_tone">Phiro music\n</string>

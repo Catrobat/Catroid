@@ -195,7 +195,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static PhiroPlayToneAction phiroProPlayToneAction(Sprite sprite, PhiroPlayToneBrick.Tone toneEnum,
+	public static PhiroPlayToneAction phiroPlayToneAction(Sprite sprite, PhiroPlayToneBrick.Tone toneEnum,
 			Formula duration) {
 		PhiroPlayToneAction action = action(PhiroPlayToneAction.class);
 		action.setSelectedTone(toneEnum);
@@ -204,7 +204,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static PhiroMotorMoveForwardAction phiroProMotorMoveForwardAction(Sprite sprite, PhiroMotorMoveForwardBrick.Motor motorEnum,
+	public static PhiroMotorMoveForwardAction phiroMotorMoveForwardAction(Sprite sprite, PhiroMotorMoveForwardBrick.Motor motorEnum,
 			Formula speed) {
 		PhiroMotorMoveForwardAction action = action(PhiroMotorMoveForwardAction.class);
 		action.setMotorEnum(motorEnum);
@@ -213,7 +213,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static PhiroMotorMoveBackwardAction phiroProMotorMoveBackwardAction(Sprite sprite, PhiroMotorMoveBackwardBrick.Motor motorEnum,
+	public static PhiroMotorMoveBackwardAction phiroMotorMoveBackwardAction(Sprite sprite, PhiroMotorMoveBackwardBrick.Motor motorEnum,
 			Formula speed) {
 		PhiroMotorMoveBackwardAction action = action(PhiroMotorMoveBackwardAction.class);
 		action.setMotorEnum(motorEnum);
@@ -222,7 +222,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static PhiroRGBLightAction phiroProRgbLedEyeAction(Sprite sprite, PhiroRGBLightBrick.Eye eye,
+	public static PhiroRGBLightAction phiroRgbLedEyeAction(Sprite sprite, PhiroRGBLightBrick.Eye eye,
 			Formula red, Formula green, Formula blue) {
 		PhiroRGBLightAction action = action(PhiroRGBLightAction.class);
 		action.setSprite(sprite);
@@ -233,8 +233,8 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static PhiroProSensorAction phiroProSendSelectedSensor(Sprite sprite, int sensorNumber, Action ifAction, Action elseAction) {
-		PhiroProSensorAction action = action(PhiroProSensorAction.class);
+	public static PhiroSensorAction phiroSendSelectedSensor(Sprite sprite, int sensorNumber, Action ifAction, Action elseAction) {
+		PhiroSensorAction action = action(PhiroSensorAction.class);
 		action.setSprite(sprite);
 		action.setSensor(sensorNumber);
 		action.setIfAction(ifAction);
@@ -242,7 +242,7 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static PhiroMotorStopAction phiroProMotorStopAction(PhiroMotorStopBrick.Motor motorEnum) {
+	public static PhiroMotorStopAction phiroMotorStopAction(PhiroMotorStopBrick.Motor motorEnum) {
 		PhiroMotorStopAction action = action(PhiroMotorStopAction.class);
 		action.setMotorEnum(motorEnum);
 		return action;

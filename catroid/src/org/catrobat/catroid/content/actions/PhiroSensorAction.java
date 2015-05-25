@@ -33,7 +33,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.Sensors;
 
-public class PhiroProSensorAction extends Action {
+public class PhiroSensorAction extends Action {
 
 	private int sensorNumber;
 	private Sprite sprite;
@@ -51,7 +51,7 @@ public class PhiroProSensorAction extends Action {
 				return;
 			}
 			Double interpretation = ifCondition.interpretDouble(sprite);
-			ifConditionValue = interpretation.intValue() <= 750 ? true : false;
+			ifConditionValue = interpretation.intValue() <= 850 ? true : false;
 			isInterpretedCorrectly = true;
 		} catch (InterpretationException interpretationException) {
 			isInterpretedCorrectly = false;

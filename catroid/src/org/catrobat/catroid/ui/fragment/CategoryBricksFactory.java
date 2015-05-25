@@ -72,12 +72,12 @@ import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
-import org.catrobat.catroid.content.bricks.PhiroSensorBrick;
 import org.catrobat.catroid.content.bricks.PhiroSetVariableBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
@@ -180,7 +180,7 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new RepeatBrick(BrickValues.REPEAT));
 
 		if (BuildConfig.FEATURE_PHIRO_ENABLED) {
-			controlBrickList.add(new PhiroSensorBrick());
+			controlBrickList.add(new PhiroIfLogicBeginBrick());
 		}
 
 		return controlBrickList;
@@ -364,7 +364,7 @@ public class CategoryBricksFactory {
 		phiroProBrickList.add(new PhiroPlayToneBrick(PhiroPlayToneBrick.Tone.DO,
 				BrickValues.PHIRO_DURATION));
 		phiroProBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.Both, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));
-		phiroProBrickList.add(new PhiroSensorBrick());
+		phiroProBrickList.add(new PhiroIfLogicBeginBrick());
 		phiroProBrickList.add(new PhiroSetVariableBrick(Sensors.PHIRO_PRO_FRONT_LEFT.toString()));
 		phiroProBrickList.add(new PhiroSetVariableBrick(Sensors.PHIRO_PRO_FRONT_RIGHT.toString()));
 		phiroProBrickList.add(new PhiroSetVariableBrick(Sensors.PHIRO_PRO_SIDE_LEFT.toString()));
