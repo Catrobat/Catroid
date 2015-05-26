@@ -33,7 +33,14 @@
             android:summary="@string/preference_description_mindstorms_nxt_bricks"
             android:title="@string/preference_title_enable_mindstorms_nxt_bricks" />
 
+        <CheckBoxPreference android:key="settings_mindstorms_nxt_show_sensor_info_box_disabled"
+            android:defaultValue="false"
+            android:title="@string/preference_disable_nxt_info_dialog"
+            android:summary="@string/preference_disable_nxt_info_dialog_description"/>
+
         <PreferenceCategory android:title="@string/preference_title_mindstorms_nxt_sensors">
+             <Preference android:summary="@string/preference_title_mindstorms_nxt_sensors_description" />
+
             <ListPreference android:key="setting_mindstorms_nxt_sensor_1"
                 android:title="@string/nxt_choose_sensor_1"
                 android:defaultValue="TOUCH"
