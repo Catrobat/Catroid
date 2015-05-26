@@ -149,6 +149,9 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 				}
 			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
 				setProgressBarIndeterminateVisibility(false);
+
+				findViewById(R.id.device_list_progress_bar).setVisibility(View.GONE);
+
 				setTitle(getString(R.string.select_device) + " " + btDevice.getName());
 				if (newDevicesArrayAdapter.isEmpty()) {
 					String noDevices = getResources().getString(R.string.none_found);
@@ -319,11 +322,14 @@ public class ConnectBluetoothDeviceActivity extends Activity {
 
 		findViewById(R.id.title_new_devices).setVisibility(View.VISIBLE);
 
+		findViewById(R.id.device_list_progress_bar).setVisibility(View.VISIBLE);
+
 		if (btManager.getBluetoothAdapter().isDiscovering()) {
 			btManager.getBluetoothAdapter().cancelDiscovery();
 		}
 
 		btManager.getBluetoothAdapter().startDiscovery();
+
 	}
 
 	private int activateBluetooth() {
