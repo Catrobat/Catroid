@@ -34,58 +34,53 @@ import org.catrobat.catroid.stage.TextActor;
 
 public class SetTextAction extends TemporalAction {
 
-	private Formula endX;
-	private Formula endY;
-	private Formula text;
+    private Formula endX;
+    private Formula endY;
+    private Formula text;
+    private Sprite sprite;
+    private TextActor actor;
 
-	private Sprite sprite;
-	private TextActor actor;
+    @Override
+    protected void begin() {
+        try {
+            String string = text.interpretString(sprite);
+            int posX = endX.interpretInteger(sprite);
+            int posY = endY.interpretInteger(sprite);
 
-	@Override
-	protected void begin() {
-		try {
-			String string = text.interpretString(sprite);
-			int posX = endX.interpretInteger(sprite);
-			int posY = endY.interpretInteger(sprite);
+            actor = new TextActor(string, posX, posY);
+            StageActivity.stageListener.addActor(actor);
+        } catch (InterpretationException exception) {
+            Log.e(getClass().getSimpleName(), Log.getStackTraceString(exception));
+        }
+    }
 
-			actor = new TextActor(string, posX, posY);
-			StageActivity.stageListener.addActor(actor);
-		} catch (InterpretationException exception) {
-			Log.e(getClass().getSimpleName(), Log.getStackTraceString(exception));
-		}
-	}
+    @Override
+    protected void update(float percent) {
+        try {
+            String str = text.interpretString(sprite);
+            int posX = endX.interpretInteger(sprite);
+            int posY = endY.interpretInteger(sprite);
 
-	@Override
-	protected void update(float percent) {
-		try {
-			String str = text.interpretString(sprite);
-			int posX = endX.interpretInteger(sprite);
-			int posY = endY.interpretInteger(sprite);
+            actor.setText(str);
+            actor.setPosX(posX);
+            actor.setPosY(posY);
+        } catch (InterpretationException exception) {
+            Log.e(getClass().getSimpleName(), Log.getStackTraceString(exception));
+        }
+    }
 
-		    actor.setText(str);
-			actor.setPosX(posX);
-			actor.setPosY(posY);
-		} catch (InterpretationException exception) {
-			Log.e(getClass().getSimpleName(), Log.getStackTraceString(exception));
-		}
-	}
+    public void setPosition(Formula x, Formula y) {
+        endX = x;
+        endY = y;
+    }
 
-	public void setDuration(Formula duration) {
-		this.duration = duration;
-	}
+    public void setText(Formula text) {
+        this.text = text;
+    }
 
-	public void setPosition(Formula x, Formula y) {
-		endX = x;
-		endY = y;
-	}
-
-	public void setText(Formula text) {
-		this.text = text;
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
+    }
 
 
 }
