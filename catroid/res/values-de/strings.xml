@@ -363,7 +363,6 @@
     <string name="brick_change_size_by">Ändere Größe um</string>
     <string name="brick_hide">Verstecke dich</string>
     <string name="brick_show">Zeige dich</string>
-    <string name="brick_set_ghost_effect">"Setze Transparenz "</string>
     <string name="brick_change_ghost_effect">"Ändere Transparenz "</string>
     <string name="brick_set_brightness">"Setze Helligkeit "</string>
     <string name="brick_change_brightness">"Ändere Helligkeit "</string>
@@ -658,7 +657,6 @@
     <string name="formula_editor_sensor_face_y_position">Gesichtsposition_y</string>
     <string name="formula_editor_object_x">Position_x</string>
     <string name="formula_editor_object_y">Position_y</string>
-    <string name="formula_editor_object_ghosteffect">Transparenz</string>
     <string name="formula_editor_object_brightness">Helligkeit</string>
     <string name="formula_editor_object_size">Größe</string>
     <string name="formula_editor_object_rotation">Richtung</string>
@@ -684,14 +682,9 @@
     <string name="formula_editor_operator_minus">-</string>
     <string name="formula_editor_operator_divide">÷</string>
     <string name="formula_editor_operator_power">^</string>
-    <string name="formula_editor_image_button_description_undo">Rückgängig</string>
-    <string name="formula_editor_image_button_description_redo">Wiederherstellen</string>
     <string name="formula_editor_image_button_description_delete">Löschen</string>
     <string name="formula_editor_variable_dialog_title">Neue Variable</string>
-    <string name="formula_editor_variable_dialog_for_all_sprites">Für alle Objekte</string>
     <string name="formula_editor_variable_dialog_for_this_brick">Für diesen Baustein</string>
-    <string name="formula_editor_variable_dialog_for_this_sprite_only">Nur für dieses Objekt</string>
-    <string name="formula_editor_variable_dialog_hint">Variablenname eingeben</string>
     <string name="formula_editor_discard_changes_dialog_message">Möchten Sie die Änderungen speichern?</string>
     <string name="formula_editor_discard_changes_dialog_title">Änderungen speichern?</string>
     <string name="variable_name">Variablenname:</string>
