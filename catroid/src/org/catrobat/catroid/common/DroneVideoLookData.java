@@ -45,7 +45,7 @@ public class DroneVideoLookData extends LookData{
 
 	@Override
 	public int[] getMeasure() {
-		return defaultVideoTextureSize;
+		return defaultVideoTextureSize.clone();
 	}
 
 	@Override

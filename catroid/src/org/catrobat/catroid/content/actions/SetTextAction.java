@@ -36,7 +36,6 @@ public class SetTextAction extends TemporalAction {
 
 	private Formula endX;
 	private Formula endY;
-	private Formula duration;
 	private Formula text;
 
 	private Sprite sprite;

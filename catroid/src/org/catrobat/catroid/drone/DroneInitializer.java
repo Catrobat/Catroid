@@ -72,11 +72,9 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
     private static final String TAG = DroneInitializer.class.getSimpleName();
 
     private PreStageActivity prestageStageActivity;
-    private Intent returnToActivityIntent = null;
 
     public DroneInitializer(PreStageActivity prestageStageActivity, Intent returnToActivityIntent) {
         this.prestageStageActivity = prestageStageActivity;
-        this.returnToActivityIntent = returnToActivityIntent;
     }
 
     private void showTermsOfUseDialog() {

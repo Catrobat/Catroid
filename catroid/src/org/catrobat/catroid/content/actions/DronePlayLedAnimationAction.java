@@ -30,8 +30,6 @@ import org.catrobat.catroid.drone.DroneServiceWrapper;
 
 public class DronePlayLedAnimationAction extends TemporalAction {
 
-    private static final String TAG = DronePlayLedAnimationAction.class.getSimpleName();
-
     @Override
     protected void begin() {
         super.begin();
