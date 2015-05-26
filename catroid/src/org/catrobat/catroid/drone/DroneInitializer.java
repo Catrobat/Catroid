@@ -73,7 +73,7 @@ public class DroneInitializer implements DroneReadyReceiverDelegate, DroneConnec
 
     private PreStageActivity prestageStageActivity;
 
-    public DroneInitializer(PreStageActivity prestageStageActivity, Intent returnToActivityIntent) {
+    public DroneInitializer(PreStageActivity prestageStageActivity) {
         this.prestageStageActivity = prestageStageActivity;
     }
 
