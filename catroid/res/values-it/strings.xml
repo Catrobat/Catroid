@@ -564,5 +564,5 @@
   <string name="new_user_brick_variable">Variabile 1</string>
   <string name="recursive_user_brick_forbidden">Non è ancora possibile aggiungere un mattoncino personalizzato ad un mattoncino personalizzato!</string>
   <string name="brick_single">Mattoncino</string>
-  <string name="brick_multiple">Mattoncini</string>
+  <string name="brick_multiple">Mattoncini</string><string name="preference_disable_nxt_info_dialog">Disable Info Dialog</string><string name="preference_disable_nxt_info_dialog_description">Project specific NXT settings are not shown when opening a project.</string><string name="preference_title_mindstorms_nxt_sensors_description">The mapping of NXT sensors to ports is project specific and can only be configured for opened projects!</string><string name="lego_nxt_sensor_config_info_text">The current project uses Lego Mindstorms NXT bricks or sensors. For proper functionality please connect the sensors to the robot as follows</string><string name="nxt_port_1">Port 1</string><string name="nxt_port_2">Port 2</string><string name="nxt_port_3">Port 3</string><string name="nxt_port_4">Port 4</string><string name="lego_nxt_sensor_config_dont_show_again">Do not show this message again.</string>
 </resources>

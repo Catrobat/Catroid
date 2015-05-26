@@ -43,6 +43,7 @@ import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 public class SettingsActivity extends SherlockPreferenceActivity {
 
 	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "settings_mindstorms_nxt_bricks_enabled";
+	public static final String SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_nxt_show_sensor_info_box_disabled";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
 	PreferenceScreen screen = null;
@@ -107,11 +108,15 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 	}
 
 	private void setNXTSensors() {
+
+		boolean areChoosersEnabled = getMindstormsNXTSensorChooserEnabled(this);
+
 		final String[] sensorPreferences = new String[] {NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4};
 		for (int i = 0; i < sensorPreferences.length; ++i) {
 			ListPreference listPreference = (ListPreference) findPreference(sensorPreferences[i]);
 			listPreference.setEntryValues(NXTSensor.Sensor.getSensorCodes());
 			listPreference.setEntries(R.array.nxt_sensor_chooser);
+			listPreference.setEnabled(areChoosersEnabled);
 		}
 	}
 
@@ -186,5 +191,27 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true);
 		editor.commit();
+	}
+
+	public static void setMindstormsNXTSensorChooserEnabled(Context context, boolean enable) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean("mindstorms_nxt_sensor_chooser_in_settings", enable);
+		editor.commit();
+	}
+
+	public static boolean getMindstormsNXTSensorChooserEnabled(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean("mindstorms_nxt_sensor_chooser_in_settings", false);
+	}
+
+	public static void disableLegoMindstormsSensorInfoDialog(Context context) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED, true);
+		editor.commit();
+	}
+
+	public static boolean getShowLegoMindstormsSensorInfoDialog(Context context) {
+		SharedPreferences preferences = getSharedPreferences(context);
+		return preferences.getBoolean(SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED, false);
 	}
 }

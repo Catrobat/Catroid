@@ -61,6 +61,13 @@
         <item name="android:layout_marginRight" >@dimen/dialog_item_margin</item >
     </style >
 
+    <style name="DefaultDialog.Mapping" >
+        <item name="android:layout_width" >match_parent</item >
+        <item name="android:layout_height" >wrap_content</item >
+        <item name="android:layout_marginLeft" >@dimen/dialog_item_margin</item >
+        <item name="android:layout_marginRight" >2dp</item >
+    </style >
+
     <style name="DefaultDialog.TextView" parent="DefaultDialog.Item" >
         <item name="android:paddingLeft" >8dp</item >
         <item name="android:paddingBottom" >@dimen/dialog_item_header_linepadding</item >
