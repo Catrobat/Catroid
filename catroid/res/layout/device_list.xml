@@ -58,6 +58,27 @@
         android:textSize="15sp"
         android:visibility="gone" />
 
+    <LinearLayout
+        android:id="@+id/device_list_progress_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent" />
+
+        <TextView
+        android:id="@+id/device_list_loading_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/searching_devices"/>
+
+    </LinearLayout >
+
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
