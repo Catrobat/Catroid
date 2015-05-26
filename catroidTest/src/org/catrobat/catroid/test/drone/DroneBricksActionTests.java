@@ -184,21 +184,21 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).turnRight(0);
 	}
 
-	public void testConfigBrickSpinnerPosition_0() {
+	public void testConfigBrickSpinnerPosition0() {
 		DroneSetConfigBrick configBrick = new DroneSetConfigBrick();
 		configBrick.setSpinnerPosition(0);
 		addActionToSequenceAndAct(configBrick);
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).resetConfigToDefaults();
 	}
 
-	public void testConfigBrickSpinnerPosition_1() {
+	public void testConfigBrickSpinnerPosition1() {
 		DroneSetConfigBrick configBrick = new DroneSetConfigBrick();
 		configBrick.setSpinnerPosition(1);
 		addActionToSequenceAndAct(configBrick);
 		Mockito.verify(droneConfig, Mockito.atLeast(1)).setOutdoorFlight(false);
 	}
 
-	public void testConfigBrickSpinnerPosition_2() {
+	public void testConfigBrickSpinnerPosition2() {
 		DroneSetConfigBrick configBrick = new DroneSetConfigBrick();
 		configBrick.setSpinnerPosition(2);
 		addActionToSequenceAndAct(configBrick);

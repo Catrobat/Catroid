@@ -46,14 +46,6 @@ public class DroneSimpleBricksTest extends BaseActivityInstrumentationTestCase<M
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 	}
 
-	public void testAllSimpleDroneBricks() {
-
-		testDroneSwitchCamera();
-		testSetConfig();
-		testToggleCamera();
-
-	}
-
 	public void testDroneSwitchCamera() {
 
 		UiTestUtils.addNewBrick(solo, R.string.category_drone, R.string.brick_drone_switch_camera);
@@ -70,13 +62,13 @@ public class DroneSimpleBricksTest extends BaseActivityInstrumentationTestCase<M
 
 	public void testSetConfig() {
 
-		UiTestUtils.addNewBrick(solo, R.string.category_drone, R.string.brick_drone_set_cofig);
+		UiTestUtils.addNewBrick(solo, R.string.category_drone, R.string.brick_drone_set_config);
 		UiTestUtils.dragFloatingBrickDownwards(solo);
 
 		solo.clickOnText(solo.getString(R.string.drone_config_default));
 		solo.clickOnText(solo.getString(R.string.drone_config_indoor));
 
-		solo.clickOnText(solo.getString(R.string.brick_drone_set_cofig));
+		solo.clickOnText(solo.getString(R.string.brick_drone_set_config));
 		solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_brick));
 		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
 		solo.clickOnText(solo.getString(R.string.yes));

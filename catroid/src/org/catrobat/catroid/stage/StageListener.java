@@ -25,8 +25,6 @@ package org.catrobat.catroid.stage;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
-import android.opengl.GLES20;
-import android.opengl.GLUtils;
 import android.os.SystemClock;
 import android.util.Log;
 
@@ -53,7 +51,6 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.common.collect.Multimap;
-import com.parrot.freeflight.ui.gl.GLBGVideoSprite;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;

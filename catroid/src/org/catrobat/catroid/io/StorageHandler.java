@@ -74,9 +74,9 @@ import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
 import org.catrobat.catroid.content.bricks.DronePlayLedAnimationBrick;
 import org.catrobat.catroid.content.bricks.DroneSetConfigBrick;
-import org.catrobat.catroid.content.bricks.DroneToggleVideoBrick;
 import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
+import org.catrobat.catroid.content.bricks.DroneToggleVideoBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
@@ -116,8 +116,8 @@ import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetTextBrick;
+import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
@@ -689,27 +689,27 @@ public final class StorageHandler {
 				}
 			}
 
-			File outputFile = new File(newFilePath);
-			return copyFileAddCheckSum(outputFile, inputFile);
-		}
-	}
+            File outputFile = new File(newFilePath);
+            return copyFileAddCheckSum(outputFile, inputFile);
+        }
+    }
 
-	public File makeTempImageCopy(String inputFilePath) throws IOException {
-		File tempDirectory = new File(Constants.TMP_PATH);
+    public File makeTempImageCopy(String inputFilePath) throws IOException {
+        File tempDirectory = new File(Constants.TMP_PATH);
 
-		File inputFile = new File(inputFilePath);
-		if (!inputFile.exists() || !inputFile.canRead()) {
-			return null;
-		}
+        File inputFile = new File(inputFilePath);
+        if (!inputFile.exists() || !inputFile.canRead()) {
+            return null;
+        }
 
-		File outputFileDirectory = new File(tempDirectory.getAbsolutePath());
-		if (outputFileDirectory.exists() == false) {
-			outputFileDirectory.mkdirs();
-		}
+        File outputFileDirectory = new File(tempDirectory.getAbsolutePath());
+        if (outputFileDirectory.exists() == false) {
+            outputFileDirectory.mkdirs();
+        }
 
-		File outputFile = new File(Constants.TMP_IMAGE_PATH);
+        File outputFile = new File(Constants.TMP_IMAGE_PATH);
 
-		File copiedFile = UtilFile.copyFile(outputFile, inputFile);
+        File copiedFile = UtilFile.copyFile(outputFile, inputFile);
 
 		return copiedFile;
 	}

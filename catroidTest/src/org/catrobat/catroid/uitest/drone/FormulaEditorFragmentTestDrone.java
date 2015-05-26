@@ -47,14 +47,6 @@ public class FormulaEditorFragmentTestDrone extends BaseActivityInstrumentationT
 		super.setUp();
 	}
 
-	public void testDroneBricksEnabled() {
-
-
-	}
-	public void testDroneBricksDisabled() {
-
-	}
-
 	public void testChangeFormula() {
 		//makeSingleBrickTest();
 

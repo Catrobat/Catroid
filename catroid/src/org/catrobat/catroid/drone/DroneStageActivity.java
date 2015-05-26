@@ -139,8 +139,9 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
         emergencyMethod method = emergencyMethod.NOTHING;
 
         Log.d(getClass().getSimpleName(), "message code integer value: " + Integer.toString(code));
-        if (code == NavData.ERROR_STATE_NONE || code == NavData.ERROR_STATE_START_NOT_RECEIVED)
+        if (code == NavData.ERROR_STATE_NONE || code == NavData.ERROR_STATE_START_NOT_RECEIVED) {
             return;
+        }
 
         int messageID;
 
@@ -186,10 +187,9 @@ public class DroneStageActivity extends StageActivity implements DroneBatteryCha
                 method = emergencyMethod.ALERT;
                 Log.d(getClass().getSimpleName(), "message code: " + getResources().getString(R.string.drone_emergency_cutout));
                 break;
-            default: {
+            default:
                 Log.d(getClass().getSimpleName(), "message code (number): " + code);
                 return;
-            }
         }
 
         switch (method) {

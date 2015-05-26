@@ -36,7 +36,6 @@ import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -69,28 +68,29 @@ public class PreStageActivity extends BaseActivity {
 	public static final int REQUEST_RESOURCES_INIT = 101;
 	public static final int REQUEST_TEXT_TO_SPEECH = 10;
 
-	private int requiredResourceCounter;
+    private int requiredResourceCounter;
 
 	private static TextToSpeech textToSpeech;
 	private static OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer;
 
-	private DroneInitializer droneInitializer = null;
+    private DroneInitializer droneInitializer = null;
 
-	private Intent returnToActivityIntent = null;
+    private Intent returnToActivityIntent = null;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		returnToActivityIntent = new Intent();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        returnToActivityIntent = new Intent();
 
-		if (isFinishing()) {
-			return;
-		}
+        if (isFinishing()) {
+            return;
+        }
 
-		setContentView(R.layout.activity_prestage);
+        setContentView(R.layout.activity_prestage);
 
-		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
-		requiredResourceCounter = Integer.bitCount(requiredResources);
+        int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
+        requiredResourceCounter = Integer.bitCount(requiredResources);
+
 		
 		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
 			Intent checkIntent = new Intent();
@@ -100,7 +100,7 @@ public class PreStageActivity extends BaseActivity {
 
 		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
 			connectBTDevice(BluetoothDevice.LEGO_NXT);
-		}
+        }
 
 		if ((requiredResources & Brick.BLUETOOTH_PHIRO) > 0) {
 			connectBTDevice(BluetoothDevice.PHIRO);
