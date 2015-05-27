@@ -25,7 +25,6 @@ package org.catrobat.catroid.devices.mindstorms.nxt.sensors;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.util.SparseArray;
 
 import org.catrobat.catroid.common.CatroidService;
@@ -43,8 +42,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class NXTSensorService implements CatroidService, SharedPreferences.OnSharedPreferenceChangeListener {
-
-	private static final String TAG = NXTSensorService.class.getSimpleName();
 
     private SensorRegistry sensorRegistry;
 	private NXTSensorFactory sensorFactory;
@@ -171,8 +168,6 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 			Stopwatch stopwatch = new Stopwatch();
 			stopwatch.start();
 			sensor.updateLastSensorValue();
-			Log.d(TAG, String.format("Time for %s sensor: %d ms | Value: %d", sensor.getName(),
-					stopwatch.getElapsedMilliseconds(), sensor.getLastSensorValue()));
 		}
 	}
 

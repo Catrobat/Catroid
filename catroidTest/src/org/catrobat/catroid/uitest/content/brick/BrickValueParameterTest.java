@@ -403,7 +403,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 
 		solo.searchText(solo.getString(R.string.nxt_play_tone));
 		TextView nxtPlayToneSecondsTextView = (TextView) solo.getView(R.id.nxt_tone_duration_text_view);
-		int nXTPlayTonePrototypeValue = Integer.parseInt(nxtPlayToneSecondsTextView.getText().toString());
+		float nXTPlayTonePrototypeValue = Float.parseFloat(nxtPlayToneSecondsTextView.getText().toString());
 		assertEquals("Value in Brick NXTPlayTone is not correct", BrickValues.LEGO_DURATION, nXTPlayTonePrototypeValue);
 
 		TextView nxtPlayToneFreqTextView = (TextView) solo.getView(R.id.nxt_tone_freq_text_view);
