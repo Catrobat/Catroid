@@ -23,55 +23,45 @@
 
 package org.catrobat.catroid.content;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 
 import java.io.Serializable;
 
-@XStreamAlias("setting")
-public class LegoNxtSetting implements Setting {
+public class LegoNXTSetting implements Setting {
 
 	private static final long serialVersionUID = 1L;
 
-//	@XStreamAsAttribute
-//	private final static String TYPE = "legoNXT";
+	private NXTPort[] portSensorMapping = null;
 
-	@XStreamAlias("portList")
-	private Port[] sensorPortMapping = null;
-
-	public LegoNxtSetting(NXTSensor.Sensor[] sensorMapping) {
-		sensorPortMapping = new Port[4];
-		for (int i = 0; i < sensorPortMapping.length; ++i) {
-			sensorPortMapping[i] = new Port(i, sensorMapping[i]);
+	public LegoNXTSetting(NXTSensor.Sensor[] sensorMapping) {
+		portSensorMapping = new NXTPort[4];
+		for (int i = 0; i < portSensorMapping.length; ++i) {
+			portSensorMapping[i] = new NXTPort(i, sensorMapping[i]);
 		}
 	}
 
 	public void updateMapping(NXTSensor.Sensor[] sensorMapping) {
-		for (int i = 0; i < sensorPortMapping.length; ++i) {
-			sensorPortMapping[i].setNumber(i);
-			sensorPortMapping[i].setSensor(sensorMapping[i]);
+		for (int i = 0; i < portSensorMapping.length; ++i) {
+			portSensorMapping[i].setNumber(i);
+			portSensorMapping[i].setSensor(sensorMapping[i]);
 		}
 	}
 
 	public NXTSensor.Sensor[] getSensorMapping() {
 		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[4];
-		for (int i = 0; i < sensorPortMapping.length; ++i) {
-			sensorMapping[i] = sensorPortMapping[i].getSensor();
+		for (int i = 0; i < portSensorMapping.length; ++i) {
+			sensorMapping[i] = portSensorMapping[i].getSensor();
 		}
 
 		return sensorMapping;
 	}
 
-	@XStreamAlias("port")
-	public static class Port implements Serializable {
+	public static class NXTPort implements Serializable {
 
-		@XStreamAsAttribute
 		private int number;
 		private NXTSensor.Sensor sensor;
 
-		public Port(int number, NXTSensor.Sensor sensor) {
+		public NXTPort(int number, NXTSensor.Sensor sensor) {
 			this.number = number;
 			this.sensor = sensor;
 		}
