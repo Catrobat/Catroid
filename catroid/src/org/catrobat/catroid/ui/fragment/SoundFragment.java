@@ -88,6 +88,7 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class SoundFragment extends ScriptActivityFragment implements SoundBaseAdapter.OnSoundEditListener,
 		LoaderManager.LoaderCallbacks<Cursor>, Dialog.OnKeyListener {
@@ -474,6 +475,16 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
 		menu.findItem(R.id.context_menu_copy).setVisible(true);
 		menu.findItem(R.id.context_menu_unpacking).setVisible(false);
+		menu.findItem(R.id.context_menu_move_up).setVisible(true);
+		menu.findItem(R.id.context_menu_move_down).setVisible(true);
+		menu.findItem(R.id.context_menu_move_to_top).setVisible(true);
+		menu.findItem(R.id.context_menu_move_to_bottom).setVisible(true);
+
+		menu.findItem(R.id.context_menu_move_down).setEnabled(selectedSoundPosition != soundInfoList.size() - 1);
+		menu.findItem(R.id.context_menu_move_to_bottom).setEnabled(selectedSoundPosition != soundInfoList.size() - 1);
+
+		menu.findItem(R.id.context_menu_move_up).setEnabled(selectedSoundPosition != 0);
+		menu.findItem(R.id.context_menu_move_to_top).setEnabled(selectedSoundPosition != 0);
 	}
 
 	@Override
@@ -511,6 +522,18 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 			case R.id.context_menu_delete:
 				showConfirmDeleteDialog();
+				break;
+			case  R.id.context_menu_move_down:
+				moveSoundDown();
+				break;
+			case R.id.context_menu_move_to_bottom:
+				moveSoundToBottom();
+				break;
+			case R.id.context_menu_move_up:
+				moveSoundUp();
+				break;
+			case R.id.context_menu_move_to_top:
+				moveSoundToTop();
 				break;
 		}
 		return super.onContextItemSelected(item);
@@ -968,5 +991,33 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				adapter.notifyDataSetChanged();
 			}
 		}
+	}
+
+	private void moveSoundDown() {
+		if (selectedSoundPosition != soundInfoList.size() - 1) {
+			Collections.swap(soundInfoList, selectedSoundPosition + 1, selectedSoundPosition);
+			adapter.notifyDataSetChanged();
+		}
+	}
+
+	private void moveSoundToBottom() {
+		for (int i = selectedSoundPosition; i < soundInfoList.size() - 1; i++) {
+			Collections.swap(soundInfoList, i, i + 1);
+		}
+		adapter.notifyDataSetChanged();
+	}
+
+	private void moveSoundUp() {
+		if (selectedSoundPosition != 0) {
+			Collections.swap(soundInfoList, selectedSoundPosition - 1, selectedSoundPosition);
+			adapter.notifyDataSetChanged();
+		}
+	}
+
+	private void moveSoundToTop() {
+		for (int i = selectedSoundPosition; i > 0; i--) {
+			Collections.swap(soundInfoList, i, i - 1);
+		}
+		adapter.notifyDataSetChanged();
 	}
 }
