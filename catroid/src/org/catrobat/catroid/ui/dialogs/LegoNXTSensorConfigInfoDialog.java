@@ -46,10 +46,7 @@ public class LegoNXTSensorConfigInfoDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-		LayoutInflater inflater = getActivity().getLayoutInflater();
-		View dialogView = inflater.inflate(R.layout.dialog_lego_nxt_sensor_config_info, null);
+		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_lego_nxt_sensor_config_info, null);
 
 		disableShowInfoDialog = (CheckBox) dialogView.findViewById(R.id.lego_nxt_sensor_config_info_disable_show_dialog);
 
@@ -67,7 +64,8 @@ public class LegoNXTSensorConfigInfoDialog extends DialogFragment {
 		mapping4.setText(sensorMappingStrings[sensorMapping[3].ordinal()]);
 
 
-		builder.setView(dialogView)
+		Dialog dialog = new AlertDialog.Builder(getActivity())
+				.setView(dialogView)
 				.setTitle("NXT Sensor Configuration")
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
@@ -75,9 +73,8 @@ public class LegoNXTSensorConfigInfoDialog extends DialogFragment {
 							SettingsActivity.disableLegoMindstormsSensorInfoDialog(LegoNXTSensorConfigInfoDialog.this.getActivity());
 						}
 					}
-				});
+				}).create();
 
-		Dialog dialog = builder.create();
 		dialog.setCanceledOnTouchOutside(true);
 
 		return dialog;

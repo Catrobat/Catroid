@@ -232,7 +232,7 @@ public class Project implements Serializable {
 
 		if ((getRequiredResources() & Brick.BLUETOOTH_LEGO_NXT) == 0) {
 			for (Object setting : settings.toArray()) {
-				if (setting instanceof LegoNxtSetting) {
+				if (setting instanceof LegoNXTSetting) {
 					settings.remove(setting);
 					return;
 				}
@@ -242,13 +242,13 @@ public class Project implements Serializable {
 
 		NXTSensor.Sensor[] sensorMapping = SettingsActivity.getLegoMindstormsNXTSensorMapping(context);
 		for (Setting setting : settings) {
-			if (setting instanceof LegoNxtSetting) {
-				((LegoNxtSetting) setting).updateMapping(sensorMapping);
+			if (setting instanceof LegoNXTSetting) {
+				((LegoNXTSetting) setting).updateMapping(sensorMapping);
 				return;
 			}
 		}
 
-		Setting mapping = new LegoNxtSetting(sensorMapping);
+		Setting mapping = new LegoNXTSetting(sensorMapping);
 		settings.add(mapping);
 	}
 
@@ -260,9 +260,9 @@ public class Project implements Serializable {
 
 		NXTSensor.Sensor[] sensorMapping = SettingsActivity.getLegoMindstormsNXTSensorMapping(context);
 		for (Setting setting : settings) {
-			if (setting instanceof LegoNxtSetting) {
+			if (setting instanceof LegoNXTSetting) {
 				SettingsActivity.enableLegoMindstormsNXTBricks(context);
-				SettingsActivity.setLegoMindstormsNXTSensorMapping(context, ((LegoNxtSetting) setting).getSensorMapping());
+				SettingsActivity.setLegoMindstormsNXTSensorMapping(context, ((LegoNXTSetting) setting).getSensorMapping());
 				return;
 			}
 		}

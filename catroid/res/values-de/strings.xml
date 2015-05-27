@@ -397,7 +397,7 @@
   <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Bühne</string>
   <string name="title_paired_devices">Verbundene Geräte</string>
   <string name="title_other_devices">Neue Geräte</string>
-  <string name="searching_devices">Suche Geräte...</string>
+  <string name="searching_devices">Suche Geräte ...</string>
   <string name="button_scan">Bluetooth Geräte suchen</string>
   <string name="select_device">Wähle Gerät:</string>
   <string name="scanning">Suche</string>

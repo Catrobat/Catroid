@@ -37,7 +37,7 @@ import org.catrobat.catroid.common.FileChecksumContainer;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastScript;
-import org.catrobat.catroid.content.LegoNxtSetting;
+import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Setting;
@@ -185,12 +185,11 @@ public final class StorageHandler {
 		xstream.processAnnotations(XmlHeader.class);
 		xstream.processAnnotations(DataContainer.class);
 		xstream.processAnnotations(Setting.class);
-		xstream.processAnnotations(LegoNxtSetting.class);
-		xstream.processAnnotations(LegoNxtSetting.Port.class);
 		xstream.registerConverter(new XStreamConcurrentFormulaHashMapConverter());
 		xstream.registerConverter(new XStreamUserVariableConverter());
 		xstream.registerConverter(new XStreamBrickConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 		xstream.registerConverter(new XStreamScriptConverter(xstream.getMapper(), xstream.getReflectionProvider()));
+		xstream.registerConverter(new XStreamSettingConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 
 		setXstreamAliases();
 
@@ -313,6 +312,10 @@ public final class StorageHandler {
 		xstream.alias("userBrickElements", UserScriptDefinitionBrickElements.class);
 		xstream.alias("userBrickElement", UserScriptDefinitionBrickElement.class);
 		xstream.alias("userBrickParameter", UserBrickParameter.class);
+
+		xstream.alias("setting", LegoNXTSetting.class);
+		xstream.alias("nxtPort", LegoNXTSetting.NXTPort.class);
+		xstream.aliasAttribute(LegoNXTSetting.NXTPort.class, "number", "number");
 
 		xstream.aliasField("formulaList", FormulaBrick.class, "formulaMap");
 		xstream.aliasField("object", BrickBaseType.class, "sprite");
