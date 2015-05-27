@@ -397,7 +397,7 @@
   <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Bühne</string>
   <string name="title_paired_devices">Verbundene Geräte</string>
   <string name="title_other_devices">Neue Geräte</string>
-  <string name="searching_devices">Suche Geräte ...</string>
+  <string name="searching_devices">Suche Geräte &#8230;</string>
   <string name="button_scan">Bluetooth Geräte suchen</string>
   <string name="select_device">Wähle Gerät:</string>
   <string name="scanning">Suche</string>
@@ -408,7 +408,7 @@
   <string name="none_paired">Keine verbundenen Geräte gefunden</string>
   <string name="nxt_brick_motor_move">Setze NXT Motor</string>
   <string name="nxt_motor_speed_to">auf</string>
-  <string name="nxt_motor_percent_speed">% Geschwindigkeit</string>
+  <string name="nxt_motor_speed">Geschwindigkeit</string>
   <string name="nxt_brick_motor_turn_angle">Drehe NXT Motor</string>
   <string name="nxt_motor_move_by">um</string>
   <string name="nxt_motor_stop">Stoppe NXT Motor</string>

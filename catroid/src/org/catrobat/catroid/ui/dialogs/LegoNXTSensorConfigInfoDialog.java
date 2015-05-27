@@ -40,8 +40,6 @@ public class LegoNXTSensorConfigInfoDialog extends DialogFragment {
 
 	public static final String DIALOG_FRAGMENT_TAG = "dialog_lego_nxt_sensor_config_info";
 
-	private static final String TAG = LegoNXTSensorConfigInfoDialog.class.getSimpleName();
-
 	private CheckBox disableShowInfoDialog;
 
 	@Override

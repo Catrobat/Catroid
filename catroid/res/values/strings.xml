@@ -534,7 +534,7 @@
     <string name="notification_blueth_err">Bluetooth could not be enabled, closing stage</string>
     <string name="title_paired_devices">Paired devices</string>
     <string name="title_other_devices">New devices</string>
-    <string name="searching_devices">Looking for devices ...</string>
+    <string name="searching_devices">Looking for devices &#8230;</string>
     <string name="button_scan">Search Bluetooth devices</string>
     <string name="select_device">Select Device:</string>
     <string name="scanning">Scanning</string>
@@ -550,7 +550,7 @@
     <!-- Lego Mindstorms Strings -->
     <string name="nxt_brick_motor_move">Set NXT motor</string>
     <string name="nxt_motor_speed_to">to</string>
-    <string name="nxt_motor_percent_speed">% speed</string>
+    <string name="nxt_motor_speed">speed</string>
     <string name="nxt_brick_motor_turn_angle">Turn NXT motor</string>
     <string name="nxt_motor_move_by">by</string>
     <string name="nxt_motor_stop">Stop NXT motor</string>
