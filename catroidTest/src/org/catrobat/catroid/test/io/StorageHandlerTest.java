@@ -32,8 +32,10 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -46,13 +48,19 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.drone.DroneBrickFactory;
+import org.catrobat.catroid.exceptions.CompatibilityProjectException;
+import org.catrobat.catroid.exceptions.LoadingProjectException;
+import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.UtilFile;
 
 import java.io.BufferedReader;
@@ -331,6 +339,67 @@ public class StorageHandlerTest extends AndroidTestCase {
 		while ((line = reader.readLine()) != null) {
 			assertTrue("Wrong permission in File found", permissions.contains(line));
 		}
+	}
+
+	public void testSerializeSettings() throws CompatibilityProjectException, OutdatedVersionProjectException, LoadingProjectException {
+
+		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[] {
+				NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.SOUND,
+				NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.ULTRASONIC
+		};
+
+		Reflection.setPrivateField(ProjectManager.getInstance(), "asynchronTask", false);
+
+		Project project = generateMultiplePermissionsProject();
+		ProjectManager.getInstance().setProject(project);
+
+		String projectName = project.getName();
+		SettingsActivity.setLegoMindstormsNXTSensorMapping(getContext(), sensorMapping);
+
+		ProjectManager.getInstance().saveProject(getContext());
+		Setting setting = project.getSettings().get(0);
+		assertTrue("Wrong setting type, LegoNXT setting expected", setting instanceof LegoNXTSetting);
+
+		LegoNXTSetting nxtSetting = (LegoNXTSetting)setting;
+		NXTSensor.Sensor[] actualSensorMapping = nxtSetting.getSensorMapping();
+		assertEquals("Wrong numer of sensors", 4, actualSensorMapping.length);
+
+		assertEquals("Wrong sensor mapping for touch sensor", sensorMapping[0], actualSensorMapping[0]);
+		assertEquals("Wrong sensor mapping for sound sensor", sensorMapping[1], actualSensorMapping[1]);
+		assertEquals("Wrong sensor mapping for light sensor", sensorMapping[2], actualSensorMapping[2]);
+		assertEquals("Wrong sensor mapping for ultrasonic sensor", sensorMapping[3], actualSensorMapping[3]);
+
+
+		NXTSensor.Sensor[] changedSensorMapping = sensorMapping.clone();
+		changedSensorMapping[0] = NXTSensor.Sensor.LIGHT_ACTIVE;
+
+		SettingsActivity.setLegoMindstormsNXTSensorMapping(getContext(), changedSensorMapping);
+
+		ProjectManager.getInstance().setProject(null);
+		ProjectManager.getInstance().loadProject(projectName, getContext());
+
+		actualSensorMapping = SettingsActivity.getLegoMindstormsNXTSensorMapping(getContext());
+		assertEquals("Wrong numer of sensors", 4, actualSensorMapping.length);
+
+		assertEquals("Wrong sensor mapping for touch sensor, settings not correctly loaded from project",
+				sensorMapping[0], actualSensorMapping[0]);
+		assertEquals("Wrong sensor mapping for sound sensor", sensorMapping[1], actualSensorMapping[1]);
+		assertEquals("Wrong sensor mapping for light sensor", sensorMapping[2], actualSensorMapping[2]);
+		assertEquals("Wrong sensor mapping for ultrasonic sensor", sensorMapping[3], actualSensorMapping[3]);
+
+		project = ProjectManager.getInstance().getCurrentProject();
+
+		setting = project.getSettings().get(0);
+		nxtSetting = (LegoNXTSetting)setting;
+		assertTrue("Wrong setting type, LegoNXT setting expected", setting instanceof LegoNXTSetting);
+
+		actualSensorMapping = nxtSetting.getSensorMapping();
+		assertEquals("Wrong numer of sensors", 4, actualSensorMapping.length);
+
+		assertEquals("Wrong sensor mapping for touch sensor", sensorMapping[0], actualSensorMapping[0]);
+		assertEquals("Wrong sensor mapping for sound sensor", sensorMapping[1], actualSensorMapping[1]);
+		assertEquals("Wrong sensor mapping for light sensor", sensorMapping[2], actualSensorMapping[2]);
+		assertEquals("Wrong sensor mapping for ultrasonic sensor", sensorMapping[3], actualSensorMapping[3]);
 	}
 
 	//	public void testAliasesAndXmlHeader() {
