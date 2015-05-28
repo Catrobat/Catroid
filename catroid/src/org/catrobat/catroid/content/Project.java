@@ -184,6 +184,10 @@ public class Project implements Serializable {
 		return dataContainer;
 	}
 
+	public List<Setting> getSettings() {
+		return settings;
+	}
+
 	public void removeUnusedBroadcastMessages() {
 		List<String> usedMessages = new ArrayList<String>();
 		for (Sprite currentSprite : spriteList) {
@@ -258,7 +262,6 @@ public class Project implements Serializable {
 			return;
 		}
 
-		NXTSensor.Sensor[] sensorMapping = SettingsActivity.getLegoMindstormsNXTSensorMapping(context);
 		for (Setting setting : settings) {
 			if (setting instanceof LegoNXTSetting) {
 				SettingsActivity.enableLegoMindstormsNXTBricks(context);
