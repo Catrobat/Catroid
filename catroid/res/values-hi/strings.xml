@@ -402,7 +402,6 @@
   <string name="scanning">अवलोकन कर रहें हैं</string>
   <string name="connecting_please_wait">उपकरण को संपर्क कर रहें हैं।\nप्रतीक्षा करे...</string>
   <string name="bt_connection_failed">उपकरण से संपर्क नहीं हो पा रहा हैं!</string>
-  <string name="bt_auto_connection_failed">Auto connection failed!</string>
   <string name="none_found">ऐसा कोई उपकरण नहीं मिला जो युग्मित ना हों</string>
   <string name="none_paired">ऐसा कोई उपकरण नहीं मिला जो युग्मित ना हों</string>
   <string name="nxt_brick_motor_move">एन एक्स टी चाल मोटर</string>

@@ -45,7 +45,7 @@ public final class ConnectionDataLogger {
 		return getNextSentMessage(0, 0);
 	}
 
-	public byte[] getNextSentMessage(int messageOffset){
+	public byte[] getNextSentMessage(int messageOffset) {
 		return getNextSentMessage(messageOffset, 0);
 	}
 
@@ -61,7 +61,6 @@ public final class ConnectionDataLogger {
 	public ArrayList<byte[]> getSentMessages(int messageByteOffset, int messageCountToWaitFor) {
 		return getMessages(sentMessages, messageByteOffset, messageCountToWaitFor);
 	}
-
 
 
 	public byte[] getNextReceivedMessage() {
@@ -86,19 +85,18 @@ public final class ConnectionDataLogger {
 	}
 
 
-
 	private static byte[] getNextMessage(BlockingQueue<byte[]> messages, int messageOffset, int messageByteOffset) {
 
 		Stopwatch stopWatch = Stopwatch.createStarted();
 
 		for (int i = 0; i < messageOffset; i++) {
-			byte[] message = pollMessage(messages, TIMEOUT_SECONDS - (int)stopWatch.elapsed(TimeUnit.SECONDS));
+			byte[] message = pollMessage(messages, TIMEOUT_SECONDS - (int) stopWatch.elapsed(TimeUnit.SECONDS));
 			if (message == null) {
 				return null;
 			}
 		}
 
-		byte[] message = pollMessage(messages, TIMEOUT_SECONDS - (int)stopWatch.elapsed(TimeUnit.SECONDS));
+		byte[] message = pollMessage(messages, TIMEOUT_SECONDS - (int) stopWatch.elapsed(TimeUnit.SECONDS));
 		if (message == null) {
 			return null;
 		}
@@ -121,7 +119,7 @@ public final class ConnectionDataLogger {
 		Stopwatch stopWatch = Stopwatch.createStarted();
 
 		do {
-			byte[] message = pollMessage(messages, TIMEOUT_SECONDS - (int)stopWatch.elapsed(TimeUnit.SECONDS));
+			byte[] message = pollMessage(messages, TIMEOUT_SECONDS - (int) stopWatch.elapsed(TimeUnit.SECONDS));
 			if (message == null) {
 				return m;
 			}
@@ -178,8 +176,7 @@ public final class ConnectionDataLogger {
 		if (local) {
 			connectionProxy = new LocalConnectionProxy(logger);
 			BluetoothTestUtils.hookInConnection(connectionProxy);
-		}
-		else {
+		} else {
 			BluetoothTestUtils.hookInConnectionFactoryWithBluetoothConnectionProxy(logger);
 		}
 	}

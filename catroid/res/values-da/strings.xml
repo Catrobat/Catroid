@@ -393,7 +393,6 @@
   <string name="scanning">Skanning</string>
   <string name="connecting_please_wait">Tilslutning til din enhed.\nVent venligst ...</string>
   <string name="bt_connection_failed">Tilslutning til enhed mislykkedes!</string>
-  <string name="bt_auto_connection_failed">Auto connection failed!</string>
   <string name="none_found">Ingen uparrede enheder fundet</string>
   <string name="none_paired">Ingen parrede enheder fundet</string>
   <string name="nxt_brick_motor_move">NXT flyt motor</string>

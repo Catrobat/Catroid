@@ -541,7 +541,6 @@
     <string name="connecting_please_wait">Connecting to your device.\nPlease wait…</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">Connection to device failed!</string>
-    <string name="bt_auto_connection_failed">Auto connection failed!</string>
     <string name="none_found">No unpaired devices found</string>
     <string name="none_paired">No paired devices found</string>
     <!--  -->

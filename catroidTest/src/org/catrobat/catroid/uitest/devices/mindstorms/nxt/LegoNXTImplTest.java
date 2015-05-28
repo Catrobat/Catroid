@@ -91,10 +91,6 @@ public class LegoNXTImplTest extends BaseActivityInstrumentationTestCase<MainMen
 
 		BluetoothTestUtils.enableBluetooth();
 
-		ArrayList<String> autoConnectIDs = new ArrayList<String>();
-		autoConnectIDs.add("IM_NOT_A_MAC_ADDRESS");
-		Reflection.setPrivateField(ConnectBluetoothDeviceActivity.class, "autoConnectIDs", autoConnectIDs);
-
 		ConnectionDataLogger logger = ConnectionDataLogger.createLocalConnectionLogger();
 
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
@@ -177,11 +173,6 @@ public class LegoNXTImplTest extends BaseActivityInstrumentationTestCase<MainMen
 	@Device
 	public void testNXTConnectionDialogGoBack() {
 		createTestproject(projectName);
-
-		ArrayList<String> autoConnectIDs = new ArrayList<String>();
-		autoConnectIDs.add("IM_NOT_A_MAC_ADDRESS");
-		ConnectBluetoothDeviceActivity deviceListActivity = new ConnectBluetoothDeviceActivity();
-		Reflection.setPrivateField(deviceListActivity, "autoConnectIDs", autoConnectIDs);
 
 		BluetoothTestUtils.enableBluetooth();
 

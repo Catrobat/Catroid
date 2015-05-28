@@ -34,7 +34,6 @@ import java.io.OutputStream;
 import java.util.Random;
 
 public class MindstormsNXTTestModel implements DeviceModel {
-
 	private boolean isRunning = true;
 	private static final byte SHOULD_REPLY = 0x0;
 	private static final byte NO_ERROR = 0x0;
@@ -42,16 +41,12 @@ public class MindstormsNXTTestModel implements DeviceModel {
 	private byte[] batteryValue = {getRandomByte(256), getRandomByte(256)};
 	private byte[] keepAliveTime = {getRandomByte(256), getRandomByte(256), getRandomByte(256), getRandomByte(256)};
 
+	private byte[] portSensorType = {0, 0, 0, 0};
+	private byte[] portSensorMode = {0, 0, 0, 0};
 
+	private byte[] sensorValue = {getRandomByte(256), getRandomByte(256)};
 
-	byte[] portSensorType = {0, 0, 0, 0};
-	byte[] portSensorMode = {0, 0, 0, 0};
-
-	byte[] sensorValue = {getRandomByte(256), getRandomByte(256)};
-
-
-
-	byte ultrasonicSensorBytesReady = 0;
+	private byte ultrasonicSensorBytesReady = 0;
 
 	protected byte[] createResponseFromClientRequest(byte[] message) {
 		byte commandType = message[0];
@@ -86,7 +81,6 @@ public class MindstormsNXTTestModel implements DeviceModel {
 				return handleUnknownMessage(commandType, commandByte);
 		}
 	}
-
 
 	private byte[] handleSetInputModeMessage(byte[] message, byte commandType) {
 		byte status;

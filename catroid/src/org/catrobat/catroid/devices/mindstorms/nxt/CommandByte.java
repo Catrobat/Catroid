@@ -61,7 +61,10 @@ public enum CommandByte {
 		return LOOKUP.get(value & 0xFF);
 	}
 
-	/*OpenRead = 0x80, OpenWrite = 0x81,Read = 0x82, Write = 0x83,
+
+	/* This are all commands lego supports, at the moment only some of them are implemented.
+
+	OpenRead = 0x80, OpenWrite = 0x81,Read = 0x82, Write = 0x83,
 	Close = 0x84, Delete = 0x85, FindFirst = 0x86, FindNext = 0x87,
 	GetFirmware = 0x88, OpenWriteLinear = 0x89, OpenReadLinear = 0x8a,
 	OpenWriteData = 0x8b, OpenAppendData = 0x8c, Boot = 0x97, SetBrickName = 0x98,

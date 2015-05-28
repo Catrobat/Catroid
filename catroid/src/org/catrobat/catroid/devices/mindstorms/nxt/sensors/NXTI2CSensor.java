@@ -24,7 +24,6 @@ package org.catrobat.catroid.devices.mindstorms.nxt.sensors;
 
 import android.util.Log;
 
-
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
 import org.catrobat.catroid.devices.mindstorms.nxt.Command;
 import org.catrobat.catroid.devices.mindstorms.nxt.CommandByte;

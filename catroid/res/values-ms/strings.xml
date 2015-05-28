@@ -393,7 +393,6 @@
   <string name="scanning">Scanning</string>
   <string name="connecting_please_wait">Connecting to your device.\nPlease wait&#8230;</string>
   <string name="bt_connection_failed">Connection to device failed!</string>
-  <string name="bt_auto_connection_failed">Auto connection failed!</string>
   <string name="none_found">No unpaired devices found</string>
   <string name="none_paired">No paired devices found</string>
   <string name="nxt_brick_motor_move">NXT move motor</string>

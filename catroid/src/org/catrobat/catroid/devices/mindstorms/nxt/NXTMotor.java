@@ -61,8 +61,6 @@ public class NXTMotor implements MindstormsMotor {
 	}
 
 	private void trySetOutputState(OutputState state, boolean reply) {
-
-
 		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.SET_OUTPUT_STATE, false);
 		command.append((byte)port);
 		command.append(state.getSpeed());
@@ -106,15 +104,10 @@ public class NXTMotor implements MindstormsMotor {
 	private static class OutputState {
 
 		private byte speed;
-
 		public byte mode;
-
 		public MotorRegulation regulation;
-
 		public byte turnRatio;
-
 		public MotorRunState runState;
-
 		public int tachoLimit; //Current limit on a movement in progress, if any
 
 		public void setSpeed(int speed) {
@@ -140,11 +133,6 @@ public class NXTMotor implements MindstormsMotor {
 			return this.speed;
 		}
 
-//		public int tachoCount; //Internal count. Number of counts since last reset of motor
-//
-//		public int blockTachoCount; //Current position relative to last programmed movement
-//
-//		public int rotationCount; //Current position relative to last reset of the rotation sensor for this
 	}
 
 

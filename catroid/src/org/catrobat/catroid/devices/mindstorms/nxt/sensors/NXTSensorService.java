@@ -43,7 +43,7 @@ import java.util.concurrent.TimeUnit;
 
 public class NXTSensorService implements CatroidService, SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private SensorRegistry sensorRegistry;
+	private SensorRegistry sensorRegistry;
 	private NXTSensorFactory sensorFactory;
 
 	private SharedPreferences preferences;
@@ -62,7 +62,7 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 		sensorRegistry = new SensorRegistry();
 		sensorFactory = new NXTSensorFactory(connection);
 
-        sensorScheduler = new PausableScheduledThreadPoolExecutor(SENSOR_UPDATER_THREAD_COUNT);
+		sensorScheduler = new PausableScheduledThreadPoolExecutor(SENSOR_UPDATER_THREAD_COUNT);
 		sensorScheduler.pause();
 	}
 
@@ -74,29 +74,29 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 		sensorScheduler.resume();
 	}
 
-    public void destroy() {
-        sensorScheduler.shutdown();
+	public void destroy() {
+		sensorScheduler.shutdown();
 		preferences.unregisterOnSharedPreferenceChangeListener(this);
 	}
 
 	public NXTSensor createSensor1() {
 		NXTSensor.Sensor sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(context, SettingsActivity.NXT_SENSOR_1);
-        return  createSensor(sensor, 0);
+		return createSensor(sensor, 0);
 	}
 
 	public NXTSensor createSensor2() {
 		NXTSensor.Sensor sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(context, SettingsActivity.NXT_SENSOR_2);
-		return  createSensor(sensor, 1);
+		return createSensor(sensor, 1);
 	}
 
 	public NXTSensor createSensor3() {
 		NXTSensor.Sensor sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(context, SettingsActivity.NXT_SENSOR_3);
-		return  createSensor(sensor, 2);
+		return createSensor(sensor, 2);
 	}
 
 	public NXTSensor createSensor4() {
 		NXTSensor.Sensor sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(context, SettingsActivity.NXT_SENSOR_4);
-		return  createSensor(sensor, 3);
+		return createSensor(sensor, 3);
 	}
 
 	private NXTSensor createSensor(NXTSensor.Sensor sensorType, int port) {
@@ -104,11 +104,10 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 			sensorRegistry.remove(port);
 			return null;
 		}
-
 		NXTSensor sensor = sensorFactory.create(sensorType, port);
 		sensorRegistry.add(sensor);
 
-        return sensor;
+		return sensor;
 	}
 
 	public void deactivateAllSensors(MindstormsConnection connection) {

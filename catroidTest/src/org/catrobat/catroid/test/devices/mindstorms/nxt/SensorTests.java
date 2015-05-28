@@ -84,6 +84,7 @@ public class SensorTests extends AndroidTestCase {
 
 		testInitializationOfSensor(PORT_NR_0, NXTSensorType.TOUCH, NXTSensorMode.BOOL);
 		testGetInputValuesMessage(PORT_NR_0);
+
 		assertEquals("Received wrong touch sensor value", expectedSensorValue, sensorValue);
 	}
 
@@ -96,6 +97,7 @@ public class SensorTests extends AndroidTestCase {
 
 		testInitializationOfSensor(PORT_NR_1, NXTSensorType.SOUND_DBA, NXTSensorMode.Percent);
 		testGetInputValuesMessage(PORT_NR_1);
+
 		assertEquals("Received wrong sound sensor value", expectedSensorValue, sensorValue);
 	}
 
@@ -108,6 +110,7 @@ public class SensorTests extends AndroidTestCase {
 
 		testInitializationOfSensor(PORT_NR_2, NXTSensorType.LIGHT_INACTIVE, NXTSensorMode.Percent);
 		testGetInputValuesMessage(PORT_NR_2);
+
 		assertEquals("Received wrong light sensor value", expectedSensorValue, sensorValue);
 	}
 
@@ -120,6 +123,7 @@ public class SensorTests extends AndroidTestCase {
 
 		testInitializationOfSensor(PORT_NR_2, NXTSensorType.LIGHT_ACTIVE, NXTSensorMode.Percent);
 		testGetInputValuesMessage(PORT_NR_2);
+
 		assertEquals("Received wrong active light sensor value", expectedSensorValue, sensorValue);
 	}
 
@@ -153,6 +157,7 @@ public class SensorTests extends AndroidTestCase {
 
 	private void testSetInputModeMessage(int port, NXTSensorType sensorType, NXTSensorMode sensorMode) {
 		byte[] setInputModeMsg = logger.getNextSentMessage(0, 2);
+
 		assertNotNull("No set input mode message.", setInputModeMsg);
 		assertEquals("Wrong command length", 5, setInputModeMsg.length);
 
@@ -165,6 +170,7 @@ public class SensorTests extends AndroidTestCase {
 
 	private void testResetInputScaledValueMessage(int port) {
 		byte[] resetScaledValueMsg = logger.getNextSentMessage(0, 2);
+
 		assertNotNull("No reset scaled value message", resetScaledValueMsg);
 		assertEquals("Wrong command length", 3, resetScaledValueMsg.length);
 
@@ -187,6 +193,7 @@ public class SensorTests extends AndroidTestCase {
 	private void testLsReadMessage(byte port) {
 
 		byte[] currentMessage = logger.getNextSentMessage(0, 2);
+
 		assertNotNull("No ls get status message", currentMessage);
 
 		do {
@@ -214,6 +221,7 @@ public class SensorTests extends AndroidTestCase {
 
 	private void testLsWriteMessage(byte register, byte port) {
 		byte[] lsWriteMsg = logger.getNextSentMessage(0, 2);
+
 		assertNotNull("No ls write message", lsWriteMsg);
 		assertEquals("Wrong command length", 7, lsWriteMsg.length);
 

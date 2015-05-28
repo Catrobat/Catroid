@@ -95,7 +95,7 @@ public class PreStageActivity extends BaseActivity {
 		}
 
 		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
-			connectBTDevice(BluetoothDevice.LEGO_NXT, false);
+			connectBTDevice(BluetoothDevice.LEGO_NXT);
 		}
 
 		if ((requiredResources & Brick.ARDRONE_SUPPORT) > 0) {
@@ -147,10 +147,10 @@ public class PreStageActivity extends BaseActivity {
 		}
 	}
 
-	private void connectBTDevice(Class<? extends BluetoothDevice> service, boolean autoConnect) {
+	private void connectBTDevice(Class<? extends BluetoothDevice> service) {
 		BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 
-		if (btService.connectDevice(service, this, REQUEST_CONNECT_DEVICE, autoConnect)
+		if (btService.connectDevice(service, this, REQUEST_CONNECT_DEVICE)
 				== BluetoothDeviceService.ConnectDeviceResult.ALREADY_CONNECTED) {
 			resourceInitialized();
 		}
@@ -178,7 +178,7 @@ public class PreStageActivity extends BaseActivity {
 				camera = CameraManager.getInstance().getCamera();
 			}
 		} catch (Exception exception) {
-			Log.e(getString(R.string.app_name), "failed to open Camera", exception);
+			Log.e(TAG, "failed to open Camera", exception);
 		}
 
 		if (camera == null) {

@@ -203,11 +203,7 @@ public class LegoNXTSensorInfoTests extends BaseActivityInstrumentationTestCase<
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
 		solo.clickOnText(solo.getString(R.string.main_menu_continue));
-//		solo.waitForActivity(MyProjectsActivity.class.getSimpleName());
-//		solo.waitForText(solo.getString(R.string.programs));
 
-//		solo.clickOnText(projectNameNoNxt);
-//
 		assertTrue("NXT Sensor Dialog not shown for Project with NXT Sensor but no NXT Brick",
 				solo.waitForText(solo.getString(R.string.lego_nxt_sensor_config_info_title)));
 

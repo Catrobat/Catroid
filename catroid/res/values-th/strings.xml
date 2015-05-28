@@ -384,7 +384,6 @@
   <string name="scanning">กำลังสแกน</string>
   <string name="connecting_please_wait">กำลังเชื่อมต่อกับอุปกรณ์ \nกรุณารอ...</string>
   <string name="bt_connection_failed">เชื่อมต่อกับอุปกรณ์ล้มเหลว!</string>
-  <string name="bt_auto_connection_failed">เชื่อมต่ออัตโนมัติล้มเหลว!</string>
   <string name="none_found">ไม่พบอุปกรณ์ที่ยังไม่ได้จับคู่</string>
   <string name="none_paired">ไม่พบอุปกรณ์ที่จับคู่ไว้</string>
   <string name="nxt_brick_motor_move">NXT ขยับมอเตอร์</string>
