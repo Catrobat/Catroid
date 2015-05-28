@@ -64,7 +64,7 @@ public class LegoNXTSensorConfigInfoDialog extends DialogFragment {
 
 		Dialog dialog = new AlertDialog.Builder(getActivity())
 				.setView(dialogView)
-				.setTitle("NXT Sensor Configuration")
+				.setTitle(R.string.lego_nxt_sensor_config_info_title)
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						if (disableShowInfoDialog.isChecked()) {

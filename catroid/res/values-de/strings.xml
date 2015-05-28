@@ -594,4 +594,5 @@
   <string name="nxt_port_3">Port 3</string>
   <string name="nxt_port_4">Port 4</string>
   <string name="lego_nxt_sensor_config_dont_show_again">Nachricht nicht mehr anzeigen</string>
+  <string name="lego_nxt_sensor_config_info_title">NXT Sensoren Konfiguration</string>
 </resources>
