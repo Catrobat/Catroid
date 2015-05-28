@@ -577,6 +577,8 @@
     <string name="nxt_sensor_light">NXT light sensor</string>
     <string name="nxt_sensor_light_active">NXT light sensor active</string>
     <string name="nxt_sensor_ultrasonic">NXT ultrasonic sensor</string>
+
+    <string name="lego_nxt_sensor_config_info_title">NXT Sensor Configuration</string>
     <!--  -->
 
 
