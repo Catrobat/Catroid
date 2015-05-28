@@ -41,6 +41,9 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.SettingsActivity;
+
+import java.util.Arrays;
 
 public class FormulaEditorListFragment extends SherlockListFragment implements Dialog.OnKeyListener {
 
@@ -91,14 +94,16 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 			R.string.formula_editor_function_join_parameter, R.string.formula_editor_function_list_item_parameter,
 			R.string.formula_editor_function_contains_parameter};
 
-	private static final int[] SENSOR_ITEMS = {R.string.formula_editor_sensor_x_acceleration,
+	private static final int[] DEFAULT_SENSOR_ITEMS = {R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration,
 			R.string.formula_editor_sensor_compass_direction, R.string.formula_editor_sensor_x_inclination,
 			R.string.formula_editor_sensor_y_inclination, R.string.formula_editor_sensor_loudness,
 			R.string.formula_editor_sensor_face_detected, R.string.formula_editor_sensor_face_size,
-			R.string.formula_editor_sensor_face_x_position, R.string.formula_editor_sensor_face_y_position,
-			R.string.formula_editor_sensor_lego_nxt_1, R.string.formula_editor_sensor_lego_nxt_2,
-			R.string.formula_editor_sensor_lego_nxt_3, R.string.formula_editor_sensor_lego_nxt_4};
+			R.string.formula_editor_sensor_face_x_position, R.string.formula_editor_sensor_face_y_position};
+
+	private static final int[] NXT_SENSOR_ITEMS = {R.string.formula_editor_sensor_lego_nxt_1,
+			R.string.formula_editor_sensor_lego_nxt_2, R.string.formula_editor_sensor_lego_nxt_3,
+			R.string.formula_editor_sensor_lego_nxt_4};
 
 	private String actionBarTitle;
 	private int[] itemsIds;
@@ -124,6 +129,11 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 		setHasOptionsMenu(true);
 
 		this.actionBarTitle = getArguments().getString(ACTION_BAR_TITLE_BUNDLE_ARGUMENT);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
 		String tag = getArguments().getString(FRAGMENT_TAG_BUNDLE_ARGUMENT);
 
 		itemsIds = new int[]{};
@@ -135,7 +145,12 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 		} else if (tag.equals(LOGIC_TAG)) {
 			itemsIds = LOGIC_ITEMS;
 		} else if (tag.equals(SENSOR_TAG)) {
-			itemsIds = SENSOR_ITEMS;
+			itemsIds = DEFAULT_SENSOR_ITEMS;
+
+			if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(this.getActivity().getApplicationContext())) {
+				itemsIds = concatAll(itemsIds, NXT_SENSOR_ITEMS);
+			}
+
 		}
 
 		String[] items = new String[itemsIds.length];
@@ -148,6 +163,20 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
 				R.layout.fragment_formula_editor_list_item, items);
 		setListAdapter(arrayAdapter);
+	}
+
+	private static int[] concatAll(int[] first, int[]... rest) {
+		int totalLength = first.length;
+		for (int[] array : rest) {
+			totalLength += array.length;
+		}
+		int[] result = Arrays.copyOf(first, totalLength);
+		int offset = first.length;
+		for (int[] array : rest) {
+			System.arraycopy(array, 0, result, offset, array.length);
+			offset += array.length;
+		}
+		return result;
 	}
 
 	@Override
