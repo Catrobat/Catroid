@@ -137,10 +137,13 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 
 		NXTSensor.Sensor sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_1);
 		assertEquals("NXT sensor 1 not set correctly!", NXTSensor.Sensor.LIGHT_INACTIVE, sensor);
+
 		sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_2);
 		assertEquals("NXT sensor 2 not set correctly!", NXTSensor.Sensor.TOUCH, sensor);
+
 		sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_3);
 		assertEquals("NXT sensor 3 not set correctly!", NXTSensor.Sensor.TOUCH, sensor);
+
 		sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_4);
 		assertEquals("NXT sensor 4 not set correctly!", NXTSensor.Sensor.ULTRASONIC, sensor);
 
@@ -186,10 +189,13 @@ public class LegoNXTPreferencesTests extends BaseActivityInstrumentationTestCase
 
 		sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_1);
 		assertEquals("NXT sensor 1 not set correctly!", NXTSensor.Sensor.TOUCH, sensor);
+
 		sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_2);
 		assertEquals("NXT sensor 2 not set correctly!", NXTSensor.Sensor.SOUND, sensor);
+
 		sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_3);
 		assertEquals("NXT sensor 3 not set correctly!", NXTSensor.Sensor.LIGHT_INACTIVE, sensor);
+
 		sensor = SettingsActivity.getLegoMindstormsNXTSensorMapping(applicationContext, SettingsActivity.NXT_SENSOR_4);
 		assertEquals("NXT sensor 4 not set correctly!", NXTSensor.Sensor.ULTRASONIC, sensor);
 

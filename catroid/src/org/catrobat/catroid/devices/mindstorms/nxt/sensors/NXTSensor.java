@@ -74,7 +74,6 @@ public abstract class NXTSensor implements MindstormsSensor {
 			} catch (IllegalArgumentException e) {
 				return Sensor.NO_SENSOR;
 			}
-
 		}
 	}
 
@@ -86,7 +85,6 @@ public abstract class NXTSensor implements MindstormsSensor {
 	protected final MindstormsConnection connection;
 
 	protected boolean hasInit;
-
 	protected int lastValidValue = 0;
 
 	public static final String TAG = NXTSensor.class.getSimpleName();

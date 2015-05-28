@@ -403,7 +403,6 @@
   <string name="scanning">Suche</string>
   <string name="connecting_please_wait">Verbinde zum Gerät.\nBitte warten&#8230;</string>
   <string name="bt_connection_failed">Verbindung zum Gerät fehlgeschlagen!</string>
-  <string name="bt_auto_connection_failed">Die automaische Verbindung zum Gerät ist fehlgeschlagen!</string>
   <string name="none_found">Keine nicht verbundenen Geräte gefunden</string>
   <string name="none_paired">Keine verbundenen Geräte gefunden</string>
   <string name="nxt_brick_motor_move">Setze NXT Motor</string>

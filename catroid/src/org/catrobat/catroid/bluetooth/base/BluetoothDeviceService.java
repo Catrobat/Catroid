@@ -37,10 +37,10 @@ public interface BluetoothDeviceService extends CatroidService, StageResourceInt
 	}
 
 	ConnectDeviceResult connectDevice(Class<? extends BluetoothDevice> deviceType,
-			Activity activity, int requestCode, boolean autoConnect);
+			Activity activity, int requestCode);
 
 	ConnectDeviceResult connectDevice(Class<? extends BluetoothDevice> deviceToConnect,
-			Context context, boolean autoConnect);
+			Context context);
 
 	void deviceConnected(BluetoothDevice device);
 	void disconnectDevices();

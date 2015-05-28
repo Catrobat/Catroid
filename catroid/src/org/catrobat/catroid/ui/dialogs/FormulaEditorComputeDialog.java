@@ -75,7 +75,7 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 
 		if ((resources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
 			BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
-			btService.connectDevice(BluetoothDevice.LEGO_NXT, this.getContext(), false);
+			btService.connectDevice(BluetoothDevice.LEGO_NXT, this.getContext());
 		}
 	}
 
