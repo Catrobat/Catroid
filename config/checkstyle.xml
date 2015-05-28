@@ -55,7 +55,18 @@
     <module name="EmptyStatement" />
     <module name="EqualsHashCode" />
     <module name="FallThrough" />
-    <module name="IllegalInstantiation" />
+    <module name="IllegalInstantiation">
+      <property name="classes" value="
+          java.lang.Boolean,
+          java.lang.Byte,
+          java.lang.Character,
+          java.lang.Double,
+          java.lang.Float,
+          java.lang.Integer,
+          java.lang.Long,
+          java.lang.Short,
+          java.lang.String" />
+    </module>
     <module name="MultipleVariableDeclarations" />
     <module name="NoFinalizer" />
     <module name="OneStatementPerLine" />
