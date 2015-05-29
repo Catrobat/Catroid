@@ -77,8 +77,6 @@ public abstract class DroneMoveBrick extends FormulaBrick {
         setFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS, timeToWaitInSeconds);
     }
 
-    protected abstract String getBrickLabel(View view);
-
     @Override
     public abstract List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
 
@@ -224,4 +222,6 @@ public abstract class DroneMoveBrick extends FormulaBrick {
     public void showFormulaEditorToEditFormula(View view) {
         FormulaEditorFragment.showFragment(view, this, BrickField.DRONE_TIME_TO_FLY_IN_SECONDS);
     }
+
+    protected abstract String getBrickLabel(View view);
 }

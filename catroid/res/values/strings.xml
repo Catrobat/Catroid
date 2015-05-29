@@ -462,7 +462,7 @@
     <string name="default_project_var_random_to">random to</string>
 
     <!-- defaultDroneValues -->
-    <string name="default_drone_project_name">My first Drone program</string>
+    <string name="default_drone_project_name">My first drone program</string>
     <string name="default_drone_project_sprites_takeoff">Take off / Land</string>
 
     <!-- <string name="default_drone_project_sprites_blink_led">Blink led</string> -->

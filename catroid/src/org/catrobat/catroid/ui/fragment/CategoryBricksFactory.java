@@ -91,7 +91,6 @@ import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
-import org.catrobat.catroid.content.bricks.SetTextBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
@@ -354,8 +353,10 @@ public class CategoryBricksFactory {
 		droneBrickList.add(new DroneSetConfigBrick());
 		droneBrickList.add(new DroneToggleVideoBrick());
 		droneBrickList.add(new DroneSwitchCameraBrick());
-		droneBrickList.add(new SetTextBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION,
-				BrickValues.STRING_VALUE));
+
+		// Only for demo purpose
+/*		droneBrickList.add(new SetTextBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION,
+				BrickValues.STRING_VALUE));*/
 
 		return droneBrickList;
 	}

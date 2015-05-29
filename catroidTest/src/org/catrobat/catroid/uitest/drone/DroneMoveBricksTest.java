@@ -32,12 +32,12 @@ import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
-public class DroneMoveTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
+public class DroneMoveBricksTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
 	private static final int TIME_IN_SECONDS_TO_CHANGE = 3;
 	private static final int POWER_IN_PERCENT_TO_CHANGE = 40;
 
-	public DroneMoveTest() {
+	public DroneMoveBricksTest() {
 		super(ScriptActivity.class);
 	}
 

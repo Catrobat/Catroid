@@ -30,15 +30,15 @@
     android:orientation="horizontal" >
 
     <CheckBox
-        android:id="@+id/brick_drone_switch_camera_checkbox"
+        android:id="@+id/brick_drone_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_drone_switch_camera"
-        style="@style/BrickContainer.Drone.Medium"
+        android:id="@+id/brick_drone_layout"
+        style="@style/BrickContainer.Drone.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -46,11 +46,10 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
-                android:id="@+id/ValueTextView"
-                style="@style/BrickText.SingleLine"
-                android:text="@string/brick_drone_switch_camera" >
-        </TextView >
-
+            android:id="@+id/brick_drone_label"
+            style="@style/BrickText.SingleLine"
+            android:text="" >
+        </TextView>
     </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

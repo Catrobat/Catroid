@@ -35,7 +35,7 @@ import org.catrobat.catroid.ui.adapter.BrickAdapter;
 
 import java.util.List;
 
-public class BrickBaseType implements Brick {
+public abstract class BrickBaseType implements Brick {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = BrickBaseType.class.getSimpleName();
 	protected transient View view;
@@ -107,33 +107,8 @@ public class BrickBaseType implements Brick {
 	}
 
 	@Override
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
-	@Override
-	public View getViewWithAlpha(int alphaValue) {
-		return null;
-	}
-
-	@Override
 	public Brick clone() throws CloneNotSupportedException {
 		return (Brick) super.clone();
-	}
-
-	@Override
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		return null;
-	}
-
-	@Override
-	public View getPrototypeView(Context context) {
-		return null;
-	}
-
-	@Override
-	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-		return null;
 	}
 
 	@Override
@@ -152,4 +127,20 @@ public class BrickBaseType implements Brick {
 		alphaValue = newAlpha;
 	}
 
+	@Override
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
+	@Override
+	public abstract View getViewWithAlpha(int alphaValue);
+
+	@Override
+	public abstract View getView(Context context, int brickId, BaseAdapter adapter);
+
+	@Override
+	public abstract View getPrototypeView(Context context);
+
+	@Override
+	public abstract List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence);
 }
