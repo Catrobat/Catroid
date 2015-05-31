@@ -44,7 +44,7 @@ public abstract class DroneBasicBrick extends BrickBaseType {
         view = View.inflate(context, R.layout.brick_drone, null);
         view = getViewWithAlpha(alphaValue);
 
-        setCheckboxView(R.id.brick_drone_checkbox);
+        setCheckboxView(R.id.brick_drone_basic_checkbox);
         final Brick brickInstance = this;
         checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -54,7 +54,7 @@ public abstract class DroneBasicBrick extends BrickBaseType {
             }
         });
 
-        TextView label = (TextView) view.findViewById(R.id.brick_drone_label);
+        TextView label = (TextView) view.findViewById(R.id.brick_drone_basic_label);
         label.setText(getBrickLabel(view));
 
         return view;
@@ -64,7 +64,7 @@ public abstract class DroneBasicBrick extends BrickBaseType {
     public View getPrototypeView(Context context) {
         View prototypeView = View.inflate(context, R.layout.brick_drone, null);
 
-        TextView label = (TextView) prototypeView.findViewById(R.id.brick_drone_label);
+        TextView label = (TextView) prototypeView.findViewById(R.id.brick_drone_basic_label);
         label.setText(getBrickLabel(prototypeView));
 
         return prototypeView;
@@ -73,12 +73,12 @@ public abstract class DroneBasicBrick extends BrickBaseType {
     @Override
     public View getViewWithAlpha(int alphaValue) {
         if (view != null) {
-            View layout = view.findViewById(R.id.brick_drone_layout);
+            View layout = view.findViewById(R.id.brick_drone_basic_layout);
             Drawable background = layout.getBackground();
             background.setAlpha(alphaValue);
             this.alphaValue = (alphaValue);
 
-            TextView label = (TextView) view.findViewById(R.id.brick_drone_label);
+            TextView label = (TextView) view.findViewById(R.id.brick_drone_basic_label);
             label.setText(getBrickLabel(view));
         }
 

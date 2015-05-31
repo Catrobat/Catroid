@@ -73,10 +73,9 @@ public abstract class DroneTestUtils {
         Script script = new StartScript();
 
         for (DroneBricks brick : DroneBrickFactory.DroneBricks.values()) {
-            String brickName = brick.name().toLowerCase(Locale.getDefault());
-            BrickBaseType moveBrick = DroneBrickFactory.getInstanceOfDroneBrick(brick,
+            BrickBaseType currentBrick = DroneBrickFactory.getInstanceOfDroneBrick(brick,
                     DEFAULT_MOVE_TIME_IN_MILLISECONDS, DEFAULT_MOVE_POWER_IN_PERCENT);
-            script.addBrick(moveBrick);
+            script.addBrick(currentBrick);
             sprite.addScript(script);
         }
         project.addSprite(sprite);
