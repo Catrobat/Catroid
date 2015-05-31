@@ -161,6 +161,10 @@
     <property name="lineSeparator" value="lf" />
   </module>
   <module name="UniqueProperties" />
+  <module name="RegexpMultiline">
+    <property name="format" value="\r" />
+    <property name="message" value="Do not use Windows line endings." />
+  </module>
 
   <module name="RegexpHeader">
     <property name="headerFile" value="catroidSourceTest/res/agpl_license_text.txt" />
