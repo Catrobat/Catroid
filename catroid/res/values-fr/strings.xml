@@ -395,7 +395,6 @@ il faut
   <string name="title_other_devices">Nouveau périphériques</string>
   <string name="button_scan">Rechercher les périphériques Bluetooth</string>
   <string name="select_device">Select Device:</string>
-  <string name="scanning">Scan en cours</string>
   <string name="connecting_please_wait">Connexion à votre périphérique.\nPatientez&#8230;</string>
   <string name="bt_connection_failed">Échec de la connexion au périphérique !</string>
   <string name="none_found">Aucun périphérique non liés trouvés</string>

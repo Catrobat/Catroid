@@ -390,7 +390,6 @@
   <string name="title_other_devices">Nieuwe apparaten</string>
   <string name="button_scan">Zoeken naar Bluetooth-apparaten</string>
   <string name="select_device">Select Device:</string>
-  <string name="scanning">Scannen</string>
   <string name="connecting_please_wait">Verbinding maken met je apparaat.\nEven wachten&#8230;</string>
   <string name="bt_connection_failed">Verbinding maken mislukt!</string>
   <string name="none_found">Geen niet-gekoppelde apparaten gevonden</string>

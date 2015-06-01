@@ -381,7 +381,6 @@
   <string name="title_other_devices">อุปกรณ์ใหม่</string>
   <string name="button_scan">ค้นหาอุปกรณ์ Bluetooth</string>
   <string name="select_device">Select Device:</string>
-  <string name="scanning">กำลังสแกน</string>
   <string name="connecting_please_wait">กำลังเชื่อมต่อกับอุปกรณ์ \nกรุณารอ...</string>
   <string name="bt_connection_failed">เชื่อมต่อกับอุปกรณ์ล้มเหลว!</string>
   <string name="none_found">ไม่พบอุปกรณ์ที่ยังไม่ได้จับคู่</string>

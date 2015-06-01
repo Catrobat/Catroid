@@ -537,7 +537,6 @@
     <string name="searching_devices">Looking for devices &#8230;</string>
     <string name="button_scan">Search Bluetooth devices</string>
     <string name="select_device">Select Device:</string>
-    <string name="scanning">Scanning</string>
     <string name="connecting_please_wait">Connecting to your device.\nPlease wait…</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
     <string name="bt_connection_failed">Connection to device failed!</string>

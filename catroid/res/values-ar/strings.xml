@@ -420,7 +420,6 @@
   <string name="title_other_devices">أجهزة جديدة</string>
   <string name="button_scan">البحث عن أجهزة Bluetooth</string>
   <string name="select_device">Select Device:</string>
-  <string name="scanning">جار المسح</string>
   <string name="connecting_please_wait">الاتصال بالجهاز الخاص بك الرجاء الانتظار...</string>
   <string name="bt_connection_failed">فشل الاتصال بالجهاز!</string>
   <string name="none_found">لم يتم العثور على أجهزة غير مقترن </string>

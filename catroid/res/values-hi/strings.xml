@@ -399,7 +399,6 @@
   <string name="title_other_devices">नए उपकरण</string>
   <string name="button_scan">ब्लूटूथ उपकरण ढूंढें</string>
   <string name="select_device">Select Device:</string>
-  <string name="scanning">अवलोकन कर रहें हैं</string>
   <string name="connecting_please_wait">उपकरण को संपर्क कर रहें हैं।\nप्रतीक्षा करे...</string>
   <string name="bt_connection_failed">उपकरण से संपर्क नहीं हो पा रहा हैं!</string>
   <string name="none_found">ऐसा कोई उपकरण नहीं मिला जो युग्मित ना हों</string>

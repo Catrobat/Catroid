@@ -390,7 +390,6 @@
   <string name="title_other_devices">Nye enheder</string>
   <string name="button_scan">Søg efter Bluetooth-enheder</string>
   <string name="select_device">Select Device:</string>
-  <string name="scanning">Skanning</string>
   <string name="connecting_please_wait">Tilslutning til din enhed.\nVent venligst ...</string>
   <string name="bt_connection_failed">Tilslutning til enhed mislykkedes!</string>
   <string name="none_found">Ingen uparrede enheder fundet</string>
