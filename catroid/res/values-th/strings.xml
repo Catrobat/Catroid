@@ -101,8 +101,6 @@
   <string name="dialog_confirm_delete_multiple_objects_title">ลบวัตถุเหล่านี้หรือไม่?</string>
   <string name="dialog_confirm_delete_object_message">การกระทำนี้ไม่สามารถยกเลิกได้!</string>
   <string name="select_all">เลือก​ทั้ง​หมด</string>
-  <string name="copy_sprite_finished">คัดลอกแล้ว.</string>
-  <string name="copy_sprite_prefix">วัตถุ:</string>
   <string name="copy_sprite_name_suffix">_ทำซ้ำ</string>
   <string name="scripts">สคริปต์</string>
   <string name="look">รูปลักษณ์</string>
@@ -225,7 +223,6 @@
   <string name="category_looks">รูปลักษณ์</string>
   <string name="category_sound">เสียง</string>
   <string name="category_control">ควบคุม</string>
-  <string name="category_variables">ตัวแปร</string>
   <string name="category_user_bricks">ก้อนคำสั่งของฉัน</string>
   <string name="category_data">ข้อมูล</string>
   <string name="category_lego_nxt">Lego NXT</string>
@@ -277,8 +274,6 @@
   <string name="brick_change_volume_by">เปลี่ยนระดับเสียงทีละ</string>
   <string name="brick_speak">พูด</string>
   <string name="brick_speak_default_value">"สวัสดี!"</string>
-  <string name="dialog_edit_speak_title">แก้ไขข้อความ</string>
-  <string name="dialog_edit_speak_text">พูด:</string>
   <string name="brick_when_started">เมื่อโปรแกรมเริ่มทำงาน</string>
   <string name="brick_when">เมื่อเคาะ</string>
   <string name="brick_wait">รอ</string>
@@ -390,7 +385,6 @@
   <string name="select_device">เลือกอุปกรณ์: </string>
   <string name="scanning">กำลังสแกน</string>
   <string name="connecting_please_wait">กำลังเชื่อมต่อกับอุปกรณ์ \nกรุณารอ...</string>
-  <string name="problem_at_closing">ปัญหาในขณะที่ปิดการเชื่อมต่อ</string>
   <string name="bt_connection_failed">เชื่อมต่อกับอุปกรณ์ล้มเหลว!</string>
   <string name="bt_auto_connection_failed">เชื่อมต่ออัตโนมัติล้มเหลว!</string>
   <string name="no_paired_nxt">ไม่พบอุปกรณ์ NXT ที่จับคู่ไว้</string>
@@ -503,11 +497,9 @@
   <string name="formula_editor_compute">คำนวณ</string>
   <string name="formula_editor_object">วัตถุ</string>
   <string name="formula_editor_math">คณิตศาสตร์</string>
-  <string name="formula_editor_function">ฟังก์ชัน</string>
   <string name="formula_editor_logic">ตรรกะ</string>
   <string name="formula_editor_sensors">เซนเซอร์</string>
   <string name="formula_editor_variables">ตัวแปร</string>
-  <string name="formula_editor_random">สุ่ม</string>
   <string name="formula_editor_string">Abc</string>
   <string name="formula_editor_logic_notequal">≠</string>
   <string name="formula_editor_logic_lesserthan">&lt;</string>
@@ -531,7 +523,6 @@
   <string name="formula_editor_data_dialog_hint">ป้อนชื่อ</string>
   <string name="formula_editor_discard_changes_dialog_message">คุณต้องบันทึกการเปลี่ยนแปลงหรือไม่?</string>
   <string name="formula_editor_discard_changes_dialog_title">บันทึกการเปลี่ยนแปลงหรือไม่?</string>
-  <string name="variable_name">variable name:</string>
   <string name="formula_editor_new_string_name">ข้อความใหม่</string>
   <string name="formula_editor_new_string_dialog_hint">ป้อนข้อความใหม่ที่นี่</string>
   <string name="formula_editor_data_dialog_title">สร้างใหม่</string>

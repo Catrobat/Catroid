@@ -214,4 +214,8 @@ public class Project implements Serializable {
 		}
 		return true;
 	}
+
+	public void setXmlHeader(XmlHeader xmlHeader) {
+		this.xmlHeader = xmlHeader;
+	}
 }

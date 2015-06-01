@@ -103,8 +103,6 @@
   <string name="dialog_confirm_delete_multiple_objects_title">Eliminare questi oggetti?</string>
   <string name="dialog_confirm_delete_object_message">Questa azione non può essere annullata!</string>
   <string name="select_all">Seleziona tutto</string>
-  <string name="copy_sprite_finished">copiato.</string>
-  <string name="copy_sprite_prefix">Oggetto:</string>
   <string name="copy_sprite_name_suffix">_Copia</string>
   <string name="scripts">Script</string>
   <string name="look">Aspetto</string>
@@ -230,7 +228,6 @@
   <string name="category_looks">Aspetto</string>
   <string name="category_sound">Suono</string>
   <string name="category_control">Controllo</string>
-  <string name="category_variables">Variabili</string>
   <string name="category_user_bricks">I miei mattoncini</string>
   <string name="category_data">Dati</string>
   <string name="category_lego_nxt">Lego NXT</string>
@@ -284,8 +281,6 @@
   <string name="brick_change_volume_by">Modifica il volume di</string>
   <string name="brick_speak">Parla</string>
   <string name="brick_speak_default_value">"Ciao!"</string>
-  <string name="dialog_edit_speak_title">Modifica testo</string>
-  <string name="dialog_edit_speak_text">Parla:</string>
   <string name="brick_when_started">Quando il programma inizia</string>
   <string name="brick_when">Quando premuto</string>
   <string name="brick_wait">Attendi</string>
@@ -366,8 +361,8 @@
   <string name="error_no_writiable_external_storage_available">Pocket Code richiede un supporto di archiviazione esterno scrivibile come una scheda SD per essere eseguito, ma nessun supporto è stato trovato. \nPuoi risolvere questo problema, rendendo il supporto esterno scrivibile o inserendo una scheda SD, quindi riprovare.</string>
   <string name="error_no_name_entered">Inserisci un nome.</string>
   <string name="error_project_exists">Un programma con lo stesso nome esiste già. \nScegliere un nome diverso.</string>
-  <string name="error_delete_project">An error while deleting the program occurred</string>
-  <string name="error_unknown_project">A program with that name does not exist.</string>
+  <string name="error_delete_project">Si è verificato un errore durante la cancellazione del programma</string>
+  <string name="error_unknown_project">Non esiste un programma con il nome specificato.</string>
   <string name="error_project_upload">Errore durante il caricamento del programma.</string>
   <string name="error_project_download">Errore durante il download del programma.</string>
   <string name="error_new_project">Errore durante la creazione di un nuovo programma.</string>
@@ -399,7 +394,6 @@
   <string name="select_device">Seleziona il tuo Lego Mindstorms NXT</string>
   <string name="scanning">Scansione in corso</string>
   <string name="connecting_please_wait">Connessione al tuo dispositivo. \nAttendere&#8230;</string>
-  <string name="problem_at_closing">Problema durante la chiusura della connessione!</string>
   <string name="bt_connection_failed">Connessione al dispositivo non riuscita!</string>
   <string name="bt_auto_connection_failed">Connessione automatica non riuscita!</string>
   <string name="no_paired_nxt">Nessun NXT accoppiato</string>
@@ -512,11 +506,9 @@
   <string name="formula_editor_compute">Calcola</string>
   <string name="formula_editor_object">Oggetto</string>
   <string name="formula_editor_math">Matematica</string>
-  <string name="formula_editor_function">Funzioni</string>
   <string name="formula_editor_logic">Logica</string>
   <string name="formula_editor_sensors">Sensori</string>
   <string name="formula_editor_variables">Variabili</string>
-  <string name="formula_editor_random">Casuale</string>
   <string name="formula_editor_string">Abc</string>
   <string name="formula_editor_logic_notequal">≠</string>
   <string name="formula_editor_logic_lesserthan">&lt;</string>
@@ -540,7 +532,6 @@
   <string name="formula_editor_data_dialog_hint">Inserisci nome</string>
   <string name="formula_editor_discard_changes_dialog_message">Si desidera salvare le modifiche?</string>
   <string name="formula_editor_discard_changes_dialog_title">Salvare le modifiche?</string>
-  <string name="variable_name">variable name:</string>
   <string name="formula_editor_new_string_name">Nuovo testo</string>
   <string name="formula_editor_new_string_dialog_hint">Immetti qui il nuovo testo.</string>
   <string name="formula_editor_data_dialog_title">Nuovo</string>

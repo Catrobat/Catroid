@@ -296,7 +296,14 @@ public final class LookController {
 
 		Uri imageUri = intent.getData();
 		if (imageUri != null) {
-			originalImagePath = imageUri.getPath();
+
+			Cursor cursor = activity.getContentResolver().query(imageUri, new String[] { android.provider.MediaStore.Images.ImageColumns.DATA }, null, null, null);
+
+			if (cursor != null) {
+				cursor.moveToFirst();
+				originalImagePath = cursor.getString(0);
+				cursor.close();
+			}
 		}
 
 		if (originalImagePath == null || originalImagePath.equals("")) {
