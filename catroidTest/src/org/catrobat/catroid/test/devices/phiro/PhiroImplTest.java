@@ -28,18 +28,18 @@ import android.test.AndroidTestCase;
 import com.google.common.base.Stopwatch;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
+import org.catrobat.catroid.common.firmata.FirmataMessage;
+import org.catrobat.catroid.common.firmata.FirmataUtils;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.devices.arduino.phiro.PhiroImpl;
 
-import java.nio.ByteBuffer;
 import java.util.concurrent.TimeUnit;
-
-import name.antonsmirnov.firmata.BytesHelper;
 
 public class PhiroImplTest extends AndroidTestCase {
 
 	private Phiro phiro;
 	private ConnectionDataLogger logger;
+	private FirmataUtils firmataUtils;
 
 	private static final int PIN_SPEAKER_OUT = 3;
 
@@ -75,6 +75,7 @@ public class PhiroImplTest extends AndroidTestCase {
 
 		phiro = new PhiroImpl();
 		logger = ConnectionDataLogger.createLocalConnectionLogger();
+		firmataUtils = new FirmataUtils(logger);
 		phiro.setConnection(logger.getConnectionProxy());
 	}
 
@@ -185,10 +186,12 @@ public class PhiroImplTest extends AndroidTestCase {
 
 		phiro.playTone(tone, durationInSeconds);
 
+		FirmataMessage m = firmataUtils.getAnalogMesageData();
+
 		assertEquals("Wrong command, ANALOG_MESSAGE command on speaker pin expected",
-				ANALOG_MESSAGE_COMMAND | BytesHelper.ENCODE_CHANNEL(PIN_SPEAKER_OUT), getNextMessage());
-		assertEquals("Wrong lsb speed", BytesHelper.LSB(tone), getNextMessage());
-		assertEquals("Wrong msb speed", BytesHelper.MSB(tone), getNextMessage());
+				ANALOG_MESSAGE_COMMAND, m.getCommand());
+		assertEquals("Wrong pin", PIN_SPEAKER_OUT, m.getPin());
+		assertEquals("Wrong tone", tone, m.getData());
 
 		Stopwatch stopwatch = Stopwatch.createStarted();
 		while (stopwatch.elapsed(TimeUnit.SECONDS) < durationInSeconds) {
@@ -196,17 +199,21 @@ public class PhiroImplTest extends AndroidTestCase {
 			Thread.sleep(durationInSeconds * 100);
 		}
 
+		m = firmataUtils.getAnalogMesageData();
+
 		assertEquals("Wrong command, ANALOG_MESSAGE command on speaker pin expected",
-				ANALOG_MESSAGE_COMMAND | BytesHelper.ENCODE_CHANNEL(PIN_SPEAKER_OUT), getNextMessage());
-		assertEquals("Wrong lsb speed", 0, getNextMessage());
-		assertEquals("Wrong msb speed", 0, getNextMessage());
+				ANALOG_MESSAGE_COMMAND, m.getCommand());
+		assertEquals("Wrong pin", PIN_SPEAKER_OUT, m.getPin());
+		assertEquals("Wrong tone", 0, m.getData());
 	}
-	
+
 	private void doTestFirmataInitialization() {
 		for (int i = MIN_PWM_PIN; i <= MAX_PWM_PIN; ++i) {
-			assertEquals("Wrong Command, SET_PIN_MODE command expected", SET_PIN_MODE_COMMAND, getNextMessage());
-			assertEquals("Wrong pin used to set pin mode", i, getNextMessage());
-			assertEquals("Wrong pin mode is used", PWM_MODE, getNextMessage());
+			FirmataMessage m = firmataUtils.getSetPinModeMessage();
+
+			assertEquals("Wrong Command, SET_PIN_MODE command expected", SET_PIN_MODE_COMMAND, m.getCommand());
+			assertEquals("Wrong pin used to set pin mode", i, m.getPin());
+			assertEquals("Wrong pin mode is used", PWM_MODE, m.getData());
 		}
 
 		testReportAnalogPin(true);
@@ -214,32 +221,33 @@ public class PhiroImplTest extends AndroidTestCase {
 
 	private void testReportAnalogPin(boolean enable) {
 		for (int i = MIN_SENSOR_PIN; i <= MAX_SENSOR_PIN; ++i) {
-			assertEquals("Wrong Command, REPORT_ANALOG_PIN command expected",
-					REPORT_ANALOG_PIN_COMMAND | BytesHelper.ENCODE_CHANNEL(i), getNextMessage());
-			assertEquals("Wrong pin mode is used", enable ? 1 : 0, getNextMessage());
-		}
-	}
+			FirmataMessage m = firmataUtils.getReportAnalogPinMessage();
 
-	private int getNextMessage() {
-		byte[] message = logger.getNextSentMessage();
-		assertNotNull("Their is no message", message);
-		ByteBuffer bb = ByteBuffer.wrap(message);
-		return bb.getInt();
+			assertEquals("Wrong Command, REPORT_ANALOG_PIN command expected", REPORT_ANALOG_PIN_COMMAND, m.getCommand());
+			assertEquals("Wrong pin used to set pin mode", i, m.getPin());
+			assertEquals("Wrong pin mode is used", enable ? 1 : 0, m.getData());
+		}
 	}
 
 	private void testSpeed(int speedInPercent, int pin) {
 		int speed = percentToSpeed(speedInPercent);
+
+		FirmataMessage m = firmataUtils.getAnalogMesageData();
+
+
 		assertEquals("Wrong command, ANALOG_MESSAGE command expected",
-				ANALOG_MESSAGE_COMMAND | BytesHelper.ENCODE_CHANNEL(pin), getNextMessage());
-		assertEquals("Wrong lsb speed", BytesHelper.LSB(speed), getNextMessage());
-		assertEquals("Wrong msb speed", BytesHelper.MSB(speed), getNextMessage());
+				ANALOG_MESSAGE_COMMAND, m.getCommand());
+		assertEquals("Wrong lsb speed", pin, m.getPin());
+		assertEquals("Wrong msb speed", speed, m.getData());
 	}
 
 	private void testLight(int color, int pin) {
+		FirmataMessage m = firmataUtils.getAnalogMesageData();
+
 		assertEquals("Wrong command, ANALOG_MESSAGE command expected",
-				ANALOG_MESSAGE_COMMAND | BytesHelper.ENCODE_CHANNEL(pin), getNextMessage());
-		assertEquals("Wrong lsb color", BytesHelper.LSB(color), getNextMessage());
-		assertEquals("Wrong msb color", BytesHelper.MSB(color), getNextMessage());
+				ANALOG_MESSAGE_COMMAND, m.getCommand());
+		assertEquals("Wrong pin", pin, m.getPin());
+		assertEquals("Wrong color", color, m.getData());
 	}
 
 	private int percentToSpeed(int percent) {
