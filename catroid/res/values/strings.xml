@@ -626,13 +626,13 @@
     <string name="brick_phiro_sensor_second_part">is activated</string>
 
     <!-- tone -->
-    <string name="phiro_play_tone">Phiro music\n</string>
+    <string name="phiro_play_tone">Play Phiro music\n</string>
     <string name="phiro_tone_duration">Duration</string>
     <string name="brick_phiro_select_tone">tone</string>
     <string name="phiro_seconds">seconds</string>
 
     <!-- light -->
-    <string name="brick_phiro_rgb_led_action">Phiro light</string>
+    <string name="brick_phiro_rgb_led_action">Set Phiro light</string>
     <string name="phiro_rgb_led_red">Red</string>
     <string name="phiro_rgb_led_green">Green</string>
     <string name="phiro_rgb_led_blue">Blue</string>

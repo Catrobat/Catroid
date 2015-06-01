@@ -186,15 +186,15 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				}
 				break;
 
-			case PHIRO_PRO_BOTTOM_LEFT:
-			case PHIRO_PRO_BOTTOM_RIGHT:
-			case PHIRO_PRO_FRONT_LEFT:
-			case PHIRO_PRO_FRONT_RIGHT:
-			case PHIRO_PRO_SIDE_LEFT:
-			case PHIRO_PRO_SIDE_RIGHT:
-				Phiro phiroPro = btService.getDevice(BluetoothDevice.PHIRO);
-				if (phiroPro != null) {
-					return Double.valueOf(phiroPro.getSensorValue(sensor));
+			case PHIRO_BOTTOM_LEFT:
+			case PHIRO_BOTTOM_RIGHT:
+			case PHIRO_FRONT_LEFT:
+			case PHIRO_FRONT_RIGHT:
+			case PHIRO_SIDE_LEFT:
+			case PHIRO_SIDE_RIGHT:
+				Phiro phiro = btService.getDevice(BluetoothDevice.PHIRO);
+				if (phiro != null) {
+					return Double.valueOf(phiro.getSensorValue(sensor));
 				}
 				break;
 		}

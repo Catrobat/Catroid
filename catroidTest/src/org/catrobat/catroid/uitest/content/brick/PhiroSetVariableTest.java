@@ -36,6 +36,9 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PhiroSetVariableBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrick;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -190,7 +193,7 @@ public class PhiroSetVariableTest extends BaseActivityInstrumentationTestCase<Ma
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript();
-		setVariableBrick = new PhiroSetVariableBrick("phiro_front_left_sensor");
+		setVariableBrick = new PhiroSetVariableBrick(new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR, Sensors.PHIRO_FRONT_LEFT.toString(), null)), null);
 		script.addBrick(setVariableBrick);
 
 		sprite.addScript(script);

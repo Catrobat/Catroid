@@ -280,19 +280,4 @@ public class Formula implements Serializable {
 			return String.valueOf(interpretationResult);
 		}
 	}
-
-	public boolean containsPhiroProSensors() {
-		List<InternToken> internTokenList = formulaTree.getInternTokenList();
-		for (InternToken internToken : internTokenList) {
-			if ((internToken.getTokenStringValue() == Sensors.PHIRO_PRO_FRONT_LEFT.toString()) ||
-					(internToken.getTokenStringValue() == Sensors.PHIRO_PRO_FRONT_RIGHT.toString()) ||
-					(internToken.getTokenStringValue() == Sensors.PHIRO_PRO_SIDE_LEFT.toString()) ||
-					(internToken.getTokenStringValue() == Sensors.PHIRO_PRO_SIDE_RIGHT.toString()) ||
-					(internToken.getTokenStringValue() == Sensors.PHIRO_PRO_BOTTOM_LEFT.toString()) ||
-					(internToken.getTokenStringValue() == Sensors.PHIRO_PRO_BOTTOM_RIGHT.toString())) {
-				return true;
-			}
-		}
-		return false;
-	}
 }
