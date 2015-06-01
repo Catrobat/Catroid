@@ -34,7 +34,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class Formula implements Serializable {
 

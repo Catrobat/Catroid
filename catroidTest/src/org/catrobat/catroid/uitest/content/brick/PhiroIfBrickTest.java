@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.uitest.content.brick;
 
-import android.util.Log;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -35,10 +33,9 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
-import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfLogicElseBrick;
 import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
-import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
@@ -48,7 +45,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 import java.util.ArrayList;
 
 public class PhiroIfBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
-	private static final String TAG = PhiroIfBrickTest.class.getSimpleName();
 	private Project project;
 	private PhiroIfLogicBeginBrick ifBrick;
 
@@ -70,9 +66,6 @@ public class PhiroIfBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		int childrenCount = adapter.getChildCountFromLastGroup();
 
-		//no need for this
-//		UiTestUtils.testBrickWithFormulaEditor(solo, ProjectManager.getInstance().getCurrentSprite(),
-//				R.id.brick_phiro_sensor_action_spinner, 5, Brick.BrickField.IF_PHIRO_SENSOR_CONDITION, ifBrick);
 		String[] motors = getActivity().getResources().getStringArray(R.array.brick_phiro_select_sensor_spinner);
 		assertTrue("Spinner items list too short!", motors.length == 6);
 
@@ -118,12 +111,6 @@ public class PhiroIfBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("String: " + getActivity().getString(R.string.brick_phiro_sensor_begin) + " not found!", isFound);
 	}
 
-	private void logBrickListForJenkins(ArrayList<Brick> projectBrickList) {
-		for (Brick brick : projectBrickList) {
-			Log.d(TAG, "Brick at Positon " + projectBrickList.indexOf(brick) + ": " + brick.getClass().getSimpleName());
-		}
-	}
-
 	private void createProject() {
 		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 		Sprite sprite = new Sprite("cat");
@@ -146,17 +133,5 @@ public class PhiroIfBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
-	}
-
-	private void clickOnDeleteInDialog() {
-		if (!solo.waitForText(solo.getString(R.string.brick_context_dialog_delete_brick), 0, 5000)) {
-			fail("Text not shown in 5 secs!");
-		}
-
-		solo.clickOnText(solo.getString(R.string.brick_context_dialog_delete_brick));
-		solo.clickOnText(solo.getString(R.string.yes));
-		if (!solo.waitForView(ListView.class, 0, 5000)) {
-			fail("Dialog does not close in 5 sec!");
-		}
 	}
 }
