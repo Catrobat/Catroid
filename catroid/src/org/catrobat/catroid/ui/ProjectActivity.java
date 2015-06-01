@@ -27,12 +27,11 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -98,7 +97,7 @@ public class ProjectActivity extends BaseActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (spritesListFragment != null && spritesListFragment.isLoading == false) {
-			getSupportMenuInflater().inflate(R.menu.menu_current_project, menu);
+			getMenuInflater().inflate(R.menu.menu_current_project, menu);
 		}
 		return super.onCreateOptionsMenu(menu);
 	}

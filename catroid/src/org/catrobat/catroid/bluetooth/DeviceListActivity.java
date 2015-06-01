@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.bluetooth;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -86,7 +87,7 @@ public class DeviceListActivity extends Activity {
 					newDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
 				}
 			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-				setProgressBarIndeterminateVisibility(false);
+				setProgressBarIndeterminateVisibilityCompat(false);
 				setTitle(R.string.select_device);
 				if (newDevicesArrayAdapter.isEmpty()) {
 					String noDevices = getResources().getString(R.string.none_found);
@@ -113,7 +114,7 @@ public class DeviceListActivity extends Activity {
 			this.setVisible(false);
 		}
 
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		requestWindowFeature_FEATURE_INDETERMINATE_PROGRESS();
 		setContentView(R.layout.device_list);
 		setTitle(R.string.select_device);
 
@@ -207,7 +208,7 @@ public class DeviceListActivity extends Activity {
 
 	private void doDiscovery() {
 
-		setProgressBarIndeterminateVisibility(true);
+		setProgressBarIndeterminateVisibilityCompat(true);
 		setTitle(R.string.scanning);
 
 		findViewById(R.id.title_new_devices).setVisibility(View.VISIBLE);
@@ -217,6 +218,24 @@ public class DeviceListActivity extends Activity {
 		}
 
 		btAdapter.startDiscovery();
+	}
+
+	/**
+	 * Method is needed only to be annotated with SuppressLint because of use of AppCompat lib for project
+	 *
+	 * @param value value to set
+	 */
+	@SuppressLint("AppCompatMethod")
+	private void setProgressBarIndeterminateVisibilityCompat(boolean value) {
+		setProgressBarIndeterminateVisibility(value);
+	}
+
+	/**
+	 * Method is needed only to be annotated with SuppressLint because of use of AppCompat lib for project.
+	 */
+	@SuppressLint("AppCompatMethod")
+	private void requestWindowFeature_FEATURE_INDETERMINATE_PROGRESS() {
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 	}
 
 }
