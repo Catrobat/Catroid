@@ -116,7 +116,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICKFIELD_BUNDLE_ARGUMENT));
 		cloneFormulaBrick(formulaBrick);
 		currentFormula = clonedFormulaBrick.getFormulaWithBrickField(currentBrickField);
-		setHasOptionsMenu(!ViewConfiguration.get(getActivity()).hasPermanentMenuKey());
+		setHasOptionsMenu(true);
 	}
 
 	private void setUpActionBar() {
@@ -236,7 +236,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 		setInputFormula(currentBrickField, SET_FORMULA_ON_CREATE_VIEW);
 
-		setHasOptionsMenu(!ViewConfiguration.get(getActivity()).hasPermanentMenuKey());
+		setHasOptionsMenu(true);
 		setUpActionBar();
 
 		return fragmentView;
