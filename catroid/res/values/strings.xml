@@ -638,10 +638,6 @@
     <string name="phiro_rgb_led_blue">Blue</string>
     <!--  -->
 
-    <string name="phiro_color_chooser_title">Phiro color chooser</string>
-    <string name="phiro_motor_forward_title">Phiro move motor forward chooser</string>
-    <string name="phiro_motor_backward_title">Phiro move motor backward chooser</string>
-
     <!-- Phiro tone strings -->
     <string name="phiro_tone_do">Do</string>
     <string name="phiro_tone_re">Re</string>
@@ -677,12 +673,7 @@
     <string name="color_red">Red</string>
     <string name="color_green">Green</string>
     <string name="color_blue">Blue</string>
-    <string name="color_alpha">Alpha</string>
-    <string name="color_pre">preselected</string>
-    <string name="color_chooser_title">Color Chooser</string>
-    <string name="color_rgb">Red Green Blue (RGB)</string>
     <string name="color_preview">Color Preview</string>
-    <string name="done">Done</string>
     <!-- -->
 
     <!-- Formula Editor Strings -->

@@ -68,7 +68,7 @@
             android:id="@+id/brick_phiro_play_tone_duration"
             style="@style/BrickText.SingleLine"
             app:layout_newLine="true"
-            android:text="@string/phiro_play_tone" >
+            android:text="@string/phiro_tone_duration" >
         </TextView >
 
         <TextView

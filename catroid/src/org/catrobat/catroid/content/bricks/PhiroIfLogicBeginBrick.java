@@ -41,7 +41,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -57,11 +56,6 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 
 	public PhiroIfLogicBeginBrick() {
 		addAllowedBrickField(BrickField.IF_PHIRO_SENSOR_CONDITION);
-	}
-
-	private void initializeBrickFields(Formula ifCondition) {
-		addAllowedBrickField(BrickField.IF_CONDITION);
-		setFormulaWithBrickField(BrickField.IF_CONDITION, ifCondition);
 	}
 
 	@Override
@@ -165,11 +159,9 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 			phiroProSensorSpinner.getBackground().setAlpha(alphaValue);
 
 			TextView ifLabel = (TextView) view.findViewById(R.id.brick_phiro_sensor_label);
-//			TextView ifLabelSecondPart = (TextView) view.findViewById(R.id.brick_phiro_sensor_action_label);
 			TextView ifLabelEnd = (TextView) view.findViewById(R.id.phiro_sensor_label_second_part);
 
 			ifLabel.setTextColor(ifLabel.getTextColors().withAlpha(alphaValue));
-//			ifLabelSecondPart.setTextColor(ifLabel.getTextColors().withAlpha(alphaValue));
 			ifLabelEnd.setTextColor(ifLabelEnd.getTextColors().withAlpha(alphaValue));
 			this.alphaValue = (alphaValue);
 		}
