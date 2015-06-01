@@ -107,7 +107,6 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
 		setUpActionBar();
 		onFormulaChangedListener = (OnFormulaChangedListener) ((ScriptActivity) getActivity())
 				.getFragment(ScriptActivity.FRAGMENT_SCRIPTS);
@@ -116,6 +115,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		currentBrickField = Brick.BrickField.valueOf(getArguments().getString(BRICKFIELD_BUNDLE_ARGUMENT));
 		cloneFormulaBrick(formulaBrick);
 		currentFormula = clonedFormulaBrick.getFormulaWithBrickField(currentBrickField);
+		setHasOptionsMenu(true);
 	}
 
 	private void setUpActionBar() {
