@@ -58,8 +58,6 @@ public class PhiroSetVariableBrick extends UserVariableBrick {
 	private static final long serialVersionUID = 1L;
 	private transient AdapterView<?> adapterView;
 
-	private String stringInPrototype;
-
 	public PhiroSetVariableBrick() {
 		addAllowedBrickField(BrickField.VARIABLE);
 	}
@@ -77,12 +75,6 @@ public class PhiroSetVariableBrick extends UserVariableBrick {
 	private void initializeBrickFields(Formula variableFormula) {
 		addAllowedBrickField(BrickField.VARIABLE);
 		setFormulaWithBrickField(BrickField.VARIABLE, variableFormula);
-	}
-
-	public PhiroSetVariableBrick(String value) {
-		this.stringInPrototype = value;
-		initializeBrickFields(new Formula(value));
-		this.userVariable = null;
 	}
 
 	@Override
@@ -209,22 +201,22 @@ public class PhiroSetVariableBrick extends UserVariableBrick {
 
 		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_set_variable_prototype_view);
 
-		if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_FRONT_LEFT.toString())) {
+		if (this.getFormula().getRoot().getValue().equals(Sensors.PHIRO_FRONT_LEFT.toString())) {
 			textSetVariable.setText(context.getResources().getString(
 					R.string.formula_editor_phiro_sensor_front_left));
-		} else if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_FRONT_RIGHT.toString())) {
+		} else if (this.getFormula().getRoot().getValue().equals(Sensors.PHIRO_FRONT_RIGHT.toString())) {
 			textSetVariable.setText(context.getResources().getString(
 					R.string.formula_editor_phiro_sensor_front_right));
-		} else if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_SIDE_LEFT.toString())) {
+		} else if (this.getFormula().getRoot().getValue().equals(Sensors.PHIRO_SIDE_LEFT.toString())) {
 			textSetVariable.setText(context.getResources().getString(
 					R.string.formula_editor_phiro_sensor_side_left));
-		} else if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_SIDE_RIGHT.toString())) {
+		} else if (this.getFormula().getRoot().getValue().equals(Sensors.PHIRO_SIDE_RIGHT.toString())) {
 			textSetVariable.setText(context.getResources().getString(
 					R.string.formula_editor_phiro_sensor_side_right));
-		} else if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_BOTTOM_LEFT.toString())) {
+		} else if (this.getFormula().getRoot().getValue().equals(Sensors.PHIRO_BOTTOM_LEFT.toString())) {
 			textSetVariable.setText(context.getResources().getString(
 					R.string.formula_editor_phiro_sensor_bottom_left));
-		} else if (stringInPrototype.equalsIgnoreCase(Sensors.PHIRO_PRO_BOTTOM_RIGHT.toString())) {
+		} else if (this.getFormula().getRoot().getValue().equals(Sensors.PHIRO_BOTTOM_RIGHT.toString())) {
 			textSetVariable.setText(context.getResources().getString(
 					R.string.formula_editor_phiro_sensor_bottom_right));
 		} else {

@@ -365,12 +365,12 @@ public class CategoryBricksFactory {
 				BrickValues.PHIRO_DURATION));
 		phiroProBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.Both, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));
 		phiroProBrickList.add(new PhiroIfLogicBeginBrick());
-		phiroProBrickList.add(new PhiroSetVariableBrick(Sensors.PHIRO_PRO_FRONT_LEFT.toString()));
-		phiroProBrickList.add(new PhiroSetVariableBrick(Sensors.PHIRO_PRO_FRONT_RIGHT.toString()));
-		phiroProBrickList.add(new PhiroSetVariableBrick(Sensors.PHIRO_PRO_SIDE_LEFT.toString()));
-		phiroProBrickList.add(new PhiroSetVariableBrick(Sensors.PHIRO_PRO_SIDE_RIGHT.toString()));
-		phiroProBrickList.add(new PhiroSetVariableBrick(Sensors.PHIRO_PRO_BOTTOM_LEFT.toString()));
-		phiroProBrickList.add(new PhiroSetVariableBrick(Sensors.PHIRO_PRO_BOTTOM_RIGHT.toString()));
+		phiroProBrickList.add(new PhiroSetVariableBrick(new Formula(new FormulaElement(ElementType.SENSOR, Sensors.PHIRO_FRONT_LEFT.toString(), null)), null));
+		phiroProBrickList.add(new PhiroSetVariableBrick(new Formula(new FormulaElement(ElementType.SENSOR, Sensors.PHIRO_FRONT_RIGHT.toString(), null)), null));
+		phiroProBrickList.add(new PhiroSetVariableBrick(new Formula(new FormulaElement(ElementType.SENSOR, Sensors.PHIRO_SIDE_LEFT.toString(), null)), null));
+		phiroProBrickList.add(new PhiroSetVariableBrick(new Formula(new FormulaElement(ElementType.SENSOR, Sensors.PHIRO_SIDE_RIGHT.toString(), null)), null));
+		phiroProBrickList.add(new PhiroSetVariableBrick(new Formula(new FormulaElement(ElementType.SENSOR, Sensors.PHIRO_BOTTOM_LEFT.toString(), null)), null));
+		phiroProBrickList.add(new PhiroSetVariableBrick(new Formula(new FormulaElement(ElementType.SENSOR, Sensors.PHIRO_BOTTOM_RIGHT.toString(), null)), null));
 
 		return phiroProBrickList;
 	}

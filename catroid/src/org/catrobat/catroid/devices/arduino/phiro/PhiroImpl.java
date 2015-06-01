@@ -46,7 +46,7 @@ import name.antonsmirnov.firmata.serial.StreamingSerialAdapter;
 
 public class PhiroImpl implements Phiro {
 
-	private static final UUID PHIRO_PRO_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+	private static final UUID PHIRO_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	private static final String TAG = PhiroImpl.class.getSimpleName();
 
 	private static final int PIN_SPEAKER_OUT = 3;
@@ -252,17 +252,17 @@ public class PhiroImpl implements Phiro {
 	@Override
 	public int getSensorValue(Sensors sensor) {
 		switch (sensor) {
-			case PHIRO_PRO_BOTTOM_LEFT:
+			case PHIRO_BOTTOM_LEFT:
 				return phiroListener.getBottomLeftSensor();
-			case PHIRO_PRO_BOTTOM_RIGHT:
+			case PHIRO_BOTTOM_RIGHT:
 				return phiroListener.getBottomRightSensor();
-			case PHIRO_PRO_FRONT_LEFT:
+			case PHIRO_FRONT_LEFT:
 				return phiroListener.getFrontLeftSensor();
-			case PHIRO_PRO_FRONT_RIGHT:
+			case PHIRO_FRONT_RIGHT:
 				return phiroListener.getFrontRightSensor();
-			case PHIRO_PRO_SIDE_LEFT:
+			case PHIRO_SIDE_LEFT:
 				return phiroListener.getSideLeftSensor();
-			case PHIRO_PRO_SIDE_RIGHT:
+			case PHIRO_SIDE_RIGHT:
 				return phiroListener.getSideRightSensor();
 		}
 
@@ -290,7 +290,7 @@ public class PhiroImpl implements Phiro {
 
 	@Override
 	public UUID getBluetoothDeviceUUID() {
-		return PHIRO_PRO_UUID;
+		return PHIRO_UUID;
 	}
 
 	@Override

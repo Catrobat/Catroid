@@ -155,17 +155,17 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_sensor_face_y_position:
 				return buildSensor(Sensors.FACE_Y_POSITION);
 			case R.string.formula_editor_phiro_sensor_front_left:
-				return buildSensor(Sensors.PHIRO_PRO_FRONT_LEFT);
+				return buildSensor(Sensors.PHIRO_FRONT_LEFT);
 			case R.string.formula_editor_phiro_sensor_front_right:
-				return buildSensor(Sensors.PHIRO_PRO_FRONT_RIGHT);
+				return buildSensor(Sensors.PHIRO_FRONT_RIGHT);
 			case R.string.formula_editor_phiro_sensor_side_left:
-				return buildSensor(Sensors.PHIRO_PRO_SIDE_LEFT);
+				return buildSensor(Sensors.PHIRO_SIDE_LEFT);
 			case R.string.formula_editor_phiro_sensor_side_right:
-				return buildSensor(Sensors.PHIRO_PRO_SIDE_RIGHT);
+				return buildSensor(Sensors.PHIRO_SIDE_RIGHT);
 			case R.string.formula_editor_phiro_sensor_bottom_left:
-				return buildSensor(Sensors.PHIRO_PRO_BOTTOM_LEFT);
+				return buildSensor(Sensors.PHIRO_BOTTOM_LEFT);
 			case R.string.formula_editor_phiro_sensor_bottom_right:
-				return buildSensor(Sensors.PHIRO_PRO_BOTTOM_RIGHT);
+				return buildSensor(Sensors.PHIRO_BOTTOM_RIGHT);
 
 			case R.string.formula_editor_sensor_lego_nxt_1:
 				return buildSensor(Sensors.NXT_SENSOR_1);

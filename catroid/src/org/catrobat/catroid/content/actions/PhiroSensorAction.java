@@ -110,20 +110,20 @@ public class PhiroSensorAction extends Action {
 	private Sensors getPhiroProSensorByNumber() {
 		switch (this.sensorNumber) {
 			case 0:
-				return Sensors.PHIRO_PRO_FRONT_LEFT;
+				return Sensors.PHIRO_FRONT_LEFT;
 			case 1:
-				return Sensors.PHIRO_PRO_FRONT_RIGHT;
+				return Sensors.PHIRO_FRONT_RIGHT;
 			case 2:
-				return Sensors.PHIRO_PRO_SIDE_LEFT;
+				return Sensors.PHIRO_SIDE_LEFT;
 			case 3:
-				return Sensors.PHIRO_PRO_SIDE_RIGHT;
+				return Sensors.PHIRO_SIDE_RIGHT;
 			case 4:
-				return Sensors.PHIRO_PRO_BOTTOM_LEFT;
+				return Sensors.PHIRO_BOTTOM_LEFT;
 			case 5:
-				return Sensors.PHIRO_PRO_BOTTOM_RIGHT;
+				return Sensors.PHIRO_BOTTOM_RIGHT;
 		}
 
-		return Sensors.PHIRO_PRO_SIDE_RIGHT;
+		return Sensors.PHIRO_SIDE_RIGHT;
 	}
 
 	@Override
