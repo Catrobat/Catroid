@@ -20,7 +20,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
@@ -29,10 +28,9 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.drone.DroneConfigManager;
 
 /**
- * Created by marc on 18.02.2015.
+ * Created by marc on 01.06.2015.
  */
-public class DroneSetConfigAction extends TemporalAction {
-
+public class DroneSetAltitudeAction extends TemporalAction {
     private int ressourceID;
 
     @Override
@@ -43,14 +41,14 @@ public class DroneSetConfigAction extends TemporalAction {
     protected void begin() {
 
         switch (ressourceID) {
-            case R.string.drone_config_default:
-                DroneConfigManager.getInstance().setDefaultConfig();
+            case R.string.drone_set_altitude_3m:
+                DroneConfigManager.getInstance().setAltitude(3);
                 break;
-            case R.string.drone_config_indoor:
-                DroneConfigManager.getInstance().setIndoorConfig();
+            case R.string.drone_set_altitude_5m:
+                DroneConfigManager.getInstance().setAltitude(5);
                 break;
-            case R.string.drone_config_outdoor:
-                DroneConfigManager.getInstance().setOutdoorConfig();
+            case R.string.drone_set_altitude_10m:
+                DroneConfigManager.getInstance().setAltitude(10);
                 break;
         }
     }

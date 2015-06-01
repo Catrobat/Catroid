@@ -41,95 +41,96 @@ import java.util.concurrent.locks.Lock;
 
 public class ProgramMenuActivity extends BaseActivity {
 
-	public static final String FORWARD_TO_SCRIPT_ACTIVITY = "forwardToScriptActivity";
-	private static final String TAG = ProgramMenuActivity.class.getSimpleName();
-	private Lock viewSwitchLock = new ViewSwitchLock();
+    public static final String FORWARD_TO_SCRIPT_ACTIVITY = "forwardToScriptActivity";
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    private static final String TAG = ProgramMenuActivity.class.getSimpleName();
+    private Lock viewSwitchLock = new ViewSwitchLock();
 
-		Bundle bundle = getIntent().getExtras();
-		if (bundle != null && bundle.containsKey(FORWARD_TO_SCRIPT_ACTIVITY)) {
-			Intent intent = new Intent(this, ScriptActivity.class);
-			intent.putExtra(ScriptActivity.EXTRA_FRAGMENT_POSITION, bundle.getInt(FORWARD_TO_SCRIPT_ACTIVITY));
-			startActivity(intent);
-		}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_program_menu);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null && bundle.containsKey(FORWARD_TO_SCRIPT_ACTIVITY)) {
+            Intent intent = new Intent(this, ScriptActivity.class);
+            intent.putExtra(ScriptActivity.EXTRA_FRAGMENT_POSITION, bundle.getInt(FORWARD_TO_SCRIPT_ACTIVITY));
+            startActivity(intent);
+        }
 
-		BottomBar.hideAddButton(this);
+        setContentView(R.layout.activity_program_menu);
 
-		final ActionBar actionBar = getSupportActionBar();
+        BottomBar.hideAddButton(this);
 
-		//The try-catch block is a fix for this bug: https://github.com/Catrobat/Catroid/issues/618
-		try {
-			String title = ProjectManager.getInstance().getCurrentSprite().getName();
-			actionBar.setTitle(title);
-			actionBar.setHomeButtonEnabled(true);
-		} catch (NullPointerException nullPointerException) {
-			Log.e(TAG, "onCreate: NPE -> finishing", nullPointerException);
-			finish();
-		}
-	}
+        final ActionBar actionBar = getSupportActionBar();
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
-			((Button) findViewById(R.id.program_menu_button_looks)).setText(R.string.backgrounds);
-		} else {
-			((Button) findViewById(R.id.program_menu_button_looks)).setText(R.string.looks);
-		}
-	}
+        //The try-catch block is a fix for this bug: https://github.com/Catrobat/Catroid/issues/618
+        try {
+            String title = ProjectManager.getInstance().getCurrentSprite().getName();
+            actionBar.setTitle(title);
+            actionBar.setHomeButtonEnabled(true);
+        } catch (NullPointerException nullPointerException) {
+            Log.e(TAG, "onCreate: NPE -> finishing", nullPointerException);
+            finish();
+        }
+    }
 
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (ProjectManager.getInstance().getCurrentSpritePosition() == 0) {
+            ((Button) findViewById(R.id.program_menu_button_looks)).setText(R.string.backgrounds);
+        } else {
+            ((Button) findViewById(R.id.program_menu_button_looks)).setText(R.string.looks);
+        }
+    }
 
-			Intent intent;
-			if (DroneServiceWrapper.checkARDroneAvailability()) {
-				intent = new Intent(ProgramMenuActivity.this, DroneStageActivity.class);
-			} else {
-				intent = new Intent(ProgramMenuActivity.this, StageActivity.class);
-			}
-			startActivity(intent);
-		}
-	}
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 
-	public void handleScriptsButton(View view) {
-		if (!viewSwitchLock.tryLock()) {
-			return;
-		}
-		startScriptActivity(ScriptActivity.FRAGMENT_SCRIPTS);
-	}
+            Intent intent;
+            if (DroneServiceWrapper.checkARDroneAvailability()) {
+                intent = new Intent(ProgramMenuActivity.this, DroneStageActivity.class);
+            } else {
+                intent = new Intent(ProgramMenuActivity.this, StageActivity.class);
+            }
+            startActivity(intent);
+        }
+    }
 
-	public void handleLooksButton(View view) {
-		if (!viewSwitchLock.tryLock()) {
-			return;
-		}
-		startScriptActivity(ScriptActivity.FRAGMENT_LOOKS);
-	}
+    public void handleScriptsButton(View view) {
+        if (!viewSwitchLock.tryLock()) {
+            return;
+        }
+        startScriptActivity(ScriptActivity.FRAGMENT_SCRIPTS);
+    }
 
-	public void handleSoundsButton(View view) {
-		if (!viewSwitchLock.tryLock()) {
-			return;
-		}
-		startScriptActivity(ScriptActivity.FRAGMENT_SOUNDS);
-	}
+    public void handleLooksButton(View view) {
+        if (!viewSwitchLock.tryLock()) {
+            return;
+        }
+        startScriptActivity(ScriptActivity.FRAGMENT_LOOKS);
+    }
 
-	public void handlePlayButton(View view) {
-		if (!viewSwitchLock.tryLock()) {
-			return;
-		}
-		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
-		Intent intent = new Intent(this, PreStageActivity.class);
-		startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-	}
+    public void handleSoundsButton(View view) {
+        if (!viewSwitchLock.tryLock()) {
+            return;
+        }
+        startScriptActivity(ScriptActivity.FRAGMENT_SOUNDS);
+    }
 
-	private void startScriptActivity(int fragmentPosition) {
-		Intent intent = new Intent(this, ScriptActivity.class);
-		intent.putExtra(ScriptActivity.EXTRA_FRAGMENT_POSITION, fragmentPosition);
-		startActivity(intent);
-	}
+    public void handlePlayButton(View view) {
+        if (!viewSwitchLock.tryLock()) {
+            return;
+        }
+        ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
+        Intent intent = new Intent(this, PreStageActivity.class);
+        startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+    }
+
+    private void startScriptActivity(int fragmentPosition) {
+        Intent intent = new Intent(this, ScriptActivity.class);
+        intent.putExtra(ScriptActivity.EXTRA_FRAGMENT_POSITION, fragmentPosition);
+        startActivity(intent);
+    }
 }

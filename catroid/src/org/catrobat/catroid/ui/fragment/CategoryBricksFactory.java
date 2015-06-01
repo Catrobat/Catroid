@@ -52,6 +52,7 @@ import org.catrobat.catroid.content.bricks.DroneMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveRightBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveUpBrick;
+import org.catrobat.catroid.content.bricks.DroneSetAltitudeBrick;
 import org.catrobat.catroid.content.bricks.DroneSetConfigBrick;
 import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
@@ -351,6 +352,7 @@ public class CategoryBricksFactory {
 		droneBrickList.add(new DroneSetConfigBrick());
 		droneBrickList.add(new DroneToggleVideoBrick());
 		droneBrickList.add(new DroneSwitchCameraBrick());
+		droneBrickList.add(new DroneSetAltitudeBrick());
 
 		// Only for demo purpose
 /*		droneBrickList.add(new SetTextBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION,

@@ -29,32 +29,45 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
-import org.catrobat.catroid.formulaeditor.Formula;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class DroneMoveRightBrick extends DroneMoveBrick {
+public class DroneSetAltitudeBrick extends DroneSpinnerBrick {
 
-    private static final long serialVersionUID = 1L;
+    private final ArrayList<String> list;
 
-    public DroneMoveRightBrick(int durationInMilliseconds, int powerInPercent) {
-        super(durationInMilliseconds, powerInPercent);
-    }
-
-    public DroneMoveRightBrick(Formula durationInMilliseconds, Formula powerInPercent) {
-        super(durationInMilliseconds, powerInPercent);
+    public DroneSetAltitudeBrick() {
+        list = new ArrayList<>();
     }
 
     @Override
     protected String getBrickLabel(View view) {
-        return view.getResources().getString(R.string.brick_drone_move_right);
+        return view.getResources().getString(R.string.brick_drone_set_altitude);
+    }
+
+    @Override
+    protected ArrayList<String> getSpinnerItems(View view) {
+        list.clear();
+        list.add(view.getResources().getString(R.string.drone_set_altitude_3m));
+        list.add(view.getResources().getString(R.string.drone_set_altitude_5m));
+        list.add(view.getResources().getString(R.string.drone_set_altitude_10m));
+        return (ArrayList<String>) list.clone();
     }
 
     @Override
     public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
-        sequence.addAction(ExtendedActions.droneMoveRight(sprite,
-                getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS),
-                getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)));
+        switch (spinnerPosition) {
+            case 0:
+                sequence.addAction(ExtendedActions.droneSetAltitudeAction(R.string.drone_set_altitude_3m));
+                break;
+            case 1:
+                sequence.addAction(ExtendedActions.droneSetAltitudeAction(R.string.drone_set_altitude_5m));
+                break;
+            case 2:
+                sequence.addAction(ExtendedActions.droneSetAltitudeAction(R.string.drone_set_altitude_10m));
+                break;
+        }
         return null;
     }
 }

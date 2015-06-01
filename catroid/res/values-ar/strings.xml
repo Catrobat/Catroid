@@ -370,8 +370,6 @@
   <string name="default_project_var_random_to">عشوائي إلى</string>
   <string name="default_drone_project_name">برنامجي طائرة بدون طيار الأول</string>
   <string name="default_drone_project_sprites_takeoff">إقلاع</string>
-  <string name="default_drone_project_srpites_land">هبوط</string>
-  <string name="default_drone_project_srpites_rotate">تدوير</string>
   <string name="default_drone_project_sprites_up">الأعلى</string>
   <string name="default_drone_project_sprites_down">الأسفل</string>
   <string name="default_drone_project_sprites_left">اليسار</string>

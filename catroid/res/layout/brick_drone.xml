@@ -46,7 +46,7 @@
         app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
 
         <TextView
-            android:id="@+id/brick_drone_basic_label"
+            android:id="@+id/ValueTextView"
             style="@style/BrickText.SingleLine"
             android:text="" >
         </TextView>

@@ -354,8 +354,6 @@
   <string name="default_project_var_random_to">slučajno do</string>
   <string name="default_drone_project_name">Moj prvi Drone program</string>
   <string name="default_drone_project_sprites_takeoff">Take off</string>
-  <string name="default_drone_project_srpites_land">Land</string>
-  <string name="default_drone_project_srpites_rotate">Rotirati</string>
   <string name="default_drone_project_sprites_up">Gore</string>
   <string name="default_drone_project_sprites_down">Dole</string>
   <string name="default_drone_project_sprites_left">Lijevo</string>

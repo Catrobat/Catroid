@@ -114,14 +114,13 @@ public class NewSpriteDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_object, null);
+		dialogView = View.inflate(getActivity(), R.layout.dialog_new_object, null);
 		setupPaintroidButton(dialogView);
 		setupGalleryButton(dialogView);
 		setupCameraButton(dialogView);
 		setupMediaLibraryButton(dialogView);
 
-		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), false))
-		{
+		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), true)) {
 			setupDroneVideoButton(dialogView);
 		}
 
@@ -356,8 +355,8 @@ public class NewSpriteDialog extends DialogFragment {
 		LookData lookData;
 
 		try {
-            switch (lookDataType)
-			{
+
+			switch (lookDataType) {
 				case DRONE_VIDEO:
 					lookData = new DroneVideoLookData();
 					newLookFile = new File(lookUri.getPath());

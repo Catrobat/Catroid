@@ -24,7 +24,6 @@ package org.catrobat.catroid.stage;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -69,28 +68,29 @@ public class PreStageActivity extends BaseActivity {
 	public static final int REQUEST_RESOURCES_INIT = 101;
 	public static final int REQUEST_TEXT_TO_SPEECH = 10;
 
-    private int requiredResourceCounter;
+	private int requiredResourceCounter;
 
 	private static TextToSpeech textToSpeech;
 	private static OnUtteranceCompletedListenerContainer onUtteranceCompletedListenerContainer;
 
-    private DroneInitializer droneInitializer = null;
+	private DroneInitializer droneInitializer = null;
 
-    private Intent returnToActivityIntent = null;
+	private Intent returnToActivityIntent = null;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        returnToActivityIntent = new Intent();
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		returnToActivityIntent = new Intent();
 
-        if (isFinishing()) {
-            return;
-        }
+		if (isFinishing()) {
+			return;
+		}
 
-        setContentView(R.layout.activity_prestage);
+		setContentView(R.layout.activity_prestage);
 
-        int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
-        requiredResourceCounter = Integer.bitCount(requiredResources);
+		int requiredResources = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
+		requiredResourceCounter = Integer.bitCount(requiredResources);
+
 
 		if ((requiredResources & Brick.TEXT_TO_SPEECH) > 0) {
 			Intent checkIntent = new Intent();
@@ -100,7 +100,7 @@ public class PreStageActivity extends BaseActivity {
 
 		if ((requiredResources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
 			connectBTDevice(BluetoothDevice.LEGO_NXT);
-        }
+		}
 
 		if ((requiredResources & Brick.BLUETOOTH_PHIRO) > 0) {
 			connectBTDevice(BluetoothDevice.PHIRO);
@@ -119,7 +119,7 @@ public class PreStageActivity extends BaseActivity {
 //			Log.d("wifi after", Boolean.toString(mainWifiObj.isWifiEnabled()));
 
 			CatroidApplication.loadNativeLibs();
-			if(CatroidApplication.parrotLibrariesLoaded){
+			if (CatroidApplication.parrotLibrariesLoaded) {
 				droneInitializer = getDroneInitialiser();
 				droneInitializer.initialise();
 			}
@@ -178,9 +178,9 @@ public class PreStageActivity extends BaseActivity {
 		}
 	}
 
-	public DroneInitializer getDroneInitializer() {
+	public DroneInitializer getDroneInitialiser() {
 		if (droneInitializer == null) {
-			droneInitializer = new DroneInitializer(this, returnToActivityIntent);
+			droneInitializer = new DroneInitializer(this);
 		}
 		return droneInitializer;
 	}

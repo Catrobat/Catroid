@@ -30,7 +30,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import org.catrobat.catroid.R;
@@ -60,13 +59,13 @@ public class NewLookDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_look, null);
+		View dialogView = View.inflate(getActivity(), R.layout.dialog_new_look, null);
 		setupPaintroidButton(dialogView);
 		setupGalleryButton(dialogView);
 		setupCameraButton(dialogView);
 		setupMediaLibraryButton(dialogView);
 
-		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), false))
+		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), true))
 		{
 			setupDroneVideoButton(dialogView);
 		}
