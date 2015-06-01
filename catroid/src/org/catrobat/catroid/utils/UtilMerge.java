@@ -74,7 +74,7 @@ public class UtilMerge {
 					} else {
 						Project mergedProject = appendProjects(project, projectToMergeFrom, activity);
 						ProjectManager.getInstance().setProject(mergedProject);
-						ProjectManager.getInstance().saveProject();
+						ProjectManager.getInstance().saveProject(activity.getApplicationContext());
 					}
 				}
 			}
@@ -352,7 +352,7 @@ public class UtilMerge {
 		return projectToMergeFrom;
 	}
 
-	private static void showBackgroundNotEmptyDialog(Project projectToMergeFrom, Activity activity) {
+	private static void showBackgroundNotEmptyDialog(Project projectToMergeFrom, final Activity activity) {
 		final Project copyProjectToMergeFrom = projectToMergeFrom;
 		final Activity copyActivity = activity;
 
@@ -365,7 +365,7 @@ public class UtilMerge {
 						try {
 							Project mergedProject = appendProjects(project, copyProjectToMergeFrom, copyActivity);
 							ProjectManager.getInstance().setProject(mergedProject);
-							ProjectManager.getInstance().saveProject();
+							ProjectManager.getInstance().saveProject(activity.getApplicationContext());
 						} catch (IOException e) {
 							ToastUtil.showError(copyActivity, R.string.error_merge);
 							Log.e(TAG, "IOException " + e.getMessage());
@@ -386,7 +386,7 @@ public class UtilMerge {
 		errorDialog.show();
 	}
 
-	private static void showDifferentResolutionDialog(Project projectToMergeFrom, Activity activity) {
+	private static void showDifferentResolutionDialog(Project projectToMergeFrom, final Activity activity) {
 		XmlHeader currentProject = project.getXmlHeader();
 		XmlHeader headerFrom = projectToMergeFrom.getXmlHeader();
 		final Project copyProjectToMergeFrom = projectToMergeFrom;
@@ -402,7 +402,7 @@ public class UtilMerge {
 							Log.d("MERGE", "no mergeConflicts");
 							try {
 								ProjectManager.getInstance().setProject(appendProjects(project, copyProjectToMergeFrom, copyActivity));
-								ProjectManager.getInstance().saveProject();
+								ProjectManager.getInstance().saveProject(activity.getApplicationContext());
 							} catch (IOException e) {
 								ToastUtil.showError(copyActivity, R.string.error_merge);
 								Log.e(TAG, "IOException " + e.getMessage());
