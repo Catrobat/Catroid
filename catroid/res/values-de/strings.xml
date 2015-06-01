@@ -585,9 +585,9 @@
   <string name="brick_single">Baustein</string>
   <string name="brick_multiple">Bausteine</string>
   <string name="preference_disable_nxt_info_dialog">Info Dialog deaktivieren</string>
-  <string name="preference_disable_nxt_info_dialog_description">Beim Öffnen eines Projektes werden projektspezfifische NXT Einstellungen nicht mehr angezeigt.</string>
-  <string name="preference_title_mindstorms_nxt_sensors_description">Die Zuweisung von NXT Sensoren zu deren Port ist projektspezifisch und können nur für geöffnete Projekte konfiguriert werden!</string>
-  <string name="lego_nxt_sensor_config_info_text">Das geöffnete Projekt beinhaltet Lego Mindstorms NXT Bausteine oder Sensoren. Bitte schließe die Sensoren wie folgt an den Roboter an damit das Projekt einwandfrei funktioniert</string>
+  <string name="preference_disable_nxt_info_dialog_description">Beim Öffnen eines Programmes werden programmspezfifische NXT Einstellungen nicht mehr angezeigt.</string>
+  <string name="preference_title_mindstorms_nxt_sensors_description">Die Zuweisung von NXT Sensoren zu deren Port ist programmspezifisch und können nur für geöffnete Programme konfiguriert werden!</string>
+  <string name="lego_nxt_sensor_config_info_text">Das geöffnete Programm beinhaltet Lego Mindstorms NXT Bausteine oder Sensoren. Bitte schließe die Sensoren wie folgt an den Roboter an damit das Programm einwandfrei funktioniert</string>
   <string name="nxt_port_1">Port 1</string>
   <string name="nxt_port_2">Port 2</string>
   <string name="nxt_port_3">Port 3</string>
