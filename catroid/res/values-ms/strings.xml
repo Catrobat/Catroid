@@ -390,7 +390,6 @@
   <string name="title_other_devices">New devices</string>
   <string name="button_scan">Search Bluetooth devices</string>
   <string name="select_device">Select Device:</string>
-  <string name="scanning">Scanning</string>
   <string name="connecting_please_wait">Connecting to your device.\nPlease wait&#8230;</string>
   <string name="bt_connection_failed">Connection to device failed!</string>
   <string name="none_found">No unpaired devices found</string>

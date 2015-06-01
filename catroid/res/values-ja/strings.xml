@@ -390,10 +390,8 @@
   <string name="title_other_devices">新しいデバイス</string>
   <string name="button_scan">Bluetoothデバイスを検索</string>
   <string name="select_device">Select Device:</string>
-  <string name="scanning">スキャン中</string>
   <string name="connecting_please_wait">お使いのデバイスに接続しています\nしばらく待つ&#8230;</string>
   <string name="bt_connection_failed">デバイスへの接続に失敗しました！</string>
-  <string name="no_paired_nxt">ペアのNXTが見つかりませんでした</string>
   <string name="none_found">見つかりませんでした。ペアになっていないデバイスがありません</string>
   <string name="none_paired">見つかったペアのデバイスがありません</string>
   <string name="nxt_brick_motor_move">NXTモーターの動き</string>

@@ -390,7 +390,6 @@
   <string name="title_other_devices">Nya enheter</string>
   <string name="button_scan">Sök Bluetooth-enheter</string>
   <string name="select_device">Select Device:</string>
-  <string name="scanning">Skannar</string>
   <string name="connecting_please_wait">Ansluter till din enhet. \nVar god vänta&#8230;</string>
   <string name="bt_connection_failed">Det gick inte att ansluta till enheten!</string>
   <string name="none_found">Inga oparade enheter finns</string>

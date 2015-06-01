@@ -398,7 +398,6 @@
   <string name="title_other_devices">Новые устройства</string>
   <string name="button_scan">Поиск bluetooth устрйств</string>
   <string name="select_device">Select Device:</string>
-  <string name="scanning">Сканнирование</string>
   <string name="connecting_please_wait">Подключение к вашему устройству.\nПодождите, пожалуйста&#8230;</string>
   <string name="bt_connection_failed">Подключение к устройству не удалось!</string>
   <string name="none_found">Нет найдено непарных устройств</string>

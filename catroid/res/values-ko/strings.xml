@@ -390,7 +390,6 @@
   <string name="title_other_devices">새 장치</string>
   <string name="button_scan">블루투스 장치 검색</string>
   <string name="select_device">Select Device:</string>
-  <string name="scanning">검색 중</string>
   <string name="connecting_please_wait">장치에 연결중입니다. \n 기다려 주세요 &#8230;</string>
   <string name="bt_connection_failed">장치 연결에 실패했습니다!</string>
   <string name="none_found">패어링 안된 장치를 찾을 수 없습니다.</string>
