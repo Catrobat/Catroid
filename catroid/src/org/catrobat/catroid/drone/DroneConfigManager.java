@@ -71,4 +71,11 @@ public final class DroneConfigManager {
         //TODO: set other config params for indoor flight
     }
 
+    public void setAltitude(int value) {
+        droneControlService = DroneServiceWrapper.getInstance().getDroneService();
+        if (droneControlService != null) {
+            droneControlService.getDroneConfig().setAltitudeLimit(value);
+        }
+    }
+
 }

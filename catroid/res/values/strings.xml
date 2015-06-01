@@ -483,6 +483,9 @@
     <string name="drone_config_default">basic setting</string>
     <string name="drone_config_outdoor">outdoor setting</string>
     <string name="drone_config_indoor">indoor setting</string>
+    <string name="drone_set_altitude_3m">3 meters</string>
+    <string name="drone_set_altitude_5m">5 meters</string>
+    <string name="drone_set_altitude_10m">10 meters</string>
 
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">Please enter a value</string>
@@ -629,6 +632,7 @@
     <string name="brick_drone_set_config">Set config</string>
     <string name="brick_drone_toggle_video">Toggle video</string>
     <string name="brick_drone_switch_camera">Switch camera</string>
+    <string name="brick_drone_set_altitude">Preferred altitude</string>
     <!--  -->
 
     <!-- Phiro bricks -->

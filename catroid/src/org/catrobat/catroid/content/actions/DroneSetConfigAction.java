@@ -37,13 +37,12 @@ public class DroneSetConfigAction extends TemporalAction {
 
     @Override
     protected void update(float percent) {
-
     }
 
     @Override
     protected void begin() {
 
-        switch (getRessourceID()) {
+        switch (ressourceID) {
             case R.string.drone_config_default:
                 DroneConfigManager.getInstance().setDefaultConfig();
                 break;
@@ -54,10 +53,6 @@ public class DroneSetConfigAction extends TemporalAction {
                 DroneConfigManager.getInstance().setOutdoorConfig();
                 break;
         }
-    }
-
-    public int getRessourceID() {
-        return ressourceID;
     }
 
     public void setRessourceID(int ressourceID) {
