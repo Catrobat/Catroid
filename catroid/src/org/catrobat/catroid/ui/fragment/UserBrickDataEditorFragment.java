@@ -25,11 +25,14 @@ package org.catrobat.catroid.ui.fragment;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
@@ -38,10 +41,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -61,7 +60,7 @@ import org.catrobat.catroid.ui.dialogs.UserBrickEditElementDialog;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserBrickDataEditorFragment extends SherlockFragment implements OnKeyListener,
+public class UserBrickDataEditorFragment extends BaseFragment implements OnKeyListener,
 		DragAndDropBrickLayoutListener, UserBrickEditElementDialog.DialogListener, LineBreakListener {
 
 	public static final String BRICK_DATA_EDITOR_FRAGMENT_TAG = "brick_data_editor_fragment";
@@ -82,14 +81,14 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 
-		getSherlockActivity().getSupportActionBar().setTitle(getString(R.string.brick_data_editor_title));
+		getSupportActivity().getSupportActionBar().setTitle(getString(R.string.brick_data_editor_title));
 
 		currentBrick = (UserScriptDefinitionBrick) getArguments().getSerializable(BRICK_BUNDLE_ARGUMENT);
 	}
 
 	public static void showFragment(View view, UserScriptDefinitionBrick brick) {
-		SherlockFragmentActivity activity;
-		activity = (SherlockFragmentActivity) view.getContext();
+		FragmentActivity activity;
+		activity = (FragmentActivity) view.getContext();
 
 		UserBrickDataEditorFragment dataEditorFragment = (UserBrickDataEditorFragment) activity
 				.getSupportFragmentManager().findFragmentByTag(BRICK_DATA_EDITOR_FRAGMENT_TAG);
@@ -120,7 +119,7 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 	}
 
 	private void onUserDismiss() {
-		SherlockFragmentActivity activity = getSherlockActivity();
+		FragmentActivity activity = getActivity();
 
 		FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		fragmentManager.popBackStack();
@@ -347,10 +346,10 @@ public class UserBrickDataEditorFragment extends SherlockFragment implements OnK
 			menu.getItem(index).setVisible(false);
 		}
 
-		getSherlockActivity().getSupportActionBar().setNavigationMode(
-				com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_STANDARD);
-		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
-		getSherlockActivity().getSupportActionBar().setTitle(getString(R.string.brick_data_editor_title));
+		//May produce NullPointerException because of setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		getSupportActivity().getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		getSupportActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
+		getSupportActivity().getSupportActionBar().setTitle(getString(R.string.brick_data_editor_title));
 
 		super.onPrepareOptionsMenu(menu);
 	}

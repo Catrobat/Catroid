@@ -20,9 +20,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-
-
 package org.catrobat.catroid.utils;
 
 import android.app.Activity;
@@ -40,15 +37,16 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.view.ActionMode;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.GdxNativesLoader;
@@ -173,13 +171,26 @@ public final class Utils {
 		errorDialog.show();
 	}
 
+	public static void showErrorDialog(Context context, String msg, int errorTitleId) {
+		Builder builder = new CustomAlertDialogBuilder(context);
+		builder.setTitle(errorTitleId);
+		builder.setMessage(msg);
+		builder.setNeutralButton(R.string.close, new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		});
+		Dialog errorDialog = builder.create();
+		errorDialog.show();
+	}
+
 	public static View addSelectAllActionModeButton(LayoutInflater inflater, ActionMode mode, Menu menu) {
 		mode.getMenuInflater().inflate(R.menu.menu_actionmode, menu);
 		MenuItem item = menu.findItem(R.id.select_all);
-		View view = item.getActionView();
+		View view = MenuItemCompat.getActionView(item);
 		if (view.getId() == R.id.select_all) {
 			View selectAllView = inflater.inflate(R.layout.action_mode_select_all, null);
-			item.setActionView(selectAllView);
+			MenuItemCompat.setActionView(item, selectAllView);
 			return selectAllView;
 		}
 		return null;
