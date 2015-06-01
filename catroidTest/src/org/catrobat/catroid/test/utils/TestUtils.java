@@ -66,6 +66,7 @@ public final class TestUtils {
 	public static final int TYPE_SOUND_FILE = 1;
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
 	public static final String CORRUPT_PROJECT_NAME = "copiedProject";
+	public static final String EMPTY_PROJECT = "emptyProject";
 
 	private static final String TAG = TestUtils.class.getSimpleName();
 
@@ -258,6 +259,12 @@ public final class TestUtils {
 	public static Project createTestProjectOnLocalStorageWithCatrobatLanguageVersion(float catrobatLanguageVersion) {
 		return createTestProjectOnLocalStorageWithCatrobatLanguageVersionAndName(catrobatLanguageVersion,
 				DEFAULT_TEST_PROJECT_NAME);
+	}
+
+	public static Project createEmptyProject() {
+		Project project = new Project(null, EMPTY_PROJECT);
+		StorageHandler.getInstance().saveProject(project);
+		return project;
 	}
 
 	public static void deleteTestProjects(String... additionalProjectNames) {
