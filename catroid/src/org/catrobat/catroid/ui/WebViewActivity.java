@@ -38,6 +38,7 @@ import com.actionbarsherlock.app.ActionBar;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.DownloadUtil;
+import org.catrobat.catroid.utils.Utils;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class WebViewActivity extends BaseActivity {
@@ -65,6 +66,13 @@ public class WebViewActivity extends BaseActivity {
 		webView.setWebChromeClient(new WebChromeClient());
 		webView.setWebViewClient(new MyWebViewClient());
 		webView.getSettings().setJavaScriptEnabled(true);
+
+		String language = String.valueOf(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);
+		String flavor = Constants.FLAVOR_DEFAULT;
+		String version = Utils.getVersionName(getApplicationContext());
+		String platform = Constants.PLATFORM_DEFAULT;
+		webView.getSettings().setUserAgentString("Catrobat/" + language + " " + flavor + "/"
+				+ version + " Platform/" + platform);
 
 		webView.loadUrl(url);
 

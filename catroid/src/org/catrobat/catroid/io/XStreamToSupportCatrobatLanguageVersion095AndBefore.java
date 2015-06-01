@@ -584,6 +584,10 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 							for (int k = 0; k < brickChildNodes.getLength(); k++) {
 								Element brickChild = (Element) brickChildNodes.item(k);
 
+								if (brickChild.getNodeName().equals("changeGhostEffect")) {
+									originalDocument.renameNode(brickChild, brickChild.getNamespaceURI(), "changeTransparency");
+								}
+
 								if (brickInfo.getBrickFieldForOldFieldName(brickChild.getNodeName()) != null) {
 									handleFormulaNode(originalDocument, brickInfo, newBrickNode, brickChild);
 								} else if (brickChild.getNodeName().equals("userVariable")) {
