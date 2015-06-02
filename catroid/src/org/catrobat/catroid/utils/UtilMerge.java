@@ -54,10 +54,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UtilMerge {
+public final class UtilMerge {
 
 	private static final String TAG = UtilMerge.class.getSimpleName();
 	private static Project project;
+
+	private UtilMerge() {
+	}
 
 	public static void mergeProjectInCurrentProject(String projectNameToMergeFrom, FragmentActivity activity) {
 		try {
