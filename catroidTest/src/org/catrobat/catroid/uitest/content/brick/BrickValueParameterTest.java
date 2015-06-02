@@ -38,12 +38,11 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
-
-	private static final String KEY_SETTINGS_MINDSTORM_BRICKS = "setting_mindstorm_bricks";
 
 	public BrickValueParameterTest() {
 		super(MainMenuActivity.class);
@@ -54,10 +53,10 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 	public void setUp() throws Exception {
 		super.setUp();
 
-		// enable mindstorm bricks, if disabled at start
+		// enable mindstorms bricks, if disabled at start
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		if (!sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
-			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, true).commit();
+		if (!sharedPreferences.getBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false)) {
+			sharedPreferences.edit().putBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true).commit();
 		}
 		createProject();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo, 2);
@@ -65,10 +64,10 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 
 	@Override
 	public void tearDown() throws Exception {
-		// disable mindstorm bricks, if enabled
+		// disable mindstorms bricks, if enabled
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		if (sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
-			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
+		if (sharedPreferences.getBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false)) {
+			sharedPreferences.edit().putBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false).commit();
 		}
 		super.tearDown();
 	}
@@ -404,7 +403,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 
 		solo.searchText(solo.getString(R.string.nxt_play_tone));
 		TextView nxtPlayToneSecondsTextView = (TextView) solo.getView(R.id.nxt_tone_duration_text_view);
-		int nXTPlayTonePrototypeValue = Integer.parseInt(nxtPlayToneSecondsTextView.getText().toString());
+		float nXTPlayTonePrototypeValue = Float.parseFloat(nxtPlayToneSecondsTextView.getText().toString());
 		assertEquals("Value in Brick NXTPlayTone is not correct", BrickValues.LEGO_DURATION, nXTPlayTonePrototypeValue);
 
 		TextView nxtPlayToneFreqTextView = (TextView) solo.getView(R.id.nxt_tone_freq_text_view);
@@ -417,7 +416,7 @@ public class BrickValueParameterTest extends BaseActivityInstrumentationTestCase
 				legoNxtMotorStopSpinner.getSelectedItem().toString());
 
 		Spinner legoNxtMotorActionSpinner = (Spinner) solo.getView(R.id.lego_motor_action_spinner);
-		assertEquals("Spinner value in LegoNxtMotorActionBrick is not correct", BrickValues.LEGO_MOTOR,
+		assertEquals("Spinner value in LegoNxtMotorMoveBrick is not correct", BrickValues.LEGO_MOTOR,
 				legoNxtMotorActionSpinner.getSelectedItem().toString());
 
 		Spinner legoNxtMotorTurnAngleSpinner = (Spinner) solo.getView(R.id.lego_motor_turn_angle_spinner);

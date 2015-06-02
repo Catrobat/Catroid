@@ -93,6 +93,11 @@ public final class BluetoothTestUtils {
 		});
 	}
 
+	static void resetConnectionHooks() {
+		ConnectBluetoothDeviceActivity.setConnectionFactory(null);
+		ConnectBluetoothDeviceActivity.setDeviceFactory(null);
+	}
+
 	public static void enableBluetooth() {
 		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		Assert.assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);

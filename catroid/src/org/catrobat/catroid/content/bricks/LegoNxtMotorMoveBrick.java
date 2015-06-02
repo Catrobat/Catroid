@@ -25,6 +25,7 @@ package org.catrobat.catroid.content.bricks;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -48,7 +49,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class LegoNxtMotorActionBrick extends FormulaBrick {
+public class LegoNxtMotorMoveBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	private transient View prototypeView;
@@ -58,20 +59,20 @@ public class LegoNxtMotorActionBrick extends FormulaBrick {
 	private transient TextView editSpeed;
 
 	public static enum Motor {
-		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C
+		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_B_C
 	}
 
-	public LegoNxtMotorActionBrick() {
+	public LegoNxtMotorMoveBrick() {
 		addAllowedBrickField(BrickField.LEGO_NXT_SPEED);
 	}
 
-	public LegoNxtMotorActionBrick(Motor motor, int speedValue) {
+	public LegoNxtMotorMoveBrick(Motor motor, int speedValue) {
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
 		initializeBrickFields(new Formula(speedValue));
 	}
 
-	public LegoNxtMotorActionBrick(Motor motor, Formula speedFormula) {
+	public LegoNxtMotorMoveBrick(Motor motor, Formula speedFormula) {
 		this.motorEnum = motor;
 		this.motor = motorEnum.name();
 		initializeBrickFields(speedFormula);
@@ -110,12 +111,13 @@ public class LegoNxtMotorActionBrick extends FormulaBrick {
 
 		legoSpinner.setAdapter(motorAdapter);
 		legoSpinner.setSelection(motorEnum.ordinal());
+		legoSpinner.setGravity(Gravity.CENTER);
 		return prototypeView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new LegoNxtMotorActionBrick(motorEnum, getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED).clone());
+		return new LegoNxtMotorMoveBrick(motorEnum, getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED).clone());
 	}
 
 	@Override
@@ -187,6 +189,7 @@ public class LegoNxtMotorActionBrick extends FormulaBrick {
 		});
 
 		motorSpinner.setSelection(motorEnum.ordinal());
+		motorSpinner.setGravity(Gravity.CENTER);
 
 		return view;
 	}
@@ -201,15 +204,19 @@ public class LegoNxtMotorActionBrick extends FormulaBrick {
 			background.setAlpha(alphaValue);
 
 			TextView textLegoMotorActionLabel = (TextView) view.findViewById(R.id.lego_motor_action_label);
-			TextView textLegoMotorActionSpeed = (TextView) view.findViewById(R.id.lego_motor_action_speed);
-			TextView textLegoMotorActionPercent = (TextView) view.findViewById(R.id.lego_motor_action_percent);
+			TextView textLegoMotorActionSpeed = (TextView) view.findViewById(R.id.lego_motor_action_to_text);
+			TextView textLegoMotorActionPercentSymbol = (TextView) view.findViewById(R.id.lego_motor_action_percent);
+			TextView textLegoMotorActionPercentSpeed = (TextView) view.findViewById(R.id.lego_motor_action_speed_text);
 			TextView textLegoMotorActionLabelSpeedView = (TextView) view
 					.findViewById(R.id.motor_action_speed_text_view);
 			TextView editSpeed = (TextView) view.findViewById(R.id.motor_action_speed_edit_text);
 
 			textLegoMotorActionLabel.setTextColor(textLegoMotorActionLabel.getTextColors().withAlpha(alphaValue));
 			textLegoMotorActionSpeed.setTextColor(textLegoMotorActionSpeed.getTextColors().withAlpha(alphaValue));
-			textLegoMotorActionPercent.setTextColor(textLegoMotorActionPercent.getTextColors().withAlpha(alphaValue));
+			textLegoMotorActionPercentSymbol.setTextColor(textLegoMotorActionPercentSymbol.getTextColors()
+					.withAlpha(alphaValue));
+			textLegoMotorActionPercentSpeed.setTextColor(textLegoMotorActionPercentSpeed.getTextColors()
+					.withAlpha(alphaValue));
 			textLegoMotorActionLabelSpeedView.setTextColor(textLegoMotorActionLabelSpeedView.getTextColors().withAlpha(
 					alphaValue));
 			Spinner motorSpinner = (Spinner) view.findViewById(R.id.lego_motor_action_spinner);

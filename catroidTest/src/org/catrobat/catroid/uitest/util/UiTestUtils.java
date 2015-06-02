@@ -602,7 +602,7 @@ public final class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_change_variable, R.string.category_data);
 		brickCategoryMap.put(R.string.brick_set_variable, R.string.category_data);
 
-		brickCategoryMap.put(R.string.brick_motor_action, R.string.category_lego_nxt);
+		brickCategoryMap.put(R.string.nxt_brick_motor_move, R.string.category_lego_nxt);
 	}
 
 	public static int getBrickCategory(Solo solo, int brickStringId) {
@@ -1095,8 +1095,6 @@ public final class UiTestUtils {
 		brickList.add(new GoNStepsBackBrick(0));
 		brickList.add(new HideBrick());
 		brickList.add(new IfOnEdgeBounceBrick());
-		//brickList.add(new LegoNxtMotorActionBrick(firstSprite, LegoNxtMotorActionBrick.Motor.MOTOR_A, 0));
-		//brickList.add(new LegoNxtMotorTurnAngleBrick(firstSprite, LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, 0));
 		brickList.add(new MoveNStepsBrick(0));
 		brickList.add(new NextLookBrick());
 		brickList.add(new NoteBrick(""));

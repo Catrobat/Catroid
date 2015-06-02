@@ -178,7 +178,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			getActivity().unregisterReceiver(brickListChangedReceiver);
 		}
 		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject();
+			projectManager.saveProject(getActivity().getApplicationContext());
 			projectManager.getCurrentProject().removeUnusedBroadcastMessages(); // TODO: Find better place
 		}
 	}
@@ -502,7 +502,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			adapter.addNewBrick(newPosition, copiedBrick, false);
 			adapter.initBrickList();
 
-			ProjectManager.getInstance().saveProject();
+			ProjectManager.getInstance().saveProject(getActivity().getApplicationContext());
 			adapter.notifyDataSetChanged();
 		} catch (CloneNotSupportedException exception) {
 			Log.e(getTag(), "Copying a Brick failed", exception);

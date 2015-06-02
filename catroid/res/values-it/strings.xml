@@ -60,10 +60,10 @@
   <string name="main_menu_web_dialog_message">Attualmente i browser alternativi come Firefox o Dolphin non sono supportati</string>
   <string name="main_menu_web_dialog_dont_show">Non mostrare nuovamente</string>
   <string name="preference_title">Impostazioni</string>
-  <string name="preference_title_enable_mindstorm_bricks">Mattoncini Lego Mindstorms</string>
-  <string name="preference_description_mindstorm_bricks">Permettono di controllare i robot Lego Mindstorms</string>
   <string name="preference_title_enable_quadcopter_bricks">Mattoncini per ARDrone 2.0</string>
   <string name="preference_description_quadcopter_bricks">Permettono di controllare i quadricotteri ARDrone 2.0</string>
+  <string name="preference_title_enable_mindstorms_nxt_bricks">Mattoncini Lego Mindstorms NXT</string>
+  <string name="preference_description_mindstorms_nxt_bricks">Permettono di controllare i robot Lego Mindstorms NXT</string>
   <string name="preference_title_use_face_detection">Rileva volti</string>
   <string name="preference_description_use_face_detection">Permetti di rilevare volti</string>
   <string name="preference_title_select_camera">Scegli la fotocamera</string>
@@ -391,28 +391,25 @@
   <string name="title_paired_devices">Dispositivi accoppiati</string>
   <string name="title_other_devices">Nuovi dispositivi</string>
   <string name="button_scan">Ricerca dispositivi Bluetooth</string>
-  <string name="select_device">Seleziona il tuo Lego Mindstorms NXT</string>
-  <string name="scanning">Scansione in corso</string>
+  <string name="select_device">Select Device:</string>
   <string name="connecting_please_wait">Connessione al tuo dispositivo. \nAttendere&#8230;</string>
   <string name="bt_connection_failed">Connessione al dispositivo non riuscita!</string>
-  <string name="bt_auto_connection_failed">Connessione automatica non riuscita!</string>
-  <string name="no_paired_nxt">Nessun NXT accoppiato</string>
   <string name="none_found">Nessun dispositivo spaiato trovato</string>
   <string name="none_paired">Nessun dispositivo accoppiato trovato</string>
-  <string name="brick_motor_action">Muovi motore NXT</string>
-  <string name="motor_speed">Velocità</string>
-  <string name="brick_motor_turn_angle">Ruota motore NXT</string>
-  <string name="motor_angle">Angolo</string>
-  <string name="motor_stop">Ferma motore NXT</string>
+  <string name="nxt_brick_motor_move">Muovi motore NXT</string>
+  <string name="nxt_motor_speed_to">Velocità</string>
+  <string name="nxt_brick_motor_turn_angle">Ruota motore NXT</string>
+  <string name="nxt_motor_move_by">Angolo</string>
+  <string name="nxt_motor_stop">Ferma motore NXT</string>
   <string name="nxt_play_tone">Suona tono NXT</string>
-  <string name="tone_duration">Durata</string>
+  <string name="nxt_tone_duration">Durata</string>
   <string name="nxt_tone_frequency">Frequenza</string>
   <string name="nxt_tone_hundred_hz">x100Hz</string>
-  <string name="seconds">secondi</string>
+  <string name="nxt_seconds">secondi</string>
   <string name="nxt_motor_a">A</string>
   <string name="nxt_motor_b">B</string>
   <string name="nxt_motor_c">C</string>
-  <string name="nxt_motor_a_and_c">A+C</string>
+  <string name="nxt_motor_b_and_c">B+C</string>
   <string name="nxt_motor_all">Tutti</string>
   <string name="brick_drone_takeoff">decolla</string>
   <string name="brick_drone_land">atterra</string>
@@ -566,5 +563,5 @@
   <string name="new_user_brick_variable">Variabile 1</string>
   <string name="recursive_user_brick_forbidden">Non è ancora possibile aggiungere un mattoncino personalizzato ad un mattoncino personalizzato!</string>
   <string name="brick_single">Mattoncino</string>
-  <string name="brick_multiple">Mattoncini</string>
+  <string name="brick_multiple">Mattoncini</string><string name="preference_disable_nxt_info_dialog">Disable Info Dialog</string><string name="preference_disable_nxt_info_dialog_description">Project specific NXT settings are not shown when opening a project.</string><string name="preference_title_mindstorms_nxt_sensors_description">The mapping of NXT sensors to ports is project specific and can only be configured for opened projects!</string><string name="lego_nxt_sensor_config_info_text">The current project uses Lego Mindstorms NXT bricks or sensors. For proper functionality please connect the sensors to the robot as follows</string><string name="nxt_port_1">Port 1</string><string name="nxt_port_2">Port 2</string><string name="nxt_port_3">Port 3</string><string name="nxt_port_4">Port 4</string><string name="lego_nxt_sensor_config_dont_show_again">Do not show this message again.</string>
 </resources>

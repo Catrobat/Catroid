@@ -68,7 +68,7 @@ public class ChangeVolumeByNBrick extends FormulaBrick {
 
 	@Override
 	public int getRequiredResources() {
-		return getFormulaWithBrickField(BrickField.VOLUME).getRequiredResources();
+		return getFormulaWithBrickField(BrickField.VOLUME_CHANGE).getRequiredResources();
 	}
 
 	@Override

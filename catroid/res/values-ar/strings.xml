@@ -60,10 +60,10 @@
   <string name="main_menu_web_dialog_message">حاليا المتصفحات البديلة مثل فايرفوكس أو الدلفين غير معتمدة</string>
   <string name="main_menu_web_dialog_dont_show">لا تظهر مرة أخرى</string>
   <string name="preference_title">إعدادات</string>
-  <string name="preference_title_enable_mindstorm_bricks">طوبة ليغو ميندستورمس</string>
-  <string name="preference_description_mindstorm_bricks">السماح بالتحكم في الروبوتات ليغو ميندستورمس</string>
   <string name="preference_title_enable_quadcopter_bricks">الطوب أردروني 2.0</string>
   <string name="preference_description_quadcopter_bricks">السماح بالتحكم في كوادكوبتير أردروني 2.0</string>
+  <string name="preference_title_enable_mindstorms_nxt_bricks">طوبة ليغو ميندستورمس</string>
+  <string name="preference_description_mindstorms_nxt_bricks">السماح بالتحكم في الروبوتات ليغو ميندستورمس</string>
   <string name="preference_title_use_face_detection">التحري عن الوجه</string>
   <string name="preference_description_use_face_detection">السماح بالتحري عن الوجه</string>
   <string name="preference_title_select_camera">اختيار الكاميرا</string>
@@ -419,28 +419,25 @@
   <string name="title_paired_devices">الأجهزة المقترنة</string>
   <string name="title_other_devices">أجهزة جديدة</string>
   <string name="button_scan">البحث عن أجهزة Bluetooth</string>
-  <string name="select_device">حدد ليغو ميندستورمس الخاص بك </string>
-  <string name="scanning">جار المسح</string>
+  <string name="select_device">Select Device:</string>
   <string name="connecting_please_wait">الاتصال بالجهاز الخاص بك الرجاء الانتظار...</string>
   <string name="bt_connection_failed">فشل الاتصال بالجهاز!</string>
-  <string name="bt_auto_connection_failed">Auto connection failed!</string>
-  <string name="no_paired_nxt">لم يتم العثور على الجهاز المقترن NXT </string>
   <string name="none_found">لم يتم العثور على أجهزة غير مقترن </string>
   <string name="none_paired">لم يتم العثور على أجهزة غير مقترن</string>
-  <string name="brick_motor_action">حرك الماتور NXT</string>
-  <string name="motor_speed">السرعة</string>
-  <string name="brick_motor_turn_angle">حول المحرك NXT </string>
-  <string name="motor_angle">الزاوية</string>
-  <string name="motor_stop">توقف المحرك NXT </string>
+  <string name="nxt_brick_motor_move">حرك الماتور NXT</string>
+  <string name="nxt_motor_speed_to">السرعة</string>
+  <string name="nxt_brick_motor_turn_angle">حول المحرك NXT </string>
+  <string name="nxt_motor_move_by">الزاوية</string>
+  <string name="nxt_motor_stop">توقف المحرك NXT </string>
   <string name="nxt_play_tone">قم بعزف اللحن NXT </string>
-  <string name="tone_duration">المدة</string>
+  <string name="nxt_tone_duration">المدة</string>
   <string name="nxt_tone_frequency">التردد</string>
   <string name="nxt_tone_hundred_hz">x100Hz</string>
-  <string name="seconds">ثوان</string>
+  <string name="nxt_seconds">ثوان</string>
   <string name="nxt_motor_a">أ</string>
   <string name="nxt_motor_b">ب</string>
   <string name="nxt_motor_c">ج</string>
-  <string name="nxt_motor_a_and_c">أ + ج</string>
+  <string name="nxt_motor_b_and_c">أ + ج</string>
   <string name="nxt_motor_all">جميع</string>
   <string name="brick_drone_takeoff">إقلاع</string>
   <string name="brick_drone_land">هبوط</string>
@@ -598,5 +595,5 @@
   <string name="new_user_brick_variable">متغير 1</string>
   <string name="recursive_user_brick_forbidden">إضافة طوبة مستخدم الى طوبة مستخدم غير مسموح به حتى الآن!</string>
   <string name="brick_single">طوبة</string>
-  <string name="brick_multiple">الطوب</string>
+  <string name="brick_multiple">الطوب</string><string name="preference_disable_nxt_info_dialog">Disable Info Dialog</string><string name="preference_disable_nxt_info_dialog_description">Project specific NXT settings are not shown when opening a project.</string><string name="preference_title_mindstorms_nxt_sensors_description">The mapping of NXT sensors to ports is project specific and can only be configured for opened projects!</string><string name="lego_nxt_sensor_config_info_text">The current project uses Lego Mindstorms NXT bricks or sensors. For proper functionality please connect the sensors to the robot as follows</string><string name="nxt_port_1">Port 1</string><string name="nxt_port_2">Port 2</string><string name="nxt_port_3">Port 3</string><string name="nxt_port_4">Port 4</string><string name="lego_nxt_sensor_config_dont_show_again">Do not show this message again.</string>
 </resources>

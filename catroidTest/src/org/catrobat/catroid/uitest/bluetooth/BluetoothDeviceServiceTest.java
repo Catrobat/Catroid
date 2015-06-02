@@ -64,7 +64,6 @@ public class BluetoothDeviceServiceTest extends BaseActivityInstrumentationTestC
 		super.setUp();
 		Intent intent = new Intent(getInstrumentation().getContext(), CatroidService.BLUETOOTH_DEVICE_SERVICE);
 		intent.putExtra(ConnectBluetoothDeviceActivity.DEVICE_TO_CONNECT, TEST_DEVICE);
-		intent.putExtra(ConnectBluetoothDeviceActivity.AUTO_CONNECT, false);
 
 		setActivityIntent(intent);
 
@@ -79,6 +78,7 @@ public class BluetoothDeviceServiceTest extends BaseActivityInstrumentationTestC
 	protected void tearDown() throws Exception {
 
 		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).disconnectDevices();
+		logger.disconnectAndDestroy();
 		BluetoothTestUtils.disableBluetooth();
 
 		super.tearDown();

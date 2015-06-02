@@ -39,34 +39,34 @@ public class BluetoothDeviceServiceImpl implements BluetoothDeviceService {
 
 
 	@Override
-	public synchronized ConnectDeviceResult connectDevice(Class<? extends BluetoothDevice> deviceToConnect,
-			Activity activity, int requestCode, boolean autoConnect) {
+	public ConnectDeviceResult connectDevice(Class<? extends BluetoothDevice> deviceToConnect,
+			Activity activity, int requestCode) {
 
 		if (isDeviceConnectedAndAlive(deviceToConnect)) {
 			return ConnectDeviceResult.ALREADY_CONNECTED;
 		}
 
-		Intent intent = createStartIntent(deviceToConnect, activity, autoConnect);
+		Intent intent = createStartIntent(deviceToConnect, activity);
 		activity.startActivityForResult(intent, requestCode);
 
 		return ConnectDeviceResult.CONNECTION_REQUESTED;
 	}
 
 	@Override
-	public synchronized ConnectDeviceResult connectDevice(Class<? extends BluetoothDevice> deviceToConnect,
-			Context context, boolean autoConnect) {
+	public ConnectDeviceResult connectDevice(Class<? extends BluetoothDevice> deviceToConnect,
+			Context context) {
 
 		if (isDeviceConnectedAndAlive(deviceToConnect)) {
 			return ConnectDeviceResult.ALREADY_CONNECTED;
 		}
 
-		Intent intent = createStartIntent(deviceToConnect, context, autoConnect);
+		Intent intent = createStartIntent(deviceToConnect, context);
 		context.startActivity(intent);
 
 		return ConnectDeviceResult.CONNECTION_REQUESTED;
 	}
 
-	private boolean isDeviceConnectedAndAlive(Class<? extends BluetoothDevice> deviceToConnect) {
+	private synchronized boolean isDeviceConnectedAndAlive(Class<? extends BluetoothDevice> deviceToConnect) {
 		BluetoothDevice device = connectedDevices.get(deviceToConnect);
 
 		if (device != null) {
@@ -105,10 +105,9 @@ public class BluetoothDeviceServiceImpl implements BluetoothDeviceService {
 	}
 
 	protected Intent createStartIntent(Class<? extends BluetoothDevice> deviceToConnect,
-			Context context, boolean autoConnect) {
+			Context context) {
 		Intent intent = new Intent(context, ConnectBluetoothDeviceActivity.class);
 		intent.putExtra(ConnectBluetoothDeviceActivity.DEVICE_TO_CONNECT, deviceToConnect);
-		intent.putExtra(ConnectBluetoothDeviceActivity.AUTO_CONNECT, autoConnect);
 		return intent;
 	}
 

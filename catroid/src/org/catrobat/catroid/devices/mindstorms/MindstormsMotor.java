@@ -20,19 +20,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.bluetooth;
+package org.catrobat.catroid.devices.mindstorms;
 
-import android.os.Handler;
+public interface MindstormsMotor {
 
-// TODO Not needed for LegoNXT anymore, functionality now in LegoNXTBtCommunicator! Maybe refactor similary for arduino or move to arduino package...
-public interface BtCommunicator {
-
-	// this is the only OUI registered by LEGO, see http://standards.ieee.org/regauth/oui/index.shtml
-	String OUI_LEGO = "00:16:53";
-
-	void setMACAddress(String mMACaddress);
-
-	boolean isConnected();
-
-	Handler getHandler();
+	void stop();
+	void move(int speed);
+	void move(int speed, int degrees);
+	void move(int speed, int degrees, boolean reply);
 }

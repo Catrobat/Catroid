@@ -28,15 +28,23 @@
         <item >@string/nxt_motor_a</item >
         <item >@string/nxt_motor_b</item >
         <item >@string/nxt_motor_c</item >
-        <item >@string/nxt_motor_a_and_c</item >
+        <item >@string/nxt_motor_b_and_c</item >
     </string-array >
     <string-array name="nxt_stop_motor_chooser" >
         <item >@string/nxt_motor_a</item >
         <item >@string/nxt_motor_b</item >
         <item >@string/nxt_motor_c</item >
-        <item >@string/nxt_motor_a_and_c</item >
+        <item >@string/nxt_motor_b_and_c</item >
         <item >@string/nxt_motor_all</item >
     </string-array >
+    <string-array name="nxt_sensor_chooser">
+        <item>@string/nxt_no_sensor</item>
+        <item>@string/nxt_sensor_touch</item>
+        <item>@string/nxt_sensor_sound</item>
+        <item>@string/nxt_sensor_light</item>
+        <item>@string/nxt_sensor_light_active</item>
+        <item>@string/nxt_sensor_ultrasonic</item>
+    </string-array>
 
     <!-- User Brick UI Data Editor Fragment -->
     <string-array name="data_editor_buttons" >

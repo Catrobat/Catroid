@@ -27,7 +27,7 @@ import android.util.Log;
 public enum Sensors {
 	X_ACCELERATION, Y_ACCELERATION, Z_ACCELERATION, COMPASS_DIRECTION, X_INCLINATION, Y_INCLINATION, LOUDNESS, FACE_DETECTED, FACE_SIZE, FACE_X_POSITION, FACE_Y_POSITION, OBJECT_X(
 			true), OBJECT_Y(true), OBJECT_TRANSPARENCY(true), OBJECT_BRIGHTNESS(true), OBJECT_SIZE(true), OBJECT_ROTATION(
-			true), OBJECT_LAYER(true);
+			true), OBJECT_LAYER(true), NXT_SENSOR_1, NXT_SENSOR_2, NXT_SENSOR_3, NXT_SENSOR_4;
 
 	public final boolean isObjectSensor;
 	public static final String TAG = Sensors.class.getSimpleName();

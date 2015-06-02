@@ -105,6 +105,7 @@ public class BrickCategoryFragment extends SherlockListFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		BottomBar.hideBottomBar(getSherlockActivity());
 		setupBrickCategories();
 	}
 
@@ -119,8 +120,6 @@ public class BrickCategoryFragment extends SherlockListFragment {
 	public void onDestroy() {
 		resetActionBar();
 		super.onDestroy();
-		BottomBar.showBottomBar(getSherlockActivity());
-		BottomBar.showPlayButton(getSherlockActivity());
 	}
 
 	@Override
@@ -154,7 +153,7 @@ public class BrickCategoryFragment extends SherlockListFragment {
 		categories.add(inflater.inflate(R.layout.brick_category_data, null));
 
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		if (sharedPreferences.getBoolean("setting_mindstorm_bricks", false)) {
+		if (sharedPreferences.getBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false)) {
 			categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null));
 		}
 

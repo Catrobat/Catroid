@@ -59,7 +59,7 @@ public final class BrickValues {
 	public static final String LEGO_MOTOR = "A";
 	public static final int LEGO_ANGLE = 180;
 	public static final int LEGO_SPEED = 100;
-	public static final int LEGO_DURATION = 1;
+	public static final float LEGO_DURATION = 1.0f;
 	public static final int LEGO_FREQUENCY = 2;
 
 	//Constants Drone

@@ -33,7 +33,9 @@ import org.catrobat.catroid.common.MessageContainer;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.DataContainer;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -48,10 +50,14 @@ public class Project implements Serializable {
 
 	@XStreamAlias("header")
 	private XmlHeader xmlHeader = new XmlHeader();
+
 	@XStreamAlias("objectList")
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
 	@XStreamAlias("data")
 	private DataContainer dataContainer = null;
+
+	@XStreamAlias("settings")
+	private List<Setting> settings = new ArrayList<Setting>();;
 
 	public Project(Context context, String name) {
 		xmlHeader.setProgramName(name);
@@ -178,6 +184,10 @@ public class Project implements Serializable {
 		return dataContainer;
 	}
 
+	public List<Setting> getSettings() {
+		return settings;
+	}
+
 	public void removeUnusedBroadcastMessages() {
 		List<String> usedMessages = new ArrayList<String>();
 		for (Sprite currentSprite : spriteList) {
@@ -217,5 +227,47 @@ public class Project implements Serializable {
 
 	public void setXmlHeader(XmlHeader xmlHeader) {
 		this.xmlHeader = xmlHeader;
+	}
+
+	public void saveLegoNXTSettingsToProject(Context context) {
+		if (context == null) {
+			return;
+		}
+
+		if ((getRequiredResources() & Brick.BLUETOOTH_LEGO_NXT) == 0) {
+			for (Object setting : settings.toArray()) {
+				if (setting instanceof LegoNXTSetting) {
+					settings.remove(setting);
+					return;
+				}
+			}
+			return;
+		}
+
+		NXTSensor.Sensor[] sensorMapping = SettingsActivity.getLegoMindstormsNXTSensorMapping(context);
+		for (Setting setting : settings) {
+			if (setting instanceof LegoNXTSetting) {
+				((LegoNXTSetting) setting).updateMapping(sensorMapping);
+				return;
+			}
+		}
+
+		Setting mapping = new LegoNXTSetting(sensorMapping);
+		settings.add(mapping);
+	}
+
+	public void loadLegoNXTSettingsFromProject(Context context) {
+
+		if (context == null) {
+			return;
+		}
+
+		for (Setting setting : settings) {
+			if (setting instanceof LegoNXTSetting) {
+				SettingsActivity.enableLegoMindstormsNXTBricks(context);
+				SettingsActivity.setLegoMindstormsNXTSensorMapping(context, ((LegoNXTSetting) setting).getSensorMapping());
+				return;
+			}
+		}
 	}
 }

@@ -44,48 +44,73 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:horizontalSpacing="@dimen/brick_flow_layout_horizontal_spacing"
-        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing" >
+        app:verticalSpacing="@dimen/brick_flow_layout_vertical_spacing">
 
-        <TextView
-            android:id="@+id/lego_motor_action_label"
-            style="@style/BrickText.SingleLine"
-            android:text="@string/brick_motor_action" >
-        </TextView >
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/brick_nxt_motor_action_first_line"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        <Spinner
-            android:id="@+id/lego_motor_action_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:focusable="false" >
+                <TextView
+                    android:id="@+id/lego_motor_action_label"
+                    style="@style/BrickText.Multiple"
+                    android:text="@string/nxt_brick_motor_move" >
+                </TextView >
 
-            <!-- do not add spinner items here! -->
-        </Spinner >
+                <Spinner
+                    android:id="@+id/lego_motor_action_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false" >
 
-        <TextView
-            android:id="@+id/lego_motor_action_speed"
-            style="@style/BrickText.SingleLine"
-            android:text="@string/motor_speed" >
-        </TextView >
+                    <!-- do not add spinner items here! -->
+                </Spinner >
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/motor_action_speed_text_view"
-            style="@style/BrickText.SingleLine" >
-        </TextView >
+            <LinearLayout
+                android:layout_below="@+id/brick_nxt_motor_action_first_line"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/motor_action_speed_edit_text"
-            style="@style/BrickEditText"
-            app:layout_inputType="number"
-            app:layout_textField="true"
-            android:clickable="false" >
-        </TextView >
+                <TextView
+                    android:id="@+id/lego_motor_action_to_text"
+                    style="@style/BrickText.Multiple"
+                    android:text="@string/nxt_motor_speed_to" >
+                </TextView >
 
-        <TextView
-            android:id="@+id/lego_motor_action_percent"
-            style="@style/BrickText"
-            android:text="@string/percent_symbol" >
-        </TextView >
+                <TextView
+                    android:id="@+id/motor_action_speed_text_view"
+                    style="@style/BrickPrototypeTextView" />
+
+                <TextView
+                    android:id="@+id/motor_action_speed_edit_text"
+                    style="@style/BrickEditText"
+                    app:layout_inputType="number"
+                    app:layout_textField="true"
+                    android:clickable="false" >
+                </TextView >
+
+                <TextView
+                    android:id="@+id/lego_motor_action_percent"
+                    style="@style/BrickText"
+                    android:text="@string/percent_symbol" >
+                </TextView >
+
+                <TextView
+                    android:id="@+id/lego_motor_action_speed_text"
+                    style="@style/BrickText"
+                    android:layout_marginLeft="3sp"
+                    android:text="@string/nxt_motor_speed" >
+                </TextView >
+            </LinearLayout>
+        </RelativeLayout>
+
     </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>

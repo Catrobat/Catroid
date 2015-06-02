@@ -26,18 +26,24 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
+import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
+import org.catrobat.catroid.common.CatroidService;
+import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick.Motor;
+import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.legonxt.LegoNXT;
 
 public class LegoNxtMotorTurnAngleAction extends TemporalAction {
 
-	private static final int NO_DELAY = 0;
 	private Motor motorEnum;
 	private Formula degrees;
 	private Sprite sprite;
+
+	private BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
+
 
 	@Override
 	protected void update(float percent) {
@@ -56,20 +62,26 @@ public class LegoNxtMotorTurnAngleAction extends TemporalAction {
 			tmpAngle = degreesValue + (-2 * degreesValue);
 		}
 
-		if (motorEnum.equals(Motor.MOTOR_A_C)) {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), -1 * direction * 30, tmpAngle);
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_C.ordinal(), direction * 30, tmpAngle);
-		} else {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, motorEnum.ordinal(), direction * 30, tmpAngle);
+		LegoNXT nxt = btService.getDevice(BluetoothDevice.LEGO_NXT);
+		if (nxt == null) {
+			return;
 		}
 
-		/*
-		 * if (inverse == false) {
-		 * LegoNXT.sendBTCMotorMessage(NO_DELAY, motor, 30, angle);
-		 * } else {
-		 * LegoNXT.sendBTCMotorMessage(NO_DELAY, motor, -30, angle);
-		 * }
-		 */
+		switch (motorEnum) {
+			case MOTOR_A:
+				nxt.getMotorA().move(direction * 30, tmpAngle);
+				break;
+			case MOTOR_B:
+				nxt.getMotorB().move(direction * 30, tmpAngle);
+				break;
+			case MOTOR_C:
+				nxt.getMotorC().move(direction * 30, tmpAngle);
+				break;
+			case MOTOR_B_C:
+				nxt.getMotorB().move(direction * 30, tmpAngle);
+				nxt.getMotorC().move(direction * 30, tmpAngle);
+				break;
+		}
 	}
 
 	public void setMotorEnum(Motor motorEnum) {

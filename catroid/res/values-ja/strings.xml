@@ -60,10 +60,10 @@
   <string name="main_menu_web_dialog_message">現在 Firefox または Dolphin のような別のブラウザーはサポートされていません</string>
   <string name="main_menu_web_dialog_dont_show">次回から表示しません。</string>
   <string name="preference_title">設定</string>
-  <string name="preference_title_enable_mindstorm_bricks">レゴ ブロックを有効にする</string>
-  <string name="preference_description_mindstorm_bricks">これらのブロックは、レゴマインドストームロボットを制御するために使用されています。</string>
   <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0 bricks</string>
   <string name="preference_description_quadcopter_bricks">Allow to control the ARDrone 2.0 quadcopter</string>
+  <string name="preference_title_enable_mindstorms_nxt_bricks">レゴ ブロックを有効にする</string>
+  <string name="preference_description_mindstorms_nxt_bricks">これらのブロックは、レゴマインドストームロボットを制御するために使用されています。</string>
   <string name="preference_title_use_face_detection">Face Detection</string>
   <string name="preference_description_use_face_detection">Allow to detect faces</string>
   <string name="preference_title_select_camera">Choose Camera</string>
@@ -389,28 +389,25 @@
   <string name="title_paired_devices">デバイスの組み合わせ</string>
   <string name="title_other_devices">新しいデバイス</string>
   <string name="button_scan">Bluetoothデバイスを検索</string>
-  <string name="select_device">あなたのレゴマインドストームNXTを選択してください</string>
-  <string name="scanning">スキャン中</string>
+  <string name="select_device">Select Device:</string>
   <string name="connecting_please_wait">お使いのデバイスに接続しています\nしばらく待つ&#8230;</string>
   <string name="bt_connection_failed">デバイスへの接続に失敗しました！</string>
-  <string name="bt_auto_connection_failed">Auto connection failed!</string>
-  <string name="no_paired_nxt">ペアのNXTが見つかりませんでした</string>
   <string name="none_found">見つかりませんでした。ペアになっていないデバイスがありません</string>
   <string name="none_paired">見つかったペアのデバイスがありません</string>
-  <string name="brick_motor_action">NXTモーターの動き</string>
-  <string name="motor_speed">スピード</string>
-  <string name="brick_motor_turn_angle">NXTターンモーター</string>
-  <string name="motor_angle">角度</string>
-  <string name="motor_stop">NXTモーターを停止</string>
+  <string name="nxt_brick_motor_move">NXTモーターの動き</string>
+  <string name="nxt_motor_speed_to">スピード</string>
+  <string name="nxt_brick_motor_turn_angle">NXTターンモーター</string>
+  <string name="nxt_motor_move_by">角度</string>
+  <string name="nxt_motor_stop">NXTモーターを停止</string>
   <string name="nxt_play_tone">NXTの再生音</string>
-  <string name="tone_duration">時間</string>
+  <string name="nxt_tone_duration">時間</string>
   <string name="nxt_tone_frequency">周波数</string>
   <string name="nxt_tone_hundred_hz">x100Hz</string>
-  <string name="seconds">秒待つ</string>
+  <string name="nxt_seconds">秒待つ</string>
   <string name="nxt_motor_a">A</string>
   <string name="nxt_motor_b">B</string>
   <string name="nxt_motor_c">C</string>
-  <string name="nxt_motor_a_and_c">A+C</string>
+  <string name="nxt_motor_b_and_c">B+C</string>
   <string name="nxt_motor_all">すべて</string>
   <string name="brick_drone_takeoff">Take off</string>
   <string name="brick_drone_land">Land</string>
@@ -563,5 +560,5 @@
   <string name="new_user_brick_variable">Variable 1</string>
   <string name="recursive_user_brick_forbidden">Adding UserBrick to UserBrick is not allowed yet!</string>
   <string name="brick_single">Brick</string>
-  <string name="brick_multiple">Bricks</string>
+  <string name="brick_multiple">Bricks</string><string name="preference_disable_nxt_info_dialog">Disable Info Dialog</string><string name="preference_disable_nxt_info_dialog_description">Project specific NXT settings are not shown when opening a project.</string><string name="preference_title_mindstorms_nxt_sensors_description">The mapping of NXT sensors to ports is project specific and can only be configured for opened projects!</string><string name="lego_nxt_sensor_config_info_text">The current project uses Lego Mindstorms NXT bricks or sensors. For proper functionality please connect the sensors to the robot as follows</string><string name="nxt_port_1">Port 1</string><string name="nxt_port_2">Port 2</string><string name="nxt_port_3">Port 3</string><string name="nxt_port_4">Port 4</string><string name="lego_nxt_sensor_config_dont_show_again">Do not show this message again.</string>
 </resources>

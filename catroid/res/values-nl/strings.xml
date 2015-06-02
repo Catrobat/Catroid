@@ -60,10 +60,10 @@
   <string name="main_menu_web_dialog_message">Momenteel worden alternatieve browsers zoals Firefox of Dolphin niet ondersteund</string>
   <string name="main_menu_web_dialog_dont_show">Niet opnieuw weergeven</string>
   <string name="preference_title">Instellingen</string>
-  <string name="preference_title_enable_mindstorm_bricks">Lego Mindstorms-stenen</string>
-  <string name="preference_description_mindstorm_bricks">Lego Mindstorms-besturing toestaan</string>
   <string name="preference_title_enable_quadcopter_bricks">ARDrone 2.0-blokken</string>
   <string name="preference_description_quadcopter_bricks">Besturen ARDrone 2.0 quadcopter toestaan</string>
+  <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT-stenen</string>
+  <string name="preference_description_mindstorms_nxt_bricks">Lego Mindstorms-besturing toestaan</string>
   <string name="preference_title_use_face_detection">Gezichtsdetectie</string>
   <string name="preference_description_use_face_detection">Toestaan gezichten te detecteren</string>
   <string name="preference_title_select_camera">Kies Camera</string>
@@ -389,28 +389,25 @@
   <string name="title_paired_devices">Gekoppelde apparaten</string>
   <string name="title_other_devices">Nieuwe apparaten</string>
   <string name="button_scan">Zoeken naar Bluetooth-apparaten</string>
-  <string name="select_device">Selecteer je Lego Mindstorms NXT</string>
-  <string name="scanning">Scannen</string>
+  <string name="select_device">Select Device:</string>
   <string name="connecting_please_wait">Verbinding maken met je apparaat.\nEven wachten&#8230;</string>
   <string name="bt_connection_failed">Verbinding maken mislukt!</string>
-  <string name="bt_auto_connection_failed">Auto connection failed!</string>
-  <string name="no_paired_nxt">Geen gekoppelde NXT gevonden</string>
   <string name="none_found">Geen niet-gekoppelde apparaten gevonden</string>
   <string name="none_paired">Geen gekoppelde apparaten gevonden</string>
-  <string name="brick_motor_action">NXT beweeg motor</string>
-  <string name="motor_speed">Snelheid</string>
-  <string name="brick_motor_turn_angle">NXT draai motor</string>
-  <string name="motor_angle">Hoek</string>
-  <string name="motor_stop">NXT stop motor</string>
+  <string name="nxt_brick_motor_move">NXT beweeg motor</string>
+  <string name="nxt_motor_speed_to">Snelheid</string>
+  <string name="nxt_brick_motor_turn_angle">NXT draai motor</string>
+  <string name="nxt_motor_move_by">Hoek</string>
+  <string name="nxt_motor_stop">NXT stop motor</string>
   <string name="nxt_play_tone">NXT speel toon</string>
-  <string name="tone_duration">Duur</string>
+  <string name="nxt_tone_duration">Duur</string>
   <string name="nxt_tone_frequency">Frequentie</string>
   <string name="nxt_tone_hundred_hz">x100Hz</string>
-  <string name="seconds">seconden</string>
+  <string name="nxt_seconds">seconden</string>
   <string name="nxt_motor_a">A</string>
   <string name="nxt_motor_b">B</string>
   <string name="nxt_motor_c">C</string>
-  <string name="nxt_motor_a_and_c">A+C</string>
+  <string name="nxt_motor_b_and_c">B+C</string>
   <string name="nxt_motor_all">Alle</string>
   <string name="brick_drone_takeoff">Opstijgen</string>
   <string name="brick_drone_land">Landen</string>
@@ -564,5 +561,5 @@
   <string name="new_user_brick_variable">Variabele 1</string>
   <string name="recursive_user_brick_forbidden">Adding UserBrick to UserBrick is not allowed yet!</string>
   <string name="brick_single">Steen</string>
-  <string name="brick_multiple">Stenen</string>
+  <string name="brick_multiple">Stenen</string><string name="preference_disable_nxt_info_dialog">Disable Info Dialog</string><string name="preference_disable_nxt_info_dialog_description">Project specific NXT settings are not shown when opening a project.</string><string name="preference_title_mindstorms_nxt_sensors_description">The mapping of NXT sensors to ports is project specific and can only be configured for opened projects!</string><string name="lego_nxt_sensor_config_info_text">The current project uses Lego Mindstorms NXT bricks or sensors. For proper functionality please connect the sensors to the robot as follows</string><string name="nxt_port_1">Port 1</string><string name="nxt_port_2">Port 2</string><string name="nxt_port_3">Port 3</string><string name="nxt_port_4">Port 4</string><string name="lego_nxt_sensor_config_dont_show_again">Do not show this message again.</string>
 </resources>

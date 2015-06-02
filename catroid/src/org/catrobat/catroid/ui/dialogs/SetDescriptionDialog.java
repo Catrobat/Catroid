@@ -122,7 +122,7 @@ public class SetDescriptionDialog extends MultiLineTextDialog {
 
 	private void setDescription(String description) {
 		projectManager.getCurrentProject().setDescription(description);
-		projectManager.saveProject();
+		projectManager.saveProject(getActivity().getApplicationContext());
 		updateProjectDescriptionListener();
 	}
 
