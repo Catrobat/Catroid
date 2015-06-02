@@ -439,7 +439,6 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		for (int i = 0; i < motorMoveBricks.getLength(); i++) {
 			Node motorMoveBrick = motorMoveBricks.item(i);
 			originalDocument.renameNode(motorMoveBrick, motorMoveBrick.getNamespaceURI(), newMotorMoveBrickName);
-			Log.d("test", motorMoveBrick.getNodeName());
 		}
 	}
 
