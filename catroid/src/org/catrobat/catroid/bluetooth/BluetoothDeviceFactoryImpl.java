@@ -42,14 +42,6 @@ public class BluetoothDeviceFactoryImpl implements BluetoothDeviceFactory {
 			return new PhiroImpl();
 		}
 
-//		if (service == BTDeviceService.ALBERT) {
-//			return new Albert();
-//		}
-//
-//		if (service == BTDeviceService.ARDUINO) {
-//			return new Arduino();
-//		}
-
 		return null; // may throw exception
 	}
 }

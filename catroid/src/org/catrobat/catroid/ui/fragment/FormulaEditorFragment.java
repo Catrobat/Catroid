@@ -297,8 +297,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			formulaEditorFieldDeleteButton.setVisibility(View.GONE);
 			formulaEditorEditText.setVisibility(View.GONE);
 			formulaEditorKeyboard.setVisibility(View.GONE);
-		}
-		else {
+		} else {
 			formulaEditorFieldDeleteButton.setVisibility(View.VISIBLE);
 			formulaEditorEditText.setVisibility(View.VISIBLE);
 			formulaEditorKeyboard.setVisibility(View.VISIBLE);
@@ -308,8 +307,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	private View getBrickOrCustomView() {
 		if (showCustomView) {
 			return clonedFormulaBrick.getCustomView(context, 0, null);
-		}
-		else {
+		} else {
 			return clonedFormulaBrick.getView(context, 0, null);
 		}
 	}

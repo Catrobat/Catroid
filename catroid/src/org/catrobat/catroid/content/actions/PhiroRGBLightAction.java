@@ -51,48 +51,9 @@ public class PhiroRGBLightAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 
-		int redValue;
-		int greenValue;
-		int blueValue;
-
-		try {
-			redValue = red.interpretInteger(sprite);
-		} catch (InterpretationException interpretationException) {
-			redValue = 0;
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-		}
-
-		if (redValue < MIN_VALUE) {
-			redValue = MIN_VALUE;
-		} else if (redValue > MAX_VALUE) {
-			redValue = MAX_VALUE;
-		}
-
-		try {
-			greenValue = green.interpretInteger(sprite);
-		} catch (InterpretationException interpretationException) {
-			greenValue = 0;
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-		}
-
-		if (greenValue < MIN_VALUE) {
-			greenValue = MIN_VALUE;
-		} else if (greenValue > MAX_VALUE) {
-			greenValue = MAX_VALUE;
-		}
-
-		try {
-			blueValue = blue.interpretInteger(sprite);
-		} catch (InterpretationException interpretationException) {
-			blueValue = 0;
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-		}
-
-		if (blueValue < MIN_VALUE) {
-			blueValue = MIN_VALUE;
-		} else if (blueValue > MAX_VALUE) {
-			blueValue = MAX_VALUE;
-		}
+		int redValue = updateFormulaValue(red);
+		int greenValue = updateFormulaValue(green);
+		int blueValue = updateFormulaValue(blue);
 
 		Phiro phiro = btService.getDevice(BluetoothDevice.PHIRO);
 
@@ -106,6 +67,26 @@ public class PhiroRGBLightAction extends TemporalAction {
 		} else {
 			Log.d("Phiro", "Error: EyeEnum:" + eyeEnum);
 		}
+	}
+
+	private int updateFormulaValue(Formula rgbFormula) {
+
+		int rgbValue;
+
+		try {
+			rgbValue = rgbFormula.interpretInteger(sprite);
+		} catch (InterpretationException interpretationException) {
+			rgbValue = 0;
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
+
+		if (rgbValue < MIN_VALUE) {
+			rgbValue = MIN_VALUE;
+		} else if (rgbValue > MAX_VALUE) {
+			rgbValue = MAX_VALUE;
+		}
+
+		return rgbValue;
 	}
 
 	public void setEyeEnum(Eye eyeEnum) {

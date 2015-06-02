@@ -174,10 +174,7 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-
-			}
+			public void onNothingSelected(AdapterView<?> arg0) { }
 
 		});
 

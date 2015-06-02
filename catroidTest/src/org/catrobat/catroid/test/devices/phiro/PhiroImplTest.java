@@ -258,8 +258,6 @@ public class PhiroImplTest extends AndroidTestCase {
 			return 255;
 		}
 
-		return (int)(percent * 2.55);
+		return (int) (percent * 2.55);
 	}
-
-
 }

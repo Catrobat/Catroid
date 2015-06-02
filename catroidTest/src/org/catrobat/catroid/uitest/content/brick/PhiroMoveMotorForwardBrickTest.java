@@ -41,7 +41,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class PhiroMoveMotorForwardBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity>  {
+public class PhiroMoveMotorForwardBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final int SET_SPEED = 30;
 	private static final int SET_SPEED_INITIALLY = -70;
 

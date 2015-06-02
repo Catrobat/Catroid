@@ -41,7 +41,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class PhiroPlayToneBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity>  {
+public class PhiroPlayToneBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final int TONE_DURATION = 30;
 	private static final int TONE_DURATION_INITIALLY = -70;
 
