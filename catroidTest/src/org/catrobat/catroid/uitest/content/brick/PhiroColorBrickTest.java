@@ -41,7 +41,7 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-public class PhiroColorBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity>  {
+public class PhiroColorBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 	private static final int SET_RED = 0;
 	private static final int SET_GREEN = 100;
 	private static final int SET_BLUE = 200;
