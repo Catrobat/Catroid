@@ -145,8 +145,8 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 				SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, context);
 	}
 
-	public static boolean isPhiroSharedPreferenceEnabled(Context context, boolean defaultValue) {
-		return getBooleanSharedPreference(defaultValue, SETTINGS_SHOW_PHIRO_BRICKS, context);
+	public static boolean isPhiroSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_PHIRO_BRICKS, context);
 	}
 
 	private static void setBooleanSharedPreference(boolean value, String settingsString, Context context) {
