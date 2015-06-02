@@ -152,8 +152,7 @@ public class BrickCategoryFragment extends SherlockListFragment {
 		categories.add(inflater.inflate(R.layout.brick_category_looks, null));
 		categories.add(inflater.inflate(R.layout.brick_category_data, null));
 
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		if (sharedPreferences.getBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false)) {
+		if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null));
 		}
 
@@ -165,7 +164,7 @@ public class BrickCategoryFragment extends SherlockListFragment {
 			categories.add(inflater.inflate(R.layout.brick_category_drone, null));
 		}
 
-		if (SettingsActivity.isPhiroSharedPreferenceEnabled(getActivity(), false)) {
+		if (SettingsActivity.isPhiroSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_phiro, null));
 		}
 

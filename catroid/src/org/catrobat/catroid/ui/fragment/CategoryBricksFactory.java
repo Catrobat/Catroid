@@ -110,6 +110,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.Sensors;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.UserBrickScriptActivity;
 
 import java.util.ArrayList;
@@ -131,11 +132,11 @@ public class CategoryBricksFactory {
 		if (category.equals(context.getString(R.string.category_control))) {
 			tempList = setupControlCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_motion))) {
-			tempList = setupMotionCategoryList(sprite);
+			tempList = setupMotionCategoryList(sprite, context);
 		} else if (category.equals(context.getString(R.string.category_sound))) {
-			tempList = setupSoundCategoryList();
+			tempList = setupSoundCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_looks))) {
-			tempList = setupLooksCategoryList();
+			tempList = setupLooksCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_user_bricks))) {
 			tempList = setupUserBricksCategoryList();
 		} else if (category.equals(context.getString(R.string.category_data))) {
@@ -179,7 +180,7 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new IfLogicBeginBrick(0));
 		controlBrickList.add(new RepeatBrick(BrickValues.REPEAT));
 
-		if (BuildConfig.FEATURE_PHIRO_ENABLED) {
+		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new PhiroIfLogicBeginBrick());
 		}
 
@@ -223,7 +224,7 @@ public class CategoryBricksFactory {
 //		return false;
 //	}
 
-	private List<Brick> setupMotionCategoryList(Sprite sprite) {
+	private List<Brick> setupMotionCategoryList(Sprite sprite, Context context) {
 		List<Brick> motionBrickList = new ArrayList<Brick>();
 		motionBrickList.add(new PlaceAtBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
 		motionBrickList.add(new SetXBrick(BrickValues.X_POSITION));
@@ -251,7 +252,7 @@ public class CategoryBricksFactory {
 			motionBrickList.add(new VibrationBrick(BrickValues.VIBRATE_MILLISECONDS));
 		}
 
-		if (BuildConfig.FEATURE_PHIRO_ENABLED) {
+		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			motionBrickList.add(new PhiroMotorMoveForwardBrick(PhiroMotorMoveForwardBrick.Motor.MOTOR_LEFT,
 					BrickValues.PHIRO_SPEED));
 			motionBrickList.add(new PhiroMotorMoveBackwardBrick(PhiroMotorMoveBackwardBrick.Motor.MOTOR_LEFT,
@@ -262,7 +263,7 @@ public class CategoryBricksFactory {
 		return motionBrickList;
 	}
 
-	private List<Brick> setupSoundCategoryList() {
+	private List<Brick> setupSoundCategoryList(Context context) {
 		List<Brick> soundBrickList = new ArrayList<Brick>();
 		soundBrickList.add(new PlaySoundBrick());
 		soundBrickList.add(new StopAllSoundsBrick());
@@ -278,7 +279,7 @@ public class CategoryBricksFactory {
 
 		soundBrickList.add(new SpeakBrick(BrickValues.SPEAK));
 
-		if (BuildConfig.FEATURE_PHIRO_ENABLED) {
+		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			soundBrickList.add(new PhiroPlayToneBrick(PhiroPlayToneBrick.Tone.DO,
 					BrickValues.PHIRO_DURATION));
 		}
@@ -286,7 +287,7 @@ public class CategoryBricksFactory {
 		return soundBrickList;
 	}
 
-	private List<Brick> setupLooksCategoryList() {
+	private List<Brick> setupLooksCategoryList(Context context) {
 		List<Brick> looksBrickList = new ArrayList<Brick>();
 
 		looksBrickList.add(new SetLookBrick());
@@ -305,7 +306,7 @@ public class CategoryBricksFactory {
 			looksBrickList.add(new LedOnBrick());
 		}
 
-		if (BuildConfig.FEATURE_PHIRO_ENABLED) {
+		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			looksBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.Both, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));
 		}
 

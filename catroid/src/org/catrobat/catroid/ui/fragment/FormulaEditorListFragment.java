@@ -156,7 +156,7 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 				itemsIds = concatAll(itemsIds, NXT_SENSOR_ITEMS);
 			}
 
-			if (SettingsActivity.isPhiroSharedPreferenceEnabled(this.getActivity().getApplicationContext(), false)) {
+			if (SettingsActivity.isPhiroSharedPreferenceEnabled(this.getActivity().getApplicationContext())) {
 				itemsIds = concatAll(itemsIds, PHIRO_SENSOR_ITEMS);
 			}
 		}
