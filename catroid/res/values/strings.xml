@@ -737,6 +737,24 @@
  	<string name="brick_single">Brick</string>
  	<string name="brick_multiple">Bricks</string>
 
+    <!-- Merge strings -->
+    <string name="merge_button">Merge project into</string>
+    <string name="merge_conflict">Merging not possible</string>
+    <string name="broadcast">Broadcast</string>
+    <string name="project_list">List Item</string>
+    <string name="error_merge_duplicate_names">To merge both projects, please be aware, that following elements can not use the same name:</string>
+    <string name="error_merge_with_self">Caution! Current project and selected project are the same!</string>
+    <string name="error_merge">An error occurred while merging projects!</string>
+    <string name="merge_info">successfully merged into</string>
+
+    <string name="error_different_resolutions1">Caution! Different resolutions detected.</string>
+    <string name="error_different_resolutions2">has resolution</string>
+    <string name="error_different_resolutions3">Using resolution of</string>
+    <string name="error_bricks_in_background">Caution! The background is not empty. Images and bricks in the background object will be ignored by matching.</string>
+    <string name="and">and</string>
+    <string name="warning">Warning</string>
+    <string name="abort">Abort</string>
+    <string name="variable">Variable</string>
     <!-- -->
 
 </resources>

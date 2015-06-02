@@ -133,6 +133,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -777,5 +778,39 @@ public final class StorageHandler {
 			permissionsSet.add(Constants.FACE_DETECTION);
 		}
 		return permissionsSet;
+	}
+
+	public boolean copyImageFiles(String targetProject, String sourceProject) {
+		return copyFiles(targetProject, sourceProject, false);
+	}
+
+	public boolean copySoundFiles(String targetProject, String sourceProject) {
+		return copyFiles(targetProject, sourceProject, true);
+	}
+
+	private boolean copyFiles (String targetProject, String sourceProject, boolean copySoundFiles) {
+		String type = IMAGE_DIRECTORY;
+		if (copySoundFiles) {
+			type = SOUND_DIRECTORY;
+		}
+		File targetDirectory = new File(buildPath(buildProjectPath(targetProject), type));
+		File sourceDirectory = new File(buildPath(buildProjectPath(sourceProject), type));
+		if (!targetDirectory.exists() || !sourceDirectory.exists()) {
+			return false;
+		}
+		try {
+			for (File sourceFile : sourceDirectory.listFiles()) {
+				File targetFile = new File(targetDirectory.getAbsolutePath(), sourceFile.getName());
+				FileChannel source = new FileInputStream(sourceFile).getChannel();
+				FileChannel target = new FileOutputStream(targetFile).getChannel();
+				target.transferFrom(source, 0, source.size());
+				source.close();
+				target.close();
+			}
+		} catch (IOException e) {
+			Log.e(TAG, e.getMessage());
+			return false;
+		}
+		return true;
 	}
 }
