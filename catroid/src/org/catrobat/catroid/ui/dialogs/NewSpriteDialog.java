@@ -116,7 +116,7 @@ public class NewSpriteDialog extends DialogFragment {
 		setupGalleryButton(dialogView);
 		setupCameraButton(dialogView);
 
-		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), false))
+		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), true))
 		{
 			setupDroneVideoButton(dialogView);
 		}
