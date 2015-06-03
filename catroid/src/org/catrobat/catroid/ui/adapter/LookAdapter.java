@@ -23,13 +23,17 @@
 package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.ui.BackPackActivity;
+import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.fragment.LookFragment;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class LookAdapter extends LookBaseAdapter implements ScriptActivityAdapterInterface {
 
@@ -47,6 +51,23 @@ public class LookAdapter extends LookBaseAdapter implements ScriptActivityAdapte
 			return convertView;
 		}
 		return lookFragment.getView(position, convertView);
+	}
+
+	public void onDestroyActionModeBackPack() {
+		Iterator<Integer> iterator = checkedLooks.iterator();
+		while (iterator.hasNext()) {
+			int position = iterator.next();
+			BackPackListManager.getInstance().addLookToActionBarLookDataArrayList(lookDataItems.get(position));
+		}
+
+		if (!checkedLooks.isEmpty()) {
+			Intent intent = new Intent(lookFragment.getActivity(), BackPackActivity.class);
+			intent.putExtra(BackPackActivity.EXTRA_FRAGMENT_POSITION, 1);
+			intent.putExtra(BackPackActivity.BACKPACK_ITEM, true);
+			lookFragment.getActivity().startActivity(intent);
+		}
+
+		lookFragment.clearCheckedLooksAndEnableButtons();
 	}
 
 	public void setLookFragment(LookFragment lookFragment) {

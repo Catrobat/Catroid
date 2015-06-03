@@ -29,6 +29,7 @@ import android.text.TextWatcher;
 import android.widget.Button;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -67,7 +68,9 @@ public class RenameSoundDialog extends TextDialog {
 		}
 
 		if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
-			newSoundTitle = Utils.getUniqueSoundName(newSoundTitle);
+			SoundInfo soundInfo = new SoundInfo();
+			soundInfo.setTitle(newSoundTitle);
+			newSoundTitle = Utils.getUniqueSoundName(soundInfo);
 		} else {
 			Utils.showErrorDialog(getActivity(), R.string.soundname_invalid);
 		}

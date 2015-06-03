@@ -23,45 +23,50 @@
 package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.actionbarsherlock.view.ActionMode;
-
-import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.ui.controller.BackPackListManager;
-import org.catrobat.catroid.ui.controller.SoundController;
-import org.catrobat.catroid.ui.fragment.BackPackSoundFragment;
+import org.catrobat.catroid.ui.controller.LookController;
+import org.catrobat.catroid.ui.fragment.BackPackLookFragment;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class BackPackSoundAdapter extends SoundBaseAdapter implements ScriptActivityAdapterInterface {
+public class BackPackLookAdapter extends LookBaseAdapter implements ScriptActivityAdapterInterface {
 
-	private BackPackSoundFragment backPackSoundFragment;
+	private BackPackLookFragment backpackLookFragment;
+	private FragmentActivity currentFragmentActivity;
 
-	public BackPackSoundAdapter(Context context, int resource, int textViewResourceId, ArrayList<SoundInfo> items,
-			boolean showDetails, BackPackSoundFragment backPackSoundFragment) {
+	public BackPackLookAdapter(final Context context, int resource, int textViewResourceId, ArrayList<LookData> items,
+							   boolean showDetails, BackPackLookFragment backPackLookFragment) {
 		super(context, resource, textViewResourceId, items, showDetails);
-		this.backPackSoundFragment = backPackSoundFragment;
+		this.backpackLookFragment = backPackLookFragment;
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		if (this.backPackSoundFragment == null) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
+
+		if (backpackLookFragment == null) {
 			return convertView;
 		}
-		return this.backPackSoundFragment.getView(position, convertView);
-
+		return this.backpackLookFragment.getView(position, convertView);
 	}
 
-	public void onDestroyActionModeUnpacking(ActionMode mode) {
-		Iterator<Integer> iterator = checkedSounds.iterator();
+	public void onDestroyActionModeUnpacking() {
+		Iterator<Integer> iterator = checkedLooks.iterator();
 		while (iterator.hasNext()) {
 			int position = iterator.next();
-			SoundController.getInstance().copySound(soundInfoItems.get(position),
-					BackPackListManager.getCurrentSoundInfoArrayList(), BackPackListManager.getCurrentSoundAdapter());
+			LookController.getInstance().copyLook(position, BackPackListManager.getCurrentLookDataArrayList()
+			, currentFragmentActivity, BackPackListManager.getInstance().getCurrentLookFragment());
 		}
-		backPackSoundFragment.clearCheckedSoundsAndEnableButtons();
+		backpackLookFragment.clearCheckedLooksAndEnableButtons();
+	}
+
+	public void setCurrentActivity(FragmentActivity activity) {
+		this.currentFragmentActivity = activity;
+
 	}
 }

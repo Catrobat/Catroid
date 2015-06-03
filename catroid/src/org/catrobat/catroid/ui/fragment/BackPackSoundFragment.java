@@ -126,13 +126,12 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 				false, this);
 		adapter.setOnSoundEditListener(this);
 		setListAdapter(adapter);
-
 	}
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.copy).setVisible(false);
-		if (BackPackListManager.getInstance().getSoundInfoArrayList().size() > 0) {
+		if (!BackPackListManager.getInstance().getSoundInfoArrayList().isEmpty()) {
 			menu.findItem(R.id.unpacking).setVisible(true);
 		}
 		BottomBar.hideBottomBar(getActivity());
@@ -159,8 +158,10 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 		switch (item.getItemId()) {
 
 			case R.id.context_menu_unpacking:
-				SoundController.getInstance().copySound(selectedSoundInfoBackPack,
-						BackPackListManager.getCurrentSoundInfoArrayList(), BackPackListManager.getCurrentAdapter());
+				String newSoundInfoTitle = Utils.getUniqueSoundName(selectedSoundInfoBackPack);
+				SoundController.getInstance().copySoundBackPack(selectedSoundInfoBackPack, newSoundInfoTitle, true);
+				SoundController.getInstance().updateSoundAdapter(selectedSoundInfoBackPack, BackPackListManager.getCurrentSoundInfoArrayList(),
+						BackPackListManager.getCurrentSoundAdapter(), newSoundInfoTitle);
 				String textForUnPacking = getResources().getQuantityString(R.plurals.unpacking_items_plural, 1);
 				ToastUtil.showSuccess(getActivity(), selectedSoundInfoBackPack.getTitle() + " " + textForUnPacking);
 				break;
@@ -468,7 +469,6 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 
 	@Override
 	public void startDeleteActionMode() {
-
 		if (actionMode == null) {
 			SoundController.getInstance().stopSoundAndUpdateList(mediaPlayer,
 					BackPackListManager.getInstance().getSoundInfoArrayList(), adapter);

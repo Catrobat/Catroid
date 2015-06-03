@@ -36,6 +36,7 @@
   <string name="unpacking">Auspacken</string>
   <string name="unpack">Pack es aus</string>
   <string name="copy_addition">Kopie</string>
+  <string name="unpacking_addition">entpackt</string>
   <string name="close">Schließen</string>
   <string name="error">Fehler</string>
   <string name="please_wait">Bitte warten</string>
@@ -76,12 +77,12 @@
   <string name="dialog_new_object_name">Objektname</string>
   <string name="dialog_new_object_switch_title">Neues Objekt erstellt</string>
   <string name="dialog_new_object_switch_message">Zu neuem Objekt wechseln?</string>
-  <string name="dialog_terms_of_use_title">Nutzungsbedingungen</string>
-  <string name="dialog_terms_of_use_info">Um Pocket Code und andere 
-    ausführbare Programme, die 
-    vom Catrobat Projekt angeboten werden, nutzen zu dürfen, musst Du mit unseren 
-    Nutzungsbedingungen einverstanden sein und sie während Deiner Benutzung genau 
-    einhalten. Die exakte Formulierung unserer Nutzungsbedingungen steht unter 
+  <string name="dialog_terms_of_use_title">Nutzungsbedingungen</string> 
+  <string name="dialog_terms_of_use_info">Um Pocket Code und andere
+    ausführbare Programme, die
+    vom Catrobat Projekt angeboten werden, nutzen zu dürfen, musst Du mit unseren
+    Nutzungsbedingungen einverstanden sein und sie während Deiner Benutzung genau
+    einhalten. Die exakte Formulierung unserer Nutzungsbedingungen steht unter
     dem folgenden \"Terms of Use\" Link zur Verfügung.\n</string>
   <string name="dialog_terms_of_use_link_text">Nutzungsbedingungen</string>
   <string name="dialog_terms_of_use_agree_permanent">Ich stimme immer zu – frage mich nicht noch einmal. Ich übernehme auch die Verantworung, wenn jemand anderer mein Gerät verwendet.</string>

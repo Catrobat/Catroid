@@ -668,11 +668,11 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	private void deleteSpriteFiles() {
 		for (LookData currentLookData : spriteToEdit.getLookDataList()) {
-			StorageHandler.getInstance().deleteFile(currentLookData.getAbsolutePath());
+			StorageHandler.getInstance().deleteFile(currentLookData.getAbsolutePath(), false);
 		}
 
 		for (SoundInfo currentSoundInfo : spriteToEdit.getSoundList()) {
-			StorageHandler.getInstance().deleteFile(currentSoundInfo.getAbsolutePath());
+			StorageHandler.getInstance().deleteFile(currentSoundInfo.getAbsolutePath(), false);
 		}
 	}
 

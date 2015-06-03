@@ -76,7 +76,7 @@ public class DeleteSoundDialog extends DialogFragment {
 
 	private void handleDeleteSound(int position) {
 		ArrayList<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath());
+		StorageHandler.getInstance().deleteFile(soundInfoList.get(position).getAbsolutePath(), false);
 		soundInfoList.remove(position);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SOUND_DELETED));
