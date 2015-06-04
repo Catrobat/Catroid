@@ -24,7 +24,6 @@ package org.catrobat.catroid.stage;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -178,9 +177,9 @@ public class PreStageActivity extends BaseActivity {
 		}
 	}
 
-	public DroneInitializer getDroneInitializer() {
+	public DroneInitializer getDroneInitialiser() {
 		if (droneInitializer == null) {
-			droneInitializer = new DroneInitializer(this, returnToActivityIntent);
+			droneInitializer = new DroneInitializer(this);
 		}
 		return droneInitializer;
 	}
