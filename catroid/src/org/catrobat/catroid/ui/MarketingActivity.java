@@ -59,7 +59,7 @@ public class MarketingActivity extends Activity {
 				activity_standalone_advertising);
 
 		TextView appName = (TextView) findViewById(R.id.title);
-		appName.setText(BuildConfig.START_PROJECT);
+		appName.setText(ProjectManager.getInstance().getCurrentProject().getName());
 
 		Bitmap bitmap = scaleDrawable2Bitmap();
 

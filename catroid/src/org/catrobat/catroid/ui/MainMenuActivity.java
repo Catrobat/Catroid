@@ -145,6 +145,13 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 		loadStageProject(START_PROJECT);
 
+		File origin = new File(Constants.DEFAULT_ROOT + "/" + START_PROJECT);
+		File destination = new File(Constants.DEFAULT_ROOT + "/" +
+				ProjectManager.getInstance().getCurrentProject().getName());
+		if ( origin.isDirectory() ) {
+			origin.renameTo(destination);
+		}
+
 		File zipFile = new File(zipFileString);
 		if (zipFile.exists()) {
 			zipFile.delete();
