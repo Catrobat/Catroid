@@ -50,14 +50,26 @@ android {
         catroid {
             applicationId 'org.catrobat.catroid'
             buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
+            buildConfigField "String", "START_PROJECT", "\"No Standalone Project\""
         }
 
         standalone {
             applicationId 'org.catrobat.catroid.' + getPackageNameSuffix()
             versionCode 1
             versionName '1.0-standalone'
+            buildConfigField "String", "PROJECT_NAME", "\"${(String) getProjectNameFromXML()}\"";
             buildConfigField "String", "START_PROJECT", "\"${getZipFileNameWithoutEnding()}\""
         }
+    }
+}
+
+def getProjectNameFromXML() {
+    def xml = new File('catroid/assets/standalone/code.xml')
+    if(xml.exists()) {
+        def program = new XmlSlurper().parseText(xml.text)
+        return program.header.programName.text()
+    } else {
+        return "Default Project"
     }
 }
 
@@ -180,7 +192,7 @@ task buildStandalone(dependsOn: ':downloadProject') << {
 }
 
 task downloadProject() << {
-    def id = 3143;//3143; //debugging purpose only
+    def id = 965;//3143; //debugging purpose only
     def url = "";
     if (project.hasProperty("download")) {
         url = project["download"]

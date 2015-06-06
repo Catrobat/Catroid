@@ -75,6 +75,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 	private static final String START_PROJECT = BuildConfig.START_PROJECT;
 	private static final Boolean STANDALONE_MODE = BuildConfig.FEATURE_APK_GENERATOR_ENABLED;
 	private static final String ZIP_FILE_NAME = START_PROJECT + ".zip";
+	private static final String STANDALONE_PROJECT_NAME = BuildConfig.PROJECT_NAME;
 
 	public static final String SHARED_PREFERENCES_SHOW_BROWSER_WARNING = "shared_preferences_browser_warning";
 
@@ -137,20 +138,20 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		Log.d("STANDALONE", "default root " + Constants.DEFAULT_ROOT);
 		Log.d("STANDALONE", "zip file name:" + ZIP_FILE_NAME);
 		Archiver archiver = ArchiverFactory.createArchiver("zip");
+		File unpackedDirectory = new File(Constants.DEFAULT_ROOT + "/" + START_PROJECT);
 		try {
-			archiver.extract(new File(zipFileString), new File(Constants.DEFAULT_ROOT + "/" + START_PROJECT));
+			archiver.extract(new File(zipFileString), unpackedDirectory);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		loadStageProject(START_PROJECT);
-
-		File origin = new File(Constants.DEFAULT_ROOT + "/" + START_PROJECT);
 		File destination = new File(Constants.DEFAULT_ROOT + "/" +
-				ProjectManager.getInstance().getCurrentProject().getName());
-		if ( origin.isDirectory() ) {
-			origin.renameTo(destination);
+				STANDALONE_PROJECT_NAME);
+		if ( unpackedDirectory.isDirectory() ) {
+			unpackedDirectory.renameTo(destination);
 		}
+
+		loadStageProject(STANDALONE_PROJECT_NAME);
 
 		File zipFile = new File(zipFileString);
 		if (zipFile.exists()) {
