@@ -44,6 +44,8 @@ public class PhiroSensorAction extends Action {
 	private boolean isInitialized = false;
 	private boolean isInterpretedCorrectly;
 
+	private static final int DISTANCE_THRESHOLD_VALUE = 850;
+
 	protected void begin() {
 		try {
 			if (ifCondition == null) {
@@ -51,7 +53,7 @@ public class PhiroSensorAction extends Action {
 				return;
 			}
 			Double interpretation = ifCondition.interpretDouble(sprite);
-			ifConditionValue = interpretation.intValue() <= 850 ? true : false;
+			ifConditionValue = interpretation.intValue() <= DISTANCE_THRESHOLD_VALUE ? true : false;
 			isInterpretedCorrectly = true;
 		} catch (InterpretationException interpretationException) {
 			isInterpretedCorrectly = false;

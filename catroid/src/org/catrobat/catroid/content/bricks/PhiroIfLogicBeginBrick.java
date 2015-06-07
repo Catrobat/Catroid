@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -48,7 +47,6 @@ import java.util.List;
 
 public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = PhiroIfLogicBeginBrick.class.getSimpleName();
 	protected transient IfLogicElseBrick ifElseBrick;
 	protected transient IfLogicEndBrick ifEndBrick;
 	private transient PhiroIfLogicBeginBrick copy;
@@ -197,18 +195,13 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 
 	@Override
 	public boolean isInitialized() {
-		if (ifElseBrick == null) {
-			return false;
-		} else {
-			return true;
-		}
+		return ifElseBrick != null;
 	}
 
 	@Override
 	public void initialize() {
 		ifElseBrick = new IfLogicElseBrick(this);
 		ifEndBrick = new IfLogicEndBrick(ifElseBrick, this);
-		Log.w(TAG, "Creating if logic stuff");
 	}
 
 	@Override
@@ -229,11 +222,7 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 
 	@Override
 	public boolean isDraggableOver(Brick brick) {
-		if (brick == ifElseBrick) {
-			return false;
-		} else {
-			return true;
-		}
+		return ifElseBrick != null;
 	}
 
 	@Override
@@ -259,5 +248,5 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 		this.copy = copyBrick;
 		return copyBrick;
 	}
-
+	
 }

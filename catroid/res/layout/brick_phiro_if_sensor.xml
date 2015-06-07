@@ -67,6 +67,7 @@
             android:paddingLeft="5dip"
             android:text="@string/brick_phiro_sensor_second_part" >
         </TextView >
+
     </org.catrobat.catroid.ui.BrickLayout >
 
 </LinearLayout>
