@@ -51,6 +51,7 @@ import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.SimulatedSensorManager;
 import org.catrobat.catroid.test.utils.SimulatedSoundRecorder;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.annotation.Device;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
@@ -565,6 +566,8 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 	}
 
 	public void testStrings() {
+		SettingsActivity.setFaceDetectionSharedPreferenceEnabled(
+				this.getInstrumentation().getTargetContext(), true);
 		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 
 		FormulaEditorEditText formulaEditorEditText = (FormulaEditorEditText) solo
@@ -689,6 +692,9 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 		assertFalse("Unallowed char or string found (hyphen, costumephrase, spritephrase).",
 				hyphenOrCostumephraseOrSpritephraseFound);
+
+		SettingsActivity.setFaceDetectionSharedPreferenceEnabled(
+				this.getInstrumentation().getTargetContext(), false);
 	}
 
 	@Device

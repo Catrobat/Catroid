@@ -270,4 +270,12 @@ public class Project implements Serializable {
 			}
 		}
 	}
+
+	public boolean checkIfPhiroProProject() {
+		return xmlHeader.isPhiroProProject();
+	}
+
+	public void setIsPhiroProProject(boolean isPhiroProProject) {
+		xmlHeader.setPhiroProProject(isPhiroProProject);
+	}
 }

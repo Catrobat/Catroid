@@ -332,7 +332,6 @@ public class ScriptActivity extends BaseActivity {
 			scriptFragment.getAdapter().updateProjectBrickList();
 			return formulaEditor.onKey(null, keyCode, event);
 		}
-
 		if (soundFragment != null && soundFragment.isVisible() && soundFragment.onKey(null, keyCode, event)) {
 			return true;
 		}

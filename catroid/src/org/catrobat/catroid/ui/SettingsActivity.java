@@ -45,6 +45,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 	public static final String SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED = "settings_mindstorms_nxt_bricks_enabled";
 	public static final String SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_nxt_show_sensor_info_box_disabled";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
+	private static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
 	PreferenceScreen screen = null;
 
@@ -105,6 +106,12 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 			dronePreference.setEnabled(false);
 			screen.removePreference(dronePreference);
 		}
+
+		if (!BuildConfig.FEATURE_PHIRO_ENABLED) {
+			PreferenceScreen phiroPreference = (PreferenceScreen) findPreference(SETTINGS_SHOW_PHIRO_BRICKS);
+			phiroPreference.setEnabled(false);
+			screen.removePreference(phiroPreference);
+		}
 	}
 
 	private void setNXTSensors() {
@@ -129,6 +136,11 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		return getBooleanSharedPreference(defaultValue, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, context);
 	}
 
+	public static boolean isFaceDetectionPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false,
+				context.getString(R.string.preference_key_use_face_detection), context);
+	}
+
 	public static boolean isMindstormsNXTSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, context);
 	}
@@ -136,6 +148,16 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 	public static boolean areTermsOfServiceAgreedPermanently(Context context) {
 		return getBooleanSharedPreference(false,
 				SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, context);
+	}
+
+	public static boolean isPhiroSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_PHIRO_BRICKS, context);
+	}
+
+	public static void setFaceDetectionSharedPreferenceEnabled(Context context, boolean value) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(context.getString(R.string.preference_key_use_face_detection), value);
+		editor.commit();
 	}
 
 	private static void setBooleanSharedPreference(boolean value, String settingsString, Context context) {
@@ -193,7 +215,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		editor.commit();
 	}
 
-	public static void setMindstormsNXTSensorChooserEnabled(Context context, boolean enable) {
+	public static void setLegoMindstormsNXTSensorChooserEnabled(Context context, boolean enable) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean("mindstorms_nxt_sensor_chooser_in_settings", enable);
 		editor.commit();

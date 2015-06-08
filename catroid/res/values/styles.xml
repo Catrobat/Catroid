@@ -228,6 +228,21 @@
         <item name="android:ellipsize" >end</item >
     </style >
 
+        <style name="FragmentSeekbarChooserTextView" parent="android:style/Widget.EditText" >
+        <item name="android:focusable" >false</item >
+        <item name="android:focusableInTouchMode" >false</item >
+        <item name="android:clickable" >false</item >
+        <item name="android:minWidth" >@dimen/fragment_color_chooser_edit_text_and_prototype_text_view_minimum_width</item >
+        <item name="android:gravity" >center</item >
+        <item name="android:minEms" >1</item >
+        <item name="android:layout_gravity" >center_vertical</item >
+        <item name="android:layout_width" >wrap_content</item >
+        <item name="android:layout_height" >wrap_content</item >
+        <item name="android:singleLine" >true</item >
+        <item name="android:ellipsize" >end</item >
+    </style >
+
+
     <style name="BrickEditText" parent="@style/BrickPrototypeTextView" >
         <item name="android:visibility" >gone</item >
     </style >
@@ -342,6 +357,28 @@
     <style name="BrickContainer.Drone.Big" >
         <item name="android:minHeight" >@dimen/brick_height_big</item >
         <item name="android:background" >@drawable/brick_olive_3h</item >
+    </style >
+
+    <style name="BrickContainer.Phiro" ></style >
+
+    <style name="BrickContainer.Phiro.Small" >
+        <item name="android:minHeight" >@dimen/brick_height_small</item >
+        <item name="android:background" >@drawable/brick_cyan_1h</item >
+    </style >
+
+    <style name="BrickContainer.Phiro.Medium" >
+        <item name="android:minHeight" >@dimen/brick_height_medium</item >
+        <item name="android:background" >@drawable/brick_cyan_2h</item >
+    </style >
+
+    <style name="BrickContainer.Phiro.Big" >
+        <item name="android:minHeight" >@dimen/brick_height_big</item >
+        <item name="android:background" >@drawable/brick_cyan_3h</item >
+    </style >
+
+    <style name="BrickContainer.Phiro.Light" >
+        <item name="android:minHeight" >@dimen/brick_height_big</item >
+        <item name="android:background" >@drawable/brick_phiro_green_3h</item >
     </style >
 
     <style name="BrickContainer.Lego" ></style >
@@ -512,10 +549,15 @@
         <item name="android:background" >@drawable/brick_selection_background_drone</item >
         <item name="android:drawableRight" >@drawable/main_menu_button_arrow_drone</item >
     </style >
-    
+
     <style name="BrickCategoryText.Lego" >
-        <item name="android:background" >@drawable/brick_selection_background_lego</item >
-        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_lego</item >
+        <item name="android:background" >@drawable/brick_selection_background_phiro_pro</item >
+        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_phiro_pro</item >
+    </style >
+
+    <style name="BrickCategoryText.Phiro" >
+        <item name="android:background" >@drawable/brick_selection_background_phiro_pro</item >
+        <item name="android:drawableRight" >@drawable/main_menu_button_arrow_phiro_pro</item >
     </style >
     
     <style name="userBrickDataTextBackground" >

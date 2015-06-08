@@ -62,6 +62,10 @@ public final class UtilFile {
 		}
 
 		File[] contents = fileOrDirectory.listFiles();
+		if (contents == null) {
+			return 0;
+		}
+
 		long size = 0;
 		for (File file : contents) {
 			size += file.isDirectory() ? getSizeOfFileOrDirectoryInByte(file) : file.length();

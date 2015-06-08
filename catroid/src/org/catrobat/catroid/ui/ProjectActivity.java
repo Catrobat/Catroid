@@ -84,7 +84,7 @@ public class ProjectActivity extends BaseActivity {
 		spritesListFragment = (SpritesListFragment) getSupportFragmentManager().findFragmentById(
 				R.id.fragment_sprites_list);
 
-		SettingsActivity.setMindstormsNXTSensorChooserEnabled(this, true);
+		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, true);
 	}
 
 	@Override

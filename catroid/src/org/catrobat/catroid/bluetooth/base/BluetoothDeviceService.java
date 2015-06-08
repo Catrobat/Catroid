@@ -26,7 +26,6 @@ import android.app.Activity;
 import android.content.Context;
 
 import org.catrobat.catroid.common.CatroidService;
-
 import org.catrobat.catroid.stage.StageResourceInterface;
 
 public interface BluetoothDeviceService extends CatroidService, StageResourceInterface {

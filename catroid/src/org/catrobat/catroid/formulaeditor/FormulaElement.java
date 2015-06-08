@@ -878,12 +878,12 @@ public class FormulaElement implements Serializable {
 	}
 
 	public int getRequiredResources() {
-		int ressources = Brick.NO_RESOURCES;
+		int resources = Brick.NO_RESOURCES;
 		if (leftChild != null) {
-			ressources |= leftChild.getRequiredResources();
+			resources |= leftChild.getRequiredResources();
 		}
 		if (rightChild != null) {
-			ressources |= rightChild.getRequiredResources();
+			resources |= rightChild.getRequiredResources();
 		}
 		if (type == ElementType.SENSOR) {
 			Sensors sensor = Sensors.getSensorByValue(value);
@@ -892,19 +892,29 @@ public class FormulaElement implements Serializable {
 				case FACE_SIZE:
 				case FACE_X_POSITION:
 				case FACE_Y_POSITION:
-					ressources |= Brick.FACE_DETECTION;
+					resources |= Brick.FACE_DETECTION;
 					break;
+
 				case NXT_SENSOR_1:
 				case NXT_SENSOR_2:
 				case NXT_SENSOR_3:
 				case NXT_SENSOR_4:
-					ressources |= Brick.BLUETOOTH_LEGO_NXT;
+					resources |= Brick.BLUETOOTH_LEGO_NXT;
+					break;
+
+				case PHIRO_FRONT_LEFT:
+				case PHIRO_FRONT_RIGHT:
+				case PHIRO_SIDE_LEFT:
+				case PHIRO_SIDE_RIGHT:
+				case PHIRO_BOTTOM_LEFT:
+				case PHIRO_BOTTOM_RIGHT:
+					resources |= Brick.BLUETOOTH_PHIRO;
 					break;
 				default:
 
 			}
 		}
-		return ressources;
+		return resources;
 	}
 
 }

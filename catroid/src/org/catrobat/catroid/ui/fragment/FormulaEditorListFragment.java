@@ -97,13 +97,20 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 	private static final int[] DEFAULT_SENSOR_ITEMS = {R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration,
 			R.string.formula_editor_sensor_compass_direction, R.string.formula_editor_sensor_x_inclination,
-			R.string.formula_editor_sensor_y_inclination, R.string.formula_editor_sensor_loudness,
-			R.string.formula_editor_sensor_face_detected, R.string.formula_editor_sensor_face_size,
-			R.string.formula_editor_sensor_face_x_position, R.string.formula_editor_sensor_face_y_position};
+			R.string.formula_editor_sensor_y_inclination, R.string.formula_editor_sensor_loudness};
 
 	private static final int[] NXT_SENSOR_ITEMS = {R.string.formula_editor_sensor_lego_nxt_1,
 			R.string.formula_editor_sensor_lego_nxt_2, R.string.formula_editor_sensor_lego_nxt_3,
 			R.string.formula_editor_sensor_lego_nxt_4};
+
+	private static final int[] PHIRO_SENSOR_ITEMS = {R.string.formula_editor_phiro_sensor_front_left,
+			R.string.formula_editor_phiro_sensor_front_right, R.string.formula_editor_phiro_sensor_side_left,
+			R.string.formula_editor_phiro_sensor_side_right, R.string.formula_editor_phiro_sensor_bottom_left,
+			R.string.formula_editor_phiro_sensor_bottom_right};
+
+	private static final int[] FACE_DETECTION_SENSOR_ITEMS = {R.string.formula_editor_sensor_face_detected,
+			R.string.formula_editor_sensor_face_size, R.string.formula_editor_sensor_face_x_position,
+			R.string.formula_editor_sensor_face_y_position};
 
 	private String actionBarTitle;
 	private int[] itemsIds;
@@ -147,10 +154,19 @@ public class FormulaEditorListFragment extends SherlockListFragment implements D
 		} else if (tag.equals(SENSOR_TAG)) {
 			itemsIds = DEFAULT_SENSOR_ITEMS;
 
-			if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(this.getActivity().getApplicationContext())) {
+			Context context = this.getActivity().getApplicationContext();
+
+			if (SettingsActivity.isFaceDetectionPreferenceEnabled(context)) {
+				itemsIds = concatAll(itemsIds, FACE_DETECTION_SENSOR_ITEMS);
+			}
+
+			if (SettingsActivity.isMindstormsNXTSharedPreferenceEnabled(context)) {
 				itemsIds = concatAll(itemsIds, NXT_SENSOR_ITEMS);
 			}
 
+			if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
+				itemsIds = concatAll(itemsIds, PHIRO_SENSOR_ITEMS);
+			}
 		}
 
 		String[] items = new String[itemsIds.length];

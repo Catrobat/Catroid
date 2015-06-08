@@ -67,7 +67,13 @@
         android:title="@string/preference_title_enable_quadcopter_bricks" />
 
     <CheckBoxPreference
-        android:defaultValue="true"
+        android:defaultValue="false"
+        android:key="setting_enable_phiro_bricks"
+        android:summary="@string/preference_description_phiro_bricks"
+        android:title="@string/preference_title_enable_phiro_bricks" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
         android:key="@string/preference_key_use_face_detection"
         android:summary="@string/preference_description_use_face_detection"
         android:title="@string/preference_title_use_face_detection" />
@@ -76,5 +82,5 @@
         android:key="@string/preference_key_select_camera"
         android:title="@string/preference_title_select_camera"
         android:summary="@string/preference_description_select_camera"
-        android:defaultValue="0" />
+        android:defaultValue="1" />
 </PreferenceScreen>

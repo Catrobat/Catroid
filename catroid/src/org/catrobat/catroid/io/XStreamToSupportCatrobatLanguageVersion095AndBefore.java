@@ -73,6 +73,12 @@ import org.catrobat.catroid.content.bricks.LoopEndlessBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick;
+import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
+import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
+import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
+import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
@@ -243,6 +249,37 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfo.addBrickFieldToMap("frequency", BrickField.LEGO_NXT_FREQUENCY);
 		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.LEGO_NXT_DURATION_IN_SECONDS);
 		brickInfoMap.put("legoNxtPlayToneBrick", brickInfo);
+
+		brickInfo = new BrickInfo(PhiroMotorMoveForwardBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("speed", BrickField.PHIRO_SPEED);
+		brickInfoMap.put("phiroProMotorMoveForwardBrick", brickInfo);
+
+		brickInfo = new BrickInfo(PhiroMotorMoveBackwardBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("speed", BrickField.PHIRO_SPEED);
+		brickInfoMap.put("phiroProMotorMoveBackwardBrick", brickInfo);
+
+		brickInfo = new BrickInfo(PhiroMotorStopBrick.class.getSimpleName());
+		brickInfoMap.put("phiroProMotorStopBrick", brickInfo);
+
+		brickInfo = new BrickInfo(PhiroPlayToneBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.PHIRO_DURATION_IN_SECONDS);
+		brickInfoMap.put("phiroProPlayToneBrick", brickInfo);
+
+		brickInfo = new BrickInfo(PhiroRGBLightBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("light", BrickField.PHIRO_LIGHT_RED);
+		brickInfo.addBrickFieldToMap("light", BrickField.PHIRO_LIGHT_GREEN);
+		brickInfo.addBrickFieldToMap("light", BrickField.PHIRO_LIGHT_BLUE);
+		brickInfoMap.put("phiroProRGBLightBrick", brickInfo);
+
+		brickInfo = new BrickInfo(PhiroIfLogicBeginBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("ifPhiroSensorCondition", BrickField.IF_PHIRO_SENSOR_CONDITION);
+		brickInfoMap.put("phiroProSensorBrick", brickInfo);
+
+		brickInfo = new BrickInfo(IfLogicElseBrick.class.getSimpleName());
+		brickInfoMap.put("phiroProSensorElseBrick", brickInfo);
+
+		brickInfo = new BrickInfo(IfLogicEndBrick.class.getSimpleName());
+		brickInfoMap.put("phiroProSensorEndBrick", brickInfo);
 
 		brickInfo = new BrickInfo(LoopEndBrick.class.getSimpleName());
 		brickInfoMap.put("loopEndBrick", brickInfo);

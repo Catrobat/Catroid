@@ -104,6 +104,8 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	private VariableOrUserListDeletedReceiver variableOrUserListDeletedReceiver;
 	private OnFormulaChangedListener onFormulaChangedListener;
 
+
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -139,7 +141,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		}
 	}
 
-	public static void showFragment(View view, FormulaBrick formulaBrick, Brick.BrickField brickField) {
+	private static void showFragment(View view, FormulaBrick formulaBrick, Brick.BrickField brickField, boolean showCustomView) {
 
 		SherlockFragmentActivity activity = (SherlockFragmentActivity) view.getContext();
 
@@ -151,6 +153,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 		if (formulaEditorFragment == null) {
 			formulaEditorFragment = new FormulaEditorFragment();
+			formulaEditorFragment.showCustomView = showCustomView;
 			Bundle bundle = new Bundle();
 			bundle.putSerializable(FORMULA_BRICK_BUNDLE_ARGUMENT, formulaBrick);
 			bundle.putString(BRICKFIELD_BUNDLE_ARGUMENT, brickField.name());
@@ -161,23 +164,70 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 			fragTransaction.show(formulaEditorFragment);
 			BottomBar.hideBottomBar(activity);
 		} else if (formulaEditorFragment.isHidden()) {
+			formulaEditorFragment.showCustomView = showCustomView;
 			formulaEditorFragment.updateBrickViewAndFormula(formulaBrick, brickField);
 			fragTransaction.hide(fragmentManager.findFragmentByTag(ScriptFragment.TAG));
 			fragTransaction.show(formulaEditorFragment);
 			BottomBar.hideBottomBar(activity);
 		} else {
+			formulaEditorFragment.showCustomView = false;
+			formulaEditorFragment.updateBrickView();
 			formulaEditorFragment.setInputFormula(brickField, SET_FORMULA_ON_SWITCH_EDIT_TEXT);
 		}
 		fragTransaction.commit();
 	}
 
+	private boolean showCustomView = false;
+
+	public static void showFragment(View view, FormulaBrick formulaBrick, Brick.BrickField brickField) {
+		showFragment(view, formulaBrick, brickField, false);
+	}
+
+	public static void showCustomFragment(View view, FormulaBrick formulaBrick, Brick.BrickField brickField) {
+		showFragment(view, formulaBrick, brickField, true);
+	}
+
+	public static void overwriteFormula(View view, Formula newFormula) {
+
+		SherlockFragmentActivity activity = (SherlockFragmentActivity) view.getContext();
+
+		FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) activity.getSupportFragmentManager()
+				.findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG);
+
+		if (formulaEditorFragment == null) {
+			return;
+		}
+
+		formulaEditorFragment.formulaEditorEditText.overwriteCurrentFormula(newFormula.getInternFormulaState());
+	}
+
+	public static void changeInputField(View view, Brick.BrickField brickField) {
+
+		SherlockFragmentActivity activity = (SherlockFragmentActivity) view.getContext();
+
+		FormulaEditorFragment formulaEditorFragment = (FormulaEditorFragment) activity.getSupportFragmentManager()
+				.findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG);
+
+		if (formulaEditorFragment == null) {
+			return;
+		}
+		formulaEditorFragment.setInputFormula(brickField, SET_FORMULA_ON_SWITCH_EDIT_TEXT);
+	}
+
+
 	public void updateBrickView() {
 		formulaEditorBrick.removeAllViews();
-		View newBrickView = clonedFormulaBrick.getView(context, 0, null);
+
+		View newBrickView = getBrickOrCustomView();
+
 		formulaEditorBrick.addView(newBrickView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
 				LinearLayout.LayoutParams.MATCH_PARENT));
+
 		brickView = newBrickView;
+
 		fragmentView.getViewTreeObserver().addOnGlobalLayoutListener(this);
+
+		handleCustomView();
 	}
 
 	private void updateBrickViewAndFormula(FormulaBrick newBrick, Brick.BrickField brickField) {
@@ -219,10 +269,9 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		formulaEditorFieldDeleteButton = (ImageButton) fragmentView.findViewById(R.id.formula_editor_edit_field_clear);
 
 		context = getActivity();
-		brickView = clonedFormulaBrick.getView(context, 0, null);
 
+		brickView = getBrickOrCustomView();
 		formulaEditorBrick = (LinearLayout) fragmentView.findViewById(R.id.formula_editor_brick_space);
-
 		formulaEditorBrick.addView(brickView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
 				LinearLayout.LayoutParams.MATCH_PARENT));
 
@@ -238,7 +287,29 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		setHasOptionsMenu(true);
 		setUpActionBar();
 
+		handleCustomView();
+
 		return fragmentView;
+	}
+
+	private void handleCustomView() {
+		if (showCustomView) {
+			formulaEditorFieldDeleteButton.setVisibility(View.GONE);
+			formulaEditorEditText.setVisibility(View.GONE);
+			formulaEditorKeyboard.setVisibility(View.GONE);
+		} else {
+			formulaEditorFieldDeleteButton.setVisibility(View.VISIBLE);
+			formulaEditorEditText.setVisibility(View.VISIBLE);
+			formulaEditorKeyboard.setVisibility(View.VISIBLE);
+		}
+	}
+
+	private View getBrickOrCustomView() {
+		if (showCustomView) {
+			return clonedFormulaBrick.getCustomView(context, 0, null);
+		} else {
+			return clonedFormulaBrick.getView(context, 0, null);
+		}
 	}
 
 	@Override
@@ -486,13 +557,13 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 								}
 							}).setPositiveButton(R.string.yes, new OnClickListener() {
 
-								@Override
-								public void onClick(DialogInterface dialog, int which) {
-									if (saveFormulaIfPossible()) {
-										onUserDismiss();
-									}
-								}
-							}).create().show();
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							if (saveFormulaIfPossible()) {
+								onUserDismiss();
+							}
+						}
+					}).create().show();
 
 				} else {
 					onUserDismiss();
@@ -520,7 +591,9 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		currentFormula.setDisplayText(newString);
 		updateBrickView();
 		currentFormula.refreshTextField(brickView, newString);
-		currentFormula.highlightTextField(brickView);
+		if (showCustomView == false) {
+			currentFormula.highlightTextField(brickView);
+		}
 	}
 
 	private void showFormulaEditorListFragment(String tag, int actionbarResId) {
