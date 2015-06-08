@@ -45,10 +45,6 @@ public class DroneTurnLeftBrick extends DroneMoveBrick {
         super(durationInMilliseconds, powerInPercent);
     }
 
-    public DroneTurnLeftBrick() {
-        super();
-    }
-
     @Override
     protected String getBrickLabel(View view) {
         return view.getResources().getString(R.string.brick_drone_turn_left);

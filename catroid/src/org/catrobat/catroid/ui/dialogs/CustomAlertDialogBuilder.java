@@ -24,7 +24,6 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -36,7 +35,7 @@ public class CustomAlertDialogBuilder extends AlertDialog.Builder {
 
 	public CustomAlertDialogBuilder(Context context) {
 		super(context);
-		View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_custom_alert_dialog, null);
+		View dialogView = View.inflate(context, R.layout.dialog_custom_alert_dialog, null);
 		textView = (TextView) dialogView.findViewById(R.id.dialog_text_text_view);
 		setView(dialogView);
 	}

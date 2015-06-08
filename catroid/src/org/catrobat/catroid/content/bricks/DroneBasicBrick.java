@@ -54,7 +54,7 @@ public abstract class DroneBasicBrick extends BrickBaseType {
             }
         });
 
-        TextView label = (TextView) view.findViewById(R.id.brick_drone_basic_label);
+        TextView label = (TextView) view.findViewById(R.id.ValueTextView);
         label.setText(getBrickLabel(view));
 
         return view;
@@ -64,7 +64,7 @@ public abstract class DroneBasicBrick extends BrickBaseType {
     public View getPrototypeView(Context context) {
         View prototypeView = View.inflate(context, R.layout.brick_drone, null);
 
-        TextView label = (TextView) prototypeView.findViewById(R.id.brick_drone_basic_label);
+        TextView label = (TextView) prototypeView.findViewById(R.id.ValueTextView);
         label.setText(getBrickLabel(prototypeView));
 
         return prototypeView;
@@ -78,7 +78,7 @@ public abstract class DroneBasicBrick extends BrickBaseType {
             background.setAlpha(alphaValue);
             this.alphaValue = (alphaValue);
 
-            TextView label = (TextView) view.findViewById(R.id.brick_drone_basic_label);
+            TextView label = (TextView) view.findViewById(R.id.ValueTextView);
             label.setText(getBrickLabel(view));
         }
 

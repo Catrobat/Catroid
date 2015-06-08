@@ -161,7 +161,7 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 
-			TextView textLegoMotorStopLabel = (TextView) view.findViewById(R.id.brick_drone_basic_label);
+			TextView textLegoMotorStopLabel = (TextView) view.findViewById(R.id.ValueTextView);
 			textLegoMotorStopLabel.setTextColor(textLegoMotorStopLabel.getTextColors().withAlpha(alphaValue));
 			Spinner motorSpinner = (Spinner) view.findViewById(R.id.stop_motor_spinner);
 			ColorStateList color = textLegoMotorStopLabel.getTextColors().withAlpha(alphaValue);

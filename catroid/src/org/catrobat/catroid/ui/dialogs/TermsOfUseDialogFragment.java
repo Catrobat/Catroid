@@ -32,7 +32,6 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -59,7 +58,7 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 			isOnPreStageActivity = fragmentDialogArguments.getBoolean(DIALOG_ARGUMENT_TERMS_OF_USE_ACCEPT, false);
 		}
 
-		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_terms_of_use, null);
+		View view = View.inflate(getActivity(), R.layout.dialog_terms_of_use, null);
 
 		TextView termsOfUseTextView = (TextView) view.findViewById(R.id.dialog_terms_of_use_text_view_info);
 		TextView termsOfUseUrlTextView = (TextView) view.findViewById(R.id.dialog_terms_of_use_text_view_url);

@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
@@ -74,8 +73,7 @@ public class ClearGraphicEffectBrick extends BrickBaseType {
 
 	@Override
 	public Brick copyBrickForSprite(Sprite sprite) {
-		ClearGraphicEffectBrick copyBrick = (ClearGraphicEffectBrick) clone();
-		return copyBrick;
+		return clone();
 	}
 
 	@Override
@@ -99,8 +97,7 @@ public class ClearGraphicEffectBrick extends BrickBaseType {
 
 	@Override
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.brick_clear_graphic_effect, null);
+		return View.inflate(context, R.layout.brick_clear_graphic_effect, null);
 	}
 
 	@Override

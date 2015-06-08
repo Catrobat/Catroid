@@ -35,7 +35,6 @@ import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -111,13 +110,12 @@ public class NewSpriteDialog extends DialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_new_object, null);
+		dialogView = View.inflate(getActivity(), R.layout.dialog_new_object, null);
 		setupPaintroidButton(dialogView);
 		setupGalleryButton(dialogView);
 		setupCameraButton(dialogView);
 
-		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), true))
-		{
+		if (SettingsActivity.isDroneSharedPreferenceEnabled(getActivity(), true)) {
 			setupDroneVideoButton(dialogView);
 		}
 
@@ -368,8 +366,7 @@ public class NewSpriteDialog extends DialogFragment {
 
 		try {
 
-			switch (lookDataType)
-			{
+			switch (lookDataType) {
 				case DRONE_VIDEO:
 					lookData = new DroneVideoLookData();
 					newLookFile = new File(lookUri.getPath());
