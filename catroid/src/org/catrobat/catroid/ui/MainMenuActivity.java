@@ -109,7 +109,7 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			return;
 		}
 
-		SettingsActivity.setMindstormsNXTSensorChooserEnabled(this, false);
+		SettingsActivity.setLegoMindstormsNXTSensorChooserEnabled(this, false);
 
 		findViewById(R.id.progress_circle).setVisibility(View.GONE);
 

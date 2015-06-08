@@ -136,6 +136,11 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		return getBooleanSharedPreference(defaultValue, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, context);
 	}
 
+	public static boolean isFaceDetectionPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false,
+				context.getString(R.string.preference_key_use_face_detection), context);
+	}
+
 	public static boolean isMindstormsNXTSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, context);
 	}
@@ -147,6 +152,12 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
 	public static boolean isPhiroSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_PHIRO_BRICKS, context);
+	}
+
+	public static void setFaceDetectionSharedPreferenceEnabled(Context context, boolean value) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(context.getString(R.string.preference_key_use_face_detection), value);
+		editor.commit();
 	}
 
 	private static void setBooleanSharedPreference(boolean value, String settingsString, Context context) {
@@ -204,7 +215,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		editor.commit();
 	}
 
-	public static void setMindstormsNXTSensorChooserEnabled(Context context, boolean enable) {
+	public static void setLegoMindstormsNXTSensorChooserEnabled(Context context, boolean enable) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 		editor.putBoolean("mindstorms_nxt_sensor_chooser_in_settings", enable);
 		editor.commit();

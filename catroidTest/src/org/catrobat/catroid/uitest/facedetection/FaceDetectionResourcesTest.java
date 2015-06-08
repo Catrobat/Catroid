@@ -41,6 +41,7 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -54,6 +55,20 @@ public class FaceDetectionResourcesTest extends BaseActivityInstrumentationTestC
 
 	public FaceDetectionResourcesTest() {
 		super(MainMenuActivity.class);
+	}
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		SettingsActivity.setFaceDetectionSharedPreferenceEnabled(
+				this.getInstrumentation().getTargetContext(), true);
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		SettingsActivity.setFaceDetectionSharedPreferenceEnabled(
+				this.getInstrumentation().getTargetContext(), false);
+		super.tearDown();
 	}
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
