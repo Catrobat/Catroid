@@ -153,8 +153,6 @@ public class ProgramMenuActivityTest extends BaseActivityInstrumentationTestCase
 		assertTrue("Bottombar is not visible", solo.getView(R.id.button_play).getVisibility() == View.VISIBLE);
 		assertTrue("Play button is not visible", solo.getView(R.id.button_play).getVisibility() == View.VISIBLE);
 		assertTrue("Add button is not visible", solo.getView(R.id.button_add).getVisibility() == View.GONE);
-		assertTrue("Bottombar separator is not visible",
-				solo.getView(R.id.bottom_bar_separator).getVisibility() == View.GONE);
 
 		UiTestUtils.clickOnBottomBar(solo, R.id.button_play);
 		solo.waitForActivity(StageActivity.class.getSimpleName());

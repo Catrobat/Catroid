@@ -1266,8 +1266,6 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Bottombar is not visible", solo.getView(R.id.button_play).getVisibility() == View.VISIBLE);
 		assertTrue("Add button is not visible", solo.getView(R.id.button_add).getVisibility() == View.VISIBLE);
 		assertTrue("Play button is not visible", solo.getView(R.id.button_play).getVisibility() == View.VISIBLE);
-		assertTrue("Bottombar separator is not visible",
-				solo.getView(R.id.bottom_bar_separator).getVisibility() == View.VISIBLE);
 	}
 
 	public void testSelectAllActionModeButton() {
