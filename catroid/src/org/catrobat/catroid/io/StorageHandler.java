@@ -99,7 +99,6 @@ import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
-import org.catrobat.catroid.content.bricks.PhiroSetVariableBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
@@ -322,7 +321,6 @@ public final class StorageHandler {
 		xstream.alias("brick", PhiroPlayToneBrick.class);
 		xstream.alias("brick", PhiroRGBLightBrick.class);
 		xstream.alias("brick", PhiroIfLogicBeginBrick.class);
-		xstream.alias("brick", PhiroSetVariableBrick.class);
 
 		xstream.alias("userBrickElements", UserScriptDefinitionBrickElements.class);
 		xstream.alias("userBrickElement", UserScriptDefinitionBrickElement.class);

@@ -78,7 +78,6 @@ import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
-import org.catrobat.catroid.content.bricks.PhiroSetVariableBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
@@ -307,7 +306,7 @@ public class CategoryBricksFactory {
 		}
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
-			looksBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.Both, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));
+			looksBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));
 		}
 
 		return looksBrickList;
@@ -364,14 +363,14 @@ public class CategoryBricksFactory {
 		phiroProBrickList.add(new PhiroMotorStopBrick(PhiroMotorStopBrick.Motor.MOTOR_BOTH));
 		phiroProBrickList.add(new PhiroPlayToneBrick(PhiroPlayToneBrick.Tone.DO,
 				BrickValues.PHIRO_DURATION));
-		phiroProBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.Both, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));
+		phiroProBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));
 		phiroProBrickList.add(new PhiroIfLogicBeginBrick());
-		phiroProBrickList.add(new PhiroSetVariableBrick(new Formula(new FormulaElement(ElementType.SENSOR, Sensors.PHIRO_FRONT_LEFT.toString(), null)), null));
-		phiroProBrickList.add(new PhiroSetVariableBrick(new Formula(new FormulaElement(ElementType.SENSOR, Sensors.PHIRO_FRONT_RIGHT.toString(), null)), null));
-		phiroProBrickList.add(new PhiroSetVariableBrick(new Formula(new FormulaElement(ElementType.SENSOR, Sensors.PHIRO_SIDE_LEFT.toString(), null)), null));
-		phiroProBrickList.add(new PhiroSetVariableBrick(new Formula(new FormulaElement(ElementType.SENSOR, Sensors.PHIRO_SIDE_RIGHT.toString(), null)), null));
-		phiroProBrickList.add(new PhiroSetVariableBrick(new Formula(new FormulaElement(ElementType.SENSOR, Sensors.PHIRO_BOTTOM_LEFT.toString(), null)), null));
-		phiroProBrickList.add(new PhiroSetVariableBrick(new Formula(new FormulaElement(ElementType.SENSOR, Sensors.PHIRO_BOTTOM_RIGHT.toString(), null)), null));
+		phiroProBrickList.add(new SetVariableBrick(Sensors.PHIRO_FRONT_LEFT));
+		phiroProBrickList.add(new SetVariableBrick(Sensors.PHIRO_FRONT_RIGHT));
+		phiroProBrickList.add(new SetVariableBrick(Sensors.PHIRO_SIDE_LEFT));
+		phiroProBrickList.add(new SetVariableBrick(Sensors.PHIRO_SIDE_RIGHT));
+		phiroProBrickList.add(new SetVariableBrick(Sensors.PHIRO_BOTTOM_LEFT));
+		phiroProBrickList.add(new SetVariableBrick(Sensors.PHIRO_BOTTOM_RIGHT));
 
 		return phiroProBrickList;
 	}

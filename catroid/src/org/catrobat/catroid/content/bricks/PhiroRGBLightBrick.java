@@ -54,8 +54,8 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	private transient View prototypeView;
 	private transient AdapterView<?> adapterView;
 
-	public static enum Eye {
-		Left, Right, Both
+	public enum Eye {
+		LEFT, RIGHT, BOTH
 	}
 
 	private String eye;
@@ -235,7 +235,7 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	public void showFormulaEditorToEditFormula(View view) {
 
 		BrickField clickedBrickField = getClickedBrickField(view);
-		if (clickedBrickField == BrickField.UNKNOWN) {
+		if (clickedBrickField == null) {
 			return;
 		}
 
@@ -262,7 +262,7 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 				return BrickField.PHIRO_LIGHT_BLUE;
 		}
 
-		return BrickField.UNKNOWN;
+		return null;
 	}
 
 	@Override

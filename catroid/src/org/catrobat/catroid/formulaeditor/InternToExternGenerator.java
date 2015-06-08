@@ -257,4 +257,8 @@ public class InternToExternGenerator {
 		return context.getString(stringResourceID);
 	}
 
+	public static int getMappedString(String token) {
+		return INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.get(token);
+	}
+
 }

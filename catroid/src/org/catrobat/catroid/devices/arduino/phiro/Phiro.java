@@ -45,6 +45,5 @@ public interface Phiro extends BluetoothDevice {
 	void reportFirmwareVersion();
 
 	int getSensorValue(Sensors sensor);
-	int getSensorValue(int numberFromBrick);
 
 }
