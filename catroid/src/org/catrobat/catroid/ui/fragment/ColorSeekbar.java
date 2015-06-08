@@ -149,7 +149,7 @@ public class ColorSeekbar {
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
 
-				Brick.BrickField changedBrickField = Brick.BrickField.UNKNOWN;
+				Brick.BrickField changedBrickField = null;
 
 				switch(seekBar.getId())
 				{

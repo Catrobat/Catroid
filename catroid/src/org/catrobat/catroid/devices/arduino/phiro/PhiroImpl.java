@@ -269,25 +269,6 @@ public class PhiroImpl implements Phiro {
 		return 0;
 	}
 
-	public int getSensorValue(int numberFromBrick) {
-		switch (numberFromBrick) {
-			case 0:
-				return phiroListener.getSideRightSensor();
-			case 1:
-				return phiroListener.getFrontRightSensor();
-			case 2:
-				return phiroListener.getBottomRightSensor();
-			case 3:
-				return phiroListener.getBottomLeftSensor();
-			case 4:
-				return phiroListener.getFrontLeftSensor();
-			case 5:
-				return phiroListener.getSideRightSensor();
-		}
-
-		return 0;
-	}
-
 	@Override
 	public UUID getBluetoothDeviceUUID() {
 		return PHIRO_UUID;

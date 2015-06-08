@@ -117,7 +117,7 @@ public class PhiroColorBrickTest extends BaseActivityInstrumentationTestCase<Scr
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript();
 
-		colorBrick = new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.Both, SET_COLOR_INITIALLY, SET_COLOR_INITIALLY, SET_COLOR_INITIALLY);
+		colorBrick = new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, SET_COLOR_INITIALLY, SET_COLOR_INITIALLY, SET_COLOR_INITIALLY);
 
 		script.addBrick(colorBrick);
 

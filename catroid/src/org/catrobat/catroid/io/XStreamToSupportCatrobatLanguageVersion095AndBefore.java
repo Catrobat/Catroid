@@ -272,7 +272,7 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfoMap.put("phiroProRGBLightBrick", brickInfo);
 
 		brickInfo = new BrickInfo(PhiroIfLogicBeginBrick.class.getSimpleName());
-		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.IF_PHIRO_SENSOR_CONDITION);
+		brickInfo.addBrickFieldToMap("ifPhiroSensorCondition", BrickField.IF_PHIRO_SENSOR_CONDITION);
 		brickInfoMap.put("phiroProSensorBrick", brickInfo);
 
 		brickInfo = new BrickInfo(IfLogicElseBrick.class.getSimpleName());
