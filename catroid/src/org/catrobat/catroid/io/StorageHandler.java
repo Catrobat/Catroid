@@ -358,6 +358,12 @@ public final class StorageHandler {
 	}
 
 	public Project loadProject(String projectName) {
+		File file = new File(DEFAULT_ROOT);
+		if(!file.exists()){
+			Log.d(TAG, "Directory does not exist!");
+			return null;
+		}
+
 		codeFileSanityCheck(projectName);
 
 		Log.d(TAG, "loadProject " + projectName);
@@ -369,10 +375,11 @@ public final class StorageHandler {
 			fileInputStream = new FileInputStream(projectCodeFile);
 			Project project = (Project) xstream.getProjectFromXML(projectCodeFile);
 			return project;
-		} catch (Exception exception) {
-			Log.e(TAG, "Loading project " + projectName + " failed.", exception);
-			Log.e(TAG, "delete project .. " + projectName, exception);
-			deleteProject(projectName);
+		} catch (FileNotFoundException e) {
+			Log.d(TAG, "Could not load project!");
+			deleteDirectory(file);
+			Log.d(TAG, "loadProject: directory is deleted and " +
+					"default project will be restored!");
 			return null;
 		} finally {
 			if (fileInputStream != null) {
@@ -626,8 +633,7 @@ public final class StorageHandler {
 		return createImageFromBitmap(projectName, newImage, defaultImageName);
 	}
 
-	public File createImageFromBitmap(String currentProjectName, Bitmap inputImage, String newName) throws IOException
-	{
+	public File createImageFromBitmap(String currentProjectName, Bitmap inputImage, String newName) throws IOException {
 
 		File imageDirectory = new File(buildPath(buildProjectPath(currentProjectName), IMAGE_DIRECTORY));
 
@@ -679,27 +685,27 @@ public final class StorageHandler {
 				}
 			}
 
-            File outputFile = new File(newFilePath);
-            return copyFileAddCheckSum(outputFile, inputFile);
-        }
-    }
+			File outputFile = new File(newFilePath);
+			return copyFileAddCheckSum(outputFile, inputFile);
+		}
+	}
 
-    public File makeTempImageCopy(String inputFilePath) throws IOException {
-        File tempDirectory = new File(Constants.TMP_PATH);
+	public File makeTempImageCopy(String inputFilePath) throws IOException {
+		File tempDirectory = new File(Constants.TMP_PATH);
 
-        File inputFile = new File(inputFilePath);
-        if (!inputFile.exists() || !inputFile.canRead()) {
-            return null;
-        }
+		File inputFile = new File(inputFilePath);
+		if (!inputFile.exists() || !inputFile.canRead()) {
+			return null;
+		}
 
 		File outputFileDirectory = new File(tempDirectory.getAbsolutePath());
 		if (!outputFileDirectory.exists()) {
 			outputFileDirectory.mkdirs();
 		}
 
-        File outputFile = new File(Constants.TMP_IMAGE_PATH);
+		File outputFile = new File(Constants.TMP_IMAGE_PATH);
 
-        File copiedFile = UtilFile.copyFile(outputFile, inputFile);
+		File copiedFile = UtilFile.copyFile(outputFile, inputFile);
 
 		return copiedFile;
 	}
@@ -711,8 +717,7 @@ public final class StorageHandler {
 		}
 	}
 
-	private File createFileFromBitmap(File outputFile, Bitmap inputImage, File imageDirectory) throws IOException
-	{
+	private File createFileFromBitmap(File outputFile, Bitmap inputImage, File imageDirectory) throws IOException {
 		saveBitmapToImageFile(outputFile, inputImage);
 
 		String checksumCompressedFile = Utils.md5Checksum(outputFile);
@@ -890,5 +895,22 @@ public final class StorageHandler {
 			return false;
 		}
 		return true;
+	}
+
+	private boolean deleteDirectory(File path) {
+		if (path.exists()) {
+			File[] files = path.listFiles();
+			if (files == null) {
+				return true;
+			}
+			for (int i = 0; i < files.length; i++) {
+				if (files[i].isDirectory()) {
+					deleteDirectory(files[i]);
+				} else {
+					files[i].delete();
+				}
+			}
+		}
+		return (path.delete());
 	}
 }
