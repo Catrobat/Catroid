@@ -358,6 +358,12 @@ public final class StorageHandler {
 	}
 
 	public Project loadProject(String projectName) {
+		File file = new File(DEFAULT_ROOT);
+		if(!file.exists()){
+			Log.d(TAG, "Directory does not exist!");
+			return null;
+		}
+
 		codeFileSanityCheck(projectName);
 
 		Log.d(TAG, "loadProject " + projectName);
@@ -371,8 +377,6 @@ public final class StorageHandler {
 			return project;
 		} catch (FileNotFoundException e) {
 			Log.d(TAG, "Could not load project!");
-			File file = new File(DEFAULT_ROOT);
-			Log.d(TAG, "loadProject: file exsists? " + file.exists());
 			deleteDirectory(file);
 			Log.d(TAG, "loadProject: directory is deleted and " +
 					"default project will be restored!");
