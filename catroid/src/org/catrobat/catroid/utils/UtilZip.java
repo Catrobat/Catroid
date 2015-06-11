@@ -127,7 +127,7 @@ public final class UtilZip {
 
 				if (zipEntry.isDirectory()) {
 					File entryFile = new File(Utils.buildPath(outDirectory, zipEntry.getName()));
-					if (!entryFile.mkdir() && !entryFile.isDirectory()) {
+					if (!entryFile.mkdirs() && !entryFile.isDirectory()) {
 						zipInputStream.close();
 						throw new IOException(ERROR_FOLDER_NOT_CREATED);
 					}

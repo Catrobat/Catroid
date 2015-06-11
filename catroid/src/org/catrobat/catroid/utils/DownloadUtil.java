@@ -58,12 +58,8 @@ public final class DownloadUtil {
 	}
 
 	public void prepareDownloadAndStartIfPossible(FragmentActivity activity, String url) {
-		int projectNameIndex = url.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
-		String programName = url.substring(projectNameIndex);
-		try {
-			programName = URLDecoder.decode(programName, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			Log.e(TAG, "Could not decode program name: " + programName, e);
+		String programName = getProjectNameFromUrl(url);
+		if (programName == null) {
 			return;
 		}
 
@@ -122,6 +118,19 @@ public final class DownloadUtil {
 						Long.valueOf(progress).intValue());
 			}
 		}
+	}
+
+	public String getProjectNameFromUrl(String url) {
+		int projectNameIndex = url.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
+		String programName = url.substring(projectNameIndex);
+		try {
+			programName = URLDecoder.decode(programName, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			Log.e(TAG, "Could not decode program name: " + programName, e);
+			return null;
+		}
+		return programName;
+
 	}
 
 }
