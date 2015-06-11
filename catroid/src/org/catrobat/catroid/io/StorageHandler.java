@@ -45,10 +45,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.XmlHeader;
-<<<<<<< HEAD
-=======
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
->>>>>>> release
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
@@ -435,9 +432,6 @@ public final class StorageHandler {
 			writer.write(projectXml);
 			writer.flush();
 
-<<<<<<< HEAD
-			writePermissionFile(project);
-=======
 			File permissionFile = new File(buildProjectPath(project.getName()), PROJECTPERMISSIONS_NAME);
 			writer = new BufferedWriter(new FileWriter(permissionFile), Constants.BUFFER_8K);
 
@@ -446,8 +440,6 @@ public final class StorageHandler {
 				writer.newLine();
 			}
 			writer.flush();
->>>>>>> release
-
 			return true;
 		} catch (Exception exception) {
 			Log.e(TAG, "Saving project " + project.getName() + " failed.", exception);

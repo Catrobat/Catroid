@@ -31,7 +31,7 @@ buildscript {
         repositories {
             mavenCentral()
         }
-        classpath 'org.rauschig:jarchivelib:0.6.0'
+        classpath 'org.rauschig:jarchivelib:0.7.0'
     }
 }
 
@@ -50,7 +50,7 @@ android {
         catroid {
             applicationId 'org.catrobat.catroid'
             buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
-            buildConfigField "String", "START_PROJECT", "\"No Standalone Project\""
+            buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
         }
 
         standalone {
