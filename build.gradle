@@ -19,13 +19,14 @@ apply plugin: 'com.android.application'
 //apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
 apply plugin: 'pmd'
-apply from: 'buildAPK.gradle'
 apply from: 'gradle/adb_tasks.gradle'
 apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/intellij_config_tasks.gradle'
 
 check.dependsOn 'checkstyle'
 check.dependsOn 'pmd'
+
+apply from: 'buildAPK.gradle'
 
 ext {
     projectVersion = "0.9"
@@ -53,8 +54,9 @@ configurations {
 dependencies {
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
     compile 'com.android.support:support-v4:19.1.0'
-    compile 'com.google.guava:guava:18.0'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.4.0'
+    compile 'com.google.guava:guava:18.0'
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'com.github.johnpersano:supertoasts:1.3.4@aar'
     compile 'com.github.kevinsawicki:http-request:6.0'
