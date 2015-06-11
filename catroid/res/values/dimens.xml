@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2014 The Catrobat Team
+  ~ Copyright (C) 2010-2015 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -46,6 +46,10 @@
 
     <!-- UserBrickDataEditorFragment -->
     <dimen name="brick_data_edit_cursor_size" >58dp</dimen >
+    <!-- -->
+
+    <!-- PhiroProColorChooserFragment -->
+    <dimen name="fragment_color_chooser_edit_text_and_prototype_text_view_minimum_width" >5dp</dimen >
     <!-- -->
 
     <!-- Dialog -->

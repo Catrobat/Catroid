@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,7 @@ import android.util.Log;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.ProjectDownloadService;
 import org.catrobat.catroid.ui.dialogs.OverwriteRenameDialog;
-import org.catrobat.catroid.web.ProgressBufferedOutputStream;
+import org.catrobat.catroid.web.ProgressResponseBody;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -58,12 +58,8 @@ public final class DownloadUtil {
 	}
 
 	public void prepareDownloadAndStartIfPossible(FragmentActivity activity, String url) {
-		int projectNameIndex = url.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
-		String programName = url.substring(projectNameIndex);
-		try {
-			programName = URLDecoder.decode(programName, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			Log.e(TAG, "Could not decode program name: " + programName, e);
+		String programName = getProjectNameFromUrl(url);
+		if (programName == null) {
 			return;
 		}
 
@@ -111,9 +107,9 @@ public final class DownloadUtil {
 		protected void onReceiveResult(int resultCode, Bundle resultData) {
 			super.onReceiveResult(resultCode, resultData);
 			if (resultCode == Constants.UPDATE_DOWNLOAD_PROGRESS) {
-				long progress = resultData.getLong(ProgressBufferedOutputStream.TAG_PROGRESS);
-				boolean endOfFileReached = resultData.getBoolean(ProgressBufferedOutputStream.TAG_ENDOFFILE);
-				Integer notificationId = resultData.getInt(ProgressBufferedOutputStream.TAG_NOTIFICATION_ID);
+				long progress = resultData.getLong(ProgressResponseBody.TAG_PROGRESS);
+				boolean endOfFileReached = resultData.getBoolean(ProgressResponseBody.TAG_ENDOFFILE);
+				Integer notificationId = resultData.getInt(ProgressResponseBody.TAG_NOTIFICATION_ID);
 				if (endOfFileReached) {
 					progress = 100;
 				}
@@ -122,6 +118,19 @@ public final class DownloadUtil {
 						Long.valueOf(progress).intValue());
 			}
 		}
+	}
+
+	public String getProjectNameFromUrl(String url) {
+		int projectNameIndex = url.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
+		String programName = url.substring(projectNameIndex);
+		try {
+			programName = URLDecoder.decode(programName, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			Log.e(TAG, "Could not decode program name: " + programName, e);
+			return null;
+		}
+		return programName;
+
 	}
 
 }

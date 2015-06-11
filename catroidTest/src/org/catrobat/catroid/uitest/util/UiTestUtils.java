@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -65,6 +65,10 @@ import com.robotium.solo.Solo;
 
 import junit.framework.AssertionFailedError;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
@@ -81,8 +85,8 @@ import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
-import org.catrobat.catroid.content.bricks.ChangeGhostEffectByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
@@ -110,9 +114,9 @@ import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick.SpinnerAdapterWrapper;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
-import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
@@ -124,13 +128,14 @@ import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageListener;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
@@ -140,6 +145,7 @@ import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.ActionAfterFinished;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.DialogWizardStep;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
+import org.catrobat.catroid.ui.fragment.FormulaEditorDataFragment;
 import org.catrobat.catroid.utils.NotificationData;
 import org.catrobat.catroid.utils.StatusBarNotificationManager;
 import org.catrobat.catroid.utils.UtilFile;
@@ -158,10 +164,6 @@ import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 
 public final class UiTestUtils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();
@@ -416,6 +418,49 @@ public final class UiTestUtils {
 		}
 	}
 
+	public static void createUserVariableFromDataFragment(Solo solo, String variableName, boolean forAllSprites) {
+		assertTrue("FormulaEditorDataFragment not shown: ",
+				solo.waitForFragmentByTag(FormulaEditorDataFragment.USER_DATA_TAG));
+
+		solo.clickOnView(solo.getView(R.id.button_add));
+		assertTrue("Add Data Dialog not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_data_dialog_title)));
+		solo.waitForView(solo.getView(R.id.dialog_formula_editor_data_name_edit_text));
+		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_data_name_edit_text);
+		solo.enterText(editText, variableName);
+
+		if (forAllSprites) {
+			solo.waitForView(solo.getView(R.id.dialog_formula_editor_data_name_global_variable_radio_button));
+			solo.clickOnView(solo.getView(R.id.dialog_formula_editor_data_name_global_variable_radio_button));
+		} else {
+			solo.waitForView(solo.getView(R.id.dialog_formula_editor_data_name_local_variable_radio_button));
+			solo.clickOnView(solo.getView(R.id.dialog_formula_editor_data_name_local_variable_radio_button));
+		}
+		solo.clickOnButton(solo.getString(R.string.ok));
+	}
+
+	public static void createUserListFromDataFragment(Solo solo, String userListName, boolean forAllSprites) {
+		assertTrue("FormulaEditorDataFragment not shown: ",
+				solo.waitForFragmentByTag(FormulaEditorDataFragment.USER_DATA_TAG));
+
+		solo.clickOnView(solo.getView(R.id.button_add));
+		assertTrue("Add Data Dialog not shown",
+				solo.waitForText(solo.getString(R.string.formula_editor_data_dialog_title)));
+		solo.waitForView(solo.getView(R.id.dialog_formula_editor_data_name_edit_text));
+		solo.clickOnView(solo.getView(R.id.dialog_formula_editor_data_is_list_checkbox));
+		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_data_name_edit_text);
+		solo.enterText(editText, userListName);
+
+		if (forAllSprites) {
+			solo.waitForView(solo.getView(R.id.dialog_formula_editor_data_name_global_variable_radio_button));
+			solo.clickOnView(solo.getView(R.id.dialog_formula_editor_data_name_global_variable_radio_button));
+		} else {
+			solo.waitForView(solo.getView(R.id.dialog_formula_editor_data_name_local_variable_radio_button));
+			solo.clickOnView(solo.getView(R.id.dialog_formula_editor_data_name_local_variable_radio_button));
+		}
+		solo.clickOnButton(solo.getString(R.string.ok));
+	}
+
 	/**
 	 * For bricks using the FormulaEditor. Tests starting the FE, entering a new number/formula and
 	 * ensures its set correctly to the brick´s edit text field
@@ -531,7 +576,7 @@ public final class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_change_size_by, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_hide, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_show, R.string.category_looks);
-		brickCategoryMap.put(R.string.brick_set_ghost_effect, R.string.category_looks);
+		brickCategoryMap.put(R.string.brick_set_transparency, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_set_brightness, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_change_brightness, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_clear_graphic_effect, R.string.category_looks);
@@ -554,10 +599,10 @@ public final class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_forever, R.string.category_control);
 		brickCategoryMap.put(R.string.brick_repeat, R.string.category_control);
 		brickCategoryMap.put(R.string.brick_if_begin, R.string.category_control);
-		brickCategoryMap.put(R.string.brick_change_variable, R.string.category_control);
-		brickCategoryMap.put(R.string.brick_set_variable, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_change_variable, R.string.category_data);
+		brickCategoryMap.put(R.string.brick_set_variable, R.string.category_data);
 
-		brickCategoryMap.put(R.string.brick_motor_action, R.string.category_lego_nxt);
+		brickCategoryMap.put(R.string.nxt_brick_motor_move, R.string.category_lego_nxt);
 	}
 
 	public static int getBrickCategory(Solo solo, int brickStringId) {
@@ -1038,7 +1083,7 @@ public final class UiTestUtils {
 		brickList.add(new BroadcastBrick("broadcastMessage1"));
 		brickList.add(new BroadcastWaitBrick("broadcastMessage2"));
 		brickList.add(new ChangeBrightnessByNBrick(0));
-		brickList.add(new ChangeGhostEffectByNBrick(0));
+		brickList.add(new ChangeTransparencyByNBrick(0));
 		brickList.add(new ChangeSizeByNBrick(0));
 		brickList.add(new ChangeVolumeByNBrick(0));
 		brickList.add(new ChangeVariableBrick(0));
@@ -1050,8 +1095,6 @@ public final class UiTestUtils {
 		brickList.add(new GoNStepsBackBrick(0));
 		brickList.add(new HideBrick());
 		brickList.add(new IfOnEdgeBounceBrick());
-		//brickList.add(new LegoNxtMotorActionBrick(firstSprite, LegoNxtMotorActionBrick.Motor.MOTOR_A, 0));
-		//brickList.add(new LegoNxtMotorTurnAngleBrick(firstSprite, LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, 0));
 		brickList.add(new MoveNStepsBrick(0));
 		brickList.add(new NextLookBrick());
 		brickList.add(new NoteBrick(""));
@@ -1060,7 +1103,7 @@ public final class UiTestUtils {
 		brickList.add(new PointInDirectionBrick(Direction.DOWN));
 		brickList.add(new PointToBrick(firstSprite));
 		brickList.add(new SetBrightnessBrick(0));
-		brickList.add(new SetGhostEffectBrick(0));
+		brickList.add(new SetTransparencyBrick(0));
 		brickList.add(new SetLookBrick());
 		brickList.add(new SetSizeToBrick(0));
 		brickList.add(new SetVariableBrick(0));
@@ -1260,10 +1303,10 @@ public final class UiTestUtils {
 		brickList.add(new ChangeSizeByNBrick(12));
 		brickList.add(new HideBrick());
 		brickList.add(new ShowBrick());
-		brickList.add(new SetGhostEffectBrick(13));
-		brickList.add(new ChangeGhostEffectByNBrick(14));
+		brickList.add(new SetTransparencyBrick(13));
+		brickList.add(new ChangeTransparencyByNBrick(14));
 		brickList.add(new SetBrightnessBrick(15));
-		brickList.add(new ChangeGhostEffectByNBrick(16));
+		brickList.add(new ChangeTransparencyByNBrick(16));
 		brickList.add(new ClearGraphicEffectBrick());
 		brickList.add(new NextLookBrick());
 
@@ -1298,7 +1341,7 @@ public final class UiTestUtils {
 		FormulaElement operatorElementMult = new FormulaElement(FormulaElement.ElementType.OPERATOR, "MULT", null);
 		FormulaElement operatorElementMinus = new FormulaElement(FormulaElement.ElementType.OPERATOR, "MINUS", null);
 
-		UserVariablesContainer variableContainer = project.getUserVariables();
+		DataContainer variableContainer = project.getDataContainer();
 		variableContainer.addProjectUserVariable("global");
 		FormulaElement variableElementGlobal = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE, "global",
 				null);

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -296,7 +296,14 @@ public final class LookController {
 
 		Uri imageUri = intent.getData();
 		if (imageUri != null) {
-			originalImagePath = imageUri.getPath();
+
+			Cursor cursor = activity.getContentResolver().query(imageUri, new String[] { android.provider.MediaStore.Images.ImageColumns.DATA }, null, null, null);
+
+			if (cursor != null) {
+				cursor.moveToFirst();
+				originalImagePath = cursor.getString(0);
+				cursor.close();
+			}
 		}
 
 		if (originalImagePath == null || originalImagePath.equals("")) {

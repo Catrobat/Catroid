@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2014 The Catrobat Team
+  ~ Copyright (C) 2010-2015 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -23,11 +23,43 @@
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="setting_mindstorm_bricks"
-        android:summary="@string/preference_description_mindstorm_bricks"
-        android:title="@string/preference_title_enable_mindstorm_bricks" />
+    <PreferenceScreen
+        android:key="setting_mindstorms_nxt_bricks"
+        android:summary="@string/preference_description_mindstorms_nxt_bricks"
+        android:title="@string/preference_title_enable_mindstorms_nxt_bricks" >
+
+        <CheckBoxPreference android:key="settings_mindstorms_nxt_bricks_enabled"
+            android:defaultValue="false"
+            android:summary="@string/preference_description_mindstorms_nxt_bricks"
+            android:title="@string/preference_title_enable_mindstorms_nxt_bricks" />
+
+        <CheckBoxPreference android:key="settings_mindstorms_nxt_show_sensor_info_box_disabled"
+            android:defaultValue="false"
+            android:title="@string/preference_disable_nxt_info_dialog"
+            android:summary="@string/preference_disable_nxt_info_dialog_description"/>
+
+        <PreferenceCategory android:title="@string/preference_title_mindstorms_nxt_sensors">
+             <Preference android:summary="@string/preference_title_mindstorms_nxt_sensors_description" />
+
+            <ListPreference android:key="setting_mindstorms_nxt_sensor_1"
+                android:title="@string/nxt_choose_sensor_1"
+                android:defaultValue="TOUCH"
+                android:summary="%s"/>
+            <ListPreference android:key="setting_mindstorms_nxt_sensor_2"
+                android:title="@string/nxt_choose_sensor_2"
+                android:defaultValue="SOUND"
+                android:summary="%s"/>
+            <ListPreference android:key="setting_mindstorms_nxt_sensor_3"
+                android:title="@string/nxt_choose_sensor_3"
+                android:defaultValue="LIGHT_INACTIVE"
+                android:summary="%s"/>
+            <ListPreference android:key="setting_mindstorms_nxt_sensor_4"
+                android:title="@string/nxt_choose_sensor_4"
+                android:defaultValue="ULTRASONIC"
+                android:summary="%s"/>
+        </PreferenceCategory>
+
+    </PreferenceScreen>
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="setting_parrot_ar_drone_bricks"
@@ -35,7 +67,13 @@
         android:title="@string/preference_title_enable_quadcopter_bricks" />
 
     <CheckBoxPreference
-        android:defaultValue="true"
+        android:defaultValue="false"
+        android:key="setting_enable_phiro_bricks"
+        android:summary="@string/preference_description_phiro_bricks"
+        android:title="@string/preference_title_enable_phiro_bricks" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
         android:key="@string/preference_key_use_face_detection"
         android:summary="@string/preference_description_use_face_detection"
         android:title="@string/preference_title_use_face_detection" />
@@ -44,5 +82,5 @@
         android:key="@string/preference_key_select_camera"
         android:title="@string/preference_title_select_camera"
         android:summary="@string/preference_description_select_camera"
-        android:defaultValue="0" />
+        android:defaultValue="1" />
 </PreferenceScreen>

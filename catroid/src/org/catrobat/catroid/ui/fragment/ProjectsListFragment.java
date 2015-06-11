@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,7 +44,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.ActionMode;
@@ -70,7 +69,9 @@ import org.catrobat.catroid.ui.dialogs.RenameProjectDialog;
 import org.catrobat.catroid.ui.dialogs.RenameProjectDialog.OnProjectRenameListener;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog.OnUpdateProjectDescriptionListener;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilFile;
+import org.catrobat.catroid.utils.UtilMerge;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -368,6 +369,7 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			return;
 		}
 
+		menu.add(0, R.string.merge_button, 1, getString(R.string.merge_button) + ": " + ProjectManager.getInstance().getCurrentProject().getName());
 		menu.setHeaderTitle(projectToEdit.projectName);
 
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_my_projects, menu);
@@ -394,6 +396,9 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 
 			case R.id.context_menu_upload:
 				ProjectManager.getInstance().uploadProject(projectToEdit.projectName, this.getActivity());
+				break;
+			case R.string.merge_button:
+				UtilMerge.mergeProjectInCurrentProject(projectToEdit.projectName, this.getActivity());
 				break;
 
 		}
@@ -529,10 +534,10 @@ public class ProjectsListFragment extends SherlockListFragment implements OnProj
 			projectList.remove(project);
 		} catch (IOException exception) {
 			Log.e(TAG, "Project could not be deleted", exception);
-			Toast.makeText(getActivity(), R.string.error_delete_project, Toast.LENGTH_SHORT).show();
+			ToastUtil.showError(getActivity(), R.string.error_delete_project);
 		} catch (IllegalArgumentException exception) {
 			Log.e(TAG, "Project does not exist!", exception);
-			Toast.makeText(getActivity(), R.string.error_unknown_project, Toast.LENGTH_SHORT).show();
+			ToastUtil.showError(getActivity(), R.string.error_unknown_project);
 		}
 	}
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2014 The Catrobat Team
+  ~ Copyright (C) 2010-2015 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -97,6 +97,14 @@
     <module name="MultipleVariableDeclarations"/>
     <module name="DefaultComesLast"/>
     <module name="EmptyStatement"/>
+    <module name="CovariantEquals" />
+    <module name="EqualsHashCode" />
+    <module name="IllegalInstantiation" />
+    <module name="StringLiteralEquality" />
+    <module name="MissingOverride" />
+    <module name="SuppressWarnings" />
+    <module name="EmptyForInitializerPad" />
+    <module name="TypecastParenPad" />
   </module>
   
   <!-- For each spacing -->
@@ -116,4 +124,5 @@
     <property name="checkFormat" value="$1"/>
     <property name="influenceFormat" value="$2"/>
   </module>
+
 </module>

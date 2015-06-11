@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -63,7 +63,7 @@ public class BrickEditFormulaTest extends BaseActivityInstrumentationTestCase<Ma
 		checkBrick(R.string.brick_place_at);
 		checkBrick(R.string.brick_point_in_direction);
 		checkBrick(R.string.brick_set_brightness);
-		checkBrick(R.string.brick_set_ghost_effect);
+		checkBrick(R.string.brick_set_transparency);
 		checkBrick(R.string.brick_set_size_to);
 		checkBrick(R.string.brick_set_variable);
 		checkBrick(R.string.brick_set_volume_to);

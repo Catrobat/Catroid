@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -149,7 +149,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 		// simulate multiple saving trigger asynchronous (occurs in black box testing)
 		for (int i = 0; i < 3; i++) {
 			currentProject.setDescription(currentProject.getDescription() + i);
-			projectManager.saveProject();
+			projectManager.saveProject(getContext());
 		}
 
 		// simulate deletion, saveProject asyncTask will be "automatically" cancelled (Please remark: there is still a chance

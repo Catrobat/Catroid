@@ -1,24 +1,24 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2014 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2015 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.uitest.ui.activity;
 
@@ -72,8 +72,8 @@ public class UserBrickScriptActivityTest extends BaseActivityInstrumentationTest
 	}
 
 	public void testUserBrickVariableScope() throws InterruptedException {
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().addProjectUserVariable("projectVar");
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().addSpriteUserVariable("spriteVar");
+		ProjectManager.getInstance().getCurrentProject().getDataContainer().addProjectUserVariable("projectVar");
+		ProjectManager.getInstance().getCurrentProject().getDataContainer().addSpriteUserVariable("spriteVar");
 
 		String textOnSetSizeToBrickTextField = "" + Math.round(BrickValues.SET_SIZE_TO);
 		checkVariableScope(textOnSetSizeToBrickTextField, 0, false);
@@ -115,17 +115,19 @@ public class UserBrickScriptActivityTest extends BaseActivityInstrumentationTest
 			fail("FormulaEditor should have appeared");
 		}
 
-		String stringOnVariablesButton = solo.getCurrentActivity().getString(R.string.formula_editor_variables);
+		String stringOnVariablesButton = solo.getCurrentActivity().getString(R.string.formula_editor_data);
 		solo.clickOnText(stringOnVariablesButton, depth);
 
-		String stringOnGlobalTag = "FOR ALL OBJECTS";
-		boolean gotIntoVariableList = solo.waitForText(stringOnGlobalTag, 0, 5000);
+		solo.sleep(100);
+
+		String stringOnGlobalTag = solo.getString(R.string.formula_editor_dialog_for_all_sprites).toUpperCase();
+		boolean gotIntoVariableList = solo.waitForText(stringOnGlobalTag, 1, 5000);
 		if (!gotIntoVariableList) {
 			fail("'" + stringOnGlobalTag + "' should have appeared");
 		}
 
 		String stringOnUserBrickVar = UiTestUtils.TEST_USER_BRICK_VARIABLE;
-		boolean hasBrickVariable = solo.waitForText(stringOnUserBrickVar, 0, 5000);
+		boolean hasBrickVariable = solo.waitForText(stringOnUserBrickVar, 1, 5000);
 		if (hasBrickVariable != expectedBrickVariable) {
 			fail("'" + stringOnUserBrickVar + "' appeared: " + (hasBrickVariable ? "true" : "false"));
 		}

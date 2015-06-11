@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,7 +45,11 @@ public interface Brick extends Serializable, Cloneable {
 
 		LEGO_NXT_SPEED, LEGO_NXT_DEGREES, LEGO_NXT_FREQUENCY, LEGO_NXT_DURATION_IN_SECONDS,
 
-		DRONE_TIME_TO_FLY_IN_SECONDS, DRONE_POWER_IN_PERCENT
+		DRONE_TIME_TO_FLY_IN_SECONDS, LIST_ADD_ITEM, LIST_DELETE_ITEM, INSERT_ITEM_INTO_USERLIST_VALUE,
+		INSERT_ITEM_INTO_USERLIST_INDEX, REPLACE_ITEM_IN_USERLIST_VALUE, REPLACE_ITEM_IN_USERLIST_INDEX, DRONE_POWER_IN_PERCENT,
+
+		PHIRO_SPEED, PHIRO_DURATION_IN_SECONDS, PHIRO_LIGHT_RED, PHIRO_LIGHT_GREEN, PHIRO_LIGHT_BLUE,
+		IF_PHIRO_SENSOR_CONDITION
 	}
 
 	//use bitwise | for using multiple ressources in a brick
@@ -56,6 +60,7 @@ public interface Brick extends Serializable, Cloneable {
 	int ARDRONE_SUPPORT = 0x20;
 	int CAMERA_LED = 0x100;
 	int VIBRATOR = 0x200;
+	int BLUETOOTH_PHIRO = 0x400;
 
 	//	public static final int BLUETOOTH_ARDUINO = 0x8;
 	int FACE_DETECTION = 0x10;

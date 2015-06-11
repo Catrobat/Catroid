@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,10 @@ import android.view.MotionEvent;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
+import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
+import org.catrobat.catroid.common.CatroidService;
+import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -68,11 +72,19 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 		if ((resources & Brick.FACE_DETECTION) > 0) {
 			FaceDetectionHandler.startFaceDetection(getContext());
 		}
+
+		if ((resources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
+			BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
+			btService.connectDevice(BluetoothDevice.LEGO_NXT, this.getContext());
+		}
 	}
 
 	@Override
 	protected void onStop() {
 		SensorHandler.unregisterListener(this);
+
+		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).pause();
+
 		FaceDetectionHandler.stopFaceDetection();
 		super.onStop();
 	}
@@ -90,7 +102,6 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 
 		String result = formulaToCompute.getResultForComputeDialog(context);
 		setDialogTextView(result);
-
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,10 +26,14 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
+import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
+import org.catrobat.catroid.common.CatroidService;
+import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.legonxt.LegoNXT;
 
 public class LegoNxtPlayToneAction extends TemporalAction {
 
@@ -37,10 +41,13 @@ public class LegoNxtPlayToneAction extends TemporalAction {
 	private Formula durationInSeconds;
 	private Sprite sprite;
 
+	private BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
+
+
 	@Override
 	protected void update(float percent) {
 		int hertzInterpretation;
-		int durationInterpretation;
+		float durationInterpretation;
 
 		try {
 			hertzInterpretation = hertz.interpretInteger(sprite);
@@ -50,13 +57,20 @@ public class LegoNxtPlayToneAction extends TemporalAction {
         }
 
 		try {
-			durationInterpretation = durationInSeconds.interpretInteger(sprite);
+			durationInterpretation = durationInSeconds.interpretFloat(sprite);
         } catch (InterpretationException interpretationException) {
             durationInterpretation = 0;
             Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
         }
 
-		LegoNXT.sendBTCPlayToneMessage(hertzInterpretation, durationInterpretation);
+		LegoNXT nxt = btService.getDevice(BluetoothDevice.LEGO_NXT);
+		if (nxt == null) {
+			return;
+		}
+
+		int durationInMs = (int) (durationInterpretation * 1000);
+
+		nxt.playTone(hertzInterpretation * 100, durationInMs);
 	}
 
 	public void setHertz(Formula hertz) {

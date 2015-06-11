@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,7 +41,9 @@ public class CheckForVerifiesOrAssertionsTest extends TestCase {
 			"XmlTestUtils.java", "MockSoundActivity.java", "Reflection.java", "Utils.java",
 			"BaseActivityInstrumentationTestCase.java", "BaseActivityUnitTestCase.java", "Device.java", "Callback.java", "CallbackBrick.java",
 			"Util.java", "BeforeAfterSteps.java", "Cucumber.java", "CallbackAction.java", "ObjectSteps.java",
-			"CucumberAnnotation.java", "CatroidExampleSteps.java", "PrintBrick.java","TestFaceDetector.java", "DroneTestUtils.java", "SystemAnimations.java" };
+			"CucumberAnnotation.java", "CatroidExampleSteps.java", "PrintBrick.java","TestFaceDetector.java", "DroneTestUtils.java", "SystemAnimations.java",
+			"ObservedInputStream.java", "ObservedOutputStream.java", "LocalConnectionProxy.java", "BluetoothConnectionProxy.java", "DeviceModel.java",
+			"Logger.java", "ModelRunner.java", "ConnectionDataLogger.java", "MindstormsNXTTestModel.java", "FirmataMessage.java"};
 
 	private boolean fileHasVerifiesOrAssertions(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));

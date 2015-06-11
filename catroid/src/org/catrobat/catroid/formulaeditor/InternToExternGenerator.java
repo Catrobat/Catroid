@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -65,8 +65,11 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.TRUE.name(), R.string.formula_editor_function_true);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.FALSE.name(), R.string.formula_editor_function_false);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.LENGTH.name(), R.string.formula_editor_function_length);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.NUMBER_OF_ITEMS.name(), R.string.formula_editor_function_number_of_items);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.LETTER.name(), R.string.formula_editor_function_letter);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.JOIN.name(), R.string.formula_editor_function_join);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.LIST_ITEM.name(), R.string.formula_editor_function_list_item);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.CONTAINS.name(), R.string.formula_editor_function_contains);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.X_ACCELERATION.name(),
 				R.string.formula_editor_sensor_x_acceleration);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.Y_ACCELERATION.name(),
@@ -86,11 +89,22 @@ public class InternToExternGenerator {
 				R.string.formula_editor_sensor_face_x_position);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.FACE_Y_POSITION.name(),
 				R.string.formula_editor_sensor_face_y_position);
+
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NXT_SENSOR_1.name(), R.string.formula_editor_sensor_lego_nxt_1);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NXT_SENSOR_2.name(), R.string.formula_editor_sensor_lego_nxt_2);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NXT_SENSOR_3.name(), R.string.formula_editor_sensor_lego_nxt_3);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NXT_SENSOR_4.name(), R.string.formula_editor_sensor_lego_nxt_4);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PHIRO_FRONT_LEFT.name(), R.string.formula_editor_phiro_sensor_front_left);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PHIRO_FRONT_RIGHT.name(), R.string.formula_editor_phiro_sensor_front_right);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PHIRO_SIDE_LEFT.name(), R.string.formula_editor_phiro_sensor_side_left);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PHIRO_SIDE_RIGHT.name(), R.string.formula_editor_phiro_sensor_side_right);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PHIRO_BOTTOM_LEFT.name(), R.string.formula_editor_phiro_sensor_bottom_left);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.PHIRO_BOTTOM_RIGHT.name(), R.string.formula_editor_phiro_sensor_bottom_right);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.LOUDNESS.name(), R.string.formula_editor_sensor_loudness);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_X.name(), R.string.formula_editor_object_x);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_Y.name(), R.string.formula_editor_object_y);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_GHOSTEFFECT.name(),
-				R.string.formula_editor_object_ghosteffect);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_TRANSPARENCY.name(),
+				R.string.formula_editor_object_transparency);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_BRIGHTNESS.name(),
 				R.string.formula_editor_object_brightness);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_SIZE.name(), R.string.formula_editor_object_size);
@@ -140,7 +154,7 @@ public class InternToExternGenerator {
 
 		int internTokenListIndex = 0;
 
-		while (internTokenList.isEmpty() == false) {
+		while (!internTokenList.isEmpty()) {
 			if (appendWhiteSpace(currentToken, nextToken)) {
 				generatedExternFormulaString += " ";
 			}
@@ -200,6 +214,8 @@ public class InternToExternGenerator {
 				return ",";
 			case USER_VARIABLE:
 				return "\"" + internToken.getTokenStringValue() + "\"";
+			case USER_LIST:
+				return "*" + internToken.getTokenStringValue() + "*";
 			case STRING:
 				return "\'" + internToken.getTokenStringValue() + "\'";
 
@@ -240,4 +256,9 @@ public class InternToExternGenerator {
 		}
 		return context.getString(stringResourceID);
 	}
+
+	public static int getMappedString(String token) {
+		return INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.get(token);
+	}
+
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,7 @@ import com.thoughtworks.xstream.converters.reflection.FieldKey;
 import com.thoughtworks.xstream.converters.reflection.FieldKeySorter;
 import com.thoughtworks.xstream.core.util.OrderRetainingMap;
 
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 
 import java.lang.reflect.Field;
@@ -42,8 +43,12 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 	private static final String TAG = CatroidFieldKeySorter.class.getSimpleName();
 
 	@Override
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public Map sort(final Class type, final Map keyedByFieldKey) {
+		if (type.equals(Project.class)) {
+			return sortProjectFields(keyedByFieldKey);
+		}
+
 		if (type.equals(Sprite.class)) {
 			return sortSpriteFields(keyedByFieldKey);
 		}
@@ -85,6 +90,30 @@ public class CatroidFieldKeySorter implements FieldKeySorter {
 			Log.e(TAG, Log.getStackTraceString(noSuchFieldException));
 		}
 		return fieldName;
+	}
+
+	private Map sortProjectFields(Map map) {
+		Map orderedMap = new OrderRetainingMap();
+		FieldKey[] fieldKeyOrder = new FieldKey[map.size()];
+		Iterator<FieldKey> iterator = map.keySet().iterator();
+		while (iterator.hasNext()) {
+			FieldKey fieldKey = iterator.next();
+			if (fieldKey.getFieldName().equals("xmlHeader")) {
+				fieldKeyOrder[0] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("spriteList")) {
+				fieldKeyOrder[1] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("dataContainer")) {
+				fieldKeyOrder[2] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("serialVersionUID")) {
+				fieldKeyOrder[3] = fieldKey;
+			} else if (fieldKey.getFieldName().equals("settings")) {
+				fieldKeyOrder[4] = fieldKey;
+			}
+		}
+		for (FieldKey fieldKey : fieldKeyOrder) {
+			orderedMap.put(fieldKey, map.get(fieldKey));
+		}
+		return orderedMap;
 	}
 
 	private Map sortSpriteFields(Map map) {

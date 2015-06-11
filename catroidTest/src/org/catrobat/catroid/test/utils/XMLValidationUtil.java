@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,7 @@ import junit.framework.Assert;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.web.ConnectionWrapper;
+import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,23 +64,20 @@ public final class XMLValidationUtil {
 		HashMap<String, String> postValues = new HashMap<String, String>();
 		postValues.put("xmlToValidate", xmlContent);
 
-		ConnectionWrapper connection = new ConnectionWrapper();
-		String response = connection.doHttpPost(XML_VALIDATING_URL, postValues);
+		String response = ServerCalls.getInstance().httpFormUpload(XML_VALIDATING_URL, postValues);
 
-		JSONObject jsonResponce = new JSONObject(response);
-		Log.i(LOG_TAG, "json responce: " + jsonResponce.toString());
-		boolean valid = jsonResponce.getBoolean("valid");
-		String message = jsonResponce.optString("message");
+		JSONObject jsonResponse = new JSONObject(response);
+		Log.i(LOG_TAG, "JSON response: " + jsonResponse.toString());
+		boolean valid = jsonResponse.getBoolean("valid");
+		String message = jsonResponse.optString("message");
 
 		Assert.assertTrue(message, valid);
 	}
 
 	private static String readTextFile(String fullPathFilename) throws IOException {
 		StringBuffer contents = new StringBuffer();
-		BufferedReader reader = null;
-
-		reader = new BufferedReader(new FileReader(fullPathFilename));
-		String text = null;
+		BufferedReader reader = new BufferedReader(new FileReader(fullPathFilename));
+		String text;
 
 		while ((text = reader.readLine()) != null) {
 			contents.append(text).append(System.getProperty("line.separator"));
@@ -88,6 +85,5 @@ public final class XMLValidationUtil {
 		reader.close();
 
 		return contents.toString();
-
 	}
 }

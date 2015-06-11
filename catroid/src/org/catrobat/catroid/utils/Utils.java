@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-
-
 package org.catrobat.catroid.utils;
 
 import android.app.Activity;
@@ -164,6 +161,19 @@ public final class Utils {
 		Builder builder = new CustomAlertDialogBuilder(context);
 		builder.setTitle(R.string.error);
 		builder.setMessage(errorMessageId);
+		builder.setNeutralButton(R.string.close, new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		});
+		Dialog errorDialog = builder.create();
+		errorDialog.show();
+	}
+
+	public static void showErrorDialog(Context context, String msg, int errorTitleId) {
+		Builder builder = new CustomAlertDialogBuilder(context);
+		builder.setTitle(errorTitleId);
+		builder.setMessage(msg);
 		builder.setNeutralButton(R.string.close, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -450,7 +460,7 @@ public final class Utils {
 			ProjectManager.getInstance().deleteCurrentProject(null);
 
 			ProjectManager.getInstance().setProject(projectToCheck);
-			ProjectManager.getInstance().saveProject();
+			ProjectManager.getInstance().saveProject(context);
 
 			String projectToCheckXMLString = StorageHandler.getInstance().getXMLStringOfAProject(projectToCheck);
 			start = projectToCheckXMLString.indexOf("<objectList>");

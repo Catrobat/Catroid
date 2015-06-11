@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,8 +45,8 @@ import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -162,14 +162,14 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertEquals("Wrong project name", projectNameOne, currentProject.getName());
 		assertEquals("Wrong number of sprites", 1, currentProject.getSpriteList().size());
 
-		UserVariablesContainer variablesContainer = currentProject.getUserVariables();
+		DataContainer variablesContainer = currentProject.getDataContainer();
 
 		@SuppressWarnings("unchecked")
 		List<UserVariable> userVariableList = (List<UserVariable>) Reflection.getPrivateField(
-				UserVariablesContainer.class, variablesContainer, "projectVariables");
+				DataContainer.class, variablesContainer, "projectVariables");
 		@SuppressWarnings("unchecked")
 		Map<Sprite, List<UserVariable>> spriteVariablesMap = (Map<Sprite, List<UserVariable>>) Reflection
-				.getPrivateField(UserVariablesContainer.class, variablesContainer, "spriteVariables");
+				.getPrivateField(DataContainer.class, variablesContainer, "spriteVariables");
 
 		assertEquals("Wrong number of variables", 0, userVariableList.size());
 		assertEquals("Wrong number of variables", 0, spriteVariablesMap.size());
