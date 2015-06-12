@@ -24,8 +24,10 @@ package org.catrobat.catroid.ui;
 
 import android.annotation.SuppressLint;
 import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -96,12 +98,27 @@ public class WebViewActivity extends BaseActivity {
 					request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, DownloadUtil.getInstance().getProjectNameFromUrl(url));
 					request.setMimeType(mimetype);
 
+					registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
 					DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
 					downloadManager.enqueue(request);
 				}
 			}
 		});
 	}
+
+	BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
+		public void onReceive(Context ctxt, Intent intent) {
+
+			long id = intent.getExtras().getLong(DownloadManager.EXTRA_DOWNLOAD_ID);
+			DownloadManager dm =(DownloadManager)getSystemService(DOWNLOAD_SERVICE);
+			intent = new Intent(Intent.ACTION_VIEW);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intent.setDataAndType(dm.getUriForDownloadedFile(id),
+					dm.getMimeTypeForDownloadedFile(id));
+			startActivity(intent);
+		}
+	};
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -120,7 +137,6 @@ public class WebViewActivity extends BaseActivity {
 				Intent intent = new Intent(getBaseContext(), MainMenuActivity.class);
 				startActivity(intent);
 			}
-
 		}
 
 		@Override
@@ -146,6 +162,5 @@ public class WebViewActivity extends BaseActivity {
 			}
 			return true;
 		}
-
 	}
 }

@@ -77,12 +77,12 @@ public final class Constants {
 
 	//Web:
 	public static final String BASE_URL_HTTPS = "https://share.catrob.at/pocketcode/";
-	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "help/";
+	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
 
 	public static final String CATROBAT_ABOUT_URL = "http://www.catrobat.org/";
 	public static final String ABOUT_POCKETCODE_LICENSE_URL = "http://developer.catrobat.org/licenses";
 
-	public static final String CATROBAT_HELP_URL = "https://www.pocketcode.org/tutorial";
+	public static final String CATROBAT_HELP_URL = BASE_URL_HTTPS + "help";
 
 	public static final String TOKEN = "token";
 	public static final String NO_TOKEN = "no_token";
