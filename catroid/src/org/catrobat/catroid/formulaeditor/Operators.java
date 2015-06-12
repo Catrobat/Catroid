@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,21 +25,21 @@ package org.catrobat.catroid.formulaeditor;
 import android.util.Log;
 
 public enum Operators {
-	LOGICAL_AND(2, true), LOGICAL_OR(1, true), EQUAL(3, true), NOT_EQUAL(4, true), SMALLER_OR_EQUAL(4, true), GREATER_OR_EQUAL(
-			4, true), SMALLER_THAN(4, true), GREATER_THAN(4, true), PLUS(5), MINUS(5), MULT(6), DIVIDE(6), MOD(6), POW(
-			7), LOGICAL_NOT(4, true);
+	LOGICAL_AND(2, true), LOGICAL_OR(1, true), EQUAL(3, true), NOT_EQUAL(4, true), SMALLER_OR_EQUAL(4, true),
+	GREATER_OR_EQUAL(4, true), SMALLER_THAN(4, true), GREATER_THAN(4, true), PLUS(5), MINUS(5), MULT(6), DIVIDE(6),
+	MOD(6), POW(7), LOGICAL_NOT(4, true);
 
 	private static final String TAG = Operators.class.getSimpleName();
 
-	private final Integer priority;
+	private final int priority;
 	public final boolean isLogicalOperator;
 
-	Operators(Integer priority) {
+	Operators(int priority) {
 		this.priority = priority;
 		isLogicalOperator = false;
 	}
 
-	Operators(Integer priority, boolean isLogical) {
+	Operators(int priority, boolean isLogical) {
 		this.priority = priority;
 		isLogicalOperator = isLogical;
 	}
@@ -67,11 +67,7 @@ public enum Operators {
 	}
 
 	public static boolean isOperator(String value) {
-		if (getOperatorByValue(value) == null) {
-			return false;
-		}
-
-		return true;
+		return getOperatorByValue(value) != null;
 	}
 
 }

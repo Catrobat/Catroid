@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -60,67 +60,26 @@ public class ParserTest extends AndroidTestCase {
 	}
 
 	public void testNumbers() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.NUMBER, "1.0", "1.0", testSprite);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.NUMBER, "1", "1", testSprite);
 
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1.0"));
-
-		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
-
-		assertNotNull("Formula is not parsed correctly: 1.0", parseTree);
-		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(testSprite));
-		internTokenList.clear();
-
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
-
-		internParser = new InternFormulaParser(internTokenList);
-		parseTree = internParser.parseFormula();
-
-		assertNotNull("Formula is not parsed correctly: 1", parseTree);
-		assertEquals("Formula interpretation is not as expected", 1d, parseTree.interpretRecursive(testSprite));
-		internTokenList.clear();
-
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, ""));
-
-		internParser = new InternFormulaParser(internTokenList);
-		parseTree = internParser.parseFormula();
-
-		assertNull("Formula is not parsed correctly: <empty number> {}", parseTree);
-		assertEquals("Parser error value not as expected", 0, internParser.getErrorTokenIndex());
-		internTokenList.clear();
-
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, "."));
-
-		internParser = new InternFormulaParser(internTokenList);
-		parseTree = internParser.parseFormula();
-
-		assertNull("Formula is not parsed correctly: .", parseTree);
-		assertEquals("Parser error value not as expected", 0, internParser.getErrorTokenIndex());
-		internTokenList.clear();
-
-		internTokenList.add(new InternToken(InternTokenType.NUMBER, ".1"));
-
-		internParser = new InternFormulaParser(internTokenList);
-		parseTree = internParser.parseFormula();
-
-		assertNull("Formula is not parsed correctly: .1", parseTree);
-		assertEquals("Parser error value not as expected", 0, internParser.getErrorTokenIndex());
-		internTokenList.clear();
+		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.NUMBER, "", 0);
+		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.NUMBER, ".", 0);
+		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.NUMBER, ".1", 0);
 	}
 
 	public void testStrings() {
-		FormulaEditorUtil.testSingleToken(InternTokenType.STRING, "1.0", 1d, testSprite);
-		FormulaEditorUtil.testSingleToken(InternTokenType.STRING, "1", 1d, testSprite);
-		FormulaEditorUtil.testSingleToken(InternTokenType.STRING, "", "", testSprite);
-		FormulaEditorUtil.testSingleToken(InternTokenType.STRING, ".", ".", testSprite);
-		FormulaEditorUtil.testSingleToken(InternTokenType.STRING, ".1", 0.1d, testSprite);
-		FormulaEditorUtil.testSingleToken(InternTokenType.STRING, "1.1.1", "1.1.1", testSprite);
-		FormulaEditorUtil.testSingleToken(InternTokenType.STRING, "\"o.o\"", "\"o.o\"", testSprite);
-		FormulaEditorUtil.testSingleToken(InternTokenType.STRING, "\'^_^\'", "\'^_^\'", testSprite);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "1.0", "1.0", testSprite);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "1", "1", testSprite);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "", "", testSprite);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, ".", ".", testSprite);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, ".1", ".1", testSprite);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "1.1.1", "1.1.1", testSprite);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "\"o.o\"", "\"o.o\"", testSprite);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "\'^_^\'", "\'^_^\'", testSprite);
 	}
 
 	public void testBracket() {
-
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
 		internTokenList.add(new InternToken(InternTokenType.BRACKET_OPEN));
@@ -164,7 +123,6 @@ public class ParserTest extends AndroidTestCase {
 
 		assertNotNull("Formula is not parsed correctly:  -(1^2)--(-1--2)", parseTree);
 		assertEquals("Formula interpretation is not as expected", 0.0, parseTree.interpretRecursive(testSprite));
-
 	}
 
 	public void testEmptyInput() {

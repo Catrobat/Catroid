@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,9 +33,9 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
-import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
@@ -147,9 +147,9 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 
 		yellowWhenScript = new WhenScript();
 		WaitBrick yellowWaitBrick = new WaitBrick(2000);
-		SetGhostEffectBrick yellowSetGhostEffectBrick = new SetGhostEffectBrick(50d);
+		SetTransparencyBrick yellowSetTransparencyBrick = new SetTransparencyBrick(50d);
 		yellowWhenScript.addBrick(yellowWaitBrick);
-		yellowWhenScript.addBrick(yellowSetGhostEffectBrick);
+		yellowWhenScript.addBrick(yellowSetTransparencyBrick);
 		yellowSprite.addScript(yellowWhenScript);
 
 		// blue Sprite
@@ -198,9 +198,9 @@ public class SingleExecutionWhenBrickTest extends BaseActivityInstrumentationTes
 		greenBroadcastScript = new BroadcastScript(broadcastMessage);
 		WaitBrick waitBrick = new WaitBrick(2000);
 
-		SetGhostEffectBrick greenSetGhostEffectBrick2 = new SetGhostEffectBrick(100d);
+		SetTransparencyBrick greenSetTransparencyBrick2 = new SetTransparencyBrick(100d);
 		greenBroadcastScript.addBrick(waitBrick);
-		greenBroadcastScript.addBrick(greenSetGhostEffectBrick2);
+		greenBroadcastScript.addBrick(greenSetTransparencyBrick2);
 		greenSprite.addScript(greenBroadcastScript);
 
 		projectWhenBrick.addSprite(yellowSprite);

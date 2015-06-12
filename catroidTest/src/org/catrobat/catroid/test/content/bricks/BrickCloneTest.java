@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,8 +31,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
-import org.catrobat.catroid.content.bricks.ChangeGhostEffectByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
@@ -41,7 +41,7 @@ import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
-import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
@@ -49,8 +49,8 @@ import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
-import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
@@ -58,6 +58,7 @@ import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
+import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -89,7 +90,7 @@ public class BrickCloneTest extends AndroidTestCase {
 		Brick brick = new ChangeBrightnessByNBrick(new Formula(BRICK_FORMULA_VALUE));
 		brickClone(brick, Brick.BrickField.BRIGHTNESS_CHANGE);
 
-		brick = new ChangeGhostEffectByNBrick(new Formula(BRICK_FORMULA_VALUE));
+		brick = new ChangeTransparencyByNBrick(new Formula(BRICK_FORMULA_VALUE));
 		brickClone(brick, Brick.BrickField.TRANSPARENCY_CHANGE);
 
 		brick = new ChangeSizeByNBrick(new Formula(BRICK_FORMULA_VALUE));
@@ -113,7 +114,7 @@ public class BrickCloneTest extends AndroidTestCase {
 		brick = new IfLogicBeginBrick(10);
 		brickClone(brick, Brick.BrickField.IF_CONDITION);
 
-		brick = new LegoNxtMotorActionBrick(LegoNxtMotorActionBrick.Motor.MOTOR_A, BRICK_FORMULA_VALUE);
+		brick = new LegoNxtMotorMoveBrick(LegoNxtMotorMoveBrick.Motor.MOTOR_A, BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.LEGO_NXT_SPEED);
 
 		brick = new LegoNxtMotorTurnAngleBrick(LegoNxtMotorTurnAngleBrick.Motor.MOTOR_A, BRICK_FORMULA_VALUE);
@@ -131,7 +132,7 @@ public class BrickCloneTest extends AndroidTestCase {
 		brick = new SetBrightnessBrick(BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.BRIGHTNESS);
 
-		brick = new SetGhostEffectBrick(BRICK_FORMULA_VALUE);
+		brick = new SetTransparencyBrick(BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.TRANSPARENCY);
 
 		brick = new SetSizeToBrick(BRICK_FORMULA_VALUE);
@@ -192,8 +193,8 @@ public class BrickCloneTest extends AndroidTestCase {
 		project.addSprite(sprite);
 		StartScript script = new StartScript();
 		sprite.addScript(script);
-		project.getUserVariables().addSpriteUserVariableToSprite(sprite, VARIABLE_NAME);
-		UserVariable spriteVariable = project.getUserVariables().getUserVariable(VARIABLE_NAME, sprite);
+		project.getDataContainer().addSpriteUserVariableToSprite(sprite, VARIABLE_NAME);
+		UserVariable spriteVariable = project.getDataContainer().getUserVariable(VARIABLE_NAME, sprite);
 		Formula formula = new Formula(new FormulaElement(ElementType.USER_VARIABLE, VARIABLE_NAME, null));
 
 		// create brick - expects:
@@ -209,8 +210,8 @@ public class BrickCloneTest extends AndroidTestCase {
 		Sprite clonedSprite = sprite.clone();
 		@SuppressWarnings("unchecked")
 		T clonedBrick = (T) clonedSprite.getScript(0).getBrick(0);
-		UserVariable clonedVariable = project.getUserVariables().getUserVariable(VARIABLE_NAME, clonedSprite);
-		UserVariable clonedVariableFromBrick = (UserVariable) Reflection.getPrivateField(clonedBrick, "userVariable");
+		UserVariable clonedVariable = project.getDataContainer().getUserVariable(VARIABLE_NAME, clonedSprite);
+		UserVariable clonedVariableFromBrick = (UserVariable) Reflection.getPrivateField(UserVariableBrick.class, clonedBrick, "userVariable");
 
 		// check them
 		assertNotNull("variable should be in container", clonedVariable);

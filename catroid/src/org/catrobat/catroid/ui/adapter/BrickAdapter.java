@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -57,14 +57,13 @@ import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
+import org.catrobat.catroid.content.bricks.UserBrickParameter;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
-import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListener;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.fragment.ScriptFragment;
 
 import java.util.ArrayList;
@@ -385,7 +384,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 						positionOfUserbrickInScript++;
 					}
 				}
-				for (int parameterIndex = 0; parameterIndex < ProjectManager.getInstance().getCurrentProject().getUserVariables().getOrCreateVariableListForUserBrick(((UserBrick) draggedBrick).getUserBrickId()).size(); parameterIndex++) {
+				for (int parameterIndex = 0; parameterIndex < ProjectManager.getInstance().getCurrentProject().getDataContainer().getOrCreateVariableListForUserBrick(((UserBrick) draggedBrick).getUserBrickId()).size(); parameterIndex++) {
 					((UserBrick) draggedBrick).addUserBrickPositionToParameter(Pair.create(positionOfUserbrickInScript, parameterIndex));
 				}
 
@@ -398,7 +397,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 						frequencyOfEqualFirstParameters++;
 					}
 				}
-				if (frequencyOfEqualFirstParameters != ProjectManager.getInstance().getCurrentProject().getUserVariables().getOrCreateVariableListForUserBrick(((UserBrick) draggedBrick).getUserBrickId()).size()) {
+				if (frequencyOfEqualFirstParameters != ProjectManager.getInstance().getCurrentProject().getDataContainer().getOrCreateVariableListForUserBrick(((UserBrick) draggedBrick).getUserBrickId()).size()) {
 					for (int userBrickPosition = positionOfUserbrickInScript; userBrickPosition < numberOfUserBricksInScript; userBrickPosition++) {
 						Pair<Integer, Integer> userBrickPositionToParameter = ((UserBrick) draggedBrick).getUserBrickPositionToParameter().get(userBrickPosition);
 						if (userBrickPositionToParameter.first >= userBrickPosition) {
@@ -1110,19 +1109,19 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 	}
 
 	private void clickedEditFormula(Brick brick, View view) {
-		Formula formula = null;
+		FormulaBrick formulaBrick = null;
 		if (brick instanceof FormulaBrick) {
-			formula = ((FormulaBrick) brick).getFormula();
+			formulaBrick = (FormulaBrick) brick;
 		}
 		if (brick instanceof UserBrick) {
-			List<Formula> formulas = ((UserBrick) brick).getFormulas();
-			if (formulas.size() > 0) {
-				formula = formulas.get(0);
+			List<UserBrickParameter> userBrickParameters = ((UserBrick) brick).getUserBrickParameters();
+			if (userBrickParameters != null && userBrickParameters.size() > 0) {
+				formulaBrick = userBrickParameters.get(0);
 			}
 		}
 
-		if (formula != null) {
-			FormulaEditorFragment.showFragment(view, brick, formula);
+		if (formulaBrick != null) {
+			formulaBrick.showFormulaEditorToEditFormula(view);
 		}
 	}
 

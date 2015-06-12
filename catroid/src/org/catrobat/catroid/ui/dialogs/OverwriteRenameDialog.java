@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,11 +39,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.utils.DownloadUtil;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 public class OverwriteRenameDialog extends DialogFragment implements OnClickListener {
@@ -95,8 +95,7 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 				}).setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						Toast.makeText(context, R.string.notification_download_project_cancel, Toast.LENGTH_SHORT)
-								.show();
+						ToastUtil.showError(context, R.string.notification_download_project_cancel);
 					}
 				}).create();
 
@@ -125,7 +124,7 @@ public class OverwriteRenameDialog extends DialogFragment implements OnClickList
 					}
 					return okButtonResult;
 				} else if (keyCode == KeyEvent.KEYCODE_BACK) {
-					Toast.makeText(context, R.string.notification_download_project_cancel, Toast.LENGTH_SHORT).show();
+					ToastUtil.showError(context, R.string.notification_download_project_cancel);
 					return true;
 				}
 

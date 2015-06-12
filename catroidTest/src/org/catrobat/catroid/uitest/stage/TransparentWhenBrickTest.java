@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,8 +32,8 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
-import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
@@ -49,7 +49,7 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 	private final int screenHeight = 800;
 	private final String catFilename = "catroid_sunglasses.png";
 	private final String fishFilename = "fish.jpg";
-	SetGhostEffectBrick setGhostEffectBrick;
+	SetTransparencyBrick setTransparencyBrick;
 	private int catXPosition = 60;
 	private int catYPosition = 150;
 	private int fishXPosition = -60;
@@ -96,7 +96,7 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 	}
 
 	public void testTapOnHalfTransparentAreaOfForegroundSprite() {
-		setGhostEffectBrick.setFormulaWithBrickField(Brick.BrickField.TRANSPARENCY, new Formula(50.0));
+		setTransparencyBrick.setFormulaWithBrickField(Brick.BrickField.TRANSPARENCY, new Formula(50.0));
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 		assertTrue("Sprite cat is not at x=0 and y=0",
@@ -122,7 +122,7 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 	}
 
 	public void testTapOnFullTransparentAreaOfForegroundSprite() {
-		setGhostEffectBrick.setFormulaWithBrickField(Brick.BrickField.TRANSPARENCY, new Formula(100.0));
+		setTransparencyBrick.setFormulaWithBrickField(Brick.BrickField.TRANSPARENCY, new Formula(100.0));
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(2000);
 		assertTrue("Sprite cat is not at x=0 and y=0",
@@ -165,7 +165,7 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 		fish = new Sprite("fish");
 		StartScript startScriptFish = new StartScript();
 		SetLookBrick setLookFish = new SetLookBrick();
-		setGhostEffectBrick = new SetGhostEffectBrick(0.0);
+		setTransparencyBrick = new SetTransparencyBrick(0.0);
 
 		LookData lookDataFish = new LookData();
 		lookDataFish.setLookName(fishFilename);
@@ -173,7 +173,7 @@ public class TransparentWhenBrickTest extends BaseActivityInstrumentationTestCas
 		fish.getLookDataList().add(lookDataFish);
 		setLookFish.setLook(lookDataFish);
 		startScriptFish.addBrick(setLookFish);
-		startScriptFish.addBrick(setGhostEffectBrick);
+		startScriptFish.addBrick(setTransparencyBrick);
 		fish.addScript(startScriptFish);
 
 		WhenScript whenScriptFish = new WhenScript();

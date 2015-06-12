@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,8 @@ public class XmlHeader implements Serializable {
 
 	private float catrobatLanguageVersion;
 
+	private boolean isPhiroProProject = false;
+
 	// fields only used on the catrobat.org website so far
 	private String applicationBuildName = "";
 	private int applicationBuildNumber = 0;
@@ -70,91 +72,123 @@ public class XmlHeader implements Serializable {
 	public XmlHeader() {
 	}
 
-	String getProgramName() {
+	public int getVirtualScreenHeight() {
+		return virtualScreenHeight;
+	}
+
+	public int getVirtualScreenWidth() {
+		return virtualScreenWidth;
+	}
+
+	public void setVirtualScreenHeight(int height) {
+		virtualScreenHeight = height;
+	}
+
+	public void setVirtualScreenWidth(int width) {
+		virtualScreenWidth = width;
+	}
+
+	public String getRemixOf() {
+		return remixOf;
+	}
+
+	public void setRemixOf(String remixOf) {
+		this.remixOf = remixOf;
+	}
+
+	public String getProgramName() {
 		return programName;
 	}
 
-	void setProgramName(String programName) {
+	public void setProgramName(String programName) {
 		this.programName = programName;
 	}
 
-	String getDescription() {
+	public String getDescription() {
 		return description;
 	}
 
-	void setDescription(String description) {
+	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	float getCatrobatLanguageVersion() {
+	public float getCatrobatLanguageVersion() {
 		return catrobatLanguageVersion;
 	}
 
-	void setCatrobatLanguageVersion(float catrobatLanguageVersion) {
+	public void setCatrobatLanguageVersion(float catrobatLanguageVersion) {
 		this.catrobatLanguageVersion = catrobatLanguageVersion;
 	}
 
-	String getPlatform() {
+	public String getPlatform() {
 		return platform;
 	}
 
-	void setPlatform(String platform) {
+	public void setPlatform(String platform) {
 		this.platform = platform;
 	}
 
-	String getApplicationBuildName() {
+	public String getApplicationBuildName() {
 		return applicationBuildName;
 	}
 
-	void setApplicationBuildName(String applicationBuildName) {
+	public void setApplicationBuildName(String applicationBuildName) {
 		this.applicationBuildName = applicationBuildName;
 	}
 
-	int getApplicationBuildNumber() {
+	public int getApplicationBuildNumber() {
 		return applicationBuildNumber;
 	}
 
-	void setApplicationBuildNumber(int applicationBuildNumber) {
+	public void setApplicationBuildNumber(int applicationBuildNumber) {
 		this.applicationBuildNumber = applicationBuildNumber;
 	}
 
-	String getApplicationName() {
+	public String getApplicationName() {
 		return applicationName;
 	}
 
-	void setApplicationName(String applicationName) {
+	public void setApplicationName(String applicationName) {
 		this.applicationName = applicationName;
 	}
 
-	String getApplicationVersion() {
+	public String getApplicationVersion() {
 		return applicationVersion;
 	}
 
-	void setApplicationVersion(String applicationVersion) {
+	public void setApplicationVersion(String applicationVersion) {
 		this.applicationVersion = applicationVersion;
 	}
 
-	String getDeviceName() {
+	public String getDeviceName() {
 		return deviceName;
 	}
 
-	void setDeviceName(String deviceName) {
+	public void setDeviceName(String deviceName) {
 		this.deviceName = deviceName;
 	}
 
-	double getPlatformVersion() {
+	public double getPlatformVersion() {
 		return platformVersion;
 	}
 
-	void setPlatformVersion(double platformVersion) {
+	public void setPlatformVersion(double platformVersion) {
 		this.platformVersion = platformVersion;
 	}
 
-	void setScreenMode(ScreenModes screenMode) {
+	public void setScreenMode(ScreenModes screenMode) {
 		this.screenMode = screenMode;
 	}
 
-	ScreenModes getScreenMode() {
+	public ScreenModes getScreenMode() {
 		return this.screenMode;
+	}
+
+	public boolean isPhiroProProject() {
+		return isPhiroProProject;
+	}
+
+	public void setPhiroProProject(boolean isPhiroProProject) {
+		this.isPhiroProProject = isPhiroProProject;
 	}
 }

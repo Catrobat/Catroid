@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,10 +32,16 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastEvent;
 import org.catrobat.catroid.content.BroadcastEvent.BroadcastType;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.LegoNxtMotorActionBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
+import org.catrobat.catroid.content.bricks.PhiroMotorMoveBackwardBrick;
+import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
+import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
+import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
+import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
 public class ExtendedActions extends Actions {
@@ -74,10 +80,10 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static ChangeGhostEffectByNAction changeGhostEffectByN(Sprite sprite, Formula ghostEffect) {
-		ChangeGhostEffectByNAction action = action(ChangeGhostEffectByNAction.class);
+	public static ChangeTransparencyByNAction changeTransparencyByN(Sprite sprite, Formula transparency) {
+		ChangeTransparencyByNAction action = action(ChangeTransparencyByNAction.class);
 		action.setSprite(sprite);
-		action.setGhostEffect(ghostEffect);
+		action.setTransparency(transparency);
 		return action;
 	}
 
@@ -157,9 +163,9 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static LegoNxtMotorActionAction legoNxtMotorAction(Sprite sprite, LegoNxtMotorActionBrick.Motor motorEnum,
+	public static LegoNxtMotorMoveAction legoNxtMotorAction(Sprite sprite, LegoNxtMotorMoveBrick.Motor motorEnum,
 			Formula speed) {
-		LegoNxtMotorActionAction action = action(LegoNxtMotorActionAction.class);
+		LegoNxtMotorMoveAction action = action(LegoNxtMotorMoveAction.class);
 		action.setMotorEnum(motorEnum);
 		action.setSprite(sprite);
 		action.setSpeed(speed);
@@ -186,6 +192,59 @@ public class ExtendedActions extends Actions {
 		action.setHertz(hertz);
 		action.setSprite(sprite);
 		action.setDurationInSeconds(durationInSeconds);
+		return action;
+	}
+
+	public static PhiroPlayToneAction phiroPlayToneAction(Sprite sprite, PhiroPlayToneBrick.Tone toneEnum,
+			Formula duration) {
+		PhiroPlayToneAction action = action(PhiroPlayToneAction.class);
+		action.setSelectedTone(toneEnum);
+		action.setSprite(sprite);
+		action.setDurationInSeconds(duration);
+		return action;
+	}
+
+	public static PhiroMotorMoveForwardAction phiroMotorMoveForwardAction(Sprite sprite, PhiroMotorMoveForwardBrick.Motor motorEnum,
+			Formula speed) {
+		PhiroMotorMoveForwardAction action = action(PhiroMotorMoveForwardAction.class);
+		action.setMotorEnum(motorEnum);
+		action.setSprite(sprite);
+		action.setSpeed(speed);
+		return action;
+	}
+
+	public static PhiroMotorMoveBackwardAction phiroMotorMoveBackwardAction(Sprite sprite, PhiroMotorMoveBackwardBrick.Motor motorEnum,
+			Formula speed) {
+		PhiroMotorMoveBackwardAction action = action(PhiroMotorMoveBackwardAction.class);
+		action.setMotorEnum(motorEnum);
+		action.setSprite(sprite);
+		action.setSpeed(speed);
+		return action;
+	}
+
+	public static PhiroRGBLightAction phiroRgbLedEyeAction(Sprite sprite, PhiroRGBLightBrick.Eye eye,
+			Formula red, Formula green, Formula blue) {
+		PhiroRGBLightAction action = action(PhiroRGBLightAction.class);
+		action.setSprite(sprite);
+		action.setEyeEnum(eye);
+		action.setRed(red);
+		action.setGreen(green);
+		action.setBlue(blue);
+		return action;
+	}
+
+	public static PhiroSensorAction phiroSendSelectedSensor(Sprite sprite, int sensorNumber, Action ifAction, Action elseAction) {
+		PhiroSensorAction action = action(PhiroSensorAction.class);
+		action.setSprite(sprite);
+		action.setSensor(sensorNumber);
+		action.setIfAction(ifAction);
+		action.setElseAction(elseAction);
+		return action;
+	}
+
+	public static PhiroMotorStopAction phiroMotorStopAction(PhiroMotorStopBrick.Motor motorEnum) {
+		PhiroMotorStopAction action = action(PhiroMotorStopAction.class);
+		action.setMotorEnum(motorEnum);
 		return action;
 	}
 
@@ -230,8 +289,8 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
-	public static SetGhostEffectAction setGhostEffect(Sprite sprite, Formula transparency) {
-		SetGhostEffectAction action = action(SetGhostEffectAction.class);
+	public static SetTransparencyAction setTransparency(Sprite sprite, Formula transparency) {
+		SetTransparencyAction action = action(SetTransparencyAction.class);
 		action.setSprite(sprite);
 		action.setTransparency(transparency);
 		return action;
@@ -317,6 +376,40 @@ public class ExtendedActions extends Actions {
 		action.setSprite(sprite);
 		action.setChangeVariable(variableFormula);
 		action.setUserVariable(userVariable);
+		return action;
+	}
+
+	public static Action deleteItemOfUserList(Sprite sprite, Formula userListFormula, UserList userList) {
+		DeleteItemOfUserListAction action = action(DeleteItemOfUserListAction.class);
+		action.setSprite(sprite);
+		action.setFormulaIndexToDelete(userListFormula);
+		action.setUserList(userList);
+		return action;
+	}
+
+	public static Action addItemToUserList(Sprite sprite, Formula userListFormula, UserList userList) {
+		AddItemToUserListAction action = action(AddItemToUserListAction.class);
+		action.setSprite(sprite);
+		action.setFormulaItemToAdd(userListFormula);
+		action.setUserList(userList);
+		return action;
+	}
+
+	public static Action insertItemIntoUserList(Sprite sprite, Formula userListFormulaIndexToInsert, Formula userListFormulaItemToInsert, UserList userList) {
+		InsertItemIntoUserListAction action = action(InsertItemIntoUserListAction.class);
+		action.setSprite(sprite);
+		action.setFormulaIndexToInsert(userListFormulaIndexToInsert);
+		action.setFormulaItemToInsert(userListFormulaItemToInsert);
+		action.setUserList(userList);
+		return action;
+	}
+
+	public static Action replaceItemInUserList(Sprite sprite, Formula userListFormulaIndexToReplace, Formula userListFormulaItemToInsert, UserList userList) {
+		ReplaceItemInUserListAction action = action(ReplaceItemInUserListAction.class);
+		action.setSprite(sprite);
+		action.setFormulaIndexToReplace(userListFormulaIndexToReplace);
+		action.setFormulaItemToInsert(userListFormulaItemToInsert);
+		action.setUserList(userList);
 		return action;
 	}
 

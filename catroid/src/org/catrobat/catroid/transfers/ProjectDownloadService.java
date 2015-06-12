@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,22 +23,21 @@
 package org.catrobat.catroid.transfers;
 
 import android.app.IntentService;
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.DownloadUtil;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.web.ConnectionWrapper;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
+
+import java.io.IOException;
 
 public class ProjectDownloadService extends IntentService {
 
@@ -51,19 +50,8 @@ public class ProjectDownloadService extends IntentService {
 
 	private static final String DOWNLOAD_FILE_NAME = "down" + Constants.CATROBAT_EXTENSION;
 
-	private String projectName;
-	private String zipFileString;
-	private String url;
-	Notification downloadNotification;
-	PendingIntent pendingDownload;
-	private Integer notificationId;
 	public ResultReceiver receiver;
 	private Handler handler;
-
-	// mock object testing
-	protected ConnectionWrapper createConnection() {
-		return new ConnectionWrapper();
-	}
 
 	public ProjectDownloadService() {
 		super(ProjectDownloadService.class.getSimpleName());
@@ -79,16 +67,18 @@ public class ProjectDownloadService extends IntentService {
 	protected void onHandleIntent(Intent intent) {
 		boolean result = false;
 
-		this.projectName = intent.getStringExtra(DOWNLOAD_NAME_TAG);
-		this.zipFileString = Utils.buildPath(Constants.TMP_PATH, DOWNLOAD_FILE_NAME);
-		this.url = intent.getStringExtra(URL_TAG);
-		this.notificationId = intent.getIntExtra(ID_TAG, -1);
+		String projectName = intent.getStringExtra(DOWNLOAD_NAME_TAG);
+		String zipFileString = Utils.buildPath(Constants.TMP_PATH, DOWNLOAD_FILE_NAME);
+		String url = intent.getStringExtra(URL_TAG);
+		Integer notificationId = intent.getIntExtra(ID_TAG, -1);
 
-		receiver = (ResultReceiver) intent.getParcelableExtra(RECEIVER_TAG);
+		receiver = intent.getParcelableExtra(RECEIVER_TAG);
 		try {
 			ServerCalls.getInstance().downloadProject(url, zipFileString, receiver, notificationId);
 			result = UtilZip.unZipFile(zipFileString, Utils.buildProjectPath(projectName));
 			Log.v(TAG, "url: " + url + ", zip-file: " + zipFileString + ", notificationId: " + notificationId);
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
 		} finally {
@@ -96,19 +86,31 @@ public class ProjectDownloadService extends IntentService {
 		}
 
 		if (!result) {
-			showToast(R.string.error_project_download);
+			showToast(R.string.error_project_download, true);
 			return;
 		}
 
-		showToast(R.string.notification_download_finished);
+		showToast(R.string.notification_download_finished, false);
 	}
 
-	private void showToast(final int messageId) {
-		handler.post(new Runnable() {
-			@Override
-			public void run() {
-				Toast.makeText(getApplicationContext(), messageId, Toast.LENGTH_SHORT).show();
-			}
-		});
+	private void showToast(final int messageId, boolean error) {
+
+		if (error) {
+			handler.post(new Runnable() {
+
+				@Override
+				public void run() {
+					ToastUtil.showError(getApplicationContext(), messageId);
+				}
+			});
+		} else {
+			handler.post(new Runnable() {
+
+				@Override
+				public void run() {
+					ToastUtil.showSuccess(getApplicationContext(), messageId);
+				}
+			});
+		}
 	}
 }

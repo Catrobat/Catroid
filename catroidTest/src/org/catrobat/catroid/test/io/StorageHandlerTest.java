@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,36 +29,60 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.StandardProjectHandler;
+import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
+import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
+import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
+import org.catrobat.catroid.drone.DroneBrickFactory;
+import org.catrobat.catroid.exceptions.CompatibilityProjectException;
+import org.catrobat.catroid.exceptions.LoadingProjectException;
+import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.utils.UtilFile;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME;
 import static org.catrobat.catroid.common.Constants.PROJECTCODE_NAME_TMP;
+import static org.catrobat.catroid.common.Constants.PROJECTPERMISSIONS_NAME;
 import static org.catrobat.catroid.utils.Utils.buildProjectPath;
 
 public class StorageHandlerTest extends AndroidTestCase {
 	private final StorageHandler storageHandler;
+	private Project currentProject;
 	private final String projectName = TestUtils.DEFAULT_TEST_PROJECT_NAME;
+	private static final int SET_SPEED_INITIALLY = -70;
+	private static final int DEFAULT_MOVE_TIME_IN_MILLISECONDS = 2000;
+	private static final int DEFAULT_MOVE_POWER_IN_PERCENT = 20;
 
 	public StorageHandlerTest() throws IOException {
 		storageHandler = StorageHandler.getInstance();
@@ -67,10 +91,12 @@ public class StorageHandlerTest extends AndroidTestCase {
 	@Override
 	public void setUp() {
 		TestUtils.deleteTestProjects();
+		currentProject = ProjectManager.getInstance().getCurrentProject();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
+		ProjectManager.getInstance().setProject(currentProject);
 		TestUtils.deleteTestProjects();
 		super.tearDown();
 	}
@@ -285,57 +311,130 @@ public class StorageHandlerTest extends AndroidTestCase {
         return Float.NaN;
     }
 
-	//	public void testAliasesAndXmlHeader() {
-	//
-	//		String projectName = "myProject";
-	//
-	//		File projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-	//		if (projectFile.exists()) {
-	//			UtilFile.deleteDirectory(projectFile);
-	//		}
-	//
-	//		Project project = new Project(getContext(), projectName);
-	//		Sprite sprite = new Sprite("testSprite");
-	//		Script startScript = new StartScript(sprite);
-	//		Script whenScript = new WhenScript(sprite);
-	//		sprite.addScript(startScript);
-	//		sprite.addScript(whenScript);
-	//		project.addSprite(sprite);
-	//
-	//		ArrayList<Brick> startScriptBrickList = new ArrayList<Brick>();
-	//		ArrayList<Brick> whenScriptBrickList = new ArrayList<Brick>();
-	//		startScriptBrickList.add(new ChangeXByNBrick(sprite, 4));
-	//		startScriptBrickList.add(new ChangeYByNBrick(sprite, 5));
-	//		startScriptBrickList.add(new ComeToFrontBrick(sprite));
-	//		startScriptBrickList.add(new GoNStepsBackBrick(sprite, 5));
-	//		startScriptBrickList.add(new HideBrick(sprite));
-	//		startScriptBrickList.add(new WhenStartedBrick(sprite, startScript));
-	//
-	//		whenScriptBrickList.add(new PlaySoundBrick(sprite));
-	//		whenScriptBrickList.add(new SetSizeToBrick(sprite, 50));
-	//		whenScriptBrickList.add(new SetLookBrick(sprite));
-	//		whenScriptBrickList.add(new SetXBrick(sprite, 50));
-	//		whenScriptBrickList.add(new SetYBrick(sprite, 50));
-	//		whenScriptBrickList.add(new ShowBrick(sprite));
-	//		whenScriptBrickList.add(new WaitBrick(sprite, 1000));
-	//
-	//		for (Brick b : startScriptBrickList) {
-	//			startScript.addBrick(b);
-	//		}
-	//		for (Brick b : whenScriptBrickList) {
-	//			whenScript.addBrick(b);
-	//		}
-	//
-	//		storageHandler.saveProject(project);
-	//		String projectString = TestUtils.getProjectfileAsString(projectName);
-	//		assertFalse("project contains package information", projectString.contains("org.catrobat"));
-	//
-	//		String xmlHeader = (String) Reflection.getPrivateField(XmlSerializer.class, "XML_HEADER");
-	//		assertTrue("Project file did not contain correct XML header.", projectString.startsWith(xmlHeader));
-	//
-	//		projectFile = new File(Constants.DEFAULT_ROOT + "/" + projectName);
-	//		if (projectFile.exists()) {
-	//			UtilFile.deleteDirectory(projectFile);
-	//		}
-	//	}
+	public void testGetRequiredResources() {
+		int resources = generateMultiplePermissionsProject().getRequiredResources();
+		assertEquals("Sum over required resources not matching", Brick.ARDRONE_SUPPORT
+				| Brick.FACE_DETECTION
+				| Brick.BLUETOOTH_LEGO_NXT
+				| Brick.TEXT_TO_SPEECH, resources);
+	}
+
+	public void testWritePermissionFile() throws IOException {
+		Project project = generateMultiplePermissionsProject();
+		ProjectManager.getInstance().setProject(project);
+		StorageHandler.getInstance().saveProject(project);
+
+		File permissionsFile = new File(buildProjectPath(project.getName()), PROJECTPERMISSIONS_NAME);
+		assertTrue("File containing the permissions could not be written", permissionsFile.exists());
+
+		//only for assertions. Add future permission; Vibration and LED not activated
+		Set<String> permissions = new HashSet<String>();
+		permissions.add(Constants.ARDRONE_SUPPORT);
+		permissions.add(Constants.BLUETOOTH_LEGO_NXT);
+		permissions.add(Constants.TEXT_TO_SPEECH);
+		permissions.add(Constants.FACE_DETECTION);
+
+		BufferedReader reader = new BufferedReader(new FileReader(permissionsFile));
+		String line;
+		while ((line = reader.readLine()) != null) {
+			assertTrue("Wrong permission in File found", permissions.contains(line));
+		}
+	}
+
+	public void testSerializeSettings() throws CompatibilityProjectException, OutdatedVersionProjectException, LoadingProjectException {
+
+		NXTSensor.Sensor[] sensorMapping = new NXTSensor.Sensor[] {
+				NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.SOUND,
+				NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.ULTRASONIC
+		};
+
+		Reflection.setPrivateField(ProjectManager.getInstance(), "asynchronTask", false);
+
+		Project project = generateMultiplePermissionsProject();
+		ProjectManager.getInstance().setProject(project);
+
+		String projectName = project.getName();
+		SettingsActivity.setLegoMindstormsNXTSensorMapping(getContext(), sensorMapping);
+
+		ProjectManager.getInstance().saveProject(getContext());
+		Setting setting = project.getSettings().get(0);
+
+		assertTrue("Wrong setting type, LegoNXT setting expected", setting instanceof LegoNXTSetting);
+
+		LegoNXTSetting nxtSetting = (LegoNXTSetting)setting;
+		NXTSensor.Sensor[] actualSensorMapping = nxtSetting.getSensorMapping();
+
+		assertEquals("Wrong numer of sensors", 4, actualSensorMapping.length);
+
+		assertEquals("Wrong sensor mapping for touch sensor", sensorMapping[0], actualSensorMapping[0]);
+		assertEquals("Wrong sensor mapping for sound sensor", sensorMapping[1], actualSensorMapping[1]);
+		assertEquals("Wrong sensor mapping for light sensor", sensorMapping[2], actualSensorMapping[2]);
+		assertEquals("Wrong sensor mapping for ultrasonic sensor", sensorMapping[3], actualSensorMapping[3]);
+
+
+		NXTSensor.Sensor[] changedSensorMapping = sensorMapping.clone();
+		changedSensorMapping[0] = NXTSensor.Sensor.LIGHT_ACTIVE;
+
+		SettingsActivity.setLegoMindstormsNXTSensorMapping(getContext(), changedSensorMapping);
+
+		ProjectManager.getInstance().setProject(null);
+		ProjectManager.getInstance().loadProject(projectName, getContext());
+
+		actualSensorMapping = SettingsActivity.getLegoMindstormsNXTSensorMapping(getContext());
+
+		assertEquals("Wrong numer of sensors", 4, actualSensorMapping.length);
+
+		assertEquals("Wrong sensor mapping for touch sensor, settings not correctly loaded from project",
+				sensorMapping[0], actualSensorMapping[0]);
+		assertEquals("Wrong sensor mapping for sound sensor", sensorMapping[1], actualSensorMapping[1]);
+		assertEquals("Wrong sensor mapping for light sensor", sensorMapping[2], actualSensorMapping[2]);
+		assertEquals("Wrong sensor mapping for ultrasonic sensor", sensorMapping[3], actualSensorMapping[3]);
+
+		project = ProjectManager.getInstance().getCurrentProject();
+
+		setting = project.getSettings().get(0);
+		nxtSetting = (LegoNXTSetting)setting;
+
+		assertTrue("Wrong setting type, LegoNXT setting expected", setting instanceof LegoNXTSetting);
+
+		actualSensorMapping = nxtSetting.getSensorMapping();
+
+		assertEquals("Wrong numer of sensors", 4, actualSensorMapping.length);
+
+		assertEquals("Wrong sensor mapping for touch sensor", sensorMapping[0], actualSensorMapping[0]);
+		assertEquals("Wrong sensor mapping for sound sensor", sensorMapping[1], actualSensorMapping[1]);
+		assertEquals("Wrong sensor mapping for light sensor", sensorMapping[2], actualSensorMapping[2]);
+		assertEquals("Wrong sensor mapping for ultrasonic sensor", sensorMapping[3], actualSensorMapping[3]);
+	}
+
+	private Project generateMultiplePermissionsProject() {
+		final Project project = new Project(getContext(), projectName);
+		Sprite firstSprite = new Sprite("first");
+		Sprite secondSprite = new Sprite("second");
+		Script testScript = new StartScript();
+		Script otherScript = new StartScript();
+		HideBrick hideBrick = new HideBrick();
+		ShowBrick showBrick = new ShowBrick();
+		SpeakBrick speakBrick = new SpeakBrick("");
+		LegoNxtMotorMoveBrick motorBrick = new LegoNxtMotorMoveBrick(LegoNxtMotorMoveBrick.Motor.MOTOR_A, SET_SPEED_INITIALLY);
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR,
+				Sensors.FACE_SIZE.name(), null)));
+		BrickBaseType moveBrick = DroneBrickFactory.getInstanceOfDroneBrick(DroneBrickFactory.DroneBricks.DRONE_TAKE_OFF_BRICK, firstSprite,
+				DEFAULT_MOVE_TIME_IN_MILLISECONDS, DEFAULT_MOVE_POWER_IN_PERCENT);
+
+		testScript.addBrick(hideBrick);
+		testScript.addBrick(showBrick);
+		testScript.addBrick(speakBrick);
+		testScript.addBrick(motorBrick);
+		otherScript.addBrick(setSizeToBrick);
+		otherScript.addBrick(moveBrick);
+
+		firstSprite.addScript(testScript);
+		secondSprite.addScript(otherScript);
+
+		project.addSprite(firstSprite);
+		project.addSprite(secondSprite);
+
+		return project;
+	}
 }

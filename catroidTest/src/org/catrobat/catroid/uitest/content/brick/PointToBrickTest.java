@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,18 +35,19 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick;
 import org.catrobat.catroid.content.bricks.PointToBrick.SpinnerAdapterWrapper;
-import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.test.utils.Reflection;
+import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog;
 import org.catrobat.catroid.ui.dialogs.NewSpriteDialog.ActionAfterFinished;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.io.File;
 import java.util.ArrayList;
 
-public class PointToBrickTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
+public class PointToBrickTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
 
 	private Project project;
 	private PointToBrick pointToBrick;
@@ -58,24 +59,23 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<Script
 	private final String newSpriteName2 = "cat4";
 
 	public PointToBrickTest() {
-		super(ScriptActivity.class);
+		super(MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
-		// normally super.setUp should be called first
-		// but kept the test failing due to view is null
-		// when starting in ScriptActivity
-		createProject();
 		super.setUp();
-
+		createProject();
+		UiTestUtils.prepareStageForTest();
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo, 2);
 		lookFile = UiTestUtils.setUpLookFile(solo);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		lookFile.delete();
-
+		if (lookFile != null) {
+			lookFile.delete();
+		}
 		super.tearDown();
 	}
 
@@ -183,7 +183,7 @@ public class PointToBrickTest extends BaseActivityInstrumentationTestCase<Script
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite1);
 		ProjectManager.getInstance().setCurrentScript(startScript1);
-		ProjectManager.getInstance().saveProject();
+		StorageHandler.getInstance().saveProject(project);
 	}
 
 	private void createNewObjectWithinBrick(String objectName, int stringToClickOnAtTheEnd) {

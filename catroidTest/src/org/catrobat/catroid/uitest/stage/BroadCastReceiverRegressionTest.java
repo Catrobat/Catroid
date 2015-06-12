@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,13 +34,14 @@ import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
+import org.catrobat.catroid.content.bricks.UserVariableBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
-import org.catrobat.catroid.ui.dialogs.NewVariableDialog;
+import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
-import org.catrobat.catroid.uitest.util.Reflection;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
@@ -172,7 +173,7 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(3000);
 
-		UserVariable userVariable = (UserVariable) Reflection.getPrivateField(setVariableBrick, "userVariable");
+		UserVariable userVariable = (UserVariable) Reflection.getPrivateField(UserVariableBrick.class, setVariableBrick, "userVariable");
 		assertNotNull("UserVariable is null", userVariable);
 
 		double expectedValue = 2111.0f;
@@ -217,7 +218,7 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 		solo.waitForActivity(StageActivity.class.getSimpleName());
 		solo.sleep(3000);
 
-		UserVariable userVariable = (UserVariable) Reflection.getPrivateField(setVariableBrick, "userVariable");
+		UserVariable userVariable = (UserVariable) Reflection.getPrivateField(UserVariableBrick.class, setVariableBrick, "userVariable");
 		assertNotNull("UserVariable is null", userVariable);
 
 		double expectedValue = 20.0f;
@@ -234,12 +235,13 @@ public class BroadCastReceiverRegressionTest extends BaseActivityInstrumentation
 		solo.sleep(200);
 	}
 
+
 	private void createUserVariable(String variableName) {
 		solo.clickOnText(getInstrumentation().getTargetContext().getString(
 				R.string.brick_variable_spinner_create_new_variable));
-		assertTrue("NewVariableDialog not visible", solo.waitForFragmentByTag(NewVariableDialog.DIALOG_FRAGMENT_TAG));
+		assertTrue("NewVariableDialog not visible", solo.waitForFragmentByTag(NewDataDialog.DIALOG_FRAGMENT_TAG));
 
-		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_variable_name_edit_text);
+		EditText editText = (EditText) solo.getView(R.id.dialog_formula_editor_data_name_edit_text);
 		solo.enterText(editText, variableName);
 		solo.clickOnButton(solo.getString(R.string.ok));
 		assertTrue("ScriptFragment not visible", solo.waitForText(solo.getString(R.string.brick_set_variable)));

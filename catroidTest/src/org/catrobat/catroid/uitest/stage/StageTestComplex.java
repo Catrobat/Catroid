@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,8 +33,8 @@ import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
-import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageActivity;
@@ -195,8 +195,8 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		yellowSprite.addScript(yellowStartScript);
 
 		WhenScript yellowWhenScript = new WhenScript();
-		SetGhostEffectBrick yellowSetGhostEffectBrick = new SetGhostEffectBrick(100d);
-		yellowWhenScript.addBrick(yellowSetGhostEffectBrick);
+		SetTransparencyBrick yellowSetTransparencyBrick = new SetTransparencyBrick(100d);
+		yellowWhenScript.addBrick(yellowSetTransparencyBrick);
 
 		yellowSprite.addScript(yellowWhenScript);
 
