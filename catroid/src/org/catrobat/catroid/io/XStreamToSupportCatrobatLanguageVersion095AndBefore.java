@@ -159,9 +159,6 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfo = new BrickInfo(BroadcastReceiverBrick.class.getSimpleName());
 		brickInfoMap.put("broadcastReceiverBrick", brickInfo);
 
-		brickInfo = new BrickInfo(BroadcastReceiverBrick.class.getSimpleName());
-		brickInfoMap.put("broadcastReceiverBrick", brickInfo);
-
 		brickInfo = new BrickInfo(BroadcastWaitBrick.class.getSimpleName());
 		brickInfoMap.put("broadcastWaitBrick", brickInfo);
 
@@ -252,34 +249,34 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 
 		brickInfo = new BrickInfo(PhiroMotorMoveForwardBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("speed", BrickField.PHIRO_SPEED);
-		brickInfoMap.put("phiroProMotorMoveForwardBrick", brickInfo);
+		brickInfoMap.put("phiroMotorMoveForwardBrick", brickInfo);
 
 		brickInfo = new BrickInfo(PhiroMotorMoveBackwardBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("speed", BrickField.PHIRO_SPEED);
-		brickInfoMap.put("phiroProMotorMoveBackwardBrick", brickInfo);
+		brickInfoMap.put("phiroMotorMoveBackwardBrick", brickInfo);
 
 		brickInfo = new BrickInfo(PhiroMotorStopBrick.class.getSimpleName());
-		brickInfoMap.put("phiroProMotorStopBrick", brickInfo);
+		brickInfoMap.put("phiroMotorStopBrick", brickInfo);
 
 		brickInfo = new BrickInfo(PhiroPlayToneBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("durationInSeconds", BrickField.PHIRO_DURATION_IN_SECONDS);
-		brickInfoMap.put("phiroProPlayToneBrick", brickInfo);
+		brickInfoMap.put("phiroPlayToneBrick", brickInfo);
 
 		brickInfo = new BrickInfo(PhiroRGBLightBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("light", BrickField.PHIRO_LIGHT_RED);
 		brickInfo.addBrickFieldToMap("light", BrickField.PHIRO_LIGHT_GREEN);
 		brickInfo.addBrickFieldToMap("light", BrickField.PHIRO_LIGHT_BLUE);
-		brickInfoMap.put("phiroProRGBLightBrick", brickInfo);
+		brickInfoMap.put("phiroRGBLightBrick", brickInfo);
 
 		brickInfo = new BrickInfo(PhiroIfLogicBeginBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("ifPhiroSensorCondition", BrickField.IF_PHIRO_SENSOR_CONDITION);
-		brickInfoMap.put("phiroProSensorBrick", brickInfo);
+		brickInfoMap.put("phiroSensorBrick", brickInfo);
 
 		brickInfo = new BrickInfo(IfLogicElseBrick.class.getSimpleName());
-		brickInfoMap.put("phiroProSensorElseBrick", brickInfo);
+		brickInfoMap.put("phiroSensorElseBrick", brickInfo);
 
 		brickInfo = new BrickInfo(IfLogicEndBrick.class.getSimpleName());
-		brickInfoMap.put("phiroProSensorEndBrick", brickInfo);
+		brickInfoMap.put("phiroSensorEndBrick", brickInfo);
 
 		brickInfo = new BrickInfo(LoopEndBrick.class.getSimpleName());
 		brickInfoMap.put("loopEndBrick", brickInfo);
@@ -356,7 +353,7 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 		brickInfoMap.put("speakBrick", brickInfo);
 
 		brickInfo = new BrickInfo(StopAllSoundsBrick.class.getSimpleName());
-		brickInfoMap.put("stopAllSoundsBrick", brickInfo);
+		brickInfoMap.put("whenBrick", brickInfo);
 
 		brickInfo = new BrickInfo(TurnLeftBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("degrees", BrickField.TURN_LEFT_DEGREES);

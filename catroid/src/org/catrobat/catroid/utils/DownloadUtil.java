@@ -37,6 +37,7 @@ import org.catrobat.catroid.web.ProgressResponseBody;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
@@ -58,12 +59,8 @@ public final class DownloadUtil {
 	}
 
 	public void prepareDownloadAndStartIfPossible(FragmentActivity activity, String url) {
-		int projectNameIndex = url.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
-		String programName = url.substring(projectNameIndex);
-		try {
-			programName = URLDecoder.decode(programName, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			Log.e(TAG, "Could not decode program name: " + programName, e);
+		String programName = getProjectNameFromUrl(url);
+		if (programName == null) {
 			return;
 		}
 
@@ -102,6 +99,7 @@ public final class DownloadUtil {
 		return programDownloadQueue.contains(programName.toLowerCase(Locale.getDefault()));
 	}
 
+	ArrayList<Integer> notificationIdArray = new ArrayList<Integer>();
 	private class DownloadReceiver extends ResultReceiver {
 		public DownloadReceiver(Handler handler) {
 			super(handler);
@@ -109,19 +107,36 @@ public final class DownloadUtil {
 
 		@Override
 		protected void onReceiveResult(int resultCode, Bundle resultData) {
-			super.onReceiveResult(resultCode, resultData);
-			if (resultCode == Constants.UPDATE_DOWNLOAD_PROGRESS) {
-				long progress = resultData.getLong(ProgressResponseBody.TAG_PROGRESS);
-				boolean endOfFileReached = resultData.getBoolean(ProgressResponseBody.TAG_ENDOFFILE);
-				Integer notificationId = resultData.getInt(ProgressResponseBody.TAG_NOTIFICATION_ID);
-				if (endOfFileReached) {
-					progress = 100;
+			Integer notificationId = resultData.getInt(ProgressResponseBody.TAG_NOTIFICATION_ID);
+			if (!notificationIdArray.contains(notificationId)) {
+				notificationIdArray.add(notificationId);
+			}
+			if (notificationIdArray.size() - 1 == notificationId) {
+				super.onReceiveResult(resultCode, resultData);
+				if (resultCode == Constants.UPDATE_DOWNLOAD_PROGRESS) {
+					long progress = resultData.getLong(ProgressResponseBody.TAG_PROGRESS);
+					boolean endOfFileReached = resultData.getBoolean(ProgressResponseBody.TAG_ENDOFFILE);
+					if (endOfFileReached) {
+						progress = 100;
+					}
+					StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId,
+							Long.valueOf(progress).intValue());
 				}
-
-				StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId,
-						Long.valueOf(progress).intValue());
 			}
 		}
+	}
+
+	public String getProjectNameFromUrl(String url) {
+		int projectNameIndex = url.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
+		String programName = url.substring(projectNameIndex);
+		try {
+			programName = URLDecoder.decode(programName, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			Log.e(TAG, "Could not decode program name: " + programName, e);
+			return null;
+		}
+		return programName;
+
 	}
 
 }
