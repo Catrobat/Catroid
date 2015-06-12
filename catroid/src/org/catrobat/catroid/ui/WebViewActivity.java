@@ -107,15 +107,15 @@ public class WebViewActivity extends BaseActivity {
 		});
 	}
 
-	BroadcastReceiver onDownloadComplete =new BroadcastReceiver() {
-		public void onReceive(Context ctxt, Intent intent) {
+	BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
+		public void onReceive(Context context, Intent intent) {
 
 			long id = intent.getExtras().getLong(DownloadManager.EXTRA_DOWNLOAD_ID);
-			DownloadManager dm =(DownloadManager)getSystemService(DOWNLOAD_SERVICE);
+			DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
 			intent = new Intent(Intent.ACTION_VIEW);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			intent.setDataAndType(dm.getUriForDownloadedFile(id),
-					dm.getMimeTypeForDownloadedFile(id));
+			intent.setDataAndType(downloadManager.getUriForDownloadedFile(id),
+					downloadManager.getMimeTypeForDownloadedFile(id));
 			startActivity(intent);
 		}
 	};

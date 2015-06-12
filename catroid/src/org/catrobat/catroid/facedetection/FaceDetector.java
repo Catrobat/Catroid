@@ -24,6 +24,7 @@ package org.catrobat.catroid.facedetection;
 
 import android.graphics.Point;
 
+import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.formulaeditor.SensorCustomEvent;
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
@@ -67,7 +68,8 @@ public abstract class FaceDetector {
 
 	protected void onFaceDetected(Point position, int size) {
 		float[] positionXFloatValue = new float[] { position.x };
-		float[] positionYFloatValue = new float[] { position.y };
+		boolean invertY = !CameraManager.getInstance().isFacingBack();
+		float[] positionYFloatValue = new float[]{invertY ? -position.y : position.y};
 		float[] sizeFloatValue = new float[] { size };
 		SensorCustomEvent xPositionEvent = new SensorCustomEvent(Sensors.FACE_X_POSITION, positionXFloatValue);
 		SensorCustomEvent yPositionEvent = new SensorCustomEvent(Sensors.FACE_Y_POSITION, positionYFloatValue);
