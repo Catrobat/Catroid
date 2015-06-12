@@ -239,7 +239,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				instance.facePositionX = event.values[0];
 				break;
 			case FACE_Y_POSITION:
-				instance.facePositionY = event.values[0];
+				instance.facePositionY = -event.values[0];
 				break;
 			default:
 				Log.v(TAG, "Unhandled sensor: " + event.sensor);
