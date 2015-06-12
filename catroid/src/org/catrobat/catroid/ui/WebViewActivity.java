@@ -107,7 +107,7 @@ public class WebViewActivity extends BaseActivity {
 		});
 	}
 
-	BroadcastReceiver onDownloadComplete =new BroadcastReceiver() {
+	BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
 		public void onReceive(Context ctxt, Intent intent) {
 
 			long id = intent.getExtras().getLong(DownloadManager.EXTRA_DOWNLOAD_ID);
@@ -137,7 +137,6 @@ public class WebViewActivity extends BaseActivity {
 				Intent intent = new Intent(getBaseContext(), MainMenuActivity.class);
 				startActivity(intent);
 			}
-
 		}
 
 		@Override
@@ -163,6 +162,5 @@ public class WebViewActivity extends BaseActivity {
 			}
 			return true;
 		}
-
 	}
 }
