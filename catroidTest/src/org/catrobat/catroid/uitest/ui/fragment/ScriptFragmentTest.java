@@ -774,6 +774,7 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 		}
 
 		UiTestUtils.createTestProject();
+		UiTestUtils.prepareStageForTest();
 		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
 
 		solo.clickOnView(solo.getView(R.id.brick_set_size_to_edit_text));

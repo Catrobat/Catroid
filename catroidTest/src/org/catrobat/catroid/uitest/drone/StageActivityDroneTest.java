@@ -68,6 +68,7 @@ public class StageActivityDroneTest extends BaseActivityInstrumentationTestCase<
 //		droneControlService = null;
 //		stageActivity = null;
 //		DroneTestUtils.createBasicDroneProject();
+//		//TODO: check if UiTestUtils.prepareStageForTest() is needed!
 //		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 //
 //		Intent startService = new Intent(getInstrumentation().getTargetContext(), DroneControlService.class);
