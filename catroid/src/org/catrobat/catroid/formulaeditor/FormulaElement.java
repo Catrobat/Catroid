@@ -918,22 +918,39 @@ public class FormulaElement implements Serializable {
 			Sensors sensor = Sensors.getSensorByValue(value);
 			switch (sensor) {
 				case DRONE_BATTERY_STATUS:
+					resources |= Brick.ARDRONE_SUPPORT;
+					break;
 				case DRONE_CAMERA_READY:
+					resources |= Brick.ARDRONE_SUPPORT;
+					break;
 				case DRONE_EMERGENCY_STATE:
+					resources |= Brick.ARDRONE_SUPPORT;
+					break;
 				case DRONE_FLYING:
+					resources |= Brick.ARDRONE_SUPPORT;
+					break;
 				case DRONE_INITIALIZED:
+					resources |= Brick.ARDRONE_SUPPORT;
+					break;
 				case DRONE_NUM_FRAMES:
+					resources |= Brick.ARDRONE_SUPPORT;
+					break;
 				case DRONE_RECORD_READY:
+					resources |= Brick.ARDRONE_SUPPORT;
+					break;
 				case DRONE_RECORDING:
+					resources |= Brick.ARDRONE_SUPPORT;
+					break;
 				case DRONE_USB_ACTIVE:
+					resources |= Brick.ARDRONE_SUPPORT;
+					break;
 				case DRONE_USB_REMAINING_TIME:
-					ressources |= Brick.ARDRONE_SUPPORT;
+					resources |= Brick.ARDRONE_SUPPORT;
 					break;
 				default:
-
 			}
 		}
-		return ressources;
+		return resources;
 	}
 
 }

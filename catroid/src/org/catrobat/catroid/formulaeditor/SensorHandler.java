@@ -198,6 +198,9 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case PHIRO_SIDE_RIGHT:
 				Phiro phiro = btService.getDevice(BluetoothDevice.PHIRO);
 				if (phiro != null) {
+					return Double.valueOf(phiro.getSensorValue(sensor));
+				}
+				break;
 
 			case DRONE_BATTERY_STATUS:
 				return (double) dcs.getDroneNavData().batteryStatus;
