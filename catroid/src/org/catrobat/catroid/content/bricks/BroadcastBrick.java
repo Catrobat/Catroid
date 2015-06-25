@@ -146,6 +146,8 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 		Spinner broadcastSpinner = (Spinner) prototypeView.findViewById(R.id.brick_broadcast_spinner);
 		broadcastSpinner.setFocusableInTouchMode(false);
 		broadcastSpinner.setFocusable(false);
+		broadcastSpinner.setEnabled(false);
+
 		SpinnerAdapter broadcastSpinnerAdapter = MessageContainer.getMessageAdapter(context);
 		broadcastSpinner.setAdapter(broadcastSpinnerAdapter);
 		setSpinnerSelection(broadcastSpinner);

@@ -174,6 +174,7 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 		Spinner userListSpinner = (Spinner) prototypeView.findViewById(R.id.delete_item_of_userlist_spinner);
 		userListSpinner.setFocusableInTouchMode(false);
 		userListSpinner.setFocusable(false);
+		userListSpinner.setEnabled(false);
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 

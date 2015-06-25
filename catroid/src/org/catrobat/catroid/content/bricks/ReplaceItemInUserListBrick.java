@@ -180,6 +180,8 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 		Spinner userListSpinner = (Spinner) prototypeView.findViewById(R.id.replace_item_in_userlist_spinner);
 		userListSpinner.setFocusableInTouchMode(false);
 		userListSpinner.setFocusable(false);
+		userListSpinner.setEnabled(false);
+
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.createDataAdapter(context, ProjectManager.getInstance().getCurrentSprite());
 

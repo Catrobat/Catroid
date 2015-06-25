@@ -83,6 +83,7 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 		Spinner legoSpinner = (Spinner) prototypeView.findViewById(R.id.stop_motor_spinner);
 		legoSpinner.setFocusableInTouchMode(false);
 		legoSpinner.setFocusable(false);
+		legoSpinner.setEnabled(false);
 
 		ArrayAdapter<CharSequence> motorAdapter = ArrayAdapter.createFromResource(context,
 				R.array.nxt_stop_motor_chooser, android.R.layout.simple_spinner_item);

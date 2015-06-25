@@ -123,6 +123,7 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 		Spinner eyeSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_rgb_light_spinner);
 		eyeSpinner.setFocusableInTouchMode(false);
 		eyeSpinner.setFocusable(false);
+		eyeSpinner.setEnabled(false);
 
 		ArrayAdapter<CharSequence> eyeAdapter = ArrayAdapter.createFromResource(context,
 				R.array.brick_phiro_select_light_spinner, android.R.layout.simple_spinner_item);

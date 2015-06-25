@@ -189,6 +189,7 @@ public class ChangeVariableBrick extends UserVariableBrick {
 		Spinner variableSpinner = (Spinner) prototypeView.findViewById(R.id.change_variable_spinner);
 		variableSpinner.setFocusableInTouchMode(false);
 		variableSpinner.setFocusable(false);
+		variableSpinner.setEnabled(false);
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		int userBrickId = (currentBrick == null ? -1 : currentBrick.getDefinitionBrick().getUserBrickId());
