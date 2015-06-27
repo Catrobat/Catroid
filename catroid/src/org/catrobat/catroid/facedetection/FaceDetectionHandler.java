@@ -30,8 +30,6 @@ import android.util.Log;
 
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
-import org.catrobat.catroid.formulaeditor.SensorHandler;
-import org.catrobat.catroid.ui.SettingsActivity;
 
 public final class FaceDetectionHandler {
 
@@ -58,10 +56,6 @@ public final class FaceDetectionHandler {
 	}
 
 	public static boolean startFaceDetection(Context context) {
-		if (context != null && !useFaceDetection(context)) {
-            SensorHandler.clearFaceDetectionValues();
-            return true;
-		}
 		if (running) {
 			return true;
 		}
@@ -158,10 +152,6 @@ public final class FaceDetectionHandler {
             Log.e(TAG, "Camera unaccessable!", exception);
 		}
 		return possibleFaces > 0;
-	}
-
-	public static boolean useFaceDetection(Context context) {
-		return SettingsActivity.isFaceDetectionPreferenceEnabled(context);
 	}
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)

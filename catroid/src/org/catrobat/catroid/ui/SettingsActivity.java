@@ -141,6 +141,12 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 				context.getString(R.string.preference_key_use_face_detection), context);
 	}
 
+	public static void setFaceDetectionSharedPreferenceEnabled(Context context, boolean value) {
+		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+		editor.putBoolean(context.getString(R.string.preference_key_use_face_detection), value);
+		editor.commit();
+	}
+
 	public static boolean isMindstormsNXTSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, context);
 	}
@@ -154,9 +160,9 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_PHIRO_BRICKS, context);
 	}
 
-	public static void setFaceDetectionSharedPreferenceEnabled(Context context, boolean value) {
+	public static void setPhiroSharedPreferenceEnabled(Context context, boolean value) {
 		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-		editor.putBoolean(context.getString(R.string.preference_key_use_face_detection), value);
+		editor.putBoolean(SETTINGS_SHOW_PHIRO_BRICKS, value);
 		editor.commit();
 	}
 

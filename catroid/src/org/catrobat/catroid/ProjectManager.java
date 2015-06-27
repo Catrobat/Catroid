@@ -53,6 +53,7 @@ import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.transfers.CheckTokenTask;
 import org.catrobat.catroid.transfers.CheckTokenTask.OnCheckTokenCompleteListener;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.dialogs.LoginRegisterDialog;
 import org.catrobat.catroid.ui.dialogs.UploadProjectDialog;
 import org.catrobat.catroid.utils.Utils;
@@ -172,6 +173,16 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 		if (project != null) {
 			project.loadLegoNXTSettingsFromProject(context);
+
+			int resources = project.getRequiredResources();
+
+			if ((resources & Brick.BLUETOOTH_PHIRO) > 0) {
+				SettingsActivity.setPhiroSharedPreferenceEnabled(context, true);
+			}
+
+			if ((resources & Brick.FACE_DETECTION) > 0) {
+				SettingsActivity.setFaceDetectionSharedPreferenceEnabled(context, true);
+			}
 		}
 
 	}
