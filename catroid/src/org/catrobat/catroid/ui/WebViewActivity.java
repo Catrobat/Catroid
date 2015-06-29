@@ -50,6 +50,7 @@ import org.catrobat.catroid.utils.Utils;
 public class WebViewActivity extends BaseActivity {
 
 	public static final String INTENT_PARAMETER_URL = "url";
+	public static final String ANDROID_APPLICATION_EXTENSION = ".apk";
 	private WebView webView;
 	private boolean callMainMenu = false;
 	private String url;
@@ -95,7 +96,8 @@ public class WebViewActivity extends BaseActivity {
 					request.setTitle(getString(R.string.notification_download_title_pending) + " " + DownloadUtil.getInstance().getProjectNameFromUrl(url));
 					request.setDescription(getString(R.string.notification_download_pending));
 					request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-					request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, DownloadUtil.getInstance().getProjectNameFromUrl(url));
+					request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, 
+							DownloadUtil.getInstance().getProjectNameFromUrl(url) + ANDROID_APPLICATION_EXTENSION);
 					request.setMimeType(mimetype);
 
 					registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
