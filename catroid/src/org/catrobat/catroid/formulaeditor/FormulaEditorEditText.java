@@ -48,14 +48,13 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	private InternFormula internFormula;
 	private Context context;
 	private Paint paint = new Paint();
+
 	final GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
 		@Override
 		public boolean onDoubleTap(MotionEvent event) {
-
 			internFormula.setCursorAndSelection(absoluteCursorPosition, true);
 			history.updateCurrentSelection(internFormula.getSelection());
 			highlightSelection();
-
 			return true;
 		}
 
@@ -147,11 +146,9 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		this.setSelectAllOnFocus(false);
 		this.setCursorVisible(false);
 		cursorAnimation.run();
-
 	}
 
 	public void enterNewFormula(InternFormulaState internFormulaState) {
-
 		internFormula = internFormulaState.createInternFormulaFromState();
 		internFormula.generateExternFormulaStringAndInternExternMapping(context);
 
@@ -168,7 +165,6 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	}
 
 	public void overwriteCurrentFormula(InternFormulaState internFormulaState) {
-
 		internFormula = internFormulaState.createInternFormulaFromState();
 		internFormula.generateExternFormulaStringAndInternExternMapping(context);
 
@@ -195,28 +191,16 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-
 		absoluteCursorPosition = absoluteCursorPosition > length() ? length() : absoluteCursorPosition;
-
 		paint.setStrokeWidth(3);
+
 		Layout layout = getLayout();
 		if (layout != null) {
-			float lineHeight = getTextSize();
-
 			int line = layout.getLineForOffset(absoluteCursorPosition);
-			int paddingYOffset = line == 0 ? 10 : 5;
-
-			// Quick fix for 2.3 EditText (caused by padding)
-			if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
-				paddingYOffset = layout.getLineCount() == 1 ? 33 : paddingYOffset;
-			}
-
-			int baseline = layout.getLineBaseline(line);
-			int ascent = layout.getLineAscent(line) + paddingYOffset;
-
 			float xCoordinate = layout.getPrimaryHorizontal(absoluteCursorPosition) + getPaddingLeft();
-			float startYCoordinate = baseline + ascent - 3;
-			float endYCoordinate = baseline + ascent + lineHeight + 7;
+			float startYCoordinate = layout.getLineBaseline(line) + layout.getLineAscent(line);
+			float endYCoordinate = layout.getLineBaseline(line) + layout.getLineAscent(line) + getTextSize();
+			endYCoordinate += line == 0 ? 5 : 0;// First line in FE is a little bit higher so we need a bigger cursor too.
 
 			canvas.drawLine(xCoordinate, startYCoordinate, xCoordinate, endYCoordinate, paint);
 		}
