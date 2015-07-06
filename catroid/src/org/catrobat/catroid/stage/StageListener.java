@@ -41,7 +41,7 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Scaling;
@@ -155,7 +155,7 @@ public class StageListener implements ApplicationListener {
 	public void create() {
 		font = new BitmapFont();
 		font.setColor(1f, 0f, 0.05f, 1f);
-		font.setScale(1.2f);
+		font.getData().setScale(1.2f);
 
 		project = ProjectManager.getInstance().getCurrentProject();
 		pathForScreenshot = Utils.buildProjectPath(project.getName()) + "/";
@@ -489,13 +489,14 @@ public class StageListener implements ApplicationListener {
 		batch.draw(axes, -virtualWidthHalf, -AXIS_WIDTH / 2, virtualWidth, AXIS_WIDTH);
 		batch.draw(axes, -AXIS_WIDTH / 2, -virtualHeightHalf, AXIS_WIDTH, virtualHeight);
 
-		TextBounds bounds = font.getBounds(String.valueOf((int) virtualHeightHalf));
-		font.draw(batch, "-" + (int) virtualWidthHalf, -virtualWidthHalf + 3, -bounds.height / 2);
-		font.draw(batch, String.valueOf((int) virtualWidthHalf), virtualWidthHalf - bounds.width, -bounds.height / 2);
+		GlyphLayout layout = new GlyphLayout();
+		layout.setText(font, String.valueOf((int) virtualHeightHalf));
+		font.draw(batch, "-" + (int) virtualWidthHalf, -virtualWidthHalf + 3, -layout.height / 2);
+		font.draw(batch, String.valueOf((int) virtualWidthHalf), virtualWidthHalf - layout.width, -layout.height / 2);
 
-		font.draw(batch, "-" + (int) virtualHeightHalf, bounds.height / 2, -virtualHeightHalf + bounds.height + 3);
-		font.draw(batch, String.valueOf((int) virtualHeightHalf), bounds.height / 2, virtualHeightHalf - 3);
-		font.draw(batch, "0", bounds.height / 2, -bounds.height / 2);
+		font.draw(batch, "-" + (int) virtualHeightHalf, layout.height / 2, -virtualHeightHalf + layout.height + 3);
+		font.draw(batch, String.valueOf((int) virtualHeightHalf), layout.height / 2, virtualHeightHalf - 3);
+		font.draw(batch, "0", layout.height / 2, -layout.height / 2);
 		batch.end();
 	}
 
