@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,7 +47,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -67,6 +66,7 @@ import org.catrobat.catroid.ui.DeleteModeListener;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.UserBrickScriptActivity;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
+import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -355,7 +355,7 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 		} catch (CloneNotSupportedException exception) {
 			Log.e(getTag(), "Adding a Brick was not possible because cloning it from the preview failed",
 					exception);
-			Toast.makeText(getActivity(), R.string.error_adding_brick, Toast.LENGTH_SHORT).show();
+			ToastUtil.showError(getActivity(), R.string.error_adding_brick);
 		}
 	}
 

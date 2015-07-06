@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uitest.util.BaseActivityInstrumentationTestCase;
 import org.catrobat.catroid.uitest.util.UiTestUtils;
 
@@ -41,7 +42,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BrickClickOnEditTextTest extends BaseActivityInstrumentationTestCase<MainMenuActivity> {
-	private static final String KEY_SETTINGS_MINDSTORM_BRICKS = "setting_mindstorm_bricks";
 
 	public BrickClickOnEditTextTest() {
 		super(MainMenuActivity.class);
@@ -55,13 +55,13 @@ public class BrickClickOnEditTextTest extends BaseActivityInstrumentationTestCas
 
 	@Override
 	protected void tearDown() throws Exception {
-		// workaround to disable mindstorm settings
+		// workaround to disable mindstorms settings
 		// should be disabled no matter if test failed or succeeded
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-		// disable mindstorm bricks, if enabled at start
-		if (sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
-			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false).commit();
+		// disable mindstorms bricks, if enabled at start
+		if (sharedPreferences.getBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false)) {
+			sharedPreferences.edit().putBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false).commit();
 		}
 		super.tearDown();
 	}
@@ -92,8 +92,9 @@ public class BrickClickOnEditTextTest extends BaseActivityInstrumentationTestCas
 		editTextFieldVisibility(solo.getString(R.string.category_motion));
 		editTextFieldVisibility(solo.getString(R.string.category_sound));
 		editTextFieldVisibility(solo.getString(R.string.category_looks));
+
 		solo.drag(40, 40, 300, 40, UiTestUtils.DRAG_FRAMES);
-		editTextFieldVisibility(solo.getString(R.string.category_variables));
+		editTextFieldVisibility(solo.getString(R.string.category_data));
 		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
 				solo.getCurrentViews(ListView.class).size() - 1);
 		solo.scrollDownList(fragmentListView);
@@ -104,9 +105,9 @@ public class BrickClickOnEditTextTest extends BaseActivityInstrumentationTestCas
 	private void getIntoActivity() {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-		// enable mindstorm bricks, if disabled at start
-		if (!sharedPreferences.getBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, false)) {
-			sharedPreferences.edit().putBoolean(KEY_SETTINGS_MINDSTORM_BRICKS, true).commit();
+		// enable mindstorms bricks, if disabled at start
+		if (!sharedPreferences.getBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false)) {
+			sharedPreferences.edit().putBoolean(SettingsActivity.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true).commit();
 		}
 
 		UiTestUtils.createEmptyProject();

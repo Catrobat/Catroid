@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,6 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -46,20 +45,23 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ExtendedActions;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.InternToExternGenerator;
+import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.ui.adapter.UserVariableAdapter;
+import org.catrobat.catroid.ui.adapter.DataAdapter;
 import org.catrobat.catroid.ui.adapter.UserVariableAdapterWrapper;
-import org.catrobat.catroid.ui.dialogs.NewVariableDialog;
-import org.catrobat.catroid.ui.dialogs.NewVariableDialog.NewVariableDialogListener;
+import org.catrobat.catroid.ui.dialogs.NewDataDialog;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.List;
 
-public class SetVariableBrick extends FormulaBrick implements OnClickListener, NewVariableDialogListener {
+public class SetVariableBrick extends UserVariableBrick {
+
 	private static final long serialVersionUID = 1L;
-	private UserVariable userVariable;
 	private transient AdapterView<?> adapterView;
-	public boolean inUserBrick = false;
+
+	private transient String defaultPrototypeToken = null;
 
 	public SetVariableBrick() {
 		addAllowedBrickField(BrickField.VARIABLE);
@@ -70,6 +72,13 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 		initializeBrickFields(variableFormula);
 	}
 
+	public SetVariableBrick(Sensors defaultValue) {
+		this.userVariable = null;
+		Formula variableFormula = new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR, defaultValue.name(), null));
+		initializeBrickFields(variableFormula);
+		defaultPrototypeToken = defaultValue.name();
+	}
+
 	public SetVariableBrick(double value) {
 		this.userVariable = null;
 		initializeBrickFields(new Formula(value));
@@ -78,6 +87,14 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 	private void initializeBrickFields(Formula variableFormula) {
 		addAllowedBrickField(BrickField.VARIABLE);
 		setFormulaWithBrickField(BrickField.VARIABLE, variableFormula);
+	}
+
+	public void setUserVariable(UserVariable userVariable) {
+		this.userVariable = userVariable;
+	}
+
+	public UserVariable getUserVariable() {
+		return userVariable;
 	}
 
 	@Override
@@ -127,10 +144,10 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		int userBrickId = (currentBrick == null ? -1 : currentBrick.getUserBrickId());
 
-		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.createUserVariableAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
+		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+				.createDataAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
-				userVariableAdapter);
+				dataAdapter);
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
@@ -150,11 +167,12 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_UP
-						&& (((Spinner) view).getSelectedItemPosition() == 0 && ((Spinner) view).getAdapter().getCount() == 1)) {
-					NewVariableDialog dialog = new NewVariableDialog((Spinner) view);
+						&& (((Spinner) view).getSelectedItemPosition() == 0
+						&& ((Spinner) view).getAdapter().getCount() == 1)) {
+					NewDataDialog dialog = new NewDataDialog((Spinner) view, NewDataDialog.DialogType.USER_VARIABLE);
 					dialog.addVariableDialogListener(SetVariableBrick.this);
 					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
-							NewVariableDialog.DIALOG_FRAGMENT_TAG);
+							NewDataDialog.DIALOG_FRAGMENT_TAG);
 					return true;
 				}
 
@@ -165,10 +183,10 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (position == 0 && ((UserVariableAdapterWrapper) parent.getAdapter()).isTouchInDropDownView()) {
-					NewVariableDialog dialog = new NewVariableDialog((Spinner) parent);
+					NewDataDialog dialog = new NewDataDialog((Spinner) parent, NewDataDialog.DialogType.USER_VARIABLE);
 					dialog.addVariableDialogListener(SetVariableBrick.this);
 					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
-							NewVariableDialog.DIALOG_FRAGMENT_TAG);
+							NewDataDialog.DIALOG_FRAGMENT_TAG);
 				}
 				((UserVariableAdapterWrapper) parent.getAdapter()).resetIsTouchInDropDownView();
 				userVariable = (UserVariable) parent.getItemAtPosition(position);
@@ -193,18 +211,26 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 
 		variableSpinner.setFocusableInTouchMode(false);
 		variableSpinner.setFocusable(false);
-		UserVariableAdapter userVariableAdapter = ProjectManager.getInstance().getCurrentProject().getUserVariables()
-				.createUserVariableAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
+		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
+				.createDataAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
 
 		UserVariableAdapterWrapper userVariableAdapterWrapper = new UserVariableAdapterWrapper(context,
-				userVariableAdapter);
+				dataAdapter);
 
 		userVariableAdapterWrapper.setItemLayout(android.R.layout.simple_spinner_item, android.R.id.text1);
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
 		setSpinnerSelection(variableSpinner, null);
 
 		TextView textSetVariable = (TextView) prototypeView.findViewById(R.id.brick_set_variable_prototype_view);
-		textSetVariable.setText(String.valueOf(BrickValues.SET_VARIABLE));
+
+		if (defaultPrototypeToken != null) {
+			int defaultValueId = InternToExternGenerator.getMappedString(defaultPrototypeToken);
+				textSetVariable.setText(context.getText(defaultValueId));
+
+		} else {
+			textSetVariable.setText(String.valueOf(BrickValues.SET_VARIABLE));
+		}
+
 		return prototypeView;
 	}
 
@@ -236,65 +262,22 @@ public class SetVariableBrick extends FormulaBrick implements OnClickListener, N
 	}
 
 	@Override
-	public Brick clone() {
-		SetVariableBrick clonedBrick = new SetVariableBrick(getFormulaWithBrickField(BrickField.VARIABLE)
-				.clone(), userVariable);
-		return clonedBrick;
-	}
-
-	@Override
-	public void onClick(View view) {
-		if (checkbox.getVisibility() == View.VISIBLE) {
-			return;
-		}
-		FormulaEditorFragment.showFragment(view, this, getFormulaWithBrickField(BrickField.VARIABLE));
-	}
-
-	@Override
-	public Brick copyBrickForSprite(Sprite cloneSprite) {
+	public SetVariableBrick copyBrickForSprite(Sprite sprite) {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		if (currentProject == null) {
-			throw new RuntimeException("The current project must be set before cloning it");
-		}
-
-		SetVariableBrick copyBrick = (SetVariableBrick) clone();
-		copyBrick.userVariable = currentProject.getUserVariables().getUserVariable(userVariable.getName(), cloneSprite);
+		SetVariableBrick copyBrick = clone();
+		copyBrick.userVariable = currentProject.getDataContainer().getUserVariable(userVariable.getName(), sprite);
 		return copyBrick;
 	}
 
-	private void updateUserVariableIfDeleted(UserVariableAdapterWrapper userVariableAdapterWrapper) {
-		if (userVariable != null && (userVariableAdapterWrapper.getPositionOfItem(userVariable) == 0)) {
-			userVariable = null;
-		}
-
-	}
-
-	private void setSpinnerSelection(Spinner variableSpinner, UserVariable newUserVariable) {
-		UserVariableAdapterWrapper userVariableAdapterWrapper = (UserVariableAdapterWrapper) variableSpinner
-				.getAdapter();
-
-		updateUserVariableIfDeleted(userVariableAdapterWrapper);
-
-		if (userVariable != null) {
-			variableSpinner.setSelection(userVariableAdapterWrapper.getPositionOfItem(userVariable), true);
-		} else if (newUserVariable != null) {
-			variableSpinner.setSelection(userVariableAdapterWrapper.getPositionOfItem(newUserVariable), true);
-			userVariable = newUserVariable;
-		} else {
-			variableSpinner.setSelection(userVariableAdapterWrapper.getCount() - 1, true);
-			userVariable = userVariableAdapterWrapper.getItem(userVariableAdapterWrapper.getCount() - 1);
-		}
-	}
-
 	@Override
-	public void onFinishNewVariableDialog(Spinner spinnerToUpdate, UserVariable newUserVariable) {
-		UserVariableAdapterWrapper userVariableAdapterWrapper = ((UserVariableAdapterWrapper) spinnerToUpdate
-				.getAdapter());
-		userVariableAdapterWrapper.notifyDataSetChanged();
-		setSpinnerSelection(spinnerToUpdate, newUserVariable);
+	public SetVariableBrick clone() {
+		SetVariableBrick clonedBrick = new SetVariableBrick(getFormulaWithBrickField(BrickField.VARIABLE)
+				.clone(), null);
+		return clonedBrick;
 	}
 
-	public void setInUserBrick(boolean inUserBrick) {
-		this.inUserBrick = inUserBrick;
+	public void showFormulaEditorToEditFormula(View view) {
+		FormulaEditorFragment.showFragment(view, this, BrickField.VARIABLE);
 	}
+
 }

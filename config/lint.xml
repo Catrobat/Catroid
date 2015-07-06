@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
  *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2013 The Catrobat Team
+ *  Copyright (C) 2010-2015 The Catrobat Team
  *  (<http://developer.catrobat.org/credits>)
  *  
  *  This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@
         <ignore path="catroid/res/drawable-mdpi" />
         <ignore path="catroid/res/drawable-hdpi" />
         <ignore path="catroid/res/drawable-xhdpi" />
+        <ignore path="catroid/res/drawable-xxhdpi" />
     </issue >
     <issue id="InflateParams" >
         <ignore path="catroid/src/org/catrobat/catroid/content/bricks/**" />
@@ -38,10 +39,7 @@
         <ignore path="catroid/src/org/catrobat/catroid/utils/Utils.java" />
         <ignore path="catroid/src/org/catrobat/catroid/ui/fragment/ScriptFragment.java" />
     </issue >
-    <issue id="MissingTranslation" severity="ignore" >
-        <ignore path="catroid/res/values/strings-global.xml" />
-        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
-    </issue >
+
     <issue id="UnusedResources" >
         <ignore regexp=".*/values-(?!de).*/strings.xml$" />
         <ignore path="catroid/res/drawable-nodpi/default_drone_project_orange_light_bulb.png" />
@@ -52,9 +50,7 @@
     <issue id="ImpliedQuantity" >
         <ignore regexp=".*/values-(?!de).*/strings.xml$" />
     </issue >
-    <issue id="ExtraTranslation" >
-        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
-    </issue >
+
 
     <!--Only temporary until the end of October 2014-->
     <issue id="TypographyEllipsis" >
@@ -67,10 +63,6 @@
         <ignore regexp=".*/values-(?!de).*/strings.xml$" />
     </issue >
     <issue id="Typos" >
-        <ignore regexp=".*/values-(?!de).*/strings.xml$" />
-    </issue >
-    <issue id="UnusedResources" >
-        <ignore path="catroid/res/values/strings.xml" />
         <ignore regexp=".*/values-(?!de).*/strings.xml$" />
     </issue >
 

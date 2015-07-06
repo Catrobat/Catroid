@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2014 The Catrobat Team
+  ~ Copyright (C) 2010-2015 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -22,18 +22,17 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/title_paired_devices"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/background_dark"
+        android:layout_marginTop="10dp"
         android:paddingLeft="6dp"
         android:text="@string/title_paired_devices"
-        android:textColor="@android:color/primary_text_dark"
         android:textSize="15sp"
         android:visibility="gone" />
 
@@ -47,19 +46,38 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@android:color/background_dark"
         android:stackFromBottom="true" />
 
     <TextView
         android:id="@+id/title_new_devices"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/background_dark"
         android:paddingLeft="6dp"
+        android:layout_marginTop="10dp"
         android:text="@string/title_other_devices"
-        android:textColor="@android:color/primary_text_dark"
         android:textSize="15sp"
         android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/device_list_progress_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent" />
+
+        <TextView
+        android:id="@+id/device_list_loading_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/searching_devices"/>
+
+    </LinearLayout >
+
 
     <View
         android:layout_width="fill_parent"
@@ -71,7 +89,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"
-        android:background="@android:color/background_dark"
         android:stackFromBottom="true" />
 
     <Button
@@ -79,7 +96,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="4sp"
+        android:layout_margin="4sp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        style="@android:style/Widget.Holo.Button"
         android:text="@string/button_scan" />
 
 </LinearLayout>

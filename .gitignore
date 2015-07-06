@@ -23,7 +23,6 @@ dataSources.ids
 !.idea/copyright/profiles_settings.xml
 !.idea/dictionaries/catrobat.xml
 !.idea/encodings.xml
-!.idea/gradle.xml
 !.idea/misc.xml
 !.idea/modules.xml
 !.idea/scopes/scope_settings.xml
@@ -38,6 +37,7 @@ dataSources.ids
 # generated files
 bin/
 gen/
+jniLibs/
 
 # Local configuration file (sdk path, etc)
 local.properties

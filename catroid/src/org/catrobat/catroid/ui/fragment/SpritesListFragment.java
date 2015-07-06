@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,6 +31,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -45,7 +46,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.ActionMode;
@@ -57,17 +57,21 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.io.LoadProjectTask;
 import org.catrobat.catroid.io.LoadProjectTask.OnLoadProjectCompleteListener;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProgramMenuActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
+import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter;
 import org.catrobat.catroid.ui.adapter.SpriteAdapter.OnSpriteEditListener;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.ui.dialogs.LegoNXTSensorConfigInfoDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSpriteDialog;
 import org.catrobat.catroid.utils.Utils;
 
@@ -102,6 +106,8 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	private LoadProjectTask loadProjectTask;
 	public boolean isLoading = false;
+
+	private boolean fragmentStartedFirstTime = true;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -160,6 +166,12 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			loadProjectTask.setOnLoadProjectCompleteListener(this);
 			loadProjectTask.execute();
 		}
+		else if (projectManager.getCurrentProject() != null && projectManager.getCurrentProject().getName()
+				.equals(programName) && fragmentStartedFirstTime) {
+			showInfoFragmentIfNeeded();
+		}
+
+		fragmentStartedFirstTime = false;
 	}
 
 	@Override
@@ -214,7 +226,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject();
+			projectManager.saveProject(getActivity().getApplicationContext());
 		}
 
 		if (spriteRenamedReceiver != null) {
@@ -373,12 +385,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		projectManager.setCurrentSprite(copiedSprite);
 
 		getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_SPRITES_LIST_CHANGED));
-
-		Toast.makeText(
-				getActivity(),
-				this.getString(R.string.copy_sprite_prefix).concat(" ").concat(spriteToEdit.getName()).concat(" ")
-						.concat(this.getString(R.string.copy_sprite_finished)), Toast.LENGTH_LONG).show();
-
 		Log.d("Sprite copied", copiedSprite.toString());
 	}
 
@@ -434,10 +440,12 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 	public void deleteSprite() {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		UserVariablesContainer userVariablesContainer = projectManager.getCurrentProject().getUserVariables();
+		DataContainer dataContainer = projectManager.getCurrentProject().getDataContainer();
 
 		deleteSpriteFiles();
-		userVariablesContainer.cleanVariableListForSprite(spriteToEdit);
+		dataContainer.cleanVariableListForSprite(spriteToEdit);
+		dataContainer.cleanUserListForSprite(spriteToEdit);
+
 
 		if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
 			projectManager.setCurrentSprite(null);
@@ -677,6 +685,22 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		getActivity().findViewById(R.id.progress_circle).setVisibility(View.GONE);
 		getActivity().findViewById(R.id.fragment_sprites_list).setVisibility(View.VISIBLE);
 		getActivity().findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
+
+		showInfoFragmentIfNeeded();
+	}
+
+	private void showInfoFragmentIfNeeded() {
+		if (needToShowLegoNXTInfoDialog()) {
+			DialogFragment dialog = new LegoNXTSensorConfigInfoDialog();
+			dialog.show(this.getActivity().getSupportFragmentManager(), LegoNXTSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
+		}
+	}
+
+	private boolean needToShowLegoNXTInfoDialog() {
+		boolean isLegoNXTInfoDialogDisabled = SettingsActivity.getShowLegoMindstormsSensorInfoDialog(this.getActivity().getApplicationContext());
+		Project project = ProjectManager.getInstance().getCurrentProject();
+
+		return !isLegoNXTInfoDialogDisabled && (project.getRequiredResources() & Brick.BLUETOOTH_LEGO_NXT) != 0;
 	}
 
 	@Override

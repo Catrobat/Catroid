@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,12 +34,14 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.StorageHandler;
 import org.catrobat.catroid.stage.StageListener;
+import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.UtilZip;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 
 public abstract class BaseActivityInstrumentationTestCase<T extends Activity> extends
@@ -50,9 +52,27 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 	private Class clazz;
 	private SystemAnimations systemAnimations;
 
+	private boolean createSoloInSetUp;
+
 	public BaseActivityInstrumentationTestCase(Class<T> clazz) {
 		super(clazz);
 		this.clazz = clazz;
+
+		createSoloInSetUp = true;
+	}
+
+	/**
+	 * Methods like setActivityIntent(Intent) in child classes supposes that
+	 * setUp() of ActivityInstrumentationTestCase2 was called. But also it must be
+	 * called after getActivity() of ActivityInstrumentationTestCase2 otherwise
+	 * it has no effect. So a flag is needed to initialize solo later in child class
+	 * to use setActivityIntent.
+	 */
+	public BaseActivityInstrumentationTestCase(Class<T> clazz, boolean createSoloInSetUp) {
+		super(clazz);
+		this.clazz = clazz;
+
+		this.createSoloInSetUp = createSoloInSetUp;
 	}
 
 	private boolean unzip;
@@ -62,7 +82,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 		Log.v(TAG, "setUp");
 		super.setUp();
 
-		systemAnimations = new SystemAnimations(getInstrumentation().getContext());
+		systemAnimations = new SystemAnimations(getInstrumentation().getTargetContext());
 		systemAnimations.disableAll();
 
 		unzip = false;
@@ -71,10 +91,15 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 		if (clazz.getSimpleName().equalsIgnoreCase(MainMenuActivity.class.getSimpleName())) {
 			UiTestUtils.createEmptyProject();
 		}
-		solo = new Solo(getInstrumentation(), getActivity());
+		if (createSoloInSetUp) {
+			solo = new Solo(getInstrumentation(), getActivity());
+		}
 		Reflection.setPrivateField(StageListener.class, "checkIfAutomaticScreenshotShouldBeTaken", false);
 
-		solo.unlockScreen();
+		if (solo != null){
+			solo.unlockScreen();
+		}
+
 		Log.v(TAG, "setUp end");
 	}
 
@@ -83,12 +108,15 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 
 		Log.v(TAG, "tearDown");
 		Log.v(TAG, "remove Projectname from SharedPreferences");
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.getInstrumentation().getTargetContext());
 		SharedPreferences.Editor edit = preferences.edit();
 		edit.remove(Constants.PREF_PROJECTNAME_KEY);
 		edit.commit();
 
-		solo.finishOpenedActivities();
+		if (solo != null) {
+			solo.finishOpenedActivities();
+		}
+
 		systemAnimations.enableAll();
 		solo = null;
 		Log.i(TAG, "tearDown end 1");
@@ -116,7 +144,12 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 
 		rootDirectory.mkdirs();
 
-		String[] paths = rootDirectory.list();
+		/*String[] paths = rootDirectory.list(new FilenameFilter() {
+			@Override
+			public boolean accept(File file, String s) {
+				return !s.equals(ZIPFILE_NAME);
+			}
+		});
 
 		if (paths == null) {
 			fail("could not determine catroid directory");
@@ -141,7 +174,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 
 				for (String projectName : UtilFile.getProjectNames(rootDirectory)) {
 					Log.d(TAG, projectName + "will be deleted");
-					ProjectManager.getInstance().deleteProject(projectName, this.getActivity());
+					ProjectManager.getInstance().deleteProject(projectName, this.getInstrumentation().getTargetContext());
 				}
 
 				for (int i = 0; i < paths.length; i++) {
@@ -153,7 +186,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 				Log.d(TAG, "Zipping failed!", e);
 				fail("IOException while zipping projects");
 			}
-		}
+		}*/
 	}
 
 	public void unzipProjects() {
@@ -164,7 +197,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 
 			for (String projectName : UtilFile.getProjectNames(rootDirectory)) {
 				Log.d(TAG, projectName + "will be deleted");
-				ProjectManager.getInstance().deleteProject(projectName, this.getActivity());
+				ProjectManager.getInstance().deleteProject(projectName, this.getInstrumentation().getTargetContext());
 			}
 
 			String[] paths = rootDirectory.list();
@@ -172,7 +205,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 				paths[i] = Utils.buildPath(rootDirectory.getAbsolutePath(), paths[i]);
 			}
 
-			String zipFileString = Utils.buildPath(Constants.DEFAULT_ROOT, ZIPFILE_NAME);
+			/*String zipFileString = Utils.buildPath(Constants.DEFAULT_ROOT, ZIPFILE_NAME);
 
 			for (int i = 0; i < paths.length; i++) {
 				if (paths[i].equals(zipFileString) == false) {
@@ -186,7 +219,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 				File zipFile = new File(zipFileString);
 				UtilZip.unZipFile(zipFileString, Constants.DEFAULT_ROOT);
 				zipFile.delete();
-			}
+			}*/
 
 		} catch (IOException e) {
 			Log.d(TAG, "Something wet wrong while unzip files in tear down", e);

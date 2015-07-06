@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,6 +31,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.stage.PreStageActivity;
@@ -52,12 +53,30 @@ public class SpeakAction extends TemporalAction {
 
 	@Override
 	protected void begin() {
-        try {
-            interpretedText = text == null ? "" : text.interpretString(sprite);
-        } catch(InterpretationException interpretationException){
+		try {
+			interpretedText = text == null ? "" : text.interpretString(sprite);
+		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-            interpretedText = "";
-        }
+			interpretedText = "";
+		}
+
+		boolean isFirstLevelStringTree = false;
+		if (text != null && text.getRoot().getElementType() == FormulaElement.ElementType.STRING) {
+			isFirstLevelStringTree = true;
+		}
+
+		if (!isFirstLevelStringTree) {
+			try {
+				if (interpretedText instanceof String) {
+					Double doubleValue = Double.valueOf((String) interpretedText);
+					if (doubleValue.isNaN()) {
+						interpretedText = "";
+					}
+				}
+			} catch (NumberFormatException numberFormatException) {
+				Log.d(getClass().getSimpleName(), "Couldn't parse String", numberFormatException);
+			}
+		}
 
 		hashText = Utils.md5Checksum(String.valueOf(interpretedText));
 		String fileName = hashText;

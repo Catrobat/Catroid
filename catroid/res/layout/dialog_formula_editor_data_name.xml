@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ *  Catroid: An on-device visual programming system for Android devices
+ *  Copyright (C) 2010-2015 The Catrobat Team
+ *  (<http://developer.catrobat.org/credits>)
+ *  
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://developer.catrobat.org/license_additional_term
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU Affero General Public License for more details.
+ *  
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/DefaultDialog"
+    android:paddingBottom="0dp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dialog_item_margin" >
+
+        <EditText
+            android:id="@+id/dialog_formula_editor_data_name_edit_text"
+            style="@style/DefaultDialog.EditText"
+            android:ems="10"
+            android:hint="@string/formula_editor_data_dialog_hint"
+            android:inputType="text" />
+
+        <RadioGroup
+            android:id="@+id/dialog_formula_editor_data_name_radio_group"
+            style="@style/DefaultDialog.Item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:paddingBottom="0dp"
+            android:paddingTop="12dp" >
+
+            <RadioButton
+                android:id="@+id/dialog_formula_editor_data_name_global_variable_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/formula_editor_dialog_for_all_sprites"
+                android:textColor="@color/spritelist_details_text_color" />
+
+            <RadioButton
+                android:id="@+id/dialog_formula_editor_data_name_local_variable_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/formula_editor_dialog_for_this_sprite_only"
+                android:textColor="@color/spritelist_details_text_color" />
+        </RadioGroup>
+
+        <CheckBox
+            android:id="@+id/dialog_formula_editor_data_is_list_checkbox"
+            style="@style/DefaultDialog.Item"
+            android:layout_marginTop="15dp"
+            android:paddingBottom="0dp"
+            android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/formula_editor_data_dialog_is_list" />
+    </LinearLayout>
+
+</ScrollView>

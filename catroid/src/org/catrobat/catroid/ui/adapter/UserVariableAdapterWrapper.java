@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,18 +36,18 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 
 public class UserVariableAdapterWrapper extends BaseAdapter {
 
-	UserVariableAdapter userVariableAdapter;
+	DataAdapter dataAdapter;
 	Context context;
 	private boolean isTouchInDropDownView;
 
-	public UserVariableAdapterWrapper(Context context, UserVariableAdapter userVariableAdapter) {
+	public UserVariableAdapterWrapper(Context context, DataAdapter dataAdapter) {
 		this.context = context;
-		this.userVariableAdapter = userVariableAdapter;
+		this.dataAdapter = dataAdapter;
 	}
 
 	@Override
 	public int getCount() {
-		return userVariableAdapter.getCount() + 1;
+		return dataAdapter.getUserVariablesCount() + 1;
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class UserVariableAdapterWrapper extends BaseAdapter {
 		if (position == 0) {
 			return null;
 		}
-		return userVariableAdapter.getItem(position - 1);
+		return dataAdapter.getUserVariableItem(position - 1);
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class UserVariableAdapterWrapper extends BaseAdapter {
 	}
 
 	public int getPositionOfItem(UserVariable item) {
-		return userVariableAdapter.getPositionOfItem(item) + 1;
+		return dataAdapter.getPositionOfUserVariableItem(item) + 1;
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class UserVariableAdapterWrapper extends BaseAdapter {
 		TextView text1;
 		if (position == 0) {
 			if (view == null) {
-				view = View.inflate(context, userVariableAdapter.getItemLayout(), null);
+				view = View.inflate(context, android.R.layout.simple_spinner_dropdown_item, null);
 				text1 = (TextView) view.findViewById(android.R.id.text1);
 				view.setTag(text1);
 			} else {
@@ -82,7 +82,7 @@ public class UserVariableAdapterWrapper extends BaseAdapter {
 			text1.setText(R.string.brick_variable_spinner_create_new_variable);
 
 		} else {
-			view = userVariableAdapter.getView(position - 1, convertView, parent);
+			view = dataAdapter.getView(position - 1, convertView, parent);
 		}
 		return view;
 	}
@@ -103,7 +103,7 @@ public class UserVariableAdapterWrapper extends BaseAdapter {
 			text1.setText(R.string.brick_variable_spinner_create_new_variable);
 
 		} else {
-			view = userVariableAdapter.getDropDownView(position - 1, convertView, parent);
+			view = dataAdapter.getDropDownView(position - 1, convertView, parent);
 		}
 
 		view.setOnTouchListener(new OnTouchListener() {
@@ -117,7 +117,7 @@ public class UserVariableAdapterWrapper extends BaseAdapter {
 	}
 
 	public void setItemLayout(int itemLayout, int textViewId) {
-		userVariableAdapter.setItemLayout(itemLayout, textViewId);
+		dataAdapter.setItemLayout(itemLayout, textViewId);
 	}
 
 	public boolean isTouchInDropDownView() {

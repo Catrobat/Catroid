@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,9 +45,9 @@ public class InternFormulaParser {
 
 	public static final int PARSER_OK = -1;
 	public static final int PARSER_STACK_OVERFLOW = -2;
-	public static final int PARSER_INPUT_SYNTAX_ERROR = -3;
 	public static final int PARSER_NO_INPUT = -4;
 	private static final int MAXIMUM_TOKENS_TO_PARSE = 1000;
+	private static final String TAG = InternFormulaParser.class.getSimpleName();
 
 	private List<InternToken> internTokensToParse;
 	private int currentTokenParseIndex;
@@ -145,12 +145,11 @@ public class InternFormulaParser {
 		try {
 			List<InternToken> copyIternTokensToParse = new ArrayList<InternToken>(internTokensToParse);
 			if (InternFormulaUtils.applyBracketCorrection(copyIternTokensToParse)) {
-				Log.i("info", "applyBracketCorrection-> TRUE");
 				internTokensToParse.clear();
 				internTokensToParse.addAll(copyIternTokensToParse);
 			}
 		} catch (EmptyStackException emptyStackException) {
-			Log.i("info", "emptyStackException-> TRUE");
+			Log.d(TAG, "Bracket correction failed.", emptyStackException);
 		}
 
 		addEndOfFileToken();
@@ -237,29 +236,50 @@ public class InternFormulaParser {
 				currentElement.replaceElement(userVariable());
 				break;
 
+			case USER_LIST:
+				currentElement.replaceElement(userList());
+				break;
+
 			case STRING:
 				currentElement.replaceElement(FormulaElement.ElementType.STRING, string());
 				break;
 
 			default:
 				throw new InternFormulaParserException("Parse Error");
+
 		}
+
 		return termTree;
 	}
 
 	private FormulaElement userVariable() throws InternFormulaParserException {
-		UserVariablesContainer userVariables = ProjectManager.getInstance().getCurrentProject().getUserVariables();
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
 
 		UserBrick currentBrick = ProjectManager.getInstance().getCurrentUserBrick();
 		int userBrickId = currentBrick == null ? -1 : currentBrick.getDefinitionBrick().getUserBrickId();
 
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
-		if (userVariables.getUserVariable(currentToken.getTokenStringValue(), userBrickId, currentSprite) == null) {
+		if (dataContainer.getUserVariable(currentToken.getTokenStringValue(), userBrickId, currentSprite) == null) {
 			throw new InternFormulaParserException("Parse Error");
 		}
 
 		FormulaElement lookTree = new FormulaElement(FormulaElement.ElementType.USER_VARIABLE,
+				currentToken.getTokenStringValue(), null);
+
+		getNextToken();
+		return lookTree;
+	}
+
+	private FormulaElement userList() throws InternFormulaParserException {
+		DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+
+		if (dataContainer.getUserList(currentToken.getTokenStringValue(), currentSprite) == null) {
+			throw new InternFormulaParserException("Parse Error");
+		}
+
+		FormulaElement lookTree = new FormulaElement(FormulaElement.ElementType.USER_LIST,
 				currentToken.getTokenStringValue(), null);
 
 		getNextToken();
@@ -278,13 +298,11 @@ public class InternFormulaParser {
 	}
 
 	private FormulaElement function() throws InternFormulaParserException {
-		FormulaElement functionTree = new FormulaElement(FormulaElement.ElementType.FUNCTION, null, null);
-
 		if (!Functions.isFunction(currentToken.getTokenStringValue())) {
 			throw new InternFormulaParserException("Parse Error");
 		}
 
-		functionTree = new FormulaElement(FormulaElement.ElementType.FUNCTION, currentToken.getTokenStringValue(), null);
+		FormulaElement functionTree = new FormulaElement(FormulaElement.ElementType.FUNCTION, currentToken.getTokenStringValue(), null);
 		getNextToken();
 
 		if (currentToken.isFunctionParameterBracketOpen()) {
@@ -318,4 +336,5 @@ public class InternFormulaParser {
 		getNextToken();
 		return currentStringValue;
 	}
+
 }

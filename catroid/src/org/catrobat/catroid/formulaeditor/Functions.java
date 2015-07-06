@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,30 +25,15 @@ package org.catrobat.catroid.formulaeditor;
 
 import android.util.Log;
 
-import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
-
 public enum Functions {
 
-	SIN(ElementType.NUMBER), COS(ElementType.NUMBER), TAN(ElementType.NUMBER), LN(ElementType.NUMBER), LOG(
-			ElementType.NUMBER), SQRT(ElementType.NUMBER), RAND(ElementType.NUMBER), ROUND(ElementType.NUMBER), ABS(
-			ElementType.NUMBER), PI(ElementType.NUMBER), MOD(ElementType.NUMBER), ARCSIN(ElementType.NUMBER), ARCCOS(
-			ElementType.NUMBER), ARCTAN(ElementType.NUMBER), EXP(ElementType.NUMBER), MAX(ElementType.NUMBER), MIN(
-			ElementType.NUMBER), TRUE(ElementType.NUMBER), FALSE(ElementType.NUMBER), LENGTH(ElementType.NUMBER), LETTER(
-			ElementType.STRING), JOIN(ElementType.STRING);
-
-	ElementType returnType;
-
-	Functions(ElementType type) {
-		returnType = type;
-	}
+	SIN, COS, TAN, LN, LOG, SQRT, RAND, ROUND, ABS, PI, MOD, ARCSIN, ARCCOS, ARCTAN, EXP, MAX, MIN, TRUE, FALSE, LENGTH,
+	LETTER, JOIN, LIST_ITEM, CONTAINS, NUMBER_OF_ITEMS;
 
 	private static final String TAG = Functions.class.getSimpleName();
 
 	public static boolean isFunction(String value) {
-		if (getFunctionByValue(value) == null) {
-			return false;
-		}
-		return true;
+		return getFunctionByValue(value) != null;
 	}
 
 	public static Functions getFunctionByValue(String value) {

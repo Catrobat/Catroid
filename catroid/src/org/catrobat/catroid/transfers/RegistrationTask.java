@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,11 +28,11 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.UtilDeviceInfo;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.ServerCalls;
@@ -81,8 +81,8 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			}
 
 			String email = UtilDeviceInfo.getUserEmail(context);
-			String language = UtilDeviceInfo.getUserLanguageCode(context);
-			String country = UtilDeviceInfo.getUserCountryCode(context);
+			String language = UtilDeviceInfo.getUserLanguageCode();
+			String country = UtilDeviceInfo.getUserCountryCode();
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 			String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 
@@ -117,7 +117,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 		}
 
 		if (userRegistered) {
-			Toast.makeText(context, R.string.new_user_registered, Toast.LENGTH_SHORT).show();
+			ToastUtil.showSuccess(context, R.string.new_user_registered);
 		}
 
 		if (onRegistrationCompleteListener != null) {

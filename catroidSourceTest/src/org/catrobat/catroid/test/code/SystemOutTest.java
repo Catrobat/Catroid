@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,9 +40,11 @@ public class SystemOutTest extends TestCase {
 
 	private static final String[] SYSTEM_OUT_DIRECTORIES = Utils.SOURCE_FILE_DIRECTORIES;
 	private static final String[] STACK_TRACE_DIRECTORIES = Utils.PRINT_STACK_TRACE_TEST_DIRECTORIES;
-	private static final String[] IGNORED_FILES = { "SystemOutTest.java" };
+	private static final String[] IGNORED_FILES = { "SystemOutTest.java", "ToastUtil.java", "BTServer.java"};
 	private static final String SYSTEM_OUT = "System.out";
 	private static final String PRINT_STACK_TRACE = ".printStackTrace()";
+	private static final String TOAST_STRING = "Toast.makeText";
+	private static final String SUPERTOAST_STRING = "SuperToast";
 
 	private void checkFileForString(File file, String string) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -104,5 +106,17 @@ public class SystemOutTest extends TestCase {
 	public void testForPrintStackTrace() throws IOException {
 		checkForStringInFiles(PRINT_STACK_TRACE, STACK_TRACE_DIRECTORIES);
 		assertFalse("Files with '.printStackTrace()' found! \nPlease use 'Log.e(TAG, \"Reason for Exception\", exception)' or 'Log.e(TAG, Log.getStackTraceString(exception))' instead\n\n" + errorMessages, errorFound);
+	}
+
+	public void testForToast() throws IOException {
+		checkForStringInFiles(TOAST_STRING, STACK_TRACE_DIRECTORIES);
+		assertFalse("Files with 'Toast.makeText(context, text, duration)' found! \nPlease use 'ToastUtil.showError(context, message), or " +
+		"ToastUtil.showSuccess(context, message)' instead\n\n" + errorMessages, errorFound);
+	}
+
+	public void testForSuperToast() throws IOException {
+		checkForStringInFiles(SUPERTOAST_STRING, STACK_TRACE_DIRECTORIES);
+		assertFalse("Files with 'SuperToast' found! \nPlease use 'ToastUtil.showError(context, message), or " +
+		"ToastUtil.showSuccess(context, message)' instead\n\n" + errorMessages, errorFound);
 	}
 }

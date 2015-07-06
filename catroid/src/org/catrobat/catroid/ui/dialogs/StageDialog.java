@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,15 +30,13 @@ import android.view.View;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BroadcastSequenceMap;
 import org.catrobat.catroid.common.BroadcastWaitSequenceMap;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
-
-import static android.widget.Toast.LENGTH_SHORT;
+import org.catrobat.catroid.utils.ToastUtil;
 
 public class StageDialog extends Dialog implements View.OnClickListener {
 	private StageActivity stageActivity;
@@ -118,9 +116,9 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 
 	private void makeScreenshot() {
 		if (stageListener.makeManualScreenshot()) {
-			Toast.makeText(stageActivity, R.string.notification_screenshot_ok, LENGTH_SHORT).show();
+			ToastUtil.showSuccess(stageActivity, R.string.notification_screenshot_ok);
 		} else {
-			Toast.makeText(stageActivity, R.string.error_screenshot_failed, LENGTH_SHORT).show();
+			ToastUtil.showError(stageActivity, R.string.error_screenshot_failed);
 		}
 	}
 

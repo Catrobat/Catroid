@@ -1,24 +1,24 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2014 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2015 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.content.bricks;
 
@@ -44,8 +44,8 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.formulaeditor.DataContainer;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.UserVariablesContainer;
 import org.catrobat.catroid.ui.dragndrop.DragAndDropListView;
 import org.catrobat.catroid.ui.fragment.UserBrickDataEditorFragment;
 import org.catrobat.catroid.utils.Utils;
@@ -344,12 +344,12 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 		data.name = name;
 
 		if (ProjectManager.getInstance().getCurrentProject() != null) {
-			UserVariablesContainer variablesContainer = ProjectManager.getInstance().getCurrentProject().getUserVariables();
+			DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
 			if (ProjectManager.getInstance().getCurrentUserBrick() != null) {
-				variablesContainer.addUserBrickUserVariableToUserBrick(ProjectManager.getInstance().getCurrentUserBrick().getUserBrickId(), data.name, Double.valueOf(0));
+				dataContainer.addUserBrickUserVariableToUserBrick(ProjectManager.getInstance().getCurrentUserBrick().getUserBrickId(), data.name, Double.valueOf(0));
 			}
 			else {
-				variablesContainer.addUserBrickUserVariableToUserBrick(getUserBrickId(), data.name, Double.valueOf(0));
+				dataContainer.addUserBrickUserVariableToUserBrick(getUserBrickId(), data.name, Double.valueOf(0));
 			}
 		}
 
@@ -375,17 +375,17 @@ public class UserScriptDefinitionBrick extends ScriptBrick implements OnClickLis
 		variable.name = newName;
 
 		if (isVariable && ProjectManager.getInstance().getCurrentProject() != null) {
-			UserVariablesContainer variablesContainer = ProjectManager.getInstance().getCurrentProject().getUserVariables();
-			variablesContainer.deleteUserVariableFromUserBrick(getUserBrickId(), oldName);
-			variablesContainer.addUserBrickUserVariableToUserBrick(getUserBrickId(), newName, Double.valueOf(0));
+			DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+			dataContainer.deleteUserVariableFromUserBrick(getUserBrickId(), oldName);
+			dataContainer.addUserBrickUserVariableToUserBrick(getUserBrickId(), newName, Double.valueOf(0));
 		}
 	}
 
 	public void removeDataAt(int id, Context context) {
 		removeVariablesInFormulas(userScriptDefinitionBrickElements.getUserScriptDefinitionBrickElementList().get(id).name, context);
 		if (userScriptDefinitionBrickElements.getUserScriptDefinitionBrickElementList().get(id).isVariable && ProjectManager.getInstance().getCurrentProject() != null) {
-			UserVariablesContainer variablesContainer = ProjectManager.getInstance().getCurrentProject().getUserVariables();
-			variablesContainer.deleteUserVariableFromUserBrick(getUserBrickId(), userScriptDefinitionBrickElements.getUserScriptDefinitionBrickElementList().get(id).name);
+			DataContainer dataContainer = ProjectManager.getInstance().getCurrentProject().getDataContainer();
+			dataContainer.deleteUserVariableFromUserBrick(getUserBrickId(), userScriptDefinitionBrickElements.getUserScriptDefinitionBrickElementList().get(id).name);
 		}
 		userScriptDefinitionBrickElements.getUserScriptDefinitionBrickElementList().remove(id);
 		userScriptDefinitionBrickElements.incrementVersion();

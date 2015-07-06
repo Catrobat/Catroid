@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,8 +32,8 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
-import org.catrobat.catroid.content.bricks.SetGhostEffectBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -60,7 +60,7 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
 
 	private static final double SPRITE_X_POSITION_INITIAL = 0.0d;
 	private static final double SPRITE_Y_POSITION_INITIAL = 0.0d;
-	private static final double SPRITE_GHOSTEFFECT_INITIAL = 0.0d;
+	private static final double SPRITE_TRANSPARENCY_INITIAL = 0.0d;
 	private static final double SPRITE_BRIGHTNESS_INITIAL = 100.0d;
 	private static final double SPRITE_SIZE_INITIAL = 100.0d;
 	private static final double SPRITE_DIRECTION_INITIAL = 90.0d;
@@ -68,7 +68,7 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
 
 	private static final double SPRITE_X_POSITION = 30.0d;
 	private static final double SPRITE_Y_POSITION = 50.0d;
-	private static final double SPRITE_GHOSTEFFECT = 0.8d;
+	private static final double SPRITE_TRANSPARENCY = 0.8d;
 	private static final double SPRITE_BRIGHTNESS = 0.7d;
 	private static final double SPRITE_SIZE = 90.0d;
 	private static final double SPRITE_DIRECTION = 42.0d;
@@ -115,7 +115,7 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
 
 		assertEquals("Variable shows false x position", SPRITE_X_POSITION, interpretSensor(Sensors.OBJECT_X), DELTA);
 		assertEquals("Variable shows false y position", SPRITE_Y_POSITION, interpretSensor(Sensors.OBJECT_Y), DELTA);
-		assertEquals("Variable shows false ghosteffect", SPRITE_GHOSTEFFECT, interpretSensor(Sensors.OBJECT_GHOSTEFFECT), DELTA);
+		assertEquals("Variable shows false transparency", SPRITE_TRANSPARENCY, interpretSensor(Sensors.OBJECT_TRANSPARENCY), DELTA);
 		assertEquals("Variable shows false brightness", SPRITE_BRIGHTNESS, interpretSensor(Sensors.OBJECT_BRIGHTNESS), DELTA);
 		assertEquals("Variable shows false size", SPRITE_SIZE, interpretSensor(Sensors.OBJECT_SIZE), DELTA);
 		assertEquals("Variable shows false direction", SPRITE_DIRECTION, interpretSensor(Sensors.OBJECT_ROTATION), DELTA);
@@ -128,8 +128,8 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
                 interpretSensor(Sensors.OBJECT_X), DELTA);
 		assertEquals("Variable shows false y position before stage", SPRITE_Y_POSITION_INITIAL,
                 interpretSensor(Sensors.OBJECT_Y), DELTA);
-		assertEquals("Variable shows false ghosteffect before stage", SPRITE_GHOSTEFFECT_INITIAL,
-                interpretSensor(Sensors.OBJECT_GHOSTEFFECT), DELTA);
+		assertEquals("Variable shows false transparency before stage", SPRITE_TRANSPARENCY_INITIAL,
+                interpretSensor(Sensors.OBJECT_TRANSPARENCY), DELTA);
 		assertEquals("Variable shows false brightness before stage", SPRITE_BRIGHTNESS_INITIAL,
                 interpretSensor(Sensors.OBJECT_BRIGHTNESS), DELTA);
 		assertEquals("Variable shows false size before stage", SPRITE_SIZE_INITIAL,
@@ -159,8 +159,8 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
                 interpretSensor(Sensors.OBJECT_X), DELTA);
 		assertEquals("Variable shows false y position after Stage", SPRITE_Y_POSITION,
                 interpretSensor(Sensors.OBJECT_Y), DELTA);
-		assertEquals("Variable shows false ghosteffect after Stage", SPRITE_GHOSTEFFECT,
-                interpretSensor(Sensors.OBJECT_GHOSTEFFECT), DELTA);
+		assertEquals("Variable shows false transparency after Stage", SPRITE_TRANSPARENCY,
+                interpretSensor(Sensors.OBJECT_TRANSPARENCY), DELTA);
 		assertEquals("Variable shows false brightness after Stage", SPRITE_BRIGHTNESS,
                 interpretSensor(Sensors.OBJECT_BRIGHTNESS), DELTA);
 		assertEquals("Variable shows false size after Stage", SPRITE_SIZE,
@@ -191,8 +191,8 @@ public class ObjectVariableTest extends BaseActivityInstrumentationTestCase<Main
 		startScript.addBrick(setYBrick);
 		sprite.addScript(startScript);
 
-		SetGhostEffectBrick setGhostEffectBrick = new SetGhostEffectBrick(SPRITE_GHOSTEFFECT);
-		startScript.addBrick(setGhostEffectBrick);
+		SetTransparencyBrick setTransparencyBrick = new SetTransparencyBrick(SPRITE_TRANSPARENCY);
+		startScript.addBrick(setTransparencyBrick);
 		sprite.addScript(startScript);
 
 		SetBrightnessBrick setBrightnessBrick = new SetBrightnessBrick(SPRITE_BRIGHTNESS);

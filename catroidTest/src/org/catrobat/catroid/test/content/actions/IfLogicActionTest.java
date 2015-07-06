@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -74,9 +74,9 @@ public class IfLogicActionTest extends AndroidTestCase {
 		testSprite.removeAllScripts();
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().deleteUserVariableByName(TEST_USERVARIABLE);
-		ProjectManager.getInstance().getCurrentProject().getUserVariables().addProjectUserVariable(TEST_USERVARIABLE);
-		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserVariableByName(TEST_USERVARIABLE);
+		ProjectManager.getInstance().getCurrentProject().getDataContainer().addProjectUserVariable(TEST_USERVARIABLE);
+		userVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.getUserVariable(TEST_USERVARIABLE, null);
 	}
 
@@ -116,10 +116,10 @@ public class IfLogicActionTest extends AndroidTestCase {
 			testSprite.look.act(1f);
 		}
 
-		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		userVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
-		assertEquals("IfBrick not executed as expected", IF_TRUE_VALUE, ((Double) userVariable.getValue()).intValue());
+		assertEquals("IfBrick not executed as expected", Double.valueOf(IF_TRUE_VALUE), userVariable.getValue());
 	}
 
 	public void testIfBrick() throws InterruptedException {
@@ -146,10 +146,10 @@ public class IfLogicActionTest extends AndroidTestCase {
 		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 		testSprite.look.act(100f);
 
-		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		userVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
-		assertEquals("IfBrick not executed as expected", IF_TRUE_VALUE, ((Double) userVariable.getValue()).intValue());
+		assertEquals("IfBrick not executed as expected", Double.valueOf(IF_TRUE_VALUE), userVariable.getValue());
 	}
 
 	public void testIfElseBrick() throws InterruptedException {
@@ -176,14 +176,14 @@ public class IfLogicActionTest extends AndroidTestCase {
 		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 		testSprite.look.act(100f);
 
-		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		userVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
-		assertEquals("IfBrick not executed as expected", IF_FALSE_VALUE, ((Double) userVariable.getValue()).intValue());
+		assertEquals("IfBrick not executed as expected", Double.valueOf(IF_FALSE_VALUE), userVariable.getValue());
 	}
 
 	public void testBrickWithValidStringFormula() {
-		testFormula(new Formula(String.valueOf(TRUE)), Integer.valueOf(IF_TRUE_VALUE).doubleValue());
+		testFormula(new Formula(String.valueOf(TRUE)), Double.valueOf(IF_TRUE_VALUE));
 	}
 
 	public void testBrickWithInValidStringFormula() {
@@ -214,7 +214,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 
 		testScript = new StartScript();
 		ifLogicBeginBrick = new IfLogicBeginBrick(formula);
-		ifLogicElseBrick = new IfLogicElseBrick( ifLogicBeginBrick);
+		ifLogicElseBrick = new IfLogicElseBrick(ifLogicBeginBrick);
 		ifLogicEndBrick = new IfLogicEndBrick(ifLogicElseBrick, ifLogicBeginBrick);
 		testScript.addBrick(ifLogicBeginBrick);
 		testScript.addBrick(setVariableBrickIfTrue);
@@ -227,7 +227,7 @@ public class IfLogicActionTest extends AndroidTestCase {
 		ProjectManager.getInstance().setCurrentScript(testScript);
 		testSprite.createStartScriptActionSequenceAndPutToMap(new HashMap<String, List<String>>());
 		testSprite.look.act(1f);
-		userVariable = ProjectManager.getInstance().getCurrentProject().getUserVariables()
+		userVariable = ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.getUserVariable(TEST_USERVARIABLE, null);
 
 		assertEquals("IfBrick not executed as expected", expected, userVariable.getValue());

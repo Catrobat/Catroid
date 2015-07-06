@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2014 The Catrobat Team
+ * Copyright (C) 2010-2015 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,14 +41,14 @@ import java.util.List;
 
 // CHECKSTYLE DISABLE MethodNameCheck FOR 1000 LINES
 public class MainMenuSteps extends AndroidTestCase {
-	@Deprecated
+	//@Deprecated
 	@Given("^I am in the main menu$")
 	public void I_am_in_the_main_menu() {
 		Solo solo = (Solo) Cucumber.get(Cucumber.KEY_SOLO);
 		assertEquals("I am not in the main menu.", MainMenuActivity.class, solo.getCurrentActivity().getClass());
 	}
 
-	@Deprecated
+	//@Deprecated
 	@When("^I press the (\\w+) button$")
 	public void I_press_the_s_Button(String button) {
 		// searchButton(String) apparently returns true even for
@@ -59,7 +59,7 @@ public class MainMenuSteps extends AndroidTestCase {
 		solo.clickOnText(button);
 	}
 
-	@Deprecated
+	//@Deprecated
 	@Then("^I should see the following buttons$")
 	public void I_should_see_the_following_buttons(List<String> expectedButtons) {
 		Solo solo = (Solo) Cucumber.get(Cucumber.KEY_SOLO);
@@ -75,7 +75,7 @@ public class MainMenuSteps extends AndroidTestCase {
 		assertEquals("I do not see the expected buttons.", expectedButtons, actualButtons);
 	}
 
-	@Deprecated
+	//@Deprecated
 	@Then("^I should switch to the (\\w+) view$")
 	public void I_should_switch_to_the_s_view(String view) {
 		Class<? extends Activity> activityClass = null;

@@ -1,43 +1,41 @@
-/**
- *  Catroid: An on-device visual programming system for Android devices
- *  Copyright (C) 2010-2014 The Catrobat Team
- *  (<http://developer.catrobat.org/credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://developer.catrobat.org/license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *  GNU Affero General Public License for more details.
- *  
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2015 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.facedetection;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.ui.SettingsActivity;
 
 public final class FaceDetectionHandler {
 
-
+	private static final String TAG = FaceDetectionHandler.class.getSimpleName();
 	private static FaceDetector faceDetector;
 	private static boolean running = false;
 	private static boolean paused = false;
@@ -157,16 +155,13 @@ public final class FaceDetectionHandler {
 			Camera camera = CameraManager.getInstance().getCamera();
 			possibleFaces = getNumberOfCameras(camera);
 		} catch (Exception exception) {
-            Log.e("Camera", "Camera unaccessable!", exception);
+            Log.e(TAG, "Camera unaccessable!", exception);
 		}
 		return possibleFaces > 0;
 	}
 
 	public static boolean useFaceDetection(Context context) {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		boolean useFaceDetection = preferences.getBoolean(
-				context.getResources().getString(R.string.preference_key_use_face_detection), true);
-		return useFaceDetection;
+		return SettingsActivity.isFaceDetectionPreferenceEnabled(context);
 	}
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
