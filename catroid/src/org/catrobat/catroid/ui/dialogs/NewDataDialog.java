@@ -90,6 +90,7 @@ public class NewDataDialog extends SherlockDialogFragment {
 	public void onCancel(DialogInterface dialog) {
 		super.onCancel(dialog);
 		userListDialogListenerListFinishNewUserListDialog(null);
+        variableDialogListenerListFinishNewVariableDialog(null);
 	}
 
 	@Override
