@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.uitest.formulaeditor;
 
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.text.style.BackgroundColorSpan;
 import android.util.Log;
@@ -134,6 +135,22 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 		assertEquals("Cursor not found in text, but should be", 2, solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX)
 				.getSelectionEnd());
+	}
+
+	public void testCursorBlinking() {
+		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
+		final FormulaEditorEditText formulaEditorEditText = (FormulaEditorEditText) solo.getView(R.id.formula_editor_edit_field);
+		Paint paintOfCursor = (Paint) Reflection.getPrivateField(formulaEditorEditText, "paint");
+		int colorPresent = paintOfCursor.getColor();
+		solo.sleep(500);       //Cursor blinks after 500ms
+		paintOfCursor = (Paint) Reflection.getPrivateField(formulaEditorEditText, "paint");
+		int colorPresentAfterBlink = paintOfCursor.getColor();
+		assertTrue("Cursor is not blinking", colorPresent != colorPresentAfterBlink);
+		colorPresent = colorPresentAfterBlink;
+		solo.sleep(500);       //Cursor blinks after 500ms
+		paintOfCursor = (Paint) Reflection.getPrivateField(formulaEditorEditText, "paint");
+		colorPresentAfterBlink = paintOfCursor.getColor();
+		assertTrue("Cursor is not blinking", colorPresent != colorPresentAfterBlink);
 	}
 
 	public void testDoubleTapSelection() {
