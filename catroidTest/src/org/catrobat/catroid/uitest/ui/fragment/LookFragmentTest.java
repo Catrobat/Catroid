@@ -456,7 +456,7 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertFalse("File not deleted from LookDataList", isInLookDataListSunnglasses);
 	}
 
-	public void testEditCopiedImageInPaontroid() {
+	public void testEditCopiedImageInPaintroid() {
 
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				org.catrobat.catroid.uitest.mockups.MockPaintroidActivity.class);
