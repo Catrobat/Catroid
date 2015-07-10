@@ -97,6 +97,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	private FormulaBrick clonedFormulaBrick;
 	private Brick.BrickField currentBrickField;
 	private Formula currentFormula;
+	private Menu currentMenu;
 
 	private long[] confirmSwitchEditTextTimeStamp = { 0, 0 };
 	private int confirmSwitchEditTextCounter = 0;
@@ -408,6 +409,8 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
+		currentMenu = menu;
+
 		for (int index = 0; index < menu.size(); index++) {
 			menu.getItem(index).setVisible(false);
 		}
@@ -482,6 +485,14 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 	public boolean saveFormulaIfPossible() {
 		InternFormulaParser formulaToParse = formulaEditorEditText.getFormulaParser();
 		FormulaElement formulaParseTree = formulaToParse.parseFormula();
+
+		MenuItem undo = currentMenu.findItem(R.id.menu_undo);
+		undo.setIcon(R.drawable.icon_undo_disabled);
+		undo.setEnabled(false);
+
+		MenuItem redo = currentMenu.findItem(R.id.menu_redo);
+		redo.setIcon(R.drawable.icon_redo_disabled);
+		redo.setEnabled(false);
 
 		switch (formulaToParse.getErrorTokenIndex()) {
 			case PARSER_OK:
