@@ -96,14 +96,12 @@ public class VariableBricksTest extends BaseActivityInstrumentationTestCase<Main
 
         solo.goBack();
         solo.goBack();
-
         solo.clickOnText("p2");
         solo.clickOnText("p1");
         solo.clickOnText("p1");
         solo.clickOnText(solo.getString(R.string.brick_variable_spinner_create_new_variable));
         solo.clickOnText(solo.getString(R.string.cancel_button));
         solo.clickOnText("p1");
-
 	}
 
 	private void createProject() {
