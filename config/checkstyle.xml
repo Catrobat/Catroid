@@ -156,6 +156,9 @@
 
     <!-- Whitespace -->
     <module name="EmptyForInitializerPad" />
+    <module name="EmptyForIteratorPad">
+      <property name="option" value="space" />
+    </module>
     <module name="GenericWhitespace" />
     <module name="NoLineWrap" />
     <module name="TypecastParenPad" />
