@@ -83,7 +83,6 @@ public class BrickCloneTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		sprite = new Sprite("testSprite");
-
 	}
 
 	public void testBrickCloneWithFormula() {
@@ -162,7 +161,6 @@ public class BrickCloneTest extends AndroidTestCase {
 		brick = new WaitBrick(BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.TIME_TO_WAIT_IN_SECONDS);
 
-
 		brick = new PlaceAtBrick(BRICK_FORMULA_VALUE, BRICK_FORMULA_VALUE);
 		brickClone(brick, Brick.BrickField.X_POSITION, Brick.BrickField.Y_POSITION);
 
@@ -175,7 +173,6 @@ public class BrickCloneTest extends AndroidTestCase {
 
 		brick = new SpeakBrick(String.valueOf(BRICK_FORMULA_VALUE));
 		brickClone(brick, Brick.BrickField.SPEAK);
-
 	}
 
 	public void testVariableReferencesSetVariableBrick() throws Exception {

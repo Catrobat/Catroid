@@ -31,16 +31,16 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 public class SetSizeToActionTest extends InstrumentationTestCase {
 
-    private static final float SIZE = 70.7f;
+	private static final float SIZE = 70.7f;
 	private final Formula size = new Formula(SIZE);
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
-    private Sprite sprite;
+	private Sprite sprite;
 
-    @Override
-    protected void setUp() throws Exception {
-        sprite = new Sprite("testSprite");
-        super.setUp();
-    }
+	@Override
+	protected void setUp() throws Exception {
+		sprite = new Sprite("testSprite");
+		super.setUp();
+	}
 
 	public void testSize() {
 		assertEquals("Unexpected initial sprite size value", 1f, sprite.look.getScaleX());
@@ -74,7 +74,7 @@ public class SetSizeToActionTest extends InstrumentationTestCase {
 	public void testBrickWithStringFormula() {
 		ExtendedActions.setSizeTo(sprite, new Formula(String.valueOf(SIZE))).act(1.0f);
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", SIZE,
-                sprite.look.getSizeInUserInterfaceDimensionUnit());
+				sprite.look.getSizeInUserInterfaceDimensionUnit());
 
 		ExtendedActions.setSizeTo(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", SIZE,

@@ -103,7 +103,6 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 			ifForeverLabel.setTextColor(ifForeverLabel.getTextColors().withAlpha(alphaValue));
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

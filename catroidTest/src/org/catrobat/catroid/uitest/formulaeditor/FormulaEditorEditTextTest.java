@@ -71,7 +71,6 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 	public FormulaEditorEditTextTest() {
 		super(MainMenuActivity.class);
-
 	}
 
 	@Override
@@ -224,7 +223,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_4));
 
 		assertEquals("Function parameter modification failed", solo.getString(R.string.formula_editor_function_sin)
-				+ "( 12" + getActivity().getString(R.string.formula_editor_decimal_mark) + "34 ) ",
+						+ "( 12" + getActivity().getString(R.string.formula_editor_decimal_mark) + "34 ) ",
 				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText().toString());
 
 		setAbsoluteCursorPosition(2);
@@ -365,7 +364,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_decimal_mark));
 
 		assertEquals("Delimiter insertion failed!", "12"
-				+ getActivity().getString(R.string.formula_editor_decimal_mark) + "34 ",
+						+ getActivity().getString(R.string.formula_editor_decimal_mark) + "34 ",
 				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText().toString());
 
 		setAbsoluteCursorPosition(1);
@@ -408,13 +407,13 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 		assertTrue("Toast not found", solo.searchText(solo.getString(R.string.formula_editor_changes_saved)));
 		assertEquals("Wrong text in FormulaEditor", "99"
-				+ getActivity().getString(R.string.formula_editor_decimal_mark) + "9 ",
+						+ getActivity().getString(R.string.formula_editor_decimal_mark) + "9 ",
 				((TextView) solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID)).getText().toString());
 
 		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
 		solo.goBack();
 		assertEquals("Wrong text in FormulaEditor", "99"
-				+ getActivity().getString(R.string.formula_editor_decimal_mark) + "9 ",
+						+ getActivity().getString(R.string.formula_editor_decimal_mark) + "9 ",
 				((TextView) solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID)).getText().toString());
 
 		solo.clickOnView(solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID));
@@ -427,7 +426,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 
 		assertTrue("Toast not found", solo.searchText(solo.getString(R.string.formula_editor_changes_discarded)));
 		assertEquals("Wrong text in FormulaEditor", "99"
-				+ getActivity().getString(R.string.formula_editor_decimal_mark) + "9 ",
+						+ getActivity().getString(R.string.formula_editor_decimal_mark) + "9 ",
 				((TextView) solo.getView(CHANGE_SIZE_BY_EDIT_TEXT_RID)).getText().toString());
 	}
 
@@ -467,10 +466,8 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		Rect editfieldRect = new Rect();
 		editField.getGlobalVisibleRect(editfieldRect);
 
-
 		for (int index = 10; index < 20; index++) {
 			solo.clickOnScreen(100f, editfieldRect.bottom - index);
-
 		}
 
 		assertTrue("Scroll did not work!", editField.getScrollY() > 0);

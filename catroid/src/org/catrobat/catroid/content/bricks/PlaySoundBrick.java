@@ -147,7 +147,6 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 			}
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

@@ -31,16 +31,16 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 public class SetBrightnessActionTest extends InstrumentationTestCase {
 
-    private static final float BRIGHTNESS = 91f;
+	private static final float BRIGHTNESS = 91f;
 	private Formula brightness = new Formula(BRIGHTNESS);
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
-    private Sprite sprite;
+	private Sprite sprite;
 
-    @Override
-    protected void setUp() throws Exception {
-        sprite = new Sprite("testSprite");
-        super.setUp();
-    }
+	@Override
+	protected void setUp() throws Exception {
+		sprite = new Sprite("testSprite");
+		super.setUp();
+	}
 
 	public void testBrightnessEffect() {
 		assertEquals("Unexpected initial brightness value", 100f,
@@ -60,7 +60,7 @@ public class SetBrightnessActionTest extends InstrumentationTestCase {
 	}
 
 	public void testNegativeBrightnessValue() {
-		ExtendedActions.setBrightness(sprite,new Formula(-BRIGHTNESS)).act(1.0f);
+		ExtendedActions.setBrightness(sprite, new Formula(-BRIGHTNESS)).act(1.0f);
 		assertEquals("Incorrect sprite scale value after SetBrightnessBrick executed", 0f,
 				sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}

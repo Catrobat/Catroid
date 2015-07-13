@@ -174,7 +174,6 @@ public final class StorageHandler {
 	private FileInputStream fileInputStream;
 
 	private Lock loadSaveLock = new ReentrantLock();
-
 	// TODO: Since the StorageHandler constructor throws an exception, the member INSTANCE couldn't be assigned
 	// directly and therefore we need this static block. Should be refactored and removed in the future.
 	static {
@@ -184,7 +183,6 @@ public final class StorageHandler {
 			throw new RuntimeException("Initialize StorageHandler failed");
 		}
 	}
-
 	private StorageHandler() throws IOException {
 		xstream = new XStreamToSupportCatrobatLanguageVersion095AndBefore(new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 		xstream.processAnnotations(Project.class);
@@ -384,7 +382,6 @@ public final class StorageHandler {
 		return false;
 	}
 
-
 	public boolean saveProject(Project project) {
 		BufferedWriter writer = null;
 
@@ -418,7 +415,6 @@ public final class StorageHandler {
 					}
 					Log.d(TAG, "Project version differ <" + oldProjectXml.length() + "> <"
 							+ projectXml.length() + ">. update " + currentCodeFile.getName());
-
 				} catch (Exception exception) {
 					Log.e(TAG, "Opening old project " + currentCodeFile.getName() + " failed.", exception);
 					return false;
@@ -457,7 +453,6 @@ public final class StorageHandler {
 					if (!tmpCodeFile.renameTo(currentCodeFile)) {
 						Log.e(TAG, "Could not rename " + currentCodeFile.getName());
 					}
-
 				} catch (IOException ioException) {
 					Log.e(TAG, "Failed closing the buffered writer", ioException);
 				}
@@ -491,7 +486,6 @@ public final class StorageHandler {
 				if (!tmpCodeFile.renameTo(currentCodeFile)) {
 					Log.e(TAG, "Could not rename " + tmpCodeFile.getName());
 				}
-
 			}
 		} catch (Exception exception) {
 			Log.e(TAG, "Exception " + exception);
@@ -549,7 +543,6 @@ public final class StorageHandler {
 			Log.e(TAG, Log.getStackTraceString(nullPointerException));
 		}
 	}
-
 
 	public boolean deleteProject(String projectName) {
 		return UtilFile.deleteDirectory(new File(buildProjectPath(projectName)));
@@ -813,7 +806,7 @@ public final class StorageHandler {
 		return copyFiles(targetProject, sourceProject, true);
 	}
 
-	private boolean copyFiles (String targetProject, String sourceProject, boolean copySoundFiles) {
+	private boolean copyFiles(String targetProject, String sourceProject, boolean copySoundFiles) {
 		String type = IMAGE_DIRECTORY;
 		if (copySoundFiles) {
 			type = SOUND_DIRECTORY;

@@ -123,9 +123,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 				formulaEditorFragment.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 			}
 			return true;
-
 		}
-
 	});
 	private boolean doNotMoveCursorOnTab = false;
 
@@ -339,5 +337,4 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	public boolean isThereSomethingToDelete() {
 		return internFormula.isThereSomethingToDelete();
 	}
-
 }

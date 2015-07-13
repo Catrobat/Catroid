@@ -248,7 +248,6 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 		addButtonHandler = null;
 		ScriptActivity activity = (ScriptActivity) scriptFragment.getActivity();
 		activity.setDeleteModeListener(null);
-
 	}
 
 	@Override
@@ -322,9 +321,7 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_edit_brick))) {
 					launchBrickScriptActivityOnBrick(context, clickedBrick);
 				}
-
 			}
-
 		});
 		AlertDialog alertDialog = builder.create();
 		alertDialog.show();

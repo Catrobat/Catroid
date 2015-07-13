@@ -38,19 +38,17 @@ public enum CommandByte {
 
 	private int commandByteValue;
 	private static final SparseArray<CommandByte> LOOKUP = new SparseArray<CommandByte>();
-
 	static {
 		for (CommandByte c : CommandByte.values()) {
 			LOOKUP.put(c.commandByteValue, c);
 		}
 	}
-
 	private CommandByte(int commandByteValue) {
 		this.commandByteValue = commandByteValue;
 	}
 
 	public byte getByte() {
-		return (byte)commandByteValue;
+		return (byte) commandByteValue;
 	}
 
 	public static boolean isMember(byte memberToTest) {

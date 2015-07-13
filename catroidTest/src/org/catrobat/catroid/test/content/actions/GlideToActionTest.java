@@ -40,13 +40,13 @@ public class GlideToActionTest extends AndroidTestCase {
 	Formula xPosition = new Formula(X_POSITION);
 	Formula yPosition = new Formula(Y_POSITION);
 	Formula duration = new Formula(DURATION);
-    private Sprite sprite;
+	private Sprite sprite;
 
-    @Override
-    protected void setUp() throws Exception {
-        sprite = new Sprite("testSprite");
-        super.setUp();
-    }
+	@Override
+	protected void setUp() throws Exception {
+		sprite = new Sprite("testSprite");
+		super.setUp();
+	}
 
 	public void testNormalBehavior() throws InterruptedException {
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());

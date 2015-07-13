@@ -167,5 +167,4 @@ public class SoundBaseAdapter extends ArrayAdapter<SoundInfo> implements ScriptA
 
 		void onSoundChecked();
 	}
-
 }

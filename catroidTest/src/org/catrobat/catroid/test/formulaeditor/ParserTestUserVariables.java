@@ -92,11 +92,11 @@ public class ParserTestUserVariables extends AndroidTestCase {
 		ProjectManager.getInstance().getCurrentProject().getDataContainer().resetAllDataObjects();
 
 		assertEquals("ProjectUserVariable did not reset", USER_VARIABLE_RESET,
-                interpretUservariable(PROJECT_USER_VARIABLE));
+				interpretUservariable(PROJECT_USER_VARIABLE));
 		assertEquals("SpriteUserVariable did not reset", USER_VARIABLE_RESET,
-                interpretUservariable(SPRITE_USER_VARIABLE));
+				interpretUservariable(SPRITE_USER_VARIABLE));
 		assertEquals("ProjectUserVariable2 did not reset", USER_VARIABLE_RESET,
-                interpretUservariable(PROJECT_USER_VARIABLE_2));
+				interpretUservariable(PROJECT_USER_VARIABLE_2));
 		assertEquals("UserBrickVariable didnt reset", USER_VARIABLE_RESET,
 				interpretUservariable(USER_BRICK_VARIABLE));
 	}
@@ -110,8 +110,8 @@ public class ParserTestUserVariables extends AndroidTestCase {
 		internTokenList.add(new InternToken(InternTokenType.USER_VARIABLE, userVariableName));
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula();
-        Formula userVariableFormula =  new Formula(parseTree);
+		Formula userVariableFormula = new Formula(parseTree);
 
-        return userVariableFormula.interpretObject(firstSprite);
+		return userVariableFormula.interpretObject(firstSprite);
 	}
 }

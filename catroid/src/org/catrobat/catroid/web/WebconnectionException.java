@@ -54,5 +54,4 @@ public class WebconnectionException extends Exception {
 		Log.d("DEBUG", "Error #" + statusCode + ": " + message);
 		return message;
 	}
-
 }

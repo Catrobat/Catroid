@@ -125,9 +125,7 @@ public class InternToExternGenerator {
 				R.string.formula_editor_logic_leserequal);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.SMALLER_THAN.name(),
 				R.string.formula_editor_logic_lesserthan);
-
 	}
-
 	public InternToExternGenerator(Context context) {
 		this.context = context;
 		generatedExternFormulaString = "";
@@ -176,11 +174,9 @@ public class InternToExternGenerator {
 
 			internTokenList.remove(0);
 			internTokenListIndex++;
-
 		}
 
 		generatedExternFormulaString += " ";
-
 	}
 
 	private String generateExternStringFromToken(InternToken internToken) {
@@ -221,7 +217,6 @@ public class InternToExternGenerator {
 
 			default:
 				return getExternStringForInternTokenValue(internToken.getTokenStringValue(), context);
-
 		}
 	}
 
@@ -238,7 +233,6 @@ public class InternToExternGenerator {
 				return false;
 		}
 		return true;
-
 	}
 
 	public String getGeneratedExternFormulaString() {
@@ -260,5 +254,4 @@ public class InternToExternGenerator {
 	public static int getMappedString(String token) {
 		return INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.get(token);
 	}
-
 }

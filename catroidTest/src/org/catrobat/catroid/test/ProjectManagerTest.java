@@ -81,7 +81,6 @@ public class ProjectManagerTest extends AndroidTestCase {
 		} catch (ProjectException projectException) {
 			fail("Error loading project");
 		}
-
 	}
 
 	public void testShouldKeepExistingProjectIfCannotLoadNewProject() {

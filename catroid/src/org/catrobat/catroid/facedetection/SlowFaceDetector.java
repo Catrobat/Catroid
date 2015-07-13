@@ -93,7 +93,6 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 			float eyeDistance = faces[0].eyesDistance();
 			onFaceFound(centerPoint, eyeDistance, width, height);
 		}
-
 	}
 
 	private void onFaceFound(PointF centerPoint, float eyeDistance, int detectionWidth, int detectionHeight) {
@@ -106,5 +105,4 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 		relativeFaceSize = relativeFaceSize > 100 ? 100 : relativeFaceSize;
 		onFaceDetected(relativePoint, relativeFaceSize);
 	}
-
 }

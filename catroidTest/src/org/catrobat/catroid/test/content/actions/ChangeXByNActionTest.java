@@ -33,13 +33,13 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 
 	private static final float CHANGE_VALUE = 55.5f;
 	private static final String NOT_NUMERICAL_STRING = "xPosition";
-    private Sprite sprite;
+	private Sprite sprite;
 
-    @Override
-    protected void setUp() throws Exception {
-        sprite = new Sprite("testSprite");
-        super.setUp();
-    }
+	@Override
+	protected void setUp() throws Exception {
+		sprite = new Sprite("testSprite");
+		super.setUp();
+	}
 
 	public void testNormalBehavior() {
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
@@ -63,7 +63,7 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 		int xPosition = 10;
 		sprite.look.setPositionInUserInterfaceDimensionUnit(xPosition, sprite.look.getYInUserInterfaceDimensionUnit());
 
-        ExtendedActions.changeXByN(sprite, new Formula(Integer.MAX_VALUE)).act(1.0f);
+		ExtendedActions.changeXByN(sprite, new Formula(Integer.MAX_VALUE)).act(1.0f);
 		assertEquals("ChangeXByNBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
 				(int) sprite.look.getXInUserInterfaceDimensionUnit());
 
@@ -73,7 +73,6 @@ public class ChangeXByNActionTest extends AndroidTestCase {
 		ExtendedActions.changeXByN(sprite, new Formula(Integer.MIN_VALUE)).act(1.0f);
 		assertEquals("ChangeXByNBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
 				(int) sprite.look.getXInUserInterfaceDimensionUnit());
-
 	}
 
 	public void testBrickWithStringFormula() {

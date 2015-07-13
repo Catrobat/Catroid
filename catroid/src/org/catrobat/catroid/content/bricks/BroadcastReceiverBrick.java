@@ -171,7 +171,6 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 			this.alphaValue = (alphaValue);
-
 		}
 		return view;
 	}
@@ -186,7 +185,7 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 		spinner.setSelection(position, true);
 	}
 
-    // TODO: BroadcastBrick and BroadcastReceiverBrick contain this identical method.
+	// TODO: BroadcastBrick and BroadcastReceiverBrick contain this identical method.
 	private void showNewMessageDialog(final Spinner spinner) {
 		final Context context = spinner.getContext();
 		BrickTextDialog editDialog = new BrickTextDialog() {

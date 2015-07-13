@@ -50,5 +50,4 @@ public class DroneFlipAction extends TemporalAction {
 		service.getDroneService().doLeftFlip();
 		return superReturn;
 	}
-
 }

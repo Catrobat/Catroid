@@ -45,10 +45,9 @@ public abstract class MindstormsReply {
 
 	public byte[] getData(int offset, int length) {
 		byte[] a = null;
-		if (offset <= data.length - length)
-		{
+		if (offset <= data.length - length) {
 			a = new byte[length];
-			for (int i = 0;i < length;i++) {
+			for (int i = 0; i < length; i++) {
 				a[i] = data[i + offset];
 			}
 		}
@@ -61,9 +60,10 @@ public abstract class MindstormsReply {
 	}
 
 	public int getShort(int offset) {
-		int value = ( (data[offset] & 0xFF)  | (data[offset + 1] & 0xFF) << 8);
+		int value = ((data[offset] & 0xFF) | (data[offset + 1] & 0xFF) << 8);
 
-		return (short)value;	}
+		return (short) value;
+	}
 
 	public int getInt(int offset) {
 		int value = ((data[offset] & 0xFF) |

@@ -30,5 +30,4 @@ public class UserBrickAction extends DelegateAction {
 	public boolean delegate(float delta) {
 		return action.act(delta);
 	}
-
 }

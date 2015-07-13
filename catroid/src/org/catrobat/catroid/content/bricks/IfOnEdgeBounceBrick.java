@@ -90,7 +90,6 @@ public class IfOnEdgeBounceBrick extends BrickBaseType {
 
 			TextView ifBounceLabel = (TextView) view.findViewById(R.id.brick_if_on_edge_bounce_label);
 			ifBounceLabel.setTextColor(ifBounceLabel.getTextColors().withAlpha(alphaValue));
-
 		}
 
 		return view;

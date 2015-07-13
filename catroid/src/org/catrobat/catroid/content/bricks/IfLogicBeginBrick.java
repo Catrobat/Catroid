@@ -160,7 +160,6 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 			editX.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -231,5 +230,4 @@ public class IfLogicBeginBrick extends FormulaBrick implements NestingBrick {
 		this.copy = copyBrick;
 		return copyBrick;
 	}
-
 }

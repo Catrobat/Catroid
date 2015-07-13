@@ -47,7 +47,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class StringsTest extends TestCase {
 	private static final String[] LANGUAGES = { "English" }; //, "Russian", "Romanian" };
-	private static final String[] LANGUAGE_SUFFIXES = { ""}; //, "-ru", "-ro" };
+	private static final String[] LANGUAGE_SUFFIXES = { "" }; //, "-ru", "-ro" };
 	private static final String XML_STRING_PREFIX = "@string/";
 
 	private List<File> getStringFiles() throws IOException {

@@ -40,7 +40,8 @@ import java.util.UUID;
 
 public final class BluetoothTestUtils {
 
-	private BluetoothTestUtils() {}
+	private BluetoothTestUtils() {
+	}
 
 	static byte[] intToByteArray(int i) {
 		return ByteBuffer.allocate(4).putInt(i).array();

@@ -88,7 +88,6 @@ public class StopAllSoundsBrick extends BrickBaseType {
 
 			TextView textStop = (TextView) view.findViewById(R.id.brick_stop_all_sounds_label);
 			textStop.setTextColor(textStop.getTextColors().withAlpha(alphaValue));
-
 		}
 
 		return view;
@@ -109,5 +108,4 @@ public class StopAllSoundsBrick extends BrickBaseType {
 		sequence.addAction(ExtendedActions.stopAllSounds());
 		return null;
 	}
-
 }

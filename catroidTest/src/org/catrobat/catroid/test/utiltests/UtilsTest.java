@@ -218,7 +218,6 @@ public class UtilsTest extends AndroidTestCase {
 				Utils.isStandardProject(standardProject, getContext()));
 		standardProject.removeSprite(sprite);
 		assertTrue("Failed to recognize the standard project", Utils.isStandardProject(standardProject, getContext()));
-
 	}
 
 	private void addScriptAndCompareToStandardProject() {
@@ -281,7 +280,6 @@ public class UtilsTest extends AndroidTestCase {
 			waitBrick.setTimeToWait(oldTime);
 			assertTrue("Failed to recognize the standard project",
 					Utils.isStandardProject(standardProject, getContext()));
-
 		}
 	}
 
@@ -295,7 +293,6 @@ public class UtilsTest extends AndroidTestCase {
 
 		brickList.add(brick);
 		assertTrue("Failed to recognize the standard project", Utils.isStandardProject(standardProject, getContext()));
-
 	}
 
 	private void removeScriptAndCompareToStandardProject() {
@@ -307,7 +304,6 @@ public class UtilsTest extends AndroidTestCase {
 
 		sprite.addScript(catroidScript);
 		assertTrue("Failed to recognize the standard project", Utils.isStandardProject(standardProject, getContext()));
-
 	}
 
 	private void removeSpriteAndCompareToStandardProject() {
@@ -320,6 +316,5 @@ public class UtilsTest extends AndroidTestCase {
 
 		spriteList.add(catroidSprite);
 		assertTrue("Failed to recognize the standard project", Utils.isStandardProject(standardProject, getContext()));
-
 	}
 }

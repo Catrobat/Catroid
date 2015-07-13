@@ -77,5 +77,4 @@ public class DroneMoveTest extends BaseActivityInstrumentationTestCase<ScriptAct
 		solo.clickOnText(solo.getString(R.string.yes));
 		solo.sleep(350);
 	}
-
 }

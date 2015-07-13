@@ -104,8 +104,9 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	}
 
 	@Override
-	public int getRequiredResources() { return BLUETOOTH_PHIRO;	}
-
+	public int getRequiredResources() {
+		return BLUETOOTH_PHIRO;
+	}
 
 	@Override
 	public View getPrototypeView(Context context) {
@@ -144,7 +145,7 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 
 	@Override
 	public View getCustomView(Context context, int brickId, BaseAdapter baseAdapter) {
-			return colorSeekbar.getView(context);
+		return colorSeekbar.getView(context);
 	}
 
 	@Override
@@ -223,7 +224,8 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> arg0) { }
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
 		});
 
 		eyeSpinner.setSelection(eyeEnum.ordinal());

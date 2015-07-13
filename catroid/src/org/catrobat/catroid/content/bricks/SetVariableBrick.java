@@ -225,8 +225,7 @@ public class SetVariableBrick extends UserVariableBrick {
 
 		if (defaultPrototypeToken != null) {
 			int defaultValueId = InternToExternGenerator.getMappedString(defaultPrototypeToken);
-				textSetVariable.setText(context.getText(defaultValueId));
-
+			textSetVariable.setText(context.getText(defaultValueId));
 		} else {
 			textSetVariable.setText(String.valueOf(BrickValues.SET_VARIABLE));
 		}
@@ -255,7 +254,6 @@ public class SetVariableBrick extends UserVariableBrick {
 			editVariable.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -279,5 +277,4 @@ public class SetVariableBrick extends UserVariableBrick {
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.VARIABLE);
 	}
-
 }

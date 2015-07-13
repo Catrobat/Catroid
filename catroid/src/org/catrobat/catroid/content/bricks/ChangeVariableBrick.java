@@ -132,7 +132,6 @@ public class ChangeVariableBrick extends UserVariableBrick {
 
 		variableSpinner.setAdapter(userVariableAdapterWrapper);
 
-
 		if (!(checkbox.getVisibility() == View.VISIBLE)) {
 			variableSpinner.setClickable(true);
 			variableSpinner.setEnabled(true);
@@ -154,7 +153,6 @@ public class ChangeVariableBrick extends UserVariableBrick {
 					dialog.show(((SherlockFragmentActivity) view.getContext()).getSupportFragmentManager(),
 							NewDataDialog.DIALOG_FRAGMENT_TAG);
 					return true;
-
 				}
 				return false;
 			}
@@ -232,7 +230,6 @@ public class ChangeVariableBrick extends UserVariableBrick {
 			editVariable.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 		return view;
 	}
@@ -262,5 +259,4 @@ public class ChangeVariableBrick extends UserVariableBrick {
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.VARIABLE_CHANGE);
 	}
-
 }

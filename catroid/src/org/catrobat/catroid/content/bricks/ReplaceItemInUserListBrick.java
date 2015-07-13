@@ -225,7 +225,6 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 			editTheValue.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -250,12 +249,10 @@ public class ReplaceItemInUserListBrick extends UserListBrick {
 				FormulaEditorFragment.showFragment(view, this, BrickField.REPLACE_ITEM_IN_USERLIST_VALUE);
 				break;
 		}
-
 	}
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.REPLACE_ITEM_IN_USERLIST_INDEX);
 	}
-
 }

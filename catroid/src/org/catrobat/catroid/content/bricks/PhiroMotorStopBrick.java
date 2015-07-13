@@ -168,7 +168,6 @@ public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelected
 			}
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -179,5 +178,4 @@ public class PhiroMotorStopBrick extends BrickBaseType implements OnItemSelected
 		sequence.addAction(ExtendedActions.phiroMotorStopAction(motorEnum));
 		return null;
 	}
-
 }

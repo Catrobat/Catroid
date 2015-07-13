@@ -41,5 +41,4 @@ public abstract class ProjectException extends Exception {
 	public String getUiErrorMessage() {
 		return uiErrorMessage;
 	}
-
 }

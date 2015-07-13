@@ -542,7 +542,6 @@ public final class SoundController {
 		} else {
 			return audioPath;
 		}
-
 	}
 
 	public void handleAddButtonFromNew(SoundFragment soundFragment) {
@@ -566,5 +565,4 @@ public final class SoundController {
 		scriptActivity.setIsSoundFragmentFromPlaySoundBrickNewFalse();
 		scriptActivity.setIsSoundFragmentHandleAddButtonHandled(false);
 	}
-
 }

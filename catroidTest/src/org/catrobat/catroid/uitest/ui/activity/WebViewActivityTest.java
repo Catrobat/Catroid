@@ -84,7 +84,6 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 			});
 
 			assertTrue("website hasn't been loaded properly", solo.searchText("© Catrobat"));
-
 		} else {
 			applyWebViewOnOldDevices(webButtonText);
 		}
@@ -110,10 +109,8 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 			});
 
 			assertTrue("website hasn't been loaded properly", solo.searchText("© Catrobat"));
-
 		} else {
 			applyWebViewOnOldDevices(helpButtonText);
-
 		}
 	}
 
@@ -142,7 +139,6 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 			});
 
 			assertTrue("website hasn't been loaded properly", solo.searchText("© Catrobat"));
-
 		} else {
 			applyWebViewOnOldDevices(passwordForgottenButtonText);
 		}
@@ -171,7 +167,5 @@ public class WebViewActivityTest extends BaseActivityInstrumentationTestCase<Mai
 			solo.goBack();
 			assertFalse("Dialog was not closed when clicked back button", solo.searchText(dialogTitleText));
 		}
-
 	}
-
 }

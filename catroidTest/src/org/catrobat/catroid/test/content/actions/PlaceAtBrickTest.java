@@ -36,13 +36,13 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 	private Formula yPosition = new Formula(Y_POSITION_VALUE);
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
 	private static final String NOT_NUMERICAL_STRING2 = "NOT_NUMERICAL_STRING2";
-    private Sprite sprite;
+	private Sprite sprite;
 
-    @Override
-    protected void setUp() throws Exception {
-        sprite = new Sprite("testSprite");
-        super.setUp();
-    }
+	@Override
+	protected void setUp() throws Exception {
+		sprite = new Sprite("testSprite");
+		super.setUp();
+	}
 
 	public void testNormalBehavior() {
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
@@ -64,7 +64,7 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 	}
 
 	public void testBoundaryPositions() {
-        ExtendedActions.placeAt(sprite, new Formula(Integer.MAX_VALUE), new Formula(Integer.MAX_VALUE)).act(1.0f);
+		ExtendedActions.placeAt(sprite, new Formula(Integer.MAX_VALUE), new Formula(Integer.MAX_VALUE)).act(1.0f);
 		assertEquals("PlaceAtBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
 				(int) sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("PlaceAtBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
@@ -79,14 +79,14 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 
 	public void testBrickWithStringFormula() {
 		ExtendedActions.placeAt(sprite, new Formula(String.valueOf(X_POSITION_VALUE)),
-                new Formula(String.valueOf(Y_POSITION_VALUE))).act(1.0f);
+				new Formula(String.valueOf(Y_POSITION_VALUE))).act(1.0f);
 		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", X_POSITION_VALUE,
 				(int) sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", Y_POSITION_VALUE,
 				(int) sprite.look.getYInUserInterfaceDimensionUnit());
 
 		ExtendedActions.placeAt(sprite, new Formula(NOT_NUMERICAL_STRING),
-                new Formula(String.valueOf(NOT_NUMERICAL_STRING2))).act(1.0f);
+				new Formula(String.valueOf(NOT_NUMERICAL_STRING2))).act(1.0f);
 		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", 0f,
 				sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", 0f,

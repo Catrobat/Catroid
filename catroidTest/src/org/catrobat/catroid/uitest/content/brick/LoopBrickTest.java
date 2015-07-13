@@ -171,8 +171,7 @@ public class LoopBrickTest extends BaseActivityInstrumentationTestCase<MainMenuA
 
 		assertEquals("Incorrect number of bricks.", 8, projectBrickList.size());
 		assertTrue("Wrong Brick instance. expected 4=ChangeBrightnessByNBrick, bricklist: " +
-						projectBrickList.toString(), projectBrickList.get(4) instanceof ChangeBrightnessByNBrick);
-
+				projectBrickList.toString(), projectBrickList.get(4) instanceof ChangeBrightnessByNBrick);
 	}
 
 	public void testNestedForeverBricks() {

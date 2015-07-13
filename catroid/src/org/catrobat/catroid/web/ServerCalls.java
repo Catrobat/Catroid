@@ -118,8 +118,8 @@ public final class ServerCalls {
 	}
 
 	public void uploadProject(String projectName, String projectDescription, String zipFileString, String userEmail,
-							  String language, String token, String username, ResultReceiver receiver, Integer notificationId,
-							  Context context) throws WebconnectionException {
+			String language, String token, String username, ResultReceiver receiver, Integer notificationId,
+			Context context) throws WebconnectionException {
 
 		Preconditions.checkNotNull(context, "Context cannot be null!");
 
@@ -206,7 +206,7 @@ public final class ServerCalls {
 	}
 
 	public void downloadProject(String url, String filePath, final ResultReceiver receiver,
-								final int notificationId) throws IOException, WebconnectionException {
+			final int notificationId) throws IOException, WebconnectionException {
 
 		File file = new File(filePath);
 		if (!(file.getParentFile().mkdirs() || file.getParentFile().isDirectory())) {
@@ -294,7 +294,7 @@ public final class ServerCalls {
 	}
 
 	public boolean registerOrCheckToken(String username, String password, String userEmail, String language,
-										String country, String token, Context context) throws WebconnectionException {
+			String country, String token, Context context) throws WebconnectionException {
 
 		Preconditions.checkNotNull(context, "Context cannot be null!");
 

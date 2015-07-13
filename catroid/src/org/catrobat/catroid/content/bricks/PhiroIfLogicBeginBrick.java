@@ -248,5 +248,4 @@ public class PhiroIfLogicBeginBrick extends IfLogicBeginBrick implements OnItemS
 		this.copy = copyBrick;
 		return copyBrick;
 	}
-	
 }

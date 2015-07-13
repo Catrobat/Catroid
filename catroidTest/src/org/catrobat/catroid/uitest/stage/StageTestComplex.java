@@ -320,7 +320,6 @@ public class StageTestComplex extends BaseActivityInstrumentationTestCase<MainMe
 		Utils.updateScreenWidthAndHeight(getActivity());
 	}
 
-
 	private void comparePixelColorArrayWithScreenArrayAtProjectCoordinates(byte[] screenArray, byte[] pixelArray, int x, int y) {
 		comparePixelColorArrayWithScreenArrayAtProjectCoordinatesWithTolerance(screenArray, pixelArray, x, y, 10);
 	}

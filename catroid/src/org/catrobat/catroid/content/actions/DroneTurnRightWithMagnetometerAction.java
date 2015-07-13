@@ -39,7 +39,6 @@ public class DroneTurnRightWithMagnetometerAction extends DroneMoveAction {
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				Log.e(TAG, Log.getStackTraceString(e));
-
 			}
 			Log.d(getClass().getSimpleName(), "isCalled");
 		}
@@ -57,5 +56,4 @@ public class DroneTurnRightWithMagnetometerAction extends DroneMoveAction {
 		super.setCommandAndYawEnabled(false);
 		isCalled = true;
 	}
-
 }

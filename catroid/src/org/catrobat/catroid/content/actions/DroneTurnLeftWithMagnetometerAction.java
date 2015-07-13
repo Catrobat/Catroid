@@ -50,5 +50,4 @@ public class DroneTurnLeftWithMagnetometerAction extends DroneMoveAction {
 		super.setCommandAndYawEnabled(false);
 		isCalled = true;
 	}
-
 }

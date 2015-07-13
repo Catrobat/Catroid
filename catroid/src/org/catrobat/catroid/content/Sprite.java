@@ -281,7 +281,6 @@ public class Sprite implements Serializable, Cloneable {
 		}
 
 		return cloneSprite;
-
 	}
 
 	protected UserBrick findBrickWithId(List<UserBrick> list, int id) {
@@ -299,7 +298,6 @@ public class Sprite implements Serializable, Cloneable {
 			if (s instanceof WhenScript && (((WhenScript) s).getAction().equalsIgnoreCase(action))) {
 				SequenceAction sequence = createActionSequence(s);
 				whenParallelAction.addAction(sequence);
-
 			}
 		}
 		look.setWhenParallelAction(whenParallelAction);
@@ -337,7 +335,6 @@ public class Sprite implements Serializable, Cloneable {
 	public void addScript(Script script) {
 		if (script != null && !scriptList.contains(script)) {
 			scriptList.add(script);
-
 		}
 	}
 

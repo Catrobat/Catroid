@@ -54,7 +54,7 @@ public abstract class NXTI2CSensor extends NXTSensor {
 	}
 
 	@Override
-	protected void initialize()	{
+	protected void initialize() {
 		super.initialize();
 		readRegister(0x00, 0x01);
 	}
@@ -63,15 +63,15 @@ public abstract class NXTI2CSensor extends NXTSensor {
 		if (!hasInit) {
 			initialize();
 		}
-		byte[] command = { address, register, data};
-		write(command, (byte)0, reply);
+		byte[] command = { address, register, data };
+		write(command, (byte) 0, reply);
 	}
 
 	protected byte[] readRegister(int register, int rxLength) {
 		if (!hasInit) {
 			initialize();
 		}
-		byte[] command = { address, (byte)register };
+		byte[] command = { address, (byte) register };
 		return writeAndRead(command, (byte) rxLength);
 	}
 
@@ -118,8 +118,7 @@ public abstract class NXTI2CSensor extends NXTSensor {
 		if (reply) {
 			NXTReply brickReply = new NXTReply(connection.sendAndReceive(command));
 			NXTError.checkForError(brickReply, 5);
-		}
-		else {
+		} else {
 			connection.send(command);
 		}
 	}

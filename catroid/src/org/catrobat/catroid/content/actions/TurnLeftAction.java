@@ -52,5 +52,4 @@ public class TurnLeftAction extends TemporalAction {
 	public void setDegrees(Formula degrees) {
 		this.degrees = degrees;
 	}
-
 }

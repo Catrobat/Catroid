@@ -229,7 +229,6 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 				} else if (onProjectEditListener != null) {
 					onProjectEditListener.onProjectEdit(position);
 				}
-
 			}
 		});
 
@@ -272,5 +271,4 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 
 		void onProjectEdit(int position);
 	}
-
 }

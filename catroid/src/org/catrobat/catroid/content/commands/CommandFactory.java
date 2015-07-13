@@ -44,5 +44,4 @@ public final class CommandFactory {
 			ConcurrentFormulaHashMap newFormulaMap) {
 		return new ChangeFormulaCommand(formulaBrick, newFormulaMap);
 	}
-
 }

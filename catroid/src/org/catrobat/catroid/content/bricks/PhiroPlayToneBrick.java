@@ -174,8 +174,8 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> arg0) { }
-
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
 		});
 
 		toneSpinner.setSelection(toneEnum.ordinal());
@@ -219,7 +219,6 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 			editDuration.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -231,5 +230,4 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 				getFormulaWithBrickField(BrickField.PHIRO_DURATION_IN_SECONDS)));
 		return null;
 	}
-
 }

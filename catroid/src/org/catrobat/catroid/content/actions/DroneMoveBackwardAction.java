@@ -35,5 +35,4 @@ public class DroneMoveBackwardAction extends DroneMoveAction {
 		super.setCommandAndYawEnabled(false);
 		super.getDroneService().moveBackward(DRONE_MOVE_SPEED_STOP);
 	}
-
 }

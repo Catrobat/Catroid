@@ -236,7 +236,6 @@ public class InternFormulaKeyboardAdapter {
 				return buildObject(Sensors.OBJECT_ROTATION);
 			case R.string.formula_editor_object_layer:
 				return buildObject(Sensors.OBJECT_LAYER);
-
 		}
 		return null;
 	}
@@ -328,5 +327,4 @@ public class InternFormulaKeyboardAdapter {
 		returnList.add(new InternToken(InternTokenType.STRING, myString));
 		return returnList;
 	}
-
 }

@@ -172,7 +172,6 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 			}
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

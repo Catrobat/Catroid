@@ -38,13 +38,13 @@ public class MindstormsNXTTestModel implements DeviceModel {
 	private static final byte SHOULD_REPLY = 0x0;
 	private static final byte NO_ERROR = 0x0;
 	private Random random = new Random(System.currentTimeMillis());
-	private byte[] batteryValue = {getRandomByte(256), getRandomByte(256)};
-	private byte[] keepAliveTime = {getRandomByte(256), getRandomByte(256), getRandomByte(256), getRandomByte(256)};
+	private byte[] batteryValue = { getRandomByte(256), getRandomByte(256) };
+	private byte[] keepAliveTime = { getRandomByte(256), getRandomByte(256), getRandomByte(256), getRandomByte(256) };
 
-	private byte[] portSensorType = {0, 0, 0, 0};
-	private byte[] portSensorMode = {0, 0, 0, 0};
+	private byte[] portSensorType = { 0, 0, 0, 0 };
+	private byte[] portSensorMode = { 0, 0, 0, 0 };
 
-	private byte[] sensorValue = {getRandomByte(256), getRandomByte(256)};
+	private byte[] sensorValue = { getRandomByte(256), getRandomByte(256) };
 
 	private byte ultrasonicSensorBytesReady = 0;
 
@@ -319,10 +319,10 @@ public class MindstormsNXTTestModel implements DeviceModel {
 			case 0x40:
 			case 0x60:
 			case (byte) 0x80: // percent
-			case (byte)0xA0:
-			case (byte)0xC0:
-			case (byte)0xE0:
-			case (byte)0x1F:
+			case (byte) 0xA0:
+			case (byte) 0xC0:
+			case (byte) 0xE0:
+			case (byte) 0x1F:
 				portSensorMode[port] = sensorMode;
 				return NO_ERROR;
 			default:
@@ -374,24 +374,24 @@ public class MindstormsNXTTestModel implements DeviceModel {
 	}
 
 	public void setSensorValue(int value) {
-		sensorValue[0] = (byte)(value & 0xff);
-		sensorValue[1] = (byte)((value >> 8) & 0xff);
+		sensorValue[0] = (byte) (value & 0xff);
+		sensorValue[1] = (byte) ((value >> 8) & 0xff);
 	}
 
 	public void setBatteryValue(int batteryValue) {
 
-		this.batteryValue[0] = (byte)(batteryValue & 0xff);
-		this.batteryValue[1] = (byte)((batteryValue >> 8) & 0xff);
+		this.batteryValue[0] = (byte) (batteryValue & 0xff);
+		this.batteryValue[1] = (byte) ((batteryValue >> 8) & 0xff);
 	}
 
 	public void setKeepAliveTime(int keepAliveTimeValue) {
-		keepAliveTime[0] = (byte)(keepAliveTimeValue & 0xff);
-		keepAliveTime[1] = (byte)((keepAliveTimeValue >> 8) & 0xff);
-		keepAliveTime[2] = (byte)((keepAliveTimeValue >> 16) & 0xff);
-		keepAliveTime[3] = (byte)((keepAliveTimeValue >> 24) & 0xff);
+		keepAliveTime[0] = (byte) (keepAliveTimeValue & 0xff);
+		keepAliveTime[1] = (byte) ((keepAliveTimeValue >> 8) & 0xff);
+		keepAliveTime[2] = (byte) ((keepAliveTimeValue >> 16) & 0xff);
+		keepAliveTime[3] = (byte) ((keepAliveTimeValue >> 24) & 0xff);
 	}
 
 	public byte getRandomByte(int maxExclusive) {
-		return (byte)random.nextInt(maxExclusive);
+		return (byte) random.nextInt(maxExclusive);
 	}
 }

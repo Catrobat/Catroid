@@ -135,7 +135,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				handleAddButton();
 			}
 		});
-
 	}
 
 	@Override
@@ -180,7 +179,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		// set adapter and soundInfoList for ev. unpacking
 		BackPackListManager.getInstance().setCurrentSoundInfoList(soundInfoList);
 		BackPackListManager.getInstance().setCurrentSoundAdapter(adapter);
-
 	}
 
 	@Override
@@ -305,7 +303,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 		editor.putBoolean(SoundController.SHARED_PREFERENCE_NAME, getShowDetails());
 		editor.commit();
-
 	}
 
 	@Override
@@ -325,7 +322,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
-
 	}
 
 	@Override
@@ -338,7 +334,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
 		}
-
 	}
 
 	@Override
@@ -381,9 +376,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		if (requestCode == SoundController.REQUEST_SELECT_MUSIC) {
 			Log.d("SoundFragment", "onActivityResult RequestMusic");
 			setHandleAddbutton();
-
 		}
-
 	}
 
 	@Override
@@ -418,7 +411,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			if (numberOfSelectedItems == 1) {
 				appendix = singleItemAppendixDeleteActionMode;
 			}
-
 
 			String numberOfItems = Integer.toString(numberOfSelectedItems);
 			String completeTitle = actionModeTitle + " " + numberOfItems + " " + appendix;
@@ -580,7 +572,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void handleAddButton() {
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 		intent.setType("audio/*");
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)	{
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			disableGoogleDrive(intent);
 		}
 		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
@@ -589,7 +581,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@TargetApi(19)
 	private void disableGoogleDrive(Intent intent) {
-		intent.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
+		intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
 	}
 
 	@Override
@@ -651,7 +643,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				adapter.notifyDataSetChanged();
 				onSoundChecked();
 			}
-
 		});
 	}
 
@@ -715,9 +706,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		public void onDestroyActionMode(ActionMode mode) {
 
 			((SoundAdapter) adapter).onDestroyActionModeCopy(mode);
-
 		}
-
 	};
 
 	private ActionMode.Callback backPackModeCallBack = new ActionMode.Callback() {
@@ -752,9 +741,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		public void onDestroyActionMode(ActionMode mode) {
 
 			((SoundAdapter) adapter).onDestroyActionModeBackPack(mode);
-
 		}
-
 	};
 
 	private ActionMode.Callback deleteModeCallBack = new ActionMode.Callback() {
@@ -826,7 +813,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
-
 			}
 		});
 
@@ -906,7 +892,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public interface OnSoundInfoListChangedAfterNewListener {
 
 		void onSoundInfoListChangedAfterNew(SoundInfo soundInfo);
-
 	}
 
 	public class CopyAudioFilesTask extends AsyncTask<String, Void, File> {
@@ -966,7 +951,6 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				Utils.showErrorDialog(getActivity(), R.string.error_load_sound);
 			}
 		}
-
 	}
 
 	public void setSelectedSoundInfo(SoundInfo selectedSoundInfo) {

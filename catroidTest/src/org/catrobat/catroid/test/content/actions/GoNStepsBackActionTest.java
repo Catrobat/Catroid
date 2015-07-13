@@ -113,7 +113,6 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 		}
 	}
 
-
 	public void testNullSprite() {
 		GoNStepsBackAction action = ExtendedActions.goNStepsBack(null, steps);
 		try {
@@ -172,5 +171,4 @@ public class GoNStepsBackActionTest extends AndroidTestCase {
 		assertEquals("Unexpected sprite Z position", 1, sprite.look.getZIndex());
 		assertEquals("Unexpected sprite Z position", 2, sprite2.look.getZIndex());
 	}
-
 }

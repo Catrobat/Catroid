@@ -57,7 +57,8 @@ public class Project implements Serializable {
 	private DataContainer dataContainer = null;
 
 	@XStreamAlias("settings")
-	private List<Setting> settings = new ArrayList<Setting>();;
+	private List<Setting> settings = new ArrayList<Setting>();
+	;
 
 	public Project(Context context, String name) {
 		xmlHeader.setProgramName(name);
@@ -90,7 +91,6 @@ public class Project implements Serializable {
 			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
 			ScreenValues.SCREEN_WIDTH = tmp;
 		}
-
 	}
 
 	public synchronized void addSprite(Sprite sprite) {
@@ -98,12 +98,10 @@ public class Project implements Serializable {
 			return;
 		}
 		spriteList.add(sprite);
-
 	}
 
 	public synchronized boolean removeSprite(Sprite sprite) {
 		return spriteList.remove(sprite);
-
 	}
 
 	public List<Sprite> getSpriteList() {
@@ -160,7 +158,7 @@ public class Project implements Serializable {
 	public void setDeviceData(Context context) {
 		// TODO add other header values
 		xmlHeader.setPlatform(Constants.PLATFORM_NAME);
-		xmlHeader.setPlatformVersion((double)Build.VERSION.SDK_INT);
+		xmlHeader.setPlatformVersion((double) Build.VERSION.SDK_INT);
 		xmlHeader.setDeviceName(Build.MODEL);
 
 		xmlHeader.setCatrobatLanguageVersion(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);

@@ -104,7 +104,6 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 			ifElseLabel.setTextColor(ifElseLabel.getTextColors().withAlpha(alphaValue));
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -195,5 +194,4 @@ public class IfLogicElseBrick extends BrickBaseType implements NestingBrick, All
 		this.copy = copyBrick;
 		return copyBrick;
 	}
-
 }

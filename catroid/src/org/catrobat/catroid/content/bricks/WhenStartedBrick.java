@@ -65,7 +65,6 @@ public class WhenStartedBrick extends ScriptBrick {
 	public View getView(Context context, int brickId, final BaseAdapter baseAdapter) {
 		if (animationState) {
 			return view;
-
 		}
 		view = View.inflate(context, R.layout.brick_when_started, null);
 
@@ -120,7 +119,6 @@ public class WhenStartedBrick extends ScriptBrick {
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -129,6 +127,5 @@ public class WhenStartedBrick extends ScriptBrick {
 	@Override
 	public List<SequenceAction> addActionToSequence(Sprite sprite, SequenceAction sequence) {
 		return null;
-
 	}
 }

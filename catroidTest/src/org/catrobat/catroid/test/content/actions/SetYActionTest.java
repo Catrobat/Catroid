@@ -31,22 +31,22 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 public class SetYActionTest extends AndroidTestCase {
 
-    private static final float Y_POSITION = 73.3f;
+	private static final float Y_POSITION = 73.3f;
 	private Formula yPosition = new Formula(Y_POSITION);
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
-    private Sprite sprite;
+	private Sprite sprite;
 
-    @Override
-    protected void setUp() throws Exception {
-        sprite = new Sprite("testSprite");
-        super.setUp();
-    }
+	@Override
+	protected void setUp() throws Exception {
+		sprite = new Sprite("testSprite");
+		super.setUp();
+	}
 
 	public void testNormalBehavior() {
 		assertEquals("Unexpected initial sprite x position", 0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals("Unexpected initial sprite y position", 0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
-        ExtendedActions.setY(sprite, yPosition).act(1.0f);
+		ExtendedActions.setY(sprite, yPosition).act(1.0f);
 		assertEquals("Incorrect sprite y position after SetYBrick executed", Y_POSITION,
 				sprite.look.getYInUserInterfaceDimensionUnit());
 	}

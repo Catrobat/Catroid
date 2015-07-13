@@ -68,7 +68,6 @@ public class SoundRecorder {
 		} catch (RuntimeException e) {
 			throw e;
 		}
-
 	}
 
 	public void stop() throws IOException {
@@ -83,8 +82,8 @@ public class SoundRecorder {
 					"(delete the output file, for instance), since the output file " +
 					"is not properly constructed when this happens.");
 		}
-        recorder.reset();
-        recorder.release();
+		recorder.reset();
+		recorder.release();
 		isRecording = false;
 	}
 
@@ -99,5 +98,4 @@ public class SoundRecorder {
 	public boolean isRecording() {
 		return isRecording;
 	}
-
 }

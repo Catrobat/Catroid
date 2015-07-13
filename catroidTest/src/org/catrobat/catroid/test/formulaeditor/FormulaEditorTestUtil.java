@@ -106,7 +106,7 @@ public final class FormulaEditorTestUtil {
 		InstrumentationTestCase.assertNotNull("Formula is not parsed correctly: " + function.name() + "("
 				+ firstInternTokenList + "," + secondInternTokenList + ")", parseTree);
 		InstrumentationTestCase.assertEquals("Formula interpretation is not as expected! " + function.name() + "("
-				+ firstInternTokenList + "," + secondInternTokenList + ")", expected,
+						+ firstInternTokenList + "," + secondInternTokenList + ")", expected,
 				parseTree.interpretRecursive(testSprite));
 	}
 
@@ -297,7 +297,4 @@ public final class FormulaEditorTestUtil {
 		secondOperandList.add(new InternToken(secondInternTokenType, secondOperand));
 		return buildBinaryOperator(firstOperandList, operatorType, secondOperandList);
 	}
-
-
-
 }

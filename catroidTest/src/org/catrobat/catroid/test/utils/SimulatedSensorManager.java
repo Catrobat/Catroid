@@ -56,7 +56,9 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 		public R getR() {
 			return secondEntry;
 		}
-	};
+	}
+
+	;
 
 	List<Pair<SensorEventListener, Sensor>> listeners;
 	List<Pair<SensorCustomEventListener, Sensors>> customListeners;
@@ -124,7 +126,6 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 
 	public synchronized void stopSimulation() {
 		simulationThreadRunning = false;
-
 	}
 
 	public synchronized void unregisterListener(SensorEventListener listener) {
@@ -138,7 +139,6 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 				iterator.remove();
 			}
 		}
-
 	}
 
 	public synchronized boolean registerListener(SensorEventListener listener, Sensor sensor, int rate) {
@@ -174,7 +174,6 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 				Constructor<SensorEvent> constructor = SensorEvent.class.getDeclaredConstructor(int.class);
 				constructor.setAccessible(true);
 				sensorEvent = constructor.newInstance(3);
-
 			} catch (NoSuchMethodException noSuchMethodException) {
 				noSuchMethodException.printStackTrace();
 			} catch (IllegalArgumentException illegalArgumentException) {
@@ -233,7 +232,6 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 					sensorEventListener.onSensorChanged(sensorEvent);
 					break;
 			}
-
 		}
 		for (Pair<SensorCustomEventListener, Sensors> pair : customListeners) {
 			SensorCustomEventListener sensorEventListener = pair.getL();

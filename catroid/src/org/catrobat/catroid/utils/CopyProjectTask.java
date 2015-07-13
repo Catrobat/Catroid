@@ -59,7 +59,6 @@ public class CopyProjectTask extends AsyncTask<String, Long, Boolean> {
 			Project copiedProject = StorageHandler.getInstance().loadProject(newProjectName);
 			copiedProject.setName(newProjectName);
 			StorageHandler.getInstance().saveProject(copiedProject);
-
 		} catch (IOException exception) {
 			UtilFile.deleteDirectory(new File(Utils.buildProjectPath(newProjectName)));
 			Log.e("CATROID", "Error while copying project, destroy newly created directories.", exception);

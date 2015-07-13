@@ -90,7 +90,6 @@ public class ComeToFrontBrick extends BrickBaseType {
 
 			TextView goFrontLabel = (TextView) view.findViewById(R.id.brick_go_to_front_label);
 			goFrontLabel.setTextColor(goFrontLabel.getTextColors().withAlpha(alphaValue));
-
 		}
 
 		return view;

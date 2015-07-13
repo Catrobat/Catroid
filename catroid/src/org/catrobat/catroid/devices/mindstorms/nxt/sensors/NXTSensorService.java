@@ -124,14 +124,11 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 
 			try {
 				connection.send(command);
-			}
-			catch (MindstormsException e) {
+			} catch (MindstormsException e) {
 				Log.e(TAG, e.getMessage());
 			}
-
 		}
 	}
-
 
 	List<OnSensorChangedListener> sensorChangedListeners = new LinkedList<OnSensorChangedListener>();
 
@@ -212,7 +209,6 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 			SensorTuple tuple = registeredSensors.get(port);
 			if (tuple != null) {
 				tuple.scheduledFuture.cancel(false);
-
 			}
 			registeredSensors.remove(port);
 		}

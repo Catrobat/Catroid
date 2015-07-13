@@ -196,8 +196,8 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> arg0) { }
-
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
 		});
 
 		motorSpinner.setSelection(motorEnum.ordinal());
@@ -241,7 +241,6 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 			editSpeed.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -253,5 +252,4 @@ public class PhiroMotorMoveForwardBrick extends FormulaBrick {
 				getFormulaWithBrickField(BrickField.PHIRO_SPEED)));
 		return null;
 	}
-
 }

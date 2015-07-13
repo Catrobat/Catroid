@@ -117,7 +117,7 @@ public class PreStageActivity extends BaseActivity {
 			}
 		}
 
-		if ((requiredResources & Brick.CAMERA_LED ) > 0) {
+		if ((requiredResources & Brick.CAMERA_LED) > 0) {
 			if (!CameraManager.getInstance().isFacingBack()) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setMessage(getString(R.string.led_and_front_camera_warning)).setCancelable(false)
@@ -372,7 +372,7 @@ public class PreStageActivity extends BaseActivity {
 	}
 
 	private void ledInitialize() {
-		if ( hasFlash() ) {
+		if (hasFlash()) {
 			resourceInitialized();
 			LedUtil.activateLedThread();
 		} else {
@@ -380,5 +380,4 @@ public class PreStageActivity extends BaseActivity {
 			resourceFailed();
 		}
 	}
-
 }

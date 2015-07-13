@@ -36,13 +36,13 @@ public class ChangeSizeByNActionTest extends InstrumentationTestCase {
 	private static final String NOT_NUMERICAL_STRING = "size";
 	private static final float CHANGE_SIZE = 20f;
 	private static final float DELTA = 0.0001f;
-    private Sprite sprite;
+	private Sprite sprite;
 
-    @Override
-    protected void setUp() throws Exception {
-        sprite = new Sprite("testSprite");
-        super.setUp();
-    }
+	@Override
+	protected void setUp() throws Exception {
+		sprite = new Sprite("testSprite");
+		super.setUp();
+	}
 
 	public void testSize() {
 		assertEquals("Unexpected initial sprite size value", INITIALIZED_VALUE, sprite.look.getSizeInUserInterfaceDimensionUnit());

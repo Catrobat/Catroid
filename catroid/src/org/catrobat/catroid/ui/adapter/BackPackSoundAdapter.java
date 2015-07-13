@@ -54,7 +54,6 @@ public class BackPackSoundAdapter extends SoundBaseAdapter implements ScriptActi
 			return convertView;
 		}
 		return this.backPackSoundFragment.getView(position, convertView);
-
 	}
 
 	public void onDestroyActionModeUnpacking(ActionMode mode) {

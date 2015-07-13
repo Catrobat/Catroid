@@ -85,7 +85,6 @@ public class PhiroImpl implements Phiro {
 
 	private PhiroListener phiroListener;
 
-
 	@Override
 	public synchronized void playTone(int selectedTone, int durationInSeconds) {
 		sendAnalogFirmataMessage(PIN_SPEAKER_OUT, selectedTone);
@@ -99,6 +98,7 @@ public class PhiroImpl implements Phiro {
 
 	Timer timer = new Timer();
 	TimerTask currentStopPlayToneTask = null;
+
 	private class StopPlayToneTask extends TimerTask {
 		@Override
 		public void run() {
@@ -174,7 +174,7 @@ public class PhiroImpl implements Phiro {
 			return 255;
 		}
 
-		return (int)(percent * 2.55);
+		return (int) (percent * 2.55);
 	}
 
 	private int checkRBGValue(int rgbValue) {

@@ -91,7 +91,6 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 			Drawable background = layout.getBackground();
 			background.setAlpha(alphaValue);
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

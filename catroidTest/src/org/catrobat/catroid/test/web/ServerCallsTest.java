@@ -83,7 +83,6 @@ public class ServerCallsTest extends AndroidTestCase {
 			assertFalse("WebconnectionException: the token should be valid \nstatus code:" + e.getStatusCode()
 					+ "\nmessage: " + e.getMessage(), true);
 		}
-
 	}
 
 	public void testRegisterWithExistingUser() {
@@ -114,7 +113,6 @@ public class ServerCallsTest extends AndroidTestCase {
 					"an exception should not be thrown! \nstatus code:" + e.getStatusCode() + "\nmessage: "
 							+ e.getMessage(), true);
 		}
-
 	}
 
 	public void testRegisterWithExistingUserButWrongPws() {
@@ -138,7 +136,6 @@ public class ServerCallsTest extends AndroidTestCase {
 					getContext());
 
 			assertFalse("should never be reached because the password is wrong", true);
-
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the password is wrong", true);
@@ -146,7 +143,6 @@ public class ServerCallsTest extends AndroidTestCase {
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
 		}
-
 	}
 
 	public void testRegisterWithNewUserButExistingEmail() {
@@ -171,7 +167,6 @@ public class ServerCallsTest extends AndroidTestCase {
 			assertFalse(
 					"should never be reached because two registrations with the same email address are not allowed",
 					true);
-
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the email already exists on the server", true);
@@ -180,7 +175,6 @@ public class ServerCallsTest extends AndroidTestCase {
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
 		}
-
 	}
 
 	public void testRegisterWithTooShortPassword() {
@@ -194,7 +188,6 @@ public class ServerCallsTest extends AndroidTestCase {
 					getContext());
 
 			assertFalse("should never be reached because the password is too short", true);
-
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the password is too short", true);
@@ -216,7 +209,6 @@ public class ServerCallsTest extends AndroidTestCase {
 					getContext());
 
 			assertFalse("should never be reached because the email is not valid", true);
-
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the email is not valid", true);
@@ -235,7 +227,6 @@ public class ServerCallsTest extends AndroidTestCase {
 
 			Log.i(LOG_TAG, "tokenOk: " + tokenOk);
 			assertFalse("should not be reached, exception is thrown", tokenOk);
-
 		} catch (WebconnectionException e) {
 			assertTrue("exception is thrown if we pass a wrong token", true);
 			assertEquals("wrong status code from server", STATUS_CODE_AUTHENTICATION_FAILED, e.getStatusCode());
@@ -243,7 +234,7 @@ public class ServerCallsTest extends AndroidTestCase {
 			assertTrue("no error message available", e.getMessage().length() > 0);
 		}
 	}
-	
+
 	public void testCheckTokenOk() {
 		try {
 			String testUser = "testUser" + System.currentTimeMillis();
@@ -264,13 +255,10 @@ public class ServerCallsTest extends AndroidTestCase {
 
 			Log.i(LOG_TAG, "tokenOk: " + tokenOk);
 			assertTrue("token should be ok", tokenOk);
-
 		} catch (WebconnectionException e) {
 			assertFalse("WebconnectionException \nstatus code:" + e.getStatusCode() + "\nmessage: " + e.getMessage(),
 					true);
 			e.printStackTrace();
 		}
-
 	}
-
 }

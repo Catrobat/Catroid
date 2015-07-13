@@ -174,5 +174,4 @@ public class DroneBricksActionTests extends InstrumentationTestCase {
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).turnRight(0.2f);
 		Mockito.verify(droneControlService, Mockito.atLeast(1)).turnRight(0);
 	}
-
 }

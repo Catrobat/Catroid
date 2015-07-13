@@ -193,7 +193,6 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		int numberOfSoundsAfterCopy = getCurrentNumberOfSounds();
 
 		assertEquals("No sound has been copied!", ++numberOfSoundsBeforeCopy, numberOfSoundsAfterCopy);
-
 	}
 
 	public void testCopySelectAll() {
@@ -240,14 +239,11 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		assertTrue("Sound not renamed in actual view", solo.searchText(newSoundName));
 	}
 
-
 	public void testSoundTimeUnderOneSecond() {
 		String soundName = "shortSound";
 		addNewSound(soundName, "soundunderonesecond.m4p", RESOURCE_SHORT_SOUND);
 		solo.sleep(1000);
 		assertTrue("Sound has a length of 00:00", !solo.searchText("00:00"));
-
-
 	}
 
 	public void testEqualSoundNames() {
@@ -466,7 +462,6 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		if (!BuildConfig.FEATURE_BACKPACK_ENABLED) {
 			return;
 		}
-
 
 		UiTestUtils.openActionMode(solo, solo.getString(R.string.backpack), R.id.backpack, getActivity());
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
@@ -1006,7 +1001,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
-		int[] checkboxIndicesToCheck = {solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2};
+		int[] checkboxIndicesToCheck = { solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2 };
 		int expectedNumberOfSounds = currentNumberOfSounds - checkboxIndicesToCheck.length;
 
 		solo.scrollDown();
@@ -1211,7 +1206,7 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 
 		assertTrue("Bottom bar is visible", solo.getView(R.id.bottom_bar).getVisibility() == View.GONE);
 
-		int[] checkboxIndicesToCheck = {solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2};
+		int[] checkboxIndicesToCheck = { solo.getCurrentViews(CheckBox.class).size() - 1, 0, 2 };
 
 		solo.scrollDown();
 		solo.clickOnCheckBox(checkboxIndicesToCheck[0]);
@@ -1224,7 +1219,6 @@ public class SoundFragmentTest extends BaseActivityInstrumentationTestCase<MainM
 		int viewAmountAfterDeleteMode = solo.getCurrentViews().size();
 
 		assertTrue("checkboxes or other delete elements are still visible", viewAmountBeforeDeleteMode == viewAmountAfterDeleteMode);
-
 	}
 
 	private void renameSound(String soundToRename, String newSoundName) {

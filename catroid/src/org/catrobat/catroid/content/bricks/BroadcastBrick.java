@@ -171,7 +171,6 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 			}
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -216,7 +215,6 @@ public class BroadcastBrick extends BrickBaseType implements BroadcastMessage {
 			protected String getTitle() {
 				return getString(R.string.dialog_new_broadcast_message_title);
 			}
-
 		};
 
 		editDialog.show(((FragmentActivity) context).getSupportFragmentManager(), "dialog_broadcast_brick");

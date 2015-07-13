@@ -55,9 +55,9 @@ public class FormulaEditorComputDialogTest extends BaseActivityInstrumentationTe
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_compute));
 	}
 
-	public void testDialogCreation(){
+	public void testDialogCreation() {
 		assertTrue("Dialog not loaded!",
-				solo.searchText(testInteger + solo.getString(R.string.formula_editor_decimal_mark) + "0" , true));
+				solo.searchText(testInteger + solo.getString(R.string.formula_editor_decimal_mark) + "0", true));
 	}
 
 	public void testCancelOnTouchInsideOfDialog() {
@@ -76,7 +76,7 @@ public class FormulaEditorComputDialogTest extends BaseActivityInstrumentationTe
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		assertTrue("Dialog not canceled!", solo.searchText(testInteger.toString(), true));
 		assertFalse("Dialog not canceled!", solo.searchText(testInteger +
-				solo.getString(R.string.formula_editor_decimal_mark) + "0" , true));
+				solo.getString(R.string.formula_editor_decimal_mark) + "0", true));
 		assertEquals("Wrong string in Formula Editor edit text!", testInteger + " ",
 				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().toString());
 	}

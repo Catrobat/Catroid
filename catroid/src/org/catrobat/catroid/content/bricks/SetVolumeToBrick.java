@@ -124,7 +124,6 @@ public class SetVolumeToBrick extends FormulaBrick {
 			editVolume.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

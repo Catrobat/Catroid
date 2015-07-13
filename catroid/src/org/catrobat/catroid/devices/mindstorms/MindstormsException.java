@@ -36,8 +36,7 @@ public class MindstormsException extends RuntimeException {
 		this.innerException = innerException;
 	}
 
-	public Exception getInnerException()
-	{
+	public Exception getInnerException() {
 		return innerException;
 	}
 }

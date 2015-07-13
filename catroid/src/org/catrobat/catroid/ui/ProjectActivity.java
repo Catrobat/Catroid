@@ -62,7 +62,6 @@ public class ProjectActivity extends BaseActivity {
 		if (getIntent() != null && getIntent().hasExtra(Constants.PROJECT_OPENED_FROM_PROJECTS_LIST)) {
 			setReturnToProjectsList(true);
 		}
-
 	}
 
 	@Override
@@ -134,7 +133,6 @@ public class ProjectActivity extends BaseActivity {
 			case R.id.upload:
 				ProjectManager.getInstance().uploadProject(Utils.getCurrentProjectName(this), this);
 				break;
-
 		}
 		return super.onOptionsItemSelected(item);
 	}
