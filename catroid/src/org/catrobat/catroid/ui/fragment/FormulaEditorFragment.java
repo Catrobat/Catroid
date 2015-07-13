@@ -549,15 +549,16 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 									currentFormula.setDisplayText(null);
 									onUserDismiss();
 								}
-							}).setPositiveButton(R.string.yes, new OnClickListener() {
+							})
+							.setPositiveButton(R.string.yes, new OnClickListener() {
 
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							if (saveFormulaIfPossible()) {
-								onUserDismiss();
-							}
-						}
-					}).create().show();
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									if (saveFormulaIfPossible()) {
+										onUserDismiss();
+									}
+								}
+							}).create().show();
 				} else {
 					onUserDismiss();
 				}

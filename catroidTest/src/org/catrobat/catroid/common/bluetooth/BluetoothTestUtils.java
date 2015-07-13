@@ -69,8 +69,8 @@ public final class BluetoothTestUtils {
 	static void hookInConnection(final BluetoothConnection connectionProxy) {
 		ConnectBluetoothDeviceActivity.setConnectionFactory(new BluetoothConnectionFactory() {
 			@Override
-			public <T extends BluetoothDevice> BluetoothConnection
-			createBTConnectionForDevice(Class<T> bluetoothDeviceType, String address, UUID deviceUUID, Context applicationContext) {
+			public <T extends BluetoothDevice> BluetoothConnection createBTConnectionForDevice(
+					Class<T> bluetoothDeviceType, String address, UUID deviceUUID, Context applicationContext) {
 				return connectionProxy;
 			}
 		});

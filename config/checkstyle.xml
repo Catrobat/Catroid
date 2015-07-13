@@ -28,6 +28,8 @@
   <property name="severity" value="warning" />
 
   <module name="TreeWalker">
+    <property name="tabWidth" value="1" />
+
     <!-- To enable SuppressWithNearbyCommentFilter -->
     <module name="FileContentsHolder" />
 
@@ -85,6 +87,14 @@
     <!-- Miscellaneous -->
     <module name="ArrayTypeStyle" />
     <module name="AvoidEscapedUnicodeCharacters" />
+    <module name="Indentation">
+      <property name="basicOffset" value="1" />
+      <property name="braceAdjustment" value="0" />
+      <property name="caseIndent" value="1" />
+      <property name="throwsIndent" value="2" />
+      <property name="lineWrappingIndentation" value="2" />
+      <property name="arrayInitIndent" value="1" />
+    </module>
     <module name="OuterTypeFilename" />
     <module name="UpperEll" />
 

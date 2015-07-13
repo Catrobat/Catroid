@@ -339,13 +339,14 @@ public class PreStageActivity extends BaseActivity {
 									startActivity(installIntent);
 									resourceFailed();
 								}
-							}).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-							resourceFailed();
-						}
-					});
+							})
+							.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									dialog.cancel();
+									resourceFailed();
+								}
+							});
 					AlertDialog alert = builder.create();
 					alert.show();
 				}
