@@ -58,8 +58,6 @@ public class SimulatedSensorManager implements SensorManagerInterface {
 		}
 	}
 
-	;
-
 	List<Pair<SensorEventListener, Sensor>> listeners;
 	List<Pair<SensorCustomEventListener, Sensors>> customListeners;
 	Thread simulationThread;

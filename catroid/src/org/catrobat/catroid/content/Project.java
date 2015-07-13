@@ -58,7 +58,6 @@ public class Project implements Serializable {
 
 	@XStreamAlias("settings")
 	private List<Setting> settings = new ArrayList<Setting>();
-	;
 
 	public Project(Context context, String name) {
 		xmlHeader.setProgramName(name);
