@@ -28,6 +28,8 @@
     <string name="cancel_button">Cancel</string>
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>
+    <string name="move_down">Move Down</string>
+    <string name="move_up">Move Up</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="copy">Copy</string>

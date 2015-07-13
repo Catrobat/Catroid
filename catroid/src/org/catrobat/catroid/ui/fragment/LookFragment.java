@@ -442,6 +442,8 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 		getSherlockActivity().getMenuInflater().inflate(R.menu.context_menu_default, menu);
 		menu.findItem(R.id.context_menu_backpack).setVisible(false);
 		menu.findItem(R.id.context_menu_unpacking).setVisible(false);
+		menu.findItem(R.id.context_menu_move_up).setVisible(true);
+		menu.findItem(R.id.context_menu_move_down).setVisible(true);
 	}
 
 	@Override
@@ -468,6 +470,12 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 
 			case R.id.context_menu_delete:
 				showConfirmDeleteDialog();
+				break;
+			case R.id.context_menu_move_down:
+				moveLookDataDown();
+				break;
+			case R.id.context_menu_move_up:
+				moveLookDataUp();
 				break;
 
 		}
@@ -778,6 +786,34 @@ public class LookFragment extends ScriptActivityFragment implements OnLookEditLi
 	protected void showDeleteDialog() {
 		DeleteLookDialog deleteLookDialog = DeleteLookDialog.newInstance(selectedLookPosition);
 		deleteLookDialog.show(getFragmentManager(), DeleteLookDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	private void moveLookDataDown() {
+		if (selectedLookPosition < lookDataList.size() - 1) {
+			LookData downElement = lookDataList.get(selectedLookPosition + 1);
+			lookDataList.set(selectedLookPosition + 1, selectedLookData);
+			lookDataList.set(selectedLookPosition, downElement);
+			adapter.notifyDataSetChanged();
+		} else {
+			LookData downElement = lookDataList.get(0);
+			lookDataList.set(0, selectedLookData);
+			lookDataList.set(selectedLookPosition, downElement);
+			adapter.notifyDataSetChanged();
+		}
+	}
+
+	private void moveLookDataUp() {
+		if (selectedLookPosition > 0) {
+			LookData upElement = lookDataList.get(selectedLookPosition - 1);
+			lookDataList.set(selectedLookPosition - 1, selectedLookData);
+			lookDataList.set(selectedLookPosition, upElement);
+			adapter.notifyDataSetChanged();
+		} else {
+			LookData upElement = lookDataList.get(lookDataList.size() - 1);
+			lookDataList.set(lookDataList.size() - 1, selectedLookData);
+			lookDataList.set(selectedLookPosition, upElement);
+			adapter.notifyDataSetChanged();
+		}
 	}
 
 	@Override

@@ -92,6 +92,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	private SpriteAdapter spriteAdapter;
 	private ArrayList<Sprite> spriteList;
 	private Sprite spriteToEdit;
+	private int spritePosition;
 
 	private SpriteRenamedReceiver spriteRenamedReceiver;
 	private SpritesListChangedReceiver spritesListChangedReceiver;
@@ -256,6 +257,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
 
 		spriteToEdit = spriteAdapter.getItem(info.position);
+		spritePosition = info.position;
 		spriteAdapter.addCheckedSprite(info.position);
 
 		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
@@ -270,6 +272,8 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			menu.findItem(R.id.context_menu_backpack).setVisible(false);
 			menu.findItem(R.id.context_menu_unpacking).setVisible(false);
 		}
+		menu.findItem(R.id.context_menu_move_down).setVisible(true);
+		menu.findItem(R.id.context_menu_move_up).setVisible(true);
 
 	}
 
@@ -295,6 +299,14 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 
 			case R.id.context_menu_delete:
 				showConfirmDeleteDialog();
+				break;
+
+			case R.id.context_menu_move_down:
+				moveSpriteDown();
+				break;
+
+			case R.id.context_menu_move_up:
+				moveSpriteUp();
 				break;
 
 		}
@@ -358,6 +370,34 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			actionMode = getSherlockActivity().startActionMode(deleteModeCallBack);
 			BottomBar.hideBottomBar(getActivity());
 			isRenameActionMode = false;
+		}
+	}
+
+	private void moveSpriteDown() {
+		if (spritePosition < spriteList.size() - 1) {
+			Sprite downElement = spriteList.get(spritePosition + 1);
+			spriteList.set(spritePosition + 1, spriteToEdit);
+			spriteList.set(spritePosition, downElement);
+			spriteAdapter.notifyDataSetChanged();
+		} else {
+			Sprite downElement = spriteList.get(1);
+			spriteList.set(1, spriteToEdit);
+			spriteList.set(spritePosition, downElement);
+			spriteAdapter.notifyDataSetChanged();
+		}
+	}
+
+	private void moveSpriteUp() {
+		if (spritePosition > 1) {
+			Sprite upElement = spriteList.get(spritePosition - 1);
+			spriteList.set(spritePosition - 1, spriteToEdit);
+			spriteList.set(spritePosition, upElement);
+			spriteAdapter.notifyDataSetChanged();
+		} else {
+			Sprite upElement = spriteList.get(spriteList.size() - 1);
+			spriteList.set(spriteList.size() - 1, spriteToEdit);
+			spriteList.set(spritePosition, upElement);
+			spriteAdapter.notifyDataSetChanged();
 		}
 	}
 

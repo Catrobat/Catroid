@@ -51,4 +51,14 @@
         android:id="@+id/context_menu_rename"
         android:title="@string/rename" />
 
+   <item
+       android:id="@+id/context_menu_move_up"
+       android:title="@string/move_up"
+       android:visible="false"/>
+
+    <item
+        android:id="@+id/context_menu_move_down"
+        android:title="@string/move_down"
+        android:visible="false"/>
+
 </menu>

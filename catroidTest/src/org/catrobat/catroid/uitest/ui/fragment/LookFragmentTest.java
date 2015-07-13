@@ -275,6 +275,23 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 		assertTrue("Look not renamed in actual view", solo.searchText(newLookName));
 	}
 
+
+	public void testMoveLookDownContextMenu() {
+		moveLookDown(FIRST_TEST_LOOK_NAME);
+		solo.sleep(50);
+
+		assertEquals("Look didn't move down (1.1)", FIRST_TEST_LOOK_NAME, getLookName(0));
+		assertEquals("Look didn't move down (1.2)", SECOND_TEST_LOOK_NAME, getLookName(1));
+	}
+
+	public void testMoveLookUpContextMenu() {
+		moveLookUp(FIRST_TEST_LOOK_NAME);
+		solo.sleep(50);
+		
+		assertEquals("Look didn't move up (1.1)", FIRST_TEST_LOOK_NAME, getLookName(0));
+		assertEquals("Look didn't move up (1.2)", SECOND_TEST_LOOK_NAME, getLookName(1));
+	}
+
 	public void testShowAndHideDetails() {
 		int timeToWait = 300;
 
@@ -1337,6 +1354,14 @@ public class LookFragmentTest extends BaseActivityInstrumentationTestCase<MainMe
 
 		UiTestUtils.enterText(solo, 0, newLookName);
 		solo.sendKey(Solo.ENTER);
+	}
+
+	private void moveLookDown(String lookToMove) {
+		clickOnContextMenuItem(lookToMove, solo.getString(R.string.move_down));
+	}
+
+	private void moveLookUp(String lookToMove) {
+		clickOnContextMenuItem(lookToMove, solo.getString(R.string.move_up));
 	}
 
 	private LookFragment getLookFragment() {
