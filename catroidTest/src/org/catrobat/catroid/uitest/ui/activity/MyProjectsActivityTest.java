@@ -1855,7 +1855,7 @@ public class MyProjectsActivityTest extends BaseActivityInstrumentationTestCase<
 		screenshotExists = ProjectManager.getInstance().getCurrentProject()
 				.manualScreenshotExists("manual_screenshot" + Constants.IMAGE_STANDARD_EXTENTION);
 		assertEquals("there should be no manual screenshot", true, screenshotExists);
-		playTheProject(false, true, true);// red to green + screenshot
+		playTheProject(false, true, true); // red to green + screenshot
 		byte[] greenPixel2 = createScreenshotBitmap();
 		assertTrue("The extracted pixel was not green", UiTestUtils.comparePixelRgbaArrays(greenPixel, greenPixel2));
 		assertFalse("The screenshot has not been changed", UiTestUtils.comparePixelRgbaArrays(redPixel1, greenPixel2));
