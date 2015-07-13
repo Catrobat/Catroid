@@ -33,7 +33,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-public class GUI extends javax.swing.JFrame{
+public class GUI extends javax.swing.JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private static GUI instance = null;
@@ -86,7 +86,7 @@ public class GUI extends javax.swing.JFrame{
 
 	}
 
-	public static void writeMessage(String message){
+	public static void writeMessage(String message) {
 		textArea.append(message);
 	}
 
@@ -98,7 +98,7 @@ public class GUI extends javax.swing.JFrame{
 
 	}
 
-	public static GUI getGui(){
+	public static GUI getGui() {
 		return instance;
 	}
 

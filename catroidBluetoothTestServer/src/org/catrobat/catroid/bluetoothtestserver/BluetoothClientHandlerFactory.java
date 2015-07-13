@@ -26,7 +26,8 @@ import org.catrobat.catroid.bluetoothtestserver.clienthandlers.CommonBluetoothTe
 
 public final class BluetoothClientHandlerFactory {
 
-	private BluetoothClientHandlerFactory() {}
+	private BluetoothClientHandlerFactory() {
+	}
 
 	public static BTClientHandler create(String uuid) {
 		

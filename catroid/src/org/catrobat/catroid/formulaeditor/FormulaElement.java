@@ -570,7 +570,7 @@ public class FormulaElement implements Serializable {
 
 	private Object interpretOperator(Operators operator, Sprite sprite) {
 
-		if (leftChild != null) {// binary operator
+		if (leftChild != null) { // binary operator
 			Object leftObject;
 			Object rightObject;
 			try {
@@ -638,7 +638,7 @@ public class FormulaElement implements Serializable {
 					right = interpretOperator(rightObject);
 					return left != 0d || right != 0d ? 1d : 0d;
 			}
-		} else {//unary operators
+		} else { //unary operators
 			Object rightObject;
 			try {
 				rightObject = rightChild.interpretRecursive(sprite);

@@ -159,6 +159,7 @@
     <module name="GenericWhitespace" />
     <module name="NoLineWrap" />
     <module name="TypecastParenPad" />
+    <module name="WhitespaceAround" />
   </module>
 
   <module name="NewlineAtEndOfFile">
@@ -175,18 +176,6 @@
     <property name="headerFile" value="catroidSourceTest/res/agpl_license_text.txt" />
     <property name="fileExtensions" value="java,xml" />
     <property name="multiLines" value="1,2" />
-  </module>
-
-  <!-- For each spacing -->
-  <module name="RegexpSingleline">
-    <property name="format" value="^\s*for \(.*?([^ ]:|:[^ ])" />
-    <property name="message" value="Space needed around ':' character." />
-  </module>
-
-  <!-- Space after 'for' and 'if' -->
-  <module name="RegexpSingleline">
-    <property name="format" value="^\s*(for\(|if\()" />
-    <property name="message" value="Space needed before opening parenthesis." />
   </module>
 
   <module name="RegexpSingleline">
