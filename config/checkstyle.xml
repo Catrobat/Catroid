@@ -162,6 +162,7 @@
     <module name="GenericWhitespace" />
     <module name="MethodParamPad" />
     <module name="NoLineWrap" />
+    <module name="ParenPad" />
     <module name="TypecastParenPad" />
     <module name="WhitespaceAround" />
   </module>
