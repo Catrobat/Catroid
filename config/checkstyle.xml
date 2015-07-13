@@ -170,6 +170,12 @@
     <module name="TypecastParenPad" />
     <module name="WhitespaceAfter" />
     <module name="WhitespaceAround" />
+    
+    <module name="RegexpSinglelineJava">
+      <property name="format" value="^\t* " />
+      <property name="ignoreComments" value="true" />
+      <property name="message" value="Spaces aren't allowed for indentation. Tabs only" />
+    </module>
   </module>
 
   <module name="NewlineAtEndOfFile">

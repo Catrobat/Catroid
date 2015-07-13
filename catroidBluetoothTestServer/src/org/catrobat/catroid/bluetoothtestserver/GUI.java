@@ -50,10 +50,10 @@ public class GUI extends javax.swing.JFrame {
 		textArea = new JTextArea();
 		JScrollPane scrollPane = new JScrollPane(textArea);
 		
-		scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
-		    public void adjustmentValueChanged(AdjustmentEvent e) {  
-		        e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
-		    }
+		scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+			public void adjustmentValueChanged(AdjustmentEvent e) {
+				e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+			}
 		});
 
 		content.add(scrollPane, BorderLayout.CENTER);
