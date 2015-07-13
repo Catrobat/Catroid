@@ -137,10 +137,10 @@ public class NXTSensorService implements CatroidService, SharedPreferences.OnSha
 	}
 
 	private boolean isChangedPreferenceASensorPreference(String preference) {
-		return (preference.equals(SettingsActivity.NXT_SENSOR_1) ||
-				preference.equals(SettingsActivity.NXT_SENSOR_2) ||
-				preference.equals(SettingsActivity.NXT_SENSOR_3) ||
-				preference.equals(SettingsActivity.NXT_SENSOR_4));
+		return (preference.equals(SettingsActivity.NXT_SENSOR_1)
+				|| preference.equals(SettingsActivity.NXT_SENSOR_2)
+				|| preference.equals(SettingsActivity.NXT_SENSOR_3)
+				|| preference.equals(SettingsActivity.NXT_SENSOR_4));
 	}
 
 	@Override

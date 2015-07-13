@@ -1500,8 +1500,8 @@ public final class UiTestUtils {
 			solo.waitForText(overflowMenuItemName, 0, 20000, false);
 			solo.clickOnMenuItem(overflowMenuItemName, true);
 		} else {
-			fail("Cannot click on element with menuItemid " + menuItemId +
-					" or overflowMenuItemName " + overflowMenuItemName);
+			fail("Cannot click on element with menuItemid " + menuItemId + " or overflowMenuItemName "
+					+ overflowMenuItemName);
 		}
 
 		solo.sleep(400);

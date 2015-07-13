@@ -70,8 +70,8 @@ public class MotorTest extends AndroidTestCase {
 
 		assertEquals("inputSpeed should equals setOutputState[3]", inputSpeed, setOutputState[3]);
 
-		assertEquals("Motor mode should equals to setOutputState[4]", NXTMotor.MotorMode.BREAK | NXTMotor.MotorMode.ON |
-				NXTMotor.MotorMode.REGULATED, setOutputState[4]);
+		assertEquals("Motor mode should equals to setOutputState[4]",
+				NXTMotor.MotorMode.BREAK | NXTMotor.MotorMode.ON | NXTMotor.MotorMode.REGULATED, setOutputState[4]);
 
 		assertEquals("Motor regulation speed should equals to setOutputSate[5]", motorRegulationSpeed, setOutputState[5]);
 		assertEquals("Expected turn ratio should euqals to setOutputState[6]", expectedTurnRatio, setOutputState[6]);
@@ -95,8 +95,8 @@ public class MotorTest extends AndroidTestCase {
 		assertEquals("USED_PORT check failed, should equals to setOutputState[2]", USED_PORT, setOutputState[2]);
 		assertEquals("expectedSpeed should equals setOutputState[3]", expectedSpeed, setOutputState[3]);
 
-		assertEquals("Motor mode should equals to setOutputState[4]", NXTMotor.MotorMode.BREAK | NXTMotor.MotorMode.ON |
-				NXTMotor.MotorMode.REGULATED, setOutputState[4]);
+		assertEquals("Motor mode should equals to setOutputState[4]",
+				NXTMotor.MotorMode.BREAK | NXTMotor.MotorMode.ON | NXTMotor.MotorMode.REGULATED, setOutputState[4]);
 
 		assertEquals("Motor regulation speed should equals to setOutputSate[5]", motorRegulationSpeed, setOutputState[5]);
 		assertEquals("Expected turn ratio should euqals to setOutputState[6]", expectedTurnRatio, setOutputState[6]);
@@ -120,8 +120,8 @@ public class MotorTest extends AndroidTestCase {
 
 		assertEquals("inputSpeed should equals setOutputState[3]", inputSpeed, setOutputState[3]);
 
-		assertEquals("Motor mode should equals to setOutputState[4]", NXTMotor.MotorMode.BREAK | NXTMotor.MotorMode.ON |
-				NXTMotor.MotorMode.REGULATED, setOutputState[4]);
+		assertEquals("Motor mode should equals to setOutputState[4]",
+				NXTMotor.MotorMode.BREAK | NXTMotor.MotorMode.ON | NXTMotor.MotorMode.REGULATED, setOutputState[4]);
 
 		assertEquals("Motor regulation speed should equals to setOutputSate[5]", motorRegulationSpeed, setOutputState[5]);
 		assertEquals("Expected turn ratio should euqals to setOutputState[6]", expectedTurnRatio, setOutputState[6]);
@@ -146,8 +146,8 @@ public class MotorTest extends AndroidTestCase {
 
 		assertEquals("ExpectedSpeed should equals setOutputState[3]", expectedSpeed, setOutputState[3]);
 
-		assertEquals("Motor mode should equals to setOutputState[4]", NXTMotor.MotorMode.BREAK | NXTMotor.MotorMode.ON |
-				NXTMotor.MotorMode.REGULATED, setOutputState[4]);
+		assertEquals("Motor mode should equals to setOutputState[4]",
+				NXTMotor.MotorMode.BREAK | NXTMotor.MotorMode.ON | NXTMotor.MotorMode.REGULATED, setOutputState[4]);
 
 		assertEquals("Motor regulation speed should equals to setOutputSate[5]", motorRegulationSpeed, setOutputState[5]);
 		assertEquals("Expected turn ratio should euqals to setOutputState[6]", expectedTurnRatio, setOutputState[6]);

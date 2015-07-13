@@ -561,8 +561,9 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 	}
 
 	private void copyAttributesIfNeeded(Node sourceNode, Element destinationNode) {
-		if (sourceNode.getNodeName().equals("loopEndlessBrick") || sourceNode.getNodeName().equals("loopEndBrick") ||
-				sourceNode.getNodeName().equals("ifLogicElseBrick") || sourceNode.getNodeName().equals("ifLogicEndBrick")) {
+		if (sourceNode.getNodeName().equals("loopEndlessBrick") || sourceNode.getNodeName().equals("loopEndBrick")
+				|| sourceNode.getNodeName().equals("ifLogicElseBrick")
+				|| sourceNode.getNodeName().equals("ifLogicEndBrick")) {
 			return;
 		}
 		NamedNodeMap namedNodeMap = sourceNode.getAttributes();
@@ -651,9 +652,9 @@ public class XStreamToSupportCatrobatLanguageVersion095AndBefore extends XStream
 									handleFormulaNode(originalDocument, brickInfo, newBrickNode, brickChild);
 								} else if (brickChild.getNodeName().equals("userVariable")) {
 									handleUserVariableNode(newBrickNode, brickChild);
-								} else if (brickChild.getNodeName().equals("loopEndBrick") ||
-										brickChild.getNodeName().equals("ifElseBrick") ||
-										brickChild.getNodeName().equals("ifEndBrick")) {
+								} else if (brickChild.getNodeName().equals("loopEndBrick")
+										|| brickChild.getNodeName().equals("ifElseBrick")
+										|| brickChild.getNodeName().equals("ifEndBrick")) {
 									continue;
 								} else {
 									newBrickNode.appendChild(brickChild);

@@ -196,8 +196,8 @@ public class PreStageActivity extends BaseActivity {
 		}
 
 		List<String> supportedFlashModes = parameters.getSupportedFlashModes();
-		if (supportedFlashModes == null || supportedFlashModes.isEmpty() ||
-				supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF)) {
+		if (supportedFlashModes == null || supportedFlashModes.isEmpty()
+				|| supportedFlashModes.size() == 1 && supportedFlashModes.get(0).equals(Camera.Parameters.FLASH_MODE_OFF)) {
 			return false;
 		}
 

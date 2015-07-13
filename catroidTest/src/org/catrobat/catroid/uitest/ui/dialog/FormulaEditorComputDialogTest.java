@@ -64,8 +64,8 @@ public class FormulaEditorComputDialogTest extends BaseActivityInstrumentationTe
 		solo.clickOnText(testInteger.toString());
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		assertTrue("Dialog not canceled!", solo.searchText(testInteger.toString(), true));
-		assertFalse("Dialog not canceled!", solo.searchText(testInteger +
-				solo.getString(R.string.formula_editor_decimal_mark) + "0", true));
+		assertFalse("Dialog not canceled!",
+				solo.searchText(testInteger + solo.getString(R.string.formula_editor_decimal_mark) + "0", true));
 		assertEquals("Wrong string in Formula Editor edit text!", testInteger + " ",
 				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().toString());
 	}
@@ -75,8 +75,8 @@ public class FormulaEditorComputDialogTest extends BaseActivityInstrumentationTe
 		solo.clickOnScreen(100, 100, 1);
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 		assertTrue("Dialog not canceled!", solo.searchText(testInteger.toString(), true));
-		assertFalse("Dialog not canceled!", solo.searchText(testInteger +
-				solo.getString(R.string.formula_editor_decimal_mark) + "0", true));
+		assertFalse("Dialog not canceled!", solo.searchText(
+				testInteger + solo.getString(R.string.formula_editor_decimal_mark) + "0", true));
 		assertEquals("Wrong string in Formula Editor edit text!", testInteger + " ",
 				solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_ID).getText().toString());
 	}

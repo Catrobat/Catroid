@@ -66,10 +66,10 @@ public abstract class MindstormsReply {
 	}
 
 	public int getInt(int offset) {
-		int value = ((data[offset] & 0xFF) |
-				(data[offset + 1] & 0xFF) << 8 |
-				(data[offset + 2] & 0xFF) << 16 |
-				(data[offset + 3] & 0xFF) << 24
+		int value = ((data[offset] & 0xFF)
+				| (data[offset + 1] & 0xFF) << 8
+				| (data[offset + 2] & 0xFF) << 16
+				| (data[offset + 3] & 0xFF) << 24
 		);
 
 		return value;

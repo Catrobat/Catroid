@@ -480,8 +480,8 @@ public final class StorageHandler {
 					return;
 				}
 
-				Log.w(TAG, "Process interrupted before renaming. Rename " + PROJECTCODE_NAME_TMP +
-						" to " + PROJECTCODE_NAME);
+				Log.w(TAG, "Process interrupted before renaming. Rename " + PROJECTCODE_NAME_TMP
+						+ " to " + PROJECTCODE_NAME);
 
 				if (!tmpCodeFile.renameTo(currentCodeFile)) {
 					Log.e(TAG, "Could not rename " + tmpCodeFile.getName());

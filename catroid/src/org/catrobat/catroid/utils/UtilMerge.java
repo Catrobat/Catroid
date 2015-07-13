@@ -96,8 +96,8 @@ public final class UtilMerge {
 	}
 
 	private static boolean checkHeader(XmlHeader headerInto, XmlHeader headerFrom) {
-		if (headerInto.getVirtualScreenHeight() != headerFrom.getVirtualScreenHeight() ||
-				headerInto.getVirtualScreenWidth() != headerFrom.getVirtualScreenWidth()) {
+		if (headerInto.getVirtualScreenHeight() != headerFrom.getVirtualScreenHeight()
+				|| headerInto.getVirtualScreenWidth() != headerFrom.getVirtualScreenWidth()) {
 			return false;
 		}
 		return true;
@@ -413,12 +413,12 @@ public final class UtilMerge {
 				}
 			}
 		};
-		String question = activity.getString(R.string.error_different_resolutions1) + " " + currentProject.getProgramName() + " " +
-				activity.getString(R.string.error_different_resolutions2) + " " + currentProject.getVirtualScreenHeight() +
-				"x" + currentProject.getVirtualScreenWidth() + " " + activity.getString(R.string.and) + " " + headerFrom.getProgramName() + " " +
-				activity.getString(R.string.error_different_resolutions2) + " " + headerFrom.getVirtualScreenHeight() + "x" +
-				headerFrom.getVirtualScreenWidth() + ". " + activity.getString(R.string.error_different_resolutions3) + " " +
-				currentProject.getProgramName() + ".";
+		String question = activity.getString(R.string.error_different_resolutions1) + " " + currentProject.getProgramName() + " "
+				+ activity.getString(R.string.error_different_resolutions2) + " " + currentProject.getVirtualScreenHeight()
+				+ "x" + currentProject.getVirtualScreenWidth() + " " + activity.getString(R.string.and) + " " + headerFrom.getProgramName() + " "
+				+ activity.getString(R.string.error_different_resolutions2) + " " + headerFrom.getVirtualScreenHeight() + "x"
+				+ headerFrom.getVirtualScreenWidth() + ". " + activity.getString(R.string.error_different_resolutions3) + " "
+				+ currentProject.getProgramName() + ".";
 
 		AlertDialog.Builder builder = new CustomAlertDialogBuilder(activity);
 		builder.setTitle(R.string.warning);

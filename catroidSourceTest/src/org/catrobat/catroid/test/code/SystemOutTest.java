@@ -110,13 +110,13 @@ public class SystemOutTest extends TestCase {
 
 	public void testForToast() throws IOException {
 		checkForStringInFiles(TOAST_STRING, STACK_TRACE_DIRECTORIES);
-		assertFalse("Files with 'Toast.makeText(context, text, duration)' found! \nPlease use 'ToastUtil.showError(context, message), or " +
-				"ToastUtil.showSuccess(context, message)' instead\n\n" + errorMessages, errorFound);
+		assertFalse("Files with 'Toast.makeText(context, text, duration)' found! \nPlease use 'ToastUtil.showError(context, message), or "
+				+ "ToastUtil.showSuccess(context, message)' instead\n\n" + errorMessages, errorFound);
 	}
 
 	public void testForSuperToast() throws IOException {
 		checkForStringInFiles(SUPERTOAST_STRING, STACK_TRACE_DIRECTORIES);
-		assertFalse("Files with 'SuperToast' found! \nPlease use 'ToastUtil.showError(context, message), or " +
-				"ToastUtil.showSuccess(context, message)' instead\n\n" + errorMessages, errorFound);
+		assertFalse("Files with 'SuperToast' found! \nPlease use 'ToastUtil.showError(context, message), or "
+				+ "ToastUtil.showSuccess(context, message)' instead\n\n" + errorMessages, errorFound);
 	}
 }
