@@ -101,6 +101,11 @@
     <module name="TypeName">
       <message key="name.invalidPattern" value="Class name not following naming convention - Name ''{0}'' must match pattern ''{1}''." />
     </module>
+    <module name="TypeName">
+      <property name="format" value="^(?!I[A-Z])[A-Z][a-zA-Z0-9]*$" />
+      <property name="tokens" value="INTERFACE_DEF" />
+      <message key="name.invalidPattern" value="Interface name not following naming convention and shouldn't have a preceding I - Name ''{0}'' must match pattern ''{1}''." />
+    </module>
     <module name="PackageName">
       <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$" />
       <message key="name.invalidPattern" value="Package name not following naming convention - Name ''{0}'' must match pattern ''{1}''." />
