@@ -45,7 +45,6 @@ public class WhenBrick extends ScriptBrick {
 	}
 
 	public WhenBrick() {
-
 	}
 
 	@Override

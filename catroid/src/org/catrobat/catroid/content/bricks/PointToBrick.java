@@ -74,7 +74,6 @@ public class PointToBrick extends BrickBaseType {
 	}
 
 	public PointToBrick() {
-
 	}
 
 	@Override

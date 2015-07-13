@@ -121,6 +121,5 @@ public class UserListValuesAdapter extends BaseAdapter implements View.OnClickLi
 
 	@Override
 	public void onClick(View view) {
-
 	}
 }

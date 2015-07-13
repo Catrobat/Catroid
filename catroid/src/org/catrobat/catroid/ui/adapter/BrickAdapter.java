@@ -1360,7 +1360,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 					@Override
 					public void onAnimationRepeat(Animation animation) {
-
 					}
 
 					@Override

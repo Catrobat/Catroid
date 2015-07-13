@@ -59,7 +59,6 @@ public enum CommandByte {
 		return LOOKUP.get(value & 0xFF);
 	}
 
-
 	/* This are all commands lego supports, at the moment only some of them are implemented.
 
 	OpenRead = 0x80, OpenWrite = 0x81,Read = 0x82, Write = 0x83,
@@ -75,5 +74,4 @@ public enum CommandByte {
 	GetBatteryLevel = 0x0b, StopSoundPlayback = 0x0c, KeepAlive = 0x0d,
 	LsGetStatus = 0x0e, LsWrite = 0x0f, LsRead = 0x10,GetCurrentProgramName = 0x11,
 	MessageRead = 0x13*/
-
 }

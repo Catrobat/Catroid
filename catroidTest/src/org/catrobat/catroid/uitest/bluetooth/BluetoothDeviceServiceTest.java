@@ -223,22 +223,18 @@ public class BluetoothDeviceServiceTest extends BaseActivityInstrumentationTestC
 
 		@Override
 		public void initialise() {
-
 		}
 
 		@Override
 		public void start() {
-
 		}
 
 		@Override
 		public void pause() {
-
 		}
 
 		@Override
 		public void destroy() {
-
 		}
 	}
 }

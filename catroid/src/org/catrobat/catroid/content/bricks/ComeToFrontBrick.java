@@ -42,7 +42,6 @@ public class ComeToFrontBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
 	public ComeToFrontBrick() {
-
 	}
 
 	@Override

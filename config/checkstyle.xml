@@ -204,6 +204,18 @@
     <property name="message" value="Remove author from the comment." />
   </module>
 
+  <module name="RegexpMultiline">
+    <property name="fileExtensions" value="java" />
+    <property name="format" value=".\n{2,}\s*\}" />
+    <property name="message" value="Next line is an unnecessary newline" />
+  </module>
+
+  <module name="RegexpMultiline">
+    <property name="fileExtensions" value="java" />
+    <property name="format" value=".\n{3,}" />
+    <property name="message" value="Maximum of blank lines is 1" />
+  </module>
+
   <module name="SuppressWithNearbyCommentFilter">
     <property name="commentFormat" value="CHECKSTYLE DISABLE ([\w\|]+) FOR (-?\d+) LINES" />
     <property name="checkFormat" value="$1" />

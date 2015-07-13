@@ -50,7 +50,6 @@ public class ForeverBrick extends BrickBaseType implements LoopBeginBrick {
 	private transient LoopBeginBrick copy;
 
 	public ForeverBrick() {
-
 	}
 
 	@Override

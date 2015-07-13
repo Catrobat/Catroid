@@ -166,7 +166,6 @@ public class AddBrickFragment extends SherlockListFragment implements DeleteMode
 
 			@Override
 			public void onAnimationRepeat(Animation animation) {
-
 			}
 
 			@Override

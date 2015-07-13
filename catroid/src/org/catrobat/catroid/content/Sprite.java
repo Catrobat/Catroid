@@ -71,7 +71,6 @@ public class Sprite implements Serializable, Cloneable {
 	}
 
 	public Sprite() {
-
 	}
 
 	private Object readResolve() {

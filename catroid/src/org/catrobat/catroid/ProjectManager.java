@@ -422,12 +422,10 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	@Override
 	public void onLoadProjectSuccess(boolean startProjectActivity) {
-
 	}
 
 	@Override
 	public void onLoadProjectFailure() {
-
 	}
 
 	public void checkNestingBrickReferences(boolean assumeWrong) {

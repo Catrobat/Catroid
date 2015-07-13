@@ -29,5 +29,4 @@ import java.io.Serializable;
 
 @XStreamAlias("setting")
 public interface Setting extends Serializable {
-
 }

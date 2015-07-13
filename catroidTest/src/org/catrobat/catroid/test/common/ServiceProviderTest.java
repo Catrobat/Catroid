@@ -47,6 +47,5 @@ public class ServiceProviderTest extends AndroidTestCase {
 	}
 
 	private static class TestService implements CatroidService {
-
 	}
 }

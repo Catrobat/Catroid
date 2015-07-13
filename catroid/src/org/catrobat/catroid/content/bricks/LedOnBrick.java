@@ -43,7 +43,6 @@ public class LedOnBrick extends BrickBaseType {
 	private transient View prototypeView;
 
 	public LedOnBrick() {
-
 	}
 
 	@Override

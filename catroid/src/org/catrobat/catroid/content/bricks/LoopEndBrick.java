@@ -55,7 +55,6 @@ public class LoopEndBrick extends BrickBaseType implements NestingBrick, Allowed
 	}
 
 	public LoopEndBrick() {
-
 	}
 
 	@Override

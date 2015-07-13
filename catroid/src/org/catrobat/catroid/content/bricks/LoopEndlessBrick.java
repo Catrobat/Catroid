@@ -40,7 +40,6 @@ public class LoopEndlessBrick extends LoopEndBrick implements DeadEndBrick {
 	private transient boolean isPuzzleView = true;
 
 	public LoopEndlessBrick() {
-
 	}
 
 	public LoopEndlessBrick(LoopBeginBrick loopStartingBrick) {

@@ -294,12 +294,10 @@ public class BackPackSoundFragment extends BackPackActivityFragment implements S
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
-
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
-
 	}
 
 	@Override

@@ -43,5 +43,4 @@ public enum Functions {
 		}
 		return null;
 	}
-
 }

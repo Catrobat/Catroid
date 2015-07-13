@@ -40,7 +40,6 @@ public class CommonBluetoothTestClientHandler extends BTClientHandler {
 			int expectedMessageLength = messageLengthBuffer[0];
 			handleClientMessage(expectedMessageLength, inStream, outStream);
 		}
-
 	}
 
 	private void handleClientMessage(int expectedMessageLength, DataInputStream inStream, OutputStream outStream) throws IOException {

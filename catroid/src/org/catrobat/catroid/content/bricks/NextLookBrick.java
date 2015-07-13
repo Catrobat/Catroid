@@ -45,7 +45,6 @@ public class NextLookBrick extends BrickBaseType {
 	private static final long serialVersionUID = 1L;
 
 	public NextLookBrick() {
-
 	}
 
 	@Override

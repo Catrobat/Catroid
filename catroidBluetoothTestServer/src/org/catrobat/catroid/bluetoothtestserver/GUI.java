@@ -49,7 +49,7 @@ public class GUI extends javax.swing.JFrame {
 
 		textArea = new JTextArea();
 		JScrollPane scrollPane = new JScrollPane(textArea);
-		
+
 		scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
 			public void adjustmentValueChanged(AdjustmentEvent e) {
 				e.getAdjustable().setValue(e.getAdjustable().getMaximum());
@@ -57,8 +57,6 @@ public class GUI extends javax.swing.JFrame {
 		});
 
 		content.add(scrollPane, BorderLayout.CENTER);
-
-
 
 		JPanel panel = new JPanel();
 		content.add(panel, BorderLayout.SOUTH);
@@ -83,7 +81,6 @@ public class GUI extends javax.swing.JFrame {
 
 		frame.setSize(700, 400);
 		frame.setVisible(true);
-
 	}
 
 	public static void writeMessage(String message) {
@@ -95,12 +92,9 @@ public class GUI extends javax.swing.JFrame {
 	 */
 	public GUI() {
 		super();
-
 	}
 
 	public static GUI getGui() {
 		return instance;
 	}
-
-
 }

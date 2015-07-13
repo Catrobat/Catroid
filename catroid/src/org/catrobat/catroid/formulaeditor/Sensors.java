@@ -52,5 +52,4 @@ public enum Sensors {
 		}
 		return null;
 	}
-
 }
