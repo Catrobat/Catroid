@@ -187,8 +187,8 @@ public class ColorSeekbar {
 	}
 
 	private int getCurrentBrickFieldValue(Brick.BrickField brickField) {
-		String stringValue = formulaBrick.getFormulaWithBrickField(brickField).
-				getDisplayString(seekbarView.getContext());
+		String stringValue = formulaBrick.getFormulaWithBrickField(brickField)
+				.getDisplayString(seekbarView.getContext());
 		int value = Double.valueOf(stringValue.replace(",", ".")).intValue();
 		return value;
 	}
