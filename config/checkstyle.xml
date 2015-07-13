@@ -160,6 +160,7 @@
       <property name="option" value="space" />
     </module>
     <module name="GenericWhitespace" />
+    <module name="MethodParamPad" />
     <module name="NoLineWrap" />
     <module name="TypecastParenPad" />
     <module name="WhitespaceAround" />
