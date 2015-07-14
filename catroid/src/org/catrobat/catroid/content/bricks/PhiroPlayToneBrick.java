@@ -102,6 +102,7 @@ public class PhiroPlayToneBrick extends FormulaBrick {
 		Spinner phiroProToneSpinner = (Spinner) prototypeView.findViewById(R.id.brick_phiro_select_tone_spinner);
 		phiroProToneSpinner.setFocusableInTouchMode(false);
 		phiroProToneSpinner.setFocusable(false);
+		phiroProToneSpinner.setEnabled(false);
 
 		ArrayAdapter<CharSequence> toneAdapter = ArrayAdapter.createFromResource(context, R.array.brick_phiro_select_tone_spinner,
 				android.R.layout.simple_spinner_item);

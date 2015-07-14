@@ -124,6 +124,8 @@ public class BroadcastWaitBrick extends BroadcastBrick implements BroadcastMessa
 		Spinner broadcastWaitSpinner = (Spinner) prototypeView.findViewById(R.id.brick_broadcast_wait_spinner);
 		broadcastWaitSpinner.setFocusableInTouchMode(false);
 		broadcastWaitSpinner.setFocusable(false);
+		broadcastWaitSpinner.setEnabled(false);
+
 		SpinnerAdapter broadcastWaitSpinnerAdapter = MessageContainer.getMessageAdapter(context);
 		broadcastWaitSpinner.setAdapter(broadcastWaitSpinnerAdapter);
 		setSpinnerSelection(broadcastWaitSpinner);

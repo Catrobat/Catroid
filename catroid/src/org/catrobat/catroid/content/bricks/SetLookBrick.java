@@ -200,6 +200,8 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 		Spinner setLookSpinner = (Spinner) prototypeView.findViewById(R.id.brick_set_look_spinner);
 		setLookSpinner.setFocusableInTouchMode(false);
 		setLookSpinner.setFocusable(false);
+		setLookSpinner.setEnabled(false);
+
 		SpinnerAdapter setLookSpinnerAdapter = createLookAdapter(context);
 		setLookSpinner.setAdapter(setLookSpinnerAdapter);
 		setSpinnerSelection(setLookSpinner);

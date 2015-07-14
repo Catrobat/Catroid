@@ -211,6 +211,8 @@ public class SetVariableBrick extends UserVariableBrick {
 
 		variableSpinner.setFocusableInTouchMode(false);
 		variableSpinner.setFocusable(false);
+		variableSpinner.setEnabled(false);
+
 		DataAdapter dataAdapter = ProjectManager.getInstance().getCurrentProject().getDataContainer()
 				.createDataAdapter(context, userBrickId, ProjectManager.getInstance().getCurrentSprite(), inUserBrick);
 

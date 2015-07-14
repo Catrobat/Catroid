@@ -156,6 +156,8 @@ public class BroadcastReceiverBrick extends ScriptBrick implements BroadcastMess
 		Spinner broadcastReceiverSpinner = (Spinner) prototypeView.findViewById(R.id.brick_broadcast_receive_spinner);
 		broadcastReceiverSpinner.setFocusableInTouchMode(false);
 		broadcastReceiverSpinner.setFocusable(false);
+		broadcastReceiverSpinner.setEnabled(false);
+
 		SpinnerAdapter broadcastReceiverSpinnerAdapter = MessageContainer.getMessageAdapter(context);
 		broadcastReceiverSpinner.setAdapter(broadcastReceiverSpinnerAdapter);
 		setSpinnerSelection(broadcastReceiverSpinner);
