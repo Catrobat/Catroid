@@ -408,7 +408,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		}
 
 		MenuItem undo = menu.findItem(R.id.menu_undo);
-		if (!formulaEditorEditText.getHistory().undoIsPossible()) {
+		if (formulaEditorEditText == null || !formulaEditorEditText.getHistory().undoIsPossible()) {
 			undo.setIcon(R.drawable.icon_undo_disabled);
 			undo.setEnabled(false);
 		} else {
@@ -417,7 +417,7 @@ public class FormulaEditorFragment extends SherlockFragment implements OnKeyList
 		}
 
 		MenuItem redo = menu.findItem(R.id.menu_redo);
-		if (!formulaEditorEditText.getHistory().redoIsPossible()) {
+		if (formulaEditorEditText == null || !formulaEditorEditText.getHistory().redoIsPossible()) {
 			redo.setIcon(R.drawable.icon_redo_disabled);
 			redo.setEnabled(false);
 		} else {
