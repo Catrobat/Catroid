@@ -144,8 +144,7 @@ public final class BTServer {
 			}
 		}
 
-		private void tryHandleInputConnection() throws IOException
-		{
+		private void tryHandleInputConnection() throws IOException {
 			String connectionString = "btspp://localhost:" + client.uuid
 					+ ";name=BT Test Server";
 
