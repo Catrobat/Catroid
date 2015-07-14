@@ -311,7 +311,7 @@ public class UtilsTest extends AndroidTestCase {
 	}
 
 	private void removeSpriteAndCompareToStandardProject() {
-		Sprite catroidSprite = standardProject.getSpriteList().get(4);
+		Sprite catroidSprite = standardProject.getSpriteList().get(1);
 		int lastIndex = standardProject.getSpriteList().size() - 1;
 		List<Sprite> spriteList = standardProject.getSpriteList();
 		spriteList.remove(lastIndex);

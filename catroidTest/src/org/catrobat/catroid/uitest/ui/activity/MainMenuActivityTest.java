@@ -418,7 +418,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 			standardProject = StandardProjectHandler.createAndSaveStandardProject(standardProjectName,
 					getInstrumentation().getTargetContext());
 		} catch (IOException e) {
-			fail("Could not create standard project");
+			fail("Could not create standard project " + standardProjectName);
 			e.printStackTrace();
 		}
 
@@ -435,11 +435,11 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 
 		Sprite backgroundSprite = standardProject.getSpriteList().get(0);
 		Script startingScript = backgroundSprite.getScript(0);
-		assertEquals("Number of bricks in background sprite was wrong", 3, backgroundSprite.getNumberOfBricks());
+		assertEquals("Number of bricks in background sprite was wrong", 7, backgroundSprite.getNumberOfBricks());
 		startingScript.addBrick(new SetLookBrick());
 		startingScript.addBrick(new SetLookBrick());
 		startingScript.addBrick(new SetLookBrick());
-		assertEquals("Number of bricks in background sprite was wrong", 6, backgroundSprite.getNumberOfBricks());
+		assertEquals("Number of bricks in background sprite was wrong after adding three new bricks", 10, backgroundSprite.getNumberOfBricks());
 		ProjectManager.getInstance().setCurrentSprite(backgroundSprite);
 		ProjectManager.getInstance().setCurrentScript(startingScript);
 		StorageHandler.getInstance().saveProject(standardProject);
@@ -461,7 +461,7 @@ public class MainMenuActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.getCurrentActivity().startActivity(intent);
 		solo.waitForActivity(ProjectActivity.class.getSimpleName());
 		UiTestUtils.waitForText(solo, solo.getString(R.string.default_project_backgroundname));
-		assertEquals("Number of bricks in background sprite was wrong - standard project was overwritten", 6,
+		assertEquals("Number of bricks in background sprite was wrong - standard project was overwritten", 10,
 				ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getNumberOfBricks());
 	}
 
