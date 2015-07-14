@@ -235,6 +235,12 @@
     <property name="message" value="Maximum of blank lines is 1" />
   </module>
 
+  <module name="RegexpSingleline">
+    <property name="fileExtensions" value="java" />
+    <property name="format" value="^\s+$" />
+    <property name="message" value="Empty line contains whitespaces." />
+  </module>
+
   <module name="SuppressWithNearbyCommentFilter">
     <property name="commentFormat" value="CHECKSTYLE DISABLE ([\w\|]+) FOR (-?\d+) LINES" />
     <property name="checkFormat" value="$1" />
