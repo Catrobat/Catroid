@@ -351,6 +351,10 @@ public class FormulaElement implements Serializable {
 				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.toDegrees(Math.atan(doubleValueOfLeftChild));
 			case EXP:
 				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.exp(doubleValueOfLeftChild);
+			case FLOOR:
+				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.floor(doubleValueOfLeftChild);
+			case CEIL:
+				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.ceil(doubleValueOfLeftChild);
 			case MAX:
 				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? 0d : java.lang.Math.max(doubleValueOfLeftChild,
 						doubleValueOfRightChild);
