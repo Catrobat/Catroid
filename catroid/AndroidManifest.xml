@@ -164,6 +164,8 @@
 
         <service android:name=".transfers.ProjectUploadService" />
         <service android:name=".transfers.ProjectDownloadService" />
-        <service android:name="com.parrot.freeflight.service.DroneControlService"/>        
+        <service android:name="com.parrot.freeflight.service.DroneControlService"/>
+        <service android:name=".utils.StatusBarNotificationManager$NotificationActionService" />
+
     </application>
 </manifest>

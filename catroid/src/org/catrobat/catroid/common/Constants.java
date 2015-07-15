@@ -113,6 +113,19 @@ public final class Constants {
 	public static final int DOWNLOAD_NOTIFICATION = 103;
 	public static final int COPY_NOTIFICATION = 104;
 
+	//Up-/Download Status Codes
+	public static final int STATUS_CODE_INTERNAL_SERVER_ERROR = 500;
+	public static final int STATUS_CODE_UPLOAD_MISSING_DATA = 501;
+	public static final int STATUS_CODE_UPLOAD_MISSING_CHECKSUM = 503;
+	public static final int STATUS_CODE_UPLOAD_INVALID_CHECKSUM = 504;
+	public static final int STATUS_CODE_UPLOAD_COPY_FAILED = 505;
+	public static final int STATUS_CODE_UPLOAD_UNZIP_FAILED = 506;
+	public static final int STATUS_CODE_UPLOAD_MISSING_XML = 507;
+	public static final int STATUS_CODE_UPLOAD_RENAME_FAILED = 513;
+	public static final int STATUS_CODE_UPLOAD_SAVE_THUMBNAIL_FAILED = 514;
+	public static final int STATUS_CODE_UPLOAD_OLD_CATROBAT_LANGUAGE = 518;
+	public static final int STATUS_CODE_UPLOAD_OLD_CATROBAT_VERSION = 519;
+
 	// Suppress default constructor for noninstantiability
 	private Constants() {
 		throw new AssertionError();

@@ -489,6 +489,8 @@
     <string name="notification_upload_pending">Upload in progress</string>
     <string name="notification_upload_finished">Upload successful</string>
     <string name="notification_upload_rejected">Uploaded program rejected</string>
+    <string name="notification_upload_retry">Retry</string>
+    <string name="notification_open_play_store">Open Play Store</string>
     <string name="notification_download_title_pending">"Downloading "</string>
     <string name="notification_download_pending">Download in progress</string>
     <string name="notification_download_finished">Download successful</string>
@@ -498,6 +500,7 @@
     <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload program</string>
     <string name="upload_description">Description:</string>
+
     <!--  -->
 
 

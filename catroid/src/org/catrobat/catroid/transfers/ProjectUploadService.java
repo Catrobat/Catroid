@@ -25,6 +25,7 @@ package org.catrobat.catroid.transfers;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
 
@@ -57,6 +58,8 @@ public class ProjectUploadService extends IntentService {
 	public ResultReceiver receiver;
 	private Integer notificationId;
 	private String username;
+	private int statusCode;
+	private Bundle uploadBackupBundle;
 
 	public ProjectUploadService() {
 		super("ProjectUploadService");
@@ -73,6 +76,7 @@ public class ProjectUploadService extends IntentService {
 		this.serverAnswer = "";
 		this.result = true;
 		this.notificationId = intent.getIntExtra("notificationId", 0);
+		this.uploadBackupBundle = new Bundle();
 
 		return returnCode;
 	}
@@ -119,6 +123,16 @@ public class ProjectUploadService extends IntentService {
 			String language = UtilDeviceInfo.getUserLanguageCode();
 
 			Context context = getApplicationContext();
+			uploadBackupBundle.putString("projectName", projectName);
+			uploadBackupBundle.putString("projectDescription", projectDescription);
+			uploadBackupBundle.putString("projectPath", projectPath);
+			uploadBackupBundle.putString("userEmail", userEmail);
+			uploadBackupBundle.putString("language", language);
+			uploadBackupBundle.putString("token", token);
+			uploadBackupBundle.putString("username", username);
+			uploadBackupBundle.putInt("notificationId", notificationId);
+			uploadBackupBundle.putParcelable("receiver", receiver);
+
 			ServerCalls.getInstance().uploadProject(projectName, projectDescription, zipFileString, userEmail,
 					language, token, username, receiver, notificationId, context);
 
@@ -128,6 +142,7 @@ public class ProjectUploadService extends IntentService {
 			result = false;
 		} catch (WebconnectionException webconnectionException) {
 			serverAnswer = webconnectionException.getMessage();
+			statusCode = webconnectionException.getStatusCode();
 			Log.e(TAG, serverAnswer);
 			result = false;
 		}
@@ -137,8 +152,7 @@ public class ProjectUploadService extends IntentService {
 	public void onDestroy() {
 		if (!result) {
 			ToastUtil.showError(this, getResources().getText(R.string.error_project_upload).toString() + " " + serverAnswer);
-			StatusBarNotificationManager.getInstance().abortProgressNotificationWithMessage(notificationId,
-					getResources().getString(R.string.notification_upload_rejected));
+			StatusBarNotificationManager.getInstance().showUploadRejectedNotification(notificationId, statusCode, serverAnswer, uploadBackupBundle);
 		} else {
 			ToastUtil.showSuccess(this, R.string.notification_upload_finished);
 		}
