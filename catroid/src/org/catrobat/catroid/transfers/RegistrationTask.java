@@ -90,13 +90,11 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 					country, token, context);
 
 			return true;
-
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
 			message = webconnectionException.getMessage();
 		}
 		return false;
-
 	}
 
 	@Override
@@ -141,6 +139,5 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 	public interface OnRegistrationCompleteListener {
 
 		void onRegistrationComplete();
-
 	}
 }

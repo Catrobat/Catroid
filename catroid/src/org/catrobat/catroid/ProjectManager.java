@@ -158,7 +158,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			}
 //			insert further conversions here
 
-
 			checkNestingBrickReferences(true);
 			if (project.getCatrobatLanguageVersion() == Constants.CURRENT_CATROBAT_LANGUAGE_VERSION) {
 				//project seems to be converted now and can be loaded
@@ -173,7 +172,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		if (project != null) {
 			project.loadLegoNXTSettingsFromProject(context);
 		}
-
 	}
 
 	private void localizeBackgroundSprite(Context context) {
@@ -270,7 +268,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	public void deleteCurrentProject(Context context) throws IllegalArgumentException, IOException {
 		deleteProject(project.getName(), context);
 	}
-
 
 	public void deleteProject(String projectName, Context context) throws IllegalArgumentException, IOException {
 		Log.d(TAG, "deleteProject " + projectName);
@@ -425,12 +422,10 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 
 	@Override
 	public void onLoadProjectSuccess(boolean startProjectActivity) {
-
 	}
 
 	@Override
 	public void onLoadProjectFailure() {
-
 	}
 
 	public void checkNestingBrickReferences(boolean assumeWrong) {

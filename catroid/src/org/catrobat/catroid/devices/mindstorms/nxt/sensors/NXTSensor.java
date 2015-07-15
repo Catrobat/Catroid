@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.devices.mindstorms.nxt.sensors;
 
-
 import android.util.Log;
 
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
@@ -68,7 +67,7 @@ public abstract class NXTSensor implements MindstormsSensor {
 			if (sensorCode == null) {
 				return Sensor.NO_SENSOR;
 			}
-			
+
 			try {
 				return valueOf(sensorCode);
 			} catch (IllegalArgumentException e) {
@@ -108,23 +107,19 @@ public abstract class NXTSensor implements MindstormsSensor {
 		NXTError.checkForError(reply, 3);
 	}
 
-	protected int getScaledValue()
-	{
+	protected int getScaledValue() {
 		return getSensorReadings().scaled;
 	}
 
-	protected int getRawValue()
-	{
+	protected int getRawValue() {
 		return getSensorReadings().raw;
 	}
 
-	protected int getNormalizedValue()
-	{
+	protected int getNormalizedValue() {
 		return getSensorReadings().normalized;
 	}
 
-	public SensorReadings getSensorReadings()
-	{
+	public SensorReadings getSensorReadings() {
 		if (!hasInit) {
 			initialize();
 		}
@@ -141,8 +136,7 @@ public abstract class NXTSensor implements MindstormsSensor {
 		return sensorReadings;
 	}
 
-	protected void initialize()
-	{
+	protected void initialize() {
 		if (connection != null && connection.isConnected()) {
 			updateTypeAndMode();
 			try {
@@ -161,7 +155,7 @@ public abstract class NXTSensor implements MindstormsSensor {
 
 	protected void resetScaledValue() {
 		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.RESET_INPUT_SCALED_VALUE, false);
-		command.append((byte)port);
+		command.append((byte) port);
 		connection.send(command);
 	}
 
@@ -180,8 +174,7 @@ public abstract class NXTSensor implements MindstormsSensor {
 	public void updateLastSensorValue() {
 		try {
 			lastValidValue = getValue();
-		}
-		catch (MindstormsException e) {
+		} catch (MindstormsException e) {
 			Log.e(TAG, e.getMessage());
 		}
 	}

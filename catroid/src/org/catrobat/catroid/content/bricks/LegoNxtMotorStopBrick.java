@@ -172,7 +172,6 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 			}
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -183,5 +182,4 @@ public class LegoNxtMotorStopBrick extends BrickBaseType implements OnItemSelect
 		sequence.addAction(ExtendedActions.legoNxtMotorStop(motorEnum));
 		return null;
 	}
-
 }

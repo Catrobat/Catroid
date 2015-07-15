@@ -118,12 +118,12 @@ public final class CameraManager implements Camera.PreviewCallback {
 		camera.setPreviewCallbackWithBuffer(this);
 
 		if (useTexture && texture != null) {
-            try {
-                setTexture();
-            } catch (IOException iOException) {
-                Log.e(TAG, "Setting preview texture failed!", iOException);
-                return false;
-            }
+			try {
+				setTexture();
+			} catch (IOException iOException) {
+				Log.e(TAG, "Setting preview texture failed!", iOException);
+				return false;
+			}
 		}
 		return true;
 	}
@@ -199,5 +199,4 @@ public final class CameraManager implements Camera.PreviewCallback {
 			camera.setParameters(led);
 		}
 	}
-
 }

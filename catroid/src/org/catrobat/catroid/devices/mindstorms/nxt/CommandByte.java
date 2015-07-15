@@ -38,19 +38,17 @@ public enum CommandByte {
 
 	private int commandByteValue;
 	private static final SparseArray<CommandByte> LOOKUP = new SparseArray<CommandByte>();
-
 	static {
 		for (CommandByte c : CommandByte.values()) {
 			LOOKUP.put(c.commandByteValue, c);
 		}
 	}
-
 	private CommandByte(int commandByteValue) {
 		this.commandByteValue = commandByteValue;
 	}
 
 	public byte getByte() {
-		return (byte)commandByteValue;
+		return (byte) commandByteValue;
 	}
 
 	public static boolean isMember(byte memberToTest) {
@@ -60,7 +58,6 @@ public enum CommandByte {
 	public static CommandByte getTypeByValue(byte value) {
 		return LOOKUP.get(value & 0xFF);
 	}
-
 
 	/* This are all commands lego supports, at the moment only some of them are implemented.
 
@@ -77,5 +74,4 @@ public enum CommandByte {
 	GetBatteryLevel = 0x0b, StopSoundPlayback = 0x0c, KeepAlive = 0x0d,
 	LsGetStatus = 0x0e, LsWrite = 0x0f, LsRead = 0x10,GetCurrentProgramName = 0x11,
 	MessageRead = 0x13*/
-
 }

@@ -372,7 +372,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 
 		assertTrue("Upload of unmodified standard project should not be possible, but succeeded",
 				solo.searchText(solo.getString(R.string.error_upload_default_project)));
-
 	}
 
 	@Device
@@ -572,7 +571,6 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 			jsonObject = new JSONObject(resultString);
 			serverProjectId = jsonObject.optInt("projectId");
 			Log.v("serverID=", "" + serverProjectId);
-
 		} catch (JSONException e) {
 			fail("JSON exception occurred");
 		}
@@ -627,5 +625,4 @@ public class ProjectUpAndDownloadTest extends BaseActivityInstrumentationTestCas
 		assertTrue("Original Directory does not exist.", downloadedDirectory.exists());
 		assertTrue("Original Project File does not exist.", downloadedProjectFile.exists());
 	}
-
 }

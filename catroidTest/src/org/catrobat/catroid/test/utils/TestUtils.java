@@ -300,13 +300,13 @@ public final class TestUtils {
 
 		notificationMap.clear();
 	}
-	
+
 	public static Script addUserBrickToSpriteAndGetUserScript(UserBrick userBrick, Sprite sprite) {
-		 UserScriptDefinitionBrick definitionBrick = (UserScriptDefinitionBrick) Reflection.getPrivateField(userBrick,
-		 "definitionBrick");
-		 sprite.addUserBrick(userBrick);
-		 return definitionBrick.getScriptSafe();
-		 }
+		UserScriptDefinitionBrick definitionBrick = (UserScriptDefinitionBrick) Reflection.getPrivateField(userBrick,
+				"definitionBrick");
+		sprite.addUserBrick(userBrick);
+		return definitionBrick.getScriptSafe();
+	}
 
 	public static void removeFromPreferences(Context context, String key) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);

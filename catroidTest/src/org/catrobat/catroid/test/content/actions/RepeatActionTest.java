@@ -216,7 +216,7 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		Action repeatAction = ExtendedActions.repeat(testSprite, null, repeatedAction);
 		repeatAction.act(1.0f);
 		Object repeatCountValue = Reflection.getPrivateField(repeatAction, "repeatCountValue");
-		assertEquals("Null Formula should not have been possible to interpret!", 0 , repeatCountValue);
+		assertEquals("Null Formula should not have been possible to interpret!", 0, repeatCountValue);
 	}
 
 	public void testNotANumberFormula() {
@@ -240,6 +240,5 @@ public class RepeatActionTest extends InstrumentationTestCase {
 		}
 		assertEquals("Executed the wrong number of times!", expected,
 				testSprite.look.getYInUserInterfaceDimensionUnit());
-
 	}
 }

@@ -366,7 +366,6 @@ public class ParserTestFunctions extends AndroidTestCase {
 				InternTokenType.STRING, "anotherString");
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MAX, firstParameterList, secondParameterList,
 				Double.NaN, testSprite);
-
 	}
 
 	public void testMin() {
@@ -389,5 +388,4 @@ public class ParserTestFunctions extends AndroidTestCase {
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.MIN, firstParameterList, secondParameterList,
 				Double.NaN, testSprite);
 	}
-
 }

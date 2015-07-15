@@ -32,5 +32,4 @@ public class StopAllSoundsAction extends TemporalAction {
 	protected void update(float percent) {
 		SoundManager.getInstance().stopAllSounds();
 	}
-
 }

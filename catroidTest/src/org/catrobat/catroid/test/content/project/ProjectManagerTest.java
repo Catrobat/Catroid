@@ -68,12 +68,12 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 	@Override
 	public void setUp() throws Exception {
-		 TestUtils.clearProject(projectNameOne);
-		 TestUtils.clearProject("oldProject");
-		 TestUtils.clearProject("newProject");
-		 super.setUp();
-		 }
-	
+		TestUtils.clearProject(projectNameOne);
+		TestUtils.clearProject("oldProject");
+		TestUtils.clearProject("newProject");
+		super.setUp();
+	}
+
 	@Override
 	public void tearDown() throws Exception {
 		TestUtils.clearProject(projectNameOne);

@@ -212,7 +212,6 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 			editVariable.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -228,5 +227,4 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 	public void showFormulaEditorToEditFormula(View view) {
 		FormulaEditorFragment.showFragment(view, this, BrickField.LIST_DELETE_ITEM);
 	}
-
 }

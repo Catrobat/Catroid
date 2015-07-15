@@ -40,9 +40,9 @@ public class ChangeSizeByNAction extends TemporalAction {
 		try {
 			Float newSize = size == null ? Float.valueOf(0f) : size.interpretFloat(sprite);
 			sprite.look.changeSizeInUserInterfaceDimensionUnit(newSize);
-        } catch (InterpretationException interpretationException) {
-            Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-        }
+		} catch (InterpretationException interpretationException) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
 	}
 
 	public void setSprite(Sprite sprite) {
@@ -52,5 +52,4 @@ public class ChangeSizeByNAction extends TemporalAction {
 	public void setSize(Formula size) {
 		this.size = size;
 	}
-
 }

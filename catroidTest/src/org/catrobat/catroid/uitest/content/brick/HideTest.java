@@ -39,11 +39,6 @@ import org.catrobat.catroid.uitest.util.UiTestUtils;
 
 import java.util.ArrayList;
 
-/**
- * 
- * @author Daniel Burtscher
- * 
- */
 public class HideTest extends BaseActivityInstrumentationTestCase<ScriptActivity> {
 
 	private Project project;

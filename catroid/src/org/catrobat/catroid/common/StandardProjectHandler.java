@@ -110,7 +110,7 @@ public final class StandardProjectHandler {
 				R.drawable.default_project_background, context);
 
 		File backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
-				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background, context, true,
 				backgroundImageScaleFactor);
 
 		LookData backgroundLookData = new LookData();
@@ -133,7 +133,7 @@ public final class StandardProjectHandler {
 		String takeOffSpriteName = context.getString(R.string.default_drone_project_sprites_takeoff);
 
 		File takeOffArrowFile = UtilFile.copyImageFromResourceIntoProject(projectName, takeOffSpriteName
-				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_takeoff, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_takeoff, context, true,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(takeOffSpriteName, DroneBrickFactory.DroneBricks.DRONE_TAKE_OFF_BRICK,
@@ -143,7 +143,7 @@ public final class StandardProjectHandler {
 		String landSpriteName = context.getString(R.string.default_drone_project_srpites_land);
 
 		File landArrowFile = UtilFile.copyImageFromResourceIntoProject(projectName, takeOffSpriteName
-				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_land, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_land, context, true,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(landSpriteName, DroneBrickFactory.DroneBricks.DRONE_LAND_BRICK, -260,
@@ -153,7 +153,7 @@ public final class StandardProjectHandler {
 		String rotateSpriteName = context.getString(R.string.default_drone_project_srpites_rotate);
 
 		File rotateFile = UtilFile.copyImageFromResourceIntoProject(projectName, rotateSpriteName
-				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_rotate, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_rotate, context, true,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(rotateSpriteName, DroneBrickFactory.DroneBricks.DRONE_FLIP_BRICK,
@@ -176,7 +176,7 @@ public final class StandardProjectHandler {
 		String upSpriteName = context.getString(R.string.default_drone_project_sprites_up);
 
 		File upFile = UtilFile.copyImageFromResourceIntoProject(projectName, upSpriteName
-				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_arrow_up, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_arrow_up, context, true,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(upSpriteName, DroneBrickFactory.DroneBricks.DRONE_MOVE_UP_BRICK, -100,
@@ -186,7 +186,7 @@ public final class StandardProjectHandler {
 		String downSpriteName = context.getString(R.string.default_drone_project_sprites_down);
 
 		File downFile = UtilFile.copyImageFromResourceIntoProject(projectName, downSpriteName
-				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_arrow_down, context,
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_arrow_down, context,
 				true, backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(downSpriteName, DroneBrickFactory.DroneBricks.DRONE_MOVE_DOWN_BRICK,
@@ -196,7 +196,7 @@ public final class StandardProjectHandler {
 		String forwardSpriteName = context.getString(R.string.default_drone_project_sprites_forward);
 
 		File forwardFile = UtilFile.copyImageFromResourceIntoProject(projectName, forwardSpriteName
-				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_forward, context,
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_forward, context,
 				true, backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(forwardSpriteName,
@@ -206,7 +206,7 @@ public final class StandardProjectHandler {
 		String backwardpriteName = context.getString(R.string.default_drone_project_sprites_back);
 
 		File backwardFile = UtilFile.copyImageFromResourceIntoProject(projectName, downSpriteName
-				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_back, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_back, context, true,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(backwardpriteName,
@@ -216,7 +216,7 @@ public final class StandardProjectHandler {
 		String leftSpriteName = context.getString(R.string.default_drone_project_sprites_left);
 
 		File leftFile = UtilFile.copyImageFromResourceIntoProject(projectName, leftSpriteName
-				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_left, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_left, context, true,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(leftSpriteName, DroneBrickFactory.DroneBricks.DRONE_MOVE_LEFT_BRICK,
@@ -226,7 +226,7 @@ public final class StandardProjectHandler {
 		String rightSpriteName = context.getString(R.string.default_drone_project_sprites_right);
 
 		File rightFile = UtilFile.copyImageFromResourceIntoProject(projectName, rightSpriteName
-				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_right, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_go_right, context, true,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(rightSpriteName, DroneBrickFactory.DroneBricks.DRONE_MOVE_RIGHT_BRICK,
@@ -236,7 +236,7 @@ public final class StandardProjectHandler {
 		String turnLeftSpriteName = context.getString(R.string.default_drone_project_sprites_turn_left);
 
 		File turnLeftFile = UtilFile.copyImageFromResourceIntoProject(projectName, turnLeftSpriteName
-				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_turn_left, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_turn_left, context, true,
 				backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(turnLeftSpriteName,
@@ -246,7 +246,7 @@ public final class StandardProjectHandler {
 		String turnRightSpriteName = context.getString(R.string.default_drone_project_sprites_turn_right);
 
 		File turnrightFile = UtilFile.copyImageFromResourceIntoProject(projectName, turnRightSpriteName
-				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_turn_right, context,
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_drone_project_orange_turn_right, context,
 				true, backgroundImageScaleFactor);
 
 		defaultDroneProject.addSprite(createDroneSprite(turnRightSpriteName,
@@ -259,13 +259,11 @@ public final class StandardProjectHandler {
 	private static Sprite createDroneSprite(String spriteName, DroneBrickFactory.DroneBricks brickName, int xPostition,
 			int yPosition, File lookFile) {
 		return createDroneSprite(spriteName, brickName, xPostition, yPosition, lookFile, 0, 0);
-
 	}
 
 	private static Sprite createDroneSprite(String spriteName, DroneBrickFactory.DroneBricks brickName, int xPostition,
 			int yPosition, File lookFile, int timeInMilliseconds) {
 		return createDroneSprite(spriteName, brickName, xPostition, yPosition, lookFile, timeInMilliseconds, 20);
-
 	}
 
 	private static Sprite createDroneSprite(String spriteName, DroneBrickFactory.DroneBricks brickName, int xPostition,
@@ -326,16 +324,16 @@ public final class StandardProjectHandler {
 				R.drawable.default_project_background, context);
 
 		File backgroundFile = UtilFile.copyImageFromResourceIntoProject(projectName, backgroundName
-				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_background, context, true,
 				backgroundImageScaleFactor);
 		File movingMoleFile = UtilFile.copyImageFromResourceIntoProject(projectName, movingMoleLookName
-				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_mole_moving, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_mole_moving, context, true,
 				backgroundImageScaleFactor);
 		File diggedOutMoleFile = UtilFile.copyImageFromResourceIntoProject(projectName, moleLookName
-				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_mole_digged_out, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_mole_digged_out, context, true,
 				backgroundImageScaleFactor);
 		File whackedMoleFile = UtilFile.copyImageFromResourceIntoProject(projectName, whackedMoleLookName
-				+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_mole_whacked, context, true,
+						+ Constants.IMAGE_STANDARD_EXTENTION, R.drawable.default_project_mole_whacked, context, true,
 				backgroundImageScaleFactor);
 		try {
 			File soundFile1 = UtilFile.copySoundFromResourceIntoProject(projectName, soundName + "1"
@@ -351,7 +349,7 @@ public final class StandardProjectHandler {
 
 			Log.i(TAG, String.format("createAndSaveStandardProject(%s) %s created%n %s created%n %s created%n %s created%n %s created%n %s created%n %s created%n %s created%n",
 					projectName, backgroundFile.getName(), movingMoleFile.getName(), diggedOutMoleFile.getName(), whackedMoleFile.getName(),
-						soundFile1.getName(), soundFile2.getName(), soundFile3.getName(), soundFile4.getName()));
+					soundFile1.getName(), soundFile2.getName(), soundFile3.getName(), soundFile4.getName()));
 
 			LookData movingMoleLookData = new LookData();
 			movingMoleLookData.setLookName(movingMoleLookName);
@@ -454,7 +452,6 @@ public final class StandardProjectHandler {
 			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(diggedOutMoleLookData.getChecksum(), diggedOutMoleLookData.getAbsolutePath());
 			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(whackedMoleLookData.getChecksum(), whackedMoleLookData.getAbsolutePath());
 			ProjectManager.getInstance().getFileChecksumContainer().addChecksum(backgroundLookData.getChecksum(), backgroundLookData.getAbsolutePath());
-
 
 			waitBrick = new WaitBrick(randomWait.clone());
 			mole1StartScript.addBrick(waitBrick);

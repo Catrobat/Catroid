@@ -144,5 +144,4 @@ public class ProjectUploadService extends IntentService {
 		}
 		super.onDestroy();
 	}
-
 }

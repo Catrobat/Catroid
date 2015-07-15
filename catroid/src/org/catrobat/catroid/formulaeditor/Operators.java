@@ -69,5 +69,4 @@ public enum Operators {
 	public static boolean isOperator(String value) {
 		return getOperatorByValue(value) != null;
 	}
-
 }

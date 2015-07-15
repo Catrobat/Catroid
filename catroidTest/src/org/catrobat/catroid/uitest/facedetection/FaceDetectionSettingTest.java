@@ -133,7 +133,6 @@ public class FaceDetectionSettingTest extends BaseActivityInstrumentationTestCas
 
 		assertFalse("Face Detection Preference was not properly written to shared preferences",
 				readFaceDetectionPreference());
-
 	}
 
 	public void testCameraSettingsList() {

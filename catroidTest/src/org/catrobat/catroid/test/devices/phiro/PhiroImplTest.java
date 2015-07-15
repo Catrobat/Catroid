@@ -234,7 +234,6 @@ public class PhiroImplTest extends AndroidTestCase {
 
 		FirmataMessage m = firmataUtils.getAnalogMesageData();
 
-
 		assertEquals("Wrong command, ANALOG_MESSAGE command expected",
 				ANALOG_MESSAGE_COMMAND, m.getCommand());
 		assertEquals("Wrong lsb speed", pin, m.getPin());

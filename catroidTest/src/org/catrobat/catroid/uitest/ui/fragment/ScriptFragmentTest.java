@@ -95,7 +95,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 				.getNumberOfBricks();
 
 		assertEquals("No brick has been copied!", 12, numberOfBricks);
-
 	}
 
 	public void testCopyMultipleBricks() {
@@ -117,7 +116,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 				.getNumberOfBricks();
 
 		assertEquals("No brick has been copied!", 8, numberOfBricks);
-
 	}
 
 	public void testCopyActionMode() {
@@ -144,7 +142,6 @@ public class ScriptFragmentTest extends BaseActivityInstrumentationTestCase<Main
 				.getNumberOfBricks();
 
 		assertEquals("No brick has been copied!", 7, numberOfBricks);
-
 	}
 
 	public void testCopyAddedBrickWithoutAddedScript() {

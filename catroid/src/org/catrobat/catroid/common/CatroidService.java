@@ -29,5 +29,4 @@ public interface CatroidService {
 
 	// Common services - gets created by ServiceProvider if needed
 	Class<BluetoothDeviceService> BLUETOOTH_DEVICE_SERVICE = BluetoothDeviceService.class;
-
 }

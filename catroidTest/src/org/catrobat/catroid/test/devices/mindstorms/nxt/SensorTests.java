@@ -151,7 +151,7 @@ public class SensorTests extends AndroidTestCase {
 
 	private void testInitializationOfI2CSensor(byte port, NXTSensorType sensorType, NXTSensorMode sensorMode) {
 		testInitializationOfSensor(port, sensorType, sensorMode);
-		testLsWriteMessage((byte)0x0, port);
+		testLsWriteMessage((byte) 0x0, port);
 		testLsReadMessage(port);
 	}
 
@@ -207,7 +207,7 @@ public class SensorTests extends AndroidTestCase {
 			assertEquals("Wrong port", port, lsGetStatusMsg[2]);
 
 			currentMessage = logger.getNextSentMessage(0, 2);
-		} while(currentMessage[1] == CommandByte.LS_GET_STATUS.getByte());
+		} while (currentMessage[1] == CommandByte.LS_GET_STATUS.getByte());
 
 		byte[] lsReadMsg = currentMessage;
 

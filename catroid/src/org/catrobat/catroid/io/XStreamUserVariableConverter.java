@@ -43,5 +43,4 @@ public class XStreamUserVariableConverter implements SingleValueConverter {
 	public Object fromString(String s) {
 		return new UserVariable(s);
 	}
-
 }

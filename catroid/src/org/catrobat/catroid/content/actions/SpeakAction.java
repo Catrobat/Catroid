@@ -106,5 +106,4 @@ public class SpeakAction extends TemporalAction {
 	public void setText(Formula text) {
 		this.text = text;
 	}
-
 }

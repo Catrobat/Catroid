@@ -48,10 +48,10 @@ public class RepeatAction extends com.badlogic.gdx.scenes.scene2d.actions.Repeat
 			try {
 				Double interpretation = repeatCount == null ? Double.valueOf(0d) : repeatCount.interpretDouble(sprite);
 				repeatCountValue = interpretation.intValue();
-            } catch (InterpretationException interpretationException) {
-                repeatCountValue = 0;
-                Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-            }
+			} catch (InterpretationException interpretationException) {
+				repeatCountValue = 0;
+				Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+			}
 		}
 
 		if (!isCurrentLoopInitialized) {
@@ -76,7 +76,6 @@ public class RepeatAction extends com.badlogic.gdx.scenes.scene2d.actions.Repeat
 			isCurrentLoopInitialized = false;
 			if (action != null) {
 				action.restart();
-
 			}
 		}
 		return false;
@@ -101,5 +100,4 @@ public class RepeatAction extends com.badlogic.gdx.scenes.scene2d.actions.Repeat
 	public void setIsForeverRepeat(boolean isForeverRepeat) {
 		this.isForeverRepeat = isForeverRepeat;
 	}
-
 }

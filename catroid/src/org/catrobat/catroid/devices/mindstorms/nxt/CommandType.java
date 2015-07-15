@@ -33,7 +33,7 @@ public enum CommandType {
 	}
 
 	public byte getByte() {
-		return (byte)commandTypeValue;
+		return (byte) commandTypeValue;
 	}
 
 	public static boolean isMember(byte memberToTest) {

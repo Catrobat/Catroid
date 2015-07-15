@@ -30,41 +30,40 @@ import java.util.HashMap;
 
 public final class ServiceProvider {
 
-    public static final String TAG = ServiceProvider.class.getSimpleName();
+	public static final String TAG = ServiceProvider.class.getSimpleName();
 
-    private ServiceProvider() {
-    }
+	private ServiceProvider() {
+	}
 
-    private static HashMap<Class<? extends CatroidService>, CatroidService> services = new HashMap<Class<? extends CatroidService>, CatroidService>();
+	private static HashMap<Class<? extends CatroidService>, CatroidService> services = new HashMap<Class<? extends CatroidService>, CatroidService>();
 
-    public static synchronized <T extends CatroidService, S extends CatroidService> void registerService(Class<T> serviceType, S serviceInstance) {
-        if (services.put(serviceType, serviceInstance) != null) {
-            Log.w(TAG, "Service '" + serviceType.getSimpleName()  + "' got overwritten!");
-        }
-    }
+	public static synchronized <T extends CatroidService, S extends CatroidService> void registerService(Class<T> serviceType, S serviceInstance) {
+		if (services.put(serviceType, serviceInstance) != null) {
+			Log.w(TAG, "Service '" + serviceType.getSimpleName() + "' got overwritten!");
+		}
+	}
 
-    public static synchronized <T extends CatroidService> T getService(Class<T> serviceType) {
-        CatroidService serviceInstance = services.get(serviceType);
-        if (serviceInstance != null) {
-            return (T) serviceInstance;
-        }
-		else {
+	public static synchronized <T extends CatroidService> T getService(Class<T> serviceType) {
+		CatroidService serviceInstance = services.get(serviceType);
+		if (serviceInstance != null) {
+			return (T) serviceInstance;
+		} else {
 			serviceInstance = createCommonService(serviceType);
 			if (serviceInstance != null) {
-				return (T)serviceInstance;
+				return (T) serviceInstance;
 			}
 		}
 
-        Log.w(TAG, "No Service '" + serviceType.getSimpleName()  + "' is registered!");
+		Log.w(TAG, "No Service '" + serviceType.getSimpleName() + "' is registered!");
 
-        return null;
-    }
+		return null;
+	}
 
-    public static synchronized <T extends CatroidService> void unregisterService(Class<T> serviceType) {
-        if (services.remove(serviceType) == null) {
-            Log.w(TAG, "Unregister Service: Service '" + serviceType.getSimpleName()  + "' is not registered!");
-        }
-    }
+	public static synchronized <T extends CatroidService> void unregisterService(Class<T> serviceType) {
+		if (services.remove(serviceType) == null) {
+			Log.w(TAG, "Unregister Service: Service '" + serviceType.getSimpleName() + "' is not registered!");
+		}
+	}
 
 	private static CatroidService createCommonService(Class<? extends CatroidService> serviceType) {
 

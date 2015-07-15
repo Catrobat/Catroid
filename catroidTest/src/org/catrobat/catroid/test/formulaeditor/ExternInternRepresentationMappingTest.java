@@ -50,6 +50,5 @@ public class ExternInternRepresentationMappingTest extends InstrumentationTestCa
 				externInternRepresentationMapping.getExternTokenStartIndex(1));
 		assertEquals("Mapping should not exist", ExternInternRepresentationMapping.MAPPING_NOT_FOUND,
 				externInternRepresentationMapping.getExternTokenEndIndex(1));
-
 	}
 }

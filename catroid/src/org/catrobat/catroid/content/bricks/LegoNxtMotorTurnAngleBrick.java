@@ -183,7 +183,6 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
-
 		});
 
 		motorSpinner.setSelection(motorEnum.ordinal());
@@ -221,7 +220,6 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 			editLegoSpeed.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -233,5 +231,4 @@ public class LegoNxtMotorTurnAngleBrick extends FormulaBrick {
 				getFormulaWithBrickField(BrickField.LEGO_NXT_DEGREES)));
 		return null;
 	}
-
 }

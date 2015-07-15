@@ -68,7 +68,7 @@ public class LegoNXTImplTest extends AndroidTestCase {
 
 		SettingsActivity.setLegoMindstormsNXTSensorMapping(applicationContext,
 				new NXTSensor.Sensor[] { NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.SOUND,
-						NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.ULTRASONIC});
+						NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.ULTRASONIC });
 
 		nxt.initialise();
 
@@ -95,8 +95,8 @@ public class LegoNXTImplTest extends AndroidTestCase {
 
 	private void resetSensorMappingToDefault() throws InterruptedException {
 		SettingsActivity.setLegoMindstormsNXTSensorMapping(this.getContext(),
-				new NXTSensor.Sensor[]{NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.SOUND,
-						NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.ULTRASONIC});
+				new NXTSensor.Sensor[] { NXTSensor.Sensor.TOUCH, NXTSensor.Sensor.SOUND,
+						NXTSensor.Sensor.LIGHT_INACTIVE, NXTSensor.Sensor.ULTRASONIC });
 	}
 
 	public void testSensorAssignmentChange() throws InterruptedException {
@@ -133,8 +133,8 @@ public class LegoNXTImplTest extends AndroidTestCase {
 
 		byte[] setOutputState = logger.getNextSentMessage(0, 2);
 
-		assertEquals("Expected Hz not same as input Hz", (byte)expectedHz, setOutputState[2]);
-		assertEquals("Expected Hz not same as input Hz", (byte)(expectedHz >> 8), setOutputState[3]);
+		assertEquals("Expected Hz not same as input Hz", (byte) expectedHz, setOutputState[2]);
+		assertEquals("Expected Hz not same as input Hz", (byte) (expectedHz >> 8), setOutputState[3]);
 	}
 
 	public void testPlayToneHzOverMaxValue() {
@@ -149,15 +149,15 @@ public class LegoNXTImplTest extends AndroidTestCase {
 
 		byte[] setOutputState = logger.getNextSentMessage(0, 2);
 
-		assertEquals("Expected Hz over maximum Value (max. Value = 14000)", (byte)expectedHz, setOutputState[2]);
-		assertEquals("Expected Hz over maximum Value (max. Value = 14000)", (byte)(expectedHz >> 8), setOutputState[3]);
+		assertEquals("Expected Hz over maximum Value (max. Value = 14000)", (byte) expectedHz, setOutputState[2]);
+		assertEquals("Expected Hz over maximum Value (max. Value = 14000)", (byte) (expectedHz >> 8), setOutputState[3]);
 	}
 
 	public void testCheckDurationOfTone() {
 
 		int inputHz = 130;
 		float inputDurationInS = 5.5f;
-		int inputDurationInMs = (int)(inputDurationInS * 1000);
+		int inputDurationInMs = (int) (inputDurationInS * 1000);
 
 		int expectedDurationInMs = 5500;
 
@@ -167,7 +167,7 @@ public class LegoNXTImplTest extends AndroidTestCase {
 		byte[] setOutputState = logger.getNextSentMessage(0, 2);
 
 		assertEquals("Expected Duration not same as Input Duration", (byte) expectedDurationInMs, setOutputState[4]);
-		assertEquals("Expected Duration not same as Input Duration", (byte)(expectedDurationInMs >> 8), setOutputState[5]);
+		assertEquals("Expected Duration not same as Input Duration", (byte) (expectedDurationInMs >> 8), setOutputState[5]);
 	}
 
 	public void testWithZeroDuration() {

@@ -69,7 +69,7 @@ public abstract class FaceDetector {
 	protected void onFaceDetected(Point position, int size) {
 		float[] positionXFloatValue = new float[] { position.x };
 		boolean invertY = !CameraManager.getInstance().isFacingBack();
-		float[] positionYFloatValue = new float[]{invertY ? -position.y : position.y};
+		float[] positionYFloatValue = new float[] { invertY ? -position.y : position.y };
 		float[] sizeFloatValue = new float[] { size };
 		SensorCustomEvent xPositionEvent = new SensorCustomEvent(Sensors.FACE_X_POSITION, positionXFloatValue);
 		SensorCustomEvent yPositionEvent = new SensorCustomEvent(Sensors.FACE_Y_POSITION, positionYFloatValue);

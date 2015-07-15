@@ -62,19 +62,18 @@ public class NXTMotor implements MindstormsMotor {
 
 	private void trySetOutputState(OutputState state, boolean reply) {
 		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.SET_OUTPUT_STATE, false);
-		command.append((byte)port);
+		command.append((byte) port);
 		command.append(state.getSpeed());
 		command.append(state.mode);
 		command.append(state.regulation.getByte());
 		command.append(state.turnRatio);
 		command.append(state.runState.getByte());
 		command.append(state.tachoLimit);
-		command.append((byte)0x00);
+		command.append((byte) 0x00);
 
 		if (reply) {
 			connection.sendAndReceive(command);
-		}
-		else {
+		} else {
 			connection.send(command);
 		}
 	}
@@ -94,7 +93,7 @@ public class NXTMotor implements MindstormsMotor {
 		OutputState state = new OutputState();
 		state.setSpeed(speed);
 		state.mode = MotorMode.BREAK | MotorMode.ON | MotorMode.REGULATED;
-		state.regulation =  MotorRegulation.SPEED;
+		state.regulation = MotorRegulation.SPEED;
 		state.turnRatio = 100;
 		state.runState = MotorRunState.RUNNING;
 		state.tachoLimit = degrees;
@@ -112,29 +111,22 @@ public class NXTMotor implements MindstormsMotor {
 
 		public void setSpeed(int speed) {
 			if (speed > 100) {
-				this.speed = (byte)100;
+				this.speed = (byte) 100;
+			} else if (speed < -100) {
+				this.speed = (byte) -100;
+			} else if (turnRatio > 100) {
+				turnRatio = (byte) 100;
+			} else if (turnRatio < -100) {
+				this.turnRatio = (byte) 100;
+			} else {
+				this.speed = (byte) speed;
 			}
-			else if (speed < -100) {
-				this.speed = (byte)-100;
-			}
-			else if (turnRatio > 100) {
-				turnRatio = (byte)100;
-			}
-			else if (turnRatio < -100) {
-				this.turnRatio = (byte)100;
-			}
-			else {
-				this.speed = (byte)speed;
-			}
-
 		}
 
 		public byte getSpeed() {
 			return this.speed;
 		}
-
 	}
-
 
 	public static class MotorMode {
 		public static final byte ON = 0x01;
@@ -146,12 +138,13 @@ public class NXTMotor implements MindstormsMotor {
 		IDLE(0x00), SPEED(0x01), SYNC(0x02);
 
 		private int motorRegulationValue;
+
 		private MotorRegulation(int motorRegulationValue) {
 			this.motorRegulationValue = motorRegulationValue;
 		}
 
 		public byte getByte() {
-			return (byte)motorRegulationValue;
+			return (byte) motorRegulationValue;
 		}
 	}
 
@@ -159,12 +152,13 @@ public class NXTMotor implements MindstormsMotor {
 		IDLE(0x00), RAMP_UP(0x10), RUNNING(0x20), RAMP_DOWN(0x40);
 
 		private int motorRunStateValue;
+
 		private MotorRunState(int motorRunStateValue) {
 			this.motorRunStateValue = motorRunStateValue;
 		}
 
 		public byte getByte() {
-			return (byte)motorRunStateValue;
+			return (byte) motorRunStateValue;
 		}
 	}
 }

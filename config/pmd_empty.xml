@@ -23,11 +23,11 @@
   -->
 
 <ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         name="Catroid PMD unnecessary ruleset"
-         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
-         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd" >
-	<description >PMD Java Unnecessary Ruleset for Catroid/PocketCode</description >
-	<rule ref="rulesets/java/unnecessary.xml" >
-		<exclude name="UselessParentheses" />
+		 name="Catroid PMD empty ruleset"
+		 xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+		 xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd" >
+	<description >PMD Java Empty Ruleset for Catroid/PocketCode</description >
+	<rule ref="rulesets/java/empty.xml" >
+		<exclude name="EmptyCatchBlock" />
 	</rule >
 </ruleset >

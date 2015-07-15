@@ -65,8 +65,8 @@ public class DeleteItemOfUserListActionTest extends AndroidTestCase {
 		Object firstItemOfUserList = userList.getList().get(0);
 
 		assertEquals("UserList size not changed!", 2, userList.getList().size());
-		assertEquals("UserList not changed!", 2.0 , firstItemOfUserList );
-		assertEquals("UserList not changed!", 3.0 , lastItemOfUserList );
+		assertEquals("UserList not changed!", 2.0, firstItemOfUserList);
+		assertEquals("UserList not changed!", 3.0, lastItemOfUserList);
 	}
 
 	public void testDeleteItemWithInvalidUserList() {
@@ -81,8 +81,8 @@ public class DeleteItemOfUserListActionTest extends AndroidTestCase {
 		Object firstItemOfUserList = userList.getList().get(0);
 
 		assertEquals("UserList size not changed!", 2, userList.getList().size());
-		assertEquals("UserList not changed!", 2.0 , firstItemOfUserList );
-		assertEquals("UserList not changed!", 3.0 , lastItemOfUserList );
+		assertEquals("UserList not changed!", 2.0, firstItemOfUserList);
+		assertEquals("UserList not changed!", 3.0, lastItemOfUserList);
 	}
 
 	public void testNotANumberFormula() {
@@ -92,7 +92,7 @@ public class DeleteItemOfUserListActionTest extends AndroidTestCase {
 		Object firstItemOfUserList = userList.getList().get(0);
 
 		assertEquals("UserList size not changed!", 2, userList.getList().size());
-		assertEquals("UserList not changed!", 2.0 , firstItemOfUserList );
-		assertEquals("UserList not changed!", 3.0 , lastItemOfUserList );
+		assertEquals("UserList not changed!", 2.0, firstItemOfUserList);
+		assertEquals("UserList not changed!", 3.0, lastItemOfUserList);
 	}
 }

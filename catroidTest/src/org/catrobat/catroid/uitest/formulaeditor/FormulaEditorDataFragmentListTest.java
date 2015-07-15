@@ -228,7 +228,6 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		userList = (UserList) listView.getItemAtPosition(0);
 		assertEquals("Value of UserList not saved after stage3!", String.valueOf(ADD_VALUE_TO_LIST),
 				userList.getList().get(0));
-
 	}
 
 	public void testCreateUserList() {
@@ -511,7 +510,6 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 		solo.clickOnText(solo.getString(R.string.delete));
 
 		assertFalse("Local Headline still shown", solo.searchText(localHeadline, true));
-
 	}
 
 	public void testSelectAllActionModeButton() {
@@ -574,5 +572,4 @@ public class FormulaEditorDataFragmentListTest extends BaseActivityInstrumentati
 	private ListView getDataListListView() {
 		return solo.getCurrentViews(ListView.class).get(1);
 	}
-
 }

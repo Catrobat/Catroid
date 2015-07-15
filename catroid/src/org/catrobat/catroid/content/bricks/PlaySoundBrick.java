@@ -62,7 +62,6 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 	private transient AdapterView<?> adapterView;
 
 	public PlaySoundBrick() {
-
 	}
 
 	@Override
@@ -147,7 +146,6 @@ public class PlaySoundBrick extends BrickBaseType implements OnItemSelectedListe
 			}
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

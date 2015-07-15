@@ -71,7 +71,6 @@ class BluetoothConnectionProxy implements BluetoothConnection {
 		}
 
 		return observedInputStream;
-
 	}
 
 	@Override

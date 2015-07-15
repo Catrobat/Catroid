@@ -118,7 +118,6 @@ public final class Utils {
 			//a null-context should never be passed. However, an educated guess is needed in that case.
 			ScreenValues.setToDefaultSreenSize();
 		}
-
 	}
 
 	public static boolean isNetworkAvailable(Context context) {
@@ -131,11 +130,9 @@ public final class Utils {
 
 	/**
 	 * Constructs a path out of the pathElements.
-	 * 
-	 * @param pathElements
-	 *            the strings to connect. They can have "/" in them which will be de-duped in the result, if necessary.
-	 * @return
-	 *         the path that was constructed.
+	 *
+	 * @param pathElements the strings to connect. They can have "/" in them which will be de-duped in the result, if necessary.
+	 * @return the path that was constructed.
 	 */
 	public static String buildPath(String... pathElements) {
 		StringBuilder result = new StringBuilder("/");
@@ -200,9 +197,9 @@ public final class Utils {
 		if (!file.isFile()) {
 			Log.e(TAG, String.format("md5Checksum() Error with file %s isFile: %s isDirectory: %s exists: %s",
 					file.getName(),
-						Boolean.valueOf(file.isFile()),
-							Boolean.valueOf(file.isDirectory()),
-								Boolean.valueOf(file.exists())));
+					Boolean.valueOf(file.isFile()),
+					Boolean.valueOf(file.isDirectory()),
+					Boolean.valueOf(file.exists())));
 			return null;
 		}
 
@@ -310,7 +307,6 @@ public final class Utils {
 				Log.e(TAG, "Project cannot load", projectException);
 				ProjectManager.getInstance().initializeDefaultProject(context);
 			}
-
 		}
 	}
 
@@ -474,7 +470,6 @@ public final class Utils {
 			Log.e(TAG, Log.getStackTraceString(ioException));
 		}
 		return true;
-
 	}
 
 	public static int convertDoubleToPluralInteger(double value) {

@@ -128,7 +128,6 @@ public class TurnLeftBrick extends FormulaBrick {
 			editDegrees.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

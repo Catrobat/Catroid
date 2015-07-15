@@ -52,5 +52,4 @@ public class PointInDirectionAction extends TemporalAction {
 	public void setDegreesInUserInterfaceDimensionUnit(Formula degrees) {
 		this.degrees = degrees;
 	}
-
 }

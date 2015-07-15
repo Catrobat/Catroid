@@ -41,7 +41,6 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 	//private LedOnBrick ledOnBrick;
 	//private Project project;
 
-
 	public LedBrickTest() {
 		super(ScriptActivity.class);
 	}
@@ -68,7 +67,6 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 
 	@Device
 	public void testLedBricks() {
-
 
 		Assert.assertTrue("fix this test", true);
 		//TODO: fix this test
@@ -206,5 +204,4 @@ public class LedBrickTest extends BaseActivityInstrumentationTestCase<ScriptActi
 
 		return true;
 	}*/
-
 }

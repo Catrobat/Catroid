@@ -182,9 +182,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 				// TODO Auto-generated method stub
-
 			}
-
 		});
 
 		motorSpinner.setSelection(motorEnum.ordinal());
@@ -228,7 +226,6 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 			editSpeed.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -240,5 +237,4 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 				getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED)));
 		return null;
 	}
-
 }

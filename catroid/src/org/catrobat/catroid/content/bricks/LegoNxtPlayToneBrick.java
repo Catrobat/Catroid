@@ -187,7 +187,6 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 			editLegoDuration.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

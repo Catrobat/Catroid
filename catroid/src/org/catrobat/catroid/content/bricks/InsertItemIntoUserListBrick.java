@@ -228,7 +228,6 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 			editTheValue.getBackground().setAlpha(alphaValue);
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;
@@ -271,5 +270,4 @@ public class InsertItemIntoUserListBrick extends UserListBrick {
 		copyBrick.userList = currentProject.getDataContainer().getUserList(userList.getName(), sprite);
 		return copyBrick;
 	}
-
 }

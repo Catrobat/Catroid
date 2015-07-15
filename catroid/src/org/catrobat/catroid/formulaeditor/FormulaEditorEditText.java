@@ -123,9 +123,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 				formulaEditorFragment.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 			}
 			return true;
-
 		}
-
 	});
 	private boolean doNotMoveCursorOnTab = false;
 
@@ -200,7 +198,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 			float xCoordinate = layout.getPrimaryHorizontal(absoluteCursorPosition) + getPaddingLeft();
 			float startYCoordinate = layout.getLineBaseline(line) + layout.getLineAscent(line);
 			float endYCoordinate = layout.getLineBaseline(line) + layout.getLineAscent(line) + getTextSize();
-			endYCoordinate += line == 0 ? 5 : 0;// First line in FE is a little bit higher so we need a bigger cursor too.
+			endYCoordinate += line == 0 ? 5 : 0; // First line in FE is a little bit higher so we need a bigger cursor too.
 
 			canvas.drawLine(xCoordinate, startYCoordinate, xCoordinate, endYCoordinate, paint);
 		}
@@ -339,5 +337,4 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	public boolean isThereSomethingToDelete() {
 		return internFormula.isThereSomethingToDelete();
 	}
-
 }

@@ -68,7 +68,6 @@ public class PointToAction extends TemporalAction {
 					rotationDegrees = -90;
 				}
 			}
-
 		} else {
 			rotationDegrees = (90f - Math.toDegrees(Math.atan2(pointedSpriteYPosition - spriteYPosition,
 					pointedSpriteXPosition - spriteXPosition)));
@@ -83,5 +82,4 @@ public class PointToAction extends TemporalAction {
 	public void setPointedSprite(Sprite pointedSprite) {
 		this.pointedSprite = pointedSprite;
 	}
-
 }

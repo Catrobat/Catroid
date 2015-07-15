@@ -97,7 +97,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 		}
 		Reflection.setPrivateField(StageListener.class, "checkIfAutomaticScreenshotShouldBeTaken", false);
 
-		if (solo != null){
+		if (solo != null) {
 			solo.unlockScreen();
 		}
 
@@ -154,8 +154,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 
 		if (paths == null) {
 			fail("could not determine catroid directory");
-		}
-		else if (paths.length > 0) {
+		} else if (paths.length > 0) {
 			for (int i = 0; i < paths.length; i++) {
 				paths[i] = Utils.buildPath(rootDirectory.getAbsolutePath(), paths[i]);
 			}
@@ -209,7 +208,7 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 			String zipFileString = Utils.buildPath(Constants.DEFAULT_ROOT, ZIPFILE_NAME);
 
 			for (int i = 0; i < paths.length; i++) {
-				if (paths[i].equals(zipFileString) == false) {
+				if (!paths[i].equals(zipFileString)) {
 					Log.d(TAG, "Path to delete: " + paths[i]);
 					StorageHandler.getInstance().deleteAllFile(paths[i]);
 				}
@@ -221,7 +220,6 @@ public abstract class BaseActivityInstrumentationTestCase<T extends Activity> ex
 				UtilZip.unZipFile(zipFileString, Constants.DEFAULT_ROOT);
 				zipFile.delete();
 			}
-
 		} catch (IOException e) {
 			Log.d(TAG, "Something wet wrong while unzip files in tear down", e);
 		}

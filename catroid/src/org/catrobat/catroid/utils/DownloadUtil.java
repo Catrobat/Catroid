@@ -100,6 +100,7 @@ public final class DownloadUtil {
 	}
 
 	ArrayList<Integer> notificationIdArray = new ArrayList<Integer>();
+
 	private class DownloadReceiver extends ResultReceiver {
 		public DownloadReceiver(Handler handler) {
 			super(handler);
@@ -136,7 +137,5 @@ public final class DownloadUtil {
 			return null;
 		}
 		return programName;
-
 	}
-
 }

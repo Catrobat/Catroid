@@ -60,8 +60,8 @@ public class SingleSeekbar {
 		OnClickListener onClickListener = new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-                FormulaEditorFragment.showFragment(view, formulaBrick, seekbarField);
-            }
+				FormulaEditorFragment.showFragment(view, formulaBrick, seekbarField);
+			}
 		};
 
 		formulaEditorEditTextSeekbarValue = (TextView) seekbarView.findViewById(R.id.single_seekbar_value);
@@ -79,7 +79,7 @@ public class SingleSeekbar {
 		SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-    			formulaEditorEditTextSeekbarValue.setText(String.valueOf(seekBar.getProgress()));
+				formulaEditorEditTextSeekbarValue.setText(String.valueOf(seekBar.getProgress()));
 			}
 
 			@Override
@@ -88,8 +88,8 @@ public class SingleSeekbar {
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-                FormulaEditorFragment.overwriteFormula(seekbarView, new Formula(seekBar.getProgress()));
-            }
+				FormulaEditorFragment.overwriteFormula(seekbarView, new Formula(seekBar.getProgress()));
+			}
 		};
 
 		speedSeekBar.setOnSeekBarChangeListener(seekBarChangeListener);
@@ -99,6 +99,6 @@ public class SingleSeekbar {
 
 	private int getCurrentBrickFieldValue() {
 		String stringValue = formulaBrick.getFormulaWithBrickField(seekbarField).getDisplayString(seekbarView.getContext());
-		return Double.valueOf(stringValue.replace(",",".")).intValue();
+		return Double.valueOf(stringValue.replace(",", ".")).intValue();
 	}
 }

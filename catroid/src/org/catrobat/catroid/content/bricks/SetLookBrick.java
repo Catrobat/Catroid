@@ -61,7 +61,6 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 	private transient AdapterView<?> adapterView;
 
 	public SetLookBrick() {
-
 	}
 
 	public void setLook(LookData lookData) {
@@ -172,7 +171,6 @@ public class SetLookBrick extends BrickBaseType implements OnLookDataListChanged
 			}
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

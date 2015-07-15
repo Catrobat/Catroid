@@ -143,7 +143,9 @@ public class AssertionErrorMessageTest extends TestCase {
 				+ LINE_COMMENT + ")?";
 	}
 
-	/** Test that tests the regular expressions used in the actual test (meta-test :)) */
+	/**
+	 * Test that tests the regular expressions used in the actual test (meta-test :))
+	 */
 	public void testRegex() {
 		List<String> matchingAsserts = new ArrayList<String>();
 		matchingAsserts.add("assertTrue(\"message\", parameter);");

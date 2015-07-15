@@ -152,5 +152,4 @@ public class WhenStartedBrickTest extends BaseActivityInstrumentationTestCase<Ma
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }

@@ -211,10 +211,9 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 		position += firstVisibleBrick;
 
 		//TODO: allow recursive userbricks if its possible
-		if (adapter.getUserBrick() != null && brickToBeAdded instanceof UserBrick) {// && ((UserBrick) brickToBeAdded).getDefinitionBrick().equals(ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick())) {
+		if (adapter.getUserBrick() != null && brickToBeAdded instanceof UserBrick) { // && ((UserBrick) brickToBeAdded).getDefinitionBrick().equals(ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick())) {
 			ToastUtil.showError(getActivity().getApplicationContext(), R.string.recursive_user_brick_forbidden);
-		}
-		else {
+		} else {
 			adapter.addNewBrick(position, brickToBeAdded, true);
 			adapter.notifyDataSetChanged();
 		}
@@ -484,8 +483,7 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			Script scriptList = null;
 			if (adapter.getUserBrick() != null) {
 				scriptList = ProjectManager.getInstance().getCurrentUserBrick().getDefinitionBrick().getUserScript();
-			}
-			else {
+			} else {
 				scriptList = ProjectManager.getInstance().getCurrentScript();
 			}
 			if (brick instanceof NestingBrick) {
@@ -560,7 +558,6 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
-
 			}
 		});
 
@@ -624,7 +621,5 @@ public class ScriptFragment extends ScriptActivityFragment implements OnCategory
 
 	@Override
 	public void startBackPackActionMode() {
-
 	}
-
 }

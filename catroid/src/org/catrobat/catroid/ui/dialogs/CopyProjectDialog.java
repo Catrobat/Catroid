@@ -77,7 +77,6 @@ public class CopyProjectDialog extends TextDialog {
 
 			new CopyProjectTask(parentFragment).execute(newProjectName, oldProjectName);
 			this.dismiss();
-
 		} else {
 			Utils.showErrorDialog(getActivity(), R.string.notification_invalid_text_entered);
 			return false;
@@ -93,7 +92,6 @@ public class CopyProjectDialog extends TextDialog {
 	public interface OnCopyProjectListener {
 
 		void onCopyProject();
-
 	}
 
 	@Override

@@ -82,5 +82,4 @@ public class InternFormulaTokenSelection {
 
 		return new InternFormulaTokenSelection(tokenSelectionType, internTokenSelectionStart, internTokenSelectionEnd);
 	}
-
 }

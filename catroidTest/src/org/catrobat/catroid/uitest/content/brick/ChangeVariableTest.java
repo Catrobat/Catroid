@@ -124,7 +124,7 @@ public class ChangeVariableTest extends BaseActivityInstrumentationTestCase<Main
 		solo.clickLongOnText(secondUserVariableName);
 		assertTrue("Delete not shown", solo.waitForText(solo.getString(R.string.delete)));
 		solo.clickOnText(solo.getString(R.string.delete));
-		assertTrue("Data Fragment not shown",solo.waitForFragmentByTag(FormulaEditorDataFragment.USER_DATA_TAG));
+		assertTrue("Data Fragment not shown", solo.waitForFragmentByTag(FormulaEditorDataFragment.USER_DATA_TAG));
 
 		solo.goBack();
 		solo.waitForFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
@@ -227,5 +227,4 @@ public class ChangeVariableTest extends BaseActivityInstrumentationTestCase<Main
 			solo.waitForText(solo.getString(R.string.formula_editor_data), 0, 1000);
 		}
 	}
-
 }

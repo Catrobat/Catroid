@@ -151,7 +151,6 @@ public class BroadcastWaitBrick extends BroadcastBrick implements BroadcastMessa
 			}
 
 			this.alphaValue = (alphaValue);
-
 		}
 
 		return view;

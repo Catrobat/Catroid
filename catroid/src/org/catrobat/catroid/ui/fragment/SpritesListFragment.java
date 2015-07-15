@@ -152,7 +152,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (programName != null
 				&& ((projectManager.getCurrentProject() != null && !projectManager.getCurrentProject().getName()
-						.equals(programName)) || projectManager.getCurrentProject() == null)) {
+				.equals(programName)) || projectManager.getCurrentProject() == null)) {
 
 			getActivity().findViewById(R.id.progress_circle).setVisibility(View.VISIBLE);
 			getActivity().findViewById(R.id.progress_circle).bringToFront();
@@ -165,8 +165,7 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			loadProjectTask = new LoadProjectTask(getActivity(), programName, true, true);
 			loadProjectTask.setOnLoadProjectCompleteListener(this);
 			loadProjectTask.execute();
-		}
-		else if (projectManager.getCurrentProject() != null && projectManager.getCurrentProject().getName()
+		} else if (projectManager.getCurrentProject() != null && projectManager.getCurrentProject().getName()
 				.equals(programName) && fragmentStartedFirstTime) {
 			showInfoFragmentIfNeeded();
 		}
@@ -270,7 +269,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			menu.findItem(R.id.context_menu_backpack).setVisible(false);
 			menu.findItem(R.id.context_menu_unpacking).setVisible(false);
 		}
-
 	}
 
 	@Override
@@ -296,7 +294,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 			case R.id.context_menu_delete:
 				showConfirmDeleteDialog();
 				break;
-
 		}
 		return super.onContextItemSelected(item);
 	}
@@ -446,7 +443,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 		dataContainer.cleanVariableListForSprite(spriteToEdit);
 		dataContainer.cleanUserListForSprite(spriteToEdit);
 
-
 		if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
 			projectManager.setCurrentSprite(null);
 		}
@@ -506,7 +502,6 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 				spriteAdapter.notifyDataSetChanged();
 				onSpriteChecked();
 			}
-
 		});
 	}
 
@@ -707,5 +702,4 @@ public class SpritesListFragment extends SherlockListFragment implements OnSprit
 	public void onLoadProjectFailure() {
 		getActivity().onBackPressed();
 	}
-
 }
