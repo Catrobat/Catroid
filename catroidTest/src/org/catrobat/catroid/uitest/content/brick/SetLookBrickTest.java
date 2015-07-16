@@ -89,6 +89,16 @@ public class SetLookBrickTest extends BaseActivityInstrumentationTestCase<MainMe
 		super.tearDown();
 	}
 
+	public void testDismissNewLookDialog() {
+		solo.clickOnText(lookName);
+		solo.clickOnText(solo.getString(R.string.new_broadcast_message));
+		solo.waitForDialogToOpen();
+		solo.clickOnScreen(100, 100);
+		solo.waitForDialogToClose();
+
+		assertEquals("Not in ScriptActivity", "ui.ScriptActivity", solo.getCurrentActivity().getLocalClassName());
+	}
+
 	public void testSelectLookAndPlay() {
 		assertTrue(lookName + " is not selected in Spinner", solo.isSpinnerTextSelected(lookName));
 

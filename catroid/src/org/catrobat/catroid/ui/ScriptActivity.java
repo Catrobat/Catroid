@@ -551,12 +551,13 @@ public class ScriptActivity extends BaseActivity {
 		switch (fragmentPosition) {
 			case FRAGMENT_LOOKS:
 				isLookFragmentFromSetLookBrickNew = true;
-
 				fragmentTransaction.addToBackStack(LookFragment.TAG);
 				if (lookFragment == null) {
+					ProjectManager.getInstance().setCommingFromScriptFragment(true);
 					lookFragment = new LookFragment();
 					fragmentTransaction.add(R.id.script_fragment_container, lookFragment, LookFragment.TAG);
 				} else {
+					ProjectManager.getInstance().setCommingFromScriptFragment(true);
 					fragmentTransaction.show(lookFragment);
 				}
 				setCurrentFragment(FRAGMENT_LOOKS);
