@@ -71,20 +71,40 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private Sprite currentSprite;
 	private UserBrick currentUserBrick;
 	private boolean asynchronTask = true;
-	private boolean commingFromScriptFragment;
+	private boolean commingFromScriptFragmentToSoundFragment;
+	private boolean commingFromScriptFragmentToLooksFragment;
+	private boolean killSoundFragmentAfterAddButtonClickedInScriptFragment;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
 	private ProjectManager() {
-		this.commingFromScriptFragment = false;
+		this.commingFromScriptFragmentToSoundFragment = false;
+		this.commingFromScriptFragmentToLooksFragment = false;
+		this.killSoundFragmentAfterAddButtonClickedInScriptFragment = false;
 	}
 
-	public void setCommingFromScriptFragment(boolean value) {
-		this.commingFromScriptFragment = value;
+	public void setCommingFromScriptFragmentToSoundFragment(boolean value) {
+		this.commingFromScriptFragmentToSoundFragment = value;
 	}
 
-	public boolean getCommingFromScriptFragment() {
-		return this.commingFromScriptFragment;
+	public boolean getCommingFromScriptFragmentToSoundFragment() {
+		return this.commingFromScriptFragmentToSoundFragment;
+	}
+
+	public void setCommingFromScriptFragmentToLooksFragment(boolean value) {
+		this.commingFromScriptFragmentToLooksFragment = value;
+	}
+
+	public boolean getCommingFromScriptFragmentToLooksFragment() {
+		return this.commingFromScriptFragmentToLooksFragment;
+	}
+
+	public void setKillSoundFragmentAfterAddButtonClickedInScriptFragment(boolean value) {
+		this.killSoundFragmentAfterAddButtonClickedInScriptFragment = value;
+	}
+
+	public boolean getKillSoundFragmentAfterAddButtonClickedInScriptFragment() {
+		return this.killSoundFragmentAfterAddButtonClickedInScriptFragment;
 	}
 
 	public static ProjectManager getInstance() {

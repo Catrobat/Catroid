@@ -72,6 +72,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -82,6 +83,7 @@ import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
+import org.catrobat.catroid.ui.dialogs.NewSoundDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
 import org.catrobat.catroid.utils.Utils;
 
@@ -261,6 +263,14 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 		setShowDetails(settings.getBoolean(SoundController.SHARED_PREFERENCE_NAME, false));
 
 		SoundController.getInstance().handleAddButtonFromNew(this);
+
+		if (isResultHandled) {
+			isResultHandled = false;
+			if (ProjectManager.getInstance().getKillSoundFragmentAfterAddButtonClickedInScriptFragment()) {
+				SoundController.getInstance().switchToScriptFragment(SoundFragment.this);
+				ProjectManager.getInstance().setKillSoundFragmentAfterAddButtonClickedInScriptFragment(false);
+			}
+		}
 	}
 
 	@Override
@@ -593,13 +603,19 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public void handleAddButton() {
-		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-		intent.setType("audio/*");
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			disableGoogleDrive(intent);
-		}
-		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
-				SoundController.REQUEST_SELECT_MUSIC);
+		NewSoundDialog dialog = NewSoundDialog.newInstance();
+		dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface dialog) {
+				if (ProjectManager.getInstance().getCommingFromScriptFragmentToSoundFragment()) {
+					ProjectManager.getInstance().setCommingFromScriptFragmentToSoundFragment(false);
+					getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+					isResultHandled = true;
+					SoundController.getInstance().switchToScriptFragment(SoundFragment.this);
+				}
+			}
+		});
+		dialog.showDialog(this);
 	}
 
 	@TargetApi(19)
@@ -812,6 +828,21 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 				return false;
 			}
 		});
+	}
+
+	public void addSoundRecord() {
+		final Intent intent = new Intent(getActivity(), SoundRecorderActivity.class);
+		startActivityForResult(intent, SoundController.REQUEST_SELECT_OR_RECORD_SOUND);
+	}
+
+	public void addSoundChooseFile() {
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+		intent.setType("audio/*");
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			disableGoogleDrive(intent);
+		}
+		startActivityForResult(Intent.createChooser(intent, getString(R.string.sound_select_source)),
+				SoundController.REQUEST_SELECT_MUSIC);
 	}
 
 	private void showConfirmDeleteDialog() {

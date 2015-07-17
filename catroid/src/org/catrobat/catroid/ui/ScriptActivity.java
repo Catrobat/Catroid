@@ -553,11 +553,11 @@ public class ScriptActivity extends BaseActivity {
 				isLookFragmentFromSetLookBrickNew = true;
 				fragmentTransaction.addToBackStack(LookFragment.TAG);
 				if (lookFragment == null) {
-					ProjectManager.getInstance().setCommingFromScriptFragment(true);
+					ProjectManager.getInstance().setCommingFromScriptFragmentToLooksFragment(true);
 					lookFragment = new LookFragment();
 					fragmentTransaction.add(R.id.script_fragment_container, lookFragment, LookFragment.TAG);
 				} else {
-					ProjectManager.getInstance().setCommingFromScriptFragment(true);
+					ProjectManager.getInstance().setCommingFromScriptFragmentToLooksFragment(true);
 					fragmentTransaction.show(lookFragment);
 				}
 				setCurrentFragment(FRAGMENT_LOOKS);
@@ -568,9 +568,11 @@ public class ScriptActivity extends BaseActivity {
 
 				fragmentTransaction.addToBackStack(SoundFragment.TAG);
 				if (soundFragment == null) {
+					ProjectManager.getInstance().setCommingFromScriptFragmentToSoundFragment(true);
 					soundFragment = new SoundFragment();
 					fragmentTransaction.add(R.id.script_fragment_container, soundFragment, SoundFragment.TAG);
 				} else {
+					ProjectManager.getInstance().setCommingFromScriptFragmentToSoundFragment(true);
 					fragmentTransaction.show(soundFragment);
 				}
 				setCurrentFragment(FRAGMENT_SOUNDS);
