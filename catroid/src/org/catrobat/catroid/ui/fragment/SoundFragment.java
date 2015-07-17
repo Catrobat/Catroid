@@ -72,6 +72,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.io.StorageHandler;
+import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ScriptActivity;
@@ -82,6 +83,7 @@ import org.catrobat.catroid.ui.controller.BackPackListManager;
 import org.catrobat.catroid.ui.controller.SoundController;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
 import org.catrobat.catroid.ui.dialogs.DeleteSoundDialog;
+import org.catrobat.catroid.ui.dialogs.NewSoundDialog;
 import org.catrobat.catroid.ui.dialogs.RenameSoundDialog;
 import org.catrobat.catroid.utils.Utils;
 
@@ -120,6 +122,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	private boolean isRenameActionMode;
 	private boolean isResultHandled = false;
+	private boolean isAddNewSoundButtonClicked = false;
 
 	private OnSoundInfoListChangedAfterNewListener soundInfoListChangedAfterNewListener;
 
@@ -221,7 +224,11 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void onResume() {
 		super.onResume();
 
-		setHandleAddbutton();
+		if (!ProjectManager.getInstance().getHandleCorrectAddButton()) {
+			setHandleAddbutton();
+		} else {
+			ProjectManager.getInstance().setHandleCorrectAddButton(false);
+		}
 
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(getActivity())) {
 			return;
@@ -363,6 +370,7 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
+		isAddNewSoundButtonClicked = false;
 		//when new sound title is selected and ready to be added to the catroid project
 		if (resultCode == Activity.RESULT_OK && requestCode == SoundController.REQUEST_SELECT_MUSIC && data != null) {
 			Bundle arguments = new Bundle();
@@ -378,6 +386,25 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 			Log.d("SoundFragment", "onActivityResult RequestMusic");
 			setHandleAddbutton();
 		}
+
+		if (resultCode == Activity.RESULT_CANCELED && ProjectManager.getInstance()
+				.getComingFromScriptFragmentToSoundFragment()) {
+
+			getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+			ProjectManager.getInstance().setHandleCorrectAddButton(true);
+
+			ImageButton addButton = (ImageButton) getSherlockActivity().findViewById(R.id.button_add);
+			addButton.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View view) {
+					ScriptActivity scriptActivity = (ScriptActivity) getActivity();
+					scriptActivity.getScriptFragment().handleAddButton();
+				}
+			});
+			SoundController.getInstance().switchToScriptFragment(SoundFragment.this);
+		}
+		ProjectManager.getInstance().setComingFromScriptFragmentToSoundFragment(false);
 	}
 
 	@Override
@@ -593,6 +620,28 @@ public class SoundFragment extends ScriptActivityFragment implements SoundBaseAd
 
 	@Override
 	public void handleAddButton() {
+		NewSoundDialog dialog = NewSoundDialog.newInstance();
+		dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface dialog) {
+				if (ProjectManager.getInstance().getComingFromScriptFragmentToSoundFragment() && !isAddNewSoundButtonClicked) {
+					ProjectManager.getInstance().setComingFromScriptFragmentToSoundFragment(false);
+					getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_BRICK_LIST_CHANGED));
+					SoundController.getInstance().switchToScriptFragment(SoundFragment.this);
+				}
+			}
+		});
+		dialog.showDialog(this);
+	}
+
+	public void addSoundRecord() {
+		isAddNewSoundButtonClicked = true;
+		Intent intent = new Intent(getActivity(), SoundRecorderActivity.class);
+		startActivityForResult(intent, SoundController.REQUEST_SELECT_OR_RECORD_SOUND);
+	}
+
+	public void addSoundChooseFile() {
+		isAddNewSoundButtonClicked = true;
 		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 		intent.setType("audio/*");
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
